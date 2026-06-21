@@ -1,20 +1,20 @@
 # FUM
 
-FUM - fraktaljnyij uzel myishleniya. Nazvanie fiksiruyetsya kak abbreviatura latinskimi bukvami.
+FUM - `fraktaljnyij uzel myishleniya`, по-русски - фрактальный узел мышления. Название фиксируется как аббревиатура латинскими буквами.
 
-Etot repozitorij sluzhit pamyatjyu proyekta FUM - otkryitogo agenta sleduyusjhego pokoleniya.
+Этот репозиторий служит памятью проекта FUM - открытого агента следующего поколения.
 
-Pravila povedeniya agentov i rabochih sessij hranjatsya v [AGENTS.md](AGENTS.md).
+Правила поведения агентов и рабочих сессий хранятся в [AGENTS.md](AGENTS.md).
 
-## Struktura
+## Структура
 
-- [AGENTS.md](AGENTS.md) - pravila povedeniya v etom repozitorii.
-- [Zaprosyi/](Zaprosyi/) - ishodnyiye zaprosyi, razlozhennyye po date i vremeni.
-- [Dokumentaciya/](Dokumentaciya/) - strukturirovannyye proizvodnyye opisaniya razrabatyivayemogo FUM.
-- [Dokumentaciya/00-obzor-proekta.md](Dokumentaciya/00-obzor-proekta.md) - kratkij obzor FUM.
-- [Dokumentaciya/01-model-pamyati-fum.md](Dokumentaciya/01-model-pamyati-fum.md) - modelj pamyati FUM.
-- [Dokumentaciya/02-publikaciya-i-licenziya.md](Dokumentaciya/02-publikaciya-i-licenziya.md) - trebovaniya k publikacii i licenzii.
+- [AGENTS.md](AGENTS.md) - правила поведения в этом репозитории.
+- [Zaprosyi/](Zaprosyi/) - исходные запросы, разложенные по дате и времени.
+- [Dokumentaciya/](Dokumentaciya/) - структурированные производные описания разрабатываемого FUM.
+- [Dokumentaciya/00-obzor-proekta.md](Dokumentaciya/00-obzor-proekta.md) - краткий обзор FUM.
+- [Dokumentaciya/01-model-pamyati-fum.md](Dokumentaciya/01-model-pamyati-fum.md) - модель памяти FUM.
+- [Dokumentaciya/02-publikaciya-i-licenziya.md](Dokumentaciya/02-publikaciya-i-licenziya.md) - требования к публикации и лицензии.
 
-## Licenziya
+## Лицензия
 
-Proyekt publikuyetsya pod [CC0 1.0 Universal](LICENSE.md).
+Проект публикуется под [CC0 1.0 Universal](LICENSE.md).
