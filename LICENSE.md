@@ -2,6 +2,6 @@
 
 SPDX-License-Identifier: CC0-1.0
 
-Etot proyekt peredayotsya v obshchestvennoye dostoyaniye po modeli Creative Commons CC0 1.0 Universal.
+Этот проект передаётся в общественное достояние по модели Creative Commons CC0 1.0 Universal.
 
-Oficialjnyij tekst licenzii: https://creativecommons.org/publicdomain/zero/1.0/
+Официальный текст лицензии: https://creativecommons.org/publicdomain/zero/1.0/
