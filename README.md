@@ -14,6 +14,7 @@ FUM - `fraktaljnyij uzel myishleniya`, по-русски - фрактальны�
 - [Dokumentaciya/00-obzor-proekta.md](Dokumentaciya/00-obzor-proekta.md) - краткий обзор FUM.
 - [Dokumentaciya/01-model-pamyati-fum.md](Dokumentaciya/01-model-pamyati-fum.md) - модель памяти FUM.
 - [Dokumentaciya/02-publikaciya-i-licenziya.md](Dokumentaciya/02-publikaciya-i-licenziya.md) - требования к публикации и лицензии.
+- [Dokumentaciya/03-evolyuciya-i-myshlenie.md](Dokumentaciya/03-evolyuciya-i-myshlenie.md) - проектное основание о тождестве эволюции и мышления.
 
 ## Лицензия
 
