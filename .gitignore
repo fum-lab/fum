@@ -1,4 +1,13 @@
 .DS_Store
-.obsidian/
 __pycache__/
 *.py[cod]
+
+# Локальное и изменчивое состояние Obsidian не является общей памятью.
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache/
+.obsidian/plugins/
+.obsidian/themes/
+.obsidian/sync.json
+.obsidian/device.json
+.obsidian/session.json
