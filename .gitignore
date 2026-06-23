@@ -3,8 +3,6 @@ __pycache__/
 *.py[cod]
 
 # Локальное и изменчивое состояние Obsidian не является общей памятью.
-/Untitled.canvas
-/Untitled *.canvas
 .obsidian/workspace.json
 .obsidian/workspace-mobile.json
 .obsidian/cache/
