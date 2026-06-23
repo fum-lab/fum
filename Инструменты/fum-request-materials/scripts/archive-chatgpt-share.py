@@ -79,14 +79,29 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output-dir",
         type=Path,
-        help="Sources directory. Defaults to Источники/<request file stem>/.",
+        help="Explicit sources directory. Overrides --source-name.",
     )
-    return parser.parse_args()
+    parser.add_argument(
+        "--source-name",
+        help=(
+            "Descriptive source name for the default directory suffix. "
+            "Required when --output-dir is omitted."
+        ),
+    )
+    args = parser.parse_args()
+    if args.output_dir is None and not args.source_name:
+        parser.error("--source-name is required when --output-dir is omitted")
+    return args
 
 
-def default_output_dir(request_file: Path) -> Path:
+def source_name_slug(source_name: str) -> str:
+    parts = re.findall(r"[0-9A-Za-zА-Яа-яЁё]+", source_name)
+    return "-".join(parts) or "источник"
+
+
+def default_output_dir(request_file: Path, source_name: str) -> Path:
     base_dir = request_file.parent.parent if request_file.parent.name == "Запросы" else request_file.parent
-    return base_dir / "Источники" / request_file.stem
+    return base_dir / "Источники" / f"{request_file.stem}_{source_name_slug(source_name)}"
 
 
 def run_curl(url: str, html_path: Path, headers_path: Path) -> dict[str, str]:
@@ -392,7 +407,7 @@ def write_report(
 def main() -> int:
     args = parse_args()
     request_file = args.request_file
-    output_dir = args.output_dir or default_output_dir(request_file)
+    output_dir = args.output_dir or default_output_dir(request_file, args.source_name)
     output_dir.mkdir(parents=True, exist_ok=True)
 
     with tempfile.TemporaryDirectory(prefix="fum-chatgpt-share-") as tmp:

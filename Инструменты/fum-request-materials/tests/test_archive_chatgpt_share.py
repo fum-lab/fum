@@ -1,7 +1,9 @@
 import importlib.util
+import io
 import json
 import unittest
 from pathlib import Path
+from unittest import mock
 
 
 SCRIPT_PATH = (
@@ -17,15 +19,39 @@ spec.loader.exec_module(archive_chatgpt_share)
 
 
 class ArchiveChatgptShareTests(unittest.TestCase):
-    def test_default_output_dir_uses_sources_folder_named_after_request(self):
+    def test_default_output_dir_uses_sources_folder_with_source_name(self):
         request_file = Path("/repo/Запросы/2026-06-23_17-37-29_MSK.md")
 
-        output_dir = archive_chatgpt_share.default_output_dir(request_file)
+        output_dir = archive_chatgpt_share.default_output_dir(
+            request_file,
+            "расшаренный чат ChatGPT: запуск долгоживущей цепочки",
+        )
 
         self.assertEqual(
             output_dir,
-            Path("/repo/Источники/2026-06-23_17-37-29_MSK"),
+            Path(
+                "/repo/Источники/"
+                "2026-06-23_17-37-29_MSK_"
+                "расшаренный-чат-ChatGPT-запуск-долгоживущей-цепочки"
+            ),
         )
+
+    def test_parse_args_requires_source_name_without_output_dir(self):
+        argv = [
+            "archive-chatgpt-share.py",
+            "https://chatgpt.com/share/example",
+            "--request-file",
+            "/repo/Запросы/2026-06-23_17-37-29_MSK.md",
+        ]
+
+        with (
+            mock.patch("sys.argv", argv),
+            mock.patch("sys.stderr", io.StringIO()),
+            self.assertRaises(SystemExit) as raised,
+        ):
+            archive_chatgpt_share.parse_args()
+
+        self.assertNotEqual(raised.exception.code, 0)
 
     def test_redact_headers_removes_set_cookie_values(self):
         raw = (
