@@ -17,6 +17,16 @@ spec.loader.exec_module(archive_chatgpt_share)
 
 
 class ArchiveChatgptShareTests(unittest.TestCase):
+    def test_default_output_dir_uses_sources_folder_named_after_request(self):
+        request_file = Path("/repo/Запросы/2026-06-23_17-37-29_MSK.md")
+
+        output_dir = archive_chatgpt_share.default_output_dir(request_file)
+
+        self.assertEqual(
+            output_dir,
+            Path("/repo/Источники/2026-06-23_17-37-29_MSK"),
+        )
+
     def test_redact_headers_removes_set_cookie_values(self):
         raw = (
             "HTTP/2 200\r\n"

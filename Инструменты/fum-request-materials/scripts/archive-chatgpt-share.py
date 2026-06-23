@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Archive a ChatGPT share page for a FUM request materials folder."""
+"""Archive a ChatGPT share page for a FUM sources folder."""
 
 from __future__ import annotations
 
@@ -79,9 +79,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output-dir",
         type=Path,
-        help="Materials directory. Defaults to the request file path without .md.",
+        help="Sources directory. Defaults to Источники/<request file stem>/.",
     )
     return parser.parse_args()
+
+
+def default_output_dir(request_file: Path) -> Path:
+    base_dir = request_file.parent.parent if request_file.parent.name == "Запросы" else request_file.parent
+    return base_dir / "Источники" / request_file.stem
 
 
 def run_curl(url: str, html_path: Path, headers_path: Path) -> dict[str, str]:
@@ -387,7 +392,7 @@ def write_report(
 def main() -> int:
     args = parse_args()
     request_file = args.request_file
-    output_dir = args.output_dir or request_file.with_suffix("")
+    output_dir = args.output_dir or default_output_dir(request_file)
     output_dir.mkdir(parents=True, exist_ok=True)
 
     with tempfile.TemporaryDirectory(prefix="fum-chatgpt-share-") as tmp:
