@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import hashlib
 import json
 import re
 import shutil
@@ -14,6 +15,7 @@ import tempfile
 from html.parser import HTMLParser
 from pathlib import Path
 from typing import Any
+from urllib.parse import unquote, urlsplit
 
 
 REDACTION = "[REDACTED: local request metadata]"
@@ -79,19 +81,16 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output-dir",
         type=Path,
-        help="Explicit sources directory. Overrides --source-name.",
+        help="Explicit sources directory. Overrides the URL-derived default.",
     )
     parser.add_argument(
         "--source-name",
         help=(
-            "Descriptive source name for the default directory suffix. "
-            "Required when --output-dir is omitted."
+            "Optional descriptive source name. Kept for compatibility; "
+            "stable URLs use an URL-derived default directory."
         ),
     )
-    args = parser.parse_args()
-    if args.output_dir is None and not args.source_name:
-        parser.error("--source-name is required when --output-dir is omitted")
-    return args
+    return parser.parse_args()
 
 
 def source_name_slug(source_name: str) -> str:
@@ -99,10 +98,67 @@ def source_name_slug(source_name: str) -> str:
     return "-".join(parts) or "источник"
 
 
-def default_output_dir(request_file: Path, source_name: str) -> Path:
-    base_dir = request_file.parent.parent if request_file.parent.name == "Запросы" else request_file.parent
-    return base_dir / "Источники" / f"{request_file.stem}_{source_name_slug(source_name)}"
+def source_path_segment(value: str) -> str:
+    decoded = unquote(value).strip()
+    parts = re.findall(r"[0-9A-Za-zА-Яа-яЁё._~-]+", decoded)
+    segment = "-".join(parts).strip(".")
+    if segment in {"", ".", ".."}:
+        return "_"
+    return segment[:120]
 
+
+def hashed_url_component(prefix: str, value: str) -> str:
+    digest = hashlib.sha256(value.encode("utf-8")).hexdigest()[:16]
+    readable = source_path_segment(value)[:48].strip("-_")
+    if readable:
+        return f"_{prefix}-{readable}-{digest}"
+    return f"_{prefix}-{digest}"
+
+
+def request_base_dir(request_file: Path) -> Path:
+    return request_file.parent.parent if request_file.parent.name == "Запросы" else request_file.parent
+
+
+def url_output_dir(base_dir: Path, url: str) -> Path:
+    parsed = urlsplit(url)
+    if not parsed.scheme or not parsed.netloc:
+        raise ValueError("URL must include scheme and host")
+
+    host = parsed.hostname or parsed.netloc
+    netloc = host.lower()
+    try:
+        port = parsed.port
+    except ValueError:
+        port = None
+    if port is not None:
+        netloc = f"{netloc}-{port}"
+
+    parts = [
+        "URL",
+        source_path_segment(parsed.scheme.lower()),
+        source_path_segment(netloc),
+    ]
+    path_parts = [source_path_segment(part) for part in parsed.path.split("/") if part]
+    parts.extend(path_parts or ["_root"])
+    if parsed.query:
+        parts.append(hashed_url_component("query", parsed.query))
+    if parsed.fragment:
+        parts.append(hashed_url_component("fragment", parsed.fragment))
+    return base_dir / "Источники" / Path(*parts)
+
+
+def default_output_dir(
+    request_file: Path,
+    url: str,
+    source_name: str | None = None,
+) -> Path:
+    base_dir = request_base_dir(request_file)
+    try:
+        return url_output_dir(base_dir, url)
+    except ValueError:
+        if source_name:
+            return base_dir / "Источники" / f"{request_file.stem}_{source_name_slug(source_name)}"
+        raise
 
 def run_curl(url: str, html_path: Path, headers_path: Path) -> dict[str, str]:
     curl = shutil.which("curl")
@@ -407,7 +463,7 @@ def write_report(
 def main() -> int:
     args = parse_args()
     request_file = args.request_file
-    output_dir = args.output_dir or default_output_dir(request_file, args.source_name)
+    output_dir = args.output_dir or default_output_dir(request_file, args.url, args.source_name)
     output_dir.mkdir(parents=True, exist_ok=True)
 
     with tempfile.TemporaryDirectory(prefix="fum-chatgpt-share-") as tmp:

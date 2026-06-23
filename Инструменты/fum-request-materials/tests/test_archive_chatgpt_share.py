@@ -1,5 +1,4 @@
 import importlib.util
-import io
 import json
 import unittest
 from pathlib import Path
@@ -19,24 +18,38 @@ spec.loader.exec_module(archive_chatgpt_share)
 
 
 class ArchiveChatgptShareTests(unittest.TestCase):
-    def test_default_output_dir_uses_sources_folder_with_source_name(self):
+    def test_default_output_dir_uses_sources_url_path_for_stable_url(self):
         request_file = Path("/repo/Запросы/2026-06-23_17-37-29_MSK.md")
 
         output_dir = archive_chatgpt_share.default_output_dir(
             request_file,
-            "расшаренный чат ChatGPT: запуск долгоживущей цепочки",
+            "https://chatgpt.com/share/6a3a5b33-0658-83eb-a491-8e5a7fef6f54",
         )
 
         self.assertEqual(
             output_dir,
             Path(
-                "/repo/Источники/"
-                "2026-06-23_17-37-29_MSK_"
-                "расшаренный-чат-ChatGPT-запуск-долгоживущей-цепочки"
+                "/repo/Источники/URL/https/chatgpt.com/share/"
+                "6a3a5b33-0658-83eb-a491-8e5a7fef6f54"
             ),
         )
 
-    def test_parse_args_requires_source_name_without_output_dir(self):
+    def test_default_output_dir_keeps_query_variants_separate(self):
+        request_file = Path("/repo/Запросы/2026-06-23_17-37-29_MSK.md")
+
+        first = archive_chatgpt_share.default_output_dir(
+            request_file,
+            "https://example.com/search?q=FUM",
+        )
+        second = archive_chatgpt_share.default_output_dir(
+            request_file,
+            "https://example.com/search?q=other",
+        )
+
+        self.assertNotEqual(first, second)
+        self.assertEqual(first.parent, Path("/repo/Источники/URL/https/example.com/search"))
+
+    def test_parse_args_allows_url_path_without_source_name(self):
         argv = [
             "archive-chatgpt-share.py",
             "https://chatgpt.com/share/example",
@@ -44,14 +57,11 @@ class ArchiveChatgptShareTests(unittest.TestCase):
             "/repo/Запросы/2026-06-23_17-37-29_MSK.md",
         ]
 
-        with (
-            mock.patch("sys.argv", argv),
-            mock.patch("sys.stderr", io.StringIO()),
-            self.assertRaises(SystemExit) as raised,
-        ):
-            archive_chatgpt_share.parse_args()
+        with mock.patch("sys.argv", argv):
+            args = archive_chatgpt_share.parse_args()
 
-        self.assertNotEqual(raised.exception.code, 0)
+        self.assertIsNone(args.output_dir)
+        self.assertIsNone(args.source_name)
 
     def test_redact_headers_removes_set_cookie_values(self):
         raw = (
