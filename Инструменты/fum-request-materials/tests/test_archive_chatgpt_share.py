@@ -179,6 +179,13 @@ class ArchiveChatgptShareTests(unittest.TestCase):
             extracted["messages"][0]["create_time_utc"].startswith("2023-11-14T")
         )
 
+    def test_formatted_messages_markdown_name_uses_dialog_title(self):
+        messages_data = {"title": "Запуск долгоживущей цепочки"}
+
+        name = archive_chatgpt_share.formatted_messages_markdown_name(messages_data)
+
+        self.assertEqual(name, "запуск-долгоживущей-цепочки.md")
+
     def test_write_messages_markdown_uses_readable_dialog_title_and_roles(self):
         messages_data = {
             "title": "Запуск долгоживущей цепочки",
@@ -198,7 +205,7 @@ class ArchiveChatgptShareTests(unittest.TestCase):
         }
 
         with tempfile.TemporaryDirectory() as tmp:
-            path = Path(tmp) / "chatgpt-share.messages.md"
+            path = Path(tmp) / "запуск-долгоживущей-цепочки.md"
 
             archive_chatgpt_share.write_messages_markdown(
                 path,
@@ -209,11 +216,66 @@ class ArchiveChatgptShareTests(unittest.TestCase):
             markdown = path.read_text(encoding="utf-8")
 
         self.assertTrue(markdown.startswith("# Запуск долгоживущей цепочки\n"))
-        self.assertIn("Человекочитаемое название: **Запуск долгоживущей цепочки**", markdown)
-        self.assertIn("## Оформленное содержание диалога", markdown)
+        self.assertIn("Полный структурный слой: [chatgpt-share.messages.json](chatgpt-share.messages.json)", markdown)
+        self.assertIn("## Диалог", markdown)
         self.assertIn("### 1. Пользователь", markdown)
         self.assertIn("### 2. Ассистент", markdown)
         self.assertNotIn("## Сообщение 1: user", markdown)
+        self.assertNotIn("Время UTC", markdown)
+        self.assertNotIn("Исходная роль", markdown)
+
+    def test_write_messages_markdown_omits_service_messages_and_formats_obsidian_math(self):
+        messages_data = {
+            "title": "Формулы и служебный слой",
+            "message_count": 4,
+            "messages": [
+                {
+                    "role": "user",
+                    "text": "Теперь по этим формулам можно вычислять веса агентов.",
+                },
+                {
+                    "role": "tool",
+                    "text": "The output of this plugin was redacted.",
+                },
+                {
+                    "role": "assistant",
+                    "text": '{"search_query":[{"q":"FUM"}],"response_length":"short"}',
+                },
+                {
+                    "role": "assistant",
+                    "text": (
+                        "Итоговый вес можно записать так:\n\n"
+                        "\\[\n"
+                        "W_i=\\alpha Q_i+\\beta T_i\n"
+                        "\\]\n\n"
+                        "Лидирует агент с максимальным \\(W_i\\). "
+                        "\ue200cite\ue202turn1search0\ue201"
+                    ),
+                },
+            ],
+        }
+
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "формулы-и-служебный-слой.md"
+
+            archive_chatgpt_share.write_messages_markdown(
+                path,
+                "https://chatgpt.com/share/example",
+                messages_data,
+            )
+
+            markdown = path.read_text(encoding="utf-8")
+
+        self.assertIn("$$\nW_i=\\alpha Q_i+\\beta T_i\n$$", markdown)
+        self.assertIn("максимальным $W_i$", markdown)
+        self.assertNotIn("\\[", markdown)
+        self.assertNotIn("\\]", markdown)
+        self.assertNotIn("\\(", markdown)
+        self.assertNotIn("\\)", markdown)
+        self.assertNotIn("Служебный вывод инструмента", markdown)
+        self.assertNotIn("The output of this plugin was redacted.", markdown)
+        self.assertNotIn("search_query", markdown)
+        self.assertNotIn("\ue200cite", markdown)
 
 
 if __name__ == "__main__":

@@ -212,6 +212,13 @@ def readable_dialog_title(messages_data: dict[str, Any]) -> str:
     return "Расшаренный диалог ChatGPT"
 
 
+def formatted_messages_markdown_name(messages_data: dict[str, Any]) -> str:
+    segment = source_path_segment(readable_dialog_title(messages_data)).lower()
+    if segment == "_":
+        segment = "расшаренный-диалог-chatgpt"
+    return f"{segment}.md"
+
+
 def readable_role(role: Any) -> str:
     labels = {
         "assistant": "Ассистент",
@@ -222,6 +229,36 @@ def readable_role(role: Any) -> str:
     if isinstance(role, str) and role:
         return labels.get(role, role)
     return "Неизвестная роль"
+
+
+def strip_chatgpt_citations(text: str) -> str:
+    return re.sub(r"\s*\ue200cite\ue202[^\ue201]*\ue201", "", text)
+
+
+def format_obsidian_math(text: str) -> str:
+    text = re.sub(r"(?m)^[ \t]*\\\[[ \t]*$", "$$", text)
+    text = re.sub(r"(?m)^[ \t]*\\\][ \t]*$", "$$", text)
+    return re.sub(r"\\\(([^\n]+?)\\\)", r"$\1$", text)
+
+
+def is_json_only_text(text: Any) -> bool:
+    if not isinstance(text, str):
+        return False
+    stripped = text.strip()
+    if not stripped.startswith(("{", "[")):
+        return False
+    try:
+        json.loads(stripped)
+    except json.JSONDecodeError:
+        return False
+    return True
+
+
+def is_service_message(message: dict[str, Any]) -> bool:
+    role = message.get("role")
+    if role not in {"assistant", "user"}:
+        return True
+    return role == "assistant" and is_json_only_text(message.get("text"))
 
 
 def format_message_text(text: Any) -> str:
@@ -236,7 +273,7 @@ def format_message_text(text: Any) -> str:
         except json.JSONDecodeError:
             return stripped
         return "```json\n" + json.dumps(parsed, ensure_ascii=False, indent=2) + "\n```"
-    return stripped
+    return format_obsidian_math(strip_chatgpt_citations(stripped))
 
 
 def redact_initial_state(value: Any) -> Any:
@@ -441,25 +478,27 @@ def extract_messages(decoded: Any) -> dict[str, Any]:
 
 def write_messages_markdown(path: Path, url: str, messages_data: dict[str, Any]) -> None:
     title = readable_dialog_title(messages_data)
+    readable_messages = [
+        message
+        for message in messages_data.get("messages", [])
+        if isinstance(message, dict) and not is_service_message(message)
+    ]
     lines = [
         f"# {title}",
         "",
-        "- Тип источника: расшаренный диалог ChatGPT.",
-        f"- Источник: <{url}>",
-        f"- Человекочитаемое название: **{title}**",
-        f"- Количество извлеченных сообщений: {messages_data.get('message_count')}",
+        f"Источник: <{url}>",
         "",
-        "## Оформленное содержание диалога",
+        "Полный структурный слой: [chatgpt-share.messages.json](chatgpt-share.messages.json).",
+        "",
+        "## Диалог",
         "",
     ]
-    for index, message in enumerate(messages_data.get("messages", []), 1):
+    if not readable_messages:
+        lines.append("_Читаемых сообщений не найдено._")
+        lines.append("")
+    for index, message in enumerate(readable_messages, 1):
         role = message.get("role")
         lines.append(f"### {index}. {readable_role(role)}")
-        lines.append("")
-        if message.get("create_time_utc"):
-            lines.append(f"- Время UTC: `{message['create_time_utc']}`")
-        if role:
-            lines.append(f"- Исходная роль: `{role}`")
         lines.append("")
         lines.append(format_message_text(message.get("text", "")))
         lines.append("")
@@ -493,7 +532,8 @@ def write_report(
         "",
         "- Значения `Set-Cookie` в HTTP-заголовках заменены на `[REDACTED: response cookie]`.",
         "- Локальные IP, геометаданные запроса, user-agent, device/session/statsig-идентификаторы в bootstrap-состоянии страницы заменены на `[REDACTED: local request metadata]`.",
-        "- Текст диалога, поток React Router и распакованные сообщения не нормализовались и не переводились.",
+        "- Сырой текст диалога, поток React Router и распакованные сообщения не нормализовались и не переводились.",
+        "- Оформленный Markdown-слой пропускает служебные сообщения, убирает машинные citation-маркеры и переводит TeX-делимитеры в формат, отображаемый Obsidian.",
         "",
         "## Сохраненные файлы",
         "",
@@ -570,8 +610,12 @@ def main() -> int:
                 json.dumps(messages_data, ensure_ascii=False, indent=2),
                 encoding="utf-8",
             )
+            markdown_name = formatted_messages_markdown_name(messages_data)
+            legacy_markdown = output_dir / "chatgpt-share.messages.md"
+            if legacy_markdown.exists() and legacy_markdown.name != markdown_name:
+                legacy_markdown.unlink()
             write_messages_markdown(
-                output_dir / "chatgpt-share.messages.md",
+                output_dir / markdown_name,
                 args.url,
                 messages_data,
             )

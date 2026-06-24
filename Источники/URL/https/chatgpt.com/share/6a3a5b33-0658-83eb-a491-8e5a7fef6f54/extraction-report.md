@@ -14,7 +14,8 @@
 
 - Значения `Set-Cookie` в HTTP-заголовках заменены на `[REDACTED: response cookie]`.
 - Локальные IP, геометаданные запроса, user-agent, device/session/statsig-идентификаторы в bootstrap-состоянии страницы заменены на `[REDACTED: local request metadata]`.
-- Текст диалога, поток React Router и распакованные сообщения не нормализовались и не переводились.
+- Сырой текст диалога, поток React Router и распакованные сообщения не нормализовались и не переводились.
+- Оформленный Markdown-слой пропускает служебные сообщения, убирает машинные citation-маркеры и переводит TeX-делимитеры в формат, отображаемый Obsidian.
 
 ## Сохраненные файлы
 
@@ -23,7 +24,7 @@
 - `chatgpt-share.html`
 - `chatgpt-share.initial-state.json`
 - `chatgpt-share.messages.json`
-- `chatgpt-share.messages.md`
+- `запуск-долгоживущей-цепочки.md`
 - `chatgpt-share.react-router-stream.txt`
 - `chatgpt-share.script-03.txt`
 - `chatgpt-share.script-08.txt`
