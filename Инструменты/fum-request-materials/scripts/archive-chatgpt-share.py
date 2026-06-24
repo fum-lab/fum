@@ -7,6 +7,7 @@ import argparse
 import datetime as dt
 import hashlib
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -505,6 +506,83 @@ def write_messages_markdown(path: Path, url: str, messages_data: dict[str, Any])
     path.write_text(trim_trailing_whitespace("\n".join(lines)), encoding="utf-8")
 
 
+def markdown_relative_path(from_file: Path, target: Path, directory: bool = False) -> str:
+    relative = Path(os.path.relpath(target, from_file.parent)).as_posix()
+    if directory and not relative.endswith("/"):
+        relative += "/"
+    return relative
+
+
+def write_source_index(
+    path: Path,
+    url: str,
+    files: list[str],
+    messages_data: dict[str, Any],
+) -> None:
+    title = readable_dialog_title(messages_data)
+    file_set = set(files)
+    markdown_name = formatted_messages_markdown_name(messages_data)
+    lines = [
+        f"# Источник: {title}",
+        "",
+        f"Исходный URL: <{url}>",
+        "",
+        "Тип источника: расшаренный диалог ChatGPT.",
+        "",
+        "## Основные файлы",
+        "",
+    ]
+    if markdown_name in file_set:
+        lines.append(f"- [Оформленный диалог]({markdown_name})")
+    if "extraction-report.md" in file_set:
+        lines.append("- [Отчет об извлечении](extraction-report.md)")
+    if "chatgpt-share.messages.json" in file_set:
+        lines.append("- [Структурный слой сообщений](chatgpt-share.messages.json)")
+    if "chatgpt-share.html" in file_set:
+        lines.append("- [Сохраненный HTML](chatgpt-share.html)")
+    lines.extend(["", "## Все сохраненные файлы", ""])
+    lines.extend(f"- `{name}`" for name in sorted(file_set))
+    path.write_text(trim_trailing_whitespace("\n".join(lines)), encoding="utf-8")
+
+
+def link_source_in_request_file(request_file: Path, output_dir: Path, title: str) -> bool:
+    if not request_file.exists():
+        return False
+
+    source_link = markdown_relative_path(request_file, output_dir, directory=True)
+    index_link = markdown_relative_path(request_file, output_dir / "source-index.md")
+    report_link = markdown_relative_path(request_file, output_dir / "extraction-report.md")
+    text = request_file.read_text(encoding="utf-8")
+    if index_link in text:
+        return False
+
+    entry = "\n".join(
+        [
+            f"- [Источник: {title}]({source_link})",
+            f"- [Индекс источника]({index_link})",
+            f"- [Отчет об извлечении]({report_link})",
+        ]
+    )
+    header = "## Прикрепляемые материалы"
+
+    if header not in text:
+        updated = trim_trailing_whitespace(text) + "\n\n" + header + "\n\n" + entry + "\n"
+        request_file.write_text(updated, encoding="utf-8")
+        return True
+
+    pattern = re.compile(rf"({re.escape(header)}\n)(.*?)(?=\n## |\Z)", re.S)
+
+    def append_entry(match: re.Match[str]) -> str:
+        body = match.group(2).rstrip()
+        if body:
+            return match.group(1) + body + "\n" + entry + "\n"
+        return match.group(1) + "\n" + entry + "\n"
+
+    updated = pattern.sub(append_entry, text, count=1)
+    request_file.write_text(updated, encoding="utf-8")
+    return True
+
+
 def write_report(
     path: Path,
     url: str,
@@ -622,6 +700,11 @@ def main() -> int:
         except Exception as exc:  # noqa: BLE001 - preserve failure in report.
             (output_dir / "decode-error.txt").write_text(repr(exc) + "\n", encoding="utf-8")
 
+    files = sorted(
+        {path.name for path in output_dir.iterdir() if path.is_file()}
+        | {"extraction-report.md", "source-index.md"}
+    )
+    write_source_index(output_dir / "source-index.md", args.url, files, messages_data)
     files = sorted({path.name for path in output_dir.iterdir() if path.is_file()} | {"extraction-report.md"})
     write_report(
         output_dir / "extraction-report.md",
@@ -632,8 +715,14 @@ def main() -> int:
         initial_state is not None,
         decoded_ok,
     )
+    linked_request = link_source_in_request_file(
+        request_file,
+        output_dir,
+        readable_dialog_title(messages_data),
+    )
     print(f"saved {output_dir}")
     print(f"messages {messages_data.get('message_count', 0)}")
+    print(f"request_file_linked {'yes' if linked_request else 'no'}")
     return 0
 
 

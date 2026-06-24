@@ -277,6 +277,90 @@ class ArchiveChatgptShareTests(unittest.TestCase):
         self.assertNotIn("search_query", markdown)
         self.assertNotIn("\ue200cite", markdown)
 
+    def test_write_source_index_links_readable_markdown_and_report(self):
+        messages_data = {
+            "title": "Запуск долгоживущей цепочки",
+            "message_count": 2,
+        }
+
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "source-index.md"
+
+            archive_chatgpt_share.write_source_index(
+                path,
+                "https://chatgpt.com/share/example",
+                [
+                    "chatgpt-share.messages.json",
+                    "extraction-report.md",
+                    "запуск-долгоживущей-цепочки.md",
+                ],
+                messages_data,
+            )
+
+            markdown = path.read_text(encoding="utf-8")
+
+        self.assertTrue(markdown.startswith("# Источник: Запуск долгоживущей цепочки\n"))
+        self.assertIn("Исходный URL: <https://chatgpt.com/share/example>", markdown)
+        self.assertIn(
+            "- [Оформленный диалог](запуск-долгоживущей-цепочки.md)",
+            markdown,
+        )
+        self.assertIn("- [Отчет об извлечении](extraction-report.md)", markdown)
+        self.assertIn(
+            "- [Структурный слой сообщений](chatgpt-share.messages.json)",
+            markdown,
+        )
+
+    def test_link_source_in_request_file_adds_material_links_once(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp)
+            request_file = repo / "Запросы" / "2026-06-24_14-33-08_MSK.md"
+            output_dir = (
+                repo
+                / "Источники"
+                / "URL"
+                / "https"
+                / "chatgpt.com"
+                / "share"
+                / "example"
+            )
+            request_file.parent.mkdir(parents=True)
+            output_dir.mkdir(parents=True)
+            request_file.write_text(
+                "# Исходный запрос 2026-06-24 14:33:08 MSK\n\n"
+                "## Текст запроса\n\n"
+                "> пример\n",
+                encoding="utf-8",
+            )
+
+            archive_chatgpt_share.link_source_in_request_file(
+                request_file,
+                output_dir,
+                "Запуск долгоживущей цепочки",
+            )
+            archive_chatgpt_share.link_source_in_request_file(
+                request_file,
+                output_dir,
+                "Запуск долгоживущей цепочки",
+            )
+
+            markdown = request_file.read_text(encoding="utf-8")
+
+        self.assertIn("## Прикрепляемые материалы", markdown)
+        self.assertIn(
+            "- [Источник: Запуск долгоживущей цепочки](../Источники/URL/https/chatgpt.com/share/example/)",
+            markdown,
+        )
+        self.assertIn(
+            "- [Индекс источника](../Источники/URL/https/chatgpt.com/share/example/source-index.md)",
+            markdown,
+        )
+        self.assertIn(
+            "- [Отчет об извлечении](../Источники/URL/https/chatgpt.com/share/example/extraction-report.md)",
+            markdown,
+        )
+        self.assertEqual(markdown.count("source-index.md"), 1)
+
 
 if __name__ == "__main__":
     unittest.main()
