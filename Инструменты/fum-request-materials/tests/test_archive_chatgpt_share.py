@@ -1,5 +1,6 @@
 import importlib.util
 import json
+import tempfile
 import unittest
 from pathlib import Path
 from unittest import mock
@@ -177,6 +178,42 @@ class ArchiveChatgptShareTests(unittest.TestCase):
         self.assertTrue(
             extracted["messages"][0]["create_time_utc"].startswith("2023-11-14T")
         )
+
+    def test_write_messages_markdown_uses_readable_dialog_title_and_roles(self):
+        messages_data = {
+            "title": "Запуск долгоживущей цепочки",
+            "message_count": 2,
+            "messages": [
+                {
+                    "role": "user",
+                    "create_time_utc": "2026-06-23T09:11:59+00:00",
+                    "text": "Какой из агентов запустил наиболее долгоживущую цепочку?",
+                },
+                {
+                    "role": "assistant",
+                    "create_time_utc": "2026-06-23T09:13:43+00:00",
+                    "text": "Не хватает исходных данных.",
+                },
+            ],
+        }
+
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "chatgpt-share.messages.md"
+
+            archive_chatgpt_share.write_messages_markdown(
+                path,
+                "https://chatgpt.com/share/example",
+                messages_data,
+            )
+
+            markdown = path.read_text(encoding="utf-8")
+
+        self.assertTrue(markdown.startswith("# Запуск долгоживущей цепочки\n"))
+        self.assertIn("Человекочитаемое название: **Запуск долгоживущей цепочки**", markdown)
+        self.assertIn("## Оформленное содержание диалога", markdown)
+        self.assertIn("### 1. Пользователь", markdown)
+        self.assertIn("### 2. Ассистент", markdown)
+        self.assertNotIn("## Сообщение 1: user", markdown)
 
 
 if __name__ == "__main__":

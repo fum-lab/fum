@@ -205,6 +205,40 @@ def trim_trailing_whitespace(text: str) -> str:
     return "\n".join(lines) + "\n"
 
 
+def readable_dialog_title(messages_data: dict[str, Any]) -> str:
+    title = messages_data.get("title")
+    if isinstance(title, str) and title.strip():
+        return title.strip()
+    return "Расшаренный диалог ChatGPT"
+
+
+def readable_role(role: Any) -> str:
+    labels = {
+        "assistant": "Ассистент",
+        "system": "Система",
+        "tool": "Служебный вывод инструмента",
+        "user": "Пользователь",
+    }
+    if isinstance(role, str) and role:
+        return labels.get(role, role)
+    return "Неизвестная роль"
+
+
+def format_message_text(text: Any) -> str:
+    if not isinstance(text, str):
+        return ""
+    stripped = text.strip()
+    if not stripped:
+        return ""
+    if stripped.startswith(("{", "[")):
+        try:
+            parsed = json.loads(stripped)
+        except json.JSONDecodeError:
+            return stripped
+        return "```json\n" + json.dumps(parsed, ensure_ascii=False, indent=2) + "\n```"
+    return stripped
+
+
 def redact_initial_state(value: Any) -> Any:
     sensitive_exact = {
         "cfConnectingIp",
@@ -406,22 +440,30 @@ def extract_messages(decoded: Any) -> dict[str, Any]:
 
 
 def write_messages_markdown(path: Path, url: str, messages_data: dict[str, Any]) -> None:
+    title = readable_dialog_title(messages_data)
     lines = [
-        "# Извлеченный текст расшаренного диалога",
+        f"# {title}",
         "",
-        f"Источник: {url}",
-        f"Заголовок: {messages_data.get('title')}",
-        f"Количество извлеченных сообщений: {messages_data.get('message_count')}",
+        "- Тип источника: расшаренный диалог ChatGPT.",
+        f"- Источник: <{url}>",
+        f"- Человекочитаемое название: **{title}**",
+        f"- Количество извлеченных сообщений: {messages_data.get('message_count')}",
+        "",
+        "## Оформленное содержание диалога",
         "",
     ]
     for index, message in enumerate(messages_data.get("messages", []), 1):
-        lines.append(f"## Сообщение {index}: {message.get('role')}")
+        role = message.get("role")
+        lines.append(f"### {index}. {readable_role(role)}")
+        lines.append("")
         if message.get("create_time_utc"):
-            lines.append(f"Время UTC: {message['create_time_utc']}")
+            lines.append(f"- Время UTC: `{message['create_time_utc']}`")
+        if role:
+            lines.append(f"- Исходная роль: `{role}`")
         lines.append("")
-        lines.append(message.get("text", ""))
+        lines.append(format_message_text(message.get("text", "")))
         lines.append("")
-    path.write_text("\n".join(lines), encoding="utf-8")
+    path.write_text(trim_trailing_whitespace("\n".join(lines)), encoding="utf-8")
 
 
 def write_report(
