@@ -1,0 +1,189 @@
+import importlib.util
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+
+
+SCRIPT_PATH = (
+    Path(__file__).resolve().parents[1]
+    / "scripts"
+    / "check-session-coherence.py"
+)
+
+spec = importlib.util.spec_from_file_location("check_session_coherence", SCRIPT_PATH)
+check_session_coherence = importlib.util.module_from_spec(spec)
+assert spec.loader is not None
+sys.modules[spec.name] = check_session_coherence
+spec.loader.exec_module(check_session_coherence)
+
+
+class CheckSessionCoherenceTests(unittest.TestCase):
+    def write_fixture(self, root: Path) -> Path:
+        (root / "Запросы").mkdir()
+        (root / "Журнал").mkdir()
+        (root / "Документация").mkdir()
+        (root / "Инструменты").mkdir()
+
+        (root / "Документация" / "17-воспроизводимые-автоматизации.md").write_text(
+            "# Воспроизводимые автоматизации FUM\n",
+            encoding="utf-8",
+        )
+        (root / "Инструменты" / "реестр-системных-приложений-и-инструментов.md").write_text(
+            "# Реестр системных приложений и инструментов\n",
+            encoding="utf-8",
+        )
+        (root / "Запросы" / "2026-06-24_16-26-47_MSK.md").write_text(
+            "\n".join(
+                [
+                    "# Исходный запрос 2026-06-24 16:26:47 MSK",
+                    "",
+                    "## Навигация по запросам",
+                    "",
+                    "- Предыдущий запрос: нет",
+                    "- Следующий запрос: [2026-06-24 16:32:29 MSK](2026-06-24_16-32-29_MSK.md)",
+                    "",
+                    "## Текст запроса",
+                    "",
+                    "> Предыдущий запрос.",
+                    "",
+                ]
+            ),
+            encoding="utf-8",
+        )
+
+        request_path = root / "Запросы" / "2026-06-24_16-32-29_MSK.md"
+        request_path.write_text(
+            "\n".join(
+                [
+                    "# Исходный запрос 2026-06-24 16:32:29 MSK",
+                    "",
+                    "## Навигация по запросам",
+                    "",
+                    "- Предыдущий запрос: [2026-06-24 16:26:47 MSK](2026-06-24_16-26-47_MSK.md)",
+                    "- Следующий запрос: нет",
+                    "",
+                    "## Текст запроса",
+                    "",
+                    "> Выделить автоматическую проверку связности рабочей сессии.",
+                    "",
+                    "## Использованные инструменты",
+                    "",
+                    "- [Реестр системных приложений и инструментов](../Инструменты/реестр-системных-приложений-и-инструментов.md) - общий справочник.",
+                    "- `python3` - использован для запуска проверки.",
+                    "",
+                    "## Повлиял на файлы",
+                    "",
+                    "- [Документация/17-воспроизводимые-автоматизации.md](../Документация/17-воспроизводимые-автоматизации.md)",
+                    "- [Журнал/2026-06-24_16-32-29_MSK.md](../Журнал/2026-06-24_16-32-29_MSK.md)",
+                    "- [Запросы/2026-06-24_16-26-47_MSK.md](2026-06-24_16-26-47_MSK.md)",
+                    "- [Запросы/2026-06-24_16-32-29_MSK.md](2026-06-24_16-32-29_MSK.md)",
+                    "",
+                    "## Проверки",
+                    "",
+                    "- Проверка связности рабочей сессии - прошла.",
+                    "",
+                    "## Описание сделанного",
+                    "",
+                    "Добавлена проверка [воспроизводимых автоматизаций](../Документация/17-воспроизводимые-автоматизации.md).",
+                    "",
+                ]
+            ),
+            encoding="utf-8",
+        )
+
+        (root / "Журнал" / "2026-06-24_16-32-29_MSK.md").write_text(
+            "\n".join(
+                [
+                    "# Отчет 2026-06-24 16:32:29 MSK",
+                    "",
+                    "Источники:",
+                    "",
+                    "- [исходный запрос 2026-06-24 16:32:29 MSK](../Запросы/2026-06-24_16-32-29_MSK.md)",
+                    "",
+                    "## Проверки",
+                    "",
+                    "- Проверка связности рабочей сессии - прошла.",
+                    "",
+                ]
+            ),
+            encoding="utf-8",
+        )
+        return request_path
+
+    def test_valid_session_with_listed_dirty_files_passes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = self.write_fixture(root)
+            git_status = "\n".join(
+                [
+                    " M Документация/17-воспроизводимые-автоматизации.md",
+                    " M Запросы/2026-06-24_16-26-47_MSK.md",
+                    "?? Журнал/2026-06-24_16-32-29_MSK.md",
+                    "?? Запросы/2026-06-24_16-32-29_MSK.md",
+                ]
+            )
+
+            errors = check_session_coherence.validate_session(
+                root,
+                request_path.relative_to(root),
+                git_status=git_status,
+            )
+
+            self.assertEqual(errors, [])
+
+    def test_reports_missing_journal(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = self.write_fixture(root)
+            (root / "Журнал" / "2026-06-24_16-32-29_MSK.md").unlink()
+
+            errors = check_session_coherence.validate_session(
+                root,
+                request_path.relative_to(root),
+                git_status="",
+            )
+
+            self.assertIn(
+                "missing journal file: Журнал/2026-06-24_16-32-29_MSK.md",
+                errors,
+            )
+
+    def test_reports_broken_markdown_link(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = self.write_fixture(root)
+            broken = request_path.read_text(encoding="utf-8").replace(
+                "../Документация/17-воспроизводимые-автоматизации.md",
+                "../Документация/нет-такого-файла.md",
+            )
+            request_path.write_text(broken, encoding="utf-8")
+
+            errors = check_session_coherence.validate_session(
+                root,
+                request_path.relative_to(root),
+                git_status="",
+            )
+
+            self.assertTrue(
+                any("broken Markdown link" in error for error in errors),
+                errors,
+            )
+
+    def test_reports_unlisted_git_status_path(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = self.write_fixture(root)
+            git_status = "?? temporary-debug.log\n"
+
+            errors = check_session_coherence.validate_session(
+                root,
+                request_path.relative_to(root),
+                git_status=git_status,
+            )
+
+            self.assertIn("unexpected Git status path: temporary-debug.log", errors)
+
+
+if __name__ == "__main__":
+    unittest.main()
