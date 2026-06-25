@@ -305,7 +305,7 @@ class ArchiveChatgptShareTests(unittest.TestCase):
             "- [Оформленный диалог](запуск-долгоживущей-цепочки.md)",
             markdown,
         )
-        self.assertIn("- [Отчет об извлечении](extraction-report.md)", markdown)
+        self.assertIn("- [Отчёт об извлечении](extraction-report.md)", markdown)
         self.assertIn(
             "- [Структурный слой сообщений](chatgpt-share.messages.json)",
             markdown,
@@ -356,7 +356,7 @@ class ArchiveChatgptShareTests(unittest.TestCase):
             markdown,
         )
         self.assertIn(
-            "- [Отчет об извлечении](../Источники/URL/https/chatgpt.com/share/example/extraction-report.md)",
+            "- [Отчёт об извлечении](../Источники/URL/https/chatgpt.com/share/example/extraction-report.md)",
             markdown,
         )
         self.assertEqual(markdown.count("source-index.md"), 1)

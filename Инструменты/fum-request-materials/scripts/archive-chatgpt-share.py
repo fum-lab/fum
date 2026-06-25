@@ -535,12 +535,12 @@ def write_source_index(
     if markdown_name in file_set:
         lines.append(f"- [Оформленный диалог]({markdown_name})")
     if "extraction-report.md" in file_set:
-        lines.append("- [Отчет об извлечении](extraction-report.md)")
+        lines.append("- [Отчёт об извлечении](extraction-report.md)")
     if "chatgpt-share.messages.json" in file_set:
         lines.append("- [Структурный слой сообщений](chatgpt-share.messages.json)")
     if "chatgpt-share.html" in file_set:
-        lines.append("- [Сохраненный HTML](chatgpt-share.html)")
-    lines.extend(["", "## Все сохраненные файлы", ""])
+        lines.append("- [Сохранённый HTML](chatgpt-share.html)")
+    lines.extend(["", "## Все сохранённые файлы", ""])
     lines.extend(f"- `{name}`" for name in sorted(file_set))
     path.write_text(trim_trailing_whitespace("\n".join(lines)), encoding="utf-8")
 
@@ -560,7 +560,7 @@ def link_source_in_request_file(request_file: Path, output_dir: Path, title: str
         [
             f"- [Источник: {title}]({source_link})",
             f"- [Индекс источника]({index_link})",
-            f"- [Отчет об извлечении]({report_link})",
+            f"- [Отчёт об извлечении]({report_link})",
         ]
     )
     header = "## Прикрепляемые материалы"
@@ -594,7 +594,7 @@ def write_report(
 ) -> None:
     now = dt.datetime.now(dt.timezone.utc).isoformat()
     lines = [
-        "# Отчет об извлечении прикрепляемого материала",
+        "# Отчёт об извлечении прикрепляемого материала",
         "",
         f"- Источник: {url}",
         f"- Время извлечения UTC: {now}",
@@ -613,7 +613,7 @@ def write_report(
         "- Сырой текст диалога, поток React Router и распакованные сообщения не нормализовались и не переводились.",
         "- Оформленный Markdown-слой пропускает служебные сообщения, убирает машинные citation-маркеры и переводит TeX-делимитеры в формат, отображаемый Obsidian.",
         "",
-        "## Сохраненные файлы",
+        "## Сохранённые файлы",
         "",
     ]
     lines.extend(f"- `{name}`" for name in sorted(files))

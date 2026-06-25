@@ -38,7 +38,7 @@ class BuildDocAggregationTests(unittest.TestCase):
         config = {
             "title": "Архитектура FUM",
             "topic": "архитектура FUM",
-            "purpose": "Собрать разнесенные архитектурные требования в одну карту.",
+            "purpose": "Собрать разнесённые архитектурные требования в одну карту.",
             "request_file": "Запросы/2026-06-24_15-45-41_MSK.md",
             "automation_file": "Инструменты/fum-doc-aggregation/SKILL.md",
             "source_documents": [
@@ -53,7 +53,7 @@ class BuildDocAggregationTests(unittest.TestCase):
             ],
             "sections": [
                 {
-                    "title": "Карта слоев",
+                    "title": "Карта слоёв",
                     "focus": "Показать, какие слои образуют общую архитектуру.",
                 }
             ],
@@ -85,7 +85,7 @@ class BuildDocAggregationTests(unittest.TestCase):
             )
             self.assertIn("## Паспорт сводной статьи", result)
             self.assertIn("## Карта источников", result)
-            self.assertIn("## Карта слоев", result)
+            self.assertIn("## Карта слоёв", result)
             self.assertIn("DOC_AGGREGATION_TODO", result)
             self.assertTrue(output_path.exists())
 

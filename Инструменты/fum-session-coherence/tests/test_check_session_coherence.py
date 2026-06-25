@@ -95,7 +95,7 @@ class CheckSessionCoherenceTests(unittest.TestCase):
         (root / "Журнал" / "2026-06-24_16-32-29_MSK.md").write_text(
             "\n".join(
                 [
-                    "# Отчет 2026-06-24 16:32:29 MSK",
+                    "# Отчёт 2026-06-24 16:32:29 MSK",
                     "",
                     "Источники:",
                     "",

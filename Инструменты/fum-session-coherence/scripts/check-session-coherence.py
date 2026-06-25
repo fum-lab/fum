@@ -87,7 +87,7 @@ def expected_request_heading(path: Path) -> str:
 
 
 def expected_journal_heading(path: Path) -> str:
-    return f"# Отчет {request_label(path)}"
+    return f"# Отчёт {request_label(path)}"
 
 
 def section_body(text: str, heading: str) -> str | None:
