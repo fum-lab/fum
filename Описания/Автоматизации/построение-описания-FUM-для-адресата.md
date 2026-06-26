@@ -85,3 +85,8 @@
 ## Первое применение
 
 - [Описание FUM для инвесторов](../для-инвесторов.md)
+
+<!-- FUM-MD-RECENCY:BEGIN -->
+<!-- last-content-edit: 2026-06-25 19:14:14 MSK -->
+<!-- content-sha256: sha256:1154d3ec238f7e21f3aae28a83b8dfe34f59952a3e1bba9d955a712438614577 -->
+<!-- FUM-MD-RECENCY:END -->

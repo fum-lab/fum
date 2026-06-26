@@ -184,6 +184,34 @@ class CheckSessionCoherenceTests(unittest.TestCase):
 
             self.assertIn("unexpected Git status path: temporary-debug.log", errors)
 
+    def test_reports_md_recency_check_failure_when_tool_exists(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = self.write_fixture(root)
+            script = (
+                root
+                / "Инструменты"
+                / "fum-md-recency"
+                / "scripts"
+                / "update-md-recency.py"
+            )
+            script.parent.mkdir(parents=True)
+            script.write_text(
+                "import sys\nprint('stale recency index', file=sys.stderr)\nsys.exit(1)\n",
+                encoding="utf-8",
+            )
+
+            errors = check_session_coherence.validate_session(
+                root,
+                request_path.relative_to(root),
+                git_status="",
+            )
+
+            self.assertIn(
+                "md recency check failed: stale recency index",
+                errors,
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

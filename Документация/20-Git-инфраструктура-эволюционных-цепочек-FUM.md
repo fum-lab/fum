@@ -242,3 +242,8 @@ P(i -> j | r) = softmax(
 
 - [расшаренный чат "Запуск долгоживущей цепочки"](../Источники/URL/https/chatgpt.com/share/6a3a5b33-0658-83eb-a491-8e5a7fef6f54/запуск-долгоживущей-цепочки.md), сохранённый как [прикрепляемый материал](../Глоссарий/прикрепляемый-материал.md) связанных запросов.
 - Исходная ссылка: [source-url.txt](../Источники/URL/https/chatgpt.com/share/6a3a5b33-0658-83eb-a491-8e5a7fef6f54/source-url.txt).
+
+<!-- FUM-MD-RECENCY:BEGIN -->
+<!-- last-content-edit: 2026-06-25 19:38:46 MSK -->
+<!-- content-sha256: sha256:580973b5df6c0cd76829efa0482739c6316ed0d4794555ee78eaa8b5de4d0a33 -->
+<!-- FUM-MD-RECENCY:END -->

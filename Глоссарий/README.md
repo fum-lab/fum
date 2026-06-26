@@ -117,3 +117,8 @@
 - [Эволюционная цепочка FUM](эволюционная-цепочка-FUM.md)
 - [Эксперимент FUM](эксперимент-FUM.md)
 - [Язык автоматизаций FUM](язык-автоматизаций-FUM.md)
+
+<!-- FUM-MD-RECENCY:BEGIN -->
+<!-- last-content-edit: 2026-06-26 11:08:31 MSK -->
+<!-- content-sha256: sha256:96890a8dfedcf9ecbe179af8e480d033c7f03356e711e600a884322741829f24 -->
+<!-- FUM-MD-RECENCY:END -->

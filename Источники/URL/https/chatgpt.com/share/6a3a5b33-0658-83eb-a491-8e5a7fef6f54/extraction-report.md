@@ -32,3 +32,8 @@
 - `chatgpt-share.visible-text.txt`
 - `extraction-report.md`
 - `source-url.txt`
+
+<!-- FUM-MD-RECENCY:BEGIN -->
+<!-- last-content-edit: 2026-06-24 13:38:01 MSK -->
+<!-- content-sha256: sha256:42de29e106708bd903ac3ed472b017a5ee803cd182f7697ea682f357bbee35cc -->
+<!-- FUM-MD-RECENCY:END -->

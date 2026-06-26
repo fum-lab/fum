@@ -384,6 +384,31 @@ def validate_git_status(
     return errors
 
 
+def validate_md_recency(repo_root: Path) -> list[str]:
+    script = repo_root / "Инструменты" / "fum-md-recency" / "scripts" / "update-md-recency.py"
+    if not script.exists():
+        return []
+
+    result = subprocess.run(
+        [
+            sys.executable,
+            str(script),
+            "--repo-root",
+            str(repo_root),
+            "--check",
+        ],
+        check=False,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    if result.returncode == 0:
+        return []
+
+    details = result.stderr.strip() or result.stdout.strip() or "unknown recency error"
+    return [f"md recency check failed: {line}" for line in details.splitlines()]
+
+
 def validate_session(
     repo_root: str | Path,
     request: str | Path,
@@ -429,6 +454,7 @@ def validate_session(
     markdown_paths.add(request_path)
     markdown_paths.add(journal_path)
     errors.extend(validate_markdown_links(markdown_paths, root))
+    errors.extend(validate_md_recency(root))
 
     if check_git_status:
         errors.extend(validate_git_status(root, affected_files, git_status))
