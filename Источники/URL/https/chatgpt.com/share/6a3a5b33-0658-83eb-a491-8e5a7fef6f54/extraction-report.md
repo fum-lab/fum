@@ -13,7 +13,7 @@
 ## Редакции перед сохранением
 
 - Значения `Set-Cookie` в HTTP-заголовках заменены на `[REDACTED: response cookie]`.
-- Локальные IP, геометаданные запроса, user-agent, device/session/statsig-идентификаторы в bootstrap-состоянии страницы заменены на `[REDACTED: local request metadata]`.
+- Локальные IP, геометаданные запроса, user-agent, device/session/statsig-идентификаторы в bootstrap-состоянии страницы и служебные request-id распакованного потока заменены на `[REDACTED: local request metadata]`.
 - Сырой текст диалога, поток React Router и распакованные сообщения не нормализовались и не переводились.
 - Оформленный Markdown-слой пропускает служебные сообщения, убирает машинные citation-маркеры и переводит TeX-делимитеры в формат, отображаемый Obsidian.
 
@@ -34,6 +34,6 @@
 - `source-url.txt`
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-06-24 13:38:01 MSK -->
-<!-- content-sha256: sha256:42de29e106708bd903ac3ed472b017a5ee803cd182f7697ea682f357bbee35cc -->
+<!-- last-content-edit: 2026-07-01 12:19:28 MSK -->
+<!-- content-sha256: sha256:76a815bee56a9b85dd776b03783ad73187f802f5798474c045d12c83a4e5f2b4 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -21,6 +21,13 @@ from urllib.parse import unquote, urlsplit
 
 REDACTION = "[REDACTED: local request metadata]"
 COOKIE_REDACTION = "set-cookie: [REDACTED: response cookie]\n"
+LOCAL_METADATA_KEYS = {
+    "async_source",
+    "notification_id",
+    "request_id",
+    "turn_exchange_id",
+    "working_turn_id",
+}
 
 
 class ScriptCollector(HTMLParser):
@@ -300,6 +307,7 @@ def redact_initial_state(value: Any) -> Any:
         "region",
         "region_code",
         "country",
+        *LOCAL_METADATA_KEYS,
     }
     if isinstance(value, dict):
         redacted: dict[str, Any] = {}
@@ -320,6 +328,29 @@ def redact_initial_state(value: Any) -> Any:
     if isinstance(value, list):
         return [redact_initial_state(item) for item in value]
     return value
+
+
+def collect_local_metadata_values(value: Any) -> set[str]:
+    values: set[str] = set()
+    if isinstance(value, dict):
+        for key, item in value.items():
+            if key in LOCAL_METADATA_KEYS and isinstance(item, str) and item:
+                values.add(item)
+            values.update(collect_local_metadata_values(item))
+    elif isinstance(value, list):
+        for item in value:
+            values.update(collect_local_metadata_values(item))
+    elif isinstance(value, str) and "bon-user-" in value:
+        values.add(value)
+    return values
+
+
+def redact_text_values(text: str, values: set[str]) -> str:
+    redacted = text
+    for value in sorted(values, key=len, reverse=True):
+        if value:
+            redacted = redacted.replace(value, REDACTION)
+    return redacted
 
 
 def collect_scripts(html_text: str) -> list[str]:
@@ -609,7 +640,7 @@ def write_report(
         "## Редакции перед сохранением",
         "",
         "- Значения `Set-Cookie` в HTTP-заголовках заменены на `[REDACTED: response cookie]`.",
-        "- Локальные IP, геометаданные запроса, user-agent, device/session/statsig-идентификаторы в bootstrap-состоянии страницы заменены на `[REDACTED: local request metadata]`.",
+        "- Локальные IP, геометаданные запроса, user-agent, device/session/statsig-идентификаторы в bootstrap-состоянии страницы и служебные request-id распакованного потока заменены на `[REDACTED: local request metadata]`.",
         "- Сырой текст диалога, поток React Router и распакованные сообщения не нормализовались и не переводились.",
         "- Оформленный Markdown-слой пропускает служебные сообщения, убирает машинные citation-маркеры и переводит TeX-делимитеры в формат, отображаемый Obsidian.",
         "",
@@ -638,6 +669,29 @@ def main() -> int:
     sanitized_html, initial_state = sanitize_html(html_text, original_scripts)
     scripts = collect_scripts(sanitized_html)
 
+    stream_parts = extract_stream_parts(scripts)
+    stream_text = "\n\n--- stream part ---\n\n".join(stream_parts)
+
+    decoded_ok = False
+    decoded: Any | None = None
+    local_metadata_values: set[str] = set()
+    messages_data: dict[str, Any] = {"message_count": 0, "messages": []}
+    if stream_parts:
+        try:
+            raw_decoded = decode_react_router_table(stream_text)
+            decoded_ok = True
+            local_metadata_values = collect_local_metadata_values(raw_decoded)
+            decoded = redact_initial_state(raw_decoded)
+            messages_data = extract_messages(decoded)
+            messages_data["source_url"] = args.url
+        except Exception as exc:  # noqa: BLE001 - preserve failure in report.
+            (output_dir / "decode-error.txt").write_text(repr(exc) + "\n", encoding="utf-8")
+
+    if local_metadata_values:
+        sanitized_html = redact_text_values(sanitized_html, local_metadata_values)
+        scripts = [redact_text_values(body, local_metadata_values) for body in scripts]
+        stream_text = redact_text_values(stream_text, local_metadata_values)
+
     (output_dir / "source-url.txt").write_text(args.url + "\n", encoding="utf-8")
     (output_dir / "chatgpt-share.headers.txt").write_text(
         trim_trailing_whitespace(redact_headers(headers_text)),
@@ -665,40 +719,29 @@ def main() -> int:
                 encoding="utf-8",
             )
 
-    stream_parts = extract_stream_parts(scripts)
-    stream_text = "\n\n--- stream part ---\n\n".join(stream_parts)
     (output_dir / "chatgpt-share.react-router-stream.txt").write_text(
         stream_text,
         encoding="utf-8",
     )
 
-    decoded_ok = False
-    messages_data: dict[str, Any] = {"message_count": 0, "messages": []}
-    if stream_parts:
-        try:
-            decoded = decode_react_router_table(stream_text)
-            decoded_ok = True
-            (output_dir / "chatgpt-share.decoded-data.json").write_text(
-                json.dumps(decoded, ensure_ascii=False, indent=2),
-                encoding="utf-8",
-            )
-            messages_data = extract_messages(decoded)
-            messages_data["source_url"] = args.url
-            (output_dir / "chatgpt-share.messages.json").write_text(
-                json.dumps(messages_data, ensure_ascii=False, indent=2),
-                encoding="utf-8",
-            )
-            markdown_name = formatted_messages_markdown_name(messages_data)
-            legacy_markdown = output_dir / "chatgpt-share.messages.md"
-            if legacy_markdown.exists() and legacy_markdown.name != markdown_name:
-                legacy_markdown.unlink()
-            write_messages_markdown(
-                output_dir / markdown_name,
-                args.url,
-                messages_data,
-            )
-        except Exception as exc:  # noqa: BLE001 - preserve failure in report.
-            (output_dir / "decode-error.txt").write_text(repr(exc) + "\n", encoding="utf-8")
+    if decoded is not None:
+        (output_dir / "chatgpt-share.decoded-data.json").write_text(
+            json.dumps(decoded, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+        (output_dir / "chatgpt-share.messages.json").write_text(
+            json.dumps(messages_data, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+        markdown_name = formatted_messages_markdown_name(messages_data)
+        legacy_markdown = output_dir / "chatgpt-share.messages.md"
+        if legacy_markdown.exists() and legacy_markdown.name != markdown_name:
+            legacy_markdown.unlink()
+        write_messages_markdown(
+            output_dir / markdown_name,
+            args.url,
+            messages_data,
+        )
 
     files = sorted(
         {path.name for path in output_dir.iterdir() if path.is_file()}

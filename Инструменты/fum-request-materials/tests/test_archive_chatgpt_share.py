@@ -107,6 +107,34 @@ class ArchiveChatgptShareTests(unittest.TestCase):
         self.assertEqual(statsig["user"]["stableID"], archive_chatgpt_share.REDACTION)
         self.assertEqual(statsig["feature"], "visible")
 
+    def test_redact_initial_state_removes_decoded_request_metadata(self):
+        decoded = {
+            "node_id": "node-1",
+            "metadata": {
+                "request_id": "wfr_019ef3de600371ae98c98e1105e2192a",
+                "async_source": (
+                    "saserver-switzerlandnorth-prod.fck9d:"
+                    "bon-user-NiAAil3YY6CORHPNoPrMjgxk-9010db44:EU"
+                ),
+                "keep": "public value",
+            },
+            "messages": [
+                {
+                    "request_id": "9010db44-dc61-4ded-bc46-3a1385bc14eb",
+                    "text": "Содержательный текст диалога.",
+                }
+            ],
+        }
+
+        redacted = archive_chatgpt_share.redact_initial_state(decoded)
+
+        self.assertEqual(redacted["node_id"], "node-1")
+        self.assertEqual(redacted["metadata"]["request_id"], archive_chatgpt_share.REDACTION)
+        self.assertEqual(redacted["metadata"]["async_source"], archive_chatgpt_share.REDACTION)
+        self.assertEqual(redacted["metadata"]["keep"], "public value")
+        self.assertEqual(redacted["messages"][0]["request_id"], archive_chatgpt_share.REDACTION)
+        self.assertEqual(redacted["messages"][0]["text"], "Содержательный текст диалога.")
+
     def test_sanitize_html_redacts_bootstrap_state_inside_script(self):
         html = (
             "<html><body>"
