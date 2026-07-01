@@ -23,6 +23,7 @@ class BuildPlanningRegistryTests(unittest.TestCase):
     def write_fixture(self, root: Path) -> Path:
         (root / "Планирование" / "направления-проектирования-и-развития").mkdir(parents=True)
         (root / "Планирование" / "MVP-кандидаты" / "01-тест").mkdir(parents=True)
+        (root / "Планирование" / "стадии" / "01-тестовая-стадия").mkdir(parents=True)
         (root / "Вопросы").mkdir()
         (root / "Инструменты" / "fum-planning-registry").mkdir(parents=True)
 
@@ -74,6 +75,18 @@ class BuildPlanningRegistryTests(unittest.TestCase):
             "# MVP-кандидат: тест\n\n## Паспорт\n\nТест.\n",
             encoding="utf-8",
         )
+        (root / "Планирование" / "стадии" / "README.md").write_text(
+            "# Стадии планирования FUM\n\n"
+            "## Карта стадий\n\n"
+            "| Стадия | Смысл | Основные плановые материалы | Проверка |\n"
+            "| --- | --- | --- | --- |\n"
+            "| [01. Тестовая стадия](01-тестовая-стадия/README.md) | Смысл стадии. | [сводная таблица](../сводная-таблица-требований-и-реализаций.md). | Проверка стадии. |\n",
+            encoding="utf-8",
+        )
+        (root / "Планирование" / "стадии" / "01-тестовая-стадия" / "README.md").write_text(
+            "# Стадия: тестовая стадия\n\n## Назначение\n\nТест.\n",
+            encoding="utf-8",
+        )
         (root / "Планирование" / "предложения-о-следующих-шагах.md").write_text(
             "# Предложения о следующих шагах FUM\n\n"
             "## Актуальные предложения\n\n"
@@ -119,6 +132,11 @@ class BuildPlanningRegistryTests(unittest.TestCase):
                 "Встроенный реестр происхождения",
             )
             self.assertEqual(registry["source_inventory"]["roadmap_horizons"][0]["id"], "horizon-0")
+            self.assertEqual(registry["source_inventory"]["stages"][0]["id"], "stage-01")
+            self.assertEqual(
+                registry["source_inventory"]["stages"][0]["file"],
+                "Планирование/стадии/01-тестовая-стадия/README.md",
+            )
             self.assertEqual(registry["source_inventory"]["mvp_candidates"][0]["status"], "выбран в работу")
             self.assertEqual(registry["source_inventory"]["questions"]["open"][0]["title"], "Тестовый вопрос")
             self.assertTrue(registry["coverage"]["mvp_candidates"][0]["in_product_queue"])

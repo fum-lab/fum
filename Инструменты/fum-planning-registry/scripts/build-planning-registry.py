@@ -14,10 +14,11 @@ from pathlib import Path
 from typing import Any
 
 
-SCHEMA = "fum.planning.requirements-registry.v2"
+SCHEMA = "fum.planning.requirements-registry.v3"
 DEFAULT_OUTPUT = Path("Планирование/реестр-требований-вариантов-и-кандидатов.json")
 SUMMARY_TABLE = Path("Планирование/сводная-таблица-требований-и-реализаций.md")
 ROADMAP = Path("Планирование/дорожная-карта.md")
+STAGES_README = Path("Планирование/стадии/README.md")
 DIRECTIONS_README = Path("Планирование/направления-проектирования-и-развития/README.md")
 MVP_README = Path("Планирование/MVP-кандидаты/README.md")
 PROPOSALS = Path("Планирование/предложения-о-следующих-шагах.md")
@@ -286,6 +287,27 @@ def extract_roadmap_horizons(repo_root: Path) -> list[dict[str, Any]]:
     return horizons
 
 
+def extract_stages(repo_root: Path) -> list[dict[str, Any]]:
+    rows = table_after_heading(STAGES_README, "Карта стадий", repo_root)
+    stages: list[dict[str, Any]] = []
+    for index, row in enumerate(rows, start=1):
+        if len(row) != 4:
+            continue
+        stage, meaning, materials, check = row
+        stages.append(
+            {
+                "id": f"stage-{index:02d}",
+                "title": stage.text,
+                "file": first_link_target(stage),
+                "meaning": meaning.text,
+                "planning_materials": materials.text,
+                "check": check.text,
+                "links": stage.links + meaning.links + materials.links + check.links,
+            }
+        )
+    return stages
+
+
 def extract_directions(repo_root: Path) -> list[dict[str, Any]]:
     rows = table_after_heading(DIRECTIONS_README, "Карта направлений и ближайших артефактов", repo_root)
     directions: list[dict[str, Any]] = []
@@ -392,6 +414,7 @@ def source_files(repo_root: Path, inventory: dict[str, Any]) -> list[Path]:
     fixed = [
         SUMMARY_TABLE,
         ROADMAP,
+        STAGES_README,
         DIRECTIONS_README,
         MVP_README,
         PROPOSALS,
@@ -402,6 +425,7 @@ def source_files(repo_root: Path, inventory: dict[str, Any]) -> list[Path]:
         for path in absolute_path("Планирование/направления-проектирования-и-развития", repo_root).glob("*.md")
         if path.name != "README.md"
     )
+    stage_files = sorted(absolute_path("Планирование/стадии", repo_root).glob("*/README.md"))
     mvp_files = sorted(absolute_path("Планирование/MVP-кандидаты", repo_root).glob("*/README.md"))
     question_files = []
     for status_items in inventory["questions"].values():
@@ -413,6 +437,7 @@ def source_files(repo_root: Path, inventory: dict[str, Any]) -> list[Path]:
         if absolute_path(path, repo_root).exists()
     ]
     all_files.extend(direction_files)
+    all_files.extend(stage_files)
     all_files.extend(mvp_files)
     all_files.extend(question_files)
 
@@ -491,6 +516,7 @@ def build_registry(repo_root: Path | None = None) -> dict[str, Any]:
     requirements = extract_requirements(root)
     inventory: dict[str, Any] = {
         "roadmap_horizons": extract_roadmap_horizons(root),
+        "stages": extract_stages(root),
         "directions": extract_directions(root),
         "mvp_candidates": extract_mvp_candidates(root),
         "product_queue": extract_product_queue(root),
@@ -523,7 +549,7 @@ def validate_registry_object(registry: dict[str, Any]) -> list[str]:
         errors.append("registry must contain at least one requirement")
 
     inventory = registry.get("source_inventory", {})
-    for field in ["roadmap_horizons", "directions", "mvp_candidates"]:
+    for field in ["roadmap_horizons", "stages", "directions", "mvp_candidates"]:
         if not inventory.get(field):
             errors.append(f"source inventory is empty: {field}")
 
