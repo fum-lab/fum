@@ -20,6 +20,24 @@ REQUEST_FILENAME_RE = re.compile(
 )
 MARKDOWN_LINK_RE = re.compile(r"!?\[([^\]\n]+)\]\(([^)\n]+)\)")
 HEADING_RE = re.compile(r"^## .+$", re.MULTILINE)
+USER_META_REQUEST_RE = re.compile(
+    r"\b(?:"
+    r"пользователь\s+"
+    r"(?:спросил[аи]?|уточнил[аи]?|ответил[аи]?|попросил[аи]?|"
+    r"проверил[аи]?|подтвердил[аи]?|указал[аи]?|сказал[аи]?|заметил[аи]?)"
+    r"|(?:вопрос|уточнение|ответ|проверка)\s+пользователя"
+    r")\b",
+    re.IGNORECASE,
+)
+META_RULE_CONTEXT_RE = re.compile(
+    r"(?:"
+    r"мета-запрос\w*|правил\w*|поряд\w*|практик\w*|"
+    r"памят[ьи]\s+FUM|рабоч\w*\s+сесси\w*|Запросы/|"
+    r"AGENTS\.md|ведени\w*\s+памят\w*|ведени\w*\s+репозитори\w*|"
+    r"хранени\w*\s+источник\w*|состав\w*\s+артефакт\w*"
+    r")",
+    re.IGNORECASE,
+)
 
 
 @dataclass(frozen=True)
@@ -69,6 +87,18 @@ def read_text(path: Path) -> str:
 
 def request_match(path: Path) -> re.Match[str] | None:
     return REQUEST_FILENAME_RE.fullmatch(path.name)
+
+
+def is_request_file(path: Path, repo_root: Path) -> bool:
+    try:
+        relative = path.resolve().relative_to(repo_root.resolve())
+    except ValueError:
+        return False
+    return (
+        len(relative.parts) == 2
+        and relative.parts[0] == "Запросы"
+        and REQUEST_FILENAME_RE.fullmatch(relative.name) is not None
+    )
 
 
 def request_label(path: Path) -> str:
@@ -283,6 +313,78 @@ def validate_markdown_links(paths: set[Path], repo_root: Path) -> list[str]:
     return errors
 
 
+def iter_markdown_paragraphs(text: str) -> list[tuple[int, str]]:
+    paragraphs: list[tuple[int, str]] = []
+    current: list[str] = []
+    start_line = 0
+    in_fence = False
+
+    def flush() -> None:
+        nonlocal current, start_line
+        if current:
+            paragraphs.append((start_line, "\n".join(current)))
+            current = []
+            start_line = 0
+
+    for line_number, line in enumerate(text.splitlines(), start=1):
+        stripped = line.lstrip()
+        if stripped.startswith("```") or stripped.startswith("~~~"):
+            flush()
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
+        if not line.strip():
+            flush()
+            continue
+        if not current:
+            start_line = line_number
+        current.append(line)
+
+    flush()
+    return paragraphs
+
+
+def possible_meta_request_line(text: str) -> int | None:
+    for line_number, paragraph in iter_markdown_paragraphs(text):
+        if USER_META_REQUEST_RE.search(paragraph) and META_RULE_CONTEXT_RE.search(
+            paragraph
+        ):
+            return line_number
+    return None
+
+
+def has_request_file_link(path: Path, repo_root: Path) -> bool:
+    for link in iter_markdown_links(path):
+        target = resolve_markdown_target(link, repo_root)
+        if target is not None and is_request_file(target, repo_root):
+            return True
+    return False
+
+
+def validate_meta_request_coverage(paths: set[Path], repo_root: Path) -> list[str]:
+    errors: list[str] = []
+    for path in sorted(paths):
+        if (
+            not path.exists()
+            or path.suffix.lower() != ".md"
+            or is_request_file(path, repo_root)
+        ):
+            continue
+
+        text = read_text(path)
+        line_number = possible_meta_request_line(text)
+        if line_number is None or has_request_file_link(path, repo_root):
+            continue
+
+        source_rel = repo_relative(path, repo_root)
+        errors.append(
+            f"possible unregistered meta request in {source_rel}:{line_number}: "
+            "add a link to a concrete request file in Запросы/ or create a separate request file"
+        )
+    return errors
+
+
 def affected_files_from_request(
     text: str,
     request_path: Path,
@@ -454,6 +556,7 @@ def validate_session(
     markdown_paths.add(request_path)
     markdown_paths.add(journal_path)
     errors.extend(validate_markdown_links(markdown_paths, root))
+    errors.extend(validate_meta_request_coverage(markdown_paths, root))
     errors.extend(validate_md_recency(root))
 
     if check_git_status:

@@ -212,6 +212,51 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                 errors,
             )
 
+    def test_reports_possible_meta_request_without_request_link(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = self.write_fixture(root)
+            note = root / "Документация" / "служебная-записка.md"
+            note.write_text(
+                "\n".join(
+                    [
+                        "# Служебная записка",
+                        "",
+                        "Пользователь уточнил правило ведения памяти FUM: такие ответы надо сохранять в `Запросы/`.",
+                        "",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+            request_text = request_path.read_text(encoding="utf-8").replace(
+                "- [Журнал/2026-06-24_16-32-29_MSK.md](../Журнал/2026-06-24_16-32-29_MSK.md)",
+                "\n".join(
+                    [
+                        "- [Документация/служебная-записка.md](../Документация/служебная-записка.md)",
+                        "- [Журнал/2026-06-24_16-32-29_MSK.md](../Журнал/2026-06-24_16-32-29_MSK.md)",
+                    ]
+                ),
+            )
+            request_path.write_text(request_text, encoding="utf-8")
+
+            errors = check_session_coherence.validate_session(
+                root,
+                request_path.relative_to(root),
+                git_status="?? Документация/служебная-записка.md",
+            )
+
+            self.assertIn(
+                "possible unregistered meta request in Документация/служебная-записка.md:3: add a link to a concrete request file in Запросы/ or create a separate request file",
+                errors,
+            )
+
+    def test_detects_meta_request_context_from_requests_directory_marker(self):
+        text = "Пользователь спросил, нужно ли сохранять это в `Запросы/`."
+
+        line = check_session_coherence.possible_meta_request_line(text)
+
+        self.assertEqual(line, 1)
+
 
 if __name__ == "__main__":
     unittest.main()
