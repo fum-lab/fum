@@ -23,6 +23,7 @@ class RunSmokeCheckTests(unittest.TestCase):
         for path in [
             root / "Инструменты" / "fum-planning-registry" / "scripts" / "build-planning-registry.py",
             root / "Инструменты" / "fum-md-recency" / "scripts" / "update-md-recency.py",
+            root / "Инструменты" / "fum-obsidian-graph-recency" / "scripts" / "build-obsidian-graph-recency.py",
             root / "Инструменты" / "fum-session-coherence" / "scripts" / "check-session-coherence.py",
         ]:
             path.parent.mkdir(parents=True, exist_ok=True)
@@ -59,6 +60,7 @@ class RunSmokeCheckTests(unittest.TestCase):
                     "Сборка планового реестра",
                     "Проверка планового реестра",
                     "Проверка recency-меток Markdown",
+                    "Проверка тепловой карты графа Obsidian",
                     "Проверка связности рабочей сессии",
                 ],
             )
@@ -83,6 +85,7 @@ class RunSmokeCheckTests(unittest.TestCase):
             names = [step.name for step in steps]
             self.assertNotIn("Проверка связности рабочей сессии", names)
             self.assertIn("Проверка recency-меток Markdown", names)
+            self.assertIn("Проверка тепловой карты графа Obsidian", names)
 
     def test_requires_request_when_session_check_is_enabled(self):
         with tempfile.TemporaryDirectory() as tmp:

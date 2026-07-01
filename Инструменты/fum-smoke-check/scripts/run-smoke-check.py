@@ -19,6 +19,9 @@ PLANNING_REGISTRY_OUTPUT = Path(
     "Планирование/реестр-требований-вариантов-и-кандидатов.json"
 )
 RECENCY_SCRIPT = Path("Инструменты/fum-md-recency/scripts/update-md-recency.py")
+OBSIDIAN_GRAPH_RECENCY_SCRIPT = Path(
+    "Инструменты/fum-obsidian-graph-recency/scripts/build-obsidian-graph-recency.py"
+)
 SESSION_COHERENCE_SCRIPT = Path(
     "Инструменты/fum-session-coherence/scripts/check-session-coherence.py"
 )
@@ -128,6 +131,13 @@ def build_steps(
         SmokeStep(
             name="Проверка recency-меток Markdown",
             command=(python_cmd, recency_script, "--check"),
+        )
+    )
+    obsidian_graph_recency_script = require_file(root, OBSIDIAN_GRAPH_RECENCY_SCRIPT)
+    steps.append(
+        SmokeStep(
+            name="Проверка тепловой карты графа Obsidian",
+            command=(python_cmd, obsidian_graph_recency_script, "--check"),
         )
     )
 
