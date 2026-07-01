@@ -1,0 +1,150 @@
+import importlib.util
+import json
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+
+
+SCRIPT_PATH = (
+    Path(__file__).resolve().parents[1]
+    / "scripts"
+    / "build-planning-registry.py"
+)
+
+spec = importlib.util.spec_from_file_location("build_planning_registry", SCRIPT_PATH)
+build_planning_registry = importlib.util.module_from_spec(spec)
+assert spec.loader is not None
+sys.modules[spec.name] = build_planning_registry
+spec.loader.exec_module(build_planning_registry)
+
+
+class BuildPlanningRegistryTests(unittest.TestCase):
+    def write_fixture(self, root: Path) -> Path:
+        (root / "Планирование" / "направления-проектирования-и-развития").mkdir(parents=True)
+        (root / "Планирование" / "MVP-кандидаты" / "01-тест").mkdir(parents=True)
+        (root / "Вопросы").mkdir()
+        (root / "Инструменты" / "fum-planning-registry").mkdir(parents=True)
+
+        (root / "Инструменты" / "fum-planning-registry" / "SKILL.md").write_text(
+            "# FUM Planning Registry\n",
+            encoding="utf-8",
+        )
+        (root / "Планирование" / "дорожная-карта.md").write_text(
+            "# Дорожная карта FUM\n\n"
+            "## Горизонт 0. Связная память проекта\n\n"
+            "Тестовый горизонт.\n",
+            encoding="utf-8",
+        )
+        (root / "Планирование" / "сводная-таблица-требований-и-реализаций.md").write_text(
+            "# Сводная таблица требований и реализаций FUM\n\n"
+            "## Сводная таблица\n\n"
+            "| Слой требований | Что нужно реализовать | Варианты реализации | Кандидаты и ближайшие артефакты | Статус |\n"
+            "| --- | --- | --- | --- | --- |\n"
+            "| [Память FUM](../Глоссарий/память-FUM.md) | Сохранять трассу. | Ручной контур; [автоматизация](../Инструменты/fum-planning-registry/SKILL.md). | [MVP тест](MVP-кандидаты/01-тест/README.md); [направление](направления-проектирования-и-развития/01-тест.md). | Активно. |\n\n"
+            "## Очередь продуктовых кандидатов\n\n"
+            "| Порядок | MVP-кандидат | Первый запускаемый результат | Какие требования закрывает первым | Рабочий вывод |\n"
+            "| --- | --- | --- | --- | --- |\n"
+            "| 1 | [MVP тест](MVP-кандидаты/01-тест/README.md) | JSON. | Память. | Ближайший. |\n",
+            encoding="utf-8",
+        )
+        (root / "Планирование" / "направления-проектирования-и-развития" / "README.md").write_text(
+            "# Направления проектирования и развития FUM\n\n"
+            "## Карта направлений и ближайших артефактов\n\n"
+            "| Направление | Смысл | Ближайший проверяемый артефакт | Проверка |\n"
+            "| --- | --- | --- | --- |\n"
+            "| [01. Тест](01-тест.md) | Смысл. | Артефакт. | Проверка. |\n",
+            encoding="utf-8",
+        )
+        (root / "Планирование" / "направления-проектирования-и-развития" / "01-тест.md").write_text(
+            "# 01. Тест\n\n## Назначение\n\nТест.\n",
+            encoding="utf-8",
+        )
+        (root / "Планирование" / "MVP-кандидаты" / "README.md").write_text(
+            "# MVP-кандидаты FUM\n\n"
+            "## Кандидаты\n\n"
+            "| Кандидат | Запускаемая продуктовая идея | Первый пользовательский результат |\n"
+            "| --- | --- | --- |\n"
+            "| [01. MVP тест](01-тест/README.md) | Идея. | Результат. |\n\n"
+            "## Текущий выбор\n\n"
+            "[MVP тест](01-тест/README.md) выбран в работу.\n",
+            encoding="utf-8",
+        )
+        (root / "Планирование" / "MVP-кандидаты" / "01-тест" / "README.md").write_text(
+            "# MVP-кандидат: тест\n\n## Паспорт\n\nТест.\n",
+            encoding="utf-8",
+        )
+        (root / "Планирование" / "предложения-о-следующих-шагах.md").write_text(
+            "# Предложения о следующих шагах FUM\n\n"
+            "## Актуальные предложения\n\n"
+            "| Статус | Предложение | Почему сейчас | Опорные источники |\n"
+            "| --- | --- | --- | --- |\n"
+            "| Актуально | Подготовить тестовый реестр. | Нужна проверка. | [дорожная карта](дорожная-карта.md) |\n\n"
+            "## История предложений\n\n"
+            "| Статус | Предложение | Что произошло | Опорные источники |\n"
+            "| --- | --- | --- | --- |\n"
+            "| Выполнено | Старое предложение. | Сделано. | [дорожная карта](дорожная-карта.md) |\n",
+            encoding="utf-8",
+        )
+        (root / "Вопросы" / "README.md").write_text(
+            "# Вопросы\n\n"
+            "## [Открытые вопросы](../Глоссарий/открытый-вопрос.md)\n\n"
+            "- [Тестовый вопрос](тестовый-вопрос.md)\n\n"
+            "## Частично прояснённые вопросы\n\n"
+            "- [Частичный вопрос](частичный-вопрос.md)\n\n"
+            "## Прояснённые вопросы\n\n"
+            "- [Прояснённый вопрос](прояснённый-вопрос.md)\n",
+            encoding="utf-8",
+        )
+        for name in ["тестовый-вопрос.md", "частичный-вопрос.md", "прояснённый-вопрос.md"]:
+            (root / "Вопросы" / name).write_text(f"# {name}\n", encoding="utf-8")
+
+        return root / "Планирование" / "реестр-требований-вариантов-и-кандидатов.json"
+
+    def test_build_registry_normalizes_requirements_and_sources(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_fixture(root)
+
+            registry = build_planning_registry.build_registry(root)
+
+            self.assertEqual(registry["schema"], build_planning_registry.SCHEMA)
+            self.assertEqual(registry["requirements"][0]["id"], "REQ-001")
+            self.assertEqual(registry["requirements"][0]["implementation_options"][1]["text"], "автоматизация.")
+            self.assertEqual(registry["source_inventory"]["roadmap_horizons"][0]["id"], "horizon-0")
+            self.assertEqual(registry["source_inventory"]["mvp_candidates"][0]["status"], "выбран в работу")
+            self.assertEqual(registry["source_inventory"]["questions"]["open"][0]["title"], "Тестовый вопрос")
+            self.assertTrue(registry["coverage"]["mvp_candidates"][0]["in_product_queue"])
+
+    def test_validate_accepts_rebuilt_registry(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output = self.write_fixture(root)
+
+            build_planning_registry.build_to_file(output, root)
+            errors = build_planning_registry.validate_file(output, root)
+
+            self.assertEqual(errors, [])
+
+    def test_validate_reports_stale_registry_after_source_change(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output = self.write_fixture(root)
+            build_planning_registry.build_to_file(output, root)
+
+            proposals = root / "Планирование" / "предложения-о-следующих-шагах.md"
+            proposals.write_text(
+                proposals.read_text(encoding="utf-8").replace(
+                    "Подготовить тестовый реестр.",
+                    "Подготовить изменённый тестовый реестр.",
+                ),
+                encoding="utf-8",
+            )
+
+            errors = build_planning_registry.validate_file(output, root)
+
+            self.assertIn("registry is stale", "\n".join(errors))
+
+
+if __name__ == "__main__":
+    unittest.main()
