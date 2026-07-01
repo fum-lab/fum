@@ -20,6 +20,12 @@ REQUEST_FILENAME_RE = re.compile(
 )
 MARKDOWN_LINK_RE = re.compile(r"!?\[([^\]\n]+)\]\(([^)\n]+)\)")
 HEADING_RE = re.compile(r"^## .+$", re.MULTILINE)
+PROVENANCE_LABEL_RE = re.compile(
+    r"^(?:##\s+)?(?:"
+    r"Источники требований|Источники|Опорные документы|"
+    r"Опорные материалы|Внешний материал|Затронутая документация"
+    r")\s*:?\s*$"
+)
 USER_META_REQUEST_RE = re.compile(
     r"\b(?:"
     r"пользователь\s+"
@@ -385,6 +391,46 @@ def validate_meta_request_coverage(paths: set[Path], repo_root: Path) -> list[st
     return errors
 
 
+def top_provenance_line(text: str) -> tuple[int, str] | None:
+    lines = text.splitlines()
+    if not lines or not lines[0].startswith("# "):
+        return None
+
+    for index, line in enumerate(lines[1:], start=2):
+        if not line.strip():
+            continue
+        if PROVENANCE_LABEL_RE.fullmatch(line.strip()):
+            return index, line.strip()
+        return None
+    return None
+
+
+def validate_provenance_section_position(
+    paths: set[Path],
+    repo_root: Path,
+) -> list[str]:
+    errors: list[str] = []
+    for path in sorted(paths):
+        if (
+            not path.exists()
+            or path.suffix.lower() != ".md"
+            or is_request_file(path, repo_root)
+        ):
+            continue
+
+        top_line = top_provenance_line(read_text(path))
+        if top_line is None:
+            continue
+
+        line_number, label = top_line
+        source_rel = repo_relative(path, repo_root)
+        errors.append(
+            f"provenance section must follow content in {source_rel}:{line_number}: "
+            f"move '{label}' to the bottom of the file before FUM-MD-RECENCY"
+        )
+    return errors
+
+
 def affected_files_from_request(
     text: str,
     request_path: Path,
@@ -557,6 +603,7 @@ def validate_session(
     markdown_paths.add(journal_path)
     errors.extend(validate_markdown_links(markdown_paths, root))
     errors.extend(validate_meta_request_coverage(markdown_paths, root))
+    errors.extend(validate_provenance_section_position(markdown_paths, root))
     errors.extend(validate_md_recency(root))
 
     if check_git_status:

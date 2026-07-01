@@ -19,7 +19,7 @@
 - [fum-obsidian-graph-recency](fum-obsidian-graph-recency/SKILL.md) - обновляет группы цвета графа Obsidian как тепловую карту Markdown-узлов по времени последнего содержательного редактирования.
 - [fum-planning-registry](fum-planning-registry/SKILL.md) - собирает и проверяет машинно читаемый JSON-реестр требований, вариантов реализации, MVP-кандидатов, предложений и вопросов.
 - [fum-request-materials](fum-request-materials/SKILL.md) - сохраняет [прикрепляемые материалы](../Глоссарий/прикрепляемый-материал.md) исходных запросов в `Источники/` и автоматизирует извлечение расшаренных чатов ChatGPT.
-- [fum-session-coherence](fum-session-coherence/SKILL.md) - проверяет связность [рабочей сессии](../Глоссарий/рабочая-сессия.md): навигацию запросов, журнал, инструменты, Markdown-ссылки, сигналы мета-запросов и Git-состояние.
+- [fum-session-coherence](fum-session-coherence/SKILL.md) - проверяет связность [рабочей сессии](../Глоссарий/рабочая-сессия.md): навигацию запросов, журнал, инструменты, Markdown-ссылки, сигналы мета-запросов, нижнее расположение справочных блоков и Git-состояние.
 - [fum-smoke-check](fum-smoke-check/SKILL.md) - запускает единый локальный smoke-check: тесты автоматизаций, пересборку проверяемых реестров, recency-проверку и связность выбранной рабочей сессии.
 - [fum-work-review](fum-work-review/SKILL.md) - создаёт и проверяет сохранённые ревью проделанной работы: Git-срез, находки, проверки, остаточные риски и вывод.
 
@@ -37,6 +37,6 @@
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-work-review/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-work-review`.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-01 17:10:34 MSK -->
-<!-- content-sha256: sha256:daa15f0d13c21c621eca38d5fb95786dcf106f8c9a934a607b333ccc7eb4bad7 -->
+<!-- last-content-edit: 2026-07-01 21:16:28 MSK -->
+<!-- content-sha256: sha256:5a0c8289de0d445d15462f8e5265b3bd687b1bf07b062aac4ffb9c23f2461a6c -->
 <!-- FUM-MD-RECENCY:END -->

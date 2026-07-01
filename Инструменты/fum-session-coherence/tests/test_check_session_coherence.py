@@ -97,13 +97,13 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                 [
                     "# Отчёт 2026-06-24 16:32:29 MSK",
                     "",
-                    "Источники:",
-                    "",
-                    "- [исходный запрос 2026-06-24 16:32:29 MSK](../Запросы/2026-06-24_16-32-29_MSK.md)",
-                    "",
                     "## Проверки",
                     "",
                     "- Проверка связности рабочей сессии - прошла.",
+                    "",
+                    "## Источники",
+                    "",
+                    "- [исходный запрос 2026-06-24 16:32:29 MSK](../Запросы/2026-06-24_16-32-29_MSK.md)",
                     "",
                 ]
             ),
@@ -256,6 +256,50 @@ class CheckSessionCoherenceTests(unittest.TestCase):
         line = check_session_coherence.possible_meta_request_line(text)
 
         self.assertEqual(line, 1)
+
+    def test_reports_top_provenance_section(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = self.write_fixture(root)
+            note = root / "Документация" / "служебная-записка.md"
+            note.write_text(
+                "\n".join(
+                    [
+                        "# Служебная записка",
+                        "",
+                        "Источники требований:",
+                        "",
+                        "- [исходный запрос 2026-06-24 16:32:29 MSK](../Запросы/2026-06-24_16-32-29_MSK.md)",
+                        "",
+                        "## Содержание",
+                        "",
+                        "Основной текст.",
+                        "",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+            request_text = request_path.read_text(encoding="utf-8").replace(
+                "- [Журнал/2026-06-24_16-32-29_MSK.md](../Журнал/2026-06-24_16-32-29_MSK.md)",
+                "\n".join(
+                    [
+                        "- [Документация/служебная-записка.md](../Документация/служебная-записка.md)",
+                        "- [Журнал/2026-06-24_16-32-29_MSK.md](../Журнал/2026-06-24_16-32-29_MSK.md)",
+                    ]
+                ),
+            )
+            request_path.write_text(request_text, encoding="utf-8")
+
+            errors = check_session_coherence.validate_session(
+                root,
+                request_path.relative_to(root),
+                git_status="?? Документация/служебная-записка.md",
+            )
+
+            self.assertIn(
+                "provenance section must follow content in Документация/служебная-записка.md:3: move 'Источники требований:' to the bottom of the file before FUM-MD-RECENCY",
+                errors,
+            )
 
 
 if __name__ == "__main__":
