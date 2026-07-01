@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Any
 
 
-SCHEMA = "fum.planning.requirements-registry.v1"
+SCHEMA = "fum.planning.requirements-registry.v2"
 DEFAULT_OUTPUT = Path("Планирование/реестр-требований-вариантов-и-кандидатов.json")
 SUMMARY_TABLE = Path("Планирование/сводная-таблица-требований-и-реализаций.md")
 ROADMAP = Path("Планирование/дорожная-карта.md")
@@ -196,9 +196,9 @@ def extract_requirements(repo_root: Path) -> list[dict[str, Any]]:
     rows = table_after_heading(SUMMARY_TABLE, "Сводная таблица", repo_root)
     requirements: list[dict[str, Any]] = []
     for index, row in enumerate(rows, start=1):
-        if len(row) != 5:
+        if len(row) != 6:
             continue
-        layer, result, variants, candidates, status = row
+        layer, result, documentation_stage, boxed_fum, candidates, status = row
         requirement_id = f"REQ-{index:03d}"
         requirements.append(
             {
@@ -211,13 +211,23 @@ def extract_requirements(repo_root: Path) -> list[dict[str, Any]]:
                     "text": result.text,
                     "links": result.links,
                 },
-                "implementation_options": [
+                "documentation_stage_implementation": [
                     {
-                        "id": f"{requirement_id}-OPT-{option_index:02d}",
+                        "id": f"{requirement_id}-DOC-{option_index:02d}",
                         **option,
                     }
                     for option_index, option in enumerate(
-                        split_items(variants, SUMMARY_TABLE, repo_root),
+                        split_items(documentation_stage, SUMMARY_TABLE, repo_root),
+                        start=1,
+                    )
+                ],
+                "boxed_fum_implementation": [
+                    {
+                        "id": f"{requirement_id}-BOX-{option_index:02d}",
+                        **option,
+                    }
+                    for option_index, option in enumerate(
+                        split_items(boxed_fum, SUMMARY_TABLE, repo_root),
                         start=1,
                     )
                 ],
@@ -417,7 +427,8 @@ def targets_from_requirement(requirement: dict[str, Any]) -> set[str]:
     for group in [
         requirement["layer"],
         requirement["required_result"],
-        *requirement["implementation_options"],
+        *requirement["documentation_stage_implementation"],
+        *requirement["boxed_fum_implementation"],
         *requirement["candidates_and_artifacts"],
     ]:
         for link in group.get("links", []):

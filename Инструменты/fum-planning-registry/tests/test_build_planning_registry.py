@@ -39,9 +39,9 @@ class BuildPlanningRegistryTests(unittest.TestCase):
         (root / "Планирование" / "сводная-таблица-требований-и-реализаций.md").write_text(
             "# Сводная таблица требований и реализаций FUM\n\n"
             "## Сводная таблица\n\n"
-            "| Слой требований | Что нужно реализовать | Варианты реализации | Кандидаты и ближайшие артефакты | Статус |\n"
-            "| --- | --- | --- | --- | --- |\n"
-            "| [Память FUM](../Глоссарий/память-FUM.md) | Сохранять трассу. | Ручной контур; [автоматизация](../Инструменты/fum-planning-registry/SKILL.md). | [MVP тест](MVP-кандидаты/01-тест/README.md); [направление](направления-проектирования-и-развития/01-тест.md). | Активно. |\n\n"
+            "| Слой требований | Что нужно реализовать | Предполагаемая реализация на документационной стадии | Предполагаемая реализация в коробочной FUM | Кандидаты и ближайшие артефакты | Статус |\n"
+            "| --- | --- | --- | --- | --- | --- |\n"
+            "| [Память FUM](../Глоссарий/память-FUM.md) | Сохранять трассу. | Ручной контур; [автоматизация](../Инструменты/fum-planning-registry/SKILL.md). | Встроенный реестр происхождения; runtime памяти. | [MVP тест](MVP-кандидаты/01-тест/README.md); [направление](направления-проектирования-и-развития/01-тест.md). | Активно. |\n\n"
             "## Очередь продуктовых кандидатов\n\n"
             "| Порядок | MVP-кандидат | Первый запускаемый результат | Какие требования закрывает первым | Рабочий вывод |\n"
             "| --- | --- | --- | --- | --- |\n"
@@ -110,7 +110,14 @@ class BuildPlanningRegistryTests(unittest.TestCase):
 
             self.assertEqual(registry["schema"], build_planning_registry.SCHEMA)
             self.assertEqual(registry["requirements"][0]["id"], "REQ-001")
-            self.assertEqual(registry["requirements"][0]["implementation_options"][1]["text"], "автоматизация.")
+            self.assertEqual(
+                registry["requirements"][0]["documentation_stage_implementation"][1]["text"],
+                "автоматизация.",
+            )
+            self.assertEqual(
+                registry["requirements"][0]["boxed_fum_implementation"][0]["text"],
+                "Встроенный реестр происхождения",
+            )
             self.assertEqual(registry["source_inventory"]["roadmap_horizons"][0]["id"], "horizon-0")
             self.assertEqual(registry["source_inventory"]["mvp_candidates"][0]["status"], "выбран в работу")
             self.assertEqual(registry["source_inventory"]["questions"]["open"][0]["title"], "Тестовый вопрос")
