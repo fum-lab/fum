@@ -70,10 +70,20 @@ class BuildObsidianGraphRecencyTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             graph = self.write_graph(root)
-            self.write_note(root, "Документация/сегодня.md", "2026-07-01 10:00:00 MSK")
-            self.write_note(root, "Журнал/позавчера.md", "2026-06-29 10:00:00 MSK")
-            self.write_note(root, "Глоссарий/неделя.md", "2026-06-26 10:00:00 MSK")
-            self.write_note(root, "README.md", "2026-05-01 10:00:00 MSK")
+            notes = [
+                ("Документация/сегодня.md", "2026-07-01 10:00:00 MSK", 0xD7263D),
+                ("Документация/вчера.md", "2026-06-30 10:00:00 MSK", 0xE94F37),
+                ("Документация/позавчера.md", "2026-06-29 10:00:00 MSK", 0xF77F00),
+                ("Документация/три-дня.md", "2026-06-28 10:00:00 MSK", 0xF4A261),
+                ("Документация/пять-дней.md", "2026-06-26 10:00:00 MSK", 0xE9C46A),
+                ("Документация/шесть-дней.md", "2026-06-25 10:00:00 MSK", 0xA7C957),
+                ("Документация/семь-дней.md", "2026-06-24 10:00:00 MSK", 0x74C69D),
+                ("Документация/восемь-дней.md", "2026-06-23 10:00:00 MSK", 0x4ECDC4),
+                ("Документация/девять-дней.md", "2026-06-22 10:00:00 MSK", 0x277DA1),
+                ("README.md", "2026-06-21 10:00:00 MSK", 0x457B9D),
+            ]
+            for relative, timestamp, _color in notes:
+                self.write_note(root, relative, timestamp)
 
             result = build_obsidian_graph_recency.update_graph(
                 root,
@@ -86,14 +96,12 @@ class BuildObsidianGraphRecencyTests(unittest.TestCase):
             data = json.loads(graph.read_text(encoding="utf-8"))
             self.assertEqual(data["scale"], 0.5)
             self.assertEqual(data["collapse-color-groups"], False)
-            self.assertEqual(len(data["colorGroups"]), 4)
+            self.assertEqual(len(data["colorGroups"]), 10)
             queries = [group["query"] for group in data["colorGroups"]]
-            self.assertIn('path:"Документация/сегодня.md"', queries[0])
-            self.assertIn('path:"Журнал/позавчера.md"', queries[1])
-            self.assertIn('path:"Глоссарий/неделя.md"', queries[2])
-            self.assertIn('path:"README.md"', queries[3])
-            self.assertEqual(data["colorGroups"][0]["color"]["rgb"], 0xD7263D)
-            self.assertEqual(data["colorGroups"][3]["color"]["rgb"], 0x457B9D)
+            colors = [group["color"]["rgb"] for group in data["colorGroups"]]
+            for index, (relative, _timestamp, color) in enumerate(notes):
+                self.assertIn(f'path:"{relative}"', queries[index])
+                self.assertEqual(colors[index], color)
 
     def test_check_reports_stale_graph(self):
         with tempfile.TemporaryDirectory() as tmp:

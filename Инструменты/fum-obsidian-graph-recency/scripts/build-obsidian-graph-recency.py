@@ -45,10 +45,15 @@ class GraphUpdateResult:
 
 BUCKETS = [
     RecencyBucket("0 days", 0, 0, 0xD7263D),
-    RecencyBucket("1-2 days", 1, 2, 0xF46036),
-    RecencyBucket("3-7 days", 3, 7, 0xF7B801),
-    RecencyBucket("8-30 days", 8, 30, 0x2A9D8F),
-    RecencyBucket("31+ days", 31, None, 0x457B9D),
+    RecencyBucket("1 day", 1, 1, 0xE94F37),
+    RecencyBucket("2 days", 2, 2, 0xF77F00),
+    RecencyBucket("3-4 days", 3, 4, 0xF4A261),
+    RecencyBucket("5 days", 5, 5, 0xE9C46A),
+    RecencyBucket("6 days", 6, 6, 0xA7C957),
+    RecencyBucket("7 days", 7, 7, 0x74C69D),
+    RecencyBucket("8 days", 8, 8, 0x4ECDC4),
+    RecencyBucket("9 days", 9, 9, 0x277DA1),
+    RecencyBucket("10+ days", 10, None, 0x457B9D),
 ]
 
 
