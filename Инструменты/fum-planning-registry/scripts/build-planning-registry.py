@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Any
 
 
-SCHEMA = "fum.planning.requirements-registry.v3"
+SCHEMA = "fum.planning.requirements-registry.v4"
 DEFAULT_OUTPUT = Path("Планирование/реестр-требований-вариантов-и-кандидатов.json")
 SUMMARY_TABLE = Path("Планирование/сводная-таблица-требований-и-реализаций.md")
 ROADMAP = Path("Планирование/дорожная-карта.md")
@@ -254,14 +254,20 @@ def extract_requirements(repo_root: Path) -> list[dict[str, Any]]:
 
 
 def extract_product_queue(repo_root: Path) -> list[dict[str, Any]]:
-    rows = table_after_heading(SUMMARY_TABLE, "Очередь продуктовых кандидатов", repo_root)
+    rows = table_after_heading(SUMMARY_TABLE, "Стадийная очередь продуктовых кандидатов", repo_root)
     queue: list[dict[str, Any]] = []
     for row in rows:
-        if len(row) != 5:
+        if len(row) == 6:
+            stage, order, candidate, first_result, requirements, conclusion = row
+        elif len(row) == 5:
+            stage = Cell(raw="", text="", links=[])
+            order, candidate, first_result, requirements, conclusion = row
+        else:
             continue
-        order, candidate, first_result, requirements, conclusion = row
         queue.append(
             {
+                "stage": stage.text,
+                "stage_link": first_link_target(stage),
                 "order": int(order.text) if order.text.isdigit() else order.text,
                 "candidate": candidate.text,
                 "candidate_link": first_link_target(candidate),
@@ -356,6 +362,27 @@ def extract_mvp_candidates(repo_root: Path) -> list[dict[str, Any]]:
             }
         )
     return candidates
+
+
+def extract_mvp_stage_map(repo_root: Path) -> list[dict[str, Any]]:
+    rows = table_after_heading(MVP_README, "Стадийная карта кандидатов", repo_root)
+    stage_map: list[dict[str, Any]] = []
+    for index, row in enumerate(rows, start=1):
+        if len(row) != 4:
+            continue
+        candidate, documentation_stage, transition_result, boxed_fum = row
+        stage_map.append(
+            {
+                "id": f"mvp-stage-{index:02d}",
+                "candidate": candidate.text,
+                "candidate_link": first_link_target(candidate),
+                "documentation_stage_form": documentation_stage.text,
+                "transition_result": transition_result.text,
+                "boxed_fum_form": boxed_fum.text,
+                "links": candidate.links + documentation_stage.links + transition_result.links + boxed_fum.links,
+            }
+        )
+    return stage_map
 
 
 def proposal_rows(repo_root: Path, heading: str) -> list[dict[str, Any]]:
@@ -481,6 +508,11 @@ def coverage(requirements: list[dict[str, Any]], inventory: dict[str, Any]) -> d
         for item in inventory["product_queue"]
         if item.get("candidate_link")
     }
+    stage_map_targets = {
+        item["candidate_link"]
+        for item in inventory.get("mvp_stage_map", [])
+        if item.get("candidate_link")
+    }
 
     return {
         "directions": [
@@ -497,6 +529,7 @@ def coverage(requirements: list[dict[str, Any]], inventory: dict[str, Any]) -> d
                 "file": candidate["file"],
                 "covered_by_requirement_ids": covered(candidate["file"]),
                 "in_product_queue": candidate["file"] in product_queue_targets,
+                "in_stage_map": candidate["file"] in stage_map_targets,
             }
             for candidate in inventory["mvp_candidates"]
         ],
@@ -519,6 +552,7 @@ def build_registry(repo_root: Path | None = None) -> dict[str, Any]:
         "stages": extract_stages(root),
         "directions": extract_directions(root),
         "mvp_candidates": extract_mvp_candidates(root),
+        "mvp_stage_map": extract_mvp_stage_map(root),
         "product_queue": extract_product_queue(root),
         "active_proposals": proposal_rows(root, "Актуальные предложения"),
         "proposal_history": proposal_rows(root, "История предложений"),
@@ -549,7 +583,7 @@ def validate_registry_object(registry: dict[str, Any]) -> list[str]:
         errors.append("registry must contain at least one requirement")
 
     inventory = registry.get("source_inventory", {})
-    for field in ["roadmap_horizons", "stages", "directions", "mvp_candidates"]:
+    for field in ["roadmap_horizons", "stages", "directions", "mvp_candidates", "mvp_stage_map"]:
         if not inventory.get(field):
             errors.append(f"source inventory is empty: {field}")
 
@@ -566,8 +600,15 @@ def validate_registry_object(registry: dict[str, Any]) -> list[str]:
                 errors.append(f"source inventory questions must contain list: {field}")
 
     for item in registry.get("coverage", {}).get("mvp_candidates", []):
-        if not item.get("covered_by_requirement_ids") and not item.get("in_product_queue"):
-            errors.append(f"MVP candidate is not covered by requirements or product queue: {item.get('title')}")
+        if (
+            not item.get("covered_by_requirement_ids")
+            and not item.get("in_product_queue")
+            and not item.get("in_stage_map")
+        ):
+            errors.append(
+                "MVP candidate is not covered by requirements, product queue or stage map: "
+                f"{item.get('title')}"
+            )
     return errors
 
 

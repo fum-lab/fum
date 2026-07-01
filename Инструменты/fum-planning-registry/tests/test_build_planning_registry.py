@@ -43,10 +43,10 @@ class BuildPlanningRegistryTests(unittest.TestCase):
             "| Слой требований | Что нужно реализовать | Предполагаемая реализация на документационной стадии | Предполагаемая реализация в коробочной FUM | Кандидаты и ближайшие артефакты | Статус |\n"
             "| --- | --- | --- | --- | --- | --- |\n"
             "| [Память FUM](../Глоссарий/память-FUM.md) | Сохранять трассу. | Ручной контур; [автоматизация](../Инструменты/fum-planning-registry/SKILL.md). | Встроенный реестр происхождения; runtime памяти. | [MVP тест](MVP-кандидаты/01-тест/README.md); [направление](направления-проектирования-и-развития/01-тест.md). | Активно. |\n\n"
-            "## Очередь продуктовых кандидатов\n\n"
-            "| Порядок | MVP-кандидат | Первый запускаемый результат | Какие требования закрывает первым | Рабочий вывод |\n"
-            "| --- | --- | --- | --- | --- |\n"
-            "| 1 | [MVP тест](MVP-кандидаты/01-тест/README.md) | JSON. | Память. | Ближайший. |\n",
+            "## Стадийная очередь продуктовых кандидатов\n\n"
+            "| Стадия | Порядок | MVP-кандидат | Первый запускаемый результат | Какие требования закрывает первым | Рабочий вывод |\n"
+            "| --- | --- | --- | --- | --- | --- |\n"
+            "| [Тестовая стадия](стадии/01-тестовая-стадия/README.md) | 1 | [MVP тест](MVP-кандидаты/01-тест/README.md) | JSON. | Память. | Ближайший. |\n",
             encoding="utf-8",
         )
         (root / "Планирование" / "направления-проектирования-и-развития" / "README.md").write_text(
@@ -67,6 +67,10 @@ class BuildPlanningRegistryTests(unittest.TestCase):
             "| Кандидат | Запускаемая продуктовая идея | Первый пользовательский результат |\n"
             "| --- | --- | --- |\n"
             "| [01. MVP тест](01-тест/README.md) | Идея. | Результат. |\n\n"
+            "## Стадийная карта кандидатов\n\n"
+            "| MVP-кандидат | Форма на стадии документационного прототипа | Переходный результат | Форма в коробочной реализации FUM |\n"
+            "| --- | --- | --- | --- |\n"
+            "| [01. MVP тест](01-тест/README.md) | Документальная форма. | Контракт. | Коробочная форма. |\n\n"
             "## Текущий выбор\n\n"
             "[MVP тест](01-тест/README.md) выбран в работу.\n",
             encoding="utf-8",
@@ -138,8 +142,17 @@ class BuildPlanningRegistryTests(unittest.TestCase):
                 "Планирование/стадии/01-тестовая-стадия/README.md",
             )
             self.assertEqual(registry["source_inventory"]["mvp_candidates"][0]["status"], "выбран в работу")
+            self.assertEqual(
+                registry["source_inventory"]["mvp_stage_map"][0]["transition_result"],
+                "Контракт.",
+            )
+            self.assertEqual(
+                registry["source_inventory"]["product_queue"][0]["stage_link"],
+                "Планирование/стадии/01-тестовая-стадия/README.md",
+            )
             self.assertEqual(registry["source_inventory"]["questions"]["open"][0]["title"], "Тестовый вопрос")
             self.assertTrue(registry["coverage"]["mvp_candidates"][0]["in_product_queue"])
+            self.assertTrue(registry["coverage"]["mvp_candidates"][0]["in_stage_map"])
 
     def test_validate_accepts_rebuilt_registry(self):
         with tempfile.TemporaryDirectory() as tmp:
