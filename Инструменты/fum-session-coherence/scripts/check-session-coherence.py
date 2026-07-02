@@ -19,6 +19,8 @@ REQUEST_FILENAME_RE = re.compile(
     r"(?P<hour>\d{2})-(?P<minute>\d{2})-(?P<second>\d{2})_MSK"
     r"(?:_(?P<title>[0-9A-Za-zА-Яа-яЁё][0-9A-Za-zА-Яа-яЁё-]*))?\.md$"
 )
+REQUEST_TITLE_INFINITIVE_RULE_START = (2026, 7, 2, 23, 1, 25)
+RUSSIAN_INFINITIVE_ENDINGS = ("ться", "тись", "чься", "ть", "ти", "чь")
 TITLE_TOKEN_REPLACEMENTS = {
     "api": "API",
     "chatgpt": "ChatGPT",
@@ -112,6 +114,43 @@ def read_text(path: Path) -> str:
 
 def request_match(path: Path) -> re.Match[str] | None:
     return REQUEST_FILENAME_RE.fullmatch(path.name)
+
+
+def request_datetime_key(match: re.Match[str]) -> tuple[int, int, int, int, int, int]:
+    year, month, day = (int(part) for part in match.group("date").split("-"))
+    return (
+        year,
+        month,
+        day,
+        int(match.group("hour")),
+        int(match.group("minute")),
+        int(match.group("second")),
+    )
+
+
+def slug_starts_with_infinitive_verb(slug: str) -> bool:
+    first_word = slug.split("-", 1)[0].lower()
+    if not re.search(r"[А-Яа-яЁё]", first_word):
+        return False
+    return first_word.endswith(RUSSIAN_INFINITIVE_ENDINGS)
+
+
+def validate_request_filename_title(path: Path) -> list[str]:
+    match = request_match(path)
+    if not match:
+        return []
+
+    slug = match.group("title")
+    if not slug:
+        return []
+
+    if request_datetime_key(match) < REQUEST_TITLE_INFINITIVE_RULE_START:
+        return []
+
+    if slug_starts_with_infinitive_verb(slug):
+        return []
+
+    return [f"request filename title must start with an infinitive verb: {slug}"]
 
 
 def is_request_file(path: Path, repo_root: Path) -> bool:
@@ -612,6 +651,7 @@ def validate_session(
 
     if request_match(request_path) is None:
         errors.append(f"request filename does not match session format: {request_path.name}")
+    errors.extend(validate_request_filename_title(request_path))
     if not request_path.exists():
         return errors + [f"request file does not exist: {request}"]
 

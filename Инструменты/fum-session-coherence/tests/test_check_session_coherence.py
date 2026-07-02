@@ -149,6 +149,25 @@ class CheckSessionCoherenceTests(unittest.TestCase):
             "# Исходный запрос 2026-06-24 16:32:29 MSK",
         )
 
+    def test_new_request_title_must_start_with_infinitive_verb(self):
+        request_path = Path("Запросы/2026-07-03_00-00-00_MSK_имена-запросов.md")
+
+        errors = check_session_coherence.validate_request_filename_title(request_path)
+
+        self.assertEqual(
+            errors,
+            [
+                "request filename title must start with an infinitive verb: имена-запросов"
+            ],
+        )
+
+    def test_historical_request_title_before_infinitive_rule_remains_allowed(self):
+        request_path = Path("Запросы/2026-07-02_22-43-41_MSK_имена-файлов-запросов.md")
+
+        errors = check_session_coherence.validate_request_filename_title(request_path)
+
+        self.assertEqual(errors, [])
+
     def test_reports_missing_journal(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
