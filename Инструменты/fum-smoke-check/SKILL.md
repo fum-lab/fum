@@ -17,7 +17,7 @@ description: Запускать единый локальный smoke-check ре
 - проверить, что новые или изменённые локальные автоматизации покрыты тестами;
 - пересобрать и сверить проверяемые реестры репозитория;
 - убедиться, что `FUM-MD-RECENCY` и индекс Markdown-файлов свежие;
-- проверить связность выбранного файла `Запросы/<YYYY-MM-DD_HH-MM-SS_MSK>.md`.
+- проверить связность выбранного файла `Запросы/<YYYY-MM-DD_HH-MM-SS_MSK>_<краткое-название-запроса>.md`.
 
 ## Команда запуска
 
@@ -25,14 +25,14 @@ description: Запускать единый локальный smoke-check ре
 
 ```bash
 python3 Инструменты/fum-smoke-check/scripts/run-smoke-check.py \
-  --request Запросы/<YYYY-MM-DD_HH-MM-SS_MSK>.md
+  --request Запросы/<YYYY-MM-DD_HH-MM-SS_MSK>_<краткое-название-запроса>.md
 ```
 
 Список команд без выполнения:
 
 ```bash
 python3 Инструменты/fum-smoke-check/scripts/run-smoke-check.py \
-  --request Запросы/<YYYY-MM-DD_HH-MM-SS_MSK>.md \
+  --request Запросы/<YYYY-MM-DD_HH-MM-SS_MSK>_<краткое-название-запроса>.md \
   --list
 ```
 
@@ -77,7 +77,7 @@ python3 Инструменты/fum-md-recency/scripts/update-md-recency.py --che
 
 ```bash
 python3 Инструменты/fum-session-coherence/scripts/check-session-coherence.py \
-  --request Запросы/<YYYY-MM-DD_HH-MM-SS_MSK>.md
+  --request Запросы/<YYYY-MM-DD_HH-MM-SS_MSK>_<краткое-название-запроса>.md
 ```
 
 ## Проверки автоматизации
@@ -97,6 +97,6 @@ Smoke-check не заменяет смысловую проверку измен
 Если в репозитории появляется новый проверяемый реестр, его нужно добавить в `run-smoke-check.py` и закрепить ожидание тестом. Если у новой локальной автоматизации появляются тесты в `Инструменты/<имя>/tests`, smoke-check начнёт запускать их автоматически.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-01 14:17:34 MSK -->
-<!-- content-sha256: sha256:2de97372d28d7c3cd59a8a0cd41f63be26b9ee032a35e9a274d806b5cdd647a4 -->
+<!-- last-content-edit: 2026-07-02 22:48:15 MSK -->
+<!-- content-sha256: sha256:67780f0b1cb01e2fa66a0e013b496bf4651e78afe1fce6faca4c356654a8f6d3 -->
 <!-- FUM-MD-RECENCY:END -->

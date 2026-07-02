@@ -16,8 +16,27 @@ from urllib.parse import unquote
 
 REQUEST_FILENAME_RE = re.compile(
     r"^(?P<date>\d{4}-\d{2}-\d{2})_"
-    r"(?P<hour>\d{2})-(?P<minute>\d{2})-(?P<second>\d{2})_MSK\.md$"
+    r"(?P<hour>\d{2})-(?P<minute>\d{2})-(?P<second>\d{2})_MSK"
+    r"(?:_(?P<title>[0-9A-Za-zА-Яа-яЁё][0-9A-Za-zА-Яа-яЁё-]*))?\.md$"
 )
+TITLE_TOKEN_REPLACEMENTS = {
+    "api": "API",
+    "chatgpt": "ChatGPT",
+    "cli": "CLI",
+    "codex": "Codex",
+    "fum": "FUM",
+    "git": "Git",
+    "github": "GitHub",
+    "json": "JSON",
+    "llm": "LLM",
+    "mcp": "MCP",
+    "md": "MD",
+    "msk": "MSK",
+    "obsidian": "Obsidian",
+    "tdd": "TDD",
+    "url": "URL",
+    "yaml": "YAML",
+}
 MARKDOWN_LINK_RE = re.compile(r"!?\[([^\]\n]+)\]\(([^)\n]+)\)")
 HEADING_RE = re.compile(r"^## .+$", re.MULTILINE)
 PROVENANCE_LABEL_RE = re.compile(
@@ -115,7 +134,31 @@ def request_label(path: Path) -> str:
     hour = match.group("hour")
     minute = match.group("minute")
     second = match.group("second")
-    return f"{date} {hour}:{minute}:{second} MSK"
+    label = f"{date} {hour}:{minute}:{second} MSK"
+    title = request_title(path)
+    if title is not None:
+        label = f"{label} - {title}"
+    return label
+
+
+def request_title(path: Path) -> str | None:
+    match = request_match(path)
+    if not match:
+        return None
+
+    slug = match.group("title")
+    if not slug:
+        return None
+
+    words = [
+        TITLE_TOKEN_REPLACEMENTS.get(word.lower(), word)
+        for word in slug.split("-")
+    ]
+    title = " ".join(words)
+    first_word = words[0] if words else ""
+    if first_word.lower() not in TITLE_TOKEN_REPLACEMENTS and title:
+        title = title[0].upper() + title[1:]
+    return title
 
 
 def expected_request_heading(path: Path) -> str:
