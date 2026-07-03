@@ -66,11 +66,17 @@ class UpdateMdRecencyTests(unittest.TestCase):
 
             index = root / update_md_recency.INDEX_PATH
             index_text = index.read_text(encoding="utf-8")
-            self.assertIn("| [README.md](../README.md) | 2026-06-26 12:00:00 MSK |", index_text)
-            self.assertIn(
-                "| [Документация/старый-файл.md](../Документация/старый-файл.md) | 2026-06-26 11:00:00 MSK |",
-                index_text,
-            )
+            self.assertIn("[README.md](../README.md)", index_text)
+            self.assertIn("[Документация/старый-файл.md](../Документация/старый-файл.md)", index_text)
+            table_lines = [
+                line for line in index_text.splitlines() if line.startswith("| ")
+            ]
+            pipe_positions = {
+                tuple(index for index, char in enumerate(line) if char == "|")
+                for line in table_lines[:4]
+            }
+            self.assertEqual(len(pipe_positions), 1)
+            self.assertRegex(table_lines[0], r"^\| Файл\s+\| Последнее содержательное редактирование \|$")
             self.assertLess(
                 index_text.index("[README.md]"),
                 index_text.index("[Документация/старый-файл.md]"),

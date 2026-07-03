@@ -312,7 +312,29 @@ def record_sort_key(record: MarkdownRecord) -> tuple[datetime, str]:
     return parse_display_time(record.timestamp), record.rel_path
 
 
+def render_aligned_markdown_table(headers: list[str], rows: list[list[str]]) -> list[str]:
+    widths = [
+        max(3, len(header), *(len(row[index]) for row in rows))
+        for index, header in enumerate(headers)
+    ]
+
+    def render_row(cells: list[str]) -> str:
+        padded = [
+            f"{cell:<{width}}"
+            for cell, width in zip(cells, widths, strict=True)
+        ]
+        return f"| {' | '.join(padded)} |"
+
+    separator = [("-" * width) for width in widths]
+    return [render_row(headers), render_row(separator), *(render_row(row) for row in rows)]
+
+
 def render_index_body(records: list[MarkdownRecord], index_path: Path, repo_root: Path) -> str:
+    rows = []
+    for record in sorted(records, key=record_sort_key, reverse=True):
+        link = relative_link(record.path, index_path, repo_root)
+        rows.append([f"[{record.rel_path}]({link})", record.timestamp])
+
     lines = [
         "# Markdown-файлы по времени редактирования",
         "",
@@ -320,12 +342,11 @@ def render_index_body(records: list[MarkdownRecord], index_path: Path, repo_root
         "",
         "Служебная метка `FUM-MD-RECENCY` хранится в конце каждого `.md`-файла и не учитывается при расчёте хэша содержательного текста.",
         "",
-        "| Файл | Последнее содержательное редактирование |",
-        "| --- | --- |",
+        *render_aligned_markdown_table(
+            ["Файл", "Последнее содержательное редактирование"],
+            rows,
+        ),
     ]
-    for record in sorted(records, key=record_sort_key, reverse=True):
-        link = relative_link(record.path, index_path, repo_root)
-        lines.append(f"| [{record.rel_path}]({link}) | {record.timestamp} |")
     return "\n".join(lines) + "\n"
 
 
