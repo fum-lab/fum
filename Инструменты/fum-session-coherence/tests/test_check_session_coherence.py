@@ -341,6 +341,48 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                 errors,
             )
 
+    def test_reports_mermaid_label_that_starts_as_markdown_list(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = self.write_fixture(root)
+            diagram = root / "Документация" / "диаграмма.md"
+            diagram.write_text(
+                "\n".join(
+                    [
+                        "# Диаграмма",
+                        "",
+                        "```mermaid",
+                        "flowchart TD",
+                        '    A["1. Первый шаг"]',
+                        '    B["Этап 2 - Второй шаг"]',
+                        "```",
+                        "",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+            request_text = request_path.read_text(encoding="utf-8").replace(
+                "- [Журнал/2026-06-24_16-32-29_MSK_проверка-связности-сессии.md](../Журнал/2026-06-24_16-32-29_MSK_проверка-связности-сессии.md)",
+                "\n".join(
+                    [
+                        "- [Документация/диаграмма.md](../Документация/диаграмма.md)",
+                        "- [Журнал/2026-06-24_16-32-29_MSK_проверка-связности-сессии.md](../Журнал/2026-06-24_16-32-29_MSK_проверка-связности-сессии.md)",
+                    ]
+                ),
+            )
+            request_path.write_text(request_text, encoding="utf-8")
+
+            errors = check_session_coherence.validate_session(
+                root,
+                request_path.relative_to(root),
+                git_status="?? Документация/диаграмма.md",
+            )
+
+            self.assertIn(
+                "unsupported Mermaid Markdown list label in Документация/диаграмма.md:5: use text like 'Этап 1 - ...' instead of '1. ...'",
+                errors,
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

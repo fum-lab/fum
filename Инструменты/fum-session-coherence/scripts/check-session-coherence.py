@@ -65,6 +65,19 @@ META_RULE_CONTEXT_RE = re.compile(
     r")",
     re.IGNORECASE,
 )
+MERMAID_LABEL_MARKDOWN_LIST_RE = re.compile(
+    r"""(?x)
+    (?:^|[\s;])
+    [A-Za-z][A-Za-z0-9_-]*
+    (?:\s*@\{[^}\n]*\})?
+    \s*
+    (?:\[\[?|\(\(?|\{)
+    \s*
+    ["']?
+    \s*
+    (?:\d+[.)]|[-*+])\s+
+    """
+)
 
 
 @dataclass(frozen=True)
@@ -513,6 +526,42 @@ def validate_provenance_section_position(
     return errors
 
 
+def validate_mermaid_markdown_list_labels(
+    paths: set[Path],
+    repo_root: Path,
+) -> list[str]:
+    errors: list[str] = []
+    for path in sorted(paths):
+        if not path.exists() or path.suffix.lower() != ".md":
+            continue
+
+        in_fence = False
+        in_mermaid = False
+        for line_number, line in enumerate(read_text(path).splitlines(), start=1):
+            stripped = line.strip()
+            if stripped.startswith("```") or stripped.startswith("~~~"):
+                if in_fence:
+                    in_fence = False
+                    in_mermaid = False
+                else:
+                    in_fence = True
+                    fence_info = stripped[3:].strip().split(None, 1)
+                    in_mermaid = bool(fence_info and fence_info[0].lower() == "mermaid")
+                continue
+
+            if not in_mermaid:
+                continue
+
+            if MERMAID_LABEL_MARKDOWN_LIST_RE.search(line):
+                source_rel = repo_relative(path, repo_root)
+                errors.append(
+                    "unsupported Mermaid Markdown list label in "
+                    f"{source_rel}:{line_number}: use text like "
+                    "'Этап 1 - ...' instead of '1. ...'"
+                )
+    return errors
+
+
 def affected_files_from_request(
     text: str,
     request_path: Path,
@@ -687,6 +736,7 @@ def validate_session(
     errors.extend(validate_markdown_links(markdown_paths, root))
     errors.extend(validate_meta_request_coverage(markdown_paths, root))
     errors.extend(validate_provenance_section_position(markdown_paths, root))
+    errors.extend(validate_mermaid_markdown_list_labels(markdown_paths, root))
     errors.extend(validate_md_recency(root))
 
     if check_git_status:
