@@ -84,7 +84,7 @@
     },
     {
       "path": "Планирование/MVP-кандидаты/README.md",
-      "content_sha256_without_recency": "sha256:22d17b1212f9635e50c2bc9fec93d65ef552e7570e07292980e93fff685cb6ca"
+      "content_sha256_without_recency": "sha256:2ac08f21882f44a7291c0d899ee7ff146d1c652b5561a732bf5a47e4b716dc77"
     },
     {
       "path": "Планирование/дорожная-карта.md",
@@ -128,11 +128,11 @@
     },
     {
       "path": "Планирование/предложения-о-следующих-шагах.md",
-      "content_sha256_without_recency": "sha256:3b3b76912a33159a2226014c2ac59ba6c10f3f291ee063818c388749259092fa"
+      "content_sha256_without_recency": "sha256:4de3ff302be6fa2deaf2219f1e15f48c44ca0caddb459690cbfc464a90a9ca7f"
     },
     {
       "path": "Планирование/сводная-таблица-требований-и-реализаций.md",
-      "content_sha256_without_recency": "sha256:8f9ee5e5f940190ae71f6797830c38f7e5755e7e399e2eb6361e715738c10fef"
+      "content_sha256_without_recency": "sha256:dc9652f98d4ab466042e147552e8ebd239241b700c23b529d35984d7c9a4f884"
     },
     {
       "path": "Планирование/стадии/01-документационный-прототип-FUM/README.md",
@@ -140,7 +140,7 @@
     },
     {
       "path": "Планирование/стадии/02-коробочная-реализация-FUM/README.md",
-      "content_sha256_without_recency": "sha256:62790c133f9f365c7634c96af3818846fa71065b0dd8169bfb5dea8e84f4b7fc"
+      "content_sha256_without_recency": "sha256:9f39b2475e0cdddca71a584feb88168b2f40adafad7db4ca39a61889f6a7677c"
     },
     {
       "path": "Планирование/стадии/README.md",
