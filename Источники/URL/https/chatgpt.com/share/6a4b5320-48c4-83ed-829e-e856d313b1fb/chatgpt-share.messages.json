@@ -1,0 +1,785 @@
+{
+  "title": "Динамическая нейросеть",
+  "conversation_id": "6a4b5320-48c4-83ed-829e-e856d313b1fb",
+  "backing_conversation_id": "6a48e34c-f1b0-83ed-90b9-8d75a059c835",
+  "create_time": 1783321376.337011,
+  "update_time": 1783321380.60885,
+  "message_count": 86,
+  "messages": [
+    {
+      "node_id": "1ae9505e-cb02-4dc0-acdf-eeecff09cc29",
+      "parent": "fbcec020-5548-4e6b-bcff-429271df4455",
+      "role": "user",
+      "content_type": "text",
+      "create_time": 1783161676.748,
+      "create_time_utc": "2026-07-04T10:41:16.748000+00:00",
+      "text": "Динамически обучающаяся нейросеть, выстраивающая и уточняющая свою структуру прямо в процессе работы и обучения, подобно мозгу."
+    },
+    {
+      "node_id": "75d248d4-b68a-4afe-bcf4-d0b020da3c79",
+      "parent": "e5cdf262-b859-4016-9473-ec3b1dfaa01d",
+      "role": "assistant",
+      "content_type": "text",
+      "create_time": 1783161691.753408,
+      "create_time_utc": "2026-07-04T10:41:31.753408+00:00",
+      "text": "Похоже, вы описываете не одну конкретную архитектуру, а класс структурно-адаптивных, самоорганизующихся нейросетей с элементами нейропластичности и continual learning. Я сопоставлю это с принятыми терминами и отделю реальные методы от более «мозгоподобной» идеи."
+    },
+    {
+      "node_id": "b6a5618e-553e-4c5f-ad33-4b087a29df2d",
+      "parent": "37a07daf-73ec-5770-935a-58b2d677a7b0",
+      "role": "assistant",
+      "content_type": "text",
+      "create_time": 1783161796.379184,
+      "create_time_utc": "2026-07-04T10:43:16.379184+00:00",
+      "text": "Это можно назвать так:\n\n**самоорганизующаяся нейропластическая нейросеть с динамической топологией**.\n\nПо-английски ближе всего:\n\n**self-organizing neuroplastic neural network with dynamic topology**  \nили  \n**topology-adaptive continual-learning neural network**.\n\nЭто не один строго закреплённый термин, а пересечение нескольких направлений:\n\n| Что вы описываете | Ближайший термин |\n|---|---|\n| Сеть меняет структуру во время обучения | **dynamic neural network**, **constructive / growing neural network** |\n| Добавляет/удаляет нейроны и связи | **structural plasticity**, **growing-and-pruning neural network** |\n| Учится постоянно, не только один раз | **continual learning**, **lifelong learning** |\n| Самостоятельно формирует внутренние представления | **self-organizing neural network** |\n| Похожа на мозг по принципу адаптации | **neuroplastic / brain-inspired neural network** |\n| Эволюционирует топологию и веса | **NEAT / neuroevolution of augmenting topologies** |\n\nСамая точная формулировка для вашей идеи:\n\n> **Динамически самоорганизующаяся нейросеть с нейропластичностью, способная в процессе обучения выращивать, перестраивать и обрезать собственную топологию.**\n\nВ существующих исследованиях есть близкие примеры. **Growing Neural Gas** — самоорганизующаяся сеть, которая учит топологические отношения данных и может продолжать обучение, добавляя узлы и связи до достижения критерия качества. citeturn567936search20 **NEAT** развивает одновременно веса и топологию нейросети, то есть не ограничивается фиксированной архитектурой. citeturn724331search4 Современные **dynamic neural networks** в широком смысле адаптируют структуру, параметры или вычислительный путь к входным данным. citeturn685679search0 В направлении **continual learning** есть модели, которые специально растят новые нейроны для новых задач и удаляют лишние, например DSD-SNN для спайковых сетей. citeturn567936search2 А **differentiable plasticity** обучает не только веса, но и правила их последующего изменения, что ближе к идее синаптической пластичности мозга. citeturn724331search1\n\nВажно: обычные современные LLM/Transformer-модели обычно **не такие**. У них архитектура в основном заранее задана: число слоёв, размерность, параметры внимания. Они могут дообучаться, но не “выращивают мозг” в процессе работы в буквальном смысле. То, что вы описываете, ближе к гибриду:\n\n**continual learning + structural plasticity + self-organization + dynamic architecture**.\n\nДля названия концепта я бы выбрал:\n\n**Нейропластическая самоорганизующаяся сеть**  \nили короче: **пластичная нейросеть с растущей топологией**."
+    },
+    {
+      "node_id": "d24d5430-24e6-408f-8e1d-be1d16fedd26",
+      "parent": "b6a5618e-553e-4c5f-ad33-4b087a29df2d",
+      "role": "user",
+      "content_type": "text",
+      "create_time": 1783161992.313,
+      "create_time_utc": "2026-07-04T10:46:32.313000+00:00",
+      "text": "Успехи, перспективы, подводные камни и нерешённые проблемы такого подхода."
+    },
+    {
+      "node_id": "06cfdbd6-9a71-464f-b9e7-e3175691b601",
+      "parent": "325db227-80ad-45d7-8b2a-d85836b45486",
+      "role": "assistant",
+      "content_type": "code",
+      "create_time": 1783161997.506278,
+      "create_time_utc": "2026-07-04T10:46:37.506278+00:00",
+      "text": "{\"search_query\":[{\"q\":\"dynamic neural networks survey adaptive architecture topology neural networks 2024 2025\"},{\"q\":\"continual learning structural plasticity neural networks survey 2024 growing pruning\"},{\"q\":\"self organizing neural networks dynamic topology Growing Neural Gas NEAT differentiable plasticity review\"}],\"response_length\":\"short\"}"
+    },
+    {
+      "node_id": "1b41edcc-bbcf-4695-bf19-f0ec3fc87202",
+      "parent": "06cfdbd6-9a71-464f-b9e7-e3175691b601",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783162002.3780951,
+      "create_time_utc": "2026-07-04T10:46:42.378095+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "1882d149-ef4a-4b5a-81ab-a70c3e55e0f3",
+      "parent": "1b41edcc-bbcf-4695-bf19-f0ec3fc87202",
+      "role": "assistant",
+      "content_type": "text",
+      "create_time": 1783162007.840086,
+      "create_time_utc": "2026-07-04T10:46:47.840086+00:00",
+      "text": "Разберу это как инженерно-научное направление, а не одну архитектуру: где уже есть результаты, где потенциал, и что мешает вытеснить фиксированные Transformer-модели."
+    },
+    {
+      "node_id": "1e79dc1a-edc7-403f-b055-546b576e679f",
+      "parent": "1882d149-ef4a-4b5a-81ab-a70c3e55e0f3",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783162002.3750546,
+      "create_time_utc": "2026-07-04T10:46:42.375055+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "2c625d03-0acd-4a98-9c8d-80789346075e",
+      "parent": "0f9aaa4b-caf0-4110-bf66-f3872b92c5ad",
+      "role": "assistant",
+      "content_type": "code",
+      "create_time": 1783162003.71292,
+      "create_time_utc": "2026-07-04T10:46:43.712920+00:00",
+      "text": "{\"search_query\":[{\"q\":\"continual learning survey stability plasticity dilemma catastrophic forgetting neural networks 2024 2025 arxiv\"},{\"q\":\"dynamic sparse training neural networks grow prune during training survey 2024\"},{\"q\":\"neural architecture search survey computational cost dynamic neural networks structural plasticity\"}],\"response_length\":\"medium\"}"
+    },
+    {
+      "node_id": "3f9e97fa-d351-4e66-9366-a5924abd410f",
+      "parent": "2c625d03-0acd-4a98-9c8d-80789346075e",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783162007.6984687,
+      "create_time_utc": "2026-07-04T10:46:47.698469+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "b3eb3797-75c6-4671-87c4-9c9b491784fa",
+      "parent": "3f9e97fa-d351-4e66-9366-a5924abd410f",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783162007.694789,
+      "create_time_utc": "2026-07-04T10:46:47.694789+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "c79fce62-f7ee-49cb-9074-f0da60e0af02",
+      "parent": "1b266bf0-27c6-42e6-95f8-10d60f057914",
+      "role": "assistant",
+      "content_type": "code",
+      "create_time": 1783162008.935927,
+      "create_time_utc": "2026-07-04T10:46:48.935927+00:00",
+      "text": "{\"open\":[{\"ref_id\":\"turn506912search4\"},{\"ref_id\":\"turn673468search6\"},{\"ref_id\":\"turn506912search0\"},{\"ref_id\":\"turn506912search1\"},{\"ref_id\":\"turn673468search1\"},{\"ref_id\":\"turn506912search8\"},{\"ref_id\":\"turn506912search20\"},{\"ref_id\":\"turn673468search4\"}],\"response_length\":\"medium\"}"
+    },
+    {
+      "node_id": "6d3a6313-7e99-488f-8f44-1e9e480e212a",
+      "parent": "c79fce62-f7ee-49cb-9074-f0da60e0af02",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783162010.910128,
+      "create_time_utc": "2026-07-04T10:46:50.910128+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "5eb84ce0-b282-4f5f-a592-b7293e69a0c8",
+      "parent": "c06e937b-da49-4db8-8ac3-b5cf3470c365",
+      "role": "assistant",
+      "content_type": "code",
+      "create_time": 1783162011.181563,
+      "create_time_utc": "2026-07-04T10:46:51.181563+00:00",
+      "text": "{\"open\":[{\"ref_id\":\"turn673468search19\"},{\"ref_id\":\"turn673468search8\"},{\"ref_id\":\"turn673468search2\"},{\"ref_id\":\"turn673468search3\"},{\"ref_id\":\"turn673468search5\"}],\"response_length\":\"medium\"}"
+    },
+    {
+      "node_id": "e57ac06d-4f9f-4cec-a7c5-6bda1ef6111f",
+      "parent": "5eb84ce0-b282-4f5f-a592-b7293e69a0c8",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783162012.7641375,
+      "create_time_utc": "2026-07-04T10:46:52.764138+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "e672c4d6-6cc5-4fa5-8e7a-8637da10a501",
+      "parent": "e0610064-0b70-4cf8-934f-387d1f48a2a2",
+      "role": "assistant",
+      "content_type": "code",
+      "create_time": 1783162013.058491,
+      "create_time_utc": "2026-07-04T10:46:53.058491+00:00",
+      "text": "{\"search_query\":[{\"q\":\"NEAT evolving neural network topology weights original paper 2002 PubMed\"},{\"q\":\"NeuroEvolution of Augmenting Topologies NEAT evolves topology and weights 2002\"}],\"response_length\":\"short\"}"
+    },
+    {
+      "node_id": "91f47b6c-928a-4c6d-9308-3279c772989f",
+      "parent": "e672c4d6-6cc5-4fa5-8e7a-8637da10a501",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783162016.1607327,
+      "create_time_utc": "2026-07-04T10:46:56.160733+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "3f66f5f9-6026-49e4-a5fc-ab3bbd7102ab",
+      "parent": "91f47b6c-928a-4c6d-9308-3279c772989f",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783162016.156722,
+      "create_time_utc": "2026-07-04T10:46:56.156722+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "6d2271b8-2b88-483b-9b06-713631b9e235",
+      "parent": "ce51c7d1-06ac-4b70-abc6-6d02bb2bc122",
+      "role": "assistant",
+      "content_type": "code",
+      "create_time": 1783162017.13182,
+      "create_time_utc": "2026-07-04T10:46:57.131820+00:00",
+      "text": "{\"search_query\":[{\"q\":\"differentiable plasticity neural networks learn plasticity rules 2018 PMLR\"},{\"q\":\"Miconi differentiable plasticity meta-learning fast adaptation 2018\"}],\"response_length\":\"short\"}"
+    },
+    {
+      "node_id": "ec081581-ad66-4a9f-83de-5f6a743bc6f6",
+      "parent": "6d2271b8-2b88-483b-9b06-713631b9e235",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783162018.8974733,
+      "create_time_utc": "2026-07-04T10:46:58.897473+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "55786f3d-04c9-482f-a98c-3ae47855a654",
+      "parent": "ec081581-ad66-4a9f-83de-5f6a743bc6f6",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783162018.8829832,
+      "create_time_utc": "2026-07-04T10:46:58.882983+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "8211613a-26b6-4569-976d-1a5f379499d4",
+      "parent": "5313570a-e617-4841-8285-858e017cfcf5",
+      "role": "assistant",
+      "content_type": "code",
+      "create_time": 1783162019.768172,
+      "create_time_utc": "2026-07-04T10:46:59.768172+00:00",
+      "text": "{\"open\":[{\"ref_id\":\"turn506912search18\"}],\"response_length\":\"medium\"}"
+    },
+    {
+      "node_id": "1356678f-4091-4474-9c06-3cce94336107",
+      "parent": "8211613a-26b6-4569-976d-1a5f379499d4",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783162021.5361397,
+      "create_time_utc": "2026-07-04T10:47:01.536140+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "db178676-ac81-487b-8ae0-21eba6f4c39a",
+      "parent": "82d50c74-26b6-4a4b-a9ed-008238061dc3",
+      "role": "assistant",
+      "content_type": "code",
+      "create_time": 1783162021.836663,
+      "create_time_utc": "2026-07-04T10:47:01.836663+00:00",
+      "text": "{\"search_query\":[{\"q\":\"continual learning online neural networks data poisoning security risks survey\"},{\"q\":\"online learning neural networks continual learning data poisoning catastrophic forgetting safety risks\"}],\"response_length\":\"medium\"}"
+    },
+    {
+      "node_id": "5a49dace-46c4-406e-add5-b36d6a35847f",
+      "parent": "db178676-ac81-487b-8ae0-21eba6f4c39a",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783162023.5258114,
+      "create_time_utc": "2026-07-04T10:47:03.525811+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "5140d0c8-b790-47ee-b1c4-887648437037",
+      "parent": "5a49dace-46c4-406e-add5-b36d6a35847f",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783162023.5205452,
+      "create_time_utc": "2026-07-04T10:47:03.520545+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "e532ea34-74f6-4e18-9344-7ed7de0ab96f",
+      "parent": "e3f2c9d6-a7b2-4bd0-b18a-99cdd1b5db33",
+      "role": "assistant",
+      "content_type": "code",
+      "create_time": 1783162025.247773,
+      "create_time_utc": "2026-07-04T10:47:05.247773+00:00",
+      "text": "{\"open\":[{\"ref_id\":\"turn570056search0\"},{\"ref_id\":\"turn570056academia18\"},{\"ref_id\":\"turn570056search8\"}],\"response_length\":\"medium\"}"
+    },
+    {
+      "node_id": "53526d1d-23bb-4d64-9ee3-3080a70db59a",
+      "parent": "e532ea34-74f6-4e18-9344-7ed7de0ab96f",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783162035.3033285,
+      "create_time_utc": "2026-07-04T10:47:15.303329+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "add34d60-cc28-4592-8e5f-2182c593b427",
+      "parent": "b334425c-9e1d-405c-ae9b-4014ad578e4a",
+      "role": "assistant",
+      "content_type": "code",
+      "create_time": 1783162035.720411,
+      "create_time_utc": "2026-07-04T10:47:15.720411+00:00",
+      "text": "{\"open\":[{\"ref_id\":\"turn894723search0\"},{\"ref_id\":\"turn996416search0\"}],\"response_length\":\"short\"}"
+    },
+    {
+      "node_id": "844298c7-5b1b-4be8-9d9f-dc8ff70ab263",
+      "parent": "add34d60-cc28-4592-8e5f-2182c593b427",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783162054.9520543,
+      "create_time_utc": "2026-07-04T10:47:34.952054+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "3f2e95a1-809c-481e-9817-33c6e915f079",
+      "parent": "844298c7-5b1b-4be8-9d9f-dc8ff70ab263",
+      "role": "assistant",
+      "content_type": "code",
+      "create_time": 1783162055.169309,
+      "create_time_utc": "2026-07-04T10:47:35.169309+00:00",
+      "text": "{\"open\":[{\"ref_id\":\"turn894723search1\"}],\"response_length\":\"medium\"}"
+    },
+    {
+      "node_id": "993749f4-48dd-4274-8e7f-8d7c0f8edaab",
+      "parent": "3f2e95a1-809c-481e-9817-33c6e915f079",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783162056.5090458,
+      "create_time_utc": "2026-07-04T10:47:36.509046+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "cd3a29f4-9d3e-441f-848f-c7b3b8ea17bb",
+      "parent": "993749f4-48dd-4274-8e7f-8d7c0f8edaab",
+      "role": "assistant",
+      "content_type": "text",
+      "create_time": 1783162196.3909,
+      "create_time_utc": "2026-07-04T10:49:56.390900+00:00",
+      "text": "Промежуточно вырисовывается различие между «локальной» адаптацией вычислительного пути и настоящей перестройкой нейронов/связей; именно второе труднее масштабировать безопасно."
+    },
+    {
+      "node_id": "d300780d-e2c0-45b0-98cb-37a1be8e617b",
+      "parent": "10ce881d-b054-5b51-896e-11870ff4ecbd",
+      "role": "assistant",
+      "content_type": "text",
+      "create_time": 1783162388.56816,
+      "create_time_utc": "2026-07-04T10:53:08.568160+00:00",
+      "text": "На сегодня это **не фантастика, но и не решённая технология**. Отдельные куски уже работают: динамическая маршрутизация, разреженное обучение, доращивание модулей, pruning, replay, адаптеры, MoE, спайковые сети, дифференцируемая пластичность. Но **полноценной “нейросети-мозга”, которая безопасно, стабильно и бесконечно перестраивает себя в процессе жизни**, пока нет.\n\n## 1. Что уже получилось\n\n**Первый успех — сети научились менять вычислительный путь.**  \nСовременные dynamic neural networks могут выбирать разные параметры, ветви или вычислительные маршруты для разных входов. Это не совсем “рост мозга”, но важный шаг: модель перестаёт быть полностью статичной во время инференса. Обзоры по dynamic neural networks обычно делят такие методы на sample-wise, spatial-wise и temporal-wise динамику: то есть адаптация может зависеть от конкретного примера, области изображения или временного контекста. citeturn844335search0\n\n**Второй успех — модульность и Mixture of Experts.**  \nMoE-модели выбирают только часть “экспертов” для обработки входа, поэтому можно увеличить общую ёмкость модели без пропорционального роста вычислений на каждый токен или пример. Обзор MoE 2024 года отмечает, что этот подход стал одним из ключевых способов масштабировать ёмкость с относительно малым вычислительным overhead. citeturn421771view1 Switch Transformer, например, показал, что sparse-активация может давать большие модели с постоянной стоимостью вычисления на пример, а в статье заявлялись до **7×** ускорения pre-training при тех же ресурсах и масштабирование до trillion-parameter моделей. citeturn453488view6\n\n**Третий успех — grow/prune уже реально применяются.**  \nЕсть направление sparse training и pruning/growth: модель удаляет слабые веса, каналы, нейроны или связи, а иногда добавляет новые. JMLR-обзор по sparsity описывает методы удаления и добавления элементов сети, стратегии разреженного обучения и способы использовать sparsity на практике. citeturn453488view5 В ICLR 2024 Structured RigL показал, что dynamic sparse training может сохранять обобщающую способность плотных моделей при sparse training/inference, хотя unstructured sparsity плохо ускоряется на обычном железе. citeturn421771view7\n\n**Четвёртый успех — continual learning с расширением архитектуры.**  \nDynamically Expandable Networks — классический пример: DEN динамически решает, сколько ёмкости добавить при последовательном обучении задачам, делает selective retraining, добавляет только необходимые units и борется с semantic drift через splitting/duplicating units. citeturn453488view3 Progressive Neural Networks решали forgetting другим способом: добавляли новые “колонки” для новых задач и использовали lateral connections к старым признакам; это хорошо защищает старые знания, но цена — рост памяти и параметров. citeturn421771view6\n\n**Пятый успех — brain-inspired версии действительно исследуются.**  \nDSD-SNN для спайковых нейросетей динамически назначает и выращивает новые нейроны для новых задач, удаляет избыточные нейроны и в экспериментах улучшал performance, learning speed, memory capacity и computational overhead относительно SNN-базовых методов. citeturn453488view4 Дифференцируемая пластичность идёт с другой стороны: она обучает не только веса, но и коэффициенты пластичности соединений; в работе Miconi et al. plastic recurrent networks справлялись с задачами памяти, Omniglot/meta-learning и maze reinforcement learning лучше соответствующих non-plastic вариантов. citeturn421771view4\n\n## 2. Где подход особенно перспективен\n\nСамое перспективное применение — **не “одна универсальная саморазвивающаяся LLM”, а системы с модульной, контролируемой адаптацией**. Например: робототехника, edge-AI, персональные ассистенты, медицинские/промышленные сенсоры, автономные агенты, recommender-системы, cybersecurity, адаптивное управление, мультимодальные модели, которые должны доучиваться новым доменам без полного retraining.\n\nДля больших generative models continual learning становится всё важнее, потому что языки, пользовательские потребности, инструкции, домены и фактические знания меняются. Обзор 2025 года по continual learning в generative models прямо указывает, что LLM, multimodal LLM, vision-language-action модели и diffusion models сталкиваются с catastrophic forgetting при адаптации к новым задачам и знаниям. citeturn421771view2\n\nОтдельно перспективно направление **многоуровневой памяти**: не всё надо записывать в основные веса. Можно иметь быстрый контекст, долговременную внешнюю память, адаптеры, LoRA-модули, экспертные подсети, replay, retrieval и медленную консолидацию. Google Research в 2025 описал Nested Learning как попытку рассматривать модель как систему вложенных оптимизационных процессов с разными “частотами обновления”, чтобы бороться с catastrophic forgetting и улучшать long-context memory. Это пока больше исследовательская рамка, но направление очень созвучно идее “мозгоподобной” пластичности. citeturn453488view7\n\n## 3. Главные подводные камни\n\n**Главная проблема — дилемма стабильность/пластичность.**  \nМодель должна учить новое, но не разрушать старое. В continual learning это формулируется как баланс stability-plasticity, catastrophic forgetting, transfer и resource efficiency. citeturn729436search1 Если сделать сеть слишком стабильной, она перестаёт учиться. Если сделать слишком пластичной, она становится “амнезийной”.\n\n**Есть не только forgetting, но и loss of plasticity.**  \nNature-публикация 2024 года показала, что стандартные deep learning методы при длительном continual learning могут постепенно терять способность учиться новому, иногда доходя до уровня, где они учатся не лучше мелкой сети. Авторы предложили continual backpropagation: периодически переинициализировать малую долю малоиспользуемых units, чтобы поддерживать пластичность. citeturn453488view2 Это важный сигнал: даже если сеть не забывает старое, она может “застывать”.\n\n**Рост сети не является обратной операцией pruning.**  \nСвежая работа 2026 года подчёркивает, что pruning выбирает среди units, участвовавших в обучении с самого начала, а growth вставляет новые units в уже специализированную оптимизационную траекторию. Новые units могут быть forward-active, но backward-starved: участвовать в прямом проходе, но получать слабый gradient signal. citeturn421771view0 То есть “просто добавим нейронов” часто не работает.\n\n**Модель может разрастись до непригодности.**  \nЕсли добавлять новые нейроны, экспертов или адаптеры при каждой новой задаче, память, latency, стоимость обучения и сложность обслуживания растут. Progressive Networks хорошо защищают от забывания, но архитектурно подразумевают добавление новых компонентов под новые задачи, поэтому инженерно они плохо масштабируются на тысячи задач без жёсткой компрессии или переиспользования. citeturn421771view6\n\n**Динамическая структура плохо ложится на железо.**  \nGPU любят плотные матрицы и предсказуемые вычисления. Нерегулярная sparsity, runtime-ветвления, постоянное rewiring и разные подсети для разных примеров могут быть теоретически экономными, но практически медленными. Structured RigL как раз подчёркивает, что unstructured sparsity трудно ускорять на реальном hardware, а structured sparsity быстрее, но может сильнее вредить качеству. citeturn421771view7\n\n**Самоизменение ухудшает проверяемость.**  \nЕсли модель меняет не только веса, но и структуру, становится сложнее ответить: почему она приняла решение, какая версия модели была активна, что именно изменилось после нового опыта, можно ли откатиться, не появилась ли новая уязвимость. Для промышленных, медицинских, финансовых и правовых систем это критично.\n\n## 4. Нерешённые проблемы\n\n**Когда именно расти, а когда сжиматься?**  \nНужен надёжный критерий: новая задача действительно требует новой структуры или достаточно донастроить старые параметры? Ошибка здесь дорогая: преждевременный рост ведёт к bloating, поздний рост — к forgetting и underfitting.\n\n**Как обучать “новорождённые” части сети?**  \nНовые нейроны или эксперты входят в уже сформированную систему. Им нужно быстро получить полезные градиенты, не разрушить старые представления и не стать мёртвым модулем. Работа 2026 года про structural plasticity показывает, что это отдельная оптимизационная проблема, а не техническая мелочь. citeturn421771view0\n\n**Как совмещать локальные правила и глобальную цель?**  \nМозг во многом учится локально: синапсы меняются по локальным сигналам, но поведение организма оптимизируется глобально. В искусственных сетях backprop даёт глобальный credit assignment, но плохо похож на биологическую локальность. Дифференцируемая пластичность пытается обучать правила plasticity вместе с весами, но это пока не стало универсальным рецептом для больших foundation models. citeturn421771view4\n\n**Как масштабировать continual learning до LLM-уровня?**  \nНа маленьких и средних моделях можно экспериментировать с grow/prune, replay, reinitialization и архитектурными модулями. На LLM стоимость экспериментов огромна. Nature-статья о loss of plasticity прямо отмечает, что систематическое исследование такого эффекта на больших языковых моделях сегодня практически недоступно из-за стоимости отдельных training runs. citeturn453488view2\n\n**Как оценивать такие системы честно?**  \nОбычные benchmarks часто дают фиксированный train/test split. Но “живая” сеть должна работать в потоковой среде: меняются данные, цели, формат задач, пользовательские предпочтения, распределения и ограничения ресурсов. Нужны метрики не только accuracy, но и forgetting, forward transfer, backward transfer, plasticity, memory growth, energy, latency, rollback safety и robustness.\n\n**Как обеспечить безопасность самообновления?**  \nЕсли модель может перестраиваться, нужен журнал изменений, sandbox-обучение, контроль drift, тестирование перед активацией, ограничение прав на self-modification, защита от data poisoning и возможность отката. Иначе злоумышленник может не просто “обмануть” модель, а постепенно изменить её внутреннюю структуру.\n\n## 5. Практический вывод\n\nСамый реалистичный путь сейчас выглядит так:\n\n**фиксированный сильный backbone + динамически добавляемые модули + контролируемая память + pruning/compression + replay/consolidation + строгий мониторинг drift.**\n\nТо есть не “сеть сама бесконтрольно выращивает мозг”, а **управляемая нейропластичность**: модель может добавлять адаптеры, экспертов, sparse-связи или новые блоки, но по правилам, с бюджетом, проверкой качества и возможностью отката.\n\nМоя оценка зрелости направлений:\n\n| Направление | Зрелость | Комментарий |\n|---|---:|---|\n| Dynamic inference / conditional computation | высокая | Уже активно используется в MoE и adaptive computation |\n| Pruning / sparsity / dynamic sparse training | высокая-средняя | Хорошо изучено, но hardware-эффект зависит от структуры sparsity |\n| Continual learning с expansion | средняя | Работает в экспериментах, но плохо масштабируется без контроля роста |\n| Спайковые и neuromorphic plastic networks | средняя-низкая | Перспективны для edge/energy efficiency, но сложны в разработке |\n| Дифференцируемая пластичность | исследовательская | Идея сильная, но пока не универсальный промышленный стандарт |\n| Полностью самоорганизующаяся “мозгоподобная” LLM | низкая | Концептуально перспективно, но нерешены стабильность, безопасность, масштаб и оценка |\n\nКоротко: **подход очень перспективен, но его сила не в хаотическом самоизменении, а в контролируемой архитектурной пластичности**. Победит, скорее всего, гибрид: backbone, MoE/адаптеры, внешняя память, replay, sparse growth/pruning, continual evaluation и механизмы “сна”/консолидации."
+    },
+    {
+      "node_id": "4bcce76a-6334-4bbd-b96f-354f5df20f91",
+      "parent": "d300780d-e2c0-45b0-98cb-37a1be8e617b",
+      "role": "user",
+      "content_type": "text",
+      "create_time": 1783163154.183,
+      "create_time_utc": "2026-07-04T11:05:54.183000+00:00",
+      "text": "Как насчёт идеи использовать многоуровневые суффиксные деревья для выявления повторяющихся последовательностей и частот повторения во входных данных как основу и неотъемлемый субстрат для выращивания, достраивания и перерестраивания нейросети?"
+    },
+    {
+      "node_id": "0f945df8-9500-4320-a0cf-9f44ab571e78",
+      "parent": "47bc6730-e55c-4a45-a7b1-bfd1ee7f0937",
+      "role": "assistant",
+      "content_type": "text",
+      "create_time": 1783163169.479155,
+      "create_time_utc": "2026-07-04T11:06:09.479155+00:00",
+      "text": "Идея выглядит сильной не как замена нейросети, а как структурный слой памяти: детектор повторов, частот, контекстов и точек для роста. Разберу её как архитектурную гипотезу, включая интеграцию, выигрыши, риски и первый прототип."
+    },
+    {
+      "node_id": "df9b8d19-c0f0-4f94-b8ae-163404104bb8",
+      "parent": "0f945df8-9500-4320-a0cf-9f44ab571e78",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783163167.2154362,
+      "create_time_utc": "2026-07-04T11:06:07.215436+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "6a261203-da5e-4a57-ab7a-2f2655cfef6f",
+      "parent": "df9b8d19-c0f0-4f94-b8ae-163404104bb8",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783163167.2122583,
+      "create_time_utc": "2026-07-04T11:06:07.212258+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "6f998462-c655-4289-bfbc-c107af311f2c",
+      "parent": "faa5896a-e09b-4143-bd35-1b06ce025e75",
+      "role": "assistant",
+      "content_type": "code",
+      "create_time": 1783163168.516155,
+      "create_time_utc": "2026-07-04T11:06:08.516155+00:00",
+      "text": "{\"open\":[{\"ref_id\":\"turn687553search10\"},{\"ref_id\":\"turn687553search20\"},{\"ref_id\":\"turn687553search6\"},{\"ref_id\":\"turn687553search15\"},{\"ref_id\":\"turn687553search0\"},{\"ref_id\":\"turn687553search3\"}],\"response_length\":\"medium\"}"
+    },
+    {
+      "node_id": "ecab3dc8-48fe-4663-bfbe-48fdbf929fbd",
+      "parent": "6f998462-c655-4289-bfbc-c107af311f2c",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783163172.3774846,
+      "create_time_utc": "2026-07-04T11:06:12.377485+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "a8f569c9-e692-4e16-bcee-1cba4c4d021c",
+      "parent": "97ef9c27-e43b-4dd3-9873-21087c5c2ba2",
+      "role": "assistant",
+      "content_type": "code",
+      "create_time": 1783163159.179303,
+      "create_time_utc": "2026-07-04T11:05:59.179303+00:00",
+      "text": "{\"search_query\":[{\"q\":\"prediction suffix tree variable order Markov model sequence prediction paper\"},{\"q\":\"context tree weighting algorithm universal source coding paper\"},{\"q\":\"suffix tree neural network sequence learning paper\"},{\"q\":\"neural suffix tree sequence prediction continual learning\"}],\"response_length\":\"short\"}"
+    },
+    {
+      "node_id": "69283140-4a49-41c9-8ce5-5e8718d10d8a",
+      "parent": "a8f569c9-e692-4e16-bcee-1cba4c4d021c",
+      "role": "assistant",
+      "content_type": "code",
+      "create_time": 1783163172.663644,
+      "create_time_utc": "2026-07-04T11:06:12.663644+00:00",
+      "text": "{\"open\":[{\"ref_id\":\"turn755531view4\",\"lineno\":1},{\"ref_id\":\"turn755531view1\",\"lineno\":37},{\"ref_id\":\"turn755531view2\",\"lineno\":7},{\"ref_id\":\"turn755531view5\",\"lineno\":18},{\"ref_id\":\"turn755531view3\",\"lineno\":36}],\"response_length\":\"medium\"}"
+    },
+    {
+      "node_id": "9026114b-2979-4e41-a1c9-b617758b6376",
+      "parent": "69283140-4a49-41c9-8ce5-5e8718d10d8a",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783163188.606196,
+      "create_time_utc": "2026-07-04T11:06:28.606196+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "78d8dd38-d116-48eb-b80f-cd8e1fa7ea67",
+      "parent": "9360a7ef-71e6-4a6e-af97-41d23d736ebd",
+      "role": "assistant",
+      "content_type": "code",
+      "create_time": 1783163188.818169,
+      "create_time_utc": "2026-07-04T11:06:28.818169+00:00",
+      "text": "{\"search_query\":[{\"q\":\"differentiable suffix tree neural network sequence prediction\"},{\"q\":\"neural variable order Markov model suffix tree deep learning\"},{\"q\":\"neural cache language model exact repetitions sequence memory paper\"},{\"q\":\"kNN language model cache exact repetitions long context paper\"}],\"response_length\":\"short\"}"
+    },
+    {
+      "node_id": "e4c5a81f-e41d-437f-ba08-66a54a1d2df9",
+      "parent": "78d8dd38-d116-48eb-b80f-cd8e1fa7ea67",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783163191.3636599,
+      "create_time_utc": "2026-07-04T11:06:31.363660+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "3445cb55-1cad-4a4b-91c3-be5f7919384e",
+      "parent": "e4c5a81f-e41d-437f-ba08-66a54a1d2df9",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783163191.3585808,
+      "create_time_utc": "2026-07-04T11:06:31.358581+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "a222c55e-1175-481c-b4b0-4f7744073858",
+      "parent": "3445cb55-1cad-4a4b-91c3-be5f7919384e",
+      "role": "assistant",
+      "content_type": "code",
+      "create_time": 1783163192.606532,
+      "create_time_utc": "2026-07-04T11:06:32.606532+00:00",
+      "text": "{\"open\":[{\"ref_id\":\"turn289847search7\"},{\"ref_id\":\"turn289847search6\"},{\"ref_id\":\"turn289847search10\"},{\"ref_id\":\"turn289847search8\"},{\"ref_id\":\"turn289847search5\"}],\"response_length\":\"medium\"}"
+    },
+    {
+      "node_id": "3a8569ea-a54e-43fe-8587-9b1d02d64573",
+      "parent": "a222c55e-1175-481c-b4b0-4f7744073858",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783163194.2974064,
+      "create_time_utc": "2026-07-04T11:06:34.297406+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "152f152a-0508-49ea-adb9-891caceabeb6",
+      "parent": "0e76b083-9330-4554-b398-b37872955ea2",
+      "role": "assistant",
+      "content_type": "code",
+      "create_time": 1783163194.657124,
+      "create_time_utc": "2026-07-04T11:06:34.657124+00:00",
+      "text": "{\"search_query\":[{\"q\":\"Sequitur algorithm grammar induction repeated sequences paper\"},{\"q\":\"Lempel Ziv compression repeated phrases dictionary online algorithm sequence prediction\"},{\"q\":\"byte pair encoding frequent pairs compression neural language models paper\"}],\"response_length\":\"short\"}"
+    },
+    {
+      "node_id": "50475eaf-efa6-4d15-9752-24e223644413",
+      "parent": "152f152a-0508-49ea-adb9-891caceabeb6",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783163202.4238336,
+      "create_time_utc": "2026-07-04T11:06:42.423834+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "699ebdd1-906e-44e8-820d-3bfa0b388dfc",
+      "parent": "50475eaf-efa6-4d15-9752-24e223644413",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783163202.4195554,
+      "create_time_utc": "2026-07-04T11:06:42.419555+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "79d88093-1156-49a1-a22e-e505a3d6e4f9",
+      "parent": "87634350-675f-4c87-8bcf-92eb8a7c12b0",
+      "role": "assistant",
+      "content_type": "text",
+      "create_time": 1783163362.948094,
+      "create_time_utc": "2026-07-04T11:09:22.948094+00:00",
+      "text": "Ближайшие аналоги — probabilistic/prediction suffix trees, variable-order Markov models, CTW/PPM, SEQUITUR, neural cache и kNN-LM. Новизна — использовать их как управляющий слой пластичности."
+    },
+    {
+      "node_id": "cdef2bc0-eda2-4063-9d11-267f732bc94c",
+      "parent": "f4cdb178-f395-5a47-905d-3e447af7e4eb",
+      "role": "assistant",
+      "content_type": "text",
+      "create_time": 1783163645.526699,
+      "create_time_utc": "2026-07-04T11:14:05.526699+00:00",
+      "text": "Да, идея **очень здравая**, но я бы сформулировал её не как “суффиксное дерево вместо нейросети”, а как:\n\n> **многоуровневая суффиксно-предиктивная память, которая служит субстратом для обнаружения повторяемых паттернов, управления ростом модулей, маршрутизации вычислений и консолидации знаний в нейросети.**\n\nТо есть дерево — это не “мозг целиком”, а скорее **гиппокампоподобный индекс повторяющихся последовательностей**, вокруг которого нейросеть выращивает устойчивые представления.\n\n## 1. Почему идея сильная\n\nСуффиксные деревья и их вероятностные родственники хорошо умеют делать именно то, что обычным нейросетям даётся не всегда естественно: **быстро находить повторяющиеся фрагменты, считать их частоты, хранить контексты переменной длины и предсказывать продолжение по ближайшему прошлому**. В литературе это близко к **Prediction Suffix Trees**, **variable-order Markov models**, **Context Tree Weighting**, **PPM** и другим моделям предсказания дискретных последовательностей; такие методы применялись для текста, белков, музыки, классификации и компрессии последовательностей. citeturn295868view0turn295868view2\n\nГлавный плюс в вашем замысле: повторяемость становится **структурным сигналом роста**. Не просто “увеличим loss — поменяем веса”, а:\n\n> если последовательность часто повторяется, хорошо предсказывает будущее, даёт выигрыш в сжатии или связана с наградой/ошибкой, под неё можно создать устойчивый узел, модуль, адаптер, эксперт или “нейронный ансамбль”.\n\nЭто очень похоже на принцип: **то, что многократно встречается и полезно предсказывает, должно стать отдельной внутренней единицей**.\n\n## 2. Почему лучше говорить не о классическом suffix tree, а о prediction suffix forest\n\nКлассическое суффиксное дерево хранит подстроки большой строки и хорошо подходит для точного поиска. После построения запросы по строкам могут выполняться очень быстро, но само построение и хранение на больших данных становятся тяжёлыми; практические работы по suffix tree construction прямо отмечают высокую стоимость построения и проблемы памяти/локальности на больших строковых наборах. citeturn295868view4\n\nДля живой самообучающейся системы лучше не одно полное дерево, а **ограниченный, вероятностный, онлайн-обновляемый лес контекстов**:\n\n**Prediction Suffix Tree / Context Tree** хранит не все фрагменты, а только те суффиксы, которые полезны для предсказания. Узел дерева соответствует контексту, например `A B C`, и хранит статистику того, что обычно идёт дальше: `P(next | A B C)`. Это уже ближе к нервной системе: не хранить всё подряд, а хранить **предсказательно полезные контексты**.\n\nЕсть важная близкая работа D2-CTW: она динамически растит suffix tree для continual learning, но ограничивает размер модели, а не глубину, чтобы сохранять способность ловить длинные зависимости без бесконтрольного роста памяти. citeturn295868view1 Это почти прямо попадает в вашу идею, только без нейросетевого “выращивания” поверх дерева.\n\n## 3. Как могла бы выглядеть архитектура\n\nЯ бы строил систему так:\n\n```text\nВходной поток\n   ↓\nМногоуровневый кодировщик событий\n   ↓\nМногоуровневый суффиксно-предиктивный лес\n   ↓\nОценка паттернов: частота, предсказательность, новизна, ошибка, награда, сжатие\n   ↓\nКонтроллер пластичности\n   ↓\nРост / слияние / pruning нейронных модулей\n   ↓\nКонсолидация в основную сеть\n```\n\n### Уровень 0: сырые символы\n\nЭто могут быть байты, символы, токены, сенсорные события, действия агента, клики пользователя, команды, spike-events, логи системы.\n\n### Уровень 1: частые фрагменты\n\nСистема замечает, что `A B C` часто встречается как единый блок, и создаёт новый символ:\n\n```text\nX = A B C\n```\n\nПосле этого верхние уровни уже работают не только с `A`, `B`, `C`, а с более крупной единицей `X`.\n\n### Уровень 2: мотивы из мотивов\n\nЕсли повторяется:\n\n```text\nX D Y X D Y\n```\n\nто появляется более высокий шаблон:\n\n```text\nZ = X D Y\n```\n\nЭто уже похоже на **иерархическое сжатие опыта**. Родственная идея есть в SEQUITUR: алгоритм строит иерархическую грамматику, заменяя повторяющиеся фразы правилами, причём делает это инкрементально и в линейном времени/пространстве относительно входа. citeturn155511search0\n\n### Уровень 3: паттерны поведения и результата\n\nДля агента важно не только “что повторяется”, но и “к чему это ведёт”:\n\n```text\nконтекст → действие → результат\nсостояние → реакция пользователя\nкод → ошибка компиляции\nсимптомы → диагноз\nсигналы → авария\n```\n\nНа этом уровне суффиксные деревья уже становятся не просто памятью последовательностей, а **каркасом причинно-предиктивных гипотез**.\n\n## 4. Как дерево может управлять ростом нейросети\n\nКаждый узел дерева можно рассматривать как кандидат на “нейронный орган”:\n\n```text\nузел = повторяющийся контекст\nчастота = сколько раз встречался\nэнтропия = насколько однозначно предсказывает продолжение\nошибка = насколько текущая нейросеть ошибается на этом контексте\nвыигрыш = насколько узел улучшает предсказание/сжатие/награду\n```\n\nТогда правило роста может быть примерно таким:\n\n```text\nсоздать новый модуль, если:\n    контекст встречается достаточно часто\n    и предсказывает будущее лучше родительского контекста\n    и текущая нейросеть стабильно ошибается на нём\n    и ожидаемый выигрыш превышает стоимость нового модуля\n```\n\nНапример:\n\n```text\ngrow(s), если\n\nN(s) > N_min\nΔLoss(s) = Loss(parent(s)) - Loss(s) > ε\nCompressionGain(s) > c\nUtility(s) > cost(s)\n```\n\nГде `s` — суффиксный контекст.\n\nЕсли узел полезен, под него можно создать:\n\n| Узел дерева означает | Что выращивать в нейросети |\n|---|---|\n| частый короткий паттерн | embedding / feature detector |\n| длинный устойчивый контекст | отдельный adapter |\n| контекст с особой логикой | маленький expert-модуль |\n| контекст с ошибками | специализированный корректор |\n| контекст с наградой | policy-submodule |\n| контекст с редкой, но важной аномалией | detector / alert-module |\n\nТакой подход особенно хорошо сочетается с **Mixture of Experts**: суффиксное дерево может быть не только памятью, но и **маршрутизатором**, который выбирает, какой эксперт активировать.\n\n## 5. Очень перспективная версия: дерево как память, сеть как обобщатель\n\nЯ бы не заставлял нейросеть сразу “впитывать” каждый новый паттерн в веса. Лучше три уровня памяти:\n\n```text\n1. Быстрая память:\n   суффиксные деревья, кэши, счётчики, недифференцируемая статистика.\n\n2. Средняя память:\n   адаптеры, LoRA-модули, эксперты, локальные нейронные ансамбли.\n\n3. Медленная память:\n   основная сеть, куда знания переносятся через replay/distillation/consolidation.\n```\n\nЭто важно: если каждое повторение сразу менять весами основной сети, будет catastrophic forgetting и drift. А если сначала хранить повторения в дереве, можно проверить: паттерн действительно устойчивый или это шум?\n\nЗдесь есть параллель с neural cache models: они добавляют к языковой модели кэш недавних скрытых состояний и слов, что помогает быстро адаптироваться к домену, предсказывать недавно увиденные слова и ловить длинные зависимости без переобучения всей модели. citeturn336540view1 Dynamic evaluation тоже адаптирует sequence model к недавней истории, повышая вероятность повторяющихся паттернов через обновления на тестовой последовательности. citeturn336540view2 Ваш вариант можно считать более структурной и иерархической версией такой памяти.\n\n## 6. Где это может дать особенно большой выигрыш\n\nТакой подход особенно силён там, где мир реально состоит из повторяющихся последовательностей:\n\n| Область | Почему подходит |\n|---|---|\n| программный код | много повторяемых шаблонов, API-паттернов, структур ошибок |\n| логи и cybersecurity | повторяемые цепочки событий, аномалии, атаки |\n| робототехника | сенсорика → действие → результат |\n| пользовательские интерфейсы | повторяемые сценарии поведения |\n| музыка | мотивы, ритмы, повторяющиеся структуры |\n| биоинформатика | ДНК/белковые последовательности |\n| промышленные датчики | предаварийные паттерны |\n| персональные ассистенты | привычки пользователя, повторяющиеся задачи |\n| LLM long-context | повтор терминов, имён, локальных правил, стиля документа |\n\nДля event-based и neuromorphic данных уже есть родственный подход EPST — Event-based Prediction Suffix Tree. Он учится онлайн по статистике событийного входа, делает предсказания по нескольким перекрывающимся паттернам и заявлен как explainable, noise-resistant и пригодный для one-shot learning в событийных потоках. citeturn295868view3 Это очень близко к вашей идее, если вход рассматривать как поток “нейроноподобных” событий.\n\n## 7. Главная опасность: точное совпадение не равно понимание\n\nСамый большой подводный камень: суффиксное дерево отлично ловит **повторы формы**, но плохо ловит **повторы смысла**.\n\nНапример, для дерева это разные паттерны:\n\n```text\nИван дал Марии книгу\nПётр передал Анне документ\nAlice gave Bob a file\n```\n\nА семантически это один шаблон:\n\n```text\nагент → передача → получатель → объект\n```\n\nЕсли система работает только по сырым токенам, она будет плодить тысячи частных веток вместо одного обобщённого правила. Поэтому нужен не один слой символов, а несколько уровней абстракции:\n\n```text\nсырой текст:\nИван дал Марии книгу\n\nабстрактный слой:\nPERSON_1 TRANSFER PERSON_2 OBJECT\n\nещё выше:\nagent action recipient object\n```\n\nТо есть суффиксные деревья должны строиться не только по буквам/токенам, но и по **латентным символам**, которые производит нейросеть: кластерам, ролям, событиям, действиям, типам объектов.\n\n## 8. Вторая опасность: комбинаторный взрыв\n\nЧисло возможных контекстов растёт очень быстро с длиной последовательности и размером алфавита. В работах по variable-order Markov models прямо отмечается, что число контекстов может расти экспоненциально, а длинные контексты требуют много данных, потому что каждый конкретный длинный контекст встречается всё реже. citeturn295868view1\n\nПоэтому нельзя хранить всё. Нужны жёсткие фильтры:\n\n```text\nхраним только то, что:\n    часто встречается,\n    или хорошо предсказывает,\n    или даёт выигрыш сжатия,\n    или связано с ошибкой/наградой,\n    или является редкой, но критичной аномалией.\n```\n\nПрактически это означает:\n\n```text\nfrequency threshold\nprediction gain threshold\ncompression gain threshold\nrecency decay\nmemory budget\nmerge similar nodes\nprune stale nodes\n```\n\nБез этого “саморазвитие” быстро превратится в опухолевый рост структуры.\n\n## 9. Третья опасность: хрупкость к вариациям и шуму\n\nКлассические PST часто опираются на exact suffix matching: текущий суффикс должен точно совпасть с ранее встреченным контекстом. Это плохо при шуме, синонимах, опечатках, jitter во времени, пропусках событий и вариативном порядке. Работа по approximate string matching для PST прямо мотивирована тем, что exact matching ограничивает предсказание, и предлагает расслаблять условие точного совпадения. citeturn336540view3\n\nПоэтому для вашей идеи почти обязательно нужны:\n\n```text\nприближённые совпадения\nсемантические кластеры\nразрешение переменных\nwildcards\ntime tolerance\nfuzzy edges\nembedding-based matching\n```\n\nНапример:\n\n```text\nA B C D\nA B X D\nA B Y D\n```\n\nдолжно уметь сворачиваться в:\n\n```text\nA B * D\n```\n\nА ещё лучше:\n\n```text\ncontext → variable-slot → context\n```\n\nИначе сеть будет раздуваться на поверхностных вариантах одного и того же паттерна.\n\n## 10. Четвёртая опасность: частое не всегда важное\n\nЧастота — хороший сигнал, но не абсолютный. Часто встречающиеся паттерны могут быть бесполезными:\n\n```text\n“и”, “в”, “это”, “the”, “of”\n```\n\nРедкие паттерны могут быть критичными:\n\n```text\nпредаварийный сигнал\nошибка безопасности\nредкая болезнь\nedge case в коде\n```\n\nПоэтому критерий роста должен учитывать не только `count`, но и:\n\n```text\nпредсказательную силу\nснижение ошибки\nсвязь с наградой/ущербом\nинформационный выигрыш\nнеожиданность\nкаузальную полезность\nстоимость хранения\n```\n\nХороший узел — не тот, который просто часто встречается, а тот, который **сжимает опыт и улучшает действие**.\n\n## 11. Как это может выглядеть как “нейропластика”\n\nПредставим, что каждый узел дерева имеет связанный нейронный компонент:\n\n```text\nnode s:\n    count\n    recency\n    P(next | s)\n    entropy\n    prediction_gain\n    embedding\n    adapter_id\n    expert_id\n    parent\n    children\n```\n\nКогда узел молодой, он живёт только как статистика:\n\n```text\nузел = счётчик + распределение продолжений\n```\n\nЕсли он становится полезным, он получает embedding:\n\n```text\nузел = статистика + векторное представление\n```\n\nЕсли он ещё полезнее, получает маленький адаптер:\n\n```text\nузел = статистика + embedding + adapter\n```\n\nЕсли это важный устойчивый паттерн, он становится экспертом:\n\n```text\nузел = полноценный специализированный модуль\n```\n\nЕсли потом паттерн устаревает:\n\n```text\nadapter замораживается / сливается / удаляется / дистиллируется в backbone\n```\n\nЭто уже настоящая **структурная пластичность**, но управляемая статистическим субстратом.\n\n## 12. Самая сильная формула идеи\n\nЯ бы сформулировал принцип так:\n\n> **Повторяющиеся последовательности становятся узлами памяти; предсказательно полезные узлы становятся признаками; устойчиво полезные признаки становятся модулями; модули, доказавшие ценность, консолидируются в основную сеть.**\n\nИли ещё короче:\n\n> **Сначала частотная память, потом предсказательный узел, потом нейронный орган.**\n\n## 13. Минимальный прототип\n\nЯ бы не начинал с полного “саморастущего мозга”. Начал бы с такой системы:\n\n```text\nBackbone model + Multi-level Prediction Suffix Forest + Adapter Bank\n```\n\nРабочий цикл:\n\n```text\n1. Вход кодируется в последовательность символов.\n2. Суффиксный лес обновляет частоты контекстов.\n3. Для каждого контекста считается:\n   - N(s)\n   - P(next | s)\n   - entropy\n   - prediction_gain\n   - compression_gain\n   - model_error(s)\n4. Если контекст полезен, создаётся adapter/expert.\n5. При следующем совпадении контекста дерево активирует соответствующий adapter.\n6. Старые или бесполезные adapters удаляются, сливаются или дистиллируются.\n```\n\nПример псевдоправила:\n\n```text\nif N(s) > 50\nand KL(P(next | s) || P(next | parent(s))) > threshold\nand model_error(s) remains high\nand memory_budget_allows:\n    create_adapter_for(s)\n```\n\nПотом:\n\n```text\nif adapter_for(s) improves loss/reward:\n    keep and strengthen\n\nif adapter_for(s) inactive or harmful:\n    prune or merge\n\nif many sibling adapters learn similar functions:\n    merge into parent/general module\n```\n\n## 14. Что лучше использовать вместо “чистого” suffix tree\n\nНа практике я бы рассматривал такой набор структур:\n\n| Задача | Структура |\n|---|---|\n| точные повторы | suffix tree / suffix automaton |\n| онлайн-предсказание | Prediction Suffix Tree |\n| ограниченная память | D2-CTW / bounded PST |\n| шумные совпадения | approximate PST |\n| большие данные | compressed suffix array / compact VOMM |\n| иерархические chunks | SEQUITUR-like grammar |\n| семантическое сходство | vector index + tree |\n| нейросетевой контекст | neural cache / kNN-style memory |\n\nВажный момент: **full suffix tree — слишком буквальная структура**. Для живой системы лучше гибрид:\n\n```text\nbounded probabilistic suffix forest\n+ grammar induction\n+ approximate matching\n+ neural embeddings\n+ adapter/expert growth\n```\n\n## 15. Нерешённые проблемы именно вашего варианта\n\nГлавные исследовательские вопросы будут такие:\n\n**Как дискретизировать непрерывный мир?**  \nСуффиксные деревья любят символы. Мир часто приходит как изображения, звук, сенсорика, embeddings. Значит, нужен слой, который превращает поток в устойчивые события, не убивая смысл.\n\n**Как отличать полезный паттерн от случайного повтора?**  \nНужны критерии статистической значимости, causal usefulness, compression gain и task utility.\n\n**Как не раздуть структуру?**  \nПонадобятся memory budget, decay, pruning, merging, distillation.\n\n**Как обобщать похожие паттерны?**  \nБез approximate matching и абстрактных переменных система будет запоминать форму, а не смысл.\n\n**Как связать дерево с backprop?**  \nДерево дискретное и недифференцируемое. Поэтому лучше использовать его как внешний контроллер/маршрутизатор, а не пытаться сделать весь suffix tree differentiable.\n\n**Как защититься от poisoning?**  \nЕсли повторение создаёт структуру, злоумышленник может многократным вводом “вырастить” вредный модуль. Нужны quarantine, trust weighting, source attribution и sandbox-консолидация.\n\n**Как проводить консолидацию?**  \nНе всё, что дерево выучило, должно попасть в основную сеть. Нужен аналог “сна”: replay, distillation, проверка на held-out потоках, откат.\n\n## 16. Мой вердикт\n\nИдея очень хорошая, особенно если понимать её так:\n\n> **суффиксные деревья — это не сама нейросеть, а её структурная память повторяемости, из которой рождаются новые нейронные модули.**\n\nСамая сильная версия:\n\n```text\nмногоуровневый prediction suffix forest\n+ иерархическое сжатие повторов\n+ approximate/semantic matching\n+ growth controller\n+ adapter/expert modules\n+ pruning/merging/distillation\n```\n\nЭто может стать основой для **контролируемой нейропластичности**: сеть не хаотически перестраивает себя, а достраивается там, где поток данных сам показывает устойчивые, предсказательные, повторяющиеся структуры.\n\nКоротко: **да, это перспективный субстрат для выращивания сети**, но только если он будет не буквальным хранилищем всех суффиксов, а ограниченной, вероятностной, многоуровневой и семантически обобщающей системой памяти."
+    },
+    {
+      "node_id": "a288ab02-f1ca-4e67-8b9b-f1d740a22662",
+      "parent": "cdef2bc0-eda2-4063-9d11-267f732bc94c",
+      "role": "user",
+      "content_type": "text",
+      "create_time": 1783167163.745,
+      "create_time_utc": "2026-07-04T12:12:43.745000+00:00",
+      "text": "С учётом многоуровневости здесь нужен механизм выявляния таких абстракций, как, например, прилагательные, существительные и их словосочетания на основе статистики, что одно и то же прилагательное может соседствовать с разными существительными и наоборот."
+    },
+    {
+      "node_id": "6458470b-ff0e-4f3c-a3c3-bd6b84eedf2a",
+      "parent": "1da68848-9822-4a57-962b-3530dc88d218",
+      "role": "assistant",
+      "content_type": "text",
+      "create_time": 1783167180.227529,
+      "create_time_utc": "2026-07-04T12:13:00.227529+00:00",
+      "text": "Разверну это как слой вывода категорий поверх суффиксного леса: от статистики соседства к слотам, взаимозаменяемым классам, фразам и узлам, управляющим ростом сети."
+    },
+    {
+      "node_id": "7981967c-e217-4855-982e-ddb7d0cbe0c9",
+      "parent": "6458470b-ff0e-4f3c-a3c3-bd6b84eedf2a",
+      "role": "assistant",
+      "content_type": "code",
+      "create_time": 1783167171.79215,
+      "create_time_utc": "2026-07-04T12:12:51.792150+00:00",
+      "text": "{\"search_query\":[{\"q\":\"Harris distributional structure word classes substitutability adjective noun grammar induction\"},{\"q\":\"ADIOS automatic distillation of structure from sequences unsupervised grammar induction paper\"},{\"q\":\"unsupervised part of speech induction distributional contexts word classes survey\"},{\"q\":\"Bayesian grammar induction adaptor grammars word segmentation phrase structure paper\"}],\"response_length\":\"medium\"}"
+    },
+    {
+      "node_id": "a38a916e-59d5-492f-853b-27d4e2b072cc",
+      "parent": "7981967c-e217-4855-982e-ddb7d0cbe0c9",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783167182.2137537,
+      "create_time_utc": "2026-07-04T12:13:02.213754+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "fa05a835-de0d-466e-9329-0b3e30d72b09",
+      "parent": "a38a916e-59d5-492f-853b-27d4e2b072cc",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783167182.2097795,
+      "create_time_utc": "2026-07-04T12:13:02.209780+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "5b791d43-6f1b-4914-857a-40705199ea68",
+      "parent": "6eec82e5-0388-4ad1-b1b0-14760347e607",
+      "role": "assistant",
+      "content_type": "code",
+      "create_time": 1783167183.986601,
+      "create_time_utc": "2026-07-04T12:13:03.986601+00:00",
+      "text": "{\"search_query\":[{\"q\":\"Brown clustering class-based n-gram model mutual information word classes paper\"},{\"q\":\"Brown et al class-based n-gram models of natural language word classes mutual information PDF\"},{\"q\":\"prediction suffix trees variable order Markov model language modeling context tree weighting word classes\"},{\"q\":\"distributional hypothesis words similar contexts similar meanings grammatical properties Harris 1954 source\"}],\"response_length\":\"medium\"}"
+    },
+    {
+      "node_id": "95925582-2176-483f-b30d-62b259e37f19",
+      "parent": "5b791d43-6f1b-4914-857a-40705199ea68",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783167198.1078105,
+      "create_time_utc": "2026-07-04T12:13:18.107810+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "c8a204ec-46e1-456c-a16d-9d972d300073",
+      "parent": "95925582-2176-483f-b30d-62b259e37f19",
+      "role": "assistant",
+      "content_type": "text",
+      "create_time": 1783167386.800384,
+      "create_time_utc": "2026-07-04T12:16:26.800384+00:00",
+      "text": "Дополнительно важно разделить синтагматический сигнал соседства и парадигматический сигнал взаимозаменяемости. Категории вроде ADJ/NOUN лучше выводить из похожести распределений окружений, а не задавать заранее."
+    },
+    {
+      "node_id": "65bb6bff-c5a6-4326-95ce-ac2c37dbe2e3",
+      "parent": "c8a204ec-46e1-456c-a16d-9d972d300073",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783167198.1037617,
+      "create_time_utc": "2026-07-04T12:13:18.103762+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "d81a1160-cde2-4a1d-a6a2-1c9c02fd18b3",
+      "parent": "5a1b4631-05cb-5ca3-a8af-ec647026efbb",
+      "role": "assistant",
+      "content_type": "text",
+      "create_time": 1783167669.765478,
+      "create_time_utc": "2026-07-04T12:21:09.765478+00:00",
+      "text": "Да. Это именно тот слой, без которого многоуровневые суффиксные деревья останутся **памятью повторов**, но не станут **механизмом абстракции**.\n\nЯ бы назвал этот компонент:\n\n**распределительно-парадигматический слой абстрагирования**  \nили проще: **движок выявления латентных грамматических классов и конструкций**.\n\nЕго задача — не заранее знать, что такое “прилагательное” или “существительное”, а **вывести такие классы из статистики заменяемости и совместной встречаемости**. Это близко к distributional hypothesis: элементы с похожими контекстами имеют похожие свойства; в NLP это лежит в основе распределительной семантики и индукции грамматических категорий. citeturn966570view4\n\n## 1. Две разные статистики: соседство и заменяемость\n\nВаш пример очень точный:\n\n> одно и то же прилагательное может соседствовать с разными существительными,  \n> и одно и то же существительное может соседствовать с разными прилагательными.\n\nЗдесь есть две оси.\n\n**Синтагматическая ось** — кто с кем рядом стоит:\n\n```text\nкрасный дом\nкрасный шар\nстарый дом\nбольшой дом\nдеревянный стол\n```\n\nОна говорит: есть устойчивая конструкция вида:\n\n```text\nX Y\n```\n\n**Парадигматическая ось** — кто кого может заменить в той же позиции:\n\n```text\nкрасный дом\nстарый дом\nбольшой дом\nдеревянный дом\n```\n\nЗначит, `красный`, `старый`, `большой`, `деревянный` похожи по роли.\n\nИ ещё:\n\n```text\nкрасный дом\nкрасный шар\nкрасный флаг\nкрасный автомобиль\n```\n\nЗначит, `дом`, `шар`, `флаг`, `автомобиль` похожи по роли относительно `красный`.\n\nИменно сочетание этих двух осей даёт абстракцию:\n\n```text\n[КЛАСС_A] [КЛАСС_B]\n```\n\nА уже позже система может интерпретировать это как:\n\n```text\n[ПРИЛАГАТЕЛЬНОЕ] [СУЩЕСТВИТЕЛЬНОЕ]\n```\n\nВ работах по unsupervised grammatical category learning прямо используется идея, что co-occurrence patterns соседних слов помогают группировать слова в категории, но точные “рамки” редко повторяются, из-за чего полезны представления через вероятные замены, а не только через буквальные соседства. citeturn966570view3\n\n## 2. Важное различие: фраза или продуктивная абстракция?\n\nСистема должна отличать:\n\n```text\nкрасная площадь\nжелезная дорога\nчёрная дыра\n```\n\nот:\n\n```text\nкрасный дом\nбольшой дом\nстарый дом\nновый дом\n```\n\nПервые могут быть устойчивыми выражениями или терминами. Вторые — проявления продуктивного шаблона.\n\nДля этого нужны не только частоты, но и **разнообразие замен**.\n\nУсловно:\n\n```text\nесли A часто встречается только с B:\n    это, вероятно, устойчивое словосочетание\n\nесли A встречается со многими B,\nи B встречается со многими A:\n    это, вероятно, грамматическая конструкция\n```\n\nНапример:\n\n```text\n\"красная площадь\"\n```\n\nможет иметь высокий PMI, но низкую продуктивность: конкретная пара слишком устойчива.\n\nА вот:\n\n```text\nприлагательное + существительное\n```\n\nимеет высокую продуктивность: много разных левых элементов сочетаются со многими разными правыми элементами.\n\nФормально можно считать:\n\n```text\nH(N | a)\n```\n\nразнообразие существительных после кандидата `a`.\n\nИ:\n\n```text\nH(A | n)\n```\n\nразнообразие прилагательных перед кандидатом `n`.\n\nТогда:\n\n```text\nкрасный → дом, шар, флаг, автомобиль, цвет, сигнал...\nдом ← большой, старый, новый, деревянный, соседний...\n```\n\nдаёт сильный сигнал, что это не одна фраза, а **отношение между двумя классами**.\n\n## 3. Как это встроить в многоуровневое суффиксное дерево\n\nЯ бы сделал не одно дерево, а несколько уровней представления.\n\n```text\nУровень 0: токены\n\"большой красный дом стоит у дороги\"\n\nУровень 1: частые фрагменты\n\"красный дом\", \"у дороги\"\n\nУровень 2: латентные классы\n[ADJ] [ADJ] [NOUN] [VERB] [PREP] [NOUN]\n\nУровень 3: словосочетания\n[NP] [VERB] [PP]\n\nУровень 4: событийная структура\n[OBJECT] [STATE/ACTION] [LOCATION]\n```\n\nГлавная идея:\n\n> суффиксное дерево хранит не только буквальные последовательности, но и их обобщённые версии.\n\nНапример, на нижнем уровне есть пути:\n\n```text\nбольшой дом\nстарый дом\nновый дом\nкрасный шар\nсиний шар\n```\n\nПосле накопления статистики возникает обобщённый путь:\n\n```text\n[КЛАСС_17] [КЛАСС_42]\n```\n\nПозже система понимает, что:\n\n```text\nКЛАСС_17 ≈ признак / модификатор\nКЛАСС_42 ≈ предмет / объект\n```\n\nИ ещё позже:\n\n```text\n[КЛАСС_17] [КЛАСС_42] → [ИМЕННАЯ_ГРУППА]\n```\n\nТо есть дерево становится не просто suffix tree, а **суффиксно-грамматическим лесом с переменными слотами**.\n\n## 4. Узел дерева должен хранить не только частоту\n\nКаждый узел или шаблон должен иметь статистический профиль:\n\n```text\nnode:\n    sequence\n    count\n    left_contexts\n    right_contexts\n    substitute_set\n    next_distribution\n    entropy\n    mutual_information\n    compression_gain\n    abstraction_level\n    linked_neural_module\n```\n\nНапример, узел:\n\n```text\n[ADJ] [NOUN]\n```\n\nхранит:\n\n```text\nсколько раз встречался\nкакие слова занимали ADJ-слот\nкакие слова занимали NOUN-слот\nкакие контексты были слева\nкакие контексты были справа\nнасколько этот шаблон улучшает предсказание\nнасколько он сжимает корпус\n```\n\nЕсли шаблон стабилен, он становится новым символом:\n\n```text\n[ADJ] [NOUN] → [NP]\n```\n\nДальше суффиксные деревья верхнего уровня уже работают не с отдельными словами, а с такими chunk-символами.\n\n## 5. Как выявлять “прилагательные” и “существительные” без разметки\n\nПрактический алгоритм может выглядеть так.\n\nСначала для каждого слова строится контекстный вектор:\n\n```text\nsignature(w) =\n    кто стоит слева от w\n    кто стоит справа от w\n    в каких рамках L _ R встречается w\n    какие слова w модифицирует\n    какие слова модифицируют w\n    какие морфологические окончания у w\n    какие суффиксы/префиксы у w\n```\n\nНапример:\n\n```text\nкрасный:\n    справа: дом, шар, флаг, автомобиль...\n    слева: очень, весьма, достаточно...\n    окончания: красный, красная, красное, красные...\n\nдом:\n    слева: большой, старый, новый, деревянный...\n    справа: стоит, был, находится...\n    после предлогов: в доме, у дома, к дому...\n```\n\nЗатем система кластеризует слова по сходству таких профилей. Это родственно class-based n-gram models Brown et al., где слова назначаются классам на основе частот совместной встречаемости, чтобы улучшать предсказание слов из предыдущего контекста. citeturn334420search0\n\nНо для вашей архитектуры лучше не жёсткий один класс на слово, а **контекстно-зависимая принадлежность**:\n\n```text\nбольной человек      → больной = adjective-like\nпришёл больной       → больной = noun-like\n\nпечь хлеб            → печь = verb-like\nрусская печь         → печь = noun-like\n```\n\nТо есть класс должен назначаться не только типу слова, но и **конкретному употреблению**.\n\n```text\nclass(token_instance | context)\n```\n\nа не только:\n\n```text\nclass(word_type)\n```\n\n## 6. Критерий: абстракция должна улучшать сжатие и предсказание\n\nХороший принцип отбора:\n\n> новая абстракция сохраняется, если она уменьшает описание данных и улучшает предсказание.\n\nНапример, было много конкретных фрагментов:\n\n```text\nбольшой дом\nстарый дом\nновый дом\nкрасный шар\nсиний шар\nдеревянный стол\n```\n\nСистема предлагает правило:\n\n```text\nC17 C42\n```\n\nгде:\n\n```text\nC17 = {большой, старый, новый, красный, синий, деревянный...}\nC42 = {дом, шар, стол, флаг, автомобиль...}\n```\n\nАбстракция принимается, если:\n\n```text\nстоимость(старое хранение) >\nстоимость(правило + исключения)\n```\n\nТо есть:\n\n```text\nΔMDL = L(data | old_model) - L(data | new_model + rule_cost)\n```\n\nЕсли `ΔMDL > 0`, абстракция полезна.\n\nЭто защищает систему от бессмысленных классов. Можно объединить случайные слова в кластер, но если это не улучшает сжатие и предсказание, такой кластер должен исчезнуть.\n\n## 7. Как из `ADJ + NOUN` получить `NP`\n\nСледующий шаг — понять, что словосочетание ведёт себя как единый блок.\n\nНапример:\n\n```text\nстарый дом стоит на холме\nкрасный шар лежит на столе\nдеревянный стол стоит у окна\n```\n\nСистема замечает:\n\n```text\n[ADJ] [NOUN] стоит ...\n[ADJ] [NOUN] лежит ...\nу [ADJ] [NOUN]\nв [ADJ] [NOUN]\n```\n\nИ сравнивает внешние контексты:\n\n```text\nдом стоит\nшар лежит\nстол стоит\n\nстарый дом стоит\nкрасный шар лежит\nдеревянный стол стоит\n```\n\nЕсли внешнее поведение `ADJ + NOUN` похоже на поведение одиночного существительного или другой именной группы, создаётся новый класс:\n\n```text\nNP → ADJ NOUN\nNP → NOUN\nNP → ADJ ADJ NOUN\nNP → NOUN PREP NP\n```\n\nЭто уже не просто POS-индукция, а **индукция фразовой структуры**. Родственное направление — unsupervised grammar induction; например, ADIOS был предложен как алгоритм для индукции грамматикоподобных правил из неразмеченных последовательностей. citeturn334420search1\n\n## 8. Очень важный механизм: антиунификация\n\nДля абстракций нужен механизм вида:\n\n```text\nкрасный дом\nсиний дом\nстарый дом\n```\n\nобобщается в:\n\n```text\nX дом\n```\n\nА:\n\n```text\nкрасный дом\nкрасный шар\nкрасный флаг\n```\n\nобобщается в:\n\n```text\nкрасный Y\n```\n\nЕсли затем система видит:\n\n```text\nбольшой дом\nстарый шар\nновый флаг\n```\n\nона может построить:\n\n```text\nX Y\n```\n\nгде `X` и `Y` — не любые слова, а два статистически устойчивых класса.\n\nЭто можно назвать:\n\n**антиунификация последовательностей**  \nили  \n**выведение шаблонов с переменными слотами**.\n\nВ терминах вашей архитектуры:\n\n```text\nсуффиксное дерево находит повторяющиеся пути,\nа антиунификация превращает похожие пути в шаблоны.\n```\n\n## 9. Многоуровневый цикл обучения\n\nПолный цикл мог бы быть таким:\n\n```text\n1. Получить поток токенов.\n\n2. Обновить суффиксные деревья нижнего уровня.\n\n3. Собрать статистику соседства:\n   L w R\n   w_i w_{i+1}\n   w_i ... w_{i+k}\n\n4. Найти группы слов, которые занимают похожие позиции.\n\n5. Найти пары/цепочки классов, которые устойчиво соседствуют.\n\n6. Проверить, дают ли они выигрыш в сжатии и предсказании.\n\n7. Создать новый абстрактный символ:\n   [ADJ], [NOUN], [NP], [ACTION], [LOCATION]...\n\n8. Переписать поток на более высоком уровне.\n\n9. Построить новое суффиксное дерево уже по абстрактным символам.\n\n10. Если абстракция часто используется и полезна —\n    вырастить нейронный модуль/адаптер/эксперт.\n```\n\nТо есть:\n\n```text\nповторы → классы → шаблоны → фразы → события → модули сети\n```\n\n## 10. Связь с выращиванием нейросети\n\nКаждая стабильная абстракция может стать кандидатом на нейронный компонент.\n\n```text\n[ADJ]                     → embedding класса признаков\n[NOUN]                    → embedding класса объектов\n[ADJ NOUN]                → модуль именной группы\n[PREP NP]                 → модуль обстоятельства/отношения\n[AGENT ACTION OBJECT]     → модуль событийной рамки\n```\n\nПравило роста:\n\n```text\nесли абстракция:\n    часто встречается\n    имеет высокую продуктивность\n    уменьшает ошибку предсказания\n    уменьшает описание данных\n    активируется в разных контекстах\n    не является случайным шумом\n\nто:\n    создать/усилить нейронный узел или модуль\n```\n\nСначала это может быть просто статистический узел. Потом — embedding. Потом — adapter. Потом — отдельный expert.\n\n```text\nстатистика → латентный символ → embedding → adapter → expert\n```\n\nТак дерево становится **поставщиком структурных кандидатов** для роста сети.\n\n## 11. Что особенно важно для русского языка\n\nДля русского одной простой статистики соседства мало, потому что:\n\n```text\nбольшой дом\nбольшого дома\nбольшому дому\nбольшим домом\n```\n\nСистема должна заметить, что окончания прилагательного и существительного **согласуются**.\n\nТо есть нужно учитывать не только соседство:\n\n```text\nбольшой рядом с дом\n```\n\nно и совместную вариативность:\n\n```text\nбольш-ой дом-∅\nбольш-ого дом-а\nбольш-ому дом-у\nбольш-им дом-ом\n```\n\nЭто отдельный мощный сигнал: слова не просто соседствуют, а **изменяются согласованно**.\n\nПоэтому для языков с богатой морфологией стоит строить ещё один уровень:\n\n```text\nморфемное / окончательное дерево\n```\n\nНапример:\n\n```text\n-ый / -ой / -ая / -ое / -ые\n```\n\nможет стать признаком класса, который ведёт себя как adjective-like.\n\nА:\n\n```text\n-а / -у / -ом / -е / -ы\n```\n\nможет помогать выявлять noun-like классы.\n\nСовременные работы по unsupervised POS induction для языкового описания тоже используют распределения корней и аффиксов; на материале колымского юкагирского было показано, что кластеризация по таким распределениям может быть полезна именно для морфологически богатых языков. citeturn966570view5\n\n## 12. Главные ловушки\n\nПервая ловушка: **частота не равна абстракции**.\n\n```text\nНовый год\nКрасная площадь\nжелезная дорога\n```\n\nчастотны, но это могут быть отдельные лексические единицы, а не продуктивные правила.\n\nВторая ловушка: **соседство не всегда означает связь**.\n\nВ русском порядок слов свободнее, чем в английском:\n\n```text\nкрасивый дом\nдом красивый\nдом, построенный старым мастером\n```\n\nПоэтому нужны не только соседние токены, но и контексты с пропусками:\n\n```text\nX ... Y\nX _ Y\nX * Y\n```\n\nТретья ловушка: **одно слово может принадлежать к разным классам**.\n\n```text\nбольной человек\nбольной пришёл\nпечь хлеб\nрусская печь\n```\n\nЗначит, нужна token-level классификация, а не только word-level.\n\nЧетвёртая ловушка: **семантические и грамматические классы смешиваются**.\n\nНапример, система может объединить:\n\n```text\nдом, стол, шкаф\n```\n\nпотому что это предметы, а может объединить:\n\n```text\nдом, человек, город, идея\n```\n\nпотому что они занимают позицию существительного.\n\nОба класса полезны, но это разные уровни:\n\n```text\nграмматический класс: существительное-like\nсемантический класс: физический объект-like\n```\n\nИх лучше хранить раздельно.\n\n## 13. Самая сильная схема\n\nЯ бы собрал это так:\n\n```text\nМногоуровневый суффиксный лес\n    +\nПарадигматическая кластеризация замен\n    +\nСинтагматическая статистика соседства\n    +\nАнтиунификация шаблонов\n    +\nMDL/сжатие как критерий полезности\n    +\nНейросетевые embeddings/adapters/experts\n```\n\nИ рабочий принцип:\n\n> если разные элементы занимают один и тот же слот, они образуют класс;  \n> если разные классы устойчиво сочетаются, они образуют конструкцию;  \n> если конструкция ведёт себя как единый элемент, она становится новым символом верхнего уровня;  \n> если символ полезен для предсказания, под него выращивается нейронный модуль.\n\nКоротко:\n\n```text\nзаменяемость → класс\nсоседство → отношение\nповторяемость отношения → конструкция\nвнешняя заменяемость конструкции → фраза\nпольза фразы → нейронный модуль\n```\n\nЭто как раз превращает вашу систему из “суффиксной памяти” в **самообобщающуюся нейросимвольную архитектуру**."
+    },
+    {
+      "node_id": "52c08fc2-895b-459b-98be-13e475c85a01",
+      "parent": "d81a1160-cde2-4a1d-a6a2-1c9c02fd18b3",
+      "role": "user",
+      "content_type": "text",
+      "create_time": 1783169945.15,
+      "create_time_utc": "2026-07-04T12:59:05.150000+00:00",
+      "text": "Sama koncepciya slova tozhe dolzhna vyivoditjsya avtomaticheski, kak i morfemyi. V predele dazhe kodirovku UTF-8 vyivoditj iz chistyikh syiryikh bajt. Nikakikh zaraneye zadannyikh znanij."
+    },
+    {
+      "node_id": "71ca6c21-1385-49d5-8758-5f1ae00cb449",
+      "parent": "468464fb-8a47-4630-b0ea-99717f8f2cab",
+      "role": "assistant",
+      "content_type": "text",
+      "create_time": 1783169960.574389,
+      "create_time_utc": "2026-07-04T12:59:20.574389+00:00",
+      "text": "I’ll treat every linguistic unit, even UTF-8-like structure, as an emergent hypothesis selected by prediction/compression gains. The key issue is separating derivable structure from unavoidable inductive bias."
+    },
+    {
+      "node_id": "8bd63378-2f8d-4880-b620-0de04b14487b",
+      "parent": "f3db5a5f-7cad-43ee-8adc-b904df348b6e",
+      "role": "assistant",
+      "content_type": "code",
+      "create_time": 1783169950.217745,
+      "create_time_utc": "2026-07-04T12:59:10.217745+00:00",
+      "text": "{\"search_query\":[{\"q\":\"Morfessor unsupervised morphology induction minimum description length paper\"},{\"q\":\"Bayesian word segmentation adaptor grammar Goldwater Griffiths Johnson 2009\"},{\"q\":\"UTF-8 self synchronizing code byte patterns continuation bytes RFC 3629\"},{\"q\":\"ByT5 token-free pre-trained sequence-to-sequence model raw bytes paper\"}],\"response_length\":\"medium\"}"
+    },
+    {
+      "node_id": "e3adfd04-a5f1-4d7f-af0a-f32b578e782a",
+      "parent": "8bd63378-2f8d-4880-b620-0de04b14487b",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783169965.909719,
+      "create_time_utc": "2026-07-04T12:59:25.909719+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "f53cbdf5-4c7f-470d-9470-de1da040718a",
+      "parent": "e3adfd04-a5f1-4d7f-af0a-f32b578e782a",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783169965.905746,
+      "create_time_utc": "2026-07-04T12:59:25.905746+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "3cb7e0ab-07af-4e3a-8ba8-f4564709962f",
+      "parent": "0c56ac9b-f567-4145-ae0b-925baff58c17",
+      "role": "assistant",
+      "content_type": "code",
+      "create_time": 1783169967.230439,
+      "create_time_utc": "2026-07-04T12:59:27.230439+00:00",
+      "text": "{\"search_query\":[{\"q\":\"byte pair encoding neural machine translation rare words Sennrich Haddow Birch 2016\"},{\"q\":\"SentencePiece unigram language model subword tokenization raw sentences whitespace paper\"},{\"q\":\"unsupervised text segmentation from raw character streams word discovery compression MDL\"},{\"q\":\"Axioms of segmentation: Bayesian word segmentation DP unigram model\"}],\"response_length\":\"medium\"}"
+    },
+    {
+      "node_id": "24e0ee15-2e9a-4020-b934-b7e1a86391dd",
+      "parent": "3cb7e0ab-07af-4e3a-8ba8-f4564709962f",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783169971.0552595,
+      "create_time_utc": "2026-07-04T12:59:31.055259+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "36a044fc-7f8d-470f-bfa4-c668d924275d",
+      "parent": "24e0ee15-2e9a-4020-b934-b7e1a86391dd",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783169971.047757,
+      "create_time_utc": "2026-07-04T12:59:31.047757+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "4c769b25-032c-4776-99b4-118c122b9077",
+      "parent": "da618155-c779-4576-919a-246a6844d51e",
+      "role": "assistant",
+      "content_type": "code",
+      "create_time": 1783169972.429238,
+      "create_time_utc": "2026-07-04T12:59:32.429238+00:00",
+      "text": "{\"open\":[{\"ref_id\":\"turn675895search6\"},{\"ref_id\":\"turn675895search7\"},{\"ref_id\":\"turn750761search1\"},{\"ref_id\":\"turn675895search15\"},{\"ref_id\":\"turn750761search3\"}],\"response_length\":\"medium\"}"
+    },
+    {
+      "node_id": "a2636bac-c778-4cdc-a34a-22c80dee5da9",
+      "parent": "dab4feaf-6fb8-4bd0-9877-f1e5005b91fe",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783169992.4709442,
+      "create_time_utc": "2026-07-04T12:59:52.470944+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "9aadccf6-f52b-4fbd-a9c0-456f5894cbf6",
+      "parent": "a2636bac-c778-4cdc-a34a-22c80dee5da9",
+      "role": "user",
+      "content_type": "text",
+      "create_time": 1783170059.25,
+      "create_time_utc": "2026-07-04T13:00:59.250000+00:00",
+      "text": "Sama koncepciya slova tozhe dolzhna vyivoditjsya avtomaticheski, kak i morfemyi. V predele dazhe kodirovku UTF-8 vyivoditj iz chistyikh bajt. Nikakikh zaraneye zadannyikh znanij."
+    },
+    {
+      "node_id": "7ad9d5c8-61f2-4e66-a7a0-af4827212ed7",
+      "parent": "0b5c1b98-320c-473e-ba09-868c810fab20",
+      "role": "assistant",
+      "content_type": "text",
+      "create_time": 1783170074.243528,
+      "create_time_utc": "2026-07-04T13:01:14.243528+00:00",
+      "text": "Согласен: здесь нужно начинать не с токенов и символов, а с сырого байтового потока, где “слово”, “морфема” и “кодировка” возникают как гипотезы. Проверять их стоит по тому, улучшают ли они сжатие, предсказание и последующий рост модулей."
+    },
+    {
+      "node_id": "7a6e169b-9e35-41ed-ac76-28583953b5ee",
+      "parent": "7ad9d5c8-61f2-4e66-a7a0-af4827212ed7",
+      "role": "assistant",
+      "content_type": "code",
+      "create_time": 1783170064.223373,
+      "create_time_utc": "2026-07-04T13:01:04.223373+00:00",
+      "text": "{\"search_query\":[{\"q\":\"unsupervised word segmentation minimum description length Morfessor paper\"},{\"q\":\"Byte Pair Encoding neural machine translation subword units Sennrich Haddow Birch 2016 paper\"},{\"q\":\"SentencePiece unsupervised text tokenizer raw sentences paper Kudo Richardson\"},{\"q\":\"ByT5 byte level sequence-to-sequence pre-training paper\"}],\"response_length\":\"medium\"}"
+    },
+    {
+      "node_id": "09ed192b-9957-42ae-9b12-45844f2ab6b0",
+      "parent": "7a6e169b-9e35-41ed-ac76-28583953b5ee",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783170074.0891957,
+      "create_time_utc": "2026-07-04T13:01:14.089196+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "f7d8b496-790c-4f3d-a6d9-6eeba1af6a5e",
+      "parent": "09ed192b-9957-42ae-9b12-45844f2ab6b0",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783170074.0832655,
+      "create_time_utc": "2026-07-04T13:01:14.083266+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "3ff3c951-daa2-4fd0-a4a8-982106083233",
+      "parent": "e49f715d-95bb-422e-8186-2be021aa8e2c",
+      "role": "assistant",
+      "content_type": "code",
+      "create_time": 1783170075.526939,
+      "create_time_utc": "2026-07-04T13:01:15.526939+00:00",
+      "text": "{\"search_query\":[{\"q\":\"Bayesian unsupervised word segmentation Goldwater Griffiths Johnson 2009 paper\"},{\"q\":\"Adaptor grammars unsupervised word segmentation Johnson Griffiths Goldwater 2007 paper\"},{\"q\":\"CANINE pre-training an efficient tokenization-free encoder for language representation paper\"},{\"q\":\"Charformer fast character transformers gradient based subword tokenization paper\"}],\"response_length\":\"medium\"}"
+    },
+    {
+      "node_id": "64d83e23-0e4b-41c2-93da-ecaf38619d46",
+      "parent": "3ff3c951-daa2-4fd0-a4a8-982106083233",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783170081.1901958,
+      "create_time_utc": "2026-07-04T13:01:21.190196+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "c63da224-0de7-49b6-a58b-c5252f25fef8",
+      "parent": "64d83e23-0e4b-41c2-93da-ecaf38619d46",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783170081.184463,
+      "create_time_utc": "2026-07-04T13:01:21.184463+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "5ae4200f-f409-499b-b150-9570f265eaa9",
+      "parent": "0ea5c1b5-3783-423a-8eac-fceaf8104e17",
+      "role": "assistant",
+      "content_type": "code",
+      "create_time": 1783170082.527282,
+      "create_time_utc": "2026-07-04T13:01:22.527282+00:00",
+      "text": "{\"search_query\":[{\"q\":\"Unicode Standard UTF-8 encoding form continuation bytes leading bytes pattern official\"},{\"q\":\"RFC 3629 UTF-8 encoding pattern 10xxxxxx official\"}],\"response_length\":\"medium\"}"
+    },
+    {
+      "node_id": "c61fb622-1d41-4676-9226-2b2ba1af5d69",
+      "parent": "5ae4200f-f409-499b-b150-9570f265eaa9",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783170107.9036937,
+      "create_time_utc": "2026-07-04T13:01:47.903694+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "8f527b98-fcef-47cd-ad30-759f1a1112df",
+      "parent": "c61fb622-1d41-4676-9226-2b2ba1af5d69",
+      "role": "tool",
+      "content_type": "text",
+      "create_time": 1783170107.8969934,
+      "create_time_utc": "2026-07-04T13:01:47.896993+00:00",
+      "text": "The output of this plugin was redacted."
+    },
+    {
+      "node_id": "3a32e142-41f0-4a94-af58-5f3adc8a334f",
+      "parent": "891771ef-1d1d-4c48-b23a-fed63d84fa7a",
+      "role": "assistant",
+      "content_type": "text",
+      "create_time": 1783170269.744242,
+      "create_time_utc": "2026-07-04T13:04:29.744242+00:00",
+      "text": "Важно лишь не путать отсутствие лингвистических аксиом с отсутствием всяких bias: системе всё равно нужны универсальные критерии полезности, память, локальность, иерархия и бюджет структуры. UTF-8 она могла бы переоткрыть только функционально — как выгодный скрытый кодовый слой, а не как заранее известный стандарт."
+    },
+    {
+      "node_id": "f748b925-dcf9-4749-a35c-f7d1a492e9f8",
+      "parent": "50bf71d2-81ff-567a-824f-a154c6434eae",
+      "role": "assistant",
+      "content_type": "text",
+      "create_time": 1783170485.315273,
+      "create_time_utc": "2026-07-04T13:08:05.315273+00:00",
+      "text": "Да — в таком варианте система должна быть **не текстовой моделью с токенизатором**, а **самотокенизирующейся моделью потока**, где “байт”, “символ”, “морфема”, “слово”, “словосочетание” и “конструкция” — это не заранее заданные сущности, а **гипотезы о полезных единицах сжатия и предсказания**.\n\nСамая точная формулировка:\n\n> **Иерархическая самоорганизующаяся модель, которая из сырого байтового потока выводит латентные коды, границы, морфемы, слова, классы слов и конструкции по критерию предсказательной полезности и минимальной длины описания.**\n\n## 1. Абсолютно “никаких знаний” невозможно, но можно убрать лингвистические знания\n\nВажно различить две вещи.\n\nНельзя вообще не иметь никаких предпосылок. Системе всё равно нужен минимальный “инстинкт”:\n\n```text\nпредсказывать следующий элемент\nсжимать наблюдаемый поток\nстроить более коротое описание данных\nэкономить память и вычисления\nсохранять полезные абстракции\nудалять бесполезные\n```\n\nНо ей не нужно заранее знать:\n\n```text\nчто такое UTF-8\nчто такое буква\nчто такое пробел\nчто такое слово\nчто такое морфема\nчто такое существительное\nчто такое предложение\nчто такое русский или английский язык\n```\n\nТо есть вместо врождённой лингвистики остаётся только универсальный принцип:\n\n```text\nхорошая единица = та, которая улучшает предсказание и сжатие потока\n```\n\nЭто естественно связывается с Minimum Description Length: хорошая модель должна минимизировать суммарную стоимость описания самой модели и данных при этой модели. MDL давно применяется как принцип для выбора структуры в языковых и морфологических моделях. citeturn251516search14turn338308search1\n\n## 2. “UTF-8” как выводимая структура\n\nЕсли на вход подаётся поток байтов, система не обязана знать, что это UTF-8. Она может вывести нечто эквивалентное UTF-8 как **латентную переменно-длинную кодировку**.\n\nНапример, для русского текста в UTF-8 многие кириллические буквы кодируются двумя байтами. Система увидит, что некоторые байты почти никогда не являются самостоятельными полезными единицами, а регулярно появляются в устойчивых парах:\n\n```text\nD0 B0\nD0 B1\nD0 B2\nD0 B3\nD1 80\nD1 81\n...\n```\n\nОна заметит:\n\n```text\nD0 и D1 часто открывают последовательность\nследующий байт имеет ограниченный диапазон\nпара ведёт себя как единый повторяемый элемент\nразрезать пару посередине плохо для предсказания\nсчитать пару одним символом выгоднее\n```\n\nОфициально UTF-8 действительно является переменно-длинным кодом: RFC 3629 описывает кодирование символов последовательностями от одного до четырёх октетов. citeturn776920search0 Для нашей модели это не “знание стандарта”, а обнаруживаемый факт: поток имеет устойчивую внутреннюю грамматику байтов.\n\nТо есть система не должна сказать: “это UTF-8”. Она должна построить внутреннее правило вида:\n\n```text\nбайты класса A могут быть самостоятельными\nбайты класса B начинают 2-байтовую единицу\nбайты класса C продолжают единицу\nнекоторые 3- и 4-байтовые цепочки тоже ведут себя как единые символы\n```\n\nЭто уже фактически индукция кодировки.\n\n## 3. Но “символ” тоже не должен быть конечным уровнем\n\nДаже если система вывела UTF-8-подобные единицы, это ещё не значит, что “один Unicode code point = один символ смысла”.\n\nНапример:\n\n```text\nе + ◌̈  → ё-подобная графема\nemoji + skin tone modifier\nбуква + диакритика\nсемейный emoji через ZWJ-последовательности\n```\n\nПоэтому правильнее не делать один уровень “символов”, а строить несколько конкурирующих уровней:\n\n```text\nбайты\n↓\nбайтовые кластеры / proto-codepoints\n↓\nграфемоподобные единицы\n↓\nморфемоподобные единицы\n↓\nсловоподобные единицы\n↓\nфразоподобные единицы\n↓\nсинтаксико-семантические конструкции\n```\n\nИ при этом границы должны быть вероятностными, а не жёсткими.\n\n## 4. Слово как выводимая гипотеза\n\n“Слово” не должно быть встроено. Оно должно появляться как особый тип единицы, которая обладает несколькими свойствами:\n\n```text\n1. высокая внутренняя связность\n2. низкая вероятность разрыва внутри\n3. высокая вариативность контекста снаружи\n4. способность занимать слот в более крупных конструкциях\n5. полезность для предсказания\n6. полезность для сжатия\n```\n\nНапример, система видит поток:\n\n```text\nбольшойдомстоит\nкрасныйдомстоит\nстарыйдомстоял\nдомбольшой\n```\n\nОна не обязана заранее знать пробелы. Она может заметить, что фрагмент:\n\n```text\nдом\n```\n\nведёт себя как мобильный блок:\n\n```text\nбольшой _ стоит\nкрасный _ стоит\nстарый _ стоял\n_ большой\n```\n\nА фрагменты:\n\n```text\nбольшой\nкрасный\nстарый\n```\n\nмогут заменять друг друга перед тем же блоком.\n\nТак появляются не “слова из словаря”, а **словоподобные устойчивые блоки**, которые участвуют в продуктивных шаблонах.\n\nДля языков без пробелов, для слитной речи и для детского усвоения языка похожая задача известна как unsupervised word segmentation: модели пытаются вывести лексикон и границы слов из непрерывного потока без заранее заданных разметок. Байесовские модели сегментации показывали, что зависимости между соседними словами критически важны: простая независимость слов приводит к плохой сегментации. citeturn338308search0turn338308search20\n\n## 5. Морфема как ещё более тонкая гипотеза\n\nМорфема тоже не должна быть задана. Она возникает, когда система замечает регулярные частичные совпадения и продуктивные замены.\n\nНапример:\n\n```text\nдом\nдом-а\nдом-у\nдом-ом\nдом-е\n\nстол\nстол-а\nстол-у\nстол-ом\nстол-е\n```\n\nСистема может вывести:\n\n```text\nдом / стол = основоподобные единицы\n-а / -у / -ом / -е = окончаниеподобные единицы\n```\n\nНе потому что она знает русскую грамматику, а потому что это даёт сжатие:\n\n```text\nдом-а\nдом-у\nдом-ом\nстол-а\nстол-у\nстол-ом\n```\n\nможно описать короче как:\n\n```text\n{дом, стол} + {-а, -у, -ом}\n```\n\nMorfessor и более ранние работы Creutz и Lagus как раз используют unsupervised morpheme segmentation, в том числе MDL-подход, чтобы находить морфемоподобные единицы в неразмеченном тексте. citeturn251516search2turn338308search1\n\n## 6. Пробел не должен быть “разделителем слова” по умолчанию\n\nВ такой системе пробел — просто ещё один байтовый/символьный паттерн. Она может обнаружить, что он часто коррелирует с границами, но не обязана считать его абсолютным разделителем.\n\nЭто важно, потому что:\n\n```text\nв китайском и японском слова часто не разделены пробелами\nв русском предлоги пишутся отдельно, но семантически тесно связаны\nв английском phrasal verbs могут быть разорваны\nв немецком сложные слова пишутся слитно\nв программном коде границы другие\nв логах и бинарных форматах “слов” вообще нет в человеческом смысле\n```\n\nПоэтому “слово” должно быть не типом, заданным пробелами, а **уровнем устойчивой сегментации**, который может отличаться в разных доменах.\n\nSentencePiece был шагом в эту сторону: он обучает subword-модели напрямую из raw sentences и не требует языкового pre-tokenizer’а, в отличие от систем, которые сначала нарезают текст на слова. Но SentencePiece всё ещё работает поверх уже декодированного текста, а ваша идея опускается ниже — к байтовому потоку. citeturn251516search5turn251516search9\n\n## 7. Правильная структура — не дерево, а лес решёток\n\nЕсли всё выводится автоматически, опасно строить единственную жёсткую иерархию:\n\n```text\nбайты → буквы → морфемы → слова → фразы\n```\n\nПотому что реальный язык даёт неоднозначности:\n\n```text\nзамок       = здание / механизм\nпечь        = существительное / глагол\nбольной     = прилагательное / существительное\nна столе    = два слова, но единый предложный комплекс\nжелезная дорога = словосочетание, но почти термин\n```\n\nПоэтому лучше структура вида:\n\n```text\nмногоуровневая вероятностная решётка\n```\n\nОдин и тот же участок потока может иметь несколько конкурирующих разборов:\n\n```text\n[байты]\n[D0 BA] [D0 BE] [D1 82]\n[к] [о] [т]\n[кот]\n[кот + нулевое окончание]\n[NOUN-like]\n[NP-like]\n```\n\nСистема хранит не один “истинный” разбор, а распределение вероятностей по разборам. Побеждает тот, который лучше предсказывает будущие данные и даёт лучшее сжатие.\n\n## 8. Как это совместить с многоуровневыми суффиксными деревьями\n\nНижний уровень работает по байтам:\n\n```text\nS0 = suffix/context tree over bytes\n```\n\nОн выявляет частые byte n-grams, условные вероятности, границы, повторяемые коды.\n\nПосле этого возникают proto-symbols:\n\n```text\nD0 BA → σ_1\nD0 BE → σ_2\nD1 82 → σ_3\n```\n\nСледующий уровень строит деревья уже по proto-symbols:\n\n```text\nS1 = suffix/context tree over inferred symbols\n```\n\nДальше появляются морфемоподобные фрагменты:\n\n```text\nкот\nкот-а\nкот-у\nкот-ом\n```\n\nСледующий уровень:\n\n```text\nS2 = suffix/context tree over morph-like units\n```\n\nДальше словоподобные единицы:\n\n```text\n[большой] [кот]\n[рыжий] [кот]\n[кот] [сидит]\n```\n\nСледующий уровень:\n\n```text\nS3 = suffix/context tree over word-like units\n```\n\nДальше классы и конструкции:\n\n```text\n[ADJ-like] [NOUN-like]\n[NOUN-like] [VERB-like]\n[PREP-like] [NP-like]\n```\n\nИ так далее.\n\n## 9. Центральное правило рождения новой единицы\n\nНовая единица появляется не потому, что человек её назвал, а потому что она выгодна.\n\nНапример, кандидат `x` принимается, если:\n\n```text\nGain(x) =\n    улучшение предсказания\n  + выигрыш сжатия\n  + устойчивость в разных контекстах\n  + польза для задачи/награды\n  - стоимость хранения\n  - стоимость вычислений\n  - риск переобобщения\n```\n\nЕсли:\n\n```text\nGain(x) > threshold\n```\n\nтогда создаётся новая единица.\n\nОперации могут быть такими:\n\n```text\nchunk:      A B C → X\nsplit:      X → A B C\nclass:      {A, B, C} → CLASS_17\npattern:    CLASS_17 CLASS_42 → PATTERN_9\nmerge:      X ≈ Y → Z\nprune:      удалить бесполезную единицу\npromote:    частый паттерн → уровень выше\ndistill:    статистический паттерн → нейронный модуль\n```\n\nЭто превращает токенизацию в часть мышления системы, а не в внешний препроцессор.\n\n## 10. Как вывести классы без знания слов\n\nВыше мы говорили о прилагательных и существительных. Но если даже слова не заданы, процесс должен идти снизу вверх:\n\n```text\nчастые byte-цепочки\n↓\nсимволоподобные единицы\n↓\nповторяющиеся куски\n↓\nморфемоподобные куски\n↓\nсловоподобные куски\n↓\nклассы заменяемости\n↓\nконструкции\n```\n\nНапример, система обнаруживает:\n\n```text\nкрасн-ый дом\nкрасн-ая дверь\nкрасн-ое яблоко\nкрасн-ые дома\n\nсин-ий дом\nсин-яя дверь\nсин-ее небо\nсин-ие шары\n```\n\nОна может вывести не только “красный” и “синий”, но и более глубокие абстракции:\n\n```text\nкрасн- / син- = основа признака\n-ый / -ая / -ое / -ые = согласовательные окончания\nдом / дверь / яблоко / шары = объектные основы\n```\n\nПотом она видит, что определённые окончания согласуются друг с другом:\n\n```text\nкрасн-ый дом\nкрасн-ая дверь\nкрасн-ое яблоко\n```\n\nТак появляется не просто “слово”, а **система согласования**, выведенная из повторяющихся ковариаций.\n\n## 11. Чем это отличается от BPE и обычных токенизаторов\n\nBPE, WordPiece, Unigram и SentencePiece обычно ищут удобные subword units для нейросети. BPE в NMT стал популярным именно потому, что позволяет работать с rare/unknown words как с последовательностями subword units, что полезно для open-vocabulary translation. citeturn338308search3turn338308search7\n\nНо ваша идея глубже:\n\n| Обычный tokenizer | Ваша система |\n|---|---|\n| строится до обучения модели | строится во время жизни модели |\n| часто работает по Unicode-тексту | может начинать с байтов |\n| ищет удобные токены | выводит уровни структуры |\n| обычно фиксируется после обучения | растёт, сжимается, перестраивается |\n| не обязан понимать морфологию | ищет морфемы, слова, классы, конструкции |\n| не управляет архитектурой | управляет ростом нейросети |\n\nByT5 показывает, что byte-level neural models уже могут работать напрямую с UTF-8 bytes и быть конкурентоспособными с token-level моделями; авторы также отмечали повышенную устойчивость byte-level подхода к шуму и задачам, чувствительным к spelling/pronunciation. Но ByT5 сам по себе не строит полную многоуровневую систему “байты → морфемы → слова → грамматика → рост модулей”; это скорее доказательство, что байтовый вход практически жизнеспособен. citeturn251516search0turn251516search4\n\n## 12. Архитектура, которая соответствует вашей идее\n\nЯ бы описал её так:\n\n```text\nRaw byte stream\n    ↓\nByte-level context forest\n    ↓\nLatent codec induction\n    ↓\nProto-symbol lattice\n    ↓\nUnsupervised segmentation\n    ↓\nMorph-like units\n    ↓\nWord-like units\n    ↓\nDistributional classes\n    ↓\nConstruction grammar induction\n    ↓\nNeural growth controller\n    ↓\nAdapters / experts / new modules\n```\n\nИли компактнее:\n\n```text\nпоток → сжатие → единицы → классы → конструкции → нейронные органы\n```\n\nКаждый уровень имеет свой суффиксно-контекстный лес:\n\n```text\nS0: байты\nS1: выведенные символы\nS2: морфемоподобные единицы\nS3: словоподобные единицы\nS4: классы и конструкции\nS5: событийные схемы\n```\n\nПри этом уровни не обязаны быть окончательными. Если новая структура объясняет поток лучше, система может пересобрать старую сегментацию.\n\n## 13. Очень важный механизм: обратная связь сверху вниз\n\nЕсли идти только снизу вверх, система может ошибиться.\n\nНапример, она может решить, что:\n\n```text\nстолом\n```\n\nэто цельный блок, потому что он часто встречается.\n\nНо верхний уровень замечает парадигму:\n\n```text\nстол-ом\nдом-ом\nкот-ом\nнож-ом\n```\n\nИ тогда пересегментирует:\n\n```text\nстолом → стол + ом\n```\n\nТо есть нижний уровень предлагает chunks, а верхний уровень говорит:\n\n```text\nэта нарезка лучше участвует в общей системе\n```\n\nНужен цикл:\n\n```text\nbottom-up:\n    найти частые куски\n\ntop-down:\n    проверить, какие куски полезны для более высоких абстракций\n\nreanalysis:\n    пересобрать границы\n```\n\nБез этого система застрянет в поверхностных частотных кусках.\n\n## 14. “Слово” должно быть не сущностью, а режимом сжатия\n\nВ пределе я бы вообще не делал “слово” обязательной категорией.\n\nЛучше так:\n\n```text\nесть единицы разных масштабов\nнекоторые из них ведут себя как слова\nнекоторые как морфемы\nнекоторые как фразы\nнекоторые как устойчивые выражения\nнекоторые как синтаксические слоты\n```\n\nТо есть “слово” — не врождённый тип, а **область в пространстве признаков**:\n\n```text\nединица достаточно автономна\nимеет внутреннюю морфологию или не имеет\nперемещается как блок\nзаменяется другими блоками в похожих контекстах\nсочетается с другими блоками\nимеет устойчивое внешнее распределение\n```\n\nВ языках с разной типологией система может вывести разные “словоподобные” уровни. Это даже лучше, чем навязывать всем языкам один европейский стандарт слова.\n\n## 15. Главные проблемы такого подхода\n\nПервая проблема — **неоднозначность сегментации**. Один и тот же поток можно сжать разными способами. Например:\n\n```text\nнедостаток\nне-достаток\nнедо-стат-ок\n```\n\nВсе варианты могут быть частично оправданы. Поэтому нужна не одна сегментация, а вероятностная решётка.\n\nВторая проблема — **локальные минимумы**. Если система рано решила, что какой-то кусок является единицей, она может перестать видеть более глубокую структуру. Нужна периодическая пересборка, аналог “сна” или offline consolidation.\n\nТретья проблема — **частотные иллюзии**. Частый кусок не всегда является хорошей единицей. Например, в тексте могут часто встречаться случайные служебные фрагменты, HTML-шаблоны, мусорные префиксы, ID, timestamps. Нужен критерий не только частоты, но и переносимости/предсказательной пользы.\n\nЧетвёртая проблема — **смешение кодировок и доменов**. Один поток может содержать UTF-8, base64, бинарные блоки, JSON, HTML, логи, фрагменты другого языка. Система должна уметь создавать несколько локальных “кодеков”, а не один глобальный.\n\nПятая проблема — **вычислительная стоимость**. Полный перебор всех возможных сегментаций невозможен. Нужны beam search, approximate suffix structures, probabilistic pruning, memory budgets и эвристики предложения кандидатов.\n\n## 16. Минимальная формула системы\n\nМожно задать модель так:\n\n```text\nM = {\n    latent alphabets A0, A1, A2...\n    codebooks C0, C1, C2...\n    segmentation lattices L0, L1, L2...\n    suffix/context forests S0, S1, S2...\n    abstraction rules R\n    neural modules Θ\n}\n```\n\nЦель:\n\n```text\nminimize:\n    L(M) + L(data | M) + compute_cost(M)\n```\n\nИли в обучающейся форме:\n\n```text\nmaximize:\n    prediction_gain\n  + compression_gain\n  + task_utility\n  - memory_cost\n  - compute_cost\n  - instability_cost\n```\n\nТогда всё выводится единым механизмом:\n\n```text\nкодировка      = выгодная модель байтовых последовательностей\nсимвол         = выгодный byte-chunk\nморфема        = выгодная субсловная единица с продуктивным употреблением\nслово          = выгодная автономная единица среднего масштаба\nчасть речи     = класс взаимозаменяемых единиц\nсловосочетание = повторяемая конструкция из классов\nсмысловой фрейм = конструкция, полезная для предсказания событий\n```\n\n## 17. Как это связано с выращиванием нейросети\n\nКаждая новая устойчивая единица сначала появляется как статистическая гипотеза:\n\n```text\ncandidate unit\n```\n\nПотом как латентный символ:\n\n```text\nsymbol embedding\n```\n\nПотом как слот/класс:\n\n```text\nclass node\n```\n\nПотом как конструкция:\n\n```text\npattern node\n```\n\nИ только если она действительно полезна, под неё выращивается нейронный компонент:\n\n```text\nadapter\nexpert\nmemory cell\nrouting rule\nspecialized predictor\n```\n\nНапример:\n\n```text\n[D0 BA] → символоподобная единица\n[кот] → словоподобная единица\n[кот-ом / стол-ом / дом-ом] → морфологический шаблон\n[ADJ-like NOUN-like] → конструкция\n[AGENT ACTION OBJECT] → событийный фрейм\n```\n\nКаждый такой уровень может стать основанием для нового модуля сети.\n\n## 18. Вердикт\n\nДа, вы правы: если концепция радикально самоорганизующаяся, то **слова, морфемы, символы и даже кодировка не должны быть заданы заранее**.\n\nНаиболее сильная версия вашей идеи:\n\n> **Нейросеть должна иметь байтовый сенсорный вход и многоуровневый механизм индукции латентных единиц, где каждая новая единица рождается только потому, что она улучшает предсказание, сжатие, переносимость и управление поведением.**\n\nКороткая формула:\n\n```text\nбайты → регулярности → коды → символы → морфемы → слова → классы → конструкции → модули сети\n```\n\nНо ещё точнее:\n\n```text\nникаких фиксированных слов;\nтолько конкурирующие гипотезы о полезных единицах разных масштабов.\n```\n\nЭто уже не просто токенизация. Это **саморазвивающаяся нейросимвольная онтология**, вырастающая из потока данных."
+    }
+  ],
+  "source_url": "https://chatgpt.com/share/6a4b5320-48c4-83ed-829e-e856d313b1fb"
+}
