@@ -397,6 +397,49 @@ def resolve_markdown_target(link: MarkdownLink, repo_root: Path) -> Path | None:
     return (link.source.parent / path_part).resolve()
 
 
+def actual_case_path(path: Path, repo_root: Path) -> Path | None:
+    root = repo_root.resolve()
+    try:
+        relative = path.relative_to(root)
+    except ValueError:
+        return path if path.exists() else None
+
+    current = root
+    for part in relative.parts:
+        if not current.is_dir():
+            return None
+
+        try:
+            children = list(current.iterdir())
+        except OSError:
+            return None
+
+        exact = next((child for child in children if child.name == part), None)
+        if exact is not None:
+            current = exact
+            continue
+
+        folded = [
+            child for child in children if child.name.casefold() == part.casefold()
+        ]
+        if len(folded) == 1:
+            current = folded[0]
+            continue
+
+        return None
+
+    return current
+
+
+def all_markdown_files(repo_root: Path) -> set[Path]:
+    root = repo_root.resolve()
+    return {
+        path
+        for path in root.rglob("*.md")
+        if ".git" not in path.relative_to(root).parts
+    }
+
+
 def validate_markdown_links(paths: set[Path], repo_root: Path) -> list[str]:
     errors: list[str] = []
     for path in sorted(paths):
@@ -406,10 +449,25 @@ def validate_markdown_links(paths: set[Path], repo_root: Path) -> list[str]:
             target = resolve_markdown_target(link, repo_root)
             if target is None:
                 continue
-            if not target.exists():
+            actual_target = actual_case_path(target, repo_root)
+            if actual_target is None:
                 source_rel = repo_relative(link.source, repo_root)
                 errors.append(
                     f"broken Markdown link in {source_rel}:{link.line}: {link.target}"
+                )
+                continue
+
+            try:
+                target_rel = target.relative_to(repo_root.resolve()).as_posix()
+                actual_rel = actual_target.relative_to(repo_root.resolve()).as_posix()
+            except ValueError:
+                continue
+
+            if target_rel != actual_rel:
+                source_rel = repo_relative(link.source, repo_root)
+                errors.append(
+                    f"Markdown link case mismatch in {source_rel}:{link.line}: "
+                    f"{link.target} points to {actual_rel}"
                 )
     return errors
 
@@ -730,13 +788,16 @@ def validate_session(
         if expected_path not in affected_relative:
             errors.append(f"affected files section must include {label}: {expected_path}")
 
-    markdown_paths = set(affected_files)
-    markdown_paths.add(request_path)
-    markdown_paths.add(journal_path)
-    errors.extend(validate_markdown_links(markdown_paths, root))
-    errors.extend(validate_meta_request_coverage(markdown_paths, root))
-    errors.extend(validate_provenance_section_position(markdown_paths, root))
-    errors.extend(validate_mermaid_markdown_list_labels(markdown_paths, root))
+    session_markdown_paths = set(affected_files)
+    session_markdown_paths.add(request_path)
+    session_markdown_paths.add(journal_path)
+
+    link_paths = all_markdown_files(root)
+    link_paths.update(session_markdown_paths)
+    errors.extend(validate_markdown_links(link_paths, root))
+    errors.extend(validate_meta_request_coverage(session_markdown_paths, root))
+    errors.extend(validate_provenance_section_position(session_markdown_paths, root))
+    errors.extend(validate_mermaid_markdown_list_labels(session_markdown_paths, root))
     errors.extend(validate_md_recency(root))
 
     if check_git_status:

@@ -210,6 +210,39 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                 errors,
             )
 
+    def test_reports_case_mismatched_markdown_link_anywhere_in_repo(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = self.write_fixture(root)
+            note = root / "Документация" / "индекс.md"
+            note.write_text(
+                "\n".join(
+                    [
+                        "# Индекс",
+                        "",
+                        "[автоматизации](../документация/17-воспроизводимые-автоматизации.md)",
+                        "",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            errors = check_session_coherence.validate_session(
+                root,
+                request_path.relative_to(root),
+                git_status="",
+            )
+
+            self.assertTrue(
+                any(
+                    "Markdown link case mismatch in Документация/индекс.md:3" in error
+                    and "points to Документация/17-воспроизводимые-автоматизации.md"
+                    in error
+                    for error in errors
+                ),
+                errors,
+            )
+
     def test_reports_unlisted_git_status_path(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
