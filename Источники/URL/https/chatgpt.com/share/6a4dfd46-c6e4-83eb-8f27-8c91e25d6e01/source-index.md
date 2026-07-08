@@ -22,6 +22,7 @@
 - `chatgpt-share.script-03.txt`
 - `chatgpt-share.script-08.txt`
 - `chatgpt-share.script-10.txt`
+- `chatgpt-share.script-14.txt`
 - `chatgpt-share.visible-text.txt`
 - `extraction-report.md`
 - `source-index.md`
@@ -29,6 +30,6 @@
 - `ветка-strukturirovannye-elementy-fum.md`
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-08 10:41:38 MSK -->
-<!-- content-sha256: sha256:bc57ec36f28ba41fc0d2b834a4cd3b23f453c2a9366667f12209e2847bb2f90f -->
+<!-- last-content-edit: 2026-07-08 11:14:15 MSK -->
+<!-- content-sha256: sha256:ae79f53c8bbaa3b40c7b2f26dc629b3a8ad526d9d526f2595856b4a28c8a5e63 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -930,7 +930,787 @@ FUM-context stores streams as references to forms.
 
 На мой взгляд, именно с этого и стоит начинать реализацию: не с “полного мышления”, а с маленькой системы, которая умеет брать поток, разбирать его через библиотеку операторов, фиксировать остатки и расширять библиотеку так, чтобы следующее описание было короче, точнее и устойчивее.
 
+### 7. Пользователь
+
+Strukturiruyusjhiye operatoryi po suti zadayut derevo i iyerarkhiyu semanticheskikh svyazej. Nizkourovnevyiye strukturiruyusjhiye operatoryi, kak to operator suffiksa ili okonchaniya vpolne mogut byitj specifichnyimi dlya konkretnogo yazyika, dopustim, russkogo, i svyazyivatj, naprimer, lishj raznyiye formyi zapisi, k primeru zapisj kirillicej i latinicej. No vot boleye vyisokourovnevyiye i boleye semanticheskiye operatoryi uzhe mogut svyazyivatj v tom chisle strukturyi anglijskogo i russkogo yazyika mezhdu soboj.
+
+### 8. Ассистент
+
+Разверну это как многоуровневую архитектуру: нижние операторы остаются языко- и кодировочно-специфичными, а верхние образуют межъязыковые семантические связи. Полезно различить локальное дерево разбора потока и общую память операторов как граф смыслов.
+
+### 9. Ассистент
+
+Да, именно. **Структурирующие операторы задают не просто набор шаблонов, а многоуровневую иерархию семантических связей**. Причём чем ниже уровень оператора, тем сильнее он привязан к конкретной форме записи, языку или формату; чем выше уровень, тем больше он приближается к межъязыковой или даже внеязыковой семантике.
+
+Я бы различил здесь три слоя:
+
+```text
+1. Формальные / поверхностные операторы
+2. Языковые структурные операторы
+3. Межъязыковые семантические операторы
+```
+
+## 1. Низкий уровень: операторы формы
+
+На самом нижнем уровне оператор может связывать разные формы записи одного и того же или близкого элемента.
+
+Например:
+
+```text
+кириллица: человек
+латиница: chelovek
+```
+
+Оператор:
+
+```text
+TranslitRU {
+  chelovek ↔ человек
+}
+```
+
+Здесь почти нет высокой семантики. Это оператор соответствия между системами записи.
+
+То же самое:
+
+```text
+programma ↔ программа
+programmu ↔ программу
+napisal ↔ написал
+rabotayushchuyu ↔ работающую
+```
+
+Такие операторы специфичны для русского языка и для конкретной схемы транслитерации. Они помогают FUM понять, что:
+
+```text
+"programmu"
+```
+
+это не английское слово, а латинизированная форма русского:
+
+```text
+"программу"
+```
+
+Дальше уже подключается морфология.
+
+## 2. Морфологический уровень: языкоспецифические операторы
+
+Например:
+
+```text
+программа
+программы
+программе
+программу
+программой
+```
+
+связываются через оператор лексемы и парадигмы:
+
+```text
+LexemeRU {
+  lemma: программа
+  part_of_speech: noun
+  gender: feminine
+  paradigm: ...
+}
+```
+
+Форма:
+
+```text
+программу
+```
+
+получает структурное описание:
+
+```text
+lemma: программа
+case: accusative
+number: singular
+gender: feminine
+```
+
+Это уже не просто соответствие записей, а структурирование языкового материала.
+
+В английском для похожей сущности будет другой низкоуровневый оператор:
+
+```text
+program
+programs
+```
+
+Там нет падежной парадигмы как в русском, но есть число, артикли, порядок слов, предлоги и так далее.
+
+То есть на низком уровне:
+
+```text
+русский оператор ≠ английский оператор
+```
+
+Например:
+
+```text
+RU: падежное окончание
+EN: позиция в предложении / предлог / артикль
+```
+
+Но оба могут подниматься к одной и той же более высокой роли.
+
+## 3. Синтаксический уровень: частично языковой, частично общий
+
+Например, русское:
+
+```text
+я написал программу
+```
+
+и английское:
+
+```text
+I wrote a program
+```
+
+имеют разные поверхностные структуры:
+
+```text
+RU:
+  "я" — именительный падеж
+  "программу" — винительный падеж
+  порядок слов относительно свободный
+
+EN:
+  "I" — subject position
+  "program" — object position
+  порядок слов более жёсткий
+```
+
+Но на более высоком уровне оба разбираются в одну структуру:
+
+```text
+Event {
+  type: writing
+  agent: speaker
+  patient/result: program
+  tense: past
+}
+```
+
+И вот здесь появляются операторы более высокого уровня:
+
+```text
+SemanticRoleOperator {
+  agent
+  action
+  object/result
+  time
+  manner
+}
+```
+
+Они уже могут связывать русский и английский.
+
+## 4. Высокий уровень: межъязыковые семантические операторы
+
+Например:
+
+```text
+Я быстро написал работающую программу.
+```
+
+и:
+
+```text
+I quickly wrote a working program.
+```
+
+На поверхности они устроены по-разному.
+
+Русская структура:
+
+```text
+я
+быстро
+написал
+работающую
+программу
+```
+
+Английская структура:
+
+```text
+I
+quickly
+wrote
+a
+working
+program
+```
+
+Но FUM может построить общий семантический узел:
+
+```text
+Event {
+  predicate: WRITE
+  agent: SPEAKER
+  object: PROGRAM
+  object_property: WORKING
+  manner: QUICKLY
+  tense: PAST
+}
+```
+
+Тогда русские и английские операторы оказываются не напрямую равными друг другу, а связанными через общий более высокий оператор:
+
+```text
+RU surface structure
+      ↓
+RU morphosyntax
+      ↓
+semantic event frame
+      ↑
+EN morphosyntax
+      ↑
+EN surface structure
+```
+
+Это очень важно: **английский и русский не обязательно нужно связывать напрямую слово-к-слову**. Лучше связывать их через промежуточную семантическую структуру.
+
+## 5. Получается не только дерево, но и граф
+
+Вы говорите “дерево и иерархия”, и это верно как первое приближение. Но, скорее всего, в полной FUM это будет не чистое дерево, а **многоуровневый граф**.
+
+Почему?
+
+Потому что один низкоуровневый элемент может участвовать в нескольких высокоуровневых структурах.
+
+Например слово:
+
+```text
+работающая
+```
+
+может быть:
+
+```text
+1. причастием от "работать";
+2. признаком объекта;
+3. частью словосочетания "работающая программа";
+4. семантическим свойством "functioning";
+5. в другом контексте — частью метафоры.
+```
+
+То есть связи идут не строго вверх по одному пути, а расходятся:
+
+```text
+форма
+ → морфология
+ → синтаксис
+ → семантическая роль
+ → концепт
+ → прагматическая функция
+```
+
+Поэтому минимально можно говорить об иерархии, но технически лучше думать о структуре как о DAG/графе:
+
+```text
+низкие операторы: ближе к сигналу
+высокие операторы: ближе к смыслу
+рёбра: связи объяснения, порождения, обобщения, перевода, уточнения
+```
+
+## 6. Межъязыковой оператор как “интерфейс”
+
+Сравнение с типами здесь снова хорошо работает.
+
+Низкоуровневые операторы похожи на конкретные реализации:
+
+```text
+RussianNounCaseSystem
+EnglishWordOrderSystem
+RussianVerbAspectSystem
+EnglishTenseSystem
+```
+
+А высокоуровневые операторы похожи на интерфейсы:
+
+```text
+Agent
+Action
+Object
+Property
+Time
+Cause
+Goal
+Condition
+Modality
+Negation
+Quantification
+```
+
+Например:
+
+```text
+RU:
+  "программу" в винительном падеже
+
+EN:
+  "program" после глагола "wrote"
+```
+
+оба реализуют более абстрактную роль:
+
+```text
+Patient / Object / Result of action
+```
+
+То есть:
+
+```text
+Russian accusative case
+  implements SemanticObjectRole in certain constructions
+
+English post-verbal noun phrase
+  implements SemanticObjectRole in certain constructions
+```
+
+Это очень похоже на:
+
+```text
+class RussianAccusative implements ObjectMarker
+class EnglishSVOPosition implements ObjectMarker
+```
+
+## 7. Пример структуры FUM для двух языков
+
+Можно представить так:
+
+```text
+Raw input:
+  "Ya bystro napisal rabotayushchuyu programmu"
+
+Level 0: script/transliteration
+  Ya → Я
+  bystro → быстро
+  napisal → написал
+  rabotayushchuyu → работающую
+  programmu → программу
+
+Level 1: morphology
+  Я → pronoun, 1st person, singular, nominative
+  написал → verb, past, masculine/perfective
+  работающую → participle/adjective, feminine, accusative, singular
+  программу → noun, feminine, accusative, singular
+
+Level 2: syntax
+  subject: Я
+  predicate: написал
+  object: программу
+  object_modifier: работающую
+  manner: быстро
+
+Level 3: semantics
+  Event WRITE
+    agent: speaker
+    object: program
+    property(object): working
+    manner: quickly
+    tense: past
+
+Level 4: interlingual mapping
+  English generation:
+    "I quickly wrote a working program."
+```
+
+Здесь английская фраза не хранится как перевод каждой русской формы. Она порождается из более высокого семантического представления.
+
+## 8. Поэтому память операторов должна быть стратифицированной
+
+Для FUM полезно явно хранить уровень оператора:
+
+```text
+Operator {
+  id
+  level
+  language_scope
+  input_type
+  output_type
+  constraints
+  links_up
+  links_down
+  examples
+}
+```
+
+Например:
+
+```text
+Operator {
+  id: RU_ACCUSATIVE_OBJECT
+  level: morphosyntax
+  language_scope: Russian
+  input_type: RussianNounPhrase
+  output_type: SemanticObjectRole
+  constraints:
+    - accusative case
+    - compatible with transitive verb
+}
+```
+
+Или:
+
+```text
+Operator {
+  id: EN_POSTVERBAL_OBJECT
+  level: syntax
+  language_scope: English
+  input_type: EnglishNounPhrase
+  output_type: SemanticObjectRole
+  constraints:
+    - follows transitive verb in active SVO clause
+}
+```
+
+Оба связываются с одним более высоким оператором:
+
+```text
+Operator {
+  id: SEMANTIC_OBJECT_ROLE
+  level: semantics
+  language_scope: crosslingual
+  input_type: event_participant
+  output_type: role_in_event
+}
+```
+
+## 9. Важное следствие для перевода
+
+Тогда перевод в FUM — это не операция:
+
+```text
+слово на русском → слово на английском
+```
+
+а операция:
+
+```text
+русский поток
+→ русская структура
+→ межъязыковая семантическая структура
+→ английская структура
+→ английский поток
+```
+
+То есть:
+
+```text
+RU raw
+→ RU operators
+→ semantic operators
+→ EN operators
+→ EN raw
+```
+
+Это лучше, потому что многие вещи не переводятся один-к-одному.
+
+Например:
+
+```text
+мне холодно
+```
+
+буквально:
+
+```text
+to me cold
+```
+
+но английская структура:
+
+```text
+I am cold
+```
+
+Семантический центр:
+
+```text
+ExperiencerState {
+  experiencer: speaker
+  state: cold sensation
+}
+```
+
+Русский выражает experiencer через дательный падеж:
+
+```text
+мне
+```
+
+А английский — через подлежащее:
+
+```text
+I
+```
+
+Значит, FUM должен связать:
+
+```text
+RU_DATIVE_EXPERIENCER
+```
+
+и
+
+```text
+EN_SUBJECT_EXPERIENCER
+```
+
+через общий оператор:
+
+```text
+EXPERIENCER_ROLE
+```
+
+## 10. Ещё пример: русское “у меня есть”
+
+Русское:
+
+```text
+У меня есть книга.
+```
+
+Английское:
+
+```text
+I have a book.
+```
+
+Поверхностно это разные конструкции.
+
+Русская структура:
+
+```text
+у + genitive possessor
+есть + possessed object
+```
+
+Английская структура:
+
+```text
+subject + have + object
+```
+
+Но семантически:
+
+```text
+Possession {
+  possessor: speaker
+  possessed: book
+}
+```
+
+Соответственно:
+
+```text
+RU_U_MENYA_EST
+  → POSSESSION_FRAME
+
+EN_HAVE_CONSTRUCTION
+  → POSSESSION_FRAME
+```
+
+Это типичный пример того, почему высокоуровневые операторы должны быть межъязыковыми.
+
+## 11. Что это даёт FUM практически
+
+Такое разделение даёт несколько преимуществ.
+
+Во-первых, FUM может лучше сжимать поток:
+
+```text
+"Ya bystro napisal rabotayushchuyu programmu"
+```
+
+вместо хранения как строки можно хранить как:
+
+```text
+WRITE_EVENT(
+  agent=speaker,
+  object=PROGRAM(property=WORKING),
+  manner=QUICKLY,
+  tense=PAST
+)
+```
+
+А поверхностную форму хранить только как ссылку или как восстановимый слой.
+
+Во-вторых, FUM может связывать знания из разных языков:
+
+```text
+"я написал программу"
+"I wrote a program"
+```
+
+становятся двумя выражениями одного семантического узла.
+
+В-третьих, FUM может использовать один язык для уточнения другого. Например, если русская структура неоднозначна, английский перевод или англоязычная парафраза может помочь выбрать семантический разбор.
+
+В-четвёртых, FUM может хранить знания не как текст на конкретном языке, а как структуру, которую затем можно порождать на разных языках.
+
+## 12. Но полная межъязыковая нейтральность невозможна без потерь
+
+Нужно оставить важную оговорку: высокоуровневые операторы могут быть межъязыковыми, но они не всегда будут полностью нейтральными.
+
+Например, русский вид глагола:
+
+```text
+писал / написал
+```
+
+и английские времена/aspects:
+
+```text
+wrote / was writing / has written
+```
+
+не совпадают идеально.
+
+Русское:
+
+```text
+я писал программу
+```
+
+и:
+
+```text
+я написал программу
+```
+
+различают процесс и завершённость.
+
+В английском это можно выразить, но не всегда теми же средствами:
+
+```text
+I was writing a program.
+I wrote a program.
+I have written a program.
+```
+
+Поэтому межъязыковой оператор должен уметь хранить не только общий смысл, но и “семантические остатки”:
+
+```text
+common semantic frame
++
+language-specific features
++
+translation loss / ambiguity
+```
+
+Например:
+
+```text
+WRITE_EVENT {
+  agent: speaker
+  object: program
+  completion: completed
+  source_language_feature: RU perfective aspect
+}
+```
+
+То есть FUM должен различать:
+
+```text
+универсальную семантику
+```
+
+и:
+
+```text
+языково-специфические смысловые оттенки
+```
+
+## 13. Итоговая архитектура
+
+Можно представить память структурирующих операторов так:
+
+```text
+Level 0: raw signal operators
+  звук, символ, пиксель, байт, токен
+
+Level 1: notation operators
+  кириллица, латиница, транслитерация, TeX, Markdown, Python syntax
+
+Level 2: language-specific morphology
+  русские окончания, английские plural forms, времена, падежи
+
+Level 3: language-specific syntax
+  русский свободный порядок слов, английский SVO, конструкции с предлогами
+
+Level 4: semantic roles
+  agent, patient, experiencer, instrument, goal, source, location
+
+Level 5: frames/events
+  possession, writing, perception, causation, comparison, definition
+
+Level 6: discourse/rhetoric
+  утверждение, доказательство, пример, возражение, уточнение, вывод
+
+Level 7: task-level structures
+  программа, документ, доказательство, план, объяснение, диалог
+```
+
+Низкие уровни могут быть специфичны:
+
+```text
+RU-only
+EN-only
+TeX-only
+Python-only
+```
+
+Средние уровни частично общие:
+
+```text
+noun phrase
+verb phrase
+modifier
+argument
+predicate
+```
+
+Высокие уровни становятся межъязыковыми:
+
+```text
+event
+role
+cause
+goal
+state
+definition
+proof
+decision
+constraint
+```
+
+## 14. Главная формула
+
+Можно сформулировать так:
+
+> Низкоуровневые структурирующие операторы связывают разные формы записи и языковые реализации.
+> Высокоуровневые структурирующие операторы связывают уже не формы, а смыслы, поэтому они могут объединять русские, английские и другие языковые структуры в общие семантические узлы.
+
+И ещё короче:
+
+```text
+низкий уровень: разные записи одной формы
+средний уровень: разные языковые формы одной роли
+высокий уровень: разные языки как реализации одной семантической структуры
+```
+
+Именно такая иерархия делает FUM не просто парсером текста, а системой, которая может накапливать структуру смысла поверх разных форм записи, языков и форматов.
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-08 10:41:38 MSK -->
-<!-- content-sha256: sha256:6b1ee076ee2a4dc665d537e7364f355d67f32b27812abcfd48417220bfdf82c4 -->
+<!-- last-content-edit: 2026-07-08 11:14:15 MSK -->
+<!-- content-sha256: sha256:d2e3c06d5cc7c301fbd273dd9db5f2dc327fc095ed913bb64d2ca56a647c2676 -->
 <!-- FUM-MD-RECENCY:END -->

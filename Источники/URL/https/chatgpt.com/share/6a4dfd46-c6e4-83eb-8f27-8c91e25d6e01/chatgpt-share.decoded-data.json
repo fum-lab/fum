@@ -2,19 +2,19 @@
   "loaderData": {
     "root": {
       "dd": {
-        "traceId": "[REDACTED: response trace metadata]",
-        "traceTime": [REDACTED: response trace metadata]
+        "traceId": "[REDACTED: response trace id]",
+        "traceTime": "[REDACTED: response trace time]"
       },
-      "disablePrefetch": "loaderData",
-      "shouldPrefetchAccount": "$CYCLE:False",
-      "shouldPrefetchUser": "$CYCLE:False",
+      "disablePrefetch": "$CYCLE:False",
+      "shouldPrefetchAccount": "loaderData",
+      "shouldPrefetchUser": "loaderData",
       "shouldPrefetchSystemHints": "$CYCLE:False",
       "promoteCss": "$CYCLE:False",
       "disableSSR": "$CYCLE:False",
       "stripModulepreloadImports": "$CYCLE:False",
       "statsigGateEvaluationsPromise": [
         "P",
-        "$CYCLE:564"
+        "$CYCLE:723"
       ]
     },
     "routes/share.$shareId.($action)": {
@@ -24,13 +24,13 @@
         "data": {
           "title": "Ветка · Strukturirovannye elementy FUM",
           "create_time": 1783496006.793786,
-          "update_time": 1783496011.791047,
+          "update_time": 1783497900.218375,
           "moderation_results": [],
           "conversation_id": "6a4dfd46-c6e4-83eb-8f27-8c91e25d6e01",
           "is_archived": "$CYCLE:False",
           "safe_urls": [
-            "https://docs.google.com/document/d/",
-            "https://www.openai.com"
+            "https://www.openai.com",
+            "https://docs.google.com/document/d/"
           ],
           "blocked_urls": [],
           "default_model_slug": "gpt-5-5-pro",
@@ -172,7 +172,7 @@
                   "async_source": "[REDACTED: local request metadata]",
                   "parent_id": "cc5efe07-58b3-4ac0-9b11-74f1368f38f8",
                   "poll_on_websocket_inactivity_ms": 30000,
-                  "poll_freshness_max_mins": "metadata",
+                  "poll_freshness_max_mins": "content",
                   "poll_interval_ms": 10000,
                   "poll_suppress_reconnect_banner": "loaderData",
                   "permissions": [
@@ -192,33 +192,75 @@
                   "model_slug": "gpt-5-5-pro",
                   "default_model_slug": "gpt-5-5-pro",
                   "thinking_effort": "extended",
-                  "finished_duration_sec": "turn_exchange_id",
+                  "finished_duration_sec": "resolved_model_slug",
                   "reasoning_start_time": 1783491054.777668,
                   "pro_skipped": "$CYCLE:False",
                   "pro_progress": {
-                    "id": "879e7087-5bc6-4ce1-8f7b-0d01bccf5b4e",
+                    "id": "314dfaf4-fb8d-4300-8b81-b3f9b3a3bf60",
                     "message": {
-                      "id": "879e7087-5bc6-4ce1-8f7b-0d01bccf5b4e",
+                      "id": "314dfaf4-fb8d-4300-8b81-b3f9b3a3bf60",
                       "author": {
                         "role": "assistant",
                         "metadata": {}
                       },
-                      "create_time": 1783495305.327925,
+                      "create_time": 1783495186.382865,
                       "content": {
-                        "content_type": "model_editable_context",
-                        "model_set_context": ""
+                        "content_type": "thoughts",
+                        "thoughts": [
+                          {
+                            "summary": "Разработка ответа на концептуальный вопрос",
+                            "content": "Пользователь использует русскую транслитерацию, но, вероятно, нам стоит ответить на русском кириллице, как это сделал предыдущий ассистент. Задача концептуальная, без необходимости в обновлении данных, так что можем предложить план. Возможно, стоит начать с комментариев, а потом дать более развернутый ответ, избегая \"краткого\" стиля и запрещённых фраз.",
+                            "chunks": [
+                              "Пользователь использует русскую транслитерацию, но, вероятно, нам стоит ответить на русском кириллице, как это сделал предыдущий ассистент.",
+                              "Задача концептуальная, без необходимости в обновлении данных, так что можем предложить план.",
+                              "Возможно, стоит начать с комментариев, а потом дать более развернутый ответ, избегая \"краткого\" стиля и запрещённых фраз."
+                            ],
+                            "finished": "loaderData"
+                          }
+                        ],
+                        "source_analysis_msg_id": "ab886e0d-f32e-4f8a-9a91-a5283a5c103a"
                       },
                       "status": "finished_successfully",
+                      "end_turn": "$CYCLE:False",
                       "weight": "loaderData",
                       "metadata": {
+                        "reasoning_status": "is_reasoning",
+                        "citations": [],
+                        "content_references": [],
+                        "resolved_model_slug": "gpt-5-5-pro",
+                        "hide_inline_actions": "loaderData",
+                        "disable_turn_actions": "loaderData",
+                        "chime_version": "$CYCLE:2",
+                        "request_id": "[REDACTED: local request metadata]",
+                        "message_type": "next",
+                        "turn_exchange_id": "[REDACTED: local request metadata]",
+                        "working_turn_id": "[REDACTED: local request metadata]",
+                        "poll_on_websocket_inactivity_ms": 30000,
+                        "poll_freshness_max_mins": "content",
+                        "poll_interval_ms": 10000,
+                        "model_slug": "gpt-5-5-pro",
+                        "default_model_slug": "gpt-5-5-pro",
+                        "thinking_effort": "extended",
+                        "classifier_response": "default",
+                        "reasoning_start_time": 1783495089.0962462,
+                        "permissions": [
+                          {
+                            "type": "notification",
+                            "status": "requested",
+                            "notification_channel_id": "jawbone",
+                            "notification_channel_name": "Tasks",
+                            "notification_priority": "errors"
+                          }
+                        ],
+                        "skip_reasoning_title": "Пропустить",
                         "shared_conversation_id": "6a4dfd46-c6e4-83eb-8f27-8c91e25d6e01",
-                        "is_redacted": "loaderData"
+                        "can_save": "$CYCLE:False"
                       },
                       "recipient": "all"
                     },
-                    "parent": "314dfaf4-fb8d-4300-8b81-b3f9b3a3bf60",
+                    "parent": "cde6ba60-97b9-427c-95d3-dbfbd4cf868a",
                     "children": [
-                      "cf80981a-9984-5068-a9b9-2e89b8e1db4c"
+                      "879e7087-5bc6-4ce1-8f7b-0d01bccf5b4e"
                     ]
                   },
                   "is_finalizing": "loaderData",
@@ -261,7 +303,7 @@
                   "hide_inline_actions": "loaderData",
                   "disable_turn_actions": "loaderData",
                   "poll_on_websocket_inactivity_ms": 30000,
-                  "poll_freshness_max_mins": "metadata",
+                  "poll_freshness_max_mins": "content",
                   "poll_interval_ms": 10000,
                   "shared_conversation_id": "6a4dfd46-c6e4-83eb-8f27-8c91e25d6e01",
                   "can_save": "loaderData"
@@ -318,7 +360,7 @@
                 "weight": "loaderData",
                 "metadata": {
                   "reasoning_status": "reasoning_ended",
-                  "finished_duration_sec": "turn_exchange_id",
+                  "finished_duration_sec": "resolved_model_slug",
                   "turn_exchange_id": "[REDACTED: local request metadata]",
                   "working_turn_id": "[REDACTED: local request metadata]",
                   "reasoning_start_time": 1783491054.777668,
@@ -363,7 +405,7 @@
                   "turn_exchange_id": "[REDACTED: local request metadata]",
                   "working_turn_id": "[REDACTED: local request metadata]",
                   "poll_on_websocket_inactivity_ms": 30000,
-                  "poll_freshness_max_mins": "metadata",
+                  "poll_freshness_max_mins": "content",
                   "poll_interval_ms": 10000,
                   "model_slug": "gpt-5-5-pro",
                   "default_model_slug": "gpt-5-5-pro",
@@ -455,7 +497,7 @@
                   "async_source": "[REDACTED: local request metadata]",
                   "parent_id": "64d35ab3-e572-4139-9f9f-e5e4089cc44f",
                   "poll_on_websocket_inactivity_ms": 30000,
-                  "poll_freshness_max_mins": "metadata",
+                  "poll_freshness_max_mins": "content",
                   "poll_interval_ms": 10000,
                   "poll_suppress_reconnect_banner": "loaderData",
                   "permissions": [
@@ -475,41 +517,75 @@
                   "model_slug": "gpt-5-5-pro",
                   "default_model_slug": "gpt-5-5-pro",
                   "thinking_effort": "extended",
-                  "finished_duration_sec": [
-                    {
-                      "type": "notification",
-                      "status": "requested",
-                      "notification_channel_id": "jawbone",
-                      "notification_channel_name": "Tasks",
-                      "notification_priority": "errors"
-                    }
-                  ],
+                  "finished_duration_sec": "notification",
                   "reasoning_start_time": 1783495083.875,
                   "pro_skipped": "$CYCLE:False",
                   "pro_progress": {
-                    "id": "879e7087-5bc6-4ce1-8f7b-0d01bccf5b4e",
+                    "id": "314dfaf4-fb8d-4300-8b81-b3f9b3a3bf60",
                     "message": {
-                      "id": "879e7087-5bc6-4ce1-8f7b-0d01bccf5b4e",
+                      "id": "314dfaf4-fb8d-4300-8b81-b3f9b3a3bf60",
                       "author": {
                         "role": "assistant",
                         "metadata": {}
                       },
-                      "create_time": 1783495305.327925,
+                      "create_time": 1783495186.382865,
                       "content": {
-                        "content_type": "model_editable_context",
-                        "model_set_context": ""
+                        "content_type": "thoughts",
+                        "thoughts": [
+                          {
+                            "summary": "Разработка ответа на концептуальный вопрос",
+                            "content": "Пользователь использует русскую транслитерацию, но, вероятно, нам стоит ответить на русском кириллице, как это сделал предыдущий ассистент. Задача концептуальная, без необходимости в обновлении данных, так что можем предложить план. Возможно, стоит начать с комментариев, а потом дать более развернутый ответ, избегая \"краткого\" стиля и запрещённых фраз.",
+                            "chunks": [
+                              "Пользователь использует русскую транслитерацию, но, вероятно, нам стоит ответить на русском кириллице, как это сделал предыдущий ассистент.",
+                              "Задача концептуальная, без необходимости в обновлении данных, так что можем предложить план.",
+                              "Возможно, стоит начать с комментариев, а потом дать более развернутый ответ, избегая \"краткого\" стиля и запрещённых фраз."
+                            ],
+                            "finished": "loaderData"
+                          }
+                        ],
+                        "source_analysis_msg_id": "ab886e0d-f32e-4f8a-9a91-a5283a5c103a"
                       },
                       "status": "finished_successfully",
+                      "end_turn": "$CYCLE:False",
                       "weight": "loaderData",
                       "metadata": {
+                        "reasoning_status": "is_reasoning",
+                        "citations": [],
+                        "content_references": [],
+                        "resolved_model_slug": "gpt-5-5-pro",
+                        "hide_inline_actions": "loaderData",
+                        "disable_turn_actions": "loaderData",
+                        "chime_version": "$CYCLE:2",
+                        "request_id": "[REDACTED: local request metadata]",
+                        "message_type": "next",
+                        "turn_exchange_id": "[REDACTED: local request metadata]",
+                        "working_turn_id": "[REDACTED: local request metadata]",
+                        "poll_on_websocket_inactivity_ms": 30000,
+                        "poll_freshness_max_mins": "content",
+                        "poll_interval_ms": 10000,
+                        "model_slug": "gpt-5-5-pro",
+                        "default_model_slug": "gpt-5-5-pro",
+                        "thinking_effort": "extended",
+                        "classifier_response": "default",
+                        "reasoning_start_time": 1783495089.0962462,
+                        "permissions": [
+                          {
+                            "type": "notification",
+                            "status": "requested",
+                            "notification_channel_id": "jawbone",
+                            "notification_channel_name": "Tasks",
+                            "notification_priority": "errors"
+                          }
+                        ],
+                        "skip_reasoning_title": "Пропустить",
                         "shared_conversation_id": "6a4dfd46-c6e4-83eb-8f27-8c91e25d6e01",
-                        "is_redacted": "loaderData"
+                        "can_save": "$CYCLE:False"
                       },
                       "recipient": "all"
                     },
-                    "parent": "314dfaf4-fb8d-4300-8b81-b3f9b3a3bf60",
+                    "parent": "cde6ba60-97b9-427c-95d3-dbfbd4cf868a",
                     "children": [
-                      "cf80981a-9984-5068-a9b9-2e89b8e1db4c"
+                      "879e7087-5bc6-4ce1-8f7b-0d01bccf5b4e"
                     ]
                   },
                   "is_finalizing": "loaderData",
@@ -552,7 +628,7 @@
                   "hide_inline_actions": "loaderData",
                   "disable_turn_actions": "loaderData",
                   "poll_on_websocket_inactivity_ms": 30000,
-                  "poll_freshness_max_mins": "metadata",
+                  "poll_freshness_max_mins": "content",
                   "poll_interval_ms": 10000,
                   "shared_conversation_id": "6a4dfd46-c6e4-83eb-8f27-8c91e25d6e01",
                   "can_save": "loaderData"
@@ -606,7 +682,7 @@
                   "turn_exchange_id": "[REDACTED: local request metadata]",
                   "working_turn_id": "[REDACTED: local request metadata]",
                   "poll_on_websocket_inactivity_ms": 30000,
-                  "poll_freshness_max_mins": "metadata",
+                  "poll_freshness_max_mins": "content",
                   "poll_interval_ms": 10000,
                   "model_slug": "gpt-5-5-pro",
                   "default_model_slug": "gpt-5-5-pro",
@@ -677,15 +753,7 @@
                 "weight": "loaderData",
                 "metadata": {
                   "reasoning_status": "reasoning_ended",
-                  "finished_duration_sec": [
-                    {
-                      "type": "notification",
-                      "status": "requested",
-                      "notification_channel_id": "jawbone",
-                      "notification_channel_name": "Tasks",
-                      "notification_priority": "errors"
-                    }
-                  ],
+                  "finished_duration_sec": "notification",
                   "turn_exchange_id": "[REDACTED: local request metadata]",
                   "working_turn_id": "[REDACTED: local request metadata]",
                   "reasoning_start_time": 1783495083.875,
@@ -709,6 +777,7 @@
                   "metadata": {}
                 },
                 "create_time": 1783495305.327925,
+                "update_time": 1783497871.695111,
                 "content": {
                   "content_type": "text",
                   "parts": [
@@ -729,7 +798,7 @@
                   "turn_exchange_id": "[REDACTED: local request metadata]",
                   "working_turn_id": "[REDACTED: local request metadata]",
                   "poll_on_websocket_inactivity_ms": 30000,
-                  "poll_freshness_max_mins": "metadata",
+                  "poll_freshness_max_mins": "content",
                   "poll_interval_ms": 10000,
                   "model_slug": "gpt-5-5-pro",
                   "default_model_slug": "gpt-5-5-pro",
@@ -751,10 +820,304 @@
                 "channel": "final"
               },
               "parent": "cf80981a-9984-5068-a9b9-2e89b8e1db4c",
+              "children": [
+                "22f90239-8c59-4f6b-b0b5-297c9f07f41f"
+              ]
+            },
+            "22f90239-8c59-4f6b-b0b5-297c9f07f41f": {
+              "id": "22f90239-8c59-4f6b-b0b5-297c9f07f41f",
+              "message": {
+                "id": "22f90239-8c59-4f6b-b0b5-297c9f07f41f",
+                "author": {
+                  "role": "user",
+                  "metadata": {}
+                },
+                "create_time": 1783497264.684,
+                "update_time": 1783497281.796931,
+                "content": {
+                  "content_type": "text",
+                  "parts": [
+                    "Strukturiruyusjhiye operatoryi po suti zadayut derevo i iyerarkhiyu semanticheskikh svyazej. Nizkourovnevyiye strukturiruyusjhiye operatoryi, kak to operator suffiksa ili okonchaniya vpolne mogut byitj specifichnyimi dlya konkretnogo yazyika, dopustim, russkogo, i svyazyivatj, naprimer, lishj raznyiye formyi zapisi, k primeru zapisj kirillicej i latinicej. No vot boleye vyisokourovnevyiye i boleye semanticheskiye operatoryi uzhe mogut svyazyivatj v tom chisle strukturyi anglijskogo i russkogo yazyika mezhdu soboj."
+                  ]
+                },
+                "status": "finished_successfully",
+                "weight": "loaderData",
+                "metadata": {
+                  "selected_sources": [],
+                  "serialization_metadata": {
+                    "custom_symbol_offsets": []
+                  },
+                  "request_id": "[REDACTED: local request metadata]",
+                  "message_source": "$UNDEFINED",
+                  "turn_exchange_id": "[REDACTED: local request metadata]",
+                  "working_turn_id": "[REDACTED: local request metadata]",
+                  "resolved_model_slug": "gpt-5-5-pro",
+                  "shared_conversation_id": "6a4dfd46-c6e4-83eb-8f27-8c91e25d6e01",
+                  "can_save": "$CYCLE:False"
+                },
+                "recipient": "all"
+              },
+              "parent": "12ee1a97-1b8d-4230-9cc6-9bea2813fbf2",
+              "children": [
+                "07ffc040-dc66-4d35-876c-7e053fb362d6"
+              ]
+            },
+            "07ffc040-dc66-4d35-876c-7e053fb362d6": {
+              "id": "07ffc040-dc66-4d35-876c-7e053fb362d6",
+              "message": {
+                "id": "07ffc040-dc66-4d35-876c-7e053fb362d6",
+                "author": {
+                  "role": "tool",
+                  "name": "a8km123",
+                  "metadata": {}
+                },
+                "create_time": 1783497274.125521,
+                "content": {
+                  "content_type": "text",
+                  "parts": [
+                    ""
+                  ]
+                },
+                "status": "finished_successfully",
+                "weight": "$CYCLE:0",
+                "metadata": {
+                  "finished_text": "Думал на протяжении 4m 8s",
+                  "initial_text": "Рассуждение",
+                  "summarization_headline": "",
+                  "async_source": "[REDACTED: local request metadata]",
+                  "parent_id": "22f90239-8c59-4f6b-b0b5-297c9f07f41f",
+                  "poll_on_websocket_inactivity_ms": 30000,
+                  "poll_freshness_max_mins": "content",
+                  "poll_interval_ms": 10000,
+                  "poll_suppress_reconnect_banner": "loaderData",
+                  "permissions": [
+                    {
+                      "type": "notification",
+                      "status": "requested",
+                      "notification_channel_id": "jawbone",
+                      "notification_channel_name": "Tasks",
+                      "notification_priority": "errors"
+                    }
+                  ],
+                  "chime_version": "$CYCLE:2",
+                  "request_id": "[REDACTED: local request metadata]",
+                  "message_type": "next",
+                  "turn_exchange_id": "[REDACTED: local request metadata]",
+                  "working_turn_id": "[REDACTED: local request metadata]",
+                  "model_slug": "gpt-5-5-pro",
+                  "default_model_slug": "gpt-5-5-pro",
+                  "thinking_effort": "extended",
+                  "finished_duration_sec": 1783497302.480384,
+                  "reasoning_start_time": 1783497274.125521,
+                  "pro_skipped": "$CYCLE:False",
+                  "shared_conversation_id": "6a4dfd46-c6e4-83eb-8f27-8c91e25d6e01",
+                  "can_save": "$CYCLE:False"
+                },
+                "recipient": "all"
+              },
+              "parent": "22f90239-8c59-4f6b-b0b5-297c9f07f41f",
+              "children": [
+                "6dc1ce72-f26e-4a70-9e4f-b899ae2d41ad"
+              ]
+            },
+            "6dc1ce72-f26e-4a70-9e4f-b899ae2d41ad": {
+              "id": "6dc1ce72-f26e-4a70-9e4f-b899ae2d41ad",
+              "message": {
+                "id": "6dc1ce72-f26e-4a70-9e4f-b899ae2d41ad",
+                "author": {
+                  "role": "assistant",
+                  "metadata": {}
+                },
+                "create_time": 1783497302.480384,
+                "content": {
+                  "content_type": "text",
+                  "parts": [
+                    "Разверну это как многоуровневую архитектуру: нижние операторы остаются языко- и кодировочно-специфичными, а верхние образуют межъязыковые семантические связи. Полезно различить локальное дерево разбора потока и общую память операторов как граф смыслов."
+                  ]
+                },
+                "status": "finished_successfully",
+                "end_turn": "loaderData",
+                "weight": "loaderData",
+                "metadata": {
+                  "parent_id": "07ffc040-dc66-4d35-876c-7e053fb362d6",
+                  "turn_exchange_id": "[REDACTED: local request metadata]",
+                  "working_turn_id": "[REDACTED: local request metadata]",
+                  "model_slug": "gpt-5-5-pro",
+                  "chime_version": "$CYCLE:2",
+                  "is_thinking_preamble_message": "loaderData",
+                  "preamble_version": "loaderData",
+                  "hide_inline_actions": "loaderData",
+                  "disable_turn_actions": "loaderData",
+                  "poll_on_websocket_inactivity_ms": 30000,
+                  "poll_freshness_max_mins": "content",
+                  "poll_interval_ms": 10000,
+                  "shared_conversation_id": "6a4dfd46-c6e4-83eb-8f27-8c91e25d6e01",
+                  "can_save": "loaderData"
+                },
+                "recipient": "all",
+                "channel": "commentary"
+              },
+              "parent": "07ffc040-dc66-4d35-876c-7e053fb362d6",
+              "children": [
+                "e925bf8c-0fed-456e-bfe7-86b42f9ec83a"
+              ]
+            },
+            "e925bf8c-0fed-456e-bfe7-86b42f9ec83a": {
+              "id": "e925bf8c-0fed-456e-bfe7-86b42f9ec83a",
+              "message": {
+                "id": "e925bf8c-0fed-456e-bfe7-86b42f9ec83a",
+                "author": {
+                  "role": "assistant",
+                  "metadata": {}
+                },
+                "create_time": 1783497377.368806,
+                "content": {
+                  "content_type": "thoughts",
+                  "thoughts": [
+                    {
+                      "summary": "Рассматриваем структуру языковых операторов для концептуальной задачи",
+                      "content": "Пользователь использует латиницу для русского языка, однако, возможно, стоит продолжить на кириллице. Вопрос теоретический, не требующий инструментов. Нужно строить концептуальную структуру, определяя уровни операторов: от низких (язык-специфичные) до высокоуровневых, межъязыковых для связывания смысловых графов.",
+                      "chunks": [
+                        "Пользователь использует латиницу для русского языка, однако, возможно, стоит продолжить на кириллице.",
+                        "Вопрос теоретический, не требующий инструментов.",
+                        "Нужно строить концептуальную структуру, определяя уровни операторов: от низких (язык-специфичные) до высокоуровневых, межъязыковых для связывания смысловых графов."
+                      ],
+                      "finished": "loaderData"
+                    }
+                  ],
+                  "source_analysis_msg_id": "ced1ed66-1062-48b7-82b6-0e6e23acadde"
+                },
+                "status": "finished_successfully",
+                "end_turn": "$CYCLE:False",
+                "weight": "loaderData",
+                "metadata": {
+                  "reasoning_status": "is_reasoning",
+                  "citations": [],
+                  "content_references": [],
+                  "resolved_model_slug": "gpt-5-5-pro",
+                  "hide_inline_actions": "loaderData",
+                  "disable_turn_actions": "loaderData",
+                  "chime_version": "$CYCLE:2",
+                  "request_id": "[REDACTED: local request metadata]",
+                  "message_type": "next",
+                  "turn_exchange_id": "[REDACTED: local request metadata]",
+                  "working_turn_id": "[REDACTED: local request metadata]",
+                  "poll_on_websocket_inactivity_ms": 30000,
+                  "poll_freshness_max_mins": "content",
+                  "poll_interval_ms": 10000,
+                  "model_slug": "gpt-5-5-pro",
+                  "default_model_slug": "gpt-5-5-pro",
+                  "thinking_effort": "extended",
+                  "classifier_response": "default",
+                  "reasoning_start_time": 1783497282.80954,
+                  "permissions": [
+                    {
+                      "type": "notification",
+                      "status": "requested",
+                      "notification_channel_id": "jawbone",
+                      "notification_channel_name": "Tasks",
+                      "notification_priority": "errors"
+                    }
+                  ],
+                  "skip_reasoning_title": "Пропустить",
+                  "shared_conversation_id": "6a4dfd46-c6e4-83eb-8f27-8c91e25d6e01",
+                  "can_save": "$CYCLE:False"
+                },
+                "recipient": "all"
+              },
+              "parent": "6dc1ce72-f26e-4a70-9e4f-b899ae2d41ad",
+              "children": [
+                "fc8d7dbf-fe98-527f-97a0-3f993eef1510"
+              ]
+            },
+            "fc8d7dbf-fe98-527f-97a0-3f993eef1510": {
+              "id": "fc8d7dbf-fe98-527f-97a0-3f993eef1510",
+              "message": {
+                "id": "fc8d7dbf-fe98-527f-97a0-3f993eef1510",
+                "author": {
+                  "role": "assistant",
+                  "metadata": {}
+                },
+                "create_time": 1783497523.039369,
+                "content": {
+                  "content_type": "reasoning_recap",
+                  "content": "Думал на протяжении 4m 8s"
+                },
+                "status": "finished_successfully",
+                "end_turn": "loaderData",
+                "weight": "loaderData",
+                "metadata": {
+                  "reasoning_status": "reasoning_ended",
+                  "finished_duration_sec": 1783497302.480384,
+                  "turn_exchange_id": "[REDACTED: local request metadata]",
+                  "working_turn_id": "[REDACTED: local request metadata]",
+                  "reasoning_start_time": 1783497274.125521,
+                  "reasoning_end_time": 1783497523.039369,
+                  "shared_conversation_id": "6a4dfd46-c6e4-83eb-8f27-8c91e25d6e01",
+                  "can_save": "$CYCLE:False"
+                },
+                "recipient": "all"
+              },
+              "parent": "e925bf8c-0fed-456e-bfe7-86b42f9ec83a",
+              "children": [
+                "4db5112a-20cd-437f-84f2-f88e4fa1743a"
+              ]
+            },
+            "4db5112a-20cd-437f-84f2-f88e4fa1743a": {
+              "id": "4db5112a-20cd-437f-84f2-f88e4fa1743a",
+              "message": {
+                "id": "4db5112a-20cd-437f-84f2-f88e4fa1743a",
+                "author": {
+                  "role": "assistant",
+                  "metadata": {}
+                },
+                "create_time": 1783497523.039369,
+                "content": {
+                  "content_type": "text",
+                  "parts": [
+                    "Да, именно. **Структурирующие операторы задают не просто набор шаблонов, а многоуровневую иерархию семантических связей**. Причём чем ниже уровень оператора, тем сильнее он привязан к конкретной форме записи, языку или формату; чем выше уровень, тем больше он приближается к межъязыковой или даже внеязыковой семантике.\n\nЯ бы различил здесь три слоя:\n\n```text\n1. Формальные / поверхностные операторы\n2. Языковые структурные операторы\n3. Межъязыковые семантические операторы\n```\n\n## 1. Низкий уровень: операторы формы\n\nНа самом нижнем уровне оператор может связывать разные формы записи одного и того же или близкого элемента.\n\nНапример:\n\n```text\nкириллица: человек\nлатиница: chelovek\n```\n\nОператор:\n\n```text\nTranslitRU {\n  chelovek ↔ человек\n}\n```\n\nЗдесь почти нет высокой семантики. Это оператор соответствия между системами записи.\n\nТо же самое:\n\n```text\nprogramma ↔ программа\nprogrammu ↔ программу\nnapisal ↔ написал\nrabotayushchuyu ↔ работающую\n```\n\nТакие операторы специфичны для русского языка и для конкретной схемы транслитерации. Они помогают FUM понять, что:\n\n```text\n\"programmu\"\n```\n\nэто не английское слово, а латинизированная форма русского:\n\n```text\n\"программу\"\n```\n\nДальше уже подключается морфология.\n\n## 2. Морфологический уровень: языкоспецифические операторы\n\nНапример:\n\n```text\nпрограмма\nпрограммы\nпрограмме\nпрограмму\nпрограммой\n```\n\nсвязываются через оператор лексемы и парадигмы:\n\n```text\nLexemeRU {\n  lemma: программа\n  part_of_speech: noun\n  gender: feminine\n  paradigm: ...\n}\n```\n\nФорма:\n\n```text\nпрограмму\n```\n\nполучает структурное описание:\n\n```text\nlemma: программа\ncase: accusative\nnumber: singular\ngender: feminine\n```\n\nЭто уже не просто соответствие записей, а структурирование языкового материала.\n\nВ английском для похожей сущности будет другой низкоуровневый оператор:\n\n```text\nprogram\nprograms\n```\n\nТам нет падежной парадигмы как в русском, но есть число, артикли, порядок слов, предлоги и так далее.\n\nТо есть на низком уровне:\n\n```text\nрусский оператор ≠ английский оператор\n```\n\nНапример:\n\n```text\nRU: падежное окончание\nEN: позиция в предложении / предлог / артикль\n```\n\nНо оба могут подниматься к одной и той же более высокой роли.\n\n## 3. Синтаксический уровень: частично языковой, частично общий\n\nНапример, русское:\n\n```text\nя написал программу\n```\n\nи английское:\n\n```text\nI wrote a program\n```\n\nимеют разные поверхностные структуры:\n\n```text\nRU:\n  \"я\" — именительный падеж\n  \"программу\" — винительный падеж\n  порядок слов относительно свободный\n\nEN:\n  \"I\" — subject position\n  \"program\" — object position\n  порядок слов более жёсткий\n```\n\nНо на более высоком уровне оба разбираются в одну структуру:\n\n```text\nEvent {\n  type: writing\n  agent: speaker\n  patient/result: program\n  tense: past\n}\n```\n\nИ вот здесь появляются операторы более высокого уровня:\n\n```text\nSemanticRoleOperator {\n  agent\n  action\n  object/result\n  time\n  manner\n}\n```\n\nОни уже могут связывать русский и английский.\n\n## 4. Высокий уровень: межъязыковые семантические операторы\n\nНапример:\n\n```text\nЯ быстро написал работающую программу.\n```\n\nи:\n\n```text\nI quickly wrote a working program.\n```\n\nНа поверхности они устроены по-разному.\n\nРусская структура:\n\n```text\nя\nбыстро\nнаписал\nработающую\nпрограмму\n```\n\nАнглийская структура:\n\n```text\nI\nquickly\nwrote\na\nworking\nprogram\n```\n\nНо FUM может построить общий семантический узел:\n\n```text\nEvent {\n  predicate: WRITE\n  agent: SPEAKER\n  object: PROGRAM\n  object_property: WORKING\n  manner: QUICKLY\n  tense: PAST\n}\n```\n\nТогда русские и английские операторы оказываются не напрямую равными друг другу, а связанными через общий более высокий оператор:\n\n```text\nRU surface structure\n      ↓\nRU morphosyntax\n      ↓\nsemantic event frame\n      ↑\nEN morphosyntax\n      ↑\nEN surface structure\n```\n\nЭто очень важно: **английский и русский не обязательно нужно связывать напрямую слово-к-слову**. Лучше связывать их через промежуточную семантическую структуру.\n\n## 5. Получается не только дерево, но и граф\n\nВы говорите “дерево и иерархия”, и это верно как первое приближение. Но, скорее всего, в полной FUM это будет не чистое дерево, а **многоуровневый граф**.\n\nПочему?\n\nПотому что один низкоуровневый элемент может участвовать в нескольких высокоуровневых структурах.\n\nНапример слово:\n\n```text\nработающая\n```\n\nможет быть:\n\n```text\n1. причастием от \"работать\";\n2. признаком объекта;\n3. частью словосочетания \"работающая программа\";\n4. семантическим свойством \"functioning\";\n5. в другом контексте — частью метафоры.\n```\n\nТо есть связи идут не строго вверх по одному пути, а расходятся:\n\n```text\nформа\n → морфология\n → синтаксис\n → семантическая роль\n → концепт\n → прагматическая функция\n```\n\nПоэтому минимально можно говорить об иерархии, но технически лучше думать о структуре как о DAG/графе:\n\n```text\nнизкие операторы: ближе к сигналу\nвысокие операторы: ближе к смыслу\nрёбра: связи объяснения, порождения, обобщения, перевода, уточнения\n```\n\n## 6. Межъязыковой оператор как “интерфейс”\n\nСравнение с типами здесь снова хорошо работает.\n\nНизкоуровневые операторы похожи на конкретные реализации:\n\n```text\nRussianNounCaseSystem\nEnglishWordOrderSystem\nRussianVerbAspectSystem\nEnglishTenseSystem\n```\n\nА высокоуровневые операторы похожи на интерфейсы:\n\n```text\nAgent\nAction\nObject\nProperty\nTime\nCause\nGoal\nCondition\nModality\nNegation\nQuantification\n```\n\nНапример:\n\n```text\nRU:\n  \"программу\" в винительном падеже\n\nEN:\n  \"program\" после глагола \"wrote\"\n```\n\nоба реализуют более абстрактную роль:\n\n```text\nPatient / Object / Result of action\n```\n\nТо есть:\n\n```text\nRussian accusative case\n  implements SemanticObjectRole in certain constructions\n\nEnglish post-verbal noun phrase\n  implements SemanticObjectRole in certain constructions\n```\n\nЭто очень похоже на:\n\n```text\nclass RussianAccusative implements ObjectMarker\nclass EnglishSVOPosition implements ObjectMarker\n```\n\n## 7. Пример структуры FUM для двух языков\n\nМожно представить так:\n\n```text\nRaw input:\n  \"Ya bystro napisal rabotayushchuyu programmu\"\n\nLevel 0: script/transliteration\n  Ya → Я\n  bystro → быстро\n  napisal → написал\n  rabotayushchuyu → работающую\n  programmu → программу\n\nLevel 1: morphology\n  Я → pronoun, 1st person, singular, nominative\n  написал → verb, past, masculine/perfective\n  работающую → participle/adjective, feminine, accusative, singular\n  программу → noun, feminine, accusative, singular\n\nLevel 2: syntax\n  subject: Я\n  predicate: написал\n  object: программу\n  object_modifier: работающую\n  manner: быстро\n\nLevel 3: semantics\n  Event WRITE\n    agent: speaker\n    object: program\n    property(object): working\n    manner: quickly\n    tense: past\n\nLevel 4: interlingual mapping\n  English generation:\n    \"I quickly wrote a working program.\"\n```\n\nЗдесь английская фраза не хранится как перевод каждой русской формы. Она порождается из более высокого семантического представления.\n\n## 8. Поэтому память операторов должна быть стратифицированной\n\nДля FUM полезно явно хранить уровень оператора:\n\n```text\nOperator {\n  id\n  level\n  language_scope\n  input_type\n  output_type\n  constraints\n  links_up\n  links_down\n  examples\n}\n```\n\nНапример:\n\n```text\nOperator {\n  id: RU_ACCUSATIVE_OBJECT\n  level: morphosyntax\n  language_scope: Russian\n  input_type: RussianNounPhrase\n  output_type: SemanticObjectRole\n  constraints:\n    - accusative case\n    - compatible with transitive verb\n}\n```\n\nИли:\n\n```text\nOperator {\n  id: EN_POSTVERBAL_OBJECT\n  level: syntax\n  language_scope: English\n  input_type: EnglishNounPhrase\n  output_type: SemanticObjectRole\n  constraints:\n    - follows transitive verb in active SVO clause\n}\n```\n\nОба связываются с одним более высоким оператором:\n\n```text\nOperator {\n  id: SEMANTIC_OBJECT_ROLE\n  level: semantics\n  language_scope: crosslingual\n  input_type: event_participant\n  output_type: role_in_event\n}\n```\n\n## 9. Важное следствие для перевода\n\nТогда перевод в FUM — это не операция:\n\n```text\nслово на русском → слово на английском\n```\n\nа операция:\n\n```text\nрусский поток\n→ русская структура\n→ межъязыковая семантическая структура\n→ английская структура\n→ английский поток\n```\n\nТо есть:\n\n```text\nRU raw\n→ RU operators\n→ semantic operators\n→ EN operators\n→ EN raw\n```\n\nЭто лучше, потому что многие вещи не переводятся один-к-одному.\n\nНапример:\n\n```text\nмне холодно\n```\n\nбуквально:\n\n```text\nto me cold\n```\n\nно английская структура:\n\n```text\nI am cold\n```\n\nСемантический центр:\n\n```text\nExperiencerState {\n  experiencer: speaker\n  state: cold sensation\n}\n```\n\nРусский выражает experiencer через дательный падеж:\n\n```text\nмне\n```\n\nА английский — через подлежащее:\n\n```text\nI\n```\n\nЗначит, FUM должен связать:\n\n```text\nRU_DATIVE_EXPERIENCER\n```\n\nи\n\n```text\nEN_SUBJECT_EXPERIENCER\n```\n\nчерез общий оператор:\n\n```text\nEXPERIENCER_ROLE\n```\n\n## 10. Ещё пример: русское “у меня есть”\n\nРусское:\n\n```text\nУ меня есть книга.\n```\n\nАнглийское:\n\n```text\nI have a book.\n```\n\nПоверхностно это разные конструкции.\n\nРусская структура:\n\n```text\nу + genitive possessor\nесть + possessed object\n```\n\nАнглийская структура:\n\n```text\nsubject + have + object\n```\n\nНо семантически:\n\n```text\nPossession {\n  possessor: speaker\n  possessed: book\n}\n```\n\nСоответственно:\n\n```text\nRU_U_MENYA_EST\n  → POSSESSION_FRAME\n\nEN_HAVE_CONSTRUCTION\n  → POSSESSION_FRAME\n```\n\nЭто типичный пример того, почему высокоуровневые операторы должны быть межъязыковыми.\n\n## 11. Что это даёт FUM практически\n\nТакое разделение даёт несколько преимуществ.\n\nВо-первых, FUM может лучше сжимать поток:\n\n```text\n\"Ya bystro napisal rabotayushchuyu programmu\"\n```\n\nвместо хранения как строки можно хранить как:\n\n```text\nWRITE_EVENT(\n  agent=speaker,\n  object=PROGRAM(property=WORKING),\n  manner=QUICKLY,\n  tense=PAST\n)\n```\n\nА поверхностную форму хранить только как ссылку или как восстановимый слой.\n\nВо-вторых, FUM может связывать знания из разных языков:\n\n```text\n\"я написал программу\"\n\"I wrote a program\"\n```\n\nстановятся двумя выражениями одного семантического узла.\n\nВ-третьих, FUM может использовать один язык для уточнения другого. Например, если русская структура неоднозначна, английский перевод или англоязычная парафраза может помочь выбрать семантический разбор.\n\nВ-четвёртых, FUM может хранить знания не как текст на конкретном языке, а как структуру, которую затем можно порождать на разных языках.\n\n## 12. Но полная межъязыковая нейтральность невозможна без потерь\n\nНужно оставить важную оговорку: высокоуровневые операторы могут быть межъязыковыми, но они не всегда будут полностью нейтральными.\n\nНапример, русский вид глагола:\n\n```text\nписал / написал\n```\n\nи английские времена/aspects:\n\n```text\nwrote / was writing / has written\n```\n\nне совпадают идеально.\n\nРусское:\n\n```text\nя писал программу\n```\n\nи:\n\n```text\nя написал программу\n```\n\nразличают процесс и завершённость.\n\nВ английском это можно выразить, но не всегда теми же средствами:\n\n```text\nI was writing a program.\nI wrote a program.\nI have written a program.\n```\n\nПоэтому межъязыковой оператор должен уметь хранить не только общий смысл, но и “семантические остатки”:\n\n```text\ncommon semantic frame\n+\nlanguage-specific features\n+\ntranslation loss / ambiguity\n```\n\nНапример:\n\n```text\nWRITE_EVENT {\n  agent: speaker\n  object: program\n  completion: completed\n  source_language_feature: RU perfective aspect\n}\n```\n\nТо есть FUM должен различать:\n\n```text\nуниверсальную семантику\n```\n\nи:\n\n```text\nязыково-специфические смысловые оттенки\n```\n\n## 13. Итоговая архитектура\n\nМожно представить память структурирующих операторов так:\n\n```text\nLevel 0: raw signal operators\n  звук, символ, пиксель, байт, токен\n\nLevel 1: notation operators\n  кириллица, латиница, транслитерация, TeX, Markdown, Python syntax\n\nLevel 2: language-specific morphology\n  русские окончания, английские plural forms, времена, падежи\n\nLevel 3: language-specific syntax\n  русский свободный порядок слов, английский SVO, конструкции с предлогами\n\nLevel 4: semantic roles\n  agent, patient, experiencer, instrument, goal, source, location\n\nLevel 5: frames/events\n  possession, writing, perception, causation, comparison, definition\n\nLevel 6: discourse/rhetoric\n  утверждение, доказательство, пример, возражение, уточнение, вывод\n\nLevel 7: task-level structures\n  программа, документ, доказательство, план, объяснение, диалог\n```\n\nНизкие уровни могут быть специфичны:\n\n```text\nRU-only\nEN-only\nTeX-only\nPython-only\n```\n\nСредние уровни частично общие:\n\n```text\nnoun phrase\nverb phrase\nmodifier\nargument\npredicate\n```\n\nВысокие уровни становятся межъязыковыми:\n\n```text\nevent\nrole\ncause\ngoal\nstate\ndefinition\nproof\ndecision\nconstraint\n```\n\n## 14. Главная формула\n\nМожно сформулировать так:\n\n> Низкоуровневые структурирующие операторы связывают разные формы записи и языковые реализации.  \n> Высокоуровневые структурирующие операторы связывают уже не формы, а смыслы, поэтому они могут объединять русские, английские и другие языковые структуры в общие семантические узлы.\n\nИ ещё короче:\n\n```text\nнизкий уровень: разные записи одной формы\nсредний уровень: разные языковые формы одной роли\nвысокий уровень: разные языки как реализации одной семантической структуры\n```\n\nИменно такая иерархия делает FUM не просто парсером текста, а системой, которая может накапливать структуру смысла поверх разных форм записи, языков и форматов."
+                  ]
+                },
+                "status": "finished_successfully",
+                "end_turn": "loaderData",
+                "weight": "loaderData",
+                "metadata": {
+                  "citations": [],
+                  "content_references": [],
+                  "story_events": [],
+                  "resolved_model_slug": "gpt-5-5-pro",
+                  "search_result_groups": [],
+                  "request_id": "[REDACTED: local request metadata]",
+                  "message_type": "next",
+                  "turn_exchange_id": "[REDACTED: local request metadata]",
+                  "working_turn_id": "[REDACTED: local request metadata]",
+                  "poll_on_websocket_inactivity_ms": 30000,
+                  "poll_freshness_max_mins": "content",
+                  "poll_interval_ms": 10000,
+                  "model_slug": "gpt-5-5-pro",
+                  "default_model_slug": "gpt-5-5-pro",
+                  "thinking_effort": "extended",
+                  "can_save": "loaderData",
+                  "targeted_feedback": {
+                    "category": "pro"
+                  },
+                  "async_source": "[REDACTED: local request metadata]",
+                  "notification_trigger_checkpoint": {
+                    "notification_id": "[REDACTED: local request metadata]",
+                    "source": "o_series",
+                    "source_id": "$UNDEFINED",
+                    "triggered_at": "2026-07-08T07:58:46.808418+00:00"
+                  },
+                  "shared_conversation_id": "6a4dfd46-c6e4-83eb-8f27-8c91e25d6e01"
+                },
+                "recipient": "all",
+                "channel": "final"
+              },
+              "parent": "fc8d7dbf-fe98-527f-97a0-3f993eef1510",
               "children": []
             }
           },
-          "current_node": "12ee1a97-1b8d-4230-9cc6-9bea2813fbf2",
+          "current_node": "4db5112a-20cd-437f-84f2-f88e4fa1743a",
           "og_title": "Посмотрите этот чат",
           "og_description": "Кто-то считает, что вам будет интересен этот чат.",
           "is_public": "loaderData",
@@ -887,7 +1250,7 @@
                   "async_source": "[REDACTED: local request metadata]",
                   "parent_id": "cc5efe07-58b3-4ac0-9b11-74f1368f38f8",
                   "poll_on_websocket_inactivity_ms": 30000,
-                  "poll_freshness_max_mins": "metadata",
+                  "poll_freshness_max_mins": "content",
                   "poll_interval_ms": 10000,
                   "poll_suppress_reconnect_banner": "loaderData",
                   "permissions": [
@@ -907,33 +1270,75 @@
                   "model_slug": "gpt-5-5-pro",
                   "default_model_slug": "gpt-5-5-pro",
                   "thinking_effort": "extended",
-                  "finished_duration_sec": "turn_exchange_id",
+                  "finished_duration_sec": "resolved_model_slug",
                   "reasoning_start_time": 1783491054.777668,
                   "pro_skipped": "$CYCLE:False",
                   "pro_progress": {
-                    "id": "879e7087-5bc6-4ce1-8f7b-0d01bccf5b4e",
+                    "id": "314dfaf4-fb8d-4300-8b81-b3f9b3a3bf60",
                     "message": {
-                      "id": "879e7087-5bc6-4ce1-8f7b-0d01bccf5b4e",
+                      "id": "314dfaf4-fb8d-4300-8b81-b3f9b3a3bf60",
                       "author": {
                         "role": "assistant",
                         "metadata": {}
                       },
-                      "create_time": 1783495305.327925,
+                      "create_time": 1783495186.382865,
                       "content": {
-                        "content_type": "model_editable_context",
-                        "model_set_context": ""
+                        "content_type": "thoughts",
+                        "thoughts": [
+                          {
+                            "summary": "Разработка ответа на концептуальный вопрос",
+                            "content": "Пользователь использует русскую транслитерацию, но, вероятно, нам стоит ответить на русском кириллице, как это сделал предыдущий ассистент. Задача концептуальная, без необходимости в обновлении данных, так что можем предложить план. Возможно, стоит начать с комментариев, а потом дать более развернутый ответ, избегая \"краткого\" стиля и запрещённых фраз.",
+                            "chunks": [
+                              "Пользователь использует русскую транслитерацию, но, вероятно, нам стоит ответить на русском кириллице, как это сделал предыдущий ассистент.",
+                              "Задача концептуальная, без необходимости в обновлении данных, так что можем предложить план.",
+                              "Возможно, стоит начать с комментариев, а потом дать более развернутый ответ, избегая \"краткого\" стиля и запрещённых фраз."
+                            ],
+                            "finished": "loaderData"
+                          }
+                        ],
+                        "source_analysis_msg_id": "ab886e0d-f32e-4f8a-9a91-a5283a5c103a"
                       },
                       "status": "finished_successfully",
+                      "end_turn": "$CYCLE:False",
                       "weight": "loaderData",
                       "metadata": {
+                        "reasoning_status": "is_reasoning",
+                        "citations": [],
+                        "content_references": [],
+                        "resolved_model_slug": "gpt-5-5-pro",
+                        "hide_inline_actions": "loaderData",
+                        "disable_turn_actions": "loaderData",
+                        "chime_version": "$CYCLE:2",
+                        "request_id": "[REDACTED: local request metadata]",
+                        "message_type": "next",
+                        "turn_exchange_id": "[REDACTED: local request metadata]",
+                        "working_turn_id": "[REDACTED: local request metadata]",
+                        "poll_on_websocket_inactivity_ms": 30000,
+                        "poll_freshness_max_mins": "content",
+                        "poll_interval_ms": 10000,
+                        "model_slug": "gpt-5-5-pro",
+                        "default_model_slug": "gpt-5-5-pro",
+                        "thinking_effort": "extended",
+                        "classifier_response": "default",
+                        "reasoning_start_time": 1783495089.0962462,
+                        "permissions": [
+                          {
+                            "type": "notification",
+                            "status": "requested",
+                            "notification_channel_id": "jawbone",
+                            "notification_channel_name": "Tasks",
+                            "notification_priority": "errors"
+                          }
+                        ],
+                        "skip_reasoning_title": "Пропустить",
                         "shared_conversation_id": "6a4dfd46-c6e4-83eb-8f27-8c91e25d6e01",
-                        "is_redacted": "loaderData"
+                        "can_save": "$CYCLE:False"
                       },
                       "recipient": "all"
                     },
-                    "parent": "314dfaf4-fb8d-4300-8b81-b3f9b3a3bf60",
+                    "parent": "cde6ba60-97b9-427c-95d3-dbfbd4cf868a",
                     "children": [
-                      "cf80981a-9984-5068-a9b9-2e89b8e1db4c"
+                      "879e7087-5bc6-4ce1-8f7b-0d01bccf5b4e"
                     ]
                   },
                   "is_finalizing": "loaderData",
@@ -976,7 +1381,7 @@
                   "hide_inline_actions": "loaderData",
                   "disable_turn_actions": "loaderData",
                   "poll_on_websocket_inactivity_ms": 30000,
-                  "poll_freshness_max_mins": "metadata",
+                  "poll_freshness_max_mins": "content",
                   "poll_interval_ms": 10000,
                   "shared_conversation_id": "6a4dfd46-c6e4-83eb-8f27-8c91e25d6e01",
                   "can_save": "loaderData"
@@ -1033,7 +1438,7 @@
                 "weight": "loaderData",
                 "metadata": {
                   "reasoning_status": "reasoning_ended",
-                  "finished_duration_sec": "turn_exchange_id",
+                  "finished_duration_sec": "resolved_model_slug",
                   "turn_exchange_id": "[REDACTED: local request metadata]",
                   "working_turn_id": "[REDACTED: local request metadata]",
                   "reasoning_start_time": 1783491054.777668,
@@ -1078,7 +1483,7 @@
                   "turn_exchange_id": "[REDACTED: local request metadata]",
                   "working_turn_id": "[REDACTED: local request metadata]",
                   "poll_on_websocket_inactivity_ms": 30000,
-                  "poll_freshness_max_mins": "metadata",
+                  "poll_freshness_max_mins": "content",
                   "poll_interval_ms": 10000,
                   "model_slug": "gpt-5-5-pro",
                   "default_model_slug": "gpt-5-5-pro",
@@ -1170,7 +1575,7 @@
                   "async_source": "[REDACTED: local request metadata]",
                   "parent_id": "64d35ab3-e572-4139-9f9f-e5e4089cc44f",
                   "poll_on_websocket_inactivity_ms": 30000,
-                  "poll_freshness_max_mins": "metadata",
+                  "poll_freshness_max_mins": "content",
                   "poll_interval_ms": 10000,
                   "poll_suppress_reconnect_banner": "loaderData",
                   "permissions": [
@@ -1190,41 +1595,75 @@
                   "model_slug": "gpt-5-5-pro",
                   "default_model_slug": "gpt-5-5-pro",
                   "thinking_effort": "extended",
-                  "finished_duration_sec": [
-                    {
-                      "type": "notification",
-                      "status": "requested",
-                      "notification_channel_id": "jawbone",
-                      "notification_channel_name": "Tasks",
-                      "notification_priority": "errors"
-                    }
-                  ],
+                  "finished_duration_sec": "notification",
                   "reasoning_start_time": 1783495083.875,
                   "pro_skipped": "$CYCLE:False",
                   "pro_progress": {
-                    "id": "879e7087-5bc6-4ce1-8f7b-0d01bccf5b4e",
+                    "id": "314dfaf4-fb8d-4300-8b81-b3f9b3a3bf60",
                     "message": {
-                      "id": "879e7087-5bc6-4ce1-8f7b-0d01bccf5b4e",
+                      "id": "314dfaf4-fb8d-4300-8b81-b3f9b3a3bf60",
                       "author": {
                         "role": "assistant",
                         "metadata": {}
                       },
-                      "create_time": 1783495305.327925,
+                      "create_time": 1783495186.382865,
                       "content": {
-                        "content_type": "model_editable_context",
-                        "model_set_context": ""
+                        "content_type": "thoughts",
+                        "thoughts": [
+                          {
+                            "summary": "Разработка ответа на концептуальный вопрос",
+                            "content": "Пользователь использует русскую транслитерацию, но, вероятно, нам стоит ответить на русском кириллице, как это сделал предыдущий ассистент. Задача концептуальная, без необходимости в обновлении данных, так что можем предложить план. Возможно, стоит начать с комментариев, а потом дать более развернутый ответ, избегая \"краткого\" стиля и запрещённых фраз.",
+                            "chunks": [
+                              "Пользователь использует русскую транслитерацию, но, вероятно, нам стоит ответить на русском кириллице, как это сделал предыдущий ассистент.",
+                              "Задача концептуальная, без необходимости в обновлении данных, так что можем предложить план.",
+                              "Возможно, стоит начать с комментариев, а потом дать более развернутый ответ, избегая \"краткого\" стиля и запрещённых фраз."
+                            ],
+                            "finished": "loaderData"
+                          }
+                        ],
+                        "source_analysis_msg_id": "ab886e0d-f32e-4f8a-9a91-a5283a5c103a"
                       },
                       "status": "finished_successfully",
+                      "end_turn": "$CYCLE:False",
                       "weight": "loaderData",
                       "metadata": {
+                        "reasoning_status": "is_reasoning",
+                        "citations": [],
+                        "content_references": [],
+                        "resolved_model_slug": "gpt-5-5-pro",
+                        "hide_inline_actions": "loaderData",
+                        "disable_turn_actions": "loaderData",
+                        "chime_version": "$CYCLE:2",
+                        "request_id": "[REDACTED: local request metadata]",
+                        "message_type": "next",
+                        "turn_exchange_id": "[REDACTED: local request metadata]",
+                        "working_turn_id": "[REDACTED: local request metadata]",
+                        "poll_on_websocket_inactivity_ms": 30000,
+                        "poll_freshness_max_mins": "content",
+                        "poll_interval_ms": 10000,
+                        "model_slug": "gpt-5-5-pro",
+                        "default_model_slug": "gpt-5-5-pro",
+                        "thinking_effort": "extended",
+                        "classifier_response": "default",
+                        "reasoning_start_time": 1783495089.0962462,
+                        "permissions": [
+                          {
+                            "type": "notification",
+                            "status": "requested",
+                            "notification_channel_id": "jawbone",
+                            "notification_channel_name": "Tasks",
+                            "notification_priority": "errors"
+                          }
+                        ],
+                        "skip_reasoning_title": "Пропустить",
                         "shared_conversation_id": "6a4dfd46-c6e4-83eb-8f27-8c91e25d6e01",
-                        "is_redacted": "loaderData"
+                        "can_save": "$CYCLE:False"
                       },
                       "recipient": "all"
                     },
-                    "parent": "314dfaf4-fb8d-4300-8b81-b3f9b3a3bf60",
+                    "parent": "cde6ba60-97b9-427c-95d3-dbfbd4cf868a",
                     "children": [
-                      "cf80981a-9984-5068-a9b9-2e89b8e1db4c"
+                      "879e7087-5bc6-4ce1-8f7b-0d01bccf5b4e"
                     ]
                   },
                   "is_finalizing": "loaderData",
@@ -1267,7 +1706,7 @@
                   "hide_inline_actions": "loaderData",
                   "disable_turn_actions": "loaderData",
                   "poll_on_websocket_inactivity_ms": 30000,
-                  "poll_freshness_max_mins": "metadata",
+                  "poll_freshness_max_mins": "content",
                   "poll_interval_ms": 10000,
                   "shared_conversation_id": "6a4dfd46-c6e4-83eb-8f27-8c91e25d6e01",
                   "can_save": "loaderData"
@@ -1321,7 +1760,7 @@
                   "turn_exchange_id": "[REDACTED: local request metadata]",
                   "working_turn_id": "[REDACTED: local request metadata]",
                   "poll_on_websocket_inactivity_ms": 30000,
-                  "poll_freshness_max_mins": "metadata",
+                  "poll_freshness_max_mins": "content",
                   "poll_interval_ms": 10000,
                   "model_slug": "gpt-5-5-pro",
                   "default_model_slug": "gpt-5-5-pro",
@@ -1392,15 +1831,7 @@
                 "weight": "loaderData",
                 "metadata": {
                   "reasoning_status": "reasoning_ended",
-                  "finished_duration_sec": [
-                    {
-                      "type": "notification",
-                      "status": "requested",
-                      "notification_channel_id": "jawbone",
-                      "notification_channel_name": "Tasks",
-                      "notification_priority": "errors"
-                    }
-                  ],
+                  "finished_duration_sec": "notification",
                   "turn_exchange_id": "[REDACTED: local request metadata]",
                   "working_turn_id": "[REDACTED: local request metadata]",
                   "reasoning_start_time": 1783495083.875,
@@ -1424,6 +1855,7 @@
                   "metadata": {}
                 },
                 "create_time": 1783495305.327925,
+                "update_time": 1783497871.695111,
                 "content": {
                   "content_type": "text",
                   "parts": [
@@ -1444,7 +1876,7 @@
                   "turn_exchange_id": "[REDACTED: local request metadata]",
                   "working_turn_id": "[REDACTED: local request metadata]",
                   "poll_on_websocket_inactivity_ms": 30000,
-                  "poll_freshness_max_mins": "metadata",
+                  "poll_freshness_max_mins": "content",
                   "poll_interval_ms": 10000,
                   "model_slug": "gpt-5-5-pro",
                   "default_model_slug": "gpt-5-5-pro",
@@ -1466,6 +1898,300 @@
                 "channel": "final"
               },
               "parent": "cf80981a-9984-5068-a9b9-2e89b8e1db4c",
+              "children": [
+                "22f90239-8c59-4f6b-b0b5-297c9f07f41f"
+              ]
+            },
+            {
+              "id": "22f90239-8c59-4f6b-b0b5-297c9f07f41f",
+              "message": {
+                "id": "22f90239-8c59-4f6b-b0b5-297c9f07f41f",
+                "author": {
+                  "role": "user",
+                  "metadata": {}
+                },
+                "create_time": 1783497264.684,
+                "update_time": 1783497281.796931,
+                "content": {
+                  "content_type": "text",
+                  "parts": [
+                    "Strukturiruyusjhiye operatoryi po suti zadayut derevo i iyerarkhiyu semanticheskikh svyazej. Nizkourovnevyiye strukturiruyusjhiye operatoryi, kak to operator suffiksa ili okonchaniya vpolne mogut byitj specifichnyimi dlya konkretnogo yazyika, dopustim, russkogo, i svyazyivatj, naprimer, lishj raznyiye formyi zapisi, k primeru zapisj kirillicej i latinicej. No vot boleye vyisokourovnevyiye i boleye semanticheskiye operatoryi uzhe mogut svyazyivatj v tom chisle strukturyi anglijskogo i russkogo yazyika mezhdu soboj."
+                  ]
+                },
+                "status": "finished_successfully",
+                "weight": "loaderData",
+                "metadata": {
+                  "selected_sources": [],
+                  "serialization_metadata": {
+                    "custom_symbol_offsets": []
+                  },
+                  "request_id": "[REDACTED: local request metadata]",
+                  "message_source": "$UNDEFINED",
+                  "turn_exchange_id": "[REDACTED: local request metadata]",
+                  "working_turn_id": "[REDACTED: local request metadata]",
+                  "resolved_model_slug": "gpt-5-5-pro",
+                  "shared_conversation_id": "6a4dfd46-c6e4-83eb-8f27-8c91e25d6e01",
+                  "can_save": "$CYCLE:False"
+                },
+                "recipient": "all"
+              },
+              "parent": "12ee1a97-1b8d-4230-9cc6-9bea2813fbf2",
+              "children": [
+                "07ffc040-dc66-4d35-876c-7e053fb362d6"
+              ]
+            },
+            {
+              "id": "07ffc040-dc66-4d35-876c-7e053fb362d6",
+              "message": {
+                "id": "07ffc040-dc66-4d35-876c-7e053fb362d6",
+                "author": {
+                  "role": "tool",
+                  "name": "a8km123",
+                  "metadata": {}
+                },
+                "create_time": 1783497274.125521,
+                "content": {
+                  "content_type": "text",
+                  "parts": [
+                    ""
+                  ]
+                },
+                "status": "finished_successfully",
+                "weight": "$CYCLE:0",
+                "metadata": {
+                  "finished_text": "Думал на протяжении 4m 8s",
+                  "initial_text": "Рассуждение",
+                  "summarization_headline": "",
+                  "async_source": "[REDACTED: local request metadata]",
+                  "parent_id": "22f90239-8c59-4f6b-b0b5-297c9f07f41f",
+                  "poll_on_websocket_inactivity_ms": 30000,
+                  "poll_freshness_max_mins": "content",
+                  "poll_interval_ms": 10000,
+                  "poll_suppress_reconnect_banner": "loaderData",
+                  "permissions": [
+                    {
+                      "type": "notification",
+                      "status": "requested",
+                      "notification_channel_id": "jawbone",
+                      "notification_channel_name": "Tasks",
+                      "notification_priority": "errors"
+                    }
+                  ],
+                  "chime_version": "$CYCLE:2",
+                  "request_id": "[REDACTED: local request metadata]",
+                  "message_type": "next",
+                  "turn_exchange_id": "[REDACTED: local request metadata]",
+                  "working_turn_id": "[REDACTED: local request metadata]",
+                  "model_slug": "gpt-5-5-pro",
+                  "default_model_slug": "gpt-5-5-pro",
+                  "thinking_effort": "extended",
+                  "finished_duration_sec": 1783497302.480384,
+                  "reasoning_start_time": 1783497274.125521,
+                  "pro_skipped": "$CYCLE:False",
+                  "shared_conversation_id": "6a4dfd46-c6e4-83eb-8f27-8c91e25d6e01",
+                  "can_save": "$CYCLE:False"
+                },
+                "recipient": "all"
+              },
+              "parent": "22f90239-8c59-4f6b-b0b5-297c9f07f41f",
+              "children": [
+                "6dc1ce72-f26e-4a70-9e4f-b899ae2d41ad"
+              ]
+            },
+            {
+              "id": "6dc1ce72-f26e-4a70-9e4f-b899ae2d41ad",
+              "message": {
+                "id": "6dc1ce72-f26e-4a70-9e4f-b899ae2d41ad",
+                "author": {
+                  "role": "assistant",
+                  "metadata": {}
+                },
+                "create_time": 1783497302.480384,
+                "content": {
+                  "content_type": "text",
+                  "parts": [
+                    "Разверну это как многоуровневую архитектуру: нижние операторы остаются языко- и кодировочно-специфичными, а верхние образуют межъязыковые семантические связи. Полезно различить локальное дерево разбора потока и общую память операторов как граф смыслов."
+                  ]
+                },
+                "status": "finished_successfully",
+                "end_turn": "loaderData",
+                "weight": "loaderData",
+                "metadata": {
+                  "parent_id": "07ffc040-dc66-4d35-876c-7e053fb362d6",
+                  "turn_exchange_id": "[REDACTED: local request metadata]",
+                  "working_turn_id": "[REDACTED: local request metadata]",
+                  "model_slug": "gpt-5-5-pro",
+                  "chime_version": "$CYCLE:2",
+                  "is_thinking_preamble_message": "loaderData",
+                  "preamble_version": "loaderData",
+                  "hide_inline_actions": "loaderData",
+                  "disable_turn_actions": "loaderData",
+                  "poll_on_websocket_inactivity_ms": 30000,
+                  "poll_freshness_max_mins": "content",
+                  "poll_interval_ms": 10000,
+                  "shared_conversation_id": "6a4dfd46-c6e4-83eb-8f27-8c91e25d6e01",
+                  "can_save": "loaderData"
+                },
+                "recipient": "all",
+                "channel": "commentary"
+              },
+              "parent": "07ffc040-dc66-4d35-876c-7e053fb362d6",
+              "children": [
+                "e925bf8c-0fed-456e-bfe7-86b42f9ec83a"
+              ]
+            },
+            {
+              "id": "e925bf8c-0fed-456e-bfe7-86b42f9ec83a",
+              "message": {
+                "id": "e925bf8c-0fed-456e-bfe7-86b42f9ec83a",
+                "author": {
+                  "role": "assistant",
+                  "metadata": {}
+                },
+                "create_time": 1783497377.368806,
+                "content": {
+                  "content_type": "thoughts",
+                  "thoughts": [
+                    {
+                      "summary": "Рассматриваем структуру языковых операторов для концептуальной задачи",
+                      "content": "Пользователь использует латиницу для русского языка, однако, возможно, стоит продолжить на кириллице. Вопрос теоретический, не требующий инструментов. Нужно строить концептуальную структуру, определяя уровни операторов: от низких (язык-специфичные) до высокоуровневых, межъязыковых для связывания смысловых графов.",
+                      "chunks": [
+                        "Пользователь использует латиницу для русского языка, однако, возможно, стоит продолжить на кириллице.",
+                        "Вопрос теоретический, не требующий инструментов.",
+                        "Нужно строить концептуальную структуру, определяя уровни операторов: от низких (язык-специфичные) до высокоуровневых, межъязыковых для связывания смысловых графов."
+                      ],
+                      "finished": "loaderData"
+                    }
+                  ],
+                  "source_analysis_msg_id": "ced1ed66-1062-48b7-82b6-0e6e23acadde"
+                },
+                "status": "finished_successfully",
+                "end_turn": "$CYCLE:False",
+                "weight": "loaderData",
+                "metadata": {
+                  "reasoning_status": "is_reasoning",
+                  "citations": [],
+                  "content_references": [],
+                  "resolved_model_slug": "gpt-5-5-pro",
+                  "hide_inline_actions": "loaderData",
+                  "disable_turn_actions": "loaderData",
+                  "chime_version": "$CYCLE:2",
+                  "request_id": "[REDACTED: local request metadata]",
+                  "message_type": "next",
+                  "turn_exchange_id": "[REDACTED: local request metadata]",
+                  "working_turn_id": "[REDACTED: local request metadata]",
+                  "poll_on_websocket_inactivity_ms": 30000,
+                  "poll_freshness_max_mins": "content",
+                  "poll_interval_ms": 10000,
+                  "model_slug": "gpt-5-5-pro",
+                  "default_model_slug": "gpt-5-5-pro",
+                  "thinking_effort": "extended",
+                  "classifier_response": "default",
+                  "reasoning_start_time": 1783497282.80954,
+                  "permissions": [
+                    {
+                      "type": "notification",
+                      "status": "requested",
+                      "notification_channel_id": "jawbone",
+                      "notification_channel_name": "Tasks",
+                      "notification_priority": "errors"
+                    }
+                  ],
+                  "skip_reasoning_title": "Пропустить",
+                  "shared_conversation_id": "6a4dfd46-c6e4-83eb-8f27-8c91e25d6e01",
+                  "can_save": "$CYCLE:False"
+                },
+                "recipient": "all"
+              },
+              "parent": "6dc1ce72-f26e-4a70-9e4f-b899ae2d41ad",
+              "children": [
+                "fc8d7dbf-fe98-527f-97a0-3f993eef1510"
+              ]
+            },
+            {
+              "id": "fc8d7dbf-fe98-527f-97a0-3f993eef1510",
+              "message": {
+                "id": "fc8d7dbf-fe98-527f-97a0-3f993eef1510",
+                "author": {
+                  "role": "assistant",
+                  "metadata": {}
+                },
+                "create_time": 1783497523.039369,
+                "content": {
+                  "content_type": "reasoning_recap",
+                  "content": "Думал на протяжении 4m 8s"
+                },
+                "status": "finished_successfully",
+                "end_turn": "loaderData",
+                "weight": "loaderData",
+                "metadata": {
+                  "reasoning_status": "reasoning_ended",
+                  "finished_duration_sec": 1783497302.480384,
+                  "turn_exchange_id": "[REDACTED: local request metadata]",
+                  "working_turn_id": "[REDACTED: local request metadata]",
+                  "reasoning_start_time": 1783497274.125521,
+                  "reasoning_end_time": 1783497523.039369,
+                  "shared_conversation_id": "6a4dfd46-c6e4-83eb-8f27-8c91e25d6e01",
+                  "can_save": "$CYCLE:False"
+                },
+                "recipient": "all"
+              },
+              "parent": "e925bf8c-0fed-456e-bfe7-86b42f9ec83a",
+              "children": [
+                "4db5112a-20cd-437f-84f2-f88e4fa1743a"
+              ]
+            },
+            {
+              "id": "4db5112a-20cd-437f-84f2-f88e4fa1743a",
+              "message": {
+                "id": "4db5112a-20cd-437f-84f2-f88e4fa1743a",
+                "author": {
+                  "role": "assistant",
+                  "metadata": {}
+                },
+                "create_time": 1783497523.039369,
+                "content": {
+                  "content_type": "text",
+                  "parts": [
+                    "Да, именно. **Структурирующие операторы задают не просто набор шаблонов, а многоуровневую иерархию семантических связей**. Причём чем ниже уровень оператора, тем сильнее он привязан к конкретной форме записи, языку или формату; чем выше уровень, тем больше он приближается к межъязыковой или даже внеязыковой семантике.\n\nЯ бы различил здесь три слоя:\n\n```text\n1. Формальные / поверхностные операторы\n2. Языковые структурные операторы\n3. Межъязыковые семантические операторы\n```\n\n## 1. Низкий уровень: операторы формы\n\nНа самом нижнем уровне оператор может связывать разные формы записи одного и того же или близкого элемента.\n\nНапример:\n\n```text\nкириллица: человек\nлатиница: chelovek\n```\n\nОператор:\n\n```text\nTranslitRU {\n  chelovek ↔ человек\n}\n```\n\nЗдесь почти нет высокой семантики. Это оператор соответствия между системами записи.\n\nТо же самое:\n\n```text\nprogramma ↔ программа\nprogrammu ↔ программу\nnapisal ↔ написал\nrabotayushchuyu ↔ работающую\n```\n\nТакие операторы специфичны для русского языка и для конкретной схемы транслитерации. Они помогают FUM понять, что:\n\n```text\n\"programmu\"\n```\n\nэто не английское слово, а латинизированная форма русского:\n\n```text\n\"программу\"\n```\n\nДальше уже подключается морфология.\n\n## 2. Морфологический уровень: языкоспецифические операторы\n\nНапример:\n\n```text\nпрограмма\nпрограммы\nпрограмме\nпрограмму\nпрограммой\n```\n\nсвязываются через оператор лексемы и парадигмы:\n\n```text\nLexemeRU {\n  lemma: программа\n  part_of_speech: noun\n  gender: feminine\n  paradigm: ...\n}\n```\n\nФорма:\n\n```text\nпрограмму\n```\n\nполучает структурное описание:\n\n```text\nlemma: программа\ncase: accusative\nnumber: singular\ngender: feminine\n```\n\nЭто уже не просто соответствие записей, а структурирование языкового материала.\n\nВ английском для похожей сущности будет другой низкоуровневый оператор:\n\n```text\nprogram\nprograms\n```\n\nТам нет падежной парадигмы как в русском, но есть число, артикли, порядок слов, предлоги и так далее.\n\nТо есть на низком уровне:\n\n```text\nрусский оператор ≠ английский оператор\n```\n\nНапример:\n\n```text\nRU: падежное окончание\nEN: позиция в предложении / предлог / артикль\n```\n\nНо оба могут подниматься к одной и той же более высокой роли.\n\n## 3. Синтаксический уровень: частично языковой, частично общий\n\nНапример, русское:\n\n```text\nя написал программу\n```\n\nи английское:\n\n```text\nI wrote a program\n```\n\nимеют разные поверхностные структуры:\n\n```text\nRU:\n  \"я\" — именительный падеж\n  \"программу\" — винительный падеж\n  порядок слов относительно свободный\n\nEN:\n  \"I\" — subject position\n  \"program\" — object position\n  порядок слов более жёсткий\n```\n\nНо на более высоком уровне оба разбираются в одну структуру:\n\n```text\nEvent {\n  type: writing\n  agent: speaker\n  patient/result: program\n  tense: past\n}\n```\n\nИ вот здесь появляются операторы более высокого уровня:\n\n```text\nSemanticRoleOperator {\n  agent\n  action\n  object/result\n  time\n  manner\n}\n```\n\nОни уже могут связывать русский и английский.\n\n## 4. Высокий уровень: межъязыковые семантические операторы\n\nНапример:\n\n```text\nЯ быстро написал работающую программу.\n```\n\nи:\n\n```text\nI quickly wrote a working program.\n```\n\nНа поверхности они устроены по-разному.\n\nРусская структура:\n\n```text\nя\nбыстро\nнаписал\nработающую\nпрограмму\n```\n\nАнглийская структура:\n\n```text\nI\nquickly\nwrote\na\nworking\nprogram\n```\n\nНо FUM может построить общий семантический узел:\n\n```text\nEvent {\n  predicate: WRITE\n  agent: SPEAKER\n  object: PROGRAM\n  object_property: WORKING\n  manner: QUICKLY\n  tense: PAST\n}\n```\n\nТогда русские и английские операторы оказываются не напрямую равными друг другу, а связанными через общий более высокий оператор:\n\n```text\nRU surface structure\n      ↓\nRU morphosyntax\n      ↓\nsemantic event frame\n      ↑\nEN morphosyntax\n      ↑\nEN surface structure\n```\n\nЭто очень важно: **английский и русский не обязательно нужно связывать напрямую слово-к-слову**. Лучше связывать их через промежуточную семантическую структуру.\n\n## 5. Получается не только дерево, но и граф\n\nВы говорите “дерево и иерархия”, и это верно как первое приближение. Но, скорее всего, в полной FUM это будет не чистое дерево, а **многоуровневый граф**.\n\nПочему?\n\nПотому что один низкоуровневый элемент может участвовать в нескольких высокоуровневых структурах.\n\nНапример слово:\n\n```text\nработающая\n```\n\nможет быть:\n\n```text\n1. причастием от \"работать\";\n2. признаком объекта;\n3. частью словосочетания \"работающая программа\";\n4. семантическим свойством \"functioning\";\n5. в другом контексте — частью метафоры.\n```\n\nТо есть связи идут не строго вверх по одному пути, а расходятся:\n\n```text\nформа\n → морфология\n → синтаксис\n → семантическая роль\n → концепт\n → прагматическая функция\n```\n\nПоэтому минимально можно говорить об иерархии, но технически лучше думать о структуре как о DAG/графе:\n\n```text\nнизкие операторы: ближе к сигналу\nвысокие операторы: ближе к смыслу\nрёбра: связи объяснения, порождения, обобщения, перевода, уточнения\n```\n\n## 6. Межъязыковой оператор как “интерфейс”\n\nСравнение с типами здесь снова хорошо работает.\n\nНизкоуровневые операторы похожи на конкретные реализации:\n\n```text\nRussianNounCaseSystem\nEnglishWordOrderSystem\nRussianVerbAspectSystem\nEnglishTenseSystem\n```\n\nА высокоуровневые операторы похожи на интерфейсы:\n\n```text\nAgent\nAction\nObject\nProperty\nTime\nCause\nGoal\nCondition\nModality\nNegation\nQuantification\n```\n\nНапример:\n\n```text\nRU:\n  \"программу\" в винительном падеже\n\nEN:\n  \"program\" после глагола \"wrote\"\n```\n\nоба реализуют более абстрактную роль:\n\n```text\nPatient / Object / Result of action\n```\n\nТо есть:\n\n```text\nRussian accusative case\n  implements SemanticObjectRole in certain constructions\n\nEnglish post-verbal noun phrase\n  implements SemanticObjectRole in certain constructions\n```\n\nЭто очень похоже на:\n\n```text\nclass RussianAccusative implements ObjectMarker\nclass EnglishSVOPosition implements ObjectMarker\n```\n\n## 7. Пример структуры FUM для двух языков\n\nМожно представить так:\n\n```text\nRaw input:\n  \"Ya bystro napisal rabotayushchuyu programmu\"\n\nLevel 0: script/transliteration\n  Ya → Я\n  bystro → быстро\n  napisal → написал\n  rabotayushchuyu → работающую\n  programmu → программу\n\nLevel 1: morphology\n  Я → pronoun, 1st person, singular, nominative\n  написал → verb, past, masculine/perfective\n  работающую → participle/adjective, feminine, accusative, singular\n  программу → noun, feminine, accusative, singular\n\nLevel 2: syntax\n  subject: Я\n  predicate: написал\n  object: программу\n  object_modifier: работающую\n  manner: быстро\n\nLevel 3: semantics\n  Event WRITE\n    agent: speaker\n    object: program\n    property(object): working\n    manner: quickly\n    tense: past\n\nLevel 4: interlingual mapping\n  English generation:\n    \"I quickly wrote a working program.\"\n```\n\nЗдесь английская фраза не хранится как перевод каждой русской формы. Она порождается из более высокого семантического представления.\n\n## 8. Поэтому память операторов должна быть стратифицированной\n\nДля FUM полезно явно хранить уровень оператора:\n\n```text\nOperator {\n  id\n  level\n  language_scope\n  input_type\n  output_type\n  constraints\n  links_up\n  links_down\n  examples\n}\n```\n\nНапример:\n\n```text\nOperator {\n  id: RU_ACCUSATIVE_OBJECT\n  level: morphosyntax\n  language_scope: Russian\n  input_type: RussianNounPhrase\n  output_type: SemanticObjectRole\n  constraints:\n    - accusative case\n    - compatible with transitive verb\n}\n```\n\nИли:\n\n```text\nOperator {\n  id: EN_POSTVERBAL_OBJECT\n  level: syntax\n  language_scope: English\n  input_type: EnglishNounPhrase\n  output_type: SemanticObjectRole\n  constraints:\n    - follows transitive verb in active SVO clause\n}\n```\n\nОба связываются с одним более высоким оператором:\n\n```text\nOperator {\n  id: SEMANTIC_OBJECT_ROLE\n  level: semantics\n  language_scope: crosslingual\n  input_type: event_participant\n  output_type: role_in_event\n}\n```\n\n## 9. Важное следствие для перевода\n\nТогда перевод в FUM — это не операция:\n\n```text\nслово на русском → слово на английском\n```\n\nа операция:\n\n```text\nрусский поток\n→ русская структура\n→ межъязыковая семантическая структура\n→ английская структура\n→ английский поток\n```\n\nТо есть:\n\n```text\nRU raw\n→ RU operators\n→ semantic operators\n→ EN operators\n→ EN raw\n```\n\nЭто лучше, потому что многие вещи не переводятся один-к-одному.\n\nНапример:\n\n```text\nмне холодно\n```\n\nбуквально:\n\n```text\nto me cold\n```\n\nно английская структура:\n\n```text\nI am cold\n```\n\nСемантический центр:\n\n```text\nExperiencerState {\n  experiencer: speaker\n  state: cold sensation\n}\n```\n\nРусский выражает experiencer через дательный падеж:\n\n```text\nмне\n```\n\nА английский — через подлежащее:\n\n```text\nI\n```\n\nЗначит, FUM должен связать:\n\n```text\nRU_DATIVE_EXPERIENCER\n```\n\nи\n\n```text\nEN_SUBJECT_EXPERIENCER\n```\n\nчерез общий оператор:\n\n```text\nEXPERIENCER_ROLE\n```\n\n## 10. Ещё пример: русское “у меня есть”\n\nРусское:\n\n```text\nУ меня есть книга.\n```\n\nАнглийское:\n\n```text\nI have a book.\n```\n\nПоверхностно это разные конструкции.\n\nРусская структура:\n\n```text\nу + genitive possessor\nесть + possessed object\n```\n\nАнглийская структура:\n\n```text\nsubject + have + object\n```\n\nНо семантически:\n\n```text\nPossession {\n  possessor: speaker\n  possessed: book\n}\n```\n\nСоответственно:\n\n```text\nRU_U_MENYA_EST\n  → POSSESSION_FRAME\n\nEN_HAVE_CONSTRUCTION\n  → POSSESSION_FRAME\n```\n\nЭто типичный пример того, почему высокоуровневые операторы должны быть межъязыковыми.\n\n## 11. Что это даёт FUM практически\n\nТакое разделение даёт несколько преимуществ.\n\nВо-первых, FUM может лучше сжимать поток:\n\n```text\n\"Ya bystro napisal rabotayushchuyu programmu\"\n```\n\nвместо хранения как строки можно хранить как:\n\n```text\nWRITE_EVENT(\n  agent=speaker,\n  object=PROGRAM(property=WORKING),\n  manner=QUICKLY,\n  tense=PAST\n)\n```\n\nА поверхностную форму хранить только как ссылку или как восстановимый слой.\n\nВо-вторых, FUM может связывать знания из разных языков:\n\n```text\n\"я написал программу\"\n\"I wrote a program\"\n```\n\nстановятся двумя выражениями одного семантического узла.\n\nВ-третьих, FUM может использовать один язык для уточнения другого. Например, если русская структура неоднозначна, английский перевод или англоязычная парафраза может помочь выбрать семантический разбор.\n\nВ-четвёртых, FUM может хранить знания не как текст на конкретном языке, а как структуру, которую затем можно порождать на разных языках.\n\n## 12. Но полная межъязыковая нейтральность невозможна без потерь\n\nНужно оставить важную оговорку: высокоуровневые операторы могут быть межъязыковыми, но они не всегда будут полностью нейтральными.\n\nНапример, русский вид глагола:\n\n```text\nписал / написал\n```\n\nи английские времена/aspects:\n\n```text\nwrote / was writing / has written\n```\n\nне совпадают идеально.\n\nРусское:\n\n```text\nя писал программу\n```\n\nи:\n\n```text\nя написал программу\n```\n\nразличают процесс и завершённость.\n\nВ английском это можно выразить, но не всегда теми же средствами:\n\n```text\nI was writing a program.\nI wrote a program.\nI have written a program.\n```\n\nПоэтому межъязыковой оператор должен уметь хранить не только общий смысл, но и “семантические остатки”:\n\n```text\ncommon semantic frame\n+\nlanguage-specific features\n+\ntranslation loss / ambiguity\n```\n\nНапример:\n\n```text\nWRITE_EVENT {\n  agent: speaker\n  object: program\n  completion: completed\n  source_language_feature: RU perfective aspect\n}\n```\n\nТо есть FUM должен различать:\n\n```text\nуниверсальную семантику\n```\n\nи:\n\n```text\nязыково-специфические смысловые оттенки\n```\n\n## 13. Итоговая архитектура\n\nМожно представить память структурирующих операторов так:\n\n```text\nLevel 0: raw signal operators\n  звук, символ, пиксель, байт, токен\n\nLevel 1: notation operators\n  кириллица, латиница, транслитерация, TeX, Markdown, Python syntax\n\nLevel 2: language-specific morphology\n  русские окончания, английские plural forms, времена, падежи\n\nLevel 3: language-specific syntax\n  русский свободный порядок слов, английский SVO, конструкции с предлогами\n\nLevel 4: semantic roles\n  agent, patient, experiencer, instrument, goal, source, location\n\nLevel 5: frames/events\n  possession, writing, perception, causation, comparison, definition\n\nLevel 6: discourse/rhetoric\n  утверждение, доказательство, пример, возражение, уточнение, вывод\n\nLevel 7: task-level structures\n  программа, документ, доказательство, план, объяснение, диалог\n```\n\nНизкие уровни могут быть специфичны:\n\n```text\nRU-only\nEN-only\nTeX-only\nPython-only\n```\n\nСредние уровни частично общие:\n\n```text\nnoun phrase\nverb phrase\nmodifier\nargument\npredicate\n```\n\nВысокие уровни становятся межъязыковыми:\n\n```text\nevent\nrole\ncause\ngoal\nstate\ndefinition\nproof\ndecision\nconstraint\n```\n\n## 14. Главная формула\n\nМожно сформулировать так:\n\n> Низкоуровневые структурирующие операторы связывают разные формы записи и языковые реализации.  \n> Высокоуровневые структурирующие операторы связывают уже не формы, а смыслы, поэтому они могут объединять русские, английские и другие языковые структуры в общие семантические узлы.\n\nИ ещё короче:\n\n```text\nнизкий уровень: разные записи одной формы\nсредний уровень: разные языковые формы одной роли\nвысокий уровень: разные языки как реализации одной семантической структуры\n```\n\nИменно такая иерархия делает FUM не просто парсером текста, а системой, которая может накапливать структуру смысла поверх разных форм записи, языков и форматов."
+                  ]
+                },
+                "status": "finished_successfully",
+                "end_turn": "loaderData",
+                "weight": "loaderData",
+                "metadata": {
+                  "citations": [],
+                  "content_references": [],
+                  "story_events": [],
+                  "resolved_model_slug": "gpt-5-5-pro",
+                  "search_result_groups": [],
+                  "request_id": "[REDACTED: local request metadata]",
+                  "message_type": "next",
+                  "turn_exchange_id": "[REDACTED: local request metadata]",
+                  "working_turn_id": "[REDACTED: local request metadata]",
+                  "poll_on_websocket_inactivity_ms": 30000,
+                  "poll_freshness_max_mins": "content",
+                  "poll_interval_ms": 10000,
+                  "model_slug": "gpt-5-5-pro",
+                  "default_model_slug": "gpt-5-5-pro",
+                  "thinking_effort": "extended",
+                  "can_save": "loaderData",
+                  "targeted_feedback": {
+                    "category": "pro"
+                  },
+                  "async_source": "[REDACTED: local request metadata]",
+                  "notification_trigger_checkpoint": {
+                    "notification_id": "[REDACTED: local request metadata]",
+                    "source": "o_series",
+                    "source_id": "$UNDEFINED",
+                    "triggered_at": "2026-07-08T07:58:46.808418+00:00"
+                  },
+                  "shared_conversation_id": "6a4dfd46-c6e4-83eb-8f27-8c91e25d6e01"
+                },
+                "recipient": "all",
+                "channel": "final"
+              },
+              "parent": "fc8d7dbf-fe98-527f-97a0-3f993eef1510",
               "children": []
             }
           ],
