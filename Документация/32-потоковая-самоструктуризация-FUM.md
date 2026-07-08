@@ -209,6 +209,7 @@ backbone model
 - [исходный запрос 2026-07-08 10:54:49 MSK - Уточнить уровни структурирующих операторов](../Запросы/2026-07-08_10-54-49_MSK_уточнить-уровни-структурирующих-операторов.md)
 - [исходный запрос 2026-07-08 11:06:21 MSK - Связать уточнение памяти структурирующих операторов](../Запросы/2026-07-08_11-06-21_MSK_связать-уточнение-памяти-структурирующих-операторов.md)
 - [исходный запрос 2026-07-08 11:25:24 MSK - Закрепить операторы как интерфейс объяснимости](../Запросы/2026-07-08_11-25-24_MSK_закрепить-операторы-как-интерфейс-объяснимости.md)
+- [исходный запрос 2026-07-08 11:37:43 MSK - Связать расширенную ветку структурирующих операторов](../Запросы/2026-07-08_11-37-43_MSK_связать-расширенную-ветку-структурирующих-операторов.md)
 
 ## Внешний материал
 
@@ -227,8 +228,11 @@ backbone model
 - [Ветка · Strukturirovannye elementy FUM](../Источники/URL/https/chatgpt.com/share/6a4dfd46-c6e4-83eb-8f27-8c91e25d6e01/ветка-strukturirovannye-elementy-fum.md)
 - [Индекс источника](../Источники/URL/https/chatgpt.com/share/6a4dfd46-c6e4-83eb-8f27-8c91e25d6e01/source-index.md)
 - [Отчёт об извлечении](../Источники/URL/https/chatgpt.com/share/6a4dfd46-c6e4-83eb-8f27-8c91e25d6e01/extraction-report.md)
+- [Ветка · Strukturirovannye elementy FUM](../Источники/URL/https/chatgpt.com/share/6a4e0a66-774c-83eb-bfca-799a30bd9ad7/ветка-strukturirovannye-elementy-fum.md)
+- [Индекс источника](../Источники/URL/https/chatgpt.com/share/6a4e0a66-774c-83eb-bfca-799a30bd9ad7/source-index.md)
+- [Отчёт об извлечении](../Источники/URL/https/chatgpt.com/share/6a4e0a66-774c-83eb-bfca-799a30bd9ad7/extraction-report.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-08 11:30:22 MSK -->
-<!-- content-sha256: sha256:3e3859401327676fcbc0670185a9d78b84533624f465bc629830c1daf134bcf7 -->
+<!-- last-content-edit: 2026-07-08 11:43:30 MSK -->
+<!-- content-sha256: sha256:716ace9be324ff8c93b3d48ed6ad52d94d3eab837e540cde07644af40d433d8d -->
 <!-- FUM-MD-RECENCY:END -->
