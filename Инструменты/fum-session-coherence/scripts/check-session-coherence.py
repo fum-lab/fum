@@ -85,6 +85,10 @@ UNQUALIFIED_OPENAI_VERSION_FALLBACK_RE = re.compile(
     r"версия не раскрывается средой\b",
     re.IGNORECASE | re.MULTILINE,
 )
+DELETED_AFFECTED_PATH_RE = re.compile(
+    r"^\s*-\s+Удалённый файл:\s+`([^`\n]+)`\s*$",
+    re.MULTILINE,
+)
 
 
 @dataclass(frozen=True)
@@ -565,6 +569,36 @@ def validate_meta_request_coverage(paths: set[Path], repo_root: Path) -> list[st
     return errors
 
 
+def validate_answered_question_files(repo_root: Path) -> list[str]:
+    directory = repo_root / "Вопросы и ответы"
+    if not directory.exists():
+        return []
+
+    errors: list[str] = []
+    for path in sorted(directory.glob("*.md")):
+        if path.name == "README.md":
+            continue
+
+        question_section = section_body(read_text(path), "Вопрос")
+        question_lines = []
+        if question_section is not None:
+            question_lines = [
+                line.strip()
+                for line in question_section.splitlines()
+                if line.strip()
+                and not line.lstrip().startswith(("```", "~~~"))
+            ]
+        question = "\n".join(question_lines).rstrip()
+        if question.endswith("?"):
+            continue
+
+        source_rel = repo_relative(path, repo_root)
+        errors.append(
+            f"answered-question text must end with '?' in {source_rel}"
+        )
+    return errors
+
+
 def top_provenance_line(text: str) -> tuple[int, str] | None:
     lines = text.splitlines()
     if not lines or not lines[0].startswith("# "):
@@ -663,8 +697,28 @@ def affected_files_from_request(
             if resolved is not None:
                 files.add(resolved)
 
-    if not files:
-        errors.append("affected files section must contain local Markdown links")
+    for match in DELETED_AFFECTED_PATH_RE.finditer(affected):
+        resolved = absolute_path(match.group(1), repo_root)
+        try:
+            resolved.relative_to(repo_root.resolve())
+        except ValueError:
+            errors.append(
+                "deleted affected path must stay inside the repository: "
+                f"{match.group(1)}"
+            )
+            continue
+        if resolved.exists():
+            errors.append(
+                f"deleted affected path still exists: {match.group(1)}"
+            )
+            continue
+        files.add(resolved)
+
+    if not files and not errors:
+        errors.append(
+            "affected files section must contain local Markdown links "
+            "or deleted-file path markers"
+        )
     return files, errors
 
 
@@ -817,6 +871,7 @@ def validate_session(
     link_paths.update(session_markdown_paths)
     errors.extend(validate_markdown_links(link_paths, root))
     errors.extend(validate_meta_request_coverage(session_markdown_paths, root))
+    errors.extend(validate_answered_question_files(root))
     errors.extend(validate_provenance_section_position(session_markdown_paths, root))
     errors.extend(validate_mermaid_markdown_list_labels(session_markdown_paths, root))
     errors.extend(validate_md_recency(root))

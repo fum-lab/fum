@@ -224,6 +224,144 @@ class CheckSessionCoherenceTests(unittest.TestCase):
 
         self.assertEqual(errors, [])
 
+    def test_answered_question_file_requires_literal_question_mark(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            directory = root / "Вопросы и ответы"
+            directory.mkdir()
+            (directory / "README.md").write_text(
+                "# Вопросы и ответы\n",
+                encoding="utf-8",
+            )
+            valid = directory / "верный-вопрос.md"
+            valid.write_text(
+                "\n".join(
+                    [
+                        "# Почему это вопрос",
+                        "",
+                        "## Вопрос",
+                        "",
+                        "```text",
+                        "Почему это вопрос?",
+                        "```",
+                        "",
+                        "## Ответ",
+                        "",
+                        "Потому что он оканчивается вопросительным знаком.",
+                        "",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+            invalid = directory / "невопросительный-запрос.md"
+            invalid.write_text(
+                "\n".join(
+                    [
+                        "# Создать папку",
+                        "",
+                        "## Вопрос",
+                        "",
+                        "```text",
+                        "Давай создадим папку вопросов и ответов.",
+                        "```",
+                        "",
+                        "## Ответ",
+                        "",
+                        "Папка создана.",
+                        "",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            errors = check_session_coherence.validate_answered_question_files(root)
+
+            self.assertEqual(
+                errors,
+                [
+                    "answered-question text must end with '?' in "
+                    "Вопросы и ответы/невопросительный-запрос.md"
+                ],
+            )
+
+    def test_answered_question_file_requires_question_section(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            directory = root / "Вопросы и ответы"
+            directory.mkdir()
+            path = directory / "нет-раздела-вопроса.md"
+            path.write_text(
+                "# Нет раздела вопроса\n\n## Ответ\n\nОтвет без вопроса.\n",
+                encoding="utf-8",
+            )
+
+            errors = check_session_coherence.validate_answered_question_files(root)
+
+            self.assertEqual(
+                errors,
+                [
+                    "answered-question text must end with '?' in "
+                    "Вопросы и ответы/нет-раздела-вопроса.md"
+                ],
+            )
+
+    def test_affected_files_accepts_deleted_path_marker(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = root / "Запросы" / "запрос.md"
+            request_path.parent.mkdir()
+            text = "\n".join(
+                [
+                    "## Повлиял на файлы",
+                    "",
+                    "- Удалённый файл: `Вопросы и ответы/ошибочный-материал.md`",
+                    "",
+                ]
+            )
+
+            affected, errors = check_session_coherence.affected_files_from_request(
+                text,
+                request_path,
+                root,
+            )
+
+            self.assertEqual(errors, [])
+            self.assertEqual(
+                affected,
+                {(root / "Вопросы и ответы" / "ошибочный-материал.md").resolve()},
+            )
+
+    def test_deleted_path_marker_rejects_existing_file(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = root / "Запросы" / "запрос.md"
+            request_path.parent.mkdir()
+            existing = root / "Документация" / "существующий-файл.md"
+            existing.parent.mkdir()
+            existing.write_text("# Существующий файл\n", encoding="utf-8")
+            text = "\n".join(
+                [
+                    "## Повлиял на файлы",
+                    "",
+                    "- Удалённый файл: `Документация/существующий-файл.md`",
+                    "",
+                ]
+            )
+
+            _, errors = check_session_coherence.affected_files_from_request(
+                text,
+                request_path,
+                root,
+            )
+
+            self.assertEqual(
+                errors,
+                [
+                    "deleted affected path still exists: "
+                    "Документация/существующий-файл.md"
+                ],
+            )
+
     def test_reports_missing_journal(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

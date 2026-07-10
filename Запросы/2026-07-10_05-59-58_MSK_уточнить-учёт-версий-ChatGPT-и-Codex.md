@@ -3,7 +3,7 @@
 ## Навигация по запросам
 
 - Предыдущий запрос: [2026-07-10 05:51:44 MSK - Создать папку вопросов и ответов](2026-07-10_05-51-44_MSK_создать-папку-вопросов-и-ответов.md)
-- Следующий запрос: нет
+- Следующий запрос: [2026-07-10 06:28:42 MSK - Исправить классификацию запроса](2026-07-10_06-28-42_MSK_исправить-классификацию-запроса.md)
 
 ## Текст запроса
 
@@ -91,6 +91,6 @@ Pochemu myi ne zapisyivayem v ispoljzuyemyiye instrumentyi versiyu ChatGPT/Codex
 - `python3 Инструменты/fum-smoke-check/scripts/run-smoke-check.py --request Запросы/2026-07-10_05-59-58_MSK_уточнить-учёт-версий-ChatGPT-и-Codex.md` - прошло.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-10 06:16:52 MSK -->
-<!-- content-sha256: sha256:5489ed426aba446d950c36a3878127ee61a774a5fcc03beca8e11baffa39224d -->
+<!-- last-content-edit: 2026-07-10 06:35:53 MSK -->
+<!-- content-sha256: sha256:0bc040e5af9ebde85c2a33174b3b467de52b7d07e609702e4dc5a511f9cbf7f5 -->
 <!-- FUM-MD-RECENCY:END -->
