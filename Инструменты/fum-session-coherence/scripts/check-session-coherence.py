@@ -20,6 +20,7 @@ REQUEST_FILENAME_RE = re.compile(
     r"(?:_(?P<title>[0-9A-Za-zА-Яа-яЁё][0-9A-Za-zА-Яа-яЁё-]*))?\.md$"
 )
 REQUEST_TITLE_INFINITIVE_RULE_START = (2026, 7, 2, 23, 1, 25)
+QUALIFIED_OPENAI_TOOL_VERSION_RULE_START = (2026, 7, 10, 5, 59, 58)
 RUSSIAN_INFINITIVE_ENDINGS = ("ться", "тись", "чься", "ть", "ти", "чь")
 TITLE_TOKEN_REPLACEMENTS = {
     "api": "API",
@@ -77,6 +78,12 @@ MERMAID_LABEL_MARKDOWN_LIST_RE = re.compile(
     \s*
     (?:\d+[.)]|[-*+])\s+
     """
+)
+UNQUALIFIED_OPENAI_VERSION_FALLBACK_RE = re.compile(
+    r"^\s*-\s+`?\s*(?:ChatGPT\s*/\s*Codex|ChatGPT|Codex)\s*`?\s*"
+    r"[-–—]\s+"
+    r"версия не раскрывается средой\b",
+    re.IGNORECASE | re.MULTILINE,
 )
 
 
@@ -333,7 +340,10 @@ def validate_journal(repo_root: Path, request_path: Path) -> list[str]:
     return errors
 
 
-def validate_used_tools_section(text: str) -> list[str]:
+def validate_used_tools_section(
+    text: str,
+    request_path: Path | None = None,
+) -> list[str]:
     used_tools = section_body(text, "Использованные инструменты")
     if used_tools is None:
         return ["missing section: Использованные инструменты"]
@@ -346,6 +356,17 @@ def validate_used_tools_section(text: str) -> list[str]:
         errors.append("used tools section must contain at least two bullet items")
     if "реестр-системных-приложений-и-инструментов.md" not in used_tools:
         errors.append("used tools section must link to the tools registry")
+    request_file_match = request_match(request_path) if request_path is not None else None
+    if (
+        request_file_match is not None
+        and request_datetime_key(request_file_match)
+        >= QUALIFIED_OPENAI_TOOL_VERSION_RULE_START
+        and UNQUALIFIED_OPENAI_VERSION_FALLBACK_RE.search(used_tools)
+    ):
+        errors.append(
+            "used tools section must qualify the ChatGPT or Codex layer "
+            "instead of using the generic version fallback"
+        )
     return errors
 
 
@@ -769,7 +790,7 @@ def validate_session(
 
     errors.extend(validate_navigation(root, request_path, text))
     errors.extend(validate_journal(root, request_path))
-    errors.extend(validate_used_tools_section(text))
+    errors.extend(validate_used_tools_section(text, request_path))
 
     affected_files, affected_errors = affected_files_from_request(
         text,

@@ -168,6 +168,62 @@ class CheckSessionCoherenceTests(unittest.TestCase):
 
         self.assertEqual(errors, [])
 
+    def test_new_request_rejects_unqualified_codex_version_fallback(self):
+        request_path = Path(
+            "Запросы/2026-07-10_05-59-58_MSK_уточнить-учёт-версий-ChatGPT-и-Codex.md"
+        )
+        generic_entries = (
+            "- Codex - версия не раскрывается средой; использован как агентская среда.",
+            "- `Codex` - версия не раскрывается средой; использован как агентская среда.",
+            "- ChatGPT/Codex — версия не раскрывается средой; использован как агентская среда.",
+            "- `ChatGPT / Codex` – версия не раскрывается средой; использован как агентская среда.",
+        )
+
+        for generic_entry in generic_entries:
+            with self.subTest(generic_entry=generic_entry):
+                text = "\n".join(
+                    [
+                        "## Использованные инструменты",
+                        "",
+                        "- [Реестр](../Инструменты/реестр-системных-приложений-и-инструментов.md) - общий справочник.",
+                        generic_entry,
+                        "",
+                    ]
+                )
+
+                errors = check_session_coherence.validate_used_tools_section(
+                    text,
+                    request_path,
+                )
+
+                self.assertEqual(
+                    errors,
+                    [
+                        "used tools section must qualify the ChatGPT or Codex layer instead of using the generic version fallback"
+                    ],
+                )
+
+    def test_historical_request_keeps_unqualified_codex_version_fallback(self):
+        text = "\n".join(
+            [
+                "## Использованные инструменты",
+                "",
+                "- [Реестр](../Инструменты/реестр-системных-приложений-и-инструментов.md) - общий справочник.",
+                "- Codex - версия не раскрывается средой; использован как агентская среда.",
+                "",
+            ]
+        )
+        request_path = Path(
+            "Запросы/2026-07-10_05-51-44_MSK_создать-папку-вопросов-и-ответов.md"
+        )
+
+        errors = check_session_coherence.validate_used_tools_section(
+            text,
+            request_path,
+        )
+
+        self.assertEqual(errors, [])
+
     def test_reports_missing_journal(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
