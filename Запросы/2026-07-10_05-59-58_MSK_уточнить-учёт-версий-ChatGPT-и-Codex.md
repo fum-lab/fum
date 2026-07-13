@@ -46,7 +46,7 @@ Pochemu myi ne zapisyivayem v ispoljzuyemyiye instrumentyi versiyu ChatGPT/Codex
 - [.obsidian/graph.json](../.obsidian/graph.json)
 - [AGENTS.md](../AGENTS.md)
 - [Вопросы и ответы/README.md](../Вопросы%20и%20ответы/README.md)
-- [Вопросы и ответы/2026-07-10_05-59-58_MSK_уточнить-учёт-версий-ChatGPT-и-Codex.md](../Вопросы%20и%20ответы/2026-07-10_05-59-58_MSK_уточнить-учёт-версий-ChatGPT-и-Codex.md)
+- Удалённый файл: `Вопросы и ответы/2026-07-10_05-59-58_MSK_уточнить-учёт-версий-ChatGPT-и-Codex.md`
 - [Журнал/2026-07-10_05-59-58_MSK_уточнить-учёт-версий-ChatGPT-и-Codex.md](../Журнал/2026-07-10_05-59-58_MSK_уточнить-учёт-версий-ChatGPT-и-Codex.md)
 - [Журнал/README.md](../Журнал/README.md)
 - [Запросы/2026-07-10_05-51-44_MSK_создать-папку-вопросов-и-ответов.md](2026-07-10_05-51-44_MSK_создать-папку-вопросов-и-ответов.md)
@@ -91,6 +91,6 @@ Pochemu myi ne zapisyivayem v ispoljzuyemyiye instrumentyi versiyu ChatGPT/Codex
 - `python3 Инструменты/fum-smoke-check/scripts/run-smoke-check.py --request Запросы/2026-07-10_05-59-58_MSK_уточнить-учёт-версий-ChatGPT-и-Codex.md` - прошло.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-10 06:35:53 MSK -->
-<!-- content-sha256: sha256:0bc040e5af9ebde85c2a33174b3b467de52b7d07e609702e4dc5a511f9cbf7f5 -->
+<!-- last-content-edit: 2026-07-13 14:22:39 MSK -->
+<!-- content-sha256: sha256:4d7b43536c7b2b4a5ec8afd52a344bf8f74197b9d9ef4894a72ed080e3c40869 -->
 <!-- FUM-MD-RECENCY:END -->
