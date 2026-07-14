@@ -19,13 +19,13 @@
 - [fum-obsidian-graph-recency](fum-obsidian-graph-recency/SKILL.md) - обновляет группы цвета графа Obsidian как тепловую карту Markdown-узлов по времени последнего содержательного редактирования.
 - [fum-planning-registry](fum-planning-registry/SKILL.md) - собирает и проверяет машинно читаемый JSON-реестр требований, вариантов реализации, MVP-кандидатов, предложений и вопросов.
 - [fum-request-materials](fum-request-materials/SKILL.md) - сохраняет [прикрепляемые материалы](../Глоссарий/прикрепляемый-материал.md) исходных запросов в `Источники/` и автоматизирует извлечение расшаренных чатов ChatGPT.
-- [fum-session-coherence](fum-session-coherence/SKILL.md) - проверяет связность [рабочей сессии](../Глоссарий/рабочая-сессия.md): навигацию запросов, журнал, квалифицированную запись инструментов, Markdown-ссылки, регистр путей, формальный конечный `?` материалов `Вопросы и ответы/`, сигналы мета-запросов, нижнее расположение справочных блоков и Git-состояние.
+- [fum-session-coherence](fum-session-coherence/SKILL.md) - проверяет связность [рабочей сессии](../Глоссарий/рабочая-сессия.md): навигацию запросов, журнал, корневой Codex-Thread-ID в запросе и теле коммита, квалифицированную запись инструментов, Markdown-ссылки, регистр путей, формальный конечный `?` материалов `Вопросы и ответы/`, сигналы мета-запросов, нижнее расположение справочных блоков и Git-состояние.
 - [fum-smoke-check](fum-smoke-check/SKILL.md) - запускает единый локальный smoke-check: тесты автоматизаций, пересборку проверяемых реестров, recency-проверку и связность выбранной рабочей сессии.
 - [fum-work-review](fum-work-review/SKILL.md) - создаёт и проверяет сохранённые ревью проделанной работы: Git-срез, находки, проверки, остаточные риски и вывод.
 
 ## Проверки
 
-- `python3 Инструменты/fum-smoke-check/scripts/run-smoke-check.py --request Запросы/<YYYY-MM-DD_HH-MM-SS_MSK>.md` - единый локальный smoke-check репозитория для выбранной рабочей сессии.
+- `python3 Инструменты/fum-smoke-check/scripts/run-smoke-check.py --request Запросы/<YYYY-MM-DD_HH-MM-SS_MSK>.md --commit-message-file <путь> --codex-thread-id <UUID>` - единый локальный smoke-check репозитория для выбранной рабочей сессии и её подготовленного сообщения коммита.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-doc-aggregation/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-doc-aggregation`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-estimates/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-estimates`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-md-recency/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-md-recency`.
@@ -37,6 +37,6 @@
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-work-review/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-work-review`.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-10 06:39:36 MSK -->
-<!-- content-sha256: sha256:a05e6f8b891a1a41c5586fd27e99c19d9d35e5cc0856fa7a640f59bafdc6b826 -->
+<!-- last-content-edit: 2026-07-14 03:07:17 MSK -->
+<!-- content-sha256: sha256:1f4b342e211870cfe8f7734a3dc02bd10066c056bb17dbe79a0f4c903d8c0348 -->
 <!-- FUM-MD-RECENCY:END -->

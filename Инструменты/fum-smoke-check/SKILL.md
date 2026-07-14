@@ -25,10 +25,12 @@ description: Запускать единый локальный smoke-check ре
 
 ```bash
 python3 Инструменты/fum-smoke-check/scripts/run-smoke-check.py \
-  --request Запросы/<YYYY-MM-DD_HH-MM-SS_MSK>_<краткое-название-запроса>.md
+  --request Запросы/<YYYY-MM-DD_HH-MM-SS_MSK>_<краткое-название-запроса>.md \
+  --commit-message-file <путь-к-файлу-сообщения> \
+  --codex-thread-id <корневой-CODEX_THREAD_ID>
 ```
 
-Список команд без выполнения:
+Для запросов начиная с `2026-07-14_02-31-47_MSK_добавлять-идентификатор-сеанса-Codex.md` оба новых параметра обязательны; исторические запросы можно проверять без них. Список команд без выполнения:
 
 ```bash
 python3 Инструменты/fum-smoke-check/scripts/run-smoke-check.py \
@@ -77,7 +79,9 @@ python3 Инструменты/fum-md-recency/scripts/update-md-recency.py --che
 
 ```bash
 python3 Инструменты/fum-session-coherence/scripts/check-session-coherence.py \
-  --request Запросы/<YYYY-MM-DD_HH-MM-SS_MSK>_<краткое-название-запроса>.md
+  --request Запросы/<YYYY-MM-DD_HH-MM-SS_MSK>_<краткое-название-запроса>.md \
+  --commit-message-file <путь-к-файлу-сообщения> \
+  --codex-thread-id <корневой-CODEX_THREAD_ID>
 ```
 
 ## Проверки автоматизации
@@ -88,7 +92,7 @@ python3 Инструменты/fum-session-coherence/scripts/check-session-coher
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-smoke-check/tests -p 'test_*.py'
 ```
 
-Тесты фиксируют базовый контракт: smoke-check обнаруживает тесты локальных автоматизаций, добавляет сборку и проверку планового реестра, запускает recency-проверку, требует `--request` для проверки связности рабочей сессии и допускает частичный запуск с `--skip-session-coherence`.
+Тесты фиксируют базовый контракт: smoke-check обнаруживает тесты локальных автоматизаций, добавляет сборку и проверку планового реестра, запускает recency-проверку, требует `--request` для проверки связности рабочей сессии, для новых запросов требует файл сообщения и корневой Codex-Thread-ID, передаёт их в `fum-session-coherence`, сохраняет совместимость с историческими запросами и допускает частичный запуск с `--skip-session-coherence`.
 
 ## Граница автоматизации
 
@@ -96,7 +100,11 @@ Smoke-check не заменяет смысловую проверку измен
 
 Если в репозитории появляется новый проверяемый реестр, его нужно добавить в `run-smoke-check.py` и закрепить ожидание тестом. Если у новой локальной автоматизации появляются тесты в `Инструменты/<имя>/tests`, smoke-check начнёт запускать их автоматически.
 
+## Источники требований
+
+- [исходный запрос 2026-07-14 02:31:47 MSK - Добавлять идентификатор сеанса Codex](../../Запросы/2026-07-14_02-31-47_MSK_добавлять-идентификатор-сеанса-Codex.md)
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-02 22:48:15 MSK -->
-<!-- content-sha256: sha256:67780f0b1cb01e2fa66a0e013b496bf4651e78afe1fce6faca4c356654a8f6d3 -->
+<!-- last-content-edit: 2026-07-14 03:12:58 MSK -->
+<!-- content-sha256: sha256:dbd83c0ac81ee08b60612b1457cef541c931a0cf8c43bbaaef47ac7b64e7cc48 -->
 <!-- FUM-MD-RECENCY:END -->

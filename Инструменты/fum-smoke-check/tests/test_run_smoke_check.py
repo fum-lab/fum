@@ -47,6 +47,8 @@ class RunSmokeCheckTests(unittest.TestCase):
             steps = run_smoke_check.build_steps(
                 root,
                 request=Path("Запросы/2026-07-01_14-12-17_MSK.md"),
+                commit_message_file=Path("/tmp/fum-commit-message.txt"),
+                codex_thread_id="019f5dd0-c129-7fa0-9315-77e85dead3e7",
                 include_session=True,
                 python="python3",
             )
@@ -66,8 +68,15 @@ class RunSmokeCheckTests(unittest.TestCase):
             )
             self.assertIn("Инструменты/fum-alpha/tests", steps[0].command)
             self.assertEqual(
-                steps[-1].command[-2:],
-                ("--request", "Запросы/2026-07-01_14-12-17_MSK.md"),
+                steps[-1].command[-6:],
+                (
+                    "--request",
+                    "Запросы/2026-07-01_14-12-17_MSK.md",
+                    "--commit-message-file",
+                    "/tmp/fum-commit-message.txt",
+                    "--codex-thread-id",
+                    "019f5dd0-c129-7fa0-9315-77e85dead3e7",
+                ),
             )
 
     def test_session_check_can_be_skipped_for_partial_local_runs(self):
@@ -78,6 +87,8 @@ class RunSmokeCheckTests(unittest.TestCase):
             steps = run_smoke_check.build_steps(
                 root,
                 request=None,
+                commit_message_file=None,
+                codex_thread_id=None,
                 include_session=False,
                 python="python3",
             )
@@ -86,6 +97,57 @@ class RunSmokeCheckTests(unittest.TestCase):
             self.assertNotIn("Проверка связности рабочей сессии", names)
             self.assertIn("Проверка recency-меток Markdown", names)
             self.assertIn("Проверка тепловой карты графа Obsidian", names)
+
+    def test_new_request_requires_commit_context(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_script_fixture(root)
+            request = Path(
+                "Запросы/2026-07-14_02-31-47_MSK_добавлять-"
+                "идентификатор-сеанса-Codex.md"
+            )
+
+            for missing_message, missing_thread_id, expected_flag in [
+                (True, False, "--commit-message-file"),
+                (False, True, "--codex-thread-id"),
+            ]:
+                with self.subTest(expected_flag=expected_flag):
+                    with self.assertRaisesRegex(ValueError, expected_flag):
+                        run_smoke_check.build_steps(
+                            root,
+                            request=request,
+                            commit_message_file=(
+                                None
+                                if missing_message
+                                else Path("/tmp/fum-commit-message.txt")
+                            ),
+                            codex_thread_id=(
+                                None
+                                if missing_thread_id
+                                else "019f5dd0-c129-7fa0-9315-77e85dead3e7"
+                            ),
+                            include_session=True,
+                            python="python3",
+                        )
+
+    def test_historical_request_allows_missing_commit_context(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_script_fixture(root)
+
+            steps = run_smoke_check.build_steps(
+                root,
+                request=Path("Запросы/2026-07-01_14-12-17_MSK.md"),
+                commit_message_file=None,
+                codex_thread_id=None,
+                include_session=True,
+                python="python3",
+            )
+
+            self.assertEqual(
+                steps[-1].command[-2:],
+                ("--request", "Запросы/2026-07-01_14-12-17_MSK.md"),
+            )
 
     def test_requires_request_when_session_check_is_enabled(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -96,6 +158,8 @@ class RunSmokeCheckTests(unittest.TestCase):
                 run_smoke_check.build_steps(
                     root,
                     request=None,
+                    commit_message_file=None,
+                    codex_thread_id=None,
                     include_session=True,
                     python="python3",
                 )

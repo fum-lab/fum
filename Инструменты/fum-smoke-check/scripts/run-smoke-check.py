@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import re
 import shlex
 import subprocess
 import sys
@@ -17,6 +18,10 @@ PLANNING_REGISTRY_SCRIPT = Path(
 )
 PLANNING_REGISTRY_OUTPUT = Path(
     "Планирование/реестр-требований-вариантов-и-кандидатов.json"
+)
+CODEX_COMMIT_CONTEXT_RULE_START = (2026, 7, 14, 2, 31, 47)
+REQUEST_DATETIME_PREFIX_RE = re.compile(
+    r"^(\d{4})-(\d{2})-(\d{2})_(\d{2})-(\d{2})-(\d{2})_MSK"
 )
 RECENCY_SCRIPT = Path("Инструменты/fum-md-recency/scripts/update-md-recency.py")
 OBSIDIAN_GRAPH_RECENCY_SCRIPT = Path(
@@ -47,6 +52,15 @@ def parse_args() -> argparse.Namespace:
         help="Selected working session request file for fum-session-coherence.",
     )
     parser.add_argument(
+        "--commit-message-file",
+        type=Path,
+        help="Commit message file forwarded to fum-session-coherence.",
+    )
+    parser.add_argument(
+        "--codex-thread-id",
+        help="Expected root Codex thread identifier forwarded to fum-session-coherence.",
+    )
+    parser.add_argument(
         "--skip-session-coherence",
         action="store_true",
         help="Run repository checks without validating a specific working session.",
@@ -62,6 +76,13 @@ def parse_args() -> argparse.Namespace:
 def repo_relative(path: Path, repo_root: Path) -> str:
     absolute = path if path.is_absolute() else repo_root / path
     return absolute.resolve().relative_to(repo_root.resolve()).as_posix()
+
+
+def request_requires_codex_commit_context(request: str | Path) -> bool:
+    match = REQUEST_DATETIME_PREFIX_RE.match(Path(request).name)
+    if match is None:
+        return False
+    return tuple(int(part) for part in match.groups()) >= CODEX_COMMIT_CONTEXT_RULE_START
 
 
 def require_file(repo_root: Path, path: Path) -> str:
@@ -88,6 +109,8 @@ def build_steps(
     request: str | Path | None,
     include_session: bool = True,
     python: str | None = None,
+    commit_message_file: str | Path | None = None,
+    codex_thread_id: str | None = None,
 ) -> list[SmokeStep]:
     root = Path(repo_root).resolve()
     python_cmd = python or sys.executable
@@ -144,12 +167,27 @@ def build_steps(
     if include_session:
         if request is None:
             raise ValueError("--request is required unless --skip-session-coherence is used")
+        if request_requires_codex_commit_context(request):
+            if commit_message_file is None:
+                raise ValueError(
+                    "--commit-message-file is required for this request"
+                )
+            if codex_thread_id is None:
+                raise ValueError("--codex-thread-id is required for this request")
         session_script = require_file(root, SESSION_COHERENCE_SCRIPT)
         request_path = repo_relative(Path(request), root)
+        session_command = [python_cmd, session_script, "--request", request_path]
+        if commit_message_file is not None:
+            message_path = Path(commit_message_file)
+            session_command.extend(
+                ["--commit-message-file", message_path.as_posix()]
+            )
+        if codex_thread_id is not None:
+            session_command.extend(["--codex-thread-id", codex_thread_id])
         steps.append(
             SmokeStep(
                 name="Проверка связности рабочей сессии",
-                command=(python_cmd, session_script, "--request", request_path),
+                command=tuple(session_command),
             )
         )
 
@@ -201,7 +239,13 @@ def main() -> int:
     include_session = not args.skip_session_coherence
 
     try:
-        steps = build_steps(root, args.request, include_session=include_session)
+        steps = build_steps(
+            root,
+            args.request,
+            include_session=include_session,
+            commit_message_file=args.commit_message_file,
+            codex_thread_id=args.codex_thread_id,
+        )
     except (FileNotFoundError, ValueError) as exc:
         print(str(exc), file=sys.stderr)
         return 2

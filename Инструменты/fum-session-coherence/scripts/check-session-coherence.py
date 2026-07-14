@@ -21,6 +21,7 @@ REQUEST_FILENAME_RE = re.compile(
 )
 REQUEST_TITLE_INFINITIVE_RULE_START = (2026, 7, 2, 23, 1, 25)
 QUALIFIED_OPENAI_TOOL_VERSION_RULE_START = (2026, 7, 10, 5, 59, 58)
+CODEX_THREAD_ID_RULE_START = (2026, 7, 14, 2, 31, 47)
 RUSSIAN_INFINITIVE_ENDINGS = ("ться", "тись", "чься", "ть", "ти", "чь")
 TITLE_TOKEN_REPLACEMENTS = {
     "api": "API",
@@ -89,6 +90,19 @@ DELETED_AFFECTED_PATH_RE = re.compile(
     r"^\s*-\s+Удалённый файл:\s+`([^`\n]+)`\s*$",
     re.MULTILINE,
 )
+CODEX_THREAD_ID_LINE_RE = re.compile(
+    r"^Codex-Thread-ID:[ \t]+(\S+)[ \t]*$",
+)
+CODEX_THREAD_ID_TRAILER_LINE_RE = re.compile(
+    r"^Codex-Thread-ID:[ \t]+(\S+)[ \t]*$",
+    re.IGNORECASE,
+)
+CANONICAL_UUID_RE = re.compile(
+    r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+)
+TRAILER_LINE_RE = re.compile(
+    r"^[A-Za-z0-9][A-Za-z0-9-]*:[ \t]+\S(?:.*\S)?[ \t]*$"
+)
 
 
 @dataclass(frozen=True)
@@ -116,6 +130,21 @@ def parse_args() -> argparse.Namespace:
         "--skip-git-status",
         action="store_true",
         help="Validate files and links without checking Git status.",
+    )
+    parser.add_argument(
+        "--commit-message-file",
+        type=Path,
+        help=(
+            "Commit message file to validate before git commit. "
+            "The final body paragraph must contain the matching Codex-Thread-ID trailer."
+        ),
+    )
+    parser.add_argument(
+        "--codex-thread-id",
+        help=(
+            "Expected root Codex thread identifier. Pass the primary session's "
+            "CODEX_THREAD_ID so a subagent identifier cannot be recorded by mistake."
+        ),
     )
     return parser.parse_args()
 
@@ -372,6 +401,144 @@ def validate_used_tools_section(
             "instead of using the generic version fallback"
         )
     return errors
+
+
+def request_requires_codex_thread_id(request_path: Path) -> bool:
+    match = request_match(request_path)
+    return bool(
+        match is not None
+        and request_datetime_key(match) >= CODEX_THREAD_ID_RULE_START
+    )
+
+
+def codex_thread_id_from_request(text: str) -> tuple[str | None, list[str]]:
+    heading_pattern = re.compile(
+        r"^## Идентификатор сеанса Codex[ \t]*$",
+        re.MULTILINE,
+    )
+    heading_count = len(heading_pattern.findall(text))
+    if heading_count == 0:
+        return None, ["missing section: Идентификатор сеанса Codex"]
+    if heading_count != 1:
+        return None, [
+            "request must contain exactly one section: "
+            "Идентификатор сеанса Codex"
+        ]
+
+    section = section_body(text, "Идентификатор сеанса Codex")
+    if section is None:  # pragma: no cover - protected by heading_count
+        return None, ["missing section: Идентификатор сеанса Codex"]
+
+    content_lines = [line for line in section.splitlines() if line.strip()]
+    if len(content_lines) != 1:
+        return None, [
+            "Codex session identifier section must contain exactly one "
+            "non-empty Codex-Thread-ID line"
+        ]
+
+    line_match = CODEX_THREAD_ID_LINE_RE.fullmatch(content_lines[0])
+    if line_match is None:
+        return None, [
+            "Codex session identifier section must contain exactly one "
+            "Codex-Thread-ID line"
+        ]
+
+    value = line_match.group(1)
+    if CANONICAL_UUID_RE.fullmatch(value) is None:
+        return None, [f"Codex-Thread-ID must be a canonical lowercase UUID: {value}"]
+    return value, []
+
+
+def validate_codex_thread_id_section(
+    text: str,
+    request_path: Path,
+    expected_codex_thread_id: str | None = None,
+) -> list[str]:
+    if not request_requires_codex_thread_id(request_path):
+        return []
+
+    value, errors = codex_thread_id_from_request(text)
+    if errors:
+        return errors
+    if expected_codex_thread_id is not None and value != expected_codex_thread_id:
+        return [
+            "Codex-Thread-ID does not match the expected root Codex thread: "
+            f"{value}"
+        ]
+    return []
+
+
+def validate_codex_commit_context_requirements(
+    request_path: Path,
+    expected_codex_thread_id: str | None,
+    commit_message: str | None,
+) -> list[str]:
+    if not request_requires_codex_thread_id(request_path):
+        return []
+
+    errors: list[str] = []
+    if expected_codex_thread_id is None:
+        errors.append("--codex-thread-id is required for this request")
+    if commit_message is None:
+        errors.append("--commit-message-file is required for this request")
+    return errors
+
+
+def commit_body_trailer_values(commit_message: str) -> list[str]:
+    lines = commit_message.rstrip().splitlines()
+    if len(lines) < 3 or lines[1].strip():
+        return []
+
+    body = "\n".join(lines[2:]).rstrip()
+    if not body:
+        return []
+    trailer_block = re.split(r"\n[ \t]*\n", body)[-1]
+    trailer_lines = trailer_block.splitlines()
+    if not trailer_lines or any(
+        TRAILER_LINE_RE.fullmatch(line) is None for line in trailer_lines
+    ):
+        return []
+    if CODEX_THREAD_ID_LINE_RE.fullmatch(trailer_lines[-1]) is None:
+        return []
+
+    values: list[str] = []
+    for line in trailer_lines:
+        match = CODEX_THREAD_ID_TRAILER_LINE_RE.fullmatch(line)
+        if match is not None:
+            values.append(match.group(1))
+    return values
+
+
+def validate_commit_message_codex_thread_id(
+    request_text: str,
+    request_path: Path,
+    commit_message: str,
+) -> list[str]:
+    if not request_requires_codex_thread_id(request_path):
+        return []
+
+    request_value, request_errors = codex_thread_id_from_request(request_text)
+    if request_errors:
+        return ["cannot validate commit Codex-Thread-ID until the request value is valid"]
+
+    trailer_values = commit_body_trailer_values(commit_message)
+    if len(trailer_values) != 1:
+        return [
+            "commit body must end with exactly one Codex-Thread-ID trailer"
+        ]
+
+    trailer_value = trailer_values[0]
+    if CANONICAL_UUID_RE.fullmatch(trailer_value) is None:
+        return [
+            "commit Codex-Thread-ID must be a canonical lowercase UUID: "
+            f"{trailer_value}"
+        ]
+    if trailer_value != request_value:
+        return [
+            "commit Codex-Thread-ID does not match the request: "
+            f"{trailer_value}"
+        ]
+    return []
 
 
 def strip_link_title(destination: str) -> str:
@@ -826,6 +993,8 @@ def validate_session(
     request: str | Path,
     git_status: str | None = None,
     check_git_status: bool = True,
+    expected_codex_thread_id: str | None = None,
+    commit_message: str | None = None,
 ) -> list[str]:
     root = Path(repo_root).resolve()
     request_path = absolute_path(request, root)
@@ -845,6 +1014,28 @@ def validate_session(
     errors.extend(validate_navigation(root, request_path, text))
     errors.extend(validate_journal(root, request_path))
     errors.extend(validate_used_tools_section(text, request_path))
+    errors.extend(
+        validate_codex_commit_context_requirements(
+            request_path,
+            expected_codex_thread_id,
+            commit_message,
+        )
+    )
+    errors.extend(
+        validate_codex_thread_id_section(
+            text,
+            request_path,
+            expected_codex_thread_id=expected_codex_thread_id,
+        )
+    )
+    if commit_message is not None:
+        errors.extend(
+            validate_commit_message_codex_thread_id(
+                text,
+                request_path,
+                commit_message,
+            )
+        )
 
     affected_files, affected_errors = affected_files_from_request(
         text,
@@ -884,11 +1075,20 @@ def validate_session(
 
 def main() -> int:
     args = parse_args()
+    commit_message = None
+    if args.commit_message_file is not None:
+        try:
+            commit_message = read_text(args.commit_message_file)
+        except OSError as exc:
+            print(f"cannot read commit message file: {exc}", file=sys.stderr)
+            return 2
     errors = validate_session(
         args.repo_root,
         args.request,
         git_status="" if args.skip_git_status else None,
         check_git_status=not args.skip_git_status,
+        expected_codex_thread_id=args.codex_thread_id,
+        commit_message=commit_message,
     )
     if errors:
         for error in errors:

@@ -224,6 +224,244 @@ class CheckSessionCoherenceTests(unittest.TestCase):
 
         self.assertEqual(errors, [])
 
+    def test_new_request_requires_codex_thread_id(self):
+        request_path = Path(
+            "Запросы/2026-07-14_02-31-47_MSK_добавлять-"
+            "идентификатор-сеанса-Codex.md"
+        )
+
+        errors = check_session_coherence.validate_codex_thread_id_section(
+            "## Текст запроса\n\nДобавить идентификатор.\n",
+            request_path,
+        )
+
+        self.assertEqual(
+            errors,
+            ["missing section: Идентификатор сеанса Codex"],
+        )
+
+    def test_new_request_accepts_root_codex_thread_id(self):
+        request_path = Path(
+            "Запросы/2026-07-14_02-31-47_MSK_добавлять-"
+            "идентификатор-сеанса-Codex.md"
+        )
+        root_thread_id = "019f5dd0-c129-7fa0-9315-77e85dead3e7"
+        text = "\n".join(
+            [
+                "## Идентификатор сеанса Codex",
+                "",
+                f"Codex-Thread-ID: {root_thread_id}",
+                "",
+            ]
+        )
+
+        errors = check_session_coherence.validate_codex_thread_id_section(
+            text,
+            request_path,
+            expected_codex_thread_id=root_thread_id,
+        )
+
+        self.assertEqual(errors, [])
+
+    def test_new_request_rejects_split_or_non_unique_codex_thread_id_section(self):
+        request_path = Path(
+            "Запросы/2026-07-14_02-31-47_MSK_добавлять-"
+            "идентификатор-сеанса-Codex.md"
+        )
+        root_thread_id = "019f5dd0-c129-7fa0-9315-77e85dead3e7"
+        invalid_texts = {
+            "split value": (
+                "## Идентификатор сеанса Codex\n\n"
+                f"Codex-Thread-ID:\n{root_thread_id}\n"
+            ),
+            "extra content": (
+                "## Идентификатор сеанса Codex\n\n"
+                f"Codex-Thread-ID: {root_thread_id}\n"
+                "Лишняя строка.\n"
+            ),
+            "duplicate heading": (
+                "## Идентификатор сеанса Codex\n\n"
+                f"Codex-Thread-ID: {root_thread_id}\n\n"
+                "## Идентификатор сеанса Codex\n\n"
+                f"Codex-Thread-ID: {root_thread_id}\n"
+            ),
+        }
+
+        for label, text in invalid_texts.items():
+            with self.subTest(label=label):
+                errors = check_session_coherence.validate_codex_thread_id_section(
+                    text,
+                    request_path,
+                )
+                self.assertTrue(errors)
+
+    def test_new_request_rejects_subagent_codex_thread_id(self):
+        request_path = Path(
+            "Запросы/2026-07-14_02-31-47_MSK_добавлять-"
+            "идентификатор-сеанса-Codex.md"
+        )
+        root_thread_id = "019f5dd0-c129-7fa0-9315-77e85dead3e7"
+        child_thread_id = "019f5dd2-af59-7a31-99d0-243a677529ab"
+        text = "\n".join(
+            [
+                "## Идентификатор сеанса Codex",
+                "",
+                f"Codex-Thread-ID: {child_thread_id}",
+                "",
+            ]
+        )
+
+        errors = check_session_coherence.validate_codex_thread_id_section(
+            text,
+            request_path,
+            expected_codex_thread_id=root_thread_id,
+        )
+
+        self.assertEqual(
+            errors,
+            [
+                "Codex-Thread-ID does not match the expected root Codex thread: "
+                f"{child_thread_id}"
+            ],
+        )
+
+    def test_new_request_rejects_non_uuid_codex_thread_id(self):
+        request_path = Path(
+            "Запросы/2026-07-14_02-31-47_MSK_добавлять-"
+            "идентификатор-сеанса-Codex.md"
+        )
+        text = "\n".join(
+            [
+                "## Идентификатор сеанса Codex",
+                "",
+                "Codex-Thread-ID: not-a-uuid",
+                "",
+            ]
+        )
+
+        errors = check_session_coherence.validate_codex_thread_id_section(
+            text,
+            request_path,
+        )
+
+        self.assertEqual(
+            errors,
+            ["Codex-Thread-ID must be a canonical lowercase UUID: not-a-uuid"],
+        )
+
+    def test_historical_request_without_codex_thread_id_remains_allowed(self):
+        request_path = Path(
+            "Запросы/2026-07-14_01-55-34_MSK_"
+            "интегрировать-рекурсивную-модель-агента-и-среды.md"
+        )
+
+        errors = check_session_coherence.validate_codex_thread_id_section(
+            "## Текст запроса\n\nИсторический запрос.\n",
+            request_path,
+        )
+
+        self.assertEqual(errors, [])
+
+    def test_new_request_requires_commit_context_arguments(self):
+        request_path = Path(
+            "Запросы/2026-07-14_02-31-47_MSK_добавлять-"
+            "идентификатор-сеанса-Codex.md"
+        )
+
+        errors = (
+            check_session_coherence.validate_codex_commit_context_requirements(
+                request_path,
+                expected_codex_thread_id=None,
+                commit_message=None,
+            )
+        )
+
+        self.assertEqual(
+            errors,
+            [
+                "--codex-thread-id is required for this request",
+                "--commit-message-file is required for this request",
+            ],
+        )
+
+        historical_path = Path(
+            "Запросы/2026-07-14_01-55-34_MSK_"
+            "интегрировать-рекурсивную-модель-агента-и-среды.md"
+        )
+        self.assertEqual(
+            check_session_coherence.validate_codex_commit_context_requirements(
+                historical_path,
+                expected_codex_thread_id=None,
+                commit_message=None,
+            ),
+            [],
+        )
+
+    def test_commit_message_requires_matching_codex_thread_id_trailer(self):
+        request_path = Path(
+            "Запросы/2026-07-14_02-31-47_MSK_добавлять-"
+            "идентификатор-сеанса-Codex.md"
+        )
+        root_thread_id = "019f5dd0-c129-7fa0-9315-77e85dead3e7"
+        request_text = "\n".join(
+            [
+                "## Идентификатор сеанса Codex",
+                "",
+                f"Codex-Thread-ID: {root_thread_id}",
+                "",
+            ]
+        )
+        messages = {
+            "missing": "Добавлять ID\n\nСделано.\n",
+            "subject only": f"Codex-Thread-ID: {root_thread_id}\n",
+            "split value": (
+                "Добавлять ID\n\nСделано.\n\n"
+                f"Codex-Thread-ID:\n{root_thread_id}\n"
+            ),
+            "not a trailer block": (
+                "Добавлять ID\n\nСделано.\n\n"
+                "Обычный текст.\n"
+                f"Codex-Thread-ID: {root_thread_id}\n"
+            ),
+            "different": (
+                "Добавлять ID\n\nСделано.\n\n"
+                "Codex-Thread-ID: 019f5dd2-af59-7a31-99d0-243a677529ab\n"
+            ),
+            "duplicate": (
+                "Добавлять ID\n\nСделано.\n\n"
+                f"Codex-Thread-ID: {root_thread_id}\n"
+                f"Codex-Thread-ID: {root_thread_id}\n"
+            ),
+            "case-insensitive duplicate": (
+                "Добавлять ID\n\nСделано.\n\n"
+                "codex-thread-id: 019f5dd2-af59-7a31-99d0-243a677529ab\n"
+                f"Codex-Thread-ID: {root_thread_id}\n"
+            ),
+        }
+
+        for label, message in messages.items():
+            with self.subTest(label=label):
+                errors = check_session_coherence.validate_commit_message_codex_thread_id(
+                    request_text,
+                    request_path,
+                    message,
+                )
+                self.assertTrue(errors)
+
+        valid_message = (
+            "Добавлять идентификатор сеанса Codex\n\n"
+            "Исходный запрос и описание сделанного.\n\n"
+            f"Codex-Thread-ID: {root_thread_id}\n"
+        )
+        self.assertEqual(
+            check_session_coherence.validate_commit_message_codex_thread_id(
+                request_text,
+                request_path,
+                valid_message,
+            ),
+            [],
+        )
+
     def test_answered_question_file_requires_literal_question_mark(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
