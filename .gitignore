@@ -2,6 +2,10 @@
 __pycache__/
 *.py[cod]
 
+# Локальные продукты сборки SwiftPM не являются памятью проекта.
+.build/
+.swiftpm/
+
 # Локальное и изменчивое состояние Obsidian не является общей памятью.
 .obsidian/workspace.json
 .obsidian/workspace-mobile.json
