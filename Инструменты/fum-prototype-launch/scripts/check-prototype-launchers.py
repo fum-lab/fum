@@ -12,6 +12,7 @@ from pathlib import Path
 PROTOTYPES_DIR = Path("Прототипы")
 PROTOTYPE_README = "README.md"
 LAUNCHER_NAME = "запустить.sh"
+ROOT_LAUNCHER = Path("prototipyi.sh")
 EXPECTED_SHEBANG = "#!/bin/sh"
 
 
@@ -64,6 +65,11 @@ def validate_launcher(launcher: Path, repo_root: Path) -> list[str]:
     return errors
 
 
+def validate_root_launcher(repo_root: str | Path) -> list[str]:
+    root = Path(repo_root).resolve()
+    return validate_launcher(root / ROOT_LAUNCHER, root)
+
+
 def validate_prototype_launchers(repo_root: str | Path) -> list[str]:
     root = Path(repo_root).resolve()
     if not (root / PROTOTYPES_DIR).is_dir():
@@ -73,6 +79,11 @@ def validate_prototype_launchers(repo_root: str | Path) -> list[str]:
     for prototype in prototype_directories(root):
         errors.extend(validate_launcher(prototype / LAUNCHER_NAME, root))
     return errors
+
+
+def validate_launch_contract(repo_root: str | Path) -> list[str]:
+    root = Path(repo_root).resolve()
+    return validate_root_launcher(root) + validate_prototype_launchers(root)
 
 
 def parse_args() -> argparse.Namespace:
@@ -88,7 +99,7 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
-    errors = validate_prototype_launchers(args.repo_root)
+    errors = validate_launch_contract(args.repo_root)
     if errors:
         for error in errors:
             print(f"ОШИБКА: {error}")
@@ -96,7 +107,10 @@ def main() -> int:
         return 1
 
     count = len(prototype_directories(args.repo_root.resolve()))
-    print(f"Проверка пройдена: скриптов запуска — {count}.")
+    print(
+        "Проверка пройдена: корневая панель — 1, "
+        f"скриптов прототипов — {count}."
+    )
     return 0
 
 
