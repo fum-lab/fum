@@ -19,6 +19,9 @@ PLANNING_REGISTRY_SCRIPT = Path(
 PLANNING_REGISTRY_OUTPUT = Path(
     "Планирование/реестр-требований-вариантов-и-кандидатов.json"
 )
+PROTOTYPE_LAUNCH_CHECK_SCRIPT = Path(
+    "Инструменты/fum-prototype-launch/scripts/check-prototype-launchers.py"
+)
 CODEX_COMMIT_CONTEXT_RULE_START = (2026, 7, 14, 2, 31, 47)
 REQUEST_DATETIME_PREFIX_RE = re.compile(
     r"^(\d{4})-(\d{2})-(\d{2})_(\d{2})-(\d{2})-(\d{2})_MSK"
@@ -146,6 +149,14 @@ def build_steps(
         SmokeStep(
             name="Проверка планового реестра",
             command=(python_cmd, planning_script, "validate", "--registry", planning_output),
+        )
+    )
+
+    prototype_launch_script = require_file(root, PROTOTYPE_LAUNCH_CHECK_SCRIPT)
+    steps.append(
+        SmokeStep(
+            name="Проверка скриптов запуска прототипов",
+            command=(python_cmd, prototype_launch_script),
         )
     )
 

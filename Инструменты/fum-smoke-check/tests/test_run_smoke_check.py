@@ -22,6 +22,7 @@ class RunSmokeCheckTests(unittest.TestCase):
     def write_script_fixture(self, root: Path) -> None:
         for path in [
             root / "Инструменты" / "fum-planning-registry" / "scripts" / "build-planning-registry.py",
+            root / "Инструменты" / "fum-prototype-launch" / "scripts" / "check-prototype-launchers.py",
             root / "Инструменты" / "fum-md-recency" / "scripts" / "update-md-recency.py",
             root / "Инструменты" / "fum-obsidian-graph-recency" / "scripts" / "build-obsidian-graph-recency.py",
             root / "Инструменты" / "fum-session-coherence" / "scripts" / "check-session-coherence.py",
@@ -61,6 +62,7 @@ class RunSmokeCheckTests(unittest.TestCase):
                     "Тесты fum-beta",
                     "Сборка планового реестра",
                     "Проверка планового реестра",
+                    "Проверка скриптов запуска прототипов",
                     "Проверка recency-меток Markdown",
                     "Проверка тепловой карты графа Obsidian",
                     "Проверка связности рабочей сессии",
