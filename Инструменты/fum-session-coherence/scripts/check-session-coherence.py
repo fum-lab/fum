@@ -22,6 +22,7 @@ REQUEST_FILENAME_RE = re.compile(
 REQUEST_TITLE_INFINITIVE_RULE_START = (2026, 7, 2, 23, 1, 25)
 QUALIFIED_OPENAI_TOOL_VERSION_RULE_START = (2026, 7, 10, 5, 59, 58)
 CODEX_THREAD_ID_RULE_START = (2026, 7, 14, 2, 31, 47)
+SESSION_TIME_TOOL_RULE_START = (2026, 7, 17, 10, 25, 41)
 RUSSIAN_INFINITIVE_ENDINGS = ("ться", "тись", "чься", "ть", "ти", "чь")
 TITLE_TOKEN_REPLACEMENTS = {
     "api": "API",
@@ -399,6 +400,14 @@ def validate_used_tools_section(
         errors.append(
             "used tools section must qualify the ChatGPT or Codex layer "
             "instead of using the generic version fallback"
+        )
+    if (
+        request_file_match is not None
+        and request_datetime_key(request_file_match) >= SESSION_TIME_TOOL_RULE_START
+        and "fum-session-time" not in used_tools
+    ):
+        errors.append(
+            "used tools section must include fum-session-time for canonical MSK time"
         )
     return errors
 

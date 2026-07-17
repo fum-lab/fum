@@ -224,6 +224,33 @@ class CheckSessionCoherenceTests(unittest.TestCase):
 
         self.assertEqual(errors, [])
 
+    def test_new_request_requires_canonical_session_time_tool(self):
+        request_path = Path(
+            "Запросы/2026-07-17_10-25-41_MSK_"
+            "предотвращать-смещение-времени-сессий.md"
+        )
+        text = "\n".join(
+            [
+                "## Использованные инструменты",
+                "",
+                "- [Реестр](../Инструменты/реестр-системных-приложений-и-инструментов.md) - общий справочник.",
+                "- `python3` - использован для локальных проверок.",
+                "",
+            ]
+        )
+
+        errors = check_session_coherence.validate_used_tools_section(
+            text,
+            request_path,
+        )
+
+        self.assertEqual(
+            errors,
+            [
+                "used tools section must include fum-session-time for canonical MSK time"
+            ],
+        )
+
     def test_new_request_requires_codex_thread_id(self):
         request_path = Path(
             "Запросы/2026-07-14_02-31-47_MSK_добавлять-"

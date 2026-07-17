@@ -1,0 +1,4 @@
+interface:
+  display_name: "Московское время сессии FUM"
+  short_description: "Формирует канонические MSK-метки сессии"
+  default_prompt: "Используй $fum-session-time перед созданием файлов запроса и журнала FUM."
