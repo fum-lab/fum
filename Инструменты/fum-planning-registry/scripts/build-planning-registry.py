@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Any
 
 
-SCHEMA = "fum.planning.requirements-registry.v4"
+SCHEMA = "fum.planning.requirements-registry.v5"
 DEFAULT_OUTPUT = Path("Планирование/реестр-требований-вариантов-и-кандидатов.json")
 SUMMARY_TABLE = Path("Планирование/сводная-таблица-требований-и-реализаций.md")
 ROADMAP = Path("Планирование/дорожная-карта.md")
@@ -24,13 +24,51 @@ MVP_README = Path("Планирование/MVP-кандидаты/README.md")
 PROPOSALS = Path("Планирование/предложения-о-следующих-шагах.md")
 QUESTIONS_README = Path("Вопросы/README.md")
 AUTOMATION_FILE = Path("Инструменты/fum-planning-registry/SKILL.md")
+REQUIREMENTS_DIR = Path("Требования")
+REQUIREMENTS_INDEX = REQUIREMENTS_DIR / "README.md"
 
 LINK_RE = re.compile(r"!?\[([^\]\n]+)\]\(([^)\n]+)\)")
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*$", re.MULTILINE)
+REQUIREMENT_ID_RE = re.compile(
+    r"<!--\s*FUM-REQUIREMENT-ID:\s*(FUM-REQ-[0-9]{4})\s*-->"
+)
+REQUIREMENT_INDEX_ENTRY_RE = re.compile(
+    r"^\s*-\s+`(FUM-REQ-[0-9]{4})`\s+—\s+"
+    r"\[([^\]\n]+)\]\(([^)\n]+)\)\s*$"
+)
+RELATION_RE = re.compile(
+    r"^\s*-\s+\*\*([^*]+?):\*\*\s+"
+    r"\[([^\]\n]+)\]\(([^)\n]+)\)\s+—\s+(.+?)\s*$"
+)
 RECENCY_RE = re.compile(
     r"\n?<!-- FUM-MD-RECENCY:BEGIN -->.*?<!-- FUM-MD-RECENCY:END -->\n?",
     re.DOTALL,
 )
+
+REQUIREMENT_STATUSES: dict[str, dict[str, str]] = {
+    "⚪": {"code": "draft", "label": "черновик"},
+    "🟡": {"code": "planned", "label": "принято и запланировано"},
+    "🚧": {"code": "in_progress", "label": "реализуется"},
+    "✅": {"code": "verified", "label": "реализовано и подтверждено"},
+    "⛔": {"code": "blocked", "label": "заблокировано"},
+    "🗑️": {"code": "withdrawn", "label": "снято"},
+}
+REQUIRED_REQUIREMENT_SECTIONS = [
+    "Семантические связи",
+    "Критерии проверки",
+    "Статус и границы",
+    "Источники требований",
+]
+INVERSE_RELATIONS = {
+    "зависит от": "требуется для",
+    "требуется для": "зависит от",
+    "является частью": "состоит из",
+    "состоит из": "является частью",
+    "дополняет": "дополняется",
+    "дополняется": "дополняет",
+    "усиливает": "усиливается",
+    "усиливается": "усиливает",
+}
 
 
 @dataclass(frozen=True)
@@ -132,6 +170,322 @@ def section_body(text: str, heading: str) -> str:
     return text[match.end() : match.end() + next_heading.start()]
 
 
+def has_level_two_heading(text: str, heading: str) -> bool:
+    return any(
+        clean_text(candidate.group(1)) == heading
+        for candidate in re.finditer(r"^##\s+(.+?)\s*$", text, re.MULTILINE)
+    )
+
+
+def first_level_one_heading(text: str, source_file: str) -> tuple[str, int]:
+    match = re.search(r"^#\s+(.+?)\s*$", text, re.MULTILINE)
+    if match is None:
+        raise ValueError(f"requirement card has no level-one heading: {source_file}")
+    return clean_text(match.group(1)), match.end()
+
+
+def markdown_list_items(markdown: str, source_path: Path, repo_root: Path) -> list[dict[str, Any]]:
+    items: list[dict[str, Any]] = []
+    current: list[str] = []
+
+    def append_current() -> None:
+        if not current:
+            return
+        raw = " ".join(current)
+        text = clean_text(raw)
+        if text:
+            items.append(
+                {
+                    "text": text,
+                    "links": links_from_markdown(raw, source_path, repo_root),
+                }
+            )
+
+    for line in markdown.splitlines():
+        stripped = line.strip()
+        if not stripped:
+            continue
+        if stripped.startswith("- "):
+            append_current()
+            current = [stripped[2:].strip()]
+            continue
+        if not current:
+            raise ValueError(
+                f"malformed Markdown list in {source_path.as_posix()}: {stripped}"
+            )
+        current.append(stripped)
+    append_current()
+    return items
+
+
+def requirement_status_from_filename(path: Path) -> str:
+    for symbol in sorted(REQUIREMENT_STATUSES, key=len, reverse=True):
+        if path.name.startswith(f"{symbol}-"):
+            return symbol
+    raise ValueError(f"invalid requirement status in filename: {path.as_posix()}")
+
+
+def requirement_card_paths(repo_root: Path) -> list[Path]:
+    directory = absolute_path(REQUIREMENTS_DIR, repo_root)
+    return sorted(
+        path
+        for path in directory.glob("*.md")
+        if path.name != REQUIREMENTS_INDEX.name
+    )
+
+
+def indexed_requirement_targets(repo_root: Path) -> dict[str, list[dict[str, str]]]:
+    index_text = read_text(REQUIREMENTS_INDEX, repo_root)
+    indexed: dict[str, list[dict[str, str]]] = {}
+    for line in index_text.splitlines():
+        links = links_from_markdown(line, REQUIREMENTS_INDEX, repo_root)
+        requirement_links = [
+            link
+            for link in links
+            if Path(link["target"]).parent == REQUIREMENTS_DIR
+            and Path(link["target"]).name != REQUIREMENTS_INDEX.name
+            and Path(link["target"]).suffix == ".md"
+        ]
+        if not requirement_links:
+            continue
+        match = REQUIREMENT_INDEX_ENTRY_RE.fullmatch(line)
+        if match is None or len(requirement_links) != 1:
+            raise ValueError(f"malformed requirement index entry: {line.strip()}")
+        link = requirement_links[0]
+        indexed.setdefault(link["target"], []).append(
+            {
+                "id": match.group(1),
+                "label": link["label"],
+                "target": link["target"],
+            }
+        )
+    return indexed
+
+
+def requirement_formulation(
+    text: str,
+    heading_end: int,
+    source_path: Path,
+    repo_root: Path,
+) -> dict[str, Any]:
+    next_heading = re.search(r"^##\s+.+$", text[heading_end:], re.MULTILINE)
+    end = heading_end + next_heading.start() if next_heading else len(text)
+    markdown = REQUIREMENT_ID_RE.sub("", text[heading_end:end]).strip()
+    if not clean_text(markdown):
+        raise ValueError(
+            f"requirement formulation is empty: {source_path.as_posix()}"
+        )
+    return {
+        "markdown": markdown,
+        "text": clean_text(markdown),
+        "links": links_from_markdown(markdown, source_path, repo_root),
+    }
+
+
+def parse_requirement_relations(
+    section: str,
+    source_path: Path,
+    repo_root: Path,
+) -> list[dict[str, str]]:
+    relations: list[dict[str, str]] = []
+    for line in section.splitlines():
+        stripped = line.strip()
+        if not stripped:
+            continue
+        if not stripped.startswith("- "):
+            raise ValueError(
+                f"malformed semantic relation in {source_path.as_posix()}: {stripped}"
+            )
+        match = RELATION_RE.fullmatch(stripped)
+        if match is None:
+            raise ValueError(
+                f"malformed semantic relation in {source_path.as_posix()}: {stripped}"
+            )
+        relation_type = clean_text(match.group(1))
+        if relation_type not in INVERSE_RELATIONS:
+            raise ValueError(
+                f"unknown semantic relation type in {source_path.as_posix()}: "
+                f"{relation_type}"
+            )
+        relations.append(
+            {
+                "type": relation_type,
+                "target_label": clean_text(match.group(2)),
+                "target_file": normalize_target(
+                    match.group(3),
+                    source_path,
+                    repo_root,
+                ),
+                "reason": clean_text(match.group(4)),
+            }
+        )
+    return relations
+
+
+def extract_requirement_cards(repo_root: Path) -> list[dict[str, Any]]:
+    cards = requirement_card_paths(repo_root)
+    if not cards:
+        raise ValueError("no canonical requirement cards found")
+    statuses_by_file = {
+        repo_relative(path, repo_root): requirement_status_from_filename(path)
+        for path in cards
+    }
+
+    indexed = indexed_requirement_targets(repo_root)
+    actual_targets = {repo_relative(path, repo_root) for path in cards}
+    indexed_targets = set(indexed)
+    for target in sorted(actual_targets - indexed_targets):
+        raise ValueError(f"requirement card is not indexed: {target}")
+    for target in sorted(indexed_targets - actual_targets):
+        raise ValueError(f"requirement index target does not exist: {target}")
+    for target, links in sorted(indexed.items()):
+        if len(links) != 1:
+            raise ValueError(f"requirement card is indexed more than once: {target}")
+
+    parsed: list[dict[str, Any]] = []
+    ids: dict[str, str] = {}
+    for path in cards:
+        source_file = repo_relative(path, repo_root)
+        source_path = Path(source_file)
+        text = strip_recency(read_text(path, repo_root))
+        status_symbol = statuses_by_file[source_file]
+        index_link = indexed[source_file][0]
+        if not index_link["label"].startswith(status_symbol):
+            raise ValueError(
+                f"requirement index status does not match filename: {source_file}"
+            )
+
+        identifier_matches = REQUIREMENT_ID_RE.findall(text)
+        if len(identifier_matches) != 1:
+            raise ValueError(
+                f"requirement card must contain exactly one stable id: {source_file}"
+            )
+        requirement_id = identifier_matches[0]
+        if requirement_id in ids:
+            raise ValueError(
+                f"duplicate requirement id: {requirement_id} "
+                f"({ids[requirement_id]}, {source_file})"
+            )
+        ids[requirement_id] = source_file
+
+        title, heading_end = first_level_one_heading(text, source_file)
+        marker_after_heading = re.match(
+            r"\s*" + REQUIREMENT_ID_RE.pattern,
+            text[heading_end:],
+        )
+        if marker_after_heading is None:
+            raise ValueError(
+                f"stable requirement id marker must immediately follow heading: "
+                f"{source_file}"
+            )
+        expected_index_label = f"{status_symbol} {title}"
+        if index_link["label"] != expected_index_label:
+            raise ValueError(
+                f"requirement index label does not match card: {source_file}"
+            )
+        if index_link["id"] != requirement_id:
+            raise ValueError(
+                f"requirement index id does not match card: {source_file}"
+            )
+        sections: dict[str, str] = {}
+        for section_name in REQUIRED_REQUIREMENT_SECTIONS:
+            body = section_body(text, section_name)
+            if not body.strip():
+                raise ValueError(
+                    f"missing required section {section_name}: {source_file}"
+                )
+            sections[section_name] = body
+
+        body_status_match = re.search(
+            r"—\s*`(" + "|".join(
+                re.escape(symbol)
+                for symbol in sorted(REQUIREMENT_STATUSES, key=len, reverse=True)
+            ) + r")`",
+            sections["Статус и границы"],
+        )
+        if body_status_match is None:
+            raise ValueError(f"requirement body status is missing: {source_file}")
+        if body_status_match.group(1) != status_symbol:
+            raise ValueError(
+                f"requirement body status does not match filename: {source_file}"
+            )
+
+        criteria = markdown_list_items(
+            sections["Критерии проверки"],
+            source_path,
+            repo_root,
+        )
+        if not criteria:
+            raise ValueError(f"requirement criteria are empty: {source_file}")
+
+        parsed.append(
+            {
+                "id": requirement_id,
+                "title": title,
+                "file": source_file,
+                "status": {
+                    "symbol": status_symbol,
+                    **REQUIREMENT_STATUSES[status_symbol],
+                },
+                "formulation": requirement_formulation(
+                    text,
+                    heading_end,
+                    source_path,
+                    repo_root,
+                ),
+                "criteria": criteria,
+                "semantic_relations": parse_requirement_relations(
+                    sections["Семантические связи"],
+                    source_path,
+                    repo_root,
+                ),
+                "source": {
+                    "file": source_file,
+                    "index_file": REQUIREMENTS_INDEX.as_posix(),
+                },
+            }
+        )
+
+    by_file = {card["file"]: card for card in parsed}
+    for card in parsed:
+        seen_relations: set[tuple[str, str]] = set()
+        for relation in card["semantic_relations"]:
+            target_file = relation["target_file"]
+            target = by_file.get(target_file)
+            if target is None:
+                raise ValueError(
+                    f"semantic relation target is not an indexed requirement card: "
+                    f"{card['file']} -> {target_file}"
+                )
+            key = (relation["type"], target_file)
+            if key in seen_relations:
+                raise ValueError(
+                    f"duplicate semantic relation: {card['file']} "
+                    f"{relation['type']} {target_file}"
+                )
+            seen_relations.add(key)
+            relation["target_requirement_id"] = target["id"]
+            relation["inverse_type"] = INVERSE_RELATIONS[relation["type"]]
+
+    for card in parsed:
+        for relation in card["semantic_relations"]:
+            target = by_file[relation["target_file"]]
+            inverse_matches = [
+                candidate
+                for candidate in target["semantic_relations"]
+                if candidate["type"] == relation["inverse_type"]
+                and candidate["target_file"] == card["file"]
+            ]
+            if len(inverse_matches) != 1:
+                raise ValueError(
+                    "missing inverse semantic relation: "
+                    f"{card['id']} {relation['type']} "
+                    f"{relation['target_requirement_id']}"
+                )
+
+    return sorted(parsed, key=lambda card: card["id"])
+
+
 def split_row(line: str) -> list[str]:
     value = line.strip()
     if not value.startswith("|") or not value.endswith("|"):
@@ -173,6 +527,88 @@ def table_after_heading(
     return parse_table(section_body(read_text(source_path, repo_root), heading), source_path, repo_root)
 
 
+def strict_table_after_heading(
+    path: str | Path,
+    heading: str,
+    expected_headers: list[str],
+    repo_root: Path,
+    *,
+    allow_preamble: bool = False,
+) -> list[list[Cell]]:
+    source_path = Path(path)
+    text = read_text(source_path, repo_root)
+    if not has_level_two_heading(text, heading):
+        raise ValueError(
+            f"missing required table section {heading}: {source_path.as_posix()}"
+        )
+    lines = section_body(text, heading).splitlines()
+    header_index: int | None = None
+    for line_index, line in enumerate(lines):
+        cells = split_row(line)
+        if [clean_text(cell) for cell in cells] == expected_headers:
+            header_index = line_index
+            break
+    if header_index is None:
+        raise ValueError(
+            f"unexpected table header in {source_path.as_posix()} section {heading}"
+        )
+    for line_index in range(header_index):
+        line = lines[line_index]
+        if not line.strip():
+            continue
+        if allow_preamble and "|" not in line:
+            continue
+        raise ValueError(
+            f"malformed table row in {source_path.as_posix()} "
+            f"section {heading}: line {line_index + 1}"
+        )
+
+    populated_after_header = [
+        index
+        for index in range(header_index, len(lines))
+        if lines[index].strip()
+    ]
+    last = populated_after_header[-1]
+    parsed_rows: list[list[str]] = []
+    for line_index in range(header_index, last + 1):
+        line = lines[line_index]
+        cells = split_row(line)
+        if len(cells) != len(expected_headers):
+            raise ValueError(
+                f"malformed table row in {source_path.as_posix()} "
+                f"section {heading}: line {line_index + 1}"
+            )
+        parsed_rows.append(cells)
+
+    if len(parsed_rows) < 2:
+        raise ValueError(
+            f"malformed table in {source_path.as_posix()} section {heading}"
+        )
+    if not is_separator(parsed_rows[1]):
+        raise ValueError(
+            f"missing table separator in {source_path.as_posix()} section {heading}"
+        )
+
+    rows: list[list[Cell]] = []
+    for cells in parsed_rows[2:]:
+        if is_separator(cells):
+            raise ValueError(
+                f"unexpected table separator in {source_path.as_posix()} "
+                f"section {heading}"
+            )
+        rows.append(
+            [
+                Cell(
+                    raw=cell,
+                    text=clean_text(cell),
+                    links=links_from_markdown(cell, source_path, repo_root),
+                )
+                for cell in cells
+            ]
+        )
+    return rows
+
+
 def split_items(cell: Cell, source_path: Path, repo_root: Path) -> list[dict[str, Any]]:
     fragments = [part.strip() for part in re.split(r";\s+", cell.raw) if part.strip()]
     if not fragments:
@@ -193,17 +629,134 @@ def first_link_target(cell: Cell) -> str | None:
     return cell.links[0]["target"]
 
 
-def extract_requirements(repo_root: Path) -> list[dict[str, Any]]:
-    rows = table_after_heading(SUMMARY_TABLE, "Сводная таблица", repo_root)
-    requirements: list[dict[str, Any]] = []
+def extract_planning_views(
+    repo_root: Path,
+    requirements_by_file: dict[str, dict[str, Any]],
+) -> list[dict[str, Any]]:
+    mapping_rows = strict_table_after_heading(
+        SUMMARY_TABLE,
+        "Карта широких строк",
+        [
+            "Идентификатор",
+            "Слой требований",
+            "Роль",
+            "Каноническая карточка",
+        ],
+        repo_root,
+        allow_preamble=True,
+    )
+    mappings: dict[str, dict[str, Any]] = {}
+    mapping_ids: dict[str, str] = {}
+    for row_number, row in enumerate(mapping_rows, start=1):
+        if len(row) != 4:
+            raise ValueError(
+                f"planning view mapping row must contain four columns: row {row_number}"
+            )
+        identifier, layer_name, role, requirement_card = row
+        if not re.fullmatch(r"PLAN-LAYER-[A-Z0-9-]+", identifier.text):
+            raise ValueError(
+                f"invalid planning view id: {identifier.text}"
+            )
+        known_layer = mapping_ids.get(identifier.text)
+        if known_layer is not None and known_layer != layer_name.text:
+            raise ValueError(
+                f"planning view id is used by different layers: {identifier.text}"
+            )
+        mapping_ids[identifier.text] = layer_name.text
+        mapping = mappings.setdefault(
+            layer_name.text,
+            {
+                "id": identifier.text,
+                "role": role.text,
+                "requirement_links": [],
+            },
+        )
+        if mapping["id"] != identifier.text or mapping["role"] != role.text:
+            raise ValueError(
+                f"inconsistent planning view mapping: {layer_name.text}"
+            )
+        if role.text == "Карточечно-связанный слой":
+            if len(requirement_card.links) != 1:
+                raise ValueError(
+                    "planning view must link requirement cards or be marked as derived: "
+                    f"{identifier.text}"
+                )
+            mapping["requirement_links"].append(requirement_card.links[0])
+        elif role.text == "Производный слой":
+            if requirement_card.text != "—" or requirement_card.links:
+                raise ValueError(
+                    f"derived planning view must not link a requirement card: "
+                    f"{identifier.text}"
+                )
+        else:
+            raise ValueError(
+                "planning view must link requirement cards or be marked as derived: "
+                f"{identifier.text}"
+            )
+
+    rows = strict_table_after_heading(
+        SUMMARY_TABLE,
+        "Сводная таблица",
+        [
+            "Слой требований",
+            "Что нужно реализовать",
+            "Предполагаемая реализация на документационной стадии",
+            "Предполагаемая реализация в коробочной FUM",
+            "Кандидаты и ближайшие артефакты",
+            "Статус",
+        ],
+        repo_root,
+        allow_preamble=True,
+    )
+    planning_views: list[dict[str, Any]] = []
     for index, row in enumerate(rows, start=1):
         if len(row) != 6:
-            continue
-        layer, result, documentation_stage, boxed_fum, candidates, status = row
-        requirement_id = f"REQ-{index:03d}"
-        requirements.append(
+            raise ValueError(
+                f"planning view row must contain six columns: row {index}"
+            )
+        (
+            layer,
+            result,
+            documentation_stage,
+            boxed_fum,
+            candidates,
+            status,
+        ) = row
+        mapping = mappings.pop(layer.text, None)
+        if mapping is None:
+            raise ValueError(
+                f"planning view has no explicit mapping: {layer.text}"
+            )
+        planning_view_id = mapping["id"]
+        linked_requirement_ids: list[str] = []
+        for link in mapping["requirement_links"]:
+            target = link["target"]
+            requirement = requirements_by_file.get(target)
+            if requirement is None:
+                raise ValueError(
+                    f"planning view links a non-requirement card: "
+                    f"{planning_view_id} -> {target}"
+                )
+            if link["label"] != requirement["id"]:
+                raise ValueError(
+                    f"planning view requirement label must use stable id: "
+                    f"{planning_view_id} -> {target}"
+                )
+            linked_requirement_ids.append(requirement["id"])
+
+        if mapping["role"] == "Карточечно-связанный слой" and linked_requirement_ids:
+            representation = "card-linked"
+        elif mapping["role"] == "Производный слой" and not linked_requirement_ids:
+            representation = "derived"
+        else:
+            raise ValueError(
+                "planning view must link requirement cards or be marked as derived: "
+                f"row {index}"
+            )
+
+        planning_views.append(
             {
-                "id": requirement_id,
+                "id": planning_view_id,
                 "layer": {
                     "text": layer.text,
                     "links": layer.links,
@@ -214,7 +767,7 @@ def extract_requirements(repo_root: Path) -> list[dict[str, Any]]:
                 },
                 "documentation_stage_implementation": [
                     {
-                        "id": f"{requirement_id}-DOC-{option_index:02d}",
+                        "id": f"{planning_view_id}-doc-{option_index:02d}",
                         **option,
                     }
                     for option_index, option in enumerate(
@@ -224,7 +777,7 @@ def extract_requirements(repo_root: Path) -> list[dict[str, Any]]:
                 ],
                 "boxed_fum_implementation": [
                     {
-                        "id": f"{requirement_id}-BOX-{option_index:02d}",
+                        "id": f"{planning_view_id}-box-{option_index:02d}",
                         **option,
                     }
                     for option_index, option in enumerate(
@@ -234,7 +787,7 @@ def extract_requirements(repo_root: Path) -> list[dict[str, Any]]:
                 ],
                 "candidates_and_artifacts": [
                     {
-                        "id": f"{requirement_id}-CAND-{candidate_index:02d}",
+                        "id": f"{planning_view_id}-candidate-{candidate_index:02d}",
                         **candidate,
                     }
                     for candidate_index, candidate in enumerate(
@@ -243,14 +796,22 @@ def extract_requirements(repo_root: Path) -> list[dict[str, Any]]:
                     )
                 ],
                 "status": status.text,
+                "representation": representation,
+                "canonical_requirement_ids": sorted(set(linked_requirement_ids)),
                 "source": {
                     "file": SUMMARY_TABLE.as_posix(),
                     "section": "Сводная таблица",
                     "row": index,
+                    "mapping_section": "Карта широких строк",
                 },
             }
         )
-    return requirements
+    if mappings:
+        raise ValueError(
+            "planning view mapping has no summary row: "
+            + ", ".join(sorted(mappings))
+        )
+    return planning_views
 
 
 def extract_product_queue(repo_root: Path) -> list[dict[str, Any]]:
@@ -386,7 +947,15 @@ def extract_mvp_stage_map(repo_root: Path) -> list[dict[str, Any]]:
 
 
 def proposal_rows(repo_root: Path, heading: str) -> list[dict[str, Any]]:
-    rows = table_after_heading(PROPOSALS, heading, repo_root)
+    if heading == "Актуальные предложения":
+        rows = strict_table_after_heading(
+            PROPOSALS,
+            heading,
+            ["Статус", "Предложение", "Почему сейчас", "Опорные источники"],
+            repo_root,
+        )
+    else:
+        rows = table_after_heading(PROPOSALS, heading, repo_root)
     proposals: list[dict[str, Any]] = []
     for index, row in enumerate(rows, start=1):
         if len(row) != 4:
@@ -402,6 +971,27 @@ def proposal_rows(repo_root: Path, heading: str) -> list[dict[str, Any]]:
             }
         )
     return proposals
+
+
+def validate_active_proposals_are_indexed(repo_root: Path) -> None:
+    text = read_text(PROPOSALS, repo_root)
+    body = section_body(text, "Актуальные предложения")
+    for line_number, line in enumerate(body.splitlines(), start=1):
+        stripped = line.strip()
+        if not stripped:
+            continue
+        if stripped.startswith("|") and stripped.endswith("|"):
+            continue
+        raise ValueError(
+            "unindexed active proposal text: "
+            f"{PROPOSALS.as_posix()} section line {line_number}: {stripped}"
+        )
+    strict_table_after_heading(
+        PROPOSALS,
+        "Актуальные предложения",
+        ["Статус", "Предложение", "Почему сейчас", "Опорные источники"],
+        repo_root,
+    )
 
 
 def bullet_links_by_section(repo_root: Path, heading: str) -> list[dict[str, str]]:
@@ -439,6 +1029,7 @@ def linked_existing_files(items: list[dict[str, Any]], repo_root: Path) -> list[
 
 def source_files(repo_root: Path, inventory: dict[str, Any]) -> list[Path]:
     fixed = [
+        REQUIREMENTS_INDEX,
         SUMMARY_TABLE,
         ROADMAP,
         STAGES_README,
@@ -467,6 +1058,7 @@ def source_files(repo_root: Path, inventory: dict[str, Any]) -> list[Path]:
     all_files.extend(stage_files)
     all_files.extend(mvp_files)
     all_files.extend(question_files)
+    all_files.extend(requirement_card_paths(repo_root))
 
     unique: dict[str, Path] = {}
     for path in all_files:
@@ -474,32 +1066,32 @@ def source_files(repo_root: Path, inventory: dict[str, Any]) -> list[Path]:
     return [unique[key] for key in sorted(unique)]
 
 
-def targets_from_requirement(requirement: dict[str, Any]) -> set[str]:
+def targets_from_planning_view(planning_view: dict[str, Any]) -> set[str]:
     targets: set[str] = set()
     for group in [
-        requirement["layer"],
-        requirement["required_result"],
-        *requirement["documentation_stage_implementation"],
-        *requirement["boxed_fum_implementation"],
-        *requirement["candidates_and_artifacts"],
+        planning_view["layer"],
+        planning_view["required_result"],
+        *planning_view["documentation_stage_implementation"],
+        *planning_view["boxed_fum_implementation"],
+        *planning_view["candidates_and_artifacts"],
     ]:
         for link in group.get("links", []):
             targets.add(link["target"])
     return targets
 
 
-def coverage(requirements: list[dict[str, Any]], inventory: dict[str, Any]) -> dict[str, Any]:
-    targets_by_requirement = {
-        requirement["id"]: targets_from_requirement(requirement)
-        for requirement in requirements
+def coverage(planning_views: list[dict[str, Any]], inventory: dict[str, Any]) -> dict[str, Any]:
+    targets_by_planning_view = {
+        planning_view["id"]: targets_from_planning_view(planning_view)
+        for planning_view in planning_views
     }
 
     def covered(target: str | None) -> list[str]:
         if target is None:
             return []
         return [
-            requirement_id
-            for requirement_id, targets in targets_by_requirement.items()
+            planning_view_id
+            for planning_view_id, targets in targets_by_planning_view.items()
             if target in targets
         ]
 
@@ -519,7 +1111,7 @@ def coverage(requirements: list[dict[str, Any]], inventory: dict[str, Any]) -> d
             {
                 "title": direction["title"],
                 "file": direction["file"],
-                "covered_by_requirement_ids": covered(direction["file"]),
+                "covered_by_planning_view_ids": covered(direction["file"]),
             }
             for direction in inventory["directions"]
         ],
@@ -527,7 +1119,7 @@ def coverage(requirements: list[dict[str, Any]], inventory: dict[str, Any]) -> d
             {
                 "title": candidate["title"],
                 "file": candidate["file"],
-                "covered_by_requirement_ids": covered(candidate["file"]),
+                "covered_by_planning_view_ids": covered(candidate["file"]),
                 "in_product_queue": candidate["file"] in product_queue_targets,
                 "in_stage_map": candidate["file"] in stage_map_targets,
             }
@@ -537,7 +1129,7 @@ def coverage(requirements: list[dict[str, Any]], inventory: dict[str, Any]) -> d
             {
                 "title": question["title"],
                 "file": question["file"],
-                "covered_by_requirement_ids": covered(question["file"]),
+                "covered_by_planning_view_ids": covered(question["file"]),
             }
             for question in inventory["questions"]["open"]
         ],
@@ -546,7 +1138,13 @@ def coverage(requirements: list[dict[str, Any]], inventory: dict[str, Any]) -> d
 
 def build_registry(repo_root: Path | None = None) -> dict[str, Any]:
     root = (repo_root or Path.cwd()).resolve()
-    requirements = extract_requirements(root)
+    requirements = extract_requirement_cards(root)
+    requirements_by_file = {
+        requirement["file"]: requirement
+        for requirement in requirements
+    }
+    planning_views = extract_planning_views(root, requirements_by_file)
+    validate_active_proposals_are_indexed(root)
     inventory: dict[str, Any] = {
         "roadmap_horizons": extract_roadmap_horizons(root),
         "stages": extract_stages(root),
@@ -570,8 +1168,9 @@ def build_registry(repo_root: Path | None = None) -> dict[str, Any]:
             for path in sources
         ],
         "requirements": requirements,
+        "planning_views": planning_views,
         "source_inventory": inventory,
-        "coverage": coverage(requirements, inventory),
+        "coverage": coverage(planning_views, inventory),
     }
 
 
@@ -581,6 +1180,30 @@ def validate_registry_object(registry: dict[str, Any]) -> list[str]:
         errors.append(f"unexpected schema: {registry.get('schema')}")
     if not registry.get("requirements"):
         errors.append("registry must contain at least one requirement")
+    if not registry.get("planning_views"):
+        errors.append("registry must contain at least one planning view")
+
+    requirement_ids: set[str] = set()
+    for requirement in registry.get("requirements", []):
+        requirement_id = requirement.get("id")
+        if not isinstance(requirement_id, str) or not re.fullmatch(
+            r"FUM-REQ-[0-9]{4}",
+            requirement_id,
+        ):
+            errors.append(f"invalid requirement id: {requirement_id}")
+        elif requirement_id in requirement_ids:
+            errors.append(f"duplicate requirement id: {requirement_id}")
+        else:
+            requirement_ids.add(requirement_id)
+        status = requirement.get("status", {})
+        if status.get("symbol") not in REQUIREMENT_STATUSES:
+            errors.append(
+                f"invalid requirement status: {status.get('symbol')}"
+            )
+        if not requirement.get("formulation", {}).get("text"):
+            errors.append(f"requirement formulation is empty: {requirement_id}")
+        if not requirement.get("criteria"):
+            errors.append(f"requirement criteria are empty: {requirement_id}")
 
     inventory = registry.get("source_inventory", {})
     for field in ["roadmap_horizons", "stages", "directions", "mvp_candidates", "mvp_stage_map"]:
@@ -601,12 +1224,12 @@ def validate_registry_object(registry: dict[str, Any]) -> list[str]:
 
     for item in registry.get("coverage", {}).get("mvp_candidates", []):
         if (
-            not item.get("covered_by_requirement_ids")
+            not item.get("covered_by_planning_view_ids")
             and not item.get("in_product_queue")
             and not item.get("in_stage_map")
         ):
             errors.append(
-                "MVP candidate is not covered by requirements, product queue or stage map: "
+                "MVP candidate is not covered by planning views, product queue or stage map: "
                 f"{item.get('title')}"
             )
     return errors

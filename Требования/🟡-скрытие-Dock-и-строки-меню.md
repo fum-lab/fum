@@ -1,5 +1,7 @@
 # Скрытие Dock и строки меню
 
+<!-- FUM-REQUIREMENT-ID: FUM-REQ-0003 -->
+
 Во время обычной работы [полноэкранного интерфейса](🟡-полноэкранное-приложение-без-системной-оболочки.md) системные панели macOS — Dock и строка меню — должны быть скрыты средствами presentation options, чтобы стандартная оболочка не прерывала пользовательский контур [FUM](../Глоссарий/FUM.md).
 
 ## Семантические связи
@@ -24,6 +26,6 @@
 
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-16 21:53:34 MSK -->
-<!-- content-sha256: sha256:380f73a8efa92ad1d028888acfc2efcd1d4ffe70c290fea4afd8a7cbc706f2ce -->
+<!-- last-content-edit: 2026-07-20 21:57:21 MSK -->
+<!-- content-sha256: sha256:9ba12971fe8b04cb136593f9f78f58b7f55258ca3cd066c27ca8a4fc93fb1ad8 -->
 <!-- FUM-MD-RECENCY:END -->
