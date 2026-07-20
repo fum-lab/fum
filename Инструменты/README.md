@@ -12,6 +12,7 @@
 
 ## Навыки
 
+- [fum-branch-next-step](fum-branch-next-step/SKILL.md) - проверяет, выдаёт и атомарно резервирует единственный следующий шаг активной именованной Git-ветки перед созданием фоновой задачи Codex.
 - [fum-branch-task-gate](fum-branch-task-gate/SKILL.md) - сериализует ходы и незакоммиченную работу одной именованной Git-ветки через проектные `UserPromptSubmit`/`PreToolUse`/`Stop` hooks Codex, fenced-владение worktree и проверку Git-состояния вне корневой `.obsidian/`.
 - [fum-doc-aggregation](fum-doc-aggregation/SKILL.md) - создаёт и проверяет каркас сводных статей документации из нескольких опорных материалов.
 - [fum-estimates](fum-estimates/SKILL.md) - создаёт и проверяет оценочные материалы `Оценки/` со снимком репозитория, методикой, диапазонами, допущениями, ограничениями точности и оформлением результата.
@@ -31,6 +32,8 @@
 - `python3 Инструменты/fum-smoke-check/scripts/run-smoke-check.py --request Запросы/<YYYY-MM-DD_HH-MM-SS_MSK>.md --commit-message-file <путь> --codex-thread-id <UUID>` - единый локальный smoke-check репозитория для выбранной рабочей сессии и её подготовленного сообщения коммита.
 - `python3 Инструменты/fum-prototype-launch/scripts/check-prototype-launchers.py` - проверка корневой панели `prototipyi.sh` и обязательных точек входа `запустить.sh` всех устойчивых прототипов.
 - `python3 Инструменты/fum-branch-task-gate/scripts/branch-task-gate.py status --repo-root . --json` - показывает владельца и блокирующие пути текущей Git-ветки; код `0` означает готовность, код `1` - занятое состояние.
+- `python3 Инструменты/fum-branch-next-step/scripts/branch-next-step.py validate --repo-root . --json` - проверяет записи следующих шагов и наличие ровно одного совпадения для активной именованной ветки.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-branch-next-step/tests -p 'test_*.py'` - локальные тесты выбора, повторной проверки, атомарного claim и fenced-восстановления следующего шага ветки.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-branch-task-gate/tests -p 'test_*.py'` - локальные тесты сериализации задач одной Git-ветки.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-doc-aggregation/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-doc-aggregation`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-estimates/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-estimates`.
@@ -45,6 +48,6 @@
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-work-review/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-work-review`.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-20 17:49:48 MSK -->
-<!-- content-sha256: sha256:c495be447f3071bfcd5ad81ee3b977b50a13b9bce5df965a44061372c974197b -->
+<!-- last-content-edit: 2026-07-20 20:52:41 MSK -->
+<!-- content-sha256: sha256:496b9c732d5433cccbe7d2363427d639cc6ce5710102fa99ad45131922ecda7d -->
 <!-- FUM-MD-RECENCY:END -->

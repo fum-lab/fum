@@ -1,0 +1,4 @@
+interface:
+  display_name: "Следующий шаг ветки"
+  short_description: "Проверять и выдавать следующий шаг Git-ветки"
+  default_prompt: "Используй $fum-branch-next-step, чтобы проверить и выдать готовый следующий шаг активной Git-ветки."
