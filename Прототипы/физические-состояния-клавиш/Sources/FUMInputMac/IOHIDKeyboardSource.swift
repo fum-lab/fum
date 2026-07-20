@@ -31,10 +31,13 @@ public final class IOHIDKeyboardSource: MacKeyboardObservationSource, @unchecked
   private var manager: IOHIDManager?
   private var handler: KeyboardObservationHandler?
   private let lock = NSLock()
+  private let timestampNormalizer: MonotonicTimestampNormalizer
   private var deviceIDs: [UInt: String] = [:]
   private var nextDeviceIndex = 1
 
-  public init() {}
+  public init(timestampNormalizer: MonotonicTimestampNormalizer = .system) {
+    self.timestampNormalizer = timestampNormalizer
+  }
 
   public func start(handler: @escaping KeyboardObservationHandler) throws {
     lock.lock()
@@ -98,17 +101,32 @@ public final class IOHIDKeyboardSource: MacKeyboardObservationSource, @unchecked
     let device = IOHIDElementGetDevice(element)
     let deviceID = ephemeralDeviceID(for: device)
     guard
+      let monotonicNanoseconds = Self.normalizedTimestamp(
+        fromAbsoluteTime: IOHIDValueGetTimeStamp(value),
+        using: timestampNormalizer
+      )
+    else {
+      return
+    }
+    guard
       let observation = IOHIDObservationFactory.keyboardObservation(
         deviceID: deviceID,
         usagePage: usagePage,
         usage: usage,
         integerValue: IOHIDValueGetIntegerValue(value),
-        monotonicNanoseconds: IOHIDValueGetTimeStamp(value)
+        monotonicNanoseconds: monotonicNanoseconds
       )
     else {
       return
     }
     handler?(observation)
+  }
+
+  static func normalizedTimestamp(
+    fromAbsoluteTime timestamp: UInt64,
+    using normalizer: MonotonicTimestampNormalizer
+  ) -> UInt64? {
+    normalizer.nanoseconds(fromMachAbsoluteTime: timestamp)
   }
 
   private func ephemeralDeviceID(for device: IOHIDDevice) -> String {

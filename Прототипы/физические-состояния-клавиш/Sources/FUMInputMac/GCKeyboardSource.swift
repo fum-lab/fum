@@ -8,8 +8,11 @@ public final class GCKeyboardSource: MacKeyboardObservationSource, @unchecked Se
 
   private var keyboard: GCKeyboard?
   private var handler: KeyboardObservationHandler?
+  private let timestampNormalizer: MonotonicTimestampNormalizer
 
-  public init() {}
+  public init(timestampNormalizer: MonotonicTimestampNormalizer = .system) {
+    self.timestampNormalizer = timestampNormalizer
+  }
 
   public func start(handler: @escaping KeyboardObservationHandler) throws {
     guard keyboard == nil else {
@@ -36,7 +39,10 @@ public final class GCKeyboardSource: MacKeyboardObservationSource, @unchecked Se
             usage: UInt32(keyCode.rawValue)
           ),
           state: pressed ? .pressed : .released,
-          monotonicNanoseconds: DispatchTime.now().uptimeNanoseconds,
+          monotonicNanoseconds: Self.normalizedTimestamp(
+            fromNanosecondsSinceStartup: DispatchTime.now().uptimeNanoseconds,
+            using: self.timestampNormalizer
+          ),
           isAutoRepeat: false
         ))
     }
@@ -46,5 +52,12 @@ public final class GCKeyboardSource: MacKeyboardObservationSource, @unchecked Se
     keyboard?.keyboardInput?.keyChangedHandler = nil
     keyboard = nil
     handler = nil
+  }
+
+  static func normalizedTimestamp(
+    fromNanosecondsSinceStartup timestamp: UInt64,
+    using normalizer: MonotonicTimestampNormalizer
+  ) -> UInt64 {
+    normalizer.nanoseconds(fromNanosecondsSinceStartup: timestamp)
   }
 }

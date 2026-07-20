@@ -7,8 +7,11 @@ public final class NSEventKeyboardSource: MacKeyboardObservationSource, @uncheck
 
   private var monitor: Any?
   private var handler: KeyboardObservationHandler?
+  private let timestampNormalizer: MonotonicTimestampNormalizer
 
-  public init() {}
+  public init(timestampNormalizer: MonotonicTimestampNormalizer = .system) {
+    self.timestampNormalizer = timestampNormalizer
+  }
 
   public func start(handler: @escaping KeyboardObservationHandler) throws {
     guard monitor == nil else {
@@ -61,6 +64,14 @@ public final class NSEventKeyboardSource: MacKeyboardObservationSource, @uncheck
     default:
       return
     }
+    guard
+      let monotonicNanoseconds = Self.normalizedTimestamp(
+        fromSecondsSinceStartup: event.timestamp,
+        using: timestampNormalizer
+      )
+    else {
+      return
+    }
     handler?(
       .init(
         source: .nsEvent,
@@ -71,8 +82,15 @@ public final class NSEventKeyboardSource: MacKeyboardObservationSource, @uncheck
           usage: UInt32(event.keyCode)
         ),
         state: state,
-        monotonicNanoseconds: UInt64(event.timestamp * 1_000_000_000),
+        monotonicNanoseconds: monotonicNanoseconds,
         isAutoRepeat: isAutoRepeat
       ))
+  }
+
+  static func normalizedTimestamp(
+    fromSecondsSinceStartup timestamp: TimeInterval,
+    using normalizer: MonotonicTimestampNormalizer
+  ) -> UInt64? {
+    normalizer.nanoseconds(fromSecondsSinceStartup: timestamp)
   }
 }

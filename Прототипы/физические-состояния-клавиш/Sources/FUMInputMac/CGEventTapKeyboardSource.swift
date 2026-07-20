@@ -8,8 +8,11 @@ public final class CGEventTapKeyboardSource: MacKeyboardObservationSource, @unch
   private var eventTap: CFMachPort?
   private var runLoopSource: CFRunLoopSource?
   private var handler: KeyboardObservationHandler?
+  private let timestampNormalizer: MonotonicTimestampNormalizer
 
-  public init() {}
+  public init(timestampNormalizer: MonotonicTimestampNormalizer = .system) {
+    self.timestampNormalizer = timestampNormalizer
+  }
 
   public func start(handler: @escaping KeyboardObservationHandler) throws {
     guard eventTap == nil else {
@@ -88,7 +91,10 @@ public final class CGEventTapKeyboardSource: MacKeyboardObservationSource, @unch
       let observation = CGEventObservationFactory.keyboardObservation(
         type: kind,
         virtualKeyCode: keyCode,
-        monotonicNanoseconds: event.timestamp,
+        monotonicNanoseconds: Self.normalizedTimestamp(
+          fromNanosecondsSinceStartup: event.timestamp,
+          using: timestampNormalizer
+        ),
         isAutoRepeat: isAutoRepeat,
         queriedPhysicalState: queriedState
       )
@@ -96,6 +102,13 @@ public final class CGEventTapKeyboardSource: MacKeyboardObservationSource, @unch
       return
     }
     handler?(observation)
+  }
+
+  static func normalizedTimestamp(
+    fromNanosecondsSinceStartup timestamp: UInt64,
+    using normalizer: MonotonicTimestampNormalizer
+  ) -> UInt64 {
+    normalizer.nanoseconds(fromNanosecondsSinceStartup: timestamp)
   }
 
   private static func mask(for types: [CGEventType]) -> CGEventMask {
