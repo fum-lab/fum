@@ -29,6 +29,7 @@ class RunSmokeCheckTests(unittest.TestCase):
         for path in [
             root / "Инструменты" / "fum-planning-registry" / "scripts" / "build-planning-registry.py",
             root / "Инструменты" / "fum-prototype-launch" / "scripts" / "check-prototype-launchers.py",
+            root / "Инструменты" / "fum-question-backlinks" / "scripts" / "check-question-backlinks.py",
             root / "Инструменты" / "fum-md-recency" / "scripts" / "update-md-recency.py",
             root / "Инструменты" / "fum-obsidian-graph-recency" / "scripts" / "build-obsidian-graph-recency.py",
             root / "Инструменты" / "fum-session-coherence" / "scripts" / "check-session-coherence.py",
@@ -93,12 +94,26 @@ class RunSmokeCheckTests(unittest.TestCase):
                     "Сборка планового реестра",
                     "Проверка планового реестра",
                     "Проверка скриптов запуска прототипов",
+                    "Проверка двунаправленности вопросов",
                     "Проверка recency-меток Markdown",
                     "Проверка тепловой карты графа Obsidian",
                     "Проверка связности рабочей сессии",
                 ],
             )
             self.assertIn("Инструменты/fum-alpha/tests", steps[0].command)
+            question_step = next(
+                step
+                for step in steps
+                if step.name == "Проверка двунаправленности вопросов"
+            )
+            self.assertEqual(
+                question_step.command,
+                (
+                    "python3",
+                    "Инструменты/fum-question-backlinks/scripts/"
+                    "check-question-backlinks.py",
+                ),
+            )
             self.assertEqual(
                 steps[-1].command[-6:],
                 (
