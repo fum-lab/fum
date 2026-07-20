@@ -1,8 +1,11 @@
 import importlib.util
+import io
 import json
 import tempfile
 import unittest
+from contextlib import ExitStack, redirect_stderr
 from pathlib import Path
+from types import SimpleNamespace
 from unittest import mock
 
 
@@ -19,6 +22,122 @@ spec.loader.exec_module(archive_chatgpt_share)
 
 
 class ArchiveChatgptShareTests(unittest.TestCase):
+    def fake_atomic_directory_exchange(self, first: Path, second: Path) -> bool:
+        old_snapshot = second.with_name(f".{second.name}.old-fixture")
+        self.assertFalse(old_snapshot.exists())
+        first.replace(old_snapshot)
+        second.replace(first)
+        old_snapshot.replace(second)
+        return True
+
+    def run_archive_fixture(
+        self,
+        *,
+        request_file: Path,
+        output_dir: Path,
+        html: str,
+        decoded: object | None = None,
+    ) -> int:
+        args = SimpleNamespace(
+            url="https://chatgpt.com/share/example",
+            request_file=request_file,
+            output_dir=output_dir,
+            source_name=None,
+        )
+
+        def fake_run_curl(url: str, html_path: Path, headers_path: Path):
+            self.assertEqual(url, args.url)
+            html_path.write_text(html, encoding="utf-8")
+            headers_path.write_text(
+                "HTTP/2 200\ncontent-type: text/html\n",
+                encoding="utf-8",
+            )
+            return {
+                "url_effective": url,
+                "http_code": "200",
+                "content_type": "text/html",
+                "size_download": str(len(html.encode("utf-8"))),
+            }
+
+        with ExitStack() as stack:
+            stack.enter_context(
+                mock.patch.object(
+                    archive_chatgpt_share,
+                    "parse_args",
+                    return_value=args,
+                )
+            )
+            stack.enter_context(
+                mock.patch.object(
+                    archive_chatgpt_share,
+                    "run_curl",
+                    side_effect=fake_run_curl,
+                )
+            )
+            stack.enter_context(
+                mock.patch.object(
+                    archive_chatgpt_share,
+                    "try_atomic_directory_exchange",
+                    side_effect=self.fake_atomic_directory_exchange,
+                )
+            )
+            if decoded is not None:
+                stack.enter_context(
+                    mock.patch.object(
+                        archive_chatgpt_share,
+                        "decode_react_router_table",
+                        return_value=decoded,
+                    )
+                )
+            return archive_chatgpt_share.main()
+
+    def full_snapshot_fixture(self) -> tuple[str, dict[str, object]]:
+        stream_script = (
+            "window.__reactRouterContext.streamController.enqueue("
+            + json.dumps("[{}]")
+            + ");"
+        )
+        html = (
+            "<html><body>"
+            '<script>{"authStatus":"ok","cfConnectingIp":"127.0.0.1"}</script>'
+            f"<script>{stream_script}</script>"
+            "<p>Полный снимок</p>"
+            "</body></html>"
+        )
+        decoded = {
+            "loaderData": {
+                "routes/share.$shareId.($action)": {
+                    "serverResponse": {
+                        "data": {
+                            "title": "Полный снимок",
+                            "conversation_id": "conversation-1",
+                            "linear_conversation": [
+                                {
+                                    "id": "node-1",
+                                    "parent": None,
+                                    "message": {
+                                        "author": {"role": "user"},
+                                        "content": {
+                                            "content_type": "text",
+                                            "parts": ["Содержательное сообщение."],
+                                        },
+                                    },
+                                }
+                            ],
+                        }
+                    }
+                }
+            }
+        }
+        return html, decoded
+
+    def snapshot_bytes(self, directory: Path) -> dict[str, bytes]:
+        return {
+            path.relative_to(directory).as_posix(): path.read_bytes()
+            for path in directory.rglob("*")
+            if path.is_file()
+        }
+
     def test_default_output_dir_uses_sources_url_path_for_stable_url(self):
         request_file = Path("/repo/Запросы/2026-06-23_17-37-29_MSK.md")
 
@@ -388,6 +507,248 @@ class ArchiveChatgptShareTests(unittest.TestCase):
             markdown,
         )
         self.assertEqual(markdown.count("source-index.md"), 1)
+
+    def test_full_snapshot_then_partial_snapshot_replaces_managed_files_exactly(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp)
+            request_file = repo / "Запросы" / "request.md"
+            output_dir = repo / "Источники" / "source"
+            request_file.parent.mkdir(parents=True)
+            request_file.write_text("# Запрос\n", encoding="utf-8")
+            full_html, decoded = self.full_snapshot_fixture()
+
+            self.run_archive_fixture(
+                request_file=request_file,
+                output_dir=output_dir,
+                html=full_html,
+                decoded=decoded,
+            )
+
+            old_structural_files = {
+                "chatgpt-share.initial-state.json",
+                "chatgpt-share.decoded-data.json",
+                "chatgpt-share.messages.json",
+                "полный-снимок.md",
+            }
+            old_script_files = {
+                path.name for path in output_dir.glob("chatgpt-share.script-*.txt")
+            }
+            self.assertTrue(old_structural_files <= {path.name for path in output_dir.iterdir()})
+            self.assertTrue(old_script_files)
+
+            self.run_archive_fixture(
+                request_file=request_file,
+                output_dir=output_dir,
+                html="<html><body><p>Неполный снимок</p></body></html>",
+            )
+
+            manifest_path = output_dir / "snapshot-manifest.json"
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            actual_files = {
+                path.relative_to(output_dir).as_posix()
+                for path in output_dir.rglob("*")
+                if path.is_file()
+            }
+            self.assertEqual(
+                manifest["schema"],
+                "fum.request-materials.snapshot-manifest.v1",
+            )
+            self.assertEqual(actual_files, set(manifest["managed_files"]))
+            self.assertTrue(old_structural_files.isdisjoint(actual_files))
+            self.assertTrue(old_script_files.isdisjoint(actual_files))
+
+            index = (output_dir / "source-index.md").read_text(encoding="utf-8")
+            report = (output_dir / "extraction-report.md").read_text(encoding="utf-8")
+            for old_name in old_structural_files | old_script_files:
+                self.assertNotIn(old_name, index)
+                self.assertNotIn(old_name, report)
+
+    def test_failed_rearchive_keeps_canonical_snapshot_byte_for_byte(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp)
+            request_file = repo / "Запросы" / "request.md"
+            output_dir = repo / "Источники" / "source"
+            request_file.parent.mkdir(parents=True)
+            request_file.write_text("# Запрос\n", encoding="utf-8")
+            full_html, decoded = self.full_snapshot_fixture()
+
+            self.run_archive_fixture(
+                request_file=request_file,
+                output_dir=output_dir,
+                html=full_html,
+                decoded=decoded,
+            )
+            canonical_before = self.snapshot_bytes(output_dir)
+
+            def fail_report(*args, **kwargs):
+                self.assertEqual(
+                    self.snapshot_bytes(output_dir),
+                    canonical_before,
+                )
+                raise RuntimeError("fixture: report generation failed")
+
+            with mock.patch.object(
+                archive_chatgpt_share,
+                "write_report",
+                side_effect=fail_report,
+            ):
+                with self.assertRaisesRegex(
+                    RuntimeError,
+                    "report generation failed",
+                ):
+                    self.run_archive_fixture(
+                        request_file=request_file,
+                        output_dir=output_dir,
+                        html="<html><body><p>Новый ответ</p></body></html>",
+                    )
+
+            self.assertEqual(self.snapshot_bytes(output_dir), canonical_before)
+            self.assertEqual(
+                list(output_dir.parent.glob(f".{output_dir.name}.staging-*")),
+                [],
+            )
+
+    def test_rearchive_fails_closed_when_atomic_directory_exchange_is_unavailable(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output_dir = root / "source"
+            staging_dir = root / ".source.staging-fixture"
+            output_dir.mkdir()
+            staging_dir.mkdir()
+            (output_dir / "old-a.txt").write_text("old a\n", encoding="utf-8")
+            (output_dir / "old-b.txt").write_text("old b\n", encoding="utf-8")
+            (staging_dir / "new.txt").write_text("new\n", encoding="utf-8")
+            canonical_before = self.snapshot_bytes(output_dir)
+            staging_before = self.snapshot_bytes(staging_dir)
+
+            with mock.patch.object(
+                archive_chatgpt_share,
+                "try_atomic_directory_exchange",
+                return_value=False,
+            ):
+                with self.assertRaisesRegex(
+                    RuntimeError,
+                    "atomic directory exchange is unavailable",
+                ):
+                    archive_chatgpt_share.install_snapshot(
+                        staging_dir,
+                        output_dir,
+                    )
+
+            self.assertEqual(self.snapshot_bytes(output_dir), canonical_before)
+            self.assertEqual(self.snapshot_bytes(staging_dir), staging_before)
+            self.assertEqual(list(root.glob(".source.backup-*")), [])
+
+    def test_request_link_failure_after_commit_is_reported_as_warning(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp)
+            request_file = repo / "Запросы" / "request.md"
+            output_dir = repo / "Источники" / "source"
+            request_file.parent.mkdir(parents=True)
+            request_file.write_text("# Запрос\n", encoding="utf-8")
+            full_html, decoded = self.full_snapshot_fixture()
+            stderr = io.StringIO()
+
+            with mock.patch.object(
+                archive_chatgpt_share,
+                "link_source_in_request_file",
+                side_effect=OSError("fixture: request file is unavailable"),
+            ):
+                with redirect_stderr(stderr):
+                    result = self.run_archive_fixture(
+                        request_file=request_file,
+                        output_dir=output_dir,
+                        html=full_html,
+                        decoded=decoded,
+                    )
+
+            self.assertEqual(result, 0)
+            archive_chatgpt_share.validate_snapshot_manifest(output_dir)
+            self.assertIn("snapshot was saved", stderr.getvalue())
+            self.assertIn("request file was not linked", stderr.getvalue())
+
+    def test_request_file_update_is_atomic_when_replace_fails(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp)
+            request_file = repo / "Запросы" / "request.md"
+            output_dir = repo / "Источники" / "source"
+            request_file.parent.mkdir(parents=True)
+            output_dir.mkdir(parents=True)
+            original = "# Исходный запрос\n\nИсходное содержимое.\n"
+            request_file.write_text(original, encoding="utf-8")
+
+            with mock.patch.object(
+                archive_chatgpt_share.os,
+                "replace",
+                side_effect=OSError("fixture: replace failed"),
+            ):
+                with self.assertRaisesRegex(OSError, "replace failed"):
+                    archive_chatgpt_share.link_source_in_request_file(
+                        request_file,
+                        output_dir,
+                        "Источник",
+                    )
+
+            self.assertEqual(request_file.read_text(encoding="utf-8"), original)
+            self.assertEqual(
+                list(request_file.parent.glob(f".{request_file.name}.tmp-*")),
+                [],
+            )
+
+    def test_post_commit_staging_residue_is_reported(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp)
+            request_file = repo / "Запросы" / "request.md"
+            output_dir = repo / "Источники" / "source"
+            request_file.parent.mkdir(parents=True)
+            request_file.write_text("# Запрос\n", encoding="utf-8")
+            full_html, decoded = self.full_snapshot_fixture()
+            self.run_archive_fixture(
+                request_file=request_file,
+                output_dir=output_dir,
+                html=full_html,
+                decoded=decoded,
+            )
+            real_temporary_directory = tempfile.TemporaryDirectory
+
+            class LeakyTemporaryDirectory:
+                def __init__(self, *args, **kwargs):
+                    self.path = Path(
+                        tempfile.mkdtemp(
+                            prefix=kwargs.get("prefix"),
+                            dir=kwargs.get("dir"),
+                        )
+                    )
+
+                def __enter__(self):
+                    return str(self.path)
+
+                def __exit__(self, exc_type, exc_value, traceback):
+                    return False
+
+            def temporary_directory_factory(*args, **kwargs):
+                prefix = kwargs.get("prefix", "")
+                if prefix.startswith(f".{output_dir.name}.staging-"):
+                    return LeakyTemporaryDirectory(*args, **kwargs)
+                return real_temporary_directory(*args, **kwargs)
+
+            stderr = io.StringIO()
+            with mock.patch.object(
+                archive_chatgpt_share.tempfile,
+                "TemporaryDirectory",
+                side_effect=temporary_directory_factory,
+            ):
+                with redirect_stderr(stderr):
+                    self.run_archive_fixture(
+                        request_file=request_file,
+                        output_dir=output_dir,
+                        html="<html><body><p>Неполный снимок</p></body></html>",
+                    )
+
+            residues = list(output_dir.parent.glob(f".{output_dir.name}.staging-*"))
+            self.assertEqual(len(residues), 1)
+            self.assertIn("old snapshot remains in staging", stderr.getvalue())
+            archive_chatgpt_share.validate_snapshot_manifest(output_dir)
 
 
 if __name__ == "__main__":

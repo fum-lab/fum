@@ -4,7 +4,9 @@
 from __future__ import annotations
 
 import argparse
+import ctypes
 import datetime as dt
+import errno
 import hashlib
 import json
 import os
@@ -21,6 +23,8 @@ from urllib.parse import unquote, urlsplit
 
 REDACTION = "[REDACTED: local request metadata]"
 COOKIE_REDACTION = "set-cookie: [REDACTED: response cookie]\n"
+SNAPSHOT_MANIFEST_NAME = "snapshot-manifest.json"
+SNAPSHOT_MANIFEST_SCHEMA = "fum.request-materials.snapshot-manifest.v1"
 LOCAL_METADATA_KEYS = {
     "async_source",
     "notification_id",
@@ -167,6 +171,7 @@ def default_output_dir(
         if source_name:
             return base_dir / "Источники" / f"{request_file.stem}_{source_name_slug(source_name)}"
         raise
+
 
 def run_curl(url: str, html_path: Path, headers_path: Path) -> dict[str, str]:
     curl = shutil.which("curl")
@@ -576,6 +581,32 @@ def write_source_index(
     path.write_text(trim_trailing_whitespace("\n".join(lines)), encoding="utf-8")
 
 
+def write_text_atomically(path: Path, text: str) -> None:
+    if path.is_symlink():
+        raise OSError(errno.ELOOP, "refusing to replace a symlink", str(path))
+
+    mode = path.stat().st_mode & 0o7777 if path.exists() else None
+    descriptor, temporary_name = tempfile.mkstemp(
+        prefix=f".{path.name}.tmp-",
+        dir=path.parent,
+    )
+    temporary_path = Path(temporary_name)
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8") as temporary_file:
+            temporary_file.write(text)
+            temporary_file.flush()
+            os.fsync(temporary_file.fileno())
+        if mode is not None:
+            os.chmod(temporary_path, mode)
+        os.replace(temporary_path, path)
+    except BaseException:
+        try:
+            temporary_path.unlink(missing_ok=True)
+        except OSError:
+            pass
+        raise
+
+
 def link_source_in_request_file(request_file: Path, output_dir: Path, title: str) -> bool:
     if not request_file.exists():
         return False
@@ -598,7 +629,7 @@ def link_source_in_request_file(request_file: Path, output_dir: Path, title: str
 
     if header not in text:
         updated = trim_trailing_whitespace(text) + "\n\n" + header + "\n\n" + entry + "\n"
-        request_file.write_text(updated, encoding="utf-8")
+        write_text_atomically(request_file, updated)
         return True
 
     pattern = re.compile(rf"({re.escape(header)}\n)(.*?)(?=\n## |\Z)", re.S)
@@ -610,7 +641,7 @@ def link_source_in_request_file(request_file: Path, output_dir: Path, title: str
         return match.group(1) + "\n" + entry + "\n"
 
     updated = pattern.sub(append_entry, text, count=1)
-    request_file.write_text(updated, encoding="utf-8")
+    write_text_atomically(request_file, updated)
     return True
 
 
@@ -651,17 +682,130 @@ def write_report(
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def main() -> int:
-    args = parse_args()
-    request_file = args.request_file
-    output_dir = args.output_dir or default_output_dir(request_file, args.url, args.source_name)
-    output_dir.mkdir(parents=True, exist_ok=True)
+def snapshot_relative_files(directory: Path) -> list[str]:
+    return sorted(
+        path.relative_to(directory).as_posix()
+        for path in directory.rglob("*")
+        if path.is_file()
+    )
 
+
+def write_snapshot_manifest(directory: Path, managed_files: list[str]) -> None:
+    payload = {
+        "schema": SNAPSHOT_MANIFEST_SCHEMA,
+        "managed_files": managed_files,
+    }
+    (directory / SNAPSHOT_MANIFEST_NAME).write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+
+def validate_snapshot_manifest(directory: Path) -> None:
+    manifest_path = directory / SNAPSHOT_MANIFEST_NAME
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError("snapshot manifest is missing or invalid") from exc
+
+    if not isinstance(manifest, dict) or manifest.get("schema") != SNAPSHOT_MANIFEST_SCHEMA:
+        raise ValueError("snapshot manifest schema is invalid")
+    managed_files = manifest.get("managed_files")
+    if not isinstance(managed_files, list) or not all(
+        isinstance(name, str) for name in managed_files
+    ):
+        raise ValueError("snapshot manifest managed_files must be a string list")
+    if managed_files != sorted(set(managed_files)):
+        raise ValueError("snapshot manifest managed_files must be sorted and unique")
+    for name in managed_files:
+        relative = Path(name)
+        if not name or relative.is_absolute() or ".." in relative.parts:
+            raise ValueError(f"snapshot manifest contains unsafe path: {name!r}")
+
+    actual_files = snapshot_relative_files(directory)
+    if actual_files != managed_files:
+        raise ValueError(
+            "snapshot files do not match manifest: "
+            f"expected {managed_files!r}, got {actual_files!r}"
+        )
+
+
+def try_atomic_directory_exchange(first: Path, second: Path) -> bool:
+    libc = ctypes.CDLL(None, use_errno=True)
+    first_bytes = os.fsencode(first)
+    second_bytes = os.fsencode(second)
+    flags = 0x00000002
+
+    if sys.platform == "darwin":
+        try:
+            rename = libc.renameatx_np
+        except AttributeError:
+            return False
+        rename.argtypes = [
+            ctypes.c_int,
+            ctypes.c_char_p,
+            ctypes.c_int,
+            ctypes.c_char_p,
+            ctypes.c_uint,
+        ]
+        rename.restype = ctypes.c_int
+        result = rename(-2, first_bytes, -2, second_bytes, flags)
+    elif sys.platform.startswith("linux"):
+        try:
+            rename = libc.renameat2
+        except AttributeError:
+            return False
+        rename.argtypes = [
+            ctypes.c_int,
+            ctypes.c_char_p,
+            ctypes.c_int,
+            ctypes.c_char_p,
+            ctypes.c_uint,
+        ]
+        rename.restype = ctypes.c_int
+        result = rename(-100, first_bytes, -100, second_bytes, flags)
+    else:
+        return False
+
+    if result == 0:
+        return True
+
+    error_number = ctypes.get_errno()
+    unsupported_errors = {
+        errno.EINVAL,
+        errno.ENOSYS,
+        errno.EXDEV,
+        getattr(errno, "ENOTSUP", errno.EINVAL),
+        getattr(errno, "EOPNOTSUPP", errno.EINVAL),
+    }
+    if error_number in unsupported_errors:
+        return False
+    raise OSError(error_number, os.strerror(error_number))
+
+
+def install_snapshot(staging_dir: Path, output_dir: Path) -> None:
+    if output_dir.is_symlink() or (output_dir.exists() and not output_dir.is_dir()):
+        raise ValueError(f"snapshot destination is not a real directory: {output_dir}")
+
+    if not output_dir.exists():
+        os.replace(staging_dir, output_dir)
+        return
+
+    if try_atomic_directory_exchange(staging_dir, output_dir):
+        return
+
+    raise RuntimeError(
+        "atomic directory exchange is unavailable for the existing snapshot; "
+        "the canonical snapshot was not changed"
+    )
+
+
+def build_snapshot(staging_dir: Path, url: str) -> dict[str, Any]:
     with tempfile.TemporaryDirectory(prefix="fum-chatgpt-share-") as tmp:
         tmpdir = Path(tmp)
         raw_html = tmpdir / "chatgpt-share.html"
         raw_headers = tmpdir / "chatgpt-share.headers.txt"
-        info = run_curl(args.url, raw_html, raw_headers)
+        info = run_curl(url, raw_html, raw_headers)
         html_text = raw_html.read_text(encoding="utf-8", errors="replace")
         headers_text = raw_headers.read_text(encoding="utf-8", errors="replace")
 
@@ -683,89 +827,138 @@ def main() -> int:
             local_metadata_values = collect_local_metadata_values(raw_decoded)
             decoded = redact_initial_state(raw_decoded)
             messages_data = extract_messages(decoded)
-            messages_data["source_url"] = args.url
+            messages_data["source_url"] = url
         except Exception as exc:  # noqa: BLE001 - preserve failure in report.
-            (output_dir / "decode-error.txt").write_text(repr(exc) + "\n", encoding="utf-8")
+            (staging_dir / "decode-error.txt").write_text(
+                repr(exc) + "\n",
+                encoding="utf-8",
+            )
 
     if local_metadata_values:
         sanitized_html = redact_text_values(sanitized_html, local_metadata_values)
         scripts = [redact_text_values(body, local_metadata_values) for body in scripts]
         stream_text = redact_text_values(stream_text, local_metadata_values)
 
-    (output_dir / "source-url.txt").write_text(args.url + "\n", encoding="utf-8")
-    (output_dir / "chatgpt-share.headers.txt").write_text(
+    (staging_dir / "source-url.txt").write_text(url + "\n", encoding="utf-8")
+    (staging_dir / "chatgpt-share.headers.txt").write_text(
         trim_trailing_whitespace(redact_headers(headers_text)),
         encoding="utf-8",
     )
-    (output_dir / "chatgpt-share.html").write_text(
+    (staging_dir / "chatgpt-share.html").write_text(
         trim_trailing_whitespace(sanitized_html),
         encoding="utf-8",
     )
-    (output_dir / "chatgpt-share.visible-text.txt").write_text(
+    (staging_dir / "chatgpt-share.visible-text.txt").write_text(
         collect_visible_text(sanitized_html),
         encoding="utf-8",
     )
 
     if initial_state is not None:
-        (output_dir / "chatgpt-share.initial-state.json").write_text(
+        (staging_dir / "chatgpt-share.initial-state.json").write_text(
             json.dumps(initial_state, ensure_ascii=False, indent=2),
             encoding="utf-8",
         )
 
     for index, body in enumerate(scripts):
         if len(body) > 1000 or "streamController.enqueue" in body:
-            (output_dir / f"chatgpt-share.script-{index:02d}.txt").write_text(
+            (staging_dir / f"chatgpt-share.script-{index:02d}.txt").write_text(
                 body,
                 encoding="utf-8",
             )
 
-    (output_dir / "chatgpt-share.react-router-stream.txt").write_text(
+    (staging_dir / "chatgpt-share.react-router-stream.txt").write_text(
         stream_text,
         encoding="utf-8",
     )
 
     if decoded is not None:
-        (output_dir / "chatgpt-share.decoded-data.json").write_text(
+        (staging_dir / "chatgpt-share.decoded-data.json").write_text(
             json.dumps(decoded, ensure_ascii=False, indent=2),
             encoding="utf-8",
         )
-        (output_dir / "chatgpt-share.messages.json").write_text(
+        (staging_dir / "chatgpt-share.messages.json").write_text(
             json.dumps(messages_data, ensure_ascii=False, indent=2),
             encoding="utf-8",
         )
         markdown_name = formatted_messages_markdown_name(messages_data)
-        legacy_markdown = output_dir / "chatgpt-share.messages.md"
-        if legacy_markdown.exists() and legacy_markdown.name != markdown_name:
-            legacy_markdown.unlink()
         write_messages_markdown(
-            output_dir / markdown_name,
-            args.url,
+            staging_dir / markdown_name,
+            url,
             messages_data,
         )
 
-    files = sorted(
-        {path.name for path in output_dir.iterdir() if path.is_file()}
-        | {"extraction-report.md", "source-index.md"}
+    managed_files = sorted(
+        set(snapshot_relative_files(staging_dir))
+        | {
+            "extraction-report.md",
+            SNAPSHOT_MANIFEST_NAME,
+            "source-index.md",
+        }
     )
-    write_source_index(output_dir / "source-index.md", args.url, files, messages_data)
-    files = sorted({path.name for path in output_dir.iterdir() if path.is_file()} | {"extraction-report.md"})
+    write_source_index(
+        staging_dir / "source-index.md",
+        url,
+        managed_files,
+        messages_data,
+    )
     write_report(
-        output_dir / "extraction-report.md",
-        args.url,
+        staging_dir / "extraction-report.md",
+        url,
         info,
-        files,
+        managed_files,
         int(messages_data.get("message_count", 0)),
         initial_state is not None,
         decoded_ok,
     )
-    linked_request = link_source_in_request_file(
-        request_file,
-        output_dir,
-        readable_dialog_title(messages_data),
-    )
+    write_snapshot_manifest(staging_dir, managed_files)
+    validate_snapshot_manifest(staging_dir)
+    return messages_data
+
+
+def main() -> int:
+    args = parse_args()
+    request_file = args.request_file
+    output_dir = args.output_dir or default_output_dir(request_file, args.url, args.source_name)
+    output_dir.parent.mkdir(parents=True, exist_ok=True)
+
+    with tempfile.TemporaryDirectory(
+        prefix=f".{output_dir.name}.staging-",
+        dir=output_dir.parent,
+        ignore_cleanup_errors=True,
+    ) as staging:
+        staging_dir = Path(staging)
+        messages_data = build_snapshot(staging_dir, args.url)
+        install_snapshot(staging_dir, output_dir)
+
+    if os.path.lexists(staging_dir):
+        print(
+            "warning: old snapshot remains in staging after commit: "
+            f"{staging_dir}",
+            file=sys.stderr,
+        )
+
+    link_error: OSError | None = None
+    try:
+        linked_request = link_source_in_request_file(
+            request_file,
+            output_dir,
+            readable_dialog_title(messages_data),
+        )
+    except OSError as exc:
+        linked_request = False
+        link_error = exc
+
     print(f"saved {output_dir}")
     print(f"messages {messages_data.get('message_count', 0)}")
-    print(f"request_file_linked {'yes' if linked_request else 'no'}")
+    if link_error is None:
+        print(f"request_file_linked {'yes' if linked_request else 'no'}")
+    else:
+        print("request_file_linked error")
+        print(
+            "warning: snapshot was saved, but the request file was not linked: "
+            f"{link_error}",
+            file=sys.stderr,
+        )
     return 0
 
 
