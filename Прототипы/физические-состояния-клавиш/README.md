@@ -56,11 +56,16 @@ swift test --package-path Прототипы/физические-состоян
 swift build \
   --package-path Прототипы/физические-состояния-клавиш \
   --product FUMInputProbe
-swift format lint --recursive \
+swift format lint \
+  --configuration Инструменты/fum-smoke-check/swift-format.json \
+  --strict \
+  --recursive \
   Прототипы/физические-состояния-клавиш/Sources \
   Прототипы/физические-состояния-клавиш/Tests \
   Прототипы/физические-состояния-клавиш/Package.swift
 ```
+
+Общий [smoke-check репозитория](../../Инструменты/fum-smoke-check/SKILL.md) автоматически выполняет эти автономные тесты, отдельно собирает `FUMInputProbe` и применяет строгий `swift format lint --strict` ко всем путям целей и `Package.swift`.
 
 Простой запуск без аргументов строит воспроизводимую матрицу и предварительную рекомендацию:
 
@@ -165,6 +170,6 @@ swift format lint --recursive \
 - [`IOHIDManagerRegisterInputValueCallback`](https://developer.apple.com/documentation/iokit/1438367-iohidmanagerregisterinputvalueca)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-20 14:37:07 MSK -->
-<!-- content-sha256: sha256:2f0addc10dca4f5934825dd0fb02a45d738b61754a6939319a9dff379e2f53d7 -->
+<!-- last-content-edit: 2026-07-20 16:04:37 MSK -->
+<!-- content-sha256: sha256:f7ce5d19627b0a552f46436da2a2f05f9eb49cdee155b329445929fb60538d07 -->
 <!-- FUM-MD-RECENCY:END -->
