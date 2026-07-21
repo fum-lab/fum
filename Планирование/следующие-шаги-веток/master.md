@@ -1,7 +1,7 @@
 +++
 schema_version = 1
 branch_ref = "refs/heads/master"
-step_id = "master-refresh-developer-entrypoints-v1"
+step_id = "master-refresh-developer-entrypoints-v2"
 status = "ready"
 project_path = "README.md"
 +++
@@ -33,6 +33,6 @@ project_path = "README.md"
 
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-21 10:59:02 MSK -->
-<!-- content-sha256: sha256:4fafc1cfd44cac71c321fdfbc2463fcbdbd624329b313bd9cbe6cda9e26bb23e -->
+<!-- last-content-edit: 2026-07-21 11:12:01 MSK -->
+<!-- content-sha256: sha256:c99f980587cb7862105a0f15a49124e5c7a1848f1069d6a439506d6c2acc1124 -->
 <!-- FUM-MD-RECENCY:END -->
