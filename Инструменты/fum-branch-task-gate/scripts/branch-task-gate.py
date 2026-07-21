@@ -27,6 +27,7 @@ except ImportError:  # pragma: no cover - the project hook is POSIX-only.
 
 SCHEMA_VERSION = 4
 DEFAULT_HOOK_WAIT_SECONDS = 85_800
+PROMPT_ADMISSION_MARKER = "FUM-BRANCH-TASK-GATE: admitted-v1"
 GIT_COMMAND_TIMEOUT_SECONDS = 20
 TRANSITION_LOCK_TIMEOUT_SECONDS = 20
 EXIT_BUSY = 1
@@ -1103,6 +1104,20 @@ def hook_failure(message: str) -> None:
     )
 
 
+def hook_prompt_admission() -> None:
+    print(
+        json.dumps(
+            {
+                "hookSpecificOutput": {
+                    "hookEventName": "UserPromptSubmit",
+                    "additionalContext": PROMPT_ADMISSION_MARKER,
+                },
+            },
+            ensure_ascii=False,
+        )
+    )
+
+
 def hook_warning(message: str) -> None:
     print(
         json.dumps(
@@ -1177,6 +1192,7 @@ def hook_command(args: argparse.Namespace) -> int:
                     "Не удалось дождаться допуска к ветке до внутреннего "
                     "дедлайна hook; работа в этой ветке не начата.",
                 )
+            hook_prompt_admission()
             return 0
         if event == "PreToolUse":
             acquisition, exit_code = acquire(

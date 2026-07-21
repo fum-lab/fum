@@ -18,6 +18,8 @@ TOOL_ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = TOOL_ROOT.parents[1]
 SCRIPT_PATH = TOOL_ROOT / "scripts" / "branch-task-gate.py"
 CONFIG_PATH = REPO_ROOT / ".codex" / "config.toml"
+AGENTS_PATH = REPO_ROOT / "AGENTS.md"
+PROMPT_ADMISSION_MARKER = "FUM-BRANCH-TASK-GATE: admitted-v1"
 
 
 def load_gate_module():
@@ -87,6 +89,18 @@ class BranchTaskGateTests(unittest.TestCase):
         payload = self.payload(result)
         self.assertEqual(payload["decision"], "block")
         self.assertIn(expected_reason, str(payload["reason"]))
+
+    def assert_prompt_admitted(
+        self,
+        result: subprocess.CompletedProcess[str],
+    ) -> None:
+        payload = self.payload(result)
+        specific = payload["hookSpecificOutput"]
+        self.assertEqual(specific["hookEventName"], "UserPromptSubmit")
+        self.assertEqual(
+            specific["additionalContext"],
+            PROMPT_ADMISSION_MARKER,
+        )
 
     def test_status_ignores_changes_only_in_root_obsidian(self) -> None:
         (self.repo / ".obsidian" / "graph.json").write_text(
@@ -625,7 +639,7 @@ class BranchTaskGateTests(unittest.TestCase):
             },
         )
         self.assertEqual(started.returncode, 0, started.stderr)
-        self.assertEqual(started.stdout, "")
+        self.assert_prompt_admitted(started)
 
         (self.repo / "tracked.txt").write_text("in progress\n", encoding="utf-8")
         stopped_dirty = self.run_gate(
@@ -648,6 +662,7 @@ class BranchTaskGateTests(unittest.TestCase):
             },
         )
         self.assertEqual(continued.returncode, 0, continued.stderr)
+        self.assert_prompt_admitted(continued)
 
         self.git("add", "tracked.txt")
         self.git("commit", "-m", "Finish session")
@@ -1007,7 +1022,13 @@ class BranchTaskGateTests(unittest.TestCase):
         waiting.stdout.close()
         waiting.stderr.close()
         self.assertEqual(waiting.returncode, 0, stderr)
-        self.assertEqual(stdout, "")
+        waiting_result = subprocess.CompletedProcess(
+            args=[],
+            returncode=waiting.returncode,
+            stdout=stdout,
+            stderr=stderr,
+        )
+        self.assert_prompt_admitted(waiting_result)
 
         task_b_stop = self.run_gate(
             "hook",
@@ -1409,6 +1430,13 @@ class BranchTaskGateTests(unittest.TestCase):
         self.assertIn('"git", "show"', stop_hook["command"])
         self.assertGreaterEqual(stop_hook["timeout"], 300)
 
+    def test_agents_requires_prompt_admission_marker_before_mutation(self) -> None:
+        instructions = AGENTS_PATH.read_text(encoding="utf-8")
+
+        self.assertIn(PROMPT_ADMISSION_MARKER, instructions)
+        self.assertIn("дополнительного developer-контекста", instructions)
+        self.assertIn("не изменяет файлы", instructions)
+
     def test_project_hook_executes_committed_helper_not_dirty_copy(self) -> None:
         relative_script = Path(
             "Инструменты/fum-branch-task-gate/scripts/branch-task-gate.py"
@@ -1449,7 +1477,7 @@ class BranchTaskGateTests(unittest.TestCase):
             timeout=5,
         )
         self.assertEqual(first.returncode, 0, first.stderr)
-        self.assertEqual(first.stdout, "")
+        self.assert_prompt_admitted(first)
 
         fixture_script.write_text(
             'print(\'{"continue": true}\')\nraise SystemExit(99)\n',
