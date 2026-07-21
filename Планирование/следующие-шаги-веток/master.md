@@ -1,7 +1,7 @@
 +++
 schema_version = 1
 branch_ref = "refs/heads/master"
-step_id = "master-await-boxed-stage-authorization-v1"
+step_id = "master-await-boxed-stage-authorization-v2"
 status = "paused"
 project_path = "README.md"
 +++
@@ -31,6 +31,6 @@ project_path = "README.md"
 - [оперативные предложения о следующих шагах](../предложения-о-следующих-шагах.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-21 16:07:36 MSK -->
-<!-- content-sha256: sha256:b9f6bf2e0d51a8a23a39a5c40508fa39274a7cbd5f4ad14cea4514669cd0c86e -->
+<!-- last-content-edit: 2026-07-21 16:40:55 MSK -->
+<!-- content-sha256: sha256:8e97d7df792f8942d6a9ff62e625940c91fff09ddbf1b6c4a1519854b86245bd -->
 <!-- FUM-MD-RECENCY:END -->

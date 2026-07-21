@@ -20,6 +20,7 @@ SCRIPT_PATH = TOOL_ROOT / "scripts" / "branch-task-gate.py"
 CONFIG_PATH = REPO_ROOT / ".codex" / "config.toml"
 AGENTS_PATH = REPO_ROOT / "AGENTS.md"
 PROMPT_ADMISSION_MARKER = "FUM-BRANCH-TASK-GATE: admitted-v1"
+SUBAGENT_ADMISSION_MARKER = "FUM-BRANCH-TASK-GATE: subagent-admitted-v1"
 
 
 def load_gate_module():
@@ -100,6 +101,19 @@ class BranchTaskGateTests(unittest.TestCase):
         self.assertEqual(
             specific["additionalContext"],
             PROMPT_ADMISSION_MARKER,
+        )
+
+    def assert_subagent_admitted(
+        self,
+        result: subprocess.CompletedProcess[str],
+        event_name: str,
+    ) -> None:
+        payload = self.payload(result)
+        specific = payload["hookSpecificOutput"]
+        self.assertEqual(specific["hookEventName"], event_name)
+        self.assertEqual(
+            specific["additionalContext"],
+            SUBAGENT_ADMISSION_MARKER,
         )
 
     def test_status_ignores_changes_only_in_root_obsidian(self) -> None:
@@ -921,6 +935,603 @@ class BranchTaskGateTests(unittest.TestCase):
         self.assertEqual(payload["task_id"], "session-a")
         self.assertEqual(payload["turn_id"], "turn-2")
 
+    def test_subagent_tool_requires_a_registered_spawn_intent(self) -> None:
+        common = {
+            "session_id": "session-a",
+            "cwd": str(self.repo),
+            "model": "test-model",
+            "permission_mode": "default",
+            "transcript_path": None,
+        }
+        started = self.run_gate(
+            "hook",
+            hook_input={
+                **common,
+                "turn_id": "root-turn",
+                "hook_event_name": "UserPromptSubmit",
+                "prompt": "Start root work",
+            },
+        )
+        self.assertEqual(started.returncode, 0, started.stderr)
+
+        unregistered = self.run_gate(
+            "hook",
+            hook_input={
+                **common,
+                "turn_id": "child-turn",
+                "agent_id": "child-agent",
+                "agent_type": "default",
+                "hook_event_name": "PreToolUse",
+                "tool_name": "Bash",
+                "tool_use_id": "child-tool-before-spawn",
+                "tool_input": {"command": "rg --files"},
+            },
+        )
+        self.assertEqual(unregistered.returncode, 0, unregistered.stderr)
+        self.assertEqual(
+            self.payload(unregistered)["hookSpecificOutput"][
+                "permissionDecision"
+            ],
+            "deny",
+        )
+
+        spawn = self.run_gate(
+            "hook",
+            hook_input={
+                **common,
+                "turn_id": "root-turn",
+                "hook_event_name": "PreToolUse",
+                "tool_name": "spawn_agent",
+                "tool_use_id": "spawn-child",
+                "tool_input": {"task_name": "child"},
+            },
+        )
+        self.assertEqual(spawn.returncode, 0, spawn.stderr)
+        self.assertEqual(spawn.stdout, "")
+
+        registered = self.run_gate(
+            "hook",
+            hook_input={
+                **common,
+                "turn_id": "child-turn",
+                "agent_id": "child-agent",
+                "agent_type": "default",
+                "hook_event_name": "SubagentStart",
+            },
+        )
+        self.assertEqual(registered.returncode, 0, registered.stderr)
+        self.assert_subagent_admitted(registered, "SubagentStart")
+
+        child_tool = self.run_gate(
+            "hook",
+            hook_input={
+                **common,
+                "turn_id": "child-turn",
+                "agent_id": "child-agent",
+                "agent_type": "default",
+                "hook_event_name": "PreToolUse",
+                "tool_name": "Bash",
+                "tool_use_id": "child-tool-after-spawn",
+                "tool_input": {"command": "rg --files"},
+            },
+        )
+        self.assertEqual(child_tool.returncode, 0, child_tool.stderr)
+        self.assertEqual(child_tool.stdout, "")
+
+        status = self.run_gate("status", "--repo-root", str(self.repo), "--json")
+        self.assertEqual(status.returncode, 1, status.stderr)
+        payload = self.payload(status)
+        self.assertEqual(payload["authorized_subagent_count"], 1)
+        self.assertEqual(payload["pending_subagent_start_count"], 0)
+
+    def test_new_root_turn_revokes_registered_subagent(self) -> None:
+        common = {
+            "session_id": "session-a",
+            "cwd": str(self.repo),
+            "model": "test-model",
+            "permission_mode": "default",
+            "transcript_path": None,
+        }
+        for payload in (
+            {
+                **common,
+                "turn_id": "root-turn-1",
+                "hook_event_name": "UserPromptSubmit",
+                "prompt": "Start root work",
+            },
+            {
+                **common,
+                "turn_id": "root-turn-1",
+                "hook_event_name": "PreToolUse",
+                "tool_name": "spawn_agent",
+                "tool_use_id": "spawn-child",
+                "tool_input": {"task_name": "child"},
+            },
+            {
+                **common,
+                "turn_id": "child-turn",
+                "agent_id": "child-agent",
+                "agent_type": "default",
+                "hook_event_name": "SubagentStart",
+            },
+        ):
+            result = self.run_gate("hook", hook_input=payload)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            if payload["hook_event_name"] == "UserPromptSubmit":
+                self.assert_prompt_admitted(result)
+            elif payload["hook_event_name"] == "SubagentStart":
+                self.assert_subagent_admitted(result, "SubagentStart")
+            else:
+                self.assertEqual(result.stdout, "")
+
+        renewed = self.run_gate(
+            "hook",
+            hook_input={
+                **common,
+                "turn_id": "root-turn-2",
+                "hook_event_name": "UserPromptSubmit",
+                "prompt": "Start newer root turn",
+            },
+        )
+        self.assertEqual(renewed.returncode, 0, renewed.stderr)
+        self.assert_prompt_admitted(renewed)
+
+        stale_child_tool = self.run_gate(
+            "hook",
+            hook_input={
+                **common,
+                "turn_id": "child-turn",
+                "agent_id": "child-agent",
+                "agent_type": "default",
+                "hook_event_name": "PreToolUse",
+                "tool_name": "apply_patch",
+                "tool_use_id": "stale-child-tool",
+                "tool_input": {"command": "*** Begin Patch\n*** End Patch\n"},
+            },
+        )
+
+        self.assertEqual(stale_child_tool.returncode, 0, stale_child_tool.stderr)
+        self.assertEqual(
+            self.payload(stale_child_tool)["hookSpecificOutput"][
+                "permissionDecision"
+            ],
+            "deny",
+        )
+        status = self.run_gate("status", "--repo-root", str(self.repo), "--json")
+        payload = self.payload(status)
+        self.assertEqual(payload["turn_id"], "root-turn-2")
+        self.assertEqual(payload["authorized_subagent_count"], 0)
+
+    def test_registered_subagent_prompt_does_not_replace_root_turn(self) -> None:
+        common = {
+            "session_id": "session-a",
+            "cwd": str(self.repo),
+            "model": "test-model",
+            "permission_mode": "default",
+            "transcript_path": None,
+        }
+        events = (
+            {
+                **common,
+                "turn_id": "root-turn",
+                "hook_event_name": "UserPromptSubmit",
+                "prompt": "Start root work",
+            },
+            {
+                **common,
+                "turn_id": "root-turn",
+                "hook_event_name": "PreToolUse",
+                "tool_name": "spawn_agent",
+                "tool_use_id": "spawn-child",
+                "tool_input": {"task_name": "child"},
+            },
+            {
+                **common,
+                "turn_id": "child-turn",
+                "agent_id": "child-agent",
+                "agent_type": "default",
+                "hook_event_name": "SubagentStart",
+            },
+        )
+        for payload in events:
+            result = self.run_gate("hook", hook_input=payload)
+            self.assertEqual(result.returncode, 0, result.stderr)
+
+        child_prompt = self.run_gate(
+            "hook",
+            hook_input={
+                **common,
+                "turn_id": "child-turn",
+                "agent_id": "child-agent",
+                "agent_type": "default",
+                "hook_event_name": "UserPromptSubmit",
+                "prompt": "Continue child work",
+            },
+        )
+
+        self.assertEqual(child_prompt.returncode, 0, child_prompt.stderr)
+        self.assert_subagent_admitted(child_prompt, "UserPromptSubmit")
+        status = self.run_gate("status", "--repo-root", str(self.repo), "--json")
+        payload = self.payload(status)
+        self.assertEqual(payload["turn_id"], "root-turn")
+        self.assertEqual(payload["authorized_subagent_count"], 1)
+
+    def test_unregistered_subagent_prompt_is_blocked_without_renewing_root(
+        self,
+    ) -> None:
+        common = {
+            "session_id": "session-a",
+            "cwd": str(self.repo),
+            "model": "test-model",
+            "permission_mode": "default",
+            "transcript_path": None,
+        }
+        started = self.run_gate(
+            "hook",
+            hook_input={
+                **common,
+                "turn_id": "root-turn",
+                "hook_event_name": "UserPromptSubmit",
+                "prompt": "Start root work",
+            },
+        )
+        self.assert_prompt_admitted(started)
+
+        child_prompt = self.run_gate(
+            "hook",
+            hook_input={
+                **common,
+                "turn_id": "child-turn",
+                "agent_id": "child-agent",
+                "agent_type": "default",
+                "hook_event_name": "UserPromptSubmit",
+                "prompt": "Attempt unregistered child work",
+            },
+        )
+
+        self.assert_prompt_blocked(child_prompt, "не зарегистрирован")
+        status = self.run_gate("status", "--repo-root", str(self.repo), "--json")
+        payload = self.payload(status)
+        self.assertEqual(payload["turn_id"], "root-turn")
+        self.assertEqual(payload["authorized_subagent_count"], 0)
+
+    def test_subagent_cannot_reacquire_after_root_stop(self) -> None:
+        common = {
+            "session_id": "session-a",
+            "cwd": str(self.repo),
+            "model": "test-model",
+            "permission_mode": "default",
+            "transcript_path": None,
+        }
+        events = (
+            {
+                **common,
+                "turn_id": "root-turn",
+                "hook_event_name": "UserPromptSubmit",
+                "prompt": "Start root work",
+            },
+            {
+                **common,
+                "turn_id": "root-turn",
+                "hook_event_name": "PreToolUse",
+                "tool_name": "spawn_agent",
+                "tool_use_id": "spawn-child",
+                "tool_input": {"task_name": "child"},
+            },
+            {
+                **common,
+                "turn_id": "child-turn",
+                "agent_id": "child-agent",
+                "agent_type": "default",
+                "hook_event_name": "SubagentStart",
+            },
+            {
+                **common,
+                "turn_id": "root-turn",
+                "hook_event_name": "Stop",
+                "stop_hook_active": False,
+                "last_assistant_message": "Root turn done",
+            },
+        )
+        for payload in events:
+            result = self.run_gate("hook", hook_input=payload)
+            self.assertEqual(result.returncode, 0, result.stderr)
+
+        late_child_tool = self.run_gate(
+            "hook",
+            hook_input={
+                **common,
+                "turn_id": "child-turn",
+                "agent_id": "child-agent",
+                "agent_type": "default",
+                "hook_event_name": "PreToolUse",
+                "tool_name": "Bash",
+                "tool_use_id": "late-child-tool",
+                "tool_input": {"command": "touch forbidden.txt"},
+            },
+        )
+
+        self.assertEqual(late_child_tool.returncode, 0, late_child_tool.stderr)
+        self.assertEqual(
+            self.payload(late_child_tool)["hookSpecificOutput"][
+                "permissionDecision"
+            ],
+            "deny",
+        )
+        status = self.run_gate("status", "--repo-root", str(self.repo), "--json")
+        self.assertEqual(status.returncode, 0, status.stderr)
+        self.assertEqual(self.payload(status)["state"], "ready")
+
+    def test_registered_subagent_can_spawn_a_nested_subagent(self) -> None:
+        common = {
+            "session_id": "session-a",
+            "cwd": str(self.repo),
+            "model": "test-model",
+            "permission_mode": "default",
+            "transcript_path": None,
+        }
+        events = (
+            {
+                **common,
+                "turn_id": "root-turn",
+                "hook_event_name": "UserPromptSubmit",
+                "prompt": "Start root work",
+            },
+            {
+                **common,
+                "turn_id": "root-turn",
+                "hook_event_name": "PreToolUse",
+                "tool_name": "spawn_agent",
+                "tool_use_id": "spawn-child",
+                "tool_input": {"task_name": "child"},
+            },
+            {
+                **common,
+                "turn_id": "child-turn",
+                "agent_id": "child-agent",
+                "agent_type": "default",
+                "hook_event_name": "SubagentStart",
+            },
+            {
+                **common,
+                "turn_id": "child-turn",
+                "agent_id": "child-agent",
+                "agent_type": "default",
+                "hook_event_name": "PreToolUse",
+                "tool_name": "spawn_agent",
+                "tool_use_id": "spawn-grandchild",
+                "tool_input": {"task_name": "grandchild"},
+            },
+            {
+                **common,
+                "turn_id": "grandchild-turn",
+                "agent_id": "grandchild-agent",
+                "agent_type": "default",
+                "hook_event_name": "SubagentStart",
+            },
+        )
+        for payload in events:
+            result = self.run_gate("hook", hook_input=payload)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            if payload["hook_event_name"] == "SubagentStart":
+                self.assert_subagent_admitted(result, "SubagentStart")
+            elif payload["hook_event_name"] != "UserPromptSubmit":
+                self.assertEqual(result.stdout, "")
+
+        grandchild_tool = self.run_gate(
+            "hook",
+            hook_input={
+                **common,
+                "turn_id": "grandchild-turn",
+                "agent_id": "grandchild-agent",
+                "agent_type": "default",
+                "hook_event_name": "PreToolUse",
+                "tool_name": "Bash",
+                "tool_use_id": "grandchild-tool",
+                "tool_input": {"command": "rg --files"},
+            },
+        )
+
+        self.assertEqual(grandchild_tool.returncode, 0, grandchild_tool.stderr)
+        self.assertEqual(grandchild_tool.stdout, "")
+        status = self.run_gate("status", "--repo-root", str(self.repo), "--json")
+        self.assertEqual(self.payload(status)["authorized_subagent_count"], 2)
+
+    def test_subagent_start_without_spawn_intent_warns_and_stays_denied(
+        self,
+    ) -> None:
+        common = {
+            "session_id": "session-a",
+            "cwd": str(self.repo),
+            "model": "test-model",
+            "permission_mode": "default",
+            "transcript_path": None,
+        }
+        started = self.run_gate(
+            "hook",
+            hook_input={
+                **common,
+                "turn_id": "root-turn",
+                "hook_event_name": "UserPromptSubmit",
+                "prompt": "Start root work",
+            },
+        )
+        self.assertEqual(started.returncode, 0, started.stderr)
+
+        unexpected_start = self.run_gate(
+            "hook",
+            hook_input={
+                **common,
+                "turn_id": "child-turn",
+                "agent_id": "child-agent",
+                "agent_type": "default",
+                "hook_event_name": "SubagentStart",
+            },
+        )
+
+        self.assertEqual(unexpected_start.returncode, 0, unexpected_start.stderr)
+        warning = self.payload(unexpected_start)
+        self.assertTrue(warning["continue"])
+        self.assertIn("субагент", warning["systemMessage"].lower())
+
+        child_tool = self.run_gate(
+            "hook",
+            hook_input={
+                **common,
+                "turn_id": "child-turn",
+                "agent_id": "child-agent",
+                "agent_type": "default",
+                "hook_event_name": "PreToolUse",
+                "tool_name": "Bash",
+                "tool_use_id": "unexpected-child-tool",
+                "tool_input": {"command": "rg --files"},
+            },
+        )
+        self.assertEqual(
+            self.payload(child_tool)["hookSpecificOutput"][
+                "permissionDecision"
+            ],
+            "deny",
+        )
+
+    def test_partial_subagent_identity_is_denied(self) -> None:
+        common = {
+            "session_id": "session-a",
+            "turn_id": "root-turn",
+            "cwd": str(self.repo),
+            "model": "test-model",
+            "permission_mode": "default",
+            "transcript_path": None,
+        }
+        started = self.run_gate(
+            "hook",
+            hook_input={
+                **common,
+                "hook_event_name": "UserPromptSubmit",
+                "prompt": "Start root work",
+            },
+        )
+        self.assertEqual(started.returncode, 0, started.stderr)
+
+        partial = self.run_gate(
+            "hook",
+            hook_input={
+                **common,
+                "turn_id": "child-turn",
+                "agent_id": "child-agent",
+                "hook_event_name": "PreToolUse",
+                "tool_name": "Bash",
+                "tool_use_id": "partial-child-tool",
+                "tool_input": {"command": "rg --files"},
+            },
+        )
+
+        self.assertEqual(partial.returncode, 0, partial.stderr)
+        denial = self.payload(partial)
+        self.assertEqual(
+            denial["hookSpecificOutput"]["permissionDecision"],
+            "deny",
+        )
+        self.assertIn(
+            "неполную идентичность",
+            denial["hookSpecificOutput"]["permissionDecisionReason"],
+        )
+
+    def test_new_root_turn_clears_unconsumed_spawn_intent(self) -> None:
+        common = {
+            "session_id": "session-a",
+            "cwd": str(self.repo),
+            "model": "test-model",
+            "permission_mode": "default",
+            "transcript_path": None,
+        }
+        for payload in (
+            {
+                **common,
+                "turn_id": "root-turn-1",
+                "hook_event_name": "UserPromptSubmit",
+                "prompt": "Start root work",
+            },
+            {
+                **common,
+                "turn_id": "root-turn-1",
+                "hook_event_name": "PreToolUse",
+                "tool_name": "spawn_agent",
+                "tool_use_id": "spawn-child",
+                "tool_input": {"task_name": "child"},
+            },
+            {
+                **common,
+                "turn_id": "root-turn-2",
+                "hook_event_name": "UserPromptSubmit",
+                "prompt": "Start newer root turn",
+            },
+        ):
+            result = self.run_gate("hook", hook_input=payload)
+            self.assertEqual(result.returncode, 0, result.stderr)
+
+        delayed_start = self.run_gate(
+            "hook",
+            hook_input={
+                **common,
+                "turn_id": "child-turn",
+                "agent_id": "child-agent",
+                "agent_type": "default",
+                "hook_event_name": "SubagentStart",
+            },
+        )
+
+        warning = self.payload(delayed_start)
+        self.assertTrue(warning["continue"])
+        status = self.run_gate("status", "--repo-root", str(self.repo), "--json")
+        payload = self.payload(status)
+        self.assertEqual(payload["turn_id"], "root-turn-2")
+        self.assertEqual(payload["pending_subagent_start_count"], 0)
+        self.assertEqual(payload["authorized_subagent_count"], 0)
+
+    def test_schema_four_lock_is_readable_and_upgrades_on_spawn(self) -> None:
+        gate = load_gate_module()
+        context = gate.resolve_context(self.repo)
+        legacy = gate.new_lock_record(context, "session-a", "root-turn")
+        legacy_payload = gate.lock_payload(legacy)
+        legacy_payload["schema_version"] = 4
+        legacy_payload.pop("pending_subagent_starts")
+        legacy_payload.pop("subagents")
+        gate.ensure_gate_dir(context)
+        context.lock_path.write_text(
+            json.dumps(legacy_payload),
+            encoding="utf-8",
+        )
+
+        before = self.run_gate("status", "--repo-root", str(self.repo), "--json")
+        self.assertEqual(before.returncode, 1, before.stderr)
+        before_payload = self.payload(before)
+        self.assertEqual(before_payload["schema_version"], 4)
+        self.assertEqual(before_payload["pending_subagent_start_count"], 0)
+
+        spawn = self.run_gate(
+            "hook",
+            hook_input={
+                "session_id": "session-a",
+                "turn_id": "root-turn",
+                "cwd": str(self.repo),
+                "model": "test-model",
+                "permission_mode": "default",
+                "transcript_path": None,
+                "hook_event_name": "PreToolUse",
+                "tool_name": "spawn_agent",
+                "tool_use_id": "spawn-child",
+                "tool_input": {"task_name": "child"},
+            },
+        )
+
+        self.assertEqual(spawn.returncode, 0, spawn.stderr)
+        self.assertEqual(spawn.stdout, "")
+        after = self.run_gate("status", "--repo-root", str(self.repo), "--json")
+        after_payload = self.payload(after)
+        self.assertEqual(after_payload["schema_version"], gate.SCHEMA_VERSION)
+        self.assertEqual(after_payload["pending_subagent_start_count"], 1)
+
     def test_full_hook_handoff_waits_until_clean_stop(self) -> None:
         task_a = {
             "session_id": "session-a",
@@ -1389,11 +2000,14 @@ class BranchTaskGateTests(unittest.TestCase):
         self.assertEqual(result.returncode, 64, result.stderr)
         self.assertIn("--force", self.payload(result)["error"])
 
-    def test_project_config_registers_prompt_tool_and_stop_hooks(self) -> None:
+    def test_project_config_registers_prompt_subagent_tool_and_stop_hooks(
+        self,
+    ) -> None:
         config = tomllib.loads(CONFIG_PATH.read_text(encoding="utf-8"))
 
         self.assertTrue(config["features"]["hooks"])
         prompt_hook = config["hooks"]["UserPromptSubmit"][0]["hooks"][0]
+        subagent_hook = config["hooks"]["SubagentStart"][0]["hooks"][0]
         tool_hook = config["hooks"]["PreToolUse"][0]["hooks"][0]
         stop_hook = config["hooks"]["Stop"][0]["hooks"][0]
 
@@ -1418,6 +2032,14 @@ class BranchTaskGateTests(unittest.TestCase):
             internal_timeout,
             load_gate_module().DEFAULT_HOOK_WAIT_SECONDS,
         )
+        self.assertEqual(subagent_hook["type"], "command")
+        self.assertIn("branch-task-gate.py", subagent_hook["command"])
+        self.assertIn('"git", "show"', subagent_hook["command"])
+        self.assertIn(
+            "--expected-event SubagentStart",
+            subagent_hook["command"],
+        )
+        self.assertGreaterEqual(subagent_hook["timeout"], 300)
         self.assertEqual(tool_hook["type"], "command")
         self.assertIn("branch-task-gate.py", tool_hook["command"])
         self.assertIn('"git", "show"', tool_hook["command"])
@@ -1430,10 +2052,13 @@ class BranchTaskGateTests(unittest.TestCase):
         self.assertIn('"git", "show"', stop_hook["command"])
         self.assertGreaterEqual(stop_hook["timeout"], 300)
 
-    def test_agents_requires_prompt_admission_marker_before_mutation(self) -> None:
+    def test_agents_requires_root_and_subagent_markers_before_mutation(
+        self,
+    ) -> None:
         instructions = AGENTS_PATH.read_text(encoding="utf-8")
 
         self.assertIn(PROMPT_ADMISSION_MARKER, instructions)
+        self.assertIn(SUBAGENT_ADMISSION_MARKER, instructions)
         self.assertIn("дополнительного developer-контекста", instructions)
         self.assertIn("не изменяет файлы", instructions)
 
@@ -1541,6 +2166,37 @@ class BranchTaskGateTests(unittest.TestCase):
         self.assertEqual(
             tool_payload["hookSpecificOutput"]["permissionDecision"],
             "deny",
+        )
+
+        subagent_command = config["hooks"]["SubagentStart"][0]["hooks"][0][
+            "command"
+        ]
+        broken_subagent = subprocess.run(
+            subagent_command,
+            cwd=self.repo,
+            shell=True,
+            executable="/bin/sh",
+            input=json.dumps(
+                {
+                    **common,
+                    "session_id": "session-a",
+                    "turn_id": "child-turn",
+                    "agent_id": "child-agent",
+                    "agent_type": "default",
+                    "hook_event_name": "SubagentStart",
+                }
+            ),
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+        self.assertEqual(broken_subagent.returncode, 0, broken_subagent.stderr)
+        subagent_payload = self.payload(broken_subagent)
+        self.assertTrue(subagent_payload["continue"])
+        self.assertIn(
+            "инструменты",
+            subagent_payload["systemMessage"],
         )
 
         stop_command = config["hooks"]["Stop"][0]["hooks"][0]["command"]

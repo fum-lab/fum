@@ -45,6 +45,45 @@ except BaseException:
 timeout = 86400
 statusMessage = "Ожидание завершения предыдущей задачи этой Git-ветки"
 
+[[hooks.SubagentStart]]
+
+[[hooks.SubagentStart.hooks]]
+type = "command"
+command = '''python3 -c '
+import contextlib
+import io
+import json
+import subprocess
+
+message = "Не удалось зарегистрировать субагента в веточном барьере; его локальные инструменты будут запрещены."
+warning = {"continue": True, "systemMessage": message}
+output = io.StringIO()
+try:
+    result = subprocess.run(
+        ["git", "show", "HEAD:Инструменты/fum-branch-task-gate/scripts/branch-task-gate.py"],
+        capture_output=True,
+        stdin=subprocess.DEVNULL,
+        timeout=20,
+    )
+    if result.returncode != 0:
+        raise RuntimeError(message)
+    completed = False
+    with contextlib.redirect_stdout(output):
+        try:
+            exec(compile(result.stdout, "<fum-branch-task-gate@HEAD>", "exec"), {"__name__": "__main__"})
+        except SystemExit as error:
+            if error.code not in (0, None):
+                raise RuntimeError(message) from error
+            completed = True
+    if not completed:
+        raise RuntimeError(message)
+    print(output.getvalue(), end="")
+except BaseException:
+    print(json.dumps(warning, ensure_ascii=False))
+' hook --expected-event SubagentStart'''
+timeout = 300
+statusMessage = "Регистрация субагента в веточном барьере"
+
 [[hooks.PreToolUse]]
 
 [[hooks.PreToolUse.hooks]]

@@ -25,9 +25,14 @@ except ImportError:  # pragma: no cover - the project hook is POSIX-only.
     fcntl = None
 
 
-SCHEMA_VERSION = 4
+SCHEMA_VERSION = 5
+LEGACY_SCHEMA_VERSIONS = frozenset({4})
 DEFAULT_HOOK_WAIT_SECONDS = 85_800
 PROMPT_ADMISSION_MARKER = "FUM-BRANCH-TASK-GATE: admitted-v1"
+SUBAGENT_ADMISSION_MARKER = "FUM-BRANCH-TASK-GATE: subagent-admitted-v1"
+SPAWN_AGENT_TOOL_NAME = "spawn_agent"
+MAX_PENDING_SUBAGENT_STARTS = 256
+MAX_AUTHORIZED_SUBAGENTS = 256
 GIT_COMMAND_TIMEOUT_SECONDS = 20
 TRANSITION_LOCK_TIMEOUT_SECONDS = 20
 EXIT_BUSY = 1
@@ -53,13 +58,23 @@ class GateContext:
 
 
 @dataclass(frozen=True)
+class SubagentGrant:
+    agent_id: str
+    agent_type: str
+    first_turn_id: str
+
+
+@dataclass(frozen=True)
 class LockRecord:
+    schema_version: int
     task_id: str
     turn_id: str
     branch_ref: str
     acquired_at: str
     lease_id: str
     worktree_id: str
+    pending_subagent_starts: int
+    subagents: tuple[SubagentGrant, ...]
 
 
 class GateError(RuntimeError):
@@ -375,6 +390,39 @@ def validate_task_id(task_id: object) -> str:
     return task_id
 
 
+def validate_subagent_field(value: object, field_name: str) -> str:
+    if not isinstance(value, str) or not value.strip():
+        raise GateError(
+            EXIT_CLI,
+            f"Поле субагента {field_name} должно быть непустой строкой.",
+        )
+    if len(value) > 512 or "\0" in value:
+        raise GateError(
+            EXIT_CLI,
+            f"Поле субагента {field_name} имеет недопустимый формат.",
+        )
+    return value
+
+
+def parse_optional_subagent_identity(
+    payload: dict[str, object],
+) -> tuple[str, str] | None:
+    agent_id = payload.get("agent_id")
+    agent_type = payload.get("agent_type")
+    if agent_id is None and agent_type is None:
+        return None
+    if agent_id is None or agent_type is None:
+        raise GateError(
+            EXIT_CLI,
+            "Hook получил неполную идентичность субагента: нужны одновременно "
+            "agent_id и agent_type.",
+        )
+    return (
+        validate_subagent_field(agent_id, "agent_id"),
+        validate_subagent_field(agent_type, "agent_type"),
+    )
+
+
 def validate_lease_id(lease_id: object) -> str:
     if (
         not isinstance(lease_id, str)
@@ -391,13 +439,22 @@ def validate_lease_id(lease_id: object) -> str:
 
 def lock_payload(record: LockRecord) -> dict[str, object]:
     return {
-        "schema_version": SCHEMA_VERSION,
+        "schema_version": record.schema_version,
         "task_id": record.task_id,
         "turn_id": record.turn_id,
         "branch_ref": record.branch_ref,
         "acquired_at": record.acquired_at,
         "lease_id": record.lease_id,
         "worktree_id": record.worktree_id,
+        "pending_subagent_starts": record.pending_subagent_starts,
+        "subagents": [
+            {
+                "agent_id": grant.agent_id,
+                "agent_type": grant.agent_type,
+                "first_turn_id": grant.first_turn_id,
+            }
+            for grant in record.subagents
+        ],
     }
 
 
@@ -408,7 +465,12 @@ def parse_lock_payload(
 ) -> LockRecord:
     if not isinstance(payload, dict):
         raise GateError(EXIT_OWNERSHIP, "Файл владения веткой повреждён.")
-    if payload.get("schema_version") != SCHEMA_VERSION:
+    schema_version = payload.get("schema_version")
+    if (
+        not isinstance(schema_version, int)
+        or isinstance(schema_version, bool)
+        or schema_version not in {SCHEMA_VERSION, *LEGACY_SCHEMA_VERSIONS}
+    ):
         raise GateError(
             EXIT_OWNERSHIP,
             "Файл владения веткой имеет неизвестную версию схемы.",
@@ -436,13 +498,72 @@ def parse_lock_payload(
             EXIT_OWNERSHIP,
             "Файл владения не соответствует ветке, указанной его именем.",
         )
+
+    pending_subagent_starts = 0
+    subagents: tuple[SubagentGrant, ...] = ()
+    if schema_version == SCHEMA_VERSION:
+        pending_value = payload.get("pending_subagent_starts")
+        subagent_values = payload.get("subagents")
+        if (
+            not isinstance(pending_value, int)
+            or isinstance(pending_value, bool)
+            or not 0 <= pending_value <= MAX_PENDING_SUBAGENT_STARTS
+        ):
+            raise GateError(
+                EXIT_OWNERSHIP,
+                "Файл владения содержит некорректное число ожидаемых "
+                "субагентов.",
+            )
+        if (
+            not isinstance(subagent_values, list)
+            or len(subagent_values) > MAX_AUTHORIZED_SUBAGENTS
+        ):
+            raise GateError(
+                EXIT_OWNERSHIP,
+                "Файл владения содержит некорректный список субагентов.",
+            )
+        parsed_subagents: list[SubagentGrant] = []
+        seen_agent_ids: set[str] = set()
+        for item in subagent_values:
+            if not isinstance(item, dict):
+                raise GateError(
+                    EXIT_OWNERSHIP,
+                    "Файл владения содержит повреждённую запись субагента.",
+                )
+            try:
+                agent_id = validate_subagent_field(item.get("agent_id"), "agent_id")
+                agent_type = validate_subagent_field(
+                    item.get("agent_type"),
+                    "agent_type",
+                )
+                first_turn_id = validate_task_id(item.get("first_turn_id"))
+            except GateError as exc:
+                raise GateError(EXIT_OWNERSHIP, str(exc)) from exc
+            if agent_id in seen_agent_ids:
+                raise GateError(
+                    EXIT_OWNERSHIP,
+                    "Файл владения содержит повторяющийся agent_id субагента.",
+                )
+            seen_agent_ids.add(agent_id)
+            parsed_subagents.append(
+                SubagentGrant(
+                    agent_id=agent_id,
+                    agent_type=agent_type,
+                    first_turn_id=first_turn_id,
+                )
+            )
+        pending_subagent_starts = pending_value
+        subagents = tuple(parsed_subagents)
     return LockRecord(
+        schema_version=schema_version,
         task_id=task_id,
         turn_id=turn_id,
         branch_ref=branch_ref,
         acquired_at=acquired_at,
         lease_id=lease_id,
         worktree_id=worktree_id,
+        pending_subagent_starts=pending_subagent_starts,
+        subagents=subagents,
     )
 
 
@@ -491,12 +612,15 @@ def new_lock_record(
     turn_id: str | None,
 ) -> LockRecord:
     return LockRecord(
+        schema_version=SCHEMA_VERSION,
         task_id=task_id,
         turn_id=task_id if turn_id is None else turn_id,
         branch_ref=context.branch_ref,
         acquired_at=datetime.now(timezone.utc).isoformat(),
         lease_id=uuid.uuid4().hex,
         worktree_id=context.worktree_id,
+        pending_subagent_starts=0,
+        subagents=(),
     )
 
 
@@ -575,17 +699,15 @@ def create_lock(
     return record
 
 
-def replace_lock(
+def publish_lock_replacement(
     context: GateContext,
     *,
     expected_lease_id: str,
-    task_id: str,
-    turn_id: str,
+    record: LockRecord,
 ) -> LockRecord | None:
     active = read_lock(context)
     if active is None or active.lease_id != expected_lease_id:
         return None
-    record = new_lock_record(context, task_id, turn_id)
     temporary_path = write_temporary_lock(context, record)
     try:
         os.replace(temporary_path, context.lock_path)
@@ -603,6 +725,45 @@ def replace_lock(
         except OSError:
             pass
     return record
+
+
+def replace_lock(
+    context: GateContext,
+    *,
+    expected_lease_id: str,
+    task_id: str,
+    turn_id: str,
+) -> LockRecord | None:
+    return publish_lock_replacement(
+        context,
+        expected_lease_id=expected_lease_id,
+        record=new_lock_record(context, task_id, turn_id),
+    )
+
+
+def rewrite_subagent_state(
+    context: GateContext,
+    record: LockRecord,
+    *,
+    pending_subagent_starts: int,
+    subagents: tuple[SubagentGrant, ...],
+) -> LockRecord | None:
+    updated = LockRecord(
+        schema_version=SCHEMA_VERSION,
+        task_id=record.task_id,
+        turn_id=record.turn_id,
+        branch_ref=record.branch_ref,
+        acquired_at=record.acquired_at,
+        lease_id=record.lease_id,
+        worktree_id=record.worktree_id,
+        pending_subagent_starts=pending_subagent_starts,
+        subagents=subagents,
+    )
+    return publish_lock_replacement(
+        context,
+        expected_lease_id=record.lease_id,
+        record=updated,
+    )
 
 
 def unlink_lock(
@@ -753,11 +914,19 @@ def state_payload(
     state: str,
 ) -> dict[str, object]:
     payload: dict[str, object] = {
-        "schema_version": SCHEMA_VERSION,
+        "schema_version": (
+            SCHEMA_VERSION if record is None else record.schema_version
+        ),
         "state": state,
         "branch_ref": context.branch_ref,
         "blocking_paths": dirty,
         "ignored_obsidian_count": len(obsidian),
+        "pending_subagent_start_count": (
+            0 if record is None else record.pending_subagent_starts
+        ),
+        "authorized_subagent_count": (
+            0 if record is None else len(record.subagents)
+        ),
     }
     if record is not None:
         payload["task_id"] = record.task_id
@@ -923,6 +1092,136 @@ def acquire(
             write_waiting_signal(waiting_signal_file)
             waiting_signaled = True
         time.sleep(poll_seconds)
+
+
+def authorize_tool_call(
+    context: GateContext,
+    task_id: str,
+    turn_id: str,
+    *,
+    subagent_identity: tuple[str, str] | None,
+    tool_name: str | None,
+) -> None:
+    with transition_lock(context):
+        ensure_branch_unchanged(context)
+        ensure_no_conflicting_lease(context, task_id)
+        record = read_lock(context)
+        if record is None or record.task_id != task_id:
+            raise GateError(
+                EXIT_OWNERSHIP,
+                "Веточный барьер не нашёл владение текущего корневого хода.",
+            )
+
+        if subagent_identity is None:
+            if record.turn_id != turn_id:
+                raise GateError(
+                    EXIT_OWNERSHIP,
+                    "Корневой ход больше не владеет текущей Git-веткой.",
+                )
+        else:
+            agent_id, agent_type = subagent_identity
+            grant = next(
+                (
+                    candidate
+                    for candidate in record.subagents
+                    if candidate.agent_id == agent_id
+                ),
+                None,
+            )
+            if grant is None or grant.agent_type != agent_type:
+                raise GateError(
+                    EXIT_OWNERSHIP,
+                    "Субагент не зарегистрирован в текущем поколении "
+                    "владения Git-веткой.",
+                )
+
+        if tool_name != SPAWN_AGENT_TOOL_NAME:
+            return
+        if record.pending_subagent_starts >= MAX_PENDING_SUBAGENT_STARTS:
+            raise GateError(
+                EXIT_OWNERSHIP,
+                "В текущем поколении уже ожидается слишком много запусков "
+                "субагентов.",
+            )
+        updated = rewrite_subagent_state(
+            context,
+            record,
+            pending_subagent_starts=record.pending_subagent_starts + 1,
+            subagents=record.subagents,
+        )
+        if updated is None:
+            raise GateError(
+                EXIT_OWNERSHIP,
+                "Поколение владения изменилось при регистрации запуска "
+                "субагента.",
+            )
+
+
+def admit_subagent(
+    context: GateContext,
+    task_id: str,
+    turn_id: str,
+    *,
+    agent_id: str,
+    agent_type: str,
+) -> None:
+    with transition_lock(context):
+        ensure_branch_unchanged(context)
+        ensure_no_conflicting_lease(context, task_id)
+        record = read_lock(context)
+        if record is None or record.task_id != task_id:
+            raise GateError(
+                EXIT_OWNERSHIP,
+                "Субагент запущен вне текущего владения Git-веткой.",
+            )
+
+        existing = next(
+            (
+                candidate
+                for candidate in record.subagents
+                if candidate.agent_id == agent_id
+            ),
+            None,
+        )
+        if existing is not None:
+            if existing.agent_type != agent_type:
+                raise GateError(
+                    EXIT_OWNERSHIP,
+                    "Повторный SubagentStart изменил agent_type уже "
+                    "зарегистрированного субагента.",
+                )
+            return
+        if record.pending_subagent_starts == 0:
+            raise GateError(
+                EXIT_OWNERSHIP,
+                "SubagentStart не соответствует разрешённому вызову "
+                "spawn_agent текущего поколения.",
+            )
+        if len(record.subagents) >= MAX_AUTHORIZED_SUBAGENTS:
+            raise GateError(
+                EXIT_OWNERSHIP,
+                "В текущем поколении зарегистрировано слишком много "
+                "субагентов.",
+            )
+
+        updated = rewrite_subagent_state(
+            context,
+            record,
+            pending_subagent_starts=record.pending_subagent_starts - 1,
+            subagents=(
+                *record.subagents,
+                SubagentGrant(
+                    agent_id=agent_id,
+                    agent_type=agent_type,
+                    first_turn_id=turn_id,
+                ),
+            ),
+        )
+        if updated is None:
+            raise GateError(
+                EXIT_OWNERSHIP,
+                "Поколение владения изменилось при допуске субагента.",
+            )
 
 
 def release(
@@ -1118,6 +1417,20 @@ def hook_prompt_admission() -> None:
     )
 
 
+def hook_subagent_admission(event_name: str) -> None:
+    print(
+        json.dumps(
+            {
+                "hookSpecificOutput": {
+                    "hookEventName": event_name,
+                    "additionalContext": SUBAGENT_ADMISSION_MARKER,
+                },
+            },
+            ensure_ascii=False,
+        )
+    )
+
+
 def hook_warning(message: str) -> None:
     print(
         json.dumps(
@@ -1147,7 +1460,7 @@ def hook_tool_denial(message: str) -> None:
 
 
 def emit_hook_error(event: object, message: str) -> None:
-    if event == "Stop":
+    if event in ("Stop", "SubagentStart"):
         hook_warning(message)
     elif event == "PreToolUse":
         hook_tool_denial(message)
@@ -1171,12 +1484,23 @@ def hook_command(args: argparse.Namespace) -> int:
         event = actual_event
         task_id = validate_task_id(payload.get("session_id"))
         turn_id = validate_task_id(payload.get("turn_id"))
+        subagent_identity = parse_optional_subagent_identity(payload)
         cwd = payload.get("cwd")
         if not isinstance(cwd, str) or not cwd:
             raise GateError(EXIT_CLI, "Hook не получил рабочий каталог Codex.")
         context = resolve_context(Path(cwd))
 
         if event == "UserPromptSubmit":
+            if subagent_identity is not None:
+                authorize_tool_call(
+                    context,
+                    task_id,
+                    turn_id,
+                    subagent_identity=subagent_identity,
+                    tool_name=None,
+                )
+                hook_subagent_admission("UserPromptSubmit")
+                return 0
             _, exit_code = acquire(
                 context,
                 task_id,
@@ -1194,25 +1518,57 @@ def hook_command(args: argparse.Namespace) -> int:
                 )
             hook_prompt_admission()
             return 0
-        if event == "PreToolUse":
-            acquisition, exit_code = acquire(
+        if event == "SubagentStart":
+            if subagent_identity is None:
+                raise GateError(
+                    EXIT_CLI,
+                    "SubagentStart не получил agent_id и agent_type.",
+                )
+            agent_id, agent_type = subagent_identity
+            admit_subagent(
                 context,
                 task_id,
-                turn_id=turn_id,
-                renew_turn=False,
-                timeout_seconds=0,
-                poll_seconds=1.0,
-                include_obsidian_diagnostics=False,
+                turn_id,
+                agent_id=agent_id,
+                agent_type=agent_type,
             )
-            if (
-                exit_code != 0
-                or acquisition.get("ownership") == "existing_session"
-            ):
-                hook_tool_denial(
-                    "Веточный барьер запретил локальный инструмент: этот "
-                    "ход больше не владеет текущей Git-веткой или рабочее "
-                    "дерево нельзя безопасно закрепить за ним."
+            hook_subagent_admission("SubagentStart")
+            return 0
+        if event == "PreToolUse":
+            tool_name = payload.get("tool_name")
+            if not isinstance(tool_name, str) or not tool_name:
+                raise GateError(
+                    EXIT_CLI,
+                    "PreToolUse не получил каноническое имя инструмента.",
                 )
+            if subagent_identity is None:
+                acquisition, exit_code = acquire(
+                    context,
+                    task_id,
+                    turn_id=turn_id,
+                    renew_turn=False,
+                    timeout_seconds=0,
+                    poll_seconds=1.0,
+                    include_obsidian_diagnostics=False,
+                )
+                if (
+                    exit_code != 0
+                    or acquisition.get("ownership") == "existing_session"
+                ):
+                    hook_tool_denial(
+                        "Веточный барьер запретил локальный инструмент: "
+                        "этот корневой ход больше не владеет текущей "
+                        "Git-веткой или рабочее дерево нельзя безопасно "
+                        "закрепить за ним."
+                    )
+                    return 0
+            authorize_tool_call(
+                context,
+                task_id,
+                turn_id,
+                subagent_identity=subagent_identity,
+                tool_name=tool_name,
+            )
             return 0
         if event == "Stop":
             _, exit_code = release(
@@ -1244,9 +1600,17 @@ def hook_command(args: argparse.Namespace) -> int:
         emit_hook_error(event, message)
         return 0
     except GateError as exc:
-        if event == "Stop":
+        if event in ("Stop", "SubagentStart"):
             hook_warning(
-                f"{exc} Владение не снято автоматически; проверьте барьер вручную."
+                (
+                    f"{exc} Владение не снято автоматически; проверьте "
+                    "барьер вручную."
+                    if event == "Stop"
+                    else (
+                        f"{exc} Локальные инструменты этого субагента "
+                        "останутся запрещены."
+                    )
+                )
             )
         elif event == "PreToolUse":
             hook_tool_denial(str(exc))
@@ -1353,7 +1717,7 @@ def parse_args() -> argparse.Namespace:
 
     hook_parser = subparsers.add_parser(
         "hook",
-        help="Обработать JSON события Codex UserPromptSubmit или Stop.",
+        help="Обработать JSON события Codex веточного барьера.",
     )
     hook_parser.add_argument(
         "--wait-timeout-seconds",
@@ -1371,7 +1735,12 @@ def parse_args() -> argparse.Namespace:
     )
     hook_parser.add_argument(
         "--expected-event",
-        choices=("UserPromptSubmit", "PreToolUse", "Stop"),
+        choices=(
+            "UserPromptSubmit",
+            "SubagentStart",
+            "PreToolUse",
+            "Stop",
+        ),
         help=argparse.SUPPRESS,
     )
     hook_parser.set_defaults(handler=hook_command)
