@@ -14,7 +14,10 @@ public final class GCKeyboardSource: MacKeyboardObservationSource, @unchecked Se
     self.timestampNormalizer = timestampNormalizer
   }
 
-  public func start(handler: @escaping KeyboardObservationHandler) throws {
+  public func start(
+    handler: @escaping KeyboardObservationHandler,
+    diagnosticHandler: @escaping KeyboardSourceDiagnosticHandler
+  ) throws {
     guard keyboard == nil else {
       throw MacKeyboardSourceError.alreadyRunning
     }

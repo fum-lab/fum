@@ -70,20 +70,7 @@ private func makeSource(_ rawValue: String) throws -> any MacKeyboardObservation
       "неизвестный источник: \(rawValue)"
     )
   }
-  switch source {
-  case .ioHIDManager:
-    return IOHIDKeyboardSource()
-  case .gcKeyboard:
-    return GCKeyboardSource()
-  case .cgEventTap:
-    return CGEventTapKeyboardSource()
-  case .nsEvent:
-    return NSEventKeyboardSource()
-  case .uiPresses:
-    throw MacKeyboardSourceError.sourceUnavailable(
-      "ui-presses проверяется в приложении iOS/iPadOS/tvOS/visionOS"
-    )
-  }
+  return try MacKeyboardObservationSourceFactory.make(source)
 }
 
 private func printUsage() {

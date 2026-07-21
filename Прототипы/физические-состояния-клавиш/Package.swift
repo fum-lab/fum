@@ -10,6 +10,7 @@ let package = Package(
   products: [
     .library(name: "FUMInputCore", targets: ["FUMInputCore"]),
     .library(name: "FUMInputMac", targets: ["FUMInputMac"]),
+    .executable(name: "FUMInputGuide", targets: ["FUMInputGuide"]),
     .executable(name: "FUMInputProbe", targets: ["FUMInputProbe"]),
   ],
   targets: [
@@ -26,6 +27,15 @@ let package = Package(
         .linkedFramework("CoreGraphics"),
         .linkedFramework("GameController"),
         .linkedFramework("IOKit"),
+      ]
+    ),
+    .executableTarget(
+      name: "FUMInputGuide",
+      dependencies: ["FUMInputCore", "FUMInputMac"],
+      path: "Sources/FUMInputGuide",
+      linkerSettings: [
+        .linkedFramework("AppKit"),
+        .linkedFramework("SwiftUI"),
       ]
     ),
     .executableTarget(

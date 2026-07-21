@@ -8,7 +8,7 @@ public enum IOHIDObservationFactory {
     integerValue: Int,
     monotonicNanoseconds: UInt64
   ) -> PhysicalKeyObservation? {
-    guard usagePage == 0x07 else {
+    guard usagePage == 0x07 || usagePage == 0x0C else {
       return nil
     }
     return .init(
@@ -38,7 +38,8 @@ public enum CGEventObservationFactory {
     virtualKeyCode: UInt32,
     monotonicNanoseconds: UInt64,
     isAutoRepeat: Bool,
-    queriedPhysicalState: Bool?
+    queriedPhysicalState: Bool?,
+    modifierFlags: [KeyboardModifierFlag] = []
   ) -> PhysicalKeyObservation? {
     let state: PhysicalKeyState?
     switch type {
@@ -59,7 +60,24 @@ public enum CGEventObservationFactory {
       ),
       state: state,
       monotonicNanoseconds: monotonicNanoseconds,
-      isAutoRepeat: isAutoRepeat
+      isAutoRepeat: isAutoRepeat,
+      diagnostics: .init(
+        platformEventKind: type.platformEventKind,
+        modifierFlags: modifierFlags
+      )
     )
+  }
+}
+
+extension CGKeyboardEventKind {
+  fileprivate var platformEventKind: KeyboardPlatformEventKind {
+    switch self {
+    case .keyDown:
+      .keyDown
+    case .keyUp:
+      .keyUp
+    case .flagsChanged:
+      .flagsChanged
+    }
   }
 }

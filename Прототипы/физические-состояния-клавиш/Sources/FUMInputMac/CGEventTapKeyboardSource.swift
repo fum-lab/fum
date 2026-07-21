@@ -8,13 +8,17 @@ public final class CGEventTapKeyboardSource: MacKeyboardObservationSource, @unch
   private var eventTap: CFMachPort?
   private var runLoopSource: CFRunLoopSource?
   private var handler: KeyboardObservationHandler?
+  private var diagnosticHandler: KeyboardSourceDiagnosticHandler?
   private let timestampNormalizer: MonotonicTimestampNormalizer
 
   public init(timestampNormalizer: MonotonicTimestampNormalizer = .system) {
     self.timestampNormalizer = timestampNormalizer
   }
 
-  public func start(handler: @escaping KeyboardObservationHandler) throws {
+  public func start(
+    handler: @escaping KeyboardObservationHandler,
+    diagnosticHandler: @escaping KeyboardSourceDiagnosticHandler
+  ) throws {
     guard eventTap == nil else {
       throw MacKeyboardSourceError.alreadyRunning
     }
@@ -39,8 +43,9 @@ public final class CGEventTapKeyboardSource: MacKeyboardObservationSource, @unch
       )
     }
     let source = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, eventTap, 0)
-    CFRunLoopAddSource(CFRunLoopGetCurrent(), source, .defaultMode)
+    CFRunLoopAddSource(CFRunLoopGetCurrent(), source, .commonModes)
     self.handler = handler
+    self.diagnosticHandler = diagnosticHandler
     self.eventTap = eventTap
     self.runLoopSource = source
     CGEvent.tapEnable(tap: eventTap, enable: true)
@@ -48,7 +53,7 @@ public final class CGEventTapKeyboardSource: MacKeyboardObservationSource, @unch
 
   public func stop() {
     if let runLoopSource {
-      CFRunLoopRemoveSource(CFRunLoopGetCurrent(), runLoopSource, .defaultMode)
+      CFRunLoopRemoveSource(CFRunLoopGetCurrent(), runLoopSource, .commonModes)
     }
     if let eventTap {
       CGEvent.tapEnable(tap: eventTap, enable: false)
@@ -56,10 +61,20 @@ public final class CGEventTapKeyboardSource: MacKeyboardObservationSource, @unch
     runLoopSource = nil
     eventTap = nil
     handler = nil
+    diagnosticHandler = nil
   }
 
   fileprivate func receive(type: CGEventType, event: CGEvent) {
     if type == .tapDisabledByTimeout || type == .tapDisabledByUserInput {
+      diagnosticHandler?(
+        .init(
+          source: .cgEventTap,
+          kind: type == .tapDisabledByTimeout ? .tapDisabledByTimeout : .tapDisabledByUserInput,
+          monotonicNanoseconds: Self.normalizedTimestamp(
+            fromNanosecondsSinceStartup: event.timestamp,
+            using: timestampNormalizer
+          )
+        ))
       if let eventTap {
         CGEvent.tapEnable(tap: eventTap, enable: true)
       }
@@ -96,7 +111,8 @@ public final class CGEventTapKeyboardSource: MacKeyboardObservationSource, @unch
           using: timestampNormalizer
         ),
         isAutoRepeat: isAutoRepeat,
-        queriedPhysicalState: queriedState
+        queriedPhysicalState: queriedState,
+        modifierFlags: Self.modifierFlags(from: event.flags)
       )
     else {
       return
@@ -115,6 +131,24 @@ public final class CGEventTapKeyboardSource: MacKeyboardObservationSource, @unch
     types.reduce(CGEventMask(0)) {
       $0 | (CGEventMask(1) << CGEventMask($1.rawValue))
     }
+  }
+
+  private static func modifierFlags(from flags: CGEventFlags) -> [KeyboardModifierFlag] {
+    var result: [KeyboardModifierFlag] = []
+    let mappings: [(CGEventFlags, KeyboardModifierFlag)] = [
+      (.maskAlphaShift, .capsLock),
+      (.maskShift, .shift),
+      (.maskControl, .control),
+      (.maskAlternate, .option),
+      (.maskCommand, .command),
+      (.maskNumericPad, .numericPad),
+      (.maskHelp, .help),
+      (.maskSecondaryFn, .secondaryFn),
+    ]
+    for (mask, name) in mappings where flags.contains(mask) {
+      result.append(name)
+    }
+    return result
   }
 }
 

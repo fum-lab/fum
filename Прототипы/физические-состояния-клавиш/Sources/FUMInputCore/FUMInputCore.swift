@@ -16,6 +16,36 @@ public enum PhysicalKeyCodeSpace: String, Codable, Sendable {
   case macVirtualKeyCode
 }
 
+public enum KeyboardPlatformEventKind: String, Codable, Sendable {
+  case keyDown
+  case keyUp
+  case flagsChanged
+}
+
+public enum KeyboardModifierFlag: String, Codable, Sendable {
+  case capsLock
+  case shift
+  case control
+  case option
+  case command
+  case numericPad
+  case help
+  case secondaryFn
+}
+
+public struct KeyboardObservationDiagnostics: Codable, Equatable, Sendable {
+  public let platformEventKind: KeyboardPlatformEventKind
+  public let modifierFlags: [KeyboardModifierFlag]
+
+  public init(
+    platformEventKind: KeyboardPlatformEventKind,
+    modifierFlags: [KeyboardModifierFlag]
+  ) {
+    self.platformEventKind = platformEventKind
+    self.modifierFlags = modifierFlags
+  }
+}
+
 public struct PhysicalKey: Codable, Hashable, Sendable {
   public let deviceID: String
   public let codeSpace: PhysicalKeyCodeSpace
@@ -41,19 +71,22 @@ public struct PhysicalKeyObservation: Codable, Equatable, Sendable {
   public let state: PhysicalKeyState?
   public let monotonicNanoseconds: UInt64
   public let isAutoRepeat: Bool
+  public let diagnostics: KeyboardObservationDiagnostics?
 
   public init(
     source: InputSourceID,
     key: PhysicalKey,
     state: PhysicalKeyState?,
     monotonicNanoseconds: UInt64,
-    isAutoRepeat: Bool
+    isAutoRepeat: Bool,
+    diagnostics: KeyboardObservationDiagnostics? = nil
   ) {
     self.source = source
     self.key = key
     self.state = state
     self.monotonicNanoseconds = monotonicNanoseconds
     self.isAutoRepeat = isAutoRepeat
+    self.diagnostics = diagnostics
   }
 }
 

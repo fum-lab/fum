@@ -25,4 +25,8 @@ public enum MacInputEnvironment {
       listenEventAccess: CGPreflightListenEventAccess()
     )
   }
+
+  public static func requestListenEventAccess() -> Bool {
+    CGRequestListenEventAccess()
+  }
 }

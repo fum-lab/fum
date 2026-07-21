@@ -12,6 +12,7 @@
     {
       "package": "Прототипы/физические-состояния-клавиш",
       "executableProducts": [
+        "FUMInputGuide",
         "FUMInputProbe"
       ]
     }

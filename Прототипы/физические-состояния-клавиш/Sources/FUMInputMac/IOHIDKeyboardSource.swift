@@ -25,6 +25,11 @@ public struct HIDKeyboardDeviceSummary: Codable, Equatable, Sendable {
   }
 }
 
+struct HIDTopLevelUsageProfile: Equatable, Sendable {
+  let usagePage: Int
+  let usage: Int
+}
+
 public final class IOHIDKeyboardSource: MacKeyboardObservationSource, @unchecked Sendable {
   public let sourceID: InputSourceID = .ioHIDManager
 
@@ -39,7 +44,10 @@ public final class IOHIDKeyboardSource: MacKeyboardObservationSource, @unchecked
     self.timestampNormalizer = timestampNormalizer
   }
 
-  public func start(handler: @escaping KeyboardObservationHandler) throws {
+  public func start(
+    handler: @escaping KeyboardObservationHandler,
+    diagnosticHandler: @escaping KeyboardSourceDiagnosticHandler
+  ) throws {
     lock.lock()
     defer { lock.unlock() }
     guard manager == nil else {
@@ -47,7 +55,7 @@ public final class IOHIDKeyboardSource: MacKeyboardObservationSource, @unchecked
     }
 
     let manager = IOHIDManagerCreate(kCFAllocatorDefault, IOOptionBits(kIOHIDOptionsTypeNone))
-    IOHIDManagerSetDeviceMatching(manager, Self.keyboardMatchingDictionary)
+    IOHIDManagerSetDeviceMatchingMultiple(manager, Self.inputMatchingDictionaries)
     IOHIDManagerRegisterInputValueCallback(
       manager,
       iohidInputValueCallback,
@@ -95,7 +103,7 @@ public final class IOHIDKeyboardSource: MacKeyboardObservationSource, @unchecked
     let element = IOHIDValueGetElement(value)
     let usagePage = IOHIDElementGetUsagePage(element)
     let usage = IOHIDElementGetUsage(element)
-    guard usagePage == 0x07 else {
+    guard usagePage == 0x07 || usagePage == 0x0C else {
       return
     }
     let device = IOHIDElementGetDevice(element)
@@ -173,6 +181,26 @@ public final class IOHIDKeyboardSource: MacKeyboardObservationSource, @unchecked
       kIOHIDDeviceUsagePageKey as String: kHIDPage_GenericDesktop,
       kIOHIDDeviceUsageKey as String: kHIDUsage_GD_Keyboard,
     ] as CFDictionary
+  }
+
+  static let observedTopLevelUsages = [
+    HIDTopLevelUsageProfile(
+      usagePage: kHIDPage_GenericDesktop,
+      usage: kHIDUsage_GD_Keyboard
+    ),
+    HIDTopLevelUsageProfile(
+      usagePage: 0x0C,
+      usage: 0x01
+    ),
+  ]
+
+  private static var inputMatchingDictionaries: CFArray {
+    observedTopLevelUsages.map { profile in
+      [
+        kIOHIDDeviceUsagePageKey as String: profile.usagePage,
+        kIOHIDDeviceUsageKey as String: profile.usage,
+      ] as CFDictionary
+    } as CFArray
   }
 
   private static func intProperty(_ key: String, device: IOHIDDevice) -> Int? {

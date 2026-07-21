@@ -5,7 +5,8 @@ import FUMInputCore
 public final class NSEventKeyboardSource: MacKeyboardObservationSource, @unchecked Sendable {
   public let sourceID: InputSourceID = .nsEvent
 
-  private var monitor: Any?
+  private var globalMonitor: Any?
+  private var localMonitor: Any?
   private var handler: KeyboardObservationHandler?
   private let timestampNormalizer: MonotonicTimestampNormalizer
 
@@ -13,8 +14,11 @@ public final class NSEventKeyboardSource: MacKeyboardObservationSource, @uncheck
     self.timestampNormalizer = timestampNormalizer
   }
 
-  public func start(handler: @escaping KeyboardObservationHandler) throws {
-    guard monitor == nil else {
+  public func start(
+    handler: @escaping KeyboardObservationHandler,
+    diagnosticHandler: @escaping KeyboardSourceDiagnosticHandler
+  ) throws {
+    guard globalMonitor == nil, localMonitor == nil else {
       throw MacKeyboardSourceError.alreadyRunning
     }
     guard CGPreflightListenEventAccess() else {
@@ -23,37 +27,58 @@ public final class NSEventKeyboardSource: MacKeyboardObservationSource, @uncheck
       )
     }
     self.handler = handler
-    monitor = NSEvent.addGlobalMonitorForEvents(
+    globalMonitor = NSEvent.addGlobalMonitorForEvents(
       matching: [.keyDown, .keyUp, .flagsChanged]
     ) { [weak self] event in
       self?.receive(event)
     }
-    guard monitor != nil else {
+    localMonitor = NSEvent.addLocalMonitorForEvents(
+      matching: [.keyDown, .keyUp, .flagsChanged]
+    ) { [weak self] event in
+      self?.receive(event)
+      return event
+    }
+    guard globalMonitor != nil, localMonitor != nil else {
+      if let globalMonitor {
+        NSEvent.removeMonitor(globalMonitor)
+      }
+      if let localMonitor {
+        NSEvent.removeMonitor(localMonitor)
+      }
+      globalMonitor = nil
+      localMonitor = nil
       self.handler = nil
       throw MacKeyboardSourceError.sourceUnavailable(
-        "глобальный NSEvent-монитор недоступен"
+        "локальный или глобальный NSEvent-монитор недоступен"
       )
     }
   }
 
   public func stop() {
-    if let monitor {
-      NSEvent.removeMonitor(monitor)
+    if let globalMonitor {
+      NSEvent.removeMonitor(globalMonitor)
     }
-    monitor = nil
+    if let localMonitor {
+      NSEvent.removeMonitor(localMonitor)
+    }
+    globalMonitor = nil
+    localMonitor = nil
     handler = nil
   }
 
   private func receive(_ event: NSEvent) {
     let state: PhysicalKeyState?
     let isAutoRepeat: Bool
+    let eventKind: KeyboardPlatformEventKind
     switch event.type {
     case .keyDown:
       state = .pressed
       isAutoRepeat = event.isARepeat
+      eventKind = .keyDown
     case .keyUp:
       state = .released
       isAutoRepeat = false
+      eventKind = .keyUp
     case .flagsChanged:
       state =
         CGEventSource.keyState(
@@ -61,6 +86,7 @@ public final class NSEventKeyboardSource: MacKeyboardObservationSource, @uncheck
           key: CGKeyCode(event.keyCode)
         ) ? .pressed : .released
       isAutoRepeat = false
+      eventKind = .flagsChanged
     default:
       return
     }
@@ -83,7 +109,11 @@ public final class NSEventKeyboardSource: MacKeyboardObservationSource, @uncheck
         ),
         state: state,
         monotonicNanoseconds: monotonicNanoseconds,
-        isAutoRepeat: isAutoRepeat
+        isAutoRepeat: isAutoRepeat,
+        diagnostics: .init(
+          platformEventKind: eventKind,
+          modifierFlags: Self.modifierFlags(from: event.modifierFlags)
+        )
       ))
   }
 
@@ -92,5 +122,23 @@ public final class NSEventKeyboardSource: MacKeyboardObservationSource, @uncheck
     using normalizer: MonotonicTimestampNormalizer
   ) -> UInt64? {
     normalizer.nanoseconds(fromSecondsSinceStartup: timestamp)
+  }
+
+  private static func modifierFlags(from flags: NSEvent.ModifierFlags) -> [KeyboardModifierFlag] {
+    var result: [KeyboardModifierFlag] = []
+    let mappings: [(NSEvent.ModifierFlags, KeyboardModifierFlag)] = [
+      (.capsLock, .capsLock),
+      (.shift, .shift),
+      (.control, .control),
+      (.option, .option),
+      (.command, .command),
+      (.numericPad, .numericPad),
+      (.help, .help),
+      (.function, .secondaryFn),
+    ]
+    for (mask, name) in mappings where flags.contains(mask) {
+      result.append(name)
+    }
+    return result
   }
 }
