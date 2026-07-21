@@ -27,6 +27,9 @@ PROTOTYPE_LAUNCH_CHECK_SCRIPT = Path(
 QUESTION_BACKLINKS_SCRIPT = Path(
     "Инструменты/fum-question-backlinks/scripts/check-question-backlinks.py"
 )
+README_INDEX_CHECK_SCRIPT = Path(
+    "Инструменты/fum-readme-index/scripts/check-readme-index.py"
+)
 CODEX_COMMIT_CONTEXT_RULE_START = (2026, 7, 14, 2, 31, 47)
 REQUEST_DATETIME_PREFIX_RE = re.compile(
     r"^(\d{4})-(\d{2})-(\d{2})_(\d{2})-(\d{2})-(\d{2})_MSK"
@@ -679,6 +682,14 @@ def build_steps(
         SmokeStep(
             name="Проверка двунаправленности вопросов",
             command=(python_cmd, question_backlinks_script),
+        )
+    )
+
+    readme_index_script = require_file(root, README_INDEX_CHECK_SCRIPT)
+    steps.append(
+        SmokeStep(
+            name="Проверка тематического индекса README",
+            command=(python_cmd, readme_index_script, "--repo-root", "."),
         )
     )
 

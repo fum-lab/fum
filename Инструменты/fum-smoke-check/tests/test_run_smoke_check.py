@@ -30,6 +30,7 @@ class RunSmokeCheckTests(unittest.TestCase):
             root / "Инструменты" / "fum-planning-registry" / "scripts" / "build-planning-registry.py",
             root / "Инструменты" / "fum-prototype-launch" / "scripts" / "check-prototype-launchers.py",
             root / "Инструменты" / "fum-question-backlinks" / "scripts" / "check-question-backlinks.py",
+            root / "Инструменты" / "fum-readme-index" / "scripts" / "check-readme-index.py",
             root / "Инструменты" / "fum-md-recency" / "scripts" / "update-md-recency.py",
             root / "Инструменты" / "fum-obsidian-graph-recency" / "scripts" / "build-obsidian-graph-recency.py",
             root / "Инструменты" / "fum-session-coherence" / "scripts" / "check-session-coherence.py",
@@ -95,6 +96,7 @@ class RunSmokeCheckTests(unittest.TestCase):
                     "Проверка планового реестра",
                     "Проверка скриптов запуска прототипов",
                     "Проверка двунаправленности вопросов",
+                    "Проверка тематического индекса README",
                     "Проверка recency-меток Markdown",
                     "Проверка тепловой карты графа Obsidian",
                     "Проверка связности рабочей сессии",
@@ -112,6 +114,21 @@ class RunSmokeCheckTests(unittest.TestCase):
                     "python3",
                     "Инструменты/fum-question-backlinks/scripts/"
                     "check-question-backlinks.py",
+                ),
+            )
+            readme_step = next(
+                step
+                for step in steps
+                if step.name == "Проверка тематического индекса README"
+            )
+            self.assertEqual(
+                readme_step.command,
+                (
+                    "python3",
+                    "Инструменты/fum-readme-index/scripts/"
+                    "check-readme-index.py",
+                    "--repo-root",
+                    ".",
                 ),
             )
             self.assertEqual(
