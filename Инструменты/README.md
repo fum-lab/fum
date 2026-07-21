@@ -9,6 +9,7 @@
 ## Реестры
 
 - [Реестр системных приложений и инструментов](реестр-системных-приложений-и-инструментов.md) - фиксирует повторно используемые приложения, CLI-команды, инструменты среды агента, MCP-инструменты и способы проверки их версий.
+- [Реестр названий автоматизаций](реестр-названий-автоматизаций.json) - хранит кириллические источники, точные результаты LinguisticKit, технические slug, отображаемые имена, эталоны и временные legacy-исключения.
 
 ## Навыки
 
@@ -21,6 +22,7 @@
 - [fum-obsidian-graph-recency](fum-obsidian-graph-recency/SKILL.md) - обновляет группы цвета графа Obsidian как тепловую карту Markdown-узлов по времени последнего содержательного редактирования.
 - [fum-planning-registry](fum-planning-registry/SKILL.md) - собирает и проверяет машинно читаемый JSON-реестр канонических карточек требований, производных плановых представлений, MVP-кандидатов, предложений и вопросов.
 - [fum-project-files](fum-project-files/SKILL.md) - задаёт общий воспроизводимый инвентарь проектных Markdown-файлов и безопасные границы выходных путей служебных автоматизаций.
+- [fum-proverka-nazvanij-avtomatizacij](fum-proverka-nazvanij-avtomatizacij/SKILL.md) - проверяет точную транслитерацию новых и отображаемых имён, slug, legacy-набор, коллизии и явное состояние зависимости LinguisticKit.
 - [fum-prototype-launch](fum-prototype-launch/SKILL.md) - проверяет корневую POSIX-панель `prototipyi.sh` и обязательные `запустить.sh` у всех устойчивых прототипов.
 - [fum-question-backlinks](fum-question-backlinks/SKILL.md) - проверяет двунаправленность локальных ссылок между открытыми или частично прояснёнными вопросами и заявленной затронутой документацией.
 - [fum-readme-index](fum-readme-index/SKILL.md) - проверяет, что тематический индекс корневого `README.md` напрямую охватывает все номерные документы и папочные точки входа `Документация/`.
@@ -36,6 +38,7 @@
 - `python3 Инструменты/fum-prototype-launch/scripts/check-prototype-launchers.py` - проверка корневой панели `prototipyi.sh` и обязательных точек входа `запустить.sh` всех устойчивых прототипов.
 - `python3 Инструменты/fum-question-backlinks/scripts/check-question-backlinks.py` - автономная проверка существования, регистра и обратных ссылок всех локальных целей активных вопросов.
 - `python3 Инструменты/fum-readme-index/scripts/check-readme-index.py --repo-root .` - автономная проверка полноты тематического индекса номерной документации в корневом `README.md`.
+- `python3 Инструменты/fum-proverka-nazvanij-avtomatizacij/scripts/proveritj-nazvaniya-avtomatizacij.py --repo-root . --registry Инструменты/реестр-названий-автоматизаций.json` - автономная структурная либо живая проверка реестра названий автоматизаций.
 - `python3 Инструменты/fum-branch-task-gate/scripts/branch-task-gate.py status --repo-root . --json` - показывает владельца и блокирующие пути текущей Git-ветки; код `0` означает готовность, код `1` - занятое состояние.
 - `python3 Инструменты/fum-branch-next-step/scripts/branch-next-step.py validate --repo-root . --json` - проверяет записи следующих шагов и наличие ровно одного совпадения для активной именованной ветки.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-branch-next-step/tests -p 'test_*.py'` - локальные тесты выбора, повторной проверки, атомарного claim и fenced-восстановления следующего шага ветки.
@@ -46,6 +49,7 @@
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-obsidian-graph-recency/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-obsidian-graph-recency`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-planning-registry/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-planning-registry`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-project-files/tests -p 'test_*.py'` - локальные тесты общей политики проектных файлов.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-proverka-nazvanij-avtomatizacij/tests -p 'test_*.py'` - локальные тесты реестра русских латинских названий автоматизаций.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-prototype-launch/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-prototype-launch`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-question-backlinks/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-question-backlinks`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-readme-index/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-readme-index`.
@@ -58,8 +62,9 @@
 ## Источники требований
 
 - [исходный запрос 2026-07-21 11:32:46 MSK - Актуализировать входные описания FUM](../Запросы/2026-07-21_11-32-46_MSK_актуализировать-входные-описания-FUM.md)
+- [исходный запрос 2026-07-21 12:18:37 MSK - Закрепить транслитерацию названий автоматизаций](../Запросы/2026-07-21_12-18-37_MSK_закрепить-транслитерацию-названий-автоматизаций.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-21 12:14:16 MSK -->
-<!-- content-sha256: sha256:48f5be8bd8e3ec1eeea6917e0d5cc14cf4f59af8e66f22540717c4e10b874f30 -->
+<!-- last-content-edit: 2026-07-21 12:41:09 MSK -->
+<!-- content-sha256: sha256:a5407111ca28aea877b02b61c31644fff20b6b68c0fc4efe77ceb840c4bf62bc -->
 <!-- FUM-MD-RECENCY:END -->

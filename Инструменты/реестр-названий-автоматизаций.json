@@ -1,0 +1,84 @@
+{
+  "schema": "fum.automation-names.v1",
+  "linguistic_kit": {
+    "path": "Зависимости/LinguisticKit",
+    "repository": "https://github.com/Roman-Kerimov/LinguisticKit.git",
+    "revision": "837e2ce107b97ee7b9d3344c9fe99142281fe393",
+    "source_script": "Cyrl",
+    "target_script": "Latn",
+    "table": "ru",
+    "materialization": {
+      "status": "blocked",
+      "reason": "Допустимый источник зависимости ещё не материализован; точная причина сохранена в исходном запросе рабочей сессии."
+    }
+  },
+  "golden": [
+    {
+      "source": "автоматизации",
+      "transliteration": "avtomatizacii"
+    },
+    {
+      "source": "имён",
+      "transliteration": "imyon"
+    },
+    {
+      "source": "следующий шаг ветки",
+      "transliteration": "sleduyusjhij shag vetki"
+    },
+    {
+      "source": "прототипы",
+      "transliteration": "prototipyi"
+    },
+    {
+      "source": "проверка названий автоматизаций",
+      "transliteration": "proverka nazvanij avtomatizacij"
+    }
+  ],
+  "current": [
+    {
+      "source": "проверка названий автоматизаций",
+      "transliteration": "proverka nazvanij avtomatizacij",
+      "slug": "fum-proverka-nazvanij-avtomatizacij"
+    }
+  ],
+  "display": [
+    {
+      "source": "Запуск следующего шага активной ветки",
+      "transliteration": "Zapusk sleduyusjhego shaga aktivnoj vetki"
+    },
+    {
+      "source": "Ежедневный отчёт памяти FUM",
+      "transliteration": "YEzhednevnyij otchyot pamyati FUM"
+    },
+    {
+      "source": "Автокоммит памяти сессий Codex",
+      "transliteration": "Avtokommit pamyati sessij Codex"
+    },
+    {
+      "source": "Еженедельное обновление Homebrew",
+      "transliteration": "Yezhenedeljnoye obnovleniye Homebrew"
+    }
+  ],
+  "legacy_display": [
+    "построение описания FUM для адресата"
+  ],
+  "legacy": [
+    "fum-branch-next-step",
+    "fum-branch-task-gate",
+    "fum-doc-aggregation",
+    "fum-estimates",
+    "fum-glossary",
+    "fum-md-recency",
+    "fum-obsidian-graph-recency",
+    "fum-planning-registry",
+    "fum-project-files",
+    "fum-prototype-launch",
+    "fum-question-backlinks",
+    "fum-readme-index",
+    "fum-request-materials",
+    "fum-session-coherence",
+    "fum-session-time",
+    "fum-smoke-check",
+    "fum-work-review"
+  ]
+}

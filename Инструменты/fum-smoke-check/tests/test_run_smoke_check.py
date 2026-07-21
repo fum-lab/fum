@@ -31,6 +31,7 @@ class RunSmokeCheckTests(unittest.TestCase):
             root / "Инструменты" / "fum-prototype-launch" / "scripts" / "check-prototype-launchers.py",
             root / "Инструменты" / "fum-question-backlinks" / "scripts" / "check-question-backlinks.py",
             root / "Инструменты" / "fum-readme-index" / "scripts" / "check-readme-index.py",
+            root / "Инструменты" / "fum-proverka-nazvanij-avtomatizacij" / "scripts" / "proveritj-nazvaniya-avtomatizacij.py",
             root / "Инструменты" / "fum-md-recency" / "scripts" / "update-md-recency.py",
             root / "Инструменты" / "fum-obsidian-graph-recency" / "scripts" / "build-obsidian-graph-recency.py",
             root / "Инструменты" / "fum-session-coherence" / "scripts" / "check-session-coherence.py",
@@ -40,6 +41,8 @@ class RunSmokeCheckTests(unittest.TestCase):
 
         output = root / "Планирование" / "реестр-требований-вариантов-и-кандидатов.json"
         output.parent.mkdir(parents=True, exist_ok=True)
+        names_registry = root / "Инструменты" / "реестр-названий-автоматизаций.json"
+        names_registry.write_text("{}\n", encoding="utf-8")
 
     def write_swift_package_fixture(self, root: Path, name: str) -> Path:
         package = root / "Прототипы" / name
@@ -94,6 +97,7 @@ class RunSmokeCheckTests(unittest.TestCase):
                     "Тесты fum-beta",
                     "Сборка планового реестра",
                     "Проверка планового реестра",
+                    "Проверка реестра названий автоматизаций",
                     "Проверка скриптов запуска прототипов",
                     "Проверка двунаправленности вопросов",
                     "Проверка тематического индекса README",
@@ -129,6 +133,22 @@ class RunSmokeCheckTests(unittest.TestCase):
                     "check-readme-index.py",
                     "--repo-root",
                     ".",
+                ),
+            )
+            self.assertEqual(
+                next(
+                    step
+                    for step in steps
+                    if step.name == "Проверка реестра названий автоматизаций"
+                ).command,
+                (
+                    "python3",
+                    "Инструменты/fum-proverka-nazvanij-avtomatizacij/scripts/"
+                    "proveritj-nazvaniya-avtomatizacij.py",
+                    "--repo-root",
+                    ".",
+                    "--registry",
+                    "Инструменты/реестр-названий-автоматизаций.json",
                 ),
             )
             self.assertEqual(

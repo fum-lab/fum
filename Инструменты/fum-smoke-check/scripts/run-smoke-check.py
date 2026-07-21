@@ -30,6 +30,13 @@ QUESTION_BACKLINKS_SCRIPT = Path(
 README_INDEX_CHECK_SCRIPT = Path(
     "Инструменты/fum-readme-index/scripts/check-readme-index.py"
 )
+AUTOMATION_NAMES_CHECK_SCRIPT = Path(
+    "Инструменты/fum-proverka-nazvanij-avtomatizacij/scripts/"
+    "proveritj-nazvaniya-avtomatizacij.py"
+)
+AUTOMATION_NAMES_REGISTRY = Path(
+    "Инструменты/реестр-названий-автоматизаций.json"
+)
 CODEX_COMMIT_CONTEXT_RULE_START = (2026, 7, 14, 2, 31, 47)
 REQUEST_DATETIME_PREFIX_RE = re.compile(
     r"^(\d{4})-(\d{2})-(\d{2})_(\d{2})-(\d{2})-(\d{2})_MSK"
@@ -666,6 +673,22 @@ def build_steps(
         SmokeStep(
             name="Проверка планового реестра",
             command=(python_cmd, planning_script, "validate", "--registry", planning_output),
+        )
+    )
+
+    automation_names_script = require_file(root, AUTOMATION_NAMES_CHECK_SCRIPT)
+    automation_names_registry = require_file(root, AUTOMATION_NAMES_REGISTRY)
+    steps.append(
+        SmokeStep(
+            name="Проверка реестра названий автоматизаций",
+            command=(
+                python_cmd,
+                automation_names_script,
+                "--repo-root",
+                ".",
+                "--registry",
+                automation_names_registry,
+            ),
         )
     )
 
