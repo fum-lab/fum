@@ -32,6 +32,7 @@ class RunSmokeCheckTests(unittest.TestCase):
             root / "Инструменты" / "fum-question-backlinks" / "scripts" / "check-question-backlinks.py",
             root / "Инструменты" / "fum-readme-index" / "scripts" / "check-readme-index.py",
             root / "Инструменты" / "fum-proverka-nazvanij-avtomatizacij" / "scripts" / "proveritj-nazvaniya-avtomatizacij.py",
+            root / "Инструменты" / "fum-proverka-git-zavisimostej" / "scripts" / "proveritj-git-zavisimostj.py",
             root / "Инструменты" / "fum-md-recency" / "scripts" / "update-md-recency.py",
             root / "Инструменты" / "fum-obsidian-graph-recency" / "scripts" / "build-obsidian-graph-recency.py",
             root / "Инструменты" / "fum-session-coherence" / "scripts" / "check-session-coherence.py",
@@ -98,6 +99,7 @@ class RunSmokeCheckTests(unittest.TestCase):
                     "Сборка планового реестра",
                     "Проверка планового реестра",
                     "Проверка реестра названий автоматизаций",
+                    "Проверка Git-зависимости LinguisticKit",
                     "Проверка скриптов запуска прототипов",
                     "Проверка двунаправленности вопросов",
                     "Проверка тематического индекса README",
@@ -149,6 +151,29 @@ class RunSmokeCheckTests(unittest.TestCase):
                     ".",
                     "--registry",
                     "Инструменты/реестр-названий-автоматизаций.json",
+                ),
+            )
+            self.assertEqual(
+                next(
+                    step
+                    for step in steps
+                    if step.name == "Проверка Git-зависимости LinguisticKit"
+                ).command,
+                (
+                    "python3",
+                    "Инструменты/fum-proverka-git-zavisimostej/scripts/"
+                    "proveritj-git-zavisimostj.py",
+                    "check",
+                    "--repo-root",
+                    ".",
+                    "--fork-url",
+                    "https://github.com/fum-lab/LinguisticKit.git",
+                    "--upstream-url",
+                    "https://github.com/Roman-Kerimov/LinguisticKit.git",
+                    "--path",
+                    "Зависимости/LinguisticKit",
+                    "--revision",
+                    "837e2ce107b97ee7b9d3344c9fe99142281fe393",
                 ),
             )
             self.assertEqual(

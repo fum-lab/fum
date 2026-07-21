@@ -37,6 +37,16 @@ AUTOMATION_NAMES_CHECK_SCRIPT = Path(
 AUTOMATION_NAMES_REGISTRY = Path(
     "Инструменты/реестр-названий-автоматизаций.json"
 )
+GIT_DEPENDENCY_CHECK_SCRIPT = Path(
+    "Инструменты/fum-proverka-git-zavisimostej/scripts/"
+    "proveritj-git-zavisimostj.py"
+)
+LINGUISTIC_KIT_FORK_URL = "https://github.com/fum-lab/LinguisticKit.git"
+LINGUISTIC_KIT_UPSTREAM_URL = (
+    "https://github.com/Roman-Kerimov/LinguisticKit.git"
+)
+LINGUISTIC_KIT_PATH = "Зависимости/LinguisticKit"
+LINGUISTIC_KIT_REVISION = "837e2ce107b97ee7b9d3344c9fe99142281fe393"
 CODEX_COMMIT_CONTEXT_RULE_START = (2026, 7, 14, 2, 31, 47)
 REQUEST_DATETIME_PREFIX_RE = re.compile(
     r"^(\d{4})-(\d{2})-(\d{2})_(\d{2})-(\d{2})-(\d{2})_MSK"
@@ -688,6 +698,28 @@ def build_steps(
                 ".",
                 "--registry",
                 automation_names_registry,
+            ),
+        )
+    )
+
+    git_dependency_script = require_file(root, GIT_DEPENDENCY_CHECK_SCRIPT)
+    steps.append(
+        SmokeStep(
+            name="Проверка Git-зависимости LinguisticKit",
+            command=(
+                python_cmd,
+                git_dependency_script,
+                "check",
+                "--repo-root",
+                ".",
+                "--fork-url",
+                LINGUISTIC_KIT_FORK_URL,
+                "--upstream-url",
+                LINGUISTIC_KIT_UPSTREAM_URL,
+                "--path",
+                LINGUISTIC_KIT_PATH,
+                "--revision",
+                LINGUISTIC_KIT_REVISION,
             ),
         )
     )

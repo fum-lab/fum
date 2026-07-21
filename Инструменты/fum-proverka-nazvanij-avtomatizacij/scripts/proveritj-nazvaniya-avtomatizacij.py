@@ -16,7 +16,8 @@ from typing import Any, Sequence
 SCHEMA = "fum.automation-names.v1"
 EXPECTED_DEPENDENCY = {
     "path": "Зависимости/LinguisticKit",
-    "repository": "https://github.com/Roman-Kerimov/LinguisticKit.git",
+    "fork_repository": "https://github.com/fum-lab/LinguisticKit.git",
+    "upstream_repository": "https://github.com/Roman-Kerimov/LinguisticKit.git",
     "revision": "837e2ce107b97ee7b9d3344c9fe99142281fe393",
     "source_script": "Cyrl",
     "target_script": "Latn",

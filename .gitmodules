@@ -1,0 +1,4 @@
+[submodule "Зависимости/LinguisticKit"]
+	path = Зависимости/LinguisticKit
+	url = https://github.com/fum-lab/LinguisticKit.git
+	fumUpstream = https://github.com/Roman-Kerimov/LinguisticKit.git

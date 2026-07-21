@@ -28,7 +28,8 @@ spec.loader.exec_module(proveritj_nazvaniya_avtomatizacij)
 SCHEMA = "fum.automation-names.v1"
 REVISION = "837e2ce107b97ee7b9d3344c9fe99142281fe393"
 DEPENDENCY_PATH = "Зависимости/LinguisticKit"
-REPOSITORY = "https://github.com/Roman-Kerimov/LinguisticKit.git"
+FORK_REPOSITORY = "https://github.com/fum-lab/LinguisticKit.git"
+UPSTREAM_REPOSITORY = "https://github.com/Roman-Kerimov/LinguisticKit.git"
 
 GOLDEN_ENTRIES = [
     {
@@ -69,7 +70,8 @@ class RepositoryFixture:
             "schema": SCHEMA,
             "linguistic_kit": {
                 "path": DEPENDENCY_PATH,
-                "repository": REPOSITORY,
+                "fork_repository": FORK_REPOSITORY,
+                "upstream_repository": UPSTREAM_REPOSITORY,
                 "revision": REVISION,
                 "source_script": "Cyrl",
                 "target_script": "Latn",
@@ -291,6 +293,23 @@ class AutomationNamesValidationTests(unittest.TestCase):
 
             self.assertTrue(
                 any("linguistic_kit.revision" in error and REVISION in error for error in errors),
+                errors,
+            )
+
+            fixture.registry["linguistic_kit"]["revision"] = REVISION
+            fixture.registry["linguistic_kit"]["fork_repository"] = (
+                UPSTREAM_REPOSITORY
+            )
+            fixture.write_registry()
+
+            errors = fixture.validate()
+
+            self.assertTrue(
+                any(
+                    "linguistic_kit.fork_repository" in error
+                    and FORK_REPOSITORY in error
+                    for error in errors
+                ),
                 errors,
             )
 

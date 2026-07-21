@@ -1,7 +1,7 @@
 +++
 schema_version = 1
 branch_ref = "refs/heads/master"
-step_id = "master-prepare-first-boxed-slice-passport-v4"
+step_id = "master-prepare-first-boxed-slice-passport-v5"
 status = "ready"
 project_path = "README.md"
 +++
@@ -24,6 +24,8 @@ project_path = "README.md"
 
 ## Источники
 
+- [исходный запрос 2026-07-21 13:40:42 MSK - Актуализировать форк и подключить LinguisticKit](../../Запросы/2026-07-21_13-40-42_MSK_актуализировать-форк-и-подключить-LinguisticKit.md)
+- [журнал подключения LinguisticKit](../../Журнал/2026-07-21_13-40-42_MSK_актуализировать-форк-и-подключить-LinguisticKit.md)
 - [исходный запрос 2026-07-21 12:52:18 MSK - Закрепить форки Git зависимостей в FUM lab](../../Запросы/2026-07-21_12-52-18_MSK_закрепить-форки-Git-зависимостей-в-fum-lab.md)
 - [журнал правила форков Git-зависимостей](../../Журнал/2026-07-21_12-52-18_MSK_закрепить-форки-Git-зависимостей-в-fum-lab.md)
 - [исходный запрос 2026-07-21 11:32:46 MSK - Актуализировать входные описания FUM](../../Запросы/2026-07-21_11-32-46_MSK_актуализировать-входные-описания-FUM.md)
@@ -36,6 +38,6 @@ project_path = "README.md"
 - [полностью пересобранное описание FUM для разработчиков](../../Описания/для-разработчиков-ПО.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-21 13:21:14 MSK -->
-<!-- content-sha256: sha256:dab9301312c7ce2c3e3dfab94fdf26a03f991567bec89d3c6aa403feff128287 -->
+<!-- last-content-edit: 2026-07-21 14:13:53 MSK -->
+<!-- content-sha256: sha256:84eecb4c73c2375983e239a15ab8f5bd26010db8705999f00b6d9c99039638e9 -->
 <!-- FUM-MD-RECENCY:END -->
