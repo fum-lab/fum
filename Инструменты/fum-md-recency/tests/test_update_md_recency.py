@@ -97,13 +97,48 @@ class UpdateMdRecencyTests(unittest.TestCase):
 
             repeated = update_md_recency.update_repository(
                 root,
-                now=update_md_recency.parse_now("2026-06-26T12:00:00+03:00"),
+                now=update_md_recency.parse_now("2026-06-27T12:00:00+03:00"),
                 use_git=False,
             )
             after = first.read_text(encoding="utf-8")
 
             self.assertEqual(repeated.errors, [])
+            self.assertEqual(repeated.changed_paths, [])
             self.assertEqual(before, after)
+
+    def test_ignored_build_and_cache_markdown_files_are_never_rewritten(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_fixture(root)
+            ignored_files = {
+                ".build/checkouts/vendor/README.md": "# Vendor build checkout\n",
+                ".swiftpm/cache/README.md": "# SwiftPM cache\n",
+                ".obsidian/cache/README.md": "# Obsidian cache\n",
+                ".obsidian/plugins/local/README.md": "# Obsidian plugin\n",
+                "__pycache__/README.md": "# Python cache\n",
+            }
+            for relative, content in ignored_files.items():
+                path = root / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(content, encoding="utf-8")
+
+            result = update_md_recency.update_repository(
+                root,
+                now=update_md_recency.parse_now("2026-06-26T11:00:00+03:00"),
+                use_git=False,
+            )
+
+            self.assertEqual(result.errors, [])
+            index_text = (root / update_md_recency.INDEX_PATH).read_text(
+                encoding="utf-8"
+            )
+            for relative, content in ignored_files.items():
+                with self.subTest(relative=relative):
+                    self.assertEqual(
+                        (root / relative).read_text(encoding="utf-8"),
+                        content,
+                    )
+                    self.assertNotIn(relative, index_text)
 
     def test_check_reports_stale_metadata_after_content_change(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -133,6 +168,30 @@ class UpdateMdRecencyTests(unittest.TestCase):
                 any("stale recency metadata: Документация/старый-файл.md" in error for error in checked.errors),
                 checked.errors,
             )
+
+    def test_rejects_index_symlink_into_build_without_rewriting_target(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_fixture(root)
+            target = root / ".build" / "vendor-index.md"
+            target.parent.mkdir()
+            original = "# Vendor index\n"
+            target.write_text(original, encoding="utf-8")
+            index = root / update_md_recency.INDEX_PATH
+            index.parent.mkdir()
+            index.symlink_to("../.build/vendor-index.md")
+
+            result = update_md_recency.update_repository(
+                root,
+                now=update_md_recency.parse_now("2026-06-26T11:00:00+03:00"),
+                use_git=False,
+            )
+
+            self.assertTrue(
+                any("symlink" in error for error in result.errors),
+                result.errors,
+            )
+            self.assertEqual(target.read_text(encoding="utf-8"), original)
 
     def test_initializes_clean_tracked_file_from_git_history(self):
         with tempfile.TemporaryDirectory() as tmp:

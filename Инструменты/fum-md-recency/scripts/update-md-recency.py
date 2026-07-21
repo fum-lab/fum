@@ -16,6 +16,21 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 
+PROJECT_FILES_SCRIPTS = (
+    Path(__file__).resolve().parents[2]
+    / "fum-project-files"
+    / "scripts"
+)
+if str(PROJECT_FILES_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(PROJECT_FILES_SCRIPTS))
+
+from project_files import (
+    ProjectFilesError,
+    project_markdown_paths,
+    safe_project_output_path,
+)
+
+
 MSK = ZoneInfo("Europe/Moscow")
 INDEX_PATH = Path("Индексы/markdown-файлы-по-времени-редактирования.md")
 RECENCY_BEGIN = "<!-- FUM-MD-RECENCY:BEGIN -->"
@@ -157,13 +172,8 @@ def attach_recency_block(content: str, timestamp: str, digest: str) -> str:
 
 
 def find_markdown_paths(repo_root: Path) -> list[Path]:
-    paths: set[Path] = set()
-    for path in repo_root.rglob("*.md"):
-        if ".git" in path.parts:
-            continue
-        if path.is_file():
-            paths.add(path.resolve())
-    paths.add((repo_root / INDEX_PATH).resolve())
+    paths = set(project_markdown_paths(repo_root))
+    paths.add(safe_project_output_path(repo_root / INDEX_PATH, repo_root))
     return sorted(paths)
 
 
@@ -356,7 +366,7 @@ def process_index_file(
     now_label: str,
     check: bool,
 ) -> tuple[MarkdownRecord, list[str], bool]:
-    index_path = (repo_root / INDEX_PATH).resolve()
+    index_path = safe_project_output_path(repo_root / INDEX_PATH, repo_root)
     rel_path = INDEX_PATH.as_posix()
     errors: list[str] = []
     original_text = read_text(index_path) if index_path.exists() else ""
@@ -419,9 +429,16 @@ def update_repository(
     errors: list[str] = []
     changed_paths: list[Path] = []
     records: list[MarkdownRecord] = []
-    index_path = (root / INDEX_PATH).resolve()
+    try:
+        markdown_paths = find_markdown_paths(root)
+        index_path = safe_project_output_path(root / INDEX_PATH, root)
+    except ProjectFilesError as exc:
+        return RecencyResult(
+            errors=[f"project Markdown inventory failed: {exc}"],
+            changed_paths=[],
+        )
 
-    for path in find_markdown_paths(root):
+    for path in markdown_paths:
         if path == index_path:
             continue
         record, file_errors, changed = process_markdown_file(
@@ -438,12 +455,18 @@ def update_repository(
         if changed:
             changed_paths.append(path)
 
-    index_record, index_errors, index_changed = process_index_file(
-        records,
-        root,
-        now_label,
-        check,
-    )
+    try:
+        index_record, index_errors, index_changed = process_index_file(
+            records,
+            root,
+            now_label,
+            check,
+        )
+    except ProjectFilesError as exc:
+        return RecencyResult(
+            errors=[*errors, f"project output path check failed: {exc}"],
+            changed_paths=sorted(changed_paths),
+        )
     errors.extend(index_errors)
     if index_changed:
         changed_paths.append(index_record.path)

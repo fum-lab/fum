@@ -20,6 +20,7 @@
 - [fum-md-recency](fum-md-recency/SKILL.md) - обновляет служебные метки последнего содержательного редактирования во всех Markdown-файлах и собирает индекс `.md`-файлов от свежих к старым.
 - [fum-obsidian-graph-recency](fum-obsidian-graph-recency/SKILL.md) - обновляет группы цвета графа Obsidian как тепловую карту Markdown-узлов по времени последнего содержательного редактирования.
 - [fum-planning-registry](fum-planning-registry/SKILL.md) - собирает и проверяет машинно читаемый JSON-реестр канонических карточек требований, производных плановых представлений, MVP-кандидатов, предложений и вопросов.
+- [fum-project-files](fum-project-files/SKILL.md) - задаёт общий воспроизводимый инвентарь проектных Markdown-файлов и безопасные границы выходных путей служебных автоматизаций.
 - [fum-prototype-launch](fum-prototype-launch/SKILL.md) - проверяет корневую POSIX-панель `prototipyi.sh` и обязательные `запустить.sh` у всех устойчивых прототипов.
 - [fum-question-backlinks](fum-question-backlinks/SKILL.md) - проверяет двунаправленность локальных ссылок между открытыми или частично прояснёнными вопросами и заявленной затронутой документацией.
 - [fum-request-materials](fum-request-materials/SKILL.md) - сохраняет [прикрепляемые материалы](../Глоссарий/прикрепляемый-материал.md) исходных запросов в `Источники/` и автоматизирует извлечение расшаренных чатов ChatGPT.
@@ -42,6 +43,7 @@
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-md-recency/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-md-recency`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-obsidian-graph-recency/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-obsidian-graph-recency`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-planning-registry/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-planning-registry`.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-project-files/tests -p 'test_*.py'` - локальные тесты общей политики проектных файлов.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-prototype-launch/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-prototype-launch`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-question-backlinks/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-question-backlinks`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-request-materials/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-request-materials`.
@@ -51,6 +53,6 @@
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-work-review/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-work-review`.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-20 23:08:44 MSK -->
-<!-- content-sha256: sha256:2d9b807e5e22b7545c2f89bf3f7e271170483d9070aace961711d6ffae90d9ff -->
+<!-- last-content-edit: 2026-07-21 08:46:15 MSK -->
+<!-- content-sha256: sha256:6f142d08b4e40d04487cd055600d55ea82d37869070ad12c821dde19dde5cb1d -->
 <!-- FUM-MD-RECENCY:END -->

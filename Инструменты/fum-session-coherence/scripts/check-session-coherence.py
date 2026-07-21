@@ -14,6 +14,21 @@ from pathlib import Path
 from urllib.parse import unquote
 
 
+PROJECT_FILES_SCRIPTS = (
+    Path(__file__).resolve().parents[2]
+    / "fum-project-files"
+    / "scripts"
+)
+if str(PROJECT_FILES_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(PROJECT_FILES_SCRIPTS))
+
+from project_files import (
+    ProjectFilesError,
+    is_structurally_excluded_path,
+    project_markdown_paths,
+)
+
+
 REQUEST_FILENAME_RE = re.compile(
     r"^(?P<date>\d{4}-\d{2}-\d{2})_"
     r"(?P<hour>\d{2})-(?P<minute>\d{2})-(?P<second>\d{2})_MSK"
@@ -273,13 +288,20 @@ def section_body(text: str, heading: str) -> str | None:
     return text[start:end]
 
 
-def request_files(repo_root: Path) -> list[Path]:
+def request_files(
+    repo_root: Path,
+    markdown_paths: set[Path] | None = None,
+) -> list[Path]:
     request_dir = repo_root / "Запросы"
     if not request_dir.exists():
         return []
+    candidates = markdown_paths
+    if candidates is None:
+        candidates = set(project_markdown_paths(repo_root))
     return sorted(
         path
-        for path in request_dir.glob("*.md")
+        for path in candidates
+        if path.parent == request_dir.resolve()
         if REQUEST_FILENAME_RE.fullmatch(path.name)
     )
 
@@ -288,13 +310,18 @@ def contains_request_link(section: str, label: str, filename: str) -> bool:
     return label in section and filename in section
 
 
-def validate_navigation(repo_root: Path, request_path: Path, text: str) -> list[str]:
+def validate_navigation(
+    repo_root: Path,
+    request_path: Path,
+    text: str,
+    markdown_paths: set[Path] | None = None,
+) -> list[str]:
     errors: list[str] = []
     navigation = section_body(text, "Навигация по запросам")
     if navigation is None:
         return ["missing section: Навигация по запросам"]
 
-    files = request_files(repo_root)
+    files = request_files(repo_root, markdown_paths)
     try:
         index = [path.resolve() for path in files].index(request_path.resolve())
     except ValueError:
@@ -633,12 +660,7 @@ def actual_case_path(path: Path, repo_root: Path) -> Path | None:
 
 
 def all_markdown_files(repo_root: Path) -> set[Path]:
-    root = repo_root.resolve()
-    return {
-        path
-        for path in root.rglob("*.md")
-        if ".git" not in path.relative_to(root).parts
-    }
+    return set(project_markdown_paths(repo_root))
 
 
 def validate_markdown_links(paths: set[Path], repo_root: Path) -> list[str]:
@@ -650,7 +672,9 @@ def validate_markdown_links(paths: set[Path], repo_root: Path) -> list[str]:
             target = resolve_markdown_target(link, repo_root)
             if target is None:
                 continue
-            actual_target = actual_case_path(target, repo_root)
+            actual_target = None
+            if not is_structurally_excluded_path(target, repo_root):
+                actual_target = actual_case_path(target, repo_root)
             if actual_target is None:
                 source_rel = repo_relative(link.source, repo_root)
                 errors.append(
@@ -745,13 +769,22 @@ def validate_meta_request_coverage(paths: set[Path], repo_root: Path) -> list[st
     return errors
 
 
-def validate_answered_question_files(repo_root: Path) -> list[str]:
+def validate_answered_question_files(
+    repo_root: Path,
+    markdown_paths: set[Path] | None = None,
+) -> list[str]:
     directory = repo_root / "Вопросы и ответы"
     if not directory.exists():
         return []
 
+    candidates = markdown_paths
+    if candidates is None:
+        candidates = set(project_markdown_paths(repo_root))
+
     errors: list[str] = []
-    for path in sorted(directory.glob("*.md")):
+    for path in sorted(
+        path for path in candidates if path.parent == directory.resolve()
+    ):
         if path.name == "README.md":
             continue
 
@@ -1015,12 +1048,24 @@ def validate_session(
     if not request_path.exists():
         return errors + [f"request file does not exist: {request}"]
 
+    try:
+        project_markdown = all_markdown_files(root)
+    except ProjectFilesError as exc:
+        return errors + [f"project Markdown inventory failed: {exc}"]
+
     text = read_text(request_path)
     expected_heading = expected_request_heading(request_path)
     if not text.startswith(f"{expected_heading}\n"):
         errors.append(f"request must start with heading: {expected_heading}")
 
-    errors.extend(validate_navigation(root, request_path, text))
+    errors.extend(
+        validate_navigation(
+            root,
+            request_path,
+            text,
+            markdown_paths=project_markdown,
+        )
+    )
     errors.extend(validate_journal(root, request_path))
     errors.extend(validate_used_tools_section(text, request_path))
     errors.extend(
@@ -1066,12 +1111,16 @@ def validate_session(
     session_markdown_paths = set(affected_files)
     session_markdown_paths.add(request_path)
     session_markdown_paths.add(journal_path)
+    session_markdown_paths.intersection_update(project_markdown)
 
-    link_paths = all_markdown_files(root)
-    link_paths.update(session_markdown_paths)
-    errors.extend(validate_markdown_links(link_paths, root))
+    errors.extend(validate_markdown_links(project_markdown, root))
     errors.extend(validate_meta_request_coverage(session_markdown_paths, root))
-    errors.extend(validate_answered_question_files(root))
+    errors.extend(
+        validate_answered_question_files(
+            root,
+            markdown_paths=project_markdown,
+        )
+    )
     errors.extend(validate_provenance_section_position(session_markdown_paths, root))
     errors.extend(validate_mermaid_markdown_list_labels(session_markdown_paths, root))
     errors.extend(validate_md_recency(root))

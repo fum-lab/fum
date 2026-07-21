@@ -13,8 +13,24 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 
+PROJECT_FILES_SCRIPTS = (
+    Path(__file__).resolve().parents[2]
+    / "fum-project-files"
+    / "scripts"
+)
+if str(PROJECT_FILES_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(PROJECT_FILES_SCRIPTS))
+
+from project_files import (
+    ProjectFilesError,
+    project_markdown_paths,
+    safe_project_output_path,
+)
+
+
 MSK = ZoneInfo("Europe/Moscow")
 GRAPH_PATH = Path(".obsidian/graph.json")
+REFERENCE_DATE_PATH = Path(".obsidian/fum-recency-reference-date")
 RECENCY_RE = re.compile(
     r"<!-- last-content-edit: "
     r"(?P<date>\d{4}-\d{2}-\d{2}) "
@@ -94,13 +110,7 @@ def read_text(path: Path) -> str:
 
 
 def find_markdown_paths(repo_root: Path) -> list[Path]:
-    paths: list[Path] = []
-    for path in repo_root.rglob("*.md"):
-        if ".git" in path.parts:
-            continue
-        if path.is_file():
-            paths.append(path.resolve())
-    return sorted(paths, key=lambda path: repo_relative(path, repo_root))
+    return project_markdown_paths(repo_root)
 
 
 def parse_recency_record(path: Path, repo_root: Path) -> tuple[RecencyRecord | None, str | None]:
@@ -120,7 +130,12 @@ def parse_recency_record(path: Path, repo_root: Path) -> tuple[RecencyRecord | N
 def collect_recency_records(repo_root: Path) -> tuple[list[RecencyRecord], list[str]]:
     records: list[RecencyRecord] = []
     errors: list[str] = []
-    for path in find_markdown_paths(repo_root):
+    try:
+        paths = find_markdown_paths(repo_root)
+    except ProjectFilesError as exc:
+        return [], [f"project Markdown inventory failed: {exc}"]
+
+    for path in paths:
         record, error = parse_recency_record(path, repo_root)
         if error is not None:
             errors.append(error)
@@ -200,6 +215,19 @@ def expected_graph_data(
     return expected
 
 
+def saved_reference_date(path: Path) -> tuple[date | None, str | None]:
+    if not path.exists():
+        return None, (
+            "missing Obsidian graph recency reference date: "
+            f"{REFERENCE_DATE_PATH.as_posix()}"
+        )
+    value = read_text(path).strip()
+    try:
+        return parse_date(value), None
+    except ValueError:
+        return None, f"invalid Obsidian graph recency reference date: {value}"
+
+
 def render_graph(data: dict[str, object]) -> str:
     return json.dumps(data, ensure_ascii=False, indent=2) + "\n"
 
@@ -210,23 +238,60 @@ def update_graph(
     check: bool = False,
 ) -> GraphUpdateResult:
     root = Path(repo_root).resolve()
-    graph_path = root / GRAPH_PATH
-    current_date = today or today_msk()
+    try:
+        graph_path = safe_project_output_path(root / GRAPH_PATH, root)
+        reference_date_path = safe_project_output_path(
+            root / REFERENCE_DATE_PATH,
+            root,
+        )
+    except ProjectFilesError as exc:
+        return GraphUpdateResult(
+            errors=[f"project output path check failed: {exc}"],
+            changed=False,
+        )
     records, record_errors = collect_recency_records(root)
     graph_data, graph_errors = read_graph(graph_path)
     errors = [*record_errors, *graph_errors]
     if errors or graph_data is None:
         return GraphUpdateResult(errors=errors, changed=False)
 
+    if today is not None:
+        current_date = today
+    elif check:
+        current_date, reference_error = saved_reference_date(reference_date_path)
+        if reference_error is not None or current_date is None:
+            return GraphUpdateResult(
+                errors=[reference_error or "missing graph recency reference date"],
+                changed=False,
+            )
+    else:
+        current_date = today_msk()
+
     expected_data = expected_graph_data(graph_data, records, current_date)
     expected_text = render_graph(expected_data)
     original_text = read_text(graph_path)
-    changed = expected_text != original_text
+    graph_changed = expected_text != original_text
+    expected_reference_text = f"{current_date.isoformat()}\n"
+    original_reference_text = (
+        read_text(reference_date_path)
+        if reference_date_path.exists()
+        else None
+    )
+    reference_changed = original_reference_text != expected_reference_text
+    changed = graph_changed or reference_changed
 
-    if changed and check:
+    if graph_changed and check:
         errors.append(f"stale Obsidian graph recency heatmap: {GRAPH_PATH.as_posix()}")
-    elif changed:
-        graph_path.write_text(expected_text, encoding="utf-8")
+    if reference_changed and check:
+        errors.append(
+            "stale Obsidian graph recency reference date: "
+            f"{REFERENCE_DATE_PATH.as_posix()}"
+        )
+    if not check:
+        if graph_changed:
+            graph_path.write_text(expected_text, encoding="utf-8")
+        if reference_changed:
+            reference_date_path.write_text(expected_reference_text, encoding="utf-8")
 
     return GraphUpdateResult(errors=errors, changed=changed)
 

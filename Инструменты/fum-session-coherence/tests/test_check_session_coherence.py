@@ -702,6 +702,32 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                 errors,
             )
 
+    def test_ignored_build_and_cache_markdown_files_are_not_checked(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = self.write_fixture(root)
+            ignored_paths = [
+                ".build/checkouts/vendor/README.md",
+                ".swiftpm/cache/README.md",
+                ".obsidian/cache/README.md",
+                ".obsidian/plugins/local/README.md",
+            ]
+            for relative in ignored_paths:
+                path = root / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(
+                    "# Ignored cache\n\n[broken](missing-target.md)\n",
+                    encoding="utf-8",
+                )
+
+            errors = check_session_coherence.validate_session(
+                root,
+                request_path.relative_to(root),
+                git_status="",
+            )
+
+            self.assertEqual(errors, [])
+
     def test_reports_unlisted_git_status_path(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
