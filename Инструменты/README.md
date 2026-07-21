@@ -14,11 +14,11 @@
 ## Навыки
 
 - [fum-branch-next-step](fum-branch-next-step/SKILL.md) - проверяет, выдаёт и атомарно резервирует единственный следующий шаг активной именованной Git-ветки перед созданием фоновой задачи Codex.
-- [fum-branch-task-gate](fum-branch-task-gate/SKILL.md) - сериализует ходы и незакоммиченную работу одной именованной Git-ветки через проектные `UserPromptSubmit`/`PreToolUse`/`Stop` hooks Codex, fenced-владение worktree и проверку Git-состояния вне корневой `.obsidian/`.
 - [fum-doc-aggregation](fum-doc-aggregation/SKILL.md) - создаёт и проверяет каркас сводных статей документации из нескольких опорных материалов.
 - [fum-estimates](fum-estimates/SKILL.md) - создаёт и проверяет оценочные материалы `Оценки/` со снимком репозитория, методикой, диапазонами, допущениями, ограничениями точности и оформлением результата.
 - [fum-glossary](fum-glossary/SKILL.md) - поддерживает глоссарий FUM по локальным правилам именования и ссылок.
 - [fum-md-recency](fum-md-recency/SKILL.md) - обновляет служебные метки последнего содержательного редактирования во всех Markdown-файлах и собирает индекс `.md`-файлов от свежих к старым.
+- [fum-ocheredj-zadach-git-vetki](fum-ocheredj-zadach-git-vetki/SKILL.md) - последовательно допускает корневые задачи одного worktree в порядке атомарной регистрации и завершает владение атомарным commit+handoff без project hooks и POSIX-блокировок.
 - [fum-obsidian-graph-recency](fum-obsidian-graph-recency/SKILL.md) - обновляет группы цвета графа Obsidian как тепловую карту Markdown-узлов по времени последнего содержательного редактирования.
 - [fum-planning-registry](fum-planning-registry/SKILL.md) - собирает и проверяет машинно читаемый JSON-реестр канонических карточек требований, производных плановых представлений, MVP-кандидатов, предложений и вопросов.
 - [fum-project-files](fum-project-files/SKILL.md) - задаёт общий воспроизводимый инвентарь проектных Markdown-файлов и безопасные границы выходных путей служебных автоматизаций.
@@ -41,10 +41,10 @@
 - `python3 Инструменты/fum-readme-index/scripts/check-readme-index.py --repo-root .` - автономная проверка полноты тематического индекса номерной документации в корневом `README.md`.
 - `python3 Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py check --repo-root . --fork-url https://github.com/fum-lab/LinguisticKit.git --upstream-url https://github.com/Roman-Kerimov/LinguisticKit.git --path Зависимости/LinguisticKit --revision 837e2ce107b97ee7b9d3344c9fe99142281fe393` - автономная проверка подключённого submodule LinguisticKit.
 - `python3 Инструменты/fum-proverka-nazvanij-avtomatizacij/scripts/proveritj-nazvaniya-avtomatizacij.py --repo-root . --registry Инструменты/реестр-названий-автоматизаций.json` - автономная структурная либо живая проверка реестра названий автоматизаций.
-- `python3 Инструменты/fum-branch-task-gate/scripts/branch-task-gate.py status --repo-root . --json` - показывает владельца и блокирующие пути текущей Git-ветки; код `0` означает готовность, код `1` - занятое состояние.
+- `python3 -I -c "import os,subprocess,sys;p='Инструменты/fum-ocheredj-zadach-git-vetki/scripts/ocheredj-zadach-git-vetki.py';r=sys.argv[1];e={k:v for k,v in os.environ.items() if not k.upper().startswith('GIT_')};e['GIT_NO_REPLACE_OBJECTS']='1';e['GIT_OPTIONAL_LOCKS']='0';b=subprocess.check_output(['git','--no-replace-objects','-C',r,'show','HEAD:'+p],env=e,timeout=30);sys.argv=[p,*sys.argv[2:],'--repo-root',r];exec(compile(b,p,'exec'))" . status --json` - через изолированный закоммиченный HEAD-bootstrap показывает владельца и FIFO-список ожидающих корневых задач текущего worktree.
 - `python3 Инструменты/fum-branch-next-step/scripts/branch-next-step.py validate --repo-root . --json` - проверяет записи следующих шагов и наличие ровно одного совпадения для активной именованной ветки.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-branch-next-step/tests -p 'test_*.py'` - локальные тесты выбора, повторной проверки, атомарного claim и fenced-восстановления следующего шага ветки.
-- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-branch-task-gate/tests -p 'test_*.py'` - локальные тесты сериализации задач одной Git-ветки.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-ocheredj-zadach-git-vetki/tests -p 'test_*.py'` - локальные тесты переносимой FIFO-очереди и атомарного commit+handoff.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-doc-aggregation/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-doc-aggregation`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-estimates/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-estimates`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-md-recency/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-md-recency`.
@@ -67,8 +67,9 @@
 - [исходный запрос 2026-07-21 11:32:46 MSK - Актуализировать входные описания FUM](../Запросы/2026-07-21_11-32-46_MSK_актуализировать-входные-описания-FUM.md)
 - [исходный запрос 2026-07-21 12:18:37 MSK - Закрепить транслитерацию названий автоматизаций](../Запросы/2026-07-21_12-18-37_MSK_закрепить-транслитерацию-названий-автоматизаций.md)
 - [исходный запрос 2026-07-21 13:40:42 MSK — Актуализировать форк и подключить LinguisticKit](../Запросы/2026-07-21_13-40-42_MSK_актуализировать-форк-и-подключить-LinguisticKit.md)
+- [исходный запрос 2026-07-21 18:31:35 MSK — Ввести последовательную очередь сессий без hooks](../Запросы/2026-07-21_18-31-35_MSK_ввести-последовательную-очередь-сессий-без-hooks.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-21 14:13:53 MSK -->
-<!-- content-sha256: sha256:18bf361ccf5236dfb3c406813e993f5b1c6371ee4efffe377af2d52731112140 -->
+<!-- last-content-edit: 2026-07-21 20:24:24 MSK -->
+<!-- content-sha256: sha256:f4d60863d5c6f7c8cbf3828b54ded3d0f76de8ac38f68c746549705c26a705a2 -->
 <!-- FUM-MD-RECENCY:END -->

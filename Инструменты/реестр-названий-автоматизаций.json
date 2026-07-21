@@ -36,6 +36,11 @@
   ],
   "current": [
     {
+      "source": "очередь задач Git-ветки",
+      "transliteration": "ocheredj zadach Git-vetki",
+      "slug": "fum-ocheredj-zadach-git-vetki"
+    },
+    {
       "source": "проверка Git-зависимостей",
       "transliteration": "proverka Git-zavisimostej",
       "slug": "fum-proverka-git-zavisimostej"
@@ -69,7 +74,6 @@
   ],
   "legacy": [
     "fum-branch-next-step",
-    "fum-branch-task-gate",
     "fum-doc-aggregation",
     "fum-estimates",
     "fum-glossary",

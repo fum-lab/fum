@@ -4,25 +4,21 @@
 from __future__ import annotations
 
 import argparse
-import fcntl
 import hashlib
 import json
 import os
 import re
 import subprocess
 import sys
-import tempfile
 import time
 import tomllib
 import uuid
-from contextlib import contextmanager
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Iterator
 
 
 RECORDS_DIRECTORY = Path("Планирование/следующие-шаги-веток")
-CLAIMS_DIRECTORY_NAME = "fum-branch-next-step"
+CLAIM_REF_NAMESPACE = "refs/fum/worktree-next-step-claims"
 RECENCY_BLOCK_RE = re.compile(
     r"\n?<!-- FUM-MD-RECENCY:BEGIN -->.*?"
     r"<!-- FUM-MD-RECENCY:END -->\s*\Z",
@@ -44,8 +40,11 @@ EXIT_INVALID = 2
 EXIT_NOT_READY = 3
 EXIT_ALREADY_CLAIMED = 4
 EXIT_MISMATCH = 5
-LOCK_TIMEOUT_SECONDS = 5.0
-LOCK_POLL_SECONDS = 0.05
+MAX_CAS_ATTEMPTS = 200
+UNCHANGED_REF_RETRY_ATTEMPTS = 8
+REF_RETRY_BASE_SECONDS = 0.005
+REF_RETRY_MAX_SECONDS = 0.1
+GIT_COMMAND_TIMEOUT_SECONDS = 20.0
 
 
 class ContractError(RuntimeError):
@@ -130,13 +129,31 @@ def validate_command_options(args: argparse.Namespace) -> None:
         )
 
 
-def run_git(repo_root: Path, *args: str) -> subprocess.CompletedProcess[str]:
+def clean_git_environment() -> dict[str, str]:
+    environment = {
+        key: value
+        for key, value in os.environ.items()
+        if not key.upper().startswith("GIT_")
+    }
+    environment["GIT_NO_REPLACE_OBJECTS"] = "1"
+    environment["GIT_OPTIONAL_LOCKS"] = "0"
+    return environment
+
+
+def run_git(
+    repo_root: Path,
+    *args: str,
+    input_text: str | None = None,
+) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
-        ["git", "-C", str(repo_root), *args],
+        ["git", "--no-replace-objects", "-C", str(repo_root), *args],
         check=False,
         capture_output=True,
-        text=True,
-        timeout=20,
+        encoding="utf-8",
+        errors="strict",
+        env=clean_git_environment(),
+        input=input_text,
+        timeout=GIT_COMMAND_TIMEOUT_SECONDS,
     )
 
 
@@ -588,100 +605,83 @@ def assert_expected_identity(
         )
 
 
-def git_common_directory(repo_root: Path) -> Path:
-    result = run_git(repo_root, "rev-parse", "--git-common-dir")
+def checked_git(
+    repo_root: Path,
+    operation: str,
+    *args: str,
+    input_text: str | None = None,
+) -> subprocess.CompletedProcess[str]:
+    result = run_git(repo_root, *args, input_text=input_text)
     if result.returncode != 0:
-        raise ContractError("Не удалось определить общий Git-каталог.")
-    raw = Path(result.stdout.strip())
-    return (raw if raw.is_absolute() else repo_root / raw).resolve()
+        detail = result.stderr.strip() or "Git не вернул текст ошибки."
+        raise ContractError(f"Не удалось {operation}: {detail}")
+    return result
 
 
-def claims_root(repo_root: Path) -> Path:
-    root = git_common_directory(repo_root) / CLAIMS_DIRECTORY_NAME
-    try:
-        root.mkdir(mode=0o700)
-    except FileExistsError:
-        if root.is_symlink() or not root.is_dir():
-            raise ContractError(f"Путь локальных claim не является каталогом: {root}.")
-    fsync_directory(root.parent)
-    return root
+def checkout_identity(repo_root: Path) -> str:
+    result = checked_git(
+        repo_root,
+        "определить Git-каталог физического checkout",
+        "rev-parse",
+        "--absolute-git-dir",
+    )
+    git_directory = Path(result.stdout.strip()).resolve()
+    normalized = os.path.normcase(str(git_directory))
+    return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
 
 
-def existing_claims_root(repo_root: Path) -> Path | None:
-    root = git_common_directory(repo_root) / CLAIMS_DIRECTORY_NAME
-    if not root.exists():
-        if root.is_symlink():
-            raise ContractError(f"Путь локальных claim повреждён: {root}.")
-        return None
-    if root.is_symlink() or not root.is_dir():
-        raise ContractError(f"Путь локальных claim не является каталогом: {root}.")
-    return root
+def claim_ref(repo_root: Path, branch_ref: str) -> str:
+    branch_digest = hashlib.sha256(branch_ref.encode("utf-8")).hexdigest()
+    return f"{CLAIM_REF_NAMESPACE}/{checkout_identity(repo_root)}/{branch_digest}"
 
 
-def claim_path(root: Path, branch_ref: str) -> Path:
-    digest = hashlib.sha256(branch_ref.encode("utf-8")).hexdigest()
-    return root / f"{digest}.json"
-
-
-@contextmanager
-def claim_lock(root: Path) -> Iterator[None]:
-    lock_path = root / "claims.lock"
-    with lock_path.open("a+", encoding="utf-8") as lock_file:
-        deadline = time.monotonic() + LOCK_TIMEOUT_SECONDS
-        while True:
-            try:
-                fcntl.flock(
-                    lock_file.fileno(),
-                    fcntl.LOCK_EX | fcntl.LOCK_NB,
-                )
-                break
-            except BlockingIOError as error:
-                remaining = deadline - time.monotonic()
-                if remaining <= 0:
-                    raise ContractError(
-                        "Истёк срок ожидания локальной блокировки claim."
-                    ) from error
-                time.sleep(min(LOCK_POLL_SECONDS, remaining))
-        try:
-            yield
-        finally:
-            fcntl.flock(lock_file.fileno(), fcntl.LOCK_UN)
-
-
-def load_claim(path: Path, expected_branch_ref: str) -> dict[str, object] | None:
-    if path.is_symlink():
-        raise ContractError(f"Локальный claim не может быть символической ссылкой: {path}.")
-    if not path.exists():
-        return None
-    if not path.is_file():
-        raise ContractError(f"Локальный claim не является обычным файлом: {path}.")
-
-    def reject_duplicate_keys(
-        pairs: list[tuple[str, object]],
-    ) -> dict[str, object]:
-        result: dict[str, object] = {}
-        for key, value in pairs:
-            if key in result:
-                raise ContractError(
-                    f"Локальный claim содержит повторяющееся поле {key!r}: {path}."
-                )
-            result[key] = value
-        return result
-
-    try:
-        payload = json.loads(
-            path.read_text(encoding="utf-8"),
-            object_pairs_hook=reject_duplicate_keys,
-        )
-    except (OSError, UnicodeError, json.JSONDecodeError) as error:
+def read_ref_oid(repo_root: Path, reference: str) -> str | None:
+    symbolic = run_git(repo_root, "symbolic-ref", "--quiet", reference)
+    if symbolic.returncode == 0:
         raise ContractError(
-            f"Локальный claim повреждён и не может быть автоматически заменён: {path}."
-        ) from error
-    if not isinstance(payload, dict):
-        raise ContractError(f"Локальный claim имеет неверный формат: {path}.")
+            "Служебная Git-ссылка claim не может быть символической."
+        )
+    if symbolic.returncode not in {1}:
+        detail = symbolic.stderr.strip() or "Git не вернул текст ошибки."
+        raise ContractError(
+            f"Не удалось проверить вид Git-ссылки claim: {detail}"
+        )
+    result = run_git(repo_root, "rev-parse", "--verify", "--quiet", reference)
+    if result.returncode == 1:
+        return None
+    if result.returncode != 0:
+        detail = result.stderr.strip() or "Git не вернул текст ошибки."
+        raise ContractError(
+            f"Не удалось прочитать служебную Git-ссылку claim: {detail}"
+        )
+    oid = result.stdout.strip()
+    if not oid:
+        raise ContractError("Служебная Git-ссылка claim не вернула object ID.")
+    return oid
+
+
+def reject_duplicate_claim_keys(
+    pairs: list[tuple[str, object]],
+) -> dict[str, object]:
+    payload: dict[str, object] = {}
+    for key, value in pairs:
+        if key in payload:
+            raise ContractError(
+                f"Git blob claim содержит повторяющееся поле {key!r}."
+            )
+        payload[key] = value
+    return payload
+
+
+def validate_claim(
+    payload: object,
+    expected_branch_ref: str,
+) -> dict[str, object]:
     expected_keys = frozenset(
         {"schema_version", "branch_ref", "step_id", "lease_id"}
     )
+    if not isinstance(payload, dict):
+        raise ContractError("Git blob claim имеет неверный формат.")
     if (
         frozenset(payload) != expected_keys
         or type(payload.get("schema_version")) is not int
@@ -691,43 +691,126 @@ def load_claim(path: Path, expected_branch_ref: str) -> dict[str, object] | None
         or STEP_ID_RE.fullmatch(str(payload.get("step_id"))) is None
         or not isinstance(payload.get("lease_id"), str)
     ):
-        raise ContractError(f"Локальный claim имеет неверный контракт: {path}.")
+        raise ContractError("Git blob claim имеет неверный контракт.")
     try:
         parsed_lease_id = uuid.UUID(str(payload["lease_id"]))
     except ValueError as error:
-        raise ContractError(f"Локальный claim содержит неверный lease_id: {path}.") from error
+        raise ContractError("Git blob claim содержит неверный lease_id.") from error
     if str(parsed_lease_id) != payload["lease_id"]:
-        raise ContractError(f"Локальный claim содержит неверный lease_id: {path}.")
+        raise ContractError("Git blob claim содержит неверный lease_id.")
     return payload
 
 
-def atomic_write_json(path: Path, payload: dict[str, object]) -> None:
-    descriptor, temporary_name = tempfile.mkstemp(
-        prefix=f".{path.name}.",
-        suffix=".tmp",
-        dir=path.parent,
-        text=True,
+def load_claim(
+    repo_root: Path,
+    reference: str,
+    expected_branch_ref: str,
+) -> tuple[dict[str, object] | None, str | None]:
+    oid = read_ref_oid(repo_root, reference)
+    if oid is None:
+        return None, None
+    object_type = checked_git(
+        repo_root,
+        "определить тип Git-объекта claim",
+        "cat-file",
+        "-t",
+        oid,
+    ).stdout.strip()
+    if object_type != "blob":
+        raise ContractError("Служебная Git-ссылка claim не указывает на blob.")
+    raw_payload = checked_git(
+        repo_root,
+        "прочитать Git blob claim",
+        "cat-file",
+        "blob",
+        oid,
+    ).stdout
+    try:
+        payload = json.loads(
+            raw_payload,
+            object_pairs_hook=reject_duplicate_claim_keys,
+        )
+    except (UnicodeError, json.JSONDecodeError) as error:
+        raise ContractError(
+            "Git blob claim повреждён и не может быть "
+            "автоматически заменён."
+        ) from error
+    return validate_claim(payload, expected_branch_ref), oid
+
+
+def canonical_claim_text(payload: dict[str, object]) -> str:
+    return (
+        json.dumps(
+            payload,
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+        + "\n"
     )
-    temporary_path = Path(temporary_name)
-    try:
-        with os.fdopen(descriptor, "w", encoding="utf-8") as temporary_file:
-            json.dump(payload, temporary_file, ensure_ascii=False, sort_keys=True)
-            temporary_file.write("\n")
-            temporary_file.flush()
-            os.fsync(temporary_file.fileno())
-        os.replace(temporary_path, path)
-        fsync_directory(path.parent)
-    finally:
-        temporary_path.unlink(missing_ok=True)
 
 
-def fsync_directory(directory: Path) -> None:
-    flags = os.O_RDONLY | getattr(os, "O_DIRECTORY", 0)
-    descriptor = os.open(directory, flags)
-    try:
-        os.fsync(descriptor)
-    finally:
-        os.close(descriptor)
+def write_claim_blob(
+    repo_root: Path,
+    payload: dict[str, object],
+    expected_branch_ref: str,
+) -> str:
+    validate_claim(payload, expected_branch_ref)
+    result = checked_git(
+        repo_root,
+        "записать Git blob claim",
+        "hash-object",
+        "-w",
+        "--stdin",
+        input_text=canonical_claim_text(payload),
+    )
+    oid = result.stdout.strip()
+    if not oid:
+        raise ContractError("Git не вернул object ID нового claim blob.")
+    return oid
+
+
+def ref_retry_delay(attempt: int) -> float:
+    return min(REF_RETRY_BASE_SECONDS * (2**attempt), REF_RETRY_MAX_SECONDS)
+
+
+def cas_claim_ref(
+    repo_root: Path,
+    reference: str,
+    old_oid: str | None,
+    new_oid: str | None,
+) -> bool:
+    if new_oid is None and old_oid is None:
+        raise ContractError("Нельзя удалить отсутствующее поколение claim.")
+    last_error = ""
+    for attempt in range(UNCHANGED_REF_RETRY_ATTEMPTS):
+        if new_oid is None:
+            result = run_git(
+                repo_root,
+                "update-ref",
+                "--no-deref",
+                "-d",
+                reference,
+                str(old_oid),
+            )
+        else:
+            result = run_git(
+                repo_root,
+                "update-ref",
+                "--no-deref",
+                reference,
+                new_oid,
+                old_oid or "",
+            )
+        if result.returncode == 0:
+            return True
+        last_error = result.stderr.strip()
+        if read_ref_oid(repo_root, reference) != old_oid:
+            return False
+        if attempt + 1 < UNCHANGED_REF_RETRY_ATTEMPTS:
+            time.sleep(ref_retry_delay(attempt))
+    detail = last_error or "Git не вернул текст ошибки."
+    raise ContractError(f"Не удалось атомарно обновить Git-ссылку claim: {detail}")
 
 
 def claim_step(
@@ -739,35 +822,34 @@ def claim_step(
         raise ContractError(
             "claim требует --expected-branch-ref и --expected-step-id."
         )
-    root = claims_root(repo_root)
-    with claim_lock(root):
-        record = active_record(repo_root)
-        assert_expected_identity(record, expected_branch_ref, expected_step_id)
-        if record.status != "ready":
-            return (
-                {"state": "not_ready", **record.payload()},
-                EXIT_NOT_READY,
-            )
-        path = claim_path(root, record.branch_ref)
-        existing = load_claim(path, record.branch_ref)
-        if existing is not None and existing["step_id"] == record.step_id:
-            return (
-                {
-                    "state": "already_claimed",
-                    "branch_ref": record.branch_ref,
-                    "step_id": record.step_id,
-                    "lease_id": existing["lease_id"],
-                },
-                EXIT_ALREADY_CLAIMED,
-            )
-        lease_id = str(uuid.uuid4())
-        payload: dict[str, object] = {
-            "schema_version": 1,
-            "branch_ref": record.branch_ref,
-            "step_id": record.step_id,
-            "lease_id": lease_id,
-        }
-        atomic_write_json(path, payload)
+    record = active_record(repo_root)
+    assert_expected_identity(record, expected_branch_ref, expected_step_id)
+    if record.status != "ready":
+        return (
+            {"state": "not_ready", **record.payload()},
+            EXIT_NOT_READY,
+        )
+    reference = claim_ref(repo_root, record.branch_ref)
+    existing, old_oid = load_claim(repo_root, reference, record.branch_ref)
+    if existing is not None and existing["step_id"] == record.step_id:
+        return (
+            {
+                "state": "already_claimed",
+                "branch_ref": record.branch_ref,
+                "step_id": record.step_id,
+                "lease_id": existing["lease_id"],
+            },
+            EXIT_ALREADY_CLAIMED,
+        )
+    lease_id = str(uuid.uuid4())
+    payload: dict[str, object] = {
+        "schema_version": 1,
+        "branch_ref": record.branch_ref,
+        "step_id": record.step_id,
+        "lease_id": lease_id,
+    }
+    new_oid = write_claim_blob(repo_root, payload, record.branch_ref)
+    if cas_claim_ref(repo_root, reference, old_oid, new_oid):
         return (
             {
                 "state": "claimed",
@@ -778,6 +860,25 @@ def claim_step(
             },
             0,
         )
+    concurrent, _concurrent_oid = load_claim(
+        repo_root,
+        reference,
+        record.branch_ref,
+    )
+    if concurrent is not None and concurrent["step_id"] == record.step_id:
+        return (
+            {
+                "state": "already_claimed",
+                "branch_ref": record.branch_ref,
+                "step_id": record.step_id,
+                "lease_id": concurrent["lease_id"],
+            },
+            EXIT_ALREADY_CLAIMED,
+        )
+    raise ContractError(
+        "Claim изменился конкурентно; нужны новая проверка "
+        "branch_ref и step_id и новый вызов claim."
+    )
 
 
 def selected_claim_branch(
@@ -795,10 +896,8 @@ def claim_status(
     requested_branch_ref: str | None,
 ) -> tuple[dict[str, object], int]:
     branch_ref = selected_claim_branch(repo_root, requested_branch_ref)
-    root = existing_claims_root(repo_root)
-    if root is None:
-        return {"state": "unclaimed", "branch_ref": branch_ref}, 0
-    existing = load_claim(claim_path(root, branch_ref), branch_ref)
+    reference = claim_ref(repo_root, branch_ref)
+    existing, _oid = load_claim(repo_root, reference, branch_ref)
     if existing is None:
         return {"state": "unclaimed", "branch_ref": branch_ref}, 0
     return {**existing, "state": "claimed"}, 0
@@ -816,19 +915,9 @@ def release_claim(
     except ValueError as error:
         raise ContractError("--expected-lease-id должен быть UUID.") from error
     branch_ref = selected_claim_branch(repo_root, requested_branch_ref)
-    root = existing_claims_root(repo_root)
-    if root is None:
-        return (
-            {
-                "state": "mismatch",
-                "reason": "missing",
-                "branch_ref": branch_ref,
-            },
-            EXIT_MISMATCH,
-        )
-    path = claim_path(root, branch_ref)
-    with claim_lock(root):
-        existing = load_claim(path, branch_ref)
+    reference = claim_ref(repo_root, branch_ref)
+    for _attempt in range(MAX_CAS_ATTEMPTS):
+        existing, old_oid = load_claim(repo_root, reference, branch_ref)
         if existing is None:
             return (
                 {
@@ -848,17 +937,18 @@ def release_claim(
                 },
                 EXIT_MISMATCH,
             )
-        path.unlink()
-        fsync_directory(path.parent)
-    return (
-        {
-            "state": "released",
-            "branch_ref": branch_ref,
-            "step_id": existing["step_id"],
-            "lease_id": expected_lease_id,
-        },
-        0,
-    )
+        if cas_claim_ref(repo_root, reference, old_oid, None):
+            return (
+                {
+                    "state": "released",
+                    "branch_ref": branch_ref,
+                    "step_id": existing["step_id"],
+                    "lease_id": expected_lease_id,
+                },
+                0,
+            )
+        time.sleep(REF_RETRY_BASE_SECONDS)
+    raise ContractError("Исчерпан лимит конкурентных удалений claim.")
 
 
 def emit(payload: dict[str, object], as_json: bool) -> None:

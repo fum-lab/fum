@@ -1,4 +1,0 @@
-interface:
-  display_name: "Барьер задач Git-ветки"
-  short_description: "Сериализует задачи одной Git-ветки"
-  default_prompt: "Используй $fum-branch-task-gate, чтобы проверить или безопасно восстановить барьер текущей Git-ветки."

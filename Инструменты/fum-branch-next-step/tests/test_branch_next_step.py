@@ -1,5 +1,7 @@
+import ast
 import importlib.util
 import json
+import os
 import subprocess
 import sys
 import tempfile
@@ -45,13 +47,35 @@ class BranchNextStepTests(unittest.TestCase):
         self.git("add", ".")
         self.git("commit", "-m", "Initial fixture")
 
-    def git(self, *args: str) -> subprocess.CompletedProcess[str]:
+    def git(
+        self,
+        *args: str,
+        input_text: str | None = None,
+    ) -> subprocess.CompletedProcess[str]:
         return subprocess.run(
-            ["git", "-C", str(self.repo), *args],
+            [
+                "git",
+                "--no-replace-objects",
+                "--no-optional-locks",
+                "-C",
+                str(self.repo),
+                *args,
+            ],
             check=True,
             capture_output=True,
             text=True,
+            input=input_text,
         )
+
+    def install_raw_claim(
+        self,
+        raw_payload: str,
+        branch_ref: str = "refs/heads/master",
+    ) -> str:
+        oid = self.git("hash-object", "-w", "--stdin", input_text=raw_payload).stdout.strip()
+        reference = TOOL_MODULE.claim_ref(self.repo, branch_ref)
+        self.git("update-ref", reference, oid)
+        return reference
 
     def write_record(
         self,
@@ -502,16 +526,16 @@ class BranchNextStepTests(unittest.TestCase):
                 stderr=subprocess.PIPE,
                 text=True,
             )
-            for _ in range(2)
+            for _ in range(4)
         ]
         results = [process.communicate(timeout=5) for process in processes]
         returncodes = [process.returncode for process in processes]
 
-        self.assertEqual(sorted(returncodes), [0, 4])
+        self.assertEqual(sorted(returncodes), [0, 4, 4, 4])
         payloads = [json.loads(stdout) for stdout, _stderr in results]
         self.assertEqual(
             sorted(str(payload["state"]) for payload in payloads),
-            ["already_claimed", "claimed"],
+            ["already_claimed", "already_claimed", "already_claimed", "claimed"],
         )
 
     def test_claim_replacement_and_fenced_release_follow_step_identity(self) -> None:
@@ -561,48 +585,91 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertEqual(release.returncode, 0, release.stderr)
         self.assertEqual(self.payload(release)["state"], "released")
 
-    def test_claim_publication_and_release_fsync_the_claim_directory(self) -> None:
-        self.write_record()
-        path = self.repo / "atomic.json"
-        with mock.patch.object(TOOL_MODULE, "fsync_directory") as fsync_directory:
-            TOOL_MODULE.atomic_write_json(
-                path,
-                {
-                    "schema_version": 1,
-                    "branch_ref": "refs/heads/master",
-                    "step_id": "master-test-step-v1",
-                    "lease_id": "00000000-0000-0000-0000-000000000001",
-                },
-            )
-        fsync_directory.assert_called_once_with(path.parent)
+        reference = TOOL_MODULE.claim_ref(self.repo, "refs/heads/master")
+        original_cas = TOOL_MODULE.cas_claim_ref
+        raced = False
 
-        claimed, claim_code = TOOL_MODULE.claim_step(
-            self.repo,
+        def install_newer_step_then_report_conflict(
+            repo_root: Path,
+            claim_reference: str,
+            old_oid: str | None,
+            new_oid: str | None,
+        ) -> bool:
+            nonlocal raced
+            if raced:
+                return original_cas(
+                    repo_root,
+                    claim_reference,
+                    old_oid,
+                    new_oid,
+                )
+            raced = True
+            self.write_record(step_id="master-test-step-v3")
+            newer_payload = {
+                "schema_version": 1,
+                "branch_ref": "refs/heads/master",
+                "step_id": "master-test-step-v3",
+                "lease_id": "00000000-0000-0000-0000-000000000003",
+            }
+            newer_oid = TOOL_MODULE.write_claim_blob(
+                self.repo,
+                newer_payload,
+                "refs/heads/master",
+            )
+            self.git("update-ref", reference, newer_oid, old_oid or "")
+            return False
+
+        with mock.patch.object(
+            TOOL_MODULE,
+            "cas_claim_ref",
+            side_effect=install_newer_step_then_report_conflict,
+        ) as patched_cas:
+            with self.assertRaises(TOOL_MODULE.ContractError):
+                TOOL_MODULE.claim_step(
+                    self.repo,
+                    "refs/heads/master",
+                    "master-test-step-v2",
+                )
+        self.assertEqual(patched_cas.call_count, 1)
+        status, status_code = TOOL_MODULE.claim_status(self.repo, None)
+        self.assertEqual(status_code, 0)
+        self.assertEqual(status["step_id"], "master-test-step-v3")
+
+    def test_claim_is_a_canonical_json_blob_under_a_checkout_scoped_ref(self) -> None:
+        self.write_record()
+
+        claimed = self.run_tool(
+            "claim",
+            "--expected-branch-ref",
             "refs/heads/master",
+            "--expected-step-id",
             "master-test-step-v1",
         )
-        self.assertEqual(claim_code, 0)
-        with mock.patch.object(TOOL_MODULE, "fsync_directory") as fsync_directory:
-            released, release_code = TOOL_MODULE.release_claim(
-                self.repo,
-                None,
-                str(claimed["lease_id"]),
+
+        self.assertEqual(claimed.returncode, 0, claimed.stderr)
+        reference = TOOL_MODULE.claim_ref(self.repo, "refs/heads/master")
+        self.assertTrue(reference.startswith("refs/fum/worktree-next-step-claims/"))
+        oid = self.git("rev-parse", "--verify", reference).stdout.strip()
+        self.assertIn(len(oid), (40, 64))
+        raw = self.git("cat-file", "blob", oid).stdout
+        self.assertEqual(
+            raw,
+            json.dumps(
+                {
+                    "branch_ref": "refs/heads/master",
+                    "lease_id": self.payload(claimed)["lease_id"],
+                    "schema_version": 1,
+                    "step_id": "master-test-step-v1",
+                },
+                ensure_ascii=False,
+                sort_keys=True,
+                separators=(",", ":"),
             )
-        self.assertEqual(release_code, 0)
-        self.assertEqual(released["state"], "released")
-        self.assertEqual(fsync_directory.call_count, 1)
+            + "\n",
+        )
 
-        existing_root = TOOL_MODULE.existing_claims_root(self.repo)
-        self.assertIsNotNone(existing_root)
-        with mock.patch.object(TOOL_MODULE, "fsync_directory") as fsync_directory:
-            reopened_root = TOOL_MODULE.claims_root(self.repo)
-        self.assertEqual(reopened_root, existing_root)
-        fsync_directory.assert_called_once_with(reopened_root.parent)
-
-    def test_corrupt_claim_is_not_replaced_or_misreported(self) -> None:
+    def test_corrupt_claim_blob_is_not_replaced_or_misreported(self) -> None:
         self.write_record()
-        root = TOOL_MODULE.claims_root(self.repo)
-        path = TOOL_MODULE.claim_path(root, "refs/heads/master")
         corrupt = {
             "schema_version": True,
             "branch_ref": "refs/heads/master",
@@ -610,7 +677,9 @@ class BranchNextStepTests(unittest.TestCase):
             "lease_id": "00000000-0000-0000-0000-000000000001",
             "state": "unclaimed",
         }
-        path.write_text(json.dumps(corrupt), encoding="utf-8")
+        reference = self.install_raw_claim(json.dumps(corrupt))
+        original_oid = self.git("rev-parse", "--verify", reference).stdout.strip()
+        objects_before = self.git("count-objects", "-v").stdout
 
         status = self.run_tool("claim-status")
         claimed = self.run_tool(
@@ -625,73 +694,284 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertEqual(self.payload(status)["state"], "invalid")
         self.assertEqual(claimed.returncode, 2)
         self.assertEqual(self.payload(claimed)["state"], "invalid")
-        self.assertEqual(json.loads(path.read_text(encoding="utf-8")), corrupt)
-
-    def test_claim_rejects_symlinks_and_duplicate_json_keys(self) -> None:
-        self.write_record()
-        root = TOOL_MODULE.claims_root(self.repo)
-        path = TOOL_MODULE.claim_path(root, "refs/heads/master")
-        external = Path(self.temporary_directory.name) / "external-claim.json"
-        external.write_text(
-            json.dumps(
-                {
-                    "schema_version": 1,
-                    "branch_ref": "refs/heads/master",
-                    "step_id": "master-test-step-v1",
-                    "lease_id": "00000000-0000-0000-0000-000000000001",
-                }
-            ),
-            encoding="utf-8",
+        self.assertEqual(
+            self.git("rev-parse", "--verify", reference).stdout.strip(),
+            original_oid,
         )
-        path.symlink_to(external)
+        self.assertEqual(self.git("count-objects", "-v").stdout, objects_before)
 
-        symlink_status = self.run_tool("claim-status")
-        self.assertEqual(symlink_status.returncode, 2)
-        self.assertEqual(self.payload(symlink_status)["state"], "invalid")
+    def test_claim_rejects_non_blob_refs_and_duplicate_json_keys(self) -> None:
+        self.write_record()
+        reference = TOOL_MODULE.claim_ref(self.repo, "refs/heads/master")
+        self.git("update-ref", reference, "HEAD")
 
-        path.unlink()
-        path.write_text(
+        non_blob_status = self.run_tool("claim-status")
+        self.assertEqual(non_blob_status.returncode, 2)
+        self.assertEqual(self.payload(non_blob_status)["state"], "invalid")
+
+        self.install_raw_claim(
             '{"schema_version":1,"schema_version":1,'
             '"branch_ref":"refs/heads/master",'
             '"step_id":"master-test-step-v1",'
-            '"lease_id":"00000000-0000-0000-0000-000000000001"}',
-            encoding="utf-8",
+            '"lease_id":"00000000-0000-0000-0000-000000000001"}'
         )
         duplicate_status = self.run_tool("claim-status")
         self.assertEqual(duplicate_status.returncode, 2)
         self.assertEqual(self.payload(duplicate_status)["state"], "invalid")
 
-    def test_unclaimed_status_does_not_create_claim_storage(self) -> None:
-        root = (
-            TOOL_MODULE.git_common_directory(self.repo)
-            / TOOL_MODULE.CLAIMS_DIRECTORY_NAME
+        valid_payload = json.dumps(
+            {
+                "schema_version": 1,
+                "branch_ref": "refs/heads/master",
+                "step_id": "master-test-step-v1",
+                "lease_id": "00000000-0000-0000-0000-000000000001",
+            },
+            sort_keys=True,
+            separators=(",", ":"),
         )
-        self.assertFalse(root.exists())
+        target = "refs/fum/foreign-next-step-claim"
+        target_oid = self.git(
+            "hash-object",
+            "-w",
+            "--stdin",
+            input_text=valid_payload,
+        ).stdout.strip()
+        self.git("update-ref", "--no-deref", "-d", reference)
+        self.git("update-ref", target, target_oid)
+        self.git("symbolic-ref", reference, target)
+
+        symbolic_status = self.run_tool("claim-status")
+        symbolic_release = self.run_tool(
+            "release",
+            "--expected-lease-id",
+            "00000000-0000-0000-0000-000000000001",
+        )
+        self.assertEqual(symbolic_status.returncode, 2)
+        self.assertEqual(symbolic_release.returncode, 2)
+        self.assertEqual(
+            self.git("rev-parse", "--verify", target).stdout.strip(),
+            target_oid,
+        )
+
+    def test_unclaimed_status_does_not_create_claim_ref_or_object(self) -> None:
+        reference = TOOL_MODULE.claim_ref(self.repo, "refs/heads/master")
+        count_before = self.git("count-objects", "-v").stdout
 
         status = self.run_tool("claim-status")
 
         self.assertEqual(status.returncode, 0)
         self.assertEqual(self.payload(status)["state"], "unclaimed")
-        self.assertFalse(root.exists())
+        missing = subprocess.run(
+            [
+                "git",
+                "--no-replace-objects",
+                "--no-optional-locks",
+                "-C",
+                str(self.repo),
+                "rev-parse",
+                "--verify",
+                "--quiet",
+                reference,
+            ],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        self.assertNotEqual(missing.returncode, 0)
+        self.assertEqual(self.git("count-objects", "-v").stdout, count_before)
 
-    def test_claim_lock_has_a_bounded_fail_closed_wait(self) -> None:
-        root = self.repo / "lock-test"
-        root.mkdir()
+    def test_storage_has_no_posix_lock_or_filesystem_json_dependency(self) -> None:
+        source = SCRIPT_PATH.read_text(encoding="utf-8")
+        tree = ast.parse(source)
+        imported_roots = {
+            alias.name.split(".", 1)[0]
+            for node in ast.walk(tree)
+            if isinstance(node, (ast.Import, ast.ImportFrom))
+            for alias in node.names
+        }
+
+        self.assertNotIn("fcntl", imported_roots)
+        self.assertNotIn("flock", source)
+        self.assertNotIn("mkstemp", source)
+        self.assertNotIn("CLAIMS_DIRECTORY", source)
+
+    def test_all_git_calls_disable_optional_locks_replacements_and_redirects(
+        self,
+    ) -> None:
+        redirected = {
+            "GIT_DIR": str(self.repo / "redirected.git"),
+            "GIT_WORK_TREE": str(self.repo / "redirected-worktree"),
+            "GIT_INDEX_FILE": str(self.repo / "redirected-index"),
+            "GIT_NAMESPACE": "redirected",
+            "GIT_OBJECT_DIRECTORY": str(self.repo / "redirected-objects"),
+            "GIT_REPLACE_REF_BASE": "refs/replace-attacker/",
+            "GIT_CONFIG_COUNT": "1",
+            "GIT_CONFIG_KEY_0": "core.hooksPath",
+            "GIT_CONFIG_VALUE_0": str(self.repo / "hooks"),
+            "GIT_TRACE": str(self.repo / "git-trace.log"),
+            "GIT_TRACE2_EVENT": str(self.repo / "git-trace2.json"),
+        }
+        with mock.patch.dict(os.environ, redirected, clear=False):
+            actual = TOOL_MODULE.run_git(
+                self.repo,
+                "rev-parse",
+                "--show-toplevel",
+            )
+        self.assertEqual(actual.returncode, 0, actual.stderr)
+        self.assertFalse((self.repo / "git-trace.log").exists())
+        self.assertFalse((self.repo / "git-trace2.json").exists())
         with (
+            mock.patch.dict(os.environ, redirected, clear=False),
             mock.patch.object(
-                TOOL_MODULE.fcntl,
-                "flock",
-                side_effect=BlockingIOError,
-            ),
-            mock.patch.object(
-                TOOL_MODULE.time,
-                "monotonic",
-                side_effect=(0.0, 10.0),
-            ),
+                TOOL_MODULE.subprocess,
+                "run",
+                return_value=subprocess.CompletedProcess(
+                    args=[], returncode=0, stdout="ok\n", stderr=""
+                ),
+            ) as run,
         ):
-            with self.assertRaises(TOOL_MODULE.ContractError):
-                with TOOL_MODULE.claim_lock(root):
-                    self.fail("Заблокированный lock не должен быть получен.")
+            TOOL_MODULE.run_git(self.repo, "rev-parse", "--show-toplevel")
+
+        command = run.call_args.args[0]
+        environment = run.call_args.kwargs["env"]
+        self.assertEqual(command[:2], ["git", "--no-replace-objects"])
+        self.assertEqual(environment["GIT_OPTIONAL_LOCKS"], "0")
+        self.assertEqual(environment["GIT_NO_REPLACE_OBJECTS"], "1")
+        for name in redirected:
+            self.assertNotIn(name, environment)
+
+    def test_claim_does_not_change_a_dirty_checkout_or_index(self) -> None:
+        record = self.write_record()
+        self.git("add", record.relative_to(self.repo).as_posix())
+        (self.repo / "README.md").write_text(
+            "# Тестовый проект\n\nГрязное изменение.\n",
+            encoding="utf-8",
+        )
+        untracked = self.repo / "неотслеживаемый-файл.txt"
+        untracked.write_text("Не трогать.\n", encoding="utf-8")
+        status_before = self.git(
+            "status", "--porcelain=v1", "-z", "--untracked-files=all"
+        ).stdout
+        cached_before = self.git("diff", "--cached", "--binary").stdout
+        unstaged_before = self.git("diff", "--binary").stdout
+
+        claimed = self.run_tool(
+            "claim",
+            "--expected-branch-ref",
+            "refs/heads/master",
+            "--expected-step-id",
+            "master-test-step-v1",
+        )
+
+        self.assertEqual(claimed.returncode, 0, claimed.stdout + claimed.stderr)
+        self.assertEqual(
+            self.git("status", "--porcelain=v1", "-z", "--untracked-files=all").stdout,
+            status_before,
+        )
+        self.assertEqual(self.git("diff", "--cached", "--binary").stdout, cached_before)
+        self.assertEqual(self.git("diff", "--binary").stdout, unstaged_before)
+        self.assertEqual(untracked.read_text(encoding="utf-8"), "Не трогать.\n")
+
+    def test_claim_ref_is_scoped_to_the_physical_worktree(self) -> None:
+        linked = Path(self.temporary_directory.name) / "linked"
+        self.git("worktree", "add", "-b", "linked-test", str(linked), "HEAD")
+
+        main_ref = TOOL_MODULE.claim_ref(self.repo, "refs/heads/master")
+        linked_ref = TOOL_MODULE.claim_ref(linked, "refs/heads/master")
+
+        self.assertNotEqual(main_ref, linked_ref)
+
+    def test_unicode_branch_identity_round_trips_through_the_claim_blob(self) -> None:
+        project = self.repo / "Проекты" / "тест" / "README.md"
+        project.parent.mkdir(parents=True)
+        project.write_text("# Тест\n", encoding="utf-8")
+        self.git("checkout", "-b", "project/тест")
+        self.write_record(
+            branch_ref="refs/heads/project/тест",
+            step_id="project-unicode-step-v1",
+            project_path="Проекты/тест/README.md",
+        )
+
+        claimed = self.run_tool(
+            "claim",
+            "--expected-branch-ref",
+            "refs/heads/project/тест",
+            "--expected-step-id",
+            "project-unicode-step-v1",
+        )
+
+        self.assertEqual(claimed.returncode, 0, claimed.stdout + claimed.stderr)
+        self.assertEqual(
+            self.payload(claimed)["branch_ref"], "refs/heads/project/тест"
+        )
+        status = self.run_tool("claim-status")
+        self.assertEqual(status.returncode, 0, status.stdout + status.stderr)
+        self.assertEqual(self.payload(status)["branch_ref"], "refs/heads/project/тест")
+
+    def test_sha256_repository_claim_uses_native_object_ids(self) -> None:
+        sha_repo = Path(self.temporary_directory.name) / "sha256-repo"
+        initialized = subprocess.run(
+            [
+                "git",
+                "init",
+                "--object-format=sha256",
+                "-b",
+                "master",
+                str(sha_repo),
+            ],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        if initialized.returncode != 0:
+            self.skipTest("Git не поддерживает SHA-256 репозитории")
+        subprocess.run(
+            ["git", "-C", str(sha_repo), "config", "user.name", "FUM Test"],
+            check=True,
+        )
+        subprocess.run(
+            [
+                "git",
+                "-C",
+                str(sha_repo),
+                "config",
+                "user.email",
+                "fum-test@example.invalid",
+            ],
+            check=True,
+        )
+        (sha_repo / "README.md").write_text("# SHA-256\n", encoding="utf-8")
+        records = sha_repo / "Планирование" / "следующие-шаги-веток"
+        records.mkdir(parents=True)
+        subprocess.run(["git", "-C", str(sha_repo), "add", "."], check=True)
+        subprocess.run(
+            ["git", "-C", str(sha_repo), "commit", "-m", "Initial fixture"],
+            check=True,
+            capture_output=True,
+        )
+        original_repo = self.repo
+        self.repo = sha_repo
+        try:
+            self.write_record()
+            claimed = self.run_tool(
+                "claim",
+                "--expected-branch-ref",
+                "refs/heads/master",
+                "--expected-step-id",
+                "master-test-step-v1",
+            )
+            reference = TOOL_MODULE.claim_ref(sha_repo, "refs/heads/master")
+            oid = subprocess.run(
+                ["git", "-C", str(sha_repo), "rev-parse", "--verify", reference],
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+        finally:
+            self.repo = original_repo
+
+        self.assertEqual(claimed.returncode, 0, claimed.stdout + claimed.stderr)
+        self.assertEqual(len(oid), 64)
 
     def test_repository_has_a_valid_record_for_its_active_branch(self) -> None:
         result = subprocess.run(
