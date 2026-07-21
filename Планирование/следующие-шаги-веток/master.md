@@ -1,7 +1,7 @@
 +++
 schema_version = 1
 branch_ref = "refs/heads/master"
-step_id = "master-prepare-first-boxed-slice-passport-v3"
+step_id = "master-prepare-first-boxed-slice-passport-v4"
 status = "ready"
 project_path = "README.md"
 +++
@@ -36,6 +36,6 @@ project_path = "README.md"
 - [полностью пересобранное описание FUM для разработчиков](../../Описания/для-разработчиков-ПО.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-21 13:00:11 MSK -->
-<!-- content-sha256: sha256:8be7fe30f0ebf4d27136efad66eda635cf794c8e8cfb66cc7dd319f72b75a5ac -->
+<!-- last-content-edit: 2026-07-21 13:21:14 MSK -->
+<!-- content-sha256: sha256:dab9301312c7ce2c3e3dfab94fdf26a03f991567bec89d3c6aa403feff128287 -->
 <!-- FUM-MD-RECENCY:END -->

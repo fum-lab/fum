@@ -1,0 +1,1 @@
+https://docs.github.com/en/organizations/managing-organization-settings/restricting-repository-creation-in-your-organization
