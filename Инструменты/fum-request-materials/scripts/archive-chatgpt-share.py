@@ -111,19 +111,27 @@ def source_name_slug(source_name: str) -> str:
 
 
 def source_path_segment(value: str) -> str:
-    decoded = unquote(value).strip()
-    parts = re.findall(r"[0-9A-Za-zА-Яа-яЁё._~-]+", decoded)
-    segment = "-".join(parts).strip(".")
-    if segment in {"", ".", ".."}:
-        return "_"
-    return segment[:120]
+    decoded = unquote(value)
+    candidate = decoded.strip()
+    safe_pattern = r"[0-9A-Za-zА-Яа-яЁё._~-]+"
+    if (
+        decoded == candidate
+        and candidate not in {"", ".", ".."}
+        and re.fullmatch(safe_pattern, candidate)
+        and len(candidate) <= 120
+    ):
+        return candidate
+
+    digest = hashlib.sha256(decoded.encode("utf-8")).hexdigest()[:16]
+    parts = re.findall(safe_pattern, candidate)
+    readable = "-".join(parts).strip(".-_")[:96].rstrip(".-_")
+    if readable:
+        return f"{readable}-{digest}"
+    return f"_segment-{digest}"
 
 
 def hashed_url_component(prefix: str, value: str) -> str:
     digest = hashlib.sha256(value.encode("utf-8")).hexdigest()[:16]
-    readable = source_path_segment(value)[:48].strip("-_")
-    if readable:
-        return f"_{prefix}-{readable}-{digest}"
     return f"_{prefix}-{digest}"
 
 
@@ -131,10 +139,19 @@ def request_base_dir(request_file: Path) -> Path:
     return request_file.parent.parent if request_file.parent.name == "Запросы" else request_file.parent
 
 
-def url_output_dir(base_dir: Path, url: str) -> Path:
+def validate_source_url(url: str):
     parsed = urlsplit(url)
     if not parsed.scheme or not parsed.netloc:
         raise ValueError("URL must include scheme and host")
+    if parsed.scheme.lower() not in {"http", "https"}:
+        raise ValueError("source archive URL must use HTTP or HTTPS")
+    if parsed.username is not None or parsed.password is not None:
+        raise ValueError("source archive URL must not contain userinfo")
+    return parsed
+
+
+def url_output_dir(base_dir: Path, url: str) -> Path:
+    parsed = validate_source_url(url)
 
     host = parsed.hostname or parsed.netloc
     netloc = host.lower()
@@ -186,13 +203,32 @@ def run_curl(url: str, html_path: Path, headers_path: Path) -> dict[str, str]:
         "time_total=%{time_total}\\n"
         "redirect_url=%{redirect_url}\\n"
     )
-    proc = subprocess.run(
-        [curl, "-L", url, "-D", str(headers_path), "-o", str(html_path), "-w", write_out],
-        check=True,
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
+    try:
+        proc = subprocess.run(
+            [
+                curl,
+                "--proto",
+                "=http,https",
+                "--proto-redir",
+                "=http,https",
+                "-L",
+                url,
+                "-D",
+                str(headers_path),
+                "-o",
+                str(html_path),
+                "-w",
+                write_out,
+            ],
+            check=True,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+    except subprocess.CalledProcessError as exc:
+        raise RuntimeError(
+            f"curl capture failed with exit code {exc.returncode}"
+        ) from exc
     info: dict[str, str] = {}
     for line in proc.stdout.splitlines():
         if "=" in line:
@@ -218,6 +254,11 @@ def trim_trailing_whitespace(text: str) -> str:
     return "\n".join(lines) + "\n"
 
 
+def markdown_text(value: str) -> str:
+    normalized = re.sub(r"\s+", " ", value).strip()
+    return normalized.replace("\\", "\\\\").replace("[", "\\[").replace("]", "\\]")
+
+
 def readable_dialog_title(messages_data: dict[str, Any]) -> str:
     title = messages_data.get("title")
     if isinstance(title, str) and title.strip():
@@ -226,8 +267,9 @@ def readable_dialog_title(messages_data: dict[str, Any]) -> str:
 
 
 def formatted_messages_markdown_name(messages_data: dict[str, Any]) -> str:
-    segment = source_path_segment(readable_dialog_title(messages_data)).lower()
-    if segment == "_":
+    title = readable_dialog_title(messages_data)
+    segment = source_name_slug(title).lower()
+    if not re.search(r"[0-9A-Za-zА-Яа-яЁё]", title):
         segment = "расшаренный-диалог-chatgpt"
     return f"{segment}.md"
 
@@ -521,7 +563,7 @@ def write_messages_markdown(path: Path, url: str, messages_data: dict[str, Any])
         if isinstance(message, dict) and not is_service_message(message)
     ]
     lines = [
-        f"# {title}",
+        f"# {markdown_text(title)}",
         "",
         f"Источник: <{url}>",
         "",
@@ -559,7 +601,7 @@ def write_source_index(
     file_set = set(files)
     markdown_name = formatted_messages_markdown_name(messages_data)
     lines = [
-        f"# Источник: {title}",
+        f"# Источник: {markdown_text(title)}",
         "",
         f"Исходный URL: <{url}>",
         "",
@@ -620,7 +662,7 @@ def link_source_in_request_file(request_file: Path, output_dir: Path, title: str
 
     entry = "\n".join(
         [
-            f"- [Источник: {title}]({source_link})",
+            f"- [Источник: {markdown_text(title)}]({source_link})",
             f"- [Индекс источника]({index_link})",
             f"- [Отчёт об извлечении]({report_link})",
         ]
@@ -800,6 +842,33 @@ def install_snapshot(staging_dir: Path, output_dir: Path) -> None:
     )
 
 
+def ensure_destination_matches_url(output_dir: Path, url: str) -> None:
+    if not os.path.lexists(output_dir):
+        return
+    if output_dir.is_symlink() or not output_dir.is_dir():
+        raise ValueError(f"snapshot destination is not a real directory: {output_dir}")
+    source_url = output_dir / "source-url.txt"
+    if source_url.is_symlink() or not source_url.is_file():
+        raise ValueError(
+            "existing snapshot has no trustworthy source-url.txt and cannot be replaced"
+        )
+    try:
+        stored_url = source_url.read_text(encoding="utf-8")
+    except (OSError, UnicodeError) as exc:
+        raise ValueError("existing snapshot source-url.txt is unreadable") from exc
+    if stored_url != url + "\n":
+        raise ValueError(
+            "existing snapshot belongs to a different URL and cannot be replaced"
+        )
+
+
+def validate_request_file(request_file: Path) -> None:
+    if request_file.is_symlink() or not request_file.is_file():
+        raise ValueError(f"request file must be an existing regular file: {request_file}")
+    if request_file.suffix.lower() != ".md":
+        raise ValueError(f"request file must be Markdown: {request_file}")
+
+
 def build_snapshot(staging_dir: Path, url: str) -> dict[str, Any]:
     with tempfile.TemporaryDirectory(prefix="fum-chatgpt-share-") as tmp:
         tmpdir = Path(tmp)
@@ -917,8 +986,11 @@ def build_snapshot(staging_dir: Path, url: str) -> dict[str, Any]:
 
 def main() -> int:
     args = parse_args()
+    validate_source_url(args.url)
     request_file = args.request_file
+    validate_request_file(request_file)
     output_dir = args.output_dir or default_output_dir(request_file, args.url, args.source_name)
+    ensure_destination_matches_url(output_dir, args.url)
     output_dir.parent.mkdir(parents=True, exist_ok=True)
 
     with tempfile.TemporaryDirectory(
@@ -928,6 +1000,7 @@ def main() -> int:
     ) as staging:
         staging_dir = Path(staging)
         messages_data = build_snapshot(staging_dir, args.url)
+        ensure_destination_matches_url(output_dir, args.url)
         install_snapshot(staging_dir, output_dir)
 
     if os.path.lexists(staging_dir):
@@ -962,5 +1035,13 @@ def main() -> int:
     return 0
 
 
+def cli() -> int:
+    try:
+        return main()
+    except (OSError, RuntimeError, ValueError) as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 1
+
+
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(cli())

@@ -168,6 +168,93 @@ class ArchiveChatgptShareTests(unittest.TestCase):
 
         self.assertNotEqual(first, second)
         self.assertEqual(first.parent, Path("/repo/Источники/URL/https/example.com/search"))
+        self.assertNotIn("FUM", first.as_posix())
+        self.assertRegex(first.name, r"^_query-[0-9a-f]{16}$")
+
+    def test_default_output_dir_keeps_normalized_path_collisions_separate(self):
+        request_file = Path("/repo/Запросы/2026-06-23_17-37-29_MSK.md")
+
+        first = archive_chatgpt_share.default_output_dir(
+            request_file,
+            "https://chatgpt.com/share/a:b",
+        )
+        second = archive_chatgpt_share.default_output_dir(
+            request_file,
+            "https://chatgpt.com/share/a-b",
+        )
+
+        self.assertNotEqual(first, second)
+
+    def test_default_output_dir_rejects_non_http_url(self):
+        request_file = Path("/repo/Запросы/2026-06-23_17-37-29_MSK.md")
+
+        with self.assertRaisesRegex(ValueError, "HTTP or HTTPS"):
+            archive_chatgpt_share.default_output_dir(
+                request_file,
+                "file://localhost/private/material.html",
+            )
+
+    def test_main_rejects_unsafe_url_even_with_explicit_output_dir(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_file = root / "request.md"
+            request_file.write_text("# Запрос\n", encoding="utf-8")
+            args = SimpleNamespace(
+                url="https://user:secret@chatgpt.com/share/example",
+                request_file=request_file,
+                output_dir=root / "source",
+                source_name=None,
+            )
+
+            with mock.patch.object(
+                archive_chatgpt_share,
+                "parse_args",
+                return_value=args,
+            ):
+                with mock.patch.object(
+                    archive_chatgpt_share,
+                    "run_curl",
+                    side_effect=AssertionError("transport must not run"),
+                ):
+                    with self.assertRaisesRegex(ValueError, "userinfo"):
+                        archive_chatgpt_share.main()
+
+    def test_main_rejects_missing_request_file_before_capture(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            args = SimpleNamespace(
+                url="https://chatgpt.com/share/example",
+                request_file=root / "missing.md",
+                output_dir=root / "source",
+                source_name=None,
+            )
+
+            with mock.patch.object(
+                archive_chatgpt_share,
+                "parse_args",
+                return_value=args,
+            ):
+                with mock.patch.object(
+                    archive_chatgpt_share,
+                    "run_curl",
+                    side_effect=AssertionError("transport must not run"),
+                ):
+                    with self.assertRaisesRegex(ValueError, "request file"):
+                        archive_chatgpt_share.main()
+
+    def test_cli_reports_runtime_error_without_traceback(self):
+        stderr = io.StringIO()
+        with mock.patch.object(
+            archive_chatgpt_share,
+            "main",
+            side_effect=RuntimeError("curl capture failed with exit code 22"),
+        ):
+            with redirect_stderr(stderr):
+                result = archive_chatgpt_share.cli()
+
+        self.assertEqual(result, 1)
+        self.assertIn("curl capture failed with exit code 22", stderr.getvalue())
+        self.assertNotIn("Traceback", stderr.getvalue())
 
     def test_parse_args_allows_url_path_without_source_name(self):
         argv = [
@@ -197,6 +284,41 @@ class ArchiveChatgptShareTests(unittest.TestCase):
         self.assertNotIn("another=secret", redacted)
         self.assertEqual(redacted.count("[REDACTED: response cookie]"), 2)
         self.assertIn("content-type: text/html", redacted)
+
+    def test_existing_snapshot_must_belong_to_exact_source_url(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            output_dir = Path(tmp) / "source"
+            output_dir.mkdir()
+            (output_dir / "source-url.txt").write_text(
+                "https://chatgpt.com/share/different\n",
+                encoding="utf-8",
+            )
+
+            with self.assertRaisesRegex(ValueError, "belongs to a different URL"):
+                archive_chatgpt_share.ensure_destination_matches_url(
+                    output_dir,
+                    "https://chatgpt.com/share/example",
+                )
+
+    def test_external_title_is_escaped_when_request_is_linked(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp)
+            request_file = repo / "Запросы" / "request.md"
+            output_dir = repo / "Источники" / "source"
+            request_file.parent.mkdir(parents=True)
+            output_dir.mkdir(parents=True)
+            request_file.write_text("# Запрос\n", encoding="utf-8")
+
+            archive_chatgpt_share.link_source_in_request_file(
+                request_file,
+                output_dir,
+                "X](https://attacker.invalid)[Y",
+            )
+
+            markdown = request_file.read_text(encoding="utf-8")
+
+        self.assertIn(r"Источник: X\](https://attacker.invalid)\[Y", markdown)
+        self.assertNotRegex(markdown, r"(?<!\\)\]\(https://attacker\.invalid")
 
     def test_redact_initial_state_removes_local_request_metadata_recursively(self):
         state = {
