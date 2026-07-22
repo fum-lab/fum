@@ -86,7 +86,7 @@ class BranchNextStepTests(unittest.TestCase):
 
     def write_card(
         self,
-        filename: str = "FUM-STEP-0001-test.md",
+        filename: str | None = None,
         *,
         card_id: str = "FUM-STEP-0001",
         status: str = "active",
@@ -125,6 +125,14 @@ class BranchNextStepTests(unittest.TestCase):
         )
         directory = self.repo / "Планирование" / "карточки-шагов"
         directory.mkdir(parents=True, exist_ok=True)
+        if filename is None:
+            status_emoji = {
+                "active": "🟡",
+                "completed": "✅",
+                "absorbed": "🧩",
+                "withdrawn": "🗑️",
+            }[status]
+            filename = f"{status_emoji}-{card_id}-проверить-шаг.md"
         path = directory / filename
         path.write_text(card, encoding="utf-8")
         return path
@@ -318,7 +326,8 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertEqual(payload["card_id"], "FUM-STEP-0001")
         self.assertEqual(
             payload["card_path"],
-            "Планирование/карточки-шагов/FUM-STEP-0001-test.md",
+            "Планирование/карточки-шагов/"
+            "🟡-FUM-STEP-0001-проверить-шаг.md",
         )
         self.assertRegex(
             str(payload["card_content_sha256"]),
@@ -327,6 +336,156 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertEqual(payload["title"], "Проверить следующий шаг")
         self.assertIn("Обновить тестовый артефакт", payload["task"])
         self.assertEqual(len(payload["criteria"]), 2)
+
+    def test_card_filename_mirrors_status_id_and_has_a_kebab_description(
+        self,
+    ) -> None:
+        cases = (
+            (
+                "missing emoji",
+                "FUM-STEP-0001-проверить-шаг.md",
+                "эмодзи",
+            ),
+            (
+                "missing description",
+                "🟡-FUM-STEP-0001.md",
+                "краткое название",
+            ),
+            (
+                "status emoji mismatch",
+                "✅-FUM-STEP-0001-проверить-шаг.md",
+                "status=active",
+            ),
+            (
+                "card id mismatch",
+                "🟡-FUM-STEP-0002-проверить-шаг.md",
+                "card_id",
+            ),
+            (
+                "space separator",
+                "🟡-FUM-STEP-0001-проверить SwiftPM.md",
+                "Unicode",
+            ),
+            (
+                "double hyphen",
+                "🟡-FUM-STEP-0001-проверить--SwiftPM.md",
+                "одиночными",
+            ),
+            (
+                "underscore separator",
+                "🟡-FUM-STEP-0001-проверить_SwiftPM.md",
+                "Unicode",
+            ),
+        )
+        for name, filename, expected_error in cases:
+            with self.subTest(name=name):
+                card = self.write_card(filename)
+                selector = self.write_selector()
+
+                result = self.run_tool("validate")
+
+                card.unlink()
+                selector.unlink()
+
+                self.assertEqual(result.returncode, 2)
+                self.assertIn(
+                    expected_error,
+                    str(self.payload(result)["error"]),
+                )
+
+    def test_card_filename_is_limited_to_255_utf8_bytes(self) -> None:
+        filename = (
+            "🟡-FUM-STEP-0001-"
+            + ("я" * 117)
+            + ".md"
+        )
+        self.assertGreater(len(filename.encode("utf-8")), 255)
+
+        with self.assertRaises(TOOL_MODULE.ContractError) as context:
+            TOOL_MODULE.validate_card_filename(
+                filename,
+                "FUM-STEP-0001",
+                "active",
+                f"Планирование/карточки-шагов/{filename}",
+            )
+
+        self.assertIn("255", str(context.exception))
+
+    def test_card_filename_accepts_exactly_255_utf8_bytes(self) -> None:
+        filename = (
+            "🟡-FUM-STEP-0001-"
+            + ("я" * 116)
+            + "a.md"
+        )
+        self.assertEqual(len(filename.encode("utf-8")), 255)
+
+        TOOL_MODULE.validate_card_filename(
+            filename,
+            "FUM-STEP-0001",
+            "active",
+            f"Планирование/карточки-шагов/{filename}",
+        )
+
+    def test_only_exact_root_readme_is_exempt_from_card_validation(
+        self,
+    ) -> None:
+        self.write_record()
+        cards_directory = (
+            self.repo / "Планирование" / "карточки-шагов"
+        )
+        index_path = cards_directory / "README.md"
+        index_path.write_text(
+            "# Индекс карточек\n",
+            encoding="utf-8",
+        )
+
+        valid = self.run_tool("validate")
+        self.assertEqual(valid.returncode, 0, valid.stdout + valid.stderr)
+
+        invalid_paths = (
+            Path("readme.md"),
+            Path("вложенный") / "README.md",
+            Path("лишний.MD"),
+        )
+        for relative_path in invalid_paths:
+            with self.subTest(path=relative_path.as_posix()):
+                if relative_path == Path("readme.md"):
+                    index_path.unlink()
+                path = cards_directory / relative_path
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text("это не карточка\n", encoding="utf-8")
+
+                result = self.run_tool("validate")
+
+                path.unlink()
+                if relative_path == Path("readme.md"):
+                    index_path.write_text(
+                        "# Индекс карточек\n",
+                        encoding="utf-8",
+                    )
+                self.assertEqual(result.returncode, 2)
+                self.assertIn(
+                    relative_path.as_posix(),
+                    str(self.payload(result)["error"]),
+                )
+
+    def test_valid_nested_card_is_rejected_from_the_flat_directory(
+        self,
+    ) -> None:
+        card = self.write_record()
+        nested_card = card.parent / "вложенный" / card.name
+        nested_card.parent.mkdir()
+        card.rename(nested_card)
+
+        result = self.run_tool("validate")
+
+        self.assertEqual(result.returncode, 2)
+        error = str(self.payload(result)["error"])
+        self.assertIn("плоским", error)
+        self.assertIn(
+            "Планирование/карточки-шагов/вложенный/",
+            error,
+        )
 
     def test_selector_hash_fences_the_exact_card_content(self) -> None:
         card = self.write_record()
@@ -364,7 +523,7 @@ class BranchNextStepTests(unittest.TestCase):
     def test_validate_rejects_invalid_or_duplicate_unselected_cards(self) -> None:
         self.write_record()
         self.write_card(
-            "duplicate.md",
+            "🟡-FUM-STEP-0001-дубликат.md",
             card_id="FUM-STEP-0001",
         )
         duplicate = self.run_tool("validate")
@@ -372,11 +531,14 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertIn("дубликат", str(self.payload(duplicate)["error"]).lower())
 
         duplicate_path = (
-            self.repo / "Планирование" / "карточки-шагов" / "duplicate.md"
+            self.repo
+            / "Планирование"
+            / "карточки-шагов"
+            / "🟡-FUM-STEP-0001-дубликат.md"
         )
         duplicate_path.unlink()
         self.write_card(
-            "invalid.md",
+            "🟡-FUM-STEP-0001-некорректный-id.md",
             card_id="not-a-fum-step",
         )
         invalid = self.run_tool("validate")
@@ -387,11 +549,14 @@ class BranchNextStepTests(unittest.TestCase):
         for card_status in ("completed", "absorbed", "withdrawn"):
             with self.subTest(card_status=card_status):
                 card = self.write_card(status=card_status)
-                self.write_selector(
+                selector = self.write_selector(
                     card_content_sha256=self.card_content_sha256(card),
                 )
 
                 result = self.run_tool("validate")
+
+                card.unlink()
+                selector.unlink()
 
                 self.assertEqual(result.returncode, 2)
                 self.assertIn("active", str(self.payload(result)["error"]))
@@ -876,11 +1041,11 @@ class BranchNextStepTests(unittest.TestCase):
 
     def test_blocked_candidate_does_not_hide_the_ready_candidate(self) -> None:
         self.write_card(
-            "blocked.md",
+            "🟡-FUM-STEP-0001-заблокированный-кандидат.md",
             card_id="FUM-STEP-0001",
         )
         self.write_card(
-            "ready.md",
+            "🟡-FUM-STEP-0002-готовый-кандидат.md",
             card_id="FUM-STEP-0002",
         )
         self.write_selector(
@@ -924,11 +1089,11 @@ class BranchNextStepTests(unittest.TestCase):
 
     def test_multiple_ready_candidates_are_invalid(self) -> None:
         self.write_card(
-            "first.md",
+            "🟡-FUM-STEP-0001-первый-кандидат.md",
             card_id="FUM-STEP-0001",
         )
         self.write_card(
-            "second.md",
+            "🟡-FUM-STEP-0002-второй-кандидат.md",
             card_id="FUM-STEP-0002",
         )
         self.write_selector(
@@ -996,11 +1161,11 @@ class BranchNextStepTests(unittest.TestCase):
 
     def test_candidate_card_and_step_ids_must_be_unique(self) -> None:
         self.write_card(
-            "first.md",
+            "🟡-FUM-STEP-0001-первый-кандидат.md",
             card_id="FUM-STEP-0001",
         )
         self.write_card(
-            "second.md",
+            "🟡-FUM-STEP-0002-второй-кандидат.md",
             card_id="FUM-STEP-0002",
         )
         cases = (
@@ -1049,11 +1214,11 @@ class BranchNextStepTests(unittest.TestCase):
 
     def test_invalid_deferred_candidate_fails_closed(self) -> None:
         deferred = self.write_card(
-            "deferred.md",
+            "🟡-FUM-STEP-0001-отложенный-кандидат.md",
             card_id="FUM-STEP-0001",
         )
         self.write_card(
-            "ready.md",
+            "🟡-FUM-STEP-0002-готовый-кандидат.md",
             card_id="FUM-STEP-0002",
         )
         self.write_selector(
@@ -1090,11 +1255,11 @@ class BranchNextStepTests(unittest.TestCase):
 
     def test_no_ready_candidate_is_visible_and_not_claimable(self) -> None:
         self.write_card(
-            "paused.md",
+            "🟡-FUM-STEP-0001-приостановленный-кандидат.md",
             card_id="FUM-STEP-0001",
         )
         self.write_card(
-            "blocked.md",
+            "🟡-FUM-STEP-0002-заблокированный-кандидат.md",
             card_id="FUM-STEP-0002",
         )
         self.write_selector(

@@ -19,6 +19,12 @@ sys.modules[spec.name] = build_planning_registry
 spec.loader.exec_module(build_planning_registry)
 
 
+ACTIVE_STEP_CARD = "🟡-FUM-STEP-0001-подготовить-тестовый-реестр.md"
+COMPLETED_STEP_CARD = "✅-FUM-STEP-0002-старое-предложение.md"
+ABSORBED_STEP_CARD = "🧩-FUM-STEP-0003-поглощённое-предложение.md"
+WITHDRAWN_STEP_CARD = "🗑️-FUM-STEP-0004-снятое-предложение.md"
+
+
 class BuildPlanningRegistryTests(unittest.TestCase):
     def write_requirement_cards(self, root: Path) -> None:
         requirements = root / "Требования"
@@ -78,11 +84,13 @@ class BuildPlanningRegistryTests(unittest.TestCase):
             "## Индекс\n\n"
             "| Идентификатор | Статус | Карточка |\n"
             "| --- | --- | --- |\n"
-            "| `FUM-STEP-0001` | Актуально | [Подготовить тестовый реестр](FUM-STEP-0001-подготовить-тестовый-реестр.md) |\n"
-            "| `FUM-STEP-0002` | Выполнено | [Старое предложение](FUM-STEP-0002-старое-предложение.md) |\n",
+            f"| `FUM-STEP-0001` | 🟡 Актуально | [Подготовить тестовый реестр]({ACTIVE_STEP_CARD}) |\n"
+            f"| `FUM-STEP-0002` | ✅ Выполнено | [Старое предложение]({COMPLETED_STEP_CARD}) |\n"
+            f"| `FUM-STEP-0003` | 🧩 Поглощено | [Поглощённое предложение]({ABSORBED_STEP_CARD}) |\n"
+            f"| `FUM-STEP-0004` | 🗑️ Снято | [Снятое предложение]({WITHDRAWN_STEP_CARD}) |\n",
             encoding="utf-8",
         )
-        (cards / "FUM-STEP-0001-подготовить-тестовый-реестр.md").write_text(
+        (cards / ACTIVE_STEP_CARD).write_text(
             "+++\n"
             "schema_version = 1\n"
             'card_id = "FUM-STEP-0001"\n'
@@ -101,7 +109,7 @@ class BuildPlanningRegistryTests(unittest.TestCase):
             "- [дорожная карта](../дорожная-карта.md)\n",
             encoding="utf-8",
         )
-        (cards / "FUM-STEP-0002-старое-предложение.md").write_text(
+        (cards / COMPLETED_STEP_CARD).write_text(
             "+++\n"
             "schema_version = 1\n"
             'card_id = "FUM-STEP-0002"\n'
@@ -117,6 +125,51 @@ class BuildPlanningRegistryTests(unittest.TestCase):
             "- [дорожная карта](../дорожная-карта.md)\n",
             encoding="utf-8",
         )
+        historical_cards = (
+            (
+                ABSORBED_STEP_CARD,
+                "FUM-STEP-0003",
+                "absorbed",
+                "Поглощённое предложение",
+                "Предложение поглощено более точным шагом.",
+            ),
+            (
+                WITHDRAWN_STEP_CARD,
+                "FUM-STEP-0004",
+                "withdrawn",
+                "Снятое предложение",
+                "Предложение снято с сохранением истории.",
+            ),
+        )
+        for filename, card_id, status, title, outcome in historical_cards:
+            (cards / filename).write_text(
+                "+++\n"
+                "schema_version = 1\n"
+                f'card_id = "{card_id}"\n'
+                f'status = "{status}"\n'
+                "+++\n"
+                f"# {title}\n\n"
+                "Карточка сохраняет историю шага.\n\n"
+                "## Задача\n\n"
+                f"{title}.\n\n"
+                "## Результат\n\n"
+                f"{outcome}\n\n"
+                "## Источники\n\n"
+                "- [дорожная карта](../дорожная-карта.md)\n",
+                encoding="utf-8",
+            )
+
+    def rename_step_card(self, root: Path, old_name: str, new_name: str) -> Path:
+        cards = root / "Планирование" / "карточки-шагов"
+        old_path = cards / old_name
+        new_path = cards / new_name
+        old_path.rename(new_path)
+        index = cards / "README.md"
+        index.write_text(
+            index.read_text(encoding="utf-8").replace(old_name, new_name),
+            encoding="utf-8",
+        )
+        return new_path
 
     def write_fixture(self, root: Path) -> Path:
         (root / "Планирование" / "направления-проектирования-и-развития").mkdir(parents=True)
@@ -233,6 +286,19 @@ class BuildPlanningRegistryTests(unittest.TestCase):
             self.assertEqual(registry["steps"][1]["criteria"], [])
             self.assertEqual(registry["steps"][1]["outcome"], "Сделано.")
             self.assertEqual(
+                [step["status"] for step in registry["steps"]],
+                ["active", "completed", "absorbed", "withdrawn"],
+            )
+            self.assertEqual(
+                [Path(step["file"]).name for step in registry["steps"]],
+                [
+                    ACTIVE_STEP_CARD,
+                    COMPLETED_STEP_CARD,
+                    ABSORBED_STEP_CARD,
+                    WITHDRAWN_STEP_CARD,
+                ],
+            )
+            self.assertEqual(
                 registry["source_inventory"]["active_proposals"][0]["id"],
                 "FUM-STEP-0001",
             )
@@ -276,7 +342,7 @@ class BuildPlanningRegistryTests(unittest.TestCase):
             self.assertIn("Планирование/предложения-о-следующих-шагах.md", source_paths)
             self.assertIn("Планирование/карточки-шагов/README.md", source_paths)
             self.assertIn(
-                "Планирование/карточки-шагов/FUM-STEP-0001-подготовить-тестовый-реестр.md",
+                f"Планирование/карточки-шагов/{ACTIVE_STEP_CARD}",
                 source_paths,
             )
             self.assertEqual(registry["source_inventory"]["roadmap_horizons"][0]["id"], "horizon-0")
@@ -557,10 +623,20 @@ class BuildPlanningRegistryTests(unittest.TestCase):
                 root = Path(tmp)
                 output = self.write_fixture(root)
                 card_name = (
-                    "FUM-STEP-0002-старое-предложение.md"
+                    COMPLETED_STEP_CARD
                     if name == "duplicate_id"
-                    else "FUM-STEP-0001-подготовить-тестовый-реестр.md"
+                    else ACTIVE_STEP_CARD
                 )
+                if name == "duplicate_id":
+                    card_name = COMPLETED_STEP_CARD.replace(
+                        "FUM-STEP-0002",
+                        "FUM-STEP-0001",
+                    )
+                    self.rename_step_card(
+                        root,
+                        COMPLETED_STEP_CARD,
+                        card_name,
+                    )
                 card = root / "Планирование" / "карточки-шагов" / card_name
                 card.write_text(
                     card.read_text(encoding="utf-8").replace(old, new),
@@ -570,25 +646,186 @@ class BuildPlanningRegistryTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, error):
                     build_planning_registry.build_to_file(output, root)
 
+    def test_build_rejects_noncanonical_step_card_filenames(self):
+        cases = (
+            (
+                "legacy_name",
+                "FUM-STEP-0001-подготовить-тестовый-реестр.md",
+                "step card filename",
+            ),
+            (
+                "unknown_emoji",
+                "❌-FUM-STEP-0001-подготовить-тестовый-реестр.md",
+                "step card filename",
+            ),
+            (
+                "empty_description",
+                "🟡-FUM-STEP-0001-.md",
+                "description",
+            ),
+            (
+                "id_mismatch",
+                "🟡-FUM-STEP-0099-подготовить-тестовый-реестр.md",
+                "filename id does not match",
+            ),
+            (
+                "status_mismatch",
+                "✅-FUM-STEP-0001-подготовить-тестовый-реестр.md",
+                "filename status does not match",
+            ),
+            (
+                "double_hyphen",
+                "🟡-FUM-STEP-0001-подготовить--тестовый-реестр.md",
+                "description",
+            ),
+            (
+                "underscore",
+                "🟡-FUM-STEP-0001-подготовить_тестовый-реестр.md",
+                "description",
+            ),
+            (
+                "punctuation",
+                "🟡-FUM-STEP-0001-подготовить-тестовый-реестр!.md",
+                "description",
+            ),
+        )
+        for name, filename, error in cases:
+            with self.subTest(name=name), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                output = self.write_fixture(root)
+                self.rename_step_card(root, ACTIVE_STEP_CARD, filename)
+
+                with self.assertRaisesRegex(ValueError, error):
+                    build_planning_registry.build_to_file(output, root)
+
+    def test_step_card_filename_rejects_more_than_255_utf8_bytes(self):
+        filename = f"🟡-FUM-STEP-0001-{'я' * 117}.md"
+        self.assertGreater(len(filename.encode("utf-8")), 255)
+
+        with self.assertRaisesRegex(ValueError, "255 UTF-8 bytes"):
+            build_planning_registry.step_card_filename_metadata(Path(filename))
+
+    def test_step_card_filename_accepts_exactly_255_utf8_bytes(self):
+        prefix = "🟡-FUM-STEP-0001-"
+        suffix = ".md"
+        description_length = 255 - len((prefix + suffix).encode("utf-8"))
+        filename = f"{prefix}{'A' * description_length}{suffix}"
+        self.assertEqual(len(filename.encode("utf-8")), 255)
+
+        filename_id, filename_status, description = (
+            build_planning_registry.step_card_filename_metadata(Path(filename))
+        )
+
+        self.assertEqual(filename_id, "FUM-STEP-0001")
+        self.assertEqual(filename_status, "active")
+        self.assertEqual(description, "A" * description_length)
+
+    def test_build_rejects_foreign_markdown_in_step_cards_directory(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output = self.write_fixture(root)
+            cards = root / "Планирование" / "карточки-шагов"
+            (cards / "заметки.md").write_text(
+                "# Посторонний документ\n",
+                encoding="utf-8",
+            )
+
+            with self.assertRaisesRegex(ValueError, "step card filename"):
+                build_planning_registry.build_to_file(output, root)
+
+    def test_build_rejects_nested_or_noncanonical_markdown_inventory(self):
+        cases = (
+            (
+                "nested_markdown",
+                "черновики/заметки.md",
+                "step cards directory must be flat",
+            ),
+            (
+                "nested_uppercase_extension",
+                "черновики/заметки.MD",
+                "step cards directory must be flat",
+            ),
+            (
+                "nested_readme",
+                "черновики/README.md",
+                "step cards directory must be flat",
+            ),
+            (
+                "root_lowercase_readme",
+                "readme.md",
+                r"step card (?:filename|index)",
+            ),
+            (
+                "root_uppercase_extension",
+                "заметки.MD",
+                "step card filename",
+            ),
+        )
+        for name, relative_path, error in cases:
+            with self.subTest(name=name), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                output = self.write_fixture(root)
+                foreign = (
+                    root
+                    / "Планирование"
+                    / "карточки-шагов"
+                    / relative_path
+                )
+                foreign.parent.mkdir(parents=True, exist_ok=True)
+                foreign.write_text("# Посторонний Markdown\n", encoding="utf-8")
+
+                with self.assertRaisesRegex(ValueError, error):
+                    build_planning_registry.build_to_file(output, root)
+
+    def test_step_card_description_can_change_without_changing_identity(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_fixture(root)
+            renamed = (
+                "🟡-FUM-STEP-0001-собрать-SwiftPM-2.md"
+            )
+            self.rename_step_card(root, ACTIVE_STEP_CARD, renamed)
+
+            registry = build_planning_registry.build_registry(root)
+
+            self.assertEqual(registry["steps"][0]["id"], "FUM-STEP-0001")
+            self.assertEqual(registry["steps"][0]["status"], "active")
+            self.assertEqual(Path(registry["steps"][0]["file"]).name, renamed)
+
+    def test_registry_validation_cross_checks_step_file_identity(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_fixture(root)
+            registry = build_planning_registry.build_registry(root)
+            registry["steps"][0]["file"] = (
+                "Планирование/карточки-шагов/"
+                "✅-FUM-STEP-0099-другая-карточка.md"
+            )
+
+            errors = build_planning_registry.validate_registry_object(registry)
+
+            self.assertIn("step card file id does not match", "\n".join(errors))
+            self.assertIn("step card file status does not match", "\n".join(errors))
+
     def test_build_requires_complete_exact_step_card_index(self):
         mutations = {
             "unindexed_card": (
-                "| `FUM-STEP-0002` | Выполнено | [Старое предложение](FUM-STEP-0002-старое-предложение.md) |\n",
+                f"| `FUM-STEP-0002` | ✅ Выполнено | [Старое предложение]({COMPLETED_STEP_CARD}) |\n",
                 "",
                 "step card index does not exactly cover cards",
             ),
             "status_mismatch": (
-                "| `FUM-STEP-0001` | Актуально |",
-                "| `FUM-STEP-0001` | Выполнено |",
+                "| `FUM-STEP-0001` | 🟡 Актуально |",
+                "| `FUM-STEP-0001` | ✅ Выполнено |",
                 "step card index status mismatch",
             ),
             "title_mismatch": (
-                "[Подготовить тестовый реестр](FUM-STEP-0001-подготовить-тестовый-реестр.md)",
-                "[Другое название](FUM-STEP-0001-подготовить-тестовый-реестр.md)",
+                f"[Подготовить тестовый реестр]({ACTIVE_STEP_CARD})",
+                f"[Другое название]({ACTIVE_STEP_CARD})",
                 "step card index link label mismatch",
             ),
             "missing_link": (
-                "[Подготовить тестовый реестр](FUM-STEP-0001-подготовить-тестовый-реестр.md)",
+                f"[Подготовить тестовый реестр]({ACTIVE_STEP_CARD})",
                 "Подготовить тестовый реестр",
                 "must link exactly one step card",
             ),
@@ -609,25 +846,25 @@ class BuildPlanningRegistryTests(unittest.TestCase):
     def test_build_enforces_status_specific_step_card_sections_and_links(self):
         mutations = {
             "active_why_now": (
-                "FUM-STEP-0001-подготовить-тестовый-реестр.md",
+                ACTIVE_STEP_CARD,
                 "## Почему сейчас",
                 "## Удалённый раздел",
                 "missing required section Почему сейчас",
             ),
             "active_list_criteria": (
-                "FUM-STEP-0001-подготовить-тестовый-реестр.md",
+                ACTIVE_STEP_CARD,
                 "- Реестр собирается.\n- Проверка реестра проходит.",
                 "Реестр собирается.",
                 "malformed Markdown list",
             ),
             "historical_outcome": (
-                "FUM-STEP-0002-старое-предложение.md",
+                COMPLETED_STEP_CARD,
                 "## Результат",
                 "## Удалённый раздел",
                 "missing required section Результат",
             ),
             "source_link": (
-                "FUM-STEP-0001-подготовить-тестовый-реестр.md",
+                ACTIVE_STEP_CARD,
                 "- [дорожная карта](../дорожная-карта.md)",
                 "- дорожная карта",
                 "step card sources must contain at least one link",
@@ -696,7 +933,7 @@ class BuildPlanningRegistryTests(unittest.TestCase):
                 root
                 / "Планирование"
                 / "карточки-шагов"
-                / "FUM-STEP-0001-подготовить-тестовый-реестр.md"
+                / ACTIVE_STEP_CARD
             )
             card.write_text(
                 card.read_text(encoding="utf-8").replace(

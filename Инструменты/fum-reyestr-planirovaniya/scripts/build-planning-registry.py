@@ -37,6 +37,20 @@ STEP_CARD_STATUSES = {
     "absorbed": "Поглощено",
     "withdrawn": "Снято",
 }
+STEP_CARD_EMOJI_BY_MACHINE = {
+    "active": "🟡",
+    "completed": "✅",
+    "absorbed": "🧩",
+    "withdrawn": "🗑️",
+}
+STEP_CARD_MACHINE_BY_EMOJI = {
+    emoji: status
+    for status, emoji in STEP_CARD_EMOJI_BY_MACHINE.items()
+}
+INDEX_STATUS_BY_MACHINE = {
+    status: f"{STEP_CARD_EMOJI_BY_MACHINE[status]} {label}"
+    for status, label in STEP_CARD_STATUSES.items()
+}
 STEP_CARD_INDEX_HEADERS = ["Идентификатор", "Статус", "Карточка"]
 STEP_CARD_FRONTMATTER_KEYS = frozenset(
     {"schema_version", "card_id", "status"}
@@ -233,13 +247,70 @@ def markdown_list_items(markdown: str, source_path: Path, repo_root: Path) -> li
     return items
 
 
+def step_card_filename_metadata(path: Path) -> tuple[str, str, str]:
+    filename = path.name
+    if len(filename.encode("utf-8")) > 255:
+        raise ValueError(
+            f"step card filename exceeds 255 UTF-8 bytes: {filename}"
+        )
+
+    filename_status: str | None = None
+    filename_emoji: str | None = None
+    for emoji in sorted(STEP_CARD_MACHINE_BY_EMOJI, key=len, reverse=True):
+        if filename.startswith(f"{emoji}-"):
+            filename_emoji = emoji
+            filename_status = STEP_CARD_MACHINE_BY_EMOJI[emoji]
+            break
+    if filename_status is None or filename_emoji is None:
+        raise ValueError(f"invalid step card filename status emoji: {filename}")
+
+    remainder = filename[len(filename_emoji) + 1 :]
+    match = re.fullmatch(r"(FUM-STEP-[0-9]{4})-(.*)\.md", remainder)
+    if match is None:
+        raise ValueError(
+            "invalid step card filename; expected "
+            f"<emoji>-FUM-STEP-NNNN-<description>.md: {filename}"
+        )
+    filename_id, description = match.groups()
+    description_parts = description.split("-")
+    if (
+        not description
+        or any(not part for part in description_parts)
+        or any(
+            not all(character.isalnum() for character in part)
+            for part in description_parts
+        )
+    ):
+        raise ValueError(
+            "invalid step card filename description; expected Unicode letters "
+            f"or digits separated by single hyphens: {filename}"
+        )
+    return filename_id, filename_status, description
+
+
 def step_card_paths(repo_root: Path) -> list[Path]:
     directory = absolute_path(STEP_CARDS_DIR, repo_root)
     if not directory.is_dir():
         raise ValueError(
             f"step cards directory does not exist: {STEP_CARDS_DIR.as_posix()}"
         )
-    paths = sorted(directory.glob("FUM-STEP-*.md"))
+    markdown_paths = sorted(
+        path
+        for path in directory.rglob("*")
+        if path.is_file() and path.suffix.casefold() == ".md"
+    )
+    index_path = directory / STEP_CARDS_INDEX.name
+    paths: list[Path] = []
+    for path in markdown_paths:
+        if path == index_path:
+            continue
+        if path.parent != directory:
+            relative_path = path.relative_to(directory).as_posix()
+            raise ValueError(
+                "step cards directory must be flat; nested Markdown is "
+                f"forbidden: {relative_path}"
+            )
+        paths.append(path)
     if not paths:
         raise ValueError(
             f"step cards directory contains no cards: {STEP_CARDS_DIR.as_posix()}"
@@ -301,6 +372,7 @@ def required_step_card_section(
 
 
 def parse_step_card(path: Path, repo_root: Path) -> dict[str, Any]:
+    filename_id, filename_status, _description = step_card_filename_metadata(path)
     source_file = repo_relative(path, repo_root)
     frontmatter, body = split_step_card_frontmatter(
         path.read_text(encoding="utf-8"),
@@ -314,9 +386,19 @@ def parse_step_card(path: Path, repo_root: Path) -> dict[str, Any]:
     card_id = frontmatter["card_id"]
     if not isinstance(card_id, str) or STEP_CARD_ID_RE.fullmatch(card_id) is None:
         raise ValueError(f"invalid step card id in {source_file}: {card_id!r}")
+    if filename_id != card_id:
+        raise ValueError(
+            "step card filename id does not match TOML card_id in "
+            f"{source_file}: {filename_id!r} != {card_id!r}"
+        )
     status = frontmatter["status"]
     if not isinstance(status, str) or status not in STEP_CARD_STATUSES:
         raise ValueError(f"invalid step card status in {source_file}: {status!r}")
+    if filename_status != status:
+        raise ValueError(
+            "step card filename status does not match TOML status in "
+            f"{source_file}: {filename_status!r} != {status!r}"
+        )
 
     h1_matches = list(re.finditer(r"^#\s+(.+?)\s*$", body, re.MULTILINE))
     if len(h1_matches) != 1:
@@ -864,7 +946,7 @@ def extract_step_cards(repo_root: Path) -> list[dict[str, Any]]:
 
     label_to_status = {
         label: status
-        for status, label in STEP_CARD_STATUSES.items()
+        for status, label in INDEX_STATUS_BY_MACHINE.items()
     }
     indexed_ids: set[str] = set()
     indexed_files: set[str] = set()
@@ -1480,8 +1562,22 @@ def validate_registry_object(registry: dict[str, Any]) -> list[str]:
             errors.append(f"duplicate step card id: {step_id}")
         else:
             step_ids.add(step_id)
-        if not isinstance(step.get("file"), str) or not step.get("file"):
+        step_file = step.get("file")
+        file_metadata: tuple[str, str, str] | None = None
+        if not isinstance(step_file, str) or not step_file:
             errors.append(f"step card file is empty: {step_id}")
+        else:
+            step_path = Path(step_file)
+            if step_path.parent != STEP_CARDS_DIR:
+                errors.append(
+                    f"step card file is outside {STEP_CARDS_DIR.as_posix()}: "
+                    f"{step_file}"
+                )
+            else:
+                try:
+                    file_metadata = step_card_filename_metadata(step_path)
+                except ValueError as error:
+                    errors.append(str(error))
         if not isinstance(step.get("title"), str) or not step.get("title"):
             errors.append(f"step card title is empty: {step_id}")
         if not isinstance(step.get("task"), str) or not step.get("task"):
@@ -1489,6 +1585,18 @@ def validate_registry_object(registry: dict[str, Any]) -> list[str]:
         status = step.get("status")
         if status not in STEP_CARD_STATUSES:
             errors.append(f"invalid step card status: {status}")
+        if file_metadata is not None:
+            filename_id, filename_status, _description = file_metadata
+            if filename_id != step_id:
+                errors.append(
+                    "step card file id does not match step id: "
+                    f"{filename_id} != {step_id}"
+                )
+            if filename_status != status:
+                errors.append(
+                    "step card file status does not match step status: "
+                    f"{filename_status} != {status}"
+                )
         source_links = step.get("source_links")
         if not isinstance(source_links, list) or not source_links:
             errors.append(f"step card source links are empty: {step_id}")

@@ -12,6 +12,7 @@ import subprocess
 import sys
 import time
 import tomllib
+import unicodedata
 import uuid
 from dataclasses import dataclass
 from pathlib import Path
@@ -31,6 +32,16 @@ CONTENT_SHA256_RE = re.compile(r"^sha256:[0-9a-f]{64}$")
 SELECTOR_STATES = frozenset({"open", "done"})
 CANDIDATE_STATUSES = frozenset({"ready", "blocked", "paused"})
 CARD_STATUSES = frozenset({"active", "completed", "absorbed", "withdrawn"})
+CARD_STATUS_EMOJIS = {
+    "active": "🟡",
+    "completed": "✅",
+    "absorbed": "🧩",
+    "withdrawn": "🗑️",
+}
+CARD_FILENAME_BODY_RE = re.compile(
+    r"^(?P<card_id>FUM-STEP-[0-9]{4})(?:-(?P<description>.*))?$"
+)
+MAX_CARD_FILENAME_UTF8_BYTES = 255
 CARD_FRONTMATTER_KEYS = frozenset({"schema_version", "card_id", "status"})
 SELECTOR_FRONTMATTER_KEYS = frozenset(
     {
@@ -593,6 +604,83 @@ def validate_sources(visible_sources: str, record_path: str) -> None:
         )
 
 
+def validate_card_filename(
+    filename: str,
+    card_id: str,
+    status: str,
+    record_path: str,
+) -> None:
+    filename_bytes = len(filename.encode("utf-8"))
+    if filename_bytes > MAX_CARD_FILENAME_UTF8_BYTES:
+        raise ContractError(
+            f"{record_path}: имя файла карточки занимает {filename_bytes} "
+            f"UTF-8 байт при максимуме {MAX_CARD_FILENAME_UTF8_BYTES}."
+        )
+
+    filename_status = next(
+        (
+            candidate_status
+            for candidate_status, emoji in CARD_STATUS_EMOJIS.items()
+            if filename.startswith(f"{emoji}-")
+        ),
+        None,
+    )
+    if filename_status is None:
+        allowed_emojis = ", ".join(CARD_STATUS_EMOJIS.values())
+        raise ContractError(
+            f"{record_path}: имя файла карточки должно начинаться с эмодзи "
+            f"статуса ({allowed_emojis}) и '-'."
+        )
+
+    filename_emoji = CARD_STATUS_EMOJIS[filename_status]
+    filename_body = filename.removeprefix(f"{filename_emoji}-")
+    if not filename_body.endswith(".md"):
+        raise ContractError(
+            f"{record_path}: имя файла карточки должно иметь расширение .md."
+        )
+    filename_stem = filename_body.removesuffix(".md")
+    match = CARD_FILENAME_BODY_RE.fullmatch(filename_stem)
+    if match is None:
+        raise ContractError(
+            f"{record_path}: имя файла карточки должно иметь вид "
+            "<эмодзи>-FUM-STEP-NNNN-<краткое-название>.md."
+        )
+
+    filename_card_id = match.group("card_id")
+    description = match.group("description")
+    if not description:
+        raise ContractError(
+            f"{record_path}: имя файла карточки должно содержать непустое "
+            "краткое название после FUM-STEP-NNNN-."
+        )
+    if filename_card_id != card_id:
+        raise ContractError(
+            f"{record_path}: card_id имени {filename_card_id} не совпадает "
+            f"с card_id TOML {card_id}."
+        )
+    expected_emoji = CARD_STATUS_EMOJIS[status]
+    if filename_emoji != expected_emoji:
+        raise ContractError(
+            f"{record_path}: эмодзи {filename_emoji} не соответствует "
+            f"status={status}; ожидается {expected_emoji}."
+        )
+
+    normalized_description = unicodedata.normalize("NFC", description)
+    description_parts = normalized_description.split("-")
+    if any(
+        not part
+        or any(
+            unicodedata.category(character)[0] not in {"L", "N"}
+            for character in part
+        )
+        for part in description_parts
+    ):
+        raise ContractError(
+            f"{record_path}: краткое название должно состоять из "
+            "Unicode-букв и цифр, разделённых одиночными '-'."
+        )
+
+
 def parse_card(path: Path, repo_root: Path) -> StepCard:
     card_path = repository_relative(path, repo_root)
     try:
@@ -627,6 +715,7 @@ def parse_card(path: Path, repo_root: Path) -> StepCard:
             f"{card_path}: status карточки должен быть одним из "
             f"{', '.join(sorted(CARD_STATUSES))}."
         )
+    validate_card_filename(path.name, card_id, status, card_path)
 
     reject_hidden_html_comments(body, card_path)
     title, sections, visible_sections = markdown_sections(body, card_path)
@@ -675,14 +764,22 @@ def load_cards(repo_root: Path) -> tuple[StepCard, ...]:
         raise ContractError(
             f"Путь карточек не является каталогом: {CARDS_DIRECTORY.as_posix()}."
         )
+    index_path = directory / "README.md"
     paths = sorted(
         (
             path
-            for path in directory.rglob("*.md")
-            if path.name.casefold() != "readme.md"
+            for path in directory.rglob("*")
+            if path.suffix.casefold() == ".md" and path != index_path
         ),
         key=lambda path: repository_relative(path, repo_root),
     )
+    for path in paths:
+        if path.parent != directory:
+            card_path = repository_relative(path, repo_root)
+            raise ContractError(
+                f"Каталог карточек должен быть плоским; "
+                f"вложенный Markdown-файл запрещён: {card_path}."
+            )
     cards = tuple(parse_card(path, repo_root) for path in paths)
     by_id: dict[str, list[str]] = {}
     for card in cards:
