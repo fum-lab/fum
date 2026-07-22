@@ -816,6 +816,15 @@ class QueueSafetyTests(GitQueueFixture):
                 self.assertNotEqual(result.returncode, 0)
                 self.assertEqual(self.payload(result)["state"], "invalid_timeout")
 
+    def test_wait_defaults_to_five_minutes(self) -> None:
+        module = load_queue_module()
+
+        args = module.build_parser().parse_args(
+            ["wait", "--task-id", "task-b"]
+        )
+
+        self.assertEqual(args.timeout_seconds, 300.0)
+
     def test_atomic_commit_supports_a_unicode_branch_ref(self) -> None:
         self.git("switch", "-c", "проверка/очереди")
         joined, owner = self.join("task-a")
@@ -908,6 +917,9 @@ class RepositoryIntegrationTests(unittest.TestCase):
         self.assertIn("env=e,timeout=30", skill)
         self.assertIn("'--repo-root',r", skill)
         self.assertIn("Прямой вызов", skill)
+        self.assertIn("--timeout-seconds 300", skill)
+
+        self.assertIn("пятиминутные read-only вызовы `wait`", agents)
 
         heartbeat_prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
         self.assertIn("не является рабочим билетом FIFO-очереди", heartbeat_prompt)

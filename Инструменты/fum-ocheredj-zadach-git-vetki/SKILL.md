@@ -37,13 +37,13 @@ python3 -I -c "import os,subprocess,sys;p='Инструменты/fum-ocheredj-z
 
 ## Ожидание
 
-Ожидающая корневая задача вызывает ограниченные ожидания, чтобы регулярно возвращать управление среде:
+Ожидающая корневая задача вызывает пятиминутные ограниченные ожидания, чтобы не возвращать неизменное состояние в контекст чаще необходимого:
 
 ```text
-python3 -I -c "import os,subprocess,sys;p='Инструменты/fum-ocheredj-zadach-git-vetki/scripts/ocheredj-zadach-git-vetki.py';r=sys.argv[1];e={k:v for k,v in os.environ.items() if not k.upper().startswith('GIT_')};e['GIT_NO_REPLACE_OBJECTS']='1';e['GIT_OPTIONAL_LOCKS']='0';b=subprocess.check_output(['git','--no-replace-objects','-C',r,'show','HEAD:'+p],env=e,timeout=30);sys.argv=[p,*sys.argv[2:],'--repo-root',r];exec(compile(b,p,'exec'))" . wait --task-id <корневой-CODEX_THREAD_ID> --timeout-seconds 30 --json
+python3 -I -c "import os,subprocess,sys;p='Инструменты/fum-ocheredj-zadach-git-vetki/scripts/ocheredj-zadach-git-vetki.py';r=sys.argv[1];e={k:v for k,v in os.environ.items() if not k.upper().startswith('GIT_')};e['GIT_NO_REPLACE_OBJECTS']='1';e['GIT_OPTIONAL_LOCKS']='0';b=subprocess.check_output(['git','--no-replace-objects','-C',r,'show','HEAD:'+p],env=e,timeout=30);sys.argv=[p,*sys.argv[2:],'--repo-root',r];exec(compile(b,p,'exec'))" . wait --task-id <корневой-CODEX_THREAD_ID> --timeout-seconds 300 --json
 ```
 
-Пока состояние равно `waiting`, задача не пишет в checkout и повторяет ограниченный вызов. Ожидание только читает очередь и не создаёт heartbeat blob/ref churn. Более поздний билет не обходит более ранний билет, даже если уже подтвердил текущий `HEAD`.
+Пока состояние равно `waiting`, задача не пишет в checkout и повторяет ограниченный вызов не чаще одного раза в 300 секунд. Внутри одного вызова локальный процесс тихо читает Git-ref и завершается раньше только при переходе в действенное состояние, например `reload_required` или `admitted`; эти внутренние проверки не возвращают управление модели и не расходуют её контекст. Ожидание не создаёт heartbeat blob/ref churn. Более поздний билет не обходит более ранний билет, даже если уже подтвердил текущий `HEAD`.
 
 После коммита предшественника передний билет получает `reload_required`: сохранённый `acknowledged_head` больше не совпадает с текущим `HEAD`. Тогда задача:
 
@@ -138,15 +138,16 @@ python3 -I -c "import os,subprocess,sys;p='Инструменты/fum-ocheredj-z
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-ocheredj-zadach-git-vetki/tests -p 'test_*.py'
 ```
 
-Набор из 31 теста проверяет строгий FIFO при конкурентных `join`, идемпотентность, бессрочность билетов, read-only ожидание, запрет обхода, собственную отмену до допуска, `finish-clean`, обязательный `reload_required`/`ack-head`, атомарные branch-fenced admission, clean finish и commit+handoff, чистоту рабочего дерева, смену ветки, SHA-1/SHA-256, отсутствие optional stat-cache записи до допуска, явные ошибки постоянных ref locks, isolated-исполнение сценария из буквального `HEAD`, закрепление корня, полную очистку Git-среды и запрет trace-файлов, игнорирование replace-объектов внутри сценария, отсутствие POSIX-примитивов, отсутствие project hooks и переходный no-op.
+Набор из 32 тестов проверяет строгий FIFO при конкурентных `join`, идемпотентность, бессрочность билетов, пятиминутный default read-only ожидания, запрет обхода, собственную отмену до допуска, `finish-clean`, обязательный `reload_required`/`ack-head`, атомарные branch-fenced admission, clean finish и commit+handoff, чистоту рабочего дерева, смену ветки, SHA-1/SHA-256, отсутствие optional stat-cache записи до допуска, явные ошибки постоянных ref locks, isolated-исполнение сценария из буквального `HEAD`, закрепление корня, полную очистку Git-среды и запрет trace-файлов, игнорирование replace-объектов внутри сценария, отсутствие POSIX-примитивов, отсутствие project hooks и переходный no-op.
 
 ## Источники требований
 
+- [исходный запрос 2026-07-22 11:17:21 MSK — Увеличить ожидание очереди до пяти минут](../../Запросы/2026-07-22_11-17-21_MSK_увеличить-ожидание-очереди-до-пяти-минут.md)
 - [исходный запрос 2026-07-21 18:31:35 MSK — Ввести последовательную очередь сессий без hooks](../../Запросы/2026-07-21_18-31-35_MSK_ввести-последовательную-очередь-сессий-без-hooks.md)
 - [исходный запрос 2026-07-21 17:49:38 MSK — Перевести веточный барьер на минимальный корневой hook](../../Запросы/2026-07-21_17-49-38_MSK_перевести-веточный-барьер-на-минимальный-корневой-hook.md)
 - [исходный запрос 2026-07-20 16:11:17 MSK — Сериализовать задачи в ветке](../../Запросы/2026-07-20_16-11-17_MSK_сериализовать-задачи-в-ветке.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-21 20:24:51 MSK -->
-<!-- content-sha256: sha256:d62b615c45280f1a82767f6ceb4c7243176de9ebcc591d34321bd55c5d4412da -->
+<!-- last-content-edit: 2026-07-22 11:34:19 MSK -->
+<!-- content-sha256: sha256:56f61f724629fbb56da92032c1b62df65e4f61e2a34a0148709724d5f63180fe -->
 <!-- FUM-MD-RECENCY:END -->

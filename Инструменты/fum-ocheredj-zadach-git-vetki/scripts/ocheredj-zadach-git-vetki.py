@@ -20,6 +20,7 @@ from typing import NoReturn
 
 
 SCHEMA_VERSION = 1
+DEFAULT_WAIT_TIMEOUT_SECONDS = 300.0
 WAIT_POLL_SECONDS = 2.0
 GIT_COMMAND_TIMEOUT_SECONDS = 30.0
 MAX_CAS_ATTEMPTS = 200
@@ -1362,7 +1363,12 @@ def build_parser() -> argparse.ArgumentParser:
     )
     add_common(wait)
     wait.add_argument("--task-id", required=True)
-    wait.add_argument("--timeout-seconds", type=float, default=30.0)
+    wait.add_argument(
+        "--timeout-seconds",
+        type=float,
+        default=DEFAULT_WAIT_TIMEOUT_SECONDS,
+        help="Предел одного read-only ожидания; по умолчанию 300 секунд.",
+    )
 
     ack = subparsers.add_parser(
         "ack-head",
