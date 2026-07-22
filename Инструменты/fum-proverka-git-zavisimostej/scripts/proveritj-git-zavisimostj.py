@@ -46,6 +46,7 @@ def run_git(
     cwd: Path,
     *arguments: str,
     allowed_returncodes: tuple[int, ...] = (0,),
+    strip_output: bool = True,
 ) -> GitResult:
     try:
         result = subprocess.run(
@@ -57,7 +58,7 @@ def run_git(
             stderr=subprocess.PIPE,
             timeout=120,
         )
-    except (OSError, subprocess.TimeoutExpired) as error:
+    except (OSError, subprocess.TimeoutExpired, UnicodeError) as error:
         raise RuntimeError(f"git {' '.join(arguments)}: {error}") from error
     if result.returncode not in allowed_returncodes:
         detail = result.stderr.strip() or result.stdout.strip() or "без диагностики"
@@ -67,7 +68,7 @@ def run_git(
         )
     return GitResult(
         returncode=result.returncode,
-        stdout=result.stdout.strip(),
+        stdout=result.stdout.strip() if strip_output else result.stdout,
         stderr=result.stderr.strip(),
     )
 
@@ -81,27 +82,170 @@ def validate_spec(spec: DependencySpec) -> list[str]:
     if spec.fork_url == spec.upstream_url and spec.fork_url:
         errors.append("URL форка и upstream должны быть различными")
 
-    path = PurePosixPath(spec.path)
-    if (
-        not spec.path
-        or spec.path != spec.path.strip()
-        or path.is_absolute()
-        or spec.path.startswith("-")
-        or "\\" in spec.path
-        or any(part in {"", ".", "..", ".git"} for part in path.parts)
-    ):
-        errors.append(
-            "путь зависимости должен быть безопасным относительным Git-путём "
-            "без '.', '..', '.git' и обратных косых черт"
-        )
+    errors.extend(validate_dependency_path(spec.path))
     if REVISION_PATTERN.fullmatch(spec.revision) is None:
         errors.append("ревизия должна быть полным 40- или 64-символьным Git OID")
     return errors
 
 
+def validate_dependency_path(path_value: str) -> list[str]:
+    path = PurePosixPath(path_value)
+    if (
+        not path_value
+        or path_value != path_value.strip()
+        or path.is_absolute()
+        or path_value.startswith("-")
+        or "\\" in path_value
+        or any(part in {"", ".", "..", ".git"} for part in path.parts)
+    ):
+        return [
+            "путь зависимости должен быть безопасным относительным Git-путём "
+            "без '.', '..', '.git' и обратных косых черт"
+        ]
+    return []
+
+
+def read_nul_config_values(
+    cwd: Path,
+    *arguments: str,
+) -> tuple[list[str] | None, list[str]]:
+    try:
+        result = run_git(
+            cwd,
+            "config",
+            "-z",
+            *arguments,
+            allowed_returncodes=(0, 1),
+            strip_output=False,
+        )
+    except RuntimeError as error:
+        return None, [f"не удалось прочитать Git-конфигурацию: {error}"]
+    if result.returncode == 1:
+        return [], []
+    if not result.stdout.endswith("\0"):
+        return None, ["Git-конфигурация вернула некорректный NUL-формат"]
+    return result.stdout[:-1].split("\0"), []
+
+
 def dependency_path(repo_root: Path, spec: DependencySpec) -> Path:
     posix_path = PurePosixPath(spec.path)
     return repo_root.joinpath(*posix_path.parts)
+
+
+def expected_submodule_git_directory(
+    repo_root: Path,
+    path: str,
+    section: str,
+) -> tuple[Path | None, list[str]]:
+    prefix = "submodule."
+    if not section.startswith(prefix):
+        return None, [f"{path}: некорректное имя раздела submodule {section!r}"]
+    name = section.removeprefix(prefix)
+    name_path = PurePosixPath(name)
+    if (
+        not name
+        or name_path.is_absolute()
+        or name.startswith("-")
+        or "\\" in name
+        or any(part in {"", ".", "..", ".git"} for part in name_path.parts)
+    ):
+        return None, [f"{path}: небезопасное имя submodule {name!r}"]
+    try:
+        superproject_git_dir = Path(
+            run_git(repo_root, "rev-parse", "--absolute-git-dir").stdout
+        ).resolve()
+    except RuntimeError as error:
+        return None, [
+            f"{path}: не удалось определить Git-каталог superproject: {error}"
+        ]
+    expected_git_dir = superproject_git_dir.joinpath("modules", *name_path.parts)
+    current = superproject_git_dir
+    for component in ("modules", *name_path.parts):
+        current = current / component
+        if current.is_symlink():
+            return None, [
+                f"{path}: Git-каталог submodule не должен проходить через "
+                f"символическую ссылку {current}"
+            ]
+    modules_root = (superproject_git_dir / "modules").resolve()
+    expected_git_dir = expected_git_dir.resolve()
+    try:
+        expected_git_dir.relative_to(modules_root)
+    except ValueError:
+        return None, [
+            f"{path}: Git-каталог submodule выходит за пределы {modules_root}"
+        ]
+    return expected_git_dir, []
+
+
+def validate_submodule_git_directory(
+    repo_root: Path,
+    dependency: Path,
+    path: str,
+    section: str,
+) -> list[str]:
+    expected_git_dir, errors = expected_submodule_git_directory(
+        repo_root,
+        path,
+        section,
+    )
+    if expected_git_dir is None or errors:
+        return errors
+    try:
+        dependency_git_dir = Path(
+            run_git(dependency, "rev-parse", "--absolute-git-dir").stdout
+        ).resolve()
+        dependency_common_dir = Path(
+            run_git(
+                dependency,
+                "rev-parse",
+                "--path-format=absolute",
+                "--git-common-dir",
+            ).stdout
+        ).resolve()
+    except RuntimeError as error:
+        return [f"{path}: не удалось проверить Git-каталог submodule: {error}"]
+    if (
+        dependency_git_dir != expected_git_dir
+        or dependency_common_dir != expected_git_dir
+    ):
+        return [
+            f"{path}: Git-каталог submodule должен быть {expected_git_dir}, "
+            f"получены git-dir {dependency_git_dir} и common-dir "
+            f"{dependency_common_dir}"
+        ]
+    return []
+
+
+def validate_dependency_worktree_location(
+    repo_root: Path,
+    dependency: Path,
+    path: str,
+) -> list[str]:
+    current = repo_root
+    for component in PurePosixPath(path).parts:
+        current = current / component
+        if current.is_symlink():
+            return [
+                f"{path}: путь зависимости не должен проходить через "
+                f"символическую ссылку {current}"
+            ]
+        if current.exists() and not current.is_dir():
+            return [
+                f"{path}: существующий компонент пути зависимости должен "
+                f"быть каталогом: {current}"
+            ]
+    resolved_dependency = dependency.resolve()
+    try:
+        resolved_dependency.relative_to(repo_root)
+    except ValueError:
+        return [f"{path}: путь зависимости выходит за пределы superproject"]
+    if resolved_dependency != dependency.absolute():
+        return [
+            f"{path}: путь зависимости не должен проходить через "
+            "символические ссылки"
+        ]
+    return []
 
 
 def validate_repo_root(repo_root: Path) -> list[str]:
@@ -266,26 +410,99 @@ def find_submodule_section(repo_root: Path, path: str) -> tuple[str | None, list
         result = run_git(
             repo_root,
             "config",
+            "-z",
             "-f",
             ".gitmodules",
             "--get-regexp",
             r"^submodule\..*\.path$",
             allowed_returncodes=(0, 1),
+            strip_output=False,
         )
     except RuntimeError as error:
         return None, [f"не удалось прочитать .gitmodules: {error}"]
 
-    matches: list[str] = []
+    path_values_by_section: dict[str, list[str]] = {}
     if result.returncode == 0:
-        for line in result.stdout.splitlines():
-            key, separator, value = line.partition(" ")
-            if separator and value == path:
-                matches.append(key.removesuffix(".path"))
+        if not result.stdout.endswith("\0"):
+            return None, [".gitmodules вернул некорректный NUL-формат"]
+        for record in result.stdout[:-1].split("\0"):
+            key, separator, value = record.partition("\n")
+            if not separator or not key.endswith(".path"):
+                return None, [".gitmodules содержит некорректную запись path"]
+            section = key.removesuffix(".path")
+            path_values_by_section.setdefault(section, []).append(value)
+    matches = [
+        section
+        for section, values in path_values_by_section.items()
+        if path in values
+    ]
     if len(matches) != 1:
         return None, [
             f".gitmodules должен содержать ровно одну запись path = {path!r}"
         ]
-    return matches[0], []
+    section = matches[0]
+    values = path_values_by_section[section]
+    if values != [path]:
+        return None, [
+            f".gitmodules должен содержать ровно одно значение "
+            f"{section}.path = {path!r}, получено {values!r}"
+        ]
+    return section, []
+
+
+def read_single_gitmodules_value(
+    repo_root: Path,
+    section: str,
+    name: str,
+) -> tuple[str | None, list[str]]:
+    values, config_errors = read_nul_config_values(
+        repo_root,
+        "-f",
+        ".gitmodules",
+        "--get-all",
+        f"{section}.{name}",
+    )
+    if config_errors or values is None:
+        return None, [
+            f"не удалось прочитать {section}.{name}: {error}"
+            for error in config_errors
+        ]
+    if len(values) != 1 or not values[0]:
+        return None, [
+            f".gitmodules должен содержать ровно одно непустое значение "
+            f"{section}.{name}, получено {values!r}"
+        ]
+    return values[0], []
+
+
+def read_index_gitlink_revision(
+    repo_root: Path,
+    path: str,
+) -> tuple[str | None, list[str]]:
+    try:
+        result = run_git(
+            repo_root,
+            "ls-files",
+            "--stage",
+            "--",
+            path,
+        )
+    except RuntimeError as error:
+        return None, [f"{path}: не удалось прочитать gitlink: {error}"]
+    lines = [line for line in result.stdout.splitlines() if line]
+    if len(lines) != 1:
+        return None, [f"{path}: ожидается ровно один gitlink в индексе"]
+    metadata, separator, _ = lines[0].partition("\t")
+    fields = metadata.split()
+    if not separator or len(fields) != 3:
+        return None, [f"{path}: некорректная запись gitlink"]
+    mode, revision, stage = fields
+    errors: list[str] = []
+    if mode != "160000" or stage != "0":
+        errors.append(f"{path}: ожидается gitlink mode 160000 stage 0")
+    if REVISION_PATTERN.fullmatch(revision) is None:
+        errors.append(f"{path}: gitlink не содержит полный Git OID")
+    return (revision if not errors else None), errors
 
 
 def remote_revision_is_reachable(
@@ -353,6 +570,56 @@ def validate_remote_urls(
     return errors
 
 
+def validate_remote_fetch_refspec(
+    dependency: Path,
+    dependency_label: str,
+    remote: str,
+) -> list[str]:
+    refspecs, config_errors = read_nul_config_values(
+        dependency,
+        "--get-all",
+        f"remote.{remote}.fetch",
+    )
+    if config_errors or refspecs is None:
+        return [
+            f"{dependency_label}: не удалось прочитать fetch refspec remote "
+            f"{remote}: {error}"
+            for error in config_errors
+        ]
+    expected = [f"+refs/heads/*:refs/remotes/{remote}/*"]
+    if refspecs != expected:
+        return [
+            f"{dependency_label}: remote {remote} fetch refspec должен быть "
+            f"единственным {expected[0]!r}, получено {refspecs!r}"
+        ]
+    return []
+
+
+def validate_remote_has_tracking_refs(
+    dependency: Path,
+    dependency_label: str,
+    remote: str,
+) -> list[str]:
+    try:
+        result = run_git(
+            dependency,
+            "for-each-ref",
+            "--format=%(refname)",
+            f"refs/remotes/{remote}",
+        )
+    except RuntimeError as error:
+        return [
+            f"{dependency_label}: не удалось прочитать refs remote {remote}: "
+            f"{error}"
+        ]
+    if not [value for value in result.stdout.splitlines() if value]:
+        return [
+            f"{dependency_label}: remote {remote} не имеет локально полученных "
+            "веток"
+        ]
+    return []
+
+
 def validate_gitmodules_before_add(repo_root: Path) -> list[str]:
     gitmodules = repo_root / ".gitmodules"
     indexed = run_git(
@@ -371,6 +638,11 @@ def validate_gitmodules_before_add(repo_root: Path) -> list[str]:
         ]
     if not indexed:
         return []
+    if not gitmodules.is_file() or gitmodules.is_symlink():
+        return [
+            ".gitmodules должен быть обычным отслеживаемым файлом без "
+            "символической ссылки"
+        ]
     difference = run_git(
         repo_root,
         "diff",
@@ -385,7 +657,69 @@ def validate_gitmodules_before_add(repo_root: Path) -> list[str]:
             "предшествующее состояние .gitmodules различается между "
             "Git-индексом и рабочим деревом"
         ]
+    try:
+        gitmodules.read_text(encoding="utf-8")
+    except (OSError, UnicodeError) as error:
+        return [f".gitmodules должен быть доступным UTF-8-файлом: {error}"]
     return []
+
+
+def registered_dependency_spec(
+    repo_root: Path,
+    path: str,
+) -> tuple[DependencySpec | None, list[str]]:
+    repo_root = repo_root.resolve()
+    errors = validate_dependency_path(path)
+    errors.extend(validate_repo_root(repo_root))
+    if errors:
+        return None, errors
+    errors.extend(validate_gitmodules_before_add(repo_root))
+    if errors:
+        return None, errors
+
+    section, section_errors = find_submodule_section(repo_root, path)
+    errors.extend(section_errors)
+    if section is None:
+        return None, errors
+    fork_url, value_errors = read_single_gitmodules_value(
+        repo_root,
+        section,
+        "url",
+    )
+    errors.extend(value_errors)
+    upstream_url, value_errors = read_single_gitmodules_value(
+        repo_root,
+        section,
+        "fumUpstream",
+    )
+    errors.extend(value_errors)
+    branch_result = run_git(
+        repo_root,
+        "config",
+        "-f",
+        ".gitmodules",
+        "--get-all",
+        f"{section}.branch",
+        allowed_returncodes=(0, 1),
+    )
+    if branch_result.returncode == 0:
+        errors.append(f"{path}: .gitmodules не должен задавать следование ветке")
+    revision, gitlink_errors = read_index_gitlink_revision(repo_root, path)
+    errors.extend(gitlink_errors)
+    if errors or fork_url is None or upstream_url is None or revision is None:
+        return None, errors
+
+    spec = DependencySpec(
+        fork_url=fork_url,
+        upstream_url=upstream_url,
+        path=path,
+        revision=revision.lower(),
+    )
+    errors.extend(validate_spec(spec))
+    errors.extend(validate_repository_topology(repo_root, spec))
+    if errors:
+        return None, errors
+    return spec, []
 
 
 def validate_dependency(repo_root: Path, spec: DependencySpec) -> list[str]:
@@ -395,47 +729,36 @@ def validate_dependency(repo_root: Path, spec: DependencySpec) -> list[str]:
     if errors:
         return errors
     errors.extend(validate_repository_topology(repo_root, spec))
+    errors.extend(validate_gitmodules_before_add(repo_root))
 
     section, section_errors = find_submodule_section(repo_root, spec.path)
     errors.extend(section_errors)
     if section is not None:
-        try:
-            configured_url = run_git(
-                repo_root,
-                "config",
-                "-f",
-                ".gitmodules",
-                "--get",
-                f"{section}.url",
-            ).stdout
-        except RuntimeError as error:
-            errors.append(f"не удалось прочитать URL из .gitmodules: {error}")
-        else:
-            if configured_url != spec.fork_url:
-                errors.append(
-                    ".gitmodules должен использовать URL форка "
-                    f"{spec.fork_url!r}, получено {configured_url!r}"
-                )
-        try:
-            configured_upstream = run_git(
-                repo_root,
-                "config",
-                "-f",
-                ".gitmodules",
-                "--get",
-                f"{section}.fumUpstream",
-            ).stdout
-        except RuntimeError as error:
+        configured_url, value_errors = read_single_gitmodules_value(
+            repo_root,
+            section,
+            "url",
+        )
+        errors.extend(value_errors)
+        if configured_url is not None and configured_url != spec.fork_url:
             errors.append(
-                ".gitmodules должен сохранять fumUpstream для восстановления "
-                f"remote upstream: {error}"
+                ".gitmodules должен использовать URL форка "
+                f"{spec.fork_url!r}, получено {configured_url!r}"
             )
-        else:
-            if configured_upstream != spec.upstream_url:
-                errors.append(
-                    ".gitmodules fumUpstream должен быть "
-                    f"{spec.upstream_url!r}, получено {configured_upstream!r}"
-                )
+        configured_upstream, value_errors = read_single_gitmodules_value(
+            repo_root,
+            section,
+            "fumUpstream",
+        )
+        errors.extend(value_errors)
+        if (
+            configured_upstream is not None
+            and configured_upstream != spec.upstream_url
+        ):
+            errors.append(
+                ".gitmodules fumUpstream должен быть "
+                f"{spec.upstream_url!r}, получено {configured_upstream!r}"
+            )
         branch_result = run_git(
             repo_root,
             "config",
@@ -459,13 +782,29 @@ def validate_dependency(repo_root: Path, spec: DependencySpec) -> list[str]:
     except RuntimeError as error:
         errors.append(f".gitmodules отсутствует в Git-индексе: {error}")
     else:
-        working_gitmodules = (repo_root / ".gitmodules").read_text(encoding="utf-8").strip()
-        if indexed_gitmodules != working_gitmodules:
-            errors.append("рабочая .gitmodules не совпадает с записью в Git-индексе")
+        try:
+            working_gitmodules = (repo_root / ".gitmodules").read_text(
+                encoding="utf-8"
+            ).strip()
+        except (OSError, UnicodeError) as error:
+            errors.append(f"не удалось прочитать рабочую .gitmodules как UTF-8: {error}")
+        else:
+            if indexed_gitmodules != working_gitmodules:
+                errors.append(
+                    "рабочая .gitmodules не совпадает с записью в Git-индексе"
+                )
 
     dependency = dependency_path(repo_root, spec)
     if not dependency.is_dir():
         errors.append(f"{spec.path}: каталог зависимости отсутствует")
+        return errors
+    location_errors = validate_dependency_worktree_location(
+        repo_root,
+        dependency,
+        spec.path,
+    )
+    if location_errors:
+        errors.extend(location_errors)
         return errors
     try:
         dependency_root = run_git(
@@ -479,8 +818,20 @@ def validate_dependency(repo_root: Path, spec: DependencySpec) -> list[str]:
     if Path(dependency_root).resolve() != dependency.resolve():
         errors.append(f"{spec.path}: Git-корень зависимости не совпадает с путём")
     git_marker = dependency / ".git"
-    if not git_marker.is_file():
-        errors.append(f"{spec.path}: submodule должен использовать связанный .git-файл")
+    if not git_marker.is_file() or git_marker.is_symlink():
+        errors.append(
+            f"{spec.path}: submodule должен использовать связанный .git-файл "
+            "без символической ссылки"
+        )
+    if section is not None:
+        errors.extend(
+            validate_submodule_git_directory(
+                repo_root,
+                dependency,
+                spec.path,
+                section,
+            )
+        )
     try:
         superproject = run_git(
             dependency,
@@ -490,7 +841,9 @@ def validate_dependency(repo_root: Path, spec: DependencySpec) -> list[str]:
     except RuntimeError as error:
         errors.append(f"{spec.path}: не удалось подтвердить связь с superproject: {error}")
     else:
-        if Path(superproject).resolve() != repo_root:
+        if not superproject:
+            errors.append(f"{spec.path}: Git не подтвердил связь с superproject")
+        elif Path(superproject).resolve() != repo_root:
             errors.append(f"{spec.path}: клон не связан с текущим superproject")
 
     errors.extend(
@@ -502,11 +855,32 @@ def validate_dependency(repo_root: Path, spec: DependencySpec) -> list[str]:
         )
     )
     errors.extend(
+        validate_remote_fetch_refspec(
+            dependency,
+            spec.path,
+            "origin",
+        )
+    )
+    errors.extend(
         validate_remote_urls(
             dependency,
             spec.path,
             "upstream",
             spec.upstream_url,
+        )
+    )
+    errors.extend(
+        validate_remote_fetch_refspec(
+            dependency,
+            spec.path,
+            "upstream",
+        )
+    )
+    errors.extend(
+        validate_remote_has_tracking_refs(
+            dependency,
+            spec.path,
+            "upstream",
         )
     )
     try:
@@ -584,37 +958,264 @@ def validate_dependency(repo_root: Path, spec: DependencySpec) -> list[str]:
                 f"{spec.path}: ревизия {spec.revision} не достижима из origin"
             )
 
+    gitlink_revision, gitlink_errors = read_index_gitlink_revision(
+        repo_root,
+        spec.path,
+    )
+    errors.extend(gitlink_errors)
+    if gitlink_revision is not None and gitlink_revision != spec.revision:
+        errors.append(
+            f"{spec.path}: gitlink должен быть {spec.revision}, "
+            f"получено {gitlink_revision}"
+        )
+    return errors
+
+
+def validate_initialization_target(
+    repo_root: Path,
+    spec: DependencySpec,
+    section: str,
+) -> list[str]:
+    dependency = dependency_path(repo_root, spec)
+    errors: list[str] = []
+    if not dependency.is_dir():
+        return [f"{spec.path}: каталог зависимости отсутствует"]
+    location_errors = validate_dependency_worktree_location(
+        repo_root,
+        dependency,
+        spec.path,
+    )
+    if location_errors:
+        return location_errors
     try:
-        gitlink_result = run_git(
-            repo_root,
-            "ls-files",
-            "--stage",
-            "--",
-            spec.path,
+        dependency_root = run_git(
+            dependency,
+            "rev-parse",
+            "--show-toplevel",
         ).stdout
     except RuntimeError as error:
-        errors.append(f"{spec.path}: не удалось прочитать gitlink: {error}")
+        return [f"{spec.path}: не является Git-клоном: {error}"]
+    if Path(dependency_root).resolve() != dependency.resolve():
+        errors.append(f"{spec.path}: Git-корень зависимости не совпадает с путём")
+    git_marker = dependency / ".git"
+    if not git_marker.is_file() or git_marker.is_symlink():
+        errors.append(
+            f"{spec.path}: submodule должен использовать связанный .git-файл "
+            "без символической ссылки"
+        )
+    errors.extend(
+        validate_submodule_git_directory(
+            repo_root,
+            dependency,
+            spec.path,
+            section,
+        )
+    )
+    try:
+        superproject = run_git(
+            dependency,
+            "rev-parse",
+            "--show-superproject-working-tree",
+        ).stdout
+    except RuntimeError as error:
+        errors.append(f"{spec.path}: не удалось подтвердить связь с superproject: {error}")
     else:
-        lines = [line for line in gitlink_result.splitlines() if line]
-        if len(lines) != 1:
-            errors.append(f"{spec.path}: ожидается ровно один gitlink в индексе")
-        else:
-            metadata, separator, _ = lines[0].partition("\t")
-            fields = metadata.split()
-            if not separator or len(fields) != 3:
-                errors.append(f"{spec.path}: некорректная запись gitlink")
-            else:
-                mode, revision, stage = fields
-                if mode != "160000" or stage != "0":
-                    errors.append(
-                        f"{spec.path}: ожидается gitlink mode 160000 stage 0"
-                    )
-                if revision != spec.revision:
-                    errors.append(
-                        f"{spec.path}: gitlink должен быть {spec.revision}, "
-                        f"получено {revision}"
-                    )
+        if not superproject:
+            errors.append(f"{spec.path}: Git не подтвердил связь с superproject")
+        elif Path(superproject).resolve() != repo_root:
+            errors.append(f"{spec.path}: клон не связан с текущим superproject")
+    try:
+        shallow = run_git(
+            dependency,
+            "rev-parse",
+            "--is-shallow-repository",
+        ).stdout
+    except RuntimeError as error:
+        errors.append(f"{spec.path}: не удалось проверить shallow-состояние: {error}")
+    else:
+        if shallow != "false":
+            errors.append(f"{spec.path}: shallow-клон не допускается")
+    try:
+        status = run_git(dependency, "status", "--porcelain=v1").stdout
+    except RuntimeError as error:
+        errors.append(f"{spec.path}: не удалось проверить чистоту: {error}")
+    else:
+        if status:
+            errors.append(f"{spec.path}: локальный клон не чист")
+
+    try:
+        remotes = set(run_git(dependency, "remote").stdout.splitlines())
+    except RuntimeError as error:
+        errors.append(f"{spec.path}: не удалось прочитать список remote: {error}")
+        return errors
+    if not {"origin"}.issubset(remotes) or not remotes.issubset(
+        {"origin", "upstream"}
+    ):
+        errors.append(
+            f"{spec.path}: до инициализации допускаются только remote origin "
+            f"и точный upstream, получено {sorted(remotes)!r}"
+        )
+        return errors
+    errors.extend(
+        validate_remote_urls(
+            dependency,
+            spec.path,
+            "origin",
+            spec.fork_url,
+        )
+    )
+    errors.extend(
+        validate_remote_fetch_refspec(
+            dependency,
+            spec.path,
+            "origin",
+        )
+    )
+    if "upstream" in remotes:
+        errors.extend(
+            validate_remote_urls(
+                dependency,
+                spec.path,
+                "upstream",
+                spec.upstream_url,
+            )
+        )
+        errors.extend(
+            validate_remote_fetch_refspec(
+                dependency,
+                spec.path,
+                "upstream",
+            )
+        )
     return errors
+
+
+def initialize_registered_dependency(
+    repo_root: Path,
+    path: str,
+) -> tuple[DependencySpec | None, list[str]]:
+    repo_root = repo_root.resolve()
+    spec, errors = registered_dependency_spec(repo_root, path)
+    if spec is None or errors:
+        return None, errors
+
+    section, section_errors = find_submodule_section(repo_root, spec.path)
+    if section is None or section_errors:
+        return spec, section_errors or [f"{spec.path}: запись submodule не найдена"]
+
+    expected_module_git_dir, module_git_dir_errors = expected_submodule_git_directory(
+        repo_root,
+        spec.path,
+        section,
+    )
+    if module_git_dir_errors:
+        return spec, module_git_dir_errors
+
+    dependency = dependency_path(repo_root, spec)
+    location_errors = validate_dependency_worktree_location(
+        repo_root,
+        dependency,
+        spec.path,
+    )
+    if location_errors:
+        return spec, location_errors
+    initialized = (dependency / ".git").is_file()
+    if not initialized:
+        if expected_module_git_dir is not None and (
+            expected_module_git_dir.exists()
+            or expected_module_git_dir.is_symlink()
+        ):
+            return spec, [
+                f"{spec.path}: остаточный Git-каталог нематериализованного "
+                f"submodule должен отсутствовать: {expected_module_git_dir}"
+            ]
+        local_urls, config_errors = read_nul_config_values(
+            repo_root,
+            "--get-all",
+            f"{section}.url",
+        )
+        if config_errors or local_urls is None:
+            return spec, [
+                f"{spec.path}: не удалось проверить локальный URL submodule: "
+                f"{error}"
+                for error in config_errors
+            ]
+        if local_urls not in ([], [spec.fork_url]):
+            return spec, [
+                f"{spec.path}: локальный URL submodule должен быть единственным "
+                f"{spec.fork_url!r}, получено {local_urls!r}"
+            ]
+        if dependency.exists() or dependency.is_symlink():
+            if dependency.is_symlink() or not dependency.is_dir():
+                return None, [
+                    f"{spec.path}: путь нематериализованного submodule занят"
+                ]
+            if any(dependency.iterdir()):
+                return None, [
+                    f"{spec.path}: каталог нематериализованного submodule не пуст"
+                ]
+        try:
+            run_git(
+                repo_root,
+                "-c",
+                "protocol.file.allow=always",
+                "submodule",
+                "update",
+                "--init",
+                "--checkout",
+                "--no-recommend-shallow",
+                "--",
+                spec.path,
+            )
+        except RuntimeError as error:
+            return spec, [
+                f"не удалось материализовать зарегистрированный submodule "
+                f"{spec.path}: {error}"
+            ]
+
+    errors = validate_initialization_target(repo_root, spec, section)
+    if errors:
+        return spec, errors
+    dependency = dependency_path(repo_root, spec)
+    try:
+        remotes = set(run_git(dependency, "remote").stdout.splitlines())
+    except RuntimeError as error:
+        return spec, [
+            f"{spec.path}: не удалось повторно прочитать список remote: {error}"
+        ]
+    if "upstream" not in remotes:
+        try:
+            run_git(
+                dependency,
+                "remote",
+                "add",
+                "upstream",
+                spec.upstream_url,
+            )
+        except RuntimeError as error:
+            return spec, [
+                f"{spec.path}: не удалось восстановить remote upstream: {error}"
+            ]
+
+    try:
+        run_git(dependency, "fetch", "--prune", "origin")
+        run_git(dependency, "fetch", "--prune", "upstream")
+    except RuntimeError as error:
+        return spec, [f"не удалось получить remote для {spec.path}: {error}"]
+    try:
+        run_git(
+            dependency,
+            "checkout",
+            "--detach",
+            "--no-overwrite-ignore",
+            spec.revision,
+        )
+    except RuntimeError as error:
+        return spec, [
+            f"{spec.path}: не удалось безопасно выбрать gitlink без "
+            f"перезаписи игнорируемого или другого локального состояния: {error}"
+        ]
+    return spec, validate_dependency(repo_root, spec)
 
 
 def preflight_dependency(spec: DependencySpec) -> list[str]:
@@ -738,35 +1339,44 @@ def materialize_dependency(repo_root: Path, spec: DependencySpec) -> list[str]:
     return validate_dependency(repo_root, spec)
 
 
-def add_common_arguments(parser: argparse.ArgumentParser) -> None:
+def add_repo_root_argument(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         "--repo-root",
         type=Path,
         default=Path.cwd(),
         help="Корень основного Git-репозитория.",
     )
+
+
+def add_path_argument(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument(
+        "--path",
+        required=True,
+        help="Относительный путь submodule в основном репозитории.",
+    )
+
+
+def add_common_arguments(parser: argparse.ArgumentParser) -> None:
+    add_repo_root_argument(parser)
     parser.add_argument("--fork-url", required=True, help="URL управляемого форка.")
     parser.add_argument(
         "--upstream-url",
         required=True,
         help="URL исходного репозитория.",
     )
-    parser.add_argument(
-        "--path",
-        required=True,
-        help="Относительный путь submodule в основном репозитории.",
-    )
+    add_path_argument(parser)
     parser.add_argument(
         "--revision",
         required=True,
-        help="Полный SHA-1 выбранного коммита.",
+        help="Полный Git OID выбранного коммита.",
     )
 
 
 def parse_arguments(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Добавить или проверить внешнюю Git-зависимость через управляемый форк."
+            "Добавить, инициализировать или проверить внешнюю Git-зависимость "
+            "через управляемый форк."
         )
     )
     commands = parser.add_subparsers(dest="command", required=True)
@@ -777,27 +1387,44 @@ def parse_arguments(argv: Sequence[str] | None = None) -> argparse.Namespace:
         help="Автономно проверить уже материализованную зависимость.",
     )
     add_common_arguments(check_parser)
+    init_parser = commands.add_parser(
+        "init",
+        help="Инициализировать уже зарегистрированный Git submodule.",
+    )
+    add_repo_root_argument(init_parser)
+    add_path_argument(init_parser)
     return parser.parse_args(argv)
 
 
 def main(argv: Sequence[str] | None = None) -> int:
     arguments = parse_arguments(argv)
-    dependency_spec = DependencySpec(
-        fork_url=arguments.fork_url,
-        upstream_url=arguments.upstream_url,
-        path=arguments.path,
-        revision=arguments.revision.lower(),
-    )
-    if arguments.command == "add":
-        errors = materialize_dependency(arguments.repo_root, dependency_spec)
+    if arguments.command == "init":
+        dependency_spec, errors = initialize_registered_dependency(
+            arguments.repo_root,
+            arguments.path,
+        )
+        success_message = "Инициализирована и проверена Git-зависимость"
     else:
-        errors = validate_dependency(arguments.repo_root, dependency_spec)
+        dependency_spec = DependencySpec(
+            fork_url=arguments.fork_url,
+            upstream_url=arguments.upstream_url,
+            path=arguments.path,
+            revision=arguments.revision.lower(),
+        )
+        if arguments.command == "add":
+            errors = materialize_dependency(arguments.repo_root, dependency_spec)
+        else:
+            errors = validate_dependency(arguments.repo_root, dependency_spec)
+        success_message = "Проверена Git-зависимость"
     if errors:
         for error in errors:
             print(f"Ошибка: {error}", file=sys.stderr)
         return 1
+    if dependency_spec is None:
+        print("Ошибка: контракт зарегистрированной зависимости не определён", file=sys.stderr)
+        return 1
     print(
-        f"Проверена Git-зависимость: {dependency_spec.path} "
+        f"{success_message}: {dependency_spec.path} "
         f"@ {dependency_spec.revision}"
     )
     return 0
