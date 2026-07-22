@@ -36,6 +36,11 @@
   ],
   "current": [
     {
+      "source": "аудит покрытия вопросов и ответов",
+      "transliteration": "audit pokryitiya voprosov i otvetov",
+      "slug": "fum-audit-pokryitiya-voprosov-i-otvetov"
+    },
+    {
       "source": "очередь задач Git-ветки",
       "transliteration": "ocheredj zadach Git-vetki",
       "slug": "fum-ocheredj-zadach-git-vetki"

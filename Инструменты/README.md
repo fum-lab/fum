@@ -26,6 +26,7 @@
 - [fum-proverka-nazvanij-avtomatizacij](fum-proverka-nazvanij-avtomatizacij/SKILL.md) - проверяет точную транслитерацию репозиторных и отображаемых имён, slug, отсутствие канонических legacy-исключений, коллизии и явное состояние зависимости LinguisticKit.
 - [fum-zapusk-prototipov](fum-zapusk-prototipov/SKILL.md) - проверяет корневую POSIX-панель `prototipyi.sh` и обязательные `запустить.sh` у всех устойчивых прототипов.
 - [fum-obratnyiye-ssyilki-voprosov](fum-obratnyiye-ssyilki-voprosov/SKILL.md) - проверяет двунаправленность локальных ссылок между открытыми или частично прояснёнными вопросами и заявленной затронутой документацией.
+- [fum-audit-pokryitiya-voprosov-i-otvetov](fum-audit-pokryitiya-voprosov-i-otvetov/SKILL.md) - извлекает вопросительные предложения из дословных блоков запросов, сопоставляет их с source-ссылками карточек и оставляет смысловой отбор ручным.
 - [fum-indeks-readme](fum-indeks-readme/SKILL.md) - проверяет, что тематический индекс корневого `README.md` напрямую охватывает все номерные документы и папочные точки входа `Документация/`.
 - [fum-materialyi-zaprosov](fum-materialyi-zaprosov/SKILL.md) - архивирует устойчивые HTML-URL через общий вход `fum source archive`, сохраняет [прикрепляемые материалы](../Глоссарий/прикрепляемый-материал.md) в `Источники/` и поддерживает специализированное извлечение расшаренных чатов ChatGPT.
 - [fum-moskovskoye-vremya-rabochej-sessii](fum-moskovskoye-vremya-rabochej-sessii/SKILL.md) - формирует согласованные имя и заголовочную метку рабочей сессии в зоне `Europe/Moscow` независимо от зоны хоста.
@@ -38,6 +39,7 @@
 - `python3 Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/run-smoke-check.py --request Запросы/<YYYY-MM-DD_HH-MM-SS_MSK>.md --commit-message-file <путь> --codex-thread-id <UUID>` - единый локальный smoke-check репозитория для выбранной рабочей сессии и её подготовленного сообщения коммита.
 - `python3 Инструменты/fum-zapusk-prototipov/scripts/check-prototype-launchers.py` - проверка корневой панели `prototipyi.sh` и обязательных точек входа `запустить.sh` всех устойчивых прототипов.
 - `python3 Инструменты/fum-obratnyiye-ssyilki-voprosov/scripts/check-question-backlinks.py` - автономная проверка существования, регистра и обратных ссылок всех локальных целей активных вопросов.
+- `python3 Инструменты/fum-audit-pokryitiya-voprosov-i-otvetov/scripts/audit-question-answer-coverage.py --repo-root .` - детерминированный список вопросительных кандидатов, их ссылочного покрытия и обязательных ручных смысловых проверок.
 - `python3 Инструменты/fum-indeks-readme/scripts/check-readme-index.py --repo-root .` - автономная проверка полноты тематического индекса номерной документации в корневом `README.md`.
 - `python3 Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py init --repo-root . --path Зависимости/LinguisticKit` - сетевая инициализация уже зарегистрированного submodule из отслеживаемой `.gitmodules` и gitlink после свежего клонирования FUM.
 - `python3 Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py check --repo-root . --fork-url https://github.com/fum-lab/LinguisticKit.git --upstream-url https://github.com/Roman-Kerimov/LinguisticKit.git --path Зависимости/LinguisticKit --revision 837e2ce107b97ee7b9d3344c9fe99142281fe393` - автономная проверка подключённого submodule LinguisticKit без получения remote.
@@ -56,6 +58,7 @@
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-proverka-nazvanij-avtomatizacij/tests -p 'test_*.py'` - локальные тесты реестра русских латинских названий автоматизаций.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-zapusk-prototipov/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-zapusk-prototipov`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-obratnyiye-ssyilki-voprosov/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-obratnyiye-ssyilki-voprosov`.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-audit-pokryitiya-voprosov-i-otvetov/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-audit-pokryitiya-voprosov-i-otvetov`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-indeks-readme/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-indeks-readme`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-materialyi-zaprosov/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-materialyi-zaprosov`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-moskovskoye-vremya-rabochej-sessii/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-moskovskoye-vremya-rabochej-sessii`.
@@ -65,6 +68,7 @@
 
 ## Источники требований
 
+- [исходный запрос 2026-07-22 10:02:43 MSK - Добавить аудит покрытия вопросов и ответов](../Запросы/2026-07-22_10-02-43_MSK_добавить-аудит-покрытия-вопросов-и-ответов.md)
 - [исходный запрос 2026-07-22 08:44:00 MSK - Мигрировать legacy имена автоматизаций](../Запросы/2026-07-22_08-44-00_MSK_мигрировать-legacy-имена-автоматизаций.md)
 - [исходный запрос 2026-07-21 11:32:46 MSK - Актуализировать входные описания FUM](../Запросы/2026-07-21_11-32-46_MSK_актуализировать-входные-описания-FUM.md)
 - [исходный запрос 2026-07-21 12:18:37 MSK - Закрепить транслитерацию названий автоматизаций](../Запросы/2026-07-21_12-18-37_MSK_закрепить-транслитерацию-названий-автоматизаций.md)
@@ -73,6 +77,6 @@
 - [исходный запрос 2026-07-22 03:38:35 MSK - Разрешить выполнение доступных карточек шагов](../Запросы/2026-07-22_03-38-35_MSK_разрешить-выполнение-доступных-карточек-шагов.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-22 09:17:49 MSK -->
-<!-- content-sha256: sha256:2d652b32531f30b000df8d146bc2e56ff0369e2c410dad63e84525f48e659462 -->
+<!-- last-content-edit: 2026-07-22 10:20:05 MSK -->
+<!-- content-sha256: sha256:104415e38e9cfc468f5defb61c0ad2528b8a90f380c263d9ff8fee1c6a720509 -->
 <!-- FUM-MD-RECENCY:END -->
