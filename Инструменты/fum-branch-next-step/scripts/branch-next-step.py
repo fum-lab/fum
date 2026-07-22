@@ -28,21 +28,23 @@ RECENCY_BLOCK_RE = re.compile(
 STEP_ID_RE = re.compile(r"^[a-z0-9][a-z0-9._-]{2,127}$")
 CARD_ID_RE = re.compile(r"^FUM-STEP-[0-9]{4}$")
 CONTENT_SHA256_RE = re.compile(r"^sha256:[0-9a-f]{64}$")
-ALLOWED_STATUSES = frozenset({"ready", "blocked", "done", "paused"})
+SELECTOR_STATES = frozenset({"open", "done"})
+CANDIDATE_STATUSES = frozenset({"ready", "blocked", "paused"})
 CARD_STATUSES = frozenset({"active", "completed", "absorbed", "withdrawn"})
 CARD_FRONTMATTER_KEYS = frozenset({"schema_version", "card_id", "status"})
-SELECTOR_BASE_FRONTMATTER_KEYS = frozenset(
+SELECTOR_FRONTMATTER_KEYS = frozenset(
     {
         "schema_version",
         "branch_ref",
-        "step_id",
-        "status",
+        "state",
         "project_path",
+        "candidates",
     }
 )
-SELECTOR_CARD_FRONTMATTER_KEYS = frozenset(
-    {"card_id", "card_content_sha256"}
+CANDIDATE_FRONTMATTER_KEYS = frozenset(
+    {"step_id", "status", "card_id", "card_content_sha256"}
 )
+CANDIDATE_RESUME_FRONTMATTER_KEYS = frozenset({"resume_condition"})
 
 EXIT_INVALID = 2
 EXIT_NOT_READY = 3
@@ -71,14 +73,21 @@ class StepCard:
 
 
 @dataclass(frozen=True)
-class BranchSelection:
-    branch_ref: str
+class CandidateSelection:
     step_id: str
     status: str
+    card_id: str
+    card_content_sha256: str
+    resume_condition: str | None = None
+
+
+@dataclass(frozen=True)
+class BranchSelection:
+    branch_ref: str
+    state: str
     project_path: str
     record_path: str
-    card_id: str | None
-    card_content_sha256: str | None
+    candidates: tuple[CandidateSelection, ...]
 
 
 @dataclass(frozen=True)
@@ -94,6 +103,7 @@ class StepRecord:
     title: str | None = None
     task: str | None = None
     criteria: tuple[str, ...] = ()
+    resume_condition: str | None = None
 
     def payload(self) -> dict[str, object]:
         result = {
@@ -114,7 +124,42 @@ class StepRecord:
                     "criteria": list(self.criteria),
                 }
             )
+        if self.resume_condition is not None:
+            result["resume_condition"] = self.resume_condition
         return result
+
+
+@dataclass(frozen=True)
+class BranchRecord:
+    branch_ref: str
+    state: str
+    project_path: str
+    record_path: str
+    candidates: tuple[StepRecord, ...]
+
+    def ready_candidate(self) -> StepRecord | None:
+        ready = tuple(
+            candidate for candidate in self.candidates
+            if candidate.status == "ready"
+        )
+        if len(ready) > 1:
+            raise ContractError(
+                f"{self.record_path}: допускается не более одного "
+                "кандидата status=ready."
+            )
+        return ready[0] if ready else None
+
+    def summary_payload(self) -> dict[str, object]:
+        return {
+            "branch_ref": self.branch_ref,
+            "selector_state": self.state,
+            "project_path": self.project_path,
+            "record_path": self.record_path,
+            "candidate_count": len(self.candidates),
+            "candidates": [
+                candidate.payload() for candidate in self.candidates
+            ],
+        }
 
 
 def parse_args() -> argparse.Namespace:
@@ -656,6 +701,96 @@ def load_cards(repo_root: Path) -> tuple[StepCard, ...]:
     return cards
 
 
+def parse_candidate(
+    raw_candidate: object,
+    record_path: str,
+    index: int,
+) -> CandidateSelection:
+    candidate_path = f"{record_path}: candidates[{index}]"
+    if not isinstance(raw_candidate, dict):
+        raise ContractError(
+            f"{candidate_path}: кандидат должен быть TOML-таблицей."
+        )
+
+    status = raw_candidate.get("status")
+    if not isinstance(status, str) or status not in CANDIDATE_STATUSES:
+        raise ContractError(
+            f"{candidate_path}: status должен быть одним из "
+            f"{', '.join(sorted(CANDIDATE_STATUSES))}."
+        )
+    expected_keys = CANDIDATE_FRONTMATTER_KEYS
+    if status in {"paused", "blocked"}:
+        expected_keys = expected_keys | CANDIDATE_RESUME_FRONTMATTER_KEYS
+    validate_exact_frontmatter_keys(
+        raw_candidate,
+        expected_keys,
+        candidate_path,
+    )
+
+    step_id = raw_candidate["step_id"]
+    if not isinstance(step_id, str) or STEP_ID_RE.fullmatch(step_id) is None:
+        raise ContractError(
+            f"{candidate_path}: step_id должен быть устойчивым "
+            "ASCII-идентификатором из строчных букв, цифр, '.', '_' и '-'."
+        )
+
+    card_id = raw_candidate["card_id"]
+    if not isinstance(card_id, str) or CARD_ID_RE.fullmatch(card_id) is None:
+        raise ContractError(
+            f"{candidate_path}: card_id должен иметь вид FUM-STEP-NNNN."
+        )
+
+    card_content_sha256 = raw_candidate["card_content_sha256"]
+    if (
+        not isinstance(card_content_sha256, str)
+        or CONTENT_SHA256_RE.fullmatch(card_content_sha256) is None
+    ):
+        raise ContractError(
+            f"{candidate_path}: card_content_sha256 должен иметь вид "
+            "sha256:<64 hex>."
+        )
+
+    resume_condition: str | None = None
+    if status in {"paused", "blocked"}:
+        raw_resume_condition = raw_candidate["resume_condition"]
+        if (
+            not isinstance(raw_resume_condition, str)
+            or not raw_resume_condition.strip()
+        ):
+            raise ContractError(
+                f"{candidate_path}: resume_condition должен быть "
+                "непустой строкой для paused/blocked."
+            )
+        resume_condition = raw_resume_condition.strip()
+
+    return CandidateSelection(
+        step_id=step_id,
+        status=status,
+        card_id=card_id,
+        card_content_sha256=card_content_sha256,
+        resume_condition=resume_condition,
+    )
+
+
+def reject_duplicate_candidate_identities(
+    candidates: tuple[CandidateSelection, ...],
+    record_path: str,
+) -> None:
+    for field_name in ("card_id", "step_id"):
+        by_value: dict[str, int] = {}
+        for candidate in candidates:
+            value = str(getattr(candidate, field_name))
+            by_value[value] = by_value.get(value, 0) + 1
+        duplicates = sorted(
+            value for value, count in by_value.items() if count > 1
+        )
+        if duplicates:
+            raise ContractError(
+                f"{record_path}: значения {field_name} кандидатов должны быть "
+                f"уникальны; дубликаты: {', '.join(duplicates)}."
+            )
+
+
 def parse_selector(path: Path, repo_root: Path) -> BranchSelection:
     record_path = repository_relative(path, repo_root)
     try:
@@ -668,35 +803,50 @@ def parse_selector(path: Path, repo_root: Path) -> BranchSelection:
     )
 
     schema_version = frontmatter.get("schema_version")
-    if type(schema_version) is not int or schema_version != 2:
-        raise ContractError(f"{record_path}: поддерживается только schema_version = 2.")
+    if type(schema_version) is not int or schema_version != 3:
+        raise ContractError(f"{record_path}: поддерживается только schema_version = 3.")
+    validate_exact_frontmatter_keys(
+        frontmatter,
+        SELECTOR_FRONTMATTER_KEYS,
+        record_path,
+    )
 
-    status = frontmatter.get("status")
-    if not isinstance(status, str) or status not in ALLOWED_STATUSES:
+    state = frontmatter["state"]
+    if not isinstance(state, str) or state not in SELECTOR_STATES:
         raise ContractError(
-            f"{record_path}: status должен быть одним из "
-            f"{', '.join(sorted(ALLOWED_STATUSES))}."
+            f"{record_path}: state должен быть одним из "
+            f"{', '.join(sorted(SELECTOR_STATES))}."
         )
-    expected_keys = SELECTOR_BASE_FRONTMATTER_KEYS
-    if status == "done" and SELECTOR_CARD_FRONTMATTER_KEYS & frozenset(frontmatter):
-        raise ContractError(
-            f"{record_path}: для status=done поля card_id и "
-            "card_content_sha256 запрещены."
-        )
-    if status != "done":
-        expected_keys = expected_keys | SELECTOR_CARD_FRONTMATTER_KEYS
-    validate_exact_frontmatter_keys(frontmatter, expected_keys, record_path)
 
     branch_ref = frontmatter["branch_ref"]
     if not isinstance(branch_ref, str):
         raise ContractError(f"{record_path}: branch_ref должен быть строкой.")
     validate_record_branch_ref(repo_root, branch_ref, record_path)
 
-    step_id = frontmatter["step_id"]
-    if not isinstance(step_id, str) or STEP_ID_RE.fullmatch(step_id) is None:
+    raw_candidates = frontmatter["candidates"]
+    if not isinstance(raw_candidates, list):
         raise ContractError(
-            f"{record_path}: step_id должен быть устойчивым ASCII-идентификатором "
-            "из строчных букв, цифр, '.', '_' и '-'."
+            f"{record_path}: candidates должен быть массивом TOML-таблиц."
+        )
+    if state == "open" and not raw_candidates:
+        raise ContractError(
+            f"{record_path}: state=open требует хотя бы одного кандидата."
+        )
+    if state == "done" and raw_candidates:
+        raise ContractError(
+            f"{record_path}: state=done требует пустой candidates."
+        )
+    candidates = tuple(
+        parse_candidate(raw_candidate, record_path, index)
+        for index, raw_candidate in enumerate(raw_candidates)
+    )
+    reject_duplicate_candidate_identities(candidates, record_path)
+    ready_count = sum(
+        candidate.status == "ready" for candidate in candidates
+    )
+    if ready_count > 1:
+        raise ContractError(
+            f"{record_path}: допускается не более одного кандидата status=ready."
         )
 
     project_path = validate_project_path(
@@ -716,87 +866,67 @@ def parse_selector(path: Path, repo_root: Path) -> BranchSelection:
             f"{', '.join(duplicated)} карточки."
         )
 
-    card_id: str | None = None
-    card_content_sha256: str | None = None
-    if status != "done":
-        raw_card_id = frontmatter["card_id"]
-        if not isinstance(raw_card_id, str) or CARD_ID_RE.fullmatch(raw_card_id) is None:
-            raise ContractError(
-                f"{record_path}: card_id должен иметь вид FUM-STEP-NNNN."
-            )
-        raw_content_sha256 = frontmatter["card_content_sha256"]
-        if (
-            not isinstance(raw_content_sha256, str)
-            or CONTENT_SHA256_RE.fullmatch(raw_content_sha256) is None
-        ):
-            raise ContractError(
-                f"{record_path}: card_content_sha256 должен иметь вид sha256:<64 hex>."
-            )
-        card_id = raw_card_id
-        card_content_sha256 = raw_content_sha256
-
     return BranchSelection(
         branch_ref=branch_ref,
-        step_id=step_id,
-        status=status,
+        state=state,
         project_path=project_path,
         record_path=record_path,
-        card_id=card_id,
-        card_content_sha256=card_content_sha256,
+        candidates=candidates,
     )
 
 
 def resolve_selection(
     selection: BranchSelection,
     cards_by_id: dict[str, StepCard],
-) -> StepRecord:
-    if selection.status == "done":
-        return StepRecord(
-            branch_ref=selection.branch_ref,
-            step_id=selection.step_id,
-            status=selection.status,
-            project_path=selection.project_path,
-            record_path=selection.record_path,
+) -> BranchRecord:
+    resolved_candidates: list[StepRecord] = []
+    for candidate in selection.candidates:
+        card = cards_by_id.get(candidate.card_id)
+        if card is None:
+            raise ContractError(
+                f"{selection.record_path}: не найдена карточка {candidate.card_id}."
+            )
+        if card.status != "active":
+            raise ContractError(
+                f"{selection.record_path}: выбрать можно только карточку "
+                f"status=active, но {candidate.card_id} имеет status={card.status}."
+            )
+        if candidate.card_content_sha256 != card.card_content_sha256:
+            raise ContractError(
+                f"{selection.record_path}: card_content_sha256 карточки "
+                f"{candidate.card_id} изменился; ожидался "
+                f"{candidate.card_content_sha256}, обнаружен "
+                f"{card.card_content_sha256}."
+            )
+        resolved_candidates.append(
+            StepRecord(
+                branch_ref=selection.branch_ref,
+                step_id=candidate.step_id,
+                status=candidate.status,
+                project_path=selection.project_path,
+                record_path=selection.record_path,
+                card_id=card.card_id,
+                card_path=card.card_path,
+                card_content_sha256=card.card_content_sha256,
+                title=card.title,
+                task=card.task,
+                criteria=card.criteria,
+                resume_condition=candidate.resume_condition,
+            )
         )
-    if selection.card_id is None or selection.card_content_sha256 is None:
-        raise ContractError(
-            f"{selection.record_path}: для status={selection.status} нужна карточка."
-        )
-    card = cards_by_id.get(selection.card_id)
-    if card is None:
-        raise ContractError(
-            f"{selection.record_path}: не найдена карточка {selection.card_id}."
-        )
-    if card.status != "active":
-        raise ContractError(
-            f"{selection.record_path}: выбрать можно только карточку status=active, "
-            f"но {selection.card_id} имеет status={card.status}."
-        )
-    if selection.card_content_sha256 != card.card_content_sha256:
-        raise ContractError(
-            f"{selection.record_path}: card_content_sha256 карточки "
-            f"{selection.card_id} изменился; ожидался "
-            f"{selection.card_content_sha256}, обнаружен {card.card_content_sha256}."
-        )
-    return StepRecord(
+    return BranchRecord(
         branch_ref=selection.branch_ref,
-        step_id=selection.step_id,
-        status=selection.status,
+        state=selection.state,
         project_path=selection.project_path,
         record_path=selection.record_path,
-        card_id=card.card_id,
-        card_path=card.card_path,
-        card_content_sha256=card.card_content_sha256,
-        title=card.title,
-        task=card.task,
-        criteria=card.criteria,
+        candidates=tuple(resolved_candidates),
     )
 
 
 def load_records(
     repo_root: Path,
     cards: tuple[StepCard, ...] | None = None,
-) -> tuple[StepRecord, ...]:
+) -> tuple[BranchRecord, ...]:
     directory = repo_root / RECORDS_DIRECTORY
     if not directory.is_dir():
         raise ContractError(
@@ -842,8 +972,8 @@ def load_records(
 
 def active_record(
     repo_root: Path,
-    records: tuple[StepRecord, ...] | None = None,
-) -> StepRecord:
+    records: tuple[BranchRecord, ...] | None = None,
+) -> BranchRecord:
     branch_ref = active_branch_ref(repo_root)
     available_records = records if records is not None else load_records(repo_root)
     matching_records = [
@@ -858,7 +988,8 @@ def active_record(
 
 
 def assert_expected_identity(
-    record: StepRecord,
+    record: BranchRecord,
+    ready_candidate: StepRecord | None,
     expected_branch_ref: str | None,
     expected_step_id: str | None,
 ) -> None:
@@ -867,10 +998,21 @@ def assert_expected_identity(
             "Активная ветка изменилась: ожидалась "
             f"{expected_branch_ref}, обнаружена {record.branch_ref}."
         )
-    if expected_step_id is not None and record.step_id != expected_step_id:
+    if (
+        expected_step_id is not None
+        and (
+            ready_candidate is None
+            or ready_candidate.step_id != expected_step_id
+        )
+    ):
+        discovered = (
+            ready_candidate.step_id
+            if ready_candidate is not None
+            else "готовый шаг отсутствует"
+        )
         raise ContractError(
-            "Следующий шаг изменился: ожидался "
-            f"{expected_step_id}, обнаружен {record.step_id}."
+            "Следующий готовый шаг изменился: ожидался "
+            f"{expected_step_id}, обнаружен {discovered}."
         )
 
 
@@ -1092,20 +1234,35 @@ def claim_step(
             "claim требует --expected-branch-ref и --expected-step-id."
         )
     record = active_record(repo_root)
-    assert_expected_identity(record, expected_branch_ref, expected_step_id)
-    if record.status != "ready":
+    if record.branch_ref != expected_branch_ref:
+        raise ContractError(
+            "Активная ветка изменилась: ожидалась "
+            f"{expected_branch_ref}, обнаружена {record.branch_ref}."
+        )
+    ready_candidate = record.ready_candidate()
+    if ready_candidate is None:
         return (
-            {"state": "not_ready", **record.payload()},
+            {"state": "not_ready", **record.summary_payload()},
             EXIT_NOT_READY,
         )
-    reference = claim_ref(repo_root, record.branch_ref)
-    existing, old_oid = load_claim(repo_root, reference, record.branch_ref)
-    if existing is not None and existing["step_id"] == record.step_id:
+    assert_expected_identity(
+        record,
+        ready_candidate,
+        expected_branch_ref,
+        expected_step_id,
+    )
+    reference = claim_ref(repo_root, ready_candidate.branch_ref)
+    existing, old_oid = load_claim(
+        repo_root,
+        reference,
+        ready_candidate.branch_ref,
+    )
+    if existing is not None and existing["step_id"] == ready_candidate.step_id:
         return (
             {
                 "state": "already_claimed",
-                "branch_ref": record.branch_ref,
-                "step_id": record.step_id,
+                "branch_ref": ready_candidate.branch_ref,
+                "step_id": ready_candidate.step_id,
                 "lease_id": existing["lease_id"],
             },
             EXIT_ALREADY_CLAIMED,
@@ -1113,33 +1270,36 @@ def claim_step(
     lease_id = str(uuid.uuid4())
     payload: dict[str, object] = {
         "schema_version": 1,
-        "branch_ref": record.branch_ref,
-        "step_id": record.step_id,
+        "branch_ref": ready_candidate.branch_ref,
+        "step_id": ready_candidate.step_id,
         "lease_id": lease_id,
     }
-    new_oid = write_claim_blob(repo_root, payload, record.branch_ref)
+    new_oid = write_claim_blob(repo_root, payload, ready_candidate.branch_ref)
     if cas_claim_ref(repo_root, reference, old_oid, new_oid):
         return (
             {
                 "state": "claimed",
-                "branch_ref": record.branch_ref,
-                "step_id": record.step_id,
+                "branch_ref": ready_candidate.branch_ref,
+                "step_id": ready_candidate.step_id,
                 "lease_id": lease_id,
-                "record_path": record.record_path,
+                "record_path": ready_candidate.record_path,
             },
             0,
         )
     concurrent, _concurrent_oid = load_claim(
         repo_root,
         reference,
-        record.branch_ref,
+        ready_candidate.branch_ref,
     )
-    if concurrent is not None and concurrent["step_id"] == record.step_id:
+    if (
+        concurrent is not None
+        and concurrent["step_id"] == ready_candidate.step_id
+    ):
         return (
             {
                 "state": "already_claimed",
-                "branch_ref": record.branch_ref,
-                "step_id": record.step_id,
+                "branch_ref": ready_candidate.branch_ref,
+                "step_id": ready_candidate.step_id,
                 "lease_id": concurrent["lease_id"],
             },
             EXIT_ALREADY_CLAIMED,
@@ -1242,27 +1402,39 @@ def main() -> int:
             cards = load_cards(repo_root)
             records = load_records(repo_root, cards)
             current = active_record(repo_root, records)
+            ready_candidate = current.ready_candidate()
             payload = {
                 "state": "valid",
                 "active_branch_ref": current.branch_ref,
-                "active_step_id": current.step_id,
-                "active_status": current.status,
+                "active_selector_state": current.state,
+                "active_status": (
+                    "ready"
+                    if ready_candidate is not None
+                    else "done"
+                    if current.state == "done"
+                    else "not_ready"
+                ),
+                "active_candidate_count": len(current.candidates),
                 "record_count": len(records),
                 "card_count": len(cards),
             }
+            if ready_candidate is not None:
+                payload["active_step_id"] = ready_candidate.step_id
             exit_code = 0
         elif args.command == "show":
             record = active_record(repo_root)
+            ready_candidate = record.ready_candidate()
             assert_expected_identity(
                 record,
+                ready_candidate,
                 args.expected_branch_ref,
                 args.expected_step_id,
             )
-            if record.status == "ready":
-                payload = {"state": "ready", **record.payload()}
+            if ready_candidate is not None:
+                payload = {"state": "ready", **ready_candidate.payload()}
                 exit_code = 0
             else:
-                payload = {"state": "not_ready", **record.payload()}
+                payload = {"state": "not_ready", **record.summary_payload()}
                 exit_code = EXIT_NOT_READY
         elif args.command == "claim":
             payload, exit_code = claim_step(

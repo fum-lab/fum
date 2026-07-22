@@ -136,35 +136,79 @@ class BranchNextStepTests(unittest.TestCase):
         branch_ref: str = "refs/heads/master",
         step_id: str = "master-test-step-v1",
         status: str = "ready",
+        state: str | None = None,
         project_path: str = "README.md",
         card_id: str | None = "FUM-STEP-0001",
         card_content_sha256: str | None = None,
-        schema_version: str = "2",
+        resume_condition: str | None = None,
+        candidates: list[dict[str, str]] | None = None,
+        schema_version: str = "3",
     ) -> Path:
-        card_fields = ""
-        if card_id is not None:
-            if card_content_sha256 is None:
-                matches = list(
-                    (self.repo / "Планирование" / "карточки-шагов").glob("*.md")
-                )
-                matching_cards = [
-                    path
-                    for path in matches
-                    if f'card_id = "{card_id}"' in path.read_text(encoding="utf-8")
-                ]
-                if matching_cards:
-                    card_content_sha256 = self.card_content_sha256(matching_cards[0])
-            card_fields += f'card_id = "{card_id}"\n'
-        if card_content_sha256 is not None:
-            card_fields += f'card_content_sha256 = "{card_content_sha256}"\n'
+        selector_state = state or ("done" if status == "done" else "open")
+
+        def resolve_card_hash(candidate_card_id: str) -> str | None:
+            matches = list(
+                (self.repo / "Планирование" / "карточки-шагов").glob("*.md")
+            )
+            matching_cards = [
+                path
+                for path in matches
+                if f'card_id = "{candidate_card_id}"'
+                in path.read_text(encoding="utf-8")
+            ]
+            if not matching_cards:
+                return None
+            return self.card_content_sha256(matching_cards[0])
+
+        if candidates is None:
+            candidates = []
+            if card_id is not None:
+                candidate: dict[str, str] = {
+                    "step_id": step_id,
+                    "status": status,
+                    "card_id": card_id,
+                }
+                resolved_hash = card_content_sha256 or resolve_card_hash(card_id)
+                if resolved_hash is not None:
+                    candidate["card_content_sha256"] = resolved_hash
+                if status in {"paused", "blocked"}:
+                    candidate["resume_condition"] = (
+                        resume_condition
+                        if resume_condition is not None
+                        else "Требуется явное условие возобновления."
+                    )
+                elif resume_condition is not None:
+                    candidate["resume_condition"] = resume_condition
+                candidates.append(candidate)
+
+        candidate_blocks: list[str] = []
+        for candidate in candidates:
+            normalized = dict(candidate)
+            candidate_card_id = normalized.get("card_id")
+            if (
+                candidate_card_id is not None
+                and "card_content_sha256" not in normalized
+            ):
+                resolved_hash = resolve_card_hash(candidate_card_id)
+                if resolved_hash is not None:
+                    normalized["card_content_sha256"] = resolved_hash
+            lines = ["[[candidates]]"]
+            for key, value in normalized.items():
+                lines.append(f'{key} = "{value}"')
+            candidate_blocks.append("\n".join(lines) + "\n")
+
+        candidates_toml = (
+            "candidates = []\n"
+            if not candidate_blocks
+            else "".join(candidate_blocks)
+        )
         selector = (
             "+++\n"
             f"schema_version = {schema_version}\n"
             f'branch_ref = "{branch_ref}"\n'
-            f'step_id = "{step_id}"\n'
-            f'status = "{status}"\n'
+            f'state = "{selector_state}"\n'
             f'project_path = "{project_path}"\n'
-            f"{card_fields}"
+            f"{candidates_toml}"
             "+++\n"
             "# Выбрать шаг тестовой ветки\n\n"
             "Селектор связывает ветку с карточкой и не дублирует её задачу.\n\n"
@@ -189,7 +233,7 @@ class BranchNextStepTests(unittest.TestCase):
         status: str = "ready",
         project_path: str = "README.md",
         include_criteria: bool = True,
-        schema_version: str = "2",
+        schema_version: str = "3",
     ) -> Path:
         if status == "done":
             return self.write_selector(
@@ -383,7 +427,7 @@ class BranchNextStepTests(unittest.TestCase):
         self.write_selector(status="done")
         invalid = self.run_tool("validate")
         self.assertEqual(invalid.returncode, 2)
-        self.assertIn("запрещен", str(self.payload(invalid)["error"]))
+        self.assertIn("пустой candidates", str(self.payload(invalid)["error"]))
 
     def test_selector_must_not_duplicate_task_or_criteria(self) -> None:
         self.write_record()
@@ -764,8 +808,288 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertEqual(validation.returncode, 0, validation.stderr)
         self.assertEqual(self.payload(validation)["state"], "valid")
         self.assertEqual(shown.returncode, 3)
+        shown_payload = self.payload(shown)
+        self.assertEqual(shown_payload["state"], "not_ready")
+        self.assertEqual(shown_payload["selector_state"], "open")
+        self.assertEqual(shown_payload["candidate_count"], 1)
+        self.assertEqual(shown_payload["candidates"][0]["status"], "blocked")
+        self.assertTrue(
+            shown_payload["candidates"][0]["resume_condition"]
+        )
+
+    def test_blocked_candidate_does_not_hide_the_ready_candidate(self) -> None:
+        self.write_card(
+            "blocked.md",
+            card_id="FUM-STEP-0001",
+        )
+        self.write_card(
+            "ready.md",
+            card_id="FUM-STEP-0002",
+        )
+        self.write_selector(
+            candidates=[
+                {
+                    "step_id": "master-blocked-step-v1",
+                    "status": "blocked",
+                    "card_id": "FUM-STEP-0001",
+                    "resume_condition": "Получить внешний вход.",
+                },
+                {
+                    "step_id": "master-ready-step-v1",
+                    "status": "ready",
+                    "card_id": "FUM-STEP-0002",
+                },
+            ]
+        )
+
+        shown = self.run_tool("show")
+        claimed = self.run_tool(
+            "claim",
+            "--expected-branch-ref",
+            "refs/heads/master",
+            "--expected-step-id",
+            "master-ready-step-v1",
+        )
+
+        self.assertEqual(shown.returncode, 0, shown.stdout + shown.stderr)
+        self.assertEqual(self.payload(shown)["state"], "ready")
+        self.assertEqual(self.payload(shown)["card_id"], "FUM-STEP-0002")
+        self.assertEqual(
+            self.payload(shown)["step_id"],
+            "master-ready-step-v1",
+        )
+        self.assertEqual(claimed.returncode, 0, claimed.stdout + claimed.stderr)
+        self.assertEqual(self.payload(claimed)["state"], "claimed")
+        self.assertEqual(
+            self.payload(claimed)["step_id"],
+            "master-ready-step-v1",
+        )
+
+    def test_multiple_ready_candidates_are_invalid(self) -> None:
+        self.write_card(
+            "first.md",
+            card_id="FUM-STEP-0001",
+        )
+        self.write_card(
+            "second.md",
+            card_id="FUM-STEP-0002",
+        )
+        self.write_selector(
+            candidates=[
+                {
+                    "step_id": "master-first-ready-v1",
+                    "status": "ready",
+                    "card_id": "FUM-STEP-0001",
+                },
+                {
+                    "step_id": "master-second-ready-v1",
+                    "status": "ready",
+                    "card_id": "FUM-STEP-0002",
+                },
+            ]
+        )
+
+        result = self.run_tool("validate")
+
+        self.assertEqual(result.returncode, 2)
+        self.assertIn("не более одного", str(self.payload(result)["error"]))
+        self.assertIn("status=ready", str(self.payload(result)["error"]))
+
+    def test_deferred_candidates_require_a_resume_condition(self) -> None:
+        self.write_card()
+        cases = (
+            ("missing", None),
+            ("empty", "   "),
+        )
+        for name, resume_condition in cases:
+            with self.subTest(name=name):
+                candidate = {
+                    "step_id": "master-blocked-step-v1",
+                    "status": "blocked",
+                    "card_id": "FUM-STEP-0001",
+                }
+                if resume_condition is not None:
+                    candidate["resume_condition"] = resume_condition
+                self.write_selector(candidates=[candidate])
+
+                result = self.run_tool("validate")
+
+                self.assertEqual(result.returncode, 2)
+                self.assertIn(
+                    "resume_condition",
+                    str(self.payload(result)["error"]),
+                )
+
+        self.write_selector(
+            candidates=[
+                {
+                    "step_id": "master-ready-step-v1",
+                    "status": "ready",
+                    "card_id": "FUM-STEP-0001",
+                    "resume_condition": "Для ready поле запрещено.",
+                }
+            ]
+        )
+        ready_with_resume = self.run_tool("validate")
+        self.assertEqual(ready_with_resume.returncode, 2)
+        self.assertIn(
+            "неизвестные поля TOML",
+            str(self.payload(ready_with_resume)["error"]),
+        )
+
+    def test_candidate_card_and_step_ids_must_be_unique(self) -> None:
+        self.write_card(
+            "first.md",
+            card_id="FUM-STEP-0001",
+        )
+        self.write_card(
+            "second.md",
+            card_id="FUM-STEP-0002",
+        )
+        cases = (
+            (
+                "card_id",
+                [
+                    {
+                        "step_id": "master-blocked-step-v1",
+                        "status": "blocked",
+                        "card_id": "FUM-STEP-0001",
+                        "resume_condition": "Получить внешний вход.",
+                    },
+                    {
+                        "step_id": "master-ready-step-v1",
+                        "status": "ready",
+                        "card_id": "FUM-STEP-0001",
+                    },
+                ],
+            ),
+            (
+                "step_id",
+                [
+                    {
+                        "step_id": "master-shared-step-v1",
+                        "status": "blocked",
+                        "card_id": "FUM-STEP-0001",
+                        "resume_condition": "Получить внешний вход.",
+                    },
+                    {
+                        "step_id": "master-shared-step-v1",
+                        "status": "ready",
+                        "card_id": "FUM-STEP-0002",
+                    },
+                ],
+            ),
+        )
+        for field_name, candidates in cases:
+            with self.subTest(field_name=field_name):
+                self.write_selector(candidates=candidates)
+
+                result = self.run_tool("validate")
+
+                self.assertEqual(result.returncode, 2)
+                self.assertIn(field_name, str(self.payload(result)["error"]))
+                self.assertIn("дубликаты", str(self.payload(result)["error"]))
+
+    def test_invalid_deferred_candidate_fails_closed(self) -> None:
+        deferred = self.write_card(
+            "deferred.md",
+            card_id="FUM-STEP-0001",
+        )
+        self.write_card(
+            "ready.md",
+            card_id="FUM-STEP-0002",
+        )
+        self.write_selector(
+            candidates=[
+                {
+                    "step_id": "master-paused-step-v1",
+                    "status": "paused",
+                    "card_id": "FUM-STEP-0001",
+                    "resume_condition": "Завершить связанную проверку.",
+                },
+                {
+                    "step_id": "master-ready-step-v1",
+                    "status": "ready",
+                    "card_id": "FUM-STEP-0002",
+                },
+            ]
+        )
+        deferred.write_text(
+            deferred.read_text(encoding="utf-8").replace(
+                "Этот шаг проверяет карточный контракт.",
+                "Отложенная карточка изменилась без обновления селектора.",
+            ),
+            encoding="utf-8",
+        )
+
+        shown = self.run_tool("show")
+
+        self.assertEqual(shown.returncode, 2)
+        self.assertEqual(self.payload(shown)["state"], "invalid")
+        self.assertIn(
+            "card_content_sha256",
+            str(self.payload(shown)["error"]),
+        )
+
+    def test_no_ready_candidate_is_visible_and_not_claimable(self) -> None:
+        self.write_card(
+            "paused.md",
+            card_id="FUM-STEP-0001",
+        )
+        self.write_card(
+            "blocked.md",
+            card_id="FUM-STEP-0002",
+        )
+        self.write_selector(
+            candidates=[
+                {
+                    "step_id": "master-paused-step-v1",
+                    "status": "paused",
+                    "card_id": "FUM-STEP-0001",
+                    "resume_condition": "Завершить текущую паузу.",
+                },
+                {
+                    "step_id": "master-blocked-step-v1",
+                    "status": "blocked",
+                    "card_id": "FUM-STEP-0002",
+                    "resume_condition": "Получить внешний вход.",
+                },
+            ]
+        )
+
+        shown = self.run_tool("show")
+        claimed = self.run_tool(
+            "claim",
+            "--expected-branch-ref",
+            "refs/heads/master",
+            "--expected-step-id",
+            "master-paused-step-v1",
+        )
+        claim_status = self.run_tool("claim-status")
+
+        self.assertEqual(shown.returncode, 3)
+        self.assertEqual(claimed.returncode, 3)
         self.assertEqual(self.payload(shown)["state"], "not_ready")
-        self.assertEqual(self.payload(shown)["status"], "blocked")
+        self.assertEqual(self.payload(shown)["candidate_count"], 2)
+        self.assertEqual(
+            [candidate["status"] for candidate in self.payload(shown)["candidates"]],
+            ["paused", "blocked"],
+        )
+        self.assertEqual(self.payload(claimed)["state"], "not_ready")
+        self.assertEqual(claim_status.returncode, 0)
+        self.assertEqual(self.payload(claim_status)["state"], "unclaimed")
+
+    def test_open_selector_requires_at_least_one_candidate(self) -> None:
+        self.write_selector(
+            state="open",
+            status="ready",
+            card_id=None,
+        )
+
+        result = self.run_tool("validate")
+
+        self.assertEqual(result.returncode, 2)
+        self.assertIn("хотя бы одного кандидата", str(self.payload(result)["error"]))
 
     def test_expected_identity_detects_branch_or_step_changes(self) -> None:
         self.write_record()
