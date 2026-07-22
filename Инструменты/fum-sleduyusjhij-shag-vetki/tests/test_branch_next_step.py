@@ -513,6 +513,26 @@ class BranchNextStepTests(unittest.TestCase):
         )
         self.assertNotIn("<КОРЕНЬ_КЛОНА>", child_contract)
         self.assertIn("В <КОРЕНЬ_КЛОНА> проверь", prompt)
+
+    def test_heartbeat_documents_native_stop_start_control(self) -> None:
+        prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+        skill = (TOOL_ROOT / "SKILL.md").read_text(encoding="utf-8")
+
+        self.assertIn("## Штатное управление Stop/Start", prompt)
+        self.assertIn(
+            "`Stop` переводит существующую heartbeat-автоматизацию в `PAUSED`",
+            prompt,
+        )
+        self.assertIn(
+            "`Start` возвращает ту же автоматизацию в `ACTIVE`",
+            prompt,
+        )
+        self.assertIn("не отменяет уже начавшийся тик", prompt)
+        self.assertIn("не снимает claim", prompt)
+        self.assertIn("не создаёт дубликат", prompt)
+        self.assertIn("не форсирует немедленный запуск", skill)
+        self.assertIn("две проверки наблюдаемого простоя", skill)
+        self.assertIn("FIFO", skill)
         self.assertIn("точным path <КОРЕНЬ_КЛОНА>", prompt)
 
     def test_show_rejects_missing_and_duplicate_active_branch_records(self) -> None:
