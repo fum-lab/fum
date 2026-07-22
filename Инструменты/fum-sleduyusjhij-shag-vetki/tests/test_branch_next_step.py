@@ -478,6 +478,43 @@ class BranchNextStepTests(unittest.TestCase):
             prompt,
         )
 
+    def test_heartbeat_child_prompt_uses_only_project_relative_paths(
+        self,
+    ) -> None:
+        prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+        child_contract_match = re.search(
+            r"8\. .*?(?P<contract>Составь дочерний prompt.*?)\n9\. ",
+            prompt,
+            flags=re.DOTALL,
+        )
+
+        self.assertIsNotNone(child_contract_match)
+        child_contract = child_contract_match.group("contract")
+        self.assertIn(
+            "не включай в него абсолютные пути файловой системы",
+            child_contract,
+        )
+        self.assertIn("полностью прочитать AGENTS.md", child_contract)
+        self.assertIn(
+            "Инструменты/fum-sleduyusjhij-shag-vetki/SKILL.md",
+            child_contract,
+        )
+        self.assertIn(
+            "Инструменты/fum-ocheredj-zadach-git-vetki/SKILL.md",
+            child_contract,
+        )
+        self.assertIn(
+            "record_path, card_path и project_path без добавления корня проекта",
+            child_contract,
+        )
+        self.assertIn(
+            "если любое передаваемое значение содержит абсолютный путь",
+            child_contract.casefold(),
+        )
+        self.assertNotIn("<КОРЕНЬ_КЛОНА>", child_contract)
+        self.assertIn("В <КОРЕНЬ_КЛОНА> проверь", prompt)
+        self.assertIn("точным path <КОРЕНЬ_КЛОНА>", prompt)
+
     def test_show_rejects_missing_and_duplicate_active_branch_records(self) -> None:
         missing = self.run_tool("show")
         self.assertEqual(missing.returncode, 2)
