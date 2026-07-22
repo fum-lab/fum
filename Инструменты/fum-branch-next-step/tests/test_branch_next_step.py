@@ -1,7 +1,9 @@
 import ast
+import hashlib
 import importlib.util
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -77,7 +79,57 @@ class BranchNextStepTests(unittest.TestCase):
         self.git("update-ref", reference, oid)
         return reference
 
-    def write_record(
+    @staticmethod
+    def card_content_sha256(path: Path) -> str:
+        text = path.read_text(encoding="utf-8").rstrip() + "\n"
+        return f"sha256:{hashlib.sha256(text.encode('utf-8')).hexdigest()}"
+
+    def write_card(
+        self,
+        filename: str = "FUM-STEP-0001-test.md",
+        *,
+        card_id: str = "FUM-STEP-0001",
+        status: str = "active",
+        include_criteria: bool = True,
+        schema_version: str = "1",
+    ) -> Path:
+        if status == "active":
+            status_sections = (
+                "## Почему сейчас\n\n"
+                "Этот шаг проверяет карточный контракт.\n\n"
+            )
+            if include_criteria:
+                status_sections += (
+                    "## Критерии завершения\n\n"
+                    "- Проверка проходит.\n"
+                    "- Результат сохранён в Git.\n\n"
+                )
+        else:
+            status_sections = (
+                "## Результат\n\n"
+                "Шаг завершён или снят с работы в соответствии со статусом.\n\n"
+            )
+        card = (
+            "+++\n"
+            f"schema_version = {schema_version}\n"
+            f'card_id = "{card_id}"\n'
+            f'status = "{status}"\n'
+            "+++\n"
+            "# Проверить следующий шаг\n\n"
+            "Эта карточка задаёт один исполняемый шаг.\n\n"
+            "## Задача\n\n"
+            "Обновить тестовый артефакт и подтвердить его локальной проверкой.\n\n"
+            f"{status_sections}"
+            "## Источники\n\n"
+            "- [Тестовый проект](../../README.md)\n"
+        )
+        directory = self.repo / "Планирование" / "карточки-шагов"
+        directory.mkdir(parents=True, exist_ok=True)
+        path = directory / filename
+        path.write_text(card, encoding="utf-8")
+        return path
+
+    def write_selector(
         self,
         filename: str = "master.md",
         *,
@@ -85,29 +137,37 @@ class BranchNextStepTests(unittest.TestCase):
         step_id: str = "master-test-step-v1",
         status: str = "ready",
         project_path: str = "README.md",
-        include_criteria: bool = True,
-        schema_version: str = "1",
+        card_id: str | None = "FUM-STEP-0001",
+        card_content_sha256: str | None = None,
+        schema_version: str = "2",
     ) -> Path:
-        criteria = (
-            "## Критерии завершения\n\n"
-            "- Проверка проходит.\n"
-            "- Результат сохранён в Git.\n\n"
-            if include_criteria
-            else ""
-        )
-        record = (
+        card_fields = ""
+        if card_id is not None:
+            if card_content_sha256 is None:
+                matches = list(
+                    (self.repo / "Планирование" / "карточки-шагов").glob("*.md")
+                )
+                matching_cards = [
+                    path
+                    for path in matches
+                    if f'card_id = "{card_id}"' in path.read_text(encoding="utf-8")
+                ]
+                if matching_cards:
+                    card_content_sha256 = self.card_content_sha256(matching_cards[0])
+            card_fields += f'card_id = "{card_id}"\n'
+        if card_content_sha256 is not None:
+            card_fields += f'card_content_sha256 = "{card_content_sha256}"\n'
+        selector = (
             "+++\n"
             f"schema_version = {schema_version}\n"
             f'branch_ref = "{branch_ref}"\n'
             f'step_id = "{step_id}"\n'
             f'status = "{status}"\n'
             f'project_path = "{project_path}"\n'
+            f"{card_fields}"
             "+++\n"
-            "# Проверить следующий шаг\n\n"
-            "Этот файл задаёт один исполняемый шаг тестовой ветки.\n\n"
-            "## Задача\n\n"
-            "Обновить тестовый артефакт и подтвердить его локальной проверкой.\n\n"
-            f"{criteria}"
+            "# Выбрать шаг тестовой ветки\n\n"
+            "Селектор связывает ветку с карточкой и не дублирует её задачу.\n\n"
             "## Источники\n\n"
             "- [Тестовый проект](../../README.md)\n"
         )
@@ -117,8 +177,59 @@ class BranchNextStepTests(unittest.TestCase):
             / "следующие-шаги-веток"
             / filename
         )
-        path.write_text(record, encoding="utf-8")
+        path.write_text(selector, encoding="utf-8")
         return path
+
+    def write_record(
+        self,
+        filename: str = "master.md",
+        *,
+        branch_ref: str = "refs/heads/master",
+        step_id: str = "master-test-step-v1",
+        status: str = "ready",
+        project_path: str = "README.md",
+        include_criteria: bool = True,
+        schema_version: str = "2",
+    ) -> Path:
+        if status == "done":
+            return self.write_selector(
+                filename,
+                branch_ref=branch_ref,
+                step_id=step_id,
+                status=status,
+                project_path=project_path,
+                card_id=None,
+                schema_version=schema_version,
+            )
+        card = self.write_card(include_criteria=include_criteria)
+        self.write_selector(
+            filename,
+            branch_ref=branch_ref,
+            step_id=step_id,
+            status=status,
+            project_path=project_path,
+            schema_version=schema_version,
+        )
+        return card
+
+    def refresh_selector_hash(
+        self,
+        card: Path,
+        selector_filename: str = "master.md",
+    ) -> None:
+        selector = (
+            self.repo
+            / "Планирование"
+            / "следующие-шаги-веток"
+            / selector_filename
+        )
+        text = selector.read_text(encoding="utf-8")
+        text = re.sub(
+            r'card_content_sha256 = "sha256:[0-9a-f]{64}"',
+            f'card_content_sha256 = "{self.card_content_sha256(card)}"',
+            text,
+        )
+        selector.write_text(text, encoding="utf-8")
 
     def run_tool(
         self,
@@ -160,9 +271,138 @@ class BranchNextStepTests(unittest.TestCase):
             payload["record_path"],
             "Планирование/следующие-шаги-веток/master.md",
         )
+        self.assertEqual(payload["card_id"], "FUM-STEP-0001")
+        self.assertEqual(
+            payload["card_path"],
+            "Планирование/карточки-шагов/FUM-STEP-0001-test.md",
+        )
+        self.assertRegex(
+            str(payload["card_content_sha256"]),
+            r"^sha256:[0-9a-f]{64}$",
+        )
         self.assertEqual(payload["title"], "Проверить следующий шаг")
         self.assertIn("Обновить тестовый артефакт", payload["task"])
         self.assertEqual(len(payload["criteria"]), 2)
+
+    def test_selector_hash_fences_the_exact_card_content(self) -> None:
+        card = self.write_record()
+        card.write_text(
+            card.read_text(encoding="utf-8").replace(
+                "Этот шаг проверяет карточный контракт.",
+                "Содержание карточки изменилось.",
+            ),
+            encoding="utf-8",
+        )
+
+        result = self.run_tool("show")
+
+        self.assertEqual(result.returncode, 2)
+        self.assertIn("card_content_sha256", str(self.payload(result)["error"]))
+
+        card = self.write_record()
+        card.write_text(
+            card.read_text(encoding="utf-8")
+            + "\n<!-- FUM-MD-RECENCY:BEGIN -->\n"
+            "<!-- last-content-edit: 2026-07-22 00:00:00 MSK -->\n"
+            "<!-- content-sha256: sha256:"
+            + ("0" * 64)
+            + " -->\n"
+            "<!-- FUM-MD-RECENCY:END -->\n",
+            encoding="utf-8",
+        )
+        recency_only = self.run_tool("show")
+        self.assertEqual(
+            recency_only.returncode,
+            0,
+            recency_only.stdout + recency_only.stderr,
+        )
+
+    def test_validate_rejects_invalid_or_duplicate_unselected_cards(self) -> None:
+        self.write_record()
+        self.write_card(
+            "duplicate.md",
+            card_id="FUM-STEP-0001",
+        )
+        duplicate = self.run_tool("validate")
+        self.assertEqual(duplicate.returncode, 2)
+        self.assertIn("дубликат", str(self.payload(duplicate)["error"]).lower())
+
+        duplicate_path = (
+            self.repo / "Планирование" / "карточки-шагов" / "duplicate.md"
+        )
+        duplicate_path.unlink()
+        self.write_card(
+            "invalid.md",
+            card_id="not-a-fum-step",
+        )
+        invalid = self.run_tool("validate")
+        self.assertEqual(invalid.returncode, 2)
+        self.assertIn("card_id", str(self.payload(invalid)["error"]))
+
+    def test_only_active_cards_can_be_selected(self) -> None:
+        for card_status in ("completed", "absorbed", "withdrawn"):
+            with self.subTest(card_status=card_status):
+                card = self.write_card(status=card_status)
+                self.write_selector(
+                    card_content_sha256=self.card_content_sha256(card),
+                )
+
+                result = self.run_tool("validate")
+
+                self.assertEqual(result.returncode, 2)
+                self.assertIn("active", str(self.payload(result)["error"]))
+
+    def test_card_sections_depend_on_lifecycle_status(self) -> None:
+        self.write_record(include_criteria=False)
+        active = self.run_tool("validate")
+        self.assertEqual(active.returncode, 2)
+        self.assertIn("Критерии завершения", str(self.payload(active)["error"]))
+
+        card = self.write_card(status="completed")
+        card.write_text(
+            re.sub(
+                r"\n## Результат\n.*?(?=\n## Источники\n)",
+                "",
+                card.read_text(encoding="utf-8"),
+                flags=re.DOTALL,
+            ),
+            encoding="utf-8",
+        )
+        historical = self.run_tool("validate")
+        self.assertEqual(historical.returncode, 2)
+        self.assertIn("Результат", str(self.payload(historical)["error"]))
+
+    def test_done_selector_forbids_card_identity_and_content_hash(self) -> None:
+        self.write_selector(status="done", card_id=None)
+        valid = self.run_tool("show")
+        self.assertEqual(valid.returncode, 3, valid.stdout + valid.stderr)
+        self.assertEqual(self.payload(valid)["state"], "not_ready")
+        self.assertNotIn("card_id", self.payload(valid))
+
+        self.write_card()
+        self.write_selector(status="done")
+        invalid = self.run_tool("validate")
+        self.assertEqual(invalid.returncode, 2)
+        self.assertIn("запрещен", str(self.payload(invalid)["error"]))
+
+    def test_selector_must_not_duplicate_task_or_criteria(self) -> None:
+        self.write_record()
+        selector = (
+            self.repo
+            / "Планирование"
+            / "следующие-шаги-веток"
+            / "master.md"
+        )
+        selector.write_text(
+            selector.read_text(encoding="utf-8")
+            + "\n## Задача\n\nДублированная задача.\n",
+            encoding="utf-8",
+        )
+
+        result = self.run_tool("validate")
+
+        self.assertEqual(result.returncode, 2)
+        self.assertIn("не должен дублировать", str(self.payload(result)["error"]))
 
     def test_heartbeat_keeps_claim_after_ambiguous_thread_creation(self) -> None:
         prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
@@ -186,7 +426,7 @@ class BranchNextStepTests(unittest.TestCase):
         prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
 
         self.assertIn(
-            "полностью прочитать переданные record_path и project_path",
+            "полностью прочитать переданные record_path, card_path и project_path",
             prompt,
         )
         self.assertIn(
@@ -244,6 +484,40 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertEqual(float_schema.returncode, 2)
         self.assertIn("schema_version", str(self.payload(float_schema)["error"]))
 
+        card = self.write_record()
+        card.write_text(
+            card.read_text(encoding="utf-8").replace(
+                'status = "active"\n',
+                'status = "active"\nunknown = "field"\n',
+            ),
+            encoding="utf-8",
+        )
+        self.refresh_selector_hash(card)
+        unknown_card_field = self.run_tool("validate")
+        self.assertEqual(unknown_card_field.returncode, 2)
+        self.assertIn("неизвестные поля TOML", str(self.payload(unknown_card_field)["error"]))
+
+        self.write_record()
+        selector = (
+            self.repo
+            / "Планирование"
+            / "следующие-шаги-веток"
+            / "master.md"
+        )
+        selector.write_text(
+            selector.read_text(encoding="utf-8").replace(
+                'project_path = "README.md"\n',
+                'project_path = "README.md"\nunknown = "field"\n',
+            ),
+            encoding="utf-8",
+        )
+        unknown_selector_field = self.run_tool("validate")
+        self.assertEqual(unknown_selector_field.returncode, 2)
+        self.assertIn(
+            "неизвестные поля TOML",
+            str(self.payload(unknown_selector_field)["error"]),
+        )
+
     def test_hidden_headings_do_not_define_record_sections(self) -> None:
         hidden_blocks = (
             (
@@ -263,15 +537,15 @@ class BranchNextStepTests(unittest.TestCase):
                 path.write_text(
                     "+++\n"
                     "schema_version = 1\n"
-                    'branch_ref = "refs/heads/master"\n'
-                    'step_id = "master-test-step-v1"\n'
-                    'status = "ready"\n'
-                    'project_path = "README.md"\n'
+                    'card_id = "FUM-STEP-0001"\n'
+                    'status = "active"\n'
                     "+++\n"
                     "# Проверить следующий шаг\n\n"
                     f"{opening}"
                     "## Задача\n\n"
                     "Скрытая задача.\n\n"
+                    "## Почему сейчас\n\n"
+                    "Скрытая причина.\n\n"
                     "## Критерии завершения\n\n"
                     "- Скрытый критерий.\n\n"
                     "## Источники\n\n"
@@ -279,6 +553,7 @@ class BranchNextStepTests(unittest.TestCase):
                     f"{closing}",
                     encoding="utf-8",
                 )
+                self.refresh_selector_hash(path)
 
                 result = self.run_tool("validate")
 
@@ -304,6 +579,7 @@ class BranchNextStepTests(unittest.TestCase):
             ),
             encoding="utf-8",
         )
+        self.refresh_selector_hash(path)
 
         hidden = self.run_tool("show")
 
@@ -322,6 +598,7 @@ class BranchNextStepTests(unittest.TestCase):
             ),
             encoding="utf-8",
         )
+        self.refresh_selector_hash(path)
 
         invalid_fence = self.run_tool("show")
 
@@ -343,6 +620,7 @@ class BranchNextStepTests(unittest.TestCase):
             ),
             encoding="utf-8",
         )
+        self.refresh_selector_hash(path)
 
         fenced = self.run_tool("show")
 
@@ -456,20 +734,21 @@ class BranchNextStepTests(unittest.TestCase):
                 path.write_text(
                     "+++\n"
                     "schema_version = 1\n"
-                    'branch_ref = "refs/heads/master"\n'
-                    'step_id = "master-test-step-v1"\n'
-                    'status = "ready"\n'
-                    'project_path = "README.md"\n'
+                    'card_id = "FUM-STEP-0001"\n'
+                    'status = "active"\n'
                     "+++\n"
                     "# Проверить следующий шаг\n\n"
                     "## Задача\n\n"
                     f"{task}\n\n"
+                    "## Почему сейчас\n\n"
+                    "Видимая причина.\n\n"
                     "## Критерии завершения\n\n"
                     f"{criteria}\n\n"
                     "## Источники\n\n"
                     f"{sources}\n",
                     encoding="utf-8",
                 )
+                self.refresh_selector_hash(path)
 
                 result = self.run_tool("validate")
 

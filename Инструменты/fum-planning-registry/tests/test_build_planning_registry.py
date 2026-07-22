@@ -65,6 +65,59 @@ class BuildPlanningRegistryTests(unittest.TestCase):
             encoding="utf-8",
         )
 
+    def write_step_cards(self, root: Path) -> None:
+        cards = root / "Планирование" / "карточки-шагов"
+        cards.mkdir(parents=True)
+        (root / "Планирование" / "предложения-о-следующих-шагах.md").write_text(
+            "# Предложения о следующих шагах FUM\n\n"
+            "Актуальный канонический список хранится в карточках шагов.\n",
+            encoding="utf-8",
+        )
+        (cards / "README.md").write_text(
+            "# Карточки шагов FUM\n\n"
+            "## Индекс\n\n"
+            "| Идентификатор | Статус | Карточка |\n"
+            "| --- | --- | --- |\n"
+            "| `FUM-STEP-0001` | Актуально | [Подготовить тестовый реестр](FUM-STEP-0001-подготовить-тестовый-реестр.md) |\n"
+            "| `FUM-STEP-0002` | Выполнено | [Старое предложение](FUM-STEP-0002-старое-предложение.md) |\n",
+            encoding="utf-8",
+        )
+        (cards / "FUM-STEP-0001-подготовить-тестовый-реестр.md").write_text(
+            "+++\n"
+            "schema_version = 1\n"
+            'card_id = "FUM-STEP-0001"\n'
+            'status = "active"\n'
+            "+++\n"
+            "# Подготовить тестовый реестр\n\n"
+            "Карточка сохраняет один самостоятельный шаг.\n\n"
+            "## Задача\n\n"
+            "Подготовить тестовый реестр.\n\n"
+            "## Почему сейчас\n\n"
+            "Нужна проверка.\n\n"
+            "## Критерии завершения\n\n"
+            "- Реестр собирается.\n"
+            "- Проверка реестра проходит.\n\n"
+            "## Источники\n\n"
+            "- [дорожная карта](../дорожная-карта.md)\n",
+            encoding="utf-8",
+        )
+        (cards / "FUM-STEP-0002-старое-предложение.md").write_text(
+            "+++\n"
+            "schema_version = 1\n"
+            'card_id = "FUM-STEP-0002"\n'
+            'status = "completed"\n'
+            "+++\n"
+            "# Старое предложение\n\n"
+            "Карточка сохраняет историю шага.\n\n"
+            "## Задача\n\n"
+            "Старое предложение.\n\n"
+            "## Результат\n\n"
+            "Сделано.\n\n"
+            "## Источники\n\n"
+            "- [дорожная карта](../дорожная-карта.md)\n",
+            encoding="utf-8",
+        )
+
     def write_fixture(self, root: Path) -> Path:
         (root / "Планирование" / "направления-проектирования-и-развития").mkdir(parents=True)
         (root / "Планирование" / "MVP-кандидаты" / "01-тест").mkdir(parents=True)
@@ -72,6 +125,7 @@ class BuildPlanningRegistryTests(unittest.TestCase):
         (root / "Вопросы").mkdir()
         (root / "Инструменты" / "fum-planning-registry").mkdir(parents=True)
         self.write_requirement_cards(root)
+        self.write_step_cards(root)
 
         (root / "Инструменты" / "fum-planning-registry" / "SKILL.md").write_text(
             "# FUM Planning Registry\n",
@@ -143,18 +197,6 @@ class BuildPlanningRegistryTests(unittest.TestCase):
             "# Стадия: тестовая стадия\n\n## Назначение\n\nТест.\n",
             encoding="utf-8",
         )
-        (root / "Планирование" / "предложения-о-следующих-шагах.md").write_text(
-            "# Предложения о следующих шагах FUM\n\n"
-            "## Актуальные предложения\n\n"
-            "| Статус | Предложение | Почему сейчас | Опорные источники |\n"
-            "| --- | --- | --- | --- |\n"
-            "| Актуально | Подготовить тестовый реестр. | Нужна проверка. | [дорожная карта](дорожная-карта.md) |\n\n"
-            "## История предложений\n\n"
-            "| Статус | Предложение | Что произошло | Опорные источники |\n"
-            "| --- | --- | --- | --- |\n"
-            "| Выполнено | Старое предложение. | Сделано. | [дорожная карта](дорожная-карта.md) |\n",
-            encoding="utf-8",
-        )
         (root / "Вопросы" / "README.md").write_text(
             "# Вопросы\n\n"
             "## [Открытые вопросы](../Глоссарий/открытый-вопрос.md)\n\n"
@@ -178,6 +220,26 @@ class BuildPlanningRegistryTests(unittest.TestCase):
             registry = build_planning_registry.build_registry(root)
 
             self.assertEqual(registry["schema"], build_planning_registry.SCHEMA)
+            self.assertEqual(registry["schema"], "fum.planning.requirements-registry.v6")
+            self.assertEqual(registry["steps"][0]["id"], "FUM-STEP-0001")
+            self.assertEqual(registry["steps"][0]["status"], "active")
+            self.assertEqual(registry["steps"][0]["title"], "Подготовить тестовый реестр")
+            self.assertEqual(registry["steps"][0]["task"], "Подготовить тестовый реестр.")
+            self.assertEqual(registry["steps"][0]["why_now"], "Нужна проверка.")
+            self.assertEqual(len(registry["steps"][0]["criteria"]), 2)
+            self.assertIsNone(registry["steps"][0]["outcome"])
+            self.assertEqual(registry["steps"][1]["status"], "completed")
+            self.assertIsNone(registry["steps"][1]["why_now"])
+            self.assertEqual(registry["steps"][1]["criteria"], [])
+            self.assertEqual(registry["steps"][1]["outcome"], "Сделано.")
+            self.assertEqual(
+                registry["source_inventory"]["active_proposals"][0]["id"],
+                "FUM-STEP-0001",
+            )
+            self.assertEqual(
+                registry["source_inventory"]["proposal_history"][0]["id"],
+                "FUM-STEP-0002",
+            )
             self.assertEqual(registry["requirements"][0]["id"], "FUM-REQ-0001")
             self.assertEqual(registry["requirements"][0]["status"]["symbol"], "🟡")
             self.assertEqual(registry["requirements"][0]["status"]["code"], "planned")
@@ -211,6 +273,12 @@ class BuildPlanningRegistryTests(unittest.TestCase):
             source_paths = {item["path"] for item in registry["source_files"]}
             self.assertIn("Требования/README.md", source_paths)
             self.assertIn("Требования/🟡-сохранять-трассу.md", source_paths)
+            self.assertIn("Планирование/предложения-о-следующих-шагах.md", source_paths)
+            self.assertIn("Планирование/карточки-шагов/README.md", source_paths)
+            self.assertIn(
+                "Планирование/карточки-шагов/FUM-STEP-0001-подготовить-тестовый-реестр.md",
+                source_paths,
+            )
             self.assertEqual(registry["source_inventory"]["roadmap_horizons"][0]["id"], "horizon-0")
             self.assertEqual(registry["source_inventory"]["stages"][0]["id"], "stage-01")
             self.assertEqual(
@@ -466,74 +534,117 @@ class BuildPlanningRegistryTests(unittest.TestCase):
             ):
                 build_planning_registry.build_to_file(output, root)
 
-    def test_build_rejects_unindexed_active_proposal_text(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            output = self.write_fixture(root)
-            proposals = root / "Планирование" / "предложения-о-следующих-шагах.md"
-            proposals.write_text(
-                proposals.read_text(encoding="utf-8").replace(
-                    "## Актуальные предложения\n\n",
-                    "## Актуальные предложения\n\n"
-                    "- **Актуально:** скрытое предложение вне таблицы.\n\n",
-                ),
-                encoding="utf-8",
-            )
-
-            with self.assertRaisesRegex(ValueError, "unindexed active proposal text"):
-                build_planning_registry.build_to_file(output, root)
-
-    def test_build_rejects_malformed_active_proposal_table(self):
+    def test_build_rejects_invalid_duplicate_or_non_exact_step_card_identity(self):
         mutations = {
-            "malformed_data_row": (
-                "| Актуально | Подготовить тестовый реестр. | Нужна проверка. | "
-                "[дорожная карта](дорожная-карта.md) |",
-                "| Скрытое актуальное предложение |",
+            "invalid_id": (
+                "FUM-STEP-0001",
+                "STEP-0001",
+                "invalid step card id",
             ),
-            "hidden_row_before_header": (
-                "## Актуальные предложения\n\n",
-                "## Актуальные предложения\n\n"
-                "| Скрытое актуальное предложение |\n",
+            "duplicate_id": (
+                "FUM-STEP-0002",
+                "FUM-STEP-0001",
+                "duplicate step card id",
+            ),
+            "unknown_toml_field": (
+                'status = "active"',
+                'status = "active"\npriority = 1',
+                "unknown step card TOML fields",
             ),
         }
-        for name, (old, new) in mutations.items():
+        for name, (old, new, error) in mutations.items():
             with self.subTest(name=name), tempfile.TemporaryDirectory() as tmp:
                 root = Path(tmp)
                 output = self.write_fixture(root)
-                proposals = (
-                    root
-                    / "Планирование"
-                    / "предложения-о-следующих-шагах.md"
+                card_name = (
+                    "FUM-STEP-0002-старое-предложение.md"
+                    if name == "duplicate_id"
+                    else "FUM-STEP-0001-подготовить-тестовый-реестр.md"
                 )
-                proposals.write_text(
-                    proposals.read_text(encoding="utf-8").replace(old, new),
+                card = root / "Планирование" / "карточки-шагов" / card_name
+                card.write_text(
+                    card.read_text(encoding="utf-8").replace(old, new),
                     encoding="utf-8",
                 )
 
-                with self.assertRaisesRegex(
-                    ValueError,
-                    "malformed table row.*Актуальные предложения",
-                ):
+                with self.assertRaisesRegex(ValueError, error):
                     build_planning_registry.build_to_file(output, root)
 
-    def test_build_rejects_missing_active_proposals_section(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            root = Path(tmp)
-            output = self.write_fixture(root)
-            proposals = root / "Планирование" / "предложения-о-следующих-шагах.md"
-            proposals.write_text(
-                proposals.read_text(encoding="utf-8").replace(
-                    "## Актуальные предложения",
-                    "## Скрытые предложения",
-                ),
-                encoding="utf-8",
-            )
+    def test_build_requires_complete_exact_step_card_index(self):
+        mutations = {
+            "unindexed_card": (
+                "| `FUM-STEP-0002` | Выполнено | [Старое предложение](FUM-STEP-0002-старое-предложение.md) |\n",
+                "",
+                "step card index does not exactly cover cards",
+            ),
+            "status_mismatch": (
+                "| `FUM-STEP-0001` | Актуально |",
+                "| `FUM-STEP-0001` | Выполнено |",
+                "step card index status mismatch",
+            ),
+            "title_mismatch": (
+                "[Подготовить тестовый реестр](FUM-STEP-0001-подготовить-тестовый-реестр.md)",
+                "[Другое название](FUM-STEP-0001-подготовить-тестовый-реестр.md)",
+                "step card index link label mismatch",
+            ),
+            "missing_link": (
+                "[Подготовить тестовый реестр](FUM-STEP-0001-подготовить-тестовый-реестр.md)",
+                "Подготовить тестовый реестр",
+                "must link exactly one step card",
+            ),
+        }
+        for name, (old, new, error) in mutations.items():
+            with self.subTest(name=name), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                output = self.write_fixture(root)
+                index = root / "Планирование" / "карточки-шагов" / "README.md"
+                index.write_text(
+                    index.read_text(encoding="utf-8").replace(old, new),
+                    encoding="utf-8",
+                )
 
-            with self.assertRaisesRegex(
-                ValueError,
-                "missing required table section.*Актуальные предложения",
-            ):
-                build_planning_registry.build_to_file(output, root)
+                with self.assertRaisesRegex(ValueError, error):
+                    build_planning_registry.build_to_file(output, root)
+
+    def test_build_enforces_status_specific_step_card_sections_and_links(self):
+        mutations = {
+            "active_why_now": (
+                "FUM-STEP-0001-подготовить-тестовый-реестр.md",
+                "## Почему сейчас",
+                "## Удалённый раздел",
+                "missing required section Почему сейчас",
+            ),
+            "active_list_criteria": (
+                "FUM-STEP-0001-подготовить-тестовый-реестр.md",
+                "- Реестр собирается.\n- Проверка реестра проходит.",
+                "Реестр собирается.",
+                "malformed Markdown list",
+            ),
+            "historical_outcome": (
+                "FUM-STEP-0002-старое-предложение.md",
+                "## Результат",
+                "## Удалённый раздел",
+                "missing required section Результат",
+            ),
+            "source_link": (
+                "FUM-STEP-0001-подготовить-тестовый-реестр.md",
+                "- [дорожная карта](../дорожная-карта.md)",
+                "- дорожная карта",
+                "step card sources must contain at least one link",
+            ),
+        }
+        for name, (filename, old, new, error) in mutations.items():
+            with self.subTest(name=name), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                output = self.write_fixture(root)
+                card = root / "Планирование" / "карточки-шагов" / filename
+                card.write_text(
+                    card.read_text(encoding="utf-8").replace(old, new),
+                    encoding="utf-8",
+                )
+
+                with self.assertRaisesRegex(ValueError, error):
+                    build_planning_registry.build_to_file(output, root)
 
     def test_build_rejects_malformed_planning_view_tables(self):
         mutations = {
@@ -581,9 +692,14 @@ class BuildPlanningRegistryTests(unittest.TestCase):
             output = self.write_fixture(root)
             build_planning_registry.build_to_file(output, root)
 
-            proposals = root / "Планирование" / "предложения-о-следующих-шагах.md"
-            proposals.write_text(
-                proposals.read_text(encoding="utf-8").replace(
+            card = (
+                root
+                / "Планирование"
+                / "карточки-шагов"
+                / "FUM-STEP-0001-подготовить-тестовый-реестр.md"
+            )
+            card.write_text(
+                card.read_text(encoding="utf-8").replace(
                     "Подготовить тестовый реестр.",
                     "Подготовить изменённый тестовый реестр.",
                 ),

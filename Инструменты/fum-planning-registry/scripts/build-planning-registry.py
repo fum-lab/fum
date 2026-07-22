@@ -9,23 +9,38 @@ import json
 import os
 import re
 import sys
+import tomllib
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
 
-SCHEMA = "fum.planning.requirements-registry.v5"
+SCHEMA = "fum.planning.requirements-registry.v6"
 DEFAULT_OUTPUT = Path("Планирование/реестр-требований-вариантов-и-кандидатов.json")
 SUMMARY_TABLE = Path("Планирование/сводная-таблица-требований-и-реализаций.md")
 ROADMAP = Path("Планирование/дорожная-карта.md")
 STAGES_README = Path("Планирование/стадии/README.md")
 DIRECTIONS_README = Path("Планирование/направления-проектирования-и-развития/README.md")
 MVP_README = Path("Планирование/MVP-кандидаты/README.md")
-PROPOSALS = Path("Планирование/предложения-о-следующих-шагах.md")
+PROPOSALS_OVERVIEW = Path("Планирование/предложения-о-следующих-шагах.md")
+STEP_CARDS_DIR = Path("Планирование/карточки-шагов")
+STEP_CARDS_INDEX = STEP_CARDS_DIR / "README.md"
 QUESTIONS_README = Path("Вопросы/README.md")
 AUTOMATION_FILE = Path("Инструменты/fum-planning-registry/SKILL.md")
 REQUIREMENTS_DIR = Path("Требования")
 REQUIREMENTS_INDEX = REQUIREMENTS_DIR / "README.md"
+
+STEP_CARD_ID_RE = re.compile(r"^FUM-STEP-[0-9]{4}$")
+STEP_CARD_STATUSES = {
+    "active": "Актуально",
+    "completed": "Выполнено",
+    "absorbed": "Поглощено",
+    "withdrawn": "Снято",
+}
+STEP_CARD_INDEX_HEADERS = ["Идентификатор", "Статус", "Карточка"]
+STEP_CARD_FRONTMATTER_KEYS = frozenset(
+    {"schema_version", "card_id", "status"}
+)
 
 LINK_RE = re.compile(r"!?\[([^\]\n]+)\]\(([^)\n]+)\)")
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*$", re.MULTILINE)
@@ -216,6 +231,151 @@ def markdown_list_items(markdown: str, source_path: Path, repo_root: Path) -> li
         current.append(stripped)
     append_current()
     return items
+
+
+def step_card_paths(repo_root: Path) -> list[Path]:
+    directory = absolute_path(STEP_CARDS_DIR, repo_root)
+    if not directory.is_dir():
+        raise ValueError(
+            f"step cards directory does not exist: {STEP_CARDS_DIR.as_posix()}"
+        )
+    paths = sorted(directory.glob("FUM-STEP-*.md"))
+    if not paths:
+        raise ValueError(
+            f"step cards directory contains no cards: {STEP_CARDS_DIR.as_posix()}"
+        )
+    return paths
+
+
+def split_step_card_frontmatter(
+    text: str,
+    source_file: str,
+) -> tuple[dict[str, Any], str]:
+    if not text.startswith("+++\n"):
+        raise ValueError(
+            f"step card must start with TOML frontmatter: {source_file}"
+        )
+    closing = text.find("\n+++\n", 4)
+    if closing < 0:
+        raise ValueError(f"step card TOML frontmatter is not closed: {source_file}")
+    try:
+        frontmatter = tomllib.loads(text[4:closing])
+    except tomllib.TOMLDecodeError as error:
+        raise ValueError(
+            f"invalid step card TOML in {source_file}: {error}"
+        ) from error
+    if not isinstance(frontmatter, dict):
+        raise ValueError(f"step card TOML must be a table: {source_file}")
+    keys = frozenset(frontmatter)
+    missing = STEP_CARD_FRONTMATTER_KEYS - keys
+    unknown = keys - STEP_CARD_FRONTMATTER_KEYS
+    if missing:
+        raise ValueError(
+            "missing step card TOML fields in "
+            f"{source_file}: {', '.join(sorted(missing))}"
+        )
+    if unknown:
+        raise ValueError(
+            "unknown step card TOML fields in "
+            f"{source_file}: {', '.join(sorted(unknown))}"
+        )
+    body = RECENCY_RE.sub("\n", text[closing + 5 :]).strip() + "\n"
+    return frontmatter, body
+
+
+def required_step_card_section(
+    body: str,
+    heading: str,
+    source_file: str,
+) -> str:
+    if not has_level_two_heading(body, heading):
+        raise ValueError(
+            f"missing required section {heading} in step card: {source_file}"
+        )
+    raw = section_body(body, heading).strip()
+    if not clean_text(raw):
+        raise ValueError(
+            f"empty required section {heading} in step card: {source_file}"
+        )
+    return raw
+
+
+def parse_step_card(path: Path, repo_root: Path) -> dict[str, Any]:
+    source_file = repo_relative(path, repo_root)
+    frontmatter, body = split_step_card_frontmatter(
+        path.read_text(encoding="utf-8"),
+        source_file,
+    )
+    schema_version = frontmatter["schema_version"]
+    if type(schema_version) is not int or schema_version != 1:
+        raise ValueError(
+            f"step card supports only schema_version = 1: {source_file}"
+        )
+    card_id = frontmatter["card_id"]
+    if not isinstance(card_id, str) or STEP_CARD_ID_RE.fullmatch(card_id) is None:
+        raise ValueError(f"invalid step card id in {source_file}: {card_id!r}")
+    status = frontmatter["status"]
+    if not isinstance(status, str) or status not in STEP_CARD_STATUSES:
+        raise ValueError(f"invalid step card status in {source_file}: {status!r}")
+
+    h1_matches = list(re.finditer(r"^#\s+(.+?)\s*$", body, re.MULTILINE))
+    if len(h1_matches) != 1:
+        raise ValueError(
+            f"step card must contain exactly one level-one heading: {source_file}"
+        )
+    title = clean_text(h1_matches[0].group(1))
+    if not title:
+        raise ValueError(f"step card title is empty: {source_file}")
+
+    task = clean_text(required_step_card_section(body, "Задача", source_file))
+    sources_raw = required_step_card_section(body, "Источники", source_file)
+    source_items = markdown_list_items(sources_raw, path, repo_root)
+    source_links = [
+        link
+        for item in source_items
+        for link in item["links"]
+    ]
+    if not source_links:
+        raise ValueError(
+            f"step card sources must contain at least one link: {source_file}"
+        )
+
+    why_now: str | None = None
+    criteria: list[str] = []
+    outcome: str | None = None
+    if status == "active":
+        why_now = clean_text(
+            required_step_card_section(body, "Почему сейчас", source_file)
+        )
+        criteria_raw = required_step_card_section(
+            body,
+            "Критерии завершения",
+            source_file,
+        )
+        criteria = [
+            item["text"]
+            for item in markdown_list_items(criteria_raw, path, repo_root)
+        ]
+        if not criteria:
+            raise ValueError(
+                f"step card criteria must not be empty: {source_file}"
+            )
+    else:
+        outcome = clean_text(
+            required_step_card_section(body, "Результат", source_file)
+        )
+
+    return {
+        "id": card_id,
+        "file": source_file,
+        "title": title,
+        "status": status,
+        "task": task,
+        "why_now": why_now,
+        "criteria": criteria,
+        "outcome": outcome,
+        "source_links": source_links,
+    }
 
 
 def requirement_status_from_filename(path: Path) -> str:
@@ -629,6 +789,171 @@ def first_link_target(cell: Cell) -> str | None:
     return cell.links[0]["target"]
 
 
+def step_card_index_rows(repo_root: Path) -> list[list[Cell]]:
+    source_path = STEP_CARDS_INDEX
+    text = read_text(source_path, repo_root)
+    lines = text.splitlines()
+    header_indexes = [
+        index
+        for index, line in enumerate(lines)
+        if [clean_text(cell) for cell in split_row(line)]
+        == STEP_CARD_INDEX_HEADERS
+    ]
+    if len(header_indexes) != 1:
+        raise ValueError(
+            "step card index must contain exactly one table with headers "
+            f"{' | '.join(STEP_CARD_INDEX_HEADERS)}: {source_path.as_posix()}"
+        )
+    header_index = header_indexes[0]
+    separator_index = header_index + 1
+    if separator_index >= len(lines):
+        raise ValueError(f"step card index table has no separator: {source_path}")
+    separator = split_row(lines[separator_index])
+    if len(separator) != len(STEP_CARD_INDEX_HEADERS) or not is_separator(separator):
+        raise ValueError(f"step card index table has invalid separator: {source_path}")
+
+    rows: list[list[Cell]] = []
+    for line_number in range(separator_index + 1, len(lines)):
+        line = lines[line_number]
+        if not line.strip():
+            if rows:
+                break
+            continue
+        cells = split_row(line)
+        if not cells:
+            if rows:
+                break
+            raise ValueError(
+                f"malformed step card index row at line {line_number + 1}"
+            )
+        if len(cells) != len(STEP_CARD_INDEX_HEADERS) or is_separator(cells):
+            raise ValueError(
+                f"malformed step card index row at line {line_number + 1}"
+            )
+        rows.append(
+            [
+                Cell(
+                    raw=cell,
+                    text=clean_text(cell),
+                    links=links_from_markdown(cell, source_path, repo_root),
+                )
+                for cell in cells
+            ]
+        )
+    if not rows:
+        raise ValueError(f"step card index table is empty: {source_path}")
+    return rows
+
+
+def extract_step_cards(repo_root: Path) -> list[dict[str, Any]]:
+    overview = absolute_path(PROPOSALS_OVERVIEW, repo_root)
+    if not overview.is_file():
+        raise ValueError(
+            f"step proposals overview does not exist: {PROPOSALS_OVERVIEW.as_posix()}"
+        )
+    cards = [parse_step_card(path, repo_root) for path in step_card_paths(repo_root)]
+    cards_by_id: dict[str, dict[str, Any]] = {}
+    cards_by_file: dict[str, dict[str, Any]] = {}
+    for card in cards:
+        if card["id"] in cards_by_id:
+            raise ValueError(f"duplicate step card id: {card['id']}")
+        if card["file"] in cards_by_file:
+            raise ValueError(f"duplicate step card path: {card['file']}")
+        cards_by_id[card["id"]] = card
+        cards_by_file[card["file"]] = card
+
+    label_to_status = {
+        label: status
+        for status, label in STEP_CARD_STATUSES.items()
+    }
+    indexed_ids: set[str] = set()
+    indexed_files: set[str] = set()
+    ordered: list[dict[str, Any]] = []
+    for row_number, row in enumerate(step_card_index_rows(repo_root), start=1):
+        identifier, status_cell, card_cell = row
+        if STEP_CARD_ID_RE.fullmatch(identifier.text) is None:
+            raise ValueError(
+                f"invalid step card index id at row {row_number}: {identifier.text!r}"
+            )
+        if identifier.text in indexed_ids:
+            raise ValueError(f"duplicate step card index id: {identifier.text}")
+        if status_cell.text not in label_to_status:
+            raise ValueError(
+                f"invalid step card index status at row {row_number}: "
+                f"{status_cell.text!r}"
+            )
+        if len(card_cell.links) != 1:
+            raise ValueError(
+                f"step card index row {row_number} must link exactly one step card"
+            )
+        link = card_cell.links[0]
+        if card_cell.text != link["label"]:
+            raise ValueError(
+                f"step card index row {row_number} must contain only one step card link"
+            )
+        target = link["target"]
+        if target in indexed_files:
+            raise ValueError(f"duplicate step card index path: {target}")
+        if target not in cards_by_file:
+            raise ValueError(
+                f"step card index points outside the card set: {target}"
+            )
+        card = cards_by_file[target]
+        if identifier.text != card["id"]:
+            raise ValueError(
+                "step card index id mismatch: "
+                f"{identifier.text} points to {card['id']}"
+            )
+        expected_status = label_to_status[status_cell.text]
+        if expected_status != card["status"]:
+            raise ValueError(
+                "step card index status mismatch: "
+                f"{card['id']} has {card['status']}, index has {status_cell.text}"
+            )
+        if link["label"] != card["title"]:
+            raise ValueError(
+                "step card index link label mismatch: "
+                f"{card['id']} title is {card['title']!r}, link is {link['label']!r}"
+            )
+        indexed_ids.add(identifier.text)
+        indexed_files.add(target)
+        ordered.append(card)
+
+    card_files = set(cards_by_file)
+    card_ids = set(cards_by_id)
+    if indexed_files != card_files or indexed_ids != card_ids:
+        missing_files = sorted(card_files - indexed_files)
+        extra_files = sorted(indexed_files - card_files)
+        missing_ids = sorted(card_ids - indexed_ids)
+        extra_ids = sorted(indexed_ids - card_ids)
+        raise ValueError(
+            "step card index does not exactly cover cards: "
+            f"missing_files={missing_files}, extra_files={extra_files}, "
+            f"missing_ids={missing_ids}, extra_ids={extra_ids}"
+        )
+    return ordered
+
+
+def proposal_inventory_from_steps(
+    steps: list[dict[str, Any]],
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    active: list[dict[str, Any]] = []
+    history: list[dict[str, Any]] = []
+    for step in steps:
+        item = {
+            "id": step["id"],
+            "status": STEP_CARD_STATUSES[step["status"]],
+            "proposal": step["task"],
+            "reason": step["why_now"] or step["outcome"],
+            "source_links": step["source_links"],
+        }
+        if step["status"] == "active":
+            active.append(item)
+        else:
+            history.append(item)
+    return active, history
+
+
 def extract_planning_views(
     repo_root: Path,
     requirements_by_file: dict[str, dict[str, Any]],
@@ -946,54 +1271,6 @@ def extract_mvp_stage_map(repo_root: Path) -> list[dict[str, Any]]:
     return stage_map
 
 
-def proposal_rows(repo_root: Path, heading: str) -> list[dict[str, Any]]:
-    if heading == "Актуальные предложения":
-        rows = strict_table_after_heading(
-            PROPOSALS,
-            heading,
-            ["Статус", "Предложение", "Почему сейчас", "Опорные источники"],
-            repo_root,
-        )
-    else:
-        rows = table_after_heading(PROPOSALS, heading, repo_root)
-    proposals: list[dict[str, Any]] = []
-    for index, row in enumerate(rows, start=1):
-        if len(row) != 4:
-            continue
-        status, proposal, reason, sources = row
-        proposals.append(
-            {
-                "id": f"proposal-{heading.lower().replace(' ', '-')}-{index:03d}",
-                "status": status.text,
-                "proposal": proposal.text,
-                "reason": reason.text,
-                "source_links": sources.links,
-            }
-        )
-    return proposals
-
-
-def validate_active_proposals_are_indexed(repo_root: Path) -> None:
-    text = read_text(PROPOSALS, repo_root)
-    body = section_body(text, "Актуальные предложения")
-    for line_number, line in enumerate(body.splitlines(), start=1):
-        stripped = line.strip()
-        if not stripped:
-            continue
-        if stripped.startswith("|") and stripped.endswith("|"):
-            continue
-        raise ValueError(
-            "unindexed active proposal text: "
-            f"{PROPOSALS.as_posix()} section line {line_number}: {stripped}"
-        )
-    strict_table_after_heading(
-        PROPOSALS,
-        "Актуальные предложения",
-        ["Статус", "Предложение", "Почему сейчас", "Опорные источники"],
-        repo_root,
-    )
-
-
 def bullet_links_by_section(repo_root: Path, heading: str) -> list[dict[str, str]]:
     text = read_text(QUESTIONS_README, repo_root)
     body = section_body(text, heading)
@@ -1035,7 +1312,8 @@ def source_files(repo_root: Path, inventory: dict[str, Any]) -> list[Path]:
         STAGES_README,
         DIRECTIONS_README,
         MVP_README,
-        PROPOSALS,
+        PROPOSALS_OVERVIEW,
+        STEP_CARDS_INDEX,
         QUESTIONS_README,
     ]
     direction_files = sorted(
@@ -1059,6 +1337,7 @@ def source_files(repo_root: Path, inventory: dict[str, Any]) -> list[Path]:
     all_files.extend(mvp_files)
     all_files.extend(question_files)
     all_files.extend(requirement_card_paths(repo_root))
+    all_files.extend(step_card_paths(repo_root))
 
     unique: dict[str, Path] = {}
     for path in all_files:
@@ -1144,7 +1423,8 @@ def build_registry(repo_root: Path | None = None) -> dict[str, Any]:
         for requirement in requirements
     }
     planning_views = extract_planning_views(root, requirements_by_file)
-    validate_active_proposals_are_indexed(root)
+    steps = extract_step_cards(root)
+    active_proposals, proposal_history = proposal_inventory_from_steps(steps)
     inventory: dict[str, Any] = {
         "roadmap_horizons": extract_roadmap_horizons(root),
         "stages": extract_stages(root),
@@ -1152,8 +1432,8 @@ def build_registry(repo_root: Path | None = None) -> dict[str, Any]:
         "mvp_candidates": extract_mvp_candidates(root),
         "mvp_stage_map": extract_mvp_stage_map(root),
         "product_queue": extract_product_queue(root),
-        "active_proposals": proposal_rows(root, "Актуальные предложения"),
-        "proposal_history": proposal_rows(root, "История предложений"),
+        "active_proposals": active_proposals,
+        "proposal_history": proposal_history,
         "questions": extract_questions(root),
     }
     sources = source_files(root, inventory)
@@ -1169,6 +1449,7 @@ def build_registry(repo_root: Path | None = None) -> dict[str, Any]:
         ],
         "requirements": requirements,
         "planning_views": planning_views,
+        "steps": steps,
         "source_inventory": inventory,
         "coverage": coverage(planning_views, inventory),
     }
@@ -1182,6 +1463,50 @@ def validate_registry_object(registry: dict[str, Any]) -> list[str]:
         errors.append("registry must contain at least one requirement")
     if not registry.get("planning_views"):
         errors.append("registry must contain at least one planning view")
+
+    steps = registry.get("steps")
+    step_ids: set[str] = set()
+    if not isinstance(steps, list) or not steps:
+        errors.append("registry must contain at least one step card")
+        steps = []
+    for step in steps:
+        if not isinstance(step, dict):
+            errors.append(f"invalid step card object: {step!r}")
+            continue
+        step_id = step.get("id")
+        if not isinstance(step_id, str) or STEP_CARD_ID_RE.fullmatch(step_id) is None:
+            errors.append(f"invalid step card id: {step_id}")
+        elif step_id in step_ids:
+            errors.append(f"duplicate step card id: {step_id}")
+        else:
+            step_ids.add(step_id)
+        if not isinstance(step.get("file"), str) or not step.get("file"):
+            errors.append(f"step card file is empty: {step_id}")
+        if not isinstance(step.get("title"), str) or not step.get("title"):
+            errors.append(f"step card title is empty: {step_id}")
+        if not isinstance(step.get("task"), str) or not step.get("task"):
+            errors.append(f"step card task is empty: {step_id}")
+        status = step.get("status")
+        if status not in STEP_CARD_STATUSES:
+            errors.append(f"invalid step card status: {status}")
+        source_links = step.get("source_links")
+        if not isinstance(source_links, list) or not source_links:
+            errors.append(f"step card source links are empty: {step_id}")
+        if status == "active":
+            if not isinstance(step.get("why_now"), str) or not step.get("why_now"):
+                errors.append(f"active step card why_now is empty: {step_id}")
+            criteria = step.get("criteria")
+            if not isinstance(criteria, list) or not criteria:
+                errors.append(f"active step card criteria are empty: {step_id}")
+            if step.get("outcome") is not None:
+                errors.append(f"active step card outcome must be null: {step_id}")
+        elif status in STEP_CARD_STATUSES:
+            if step.get("why_now") is not None:
+                errors.append(f"historical step card why_now must be null: {step_id}")
+            if step.get("criteria") != []:
+                errors.append(f"historical step card criteria must be empty: {step_id}")
+            if not isinstance(step.get("outcome"), str) or not step.get("outcome"):
+                errors.append(f"historical step card outcome is empty: {step_id}")
 
     requirement_ids: set[str] = set()
     for requirement in registry.get("requirements", []):
@@ -1213,6 +1538,14 @@ def validate_registry_object(registry: dict[str, Any]) -> list[str]:
     for field in ["active_proposals", "proposal_history"]:
         if not isinstance(inventory.get(field), list):
             errors.append(f"source inventory must contain list: {field}")
+            continue
+        for proposal in inventory[field]:
+            proposal_id = proposal.get("id") if isinstance(proposal, dict) else None
+            if proposal_id not in step_ids:
+                errors.append(
+                    f"source inventory {field} references unknown step card: "
+                    f"{proposal_id}"
+                )
 
     questions = inventory.get("questions")
     if not isinstance(questions, dict):

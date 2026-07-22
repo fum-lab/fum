@@ -13,11 +13,12 @@ import sys
 import time
 import tomllib
 import uuid
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from pathlib import Path
 
 
 RECORDS_DIRECTORY = Path("Планирование/следующие-шаги-веток")
+CARDS_DIRECTORY = Path("Планирование/карточки-шагов")
 CLAIM_REF_NAMESPACE = "refs/fum/worktree-next-step-claims"
 RECENCY_BLOCK_RE = re.compile(
     r"\n?<!-- FUM-MD-RECENCY:BEGIN -->.*?"
@@ -25,8 +26,12 @@ RECENCY_BLOCK_RE = re.compile(
     re.DOTALL,
 )
 STEP_ID_RE = re.compile(r"^[a-z0-9][a-z0-9._-]{2,127}$")
+CARD_ID_RE = re.compile(r"^FUM-STEP-[0-9]{4}$")
+CONTENT_SHA256_RE = re.compile(r"^sha256:[0-9a-f]{64}$")
 ALLOWED_STATUSES = frozenset({"ready", "blocked", "done", "paused"})
-REQUIRED_FRONTMATTER_KEYS = frozenset(
+CARD_STATUSES = frozenset({"active", "completed", "absorbed", "withdrawn"})
+CARD_FRONTMATTER_KEYS = frozenset({"schema_version", "card_id", "status"})
+SELECTOR_BASE_FRONTMATTER_KEYS = frozenset(
     {
         "schema_version",
         "branch_ref",
@@ -34,6 +39,9 @@ REQUIRED_FRONTMATTER_KEYS = frozenset(
         "status",
         "project_path",
     }
+)
+SELECTOR_CARD_FRONTMATTER_KEYS = frozenset(
+    {"card_id", "card_content_sha256"}
 )
 
 EXIT_INVALID = 2
@@ -52,19 +60,60 @@ class ContractError(RuntimeError):
 
 
 @dataclass(frozen=True)
+class StepCard:
+    card_id: str
+    status: str
+    card_path: str
+    card_content_sha256: str
+    title: str
+    task: str
+    criteria: tuple[str, ...]
+
+
+@dataclass(frozen=True)
+class BranchSelection:
+    branch_ref: str
+    step_id: str
+    status: str
+    project_path: str
+    record_path: str
+    card_id: str | None
+    card_content_sha256: str | None
+
+
+@dataclass(frozen=True)
 class StepRecord:
     branch_ref: str
     step_id: str
     status: str
     project_path: str
     record_path: str
-    title: str
-    task: str
-    criteria: tuple[str, ...]
+    card_id: str | None = None
+    card_path: str | None = None
+    card_content_sha256: str | None = None
+    title: str | None = None
+    task: str | None = None
+    criteria: tuple[str, ...] = ()
 
     def payload(self) -> dict[str, object]:
-        result = asdict(self)
-        result["criteria"] = list(self.criteria)
+        result = {
+            "branch_ref": self.branch_ref,
+            "step_id": self.step_id,
+            "status": self.status,
+            "project_path": self.project_path,
+            "record_path": self.record_path,
+        }
+        if self.card_id is not None:
+            result.update(
+                {
+                    "card_id": self.card_id,
+                    "card_path": self.card_path,
+                    "card_content_sha256": self.card_content_sha256,
+                    "title": self.title,
+                    "task": self.task,
+                    "criteria": list(self.criteria),
+                }
+            )
         return result
 
 
@@ -256,6 +305,10 @@ def validate_project_path(
     return raw_project_path
 
 
+def content_without_recency(text: str) -> str:
+    return RECENCY_BLOCK_RE.sub("", text).rstrip() + "\n"
+
+
 def split_frontmatter(text: str, record_path: str) -> tuple[dict[str, object], str]:
     if not text.startswith("+++\n"):
         raise ContractError(
@@ -272,9 +325,17 @@ def split_frontmatter(text: str, record_path: str) -> tuple[dict[str, object], s
         raise ContractError(f"{record_path}: некорректный TOML: {error}.") from error
     if not isinstance(frontmatter, dict):
         raise ContractError(f"{record_path}: TOML-блок должен быть таблицей.")
+    return frontmatter, body.rstrip() + "\n"
+
+
+def validate_exact_frontmatter_keys(
+    frontmatter: dict[str, object],
+    expected_keys: frozenset[str],
+    record_path: str,
+) -> None:
     keys = frozenset(frontmatter)
-    missing = REQUIRED_FRONTMATTER_KEYS - keys
-    unknown = keys - REQUIRED_FRONTMATTER_KEYS
+    missing = expected_keys - keys
+    unknown = keys - expected_keys
     if missing:
         raise ContractError(
             f"{record_path}: отсутствуют поля TOML: {', '.join(sorted(missing))}."
@@ -283,7 +344,6 @@ def split_frontmatter(text: str, record_path: str) -> tuple[dict[str, object], s
         raise ContractError(
             f"{record_path}: неизвестные поля TOML: {', '.join(sorted(unknown))}."
         )
-    return frontmatter, RECENCY_BLOCK_RE.sub("", body).rstrip() + "\n"
 
 
 def mask_range(characters: list[str], start: int, end: int) -> None:
@@ -465,17 +525,167 @@ def parse_criteria(raw: str, record_path: str) -> tuple[str, ...]:
     return tuple(criteria)
 
 
-def parse_record(path: Path, repo_root: Path) -> StepRecord:
+def validate_required_sections(
+    visible_sections: dict[str, str],
+    required_sections: tuple[str, ...],
+    record_path: str,
+) -> None:
+    for section in required_sections:
+        if not visible_sections.get(section, "").strip():
+            raise ContractError(
+                f"{record_path}: обязателен непустой раздел «{section}»."
+            )
+
+
+def validate_sources(visible_sources: str, record_path: str) -> None:
+    if not any(
+        line.strip().startswith("- ")
+        for line in visible_sources.splitlines()
+    ):
+        raise ContractError(
+            f"{record_path}: раздел «Источники» должен содержать "
+            "хотя бы один пункт."
+        )
+
+
+def parse_card(path: Path, repo_root: Path) -> StepCard:
+    card_path = repository_relative(path, repo_root)
+    try:
+        text = path.read_text(encoding="utf-8")
+    except (OSError, UnicodeError) as error:
+        raise ContractError(f"Не удалось прочитать {card_path}: {error}.") from error
+    canonical_content = content_without_recency(text)
+    card_content_sha256 = (
+        "sha256:"
+        + hashlib.sha256(canonical_content.encode("utf-8")).hexdigest()
+    )
+    frontmatter, body = split_frontmatter(canonical_content, card_path)
+    validate_exact_frontmatter_keys(
+        frontmatter,
+        CARD_FRONTMATTER_KEYS,
+        card_path,
+    )
+
+    schema_version = frontmatter["schema_version"]
+    if type(schema_version) is not int or schema_version != 1:
+        raise ContractError(f"{card_path}: поддерживается только schema_version = 1.")
+
+    card_id = frontmatter["card_id"]
+    if not isinstance(card_id, str) or CARD_ID_RE.fullmatch(card_id) is None:
+        raise ContractError(
+            f"{card_path}: card_id должен иметь вид FUM-STEP-NNNN."
+        )
+
+    status = frontmatter["status"]
+    if not isinstance(status, str) or status not in CARD_STATUSES:
+        raise ContractError(
+            f"{card_path}: status карточки должен быть одним из "
+            f"{', '.join(sorted(CARD_STATUSES))}."
+        )
+
+    reject_hidden_html_comments(body, card_path)
+    title, sections, visible_sections = markdown_sections(body, card_path)
+    if status == "active":
+        required_sections = (
+            "Задача",
+            "Почему сейчас",
+            "Критерии завершения",
+            "Источники",
+        )
+        validate_required_sections(
+            visible_sections,
+            required_sections,
+            card_path,
+        )
+        criteria = parse_criteria(
+            visible_sections["Критерии завершения"],
+            card_path,
+        )
+    else:
+        required_sections = ("Задача", "Результат", "Источники")
+        validate_required_sections(
+            visible_sections,
+            required_sections,
+            card_path,
+        )
+        criteria = ()
+    validate_sources(visible_sections["Источники"], card_path)
+
+    return StepCard(
+        card_id=card_id,
+        status=status,
+        card_path=card_path,
+        card_content_sha256=card_content_sha256,
+        title=title,
+        task=sections["Задача"].strip(),
+        criteria=criteria,
+    )
+
+
+def load_cards(repo_root: Path) -> tuple[StepCard, ...]:
+    directory = repo_root / CARDS_DIRECTORY
+    if not directory.exists():
+        return ()
+    if not directory.is_dir():
+        raise ContractError(
+            f"Путь карточек не является каталогом: {CARDS_DIRECTORY.as_posix()}."
+        )
+    paths = sorted(
+        (
+            path
+            for path in directory.rglob("*.md")
+            if path.name.casefold() != "readme.md"
+        ),
+        key=lambda path: repository_relative(path, repo_root),
+    )
+    cards = tuple(parse_card(path, repo_root) for path in paths)
+    by_id: dict[str, list[str]] = {}
+    for card in cards:
+        by_id.setdefault(card.card_id, []).append(card.card_path)
+    duplicates = {
+        card_id: card_paths
+        for card_id, card_paths in by_id.items()
+        if len(card_paths) > 1
+    }
+    if duplicates:
+        details = "; ".join(
+            f"{card_id}: {', '.join(card_paths)}"
+            for card_id, card_paths in sorted(duplicates.items())
+        )
+        raise ContractError(f"Найдены дубликаты card_id: {details}.")
+    return cards
+
+
+def parse_selector(path: Path, repo_root: Path) -> BranchSelection:
     record_path = repository_relative(path, repo_root)
     try:
         text = path.read_text(encoding="utf-8")
     except (OSError, UnicodeError) as error:
         raise ContractError(f"Не удалось прочитать {record_path}: {error}.") from error
-    frontmatter, body = split_frontmatter(text, record_path)
+    frontmatter, body = split_frontmatter(
+        content_without_recency(text),
+        record_path,
+    )
 
-    schema_version = frontmatter["schema_version"]
-    if type(schema_version) is not int or schema_version != 1:
-        raise ContractError(f"{record_path}: поддерживается только schema_version = 1.")
+    schema_version = frontmatter.get("schema_version")
+    if type(schema_version) is not int or schema_version != 2:
+        raise ContractError(f"{record_path}: поддерживается только schema_version = 2.")
+
+    status = frontmatter.get("status")
+    if not isinstance(status, str) or status not in ALLOWED_STATUSES:
+        raise ContractError(
+            f"{record_path}: status должен быть одним из "
+            f"{', '.join(sorted(ALLOWED_STATUSES))}."
+        )
+    expected_keys = SELECTOR_BASE_FRONTMATTER_KEYS
+    if status == "done" and SELECTOR_CARD_FRONTMATTER_KEYS & frozenset(frontmatter):
+        raise ContractError(
+            f"{record_path}: для status=done поля card_id и "
+            "card_content_sha256 запрещены."
+        )
+    if status != "done":
+        expected_keys = expected_keys | SELECTOR_CARD_FRONTMATTER_KEYS
+    validate_exact_frontmatter_keys(frontmatter, expected_keys, record_path)
 
     branch_ref = frontmatter["branch_ref"]
     if not isinstance(branch_ref, str):
@@ -489,13 +699,6 @@ def parse_record(path: Path, repo_root: Path) -> StepRecord:
             "из строчных букв, цифр, '.', '_' и '-'."
         )
 
-    status = frontmatter["status"]
-    if not isinstance(status, str) or status not in ALLOWED_STATUSES:
-        raise ContractError(
-            f"{record_path}: status должен быть одним из "
-            f"{', '.join(sorted(ALLOWED_STATUSES))}."
-        )
-
     project_path = validate_project_path(
         repo_root,
         frontmatter["project_path"],
@@ -503,36 +706,97 @@ def parse_record(path: Path, repo_root: Path) -> StepRecord:
         branch_ref,
     )
     reject_hidden_html_comments(body, record_path)
-    title, sections, visible_sections = markdown_sections(body, record_path)
-    required_sections = ("Задача", "Критерии завершения", "Источники")
-    for section in required_sections:
-        if not visible_sections.get(section, "").strip():
-            raise ContractError(
-                f"{record_path}: обязателен непустой раздел «{section}»."
-            )
-    task = sections["Задача"].strip()
-    criteria = parse_criteria(visible_sections["Критерии завершения"], record_path)
-    if not any(
-        line.strip().startswith("- ")
-        for line in visible_sections["Источники"].splitlines()
-    ):
+    _title, _sections, visible_sections = markdown_sections(body, record_path)
+    duplicated = sorted(
+        {"Задача", "Критерии завершения"} & set(visible_sections)
+    )
+    if duplicated:
         raise ContractError(
-            f"{record_path}: раздел «Источники» должен содержать хотя бы один пункт."
+            f"{record_path}: селектор не должен дублировать разделы "
+            f"{', '.join(duplicated)} карточки."
         )
 
-    return StepRecord(
+    card_id: str | None = None
+    card_content_sha256: str | None = None
+    if status != "done":
+        raw_card_id = frontmatter["card_id"]
+        if not isinstance(raw_card_id, str) or CARD_ID_RE.fullmatch(raw_card_id) is None:
+            raise ContractError(
+                f"{record_path}: card_id должен иметь вид FUM-STEP-NNNN."
+            )
+        raw_content_sha256 = frontmatter["card_content_sha256"]
+        if (
+            not isinstance(raw_content_sha256, str)
+            or CONTENT_SHA256_RE.fullmatch(raw_content_sha256) is None
+        ):
+            raise ContractError(
+                f"{record_path}: card_content_sha256 должен иметь вид sha256:<64 hex>."
+            )
+        card_id = raw_card_id
+        card_content_sha256 = raw_content_sha256
+
+    return BranchSelection(
         branch_ref=branch_ref,
         step_id=step_id,
         status=status,
         project_path=project_path,
         record_path=record_path,
-        title=title,
-        task=task,
-        criteria=criteria,
+        card_id=card_id,
+        card_content_sha256=card_content_sha256,
     )
 
 
-def load_records(repo_root: Path) -> tuple[StepRecord, ...]:
+def resolve_selection(
+    selection: BranchSelection,
+    cards_by_id: dict[str, StepCard],
+) -> StepRecord:
+    if selection.status == "done":
+        return StepRecord(
+            branch_ref=selection.branch_ref,
+            step_id=selection.step_id,
+            status=selection.status,
+            project_path=selection.project_path,
+            record_path=selection.record_path,
+        )
+    if selection.card_id is None or selection.card_content_sha256 is None:
+        raise ContractError(
+            f"{selection.record_path}: для status={selection.status} нужна карточка."
+        )
+    card = cards_by_id.get(selection.card_id)
+    if card is None:
+        raise ContractError(
+            f"{selection.record_path}: не найдена карточка {selection.card_id}."
+        )
+    if card.status != "active":
+        raise ContractError(
+            f"{selection.record_path}: выбрать можно только карточку status=active, "
+            f"но {selection.card_id} имеет status={card.status}."
+        )
+    if selection.card_content_sha256 != card.card_content_sha256:
+        raise ContractError(
+            f"{selection.record_path}: card_content_sha256 карточки "
+            f"{selection.card_id} изменился; ожидался "
+            f"{selection.card_content_sha256}, обнаружен {card.card_content_sha256}."
+        )
+    return StepRecord(
+        branch_ref=selection.branch_ref,
+        step_id=selection.step_id,
+        status=selection.status,
+        project_path=selection.project_path,
+        record_path=selection.record_path,
+        card_id=card.card_id,
+        card_path=card.card_path,
+        card_content_sha256=card.card_content_sha256,
+        title=card.title,
+        task=card.task,
+        criteria=card.criteria,
+    )
+
+
+def load_records(
+    repo_root: Path,
+    cards: tuple[StepCard, ...] | None = None,
+) -> tuple[StepRecord, ...]:
     directory = repo_root / RECORDS_DIRECTORY
     if not directory.is_dir():
         raise ContractError(
@@ -550,10 +814,10 @@ def load_records(repo_root: Path) -> tuple[StepRecord, ...]:
         raise ContractError(
             f"В {RECORDS_DIRECTORY.as_posix()} нет записей следующих шагов."
         )
-    records = tuple(parse_record(path, repo_root) for path in paths)
+    selections = tuple(parse_selector(path, repo_root) for path in paths)
     by_branch: dict[str, list[str]] = {}
-    for record in records:
-        by_branch.setdefault(record.branch_ref, []).append(record.record_path)
+    for selection in selections:
+        by_branch.setdefault(selection.branch_ref, []).append(selection.record_path)
     duplicates = {
         branch_ref: record_paths
         for branch_ref, record_paths in by_branch.items()
@@ -568,7 +832,12 @@ def load_records(repo_root: Path) -> tuple[StepRecord, ...]:
             "Для каждой ветки должна существовать ровно одна запись; "
             f"найдены дубликаты: {details}."
         )
-    return records
+    available_cards = cards if cards is not None else load_cards(repo_root)
+    cards_by_id = {card.card_id: card for card in available_cards}
+    return tuple(
+        resolve_selection(selection, cards_by_id)
+        for selection in selections
+    )
 
 
 def active_record(
@@ -970,7 +1239,8 @@ def main() -> int:
         validate_command_options(args)
         repo_root = resolve_repo_root(args.repo_root)
         if args.command == "validate":
-            records = load_records(repo_root)
+            cards = load_cards(repo_root)
+            records = load_records(repo_root, cards)
             current = active_record(repo_root, records)
             payload = {
                 "state": "valid",
@@ -978,6 +1248,7 @@ def main() -> int:
                 "active_step_id": current.step_id,
                 "active_status": current.status,
                 "record_count": len(records),
+                "card_count": len(cards),
             }
             exit_code = 0
         elif args.command == "show":
