@@ -8,6 +8,10 @@ if [ "$#" -eq 0 ] || [ "$1" = "guide" ] || [ "$1" = "gui" ]; then
         shift
     fi
 
+    repository_root=$(CDPATH= cd -- "$prototype_dir/../.." && pwd)
+    FUM_REPOSITORY_ROOT=$repository_root
+    export FUM_REPOSITORY_ROOT
+
     exec swift run \
         --package-path "$prototype_dir" \
         FUMInputGuide \

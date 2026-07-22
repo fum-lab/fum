@@ -2,6 +2,7 @@ import contextlib
 import importlib.util
 import io
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -15,6 +16,10 @@ SCRIPT_PATH = (
     Path(__file__).resolve().parents[1]
     / "scripts"
     / "run-smoke-check.py"
+)
+TOOLS_DIR = Path(__file__).resolve().parents[2]
+MACHINE_LOCAL_PATH_AUTOMATION_DIR = (
+    TOOLS_DIR / "fum-proverka-mashinno-lokaljnyikh-putej"
 )
 
 spec = importlib.util.spec_from_file_location("run_smoke_check", SCRIPT_PATH)
@@ -32,6 +37,7 @@ class RunSmokeCheckTests(unittest.TestCase):
             root / "Инструменты" / "fum-obratnyiye-ssyilki-voprosov" / "scripts" / "check-question-backlinks.py",
             root / "Инструменты" / "fum-indeks-readme" / "scripts" / "check-readme-index.py",
             root / "Инструменты" / "fum-proverka-nazvanij-avtomatizacij" / "scripts" / "proveritj-nazvaniya-avtomatizacij.py",
+            root / "Инструменты" / "fum-proverka-mashinno-lokaljnyikh-putej" / "scripts" / "proveritj-mashinno-lokaljnyiye-puti.py",
             root / "Инструменты" / "fum-proverka-git-zavisimostej" / "scripts" / "proveritj-git-zavisimostj.py",
             root / "Инструменты" / "fum-svezhestj-markdown" / "scripts" / "update-md-recency.py",
             root / "Инструменты" / "fum-svezhestj-grafa-obsidian" / "scripts" / "build-obsidian-graph-recency.py",
@@ -99,6 +105,7 @@ class RunSmokeCheckTests(unittest.TestCase):
                     "Сборка планового реестра",
                     "Проверка планового реестра",
                     "Проверка реестра названий автоматизаций",
+                    "Проверка машинно-локальных путей",
                     "Проверка Git-зависимости LinguisticKit",
                     "Проверка скриптов запуска прототипов",
                     "Проверка двунаправленности вопросов",
@@ -133,6 +140,20 @@ class RunSmokeCheckTests(unittest.TestCase):
                     "python3",
                     "Инструменты/fum-indeks-readme/scripts/"
                     "check-readme-index.py",
+                    "--repo-root",
+                    ".",
+                ),
+            )
+            self.assertEqual(
+                next(
+                    step
+                    for step in steps
+                    if step.name == "Проверка машинно-локальных путей"
+                ).command,
+                (
+                    "python3",
+                    "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/"
+                    "scripts/proveritj-mashinno-lokaljnyiye-puti.py",
                     "--repo-root",
                     ".",
                 ),
@@ -668,6 +689,78 @@ class RunSmokeCheckTests(unittest.TestCase):
         self.assertEqual(result, 0)
         self.assertIn("Проверенное исключение.", output.getvalue())
         self.assertIn("continued", output.getvalue())
+
+    def test_full_runner_stops_on_tracked_machine_local_path_regression(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_script_fixture(root)
+            target_automation = (
+                root
+                / "Инструменты"
+                / "fum-proverka-mashinno-lokaljnyikh-putej"
+            )
+            shutil.copy2(
+                MACHINE_LOCAL_PATH_AUTOMATION_DIR
+                / "scripts"
+                / "proveritj-mashinno-lokaljnyiye-puti.py",
+                target_automation
+                / "scripts"
+                / "proveritj-mashinno-lokaljnyiye-puti.py",
+            )
+            shutil.copy2(
+                MACHINE_LOCAL_PATH_AUTOMATION_DIR / "scripts" / "path_forms.py",
+                target_automation / "scripts" / "path_forms.py",
+            )
+            (target_automation / "policy.json").write_text(
+                json.dumps(
+                    {
+                        "schema": "fum.machine-local-path-policy.v2",
+                        "exceptions": [],
+                    },
+                    ensure_ascii=False,
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+            regression = root / "Документация" / "регрессия.md"
+            regression.parent.mkdir()
+            regression.write_text(
+                "/Users/private-name/secret-project\n",
+                encoding="utf-8",
+            )
+            subprocess.run(
+                ["git", "init"],
+                cwd=root,
+                check=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
+            subprocess.run(["git", "add", "."], cwd=root, check=True)
+            steps = run_smoke_check.build_steps(
+                root,
+                request=None,
+                include_session=False,
+                python=sys.executable,
+            )
+            stdout = io.StringIO()
+            stderr = io.StringIO()
+
+            with (
+                contextlib.redirect_stdout(stdout),
+                contextlib.redirect_stderr(stderr),
+            ):
+                result = run_smoke_check.run_steps(steps, root)
+
+            self.assertEqual(result, 1)
+            self.assertIn(
+                "Документация/регрессия.md:1:error.posix-user-home",
+                stdout.getvalue(),
+            )
+            self.assertNotIn("private-name", stdout.getvalue())
+            self.assertIn(
+                "Проверка машинно-локальных путей",
+                stderr.getvalue(),
+            )
 
     def test_list_evaluates_manifest_but_does_not_run_swift_checks(self):
         with tempfile.TemporaryDirectory() as tmp:

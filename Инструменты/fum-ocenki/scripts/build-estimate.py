@@ -15,6 +15,21 @@ from typing import Any
 from zoneinfo import ZoneInfo
 
 
+PROJECT_FILES_SCRIPTS = (
+    Path(__file__).resolve().parents[2]
+    / "fum-proyektnyiye-fajlyi"
+    / "scripts"
+)
+if str(PROJECT_FILES_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(PROJECT_FILES_SCRIPTS))
+
+from project_files import (  # noqa: E402
+    ProjectFilesError,
+    normalized_project_relative_path,
+    safe_project_output_path,
+)
+
+
 TODO_MARKER = "ESTIMATE_TODO"
 MSK = ZoneInfo("Europe/Moscow")
 REQUIRED_HEADINGS = [
@@ -64,8 +79,20 @@ def absolute_path(path: str | Path, repo_root: Path) -> Path:
     return (repo_root / value).resolve()
 
 
-def relative_link(target: str | Path, document_path: Path, repo_root: Path) -> str:
-    absolute_target = absolute_path(target, repo_root)
+def relative_link(
+    target: object,
+    document_path: Path,
+    repo_root: Path,
+    *,
+    field_name: str = "path",
+) -> str:
+    relative_target = normalized_project_relative_path(
+        target,
+        repo_root,
+        field_name=field_name,
+        must_exist=False,
+    )
+    absolute_target = repo_root.resolve() / relative_target
     return Path(os.path.relpath(absolute_target, document_path.parent)).as_posix()
 
 
@@ -227,12 +254,26 @@ def validate_config(config: dict[str, Any], repo_root: Path) -> list[str]:
             errors.append(f"{field} must be a non-empty list")
 
     request = config.get("request_file")
-    if isinstance(request, str) and not absolute_path(request, repo_root).exists():
-        errors.append(f"request file does not exist: {request}")
+    try:
+        normalized_project_relative_path(
+            request,
+            repo_root,
+            field_name="request_file",
+            must_exist=True,
+        )
+    except ProjectFilesError as error:
+        errors.append(str(error))
 
-    automation = config.get("automation_file")
-    if isinstance(automation, str) and not absolute_path(automation, repo_root).exists():
-        errors.append(f"automation file does not exist: {automation}")
+    automation = config.get("automation_file", "Инструменты/fum-ocenki/SKILL.md")
+    try:
+        normalized_project_relative_path(
+            automation,
+            repo_root,
+            field_name="automation_file",
+            must_exist=True,
+        )
+    except ProjectFilesError as error:
+        errors.append(str(error))
 
     snapshot = config.get("snapshot")
     if snapshot is not None:
@@ -361,8 +402,8 @@ def render_document(
             "",
             "## Источники требований",
             "",
-            f"- [{request_label(config['request_file'])}]({relative_link(config['request_file'], output_path, repo_root)})",
-            f"- [fum-ocenki]({relative_link(automation_file, output_path, repo_root)}) - локальная автоматизация сборки и проверки оценочных материалов.",
+            f"- [{request_label(config['request_file'])}]({relative_link(config['request_file'], output_path, repo_root, field_name='request_file')})",
+            f"- [fum-ocenki]({relative_link(automation_file, output_path, repo_root, field_name='automation_file')}) - локальная автоматизация сборки и проверки оценочных материалов.",
         ]
     )
 
@@ -376,7 +417,7 @@ def build_document(
     refresh_snapshot: bool = False,
 ) -> str:
     root = (repo_root or Path.cwd()).resolve()
-    output = absolute_path(output_path, root)
+    output = safe_project_output_path(output_path, root)
     config = load_config(config_path)
     errors = validate_config(config, root)
     if errors:

@@ -37,6 +37,10 @@ AUTOMATION_NAMES_CHECK_SCRIPT = Path(
 AUTOMATION_NAMES_REGISTRY = Path(
     "Инструменты/реестр-названий-автоматизаций.json"
 )
+MACHINE_LOCAL_PATH_CHECK_SCRIPT = Path(
+    "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/"
+    "proveritj-mashinno-lokaljnyiye-puti.py"
+)
 GIT_DEPENDENCY_CHECK_SCRIPT = Path(
     "Инструменты/fum-proverka-git-zavisimostej/scripts/"
     "proveritj-git-zavisimostj.py"
@@ -698,6 +702,19 @@ def build_steps(
                 ".",
                 "--registry",
                 automation_names_registry,
+            ),
+        )
+    )
+
+    machine_local_path_script = require_file(root, MACHINE_LOCAL_PATH_CHECK_SCRIPT)
+    steps.append(
+        SmokeStep(
+            name="Проверка машинно-локальных путей",
+            command=(
+                python_cmd,
+                machine_local_path_script,
+                "--repo-root",
+                ".",
             ),
         )
     )

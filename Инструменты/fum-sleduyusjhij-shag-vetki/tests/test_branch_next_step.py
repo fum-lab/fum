@@ -283,6 +283,14 @@ class BranchNextStepTests(unittest.TestCase):
         )
         selector.write_text(text, encoding="utf-8")
 
+    def replace_card_fragment(self, old: str, new: str) -> Path:
+        card = self.write_record()
+        original = card.read_text(encoding="utf-8")
+        self.assertIn(old, original)
+        card.write_text(original.replace(old, new, 1), encoding="utf-8")
+        self.refresh_selector_hash(card)
+        return card
+
     def run_tool(
         self,
         *args: str,
@@ -336,6 +344,183 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertEqual(payload["title"], "Проверить следующий шаг")
         self.assertIn("Обновить тестовый артефакт", payload["task"])
         self.assertEqual(len(payload["criteria"]), 2)
+
+    def test_child_prompt_payload_scans_every_ready_string_field(self) -> None:
+        payload: dict[str, object] = {
+            "state": "ready",
+            "branch_ref": "refs/heads/master",
+            "step_id": "master-test-step-v1",
+            "status": "ready",
+            "project_path": "README.md",
+            "record_path": "Планирование/следующие-шаги-веток/master.md",
+            "card_id": "FUM-STEP-0001",
+            "card_path": (
+                "Планирование/карточки-шагов/"
+                "🟡-FUM-STEP-0001-проверить-шаг.md"
+            ),
+            "card_content_sha256": f"sha256:{'0' * 64}",
+            "title": "Проверить следующий шаг",
+            "task": "Обновить тестовый артефакт.",
+            "criteria": ["Проверка проходит.", "Результат сохранён."],
+        }
+        TOOL_MODULE.validate_child_prompt_payload(payload)
+
+        scalar_fields = tuple(
+            key for key, value in payload.items() if isinstance(value, str)
+        )
+        forbidden = "/Users/example/private-checkout"
+        for field_name in scalar_fields:
+            with self.subTest(field=field_name):
+                candidate = dict(payload)
+                candidate[field_name] = forbidden
+                with self.assertRaises(TOOL_MODULE.ContractError) as caught:
+                    TOOL_MODULE.validate_child_prompt_payload(candidate)
+                message = str(caught.exception)
+                self.assertIn(field_name, message)
+                self.assertIn("posix_absolute", message)
+                self.assertNotIn(forbidden, message)
+
+        nested = dict(payload)
+        nested["criteria"] = ["Безопасный критерий.", forbidden]
+        with self.assertRaises(TOOL_MODULE.ContractError) as caught:
+            TOOL_MODULE.validate_child_prompt_payload(nested)
+        self.assertIn("criteria[1]", str(caught.exception))
+        self.assertNotIn(forbidden, str(caught.exception))
+
+    def test_child_prompt_payload_rejects_cross_platform_local_path_forms(
+        self,
+    ) -> None:
+        cases = (
+            ("posix", "/Users/example/project", "posix_absolute"),
+            ("windows drive backslash", r"C:\Users\example\project", "windows_drive"),
+            ("windows drive slash", "C:/Users/example/project", "windows_drive"),
+            ("UNC backslash", r"\\server\share\project", "windows_unc"),
+            ("UNC slash", "//server/share/project", "windows_unc"),
+            ("file URI", "file:///Users/example/project", "file_uri"),
+            ("tilde", "~/project", "home_expansion"),
+            ("named tilde", "~example/project", "home_expansion"),
+            ("HOME", "$HOME/project", "home_variable"),
+            ("braced HOME", "${HOME}/project", "home_variable"),
+            ("USERPROFILE", r"%USERPROFILE%\project", "home_variable"),
+            ("PowerShell HOME", r"$env:USERPROFILE\project", "home_variable"),
+            (
+                "HOMEDRIVE HOMEPATH",
+                r"%HOMEDRIVE%%HOMEPATH%\project",
+                "home_variable",
+            ),
+        )
+        for name, forbidden, category in cases:
+            with self.subTest(name=name):
+                with self.assertRaises(TOOL_MODULE.ContractError) as caught:
+                    TOOL_MODULE.validate_child_prompt_payload(
+                        {"task": f"Проверить {forbidden}."}
+                    )
+                message = str(caught.exception)
+                self.assertIn(category, message)
+                self.assertNotIn(forbidden, message)
+
+        TOOL_MODULE.validate_child_prompt_payload(
+            {
+                "title": "Проверить HTTPS URL",
+                "task": (
+                    "Сверить https://example.test/docs/C:/Users/demo"
+                    "?redirect=/Users/example как внешний URL."
+                ),
+                "criteria": ["Ссылка https://example.test/a/b открывается."],
+            }
+        )
+
+    def test_project_path_has_an_explicit_prompt_safety_boundary(self) -> None:
+        for valid in ("README.md", "Проекты/demo/README.md"):
+            with self.subTest(valid=valid):
+                TOOL_MODULE.validate_child_prompt_payload(
+                    {"project_path": valid}
+                )
+        self.assertEqual(
+            TOOL_MODULE.validate_project_path(
+                self.repo,
+                "README.md",
+                "selector.md",
+                "refs/heads/master",
+            ),
+            "README.md",
+        )
+
+        invalid_paths = (
+            "/repo/README.md",
+            r"C:\repo\README.md",
+            r"\\server\share\README.md",
+            "file:///repo/README.md",
+            "~/README.md",
+            "$HOME/README.md",
+        )
+        for invalid in invalid_paths:
+            with self.subTest(invalid=invalid):
+                with self.assertRaises(TOOL_MODULE.ContractError) as caught:
+                    TOOL_MODULE.validate_child_prompt_payload(
+                        {"project_path": invalid}
+                    )
+                self.assertIn("project_path", str(caught.exception))
+                self.assertNotIn(invalid, str(caught.exception))
+                with self.assertRaises(TOOL_MODULE.ContractError) as caught:
+                    TOOL_MODULE.validate_project_path(
+                        self.repo,
+                        invalid,
+                        "selector.md",
+                        "refs/heads/master",
+                    )
+                self.assertIn("project_path", str(caught.exception))
+                self.assertNotIn(invalid, str(caught.exception))
+
+    def test_show_rejects_paths_in_title_task_and_criteria(self) -> None:
+        cases = (
+            (
+                "title",
+                "# Проверить следующий шаг",
+                "# Проверить /Users/example/project",
+            ),
+            (
+                "task fenced",
+                "Обновить тестовый артефакт и подтвердить его локальной проверкой.",
+                (
+                    "Обновить тестовый артефакт.\n\n"
+                    "```text\nC:\\Users\\example\\project\n```"
+                ),
+            ),
+            (
+                "criteria",
+                "- Проверка проходит.",
+                "- Проверка file:///Users/example/project проходит.",
+            ),
+        )
+        for name, old, new in cases:
+            with self.subTest(field=name):
+                self.replace_card_fragment(old, new)
+                shown = self.run_tool("show")
+                self.assertEqual(shown.returncode, 2)
+                self.assertEqual(self.payload(shown)["state"], "invalid")
+
+    def test_claim_rejects_unsafe_prompt_before_writing_claim(self) -> None:
+        forbidden = "$HOME/private-checkout"
+        self.replace_card_fragment(
+            "Обновить тестовый артефакт и подтвердить его локальной проверкой.",
+            f"Обновить артефакт в {forbidden}.",
+        )
+
+        claimed = self.run_tool(
+            "claim",
+            "--expected-branch-ref",
+            "refs/heads/master",
+            "--expected-step-id",
+            "master-test-step-v1",
+        )
+        status = self.run_tool("claim-status")
+
+        self.assertEqual(claimed.returncode, 2)
+        self.assertEqual(self.payload(claimed)["state"], "invalid")
+        self.assertNotIn(forbidden, str(self.payload(claimed)["error"]))
+        self.assertEqual(status.returncode, 0)
+        self.assertEqual(self.payload(status)["state"], "unclaimed")
 
     def test_card_filename_mirrors_status_id_and_has_a_kebab_description(
         self,
@@ -673,9 +858,16 @@ class BranchNextStepTests(unittest.TestCase):
             child_contract,
         )
         self.assertIn(
-            "если любое передаваемое значение содержит абсолютный путь",
+            "используй только уже машинно проверенные значения",
             child_contract.casefold(),
         )
+        self.assertIn("title, task и criteria", prompt)
+        self.assertIn("POSIX", prompt)
+        self.assertIn("Windows drive", prompt)
+        self.assertIn("UNC", prompt)
+        self.assertIn("file://", prompt)
+        self.assertIn("home-expansion", prompt)
+        self.assertIn("до claim", prompt)
         self.assertNotIn("<КОРЕНЬ_КЛОНА>", child_contract)
         self.assertIn("В <КОРЕНЬ_КЛОНА> проверь", prompt)
 

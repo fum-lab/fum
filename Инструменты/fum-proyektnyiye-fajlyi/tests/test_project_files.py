@@ -21,6 +21,66 @@ spec.loader.exec_module(project_files)
 
 
 class ProjectFilesTests(unittest.TestCase):
+    def test_normalizes_only_repository_relative_portable_paths(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            document = root / "Документация" / "источник.md"
+            document.parent.mkdir()
+            document.write_text("# Источник\n", encoding="utf-8")
+
+            self.assertEqual(
+                project_files.normalized_project_relative_path(
+                    "Документация/источник.md",
+                    root,
+                    field_name="source.path",
+                    must_exist=True,
+                ),
+                "Документация/источник.md",
+            )
+
+            rejected = (
+                document.as_posix(),
+                "../внешний.md",
+                "Документация/../источник.md",
+                "Документация\\источник.md",
+                "C:\\repo\\источник.md",
+                "C:/repo/источник.md",
+                "\\\\server\\share\\источник.md",
+                "file:///repo/источник.md",
+                "~",
+                "~/repo/источник.md",
+                "~user/repo/источник.md",
+                "$HOME/repo/источник.md",
+                "${HOME}/repo/источник.md",
+                "%USERPROFILE%\\repo\\источник.md",
+                "$env:USERPROFILE\\repo\\источник.md",
+            )
+            for value in rejected:
+                with self.subTest(value=value):
+                    with self.assertRaises(project_files.ProjectFilesError):
+                        project_files.normalized_project_relative_path(
+                            value,
+                            root,
+                            field_name="source.path",
+                            must_exist=False,
+                        )
+
+    def test_repository_relative_path_rejects_symlink_escape(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            outside = root.parent / f"{root.name}-outside"
+            outside.mkdir()
+            self.addCleanup(lambda: outside.rmdir())
+            (root / "Документация").symlink_to(outside, target_is_directory=True)
+
+            with self.assertRaises(project_files.ProjectFilesError):
+                project_files.normalized_project_relative_path(
+                    "Документация/источник.md",
+                    root,
+                    field_name="source.path",
+                    must_exist=False,
+                )
+
     def test_git_policy_includes_project_markdown_and_excludes_ignored_files(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

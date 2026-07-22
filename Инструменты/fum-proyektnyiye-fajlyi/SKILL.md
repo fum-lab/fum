@@ -21,6 +21,7 @@ description: Отбирать проектные Markdown-файлы FUM для 
 
 - `project_markdown_paths(repo_root)` — отсортированный инвентарь проектных Markdown-файлов;
 - `is_structurally_excluded_path(path, repo_root)` — проверку структурного исключения для произвольного пути;
+- `normalized_project_relative_path(value, repo_root, field_name=..., must_exist=...)` — строгую нормализацию path-поля: только POSIX-путь от корня репозитория без URI, home-форм, Windows/UNC-путей, `.`/`..`, символических ссылок и структурных исключений;
 - `safe_project_output_path(path, repo_root)` — проверку канонического выходного файла перед чтением или записью.
 
 Файловый fallback применяется только там, где Git-контекст действительно отсутствует или явно отключён вызывающим кодом. Он использует ту же структурную политику и не следует по символическим ссылкам.
@@ -33,7 +34,7 @@ description: Отбирать проектные Markdown-файлы FUM для 
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-proyektnyiye-fajlyi/tests -p 'test_*.py'
 ```
 
-Фикстуры проверяют общий Git-инвентарь, `.build/checkouts/vendor/README.md`, `.swiftpm`, кэши, локальный exclude отслеживаемого файла, filesystem fallback, символическую ссылку в исключённое хранилище, ошибку обхода и скрыто отсутствующий `skip-worktree`-файл.
+Фикстуры проверяют общий Git-инвентарь, `.build/checkouts/vendor/README.md`, `.swiftpm`, кэши, локальный exclude отслеживаемого файла, filesystem fallback, запрещённые формы path-полей, символическую ссылку в исключённое хранилище, ошибку обхода и скрыто отсутствующий `skip-worktree`-файл.
 
 ## Граница автоматизации
 
@@ -41,11 +42,12 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты
 
 ## Источники требований
 
+- [исходный запрос 2026-07-22 13:39:29 MSK — Устранить машинно-локальные пути](../../Запросы/2026-07-22_13-39-29_MSK_устранить-машинно-локальные-пути.md)
 - [ревью проекта 2026-07-18](../../Ревью/2026-07-18_07-44-15_MSK_ревью-проекта.md)
 - [исходный запрос 2026-07-21 05:39:00 MSK - Сделать служебные генераторы воспроизводимыми](../../Запросы/2026-07-21_05-39-00_MSK_сделать-служебные-генераторы-воспроизводимыми.md)
 
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-22 09:17:49 MSK -->
-<!-- content-sha256: sha256:9f7d98f5459d1206c4fec5f06e41b26c55270dfb1402b50938856cc97bb18f37 -->
+<!-- last-content-edit: 2026-07-22 14:07:15 MSK -->
+<!-- content-sha256: sha256:bc125678eecbf7d0d75ba0cd33e1cf4add190d483a4864a70cfdd5fe761f7358 -->
 <!-- FUM-MD-RECENCY:END -->

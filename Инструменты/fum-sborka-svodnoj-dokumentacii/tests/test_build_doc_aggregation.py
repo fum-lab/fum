@@ -22,6 +22,9 @@ class BuildDocAggregationTests(unittest.TestCase):
         (root / "Документация").mkdir()
         (root / "Запросы").mkdir()
         (root / "Инструменты" / "fum-sborka-svodnoj-dokumentacii").mkdir(parents=True)
+        (
+            root / "Инструменты" / "fum-sborka-svodnoj-dokumentacii" / "SKILL.md"
+        ).write_text("# Сборка сводной документации\n", encoding="utf-8")
 
         (root / "Запросы" / "2026-06-24_15-45-41_MSK.md").write_text(
             "# Исходный запрос 2026-06-24 15:45:41 MSK\n",
@@ -88,6 +91,39 @@ class BuildDocAggregationTests(unittest.TestCase):
             self.assertIn("## Карта слоёв", result)
             self.assertIn("DOC_AGGREGATION_TODO", result)
             self.assertTrue(output_path.exists())
+
+    def test_build_rejects_absolute_and_escaping_config_paths_before_write(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            config_path, output_path = self.write_fixture(root)
+            original = json.loads(config_path.read_text(encoding="utf-8"))
+            invalid_values = (
+                ("request_file", (root / original["request_file"]).as_posix()),
+                ("request_file", "../внешний-запрос.md"),
+                ("automation_file", "C:\\repo\\SKILL.md"),
+                ("source_documents", "file:///repo/источник.md"),
+            )
+
+            for field, value in invalid_values:
+                with self.subTest(field=field, value=value):
+                    config = json.loads(json.dumps(original, ensure_ascii=False))
+                    if field == "source_documents":
+                        config[field][0]["path"] = value
+                    else:
+                        config[field] = value
+                    config_path.write_text(
+                        json.dumps(config, ensure_ascii=False, indent=2),
+                        encoding="utf-8",
+                    )
+                    output_path.unlink(missing_ok=True)
+
+                    with self.assertRaises(ValueError):
+                        build_doc_aggregation.build_document(
+                            config_path,
+                            output_path,
+                            root,
+                        )
+                    self.assertFalse(output_path.exists())
 
     def test_validate_accepts_complete_document_with_all_sources(self):
         with tempfile.TemporaryDirectory() as tmp:

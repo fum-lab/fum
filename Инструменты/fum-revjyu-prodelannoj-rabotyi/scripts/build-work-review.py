@@ -13,6 +13,21 @@ from pathlib import Path
 from typing import Any
 
 
+PROJECT_FILES_SCRIPTS = (
+    Path(__file__).resolve().parents[2]
+    / "fum-proyektnyiye-fajlyi"
+    / "scripts"
+)
+if str(PROJECT_FILES_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(PROJECT_FILES_SCRIPTS))
+
+from project_files import (  # noqa: E402
+    ProjectFilesError,
+    normalized_project_relative_path,
+    safe_project_output_path,
+)
+
+
 TODO_MARKER = "WORK_REVIEW_TODO"
 REQUIRED_CONFIG_FIELDS = [
     "title",
@@ -72,8 +87,20 @@ def repo_relative(path: str | Path, repo_root: Path) -> str:
     return absolute_path(path, repo_root).relative_to(repo_root.resolve()).as_posix()
 
 
-def relative_link(target: str | Path, document_path: Path, repo_root: Path) -> str:
-    absolute_target = absolute_path(target, repo_root)
+def relative_link(
+    target: object,
+    document_path: Path,
+    repo_root: Path,
+    *,
+    field_name: str = "path",
+) -> str:
+    relative_target = normalized_project_relative_path(
+        target,
+        repo_root,
+        field_name=field_name,
+        must_exist=False,
+    )
+    absolute_target = repo_root.resolve() / relative_target
     return Path(os.path.relpath(absolute_target, document_path.parent)).as_posix()
 
 
@@ -109,12 +136,38 @@ def validate_config(config: dict[str, Any], repo_root: Path) -> list[str]:
             errors.append(f"{field} must be non-empty")
 
     request = config.get("request_file")
-    if isinstance(request, str) and not absolute_path(request, repo_root).exists():
-        errors.append(f"request file does not exist: {request}")
+    try:
+        normalized_project_relative_path(
+            request,
+            repo_root,
+            field_name="request_file",
+            must_exist=True,
+        )
+    except ProjectFilesError as error:
+        errors.append(str(error))
 
     automation = config.get("automation_file")
-    if isinstance(automation, str) and not absolute_path(automation, repo_root).exists():
-        errors.append(f"automation file does not exist: {automation}")
+    try:
+        normalized_project_relative_path(
+            automation,
+            repo_root,
+            field_name="automation_file",
+            must_exist=True,
+        )
+    except ProjectFilesError as error:
+        errors.append(str(error))
+
+    config_file = config.get("config_file")
+    if config_file is not None:
+        try:
+            normalized_project_relative_path(
+                config_file,
+                repo_root,
+                field_name="config_file",
+                must_exist=True,
+            )
+        except ProjectFilesError as error:
+            errors.append(str(error))
 
     for index, finding in enumerate(config.get("findings", []), start=1):
         if not isinstance(finding, dict):
@@ -123,6 +176,17 @@ def validate_config(config: dict[str, Any], repo_root: Path) -> list[str]:
         for field in ["priority", "status", "title", "details", "recommendation"]:
             if field not in finding:
                 errors.append(f"finding {index} missing field: {field}")
+        finding_file = finding.get("file")
+        if finding_file not in {None, ""}:
+            try:
+                normalized_project_relative_path(
+                    finding_file,
+                    repo_root,
+                    field_name=f"findings[{index}].file",
+                    must_exist=False,
+                )
+            except ProjectFilesError as error:
+                errors.append(str(error))
 
     for index, check in enumerate(config.get("checks", []), start=1):
         if not isinstance(check, dict):
@@ -293,12 +357,22 @@ def render_review(
     repo_root: Path,
     snapshot: dict[str, Any],
 ) -> str:
-    request_link = relative_link(config["request_file"], output_path, repo_root)
-    automation_link = relative_link(config["automation_file"], output_path, repo_root)
+    request_link = relative_link(
+        config["request_file"],
+        output_path,
+        repo_root,
+        field_name="request_file",
+    )
+    automation_link = relative_link(
+        config["automation_file"],
+        output_path,
+        repo_root,
+        field_name="automation_file",
+    )
     config_path = config.get("config_file")
     config_line = ""
     if isinstance(config_path, str):
-        config_line = f"- Конфигурация: [{config_path}]({relative_link(config_path, output_path, repo_root)})\n"
+        config_line = f"- Конфигурация: [{config_path}]({relative_link(config_path, output_path, repo_root, field_name='config_file')})\n"
 
     diff_check = "прошёл" if snapshot["diff_check_passed"] else "нашёл замечания"
     diff_check_details = snapshot["diff_check_output"] or "Проблем whitespace не обнаружено."
@@ -379,7 +453,7 @@ def build_review_document(config_path: Path, output_path: Path, repo_root: Path)
     snapshot = collect_git_snapshot(config, root)
     config_for_render = dict(config)
     config_for_render.setdefault("config_file", repo_relative(config_path, root))
-    output = absolute_path(output_path, root)
+    output = safe_project_output_path(output_path, root)
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(render_review(config_for_render, output, root, snapshot), encoding="utf-8")
 
@@ -397,6 +471,8 @@ def validate_review_document(
     root = repo_root.resolve()
     config = load_config(config_path)
     errors = validate_config(config, root)
+    if errors:
+        return errors
 
     document = absolute_path(document_path, root)
     if not document.exists():
@@ -416,8 +492,18 @@ def validate_review_document(
         if isinstance(value, str) and value not in text:
             errors.append(f"review document does not mention config field {field}: {value}")
 
-    request_link = relative_link(config["request_file"], document, root)
-    automation_link = relative_link(config["automation_file"], document, root)
+    request_link = relative_link(
+        config["request_file"],
+        document,
+        root,
+        field_name="request_file",
+    )
+    automation_link = relative_link(
+        config["automation_file"],
+        document,
+        root,
+        field_name="automation_file",
+    )
     for link in [request_link, automation_link]:
         if link not in text:
             errors.append(f"review document is missing local link: {link}")

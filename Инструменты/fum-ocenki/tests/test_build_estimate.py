@@ -121,6 +121,32 @@ class BuildEstimateTests(unittest.TestCase):
             )
             self.assertTrue(output_path.exists())
 
+    def test_build_rejects_nonportable_path_fields_before_write(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            config_path, output_path = self.write_fixture(root)
+            original = json.loads(config_path.read_text(encoding="utf-8"))
+            invalid_values = (
+                ("request_file", (root / original["request_file"]).as_posix()),
+                ("request_file", "../внешний-запрос.md"),
+                ("automation_file", "\\\\server\\share\\SKILL.md"),
+                ("automation_file", "$HOME/repo/SKILL.md"),
+            )
+
+            for field, value in invalid_values:
+                with self.subTest(field=field, value=value):
+                    config = dict(original)
+                    config[field] = value
+                    config_path.write_text(
+                        json.dumps(config, ensure_ascii=False, indent=2),
+                        encoding="utf-8",
+                    )
+                    output_path.unlink(missing_ok=True)
+
+                    with self.assertRaises(ValueError):
+                        build_estimate.build_document(config_path, output_path, root)
+                    self.assertFalse(output_path.exists())
+
     def test_validate_accepts_complete_estimate(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

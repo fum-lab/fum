@@ -10,7 +10,7 @@ import re
 import subprocess
 import sys
 from dataclasses import dataclass
-from pathlib import Path
+from pathlib import Path, PurePosixPath, PureWindowsPath
 from urllib.parse import unquote
 
 
@@ -589,7 +589,24 @@ def strip_link_title(destination: str) -> str:
 
 def is_external_link(destination: str) -> bool:
     value = destination.strip()
+    if is_absolute_local_markdown_link(value):
+        return False
     return bool(re.match(r"^[A-Za-z][A-Za-z0-9+.-]*:", value)) or value.startswith("//")
+
+
+def is_absolute_local_markdown_link(destination: str) -> bool:
+    """Recognize local absolute forms before URL classification."""
+
+    value = unquote(destination.strip())
+    if not value:
+        return False
+    path_part = value.split("#", 1)[0].split("?", 1)[0]
+    if path_part.lower().startswith("file:"):
+        return True
+    windows_path = PureWindowsPath(path_part)
+    if windows_path.drive or windows_path.is_absolute():
+        return True
+    return PurePosixPath(path_part).is_absolute() and not path_part.startswith("//")
 
 
 def iter_markdown_links(path: Path) -> list[MarkdownLink]:
@@ -616,7 +633,7 @@ def iter_markdown_links(path: Path) -> list[MarkdownLink]:
 
 def resolve_markdown_target(link: MarkdownLink, repo_root: Path) -> Path | None:
     target = unquote(link.target.strip())
-    if not target or is_external_link(target):
+    if not target or is_external_link(target) or is_absolute_local_markdown_link(target):
         return None
 
     path_part = target.split("#", 1)[0].split("?", 1)[0]
@@ -669,14 +686,28 @@ def validate_markdown_links(paths: set[Path], repo_root: Path) -> list[str]:
         if not path.exists() or path.suffix.lower() != ".md":
             continue
         for link in iter_markdown_links(path):
+            source_rel = repo_relative(link.source, repo_root)
+            if is_absolute_local_markdown_link(link.target):
+                errors.append(
+                    "absolute local Markdown link is forbidden in "
+                    f"{source_rel}:{link.line}"
+                )
+                continue
             target = resolve_markdown_target(link, repo_root)
             if target is None:
+                continue
+            try:
+                target.relative_to(repo_root.resolve())
+            except ValueError:
+                errors.append(
+                    "local Markdown link escapes the repository in "
+                    f"{source_rel}:{link.line}"
+                )
                 continue
             actual_target = None
             if not is_structurally_excluded_path(target, repo_root):
                 actual_target = actual_case_path(target, repo_root)
             if actual_target is None:
-                source_rel = repo_relative(link.source, repo_root)
                 errors.append(
                     f"broken Markdown link in {source_rel}:{link.line}: {link.target}"
                 )
@@ -689,7 +720,6 @@ def validate_markdown_links(paths: set[Path], repo_root: Path) -> list[str]:
                 continue
 
             if target_rel != actual_rel:
-                source_rel = repo_relative(link.source, repo_root)
                 errors.append(
                     f"Markdown link case mismatch in {source_rel}:{link.line}: "
                     f"{link.target} points to {actual_rel}"

@@ -12,6 +12,21 @@ from pathlib import Path
 from typing import Any
 
 
+PROJECT_FILES_SCRIPTS = (
+    Path(__file__).resolve().parents[2]
+    / "fum-proyektnyiye-fajlyi"
+    / "scripts"
+)
+if str(PROJECT_FILES_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(PROJECT_FILES_SCRIPTS))
+
+from project_files import (  # noqa: E402
+    ProjectFilesError,
+    normalized_project_relative_path,
+    safe_project_output_path,
+)
+
+
 TODO_MARKER = "DOC_AGGREGATION_TODO"
 REQUIRED_HEADINGS = [
     "Паспорт сводной статьи",
@@ -49,8 +64,20 @@ def absolute_path(path: str | Path, repo_root: Path) -> Path:
     return (repo_root / value).resolve()
 
 
-def relative_link(target: str | Path, document_path: Path, repo_root: Path) -> str:
-    absolute_target = absolute_path(target, repo_root)
+def relative_link(
+    target: object,
+    document_path: Path,
+    repo_root: Path,
+    *,
+    field_name: str = "path",
+) -> str:
+    relative_target = normalized_project_relative_path(
+        target,
+        repo_root,
+        field_name=field_name,
+        must_exist=False,
+    )
+    absolute_target = repo_root.resolve() / relative_target
     return Path(os.path.relpath(absolute_target, document_path.parent)).as_posix()
 
 
@@ -94,7 +121,13 @@ def source_title(source: dict[str, Any], repo_root: Path) -> str:
     configured = source.get("title")
     if isinstance(configured, str) and configured.strip():
         return configured.strip()
-    path = absolute_path(source["path"], repo_root)
+    relative = normalized_project_relative_path(
+        source["path"],
+        repo_root,
+        field_name="source_documents[].path",
+        must_exist=True,
+    )
+    path = repo_root.resolve() / relative
     return first_heading(path) or Path(source["path"]).stem
 
 
@@ -112,12 +145,40 @@ def validate_config(config: dict[str, Any], repo_root: Path) -> list[str]:
             if not isinstance(source, dict) or not source.get("path"):
                 errors.append(f"source_documents[{index}] is missing path")
                 continue
-            if not absolute_path(source["path"], repo_root).exists():
-                errors.append(f"source does not exist: {source['path']}")
+            try:
+                normalized_project_relative_path(
+                    source["path"],
+                    repo_root,
+                    field_name=f"source_documents[{index}].path",
+                    must_exist=True,
+                )
+            except ProjectFilesError as error:
+                errors.append(str(error))
 
     request = config.get("request_file")
-    if isinstance(request, str) and not absolute_path(request, repo_root).exists():
-        errors.append(f"request file does not exist: {request}")
+    try:
+        normalized_project_relative_path(
+            request,
+            repo_root,
+            field_name="request_file",
+            must_exist=True,
+        )
+    except ProjectFilesError as error:
+        errors.append(str(error))
+
+    automation = config.get(
+        "automation_file",
+        "Инструменты/fum-sborka-svodnoj-dokumentacii/SKILL.md",
+    )
+    try:
+        normalized_project_relative_path(
+            automation,
+            repo_root,
+            field_name="automation_file",
+            must_exist=True,
+        )
+    except ProjectFilesError as error:
+        errors.append(str(error))
     return errors
 
 
@@ -136,7 +197,7 @@ def render_document(config: dict[str, Any], output_path: Path, repo_root: Path) 
         "",
         "Источники требований:",
         "",
-        f"- [{request_label(request_file)}]({relative_link(request_file, output_path, repo_root)})",
+        f"- [{request_label(request_file)}]({relative_link(request_file, output_path, repo_root, field_name='request_file')})",
         "",
         "Опорные документы:",
         "",
@@ -144,7 +205,12 @@ def render_document(config: dict[str, Any], output_path: Path, repo_root: Path) 
 
     for source in config["source_documents"]:
         role = source.get("role", "опорный источник")
-        link = relative_link(source["path"], output_path, repo_root)
+        link = relative_link(
+            source["path"],
+            output_path,
+            repo_root,
+            field_name="source_documents[].path",
+        )
         lines.append(f"- [{source_title(source, repo_root)}]({link}) - {role}")
 
     lines.extend(
@@ -154,7 +220,7 @@ def render_document(config: dict[str, Any], output_path: Path, repo_root: Path) 
             "",
             f"- Общая тема: {topic}",
             f"- Назначение: {purpose}",
-            f"- Автоматизация: [fum-sborka-svodnoj-dokumentacii]({relative_link(automation_file, output_path, repo_root)})",
+            f"- Автоматизация: [fum-sborka-svodnoj-dokumentacii]({relative_link(automation_file, output_path, repo_root, field_name='automation_file')})",
             "- Статус: чёрновой каркас для смысловой сборки агентом.",
             "- Принцип: сводная статья не заменяет опорные документы; она показывает общий слой и оставляет детальные требования в исходных материалах.",
             "",
@@ -171,7 +237,12 @@ def render_document(config: dict[str, Any], output_path: Path, repo_root: Path) 
 
     for source in config["source_documents"]:
         role = source.get("role", "опорный источник")
-        link = relative_link(source["path"], output_path, repo_root)
+        link = relative_link(
+            source["path"],
+            output_path,
+            repo_root,
+            field_name="source_documents[].path",
+        )
         lines.append(f"| [{source_title(source, repo_root)}]({link}) | {role} |")
 
     sections = config.get("sections", [])
@@ -202,7 +273,7 @@ def build_document(
     repo_root: Path | None = None,
 ) -> str:
     root = (repo_root or Path.cwd()).resolve()
-    output = absolute_path(output_path, root)
+    output = safe_project_output_path(output_path, root)
     config = load_config(config_path)
     errors = validate_config(config, root)
     if errors:

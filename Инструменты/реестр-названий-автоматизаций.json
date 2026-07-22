@@ -131,6 +131,11 @@
       "slug": "fum-kompleksnaya-proverka-repozitoriya"
     },
     {
+      "source": "проверка машинно-локальных путей",
+      "transliteration": "proverka mashinno-lokaljnyikh putej",
+      "slug": "fum-proverka-mashinno-lokaljnyikh-putej"
+    },
+    {
       "source": "ревью проделанной работы",
       "transliteration": "revjyu prodelannoj rabotyi",
       "slug": "fum-revjyu-prodelannoj-rabotyi"

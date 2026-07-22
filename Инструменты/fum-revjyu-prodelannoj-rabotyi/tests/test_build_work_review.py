@@ -122,6 +122,52 @@ class BuildWorkReviewTests(unittest.TestCase):
             self.assertIn("git diff --check HEAD~1..HEAD", text)
             self.assertIn("../Запросы/2026-07-01_17-03-14_MSK.md", text)
 
+    def test_build_rejects_nonportable_serialized_path_fields_before_write(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request, automation = self.write_git_fixture(root)
+            config_path = self.write_config(root, request, automation)
+            output = root / "Ревью" / "пример-ревью.md"
+            original = json.loads(config_path.read_text(encoding="utf-8"))
+            invalid_configs = []
+            for field, value in (
+                ("request_file", request.as_posix()),
+                ("automation_file", "../внешний-SKILL.md"),
+                ("config_file", "file:///repo/review.json"),
+            ):
+                config = dict(original)
+                config[field] = value
+                invalid_configs.append((field, config))
+            finding_config = dict(original)
+            finding_config["findings"] = [
+                {
+                    "priority": "P2",
+                    "status": "подтверждено",
+                    "file": "C:\\repo\\secret.txt",
+                    "line": 1,
+                    "title": "Непереносимый путь",
+                    "details": "Проверочная находка.",
+                    "recommendation": "Исправить путь.",
+                }
+            ]
+            invalid_configs.append(("findings[0].file", finding_config))
+
+            for field, config in invalid_configs:
+                with self.subTest(field=field):
+                    config_path.write_text(
+                        json.dumps(config, ensure_ascii=False, indent=2),
+                        encoding="utf-8",
+                    )
+                    output.unlink(missing_ok=True)
+
+                    with self.assertRaises(ValueError):
+                        build_work_review.build_review_document(
+                            config_path,
+                            output,
+                            root,
+                        )
+                    self.assertFalse(output.exists())
+
     def test_complete_review_document_validates(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

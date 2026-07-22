@@ -5,13 +5,29 @@ import Testing
 
 @Suite("Расположение локальных данных прототипа")
 struct RepositoryLocationTests {
-  @Test("полный путь исходника приводит к проверенному корню репозитория")
-  func locatesRepositoryFromSourceFilePath() throws {
+  @Test("отсутствующий runtime-корень репозитория отклоняется")
+  func rejectsMissingRuntimeRepositoryRoot() {
+    #expect(throws: PrototypeRepositoryLocationError.repositoryRootNotConfigured) {
+      try PrototypeRepositoryLocator.locate(environment: [:])
+    }
+  }
+
+  @Test("относительный runtime-корень репозитория отклоняется")
+  func rejectsRelativeRuntimeRepositoryRoot() {
+    #expect(throws: PrototypeRepositoryLocationError.repositoryRootMustBeAbsolute) {
+      try PrototypeRepositoryLocator.locate(
+        environment: [PrototypeRepositoryLocator.environmentKey: "relative/checkout"]
+      )
+    }
+  }
+
+  @Test("проверенный runtime-корень приводит к каталогу данных прототипа")
+  func locatesRepositoryFromRuntimeEnvironment() throws {
     let fixture = try RepositoryFixture()
     defer { fixture.remove() }
 
     let location = try PrototypeRepositoryLocator.locate(
-      sourceFilePath: fixture.sourceFile.path
+      environment: fixture.environment
     )
 
     #expect(location.repositoryRoot == fixture.repositoryRoot)
@@ -21,58 +37,86 @@ struct RepositoryLocationTests {
         == fixture.prototypeRoot.appendingPathComponent("Локальные-данные-прогонов"))
   }
 
-  @Test("каталог без маркеров репозитория отклоняется")
-  func rejectsUnverifiedPath() throws {
-    let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
-    defer { try? FileManager.default.removeItem(at: root) }
-    let source = root.appendingPathComponent("Sources/FUMInputMac/RepositoryLocation.swift")
-    try FileManager.default.createDirectory(
-      at: source.deletingLastPathComponent(),
-      withIntermediateDirectories: true
+  @Test("старый runtime-корень после переноса checkout отклоняется")
+  func rejectsOldRuntimeRootAfterCheckoutMoves() throws {
+    let fixture = try RepositoryFixture()
+    defer { fixture.remove() }
+    let oldEnvironment = fixture.environment
+    _ = try fixture.moveCheckout()
+
+    #expect(throws: PrototypeRepositoryLocationError.repositoryNotFound) {
+      try PrototypeRepositoryLocator.locate(environment: oldEnvironment)
+    }
+  }
+
+  @Test("перенесённый checkout принимается по новому runtime-корню")
+  func acceptsNewRuntimeRootAfterCheckoutMoves() throws {
+    let fixture = try RepositoryFixture()
+    defer { fixture.remove() }
+    let movedRoot = try fixture.moveCheckout()
+
+    let location = try PrototypeRepositoryLocator.locate(
+      environment: [PrototypeRepositoryLocator.environmentKey: movedRoot.path]
     )
 
-    #expect(throws: PrototypeRepositoryLocationError.self) {
-      try PrototypeRepositoryLocator.locate(sourceFilePath: source.path)
+    #expect(location.repositoryRoot == movedRoot)
+    #expect(
+      location.captureRoot
+        == movedRoot
+        .appendingPathComponent("Прототипы")
+        .appendingPathComponent("физические-состояния-клавиш")
+        .appendingPathComponent("Локальные-данные-прогонов"))
+  }
+
+  @Test("каталог без маркеров репозитория отклоняется")
+  func rejectsUnverifiedPath() throws {
+    let container = FileManager.default.temporaryDirectory.appendingPathComponent(
+      UUID().uuidString)
+    let root = container.appendingPathComponent("checkout")
+    defer { try? FileManager.default.removeItem(at: container) }
+    try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+
+    #expect(throws: PrototypeRepositoryLocationError.repositoryNotFound) {
+      try PrototypeRepositoryLocator.locate(
+        environment: [PrototypeRepositoryLocator.environmentKey: root.path]
+      )
     }
   }
 
   @Test("символьная ссылка каталога прогонов за пределы репозитория отклоняется")
   func rejectsSymbolicLinkCaptureRoot() throws {
     let fixture = try RepositoryFixture()
-    let outside = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
-    defer {
-      fixture.remove()
-      try? FileManager.default.removeItem(at: outside)
-    }
+    defer { fixture.remove() }
+    let outside = fixture.container.appendingPathComponent("outside")
     try FileManager.default.createDirectory(at: outside, withIntermediateDirectories: true)
     let captureRoot = fixture.prototypeRoot.appendingPathComponent("Локальные-данные-прогонов")
     try FileManager.default.createSymbolicLink(at: captureRoot, withDestinationURL: outside)
 
-    #expect(throws: PrototypeRepositoryLocationError.self) {
-      try PrototypeRepositoryLocator.locate(sourceFilePath: fixture.sourceFile.path)
+    #expect(throws: PrototypeRepositoryLocationError.capturePathIsSymbolicLink) {
+      try PrototypeRepositoryLocator.locate(environment: fixture.environment)
     }
   }
 }
 
-private struct RepositoryFixture {
-  let repositoryRoot: URL
-  let prototypeRoot: URL
-  let sourceFile: URL
+private final class RepositoryFixture {
+  let container: URL
+  private(set) var repositoryRoot: URL
 
-  init() throws {
-    repositoryRoot = FileManager.default.temporaryDirectory.appendingPathComponent(
-      UUID().uuidString)
-    prototypeRoot =
-      repositoryRoot
+  var prototypeRoot: URL {
+    repositoryRoot
       .appendingPathComponent("Прототипы")
       .appendingPathComponent("физические-состояния-клавиш")
-    sourceFile =
-      prototypeRoot
-      .appendingPathComponent("Sources")
-      .appendingPathComponent("FUMInputMac")
-      .appendingPathComponent("RepositoryLocation.swift")
+  }
+
+  var environment: [String: String] {
+    [PrototypeRepositoryLocator.environmentKey: repositoryRoot.path]
+  }
+
+  init() throws {
+    container = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    repositoryRoot = container.appendingPathComponent("checkout")
     try FileManager.default.createDirectory(
-      at: sourceFile.deletingLastPathComponent(),
+      at: prototypeRoot,
       withIntermediateDirectories: true
     )
     FileManager.default.createFile(
@@ -89,7 +133,14 @@ private struct RepositoryFixture {
     )
   }
 
+  func moveCheckout() throws -> URL {
+    let movedRoot = container.appendingPathComponent("moved-checkout")
+    try FileManager.default.moveItem(at: repositoryRoot, to: movedRoot)
+    repositoryRoot = movedRoot
+    return movedRoot
+  }
+
   func remove() {
-    try? FileManager.default.removeItem(at: repositoryRoot)
+    try? FileManager.default.removeItem(at: container)
   }
 }

@@ -53,7 +53,7 @@ final class CaptureViewModel: ObservableObject {
       .init(id: .nsEvent, title: "NSEvent", isSelected: true),
     ]
     do {
-      location = try PrototypeRepositoryLocator.locateFromCompiledSource()
+      location = try PrototypeRepositoryLocator.locate()
     } catch {
       location = nil
       errorMessage = String(describing: error)

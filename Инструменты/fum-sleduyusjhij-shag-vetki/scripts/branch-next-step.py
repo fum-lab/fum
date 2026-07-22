@@ -66,10 +66,121 @@ UNCHANGED_REF_RETRY_ATTEMPTS = 8
 REF_RETRY_BASE_SECONDS = 0.005
 REF_RETRY_MAX_SECONDS = 0.1
 GIT_COMMAND_TIMEOUT_SECONDS = 20.0
+NON_FILE_URI_RE = re.compile(
+    r"(?i)(?<![\w+.-])"
+    r"(?P<scheme>[a-z][a-z0-9+.-]{1,})://\S+"
+)
+HOME_VARIABLE_NAME_PATTERN = (
+    r"(?:HOME|USERPROFILE|HOMEDRIVE|HOMEPATH|[A-Z][A-Z0-9_]*_HOME)"
+)
+FORBIDDEN_CHILD_PATH_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
+    (
+        "file_uri",
+        re.compile(r"(?i)(?<![\w+.-])file://"),
+    ),
+    (
+        "windows_drive",
+        re.compile(r"(?i)(?<![\w./\\:+-])[a-z]:[\\/]"),
+    ),
+    (
+        "windows_unc",
+        re.compile(r"(?<![\w:/\\])(?:\\\\|//)[^\\/\s]+[\\/]"),
+    ),
+    (
+        "home_variable",
+        re.compile(
+            rf"(?ix)(?:"
+            rf"\$(?:{HOME_VARIABLE_NAME_PATTERN})(?![A-Z0-9_])"
+            rf"|\$\{{(?:{HOME_VARIABLE_NAME_PATTERN})(?::-[^}}]*)?\}}"
+            rf"|\$env:(?:{HOME_VARIABLE_NAME_PATTERN})(?![A-Z0-9_])"
+            rf"|%(?:{HOME_VARIABLE_NAME_PATTERN})%"
+            rf"|\$\((?:{HOME_VARIABLE_NAME_PATTERN})\)"
+            rf")"
+        ),
+    ),
+    (
+        "home_expansion",
+        re.compile(
+            r"(?<![\w./\\~-])"
+            r"~(?:[A-Za-z0-9._-]+)?(?=$|[\\/])"
+        ),
+    ),
+    (
+        "posix_absolute",
+        re.compile(r"(?<![\w.:/\\~])/(?!/)"),
+    ),
+)
 
 
 class ContractError(RuntimeError):
     """Raised when the branch-next-step contract cannot be proven."""
+
+
+def non_file_uri_spans(value: str) -> tuple[tuple[int, int], ...]:
+    return tuple(
+        (match.start(), match.end())
+        for match in NON_FILE_URI_RE.finditer(value)
+        if match.group("scheme").casefold() != "file"
+    )
+
+
+def find_forbidden_local_path(value: str) -> str | None:
+    uri_spans = non_file_uri_spans(value)
+    findings: list[tuple[int, int, str]] = []
+    for category_order, (category, pattern) in enumerate(
+        FORBIDDEN_CHILD_PATH_PATTERNS
+    ):
+        for match in pattern.finditer(value):
+            if any(
+                start <= match.start() < end
+                for start, end in uri_spans
+            ):
+                continue
+            findings.append((match.start(), category_order, category))
+    if not findings:
+        return None
+    return min(findings)[2]
+
+
+def child_prompt_text_values(
+    value: object,
+    field_path: str = "payload",
+) -> tuple[tuple[str, str], ...]:
+    if isinstance(value, str):
+        return ((field_path, value),)
+    if isinstance(value, dict):
+        values: list[tuple[str, str]] = []
+        for key in sorted(value, key=str):
+            values.extend(
+                child_prompt_text_values(
+                    value[key],
+                    f"{field_path}.{key}",
+                )
+            )
+        return tuple(values)
+    if isinstance(value, (list, tuple)):
+        values = []
+        for index, item in enumerate(value):
+            values.extend(
+                child_prompt_text_values(
+                    item,
+                    f"{field_path}[{index}]",
+                )
+            )
+        return tuple(values)
+    return ()
+
+
+def validate_child_prompt_payload(payload: dict[str, object]) -> None:
+    for field_path, value in child_prompt_text_values(payload):
+        category = find_forbidden_local_path(value)
+        if category is None:
+            continue
+        raise ContractError(
+            "Динамическое поле дочернего prompt "
+            f"{field_path} содержит запрещённую форму "
+            f"локального пути ({category})."
+        )
 
 
 @dataclass(frozen=True)
@@ -158,7 +269,9 @@ class BranchRecord:
                 f"{self.record_path}: допускается не более одного "
                 "кандидата status=ready."
             )
-        return ready[0] if ready else None
+        if not ready:
+            return None
+        return ready[0]
 
     def summary_payload(self) -> dict[str, object]:
         return {
@@ -328,6 +441,13 @@ def validate_project_path(
         raise ContractError(f"{record_path}: project_path должен быть непустой строкой.")
     if "\x00" in raw_project_path:
         raise ContractError(f"{record_path}: project_path содержит нулевой байт.")
+    forbidden_category = find_forbidden_local_path(raw_project_path)
+    if forbidden_category is not None:
+        raise ContractError(
+            f"{record_path}: project_path содержит запрещённую "
+            "форму локального пути "
+            f"({forbidden_category})."
+        )
     path = Path(raw_project_path)
     if (
         path.is_absolute()
@@ -1348,6 +1468,9 @@ def claim_step(
         expected_branch_ref,
         expected_step_id,
     )
+    validate_child_prompt_payload(
+        {"state": "ready", **ready_candidate.payload()}
+    )
     reference = claim_ref(repo_root, ready_candidate.branch_ref)
     existing, old_oid = load_claim(
         repo_root,
@@ -1529,6 +1652,7 @@ def main() -> int:
             )
             if ready_candidate is not None:
                 payload = {"state": "ready", **ready_candidate.payload()}
+                validate_child_prompt_payload(payload)
                 exit_code = 0
             else:
                 payload = {"state": "not_ready", **record.summary_payload()}

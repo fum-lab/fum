@@ -669,6 +669,62 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                 errors,
             )
 
+    def test_rejects_absolute_and_escaping_local_markdown_links(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            docs = root / "Документация"
+            docs.mkdir()
+            outside = root.parent / f"{root.name}-outside.md"
+            outside.write_text("# Outside\n", encoding="utf-8")
+            self.addCleanup(outside.unlink)
+            source = docs / "индекс.md"
+            targets = (
+                outside.as_posix(),
+                f"../../{outside.name}",
+                f"file://{outside.as_posix()}",
+                "C:\\repo\\outside.md",
+                "\\\\server\\share\\outside.md",
+            )
+
+            for target in targets:
+                with self.subTest(target=target):
+                    source.write_text(
+                        f"# Индекс\n\n[внешняя цель](<{target}>)\n",
+                        encoding="utf-8",
+                    )
+                    errors = check_session_coherence.validate_markdown_links(
+                        {source},
+                        root,
+                    )
+                    self.assertTrue(
+                        any(
+                            "local Markdown link" in error
+                            and "Документация/индекс.md:3" in error
+                            for error in errors
+                        ),
+                        errors,
+                    )
+
+    def test_external_url_and_relative_link_inside_repository_remain_valid(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            docs = root / "Документация" / "вложенная"
+            docs.mkdir(parents=True)
+            target = root / "README.md"
+            target.write_text("# README\n", encoding="utf-8")
+            source = docs / "индекс.md"
+            source.write_text(
+                "# Индекс\n\n"
+                "[репозиторий](../../README.md)\n"
+                "[сайт](https://example.invalid/path)\n",
+                encoding="utf-8",
+            )
+
+            self.assertEqual(
+                check_session_coherence.validate_markdown_links({source}, root),
+                [],
+            )
+
     def test_reports_case_mismatched_markdown_link_anywhere_in_repo(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

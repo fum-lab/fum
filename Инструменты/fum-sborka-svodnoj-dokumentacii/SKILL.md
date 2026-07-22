@@ -50,7 +50,7 @@ description: Создавать сводные статьи документац
 }
 ```
 
-Минимальный набор источников - две опорные статьи. Пути указываются относительно корня репозитория.
+Минимальный набор источников - две опорные статьи. `request_file`, `automation_file` и каждый `source_documents[].path` задаются нормализованными POSIX-путями от корня репозитория. Абсолютные, выходящие из репозитория, URI-, home-, Windows/UNC- и символические формы отклоняются до записи каркаса.
 
 ## Процедура
 
@@ -61,7 +61,7 @@ description: Создавать сводные статьи документац
 
 ```bash
 python3 Инструменты/fum-sborka-svodnoj-dokumentacii/scripts/build-doc-aggregation.py build \
-  --config /path/to/config.json \
+  --config Документация/Автоматизации/сводная-статья.json \
   --output Документация/<номер>-<тема>.md
 ```
 
@@ -71,7 +71,7 @@ python3 Инструменты/fum-sborka-svodnoj-dokumentacii/scripts/build-doc
 
 ```bash
 python3 Инструменты/fum-sborka-svodnoj-dokumentacii/scripts/build-doc-aggregation.py validate \
-  --config /path/to/config.json \
+  --config Документация/Автоматизации/сводная-статья.json \
   --document Документация/<номер>-<тема>.md \
   --complete
 ```
@@ -100,7 +100,11 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты
 
 Скрипт строит проверяемый каркас и контролирует структуру, но не подменяет смысловой синтез. Агент отвечает за чтение источников, выбор тезисов, устранение противоречий, ссылки на глоссарий и фиксацию открытых вопросов, если из источников следует неоднозначность.
 
+## Источники требований
+
+- [исходный запрос 2026-07-22 13:39:29 MSK — Устранить машинно-локальные пути](../../Запросы/2026-07-22_13-39-29_MSK_устранить-машинно-локальные-пути.md)
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-22 09:17:49 MSK -->
-<!-- content-sha256: sha256:b2ebf1c357ef29fc9053f43437acd443de4f901b66f6d6196324469bd4f54cf3 -->
+<!-- last-content-edit: 2026-07-22 14:07:15 MSK -->
+<!-- content-sha256: sha256:da44124ea80cbe2288a6c469fda4eefbd2b116ecae4420e6ff1a6d49372ce3a4 -->
 <!-- FUM-MD-RECENCY:END -->

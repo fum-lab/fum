@@ -4,9 +4,10 @@
 from __future__ import annotations
 
 import os
+import re
 import stat
 import subprocess
-from pathlib import Path
+from pathlib import Path, PurePosixPath, PureWindowsPath
 
 
 STRUCTURAL_EXCLUDED_DIRECTORY_NAMES = frozenset(
@@ -32,6 +33,18 @@ STRUCTURAL_EXCLUDED_PATH_PREFIXES = (
 
 class ProjectFilesError(RuntimeError):
     """Raised when a Git-backed project inventory cannot be proven."""
+
+
+HOME_PATH_PREFIX_RE = re.compile(
+    r"(?i)^(?:"
+    r"~[^/\\]*(?:[/\\]|$)|"
+    r"\$(?:HOME|USERPROFILE|HOMEDRIVE|HOMEPATH)(?:[/\\]|$)|"
+    r"\$\{(?:HOME|USERPROFILE|HOMEDRIVE|HOMEPATH)\}(?:[/\\]|$)|"
+    r"%(?:HOME|USERPROFILE|HOMEDRIVE|HOMEPATH)%(?:[/\\]|$)|"
+    r"\$env:(?:HOME|USERPROFILE|HOMEDRIVE|HOMEPATH)(?:[/\\]|$)"
+    r")"
+)
+URI_PREFIX_RE = re.compile(r"^[A-Za-z][A-Za-z0-9+.-]*://")
 
 
 def is_excluded_directory_name(name: str) -> bool:
@@ -84,6 +97,82 @@ def path_uses_symlink_component(path: str | Path, repo_root: str | Path) -> bool
     return False
 
 
+def normalized_project_relative_path(
+    value: object,
+    repo_root: str | Path,
+    *,
+    field_name: str = "path",
+    must_exist: bool = False,
+) -> str:
+    """Return an exact portable repository-relative path or fail closed."""
+
+    if not isinstance(value, str) or not value or value != value.strip():
+        raise ProjectFilesError(
+            f"{field_name}: expected a non-empty path without edge whitespace"
+        )
+    if "\x00" in value:
+        raise ProjectFilesError(f"{field_name}: NUL is forbidden")
+    if URI_PREFIX_RE.match(value):
+        raise ProjectFilesError(f"{field_name}: URI is not a project path")
+    if HOME_PATH_PREFIX_RE.match(value):
+        raise ProjectFilesError(
+            f"{field_name}: home-relative and home-variable paths are forbidden"
+        )
+    if "\\" in value:
+        raise ProjectFilesError(
+            f"{field_name}: backslashes are not portable project separators"
+        )
+
+    windows_path = PureWindowsPath(value)
+    if windows_path.drive or windows_path.is_absolute():
+        raise ProjectFilesError(
+            f"{field_name}: Windows drive and UNC paths are forbidden"
+        )
+
+    relative = PurePosixPath(value)
+    if relative.is_absolute():
+        raise ProjectFilesError(f"{field_name}: absolute paths are forbidden")
+    if value != relative.as_posix() or any(
+        part in {"", ".", ".."} for part in relative.parts
+    ):
+        raise ProjectFilesError(
+            f"{field_name}: path must be normalized and stay inside the repository"
+        )
+    if not relative.parts:
+        raise ProjectFilesError(f"{field_name}: empty project path is forbidden")
+    if is_structurally_excluded(relative):
+        raise ProjectFilesError(
+            f"{field_name}: structurally excluded project path is forbidden"
+        )
+
+    root = Path(repo_root).resolve()
+    candidate = root.joinpath(*relative.parts)
+    if path_uses_symlink_component(candidate, root):
+        raise ProjectFilesError(f"{field_name}: symlink path component is forbidden")
+    try:
+        resolved = candidate.resolve(strict=False)
+        resolved.relative_to(root)
+    except (OSError, ValueError) as exc:
+        raise ProjectFilesError(
+            f"{field_name}: path escapes the repository"
+        ) from exc
+
+    try:
+        mode = candidate.lstat().st_mode
+    except FileNotFoundError:
+        if must_exist:
+            raise ProjectFilesError(f"{field_name}: project file does not exist")
+    except OSError as exc:
+        raise ProjectFilesError(
+            f"{field_name}: cannot inspect project path"
+        ) from exc
+    else:
+        if not stat.S_ISREG(mode):
+            raise ProjectFilesError(f"{field_name}: project path is not a regular file")
+
+    return relative.as_posix()
+
+
 def is_structurally_excluded_path(path: str | Path, repo_root: str | Path) -> bool:
     root = Path(repo_root).resolve()
     candidate = _lexical_absolute(path, root)
@@ -101,12 +190,19 @@ def is_structurally_excluded_path(path: str | Path, repo_root: str | Path) -> bo
 
 
 def safe_project_output_path(path: str | Path, repo_root: str | Path) -> Path:
-    root = Path(repo_root).resolve()
-    candidate = _lexical_absolute(path, root)
+    lexical_root = Path(os.path.abspath(os.fspath(repo_root)))
+    root = lexical_root.resolve()
+    lexical_candidate = _lexical_absolute(path, lexical_root)
     try:
-        lexical_relative = candidate.relative_to(root)
-    except ValueError as exc:
-        raise ProjectFilesError(f"project output path escapes repository: {candidate}") from exc
+        lexical_relative = lexical_candidate.relative_to(lexical_root)
+    except ValueError:
+        try:
+            lexical_relative = lexical_candidate.resolve(strict=False).relative_to(root)
+        except (OSError, ValueError) as exc:
+            raise ProjectFilesError(
+                f"project output path escapes repository: {lexical_candidate}"
+            ) from exc
+    candidate = root / lexical_relative
 
     if is_structurally_excluded(lexical_relative):
         raise ProjectFilesError(
