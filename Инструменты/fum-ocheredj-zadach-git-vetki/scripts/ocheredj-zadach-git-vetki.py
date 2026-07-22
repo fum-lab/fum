@@ -38,6 +38,7 @@ EXIT_CAS = 16
 EXIT_NOT_REGISTERED = 17
 EXIT_NOTHING_STAGED = 18
 EXIT_CLI = 64
+EXIT_INTERRUPTED = 130
 
 
 @dataclass(frozen=True)
@@ -826,6 +827,20 @@ def wait_queue(
         time.sleep(min(WAIT_POLL_SECONDS, remaining))
 
 
+def wait_until_actionable_queue(
+    context: QueueContext,
+    task_id: str,
+) -> tuple[int, dict[str, object]]:
+    while True:
+        code, payload = wait_queue(
+            context,
+            task_id,
+            DEFAULT_WAIT_TIMEOUT_SECONDS,
+        )
+        if code != EXIT_WAITING:
+            return code, payload
+
+
 def acknowledge_head(
     context: QueueContext,
     task_id: str,
@@ -1370,6 +1385,14 @@ def build_parser() -> argparse.ArgumentParser:
         help="Предел одного read-only ожидания; по умолчанию 300 секунд.",
     )
 
+    wait_until_actionable = subparsers.add_parser(
+        "wait-until-actionable",
+        help="Бесшумно ждать до действенного состояния без промежуточного waiting.",
+        allow_abbrev=False,
+    )
+    add_common(wait_until_actionable)
+    wait_until_actionable.add_argument("--task-id", required=True)
+
     ack = subparsers.add_parser(
         "ack-head",
         help="Подтвердить перечитанный HEAD после коммита предшественника.",
@@ -1449,6 +1472,8 @@ def main(argv: list[str] | None = None) -> int:
             code, payload = join_queue(context, args.task_id)
         elif args.command == "wait":
             code, payload = wait_queue(context, args.task_id, args.timeout_seconds)
+        elif args.command == "wait-until-actionable":
+            code, payload = wait_until_actionable_queue(context, args.task_id)
         elif args.command == "ack-head":
             code, payload = acknowledge_head(context, args.task_id, args.head)
         elif args.command == "cancel":
@@ -1472,6 +1497,8 @@ def main(argv: list[str] | None = None) -> int:
             )
         else:  # pragma: no cover - argparse makes this unreachable.
             raise AssertionError(args.command)
+    except KeyboardInterrupt:
+        return EXIT_INTERRUPTED
     except QueueError as error:
         emit(error_payload(error))
         return error.exit_code

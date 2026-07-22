@@ -1,4 +1,5 @@
 import importlib.util
+import io
 import json
 import os
 import subprocess
@@ -383,6 +384,71 @@ class QueueContractTests(GitQueueFixture):
             "status", "--repo-root", str(self.repo), "--json"
         ))
         self.assertEqual(after["queue_oid"], before["queue_oid"])
+
+    def test_wait_until_actionable_stays_silent_and_read_only_until_reload(self) -> None:
+        _, owner = self.join("task-a")
+        self.join("task-b")
+        before = self.payload(self.run_queue(
+            "status", "--repo-root", str(self.repo), "--json"
+        ))
+
+        with ThreadPoolExecutor(max_workers=1) as executor:
+            waiting = executor.submit(
+                self.run_queue,
+                "wait-until-actionable",
+                "--repo-root",
+                str(self.repo),
+                "--task-id",
+                "task-b",
+                "--json",
+                timeout=5,
+            )
+            time.sleep(0.15)
+
+            self.assertFalse(waiting.done())
+            blocked = self.payload(self.run_queue(
+                "status", "--repo-root", str(self.repo), "--json"
+            ))
+            self.assertEqual(blocked["queue_oid"], before["queue_oid"])
+
+            self.stage_change("task a\n")
+            committed = self.commit("task-a", str(owner["generation"]))
+            self.assertEqual(committed.returncode, 0, committed.stderr)
+            committed_payload = self.payload(committed)
+            result = waiting.result(timeout=5)
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual(self.payload(result)["state"], "reload_required")
+        after = self.payload(self.run_queue(
+            "status", "--repo-root", str(self.repo), "--json"
+        ))
+        self.assertEqual(after["queue_oid"], committed_payload["queue_oid"])
+
+    def test_wait_until_actionable_returns_admitted_without_intermediate_waiting(self) -> None:
+        _, owner = self.join("task-a")
+        self.join("task-b")
+
+        with ThreadPoolExecutor(max_workers=1) as executor:
+            waiting = executor.submit(
+                self.run_queue,
+                "wait-until-actionable",
+                "--repo-root",
+                str(self.repo),
+                "--task-id",
+                "task-b",
+                "--json",
+                timeout=5,
+            )
+            time.sleep(0.15)
+
+            self.assertFalse(waiting.done())
+            finished = self.finish_clean("task-a", str(owner["generation"]))
+            self.assertEqual(finished.returncode, 0, finished.stderr)
+            result = waiting.result(timeout=5)
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(self.payload(result)["state"], "admitted")
+        self.assertEqual(len(result.stdout.splitlines()), 1)
 
     def test_stale_waiter_keeps_its_fifo_position_without_any_ttl(self) -> None:
         module = load_queue_module()
@@ -816,6 +882,29 @@ class QueueSafetyTests(GitQueueFixture):
                 self.assertNotEqual(result.returncode, 0)
                 self.assertEqual(self.payload(result)["state"], "invalid_timeout")
 
+    def test_wait_until_actionable_keyboard_interrupt_is_silent(self) -> None:
+        module = load_queue_module()
+
+        with (
+            mock.patch.object(
+                module,
+                "resolve_context",
+                return_value=mock.sentinel.context,
+            ),
+            mock.patch.object(
+                module,
+                "wait_until_actionable_queue",
+                side_effect=KeyboardInterrupt,
+            ),
+            mock.patch("sys.stdout", new_callable=io.StringIO) as stdout,
+            mock.patch("sys.stderr", new_callable=io.StringIO) as stderr,
+        ):
+            code = module.main(["wait-until-actionable", "--task-id", "task-b"])
+
+        self.assertEqual(code, 130)
+        self.assertEqual(stdout.getvalue(), "")
+        self.assertEqual(stderr.getvalue(), "")
+
     def test_wait_defaults_to_five_minutes(self) -> None:
         module = load_queue_module()
 
@@ -897,7 +986,14 @@ class RepositoryIntegrationTests(unittest.TestCase):
         agents = AGENTS_PATH.read_text(encoding="utf-8")
         self.assertIn("fum-ocheredj-zadach-git-vetki", agents)
         self.assertIn("CODEX_THREAD_ID", agents)
-        for command in ["join", "wait", "ack-head", "finish-clean", "commit"]:
+        for command in [
+            "join",
+            "wait",
+            "wait-until-actionable",
+            "ack-head",
+            "finish-clean",
+            "commit",
+        ]:
             self.assertIn(f"`{command}`", agents)
         self.assertIn("порядке атомарной регистрации", agents)
         self.assertIn("не переупорядоч", agents)
@@ -918,8 +1014,10 @@ class RepositoryIntegrationTests(unittest.TestCase):
         self.assertIn("'--repo-root',r", skill)
         self.assertIn("Прямой вызов", skill)
         self.assertIn("--timeout-seconds 300", skill)
+        self.assertIn("wait-until-actionable", skill)
 
-        self.assertIn("пятиминутные read-only вызовы `wait`", agents)
+        self.assertIn("один долгоживущий `wait-until-actionable`", agents)
+        self.assertIn("не отправляет промежуточные сообщения", agents)
 
         heartbeat_prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
         self.assertIn("не является рабочим билетом FIFO-очереди", heartbeat_prompt)
