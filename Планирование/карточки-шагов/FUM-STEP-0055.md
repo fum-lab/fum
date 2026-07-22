@@ -13,13 +13,13 @@ status = "completed"
 
 ## Результат
 
-Создана локальная автоматизация [fum-obsidian-graph-recency](../../Инструменты/fum-obsidian-graph-recency/SKILL.md), которая строит `colorGroups` в `.obsidian/graph.json` из `FUM-MD-RECENCY`; общий [fum-smoke-check](../../Инструменты/fum-smoke-check/SKILL.md) расширен проверкой актуальности этой карты.
+Создана локальная автоматизация [fum-svezhestj-grafa-obsidian](../../Инструменты/fum-svezhestj-grafa-obsidian/SKILL.md), которая строит `colorGroups` в `.obsidian/graph.json` из `FUM-MD-RECENCY`; общий [fum-kompleksnaya-proverka-repozitoriya](../../Инструменты/fum-kompleksnaya-proverka-repozitoriya/SKILL.md) расширен проверкой актуальности этой карты.
 
 ## Источники
 
-- [исходный запрос 2026-07-01 15:35:24 MSK](../../Запросы/2026-07-01_15-35-24_MSK.md), [Воспроизводимые автоматизации FUM](../../Документация/17-воспроизводимые-автоматизации.md), [fum-obsidian-graph-recency](../../Инструменты/fum-obsidian-graph-recency/SKILL.md)
+- [исходный запрос 2026-07-01 15:35:24 MSK](../../Запросы/2026-07-01_15-35-24_MSK.md), [Воспроизводимые автоматизации FUM](../../Документация/17-воспроизводимые-автоматизации.md), [fum-svezhestj-grafa-obsidian](../../Инструменты/fum-svezhestj-grafa-obsidian/SKILL.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-22 03:17:01 MSK -->
-<!-- content-sha256: sha256:300a5bb9bd078b0e508e8592b5473c3966e7bde6e4de4a7c6b9b29134b9b6f6d -->
+<!-- last-content-edit: 2026-07-22 09:17:49 MSK -->
+<!-- content-sha256: sha256:4643cd2e0d8ca033aadda8cbaad863311981cc9263b58183fb74c5be69c9ef92 -->
 <!-- FUM-MD-RECENCY:END -->

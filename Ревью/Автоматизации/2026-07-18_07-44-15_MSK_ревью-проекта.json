@@ -1,7 +1,7 @@
 {
   "title": "Ревью проекта FUM 2026-07-18 07:44:15 MSK",
   "request_file": "Запросы/2026-07-18_07-44-15_MSK_провести-ревью-проекта.md",
-  "automation_file": "Инструменты/fum-work-review/SKILL.md",
+  "automation_file": "Инструменты/fum-revjyu-prodelannoj-rabotyi/SKILL.md",
   "base_ref": "7e38f6ec9103cb706912ad076712b8b499139efd",
   "head_ref": "89b7d71d76995c416cad6f8e3e65b32f364e586f",
   "reviewed_at": "2026-07-18 07:44:15 MSK",
@@ -32,7 +32,7 @@
       "title": "Общий smoke-check не собирает и не тестирует Swift-прототипы",
       "details": "Обнаружение тестов ограничено каталогами `Инструменты/*/tests` с Python-файлами, а шаг прототипов проверяет только исполняемый бит, shebang и синтаксис shell-launcher. В списке 16 шагов нет `swift build` или `swift test`. Поэтому обязательный smoke-check остаётся зелёным при поломке любого Swift-пакета и не обнаруживает дефект времени IOHID; 46 Swift-тестов прошли только после отдельного ручного запуска.",
       "recommendation": "Обнаруживать SwiftPM-пакеты по `Package.swift`, запускать `swift test` и сборку исполняемых продуктов, а форматирование включить строгим отдельным шагом или документированным исключением. Launcher-проверку дополнить безопасным `--self-test` с timeout.",
-      "file": "Инструменты/fum-smoke-check/scripts/run-smoke-check.py",
+      "file": "Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/run-smoke-check.py",
       "line": 98
     },
     {
@@ -41,7 +41,7 @@
       "title": "Машинный плановый реестр не видит канонические атомарные требования",
       "details": "Реестр синтезирует 13 идентификаторов `REQ-*` только из строк сводной таблицы, причём идентичность зависит от номера строки. Все 14 карточек `Требования/`, их статусы, критерии и 20 пар семантических связей отсутствуют среди входов и `source_files`; между `Документация/` и `Требования/` также нет локальных ссылок. Дополнительно ближайший шаг по физическим измерениям клавиатуры записан списком перед таблицей предложений и игнорируется парсером. `validate` при этом проходит.",
       "recommendation": "Дать карточкам стабильные идентификаторы, сделать `Требования/` каноническим входом реестра, а широкие строки — явно связанными слоями или производным представлением. Валидировать индекс, статус, обязательные разделы, парность связей и непроиндексированный текст актуальных предложений.",
-      "file": "Инструменты/fum-planning-registry/scripts/build-planning-registry.py",
+      "file": "Инструменты/fum-reyestr-planirovaniya/scripts/build-planning-registry.py",
       "line": 196
     },
     {
@@ -50,7 +50,7 @@
       "title": "Повторное архивирование может смешать старый и новый снимки источника",
       "details": "Автоматизация повторно использует канонический каталог и записывает условные производные файлы только при успешном новом извлечении, но не удаляет файлы, отсутствующие в новом ответе. В изолированной последовательности `полный снимок -> ответ без диалога` старый `chatgpt-share.messages.json` сохранился и был включён в новый `source-index.md` как часть текущего снимка. Это нарушает происхождение знания и может скрыть неуспешное обновление источника.",
       "recommendation": "Собирать каждый снимок в staging-каталоге, хранить манифест файлов автоматизации и выполнять атомарную замену. Добавить тест полного снимка с последующим неполным или неуспешным повтором.",
-      "file": "Инструменты/fum-request-materials/scripts/archive-chatgpt-share.py",
+      "file": "Инструменты/fum-materialyi-zaprosov/scripts/archive-chatgpt-share.py",
       "line": 709
     },
     {
@@ -77,7 +77,7 @@
       "title": "Служебные генераторы зависят от сегодняшней даты и локальных каталогов сборки",
       "details": "Проверка тепловой карты Obsidian вычисляет возрастные диапазоны от текущей даты: неизменённый чистый коммит уже с `--today 2026-07-19` объявляет сохранённый артефакт устаревшим. Recency, граф и часть связностных проверок обходят все `*.md` через `rglob`, исключая только `.git`; игнорируемый `.build/checkouts/vendor/README.md` попадает в обработку и может быть изменён. Результат smoke-check зависит от календаря и локального кэша.",
       "recommendation": "Отделить структурную проверку графа от обновляемой визуализации и хранить явную опорную дату. Получать Markdown-входы из `git ls-files` с отдельно разрешёнными новыми файлами либо соблюдать `git check-ignore`; централизованно исключить `.build`, `.swiftpm` и кэши.",
-      "file": "Инструменты/fum-obsidian-graph-recency/scripts/build-obsidian-graph-recency.py",
+      "file": "Инструменты/fum-svezhestj-grafa-obsidian/scripts/build-obsidian-graph-recency.py",
       "line": 84
     },
     {
@@ -99,7 +99,7 @@
     },
     {
       "name": "Исходный полный smoke-check",
-      "command": "PYTHONDONTWRITEBYTECODE=1 python3 Инструменты/fum-smoke-check/scripts/run-smoke-check.py --skip-session-coherence",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/run-smoke-check.py --skip-session-coherence",
       "result": "прошло",
       "details": "Прошли 16 шагов и 84 Python-теста, плановый реестр, launcher-контракт, recency и граф Obsidian. Ревью отдельно установило, что Swift-пакеты этим запуском не проверяются."
     },
@@ -117,7 +117,7 @@
     },
     {
       "name": "Аудит требований и открытых вопросов",
-      "command": "python3 Инструменты/fum-planning-registry/scripts/build-planning-registry.py validate --registry Планирование/реестр-требований-вариантов-и-кандидатов.json; одноразовая структурная сверка карточек и backlinks",
+      "command": "python3 Инструменты/fum-reyestr-planirovaniya/scripts/build-planning-registry.py validate --registry Планирование/реестр-требований-вариантов-и-кандидатов.json; одноразовая структурная сверка карточек и backlinks",
       "result": "подтверждены пробелы",
       "details": "Текущие 14 карточек и 20 двунаправленных пар внутренне согласованы, но отсутствуют в реестре; 21 из 69 заявленных целей открытых или частично прояснённых вопросов не имеют обязательной обратной ссылки."
     },
@@ -129,7 +129,7 @@
     },
     {
       "name": "Воспроизводимость служебных генераторов",
-      "command": "python3 Инструменты/fum-obsidian-graph-recency/scripts/build-obsidian-graph-recency.py --check --today 2026-07-19; изолированная фикстура .build/checkouts/vendor/README.md",
+      "command": "python3 Инструменты/fum-svezhestj-grafa-obsidian/scripts/build-obsidian-graph-recency.py --check --today 2026-07-19; изолированная фикстура .build/checkouts/vendor/README.md",
       "result": "подтверждены дефекты",
       "details": "Проверка графа стала stale на следующий день; игнорируемый Markdown из каталога сборки попал в recency и граф."
     }

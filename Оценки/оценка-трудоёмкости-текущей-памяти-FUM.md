@@ -76,9 +76,9 @@
 ## Источники требований
 
 - [исходный запрос 2026-06-29 17:50:10 MSK](../Запросы/2026-06-29_17-50-10_MSK.md)
-- [fum-estimates](../Инструменты/fum-estimates/SKILL.md) - локальная автоматизация сборки и проверки оценочных материалов.
+- [fum-ocenki](../Инструменты/fum-ocenki/SKILL.md) - локальная автоматизация сборки и проверки оценочных материалов.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-06-29 19:46:06 MSK -->
-<!-- content-sha256: sha256:8c1e5cacd5b8d278c7fabdda87fdadfbb7c9a93d860fade2763ebb441fbcd95d -->
+<!-- last-content-edit: 2026-07-22 09:17:49 MSK -->
+<!-- content-sha256: sha256:36d04e92b1710b90e021146aa9f3644b5630aab41474466c3004a5326c6f6a0a -->
 <!-- FUM-MD-RECENCY:END -->

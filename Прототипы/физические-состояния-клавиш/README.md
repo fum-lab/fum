@@ -62,7 +62,7 @@ swift build \
   --package-path Прототипы/физические-состояния-клавиш \
   --product FUMInputProbe
 swift format lint \
-  --configuration Инструменты/fum-smoke-check/swift-format.json \
+  --configuration Инструменты/fum-kompleksnaya-proverka-repozitoriya/swift-format.json \
   --strict \
   --recursive \
   Прототипы/физические-состояния-клавиш/Sources \
@@ -70,7 +70,7 @@ swift format lint \
   Прототипы/физические-состояния-клавиш/Package.swift
 ```
 
-Общий [smoke-check репозитория](../../Инструменты/fum-smoke-check/SKILL.md) автоматически выполняет эти автономные тесты, отдельно собирает `FUMInputProbe` и применяет строгий `swift format lint --strict` ко всем путям целей и `Package.swift`.
+Общий [smoke-check репозитория](../../Инструменты/fum-kompleksnaya-proverka-repozitoriya/SKILL.md) автоматически выполняет эти автономные тесты, отдельно собирает `FUMInputProbe` и применяет строгий `swift format lint --strict` ко всем путям целей и `Package.swift`.
 
 Простой запуск без аргументов открывает графический проводник. Само открытие окна не запускает источники и не создаёт содержательных записей:
 
@@ -224,6 +224,6 @@ git add -f -- \
 - [`IOHIDManagerRegisterInputValueCallback`](https://developer.apple.com/documentation/iokit/1438367-iohidmanagerregisterinputvalueca)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-21 15:36:58 MSK -->
-<!-- content-sha256: sha256:f287822d6d331f4a575fe553cfd3aabf41b334658e204685e09e90f810656145 -->
+<!-- last-content-edit: 2026-07-22 09:17:49 MSK -->
+<!-- content-sha256: sha256:e92365f61d972d74b7ce2bae301dd83b455d2a2f89c939774186ae3fddc93f71 -->
 <!-- FUM-MD-RECENCY:END -->

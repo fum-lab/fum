@@ -2,7 +2,7 @@
   "schema": "fum.architecture-choice.v1",
   "title": "Оценка выбора архитектурного подхода к реализации FUM",
   "request_file": "Запросы/2026-07-10_05-03-09_MSK_сравнить-варианты-реализации.md",
-  "automation_file": "Инструменты/fum-estimates/SKILL.md",
+  "automation_file": "Инструменты/fum-ocenki/SKILL.md",
   "method_status": "manual_comparative_matrix",
   "repository_snapshot": {
     "date": "2026-07-10",

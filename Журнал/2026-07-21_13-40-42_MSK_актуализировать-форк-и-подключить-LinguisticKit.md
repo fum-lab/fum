@@ -34,7 +34,7 @@ LinguisticKit подключён к FUM как первая полностью �
 - [правила репозитория](../AGENTS.md)
 - [проверка Git-зависимостей](../Инструменты/fum-proverka-git-zavisimostej/SKILL.md)
 - [проверка названий автоматизаций](../Инструменты/fum-proverka-nazvanij-avtomatizacij/SKILL.md)
-- [общий smoke-check](../Инструменты/fum-smoke-check/SKILL.md)
+- [общий smoke-check](../Инструменты/fum-kompleksnaya-proverka-repozitoriya/SKILL.md)
 - [предложения о следующих шагах](../Планирование/предложения-о-следующих-шагах.md)
 - [следующий шаг ветки master](../Планирование/следующие-шаги-веток/master.md)
 
@@ -47,6 +47,6 @@ LinguisticKit подключён к FUM как первая полностью �
 - [сохранённый снимок выбранной ревизии](../Источники/URL/https/github.com/Roman-Kerimov/LinguisticKit/commit/837e2ce107b97ee7b9d3344c9fe99142281fe393/source-index.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-21 14:20:22 MSK -->
-<!-- content-sha256: sha256:a807adbcbe814f8173b423451d9c4c11b3620bcfacaadf868ec6034c9d76345c -->
+<!-- last-content-edit: 2026-07-22 09:17:49 MSK -->
+<!-- content-sha256: sha256:3afd8287bfe0f008cbc9f20bf17562e3d4eaa2c75c658887b843b41d7f29f025 -->
 <!-- FUM-MD-RECENCY:END -->

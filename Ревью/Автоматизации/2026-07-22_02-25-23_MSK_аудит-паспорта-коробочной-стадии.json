@@ -1,7 +1,7 @@
 {
   "title": "Аудит паспорта коробочной стадии FUM",
   "request_file": "Запросы/2026-07-22_02-25-23_MSK_провести-аудит-паспорта-коробочной-стадии.md",
-  "automation_file": "Инструменты/fum-work-review/SKILL.md",
+  "automation_file": "Инструменты/fum-revjyu-prodelannoj-rabotyi/SKILL.md",
   "base_ref": "2e365268c1a52f48a975073339573870b7b6b107",
   "head_ref": "2e365268c1a52f48a975073339573870b7b6b107",
   "reviewed_at": "2026-07-22 02:25:23 MSK",
@@ -89,43 +89,43 @@
     },
     {
       "name": "Регрессия локального архиватора",
-      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-request-materials/tests -p 'test_*.py'",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-materialyi-zaprosov/tests -p 'test_*.py'",
       "result": "прошло, 38 тестов",
       "details": "Локальный CLI сохраняет собственный заявленный контракт, но его post-install warning при ошибке ссылки подтверждает, что он не заменяет будущую коробочную приёмку атомарного происхождения."
     },
     {
       "name": "Тесты автоматизации ревью",
-      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-work-review/tests -p 'test_*.py'",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-revjyu-prodelannoj-rabotyi/tests -p 'test_*.py'",
       "result": "прошло, 3 теста",
       "details": "Сборка и полная структурная проверка сохранённого аудита работают локально."
     },
     {
       "name": "Плановый реестр",
-      "command": "python3 Инструменты/fum-planning-registry/scripts/build-planning-registry.py validate --registry Планирование/реестр-требований-вариантов-и-кандидатов.json",
+      "command": "python3 Инструменты/fum-reyestr-planirovaniya/scripts/build-planning-registry.py validate --registry Планирование/реестр-требований-вариантов-и-кандидатов.json",
       "result": "прошло",
       "details": "Реестр структурно валиден, но разрешает производный слой источников без canonical_requirement_ids; это не опровергает смысловую находку."
     },
     {
       "name": "Корневой индекс",
-      "command": "python3 Инструменты/fum-readme-index/scripts/check-readme-index.py --repo-root .",
+      "command": "python3 Инструменты/fum-indeks-readme/scripts/check-readme-index.py --repo-root .",
       "result": "прошло, 38 из 38",
       "details": "Тематические входы корневого README полны."
     },
     {
       "name": "Следующий шаг ветки",
-      "command": "python3 Инструменты/fum-branch-next-step/scripts/branch-next-step.py --repo-root . --json validate",
+      "command": "python3 Инструменты/fum-sleduyusjhij-shag-vetki/scripts/branch-next-step.py --repo-root . --json validate",
       "result": "прошло",
       "details": "master сохраняет paused и получает новый step_id без разрешения коробочной реализации."
     },
     {
       "name": "Валидация сохранённого аудита",
-      "command": "python3 Инструменты/fum-work-review/scripts/build-work-review.py validate --config Ревью/Автоматизации/2026-07-22_02-25-23_MSK_аудит-паспорта-коробочной-стадии.json --document Ревью/2026-07-22_02-25-23_MSK_аудит-паспорта-коробочной-стадии.md --complete",
+      "command": "python3 Инструменты/fum-revjyu-prodelannoj-rabotyi/scripts/build-work-review.py validate --config Ревью/Автоматизации/2026-07-22_02-25-23_MSK_аудит-паспорта-коробочной-стадии.json --document Ревью/2026-07-22_02-25-23_MSK_аудит-паспорта-коробочной-стадии.md --complete",
       "result": "прошло",
       "details": "Конфигурация и отчёт содержат обязательный снимок, область, находки, проверки, риски и решение."
     },
     {
       "name": "Полный smoke-check сессии",
-      "command": "python3 Инструменты/fum-smoke-check/scripts/run-smoke-check.py --request Запросы/2026-07-22_02-25-23_MSK_провести-аудит-паспорта-коробочной-стадии.md --commit-message-file <временный-файл-сообщения> --codex-thread-id 019f86fd-96a9-7921-840e-34c0c28be308",
+      "command": "python3 Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/run-smoke-check.py --request Запросы/2026-07-22_02-25-23_MSK_провести-аудит-паспорта-коробочной-стадии.md --commit-message-file <временный-файл-сообщения> --codex-thread-id 019f86fd-96a9-7921-840e-34c0c28be308",
       "result": "прошло",
       "details": "Ссылки, регистр путей, recency, планирование, локальные автоматизации, SwiftPM-пакеты и связность сессии проверены перед атомарным commit+handoff."
     }

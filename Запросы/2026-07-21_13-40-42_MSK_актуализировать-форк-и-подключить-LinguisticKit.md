@@ -49,9 +49,9 @@ Codex-Thread-ID: 019f8440-c2ee-74f2-9f0a-c1f8a5a83ee8
 - [Контракт проверки названий автоматизаций](../Инструменты/fum-proverka-nazvanij-avtomatizacij/SKILL.md)
 - [Сценарий проверки названий автоматизаций](../Инструменты/fum-proverka-nazvanij-avtomatizacij/scripts/proveritj-nazvaniya-avtomatizacij.py)
 - [Тесты проверки названий автоматизаций](../Инструменты/fum-proverka-nazvanij-avtomatizacij/tests/test_proveritj_nazvaniya_avtomatizacij.py)
-- [Контракт общего smoke-check](../Инструменты/fum-smoke-check/SKILL.md)
-- [Сценарий общего smoke-check](../Инструменты/fum-smoke-check/scripts/run-smoke-check.py)
-- [Тесты общего smoke-check](../Инструменты/fum-smoke-check/tests/test_run_smoke_check.py)
+- [Контракт общего smoke-check](../Инструменты/fum-kompleksnaya-proverka-repozitoriya/SKILL.md)
+- [Сценарий общего smoke-check](../Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/run-smoke-check.py)
+- [Тесты общего smoke-check](../Инструменты/fum-kompleksnaya-proverka-repozitoriya/tests/test_run_smoke_check.py)
 - [Реестр названий автоматизаций](../Инструменты/реестр-названий-автоматизаций.json)
 - [Реестр системных приложений и инструментов](../Инструменты/реестр-системных-приложений-и-инструментов.md)
 - [Индекс журнала](../Журнал/README.md)
@@ -87,6 +87,6 @@ GitHub подтвердил, что `fum-lab/LinguisticKit` является п�
 - Запись следующего шага, плановый реестр, recency-метки и тепловая карта графа Obsidian проверены перед коммитом; полный smoke-check без вложенного session-coherence и отдельная структурная проверка с документированным пропуском общего Git-status прошли успешно.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-21 14:45:08 MSK -->
-<!-- content-sha256: sha256:661a62962e44cfe02b7bed9d4dd28d6a06267f30d9d0a7bb0606173280c3a847 -->
+<!-- last-content-edit: 2026-07-22 09:17:49 MSK -->
+<!-- content-sha256: sha256:2fda05cc2215e8435374d196e396b7001f25a11b3fd2c9bb155a078aa95ceb03 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -40,11 +40,11 @@ Codex-Thread-ID: 019f7f83-ae76-7163-8681-b500dee6bc61
 - [Отчёт текущей сессии](../Журнал/2026-07-20_15-34-46_MSK_включить-SwiftPM-в-общий-smoke-check.md)
 - [Индекс журнала](../Журнал/README.md)
 - [Описание воспроизводимых автоматизаций](../Документация/17-воспроизводимые-автоматизации.md)
-- [Навык общего smoke-check](../Инструменты/fum-smoke-check/SKILL.md)
-- [Сценарий общего smoke-check](../Инструменты/fum-smoke-check/scripts/run-smoke-check.py)
-- [Тесты общего smoke-check](../Инструменты/fum-smoke-check/tests/test_run_smoke_check.py)
-- [Политика SwiftPM-пакетов](../Инструменты/fum-smoke-check/swift-package-policy.json)
-- [Центральная конфигурация swift-format](../Инструменты/fum-smoke-check/swift-format.json)
+- [Навык общего smoke-check](../Инструменты/fum-kompleksnaya-proverka-repozitoriya/SKILL.md)
+- [Сценарий общего smoke-check](../Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/run-smoke-check.py)
+- [Тесты общего smoke-check](../Инструменты/fum-kompleksnaya-proverka-repozitoriya/tests/test_run_smoke_check.py)
+- [Политика SwiftPM-пакетов](../Инструменты/fum-kompleksnaya-proverka-repozitoriya/swift-package-policy.json)
+- [Центральная конфигурация swift-format](../Инструменты/fum-kompleksnaya-proverka-repozitoriya/swift-format.json)
 - [Реестр системных приложений и инструментов](../Инструменты/реестр-системных-приложений-и-инструментов.md)
 - [Паспорт теневого редактора продолжений](../Прототипы/теневой-редактор-продолжений/README.md)
 - [Паспорт прототипа физических состояний клавиш](../Прототипы/физические-состояния-клавиш/README.md)
@@ -80,6 +80,6 @@ Codex-Thread-ID: 019f7f83-ae76-7163-8681-b500dee6bc61
 - `git diff --check`, связность рабочей сессии и итоговое состояние Git проверены перед коммитом.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-20 17:49:48 MSK -->
-<!-- content-sha256: sha256:a0c872c3c11a4d5539564a2dfbbb29a37e9bb0a13857f44ade7ba720c00cfff5 -->
+<!-- last-content-edit: 2026-07-22 09:17:49 MSK -->
+<!-- content-sha256: sha256:2a2a271173f61301aa26f1ef48f6a4ef5d0f951815db9bcdb13dc6b2ba555edf -->
 <!-- FUM-MD-RECENCY:END -->

@@ -13,13 +13,13 @@ status = "completed"
 
 ## Результат
 
-Создана автоматизация `fum-md-recency`, правило запуска закреплено в [AGENTS.md](../../AGENTS.md), а проверка `fum-session-coherence` теперь контролирует свежесть меток и индекса.
+Создана автоматизация `fum-svezhestj-markdown`, правило запуска закреплено в [AGENTS.md](../../AGENTS.md), а проверка `fum-svyaznostj-rabochej-sessii` теперь контролирует свежесть меток и индекса.
 
 ## Источники
 
-- [исходный запрос 2026-06-26 11:24:11 MSK](../../Запросы/2026-06-26_11-24-11_MSK.md), [журнал 2026-06-26 11:24:11 MSK](../../Журнал/2026-06-26_11-24-11_MSK.md), [fum-md-recency](../../Инструменты/fum-md-recency/SKILL.md)
+- [исходный запрос 2026-06-26 11:24:11 MSK](../../Запросы/2026-06-26_11-24-11_MSK.md), [журнал 2026-06-26 11:24:11 MSK](../../Журнал/2026-06-26_11-24-11_MSK.md), [fum-svezhestj-markdown](../../Инструменты/fum-svezhestj-markdown/SKILL.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-22 03:17:01 MSK -->
-<!-- content-sha256: sha256:8b39a178f1a73ada0d76c9e92cb85d6ba1ea0e7d3c1a24a1cc1bd2bfa7ba478c -->
+<!-- last-content-edit: 2026-07-22 09:17:49 MSK -->
+<!-- content-sha256: sha256:b1fb61ae949d2ff2f9d704684e0dc0894c6914afda73dd62795513fc40796cf0 -->
 <!-- FUM-MD-RECENCY:END -->

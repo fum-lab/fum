@@ -12,7 +12,7 @@ sys.dont_write_bytecode = True
 SCRIPTS_DIR = (
     Path(__file__).resolve().parent
     / "Инструменты"
-    / "fum-request-materials"
+    / "fum-materialyi-zaprosov"
     / "scripts"
 )
 sys.path.insert(0, str(SCRIPTS_DIR))

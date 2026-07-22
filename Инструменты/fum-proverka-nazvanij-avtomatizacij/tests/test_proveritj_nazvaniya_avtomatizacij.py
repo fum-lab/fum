@@ -59,6 +59,70 @@ GOLDEN_ENTRIES = [
     },
 ]
 
+PRODUCTION_MIGRATED_ENTRIES = {
+    "следующий шаг ветки": (
+        "sleduyusjhij shag vetki",
+        "fum-sleduyusjhij-shag-vetki",
+    ),
+    "сборка сводной документации": (
+        "sborka svodnoj dokumentacii",
+        "fum-sborka-svodnoj-dokumentacii",
+    ),
+    "оценки": ("ocenki", "fum-ocenki"),
+    "глоссарий": ("glossarij", "fum-glossarij"),
+    "свежесть Markdown": (
+        "svezhestj Markdown",
+        "fum-svezhestj-markdown",
+    ),
+    "свежесть графа Obsidian": (
+        "svezhestj grafa Obsidian",
+        "fum-svezhestj-grafa-obsidian",
+    ),
+    "реестр планирования": (
+        "reyestr planirovaniya",
+        "fum-reyestr-planirovaniya",
+    ),
+    "проектные файлы": (
+        "proyektnyiye fajlyi",
+        "fum-proyektnyiye-fajlyi",
+    ),
+    "запуск прототипов": (
+        "zapusk prototipov",
+        "fum-zapusk-prototipov",
+    ),
+    "обратные ссылки вопросов": (
+        "obratnyiye ssyilki voprosov",
+        "fum-obratnyiye-ssyilki-voprosov",
+    ),
+    "индекс README": ("indeks README", "fum-indeks-readme"),
+    "материалы запросов": (
+        "materialyi zaprosov",
+        "fum-materialyi-zaprosov",
+    ),
+    "связность рабочей сессии": (
+        "svyaznostj rabochej sessii",
+        "fum-svyaznostj-rabochej-sessii",
+    ),
+    "московское время рабочей сессии": (
+        "moskovskoye vremya rabochej sessii",
+        "fum-moskovskoye-vremya-rabochej-sessii",
+    ),
+    "комплексная проверка репозитория": (
+        "kompleksnaya proverka repozitoriya",
+        "fum-kompleksnaya-proverka-repozitoriya",
+    ),
+    "ревью проделанной работы": (
+        "revjyu prodelannoj rabotyi",
+        "fum-revjyu-prodelannoj-rabotyi",
+    ),
+}
+
+PRODUCTION_MIGRATED_DISPLAY = {
+    "построение описания FUM для адресата": (
+        "postroyeniye opisaniya FUM dlya adresata"
+    ),
+}
+
 
 class RepositoryFixture:
     def __init__(self, root: Path):
@@ -154,6 +218,36 @@ class RepositoryFixture:
 
 
 class AutomationNamesValidationTests(unittest.TestCase):
+    def test_production_registry_has_no_legacy_name_exceptions(self):
+        registry_path = AUTOMATION_DIR.parent / "реестр-названий-автоматизаций.json"
+        registry = json.loads(registry_path.read_text(encoding="utf-8"))
+        actual_current = {
+            entry["source"]: (entry["transliteration"], entry["slug"])
+            for entry in registry["current"]
+        }
+        actual_display = {
+            entry["source"]: entry["transliteration"]
+            for entry in registry["display"]
+        }
+
+        self.assertEqual(registry["legacy"], [])
+        self.assertEqual(registry["legacy_display"], [])
+        for source, expected in PRODUCTION_MIGRATED_ENTRIES.items():
+            self.assertEqual(actual_current.get(source), expected, source)
+        for source, expected in PRODUCTION_MIGRATED_DISPLAY.items():
+            self.assertEqual(actual_display.get(source), expected, source)
+
+        declarative_automation = (
+            AUTOMATION_DIR.parents[1]
+            / "Описания"
+            / "Автоматизации"
+            / "построение-описания-FUM-для-адресата.md"
+        ).read_text(encoding="utf-8")
+        self.assertIn(
+            "# postroyeniye opisaniya FUM dlya adresata",
+            declarative_automation,
+        )
+
     def test_accepts_golden_linguistic_kit_vectors(self):
         with tempfile.TemporaryDirectory() as tmp:
             fixture = RepositoryFixture(Path(tmp))

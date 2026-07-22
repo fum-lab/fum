@@ -1,7 +1,7 @@
 {
   "title": "Аудит задачи по паспорту первого коробочного среза FUM",
   "request_file": "Запросы/2026-07-21_16-51-20_MSK_провести-аудит-задачи-по-паспорту-первого-коробочного-среза.md",
-  "automation_file": "Инструменты/fum-work-review/SKILL.md",
+  "automation_file": "Инструменты/fum-revjyu-prodelannoj-rabotyi/SKILL.md",
   "base_ref": "5666684^",
   "head_ref": "5666684",
   "reviewed_at": "2026-07-21 16:51:20 MSK",
@@ -34,13 +34,13 @@
     },
     {
       "name": "Регрессия локального архиватора источников",
-      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-request-materials/tests -p 'test_*.py'",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-materialyi-zaprosov/tests -p 'test_*.py'",
       "result": "прошло",
       "details": "Прошли 38 тестов общего HTML-архиватора и специализированного ChatGPT-share-контура, включая точный манифест, атомарный повтор, очистку и поздний сбой. Это подтверждает исходный локальный образец, но не заменяет будущую продуктовую приёмку."
     },
     {
       "name": "Согласованность планирования и индекса",
-      "command": "python3 Инструменты/fum-planning-registry/scripts/build-planning-registry.py validate --registry Планирование/реестр-требований-вариантов-и-кандидатов.json; python3 Инструменты/fum-readme-index/scripts/check-readme-index.py --repo-root .; python3 Инструменты/fum-branch-next-step/scripts/branch-next-step.py validate --repo-root . --json",
+      "command": "python3 Инструменты/fum-reyestr-planirovaniya/scripts/build-planning-registry.py validate --registry Планирование/реестр-требований-вариантов-и-кандидатов.json; python3 Инструменты/fum-indeks-readme/scripts/check-readme-index.py --repo-root .; python3 Инструменты/fum-sleduyusjhij-shag-vetki/scripts/branch-next-step.py validate --repo-root . --json",
       "result": "прошло",
       "details": "Плановый реестр валиден, корневой индекс содержит 38 из 38 обязательных точек, а master остаётся в корректном состоянии paused с новым шагом ожидания разрешения коробочной стадии."
     },
@@ -52,13 +52,13 @@
     },
     {
       "name": "Валидация сохранённого аудита",
-      "command": "python3 Инструменты/fum-work-review/scripts/build-work-review.py validate --config Ревью/Автоматизации/2026-07-21_16-51-20_MSK_аудит-паспорта-первого-коробочного-среза.json --document Ревью/2026-07-21_16-51-20_MSK_аудит-паспорта-первого-коробочного-среза.md --complete",
+      "command": "python3 Инструменты/fum-revjyu-prodelannoj-rabotyi/scripts/build-work-review.py validate --config Ревью/Автоматизации/2026-07-21_16-51-20_MSK_аудит-паспорта-первого-коробочного-среза.json --document Ревью/2026-07-21_16-51-20_MSK_аудит-паспорта-первого-коробочного-среза.md --complete",
       "result": "прошло",
       "details": "Конфигурация и отчёт содержат обязательную границу Git, находку, проверки, остаточные риски, ссылки и итоговое решение."
     },
     {
       "name": "Полный smoke-check аудиторской сессии",
-      "command": "python3 Инструменты/fum-smoke-check/scripts/run-smoke-check.py --request Запросы/2026-07-21_16-51-20_MSK_провести-аудит-задачи-по-паспорту-первого-коробочного-среза.md --commit-message-file <временный-файл-сообщения> --codex-thread-id 019f84f1-ba9b-72b3-9eb2-5f8face98df6",
+      "command": "python3 Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/run-smoke-check.py --request Запросы/2026-07-21_16-51-20_MSK_провести-аудит-задачи-по-паспорту-первого-коробочного-среза.md --commit-message-file <временный-файл-сообщения> --codex-thread-id 019f84f1-ba9b-72b3-9eb2-5f8face98df6",
       "result": "прошло",
       "details": "Полный локальный контур проверил автоматизации, SwiftPM-пакеты, Git-зависимость, реестры, ссылки, recency, граф Obsidian и связность текущей сессии."
     }

@@ -49,6 +49,86 @@
       "source": "проверка названий автоматизаций",
       "transliteration": "proverka nazvanij avtomatizacij",
       "slug": "fum-proverka-nazvanij-avtomatizacij"
+    },
+    {
+      "source": "следующий шаг ветки",
+      "transliteration": "sleduyusjhij shag vetki",
+      "slug": "fum-sleduyusjhij-shag-vetki"
+    },
+    {
+      "source": "сборка сводной документации",
+      "transliteration": "sborka svodnoj dokumentacii",
+      "slug": "fum-sborka-svodnoj-dokumentacii"
+    },
+    {
+      "source": "оценки",
+      "transliteration": "ocenki",
+      "slug": "fum-ocenki"
+    },
+    {
+      "source": "глоссарий",
+      "transliteration": "glossarij",
+      "slug": "fum-glossarij"
+    },
+    {
+      "source": "свежесть Markdown",
+      "transliteration": "svezhestj Markdown",
+      "slug": "fum-svezhestj-markdown"
+    },
+    {
+      "source": "свежесть графа Obsidian",
+      "transliteration": "svezhestj grafa Obsidian",
+      "slug": "fum-svezhestj-grafa-obsidian"
+    },
+    {
+      "source": "реестр планирования",
+      "transliteration": "reyestr planirovaniya",
+      "slug": "fum-reyestr-planirovaniya"
+    },
+    {
+      "source": "проектные файлы",
+      "transliteration": "proyektnyiye fajlyi",
+      "slug": "fum-proyektnyiye-fajlyi"
+    },
+    {
+      "source": "запуск прототипов",
+      "transliteration": "zapusk prototipov",
+      "slug": "fum-zapusk-prototipov"
+    },
+    {
+      "source": "обратные ссылки вопросов",
+      "transliteration": "obratnyiye ssyilki voprosov",
+      "slug": "fum-obratnyiye-ssyilki-voprosov"
+    },
+    {
+      "source": "индекс README",
+      "transliteration": "indeks README",
+      "slug": "fum-indeks-readme"
+    },
+    {
+      "source": "материалы запросов",
+      "transliteration": "materialyi zaprosov",
+      "slug": "fum-materialyi-zaprosov"
+    },
+    {
+      "source": "связность рабочей сессии",
+      "transliteration": "svyaznostj rabochej sessii",
+      "slug": "fum-svyaznostj-rabochej-sessii"
+    },
+    {
+      "source": "московское время рабочей сессии",
+      "transliteration": "moskovskoye vremya rabochej sessii",
+      "slug": "fum-moskovskoye-vremya-rabochej-sessii"
+    },
+    {
+      "source": "комплексная проверка репозитория",
+      "transliteration": "kompleksnaya proverka repozitoriya",
+      "slug": "fum-kompleksnaya-proverka-repozitoriya"
+    },
+    {
+      "source": "ревью проделанной работы",
+      "transliteration": "revjyu prodelannoj rabotyi",
+      "slug": "fum-revjyu-prodelannoj-rabotyi"
     }
   ],
   "display": [
@@ -67,27 +147,12 @@
     {
       "source": "Еженедельное обновление Homebrew",
       "transliteration": "Yezhenedeljnoye obnovleniye Homebrew"
+    },
+    {
+      "source": "построение описания FUM для адресата",
+      "transliteration": "postroyeniye opisaniya FUM dlya adresata"
     }
   ],
-  "legacy_display": [
-    "построение описания FUM для адресата"
-  ],
-  "legacy": [
-    "fum-branch-next-step",
-    "fum-doc-aggregation",
-    "fum-estimates",
-    "fum-glossary",
-    "fum-md-recency",
-    "fum-obsidian-graph-recency",
-    "fum-planning-registry",
-    "fum-project-files",
-    "fum-prototype-launch",
-    "fum-question-backlinks",
-    "fum-readme-index",
-    "fum-request-materials",
-    "fum-session-coherence",
-    "fum-session-time",
-    "fum-smoke-check",
-    "fum-work-review"
-  ]
+  "legacy_display": [],
+  "legacy": []
 }

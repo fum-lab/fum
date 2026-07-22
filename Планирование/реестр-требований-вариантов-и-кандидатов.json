@@ -1,6 +1,6 @@
 {
   "schema": "fum.planning.requirements-registry.v6",
-  "generated_by": "Инструменты/fum-planning-registry/SKILL.md",
+  "generated_by": "Инструменты/fum-reyestr-planirovaniya/SKILL.md",
   "source_files": [
     {
       "path": "Вопросы/2026-06-22_06-35-26_MSK_статус-внутренних-FUM.md",
@@ -72,15 +72,15 @@
     },
     {
       "path": "Планирование/MVP-кандидаты/01-память-рабочей-сессии/README.md",
-      "content_sha256_without_recency": "sha256:fa9eb4ede4b5c951711a2ff523d428e099e47a2d90450d960bbfb0a3c670bdef"
+      "content_sha256_without_recency": "sha256:85140e6b533fcbdfc2f9586a1ec81dc84823ea84af3b611d3987389dcf911cb5"
     },
     {
       "path": "Планирование/MVP-кандидаты/02-архивирование-прикрепляемых-материалов/README.md",
-      "content_sha256_without_recency": "sha256:1331a1c360dd767916faabc0eb1d6a1bfe8dd9a20de3f117a6fc4991dc7557d0"
+      "content_sha256_without_recency": "sha256:32ed15f3218a10f2e6d471739fed974e9f1d19a7c1b15b7d4fb6941f548e0b58"
     },
     {
       "path": "Планирование/MVP-кандидаты/03-глоссарно-документационный-контур/README.md",
-      "content_sha256_without_recency": "sha256:6b7e2b051f97b35742b2f5900a477d75db37e6c48f3572f49f24c85ef14e1a2f"
+      "content_sha256_without_recency": "sha256:d88ab2cab4a14269a48bac7a03c8ee39ecac44e1881971e06db6a1a13de73edb"
     },
     {
       "path": "Планирование/MVP-кандидаты/04-исполняемый-агентский-цикл/README.md",
@@ -100,7 +100,7 @@
     },
     {
       "path": "Планирование/дорожная-карта.md",
-      "content_sha256_without_recency": "sha256:fdede4ad12c09aa714962420fc77bd2b4dc7fe223a339942aaa88e54138a8330"
+      "content_sha256_without_recency": "sha256:7c8186af9e22a452e3f7074e70dff7b7c4740a48a8d6dfdf9ed9aed1c2637940"
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0001.md",
@@ -124,7 +124,7 @@
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0006.md",
-      "content_sha256_without_recency": "sha256:719ead4261055a5963d9c72fb01d82e262dc01423be85bdbb8b0281ac28873a2"
+      "content_sha256_without_recency": "sha256:093218ef9ce72b5abc6263d3dce3a3a33eb7bc95d81f5ec36c68b82bbdf58827"
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0007.md",
@@ -216,11 +216,11 @@
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0029.md",
-      "content_sha256_without_recency": "sha256:9b4facadc832b5b18b05bb88ed7e4b342ec4cc71268beb73cfb7c4c952c9c68e"
+      "content_sha256_without_recency": "sha256:9801cf21f4778ee58f675574875700fdf0f4b9b619d145a8cdfa539e7d235a79"
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0030.md",
-      "content_sha256_without_recency": "sha256:28a9c548803d63acf9cf964f2b2c4352e0be9f8f785997c77e8ff0cf1c405797"
+      "content_sha256_without_recency": "sha256:90dd1f414cfe5a9d4994905c604960803ff708e0a7296176a64653622d913cd5"
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0031.md",
@@ -232,7 +232,7 @@
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0033.md",
-      "content_sha256_without_recency": "sha256:c16c3874e5c301e847efc96da21b39e61166250633cc4fbe22b37deff003e834"
+      "content_sha256_without_recency": "sha256:5412184f91a8484aff15215dd4acd4de9a4d31b5e58b2d1db063b6fd533e2739"
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0034.md",
@@ -256,11 +256,11 @@
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0039.md",
-      "content_sha256_without_recency": "sha256:98abd1c0f975a005996d6987b7e95ad89d662b610dffb43ea1b024b4bfe3ce87"
+      "content_sha256_without_recency": "sha256:c51b561d5298a6461d685a0099eebb26d2f339e41dbc8471ceba48ae1014f9c1"
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0040.md",
-      "content_sha256_without_recency": "sha256:c73acb9fa1a9c2e824ed148833ff4be4c10422f6cb94c11e3a141b0429f7ce67"
+      "content_sha256_without_recency": "sha256:0d9e4861a42c0adb6dbebd74ef306501c82a814e5120480d2161a3f5d7a174b1"
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0041.md",
@@ -272,11 +272,11 @@
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0043.md",
-      "content_sha256_without_recency": "sha256:41ec0940b5e4a611cc19cf29714993d28ceb71f29998518ddcbace1a362c47a6"
+      "content_sha256_without_recency": "sha256:2b25e630a39c95f612a775fc1625afadcbdcd302880defa9f2d550bcda54b98f"
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0044.md",
-      "content_sha256_without_recency": "sha256:47cc577b37ee8f4c372c04c157d01451ac738da120366308722349666173ab84"
+      "content_sha256_without_recency": "sha256:567d1cfced67fb72787adf37016bbbb873c26be674ffed664f5aabf1274fd05d"
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0045.md",
@@ -296,7 +296,7 @@
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0049.md",
-      "content_sha256_without_recency": "sha256:56cf0dbab4f96ee272ed130d5aeb4ff496062d8c23cf93c109fee7e4159dab9d"
+      "content_sha256_without_recency": "sha256:ec4e84f8d025ed4f12445b79ddb063b793adf3eed386f002fcf341a157041494"
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0050.md",
@@ -304,11 +304,11 @@
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0051.md",
-      "content_sha256_without_recency": "sha256:187d4c698e8bc7c5fd6feffd713b0d3af14433d7892eea23e8812f5f5719b927"
+      "content_sha256_without_recency": "sha256:743d7ebffc24d4eb2cb230431d42f13e5c372f0673539da42cfdcab9d66a7d29"
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0052.md",
-      "content_sha256_without_recency": "sha256:7ecd283a092eba2cb6c8d25a6ad004b2c39f5e38ee144be14425b66fad72f93a"
+      "content_sha256_without_recency": "sha256:79e93511a0b5eb534494c8ae6e2b2cb5e0f4fb21531c88440261e8ffd67436cb"
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0053.md",
@@ -316,31 +316,31 @@
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0054.md",
-      "content_sha256_without_recency": "sha256:fe04583ff4fff6c40b84ab1f57ba0cc930e175e0f5383eaab821905031327ebe"
+      "content_sha256_without_recency": "sha256:df20952ae6d1e9a90da1fde02fb1c593def851c8e0572e0804204fccde6dac2b"
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0055.md",
-      "content_sha256_without_recency": "sha256:300a5bb9bd078b0e508e8592b5473c3966e7bde6e4de4a7c6b9b29134b9b6f6d"
+      "content_sha256_without_recency": "sha256:4643cd2e0d8ca033aadda8cbaad863311981cc9263b58183fb74c5be69c9ef92"
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0056.md",
-      "content_sha256_without_recency": "sha256:f1a86ae3b17d4c29c418c68da9d82e2810f87a8d2192a58d69234c408c2c2ddc"
+      "content_sha256_without_recency": "sha256:3ea4d448eed32eba9517c4b4b697f461fd69217bdd7d9b6873710282bb044372"
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0057.md",
-      "content_sha256_without_recency": "sha256:818123a53274685a2f022bea2c0599239822311aa22ff545a832a45c6c95c96b"
+      "content_sha256_without_recency": "sha256:1daebcb1100c0a1e5669b3de8fa286cb514ef17946295a7a2ba2e76eb39836e3"
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0058.md",
-      "content_sha256_without_recency": "sha256:9c616e8a6d0fb5b280b2a662ce22bd0921c61399b8c8db8020134c197ba503b0"
+      "content_sha256_without_recency": "sha256:72d68db02265383cedf190ee0d3d2c7aa6afd98905c6398ff70831316ea92c1f"
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0059.md",
-      "content_sha256_without_recency": "sha256:0b2f405c40284a7c0bb4a7f2a7d760b31ffa2f2d1dc4acbe1543c33e3d2cb65c"
+      "content_sha256_without_recency": "sha256:8efe0f4d5bcccc03f13d862661779b0c451fa71544eac407f546d75675197bbf"
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0060.md",
-      "content_sha256_without_recency": "sha256:d01800039ad0e76c064b4c75af8ca4806645e449d99e749b70d0f9771e0e6150"
+      "content_sha256_without_recency": "sha256:82aa69c66d8c3c053ee2ff5f103c54aa024452e81116c43ad41ad93e97d1e3e5"
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0061.md",
@@ -348,7 +348,7 @@
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0062.md",
-      "content_sha256_without_recency": "sha256:8b39a178f1a73ada0d76c9e92cb85d6ba1ea0e7d3c1a24a1cc1bd2bfa7ba478c"
+      "content_sha256_without_recency": "sha256:b1fb61ae949d2ff2f9d704684e0dc0894c6914afda73dd62795513fc40796cf0"
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0063.md",
@@ -360,7 +360,7 @@
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0065.md",
-      "content_sha256_without_recency": "sha256:9ff2e4575b165a91461c68e25e367d1ed06385c307cad84b93e0ddada1ea1504"
+      "content_sha256_without_recency": "sha256:497c0af93b86e95b76c928cdb4c01f310e3c249f9d9a5960a9a62d0197d31b8e"
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0066.md",
@@ -368,27 +368,27 @@
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0067.md",
-      "content_sha256_without_recency": "sha256:695aa135221f8352fecf25807cfba8b720513fd4424df906ce500f96ed828b2d"
+      "content_sha256_without_recency": "sha256:4ec2d7d093ea991c165e534066ca4cf7bac2ef6973092daf6092b939a36a184e"
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0068.md",
-      "content_sha256_without_recency": "sha256:b0d6265bd4071a305955be404e89ceb8cd4631f383254f5dcd9c2c198c38223a"
+      "content_sha256_without_recency": "sha256:07b043cf9f529d94480f5f1d4992974e11416bb31e8b46f2e1e3fc0ba3bc2888"
     },
     {
       "path": "Планирование/карточки-шагов/FUM-STEP-0069.md",
-      "content_sha256_without_recency": "sha256:45ecc451ce2e74756a1d95ff602e071d2c63242c964eadde28e06369ed6da0e5"
+      "content_sha256_without_recency": "sha256:8aeb102efe46b4d0e65a94e75b3c530d2b16067b18f60c506330d490a8a112a6"
     },
     {
       "path": "Планирование/карточки-шагов/README.md",
-      "content_sha256_without_recency": "sha256:3a33fed30caf93c26624780ecf414a0db274156761b9b015f43adfd424003b41"
+      "content_sha256_without_recency": "sha256:c7b617cd9cbd49eb610b62465eed861d95b86ec37e69d700bd56ff07b6e401a3"
     },
     {
       "path": "Планирование/направления-проектирования-и-развития/01-память-и-происхождение.md",
-      "content_sha256_without_recency": "sha256:188799826a817d42f219a69a516b70a02d59a1dc87877a9e0351f28684b8ee79"
+      "content_sha256_without_recency": "sha256:4e7c8ee3488acefcf4e9fe89ceab1dd60fe30256a1d89195f9a45d962321736d"
     },
     {
       "path": "Планирование/направления-проектирования-и-развития/02-автоматизации-и-язык.md",
-      "content_sha256_without_recency": "sha256:f42cc1c9e16fd8d9ab4c75bec04170011443e2618fccdcddbd7706a7d8f4b93b"
+      "content_sha256_without_recency": "sha256:d5db379cf38b3bca9ee023a67af03c0b4a71ad9282a7915eb65a2a9fe916d4fe"
     },
     {
       "path": "Планирование/направления-проектирования-и-развития/03-агентский-цикл-и-исполняемый-контур.md",
@@ -420,15 +420,15 @@
     },
     {
       "path": "Планирование/предложения-о-следующих-шагах.md",
-      "content_sha256_without_recency": "sha256:867a4cf8b81fcdd3535b792194784f3a187509624e82a136752378e2efb5f415"
+      "content_sha256_without_recency": "sha256:acacef4d53fba5b853178359a99a7e4fb1459bd3519dcf11ea07d6e26da8f7ae"
     },
     {
       "path": "Планирование/сводная-таблица-требований-и-реализаций.md",
-      "content_sha256_without_recency": "sha256:57c86962be38b9daac83bbcce57f844a702152e5fca33b0c9a54e6347c6fcdcb"
+      "content_sha256_without_recency": "sha256:f5b58f8c23b4d1e3317a92995a39998745409ea07beb785f2a5057c134252dfe"
     },
     {
       "path": "Планирование/стадии/01-документационный-прототип-FUM/README.md",
-      "content_sha256_without_recency": "sha256:6ece233fb32744e534859c1c6590f0c815c50d2132dcf6ab127f8891cc85b664"
+      "content_sha256_without_recency": "sha256:2aa94a0384cf4d5dcd97a64c1f86ff844d72be0c509a14215472a5e6f37bd045"
     },
     {
       "path": "Планирование/стадии/02-коробочная-реализация-FUM/README.md",
@@ -1800,11 +1800,11 @@
         },
         {
           "id": "PLAN-LAYER-MEMORY-PROVENANCE-candidate-03",
-          "text": "проверка fum-session-coherence.",
+          "text": "проверка fum-svyaznostj-rabochej-sessii.",
           "links": [
             {
-              "label": "fum-session-coherence",
-              "target": "Инструменты/fum-session-coherence/SKILL.md"
+              "label": "fum-svyaznostj-rabochej-sessii",
+              "target": "Инструменты/fum-svyaznostj-rabochej-sessii/SKILL.md"
             }
           ]
         }
@@ -1871,11 +1871,11 @@
         },
         {
           "id": "PLAN-LAYER-SOURCE-ARCHIVING-candidate-02",
-          "text": "локальный навык fum-request-materials.",
+          "text": "локальный навык fum-materialyi-zaprosov.",
           "links": [
             {
-              "label": "fum-request-materials",
-              "target": "Инструменты/fum-request-materials/SKILL.md"
+              "label": "fum-materialyi-zaprosov",
+              "target": "Инструменты/fum-materialyi-zaprosov/SKILL.md"
             }
           ]
         }
@@ -1918,7 +1918,7 @@
         },
         {
           "id": "PLAN-LAYER-GLOSSARY-DOCUMENTATION-doc-04",
-          "text": "сводные статьи через fum-doc-aggregation.",
+          "text": "сводные статьи через fum-sborka-svodnoj-dokumentacii.",
           "links": []
         }
       ],
@@ -1942,21 +1942,21 @@
         },
         {
           "id": "PLAN-LAYER-GLOSSARY-DOCUMENTATION-candidate-02",
-          "text": "локальный навык fum-glossary",
+          "text": "локальный навык fum-glossarij",
           "links": [
             {
-              "label": "fum-glossary",
-              "target": "Инструменты/fum-glossary/SKILL.md"
+              "label": "fum-glossarij",
+              "target": "Инструменты/fum-glossarij/SKILL.md"
             }
           ]
         },
         {
           "id": "PLAN-LAYER-GLOSSARY-DOCUMENTATION-candidate-03",
-          "text": "автоматизация fum-doc-aggregation",
+          "text": "автоматизация fum-sborka-svodnoj-dokumentacii",
           "links": [
             {
-              "label": "fum-doc-aggregation",
-              "target": "Инструменты/fum-doc-aggregation/SKILL.md"
+              "label": "fum-sborka-svodnoj-dokumentacii",
+              "target": "Инструменты/fum-sborka-svodnoj-dokumentacii/SKILL.md"
             }
           ]
         },
@@ -3126,8 +3126,8 @@
           "target": "Планирование/сводная-таблица-требований-и-реализаций.md"
         },
         {
-          "label": "fum-planning-registry",
-          "target": "Инструменты/fum-planning-registry/SKILL.md"
+          "label": "fum-reyestr-planirovaniya",
+          "target": "Инструменты/fum-reyestr-planirovaniya/SKILL.md"
         }
       ]
     },
@@ -3913,7 +3913,7 @@
       "title": "Добавить полуавтоматический аудит покрытия раздела Вопросы и ответы/",
       "status": "active",
       "task": "Добавить полуавтоматический аудит покрытия раздела Вопросы и ответы/: извлекать вопросительные предложения только из дословных блоков ## Текст запроса, сопоставлять их со ссылками на исходные запросы в существующих карточках и выдавать список кандидатов для ручной проверки отношения к сущности FUM, содержательности ответа и самостоятельной полезности.",
-      "why_now": "Ретроспективный аудит показал, что формальный знак ? позволяет найти кандидатов, но не определяет область раздела: две служебные карточки пришлось удалить после уточнения смысловой границы. fum-session-coherence отклоняет формально неверные карточки, но не доказывает прямое отношение вопроса к сущности FUM; поэтому итоговое решение нельзя автоматизировать полностью.",
+      "why_now": "Ретроспективный аудит показал, что формальный знак ? позволяет найти кандидатов, но не определяет область раздела: две служебные карточки пришлось удалить после уточнения смысловой границы. fum-svyaznostj-rabochej-sessii отклоняет формально неверные карточки, но не доказывает прямое отношение вопроса к сущности FUM; поэтому итоговое решение нельзя автоматизировать полностью.",
       "criteria": [
         "Результат, описанный в разделе «Задача», создан и сохранён в памяти FUM с явной границей применимости.",
         "Проверки, названные в задаче и опорных материалах, выполнены, а их результат зафиксирован в связанном запросе или журнале.",
@@ -3934,8 +3934,8 @@
           "target": "Вопросы%20и%20ответы/README.md"
         },
         {
-          "label": "fum-session-coherence",
-          "target": "Инструменты/fum-session-coherence/SKILL.md"
+          "label": "fum-svyaznostj-rabochej-sessii",
+          "target": "Инструменты/fum-svyaznostj-rabochej-sessii/SKILL.md"
         }
       ]
     },
@@ -3959,7 +3959,7 @@
         },
         {
           "label": "политика SwiftPM-пакетов",
-          "target": "Инструменты/fum-smoke-check/swift-package-policy.json"
+          "target": "Инструменты/fum-kompleksnaya-proverka-repozitoriya/swift-package-policy.json"
         },
         {
           "label": "теневой редактор продолжений",
@@ -4035,16 +4035,20 @@
       "id": "FUM-STEP-0033",
       "file": "Планирование/карточки-шагов/FUM-STEP-0033.md",
       "title": "Мигрировать legacy-имена автоматизаций на контракт LinguisticKit",
-      "status": "active",
+      "status": "completed",
       "task": "Мигрировать точный legacy-набор прежних репозиторных и декларативных имён автоматизаций на живой контракт LinguisticKit без изменения поведения автоматизаций.",
-      "why_now": "Форк, submodule, живой валидатор и эталоны уже приняты; остаётся отдельная просматриваемая миграция исторических исключений с проверкой коллизий и без автоматического изменения закреплённой ревизии.",
-      "criteria": [
-        "Результат, описанный в разделе «Задача», создан и сохранён в памяти FUM с явной границей применимости.",
-        "Проверки, названные в задаче и опорных материалах, выполнены, а их результат зафиксирован в связанном запросе или журнале.",
-        "Статус карточки обновлён по фактическому исходу; веточный выбор не дублирует содержание карточки."
-      ],
-      "outcome": null,
+      "why_now": null,
+      "criteria": [],
+      "outcome": "Шестнадцать прежних репозиторных имён автоматизаций заменены точными slug, полученными из русских смысловых источников живым LinguisticKit. Одно декларативное имя получило вычисленную отображаемую латинскую форму; реестр содержит 19 текущих репозиторных и 5 отображаемых имён при пустых массивах legacy и legacy_display. Миграция ограничена идентичностями, путями, ссылками и конфигурационными вызовами. Алгоритмы, CLI, профили, расписания и поведение автоматизаций не менялись; gitlink, закреплённая ревизия, таблица и fork/upstream-контракт LinguisticKit сохранены. Исторические исходные тексты запросов и материалы источников не переписывались, а локальные Markdown-ссылки переведены на существующие новые пути. Красная фаза TDD наблюдаемо выявила весь legacy-набор и прежний декларативный заголовок. После миграции прошли 21/21 тест проверки имён и живая проверка 19 репозиторных автоматизаций через LinguisticKit; остальные локальные контракты и общий smoke-check проверены на новых путях в связанной рабочей сессии.",
       "source_links": [
+        {
+          "label": "исходный запрос о выполнении миграции",
+          "target": "Запросы/2026-07-22_08-44-00_MSK_мигрировать-legacy-имена-автоматизаций.md"
+        },
+        {
+          "label": "журнал",
+          "target": "Журнал/2026-07-22_08-44-00_MSK_мигрировать-legacy-имена-автоматизаций.md"
+        },
         {
           "label": "исходный запрос о форках Git-зависимостей",
           "target": "Запросы/2026-07-21_12-52-18_MSK_закрепить-форки-Git-зависимостей-в-fum-lab.md"
@@ -4243,8 +4247,8 @@
           "target": "Описания/для-разработчиков-ПО.md"
         },
         {
-          "label": "fum-readme-index",
-          "target": "Инструменты/fum-readme-index/SKILL.md"
+          "label": "fum-indeks-readme",
+          "target": "Инструменты/fum-indeks-readme/SKILL.md"
         }
       ]
     },
@@ -4271,8 +4275,8 @@
           "target": "Планирование/MVP-кандидаты/02-архивирование-прикрепляемых-материалов/README.md"
         },
         {
-          "label": "fum-request-materials",
-          "target": "Инструменты/fum-request-materials/SKILL.md"
+          "label": "fum-materialyi-zaprosov",
+          "target": "Инструменты/fum-materialyi-zaprosov/SKILL.md"
         }
       ]
     },
@@ -4347,8 +4351,8 @@
           "target": "Журнал/2026-07-21_05-39-00_MSK_сделать-служебные-генераторы-воспроизводимыми.md"
         },
         {
-          "label": "fum-project-files",
-          "target": "Инструменты/fum-project-files/SKILL.md"
+          "label": "fum-proyektnyiye-fajlyi",
+          "target": "Инструменты/fum-proyektnyiye-fajlyi/SKILL.md"
         },
         {
           "label": "ревью проекта",
@@ -4359,9 +4363,9 @@
     {
       "id": "FUM-STEP-0044",
       "file": "Планирование/карточки-шагов/FUM-STEP-0044.md",
-      "title": "Расширить общий fum-smoke-check обнаружением SwiftPM-пакетов, тестами, сборкой исполняемых продуктов и явным lint-контрактом",
+      "title": "Расширить общий fum-kompleksnaya-proverka-repozitoriya обнаружением SwiftPM-пакетов, тестами, сборкой исполняемых продуктов и явным lint-контрактом",
       "status": "completed",
-      "task": "Расширить общий fum-smoke-check обнаружением SwiftPM-пакетов, тестами, сборкой исполняемых продуктов и явным lint-контрактом.",
+      "task": "Расширить общий fum-kompleksnaya-proverka-repozitoriya обнаружением SwiftPM-пакетов, тестами, сборкой исполняемых продуктов и явным lint-контрактом.",
       "why_now": null,
       "criteria": [],
       "outcome": "Общий прогон автоматически находит два пакета, запускает 51 Swift-тест, отдельно собирает FUMShadowEditor, FUMShadowProbe и FUMInputProbe, применяет строгий lint по умолчанию и проверяет хэш-привязанное исключение теневого редактора.",
@@ -4375,8 +4379,8 @@
           "target": "Журнал/2026-07-20_15-34-46_MSK_включить-SwiftPM-в-общий-smoke-check.md"
         },
         {
-          "label": "fum-smoke-check",
-          "target": "Инструменты/fum-smoke-check/SKILL.md"
+          "label": "fum-kompleksnaya-proverka-repozitoriya",
+          "target": "Инструменты/fum-kompleksnaya-proverka-repozitoriya/SKILL.md"
         },
         {
           "label": "ревью проекта",
@@ -4496,7 +4500,7 @@
       "task": "Добавить проверку регистра локальных Markdown-ссылок и путей, чтобы память FUM корректно работала на чувствительных к регистру файловых системах.",
       "why_now": null,
       "criteria": [],
-      "outcome": "fum-session-coherence теперь проверяет локальные Markdown-ссылки во всём репозитории и сообщает ошибку, если регистр ссылки отличается от реального пути; поведение закреплено тестом и попадает в smoke-check.",
+      "outcome": "fum-svyaznostj-rabochej-sessii теперь проверяет локальные Markdown-ссылки во всём репозитории и сообщает ошибку, если регистр ссылки отличается от реального пути; поведение закреплено тестом и попадает в smoke-check.",
       "source_links": [
         {
           "label": "исходный запрос 2026-07-06 14:31:09 MSK - Добавить проверку регистра ссылок",
@@ -4507,8 +4511,8 @@
           "target": "Журнал/2026-07-06_14-31-09_MSK_добавить-проверку-регистра-ссылок.md"
         },
         {
-          "label": "fum-session-coherence",
-          "target": "Инструменты/fum-session-coherence/SKILL.md"
+          "label": "fum-svyaznostj-rabochej-sessii",
+          "target": "Инструменты/fum-svyaznostj-rabochej-sessii/SKILL.md"
         }
       ]
     },
@@ -4544,7 +4548,7 @@
       "task": "Распространить нижний формат справочных блоков на плановые материалы, адресные описания, журналы, открытые вопросы, реестры и другие производные Markdown-документы.",
       "why_now": null,
       "criteria": [],
-      "outcome": "Верхние блоки происхождения перенесены вниз в затронутых производных Markdown-файлах; правило расширено в AGENTS.md, шаблон адресных описаний обновлён, а fum-session-coherence получил проверку верхних справочных блоков.",
+      "outcome": "Верхние блоки происхождения перенесены вниз в затронутых производных Markdown-файлах; правило расширено в AGENTS.md, шаблон адресных описаний обновлён, а fum-svyaznostj-rabochej-sessii получил проверку верхних справочных блоков.",
       "source_links": [
         {
           "label": "исходный запрос 2026-07-01 21:07:58 MSK",
@@ -4572,7 +4576,7 @@
       "task": "Создать локальную автоматизацию для ревью проделанной работы и сохранения результатов: Git-срез, область проверки, находки, проверки, остаточные риски и вывод ревьюера.",
       "why_now": null,
       "criteria": [],
-      "outcome": "Создана автоматизация fum-work-review со скриптом build-work-review.py, тестами, конфигурацией первого запуска и сохранённым отчётом ревью проделанной работы.",
+      "outcome": "Создана автоматизация fum-revjyu-prodelannoj-rabotyi со скриптом build-work-review.py, тестами, конфигурацией первого запуска и сохранённым отчётом ревью проделанной работы.",
       "source_links": [
         {
           "label": "исходный запрос 2026-07-01 17:03:14 MSK",
@@ -4624,7 +4628,7 @@
       "task": "Уточнить тепловую карту графа Obsidian так, чтобы она давала больше видимых градаций и более плавный переход от красного к синему в текущей молодой памяти FUM.",
       "why_now": null,
       "criteria": [],
-      "outcome": "Шкала fum-obsidian-graph-recency заменена на десять возрастных корзин первого десятидневного окна; тесты закрепляют порядок корзин и RGB-цвета, а .obsidian/graph.json пересобран новой палитрой. Возможное продолжение - добавить переключаемую короткую и длинную шкалу, если архивная память станет слишком быстро сливаться в синюю группу.",
+      "outcome": "Шкала fum-svezhestj-grafa-obsidian заменена на десять возрастных корзин первого десятидневного окна; тесты закрепляют порядок корзин и RGB-цвета, а .obsidian/graph.json пересобран новой палитрой. Возможное продолжение - добавить переключаемую короткую и длинную шкалу, если архивная память станет слишком быстро сливаться в синюю группу.",
       "source_links": [
         {
           "label": "исходный запрос 2026-07-01 15:51:24 MSK",
@@ -4635,8 +4639,8 @@
           "target": "Журнал/2026-07-01_15-51-24_MSK.md"
         },
         {
-          "label": "fum-obsidian-graph-recency",
-          "target": "Инструменты/fum-obsidian-graph-recency/SKILL.md"
+          "label": "fum-svezhestj-grafa-obsidian",
+          "target": "Инструменты/fum-svezhestj-grafa-obsidian/SKILL.md"
         },
         {
           "label": "Воспроизводимые автоматизации FUM",
@@ -4652,7 +4656,7 @@
       "task": "Создать воспроизводимую тепловую карту узлов графа Obsidian по времени последнего содержательного редактирования и сохранить необходимые настройки графа в Git.",
       "why_now": null,
       "criteria": [],
-      "outcome": "Создана локальная автоматизация fum-obsidian-graph-recency, которая строит colorGroups в .obsidian/graph.json из FUM-MD-RECENCY; общий fum-smoke-check расширен проверкой актуальности этой карты.",
+      "outcome": "Создана локальная автоматизация fum-svezhestj-grafa-obsidian, которая строит colorGroups в .obsidian/graph.json из FUM-MD-RECENCY; общий fum-kompleksnaya-proverka-repozitoriya расширен проверкой актуальности этой карты.",
       "source_links": [
         {
           "label": "исходный запрос 2026-07-01 15:35:24 MSK",
@@ -4663,8 +4667,8 @@
           "target": "Документация/17-воспроизводимые-автоматизации.md"
         },
         {
-          "label": "fum-obsidian-graph-recency",
-          "target": "Инструменты/fum-obsidian-graph-recency/SKILL.md"
+          "label": "fum-svezhestj-grafa-obsidian",
+          "target": "Инструменты/fum-svezhestj-grafa-obsidian/SKILL.md"
         }
       ]
     },
@@ -4676,7 +4680,7 @@
       "task": "Собрать единый локальный smoke-check репозитория, который запускает тесты всех локальных автоматизаций, пересборку проверяемых реестров, recency-проверку и проверку связности выбранной рабочей сессии без секретов и сетевых зависимостей по умолчанию.",
       "why_now": null,
       "criteria": [],
-      "outcome": "Создана локальная автоматизация fum-smoke-check со скриптом run-smoke-check.py и тестами; она обнаруживает тесты Инструменты/*/tests, пересобирает и валидирует плановый реестр, запускает fum-md-recency --check, проверяет тепловую карту графа Obsidian через fum-obsidian-graph-recency --check и проверяет связность выбранной сессии через fum-session-coherence.",
+      "outcome": "Создана локальная автоматизация fum-kompleksnaya-proverka-repozitoriya со скриптом run-smoke-check.py и тестами; она обнаруживает тесты Инструменты/*/tests, пересобирает и валидирует плановый реестр, запускает fum-svezhestj-markdown --check, проверяет тепловую карту графа Obsidian через fum-svezhestj-grafa-obsidian --check и проверяет связность выбранной сессии через fum-svyaznostj-rabochej-sessii.",
       "source_links": [
         {
           "label": "исходный запрос 2026-07-01 14:02:57 MSK",
@@ -4695,8 +4699,8 @@
           "target": "Журнал/2026-07-01_15-35-24_MSK.md"
         },
         {
-          "label": "fum-smoke-check",
-          "target": "Инструменты/fum-smoke-check/SKILL.md"
+          "label": "fum-kompleksnaya-proverka-repozitoriya",
+          "target": "Инструменты/fum-kompleksnaya-proverka-repozitoriya/SKILL.md"
         },
         {
           "label": "Воспроизводимые автоматизации FUM",
@@ -4712,7 +4716,7 @@
       "task": "Расширить проверку связности рабочей сессии так, чтобы она помогала обнаруживать мета-запросы о правилах памяти FUM, которые должны быть заведены в Запросы/.",
       "why_now": null,
       "criteria": [],
-      "outcome": "В fum-session-coherence добавлена эвристика: затронутые Markdown-файлы вне Запросы/, похожие на фиксацию вопроса, уточнения, ответа или проверки пользователя о правилах памяти или порядке сессии, должны ссылаться на конкретный файл исходного запроса; поведение закреплено тестом.",
+      "outcome": "В fum-svyaznostj-rabochej-sessii добавлена эвристика: затронутые Markdown-файлы вне Запросы/, похожие на фиксацию вопроса, уточнения, ответа или проверки пользователя о правилах памяти или порядке сессии, должны ссылаться на конкретный файл исходного запроса; поведение закреплено тестом.",
       "source_links": [
         {
           "label": "исходный запрос 2026-07-01 13:44:13 MSK",
@@ -4727,8 +4731,8 @@
           "target": "Журнал/2026-06-25_19-18-28_MSK.md"
         },
         {
-          "label": "fum-session-coherence",
-          "target": "Инструменты/fum-session-coherence/SKILL.md"
+          "label": "fum-svyaznostj-rabochej-sessii",
+          "target": "Инструменты/fum-svyaznostj-rabochej-sessii/SKILL.md"
         }
       ]
     },
@@ -4740,7 +4744,7 @@
       "task": "Подготовить машинно читаемый реестр требований, вариантов реализации и кандидатов, который можно проверять или пересобирать из дорожной карты, направлений, MVP-кандидатов, предложений и открытых вопросов.",
       "why_now": null,
       "criteria": [],
-      "outcome": "Создан JSON-реестр требований, вариантов реализации и кандидатов и локальная автоматизация fum-planning-registry со сборкой, валидацией и тестами; валидатор пересобирает реестр из плановых источников и замечает устаревание файла.",
+      "outcome": "Создан JSON-реестр требований, вариантов реализации и кандидатов и локальная автоматизация fum-reyestr-planirovaniya со сборкой, валидацией и тестами; валидатор пересобирает реестр из плановых источников и замечает устаревание файла.",
       "source_links": [
         {
           "label": "исходный запрос 2026-07-01 13:32:17 MSK",
@@ -4768,7 +4772,7 @@
       "task": "Подготовить GitHub-публикацию репозитория как базового upstream для форков памяти: провести публикационный аудит, обновить входной README, описать правила форка, ведения собственных веток, периодического слияния обновляющегося master и обратной передачи улучшений.",
       "why_now": null,
       "criteria": [],
-      "outcome": "Проведён локальный публикационный аудит, обновлён входной README.md, создан документ Публичный upstream и форки памяти FUM, а найденный риск в сыром ChatGPT-share источнике закрыт TDD-доработкой fum-request-materials и редакцией сохранённых request-id.",
+      "outcome": "Проведён локальный публикационный аудит, обновлён входной README.md, создан документ Публичный upstream и форки памяти FUM, а найденный риск в сыром ChatGPT-share источнике закрыт TDD-доработкой fum-materialyi-zaprosov и редакцией сохранённых request-id.",
       "source_links": [
         {
           "label": "исходный запрос 2026-07-01 11:34:46 MSK",
@@ -4800,7 +4804,7 @@
       "task": "Создать локальную автоматизацию для оценочных материалов Оценки/: снимок репозитория, методику расчёта, диапазоны, допущения, оформление результата и проверку связности.",
       "why_now": null,
       "criteria": [],
-      "outcome": "Создана автоматизация fum-estimates со скриптом build-estimate.py, JSON-конфигурацией первой оценки, локальными тестами и валидацией пересобранного файла оценки трудоёмкости текущей памяти FUM.",
+      "outcome": "Создана автоматизация fum-ocenki со скриптом build-estimate.py, JSON-конфигурацией первой оценки, локальными тестами и валидацией пересобранного файла оценки трудоёмкости текущей памяти FUM.",
       "source_links": [
         {
           "label": "исходный запрос 2026-06-29 17:50:10 MSK",
@@ -4852,7 +4856,7 @@
       "task": "Ввести обновляемые recency-метки в Markdown-файлах и общий индекс .md-файлов от свежих к старым.",
       "why_now": null,
       "criteria": [],
-      "outcome": "Создана автоматизация fum-md-recency, правило запуска закреплено в AGENTS.md, а проверка fum-session-coherence теперь контролирует свежесть меток и индекса.",
+      "outcome": "Создана автоматизация fum-svezhestj-markdown, правило запуска закреплено в AGENTS.md, а проверка fum-svyaznostj-rabochej-sessii теперь контролирует свежесть меток и индекса.",
       "source_links": [
         {
           "label": "исходный запрос 2026-06-26 11:24:11 MSK",
@@ -4863,8 +4867,8 @@
           "target": "Журнал/2026-06-26_11-24-11_MSK.md"
         },
         {
-          "label": "fum-md-recency",
-          "target": "Инструменты/fum-md-recency/SKILL.md"
+          "label": "fum-svezhestj-markdown",
+          "target": "Инструменты/fum-svezhestj-markdown/SKILL.md"
         }
       ]
     },
@@ -4920,7 +4924,7 @@
       "task": "Выделить автоматическую проверку связности рабочей сессии: навигация запросов, наличие журнала, раздел использованных инструментов, Markdown-ссылки и отсутствие лишнего мусора в Git-состоянии.",
       "why_now": null,
       "criteria": [],
-      "outcome": "Создана локальная автоматизация fum-session-coherence со скриптом, тестами, инструкцией применения и правилом запуска перед коммитом рабочей сессии, влияющей на проект.",
+      "outcome": "Создана локальная автоматизация fum-svyaznostj-rabochej-sessii со скриптом, тестами, инструкцией применения и правилом запуска перед коммитом рабочей сессии, влияющей на проект.",
       "source_links": [
         {
           "label": "AGENTS.md",
@@ -4987,8 +4991,8 @@
           "target": "Планирование/сводная-таблица-требований-и-реализаций.md"
         },
         {
-          "label": "fum-planning-registry",
-          "target": "Инструменты/fum-planning-registry/SKILL.md"
+          "label": "fum-reyestr-planirovaniya",
+          "target": "Инструменты/fum-reyestr-planirovaniya/SKILL.md"
         },
         {
           "label": "ревью проекта",
@@ -5015,8 +5019,8 @@
           "target": "Журнал/2026-07-20_22-05-19_MSK_сделать-повторное-архивирование-источника-атомарным.md"
         },
         {
-          "label": "fum-request-materials",
-          "target": "Инструменты/fum-request-materials/SKILL.md"
+          "label": "fum-materialyi-zaprosov",
+          "target": "Инструменты/fum-materialyi-zaprosov/SKILL.md"
         },
         {
           "label": "ревью проекта",
@@ -5032,7 +5036,7 @@
       "task": "Восстановить обратные ссылки от производной документации ко всем открытым и частично прояснённым вопросам и включить проверку двунаправленности в smoke-check.",
       "why_now": null,
       "criteria": [],
-      "outcome": "Смысловой аудит подтвердил 14 активных вопросов и 85 фактических целей. В 23 целевых файлах восстановлена 31 обоснованная обратная ссылка; создан автономный валидатор fum-question-backlinks, его 21 тест проверяет двунаправленность, отсутствующую цель и регистр пути, а запуск включён в полный smoke-check.",
+      "outcome": "Смысловой аудит подтвердил 14 активных вопросов и 85 фактических целей. В 23 целевых файлах восстановлена 31 обоснованная обратная ссылка; создан автономный валидатор fum-obratnyiye-ssyilki-voprosov, его 21 тест проверяет двунаправленность, отсутствующую цель и регистр пути, а запуск включён в полный smoke-check.",
       "source_links": [
         {
           "label": "исходный запрос текущей сессии",
@@ -5043,8 +5047,8 @@
           "target": "Журнал/2026-07-20_23-08-44_MSK_восстановить-обратные-ссылки-вопросов.md"
         },
         {
-          "label": "fum-question-backlinks",
-          "target": "Инструменты/fum-question-backlinks/SKILL.md"
+          "label": "fum-obratnyiye-ssyilki-voprosov",
+          "target": "Инструменты/fum-obratnyiye-ssyilki-voprosov/SKILL.md"
         },
         {
           "label": "ревью проекта",
@@ -5795,8 +5799,8 @@
             "target": "Планирование/сводная-таблица-требований-и-реализаций.md"
           },
           {
-            "label": "fum-planning-registry",
-            "target": "Инструменты/fum-planning-registry/SKILL.md"
+            "label": "fum-reyestr-planirovaniya",
+            "target": "Инструменты/fum-reyestr-planirovaniya/SKILL.md"
           }
         ]
       },
@@ -6404,7 +6408,7 @@
         "id": "FUM-STEP-0029",
         "status": "Актуально",
         "proposal": "Добавить полуавтоматический аудит покрытия раздела Вопросы и ответы/: извлекать вопросительные предложения только из дословных блоков ## Текст запроса, сопоставлять их со ссылками на исходные запросы в существующих карточках и выдавать список кандидатов для ручной проверки отношения к сущности FUM, содержательности ответа и самостоятельной полезности.",
-        "reason": "Ретроспективный аудит показал, что формальный знак ? позволяет найти кандидатов, но не определяет область раздела: две служебные карточки пришлось удалить после уточнения смысловой границы. fum-session-coherence отклоняет формально неверные карточки, но не доказывает прямое отношение вопроса к сущности FUM; поэтому итоговое решение нельзя автоматизировать полностью.",
+        "reason": "Ретроспективный аудит показал, что формальный знак ? позволяет найти кандидатов, но не определяет область раздела: две служебные карточки пришлось удалить после уточнения смысловой границы. fum-svyaznostj-rabochej-sessii отклоняет формально неверные карточки, но не доказывает прямое отношение вопроса к сущности FUM; поэтому итоговое решение нельзя автоматизировать полностью.",
         "source_links": [
           {
             "label": "исходный запрос 2026-07-10 06:46:29 MSK - Дополнить вопросы и ответы по всем запросам",
@@ -6419,8 +6423,8 @@
             "target": "Вопросы%20и%20ответы/README.md"
           },
           {
-            "label": "fum-session-coherence",
-            "target": "Инструменты/fum-session-coherence/SKILL.md"
+            "label": "fum-svyaznostj-rabochej-sessii",
+            "target": "Инструменты/fum-svyaznostj-rabochej-sessii/SKILL.md"
           }
         ]
       },
@@ -6436,7 +6440,7 @@
           },
           {
             "label": "политика SwiftPM-пакетов",
-            "target": "Инструменты/fum-smoke-check/swift-package-policy.json"
+            "target": "Инструменты/fum-kompleksnaya-proverka-repozitoriya/swift-package-policy.json"
           },
           {
             "label": "теневой редактор продолжений",
@@ -6493,30 +6497,6 @@
         ]
       },
       {
-        "id": "FUM-STEP-0033",
-        "status": "Актуально",
-        "proposal": "Мигрировать точный legacy-набор прежних репозиторных и декларативных имён автоматизаций на живой контракт LinguisticKit без изменения поведения автоматизаций.",
-        "reason": "Форк, submodule, живой валидатор и эталоны уже приняты; остаётся отдельная просматриваемая миграция исторических исключений с проверкой коллизий и без автоматического изменения закреплённой ревизии.",
-        "source_links": [
-          {
-            "label": "исходный запрос о форках Git-зависимостей",
-            "target": "Запросы/2026-07-21_12-52-18_MSK_закрепить-форки-Git-зависимостей-в-fum-lab.md"
-          },
-          {
-            "label": "журнал",
-            "target": "Журнал/2026-07-21_12-52-18_MSK_закрепить-форки-Git-зависимостей-в-fum-lab.md"
-          },
-          {
-            "label": "исходный запрос о транслитерации",
-            "target": "Запросы/2026-07-21_12-18-37_MSK_закрепить-транслитерацию-названий-автоматизаций.md"
-          },
-          {
-            "label": "проверка названий автоматизаций",
-            "target": "Инструменты/fum-proverka-nazvanij-avtomatizacij/SKILL.md"
-          }
-        ]
-      },
-      {
         "id": "FUM-STEP-0035",
         "status": "Актуально",
         "proposal": "Доработать паспорт коробочной стадии и первого URL-среза по аудиту: определить критерий завершения стадии, продуктовый реестр происхождения, сетевую модель, карточки требований, версионированную границу, атомарность снимка и связи, согласованный порядок runtime и модельной среды и актуальную трассируемость; затем повторить аудит до реализации.",
@@ -6538,6 +6518,38 @@
       }
     ],
     "proposal_history": [
+      {
+        "id": "FUM-STEP-0033",
+        "status": "Выполнено",
+        "proposal": "Мигрировать точный legacy-набор прежних репозиторных и декларативных имён автоматизаций на живой контракт LinguisticKit без изменения поведения автоматизаций.",
+        "reason": "Шестнадцать прежних репозиторных имён автоматизаций заменены точными slug, полученными из русских смысловых источников живым LinguisticKit. Одно декларативное имя получило вычисленную отображаемую латинскую форму; реестр содержит 19 текущих репозиторных и 5 отображаемых имён при пустых массивах legacy и legacy_display. Миграция ограничена идентичностями, путями, ссылками и конфигурационными вызовами. Алгоритмы, CLI, профили, расписания и поведение автоматизаций не менялись; gitlink, закреплённая ревизия, таблица и fork/upstream-контракт LinguisticKit сохранены. Исторические исходные тексты запросов и материалы источников не переписывались, а локальные Markdown-ссылки переведены на существующие новые пути. Красная фаза TDD наблюдаемо выявила весь legacy-набор и прежний декларативный заголовок. После миграции прошли 21/21 тест проверки имён и живая проверка 19 репозиторных автоматизаций через LinguisticKit; остальные локальные контракты и общий smoke-check проверены на новых путях в связанной рабочей сессии.",
+        "source_links": [
+          {
+            "label": "исходный запрос о выполнении миграции",
+            "target": "Запросы/2026-07-22_08-44-00_MSK_мигрировать-legacy-имена-автоматизаций.md"
+          },
+          {
+            "label": "журнал",
+            "target": "Журнал/2026-07-22_08-44-00_MSK_мигрировать-legacy-имена-автоматизаций.md"
+          },
+          {
+            "label": "исходный запрос о форках Git-зависимостей",
+            "target": "Запросы/2026-07-21_12-52-18_MSK_закрепить-форки-Git-зависимостей-в-fum-lab.md"
+          },
+          {
+            "label": "журнал",
+            "target": "Журнал/2026-07-21_12-52-18_MSK_закрепить-форки-Git-зависимостей-в-fum-lab.md"
+          },
+          {
+            "label": "исходный запрос о транслитерации",
+            "target": "Запросы/2026-07-21_12-18-37_MSK_закрепить-транслитерацию-названий-автоматизаций.md"
+          },
+          {
+            "label": "проверка названий автоматизаций",
+            "target": "Инструменты/fum-proverka-nazvanij-avtomatizacij/SKILL.md"
+          }
+        ]
+      },
       {
         "id": "FUM-STEP-0034",
         "status": "Выполнено",
@@ -6669,8 +6681,8 @@
             "target": "Описания/для-разработчиков-ПО.md"
           },
           {
-            "label": "fum-readme-index",
-            "target": "Инструменты/fum-readme-index/SKILL.md"
+            "label": "fum-indeks-readme",
+            "target": "Инструменты/fum-indeks-readme/SKILL.md"
           }
         ]
       },
@@ -6693,8 +6705,8 @@
             "target": "Планирование/MVP-кандидаты/02-архивирование-прикрепляемых-материалов/README.md"
           },
           {
-            "label": "fum-request-materials",
-            "target": "Инструменты/fum-request-materials/SKILL.md"
+            "label": "fum-materialyi-zaprosov",
+            "target": "Инструменты/fum-materialyi-zaprosov/SKILL.md"
           }
         ]
       },
@@ -6757,8 +6769,8 @@
             "target": "Журнал/2026-07-21_05-39-00_MSK_сделать-служебные-генераторы-воспроизводимыми.md"
           },
           {
-            "label": "fum-project-files",
-            "target": "Инструменты/fum-project-files/SKILL.md"
+            "label": "fum-proyektnyiye-fajlyi",
+            "target": "Инструменты/fum-proyektnyiye-fajlyi/SKILL.md"
           },
           {
             "label": "ревью проекта",
@@ -6769,7 +6781,7 @@
       {
         "id": "FUM-STEP-0044",
         "status": "Выполнено",
-        "proposal": "Расширить общий fum-smoke-check обнаружением SwiftPM-пакетов, тестами, сборкой исполняемых продуктов и явным lint-контрактом.",
+        "proposal": "Расширить общий fum-kompleksnaya-proverka-repozitoriya обнаружением SwiftPM-пакетов, тестами, сборкой исполняемых продуктов и явным lint-контрактом.",
         "reason": "Общий прогон автоматически находит два пакета, запускает 51 Swift-тест, отдельно собирает FUMShadowEditor, FUMShadowProbe и FUMInputProbe, применяет строгий lint по умолчанию и проверяет хэш-привязанное исключение теневого редактора.",
         "source_links": [
           {
@@ -6781,8 +6793,8 @@
             "target": "Журнал/2026-07-20_15-34-46_MSK_включить-SwiftPM-в-общий-smoke-check.md"
           },
           {
-            "label": "fum-smoke-check",
-            "target": "Инструменты/fum-smoke-check/SKILL.md"
+            "label": "fum-kompleksnaya-proverka-repozitoriya",
+            "target": "Инструменты/fum-kompleksnaya-proverka-repozitoriya/SKILL.md"
           },
           {
             "label": "ревью проекта",
@@ -6882,7 +6894,7 @@
         "id": "FUM-STEP-0049",
         "status": "Выполнено",
         "proposal": "Добавить проверку регистра локальных Markdown-ссылок и путей, чтобы память FUM корректно работала на чувствительных к регистру файловых системах.",
-        "reason": "fum-session-coherence теперь проверяет локальные Markdown-ссылки во всём репозитории и сообщает ошибку, если регистр ссылки отличается от реального пути; поведение закреплено тестом и попадает в smoke-check.",
+        "reason": "fum-svyaznostj-rabochej-sessii теперь проверяет локальные Markdown-ссылки во всём репозитории и сообщает ошибку, если регистр ссылки отличается от реального пути; поведение закреплено тестом и попадает в smoke-check.",
         "source_links": [
           {
             "label": "исходный запрос 2026-07-06 14:31:09 MSK - Добавить проверку регистра ссылок",
@@ -6893,8 +6905,8 @@
             "target": "Журнал/2026-07-06_14-31-09_MSK_добавить-проверку-регистра-ссылок.md"
           },
           {
-            "label": "fum-session-coherence",
-            "target": "Инструменты/fum-session-coherence/SKILL.md"
+            "label": "fum-svyaznostj-rabochej-sessii",
+            "target": "Инструменты/fum-svyaznostj-rabochej-sessii/SKILL.md"
           }
         ]
       },
@@ -6922,7 +6934,7 @@
         "id": "FUM-STEP-0051",
         "status": "Выполнено",
         "proposal": "Распространить нижний формат справочных блоков на плановые материалы, адресные описания, журналы, открытые вопросы, реестры и другие производные Markdown-документы.",
-        "reason": "Верхние блоки происхождения перенесены вниз в затронутых производных Markdown-файлах; правило расширено в AGENTS.md, шаблон адресных описаний обновлён, а fum-session-coherence получил проверку верхних справочных блоков.",
+        "reason": "Верхние блоки происхождения перенесены вниз в затронутых производных Markdown-файлах; правило расширено в AGENTS.md, шаблон адресных описаний обновлён, а fum-svyaznostj-rabochej-sessii получил проверку верхних справочных блоков.",
         "source_links": [
           {
             "label": "исходный запрос 2026-07-01 21:07:58 MSK",
@@ -6946,7 +6958,7 @@
         "id": "FUM-STEP-0052",
         "status": "Выполнено",
         "proposal": "Создать локальную автоматизацию для ревью проделанной работы и сохранения результатов: Git-срез, область проверки, находки, проверки, остаточные риски и вывод ревьюера.",
-        "reason": "Создана автоматизация fum-work-review со скриптом build-work-review.py, тестами, конфигурацией первого запуска и сохранённым отчётом ревью проделанной работы.",
+        "reason": "Создана автоматизация fum-revjyu-prodelannoj-rabotyi со скриптом build-work-review.py, тестами, конфигурацией первого запуска и сохранённым отчётом ревью проделанной работы.",
         "source_links": [
           {
             "label": "исходный запрос 2026-07-01 17:03:14 MSK",
@@ -6990,7 +7002,7 @@
         "id": "FUM-STEP-0054",
         "status": "Выполнено",
         "proposal": "Уточнить тепловую карту графа Obsidian так, чтобы она давала больше видимых градаций и более плавный переход от красного к синему в текущей молодой памяти FUM.",
-        "reason": "Шкала fum-obsidian-graph-recency заменена на десять возрастных корзин первого десятидневного окна; тесты закрепляют порядок корзин и RGB-цвета, а .obsidian/graph.json пересобран новой палитрой. Возможное продолжение - добавить переключаемую короткую и длинную шкалу, если архивная память станет слишком быстро сливаться в синюю группу.",
+        "reason": "Шкала fum-svezhestj-grafa-obsidian заменена на десять возрастных корзин первого десятидневного окна; тесты закрепляют порядок корзин и RGB-цвета, а .obsidian/graph.json пересобран новой палитрой. Возможное продолжение - добавить переключаемую короткую и длинную шкалу, если архивная память станет слишком быстро сливаться в синюю группу.",
         "source_links": [
           {
             "label": "исходный запрос 2026-07-01 15:51:24 MSK",
@@ -7001,8 +7013,8 @@
             "target": "Журнал/2026-07-01_15-51-24_MSK.md"
           },
           {
-            "label": "fum-obsidian-graph-recency",
-            "target": "Инструменты/fum-obsidian-graph-recency/SKILL.md"
+            "label": "fum-svezhestj-grafa-obsidian",
+            "target": "Инструменты/fum-svezhestj-grafa-obsidian/SKILL.md"
           },
           {
             "label": "Воспроизводимые автоматизации FUM",
@@ -7014,7 +7026,7 @@
         "id": "FUM-STEP-0055",
         "status": "Выполнено",
         "proposal": "Создать воспроизводимую тепловую карту узлов графа Obsidian по времени последнего содержательного редактирования и сохранить необходимые настройки графа в Git.",
-        "reason": "Создана локальная автоматизация fum-obsidian-graph-recency, которая строит colorGroups в .obsidian/graph.json из FUM-MD-RECENCY; общий fum-smoke-check расширен проверкой актуальности этой карты.",
+        "reason": "Создана локальная автоматизация fum-svezhestj-grafa-obsidian, которая строит colorGroups в .obsidian/graph.json из FUM-MD-RECENCY; общий fum-kompleksnaya-proverka-repozitoriya расширен проверкой актуальности этой карты.",
         "source_links": [
           {
             "label": "исходный запрос 2026-07-01 15:35:24 MSK",
@@ -7025,8 +7037,8 @@
             "target": "Документация/17-воспроизводимые-автоматизации.md"
           },
           {
-            "label": "fum-obsidian-graph-recency",
-            "target": "Инструменты/fum-obsidian-graph-recency/SKILL.md"
+            "label": "fum-svezhestj-grafa-obsidian",
+            "target": "Инструменты/fum-svezhestj-grafa-obsidian/SKILL.md"
           }
         ]
       },
@@ -7034,7 +7046,7 @@
         "id": "FUM-STEP-0056",
         "status": "Выполнено",
         "proposal": "Собрать единый локальный smoke-check репозитория, который запускает тесты всех локальных автоматизаций, пересборку проверяемых реестров, recency-проверку и проверку связности выбранной рабочей сессии без секретов и сетевых зависимостей по умолчанию.",
-        "reason": "Создана локальная автоматизация fum-smoke-check со скриптом run-smoke-check.py и тестами; она обнаруживает тесты Инструменты/*/tests, пересобирает и валидирует плановый реестр, запускает fum-md-recency --check, проверяет тепловую карту графа Obsidian через fum-obsidian-graph-recency --check и проверяет связность выбранной сессии через fum-session-coherence.",
+        "reason": "Создана локальная автоматизация fum-kompleksnaya-proverka-repozitoriya со скриптом run-smoke-check.py и тестами; она обнаруживает тесты Инструменты/*/tests, пересобирает и валидирует плановый реестр, запускает fum-svezhestj-markdown --check, проверяет тепловую карту графа Obsidian через fum-svezhestj-grafa-obsidian --check и проверяет связность выбранной сессии через fum-svyaznostj-rabochej-sessii.",
         "source_links": [
           {
             "label": "исходный запрос 2026-07-01 14:02:57 MSK",
@@ -7053,8 +7065,8 @@
             "target": "Журнал/2026-07-01_15-35-24_MSK.md"
           },
           {
-            "label": "fum-smoke-check",
-            "target": "Инструменты/fum-smoke-check/SKILL.md"
+            "label": "fum-kompleksnaya-proverka-repozitoriya",
+            "target": "Инструменты/fum-kompleksnaya-proverka-repozitoriya/SKILL.md"
           },
           {
             "label": "Воспроизводимые автоматизации FUM",
@@ -7066,7 +7078,7 @@
         "id": "FUM-STEP-0057",
         "status": "Выполнено",
         "proposal": "Расширить проверку связности рабочей сессии так, чтобы она помогала обнаруживать мета-запросы о правилах памяти FUM, которые должны быть заведены в Запросы/.",
-        "reason": "В fum-session-coherence добавлена эвристика: затронутые Markdown-файлы вне Запросы/, похожие на фиксацию вопроса, уточнения, ответа или проверки пользователя о правилах памяти или порядке сессии, должны ссылаться на конкретный файл исходного запроса; поведение закреплено тестом.",
+        "reason": "В fum-svyaznostj-rabochej-sessii добавлена эвристика: затронутые Markdown-файлы вне Запросы/, похожие на фиксацию вопроса, уточнения, ответа или проверки пользователя о правилах памяти или порядке сессии, должны ссылаться на конкретный файл исходного запроса; поведение закреплено тестом.",
         "source_links": [
           {
             "label": "исходный запрос 2026-07-01 13:44:13 MSK",
@@ -7081,8 +7093,8 @@
             "target": "Журнал/2026-06-25_19-18-28_MSK.md"
           },
           {
-            "label": "fum-session-coherence",
-            "target": "Инструменты/fum-session-coherence/SKILL.md"
+            "label": "fum-svyaznostj-rabochej-sessii",
+            "target": "Инструменты/fum-svyaznostj-rabochej-sessii/SKILL.md"
           }
         ]
       },
@@ -7090,7 +7102,7 @@
         "id": "FUM-STEP-0058",
         "status": "Выполнено",
         "proposal": "Подготовить машинно читаемый реестр требований, вариантов реализации и кандидатов, который можно проверять или пересобирать из дорожной карты, направлений, MVP-кандидатов, предложений и открытых вопросов.",
-        "reason": "Создан JSON-реестр требований, вариантов реализации и кандидатов и локальная автоматизация fum-planning-registry со сборкой, валидацией и тестами; валидатор пересобирает реестр из плановых источников и замечает устаревание файла.",
+        "reason": "Создан JSON-реестр требований, вариантов реализации и кандидатов и локальная автоматизация fum-reyestr-planirovaniya со сборкой, валидацией и тестами; валидатор пересобирает реестр из плановых источников и замечает устаревание файла.",
         "source_links": [
           {
             "label": "исходный запрос 2026-07-01 13:32:17 MSK",
@@ -7114,7 +7126,7 @@
         "id": "FUM-STEP-0059",
         "status": "Выполнено",
         "proposal": "Подготовить GitHub-публикацию репозитория как базового upstream для форков памяти: провести публикационный аудит, обновить входной README, описать правила форка, ведения собственных веток, периодического слияния обновляющегося master и обратной передачи улучшений.",
-        "reason": "Проведён локальный публикационный аудит, обновлён входной README.md, создан документ Публичный upstream и форки памяти FUM, а найденный риск в сыром ChatGPT-share источнике закрыт TDD-доработкой fum-request-materials и редакцией сохранённых request-id.",
+        "reason": "Проведён локальный публикационный аудит, обновлён входной README.md, создан документ Публичный upstream и форки памяти FUM, а найденный риск в сыром ChatGPT-share источнике закрыт TDD-доработкой fum-materialyi-zaprosov и редакцией сохранённых request-id.",
         "source_links": [
           {
             "label": "исходный запрос 2026-07-01 11:34:46 MSK",
@@ -7142,7 +7154,7 @@
         "id": "FUM-STEP-0060",
         "status": "Выполнено",
         "proposal": "Создать локальную автоматизацию для оценочных материалов Оценки/: снимок репозитория, методику расчёта, диапазоны, допущения, оформление результата и проверку связности.",
-        "reason": "Создана автоматизация fum-estimates со скриптом build-estimate.py, JSON-конфигурацией первой оценки, локальными тестами и валидацией пересобранного файла оценки трудоёмкости текущей памяти FUM.",
+        "reason": "Создана автоматизация fum-ocenki со скриптом build-estimate.py, JSON-конфигурацией первой оценки, локальными тестами и валидацией пересобранного файла оценки трудоёмкости текущей памяти FUM.",
         "source_links": [
           {
             "label": "исходный запрос 2026-06-29 17:50:10 MSK",
@@ -7186,7 +7198,7 @@
         "id": "FUM-STEP-0062",
         "status": "Выполнено",
         "proposal": "Ввести обновляемые recency-метки в Markdown-файлах и общий индекс .md-файлов от свежих к старым.",
-        "reason": "Создана автоматизация fum-md-recency, правило запуска закреплено в AGENTS.md, а проверка fum-session-coherence теперь контролирует свежесть меток и индекса.",
+        "reason": "Создана автоматизация fum-svezhestj-markdown, правило запуска закреплено в AGENTS.md, а проверка fum-svyaznostj-rabochej-sessii теперь контролирует свежесть меток и индекса.",
         "source_links": [
           {
             "label": "исходный запрос 2026-06-26 11:24:11 MSK",
@@ -7197,8 +7209,8 @@
             "target": "Журнал/2026-06-26_11-24-11_MSK.md"
           },
           {
-            "label": "fum-md-recency",
-            "target": "Инструменты/fum-md-recency/SKILL.md"
+            "label": "fum-svezhestj-markdown",
+            "target": "Инструменты/fum-svezhestj-markdown/SKILL.md"
           }
         ]
       },
@@ -7242,7 +7254,7 @@
         "id": "FUM-STEP-0065",
         "status": "Выполнено",
         "proposal": "Выделить автоматическую проверку связности рабочей сессии: навигация запросов, наличие журнала, раздел использованных инструментов, Markdown-ссылки и отсутствие лишнего мусора в Git-состоянии.",
-        "reason": "Создана локальная автоматизация fum-session-coherence со скриптом, тестами, инструкцией применения и правилом запуска перед коммитом рабочей сессии, влияющей на проект.",
+        "reason": "Создана локальная автоматизация fum-svyaznostj-rabochej-sessii со скриптом, тестами, инструкцией применения и правилом запуска перед коммитом рабочей сессии, влияющей на проект.",
         "source_links": [
           {
             "label": "AGENTS.md",
@@ -7301,8 +7313,8 @@
             "target": "Планирование/сводная-таблица-требований-и-реализаций.md"
           },
           {
-            "label": "fum-planning-registry",
-            "target": "Инструменты/fum-planning-registry/SKILL.md"
+            "label": "fum-reyestr-planirovaniya",
+            "target": "Инструменты/fum-reyestr-planirovaniya/SKILL.md"
           },
           {
             "label": "ревью проекта",
@@ -7325,8 +7337,8 @@
             "target": "Журнал/2026-07-20_22-05-19_MSK_сделать-повторное-архивирование-источника-атомарным.md"
           },
           {
-            "label": "fum-request-materials",
-            "target": "Инструменты/fum-request-materials/SKILL.md"
+            "label": "fum-materialyi-zaprosov",
+            "target": "Инструменты/fum-materialyi-zaprosov/SKILL.md"
           },
           {
             "label": "ревью проекта",
@@ -7338,7 +7350,7 @@
         "id": "FUM-STEP-0069",
         "status": "Выполнено",
         "proposal": "Восстановить обратные ссылки от производной документации ко всем открытым и частично прояснённым вопросам и включить проверку двунаправленности в smoke-check.",
-        "reason": "Смысловой аудит подтвердил 14 активных вопросов и 85 фактических целей. В 23 целевых файлах восстановлена 31 обоснованная обратная ссылка; создан автономный валидатор fum-question-backlinks, его 21 тест проверяет двунаправленность, отсутствующую цель и регистр пути, а запуск включён в полный smoke-check.",
+        "reason": "Смысловой аудит подтвердил 14 активных вопросов и 85 фактических целей. В 23 целевых файлах восстановлена 31 обоснованная обратная ссылка; создан автономный валидатор fum-obratnyiye-ssyilki-voprosov, его 21 тест проверяет двунаправленность, отсутствующую цель и регистр пути, а запуск включён в полный smoke-check.",
         "source_links": [
           {
             "label": "исходный запрос текущей сессии",
@@ -7349,8 +7361,8 @@
             "target": "Журнал/2026-07-20_23-08-44_MSK_восстановить-обратные-ссылки-вопросов.md"
           },
           {
-            "label": "fum-question-backlinks",
-            "target": "Инструменты/fum-question-backlinks/SKILL.md"
+            "label": "fum-obratnyiye-ssyilki-voprosov",
+            "target": "Инструменты/fum-obratnyiye-ssyilki-voprosov/SKILL.md"
           },
           {
             "label": "ревью проекта",

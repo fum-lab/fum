@@ -30,11 +30,11 @@ Pochemu myi ne zapisyivayem v ispoljzuyemyiye instrumentyi versiyu ChatGPT/Codex
 - `web__run` - отдельная версия вложенного контракта не раскрывается; использован только для чтения официальной документации OpenAI.
 - `codex_app__read_thread_terminal` - отдельная версия вложенного контракта не раскрывается; использован для проверки наличия терминальной сессии текущей задачи.
 - `collaboration.*` - отдельная версия контрактов не раскрывается; использованы для параллельной проверки фактической практики, реестра и обязательного контура рабочей сессии.
-- `fum-planning-registry` - версия задаётся Git-историей [локальной автоматизации](../Инструменты/fum-planning-registry/SKILL.md); использован для пересборки и проверки машинно читаемого планового реестра.
-- `fum-md-recency` - версия задаётся Git-историей [локальной автоматизации](../Инструменты/fum-md-recency/SKILL.md); использован для обновления служебных recency-меток и индекса Markdown-файлов.
-- `fum-obsidian-graph-recency` - версия задаётся Git-историей [локальной автоматизации](../Инструменты/fum-obsidian-graph-recency/SKILL.md); использован для синхронизации тепловой карты `.obsidian/graph.json` после обновления Markdown-recency.
-- `fum-session-coherence` - версия задаётся Git-историей [локальной автоматизации](../Инструменты/fum-session-coherence/SKILL.md); использован для проверки связности рабочей сессии.
-- `fum-smoke-check` - версия задаётся Git-историей [локальной автоматизации](../Инструменты/fum-smoke-check/SKILL.md); использован для итогового локального smoke-check репозитория.
+- `fum-planning-registry` - версия задаётся Git-историей [локальной автоматизации](../Инструменты/fum-reyestr-planirovaniya/SKILL.md); использован для пересборки и проверки машинно читаемого планового реестра.
+- `fum-md-recency` - версия задаётся Git-историей [локальной автоматизации](../Инструменты/fum-svezhestj-markdown/SKILL.md); использован для обновления служебных recency-меток и индекса Markdown-файлов.
+- `fum-obsidian-graph-recency` - версия задаётся Git-историей [локальной автоматизации](../Инструменты/fum-svezhestj-grafa-obsidian/SKILL.md); использован для синхронизации тепловой карты `.obsidian/graph.json` после обновления Markdown-recency.
+- `fum-session-coherence` - версия задаётся Git-историей [локальной автоматизации](../Инструменты/fum-svyaznostj-rabochej-sessii/SKILL.md); использован для проверки связности рабочей сессии.
+- `fum-smoke-check` - версия задаётся Git-историей [локальной автоматизации](../Инструменты/fum-kompleksnaya-proverka-repozitoriya/SKILL.md); использован для итогового локального smoke-check репозитория.
 - `zsh` 5.9 - версия проверена командой `zsh --version`; использован как shell для команд.
 - `git` 2.54.0 Apple Git-157 - версия проверена командой `git --version`; использован для проверки состояния, просмотра diff, staging и коммита.
 - `rg` 15.1.0 - версия проверена командой `rg --version`; использован для поиска по репозиторию.
@@ -55,9 +55,9 @@ Pochemu myi ne zapisyivayem v ispoljzuyemyiye instrumentyi versiyu ChatGPT/Codex
 - [Документация/17-воспроизводимые-автоматизации.md](../Документация/17-воспроизводимые-автоматизации.md)
 - [Инструменты/README.md](../Инструменты/README.md)
 - [Инструменты/реестр-системных-приложений-и-инструментов.md](../Инструменты/реестр-системных-приложений-и-инструментов.md)
-- [Инструменты/fum-session-coherence/SKILL.md](../Инструменты/fum-session-coherence/SKILL.md)
-- [Инструменты/fum-session-coherence/scripts/check-session-coherence.py](../Инструменты/fum-session-coherence/scripts/check-session-coherence.py)
-- [Инструменты/fum-session-coherence/tests/test_check_session_coherence.py](../Инструменты/fum-session-coherence/tests/test_check_session_coherence.py)
+- [Инструменты/fum-session-coherence/SKILL.md](../Инструменты/fum-svyaznostj-rabochej-sessii/SKILL.md)
+- [Инструменты/fum-session-coherence/scripts/check-session-coherence.py](../Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py)
+- [Инструменты/fum-session-coherence/tests/test_check_session_coherence.py](../Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_check_session_coherence.py)
 - [Планирование/предложения-о-следующих-шагах.md](../Планирование/предложения-о-следующих-шагах.md)
 - [Планирование/реестр-требований-вариантов-и-кандидатов.json](../Планирование/реестр-требований-вариантов-и-кандидатов.json)
 
@@ -91,6 +91,6 @@ Pochemu myi ne zapisyivayem v ispoljzuyemyiye instrumentyi versiyu ChatGPT/Codex
 - `python3 Инструменты/fum-smoke-check/scripts/run-smoke-check.py --request Запросы/2026-07-10_05-59-58_MSK_уточнить-учёт-версий-ChatGPT-и-Codex.md` - прошло.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-13 14:22:39 MSK -->
-<!-- content-sha256: sha256:4d7b43536c7b2b4a5ec8afd52a344bf8f74197b9d9ef4894a72ed080e3c40869 -->
+<!-- last-content-edit: 2026-07-22 09:17:49 MSK -->
+<!-- content-sha256: sha256:b8fdee6e2bbadf8437f06cf08e877edb5cc70565405bc43e7663e4f0d6ba09c0 -->
 <!-- FUM-MD-RECENCY:END -->

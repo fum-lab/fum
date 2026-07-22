@@ -44,7 +44,7 @@ SKILL_PATH = TOOL_ROOT / "SKILL.md"
 HEARTBEAT_PROMPT_PATH = (
     REPO_ROOT
     / "Инструменты"
-    / "fum-branch-next-step"
+    / "fum-sleduyusjhij-shag-vetki"
     / "references"
     / "heartbeat-prompt.md"
 )

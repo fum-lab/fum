@@ -42,7 +42,7 @@
 Единый контракт проверяется без запуска прототипов:
 
 ```bash
-python3 Инструменты/fum-prototype-launch/scripts/check-prototype-launchers.py
+python3 Инструменты/fum-zapusk-prototipov/scripts/check-prototype-launchers.py
 ```
 
 ## Как оформлять прототип
@@ -89,6 +89,6 @@ python3 Инструменты/fum-prototype-launch/scripts/check-prototype-laun
 - [Воспроизводимые автоматизации FUM](../Документация/17-воспроизводимые-автоматизации.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-21 14:45:08 MSK -->
-<!-- content-sha256: sha256:e784b684f59b67a1a139c812c2a331f17c7018f65224f98aa2970dc2f35d9427 -->
+<!-- last-content-edit: 2026-07-22 09:17:49 MSK -->
+<!-- content-sha256: sha256:65db1a33c4d1c161b59fef6f8acf514bd99604688a8723e051fef4fdcd3102a1 -->
 <!-- FUM-MD-RECENCY:END -->

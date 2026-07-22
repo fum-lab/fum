@@ -1,7 +1,7 @@
 {
   "title": "Ревью проделанной работы 2026-07-01 17:03:14 MSK",
   "request_file": "Запросы/2026-07-01_17-03-14_MSK.md",
-  "automation_file": "Инструменты/fum-work-review/SKILL.md",
+  "automation_file": "Инструменты/fum-revjyu-prodelannoj-rabotyi/SKILL.md",
   "base_ref": "origin/master",
   "head_ref": "HEAD",
   "reviewed_at": "2026-07-01 17:03:14 MSK",
@@ -23,8 +23,8 @@
       "details": "Whitespace-регрессий в проверяемом диапазоне не обнаружено."
     },
     {
-      "name": "fum-smoke-check",
-      "command": "python3 Инструменты/fum-smoke-check/scripts/run-smoke-check.py --request Запросы/2026-07-01_16-53-59_MSK.md",
+      "name": "fum-kompleksnaya-proverka-repozitoriya",
+      "command": "python3 Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/run-smoke-check.py --request Запросы/2026-07-01_16-53-59_MSK.md",
       "result": "прошло",
       "details": "Прошли 13 шагов: тесты всех существующих локальных автоматизаций, сборка и проверка планового реестра, recency, тепловая карта Obsidian и связность последней сессии проверяемого среза."
     },
