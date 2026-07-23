@@ -21,6 +21,12 @@
       "executableProducts": [
         "FUMModelStepProbe"
       ]
+    },
+    {
+      "package": "Прототипы/иерархия-функций-и-данных",
+      "executableProducts": [
+        "FUMFunctionHierarchyProbe"
+      ]
     }
   ],
   "exceptions": []
