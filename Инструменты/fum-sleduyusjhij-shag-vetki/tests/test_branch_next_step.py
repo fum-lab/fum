@@ -867,6 +867,52 @@ class BranchNextStepTests(unittest.TestCase):
             prompt,
         )
 
+    def test_heartbeat_child_reports_assigned_and_confirmed_card(
+        self,
+    ) -> None:
+        prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+        child_contract_match = re.search(
+            r"8\. .*?(?P<contract>Составь дочерний prompt.*?)\n9\. ",
+            prompt,
+            flags=re.DOTALL,
+        )
+
+        self.assertIsNotNone(child_contract_match)
+        child_contract = child_contract_match.group("contract")
+        self.assertIn(
+            "первым видимым сообщением автоматически созданной задачи",
+            child_contract,
+        )
+        self.assertIn(
+            "Автозапуск назначил карточку <card_id> — <title>; ожидаю допуск FIFO.",
+            child_contract,
+        )
+        self.assertIn(
+            "машинно проверенные `card_id` и `title`",
+            child_contract,
+        )
+        self.assertIn("до запуска `join`", child_contract)
+        self.assertIn(
+            "после состояния `admitted` и успешного fenced `show`",
+            child_contract,
+        )
+        self.assertIn(
+            "В работу взята карточка <card_id> — <title>.",
+            child_contract,
+        )
+        self.assertIn(
+            "Назначение карточки <card_id> — <title> не подтверждено; "
+            "работа не начата.",
+            child_contract,
+        )
+        assigned = child_contract.index("Автозапуск назначил карточку")
+        join = child_contract.index("до запуска `join`")
+        fenced_show = child_contract.index("успешного fenced `show`")
+        confirmed = child_contract.index("В работу взята карточка")
+        self.assertLess(assigned, join)
+        self.assertLess(join, fenced_show)
+        self.assertLess(fenced_show, confirmed)
+
     def test_heartbeat_child_prompt_uses_only_project_relative_paths(
         self,
     ) -> None:
