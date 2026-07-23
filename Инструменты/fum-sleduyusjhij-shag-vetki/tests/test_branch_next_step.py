@@ -513,6 +513,8 @@ class BranchNextStepTests(unittest.TestCase):
             "refs/heads/master",
             "--expected-step-id",
             "master-test-step-v1",
+            "--lease-id",
+            "00000000-0000-0000-0000-000000000001",
         )
         status = self.run_tool("claim-status")
 
@@ -813,6 +815,43 @@ class BranchNextStepTests(unittest.TestCase):
             "вернул ошибку или не подтвердил создание, освободи",
             prompt,
         )
+
+    def test_heartbeat_recovers_a_lost_claim_response_with_the_same_lease(
+        self,
+    ) -> None:
+        prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+
+        self.assertIn(
+            "python3 -I -c 'import uuid; print(uuid.uuid4())'",
+            prompt,
+        )
+        self.assertIn("свежий случайный lease_id", prompt)
+        self.assertIn("--lease-id", prompt)
+        self.assertIn(
+            "повтори ту же команду claim с тем же lease_id",
+            prompt,
+        )
+        self.assertIn(
+            "не создавай новый lease_id после неоднозначного результата claim",
+            prompt,
+        )
+        self.assertIn(
+            "После первого вызова create_thread не повторяй claim или create_thread",
+            prompt,
+        )
+        self.assertIn(
+            "release передавай сохранённые --branch-ref и --expected-lease-id",
+            prompt,
+        )
+        project_lookup = prompt.index("5. Вызови codex_app.list_projects")
+        second_inventory = prompt.index("6. Снова вызови codex_app.list_threads")
+        claim = prompt.index("7. Выполни `python3 -I -c")
+        create_thread = prompt.index(
+            "После этой проверки вызови codex_app.create_thread"
+        )
+        self.assertLess(project_lookup, second_inventory)
+        self.assertLess(second_inventory, claim)
+        self.assertLess(claim, create_thread)
 
     def test_heartbeat_requires_child_to_read_record_and_project_passport(
         self,
@@ -1263,6 +1302,8 @@ class BranchNextStepTests(unittest.TestCase):
             "refs/heads/master",
             "--expected-step-id",
             "master-ready-step-v1",
+            "--lease-id",
+            "00000000-0000-0000-0000-000000000001",
         )
 
         self.assertEqual(shown.returncode, 0, shown.stdout + shown.stderr)
@@ -1478,6 +1519,8 @@ class BranchNextStepTests(unittest.TestCase):
             "refs/heads/master",
             "--expected-step-id",
             "master-paused-step-v1",
+            "--lease-id",
+            "00000000-0000-0000-0000-000000000001",
         )
         claim_status = self.run_tool("claim-status")
 
@@ -1526,24 +1569,27 @@ class BranchNextStepTests(unittest.TestCase):
 
     def test_claim_is_atomic_and_same_step_is_not_dispatched_twice(self) -> None:
         self.write_record()
-        arguments = (
-            "claim",
-            "--expected-branch-ref",
-            "refs/heads/master",
-            "--expected-step-id",
-            "master-test-step-v1",
-            "--repo-root",
-            str(self.repo),
-            "--json",
-        )
         processes = [
             subprocess.Popen(
-                [sys.executable, str(SCRIPT_PATH), *arguments],
+                [
+                    sys.executable,
+                    str(SCRIPT_PATH),
+                    "claim",
+                    "--expected-branch-ref",
+                    "refs/heads/master",
+                    "--expected-step-id",
+                    "master-test-step-v1",
+                    "--lease-id",
+                    f"00000000-0000-0000-0000-{attempt:012d}",
+                    "--repo-root",
+                    str(self.repo),
+                    "--json",
+                ],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
             )
-            for _ in range(4)
+            for attempt in range(1, 5)
         ]
         results = [process.communicate(timeout=5) for process in processes]
         returncodes = [process.returncode for process in processes]
@@ -1554,6 +1600,114 @@ class BranchNextStepTests(unittest.TestCase):
             sorted(str(payload["state"]) for payload in payloads),
             ["already_claimed", "already_claimed", "already_claimed", "claimed"],
         )
+        for payload in payloads:
+            if payload["state"] == "already_claimed":
+                self.assertNotIn("lease_id", payload)
+
+    def test_lost_claim_response_is_recovered_by_the_same_client_lease(
+        self,
+    ) -> None:
+        self.write_record()
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        arguments = (
+            "claim",
+            "--expected-branch-ref",
+            "refs/heads/master",
+            "--expected-step-id",
+            "master-test-step-v1",
+            "--lease-id",
+            lease_id,
+        )
+
+        first_response_is_lost = self.run_tool(*arguments)
+        recovered = self.run_tool(*arguments)
+
+        self.assertEqual(
+            first_response_is_lost.returncode,
+            0,
+            first_response_is_lost.stdout + first_response_is_lost.stderr,
+        )
+        self.assertEqual(
+            recovered.returncode,
+            0,
+            recovered.stdout + recovered.stderr,
+        )
+        self.assertEqual(self.payload(first_response_is_lost)["state"], "claimed")
+        self.assertEqual(self.payload(first_response_is_lost)["ownership"], "new")
+        self.assertEqual(self.payload(recovered)["state"], "claimed")
+        self.assertEqual(self.payload(recovered)["ownership"], "existing")
+        self.assertEqual(self.payload(recovered)["lease_id"], lease_id)
+
+    def test_claim_requires_a_canonical_client_lease_before_writing(self) -> None:
+        self.write_record()
+
+        missing = self.run_tool(
+            "claim",
+            "--expected-branch-ref",
+            "refs/heads/master",
+            "--expected-step-id",
+            "master-test-step-v1",
+        )
+        malformed = self.run_tool(
+            "claim",
+            "--expected-branch-ref",
+            "refs/heads/master",
+            "--expected-step-id",
+            "master-test-step-v1",
+            "--lease-id",
+            "NOT-A-UUID",
+        )
+        noncanonical = self.run_tool(
+            "claim",
+            "--expected-branch-ref",
+            "refs/heads/master",
+            "--expected-step-id",
+            "master-test-step-v1",
+            "--lease-id",
+            "AAAAAAAA-AAAA-4AAA-8AAA-AAAAAAAAAAAA",
+        )
+        status = self.run_tool("claim-status")
+
+        self.assertEqual(missing.returncode, 2)
+        self.assertIn("--lease-id", str(self.payload(missing)["error"]))
+        self.assertEqual(malformed.returncode, 2)
+        self.assertIn("--lease-id", str(self.payload(malformed)["error"]))
+        self.assertEqual(noncanonical.returncode, 2)
+        self.assertIn("каноническим UUID", str(self.payload(noncanonical)["error"]))
+        self.assertEqual(self.payload(status)["state"], "unclaimed")
+
+    def test_client_lease_cannot_be_reused_for_another_step_generation(
+        self,
+    ) -> None:
+        self.write_record()
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        first = self.run_tool(
+            "claim",
+            "--expected-branch-ref",
+            "refs/heads/master",
+            "--expected-step-id",
+            "master-test-step-v1",
+            "--lease-id",
+            lease_id,
+        )
+        self.write_record(step_id="master-test-step-v2")
+
+        reused = self.run_tool(
+            "claim",
+            "--expected-branch-ref",
+            "refs/heads/master",
+            "--expected-step-id",
+            "master-test-step-v2",
+            "--lease-id",
+            lease_id,
+        )
+        status = self.run_tool("claim-status")
+
+        self.assertEqual(first.returncode, 0, first.stdout + first.stderr)
+        self.assertEqual(reused.returncode, 2)
+        self.assertIn("свежий UUID", str(self.payload(reused)["error"]))
+        self.assertEqual(self.payload(status)["step_id"], "master-test-step-v1")
+        self.assertEqual(self.payload(status)["lease_id"], lease_id)
 
     def test_claim_replacement_and_fenced_release_follow_step_identity(self) -> None:
         self.write_record()
@@ -1563,6 +1717,8 @@ class BranchNextStepTests(unittest.TestCase):
             "refs/heads/master",
             "--expected-step-id",
             "master-test-step-v1",
+            "--lease-id",
+            "00000000-0000-0000-0000-000000000001",
         )
         self.assertEqual(first.returncode, 0, first.stderr)
         first_lease = str(self.payload(first)["lease_id"])
@@ -1582,6 +1738,8 @@ class BranchNextStepTests(unittest.TestCase):
             "refs/heads/master",
             "--expected-step-id",
             "master-test-step-v2",
+            "--lease-id",
+            "00000000-0000-0000-0000-000000000002",
         )
         self.assertEqual(second.returncode, 0, second.stderr)
         second_lease = str(self.payload(second)["lease_id"])
@@ -1646,6 +1804,7 @@ class BranchNextStepTests(unittest.TestCase):
                     self.repo,
                     "refs/heads/master",
                     "master-test-step-v2",
+                    "00000000-0000-0000-0000-000000000004",
                 )
         self.assertEqual(patched_cas.call_count, 1)
         status, status_code = TOOL_MODULE.claim_status(self.repo, None)
@@ -1661,6 +1820,8 @@ class BranchNextStepTests(unittest.TestCase):
             "refs/heads/master",
             "--expected-step-id",
             "master-test-step-v1",
+            "--lease-id",
+            "00000000-0000-0000-0000-000000000001",
         )
 
         self.assertEqual(claimed.returncode, 0, claimed.stderr)
@@ -1705,6 +1866,8 @@ class BranchNextStepTests(unittest.TestCase):
             "refs/heads/master",
             "--expected-step-id",
             "master-test-step-v1",
+            "--lease-id",
+            "00000000-0000-0000-0000-000000000002",
         )
 
         self.assertEqual(status.returncode, 2)
@@ -1878,6 +2041,8 @@ class BranchNextStepTests(unittest.TestCase):
             "refs/heads/master",
             "--expected-step-id",
             "master-test-step-v1",
+            "--lease-id",
+            "00000000-0000-0000-0000-000000000001",
         )
 
         self.assertEqual(claimed.returncode, 0, claimed.stdout + claimed.stderr)
@@ -1915,6 +2080,8 @@ class BranchNextStepTests(unittest.TestCase):
             "refs/heads/project/тест",
             "--expected-step-id",
             "project-unicode-step-v1",
+            "--lease-id",
+            "00000000-0000-0000-0000-000000000001",
         )
 
         self.assertEqual(claimed.returncode, 0, claimed.stdout + claimed.stderr)
@@ -1976,6 +2143,8 @@ class BranchNextStepTests(unittest.TestCase):
                 "refs/heads/master",
                 "--expected-step-id",
                 "master-test-step-v1",
+                "--lease-id",
+                "00000000-0000-0000-0000-000000000001",
             )
             reference = TOOL_MODULE.claim_ref(sha_repo, "refs/heads/master")
             oid = subprocess.run(

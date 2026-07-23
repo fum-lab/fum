@@ -315,6 +315,13 @@ def parse_args() -> argparse.Namespace:
         help="Наблюдённый lease_id, обязательный для release.",
     )
     parser.add_argument(
+        "--lease-id",
+        help=(
+            "Заранее созданный UUID логической попытки, обязательный для "
+            "идемпотентного claim."
+        ),
+    )
+    parser.add_argument(
         "--json",
         action="store_true",
         help="Напечатать машинно читаемый JSON.",
@@ -328,11 +335,14 @@ def validate_command_options(args: argparse.Namespace) -> None:
         "expected_step_id": "--expected-step-id",
         "branch_ref": "--branch-ref",
         "expected_lease_id": "--expected-lease-id",
+        "lease_id": "--lease-id",
     }
     allowed_by_command = {
         "validate": frozenset(),
         "show": frozenset({"expected_branch_ref", "expected_step_id"}),
-        "claim": frozenset({"expected_branch_ref", "expected_step_id"}),
+        "claim": frozenset(
+            {"expected_branch_ref", "expected_step_id", "lease_id"}
+        ),
         "claim-status": frozenset({"branch_ref"}),
         "release": frozenset({"branch_ref", "expected_lease_id"}),
     }
@@ -1445,11 +1455,23 @@ def claim_step(
     repo_root: Path,
     expected_branch_ref: str | None,
     expected_step_id: str | None,
+    lease_id: str | None,
 ) -> tuple[dict[str, object], int]:
-    if expected_branch_ref is None or expected_step_id is None:
+    if (
+        expected_branch_ref is None
+        or expected_step_id is None
+        or lease_id is None
+    ):
         raise ContractError(
-            "claim требует --expected-branch-ref и --expected-step-id."
+            "claim требует --expected-branch-ref, --expected-step-id "
+            "и --lease-id."
         )
+    try:
+        parsed_lease_id = uuid.UUID(lease_id)
+    except ValueError as error:
+        raise ContractError("--lease-id должен быть каноническим UUID.") from error
+    if str(parsed_lease_id) != lease_id:
+        raise ContractError("--lease-id должен быть каноническим UUID.")
     record = active_record(repo_root)
     if record.branch_ref != expected_branch_ref:
         raise ContractError(
@@ -1478,16 +1500,31 @@ def claim_step(
         ready_candidate.branch_ref,
     )
     if existing is not None and existing["step_id"] == ready_candidate.step_id:
+        if existing["lease_id"] == lease_id:
+            return (
+                {
+                    "state": "claimed",
+                    "ownership": "existing",
+                    "branch_ref": ready_candidate.branch_ref,
+                    "step_id": ready_candidate.step_id,
+                    "lease_id": lease_id,
+                    "record_path": ready_candidate.record_path,
+                },
+                0,
+            )
         return (
             {
                 "state": "already_claimed",
                 "branch_ref": ready_candidate.branch_ref,
                 "step_id": ready_candidate.step_id,
-                "lease_id": existing["lease_id"],
             },
             EXIT_ALREADY_CLAIMED,
         )
-    lease_id = str(uuid.uuid4())
+    if existing is not None and existing["lease_id"] == lease_id:
+        raise ContractError(
+            "--lease-id уже использован для другого поколения шага этой ветки; "
+            "нужен свежий UUID попытки."
+        )
     payload: dict[str, object] = {
         "schema_version": 1,
         "branch_ref": ready_candidate.branch_ref,
@@ -1499,6 +1536,7 @@ def claim_step(
         return (
             {
                 "state": "claimed",
+                "ownership": "new",
                 "branch_ref": ready_candidate.branch_ref,
                 "step_id": ready_candidate.step_id,
                 "lease_id": lease_id,
@@ -1515,12 +1553,23 @@ def claim_step(
         concurrent is not None
         and concurrent["step_id"] == ready_candidate.step_id
     ):
+        if concurrent["lease_id"] == lease_id:
+            return (
+                {
+                    "state": "claimed",
+                    "ownership": "existing",
+                    "branch_ref": ready_candidate.branch_ref,
+                    "step_id": ready_candidate.step_id,
+                    "lease_id": lease_id,
+                    "record_path": ready_candidate.record_path,
+                },
+                0,
+            )
         return (
             {
                 "state": "already_claimed",
                 "branch_ref": ready_candidate.branch_ref,
                 "step_id": ready_candidate.step_id,
-                "lease_id": concurrent["lease_id"],
             },
             EXIT_ALREADY_CLAIMED,
         )
@@ -1662,6 +1711,7 @@ def main() -> int:
                 repo_root,
                 args.expected_branch_ref,
                 args.expected_step_id,
+                args.lease_id,
             )
         elif args.command == "claim-status":
             payload, exit_code = claim_status(repo_root, args.branch_ref)
