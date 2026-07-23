@@ -38,6 +38,7 @@ REQUEST_TITLE_INFINITIVE_RULE_START = (2026, 7, 2, 23, 1, 25)
 QUALIFIED_OPENAI_TOOL_VERSION_RULE_START = (2026, 7, 10, 5, 59, 58)
 CODEX_THREAD_ID_RULE_START = (2026, 7, 14, 2, 31, 47)
 SESSION_TIME_TOOL_RULE_START = (2026, 7, 17, 10, 25, 41)
+JOURNAL_TIME_PROFILE_RULE_START = (2026, 7, 23, 14, 47, 43)
 RUSSIAN_INFINITIVE_ENDINGS = ("ться", "тись", "чься", "ть", "ти", "чь")
 TITLE_TOKEN_REPLACEMENTS = {
     "api": "API",
@@ -118,6 +119,16 @@ CANONICAL_UUID_RE = re.compile(
 )
 TRAILER_LINE_RE = re.compile(
     r"^[A-Za-z0-9][A-Za-z0-9-]*:[ \t]+\S(?:.*\S)?[ \t]*$"
+)
+JOURNAL_TIME_PROFILE_HEADING = "Профиль времени выполнения"
+JOURNAL_TIME_PROFILE_COLUMNS = (
+    "Стадия",
+    "Длительность",
+    "Границы и способ измерения",
+)
+MARKDOWN_TABLE_SEPARATOR_RE = re.compile(r"^:?-{3,}:?$")
+JOURNAL_TIME_PROFILE_BOUNDARY_RE = re.compile(
+    r"^Граница профиля:\s+\S.*$"
 )
 
 
@@ -382,6 +393,79 @@ def relative_link(target: Path, source: Path, repo_root: Path) -> str:
     return Path(os.path.relpath(target_abs, source.parent)).as_posix()
 
 
+def markdown_table_cells(line: str) -> tuple[str, ...] | None:
+    stripped = line.strip()
+    if not stripped.startswith("|") or not stripped.endswith("|"):
+        return None
+    return tuple(cell.strip() for cell in stripped[1:-1].split("|"))
+
+
+def validate_journal_time_profile(text: str) -> list[str]:
+    profile = section_body(text, JOURNAL_TIME_PROFILE_HEADING)
+    if profile is None:
+        return [f"missing journal section: {JOURNAL_TIME_PROFILE_HEADING}"]
+
+    lines = profile.splitlines()
+    header_index: int | None = None
+    for index, line in enumerate(lines):
+        if markdown_table_cells(line) == JOURNAL_TIME_PROFILE_COLUMNS:
+            header_index = index
+            break
+
+    columns = " | ".join(JOURNAL_TIME_PROFILE_COLUMNS)
+    if header_index is None:
+        return [f"journal time profile must contain table columns: {columns}"]
+    if header_index + 1 >= len(lines):
+        return ["journal time profile table is missing its separator row"]
+
+    separator = markdown_table_cells(lines[header_index + 1])
+    if (
+        separator is None
+        or len(separator) != len(JOURNAL_TIME_PROFILE_COLUMNS)
+        or not all(MARKDOWN_TABLE_SEPARATOR_RE.fullmatch(cell) for cell in separator)
+    ):
+        return ["journal time profile table has an invalid separator row"]
+
+    stage_rows: list[tuple[str, ...]] = []
+    last_stage_index: int | None = None
+    for line_index, line in enumerate(
+        lines[header_index + 2 :],
+        start=header_index + 2,
+    ):
+        cells = markdown_table_cells(line)
+        if cells is None:
+            if stage_rows and line.strip():
+                break
+            continue
+        if len(cells) != len(JOURNAL_TIME_PROFILE_COLUMNS):
+            continue
+        stage_rows.append(cells)
+        last_stage_index = line_index
+
+    errors: list[str] = []
+    if len(stage_rows) < 2:
+        errors.append("journal time profile must contain at least two stage rows")
+    for row_index, row in enumerate(stage_rows, start=1):
+        if any(not cell for cell in row):
+            errors.append(
+                f"journal time profile stage row {row_index} contains an empty cell"
+            )
+    boundary_search_start = (
+        last_stage_index + 1
+        if last_stage_index is not None
+        else header_index + 2
+    )
+    if not any(
+        JOURNAL_TIME_PROFILE_BOUNDARY_RE.fullmatch(line.strip())
+        for line in lines[boundary_search_start:]
+    ):
+        errors.append(
+            "journal time profile must contain a non-empty boundary line "
+            "after its table: Граница профиля:"
+        )
+    return errors
+
+
 def validate_journal(repo_root: Path, request_path: Path) -> list[str]:
     errors: list[str] = []
     journal = expected_journal_path(request_path, repo_root)
@@ -398,6 +482,12 @@ def validate_journal(repo_root: Path, request_path: Path) -> list[str]:
         errors.append(
             f"journal does not link to request: {repo_relative(request_path, repo_root)}"
         )
+    match = request_match(request_path)
+    if (
+        match is not None
+        and request_datetime_key(match) >= JOURNAL_TIME_PROFILE_RULE_START
+    ):
+        errors.extend(validate_journal_time_profile(text))
     return errors
 
 

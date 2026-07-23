@@ -648,6 +648,210 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                 errors,
             )
 
+    def test_new_journal_requires_time_profile(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "Запросы").mkdir()
+            (root / "Журнал").mkdir()
+            request_path = (
+                root
+                / "Запросы"
+                / "2026-07-23_14-47-43_MSK_"
+                "включать-профиль-времени-в-отчёты-журнала.md"
+            )
+            journal_path = root / "Журнал" / request_path.name
+            journal_path.write_text(
+                "\n".join(
+                    [
+                        "# Отчёт 2026-07-23 14:47:43 MSK - "
+                        "Включать профиль времени в отчёты журнала",
+                        "",
+                        "Отчёт без профиля времени.",
+                        "",
+                        "## Источники",
+                        "",
+                        f"- [исходный запрос](../Запросы/{request_path.name})",
+                        "",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            errors = check_session_coherence.validate_journal(
+                root.resolve(),
+                request_path.resolve(),
+            )
+
+            self.assertIn(
+                "missing journal section: Профиль времени выполнения",
+                errors,
+            )
+
+    def test_new_journal_accepts_two_stage_time_profile(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "Запросы").mkdir()
+            (root / "Журнал").mkdir()
+            request_path = (
+                root
+                / "Запросы"
+                / "2026-07-23_14-47-43_MSK_"
+                "включать-профиль-времени-в-отчёты-журнала.md"
+            )
+            journal_path = root / "Журнал" / request_path.name
+            journal_path.write_text(
+                "\n".join(
+                    [
+                        "# Отчёт 2026-07-23 14:47:43 MSK - "
+                        "Включать профиль времени в отчёты журнала",
+                        "",
+                        "Отчёт с измеренным профилем.",
+                        "",
+                        "## Профиль времени выполнения",
+                        "",
+                        "| Стадия | Длительность | Границы и способ измерения |",
+                        "| --- | ---: | --- |",
+                        "| Анализ | 12 с | Монотонные отметки начала и конца. |",
+                        "| Smoke-check | 31 с | Wall-clock `real`. |",
+                        "",
+                        "Граница профиля: от допуска очереди до завершения smoke-check.",
+                        "",
+                        "## Источники",
+                        "",
+                        f"- [исходный запрос](../Запросы/{request_path.name})",
+                        "",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            errors = check_session_coherence.validate_journal(
+                root.resolve(),
+                request_path.resolve(),
+            )
+
+            self.assertEqual(errors, [])
+
+    def test_new_journal_rejects_incomplete_time_profile(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "Запросы").mkdir()
+            (root / "Журнал").mkdir()
+            request_path = (
+                root
+                / "Запросы"
+                / "2026-07-23_14-47-43_MSK_"
+                "включать-профиль-времени-в-отчёты-журнала.md"
+            )
+            journal_path = root / "Журнал" / request_path.name
+            journal_path.write_text(
+                "\n".join(
+                    [
+                        "# Отчёт 2026-07-23 14:47:43 MSK - "
+                        "Включать профиль времени в отчёты журнала",
+                        "",
+                        "## Профиль времени выполнения",
+                        "",
+                        "| Стадия | Длительность | Границы и способ измерения |",
+                        "| --- | ---: | --- |",
+                        "| Анализ | 12 с | Монотонные отметки начала и конца. |",
+                        "",
+                        "## Источники",
+                        "",
+                        f"- [исходный запрос](../Запросы/{request_path.name})",
+                        "",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            errors = check_session_coherence.validate_journal(
+                root.resolve(),
+                request_path.resolve(),
+            )
+
+            self.assertIn(
+                "journal time profile must contain at least two stage rows",
+                errors,
+            )
+            self.assertIn(
+                "journal time profile must contain a non-empty boundary line "
+                "after its table: Граница профиля:",
+                errors,
+            )
+
+    def test_new_journal_rejects_early_or_empty_time_profile_boundary(self):
+        for boundary_before, boundary_after in (
+            ("Граница профиля: до таблицы.", None),
+            (None, "Граница профиля:"),
+        ):
+            with self.subTest(
+                boundary_before=boundary_before,
+                boundary_after=boundary_after,
+            ), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                (root / "Запросы").mkdir()
+                (root / "Журнал").mkdir()
+                request_path = (
+                    root
+                    / "Запросы"
+                    / "2026-07-23_14-47-43_MSK_"
+                    "включать-профиль-времени-в-отчёты-журнала.md"
+                )
+                journal_path = root / "Журнал" / request_path.name
+                lines = [
+                    "# Отчёт 2026-07-23 14:47:43 MSK - "
+                    "Включать профиль времени в отчёты журнала",
+                    "",
+                    "## Профиль времени выполнения",
+                    "",
+                ]
+                if boundary_before is not None:
+                    lines.extend([boundary_before, ""])
+                lines.extend(
+                    [
+                        "| Стадия | Длительность | Границы и способ измерения |",
+                        "| --- | ---: | --- |",
+                        "| Анализ | 12 с | Монотонные отметки. |",
+                        "| Smoke-check | 31 с | Wall-clock `real`. |",
+                        "",
+                    ]
+                )
+                if boundary_after is not None:
+                    lines.extend([boundary_after, ""])
+                lines.extend(
+                    [
+                        "## Источники",
+                        "",
+                        f"- [исходный запрос](../Запросы/{request_path.name})",
+                        "",
+                    ]
+                )
+                journal_path.write_text("\n".join(lines), encoding="utf-8")
+
+                errors = check_session_coherence.validate_journal(
+                    root.resolve(),
+                    request_path.resolve(),
+                )
+
+                self.assertIn(
+                    "journal time profile must contain a non-empty boundary line "
+                    "after its table: Граница профиля:",
+                    errors,
+                )
+
+    def test_historical_journal_does_not_require_time_profile(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = self.write_fixture(root)
+
+            errors = check_session_coherence.validate_journal(
+                root.resolve(),
+                request_path.resolve(),
+            )
+
+            self.assertEqual(errors, [])
+
     def test_reports_broken_markdown_link(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
