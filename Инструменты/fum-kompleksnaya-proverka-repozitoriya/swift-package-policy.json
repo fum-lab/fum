@@ -27,6 +27,12 @@
       "executableProducts": [
         "FUMFunctionHierarchyProbe"
       ]
+    },
+    {
+      "package": "Прототипы/агентное-чтение-сетевой-среды",
+      "executableProducts": [
+        "FUMNetworkEnvironmentProbe"
+      ]
     }
   ],
   "exceptions": []
