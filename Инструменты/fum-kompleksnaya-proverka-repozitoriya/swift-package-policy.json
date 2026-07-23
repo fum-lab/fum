@@ -15,6 +15,12 @@
         "FUMInputGuide",
         "FUMInputProbe"
       ]
+    },
+    {
+      "package": "Прототипы/чистый-модельный-шаг",
+      "executableProducts": [
+        "FUMModelStepProbe"
+      ]
     }
   ],
   "exceptions": []
