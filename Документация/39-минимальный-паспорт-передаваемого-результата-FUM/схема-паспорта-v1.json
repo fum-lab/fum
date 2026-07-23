@@ -1,0 +1,944 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fum:schema:transferred-result-passport:v1",
+  "title": "Минимальный паспорт передаваемого результата FUM версии 1",
+  "description": "Один паспорт фиксирует одно состояние одного результата, основания его происхождения, проверки, стоимость, уверенность, адресатов и факты передачи.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "passport_id",
+    "supersedes_passport_id",
+    "result",
+    "provenance",
+    "verification",
+    "cost",
+    "confidence",
+    "recipients",
+    "transfers"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "passport_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "supersedes_passport_id": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/identifier"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "result": {
+      "$ref": "#/$defs/result"
+    },
+    "provenance": {
+      "$ref": "#/$defs/provenance"
+    },
+    "verification": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/check"
+      }
+    },
+    "cost": {
+      "$ref": "#/$defs/cost"
+    },
+    "confidence": {
+      "$ref": "#/$defs/confidence"
+    },
+    "recipients": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/recipient"
+      }
+    },
+    "transfers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/transfer"
+      }
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$"
+    },
+    "non_empty_string": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reference": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Относительный к корню памяти POSIX-путь либо устойчивая ссылка https:, git:, urn: или sha256:. Дополнительные ограничения проверяет семантический валидатор."
+    },
+    "string_list": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/non_empty_string"
+      },
+      "uniqueItems": true
+    },
+    "reference_list": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/reference"
+      },
+      "uniqueItems": true
+    },
+    "identifier_list": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/identifier"
+      },
+      "uniqueItems": true
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claim",
+        "acceptance_criteria",
+        "intended_uses",
+        "preconditions",
+        "exclusions"
+      ],
+      "properties": {
+        "claim": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "acceptance_criteria": {
+          "$ref": "#/$defs/string_list",
+          "minItems": 1
+        },
+        "intended_uses": {
+          "$ref": "#/$defs/string_list",
+          "minItems": 1
+        },
+        "preconditions": {
+          "$ref": "#/$defs/string_list"
+        },
+        "exclusions": {
+          "$ref": "#/$defs/string_list",
+          "minItems": 1
+        }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_id",
+        "role",
+        "publication_ref",
+        "state_ref"
+      ],
+      "properties": {
+        "artifact_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "role": {
+          "$ref": "#/$defs/identifier"
+        },
+        "publication_ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "state_ref": {
+          "$ref": "#/$defs/reference"
+        }
+      }
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "result_id",
+        "kind",
+        "summary",
+        "state_ref",
+        "scope",
+        "artifacts"
+      ],
+      "properties": {
+        "result_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "kind": {
+          "$ref": "#/$defs/identifier"
+        },
+        "summary": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "state_ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "scope": {
+          "$ref": "#/$defs/scope"
+        },
+        "artifacts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/artifact"
+          }
+        }
+      }
+    },
+    "commit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "algorithm",
+        "value"
+      ],
+      "properties": {
+        "algorithm": {
+          "enum": [
+            "sha1",
+            "sha256"
+          ]
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "algorithm": {
+                "const": "sha1"
+              }
+            },
+            "required": [
+              "algorithm"
+            ]
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "pattern": "^[0-9a-f]{40}$"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "algorithm": {
+                "const": "sha256"
+              }
+            },
+            "required": [
+              "algorithm"
+            ]
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "origin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "carrier",
+        "repository_ref",
+        "lineage_role",
+        "commit"
+      ],
+      "properties": {
+        "carrier": {
+          "const": "git"
+        },
+        "repository_ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "lineage_role": {
+          "enum": [
+            "upstream",
+            "fork",
+            "mirror",
+            "local_derivative",
+            "unknown"
+          ]
+        },
+        "commit": {
+          "$ref": "#/$defs/commit"
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "producer_ref",
+        "source_refs",
+        "parent_result_ids",
+        "origin"
+      ],
+      "properties": {
+        "producer_ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "source_refs": {
+          "$ref": "#/$defs/reference_list",
+          "minItems": 1
+        },
+        "parent_result_ids": {
+          "$ref": "#/$defs/identifier_list"
+        },
+        "origin": {
+          "$ref": "#/$defs/origin"
+        }
+      }
+    },
+    "check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "check_id",
+        "stage",
+        "subject_artifact_ids",
+        "method",
+        "status",
+        "evidence_refs",
+        "reason"
+      ],
+      "properties": {
+        "check_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "stage": {
+          "enum": [
+            "internal",
+            "external"
+          ]
+        },
+        "subject_artifact_ids": {
+          "$ref": "#/$defs/identifier_list",
+          "minItems": 1
+        },
+        "method": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "status": {
+          "enum": [
+            "passed",
+            "failed",
+            "inconclusive",
+            "not_run"
+          ]
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/reference_list"
+        },
+        "reason": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/non_empty_string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "passed",
+                  "failed"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "evidence_refs": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "inconclusive",
+                  "not_run"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "reason": {
+                "$ref": "#/$defs/non_empty_string"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "cost_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "status",
+        "amount",
+        "unit",
+        "evidence_refs",
+        "reason"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "compute",
+            "wall_time",
+            "communication",
+            "verification",
+            "error_recovery",
+            "human_attention",
+            "money",
+            "energy",
+            "other"
+          ]
+        },
+        "status": {
+          "enum": [
+            "measured",
+            "estimated",
+            "unknown"
+          ]
+        },
+        "amount": {
+          "oneOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "unit": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/non_empty_string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/reference_list"
+        },
+        "reason": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/non_empty_string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "measured",
+                  "estimated"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "amount": {
+                "type": "number",
+                "minimum": 0
+              },
+              "unit": {
+                "$ref": "#/$defs/non_empty_string"
+              },
+              "evidence_refs": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "unknown"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "amount": {
+                "type": "null"
+              },
+              "unit": {
+                "type": "null"
+              },
+              "reason": {
+                "$ref": "#/$defs/non_empty_string"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "cost_section": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "coverage",
+        "coverage_reason",
+        "items"
+      ],
+      "properties": {
+        "coverage": {
+          "enum": [
+            "complete",
+            "partial",
+            "unknown"
+          ]
+        },
+        "coverage_reason": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/non_empty_string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/cost_item"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "coverage": {
+                "enum": [
+                  "partial",
+                  "unknown"
+                ]
+              }
+            },
+            "required": [
+              "coverage"
+            ]
+          },
+          "then": {
+            "properties": {
+              "coverage_reason": {
+                "$ref": "#/$defs/non_empty_string"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "cost": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "expected",
+        "actual"
+      ],
+      "properties": {
+        "expected": {
+          "$ref": "#/$defs/cost_section"
+        },
+        "actual": {
+          "$ref": "#/$defs/cost_section"
+        }
+      }
+    },
+    "confidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "assessor_ref",
+        "subject_artifact_ids",
+        "claim",
+        "assessment",
+        "value",
+        "method",
+        "basis_check_ids",
+        "evidence_refs",
+        "calibration",
+        "reason"
+      ],
+      "properties": {
+        "assessor_ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "subject_artifact_ids": {
+          "$ref": "#/$defs/identifier_list"
+        },
+        "claim": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/non_empty_string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "assessment": {
+          "enum": [
+            "estimated",
+            "unknown"
+          ]
+        },
+        "value": {
+          "oneOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "method": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/non_empty_string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "basis_check_ids": {
+          "$ref": "#/$defs/identifier_list"
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/reference_list"
+        },
+        "calibration": {
+          "oneOf": [
+            {
+              "enum": [
+                "calibrated",
+                "uncalibrated"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reason": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/non_empty_string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "anyOf": [
+        {
+          "properties": {
+            "subject_artifact_ids": {
+              "minItems": 1
+            }
+          }
+        },
+        {
+          "properties": {
+            "claim": {
+              "$ref": "#/$defs/non_empty_string"
+            }
+          }
+        }
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "assessment": {
+                "const": "estimated"
+              }
+            },
+            "required": [
+              "assessment"
+            ]
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "method": {
+                "$ref": "#/$defs/non_empty_string"
+              },
+              "calibration": {
+                "enum": [
+                  "calibrated",
+                  "uncalibrated"
+                ]
+              }
+            },
+            "anyOf": [
+              {
+                "properties": {
+                  "basis_check_ids": {
+                    "minItems": 1
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "evidence_refs": {
+                    "minItems": 1
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "assessment": {
+                "const": "unknown"
+              }
+            },
+            "required": [
+              "assessment"
+            ]
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "null"
+              },
+              "method": {
+                "type": "null"
+              },
+              "calibration": {
+                "type": "null"
+              },
+              "reason": {
+                "$ref": "#/$defs/non_empty_string"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "calibration": {
+                "const": "uncalibrated"
+              }
+            },
+            "required": [
+              "calibration"
+            ]
+          },
+          "then": {
+            "properties": {
+              "reason": {
+                "$ref": "#/$defs/non_empty_string"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "recipient": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "recipient_id",
+        "purpose",
+        "access",
+        "constraints"
+      ],
+      "properties": {
+        "recipient_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "purpose": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "access": {
+          "enum": [
+            "public",
+            "restricted",
+            "private"
+          ]
+        },
+        "constraints": {
+          "$ref": "#/$defs/string_list"
+        }
+      }
+    },
+    "transfer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "transfer_id",
+        "recipient_id",
+        "artifact_ids",
+        "status",
+        "evidence_refs",
+        "reason"
+      ],
+      "properties": {
+        "transfer_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "recipient_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "artifact_ids": {
+          "$ref": "#/$defs/identifier_list",
+          "minItems": 1
+        },
+        "transformation_ref": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/reference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "enum": [
+            "planned",
+            "attempted",
+            "delivered",
+            "acknowledged",
+            "failed",
+            "cancelled"
+          ]
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/reference_list"
+        },
+        "reason": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/non_empty_string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "attempted",
+                  "delivered",
+                  "acknowledged",
+                  "failed"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "evidence_refs": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "failed",
+                  "cancelled"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "reason": {
+                "$ref": "#/$defs/non_empty_string"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

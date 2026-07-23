@@ -1,0 +1,262 @@
+{
+  "schema_version": 1,
+  "passport_id": "fum-step-0025-result-passport-v1",
+  "supersedes_passport_id": null,
+  "result": {
+    "result_id": "fum-step-0025-result",
+    "kind": "documentation_bundle",
+    "summary": "Минимальный формат преобразования между наблюдателями FUM версии 1: нормативный документ, строгая JSON Schema, семантический валидатор, две проверочные фикстуры и материалы рабочей сессии.",
+    "state_ref": "git:commit:8d9fd9ac4a737b68e368ad2736e169499ec6b845",
+    "scope": {
+      "claim": "Результат FUM-STEP-0025 задаёт проверяемую запись одного направленного преобразования между закреплёнными представлениями наблюдателей FUM и явно учитывает сигналы, инварианты, потери, обратимость и маршрут к источнику.",
+      "acceptance_criteria": [
+        "Формат версии 1 закреплён строгой JSON Schema без неизвестных полей.",
+        "Семантический валидатор проверяет ссылочную целостность, покрытие сигналов, условия обратимости и безопасность ссылок.",
+        "Обратимая и необратимая фикстуры проходят положительные проверки, а отрицательные мутации основных инвариантов отклоняются."
+      ],
+      "intended_uses": [
+        "Документировать один направленный переход между представлениями разных наблюдателей FUM.",
+        "Проверять заявленные потери, инварианты, обратимость и доступ к закреплённому источнику в документационном прототипе."
+      ],
+      "preconditions": [
+        "Ссылки и состояние результата интерпретируются относительно репозитория памяти FUM на закреплённом Git-коммите.",
+        "Полнота исходной информации ограничена явно объявленной проекцией и областью конкретной записи преобразования."
+      ],
+      "exclusions": [
+        "Результат не реализует runtime, компилятор или транспорт между наблюдателями.",
+        "Результат не задаёт универсальную числовую метрику информационных потерь и не выдаёт права доступа.",
+        "Паспорт не утверждает публикацию результата во внешнем удалённом репозитории."
+      ]
+    },
+    "artifacts": [
+      {
+        "artifact_id": "format-document",
+        "role": "primary_document",
+        "publication_ref": "Документация/38-минимальный-формат-преобразования-между-наблюдателями-FUM.md",
+        "state_ref": "git:commit:8d9fd9ac4a737b68e368ad2736e169499ec6b845"
+      },
+      {
+        "artifact_id": "format-schema",
+        "role": "json_schema",
+        "publication_ref": "Документация/38-минимальный-формат-преобразования-между-наблюдателями-FUM/схема-преобразования-v1.json",
+        "state_ref": "git:commit:8d9fd9ac4a737b68e368ad2736e169499ec6b845"
+      },
+      {
+        "artifact_id": "semantic-validator",
+        "role": "semantic_validator",
+        "publication_ref": "Документация/38-минимальный-формат-преобразования-между-наблюдателями-FUM/проверить-преобразование-v1.py",
+        "state_ref": "git:commit:8d9fd9ac4a737b68e368ad2736e169499ec6b845"
+      },
+      {
+        "artifact_id": "reversible-fixture",
+        "role": "verification_fixture",
+        "publication_ref": "Документация/38-минимальный-формат-преобразования-между-наблюдателями-FUM/фикстура-обратимого-преобразования.json",
+        "state_ref": "git:commit:8d9fd9ac4a737b68e368ad2736e169499ec6b845"
+      },
+      {
+        "artifact_id": "irreversible-fixture",
+        "role": "verification_fixture",
+        "publication_ref": "Документация/38-минимальный-формат-преобразования-между-наблюдателями-FUM/фикстура-необратимого-преобразования.json",
+        "state_ref": "git:commit:8d9fd9ac4a737b68e368ad2736e169499ec6b845"
+      },
+      {
+        "artifact_id": "session-request",
+        "role": "source_request",
+        "publication_ref": "Запросы/2026-07-23_11-50-58_MSK_описать-минимальный-формат-преобразования-между-наблюдателями-FUM.md",
+        "state_ref": "git:commit:8d9fd9ac4a737b68e368ad2736e169499ec6b845"
+      },
+      {
+        "artifact_id": "session-journal",
+        "role": "session_journal",
+        "publication_ref": "Журнал/2026-07-23_11-50-58_MSK_описать-минимальный-формат-преобразования-между-наблюдателями-FUM.md",
+        "state_ref": "git:commit:8d9fd9ac4a737b68e368ad2736e169499ec6b845"
+      },
+      {
+        "artifact_id": "affected-files-manifest",
+        "role": "publication_manifest",
+        "publication_ref": "Запросы/2026-07-23_11-50-58_MSK_описать-минимальный-формат-преобразования-между-наблюдателями-FUM.md#Повлиял-на-файлы",
+        "state_ref": "git:commit:8d9fd9ac4a737b68e368ad2736e169499ec6b845"
+      }
+    ]
+  },
+  "provenance": {
+    "producer_ref": "Запросы/2026-07-23_11-50-58_MSK_описать-минимальный-формат-преобразования-между-наблюдателями-FUM.md",
+    "source_refs": [
+      "Запросы/2026-07-23_11-50-58_MSK_описать-минимальный-формат-преобразования-между-наблюдателями-FUM.md",
+      "Планирование/карточки-шагов/✅-FUM-STEP-0025-описать-минимальный-формат-преобразования-между-наблюдателями-FUM.md"
+    ],
+    "parent_result_ids": [],
+    "origin": {
+      "carrier": "git",
+      "repository_ref": "https://github.com/fum-lab/fum",
+      "lineage_role": "upstream",
+      "commit": {
+        "algorithm": "sha1",
+        "value": "8d9fd9ac4a737b68e368ad2736e169499ec6b845"
+      }
+    }
+  },
+  "verification": [
+    {
+      "check_id": "format-v1-recorded-checks",
+      "stage": "internal",
+      "subject_artifact_ids": [
+        "format-document",
+        "format-schema",
+        "semantic-validator",
+        "reversible-fixture",
+        "irreversible-fixture"
+      ],
+      "method": "Воспроизвести сохранённые проверки схемы и семантического валидатора, включая положительные фикстуры и пятнадцать отрицательных мутаций.",
+      "status": "passed",
+      "evidence_refs": [
+        "Запросы/2026-07-23_11-50-58_MSK_описать-минимальный-формат-преобразования-между-наблюдателями-FUM.md#Проверки",
+        "Журнал/2026-07-23_11-50-58_MSK_описать-минимальный-формат-преобразования-между-наблюдателями-FUM.md#Проверка-формата"
+      ],
+      "reason": null
+    },
+    {
+      "check_id": "result-state-pinned",
+      "stage": "internal",
+      "subject_artifact_ids": [
+        "format-document",
+        "format-schema",
+        "semantic-validator",
+        "reversible-fixture",
+        "irreversible-fixture",
+        "session-request",
+        "session-journal",
+        "affected-files-manifest"
+      ],
+      "method": "Проверить тип Git-объекта и наличие каждого локального публикационного пути в дереве закреплённого коммита.",
+      "status": "passed",
+      "evidence_refs": [
+        "git:commit:8d9fd9ac4a737b68e368ad2736e169499ec6b845"
+      ],
+      "reason": null
+    }
+  ],
+  "cost": {
+    "expected": {
+      "coverage": "unknown",
+      "coverage_reason": "До начала FUM-STEP-0025 ожидаемая стоимость не была зафиксирована измеримым бюджетом; unknown не означает нулевую стоимость.",
+      "items": [
+        {
+          "kind": "wall_time",
+          "status": "unknown",
+          "amount": null,
+          "unit": null,
+          "evidence_refs": [],
+          "reason": "Ожидаемая продолжительность не была измерена или оценена до начала шага; null нельзя интерпретировать как ноль."
+        },
+        {
+          "kind": "compute",
+          "status": "unknown",
+          "amount": null,
+          "unit": null,
+          "evidence_refs": [],
+          "reason": "Ожидаемый объём вычислений не был измерен или оценён; null нельзя интерпретировать как ноль."
+        },
+        {
+          "kind": "human_attention",
+          "status": "unknown",
+          "amount": null,
+          "unit": null,
+          "evidence_refs": [],
+          "reason": "Ожидаемое человеческое внимание не было измерено или оценено; null нельзя интерпретировать как ноль."
+        }
+      ]
+    },
+    "actual": {
+      "coverage": "partial",
+      "coverage_reason": "Измерена только полная календарная длительность между префиксом сессии 11:50:58 MSK и коммитом 12:47:08 MSK; вычисления и человеческое внимание не измерялись.",
+      "items": [
+        {
+          "kind": "wall_time",
+          "status": "measured",
+          "amount": 3370,
+          "unit": "seconds",
+          "evidence_refs": [
+            "Запросы/2026-07-23_11-50-58_MSK_описать-минимальный-формат-преобразования-между-наблюдателями-FUM.md",
+            "git:commit:8d9fd9ac4a737b68e368ad2736e169499ec6b845"
+          ],
+          "reason": null
+        },
+        {
+          "kind": "compute",
+          "status": "unknown",
+          "amount": null,
+          "unit": null,
+          "evidence_refs": [],
+          "reason": "Фактические CPU-, GPU- и token-затраты не измерены; null нельзя интерпретировать как ноль."
+        },
+        {
+          "kind": "human_attention",
+          "status": "unknown",
+          "amount": null,
+          "unit": null,
+          "evidence_refs": [],
+          "reason": "Фактическое человеческое внимание не измерено; null нельзя интерпретировать как ноль."
+        }
+      ]
+    }
+  },
+  "confidence": {
+    "assessor_ref": "Журнал/2026-07-23_11-50-58_MSK_описать-минимальный-формат-преобразования-между-наблюдателями-FUM.md",
+    "subject_artifact_ids": [
+      "format-document",
+      "format-schema",
+      "semantic-validator",
+      "reversible-fixture",
+      "irreversible-fixture"
+    ],
+    "claim": "Результат FUM-STEP-0025 удовлетворяет сохранённым критериям документального формата версии 1 в пределах заявленной области документационного прототипа.",
+    "assessment": "estimated",
+    "value": 0.9,
+    "method": "Экспертная оценка по двум прошедшим внутренним проверкам, сохранённым положительным фикстурам и отрицательным мутациям без эмпирической калибровки вероятности.",
+    "basis_check_ids": [
+      "format-v1-recorded-checks",
+      "result-state-pinned"
+    ],
+    "evidence_refs": [
+      "Запросы/2026-07-23_11-50-58_MSK_описать-минимальный-формат-преобразования-между-наблюдателями-FUM.md#Проверки",
+      "Журнал/2026-07-23_11-50-58_MSK_описать-минимальный-формат-преобразования-между-наблюдателями-FUM.md#Проверка-формата"
+    ],
+    "calibration": "uncalibrated",
+    "reason": "Значение 0.9 является явно некалиброванной экспертной оценкой и не получено из серии сопоставимых прогнозов с наблюдаемыми исходами."
+  },
+  "recipients": [
+    {
+      "recipient_id": "fum-memory-master",
+      "purpose": "Сохранить результат как часть публичной канонической памяти FUM в локальной ветке master.",
+      "access": "public",
+      "constraints": [
+        "Подтверждена только доставка в локальную ветку master на указанном коммите.",
+        "Публикация или доступность этого состояния в удалённом репозитории не доказана."
+      ]
+    }
+  ],
+  "transfers": [
+    {
+      "transfer_id": "fum-step-0025-to-local-master",
+      "recipient_id": "fum-memory-master",
+      "artifact_ids": [
+        "format-document",
+        "format-schema",
+        "semantic-validator",
+        "reversible-fixture",
+        "irreversible-fixture",
+        "session-request",
+        "session-journal",
+        "affected-files-manifest"
+      ],
+      "transformation_ref": null,
+      "status": "delivered",
+      "evidence_refs": [
+        "git:commit:8d9fd9ac4a737b68e368ad2736e169499ec6b845",
+        "Запросы/2026-07-23_11-50-58_MSK_описать-минимальный-формат-преобразования-между-наблюдателями-FUM.md#Проверки"
+      ],
+      "reason": null
+    }
+  ]
+}
