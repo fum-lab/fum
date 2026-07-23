@@ -20,7 +20,7 @@
 - [fum-svezhestj-markdown](fum-svezhestj-markdown/SKILL.md) - обновляет служебные метки последнего содержательного редактирования во всех Markdown-файлах и собирает индекс `.md`-файлов от свежих к старым.
 - [fum-ocheredj-zadach-git-vetki](fum-ocheredj-zadach-git-vetki/SKILL.md) - последовательно допускает корневые задачи одного worktree в порядке атомарной регистрации и завершает владение атомарным commit+handoff без project hooks и POSIX-блокировок.
 - [fum-svezhestj-grafa-obsidian](fum-svezhestj-grafa-obsidian/SKILL.md) - обновляет группы цвета графа Obsidian как тепловую карту Markdown-узлов по времени последнего содержательного редактирования.
-- [fum-reyestr-planirovaniya](fum-reyestr-planirovaniya/SKILL.md) - собирает и проверяет машинно читаемый JSON-реестр канонических карточек требований, производных плановых представлений, MVP-кандидатов, предложений и вопросов.
+- [fum-reyestr-planirovaniya](fum-reyestr-planirovaniya/SKILL.md) - собирает и проверяет машинно читаемый JSON-реестр и безопасно переименовывает карточки шагов с обновлением живых текстовых путей.
 - [fum-proyektnyiye-fajlyi](fum-proyektnyiye-fajlyi/SKILL.md) - задаёт общий воспроизводимый инвентарь проектных Markdown-файлов и безопасные границы выходных путей служебных автоматизаций.
 - [fum-proverka-git-zavisimostej](fum-proverka-git-zavisimostej/SKILL.md) - добавляет Git submodule из форка рядом с актуальным FUM, инициализирует уже зарегистрированную зависимость после свежего клонирования и автономно проверяет отдельный upstream, достижимость выбранной ревизии из локально полученных refs форка и точный gitlink.
 - [fum-proverka-nazvanij-avtomatizacij](fum-proverka-nazvanij-avtomatizacij/SKILL.md) - проверяет точную транслитерацию репозиторных и отображаемых имён, slug, отсутствие канонических legacy-исключений, коллизии и явное состояние зависимости LinguisticKit.
@@ -53,6 +53,7 @@
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-svezhestj-markdown/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-svezhestj-markdown`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-svezhestj-grafa-obsidian/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-svezhestj-grafa-obsidian`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-reyestr-planirovaniya/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-reyestr-planirovaniya`.
+- `python3 Инструменты/fum-reyestr-planirovaniya/scripts/rename-step-card.py --card-id FUM-STEP-NNNN --status <active|completed|absorbed|withdrawn> [--description <краткое-название>]` - Git-переименование карточки шага с синхронизацией статуса, индекса и живых текстовых путей.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-proyektnyiye-fajlyi/tests -p 'test_*.py'` - локальные тесты общей политики проектных файлов.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-proverka-git-zavisimostej/tests -p 'test_*.py'` - автономные тесты цепочки форк — `origin` — `upstream` — `.gitmodules` — gitlink.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-proverka-nazvanij-avtomatizacij/tests -p 'test_*.py'` - локальные тесты реестра русских латинских названий автоматизаций.
@@ -68,6 +69,7 @@
 
 ## Источники требований
 
+- [исходный запрос 2026-07-23 10:44:00 MSK - Автоматизировать обновление ссылок при смене статуса карточки](../Запросы/2026-07-23_10-44-00_MSK_автоматизировать-обновление-ссылок-при-смене-статуса-карточки.md)
 - [исходный запрос 2026-07-22 10:02:43 MSK - Добавить аудит покрытия вопросов и ответов](../Запросы/2026-07-22_10-02-43_MSK_добавить-аудит-покрытия-вопросов-и-ответов.md)
 - [исходный запрос 2026-07-22 08:44:00 MSK - Мигрировать legacy имена автоматизаций](../Запросы/2026-07-22_08-44-00_MSK_мигрировать-legacy-имена-автоматизаций.md)
 - [исходный запрос 2026-07-21 11:32:46 MSK - Актуализировать входные описания FUM](../Запросы/2026-07-21_11-32-46_MSK_актуализировать-входные-описания-FUM.md)
@@ -77,6 +79,6 @@
 - [исходный запрос 2026-07-22 03:38:35 MSK - Разрешить выполнение доступных карточек шагов](../Запросы/2026-07-22_03-38-35_MSK_разрешить-выполнение-доступных-карточек-шагов.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-23 09:52:30 MSK -->
-<!-- content-sha256: sha256:8f3f7df7d36555fa01e6babd44bd0f1024c4ff2f6028762138ab252ca7341d2f -->
+<!-- last-content-edit: 2026-07-23 11:02:28 MSK -->
+<!-- content-sha256: sha256:64139a0ba57bcc2f28fc25549b929a11880dcd7819229ff9eee1796dffb7eedc -->
 <!-- FUM-MD-RECENCY:END -->
