@@ -51,6 +51,81 @@ class RunSmokeCheckTests(unittest.TestCase):
         names_registry = root / "Инструменты" / "реестр-названий-автоматизаций.json"
         names_registry.write_text("{}\n", encoding="utf-8")
 
+        codex_config = root / ".codex" / "config.toml"
+        codex_config.parent.mkdir(parents=True, exist_ok=True)
+        codex_config.write_text(
+            "[skills]\ninclude_instructions = false\n",
+            encoding="utf-8",
+        )
+
+    def test_requires_external_skill_instructions_disabled(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            config = root / ".codex" / "config.toml"
+            config.parent.mkdir(parents=True)
+
+            for text in (
+                "model = \"gpt-5.6-sol\"\n",
+                "[skills]\ninclude_instructions = true\n",
+                "[skills]\ninclude_instructions = \"false\"\n",
+            ):
+                with self.subTest(text=text):
+                    config.write_text(text, encoding="utf-8")
+                    with self.assertRaisesRegex(
+                        ValueError,
+                        "skills.include_instructions = false",
+                    ):
+                        run_smoke_check.validate_project_skill_isolation(root)
+
+            config.write_text(
+                "[skills]\ninclude_instructions = false\n",
+                encoding="utf-8",
+            )
+            run_smoke_check.validate_project_skill_isolation(root)
+
+            config.write_text("[skills\n", encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "invalid project Codex config"):
+                run_smoke_check.validate_project_skill_isolation(root)
+
+    def test_build_plan_requires_project_skill_isolation(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_script_fixture(root)
+            (root / ".codex" / "config.toml").unlink()
+
+            with self.assertRaisesRegex(
+                ValueError,
+                "skills.include_instructions = false",
+            ):
+                run_smoke_check.build_steps(
+                    root,
+                    request=None,
+                    commit_message_file=None,
+                    codex_thread_id=None,
+                    include_session=False,
+                    python="python3",
+                )
+
+    def test_rejects_local_skill_symlink_outside_repository(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            workspace = Path(tmp)
+            root = workspace / "repo"
+            root.mkdir()
+            self.write_script_fixture(root)
+
+            external_skill = workspace / "external" / "SKILL.md"
+            external_skill.parent.mkdir()
+            external_skill.write_text("# External\n", encoding="utf-8")
+            local_skill = root / "Инструменты" / "fum-linked" / "SKILL.md"
+            local_skill.parent.mkdir()
+            local_skill.symlink_to(external_skill)
+
+            with self.assertRaisesRegex(
+                ValueError,
+                "local skill path resolves outside repository",
+            ):
+                run_smoke_check.validate_project_skill_isolation(root)
+
     def write_swift_package_fixture(self, root: Path, name: str) -> Path:
         package = root / "Прототипы" / name
         (package / "Sources" / "Fixture").mkdir(parents=True)

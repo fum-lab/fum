@@ -11,6 +11,7 @@ import re
 import shlex
 import subprocess
 import sys
+import tomllib
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -68,6 +69,7 @@ SWIFT_PACKAGE_POLICY = Path(
 SWIFT_FORMAT_CONFIG = Path(
     "Инструменты/fum-kompleksnaya-proverka-repozitoriya/swift-format.json"
 )
+CODEX_PROJECT_CONFIG = Path(".codex/config.toml")
 SHA256_RE = re.compile(r"^sha256:[0-9a-f]{64}$")
 
 
@@ -158,6 +160,55 @@ def require_file(repo_root: Path, path: Path) -> str:
     if not absolute.exists():
         raise FileNotFoundError(f"required smoke-check component is missing: {path.as_posix()}")
     return repo_relative(absolute, repo_root)
+
+
+def validate_project_skill_isolation(repo_root: Path) -> None:
+    config_path = repo_root / CODEX_PROJECT_CONFIG
+    if not config_path.is_file():
+        raise ValueError(
+            "project Codex config must set skills.include_instructions = false: "
+            f"missing {CODEX_PROJECT_CONFIG.as_posix()}"
+        )
+    try:
+        config = tomllib.loads(config_path.read_text(encoding="utf-8"))
+    except tomllib.TOMLDecodeError as exc:
+        raise ValueError(
+            f"invalid project Codex config {CODEX_PROJECT_CONFIG.as_posix()}: {exc}"
+        ) from exc
+
+    skills = config.get("skills")
+    if not isinstance(skills, dict) or skills.get("include_instructions") is not False:
+        raise ValueError(
+            "project Codex config must set skills.include_instructions = false"
+        )
+
+    skills_root = repo_root / "Инструменты"
+    if not skills_root.is_dir():
+        return
+
+    resolved_root = repo_root.resolve()
+    for skill_dir in skills_root.iterdir():
+        candidate = skill_dir / "SKILL.md"
+        if not candidate.exists() and not candidate.is_symlink():
+            continue
+        candidate_path = candidate.relative_to(repo_root).as_posix()
+        try:
+            resolved = candidate.resolve(strict=True)
+        except FileNotFoundError as exc:
+            raise ValueError(
+                f"local skill path is broken: {candidate_path}"
+            ) from exc
+        try:
+            resolved.relative_to(resolved_root)
+        except ValueError as exc:
+            raise ValueError(
+                "local skill path resolves outside repository: "
+                f"{candidate_path}"
+            ) from exc
+        if not resolved.is_file():
+            raise ValueError(
+                f"local skill path is not a file: {candidate_path}"
+            )
 
 
 def discover_test_dirs(repo_root: Path) -> list[Path]:
@@ -651,6 +702,7 @@ def build_steps(
     codex_thread_id: str | None = None,
 ) -> list[SmokeStep]:
     root = Path(repo_root).resolve()
+    validate_project_skill_isolation(root)
     python_cmd = python or sys.executable
     swift_cmd = swift or "swift"
     steps: list[SmokeStep] = []
