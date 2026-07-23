@@ -1,0 +1,5 @@
+{
+  "target_state_ref": "derived:strict-utf8-decode:sha256:6463449a61485db72ccb2877974a2ba1eb2fa37f40cb4ac9d9449000f0767abf",
+  "transformation_id": "fixture-utf8-round-trip-v1",
+  "transformation_record_ref": "Документация/38-минимальный-формат-преобразования-между-наблюдателями-FUM/фикстура-обратимого-преобразования.json"
+}

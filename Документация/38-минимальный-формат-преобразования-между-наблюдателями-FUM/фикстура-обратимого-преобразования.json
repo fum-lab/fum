@@ -1,0 +1,207 @@
+{
+  "schema_version": 1,
+  "transformation_id": "fixture-utf8-round-trip-v1",
+  "scope": {
+    "system": "Документационный прототип FUM",
+    "statement": "Строго декодировать байты канонической статьи FUM как UTF-8-текст без нормализации.",
+    "source_domain": "Точный снимок Глоссарий/FUM.md с корректной UTF-8-последовательностью.",
+    "full_information_definition": "Полная последовательность байтов закреплённого файла Глоссарий/FUM.md.",
+    "assumptions": [
+      "Декодирование и кодирование используют UTF-8 в строгом режиме."
+    ],
+    "exclusions": [
+      "Нормализация Unicode, переводов строк или Markdown не выполняется."
+    ]
+  },
+  "source": {
+    "layer_ref": "Глоссарий/FUM.md",
+    "state_ref": "sha256:6463449a61485db72ccb2877974a2ba1eb2fa37f40cb4ac9d9449000f0767abf",
+    "representation": "Упорядоченная последовательность байтов UTF-8-файла.",
+    "observer_profile": {
+      "kind": "локальный файловый читатель",
+      "abstraction_level": "байтовая последовательность",
+      "embodiment": "read-only-процесс в текущем checkout",
+      "coordinate_system": "смещения и значения байтов",
+      "available_operations": [
+        "прочитать байты",
+        "вычислить SHA-256"
+      ],
+      "access_constraints": [
+        "Доступен только публикационно чистый файл текущей памяти FUM."
+      ]
+    },
+    "observed_signals": [
+      {
+        "signal_id": "source.bytes",
+        "meaning": "Вся последовательность байтов статьи без исключений.",
+        "carrier": "Глоссарий/FUM.md",
+        "evidence_refs": [
+          "Глоссарий/FUM.md"
+        ]
+      }
+    ],
+    "inventory_check": {
+      "status": "passed",
+      "method": "Сопоставить единственный сигнал со всей последовательностью байтов, закреплённой state_ref.",
+      "summary": "source.bytes покрывает каждый байт точного исходного снимка без остатка.",
+      "evidence_refs": [
+        "Глоссарий/FUM.md"
+      ]
+    }
+  },
+  "target": {
+    "layer_ref": "urn:fum:fixture:utf8-text",
+    "state_ref": "derived:strict-utf8-decode:sha256:6463449a61485db72ccb2877974a2ba1eb2fa37f40cb4ac9d9449000f0767abf",
+    "representation": "Последовательность Unicode-символов после строгой UTF-8-декодировки.",
+    "observer_profile": {
+      "kind": "текстовый читатель",
+      "abstraction_level": "Unicode-текст",
+      "embodiment": "человек или LLM с текстовым интерфейсом",
+      "coordinate_system": "последовательность Unicode-символов",
+      "available_operations": [
+        "прочитать текст",
+        "закодировать текст как UTF-8"
+      ],
+      "access_constraints": [
+        "Наблюдатель получает только декодированный текст, а не скрытое состояние файлового читателя."
+      ]
+    },
+    "observed_signals": [
+      {
+        "signal_id": "target.text",
+        "meaning": "Полный Unicode-текст статьи.",
+        "carrier": "результат строгой UTF-8-декодировки",
+        "evidence_refs": [
+          "Глоссарий/FUM.md"
+        ]
+      }
+    ],
+    "inventory_check": {
+      "status": "passed",
+      "method": "Сопоставить единственный сигнал со всем результатом строгой UTF-8-декодировки.",
+      "summary": "target.text покрывает всю целевую последовательность Unicode-символов без остатка.",
+      "evidence_refs": [
+        "Глоссарий/FUM.md"
+      ]
+    }
+  },
+  "transformation": {
+    "method": "decode-utf8-strict",
+    "version": "Unicode UTF-8",
+    "description": "Декодировать всю исходную последовательность байтов в строгом режиме без замены ошибок.",
+    "preconditions": [
+      "Исходная последовательность является корректным UTF-8.",
+      "Между чтением и обратным кодированием текст не изменяется."
+    ],
+    "implementation_refs": []
+  },
+  "signal_mappings": [
+    {
+      "mapping_id": "bytes-to-text",
+      "source_signal_ids": [
+        "source.bytes"
+      ],
+      "target_signal_ids": [
+        "target.text"
+      ],
+      "rule": "Строгая UTF-8-декодировка всей последовательности.",
+      "status": "transformed",
+      "invariant_ids": [
+        "byte-round-trip"
+      ],
+      "evidence_refs": [
+        "Глоссарий/FUM.md"
+      ]
+    }
+  ],
+  "invariants": [
+    {
+      "invariant_id": "byte-round-trip",
+      "statement": "Повторное UTF-8-кодирование целевого текста восстанавливает все исходные байты.",
+      "source_expression": "source.bytes",
+      "target_expression": "encode_utf8_strict(target.text)",
+      "equivalence": "Точное равенство последовательностей байтов.",
+      "check": {
+        "status": "passed",
+        "method": "Прочитать файл как bytes, выполнить decode('utf-8').encode('utf-8') и сравнить с исходными bytes.",
+        "summary": "Round-trip восстановил точную исходную последовательность.",
+        "evidence_refs": [
+          "Глоссарий/FUM.md",
+          "Документация/38-минимальный-формат-преобразования-между-наблюдателями-FUM/фикстура-обратимого-преобразования.json"
+        ]
+      }
+    }
+  ],
+  "losses": [],
+  "reversibility": {
+    "claim": "reversible",
+    "source_equivalence": "Точное равенство последовательностей байтов.",
+    "target_equivalence": "Точное равенство последовательностей Unicode-символов.",
+    "method": "Проверить G(F(s)) = s для строгих UTF-8 decode и encode на закреплённом снимке.",
+    "inverse_ref": "operation:encode-utf8-strict",
+    "check": {
+      "status": "passed",
+      "method": "Локальный round-trip стандартной библиотекой Python.",
+      "summary": "Обратимость подтверждена для объявленного корректного UTF-8-домена без нормализации.",
+      "evidence_refs": [
+        "Глоссарий/FUM.md",
+        "Документация/38-минимальный-формат-преобразования-между-наблюдателями-FUM/фикстура-обратимого-преобразования.json"
+      ]
+    },
+    "limitations": [
+      "Вывод не распространяется на ошибочные UTF-8-последовательности или изменённый текст."
+    ]
+  },
+  "full_information_route": {
+    "status": "available",
+    "starting_point": "target_delivery_context",
+    "record_discovery": {
+      "method": "sidecar",
+      "delivery_context_ref": "Документация/38-минимальный-формат-преобразования-между-наблюдателями-FUM/контекст-поставки-обратимой-фикстуры.json",
+      "locator_ref": "Документация/38-минимальный-формат-преобразования-между-наблюдателями-FUM/фикстура-обратимого-преобразования.json",
+      "binding": "Материализованный контекст поставки связывает точные target.state_ref, transformation_id и относительный путь sidecar-записи.",
+      "check": {
+        "status": "passed",
+        "method": "Открыть delivery_context_ref, сверить target_state_ref и transformation_id, затем разрешить transformation_record_ref к этой sidecar-записи.",
+        "summary": "Материализованный целевой контекст однозначно обнаруживает эту запись перехода.",
+        "evidence_refs": [
+          "Документация/38-минимальный-формат-преобразования-между-наблюдателями-FUM/контекст-поставки-обратимой-фикстуры.json",
+          "Документация/38-минимальный-формат-преобразования-между-наблюдателями-FUM/фикстура-обратимого-преобразования.json"
+        ]
+      }
+    },
+    "covered_signal_ids": [
+      "source.bytes"
+    ],
+    "source_binding": {
+      "layer_ref": "Глоссарий/FUM.md",
+      "state_ref": "sha256:6463449a61485db72ccb2877974a2ba1eb2fa37f40cb4ac9d9449000f0767abf"
+    },
+    "source_refs": [
+      "Глоссарий/FUM.md"
+    ],
+    "steps": [
+      {
+        "operation": "После обнаружения записи прочитать source_refs и открыть относительный путь в памяти FUM.",
+        "target_ref": "Глоссарий/FUM.md"
+      },
+      {
+        "operation": "Сверить SHA-256 с закреплённым state_ref.",
+        "target_ref": "sha256:6463449a61485db72ccb2877974a2ba1eb2fa37f40cb4ac9d9449000f0767abf"
+      }
+    ],
+    "access_constraints": [],
+    "check": {
+      "status": "passed",
+      "method": "Из записи перехода разрешить относительный путь и вычислить SHA-256 файла.",
+      "summary": "Маршрут из записи существует и ведёт к точному закреплённому снимку.",
+      "evidence_refs": [
+        "Глоссарий/FUM.md"
+      ]
+    }
+  },
+  "provenance_refs": [
+    "Документация/38-минимальный-формат-преобразования-между-наблюдателями-FUM.md",
+    "Запросы/2026-07-23_11-50-58_MSK_описать-минимальный-формат-преобразования-между-наблюдателями-FUM.md"
+  ]
+}

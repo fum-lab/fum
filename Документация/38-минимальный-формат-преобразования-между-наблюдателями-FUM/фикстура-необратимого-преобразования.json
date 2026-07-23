@@ -1,0 +1,237 @@
+{
+  "schema_version": 1,
+  "transformation_id": "fixture-first-heading-collision-v1",
+  "scope": {
+    "system": "Документационный прототип FUM",
+    "statement": "Извлечь первый заголовок Markdown как краткую подпись для человека.",
+    "source_domain": "UTF-8 Markdown-документы с первым заголовком уровня H1 и произвольным последующим содержанием.",
+    "full_information_definition": "Заголовок и всё последующее содержимое точного снимка Глоссарий/FUM.md.",
+    "assumptions": [
+      "Первой содержательной строкой является заголовок H1."
+    ],
+    "exclusions": [
+      "Извлечение не сохраняет тело, ссылки, разметку и служебный блок документа."
+    ]
+  },
+  "source": {
+    "layer_ref": "Глоссарий/FUM.md",
+    "state_ref": "sha256:6463449a61485db72ccb2877974a2ba1eb2fa37f40cb4ac9d9449000f0767abf",
+    "representation": "Полный UTF-8 Markdown-документ.",
+    "observer_profile": {
+      "kind": "Markdown-читатель",
+      "abstraction_level": "структура полного документа",
+      "embodiment": "человек или LLM с доступом к файлу",
+      "coordinate_system": "заголовки, абзацы, ссылки и служебные блоки Markdown",
+      "available_operations": [
+        "прочитать заголовок",
+        "прочитать остальное содержимое"
+      ],
+      "access_constraints": [
+        "Доступен только публикационно чистый файл текущей памяти FUM."
+      ]
+    },
+    "observed_signals": [
+      {
+        "signal_id": "source.title",
+        "meaning": "Полная строка первого заголовка H1 вместе с маркером Markdown.",
+        "carrier": "первая содержательная строка Глоссарий/FUM.md",
+        "sample_value": "# FUM",
+        "evidence_refs": [
+          "Глоссарий/FUM.md"
+        ]
+      },
+      {
+        "signal_id": "source.remaining-content",
+        "meaning": "Всё содержимое документа вне строки первого заголовка, включая разделители строк, смысл, ссылки и служебный блок.",
+        "carrier": "все кодовые точки Глоссарий/FUM.md, не входящие в строку первого H1",
+        "evidence_refs": [
+          "Глоссарий/FUM.md"
+        ]
+      }
+    ],
+    "inventory_check": {
+      "status": "passed",
+      "method": "Разбить точный Markdown-снимок на полную строку первого H1 и её дополнение без пересечений и пропусков.",
+      "summary": "source.title и source.remaining-content исчерпывают исходный документ в объявленной текстовой проекции.",
+      "evidence_refs": [
+        "Глоссарий/FUM.md"
+      ]
+    }
+  },
+  "target": {
+    "layer_ref": "urn:fum:fixture:first-h1-label",
+    "state_ref": "value:FUM",
+    "representation": "Одна человекочитаемая текстовая подпись.",
+    "observer_profile": {
+      "kind": "человек",
+      "abstraction_level": "краткая навигационная подпись",
+      "embodiment": "текстовый список или индекс",
+      "coordinate_system": "одна строка без Markdown-маркера",
+      "available_operations": [
+        "прочитать подпись"
+      ],
+      "access_constraints": [
+        "Из самой подписи недоступно остальное содержимое документа."
+      ]
+    },
+    "observed_signals": [
+      {
+        "signal_id": "target.title",
+        "meaning": "Краткая подпись, полученная из первого заголовка.",
+        "carrier": "результат извлечения первого H1",
+        "sample_value": "FUM",
+        "evidence_refs": [
+          "Глоссарий/FUM.md"
+        ]
+      }
+    ],
+    "inventory_check": {
+      "status": "passed",
+      "method": "Проверить, что целевое значение является одной строкой и целиком представлено сигналом target.title.",
+      "summary": "target.title исчерпывает целевую подпись без неучтённого остатка.",
+      "evidence_refs": [
+        "Документация/38-минимальный-формат-преобразования-между-наблюдателями-FUM/фикстура-необратимого-преобразования.json"
+      ]
+    }
+  },
+  "transformation": {
+    "method": "extract-first-h1",
+    "version": "fixture-v1",
+    "description": "Найти первую содержательную строку, потребовать префикс '# ' и вернуть оставшийся текст.",
+    "preconditions": [
+      "Первая содержательная строка начинается с '# '."
+    ],
+    "implementation_refs": []
+  },
+  "signal_mappings": [
+    {
+      "mapping_id": "title-to-label",
+      "source_signal_ids": [
+        "source.title"
+      ],
+      "target_signal_ids": [
+        "target.title"
+      ],
+      "rule": "Удалить точный префикс '# ' у первого H1.",
+      "status": "preserved",
+      "invariant_ids": [
+        "title-preserved"
+      ],
+      "evidence_refs": [
+        "Глоссарий/FUM.md"
+      ]
+    }
+  ],
+  "invariants": [
+    {
+      "invariant_id": "title-preserved",
+      "statement": "Текст заголовка после удаления Markdown-маркера совпадает с целевой подписью.",
+      "source_expression": "strip_h1_marker(source.title)",
+      "target_expression": "target.title",
+      "equivalence": "Точное равенство Unicode-строк.",
+      "check": {
+        "status": "passed",
+        "method": "Извлечь первый H1 из Глоссарий/FUM.md и сравнить со sample_value target.title.",
+        "summary": "Обе стороны содержат строку «FUM».",
+        "evidence_refs": [
+          "Глоссарий/FUM.md",
+          "Документация/38-минимальный-формат-преобразования-между-наблюдателями-FUM/фикстура-необратимого-преобразования.json"
+        ]
+      }
+    }
+  ],
+  "losses": [
+    {
+      "loss_id": "remaining-content-omitted",
+      "source_signal_ids": [
+        "source.remaining-content"
+      ],
+      "kind": "omitted",
+      "reason": "Преобразование возвращает только первый заголовок.",
+      "consequence": "Тело, ссылки, происхождение и служебные данные нельзя восстановить из одной подписи.",
+      "recoverable_from_target": false,
+      "evidence_refs": [
+        "Глоссарий/FUM.md"
+      ]
+    }
+  ],
+  "reversibility": {
+    "claim": "irreversible",
+    "source_equivalence": "Точное равенство полных Markdown-строк.",
+    "target_equivalence": "Точное равенство извлечённых заголовков.",
+    "method": "Предъявить два различных исходных документа с одинаковым первым H1.",
+    "inverse_ref": null,
+    "check": {
+      "status": "passed",
+      "method": "Применить extract-first-h1 к двум строкам из counterexample и сравнить результаты.",
+      "summary": "Различные тела A и B дали одинаковую целевую строку «FUM».",
+      "evidence_refs": [
+        "Документация/38-минимальный-формат-преобразования-между-наблюдателями-FUM/фикстура-необратимого-преобразования.json"
+      ]
+    },
+    "limitations": [
+      "Коллизия доказывает необратимость для объявленного домена Markdown-документов с произвольным телом."
+    ],
+    "counterexample": {
+      "source_a": "# FUM\n\nA\n",
+      "source_b": "# FUM\n\nB\n",
+      "target_a": "FUM",
+      "target_b": "FUM",
+      "source_distinction": "Исходные строки различаются телом A и B.",
+      "target_equivalence": "Целевые строки точно равны."
+    }
+  },
+  "full_information_route": {
+    "status": "available",
+    "starting_point": "target_delivery_context",
+    "record_discovery": {
+      "method": "sidecar",
+      "delivery_context_ref": "Документация/38-минимальный-формат-преобразования-между-наблюдателями-FUM/контекст-поставки-необратимой-фикстуры.json",
+      "locator_ref": "Документация/38-минимальный-формат-преобразования-между-наблюдателями-FUM/фикстура-необратимого-преобразования.json",
+      "binding": "Материализованный контекст поставки связывает точные target.state_ref, transformation_id и относительный путь sidecar-записи.",
+      "check": {
+        "status": "passed",
+        "method": "Открыть delivery_context_ref, сверить target_state_ref и transformation_id, затем разрешить transformation_record_ref к этой sidecar-записи.",
+        "summary": "Материализованный целевой контекст однозначно обнаруживает эту запись, хотя одна строка FUM без контекста недостаточна.",
+        "evidence_refs": [
+          "Документация/38-минимальный-формат-преобразования-между-наблюдателями-FUM/контекст-поставки-необратимой-фикстуры.json",
+          "Документация/38-минимальный-формат-преобразования-между-наблюдателями-FUM/фикстура-необратимого-преобразования.json"
+        ]
+      }
+    },
+    "covered_signal_ids": [
+      "source.title",
+      "source.remaining-content"
+    ],
+    "source_binding": {
+      "layer_ref": "Глоссарий/FUM.md",
+      "state_ref": "sha256:6463449a61485db72ccb2877974a2ba1eb2fa37f40cb4ac9d9449000f0767abf"
+    },
+    "source_refs": [
+      "Глоссарий/FUM.md"
+    ],
+    "steps": [
+      {
+        "operation": "После обнаружения записи прочитать source_refs и открыть относительный путь.",
+        "target_ref": "Глоссарий/FUM.md"
+      },
+      {
+        "operation": "Сверить SHA-256 с закреплённым state_ref.",
+        "target_ref": "sha256:6463449a61485db72ccb2877974a2ba1eb2fa37f40cb4ac9d9449000f0767abf"
+      }
+    ],
+    "access_constraints": [],
+    "check": {
+      "status": "passed",
+      "method": "Из обнаруженной записи перехода разрешить относительный путь и вычислить SHA-256 файла.",
+      "summary": "Сохранённый источник доступен через sidecar-запись, хотя подпись без контекста сама по себе необратима.",
+      "evidence_refs": [
+        "Глоссарий/FUM.md"
+      ]
+    }
+  },
+  "provenance_refs": [
+    "Документация/38-минимальный-формат-преобразования-между-наблюдателями-FUM.md",
+    "Запросы/2026-07-23_11-50-58_MSK_описать-минимальный-формат-преобразования-между-наблюдателями-FUM.md"
+  ]
+}
