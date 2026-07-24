@@ -1,0 +1,538 @@
+{
+  "schema_version": 1,
+  "fixture_set_id": "calendar-transport.v1",
+  "frozen_at": "2030-01-15T09:00:00Z",
+  "source_refs": [
+    "Документация/42-паспорт-календарно-транспортного-сервисного-контура-личного-FUM-агента.md",
+    "Вопросы/2026-07-03_09-03-59_MSK_границы-календарно-транспортных-действий-FUM.md"
+  ],
+  "fixtures": [
+    {
+      "fixture_id": "route-model.no-effect",
+      "intent_id": "intent.synthetic.route",
+      "access": {
+        "level": "private",
+        "grants": [
+          "maps.route.model"
+        ]
+      },
+      "operation": {
+        "operation_id": "operation.route.001",
+        "kind": "plan_route",
+        "adapter_id": "adapter.maps.fixture.v1",
+        "state_fingerprint": "state.route.001",
+        "terms_version": "terms.fixture.v1",
+        "amount_minor": null,
+        "currency": null,
+        "data_categories": [
+          "coarse_location",
+          "time_window"
+        ]
+      },
+      "confirmation": {
+        "status": "absent",
+        "confirmation_id": null,
+        "operation_id": null,
+        "state_fingerprint": null,
+        "terms_version": null,
+        "amount_minor": null,
+        "currency": null,
+        "data_categories": [],
+        "valid_until": null
+      },
+      "conditions": {
+        "schedule_conflict": "none",
+        "route_risk": "acceptable"
+      },
+      "adapter": {
+        "network": "available",
+        "outcome": "success",
+        "error_code": null
+      },
+      "private_payload": {
+        "origin": "SYNTHETIC_PRIVATE_ORIGIN",
+        "destination": "SYNTHETIC_PRIVATE_DESTINATION"
+      },
+      "expected": {
+        "decision": "modeled",
+        "reason_code": "model_completed",
+        "public_conflict": null
+      }
+    },
+    {
+      "fixture_id": "taxi-order.confirmation-missing",
+      "intent_id": "intent.synthetic.taxi.missing",
+      "access": {
+        "level": "private",
+        "grants": [
+          "location.disclose",
+          "taxi.order"
+        ]
+      },
+      "operation": {
+        "operation_id": "operation.taxi.001",
+        "kind": "order_taxi",
+        "adapter_id": "adapter.taxi.fixture.v1",
+        "state_fingerprint": "state.taxi.001",
+        "terms_version": "terms.taxi.v1",
+        "amount_minor": 1800,
+        "currency": "XTS",
+        "data_categories": [
+          "precise_location",
+          "time_window"
+        ]
+      },
+      "confirmation": {
+        "status": "absent",
+        "confirmation_id": null,
+        "operation_id": null,
+        "state_fingerprint": null,
+        "terms_version": null,
+        "amount_minor": null,
+        "currency": null,
+        "data_categories": [],
+        "valid_until": null
+      },
+      "conditions": {
+        "schedule_conflict": "none",
+        "route_risk": "acceptable"
+      },
+      "adapter": {
+        "network": "available",
+        "outcome": "success",
+        "error_code": null
+      },
+      "private_payload": {
+        "pickup": "SYNTHETIC_PRIVATE_PICKUP",
+        "contact": "SYNTHETIC_PRIVATE_CONTACT"
+      },
+      "expected": {
+        "decision": "confirmation_required",
+        "reason_code": "explicit_confirmation_missing",
+        "public_conflict": null
+      }
+    },
+    {
+      "fixture_id": "taxi-order.confirmed",
+      "intent_id": "intent.synthetic.taxi.confirmed",
+      "access": {
+        "level": "private",
+        "grants": [
+          "location.disclose",
+          "taxi.order"
+        ]
+      },
+      "operation": {
+        "operation_id": "operation.taxi.002",
+        "kind": "order_taxi",
+        "adapter_id": "adapter.taxi.fixture.v1",
+        "state_fingerprint": "state.taxi.002",
+        "terms_version": "terms.taxi.v1",
+        "amount_minor": 1800,
+        "currency": "XTS",
+        "data_categories": [
+          "precise_location",
+          "time_window"
+        ]
+      },
+      "confirmation": {
+        "status": "granted",
+        "confirmation_id": "confirmation.synthetic.taxi.002",
+        "operation_id": "operation.taxi.002",
+        "state_fingerprint": "state.taxi.002",
+        "terms_version": "terms.taxi.v1",
+        "amount_minor": 1800,
+        "currency": "XTS",
+        "data_categories": [
+          "precise_location",
+          "time_window"
+        ],
+        "valid_until": "2030-01-15T09:05:00Z"
+      },
+      "conditions": {
+        "schedule_conflict": "none",
+        "route_risk": "acceptable"
+      },
+      "adapter": {
+        "network": "available",
+        "outcome": "success",
+        "error_code": null
+      },
+      "private_payload": {
+        "pickup": "SYNTHETIC_PRIVATE_PICKUP_CONFIRMED",
+        "contact": "SYNTHETIC_PRIVATE_CONTACT_CONFIRMED"
+      },
+      "expected": {
+        "decision": "simulated_success",
+        "reason_code": "adapter_fixture_success",
+        "public_conflict": null
+      }
+    },
+    {
+      "fixture_id": "ticket-purchase.price-changed",
+      "intent_id": "intent.synthetic.ticket.price",
+      "access": {
+        "level": "private",
+        "grants": [
+          "payment.authorize",
+          "ticket.purchase"
+        ]
+      },
+      "operation": {
+        "operation_id": "operation.ticket.001",
+        "kind": "purchase_ticket",
+        "adapter_id": "adapter.ticket.fixture.v1",
+        "state_fingerprint": "state.ticket.002",
+        "terms_version": "terms.ticket.v2",
+        "amount_minor": 2500,
+        "currency": "XTS",
+        "data_categories": [
+          "identity_claim",
+          "trip_segment"
+        ]
+      },
+      "confirmation": {
+        "status": "granted",
+        "confirmation_id": "confirmation.synthetic.ticket.001",
+        "operation_id": "operation.ticket.001",
+        "state_fingerprint": "state.ticket.001",
+        "terms_version": "terms.ticket.v1",
+        "amount_minor": 2200,
+        "currency": "XTS",
+        "data_categories": [
+          "identity_claim",
+          "trip_segment"
+        ],
+        "valid_until": "2030-01-15T09:10:00Z"
+      },
+      "conditions": {
+        "schedule_conflict": "none",
+        "route_risk": "acceptable"
+      },
+      "adapter": {
+        "network": "available",
+        "outcome": "success",
+        "error_code": null
+      },
+      "private_payload": {
+        "passenger": "SYNTHETIC_PRIVATE_PASSENGER",
+        "document": "SYNTHETIC_PRIVATE_DOCUMENT"
+      },
+      "expected": {
+        "decision": "reconfirmation_required",
+        "reason_code": "confirmation_snapshot_mismatch",
+        "public_conflict": null
+      }
+    },
+    {
+      "fixture_id": "calendar-write.private-conflict",
+      "intent_id": "intent.synthetic.calendar.conflict",
+      "access": {
+        "level": "private",
+        "grants": [
+          "calendar.write"
+        ]
+      },
+      "operation": {
+        "operation_id": "operation.calendar.001",
+        "kind": "write_calendar_event",
+        "adapter_id": "adapter.calendar.fixture.v1",
+        "state_fingerprint": "state.calendar.001",
+        "terms_version": "terms.calendar.v1",
+        "amount_minor": null,
+        "currency": null,
+        "data_categories": [
+          "calendar_event",
+          "participant_availability"
+        ]
+      },
+      "confirmation": {
+        "status": "granted",
+        "confirmation_id": "confirmation.synthetic.calendar.001",
+        "operation_id": "operation.calendar.001",
+        "state_fingerprint": "state.calendar.001",
+        "terms_version": "terms.calendar.v1",
+        "amount_minor": null,
+        "currency": null,
+        "data_categories": [
+          "calendar_event",
+          "participant_availability"
+        ],
+        "valid_until": "2030-01-15T09:10:00Z"
+      },
+      "conditions": {
+        "schedule_conflict": "private",
+        "route_risk": "acceptable"
+      },
+      "adapter": {
+        "network": "available",
+        "outcome": "success",
+        "error_code": null
+      },
+      "private_payload": {
+        "conflicting_title": "SYNTHETIC_PRIVATE_EVENT_TITLE",
+        "conflicting_participant": "SYNTHETIC_PRIVATE_PARTICIPANT"
+      },
+      "expected": {
+        "decision": "blocked",
+        "reason_code": "private_schedule_conflict",
+        "public_conflict": "busy"
+      }
+    },
+    {
+      "fixture_id": "notification-send.access-missing",
+      "intent_id": "intent.synthetic.notification",
+      "access": {
+        "level": "restricted",
+        "grants": []
+      },
+      "operation": {
+        "operation_id": "operation.notification.001",
+        "kind": "send_notification",
+        "adapter_id": "adapter.notification.fixture.v1",
+        "state_fingerprint": "state.notification.001",
+        "terms_version": "terms.notification.v1",
+        "amount_minor": null,
+        "currency": null,
+        "data_categories": [
+          "message_content",
+          "recipient_ref"
+        ]
+      },
+      "confirmation": {
+        "status": "absent",
+        "confirmation_id": null,
+        "operation_id": null,
+        "state_fingerprint": null,
+        "terms_version": null,
+        "amount_minor": null,
+        "currency": null,
+        "data_categories": [],
+        "valid_until": null
+      },
+      "conditions": {
+        "schedule_conflict": "none",
+        "route_risk": "acceptable"
+      },
+      "adapter": {
+        "network": "available",
+        "outcome": "success",
+        "error_code": null
+      },
+      "private_payload": {
+        "recipient": "SYNTHETIC_PRIVATE_RECIPIENT",
+        "message": "SYNTHETIC_PRIVATE_MESSAGE"
+      },
+      "expected": {
+        "decision": "access_denied",
+        "reason_code": "required_access_missing",
+        "public_conflict": null
+      }
+    },
+    {
+      "fixture_id": "schedule-read.adapter-error",
+      "intent_id": "intent.synthetic.schedule.error",
+      "access": {
+        "level": "restricted",
+        "grants": [
+          "schedule.read"
+        ]
+      },
+      "operation": {
+        "operation_id": "operation.schedule.001",
+        "kind": "read_schedule",
+        "adapter_id": "adapter.schedule.fixture.v1",
+        "state_fingerprint": "state.schedule.001",
+        "terms_version": "terms.schedule.v1",
+        "amount_minor": null,
+        "currency": null,
+        "data_categories": [
+          "public_timetable"
+        ]
+      },
+      "confirmation": {
+        "status": "absent",
+        "confirmation_id": null,
+        "operation_id": null,
+        "state_fingerprint": null,
+        "terms_version": null,
+        "amount_minor": null,
+        "currency": null,
+        "data_categories": [],
+        "valid_until": null
+      },
+      "conditions": {
+        "schedule_conflict": "none",
+        "route_risk": "acceptable"
+      },
+      "adapter": {
+        "network": "available",
+        "outcome": "error",
+        "error_code": "service_unavailable"
+      },
+      "private_payload": {
+        "requested_stop": "SYNTHETIC_PRIVATE_STOP"
+      },
+      "expected": {
+        "decision": "simulated_error",
+        "reason_code": "adapter_error",
+        "public_conflict": null
+      }
+    },
+    {
+      "fixture_id": "ticket-cancel.confirmed",
+      "intent_id": "intent.synthetic.ticket.cancel",
+      "access": {
+        "level": "private",
+        "grants": [
+          "reservation.cancel"
+        ]
+      },
+      "operation": {
+        "operation_id": "operation.cancel.001",
+        "kind": "cancel_reservation",
+        "adapter_id": "adapter.ticket.fixture.v1",
+        "state_fingerprint": "state.cancel.001",
+        "terms_version": "terms.refund.v1",
+        "amount_minor": 300,
+        "currency": "XTS",
+        "data_categories": [
+          "reservation_ref",
+          "refund_terms"
+        ]
+      },
+      "confirmation": {
+        "status": "granted",
+        "confirmation_id": "confirmation.synthetic.cancel.001",
+        "operation_id": "operation.cancel.001",
+        "state_fingerprint": "state.cancel.001",
+        "terms_version": "terms.refund.v1",
+        "amount_minor": 300,
+        "currency": "XTS",
+        "data_categories": [
+          "reservation_ref",
+          "refund_terms"
+        ],
+        "valid_until": "2030-01-15T09:10:00Z"
+      },
+      "conditions": {
+        "schedule_conflict": "none",
+        "route_risk": "acceptable"
+      },
+      "adapter": {
+        "network": "available",
+        "outcome": "cancelled",
+        "error_code": null
+      },
+      "private_payload": {
+        "reservation": "SYNTHETIC_PRIVATE_RESERVATION",
+        "refund_destination": "SYNTHETIC_PRIVATE_REFUND_DESTINATION"
+      },
+      "expected": {
+        "decision": "simulated_cancelled",
+        "reason_code": "adapter_fixture_cancelled",
+        "public_conflict": null
+      }
+    },
+    {
+      "fixture_id": "route-model.unsafe",
+      "intent_id": "intent.synthetic.route.unsafe",
+      "access": {
+        "level": "private",
+        "grants": [
+          "maps.route.model"
+        ]
+      },
+      "operation": {
+        "operation_id": "operation.route.unsafe",
+        "kind": "plan_route",
+        "adapter_id": "adapter.maps.fixture.v1",
+        "state_fingerprint": "state.route.unsafe",
+        "terms_version": "terms.fixture.v1",
+        "amount_minor": null,
+        "currency": null,
+        "data_categories": [
+          "coarse_location"
+        ]
+      },
+      "confirmation": {
+        "status": "absent",
+        "confirmation_id": null,
+        "operation_id": null,
+        "state_fingerprint": null,
+        "terms_version": null,
+        "amount_minor": null,
+        "currency": null,
+        "data_categories": [],
+        "valid_until": null
+      },
+      "conditions": {
+        "schedule_conflict": "none",
+        "route_risk": "unsafe"
+      },
+      "adapter": {
+        "network": "available",
+        "outcome": "success",
+        "error_code": null
+      },
+      "private_payload": {
+        "risk_detail": "SYNTHETIC_PRIVATE_RISK_DETAIL"
+      },
+      "expected": {
+        "decision": "blocked",
+        "reason_code": "route_risk_unsafe",
+        "public_conflict": null
+      }
+    },
+    {
+      "fixture_id": "calendar-read.network-unavailable",
+      "intent_id": "intent.synthetic.calendar.offline",
+      "access": {
+        "level": "private",
+        "grants": [
+          "calendar.read.free_busy"
+        ]
+      },
+      "operation": {
+        "operation_id": "operation.calendar.offline",
+        "kind": "read_calendar",
+        "adapter_id": "adapter.calendar.fixture.v1",
+        "state_fingerprint": "state.calendar.offline",
+        "terms_version": "terms.calendar.v1",
+        "amount_minor": null,
+        "currency": null,
+        "data_categories": [
+          "free_busy"
+        ]
+      },
+      "confirmation": {
+        "status": "absent",
+        "confirmation_id": null,
+        "operation_id": null,
+        "state_fingerprint": null,
+        "terms_version": null,
+        "amount_minor": null,
+        "currency": null,
+        "data_categories": [],
+        "valid_until": null
+      },
+      "conditions": {
+        "schedule_conflict": "none",
+        "route_risk": "acceptable"
+      },
+      "adapter": {
+        "network": "unavailable",
+        "outcome": "unknown",
+        "error_code": "network_unavailable"
+      },
+      "private_payload": {
+        "calendar_account": "SYNTHETIC_PRIVATE_CALENDAR_ACCOUNT"
+      },
+      "expected": {
+        "decision": "simulated_error",
+        "reason_code": "network_unavailable",
+        "public_conflict": null
+      }
+    }
+  ]
+}
