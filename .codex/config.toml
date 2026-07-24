@@ -1,6 +1,6 @@
 model = "gpt-5.6-sol"
 model_reasoning_effort = "ultra"
-service_tier = "fast"
+service_tier = "default"
 
 [features]
 fast_mode = true
