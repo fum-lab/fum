@@ -929,6 +929,38 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                 [],
             )
 
+    def test_nested_shorter_fence_does_not_expose_markdown_link(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            docs = root / "Документация"
+            docs.mkdir()
+            target = root / "README.md"
+            target.write_text("# README\n", encoding="utf-8")
+            source = docs / "индекс.md"
+            source.write_text(
+                "# Индекс\n\n"
+                "````text\n"
+                "<input>\n"
+                "```json\n"
+                '{"task":"[термин](../../Глоссарий/термин.md)"}\n'
+                "```\n"
+                "</input>\n"
+                "````\n\n"
+                "[README](../README.md)\n",
+                encoding="utf-8",
+            )
+
+            links = check_session_coherence.iter_markdown_links(source)
+
+            self.assertEqual(
+                [(link.line, link.target) for link in links],
+                [(11, "../README.md")],
+            )
+            self.assertEqual(
+                check_session_coherence.validate_markdown_links({source}, root),
+                [],
+            )
+
     def test_reports_case_mismatched_markdown_link_anywhere_in_repo(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

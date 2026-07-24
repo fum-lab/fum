@@ -33,6 +33,12 @@
       "executableProducts": [
         "FUMNetworkEnvironmentProbe"
       ]
+    },
+    {
+      "package": "Прототипы/компиляция-численных-автоматизаций-в-тензорный-граф",
+      "executableProducts": [
+        "FUMTensorGraphProbe"
+      ]
     }
   ],
   "exceptions": []

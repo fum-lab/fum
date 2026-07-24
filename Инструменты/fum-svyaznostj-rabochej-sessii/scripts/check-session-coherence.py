@@ -127,6 +127,7 @@ JOURNAL_TIME_PROFILE_COLUMNS = (
     "Границы и способ измерения",
 )
 MARKDOWN_TABLE_SEPARATOR_RE = re.compile(r"^:?-{3,}:?$")
+MARKDOWN_TILDE_FENCE_MARKER = chr(126)
 JOURNAL_TIME_PROFILE_BOUNDARY_RE = re.compile(
     r"^Граница профиля:\s+\S.*$"
 )
@@ -137,6 +138,13 @@ class MarkdownLink:
     source: Path
     line: int
     target: str
+
+
+@dataclass(frozen=True)
+class MarkdownFence:
+    marker: str
+    length: int
+    info: str
 
 
 def parse_args() -> argparse.Namespace:
@@ -699,17 +707,47 @@ def is_absolute_local_markdown_link(destination: str) -> bool:
     return PurePosixPath(path_part).is_absolute() and not path_part.startswith("//")
 
 
+def opening_markdown_fence(line: str) -> MarkdownFence | None:
+    stripped = line.lstrip()
+    if not stripped or stripped[0] not in ("`", MARKDOWN_TILDE_FENCE_MARKER):
+        return None
+
+    marker = stripped[0]
+    length = len(stripped) - len(stripped.lstrip(marker))
+    if length < 3:
+        return None
+
+    return MarkdownFence(
+        marker=marker,
+        length=length,
+        info=stripped[length:].strip(),
+    )
+
+
+def closes_markdown_fence(line: str, fence: MarkdownFence) -> bool:
+    candidate = opening_markdown_fence(line)
+    return bool(
+        candidate is not None
+        and candidate.marker == fence.marker
+        and candidate.length >= fence.length
+        and not candidate.info
+    )
+
+
 def iter_markdown_links(path: Path) -> list[MarkdownLink]:
     links: list[MarkdownLink] = []
-    in_fence = False
+    fence: MarkdownFence | None = None
 
     for line_number, line in enumerate(read_text(path).splitlines(), start=1):
-        stripped = line.lstrip()
-        if stripped.startswith("```") or stripped.startswith("~~~"):
-            in_fence = not in_fence
+        if fence is not None:
+            if closes_markdown_fence(line, fence):
+                fence = None
             continue
-        if in_fence:
+
+        fence = opening_markdown_fence(line)
+        if fence is not None:
             continue
+
         for match in MARKDOWN_LINK_RE.finditer(line):
             links.append(
                 MarkdownLink(
@@ -821,7 +859,7 @@ def iter_markdown_paragraphs(text: str) -> list[tuple[int, str]]:
     paragraphs: list[tuple[int, str]] = []
     current: list[str] = []
     start_line = 0
-    in_fence = False
+    fence: MarkdownFence | None = None
 
     def flush() -> None:
         nonlocal current, start_line
@@ -831,13 +869,16 @@ def iter_markdown_paragraphs(text: str) -> list[tuple[int, str]]:
             start_line = 0
 
     for line_number, line in enumerate(text.splitlines(), start=1):
-        stripped = line.lstrip()
-        if stripped.startswith("```") or stripped.startswith("~~~"):
+        if fence is not None:
+            if closes_markdown_fence(line, fence):
+                fence = None
+            continue
+
+        fence = opening_markdown_fence(line)
+        if fence is not None:
             flush()
-            in_fence = not in_fence
             continue
-        if in_fence:
-            continue
+
         if not line.strip():
             flush()
             continue
@@ -977,30 +1018,32 @@ def validate_mermaid_markdown_list_labels(
         if not path.exists() or path.suffix.lower() != ".md":
             continue
 
-        in_fence = False
+        fence: MarkdownFence | None = None
         in_mermaid = False
         for line_number, line in enumerate(read_text(path).splitlines(), start=1):
-            stripped = line.strip()
-            if stripped.startswith("```") or stripped.startswith("~~~"):
-                if in_fence:
-                    in_fence = False
+            if fence is not None:
+                if closes_markdown_fence(line, fence):
+                    fence = None
                     in_mermaid = False
-                else:
-                    in_fence = True
-                    fence_info = stripped[3:].strip().split(None, 1)
-                    in_mermaid = bool(fence_info and fence_info[0].lower() == "mermaid")
+                elif in_mermaid and MERMAID_LABEL_MARKDOWN_LIST_RE.search(line):
+                    source_rel = repo_relative(path, repo_root)
+                    errors.append(
+                        "unsupported Mermaid Markdown list label in "
+                        f"{source_rel}:{line_number}: use text like "
+                        "'Этап 1 - ...' instead of '1. ...'"
+                    )
+                continue
+
+            fence = opening_markdown_fence(line)
+            if fence is not None:
+                fence_info = fence.info.split(None, 1)
+                in_mermaid = bool(
+                    fence_info and fence_info[0].lower() == "mermaid"
+                )
                 continue
 
             if not in_mermaid:
                 continue
-
-            if MERMAID_LABEL_MARKDOWN_LIST_RE.search(line):
-                source_rel = repo_relative(path, repo_root)
-                errors.append(
-                    "unsupported Mermaid Markdown list label in "
-                    f"{source_rel}:{line_number}: use text like "
-                    "'Этап 1 - ...' instead of '1. ...'"
-                )
     return errors
 
 
