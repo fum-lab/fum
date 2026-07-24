@@ -39,6 +39,12 @@
       "executableProducts": [
         "FUMTensorGraphProbe"
       ]
+    },
+    {
+      "package": "Прототипы/память-структурирующих-операторов",
+      "executableProducts": [
+        "FUMStructuringOperatorMemoryProbe"
+      ]
     }
   ],
   "exceptions": []
