@@ -15,13 +15,20 @@ from pathlib import Path
 from typing import Any
 
 
-SCHEMA = "fum.planning.requirements-registry.v6"
+SCHEMA = "fum.planning.requirements-registry.v7"
+BOXED_GRAPH_SCHEMA = "fum.planning.boxed-implementation-dependency-graph.v1"
+BOXED_GRAPH_ID = "FUM-BOXED-IMPLEMENTATION-GRAPH"
+BOXED_GRAPH_ELEMENT_IDS = [f"P{index}" for index in range(17)]
 DEFAULT_OUTPUT = Path("Планирование/реестр-требований-вариантов-и-кандидатов.json")
 SUMMARY_TABLE = Path("Планирование/сводная-таблица-требований-и-реализаций.md")
 ROADMAP = Path("Планирование/дорожная-карта.md")
 STAGES_README = Path("Планирование/стадии/README.md")
 DIRECTIONS_README = Path("Планирование/направления-проектирования-и-развития/README.md")
 MVP_README = Path("Планирование/MVP-кандидаты/README.md")
+BOXED_GRAPH_MARKDOWN = Path(
+    "Планирование/стадии/02-коробочная-реализация-FUM/граф-зависимостей.md"
+)
+BOXED_GRAPH_JSON = BOXED_GRAPH_MARKDOWN.with_suffix(".json")
 PROPOSALS_OVERVIEW = Path("Планирование/предложения-о-следующих-шагах.md")
 STEP_CARDS_DIR = Path("Планирование/карточки-шагов")
 STEP_CARDS_INDEX = STEP_CARDS_DIR / "README.md"
@@ -145,6 +152,424 @@ def content_sha256(path: str | Path, repo_root: Path) -> str:
     text = read_text(path, repo_root)
     digest = hashlib.sha256(strip_recency(text).encode("utf-8")).hexdigest()
     return f"sha256:{digest}"
+
+
+def exact_object(
+    value: Any,
+    expected_keys: set[str] | frozenset[str],
+    label: str,
+    errors: list[str],
+) -> dict[str, Any] | None:
+    if not isinstance(value, dict):
+        errors.append(f"{label} must be an object")
+        return None
+    missing = sorted(expected_keys - value.keys())
+    unknown = sorted(value.keys() - expected_keys)
+    if missing:
+        errors.append(f"{label} is missing fields: {', '.join(missing)}")
+    if unknown:
+        errors.append(f"{label} has unknown fields: {', '.join(unknown)}")
+    return value
+
+
+def nonempty_string_list(value: Any, label: str, errors: list[str]) -> list[str]:
+    if not isinstance(value, list) or not value:
+        errors.append(f"{label} must be a non-empty list")
+        return []
+    result: list[str] = []
+    for item in value:
+        if not isinstance(item, str) or not item.strip():
+            errors.append(f"{label} must contain only non-empty strings")
+            continue
+        result.append(item)
+    if len(result) != len(set(result)):
+        errors.append(f"{label} must not contain duplicates")
+    return result
+
+
+def boxed_implementation_graph_errors(
+    graph: Any,
+    mvp_candidates: Any,
+    repo_root: Path | None = None,
+) -> list[str]:
+    errors: list[str] = []
+    root = exact_object(
+        graph,
+        {
+            "schema",
+            "graph_id",
+            "source",
+            "scope",
+            "readiness_rule",
+            "elements",
+            "parallelizable_groups",
+            "blocking_risks",
+            "mvp_links",
+        },
+        "boxed implementation graph",
+        errors,
+    )
+    if root is None:
+        return errors
+
+    if root.get("schema") != BOXED_GRAPH_SCHEMA:
+        errors.append(f"unexpected boxed implementation graph schema: {root.get('schema')}")
+    if root.get("graph_id") != BOXED_GRAPH_ID:
+        errors.append(f"unexpected boxed implementation graph id: {root.get('graph_id')}")
+
+    source = exact_object(
+        root.get("source"),
+        {"path", "content_sha256_without_recency"},
+        "boxed implementation graph source",
+        errors,
+    )
+    if source is not None:
+        if source.get("path") != BOXED_GRAPH_MARKDOWN.as_posix():
+            errors.append(
+                "boxed implementation graph source path must be "
+                f"{BOXED_GRAPH_MARKDOWN.as_posix()}"
+            )
+        digest = source.get("content_sha256_without_recency")
+        if not isinstance(digest, str) or re.fullmatch(r"sha256:[0-9a-f]{64}", digest) is None:
+            errors.append("boxed implementation graph source hash is malformed")
+        if repo_root is not None and source.get("path") == BOXED_GRAPH_MARKDOWN.as_posix():
+            source_path = absolute_path(BOXED_GRAPH_MARKDOWN, repo_root)
+            if not source_path.is_file():
+                errors.append("boxed implementation graph Markdown source does not exist")
+            elif digest != content_sha256(BOXED_GRAPH_MARKDOWN, repo_root):
+                errors.append("boxed implementation graph source hash does not match Markdown")
+
+    scope = exact_object(
+        root.get("scope"),
+        {"kind", "statement", "excludes"},
+        "boxed implementation graph scope",
+        errors,
+    )
+    if scope is not None:
+        if scope.get("kind") != "planning-hypothesis":
+            errors.append("boxed implementation graph scope kind must be planning-hypothesis")
+        if not isinstance(scope.get("statement"), str) or not scope["statement"].strip():
+            errors.append("boxed implementation graph scope statement is empty")
+        nonempty_string_list(
+            scope.get("excludes"),
+            "boxed implementation graph scope excludes",
+            errors,
+        )
+
+    readiness_rule = exact_object(
+        root.get("readiness_rule"),
+        {
+            "requires_all_dependencies_ready",
+            "requires_all_readiness_prerequisites_met",
+            "requires_all_blocking_risks_resolved",
+            "requires_all_readiness_criteria_met",
+        },
+        "boxed implementation graph readiness rule",
+        errors,
+    )
+    if readiness_rule is not None:
+        for field in [
+            "requires_all_dependencies_ready",
+            "requires_all_readiness_prerequisites_met",
+            "requires_all_blocking_risks_resolved",
+            "requires_all_readiness_criteria_met",
+        ]:
+            if readiness_rule.get(field) is not True:
+                errors.append(f"boxed implementation graph readiness rule {field} must be true")
+
+    elements = root.get("elements")
+    if not isinstance(elements, list) or not elements:
+        errors.append("boxed implementation graph elements must be a non-empty list")
+        elements = []
+    elements_by_id: dict[str, dict[str, Any]] = {}
+    dependencies_by_id: dict[str, list[str]] = {}
+    orders: list[int] = []
+    for index, value in enumerate(elements):
+        element = exact_object(
+            value,
+            {
+                "id",
+                "order",
+                "title",
+                "depends_on",
+                "readiness_prerequisites",
+                "readiness_criteria",
+            },
+            f"boxed implementation graph element {index}",
+            errors,
+        )
+        if element is None:
+            continue
+        element_id = element.get("id")
+        if not isinstance(element_id, str) or re.fullmatch(r"P(?:0|[1-9][0-9]*)", element_id) is None:
+            errors.append(f"invalid boxed implementation element id: {element_id}")
+            continue
+        if element_id in elements_by_id:
+            errors.append(f"duplicate boxed implementation element id: {element_id}")
+            continue
+        order = element.get("order")
+        if type(order) is not int or order < 0:
+            errors.append(f"invalid boxed implementation element order: {element_id}")
+        else:
+            orders.append(order)
+            if int(element_id[1:]) != order:
+                errors.append(
+                    "boxed implementation element id does not match order: "
+                    f"{element_id} != {order}"
+                )
+        if not isinstance(element.get("title"), str) or not element["title"].strip():
+            errors.append(f"boxed implementation element title is empty: {element_id}")
+        depends_on = element.get("depends_on")
+        if not isinstance(depends_on, list):
+            errors.append(f"boxed implementation dependencies must be a list: {element_id}")
+            depends_on = []
+        elif any(not isinstance(item, str) for item in depends_on):
+            errors.append(f"boxed implementation dependencies must be strings: {element_id}")
+            depends_on = [item for item in depends_on if isinstance(item, str)]
+        if len(depends_on) != len(set(depends_on)):
+            errors.append(f"duplicate boxed implementation dependency: {element_id}")
+        nonempty_string_list(
+            element.get("readiness_prerequisites"),
+            f"boxed implementation readiness prerequisites {element_id}",
+            errors,
+        )
+        nonempty_string_list(
+            element.get("readiness_criteria"),
+            f"boxed implementation readiness criteria {element_id}",
+            errors,
+        )
+        elements_by_id[element_id] = element
+        dependencies_by_id[element_id] = depends_on
+
+    if orders and orders != list(range(len(elements))):
+        errors.append("boxed implementation element orders must be contiguous and sorted")
+    if list(elements_by_id) != BOXED_GRAPH_ELEMENT_IDS:
+        errors.append(
+            "boxed implementation element ids must exactly match P0 through P16"
+        )
+
+    for element_id, dependencies in dependencies_by_id.items():
+        for dependency_id in dependencies:
+            if dependency_id not in elements_by_id:
+                errors.append(f"unknown dependency {dependency_id} for {element_id}")
+                continue
+            if dependency_id == element_id:
+                errors.append(f"boxed implementation element depends on itself: {element_id}")
+                continue
+    visit_state: dict[str, int] = {}
+
+    def visit(element_id: str) -> bool:
+        state = visit_state.get(element_id, 0)
+        if state == 1:
+            return True
+        if state == 2:
+            return False
+        visit_state[element_id] = 1
+        for dependency_id in dependencies_by_id.get(element_id, []):
+            if dependency_id in elements_by_id and visit(dependency_id):
+                return True
+        visit_state[element_id] = 2
+        return False
+
+    if any(visit(element_id) for element_id in elements_by_id):
+        errors.append("boxed implementation dependency cycle detected")
+
+    def transitively_depends_on(element_id: str, target_id: str) -> bool:
+        pending = list(dependencies_by_id.get(element_id, []))
+        seen: set[str] = set()
+        while pending:
+            dependency_id = pending.pop()
+            if dependency_id == target_id:
+                return True
+            if dependency_id in seen:
+                continue
+            seen.add(dependency_id)
+            pending.extend(dependencies_by_id.get(dependency_id, []))
+        return False
+
+    groups = root.get("parallelizable_groups")
+    if not isinstance(groups, list) or not groups:
+        errors.append("boxed implementation parallelizable groups must be a non-empty list")
+        groups = []
+    group_ids: set[str] = set()
+    for index, value in enumerate(groups):
+        group = exact_object(
+            value,
+            {"id", "element_ids", "rationale"},
+            f"boxed implementation parallelizable group {index}",
+            errors,
+        )
+        if group is None:
+            continue
+        group_id = group.get("id")
+        if not isinstance(group_id, str) or re.fullmatch(
+            r"[a-z0-9]+(?:-[a-z0-9]+)*",
+            group_id,
+        ) is None:
+            errors.append(f"invalid boxed implementation parallelizable group id: {group_id}")
+        elif group_id in group_ids:
+            errors.append(f"duplicate boxed implementation parallelizable group id: {group_id}")
+        else:
+            group_ids.add(group_id)
+        element_ids = group.get("element_ids")
+        if not isinstance(element_ids, list) or len(element_ids) < 2:
+            errors.append(f"parallelizable group must contain at least two elements: {group_id}")
+            element_ids = []
+        elif any(not isinstance(item, str) for item in element_ids):
+            errors.append(f"parallelizable group element ids must be strings: {group_id}")
+            element_ids = [item for item in element_ids if isinstance(item, str)]
+        if len(element_ids) != len(set(element_ids)):
+            errors.append(f"parallelizable group contains duplicate elements: {group_id}")
+        for element_id in element_ids:
+            if element_id not in elements_by_id:
+                errors.append(f"parallelizable group references unknown element {element_id}")
+        for left_index, left_id in enumerate(element_ids):
+            for right_id in element_ids[left_index + 1 :]:
+                if left_id not in elements_by_id or right_id not in elements_by_id:
+                    continue
+                if transitively_depends_on(left_id, right_id) or transitively_depends_on(
+                    right_id,
+                    left_id,
+                ):
+                    errors.append(
+                        "parallelizable group contains dependent elements: "
+                        f"{group_id}: {left_id}, {right_id}"
+                    )
+        if not isinstance(group.get("rationale"), str) or not group["rationale"].strip():
+            errors.append(f"parallelizable group rationale is empty: {group_id}")
+
+    risks = root.get("blocking_risks")
+    if not isinstance(risks, list) or not risks:
+        errors.append("boxed implementation blocking risks must be a non-empty list")
+        risks = []
+    risk_ids: set[str] = set()
+    for index, value in enumerate(risks):
+        risk = exact_object(
+            value,
+            {
+                "id",
+                "title",
+                "description",
+                "blocks_element_ids",
+                "resolution_criteria",
+                "source_paths",
+            },
+            f"boxed implementation blocking risk {index}",
+            errors,
+        )
+        if risk is None:
+            continue
+        risk_id = risk.get("id")
+        if not isinstance(risk_id, str) or re.fullmatch(r"RISK-[0-9]{2}", risk_id) is None:
+            errors.append(f"invalid boxed implementation blocking risk id: {risk_id}")
+        elif risk_id in risk_ids:
+            errors.append(f"duplicate boxed implementation blocking risk id: {risk_id}")
+        else:
+            risk_ids.add(risk_id)
+        for field in ["title", "description"]:
+            if not isinstance(risk.get(field), str) or not risk[field].strip():
+                errors.append(f"blocking risk {field} is empty: {risk_id}")
+        blocked_ids = nonempty_string_list(
+            risk.get("blocks_element_ids"),
+            f"blocking risk element ids {risk_id}",
+            errors,
+        )
+        for element_id in blocked_ids:
+            if element_id not in elements_by_id:
+                errors.append(f"blocking risk references unknown element {element_id}")
+        nonempty_string_list(
+            risk.get("resolution_criteria"),
+            f"blocking risk resolution criteria {risk_id}",
+            errors,
+        )
+        source_paths = nonempty_string_list(
+            risk.get("source_paths"),
+            f"blocking risk source paths {risk_id}",
+            errors,
+        )
+        if repo_root is not None:
+            for source_path in source_paths:
+                path = Path(source_path)
+                if path.is_absolute() or ".." in path.parts:
+                    errors.append(f"blocking risk source path is not repository-relative: {risk_id}")
+                elif not absolute_path(path, repo_root).is_file():
+                    errors.append(f"blocking risk source path does not exist: {source_path}")
+
+    candidate_lookup: dict[str, str] = {}
+    if isinstance(mvp_candidates, list):
+        for candidate in mvp_candidates:
+            if not isinstance(candidate, dict):
+                continue
+            candidate_id = candidate.get("id")
+            candidate_file = candidate.get("file")
+            if isinstance(candidate_id, str) and isinstance(candidate_file, str):
+                candidate_lookup[candidate_id] = candidate_file
+
+    links = root.get("mvp_links")
+    if not isinstance(links, list) or not links:
+        errors.append("boxed implementation MVP links must be a non-empty list")
+        links = []
+    linked_candidate_ids: set[str] = set()
+    for index, value in enumerate(links):
+        link = exact_object(
+            value,
+            {"mvp_candidate_id", "mvp_path", "element_ids", "role"},
+            f"boxed implementation MVP link {index}",
+            errors,
+        )
+        if link is None:
+            continue
+        candidate_id = link.get("mvp_candidate_id")
+        if not isinstance(candidate_id, str) or re.fullmatch(r"mvp-[0-9]{2}", candidate_id) is None:
+            errors.append(f"invalid MVP candidate id in boxed implementation graph: {candidate_id}")
+        elif candidate_id not in candidate_lookup:
+            errors.append(f"unknown MVP candidate {candidate_id} in boxed implementation graph")
+        elif candidate_id in linked_candidate_ids:
+            errors.append(f"duplicate MVP candidate link {candidate_id}")
+        else:
+            linked_candidate_ids.add(candidate_id)
+            if link.get("mvp_path") != candidate_lookup[candidate_id]:
+                errors.append(f"MVP candidate path does not match inventory: {candidate_id}")
+        element_ids = nonempty_string_list(
+            link.get("element_ids"),
+            f"MVP link element ids {candidate_id}",
+            errors,
+        )
+        for element_id in element_ids:
+            if element_id not in elements_by_id:
+                errors.append(f"MVP link references unknown element {element_id}")
+        if not isinstance(link.get("role"), str) or not link["role"].strip():
+            errors.append(f"MVP link role is empty: {candidate_id}")
+
+    missing_candidate_ids = sorted(candidate_lookup.keys() - linked_candidate_ids)
+    if missing_candidate_ids:
+        errors.append(
+            "boxed implementation graph does not cover MVP candidates: "
+            + ", ".join(missing_candidate_ids)
+        )
+    return errors
+
+
+def extract_boxed_implementation_graph(
+    repo_root: Path,
+    mvp_candidates: list[dict[str, Any]],
+) -> dict[str, Any]:
+    path = absolute_path(BOXED_GRAPH_JSON, repo_root)
+    if not path.is_file():
+        raise ValueError(
+            "boxed implementation dependency graph does not exist: "
+            f"{BOXED_GRAPH_JSON.as_posix()}"
+        )
+    try:
+        graph = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as error:
+        raise ValueError(
+            f"boxed implementation dependency graph is not valid JSON: {error}"
+        ) from error
+    errors = boxed_implementation_graph_errors(graph, mvp_candidates, repo_root)
+    if errors:
+        raise ValueError("\n".join(errors))
+    return graph
 
 
 def normalize_target(target: str, source_path: Path, repo_root: Path) -> str:
@@ -1394,6 +1819,8 @@ def source_files(repo_root: Path, inventory: dict[str, Any]) -> list[Path]:
         STAGES_README,
         DIRECTIONS_README,
         MVP_README,
+        BOXED_GRAPH_MARKDOWN,
+        BOXED_GRAPH_JSON,
         PROPOSALS_OVERVIEW,
         STEP_CARDS_INDEX,
         QUESTIONS_README,
@@ -1518,6 +1945,10 @@ def build_registry(repo_root: Path | None = None) -> dict[str, Any]:
         "proposal_history": proposal_history,
         "questions": extract_questions(root),
     }
+    boxed_implementation_graph = extract_boxed_implementation_graph(
+        root,
+        inventory["mvp_candidates"],
+    )
     sources = source_files(root, inventory)
     return {
         "schema": SCHEMA,
@@ -1532,6 +1963,7 @@ def build_registry(repo_root: Path | None = None) -> dict[str, Any]:
         "requirements": requirements,
         "planning_views": planning_views,
         "steps": steps,
+        "boxed_implementation_graph": boxed_implementation_graph,
         "source_inventory": inventory,
         "coverage": coverage(planning_views, inventory),
     }
@@ -1639,9 +2071,19 @@ def validate_registry_object(registry: dict[str, Any]) -> list[str]:
             errors.append(f"requirement criteria are empty: {requirement_id}")
 
     inventory = registry.get("source_inventory", {})
+    if not isinstance(inventory, dict):
+        errors.append("source inventory must be an object")
+        inventory = {}
     for field in ["roadmap_horizons", "stages", "directions", "mvp_candidates", "mvp_stage_map"]:
         if not inventory.get(field):
             errors.append(f"source inventory is empty: {field}")
+
+    errors.extend(
+        boxed_implementation_graph_errors(
+            registry.get("boxed_implementation_graph"),
+            inventory.get("mvp_candidates"),
+        )
+    )
 
     for field in ["active_proposals", "proposal_history"]:
         if not isinstance(inventory.get(field), list):

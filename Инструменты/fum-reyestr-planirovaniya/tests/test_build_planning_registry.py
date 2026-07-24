@@ -23,6 +23,10 @@ ACTIVE_STEP_CARD = "🟡-FUM-STEP-0001-подготовить-тестовый-�
 COMPLETED_STEP_CARD = "✅-FUM-STEP-0002-старое-предложение.md"
 ABSORBED_STEP_CARD = "🧩-FUM-STEP-0003-поглощённое-предложение.md"
 WITHDRAWN_STEP_CARD = "🗑️-FUM-STEP-0004-снятое-предложение.md"
+BOXED_GRAPH_MARKDOWN = Path(
+    "Планирование/стадии/02-коробочная-реализация-FUM/граф-зависимостей.md"
+)
+BOXED_GRAPH_JSON = BOXED_GRAPH_MARKDOWN.with_suffix(".json")
 
 
 class BuildPlanningRegistryTests(unittest.TestCase):
@@ -250,6 +254,106 @@ class BuildPlanningRegistryTests(unittest.TestCase):
             "# Стадия: тестовая стадия\n\n## Назначение\n\nТест.\n",
             encoding="utf-8",
         )
+        boxed_graph_markdown = root / BOXED_GRAPH_MARKDOWN
+        boxed_graph_markdown.parent.mkdir(parents=True, exist_ok=True)
+        boxed_graph_markdown.write_text(
+            "# Граф зависимостей элементов коробочной реализации FUM\n\n"
+            "Тестовая гипотеза порядка, не разрешающая начало коробочной стадии.\n",
+            encoding="utf-8",
+        )
+        boxed_graph = {
+            "schema": "fum.planning.boxed-implementation-dependency-graph.v1",
+            "graph_id": "FUM-BOXED-IMPLEMENTATION-GRAPH",
+            "source": {
+                "path": BOXED_GRAPH_MARKDOWN.as_posix(),
+                "content_sha256_without_recency": (
+                    build_planning_registry.content_sha256(
+                        BOXED_GRAPH_MARKDOWN,
+                        root,
+                    )
+                ),
+            },
+            "scope": {
+                "kind": "planning-hypothesis",
+                "statement": "Машинная проекция проверяемого порядка реализации.",
+                "excludes": [
+                    "Разрешение начала коробочной стадии.",
+                    "Разрешение внешних или физических действий.",
+                ],
+            },
+            "readiness_rule": {
+                "requires_all_dependencies_ready": True,
+                "requires_all_readiness_prerequisites_met": True,
+                "requires_all_blocking_risks_resolved": True,
+                "requires_all_readiness_criteria_met": True,
+            },
+            "elements": [
+                {
+                    "id": "P0",
+                    "order": 0,
+                    "title": "Паспорт поставки",
+                    "depends_on": [],
+                    "readiness_prerequisites": ["Плановая стадия описана."],
+                    "readiness_criteria": ["Паспорт принят."],
+                },
+                {
+                    "id": "P1",
+                    "order": 1,
+                    "title": "Реестр происхождения",
+                    "depends_on": ["P0"],
+                    "readiness_prerequisites": ["Правила сессии определены."],
+                    "readiness_criteria": ["Происхождение восстанавливается."],
+                },
+                {
+                    "id": "P2",
+                    "order": 2,
+                    "title": "Контур сессии",
+                    "depends_on": ["P0"],
+                    "readiness_prerequisites": ["Реестр происхождения готов."],
+                    "readiness_criteria": ["Сессия завершается проверяемо."],
+                },
+                *[
+                    {
+                        "id": f"P{index}",
+                        "order": index,
+                        "title": f"Тестовый элемент {index}",
+                        "depends_on": ["P2"],
+                        "readiness_prerequisites": ["Контур сессии готов."],
+                        "readiness_criteria": ["Результат элемента проверен."],
+                    }
+                    for index in range(3, 17)
+                ],
+            ],
+            "parallelizable_groups": [
+                {
+                    "id": "parallel-origin-and-session",
+                    "element_ids": ["P1", "P2"],
+                    "rationale": "После общего паспорта ветви не зависят друг от друга.",
+                }
+            ],
+            "blocking_risks": [
+                {
+                    "id": "RISK-01",
+                    "title": "Нет разрешения на коробочную стадию",
+                    "description": "Плановый слой не является разрешением исполнения.",
+                    "blocks_element_ids": ["P2"],
+                    "resolution_criteria": ["Получен отдельный запрос пользователя."],
+                    "source_paths": [BOXED_GRAPH_MARKDOWN.as_posix()],
+                }
+            ],
+            "mvp_links": [
+                {
+                    "mvp_candidate_id": "mvp-01",
+                    "mvp_path": "Планирование/MVP-кандидаты/01-тест/README.md",
+                    "element_ids": ["P1"],
+                    "role": "Проверяет реестр происхождения.",
+                }
+            ],
+        }
+        (root / BOXED_GRAPH_JSON).write_text(
+            json.dumps(boxed_graph, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
         (root / "Вопросы" / "README.md").write_text(
             "# Вопросы\n\n"
             "## [Открытые вопросы](../Глоссарий/открытый-вопрос.md)\n\n"
@@ -273,7 +377,18 @@ class BuildPlanningRegistryTests(unittest.TestCase):
             registry = build_planning_registry.build_registry(root)
 
             self.assertEqual(registry["schema"], build_planning_registry.SCHEMA)
-            self.assertEqual(registry["schema"], "fum.planning.requirements-registry.v6")
+            self.assertEqual(registry["schema"], "fum.planning.requirements-registry.v7")
+            self.assertEqual(
+                registry["boxed_implementation_graph"]["schema"],
+                "fum.planning.boxed-implementation-dependency-graph.v1",
+            )
+            self.assertEqual(
+                [
+                    element["id"]
+                    for element in registry["boxed_implementation_graph"]["elements"]
+                ],
+                [f"P{index}" for index in range(17)],
+            )
             self.assertEqual(registry["steps"][0]["id"], "FUM-STEP-0001")
             self.assertEqual(registry["steps"][0]["status"], "active")
             self.assertEqual(registry["steps"][0]["title"], "Подготовить тестовый реестр")
@@ -345,6 +460,8 @@ class BuildPlanningRegistryTests(unittest.TestCase):
                 f"Планирование/карточки-шагов/{ACTIVE_STEP_CARD}",
                 source_paths,
             )
+            self.assertIn(BOXED_GRAPH_MARKDOWN.as_posix(), source_paths)
+            self.assertIn(BOXED_GRAPH_JSON.as_posix(), source_paths)
             self.assertEqual(registry["source_inventory"]["roadmap_horizons"][0]["id"], "horizon-0")
             self.assertEqual(registry["source_inventory"]["stages"][0]["id"], "stage-01")
             self.assertEqual(
@@ -363,6 +480,97 @@ class BuildPlanningRegistryTests(unittest.TestCase):
             self.assertEqual(registry["source_inventory"]["questions"]["open"][0]["title"], "Тестовый вопрос")
             self.assertTrue(registry["coverage"]["mvp_candidates"][0]["in_product_queue"])
             self.assertTrue(registry["coverage"]["mvp_candidates"][0]["in_stage_map"])
+
+    def test_build_rejects_boxed_graph_with_unknown_dependency(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output = self.write_fixture(root)
+            graph_path = root / BOXED_GRAPH_JSON
+            graph = json.loads(graph_path.read_text(encoding="utf-8"))
+            graph["elements"][1]["depends_on"] = ["P99"]
+            graph_path.write_text(
+                json.dumps(graph, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+
+            with self.assertRaisesRegex(ValueError, "unknown dependency P99"):
+                build_planning_registry.build_to_file(output, root)
+
+    def test_build_rejects_boxed_graph_missing_expected_element(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output = self.write_fixture(root)
+            graph_path = root / BOXED_GRAPH_JSON
+            graph = json.loads(graph_path.read_text(encoding="utf-8"))
+            graph["elements"].pop()
+            graph_path.write_text(
+                json.dumps(graph, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+
+            with self.assertRaisesRegex(ValueError, "exactly match P0 through P16"):
+                build_planning_registry.build_to_file(output, root)
+
+    def test_build_rejects_boxed_graph_cycle(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output = self.write_fixture(root)
+            graph_path = root / BOXED_GRAPH_JSON
+            graph = json.loads(graph_path.read_text(encoding="utf-8"))
+            graph["elements"][0]["depends_on"] = ["P1"]
+            graph_path.write_text(
+                json.dumps(graph, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+
+            with self.assertRaisesRegex(ValueError, "dependency cycle"):
+                build_planning_registry.build_to_file(output, root)
+
+    def test_build_rejects_dependent_elements_in_parallelizable_group(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output = self.write_fixture(root)
+            graph_path = root / BOXED_GRAPH_JSON
+            graph = json.loads(graph_path.read_text(encoding="utf-8"))
+            graph["parallelizable_groups"][0]["element_ids"] = ["P0", "P1"]
+            graph_path.write_text(
+                json.dumps(graph, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+
+            with self.assertRaisesRegex(
+                ValueError,
+                "parallelizable group contains dependent elements",
+            ):
+                build_planning_registry.build_to_file(output, root)
+
+    def test_build_rejects_boxed_graph_with_unknown_mvp_candidate(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output = self.write_fixture(root)
+            graph_path = root / BOXED_GRAPH_JSON
+            graph = json.loads(graph_path.read_text(encoding="utf-8"))
+            graph["mvp_links"][0]["mvp_candidate_id"] = "mvp-99"
+            graph_path.write_text(
+                json.dumps(graph, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+
+            with self.assertRaisesRegex(ValueError, "unknown MVP candidate mvp-99"):
+                build_planning_registry.build_to_file(output, root)
+
+    def test_build_rejects_stale_boxed_graph_source_hash(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            output = self.write_fixture(root)
+            graph_source = root / BOXED_GRAPH_MARKDOWN
+            graph_source.write_text(
+                graph_source.read_text(encoding="utf-8") + "Уточнение.\n",
+                encoding="utf-8",
+            )
+
+            with self.assertRaisesRegex(ValueError, "source hash does not match"):
+                build_planning_registry.build_to_file(output, root)
 
     def test_build_rejects_requirement_missing_mandatory_section(self):
         for section in build_planning_registry.REQUIRED_REQUIREMENT_SECTIONS:
