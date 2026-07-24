@@ -840,6 +840,82 @@ class BranchNextStepTests(unittest.TestCase):
             prompt,
         )
 
+    def test_heartbeat_combines_pinned_and_unpinned_threads(self) -> None:
+        document = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+        template_match = re.search(
+            r"## Шаблон\n\n```text\n(?P<template>.*?)\n```",
+            document,
+            flags=re.DOTALL,
+        )
+
+        self.assertIsNotNone(template_match)
+        template = template_match.group("template")
+        first_inventory_match = re.search(
+            r"^2\. (?P<step>.*?)\n3\. ",
+            template,
+            flags=re.DOTALL | re.MULTILINE,
+        )
+        second_inventory_match = re.search(
+            r"^6\. (?P<step>.*?)\n7\. ",
+            template,
+            flags=re.DOTALL | re.MULTILINE,
+        )
+
+        self.assertIsNotNone(first_inventory_match)
+        self.assertIsNotNone(second_inventory_match)
+        first_inventory = first_inventory_match.group("step")
+        second_inventory = second_inventory_match.group("step")
+
+        self.assertIn(
+            "Объедини массивы pinnedThreads и threads",
+            first_inventory,
+        )
+        self.assertIn(
+            "не ищи собственную запись только в threads",
+            first_inventory,
+        )
+        self.assertIn(
+            "limit=50 ограничивает только массив threads",
+            first_inventory,
+        )
+        self.assertIn(
+            "массив pinnedThreads возвращается полностью",
+            first_inventory,
+        )
+        self.assertIn(
+            "собственный id найден в pinnedThreads ровно один раз",
+            first_inventory,
+        )
+        self.assertIn(
+            "не дублируется в threads",
+            first_inventory,
+        )
+        self.assertIn(
+            "каждая запись объединённого снимка имеет известное состояние",
+            first_inventory,
+        )
+        self.assertIn(
+            "среди всех остальных записей объединённого снимка нет ни одной "
+            "со status=active",
+            first_inventory,
+        )
+        self.assertIn(
+            "по тем же правилам объединения pinnedThreads и threads",
+            second_inventory,
+        )
+        self.assertIn(
+            "собственный точный id не найден ровно один раз в pinnedThreads",
+            second_inventory,
+        )
+        self.assertIn(
+            "обнаружен также в threads",
+            second_inventory,
+        )
+        self.assertIn(
+            "появилась другая active-задача",
+            second_inventory,
+        )
+
     def test_heartbeat_recovers_a_lost_claim_response_with_the_same_lease(
         self,
     ) -> None:
