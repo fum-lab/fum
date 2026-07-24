@@ -22,6 +22,7 @@
 - [fum-svezhestj-grafa-obsidian](fum-svezhestj-grafa-obsidian/SKILL.md) - обновляет группы цвета графа Obsidian как тепловую карту Markdown-узлов по времени последнего содержательного редактирования.
 - [fum-reyestr-planirovaniya](fum-reyestr-planirovaniya/SKILL.md) - собирает и проверяет машинно читаемый JSON-реестр и безопасно переименовывает карточки шагов с обновлением живых текстовых путей.
 - [fum-proyektnyiye-fajlyi](fum-proyektnyiye-fajlyi/SKILL.md) - задаёт общий воспроизводимый инвентарь проектных Markdown-файлов и безопасные границы выходных путей служебных автоматизаций.
+- [fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok](fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/SKILL.md) - планирует и применяет Git-переименование обычного файла с разрешением и пересчётом входящих и исходящих локальных Markdown-ссылок без глобальной замены имени.
 - [fum-proverka-git-zavisimostej](fum-proverka-git-zavisimostej/SKILL.md) - добавляет Git submodule из форка рядом с актуальным FUM, инициализирует уже зарегистрированную зависимость после свежего клонирования и автономно проверяет отдельный upstream, достижимость выбранной ревизии из локально полученных refs форка и точный gitlink.
 - [fum-proverka-nazvanij-avtomatizacij](fum-proverka-nazvanij-avtomatizacij/SKILL.md) - проверяет точную транслитерацию репозиторных и отображаемых имён, slug, отсутствие канонических legacy-исключений, коллизии и явное состояние зависимости LinguisticKit.
 - [fum-zapusk-prototipov](fum-zapusk-prototipov/SKILL.md) - проверяет корневую POSIX-панель `prototipyi.sh` и обязательные `запустить.sh` у всех устойчивых прототипов.
@@ -55,6 +56,9 @@
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-reyestr-planirovaniya/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-reyestr-planirovaniya`.
 - `python3 Инструменты/fum-reyestr-planirovaniya/scripts/rename-step-card.py --card-id FUM-STEP-NNNN --status <active|completed|absorbed|withdrawn> [--description <краткое-название>]` - Git-переименование карточки шага с синхронизацией статуса, индекса и живых текстовых путей.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-proyektnyiye-fajlyi/tests -p 'test_*.py'` - локальные тесты общей политики проектных файлов.
+- `python3 Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py plan --source <старый-путь> --destination <новый-путь> --repo-root .` - полный read-only-план обычного переименования с проверкой ссылок, защищённых зон и переносимых коллизий.
+- `python3 Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py apply --source <старый-путь> --destination <новый-путь> --repo-root .` - повторная проверка плана, `git mv` и согласованная установка обновлённых Markdown-файлов с откатом при перехватываемой ошибке.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/tests -p 'test_*.py'` - автономные тесты переименования, разрешения ссылок, fail-closed-границ и отката.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-proverka-git-zavisimostej/tests -p 'test_*.py'` - автономные тесты цепочки форк — `origin` — `upstream` — `.gitmodules` — gitlink.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-proverka-nazvanij-avtomatizacij/tests -p 'test_*.py'` - локальные тесты реестра русских латинских названий автоматизаций.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-zapusk-prototipov/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-zapusk-prototipov`.
@@ -69,6 +73,7 @@
 
 ## Источники требований
 
+- [исходный запрос 2026-07-24 16:26:31 MSK - Создать обобщённый инструмент переименования файла](../Запросы/2026-07-24_16-26-31_MSK_создать-обобщённый-инструмент-переименования-файла.md)
 - [исходный запрос 2026-07-23 15:26:35 MSK - Запретить внешние навыки в репозитории](../Запросы/2026-07-23_15-26-35_MSK_запретить-внешние-навыки-в-репозитории.md)
 - [исходный запрос 2026-07-23 14:47:43 MSK - Включать профиль времени в отчёты журнала](../Запросы/2026-07-23_14-47-43_MSK_включать-профиль-времени-в-отчёты-журнала.md)
 - [исходный запрос 2026-07-23 10:44:00 MSK - Автоматизировать обновление ссылок при смене статуса карточки](../Запросы/2026-07-23_10-44-00_MSK_автоматизировать-обновление-ссылок-при-смене-статуса-карточки.md)
@@ -81,6 +86,6 @@
 - [исходный запрос 2026-07-22 03:38:35 MSK - Разрешить выполнение доступных карточек шагов](../Запросы/2026-07-22_03-38-35_MSK_разрешить-выполнение-доступных-карточек-шагов.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-23 15:39:17 MSK -->
-<!-- content-sha256: sha256:39d448e3e35edbfbf376b900935796883f1dd8c3e926a395eddb04489a9bcfe6 -->
+<!-- last-content-edit: 2026-07-24 17:38:33 MSK -->
+<!-- content-sha256: sha256:20fef7bd29599f5b0cc35702025329bce688acb346d0c466eb95e5b5cd10774f -->
 <!-- FUM-MD-RECENCY:END -->
