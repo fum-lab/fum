@@ -3,6 +3,12 @@
   "defaultMode": "strict",
   "packages": [
     {
+      "package": "Прототипы/воспроизводимое-пополнение-памяти",
+      "executableProducts": [
+        "FUMMemoryPopulationProbe"
+      ]
+    },
+    {
       "package": "Прототипы/теневой-редактор-продолжений",
       "executableProducts": [
         "FUMShadowEditor",
