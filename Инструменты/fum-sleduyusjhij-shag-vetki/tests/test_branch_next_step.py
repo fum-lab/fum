@@ -816,6 +816,30 @@ class BranchNextStepTests(unittest.TestCase):
             prompt,
         )
 
+    def test_heartbeat_excludes_own_thread_without_requiring_active(self) -> None:
+        prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+
+        self.assertIn(
+            "Не требуй от собственной записи состояния active",
+            prompt,
+        )
+        self.assertIn(
+            "Исключи только эту собственную запись по точному id",
+            prompt,
+        )
+        self.assertNotIn(
+            "собственный id найден ровно один раз со status=active",
+            prompt,
+        )
+        self.assertIn(
+            "собственный точный id не найден ровно один раз",
+            prompt,
+        )
+        self.assertNotIn(
+            "собственный id не подтверждён",
+            prompt,
+        )
+
     def test_heartbeat_recovers_a_lost_claim_response_with_the_same_lease(
         self,
     ) -> None:
