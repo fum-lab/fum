@@ -7,22 +7,56 @@ public enum CanonicalMemoryJSON {
     encoder.outputFormatting = [.sortedKeys, .withoutEscapingSlashes]
     return try encoder.encode(value)
   }
+
+  public static func sha256(_ data: Data) -> String {
+    let digest = SHA256.hash(data: data)
+    return "sha256:" + digest.map { String(format: "%02x", $0) }.joined()
+  }
 }
 
 public struct MemoryPopulationEngine: Sendable {
   public static let maximumInputBytes = 1_048_576
 
-  private static let executorID = "fum.memory.interpreter.v1"
-  private static let maximumEvents = 256
-  private static let maximumValueBytes = 16_384
-  private static let maximumRecordValueBytes = 65_536
-  private static let maximumSnapshotValueBytes = 4_194_304
-  private static let maximumSources = 32
   private static let maximumSeparatorBytes = 64
 
   public init() {}
 
   public func run(_ input: Data) throws -> MemoryPopulationArtifact {
+    try execute(input, continuingFrom: nil).artifact
+  }
+
+  public func generation(
+    from input: Data,
+    continuingFrom previous: StoredMemoryGeneration? = nil
+  ) throws -> MemoryGeneration {
+    let result = try execute(input, continuingFrom: previous)
+    let artifact = result.artifact
+    let generation = MemoryGeneration(
+      schemaVersion: 1,
+      policyVersion: MemoryPopulationPolicy.version,
+      previousGenerationSHA256: previous?.generationSHA256,
+      inputSHA256: artifact.inputSHA256,
+      snapshotSHA256: artifact.snapshotSHA256,
+      traceSHA256: artifact.traceSHA256,
+      viewModelSHA256: artifact.viewModelSHA256,
+      snapshot: artifact.snapshot,
+      trace: artifact.trace,
+      viewModel: artifact.viewModel,
+      provenance: MemoryGenerationProvenance(
+        inputEventIDs: result.program.events.map(\.id),
+        acceptedEventIDs: artifact.trace.entries.map(\.eventID),
+        memoryExecutorVersion: MemoryPopulationPolicy.executorID,
+        projectionOperatorVersion: MemoryViewProjectionOperator.version
+      )
+    )
+    try validateMemoryGeneration(generation)
+    return generation
+  }
+
+  private func execute(
+    _ input: Data,
+    continuingFrom previous: StoredMemoryGeneration?
+  ) throws -> (program: MemoryPopulationProgram, artifact: MemoryPopulationArtifact) {
     guard input.count <= Self.maximumInputBytes else {
       throw MemoryPopulationError.inputTooLarge(input.count)
     }
@@ -35,11 +69,29 @@ public struct MemoryPopulationEngine: Sendable {
         "Вход не соответствует схеме набора событий версии 1."
       )
     }
-    try validate(program)
+    let previousGeneration = try validatedPrevious(previous)
+    try validate(
+      program,
+      startingSequence: previousGeneration?.trace.entries.count ?? 0,
+      existingEventIDs: Set(previousGeneration?.trace.entries.map(\.eventID) ?? [])
+    )
+    if let previousGeneration,
+      previousGeneration.snapshot.datasetID != program.datasetID
+    {
+      throw MemoryPopulationError.incompatibleGeneration(
+        "dataset_id продолжения не совпадает с подтверждённой памятью."
+      )
+    }
 
-    var recordsByKey: [String: MemoryRecord] = [:]
-    var traceEntries: [MemoryTraceEntry] = []
-    var snapshotValueBytes = 0
+    var recordsByKey = Dictionary(
+      uniqueKeysWithValues: (previousGeneration?.snapshot.records ?? []).map {
+        ($0.key, $0)
+      }
+    )
+    var traceEntries = previousGeneration?.trace.entries ?? []
+    var snapshotValueBytes = recordsByKey.values.reduce(0) {
+      $0 + $1.value.utf8.count
+    }
 
     for event in program.events {
       guard recordsByKey[event.target] == nil else {
@@ -57,7 +109,7 @@ public struct MemoryPopulationEngine: Sendable {
             sourceDatasetID: program.datasetID,
             contributingEventIDs: [event.id],
             producedByEventID: event.id,
-            executor: Self.executorID
+            executor: MemoryPopulationPolicy.executorID
           )
         )
         reads = []
@@ -73,7 +125,7 @@ public struct MemoryPopulationEngine: Sendable {
         let outputValueBytes =
           sourceRecords.reduce(0) { $0 + $1.value.utf8.count }
           + max(0, sourceRecords.count - 1) * separator.utf8.count
-        guard outputValueBytes <= Self.maximumRecordValueBytes else {
+        guard outputValueBytes <= MemoryPopulationPolicy.maximumRecordValueBytes else {
           throw MemoryPopulationError.recordTooLarge(
             eventID: event.id,
             byteCount: outputValueBytes
@@ -89,14 +141,14 @@ public struct MemoryPopulationEngine: Sendable {
             sourceDatasetID: program.datasetID,
             contributingEventIDs: contributingIDs,
             producedByEventID: event.id,
-            executor: Self.executorID
+            executor: MemoryPopulationPolicy.executorID
           )
         )
         reads = sourceKeys
       }
 
       let nextSnapshotValueBytes = snapshotValueBytes + record.value.utf8.count
-      guard nextSnapshotValueBytes <= Self.maximumSnapshotValueBytes else {
+      guard nextSnapshotValueBytes <= MemoryPopulationPolicy.maximumSnapshotValueBytes else {
         throw MemoryPopulationError.memoryBudgetExceeded(
           eventID: event.id,
           byteCount: nextSnapshotValueBytes
@@ -112,8 +164,12 @@ public struct MemoryPopulationEngine: Sendable {
           operation: event.operation,
           reads: reads,
           writes: [event.target],
-          sourceEventSHA256: try sha256(CanonicalMemoryJSON.encode(event)),
-          outputRecordSHA256: try sha256(CanonicalMemoryJSON.encode(record))
+          sourceEventSHA256: CanonicalMemoryJSON.sha256(
+            try CanonicalMemoryJSON.encode(event)
+          ),
+          outputRecordSHA256: CanonicalMemoryJSON.sha256(
+            try CanonicalMemoryJSON.encode(record)
+          )
         )
       )
     }
@@ -132,16 +188,42 @@ public struct MemoryPopulationEngine: Sendable {
       snapshot: snapshot,
       trace: trace
     )
+    let viewModel = MemoryViewProjectionOperator().project(snapshot)
 
-    return MemoryPopulationArtifact(
-      schemaVersion: 1,
-      inputSHA256: sha256(input),
-      snapshotSHA256: try sha256(CanonicalMemoryJSON.encode(snapshot)),
-      traceSHA256: try sha256(CanonicalMemoryJSON.encode(trace)),
-      snapshot: snapshot,
-      trace: trace,
-      guiProjectionPrerequisites: guiProjectionPrerequisites
+    return (
+      program,
+      MemoryPopulationArtifact(
+        schemaVersion: 2,
+        inputSHA256: CanonicalMemoryJSON.sha256(input),
+        snapshotSHA256: CanonicalMemoryJSON.sha256(
+          try CanonicalMemoryJSON.encode(snapshot)
+        ),
+        traceSHA256: CanonicalMemoryJSON.sha256(
+          try CanonicalMemoryJSON.encode(trace)
+        ),
+        viewModelSHA256: CanonicalMemoryJSON.sha256(
+          try CanonicalMemoryJSON.encode(viewModel)
+        ),
+        snapshot: snapshot,
+        trace: trace,
+        viewModel: viewModel,
+        guiProjectionPrerequisites: guiProjectionPrerequisites
+      )
     )
+  }
+
+  private func validatedPrevious(
+    _ previous: StoredMemoryGeneration?
+  ) throws -> MemoryGeneration? {
+    guard let previous else { return nil }
+    let canonical = try CanonicalMemoryJSON.encode(previous.generation)
+    guard CanonicalMemoryJSON.sha256(canonical) == previous.generationSHA256 else {
+      throw MemoryPopulationError.corruptGeneration(
+        "Хэш подтверждённого поколения не совпадает с содержимым."
+      )
+    }
+    try validateMemoryGeneration(previous.generation)
+    return previous.generation
   }
 
   private func assessGUIProjectionPrerequisites(
@@ -189,32 +271,44 @@ public struct MemoryPopulationEngine: Sendable {
     )
   }
 
-  private func validate(_ program: MemoryPopulationProgram) throws {
-    guard program.schemaVersion == 1 else {
+  private func validate(
+    _ program: MemoryPopulationProgram,
+    startingSequence: Int,
+    existingEventIDs: Set<String>
+  ) throws {
+    guard program.schemaVersion == MemoryPopulationPolicy.schemaVersion else {
       throw MemoryPopulationError.unsupportedSchema(program.schemaVersion)
     }
-    guard isIdentifier(program.datasetID) else {
+    guard program.policyVersion == MemoryPopulationPolicy.version else {
+      throw MemoryPopulationError.invalidInput(
+        "policy_version не поддерживается текущим интерпретатором."
+      )
+    }
+    guard isMemoryIdentifier(program.datasetID) else {
       throw MemoryPopulationError.invalidInput("dataset_id имеет недопустимый формат.")
     }
-    guard !program.events.isEmpty, program.events.count <= Self.maximumEvents else {
+    guard !program.events.isEmpty,
+      startingSequence + program.events.count <= MemoryPopulationPolicy.maximumEvents
+    else {
       throw MemoryPopulationError.invalidInput(
-        "Набор должен содержать от 1 до \(Self.maximumEvents) событий."
+        "Общая цепочка должна содержать от 1 до \(MemoryPopulationPolicy.maximumEvents) событий."
       )
     }
 
-    var eventIDs = Set<String>()
+    var eventIDs = existingEventIDs
     for (index, event) in program.events.enumerated() {
-      guard event.sequence == index + 1 else {
+      let expectedSequence = startingSequence + index + 1
+      guard event.sequence == expectedSequence else {
         throw MemoryPopulationError.invalidEvent(
-          "\(event.id): ожидалась sequence \(index + 1), получена \(event.sequence)"
+          "\(event.id): ожидалась sequence \(expectedSequence), получена \(event.sequence)"
         )
       }
-      guard isIdentifier(event.id), eventIDs.insert(event.id).inserted else {
+      guard isMemoryIdentifier(event.id), eventIDs.insert(event.id).inserted else {
         throw MemoryPopulationError.invalidEvent(
-          "Событие \(index + 1) имеет недопустимый или повторный id."
+          "Событие \(expectedSequence) имеет недопустимый или повторный id."
         )
       }
-      guard isIdentifier(event.target) else {
+      guard isMemoryIdentifier(event.target) else {
         throw MemoryPopulationError.invalidEvent(
           "\(event.id): target имеет недопустимый формат."
         )
@@ -223,7 +317,7 @@ public struct MemoryPopulationEngine: Sendable {
       switch event.operation {
       case .remember:
         guard let value = event.value, !value.isEmpty,
-          value.utf8.count <= Self.maximumValueBytes,
+          value.utf8.count <= MemoryPopulationPolicy.maximumValueBytes,
           event.sources == nil,
           event.separator == nil
         else {
@@ -235,9 +329,9 @@ public struct MemoryPopulationEngine: Sendable {
         guard event.value == nil,
           let sources = event.sources,
           !sources.isEmpty,
-          sources.count <= Self.maximumSources,
+          sources.count <= MemoryPopulationPolicy.maximumSources,
           Set(sources).count == sources.count,
-          sources.allSatisfy(isIdentifier),
+          sources.allSatisfy(isMemoryIdentifier),
           let separator = event.separator,
           separator.utf8.count <= Self.maximumSeparatorBytes
         else {
@@ -249,25 +343,9 @@ public struct MemoryPopulationEngine: Sendable {
     }
   }
 
-  private func isIdentifier(_ value: String) -> Bool {
-    guard !value.isEmpty, value.utf8.count <= 128 else { return false }
-    return value.unicodeScalars.allSatisfy { scalar in
-      switch scalar.value {
-      case 45, 46, 48...57, 65...90, 95, 97...122:
-        return true
-      default:
-        return false
-      }
-    }
-  }
-
   private func orderedUnique(_ values: [String]) -> [String] {
     var seen = Set<String>()
     return values.filter { seen.insert($0).inserted }
   }
 
-  private func sha256(_ data: Data) -> String {
-    let digest = SHA256.hash(data: data)
-    return "sha256:" + digest.map { String(format: "%02x", $0) }.joined()
-  }
 }

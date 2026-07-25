@@ -30,22 +30,6 @@
       "operation": "remember",
       "target": "execution-policy",
       "value": "только внутренние операции remember и compose"
-    },
-    {
-      "id": "event.005.bootstrap",
-      "sequence": 5,
-      "operation": "compose",
-      "target": "bootstrap",
-      "sources": ["starting-mode", "memory-policy", "execution-policy"],
-      "separator": "; "
-    },
-    {
-      "id": "event.006.next-stage",
-      "sequence": 6,
-      "operation": "compose",
-      "target": "next-stage",
-      "sources": ["bootstrap", "goal"],
-      "separator": " -> "
     }
   ]
 }

@@ -33,23 +33,52 @@ public enum MemoryOperation: String, Codable, Equatable, Sendable {
   case compose
 }
 
+public enum MemoryPopulationPolicy {
+  public static let schemaVersion = 1
+  public static let version = "fum.memory.policy.v1"
+  public static let executorID = "fum.memory.interpreter.v1"
+  public static let maximumEvents = 256
+  public static let maximumValueBytes = 16_384
+  public static let maximumRecordValueBytes = 65_536
+  public static let maximumSnapshotValueBytes = 4_194_304
+  public static let maximumSources = 32
+}
+
 public struct MemoryPopulationProgram: Codable, Equatable, Sendable {
   public let schemaVersion: Int
+  public let policyVersion: String
   public let datasetID: String
   public let events: [MemoryInputEvent]
 
   enum CodingKeys: String, CodingKey {
     case schemaVersion = "schema_version"
+    case policyVersion = "policy_version"
     case datasetID = "dataset_id"
     case events
   }
 
   public init(from decoder: Decoder) throws {
-    try requireExactKeys(decoder, expected: ["schema_version", "dataset_id", "events"])
+    try requireExactKeys(
+      decoder,
+      expected: ["schema_version", "policy_version", "dataset_id", "events"]
+    )
     let container = try decoder.container(keyedBy: CodingKeys.self)
     schemaVersion = try container.decode(Int.self, forKey: .schemaVersion)
+    policyVersion = try container.decode(String.self, forKey: .policyVersion)
     datasetID = try container.decode(String.self, forKey: .datasetID)
     events = try container.decode([MemoryInputEvent].self, forKey: .events)
+  }
+
+  public init(
+    schemaVersion: Int,
+    policyVersion: String,
+    datasetID: String,
+    events: [MemoryInputEvent]
+  ) {
+    self.schemaVersion = schemaVersion
+    self.policyVersion = policyVersion
+    self.datasetID = datasetID
+    self.events = events
   }
 }
 
@@ -115,6 +144,24 @@ public struct MemoryInputEvent: Codable, Equatable, Sendable {
       sources = try container.decode([String].self, forKey: .sources)
       separator = try container.decode(String.self, forKey: .separator)
     }
+  }
+
+  public init(
+    id: String,
+    sequence: Int,
+    operation: MemoryOperation,
+    target: String,
+    value: String? = nil,
+    sources: [String]? = nil,
+    separator: String? = nil
+  ) {
+    self.id = id
+    self.sequence = sequence
+    self.operation = operation
+    self.target = target
+    self.value = value
+    self.sources = sources
+    self.separator = separator
   }
 }
 
@@ -212,8 +259,10 @@ public struct MemoryPopulationArtifact: Codable, Equatable, Sendable {
   public let inputSHA256: String
   public let snapshotSHA256: String
   public let traceSHA256: String
+  public let viewModelSHA256: String
   public let snapshot: MemorySnapshot
   public let trace: MemoryExecutionTrace
+  public let viewModel: MemoryViewModel
   public let guiProjectionPrerequisites: GUIProjectionPrerequisiteReport
 
   enum CodingKeys: String, CodingKey {
@@ -221,8 +270,10 @@ public struct MemoryPopulationArtifact: Codable, Equatable, Sendable {
     case inputSHA256 = "input_sha256"
     case snapshotSHA256 = "snapshot_sha256"
     case traceSHA256 = "trace_sha256"
+    case viewModelSHA256 = "view_model_sha256"
     case snapshot
     case trace
+    case viewModel = "view_model"
     case guiProjectionPrerequisites = "gui_projection_prerequisites"
   }
 }
@@ -237,6 +288,11 @@ public enum MemoryPopulationError: Error, Equatable, Sendable {
   case recordTooLarge(eventID: String, byteCount: Int)
   case memoryBudgetExceeded(eventID: String, byteCount: Int)
   case missingFixture(String)
+  case incompatibleGeneration(String)
+  case corruptGeneration(String)
+  case generationConflict(expected: String?, actual: String?)
+  case generationStore(String)
+  case invalidIntent(String)
 }
 
 extension MemoryPopulationError: CustomStringConvertible {
@@ -260,6 +316,17 @@ extension MemoryPopulationError: CustomStringConvertible {
       return "\(eventID): снимок превышает общий лимит памяти: \(byteCount) байт."
     case .missingFixture(let name):
       return "Встроенная фикстура \(name) не найдена."
+    case .incompatibleGeneration(let message):
+      return "Несовместимое поколение: \(message)"
+    case .corruptGeneration(let message):
+      return "Повреждённое поколение: \(message)"
+    case .generationConflict(let expected, let actual):
+      return
+        "Конфликт подтверждённого поколения: ожидалось \(expected ?? "пустое состояние"), текущее \(actual ?? "пустое состояние")."
+    case .generationStore(let message):
+      return "Ошибка хранилища поколений: \(message)"
+    case .invalidIntent(let message):
+      return "Недопустимое намерение пользователя: \(message)"
     }
   }
 }
