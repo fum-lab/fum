@@ -967,6 +967,33 @@ class BranchNextStepTests(unittest.TestCase):
             prompt,
         )
 
+    def test_child_preflights_context_bounded_card_and_decomposes_oversized_scope(
+        self,
+    ) -> None:
+        prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+        skill = (TOOL_ROOT / "SKILL.md").read_text(encoding="utf-8")
+        child_contract_match = re.search(
+            r"8\. .*?(?P<contract>Составь дочерний prompt.*?)\n9\. ",
+            prompt,
+            flags=re.DOTALL,
+        )
+
+        self.assertIsNotNone(child_contract_match)
+        child_contract = child_contract_match.group("contract")
+
+        for text in (child_contract, skill):
+            self.assertIn("контекстный preflight", text)
+            self.assertIn("одно свежее контекстное окно", text)
+            self.assertIn("обязательные накладные расходы", text)
+            self.assertIn("декомпозицией", text)
+            self.assertIn(
+                "не выдавать декомпозицию за завершение",
+                text.casefold(),
+            )
+
+        self.assertIn("до содержательных изменений", skill.casefold())
+        self.assertIn("контекстно ограниченной карточки", skill)
+
     def test_heartbeat_child_reports_assigned_and_confirmed_card(
         self,
     ) -> None:
