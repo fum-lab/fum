@@ -18,7 +18,7 @@
 - [fum-ocenki](fum-ocenki/SKILL.md) - создаёт и проверяет оценочные материалы `Оценки/` со снимком репозитория, методикой, диапазонами, допущениями, ограничениями точности и оформлением результата.
 - [fum-glossarij](fum-glossarij/SKILL.md) - поддерживает глоссарий FUM по локальным правилам именования и ссылок.
 - [fum-svezhestj-markdown](fum-svezhestj-markdown/SKILL.md) - обновляет служебные метки последнего содержательного редактирования во всех Markdown-файлах и собирает индекс `.md`-файлов от свежих к старым.
-- [fum-ocheredj-zadach-git-vetki](fum-ocheredj-zadach-git-vetki/SKILL.md) - последовательно допускает корневые задачи одного worktree в порядке атомарной регистрации и завершает владение атомарным commit+handoff без project hooks и POSIX-блокировок.
+- [fum-ocheredj-zadach-git-vetki](fum-ocheredj-zadach-git-vetki/SKILL.md) - последовательно допускает корневые задачи одного worktree в порядке атомарной регистрации, завершает владение атомарным commit+handoff и публикует точный созданный коммит в GitHub без project hooks и POSIX-блокировок.
 - [fum-svezhestj-grafa-obsidian](fum-svezhestj-grafa-obsidian/SKILL.md) - обновляет группы цвета графа Obsidian как тепловую карту Markdown-узлов по времени последнего содержательного редактирования.
 - [fum-reyestr-planirovaniya](fum-reyestr-planirovaniya/SKILL.md) - собирает и проверяет машинно читаемый JSON-реестр и безопасно переименовывает карточки шагов с обновлением живых текстовых путей.
 - [fum-proyektnyiye-fajlyi](fum-proyektnyiye-fajlyi/SKILL.md) - задаёт общий воспроизводимый инвентарь проектных Markdown-файлов и безопасные границы выходных путей служебных автоматизаций.
@@ -48,7 +48,7 @@
 - `python3 -I -c "import os,subprocess,sys;p='Инструменты/fum-ocheredj-zadach-git-vetki/scripts/ocheredj-zadach-git-vetki.py';r=sys.argv[1];e={k:v for k,v in os.environ.items() if not k.upper().startswith('GIT_')};e['GIT_NO_REPLACE_OBJECTS']='1';e['GIT_OPTIONAL_LOCKS']='0';b=subprocess.check_output(['git','--no-replace-objects','-C',r,'show','HEAD:'+p],env=e,timeout=30);sys.argv=[p,*sys.argv[2:],'--repo-root',r];exec(compile(b,p,'exec'))" . status --json` - через изолированный закоммиченный HEAD-bootstrap показывает владельца и FIFO-список ожидающих корневых задач текущего worktree.
 - `python3 Инструменты/fum-sleduyusjhij-shag-vetki/scripts/branch-next-step.py validate --repo-root . --json` - проверяет рабочие наборы следующих шагов и наличие ровно одного совпадения для активной именованной ветки.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-sleduyusjhij-shag-vetki/tests -p 'test_*.py'` - локальные тесты выбора, атомарного claim, идемпотентного восстановления потерянного ответа и fenced-восстановления следующего шага ветки.
-- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-ocheredj-zadach-git-vetki/tests -p 'test_*.py'` - локальные тесты переносимой FIFO-очереди и атомарного commit+handoff.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-ocheredj-zadach-git-vetki/tests -p 'test_*.py'` - локальные тесты переносимой FIFO-очереди, атомарного commit+handoff и точной post-handoff-публикации через автономный bare-remote.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-sborka-svodnoj-dokumentacii/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-sborka-svodnoj-dokumentacii`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-ocenki/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-ocenki`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-svezhestj-markdown/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-svezhestj-markdown`.
@@ -73,6 +73,7 @@
 
 ## Источники требований
 
+- [исходный запрос 2026-07-26 15:15:18 MSK - Публиковать работу в GitHub автоматически](../Запросы/2026-07-26_15-15-18_MSK_публиковать-работу-в-GitHub-автоматически.md)
 - [исходный запрос 2026-07-24 16:26:31 MSK - Создать обобщённый инструмент переименования файла](../Запросы/2026-07-24_16-26-31_MSK_создать-обобщённый-инструмент-переименования-файла.md)
 - [исходный запрос 2026-07-23 15:26:35 MSK - Запретить внешние навыки в репозитории](../Запросы/2026-07-23_15-26-35_MSK_запретить-внешние-навыки-в-репозитории.md)
 - [исходный запрос 2026-07-23 14:47:43 MSK - Включать профиль времени в отчёты журнала](../Запросы/2026-07-23_14-47-43_MSK_включать-профиль-времени-в-отчёты-журнала.md)
@@ -86,6 +87,6 @@
 - [исходный запрос 2026-07-22 03:38:35 MSK - Разрешить выполнение доступных карточек шагов](../Запросы/2026-07-22_03-38-35_MSK_разрешить-выполнение-доступных-карточек-шагов.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-24 17:38:33 MSK -->
-<!-- content-sha256: sha256:20fef7bd29599f5b0cc35702025329bce688acb346d0c466eb95e5b5cd10774f -->
+<!-- last-content-edit: 2026-07-26 15:42:49 MSK -->
+<!-- content-sha256: sha256:8f2561f86d40a0de77abcac45ae4e4fd3caea9a53108d90d2c18d2775f4f0485 -->
 <!-- FUM-MD-RECENCY:END -->

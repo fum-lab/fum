@@ -9,20 +9,26 @@ import hashlib
 import json
 import math
 import os
+import re
+from signal import SIGKILL, SIGTERM
 import subprocess
 import sys
+import tempfile
 import time
 import uuid
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import NoReturn
+from urllib.parse import urlsplit
 
 
 SCHEMA_VERSION = 1
 DEFAULT_WAIT_TIMEOUT_SECONDS = 300.0
 WAIT_POLL_SECONDS = 2.0
 GIT_COMMAND_TIMEOUT_SECONDS = 30.0
+PUBLICATION_GIT_TIMEOUT_SECONDS = 120.0
+PUBLICATION_TERMINATION_GRACE_SECONDS = 2.0
 MAX_CAS_ATTEMPTS = 200
 UNCHANGED_REF_RETRY_ATTEMPTS = 8
 REF_RETRY_BASE_SECONDS = 0.005
@@ -37,6 +43,9 @@ EXIT_HEAD_CHANGED = 15
 EXIT_CAS = 16
 EXIT_NOT_REGISTERED = 17
 EXIT_NOTHING_STAGED = 18
+EXIT_PUBLICATION_REJECTED = 19
+EXIT_PUBLICATION_DIVERGED = 20
+EXIT_PUBLICATION_UNCONFIRMED = 21
 EXIT_CLI = 64
 EXIT_INTERRUPTED = 130
 
@@ -82,21 +91,26 @@ def run_git(
     *,
     input_bytes: bytes | None = None,
     check: bool = True,
+    timeout_seconds: float = GIT_COMMAND_TIMEOUT_SECONDS,
+    environment_updates: dict[str, str] | None = None,
 ) -> subprocess.CompletedProcess[bytes]:
+    environment = clean_git_environment()
+    if environment_updates:
+        environment.update(environment_updates)
     try:
         result = subprocess.run(
             ["git", "-C", str(cwd), *args],
             input=input_bytes,
             capture_output=True,
             check=False,
-            env=clean_git_environment(),
-            timeout=GIT_COMMAND_TIMEOUT_SECONDS,
+            env=environment,
+            timeout=timeout_seconds,
         )
     except subprocess.TimeoutExpired as exc:
         raise QueueError(
             EXIT_CONTEXT,
             "git_timeout",
-            f"Git не завершил команду за {GIT_COMMAND_TIMEOUT_SECONDS:g} секунд.",
+            f"Git не завершил команду за {timeout_seconds:g} секунд.",
         ) from exc
     except OSError as exc:
         raise QueueError(
@@ -1321,6 +1335,501 @@ def atomic_commit_and_handoff(
     )
 
 
+def validate_publication_commit(root: Path, commit: str) -> str:
+    object_format = decoded_stdout(run_git(root, ["rev-parse", "--show-object-format"]))
+    expected_length = {"sha1": 40, "sha256": 64}.get(object_format)
+    if (
+        expected_length is None
+        or len(commit) != expected_length
+        or re.fullmatch(r"[0-9a-f]+", commit) is None
+    ):
+        raise QueueError(
+            EXIT_CLI,
+            "invalid_commit",
+            "Публикация требует полный строчный хэш Git-коммита.",
+        )
+    object_type = run_git(root, ["cat-file", "-t", commit], check=False)
+    if object_type.returncode != 0 or decoded_stdout(object_type) != "commit":
+        raise QueueError(
+            EXIT_CLI,
+            "invalid_commit",
+            "Указанный объект публикации не является доступным Git-коммитом.",
+        )
+    return commit
+
+
+def validate_publication_branch(root: Path, branch_ref: str) -> str:
+    if not branch_ref.startswith("refs/heads/"):
+        raise QueueError(
+            EXIT_CLI,
+            "invalid_branch_ref",
+            "Публикация требует полную ссылку refs/heads/... .",
+        )
+    checked = run_git(root, ["check-ref-format", branch_ref], check=False)
+    if checked.returncode != 0:
+        raise QueueError(
+            EXIT_CLI,
+            "invalid_branch_ref",
+            "Целевая ссылка публикации не соответствует формату Git ref.",
+        )
+    return branch_ref
+
+
+def valid_github_repository_path(path: str) -> bool:
+    if "%" in path:
+        return False
+    components = path.removeprefix("/").split("/")
+    if len(components) != 2:
+        return False
+    owner, repository = components
+    if repository.endswith(".git"):
+        repository = repository[:-4]
+    return bool(
+        re.fullmatch(r"[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?", owner)
+        and re.fullmatch(r"[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?", repository)
+        and repository not in {".", ".."}
+    )
+
+
+def validate_github_push_url(push_url: str) -> str:
+    try:
+        parsed = urlsplit(push_url)
+        port = parsed.port
+    except ValueError:
+        parsed = None
+        port = None
+    if parsed is not None:
+        common = (
+            parsed.hostname == "github.com"
+            and parsed.password is None
+            and not parsed.query
+            and not parsed.fragment
+            and valid_github_repository_path(parsed.path)
+        )
+        https_ok = (
+            common
+            and parsed.scheme == "https"
+            and parsed.username is None
+            and port in {None, 443}
+        )
+        if https_ok:
+            return push_url
+    raise QueueError(
+        EXIT_CLI,
+        "invalid_push_url",
+        "Нужен однозначный HTTPS GitHub push URL без встроенных учётных данных.",
+    )
+
+
+def terminate_publication_process_group(
+    process: subprocess.Popen[bytes],
+    environment: dict[str, str],
+) -> None:
+    if os.name == "posix":
+        try:
+            os.killpg(process.pid, SIGTERM)
+        except ProcessLookupError:
+            pass
+    elif os.name == "nt":  # pragma: no cover - exercised on Windows hosts.
+        try:
+            switch = chr(47)
+            subprocess.run(
+                [
+                    "taskkill",
+                    f"{switch}PID",
+                    str(process.pid),
+                    f"{switch}T",
+                    f"{switch}F",
+                ],
+                check=False,
+                capture_output=True,
+                env=environment,
+                timeout=PUBLICATION_TERMINATION_GRACE_SECONDS,
+            )
+        except (OSError, subprocess.TimeoutExpired):
+            pass
+    else:  # pragma: no cover - Python currently exposes posix or nt here.
+        process.terminate()
+
+    try:
+        process.wait(timeout=PUBLICATION_TERMINATION_GRACE_SECONDS)
+    except subprocess.TimeoutExpired:
+        if os.name == "posix":
+            try:
+                os.killpg(process.pid, SIGKILL)
+            except ProcessLookupError:
+                pass
+        else:  # pragma: no cover - Windows taskkill normally completed the tree.
+            process.kill()
+        process.wait()
+
+
+def run_publication_git(
+    root: Path,
+    args: list[str],
+    *,
+    check: bool = False,
+) -> subprocess.CompletedProcess[bytes]:
+    environment = clean_git_environment()
+    environment.update(
+        {
+            "GCM_INTERACTIVE": "Never",
+            "GIT_TERMINAL_PROMPT": "0",
+        }
+    )
+    command = ["git", "-C", str(root), *args]
+    popen_arguments: dict[str, object] = {
+        "stdin": subprocess.DEVNULL,
+        "stdout": subprocess.PIPE,
+        "stderr": subprocess.PIPE,
+        "env": environment,
+    }
+    if os.name == "posix":
+        popen_arguments["start_new_session"] = True
+    elif os.name == "nt":  # pragma: no cover - exercised on Windows hosts.
+        popen_arguments["creationflags"] = subprocess.CREATE_NEW_PROCESS_GROUP
+    try:
+        process = subprocess.Popen(command, **popen_arguments)
+    except OSError as exc:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "invalid_context",
+            f"Не удалось запустить Git transport: {exc}",
+        ) from exc
+    try:
+        stdout, stderr = process.communicate(
+            timeout=PUBLICATION_GIT_TIMEOUT_SECONDS
+        )
+        result = subprocess.CompletedProcess(
+            args=command,
+            returncode=process.returncode,
+            stdout=stdout,
+            stderr=stderr,
+        )
+    except subprocess.TimeoutExpired:
+        terminate_publication_process_group(process, environment)
+        stdout, stderr = process.communicate()
+        result = subprocess.CompletedProcess(
+            args=command,
+            returncode=124,
+            stdout=stdout,
+            stderr=stderr,
+        )
+    if check and result.returncode != 0:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "git_error",
+            "Git transport завершился с ошибкой.",
+        )
+    return result
+
+
+def remote_branch_head(
+    root: Path,
+    push_url: str,
+    branch_ref: str,
+) -> tuple[bool, str | None]:
+    result = run_publication_git(
+        root,
+        ["ls-remote", "--exit-code", "--heads", push_url, branch_ref],
+    )
+    if result.returncode == 2 and not result.stdout.strip():
+        return True, None
+    if result.returncode != 0:
+        return False, None
+    lines = result.stdout.decode("utf-8", errors="strict").splitlines()
+    matches = []
+    for line in lines:
+        fields = line.split("\t", 1)
+        if len(fields) == 2 and fields[1] == branch_ref:
+            matches.append(fields[0])
+    if len(matches) != 1 or re.fullmatch(r"[0-9a-f]{40}|[0-9a-f]{64}", matches[0]) is None:
+        return False, None
+    return True, matches[0]
+
+
+def commit_exists(root: Path, commit: str) -> bool | None:
+    result = run_git(
+        root,
+        ["cat-file", "--batch-check=%(objectname) %(objecttype)"],
+        input_bytes=f"{commit}\n".encode("ascii"),
+        check=False,
+    )
+    if result.returncode != 0:
+        return None
+    fields = decoded_stdout(result).split()
+    if fields == [commit, "commit"]:
+        return True
+    if fields == [commit, "missing"]:
+        return False
+    return None
+
+
+def is_ancestor(root: Path, ancestor: str, descendant: str) -> bool | None:
+    result = run_git(
+        root,
+        ["merge-base", "--is-ancestor", ancestor, descendant],
+        check=False,
+    )
+    if result.returncode == 0:
+        return True
+    if result.returncode == 1:
+        return False
+    return None
+
+
+def publication_url_rewrites(root: Path, push_url: str) -> list[tuple[str, str]]:
+    configured = run_git(
+        root,
+        [
+            "config",
+            "--get-regexp",
+            r"^url\..*\.(insteadof|pushinsteadof)$",
+        ],
+        check=False,
+    )
+    if configured.returncode == 1:
+        return []
+    if configured.returncode != 0:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "git_error",
+            "Не удалось проверить Git URL rewrite перед публикацией.",
+        )
+    matches: list[tuple[str, str]] = []
+    for line in configured.stdout.decode("utf-8", errors="strict").splitlines():
+        fields = line.split(None, 1)
+        if len(fields) != 2:
+            continue
+        key, prefix = fields
+        if push_url.startswith(prefix):
+            matches.append((key, prefix))
+    return matches
+
+
+def publication_url_rewrite_options(root: Path, push_url: str) -> list[str]:
+    matches = publication_url_rewrites(root, push_url)
+    instead_of = [
+        (len(prefix), key, prefix)
+        for key, prefix in matches
+        if key.lower().endswith(".insteadof")
+    ]
+    if not instead_of:
+        return []
+    _, key, prefix = max(instead_of)
+    return ["-c", f"{key}={prefix}"]
+
+
+def remote_contains_commit(
+    source_root: Path,
+    push_url: str,
+    branch_ref: str,
+    commit: str,
+) -> bool | None:
+    with tempfile.TemporaryDirectory(prefix="fum-github-publication-") as directory:
+        root = Path(directory)
+        disabled_hooks = root / "disabled-hooks"
+        disabled_hooks.mkdir()
+        initialized = run_publication_git(
+            root,
+            ["-c", f"core.hooksPath={disabled_hooks}", "init", "--bare", "."],
+        )
+        if initialized.returncode != 0:
+            return None
+        fetched = run_publication_git(
+            root,
+            [
+                "-c",
+                f"core.hooksPath={disabled_hooks}",
+                *publication_url_rewrite_options(source_root, push_url),
+                "fetch",
+                "--no-tags",
+                "--filter=blob:none",
+                push_url,
+                f"{branch_ref}:refs/fum/remote-tip",
+            ],
+        )
+        if fetched.returncode != 0:
+            return None
+        available = commit_exists(root, commit)
+        if available is None:
+            return None
+        if not available:
+            return False
+        remote_head = decoded_stdout(
+            run_git(root, ["rev-parse", "refs/fum/remote-tip"])
+        )
+        return is_ancestor(root, commit, remote_head)
+
+
+def publication_failure(
+    *,
+    state: str,
+    exit_code: int,
+    message: str,
+    commit: str,
+    branch_ref: str,
+    remote_head: str | None,
+) -> NoReturn:
+    payload: dict[str, object] = {
+        "commit": commit,
+        "branch_ref": branch_ref,
+    }
+    if remote_head is not None:
+        payload["remote_head"] = remote_head
+    raise QueueError(exit_code, state, message, payload=payload)
+
+
+def publish_exact_commit(
+    context: QueueContext,
+    commit: str,
+    branch_ref: str,
+    push_url: str,
+    *,
+    allow_url_rewrite_for_tests: bool = False,
+) -> tuple[int, dict[str, object]]:
+    commit = validate_publication_commit(context.root, commit)
+    branch_ref = validate_publication_branch(context.root, branch_ref)
+    push_url = validate_github_push_url(push_url)
+    rewrites = publication_url_rewrites(context.root, push_url)
+    if rewrites and not allow_url_rewrite_for_tests:
+        raise QueueError(
+            EXIT_CLI,
+            "invalid_url_rewrite",
+            "Применимое url.*.insteadOf или pushInsteadOf запрещает доказать точный GitHub endpoint.",
+        )
+    refspec = f"{commit}:{branch_ref}"
+    pushed = run_publication_git(
+        context.root,
+        [
+            "push",
+            "--porcelain",
+            "--no-verify",
+            "--no-follow-tags",
+            "--recurse-submodules=no",
+            "--no-signed",
+            "--no-push-option",
+            push_url,
+            refspec,
+        ],
+    )
+    if pushed.returncode == 0:
+        return 0, {
+            "state": "published",
+            "commit": commit,
+            "branch_ref": branch_ref,
+        }
+
+    observed, remote_head = remote_branch_head(context.root, push_url, branch_ref)
+    if not observed:
+        publication_failure(
+            state="unconfirmed",
+            exit_code=EXIT_PUBLICATION_UNCONFIRMED,
+            message="Результат отправки не подтверждён чтением удалённой ветки.",
+            commit=commit,
+            branch_ref=branch_ref,
+            remote_head=None,
+        )
+    if remote_head == commit:
+        return 0, {
+            "state": "published",
+            "commit": commit,
+            "branch_ref": branch_ref,
+            "remote_head": remote_head,
+        }
+    if remote_head is None:
+        publication_failure(
+            state="rejected",
+            exit_code=EXIT_PUBLICATION_REJECTED,
+            message="Удалённый сервер отклонил создание целевой ветки.",
+            commit=commit,
+            branch_ref=branch_ref,
+            remote_head=None,
+        )
+
+    remote_available = commit_exists(context.root, remote_head)
+    if remote_available is None:
+        publication_failure(
+            state="unconfirmed",
+            exit_code=EXIT_PUBLICATION_UNCONFIRMED,
+            message="Не удалось проверить удалённый commit object в локальном Git.",
+            commit=commit,
+            branch_ref=branch_ref,
+            remote_head=remote_head,
+        )
+    if remote_available:
+        commit_before_remote = is_ancestor(context.root, commit, remote_head)
+        if commit_before_remote is None:
+            publication_failure(
+                state="unconfirmed",
+                exit_code=EXIT_PUBLICATION_UNCONFIRMED,
+                message="Git не подтвердил отношение предка для удалённой вершины.",
+                commit=commit,
+                branch_ref=branch_ref,
+                remote_head=remote_head,
+            )
+        if commit_before_remote:
+            return 0, {
+                "state": "already_published_descendant",
+                "commit": commit,
+                "branch_ref": branch_ref,
+                "remote_head": remote_head,
+            }
+        remote_before_commit = is_ancestor(context.root, remote_head, commit)
+        if remote_before_commit is None:
+            publication_failure(
+                state="unconfirmed",
+                exit_code=EXIT_PUBLICATION_UNCONFIRMED,
+                message="Git не подтвердил отношение предка для локального коммита.",
+                commit=commit,
+                branch_ref=branch_ref,
+                remote_head=remote_head,
+            )
+        if remote_before_commit:
+            publication_failure(
+                state="rejected",
+                exit_code=EXIT_PUBLICATION_REJECTED,
+                message="Удалённый сервер отклонил непринудительное продвижение ветки.",
+                commit=commit,
+                branch_ref=branch_ref,
+                remote_head=remote_head,
+            )
+        publication_failure(
+            state="diverged",
+            exit_code=EXIT_PUBLICATION_DIVERGED,
+            message="Локальный коммит и удалённая ветка имеют расходящуюся историю.",
+            commit=commit,
+            branch_ref=branch_ref,
+            remote_head=remote_head,
+        )
+
+    contains = remote_contains_commit(context.root, push_url, branch_ref, commit)
+    if contains is None:
+        publication_failure(
+            state="unconfirmed",
+            exit_code=EXIT_PUBLICATION_UNCONFIRMED,
+            message="Не удалось проверить достижимость коммита из удалённой ветки.",
+            commit=commit,
+            branch_ref=branch_ref,
+            remote_head=remote_head,
+        )
+    if contains:
+        return 0, {
+            "state": "already_published_descendant",
+            "commit": commit,
+            "branch_ref": branch_ref,
+            "remote_head": remote_head,
+        }
+    publication_failure(
+        state="diverged",
+        exit_code=EXIT_PUBLICATION_DIVERGED,
+        message="Локальный коммит и удалённая ветка имеют расходящуюся историю.",
+        commit=commit,
+        branch_ref=branch_ref,
+        remote_head=remote_head,
+    )
+
+
 def queue_status(context: QueueContext) -> tuple[int, dict[str, object]]:
     ensure_live_branch(context)
     state, state_oid = read_state(context)
@@ -1431,6 +1940,16 @@ def build_parser() -> argparse.ArgumentParser:
     message_group = commit.add_mutually_exclusive_group(required=True)
     message_group.add_argument("--message")
     message_group.add_argument("--message-file")
+
+    publish = subparsers.add_parser(
+        "publish",
+        help="Опубликовать точный коммит в точную ветку GitHub.",
+        allow_abbrev=False,
+    )
+    add_common(publish)
+    publish.add_argument("--commit", required=True)
+    publish.add_argument("--branch-ref", required=True)
+    publish.add_argument("--push-url", required=True)
     return parser
 
 
@@ -1494,6 +2013,13 @@ def main(argv: list[str] | None = None) -> int:
                 args.task_id,
                 args.generation,
                 commit_message_from_args(args),
+            )
+        elif args.command == "publish":
+            code, payload = publish_exact_commit(
+                context,
+                args.commit,
+                args.branch_ref,
+                args.push_url,
             )
         else:  # pragma: no cover - argparse makes this unreachable.
             raise AssertionError(args.command)

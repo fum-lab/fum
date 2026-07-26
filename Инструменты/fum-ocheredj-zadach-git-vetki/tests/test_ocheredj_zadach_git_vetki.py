@@ -32,6 +32,19 @@ HEAD_BOOTSTRAP_CODE = (
     "sys.argv=[p,*sys.argv[2:],'--repo-root',r];"
     "exec(compile(b,p,'exec'))"
 )
+PUBLICATION_BOOTSTRAP_CODE = (
+    "import os,subprocess,sys;"
+    f"p={SCRIPT_REPO_PATH!r};"
+    "r=sys.argv[1];"
+    "h=sys.argv[2];"
+    "e={k:v for k,v in os.environ.items() if not k.upper().startswith('GIT_')};"
+    "e['GIT_NO_REPLACE_OBJECTS']='1';"
+    "e['GIT_OPTIONAL_LOCKS']='0';"
+    "b=subprocess.check_output("
+    "['git','--no-replace-objects','-C',r,'show',h+':'+p],env=e,timeout=30);"
+    "sys.argv=[p,*sys.argv[3:],'--repo-root',r];"
+    "exec(compile(b,p,'exec'))"
+)
 COMPATIBILITY_SCRIPT_PATH = (
     REPO_ROOT
     / "Инструменты"
@@ -975,6 +988,488 @@ class QueueSafetyTests(GitQueueFixture):
         self.assertNotIn("release", result.stdout.lower())
 
 
+class GitHubPublicationTests(GitQueueFixture):
+    push_url = "https://github.com/fum-test/fum-publication-fixture.git"
+    branch_ref = "refs/heads/master"
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.module = load_queue_module()
+        self.remote = Path(self.temporary_directory.name) / "remote.git"
+        subprocess.run(
+            ["git", "init", "--bare", "-b", "master", str(self.remote)],
+            check=True,
+            capture_output=True,
+        )
+        self.git(
+            "config",
+            f"url.{self.remote.as_uri()}.insteadOf",
+            self.push_url,
+        )
+        self.git("push", self.push_url, f"HEAD:{self.branch_ref}")
+
+    def publish(self, commit: str) -> subprocess.CompletedProcess[str]:
+        try:
+            code, payload = self.module.publish_exact_commit(
+                self.module.resolve_context(self.repo),
+                commit,
+                self.branch_ref,
+                self.push_url,
+                allow_url_rewrite_for_tests=True,
+            )
+        except self.module.QueueError as error:
+            code = error.exit_code
+            payload = self.module.error_payload(error)
+        return subprocess.CompletedProcess(
+            args=["publish"],
+            returncode=code,
+            stdout=json.dumps(payload, ensure_ascii=True, sort_keys=True) + "\n",
+            stderr="",
+        )
+
+    def make_commit(self, value: str, message: str) -> str:
+        (self.repo / "tracked.txt").write_text(value, encoding="utf-8")
+        self.git("add", "tracked.txt")
+        self.git("commit", "-m", message)
+        return self.git("rev-parse", "HEAD").stdout.strip()
+
+    def remote_head(self) -> str:
+        return subprocess.run(
+            ["git", "--git-dir", str(self.remote), "rev-parse", self.branch_ref],
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+
+    def remote_refs(self, pattern: str) -> str:
+        return subprocess.run(
+            ["git", "--git-dir", str(self.remote), "for-each-ref", pattern],
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout
+
+    def local_refs(self) -> str:
+        return self.git(
+            "for-each-ref",
+            "--format=%(refname)%00%(objectname)",
+        ).stdout
+
+    def test_publish_uses_exact_commit_when_current_head_has_advanced(self) -> None:
+        first = self.make_commit("first\n", "First")
+        second = self.make_commit("second\n", "Second")
+        refs_before = self.local_refs()
+
+        result = self.publish(first)
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(self.payload(result)["state"], "published")
+        self.assertEqual(self.remote_head(), first)
+        self.assertEqual(self.git("rev-parse", "HEAD").stdout.strip(), second)
+        self.assertEqual(self.local_refs(), refs_before)
+
+    def test_older_commit_is_already_published_through_remote_descendant(self) -> None:
+        first = self.make_commit("first\n", "First")
+        second = self.make_commit("second\n", "Second")
+        self.assertEqual(self.publish(second).returncode, 0)
+
+        result = self.publish(first)
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(
+            self.payload(result)["state"],
+            "already_published_descendant",
+        )
+        self.assertEqual(self.remote_head(), second)
+
+    def test_unknown_remote_descendant_is_verified_in_temporary_bare_repo(self) -> None:
+        target = self.make_commit("target\n", "Target")
+        self.assertEqual(self.publish(target).returncode, 0)
+        other = Path(self.temporary_directory.name) / "descendant"
+        subprocess.run(
+            ["git", "clone", self.remote.as_uri(), str(other)],
+            check=True,
+            capture_output=True,
+        )
+        subprocess.run(
+            ["git", "config", "user.name", "FUM Descendant"],
+            cwd=other,
+            check=True,
+        )
+        subprocess.run(
+            ["git", "config", "user.email", "descendant@example.invalid"],
+            cwd=other,
+            check=True,
+        )
+        (other / "tracked.txt").write_text("descendant\n", encoding="utf-8")
+        subprocess.run(["git", "add", "tracked.txt"], cwd=other, check=True)
+        subprocess.run(
+            ["git", "commit", "-m", "Remote descendant"],
+            cwd=other,
+            check=True,
+            capture_output=True,
+        )
+        subprocess.run(
+            ["git", "push", "origin", f"HEAD:{self.branch_ref}"],
+            cwd=other,
+            check=True,
+            capture_output=True,
+        )
+        remote_descendant = self.remote_head()
+        self.assertFalse(
+            self.git("cat-file", "-e", remote_descendant, check=False).returncode == 0
+        )
+
+        hooks = Path(self.temporary_directory.name) / "global-hooks"
+        hooks.mkdir()
+        marker = Path(self.temporary_directory.name) / "reference-hook-ran"
+        hook = hooks / "reference-transaction"
+        hook.write_text(
+            f"#!{sys.executable}\n"
+            "from pathlib import Path\n"
+            f"Path({str(marker)!r}).touch()\n",
+            encoding="utf-8",
+        )
+        hook.chmod(0o755)
+        xdg = Path(self.temporary_directory.name) / "xdg" / "git"
+        xdg.mkdir(parents=True)
+        (xdg / "config").write_text(
+            f"[core]\n\thooksPath = {hooks}\n",
+            encoding="utf-8",
+        )
+        with mock.patch.dict(
+            os.environ,
+            {"XDG_CONFIG_HOME": str(xdg.parent)},
+        ):
+            result = self.publish(target)
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(
+            self.payload(result)["state"],
+            "already_published_descendant",
+        )
+        self.assertEqual(self.remote_head(), remote_descendant)
+        self.assertFalse(marker.exists())
+
+    def test_divergent_remote_is_not_changed(self) -> None:
+        target = self.make_commit("target\n", "Target")
+        other = Path(self.temporary_directory.name) / "other"
+        subprocess.run(
+            ["git", "clone", self.remote.as_uri(), str(other)],
+            check=True,
+            capture_output=True,
+        )
+        subprocess.run(
+            ["git", "config", "user.name", "FUM Other"],
+            cwd=other,
+            check=True,
+        )
+        subprocess.run(
+            ["git", "config", "user.email", "other@example.invalid"],
+            cwd=other,
+            check=True,
+        )
+        (other / "tracked.txt").write_text("divergent\n", encoding="utf-8")
+        subprocess.run(["git", "add", "tracked.txt"], cwd=other, check=True)
+        subprocess.run(
+            ["git", "commit", "-m", "Divergent"],
+            cwd=other,
+            check=True,
+            capture_output=True,
+        )
+        subprocess.run(
+            ["git", "push", "origin", f"HEAD:{self.branch_ref}"],
+            cwd=other,
+            check=True,
+            capture_output=True,
+        )
+        divergent = self.remote_head()
+
+        result = self.publish(target)
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual(self.payload(result)["state"], "diverged")
+        self.assertEqual(self.remote_head(), divergent)
+
+    def test_receive_rejection_is_not_reported_as_success(self) -> None:
+        target = self.make_commit("target\n", "Target")
+        hook = self.remote / "hooks" / "pre-receive"
+        hook.write_text(
+            f"#!{sys.executable}\nraise SystemExit(1)\n",
+            encoding="utf-8",
+        )
+        hook.chmod(0o755)
+        remote_before = self.remote_head()
+
+        result = self.publish(target)
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual(self.payload(result)["state"], "rejected")
+        self.assertEqual(self.remote_head(), remote_before)
+
+    def test_pre_push_hook_is_disabled(self) -> None:
+        target = self.make_commit("target\n", "Target")
+        hooks = Path(self.temporary_directory.name) / "hooks"
+        hooks.mkdir()
+        marker = Path(self.temporary_directory.name) / "pre-push-ran"
+        hook = hooks / "pre-push"
+        hook.write_text(
+            f"#!{sys.executable}\n"
+            "from pathlib import Path\n"
+            f"Path({str(marker)!r}).touch()\n"
+            "raise SystemExit(1)\n",
+            encoding="utf-8",
+        )
+        hook.chmod(0o755)
+        self.git("config", "core.hooksPath", str(hooks))
+
+        result = self.publish(target)
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertFalse(marker.exists())
+        self.assertEqual(self.remote_head(), target)
+
+    def test_follow_tags_configuration_cannot_expand_publication(self) -> None:
+        target = self.make_commit("target\n", "Target")
+        self.git("tag", "-a", "must-not-publish", "-m", "Local tag")
+        self.git("config", "push.followTags", "true")
+
+        result = self.publish(target)
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(self.remote_head(), target)
+        self.assertEqual(self.remote_refs("refs/tags"), "")
+
+    def test_ambiguous_push_result_is_verified_against_remote_head(self) -> None:
+        target = self.make_commit("target\n", "Target")
+        timeout = subprocess.CompletedProcess(
+            args=["git", "push"],
+            returncode=124,
+            stdout=b"",
+            stderr=b"",
+        )
+        observed = subprocess.CompletedProcess(
+            args=["git", "ls-remote"],
+            returncode=0,
+            stdout=f"{target}\t{self.branch_ref}\n".encode(),
+            stderr=b"",
+        )
+        with mock.patch.object(
+            self.module,
+            "run_publication_git",
+            side_effect=[timeout, observed],
+        ):
+            code, payload = self.module.publish_exact_commit(
+                self.module.resolve_context(self.repo),
+                target,
+                self.branch_ref,
+                self.push_url,
+                allow_url_rewrite_for_tests=True,
+            )
+
+        self.assertEqual(code, 0)
+        self.assertEqual(payload["state"], "published")
+        self.assertEqual(payload["remote_head"], target)
+
+    def test_failed_remote_verification_is_unconfirmed(self) -> None:
+        target = self.make_commit("target\n", "Target")
+        failed_push = subprocess.CompletedProcess(
+            args=["git", "push"],
+            returncode=1,
+            stdout=b"",
+            stderr=b"",
+        )
+        failed_read = subprocess.CompletedProcess(
+            args=["git", "ls-remote"],
+            returncode=1,
+            stdout=b"",
+            stderr=b"",
+        )
+        with mock.patch.object(
+            self.module,
+            "run_publication_git",
+            side_effect=[failed_push, failed_read],
+        ):
+            result = self.publish(target)
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual(self.payload(result)["state"], "unconfirmed")
+
+    def test_ancestry_git_error_is_unconfirmed(self) -> None:
+        target = self.make_commit("target\n", "Target")
+        remote_before = self.remote_head()
+        failed_push = subprocess.CompletedProcess(
+            args=["git", "push"],
+            returncode=1,
+            stdout=b"",
+            stderr=b"",
+        )
+        observed = subprocess.CompletedProcess(
+            args=["git", "ls-remote"],
+            returncode=0,
+            stdout=f"{remote_before}\t{self.branch_ref}\n".encode(),
+            stderr=b"",
+        )
+        with (
+            mock.patch.object(
+                self.module,
+                "run_publication_git",
+                side_effect=[failed_push, observed],
+            ),
+            mock.patch.object(self.module, "commit_exists", return_value=True),
+            mock.patch.object(self.module, "is_ancestor", return_value=None),
+        ):
+            result = self.publish(target)
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual(self.payload(result)["state"], "unconfirmed")
+
+    @unittest.skipUnless(os.name == "posix", "requires POSIX process groups")
+    def test_timeout_stops_transport_descendants_before_return(self) -> None:
+        fake_bin = Path(self.temporary_directory.name) / "fake-bin"
+        fake_bin.mkdir()
+        marker = Path(self.temporary_directory.name) / "late-transport-write"
+        fake_git = fake_bin / "git"
+        child_code = (
+            "import time\n"
+            "from pathlib import Path\n"
+            "time.sleep(1)\n"
+            f"Path({str(marker)!r}).touch()\n"
+        )
+        fake_git.write_text(
+            f"#!{sys.executable}\n"
+            "import subprocess\n"
+            "import time\n"
+            f"subprocess.Popen([{sys.executable!r}, '-c', {child_code!r}])\n"
+            "time.sleep(30)\n",
+            encoding="utf-8",
+        )
+        fake_git.chmod(0o755)
+        path = os.pathsep.join([str(fake_bin), os.environ.get("PATH", os.defpath)])
+
+        with (
+            mock.patch.dict(os.environ, {"PATH": path}),
+            mock.patch.object(
+                self.module,
+                "PUBLICATION_GIT_TIMEOUT_SECONDS",
+                0.1,
+            ),
+            mock.patch.object(
+                self.module,
+                "PUBLICATION_TERMINATION_GRACE_SECONDS",
+                0.1,
+            ),
+        ):
+            result = self.module.run_publication_git(self.repo, ["version"])
+
+        self.assertEqual(result.returncode, 124)
+        time.sleep(1.2)
+        self.assertFalse(marker.exists())
+
+    def test_publication_bootstrap_ignores_moving_worktree_script(self) -> None:
+        committed_script = self.repo / SCRIPT_REPO_PATH
+        committed_script.parent.mkdir(parents=True)
+        committed_script.write_bytes(SCRIPT_PATH.read_bytes())
+        self.git("add", SCRIPT_REPO_PATH)
+        self.git("commit", "-m", "Add exact publisher")
+        target = self.git("rev-parse", "HEAD").stdout.strip()
+        committed_script.write_text(
+            "raise SystemExit('worktree script must not run')\n",
+            encoding="utf-8",
+        )
+        self.git("add", SCRIPT_REPO_PATH)
+        self.git("commit", "-m", "Advance moving publisher")
+        self.assertNotEqual(self.git("rev-parse", "HEAD").stdout.strip(), target)
+
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-I",
+                "-c",
+                PUBLICATION_BOOTSTRAP_CODE,
+                str(self.repo),
+                target,
+                "publish",
+                "--commit",
+                target,
+                "--branch-ref",
+                self.branch_ref,
+                "--push-url",
+                self.push_url,
+                "--json",
+            ],
+            cwd=self.repo,
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual(self.payload(result)["state"], "invalid_url_rewrite")
+
+    def test_cli_rejects_instead_of_and_push_instead_of_rewrites(self) -> None:
+        target = self.git("rev-parse", "HEAD").stdout.strip()
+        instead_of_key = f"url.{self.remote.as_uri()}.insteadOf"
+        push_instead_of_key = f"url.{self.remote.as_uri()}.pushInsteadOf"
+        for key in [instead_of_key, push_instead_of_key]:
+            with self.subTest(key=key):
+                self.git("config", "--unset-all", instead_of_key, check=False)
+                self.git("config", "--unset-all", push_instead_of_key, check=False)
+                self.git("config", key, self.push_url)
+                result = self.run_queue(
+                    "publish",
+                    "--repo-root",
+                    str(self.repo),
+                    "--commit",
+                    target,
+                    "--branch-ref",
+                    self.branch_ref,
+                    "--push-url",
+                    self.push_url,
+                    "--json",
+                )
+                self.assertNotEqual(result.returncode, 0)
+                self.assertEqual(
+                    self.payload(result)["state"],
+                    "invalid_url_rewrite",
+                )
+
+    def test_invalid_publication_inputs_fail_before_transport(self) -> None:
+        target = self.git("rev-parse", "HEAD").stdout.strip()
+        invalid_arguments = [
+            ("--commit", "HEAD"),
+            ("--branch-ref", "master"),
+            ("--push-url", "https://token@github.com/fum-test/fum.git"),
+            ("--push-url", "https://example.com/fum-test/fum.git"),
+            ("--push-url", "git@github.com:fum-test/fum.git"),
+        ]
+        module = load_queue_module()
+        for option, value in invalid_arguments:
+            with self.subTest(option=option, value=value):
+                arguments = [
+                    "publish",
+                    "--repo-root",
+                    str(self.repo),
+                    "--commit",
+                    target,
+                    "--branch-ref",
+                    self.branch_ref,
+                    "--push-url",
+                    self.push_url,
+                    "--json",
+                ]
+                arguments[arguments.index(option) + 1] = value
+                with (
+                    mock.patch.object(module, "run_publication_git") as transport,
+                    mock.patch("sys.stdout", new_callable=io.StringIO) as stdout,
+                ):
+                    code = module.main(arguments)
+                self.assertNotEqual(code, 0)
+                self.assertTrue(json.loads(stdout.getvalue())["state"].startswith("invalid_"))
+                transport.assert_not_called()
+
+
 class RepositoryIntegrationTests(unittest.TestCase):
     def test_project_configuration_has_no_hooks(self) -> None:
         with CONFIG_PATH.open("rb") as stream:
@@ -993,6 +1488,7 @@ class RepositoryIntegrationTests(unittest.TestCase):
             "ack-head",
             "finish-clean",
             "commit",
+            "publish",
         ]:
             self.assertIn(f"`{command}`", agents)
         self.assertIn("порядке атомарной регистрации", agents)
@@ -1015,6 +1511,9 @@ class RepositoryIntegrationTests(unittest.TestCase):
         self.assertIn("Прямой вызов", skill)
         self.assertIn("--timeout-seconds 300", skill)
         self.assertIn("wait-until-actionable", skill)
+        self.assertIn(PUBLICATION_BOOTSTRAP_CODE, skill)
+        self.assertIn("<new_head>:<branch_ref>", agents)
+        self.assertIn("<new_head>:<branch_ref>", skill)
 
         self.assertIn("один долгоживущий `wait-until-actionable`", agents)
         self.assertIn("не отправляет промежуточные сообщения", agents)
