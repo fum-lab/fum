@@ -1,7 +1,10 @@
 import Foundation
 
-func validateMemoryGeneration(_ generation: MemoryGeneration) throws {
-  guard generation.schemaVersion == 1 else {
+@discardableResult
+func validateMemoryGeneration(
+  _ generation: MemoryGeneration
+) throws -> MemoryPopulationArtifact {
+  guard generation.schemaVersion == MemoryGeneration.currentSchemaVersion else {
     throw MemoryPopulationError.incompatibleGeneration(
       "Неподдерживаемая версия схемы поколения."
     )
@@ -12,6 +15,8 @@ func validateMemoryGeneration(_ generation: MemoryGeneration) throws {
     )
   }
   guard isMemorySHA256(generation.inputSHA256),
+    isMemorySHA256(generation.seedSHA256),
+    isMemorySHA256(generation.eventJournalSHA256),
     isMemorySHA256(generation.snapshotSHA256),
     isMemorySHA256(generation.traceSHA256),
     isMemorySHA256(generation.viewModelSHA256),
@@ -19,6 +24,23 @@ func validateMemoryGeneration(_ generation: MemoryGeneration) throws {
   else {
     throw MemoryPopulationError.corruptGeneration(
       "Поколение содержит некорректный SHA-256."
+    )
+  }
+  guard generation.seed.schemaVersion == 1,
+    generation.seed.kind == .empty,
+    generation.seed.policyVersion == generation.policyVersion,
+    generation.eventJournal.schemaVersion == MemoryPopulationPolicy.schemaVersion,
+    generation.eventJournal.policyVersion == generation.policyVersion
+  else {
+    throw MemoryPopulationError.incompatibleGeneration(
+      "Неподдерживаемая версия seed или журнала событий."
+    )
+  }
+  guard generation.seed.datasetID == generation.eventJournal.datasetID,
+    generation.seed.datasetID == generation.snapshot.datasetID
+  else {
+    throw MemoryPopulationError.corruptGeneration(
+      "dataset_id seed, журнала событий и снимка расходятся."
     )
   }
   guard generation.snapshot.schemaVersion == 1,
@@ -53,6 +75,12 @@ func validateMemoryGeneration(_ generation: MemoryGeneration) throws {
     )
   }
 
+  let seedHash = CanonicalMemoryJSON.sha256(
+    try CanonicalMemoryJSON.encode(generation.seed)
+  )
+  let eventJournalHash = CanonicalMemoryJSON.sha256(
+    try CanonicalMemoryJSON.encode(generation.eventJournal)
+  )
   let snapshotHash = CanonicalMemoryJSON.sha256(
     try CanonicalMemoryJSON.encode(generation.snapshot)
   )
@@ -62,7 +90,9 @@ func validateMemoryGeneration(_ generation: MemoryGeneration) throws {
   let viewModelHash = CanonicalMemoryJSON.sha256(
     try CanonicalMemoryJSON.encode(generation.viewModel)
   )
-  guard snapshotHash == generation.snapshotSHA256,
+  guard seedHash == generation.seedSHA256,
+    eventJournalHash == generation.eventJournalSHA256,
+    snapshotHash == generation.snapshotSHA256,
     traceHash == generation.traceSHA256,
     viewModelHash == generation.viewModelSHA256
   else {
@@ -79,6 +109,8 @@ func validateMemoryGeneration(_ generation: MemoryGeneration) throws {
   }
   let entries = generation.trace.entries
   let eventIDs = entries.map(\.eventID)
+  let journalEvents = generation.eventJournal.events
+  let journalEventIDs = journalEvents.map(\.id)
   let recordKeys = generation.snapshot.records.map(\.key)
   guard
     !entries.isEmpty,
@@ -91,7 +123,8 @@ func validateMemoryGeneration(_ generation: MemoryGeneration) throws {
     Set(recordKeys).count == recordKeys.count,
     recordKeys.allSatisfy(isMemoryIdentifier),
     !generation.provenance.inputEventIDs.isEmpty,
-    generation.provenance.acceptedEventIDs == eventIDs,
+    journalEventIDs == eventIDs,
+    generation.provenance.acceptedEventIDs == journalEventIDs,
     Array(eventIDs.suffix(generation.provenance.inputEventIDs.count))
       == generation.provenance.inputEventIDs,
     generation.provenance.memoryExecutorVersion == MemoryPopulationPolicy.executorID,
@@ -101,6 +134,55 @@ func validateMemoryGeneration(_ generation: MemoryGeneration) throws {
     throw MemoryPopulationError.corruptGeneration(
       "Происхождение поколения не согласовано с трассой."
     )
+  }
+  if generation.previousGenerationSHA256 == nil {
+    guard generation.provenance.inputEventIDs == journalEventIDs else {
+      throw MemoryPopulationError.corruptGeneration(
+        "Начальное поколение не происходит из всего журнала событий."
+      )
+    }
+  } else {
+    guard generation.provenance.inputEventIDs.count < journalEventIDs.count else {
+      throw MemoryPopulationError.corruptGeneration(
+        "Происхождение преемника не выделяет добавленный суффикс журнала."
+      )
+    }
+  }
+
+  let currentInput = MemoryPopulationProgram(
+    schemaVersion: generation.eventJournal.schemaVersion,
+    policyVersion: generation.eventJournal.policyVersion,
+    datasetID: generation.eventJournal.datasetID,
+    events: Array(journalEvents.suffix(generation.provenance.inputEventIDs.count))
+  )
+  let currentInputSHA256 = CanonicalMemoryJSON.sha256(
+    try CanonicalMemoryJSON.encode(currentInput)
+  )
+  guard generation.inputSHA256 == currentInputSHA256 else {
+    throw MemoryPopulationError.corruptGeneration(
+      "Хэш текущего канонического входа не выводится из журнала событий."
+    )
+  }
+
+  for (event, entry) in zip(journalEvents, entries) {
+    let expectedReads: [String]
+    switch event.operation {
+    case .remember:
+      expectedReads = []
+    case .compose:
+      expectedReads = event.sources ?? []
+    }
+    guard event.sequence == entry.ordinal,
+      event.operation == entry.operation,
+      entry.writes == [event.target],
+      entry.reads == expectedReads,
+      CanonicalMemoryJSON.sha256(try CanonicalMemoryJSON.encode(event))
+        == entry.sourceEventSHA256
+    else {
+      throw MemoryPopulationError.corruptGeneration(
+        "Каноническое событие не согласовано с трассой."
+      )
+    }
   }
 
   let recordsByKey = Dictionary(
@@ -175,6 +257,34 @@ func validateMemoryGeneration(_ generation: MemoryGeneration) throws {
       "Снимок содержит запись без породившего шага трассы."
     )
   }
+
+  let replayed: MemoryPopulationArtifact
+  do {
+    replayed = try MemoryPopulationEngine().replay(
+      seed: generation.seed,
+      eventJournal: generation.eventJournal,
+      inputSHA256: currentInputSHA256
+    )
+  } catch let error as MemoryPopulationError {
+    if case .incompatibleGeneration = error {
+      throw error
+    }
+    throw MemoryPopulationError.corruptGeneration(
+      "Канонический журнал событий не исполняется точной версией политики."
+    )
+  }
+  guard replayed.snapshot == generation.snapshot,
+    replayed.trace == generation.trace,
+    replayed.viewModel == generation.viewModel,
+    replayed.snapshotSHA256 == generation.snapshotSHA256,
+    replayed.traceSHA256 == generation.traceSHA256,
+    replayed.viewModelSHA256 == generation.viewModelSHA256
+  else {
+    throw MemoryPopulationError.corruptGeneration(
+      "Поколение не выводится из канонического журнала событий."
+    )
+  }
+  return replayed
 }
 
 private func orderedUniqueEventIDs(_ values: [String]) -> [String] {

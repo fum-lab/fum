@@ -108,14 +108,50 @@ public struct MemoryGenerationProvenance: Codable, Equatable, Sendable {
   }
 }
 
+public enum MemoryGenerationSeedKind: String, Codable, Equatable, Sendable {
+  case empty
+}
+
+public struct MemoryGenerationSeed: Codable, Equatable, Sendable {
+  public let schemaVersion: Int
+  public let kind: MemoryGenerationSeedKind
+  public let policyVersion: String
+  public let datasetID: String
+
+  enum CodingKeys: String, CodingKey {
+    case schemaVersion = "schema_version"
+    case kind
+    case policyVersion = "policy_version"
+    case datasetID = "dataset_id"
+  }
+
+  public init(
+    schemaVersion: Int,
+    kind: MemoryGenerationSeedKind,
+    policyVersion: String,
+    datasetID: String
+  ) {
+    self.schemaVersion = schemaVersion
+    self.kind = kind
+    self.policyVersion = policyVersion
+    self.datasetID = datasetID
+  }
+}
+
 public struct MemoryGeneration: Codable, Equatable, Sendable {
+  public static let currentSchemaVersion = 2
+
   public let schemaVersion: Int
   public let policyVersion: String
   public let previousGenerationSHA256: String?
   public let inputSHA256: String
+  public let seedSHA256: String
+  public let eventJournalSHA256: String
   public let snapshotSHA256: String
   public let traceSHA256: String
   public let viewModelSHA256: String
+  public let seed: MemoryGenerationSeed
+  public let eventJournal: MemoryPopulationProgram
   public let snapshot: MemorySnapshot
   public let trace: MemoryExecutionTrace
   public let viewModel: MemoryViewModel
@@ -126,9 +162,13 @@ public struct MemoryGeneration: Codable, Equatable, Sendable {
     case policyVersion = "policy_version"
     case previousGenerationSHA256 = "previous_generation_sha256"
     case inputSHA256 = "input_sha256"
+    case seedSHA256 = "seed_sha256"
+    case eventJournalSHA256 = "event_journal_sha256"
     case snapshotSHA256 = "snapshot_sha256"
     case traceSHA256 = "trace_sha256"
     case viewModelSHA256 = "view_model_sha256"
+    case seed
+    case eventJournal = "event_journal"
     case snapshot
     case trace
     case viewModel = "view_model"
@@ -140,9 +180,13 @@ public struct MemoryGeneration: Codable, Equatable, Sendable {
     policyVersion: String,
     previousGenerationSHA256: String?,
     inputSHA256: String,
+    seedSHA256: String,
+    eventJournalSHA256: String,
     snapshotSHA256: String,
     traceSHA256: String,
     viewModelSHA256: String,
+    seed: MemoryGenerationSeed,
+    eventJournal: MemoryPopulationProgram,
     snapshot: MemorySnapshot,
     trace: MemoryExecutionTrace,
     viewModel: MemoryViewModel,
@@ -152,9 +196,13 @@ public struct MemoryGeneration: Codable, Equatable, Sendable {
     self.policyVersion = policyVersion
     self.previousGenerationSHA256 = previousGenerationSHA256
     self.inputSHA256 = inputSHA256
+    self.seedSHA256 = seedSHA256
+    self.eventJournalSHA256 = eventJournalSHA256
     self.snapshotSHA256 = snapshotSHA256
     self.traceSHA256 = traceSHA256
     self.viewModelSHA256 = viewModelSHA256
+    self.seed = seed
+    self.eventJournal = eventJournal
     self.snapshot = snapshot
     self.trace = trace
     self.viewModel = viewModel

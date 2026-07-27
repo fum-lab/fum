@@ -33,7 +33,10 @@ let package = Package(
     .testTarget(
       name: "FUMReproducibleMemoryPopulationTests",
       dependencies: ["FUMReproducibleMemoryPopulation"],
-      path: "Tests/FUMReproducibleMemoryPopulationTests"
+      path: "Tests/FUMReproducibleMemoryPopulationTests",
+      resources: [
+        .copy("Фикстуры")
+      ]
     ),
   ]
 )

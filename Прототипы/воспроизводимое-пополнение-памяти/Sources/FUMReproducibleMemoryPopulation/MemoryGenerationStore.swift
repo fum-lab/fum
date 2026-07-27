@@ -10,6 +10,14 @@ private struct MemoryGenerationPointer: Codable, Equatable {
   }
 }
 
+private struct MemoryGenerationSchemaEnvelope: Decodable {
+  let schemaVersion: Int
+
+  enum CodingKeys: String, CodingKey {
+    case schemaVersion = "schema_version"
+  }
+}
+
 public struct MemoryGenerationStore {
   private static let maximumPointerBytes = 4_096
   private static let maximumGenerationBytes = 16_777_216
@@ -70,6 +78,30 @@ public struct MemoryGenerationStore {
     guard CanonicalMemoryJSON.sha256(generationData) == pointer.generationSHA256 else {
       throw MemoryPopulationError.corruptGeneration(
         "Хэш файла поколения не совпадает с указателем CURRENT."
+      )
+    }
+
+    let generationEnvelope: MemoryGenerationSchemaEnvelope
+    do {
+      generationEnvelope = try JSONDecoder().decode(
+        MemoryGenerationSchemaEnvelope.self,
+        from: generationData
+      )
+    } catch {
+      throw MemoryPopulationError.corruptGeneration(
+        "Файл поколения не содержит версию схемы."
+      )
+    }
+    switch generationEnvelope.schemaVersion {
+    case 1:
+      throw MemoryPopulationError.incompatibleGeneration(
+        "Поколение схемы 1 не содержит канонического журнала событий; самодостаточное воспроизведение невозможно."
+      )
+    case MemoryGeneration.currentSchemaVersion:
+      break
+    default:
+      throw MemoryPopulationError.incompatibleGeneration(
+        "Файл поколения имеет неподдерживаемую версию схемы."
       )
     }
 
@@ -171,7 +203,9 @@ public struct MemoryGenerationStore {
     guard let current else {
       guard
         generation.provenance.inputEventIDs
-          == generation.trace.entries.map(\.eventID)
+          == generation.trace.entries.map(\.eventID),
+        generation.eventJournal.events.map(\.id)
+          == generation.provenance.inputEventIDs
       else {
         throw MemoryPopulationError.incompatibleGeneration(
           "Начальное поколение должно происходить из всей принятой трассы."
@@ -181,18 +215,27 @@ public struct MemoryGenerationStore {
     }
 
     let previous = current.generation
+    guard generation.seed == previous.seed else {
+      throw MemoryPopulationError.incompatibleGeneration(
+        "Преемник изменяет seed подтверждённой памяти."
+      )
+    }
     let previousEntries = previous.trace.entries
     let nextEntries = generation.trace.entries
+    let previousEvents = previous.eventJournal.events
+    let nextEvents = generation.eventJournal.events
     guard generation.snapshot.datasetID == previous.snapshot.datasetID else {
       throw MemoryPopulationError.incompatibleGeneration(
         "dataset_id преемника не совпадает с подтверждённой памятью."
       )
     }
     guard nextEntries.count > previousEntries.count,
-      Array(nextEntries.prefix(previousEntries.count)) == previousEntries
+      Array(nextEntries.prefix(previousEntries.count)) == previousEntries,
+      nextEvents.count > previousEvents.count,
+      Array(nextEvents.prefix(previousEvents.count)) == previousEvents
     else {
       throw MemoryPopulationError.incompatibleGeneration(
-        "Трасса преемника не продолжает подтверждённую трассу."
+        "Журнал событий и трасса преемника не продолжают подтверждённую историю."
       )
     }
 
@@ -205,7 +248,10 @@ public struct MemoryGenerationStore {
       )
     }
     let appendedEventIDs = nextEntries.dropFirst(previousEntries.count).map(\.eventID)
-    guard generation.provenance.inputEventIDs == appendedEventIDs else {
+    let appendedJournalEventIDs = nextEvents.dropFirst(previousEvents.count).map(\.id)
+    guard generation.provenance.inputEventIDs == appendedEventIDs,
+      generation.provenance.inputEventIDs == appendedJournalEventIDs
+    else {
       throw MemoryPopulationError.incompatibleGeneration(
         "Происхождение входа не совпадает с добавленной частью трассы."
       )

@@ -22,23 +22,56 @@ public struct MemoryPopulationEngine: Sendable {
   public init() {}
 
   public func run(_ input: Data) throws -> MemoryPopulationArtifact {
-    try execute(input, continuingFrom: nil).artifact
+    let program = try decodeExternalProgram(input)
+    return try execute(
+      program,
+      inputSHA256: CanonicalMemoryJSON.sha256(input),
+      continuingFrom: nil
+    ).artifact
   }
 
   public func generation(
     from input: Data,
     continuingFrom previous: StoredMemoryGeneration? = nil
   ) throws -> MemoryGeneration {
-    let result = try execute(input, continuingFrom: previous)
+    let program = try decodeExternalProgram(input)
+    let result = try execute(
+      program,
+      inputSHA256: CanonicalMemoryJSON.sha256(input),
+      continuingFrom: previous
+    )
     let artifact = result.artifact
+    let seed =
+      previous?.generation.seed
+      ?? MemoryGenerationSeed(
+        schemaVersion: 1,
+        kind: .empty,
+        policyVersion: MemoryPopulationPolicy.version,
+        datasetID: result.program.datasetID
+      )
+    let eventJournal = MemoryPopulationProgram(
+      schemaVersion: MemoryPopulationPolicy.schemaVersion,
+      policyVersion: MemoryPopulationPolicy.version,
+      datasetID: result.program.datasetID,
+      events: (previous?.generation.eventJournal.events ?? []) + result.program.events
+    )
+    let canonicalInput = try CanonicalMemoryJSON.encode(result.program)
     let generation = MemoryGeneration(
-      schemaVersion: 1,
+      schemaVersion: MemoryGeneration.currentSchemaVersion,
       policyVersion: MemoryPopulationPolicy.version,
       previousGenerationSHA256: previous?.generationSHA256,
-      inputSHA256: artifact.inputSHA256,
+      inputSHA256: CanonicalMemoryJSON.sha256(canonicalInput),
+      seedSHA256: CanonicalMemoryJSON.sha256(
+        try CanonicalMemoryJSON.encode(seed)
+      ),
+      eventJournalSHA256: CanonicalMemoryJSON.sha256(
+        try CanonicalMemoryJSON.encode(eventJournal)
+      ),
       snapshotSHA256: artifact.snapshotSHA256,
       traceSHA256: artifact.traceSHA256,
       viewModelSHA256: artifact.viewModelSHA256,
+      seed: seed,
+      eventJournal: eventJournal,
       snapshot: artifact.snapshot,
       trace: artifact.trace,
       viewModel: artifact.viewModel,
@@ -53,22 +86,54 @@ public struct MemoryPopulationEngine: Sendable {
     return generation
   }
 
-  private func execute(
-    _ input: Data,
-    continuingFrom previous: StoredMemoryGeneration?
-  ) throws -> (program: MemoryPopulationProgram, artifact: MemoryPopulationArtifact) {
+  public func replay(_ generation: MemoryGeneration) throws -> MemoryPopulationArtifact {
+    try validateMemoryGeneration(generation)
+  }
+
+  func replay(
+    seed: MemoryGenerationSeed,
+    eventJournal: MemoryPopulationProgram,
+    inputSHA256: String
+  ) throws -> MemoryPopulationArtifact {
+    guard seed.schemaVersion == 1,
+      seed.kind == .empty,
+      seed.policyVersion == MemoryPopulationPolicy.version
+    else {
+      throw MemoryPopulationError.incompatibleGeneration(
+        "Неподдерживаемая версия seed памяти."
+      )
+    }
+    guard seed.datasetID == eventJournal.datasetID else {
+      throw MemoryPopulationError.corruptGeneration(
+        "dataset_id seed и журнала событий расходятся."
+      )
+    }
+    return try execute(
+      eventJournal,
+      inputSHA256: inputSHA256,
+      continuingFrom: nil
+    ).artifact
+  }
+
+  private func decodeExternalProgram(_ input: Data) throws -> MemoryPopulationProgram {
     guard input.count <= Self.maximumInputBytes else {
       throw MemoryPopulationError.inputTooLarge(input.count)
     }
 
-    let program: MemoryPopulationProgram
     do {
-      program = try JSONDecoder().decode(MemoryPopulationProgram.self, from: input)
+      return try JSONDecoder().decode(MemoryPopulationProgram.self, from: input)
     } catch {
       throw MemoryPopulationError.invalidInput(
         "Вход не соответствует схеме набора событий версии 1."
       )
     }
+  }
+
+  private func execute(
+    _ program: MemoryPopulationProgram,
+    inputSHA256: String,
+    continuingFrom previous: StoredMemoryGeneration?
+  ) throws -> (program: MemoryPopulationProgram, artifact: MemoryPopulationArtifact) {
     let previousGeneration = try validatedPrevious(previous)
     try validate(
       program,
@@ -194,7 +259,7 @@ public struct MemoryPopulationEngine: Sendable {
       program,
       MemoryPopulationArtifact(
         schemaVersion: 2,
-        inputSHA256: CanonicalMemoryJSON.sha256(input),
+        inputSHA256: inputSHA256,
         snapshotSHA256: CanonicalMemoryJSON.sha256(
           try CanonicalMemoryJSON.encode(snapshot)
         ),
