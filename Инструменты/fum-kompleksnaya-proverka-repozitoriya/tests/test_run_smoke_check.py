@@ -765,6 +765,321 @@ class RunSmokeCheckTests(unittest.TestCase):
         self.assertIn("Проверенное исключение.", output.getvalue())
         self.assertIn("continued", output.getvalue())
 
+    def test_run_steps_prints_each_step_timing_and_full_total(self):
+        steps = [
+            run_smoke_check.SmokeStep(
+                name="Информационный шаг",
+                command=None,
+                detail="Проверенное исключение.",
+            ),
+            run_smoke_check.SmokeStep(
+                name="Исполняемый шаг",
+                command=(sys.executable, "-c", "print('continued')"),
+            ),
+        ]
+        clock_values = iter((100.0, 101.0, 101.25, 102.0, 103.5, 104.0))
+
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            result = run_smoke_check.run_steps(
+                steps,
+                Path.cwd(),
+                clock=lambda: next(clock_values),
+            )
+
+        self.assertEqual(result, 0)
+        timing_lines = [
+            line
+            for line in output.getvalue().splitlines()
+            if line.startswith("smoke-timing ")
+        ]
+        self.assertEqual(len(timing_lines), 3)
+        records = [json.loads(line.removeprefix("smoke-timing ")) for line in timing_lines]
+        self.assertEqual(
+            records,
+            [
+                {
+                    "kind": "step",
+                    "index": 1,
+                    "total_steps": 2,
+                    "name": "Информационный шаг",
+                    "result": "passed",
+                    "duration_seconds": "0.250",
+                },
+                {
+                    "kind": "step",
+                    "index": 2,
+                    "total_steps": 2,
+                    "name": "Исполняемый шаг",
+                    "result": "passed",
+                    "duration_seconds": "1.500",
+                },
+                {
+                    "kind": "total",
+                    "result": "passed",
+                    "duration_seconds": "4.000",
+                },
+            ],
+        )
+
+    def test_run_steps_prints_failed_step_timing_and_total_before_stopping(self):
+        steps = [
+            run_smoke_check.SmokeStep(
+                name="Падающий шаг",
+                command=("fixture", "fail"),
+            ),
+            run_smoke_check.SmokeStep(
+                name="Недостижимый шаг",
+                command=("fixture", "must-not-run"),
+            ),
+        ]
+        completed = subprocess.CompletedProcess(
+            args=steps[0].command,
+            returncode=7,
+            stdout="",
+            stderr="fixture failure\n",
+        )
+        clock_values = iter((10.0, 11.0, 13.5, 14.0))
+        stdout = io.StringIO()
+        stderr = io.StringIO()
+
+        with (
+            mock.patch.object(
+                run_smoke_check.subprocess,
+                "run",
+                return_value=completed,
+            ) as run,
+            contextlib.redirect_stdout(stdout),
+            contextlib.redirect_stderr(stderr),
+        ):
+            result = run_smoke_check.run_steps(
+                steps,
+                Path.cwd(),
+                clock=lambda: next(clock_values),
+            )
+
+        self.assertEqual(result, 7)
+        self.assertEqual(run.call_count, 1)
+        timing_lines = [
+            line
+            for line in stdout.getvalue().splitlines()
+            if line.startswith("smoke-timing ")
+        ]
+        self.assertEqual(
+            [json.loads(line.removeprefix("smoke-timing ")) for line in timing_lines],
+            [
+                {
+                    "kind": "step",
+                    "index": 1,
+                    "total_steps": 2,
+                    "name": "Падающий шаг",
+                    "result": "failed",
+                    "duration_seconds": "2.500",
+                    "exit_code": 7,
+                },
+                {
+                    "kind": "total",
+                    "result": "failed",
+                    "duration_seconds": "4.000",
+                    "exit_code": 7,
+                },
+            ],
+        )
+        self.assertIn("Падающий шаг", stderr.getvalue())
+
+    def test_failed_manifest_inspection_prints_its_timing(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            package = root / "Прототипы" / "alpha"
+            package.mkdir(parents=True)
+            completed = subprocess.CompletedProcess(
+                args=("swift-fixture", "package"),
+                returncode=9,
+                stdout="",
+                stderr="manifest failure\n",
+            )
+            clock_values = iter((20.0, 22.25))
+            records: list[dict[str, object]] = []
+
+            with mock.patch.object(
+                run_smoke_check.subprocess,
+                "run",
+                return_value=completed,
+            ):
+                with self.assertRaisesRegex(
+                    ValueError,
+                    "cannot inspect SwiftPM package",
+                ):
+                    run_smoke_check.inspect_swift_package(
+                        root,
+                        package,
+                        "swift-fixture",
+                        clock=lambda: next(clock_values),
+                        timing_sink=records.append,
+                    )
+
+            self.assertEqual(
+                records,
+                [
+                    {
+                        "kind": "manifest",
+                        "name": "SwiftPM manifest Прототипы/alpha",
+                        "result": "failed",
+                        "duration_seconds": "2.250",
+                        "exit_code": 9,
+                    }
+                ],
+            )
+
+    def test_manifest_os_error_uses_stable_exit_code_127(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            package = root / "Прототипы" / "alpha"
+            package.mkdir(parents=True)
+            clock_values = iter((30.0, 31.25))
+            records: list[dict[str, object]] = []
+
+            with mock.patch.object(
+                run_smoke_check.subprocess,
+                "run",
+                side_effect=PermissionError("manifest denied"),
+            ):
+                with self.assertRaisesRegex(
+                    FileNotFoundError,
+                    "cannot inspect SwiftPM package",
+                ):
+                    run_smoke_check.inspect_swift_package(
+                        root,
+                        package,
+                        "swift-fixture",
+                        clock=lambda: next(clock_values),
+                        timing_sink=records.append,
+                    )
+
+            self.assertEqual(
+                records,
+                [
+                    {
+                        "kind": "manifest",
+                        "name": "SwiftPM manifest Прототипы/alpha",
+                        "result": "failed",
+                        "duration_seconds": "1.250",
+                        "exit_code": 127,
+                    }
+                ],
+            )
+
+    def test_main_prints_preparation_and_total_timing_when_plan_fails(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            args = types.SimpleNamespace(
+                repo_root=root,
+                request=None,
+                commit_message_file=None,
+                codex_thread_id=None,
+                skip_session_coherence=True,
+                list=False,
+            )
+            clock_values = iter((10.0, 11.0, 14.0, 16.0))
+            stdout = io.StringIO()
+            stderr = io.StringIO()
+
+            with (
+                mock.patch.object(
+                    run_smoke_check,
+                    "parse_args",
+                    return_value=args,
+                ),
+                contextlib.redirect_stdout(stdout),
+                contextlib.redirect_stderr(stderr),
+            ):
+                result = run_smoke_check.main(
+                    clock=lambda: next(clock_values),
+                )
+
+            self.assertEqual(result, 2)
+            self.assertIn("skills.include_instructions = false", stderr.getvalue())
+            timing_lines = [
+                line
+                for line in stdout.getvalue().splitlines()
+                if line.startswith("smoke-timing ")
+            ]
+            self.assertEqual(
+                [json.loads(line.removeprefix("smoke-timing ")) for line in timing_lines],
+                [
+                    {
+                        "kind": "preparation",
+                        "result": "failed",
+                        "duration_seconds": "3.000",
+                        "exit_code": 2,
+                    },
+                    {
+                        "kind": "total",
+                        "result": "failed",
+                        "duration_seconds": "6.000",
+                        "exit_code": 2,
+                    },
+                ],
+            )
+
+    def test_main_converts_preparation_os_error_to_failed_timing(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            args = types.SimpleNamespace(
+                repo_root=root,
+                request=None,
+                commit_message_file=None,
+                codex_thread_id=None,
+                skip_session_coherence=True,
+                list=False,
+            )
+            clock_values = iter((40.0, 41.0, 44.0, 46.0))
+            stdout = io.StringIO()
+            stderr = io.StringIO()
+
+            with (
+                mock.patch.object(
+                    run_smoke_check,
+                    "parse_args",
+                    return_value=args,
+                ),
+                mock.patch.object(
+                    run_smoke_check,
+                    "build_steps",
+                    side_effect=PermissionError("preparation denied"),
+                ),
+                contextlib.redirect_stdout(stdout),
+                contextlib.redirect_stderr(stderr),
+            ):
+                result = run_smoke_check.main(
+                    clock=lambda: next(clock_values),
+                )
+
+            self.assertEqual(result, 2)
+            self.assertIn("preparation denied", stderr.getvalue())
+            timing_lines = [
+                line
+                for line in stdout.getvalue().splitlines()
+                if line.startswith("smoke-timing ")
+            ]
+            self.assertEqual(
+                [json.loads(line.removeprefix("smoke-timing ")) for line in timing_lines],
+                [
+                    {
+                        "kind": "preparation",
+                        "result": "failed",
+                        "duration_seconds": "3.000",
+                        "exit_code": 2,
+                    },
+                    {
+                        "kind": "total",
+                        "result": "failed",
+                        "duration_seconds": "6.000",
+                        "exit_code": 2,
+                    },
+                ],
+            )
+
     def test_full_runner_stops_on_tracked_machine_local_path_regression(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -893,6 +1208,7 @@ class RunSmokeCheckTests(unittest.TestCase):
             )
 
             output = io.StringIO()
+            clock_values = iter((10.0, 11.0, 12.0, 14.0, 15.0, 16.0))
             with (
                 mock.patch.object(run_smoke_check, "parse_args", return_value=args),
                 mock.patch.object(
@@ -902,7 +1218,9 @@ class RunSmokeCheckTests(unittest.TestCase):
                 ) as run,
                 contextlib.redirect_stdout(output),
             ):
-                result = run_smoke_check.main()
+                result = run_smoke_check.main(
+                    clock=lambda: next(clock_values),
+                )
 
             self.assertEqual(result, 0)
             self.assertEqual(run.call_count, 1)
@@ -916,6 +1234,32 @@ class RunSmokeCheckTests(unittest.TestCase):
             self.assertIn(
                 "swift format lint --configuration",
                 output.getvalue(),
+            )
+            timing_lines = [
+                line
+                for line in output.getvalue().splitlines()
+                if line.startswith("smoke-timing ")
+            ]
+            self.assertEqual(
+                [json.loads(line.removeprefix("smoke-timing ")) for line in timing_lines],
+                [
+                    {
+                        "kind": "manifest",
+                        "name": "SwiftPM manifest Прототипы/alpha",
+                        "result": "passed",
+                        "duration_seconds": "2.000",
+                    },
+                    {
+                        "kind": "preparation",
+                        "result": "passed",
+                        "duration_seconds": "4.000",
+                    },
+                    {
+                        "kind": "total",
+                        "result": "passed",
+                        "duration_seconds": "6.000",
+                    },
+                ],
             )
 
     def test_parses_executable_products_and_target_paths_from_dump_package(self):

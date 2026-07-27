@@ -11,7 +11,9 @@ import re
 import shlex
 import subprocess
 import sys
+import time
 import tomllib
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -71,6 +73,9 @@ SWIFT_FORMAT_CONFIG = Path(
 )
 CODEX_PROJECT_CONFIG = Path(".codex/config.toml")
 SHA256_RE = re.compile(r"^sha256:[0-9a-f]{64}$")
+Clock = Callable[[], float]
+TimingRecord = dict[str, object]
+TimingSink = Callable[[TimingRecord], None]
 
 
 @dataclass(frozen=True)
@@ -103,6 +108,39 @@ class SwiftLintException:
 class SwiftPackagePolicy:
     expected_products: dict[str, tuple[str, ...]]
     lint_exceptions: dict[str, SwiftLintException]
+
+
+def timing_record(
+    kind: str,
+    duration_seconds: float,
+    result: str,
+    *,
+    index: int | None = None,
+    total_steps: int | None = None,
+    name: str | None = None,
+    exit_code: int | None = None,
+) -> TimingRecord:
+    record: TimingRecord = {"kind": kind}
+    if index is not None:
+        record["index"] = index
+    if total_steps is not None:
+        record["total_steps"] = total_steps
+    if name is not None:
+        record["name"] = name
+    record["result"] = result
+    record["duration_seconds"] = f"{duration_seconds:.3f}"
+    if exit_code is not None:
+        record["exit_code"] = exit_code
+    return record
+
+
+def print_timing(record: TimingRecord) -> None:
+    payload = json.dumps(
+        record,
+        ensure_ascii=False,
+        separators=(",", ":"),
+    )
+    print(f"smoke-timing {payload}", flush=True)
 
 
 def parse_args() -> argparse.Namespace:
@@ -309,6 +347,9 @@ def inspect_swift_package(
     repo_root: Path,
     package: Path,
     swift: str,
+    *,
+    clock: Clock | None = None,
+    timing_sink: TimingSink | None = None,
 ) -> SwiftPackageManifest:
     package_path = repo_relative(package, repo_root)
     command = (
@@ -320,6 +361,9 @@ def inspect_swift_package(
         "none",
         "dump-package",
     )
+    timer = clock or time.perf_counter
+    started_at = timer() if timing_sink is not None else None
+    result: subprocess.CompletedProcess[str] | None = None
     try:
         result = subprocess.run(
             command,
@@ -330,17 +374,54 @@ def inspect_swift_package(
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
         )
+        if result.returncode != 0:
+            detail = (result.stderr or result.stdout).strip()
+            suffix = f": {detail}" if detail else ""
+            raise ValueError(
+                f"cannot inspect SwiftPM package {package_path}{suffix}"
+            )
+        manifest = parse_swift_package_manifest(result.stdout)
     except OSError as exc:
+        if timing_sink is not None and started_at is not None:
+            timing_sink(
+                timing_record(
+                    "manifest",
+                    timer() - started_at,
+                    "failed",
+                    name=f"SwiftPM manifest {package_path}",
+                    exit_code=127,
+                )
+            )
         raise FileNotFoundError(
             f"cannot inspect SwiftPM package {package_path}: {exc}"
         ) from exc
-    if result.returncode != 0:
-        detail = (result.stderr or result.stdout).strip()
-        suffix = f": {detail}" if detail else ""
-        raise ValueError(
-            f"cannot inspect SwiftPM package {package_path}{suffix}"
+    except Exception:
+        if timing_sink is not None and started_at is not None:
+            exit_code = (
+                result.returncode
+                if result is not None and result.returncode != 0
+                else None
+            )
+            timing_sink(
+                timing_record(
+                    "manifest",
+                    timer() - started_at,
+                    "failed",
+                    name=f"SwiftPM manifest {package_path}",
+                    exit_code=exit_code,
+                )
+            )
+        raise
+    if timing_sink is not None and started_at is not None:
+        timing_sink(
+            timing_record(
+                "manifest",
+                timer() - started_at,
+                "passed",
+                name=f"SwiftPM manifest {package_path}",
+            )
         )
-    return parse_swift_package_manifest(result.stdout)
+    return manifest
 
 
 def swift_lint_content_sha256(
@@ -595,6 +676,9 @@ def load_swift_package_policy(
 def build_swift_steps(
     repo_root: Path,
     swift: str,
+    *,
+    clock: Clock | None = None,
+    timing_sink: TimingSink | None = None,
 ) -> list[SmokeStep]:
     packages = discover_swift_packages(repo_root)
     package_names = {
@@ -610,7 +694,16 @@ def build_swift_steps(
     for package in packages:
         package_path = repo_relative(package, repo_root)
         reject_swift_format_ignores(repo_root, package)
-        manifest = inspect_swift_package(repo_root, package, swift)
+        if timing_sink is None:
+            manifest = inspect_swift_package(repo_root, package, swift)
+        else:
+            manifest = inspect_swift_package(
+                repo_root,
+                package,
+                swift,
+                clock=clock,
+                timing_sink=timing_sink,
+            )
         expected_products = policy.expected_products[package_path]
         if manifest.executable_products != expected_products:
             raise ValueError(
@@ -700,6 +793,8 @@ def build_steps(
     swift: str | None = None,
     commit_message_file: str | Path | None = None,
     codex_thread_id: str | None = None,
+    clock: Clock | None = None,
+    timing_sink: TimingSink | None = None,
 ) -> list[SmokeStep]:
     root = Path(repo_root).resolve()
     validate_project_skill_isolation(root)
@@ -725,7 +820,14 @@ def build_steps(
             )
         )
 
-    steps.extend(build_swift_steps(root, swift_cmd))
+    steps.extend(
+        build_swift_steps(
+            root,
+            swift_cmd,
+            clock=clock,
+            timing_sink=timing_sink,
+        )
+    )
 
     planning_script = require_file(root, PLANNING_REGISTRY_SCRIPT)
     planning_output = PLANNING_REGISTRY_OUTPUT.as_posix()
@@ -875,39 +977,122 @@ def print_output(result: subprocess.CompletedProcess[str]) -> None:
         print(result.stderr, end="", flush=True)
 
 
-def run_steps(steps: list[SmokeStep], repo_root: Path) -> int:
+def run_steps(
+    steps: list[SmokeStep],
+    repo_root: Path,
+    *,
+    clock: Clock | None = None,
+    overall_started_at: float | None = None,
+) -> int:
+    timer = clock or time.perf_counter
+    total_started_at = (
+        timer() if overall_started_at is None else overall_started_at
+    )
     env = smoke_env()
     total = len(steps)
     for index, step in enumerate(steps, start=1):
         print(f"[{index}/{total}] {step.name}", flush=True)
+        step_started_at = timer()
         if step.command is None:
             print(step.detail, flush=True)
+            print_timing(
+                timing_record(
+                    "step",
+                    timer() - step_started_at,
+                    "passed",
+                    index=index,
+                    total_steps=total,
+                    name=step.name,
+                )
+            )
             continue
         print(shlex.join(step.command), flush=True)
-        result = subprocess.run(
-            step.command,
-            cwd=repo_root,
-            env=env,
-            check=False,
-            text=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-        )
+        try:
+            result = subprocess.run(
+                step.command,
+                cwd=repo_root,
+                env=env,
+                check=False,
+                text=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
+        except OSError as exc:
+            exit_code = 127
+            print_timing(
+                timing_record(
+                    "step",
+                    timer() - step_started_at,
+                    "failed",
+                    index=index,
+                    total_steps=total,
+                    name=step.name,
+                    exit_code=exit_code,
+                )
+            )
+            print(
+                f"smoke-check could not run step {index}: {step.name}: {exc}",
+                file=sys.stderr,
+            )
+            print_timing(
+                timing_record(
+                    "total",
+                    timer() - total_started_at,
+                    "failed",
+                    exit_code=exit_code,
+                )
+            )
+            return exit_code
+        step_finished_at = timer()
         print_output(result)
+        step_result = "passed" if result.returncode == 0 else "failed"
+        print_timing(
+            timing_record(
+                "step",
+                step_finished_at - step_started_at,
+                step_result,
+                index=index,
+                total_steps=total,
+                name=step.name,
+                exit_code=(
+                    result.returncode
+                    if result.returncode != 0
+                    else None
+                ),
+            )
+        )
         if result.returncode != 0:
             print(
                 f"smoke-check failed at step {index}: {step.name}",
                 file=sys.stderr,
             )
+            print_timing(
+                timing_record(
+                    "total",
+                    timer() - total_started_at,
+                    "failed",
+                    exit_code=result.returncode,
+                )
+            )
             return result.returncode
     print(f"smoke-check passed: {total} step(s)")
+    print_timing(
+        timing_record(
+            "total",
+            timer() - total_started_at,
+            "passed",
+        )
+    )
     return 0
 
 
-def main() -> int:
+def main(*, clock: Clock | None = None) -> int:
+    timer = clock or time.perf_counter
+    overall_started_at = timer()
     args = parse_args()
     root = args.repo_root.resolve()
     include_session = not args.skip_session_coherence
+    preparation_started_at = timer()
 
     try:
         steps = build_steps(
@@ -916,10 +1101,36 @@ def main() -> int:
             include_session=include_session,
             commit_message_file=args.commit_message_file,
             codex_thread_id=args.codex_thread_id,
+            clock=timer,
+            timing_sink=print_timing,
         )
-    except (FileNotFoundError, ValueError) as exc:
+    except (OSError, ValueError) as exc:
         print(str(exc), file=sys.stderr)
+        print_timing(
+            timing_record(
+                "preparation",
+                timer() - preparation_started_at,
+                "failed",
+                exit_code=2,
+            )
+        )
+        print_timing(
+            timing_record(
+                "total",
+                timer() - overall_started_at,
+                "failed",
+                exit_code=2,
+            )
+        )
         return 2
+
+    print_timing(
+        timing_record(
+            "preparation",
+            timer() - preparation_started_at,
+            "passed",
+        )
+    )
 
     if args.list:
         for step in steps:
@@ -927,9 +1138,21 @@ def main() -> int:
                 print(f"{step.name}: {step.detail}")
             else:
                 print(f"{step.name}: {shlex.join(step.command)}")
+        print_timing(
+            timing_record(
+                "total",
+                timer() - overall_started_at,
+                "passed",
+            )
+        )
         return 0
 
-    return run_steps(steps, root)
+    return run_steps(
+        steps,
+        root,
+        clock=timer,
+        overall_started_at=overall_started_at,
+    )
 
 
 if __name__ == "__main__":

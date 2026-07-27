@@ -119,6 +119,60 @@ class CheckSessionCoherenceTests(unittest.TestCase):
         )
         return request_path
 
+    def write_time_profile_journal(
+        self,
+        root: Path,
+        *,
+        request_name: str,
+        request_label: str,
+        invocation_rows: list[str] | None,
+        invocation_total: str | None,
+    ) -> Path:
+        (root / "Запросы").mkdir()
+        (root / "Журнал").mkdir()
+        request_path = root / "Запросы" / request_name
+        lines = [
+            f"# Отчёт {request_label}",
+            "",
+            "Отчёт с измеренным профилем.",
+            "",
+            "## Профиль времени выполнения",
+            "",
+            "| Стадия | Длительность | Границы и способ измерения |",
+            "| --- | ---: | --- |",
+            "| Анализ | 12 с | Монотонные отметки. |",
+            "| Проверки | 31 с | Wall-clock `real`. |",
+            "",
+            "Граница профиля: от допуска очереди до завершения проверок.",
+            "",
+        ]
+        if invocation_rows is not None:
+            lines.extend(
+                [
+                    "### Прямые запуски проверок",
+                    "",
+                    "| Вызов | Длительность | Результат |",
+                    "| --- | ---: | --- |",
+                    *invocation_rows,
+                    "",
+                ]
+            )
+            if invocation_total is not None:
+                lines.extend([invocation_total, ""])
+        lines.extend(
+            [
+                "## Источники",
+                "",
+                f"- [исходный запрос](../Запросы/{request_path.name})",
+                "",
+            ]
+        )
+        (root / "Журнал" / request_path.name).write_text(
+            "\n".join(lines),
+            encoding="utf-8",
+        )
+        return request_path
+
     def test_valid_session_with_listed_dirty_files_passes(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -723,6 +777,360 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                     ]
                 ),
                 encoding="utf-8",
+            )
+
+            errors = check_session_coherence.validate_journal(
+                root.resolve(),
+                request_path.resolve(),
+            )
+
+            self.assertEqual(errors, [])
+
+    def test_current_journal_accepts_each_direct_check_run_and_exact_total(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = self.write_time_profile_journal(
+                root,
+                request_name=(
+                    "2026-07-27_16-12-29_MSK_"
+                    "учитывать-все-запуски-проверок.md"
+                ),
+                request_label=(
+                    "2026-07-27 16:12:29 MSK - "
+                    "Учитывать все запуски проверок"
+                ),
+                invocation_rows=[
+                    "| `python3 -m unittest` | 1,25 с | неуспешно (exit 1) |",
+                    "| `python3 -m unittest` | 0.75 с | успешно |",
+                    "| `python3 smoke.py` | 2 с | прервано по тайм-ауту |",
+                    "| `python3 smoke.py` | 3 с | не завершено из-за остановки |",
+                ],
+                invocation_total=(
+                    "Общее время прямых запусков проверок: 7 с."
+                ),
+            )
+
+            errors = check_session_coherence.validate_journal(
+                root.resolve(),
+                request_path.resolve(),
+            )
+
+            self.assertEqual(errors, [])
+
+    def test_current_journal_accepts_escaped_pipe_inside_invocation_cell(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = self.write_time_profile_journal(
+                root,
+                request_name=(
+                    "2026-07-27_16-12-29_MSK_"
+                    "учитывать-все-запуски-проверок.md"
+                ),
+                request_label=(
+                    "2026-07-27 16:12:29 MSK - "
+                    "Учитывать все запуски проверок"
+                ),
+                invocation_rows=[
+                    r"| `printf 'first \| second'` | 1,5 с | успешно |",
+                ],
+                invocation_total=(
+                    "Общее время прямых запусков проверок: 1,5 с."
+                ),
+            )
+
+            errors = check_session_coherence.validate_journal(
+                root.resolve(),
+                request_path.resolve(),
+            )
+
+            self.assertEqual(errors, [])
+
+    def test_current_journal_ignores_fake_direct_check_subsection_in_nonsemantic_regions(self):
+        fake_subsection = [
+            "### Прямые запуски проверок",
+            "",
+            "| Вызов | Длительность | Результат |",
+            "| --- | ---: | --- |",
+            "| `python3 fake.py` | 1 с | успешно |",
+            "",
+            "Общее время прямых запусков проверок: 1 с.",
+        ]
+        wrappers = (
+            ["```markdown", *fake_subsection, "```"],
+            ["<!--", *fake_subsection, "-->"],
+        )
+        for wrapped_subsection in wrappers:
+            with self.subTest(wrapper=wrapped_subsection[0]), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                request_path = self.write_time_profile_journal(
+                    root,
+                    request_name=(
+                        "2026-07-27_16-12-29_MSK_"
+                        "учитывать-все-запуски-проверок.md"
+                    ),
+                    request_label=(
+                        "2026-07-27 16:12:29 MSK - "
+                        "Учитывать все запуски проверок"
+                    ),
+                    invocation_rows=None,
+                    invocation_total=None,
+                )
+                journal_path = root / "Журнал" / request_path.name
+                journal_text = journal_path.read_text(encoding="utf-8")
+                journal_path.write_text(
+                    journal_text.replace(
+                        "\n## Источники",
+                        "\n" + "\n".join(wrapped_subsection) + "\n\n## Источники",
+                    ),
+                    encoding="utf-8",
+                )
+
+                errors = check_session_coherence.validate_journal(
+                    root.resolve(),
+                    request_path.resolve(),
+                )
+
+                self.assertIn(
+                    "missing journal time profile subsection: "
+                    "Прямые запуски проверок",
+                    errors,
+                )
+
+    def test_current_journal_ignores_fake_direct_check_table_in_fenced_code(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = self.write_time_profile_journal(
+                root,
+                request_name=(
+                    "2026-07-27_16-12-29_MSK_"
+                    "учитывать-все-запуски-проверок.md"
+                ),
+                request_label=(
+                    "2026-07-27 16:12:29 MSK - "
+                    "Учитывать все запуски проверок"
+                ),
+                invocation_rows=None,
+                invocation_total=None,
+            )
+            fake_table = "\n".join(
+                [
+                    "### Прямые запуски проверок",
+                    "",
+                    "```markdown",
+                    "| Вызов | Длительность | Результат |",
+                    "| --- | ---: | --- |",
+                    "| `python3 fake.py` | 1 с | успешно |",
+                    "",
+                    "Общее время прямых запусков проверок: 1 с.",
+                    "```",
+                ]
+            )
+            journal_path = root / "Журнал" / request_path.name
+            journal_text = journal_path.read_text(encoding="utf-8")
+            journal_path.write_text(
+                journal_text.replace(
+                    "\n## Источники",
+                    f"\n{fake_table}\n\n## Источники",
+                ),
+                encoding="utf-8",
+            )
+
+            errors = check_session_coherence.validate_journal(
+                root.resolve(),
+                request_path.resolve(),
+            )
+
+            self.assertIn(
+                "journal direct check runs must contain table columns: "
+                "Вызов | Длительность | Результат",
+                errors,
+            )
+
+    def test_current_journal_ignores_fake_direct_check_total_in_html_comment(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = self.write_time_profile_journal(
+                root,
+                request_name=(
+                    "2026-07-27_16-12-29_MSK_"
+                    "учитывать-все-запуски-проверок.md"
+                ),
+                request_label=(
+                    "2026-07-27 16:12:29 MSK - "
+                    "Учитывать все запуски проверок"
+                ),
+                invocation_rows=[
+                    "| `python3 real.py` | 1 с | успешно |",
+                ],
+                invocation_total=None,
+            )
+            journal_path = root / "Журнал" / request_path.name
+            journal_text = journal_path.read_text(encoding="utf-8")
+            journal_path.write_text(
+                journal_text.replace(
+                    "\n## Источники",
+                    "\n<!--\nОбщее время прямых запусков проверок: "
+                    "1 с.\n-->\n\n## Источники",
+                ),
+                encoding="utf-8",
+            )
+
+            errors = check_session_coherence.validate_journal(
+                root.resolve(),
+                request_path.resolve(),
+            )
+
+            self.assertIn(
+                "journal direct check runs must contain exactly one total line: "
+                "Общее время прямых запусков проверок:",
+                errors,
+            )
+
+    def test_current_journal_sums_durations_at_their_actual_precision(self):
+        large = f"{'9' * 60}.9"
+        exact_total = f"{'9' * 60}.91"
+        rounded_total = f"1{'0' * 60}"
+        cases = (
+            (exact_total, None),
+            (
+                rounded_total,
+                "journal direct check run total must equal the sum of row durations: "
+                f"expected {exact_total} с, got {rounded_total} с",
+            ),
+        )
+        for total, expected_error in cases:
+            with self.subTest(total=total), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                request_path = self.write_time_profile_journal(
+                    root,
+                    request_name=(
+                        "2026-07-27_16-12-29_MSK_"
+                        "учитывать-все-запуски-проверок.md"
+                    ),
+                    request_label=(
+                        "2026-07-27 16:12:29 MSK - "
+                        "Учитывать все запуски проверок"
+                    ),
+                    invocation_rows=[
+                        f"| `python3 first.py` | {large} с | успешно |",
+                        "| `python3 second.py` | 0.01 с | успешно |",
+                    ],
+                    invocation_total=(
+                        f"Общее время прямых запусков проверок: {total} с."
+                    ),
+                )
+
+                errors = check_session_coherence.validate_journal(
+                    root.resolve(),
+                    request_path.resolve(),
+                )
+
+                if expected_error is None:
+                    self.assertEqual(errors, [])
+                else:
+                    self.assertIn(expected_error, errors)
+
+    def test_current_journal_requires_direct_check_run_table_and_total(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = self.write_time_profile_journal(
+                root,
+                request_name=(
+                    "2026-07-27_16-12-29_MSK_"
+                    "учитывать-все-запуски-проверок.md"
+                ),
+                request_label=(
+                    "2026-07-27 16:12:29 MSK - "
+                    "Учитывать все запуски проверок"
+                ),
+                invocation_rows=None,
+                invocation_total=None,
+            )
+
+            errors = check_session_coherence.validate_journal(
+                root.resolve(),
+                request_path.resolve(),
+            )
+
+            self.assertIn(
+                "missing journal time profile subsection: "
+                "Прямые запуски проверок",
+                errors,
+            )
+
+    def test_current_journal_rejects_invalid_direct_check_run_accounting(self):
+        cases = (
+            (
+                [],
+                "Общее время прямых запусков проверок: 0 с.",
+                "journal direct check run table must contain at least one "
+                "invocation row",
+            ),
+            (
+                ["| `python3 -m unittest` | 1 мин | успешно |"],
+                "Общее время прямых запусков проверок: 60 с.",
+                "journal direct check run row 1 has invalid duration: 1 мин",
+            ),
+            (
+                ["| `python3 -m unittest` | 1 с | прошла |"],
+                "Общее время прямых запусков проверок: 1 с.",
+                "journal direct check run row 1 has invalid result status: прошла",
+            ),
+            (
+                [
+                    "| `python3 -m unittest` | 1,2 с | неуспешно |",
+                    "| `python3 -m unittest` | 2,3 с | успешно |",
+                ],
+                "Общее время прямых запусков проверок: 2,3 с.",
+                "journal direct check run total must equal the sum of row durations: "
+                "expected 3.5 с, got 2.3 с",
+            ),
+            (
+                ["| `python3 -m unittest` | 1 с | успешно |"],
+                None,
+                "journal direct check runs must contain exactly one total line: "
+                "Общее время прямых запусков проверок:",
+            ),
+        )
+        for invocation_rows, invocation_total, expected_error in cases:
+            with self.subTest(expected_error=expected_error), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                request_path = self.write_time_profile_journal(
+                    root,
+                    request_name=(
+                        "2026-07-27_16-12-29_MSK_"
+                        "учитывать-все-запуски-проверок.md"
+                    ),
+                    request_label=(
+                        "2026-07-27 16:12:29 MSK - "
+                        "Учитывать все запуски проверок"
+                    ),
+                    invocation_rows=invocation_rows,
+                    invocation_total=invocation_total,
+                )
+
+                errors = check_session_coherence.validate_journal(
+                    root.resolve(),
+                    request_path.resolve(),
+                )
+
+                self.assertIn(expected_error, errors)
+
+    def test_journal_before_direct_check_run_rule_keeps_old_time_profile_contract(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = self.write_time_profile_journal(
+                root,
+                request_name=(
+                    "2026-07-27_16-12-28_MSK_"
+                    "учитывать-старый-профиль-времени.md"
+                ),
+                request_label=(
+                    "2026-07-27 16:12:28 MSK - "
+                    "Учитывать старый профиль времени"
+                ),
+                invocation_rows=None,
+                invocation_total=None,
             )
 
             errors = check_session_coherence.validate_journal(

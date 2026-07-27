@@ -10,6 +10,7 @@ import re
 import subprocess
 import sys
 from dataclasses import dataclass
+from decimal import Decimal, localcontext
 from pathlib import Path, PurePosixPath, PureWindowsPath
 from urllib.parse import unquote
 
@@ -39,6 +40,7 @@ QUALIFIED_OPENAI_TOOL_VERSION_RULE_START = (2026, 7, 10, 5, 59, 58)
 CODEX_THREAD_ID_RULE_START = (2026, 7, 14, 2, 31, 47)
 SESSION_TIME_TOOL_RULE_START = (2026, 7, 17, 10, 25, 41)
 JOURNAL_TIME_PROFILE_RULE_START = (2026, 7, 23, 14, 47, 43)
+JOURNAL_DIRECT_CHECK_RUNS_RULE_START = (2026, 7, 27, 16, 12, 29)
 RUSSIAN_INFINITIVE_ENDINGS = ("ться", "тись", "чься", "ть", "ти", "чь")
 TITLE_TOKEN_REPLACEMENTS = {
     "api": "API",
@@ -130,6 +132,25 @@ MARKDOWN_TABLE_SEPARATOR_RE = re.compile(r"^:?-{3,}:?$")
 MARKDOWN_TILDE_FENCE_MARKER = chr(126)
 JOURNAL_TIME_PROFILE_BOUNDARY_RE = re.compile(
     r"^Граница профиля:\s+\S.*$"
+)
+JOURNAL_DIRECT_CHECK_RUNS_HEADING = "Прямые запуски проверок"
+JOURNAL_DIRECT_CHECK_RUN_COLUMNS = (
+    "Вызов",
+    "Длительность",
+    "Результат",
+)
+JOURNAL_DIRECT_CHECK_RUN_SECONDS_RE = re.compile(
+    r"^(?P<seconds>(?:0|[1-9]\d*)(?:[.,]\d+)?)\s+с$"
+)
+JOURNAL_DIRECT_CHECK_RUN_RESULT_RE = re.compile(
+    r"^(?:успешно|неуспешно|прервано|не завершено)(?:\s+\S.*)?$"
+)
+JOURNAL_DIRECT_CHECK_RUN_TOTAL_PREFIX = (
+    "Общее время прямых запусков проверок:"
+)
+JOURNAL_DIRECT_CHECK_RUN_TOTAL_RE = re.compile(
+    rf"^{re.escape(JOURNAL_DIRECT_CHECK_RUN_TOTAL_PREFIX)}\s+"
+    r"(?P<seconds>(?:0|[1-9]\d*)(?:[.,]\d+)?)\s+с\.?$"
 )
 
 
@@ -405,11 +426,84 @@ def markdown_table_cells(line: str) -> tuple[str, ...] | None:
     stripped = line.strip()
     if not stripped.startswith("|") or not stripped.endswith("|"):
         return None
-    return tuple(cell.strip() for cell in stripped[1:-1].split("|"))
+
+    trailing_backslashes = 0
+    for character in reversed(stripped[:-1]):
+        if character != "\\":
+            break
+        trailing_backslashes += 1
+    if trailing_backslashes % 2:
+        return None
+
+    cells: list[str] = []
+    current: list[str] = []
+    backslash_run = 0
+    for character in stripped[1:-1]:
+        if character == "|" and backslash_run % 2 == 0:
+            cells.append("".join(current).strip())
+            current = []
+        else:
+            current.append(character)
+        backslash_run = backslash_run + 1 if character == "\\" else 0
+    cells.append("".join(current).strip())
+    return tuple(cells)
+
+
+def strip_markdown_html_comments(
+    line: str,
+    in_comment: bool,
+) -> tuple[str, bool]:
+    visible: list[str] = []
+    cursor = 0
+    while cursor < len(line):
+        if in_comment:
+            comment_end = line.find("-->", cursor)
+            if comment_end < 0:
+                return "".join(visible), True
+            cursor = comment_end + len("-->")
+            in_comment = False
+            continue
+
+        comment_start = line.find("<!--", cursor)
+        if comment_start < 0:
+            visible.append(line[cursor:])
+            break
+        visible.append(line[cursor:comment_start])
+        cursor = comment_start + len("<!--")
+        in_comment = True
+    return "".join(visible), in_comment
+
+
+def markdown_structural_text(text: str) -> str:
+    structural_lines: list[str] = []
+    fence: MarkdownFence | None = None
+    in_html_comment = False
+
+    for raw_line in text.splitlines():
+        if fence is not None:
+            if closes_markdown_fence(raw_line, fence):
+                fence = None
+            structural_lines.append("")
+            continue
+
+        visible_line, in_html_comment = strip_markdown_html_comments(
+            raw_line,
+            in_html_comment,
+        )
+        fence = opening_markdown_fence(visible_line)
+        if fence is not None:
+            structural_lines.append("")
+            continue
+        structural_lines.append(visible_line)
+
+    return "\n".join(structural_lines)
 
 
 def validate_journal_time_profile(text: str) -> list[str]:
-    profile = section_body(text, JOURNAL_TIME_PROFILE_HEADING)
+    profile = section_body(
+        markdown_structural_text(text),
+        JOURNAL_TIME_PROFILE_HEADING,
+    )
     if profile is None:
         return [f"missing journal section: {JOURNAL_TIME_PROFILE_HEADING}"]
 
@@ -474,6 +568,168 @@ def validate_journal_time_profile(text: str) -> list[str]:
     return errors
 
 
+def journal_seconds(value: str) -> Decimal | None:
+    match = JOURNAL_DIRECT_CHECK_RUN_SECONDS_RE.fullmatch(value)
+    if match is None:
+        return None
+    return Decimal(match.group("seconds").replace(",", "."))
+
+
+def format_journal_seconds(value: Decimal) -> str:
+    rendered = format(value, "f")
+    if "." in rendered:
+        rendered = rendered.rstrip("0").rstrip(".")
+    return "0" if rendered == "-0" else rendered
+
+
+def sum_journal_seconds(values: list[Decimal]) -> Decimal:
+    if not values:
+        return Decimal(0)
+
+    minimum_exponent = min(value.as_tuple().exponent for value in values)
+    maximum_adjusted = max(value.adjusted() for value in values)
+    integer_places = max(1, maximum_adjusted + 1)
+    fractional_places = max(0, -minimum_exponent)
+    carry_places = len(str(len(values)))
+    with localcontext() as context:
+        context.prec = integer_places + fractional_places + carry_places
+        return sum(values, start=Decimal(0))
+
+
+def validate_journal_direct_check_runs(text: str) -> list[str]:
+    profile = section_body(
+        markdown_structural_text(text),
+        JOURNAL_TIME_PROFILE_HEADING,
+    )
+    if profile is None:
+        return []
+
+    lines = profile.splitlines()
+    subsection_heading = f"### {JOURNAL_DIRECT_CHECK_RUNS_HEADING}"
+    heading_indexes = [
+        index
+        for index, line in enumerate(lines)
+        if line.strip() == subsection_heading
+    ]
+    if not heading_indexes:
+        return [
+            "missing journal time profile subsection: "
+            f"{JOURNAL_DIRECT_CHECK_RUNS_HEADING}"
+        ]
+    if len(heading_indexes) != 1:
+        return [
+            "journal time profile must contain exactly one subsection: "
+            f"{JOURNAL_DIRECT_CHECK_RUNS_HEADING}"
+        ]
+
+    subsection_start = heading_indexes[0] + 1
+    subsection_end = len(lines)
+    for index in range(subsection_start, len(lines)):
+        if re.match(r"^#{2,3}\s+", lines[index].strip()):
+            subsection_end = index
+            break
+    subsection = lines[subsection_start:subsection_end]
+
+    table_header_indexes = [
+        index
+        for index, line in enumerate(subsection)
+        if markdown_table_cells(line) == JOURNAL_DIRECT_CHECK_RUN_COLUMNS
+    ]
+    columns = " | ".join(JOURNAL_DIRECT_CHECK_RUN_COLUMNS)
+    if not table_header_indexes:
+        return [f"journal direct check runs must contain table columns: {columns}"]
+    if len(table_header_indexes) != 1:
+        return ["journal direct check runs must contain exactly one invocation table"]
+
+    header_index = table_header_indexes[0]
+    if header_index + 1 >= len(subsection):
+        return ["journal direct check run table is missing its separator row"]
+    separator = markdown_table_cells(subsection[header_index + 1])
+    if (
+        separator is None
+        or len(separator) != len(JOURNAL_DIRECT_CHECK_RUN_COLUMNS)
+        or not all(MARKDOWN_TABLE_SEPARATOR_RE.fullmatch(cell) for cell in separator)
+    ):
+        return ["journal direct check run table has an invalid separator row"]
+
+    rows: list[tuple[str, ...]] = []
+    table_end = header_index + 2
+    for line_index in range(header_index + 2, len(subsection)):
+        cells = markdown_table_cells(subsection[line_index])
+        if cells is None:
+            table_end = line_index
+            break
+        rows.append(cells)
+        table_end = line_index + 1
+
+    errors: list[str] = []
+    if not rows:
+        errors.append(
+            "journal direct check run table must contain at least one invocation row"
+        )
+
+    durations: list[Decimal] = []
+    all_durations_valid = True
+    for row_index, row in enumerate(rows, start=1):
+        if len(row) != len(JOURNAL_DIRECT_CHECK_RUN_COLUMNS):
+            errors.append(
+                f"journal direct check run row {row_index} must contain exactly "
+                f"{len(JOURNAL_DIRECT_CHECK_RUN_COLUMNS)} cells"
+            )
+            all_durations_valid = False
+            continue
+        invocation, duration, result = row
+        if not invocation:
+            errors.append(
+                f"journal direct check run row {row_index} has an empty invocation"
+            )
+        parsed_duration = journal_seconds(duration)
+        if parsed_duration is None:
+            errors.append(
+                f"journal direct check run row {row_index} has invalid duration: "
+                f"{duration}"
+            )
+            all_durations_valid = False
+        else:
+            durations.append(parsed_duration)
+        if not JOURNAL_DIRECT_CHECK_RUN_RESULT_RE.fullmatch(result):
+            errors.append(
+                f"journal direct check run row {row_index} has invalid result status: "
+                f"{result}"
+            )
+
+    total_lines = [
+        line.strip()
+        for line in subsection[table_end:]
+        if line.strip().startswith(JOURNAL_DIRECT_CHECK_RUN_TOTAL_PREFIX)
+    ]
+    if len(total_lines) != 1:
+        errors.append(
+            "journal direct check runs must contain exactly one total line: "
+            f"{JOURNAL_DIRECT_CHECK_RUN_TOTAL_PREFIX}"
+        )
+        return errors
+
+    total_match = JOURNAL_DIRECT_CHECK_RUN_TOTAL_RE.fullmatch(total_lines[0])
+    if total_match is None:
+        errors.append(
+            "journal direct check run total must use non-negative seconds: "
+            f"{total_lines[0]}"
+        )
+        return errors
+
+    total = Decimal(total_match.group("seconds").replace(",", "."))
+    if rows and all_durations_valid:
+        expected_total = sum_journal_seconds(durations)
+        if total != expected_total:
+            errors.append(
+                "journal direct check run total must equal the sum of row durations: "
+                f"expected {format_journal_seconds(expected_total)} с, "
+                f"got {format_journal_seconds(total)} с"
+            )
+    return errors
+
+
 def validate_journal(repo_root: Path, request_path: Path) -> list[str]:
     errors: list[str] = []
     journal = expected_journal_path(request_path, repo_root)
@@ -496,6 +752,8 @@ def validate_journal(repo_root: Path, request_path: Path) -> list[str]:
         and request_datetime_key(match) >= JOURNAL_TIME_PROFILE_RULE_START
     ):
         errors.extend(validate_journal_time_profile(text))
+        if request_datetime_key(match) >= JOURNAL_DIRECT_CHECK_RUNS_RULE_START:
+            errors.extend(validate_journal_direct_check_runs(text))
     return errors
 
 
