@@ -16,6 +16,7 @@ import unicodedata
 import uuid
 from dataclasses import dataclass
 from pathlib import Path
+from urllib.parse import unquote
 
 
 RECORDS_DIRECTORY = Path("Планирование/следующие-шаги-веток")
@@ -29,6 +30,13 @@ RECENCY_BLOCK_RE = re.compile(
 STEP_ID_RE = re.compile(r"^[a-z0-9][a-z0-9._-]{2,127}$")
 CARD_ID_RE = re.compile(r"^FUM-STEP-[0-9]{4}$")
 CONTENT_SHA256_RE = re.compile(r"^sha256:[0-9a-f]{64}$")
+OBJECT_ID_RE = re.compile(r"^(?:[0-9a-f]{40}|[0-9a-f]{64})$")
+SELECTION_POLICY = "source-history-first-parent-v1"
+SELECTION_HISTORY_LIMIT = 16
+MARKDOWN_LINK_RE = re.compile(
+    r"(?<!!)\[[^\]\n]*\]\((?P<target><[^>\n]+>|[^)\n]+)\)"
+)
+URI_SCHEME_RE = re.compile(r"^[A-Za-z][A-Za-z0-9+.-]*:")
 SELECTOR_STATES = frozenset({"open", "done"})
 CANDIDATE_STATUSES = frozenset({"ready", "blocked", "paused"})
 CARD_STATUSES = frozenset({"active", "completed", "absorbed", "withdrawn"})
@@ -192,6 +200,7 @@ class StepCard:
     title: str
     task: str
     criteria: tuple[str, ...]
+    source_paths: tuple[str, ...]
 
 
 @dataclass(frozen=True)
@@ -209,6 +218,7 @@ class BranchSelection:
     state: str
     project_path: str
     record_path: str
+    record_content_sha256: str
     candidates: tuple[CandidateSelection, ...]
 
 
@@ -225,6 +235,8 @@ class StepRecord:
     title: str | None = None
     task: str | None = None
     criteria: tuple[str, ...] = ()
+    source_paths: tuple[str, ...] = ()
+    completed_source_paths: tuple[str, ...] = ()
     resume_condition: str | None = None
 
     def payload(self) -> dict[str, object]:
@@ -257,21 +269,14 @@ class BranchRecord:
     state: str
     project_path: str
     record_path: str
+    record_content_sha256: str
     candidates: tuple[StepRecord, ...]
 
-    def ready_candidate(self) -> StepRecord | None:
-        ready = tuple(
+    def ready_candidates(self) -> tuple[StepRecord, ...]:
+        return tuple(
             candidate for candidate in self.candidates
             if candidate.status == "ready"
         )
-        if len(ready) > 1:
-            raise ContractError(
-                f"{self.record_path}: допускается не более одного "
-                "кандидата status=ready."
-            )
-        if not ready:
-            return None
-        return ready[0]
 
     def summary_payload(self) -> dict[str, object]:
         return {
@@ -307,6 +312,10 @@ def parse_args() -> argparse.Namespace:
         help="Ожидаемый идентификатор шага для повторной проверки перед запуском.",
     )
     parser.add_argument(
+        "--expected-selection-id",
+        help="Ожидаемая детерминированная идентичность выбора.",
+    )
+    parser.add_argument(
         "--branch-ref",
         help="Полный ref для диагностики или fenced-восстановления claim.",
     )
@@ -333,15 +342,27 @@ def validate_command_options(args: argparse.Namespace) -> None:
     option_flags = {
         "expected_branch_ref": "--expected-branch-ref",
         "expected_step_id": "--expected-step-id",
+        "expected_selection_id": "--expected-selection-id",
         "branch_ref": "--branch-ref",
         "expected_lease_id": "--expected-lease-id",
         "lease_id": "--lease-id",
     }
     allowed_by_command = {
         "validate": frozenset(),
-        "show": frozenset({"expected_branch_ref", "expected_step_id"}),
+        "show": frozenset(
+            {
+                "expected_branch_ref",
+                "expected_step_id",
+                "expected_selection_id",
+            }
+        ),
         "claim": frozenset(
-            {"expected_branch_ref", "expected_step_id", "lease_id"}
+            {
+                "expected_branch_ref",
+                "expected_step_id",
+                "expected_selection_id",
+                "lease_id",
+            }
         ),
         "claim-status": frozenset({"branch_ref"}),
         "release": frozenset({"branch_ref", "expected_lease_id"}),
@@ -734,6 +755,88 @@ def validate_sources(visible_sources: str, record_path: str) -> None:
         )
 
 
+def exact_case_path(repo_root: Path, relative_path: str) -> bool:
+    current = repo_root
+    for part in Path(relative_path).parts:
+        try:
+            names = {entry.name for entry in current.iterdir()}
+        except OSError:
+            return False
+        if part not in names:
+            return False
+        current /= part
+    return True
+
+
+def excluded_context_path(path: str, own_card_path: str) -> bool:
+    return (
+        path == own_card_path
+        or path == "README.md"
+        or path == "Планирование/README.md"
+        or path == "Планирование/карточки-шагов/README.md"
+        or path
+        == "Планирование/реестр-требований-вариантов-и-кандидатов.json"
+        or path.startswith(".obsidian/")
+        or path.startswith("Индексы/")
+        or path.startswith(f"{RECORDS_DIRECTORY.as_posix()}/")
+    )
+
+
+def source_link_target(raw_target: str) -> str | None:
+    target = raw_target.strip()
+    if target.startswith("<") and target.endswith(">"):
+        target = target[1:-1].strip()
+    else:
+        # Markdown permits an optional quoted title after an unbracketed URL.
+        target = re.split(r"\s+[\"']", target, maxsplit=1)[0].strip()
+    target = unquote(target)
+    if (
+        not target
+        or target.startswith("#")
+        or target.startswith("//")
+        or URI_SCHEME_RE.match(target) is not None
+        or "\x00" in target
+        or "\\" in target
+    ):
+        return None
+    return target.split("#", 1)[0].split("?", 1)[0]
+
+
+def parse_source_paths(
+    visible_sources: str,
+    card_path: str,
+    repo_root: Path,
+) -> tuple[str, ...]:
+    paths: set[str] = set()
+    card_directory = (repo_root / card_path).parent
+    for match in MARKDOWN_LINK_RE.finditer(visible_sources):
+        target = source_link_target(match.group("target"))
+        if not target:
+            continue
+        raw_path = Path(target)
+        if raw_path.is_absolute():
+            continue
+        absolute = (card_directory / raw_path).resolve()
+        try:
+            relative = repository_relative(absolute, repo_root)
+        except ContractError:
+            continue
+        if not exact_case_path(repo_root, relative):
+            raise ContractError(
+                f"{card_path}: локальная Markdown-ссылка в разделе "
+                "«Источники» не указывает на существующий файл "
+                "с точным регистром пути."
+            )
+        if not absolute.is_file():
+            raise ContractError(
+                f"{card_path}: локальная Markdown-ссылка в разделе "
+                "«Источники» должна указывать на файл."
+            )
+        if not excluded_context_path(relative, card_path):
+            paths.add(relative)
+    return tuple(sorted(paths))
+
+
 def validate_card_filename(
     filename: str,
     card_id: str,
@@ -883,6 +986,11 @@ def parse_card(path: Path, repo_root: Path) -> StepCard:
         title=title,
         task=sections["Задача"].strip(),
         criteria=criteria,
+        source_paths=parse_source_paths(
+            visible_sections["Источники"],
+            card_path,
+            repo_root,
+        ),
     )
 
 
@@ -1024,14 +1132,16 @@ def parse_selector(path: Path, repo_root: Path) -> BranchSelection:
         text = path.read_text(encoding="utf-8")
     except (OSError, UnicodeError) as error:
         raise ContractError(f"Не удалось прочитать {record_path}: {error}.") from error
-    frontmatter, body = split_frontmatter(
-        content_without_recency(text),
-        record_path,
+    canonical_content = content_without_recency(text)
+    record_content_sha256 = (
+        "sha256:"
+        + hashlib.sha256(canonical_content.encode("utf-8")).hexdigest()
     )
+    frontmatter, body = split_frontmatter(canonical_content, record_path)
 
     schema_version = frontmatter.get("schema_version")
-    if type(schema_version) is not int or schema_version != 3:
-        raise ContractError(f"{record_path}: поддерживается только schema_version = 3.")
+    if type(schema_version) is not int or schema_version != 4:
+        raise ContractError(f"{record_path}: поддерживается только schema_version = 4.")
     validate_exact_frontmatter_keys(
         frontmatter,
         SELECTOR_FRONTMATTER_KEYS,
@@ -1068,14 +1178,6 @@ def parse_selector(path: Path, repo_root: Path) -> BranchSelection:
         for index, raw_candidate in enumerate(raw_candidates)
     )
     reject_duplicate_candidate_identities(candidates, record_path)
-    ready_count = sum(
-        candidate.status == "ready" for candidate in candidates
-    )
-    if ready_count > 1:
-        raise ContractError(
-            f"{record_path}: допускается не более одного кандидата status=ready."
-        )
-
     project_path = validate_project_path(
         repo_root,
         frontmatter["project_path"],
@@ -1098,6 +1200,7 @@ def parse_selector(path: Path, repo_root: Path) -> BranchSelection:
         state=state,
         project_path=project_path,
         record_path=record_path,
+        record_content_sha256=record_content_sha256,
         candidates=candidates,
     )
 
@@ -1106,6 +1209,7 @@ def resolve_selection(
     selection: BranchSelection,
     cards_by_id: dict[str, StepCard],
 ) -> BranchRecord:
+    cards_by_path = {card.card_path: card for card in cards_by_id.values()}
     resolved_candidates: list[StepRecord] = []
     for candidate in selection.candidates:
         card = cards_by_id.get(candidate.card_id)
@@ -1138,6 +1242,14 @@ def resolve_selection(
                 title=card.title,
                 task=card.task,
                 criteria=card.criteria,
+                source_paths=card.source_paths,
+                completed_source_paths=tuple(
+                    source_path
+                    for source_path in card.source_paths
+                    if source_path in cards_by_path
+                    and cards_by_path[source_path].status
+                    in {"completed", "absorbed"}
+                ),
                 resume_condition=candidate.resume_condition,
             )
         )
@@ -1146,6 +1258,7 @@ def resolve_selection(
         state=selection.state,
         project_path=selection.project_path,
         record_path=selection.record_path,
+        record_content_sha256=selection.record_content_sha256,
         candidates=tuple(resolved_candidates),
     )
 
@@ -1214,11 +1327,233 @@ def active_record(
     return matching_records[0]
 
 
+def validate_ready_pool(record: BranchRecord) -> tuple[StepRecord, ...]:
+    ready = record.ready_candidates()
+    for candidate in ready:
+        validate_child_prompt_payload(
+            {"state": "ready", **candidate.payload()}
+        )
+    return ready
+
+
+def branch_head_oid(repo_root: Path, branch_ref: str) -> str:
+    result = checked_git(
+        repo_root,
+        f"определить вершину {branch_ref}",
+        "rev-parse",
+        "--verify",
+        f"{branch_ref}^{{commit}}",
+    )
+    oid = result.stdout.strip()
+    if not oid:
+        raise ContractError(f"Git не вернул вершину {branch_ref}.")
+    return oid
+
+
+def changed_paths_for_commit(
+    repo_root: Path,
+    commit_oid: str,
+    first_parent_oid: str | None,
+) -> frozenset[str]:
+    if first_parent_oid is None:
+        result = checked_git(
+            repo_root,
+            f"прочитать пути корневого коммита {commit_oid}",
+            "diff-tree",
+            "--root",
+            "--no-commit-id",
+            "--name-only",
+            "--no-renames",
+            "-r",
+            "-z",
+            commit_oid,
+            "--",
+        )
+    else:
+        result = checked_git(
+            repo_root,
+            f"прочитать first-parent diff коммита {commit_oid}",
+            "diff",
+            "--name-only",
+            "--no-renames",
+            "-z",
+            first_parent_oid,
+            commit_oid,
+            "--",
+        )
+    return frozenset(path for path in result.stdout.split("\x00") if path)
+
+
+def first_parent_history(
+    repo_root: Path,
+    head_oid: str,
+) -> tuple[tuple[str, int, frozenset[str]], ...]:
+    result = checked_git(
+        repo_root,
+        "прочитать окно first-parent истории",
+        "rev-list",
+        "--first-parent",
+        f"--max-count={SELECTION_HISTORY_LIMIT}",
+        "--parents",
+        head_oid,
+    )
+    history: list[tuple[str, int, frozenset[str]]] = []
+    for distance, line in enumerate(result.stdout.splitlines()):
+        parts = line.split()
+        if not parts:
+            continue
+        commit_oid = parts[0]
+        first_parent_oid = parts[1] if len(parts) > 1 else None
+        history.append(
+            (
+                commit_oid,
+                distance,
+                changed_paths_for_commit(
+                    repo_root,
+                    commit_oid,
+                    first_parent_oid,
+                ),
+            )
+        )
+    return tuple(history)
+
+
+def candidate_evidence(
+    candidate: StepRecord,
+    history: tuple[tuple[str, int, frozenset[str]], ...],
+    *,
+    completed_only: bool,
+) -> tuple[int, int, str, tuple[str, ...]] | None:
+    source_paths = (
+        candidate.completed_source_paths
+        if completed_only
+        else candidate.source_paths
+    )
+    source_set = frozenset(source_paths)
+    if not source_set:
+        return None
+    for commit_oid, distance, changed_paths in history:
+        matched_paths = tuple(sorted(source_set & changed_paths))
+        if matched_paths:
+            return distance, -len(matched_paths), commit_oid, matched_paths
+    return None
+
+
+def canonical_selection_id(snapshot: dict[str, object]) -> str:
+    encoded = json.dumps(
+        snapshot,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return "sha256:" + hashlib.sha256(encoded).hexdigest()
+
+
+def select_ready_candidate(
+    repo_root: Path,
+    record: BranchRecord,
+) -> tuple[StepRecord | None, dict[str, object] | None]:
+    ready = validate_ready_pool(record)
+    if not ready:
+        return None, None
+    head_oid = branch_head_oid(repo_root, record.branch_ref)
+    ordered_ready = tuple(
+        sorted(ready, key=lambda item: (str(item.card_id), item.step_id))
+    )
+    winner = ordered_ready[0]
+    reason = "only_ready" if len(ordered_ready) == 1 else "stable_fallback"
+    commit_oid: str | None = None
+    distance: int | None = None
+    matched_paths: tuple[str, ...] = ()
+
+    if len(ordered_ready) > 1:
+        history = first_parent_history(repo_root, head_oid)
+        ranked: list[
+            tuple[
+                tuple[int, int, str, str],
+                StepRecord,
+                tuple[int, int, str, tuple[str, ...]],
+            ]
+        ] = []
+        for completed_only in (True, False):
+            ranked.clear()
+            for candidate in ordered_ready:
+                evidence = candidate_evidence(
+                    candidate,
+                    history,
+                    completed_only=completed_only,
+                )
+                if evidence is None:
+                    continue
+                evidence_distance, negative_count, evidence_commit, paths = evidence
+                ranked.append(
+                    (
+                        (
+                            evidence_distance,
+                            negative_count,
+                            str(candidate.card_id),
+                            candidate.step_id,
+                        ),
+                        candidate,
+                        evidence,
+                    )
+                )
+            if ranked:
+                _rank, winner, evidence = min(ranked, key=lambda item: item[0])
+                distance, _negative_count, commit_oid, matched_paths = evidence
+                reason = (
+                    "completed_step_source"
+                    if completed_only
+                    else "changed_source"
+                )
+                break
+
+    selection_without_id: dict[str, object] = {
+        "policy": SELECTION_POLICY,
+        "head": head_oid,
+        "ready_count": len(ordered_ready),
+        "reason": reason,
+        "commit": commit_oid,
+        "distance": distance,
+        "matched_paths": list(matched_paths),
+    }
+    snapshot: dict[str, object] = {
+        "policy": SELECTION_POLICY,
+        "head": head_oid,
+        "selector": {
+            "record_path": record.record_path,
+            "record_content_sha256": record.record_content_sha256,
+        },
+        "ready": [
+            {
+                **candidate.payload(),
+                "source_paths": list(candidate.source_paths),
+                "completed_source_paths": list(
+                    candidate.completed_source_paths
+                ),
+            }
+            for candidate in ordered_ready
+        ],
+        "winner": {
+            "card_id": winner.card_id,
+            "step_id": winner.step_id,
+        },
+        "evidence": selection_without_id,
+    }
+    selection = {
+        "id": canonical_selection_id(snapshot),
+        **selection_without_id,
+    }
+    return winner, selection
+
+
 def assert_expected_identity(
     record: BranchRecord,
     ready_candidate: StepRecord | None,
+    selection: dict[str, object] | None,
     expected_branch_ref: str | None,
     expected_step_id: str | None,
+    expected_selection_id: str | None,
 ) -> None:
     if expected_branch_ref is not None and record.branch_ref != expected_branch_ref:
         raise ContractError(
@@ -1240,6 +1575,22 @@ def assert_expected_identity(
         raise ContractError(
             "Следующий готовый шаг изменился: ожидался "
             f"{expected_step_id}, обнаружен {discovered}."
+        )
+    if (
+        expected_selection_id is not None
+        and (
+            selection is None
+            or selection.get("id") != expected_selection_id
+        )
+    ):
+        discovered_selection = (
+            str(selection["id"])
+            if selection is not None
+            else "выбор отсутствует"
+        )
+        raise ContractError(
+            "Selection изменился: ожидался "
+            f"{expected_selection_id}, обнаружен {discovered_selection}."
         )
 
 
@@ -1315,19 +1666,32 @@ def validate_claim(
     payload: object,
     expected_branch_ref: str,
 ) -> dict[str, object]:
+    if not isinstance(payload, dict):
+        raise ContractError("Git blob claim имеет неверный формат.")
+    schema_version = payload.get("schema_version")
+    if type(schema_version) is not int or schema_version not in {1, 2}:
+        raise ContractError("Git blob claim имеет неверный контракт.")
     expected_keys = frozenset(
         {"schema_version", "branch_ref", "step_id", "lease_id"}
     )
-    if not isinstance(payload, dict):
-        raise ContractError("Git blob claim имеет неверный формат.")
+    if schema_version == 2:
+        expected_keys |= {
+            "selection_id",
+            "selection_head",
+        }
     if (
         frozenset(payload) != expected_keys
-        or type(payload.get("schema_version")) is not int
-        or payload.get("schema_version") != 1
         or payload.get("branch_ref") != expected_branch_ref
         or not isinstance(payload.get("step_id"), str)
         or STEP_ID_RE.fullmatch(str(payload.get("step_id"))) is None
         or not isinstance(payload.get("lease_id"), str)
+    ):
+        raise ContractError("Git blob claim имеет неверный контракт.")
+    if schema_version == 2 and (
+        not isinstance(payload.get("selection_id"), str)
+        or CONTENT_SHA256_RE.fullmatch(str(payload.get("selection_id"))) is None
+        or not isinstance(payload.get("selection_head"), str)
+        or OBJECT_ID_RE.fullmatch(str(payload.get("selection_head"))) is None
     ):
         raise ContractError("Git blob claim имеет неверный контракт.")
     try:
@@ -1417,12 +1781,43 @@ def cas_claim_ref(
     reference: str,
     old_oid: str | None,
     new_oid: str | None,
+    *,
+    branch_ref: str | None = None,
+    selection_head: str | None = None,
 ) -> bool:
     if new_oid is None and old_oid is None:
         raise ContractError("Нельзя удалить отсутствующее поколение claim.")
+    if (branch_ref is None) != (selection_head is None):
+        raise ContractError(
+            "Проверка вершины claim требует branch_ref и selection_head."
+        )
     last_error = ""
     for attempt in range(UNCHANGED_REF_RETRY_ATTEMPTS):
-        if new_oid is None:
+        if branch_ref is not None and selection_head is not None:
+            if new_oid is None:
+                raise ContractError(
+                    "Проверка вершины не применима к удалению claim."
+                )
+            claim_command = (
+                f"create {reference} {new_oid}\n"
+                if old_oid is None
+                else f"update {reference} {new_oid} {old_oid}\n"
+            )
+            transaction = (
+                "start\n"
+                f"verify {branch_ref} {selection_head}\n"
+                f"{claim_command}"
+                "prepare\n"
+                "commit\n"
+            )
+            result = run_git(
+                repo_root,
+                "update-ref",
+                "--no-deref",
+                "--stdin",
+                input_text=transaction,
+            )
+        elif new_oid is None:
             result = run_git(
                 repo_root,
                 "update-ref",
@@ -1443,6 +1838,14 @@ def cas_claim_ref(
         if result.returncode == 0:
             return True
         last_error = result.stderr.strip()
+        if (
+            branch_ref is not None
+            and selection_head is not None
+            and branch_head_oid(repo_root, branch_ref) != selection_head
+        ):
+            raise ContractError(
+                "Вершина ветки изменилась до атомарной записи claim."
+            )
         if read_ref_oid(repo_root, reference) != old_oid:
             return False
         if attempt + 1 < UNCHANGED_REF_RETRY_ATTEMPTS:
@@ -1455,16 +1858,22 @@ def claim_step(
     repo_root: Path,
     expected_branch_ref: str | None,
     expected_step_id: str | None,
+    expected_selection_id: str | None,
     lease_id: str | None,
 ) -> tuple[dict[str, object], int]:
     if (
         expected_branch_ref is None
         or expected_step_id is None
+        or expected_selection_id is None
         or lease_id is None
     ):
         raise ContractError(
             "claim требует --expected-branch-ref, --expected-step-id "
-            "и --lease-id."
+            "--expected-selection-id и --lease-id."
+        )
+    if CONTENT_SHA256_RE.fullmatch(expected_selection_id) is None:
+        raise ContractError(
+            "--expected-selection-id должен иметь вид sha256:<64 hex>."
         )
     try:
         parsed_lease_id = uuid.UUID(lease_id)
@@ -1478,20 +1887,21 @@ def claim_step(
             "Активная ветка изменилась: ожидалась "
             f"{expected_branch_ref}, обнаружена {record.branch_ref}."
         )
-    ready_candidate = record.ready_candidate()
+    ready_candidate, selection = select_ready_candidate(repo_root, record)
     if ready_candidate is None:
         return (
             {"state": "not_ready", **record.summary_payload()},
             EXIT_NOT_READY,
         )
+    if selection is None:
+        raise ContractError("Внутренняя ошибка: готовый шаг не имеет selection.")
     assert_expected_identity(
         record,
         ready_candidate,
+        selection,
         expected_branch_ref,
         expected_step_id,
-    )
-    validate_child_prompt_payload(
-        {"state": "ready", **ready_candidate.payload()}
+        expected_selection_id,
     )
     reference = claim_ref(repo_root, ready_candidate.branch_ref)
     existing, old_oid = load_claim(
@@ -1499,7 +1909,11 @@ def claim_step(
         reference,
         ready_candidate.branch_ref,
     )
-    if existing is not None and existing["step_id"] == ready_candidate.step_id:
+    if (
+        existing is not None
+        and existing["schema_version"] == 2
+        and existing["selection_id"] == selection["id"]
+    ):
         if existing["lease_id"] == lease_id:
             return (
                 {
@@ -1507,6 +1921,8 @@ def claim_step(
                     "ownership": "existing",
                     "branch_ref": ready_candidate.branch_ref,
                     "step_id": ready_candidate.step_id,
+                    "selection_id": selection["id"],
+                    "selection_head": selection["head"],
                     "lease_id": lease_id,
                     "record_path": ready_candidate.record_path,
                 },
@@ -1517,6 +1933,7 @@ def claim_step(
                 "state": "already_claimed",
                 "branch_ref": ready_candidate.branch_ref,
                 "step_id": ready_candidate.step_id,
+                "selection_id": selection["id"],
             },
             EXIT_ALREADY_CLAIMED,
         )
@@ -1526,19 +1943,30 @@ def claim_step(
             "нужен свежий UUID попытки."
         )
     payload: dict[str, object] = {
-        "schema_version": 1,
+        "schema_version": 2,
         "branch_ref": ready_candidate.branch_ref,
         "step_id": ready_candidate.step_id,
+        "selection_id": selection["id"],
+        "selection_head": selection["head"],
         "lease_id": lease_id,
     }
     new_oid = write_claim_blob(repo_root, payload, ready_candidate.branch_ref)
-    if cas_claim_ref(repo_root, reference, old_oid, new_oid):
+    if cas_claim_ref(
+        repo_root,
+        reference,
+        old_oid,
+        new_oid,
+        branch_ref=ready_candidate.branch_ref,
+        selection_head=str(selection["head"]),
+    ):
         return (
             {
                 "state": "claimed",
                 "ownership": "new",
                 "branch_ref": ready_candidate.branch_ref,
                 "step_id": ready_candidate.step_id,
+                "selection_id": selection["id"],
+                "selection_head": selection["head"],
                 "lease_id": lease_id,
                 "record_path": ready_candidate.record_path,
             },
@@ -1551,7 +1979,8 @@ def claim_step(
     )
     if (
         concurrent is not None
-        and concurrent["step_id"] == ready_candidate.step_id
+        and concurrent["schema_version"] == 2
+        and concurrent["selection_id"] == selection["id"]
     ):
         if concurrent["lease_id"] == lease_id:
             return (
@@ -1560,6 +1989,8 @@ def claim_step(
                     "ownership": "existing",
                     "branch_ref": ready_candidate.branch_ref,
                     "step_id": ready_candidate.step_id,
+                    "selection_id": selection["id"],
+                    "selection_head": selection["head"],
                     "lease_id": lease_id,
                     "record_path": ready_candidate.record_path,
                 },
@@ -1570,12 +2001,13 @@ def claim_step(
                 "state": "already_claimed",
                 "branch_ref": ready_candidate.branch_ref,
                 "step_id": ready_candidate.step_id,
+                "selection_id": selection["id"],
             },
             EXIT_ALREADY_CLAIMED,
         )
     raise ContractError(
         "Claim изменился конкурентно; нужны новая проверка "
-        "branch_ref и step_id и новый вызов claim."
+        "branch_ref, step_id и selection_id и новый вызов claim."
     )
 
 
@@ -1671,37 +2103,39 @@ def main() -> int:
             cards = load_cards(repo_root)
             records = load_records(repo_root, cards)
             current = active_record(repo_root, records)
-            ready_candidate = current.ready_candidate()
+            ready_candidates = validate_ready_pool(current)
             payload = {
                 "state": "valid",
                 "active_branch_ref": current.branch_ref,
-                "active_selector_state": current.state,
-                "active_status": (
-                    "ready"
-                    if ready_candidate is not None
-                    else "done"
-                    if current.state == "done"
-                    else "not_ready"
-                ),
-                "active_candidate_count": len(current.candidates),
-                "record_count": len(records),
-                "card_count": len(cards),
+                "record_path": current.record_path,
+                "project_path": current.project_path,
+                "ready_count": len(ready_candidates),
             }
-            if ready_candidate is not None:
-                payload["active_step_id"] = ready_candidate.step_id
             exit_code = 0
         elif args.command == "show":
             record = active_record(repo_root)
-            ready_candidate = record.ready_candidate()
+            ready_candidate, selection = select_ready_candidate(
+                repo_root,
+                record,
+            )
             assert_expected_identity(
                 record,
                 ready_candidate,
+                selection,
                 args.expected_branch_ref,
                 args.expected_step_id,
+                args.expected_selection_id,
             )
             if ready_candidate is not None:
-                payload = {"state": "ready", **ready_candidate.payload()}
-                validate_child_prompt_payload(payload)
+                if selection is None:
+                    raise ContractError(
+                        "Внутренняя ошибка: готовый шаг не имеет selection."
+                    )
+                payload = {
+                    "state": "ready",
+                    **ready_candidate.payload(),
+                    "selection": selection,
+                }
                 exit_code = 0
             else:
                 payload = {"state": "not_ready", **record.summary_payload()}
@@ -1711,6 +2145,7 @@ def main() -> int:
                 repo_root,
                 args.expected_branch_ref,
                 args.expected_step_id,
+                args.expected_selection_id,
                 args.lease_id,
             )
         elif args.command == "claim-status":

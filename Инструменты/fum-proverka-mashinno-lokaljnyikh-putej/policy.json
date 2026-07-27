@@ -1112,7 +1112,7 @@
       "id": "definition-026",
       "path": "Инструменты/fum-sleduyusjhij-shag-vetki/SKILL.md",
       "kind": "file-uri",
-      "line_sha256": "sha256:4560131ce5d6b4b03a91526a324361d7c9c891517682c24fa61ab4cb719762c8",
+      "line_sha256": "sha256:5cefd3bde13868a3a5f4b6f316507fffad7c6e2404dc4e3d4318c4f07067784e",
       "count": 1,
       "category": "allow.path-validation-definition",
       "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
@@ -1121,7 +1121,7 @@
       "id": "definition-027",
       "path": "Инструменты/fum-sleduyusjhij-shag-vetki/SKILL.md",
       "kind": "file-uri",
-      "line_sha256": "sha256:a3634929022c5e6eff36f4bc52d8fd30162f4af742da873f761d49f9dcd7aac2",
+      "line_sha256": "sha256:68db5bc6934f72ca764389e3a482878d57cc5fffea5edba076f864d3aabd4a08",
       "count": 1,
       "category": "allow.path-validation-definition",
       "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
@@ -1130,7 +1130,7 @@
       "id": "definition-028",
       "path": "Инструменты/fum-sleduyusjhij-shag-vetki/references/heartbeat-prompt.md",
       "kind": "file-uri",
-      "line_sha256": "sha256:fa0313ca02fb629ad11a6781288b30e351736790058cfd52599642c8ac350d85",
+      "line_sha256": "sha256:8178b766897218bf74c1b0ebf582a70359bdde1505acf3affa56a1b438011c43",
       "count": 1,
       "category": "allow.path-validation-definition",
       "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
@@ -1917,6 +1917,24 @@
       "count": 1,
       "category": "allow.test-fixture",
       "reason": "Закрепляет точную отрицательную фикстуру абсолютного домашнего пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-132",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/tests/test_branch_next_step.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:b3db9a4b2fe00cde366e0f0dce085ea3effb13a5a8d2cb5acc6dd048f813192f",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную отрицательную фикстуру fail-closed-проверки ready-payload без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-133",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/tests/test_branch_next_step.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:7b39d598224f271c9cddbd013f47df32eb9a6a6ebcbb45d3a65ace7c423c9ee6",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную проверку нераскрытия отрицательной фикстуры ready-payload без разрешения соседних строк."
     }
   ]
 }

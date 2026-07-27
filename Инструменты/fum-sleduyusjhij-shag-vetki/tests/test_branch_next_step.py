@@ -16,6 +16,7 @@ TOOL_ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = TOOL_ROOT.parents[1]
 SCRIPT_PATH = TOOL_ROOT / "scripts" / "branch-next-step.py"
 HEARTBEAT_PROMPT_PATH = TOOL_ROOT / "references" / "heartbeat-prompt.md"
+DUMMY_SELECTION_ID = f"sha256:{'0' * 64}"
 
 
 def load_tool_module():
@@ -92,6 +93,7 @@ class BranchNextStepTests(unittest.TestCase):
         status: str = "active",
         include_criteria: bool = True,
         schema_version: str = "1",
+        sources: tuple[str, ...] | None = None,
     ) -> Path:
         if status == "active":
             status_sections = (
@@ -109,6 +111,8 @@ class BranchNextStepTests(unittest.TestCase):
                 "## Результат\n\n"
                 "Шаг завершён или снят с работы в соответствии со статусом.\n\n"
             )
+        source_lines = sources or ("- [Тестовый проект](../../README.md)",)
+        source_text = "\n".join(source_lines)
         card = (
             "+++\n"
             f"schema_version = {schema_version}\n"
@@ -121,7 +125,7 @@ class BranchNextStepTests(unittest.TestCase):
             "Обновить тестовый артефакт и подтвердить его локальной проверкой.\n\n"
             f"{status_sections}"
             "## Источники\n\n"
-            "- [Тестовый проект](../../README.md)\n"
+            f"{source_text}\n"
         )
         directory = self.repo / "Планирование" / "карточки-шагов"
         directory.mkdir(parents=True, exist_ok=True)
@@ -150,7 +154,7 @@ class BranchNextStepTests(unittest.TestCase):
         card_content_sha256: str | None = None,
         resume_condition: str | None = None,
         candidates: list[dict[str, str]] | None = None,
-        schema_version: str = "3",
+        schema_version: str = "4",
     ) -> Path:
         selector_state = state or ("done" if status == "done" else "open")
 
@@ -241,7 +245,7 @@ class BranchNextStepTests(unittest.TestCase):
         status: str = "ready",
         project_path: str = "README.md",
         include_criteria: bool = True,
-        schema_version: str = "3",
+        schema_version: str = "4",
     ) -> Path:
         if status == "done":
             return self.write_selector(
@@ -315,6 +319,28 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertTrue(result.stdout, result.stderr)
         return json.loads(result.stdout)
 
+    def head_oid(self) -> str:
+        return self.git("rev-parse", "--verify", "HEAD").stdout.strip()
+
+    def commit_all(self, message: str) -> str:
+        self.git("add", ".")
+        self.git("commit", "-m", message)
+        return self.head_oid()
+
+    def current_selection(self) -> dict[str, object]:
+        shown = self.run_tool("show")
+        self.assertEqual(shown.returncode, 0, shown.stdout + shown.stderr)
+        payload = self.payload(shown)
+        self.assertEqual(payload["state"], "ready")
+        selection = payload.get("selection")
+        self.assertIsInstance(selection, dict)
+        return selection  # type: ignore[return-value]
+
+    def current_selection_id(self) -> str:
+        selection_id = self.current_selection().get("id")
+        self.assertIsInstance(selection_id, str)
+        return selection_id
+
     def test_show_returns_the_single_ready_step_for_the_active_branch(self) -> None:
         self.write_record()
 
@@ -344,6 +370,28 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertEqual(payload["title"], "Проверить следующий шаг")
         self.assertIn("Обновить тестовый артефакт", payload["task"])
         self.assertEqual(len(payload["criteria"]), 2)
+        selection = payload["selection"]
+        self.assertEqual(
+            set(selection),
+            {
+                "id",
+                "policy",
+                "head",
+                "ready_count",
+                "reason",
+                "commit",
+                "distance",
+                "matched_paths",
+            },
+        )
+        self.assertRegex(str(selection["id"]), r"^sha256:[0-9a-f]{64}$")
+        self.assertEqual(selection["policy"], "source-history-first-parent-v1")
+        self.assertEqual(selection["head"], self.head_oid())
+        self.assertEqual(selection["ready_count"], 1)
+        self.assertEqual(selection["reason"], "only_ready")
+        self.assertIsNone(selection["commit"])
+        self.assertIsNone(selection["distance"])
+        self.assertEqual(selection["matched_paths"], [])
 
     def test_child_prompt_payload_scans_every_ready_string_field(self) -> None:
         payload: dict[str, object] = {
@@ -513,6 +561,8 @@ class BranchNextStepTests(unittest.TestCase):
             "refs/heads/master",
             "--expected-step-id",
             "master-test-step-v1",
+            "--expected-selection-id",
+            DUMMY_SELECTION_ID,
             "--lease-id",
             "00000000-0000-0000-0000-000000000001",
         )
@@ -943,13 +993,19 @@ class BranchNextStepTests(unittest.TestCase):
             "release передавай сохранённые --branch-ref и --expected-lease-id",
             prompt,
         )
-        project_lookup = prompt.index("5. Вызови codex_app.list_projects")
-        second_inventory = prompt.index("6. Снова вызови codex_app.list_threads")
-        claim = prompt.index("7. Выполни `python3 -I -c")
+        self.assertIn("--expected-selection-id", prompt)
+        structural_validation = prompt.index("branch-next-step.py validate")
+        project_lookup = prompt.index("Вызови codex_app.list_projects")
+        second_inventory = prompt.index("Снова вызови codex_app.list_threads")
+        dynamic_show = prompt.index("branch-next-step.py show")
+        claim = prompt.index("Выполни `python3 -I -c")
         create_thread = prompt.index(
             "После этой проверки вызови codex_app.create_thread"
         )
+        self.assertLess(structural_validation, project_lookup)
         self.assertLess(project_lookup, second_inventory)
+        self.assertLess(second_inventory, dynamic_show)
+        self.assertLess(dynamic_show, claim)
         self.assertLess(second_inventory, claim)
         self.assertLess(claim, create_thread)
 
@@ -973,9 +1029,9 @@ class BranchNextStepTests(unittest.TestCase):
         prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
         skill = (TOOL_ROOT / "SKILL.md").read_text(encoding="utf-8")
         child_contract_match = re.search(
-            r"8\. .*?(?P<contract>Составь дочерний prompt.*?)\n9\. ",
+            r"^\d+\. .*?(?P<contract>Составь дочерний prompt.*?)^\d+\. ",
             prompt,
-            flags=re.DOTALL,
+            flags=re.DOTALL | re.MULTILINE,
         )
 
         self.assertIsNotNone(child_contract_match)
@@ -999,9 +1055,9 @@ class BranchNextStepTests(unittest.TestCase):
     ) -> None:
         prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
         child_contract_match = re.search(
-            r"8\. .*?(?P<contract>Составь дочерний prompt.*?)\n9\. ",
+            r"^\d+\. .*?(?P<contract>Составь дочерний prompt.*?)^\d+\. ",
             prompt,
-            flags=re.DOTALL,
+            flags=re.DOTALL | re.MULTILINE,
         )
 
         self.assertIsNotNone(child_contract_match)
@@ -1045,9 +1101,9 @@ class BranchNextStepTests(unittest.TestCase):
     ) -> None:
         prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
         child_contract_match = re.search(
-            r"8\. .*?(?P<contract>Составь дочерний prompt.*?)\n9\. ",
+            r"^\d+\. .*?(?P<contract>Составь дочерний prompt.*?)^\d+\. ",
             prompt,
-            flags=re.DOTALL,
+            flags=re.DOTALL | re.MULTILINE,
         )
 
         self.assertIsNotNone(child_contract_match)
@@ -1153,6 +1209,11 @@ class BranchNextStepTests(unittest.TestCase):
         float_schema = self.run_tool("validate")
         self.assertEqual(float_schema.returncode, 2)
         self.assertIn("schema_version", str(self.payload(float_schema)["error"]))
+
+        self.write_record(schema_version="3")
+        old_schema = self.run_tool("validate")
+        self.assertEqual(old_schema.returncode, 2)
+        self.assertIn("schema_version = 4", str(self.payload(old_schema)["error"]))
 
         card = self.write_record()
         card.write_text(
@@ -1469,12 +1530,15 @@ class BranchNextStepTests(unittest.TestCase):
         )
 
         shown = self.run_tool("show")
+        selection_id = str(self.payload(shown)["selection"]["id"])
         claimed = self.run_tool(
             "claim",
             "--expected-branch-ref",
             "refs/heads/master",
             "--expected-step-id",
             "master-ready-step-v1",
+            "--expected-selection-id",
+            selection_id,
             "--lease-id",
             "00000000-0000-0000-0000-000000000001",
         )
@@ -1493,14 +1557,78 @@ class BranchNextStepTests(unittest.TestCase):
             "master-ready-step-v1",
         )
 
-    def test_multiple_ready_candidates_are_invalid(self) -> None:
+    def test_multiple_ready_candidates_use_stable_card_and_step_fallback(
+        self,
+    ) -> None:
+        context = self.repo / "Контекст"
+        context.mkdir()
+        (context / "первый.md").write_text("Первый.\n", encoding="utf-8")
+        (context / "второй.md").write_text("Второй.\n", encoding="utf-8")
         self.write_card(
             "🟡-FUM-STEP-0001-первый-кандидат.md",
             card_id="FUM-STEP-0001",
+            sources=("- [Первый](../../Контекст/первый.md)",),
         )
         self.write_card(
             "🟡-FUM-STEP-0002-второй-кандидат.md",
             card_id="FUM-STEP-0002",
+            sources=("- [Второй](../../Контекст/второй.md)",),
+        )
+        self.write_selector(
+            candidates=[
+                {
+                    "step_id": "master-z-first-ready-v1",
+                    "status": "ready",
+                    "card_id": "FUM-STEP-0001",
+                },
+                {
+                    "step_id": "master-a-second-ready-v1",
+                    "status": "ready",
+                    "card_id": "FUM-STEP-0002",
+                },
+            ]
+        )
+
+        validation = self.run_tool("validate")
+        shown = self.run_tool("show")
+
+        self.assertEqual(validation.returncode, 0, validation.stdout + validation.stderr)
+        self.assertEqual(shown.returncode, 0, shown.stdout + shown.stderr)
+        payload = self.payload(shown)
+        self.assertEqual(payload["card_id"], "FUM-STEP-0001")
+        self.assertEqual(payload["step_id"], "master-z-first-ready-v1")
+        self.assertEqual(
+            payload["selection"]["reason"],
+            "stable_fallback",
+        )
+        self.assertEqual(payload["selection"]["ready_count"], 2)
+        self.assertIsNone(payload["selection"]["commit"])
+        self.assertIsNone(payload["selection"]["distance"])
+        self.assertEqual(payload["selection"]["matched_paths"], [])
+
+    def test_recent_exact_source_selects_ready_candidate_and_normalizes_links(
+        self,
+    ) -> None:
+        context = self.repo / "Контекст"
+        context.mkdir()
+        first_source = context / "первый.md"
+        second_source = context / "второй источник.md"
+        first_source.write_text("Первый.\n", encoding="utf-8")
+        second_source.write_text("Второй.\n", encoding="utf-8")
+        self.commit_all("Создать источники")
+        self.write_card(
+            "🟡-FUM-STEP-0001-первый-кандидат.md",
+            card_id="FUM-STEP-0001",
+            sources=("- [Первый](../../Контекст/первый.md)",),
+        )
+        self.write_card(
+            "🟡-FUM-STEP-0002-второй-кандидат.md",
+            card_id="FUM-STEP-0002",
+            sources=(
+                "- [Второй](<../../Контекст/второй источник.md#раздел>)",
+                "- [Дубликат](<../../Контекст/второй источник.md>)",
+                "- [Внешний](https://example.invalid/второй)",
+            ),
         )
         self.write_selector(
             candidates=[
@@ -1516,12 +1644,507 @@ class BranchNextStepTests(unittest.TestCase):
                 },
             ]
         )
+        second_source.write_text("Второй изменён.\n", encoding="utf-8")
+        related_commit = self.commit_all("Изменить второй источник")
 
-        result = self.run_tool("validate")
+        shown = self.run_tool("show")
 
-        self.assertEqual(result.returncode, 2)
-        self.assertIn("не более одного", str(self.payload(result)["error"]))
-        self.assertIn("status=ready", str(self.payload(result)["error"]))
+        self.assertEqual(shown.returncode, 0, shown.stdout + shown.stderr)
+        payload = self.payload(shown)
+        self.assertEqual(payload["card_id"], "FUM-STEP-0002")
+        self.assertEqual(payload["selection"]["reason"], "changed_source")
+        self.assertEqual(payload["selection"]["commit"], related_commit)
+        self.assertEqual(payload["selection"]["distance"], 0)
+        self.assertEqual(
+            payload["selection"]["matched_paths"],
+            ["Контекст/второй источник.md"],
+        )
+
+    def test_source_link_case_mismatch_fails_when_is_file_reports_missing(
+        self,
+    ) -> None:
+        context = self.repo / "Контекст"
+        context.mkdir()
+        (context / "источник.md").write_text("Источник.\n", encoding="utf-8")
+        card_path = (
+            "Планирование/карточки-шагов/"
+            "🟡-FUM-STEP-0001-проверить-шаг.md"
+        )
+
+        with mock.patch.object(Path, "is_file", return_value=False):
+            with self.assertRaises(TOOL_MODULE.ContractError) as caught:
+                TOOL_MODULE.parse_source_paths(
+                    "- [Источник](../../контекст/источник.md)",
+                    card_path,
+                    self.repo,
+                )
+
+        self.assertIn("точным регистром", str(caught.exception))
+
+    def test_duplicate_source_links_do_not_increase_affinity(self) -> None:
+        context = self.repo / "Контекст"
+        context.mkdir()
+        first_source = context / "первый.md"
+        second_source = context / "второй.md"
+        first_source.write_text("Первый.\n", encoding="utf-8")
+        second_source.write_text("Второй.\n", encoding="utf-8")
+        self.commit_all("Создать источники")
+        self.write_card(
+            "🟡-FUM-STEP-0001-первый-кандидат.md",
+            card_id="FUM-STEP-0001",
+            sources=("- [Первый](../../Контекст/первый.md)",),
+        )
+        self.write_card(
+            "🟡-FUM-STEP-0002-второй-кандидат.md",
+            card_id="FUM-STEP-0002",
+            sources=(
+                "- [Второй](../../Контекст/второй.md#один)",
+                "- [Дубликат](../../Контекст/второй.md#два)",
+            ),
+        )
+        self.write_selector(
+            candidates=[
+                {
+                    "step_id": "master-first-ready-v1",
+                    "status": "ready",
+                    "card_id": "FUM-STEP-0001",
+                },
+                {
+                    "step_id": "master-second-ready-v1",
+                    "status": "ready",
+                    "card_id": "FUM-STEP-0002",
+                },
+            ]
+        )
+        first_source.write_text("Первый изменён.\n", encoding="utf-8")
+        second_source.write_text("Второй изменён.\n", encoding="utf-8")
+        related_commit = self.commit_all("Изменить оба источника")
+
+        shown = self.run_tool("show")
+
+        self.assertEqual(shown.returncode, 0, shown.stdout + shown.stderr)
+        payload = self.payload(shown)
+        self.assertEqual(payload["card_id"], "FUM-STEP-0001")
+        self.assertEqual(payload["selection"]["reason"], "changed_source")
+        self.assertEqual(payload["selection"]["commit"], related_commit)
+        self.assertEqual(
+            payload["selection"]["matched_paths"],
+            ["Контекст/первый.md"],
+        )
+
+    def test_completed_and_absorbed_step_sources_outrank_changed_source(
+        self,
+    ) -> None:
+        context = self.repo / "Контекст"
+        context.mkdir()
+        changed_source = context / "изменяемый.md"
+        changed_source.write_text("Исходный.\n", encoding="utf-8")
+        completed_active = self.write_card(
+            "🟡-FUM-STEP-0003-завершаемый-шаг.md",
+            card_id="FUM-STEP-0003",
+        )
+        absorbed_active = self.write_card(
+            "🟡-FUM-STEP-0004-поглощаемый-шаг.md",
+            card_id="FUM-STEP-0004",
+        )
+        self.commit_all("Закрепить предшественников")
+
+        completed_active.unlink()
+        completed = self.write_card(
+            "✅-FUM-STEP-0003-завершённый-шаг.md",
+            card_id="FUM-STEP-0003",
+            status="completed",
+        )
+        changed_source.write_text("Изменённый.\n", encoding="utf-8")
+        completed_commit = self.commit_all("Завершить шаг")
+        first = self.write_card(
+            "🟡-FUM-STEP-0001-продолжить-завершённый.md",
+            card_id="FUM-STEP-0001",
+            sources=(f"- [Предшественник]({completed.name})",),
+        )
+        second = self.write_card(
+            "🟡-FUM-STEP-0002-продолжить-источник.md",
+            card_id="FUM-STEP-0002",
+            sources=("- [Источник](../../Контекст/изменяемый.md)",),
+        )
+        self.write_selector(
+            candidates=[
+                {"step_id": "master-first-v1", "status": "ready", "card_id": "FUM-STEP-0001"},
+                {"step_id": "master-second-v1", "status": "ready", "card_id": "FUM-STEP-0002"},
+            ]
+        )
+
+        completed_show = self.run_tool("show")
+
+        self.assertEqual(completed_show.returncode, 0, completed_show.stdout + completed_show.stderr)
+        completed_payload = self.payload(completed_show)
+        self.assertEqual(completed_payload["card_id"], "FUM-STEP-0001")
+        self.assertEqual(
+            completed_payload["selection"]["reason"],
+            "completed_step_source",
+        )
+        self.assertEqual(completed_payload["selection"]["commit"], completed_commit)
+        self.assertEqual(completed_payload["selection"]["distance"], 0)
+        self.assertEqual(
+            completed_payload["selection"]["matched_paths"],
+            [completed.relative_to(self.repo).as_posix()],
+        )
+
+        absorbed_active.unlink()
+        absorbed = self.write_card(
+            "🧩-FUM-STEP-0004-поглощённый-шаг.md",
+            card_id="FUM-STEP-0004",
+            status="absorbed",
+        )
+        absorbed_commit = self.commit_all("Поглотить шаг")
+        old_first_hash = self.card_content_sha256(first)
+        first.write_text(
+            first.read_text(encoding="utf-8").replace(
+                f"- [Предшественник]({completed.name})",
+                f"- [Предшественник]({absorbed.name})",
+            ),
+            encoding="utf-8",
+        )
+        selector = (
+            self.repo
+            / "Планирование"
+            / "следующие-шаги-веток"
+            / "master.md"
+        )
+        selector.write_text(
+            selector.read_text(encoding="utf-8").replace(
+                f'card_content_sha256 = "{old_first_hash}"',
+                f'card_content_sha256 = "{self.card_content_sha256(first)}"',
+                1,
+            ),
+            encoding="utf-8",
+        )
+
+        absorbed_show = self.run_tool("show")
+
+        self.assertEqual(absorbed_show.returncode, 0, absorbed_show.stdout + absorbed_show.stderr)
+        absorbed_payload = self.payload(absorbed_show)
+        self.assertEqual(absorbed_payload["card_id"], "FUM-STEP-0001")
+        self.assertEqual(
+            absorbed_payload["selection"]["reason"],
+            "completed_step_source",
+        )
+        self.assertEqual(absorbed_payload["selection"]["commit"], absorbed_commit)
+        self.assertEqual(absorbed_payload["selection"]["distance"], 0)
+        self.assertEqual(
+            absorbed_payload["selection"]["matched_paths"],
+            [absorbed.relative_to(self.repo).as_posix()],
+        )
+
+    def test_history_window_contains_exactly_sixteen_first_parent_commits(
+        self,
+    ) -> None:
+        context = self.repo / "Контекст"
+        context.mkdir()
+        first_source = context / "первый.md"
+        second_source = context / "второй.md"
+        first_source.write_text("Первый.\n", encoding="utf-8")
+        second_source.write_text("Второй.\n", encoding="utf-8")
+        self.git("add", second_source.relative_to(self.repo).as_posix())
+        self.git("commit", "-m", "Изменить второй источник")
+        source_commit = self.head_oid()
+        self.write_card(
+            "🟡-FUM-STEP-0001-первый-кандидат.md",
+            card_id="FUM-STEP-0001",
+            sources=("- [Первый](../../Контекст/первый.md)",),
+        )
+        self.write_card(
+            "🟡-FUM-STEP-0002-второй-кандидат.md",
+            card_id="FUM-STEP-0002",
+            sources=("- [Второй](../../Контекст/второй.md)",),
+        )
+        self.write_selector(
+            candidates=[
+                {"step_id": "master-first-v1", "status": "ready", "card_id": "FUM-STEP-0001"},
+                {"step_id": "master-second-v1", "status": "ready", "card_id": "FUM-STEP-0002"},
+            ]
+        )
+        for index in range(15):
+            self.git(
+                "commit",
+                "--allow-empty",
+                "-m",
+                f"Несвязанный коммит {index:02d}",
+            )
+
+        inside = self.run_tool("show")
+
+        self.assertEqual(inside.returncode, 0, inside.stdout + inside.stderr)
+        inside_payload = self.payload(inside)
+        self.assertEqual(inside_payload["card_id"], "FUM-STEP-0002")
+        self.assertEqual(inside_payload["selection"]["commit"], source_commit)
+        self.assertEqual(inside_payload["selection"]["distance"], 15)
+
+        self.git("commit", "--allow-empty", "-m", "Семнадцатая вершина")
+        outside = self.run_tool("show")
+
+        self.assertEqual(outside.returncode, 0, outside.stdout + outside.stderr)
+        outside_payload = self.payload(outside)
+        self.assertEqual(outside_payload["card_id"], "FUM-STEP-0001")
+        self.assertEqual(outside_payload["selection"]["reason"], "stable_fallback")
+        self.assertIsNone(outside_payload["selection"]["commit"])
+        self.assertIsNone(outside_payload["selection"]["distance"])
+
+    def test_subject_author_time_and_non_source_text_do_not_affect_selection(
+        self,
+    ) -> None:
+        context = self.repo / "Контекст"
+        context.mkdir()
+        first_source = context / "первый.md"
+        second_source = context / "второй.md"
+        unrelated = context / "не-источник.md"
+        for path in (first_source, second_source, unrelated):
+            path.write_text(f"{path.name}\n", encoding="utf-8")
+        self.write_card(
+            "🟡-FUM-STEP-0001-первый-кандидат.md",
+            card_id="FUM-STEP-0001",
+            sources=("- [Первый](../../Контекст/первый.md)",),
+        )
+        second = self.write_card(
+            "🟡-FUM-STEP-0002-второй-кандидат.md",
+            card_id="FUM-STEP-0002",
+            sources=("- [Второй](../../Контекст/второй.md)",),
+        )
+        second.write_text(
+            second.read_text(encoding="utf-8").replace(
+                "Эта карточка задаёт один исполняемый шаг.",
+                "[Не источник](../../Контекст/не-источник.md)",
+            ),
+            encoding="utf-8",
+        )
+        self.write_selector(
+            candidates=[
+                {"step_id": "master-first-v1", "status": "ready", "card_id": "FUM-STEP-0001"},
+                {"step_id": "master-second-v1", "status": "ready", "card_id": "FUM-STEP-0002"},
+            ]
+        )
+        unrelated.write_text("Изменён вне Источников.\n", encoding="utf-8")
+        self.git("add", unrelated.relative_to(self.repo).as_posix())
+        self.git("commit", "-m", "FUM-STEP-0002 второй кандидат")
+        self.git(
+            "commit",
+            "--allow-empty",
+            "--author",
+            "FUM-STEP-0002 <second@example.invalid>",
+            "--date",
+            "2001-02-03T04:05:06+00:00",
+            "-m",
+            "Выбрать FUM-STEP-0002",
+        )
+
+        shown = self.run_tool("show")
+
+        self.assertEqual(shown.returncode, 0, shown.stdout + shown.stderr)
+        payload = self.payload(shown)
+        self.assertEqual(payload["card_id"], "FUM-STEP-0001")
+        self.assertEqual(payload["selection"]["reason"], "stable_fallback")
+        self.assertEqual(payload["selection"]["matched_paths"], [])
+
+    def test_control_plane_and_candidate_own_paths_do_not_create_affinity(
+        self,
+    ) -> None:
+        context = self.repo / "Контекст"
+        context.mkdir()
+        neutral = context / "нейтральный.md"
+        neutral.write_text("Нейтральный.\n", encoding="utf-8")
+        obsidian = self.repo / ".obsidian" / "graph.json"
+        obsidian.parent.mkdir()
+        obsidian.write_text("{}\n", encoding="utf-8")
+        registry = (
+            self.repo
+            / "Планирование"
+            / "реестр-требований-вариантов-и-кандидатов.json"
+        )
+        registry.write_text("{}\n", encoding="utf-8")
+        index = (
+            self.repo
+            / "Индексы"
+            / "markdown-файлы-по-времени-редактирования.md"
+        )
+        index.parent.mkdir()
+        index.write_text("# Индекс\n", encoding="utf-8")
+        self.write_card(
+            "🟡-FUM-STEP-0001-первый-кандидат.md",
+            card_id="FUM-STEP-0001",
+            sources=("- [Нейтральный](../../Контекст/нейтральный.md)",),
+        )
+        self.write_card(
+            "🟡-FUM-STEP-0002-второй-кандидат.md",
+            card_id="FUM-STEP-0002",
+            sources=(
+                "- [Obsidian](../../.obsidian/graph.json)",
+                "- [Индекс](../../Индексы/markdown-файлы-по-времени-редактирования.md)",
+                "- [Реест](../реестр-требований-вариантов-и-кандидатов.json)",
+                "- [Селектор](../следующие-шаги-веток/master.md)",
+                "- [Собственная карточка](🟡-FUM-STEP-0002-второй-кандидат.md)",
+            ),
+        )
+        self.write_selector(
+            candidates=[
+                {"step_id": "master-first-v1", "status": "ready", "card_id": "FUM-STEP-0001"},
+                {"step_id": "master-second-v1", "status": "ready", "card_id": "FUM-STEP-0002"},
+            ]
+        )
+        self.git(
+            "add",
+            ".obsidian",
+            "Индексы",
+            "Планирование",
+        )
+        self.git("commit", "-m", "Изменить только управляющие пути")
+        control_commit = self.head_oid()
+
+        shown = self.run_tool("show")
+
+        self.assertEqual(shown.returncode, 0, shown.stdout + shown.stderr)
+        payload = self.payload(shown)
+        self.assertEqual(payload["card_id"], "FUM-STEP-0001")
+        self.assertEqual(payload["selection"]["reason"], "stable_fallback")
+        self.assertNotEqual(payload["selection"]["commit"], control_commit)
+        self.assertEqual(payload["selection"]["matched_paths"], [])
+
+    def test_first_parent_history_excludes_recent_side_parent_commit(
+        self,
+    ) -> None:
+        context = self.repo / "Контекст"
+        context.mkdir()
+        second_source = context / "второй.md"
+        second_source.write_text("База.\n", encoding="utf-8")
+        self.git("add", second_source.relative_to(self.repo).as_posix())
+        self.git("commit", "-m", "Базовый источник")
+        self.git("branch", "side-source")
+
+        second_source.write_text("Одинаковое изменение.\n", encoding="utf-8")
+        self.git("add", second_source.relative_to(self.repo).as_posix())
+        self.git("commit", "-m", "Изменить источник в first-parent")
+        for index in range(16):
+            self.git("commit", "--allow-empty", "-m", f"Промежуток {index:02d}")
+
+        self.git("checkout", "side-source")
+        second_source.write_text("Одинаковое изменение.\n", encoding="utf-8")
+        self.git("add", second_source.relative_to(self.repo).as_posix())
+        self.git("commit", "-m", "FUM-STEP-0002 в боковом родителе")
+        self.git("checkout", "master")
+        self.git("merge", "--no-ff", "side-source", "-m", "Слить боковую ветку")
+
+        first_source = context / "первый.md"
+        first_source.write_text("Первый.\n", encoding="utf-8")
+        self.write_card(
+            "🟡-FUM-STEP-0001-первый-кандидат.md",
+            card_id="FUM-STEP-0001",
+            sources=("- [Первый](../../Контекст/первый.md)",),
+        )
+        self.write_card(
+            "🟡-FUM-STEP-0002-второй-кандидат.md",
+            card_id="FUM-STEP-0002",
+            sources=("- [Второй](../../Контекст/второй.md)",),
+        )
+        self.write_selector(
+            candidates=[
+                {"step_id": "master-first-v1", "status": "ready", "card_id": "FUM-STEP-0001"},
+                {"step_id": "master-second-v1", "status": "ready", "card_id": "FUM-STEP-0002"},
+            ]
+        )
+
+        shown = self.run_tool("show")
+
+        self.assertEqual(shown.returncode, 0, shown.stdout + shown.stderr)
+        payload = self.payload(shown)
+        self.assertEqual(payload["card_id"], "FUM-STEP-0001")
+        self.assertEqual(payload["selection"]["reason"], "stable_fallback")
+        self.assertEqual(payload["selection"]["matched_paths"], [])
+
+    def test_paused_and_blocked_candidates_never_enter_history_ranking(
+        self,
+    ) -> None:
+        context = self.repo / "Контекст"
+        context.mkdir()
+        deferred_source = context / "отложенный.md"
+        ready_source = context / "готовый.md"
+        deferred_source.write_text("Отложенный.\n", encoding="utf-8")
+        ready_source.write_text("Готовый.\n", encoding="utf-8")
+        self.git("add", deferred_source.relative_to(self.repo).as_posix())
+        self.git("commit", "-m", "Изменить тему отложенных шагов")
+        self.write_card(
+            "🟡-FUM-STEP-0001-приостановленный.md",
+            card_id="FUM-STEP-0001",
+            sources=("- [Отложенный](../../Контекст/отложенный.md)",),
+        )
+        self.write_card(
+            "🟡-FUM-STEP-0002-заблокированный.md",
+            card_id="FUM-STEP-0002",
+            sources=("- [Отложенный](../../Контекст/отложенный.md)",),
+        )
+        self.write_card(
+            "🟡-FUM-STEP-0003-готовый.md",
+            card_id="FUM-STEP-0003",
+            sources=("- [Готовый](../../Контекст/готовый.md)",),
+        )
+        self.write_selector(
+            candidates=[
+                {
+                    "step_id": "master-paused-v1",
+                    "status": "paused",
+                    "card_id": "FUM-STEP-0001",
+                    "resume_condition": "Снять паузу.",
+                },
+                {
+                    "step_id": "master-blocked-v1",
+                    "status": "blocked",
+                    "card_id": "FUM-STEP-0002",
+                    "resume_condition": "Получить вход.",
+                },
+                {
+                    "step_id": "master-ready-v1",
+                    "status": "ready",
+                    "card_id": "FUM-STEP-0003",
+                },
+            ]
+        )
+
+        shown = self.run_tool("show")
+
+        self.assertEqual(shown.returncode, 0, shown.stdout + shown.stderr)
+        payload = self.payload(shown)
+        self.assertEqual(payload["card_id"], "FUM-STEP-0003")
+        self.assertEqual(payload["selection"]["ready_count"], 1)
+        self.assertEqual(payload["selection"]["reason"], "only_ready")
+        self.assertEqual(payload["selection"]["matched_paths"], [])
+
+    def test_any_unsafe_ready_candidate_fails_closed_before_ranking(self) -> None:
+        safe = self.write_card(
+            "🟡-FUM-STEP-0001-безопасный.md",
+            card_id="FUM-STEP-0001",
+        )
+        unsafe = self.write_card(
+            "🟡-FUM-STEP-0002-небезопасный.md",
+            card_id="FUM-STEP-0002",
+        )
+        unsafe.write_text(
+            unsafe.read_text(encoding="utf-8").replace(
+                "Обновить тестовый артефакт и подтвердить его локальной проверкой.",
+                "Обновить /Users/example/private-checkout.",
+            ),
+            encoding="utf-8",
+        )
+        self.write_selector(
+            candidates=[
+                {"step_id": "master-safe-v1", "status": "ready", "card_id": "FUM-STEP-0001"},
+                {"step_id": "master-unsafe-v1", "status": "ready", "card_id": "FUM-STEP-0002"},
+            ]
+        )
+
+        shown = self.run_tool("show")
+
+        self.assertEqual(shown.returncode, 2)
+        self.assertEqual(self.payload(shown)["state"], "invalid")
+        self.assertNotIn("/Users/example", str(self.payload(shown)["error"]))
+        self.assertTrue(safe.exists())
 
     def test_deferred_candidates_require_a_resume_condition(self) -> None:
         self.write_card()
@@ -1692,6 +2315,8 @@ class BranchNextStepTests(unittest.TestCase):
             "refs/heads/master",
             "--expected-step-id",
             "master-paused-step-v1",
+            "--expected-selection-id",
+            DUMMY_SELECTION_ID,
             "--lease-id",
             "00000000-0000-0000-0000-000000000001",
         )
@@ -1723,6 +2348,17 @@ class BranchNextStepTests(unittest.TestCase):
 
     def test_expected_identity_detects_branch_or_step_changes(self) -> None:
         self.write_record()
+        selection_id = self.current_selection_id()
+
+        matching = self.run_tool(
+            "show",
+            "--expected-branch-ref",
+            "refs/heads/master",
+            "--expected-step-id",
+            "master-test-step-v1",
+            "--expected-selection-id",
+            selection_id,
+        )
 
         wrong_branch = self.run_tool(
             "show",
@@ -1734,14 +2370,28 @@ class BranchNextStepTests(unittest.TestCase):
             "--expected-step-id",
             "master-other-step-v1",
         )
+        wrong_selection = self.run_tool(
+            "show",
+            "--expected-selection-id",
+            DUMMY_SELECTION_ID,
+        )
 
+        self.assertEqual(matching.returncode, 0, matching.stdout + matching.stderr)
+        self.assertEqual(
+            self.payload(matching)["selection"]["id"],
+            selection_id,
+        )
         self.assertEqual(wrong_branch.returncode, 2)
         self.assertIn("изменилась", str(self.payload(wrong_branch)["error"]))
         self.assertEqual(wrong_step.returncode, 2)
         self.assertIn("изменился", str(self.payload(wrong_step)["error"]))
+        self.assertNotEqual(selection_id, DUMMY_SELECTION_ID)
+        self.assertEqual(wrong_selection.returncode, 2)
+        self.assertIn("selection", str(self.payload(wrong_selection)["error"]).casefold())
 
     def test_claim_is_atomic_and_same_step_is_not_dispatched_twice(self) -> None:
         self.write_record()
+        selection_id = self.current_selection_id()
         processes = [
             subprocess.Popen(
                 [
@@ -1752,6 +2402,8 @@ class BranchNextStepTests(unittest.TestCase):
                     "refs/heads/master",
                     "--expected-step-id",
                     "master-test-step-v1",
+                    "--expected-selection-id",
+                    selection_id,
                     "--lease-id",
                     f"00000000-0000-0000-0000-{attempt:012d}",
                     "--repo-root",
@@ -1782,12 +2434,15 @@ class BranchNextStepTests(unittest.TestCase):
     ) -> None:
         self.write_record()
         lease_id = "00000000-0000-0000-0000-000000000001"
+        selection_id = self.current_selection_id()
         arguments = (
             "claim",
             "--expected-branch-ref",
             "refs/heads/master",
             "--expected-step-id",
             "master-test-step-v1",
+            "--expected-selection-id",
+            selection_id,
             "--lease-id",
             lease_id,
         )
@@ -1813,6 +2468,7 @@ class BranchNextStepTests(unittest.TestCase):
 
     def test_claim_requires_a_canonical_client_lease_before_writing(self) -> None:
         self.write_record()
+        selection_id = self.current_selection_id()
 
         missing = self.run_tool(
             "claim",
@@ -1821,12 +2477,23 @@ class BranchNextStepTests(unittest.TestCase):
             "--expected-step-id",
             "master-test-step-v1",
         )
+        missing_selection = self.run_tool(
+            "claim",
+            "--expected-branch-ref",
+            "refs/heads/master",
+            "--expected-step-id",
+            "master-test-step-v1",
+            "--lease-id",
+            "00000000-0000-0000-0000-000000000001",
+        )
         malformed = self.run_tool(
             "claim",
             "--expected-branch-ref",
             "refs/heads/master",
             "--expected-step-id",
             "master-test-step-v1",
+            "--expected-selection-id",
+            selection_id,
             "--lease-id",
             "NOT-A-UUID",
         )
@@ -1836,6 +2503,8 @@ class BranchNextStepTests(unittest.TestCase):
             "refs/heads/master",
             "--expected-step-id",
             "master-test-step-v1",
+            "--expected-selection-id",
+            selection_id,
             "--lease-id",
             "AAAAAAAA-AAAA-4AAA-8AAA-AAAAAAAAAAAA",
         )
@@ -1843,6 +2512,12 @@ class BranchNextStepTests(unittest.TestCase):
 
         self.assertEqual(missing.returncode, 2)
         self.assertIn("--lease-id", str(self.payload(missing)["error"]))
+        self.assertIn("--expected-selection-id", str(self.payload(missing)["error"]))
+        self.assertEqual(missing_selection.returncode, 2)
+        self.assertIn(
+            "--expected-selection-id",
+            str(self.payload(missing_selection)["error"]),
+        )
         self.assertEqual(malformed.returncode, 2)
         self.assertIn("--lease-id", str(self.payload(malformed)["error"]))
         self.assertEqual(noncanonical.returncode, 2)
@@ -1854,42 +2529,170 @@ class BranchNextStepTests(unittest.TestCase):
     ) -> None:
         self.write_record()
         lease_id = "00000000-0000-0000-0000-000000000001"
+        first_selection_id = self.current_selection_id()
         first = self.run_tool(
             "claim",
             "--expected-branch-ref",
             "refs/heads/master",
             "--expected-step-id",
             "master-test-step-v1",
+            "--expected-selection-id",
+            first_selection_id,
             "--lease-id",
             lease_id,
         )
-        self.write_record(step_id="master-test-step-v2")
+        self.git("commit", "--allow-empty", "-m", "Продвинуть контекс выбора")
+        second_selection_id = self.current_selection_id()
 
         reused = self.run_tool(
             "claim",
             "--expected-branch-ref",
             "refs/heads/master",
             "--expected-step-id",
-            "master-test-step-v2",
+            "master-test-step-v1",
+            "--expected-selection-id",
+            second_selection_id,
             "--lease-id",
             lease_id,
         )
         status = self.run_tool("claim-status")
 
         self.assertEqual(first.returncode, 0, first.stdout + first.stderr)
+        self.assertNotEqual(first_selection_id, second_selection_id)
         self.assertEqual(reused.returncode, 2)
         self.assertIn("свежий UUID", str(self.payload(reused)["error"]))
         self.assertEqual(self.payload(status)["step_id"], "master-test-step-v1")
+        self.assertEqual(self.payload(status)["selection_id"], first_selection_id)
         self.assertEqual(self.payload(status)["lease_id"], lease_id)
 
-    def test_claim_replacement_and_fenced_release_follow_step_identity(self) -> None:
+    def test_head_change_invalidates_observed_selection_without_writing_claim(
+        self,
+    ) -> None:
         self.write_record()
+        observed = self.current_selection()
+        self.git("commit", "--allow-empty", "-m", "Изменить HEAD")
+        current = self.current_selection()
+
+        stale_show = self.run_tool(
+            "show",
+            "--expected-branch-ref",
+            "refs/heads/master",
+            "--expected-step-id",
+            "master-test-step-v1",
+            "--expected-selection-id",
+            str(observed["id"]),
+        )
+        stale_claim = self.run_tool(
+            "claim",
+            "--expected-branch-ref",
+            "refs/heads/master",
+            "--expected-step-id",
+            "master-test-step-v1",
+            "--expected-selection-id",
+            str(observed["id"]),
+            "--lease-id",
+            "00000000-0000-0000-0000-000000000001",
+        )
+        status = self.run_tool("claim-status")
+
+        self.assertNotEqual(observed["head"], current["head"])
+        self.assertNotEqual(observed["id"], current["id"])
+        self.assertIn(stale_show.returncode, (2, 5))
+        self.assertIn(self.payload(stale_show)["state"], ("invalid", "mismatch"))
+        self.assertIn(stale_claim.returncode, (2, 5))
+        self.assertIn(self.payload(stale_claim)["state"], ("invalid", "mismatch"))
+        self.assertEqual(self.payload(status)["state"], "unclaimed")
+
+    def test_new_head_selection_replaces_claim_even_for_the_same_step_id(
+        self,
+    ) -> None:
+        self.write_record()
+        first_selection = self.current_selection()
         first = self.run_tool(
             "claim",
             "--expected-branch-ref",
             "refs/heads/master",
             "--expected-step-id",
             "master-test-step-v1",
+            "--expected-selection-id",
+            str(first_selection["id"]),
+            "--lease-id",
+            "00000000-0000-0000-0000-000000000001",
+        )
+        self.git("commit", "--allow-empty", "-m", "Новая вершина той же карточки")
+        second_selection = self.current_selection()
+        second = self.run_tool(
+            "claim",
+            "--expected-branch-ref",
+            "refs/heads/master",
+            "--expected-step-id",
+            "master-test-step-v1",
+            "--expected-selection-id",
+            str(second_selection["id"]),
+            "--lease-id",
+            "00000000-0000-0000-0000-000000000002",
+        )
+        status = self.run_tool("claim-status")
+
+        self.assertEqual(first.returncode, 0, first.stdout + first.stderr)
+        self.assertNotEqual(first_selection["id"], second_selection["id"])
+        self.assertNotEqual(first_selection["head"], second_selection["head"])
+        self.assertEqual(second.returncode, 0, second.stdout + second.stderr)
+        self.assertEqual(self.payload(second)["ownership"], "new")
+        self.assertEqual(self.payload(second)["step_id"], "master-test-step-v1")
+        self.assertEqual(self.payload(status)["selection_id"], second_selection["id"])
+        self.assertEqual(
+            self.payload(status)["selection_head"],
+            second_selection["head"],
+        )
+
+    def test_claim_transaction_verifies_branch_head_with_claim_cas(self) -> None:
+        self.write_record()
+        selection = self.current_selection()
+        original_cas = TOOL_MODULE.cas_claim_ref
+        raced = False
+
+        def move_branch_then_cas(*args, **kwargs):
+            nonlocal raced
+            if not raced:
+                raced = True
+                self.git(
+                    "commit",
+                    "--allow-empty",
+                    "-m",
+                    "Гонка перед CAS claim",
+                )
+            return original_cas(*args, **kwargs)
+
+        with mock.patch.object(
+            TOOL_MODULE,
+            "cas_claim_ref",
+            side_effect=move_branch_then_cas,
+        ):
+            with self.assertRaises(TOOL_MODULE.ContractError):
+                TOOL_MODULE.claim_step(
+                    self.repo,
+                    "refs/heads/master",
+                    "master-test-step-v1",
+                    str(selection["id"]),
+                    "00000000-0000-0000-0000-000000000001",
+                )
+
+        status, status_code = TOOL_MODULE.claim_status(self.repo, None)
+        self.assertEqual(status_code, 0)
+        self.assertEqual(status["state"], "unclaimed")
+
+    def test_claim_replacement_and_fenced_release_follow_step_identity(self) -> None:
+        self.write_record()
+        first_selection_id = self.current_selection_id()
+        first = self.run_tool(
+            "claim",
+            "--expected-branch-ref",
+            "refs/heads/master",
+            "--expected-step-id",
+            "master-test-step-v1",
+            "--expected-selection-id",
+            first_selection_id,
             "--lease-id",
             "00000000-0000-0000-0000-000000000001",
         )
@@ -1905,12 +2708,15 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertEqual(self.payload(wrong_release)["state"], "mismatch")
 
         self.write_record(step_id="master-test-step-v2")
+        second_selection_id = self.current_selection_id()
         second = self.run_tool(
             "claim",
             "--expected-branch-ref",
             "refs/heads/master",
             "--expected-step-id",
             "master-test-step-v2",
+            "--expected-selection-id",
+            second_selection_id,
             "--lease-id",
             "00000000-0000-0000-0000-000000000002",
         )
@@ -1937,26 +2743,22 @@ class BranchNextStepTests(unittest.TestCase):
         original_cas = TOOL_MODULE.cas_claim_ref
         raced = False
 
-        def install_newer_step_then_report_conflict(
-            repo_root: Path,
-            claim_reference: str,
-            old_oid: str | None,
-            new_oid: str | None,
-        ) -> bool:
+        def install_newer_step_then_report_conflict(*args, **kwargs) -> bool:
             nonlocal raced
             if raced:
-                return original_cas(
-                    repo_root,
-                    claim_reference,
-                    old_oid,
-                    new_oid,
-                )
+                return original_cas(*args, **kwargs)
             raced = True
+            repo_root = args[0]
+            claim_reference = args[1]
+            old_oid = args[-2]
             self.write_record(step_id="master-test-step-v3")
+            third_selection = self.current_selection()
             newer_payload = {
-                "schema_version": 1,
+                "schema_version": 2,
                 "branch_ref": "refs/heads/master",
                 "step_id": "master-test-step-v3",
+                "selection_id": third_selection["id"],
+                "selection_head": third_selection["head"],
                 "lease_id": "00000000-0000-0000-0000-000000000003",
             }
             newer_oid = TOOL_MODULE.write_claim_blob(
@@ -1977,6 +2779,7 @@ class BranchNextStepTests(unittest.TestCase):
                     self.repo,
                     "refs/heads/master",
                     "master-test-step-v2",
+                    second_selection_id,
                     "00000000-0000-0000-0000-000000000004",
                 )
         self.assertEqual(patched_cas.call_count, 1)
@@ -1986,6 +2789,7 @@ class BranchNextStepTests(unittest.TestCase):
 
     def test_claim_is_a_canonical_json_blob_under_a_checkout_scoped_ref(self) -> None:
         self.write_record()
+        selection = self.current_selection()
 
         claimed = self.run_tool(
             "claim",
@@ -1993,6 +2797,8 @@ class BranchNextStepTests(unittest.TestCase):
             "refs/heads/master",
             "--expected-step-id",
             "master-test-step-v1",
+            "--expected-selection-id",
+            str(selection["id"]),
             "--lease-id",
             "00000000-0000-0000-0000-000000000001",
         )
@@ -2009,7 +2815,9 @@ class BranchNextStepTests(unittest.TestCase):
                 {
                     "branch_ref": "refs/heads/master",
                     "lease_id": self.payload(claimed)["lease_id"],
-                    "schema_version": 1,
+                    "schema_version": 2,
+                    "selection_head": selection["head"],
+                    "selection_id": selection["id"],
                     "step_id": "master-test-step-v1",
                 },
                 ensure_ascii=False,
@@ -2019,8 +2827,62 @@ class BranchNextStepTests(unittest.TestCase):
             + "\n",
         )
 
+    def test_legacy_schema_one_claim_is_read_and_replaced_by_schema_two(
+        self,
+    ) -> None:
+        self.write_record(step_id="master-test-step-v2")
+        selection = self.current_selection()
+        reference = self.install_raw_claim(
+            json.dumps(
+                {
+                    "schema_version": 1,
+                    "branch_ref": "refs/heads/master",
+                    "step_id": "master-test-step-v1",
+                    "lease_id": "00000000-0000-0000-0000-000000000001",
+                },
+                sort_keys=True,
+                separators=(",", ":"),
+            )
+        )
+
+        legacy_status = self.run_tool("claim-status")
+        replacement = self.run_tool(
+            "claim",
+            "--expected-branch-ref",
+            "refs/heads/master",
+            "--expected-step-id",
+            "master-test-step-v2",
+            "--expected-selection-id",
+            str(selection["id"]),
+            "--lease-id",
+            "00000000-0000-0000-0000-000000000002",
+        )
+
+        self.assertEqual(
+            legacy_status.returncode,
+            0,
+            legacy_status.stdout + legacy_status.stderr,
+        )
+        self.assertEqual(self.payload(legacy_status)["state"], "claimed")
+        self.assertEqual(
+            self.payload(legacy_status)["step_id"],
+            "master-test-step-v1",
+        )
+        self.assertEqual(
+            replacement.returncode,
+            0,
+            replacement.stdout + replacement.stderr,
+        )
+        oid = self.git("rev-parse", "--verify", reference).stdout.strip()
+        stored = json.loads(self.git("cat-file", "blob", oid).stdout)
+        self.assertEqual(stored["schema_version"], 2)
+        self.assertEqual(stored["step_id"], "master-test-step-v2")
+        self.assertEqual(stored["selection_id"], selection["id"])
+        self.assertEqual(stored["selection_head"], selection["head"])
+
     def test_corrupt_claim_blob_is_not_replaced_or_misreported(self) -> None:
         self.write_record()
+        selection = self.current_selection()
         corrupt = {
             "schema_version": True,
             "branch_ref": "refs/heads/master",
@@ -2039,6 +2901,8 @@ class BranchNextStepTests(unittest.TestCase):
             "refs/heads/master",
             "--expected-step-id",
             "master-test-step-v1",
+            "--expected-selection-id",
+            str(selection["id"]),
             "--lease-id",
             "00000000-0000-0000-0000-000000000002",
         )
@@ -2063,9 +2927,11 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertEqual(self.payload(non_blob_status)["state"], "invalid")
 
         self.install_raw_claim(
-            '{"schema_version":1,"schema_version":1,'
+            '{"schema_version":2,"schema_version":2,'
             '"branch_ref":"refs/heads/master",'
             '"step_id":"master-test-step-v1",'
+            f'"selection_id":"{DUMMY_SELECTION_ID}",'
+            f'"selection_head":"{self.head_oid()}",'
             '"lease_id":"00000000-0000-0000-0000-000000000001"}'
         )
         duplicate_status = self.run_tool("claim-status")
@@ -2074,9 +2940,11 @@ class BranchNextStepTests(unittest.TestCase):
 
         valid_payload = json.dumps(
             {
-                "schema_version": 1,
+                "schema_version": 2,
                 "branch_ref": "refs/heads/master",
                 "step_id": "master-test-step-v1",
+                "selection_id": DUMMY_SELECTION_ID,
+                "selection_head": self.head_oid(),
                 "lease_id": "00000000-0000-0000-0000-000000000001",
             },
             sort_keys=True,
@@ -2207,6 +3075,7 @@ class BranchNextStepTests(unittest.TestCase):
         ).stdout
         cached_before = self.git("diff", "--cached", "--binary").stdout
         unstaged_before = self.git("diff", "--binary").stdout
+        selection_id = self.current_selection_id()
 
         claimed = self.run_tool(
             "claim",
@@ -2214,6 +3083,8 @@ class BranchNextStepTests(unittest.TestCase):
             "refs/heads/master",
             "--expected-step-id",
             "master-test-step-v1",
+            "--expected-selection-id",
+            selection_id,
             "--lease-id",
             "00000000-0000-0000-0000-000000000001",
         )
@@ -2246,6 +3117,7 @@ class BranchNextStepTests(unittest.TestCase):
             step_id="project-unicode-step-v1",
             project_path="Проекты/тест/README.md",
         )
+        selection_id = self.current_selection_id()
 
         claimed = self.run_tool(
             "claim",
@@ -2253,6 +3125,8 @@ class BranchNextStepTests(unittest.TestCase):
             "refs/heads/project/тест",
             "--expected-step-id",
             "project-unicode-step-v1",
+            "--expected-selection-id",
+            selection_id,
             "--lease-id",
             "00000000-0000-0000-0000-000000000001",
         )
@@ -2310,12 +3184,15 @@ class BranchNextStepTests(unittest.TestCase):
         self.repo = sha_repo
         try:
             self.write_record()
+            selection_id = self.current_selection_id()
             claimed = self.run_tool(
                 "claim",
                 "--expected-branch-ref",
                 "refs/heads/master",
                 "--expected-step-id",
                 "master-test-step-v1",
+                "--expected-selection-id",
+                selection_id,
                 "--lease-id",
                 "00000000-0000-0000-0000-000000000001",
             )
