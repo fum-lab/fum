@@ -51,6 +51,12 @@
       "executableProducts": [
         "FUMStructuringOperatorMemoryProbe"
       ]
+    },
+    {
+      "package": "Прототипы/проверяемый-многоагентный-контур",
+      "executableProducts": [
+        "FUMWorkPackageProbe"
+      ]
     }
   ],
   "exceptions": []
