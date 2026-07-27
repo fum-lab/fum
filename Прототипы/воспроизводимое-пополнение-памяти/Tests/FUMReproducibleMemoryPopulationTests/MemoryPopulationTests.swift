@@ -1,9 +1,26 @@
+import Darwin
 import Foundation
 import XCTest
 
 @testable import FUMReproducibleMemoryPopulation
 
 final class MemoryPopulationTests: XCTestCase {
+  private struct CASWorkerResult: Codable {
+    let status: String
+    let generationSHA256: String?
+    let expectedGenerationSHA256: String?
+    let actualGenerationSHA256: String?
+    let diagnostic: String?
+
+    enum CodingKeys: String, CodingKey {
+      case status
+      case generationSHA256 = "generation_sha256"
+      case expectedGenerationSHA256 = "expected_generation_sha256"
+      case actualGenerationSHA256 = "actual_generation_sha256"
+      case diagnostic
+    }
+  }
+
   func testBundledBootstrapIsByteIdenticalAcrossRepeatedRuns() throws {
     let input = try MemoryPopulationFixtures.loadBootstrapV1()
     let engine = MemoryPopulationEngine()
@@ -636,6 +653,358 @@ final class MemoryPopulationTests: XCTestCase {
     XCTAssertEqual(try store.loadCurrent(), confirmedBase)
   }
 
+  func testTwoProcessesCompareAndSwapCurrentFromTheSameParent() throws {
+    let engine = MemoryPopulationEngine()
+    let scratchURL = temporaryStoreURL()
+    defer { try? FileManager.default.removeItem(at: scratchURL) }
+    try FileManager.default.createDirectory(
+      at: scratchURL,
+      withIntermediateDirectories: true
+    )
+
+    let storeURL = scratchURL.appendingPathComponent("store", isDirectory: true)
+    let store = MemoryGenerationStore(rootURL: storeURL)
+    let base = try engine.generation(
+      from: MemoryPopulationFixtures.loadBootstrapBaseV1()
+    )
+    let confirmedBase = try store.commit(base)
+    let firstCandidate = try engine.generation(
+      from: MemoryPopulationFixtures.loadBootstrapContinuationV1(),
+      continuingFrom: confirmedBase
+    )
+    let secondCandidate = try engine.generation(
+      from: competingContinuationData(),
+      continuingFrom: confirmedBase
+    )
+    let firstCandidateData = try CanonicalMemoryJSON.encode(firstCandidate)
+    let secondCandidateData = try CanonicalMemoryJSON.encode(secondCandidate)
+    let firstCandidateSHA256 = CanonicalMemoryJSON.sha256(firstCandidateData)
+    let secondCandidateSHA256 = CanonicalMemoryJSON.sha256(secondCandidateData)
+    XCTAssertNotEqual(firstCandidateSHA256, secondCandidateSHA256)
+    XCTAssertEqual(
+      firstCandidate.previousGenerationSHA256,
+      confirmedBase.generationSHA256
+    )
+    XCTAssertEqual(
+      secondCandidate.previousGenerationSHA256,
+      confirmedBase.generationSHA256
+    )
+
+    let firstCandidateURL = scratchURL.appendingPathComponent("candidate-first.json")
+    let secondCandidateURL = scratchURL.appendingPathComponent("candidate-second.json")
+    try firstCandidateData.write(to: firstCandidateURL)
+    try secondCandidateData.write(to: secondCandidateURL)
+    let barrierURL = scratchURL.appendingPathComponent("barrier", isDirectory: true)
+    let firstResultURL = scratchURL.appendingPathComponent("result-first.json")
+    let secondResultURL = scratchURL.appendingPathComponent("result-second.json")
+
+    let firstProcess = try makeCASWorkerProcess(
+      workerID: "first",
+      storeURL: storeURL,
+      candidateURL: firstCandidateURL,
+      resultURL: firstResultURL,
+      barrierURL: barrierURL
+    )
+    let secondProcess = try makeCASWorkerProcess(
+      workerID: "second",
+      storeURL: storeURL,
+      candidateURL: secondCandidateURL,
+      resultURL: secondResultURL,
+      barrierURL: barrierURL
+    )
+    try firstProcess.run()
+    defer { stopCASWorkerIfNeeded(firstProcess) }
+    try secondProcess.run()
+    defer { stopCASWorkerIfNeeded(secondProcess) }
+    try waitForCASWorker(firstProcess, workerID: "first")
+    try waitForCASWorker(secondProcess, workerID: "second")
+
+    let raceResults = try [firstResultURL, secondResultURL].map(readCASWorkerResult)
+    let published = raceResults.filter { $0.status == "published" }
+    let conflicted = raceResults.filter { $0.status == "conflict" }
+    let unexpected = raceResults.filter { $0.status == "unexpected" }
+    XCTAssertTrue(
+      unexpected.isEmpty,
+      "Неожиданный исход дочернего процесса: \(unexpected.compactMap(\.diagnostic))"
+    )
+    XCTAssertEqual(published.count, 1, "Ровно один процесс должен опубликовать поколение.")
+    XCTAssertEqual(conflicted.count, 1, "Проигравший процесс должен получить конфликт.")
+    let winnerSHA256 = try XCTUnwrap(published.only?.generationSHA256)
+    let loserSHA256 =
+      winnerSHA256 == firstCandidateSHA256
+      ? secondCandidateSHA256 : firstCandidateSHA256
+    XCTAssertEqual(conflicted.only?.expectedGenerationSHA256, confirmedBase.generationSHA256)
+    XCTAssertEqual(conflicted.only?.actualGenerationSHA256, winnerSHA256)
+    XCTAssertTrue([firstCandidateSHA256, secondCandidateSHA256].contains(winnerSHA256))
+
+    let confirmedWinner = try XCTUnwrap(store.loadCurrent())
+    XCTAssertEqual(confirmedWinner.generationSHA256, winnerSHA256)
+    let pointerURL = storeURL.appendingPathComponent("CURRENT.json")
+    let confirmedPointerData = try Data(contentsOf: pointerURL)
+    XCTAssertEqual(
+      try Data(contentsOf: generationURL(for: firstCandidateSHA256, storeURL: storeURL)),
+      firstCandidateData
+    )
+    XCTAssertEqual(
+      try Data(contentsOf: generationURL(for: secondCandidateSHA256, storeURL: storeURL)),
+      secondCandidateData,
+      "Проигравший может оставить только точное неподтверждённое адресуемое поколение."
+    )
+
+    let winnerCandidateURL =
+      winnerSHA256 == firstCandidateSHA256 ? firstCandidateURL : secondCandidateURL
+    let idempotentResultURL = scratchURL.appendingPathComponent("result-idempotent.json")
+    let idempotentProcess = try makeCASWorkerProcess(
+      workerID: "idempotent",
+      storeURL: storeURL,
+      candidateURL: winnerCandidateURL,
+      resultURL: idempotentResultURL,
+      barrierURL: nil
+    )
+    try idempotentProcess.run()
+    defer { stopCASWorkerIfNeeded(idempotentProcess) }
+    try waitForCASWorker(idempotentProcess, workerID: "idempotent")
+    let idempotentResult = try readCASWorkerResult(idempotentResultURL)
+    XCTAssertEqual(idempotentResult.status, "published")
+    XCTAssertEqual(idempotentResult.generationSHA256, winnerSHA256)
+    XCTAssertEqual(try Data(contentsOf: pointerURL), confirmedPointerData)
+
+    let loserCandidateURL =
+      loserSHA256 == firstCandidateSHA256 ? firstCandidateURL : secondCandidateURL
+    let staleResultURL = scratchURL.appendingPathComponent("result-stale.json")
+    let staleProcess = try makeCASWorkerProcess(
+      workerID: "stale",
+      storeURL: storeURL,
+      candidateURL: loserCandidateURL,
+      resultURL: staleResultURL,
+      barrierURL: nil
+    )
+    try staleProcess.run()
+    defer { stopCASWorkerIfNeeded(staleProcess) }
+    try waitForCASWorker(staleProcess, workerID: "stale")
+    let staleResult = try readCASWorkerResult(staleResultURL)
+    XCTAssertEqual(staleResult.status, "conflict")
+    XCTAssertEqual(staleResult.expectedGenerationSHA256, confirmedBase.generationSHA256)
+    XCTAssertEqual(staleResult.actualGenerationSHA256, winnerSHA256)
+    XCTAssertEqual(try Data(contentsOf: pointerURL), confirmedPointerData)
+    XCTAssertEqual(try XCTUnwrap(store.loadCurrent()).generationSHA256, winnerSHA256)
+    XCTAssertEqual(
+      try Set(
+        FileManager.default.contentsOfDirectory(
+          at: storeURL,
+          includingPropertiesForKeys: nil
+        ).map(\.lastPathComponent)
+      ),
+      Set(["CURRENT.json", "CURRENT.lock", "generations"])
+    )
+    XCTAssertEqual(
+      try Set(
+        FileManager.default.contentsOfDirectory(
+          at: storeURL.appendingPathComponent("generations", isDirectory: true),
+          includingPropertiesForKeys: nil
+        ).map(\.lastPathComponent)
+      ),
+      Set(
+        [confirmedBase.generationSHA256, firstCandidateSHA256, secondCandidateSHA256].map {
+          "\($0.dropFirst(7)).json"
+        }
+      )
+    )
+  }
+
+  func testWriterWaitsForThePersistentInterprocessCurrentLock() throws {
+    let engine = MemoryPopulationEngine()
+    let scratchURL = temporaryStoreURL()
+    defer { try? FileManager.default.removeItem(at: scratchURL) }
+    try FileManager.default.createDirectory(
+      at: scratchURL,
+      withIntermediateDirectories: true
+    )
+
+    let storeURL = scratchURL.appendingPathComponent("store", isDirectory: true)
+    let store = MemoryGenerationStore(rootURL: storeURL)
+    let base = try engine.generation(
+      from: MemoryPopulationFixtures.loadBootstrapBaseV1()
+    )
+    let confirmedBase = try store.commit(base)
+    let candidate = try engine.generation(
+      from: MemoryPopulationFixtures.loadBootstrapContinuationV1(),
+      continuingFrom: confirmedBase
+    )
+    let candidateURL = scratchURL.appendingPathComponent("candidate.json")
+    try CanonicalMemoryJSON.encode(candidate).write(to: candidateURL)
+
+    let lockURL = storeURL.appendingPathComponent("CURRENT.lock")
+    let lockDescriptor = lockURL.withUnsafeFileSystemRepresentation { path in
+      guard let path else { return Int32(-1) }
+      return Darwin.open(path, O_CREAT | O_RDWR | O_CLOEXEC, S_IRUSR | S_IWUSR)
+    }
+    XCTAssertGreaterThanOrEqual(lockDescriptor, 0)
+    guard lockDescriptor >= 0 else { return }
+    var parentLock = Darwin.flock()
+    parentLock.l_type = Int16(F_WRLCK)
+    parentLock.l_whence = Int16(SEEK_SET)
+    XCTAssertEqual(Darwin.fcntl(lockDescriptor, F_SETLKW, &parentLock), 0)
+    var lockIsHeld = true
+    defer {
+      if lockIsHeld {
+        var unlock = Darwin.flock()
+        unlock.l_type = Int16(F_UNLCK)
+        unlock.l_whence = Int16(SEEK_SET)
+        _ = Darwin.fcntl(lockDescriptor, F_SETLK, &unlock)
+      }
+      _ = Darwin.close(lockDescriptor)
+    }
+
+    let lockTraceURL = scratchURL.appendingPathComponent("lock-trace", isDirectory: true)
+    try FileManager.default.createDirectory(
+      at: lockTraceURL,
+      withIntermediateDirectories: true
+    )
+    let willAcquireURL = lockTraceURL.appendingPathComponent("will-acquire")
+    let didAcquireURL = lockTraceURL.appendingPathComponent("did-acquire")
+    let resultURL = scratchURL.appendingPathComponent("lock-result.json")
+    let process = try makeCASWorkerProcess(
+      workerID: "locked-child",
+      storeURL: storeURL,
+      candidateURL: candidateURL,
+      resultURL: resultURL,
+      barrierURL: nil,
+      lockTraceURL: lockTraceURL
+    )
+    try process.run()
+    defer { stopCASWorkerIfNeeded(process) }
+    try waitForFile(
+      willAcquireURL,
+      process: process,
+      timeout: .seconds(10)
+    )
+    try assertFileRemainsAbsent(
+      didAcquireURL,
+      process: process,
+      duration: .seconds(1)
+    )
+    XCTAssertTrue(process.isRunning, "Писатель не дождался межпроцессной блокировки.")
+    XCTAssertFalse(FileManager.default.fileExists(atPath: resultURL.path))
+    XCTAssertEqual(
+      try XCTUnwrap(store.loadCurrent()).generationSHA256, confirmedBase.generationSHA256)
+
+    var unlock = Darwin.flock()
+    unlock.l_type = Int16(F_UNLCK)
+    unlock.l_whence = Int16(SEEK_SET)
+    XCTAssertEqual(Darwin.fcntl(lockDescriptor, F_SETLK, &unlock), 0)
+    lockIsHeld = false
+    try waitForFile(
+      didAcquireURL,
+      process: process,
+      timeout: .seconds(10)
+    )
+    try waitForCASWorker(process, workerID: "locked-child")
+    let result = try readCASWorkerResult(resultURL)
+    XCTAssertEqual(result.status, "published", result.diagnostic ?? "")
+    XCTAssertEqual(
+      try XCTUnwrap(store.loadCurrent()).generationSHA256,
+      CanonicalMemoryJSON.sha256(try CanonicalMemoryJSON.encode(candidate))
+    )
+  }
+
+  func testInterprocessCASWorker() throws {
+    let environment = ProcessInfo.processInfo.environment
+    guard
+      let workerID = environment["FUM_MEMORY_CAS_WORKER_ID"],
+      let storePath = environment["FUM_MEMORY_CAS_WORKER_STORE"],
+      let candidatePath = environment["FUM_MEMORY_CAS_WORKER_CANDIDATE"],
+      let resultPath = environment["FUM_MEMORY_CAS_WORKER_RESULT"]
+    else {
+      return
+    }
+
+    let storeURL = URL(fileURLWithPath: storePath, isDirectory: true)
+    let candidateURL = URL(fileURLWithPath: candidatePath, isDirectory: false)
+    let resultURL = URL(fileURLWithPath: resultPath, isDirectory: false)
+    let barrierURL = environment["FUM_MEMORY_CAS_WORKER_BARRIER"].map {
+      URL(fileURLWithPath: $0, isDirectory: true)
+    }
+    let lockTraceURL = environment["FUM_MEMORY_CAS_WORKER_LOCK_TRACE"].map {
+      URL(fileURLWithPath: $0, isDirectory: true)
+    }
+    let beforePointerCommit: () throws -> Void = {
+      guard let barrierURL else { return }
+      try FileManager.default.createDirectory(
+        at: barrierURL,
+        withIntermediateDirectories: true
+      )
+      try Data(workerID.utf8).write(
+        to: barrierURL.appendingPathComponent("ready-\(workerID)"),
+        options: [.atomic]
+      )
+      let clock = ContinuousClock()
+      let deadline = clock.now.advanced(by: .seconds(10))
+      while clock.now < deadline {
+        let ready = try FileManager.default.contentsOfDirectory(
+          at: barrierURL,
+          includingPropertiesForKeys: nil
+        ).filter { $0.lastPathComponent.hasPrefix("ready-") }
+        if ready.count == 2 { return }
+        Thread.sleep(forTimeInterval: 0.01)
+      }
+      throw MemoryPopulationError.generationStore(
+        "Процессный барьер конкурентного теста не дождался второго писателя."
+      )
+    }
+    let publicationLockObserver: (MemoryGenerationPublicationLockEvent) throws -> Void = {
+      event in
+      guard let lockTraceURL else { return }
+      let filename: String
+      switch event {
+      case .willAcquire:
+        filename = "will-acquire"
+      case .didAcquire:
+        filename = "did-acquire"
+      }
+      try Data(workerID.utf8).write(
+        to: lockTraceURL.appendingPathComponent(filename),
+        options: [.atomic]
+      )
+    }
+
+    let result: CASWorkerResult
+    do {
+      let candidateData = try Data(contentsOf: candidateURL, options: [.mappedIfSafe])
+      let generation = try JSONDecoder().decode(MemoryGeneration.self, from: candidateData)
+      let store = MemoryGenerationStore(
+        rootURL: storeURL,
+        beforePointerCommit: beforePointerCommit,
+        publicationLockObserver: publicationLockObserver
+      )
+      let stored = try store.commit(generation)
+      result = CASWorkerResult(
+        status: "published",
+        generationSHA256: stored.generationSHA256,
+        expectedGenerationSHA256: nil,
+        actualGenerationSHA256: nil,
+        diagnostic: nil
+      )
+    } catch MemoryPopulationError.generationConflict(let expected, let actual) {
+      result = CASWorkerResult(
+        status: "conflict",
+        generationSHA256: nil,
+        expectedGenerationSHA256: expected,
+        actualGenerationSHA256: actual,
+        diagnostic: nil
+      )
+    } catch {
+      result = CASWorkerResult(
+        status: "unexpected",
+        generationSHA256: nil,
+        expectedGenerationSHA256: nil,
+        actualGenerationSHA256: nil,
+        diagnostic: String(describing: error)
+      )
+    }
+    try JSONEncoder().encode(result).write(to: resultURL, options: [.atomic])
+  }
+
   func testStoreRejectsUnrelatedOrTraceInconsistentSuccessor() throws {
     let engine = MemoryPopulationEngine()
     let storeURL = temporaryStoreURL()
@@ -1060,6 +1429,169 @@ final class MemoryPopulationTests: XCTestCase {
       }
       """.utf8
     )
+  }
+
+  private func competingContinuationData() -> Data {
+    Data(
+      """
+      {
+        "schema_version": 1,
+        "policy_version": "fum.memory.policy.v1",
+        "dataset_id": "fum.bootstrap.memory.v1",
+        "events": [
+          {
+            "id": "event.005.concurrent-alternative",
+            "sequence": 5,
+            "operation": "remember",
+            "target": "concurrent-alternative",
+            "value": "альтернативное продолжение от того же родителя"
+          }
+        ]
+      }
+      """.utf8
+    )
+  }
+
+  private func makeCASWorkerProcess(
+    workerID: String,
+    storeURL: URL,
+    candidateURL: URL,
+    resultURL: URL,
+    barrierURL: URL?,
+    lockTraceURL: URL? = nil
+  ) throws -> Process {
+    let process = Process()
+    process.executableURL = try executableURL(named: "xcrun")
+    process.arguments = [
+      "xctest",
+      "-XCTest",
+      "MemoryPopulationTests/testInterprocessCASWorker",
+      Bundle(for: MemoryPopulationTests.self).bundleURL.path,
+    ]
+    var environment = ProcessInfo.processInfo.environment
+    environment["FUM_MEMORY_CAS_WORKER_ID"] = workerID
+    environment["FUM_MEMORY_CAS_WORKER_STORE"] = storeURL.path
+    environment["FUM_MEMORY_CAS_WORKER_CANDIDATE"] = candidateURL.path
+    environment["FUM_MEMORY_CAS_WORKER_RESULT"] = resultURL.path
+    environment["FUM_MEMORY_CAS_WORKER_BARRIER"] = barrierURL?.path
+    environment["FUM_MEMORY_CAS_WORKER_LOCK_TRACE"] = lockTraceURL?.path
+    process.environment = environment
+    process.standardOutput = FileHandle.nullDevice
+    process.standardError = FileHandle.nullDevice
+    return process
+  }
+
+  private func executableURL(named name: String) throws -> URL {
+    let pathEntries = ProcessInfo.processInfo.environment["PATH"]?.split(separator: ":") ?? []
+    for pathEntry in pathEntries {
+      let directory = String(pathEntry)
+      guard directory.hasPrefix("/") else { continue }
+      let candidate = URL(fileURLWithPath: directory, isDirectory: true)
+        .appendingPathComponent(name, isDirectory: false)
+      if FileManager.default.isExecutableFile(atPath: candidate.path) {
+        return candidate
+      }
+    }
+    throw MemoryPopulationError.generationStore(
+      "Исполняемый файл \(name) не найден в абсолютных каталогах PATH."
+    )
+  }
+
+  private func readCASWorkerResult(_ url: URL) throws -> CASWorkerResult {
+    try JSONDecoder().decode(CASWorkerResult.self, from: Data(contentsOf: url))
+  }
+
+  private func waitForCASWorker(
+    _ process: Process,
+    workerID: String,
+    timeout: Duration = .seconds(30)
+  ) throws {
+    let clock = ContinuousClock()
+    let deadline = clock.now.advanced(by: timeout)
+    while process.isRunning, clock.now < deadline {
+      Thread.sleep(forTimeInterval: 0.01)
+    }
+    if process.isRunning {
+      stopCASWorkerIfNeeded(process)
+      throw MemoryPopulationError.generationStore(
+        "Дочерний процесс \(workerID) не завершился до предельного срока."
+      )
+    }
+    process.waitUntilExit()
+    guard process.terminationStatus == EXIT_SUCCESS else {
+      throw MemoryPopulationError.generationStore(
+        "Дочерний процесс \(workerID) завершился с кодом \(process.terminationStatus)."
+      )
+    }
+  }
+
+  private func waitForFile(
+    _ url: URL,
+    process: Process,
+    timeout: Duration
+  ) throws {
+    let clock = ContinuousClock()
+    let deadline = clock.now.advanced(by: timeout)
+    while !FileManager.default.fileExists(atPath: url.path), clock.now < deadline {
+      if !process.isRunning { break }
+      Thread.sleep(forTimeInterval: 0.01)
+    }
+    guard FileManager.default.fileExists(atPath: url.path) else {
+      throw MemoryPopulationError.generationStore(
+        "Дочерний процесс не достиг контрольной точки межпроцессной блокировки."
+      )
+    }
+  }
+
+  private func assertFileRemainsAbsent(
+    _ url: URL,
+    process: Process,
+    duration: Duration
+  ) throws {
+    let clock = ContinuousClock()
+    let deadline = clock.now.advanced(by: duration)
+    while clock.now < deadline {
+      guard process.isRunning else {
+        throw MemoryPopulationError.generationStore(
+          "Дочерний процесс завершился до освобождения межпроцессной блокировки."
+        )
+      }
+      guard !FileManager.default.fileExists(atPath: url.path) else {
+        throw MemoryPopulationError.generationStore(
+          "Дочерний процесс получил межпроцессную блокировку до её освобождения."
+        )
+      }
+      Thread.sleep(forTimeInterval: 0.01)
+    }
+  }
+
+  private func stopCASWorkerIfNeeded(_ process: Process) {
+    guard process.isRunning else {
+      process.waitUntilExit()
+      return
+    }
+    process.terminate()
+    let clock = ContinuousClock()
+    let terminationDeadline = clock.now.advanced(by: .seconds(1))
+    while process.isRunning, clock.now < terminationDeadline {
+      Thread.sleep(forTimeInterval: 0.01)
+    }
+    if process.isRunning {
+      _ = Darwin.kill(process.processIdentifier, SIGKILL)
+    }
+    let killDeadline = clock.now.advanced(by: .seconds(1))
+    while process.isRunning, clock.now < killDeadline {
+      Thread.sleep(forTimeInterval: 0.01)
+    }
+    if !process.isRunning {
+      process.waitUntilExit()
+    }
+  }
+
+  private func generationURL(for sha256: String, storeURL: URL) -> URL {
+    storeURL
+      .appendingPathComponent("generations", isDirectory: true)
+      .appendingPathComponent("\(sha256.dropFirst(7)).json", isDirectory: false)
   }
 
   private func programWithGUIProjectionSpecification() -> Data {

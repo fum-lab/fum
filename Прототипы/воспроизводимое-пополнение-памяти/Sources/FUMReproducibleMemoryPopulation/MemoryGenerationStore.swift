@@ -1,3 +1,4 @@
+import Darwin
 import Foundation
 
 private struct MemoryGenerationPointer: Codable, Equatable {
@@ -18,21 +19,33 @@ private struct MemoryGenerationSchemaEnvelope: Decodable {
   }
 }
 
+enum MemoryGenerationPublicationLockEvent {
+  case willAcquire
+  case didAcquire
+}
+
 public struct MemoryGenerationStore {
   private static let maximumPointerBytes = 4_096
   private static let maximumGenerationBytes = 16_777_216
 
   public let rootURL: URL
   private let beforePointerCommit: (() throws -> Void)?
+  private let publicationLockObserver: ((MemoryGenerationPublicationLockEvent) throws -> Void)?
 
   public init(rootURL: URL) {
     self.rootURL = rootURL
     beforePointerCommit = nil
+    publicationLockObserver = nil
   }
 
-  init(rootURL: URL, beforePointerCommit: @escaping () throws -> Void) {
+  init(
+    rootURL: URL,
+    beforePointerCommit: @escaping () throws -> Void,
+    publicationLockObserver: ((MemoryGenerationPublicationLockEvent) throws -> Void)? = nil
+  ) {
     self.rootURL = rootURL
     self.beforePointerCommit = beforePointerCommit
+    self.publicationLockObserver = publicationLockObserver
   }
 
   public func loadCurrent() throws -> StoredMemoryGeneration? {
@@ -127,15 +140,6 @@ public struct MemoryGenerationStore {
 
   public func commit(_ generation: MemoryGeneration) throws -> StoredMemoryGeneration {
     try validateMemoryGeneration(generation)
-    let current = try loadCurrent()
-    guard generation.previousGenerationSHA256 == current?.generationSHA256 else {
-      throw MemoryPopulationError.generationConflict(
-        expected: generation.previousGenerationSHA256,
-        actual: current?.generationSHA256
-      )
-    }
-    try validateLineage(of: generation, continuing: current)
-
     let generationData = try CanonicalMemoryJSON.encode(generation)
     guard generationData.count <= Self.maximumGenerationBytes else {
       throw MemoryPopulationError.generationStore(
@@ -172,28 +176,84 @@ public struct MemoryGenerationStore {
     }
 
     try beforePointerCommit?()
-    let pointer = MemoryGenerationPointer(
-      schemaVersion: 1,
-      generationSHA256: generationSHA256
-    )
-    let pointerData = try CanonicalMemoryJSON.encode(pointer)
-    let pointerURL = rootURL.appendingPathComponent("CURRENT.json", isDirectory: false)
-    do {
-      try pointerData.write(to: pointerURL, options: [.atomic])
-    } catch {
-      throw MemoryPopulationError.generationStore(
-        "Не удалось атомарно подтвердить поколение."
+    return try withCurrentPublicationLock {
+      let current = try loadCurrent()
+      if current?.generationSHA256 == generationSHA256 {
+        guard current?.generation == generation else {
+          throw MemoryPopulationError.corruptGeneration(
+            "Подтверждённый хэш поколения соответствует другим каноническим байтам."
+          )
+        }
+        return StoredMemoryGeneration(
+          generationSHA256: generationSHA256,
+          generation: generation
+        )
+      }
+      guard generation.previousGenerationSHA256 == current?.generationSHA256 else {
+        throw MemoryPopulationError.generationConflict(
+          expected: generation.previousGenerationSHA256,
+          actual: current?.generationSHA256
+        )
+      }
+      try validateLineage(of: generation, continuing: current)
+
+      let pointer = MemoryGenerationPointer(
+        schemaVersion: 1,
+        generationSHA256: generationSHA256
+      )
+      let pointerData = try CanonicalMemoryJSON.encode(pointer)
+      let pointerURL = rootURL.appendingPathComponent("CURRENT.json", isDirectory: false)
+      do {
+        try pointerData.write(to: pointerURL, options: [.atomic])
+      } catch {
+        throw MemoryPopulationError.generationStore(
+          "Не удалось атомарно подтвердить поколение."
+        )
+      }
+
+      return StoredMemoryGeneration(
+        generationSHA256: generationSHA256,
+        generation: generation
       )
     }
-
-    return StoredMemoryGeneration(
-      generationSHA256: generationSHA256,
-      generation: generation
-    )
   }
 
   private var generationsURL: URL {
     rootURL.appendingPathComponent("generations", isDirectory: true)
+  }
+
+  private func withCurrentPublicationLock<T>(_ body: () throws -> T) throws -> T {
+    let lockURL = rootURL.appendingPathComponent("CURRENT.lock", isDirectory: false)
+    let descriptor = lockURL.withUnsafeFileSystemRepresentation { path in
+      guard let path else { return Int32(-1) }
+      return Darwin.open(path, O_CREAT | O_RDWR | O_CLOEXEC, S_IRUSR | S_IWUSR)
+    }
+    guard descriptor >= 0 else {
+      throw MemoryPopulationError.generationStore(
+        "Не удалось открыть межпроцессную блокировку указателя CURRENT."
+      )
+    }
+    defer { _ = Darwin.close(descriptor) }
+
+    var publicationLock = Darwin.flock()
+    publicationLock.l_type = Int16(F_WRLCK)
+    publicationLock.l_whence = Int16(SEEK_SET)
+    try publicationLockObserver?(.willAcquire)
+    while Darwin.fcntl(descriptor, F_SETLKW, &publicationLock) != 0 {
+      guard errno == EINTR else {
+        throw MemoryPopulationError.generationStore(
+          "Не удалось получить межпроцессную блокировку указателя CURRENT."
+        )
+      }
+    }
+    defer {
+      var unlock = Darwin.flock()
+      unlock.l_type = Int16(F_UNLCK)
+      unlock.l_whence = Int16(SEEK_SET)
+      _ = Darwin.fcntl(descriptor, F_SETLK, &unlock)
+    }
+    try publicationLockObserver?(.didAcquire)
+    return try body()
   }
 
   private func validateLineage(
