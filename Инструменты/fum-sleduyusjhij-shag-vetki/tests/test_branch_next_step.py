@@ -986,7 +986,8 @@ class BranchNextStepTests(unittest.TestCase):
             prompt,
         )
         self.assertIn(
-            "После первого вызова create_thread не повторяй claim или create_thread",
+            "после первого вызова create_thread в этой логической попытке "
+            "не повторяй claim или create_thread",
             prompt,
         )
         self.assertIn(
@@ -1008,6 +1009,46 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertLess(dynamic_show, claim)
         self.assertLess(second_inventory, claim)
         self.assertLess(claim, create_thread)
+
+    def test_heartbeat_scopes_thread_creation_guard_to_the_current_tick(
+        self,
+    ) -> None:
+        prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+
+        self.assertIn(
+            "Каждое новое входное сообщение `<heartbeat>` начинает новую "
+            "логическую попытку",
+            prompt,
+        )
+        self.assertIn(
+            "не переноси между heartbeat-тиками lease_id и признак уже "
+            "вызванного create_thread",
+            prompt,
+        )
+        self.assertIn(
+            "Запрет повтора claim и create_thread действует только внутри "
+            "текущего heartbeat-тика",
+            prompt,
+        )
+        self.assertIn(
+            "create_thread в предыдущем тике не запрещает запуск нового "
+            "selection.id",
+            prompt,
+        )
+        self.assertIn(
+            "новый selection.id следующей вершины получает свежий lease_id и "
+            "атомарно сменяет прежний claim",
+            prompt,
+        )
+        self.assertIn(
+            "неизменившийся выбор остаётся защищён штатным `already_claimed`",
+            prompt,
+        )
+        self.assertNotIn(
+            "После первого вызова create_thread не повторяй claim или "
+            "create_thread с тем же либо новым lease_id",
+            prompt,
+        )
 
     def test_heartbeat_requires_child_to_read_record_and_project_passport(
         self,
