@@ -1,0 +1,1403 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fum:source-ingest:message:v1",
+  "title": "Контракт первого продуктового URL-среза FUM версии 1",
+  "description": "Строгие сообщения prepare, показанного плана, подтверждения, execute и результата для приёма одного публичного HTTPS HTML-источника.",
+  "x-fum-contract-version": "fum.source-ingest.v1",
+  "x-fum-entrypoints": [
+    "fum.source.prepare.v1",
+    "fum.source.show-plan.v1",
+    "fum.source.confirm.v1",
+    "fum.source.execute.v1",
+    "fum.source.status.v1"
+  ],
+  "x-fum-canonical-json-profile": "fum.memory.canonical-json.v1",
+  "x-fum-digest-rules": {
+    "source_id": "SHA-256(UTF8('fum.source-url.identity.v1') || 0x00 || UTF8(canonical_url))",
+    "address_policy_digest": "SHA-256(canonical JSON of the exact forbidden names, CIDRs, matching rules and unknown-range rule in x-fum-network-invariants)",
+    "policy_digest": "SHA-256(canonical JSON network_policy without policy_digest)",
+    "plan_digest": "SHA-256(canonical JSON prepared_plan without plan_digest)",
+    "confirmation_digest": "SHA-256(canonical JSON confirmation without confirmation_digest)",
+    "manifest_digest": "SHA-256(canonical JSON manifest without manifest_digest)",
+    "edge_id": "SHA-256(canonical JSON provenance_edge without edge_id)",
+    "record_id": "SHA-256(canonical JSON provenance_record without record_id and generation_id)",
+    "protected_url_record_id": "SHA-256(canonical JSON protected_url_record without record_id)",
+    "generation_id": "SHA-256(canonical JSON object containing operation_id, previous_generation_id, manifest_digest, provenance_record_id and trace_digest)"
+  },
+  "x-fum-url-canonicalization": {
+    "profile": "fum.source-url.canonical.v1",
+    "max_utf8_bytes": 4096,
+    "scheme": "https-only-lowercase",
+    "userinfo": "reject",
+    "ip_literal": "reject",
+    "port": "only-443-and-omit-from-canonical-form",
+    "host": "ASCII-LDH-or-preencoded-A-label-lowercase-remove-one-terminal-dot-reject-non-ASCII-empty-single-label-and-label-edge-hyphen",
+    "path": "empty-to-slash-remove-RFC3986-dot-segments-uppercase-percent-hex-decode-unreserved-reject-control-space-backslash",
+    "query": "preserve-presence-order-duplicates-and-separators-uppercase-percent-hex-decode-unreserved-no-sorting",
+    "fragment": "discard-value-before-durable-record-and-show-presence-only",
+    "display_query": "replace-entire-query-with-query-sha256-and-first-16-lowercase-hex-digits",
+    "redirect_identity": "source_id-always-derived-from-initial-canonical-url"
+  },
+  "x-fum-network-invariants": {
+    "address_policy": "fum.public-address-space.v1",
+    "all_dns_answers_must_be_global": true,
+    "max_dns_answers_per_hop": 16,
+    "resolve_each_redirect_hop": true,
+    "pin_validated_address_to_connection": true,
+    "peer_must_match_validated_set": true,
+    "environment_proxy_and_pac": "disabled",
+    "http3": "disabled",
+    "dns_search_suffix": "disabled",
+    "forbidden_host_suffixes": [
+      "localhost",
+      ".localhost",
+      ".local",
+      ".localdomain",
+      ".internal",
+      ".home.arpa",
+      ".onion",
+      ".invalid",
+      ".test",
+      ".example"
+    ],
+    "forbidden_metadata_names": [
+      "metadata.google.internal",
+      "instance-data.ec2.internal"
+    ],
+    "forbidden_ipv4_cidrs": [
+      "0.0.0.0/8",
+      "10.0.0.0/8",
+      "100.64.0.0/10",
+      "127.0.0.0/8",
+      "169.254.0.0/16",
+      "172.16.0.0/12",
+      "192.0.0.0/24",
+      "192.0.2.0/24",
+      "192.88.99.0/24",
+      "192.168.0.0/16",
+      "198.18.0.0/15",
+      "198.51.100.0/24",
+      "203.0.113.0/24",
+      "224.0.0.0/4",
+      "240.0.0.0/4"
+    ],
+    "forbidden_ipv6_cidrs": [
+      "::/128",
+      "::1/128",
+      "::ffff:0:0/96",
+      "64:ff9b::/96",
+      "64:ff9b:1::/48",
+      "100::/64",
+      "2001::/23",
+      "2001:db8::/32",
+      "2002::/16",
+      "3fff::/20",
+      "5f00::/16",
+      "fc00::/7",
+      "fe80::/10",
+      "fec0::/10",
+      "ff00::/8"
+    ],
+    "unknown_or_unclassified_special_range": "reject",
+    "forbidden_host_matching": "exact-name-or-dot-suffix-at-label-boundary",
+    "same_origin": "equal-canonical-ASCII-host-and-effective-port-443"
+  },
+  "x-fum-request-profile": {
+    "method": "GET",
+    "accept": "text/html",
+    "accept_encoding": "identity",
+    "forbidden_request_headers": [
+      "Authorization",
+      "Cookie",
+      "Proxy-Authorization",
+      "Referer"
+    ],
+    "redirect_response_body": "do-not-read",
+    "automatic-credential-forwarding": "disabled"
+  },
+  "x-fum-cross-message-invariants": [
+    "prepared_plan.operation_id equals prepare_request.operation_id",
+    "prepared_plan.presentation fields equal the normative fields of the same prepared_plan",
+    "confirmation operation_id, plan_id, nonce and both plan digests equal the shown prepared_plan",
+    "confirmation.confirmed_at is not later than prepared_plan.expires_at",
+    "prepared_plan.expires_at equals prepared_plan.prepared_at plus exactly 600 seconds",
+    "prepared_plan.nonce contains at least 128 bits from a cryptographically secure source",
+    "source_mode create has null expected_source_generation_id and update has a non-null digest",
+    "display_url replaces an entire present query with query-sha256 plus the first 16 lowercase hex digits and never contains a fragment value",
+    "execute_request operation_id equals both nested operation identifiers",
+    "execute validates the exact current policy digest, scope revision, provenance revision and expected source generation before DNS and again before commit",
+    "one confirmation is consumed at most once; status replay never performs a second fetch",
+    "all source_id fields in one execution are equal",
+    "success_result.previous_generation_id and commit_record.expected_generation_id equal prepared_plan.expected_source_generation_id",
+    "manifest_digest and provenance_record_id in success, provenance and commit references are pairwise equal",
+    "network_observation.protected_url_record_id identifies a protected_url_record in the same committed generation"
+  ],
+  "x-fum-transaction-invariants": [
+    "snapshot manifest, protected URL record, provenance record and idempotent provenance edge become visible through one generation CAS",
+    "no success exists with a visible snapshot and an absent provenance record or vice versa",
+    "a failure result always leaves canonical_state_changed false",
+    "a crash before generation CAS exposes no new generation",
+    "a crash after generation CAS is recovered as the same successful operation without refetch"
+  ],
+  "x-fum-error-redaction": "error message and safe_details must not contain a full URL, query or fragment value, IP address, absolute path, credential or token",
+  "x-fum-test-only-failpoints": [
+    "after_confirmation_claim",
+    "after_snapshot_staged",
+    "after_provenance_staged",
+    "before_generation_cas",
+    "after_generation_cas"
+  ],
+  "x-fum-test-only-error-injections": [
+    "manifest_write_error",
+    "provenance_write_error",
+    "generation_commit_error"
+  ],
+  "oneOf": [
+    {
+      "$ref": "#/$defs/prepare_request"
+    },
+    {
+      "$ref": "#/$defs/prepared_plan"
+    },
+    {
+      "$ref": "#/$defs/confirmation"
+    },
+    {
+      "$ref": "#/$defs/execute_request"
+    },
+    {
+      "$ref": "#/$defs/execution_result"
+    }
+  ],
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._:-]{0,127}$"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "nullable_digest": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/digest"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "nonce": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{22,128}$"
+    },
+    "date_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "https_url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^[Hh][Tt][Tt][Pp][Ss]://",
+      "maxLength": 4096,
+      "x-fum-max-utf8-bytes": 4096
+    },
+    "canonical_https_url": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://",
+      "maxLength": 4096,
+      "x-fum-max-utf8-bytes": 4096
+    },
+    "permissions": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "const": "source.read.public-https"
+        },
+        {
+          "const": "memory.sources.write"
+        },
+        {
+          "const": "provenance.link.write"
+        }
+      ],
+      "items": false,
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "excluded_capabilities": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "const": "source.credentials"
+        },
+        {
+          "const": "source.cookies"
+        },
+        {
+          "const": "source.custom-headers"
+        },
+        {
+          "const": "source.javascript"
+        },
+        {
+          "const": "network.proxy"
+        },
+        {
+          "const": "network.cross-origin-redirect"
+        },
+        {
+          "const": "memory.outside-target-scope"
+        },
+        {
+          "const": "git.commit"
+        },
+        {
+          "const": "git.publish"
+        }
+      ],
+      "items": false,
+      "minItems": 9,
+      "maxItems": 9
+    },
+    "network_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "canonicalization_profile",
+        "address_policy_version",
+        "address_policy_digest",
+        "dns_policy",
+        "max_dns_answers",
+        "request_method",
+        "request_profile",
+        "credential_mode",
+        "cookie_mode",
+        "referrer_mode",
+        "transfer_encoding_policy",
+        "proxy_mode",
+        "http_versions",
+        "redirect_policy",
+        "redirect_statuses",
+        "max_redirects",
+        "max_url_bytes",
+        "max_header_bytes",
+        "max_header_fields",
+        "max_header_value_bytes",
+        "max_body_bytes",
+        "max_managed_snapshot_bytes",
+        "accepted_statuses",
+        "accepted_media_types",
+        "accepted_charsets",
+        "accepted_content_encodings",
+        "dns_timeout_ms",
+        "connect_timeout_ms",
+        "stream_idle_timeout_ms",
+        "total_timeout_ms",
+        "tls_minimum_version",
+        "tls_trust_mode",
+        "tls_hostname_verification",
+        "peer_address_verification",
+        "policy_digest"
+      ],
+      "properties": {
+        "version": {
+          "const": "fum.source-network-policy.v1"
+        },
+        "canonicalization_profile": {
+          "const": "fum.source-url.canonical.v1"
+        },
+        "address_policy_version": {
+          "const": "fum.public-address-space.v1"
+        },
+        "address_policy_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "dns_policy": {
+          "const": "all-global-unicast-and-peer-pinned-v1"
+        },
+        "max_dns_answers": {
+          "const": 16
+        },
+        "request_method": {
+          "const": "GET"
+        },
+        "request_profile": {
+          "const": "minimal-public-html-get-v1"
+        },
+        "credential_mode": {
+          "const": "omit"
+        },
+        "cookie_mode": {
+          "const": "omit"
+        },
+        "referrer_mode": {
+          "const": "omit"
+        },
+        "transfer_encoding_policy": {
+          "const": "identity-or-http11-chunked-v1"
+        },
+        "proxy_mode": {
+          "const": "disabled"
+        },
+        "http_versions": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "const": "http/1.1"
+            },
+            {
+              "const": "h2"
+            }
+          ],
+          "items": false,
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "redirect_policy": {
+          "const": "same-origin-https-v1"
+        },
+        "redirect_statuses": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "const": 301
+            },
+            {
+              "const": 302
+            },
+            {
+              "const": 303
+            },
+            {
+              "const": 307
+            },
+            {
+              "const": 308
+            }
+          ],
+          "items": false,
+          "minItems": 5,
+          "maxItems": 5
+        },
+        "max_redirects": {
+          "const": 5
+        },
+        "max_url_bytes": {
+          "const": 4096
+        },
+        "max_header_bytes": {
+          "const": 65536
+        },
+        "max_header_fields": {
+          "const": 128
+        },
+        "max_header_value_bytes": {
+          "const": 8192
+        },
+        "max_body_bytes": {
+          "const": 4194304
+        },
+        "max_managed_snapshot_bytes": {
+          "const": 16777216
+        },
+        "accepted_statuses": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "const": 200
+            }
+          ],
+          "items": false,
+          "minItems": 1,
+          "maxItems": 1
+        },
+        "accepted_media_types": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "const": "text/html"
+            }
+          ],
+          "items": false,
+          "minItems": 1,
+          "maxItems": 1
+        },
+        "accepted_charsets": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "const": "absent-as-utf-8"
+            },
+            {
+              "const": "utf-8"
+            },
+            {
+              "const": "us-ascii"
+            }
+          ],
+          "items": false,
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "accepted_content_encodings": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "const": "identity"
+            }
+          ],
+          "items": false,
+          "minItems": 1,
+          "maxItems": 1
+        },
+        "dns_timeout_ms": {
+          "const": 5000
+        },
+        "connect_timeout_ms": {
+          "const": 10000
+        },
+        "stream_idle_timeout_ms": {
+          "const": 10000
+        },
+        "total_timeout_ms": {
+          "const": 30000
+        },
+        "tls_minimum_version": {
+          "const": "1.2"
+        },
+        "tls_trust_mode": {
+          "const": "system-trust-no-bypass"
+        },
+        "tls_hostname_verification": {
+          "const": true
+        },
+        "peer_address_verification": {
+          "const": true
+        },
+        "policy_digest": {
+          "$ref": "#/$defs/digest"
+        }
+      }
+    },
+    "prepare_request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version",
+        "schema_version",
+        "kind",
+        "operation_id",
+        "input_url",
+        "target_scope_id",
+        "provenance_context_id",
+        "requested_permissions",
+        "policy_version"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": "fum.source-ingest.v1"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "kind": {
+          "const": "prepare_request"
+        },
+        "operation_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "input_url": {
+          "$ref": "#/$defs/https_url"
+        },
+        "target_scope_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "provenance_context_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "requested_permissions": {
+          "$ref": "#/$defs/permissions"
+        },
+        "policy_version": {
+          "const": "fum.source-network-policy.v1"
+        }
+      }
+    },
+    "plan_presentation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "display_url",
+        "query_values_redacted",
+        "fragment_value_discarded",
+        "source_mode",
+        "source_id",
+        "target_scope_id",
+        "provenance_context_id",
+        "granted_permissions",
+        "excluded_capabilities",
+        "policy_version"
+      ],
+      "properties": {
+        "version": {
+          "const": "fum.source-plan.presentation.v1"
+        },
+        "display_url": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        },
+        "query_values_redacted": {
+          "const": true
+        },
+        "fragment_value_discarded": {
+          "type": "boolean"
+        },
+        "source_mode": {
+          "enum": [
+            "create",
+            "update"
+          ]
+        },
+        "source_id": {
+          "$ref": "#/$defs/digest"
+        },
+        "target_scope_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "provenance_context_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "granted_permissions": {
+          "$ref": "#/$defs/permissions"
+        },
+        "excluded_capabilities": {
+          "$ref": "#/$defs/excluded_capabilities"
+        },
+        "policy_version": {
+          "const": "fum.source-network-policy.v1"
+        }
+      }
+    },
+    "prepared_plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version",
+        "schema_version",
+        "kind",
+        "operation_id",
+        "plan_id",
+        "prepared_at",
+        "expires_at",
+        "ttl_seconds",
+        "canonicalization_profile",
+        "canonical_url",
+        "display_url",
+        "fragment_was_present",
+        "source_id",
+        "source_mode",
+        "target_scope_id",
+        "target_scope_revision",
+        "expected_source_generation_id",
+        "provenance_context_id",
+        "provenance_context_revision",
+        "provenance_edge_id",
+        "granted_permissions",
+        "excluded_capabilities",
+        "network_policy",
+        "nonce",
+        "presentation",
+        "plan_digest"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": "fum.source-ingest.v1"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "kind": {
+          "const": "prepared_plan"
+        },
+        "operation_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "plan_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "prepared_at": {
+          "$ref": "#/$defs/date_time"
+        },
+        "expires_at": {
+          "$ref": "#/$defs/date_time"
+        },
+        "ttl_seconds": {
+          "const": 600
+        },
+        "canonicalization_profile": {
+          "const": "fum.source-url.canonical.v1"
+        },
+        "canonical_url": {
+          "$ref": "#/$defs/canonical_https_url"
+        },
+        "display_url": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        },
+        "fragment_was_present": {
+          "type": "boolean"
+        },
+        "source_id": {
+          "$ref": "#/$defs/digest"
+        },
+        "source_mode": {
+          "enum": [
+            "create",
+            "update"
+          ]
+        },
+        "target_scope_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "target_scope_revision": {
+          "$ref": "#/$defs/digest"
+        },
+        "expected_source_generation_id": {
+          "$ref": "#/$defs/nullable_digest"
+        },
+        "provenance_context_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "provenance_context_revision": {
+          "$ref": "#/$defs/digest"
+        },
+        "provenance_edge_id": {
+          "$ref": "#/$defs/digest"
+        },
+        "granted_permissions": {
+          "$ref": "#/$defs/permissions"
+        },
+        "excluded_capabilities": {
+          "$ref": "#/$defs/excluded_capabilities"
+        },
+        "network_policy": {
+          "$ref": "#/$defs/network_policy"
+        },
+        "nonce": {
+          "$ref": "#/$defs/nonce"
+        },
+        "presentation": {
+          "$ref": "#/$defs/plan_presentation"
+        },
+        "plan_digest": {
+          "$ref": "#/$defs/digest"
+        }
+      }
+    },
+    "confirmation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version",
+        "schema_version",
+        "kind",
+        "operation_id",
+        "confirmation_id",
+        "plan_id",
+        "plan_digest",
+        "nonce",
+        "presentation_version",
+        "presented_plan_digest",
+        "decision",
+        "confirmed_by",
+        "confirmed_at",
+        "confirmation_digest"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": "fum.source-ingest.v1"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "kind": {
+          "const": "confirmation"
+        },
+        "operation_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "confirmation_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "plan_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "plan_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "nonce": {
+          "$ref": "#/$defs/nonce"
+        },
+        "presentation_version": {
+          "const": "fum.source-plan.presentation.v1"
+        },
+        "presented_plan_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "decision": {
+          "const": "accept"
+        },
+        "confirmed_by": {
+          "$ref": "#/$defs/identifier"
+        },
+        "confirmed_at": {
+          "$ref": "#/$defs/date_time"
+        },
+        "confirmation_digest": {
+          "$ref": "#/$defs/digest"
+        }
+      }
+    },
+    "execute_request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version",
+        "schema_version",
+        "kind",
+        "operation_id",
+        "plan",
+        "confirmation"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": "fum.source-ingest.v1"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "kind": {
+          "const": "execute_request"
+        },
+        "operation_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "plan": {
+          "$ref": "#/$defs/prepared_plan"
+        },
+        "confirmation": {
+          "$ref": "#/$defs/confirmation"
+        }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role",
+        "relative_path",
+        "media_type",
+        "classification",
+        "byte_length",
+        "content_sha256"
+      ],
+      "properties": {
+        "role": {
+          "enum": [
+            "response_headers",
+            "raw_response",
+            "extracted_text",
+            "structured_content",
+            "source_index",
+            "extraction_report"
+          ]
+        },
+        "relative_path": {
+          "type": "string",
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*\\\\)[A-Za-z0-9._/-]{1,256}$"
+        },
+        "media_type": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 127
+        },
+        "classification": {
+          "enum": [
+            "publication_candidate",
+            "local_sensitive"
+          ]
+        },
+        "byte_length": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4194304
+        },
+        "content_sha256": {
+          "$ref": "#/$defs/digest"
+        }
+      }
+    },
+    "manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version",
+        "schema_version",
+        "source_id",
+        "artifacts",
+        "total_byte_length",
+        "manifest_digest"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": "fum.source.snapshot-manifest.v1"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "source_id": {
+          "$ref": "#/$defs/digest"
+        },
+        "artifacts": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/artifact"
+          },
+          "x-fum-required-roles": [
+            "response_headers",
+            "raw_response",
+            "extracted_text",
+            "source_index",
+            "extraction_report"
+          ],
+          "x-fum-optional-roles": [
+            "structured_content"
+          ],
+          "x-fum-role-uniqueness": true
+        },
+        "total_byte_length": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 16777216
+        },
+        "manifest_digest": {
+          "$ref": "#/$defs/digest"
+        }
+      }
+    },
+    "provenance_edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version",
+        "schema_version",
+        "edge_id",
+        "relation",
+        "source_id",
+        "provenance_context_id",
+        "provenance_context_revision"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": "fum.source.provenance-edge.v1"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "edge_id": {
+          "$ref": "#/$defs/digest"
+        },
+        "relation": {
+          "const": "imported-from"
+        },
+        "source_id": {
+          "$ref": "#/$defs/digest"
+        },
+        "provenance_context_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "provenance_context_revision": {
+          "$ref": "#/$defs/digest"
+        }
+      }
+    },
+    "network_observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "initial_url_digest",
+        "final_url_digest",
+        "protected_url_record_id",
+        "redirect_count",
+        "hop_trace_digest",
+        "validated_peer_set_digest",
+        "status_code",
+        "media_type",
+        "charset",
+        "content_encoding",
+        "body_byte_length",
+        "body_sha256"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "initial_url_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "final_url_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "protected_url_record_id": {
+          "$ref": "#/$defs/digest"
+        },
+        "redirect_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5
+        },
+        "hop_trace_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "validated_peer_set_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "status_code": {
+          "const": 200
+        },
+        "media_type": {
+          "const": "text/html"
+        },
+        "charset": {
+          "enum": [
+            "absent-as-utf-8",
+            "utf-8",
+            "us-ascii"
+          ]
+        },
+        "content_encoding": {
+          "const": "identity"
+        },
+        "body_byte_length": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4194304
+        },
+        "body_sha256": {
+          "$ref": "#/$defs/digest"
+        }
+      }
+    },
+    "protected_url_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version",
+        "schema_version",
+        "record_id",
+        "classification",
+        "initial_canonical_url",
+        "final_canonical_url"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": "fum.source.protected-url-record.v1"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "record_id": {
+          "$ref": "#/$defs/digest"
+        },
+        "classification": {
+          "const": "local-sensitive-never-export-automatically"
+        },
+        "initial_canonical_url": {
+          "$ref": "#/$defs/canonical_https_url"
+        },
+        "final_canonical_url": {
+          "$ref": "#/$defs/canonical_https_url"
+        }
+      }
+    },
+    "provenance_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version",
+        "schema_version",
+        "record_id",
+        "operation_id",
+        "source_id",
+        "generation_id",
+        "previous_generation_id",
+        "provenance_context_id",
+        "provenance_context_revision",
+        "edge",
+        "plan_digest",
+        "confirmation_digest",
+        "policy_version",
+        "policy_digest",
+        "network_observation",
+        "transformation_digest",
+        "manifest_digest",
+        "transaction_id",
+        "trace_digest",
+        "accepted_at"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": "fum.source.provenance-record.v1"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "record_id": {
+          "$ref": "#/$defs/digest"
+        },
+        "operation_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "source_id": {
+          "$ref": "#/$defs/digest"
+        },
+        "generation_id": {
+          "$ref": "#/$defs/digest"
+        },
+        "previous_generation_id": {
+          "$ref": "#/$defs/nullable_digest"
+        },
+        "provenance_context_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "provenance_context_revision": {
+          "$ref": "#/$defs/digest"
+        },
+        "edge": {
+          "$ref": "#/$defs/provenance_edge"
+        },
+        "plan_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "confirmation_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "policy_version": {
+          "const": "fum.source-network-policy.v1"
+        },
+        "policy_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "network_observation": {
+          "$ref": "#/$defs/network_observation"
+        },
+        "transformation_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "manifest_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "transaction_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "trace_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "accepted_at": {
+          "$ref": "#/$defs/date_time"
+        }
+      }
+    },
+    "commit_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol",
+        "transaction_id",
+        "expected_generation_id",
+        "committed_generation_id",
+        "manifest_digest",
+        "provenance_record_id",
+        "atomic_visibility",
+        "recovery_state"
+      ],
+      "properties": {
+        "protocol": {
+          "enum": [
+            "fum.memory.single-generation-cas.v1",
+            "fum.memory.acid-transaction.v1"
+          ]
+        },
+        "transaction_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "expected_generation_id": {
+          "$ref": "#/$defs/nullable_digest"
+        },
+        "committed_generation_id": {
+          "$ref": "#/$defs/digest"
+        },
+        "manifest_digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "provenance_record_id": {
+          "$ref": "#/$defs/digest"
+        },
+        "atomic_visibility": {
+          "const": true
+        },
+        "recovery_state": {
+          "const": "committed"
+        }
+      }
+    },
+    "success_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version",
+        "schema_version",
+        "kind",
+        "operation_id",
+        "status",
+        "source_id",
+        "generation_id",
+        "previous_generation_id",
+        "transaction_id",
+        "manifest",
+        "provenance",
+        "commit",
+        "idempotent_replay"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": "fum.source-ingest.v1"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "kind": {
+          "const": "execution_result"
+        },
+        "operation_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "status": {
+          "const": "accepted"
+        },
+        "source_id": {
+          "$ref": "#/$defs/digest"
+        },
+        "generation_id": {
+          "$ref": "#/$defs/digest"
+        },
+        "previous_generation_id": {
+          "$ref": "#/$defs/nullable_digest"
+        },
+        "transaction_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "manifest": {
+          "$ref": "#/$defs/manifest"
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance_record"
+        },
+        "commit": {
+          "$ref": "#/$defs/commit_record"
+        },
+        "idempotent_replay": {
+          "type": "boolean"
+        }
+      }
+    },
+    "safe_error_details": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "reason_tag": {
+          "$ref": "#/$defs/identifier"
+        },
+        "hop_index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "observed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "policy_version": {
+          "const": "fum.source-network-policy.v1"
+        }
+      },
+      "x-fum-forbidden-details": [
+        "raw URL",
+        "query or fragment value",
+        "IP address",
+        "absolute or machine-local path",
+        "credential or token"
+      ]
+    },
+    "error": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "phase",
+        "retry_mode",
+        "canonical_state_changed",
+        "message",
+        "safe_details"
+      ],
+      "properties": {
+        "code": {
+          "enum": [
+            "unsupported_contract_version",
+            "invalid_message",
+            "invalid_url",
+            "url_too_long",
+            "embedded_credentials",
+            "ip_literal_forbidden",
+            "host_forbidden",
+            "port_forbidden",
+            "target_scope_invalid",
+            "target_scope_stale",
+            "permission_denied",
+            "provenance_context_missing",
+            "provenance_context_stale",
+            "plan_tampered",
+            "confirmation_missing",
+            "confirmation_mismatch",
+            "confirmation_expired",
+            "confirmation_reused",
+            "policy_changed",
+            "dns_resolution_failed",
+            "dns_answer_limit_exceeded",
+            "address_forbidden",
+            "peer_address_unverified",
+            "dns_rebinding_detected",
+            "tls_failure",
+            "redirect_invalid",
+            "redirect_forbidden",
+            "redirect_loop",
+            "redirect_limit_exceeded",
+            "source_unavailable",
+            "network_timeout",
+            "unsupported_status",
+            "header_limit_exceeded",
+            "http_framing_invalid",
+            "unsupported_media_type",
+            "unsupported_charset",
+            "unsupported_content_encoding",
+            "declared_size_exceeded",
+            "stream_size_exceeded",
+            "stream_timeout",
+            "sanitize_failed",
+            "extract_failed",
+            "manifest_mismatch",
+            "integrity_conflict",
+            "storage_conflict",
+            "atomic_commit_unavailable",
+            "transaction_failed",
+            "provenance_failed",
+            "execution_interrupted",
+            "recovery_failed",
+            "internal_error"
+          ]
+        },
+        "phase": {
+          "enum": [
+            "preflight",
+            "confirmation",
+            "resolve",
+            "connect",
+            "redirect",
+            "headers",
+            "stream",
+            "transform",
+            "manifest",
+            "transaction",
+            "recovery"
+          ]
+        },
+        "retry_mode": {
+          "enum": [
+            "never",
+            "new_plan",
+            "status_only"
+          ]
+        },
+        "canonical_state_changed": {
+          "const": false
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512,
+          "x-fum-compatibility": "non-normative-and-not-stable"
+        },
+        "safe_details": {
+          "$ref": "#/$defs/safe_error_details"
+        }
+      }
+    },
+    "error_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_version",
+        "schema_version",
+        "kind",
+        "operation_id",
+        "status",
+        "error"
+      ],
+      "properties": {
+        "contract_version": {
+          "const": "fum.source-ingest.v1"
+        },
+        "schema_version": {
+          "const": 1
+        },
+        "kind": {
+          "const": "execution_result"
+        },
+        "operation_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "status": {
+          "const": "rejected"
+        },
+        "error": {
+          "$ref": "#/$defs/error"
+        }
+      }
+    },
+    "execution_result": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/success_result"
+        },
+        {
+          "$ref": "#/$defs/error_result"
+        }
+      ]
+    }
+  }
+}
