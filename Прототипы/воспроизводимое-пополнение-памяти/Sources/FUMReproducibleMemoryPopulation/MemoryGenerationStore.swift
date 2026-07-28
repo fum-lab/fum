@@ -3,10 +3,12 @@ import Foundation
 
 private struct MemoryGenerationPointer: Codable, Equatable {
   let schemaVersion: Int
+  let canonicalProfile: String
   let generationSHA256: String
 
   enum CodingKeys: String, CodingKey {
     case schemaVersion = "schema_version"
+    case canonicalProfile = "canonical_profile"
     case generationSHA256 = "generation_sha256"
   }
 }
@@ -74,26 +76,49 @@ public struct MemoryGenerationStore {
       limit: Self.maximumPointerBytes,
       kind: "указатель CURRENT"
     )
+    let pointerEnvelope: MemoryGenerationSchemaEnvelope
+    do {
+      try CanonicalMemoryJSON.requireCanonical(pointerData)
+      pointerEnvelope = try JSONDecoder().decode(
+        MemoryGenerationSchemaEnvelope.self,
+        from: pointerData
+      )
+    } catch {
+      throw MemoryPopulationError.corruptGeneration(
+        "Указатель CURRENT не соответствует каноническому профилю или схеме."
+      )
+    }
+    switch pointerEnvelope.schemaVersion {
+    case 1:
+      throw MemoryPopulationError.incompatibleGeneration(
+        "Указатель CURRENT схемы 1 не закрепляет языконейтральный профиль канонических байтов."
+      )
+    case 2:
+      break
+    default:
+      throw MemoryPopulationError.incompatibleGeneration(
+        "Указатель CURRENT имеет неподдерживаемую версию схемы."
+      )
+    }
+
     let pointer: MemoryGenerationPointer
     do {
       pointer = try JSONDecoder().decode(MemoryGenerationPointer.self, from: pointerData)
+      guard try CanonicalMemoryJSON.encode(pointer) == pointerData else {
+        throw CanonicalMemoryJSONError("Указатель CURRENT содержит поля вне точной схемы.")
+      }
     } catch {
       throw MemoryPopulationError.corruptGeneration(
         "Указатель CURRENT не соответствует схеме."
       )
     }
-    guard pointer.schemaVersion == 1, isMemorySHA256(pointer.generationSHA256) else {
+    guard pointer.canonicalProfile == CanonicalMemoryJSON.profileID,
+      isMemorySHA256(pointer.generationSHA256)
+    else {
       throw MemoryPopulationError.incompatibleGeneration(
-        "Указатель CURRENT имеет неподдерживаемую версию или хэш."
+        "Указатель CURRENT имеет неподдерживаемый канонический профиль или хэш."
       )
     }
-    let canonicalPointer = try CanonicalMemoryJSON.encode(pointer)
-    guard canonicalPointer == pointerData else {
-      throw MemoryPopulationError.corruptGeneration(
-        "Указатель CURRENT не является каноническим JSON."
-      )
-    }
-
     let generationURL = generationsURL.appendingPathComponent(
       "\(pointer.generationSHA256.dropFirst(7)).json",
       isDirectory: false
@@ -125,6 +150,10 @@ public struct MemoryGenerationStore {
       throw MemoryPopulationError.incompatibleGeneration(
         "Поколение схемы 1 не содержит канонического журнала событий; самодостаточное воспроизведение невозможно."
       )
+    case 2:
+      throw MemoryPopulationError.incompatibleGeneration(
+        "Поколение схемы 2 не закрепляет языконейтральный профиль канонических байтов."
+      )
     case MemoryGeneration.currentSchemaVersion:
       break
     default:
@@ -135,15 +164,14 @@ public struct MemoryGenerationStore {
 
     let generation: MemoryGeneration
     do {
+      try CanonicalMemoryJSON.requireCanonical(generationData)
       generation = try JSONDecoder().decode(MemoryGeneration.self, from: generationData)
+      guard try CanonicalMemoryJSON.encode(generation) == generationData else {
+        throw CanonicalMemoryJSONError("Файл поколения содержит поля вне точной схемы.")
+      }
     } catch {
       throw MemoryPopulationError.corruptGeneration(
         "Файл поколения не соответствует схеме."
-      )
-    }
-    guard try CanonicalMemoryJSON.encode(generation) == generationData else {
-      throw MemoryPopulationError.corruptGeneration(
-        "Файл поколения не является каноническим JSON."
       )
     }
     try validateMemoryGeneration(generation)
@@ -201,7 +229,8 @@ public struct MemoryGenerationStore {
       try validateLineage(of: generation, continuing: current)
 
       let pointer = MemoryGenerationPointer(
-        schemaVersion: 1,
+        schemaVersion: 2,
+        canonicalProfile: CanonicalMemoryJSON.profileID,
         generationSHA256: generationSHA256
       )
       let pointerData = try CanonicalMemoryJSON.encode(pointer)

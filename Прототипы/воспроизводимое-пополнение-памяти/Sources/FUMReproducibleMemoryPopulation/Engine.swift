@@ -1,18 +1,4 @@
-import CryptoKit
 import Foundation
-
-public enum CanonicalMemoryJSON {
-  public static func encode<T: Encodable>(_ value: T) throws -> Data {
-    let encoder = JSONEncoder()
-    encoder.outputFormatting = [.sortedKeys, .withoutEscapingSlashes]
-    return try encoder.encode(value)
-  }
-
-  public static func sha256(_ data: Data) -> String {
-    let digest = SHA256.hash(data: data)
-    return "sha256:" + digest.map { String(format: "%02x", $0) }.joined()
-  }
-}
 
 public struct MemoryPopulationEngine: Sendable {
   public static let maximumInputBytes = 1_048_576
@@ -22,10 +8,10 @@ public struct MemoryPopulationEngine: Sendable {
   public init() {}
 
   public func run(_ input: Data) throws -> MemoryPopulationArtifact {
-    let program = try decodeExternalProgram(input)
+    let decoded = try decodeExternalProgram(input)
     return try execute(
-      program,
-      inputSHA256: CanonicalMemoryJSON.sha256(input),
+      decoded.program,
+      inputSHA256: CanonicalMemoryJSON.sha256(decoded.canonicalBytes),
       continuingFrom: nil
     ).artifact
   }
@@ -34,10 +20,10 @@ public struct MemoryPopulationEngine: Sendable {
     from input: Data,
     continuingFrom previous: StoredMemoryGeneration? = nil
   ) throws -> MemoryGeneration {
-    let program = try decodeExternalProgram(input)
+    let decoded = try decodeExternalProgram(input)
     let result = try execute(
-      program,
-      inputSHA256: CanonicalMemoryJSON.sha256(input),
+      decoded.program,
+      inputSHA256: CanonicalMemoryJSON.sha256(decoded.canonicalBytes),
       continuingFrom: previous
     )
     let artifact = result.artifact
@@ -55,12 +41,12 @@ public struct MemoryPopulationEngine: Sendable {
       datasetID: result.program.datasetID,
       events: (previous?.generation.eventJournal.events ?? []) + result.program.events
     )
-    let canonicalInput = try CanonicalMemoryJSON.encode(result.program)
     let generation = MemoryGeneration(
       schemaVersion: MemoryGeneration.currentSchemaVersion,
+      canonicalProfile: CanonicalMemoryJSON.profileID,
       policyVersion: MemoryPopulationPolicy.version,
       previousGenerationSHA256: previous?.generationSHA256,
-      inputSHA256: CanonicalMemoryJSON.sha256(canonicalInput),
+      inputSHA256: CanonicalMemoryJSON.sha256(decoded.canonicalBytes),
       seedSHA256: CanonicalMemoryJSON.sha256(
         try CanonicalMemoryJSON.encode(seed)
       ),
@@ -115,13 +101,22 @@ public struct MemoryPopulationEngine: Sendable {
     ).artifact
   }
 
-  private func decodeExternalProgram(_ input: Data) throws -> MemoryPopulationProgram {
+  private func decodeExternalProgram(
+    _ input: Data
+  ) throws -> (program: MemoryPopulationProgram, canonicalBytes: Data) {
     guard input.count <= Self.maximumInputBytes else {
       throw MemoryPopulationError.inputTooLarge(input.count)
     }
 
     do {
-      return try JSONDecoder().decode(MemoryPopulationProgram.self, from: input)
+      let canonicalInput = try CanonicalMemoryJSON.canonicalize(input)
+      let program = try JSONDecoder().decode(MemoryPopulationProgram.self, from: canonicalInput)
+      guard try CanonicalMemoryJSON.encode(program) == canonicalInput else {
+        throw CanonicalMemoryJSONError(
+          "Типизированное декодирование изменило байты канонической программы."
+        )
+      }
+      return (program, canonicalInput)
     } catch {
       throw MemoryPopulationError.invalidInput(
         "Вход не соответствует схеме набора событий версии 1."
@@ -258,7 +253,8 @@ public struct MemoryPopulationEngine: Sendable {
     return (
       program,
       MemoryPopulationArtifact(
-        schemaVersion: 2,
+        schemaVersion: 3,
+        canonicalProfile: CanonicalMemoryJSON.profileID,
         inputSHA256: inputSHA256,
         snapshotSHA256: CanonicalMemoryJSON.sha256(
           try CanonicalMemoryJSON.encode(snapshot)

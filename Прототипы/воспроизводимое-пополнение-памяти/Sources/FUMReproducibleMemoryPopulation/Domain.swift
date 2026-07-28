@@ -256,6 +256,7 @@ public struct GUIProjectionPrerequisiteReport: Codable, Equatable, Sendable {
 
 public struct MemoryPopulationArtifact: Codable, Equatable, Sendable {
   public let schemaVersion: Int
+  public let canonicalProfile: String
   public let inputSHA256: String
   public let snapshotSHA256: String
   public let traceSHA256: String
@@ -267,6 +268,7 @@ public struct MemoryPopulationArtifact: Codable, Equatable, Sendable {
 
   enum CodingKeys: String, CodingKey {
     case schemaVersion = "schema_version"
+    case canonicalProfile = "canonical_profile"
     case inputSHA256 = "input_sha256"
     case snapshotSHA256 = "snapshot_sha256"
     case traceSHA256 = "trace_sha256"

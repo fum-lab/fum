@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "profile": "fum.memory.canonical-json.v1",
+  "accepted": [
+    {
+      "id": "basic-boundaries",
+      "carrier": "json_object",
+      "input_base64": "eyJmYWxzZV92YWx1ZSI6ZmFsc2UsIm1heGltdW0iOjkwMDcxOTkyNTQ3NDA5OTEsIm1pbmltdW0iOjAsInRydWVfdmFsdWUiOnRydWV9",
+      "canonical_base64": "eyJmYWxzZV92YWx1ZSI6ZmFsc2UsIm1heGltdW0iOjkwMDcxOTkyNTQ3NDA5OTEsIm1pbmltdW0iOjAsInRydWVfdmFsdWUiOnRydWV9",
+      "canonical_sha256": "sha256:464bff0c959caedb821acafbfa08349b0c4d2fca2c16b77c909f1f788df0b520"
+    },
+    {
+      "id": "unicode-escaping",
+      "carrier": "json_object",
+      "input_base64": "eyJ0ZXh0Ijoi0ZEv8J+YgOKAqOKAqVxiXHRcblxmXHJcdTAwMDFcIlxcIn0=",
+      "canonical_base64": "eyJ0ZXh0Ijoi0ZEv8J+YgOKAqOKAqVxiXHRcblxmXHJcdTAwMDFcIlxcIn0=",
+      "canonical_sha256": "sha256:f6d3139ab2ad3ae542200873646cc018387127a41102dd3effbf658a4aa947c9"
+    },
+    {
+      "id": "maximum-depth-128",
+      "carrier": "json_object",
+      "input_base64": "eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnt9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX0=",
+      "canonical_base64": "eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnt9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX0=",
+      "canonical_sha256": "sha256:47ec83edd0d185f58e09a843867e31af9088c4da554f55c730c52f547161a8b1"
+    },
+    {
+      "id": "unicode-nfc",
+      "carrier": "json_object",
+      "input_base64": "eyJ0ZXh0Ijoiw6kifQ==",
+      "canonical_base64": "eyJ0ZXh0Ijoiw6kifQ==",
+      "canonical_sha256": "sha256:42d3cbf59fdccced04e5dff14433fb52d34d58e385e9770ffd896ff517d63b92"
+    },
+    {
+      "id": "unicode-nfd",
+      "carrier": "json_object",
+      "input_base64": "eyJ0ZXh0IjoiZcyBIn0=",
+      "canonical_base64": "eyJ0ZXh0IjoiZcyBIn0=",
+      "canonical_sha256": "sha256:9b53287cd41955684903378d2b1b4a3ddea9d80d67dcd026319a7c5a9a8a8b42"
+    },
+    {
+      "id": "remember-event",
+      "carrier": "event",
+      "input_base64": "eyJpZCI6ImV2ZW50LnJlbWVtYmVyIiwib3BlcmF0aW9uIjoicmVtZW1iZXIiLCJzZXF1ZW5jZSI6MSwidGFyZ2V0Ijoibm90ZSIsInZhbHVlIjoi0L/QsNC80Y/RgtGMIn0=",
+      "canonical_base64": "eyJpZCI6ImV2ZW50LnJlbWVtYmVyIiwib3BlcmF0aW9uIjoicmVtZW1iZXIiLCJzZXF1ZW5jZSI6MSwidGFyZ2V0Ijoibm90ZSIsInZhbHVlIjoi0L/QsNC80Y/RgtGMIn0=",
+      "canonical_sha256": "sha256:33675783031970e7b40e2999539f9e7d5208f0aab9984eaf83a4d926aa9683a9"
+    },
+    {
+      "id": "remember-event-value-boundary",
+      "carrier": "event",
+      "canonical_base64_file": "remember-event-value-boundary.base64",
+      "canonical_sha256": "sha256:a424436626f9c36f9ae4add23e2c5f83dcd3ba383758aabbe61feed048bc565c"
+    },
+    {
+      "id": "compose-event",
+      "carrier": "event",
+      "input_base64": "eyJpZCI6ImV2ZW50LmNvbXBvc2UiLCJvcGVyYXRpb24iOiJjb21wb3NlIiwic2VwYXJhdG9yIjoiICsgIiwic2VxdWVuY2UiOjIsInNvdXJjZXMiOlsibm90ZSIsIm90aGVyIl0sInRhcmdldCI6InN1bW1hcnkifQ==",
+      "canonical_base64": "eyJpZCI6ImV2ZW50LmNvbXBvc2UiLCJvcGVyYXRpb24iOiJjb21wb3NlIiwic2VwYXJhdG9yIjoiICsgIiwic2VxdWVuY2UiOjIsInNvdXJjZXMiOlsibm90ZSIsIm90aGVyIl0sInRhcmdldCI6InN1bW1hcnkifQ==",
+      "canonical_sha256": "sha256:b7cd8b4a1623525f577206810210212f9865536de14dd4f72758ff8c0fe18d11"
+    },
+    {
+      "id": "memory-program",
+      "carrier": "program",
+      "input_base64": "ewogICJzY2hlbWFfdmVyc2lvbiI6IDEsCiAgInBvbGljeV92ZXJzaW9uIjogImZ1bS5tZW1vcnkucG9saWN5LnYxIiwKICAiZGF0YXNldF9pZCI6ICJnb2xkZW4ubWVtb3J5LnYxIiwKICAiZXZlbnRzIjogWwogICAgeyJ2YWx1ZSI6ItC/0LDQvNGP0YLRjCIsInRhcmdldCI6Im5vdGUiLCJzZXF1ZW5jZSI6MSwib3BlcmF0aW9uIjoicmVtZW1iZXIiLCJpZCI6ImV2ZW50LnJlbWVtYmVyIn0sCiAgICB7InRhcmdldCI6ImNvcHkiLCJzb3VyY2VzIjpbIm5vdGUiXSwic2VxdWVuY2UiOjIsInNlcGFyYXRvciI6IiIsIm9wZXJhdGlvbiI6ImNvbXBvc2UiLCJpZCI6ImV2ZW50LmNvbXBvc2UifQogIF0KfQ==",
+      "canonical_base64": "eyJkYXRhc2V0X2lkIjoiZ29sZGVuLm1lbW9yeS52MSIsImV2ZW50cyI6W3siaWQiOiJldmVudC5yZW1lbWJlciIsIm9wZXJhdGlvbiI6InJlbWVtYmVyIiwic2VxdWVuY2UiOjEsInRhcmdldCI6Im5vdGUiLCJ2YWx1ZSI6ItC/0LDQvNGP0YLRjCJ9LHsiaWQiOiJldmVudC5jb21wb3NlIiwib3BlcmF0aW9uIjoiY29tcG9zZSIsInNlcGFyYXRvciI6IiIsInNlcXVlbmNlIjoyLCJzb3VyY2VzIjpbIm5vdGUiXSwidGFyZ2V0IjoiY29weSJ9XSwicG9saWN5X3ZlcnNpb24iOiJmdW0ubWVtb3J5LnBvbGljeS52MSIsInNjaGVtYV92ZXJzaW9uIjoxfQ==",
+      "canonical_sha256": "sha256:524c676472939da1cd85dfbc49c1dccd2862a3fd52ec7363d40744f19fcd7efd"
+    },
+    {
+      "id": "initial-generation",
+      "carrier": "generation",
+      "canonical_base64_file": "generation-initial-v3.base64",
+      "canonical_sha256": "sha256:a6ac37f6a922ee794afec3f92462ead3d9eaffc2d9ca91fe644c796b19b8ed7f"
+    },
+    {
+      "id": "continuation-generation",
+      "carrier": "generation",
+      "canonical_base64_file": "generation-continuation-v3.base64",
+      "canonical_sha256": "sha256:f612a0a1482df8a371fe4ca1d242ef82382aa4af5b9484f3a0c7ad790091d4f0"
+    },
+    {
+      "id": "current-pointer",
+      "carrier": "current_pointer",
+      "input_base64": "eyJjYW5vbmljYWxfcHJvZmlsZSI6ImZ1bS5tZW1vcnkuY2Fub25pY2FsLWpzb24udjEiLCJnZW5lcmF0aW9uX3NoYTI1NiI6InNoYTI1NjpmNjEyYTBhMTQ4MmRmOGEzNzFmZTRjYTFkMjQyZWY4MjM4MmFhNGFmNWI5NDg0ZjNhMGM3YWQ3OTAwOTFkNGYwIiwic2NoZW1hX3ZlcnNpb24iOjJ9",
+      "canonical_base64": "eyJjYW5vbmljYWxfcHJvZmlsZSI6ImZ1bS5tZW1vcnkuY2Fub25pY2FsLWpzb24udjEiLCJnZW5lcmF0aW9uX3NoYTI1NiI6InNoYTI1NjpmNjEyYTBhMTQ4MmRmOGEzNzFmZTRjYTFkMjQyZWY4MjM4MmFhNGFmNWI5NDg0ZjNhMGM3YWQ3OTAwOTFkNGYwIiwic2NoZW1hX3ZlcnNpb24iOjJ9",
+      "canonical_sha256": "sha256:57ed8d596fe46de46f1199d9a2507b71dc05d0da8871f723d0e8d82a0b8a1c85"
+    }
+  ],
+  "rejected": [
+    {"id": "empty", "carrier": "json_object", "mode": "invalid", "input_base64": ""},
+    {"id": "utf8-bom", "carrier": "json_object", "mode": "invalid", "input_base64": "77u/e30="},
+    {"id": "utf8-overlong", "carrier": "json_object", "mode": "invalid", "input_base64": "eyJhIjoiwK8ifQ=="},
+    {"id": "utf8-truncated", "carrier": "json_object", "mode": "invalid", "input_base64": "eyJhIjoi4oIifQ=="},
+    {"id": "lone-high-surrogate", "carrier": "json_object", "mode": "invalid", "input_base64": "eyJhIjoiXHVkODAwIn0="},
+    {"id": "reversed-surrogates", "carrier": "json_object", "mode": "invalid", "input_base64": "eyJhIjoiXHVkYzAwXHVkODAwIn0="},
+    {"id": "unicode-noncharacter", "carrier": "json_object", "mode": "invalid", "input_base64": "eyJhIjoi77eQIn0="},
+    {"id": "unicode-plane-noncharacter", "carrier": "json_object", "mode": "invalid", "input_base64": "eyJhIjoiXHVkYmZmXHVkZmZmIn0="},
+    {"id": "duplicate-key", "carrier": "json_object", "mode": "invalid", "input_base64": "eyJhIjowLCJhIjoxfQ=="},
+    {"id": "duplicate-key-after-escape", "carrier": "json_object", "mode": "invalid", "input_base64": "eyJhIjowLCJcdTAwNjEiOjF9"},
+    {"id": "null", "carrier": "json_object", "mode": "invalid", "input_base64": "eyJhIjpudWxsfQ=="},
+    {"id": "negative-zero", "carrier": "json_object", "mode": "invalid", "input_base64": "eyJhIjotMH0="},
+    {"id": "negative-integer", "carrier": "json_object", "mode": "invalid", "input_base64": "eyJhIjotMX0="},
+    {"id": "leading-zero", "carrier": "json_object", "mode": "invalid", "input_base64": "eyJhIjowMX0="},
+    {"id": "leading-plus", "carrier": "json_object", "mode": "invalid", "input_base64": "eyJhIjorMX0="},
+    {"id": "fraction", "carrier": "json_object", "mode": "invalid", "input_base64": "eyJhIjoxLjB9"},
+    {"id": "exponent", "carrier": "json_object", "mode": "invalid", "input_base64": "eyJhIjoxZTB9"},
+    {"id": "unsafe-integer", "carrier": "json_object", "mode": "invalid", "input_base64": "eyJhIjo5MDA3MTk5MjU0NzQwOTkyfQ=="},
+    {"id": "nan", "carrier": "json_object", "mode": "invalid", "input_base64": "eyJhIjpOYU59"},
+    {"id": "infinity", "carrier": "json_object", "mode": "invalid", "input_base64": "eyJhIjpJbmZpbml0eX0="},
+    {"id": "root-array", "carrier": "json_object", "mode": "invalid", "input_base64": "W10="},
+    {"id": "non-ascii-key", "carrier": "json_object", "mode": "invalid", "input_base64": "eyLQutC70Y7RhyI6InZhbHVlIn0="},
+    {"id": "uppercase-key", "carrier": "json_object", "mode": "invalid", "input_base64": "eyJBIjowfQ=="},
+    {"id": "digit-first-key", "carrier": "json_object", "mode": "invalid", "input_base64": "eyIxYSI6MH0="},
+    {"id": "hyphenated-key", "carrier": "json_object", "mode": "invalid", "input_base64": "eyJhLWIiOjB9"},
+    {"id": "unknown-escape", "carrier": "json_object", "mode": "invalid", "input_base64": "eyJhIjoiXHgifQ=="},
+    {"id": "depth-129", "carrier": "json_object", "mode": "invalid", "input_base64": "eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6eyJhIjp7ImEiOnsiYSI6e319fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX0="},
+    {"id": "leading-whitespace", "carrier": "json_object", "mode": "noncanonical", "input_base64": "IHsiYSI6MH0="},
+    {"id": "internal-whitespace", "carrier": "json_object", "mode": "noncanonical", "input_base64": "eyJhIjogMH0="},
+    {"id": "trailing-lf", "carrier": "json_object", "mode": "noncanonical", "input_base64": "eyJhIjowfQo="},
+    {"id": "trailing-crlf", "carrier": "json_object", "mode": "noncanonical", "input_base64": "eyJhIjowfQ0K"},
+    {"id": "wrong-key-order", "carrier": "json_object", "mode": "noncanonical", "input_base64": "eyJiIjowLCJhIjowfQ=="},
+    {"id": "escaped-slash", "carrier": "json_object", "mode": "noncanonical", "input_base64": "eyJhIjoiXC8ifQ=="},
+    {"id": "unnecessary-unicode-escape", "carrier": "json_object", "mode": "noncanonical", "input_base64": "eyJhIjoiXHUwMDYxIn0="},
+    {"id": "uppercase-control-escape", "carrier": "json_object", "mode": "noncanonical", "input_base64": "eyJhIjoiXHUwMDFBIn0="},
+    {"id": "escaped-emoji", "carrier": "json_object", "mode": "noncanonical", "input_base64": "eyJhIjoiXHVkODNkXHVkZTAwIn0="},
+    {"id": "event-key-order", "carrier": "event", "mode": "noncanonical", "input_base64": "eyJzZXF1ZW5jZSI6MSwib3BlcmF0aW9uIjoicmVtZW1iZXIiLCJpZCI6ImV2ZW50LnJlbWVtYmVyIiwidGFyZ2V0Ijoibm90ZSIsInZhbHVlIjoi0L/QsNC80Y/RgtGMIn0="},
+    {"id": "current-key-order", "carrier": "current_pointer", "mode": "noncanonical", "input_base64": "eyJzY2hlbWFfdmVyc2lvbiI6MiwiZ2VuZXJhdGlvbl9zaGEyNTYiOiJzaGEyNTY6ZjYxMmEwYTE0ODJkZjhhMzcxZmU0Y2ExZDI0MmVmODIzODJhYTRhZjViOTQ4NGYzYTBjN2FkNzkwMDkxZDRmMCIsImNhbm9uaWNhbF9wcm9maWxlIjoiZnVtLm1lbW9yeS5jYW5vbmljYWwtanNvbi52MSJ9"}
+  ],
+  "hashes": [
+    {
+      "id": "sha256-empty",
+      "input_base64": "",
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "sha256-abc",
+      "input_base64": "YWJj",
+      "sha256": "sha256:ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+    }
+  ]
+}

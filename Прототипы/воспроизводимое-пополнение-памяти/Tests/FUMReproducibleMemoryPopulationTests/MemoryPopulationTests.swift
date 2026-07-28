@@ -137,7 +137,8 @@ final class MemoryPopulationTests: XCTestCase {
 
     XCTAssertEqual(restoredContinuation, confirmedContinuation)
     XCTAssertEqual(continued.previousGenerationSHA256, confirmedBase.generationSHA256)
-    XCTAssertEqual(continued.schemaVersion, 2)
+    XCTAssertEqual(continued.schemaVersion, MemoryGeneration.currentSchemaVersion)
+    XCTAssertEqual(continued.canonicalProfile, CanonicalMemoryJSON.profileID)
     XCTAssertEqual(continued.policyVersion, MemoryPopulationPolicy.version)
     XCTAssertNotEqual(continued.inputSHA256, full.inputSHA256)
     XCTAssertEqual(continued.snapshot, full.snapshot)
@@ -156,7 +157,8 @@ final class MemoryPopulationTests: XCTestCase {
     let engine = MemoryPopulationEngine()
     let generation = try engine.generation(from: programData())
 
-    XCTAssertEqual(generation.schemaVersion, 2)
+    XCTAssertEqual(generation.schemaVersion, MemoryGeneration.currentSchemaVersion)
+    XCTAssertEqual(generation.canonicalProfile, CanonicalMemoryJSON.profileID)
     XCTAssertEqual(generation.seed.schemaVersion, 1)
     XCTAssertEqual(generation.seed.kind, .empty)
     XCTAssertEqual(generation.seed.datasetID, generation.snapshot.datasetID)
@@ -508,7 +510,8 @@ final class MemoryPopulationTests: XCTestCase {
     XCTAssertEqual(legacyData.count, 5_288)
     XCTAssertEqual(CanonicalMemoryJSON.sha256(legacyData), legacySHA256)
     let pointerData = Data(
-      "{\"generation_sha256\":\"\(legacySHA256)\",\"schema_version\":1}".utf8
+      "{\"canonical_profile\":\"\(CanonicalMemoryJSON.profileID)\",\"generation_sha256\":\"\(legacySHA256)\",\"schema_version\":2}"
+        .utf8
     )
     let storeURL = temporaryStoreURL()
     defer { try? FileManager.default.removeItem(at: storeURL) }
@@ -539,6 +542,123 @@ final class MemoryPopulationTests: XCTestCase {
     }
     XCTAssertEqual(try Data(contentsOf: generationURL), legacyData)
     XCTAssertEqual(try Data(contentsOf: pointerURL), pointerData)
+  }
+
+  func testLegacyV1PointerIsRejectedExplicitlyWithoutRewritingBytes() throws {
+    let zeroSHA256 = "sha256:" + String(repeating: "0", count: 64)
+    let legacyPointer = Data(
+      "{\"generation_sha256\":\"\(zeroSHA256)\",\"schema_version\":1}".utf8
+    )
+    XCTAssertNoThrow(try CanonicalMemoryJSON.requireCanonical(legacyPointer))
+    let storeURL = temporaryStoreURL()
+    defer { try? FileManager.default.removeItem(at: storeURL) }
+    try FileManager.default.createDirectory(at: storeURL, withIntermediateDirectories: true)
+    let pointerURL = storeURL.appendingPathComponent("CURRENT.json", isDirectory: false)
+    try legacyPointer.write(to: pointerURL)
+
+    XCTAssertThrowsError(try MemoryGenerationStore(rootURL: storeURL).loadCurrent()) {
+      error in
+      XCTAssertEqual(
+        error as? MemoryPopulationError,
+        .incompatibleGeneration(
+          "Указатель CURRENT схемы 1 не закрепляет языконейтральный профиль канонических байтов."
+        )
+      )
+    }
+    XCTAssertEqual(try Data(contentsOf: pointerURL), legacyPointer)
+  }
+
+  func testLegacyV2GenerationIsRejectedExplicitlyWithoutRewritingBytes() throws {
+    let generation = try MemoryPopulationEngine().generation(
+      from: MemoryPopulationFixtures.loadBootstrapBaseV1()
+    )
+    let currentText = String(
+      decoding: try CanonicalMemoryJSON.encode(generation),
+      as: UTF8.self
+    )
+    let profilePrefix =
+      "{\"canonical_profile\":\"\(CanonicalMemoryJSON.profileID)\","
+    XCTAssertTrue(currentText.hasPrefix(profilePrefix))
+    XCTAssertEqual(currentText.components(separatedBy: "\"schema_version\":3").count, 2)
+    let legacyText =
+      ("{" + currentText.dropFirst(profilePrefix.count))
+      .replacingOccurrences(of: "\"schema_version\":3", with: "\"schema_version\":2")
+    let legacyData = Data(legacyText.utf8)
+    XCTAssertNoThrow(try CanonicalMemoryJSON.requireCanonical(legacyData))
+    let legacySHA256 = CanonicalMemoryJSON.sha256(legacyData)
+    let pointerData = Data(
+      "{\"canonical_profile\":\"\(CanonicalMemoryJSON.profileID)\",\"generation_sha256\":\"\(legacySHA256)\",\"schema_version\":2}"
+        .utf8
+    )
+    let storeURL = temporaryStoreURL()
+    defer { try? FileManager.default.removeItem(at: storeURL) }
+    let generationsURL = storeURL.appendingPathComponent("generations", isDirectory: true)
+    try FileManager.default.createDirectory(
+      at: generationsURL,
+      withIntermediateDirectories: true
+    )
+    let generationURL = generationURL(for: legacySHA256, storeURL: storeURL)
+    let pointerURL = storeURL.appendingPathComponent("CURRENT.json", isDirectory: false)
+    try legacyData.write(to: generationURL)
+    try pointerData.write(to: pointerURL)
+
+    XCTAssertThrowsError(try MemoryGenerationStore(rootURL: storeURL).loadCurrent()) {
+      error in
+      XCTAssertEqual(
+        error as? MemoryPopulationError,
+        .incompatibleGeneration(
+          "Поколение схемы 2 не закрепляет языконейтральный профиль канонических байтов."
+        )
+      )
+    }
+    XCTAssertEqual(try Data(contentsOf: generationURL), legacyData)
+    XCTAssertEqual(try Data(contentsOf: pointerURL), pointerData)
+  }
+
+  func testStoreRejectsCanonicalBytesWithFieldsOutsideTheExactSchema() throws {
+    let engine = MemoryPopulationEngine()
+    let storeURL = temporaryStoreURL()
+    defer { try? FileManager.default.removeItem(at: storeURL) }
+    let store = MemoryGenerationStore(rootURL: storeURL)
+    let generation = try engine.generation(
+      from: MemoryPopulationFixtures.loadBootstrapBaseV1()
+    )
+    let stored = try store.commit(generation)
+    let pointerURL = storeURL.appendingPathComponent("CURRENT.json", isDirectory: false)
+
+    let pointerWithUnknownField = Data(
+      "{\"canonical_profile\":\"\(CanonicalMemoryJSON.profileID)\",\"extra\":true,\"generation_sha256\":\"\(stored.generationSHA256)\",\"schema_version\":2}"
+        .utf8
+    )
+    XCTAssertNoThrow(try CanonicalMemoryJSON.requireCanonical(pointerWithUnknownField))
+    try pointerWithUnknownField.write(to: pointerURL)
+    XCTAssertThrowsError(try store.loadCurrent()) { error in
+      XCTAssertEqual(
+        error as? MemoryPopulationError,
+        .corruptGeneration("Указатель CURRENT не соответствует схеме.")
+      )
+    }
+
+    let canonicalGeneration = try CanonicalMemoryJSON.encode(generation)
+    var generationWithUnknownField = Data("{\"aaa\":true,".utf8)
+    generationWithUnknownField.append(contentsOf: canonicalGeneration.dropFirst())
+    XCTAssertNoThrow(try CanonicalMemoryJSON.requireCanonical(generationWithUnknownField))
+    let mutatedSHA256 = CanonicalMemoryJSON.sha256(generationWithUnknownField)
+    try generationWithUnknownField.write(
+      to: generationURL(for: mutatedSHA256, storeURL: storeURL)
+    )
+    let pointerToMutatedGeneration = Data(
+      "{\"canonical_profile\":\"\(CanonicalMemoryJSON.profileID)\",\"generation_sha256\":\"\(mutatedSHA256)\",\"schema_version\":2}"
+        .utf8
+    )
+    XCTAssertNoThrow(try CanonicalMemoryJSON.requireCanonical(pointerToMutatedGeneration))
+    try pointerToMutatedGeneration.write(to: pointerURL)
+    XCTAssertThrowsError(try store.loadCurrent()) { error in
+      XCTAssertEqual(
+        error as? MemoryPopulationError,
+        .corruptGeneration("Файл поколения не соответствует схеме.")
+      )
+    }
   }
 
   func testInterruptedOrInvalidContinuationKeepsLastConfirmedGeneration() throws {
@@ -1207,7 +1327,7 @@ final class MemoryPopulationTests: XCTestCase {
       rootURL: URL(fileURLWithPath: storePath, isDirectory: true)
     )
     let current = try store.loadCurrent()
-    try CanonicalMemoryJSON.encode(current).write(
+    try JSONEncoder().encode(current).write(
       to: URL(fileURLWithPath: resultPath, isDirectory: false),
       options: [.atomic]
     )

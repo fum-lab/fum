@@ -139,9 +139,10 @@ public struct MemoryGenerationSeed: Codable, Equatable, Sendable {
 }
 
 public struct MemoryGeneration: Codable, Equatable, Sendable {
-  public static let currentSchemaVersion = 2
+  public static let currentSchemaVersion = 3
 
   public let schemaVersion: Int
+  public let canonicalProfile: String
   public let policyVersion: String
   public let previousGenerationSHA256: String?
   public let inputSHA256: String
@@ -159,6 +160,7 @@ public struct MemoryGeneration: Codable, Equatable, Sendable {
 
   enum CodingKeys: String, CodingKey {
     case schemaVersion = "schema_version"
+    case canonicalProfile = "canonical_profile"
     case policyVersion = "policy_version"
     case previousGenerationSHA256 = "previous_generation_sha256"
     case inputSHA256 = "input_sha256"
@@ -177,6 +179,7 @@ public struct MemoryGeneration: Codable, Equatable, Sendable {
 
   public init(
     schemaVersion: Int,
+    canonicalProfile: String = CanonicalMemoryJSON.profileID,
     policyVersion: String,
     previousGenerationSHA256: String?,
     inputSHA256: String,
@@ -193,6 +196,7 @@ public struct MemoryGeneration: Codable, Equatable, Sendable {
     provenance: MemoryGenerationProvenance
   ) {
     self.schemaVersion = schemaVersion
+    self.canonicalProfile = canonicalProfile
     self.policyVersion = policyVersion
     self.previousGenerationSHA256 = previousGenerationSHA256
     self.inputSHA256 = inputSHA256

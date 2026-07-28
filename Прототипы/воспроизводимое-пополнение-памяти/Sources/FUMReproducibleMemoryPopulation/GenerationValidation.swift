@@ -9,6 +9,11 @@ func validateMemoryGeneration(
       "Неподдерживаемая версия схемы поколения."
     )
   }
+  guard generation.canonicalProfile == CanonicalMemoryJSON.profileID else {
+    throw MemoryPopulationError.incompatibleGeneration(
+      "Неподдерживаемый профиль канонических байтов памяти."
+    )
+  }
   guard generation.policyVersion == MemoryPopulationPolicy.version else {
     throw MemoryPopulationError.incompatibleGeneration(
       "Неподдерживаемая версия политики памяти."
@@ -274,6 +279,7 @@ func validateMemoryGeneration(
     )
   }
   guard replayed.snapshot == generation.snapshot,
+    replayed.canonicalProfile == generation.canonicalProfile,
     replayed.trace == generation.trace,
     replayed.viewModel == generation.viewModel,
     replayed.snapshotSHA256 == generation.snapshotSHA256,
