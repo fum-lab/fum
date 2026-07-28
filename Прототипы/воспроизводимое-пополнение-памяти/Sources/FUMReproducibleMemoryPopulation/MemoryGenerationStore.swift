@@ -24,6 +24,17 @@ enum MemoryGenerationPublicationLockEvent {
   case didAcquire
 }
 
+enum MemoryGenerationCommitCheckpoint: String, CaseIterable, Sendable {
+  case generationTemporaryWritten = "generation-temporary-written"
+  case generationFileSynchronized = "generation-file-synchronized"
+  case generationPublished = "generation-published"
+  case generationsDirectorySynchronized = "generations-directory-synchronized"
+  case currentTemporaryWritten = "current-temporary-written"
+  case currentFileSynchronized = "current-file-synchronized"
+  case currentPublished = "current-published"
+  case rootDirectorySynchronized = "root-directory-synchronized"
+}
+
 public struct MemoryGenerationStore {
   private static let maximumPointerBytes = 4_096
   private static let maximumGenerationBytes = 16_777_216
@@ -31,21 +42,25 @@ public struct MemoryGenerationStore {
   public let rootURL: URL
   private let beforePointerCommit: (() throws -> Void)?
   private let publicationLockObserver: ((MemoryGenerationPublicationLockEvent) throws -> Void)?
+  private let commitCheckpointObserver: ((MemoryGenerationCommitCheckpoint) throws -> Void)?
 
   public init(rootURL: URL) {
     self.rootURL = rootURL
     beforePointerCommit = nil
     publicationLockObserver = nil
+    commitCheckpointObserver = nil
   }
 
   init(
     rootURL: URL,
     beforePointerCommit: @escaping () throws -> Void,
-    publicationLockObserver: ((MemoryGenerationPublicationLockEvent) throws -> Void)? = nil
+    publicationLockObserver: ((MemoryGenerationPublicationLockEvent) throws -> Void)? = nil,
+    commitCheckpointObserver: ((MemoryGenerationCommitCheckpoint) throws -> Void)? = nil
   ) {
     self.rootURL = rootURL
     self.beforePointerCommit = beforePointerCommit
     self.publicationLockObserver = publicationLockObserver
+    self.commitCheckpointObserver = commitCheckpointObserver
   }
 
   public func loadCurrent() throws -> StoredMemoryGeneration? {
@@ -152,28 +167,11 @@ public struct MemoryGenerationStore {
       isDirectory: false
     )
 
-    do {
-      try FileManager.default.createDirectory(
-        at: generationsURL,
-        withIntermediateDirectories: true
-      )
-      if FileManager.default.fileExists(atPath: generationURL.path) {
-        let existing = try Data(contentsOf: generationURL, options: [.mappedIfSafe])
-        guard existing == generationData else {
-          throw MemoryPopulationError.corruptGeneration(
-            "Имя неизменяемого поколения занято другими байтами."
-          )
-        }
-      } else {
-        try generationData.write(to: generationURL, options: [.atomic])
-      }
-    } catch let error as MemoryPopulationError {
-      throw error
-    } catch {
-      throw MemoryPopulationError.generationStore(
-        "Не удалось подготовить неизменяемый файл поколения."
-      )
-    }
+    try prepareStoreDirectories()
+    try publishGeneration(
+      generationData,
+      at: generationURL
+    )
 
     try beforePointerCommit?()
     return try withCurrentPublicationLock {
@@ -184,6 +182,11 @@ public struct MemoryGenerationStore {
             "Подтверждённый хэш поколения соответствует другим каноническим байтам."
           )
         }
+        try synchronizeDirectory(
+          rootURL,
+          failureMessage: "Не удалось завершить синхронизацию указателя CURRENT."
+        )
+        try commitCheckpointObserver?(.rootDirectorySynchronized)
         return StoredMemoryGeneration(
           generationSHA256: generationSHA256,
           generation: generation
@@ -203,13 +206,7 @@ public struct MemoryGenerationStore {
       )
       let pointerData = try CanonicalMemoryJSON.encode(pointer)
       let pointerURL = rootURL.appendingPathComponent("CURRENT.json", isDirectory: false)
-      do {
-        try pointerData.write(to: pointerURL, options: [.atomic])
-      } catch {
-        throw MemoryPopulationError.generationStore(
-          "Не удалось атомарно подтвердить поколение."
-        )
-      }
+      try publishCurrent(pointerData, at: pointerURL)
 
       return StoredMemoryGeneration(
         generationSHA256: generationSHA256,
@@ -220,6 +217,261 @@ public struct MemoryGenerationStore {
 
   private var generationsURL: URL {
     rootURL.appendingPathComponent("generations", isDirectory: true)
+  }
+
+  private func prepareStoreDirectories() throws {
+    do {
+      try FileManager.default.createDirectory(
+        at: rootURL,
+        withIntermediateDirectories: true
+      )
+      try FileManager.default.createDirectory(
+        at: generationsURL,
+        withIntermediateDirectories: true
+      )
+    } catch {
+      throw MemoryPopulationError.generationStore(
+        "Не удалось подготовить каталоги хранилища поколений."
+      )
+    }
+    try synchronizeDirectory(
+      rootURL,
+      failureMessage: "Не удалось синхронизировать корневой каталог хранилища."
+    )
+  }
+
+  private func publishGeneration(_ data: Data, at generationURL: URL) throws {
+    let temporaryURL = stagingURL(
+      in: generationsURL,
+      prefix: ".generation"
+    )
+    try writeStagingFile(
+      data,
+      to: temporaryURL,
+      writtenCheckpoint: .generationTemporaryWritten,
+      synchronizedCheckpoint: .generationFileSynchronized,
+      writeFailureMessage: "Не удалось полностью записать временный файл поколения.",
+      synchronizationFailureMessage: "Не удалось синхронизировать временный файл поколения."
+    )
+    var temporaryExists = true
+    defer {
+      if temporaryExists {
+        unlinkIgnoringErrors(temporaryURL)
+      }
+    }
+
+    let linkResult = withFileSystemRepresentations(temporaryURL, generationURL) {
+      temporaryPath, generationPath in
+      Darwin.link(temporaryPath, generationPath)
+    }
+    if linkResult != 0 {
+      let linkError = errno
+      guard linkError == EEXIST else {
+        throw MemoryPopulationError.generationStore(
+          "Не удалось опубликовать неизменяемый файл поколения."
+        )
+      }
+      let existing = try readBounded(
+        generationURL,
+        limit: Self.maximumGenerationBytes,
+        kind: "файл поколения"
+      )
+      guard existing == data else {
+        throw MemoryPopulationError.corruptGeneration(
+          "Имя неизменяемого поколения занято другими байтами."
+        )
+      }
+      try synchronizeFile(
+        generationURL,
+        failureMessage: "Не удалось синхронизировать существующий файл поколения."
+      )
+    }
+    try commitCheckpointObserver?(.generationPublished)
+
+    try unlinkFile(
+      temporaryURL,
+      failureMessage: "Не удалось удалить временное имя файла поколения."
+    )
+    temporaryExists = false
+    try synchronizeDirectory(
+      generationsURL,
+      failureMessage: "Не удалось синхронизировать каталог поколений."
+    )
+    try commitCheckpointObserver?(.generationsDirectorySynchronized)
+  }
+
+  private func publishCurrent(_ data: Data, at pointerURL: URL) throws {
+    let temporaryURL = stagingURL(
+      in: rootURL,
+      prefix: ".CURRENT"
+    )
+    try writeStagingFile(
+      data,
+      to: temporaryURL,
+      writtenCheckpoint: .currentTemporaryWritten,
+      synchronizedCheckpoint: .currentFileSynchronized,
+      writeFailureMessage: "Не удалось полностью записать временный указатель CURRENT.",
+      synchronizationFailureMessage: "Не удалось синхронизировать временный указатель CURRENT."
+    )
+    var temporaryExists = true
+    defer {
+      if temporaryExists {
+        unlinkIgnoringErrors(temporaryURL)
+      }
+    }
+
+    let renameResult = withFileSystemRepresentations(temporaryURL, pointerURL) {
+      temporaryPath, pointerPath in
+      Darwin.rename(temporaryPath, pointerPath)
+    }
+    guard renameResult == 0 else {
+      throw MemoryPopulationError.generationStore(
+        "Не удалось атомарно опубликовать указатель CURRENT."
+      )
+    }
+    temporaryExists = false
+    try commitCheckpointObserver?(.currentPublished)
+    try synchronizeDirectory(
+      rootURL,
+      failureMessage: "Не удалось синхронизировать публикацию указателя CURRENT."
+    )
+    try commitCheckpointObserver?(.rootDirectorySynchronized)
+  }
+
+  private func stagingURL(in directory: URL, prefix: String) -> URL {
+    directory.appendingPathComponent(
+      "\(prefix).\(UUID().uuidString).tmp",
+      isDirectory: false
+    )
+  }
+
+  private func writeStagingFile(
+    _ data: Data,
+    to url: URL,
+    writtenCheckpoint: MemoryGenerationCommitCheckpoint,
+    synchronizedCheckpoint: MemoryGenerationCommitCheckpoint,
+    writeFailureMessage: String,
+    synchronizationFailureMessage: String
+  ) throws {
+    let descriptor = url.withUnsafeFileSystemRepresentation { path in
+      guard let path else { return Int32(-1) }
+      return Darwin.open(
+        path,
+        O_WRONLY | O_CREAT | O_EXCL | O_CLOEXEC | O_NOFOLLOW,
+        S_IRUSR | S_IWUSR
+      )
+    }
+    guard descriptor >= 0 else {
+      throw MemoryPopulationError.generationStore(writeFailureMessage)
+    }
+    var completed = false
+    defer {
+      _ = Darwin.close(descriptor)
+      if !completed {
+        unlinkIgnoringErrors(url)
+      }
+    }
+
+    try writeAll(data, to: descriptor, failureMessage: writeFailureMessage)
+    try commitCheckpointObserver?(writtenCheckpoint)
+    try synchronizeDescriptor(
+      descriptor,
+      failureMessage: synchronizationFailureMessage
+    )
+    try commitCheckpointObserver?(synchronizedCheckpoint)
+    completed = true
+  }
+
+  private func writeAll(
+    _ data: Data,
+    to descriptor: Int32,
+    failureMessage: String
+  ) throws {
+    try data.withUnsafeBytes { buffer in
+      guard let baseAddress = buffer.baseAddress else { return }
+      var offset = 0
+      while offset < buffer.count {
+        let written = Darwin.write(
+          descriptor,
+          baseAddress.advanced(by: offset),
+          buffer.count - offset
+        )
+        if written > 0 {
+          offset += written
+          continue
+        }
+        if written < 0, errno == EINTR {
+          continue
+        }
+        throw MemoryPopulationError.generationStore(failureMessage)
+      }
+    }
+  }
+
+  private func synchronizeFile(_ url: URL, failureMessage: String) throws {
+    let descriptor = url.withUnsafeFileSystemRepresentation { path in
+      guard let path else { return Int32(-1) }
+      return Darwin.open(path, O_RDONLY | O_CLOEXEC | O_NOFOLLOW)
+    }
+    guard descriptor >= 0 else {
+      throw MemoryPopulationError.generationStore(failureMessage)
+    }
+    defer { _ = Darwin.close(descriptor) }
+    try synchronizeDescriptor(descriptor, failureMessage: failureMessage)
+  }
+
+  private func synchronizeDirectory(_ url: URL, failureMessage: String) throws {
+    let descriptor = url.withUnsafeFileSystemRepresentation { path in
+      guard let path else { return Int32(-1) }
+      return Darwin.open(path, O_RDONLY | O_DIRECTORY | O_CLOEXEC | O_NOFOLLOW)
+    }
+    guard descriptor >= 0 else {
+      throw MemoryPopulationError.generationStore(failureMessage)
+    }
+    defer { _ = Darwin.close(descriptor) }
+    try synchronizeDescriptor(descriptor, failureMessage: failureMessage)
+  }
+
+  private func synchronizeDescriptor(
+    _ descriptor: Int32,
+    failureMessage: String
+  ) throws {
+    while Darwin.fsync(descriptor) != 0 {
+      guard errno == EINTR else {
+        throw MemoryPopulationError.generationStore(failureMessage)
+      }
+    }
+  }
+
+  private func unlinkFile(_ url: URL, failureMessage: String) throws {
+    let result = url.withUnsafeFileSystemRepresentation { path in
+      guard let path else { return Int32(-1) }
+      return Darwin.unlink(path)
+    }
+    guard result == 0 else {
+      throw MemoryPopulationError.generationStore(failureMessage)
+    }
+  }
+
+  private func unlinkIgnoringErrors(_ url: URL) {
+    _ = url.withUnsafeFileSystemRepresentation { path in
+      guard let path else { return Int32(-1) }
+      return Darwin.unlink(path)
+    }
+  }
+
+  private func withFileSystemRepresentations<T>(
+    _ firstURL: URL,
+    _ secondURL: URL,
+    _ body: (UnsafePointer<CChar>, UnsafePointer<CChar>) -> T
+  ) -> T? {
+    firstURL.withUnsafeFileSystemRepresentation { firstPath in
+      guard let firstPath else { return nil }
+      return secondURL.withUnsafeFileSystemRepresentation { secondPath in
+        guard let secondPath else { return nil }
+        return body(firstPath, secondPath)
+      }
+    }
   }
 
   private func withCurrentPublicationLock<T>(_ body: () throws -> T) throws -> T {

@@ -653,6 +653,158 @@ final class MemoryPopulationTests: XCTestCase {
     XCTAssertEqual(try store.loadCurrent(), confirmedBase)
   }
 
+  func testProcessCrashRecoveryAtEveryCommitCheckpoint() throws {
+    let scenarios:
+      [(
+        checkpoint: MemoryGenerationCommitCheckpoint,
+        publishesCandidate: Bool
+      )] = [
+        (.generationTemporaryWritten, false),
+        (.generationFileSynchronized, false),
+        (.generationPublished, false),
+        (.generationsDirectorySynchronized, false),
+        (.currentTemporaryWritten, false),
+        (.currentFileSynchronized, false),
+        (.currentPublished, true),
+        (.rootDirectorySynchronized, true),
+      ]
+    XCTAssertEqual(
+      Set(MemoryGenerationCommitCheckpoint.allCases.map(\.rawValue)),
+      Set(scenarios.map { $0.checkpoint.rawValue }),
+      "Каждая аварийная контрольная точка должна иметь процессный сценарий."
+    )
+
+    for startsFromConfirmedBase in [false, true] {
+      for scenario in scenarios {
+        try assertProcessCrashRecovery(
+          at: scenario.checkpoint,
+          publishesCandidate: scenario.publishesCandidate,
+          startsFromConfirmedBase: startsFromConfirmedBase
+        )
+      }
+    }
+  }
+
+  func testIdempotentRetryAfterCurrentPublicationCompletesRootDirectorySync() throws {
+    enum InjectedFailure: Error {
+      case afterCurrentPublication
+    }
+
+    let engine = MemoryPopulationEngine()
+    let storeURL = temporaryStoreURL()
+    defer { try? FileManager.default.removeItem(at: storeURL) }
+    let store = MemoryGenerationStore(rootURL: storeURL)
+    let base = try engine.generation(
+      from: MemoryPopulationFixtures.loadBootstrapBaseV1()
+    )
+    let confirmedBase = try store.commit(base)
+    let candidate = try engine.generation(
+      from: MemoryPopulationFixtures.loadBootstrapContinuationV1(),
+      continuingFrom: confirmedBase
+    )
+    let candidateSHA256 = CanonicalMemoryJSON.sha256(
+      try CanonicalMemoryJSON.encode(candidate)
+    )
+
+    let ambiguousStore = MemoryGenerationStore(
+      rootURL: storeURL,
+      beforePointerCommit: {},
+      commitCheckpointObserver: { checkpoint in
+        if checkpoint == .currentPublished {
+          throw InjectedFailure.afterCurrentPublication
+        }
+      }
+    )
+    XCTAssertThrowsError(try ambiguousStore.commit(candidate)) { error in
+      XCTAssertTrue(error is InjectedFailure)
+    }
+    XCTAssertEqual(
+      try XCTUnwrap(store.loadCurrent()).generationSHA256,
+      candidateSHA256,
+      "После неоднозначной ошибки опубликованный CURRENT должен читаться как новое поколение."
+    )
+
+    var retryCheckpoints: [MemoryGenerationCommitCheckpoint] = []
+    let retryStore = MemoryGenerationStore(
+      rootURL: storeURL,
+      beforePointerCommit: {},
+      commitCheckpointObserver: { retryCheckpoints.append($0) }
+    )
+    let retried = try retryStore.commit(candidate)
+    XCTAssertEqual(retried.generationSHA256, candidateSHA256)
+    XCTAssertTrue(
+      retryCheckpoints.contains(.rootDirectorySynchronized),
+      "Идемпотентный повтор обязан завершить синхронизацию каталога после уже видимого CURRENT."
+    )
+  }
+
+  func testTwoProcessesPublishingIdenticalGenerationAreIdempotent() throws {
+    let engine = MemoryPopulationEngine()
+    let scratchURL = temporaryStoreURL()
+    defer { try? FileManager.default.removeItem(at: scratchURL) }
+    try FileManager.default.createDirectory(
+      at: scratchURL,
+      withIntermediateDirectories: true
+    )
+
+    let storeURL = scratchURL.appendingPathComponent("store", isDirectory: true)
+    let store = MemoryGenerationStore(rootURL: storeURL)
+    let base = try engine.generation(
+      from: MemoryPopulationFixtures.loadBootstrapBaseV1()
+    )
+    let confirmedBase = try store.commit(base)
+    let candidate = try engine.generation(
+      from: MemoryPopulationFixtures.loadBootstrapContinuationV1(),
+      continuingFrom: confirmedBase
+    )
+    let candidateData = try CanonicalMemoryJSON.encode(candidate)
+    let candidateSHA256 = CanonicalMemoryJSON.sha256(candidateData)
+    let candidateURL = scratchURL.appendingPathComponent("candidate-identical.json")
+    try candidateData.write(to: candidateURL)
+    let barrierURL = scratchURL.appendingPathComponent(
+      "identical-barrier",
+      isDirectory: true
+    )
+    let firstResultURL = scratchURL.appendingPathComponent("identical-first.json")
+    let secondResultURL = scratchURL.appendingPathComponent("identical-second.json")
+
+    let firstProcess = try makeCASWorkerProcess(
+      workerID: "identical-first",
+      storeURL: storeURL,
+      candidateURL: candidateURL,
+      resultURL: firstResultURL,
+      barrierURL: barrierURL
+    )
+    let secondProcess = try makeCASWorkerProcess(
+      workerID: "identical-second",
+      storeURL: storeURL,
+      candidateURL: candidateURL,
+      resultURL: secondResultURL,
+      barrierURL: barrierURL
+    )
+    try firstProcess.run()
+    defer { stopCASWorkerIfNeeded(firstProcess) }
+    try secondProcess.run()
+    defer { stopCASWorkerIfNeeded(secondProcess) }
+    try waitForCASWorker(firstProcess, workerID: "identical-first")
+    try waitForCASWorker(secondProcess, workerID: "identical-second")
+
+    let results = try [firstResultURL, secondResultURL].map(readCASWorkerResult)
+    XCTAssertEqual(results.map(\.status), ["published", "published"])
+    XCTAssertEqual(
+      results.compactMap(\.generationSHA256),
+      [candidateSHA256, candidateSHA256]
+    )
+    XCTAssertEqual(
+      try XCTUnwrap(store.loadCurrent()).generationSHA256,
+      candidateSHA256
+    )
+    XCTAssertEqual(
+      try Data(contentsOf: generationURL(for: candidateSHA256, storeURL: storeURL)),
+      candidateData
+    )
+  }
+
   func testTwoProcessesCompareAndSwapCurrentFromTheSameParent() throws {
     let engine = MemoryPopulationEngine()
     let scratchURL = temporaryStoreURL()
@@ -1003,6 +1155,62 @@ final class MemoryPopulationTests: XCTestCase {
       )
     }
     try JSONEncoder().encode(result).write(to: resultURL, options: [.atomic])
+  }
+
+  func testProcessCrashWriter() throws {
+    let environment = ProcessInfo.processInfo.environment
+    guard
+      let storePath = environment["FUM_MEMORY_CRASH_WRITER_STORE"],
+      let candidatePath = environment["FUM_MEMORY_CRASH_WRITER_CANDIDATE"],
+      let checkpointName = environment["FUM_MEMORY_CRASH_WRITER_CHECKPOINT"],
+      let markerPath = environment["FUM_MEMORY_CRASH_WRITER_MARKER"]
+    else {
+      return
+    }
+
+    let targetCheckpoint = try XCTUnwrap(
+      MemoryGenerationCommitCheckpoint(rawValue: checkpointName)
+    )
+    let candidateData = try Data(
+      contentsOf: URL(fileURLWithPath: candidatePath, isDirectory: false),
+      options: [.mappedIfSafe]
+    )
+    let candidate = try JSONDecoder().decode(MemoryGeneration.self, from: candidateData)
+    let markerURL = URL(fileURLWithPath: markerPath, isDirectory: false)
+    let store = MemoryGenerationStore(
+      rootURL: URL(fileURLWithPath: storePath, isDirectory: true),
+      beforePointerCommit: {},
+      publicationLockObserver: nil,
+      commitCheckpointObserver: { checkpoint in
+        guard checkpoint == targetCheckpoint else { return }
+        try Data(checkpoint.rawValue.utf8).write(to: markerURL, options: [.atomic])
+        while true {
+          _ = Darwin.raise(SIGSTOP)
+        }
+      }
+    )
+
+    _ = try store.commit(candidate)
+    XCTFail("Писатель не остановился на точке \(checkpointName).")
+  }
+
+  func testProcessCrashRecoveryWorker() throws {
+    let environment = ProcessInfo.processInfo.environment
+    guard
+      let storePath = environment["FUM_MEMORY_CRASH_RECOVERY_STORE"],
+      let resultPath = environment["FUM_MEMORY_CRASH_RECOVERY_RESULT"]
+    else {
+      return
+    }
+
+    let store = MemoryGenerationStore(
+      rootURL: URL(fileURLWithPath: storePath, isDirectory: true)
+    )
+    let current = try store.loadCurrent()
+    try CanonicalMemoryJSON.encode(current).write(
+      to: URL(fileURLWithPath: resultPath, isDirectory: false),
+      options: [.atomic]
+    )
   }
 
   func testStoreRejectsUnrelatedOrTraceInconsistentSuccessor() throws {
@@ -1481,6 +1689,195 @@ final class MemoryPopulationTests: XCTestCase {
     return process
   }
 
+  private func assertProcessCrashRecovery(
+    at checkpoint: MemoryGenerationCommitCheckpoint,
+    publishesCandidate: Bool,
+    startsFromConfirmedBase: Bool
+  ) throws {
+    let engine = MemoryPopulationEngine()
+    let scratchURL = temporaryStoreURL()
+    defer { try? FileManager.default.removeItem(at: scratchURL) }
+    try FileManager.default.createDirectory(
+      at: scratchURL,
+      withIntermediateDirectories: true
+    )
+
+    let storeURL = scratchURL.appendingPathComponent("store", isDirectory: true)
+    let store = MemoryGenerationStore(rootURL: storeURL)
+    let pointerURL = storeURL.appendingPathComponent("CURRENT.json", isDirectory: false)
+    let confirmedBase: StoredMemoryGeneration?
+    let confirmedBasePointer: Data?
+    let candidate: MemoryGeneration
+    if startsFromConfirmedBase {
+      let base = try engine.generation(
+        from: MemoryPopulationFixtures.loadBootstrapBaseV1()
+      )
+      let storedBase = try store.commit(base)
+      confirmedBase = storedBase
+      confirmedBasePointer = try Data(
+        contentsOf: pointerURL,
+        options: [.mappedIfSafe]
+      )
+      candidate = try engine.generation(
+        from: MemoryPopulationFixtures.loadBootstrapContinuationV1(),
+        continuingFrom: storedBase
+      )
+    } else {
+      confirmedBase = nil
+      confirmedBasePointer = nil
+      candidate = try engine.generation(
+        from: MemoryPopulationFixtures.loadBootstrapBaseV1()
+      )
+    }
+    let candidateData = try CanonicalMemoryJSON.encode(candidate)
+    let candidateSHA256 = CanonicalMemoryJSON.sha256(candidateData)
+    let candidateURL = scratchURL.appendingPathComponent("candidate.json", isDirectory: false)
+    try candidateData.write(to: candidateURL, options: [.atomic])
+    let markerURL = scratchURL.appendingPathComponent("crash-checkpoint", isDirectory: false)
+
+    let writer = try makeCrashWriterProcess(
+      storeURL: storeURL,
+      candidateURL: candidateURL,
+      checkpoint: checkpoint,
+      markerURL: markerURL
+    )
+    try writer.run()
+    defer { stopCASWorkerIfNeeded(writer) }
+    try waitForCrashCheckpoint(
+      markerURL,
+      checkpoint: checkpoint,
+      process: writer,
+      timeout: .seconds(10)
+    )
+    try killCrashWriter(writer, checkpoint: checkpoint)
+
+    let recoveryResultURL = scratchURL.appendingPathComponent(
+      "recovery-result.json",
+      isDirectory: false
+    )
+    let recovery = try makeCrashRecoveryProcess(
+      storeURL: storeURL,
+      resultURL: recoveryResultURL
+    )
+    try recovery.run()
+    defer { stopCASWorkerIfNeeded(recovery) }
+    try waitForCASWorker(
+      recovery,
+      workerID:
+        "crash-recovery-\(startsFromConfirmedBase ? "replacement" : "initial")-\(checkpoint.rawValue)"
+    )
+    let restored = try JSONDecoder().decode(
+      StoredMemoryGeneration?.self,
+      from: Data(contentsOf: recoveryResultURL, options: [.mappedIfSafe])
+    )
+    let expectedSHA256 =
+      publishesCandidate
+      ? candidateSHA256 : confirmedBase?.generationSHA256
+    XCTAssertEqual(
+      restored?.generationSHA256,
+      expectedSHA256,
+      "Неверное восстановление после \(checkpoint.rawValue)."
+    )
+    if let restored {
+      XCTAssertEqual(
+        CanonicalMemoryJSON.sha256(try CanonicalMemoryJSON.encode(restored.generation)),
+        expectedSHA256,
+        "Новый процесс должен вернуть целостное поколение."
+      )
+    }
+
+    let candidateGenerationURL = generationURL(
+      for: candidateSHA256,
+      storeURL: storeURL
+    )
+    switch checkpoint {
+    case .generationTemporaryWritten, .generationFileSynchronized:
+      XCTAssertFalse(
+        FileManager.default.fileExists(atPath: candidateGenerationURL.path),
+        "До публикации поколения его конечное имя не должно появиться."
+      )
+    default:
+      XCTAssertEqual(
+        try Data(contentsOf: candidateGenerationURL, options: [.mappedIfSafe]),
+        candidateData,
+        "Опубликованный адресуемый объект должен быть точным."
+      )
+    }
+
+    if publishesCandidate {
+      let publishedPointer = try Data(
+        contentsOf: pointerURL,
+        options: [.mappedIfSafe]
+      )
+      if let confirmedBasePointer {
+        XCTAssertNotEqual(
+          publishedPointer,
+          confirmedBasePointer,
+          "После публикации CURRENT должен указывать на новое поколение."
+        )
+      } else {
+        XCTAssertFalse(publishedPointer.isEmpty)
+      }
+    } else if let confirmedBasePointer {
+      XCTAssertEqual(
+        try Data(contentsOf: pointerURL, options: [.mappedIfSafe]),
+        confirmedBasePointer,
+        "До публикации CURRENT должен сохранять прежнее подтверждённое поколение."
+      )
+    } else {
+      XCTAssertFalse(
+        FileManager.default.fileExists(atPath: pointerURL.path),
+        "До первой публикации пустое хранилище не должно получать CURRENT."
+      )
+    }
+  }
+
+  private func makeCrashWriterProcess(
+    storeURL: URL,
+    candidateURL: URL,
+    checkpoint: MemoryGenerationCommitCheckpoint,
+    markerURL: URL
+  ) throws -> Process {
+    let process = Process()
+    process.executableURL = try executableURL(named: "xcrun")
+    process.arguments = [
+      "xctest",
+      "-XCTest",
+      "MemoryPopulationTests/testProcessCrashWriter",
+      Bundle(for: MemoryPopulationTests.self).bundleURL.path,
+    ]
+    var environment = ProcessInfo.processInfo.environment
+    environment["FUM_MEMORY_CRASH_WRITER_STORE"] = storeURL.path
+    environment["FUM_MEMORY_CRASH_WRITER_CANDIDATE"] = candidateURL.path
+    environment["FUM_MEMORY_CRASH_WRITER_CHECKPOINT"] = checkpoint.rawValue
+    environment["FUM_MEMORY_CRASH_WRITER_MARKER"] = markerURL.path
+    process.environment = environment
+    process.standardOutput = FileHandle.nullDevice
+    process.standardError = FileHandle.nullDevice
+    return process
+  }
+
+  private func makeCrashRecoveryProcess(
+    storeURL: URL,
+    resultURL: URL
+  ) throws -> Process {
+    let process = Process()
+    process.executableURL = try executableURL(named: "xcrun")
+    process.arguments = [
+      "xctest",
+      "-XCTest",
+      "MemoryPopulationTests/testProcessCrashRecoveryWorker",
+      Bundle(for: MemoryPopulationTests.self).bundleURL.path,
+    ]
+    var environment = ProcessInfo.processInfo.environment
+    environment["FUM_MEMORY_CRASH_RECOVERY_STORE"] = storeURL.path
+    environment["FUM_MEMORY_CRASH_RECOVERY_RESULT"] = resultURL.path
+    process.environment = environment
+    process.standardOutput = FileHandle.nullDevice
+    process.standardError = FileHandle.nullDevice
+    return process
+  }
+
   private func executableURL(named name: String) throws -> URL {
     let pathEntries = ProcessInfo.processInfo.environment["PATH"]?.split(separator: ":") ?? []
     for pathEntry in pathEntries {
@@ -1539,6 +1936,66 @@ final class MemoryPopulationTests: XCTestCase {
     guard FileManager.default.fileExists(atPath: url.path) else {
       throw MemoryPopulationError.generationStore(
         "Дочерний процесс не достиг контрольной точки межпроцессной блокировки."
+      )
+    }
+  }
+
+  private func waitForCrashCheckpoint(
+    _ markerURL: URL,
+    checkpoint: MemoryGenerationCommitCheckpoint,
+    process: Process,
+    timeout: Duration
+  ) throws {
+    let clock = ContinuousClock()
+    let deadline = clock.now.advanced(by: timeout)
+    while !FileManager.default.fileExists(atPath: markerURL.path), clock.now < deadline {
+      if !process.isRunning { break }
+      Thread.sleep(forTimeInterval: 0.01)
+    }
+    guard FileManager.default.fileExists(atPath: markerURL.path) else {
+      throw MemoryPopulationError.generationStore(
+        "Дочерний писатель не достиг аварийной точки \(checkpoint.rawValue)."
+      )
+    }
+    XCTAssertEqual(
+      try String(contentsOf: markerURL, encoding: .utf8),
+      checkpoint.rawValue
+    )
+  }
+
+  private func killCrashWriter(
+    _ process: Process,
+    checkpoint: MemoryGenerationCommitCheckpoint,
+    timeout: Duration = .seconds(5)
+  ) throws {
+    guard process.isRunning else {
+      throw MemoryPopulationError.generationStore(
+        "Писатель завершился до SIGKILL на точке \(checkpoint.rawValue)."
+      )
+    }
+    guard Darwin.kill(process.processIdentifier, SIGKILL) == 0 else {
+      throw MemoryPopulationError.generationStore(
+        "Не удалось принудительно завершить писателя на точке \(checkpoint.rawValue)."
+      )
+    }
+
+    let clock = ContinuousClock()
+    let deadline = clock.now.advanced(by: timeout)
+    while process.isRunning, clock.now < deadline {
+      Thread.sleep(forTimeInterval: 0.01)
+    }
+    guard !process.isRunning else {
+      throw MemoryPopulationError.generationStore(
+        "Писатель не завершился после SIGKILL на точке \(checkpoint.rawValue)."
+      )
+    }
+    process.waitUntilExit()
+    guard
+      process.terminationReason == .uncaughtSignal,
+      process.terminationStatus == SIGKILL
+    else {
+      throw MemoryPopulationError.generationStore(
+        "Писатель не подтвердил завершение сигналом SIGKILL на точке \(checkpoint.rawValue)."
       )
     }
   }
