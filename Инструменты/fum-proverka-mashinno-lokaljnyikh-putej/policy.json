@@ -1112,7 +1112,7 @@
       "id": "definition-026",
       "path": "Инструменты/fum-sleduyusjhij-shag-vetki/SKILL.md",
       "kind": "file-uri",
-      "line_sha256": "sha256:5cefd3bde13868a3a5f4b6f316507fffad7c6e2404dc4e3d4318c4f07067784e",
+      "line_sha256": "sha256:5d9cbd4ffb2790f930157d4798fa589466492070d418f9eada928887242bbf57",
       "count": 1,
       "category": "allow.path-validation-definition",
       "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
@@ -1121,7 +1121,7 @@
       "id": "definition-027",
       "path": "Инструменты/fum-sleduyusjhij-shag-vetki/SKILL.md",
       "kind": "file-uri",
-      "line_sha256": "sha256:68db5bc6934f72ca764389e3a482878d57cc5fffea5edba076f864d3aabd4a08",
+      "line_sha256": "sha256:b661800fa2fce5105a61c7e0979ca8eec22575a747846aee59d3c34049953b0d",
       "count": 1,
       "category": "allow.path-validation-definition",
       "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."

@@ -1,195 +1,205 @@
 +++
-schema_version = 4
+schema_version = 5
 branch_ref = "refs/heads/master"
 state = "open"
 project_path = "README.md"
 
 [[candidates]]
-step_id = "master-fum-step-0102-paused-v2"
-status = "paused"
+step_id = "master-fum-step-0072-automatic-v1"
+dispatch = "automatic"
+card_id = "FUM-STEP-0072"
+card_content_sha256 = "sha256:9ece7a11f8e551df5c171baec1cabcb7acb1aa2d004a4a021ddcaa0986de1f7c"
+requires_completed_card_ids = ["FUM-STEP-0023"]
+
+[[candidates]]
+step_id = "master-fum-step-0102-paused-v3"
+dispatch = "paused"
 card_id = "FUM-STEP-0102"
 card_content_sha256 = "sha256:4492083858c4725ee64d12e64332bb6dfcddeab39237dc5b765f3795f4f3ea5d"
-resume_condition = "FUM-STEP-0101 завершена; при наличии законно настроенного локального либо уже разрешённого модельного провайдера перевести реальный model-only-адаптер в пул ready. Новые секреты и платный доступ не извлекать без отдельного разрешения."
+requires_completed_card_ids = ["FUM-STEP-0101"]
+resume_condition = "FUM-STEP-0101 завершена; после доказанного наличия законно настроенного локального либо уже разрешённого модельного провайдера выпустить для реального model-only-адаптера новое поколение dispatch=automatic. Новые секреты и платный доступ не извлекать без отдельного разрешения."
 
 [[candidates]]
-step_id = "master-fum-step-0103-paused-v1"
-status = "paused"
+step_id = "master-fum-step-0103-automatic-v1"
+dispatch = "automatic"
 card_id = "FUM-STEP-0103"
 card_content_sha256 = "sha256:63179799518143a9f81ca3de8e597548fe10374b7f631b3575afe2dfc00c0390"
-resume_condition = "После завершения FUM-STEP-0102 и conformance-проверки живого model-only-вызова перевести сквозной одноагентный эпизод с возобновлением в пул ready."
+requires_completed_card_ids = ["FUM-STEP-0102"]
 
 [[candidates]]
-step_id = "master-fum-step-0077-paused-v4"
-status = "paused"
+step_id = "master-fum-step-0077-automatic-v1"
+dispatch = "automatic"
 card_id = "FUM-STEP-0077"
 card_content_sha256 = "sha256:4d14aeba29aebfa37a42b2024a9035e249f1b7d4271fbb6ee183d95ab8f20555"
-resume_condition = "После завершения FUM-STEP-0103 и автономной проверки полного одноагентного эпизода перевести адаптацию проверенного хранилища к общей памяти распределённого эпизода в пул ready."
+requires_completed_card_ids = ["FUM-STEP-0103"]
 
 [[candidates]]
-step_id = "master-fum-step-0078-paused-v3"
-status = "paused"
+step_id = "master-fum-step-0078-automatic-v1"
+dispatch = "automatic"
 card_id = "FUM-STEP-0078"
 card_content_sha256 = "sha256:19a93ae6b2a3ab2b29cbd57ebe66159dd982adfcdc492da74c4e2cb88b4409d5"
-resume_condition = "После завершения FUM-STEP-0077 и автономной проверки восстановления общей памяти перевести происхождение и ограниченную независимость вкладов в пул ready."
+requires_completed_card_ids = ["FUM-STEP-0077"]
 
 [[candidates]]
-step_id = "master-fum-step-0079-paused-v2"
-status = "paused"
+step_id = "master-fum-step-0079-automatic-v1"
+dispatch = "automatic"
 card_id = "FUM-STEP-0079"
 card_content_sha256 = "sha256:9451d654f28d1c84b8e93ddb553e15f16a8ca9cd1b3f21b1f2c43923100d54d2"
-resume_condition = "После завершения FUM-STEP-0078 и сохранения проверяемого происхождения вкладов перевести отдельную проверку и сохранение разногласий в пул ready."
+requires_completed_card_ids = ["FUM-STEP-0078"]
 
 [[candidates]]
-step_id = "master-fum-step-0080-paused-v2"
-status = "paused"
+step_id = "master-fum-step-0080-automatic-v1"
+dispatch = "automatic"
 card_id = "FUM-STEP-0080"
 card_content_sha256 = "sha256:c0f39697d33ad84fb50a803d9f9afed28e15e07a3b8a423dbd31e02cf3881a61"
-resume_condition = "После завершения FUM-STEP-0079 и автономной проверки независимого проверяющего перевести решение, бюджеты и остановку эпизода в пул ready."
+requires_completed_card_ids = ["FUM-STEP-0079"]
 
 [[candidates]]
-step_id = "master-fum-step-0081-paused-v2"
-status = "paused"
+step_id = "master-fum-step-0081-automatic-v1"
+dispatch = "automatic"
 card_id = "FUM-STEP-0081"
 card_content_sha256 = "sha256:2096e2745aacd0ac7fb59aed9490230d322f954e79b92e22c3f5d393ddc475fd"
-resume_condition = "После завершения FUM-STEP-0080 и проверки терминальных исходов и бюджетов перевести автономную сквозную приёмку в пул ready."
+requires_completed_card_ids = ["FUM-STEP-0080"]
 
 [[candidates]]
-step_id = "master-fum-step-0082-paused-v2"
-status = "paused"
+step_id = "master-fum-step-0082-automatic-v1"
+dispatch = "automatic"
 card_id = "FUM-STEP-0082"
 card_content_sha256 = "sha256:ebc7e98c81b755b5fff5dbe12cb852d6ba1ac2a2fe2fe124d974caa3439d279a"
-resume_condition = "После завершения FUM-STEP-0081 и успешной автономной приёмки фикстур перевести живой read-only-прогон Codex в пул ready."
+requires_completed_card_ids = ["FUM-STEP-0081"]
 
 [[candidates]]
-step_id = "master-fum-step-0083-paused-v3"
-status = "paused"
+step_id = "master-fum-step-0083-automatic-v2"
+dispatch = "automatic"
 card_id = "FUM-STEP-0083"
-card_content_sha256 = "sha256:bb3fca3ad2c451ba26db95f412dbf3c12869fd19b02fd395383792f8d9023ba3"
-resume_condition = "После завершения FUM-STEP-0082 и атомарной публикации пакета передачи перевести возобновление в новой корневой сессии в пул ready."
+card_content_sha256 = "sha256:d38b1220e3e5df34c19f6485e86b0b4568a104499a020a8d5ff9f123417658a5"
+requires_completed_card_ids = ["FUM-STEP-0082"]
 
 [[candidates]]
-step_id = "master-fum-step-0104-paused-v1"
-status = "paused"
+step_id = "master-fum-step-0104-automatic-v1"
+dispatch = "automatic"
 card_id = "FUM-STEP-0104"
 card_content_sha256 = "sha256:fb88b87fc5b7babed28f87529ec273eeab32a5c10e33a558428a3ce57bce0303"
-resume_condition = "После завершения FUM-STEP-0083 и подтверждения одноагентного и распределённого возобновления перевести предрегистрацию сравнительной приёмки в пул ready; реальные сетевые и платные прогоны не запускать."
+requires_completed_card_ids = ["FUM-STEP-0103", "FUM-STEP-0083"]
 
 [[candidates]]
-step_id = "master-fum-step-0084-paused-v3"
-status = "paused"
+step_id = "master-fum-step-0084-automatic-v1"
+dispatch = "automatic"
 card_id = "FUM-STEP-0084"
 card_content_sha256 = "sha256:233a1cbd2474a7316225fee1690145b0b31806926a0e57b67d18146a22a4b9ee"
-resume_condition = "После завершения FUM-STEP-0104 и предрегистрации сравнительной приёмки перевести топологию и паспорт репозиторной композиции в пул ready."
+requires_completed_card_ids = ["FUM-STEP-0104"]
 
 [[candidates]]
-step_id = "master-fum-step-0085-paused-v2"
-status = "paused"
+step_id = "master-fum-step-0085-automatic-v1"
+dispatch = "automatic"
 card_id = "FUM-STEP-0085"
 card_content_sha256 = "sha256:9fa9f51ba3681f81f97dbb42badbc5e3fb29fa2d64b958e57465bff9bd50761f"
-resume_condition = "После завершения FUM-STEP-0084 и автономной проверки топологии репозиторной композиции перевести изолированный пишущий подузел и кандидатный commit в пул ready."
+requires_completed_card_ids = ["FUM-STEP-0084"]
 
 [[candidates]]
-step_id = "master-fum-step-0086-paused-v2"
-status = "paused"
+step_id = "master-fum-step-0086-automatic-v1"
+dispatch = "automatic"
 card_id = "FUM-STEP-0086"
 card_content_sha256 = "sha256:ddaabd6aaaa799bb54c45ef43b1e39fd2a9ace1b314af26f445f5dc9ca96519a"
-resume_condition = "После завершения FUM-STEP-0085 и проверки кандидатного commit из отдельного клона перевести CAS-интеграцию бесконфликтных коммитов в пул ready."
+requires_completed_card_ids = ["FUM-STEP-0085"]
 
 [[candidates]]
-step_id = "master-fum-step-0087-paused-v2"
-status = "paused"
+step_id = "master-fum-step-0087-automatic-v1"
+dispatch = "automatic"
 card_id = "FUM-STEP-0087"
 card_content_sha256 = "sha256:938bbe516202d9f31a9d9eedd830003fadb7f1524fdf5e160bedd42c0e42bd68"
-resume_condition = "После завершения FUM-STEP-0086 и автономной проверки бесконфликтной CAS-интеграции перевести ограниченное автоматическое разрешение Git-конфликтов в пул ready."
+requires_completed_card_ids = ["FUM-STEP-0086"]
 
 [[candidates]]
-step_id = "master-fum-step-0088-paused-v3"
-status = "paused"
+step_id = "master-fum-step-0088-automatic-v1"
+dispatch = "automatic"
 card_id = "FUM-STEP-0088"
 card_content_sha256 = "sha256:f2401d66c207f4bad2075c7435e632640562ec71b759b095d71880025f6bbef2"
-resume_condition = "После завершения FUM-STEP-0087 и проверки ограниченного resolver-контура перевести долговечный fork-подузел и передачу вверх в пул ready."
+requires_completed_card_ids = ["FUM-STEP-0087"]
 
 [[candidates]]
-step_id = "master-fum-step-0089-paused-v2"
-status = "paused"
+step_id = "master-fum-step-0089-automatic-v1"
+dispatch = "automatic"
 card_id = "FUM-STEP-0089"
 card_content_sha256 = "sha256:1ba14539b8de93ff7a5045a592c08ee9bdb8620dedac8298a7a6f23be8725479"
-resume_condition = "После завершения FUM-STEP-0088 и автономной проверки долговечного fork-подузла перевести проекты как репозитории-submodule с собственными очередями в пул ready."
+requires_completed_card_ids = ["FUM-STEP-0088"]
 
 [[candidates]]
-step_id = "master-fum-step-0090-paused-v2"
-status = "paused"
+step_id = "master-fum-step-0090-automatic-v1"
+dispatch = "automatic"
 card_id = "FUM-STEP-0090"
 card_content_sha256 = "sha256:3dcf5966ab29049fa9ee994462e2e98d2c7d3ccf71f739d2c5ba60f6123e241d"
-resume_condition = "После завершения FUM-STEP-0089 и проверки проекта с собственной очередью перевести автономную сквозную приёмку репозиторной композиции в пул ready."
+requires_completed_card_ids = ["FUM-STEP-0089"]
 
 [[candidates]]
-step_id = "master-fum-step-0091-paused-v2"
-status = "paused"
+step_id = "master-fum-step-0091-automatic-v1"
+dispatch = "automatic"
 card_id = "FUM-STEP-0091"
 card_content_sha256 = "sha256:3537c55befc8ed560b32ae47d839b7673bc8d6206d486c56894f37f912a555f8"
-resume_condition = "После успешного завершения FUM-STEP-0090 перевести контракт универсального диспетчера автоматизаций в пул ready."
+requires_completed_card_ids = ["FUM-STEP-0090"]
 
 [[candidates]]
-step_id = "master-fum-step-0092-paused-v2"
-status = "paused"
+step_id = "master-fum-step-0092-automatic-v1"
+dispatch = "automatic"
 card_id = "FUM-STEP-0092"
 card_content_sha256 = "sha256:f7d120100189a0dfafa9f03cf9d10c5a607ec140bb3cc87cdf0a4b38ce581e9b"
-resume_condition = "После завершения FUM-STEP-0091 и автономной проверки реестра перевести универсальный выбор и защищённую резервацию запуска в пул ready."
+requires_completed_card_ids = ["FUM-STEP-0091"]
 
 [[candidates]]
-step_id = "master-fum-step-0093-paused-v2"
-status = "paused"
+step_id = "master-fum-step-0093-automatic-v1"
+dispatch = "automatic"
 card_id = "FUM-STEP-0093"
 card_content_sha256 = "sha256:ce392ddda8d3189944e26698f3306d6f22a022783a390b5ac882696c110cbcff"
-resume_condition = "После завершения FUM-STEP-0092 и проверки общего fenced-claim перевести миграцию существующего автозапуска шагов в пул ready."
+requires_completed_card_ids = ["FUM-STEP-0092"]
 
 [[candidates]]
-step_id = "master-fum-step-0094-paused-v2"
-status = "paused"
+step_id = "master-fum-step-0094-automatic-v1"
+dispatch = "automatic"
 card_id = "FUM-STEP-0094"
 card_content_sha256 = "sha256:d0f844608b52e4fc9e5279dd82559c05676cc18a1fedc8c262ac89219f07d1f5"
-resume_condition = "После завершения FUM-STEP-0093 и подтверждения единственной мигрированной прикреплённой задачи перевести управление диспетчером через сообщения в пул ready."
+requires_completed_card_ids = ["FUM-STEP-0093"]
 
 [[candidates]]
-step_id = "master-fum-step-0095-blocked-v1"
-status = "blocked"
+step_id = "master-fum-step-0095-blocked-v2"
+dispatch = "blocked"
 card_id = "FUM-STEP-0095"
 card_content_sha256 = "sha256:29dd864d7f60757282dd1fb866a7863f531b8108cb09c2cecd8236aa270a5850"
+requires_completed_card_ids = ["FUM-STEP-0094"]
 resume_condition = "После явного ответа на вопрос о границах периодической публикации и завершения FUM-STEP-0094 выпустить новое поколение карточки и выбрать её в безопасной точке траектории; эта блокировка не мешает независимым FUM-STEP-0096 и FUM-STEP-0097."
 
 [[candidates]]
-step_id = "master-fum-step-0096-paused-v3"
-status = "paused"
+step_id = "master-fum-step-0096-automatic-v2"
+dispatch = "automatic"
 card_id = "FUM-STEP-0096"
-card_content_sha256 = "sha256:7e10ab360e49322384fba0c40bf3be973ae4e26b192777c418d9341e2aba63da"
-resume_condition = "После завершения FUM-STEP-0094 перевести операционную аналитику по подтверждённым шагам в пул ready независимо от заблокированной периодической публикации; счётчик остаётся триггером ревизии, а не доказательством улучшения."
+card_content_sha256 = "sha256:996c590729345a2bb63a59884759a3d16b26e8eeb744301492daf18652a8871d"
+requires_completed_card_ids = ["FUM-STEP-0094"]
 
 [[candidates]]
-step_id = "master-fum-step-0097-paused-v2"
-status = "paused"
+step_id = "master-fum-step-0097-automatic-v1"
+dispatch = "automatic"
 card_id = "FUM-STEP-0097"
 card_content_sha256 = "sha256:a5304f7b7baf2b96d0b9a65090517798dc7a0d5df38dd721edcafbfd0555e438"
-resume_condition = "После завершения FUM-STEP-0096 и проверки устойчивого счётного курсора перевести сквозную приёмку универсального диспетчера в пул ready; заблокированный публикационный адаптер проверяется как изолированный и не исполняется."
+requires_completed_card_ids = ["FUM-STEP-0096"]
 
 [[candidates]]
-step_id = "master-fum-step-0105-blocked-v2"
-status = "blocked"
+step_id = "master-fum-step-0105-blocked-v3"
+dispatch = "blocked"
 card_id = "FUM-STEP-0105"
 card_content_sha256 = "sha256:5e26757d9b1086404dd88bd24eac6f79765feac91df6eb76125a123ae51e42c8"
+requires_completed_card_ids = ["FUM-STEP-0035"]
 resume_condition = "После отдельного явного запроса, разрешающего продуктовую реализацию URL-среза, повторить контекстный preflight, выпустить свежий step_id и отдельно решить границы живой сети; текущая блокировка не мешает независимым линиям ветки."
 +++
 # Выбирать следующий готовый шаг по контексту истории ветки
 
-Открытый набор ветки `master` не содержит `ready`: документальная [FUM-STEP-0035](../карточки-шагов/✅-FUM-STEP-0035-доработать-паспорт-коробочной-стадии-и-первого-URL-среза-по-аудиту.md) закрыла семь находок и прошла повторный аудит, а продуктовая [FUM-STEP-0105](../карточки-шагов/🟡-FUM-STEP-0105-реализовать-автономное-ядро-первого-продуктового-URL-среза.md) отдельно заблокирована до явного разрешения. Остальные кандидаты сохраняют свои прежние `paused` и `blocked` условия. Задачи, критерии и источники читаются из карточек; рабочий набор закрепляет только идентичность, содержательный хэш и свежее поколение каждого кандидата.
+Открытый набор ветки `master` использует схему `5`: он не записывает `ready` заранее, а хранит whitelist с режимом `dispatch` и точными завершёнными зависимостями. При каждом heartbeat валидатор вычисляет runtime-пул заново. Сейчас [FUM-STEP-0072](../карточки-шагов/🟡-FUM-STEP-0072-описать-перенаправление-агентского-цикла-пользовательским-вводом.md) становится `ready`, потому что её локальная детерминированная фикстура прошла отдельный preflight, не требует сети, секретов, внешнего действия или реальной LLM, а обязательная [FUM-STEP-0023](../карточки-шагов/✅-FUM-STEP-0023-сформулировать-минимальный-формат-трассы-исполняемого-агентского-цикла.md) завершена. Конкретного победителя рабочий набор не предвыбирает: его определяет автозапуск из наблюдённого runtime-пула.
 
-Swift-прототип сохраняет полные тела принятых событий, самодостаточно переисполняет поколение, линеаризует публикацию `CURRENT` между сотрудничающими процессами и подтверждает process-crash consistency на восьми файловых точках, не заявляя power-loss durability. [FUM-STEP-0101](../карточки-шагов/✅-FUM-STEP-0101-закрепить-языконейтральный-канонический-протокол-памяти.md) дополнительно закрепила языконейтральный байтовый профиль на Swift и узкой независимой Python-реализации. Следующий технический пробел этой линии — реальный model-only-адаптер, но без законно настроенного провайдера он остаётся `paused`. Отдельная URL-линия имеет проверенный паспорт, но её реализация сохраняется как отдельный `blocked`.
+Swift-прототип сохраняет полные тела принятых событий, самодостаточно переисполняет поколение, линеаризует публикацию `CURRENT` между сотрудничающими процессами и подтверждает process-crash consistency на восьми файловых точках, не заявляя power-loss durability. [FUM-STEP-0101](../карточки-шагов/✅-FUM-STEP-0101-закрепить-языконейтральный-канонический-протокол-памяти.md) дополнительно закрепила языконейтральный байтовый профиль на Swift и узкой независимой Python-реализации. Следующий технический пробел этой линии — реальный model-only-адаптер, но без законно настроенного провайдера FUM-STEP-0102 остаётся явным `paused`: свободный текст о провайдере и секретах никогда не вычисляется как разрешение. Отдельная URL-линия имеет проверенный паспорт, но её реализация сохраняется как отдельный `blocked`.
 
-После одноагентной приёмки FUM-STEP-0077 адаптирует проверенное хранилище к общей памяти распределённого эпизода, а FUM-STEP-0078–FUM-STEP-0083 последовательно добавляют происхождение вкладов, независимую проверку, выбор и бюджеты, автономную приёмку, живой прогон и межсессионное возобновление. Распределённый контур не получает отдельный `ready`, пока не доказано его одноагентное основание.
+После завершения FUM-STEP-0103 автоматическая зависимая цепочка сама откроет FUM-STEP-0077, которая адаптирует проверенное хранилище к общей памяти распределённого эпизода. FUM-STEP-0078–FUM-STEP-0083 затем последовательно добавляют происхождение вкладов, независимую проверку, выбор и бюджеты, автономную приёмку, живой прогон и межсессионное возобновление. Для каждого поколения завершение предшественника вычисляется heartbeat; ручной перевод в `ready` больше не нужен.
 
-После распределённого возобновления FUM-STEP-0104 предрегистрирует сравнительную приёмку без запуска внешних или платных экспериментов. Только затем FUM-STEP-0084–FUM-STEP-0090 усложняют репозиторную композицию долговечных подузлов и проектов. Последовательность FUM-STEP-0091–FUM-STEP-0097 после неё переводит существующую прикреплённую задачу в универсальный диспетчер автоматизаций; периодическая публикация FUM-STEP-0095 остаётся независимо заблокированной, а счётная аналитика FUM-STEP-0096 использует число шагов только как триггер ревизии.
+После завершения как одноагентного FUM-STEP-0103, так и распределённого FUM-STEP-0083 автоматическая FUM-STEP-0104 предрегистрирует сравнительную приёмку без запуска внешних или платных экспериментов. Затем зависимости последовательно открывают FUM-STEP-0084–FUM-STEP-0090 и FUM-STEP-0091–FUM-STEP-0097. Периодическая публикация FUM-STEP-0095 остаётся независимо заблокированной и не входит в зависимости счётной аналитики FUM-STEP-0096; готовность последней вычисляется только после завершения FUM-STEP-0094.
 
-## Отложенные кандидаты
+## Кандидаты и зависимости
 
 [FUM-STEP-0101](../карточки-шагов/✅-FUM-STEP-0101-закрепить-языконейтральный-канонический-протокол-памяти.md) завершила языконейтральный байтовый профиль после [FUM-STEP-0100](../карточки-шагов/✅-FUM-STEP-0100-добавить-аварийную-согласованность-хранилища-памяти.md). Карточки [FUM-STEP-0102](../карточки-шагов/🟡-FUM-STEP-0102-подключить-проверяемый-реальный-model-only-адаптер.md) и [FUM-STEP-0103](../карточки-шагов/🟡-FUM-STEP-0103-реализовать-сквозной-одноагентный-эпизод-с-возобновлением.md) остаются последовательной линией: FUM-STEP-0102 требует законно настроенного провайдера, а FUM-STEP-0103 — завершённого и проверенного адаптера.
 
@@ -203,6 +213,7 @@ Swift-прототип сохраняет полные тела принятых
 
 ## Источники
 
+- [исходный запрос о динамическом вычислении готовности во время автозапуска](../../Запросы/2026-07-29_09-04-03_MSK_расширить-динамический-выбор-следующего-шага.md)
 - [исходный запрос о завершении FUM-STEP-0035 и границе продуктовой реализации](../../Запросы/2026-07-28_20-06-05_MSK_доработать-паспорт-коробочной-стадии-и-первого-URL-среза-по-аудиту.md)
 - [исходный запрос о завершении FUM-STEP-0008 и выборе продолжения](../../Запросы/2026-07-28_10-56-30_MSK_наполнить-пользовательские-истории-FUM.md)
 - [исходный запрос о завершении FUM-STEP-0101 и выборе продолжения](../../Запросы/2026-07-28_08-47-18_MSK_закрепить-языконейтральный-канонический-протокол-памяти.md)
@@ -243,6 +254,6 @@ Swift-прототип сохраняет полные тела принятых
 - [исходный запрос о переименовании карточек шагов](../../Запросы/2026-07-22_11-48-49_MSK_оформить-карточки-шагов-описательными-именами-и-эмодзи-статусами.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-28 21:41:27 MSK -->
-<!-- content-sha256: sha256:ffab94aa3d62aa124c80960d05880dd640e29bf2d750f6fc279ef47a32c91a30 -->
+<!-- last-content-edit: 2026-07-29 10:09:26 MSK -->
+<!-- content-sha256: sha256:0d5d38b48b7943b16c23cbd6278b85285f83a4db01dc5d4171656561d0b5a101 -->
 <!-- FUM-MD-RECENCY:END -->

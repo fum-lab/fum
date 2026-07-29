@@ -153,8 +153,8 @@ class BranchNextStepTests(unittest.TestCase):
         card_id: str | None = "FUM-STEP-0001",
         card_content_sha256: str | None = None,
         resume_condition: str | None = None,
-        candidates: list[dict[str, str]] | None = None,
-        schema_version: str = "4",
+        candidates: list[dict[str, object]] | None = None,
+        schema_version: str = "5",
     ) -> Path:
         selector_state = state or ("done" if status == "done" else "open")
 
@@ -175,7 +175,7 @@ class BranchNextStepTests(unittest.TestCase):
         if candidates is None:
             candidates = []
             if card_id is not None:
-                candidate: dict[str, str] = {
+                candidate: dict[str, object] = {
                     "step_id": step_id,
                     "status": status,
                     "card_id": card_id,
@@ -196,6 +196,15 @@ class BranchNextStepTests(unittest.TestCase):
         candidate_blocks: list[str] = []
         for candidate in candidates:
             normalized = dict(candidate)
+            if schema_version == "5":
+                legacy_status = normalized.pop("status", None)
+                if legacy_status is not None:
+                    normalized["dispatch"] = (
+                        "automatic"
+                        if legacy_status == "ready"
+                        else legacy_status
+                    )
+                normalized.setdefault("requires_completed_card_ids", [])
             candidate_card_id = normalized.get("card_id")
             if (
                 candidate_card_id is not None
@@ -206,7 +215,11 @@ class BranchNextStepTests(unittest.TestCase):
                     normalized["card_content_sha256"] = resolved_hash
             lines = ["[[candidates]]"]
             for key, value in normalized.items():
-                lines.append(f'{key} = "{value}"')
+                if isinstance(value, list):
+                    rendered = ", ".join(f'"{item}"' for item in value)
+                    lines.append(f"{key} = [{rendered}]")
+                else:
+                    lines.append(f'{key} = "{value}"')
             candidate_blocks.append("\n".join(lines) + "\n")
 
         candidates_toml = (
@@ -245,7 +258,7 @@ class BranchNextStepTests(unittest.TestCase):
         status: str = "ready",
         project_path: str = "README.md",
         include_criteria: bool = True,
-        schema_version: str = "4",
+        schema_version: str = "5",
     ) -> Path:
         if status == "done":
             return self.write_selector(
@@ -385,7 +398,10 @@ class BranchNextStepTests(unittest.TestCase):
             },
         )
         self.assertRegex(str(selection["id"]), r"^sha256:[0-9a-f]{64}$")
-        self.assertEqual(selection["policy"], "source-history-first-parent-v1")
+        self.assertEqual(
+            selection["policy"],
+            "dynamic-readiness-source-history-first-parent-v2",
+        )
         self.assertEqual(selection["head"], self.head_oid())
         self.assertEqual(selection["ready_count"], 1)
         self.assertEqual(selection["reason"], "only_ready")
@@ -966,6 +982,19 @@ class BranchNextStepTests(unittest.TestCase):
             second_inventory,
         )
 
+    def test_heartbeat_computes_readiness_before_history_ranking(self) -> None:
+        prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+
+        self.assertIn("рабочий набор схемы `5`", prompt)
+        self.assertIn("requires_completed_card_ids", prompt)
+        self.assertIn("Свободный `resume_condition` не интерпретируется", prompt)
+        self.assertIn(
+            "dynamic-readiness-source-history-first-parent-v2",
+            prompt,
+        )
+        self.assertIn("сохранить корректные automatic/paused/blocked", prompt)
+        self.assertNotIn("добавлять в ready", prompt)
+
     def test_heartbeat_recovers_a_lost_claim_response_with_the_same_lease(
         self,
     ) -> None:
@@ -1254,7 +1283,7 @@ class BranchNextStepTests(unittest.TestCase):
         self.write_record(schema_version="3")
         old_schema = self.run_tool("validate")
         self.assertEqual(old_schema.returncode, 2)
-        self.assertIn("schema_version = 4", str(self.payload(old_schema)["error"]))
+        self.assertIn("schema_version = 5", str(self.payload(old_schema)["error"]))
 
         card = self.write_record()
         card.write_text(
@@ -1543,6 +1572,383 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertEqual(shown_payload["candidates"][0]["status"], "blocked")
         self.assertTrue(
             shown_payload["candidates"][0]["resume_condition"]
+        )
+
+    def test_automatic_candidate_becomes_ready_from_completed_cards(
+        self,
+    ) -> None:
+        self.write_card(
+            "✅-FUM-STEP-0001-завершённая-предпосылка.md",
+            card_id="FUM-STEP-0001",
+            status="completed",
+        )
+        self.write_card(
+            "🟡-FUM-STEP-0002-автоматический-кандидат.md",
+            card_id="FUM-STEP-0002",
+        )
+        self.write_selector(
+            candidates=[
+                {
+                    "step_id": "master-automatic-step-v1",
+                    "dispatch": "automatic",
+                    "card_id": "FUM-STEP-0002",
+                    "requires_completed_card_ids": ["FUM-STEP-0001"],
+                }
+            ]
+        )
+
+        validation = self.run_tool("validate")
+        shown = self.run_tool("show")
+        selection_id = str(self.payload(shown)["selection"]["id"])
+        claimed = self.run_tool(
+            "claim",
+            "--expected-branch-ref",
+            "refs/heads/master",
+            "--expected-step-id",
+            "master-automatic-step-v1",
+            "--expected-selection-id",
+            selection_id,
+            "--lease-id",
+            "00000000-0000-0000-0000-000000000001",
+        )
+
+        self.assertEqual(validation.returncode, 0, validation.stdout)
+        self.assertEqual(self.payload(validation)["ready_count"], 1)
+        self.assertEqual(shown.returncode, 0, shown.stdout)
+        shown_payload = self.payload(shown)
+        self.assertEqual(shown_payload["state"], "ready")
+        self.assertEqual(shown_payload["status"], "ready")
+        self.assertEqual(shown_payload["dispatch"], "automatic")
+        self.assertEqual(shown_payload["unmet_required_card_ids"], [])
+        self.assertEqual(claimed.returncode, 0, claimed.stdout)
+        self.assertEqual(self.payload(claimed)["state"], "claimed")
+
+    def test_unmet_automatic_candidate_is_runtime_paused(self) -> None:
+        self.write_card(
+            "🟡-FUM-STEP-0001-незавершённая-предпосылка.md",
+            card_id="FUM-STEP-0001",
+        )
+        self.write_card(
+            "🟡-FUM-STEP-0002-зависимый-кандидат.md",
+            card_id="FUM-STEP-0002",
+        )
+        self.write_selector(
+            candidates=[
+                {
+                    "step_id": "master-waiting-step-v1",
+                    "dispatch": "automatic",
+                    "card_id": "FUM-STEP-0002",
+                    "requires_completed_card_ids": ["FUM-STEP-0001"],
+                }
+            ]
+        )
+
+        validation = self.run_tool("validate")
+        shown = self.run_tool("show")
+
+        self.assertEqual(validation.returncode, 0, validation.stdout)
+        self.assertEqual(self.payload(validation)["ready_count"], 0)
+        self.assertEqual(self.payload(validation)["paused_count"], 1)
+        self.assertEqual(shown.returncode, 3, shown.stdout)
+        candidate = self.payload(shown)["candidates"][0]
+        self.assertEqual(candidate["status"], "paused")
+        self.assertEqual(candidate["dispatch"], "automatic")
+        self.assertEqual(
+            candidate["unmet_required_card_ids"],
+            ["FUM-STEP-0001"],
+        )
+
+    def test_unmet_automatic_candidate_does_not_hide_independent_ready(
+        self,
+    ) -> None:
+        self.write_card(
+            "🟡-FUM-STEP-0001-незавершённая-предпосылка.md",
+            card_id="FUM-STEP-0001",
+        )
+        self.write_card(
+            "🟡-FUM-STEP-0002-зависимый-кандидат.md",
+            card_id="FUM-STEP-0002",
+        )
+        self.write_card(
+            "🟡-FUM-STEP-0003-независимый-кандидат.md",
+            card_id="FUM-STEP-0003",
+        )
+        self.write_selector(
+            candidates=[
+                {
+                    "step_id": "master-waiting-step-v1",
+                    "dispatch": "automatic",
+                    "card_id": "FUM-STEP-0002",
+                    "requires_completed_card_ids": ["FUM-STEP-0001"],
+                },
+                {
+                    "step_id": "master-independent-step-v1",
+                    "dispatch": "automatic",
+                    "card_id": "FUM-STEP-0003",
+                    "requires_completed_card_ids": [],
+                },
+            ]
+        )
+
+        shown = self.run_tool("show")
+
+        self.assertEqual(shown.returncode, 0, shown.stdout)
+        payload = self.payload(shown)
+        self.assertEqual(payload["card_id"], "FUM-STEP-0003")
+        self.assertEqual(payload["selection"]["ready_count"], 1)
+
+    def test_only_completed_status_satisfies_automatic_dependency(self) -> None:
+        for prerequisite_status in ("active", "absorbed", "withdrawn"):
+            with self.subTest(prerequisite_status=prerequisite_status):
+                prerequisite = self.write_card(
+                    card_id="FUM-STEP-0001",
+                    status=prerequisite_status,
+                )
+                candidate = self.write_card(
+                    "🟡-FUM-STEP-0002-зависимый-кандидат.md",
+                    card_id="FUM-STEP-0002",
+                )
+                self.write_selector(
+                    candidates=[
+                        {
+                            "step_id": "master-waiting-step-v1",
+                            "dispatch": "automatic",
+                            "card_id": "FUM-STEP-0002",
+                            "requires_completed_card_ids": [
+                                "FUM-STEP-0001"
+                            ],
+                        }
+                    ]
+                )
+
+                shown = self.run_tool("show")
+
+                self.assertEqual(shown.returncode, 3, shown.stdout)
+                prerequisite.unlink()
+                candidate.unlink()
+
+    def test_automatic_dependencies_reject_missing_duplicate_self_and_cycle(
+        self,
+    ) -> None:
+        self.write_card(
+            "🟡-FUM-STEP-0001-первый-кандидат.md",
+            card_id="FUM-STEP-0001",
+        )
+        self.write_card(
+            "🟡-FUM-STEP-0002-второй-кандидат.md",
+            card_id="FUM-STEP-0002",
+        )
+        cases: tuple[tuple[str, list[dict[str, object]], str], ...] = (
+            (
+                "unknown_dispatch",
+                [
+                    {
+                        "step_id": "master-first-v1",
+                        "dispatch": "conditional",
+                        "card_id": "FUM-STEP-0001",
+                        "requires_completed_card_ids": [],
+                    }
+                ],
+                "dispatch должен быть одним из",
+            ),
+            (
+                "wrong_type",
+                [
+                    {
+                        "step_id": "master-first-v1",
+                        "dispatch": "automatic",
+                        "card_id": "FUM-STEP-0001",
+                        "requires_completed_card_ids": "FUM-STEP-0002",
+                    }
+                ],
+                "массивом card_id",
+            ),
+            (
+                "missing",
+                [
+                    {
+                        "step_id": "master-first-v1",
+                        "dispatch": "automatic",
+                        "card_id": "FUM-STEP-0001",
+                        "requires_completed_card_ids": ["FUM-STEP-0999"],
+                    }
+                ],
+                "не найдена обязательная карточка",
+            ),
+            (
+                "duplicate",
+                [
+                    {
+                        "step_id": "master-first-v1",
+                        "dispatch": "automatic",
+                        "card_id": "FUM-STEP-0001",
+                        "requires_completed_card_ids": [
+                            "FUM-STEP-0002",
+                            "FUM-STEP-0002",
+                        ],
+                    }
+                ],
+                "дубликаты",
+            ),
+            (
+                "self",
+                [
+                    {
+                        "step_id": "master-first-v1",
+                        "dispatch": "automatic",
+                        "card_id": "FUM-STEP-0001",
+                        "requires_completed_card_ids": ["FUM-STEP-0001"],
+                    }
+                ],
+                "собственной карточки",
+            ),
+            (
+                "cycle",
+                [
+                    {
+                        "step_id": "master-first-v1",
+                        "dispatch": "automatic",
+                        "card_id": "FUM-STEP-0001",
+                        "requires_completed_card_ids": ["FUM-STEP-0002"],
+                    },
+                    {
+                        "step_id": "master-second-v1",
+                        "dispatch": "automatic",
+                        "card_id": "FUM-STEP-0002",
+                        "requires_completed_card_ids": ["FUM-STEP-0001"],
+                    },
+                ],
+                "цикл",
+            ),
+        )
+        for name, candidates, expected_error in cases:
+            with self.subTest(name=name):
+                self.write_selector(candidates=candidates)
+
+                result = self.run_tool("validate")
+
+                self.assertEqual(result.returncode, 2, result.stdout)
+                self.assertIn(
+                    expected_error,
+                    str(self.payload(result)["error"]),
+                )
+
+    def test_readiness_change_updates_selection_without_changing_winner(
+        self,
+    ) -> None:
+        self.write_card(
+            "🟡-FUM-STEP-0001-независимый-кандидат.md",
+            card_id="FUM-STEP-0001",
+        )
+        prerequisite = self.write_card(
+            "🟡-FUM-STEP-0002-предпосылка.md",
+            card_id="FUM-STEP-0002",
+        )
+        self.write_card(
+            "🟡-FUM-STEP-0003-зависимый-кандидат.md",
+            card_id="FUM-STEP-0003",
+        )
+        self.write_selector(
+            candidates=[
+                {
+                    "step_id": "master-independent-step-v1",
+                    "dispatch": "automatic",
+                    "card_id": "FUM-STEP-0001",
+                    "requires_completed_card_ids": [],
+                },
+                {
+                    "step_id": "master-dependent-step-v1",
+                    "dispatch": "automatic",
+                    "card_id": "FUM-STEP-0003",
+                    "requires_completed_card_ids": ["FUM-STEP-0002"],
+                },
+            ]
+        )
+        before = self.run_tool("show")
+        before_payload = self.payload(before)
+        prerequisite.unlink()
+        self.write_card(
+            "✅-FUM-STEP-0002-предпосылка.md",
+            card_id="FUM-STEP-0002",
+            status="completed",
+        )
+
+        after = self.run_tool("show")
+        stale_claim = self.run_tool(
+            "claim",
+            "--expected-branch-ref",
+            "refs/heads/master",
+            "--expected-step-id",
+            "master-independent-step-v1",
+            "--expected-selection-id",
+            str(before_payload["selection"]["id"]),
+            "--lease-id",
+            "00000000-0000-0000-0000-000000000001",
+        )
+        claim_status = self.run_tool("claim-status")
+
+        self.assertEqual(before.returncode, 0, before.stdout)
+        self.assertEqual(after.returncode, 0, after.stdout)
+        after_payload = self.payload(after)
+        self.assertEqual(before_payload["card_id"], "FUM-STEP-0001")
+        self.assertEqual(after_payload["card_id"], "FUM-STEP-0001")
+        self.assertEqual(before_payload["selection"]["ready_count"], 1)
+        self.assertEqual(after_payload["selection"]["ready_count"], 2)
+        self.assertNotEqual(
+            before_payload["selection"]["id"],
+            after_payload["selection"]["id"],
+        )
+        self.assertEqual(stale_claim.returncode, 2, stale_claim.stdout)
+        self.assertEqual(self.payload(claim_status)["state"], "unclaimed")
+
+    def test_nonready_card_path_changes_selection_without_changing_winner(
+        self,
+    ) -> None:
+        self.write_card(
+            "🟡-FUM-STEP-0001-готовый-кандидат.md",
+            card_id="FUM-STEP-0001",
+        )
+        paused = self.write_card(
+            "🟡-FUM-STEP-0002-отложенный-кандидат.md",
+            card_id="FUM-STEP-0002",
+        )
+        self.write_selector(
+            candidates=[
+                {
+                    "step_id": "master-ready-step-v1",
+                    "dispatch": "automatic",
+                    "card_id": "FUM-STEP-0001",
+                    "requires_completed_card_ids": [],
+                },
+                {
+                    "step_id": "master-paused-step-v1",
+                    "dispatch": "paused",
+                    "card_id": "FUM-STEP-0002",
+                    "requires_completed_card_ids": [],
+                    "resume_condition": "Нужно явное разрешение.",
+                },
+            ]
+        )
+        before = self.run_tool("show")
+        paused.rename(
+            paused.with_name(
+                "🟡-FUM-STEP-0002-переименованный-кандидат.md"
+            )
+        )
+
+        after = self.run_tool("show")
+
+        self.assertEqual(before.returncode, 0, before.stdout)
+        self.assertEqual(after.returncode, 0, after.stdout)
+        before_payload = self.payload(before)
+        after_payload = self.payload(after)
+        self.assertEqual(before_payload["card_id"], "FUM-STEP-0001")
+        self.assertEqual(after_payload["card_id"], "FUM-STEP-0001")
+        self.assertEqual(before_payload["selection"]["ready_count"], 1)
+        self.assertEqual(after_payload["selection"]["ready_count"], 1)
+        self.assertNotEqual(
+            before_payload["selection"]["id"],
+            after_payload["selection"]["id"],
         )
 
     def test_blocked_candidate_does_not_hide_the_ready_candidate(self) -> None:
@@ -2507,6 +2913,59 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertEqual(self.payload(recovered)["ownership"], "existing")
         self.assertEqual(self.payload(recovered)["lease_id"], lease_id)
 
+    def test_existing_claim_recovery_atomically_rechecks_branch_head(
+        self,
+    ) -> None:
+        self.write_record()
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        selection = self.current_selection()
+        first = self.run_tool(
+            "claim",
+            "--expected-branch-ref",
+            "refs/heads/master",
+            "--expected-step-id",
+            "master-test-step-v1",
+            "--expected-selection-id",
+            str(selection["id"]),
+            "--lease-id",
+            lease_id,
+        )
+        original_cas = TOOL_MODULE.cas_claim_ref
+        raced = False
+
+        def move_branch_before_confirmation(*args, **kwargs):
+            nonlocal raced
+            if not raced:
+                raced = True
+                self.git(
+                    "commit",
+                    "--allow-empty",
+                    "-m",
+                    "Продвинуть ветку перед подтверждением claim",
+                )
+            return original_cas(*args, **kwargs)
+
+        self.assertEqual(first.returncode, 0, first.stdout + first.stderr)
+        with mock.patch.object(
+            TOOL_MODULE,
+            "cas_claim_ref",
+            side_effect=move_branch_before_confirmation,
+        ):
+            with self.assertRaises(TOOL_MODULE.ContractError) as context:
+                TOOL_MODULE.claim_step(
+                    self.repo,
+                    "refs/heads/master",
+                    "master-test-step-v1",
+                    str(selection["id"]),
+                    lease_id,
+                )
+
+        self.assertIn("Вершина ветки изменилась", str(context.exception))
+        status, status_code = TOOL_MODULE.claim_status(self.repo, None)
+        self.assertEqual(status_code, 0)
+        self.assertEqual(status["selection_id"], selection["id"])
+        self.assertEqual(status["selection_head"], selection["head"])
+
     def test_claim_requires_a_canonical_client_lease_before_writing(self) -> None:
         self.write_record()
         selection_id = self.current_selection_id()
@@ -2722,6 +3181,106 @@ class BranchNextStepTests(unittest.TestCase):
         status, status_code = TOOL_MODULE.claim_status(self.repo, None)
         self.assertEqual(status_code, 0)
         self.assertEqual(status["state"], "unclaimed")
+
+    def test_claim_rejects_current_selection_with_conflicting_fields(
+        self,
+    ) -> None:
+        self.write_record()
+        selection = self.current_selection()
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        base_payload: dict[str, object] = {
+            "schema_version": 2,
+            "branch_ref": "refs/heads/master",
+            "step_id": "master-test-step-v1",
+            "selection_id": selection["id"],
+            "selection_head": selection["head"],
+            "lease_id": lease_id,
+        }
+        cases = (
+            ("step_id", "master-other-step-v1"),
+            ("selection_head", "0" * 40),
+        )
+        for field, value in cases:
+            with self.subTest(field=field):
+                payload = dict(base_payload)
+                payload[field] = value
+                reference = self.install_raw_claim(
+                    json.dumps(payload, sort_keys=True, separators=(",", ":"))
+                )
+                before = self.git(
+                    "rev-parse",
+                    "--verify",
+                    reference,
+                ).stdout.strip()
+
+                result = self.run_tool(
+                    "claim",
+                    "--expected-branch-ref",
+                    "refs/heads/master",
+                    "--expected-step-id",
+                    "master-test-step-v1",
+                    "--expected-selection-id",
+                    str(selection["id"]),
+                    "--lease-id",
+                    lease_id,
+                )
+
+                self.assertEqual(result.returncode, 2, result.stdout)
+                self.assertEqual(self.payload(result)["state"], "invalid")
+                self.assertIn(
+                    "противоречит текущему selection",
+                    str(self.payload(result)["error"]),
+                )
+                self.assertEqual(
+                    self.git(
+                        "rev-parse",
+                        "--verify",
+                        reference,
+                    ).stdout.strip(),
+                    before,
+                )
+
+    def test_concurrent_claim_with_conflicting_fields_is_invalid(self) -> None:
+        self.write_record()
+        selection = self.current_selection()
+        reference = TOOL_MODULE.claim_ref(self.repo, "refs/heads/master")
+        conflicting_payload: dict[str, object] = {
+            "schema_version": 2,
+            "branch_ref": "refs/heads/master",
+            "step_id": "master-other-step-v1",
+            "selection_id": selection["id"],
+            "selection_head": selection["head"],
+            "lease_id": "00000000-0000-0000-0000-000000000001",
+        }
+        conflicting_oid = TOOL_MODULE.write_claim_blob(
+            self.repo,
+            conflicting_payload,
+            "refs/heads/master",
+        )
+
+        def install_conflicting_claim(*_args, **_kwargs) -> bool:
+            self.git("update-ref", reference, conflicting_oid)
+            return False
+
+        with mock.patch.object(
+            TOOL_MODULE,
+            "cas_claim_ref",
+            side_effect=install_conflicting_claim,
+        ) as patched_cas:
+            with self.assertRaises(TOOL_MODULE.ContractError) as context:
+                TOOL_MODULE.claim_step(
+                    self.repo,
+                    "refs/heads/master",
+                    "master-test-step-v1",
+                    str(selection["id"]),
+                    "00000000-0000-0000-0000-000000000002",
+                )
+
+        self.assertEqual(patched_cas.call_count, 1)
+        self.assertIn(
+            "противоречит текущему selection",
+            str(context.exception),
+        )
 
     def test_claim_replacement_and_fenced_release_follow_step_identity(self) -> None:
         self.write_record()
@@ -3251,7 +3810,7 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertEqual(len(oid), 64)
 
     def test_repository_has_a_valid_record_for_its_active_branch(self) -> None:
-        result = subprocess.run(
+        validation = subprocess.run(
             [
                 sys.executable,
                 str(SCRIPT_PATH),
@@ -3264,8 +3823,30 @@ class BranchNextStepTests(unittest.TestCase):
             capture_output=True,
             text=True,
         )
+        shown = subprocess.run(
+            [
+                sys.executable,
+                str(SCRIPT_PATH),
+                "show",
+                "--repo-root",
+                str(REPO_ROOT),
+                "--json",
+            ],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
 
-        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertEqual(
+            validation.returncode,
+            0,
+            validation.stdout + validation.stderr,
+        )
+        self.assertEqual(self.payload(validation)["ready_count"], 1)
+        self.assertEqual(shown.returncode, 0, shown.stdout + shown.stderr)
+        shown_payload = self.payload(shown)
+        self.assertEqual(shown_payload["card_id"], "FUM-STEP-0072")
+        self.assertEqual(shown_payload["dispatch"], "automatic")
 
 
 if __name__ == "__main__":

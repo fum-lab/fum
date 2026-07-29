@@ -13,7 +13,7 @@
 
 ## Навыки
 
-- [fum-sleduyusjhij-shag-vetki](fum-sleduyusjhij-shag-vetki/SKILL.md) - проверяет веточный пул готовых кандидатов, в момент запуска детерминированно выбирает связанный с недавней first-parent-историей шаг и атомарно резервирует точное поколение выбора перед созданием фоновой задачи Codex.
+- [fum-sleduyusjhij-shag-vetki](fum-sleduyusjhij-shag-vetki/SKILL.md) - проверяет конечный whitelist ветки, в момент запуска вычисляет runtime-готовность по точным завершённым карточечным зависимостям, ранжирует готовый пул по first-parent-истории и атомарно резервирует точное поколение выбора перед созданием фоновой задачи Codex.
 - [fum-sborka-svodnoj-dokumentacii](fum-sborka-svodnoj-dokumentacii/SKILL.md) - создаёт и проверяет каркас сводных статей документации из нескольких опорных материалов.
 - [fum-ocenki](fum-ocenki/SKILL.md) - создаёт и проверяет оценочные материалы `Оценки/` со снимком репозитория, методикой, диапазонами, допущениями, ограничениями точности и оформлением результата.
 - [fum-glossarij](fum-glossarij/SKILL.md) - поддерживает глоссарий FUM по локальным правилам именования и ссылок.
@@ -46,7 +46,7 @@
 - `python3 Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py check --repo-root . --fork-url https://github.com/fum-lab/LinguisticKit.git --upstream-url https://github.com/Roman-Kerimov/LinguisticKit.git --path Зависимости/LinguisticKit --revision 837e2ce107b97ee7b9d3344c9fe99142281fe393` - автономная проверка подключённого submodule LinguisticKit без получения remote.
 - `python3 Инструменты/fum-proverka-nazvanij-avtomatizacij/scripts/proveritj-nazvaniya-avtomatizacij.py --repo-root . --registry Инструменты/реестр-названий-автоматизаций.json` - автономная структурная либо живая проверка реестра названий автоматизаций.
 - `python3 -I -c "import os,subprocess,sys;p='Инструменты/fum-ocheredj-zadach-git-vetki/scripts/ocheredj-zadach-git-vetki.py';r=sys.argv[1];e={k:v for k,v in os.environ.items() if not k.upper().startswith('GIT_')};e['GIT_NO_REPLACE_OBJECTS']='1';e['GIT_OPTIONAL_LOCKS']='0';b=subprocess.check_output(['git','--no-replace-objects','-C',r,'show','HEAD:'+p],env=e,timeout=30);sys.argv=[p,*sys.argv[2:],'--repo-root',r];exec(compile(b,p,'exec'))" . status --json` - через изолированный закоммиченный HEAD-bootstrap показывает владельца и FIFO-список ожидающих корневых задач текущего worktree.
-- `python3 Инструменты/fum-sleduyusjhij-shag-vetki/scripts/branch-next-step.py validate --repo-root . --json` - структурно проверяет рабочие наборы и единственное совпадение для активной именованной ветки, не выбирая победителя готового пула.
+- `python3 Инструменты/fum-sleduyusjhij-shag-vetki/scripts/branch-next-step.py validate --repo-root . --json` - структурно проверяет рабочие наборы, вычисляет runtime-статусы всего whitelist и подтверждает единственное совпадение для активной именованной ветки, не выбирая победителя.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-sleduyusjhij-shag-vetki/tests -p 'test_*.py'` - локальные тесты выбора по first-parent-истории, атомарного claim точного поколения, идемпотентного восстановления потерянного ответа и fenced-восстановления следующего шага ветки.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-ocheredj-zadach-git-vetki/tests -p 'test_*.py'` - локальные тесты переносимой FIFO-очереди, атомарного commit+handoff и точной post-handoff-публикации через автономный bare-remote.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-sborka-svodnoj-dokumentacii/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-sborka-svodnoj-dokumentacii`.
@@ -73,6 +73,7 @@
 
 ## Источники требований
 
+- [исходный запрос 2026-07-29 09:04:03 MSK — Расширить динамический выбор следующего шага](../Запросы/2026-07-29_09-04-03_MSK_расширить-динамический-выбор-следующего-шага.md)
 - [исходный запрос 2026-07-27 18:28:42 MSK - Выбирать следующий шаг при запуске с учётом истории коммитов](../Запросы/2026-07-27_18-28-42_MSK_выбирать-следующий-шаг-при-запуске-с-учётом-истории-коммитов.md)
 - [исходный запрос 2026-07-27 16:12:29 MSK - Учитывать все проверочные вызовы в профиле времени](../Запросы/2026-07-27_16-12-29_MSK_учитывать-все-проверочные-вызовы-в-профиле-времени.md)
 - [исходный запрос 2026-07-26 15:15:18 MSK - Публиковать работу в GitHub автоматически](../Запросы/2026-07-26_15-15-18_MSK_публиковать-работу-в-GitHub-автоматически.md)
@@ -89,6 +90,6 @@
 - [исходный запрос 2026-07-22 03:38:35 MSK - Разрешить выполнение доступных карточек шагов](../Запросы/2026-07-22_03-38-35_MSK_разрешить-выполнение-доступных-карточек-шагов.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-27 19:32:25 MSK -->
-<!-- content-sha256: sha256:8f323140292ec2073e657243f206868bcb6821930289ec22e8ddcb6c647b17f5 -->
+<!-- last-content-edit: 2026-07-29 10:09:26 MSK -->
+<!-- content-sha256: sha256:b487636da4901eb927d21bf5cd3c08c91bfec798569df17fb56f4081f2413f78 -->
 <!-- FUM-MD-RECENCY:END -->
