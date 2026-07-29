@@ -1,0 +1,915 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fum:agent-cycle-trace:event:v2",
+  "title": "Событие трассы агентского цикла FUM версии 2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "seq",
+    "kind",
+    "payload"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 2
+    },
+    "trace_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$"
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "kind": {
+      "enum": [
+        "task",
+        "plan",
+        "input_event",
+        "input_signal",
+        "checkpoint",
+        "redirect",
+        "observation",
+        "action",
+        "check",
+        "result",
+        "error",
+        "continuation"
+      ]
+    },
+    "payload": {
+      "type": "object"
+    }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "kind": {
+          "const": "task"
+        },
+        "payload": {
+          "$ref": "#/$defs/task"
+        }
+      }
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "plan"
+        },
+        "payload": {
+          "$ref": "#/$defs/plan"
+        }
+      }
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "input_event"
+        },
+        "payload": {
+          "$ref": "#/$defs/input_event"
+        }
+      }
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "input_signal"
+        },
+        "payload": {
+          "$ref": "#/$defs/input_signal"
+        }
+      }
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "checkpoint"
+        },
+        "payload": {
+          "$ref": "#/$defs/checkpoint"
+        }
+      }
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "redirect"
+        },
+        "payload": {
+          "$ref": "#/$defs/redirect"
+        }
+      }
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "observation"
+        },
+        "payload": {
+          "$ref": "#/$defs/observation"
+        }
+      }
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "action"
+        },
+        "payload": {
+          "$ref": "#/$defs/action"
+        }
+      }
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "check"
+        },
+        "payload": {
+          "$ref": "#/$defs/check"
+        }
+      }
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "result"
+        },
+        "payload": {
+          "$ref": "#/$defs/result"
+        }
+      }
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "error"
+        },
+        "payload": {
+          "$ref": "#/$defs/error"
+        }
+      }
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "continuation"
+        },
+        "payload": {
+          "$ref": "#/$defs/continuation"
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "seq_refs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    "allowed_action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation",
+        "adapter",
+        "effect"
+      ],
+      "properties": {
+        "operation": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9._-]{0,63}$"
+        },
+        "adapter": {
+          "type": "string",
+          "minLength": 1
+        },
+        "effect": {
+          "enum": [
+            "read",
+            "local_write",
+            "local_execute"
+          ]
+        }
+      }
+    },
+    "model_step": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mode"
+          ],
+          "properties": {
+            "mode": {
+              "const": "none"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mode",
+            "provider_ref"
+          ],
+          "properties": {
+            "mode": {
+              "enum": [
+                "stub",
+                "provider"
+              ]
+            },
+            "provider_ref": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ]
+    },
+    "task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "message_id",
+        "input_form",
+        "summary",
+        "acceptance",
+        "source_refs",
+        "allowed_actions",
+        "model_step"
+      ],
+      "properties": {
+        "message_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$"
+        },
+        "input_form": {
+          "const": "task_message"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "acceptance": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "source_refs": {
+          "$ref": "#/$defs/refs",
+          "minItems": 1
+        },
+        "allowed_actions": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/allowed_action"
+          }
+        },
+        "model_step": {
+          "$ref": "#/$defs/model_step"
+        }
+      }
+    },
+    "planned_action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "planned_action_id",
+        "operation",
+        "adapter",
+        "effect",
+        "summary",
+        "target_refs"
+      ],
+      "properties": {
+        "planned_action_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$"
+        },
+        "operation": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9._-]{0,63}$"
+        },
+        "adapter": {
+          "type": "string",
+          "minLength": 1
+        },
+        "effect": {
+          "enum": [
+            "read",
+            "local_write",
+            "local_execute"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_refs": {
+          "$ref": "#/$defs/refs",
+          "minItems": 1
+        }
+      }
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "plan_id",
+        "revision",
+        "goal",
+        "priority",
+        "branch",
+        "next_action",
+        "basis_seqs"
+      ],
+      "properties": {
+        "plan_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "goal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "branch": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$"
+        },
+        "next_action": {
+          "$ref": "#/$defs/planned_action"
+        },
+        "basis_seqs": {
+          "$ref": "#/$defs/seq_refs"
+        },
+        "supersedes_plan_seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "redirect_seq": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "input_authorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "purpose",
+        "policy_ref"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "allowed"
+          ]
+        },
+        "purpose": {
+          "const": "operational_observation"
+        },
+        "policy_ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "input_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "stream_id",
+        "stream_seq",
+        "occurred_at",
+        "observed_at",
+        "channel",
+        "event_type",
+        "summary",
+        "authorization",
+        "source_refs"
+      ],
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$"
+        },
+        "stream_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$"
+        },
+        "stream_seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$"
+        },
+        "observed_at": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$"
+        },
+        "channel": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9._-]{0,63}$"
+        },
+        "event_type": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9._-]{0,63}$"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "authorization": {
+          "$ref": "#/$defs/input_authorization"
+        },
+        "source_refs": {
+          "$ref": "#/$defs/refs",
+          "minItems": 1
+        }
+      }
+    },
+    "aggregation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "policy_ref",
+        "event_count",
+        "first_stream_seq",
+        "last_stream_seq",
+        "dropped_event_count",
+        "duplicate_event_count",
+        "delay_milliseconds",
+        "backpressure"
+      ],
+      "properties": {
+        "mode": {
+          "enum": [
+            "identity",
+            "coalesced"
+          ]
+        },
+        "policy_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "event_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "first_stream_seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "last_stream_seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "dropped_event_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "duplicate_event_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "delay_milliseconds": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "backpressure": {
+          "enum": [
+            "none",
+            "applied",
+            "overflow"
+          ]
+        }
+      }
+    },
+    "input_signal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "signal_id",
+        "emitted_at",
+        "source_event_seqs",
+        "aggregation",
+        "summary"
+      ],
+      "properties": {
+        "signal_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$"
+        },
+        "emitted_at": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$"
+        },
+        "source_event_seqs": {
+          "$ref": "#/$defs/seq_refs"
+        },
+        "aggregation": {
+          "$ref": "#/$defs/aggregation"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "checkpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checkpoint_id",
+        "plan_seq",
+        "summary",
+        "safe_changes",
+        "in_flight_action_seqs",
+        "basis_seqs"
+      ],
+      "properties": {
+        "checkpoint_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$"
+        },
+        "plan_seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "safe_changes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "goal",
+              "priority",
+              "branch",
+              "action"
+            ]
+          }
+        },
+        "in_flight_action_seqs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "basis_seqs": {
+          "$ref": "#/$defs/seq_refs"
+        }
+      }
+    },
+    "planned_action_disposition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "planned_action_id",
+        "status"
+      ],
+      "properties": {
+        "planned_action_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$"
+        },
+        "status": {
+          "enum": [
+            "superseded_before_start",
+            "deferred_until_result"
+          ]
+        }
+      }
+    },
+    "redirect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision",
+        "checkpoint_seq",
+        "input_seqs",
+        "previous_plan_seq",
+        "previous_continuation_seq",
+        "changed_dimensions",
+        "planned_action_dispositions",
+        "reason"
+      ],
+      "properties": {
+        "decision": {
+          "enum": [
+            "keep",
+            "change"
+          ]
+        },
+        "checkpoint_seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "input_seqs": {
+          "$ref": "#/$defs/seq_refs"
+        },
+        "previous_plan_seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "previous_continuation_seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "changed_dimensions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "goal",
+              "priority",
+              "branch",
+              "action"
+            ]
+          }
+        },
+        "planned_action_dispositions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/planned_action_disposition"
+          }
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "decision": {
+              "const": "keep"
+            },
+            "changed_dimensions": {
+              "const": []
+            },
+            "planned_action_dispositions": {
+              "const": []
+            }
+          }
+        },
+        {
+          "properties": {
+            "decision": {
+              "const": "change"
+            },
+            "changed_dimensions": {
+              "minItems": 1
+            }
+          }
+        }
+      ]
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "summary",
+        "evidence_refs"
+      ],
+      "properties": {
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/refs",
+          "minItems": 1
+        }
+      }
+    },
+    "action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "plan_seq",
+        "planned_action_id",
+        "operation",
+        "adapter",
+        "effect",
+        "summary",
+        "target_refs",
+        "authorization"
+      ],
+      "properties": {
+        "plan_seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "planned_action_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$"
+        },
+        "operation": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9._-]{0,63}$"
+        },
+        "adapter": {
+          "type": "string",
+          "minLength": 1
+        },
+        "effect": {
+          "enum": [
+            "read",
+            "local_write",
+            "local_execute"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_refs": {
+          "$ref": "#/$defs/refs",
+          "minItems": 1
+        },
+        "authorization": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "subject_seq",
+        "status",
+        "summary",
+        "evidence_refs"
+      ],
+      "properties": {
+        "subject_seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "status": {
+          "enum": [
+            "passed",
+            "failed"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/refs",
+          "minItems": 1
+        }
+      }
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action_seq",
+        "status",
+        "summary",
+        "artifact_refs"
+      ],
+      "properties": {
+        "action_seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "status": {
+          "enum": [
+            "success",
+            "partial",
+            "failed"
+          ]
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "artifact_refs": {
+          "$ref": "#/$defs/refs"
+        }
+      }
+    },
+    "error": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action_seq",
+        "code",
+        "summary",
+        "source",
+        "retryable",
+        "evidence_refs"
+      ],
+      "properties": {
+        "action_seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "code": {
+          "type": "string",
+          "pattern": "^[A-Z][A-Z0-9_]{1,63}$"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/refs"
+        }
+      }
+    },
+    "continuation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "plan_seq",
+        "status",
+        "reason",
+        "basis_seqs"
+      ],
+      "properties": {
+        "plan_seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "status": {
+          "enum": [
+            "continue",
+            "completed",
+            "blocked",
+            "awaiting_confirmation",
+            "handed_off",
+            "stopped",
+            "failed"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "basis_seqs": {
+          "$ref": "#/$defs/seq_refs"
+        },
+        "supersedes_continuation_seq": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    }
+  }
+}
