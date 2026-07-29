@@ -1,0 +1,1135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fum:agent-cycle-trace:event:v3",
+  "title": "Событие трассы агентского цикла FUM версии 3",
+  "description": "Версия 3 независимо представляет состояние эпизода, модельное ветвление, ожидающий подтверждения переход и свидетельства внешнего исполнения. Схема не изменяет семантику версий 1 и 2.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "trace_id",
+    "seq",
+    "kind",
+    "payload"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 3
+    },
+    "trace_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$"
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "kind": {
+      "enum": [
+        "task",
+        "episode_state",
+        "pending_transition",
+        "model_checkpoint",
+        "model_branch",
+        "model_step",
+        "branch_check",
+        "branch_selection",
+        "episode_checkpoint",
+        "transition_response",
+        "transition_stage",
+        "transition_action",
+        "external_evidence"
+      ]
+    },
+    "payload": {
+      "type": "object"
+    }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "kind": {
+          "const": "task"
+        },
+        "payload": {
+          "$ref": "#/$defs/task"
+        }
+      }
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "episode_state"
+        },
+        "payload": {
+          "$ref": "#/$defs/episode_state"
+        }
+      }
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "pending_transition"
+        },
+        "payload": {
+          "$ref": "#/$defs/pending_transition"
+        }
+      }
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "model_checkpoint"
+        },
+        "payload": {
+          "$ref": "#/$defs/model_checkpoint"
+        }
+      }
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "model_branch"
+        },
+        "payload": {
+          "$ref": "#/$defs/model_branch"
+        }
+      }
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "model_step"
+        },
+        "payload": {
+          "$ref": "#/$defs/model_step"
+        }
+      }
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "branch_check"
+        },
+        "payload": {
+          "$ref": "#/$defs/branch_check"
+        }
+      }
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "branch_selection"
+        },
+        "payload": {
+          "$ref": "#/$defs/branch_selection"
+        }
+      }
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "episode_checkpoint"
+        },
+        "payload": {
+          "$ref": "#/$defs/episode_checkpoint"
+        }
+      }
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "transition_response"
+        },
+        "payload": {
+          "$ref": "#/$defs/transition_response"
+        }
+      }
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "transition_stage"
+        },
+        "payload": {
+          "$ref": "#/$defs/transition_stage"
+        }
+      }
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "transition_action"
+        },
+        "payload": {
+          "$ref": "#/$defs/transition_action"
+        }
+      }
+    },
+    {
+      "properties": {
+        "kind": {
+          "const": "external_evidence"
+        },
+        "payload": {
+          "$ref": "#/$defs/external_evidence"
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._:-]{0,127}$"
+    },
+    "nonempty_string": {
+      "type": "string",
+      "minLength": 1
+    },
+    "identifier_list": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/identifier"
+      }
+    },
+    "string_list": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/nonempty_string"
+      }
+    },
+    "seq_refs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allocated",
+        "consumed",
+        "remaining"
+      ],
+      "properties": {
+        "allocated": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "consumed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "remaining": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "episode_budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "initial",
+        "consumed",
+        "remaining"
+      ],
+      "properties": {
+        "initial": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "consumed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "remaining": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "storage_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy_id",
+        "version",
+        "allowed_record_classes",
+        "acceptance_policy_ref"
+      ],
+      "properties": {
+        "policy_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "allowed_record_classes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "trace",
+              "candidate",
+              "checkpoint"
+            ]
+          }
+        },
+        "acceptance_policy_ref": {
+          "$ref": "#/$defs/nonempty_string"
+        }
+      }
+    },
+    "model_runtime_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "reasoning_recording",
+        "network_access",
+        "secret_access",
+        "live_model",
+        "external_services",
+        "publication",
+        "physical_action",
+        "max_branches",
+        "initial_budget"
+      ],
+      "properties": {
+        "mode": {
+          "const": "deterministic_local_fixture"
+        },
+        "reasoning_recording": {
+          "const": "summaries_only"
+        },
+        "network_access": {
+          "const": false
+        },
+        "secret_access": {
+          "const": false
+        },
+        "live_model": {
+          "const": false
+        },
+        "external_services": {
+          "const": false
+        },
+        "publication": {
+          "const": false
+        },
+        "physical_action": {
+          "const": false
+        },
+        "max_branches": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "initial_budget": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "transition_object": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "object_id",
+        "object_version"
+      ],
+      "properties": {
+        "object_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "object_version": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "expected_effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation",
+        "target_ref",
+        "effect_class"
+      ],
+      "properties": {
+        "operation": {
+          "$ref": "#/$defs/identifier"
+        },
+        "target_ref": {
+          "$ref": "#/$defs/nonempty_string"
+        },
+        "effect_class": {
+          "enum": [
+            "external_write",
+            "external_execution",
+            "physical_action"
+          ]
+        }
+      }
+    },
+    "task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "message_id",
+        "episode_id",
+        "summary",
+        "source_refs",
+        "storage_policy",
+        "model_runtime_policy",
+        "storage_policy_id",
+        "record_class"
+      ],
+      "properties": {
+        "message_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "episode_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "summary": {
+          "$ref": "#/$defs/nonempty_string"
+        },
+        "source_refs": {
+          "$ref": "#/$defs/string_list"
+        },
+        "storage_policy": {
+          "$ref": "#/$defs/storage_policy"
+        },
+        "model_runtime_policy": {
+          "$ref": "#/$defs/model_runtime_policy"
+        },
+        "storage_policy_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "record_class": {
+          "const": "trace"
+        }
+      }
+    },
+    "episode_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "episode_id",
+        "state",
+        "budget",
+        "safe_productive_continuations_remaining",
+        "distinguishing_checks_remaining",
+        "reason",
+        "basis_seqs",
+        "storage_policy_id",
+        "record_class"
+      ],
+      "properties": {
+        "episode_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "state": {
+          "enum": [
+            "active",
+            "model_selection_preserved",
+            "needs_input",
+            "completed",
+            "stopped",
+            "failed",
+            "unresolved_conflict"
+          ]
+        },
+        "budget": {
+          "$ref": "#/$defs/episode_budget"
+        },
+        "safe_productive_continuations_remaining": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "distinguishing_checks_remaining": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "reason": {
+          "$ref": "#/$defs/nonempty_string"
+        },
+        "basis_seqs": {
+          "$ref": "#/$defs/seq_refs"
+        },
+        "storage_policy_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "record_class": {
+          "const": "trace"
+        }
+      }
+    },
+    "pending_transition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "transition_id",
+        "transition_version",
+        "transition_object",
+        "expected_effect",
+        "status",
+        "confirmation_policy",
+        "basis_seqs",
+        "storage_policy_id",
+        "record_class"
+      ],
+      "properties": {
+        "transition_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "transition_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "transition_object": {
+          "$ref": "#/$defs/transition_object"
+        },
+        "expected_effect": {
+          "$ref": "#/$defs/expected_effect"
+        },
+        "status": {
+          "const": "awaiting_confirmation"
+        },
+        "confirmation_policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "requires_exact_transition_id",
+            "requires_exact_version",
+            "safe_checkpoint_required"
+          ],
+          "properties": {
+            "requires_exact_transition_id": {
+              "const": true
+            },
+            "requires_exact_version": {
+              "const": true
+            },
+            "safe_checkpoint_required": {
+              "const": true
+            }
+          }
+        },
+        "basis_seqs": {
+          "$ref": "#/$defs/seq_refs"
+        },
+        "storage_policy_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "record_class": {
+          "const": "trace"
+        }
+      }
+    },
+    "model_checkpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checkpoint_id",
+        "episode_id",
+        "exact_ancestor_ref",
+        "transition_id",
+        "transition_version",
+        "summary",
+        "basis_seqs",
+        "storage_policy_id",
+        "record_class"
+      ],
+      "properties": {
+        "checkpoint_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "episode_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "exact_ancestor_ref": {
+          "$ref": "#/$defs/nonempty_string"
+        },
+        "transition_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "transition_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "summary": {
+          "$ref": "#/$defs/nonempty_string"
+        },
+        "basis_seqs": {
+          "$ref": "#/$defs/seq_refs"
+        },
+        "storage_policy_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "record_class": {
+          "const": "checkpoint"
+        }
+      }
+    },
+    "model_branch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "branch_id",
+        "episode_id",
+        "parent_checkpoint_id",
+        "common_checkpoint_seq",
+        "hypothesis",
+        "difference",
+        "budget",
+        "storage_policy_id",
+        "record_class"
+      ],
+      "properties": {
+        "branch_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "episode_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "parent_checkpoint_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "common_checkpoint_seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "hypothesis": {
+          "$ref": "#/$defs/nonempty_string"
+        },
+        "difference": {
+          "$ref": "#/$defs/nonempty_string"
+        },
+        "budget": {
+          "$ref": "#/$defs/budget"
+        },
+        "storage_policy_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "record_class": {
+          "const": "candidate"
+        }
+      }
+    },
+    "model_step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "step_id",
+        "branch_id",
+        "parent_checkpoint_seq",
+        "effect_scope",
+        "operation",
+        "summary",
+        "budget_cost",
+        "input_seqs",
+        "storage_policy_id",
+        "record_class"
+      ],
+      "properties": {
+        "step_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "branch_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "parent_checkpoint_seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "effect_scope": {
+          "const": "model_only"
+        },
+        "operation": {
+          "$ref": "#/$defs/identifier"
+        },
+        "summary": {
+          "$ref": "#/$defs/nonempty_string"
+        },
+        "budget_cost": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "input_seqs": {
+          "$ref": "#/$defs/seq_refs"
+        },
+        "storage_policy_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "record_class": {
+          "const": "candidate"
+        }
+      }
+    },
+    "branch_check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "check_id",
+        "branch_id",
+        "subject_step_seq",
+        "status",
+        "summary",
+        "distinguishing_dimension",
+        "provenance_seqs",
+        "budget_cost",
+        "storage_policy_id",
+        "record_class"
+      ],
+      "properties": {
+        "check_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "branch_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "subject_step_seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "status": {
+          "enum": [
+            "passed",
+            "failed",
+            "inconclusive"
+          ]
+        },
+        "summary": {
+          "$ref": "#/$defs/nonempty_string"
+        },
+        "distinguishing_dimension": {
+          "$ref": "#/$defs/nonempty_string"
+        },
+        "provenance_seqs": {
+          "$ref": "#/$defs/seq_refs"
+        },
+        "budget_cost": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "storage_policy_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "record_class": {
+          "const": "candidate"
+        }
+      }
+    },
+    "branch_selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selection_id",
+        "status",
+        "selected_branch_id",
+        "considered_branch_ids",
+        "untested_branch_ids",
+        "ambiguity_resolved",
+        "rationale",
+        "evidence_seqs",
+        "canonical_state",
+        "storage_policy_id",
+        "record_class"
+      ],
+      "properties": {
+        "selection_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "status": {
+          "enum": [
+            "selected_in_model",
+            "recommended",
+            "selected_by_user"
+          ]
+        },
+        "selected_branch_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "considered_branch_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/identifier"
+          }
+        },
+        "untested_branch_ids": {
+          "$ref": "#/$defs/identifier_list"
+        },
+        "ambiguity_resolved": {
+          "type": "boolean"
+        },
+        "rationale": {
+          "$ref": "#/$defs/nonempty_string"
+        },
+        "evidence_seqs": {
+          "$ref": "#/$defs/seq_refs"
+        },
+        "canonical_state": {
+          "const": "candidate_only"
+        },
+        "supersedes_selection_seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "transition_response_seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "storage_policy_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "record_class": {
+          "const": "candidate"
+        }
+      }
+    },
+    "episode_checkpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checkpoint_id",
+        "episode_id",
+        "safe_for_user_signal",
+        "saved_branch_ids",
+        "selected_branch_id",
+        "transition_id",
+        "transition_version",
+        "productive_continuations_remaining",
+        "distinguishing_checks_remaining",
+        "remaining_budget",
+        "basis_seqs",
+        "storage_policy_id",
+        "record_class"
+      ],
+      "properties": {
+        "checkpoint_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "episode_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "safe_for_user_signal": {
+          "type": "boolean"
+        },
+        "saved_branch_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/identifier"
+          }
+        },
+        "selected_branch_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "transition_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "transition_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "productive_continuations_remaining": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "distinguishing_checks_remaining": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "remaining_budget": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "basis_seqs": {
+          "$ref": "#/$defs/seq_refs"
+        },
+        "storage_policy_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "record_class": {
+          "const": "checkpoint"
+        }
+      }
+    },
+    "source_event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "actor",
+        "occurred_at",
+        "evidence_ref",
+        "ingress_authorization"
+      ],
+      "properties": {
+        "event_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "actor": {
+          "const": "user"
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "evidence_ref": {
+          "$ref": "#/$defs/nonempty_string"
+        },
+        "ingress_authorization": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "purpose",
+            "policy_ref"
+          ],
+          "properties": {
+            "status": {
+              "const": "allowed"
+            },
+            "purpose": {
+              "const": "transition_response"
+            },
+            "policy_ref": {
+              "$ref": "#/$defs/nonempty_string"
+            }
+          }
+        }
+      }
+    },
+    "transition_response": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "response_id",
+        "transition_id",
+        "transition_version",
+        "checkpoint_seq",
+        "response",
+        "matching",
+        "chosen_branch_id",
+        "source_event",
+        "storage_policy_id",
+        "record_class"
+      ],
+      "properties": {
+        "response_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "transition_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "transition_version": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "checkpoint_seq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "response": {
+          "enum": [
+            "confirm",
+            "refuse",
+            "revoke"
+          ]
+        },
+        "matching": {
+          "enum": [
+            "current",
+            "stale"
+          ]
+        },
+        "chosen_branch_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "source_event": {
+          "$ref": "#/$defs/source_event"
+        },
+        "storage_policy_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "record_class": {
+          "const": "trace"
+        }
+      }
+    },
+    "transition_stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "transition_id",
+        "transition_version",
+        "stage",
+        "evidence_source",
+        "evidence_seqs",
+        "storage_policy_id",
+        "record_class"
+      ],
+      "properties": {
+        "transition_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "transition_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "stage": {
+          "enum": [
+            "closed",
+            "transition_user_confirmed",
+            "stale_response",
+            "refused",
+            "revoked",
+            "authorized",
+            "preflight_passed",
+            "executed",
+            "observed"
+          ]
+        },
+        "evidence_source": {
+          "$ref": "#/$defs/identifier"
+        },
+        "evidence_seqs": {
+          "$ref": "#/$defs/seq_refs"
+        },
+        "storage_policy_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "record_class": {
+          "const": "trace"
+        }
+      }
+    },
+    "transition_action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action_id",
+        "transition_id",
+        "transition_version",
+        "stage",
+        "effect_scope",
+        "expected_effect",
+        "evidence_source",
+        "evidence_seqs",
+        "storage_policy_id",
+        "record_class"
+      ],
+      "properties": {
+        "action_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "transition_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "transition_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "stage": {
+          "enum": [
+            "authorized",
+            "preflight_passed",
+            "executed",
+            "observed"
+          ]
+        },
+        "effect_scope": {
+          "const": "external"
+        },
+        "expected_effect": {
+          "$ref": "#/$defs/expected_effect"
+        },
+        "evidence_source": {
+          "$ref": "#/$defs/identifier"
+        },
+        "evidence_seqs": {
+          "$ref": "#/$defs/seq_refs"
+        },
+        "storage_policy_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "record_class": {
+          "const": "trace"
+        }
+      }
+    },
+    "external_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evidence_id",
+        "transition_id",
+        "transition_version",
+        "evidence_kind",
+        "outcome",
+        "source_ref",
+        "expected_effect",
+        "basis_seqs",
+        "storage_policy_id",
+        "record_class"
+      ],
+      "properties": {
+        "evidence_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "transition_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "transition_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "evidence_kind": {
+          "enum": [
+            "authority_decision",
+            "current_state_preflight",
+            "execution_receipt",
+            "result_observation"
+          ]
+        },
+        "outcome": {
+          "enum": [
+            "allowed",
+            "passed",
+            "succeeded",
+            "observed"
+          ]
+        },
+        "source_ref": {
+          "$ref": "#/$defs/nonempty_string"
+        },
+        "expected_effect": {
+          "$ref": "#/$defs/expected_effect"
+        },
+        "basis_seqs": {
+          "$ref": "#/$defs/seq_refs"
+        },
+        "storage_policy_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "record_class": {
+          "const": "trace"
+        }
+      }
+    }
+  }
+}

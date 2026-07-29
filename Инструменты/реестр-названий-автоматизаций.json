@@ -144,6 +144,11 @@
       "source": "ревью проделанной работы",
       "transliteration": "revjyu prodelannoj rabotyi",
       "slug": "fum-revjyu-prodelannoj-rabotyi"
+    },
+    {
+      "source": "проверка трассы агентского цикла",
+      "transliteration": "proverka trassyi agentskogo cikla",
+      "slug": "fum-proverka-trassyi-agentskogo-cikla"
     }
   ],
   "display": [

@@ -33,6 +33,7 @@
 - [fum-moskovskoye-vremya-rabochej-sessii](fum-moskovskoye-vremya-rabochej-sessii/SKILL.md) - формирует согласованные имя и заголовочную метку рабочей сессии в зоне `Europe/Moscow` независимо от зоны хоста.
 - [fum-svyaznostj-rabochej-sessii](fum-svyaznostj-rabochej-sessii/SKILL.md) - проверяет связность [рабочей сессии](../Глоссарий/рабочая-сессия.md): навигацию запросов, журнальный профиль со всеми прямыми проверочными вызовами и их арифметической суммой, корневой Codex-Thread-ID в запросе и теле коммита, использование канонического MSK-времени, квалифицированную запись инструментов, Markdown-ссылки, регистр путей, формальный конечный `?` материалов `Вопросы и ответы/`, сигналы мета-запросов, нижнее расположение справочных блоков и Git-состояние.
 - [fum-kompleksnaya-proverka-repozitoriya](fum-kompleksnaya-proverka-repozitoriya/SKILL.md) - запускает единый локальный smoke-check с длительностями подготовки, каждого шага и полного процесса: сохранность настройки изоляции и локальность путей навыков, тесты автоматизаций, пересборку проверяемых реестров, полноту корневого README, двунаправленность вопросов, recency-проверку и связность выбранной рабочей сессии.
+- [fum-proverka-trassyi-agentskogo-cikla](fum-proverka-trassyi-agentskogo-cikla/SKILL.md) - валидирует локальные трассы версии `3` с независимыми состояниями эпизода, модельной ветви, ожидающего перехода и внешнего исполнения без сети, секретов, живой LLM и физических эффектов.
 - [fum-revjyu-prodelannoj-rabotyi](fum-revjyu-prodelannoj-rabotyi/SKILL.md) - создаёт и проверяет сохранённые ревью проделанной работы: Git-срез, находки, проверки, остаточные риски и вывод.
 
 ## Проверки
@@ -69,10 +70,12 @@
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-moskovskoye-vremya-rabochej-sessii/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-moskovskoye-vremya-rabochej-sessii`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-svyaznostj-rabochej-sessii/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-svyaznostj-rabochej-sessii`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-kompleksnaya-proverka-repozitoriya/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-kompleksnaya-proverka-repozitoriya`.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-proverka-trassyi-agentskogo-cikla/tests -p 'test_*.py'` - локальные тесты схемы, фикстур и межсобытийных инвариантов трассы агентского цикла версии `3`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-revjyu-prodelannoj-rabotyi/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-revjyu-prodelannoj-rabotyi`.
 
 ## Источники требований
 
+- [исходный запрос 2026-07-29 14:32:38 MSK — Закрепить неблокирующее модельное ветвление](../Запросы/2026-07-29_14-32-38_MSK_закрепить-неблокирующее-модельное-ветвление.md)
 - [исходный запрос 2026-07-29 09:04:03 MSK — Расширить динамический выбор следующего шага](../Запросы/2026-07-29_09-04-03_MSK_расширить-динамический-выбор-следующего-шага.md)
 - [исходный запрос 2026-07-27 18:28:42 MSK - Выбирать следующий шаг при запуске с учётом истории коммитов](../Запросы/2026-07-27_18-28-42_MSK_выбирать-следующий-шаг-при-запуске-с-учётом-истории-коммитов.md)
 - [исходный запрос 2026-07-27 16:12:29 MSK - Учитывать все проверочные вызовы в профиле времени](../Запросы/2026-07-27_16-12-29_MSK_учитывать-все-проверочные-вызовы-в-профиле-времени.md)
@@ -90,6 +93,6 @@
 - [исходный запрос 2026-07-22 03:38:35 MSK - Разрешить выполнение доступных карточек шагов](../Запросы/2026-07-22_03-38-35_MSK_разрешить-выполнение-доступных-карточек-шагов.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-29 10:09:26 MSK -->
-<!-- content-sha256: sha256:b487636da4901eb927d21bf5cd3c08c91bfec798569df17fb56f4081f2413f78 -->
+<!-- last-content-edit: 2026-07-29 16:02:08 MSK -->
+<!-- content-sha256: sha256:6ee050273c9345e97cead643a6df505b0bca28af2890c848d31ac2c41c3a5f01 -->
 <!-- FUM-MD-RECENCY:END -->
