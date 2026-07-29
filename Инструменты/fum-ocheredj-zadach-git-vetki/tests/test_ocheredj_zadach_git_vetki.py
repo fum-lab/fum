@@ -195,6 +195,16 @@ class GitQueueFixture(unittest.TestCase):
             "--json",
         )
 
+    def finish_own_clean(self, task_id: str):
+        return self.run_queue(
+            "finish-own-clean",
+            "--repo-root",
+            str(self.repo),
+            "--task-id",
+            task_id,
+            "--json",
+        )
+
     def stage_change(self, value: str) -> None:
         (self.repo / "tracked.txt").write_text(value, encoding="utf-8")
         self.git("add", "tracked.txt")
@@ -747,6 +757,118 @@ class QueueSafetyTests(GitQueueFixture):
         self.assertEqual(replay.returncode, 0, replay.stderr)
         self.assertEqual(self.payload(replay)["state"], "finished_clean")
         self.assertEqual(self.payload(replay)["head"], old_head)
+
+    def test_finish_own_clean_cli_captures_generation_and_hands_off(self) -> None:
+        _, owner = self.join("task-a")
+        self.join("task-b")
+        old_head = self.git("rev-parse", "HEAD").stdout.strip()
+
+        finished = self.finish_own_clean("task-a")
+
+        self.assertEqual(finished.returncode, 0, finished.stderr)
+        payload = self.payload(finished)
+        self.assertEqual(payload["state"], "finished_clean")
+        self.assertEqual(payload["task_id"], "task-a")
+        self.assertEqual(payload["generation"], owner["generation"])
+        self.assertEqual(payload["head"], old_head)
+
+        admitted, admitted_payload = self.wait("task-b")
+        self.assertEqual(admitted.returncode, 0, admitted.stderr)
+        self.assertEqual(admitted_payload["state"], "admitted")
+
+    def test_finish_own_clean_rejects_foreign_and_missing_owner(self) -> None:
+        _, owner = self.join("task-a")
+
+        foreign = self.finish_own_clean("task-b")
+
+        self.assertNotEqual(foreign.returncode, 0)
+        self.assertEqual(self.payload(foreign)["state"], "not_owner")
+        active = self.payload(self.run_queue(
+            "status", "--repo-root", str(self.repo), "--json"
+        ))
+        self.assertEqual(active["owner"]["task_id"], "task-a")
+        self.assertEqual(active["owner"]["generation"], owner["generation"])
+
+        finished = self.finish_own_clean("task-a")
+        self.assertEqual(finished.returncode, 0, finished.stderr)
+
+        missing = self.finish_own_clean("task-a")
+        self.assertNotEqual(missing.returncode, 0)
+        self.assertEqual(self.payload(missing)["state"], "not_owner")
+
+    def test_finish_own_clean_preserves_dirty_staged_and_head_fences(self) -> None:
+        _, owner = self.join("task-a")
+
+        untracked_path = self.repo / "untracked.txt"
+        untracked_path.write_text("untracked dirt\n", encoding="utf-8")
+        untracked = self.finish_own_clean("task-a")
+
+        self.assertNotEqual(untracked.returncode, 0)
+        untracked_payload = self.payload(untracked)
+        self.assertEqual(untracked_payload["state"], "dirty")
+        self.assertIn("untracked.txt", untracked_payload["blocking_paths"])
+        untracked_path.unlink()
+
+        (self.repo / "tracked.txt").write_text("unstaged dirt\n", encoding="utf-8")
+        unstaged = self.finish_own_clean("task-a")
+
+        self.assertNotEqual(unstaged.returncode, 0)
+        unstaged_payload = self.payload(unstaged)
+        self.assertEqual(unstaged_payload["state"], "dirty")
+        self.assertIn("tracked.txt", unstaged_payload["blocking_paths"])
+        self.git("restore", "tracked.txt")
+
+        self.stage_change("staged dirt\n")
+
+        dirty = self.finish_own_clean("task-a")
+
+        self.assertNotEqual(dirty.returncode, 0)
+        dirty_payload = self.payload(dirty)
+        self.assertEqual(dirty_payload["state"], "dirty")
+        self.assertIn("tracked.txt", dirty_payload["blocking_paths"])
+        self.git("restore", "--staged", "tracked.txt")
+        self.git("restore", "tracked.txt")
+
+        self.git("commit", "--allow-empty", "-m", "Concurrent head move")
+        moved_head = self.git("rev-parse", "HEAD").stdout.strip()
+        changed = self.finish_own_clean("task-a")
+
+        self.assertNotEqual(changed.returncode, 0)
+        changed_payload = self.payload(changed)
+        self.assertEqual(changed_payload["state"], "head_changed")
+        self.assertEqual(changed_payload["expected_head"], owner["base_head"])
+        self.assertEqual(changed_payload["current_head"], moved_head)
+        active = self.payload(self.run_queue(
+            "status", "--repo-root", str(self.repo), "--json"
+        ))
+        self.assertEqual(active["owner"]["task_id"], "task-a")
+        self.assertEqual(active["owner"]["generation"], owner["generation"])
+
+    def test_finish_own_clean_fails_closed_if_generation_changes_after_capture(self) -> None:
+        module = load_queue_module()
+        _, owner = self.join("task-a")
+        context = module.resolve_context(self.repo)
+        initial_state, queue_oid = module.read_state(context)
+        raced_state = json.loads(json.dumps(initial_state))
+        raced_state["owner"]["generation"] = "raced-generation"
+
+        with mock.patch.object(
+            module,
+            "read_state",
+            side_effect=[
+                (initial_state, queue_oid),
+                (raced_state, queue_oid),
+            ],
+        ):
+            with self.assertRaises(module.QueueError) as raised:
+                module.finish_own_clean_and_handoff(context, "task-a")
+
+        self.assertEqual(raised.exception.state, "not_owner")
+        active = self.payload(self.run_queue(
+            "status", "--repo-root", str(self.repo), "--json"
+        ))
+        self.assertEqual(active["owner"]["task_id"], "task-a")
+        self.assertEqual(active["owner"]["generation"], owner["generation"])
 
     def test_finish_clean_atomically_verifies_the_branch_head(self) -> None:
         module = load_queue_module()

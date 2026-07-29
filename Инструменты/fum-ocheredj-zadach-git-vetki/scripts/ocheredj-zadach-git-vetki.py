@@ -1160,6 +1160,25 @@ def finish_clean_and_handoff(
     raise QueueError(EXIT_CAS, "cas_conflict", "Не удалось чисто завершить задачу.")
 
 
+def finish_own_clean_and_handoff(
+    context: QueueContext,
+    task_id: str,
+) -> tuple[int, dict[str, object]]:
+    task_id = validate_task_id(task_id)
+    ensure_live_branch(context)
+    state, _ = read_state(context)
+    state = ensure_state_identity(context, state, allow_idle_rebind=False)
+    owner = state["owner"]
+    if not isinstance(owner, dict) or owner["task_id"] != task_id:
+        raise QueueError(
+            EXIT_OWNERSHIP,
+            "not_owner",
+            "Задача не является текущим владельцем очереди.",
+        )
+    generation = str(owner["generation"])
+    return finish_clean_and_handoff(context, task_id, generation)
+
+
 def atomic_commit_and_handoff(
     context: QueueContext,
     task_id: str,
@@ -1929,6 +1948,17 @@ def build_parser() -> argparse.ArgumentParser:
     finish_clean.add_argument("--task-id", required=True)
     finish_clean.add_argument("--generation", required=True)
 
+    finish_own_clean = subparsers.add_parser(
+        "finish-own-clean",
+        help=(
+            "Чисто завершить точно своего текущего владельца, не перенося generation "
+            "через модель."
+        ),
+        allow_abbrev=False,
+    )
+    add_common(finish_own_clean)
+    finish_own_clean.add_argument("--task-id", required=True)
+
     commit = subparsers.add_parser(
         "commit",
         help="Атомарно создать коммит и передать право следующей задаче.",
@@ -2006,6 +2036,11 @@ def main(argv: list[str] | None = None) -> int:
                 context,
                 args.task_id,
                 args.generation,
+            )
+        elif args.command == "finish-own-clean":
+            code, payload = finish_own_clean_and_handoff(
+                context,
+                args.task_id,
             )
         elif args.command == "commit":
             code, payload = atomic_commit_and_handoff(
