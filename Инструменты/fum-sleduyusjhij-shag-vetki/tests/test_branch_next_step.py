@@ -960,7 +960,7 @@ class BranchNextStepTests(unittest.TestCase):
             "каждая запись объединённого снимка имеет известное состояние",
             first_inventory,
         )
-        self.assertIn("unavailableHosts пуст", first_inventory)
+        self.assertIn("если поле `unavailableHosts` присутствует", first_inventory)
         self.assertIn(
             "среди всех остальных записей объединённого снимка нет ни одной "
             "со status=active",
@@ -982,7 +982,7 @@ class BranchNextStepTests(unittest.TestCase):
             "появилась другая active-задача",
             second_inventory,
         )
-        self.assertIn("unavailableHosts пуст", second_inventory)
+        self.assertIn("опциональное `unavailableHosts`", second_inventory)
 
     def test_heartbeat_normalizes_each_thread_snapshot_exactly_once(
         self,
@@ -997,8 +997,7 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertIsNotNone(template_match)
         template = template_match.group("template")
         transport_match = re.search(
-            r"Ответы codex_app\.list_threads и codex_app\.list_projects "
-            r"(?P<contract>.*?)\n\nРаботай fail-closed:",
+            r"Ответы `codex_app` (?P<contract>.*?)\n\nРаботай fail-closed:",
             template,
             flags=re.DOTALL,
         )
@@ -1028,16 +1027,16 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertIn("не массивом и не null", transport)
         self.assertIn("повторный разбор", normalized_transport)
         self.assertIn("Markdown", transport)
-        self.assertIn("префикса или суффикса", transport)
-        self.assertIn("wrapper-поля", transport)
-        self.assertIn("останавливает тик до claim", transport)
+        self.assertIn("префикс", transport)
+        self.assertIn("суффикс", transport)
+        self.assertIn("wrapper-поле", transport)
+        self.assertIn("тайм-аут завершает тик до claim", transport)
 
         for inventory in (first_inventory, second_inventory):
             self.assertIn("транспортное правило выше", inventory)
-            self.assertIn("unavailableHosts пуст", inventory)
 
         self.assertIn(
-            "независимо примени к новому ответу транспортное правило выше",
+            "независимо примени транспортное правило выше",
             second_inventory,
         )
 
@@ -1063,7 +1062,41 @@ class BranchNextStepTests(unittest.TestCase):
         project_inventory = project_inventory_match.group("step")
 
         self.assertIn("транспортное правило выше", project_inventory)
-        self.assertIn("ровно один локальный сохранённый проект", project_inventory)
+        self.assertIn(
+            "ровно один локальный сохранённый Git-проект",
+            project_inventory,
+        )
+
+    def test_heartbeat_runs_host_reads_inside_bounded_orchestration(self) -> None:
+        prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+
+        self.assertIn("внутри `functions.exec`", prompt)
+        self.assertIn("`tools.codex_app__list_threads({limit: 50})`", prompt)
+        self.assertIn("`tools.codex_app__list_projects({})`", prompt)
+        self.assertIn("внутри того же JavaScript-вызова", prompt)
+        self.assertIn("`Promise.race`", prompt)
+        self.assertIn("60 000 мс", prompt)
+        self.assertIn("Внешний ответ `functions.exec` не является host-ответом", prompt)
+        self.assertIn("тайм-аут завершает тик до claim", prompt)
+        self.assertIn("если поле `unavailableHosts` присутствует", prompt)
+        self.assertNotIn("требуй, чтобы unavailableHosts пуст", prompt)
+        self.assertNotIn("проверь, что unavailableHosts пуст", prompt)
+
+    def test_heartbeat_uses_exact_nested_create_thread_contract(self) -> None:
+        prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+
+        self.assertIn("`tools.codex_app__create_thread", prompt)
+        self.assertNotIn("вызови codex_app.create_thread", prompt)
+        self.assertIn(
+            'target: {type: "project", projectId, '
+            'environment: {type: "local"}}',
+            prompt,
+        )
+        self.assertIn("не передавай `model` или `thinking`", prompt)
+        self.assertIn("непустыми `threadId` и `hostId`", prompt)
+        self.assertIn("непустой `clientThreadId`", prompt)
+        self.assertIn("ошибка или тайм-аут остаются неоднозначными", prompt)
+        self.assertIn("не освобождай claim", prompt)
 
     def test_heartbeat_template_stays_within_live_repair_budget(self) -> None:
         document = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
@@ -1124,12 +1157,19 @@ class BranchNextStepTests(unittest.TestCase):
         )
         self.assertIn("--expected-selection-id", prompt)
         structural_validation = prompt.index("branch-next-step.py validate")
-        project_lookup = prompt.index("Вызови codex_app.list_projects")
-        second_inventory = prompt.index("Снова вызови codex_app.list_threads")
+        project_lookup = prompt.index(
+            "5. Внутри `functions.exec` вызови "
+            "`tools.codex_app__list_projects({})`"
+        )
+        second_inventory = prompt.index(
+            "6. Снова внутри `functions.exec` вызови "
+            "`tools.codex_app__list_threads({limit: 50})`"
+        )
         dynamic_show = prompt.index("branch-next-step.py show")
         claim = prompt.index("Выполни `python3 -I -c")
         create_thread = prompt.index(
-            "После этой проверки вызови codex_app.create_thread"
+            "После этой проверки внутри `functions.exec` вызови "
+            "`tools.codex_app__create_thread"
         )
         self.assertLess(structural_validation, project_lookup)
         self.assertLess(project_lookup, second_inventory)
