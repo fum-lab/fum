@@ -3988,10 +3988,10 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertEqual(shown.returncode, 0, shown.stdout + shown.stderr)
         shown_payload = self.payload(shown)
         self.assertEqual(shown_payload["state"], "ready")
-        self.assertEqual(shown_payload["card_id"], "FUM-STEP-0103")
+        self.assertEqual(shown_payload["card_id"], "FUM-STEP-0107")
         self.assertEqual(
             shown_payload["step_id"],
-            "master-fum-step-0103-automatic-v4",
+            "master-fum-step-0107-automatic-v1",
         )
         self.assertEqual(shown_payload["dispatch"], "automatic")
         self.assertEqual(shown_payload["selection"]["ready_count"], 1)
