@@ -960,6 +960,7 @@ class BranchNextStepTests(unittest.TestCase):
             "каждая запись объединённого снимка имеет известное состояние",
             first_inventory,
         )
+        self.assertIn("unavailableHosts пуст", first_inventory)
         self.assertIn(
             "среди всех остальных записей объединённого снимка нет ни одной "
             "со status=active",
@@ -981,6 +982,104 @@ class BranchNextStepTests(unittest.TestCase):
             "появилась другая active-задача",
             second_inventory,
         )
+        self.assertIn("unavailableHosts пуст", second_inventory)
+
+    def test_heartbeat_normalizes_each_thread_snapshot_exactly_once(
+        self,
+    ) -> None:
+        document = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+        template_match = re.search(
+            r"## Шаблон\n\n```text\n(?P<template>.*?)\n```",
+            document,
+            flags=re.DOTALL,
+        )
+
+        self.assertIsNotNone(template_match)
+        template = template_match.group("template")
+        transport_match = re.search(
+            r"Ответы codex_app\.list_threads и codex_app\.list_projects "
+            r"(?P<contract>.*?)\n\nРаботай fail-closed:",
+            template,
+            flags=re.DOTALL,
+        )
+        first_inventory_match = re.search(
+            r"^2\. (?P<step>.*?)\n3\. ",
+            template,
+            flags=re.DOTALL | re.MULTILINE,
+        )
+        second_inventory_match = re.search(
+            r"^6\. (?P<step>.*?)\n7\. ",
+            template,
+            flags=re.DOTALL | re.MULTILINE,
+        )
+
+        self.assertIsNotNone(transport_match)
+        self.assertIsNotNone(first_inventory_match)
+        self.assertIsNotNone(second_inventory_match)
+        transport = transport_match.group("contract")
+        first_inventory = first_inventory_match.group("step")
+        second_inventory = second_inventory_match.group("step")
+
+        normalized_transport = transport.lower()
+        self.assertEqual(template.count("одно транспортное правило"), 1)
+        self.assertIn("JSON-объект", transport)
+        self.assertIn("полный JSON-текст", transport)
+        self.assertIn("строго один раз", transport)
+        self.assertIn("не массивом и не null", transport)
+        self.assertIn("повторный разбор", normalized_transport)
+        self.assertIn("Markdown", transport)
+        self.assertIn("префикса или суффикса", transport)
+        self.assertIn("wrapper-поля", transport)
+        self.assertIn("останавливает тик до claim", transport)
+
+        for inventory in (first_inventory, second_inventory):
+            self.assertIn("транспортное правило выше", inventory)
+            self.assertIn("unavailableHosts пуст", inventory)
+
+        self.assertIn(
+            "независимо примени к новому ответу транспортное правило выше",
+            second_inventory,
+        )
+
+    def test_heartbeat_normalizes_project_inventory_exactly_once(
+        self,
+    ) -> None:
+        document = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+        template_match = re.search(
+            r"## Шаблон\n\n```text\n(?P<template>.*?)\n```",
+            document,
+            flags=re.DOTALL,
+        )
+
+        self.assertIsNotNone(template_match)
+        template = template_match.group("template")
+        project_inventory_match = re.search(
+            r"^5\. (?P<step>.*?)\n6\. ",
+            template,
+            flags=re.DOTALL | re.MULTILINE,
+        )
+
+        self.assertIsNotNone(project_inventory_match)
+        project_inventory = project_inventory_match.group("step")
+
+        self.assertIn("транспортное правило выше", project_inventory)
+        self.assertIn("ровно один локальный сохранённый проект", project_inventory)
+
+    def test_heartbeat_template_stays_within_live_repair_budget(self) -> None:
+        document = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+        template_match = re.search(
+            r"## Шаблон\n\n```text\n(?P<template>.*?)\n```",
+            document,
+            flags=re.DOTALL,
+        )
+
+        self.assertIsNotNone(template_match)
+        rendered = template_match.group("template").replace(
+            "<КОРЕНЬ_КЛОНА>",
+            str(REPO_ROOT.resolve()),
+        )
+        self.assertNotIn("<КОРЕНЬ_КЛОНА>", rendered)
+        self.assertLessEqual(len(rendered), 14_722)
 
     def test_heartbeat_computes_readiness_before_history_ranking(self) -> None:
         prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")

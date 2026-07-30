@@ -443,6 +443,19 @@ class HeartbeatControlContractTests(unittest.TestCase):
             self.assertIn("Штатный `Stop`/`Start`", text)
             self.assertRegex(text, r"не вызыва\w* renderer|renderer не вызыва")
 
+    def test_replacement_repair_has_closed_diff_and_verified_recovery_attempt(
+        self,
+    ) -> None:
+        prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+        skill = SKILL_PATH.read_text(encoding="utf-8")
+
+        for text in (prompt, skill):
+            self.assertIn("`id`, `name`, `prompt`, `created_at` и `updated_at`", text)
+            self.assertIn("любое неизвестное поле закрывает замену", text)
+            self.assertIn("обязательную попытку восстановления", text)
+            self.assertIn("не гарантирует её успех", text)
+            self.assertIn("аварийным неуспехом", text)
+
 
 if __name__ == "__main__":
     unittest.main()
