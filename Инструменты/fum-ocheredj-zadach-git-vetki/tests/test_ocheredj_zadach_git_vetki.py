@@ -205,12 +205,94 @@ class GitQueueFixture(unittest.TestCase):
             "--json",
         )
 
+    def heartbeat_status(self, task_id: str):
+        return self.run_queue(
+            "heartbeat-status",
+            "--repo-root",
+            str(self.repo),
+            "--task-id",
+            task_id,
+            "--json",
+        )
+
     def stage_change(self, value: str) -> None:
         (self.repo / "tracked.txt").write_text(value, encoding="utf-8")
         self.git("add", "tracked.txt")
 
 
 class QueueContractTests(GitQueueFixture):
+    def test_heartbeat_status_reports_exact_idle_without_opaque_fields(self) -> None:
+        result = self.heartbeat_status("heartbeat-task")
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(self.payload(result), {"state": "idle"})
+
+    def test_heartbeat_status_reports_idle_after_completed_manual_session(
+        self,
+    ) -> None:
+        _, manual = self.join("manual-task")
+        self.stage_change("completed manual session\n")
+        completed = self.commit("manual-task", str(manual["generation"]))
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+
+        status = self.payload(
+            self.run_queue("status", "--repo-root", str(self.repo), "--json")
+        )
+        stored = json.loads(
+            self.git("cat-file", "blob", str(status["queue_oid"])).stdout
+        )
+        self.assertEqual(stored["next_seq"], 2)
+        self.assertIsNotNone(stored["last_completion"])
+        self.assertIsNone(stored["owner"])
+        self.assertEqual(stored["waiting"], [])
+
+        result = self.heartbeat_status("heartbeat-task")
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(self.payload(result), {"state": "idle"})
+
+    def test_heartbeat_status_distinguishes_own_and_foreign_owner(self) -> None:
+        self.join("heartbeat-task")
+        before = self.payload(
+            self.run_queue("status", "--repo-root", str(self.repo), "--json")
+        )
+
+        own = self.heartbeat_status("heartbeat-task")
+        foreign = self.heartbeat_status("foreign-heartbeat-task")
+        after = self.payload(
+            self.run_queue("status", "--repo-root", str(self.repo), "--json")
+        )
+
+        self.assertEqual(own.returncode, 0, own.stderr)
+        self.assertEqual(self.payload(own), {"state": "own_owner"})
+        self.assertEqual(foreign.returncode, 0, foreign.stderr)
+        self.assertEqual(self.payload(foreign), {"state": "busy"})
+        self.assertEqual(after["queue_oid"], before["queue_oid"])
+
+    def test_heartbeat_status_reports_busy_for_own_or_foreign_waiter(self) -> None:
+        _, owner = self.join("owner-task")
+        self.join("heartbeat-task")
+        self.join("foreign-waiter-task")
+        finished = self.finish_clean("owner-task", str(owner["generation"]))
+        self.assertEqual(finished.returncode, 0, finished.stderr)
+
+        own_waiter = self.heartbeat_status("heartbeat-task")
+        foreign_waiter = self.heartbeat_status("unregistered-heartbeat-task")
+
+        self.assertEqual(own_waiter.returncode, 0, own_waiter.stderr)
+        self.assertEqual(self.payload(own_waiter), {"state": "busy"})
+        self.assertEqual(foreign_waiter.returncode, 0, foreign_waiter.stderr)
+        self.assertEqual(self.payload(foreign_waiter), {"state": "busy"})
+
+    def test_heartbeat_status_keeps_own_owner_with_waiting_successors(self) -> None:
+        self.join("heartbeat-task")
+        self.join("foreign-waiter-task")
+
+        result = self.heartbeat_status("heartbeat-task")
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(self.payload(result), {"state": "own_owner"})
+
     def test_first_join_is_admitted_and_repeated_join_is_idempotent(self) -> None:
         first, first_payload = self.join("task-a")
         repeated, repeated_payload = self.join("task-a")

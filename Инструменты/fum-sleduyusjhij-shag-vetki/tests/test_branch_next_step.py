@@ -906,6 +906,47 @@ class BranchNextStepTests(unittest.TestCase):
             prompt,
         )
 
+    def test_heartbeat_queue_gate_explicitly_continues_on_primary_idle(
+        self,
+    ) -> None:
+        document = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+        template_match = re.search(
+            r"## Шаблон\n\n```text\n(?P<template>.*?)\n```",
+            document,
+            flags=re.DOTALL,
+        )
+
+        self.assertIsNotNone(template_match)
+        template = template_match.group("template")
+        first_inventory_match = re.search(
+            r"^2\. (?P<step>.*?)\n3\. ",
+            template,
+            flags=re.DOTALL | re.MULTILINE,
+        )
+
+        self.assertIsNotNone(first_inventory_match)
+        queue_gate = first_inventory_match.group("step")
+        self.assertIn(
+            'heartbeat-status --task-id "$CODEX_THREAD_ID" --json',
+            queue_gate,
+        )
+        self.assertRegex(
+            queue_gate,
+            r"state=idle.*подтверждает свободную очередь.*продолжай",
+        )
+        self.assertRegex(
+            queue_gate,
+            r"state=own_owner.*[Рр]овно один.*finish-own-clean"
+            r".*повтори.*heartbeat-status.*только.*state=idle",
+        )
+        self.assertRegex(
+            queue_gate,
+            r"state=busy.*заверши",
+        )
+        self.assertIn("не разбирай", queue_gate)
+        self.assertNotIn("`status --json`", queue_gate)
+        self.assertNotIn("пустых owner и waiting", queue_gate)
+
     def test_heartbeat_validates_the_unified_schema_v2_thread_snapshot(
         self,
     ) -> None:

@@ -464,6 +464,14 @@ class HeartbeatControlContractTests(unittest.TestCase):
         skill = SKILL_PATH.read_text(encoding="utf-8")
 
         for text in (prompt, skill):
+            self.assertIn(
+                'heartbeat-status --task-id "$CODEX_THREAD_ID" --json',
+                text,
+            )
+            self.assertIn("state=idle", text)
+            self.assertIn("state=own_owner", text)
+            self.assertIn("state=busy", text)
+            self.assertIn("не разбир", text)
             self.assertIn("собственн", text)
             self.assertIn("незаверш", text)
             self.assertIn("finish-own-clean", text)
@@ -475,11 +483,17 @@ class HeartbeatControlContractTests(unittest.TestCase):
 
         template = RENDERER.extract_heartbeat_template(prompt)
         identity = template.index("доказательства точной собственной")
+        queue_probe = template.index("heartbeat-status --task-id")
+        initial_idle = template.index("state=idle")
         recovery = template.index("finish-own-clean")
+        busy = template.index("state=busy")
         active_exit = template.index(
             "Исключи только эту собственную запись по точному id"
         )
-        self.assertLess(identity, recovery)
+        self.assertLess(identity, queue_probe)
+        self.assertLess(queue_probe, initial_idle)
+        self.assertLess(initial_idle, recovery)
+        self.assertLess(recovery, busy)
         self.assertLess(recovery, active_exit)
 
     def test_permission_retry_is_exact_and_requires_proven_denial(self) -> None:

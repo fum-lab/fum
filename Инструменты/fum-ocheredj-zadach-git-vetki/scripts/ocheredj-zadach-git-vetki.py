@@ -1877,6 +1877,23 @@ def queue_status(context: QueueContext) -> tuple[int, dict[str, object]]:
     }
 
 
+def heartbeat_status(
+    context: QueueContext,
+    task_id: str,
+) -> tuple[int, dict[str, object]]:
+    task_id = validate_task_id(task_id)
+    _, status = queue_status(context)
+    owner = status["owner"]
+    waiting = status["waiting"]
+    if isinstance(owner, dict) and owner["task_id"] == task_id:
+        observed_state = "own_owner"
+    elif owner is None and not waiting:
+        observed_state = "idle"
+    else:
+        observed_state = "busy"
+    return 0, {"state": observed_state}
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Переносимая последовательная очередь корневых задач Codex в Git worktree.",
@@ -1892,6 +1909,14 @@ def build_parser() -> argparse.ArgumentParser:
         "status", help="Показать состояние очереди.", allow_abbrev=False
     )
     add_common(status)
+
+    heartbeat_status_parser = subparsers.add_parser(
+        "heartbeat-status",
+        help="Вернуть узкое состояние очереди для heartbeat без непрозрачных полей.",
+        allow_abbrev=False,
+    )
+    add_common(heartbeat_status_parser)
+    heartbeat_status_parser.add_argument("--task-id", required=True)
 
     join = subparsers.add_parser(
         "join",
@@ -2017,6 +2042,8 @@ def main(argv: list[str] | None = None) -> int:
         context = resolve_context(args.repo_root)
         if args.command == "status":
             code, payload = queue_status(context)
+        elif args.command == "heartbeat-status":
+            code, payload = heartbeat_status(context, args.task_id)
         elif args.command == "join":
             code, payload = join_queue(context, args.task_id)
         elif args.command == "wait":
