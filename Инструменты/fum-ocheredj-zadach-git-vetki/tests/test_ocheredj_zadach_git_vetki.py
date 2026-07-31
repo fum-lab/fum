@@ -1692,7 +1692,6 @@ class RepositoryIntegrationTests(unittest.TestCase):
             "ack-head",
             "finish-clean",
             "commit",
-            "publish",
         ]:
             self.assertIn(f"`{command}`", agents)
         self.assertIn("порядке атомарной регистрации", agents)
@@ -1715,9 +1714,13 @@ class RepositoryIntegrationTests(unittest.TestCase):
         self.assertIn("Прямой вызов", skill)
         self.assertIn("--timeout-seconds 300", skill)
         self.assertIn("wait-until-actionable", skill)
-        self.assertIn(PUBLICATION_BOOTSTRAP_CODE, skill)
-        self.assertIn("<new_head>:<branch_ref>", agents)
-        self.assertIn("<new_head>:<branch_ref>", skill)
+        for text in (agents, skill):
+            self.assertIn("Ручной push пользователя", text)
+            self.assertIn("не предоставляет полномочий", text)
+            self.assertIn("не входит в обычный протокол `master`", text)
+        self.assertIn("Состояние remote не используется как gate готовности", agents)
+        self.assertIn("Remote не является условием готовности", skill)
+        self.assertIn("отдельного явно разрешённого транспортного действия", skill)
 
         self.assertIn("один долгоживущий `wait-until-actionable`", agents)
         self.assertIn("не отправляет промежуточные сообщения", agents)

@@ -18,7 +18,7 @@
 - [fum-ocenki](fum-ocenki/SKILL.md) - создаёт и проверяет оценочные материалы `Оценки/` со снимком репозитория, методикой, диапазонами, допущениями, ограничениями точности и оформлением результата.
 - [fum-glossarij](fum-glossarij/SKILL.md) - поддерживает глоссарий FUM по локальным правилам именования и ссылок.
 - [fum-svezhestj-markdown](fum-svezhestj-markdown/SKILL.md) - обновляет служебные метки последнего содержательного редактирования во всех Markdown-файлах и собирает индекс `.md`-файлов от свежих к старым.
-- [fum-ocheredj-zadach-git-vetki](fum-ocheredj-zadach-git-vetki/SKILL.md) - последовательно допускает корневые задачи одного worktree в порядке атомарной регистрации, завершает владение атомарным commit+handoff и публикует точный созданный коммит в GitHub без project hooks и POSIX-блокировок.
+- [fum-ocheredj-zadach-git-vetki](fum-ocheredj-zadach-git-vetki/SKILL.md) - последовательно допускает корневые задачи одного worktree в порядке атомарной регистрации и завершает владение локальным атомарным commit+handoff без автоматической публикации `master`; ручной `push` остаётся отдельным пользовательским подтверждением.
 - [fum-svezhestj-grafa-obsidian](fum-svezhestj-grafa-obsidian/SKILL.md) - обновляет группы цвета графа Obsidian как тепловую карту Markdown-узлов по времени последнего содержательного редактирования.
 - [fum-reyestr-planirovaniya](fum-reyestr-planirovaniya/SKILL.md) - собирает и проверяет машинно читаемый JSON-реестр и безопасно переименовывает карточки шагов с обновлением живых текстовых путей.
 - [fum-proyektnyiye-fajlyi](fum-proyektnyiye-fajlyi/SKILL.md) - задаёт общий воспроизводимый инвентарь проектных Markdown-файлов и безопасные границы выходных путей служебных автоматизаций.
@@ -50,7 +50,7 @@
 - `python3 -I -c "import os,subprocess,sys;p='Инструменты/fum-ocheredj-zadach-git-vetki/scripts/ocheredj-zadach-git-vetki.py';r=sys.argv[1];e={k:v for k,v in os.environ.items() if not k.upper().startswith('GIT_')};e['GIT_NO_REPLACE_OBJECTS']='1';e['GIT_OPTIONAL_LOCKS']='0';b=subprocess.check_output(['git','--no-replace-objects','-C',r,'show','HEAD:'+p],env=e,timeout=30);sys.argv=[p,*sys.argv[2:],'--repo-root',r];exec(compile(b,p,'exec'))" . heartbeat-status --task-id <корневой-CODEX_THREAD_ID> --json` - возвращает для heartbeat только `idle`, `own_owner` или `busy` без непрозрачных полей FIFO.
 - `python3 Инструменты/fum-sleduyusjhij-shag-vetki/scripts/branch-next-step.py validate --repo-root . --json` - структурно проверяет рабочие наборы, вычисляет runtime-статусы всего whitelist и подтверждает единственное совпадение для активной именованной ветки, не выбирая победителя.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-sleduyusjhij-shag-vetki/tests -p 'test_*.py'` - локальные тесты выбора по first-parent-истории, атомарного claim точного поколения, идемпотентного восстановления потерянного ответа и fenced-восстановления следующего шага ветки.
-- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-ocheredj-zadach-git-vetki/tests -p 'test_*.py'` - локальные тесты переносимой FIFO-очереди, атомарного commit+handoff и точной post-handoff-публикации через автономный bare-remote.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-ocheredj-zadach-git-vetki/tests -p 'test_*.py'` - локальные тесты переносимой FIFO-очереди, атомарного commit+handoff и отдельно авторизуемого низкоуровневого транспортного примитива через автономный bare-remote.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-sborka-svodnoj-dokumentacii/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-sborka-svodnoj-dokumentacii`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-ocenki/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-ocenki`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-svezhestj-markdown/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-svezhestj-markdown`.
@@ -76,6 +76,7 @@
 
 ## Источники требований
 
+- [исходный запрос 2026-07-31 16:31:18 MSK - Отключить автоматическую публикацию master](../Запросы/2026-07-31_16-31-18_MSK_отключить-автоматическую-публикацию-master.md)
 - [исходный запрос 2026-07-31 14:59:59 MSK — Исправить подтверждение свободной очереди автозапуска](../Запросы/2026-07-31_14-59-59_MSK_исправить-подтверждение-свободной-очереди-автозапуска.md)
 - [исходный запрос 2026-07-29 14:32:38 MSK — Закрепить неблокирующее модельное ветвление](../Запросы/2026-07-29_14-32-38_MSK_закрепить-неблокирующее-модельное-ветвление.md)
 - [исходный запрос 2026-07-29 09:04:03 MSK — Расширить динамический выбор следующего шага](../Запросы/2026-07-29_09-04-03_MSK_расширить-динамический-выбор-следующего-шага.md)
@@ -95,6 +96,6 @@
 - [исходный запрос 2026-07-22 03:38:35 MSK - Разрешить выполнение доступных карточек шагов](../Запросы/2026-07-22_03-38-35_MSK_разрешить-выполнение-доступных-карточек-шагов.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-31 15:37:58 MSK -->
-<!-- content-sha256: sha256:b2153f32003e9e950edad3d0ad1ab50ce0ea11ab615d334833fbfac5b7f83d6d -->
+<!-- last-content-edit: 2026-07-31 17:22:03 MSK -->
+<!-- content-sha256: sha256:3db1511f7797d71855b46bfec54af3f167b55cedf6b5bf93bd0cddffe1084cd6 -->
 <!-- FUM-MD-RECENCY:END -->

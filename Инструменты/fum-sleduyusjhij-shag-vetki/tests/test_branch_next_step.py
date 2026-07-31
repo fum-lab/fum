@@ -1142,7 +1142,7 @@ class BranchNextStepTests(unittest.TestCase):
             str(REPO_ROOT.resolve()),
         )
         self.assertNotIn("<КОРЕНЬ_КЛОНА>", rendered)
-        self.assertLessEqual(len(rendered), 14_722)
+        self.assertLessEqual(len(rendered), 15_117)
 
     def test_heartbeat_computes_readiness_before_history_ranking(self) -> None:
         prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
@@ -1334,6 +1334,16 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertLess(assigned, join)
         self.assertLess(join, fenced_show)
         self.assertLess(fenced_show, confirmed)
+
+    def test_heartbeat_child_leaves_master_for_manual_push(self) -> None:
+        prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+        skill = (TOOL_ROOT / "SKILL.md").read_text(encoding="utf-8")
+
+        for contract in (prompt, skill):
+            self.assertIn("ручной push", contract)
+            self.assertIn("не выполняет `push` или `publish`", contract)
+            self.assertIn("не является подтверждением каждой карточки", contract)
+        self.assertNotIn("автоматически опубликовать", prompt)
 
     def test_heartbeat_child_prompt_uses_only_project_relative_paths(
         self,
@@ -4012,21 +4022,22 @@ class BranchNextStepTests(unittest.TestCase):
             validation.stdout + validation.stderr,
         )
         validation_payload = self.payload(validation)
-        self.assertEqual(validation_payload["candidate_count"], 24)
-        self.assertEqual(validation_payload["ready_count"], 0)
-        self.assertEqual(validation_payload["paused_count"], 22)
-        self.assertEqual(validation_payload["blocked_count"], 2)
-        self.assertEqual(shown.returncode, 3, shown.stdout + shown.stderr)
+        self.assertEqual(validation_payload["candidate_count"], 27)
+        self.assertEqual(validation_payload["ready_count"], 1)
+        self.assertEqual(validation_payload["paused_count"], 25)
+        self.assertEqual(validation_payload["blocked_count"], 1)
+        self.assertEqual(shown.returncode, 0, shown.stdout + shown.stderr)
         shown_payload = self.payload(shown)
-        self.assertEqual(shown_payload["state"], "not_ready")
-        self.assertEqual(shown_payload["selector_state"], "open")
-        self.assertEqual(shown_payload["candidate_count"], 24)
+        self.assertEqual(shown_payload["state"], "ready")
+        self.assertEqual(shown_payload["card_id"], "FUM-STEP-0108")
         self.assertEqual(
-            shown_payload["candidates"][0]["step_id"],
-            "master-fum-step-0108-paused-v1",
+            shown_payload["step_id"],
+            "master-fum-step-0108-automatic-v3",
         )
-        self.assertEqual(shown_payload["candidates"][0]["dispatch"], "paused")
-        self.assertEqual(shown_payload["candidates"][0]["status"], "paused")
+        self.assertEqual(shown_payload["dispatch"], "automatic")
+        self.assertEqual(shown_payload["status"], "ready")
+        self.assertEqual(shown_payload["selection"]["ready_count"], 1)
+        self.assertEqual(shown_payload["selection"]["reason"], "only_ready")
 
 
 if __name__ == "__main__":
