@@ -19,11 +19,15 @@ PRIMARY_PATH = TRACE_DIR / "фикстура-неблокирующего-мод
 LATE_PATH = TRACE_DIR / "фикстура-позднего-подтверждения-перехода-v3.jsonl"
 LIMITED_PATH = TRACE_DIR / "фикстура-одной-ветви-при-ограниченном-бюджете-v3.jsonl"
 
-EXPECTED_OLD_SHA256 = {
+EXPECTED_TRACE_SHA256 = {
     "схема-события-v1.json": "3a76daec5034e463f19923c7e1fa8fdbe3fb90312547fe959cb9503838cd28ee",
     "фикстура-короткой-локальной-задачи.jsonl": "b66c434cc199e82bd2b1fbf7c41a6d22e32def4402c4b462d727d06af743dd12",
     "схема-события-v2.json": "db023129e0d0d44ed08f83a24964c598128fdfa3bd04398baf1051d530ddb951",
     "фикстура-перенаправления-пользовательским-вводом-v2.jsonl": "26c038a75524b05e0e9c5b1b61b14061097f610c32c626c98737aba50999e3fc",
+    "схема-события-v3.json": "717e3a770890e09e81a4a4f1e1268f985a10fd183f1feb4a756c8757c64c3c18",
+    "фикстура-неблокирующего-модельного-ветвления-v3.jsonl": "1b3970dce00494c2e374a057a3b7ddf39bacf72ff1d4491503fe09236bba7a5f",
+    "фикстура-одной-ветви-при-ограниченном-бюджете-v3.jsonl": "4b93e7fa78bc9f69414c322c36e0b7a2cead2a344cf6cefc2abab8a65e2c041e",
+    "фикстура-позднего-подтверждения-перехода-v3.jsonl": "331b4ef36322c2f43153bd32087b945e8b676c8ed67a474ceb99e7bff1bbdac4",
 }
 EXPECTED_NEW_KINDS = {
     "task",
@@ -254,10 +258,10 @@ class AgentCycleTraceV3Tests(unittest.TestCase):
         records.extend([response, stage])
         return records
 
-    def test_v3_is_separate_and_v1_v2_bytes_are_unchanged(self):
+    def test_v3_is_separate_and_v1_v2_v3_bytes_are_unchanged(self):
         self.assertEqual(self.schema["properties"]["schema_version"]["const"], 3)
         self.assertEqual(set(self.schema["properties"]["kind"]["enum"]), EXPECTED_NEW_KINDS)
-        for filename, expected in EXPECTED_OLD_SHA256.items():
+        for filename, expected in EXPECTED_TRACE_SHA256.items():
             actual = hashlib.sha256((TRACE_DIR / filename).read_bytes()).hexdigest()
             self.assertEqual(actual, expected, filename)
 

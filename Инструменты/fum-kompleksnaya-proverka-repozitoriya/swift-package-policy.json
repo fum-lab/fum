@@ -33,6 +33,13 @@
       "localDependencies": []
     },
     {
+      "package": "Прототипы/живой-одноагентный-эпизод",
+      "executableProducts": [
+        "FUMLiveEpisodeProbe"
+      ],
+      "localDependencies": []
+    },
+    {
       "package": "Прототипы/иерархия-функций-и-данных",
       "executableProducts": [
         "FUMFunctionHierarchyProbe"
