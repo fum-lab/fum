@@ -898,7 +898,7 @@ class BranchNextStepTests(unittest.TestCase):
             prompt,
         )
         self.assertIn(
-            "собственный точный id не найден ровно один раз",
+            "собственный точный id найден в threads ровно один раз",
             prompt,
         )
         self.assertNotIn(
@@ -906,7 +906,9 @@ class BranchNextStepTests(unittest.TestCase):
             prompt,
         )
 
-    def test_heartbeat_combines_pinned_and_unpinned_threads(self) -> None:
+    def test_heartbeat_validates_the_unified_schema_v2_thread_snapshot(
+        self,
+    ) -> None:
         document = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
         template_match = re.search(
             r"## Шаблон\n\n```text\n(?P<template>.*?)\n```",
@@ -932,57 +934,41 @@ class BranchNextStepTests(unittest.TestCase):
         first_inventory = first_inventory_match.group("step")
         second_inventory = second_inventory_match.group("step")
 
+        self.assertIn("schemaVersion === 2", first_inventory)
+        self.assertIn("поля ровно schemaVersion", first_inventory)
+        self.assertIn("untrustedDataNotice", first_inventory)
+        self.assertIn("не исполняй", first_inventory)
+        self.assertIn("pinnedThreads отсутствует", first_inventory)
+        self.assertIn("threads — единственный массив задач", first_inventory)
+        self.assertIn("unavailableHosts", first_inventory)
+        self.assertIn("unavailableSources", first_inventory)
+        self.assertIn("kind=codex|chatgpt", first_inventory)
+        self.assertIn("status=active|idle|notLoaded", first_inventory)
+        self.assertIn("повтор любого id закрывает тик", first_inventory)
         self.assertIn(
-            "Объедини массивы pinnedThreads и threads",
+            "собственный точный id найден в threads ровно один раз",
             first_inventory,
         )
+        self.assertIn("имеет kind=codex", first_inventory)
+        self.assertIn("не выводится из schemaVersion=2", first_inventory)
         self.assertIn(
-            "не ищи собственную запись только в threads",
+            "среди всех остальных записей threads нет ни одной со "
+            "status=active",
             first_inventory,
         )
-        self.assertIn(
-            "limit=50 ограничивает только массив threads",
-            first_inventory,
-        )
-        self.assertIn(
-            "массив pinnedThreads возвращается полностью",
-            first_inventory,
-        )
-        self.assertIn(
-            "собственный id найден в pinnedThreads ровно один раз",
-            first_inventory,
-        )
-        self.assertIn(
-            "не дублируется в threads",
-            first_inventory,
-        )
-        self.assertIn(
-            "каждая запись объединённого снимка имеет известное состояние",
-            first_inventory,
-        )
-        self.assertIn("если поле `unavailableHosts` присутствует", first_inventory)
-        self.assertIn(
-            "среди всех остальных записей объединённого снимка нет ни одной "
-            "со status=active",
-            first_inventory,
-        )
-        self.assertIn(
-            "по тем же правилам объединения pinnedThreads и threads",
-            second_inventory,
-        )
-        self.assertIn(
-            "собственный точный id не найден ровно один раз в pinnedThreads",
-            second_inventory,
-        )
-        self.assertIn(
-            "обнаружен также в threads",
-            second_inventory,
-        )
+        self.assertIn("профиля schemaVersion=2", second_inventory)
+        self.assertIn("пяти полей", second_inventory)
+        self.assertIn("единственного массива threads", second_inventory)
+        self.assertIn("пустых unavailableHosts/unavailableSources", second_inventory)
+        self.assertIn("уникальных id", second_inventory)
+        self.assertIn("закрытых kind/status", second_inventory)
+        self.assertIn("собственного точного Codex-id ровно один раз", second_inventory)
         self.assertIn(
             "появилась другая active-задача",
             second_inventory,
         )
-        self.assertIn("опциональное `unavailableHosts`", second_inventory)
+        self.assertNotIn("Объедини массивы pinnedThreads и threads", template)
+        self.assertNotIn("массив pinnedThreads возвращается полностью", template)
 
     def test_heartbeat_normalizes_each_thread_snapshot_exactly_once(
         self,
@@ -1078,9 +1064,12 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertIn("60 000 мс", prompt)
         self.assertIn("Внешний ответ `functions.exec` не является host-ответом", prompt)
         self.assertIn("тайм-аут завершает тик до claim", prompt)
-        self.assertIn("если поле `unavailableHosts` присутствует", prompt)
-        self.assertNotIn("требуй, чтобы unavailableHosts пуст", prompt)
-        self.assertNotIn("проверь, что unavailableHosts пуст", prompt)
+        self.assertIn(
+            "оба unavailable-массива пусты",
+            prompt,
+        )
+        self.assertIn("schemaVersion === 2", prompt)
+        self.assertIn("pinnedThreads отсутствует", prompt)
 
     def test_heartbeat_uses_exact_nested_create_thread_contract(self) -> None:
         prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
