@@ -184,48 +184,95 @@ final class LMStudioModelOnlyAdapterTests: XCTestCase {
     XCTAssertEqual(cancelled, .cancelled)
   }
 
-  func testLiveLMStudioOneShotWhenExplicitlyConfigured() async throws {
+  func testLiveLMStudioBudgetedRESTV0WhenExplicitlyConfigured() async throws {
     let environment = ProcessInfo.processInfo.environment
     guard environment["FUM_RUN_LIVE_MODEL_TEST"] == "1" else {
       throw XCTSkip("Живой model-only-вызов включается только явно.")
     }
     guard
-      let executable = environment["FUM_LM_STUDIO_EXECUTABLE"],
+      let endpointValue = environment["FUM_LM_STUDIO_ENDPOINT"],
+      let endpoint = URL(string: endpointValue),
       let model = environment["FUM_LM_STUDIO_MODEL"],
-      let runtime = environment["FUM_LM_STUDIO_RUNTIME"],
-      let application = environment["FUM_LM_STUDIO_APPLICATION"]
+      let runtimeName = environment["FUM_LM_STUDIO_RUNTIME_NAME"],
+      let runtimeVersion = environment["FUM_LM_STUDIO_RUNTIME_VERSION"],
+      let tokenizerIdentity = environment["FUM_LM_STUDIO_TOKENIZER_ID"]
     else {
-      XCTFail("Для явного live-прогона нужен полный паспорт LM Studio.")
+      XCTFail("Для явного live-прогона нужен полный бюджетный паспорт LM Studio REST v0.")
       return
     }
-    let allowedEnvironment = ["HOME", "PATH", "TMPDIR"].reduce(into: [String: String]()) {
-      result, key in
-      result[key] = environment[key]
+    guard endpoint.absoluteString == "http://127.0.0.1:1234/api/v0/chat/completions",
+      model == "qwen/qwen3-0.6b",
+      runtimeName == "llama.cpp-mac-arm64-apple-metal-advsimd",
+      runtimeVersion == "2.27.1",
+      tokenizerIdentity == "lmstudio.rest-v0.qwen3-0.6b.prompt-attestation.v1"
+    else {
+      XCTFail("Live-аттестация закреплена только за точной локальной fixture FUM-STEP-0108.")
+      return
     }
-    let adapter = LMStudioModelOnlyAdapter(
-      configuration: LMStudioConfiguration(
-        executableURL: URL(fileURLWithPath: executable),
-        modelIdentifier: model,
-        runtimeVersion: runtime,
-        applicationVersion: application,
-        environment: allowedEnvironment
+    let runtime = ModelOnlyRuntimeIdentity(name: runtimeName, version: runtimeVersion)
+    let reservation = ModelOnlyBudget(
+      calls: 1,
+      inputTokens: 64,
+      outputTokens: 1,
+      wallClockMilliseconds: 120_000,
+      computeUnits: 120_000,
+      moneyMicrounits: 0
+    )
+    let profile = ModelOnlyBudgetProfile(
+      schemaVersion: 2,
+      profileID: "fum.lm-studio-rest-v0.budgeted.v1.live-fixture",
+      executionMode: .local,
+      providerIdentity: "lmstudio",
+      providerInterfaceID: "lmstudio.rest-api.v0.chat-completions",
+      endpoint: endpoint.absoluteString,
+      modelIdentity: model,
+      runtimeIdentity: runtime,
+      tokenizerIdentity: tokenizerIdentity,
+      tokenizationMethod: .exact,
+      computeUnit: .wallClockMillisecond,
+      moneyUnit: .none,
+      disclosure: ModelOnlyDisclosurePolicy(
+        allowedClasses: [.synthetic],
+        maxInputBytes: 64,
+        allowedPurposes: ["live_contract_fixture"]
+      ),
+      maximumBudget: reservation,
+      perInvocationReservation: reservation,
+      maxOutputTokens: 1,
+      durability: .processMemory
+    )
+    let adapter = BudgetedModelOnlyAdapter(
+      profile: profile,
+      tokenizer: .lmStudioQwen3SmallFixtureV1,
+      transport: LMStudioRESTV0BudgetTransport(
+        configuration: LMStudioRESTV0Configuration(
+          endpoint: endpoint,
+          tokenizerIdentity: tokenizerIdentity
+        )
       )
     )
 
     let result = await adapter.complete(
-      try request(
-        model: model,
-        user: "Ответь только словом READY.",
-        maxOutputBytes: 4_096,
-        timeoutMilliseconds: 120_000,
-        runtime: runtime
+      BudgetedModelOnlyInvocation(
+        invocationID: "live-lm-studio-budget-v2",
+        input: "Return the single letter A.",
+        disclosureClass: .synthetic,
+        purpose: "live_contract_fixture"
       )
     )
 
     XCTAssertEqual(result.status, .completed, result.failure?.message ?? "")
-    XCTAssertFalse(result.output?.content.isEmpty ?? true)
-    XCTAssertEqual(result.passport?.provider.model, model)
-    XCTAssertEqual(result.passport?.provider.runtime, runtime)
+    XCTAssertEqual(result.providerModelIdentity, model)
+    XCTAssertEqual(result.providerRuntimeIdentity, runtime)
+    XCTAssertEqual(result.providerFinishReason, "length")
+    XCTAssertEqual(result.providerUsage?.source, .structuredProviderResponse)
+    XCTAssertEqual(result.providerUsage?.inputTokens, 14)
+    XCTAssertEqual(result.providerUsage?.outputTokens, 1)
+    XCTAssertEqual(result.providerUsage?.inputTokens, result.tokenization?.inputTokens)
+    XCTAssertEqual(result.reservation?.maximum.outputTokens, 1)
+    XCTAssertEqual(result.settlement?.charged.outputTokens, 1)
+    XCTAssertEqual(result.providerResponseSHA256?.count, 71)
+    XCTAssertEqual(result.providerResponseSHA256?.prefix(7), "sha256:")
   }
 
   private func configuration() -> LMStudioConfiguration {

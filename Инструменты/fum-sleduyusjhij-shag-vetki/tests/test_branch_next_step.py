@@ -4022,17 +4022,17 @@ class BranchNextStepTests(unittest.TestCase):
             validation.stdout + validation.stderr,
         )
         validation_payload = self.payload(validation)
-        self.assertEqual(validation_payload["candidate_count"], 27)
+        self.assertEqual(validation_payload["candidate_count"], 26)
         self.assertEqual(validation_payload["ready_count"], 1)
-        self.assertEqual(validation_payload["paused_count"], 25)
+        self.assertEqual(validation_payload["paused_count"], 24)
         self.assertEqual(validation_payload["blocked_count"], 1)
         self.assertEqual(shown.returncode, 0, shown.stdout + shown.stderr)
         shown_payload = self.payload(shown)
         self.assertEqual(shown_payload["state"], "ready")
-        self.assertEqual(shown_payload["card_id"], "FUM-STEP-0108")
+        self.assertEqual(shown_payload["card_id"], "FUM-STEP-0109")
         self.assertEqual(
             shown_payload["step_id"],
-            "master-fum-step-0108-automatic-v3",
+            "master-fum-step-0109-automatic-v3",
         )
         self.assertEqual(shown_payload["dispatch"], "automatic")
         self.assertEqual(shown_payload["status"], "ready")
