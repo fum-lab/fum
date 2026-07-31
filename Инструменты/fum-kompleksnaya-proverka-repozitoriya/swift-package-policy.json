@@ -1,62 +1,71 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "defaultMode": "strict",
   "packages": [
     {
       "package": "Прототипы/воспроизводимое-пополнение-памяти",
       "executableProducts": [
         "FUMMemoryPopulationProbe"
-      ]
+      ],
+      "localDependencies": []
     },
     {
       "package": "Прототипы/теневой-редактор-продолжений",
       "executableProducts": [
         "FUMShadowEditor",
         "FUMShadowProbe"
-      ]
+      ],
+      "localDependencies": []
     },
     {
       "package": "Прототипы/физические-состояния-клавиш",
       "executableProducts": [
         "FUMInputGuide",
         "FUMInputProbe"
-      ]
+      ],
+      "localDependencies": []
     },
     {
       "package": "Прототипы/чистый-модельный-шаг",
       "executableProducts": [
         "FUMModelStepProbe"
-      ]
+      ],
+      "localDependencies": []
     },
     {
       "package": "Прототипы/иерархия-функций-и-данных",
       "executableProducts": [
         "FUMFunctionHierarchyProbe"
-      ]
+      ],
+      "localDependencies": []
     },
     {
       "package": "Прототипы/агентное-чтение-сетевой-среды",
       "executableProducts": [
         "FUMNetworkEnvironmentProbe"
-      ]
+      ],
+      "localDependencies": []
     },
     {
       "package": "Прототипы/компиляция-численных-автоматизаций-в-тензорный-граф",
       "executableProducts": [
         "FUMTensorGraphProbe"
-      ]
+      ],
+      "localDependencies": []
     },
     {
       "package": "Прототипы/память-структурирующих-операторов",
       "executableProducts": [
         "FUMStructuringOperatorMemoryProbe"
-      ]
+      ],
+      "localDependencies": []
     },
     {
       "package": "Прототипы/проверяемый-многоагентный-контур",
       "executableProducts": [
         "FUMWorkPackageProbe"
-      ]
+      ],
+      "localDependencies": []
     }
   ],
   "exceptions": []

@@ -7,15 +7,16 @@ import argparse
 import hashlib
 import json
 import os
+import posixpath
 import re
 import shlex
 import subprocess
 import sys
 import time
 import tomllib
-from collections.abc import Callable
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 
 PLANNING_REGISTRY_SCRIPT = Path(
@@ -73,6 +74,16 @@ SWIFT_FORMAT_CONFIG = Path(
 )
 CODEX_PROJECT_CONFIG = Path(".codex/config.toml")
 SHA256_RE = re.compile(r"^sha256:[0-9a-f]{64}$")
+WINDOWS_ABSOLUTE_PATH_RE = re.compile(r"^[A-Za-z]:[\\/]")
+SWIFT_OFFLINE_FLAGS = (
+    "--disable-dependency-cache",
+    "--manifest-cache",
+    "none",
+    "--disable-prefetching",
+    "--disable-netrc",
+    "--disable-keychain",
+    "--disable-automatic-resolution",
+)
 Clock = Callable[[], float]
 TimingRecord = dict[str, object]
 TimingSink = Callable[[TimingRecord], None]
@@ -93,6 +104,38 @@ class SmokeStep:
 class SwiftPackageManifest:
     executable_products: tuple[str, ...]
     target_paths: tuple[str, ...]
+    products: tuple[str, ...] = ()
+    library_products: tuple[str, ...] = ()
+    targets: tuple[str, ...] = ()
+    local_dependencies: tuple["SwiftLocalPackageDependency", ...] = ()
+    product_dependencies: tuple["SwiftProductDependency", ...] = ()
+    by_name_dependencies: tuple[tuple[str, str], ...] = ()
+
+
+@dataclass(frozen=True, order=True)
+class SwiftLocalPackageDependency:
+    package: str
+    identity: str
+
+
+@dataclass(frozen=True, order=True)
+class SwiftProductDependency:
+    target: str
+    identity: str
+    product: str
+
+
+@dataclass(frozen=True, order=True)
+class SwiftAllowedProductDependency:
+    target: str
+    product: str
+
+
+@dataclass(frozen=True, order=True)
+class SwiftAllowedLocalDependency:
+    package: str
+    identity: str
+    products: tuple[SwiftAllowedProductDependency, ...]
 
 
 @dataclass(frozen=True)
@@ -107,6 +150,7 @@ class SwiftLintException:
 @dataclass(frozen=True)
 class SwiftPackagePolicy:
     expected_products: dict[str, tuple[str, ...]]
+    local_dependencies: dict[str, tuple[SwiftAllowedLocalDependency, ...]]
     lint_exceptions: dict[str, SwiftLintException]
 
 
@@ -277,13 +321,337 @@ def discover_swift_packages(repo_root: Path) -> list[Path]:
 def require_safe_relative_path(raw_path: object, label: str) -> str:
     if not isinstance(raw_path, str) or not raw_path:
         raise ValueError(f"{label} must be a non-empty relative path")
-    path = Path(raw_path)
-    if path.is_absolute() or ".." in path.parts or path.as_posix() != raw_path:
+    path = PurePosixPath(raw_path)
+    if (
+        path.is_absolute()
+        or WINDOWS_ABSOLUTE_PATH_RE.match(raw_path) is not None
+        or raw_path.startswith(("\\\\", "//", "~", "$"))
+        or "\\" in raw_path
+        or ".." in path.parts
+        or path.as_posix() != raw_path
+    ):
         raise ValueError(f"{label} must be a normalized relative path: {raw_path!r}")
     return raw_path
 
 
-def parse_swift_package_manifest(output: str) -> SwiftPackageManifest:
+def require_prototype_package_path(raw_path: object, label: str) -> str:
+    path = require_safe_relative_path(raw_path, label)
+    parts = PurePosixPath(path).parts
+    if len(parts) != 2 or parts[0] != "Прототипы":
+        raise ValueError(
+            f"{label} must name one top-level package inside Прототипы: {path!r}"
+        )
+    return path
+
+
+@dataclass(frozen=True)
+class _SwiftToken:
+    kind: str
+    value: str
+
+
+def _tokenize_swift_manifest(source: str) -> tuple[_SwiftToken, ...]:
+    tokens: list[_SwiftToken] = []
+    index = 0
+    length = len(source)
+    while index < length:
+        current = source[index]
+        if current.isspace():
+            index += 1
+            continue
+        if source.startswith("//", index):
+            newline = source.find("\n", index + 2)
+            index = length if newline == -1 else newline + 1
+            continue
+        if source.startswith("/*", index):
+            depth = 1
+            index += 2
+            while index < length and depth:
+                if source.startswith("/*", index):
+                    depth += 1
+                    index += 2
+                elif source.startswith("*/", index):
+                    depth -= 1
+                    index += 2
+                else:
+                    index += 1
+            if depth:
+                raise ValueError("Package.swift contains an unterminated block comment")
+            continue
+        if source.startswith('"""', index):
+            end = source.find('"""', index + 3)
+            if end == -1:
+                raise ValueError("Package.swift contains an unterminated string literal")
+            tokens.append(_SwiftToken("complex_string", source[index : end + 3]))
+            index = end + 3
+            continue
+        if current == '"':
+            index += 1
+            value: list[str] = []
+            complex_literal = False
+            while index < length:
+                char = source[index]
+                if char == '"':
+                    index += 1
+                    tokens.append(
+                        _SwiftToken(
+                            "complex_string" if complex_literal else "string",
+                            "".join(value),
+                        )
+                    )
+                    break
+                if char == "\\":
+                    complex_literal = True
+                    if index + 1 >= length:
+                        raise ValueError(
+                            "Package.swift contains an unterminated string escape"
+                        )
+                    value.extend((char, source[index + 1]))
+                    index += 2
+                    continue
+                if char == "\n":
+                    raise ValueError("Package.swift contains an unterminated string literal")
+                value.append(char)
+                index += 1
+            else:
+                raise ValueError("Package.swift contains an unterminated string literal")
+            continue
+        if current.isalpha() or current == "_":
+            end = index + 1
+            while end < length and (source[end].isalnum() or source[end] == "_"):
+                end += 1
+            tokens.append(_SwiftToken("identifier", source[index:end]))
+            index = end
+            continue
+        tokens.append(_SwiftToken("symbol", current))
+        index += 1
+    return tuple(tokens)
+
+
+def extract_manifest_local_dependency_paths(manifest_path: Path) -> tuple[str, ...]:
+    try:
+        source = manifest_path.read_text(encoding="utf-8")
+    except UnicodeDecodeError as exc:
+        raise ValueError("Package.swift must be valid UTF-8") from exc
+    tokens = _tokenize_swift_manifest(source)
+    package_prefix = (
+        _SwiftToken("identifier", "let"),
+        _SwiftToken("identifier", "package"),
+        _SwiftToken("symbol", "="),
+        _SwiftToken("identifier", "Package"),
+        _SwiftToken("symbol", "("),
+    )
+    package_starts = [
+        index
+        for index in range(len(tokens) - len(package_prefix) + 1)
+        if tokens[index : index + len(package_prefix)] == package_prefix
+    ]
+    if len(package_starts) != 1:
+        raise ValueError(
+            "Package.swift must contain exactly one literal "
+            "let package = Package(...) declaration"
+        )
+
+    declaration_start = package_starts[0]
+    allowed_prelude = (
+        _SwiftToken("identifier", "import"),
+        _SwiftToken("identifier", "PackageDescription"),
+    )
+    if tokens[:declaration_start] != allowed_prelude:
+        raise ValueError(
+            "Package.swift may contain only import PackageDescription before "
+            "the package declaration"
+        )
+
+    package_start = declaration_start + len(package_prefix) - 1
+    package_end = _matching_swift_delimiter(tokens, package_start, "(", ")")
+    if tokens[package_end + 1 :]:
+        raise ValueError(
+            "Package.swift may not mutate or execute code after the package "
+            "declaration"
+        )
+    arguments = _split_swift_tokens_at_top_level(
+        tokens[package_start + 1 : package_end]
+    )
+    dependency_values = [
+        argument[2:]
+        for argument in arguments
+        if len(argument) >= 2
+        and argument[0] == _SwiftToken("identifier", "dependencies")
+        and argument[1] == _SwiftToken("symbol", ":")
+    ]
+    if len(dependency_values) > 1:
+        raise ValueError("Package.swift contains duplicate dependencies arguments")
+    if not dependency_values:
+        return ()
+
+    dependency_value = dependency_values[0]
+    if (
+        len(dependency_value) < 2
+        or dependency_value[0] != _SwiftToken("symbol", "[")
+        or dependency_value[-1] != _SwiftToken("symbol", "]")
+        or _matching_swift_delimiter(dependency_value, 0, "[", "]")
+        != len(dependency_value) - 1
+    ):
+        raise ValueError(
+            "Package.swift dependencies must be a literal array"
+        )
+
+    entries = _split_swift_tokens_at_top_level(dependency_value[1:-1])
+    paths: list[str] = []
+    expected_prefix = (
+        _SwiftToken("symbol", "."),
+        _SwiftToken("identifier", "package"),
+        _SwiftToken("symbol", "("),
+        _SwiftToken("identifier", "path"),
+        _SwiftToken("symbol", ":"),
+    )
+    for entry in entries:
+        if not entry:
+            continue
+        if not (
+            len(entry) == 7
+            and entry[:5] == expected_prefix
+            and entry[5].kind == "string"
+            and entry[6] == _SwiftToken("symbol", ")")
+        ):
+            raise ValueError(
+                "Package.swift dependencies must use exactly "
+                '.package(path: "<canonical-relative-path>")'
+            )
+        paths.append(entry[5].value)
+    if len(paths) != len(set(paths)):
+        raise ValueError("Package.swift contains a duplicate local dependency path")
+    return tuple(paths)
+
+
+def _matching_swift_delimiter(
+    tokens: tuple[_SwiftToken, ...],
+    start: int,
+    opening: str,
+    closing: str,
+) -> int:
+    if tokens[start] != _SwiftToken("symbol", opening):
+        raise ValueError("Package.swift delimiter parser received an invalid start")
+    depth = 0
+    for index in range(start, len(tokens)):
+        token = tokens[index]
+        if token == _SwiftToken("symbol", opening):
+            depth += 1
+        elif token == _SwiftToken("symbol", closing):
+            depth -= 1
+            if depth == 0:
+                return index
+    raise ValueError("Package.swift contains an unterminated delimiter")
+
+
+def _split_swift_tokens_at_top_level(
+    tokens: tuple[_SwiftToken, ...],
+) -> tuple[tuple[_SwiftToken, ...], ...]:
+    segments: list[tuple[_SwiftToken, ...]] = []
+    start = 0
+    stack: list[str] = []
+    matching = {")": "(", "]": "[", "}": "{"}
+    for index, token in enumerate(tokens):
+        if token.kind != "symbol":
+            continue
+        if token.value in {"(", "[", "{"}:
+            stack.append(token.value)
+        elif token.value in matching:
+            if not stack or stack.pop() != matching[token.value]:
+                raise ValueError("Package.swift contains mismatched delimiters")
+        elif token.value == "," and not stack:
+            segments.append(tokens[start:index])
+            start = index + 1
+    if stack:
+        raise ValueError("Package.swift contains unterminated delimiters")
+    segments.append(tokens[start:])
+    return tuple(segments)
+
+
+def _normalize_dump_local_dependency_path(
+    raw_path: object,
+    repo_root: Path,
+) -> str:
+    if not isinstance(raw_path, str) or not raw_path:
+        raise ValueError("SwiftPM fileSystem dependency path must be non-empty")
+    dump_path = Path(raw_path)
+    if not dump_path.is_absolute():
+        raise ValueError(
+            "swift dump-package fileSystem dependency path must be absolute"
+        )
+    try:
+        resolved = dump_path.resolve(strict=True)
+    except FileNotFoundError as exc:
+        raise ValueError("SwiftPM local dependency path does not exist") from exc
+    root = repo_root.resolve()
+    prototypes = (root / "Прототипы").resolve()
+    try:
+        resolved.relative_to(root)
+    except ValueError as exc:
+        raise ValueError("SwiftPM local dependency resolves outside repository") from exc
+    try:
+        resolved.relative_to(prototypes)
+    except ValueError as exc:
+        raise ValueError("SwiftPM local dependency resolves outside Прототипы") from exc
+    relative = repo_relative(resolved, root)
+    return require_prototype_package_path(
+        relative,
+        "SwiftPM local dependency",
+    )
+
+
+def _validate_manifest_dependency_declarations(
+    repo_root: Path,
+    package: Path,
+    declared_paths: tuple[str, ...],
+    dependencies: tuple[SwiftLocalPackageDependency, ...],
+) -> None:
+    if len(declared_paths) != len(dependencies):
+        raise ValueError(
+            "Package.swift local dependencies must use canonical literal .package(path:)"
+        )
+    package_path = repo_relative(package, repo_root)
+    actual_by_path = {dependency.package: dependency for dependency in dependencies}
+    normalized_declared: set[str] = set()
+    for raw_path in declared_paths:
+        if (
+            Path(raw_path).is_absolute()
+            or WINDOWS_ABSOLUTE_PATH_RE.match(raw_path) is not None
+            or raw_path.startswith(("\\\\", "//", "~", "$"))
+            or "\\" in raw_path
+        ):
+            raise ValueError("Package.swift local dependency path must be relative")
+        try:
+            resolved = (package / raw_path).resolve(strict=True)
+        except FileNotFoundError as exc:
+            raise ValueError(
+                "Package.swift local dependency path does not exist"
+            ) from exc
+        normalized = repo_relative(resolved, repo_root)
+        dependency = actual_by_path.get(normalized)
+        if dependency is None:
+            raise ValueError(
+                "Package.swift local dependency does not match dump-package"
+            )
+        expected = posixpath.relpath(dependency.package, start=package_path)
+        if raw_path != expected:
+            raise ValueError(
+                "Package.swift local dependency path must be canonical: "
+                f"expected {expected!r}"
+            )
+        normalized_declared.add(normalized)
+    if normalized_declared != set(actual_by_path):
+        raise ValueError(
+            "Package.swift local dependency set differs from dump-package"
+        )
+
+
+def parse_swift_package_manifest(
+    output: str,
+    *,
+    repo_root: Path | None = None,
+) -> SwiftPackageManifest:
     try:
         payload = json.loads(output)
     except json.JSONDecodeError as exc:
@@ -302,44 +670,186 @@ def parse_swift_package_manifest(output: str) -> SwiftPackageManifest:
         raise ValueError(
             "swift dump-package is missing dependencies, products or targets"
         )
-    if dependencies:
-        raise ValueError(
-            "SwiftPM dependencies require a separate reproducible offline contract"
-        )
 
     executable_products: set[str] = set()
+    all_products: set[str] = set()
+    library_products: set[str] = set()
     for product in products:
         if not isinstance(product, dict):
             raise ValueError("swift dump-package contains an invalid product")
         product_type = product.get("type")
         if not isinstance(product_type, dict):
             raise ValueError("swift dump-package contains a product without a type")
-        if "executable" not in product_type:
-            continue
         name = product.get("name")
         if not isinstance(name, str) or not name:
-            raise ValueError("swift dump-package contains an unnamed executable product")
-        executable_products.add(name)
+            raise ValueError("swift dump-package contains an unnamed product")
+        if name in all_products:
+            raise ValueError("swift dump-package contains a duplicate product")
+        all_products.add(name)
+        if "executable" in product_type:
+            executable_products.add(name)
+        if "library" in product_type:
+            library_products.add(name)
 
     if not executable_products:
         raise ValueError("SwiftPM prototype has no executable products")
 
     target_paths: set[str] = set()
+    target_names: set[str] = set()
+    raw_product_dependencies: list[tuple[str, str, str]] = []
+    by_name_dependencies: set[tuple[str, str]] = set()
     for target in targets:
         if not isinstance(target, dict):
             raise ValueError("swift dump-package contains an invalid target")
+        target_name = target.get("name")
+        if not isinstance(target_name, str) or not target_name:
+            raise ValueError("swift dump-package contains an unnamed target")
+        if target_name in target_names:
+            raise ValueError("swift dump-package contains a duplicate target")
+        target_names.add(target_name)
+        if target.get("type") == "binary" or any(
+            key in target for key in ("url", "checksum")
+        ):
+            raise ValueError("SwiftPM binary dependencies are forbidden")
         target_path = require_safe_relative_path(
             target.get("path"),
             "SwiftPM target path",
         )
         target_paths.add(target_path)
+        raw_target_dependencies = target.get("dependencies")
+        if not isinstance(raw_target_dependencies, list):
+            raise ValueError("swift dump-package target dependencies must be a list")
+        seen_target_dependencies: set[tuple[str, str, str]] = set()
+        for raw_dependency in raw_target_dependencies:
+            if not isinstance(raw_dependency, dict) or len(raw_dependency) != 1:
+                raise ValueError(
+                    "swift dump-package contains an invalid target dependency"
+                )
+            variant, value = next(iter(raw_dependency.items()))
+            if variant in {"target", "byName"}:
+                if (
+                    not isinstance(value, list)
+                    or len(value) != 2
+                    or not isinstance(value[0], str)
+                    or not value[0]
+                ):
+                    raise ValueError(
+                        "swift dump-package contains an invalid internal target dependency"
+                    )
+                edge = (variant, target_name, value[0])
+                if edge in seen_target_dependencies:
+                    raise ValueError(
+                        "swift dump-package contains a duplicate target dependency"
+                    )
+                seen_target_dependencies.add(edge)
+                by_name_dependencies.add((target_name, value[0]))
+                continue
+            if variant != "product":
+                raise ValueError(
+                    "SwiftPM target dependency variant is not allowed"
+                )
+            if (
+                not isinstance(value, list)
+                or len(value) != 4
+                or not isinstance(value[0], str)
+                or not value[0]
+                or not isinstance(value[1], str)
+                or not value[1]
+                or value[2] is not None
+                or value[3] is not None
+            ):
+                raise ValueError(
+                    "SwiftPM product dependency must have an exact unconditional form"
+                )
+            edge = ("product", value[0], value[1].lower())
+            if edge in seen_target_dependencies:
+                raise ValueError(
+                    "swift dump-package contains a duplicate product dependency"
+                )
+            seen_target_dependencies.add(edge)
+            raw_product_dependencies.append((target_name, value[1].lower(), value[0]))
 
     if not target_paths:
         raise ValueError("SwiftPM prototype has no target paths")
 
+    local_dependencies: list[SwiftLocalPackageDependency] = []
+    seen_dependency_paths: set[str] = set()
+    seen_dependency_identities: set[str] = set()
+    for raw_dependency in dependencies:
+        if not isinstance(raw_dependency, dict) or len(raw_dependency) != 1:
+            raise ValueError("swift dump-package contains an invalid package dependency")
+        variant, value = next(iter(raw_dependency.items()))
+        if variant != "fileSystem":
+            raise ValueError(
+                "SwiftPM source-control, registry and other non-local dependencies "
+                "are forbidden"
+            )
+        if not isinstance(value, list) or len(value) != 1 or not isinstance(value[0], dict):
+            raise ValueError("SwiftPM fileSystem dependency has an invalid shape")
+        description = value[0]
+        allowed_fields = {"identity", "path", "productFilter", "traits"}
+        if not {"identity", "path", "productFilter"}.issubset(description):
+            raise ValueError("SwiftPM fileSystem dependency is missing required fields")
+        if not set(description).issubset(allowed_fields):
+            raise ValueError("SwiftPM fileSystem dependency has unknown fields")
+        if description["productFilter"] is not None:
+            raise ValueError("SwiftPM fileSystem dependency productFilter is forbidden")
+        traits = description.get("traits")
+        if traits not in (None, [{"name": "default"}]):
+            raise ValueError("SwiftPM fileSystem dependency traits are not supported")
+        identity = description["identity"]
+        if (
+            not isinstance(identity, str)
+            or not identity
+            or identity != identity.lower()
+            or any(character in identity for character in ("/", "\\"))
+        ):
+            raise ValueError("SwiftPM fileSystem dependency identity is invalid")
+        if repo_root is None:
+            raise ValueError(
+                "SwiftPM local dependencies require repository context"
+            )
+        normalized_path = _normalize_dump_local_dependency_path(
+            description["path"],
+            repo_root,
+        )
+        if normalized_path in seen_dependency_paths:
+            raise ValueError("duplicate SwiftPM local dependency path")
+        if identity in seen_dependency_identities:
+            raise ValueError("duplicate SwiftPM local dependency identity")
+        seen_dependency_paths.add(normalized_path)
+        seen_dependency_identities.add(identity)
+        local_dependencies.append(
+            SwiftLocalPackageDependency(
+                package=normalized_path,
+                identity=identity,
+            )
+        )
+
+    product_dependencies: set[SwiftProductDependency] = set()
+    for target_name, identity, product_name in raw_product_dependencies:
+        if identity not in seen_dependency_identities:
+            raise ValueError(
+                "SwiftPM product dependency refers to an undeclared package identity"
+            )
+        dependency = SwiftProductDependency(
+            target=target_name,
+            identity=identity,
+            product=product_name,
+        )
+        if dependency in product_dependencies:
+            raise ValueError("duplicate SwiftPM product dependency")
+        product_dependencies.add(dependency)
+
     return SwiftPackageManifest(
         executable_products=tuple(sorted(executable_products)),
         target_paths=tuple(sorted(target_paths)),
+        products=tuple(sorted(all_products)),
+        library_products=tuple(sorted(library_products)),
+        targets=tuple(sorted(target_names)),
+        local_dependencies=tuple(sorted(local_dependencies)),
+        product_dependencies=tuple(sorted(product_dependencies)),
+        by_name_dependencies=tuple(sorted(by_name_dependencies)),
     )
 
 
@@ -357,8 +867,7 @@ def inspect_swift_package(
         "package",
         "--package-path",
         package_path,
-        "--manifest-cache",
-        "none",
+        *SWIFT_OFFLINE_FLAGS,
         "dump-package",
     )
     timer = clock or time.perf_counter
@@ -380,7 +889,19 @@ def inspect_swift_package(
             raise ValueError(
                 f"cannot inspect SwiftPM package {package_path}{suffix}"
             )
-        manifest = parse_swift_package_manifest(result.stdout)
+        manifest = parse_swift_package_manifest(
+            result.stdout,
+            repo_root=repo_root,
+        )
+        declared_paths = extract_manifest_local_dependency_paths(
+            package / "Package.swift"
+        )
+        _validate_manifest_dependency_declarations(
+            repo_root,
+            package,
+            declared_paths,
+            manifest.local_dependencies,
+        )
     except OSError as exc:
         if timing_sink is not None and started_at is not None:
             timing_sink(
@@ -527,6 +1048,7 @@ def load_swift_package_policy(
             )
         return SwiftPackagePolicy(
             expected_products={},
+            local_dependencies={},
             lint_exceptions={},
         )
     try:
@@ -546,7 +1068,7 @@ def load_swift_package_policy(
             "SwiftPM policy must contain exactly schemaVersion, "
             "defaultMode, packages and exceptions"
         )
-    if payload["schemaVersion"] != 1:
+    if payload["schemaVersion"] != 2:
         raise ValueError("unsupported SwiftPM policy schemaVersion")
     if payload["defaultMode"] != "strict":
         raise ValueError("SwiftPM policy defaultMode must be strict")
@@ -555,16 +1077,18 @@ def load_swift_package_policy(
     if not isinstance(raw_packages, list):
         raise ValueError("SwiftPM policy packages must be a list")
     expected_products: dict[str, tuple[str, ...]] = {}
+    raw_local_dependencies_by_package: dict[str, object] = {}
     for raw_package in raw_packages:
         if not isinstance(raw_package, dict) or set(raw_package) != {
             "package",
             "executableProducts",
+            "localDependencies",
         }:
             raise ValueError(
-                "SwiftPM policy package must contain package and "
-                "executableProducts"
+                "SwiftPM policy package must contain package, "
+                "executableProducts and localDependencies"
             )
-        package = require_safe_relative_path(
+        package = require_prototype_package_path(
             raw_package["package"],
             "SwiftPM policy package",
         )
@@ -585,6 +1109,9 @@ def load_swift_package_policy(
                 "unique string list"
             )
         expected_products[package] = tuple(sorted(products))
+        raw_local_dependencies_by_package[package] = raw_package[
+            "localDependencies"
+        ]
 
     expected_package_names = set(expected_products)
     if expected_package_names != discovered_packages:
@@ -601,6 +1128,124 @@ def load_swift_package_policy(
             "SwiftPM package inventory differs from policy: "
             + "; ".join(details)
         )
+
+    local_dependencies: dict[str, tuple[SwiftAllowedLocalDependency, ...]] = {}
+    for package, raw_dependencies in raw_local_dependencies_by_package.items():
+        if not isinstance(raw_dependencies, list):
+            raise ValueError("SwiftPM policy localDependencies must be a list")
+        parsed_dependencies: list[SwiftAllowedLocalDependency] = []
+        dependency_paths: set[str] = set()
+        dependency_identities: set[str] = set()
+        for raw_dependency in raw_dependencies:
+            if not isinstance(raw_dependency, dict) or set(raw_dependency) != {
+                "package",
+                "identity",
+                "products",
+            }:
+                raise ValueError(
+                    "SwiftPM policy local dependency must contain package, "
+                    "identity and products"
+                )
+            dependency_package = require_prototype_package_path(
+                raw_dependency["package"],
+                "SwiftPM policy local dependency package",
+            )
+            if dependency_package not in discovered_packages:
+                raise ValueError(
+                    "SwiftPM policy local dependency refers to an unregistered "
+                    f"package: {dependency_package}"
+                )
+            if dependency_package == package:
+                raise ValueError("SwiftPM policy does not allow self-dependency")
+            identity = raw_dependency["identity"]
+            if (
+                not isinstance(identity, str)
+                or not identity
+                or identity != identity.lower()
+                or any(character in identity for character in ("/", "\\"))
+            ):
+                raise ValueError(
+                    "SwiftPM policy local dependency identity must be a "
+                    "lowercase non-empty string"
+                )
+            if dependency_package in dependency_paths:
+                raise ValueError("duplicate SwiftPM policy local dependency package")
+            if identity in dependency_identities:
+                raise ValueError("duplicate SwiftPM policy local dependency identity")
+            dependency_paths.add(dependency_package)
+            dependency_identities.add(identity)
+
+            raw_products = raw_dependency["products"]
+            if not isinstance(raw_products, list) or not raw_products:
+                raise ValueError(
+                    "SwiftPM policy local dependency products must be a "
+                    "non-empty list"
+                )
+            parsed_products: set[SwiftAllowedProductDependency] = set()
+            for raw_product in raw_products:
+                if not isinstance(raw_product, dict) or set(raw_product) != {
+                    "target",
+                    "product",
+                }:
+                    raise ValueError(
+                        "SwiftPM policy product dependency must contain target "
+                        "and product"
+                    )
+                target = raw_product["target"]
+                product = raw_product["product"]
+                if not isinstance(target, str) or not target:
+                    raise ValueError(
+                        "SwiftPM policy product dependency target must not be empty"
+                    )
+                if not isinstance(product, str) or not product:
+                    raise ValueError(
+                        "SwiftPM policy product dependency product must not be empty"
+                    )
+                parsed_product = SwiftAllowedProductDependency(
+                    target=target,
+                    product=product,
+                )
+                if parsed_product in parsed_products:
+                    raise ValueError("duplicate SwiftPM policy product dependency")
+                parsed_products.add(parsed_product)
+            parsed_dependencies.append(
+                SwiftAllowedLocalDependency(
+                    package=dependency_package,
+                    identity=identity,
+                    products=tuple(sorted(parsed_products)),
+                )
+            )
+        local_dependencies[package] = tuple(sorted(parsed_dependencies))
+
+    _validate_unique_swift_dependency_identities(
+        dependency
+        for dependencies in local_dependencies.values()
+        for dependency in dependencies
+    )
+
+    graph = {
+        package: tuple(
+            dependency.package
+            for dependency in local_dependencies[package]
+        )
+        for package in expected_products
+    }
+    visiting: set[str] = set()
+    visited: set[str] = set()
+
+    def visit(package: str) -> None:
+        if package in visiting:
+            raise ValueError("SwiftPM policy local dependency graph contains a cycle")
+        if package in visited:
+            return
+        visiting.add(package)
+        for dependency in graph[package]:
+            visit(dependency)
+        visiting.remove(package)
+        visited.add(package)
+
+    for package in sorted(graph):
+        visit(package)
 
     raw_exceptions = payload["exceptions"]
     if not isinstance(raw_exceptions, list):
@@ -669,8 +1314,128 @@ def load_swift_package_policy(
         )
     return SwiftPackagePolicy(
         expected_products=expected_products,
+        local_dependencies=local_dependencies,
         lint_exceptions=exceptions,
     )
+
+
+def _validate_unique_swift_dependency_identities(
+    dependencies: Iterable[
+        SwiftLocalPackageDependency | SwiftAllowedLocalDependency
+    ],
+) -> None:
+    identity_to_package: dict[str, str] = {}
+    package_to_identity: dict[str, str] = {}
+    for dependency in dependencies:
+        package = dependency.package
+        identity = dependency.identity
+        previous_package = identity_to_package.setdefault(identity, package)
+        if previous_package != package:
+            raise ValueError(
+                "SwiftPM local dependency identity maps to multiple packages: "
+                f"{identity}"
+            )
+        previous_identity = package_to_identity.setdefault(package, identity)
+        if previous_identity != identity:
+            raise ValueError(
+                "SwiftPM local dependency package maps to multiple identities: "
+                f"{package}"
+            )
+
+
+def validate_swift_dependency_contract(
+    policy: SwiftPackagePolicy,
+    manifests: dict[str, SwiftPackageManifest],
+) -> None:
+    _validate_unique_swift_dependency_identities(
+        dependency
+        for manifest in manifests.values()
+        for dependency in manifest.local_dependencies
+    )
+    actual_graph: dict[str, tuple[str, ...]] = {}
+    for package in sorted(manifests):
+        manifest = manifests[package]
+        expected_dependencies = {
+            SwiftLocalPackageDependency(
+                package=dependency.package,
+                identity=dependency.identity,
+            )
+            for dependency in policy.local_dependencies[package]
+        }
+        actual_dependencies = set(manifest.local_dependencies)
+        if actual_dependencies != expected_dependencies:
+            missing = sorted(expected_dependencies - actual_dependencies)
+            extra = sorted(actual_dependencies - expected_dependencies)
+            raise ValueError(
+                "SwiftPM local package dependencies differ from policy for "
+                f"{package}: missing {missing}, extra {extra}"
+            )
+
+        expected_products = {
+            SwiftProductDependency(
+                target=product.target,
+                identity=dependency.identity,
+                product=product.product,
+            )
+            for dependency in policy.local_dependencies[package]
+            for product in dependency.products
+        }
+        actual_products = set(manifest.product_dependencies)
+        if actual_products != expected_products:
+            missing = sorted(expected_products - actual_products)
+            extra = sorted(actual_products - expected_products)
+            raise ValueError(
+                "SwiftPM local product dependencies differ from policy for "
+                f"{package}: missing {missing}, extra {extra}"
+            )
+
+        own_targets = set(manifest.targets)
+        for target, dependency_name in manifest.by_name_dependencies:
+            if dependency_name not in own_targets:
+                raise ValueError(
+                    "SwiftPM byName dependency must refer to an internal target: "
+                    f"{package}:{target}"
+                )
+
+        for dependency in policy.local_dependencies[package]:
+            provider = manifests[dependency.package]
+            provider_products = set(provider.library_products)
+            for product in dependency.products:
+                if product.target not in own_targets:
+                    raise ValueError(
+                        "SwiftPM policy product dependency target is missing: "
+                        f"{package}:{product.target}"
+                    )
+                if product.product not in provider_products:
+                    raise ValueError(
+                        "SwiftPM policy product is not an exported library: "
+                        f"{dependency.package}:{product.product}"
+                    )
+        actual_graph[package] = tuple(
+            dependency.package for dependency in manifest.local_dependencies
+        )
+
+    visiting: set[str] = set()
+    visited: set[str] = set()
+
+    def visit(package: str) -> None:
+        if package in visiting:
+            raise ValueError("SwiftPM local dependency graph contains a cycle")
+        if package in visited:
+            return
+        visiting.add(package)
+        for dependency in actual_graph[package]:
+            if dependency not in actual_graph:
+                raise ValueError(
+                    "SwiftPM local dependency is not a registered package: "
+                    f"{dependency}"
+                )
+            visit(dependency)
+        visiting.remove(package)
+        visited.add(package)
+
+    for package in sorted(actual_graph):
+        visit(package)
 
 
 def build_swift_steps(
@@ -690,6 +1455,7 @@ def build_swift_steps(
         return []
     swift_format_config = require_file(repo_root, SWIFT_FORMAT_CONFIG)
     steps: list[SmokeStep] = []
+    manifests: dict[str, SwiftPackageManifest] = {}
 
     for package in packages:
         package_path = repo_relative(package, repo_root)
@@ -711,6 +1477,13 @@ def build_swift_steps(
                 f"{package_path}: expected {expected_products}, "
                 f"got {manifest.executable_products}"
             )
+        manifests[package_path] = manifest
+
+    validate_swift_dependency_contract(policy, manifests)
+
+    for package in packages:
+        package_path = repo_relative(package, repo_root)
+        manifest = manifests[package_path]
         exception = policy.lint_exceptions.get(package_path)
         if exception is not None:
             current_hash = swift_lint_content_sha256(
@@ -728,7 +1501,13 @@ def build_swift_steps(
         steps.append(
             SmokeStep(
                 name=f"Тесты SwiftPM {package_path}",
-                command=(swift, "test", "--package-path", package_path),
+                command=(
+                    swift,
+                    "test",
+                    "--package-path",
+                    package_path,
+                    *SWIFT_OFFLINE_FLAGS,
+                ),
             )
         )
         for product in manifest.executable_products:
@@ -742,6 +1521,7 @@ def build_swift_steps(
                         "build",
                         "--package-path",
                         package_path,
+                        *SWIFT_OFFLINE_FLAGS,
                         "--product",
                         product,
                     ),

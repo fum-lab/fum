@@ -1935,6 +1935,33 @@
       "count": 1,
       "category": "allow.test-fixture",
       "reason": "Закрепляет точную проверку нераскрытия отрицательной фикстуры ready-payload без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-134",
+      "path": "Инструменты/fum-kompleksnaya-proverka-repozitoriya/tests/test_run_smoke_check.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:1adc3d2b2ba10de8600bd795983e144a244c0cb1ff6cb8202c55b10cefd8ebae",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную отрицательную фикстуру абсолютного пути локальной SwiftPM-зависимости без разрешения соседних строк."
+    },
+    {
+      "id": "definition-043",
+      "path": "Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/run-smoke-check.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:f07a83caff0f4df29806662fa8eaadbeb665cc0fcdc077e60d9392f2f5f32bc5",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения запрета домашнего сокращения в пути политики SwiftPM."
+    },
+    {
+      "id": "definition-044",
+      "path": "Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/run-smoke-check.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:5c41f24c7991bc714564a16a27d422de3d80d68f31dba15d25b39bb063ee0265",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения запрета домашнего сокращения в пути Package.swift."
     }
   ]
 }

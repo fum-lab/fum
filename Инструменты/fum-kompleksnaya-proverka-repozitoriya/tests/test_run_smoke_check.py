@@ -8,6 +8,7 @@ import sys
 import tempfile
 import types
 import unittest
+from dataclasses import replace
 from pathlib import Path
 from unittest import mock
 
@@ -130,7 +131,19 @@ class RunSmokeCheckTests(unittest.TestCase):
         package = root / "Прототипы" / name
         (package / "Sources" / "Fixture").mkdir(parents=True)
         (package / "Tests" / "FixtureTests").mkdir(parents=True)
-        (package / "Package.swift").write_text("// fixture\n", encoding="utf-8")
+        (package / "Package.swift").write_text(
+            """// swift-tools-version: 6.0
+
+import PackageDescription
+
+let package = Package(
+  name: "Fixture",
+  dependencies: [],
+  targets: []
+)
+""",
+            encoding="utf-8",
+        )
         (package / "Sources" / "Fixture" / "Fixture.swift").write_text(
             "public struct Fixture {}\n",
             encoding="utf-8",
@@ -149,6 +162,734 @@ class RunSmokeCheckTests(unittest.TestCase):
         if not swift_format_config.exists():
             swift_format_config.write_text("{}\n", encoding="utf-8")
         return package.resolve()
+
+    def write_real_local_swift_composition(self, root: Path) -> tuple[Path, Path]:
+        provider = root / "Прототипы" / "beta"
+        consumer = root / "Прототипы" / "alpha"
+        (provider / "Sources" / "BetaLibrary").mkdir(parents=True)
+        (provider / "Sources" / "BetaCLI").mkdir(parents=True)
+        (provider / "Tests" / "BetaTests").mkdir(parents=True)
+        (consumer / "Sources" / "AlphaCLI").mkdir(parents=True)
+        (consumer / "Tests" / "AlphaTests").mkdir(parents=True)
+        provider.joinpath("Package.swift").write_text(
+            """// swift-tools-version: 6.0
+
+import PackageDescription
+
+let package = Package(
+  name: "BetaPackage",
+  products: [
+    .library(name: "BetaLibrary", targets: ["BetaLibrary"]),
+    .executable(name: "BetaCLI", targets: ["BetaCLI"]),
+  ],
+  targets: [
+    .target(name: "BetaLibrary", path: "Sources/BetaLibrary"),
+    .executableTarget(
+      name: "BetaCLI",
+      dependencies: ["BetaLibrary"],
+      path: "Sources/BetaCLI"
+    ),
+    .testTarget(name: "BetaTests", path: "Tests/BetaTests"),
+  ]
+)
+""",
+            encoding="utf-8",
+        )
+        provider.joinpath("Sources/BetaLibrary/Beta.swift").write_text(
+            "public struct Beta { public init() {} }\n",
+            encoding="utf-8",
+        )
+        provider.joinpath("Sources/BetaCLI/main.swift").write_text(
+            "import BetaLibrary\n_ = Beta()\n",
+            encoding="utf-8",
+        )
+        consumer.joinpath("Package.swift").write_text(
+            """// swift-tools-version: 6.0
+
+import PackageDescription
+
+let package = Package(
+  name: "AlphaPackage",
+  products: [
+    .executable(name: "AlphaCLI", targets: ["AlphaCLI"])
+  ],
+  dependencies: [
+    .package(path: "../beta")
+  ],
+  targets: [
+    .executableTarget(
+      name: "AlphaCLI",
+      dependencies: [
+        .product(name: "BetaLibrary", package: "beta")
+      ],
+      path: "Sources/AlphaCLI"
+    ),
+    .testTarget(name: "AlphaTests", path: "Tests/AlphaTests"),
+  ]
+)
+""",
+            encoding="utf-8",
+        )
+        consumer.joinpath("Sources/AlphaCLI/main.swift").write_text(
+            "import BetaLibrary\n_ = Beta()\n",
+            encoding="utf-8",
+        )
+        for tests_path in (
+            provider / "Tests" / "BetaTests" / "SmokeTests.swift",
+            consumer / "Tests" / "AlphaTests" / "SmokeTests.swift",
+        ):
+            tests_path.write_text(
+                "import Testing\n\n@Test func smoke() { #expect(true) }\n",
+                encoding="utf-8",
+            )
+        swift_format_config = (
+            root
+            / "Инструменты"
+            / "fum-kompleksnaya-proverka-repozitoriya"
+            / "swift-format.json"
+        )
+        swift_format_config.parent.mkdir(parents=True, exist_ok=True)
+        swift_format_config.write_text("{}\n", encoding="utf-8")
+        return consumer.resolve(), provider.resolve()
+
+    def write_local_dependency_policy(self, root: Path) -> None:
+        policy_path = (
+            root
+            / "Инструменты"
+            / "fum-kompleksnaya-proverka-repozitoriya"
+            / "swift-package-policy.json"
+        )
+        policy_path.parent.mkdir(parents=True, exist_ok=True)
+        policy_path.write_text(
+            json.dumps(
+                {
+                    "schemaVersion": 2,
+                    "defaultMode": "strict",
+                    "packages": [
+                        {
+                            "package": "Прототипы/alpha",
+                            "executableProducts": ["AlphaCLI"],
+                            "localDependencies": [
+                                {
+                                    "package": "Прототипы/beta",
+                                    "identity": "beta",
+                                    "products": [
+                                        {
+                                            "target": "AlphaCLI",
+                                            "product": "BetaLibrary",
+                                        }
+                                    ],
+                                }
+                            ],
+                        },
+                        {
+                            "package": "Прототипы/beta",
+                            "executableProducts": ["BetaCLI"],
+                            "localDependencies": [],
+                        },
+                    ],
+                    "exceptions": [],
+                },
+                ensure_ascii=False,
+            ),
+            encoding="utf-8",
+        )
+
+    def test_accepts_registered_local_swiftpm_composition(self):
+        swift = shutil.which("swift")
+        if swift is None:
+            self.skipTest("SwiftPM is required by the repository smoke-check")
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_real_local_swift_composition(root)
+            self.write_local_dependency_policy(root)
+
+            steps = run_smoke_check.build_swift_steps(root, swift)
+
+            self.assertEqual(
+                [step.name for step in steps],
+                [
+                    "Тесты SwiftPM Прототипы/alpha",
+                    "Сборка SwiftPM-продукта Прототипы/alpha: AlphaCLI",
+                    "Строгий lint SwiftPM Прототипы/alpha",
+                    "Тесты SwiftPM Прототипы/beta",
+                    "Сборка SwiftPM-продукта Прототипы/beta: BetaCLI",
+                    "Строгий lint SwiftPM Прототипы/beta",
+                ],
+            )
+            stdout = io.StringIO()
+            stderr = io.StringIO()
+            with (
+                contextlib.redirect_stdout(stdout),
+                contextlib.redirect_stderr(stderr),
+            ):
+                result = run_smoke_check.run_steps(steps, root)
+            self.assertEqual(
+                result,
+                0,
+                stdout.getvalue() + stderr.getvalue(),
+            )
+
+    def test_policy_v2_rejects_dependency_boundary_cases(self):
+        def payload() -> dict[str, object]:
+            return {
+                "schemaVersion": 2,
+                "defaultMode": "strict",
+                "packages": [
+                    {
+                        "package": "Прототипы/alpha",
+                        "executableProducts": ["AlphaCLI"],
+                        "localDependencies": [
+                            {
+                                "package": "Прототипы/beta",
+                                "identity": "beta",
+                                "products": [
+                                    {
+                                        "target": "AlphaCLI",
+                                        "product": "BetaLibrary",
+                                    }
+                                ],
+                            }
+                        ],
+                    },
+                    {
+                        "package": "Прототипы/beta",
+                        "executableProducts": ["BetaCLI"],
+                        "localDependencies": [],
+                    },
+                ],
+                "exceptions": [],
+            }
+
+        cases: list[tuple[str, dict[str, object], str]] = []
+
+        schema_v1 = payload()
+        schema_v1["schemaVersion"] = 1
+        cases.append(("schema-v1", schema_v1, "schemaVersion"))
+
+        missing_allowlist = payload()
+        del missing_allowlist["packages"][0]["localDependencies"]  # type: ignore[index]
+        cases.append(("missing-allowlist", missing_allowlist, "localDependencies"))
+
+        absolute = payload()
+        absolute["packages"][0]["localDependencies"][0]["package"] = "/tmp/beta"  # type: ignore[index]
+        cases.append(("absolute", absolute, "normalized relative path"))
+
+        traversal = payload()
+        traversal["packages"][0]["localDependencies"][0]["package"] = "Прототипы/../beta"  # type: ignore[index]
+        cases.append(("traversal", traversal, "normalized relative path"))
+
+        self_dependency = payload()
+        self_dependency["packages"][0]["localDependencies"][0]["package"] = "Прототипы/alpha"  # type: ignore[index]
+        cases.append(("self", self_dependency, "self-dependency"))
+
+        duplicate = payload()
+        duplicate["packages"][0]["localDependencies"].append(  # type: ignore[index,union-attr]
+            duplicate["packages"][0]["localDependencies"][0]  # type: ignore[index]
+        )
+        cases.append(("duplicate", duplicate, "duplicate"))
+
+        cycle = payload()
+        cycle["packages"][1]["localDependencies"] = [  # type: ignore[index]
+            {
+                "package": "Прототипы/alpha",
+                "identity": "alpha",
+                "products": [
+                    {"target": "BetaCLI", "product": "AlphaLibrary"}
+                ],
+            }
+        ]
+        cases.append(("cycle", cycle, "contains a cycle"))
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            policy_path = (
+                root
+                / "Инструменты"
+                / "fum-kompleksnaya-proverka-repozitoriya"
+                / "swift-package-policy.json"
+            )
+            policy_path.parent.mkdir(parents=True)
+            for name, candidate, error in cases:
+                with self.subTest(name=name):
+                    policy_path.write_text(
+                        json.dumps(candidate, ensure_ascii=False),
+                        encoding="utf-8",
+                    )
+                    with self.assertRaisesRegex(ValueError, error):
+                        run_smoke_check.load_swift_package_policy(
+                            root,
+                            {"Прототипы/alpha", "Прототипы/beta"},
+                        )
+
+    def test_dump_rejects_remote_registry_unknown_and_binary_dependencies(self):
+        base = {
+            "dependencies": [],
+            "products": [
+                {"name": "CLI", "type": {"executable": None}},
+            ],
+            "targets": [
+                {
+                    "name": "CLI",
+                    "path": "Sources/CLI",
+                    "dependencies": [],
+                }
+            ],
+        }
+        dependency_cases = {
+            "source-control": {"sourceControl": []},
+            "registry": {"registry": []},
+            "unknown": {"futureDependency": []},
+        }
+        for name, dependency in dependency_cases.items():
+            with self.subTest(name=name):
+                candidate = dict(base)
+                candidate["dependencies"] = [dependency]
+                with self.assertRaisesRegex(ValueError, "non-local dependencies"):
+                    run_smoke_check.parse_swift_package_manifest(
+                        json.dumps(candidate)
+                    )
+
+        binary = dict(base)
+        binary["targets"] = [
+            {
+                "name": "Artifact",
+                "type": "binary",
+                "path": "Artifacts/Artifact.artifactbundle",
+                "dependencies": [],
+            }
+        ]
+        with self.assertRaisesRegex(ValueError, "binary dependencies"):
+            run_smoke_check.parse_swift_package_manifest(json.dumps(binary))
+
+    def test_dump_normalizes_local_path_and_rejects_escape_and_duplicates(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            workspace = Path(tmp)
+            root = workspace / "repo"
+            alpha = root / "Прототипы" / "alpha"
+            beta = root / "Прототипы" / "beta"
+            tool = root / "Инструменты" / "tool"
+            outside = workspace / "outside"
+            for path in (alpha, beta, tool, outside):
+                path.mkdir(parents=True)
+            escaped_link = root / "Прототипы" / "escaped"
+            escaped_link.symlink_to(outside, target_is_directory=True)
+
+            def dump_for(paths: list[Path]) -> str:
+                dependencies = [
+                    {
+                        "fileSystem": [
+                            {
+                                "identity": f"dependency-{index}",
+                                "path": str(path),
+                                "productFilter": None,
+                                "traits": [{"name": "default"}],
+                            }
+                        ]
+                    }
+                    for index, path in enumerate(paths)
+                ]
+                return json.dumps(
+                    {
+                        "dependencies": dependencies,
+                        "products": [
+                            {"name": "CLI", "type": {"executable": None}},
+                        ],
+                        "targets": [
+                            {
+                                "name": "CLI",
+                                "path": "Sources/CLI",
+                                "dependencies": [],
+                            }
+                        ],
+                    }
+                )
+
+            manifest = run_smoke_check.parse_swift_package_manifest(
+                dump_for([beta]),
+                repo_root=root,
+            )
+            self.assertEqual(
+                manifest.local_dependencies[0].package,
+                "Прототипы/beta",
+            )
+
+            for name, path, error in (
+                ("outside-repository", outside, "outside repository"),
+                ("outside-prototypes", tool, "outside Прототипы"),
+                ("symlink-escape", escaped_link, "outside repository"),
+            ):
+                with self.subTest(name=name):
+                    with self.assertRaisesRegex(ValueError, error):
+                        run_smoke_check.parse_swift_package_manifest(
+                            dump_for([path]),
+                            repo_root=root,
+                        )
+
+            duplicate_dump = json.loads(dump_for([beta]))
+            duplicate_dump["dependencies"].append(
+                duplicate_dump["dependencies"][0]
+            )
+            with self.assertRaisesRegex(ValueError, "duplicate"):
+                run_smoke_check.parse_swift_package_manifest(
+                    json.dumps(duplicate_dump),
+                    repo_root=root,
+                )
+
+    def test_manifest_source_rejects_noncanonical_dependency_declarations(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            alpha = root / "Прототипы" / "alpha"
+            beta = root / "Прототипы" / "beta"
+            alpha.mkdir(parents=True)
+            beta.mkdir(parents=True)
+            manifest_path = alpha / "Package.swift"
+            actual = (
+                run_smoke_check.SwiftLocalPackageDependency(
+                    package="Прототипы/beta",
+                    identity="beta",
+                ),
+            )
+
+            def source_for(
+                dependency_expression: str,
+                *,
+                prelude: str = "",
+            ) -> str:
+                return (
+                    "import PackageDescription\n"
+                    f"{prelude}"
+                    "let package = Package(\n"
+                    '  name: "Alpha",\n'
+                    f"  dependencies: [{dependency_expression}],\n"
+                    "  targets: []\n"
+                    ")\n"
+                )
+
+            manifest_path.write_text(
+                source_for('.package(path: "../beta")'),
+                encoding="utf-8",
+            )
+            declared = run_smoke_check.extract_manifest_local_dependency_paths(
+                manifest_path
+            )
+            run_smoke_check._validate_manifest_dependency_declarations(
+                root,
+                alpha,
+                declared,
+                actual,
+            )
+
+            source_cases = (
+                (
+                    "absolute",
+                    source_for(f'.package(path: "{beta}")'),
+                    "must be relative",
+                ),
+                (
+                    "noncanonical",
+                    source_for('.package(path: "../alpha/../beta")'),
+                    "must be canonical",
+                ),
+                (
+                    "computed",
+                    source_for(
+                        ".package(path: p)",
+                        prelude='let p = "../beta"\n',
+                    ),
+                    "only import PackageDescription",
+                ),
+                (
+                    "remote",
+                    source_for(
+                        '.package(url: "https://example.test/x")'
+                    ),
+                    "must use exactly",
+                ),
+                (
+                    "duplicate",
+                    source_for(
+                        '.package(path: "../beta"), '
+                        '.package(path: "../beta")'
+                    ),
+                    "duplicate",
+                ),
+                (
+                    "missing",
+                    source_for('.package(path: "../missing")'),
+                    "does not exist",
+                ),
+                (
+                    "backtick-absolute-with-unused-marker",
+                    source_for(
+                        f'Package.Dependency.`package`(path: "{beta}")',
+                        prelude=(
+                            "let unused = Package.Dependency.package("
+                            'path: "../beta")\n'
+                        ),
+                    ),
+                    "only import PackageDescription",
+                ),
+                (
+                    "post-initializer-absolute-mutation",
+                    source_for('.package(path: "../beta")')
+                    + "package.dependencies = ["
+                    + f'.package(path: "{beta}")' + "]\n",
+                    "may not mutate",
+                ),
+                (
+                    "custom-prelude",
+                    source_for(
+                        '.package(path: "../beta")',
+                        prelude="func overridePackage() {}\n",
+                    ),
+                    "only import PackageDescription",
+                ),
+            )
+            for name, source, error in source_cases:
+                with self.subTest(name=name):
+                    manifest_path.write_text(source, encoding="utf-8")
+                    with self.assertRaisesRegex(ValueError, error):
+                        declared = (
+                            run_smoke_check.extract_manifest_local_dependency_paths(
+                                manifest_path
+                            )
+                        )
+                        run_smoke_check._validate_manifest_dependency_declarations(
+                            root,
+                            alpha,
+                            declared,
+                            actual,
+                        )
+
+    def test_dependency_contract_rejects_identity_product_and_graph_drift(self):
+        allowed_product = run_smoke_check.SwiftAllowedProductDependency(
+            target="AlphaCLI",
+            product="BetaLibrary",
+        )
+        allowed_dependency = run_smoke_check.SwiftAllowedLocalDependency(
+            package="Прототипы/beta",
+            identity="beta",
+            products=(allowed_product,),
+        )
+        policy = run_smoke_check.SwiftPackagePolicy(
+            expected_products={
+                "Прототипы/alpha": ("AlphaCLI",),
+                "Прототипы/beta": ("BetaCLI",),
+            },
+            local_dependencies={
+                "Прототипы/alpha": (allowed_dependency,),
+                "Прототипы/beta": (),
+            },
+            lint_exceptions={},
+        )
+        consumer = run_smoke_check.SwiftPackageManifest(
+            executable_products=("AlphaCLI",),
+            target_paths=("Sources/AlphaCLI",),
+            products=("AlphaCLI",),
+            targets=("AlphaCLI",),
+            local_dependencies=(
+                run_smoke_check.SwiftLocalPackageDependency(
+                    package="Прототипы/beta",
+                    identity="beta",
+                ),
+            ),
+            product_dependencies=(
+                run_smoke_check.SwiftProductDependency(
+                    target="AlphaCLI",
+                    identity="beta",
+                    product="BetaLibrary",
+                ),
+            ),
+        )
+        provider = run_smoke_check.SwiftPackageManifest(
+            executable_products=("BetaCLI",),
+            target_paths=("Sources/BetaCLI", "Sources/BetaLibrary"),
+            products=("BetaCLI", "BetaLibrary"),
+            library_products=("BetaLibrary",),
+            targets=("BetaCLI", "BetaLibrary"),
+        )
+        manifests = {
+            "Прототипы/alpha": consumer,
+            "Прототипы/beta": provider,
+        }
+        run_smoke_check.validate_swift_dependency_contract(policy, manifests)
+
+        collision_identity = "collision"
+        collision_manifests = {
+            "Прототипы/alpha": replace(
+                consumer,
+                local_dependencies=(
+                    run_smoke_check.SwiftLocalPackageDependency(
+                        package="Прототипы/beta",
+                        identity=collision_identity,
+                    ),
+                ),
+            ),
+            "Прототипы/beta": provider,
+            "Прототипы/gamma": run_smoke_check.SwiftPackageManifest(
+                executable_products=("GammaCLI",),
+                target_paths=("Sources/GammaCLI",),
+                targets=("GammaCLI",),
+                local_dependencies=(
+                    run_smoke_check.SwiftLocalPackageDependency(
+                        package="Прототипы/delta",
+                        identity=collision_identity,
+                    ),
+                ),
+            ),
+            "Прототипы/delta": run_smoke_check.SwiftPackageManifest(
+                executable_products=("DeltaCLI",),
+                target_paths=("Sources/DeltaCLI",),
+                targets=("DeltaCLI",),
+            ),
+        }
+        with self.assertRaisesRegex(ValueError, "maps to multiple packages"):
+            run_smoke_check.validate_swift_dependency_contract(
+                policy,
+                collision_manifests,
+            )
+
+        cases = (
+            (
+                "missing-package-edge",
+                replace(consumer, local_dependencies=()),
+                provider,
+                "package dependencies differ",
+            ),
+            (
+                "changed-identity",
+                replace(
+                    consumer,
+                    local_dependencies=(
+                        run_smoke_check.SwiftLocalPackageDependency(
+                            package="Прототипы/beta",
+                            identity="renamed",
+                        ),
+                    ),
+                ),
+                provider,
+                "package dependencies differ",
+            ),
+            (
+                "changed-product",
+                replace(
+                    consumer,
+                    product_dependencies=(
+                        run_smoke_check.SwiftProductDependency(
+                            target="AlphaCLI",
+                            identity="beta",
+                            product="RenamedLibrary",
+                        ),
+                    ),
+                ),
+                provider,
+                "product dependencies differ",
+            ),
+            (
+                "changed-target",
+                replace(
+                    consumer,
+                    product_dependencies=(
+                        run_smoke_check.SwiftProductDependency(
+                            target="RenamedCLI",
+                            identity="beta",
+                            product="BetaLibrary",
+                        ),
+                    ),
+                ),
+                provider,
+                "product dependencies differ",
+            ),
+            (
+                "extra-product-edge",
+                replace(
+                    consumer,
+                    product_dependencies=consumer.product_dependencies
+                    + (
+                        run_smoke_check.SwiftProductDependency(
+                            target="AlphaCLI",
+                            identity="beta",
+                            product="ExtraLibrary",
+                        ),
+                    ),
+                ),
+                provider,
+                "product dependencies differ",
+            ),
+            (
+                "implicit-external-by-name",
+                replace(
+                    consumer,
+                    by_name_dependencies=(("AlphaCLI", "BetaLibrary"),),
+                ),
+                provider,
+                "internal target",
+            ),
+            (
+                "provider-product-is-not-library",
+                consumer,
+                replace(provider, library_products=()),
+                "not an exported library",
+            ),
+        )
+        for name, changed_consumer, changed_provider, error in cases:
+            with self.subTest(name=name):
+                with self.assertRaisesRegex(ValueError, error):
+                    run_smoke_check.validate_swift_dependency_contract(
+                        policy,
+                        {
+                            "Прототипы/alpha": changed_consumer,
+                            "Прототипы/beta": changed_provider,
+                        },
+                    )
+
+        reverse_allowed = run_smoke_check.SwiftAllowedLocalDependency(
+            package="Прототипы/alpha",
+            identity="alpha",
+            products=(
+                run_smoke_check.SwiftAllowedProductDependency(
+                    target="BetaCLI",
+                    product="AlphaLibrary",
+                ),
+            ),
+        )
+        cycle_policy = replace(
+            policy,
+            local_dependencies={
+                "Прототипы/alpha": (allowed_dependency,),
+                "Прототипы/beta": (reverse_allowed,),
+            },
+        )
+        alpha_library_provider = replace(
+            consumer,
+            products=("AlphaCLI", "AlphaLibrary"),
+            library_products=("AlphaLibrary",),
+        )
+        cyclic_provider = replace(
+            provider,
+            local_dependencies=(
+                run_smoke_check.SwiftLocalPackageDependency(
+                    package="Прототипы/alpha",
+                    identity="alpha",
+                ),
+            ),
+            product_dependencies=(
+                run_smoke_check.SwiftProductDependency(
+                    target="BetaCLI",
+                    identity="alpha",
+                    product="AlphaLibrary",
+                ),
+            ),
+        )
+        with self.assertRaisesRegex(ValueError, "contains a cycle"):
+            run_smoke_check.validate_swift_dependency_contract(
+                cycle_policy,
+                {
+                    "Прототипы/alpha": alpha_library_provider,
+                    "Прототипы/beta": cyclic_provider,
+                },
+            )
 
     def test_builds_full_plan_from_local_automation_tests(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -377,16 +1118,18 @@ class RunSmokeCheckTests(unittest.TestCase):
             beta = self.write_swift_package_fixture(root, "beta")
             exception_hash = "sha256:" + "a" * 64
             policy = {
-                "schemaVersion": 1,
+                "schemaVersion": 2,
                 "defaultMode": "strict",
                 "packages": [
                     {
                         "package": "Прототипы/alpha",
                         "executableProducts": ["AlphaCLI"],
+                        "localDependencies": [],
                     },
                     {
                         "package": "Прототипы/beta",
                         "executableProducts": ["BetaApp", "BetaProbe"],
+                        "localDependencies": [],
                     },
                 ],
                 "exceptions": [
@@ -467,6 +1210,7 @@ class RunSmokeCheckTests(unittest.TestCase):
                     "test",
                     "--package-path",
                     "Прототипы/alpha",
+                    *run_smoke_check.SWIFT_OFFLINE_FLAGS,
                 ),
             )
             self.assertEqual(
@@ -476,6 +1220,7 @@ class RunSmokeCheckTests(unittest.TestCase):
                     "build",
                     "--package-path",
                     "Прототипы/alpha",
+                    *run_smoke_check.SWIFT_OFFLINE_FLAGS,
                     "--product",
                     "AlphaCLI",
                 ),
@@ -517,12 +1262,13 @@ class RunSmokeCheckTests(unittest.TestCase):
             policy_path.write_text(
                 json.dumps(
                     {
-                        "schemaVersion": 1,
+                        "schemaVersion": 2,
                         "defaultMode": "strict",
                         "packages": [
                             {
                                 "package": "Прототипы/alpha",
                                 "executableProducts": ["AlphaCLI"],
+                                "localDependencies": [],
                             }
                         ],
                         "exceptions": [
@@ -608,7 +1354,7 @@ class RunSmokeCheckTests(unittest.TestCase):
             )
             self.assertNotEqual(after, after_config_change)
 
-    def test_rejects_swiftpm_dependencies_without_offline_contract(self):
+    def test_rejects_nonlocal_swiftpm_dependencies(self):
         dump = json.dumps(
             {
                 "dependencies": [
@@ -626,12 +1372,16 @@ class RunSmokeCheckTests(unittest.TestCase):
                     {"name": "CLI", "type": {"executable": None}},
                 ],
                 "targets": [
-                    {"path": "Sources/CLI"},
+                    {
+                        "name": "CLI",
+                        "path": "Sources/CLI",
+                        "dependencies": [],
+                    },
                 ],
             }
         )
 
-        with self.assertRaisesRegex(ValueError, "offline contract"):
+        with self.assertRaisesRegex(ValueError, "non-local dependencies"):
             run_smoke_check.parse_swift_package_manifest(dump)
 
     def test_rejects_missing_package_and_product_inventory_drift(self):
@@ -648,16 +1398,18 @@ class RunSmokeCheckTests(unittest.TestCase):
             policy_path.write_text(
                 json.dumps(
                     {
-                        "schemaVersion": 1,
+                        "schemaVersion": 2,
                         "defaultMode": "strict",
                         "packages": [
                             {
                                 "package": "Прототипы/alpha",
                                 "executableProducts": ["AlphaCLI"],
+                                "localDependencies": [],
                             },
                             {
                                 "package": "Прототипы/beta",
                                 "executableProducts": ["BetaCLI"],
+                                "localDependencies": [],
                             },
                         ],
                         "exceptions": [],
@@ -720,12 +1472,13 @@ class RunSmokeCheckTests(unittest.TestCase):
             policy_path.write_text(
                 json.dumps(
                     {
-                        "schemaVersion": 1,
+                        "schemaVersion": 2,
                         "defaultMode": "strict",
                         "packages": [
                             {
                                 "package": "Прототипы/alpha",
                                 "executableProducts": ["AlphaCLI"],
+                                "localDependencies": [],
                             }
                         ],
                         "exceptions": [],
@@ -1166,12 +1919,13 @@ class RunSmokeCheckTests(unittest.TestCase):
             policy_path.write_text(
                 json.dumps(
                     {
-                        "schemaVersion": 1,
+                        "schemaVersion": 2,
                         "defaultMode": "strict",
                         "packages": [
                             {
                                 "package": "Прототипы/alpha",
                                 "executableProducts": ["AlphaCLI"],
+                                "localDependencies": [],
                             }
                         ],
                         "exceptions": [],
@@ -1187,8 +1941,16 @@ class RunSmokeCheckTests(unittest.TestCase):
                         {"name": "AlphaCLI", "type": {"executable": None}},
                     ],
                     "targets": [
-                        {"path": "Sources/Fixture"},
-                        {"path": "Tests/FixtureTests"},
+                        {
+                            "name": "Fixture",
+                            "path": "Sources/Fixture",
+                            "dependencies": [],
+                        },
+                        {
+                            "name": "FixtureTests",
+                            "path": "Tests/FixtureTests",
+                            "dependencies": [],
+                        },
                     ],
                 }
             )
@@ -1227,6 +1989,8 @@ class RunSmokeCheckTests(unittest.TestCase):
             manifest_command = run.call_args.args[0]
             self.assertIn("dump-package", manifest_command)
             self.assertNotIn("test", manifest_command)
+            for flag in run_smoke_check.SWIFT_OFFLINE_FLAGS:
+                self.assertIn(flag, manifest_command)
             self.assertIn(
                 "swift test --package-path",
                 output.getvalue(),
@@ -1271,9 +2035,21 @@ class RunSmokeCheckTests(unittest.TestCase):
                     {"name": "CLI", "type": {"executable": None}},
                 ],
                 "targets": [
-                    {"path": "Sources/Library"},
-                    {"path": "Sources/CLI"},
-                    {"path": "Tests/LibraryTests"},
+                    {
+                        "name": "Library",
+                        "path": "Sources/Library",
+                        "dependencies": [],
+                    },
+                    {
+                        "name": "CLI",
+                        "path": "Sources/CLI",
+                        "dependencies": [],
+                    },
+                    {
+                        "name": "LibraryTests",
+                        "path": "Tests/LibraryTests",
+                        "dependencies": [],
+                    },
                 ],
             }
         )
