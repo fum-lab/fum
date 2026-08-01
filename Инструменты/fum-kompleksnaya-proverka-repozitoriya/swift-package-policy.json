@@ -96,7 +96,18 @@
       "executableProducts": [
         "FUMWorkPackageProbe"
       ],
-      "localDependencies": []
+      "localDependencies": [
+        {
+          "package": "Прототипы/воспроизводимое-пополнение-памяти",
+          "identity": "воспроизводимое-пополнение-памяти",
+          "products": [
+            {
+              "target": "FUMDistributedEpisodeMemory",
+              "product": "FUMReproducibleMemoryPopulation"
+            }
+          ]
+        }
+      ]
     }
   ],
   "exceptions": []

@@ -1,11 +1,12 @@
 import Darwin
+import FUMDistributedEpisodeMemory
 import FUMVerifiableMultiAgentContour
 import Foundation
 
 private func printUsage() {
   print(
     """
-    Использование: FUMWorkPackageProbe [fixture [имя] | stdin | --list | episode <команда> | --help]
+    Использование: FUMWorkPackageProbe [fixture [имя] | stdin | --list | episode <команда> | memory <команда> | --help]
 
     Без аргументов анализирует положительную фикстуру ready.
     fixture [имя] анализирует встроенную фикстуру; без имени выбирается ready.
@@ -16,9 +17,66 @@ private func printUsage() {
     episode stdin принимает JSON-паспорт эпизода версии 1.
     episode --list печатает имена фикстур паспорта.
 
-    Код завершения: 0 для ready/valid, 3 для split_required/invalid, 2 для ошибки команды.
+    memory bootstrap <каталог> публикует пустое подтверждённое поколение стенда.
+    memory continue <каталог> <primary|adversarial> добавляет один вклад к CURRENT.
+    memory show <каталог> повторно проигрывает и печатает CURRENT.
+
+    Код завершения: 0 для ready/valid и успешной команды памяти, 3 для split_required/invalid или отказа памяти, 2 для синтаксической ошибки команды.
     """
   )
+}
+
+private func runMemoryCommand(_ arguments: [String]) -> Never {
+  guard arguments.count >= 2 else {
+    fputs("Неполная команда общей памяти. Используйте --help.\n", stderr)
+    exit(2)
+  }
+  let rootURL = URL(fileURLWithPath: arguments[1], isDirectory: true)
+  let store = SharedEpisodeMemoryStore(rootURL: rootURL)
+
+  do {
+    let stored: StoredSharedEpisodeGeneration
+    switch arguments[0] {
+    case "bootstrap" where arguments.count == 2:
+      stored = try store.commit(
+        SharedEpisodeMemoryReducer.foundation(seed: SharedEpisodeMemoryFixtures.seed())
+      )
+    case "continue" where arguments.count == 3:
+      guard let fixture = SharedEpisodeContributionFixture(rawValue: arguments[2]) else {
+        fputs("Неизвестный вклад стенда.\n", stderr)
+        exit(2)
+      }
+      let current = try store.loadCurrent()
+      guard let current else {
+        fputs("Память стенда ещё не имеет CURRENT.\n", stderr)
+        exit(3)
+      }
+      let contribution = try SharedEpisodeMemoryFixtures.contribution(
+        named: fixture,
+        parentGenerationSHA256: current.generationSHA256
+      )
+      stored = try store.commit(
+        SharedEpisodeMemoryReducer.continuation(
+          from: current.generation,
+          contribution: contribution
+        )
+      )
+    case "show" where arguments.count == 2:
+      guard let current = try store.loadCurrent() else {
+        fputs("Память стенда ещё не имеет CURRENT.\n", stderr)
+        exit(3)
+      }
+      stored = current
+    default:
+      fputs("Неизвестная команда общей памяти. Используйте --help.\n", stderr)
+      exit(2)
+    }
+    writeLine(try stored.generation.canonicalJSONData(), to: .standardOutput)
+    exit(0)
+  } catch {
+    fputs("Общая память отклонила команду: \(error)\n", stderr)
+    exit(3)
+  }
 }
 
 private func readBoundedStandardInput(maximumBytes: Int) -> Data {
@@ -78,6 +136,9 @@ private func runEpisodeCommand(_ arguments: [String]) -> Never {
 }
 
 let arguments = Array(CommandLine.arguments.dropFirst())
+if arguments.first == "memory" {
+  runMemoryCommand(Array(arguments.dropFirst()))
+}
 if arguments.first == "episode" {
   runEpisodeCommand(Array(arguments.dropFirst()))
 }
