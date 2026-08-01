@@ -37,7 +37,28 @@
       "executableProducts": [
         "FUMLiveEpisodeProbe"
       ],
-      "localDependencies": []
+      "localDependencies": [
+        {
+          "package": "Прототипы/воспроизводимое-пополнение-памяти",
+          "identity": "воспроизводимое-пополнение-памяти",
+          "products": [
+            {
+              "target": "FUMLiveEpisodeRuntime",
+              "product": "FUMReproducibleMemoryPopulation"
+            }
+          ]
+        },
+        {
+          "package": "Прототипы/чистый-модельный-шаг",
+          "identity": "чистый-модельный-шаг",
+          "products": [
+            {
+              "target": "FUMLiveEpisodeRuntime",
+              "product": "FUMPureModelStep"
+            }
+          ]
+        }
+      ]
     },
     {
       "package": "Прототипы/иерархия-функций-и-данных",
