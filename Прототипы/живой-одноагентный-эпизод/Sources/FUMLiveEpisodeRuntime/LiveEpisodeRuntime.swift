@@ -37,7 +37,11 @@ public struct LiveEpisodeRuntime {
         "create.initial_events не принимает duplicate event_id."
       )
     }
-    try validateExternalEvents(command.initialEvents, origin: .create)
+    try validateExternalEvents(
+      command.initialEvents,
+      origin: .create,
+      passport: command.passport
+    )
     let before = try store.loadCurrent()
     let stored = try store.commit(
       passport: command.passport,
@@ -75,7 +79,7 @@ public struct LiveEpisodeRuntime {
     let current = try requireCurrent()
     switch command.action {
     case .appendEvents(let append):
-      return try appendEvents(append.events, command: command, current: current)
+      return try appendEvents(append, command: command, current: current)
     case .confirmGeneration(let confirmation):
       return try confirmGeneration(confirmation, command: command, current: current)
     case .invokeModel(let invocation):
@@ -84,10 +88,11 @@ public struct LiveEpisodeRuntime {
   }
 
   private func appendEvents(
-    _ events: [LiveEpisodeEvent],
+    _ append: LiveEpisodeAppendEventsCommand,
     command: LiveEpisodeResumeCommand,
     current: StoredLiveEpisodeGeneration
   ) throws -> LiveEpisodeMutationOutput {
+    let events = append.events
     guard !events.isEmpty else {
       throw LiveEpisodeRuntimeError.invalidCommand(
         "append_events требует непустой список событий."
@@ -98,7 +103,13 @@ public struct LiveEpisodeRuntime {
         "append_events не принимает duplicate event_id в одном batch."
       )
     }
-    try validateExternalEvents(events, origin: .append)
+    try validateExternalEvents(
+      events,
+      origin: .append,
+      passport: current.state.passport
+    )
+    let currentCandidateReceipts =
+      current.generation.candidateReceiptJournal?.receipts ?? []
     if command.expectedGenerationSHA256 != current.generationSHA256 {
       if current.generation.previousGenerationSHA256 == command.expectedGenerationSHA256,
         events.count <= current.state.events.count,
@@ -130,6 +141,11 @@ public struct LiveEpisodeRuntime {
       passport: state.passport,
       events: state.events,
       invocations: current.generation.invocationReceiptJournal.invocations,
+      candidateReceipts: currentCandidateReceipts,
+      candidateExecutionCommandSHA256:
+        current.generation.candidateReceiptJournal?.executionCommandSHA256,
+      candidateObservationConfirmationEventID:
+        current.generation.candidateReceiptJournal?.observationConfirmationEventID,
       expectedPreviousGenerationSHA256: current.generationSHA256
     )
     return mutationOutput(
@@ -181,6 +197,11 @@ public struct LiveEpisodeRuntime {
       passport: state.passport,
       events: state.events,
       invocations: current.generation.invocationReceiptJournal.invocations,
+      candidateReceipts: current.generation.candidateReceiptJournal?.receipts ?? [],
+      candidateExecutionCommandSHA256:
+        current.generation.candidateReceiptJournal?.executionCommandSHA256,
+      candidateObservationConfirmationEventID:
+        current.generation.candidateReceiptJournal?.observationConfirmationEventID,
       expectedPreviousGenerationSHA256: current.generationSHA256
     )
     return mutationOutput(
@@ -273,6 +294,11 @@ public struct LiveEpisodeRuntime {
         passport: state.passport,
         events: state.events,
         invocations: current.generation.invocationReceiptJournal.invocations + [candidateReceipt],
+        candidateReceipts: current.generation.candidateReceiptJournal?.receipts ?? [],
+        candidateExecutionCommandSHA256:
+          current.generation.candidateReceiptJournal?.executionCommandSHA256,
+        candidateObservationConfirmationEventID:
+          current.generation.candidateReceiptJournal?.observationConfirmationEventID,
         expectedPreviousGenerationSHA256: current.generationSHA256
       )
       return mutationOutput(
@@ -294,6 +320,11 @@ public struct LiveEpisodeRuntime {
         passport: reservedState.passport,
         events: reservedState.events,
         invocations: current.generation.invocationReceiptJournal.invocations + [candidateReceipt],
+        candidateReceipts: current.generation.candidateReceiptJournal?.receipts ?? [],
+        candidateExecutionCommandSHA256:
+          current.generation.candidateReceiptJournal?.executionCommandSHA256,
+        candidateObservationConfirmationEventID:
+          current.generation.candidateReceiptJournal?.observationConfirmationEventID,
         expectedPreviousGenerationSHA256: current.generationSHA256
       )
       try checkpointObserver?(.reservationGenerationConfirmed, reserved)
@@ -323,6 +354,11 @@ public struct LiveEpisodeRuntime {
         passport: settledState.passport,
         events: settledState.events,
         invocations: reserved.generation.invocationReceiptJournal.invocations,
+        candidateReceipts: reserved.generation.candidateReceiptJournal?.receipts ?? [],
+        candidateExecutionCommandSHA256:
+          reserved.generation.candidateReceiptJournal?.executionCommandSHA256,
+        candidateObservationConfirmationEventID:
+          reserved.generation.candidateReceiptJournal?.observationConfirmationEventID,
         expectedPreviousGenerationSHA256: reserved.generationSHA256
       )
       return mutationOutput(
@@ -490,8 +526,10 @@ public struct LiveEpisodeRuntime {
 
   private func validateExternalEvents(
     _ events: [LiveEpisodeEvent],
-    origin: ExternalEventOrigin
+    origin: ExternalEventOrigin,
+    passport: LiveEpisodePassport
   ) throws {
+    let candidatePolicy = passport.actionAllowlist.compactMap(\.candidateCommitPolicy).first
     for event in events {
       let allowed: Bool
       switch (origin, event.kind) {
@@ -515,6 +553,16 @@ public struct LiveEpisodeRuntime {
         throw LiveEpisodeRuntimeError.invalidCommand(
           "\(source) не имеет права сохранять событие \(event.kind.rawValue)."
         )
+      }
+      guard candidatePolicy != nil else { continue }
+      switch event.payload {
+      case .transitionUserConfirmed, .authorizationDecided, .preflightCompleted,
+        .executionRecorded, .observationRecorded:
+        throw LiveEpisodeRuntimeError.invalidCommand(
+          "Candidate transition stages являются runtime-owned и недоступны через append_events."
+        )
+      default:
+        break
       }
     }
   }

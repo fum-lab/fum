@@ -376,6 +376,7 @@ public enum LiveEpisodeReducer {
         }
       }
       try validate(evidence: payload.evidence)
+      try requireUniqueTransitionEvidence(payload.evidence, transition: current)
       current = LiveTransitionAxisState(
         declarationEventID: current.declarationEventID,
         declaration: current.declaration,
@@ -422,6 +423,11 @@ public enum LiveEpisodeReducer {
         throw LiveEpisodeError.unknownReference(payload.allowanceID)
       }
       if payload.decision == .allowed {
+        guard model.selection?.sourceIntentID == payload.intentID else {
+          throw LiveEpisodeError.falseStatusElevation(
+            "Allowed-авторизация требует намерение точного selected_in_model."
+          )
+        }
         guard parsed.intent.operation == allowance.operation,
           parsed.intent.adapterID == allowance.adapterID,
           parsed.intent.effectClass == allowance.effectClass,
@@ -432,6 +438,7 @@ public enum LiveEpisodeReducer {
         }
       }
       try validate(evidence: payload.evidence)
+      try requireUniqueTransitionEvidence(payload.evidence, transition: current)
       current = LiveTransitionAxisState(
         declarationEventID: current.declarationEventID,
         declaration: current.declaration,
@@ -466,6 +473,7 @@ public enum LiveEpisodeReducer {
         throw order(event, "Результат preflight уже сохранён.")
       }
       try validate(evidence: payload.evidence)
+      try requireUniqueTransitionEvidence(payload.evidence, transition: current)
       current = copy(current, preflightEventID: event.eventID, preflight: payload)
       transition = current
 
@@ -485,6 +493,7 @@ public enum LiveEpisodeReducer {
         throw order(event, "Результат исполнения уже сохранён.")
       }
       try validate(evidence: payload.evidence)
+      try requireUniqueTransitionEvidence(payload.evidence, transition: current)
       current = copy(current, executionEventID: event.eventID, execution: payload)
       transition = current
 
@@ -504,6 +513,7 @@ public enum LiveEpisodeReducer {
         throw order(event, "Наблюдение результата уже сохранено.")
       }
       try validate(evidence: payload.evidence)
+      try requireUniqueTransitionEvidence(payload.evidence, transition: current)
       current = copy(current, observationEventID: event.eventID, observation: payload)
       transition = current
 
@@ -777,6 +787,20 @@ public enum LiveEpisodeReducer {
       try requireTechnicalIdentifier(action.operation, field: "operation")
       try requireTechnicalIdentifier(action.adapterID, field: "adapter_id")
       try requireTechnicalIdentifier(action.effectClass, field: "effect_class")
+      do {
+        try action.validateCandidateCommitPolicy()
+      } catch {
+        throw LiveEpisodeError.invalidPassport(String(describing: error))
+      }
+    }
+    guard
+      passport.actionAllowlist.filter({
+        $0.operation == LiveGitCandidateContract.operation
+      }).count <= 1
+    else {
+      throw LiveEpisodeError.invalidPassport(
+        "Паспорт допускает не более одного create_candidate_commit."
+      )
     }
     guard !passport.verificationCriteria.isEmpty,
       Set(passport.verificationCriteria.map(\.criterionID)).count
@@ -907,6 +931,24 @@ public enum LiveEpisodeReducer {
   private static func validate(evidence: LiveEvidenceObject) throws {
     try requireTechnicalIdentifier(evidence.evidenceID, field: "evidence_id")
     try requireSHA256(evidence.evidenceSHA256, field: "evidence_sha256")
+  }
+
+  private static func requireUniqueTransitionEvidence(
+    _ evidence: LiveEvidenceObject,
+    transition: LiveTransitionAxisState
+  ) throws {
+    let existing = [
+      transition.confirmation?.evidence.evidenceID,
+      transition.authorization?.evidence.evidenceID,
+      transition.preflight?.evidence.evidenceID,
+      transition.execution?.evidence.evidenceID,
+      transition.observation?.evidence.evidenceID,
+    ].compactMap { $0 }
+    guard !existing.contains(evidence.evidenceID) else {
+      throw LiveEpisodeError.duplicateTransitionEvidence(
+        evidenceID: evidence.evidenceID
+      )
+    }
   }
 
   private static func requireMatchingCoordinates(

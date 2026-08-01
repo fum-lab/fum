@@ -1962,6 +1962,78 @@
       "count": 1,
       "category": "allow.path-validation-definition",
       "reason": "Закрепляет точную строку определения запрета домашнего сокращения в пути Package.swift."
+    },
+    {
+      "id": "definition-045",
+      "path": "Прототипы/живой-одноагентный-эпизод/Sources/FUMLiveEpisodeCore/LiveGitCandidateContract.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:4e4da1be9aaf6c5e8b8af4f0b29f4e06d4e1c2496667868b7c624efaada0f999",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения запрета домашнего сокращения в имени Git ref."
+    },
+    {
+      "id": "definition-046",
+      "path": "Прототипы/живой-одноагентный-эпизод/Sources/FUMLiveEpisodeRuntime/IsolatedGitCandidateAdapter.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:8ed2c6c93248f2d34be910ef21a6acff79ccf83eb50a76138c57bd70d61b1612",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения запрета домашнего сокращения в пути кандидата."
+    },
+    {
+      "id": "fixture-135",
+      "path": "Прототипы/живой-одноагентный-эпизод/Tests/FUMLiveEpisodeCoreTests/LiveGitCandidateContractTests.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:20595c1c162255dcccf12b13dfd97e6f87a382506f464f3072f1ebd377647e91",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную отрицательную фикстуру абсолютного пути политики Git-кандидата."
+    },
+    {
+      "id": "fixture-136",
+      "path": "Прототипы/живой-одноагентный-эпизод/Tests/FUMLiveEpisodeRuntimeTests/LiveGitCandidateAcceptanceTests.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:7391f06dff452751fb603dce1216fb4d1437b0c1ead20e226a9873c87d5920d1",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную враждебную фикстуру системной команды в clone-конфигурации."
+    },
+    {
+      "id": "fixture-137",
+      "path": "Прототипы/живой-одноагентный-эпизод/Tests/FUMLiveEpisodeRuntimeTests/LiveGitCandidateAcceptanceTests.swift",
+      "kind": "file-uri",
+      "line_sha256": "sha256:9a2ef25b8ea040b338c03100e0ba326466f5513ca321b7946bda4e09c0e1e572",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную враждебную фикстуру локального file URI в clone-конфигурации."
+    },
+    {
+      "id": "fixture-138",
+      "path": "Прототипы/живой-одноагентный-эпизод/Tests/FUMLiveEpisodeRuntimeTests/LiveGitCandidateRuntimeTests.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:79c1ba3bca75d80df652dd53fce5cff5acd80c19eb64f9b21e32406bfcbaf8bb",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную отрицательную фикстуру абсолютного пути Git-кандидата."
+    },
+    {
+      "id": "fixture-139",
+      "path": "Прототипы/живой-одноагентный-эпизод/Tests/FUMLiveEpisodeRuntimeTests/LiveGitCandidateRuntimeTests.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:9658649a4f3370a93f6c8b14156e955c381039686d845fd57695edba33df6047",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную враждебную shell-фикстуру системной команды без разрешения соседних строк."
+    },
+    {
+      "id": "definition-047",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d7e7985b660ae55cb67932051d46cbb0f941b87d0d10c13175fdbf7fa1ec1a8e",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку системного префикса устройств в определении проверки путей."
     }
   ]
 }

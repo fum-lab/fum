@@ -35,6 +35,8 @@ func liveRuntimeRejectUnknownKeys<Key: CodingKey & CaseIterable>(
 
 public enum LiveEpisodeRuntimeSchema {
   public static let generationIdentity = "fum.live_single_agent_episode.generation"
+  public static let candidateReceiptJournalIdentity =
+    "fum.live_single_agent_episode.git_candidate_receipt_journal"
   public static let generationVersion = 1
   public static let commandVersion = 1
   public static let reducerPolicy = "fum.live_single_agent_episode.reducer.v1"
@@ -196,6 +198,57 @@ public struct LiveEpisodeInvocationReceiptJournal: Codable, Equatable, Sendable 
   }
 }
 
+public struct LiveEpisodeCandidateReceiptJournal: Codable, Equatable, Sendable {
+  public let schemaIdentity: String
+  public let schemaVersion: Int
+  public let episodeID: String
+  public let executionCommandSHA256: String?
+  public let observationConfirmationEventID: String?
+  public let receipts: [LiveGitCandidateStageReceipt]
+
+  public init(
+    schemaIdentity: String = LiveEpisodeRuntimeSchema.candidateReceiptJournalIdentity,
+    schemaVersion: Int = LiveGitCandidateContract.version,
+    episodeID: String,
+    executionCommandSHA256: String? = nil,
+    observationConfirmationEventID: String? = nil,
+    receipts: [LiveGitCandidateStageReceipt]
+  ) {
+    self.schemaIdentity = schemaIdentity
+    self.schemaVersion = schemaVersion
+    self.episodeID = episodeID
+    self.executionCommandSHA256 = executionCommandSHA256
+    self.observationConfirmationEventID = observationConfirmationEventID
+    self.receipts = receipts
+  }
+
+  enum CodingKeys: String, CodingKey, CaseIterable {
+    case schemaIdentity = "schema_identity"
+    case schemaVersion = "schema_version"
+    case episodeID = "episode_id"
+    case executionCommandSHA256 = "execution_command_sha256"
+    case observationConfirmationEventID = "observation_confirmation_event_id"
+    case receipts
+  }
+
+  public init(from decoder: Decoder) throws {
+    try liveRuntimeRejectUnknownKeys(decoder, allowed: CodingKeys.self)
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    schemaIdentity = try container.decode(String.self, forKey: .schemaIdentity)
+    schemaVersion = try container.decode(Int.self, forKey: .schemaVersion)
+    episodeID = try container.decode(String.self, forKey: .episodeID)
+    executionCommandSHA256 = try container.decodeIfPresent(
+      String.self,
+      forKey: .executionCommandSHA256
+    )
+    observationConfirmationEventID = try container.decodeIfPresent(
+      String.self,
+      forKey: .observationConfirmationEventID
+    )
+    receipts = try container.decode([LiveGitCandidateStageReceipt].self, forKey: .receipts)
+  }
+}
+
 public struct LiveEpisodeGeneration: Codable, Equatable, Sendable {
   public let schemaIdentity: String
   public let schemaVersion: Int
@@ -205,10 +258,12 @@ public struct LiveEpisodeGeneration: Codable, Equatable, Sendable {
   public let passportSHA256: String
   public let eventJournalSHA256: String
   public let invocationReceiptJournalSHA256: String
+  public let candidateReceiptJournalSHA256: String?
   public let stateSHA256: String
   public let passport: LiveEpisodePassport
   public let eventJournal: LiveEpisodeEventJournal
   public let invocationReceiptJournal: LiveEpisodeInvocationReceiptJournal
+  public let candidateReceiptJournal: LiveEpisodeCandidateReceiptJournal?
 
   public init(
     schemaIdentity: String = LiveEpisodeRuntimeSchema.generationIdentity,
@@ -219,10 +274,12 @@ public struct LiveEpisodeGeneration: Codable, Equatable, Sendable {
     passportSHA256: String,
     eventJournalSHA256: String,
     invocationReceiptJournalSHA256: String,
+    candidateReceiptJournalSHA256: String? = nil,
     stateSHA256: String,
     passport: LiveEpisodePassport,
     eventJournal: LiveEpisodeEventJournal,
-    invocationReceiptJournal: LiveEpisodeInvocationReceiptJournal
+    invocationReceiptJournal: LiveEpisodeInvocationReceiptJournal,
+    candidateReceiptJournal: LiveEpisodeCandidateReceiptJournal? = nil
   ) {
     self.schemaIdentity = schemaIdentity
     self.schemaVersion = schemaVersion
@@ -232,10 +289,12 @@ public struct LiveEpisodeGeneration: Codable, Equatable, Sendable {
     self.passportSHA256 = passportSHA256
     self.eventJournalSHA256 = eventJournalSHA256
     self.invocationReceiptJournalSHA256 = invocationReceiptJournalSHA256
+    self.candidateReceiptJournalSHA256 = candidateReceiptJournalSHA256
     self.stateSHA256 = stateSHA256
     self.passport = passport
     self.eventJournal = eventJournal
     self.invocationReceiptJournal = invocationReceiptJournal
+    self.candidateReceiptJournal = candidateReceiptJournal
   }
 
   enum CodingKeys: String, CodingKey, CaseIterable {
@@ -247,10 +306,12 @@ public struct LiveEpisodeGeneration: Codable, Equatable, Sendable {
     case passportSHA256 = "passport_sha256"
     case eventJournalSHA256 = "event_journal_sha256"
     case invocationReceiptJournalSHA256 = "invocation_receipt_journal_sha256"
+    case candidateReceiptJournalSHA256 = "candidate_receipt_journal_sha256"
     case stateSHA256 = "state_sha256"
     case passport
     case eventJournal = "event_journal"
     case invocationReceiptJournal = "invocation_receipt_journal"
+    case candidateReceiptJournal = "candidate_receipt_journal"
   }
 
   public init(from decoder: Decoder) throws {
@@ -270,12 +331,20 @@ public struct LiveEpisodeGeneration: Codable, Equatable, Sendable {
       String.self,
       forKey: .invocationReceiptJournalSHA256
     )
+    candidateReceiptJournalSHA256 = try container.decodeIfPresent(
+      String.self,
+      forKey: .candidateReceiptJournalSHA256
+    )
     stateSHA256 = try container.decode(String.self, forKey: .stateSHA256)
     passport = try container.decode(LiveEpisodePassport.self, forKey: .passport)
     eventJournal = try container.decode(LiveEpisodeEventJournal.self, forKey: .eventJournal)
     invocationReceiptJournal = try container.decode(
       LiveEpisodeInvocationReceiptJournal.self,
       forKey: .invocationReceiptJournal
+    )
+    candidateReceiptJournal = try container.decodeIfPresent(
+      LiveEpisodeCandidateReceiptJournal.self,
+      forKey: .candidateReceiptJournal
     )
   }
 }

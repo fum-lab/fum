@@ -31,6 +31,9 @@ struct LiveEpisodeGenerationStore {
     passport: LiveEpisodePassport,
     events: [LiveEpisodeEvent],
     invocations: [LiveEpisodeInvocationReceipt],
+    candidateReceipts: [LiveGitCandidateStageReceipt] = [],
+    candidateExecutionCommandSHA256: String? = nil,
+    candidateObservationConfirmationEventID: String? = nil,
     expectedPreviousGenerationSHA256: String?
   ) throws -> StoredLiveEpisodeGeneration {
     let state: LiveEpisodeState
@@ -51,17 +54,33 @@ struct LiveEpisodeGenerationStore {
       episodeID: passport.episodeID,
       invocations: invocations
     )
+    let candidatePolicy = try Self.candidatePolicy(in: passport)
+    let candidateReceiptJournal = candidatePolicy.map { _ in
+      LiveEpisodeCandidateReceiptJournal(
+        episodeID: passport.episodeID,
+        executionCommandSHA256: candidateExecutionCommandSHA256,
+        observationConfirmationEventID: candidateObservationConfirmationEventID,
+        receipts: candidateReceipts
+      )
+    }
     try Self.validateInvocationReceipts(receiptJournal, events: events)
+    try Self.validateCandidateReceipts(
+      candidateReceiptJournal,
+      passport: passport,
+      events: events
+    )
     let generation = LiveEpisodeGeneration(
       canonicalProfile: CanonicalMemoryJSON.profileID,
       previousGenerationSHA256: expectedPreviousGenerationSHA256,
       passportSHA256: try Self.hash(passport),
       eventJournalSHA256: try Self.hash(journal),
       invocationReceiptJournalSHA256: try Self.hash(receiptJournal),
+      candidateReceiptJournalSHA256: try candidateReceiptJournal.map(Self.hash),
       stateSHA256: try Self.hash(state),
       passport: passport,
       eventJournal: journal,
-      invocationReceiptJournal: receiptJournal
+      invocationReceiptJournal: receiptJournal,
+      candidateReceiptJournal: candidateReceiptJournal
     )
     let data = try CanonicalMemoryJSON.encode(generation)
     do {
@@ -169,6 +188,28 @@ struct LiveEpisodeGenerationStore {
       generation.invocationReceiptJournal,
       events: generation.eventJournal.events
     )
+    guard
+      (generation.candidateReceiptJournal == nil)
+        == (generation.candidateReceiptJournalSHA256 == nil)
+    else {
+      throw LiveEpisodeRuntimeError.corruptGeneration(
+        "Candidate receipt journal и его SHA-256 должны присутствовать вместе."
+      )
+    }
+    if let candidateReceiptJournal = generation.candidateReceiptJournal,
+      let expectedSHA256 = generation.candidateReceiptJournalSHA256
+    {
+      guard try hash(candidateReceiptJournal) == expectedSHA256 else {
+        throw LiveEpisodeRuntimeError.corruptGeneration(
+          "Хэш candidate receipt journal не совпадает с каноническими байтами."
+        )
+      }
+    }
+    try validateCandidateReceipts(
+      generation.candidateReceiptJournal,
+      passport: generation.passport,
+      events: generation.eventJournal.events
+    )
     let state: LiveEpisodeState
     do {
       state = try replayAndValidateConfirmations(
@@ -242,6 +283,32 @@ struct LiveEpisodeGenerationStore {
       throw LiveEpisodeRuntimeError.incompatibleGeneration(
         "Преемник не продолжает точный префик invocation-receipts."
       )
+    }
+    let oldCandidateReceipts = previous.candidateReceiptJournal?.receipts ?? []
+    let newCandidateReceipts = candidate.candidateReceiptJournal?.receipts ?? []
+    guard newCandidateReceipts.count >= oldCandidateReceipts.count,
+      Array(newCandidateReceipts.prefix(oldCandidateReceipts.count)) == oldCandidateReceipts
+    else {
+      throw LiveEpisodeRuntimeError.incompatibleGeneration(
+        "Преемник не продолжает точный префикс candidate stage receipts."
+      )
+    }
+    let oldExecutionCommandSHA256 =
+      previous.candidateReceiptJournal?.executionCommandSHA256
+    let newExecutionCommandSHA256 =
+      candidate.candidateReceiptJournal?.executionCommandSHA256
+    let oldObservationConfirmationEventID =
+      previous.candidateReceiptJournal?.observationConfirmationEventID
+    let newObservationConfirmationEventID =
+      candidate.candidateReceiptJournal?.observationConfirmationEventID
+    if let oldExecutionCommandSHA256 {
+      guard newExecutionCommandSHA256 == oldExecutionCommandSHA256,
+        newObservationConfirmationEventID == oldObservationConfirmationEventID
+      else {
+        throw LiveEpisodeRuntimeError.incompatibleGeneration(
+          "Преемник изменяет закреплённую пару execution command SHA-256 и observation confirmation event ID."
+        )
+      }
     }
     let appended = Array(newEvents.dropFirst(oldEvents.count))
     let confirmations = appended.enumerated().compactMap {
@@ -362,6 +429,141 @@ struct LiveEpisodeGenerationStore {
           "Каждый provider-owned response требует точную durable invocation-receipt."
         )
       }
+    }
+  }
+
+  private static func candidatePolicy(
+    in passport: LiveEpisodePassport
+  ) throws -> LiveGitCandidateCommitPolicy? {
+    let candidateActions = passport.actionAllowlist.filter {
+      $0.candidateCommitPolicy != nil || $0.operation == LiveGitCandidateContract.operation
+    }
+    guard !candidateActions.isEmpty else { return nil }
+    guard passport.actionAllowlist.count == 1, candidateActions.count == 1,
+      let action = candidateActions.first,
+      let policy = action.candidateCommitPolicy
+    else {
+      throw LiveEpisodeRuntimeError.incompatibleGeneration(
+        "Git-кандидат требует allowlist ровно из одного create_candidate_commit."
+      )
+    }
+    do {
+      try action.validateCandidateCommitPolicy()
+    } catch {
+      throw LiveEpisodeRuntimeError.incompatibleGeneration(
+        "Candidate policy не проходит закрытую проверку: \(error)."
+      )
+    }
+    return policy
+  }
+
+  private static func validateCandidateReceipts(
+    _ journal: LiveEpisodeCandidateReceiptJournal?,
+    passport: LiveEpisodePassport,
+    events: [LiveEpisodeEvent]
+  ) throws {
+    let policy = try candidatePolicy(in: passport)
+    guard let policy else {
+      guard journal == nil else {
+        throw LiveEpisodeRuntimeError.corruptGeneration(
+          "Обычный эпизод не принимает candidate receipt journal."
+        )
+      }
+      return
+    }
+    guard let journal,
+      journal.schemaIdentity == LiveEpisodeRuntimeSchema.candidateReceiptJournalIdentity,
+      journal.schemaVersion == LiveGitCandidateContract.version,
+      journal.episodeID == passport.episodeID
+    else {
+      throw LiveEpisodeRuntimeError.corruptGeneration(
+        "Candidate episode требует собственный versioned receipt journal."
+      )
+    }
+    let commandHashIsValid = journal.executionCommandSHA256.map(isSHA256) ?? false
+    let confirmationEventIDIsValid =
+      journal.observationConfirmationEventID.map(isTechnicalIdentifier) ?? false
+    guard
+      (journal.executionCommandSHA256 == nil)
+        == (journal.observationConfirmationEventID == nil)
+    else {
+      throw LiveEpisodeRuntimeError.corruptGeneration(
+        "Execution command SHA-256 и observation confirmation event ID должны возникать вместе."
+      )
+    }
+    if journal.receipts.count >= 3 {
+      guard commandHashIsValid, confirmationEventIDIsValid else {
+        throw LiveEpisodeRuntimeError.corruptGeneration(
+          "Preflight и последующие candidate stages требуют точную пару execution command SHA-256 и observation confirmation event ID."
+        )
+      }
+    } else if journal.executionCommandSHA256 != nil
+      || journal.observationConfirmationEventID != nil
+    {
+      throw LiveEpisodeRuntimeError.corruptGeneration(
+        "Execution command binding не может предшествовать preflight receipt."
+      )
+    }
+    let allowanceID = passport.actionAllowlist[0].allowanceID
+    let declarations = events.compactMap { event -> LivePendingTransitionDeclared? in
+      guard case .pendingTransitionDeclared(let value) = event.payload,
+        value.allowanceID == allowanceID
+      else { return nil }
+      return value
+    }
+    guard declarations.count == 1, let coordinates = declarations.first?.coordinates else {
+      throw LiveEpisodeRuntimeError.corruptGeneration(
+        "Candidate receipt journal требует одно точное объявление перехода."
+      )
+    }
+    let ownedEvents = events.filter {
+      candidateStage(of: $0, coordinates: coordinates) != nil
+    }
+    guard !journal.receipts.isEmpty else {
+      guard ownedEvents.isEmpty else {
+        throw LiveEpisodeRuntimeError.corruptGeneration(
+          "Candidate-owned event не имеет durable candidate receipt."
+        )
+      }
+      return
+    }
+    guard let lastStage = journal.receipts.last?.stage else { return }
+    do {
+      try LiveGitCandidateReceiptChain.validatePrefix(
+        journal.receipts,
+        through: lastStage,
+        policy: policy,
+        expectedCoordinates: coordinates,
+        candidateOwnedEvents: ownedEvents
+      )
+    } catch {
+      throw LiveEpisodeRuntimeError.corruptGeneration(
+        "Candidate receipt journal не связан с точным событийным префиксом: \(error)."
+      )
+    }
+  }
+
+  private static func candidateStage(
+    of event: LiveEpisodeEvent,
+    coordinates: LiveTransitionCoordinates
+  ) -> LiveGitCandidateStage? {
+    switch event.payload {
+    case .transitionUserConfirmed(let value) where value.coordinates == coordinates:
+      return .transitionUserConfirmed
+    case .authorizationDecided(let value)
+    where value.coordinates == coordinates && value.decision == .allowed:
+      return .authorized
+    case .preflightCompleted(let value)
+    where value.coordinates == coordinates && value.status == .passed:
+      return .preflightPassed
+    case .executionRecorded(let value)
+    where value.coordinates == coordinates && value.status == .succeeded:
+      return .executed
+    case .observationRecorded(let value)
+    where value.coordinates == coordinates && value.status == .observed:
+      return .observed
+    default:
+      return nil
     }
   }
 

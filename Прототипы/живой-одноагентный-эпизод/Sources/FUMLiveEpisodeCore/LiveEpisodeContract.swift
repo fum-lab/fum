@@ -318,12 +318,20 @@ public struct LiveAllowedAction: Codable, Equatable, Sendable {
   public let operation: String
   public let adapterID: String
   public let effectClass: String
+  public let candidateCommitPolicy: LiveGitCandidateCommitPolicy?
 
-  public init(allowanceID: String, operation: String, adapterID: String, effectClass: String) {
+  public init(
+    allowanceID: String,
+    operation: String,
+    adapterID: String,
+    effectClass: String,
+    candidateCommitPolicy: LiveGitCandidateCommitPolicy? = nil
+  ) {
     self.allowanceID = allowanceID
     self.operation = operation
     self.adapterID = adapterID
     self.effectClass = effectClass
+    self.candidateCommitPolicy = candidateCommitPolicy
   }
 
   enum CodingKeys: String, CodingKey, CaseIterable {
@@ -331,6 +339,7 @@ public struct LiveAllowedAction: Codable, Equatable, Sendable {
     case operation
     case adapterID = "adapter_id"
     case effectClass = "effect_class"
+    case candidateCommitPolicy = "candidate_commit_policy"
   }
 
   public init(from decoder: Decoder) throws {
@@ -340,6 +349,10 @@ public struct LiveAllowedAction: Codable, Equatable, Sendable {
     operation = try container.decode(String.self, forKey: .operation)
     adapterID = try container.decode(String.self, forKey: .adapterID)
     effectClass = try container.decode(String.self, forKey: .effectClass)
+    candidateCommitPolicy = try container.decodeIfPresent(
+      LiveGitCandidateCommitPolicy.self,
+      forKey: .candidateCommitPolicy
+    )
   }
 }
 
@@ -1444,6 +1457,7 @@ public enum LiveEpisodeError: Error, Equatable, Sendable {
   case eventOrderViolation(kind: LiveEpisodeEventKind, reason: String)
   case unknownReference(String)
   case transitionEvidenceMismatch
+  case duplicateTransitionEvidence(evidenceID: String)
   case untrustedActionMismatch
   case modelSelectionWithoutResponse(variantID: String)
   case modelSelectionWithoutIntent(variantID: String)

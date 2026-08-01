@@ -35,6 +35,7 @@
     {
       "package": "Прототипы/живой-одноагентный-эпизод",
       "executableProducts": [
+        "FUMLiveCandidateAcceptanceProbe",
         "FUMLiveEpisodeProbe"
       ],
       "localDependencies": [
