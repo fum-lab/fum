@@ -13,7 +13,7 @@
 
 ## Навыки
 
-- [fum-sleduyusjhij-shag-vetki](fum-sleduyusjhij-shag-vetki/SKILL.md) - проверяет конечный whitelist ветки, в момент запуска вычисляет runtime-готовность по точным завершённым карточечным зависимостям, ранжирует готовый пул по first-parent-истории и атомарно резервирует точное поколение выбора перед созданием фоновой задачи Codex.
+- [fum-sleduyusjhij-shag-vetki](fum-sleduyusjhij-shag-vetki/SKILL.md) - проверяет конечный whitelist ветки, вычисляет runtime-готовность по точным завершённым карточечным зависимостям, ранжирует готовый пул по first-parent-истории, атомарно резервирует поколение выбора, привязывает запуск к созданной задаче, проверяет каждый FIFO-допуск и безопасно перевооружает полностью откатившуюся попытку.
 - [fum-sborka-svodnoj-dokumentacii](fum-sborka-svodnoj-dokumentacii/SKILL.md) - создаёт и проверяет каркас сводных статей документации из нескольких опорных материалов.
 - [fum-ocenki](fum-ocenki/SKILL.md) - создаёт и проверяет оценочные материалы `Оценки/` со снимком репозитория, методикой, диапазонами, допущениями, ограничениями точности и оформлением результата.
 - [fum-glossarij](fum-glossarij/SKILL.md) - поддерживает глоссарий FUM по локальным правилам именования и ссылок.
@@ -49,7 +49,7 @@
 - `python3 -I -c "import os,subprocess,sys;p='Инструменты/fum-ocheredj-zadach-git-vetki/scripts/ocheredj-zadach-git-vetki.py';r=sys.argv[1];e={k:v for k,v in os.environ.items() if not k.upper().startswith('GIT_')};e['GIT_NO_REPLACE_OBJECTS']='1';e['GIT_OPTIONAL_LOCKS']='0';b=subprocess.check_output(['git','--no-replace-objects','-C',r,'show','HEAD:'+p],env=e,timeout=30);sys.argv=[p,*sys.argv[2:],'--repo-root',r];exec(compile(b,p,'exec'))" . status --json` - через изолированный закоммиченный HEAD-bootstrap показывает владельца и FIFO-список ожидающих корневых задач текущего worktree.
 - `python3 -I -c "import os,subprocess,sys;p='Инструменты/fum-ocheredj-zadach-git-vetki/scripts/ocheredj-zadach-git-vetki.py';r=sys.argv[1];e={k:v for k,v in os.environ.items() if not k.upper().startswith('GIT_')};e['GIT_NO_REPLACE_OBJECTS']='1';e['GIT_OPTIONAL_LOCKS']='0';b=subprocess.check_output(['git','--no-replace-objects','-C',r,'show','HEAD:'+p],env=e,timeout=30);sys.argv=[p,*sys.argv[2:],'--repo-root',r];exec(compile(b,p,'exec'))" . heartbeat-status --task-id <корневой-CODEX_THREAD_ID> --json` - возвращает для heartbeat только `idle`, `own_owner` или `busy` без непрозрачных полей FIFO.
 - `python3 Инструменты/fum-sleduyusjhij-shag-vetki/scripts/branch-next-step.py validate --repo-root . --json` - структурно проверяет рабочие наборы, вычисляет runtime-статусы всего whitelist и подтверждает единственное совпадение для активной именованной ветки, не выбирая победителя.
-- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-sleduyusjhij-shag-vetki/tests -p 'test_*.py'` - локальные тесты выбора по first-parent-истории, атомарного claim точного поколения, идемпотентного восстановления потерянного ответа и fenced-восстановления следующего шага ветки.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-sleduyusjhij-shag-vetki/tests -p 'test_*.py'` - локальные тесты выбора по first-parent-истории, атомарного claim точного поколения, привязки запуска к задаче, проверки каждого FIFO-допуска, безопасного `rearm` после полного отката и отдельного fenced-восстановления неоднозначного создания.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-ocheredj-zadach-git-vetki/tests -p 'test_*.py'` - локальные тесты переносимой FIFO-очереди, атомарного commit+handoff и отдельно авторизуемого низкоуровневого транспортного примитива через автономный bare-remote.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-sborka-svodnoj-dokumentacii/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-sborka-svodnoj-dokumentacii`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-ocenki/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-ocenki`.
@@ -76,6 +76,7 @@
 
 ## Источники требований
 
+- [исходный запрос 2026-08-01 09:16:33 MSK — Исправить повторный автозапуск после отката](../Запросы/2026-08-01_09-16-33_MSK_исправить-повторный-автозапуск-после-отката.md)
 - [исходный запрос 2026-07-31 16:31:18 MSK - Отключить автоматическую публикацию master](../Запросы/2026-07-31_16-31-18_MSK_отключить-автоматическую-публикацию-master.md)
 - [исходный запрос 2026-07-31 14:59:59 MSK — Исправить подтверждение свободной очереди автозапуска](../Запросы/2026-07-31_14-59-59_MSK_исправить-подтверждение-свободной-очереди-автозапуска.md)
 - [исходный запрос 2026-07-29 14:32:38 MSK — Закрепить неблокирующее модельное ветвление](../Запросы/2026-07-29_14-32-38_MSK_закрепить-неблокирующее-модельное-ветвление.md)
@@ -96,6 +97,6 @@
 - [исходный запрос 2026-07-22 03:38:35 MSK - Разрешить выполнение доступных карточек шагов](../Запросы/2026-07-22_03-38-35_MSK_разрешить-выполнение-доступных-карточек-шагов.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-31 17:22:03 MSK -->
-<!-- content-sha256: sha256:3db1511f7797d71855b46bfec54af3f167b55cedf6b5bf93bd0cddffe1084cd6 -->
+<!-- last-content-edit: 2026-08-01 11:10:43 MSK -->
+<!-- content-sha256: sha256:2c7dc24bb84f15542b84a7f4925a02a23d4c96462989872ab43c9c226ac8d1e2 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -16,6 +16,12 @@ TOOL_ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = TOOL_ROOT.parents[1]
 SCRIPT_PATH = TOOL_ROOT / "scripts" / "branch-next-step.py"
 HEARTBEAT_PROMPT_PATH = TOOL_ROOT / "references" / "heartbeat-prompt.md"
+QUEUE_SCRIPT_PATH = (
+    TOOL_ROOT.parent
+    / "fum-ocheredj-zadach-git-vetki"
+    / "scripts"
+    / "ocheredj-zadach-git-vetki.py"
+)
 DUMMY_SELECTION_ID = f"sha256:{'0' * 64}"
 
 
@@ -31,6 +37,22 @@ def load_tool_module():
 
 
 TOOL_MODULE = load_tool_module()
+
+
+def load_queue_module():
+    module_name = "fum_worktree_queue_test_module_for_next_step"
+    spec = importlib.util.spec_from_file_location(module_name, QUEUE_SCRIPT_PATH)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(
+            f"Не удалось загрузить модуль очереди: {QUEUE_SCRIPT_PATH}"
+        )
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[module_name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+QUEUE_MODULE = load_queue_module()
 
 
 class BranchNextStepTests(unittest.TestCase):
@@ -353,6 +375,98 @@ class BranchNextStepTests(unittest.TestCase):
         selection_id = self.current_selection().get("id")
         self.assertIsInstance(selection_id, str)
         return selection_id
+
+    def claim_current_selection(
+        self,
+        lease_id: str = "00000000-0000-0000-0000-000000000001",
+    ) -> dict[str, object]:
+        shown = self.run_tool("show")
+        self.assertEqual(shown.returncode, 0, shown.stdout + shown.stderr)
+        ready = self.payload(shown)
+        selection = ready.get("selection")
+        self.assertIsInstance(selection, dict)
+        claimed = self.run_tool(
+            "claim",
+            "--expected-branch-ref",
+            str(ready["branch_ref"]),
+            "--expected-step-id",
+            str(ready["step_id"]),
+            "--expected-selection-id",
+            str(selection["id"]),
+            "--lease-id",
+            lease_id,
+        )
+        self.assertEqual(claimed.returncode, 0, claimed.stdout + claimed.stderr)
+        self.assertEqual(self.payload(claimed)["state"], "claimed")
+        return ready
+
+    def bind_current_claim(
+        self,
+        ready: dict[str, object],
+        lease_id: str = "00000000-0000-0000-0000-000000000001",
+        task_id: str = "10000000-0000-0000-0000-000000000001",
+    ) -> dict[str, object]:
+        selection = ready.get("selection")
+        self.assertIsInstance(selection, dict)
+        bound = self.run_tool(
+            "bind-run",
+            "--expected-branch-ref",
+            str(ready["branch_ref"]),
+            "--expected-step-id",
+            str(ready["step_id"]),
+            "--expected-selection-id",
+            str(selection["id"]),
+            "--expected-lease-id",
+            lease_id,
+            "--task-id",
+            task_id,
+        )
+        self.assertEqual(bound.returncode, 0, bound.stdout + bound.stderr)
+        payload = self.payload(bound)
+        self.assertEqual(payload["state"], "bound")
+        self.assertNotIn("lease_id", payload)
+        self.assertNotIn("task_id", payload)
+        return payload
+
+    def admit_task(self, task_id: str) -> dict[str, object]:
+        context = QUEUE_MODULE.resolve_context(self.repo)
+        exit_code, payload = QUEUE_MODULE.join_queue(context, task_id)
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(payload["state"], "admitted")
+        self.assertEqual(payload["task_id"], task_id)
+        return payload
+
+    def verify_bound_run(
+        self,
+        ready: dict[str, object],
+        task_id: str,
+        generation: str,
+        lease_id: str = "00000000-0000-0000-0000-000000000001",
+    ) -> dict[str, object]:
+        selection = ready.get("selection")
+        self.assertIsInstance(selection, dict)
+        verified = self.run_tool(
+            "verify-run",
+            "--expected-branch-ref",
+            str(ready["branch_ref"]),
+            "--expected-step-id",
+            str(ready["step_id"]),
+            "--expected-selection-id",
+            str(selection["id"]),
+            "--expected-lease-id",
+            lease_id,
+            "--task-id",
+            task_id,
+            "--generation",
+            generation,
+        )
+        self.assertEqual(verified.returncode, 0, verified.stdout + verified.stderr)
+        payload = self.payload(verified)
+        self.assertEqual(payload["state"], "verified")
+        self.assertNotIn("lease_id", payload)
+        self.assertNotIn("task_id", payload)
+        self.assertNotIn("generation", payload)
+        return payload
 
     def test_show_returns_the_single_ready_step_for_the_active_branch(self) -> None:
         self.write_record()
@@ -1123,10 +1237,33 @@ class BranchNextStepTests(unittest.TestCase):
             prompt,
         )
         self.assertIn("не передавай `model` или `thinking`", prompt)
-        self.assertIn("непустыми `threadId` и `hostId`", prompt)
+        self.assertIn("Непустые `threadId` и `hostId`", prompt)
         self.assertIn("непустой `clientThreadId`", prompt)
         self.assertIn("ошибка или тайм-аут остаются неоднозначными", prompt)
         self.assertIn("не освобождай claim", prompt)
+
+    def test_heartbeat_thread_creation_does_not_depend_on_dispatcher_bind(
+        self,
+    ) -> None:
+        prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+        creation_contract_match = re.search(
+            r"^(?P<contract>После этой проверки внутри `functions\.exec` "
+            r"вызови `tools\.codex_app__create_thread.*?)(?=^10\. )",
+            prompt,
+            flags=re.DOTALL | re.MULTILINE,
+        )
+
+        self.assertIsNotNone(creation_contract_match)
+        creation_contract = creation_contract_match.group("contract")
+        folded = creation_contract.casefold()
+        self.assertIn("bind-run", creation_contract)
+        self.assertIn("диспетчер", folded)
+        self.assertIn("Диспетчер не вызывает `bind-run`", creation_contract)
+        self.assertIn(
+            "дочерняя задача сама выполняет его после admission",
+            creation_contract,
+        )
+        self.assertIn("clientThreadId", creation_contract)
 
     def test_heartbeat_template_stays_within_live_repair_budget(self) -> None:
         document = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
@@ -1253,13 +1390,15 @@ class BranchNextStepTests(unittest.TestCase):
     ) -> None:
         prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
 
-        self.assertIn(
-            "полностью прочитать переданные record_path, card_path и project_path",
+        self.assertRegex(
             prompt,
+            r"полностью прочита(?:ть|й) переданные "
+            r"record_path, card_path и project_path",
         )
-        self.assertIn(
-            "соблюдать границы действий, доступа, публикации и проверки паспорта",
+        self.assertRegex(
             prompt,
+            r"соблюда(?:ть|й) границы действий, доступа, публикации "
+            r"и проверки паспорта",
         )
 
     def test_child_preflights_context_bounded_card_and_decomposes_oversized_scope(
@@ -1302,7 +1441,7 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertIsNotNone(child_contract_match)
         child_contract = child_contract_match.group("contract")
         self.assertIn(
-            "первым видимым сообщением автоматически созданной задачи",
+            "Первым видимым сообщением автоматически созданной задачи",
             child_contract,
         )
         self.assertIn(
@@ -1310,14 +1449,13 @@ class BranchNextStepTests(unittest.TestCase):
             child_contract,
         )
         self.assertIn(
-            "машинно проверенные `card_id` и `title`",
+            "машинно проверенными `card_id` и `title`",
             child_contract,
         )
-        self.assertIn("до запуска `join`", child_contract)
-        self.assertIn(
-            "после состояния `admitted` и успешного fenced `show`",
-            child_contract,
-        )
+        self.assertIn("до `join`", child_contract)
+        self.assertIn("После каждого `admitted`", child_contract)
+        self.assertIn("bind-run", child_contract)
+        self.assertIn("verify-run", child_contract)
         self.assertIn(
             "В работу взята карточка <card_id> — <title>.",
             child_contract,
@@ -1327,13 +1465,100 @@ class BranchNextStepTests(unittest.TestCase):
             "работа не начата.",
             child_contract,
         )
+        visible = child_contract.index("Первым видимым сообщением")
+        join = child_contract.index("до `join`")
         assigned = child_contract.index("Автозапуск назначил карточку")
-        join = child_contract.index("до запуска `join`")
-        fenced_show = child_contract.index("успешного fenced `show`")
+        admitted = child_contract.index("После каждого `admitted`")
+        bind = child_contract.index("bind-run", admitted)
+        verify = child_contract.index("verify-run", bind)
         confirmed = child_contract.index("В работу взята карточка")
-        self.assertLess(assigned, join)
-        self.assertLess(join, fenced_show)
-        self.assertLess(fenced_show, confirmed)
+        self.assertLess(visible, join)
+        self.assertLess(join, assigned)
+        self.assertLess(assigned, admitted)
+        self.assertLess(join, admitted)
+        self.assertLess(admitted, bind)
+        self.assertLess(bind, verify)
+        self.assertLess(verify, confirmed)
+
+    def test_heartbeat_child_binds_run_from_nonpublished_runtime_envelope(
+        self,
+    ) -> None:
+        prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+        child_contract_match = re.search(
+            r"^\d+\. .*?(?P<contract>Составь дочерний prompt.*?)^\d+\. ",
+            prompt,
+            flags=re.DOTALL | re.MULTILINE,
+        )
+
+        self.assertIsNotNone(child_contract_match)
+        child_contract = child_contract_match.group("contract")
+        folded = child_contract.casefold()
+        self.assertRegex(folded, r"непубликуем\w* runtime-конверт")
+        for marker in (
+            "lease_id",
+            "bind-run",
+            "--expected-lease-id",
+            "CODEX_THREAD_ID",
+            "verify-run",
+            "generation",
+            "Запросы/",
+            "Журнал/",
+            "commit",
+        ):
+            with self.subTest(marker=marker):
+                self.assertIn(marker, child_contract)
+        self.assertTrue(
+            "не сохран" in folded or "не перенос" in folded,
+            "runtime-конверт нельзя персистировать",
+        )
+        self.assertRegex(
+            folded,
+            r"собственн\w*.*codex_thread_id|codex_thread_id.*собственн\w*",
+        )
+        release_clauses = re.split(r"[.!?](?:\s+|$)", folded)
+        release_requirements = {
+            "child_forbidden": lambda clause: all(
+                marker in clause
+                for marker in (
+                    "release",
+                    "дочерн",
+                    "успешн",
+                    "создан",
+                    "запуск",
+                )
+            )
+            and (
+                "запрещ" in clause
+                or "не вызыв" in clause
+                or "не выполня" in clause
+            ),
+            "external_host_proof_only": lambda clause: all(
+                marker in clause
+                for marker in (
+                    "release",
+                    "только",
+                    "внешн",
+                    "host",
+                    "доказ",
+                    "окончательн",
+                    "останов",
+                )
+            ),
+        }
+        for requirement, predicate in release_requirements.items():
+            with self.subTest(release_requirement=requirement):
+                self.assertTrue(
+                    any(predicate(clause) for clause in release_clauses),
+                    f"Дочерний contract не закрепляет {requirement}",
+                )
+
+        admitted = child_contract.index("admitted")
+        bind = child_contract.index("bind-run", admitted)
+        verify = child_contract.index("verify-run", bind)
+        confirmed = child_contract.index("В работу взята карточка")
+        self.assertLess(admitted, bind)
+        self.assertLess(bind, verify)
+        self.assertLess(verify, confirmed)
 
     def test_heartbeat_child_leaves_master_for_manual_push(self) -> None:
         prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
@@ -1361,7 +1586,7 @@ class BranchNextStepTests(unittest.TestCase):
             "не включай в него абсолютные пути файловой системы",
             child_contract,
         )
-        self.assertIn("полностью прочитать AGENTS.md", child_contract)
+        self.assertIn("полностью прочитать `AGENTS.md`", child_contract)
         self.assertIn(
             "Инструменты/fum-sleduyusjhij-shag-vetki/SKILL.md",
             child_contract,
@@ -1630,6 +1855,140 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertEqual(shown.returncode, 2)
         self.assertEqual(self.payload(shown)["state"], "invalid")
         self.assertIn("--branch-ref", str(self.payload(shown)["error"]))
+
+    def test_bind_verify_and_rearm_require_the_exact_option_matrix(self) -> None:
+        self.write_record()
+        selection_id = self.current_selection_id()
+        identity_options = (
+            ("--expected-branch-ref", "refs/heads/master"),
+            ("--expected-step-id", "master-test-step-v1"),
+            ("--expected-selection-id", selection_id),
+        )
+        command_options = {
+            "bind-run": (
+                *identity_options,
+                (
+                    "--expected-lease-id",
+                    "00000000-0000-0000-0000-000000000001",
+                ),
+                ("--task-id", "10000000-0000-0000-0000-000000000001"),
+            ),
+            "verify-run": (
+                *identity_options,
+                (
+                    "--expected-lease-id",
+                    "00000000-0000-0000-0000-000000000001",
+                ),
+                ("--task-id", "10000000-0000-0000-0000-000000000001"),
+                (
+                    "--generation",
+                    "20000000-0000-0000-0000-000000000001",
+                ),
+            ),
+            "rearm": (
+                *identity_options,
+                (
+                    "--expected-lease-id",
+                    "00000000-0000-0000-0000-000000000001",
+                ),
+                ("--task-id", "10000000-0000-0000-0000-000000000001"),
+                (
+                    "--generation",
+                    "20000000-0000-0000-0000-000000000001",
+                ),
+            ),
+        }
+
+        for command, required_options in command_options.items():
+            for missing_flag, _missing_value in required_options:
+                with self.subTest(command=command, missing=missing_flag):
+                    arguments = [command]
+                    for flag, value in required_options:
+                        if flag != missing_flag:
+                            arguments.extend((flag, value))
+                    result = self.run_tool(*arguments)
+
+                    self.assertEqual(result.returncode, 2)
+                    payload = self.payload(result)
+                    self.assertEqual(payload["state"], "invalid")
+                    self.assertIn(missing_flag, str(payload["error"]))
+
+            exact_arguments = [command]
+            for flag, value in required_options:
+                exact_arguments.extend((flag, value))
+            forbidden_options = [
+                ("--branch-ref", "refs/heads/master"),
+                ("--lease-id", "00000000-0000-0000-0000-000000000002"),
+            ]
+            if command == "bind-run":
+                forbidden_options.append(
+                    (
+                        "--generation",
+                        "20000000-0000-0000-0000-000000000001",
+                    )
+                )
+            for forbidden_flag, forbidden_value in forbidden_options:
+                with self.subTest(command=command, forbidden=forbidden_flag):
+                    result = self.run_tool(
+                        *exact_arguments,
+                        forbidden_flag,
+                        forbidden_value,
+                    )
+
+                    self.assertEqual(result.returncode, 2)
+                    payload = self.payload(result)
+                    self.assertEqual(payload["state"], "invalid")
+                    self.assertIn(forbidden_flag, str(payload["error"]))
+
+        cross_command_cases = (
+            ("validate", "--task-id"),
+            ("show", "--task-id"),
+            ("claim", "--task-id"),
+            ("claim-status", "--task-id"),
+            ("release", "--task-id"),
+            ("validate", "--generation"),
+            ("show", "--generation"),
+            ("claim", "--generation"),
+            ("claim-status", "--generation"),
+            ("release", "--generation"),
+            ("claim", "--expected-lease-id"),
+            ("release", "--expected-step-id"),
+        )
+        for command, forbidden_flag in cross_command_cases:
+            with self.subTest(command=command, forbidden=forbidden_flag):
+                value = (
+                    "10000000-0000-0000-0000-000000000001"
+                    if forbidden_flag == "--task-id"
+                    else (
+                        "20000000-0000-0000-0000-000000000001"
+                        if forbidden_flag == "--generation"
+                        else "00000000-0000-0000-0000-000000000001"
+                    )
+                )
+                result = self.run_tool(command, forbidden_flag, value)
+
+                self.assertEqual(result.returncode, 2)
+                payload = self.payload(result)
+                self.assertEqual(payload["state"], "invalid")
+                self.assertIn(forbidden_flag, str(payload["error"]))
+
+    def test_run_commands_reject_abbreviated_option_names(self) -> None:
+        cases = (
+            (
+                "bind-run",
+                "--expected-branch-r",
+                "refs/heads/master",
+            ),
+            ("verify-run", "--gener", "generation-one"),
+            ("rearm", "--task", "test-task"),
+        )
+
+        for command, abbreviated_flag, value in cases:
+            with self.subTest(command=command, flag=abbreviated_flag):
+                result = self.run_tool(command, abbreviated_flag, value)
+                self.assertEqual(result.returncode, 2)
+                self.assertFalse(result.stdout)
+                self.assertIn(abbreviated_flag, result.stderr)
 
     def test_nul_inputs_return_machine_readable_contract_errors(self) -> None:
         self.write_record(branch_ref=r"refs/heads/master\u0000other")
@@ -3015,6 +3374,2153 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertEqual(wrong_selection.returncode, 2)
         self.assertIn("selection", str(self.payload(wrong_selection)["error"]).casefold())
 
+    def test_bind_run_atomically_binds_once_and_repeats_idempotently(self) -> None:
+        self.write_record()
+        self.commit_all("Add clean next-step fixture")
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        task_id = "test-task"
+        ready_result = self.run_tool("show")
+        self.assertEqual(ready_result.returncode, 0, ready_result.stderr)
+        ready = self.payload(ready_result)
+        selection = ready["selection"]
+        self.assertIsInstance(selection, dict)
+        expected_arguments = (
+            "--expected-branch-ref",
+            str(ready["branch_ref"]),
+            "--expected-step-id",
+            str(ready["step_id"]),
+            "--expected-selection-id",
+            str(selection["id"]),
+            "--expected-lease-id",
+            lease_id,
+            "--task-id",
+            task_id,
+        )
+
+        missing = self.run_tool("bind-run", *expected_arguments)
+        self.assertEqual(missing.returncode, 5)
+        self.assertEqual(self.payload(missing)["state"], "mismatch")
+        self.assertNotIn("lease_id", self.payload(missing))
+        self.assertNotIn("task_id", self.payload(missing))
+
+        self.claim_current_selection(lease_id)
+        reference = TOOL_MODULE.claim_ref(self.repo, str(ready["branch_ref"]))
+        schema_two_oid = self.git(
+            "rev-parse",
+            "--verify",
+            reference,
+        ).stdout.strip()
+        first = self.run_tool("bind-run", *expected_arguments)
+        schema_three_oid = self.git(
+            "rev-parse",
+            "--verify",
+            reference,
+        ).stdout.strip()
+        second = self.run_tool("bind-run", *expected_arguments)
+
+        common_payload = {
+            "state": "bound",
+            "branch_ref": ready["branch_ref"],
+            "step_id": ready["step_id"],
+            "selection_id": selection["id"],
+            "selection_head": selection["head"],
+        }
+        self.assertEqual(first.returncode, 0, first.stdout + first.stderr)
+        self.assertEqual(
+            self.payload(first),
+            {**common_payload, "ownership": "new"},
+        )
+        self.assertNotEqual(schema_two_oid, schema_three_oid)
+        self.assertEqual(second.returncode, 0, second.stdout + second.stderr)
+        self.assertEqual(
+            self.payload(second),
+            {**common_payload, "ownership": "existing"},
+        )
+        self.assertEqual(
+            self.git("rev-parse", "--verify", reference).stdout.strip(),
+            schema_three_oid,
+        )
+        status = self.payload(self.run_tool("claim-status"))
+        self.assertEqual(status["schema_version"], 3)
+        self.assertEqual(status["lease_id"], lease_id)
+        self.assertEqual(status["task_id"], task_id)
+
+        for schema_version in (3, 4):
+            with self.subTest(schema_version=schema_version):
+                for attempted_lease in (
+                    lease_id,
+                    "00000000-0000-0000-0000-000000000002",
+                ):
+                    blocked = self.run_tool(
+                        "claim",
+                        "--expected-branch-ref",
+                        str(ready["branch_ref"]),
+                        "--expected-step-id",
+                        str(ready["step_id"]),
+                        "--expected-selection-id",
+                        str(selection["id"]),
+                        "--lease-id",
+                        attempted_lease,
+                    )
+                    self.assertEqual(blocked.returncode, 4)
+                    self.assertEqual(
+                        self.payload(blocked)["state"],
+                        "already_claimed",
+                    )
+                    self.assertNotIn("lease_id", self.payload(blocked))
+                    self.assertNotIn("task_id", self.payload(blocked))
+            if schema_version == 3:
+                owner = self.admit_task(task_id)
+                generation = str(owner["generation"])
+                self.verify_bound_run(ready, task_id, generation)
+                schema_four_oid = self.git(
+                    "rev-parse",
+                    "--verify",
+                    reference,
+                ).stdout.strip()
+                rebound = self.run_tool("bind-run", *expected_arguments)
+                self.assertEqual(rebound.returncode, 0, rebound.stderr)
+                self.assertEqual(
+                    self.payload(rebound),
+                    {**common_payload, "ownership": "existing"},
+                )
+                self.assertEqual(
+                    self.git(
+                        "rev-parse",
+                        "--verify",
+                        reference,
+                    ).stdout.strip(),
+                    schema_four_oid,
+                )
+
+    def test_bind_run_rejects_a_different_lease_or_task_without_rebinding(
+        self,
+    ) -> None:
+        self.write_record()
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        task_id = "10000000-0000-0000-0000-000000000001"
+        ready = self.claim_current_selection(lease_id)
+        self.bind_current_claim(ready, lease_id, task_id)
+        selection = ready["selection"]
+        self.assertIsInstance(selection, dict)
+        reference = TOOL_MODULE.claim_ref(self.repo, str(ready["branch_ref"]))
+        before_oid = self.git("rev-parse", "--verify", reference).stdout.strip()
+        identity_arguments = (
+            "--expected-branch-ref",
+            str(ready["branch_ref"]),
+            "--expected-step-id",
+            str(ready["step_id"]),
+            "--expected-selection-id",
+            str(selection["id"]),
+        )
+
+        wrong_lease = self.run_tool(
+            "bind-run",
+            *identity_arguments,
+            "--expected-lease-id",
+            "00000000-0000-0000-0000-000000000002",
+            "--task-id",
+            task_id,
+        )
+        wrong_task = self.run_tool(
+            "bind-run",
+            *identity_arguments,
+            "--expected-lease-id",
+            lease_id,
+            "--task-id",
+            "10000000-0000-0000-0000-000000000002",
+        )
+
+        for result in (wrong_lease, wrong_task):
+            self.assertEqual(result.returncode, 5)
+            self.assertEqual(self.payload(result)["state"], "mismatch")
+            self.assertNotIn("lease_id", self.payload(result))
+            self.assertNotIn("task_id", self.payload(result))
+        self.assertEqual(
+            self.git("rev-parse", "--verify", reference).stdout.strip(),
+            before_oid,
+        )
+        status = self.payload(self.run_tool("claim-status"))
+        self.assertEqual(status["lease_id"], lease_id)
+        self.assertEqual(status["task_id"], task_id)
+
+    def test_bind_run_rejects_identity_drift_without_replacing_schema_two(
+        self,
+    ) -> None:
+        self.write_record()
+        self.commit_all("Add next-step fixture")
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        original = self.claim_current_selection(lease_id)
+        original_selection = original["selection"]
+        self.assertIsInstance(original_selection, dict)
+        reference = TOOL_MODULE.claim_ref(self.repo, str(original["branch_ref"]))
+        before_oid = self.git("rev-parse", "--verify", reference).stdout.strip()
+        self.git("commit", "--allow-empty", "-m", "Advance selection head")
+        current_result = self.run_tool("show")
+        self.assertEqual(current_result.returncode, 0, current_result.stderr)
+        current = self.payload(current_result)
+        current_selection = current["selection"]
+        self.assertIsInstance(current_selection, dict)
+
+        stale_identity = self.run_tool(
+            "bind-run",
+            "--expected-branch-ref",
+            str(original["branch_ref"]),
+            "--expected-step-id",
+            str(original["step_id"]),
+            "--expected-selection-id",
+            str(original_selection["id"]),
+            "--expected-lease-id",
+            lease_id,
+            "--task-id",
+            "10000000-0000-0000-0000-000000000001",
+        )
+        stale_claim = self.run_tool(
+            "bind-run",
+            "--expected-branch-ref",
+            str(current["branch_ref"]),
+            "--expected-step-id",
+            str(current["step_id"]),
+            "--expected-selection-id",
+            str(current_selection["id"]),
+            "--expected-lease-id",
+            lease_id,
+            "--task-id",
+            "10000000-0000-0000-0000-000000000001",
+        )
+
+        self.assertEqual(stale_identity.returncode, 5)
+        self.assertEqual(self.payload(stale_identity)["state"], "mismatch")
+        self.assertEqual(stale_claim.returncode, 5)
+        self.assertEqual(self.payload(stale_claim)["state"], "mismatch")
+        self.assertEqual(
+            self.git("rev-parse", "--verify", reference).stdout.strip(),
+            before_oid,
+        )
+
+    def test_bind_run_cas_race_keeps_the_competing_task_binding(self) -> None:
+        self.write_record()
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        expected_task = "10000000-0000-0000-0000-000000000001"
+        competing_task = "10000000-0000-0000-0000-000000000002"
+        ready = self.claim_current_selection(lease_id)
+        selection = ready["selection"]
+        self.assertIsInstance(selection, dict)
+        reference = TOOL_MODULE.claim_ref(self.repo, str(ready["branch_ref"]))
+        competing_payload = {
+            "schema_version": 3,
+            "branch_ref": ready["branch_ref"],
+            "step_id": ready["step_id"],
+            "selection_id": selection["id"],
+            "selection_head": selection["head"],
+            "lease_id": lease_id,
+            "task_id": competing_task,
+        }
+        competing_oid = self.git(
+            "hash-object",
+            "-w",
+            "--stdin",
+            input_text=(
+                json.dumps(
+                    competing_payload,
+                    sort_keys=True,
+                    separators=(",", ":"),
+                )
+                + "\n"
+            ),
+        ).stdout.strip()
+
+        def install_competing_binding(
+            repo_root: Path,
+            claim_reference: str,
+            old_oid: str | None,
+            new_oid: str | None,
+            *,
+            branch_ref: str | None = None,
+            selection_head: str | None = None,
+        ) -> bool:
+            self.assertEqual(repo_root, self.repo)
+            self.assertEqual(claim_reference, reference)
+            self.assertIsNotNone(new_oid)
+            self.assertEqual(branch_ref, ready["branch_ref"])
+            self.assertEqual(selection_head, selection["head"])
+            self.assertIsNotNone(old_oid)
+            self.git("update-ref", reference, competing_oid, str(old_oid))
+            return False
+
+        with mock.patch.object(
+            TOOL_MODULE,
+            "cas_claim_ref",
+            side_effect=install_competing_binding,
+        ) as patched_cas:
+            payload, exit_code = TOOL_MODULE.bind_run(
+                self.repo,
+                str(ready["branch_ref"]),
+                str(ready["step_id"]),
+                str(selection["id"]),
+                lease_id,
+                expected_task,
+            )
+
+        self.assertEqual(patched_cas.call_count, 1)
+        self.assertEqual(exit_code, 5)
+        self.assertEqual(payload["state"], "mismatch")
+        self.assertNotIn("lease_id", payload)
+        self.assertNotIn("task_id", payload)
+        status, status_code = TOOL_MODULE.claim_status(self.repo, None)
+        self.assertEqual(status_code, 0)
+        self.assertEqual(status["lease_id"], lease_id)
+        self.assertEqual(status["task_id"], competing_task)
+
+    def test_run_binding_commands_reject_every_expected_identity_drift(
+        self,
+    ) -> None:
+        self.write_record()
+        self.commit_all("Add clean next-step fixture")
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        task_id = "test-task"
+        ready = self.claim_current_selection(lease_id)
+        self.bind_current_claim(ready, lease_id, task_id)
+        selection = ready["selection"]
+        self.assertIsInstance(selection, dict)
+        reference = TOOL_MODULE.claim_ref(self.repo, str(ready["branch_ref"]))
+        owner = self.admit_task(task_id)
+        generation = str(owner["generation"])
+        self.verify_bound_run(ready, task_id, generation)
+        before_oid = self.git("rev-parse", "--verify", reference).stdout.strip()
+        command_suffixes = {
+            "bind-run": (
+                "--expected-lease-id",
+                lease_id,
+                "--task-id",
+                task_id,
+            ),
+            "verify-run": (
+                "--expected-lease-id",
+                lease_id,
+                "--task-id",
+                task_id,
+                "--generation",
+                generation,
+            ),
+            "rearm": (
+                "--expected-lease-id",
+                lease_id,
+                "--task-id",
+                task_id,
+                "--generation",
+                generation,
+            ),
+        }
+        drift_cases = (
+            ("--expected-branch-ref", "refs/heads/project/other"),
+            ("--expected-step-id", "master-other-step-v1"),
+            ("--expected-selection-id", DUMMY_SELECTION_ID),
+        )
+
+        for command, suffix in command_suffixes.items():
+            for drift_flag, drift_value in drift_cases:
+                with self.subTest(command=command, drift=drift_flag):
+                    identity = {
+                        "--expected-branch-ref": str(ready["branch_ref"]),
+                        "--expected-step-id": str(ready["step_id"]),
+                        "--expected-selection-id": str(selection["id"]),
+                    }
+                    identity[drift_flag] = drift_value
+                    arguments = [command]
+                    for flag, value in identity.items():
+                        arguments.extend((flag, value))
+                    arguments.extend(suffix)
+                    result = self.run_tool(*arguments)
+
+                    expected_code = (
+                        2 if drift_flag == "--expected-branch-ref" else 5
+                    )
+                    expected_state = (
+                        "invalid" if expected_code == 2 else "mismatch"
+                    )
+                    self.assertEqual(result.returncode, expected_code)
+                    self.assertEqual(
+                        self.payload(result)["state"],
+                        expected_state,
+                    )
+                    self.assertEqual(
+                        self.git(
+                            "rev-parse",
+                            "--verify",
+                            reference,
+                        ).stdout.strip(),
+                        before_oid,
+                    )
+
+    def test_run_binding_commands_validate_queue_opaque_ids(self) -> None:
+        self.write_record()
+        selection_id = self.current_selection_id()
+        identity_arguments = (
+            "--expected-branch-ref",
+            "refs/heads/master",
+            "--expected-step-id",
+            "master-test-step-v1",
+            "--expected-selection-id",
+            selection_id,
+        )
+        cases: list[tuple[tuple[str, ...], str]] = []
+        for invalid_task_id in ("", "bad\ntask", "x" * 1_025):
+            cases.append(
+                (
+                    (
+                        "bind-run",
+                        *identity_arguments,
+                        "--expected-lease-id",
+                        "00000000-0000-0000-0000-000000000001",
+                        "--task-id",
+                        invalid_task_id,
+                    ),
+                    "--task-id",
+                )
+            )
+            for command in ("verify-run", "rearm"):
+                cases.append(
+                    (
+                        (
+                            command,
+                            *identity_arguments,
+                            "--expected-lease-id",
+                            "00000000-0000-0000-0000-000000000001",
+                            "--task-id",
+                            invalid_task_id,
+                            "--generation",
+                            "generation-one",
+                        ),
+                        "--task-id",
+                    )
+                )
+        cases.append(
+            (
+                (
+                    "bind-run",
+                    *identity_arguments,
+                    "--expected-lease-id",
+                    "NOT-A-UUID",
+                    "--task-id",
+                    "test-task",
+                ),
+                "--expected-lease-id",
+            )
+        )
+        for invalid_generation in ("", "bad\ngeneration"):
+            for command in ("verify-run", "rearm"):
+                cases.append(
+                    (
+                        (
+                            command,
+                            *identity_arguments,
+                            "--expected-lease-id",
+                            "00000000-0000-0000-0000-000000000001",
+                            "--task-id",
+                            "test-task",
+                            "--generation",
+                            invalid_generation,
+                        ),
+                        "--generation",
+                    )
+                )
+
+        for command in ("verify-run", "rearm"):
+            cases.append(
+                (
+                    (
+                        command,
+                        *identity_arguments,
+                        "--expected-lease-id",
+                        "NOT-A-UUID",
+                        "--task-id",
+                        "test-task",
+                        "--generation",
+                        "generation-one",
+                    ),
+                    "--expected-lease-id",
+                )
+            )
+
+        for arguments, error_flag in cases:
+            with self.subTest(command=arguments[0]):
+                result = self.run_tool(*arguments)
+                self.assertEqual(result.returncode, 2)
+                self.assertEqual(self.payload(result)["state"], "invalid")
+                self.assertIn(error_flag, str(self.payload(result)["error"]))
+
+    def test_verify_run_accepts_exact_non_uuid_queue_generation(self) -> None:
+        self.write_record()
+        self.commit_all("Add clean next-step fixture")
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        task_id = "opaque-task-id"
+        generation = "opaque-generation"
+        ready = self.claim_current_selection(lease_id)
+        self.bind_current_claim(ready, lease_id, task_id)
+        owner = self.admit_task(task_id)
+        queue_context = QUEUE_MODULE.resolve_context(self.repo)
+        state, old_queue_oid = QUEUE_MODULE.read_state(queue_context)
+        self.assertIsNotNone(old_queue_oid)
+        self.assertIsInstance(state["owner"], dict)
+        state["owner"]["generation"] = generation
+        new_queue_oid = QUEUE_MODULE.write_state_blob(queue_context, state)
+        self.git(
+            "update-ref",
+            queue_context.queue_ref,
+            new_queue_oid,
+            str(old_queue_oid),
+        )
+        self.assertNotEqual(owner["generation"], generation)
+
+        payload = self.verify_bound_run(ready, task_id, generation)
+
+        self.assertEqual(payload["state"], "verified")
+        status = self.payload(self.run_tool("claim-status"))
+        self.assertEqual(status["generation"], generation)
+
+    def test_verify_run_binds_generation_once_then_confirms_read_only(
+        self,
+    ) -> None:
+        self.write_record()
+        self.commit_all("Add clean next-step fixture")
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        task_id = "test-task"
+        ready = self.claim_current_selection(lease_id)
+        self.bind_current_claim(ready, lease_id, task_id)
+        selection = ready["selection"]
+        self.assertIsInstance(selection, dict)
+        reference = TOOL_MODULE.claim_ref(self.repo, str(ready["branch_ref"]))
+        schema_three_oid = self.git(
+            "rev-parse",
+            "--verify",
+            reference,
+        ).stdout.strip()
+        owner = self.admit_task(task_id)
+        generation = str(owner["generation"])
+        self.assertEqual(owner["base_head"], selection["head"])
+
+        first = self.run_tool(
+            "verify-run",
+            "--expected-branch-ref",
+            str(ready["branch_ref"]),
+            "--expected-step-id",
+            str(ready["step_id"]),
+            "--expected-selection-id",
+            str(selection["id"]),
+            "--expected-lease-id",
+            lease_id,
+            "--task-id",
+            task_id,
+            "--generation",
+            generation,
+        )
+        schema_four_oid = self.git(
+            "rev-parse",
+            "--verify",
+            reference,
+        ).stdout.strip()
+        second = self.run_tool(
+            "verify-run",
+            "--expected-branch-ref",
+            str(ready["branch_ref"]),
+            "--expected-step-id",
+            str(ready["step_id"]),
+            "--expected-selection-id",
+            str(selection["id"]),
+            "--expected-lease-id",
+            lease_id,
+            "--task-id",
+            task_id,
+            "--generation",
+            generation,
+        )
+
+        expected_payload = dict(ready)
+        expected_payload["state"] = "verified"
+        self.assertEqual(first.returncode, 0, first.stdout + first.stderr)
+        self.assertEqual(self.payload(first), expected_payload)
+        self.assertNotEqual(schema_three_oid, schema_four_oid)
+        self.assertEqual(second.returncode, 0, second.stdout + second.stderr)
+        self.assertEqual(self.payload(second), expected_payload)
+        self.assertEqual(
+            self.git("rev-parse", "--verify", reference).stdout.strip(),
+            schema_four_oid,
+        )
+        status = self.payload(self.run_tool("claim-status"))
+        self.assertEqual(status["schema_version"], 4)
+        self.assertEqual(status["task_id"], task_id)
+        self.assertEqual(status["generation"], generation)
+
+    def test_verify_and_rearm_reject_a_changed_lease_without_mutating_claim(
+        self,
+    ) -> None:
+        self.write_record()
+        self.commit_all("Add clean next-step fixture")
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        wrong_lease = "00000000-0000-0000-0000-000000000002"
+        task_id = "test-task"
+        ready = self.claim_current_selection(lease_id)
+        self.bind_current_claim(ready, lease_id, task_id)
+        selection = ready["selection"]
+        self.assertIsInstance(selection, dict)
+        reference = TOOL_MODULE.claim_ref(self.repo, str(ready["branch_ref"]))
+        owner = self.admit_task(task_id)
+        generation = str(owner["generation"])
+        identity = (
+            "--expected-branch-ref",
+            str(ready["branch_ref"]),
+            "--expected-step-id",
+            str(ready["step_id"]),
+            "--expected-selection-id",
+            str(selection["id"]),
+            "--task-id",
+            task_id,
+            "--generation",
+            generation,
+        )
+
+        schema_three_oid = self.git(
+            "rev-parse",
+            "--verify",
+            reference,
+        ).stdout.strip()
+        wrong_schema_three = self.run_tool(
+            "verify-run",
+            *identity,
+            "--expected-lease-id",
+            wrong_lease,
+        )
+        self.assertEqual(wrong_schema_three.returncode, 5)
+        self.assertEqual(
+            self.payload(wrong_schema_three),
+            {
+                "state": "mismatch",
+                "reason": "lease_changed",
+                "branch_ref": ready["branch_ref"],
+            },
+        )
+        self.assertEqual(
+            self.git("rev-parse", "--verify", reference).stdout.strip(),
+            schema_three_oid,
+        )
+
+        self.verify_bound_run(ready, task_id, generation, lease_id)
+        schema_four_oid = self.git(
+            "rev-parse",
+            "--verify",
+            reference,
+        ).stdout.strip()
+        for command in ("verify-run", "rearm"):
+            with self.subTest(command=command):
+                wrong_schema_four = self.run_tool(
+                    command,
+                    *identity,
+                    "--expected-lease-id",
+                    wrong_lease,
+                )
+                self.assertEqual(wrong_schema_four.returncode, 5)
+                self.assertEqual(
+                    self.payload(wrong_schema_four),
+                    {
+                        "state": "mismatch",
+                        "reason": "lease_changed",
+                        "branch_ref": ready["branch_ref"],
+                    },
+                )
+                self.assertEqual(
+                    self.git(
+                        "rev-parse",
+                        "--verify",
+                        reference,
+                    ).stdout.strip(),
+                    schema_four_oid,
+                )
+
+    def test_verify_run_checks_cleanliness_before_writing_schema_four(
+        self,
+    ) -> None:
+        self.write_record()
+        self.commit_all("Add clean next-step fixture")
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        task_id = "test-task"
+        ready = self.claim_current_selection(lease_id)
+        self.bind_current_claim(ready, lease_id, task_id)
+        selection = ready["selection"]
+        self.assertIsInstance(selection, dict)
+        reference = TOOL_MODULE.claim_ref(self.repo, str(ready["branch_ref"]))
+        owner = self.admit_task(task_id)
+        generation = str(owner["generation"])
+        schema_three_oid = self.git(
+            "rev-parse",
+            "--verify",
+            reference,
+        ).stdout.strip()
+        (self.repo / "README.md").write_text(
+            "# Dirty tracked file\n",
+            encoding="utf-8",
+        )
+
+        with mock.patch.object(
+            TOOL_MODULE,
+            "write_claim_blob",
+            wraps=TOOL_MODULE.write_claim_blob,
+        ) as write_claim_blob:
+            with self.assertRaises(TOOL_MODULE.ContractError):
+                TOOL_MODULE.verify_run(
+                    self.repo,
+                    str(ready["branch_ref"]),
+                    str(ready["step_id"]),
+                    str(selection["id"]),
+                    lease_id,
+                    task_id,
+                    generation,
+                )
+
+        write_claim_blob.assert_not_called()
+        self.assertEqual(
+            self.git("rev-parse", "--verify", reference).stdout.strip(),
+            schema_three_oid,
+        )
+
+    def test_verify_run_rejects_untracked_content_without_upgrading_claim(
+        self,
+    ) -> None:
+        self.write_record()
+        self.commit_all("Add clean next-step fixture")
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        task_id = "test-task"
+        ready = self.claim_current_selection(lease_id)
+        self.bind_current_claim(ready, lease_id, task_id)
+        selection = ready["selection"]
+        self.assertIsInstance(selection, dict)
+        reference = TOOL_MODULE.claim_ref(self.repo, str(ready["branch_ref"]))
+        owner = self.admit_task(task_id)
+        generation = str(owner["generation"])
+        schema_three_oid = self.git(
+            "rev-parse",
+            "--verify",
+            reference,
+        ).stdout.strip()
+        (self.repo / "untracked.txt").write_text("dirty\n", encoding="utf-8")
+
+        result = self.run_tool(
+            "verify-run",
+            "--expected-branch-ref",
+            str(ready["branch_ref"]),
+            "--expected-step-id",
+            str(ready["step_id"]),
+            "--expected-selection-id",
+            str(selection["id"]),
+            "--expected-lease-id",
+            lease_id,
+            "--task-id",
+            task_id,
+            "--generation",
+            generation,
+        )
+
+        self.assertEqual(result.returncode, 2)
+        self.assertEqual(self.payload(result)["state"], "invalid")
+        self.assertEqual(
+            self.git("rev-parse", "--verify", reference).stdout.strip(),
+            schema_three_oid,
+        )
+
+    def test_verify_run_allows_only_unstaged_root_obsidian_changes(self) -> None:
+        self.write_record()
+        self.commit_all("Add clean next-step fixture")
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        task_id = "test-task"
+        ready = self.claim_current_selection(lease_id)
+        self.bind_current_claim(ready, lease_id, task_id)
+        selection = ready["selection"]
+        self.assertIsInstance(selection, dict)
+        owner = self.admit_task(task_id)
+        generation = str(owner["generation"])
+        obsidian_file = self.repo / ".obsidian" / "workspace.json"
+        obsidian_file.parent.mkdir()
+        obsidian_file.write_text("{}\n", encoding="utf-8")
+
+        verified = self.verify_bound_run(
+            ready,
+            task_id,
+            generation,
+            lease_id,
+        )
+
+        self.assertEqual(verified["state"], "verified")
+
+    def test_verify_run_rejects_staged_root_obsidian_without_upgrading_claim(
+        self,
+    ) -> None:
+        self.write_record()
+        self.commit_all("Add clean next-step fixture")
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        task_id = "test-task"
+        ready = self.claim_current_selection(lease_id)
+        self.bind_current_claim(ready, lease_id, task_id)
+        selection = ready["selection"]
+        self.assertIsInstance(selection, dict)
+        reference = TOOL_MODULE.claim_ref(self.repo, str(ready["branch_ref"]))
+        owner = self.admit_task(task_id)
+        generation = str(owner["generation"])
+        schema_three_oid = self.git(
+            "rev-parse",
+            "--verify",
+            reference,
+        ).stdout.strip()
+        obsidian_file = self.repo / ".obsidian" / "workspace.json"
+        obsidian_file.parent.mkdir()
+        obsidian_file.write_text("{}\n", encoding="utf-8")
+        self.git("add", ".obsidian/workspace.json")
+
+        result = self.run_tool(
+            "verify-run",
+            "--expected-branch-ref",
+            str(ready["branch_ref"]),
+            "--expected-step-id",
+            str(ready["step_id"]),
+            "--expected-selection-id",
+            str(selection["id"]),
+            "--expected-lease-id",
+            lease_id,
+            "--task-id",
+            task_id,
+            "--generation",
+            generation,
+        )
+
+        self.assertEqual(result.returncode, 2)
+        self.assertEqual(self.payload(result)["state"], "invalid")
+        self.assertEqual(
+            self.git("rev-parse", "--verify", reference).stdout.strip(),
+            schema_three_oid,
+        )
+
+    def test_verify_run_requires_a_bound_claim_for_the_exact_task(self) -> None:
+        self.write_record()
+        self.commit_all("Add clean next-step fixture")
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        task_id = "test-task"
+        other_task_id = "other-task"
+        ready_result = self.run_tool("show")
+        self.assertEqual(ready_result.returncode, 0, ready_result.stderr)
+        ready = self.payload(ready_result)
+        selection = ready["selection"]
+        self.assertIsInstance(selection, dict)
+        expected_arguments = (
+            "--expected-branch-ref",
+            str(ready["branch_ref"]),
+            "--expected-step-id",
+            str(ready["step_id"]),
+            "--expected-selection-id",
+            str(selection["id"]),
+            "--expected-lease-id",
+            lease_id,
+        )
+        owner = self.admit_task(task_id)
+        generation = str(owner["generation"])
+
+        missing = self.run_tool(
+            "verify-run",
+            *expected_arguments,
+            "--task-id",
+            task_id,
+            "--generation",
+            generation,
+        )
+        self.assertEqual(missing.returncode, 5)
+        self.assertEqual(self.payload(missing)["state"], "mismatch")
+        self.assertNotIn("lease_id", self.payload(missing))
+        self.assertNotIn("task_id", self.payload(missing))
+        self.assertEqual(
+            self.payload(self.run_tool("claim-status"))["state"],
+            "unclaimed",
+        )
+
+        self.claim_current_selection(lease_id)
+        reference = TOOL_MODULE.claim_ref(self.repo, str(ready["branch_ref"]))
+        schema_two_oid = self.git(
+            "rev-parse",
+            "--verify",
+            reference,
+        ).stdout.strip()
+        pending = self.run_tool(
+            "verify-run",
+            *expected_arguments,
+            "--task-id",
+            task_id,
+            "--generation",
+            generation,
+        )
+        self.assertEqual(pending.returncode, 5)
+        self.assertEqual(self.payload(pending)["state"], "mismatch")
+        self.assertEqual(
+            self.git("rev-parse", "--verify", reference).stdout.strip(),
+            schema_two_oid,
+        )
+
+        self.bind_current_claim(ready, lease_id, task_id)
+        schema_three_oid = self.git(
+            "rev-parse",
+            "--verify",
+            reference,
+        ).stdout.strip()
+        wrong_task = self.run_tool(
+            "verify-run",
+            *expected_arguments,
+            "--task-id",
+            other_task_id,
+            "--generation",
+            generation,
+        )
+        wrong_generation = self.run_tool(
+            "verify-run",
+            *expected_arguments,
+            "--task-id",
+            task_id,
+            "--generation",
+            "other-generation",
+        )
+        for result in (wrong_task, wrong_generation):
+            self.assertEqual(result.returncode, 5)
+            self.assertEqual(self.payload(result)["state"], "mismatch")
+            self.assertNotIn("lease_id", self.payload(result))
+            self.assertNotIn("task_id", self.payload(result))
+            self.assertNotIn("generation", self.payload(result))
+        self.assertEqual(
+            self.git("rev-parse", "--verify", reference).stdout.strip(),
+            schema_three_oid,
+        )
+
+    def test_verify_run_rejects_identity_drift_and_a_stale_claim_selection(
+        self,
+    ) -> None:
+        self.write_record()
+        self.commit_all("Add next-step fixture")
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        task_id = "test-task"
+        original = self.claim_current_selection(lease_id)
+        self.bind_current_claim(original, lease_id, task_id)
+        original_selection = original["selection"]
+        self.assertIsInstance(original_selection, dict)
+        owner = self.admit_task(task_id)
+        generation = str(owner["generation"])
+        self.verify_bound_run(original, task_id, generation)
+        self.git("commit", "--allow-empty", "-m", "Advance selection head")
+        current_result = self.run_tool("show")
+        self.assertEqual(current_result.returncode, 0, current_result.stderr)
+        current = self.payload(current_result)
+        current_selection = current["selection"]
+        self.assertIsInstance(current_selection, dict)
+
+        stale_identity = self.run_tool(
+            "verify-run",
+            "--expected-branch-ref",
+            str(original["branch_ref"]),
+            "--expected-step-id",
+            str(original["step_id"]),
+            "--expected-selection-id",
+            str(original_selection["id"]),
+            "--expected-lease-id",
+            lease_id,
+            "--task-id",
+            task_id,
+            "--generation",
+            generation,
+        )
+        stale_claim = self.run_tool(
+            "verify-run",
+            "--expected-branch-ref",
+            str(current["branch_ref"]),
+            "--expected-step-id",
+            str(current["step_id"]),
+            "--expected-selection-id",
+            str(current_selection["id"]),
+            "--expected-lease-id",
+            lease_id,
+            "--task-id",
+            task_id,
+            "--generation",
+            generation,
+        )
+        status = self.run_tool("claim-status")
+
+        self.assertEqual(stale_identity.returncode, 5)
+        self.assertEqual(self.payload(stale_identity)["state"], "mismatch")
+        self.assertNotEqual(original_selection["id"], current_selection["id"])
+        self.assertEqual(stale_claim.returncode, 5)
+        self.assertEqual(self.payload(stale_claim)["state"], "mismatch")
+        self.assertNotIn("lease_id", self.payload(stale_claim))
+        self.assertNotIn("task_id", self.payload(stale_claim))
+        self.assertEqual(
+            self.payload(status)["selection_id"],
+            original_selection["id"],
+        )
+
+    def test_finished_or_readmitted_task_cannot_inherit_schema_four(self) -> None:
+        self.write_record()
+        self.commit_all("Add clean next-step fixture")
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        task_id = "reused-task"
+        ready = self.claim_current_selection(lease_id)
+        self.bind_current_claim(ready, lease_id, task_id)
+        selection = ready["selection"]
+        self.assertIsInstance(selection, dict)
+        first_owner = self.admit_task(task_id)
+        first_generation = str(first_owner["generation"])
+        self.verify_bound_run(ready, task_id, first_generation)
+        reference = TOOL_MODULE.claim_ref(self.repo, str(ready["branch_ref"]))
+        schema_four_oid = self.git(
+            "rev-parse",
+            "--verify",
+            reference,
+        ).stdout.strip()
+        expected_arguments = (
+            "--expected-branch-ref",
+            str(ready["branch_ref"]),
+            "--expected-step-id",
+            str(ready["step_id"]),
+            "--expected-selection-id",
+            str(selection["id"]),
+            "--expected-lease-id",
+            lease_id,
+            "--task-id",
+            task_id,
+        )
+        queue_context = QUEUE_MODULE.resolve_context(self.repo)
+        finish_code, finish_payload = QUEUE_MODULE.finish_clean_and_handoff(
+            queue_context,
+            task_id,
+            first_generation,
+        )
+        self.assertEqual(finish_code, 0)
+        self.assertEqual(finish_payload["state"], "finished_clean")
+
+        for command in ("verify-run", "rearm"):
+            with self.subTest(command=command, owner="finished"):
+                result = self.run_tool(
+                    command,
+                    *expected_arguments,
+                    "--generation",
+                    first_generation,
+                )
+                self.assertEqual(result.returncode, 5)
+                self.assertEqual(self.payload(result)["state"], "mismatch")
+                self.assertEqual(
+                    self.git(
+                        "rev-parse",
+                        "--verify",
+                        reference,
+                    ).stdout.strip(),
+                    schema_four_oid,
+                )
+
+        second_owner = self.admit_task(task_id)
+        second_generation = str(second_owner["generation"])
+        self.assertNotEqual(first_generation, second_generation)
+        self.assertEqual(second_owner["base_head"], selection["head"])
+        for command in ("verify-run", "rearm"):
+            with self.subTest(command=command, owner="readmitted"):
+                result = self.run_tool(
+                    command,
+                    *expected_arguments,
+                    "--generation",
+                    second_generation,
+                )
+                self.assertEqual(result.returncode, 5)
+                self.assertEqual(self.payload(result)["state"], "mismatch")
+                self.assertNotIn("generation", self.payload(result))
+                self.assertEqual(
+                    self.git(
+                        "rev-parse",
+                        "--verify",
+                        reference,
+                    ).stdout.strip(),
+                    schema_four_oid,
+                )
+
+    def test_queue_owner_base_head_must_equal_the_selected_head(self) -> None:
+        self.write_record()
+        self.commit_all("Add clean next-step fixture")
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        task_id = "test-task"
+        ready = self.claim_current_selection(lease_id)
+        self.bind_current_claim(ready, lease_id, task_id)
+        selection = ready["selection"]
+        self.assertIsInstance(selection, dict)
+        owner = self.admit_task(task_id)
+        generation = str(owner["generation"])
+        reference = TOOL_MODULE.claim_ref(self.repo, str(ready["branch_ref"]))
+        schema_three_oid = self.git(
+            "rev-parse",
+            "--verify",
+            reference,
+        ).stdout.strip()
+        queue_context = QUEUE_MODULE.resolve_context(self.repo)
+        state, old_queue_oid = QUEUE_MODULE.read_state(queue_context)
+        self.assertIsNotNone(old_queue_oid)
+        mismatched = json.loads(json.dumps(state))
+        self.assertIsInstance(mismatched["owner"], dict)
+        mismatched["owner"]["base_head"] = self.git(
+            "rev-parse",
+            "HEAD^",
+        ).stdout.strip()
+        new_queue_oid = QUEUE_MODULE.write_state_blob(queue_context, mismatched)
+        self.git(
+            "update-ref",
+            queue_context.queue_ref,
+            new_queue_oid,
+            str(old_queue_oid),
+        )
+        expected_arguments = (
+            "--expected-branch-ref",
+            str(ready["branch_ref"]),
+            "--expected-step-id",
+            str(ready["step_id"]),
+            "--expected-selection-id",
+            str(selection["id"]),
+            "--expected-lease-id",
+            lease_id,
+            "--task-id",
+            task_id,
+            "--generation",
+            generation,
+        )
+
+        for command in ("verify-run", "rearm"):
+            with self.subTest(command=command):
+                result = self.run_tool(command, *expected_arguments)
+                self.assertEqual(result.returncode, 5)
+                self.assertEqual(self.payload(result)["state"], "mismatch")
+                self.assertEqual(
+                    self.git(
+                        "rev-parse",
+                        "--verify",
+                        reference,
+                    ).stdout.strip(),
+                    schema_three_oid,
+                )
+
+    def test_run_fence_rejects_corrupt_queue_state_without_changing_claim(
+        self,
+    ) -> None:
+        self.write_record()
+        self.commit_all("Add clean next-step fixture")
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        task_id = "owner-task"
+        ready = self.claim_current_selection(lease_id)
+        self.bind_current_claim(ready, lease_id, task_id)
+        selection = ready["selection"]
+        self.assertIsInstance(selection, dict)
+        owner = self.admit_task(task_id)
+        generation = str(owner["generation"])
+        self.verify_bound_run(ready, task_id, generation)
+        claim_reference = TOOL_MODULE.claim_ref(
+            self.repo,
+            str(ready["branch_ref"]),
+        )
+        claim_oid = self.git(
+            "rev-parse",
+            "--verify",
+            claim_reference,
+        ).stdout.strip()
+        queue_context = QUEUE_MODULE.resolve_context(self.repo)
+        base_state, _base_queue_oid = QUEUE_MODULE.read_state(queue_context)
+
+        def duplicate_state() -> dict[str, object]:
+            return json.loads(json.dumps(base_state))
+
+        bool_schema = duplicate_state()
+        bool_schema["schema_version"] = True
+        extra_field = duplicate_state()
+        extra_field["unexpected"] = True
+        missing_owner_field = duplicate_state()
+        del missing_owner_field["owner"]["generation"]
+        invalid_waiting = duplicate_state()
+        invalid_waiting["waiting"] = {}
+
+        waiting_ticket = {
+            "task_id": "waiting-task",
+            "ticket_id": "waiting-ticket",
+            "seq": 2,
+            "registered_at": "2026-08-01T00:00:00.000Z",
+            "registered_at_epoch": 0.0,
+            "acknowledged_head": selection["head"],
+        }
+        duplicate_task = duplicate_state()
+        duplicate_task["waiting"] = [
+            {**waiting_ticket, "task_id": task_id},
+        ]
+        duplicate_task["next_seq"] = 3
+        invalid_sequence = duplicate_state()
+        invalid_sequence["waiting"] = [{**waiting_ticket, "seq": 0}]
+        invalid_sequence["next_seq"] = 3
+        reused_next_sequence = duplicate_state()
+        reused_next_sequence["waiting"] = [waiting_ticket]
+        reused_next_sequence["next_seq"] = 2
+        nonfinite_epoch = duplicate_state()
+        nonfinite_epoch["owner"]["admitted_at_epoch"] = float("nan")
+        cases = {
+            "bool_schema": bool_schema,
+            "extra_field": extra_field,
+            "missing_owner_field": missing_owner_field,
+            "invalid_waiting": invalid_waiting,
+            "duplicate_task": duplicate_task,
+            "invalid_sequence": invalid_sequence,
+            "reused_next_sequence": reused_next_sequence,
+            "nonfinite_epoch": nonfinite_epoch,
+        }
+        expected_arguments = (
+            "--expected-branch-ref",
+            str(ready["branch_ref"]),
+            "--expected-step-id",
+            str(ready["step_id"]),
+            "--expected-selection-id",
+            str(selection["id"]),
+            "--expected-lease-id",
+            lease_id,
+            "--task-id",
+            task_id,
+            "--generation",
+            generation,
+        )
+
+        for case_name, state in cases.items():
+            raw_state = (
+                json.dumps(
+                    state,
+                    ensure_ascii=False,
+                    sort_keys=True,
+                    separators=(",", ":"),
+                )
+                + "\n"
+            )
+            queue_oid = self.git(
+                "hash-object",
+                "-w",
+                "--stdin",
+                input_text=raw_state,
+            ).stdout.strip()
+            self.git("update-ref", queue_context.queue_ref, queue_oid)
+            for command in ("verify-run", "rearm"):
+                with self.subTest(case=case_name, command=command):
+                    result = self.run_tool(command, *expected_arguments)
+                    self.assertEqual(result.returncode, 2)
+                    self.assertEqual(self.payload(result)["state"], "invalid")
+                    self.assertEqual(
+                        self.git(
+                            "rev-parse",
+                            "--verify",
+                            claim_reference,
+                        ).stdout.strip(),
+                        claim_oid,
+                    )
+
+    def test_verify_run_retries_when_a_waiter_changes_only_the_queue_ref(
+        self,
+    ) -> None:
+        self.write_record()
+        self.commit_all("Add clean next-step fixture")
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        task_id = "owner-task"
+        ready = self.claim_current_selection(lease_id)
+        self.bind_current_claim(ready, lease_id, task_id)
+        selection = ready["selection"]
+        self.assertIsInstance(selection, dict)
+        owner = self.admit_task(task_id)
+        generation = str(owner["generation"])
+        queue_context = QUEUE_MODULE.resolve_context(self.repo)
+        original_cas = TOOL_MODULE.cas_run_fence
+        raced = False
+
+        def add_waiter_then_cas(*args, **kwargs) -> bool:
+            nonlocal raced
+            self.assertEqual(args[0], self.repo)
+            self.assertEqual(args[3], queue_context.queue_ref)
+            self.assertEqual(args[5], ready["branch_ref"])
+            self.assertEqual(args[6], selection["head"])
+            self.assertIsNotNone(kwargs["new_claim_oid"])
+            self.assertFalse(kwargs.get("delete_claim", False))
+            if not raced:
+                raced = True
+                wait_code, wait_payload = QUEUE_MODULE.join_queue(
+                    queue_context,
+                    "waiting-task",
+                )
+                self.assertEqual(wait_code, QUEUE_MODULE.EXIT_WAITING)
+                self.assertEqual(wait_payload["state"], "waiting")
+            return original_cas(*args, **kwargs)
+
+        with mock.patch.object(
+            TOOL_MODULE,
+            "cas_run_fence",
+            side_effect=add_waiter_then_cas,
+        ) as patched_cas:
+            payload, exit_code = TOOL_MODULE.verify_run(
+                self.repo,
+                str(ready["branch_ref"]),
+                str(ready["step_id"]),
+                str(selection["id"]),
+                lease_id,
+                task_id,
+                generation,
+            )
+
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(payload["state"], "verified")
+        self.assertEqual(patched_cas.call_count, 2)
+        status, status_code = TOOL_MODULE.claim_status(self.repo, None)
+        self.assertEqual(status_code, 0)
+        self.assertEqual(status["schema_version"], 4)
+        self.assertEqual(status["generation"], generation)
+        queue_state, _queue_oid = QUEUE_MODULE.read_state(queue_context)
+        self.assertEqual(queue_state["owner"]["task_id"], task_id)
+        self.assertEqual(queue_state["waiting"][0]["task_id"], "waiting-task")
+
+    def test_rearm_retries_when_a_waiter_changes_only_the_queue_ref(self) -> None:
+        self.write_record()
+        self.commit_all("Add clean next-step fixture")
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        task_id = "owner-task"
+        ready = self.claim_current_selection(lease_id)
+        self.bind_current_claim(ready, lease_id, task_id)
+        selection = ready["selection"]
+        self.assertIsInstance(selection, dict)
+        owner = self.admit_task(task_id)
+        generation = str(owner["generation"])
+        self.verify_bound_run(ready, task_id, generation)
+        queue_context = QUEUE_MODULE.resolve_context(self.repo)
+        original_cas = TOOL_MODULE.cas_run_fence
+        raced = False
+
+        def add_waiter_then_cas(*args, **kwargs) -> bool:
+            nonlocal raced
+            self.assertEqual(args[0], self.repo)
+            self.assertEqual(args[3], queue_context.queue_ref)
+            self.assertEqual(args[5], ready["branch_ref"])
+            self.assertEqual(args[6], selection["head"])
+            self.assertIsNone(kwargs.get("new_claim_oid"))
+            self.assertTrue(kwargs["delete_claim"])
+            if not raced:
+                raced = True
+                wait_code, wait_payload = QUEUE_MODULE.join_queue(
+                    queue_context,
+                    "waiting-task",
+                )
+                self.assertEqual(wait_code, QUEUE_MODULE.EXIT_WAITING)
+                self.assertEqual(wait_payload["state"], "waiting")
+            return original_cas(*args, **kwargs)
+
+        with mock.patch.object(
+            TOOL_MODULE,
+            "cas_run_fence",
+            side_effect=add_waiter_then_cas,
+        ) as patched_cas:
+            payload, exit_code = TOOL_MODULE.rearm_claim(
+                self.repo,
+                str(ready["branch_ref"]),
+                str(ready["step_id"]),
+                str(selection["id"]),
+                lease_id,
+                task_id,
+                generation,
+            )
+
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(payload["state"], "rearmed")
+        self.assertEqual(payload["ownership"], "new")
+        self.assertEqual(patched_cas.call_count, 2)
+        status, status_code = TOOL_MODULE.claim_status(self.repo, None)
+        self.assertEqual(status_code, 0)
+        self.assertEqual(status["state"], "unclaimed")
+        queue_state, _queue_oid = QUEUE_MODULE.read_state(queue_context)
+        self.assertEqual(queue_state["owner"]["task_id"], task_id)
+        self.assertEqual(queue_state["waiting"][0]["task_id"], "waiting-task")
+
+    def test_idempotent_rearm_atomically_verifies_absent_claim_and_queue(
+        self,
+    ) -> None:
+        self.write_record()
+        self.commit_all("Add clean next-step fixture")
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        task_id = "owner-task"
+        ready_result = self.run_tool("show")
+        self.assertEqual(ready_result.returncode, 0, ready_result.stderr)
+        ready = self.payload(ready_result)
+        selection = ready["selection"]
+        self.assertIsInstance(selection, dict)
+        owner = self.admit_task(task_id)
+        generation = str(owner["generation"])
+        queue_context = QUEUE_MODULE.resolve_context(self.repo)
+        original_cas = TOOL_MODULE.cas_run_fence
+        raced = False
+
+        def add_waiter_then_cas(*args, **kwargs) -> bool:
+            nonlocal raced
+            self.assertIsNone(args[2])
+            self.assertEqual(args[3], queue_context.queue_ref)
+            self.assertFalse(kwargs.get("delete_claim", False))
+            if not raced:
+                raced = True
+                wait_code, wait_payload = QUEUE_MODULE.join_queue(
+                    queue_context,
+                    "waiting-task",
+                )
+                self.assertEqual(wait_code, QUEUE_MODULE.EXIT_WAITING)
+                self.assertEqual(wait_payload["state"], "waiting")
+            return original_cas(*args, **kwargs)
+
+        with mock.patch.object(
+            TOOL_MODULE,
+            "cas_run_fence",
+            side_effect=add_waiter_then_cas,
+        ) as patched_cas:
+            payload, exit_code = TOOL_MODULE.rearm_claim(
+                self.repo,
+                str(ready["branch_ref"]),
+                str(ready["step_id"]),
+                str(selection["id"]),
+                lease_id,
+                task_id,
+                generation,
+            )
+
+        self.assertEqual(exit_code, 0)
+        self.assertEqual(payload["state"], "rearmed")
+        self.assertEqual(payload["ownership"], "existing")
+        self.assertEqual(patched_cas.call_count, 2)
+        status, status_code = TOOL_MODULE.claim_status(self.repo, None)
+        self.assertEqual(status_code, 0)
+        self.assertEqual(status["state"], "unclaimed")
+
+    def test_rearm_removes_only_the_exact_claim_and_allows_a_fresh_attempt(
+        self,
+    ) -> None:
+        self.write_record()
+        self.commit_all("Add clean next-step fixture")
+        first_lease = "00000000-0000-0000-0000-000000000001"
+        second_lease = "00000000-0000-0000-0000-000000000002"
+        first_task = "first-task"
+        second_task = "second-task"
+        ready = self.claim_current_selection(first_lease)
+        self.bind_current_claim(ready, first_lease, first_task)
+        selection = ready["selection"]
+        self.assertIsInstance(selection, dict)
+        expected_arguments = (
+            "--expected-branch-ref",
+            str(ready["branch_ref"]),
+            "--expected-step-id",
+            str(ready["step_id"]),
+            "--expected-selection-id",
+            str(selection["id"]),
+        )
+        first_owner = self.admit_task(first_task)
+        first_generation = str(first_owner["generation"])
+        self.verify_bound_run(ready, first_task, first_generation)
+
+        rearmed = self.run_tool(
+            "rearm",
+            *expected_arguments,
+            "--expected-lease-id",
+            first_lease,
+            "--task-id",
+            first_task,
+            "--generation",
+            first_generation,
+        )
+        repeated_rearm = self.run_tool(
+            "rearm",
+            *expected_arguments,
+            "--expected-lease-id",
+            first_lease,
+            "--task-id",
+            first_task,
+            "--generation",
+            first_generation,
+        )
+        status_after_rearm = self.run_tool("claim-status")
+
+        self.assertEqual(rearmed.returncode, 0, rearmed.stdout + rearmed.stderr)
+        self.assertEqual(
+            self.payload(rearmed),
+            {
+                "state": "rearmed",
+                "ownership": "new",
+                "branch_ref": ready["branch_ref"],
+                "step_id": ready["step_id"],
+                "selection_id": selection["id"],
+                "selection_head": selection["head"],
+            },
+        )
+        self.assertNotIn("lease_id", self.payload(rearmed))
+        self.assertNotIn("task_id", self.payload(rearmed))
+        self.assertEqual(repeated_rearm.returncode, 0, repeated_rearm.stderr)
+        self.assertEqual(
+            self.payload(repeated_rearm),
+            {
+                **self.payload(rearmed),
+                "ownership": "existing",
+            },
+        )
+        self.assertEqual(self.payload(status_after_rearm)["state"], "unclaimed")
+
+        old_verify = self.run_tool(
+            "verify-run",
+            *expected_arguments,
+            "--expected-lease-id",
+            first_lease,
+            "--task-id",
+            first_task,
+            "--generation",
+            first_generation,
+        )
+        queue_context = QUEUE_MODULE.resolve_context(self.repo)
+        finish_code, finish_payload = QUEUE_MODULE.finish_clean_and_handoff(
+            queue_context,
+            first_task,
+            first_generation,
+        )
+        self.assertEqual(finish_code, 0)
+        self.assertEqual(finish_payload["state"], "finished_clean")
+        fresh_claim = self.run_tool(
+            "claim",
+            *expected_arguments,
+            "--lease-id",
+            second_lease,
+        )
+        self.assertEqual(fresh_claim.returncode, 0, fresh_claim.stderr)
+        self.bind_current_claim(ready, second_lease, second_task)
+        second_owner = self.admit_task(second_task)
+        second_generation = str(second_owner["generation"])
+        self.verify_bound_run(
+            ready,
+            second_task,
+            second_generation,
+            second_lease,
+        )
+        stale_rearm = self.run_tool(
+            "rearm",
+            *expected_arguments,
+            "--expected-lease-id",
+            first_lease,
+            "--task-id",
+            first_task,
+            "--generation",
+            first_generation,
+        )
+        final_status = self.run_tool("claim-status")
+
+        self.assertEqual(old_verify.returncode, 5)
+        self.assertEqual(self.payload(old_verify)["state"], "mismatch")
+        self.assertEqual(self.payload(fresh_claim)["lease_id"], second_lease)
+        self.assertEqual(stale_rearm.returncode, 5)
+        self.assertEqual(self.payload(stale_rearm)["state"], "mismatch")
+        self.assertNotIn("lease_id", self.payload(stale_rearm))
+        self.assertNotIn("task_id", self.payload(stale_rearm))
+        self.assertEqual(self.payload(final_status)["lease_id"], second_lease)
+        self.assertEqual(self.payload(final_status)["task_id"], second_task)
+        self.assertEqual(
+            self.payload(final_status)["generation"],
+            second_generation,
+        )
+
+    def test_rearm_is_idempotent_but_rejects_unverified_or_wrong_claim(self) -> None:
+        self.write_record()
+        self.commit_all("Add clean next-step fixture")
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        task_id = "test-task"
+        other_task_id = "other-task"
+        ready_result = self.run_tool("show")
+        self.assertEqual(ready_result.returncode, 0, ready_result.stderr)
+        ready = self.payload(ready_result)
+        selection = ready["selection"]
+        self.assertIsInstance(selection, dict)
+        expected_arguments = (
+            "--expected-branch-ref",
+            str(ready["branch_ref"]),
+            "--expected-step-id",
+            str(ready["step_id"]),
+            "--expected-selection-id",
+            str(selection["id"]),
+            "--expected-lease-id",
+            lease_id,
+        )
+        owner = self.admit_task(task_id)
+        generation = str(owner["generation"])
+
+        missing = self.run_tool(
+            "rearm",
+            *expected_arguments,
+            "--task-id",
+            task_id,
+            "--generation",
+            generation,
+        )
+        self.assertEqual(missing.returncode, 0, missing.stderr)
+        self.assertEqual(
+            self.payload(missing),
+            {
+                "state": "rearmed",
+                "ownership": "existing",
+                "branch_ref": ready["branch_ref"],
+                "step_id": ready["step_id"],
+                "selection_id": selection["id"],
+                "selection_head": selection["head"],
+            },
+        )
+        self.assertEqual(
+            self.payload(self.run_tool("claim-status"))["state"],
+            "unclaimed",
+        )
+
+        self.claim_current_selection(lease_id)
+        reference = TOOL_MODULE.claim_ref(self.repo, str(ready["branch_ref"]))
+        schema_two_oid = self.git(
+            "rev-parse",
+            "--verify",
+            reference,
+        ).stdout.strip()
+        pending = self.run_tool(
+            "rearm",
+            *expected_arguments,
+            "--task-id",
+            task_id,
+            "--generation",
+            generation,
+        )
+        self.assertEqual(pending.returncode, 5)
+        self.assertEqual(self.payload(pending)["state"], "mismatch")
+        self.assertEqual(
+            self.git("rev-parse", "--verify", reference).stdout.strip(),
+            schema_two_oid,
+        )
+
+        self.bind_current_claim(ready, lease_id, task_id)
+        bound_oid = self.git(
+            "rev-parse",
+            "--verify",
+            reference,
+        ).stdout.strip()
+        unverified = self.run_tool(
+            "rearm",
+            *expected_arguments,
+            "--task-id",
+            task_id,
+            "--generation",
+            generation,
+        )
+        self.assertEqual(unverified.returncode, 5)
+        self.assertEqual(self.payload(unverified)["state"], "mismatch")
+        self.assertEqual(
+            self.git("rev-parse", "--verify", reference).stdout.strip(),
+            bound_oid,
+        )
+
+        self.verify_bound_run(ready, task_id, generation)
+        schema_four_oid = self.git(
+            "rev-parse",
+            "--verify",
+            reference,
+        ).stdout.strip()
+        wrong_task = self.run_tool(
+            "rearm",
+            *expected_arguments,
+            "--task-id",
+            other_task_id,
+            "--generation",
+            generation,
+        )
+        wrong_generation = self.run_tool(
+            "rearm",
+            *expected_arguments,
+            "--task-id",
+            task_id,
+            "--generation",
+            "other-generation",
+        )
+        for result in (wrong_task, wrong_generation):
+            self.assertEqual(result.returncode, 5)
+            self.assertEqual(self.payload(result)["state"], "mismatch")
+            self.assertNotIn("lease_id", self.payload(result))
+            self.assertNotIn("task_id", self.payload(result))
+            self.assertNotIn("generation", self.payload(result))
+        self.assertEqual(
+            self.git("rev-parse", "--verify", reference).stdout.strip(),
+            schema_four_oid,
+        )
+
+    def test_rearm_rejects_a_dirty_checkout_without_deleting_claim(self) -> None:
+        self.write_record()
+        self.commit_all("Add clean next-step fixture")
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        task_id = "test-task"
+        ready = self.claim_current_selection(lease_id)
+        self.bind_current_claim(ready, lease_id, task_id)
+        selection = ready["selection"]
+        self.assertIsInstance(selection, dict)
+        reference = TOOL_MODULE.claim_ref(self.repo, str(ready["branch_ref"]))
+        owner = self.admit_task(task_id)
+        generation = str(owner["generation"])
+        self.verify_bound_run(ready, task_id, generation)
+        before_oid = self.git("rev-parse", "--verify", reference).stdout.strip()
+        (self.repo / "README.md").write_text(
+            "# Dirty checkout\n",
+            encoding="utf-8",
+        )
+
+        result = self.run_tool(
+            "rearm",
+            "--expected-branch-ref",
+            str(ready["branch_ref"]),
+            "--expected-step-id",
+            str(ready["step_id"]),
+            "--expected-selection-id",
+            str(selection["id"]),
+            "--expected-lease-id",
+            lease_id,
+            "--task-id",
+            task_id,
+            "--generation",
+            generation,
+        )
+
+        self.assertEqual(result.returncode, 2)
+        self.assertEqual(self.payload(result)["state"], "invalid")
+        self.assertEqual(
+            self.git("rev-parse", "--verify", reference).stdout.strip(),
+            before_oid,
+        )
+
+    def test_rearm_rejects_a_dirty_index_without_deleting_claim(self) -> None:
+        self.write_record()
+        self.commit_all("Add clean next-step fixture")
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        task_id = "test-task"
+        ready = self.claim_current_selection(lease_id)
+        self.bind_current_claim(ready, lease_id, task_id)
+        selection = ready["selection"]
+        self.assertIsInstance(selection, dict)
+        reference = TOOL_MODULE.claim_ref(self.repo, str(ready["branch_ref"]))
+        owner = self.admit_task(task_id)
+        generation = str(owner["generation"])
+        self.verify_bound_run(ready, task_id, generation)
+        before_oid = self.git("rev-parse", "--verify", reference).stdout.strip()
+        (self.repo / "README.md").write_text(
+            "# Dirty index\n",
+            encoding="utf-8",
+        )
+        self.git("add", "README.md")
+
+        result = self.run_tool(
+            "rearm",
+            "--expected-branch-ref",
+            str(ready["branch_ref"]),
+            "--expected-step-id",
+            str(ready["step_id"]),
+            "--expected-selection-id",
+            str(selection["id"]),
+            "--expected-lease-id",
+            lease_id,
+            "--task-id",
+            task_id,
+            "--generation",
+            generation,
+        )
+
+        self.assertEqual(result.returncode, 2)
+        self.assertEqual(self.payload(result)["state"], "invalid")
+        self.assertEqual(
+            self.git("rev-parse", "--verify", reference).stdout.strip(),
+            before_oid,
+        )
+
+    def test_rearm_allows_only_unstaged_root_obsidian_changes(self) -> None:
+        self.write_record()
+        self.commit_all("Add clean next-step fixture")
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        task_id = "test-task"
+        ready = self.claim_current_selection(lease_id)
+        self.bind_current_claim(ready, lease_id, task_id)
+        selection = ready["selection"]
+        self.assertIsInstance(selection, dict)
+        owner = self.admit_task(task_id)
+        generation = str(owner["generation"])
+        self.verify_bound_run(ready, task_id, generation)
+        obsidian_file = self.repo / ".obsidian" / "workspace.json"
+        obsidian_file.parent.mkdir()
+        obsidian_file.write_text("{}\n", encoding="utf-8")
+
+        rearmed = self.run_tool(
+            "rearm",
+            "--expected-branch-ref",
+            str(ready["branch_ref"]),
+            "--expected-step-id",
+            str(ready["step_id"]),
+            "--expected-selection-id",
+            str(selection["id"]),
+            "--expected-lease-id",
+            lease_id,
+            "--task-id",
+            task_id,
+            "--generation",
+            generation,
+        )
+
+        self.assertEqual(rearmed.returncode, 0, rearmed.stderr)
+        self.assertEqual(self.payload(rearmed)["state"], "rearmed")
+        self.assertEqual(self.payload(rearmed)["ownership"], "new")
+
+    def test_rearm_rejects_staged_root_obsidian_without_deleting_claim(
+        self,
+    ) -> None:
+        self.write_record()
+        self.commit_all("Add clean next-step fixture")
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        task_id = "test-task"
+        ready = self.claim_current_selection(lease_id)
+        self.bind_current_claim(ready, lease_id, task_id)
+        selection = ready["selection"]
+        self.assertIsInstance(selection, dict)
+        owner = self.admit_task(task_id)
+        generation = str(owner["generation"])
+        self.verify_bound_run(ready, task_id, generation)
+        reference = TOOL_MODULE.claim_ref(self.repo, str(ready["branch_ref"]))
+        before_oid = self.git("rev-parse", "--verify", reference).stdout.strip()
+        obsidian_file = self.repo / ".obsidian" / "workspace.json"
+        obsidian_file.parent.mkdir()
+        obsidian_file.write_text("{}\n", encoding="utf-8")
+        self.git("add", ".obsidian/workspace.json")
+
+        result = self.run_tool(
+            "rearm",
+            "--expected-branch-ref",
+            str(ready["branch_ref"]),
+            "--expected-step-id",
+            str(ready["step_id"]),
+            "--expected-selection-id",
+            str(selection["id"]),
+            "--expected-lease-id",
+            lease_id,
+            "--task-id",
+            task_id,
+            "--generation",
+            generation,
+        )
+
+        self.assertEqual(result.returncode, 2)
+        self.assertEqual(self.payload(result)["state"], "invalid")
+        self.assertEqual(
+            self.git("rev-parse", "--verify", reference).stdout.strip(),
+            before_oid,
+        )
+
+    def test_rearm_rejects_head_drift_and_a_claim_from_an_old_selection(
+        self,
+    ) -> None:
+        self.write_record()
+        self.commit_all("Add clean next-step fixture")
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        task_id = "test-task"
+        original = self.claim_current_selection(lease_id)
+        self.bind_current_claim(original, lease_id, task_id)
+        original_selection = original["selection"]
+        self.assertIsInstance(original_selection, dict)
+        owner = self.admit_task(task_id)
+        generation = str(owner["generation"])
+        self.verify_bound_run(original, task_id, generation)
+        self.git("commit", "--allow-empty", "-m", "Advance selection head")
+        current_result = self.run_tool("show")
+        self.assertEqual(current_result.returncode, 0, current_result.stderr)
+        current = self.payload(current_result)
+        current_selection = current["selection"]
+        self.assertIsInstance(current_selection, dict)
+
+        stale_identity = self.run_tool(
+            "rearm",
+            "--expected-branch-ref",
+            str(original["branch_ref"]),
+            "--expected-step-id",
+            str(original["step_id"]),
+            "--expected-selection-id",
+            str(original_selection["id"]),
+            "--expected-lease-id",
+            lease_id,
+            "--task-id",
+            task_id,
+            "--generation",
+            generation,
+        )
+        stale_claim = self.run_tool(
+            "rearm",
+            "--expected-branch-ref",
+            str(current["branch_ref"]),
+            "--expected-step-id",
+            str(current["step_id"]),
+            "--expected-selection-id",
+            str(current_selection["id"]),
+            "--expected-lease-id",
+            lease_id,
+            "--task-id",
+            task_id,
+            "--generation",
+            generation,
+        )
+        status = self.run_tool("claim-status")
+
+        self.assertEqual(stale_identity.returncode, 5)
+        self.assertEqual(self.payload(stale_identity)["state"], "mismatch")
+        self.assertNotEqual(original_selection["id"], current_selection["id"])
+        self.assertEqual(stale_claim.returncode, 5)
+        self.assertEqual(self.payload(stale_claim)["state"], "mismatch")
+        self.assertNotIn("lease_id", self.payload(stale_claim))
+        self.assertNotIn("task_id", self.payload(stale_claim))
+        self.assertEqual(
+            self.payload(status)["selection_id"],
+            original_selection["id"],
+        )
+
+    def test_rearm_rejects_unbound_legacy_or_malformed_claims_without_deleting_them(
+        self,
+    ) -> None:
+        self.write_record()
+        self.commit_all("Add clean next-step fixture")
+        ready_result = self.run_tool("show")
+        self.assertEqual(ready_result.returncode, 0, ready_result.stderr)
+        ready = self.payload(ready_result)
+        selection = ready["selection"]
+        self.assertIsInstance(selection, dict)
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        task_id = "test-task"
+        owner = self.admit_task(task_id)
+        generation = str(owner["generation"])
+        schema_two = {
+            "schema_version": 2,
+            "branch_ref": ready["branch_ref"],
+            "step_id": ready["step_id"],
+            "selection_id": selection["id"],
+            "selection_head": selection["head"],
+            "lease_id": lease_id,
+        }
+        schema_three = {**schema_two, "schema_version": 3, "task_id": task_id}
+        schema_four = {
+            **schema_three,
+            "schema_version": 4,
+            "generation": generation,
+        }
+        raw_claims = (
+            (
+                json.dumps(
+                    {
+                        "schema_version": 1,
+                        "branch_ref": ready["branch_ref"],
+                        "step_id": ready["step_id"],
+                        "lease_id": lease_id,
+                    },
+                    sort_keys=True,
+                    separators=(",", ":"),
+                ),
+                5,
+                "mismatch",
+            ),
+            (
+                json.dumps(
+                    schema_two,
+                    sort_keys=True,
+                    separators=(",", ":"),
+                ),
+                5,
+                "mismatch",
+            ),
+            (
+                json.dumps(
+                    schema_three,
+                    sort_keys=True,
+                    separators=(",", ":"),
+                ),
+                5,
+                "mismatch",
+            ),
+            (
+                json.dumps(
+                    {**schema_four, "unexpected": True},
+                    sort_keys=True,
+                    separators=(",", ":"),
+                ),
+                2,
+                "invalid",
+            ),
+            ('{"schema_version":4', 2, "invalid"),
+        )
+
+        for case_number, (raw_claim, exit_code, state) in enumerate(
+            raw_claims,
+            start=1,
+        ):
+            with self.subTest(case=case_number):
+                reference = self.install_raw_claim(raw_claim)
+                before_oid = self.git(
+                    "rev-parse",
+                    "--verify",
+                    reference,
+                ).stdout.strip()
+
+                result = self.run_tool(
+                    "rearm",
+                    "--expected-branch-ref",
+                    str(ready["branch_ref"]),
+                    "--expected-step-id",
+                    str(ready["step_id"]),
+                    "--expected-selection-id",
+                    str(selection["id"]),
+                    "--expected-lease-id",
+                    lease_id,
+                    "--task-id",
+                    task_id,
+                    "--generation",
+                    generation,
+                )
+
+                self.assertEqual(result.returncode, exit_code)
+                self.assertEqual(self.payload(result)["state"], state)
+                self.assertEqual(
+                    self.git("rev-parse", "--verify", reference).stdout.strip(),
+                    before_oid,
+                )
+
+    def test_rearm_cas_race_keeps_the_new_claim_generation(self) -> None:
+        self.write_record()
+        self.commit_all("Add clean next-step fixture")
+        first_lease = "00000000-0000-0000-0000-000000000001"
+        second_lease = "00000000-0000-0000-0000-000000000002"
+        first_task = "first-task"
+        second_task = "second-task"
+        ready = self.claim_current_selection(first_lease)
+        self.bind_current_claim(ready, first_lease, first_task)
+        selection = ready["selection"]
+        self.assertIsInstance(selection, dict)
+        reference = TOOL_MODULE.claim_ref(self.repo, str(ready["branch_ref"]))
+        owner = self.admit_task(first_task)
+        generation = str(owner["generation"])
+        self.verify_bound_run(ready, first_task, generation)
+        queue_context = QUEUE_MODULE.resolve_context(self.repo)
+        _queue_state, expected_queue_oid = QUEUE_MODULE.read_state(queue_context)
+        self.assertIsNotNone(expected_queue_oid)
+        newer_oid = TOOL_MODULE.write_claim_blob(
+            self.repo,
+            {
+                "schema_version": 4,
+                "branch_ref": ready["branch_ref"],
+                "step_id": ready["step_id"],
+                "selection_id": selection["id"],
+                "selection_head": selection["head"],
+                "lease_id": second_lease,
+                "task_id": second_task,
+                "generation": "competing-generation",
+            },
+            str(ready["branch_ref"]),
+        )
+
+        def install_newer_claim(
+            repo_root: Path,
+            claim_reference: str,
+            old_claim_oid: str,
+            queue_reference: str,
+            observed_queue_oid: str,
+            branch_ref: str,
+            selection_head: str,
+            *,
+            new_claim_oid: str | None = None,
+            delete_claim: bool = False,
+        ) -> bool:
+            self.assertEqual(repo_root, self.repo)
+            self.assertEqual(claim_reference, reference)
+            self.assertIsNone(new_claim_oid)
+            self.assertTrue(delete_claim)
+            self.assertEqual(branch_ref, ready["branch_ref"])
+            self.assertEqual(selection_head, selection["head"])
+            self.assertEqual(queue_reference, queue_context.queue_ref)
+            self.assertEqual(observed_queue_oid, expected_queue_oid)
+            self.git("update-ref", reference, newer_oid, old_claim_oid)
+            return False
+
+        with mock.patch.object(
+            TOOL_MODULE,
+            "cas_run_fence",
+            side_effect=install_newer_claim,
+        ) as patched_cas:
+            payload, exit_code = TOOL_MODULE.rearm_claim(
+                self.repo,
+                str(ready["branch_ref"]),
+                str(ready["step_id"]),
+                str(selection["id"]),
+                first_lease,
+                first_task,
+                generation,
+            )
+
+        self.assertEqual(patched_cas.call_count, 1)
+        self.assertEqual(exit_code, 5)
+        self.assertEqual(payload["state"], "mismatch")
+        self.assertNotIn("lease_id", payload)
+        self.assertNotIn("task_id", payload)
+        status, status_code = TOOL_MODULE.claim_status(self.repo, None)
+        self.assertEqual(status_code, 0)
+        self.assertEqual(status["lease_id"], second_lease)
+        self.assertEqual(status["task_id"], second_task)
+        self.assertEqual(status["generation"], "competing-generation")
+
+    def test_rearm_atomic_fence_rejects_a_branch_head_race(self) -> None:
+        self.write_record()
+        self.commit_all("Add clean next-step fixture")
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        task_id = "test-task"
+        ready = self.claim_current_selection(lease_id)
+        self.bind_current_claim(ready, lease_id, task_id)
+        selection = ready["selection"]
+        self.assertIsInstance(selection, dict)
+        owner = self.admit_task(task_id)
+        generation = str(owner["generation"])
+        self.verify_bound_run(ready, task_id, generation)
+        reference = TOOL_MODULE.claim_ref(self.repo, str(ready["branch_ref"]))
+        before_oid = self.git("rev-parse", "--verify", reference).stdout.strip()
+        original_cas = TOOL_MODULE.cas_run_fence
+        raced = False
+
+        def move_head_then_cas(*args, **kwargs) -> bool:
+            nonlocal raced
+            if not raced:
+                raced = True
+                self.git(
+                    "commit",
+                    "--allow-empty",
+                    "-m",
+                    "Race branch head before rearm CAS",
+                )
+            return original_cas(*args, **kwargs)
+
+        with mock.patch.object(
+            TOOL_MODULE,
+            "cas_run_fence",
+            side_effect=move_head_then_cas,
+        ):
+            with self.assertRaises(TOOL_MODULE.ContractError):
+                TOOL_MODULE.rearm_claim(
+                    self.repo,
+                    str(ready["branch_ref"]),
+                    str(ready["step_id"]),
+                    str(selection["id"]),
+                    lease_id,
+                    task_id,
+                    generation,
+                )
+
+        self.assertEqual(
+            self.git("rev-parse", "--verify", reference).stdout.strip(),
+            before_oid,
+        )
+
     def test_claim_is_atomic_and_same_step_is_not_dispatched_twice(self) -> None:
         self.write_record()
         selection_id = self.current_selection_id()
@@ -3461,6 +5967,115 @@ class BranchNextStepTests(unittest.TestCase):
             str(context.exception),
         )
 
+    def test_external_recovery_release_fences_every_claim_schema(self) -> None:
+        self.write_record()
+        branch_ref = "refs/heads/master"
+        lease_id = "00000000-0000-0000-0000-000000000001"
+        wrong_lease = "00000000-0000-0000-0000-000000000002"
+        selection = self.current_selection()
+        common_payload: dict[str, object] = {
+            "branch_ref": branch_ref,
+            "step_id": "master-test-step-v1",
+            "lease_id": lease_id,
+        }
+        schema_fields = {
+            1: {},
+            2: {
+                "selection_id": selection["id"],
+                "selection_head": selection["head"],
+            },
+            3: {
+                "selection_id": selection["id"],
+                "selection_head": selection["head"],
+                "task_id": "bound-task",
+            },
+            4: {
+                "selection_id": selection["id"],
+                "selection_head": selection["head"],
+                "task_id": "verified-task",
+                "generation": "verified-generation",
+            },
+        }
+
+        for schema_version, extra_fields in schema_fields.items():
+            claim_oid = TOOL_MODULE.write_claim_blob(
+                self.repo,
+                {
+                    "schema_version": schema_version,
+                    **common_payload,
+                    **extra_fields,
+                },
+                branch_ref,
+            )
+            reference = TOOL_MODULE.claim_ref(self.repo, branch_ref)
+            self.git("update-ref", reference, claim_oid)
+            blob_before = self.git("cat-file", "blob", claim_oid).stdout
+
+            mismatched = self.run_tool(
+                "release",
+                "--branch-ref",
+                branch_ref,
+                "--expected-lease-id",
+                wrong_lease,
+            )
+            oid_after_mismatch = self.git(
+                "for-each-ref",
+                "--format=%(objectname)",
+                reference,
+            ).stdout.strip()
+            blob_after_mismatch = self.git(
+                "cat-file",
+                "blob",
+                claim_oid,
+            ).stdout
+
+            released = self.run_tool(
+                "release",
+                "--branch-ref",
+                branch_ref,
+                "--expected-lease-id",
+                lease_id,
+            )
+            oid_after_release = self.git(
+                "for-each-ref",
+                "--format=%(objectname)",
+                reference,
+            ).stdout.strip()
+
+            with self.subTest(schema_version=schema_version):
+                self.assertEqual(mismatched.returncode, 5)
+                self.assertEqual(
+                    self.payload(mismatched),
+                    {
+                        "state": "mismatch",
+                        "reason": "lease_changed",
+                        "branch_ref": branch_ref,
+                    },
+                )
+                for forbidden_field in (
+                    "lease_id",
+                    "schema_version",
+                    "task_id",
+                    "generation",
+                ):
+                    self.assertNotIn(
+                        forbidden_field,
+                        self.payload(mismatched),
+                    )
+                self.assertEqual(oid_after_mismatch, claim_oid)
+                self.assertEqual(blob_after_mismatch, blob_before)
+                self.assertEqual(released.returncode, 0)
+                self.assertEqual(
+                    self.payload(released),
+                    {
+                        "state": "released",
+                        "branch_ref": branch_ref,
+                        "step_id": common_payload["step_id"],
+                        "lease_id": lease_id,
+                    },
+                )
+                self.assertEqual(oid_after_release, "")
+
     def test_claim_replacement_and_fenced_release_follow_step_identity(self) -> None:
         self.write_record()
         first_selection_id = self.current_selection_id()
@@ -3485,6 +6100,7 @@ class BranchNextStepTests(unittest.TestCase):
         )
         self.assertEqual(wrong_release.returncode, 5)
         self.assertEqual(self.payload(wrong_release)["state"], "mismatch")
+        self.assertNotIn("lease_id", self.payload(wrong_release))
 
         self.write_record(step_id="master-test-step-v2")
         second_selection_id = self.current_selection_id()
@@ -3509,6 +6125,8 @@ class BranchNextStepTests(unittest.TestCase):
             first_lease,
         )
         self.assertEqual(stale_release.returncode, 5)
+        self.assertEqual(self.payload(stale_release)["state"], "mismatch")
+        self.assertNotIn("lease_id", self.payload(stale_release))
 
         release = self.run_tool(
             "release",
