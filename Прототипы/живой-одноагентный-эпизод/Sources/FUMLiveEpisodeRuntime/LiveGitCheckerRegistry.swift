@@ -17,7 +17,11 @@ public struct LiveGitCheckerRegistry: Sendable {
     "checker-git-diff": Registration(
       argvGrammar: .gitDiffCheckV1,
       implementation: .gitDiffCheckV1
-    )
+    ),
+    "git-diff-check": Registration(
+      argvGrammar: .gitDiffCheckV1,
+      implementation: .gitDiffCheckV1
+    ),
   ]
 
   public init() {}

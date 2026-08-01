@@ -1,8 +1,68 @@
+import Dispatch
 import Foundation
 
 public enum LiveModelPlanDecision: Equatable, Sendable {
   case request(LiveModelRequestRecorded)
   case checkpoint(LiveBudgetCheckpointCreated)
+}
+
+/// The reducer's exhaustive payload switch has a deliberately wide debug stack frame.
+/// Swift cooperative executor threads have a much smaller native stack than a process main
+/// thread, so all reducer applications are serialized onto one private 8 MiB stack. This is
+/// an execution detail only: inputs and outputs remain pure values.
+private final class LiveEpisodeReducerStackExecutor: @unchecked Sendable {
+  static let shared = LiveEpisodeReducerStackExecutor()
+
+  private final class WorkQueue: @unchecked Sendable {
+    private let condition = NSCondition()
+    private var jobs: [@Sendable () -> Void] = []
+
+    func enqueue(_ job: @escaping @Sendable () -> Void) {
+      condition.lock()
+      jobs.append(job)
+      condition.signal()
+      condition.unlock()
+    }
+
+    func runForever() -> Never {
+      Thread.current.name = "fum-live-episode-reducer"
+      while true {
+        condition.lock()
+        while jobs.isEmpty {
+          condition.wait()
+        }
+        let job = jobs.removeFirst()
+        condition.unlock()
+        job()
+      }
+    }
+  }
+
+  private final class ResultBox<Value: Sendable>: @unchecked Sendable {
+    var result: Result<Value, any Error>?
+  }
+
+  private let queue = WorkQueue()
+
+  private init() {
+    let queue = queue
+    let thread = Thread { queue.runForever() }
+    thread.stackSize = 8 * 1_024 * 1_024
+    thread.start()
+  }
+
+  func run<Value: Sendable>(
+    _ operation: @escaping @Sendable () throws -> Value
+  ) throws -> Value {
+    let result = ResultBox<Value>()
+    let completed = DispatchSemaphore(value: 0)
+    queue.enqueue {
+      result.result = Result { try operation() }
+      completed.signal()
+    }
+    completed.wait()
+    return try result.result!.get()
+  }
 }
 
 public enum LiveEpisodeReducer {
@@ -26,11 +86,13 @@ public enum LiveEpisodeReducer {
     passport: LiveEpisodePassport,
     events: [LiveEpisodeEvent]
   ) throws -> LiveEpisodeState {
-    var state = try initialState(passport: passport)
-    for event in events {
-      state = try applying(event, to: state)
+    try LiveEpisodeReducerStackExecutor.shared.run {
+      var state = try initialState(passport: passport)
+      for event in events {
+        state = try applyingOnCurrentThread(event, to: state)
+      }
+      return state
     }
-    return state
   }
 
   public static func planModelInvocation(
@@ -73,6 +135,15 @@ public enum LiveEpisodeReducer {
   }
 
   public static func applying(
+    _ event: LiveEpisodeEvent,
+    to state: LiveEpisodeState
+  ) throws -> LiveEpisodeState {
+    try LiveEpisodeReducerStackExecutor.shared.run {
+      try applyingOnCurrentThread(event, to: state)
+    }
+  }
+
+  private static func applyingOnCurrentThread(
     _ event: LiveEpisodeEvent,
     to state: LiveEpisodeState
   ) throws -> LiveEpisodeState {

@@ -87,6 +87,25 @@ public struct LiveEpisodeRuntime {
     }
   }
 
+  /// Synchronous headless path for transitions that are forbidden from reaching a model
+  /// adapter. It is used by the single-agent worker on a dedicated large-stack thread.
+  public func resumeWithoutModel(_ command: LiveEpisodeResumeCommand) throws
+    -> LiveEpisodeMutationOutput
+  {
+    try validateCommand(schemaVersion: command.schemaVersion, commandID: command.commandID)
+    let current = try requireCurrent()
+    switch command.action {
+    case .appendEvents(let append):
+      return try appendEvents(append, command: command, current: current)
+    case .confirmGeneration(let confirmation):
+      return try confirmGeneration(confirmation, command: command, current: current)
+    case .invokeModel:
+      throw LiveEpisodeRuntimeError.invalidCommand(
+        "Синхронный no-model-путь запрещает model-only-вызовы."
+      )
+    }
+  }
+
   private func appendEvents(
     _ append: LiveEpisodeAppendEventsCommand,
     command: LiveEpisodeResumeCommand,

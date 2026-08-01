@@ -928,7 +928,7 @@ struct BudgetedModelOnlyAdapterTests {
   func pinnedExactTokenizationIsInputAndModelSpecific() async throws {
     let attestedProfile = profile()
     let tokenizer = PinnedModelOnlyExactTokenization(
-      identity: "fixture.exact.v1",
+      identity: attestedProfile.tokenizerIdentity,
       providerIdentity: attestedProfile.providerIdentity,
       providerInterfaceID: attestedProfile.providerInterfaceID,
       endpoint: attestedProfile.endpoint,
@@ -939,7 +939,7 @@ struct BudgetedModelOnlyAdapterTests {
       inputTokens: 1
     )
     let wrongRuntimeTokenizer = PinnedModelOnlyExactTokenization(
-      identity: "fixture.exact.v1",
+      identity: attestedProfile.tokenizerIdentity,
       providerIdentity: attestedProfile.providerIdentity,
       providerInterfaceID: attestedProfile.providerInterfaceID,
       endpoint: attestedProfile.endpoint,
@@ -1010,6 +1010,77 @@ struct BudgetedModelOnlyAdapterTests {
     #expect(try await tokenizer.countInputTokens(prompt, profile: fixtureProfile) == 14)
     await #expect(throws: ModelOnlyBudgetFailure.self) {
       try await tokenizer.countInputTokens("Return the single letter B.", profile: fixtureProfile)
+    }
+  }
+
+  @Test("Аттестация live-эпизода закрепляет ровно два входа и их profile identity")
+  func liveEpisodeExactAttestationAcceptsOnlyPinnedInputs() async throws {
+    let tokenizer = PinnedModelOnlyExactTokenization.lmStudioQwen3LiveEpisodeV1
+    let promptPrefix =
+      String(UnicodeScalar(0x2F)!)
+      + "no_think\nReturn exactly the JSON on the next line, byte for byte, with no markdown or explanation.\n"
+    let promptA =
+      promptPrefix
+      + #"{"adapter_id":"fum-git-candidate-v1","arguments_sha256":"sha256:ea37f8d99e51e22ac31108472f0389d59f8788c4368812fd62729e0a6a563808","effect_class":"isolated-git-write","expected_effect_sha256":"sha256:ea37f8d99e51e22ac31108472f0389d59f8788c4368812fd62729e0a6a563808","intent_id":"intent-variant-a","object_id":"candidate-artifact","operation":"create_candidate_commit"}"#
+    let promptB =
+      promptPrefix
+      + #"{"adapter_id":"fum-git-candidate-v1","arguments_sha256":"sha256:27747689baf9903c9aae69d82a95e8dcf4254c648ca13e4c9ff49adb1e546bb6","effect_class":"isolated-git-write","expected_effect_sha256":"sha256:ea37f8d99e51e22ac31108472f0389d59f8788c4368812fd62729e0a6a563808","intent_id":"intent-variant-b","object_id":"candidate-artifact","operation":"create_candidate_commit"}"#
+    let reservation = budget(
+      calls: 1,
+      input: 256,
+      output: 256,
+      time: 120_000,
+      compute: 120_000,
+      money: 0
+    )
+
+    func makeProfile(tokenizerIdentity: String) -> ModelOnlyBudgetProfile {
+      ModelOnlyBudgetProfile(
+        schemaVersion: 2,
+        profileID: "fum.lm-studio-rest-v0.budgeted.v1.live-episode",
+        executionMode: .local,
+        providerIdentity: tokenizer.providerIdentity,
+        providerInterfaceID: tokenizer.providerInterfaceID,
+        endpoint: tokenizer.endpoint,
+        modelIdentity: tokenizer.modelIdentity,
+        runtimeIdentity: tokenizer.runtimeIdentity,
+        tokenizerIdentity: tokenizerIdentity,
+        tokenizationMethod: .exact,
+        computeUnit: .wallClockMillisecond,
+        moneyUnit: .none,
+        disclosure: ModelOnlyDisclosurePolicy(
+          allowedClasses: [.synthetic],
+          maxInputBytes: 467,
+          allowedPurposes: ["live_single_agent_episode"]
+        ),
+        maximumBudget: reservation,
+        perInvocationReservation: reservation,
+        maxOutputTokens: 256,
+        durability: .processMemory
+      )
+    }
+
+    let liveProfile = makeProfile(tokenizerIdentity: tokenizer.identity)
+
+    #expect(tokenizer.identity == "lmstudio.rest-v0.qwen3-0.6b.live-episode-attestation.v1")
+    #expect(tokenizer.inputAttestationCount == 2)
+    #expect(tokenizer.inputBytes == 467)
+    #expect(
+      tokenizer.inputSHA256
+        == "sha256:0ee3d9bd4a4553bdc542c52a8d47b6d08bd672cb1a364877d2bea11cc0795864"
+    )
+    #expect(promptA.utf8.count == 467)
+    #expect(promptB.utf8.count == 467)
+    #expect(try await tokenizer.countInputTokens(promptA, profile: liveProfile) == 219)
+    #expect(try await tokenizer.countInputTokens(promptB, profile: liveProfile) == 214)
+    await #expect(throws: ModelOnlyBudgetFailure.self) {
+      try await tokenizer.countInputTokens(promptA + "\n", profile: liveProfile)
+    }
+    await #expect(throws: ModelOnlyBudgetFailure.self) {
+      try await tokenizer.countInputTokens(
+        promptA,
+        profile: makeProfile(tokenizerIdentity: "unattested-tokenizer")
+      )
     }
   }
 

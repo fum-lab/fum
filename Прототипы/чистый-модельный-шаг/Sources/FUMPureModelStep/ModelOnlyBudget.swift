@@ -1844,6 +1844,12 @@ public actor BudgetedModelOnlyAdapter {
 }
 
 public struct PinnedModelOnlyExactTokenization: ModelOnlyInputTokenizing {
+  private struct InputAttestation: Sendable {
+    let inputSHA256: String
+    let inputBytes: Int64
+    let inputTokens: Int64
+  }
+
   public static let lmStudioQwen3SmallFixtureV1 = PinnedModelOnlyExactTokenization(
     identity: "lmstudio.rest-v0.qwen3-0.6b.prompt-attestation.v1",
     providerIdentity: "lmstudio",
@@ -1859,6 +1865,30 @@ public struct PinnedModelOnlyExactTokenization: ModelOnlyInputTokenizing {
     inputTokens: 14
   )
 
+  public static let lmStudioQwen3LiveEpisodeV1 = PinnedModelOnlyExactTokenization(
+    identity: "lmstudio.rest-v0.qwen3-0.6b.live-episode-attestation.v1",
+    providerIdentity: "lmstudio",
+    providerInterfaceID: "lmstudio.rest-api.v0.chat-completions",
+    endpoint: "http://127.0.0.1:1234/api/v0/chat/completions",
+    modelIdentity: "qwen/qwen3-0.6b",
+    runtimeIdentity: ModelOnlyRuntimeIdentity(
+      name: "llama.cpp-mac-arm64-apple-metal-advsimd",
+      version: "2.27.1"
+    ),
+    inputAttestations: [
+      InputAttestation(
+        inputSHA256: "sha256:0ee3d9bd4a4553bdc542c52a8d47b6d08bd672cb1a364877d2bea11cc0795864",
+        inputBytes: 467,
+        inputTokens: 219
+      ),
+      InputAttestation(
+        inputSHA256: "sha256:5301ee0fef1db1216ea01a1e0a673fe6fe5932185ff4ad1b747e7e14a912bdcb",
+        inputBytes: 467,
+        inputTokens: 214
+      ),
+    ]
+  )
+
   public let identity: String
   public let providerIdentity: String
   public let providerInterfaceID: String
@@ -1869,6 +1899,9 @@ public struct PinnedModelOnlyExactTokenization: ModelOnlyInputTokenizing {
   public let inputBytes: Int64
   public let inputTokens: Int64
   public let method: ModelOnlyTokenizationMethod = .exact
+  private let inputAttestations: [InputAttestation]
+
+  public var inputAttestationCount: Int { inputAttestations.count }
 
   init(
     identity: String,
@@ -1881,34 +1914,77 @@ public struct PinnedModelOnlyExactTokenization: ModelOnlyInputTokenizing {
     inputBytes: Int64,
     inputTokens: Int64
   ) {
+    let inputAttestation = InputAttestation(
+      inputSHA256: inputSHA256,
+      inputBytes: inputBytes,
+      inputTokens: inputTokens
+    )
+    self.init(
+      identity: identity,
+      providerIdentity: providerIdentity,
+      providerInterfaceID: providerInterfaceID,
+      endpoint: endpoint,
+      modelIdentity: modelIdentity,
+      runtimeIdentity: runtimeIdentity,
+      inputAttestations: [inputAttestation]
+    )
+  }
+
+  private init(
+    identity: String,
+    providerIdentity: String,
+    providerInterfaceID: String,
+    endpoint: String,
+    modelIdentity: String,
+    runtimeIdentity: ModelOnlyRuntimeIdentity,
+    inputAttestations: [InputAttestation]
+  ) {
+    precondition(!inputAttestations.isEmpty)
+    let primaryInput = inputAttestations[0]
     self.identity = identity
     self.providerIdentity = providerIdentity
     self.providerInterfaceID = providerInterfaceID
     self.endpoint = endpoint
     self.modelIdentity = modelIdentity
     self.runtimeIdentity = runtimeIdentity
-    self.inputSHA256 = inputSHA256
-    self.inputBytes = inputBytes
-    self.inputTokens = inputTokens
+    inputSHA256 = primaryInput.inputSHA256
+    inputBytes = primaryInput.inputBytes
+    inputTokens = primaryInput.inputTokens
+    self.inputAttestations = inputAttestations
   }
 
   public func countInputTokens(_ input: String, profile: ModelOnlyBudgetProfile) async throws
     -> Int64
   {
-    guard profile.providerIdentity == providerIdentity,
+    let maximumInputBytes = inputAttestations.map(\.inputBytes).max() ?? -1
+    guard profile.tokenizerIdentity == identity,
+      profile.tokenizationMethod == method,
+      profile.providerIdentity == providerIdentity,
       profile.providerInterfaceID == providerInterfaceID,
       profile.endpoint == endpoint,
       profile.modelIdentity == modelIdentity,
       profile.runtimeIdentity == runtimeIdentity,
-      BudgetedModelOnlyAdapter.hasAtMostUTF8Bytes(input, limit: inputBytes),
-      inputTokens >= 0,
-      inputSHA256 == BudgetedModelOnlyAdapter.sha256(Data(input.utf8))
+      BudgetedModelOnlyAdapter.hasAtMostUTF8Bytes(input, limit: maximumInputBytes)
     else {
       throw ModelOnlyBudgetFailure(
         code: .tokenizerIdentityMismatch,
         message: "Точная токенизационная аттестация не закреплена за этим входом и моделью."
       )
     }
-    return inputTokens
+    let inputData = Data(input.utf8)
+    let inputSHA256 = BudgetedModelOnlyAdapter.sha256(inputData)
+    guard
+      let inputAttestation = inputAttestations.first(where: {
+        $0.inputBytes == Int64(inputData.count)
+          && $0.inputTokens >= 0
+          && $0.inputSHA256 == inputSHA256
+      })
+    else {
+      throw ModelOnlyBudgetFailure(
+        code: .tokenizerIdentityMismatch,
+        message: "Точная токенизационная аттестация не закреплена за этим входом и моделью."
+      )
+    }
+    return inputAttestation.inputTokens
   }
 }

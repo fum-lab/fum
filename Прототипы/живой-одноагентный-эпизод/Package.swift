@@ -15,6 +15,8 @@ let package = Package(
       name: "FUMLiveCandidateAcceptanceProbe",
       targets: ["FUMLiveCandidateAcceptanceProbe"]
     ),
+    .executable(name: "FUMLiveEpisodeWorker", targets: ["FUMLiveEpisodeWorker"]),
+    .executable(name: "FUMLiveEpisodeHarness", targets: ["FUMLiveEpisodeHarness"]),
   ],
   dependencies: [
     .package(path: "../воспроизводимое-пополнение-памяти"),
@@ -46,6 +48,16 @@ let package = Package(
       name: "FUMLiveCandidateAcceptanceProbe",
       dependencies: ["FUMLiveEpisodeRuntime"],
       path: "Sources/FUMLiveCandidateAcceptanceProbe"
+    ),
+    .executableTarget(
+      name: "FUMLiveEpisodeWorker",
+      dependencies: ["FUMLiveEpisodeRuntime"],
+      path: "Sources/FUMLiveEpisodeWorker"
+    ),
+    .executableTarget(
+      name: "FUMLiveEpisodeHarness",
+      dependencies: ["FUMLiveEpisodeCore", "FUMLiveEpisodeRuntime"],
+      path: "Sources/FUMLiveEpisodeHarness"
     ),
     .testTarget(
       name: "FUMLiveEpisodeCoreTests",
