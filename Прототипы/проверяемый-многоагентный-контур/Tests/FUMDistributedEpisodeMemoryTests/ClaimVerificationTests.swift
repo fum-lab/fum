@@ -57,7 +57,7 @@ final class ClaimVerificationTests: XCTestCase {
     let withSelfVerification = try SharedEpisodeMemoryReducer.continuation(
       from: withContributions,
       verification: selfVerification
-    )
+    ).completed
     let correlatedThroughSelf = try SharedEpisodeMemoryFixtures.verification(
       named: .externalPassed,
       parentGenerationSHA256: verificationSHA(
@@ -67,7 +67,7 @@ final class ClaimVerificationTests: XCTestCase {
     let accepted = try SharedEpisodeMemoryReducer.continuation(
       from: withSelfVerification,
       verification: correlatedThroughSelf
-    )
+    ).completed
 
     XCTAssertEqual(
       accepted.state.verificationReport.assessmentsByRecordID[
@@ -158,7 +158,7 @@ final class ClaimVerificationTests: XCTestCase {
     let accepted = try SharedEpisodeMemoryReducer.continuation(
       from: withContributions,
       verification: inconclusive
-    )
+    ).completed
     XCTAssertEqual(accepted.state.verificationReport.assessments.first?.outcome, .inconclusive)
     XCTAssertEqual(accepted.state.verificationReport.externalPassedCount, 0)
     XCTAssertFalse(accepted.state.verificationReport.agreementIsEvidence)
@@ -177,7 +177,7 @@ final class ClaimVerificationTests: XCTestCase {
     let accepted = try SharedEpisodeMemoryReducer.continuation(
       from: withContributions,
       verification: inconclusive
-    )
+    ).completed
 
     XCTAssertEqual(
       accepted.state.verificationReport.assessments.first?.outcome,
@@ -340,15 +340,10 @@ final class ClaimVerificationTests: XCTestCase {
       SharedEpisodeContributionFixture.primary,
       SharedEpisodeContributionFixture.adversarial,
     ] {
-      let contribution = try SharedEpisodeMemoryFixtures.contribution(
-        named: fixture,
-        parentGenerationSHA256: stored.generationSHA256
-      )
-      stored = try store.commit(
-        SharedEpisodeMemoryReducer.continuation(
-          from: stored.generation,
-          contribution: contribution
-        )
+      stored = try commitContribution(
+        fixture,
+        from: stored,
+        to: store
       )
     }
     var failedVerification: SharedEpisodeVerificationRecord?
@@ -361,11 +356,10 @@ final class ClaimVerificationTests: XCTestCase {
         parentGenerationSHA256: stored.generationSHA256
       )
       if fixture == .failed { failedVerification = verification }
-      stored = try store.commit(
-        SharedEpisodeMemoryReducer.continuation(
-          from: stored.generation,
-          verification: verification
-        )
+      stored = try commitVerification(
+        verification,
+        from: stored,
+        to: store
       )
     }
 
@@ -412,7 +406,7 @@ final class ClaimVerificationTests: XCTestCase {
     return try SharedEpisodeMemoryReducer.continuation(
       from: withContributions,
       verification: verification
-    )
+    ).completed
   }
 
   private func appendFixtureContributions(
@@ -430,9 +424,111 @@ final class ClaimVerificationTests: XCTestCase {
           named: fixture,
           parentGenerationSHA256: parentSHA256
         )
-      )
+      ).completed
     }
     return generation
+  }
+
+  private func commitContribution(
+    _ fixture: SharedEpisodeContributionFixture,
+    from previous: StoredSharedEpisodeGeneration,
+    to store: SharedEpisodeMemoryStore
+  ) throws -> StoredSharedEpisodeGeneration {
+    let contribution = try SharedEpisodeMemoryFixtures.contribution(
+      named: fixture,
+      parentGenerationSHA256: previous.generationSHA256
+    )
+    let ordinal = previous.generation.eventJournal.entries.count + 1
+    let roundID = "round.store.contribution.\(ordinal)"
+    let budget = try SharedEpisodeControlKernel.meteredUsage(
+      for: contribution,
+      executors: previous.state.controlState.usedExecutorIDs.contains(
+        contribution.provenance.executorID
+      ) ? 0 : 1,
+      rounds: previous.state.controlState.usedRoundIDs.contains(roundID) ? 0 : 1
+    )
+    let reservation = SharedEpisodeActionReservation(
+      permitID: "permit.store.contribution.\(ordinal)",
+      actionID: "action.store.contribution.\(ordinal)",
+      parentGenerationSHA256: previous.generationSHA256,
+      phase: .productive,
+      kind: .contribution,
+      executorID: contribution.provenance.executorID,
+      roundID: roundID,
+      continuationID: nil,
+      distinguishingCheckID: nil,
+      reserved: budget
+    )
+    let reserved = try store.commit(
+      SharedEpisodeMemoryReducer.continuation(
+        from: previous.generation,
+        control: .actionReserved(reservation)
+      )
+    )
+    return try store.commit(
+      SharedEpisodeMemoryReducer.continuation(
+        from: reserved.generation,
+        control: .contribution(
+          contribution.rebinding(
+            parentGenerationSHA256: reserved.generationSHA256
+          ),
+          SharedEpisodeActionSettlement(
+            permitID: reservation.permitID,
+            actionID: reservation.actionID,
+            actual: budget
+          )
+        )
+      )
+    )
+  }
+
+  private func commitVerification(
+    _ verification: SharedEpisodeVerificationRecord,
+    from previous: StoredSharedEpisodeGeneration,
+    to store: SharedEpisodeMemoryStore
+  ) throws -> StoredSharedEpisodeGeneration {
+    let ordinal = previous.generation.eventJournal.entries.count + 1
+    let roundID = "round.store.verification.\(ordinal)"
+    let budget = try SharedEpisodeControlKernel.meteredUsage(
+      for: verification,
+      executors: previous.state.controlState.usedExecutorIDs.contains(
+        verification.provenance.executorID
+      ) ? 0 : 1,
+      rounds: previous.state.controlState.usedRoundIDs.contains(roundID) ? 0 : 1
+    )
+    let reservation = SharedEpisodeActionReservation(
+      permitID: "permit.store.verification.\(ordinal)",
+      actionID: "action.store.verification.\(ordinal)",
+      parentGenerationSHA256: previous.generationSHA256,
+      phase: .verification,
+      kind: .verification,
+      executorID: verification.provenance.executorID,
+      roundID: roundID,
+      continuationID: nil,
+      distinguishingCheckID: nil,
+      reserved: budget
+    )
+    let reserved = try store.commit(
+      SharedEpisodeMemoryReducer.continuation(
+        from: previous.generation,
+        control: .actionReserved(reservation)
+      )
+    )
+    return try store.commit(
+      SharedEpisodeMemoryReducer.continuation(
+        from: reserved.generation,
+        control: .verification(
+          verification.rebinding(
+            parentGenerationSHA256: reserved.generationSHA256
+          ),
+          SharedEpisodeActionSettlement(
+            permitID: reservation.permitID,
+            actionID: reservation.actionID,
+            actual: budget
+          )
+        )
+      )
+    )
   }
 }
 

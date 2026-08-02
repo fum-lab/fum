@@ -372,6 +372,25 @@ public struct SharedEpisodeVerificationProvenance:
     )
   }
 
+  public func rebinding(
+    parentGenerationSHA256: String
+  ) -> SharedEpisodeVerificationProvenance {
+    SharedEpisodeVerificationProvenance(
+      schemaVersion: schemaVersion,
+      recordID: recordID,
+      executorID: executorID,
+      roleID: roleID,
+      verificationPlanArtifactID: verificationPlanArtifactID,
+      modelID: modelID,
+      providerID: providerID,
+      taskSHA256: taskSHA256,
+      localInputSHA256s: localInputSHA256s,
+      parentGenerationSHA256: parentGenerationSHA256,
+      resultSHA256: resultSHA256,
+      correlationLinks: correlationLinks
+    )
+  }
+
   public func rebinding(roleID: String) -> SharedEpisodeVerificationProvenance {
     SharedEpisodeVerificationProvenance(
       schemaVersion: schemaVersion,
@@ -427,6 +446,22 @@ public struct SharedEpisodeVerificationRecord:
     self.contentSHA256 = contentSHA256
     self.content = content
     self.provenance = provenance
+  }
+
+  public func rebinding(
+    parentGenerationSHA256: String
+  ) -> SharedEpisodeVerificationRecord {
+    SharedEpisodeVerificationRecord(
+      schemaVersion: schemaVersion,
+      recordID: recordID,
+      parentGenerationSHA256: parentGenerationSHA256,
+      verifier: verifier,
+      contentSHA256: contentSHA256,
+      content: content,
+      provenance: provenance.rebinding(
+        parentGenerationSHA256: parentGenerationSHA256
+      )
+    )
   }
 }
 

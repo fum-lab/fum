@@ -66,11 +66,10 @@ final class SharedEpisodeMemoryTests: XCTestCase {
       named: .primary,
       parentGenerationSHA256: recovered.generationSHA256
     )
-    let continued = try secondProcess.commit(
-      SharedEpisodeMemoryReducer.continuation(
-        from: recovered.generation,
-        contribution: contribution
-      )
+    let continued = try commitControlledContribution(
+      contribution,
+      from: recovered,
+      to: secondProcess
     )
 
     let thirdProcess = SharedEpisodeMemoryStore(rootURL: root)
@@ -96,26 +95,37 @@ final class SharedEpisodeMemoryTests: XCTestCase {
       named: .primary,
       parentGenerationSHA256: foundationSHA256
     )
-    let continued = try SharedEpisodeMemoryReducer.continuation(
+    let continued = try controlledContribution(
       from: foundation,
       contribution: contribution
-    )
+    ).completed
 
     let decoded = try SharedEpisodeGeneration.decodeCanonical(
       continued.canonicalJSONData()
     )
-    let journalProvenance = try XCTUnwrap(
-      decoded.eventJournal.entries.first?.event.contribution?.provenance
-    )
+    var acceptedJournalProvenance: SharedEpisodeContributionProvenance?
+    for entry in decoded.eventJournal.entries {
+      guard case .control(let command) = entry.event,
+        case .contribution(let accepted, _) = command
+      else { continue }
+      acceptedJournalProvenance = accepted.provenance
+      break
+    }
+    let journalProvenance = try XCTUnwrap(acceptedJournalProvenance)
     let stateProvenance = try XCTUnwrap(decoded.state.contributions.first?.provenance)
 
-    XCTAssertEqual(journalProvenance, contribution.provenance)
-    XCTAssertEqual(stateProvenance, contribution.provenance)
+    XCTAssertEqual(journalProvenance, stateProvenance)
+    XCTAssertEqual(stateProvenance.contributionID, contribution.provenance.contributionID)
+    XCTAssertEqual(stateProvenance.resultSHA256, contribution.provenance.resultSHA256)
+    XCTAssertEqual(
+      stateProvenance.parentGenerationSHA256,
+      decoded.state.contributions.first?.parentGenerationSHA256
+    )
     XCTAssertEqual(journalProvenance.correlationLinks.count, 4)
     XCTAssertEqual(journalProvenance.instrumentObservations.count, 1)
     XCTAssertEqual(
       journalProvenance.derivedFromObservationIDs,
-      journalProvenance.instrumentObservations.map(\.observationID)
+      journalProvenance.instrumentObservations.map { $0.observationID }
     )
     XCTAssertEqual(
       decoded.state.provenanceReport.statusesByContributionID[contribution.contributionID],
@@ -137,6 +147,57 @@ final class SharedEpisodeMemoryTests: XCTestCase {
     ) { error in
       guard case SharedEpisodeMemoryError.incompatibleGeneration = error else {
         return XCTFail("Unexpected error: \(error)")
+      }
+    }
+  }
+
+  func testSchemaFourRoutesConvenienceCallsThroughControlAndRejectsBareReplay() throws {
+    let seed = try SharedEpisodeMemoryFixtures.seed()
+    let foundation = try SharedEpisodeMemoryReducer.foundation(seed: seed)
+    let parentSHA256 = contentSHA256(try foundation.canonicalJSONData())
+    let contribution = try SharedEpisodeMemoryFixtures.contribution(
+      named: .primary,
+      parentGenerationSHA256: parentSHA256
+    )
+    let withContribution = try SharedEpisodeMemoryReducer.continuation(
+      from: foundation,
+      contribution: contribution
+    ).completed
+    let verification = try SharedEpisodeMemoryFixtures.verification(
+      named: .externalPassed,
+      parentGenerationSHA256: contentSHA256(
+        try withContribution.canonicalJSONData()
+      )
+    )
+    let withVerification = try SharedEpisodeMemoryReducer.continuation(
+      from: withContribution,
+      verification: verification
+    ).completed
+    XCTAssertEqual(
+      withVerification.eventJournal.entries.map { entry in
+        if case .control = entry.event { return true }
+        return false
+      },
+      [true, true, true, true]
+    )
+
+    let event = SharedEpisodeJournalEvent.contribution(contribution)
+    let eventData = try event.canonicalJSONData()
+    let journal = SharedEpisodeEventJournal(
+      episodeID: seed.episodeID,
+      entries: [
+        SharedEpisodeJournalEntry(
+          ordinal: 1,
+          eventSHA256: contentSHA256(eventData),
+          event: event
+        )
+      ]
+    )
+    XCTAssertThrowsError(
+      try SharedEpisodeMemoryReducer.replay(seed: seed, journal: journal)
+    ) { error in
+      guard case SharedEpisodeMemoryError.corruptGeneration = error else {
+        return XCTFail("Unexpected canonical bare-event error: \(error)")
       }
     }
   }
@@ -202,7 +263,7 @@ final class SharedEpisodeMemoryTests: XCTestCase {
     }
   }
 
-  func testRehashedPackageAndManifestStillRequireExactInternalIdentityAndInputs() throws {
+  func testRehashedPackageAndManifestStillRequireFullPreflightIdentityAndInputs() throws {
     let seed = try SharedEpisodeMemoryFixtures.seed()
     let packageArtifact = try artifact("package.primary", in: seed)
     var packageBody = try jsonObject(data: packageArtifact.decodedData())
@@ -214,6 +275,22 @@ final class SharedEpisodeMemoryTests: XCTestCase {
       rebindPassportDeclaration: true
     )
     XCTAssertThrowsError(try SharedEpisodeMemoryReducer.foundation(seed: wrongPackage)) { error in
+      guard case SharedEpisodeMemoryError.invalidSeed = error else {
+        return XCTFail("Unexpected error: \(error)")
+      }
+    }
+
+    packageBody = try jsonObject(data: packageArtifact.decodedData())
+    packageBody.removeValue(forKey: "goal")
+    let incompletePackage = try rebuiltSeed(
+      seed,
+      replacing: packageArtifact.artifactID,
+      with: canonicalJSONObject(packageBody),
+      rebindPassportDeclaration: true
+    )
+    XCTAssertThrowsError(
+      try SharedEpisodeMemoryReducer.foundation(seed: incompletePackage)
+    ) { error in
       guard case SharedEpisodeMemoryError.invalidSeed = error else {
         return XCTFail("Unexpected error: \(error)")
       }
@@ -261,14 +338,14 @@ final class SharedEpisodeMemoryTests: XCTestCase {
     let parent = try firstStore.commit(
       SharedEpisodeMemoryReducer.foundation(seed: try SharedEpisodeMemoryFixtures.seed())
     )
-    let firstCandidate = try SharedEpisodeMemoryReducer.continuation(
+    let firstCandidate = try contributionReservationCandidate(
       from: parent.generation,
       contribution: SharedEpisodeMemoryFixtures.contribution(
         named: .primary,
         parentGenerationSHA256: parent.generationSHA256
       )
     )
-    let secondCandidate = try SharedEpisodeMemoryReducer.continuation(
+    let secondCandidate = try contributionReservationCandidate(
       from: parent.generation,
       contribution: SharedEpisodeMemoryFixtures.contribution(
         named: .adversarial,
@@ -298,14 +375,14 @@ final class SharedEpisodeMemoryTests: XCTestCase {
       SharedEpisodeMemoryReducer.foundation(seed: try SharedEpisodeMemoryFixtures.seed())
     )
     let candidates = try [
-      SharedEpisodeMemoryReducer.continuation(
+      contributionReservationCandidate(
         from: parent.generation,
         contribution: SharedEpisodeMemoryFixtures.contribution(
           named: .primary,
           parentGenerationSHA256: parent.generationSHA256
         )
       ),
-      SharedEpisodeMemoryReducer.continuation(
+      contributionReservationCandidate(
         from: parent.generation,
         contribution: SharedEpisodeMemoryFixtures.contribution(
           named: .adversarial,
@@ -633,7 +710,7 @@ final class SharedEpisodeMemoryTests: XCTestCase {
 
     for contribution in invalid {
       XCTAssertThrowsError(
-        try SharedEpisodeMemoryReducer.continuation(
+        try controlledContribution(
           from: parent.generation,
           contribution: contribution
         )
@@ -681,7 +758,7 @@ final class SharedEpisodeMemoryTests: XCTestCase {
     let parent = try store.commit(
       SharedEpisodeMemoryReducer.foundation(seed: try SharedEpisodeMemoryFixtures.seed())
     )
-    let candidate = try SharedEpisodeMemoryReducer.continuation(
+    let candidate = try contributionReservationCandidate(
       from: parent.generation,
       contribution: SharedEpisodeMemoryFixtures.contribution(
         named: .primary,
@@ -716,7 +793,9 @@ final class SharedEpisodeMemoryTests: XCTestCase {
 
     let continued = try runProbe(["memory", "continue", root.path, "primary"])
     XCTAssertEqual(continued.status, 0, String(decoding: continued.error, as: UTF8.self))
-    XCTAssertEqual(try XCTUnwrap(store.loadCurrent()).generationSHA256, candidateSHA256)
+    let completed = try XCTUnwrap(store.loadCurrent())
+    XCTAssertEqual(completed.generation.eventJournal.entries.count, 2)
+    XCTAssertEqual(completed.generation.state.contributions.count, 1)
     XCTAssertTrue(FileManager.default.fileExists(atPath: stagedPointer.path))
     XCTAssertEqual(try Data(contentsOf: unknown), Data("keep".utf8))
   }
@@ -731,21 +810,19 @@ final class SharedEpisodeMemoryTests: XCTestCase {
       named: .primary,
       parentGenerationSHA256: foundation.generationSHA256
     )
-    let afterPrimary = try store.commit(
-      SharedEpisodeMemoryReducer.continuation(
-        from: foundation.generation,
-        contribution: primary
-      )
+    let afterPrimary = try commitControlledContribution(
+      primary,
+      from: foundation,
+      to: store
     )
     let adversarial = try SharedEpisodeMemoryFixtures.contribution(
       named: .adversarial,
       parentGenerationSHA256: afterPrimary.generationSHA256
     )
-    let afterAdversarial = try store.commit(
-      SharedEpisodeMemoryReducer.continuation(
-        from: afterPrimary.generation,
-        contribution: adversarial
-      )
+    let afterAdversarial = try commitControlledContribution(
+      adversarial,
+      from: afterPrimary,
+      to: store
     )
 
     XCTAssertEqual(primary.contentSHA256, adversarial.contentSHA256)
@@ -770,6 +847,100 @@ final class SharedEpisodeMemoryTests: XCTestCase {
     )
     XCTAssertEqual(afterAdversarial.state.provenanceReport.independentConfirmationCount, 1)
     XCTAssertFalse(afterAdversarial.state.provenanceReport.semanticIndependenceProven)
+  }
+
+  private func contributionReservationStage(
+    from previous: SharedEpisodeGeneration,
+    contribution: SharedEpisodeContribution
+  ) throws -> (
+    generation: SharedEpisodeGeneration,
+    reservation: SharedEpisodeActionReservation,
+    budget: SharedEpisodeBudgetVector,
+    parentSHA256: String
+  ) {
+    let parentSHA256 = contentSHA256(try previous.canonicalJSONData())
+    let roundID = "round.memory.\(contribution.contributionID)"
+    let budget = try SharedEpisodeControlKernel.meteredUsage(
+      for: contribution,
+      executors: previous.state.controlState.usedExecutorIDs.contains(
+        contribution.provenance.executorID
+      ) ? 0 : 1,
+      rounds: previous.state.controlState.usedRoundIDs.contains(roundID) ? 0 : 1
+    )
+    let reservation = SharedEpisodeActionReservation(
+      permitID: "permit.memory.\(contribution.contributionID)",
+      actionID: "action.memory.\(contribution.contributionID)",
+      parentGenerationSHA256: parentSHA256,
+      phase: .productive,
+      kind: .contribution,
+      executorID: contribution.provenance.executorID,
+      roundID: roundID,
+      continuationID: nil,
+      distinguishingCheckID: nil,
+      reserved: budget
+    )
+    return (
+      try SharedEpisodeMemoryReducer.continuation(
+        from: previous,
+        control: .actionReserved(reservation)
+      ),
+      reservation,
+      budget,
+      parentSHA256
+    )
+  }
+
+  private func contributionReservationCandidate(
+    from previous: SharedEpisodeGeneration,
+    contribution: SharedEpisodeContribution
+  ) throws -> SharedEpisodeGeneration {
+    try contributionReservationStage(
+      from: previous,
+      contribution: contribution
+    ).generation
+  }
+
+  private func controlledContribution(
+    from previous: SharedEpisodeGeneration,
+    contribution: SharedEpisodeContribution
+  ) throws -> (
+    reserved: SharedEpisodeGeneration,
+    completed: SharedEpisodeGeneration
+  ) {
+    let stage = try contributionReservationStage(
+      from: previous,
+      contribution: contribution
+    )
+    let reservedSHA256 = contentSHA256(try stage.generation.canonicalJSONData())
+    let accepted =
+      contribution.parentGenerationSHA256 == stage.parentSHA256
+      ? contribution.rebinding(parentGenerationSHA256: reservedSHA256)
+      : contribution
+    let completed = try SharedEpisodeMemoryReducer.continuation(
+      from: stage.generation,
+      control: .contribution(
+        accepted,
+        SharedEpisodeActionSettlement(
+          permitID: stage.reservation.permitID,
+          actionID: stage.reservation.actionID,
+          actual: stage.budget
+        )
+      )
+    )
+    return (stage.generation, completed)
+  }
+
+  private func commitControlledContribution(
+    _ contribution: SharedEpisodeContribution,
+    from previous: StoredSharedEpisodeGeneration,
+    to store: SharedEpisodeMemoryStore
+  ) throws -> StoredSharedEpisodeGeneration {
+    let staged = try controlledContribution(
+      from: previous.generation,
+      contribution: contribution
+    )
+    _ = try store.commit(staged.reserved)
+    return try store.commit(staged.completed)
   }
 
   private func temporaryDirectory() throws -> URL {

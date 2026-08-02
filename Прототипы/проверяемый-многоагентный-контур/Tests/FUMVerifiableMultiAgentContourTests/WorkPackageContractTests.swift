@@ -35,6 +35,35 @@ final class WorkPackageContractTests: XCTestCase {
     XCTAssertEqual(try first.canonicalJSONData(), try second.canonicalJSONData())
   }
 
+  func testEmbeddedInputSnapshotUsesTheCompletePreflightContract() throws {
+    let data = try WorkPackageFixtures.load(named: "ready")
+    let input = try Data(
+      contentsOf: try WorkPackageFixtures.workspaceRoot()
+        .appendingPathComponent("inputs/requirements.txt")
+    )
+    let snapshot = ["inputs/requirements.txt": input]
+
+    let ready = WorkPackagePreflight.analyze(
+      data,
+      embeddedInputsByPath: snapshot
+    )
+    let incomplete = WorkPackagePreflight.analyze(
+      try mutateReady { $0.removeValue(forKey: "goal") },
+      embeddedInputsByPath: snapshot
+    )
+    let missingInput = WorkPackagePreflight.analyze(
+      data,
+      embeddedInputsByPath: [:]
+    )
+
+    XCTAssertEqual(ready.decision, .ready)
+    XCTAssertTrue(ready.violations.isEmpty)
+    XCTAssertEqual(incomplete.decision, .splitRequired)
+    XCTAssertTrue(codes(incomplete).contains("missing_field"))
+    XCTAssertEqual(missingInput.decision, .splitRequired)
+    XCTAssertTrue(codes(missingInput).contains("required_input_missing"))
+  }
+
   func testNamedNegativeFixturesRequireSplitWithExpectedCodes() throws {
     let expectations = [
       "split-multiple-deliverables": "multiple_deliverables",

@@ -159,12 +159,31 @@ public enum WorkPackagePreflight {
     let handoffArtifacts: Int
   }
 
+  private enum InputSource {
+    case workspaceRoot(URL)
+    case embeddedSnapshot([String: Data])
+  }
+
   private static let topLevelKeys: Set<String> = [
     "schema_version", "package_id", "goal", "deliverables", "inputs", "change_scope",
     "dependencies", "checks", "handoff", "budget", "preflight",
   ]
 
   public static func analyze(_ data: Data, workspaceRoot: URL) -> WorkPackageReport {
+    analyze(data, inputSource: .workspaceRoot(workspaceRoot))
+  }
+
+  public static func analyze(
+    _ data: Data,
+    embeddedInputsByPath: [String: Data]
+  ) -> WorkPackageReport {
+    analyze(data, inputSource: .embeddedSnapshot(embeddedInputsByPath))
+  }
+
+  private static func analyze(
+    _ data: Data,
+    inputSource: InputSource
+  ) -> WorkPackageReport {
     let digest = SHA256.hash(data: data)
     let contractSHA256 = "sha256:" + digest.map { String(format: "%02x", $0) }.joined()
     var violations: [WorkPackageViolation] = []
@@ -267,10 +286,19 @@ public enum WorkPackagePreflight {
       violations: &violations
     )
     validateDeliverables(root["deliverables"], violations: &violations)
-    let workspaceDescriptor = validateWorkspaceRoot(
-      workspaceRoot,
-      violations: &violations
-    )
+    let workspaceDescriptor: Int32?
+    let embeddedInputsByPath: [String: Data]?
+    switch inputSource {
+    case .workspaceRoot(let workspaceRoot):
+      workspaceDescriptor = validateWorkspaceRoot(
+        workspaceRoot,
+        violations: &violations
+      )
+      embeddedInputsByPath = nil
+    case .embeddedSnapshot(let snapshot):
+      workspaceDescriptor = nil
+      embeddedInputsByPath = snapshot
+    }
     defer {
       if let workspaceDescriptor {
         _ = Darwin.close(workspaceDescriptor)
@@ -279,6 +307,7 @@ public enum WorkPackagePreflight {
     validateInputs(
       root["inputs"],
       workspaceDescriptor: workspaceDescriptor,
+      embeddedInputsByPath: embeddedInputsByPath,
       violations: &violations
     )
     let scope = validateChangeScope(root["change_scope"], violations: &violations)
@@ -402,6 +431,7 @@ public enum WorkPackagePreflight {
   private static func validateInputs(
     _ raw: Any?,
     workspaceDescriptor: Int32?,
+    embeddedInputsByPath: [String: Data]?,
     violations: inout [WorkPackageViolation]
   ) {
     guard let values = array(raw, path: rootJSONPointer("inputs"), violations: &violations) else {
@@ -467,17 +497,84 @@ public enum WorkPackagePreflight {
         path: "\(path)/required",
         violations: &violations
       )
-      if let inputPath, pathIsValid, let hash, isSHA256(hash), let workspaceDescriptor {
-        validateInputFile(
-          relativePath: inputPath,
-          expectedHash: hash,
-          required: required == true,
-          workspaceDescriptor: workspaceDescriptor,
-          reportPath: path,
-          totalInputBytes: &totalInputBytes,
-          violations: &violations
+      if let inputPath, pathIsValid, let hash, isSHA256(hash) {
+        if let embeddedInputsByPath {
+          validateEmbeddedInput(
+            relativePath: inputPath,
+            expectedHash: hash,
+            required: required == true,
+            embeddedInputsByPath: embeddedInputsByPath,
+            reportPath: path,
+            totalInputBytes: &totalInputBytes,
+            violations: &violations
+          )
+        } else if let workspaceDescriptor {
+          validateInputFile(
+            relativePath: inputPath,
+            expectedHash: hash,
+            required: required == true,
+            workspaceDescriptor: workspaceDescriptor,
+            reportPath: path,
+            totalInputBytes: &totalInputBytes,
+            violations: &violations
+          )
+        }
+      }
+    }
+  }
+
+  private static func validateEmbeddedInput(
+    relativePath: String,
+    expectedHash: String,
+    required: Bool,
+    embeddedInputsByPath: [String: Data],
+    reportPath: String,
+    totalInputBytes: inout Int,
+    violations: inout [WorkPackageViolation]
+  ) {
+    guard let data = embeddedInputsByPath[relativePath] else {
+      if required {
+        append(
+          "required_input_missing",
+          path: reportPath,
+          message: "Обязательный вход отсутствует в закреплённом снимке.",
+          to: &violations
         )
       }
+      return
+    }
+    guard data.count <= maximumInputBytes else {
+      append(
+        "input_file_limit_exceeded",
+        path: reportPath,
+        message: "Размер одного входа превышает предел версии 1.",
+        to: &violations
+      )
+      return
+    }
+    let expectedTotal = totalInputBytes.addingReportingOverflow(data.count)
+    guard !expectedTotal.overflow, expectedTotal.partialValue <= maximumTotalInputBytes else {
+      append(
+        "input_total_limit_exceeded",
+        path: rootJSONPointer("inputs"),
+        message: "Суммарный размер входов превышает предел версии 1.",
+        to: &violations
+      )
+      return
+    }
+    totalInputBytes = expectedTotal.partialValue
+    let actualHash =
+      "sha256:"
+      + SHA256.hash(data: data).map {
+        String(format: "%02x", $0)
+      }.joined()
+    if actualHash != expectedHash {
+      append(
+        "input_hash_mismatch",
+        path: "\(reportPath)/sha256",
+        message: "Фактический SHA-256 входа не совпадает с манифестом.",
+        to: &violations
+      )
     }
   }
 

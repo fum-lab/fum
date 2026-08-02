@@ -160,6 +160,27 @@ public struct SharedEpisodeContributionProvenance:
     self.instrumentObservations = instrumentObservations
     self.derivedFromObservationIDs = derivedFromObservationIDs
   }
+
+  public func rebinding(
+    parentGenerationSHA256: String
+  ) -> SharedEpisodeContributionProvenance {
+    SharedEpisodeContributionProvenance(
+      schemaVersion: schemaVersion,
+      contributionID: contributionID,
+      executorID: executorID,
+      roleID: roleID,
+      workPackageArtifactID: workPackageArtifactID,
+      modelID: modelID,
+      providerID: providerID,
+      taskSHA256: taskSHA256,
+      localInputSHA256s: localInputSHA256s,
+      parentGenerationSHA256: parentGenerationSHA256,
+      resultSHA256: resultSHA256,
+      correlationLinks: correlationLinks,
+      instrumentObservations: instrumentObservations,
+      derivedFromObservationIDs: derivedFromObservationIDs
+    )
+  }
 }
 
 public enum SharedEpisodeContributionProvenanceStatus:

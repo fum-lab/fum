@@ -18,8 +18,8 @@ private func printUsage() {
     episode --list печатает имена фикстур паспорта.
 
     memory bootstrap <каталог> публикует пустое подтверждённое поколение стенда.
-    memory continue <каталог> <primary|adversarial> добавляет один вклад к CURRENT.
-    memory verify <каталог> <фикстура> добавляет одну проверку к CURRENT.
+    memory continue <каталог> <primary|adversarial> добавляет вклад через резервацию и settlement.
+    memory verify <каталог> <фикстура> добавляет проверку через резервацию и settlement.
     memory show <каталог> повторно проигрывает и печатает CURRENT.
 
     Код завершения: 0 для ready/valid и успешной команды памяти, 3 для split_required/invalid или отказа памяти, 2 для синтаксической ошибки команды.
@@ -56,10 +56,47 @@ private func runMemoryCommand(_ arguments: [String]) -> Never {
         named: fixture,
         parentGenerationSHA256: current.generationSHA256
       )
-      stored = try store.commit(
+      let ordinal = current.generation.eventJournal.entries.count + 1
+      let roundID = "round.memory.contribution.\(ordinal)"
+      let reservedBudget = try SharedEpisodeControlKernel.meteredUsage(
+        for: contribution,
+        executors: current.generation.state.controlState.usedExecutorIDs.contains(
+          contribution.provenance.executorID
+        ) ? 0 : 1,
+        rounds: current.generation.state.controlState.usedRoundIDs.contains(roundID)
+          ? 0 : 1
+      )
+      let reservation = SharedEpisodeActionReservation(
+        permitID: "permit.memory.contribution.\(ordinal)",
+        actionID: "action.memory.contribution.\(ordinal)",
+        parentGenerationSHA256: current.generationSHA256,
+        phase: .productive,
+        kind: .contribution,
+        executorID: contribution.provenance.executorID,
+        roundID: roundID,
+        continuationID: nil,
+        distinguishingCheckID: nil,
+        reserved: reservedBudget
+      )
+      let reserved = try store.commit(
         SharedEpisodeMemoryReducer.continuation(
           from: current.generation,
-          contribution: contribution
+          control: .actionReserved(reservation)
+        )
+      )
+      stored = try store.commit(
+        SharedEpisodeMemoryReducer.continuation(
+          from: reserved.generation,
+          control: .contribution(
+            contribution.rebinding(
+              parentGenerationSHA256: reserved.generationSHA256
+            ),
+            SharedEpisodeActionSettlement(
+              permitID: reservation.permitID,
+              actionID: reservation.actionID,
+              actual: reservedBudget
+            )
+          )
         )
       )
     case "verify" where arguments.count == 3:
@@ -76,10 +113,47 @@ private func runMemoryCommand(_ arguments: [String]) -> Never {
         named: fixture,
         parentGenerationSHA256: current.generationSHA256
       )
-      stored = try store.commit(
+      let ordinal = current.generation.eventJournal.entries.count + 1
+      let roundID = "round.memory.verification.\(ordinal)"
+      let reservedBudget = try SharedEpisodeControlKernel.meteredUsage(
+        for: verification,
+        executors: current.generation.state.controlState.usedExecutorIDs.contains(
+          verification.provenance.executorID
+        ) ? 0 : 1,
+        rounds: current.generation.state.controlState.usedRoundIDs.contains(roundID)
+          ? 0 : 1
+      )
+      let reservation = SharedEpisodeActionReservation(
+        permitID: "permit.memory.verification.\(ordinal)",
+        actionID: "action.memory.verification.\(ordinal)",
+        parentGenerationSHA256: current.generationSHA256,
+        phase: .verification,
+        kind: .verification,
+        executorID: verification.provenance.executorID,
+        roundID: roundID,
+        continuationID: nil,
+        distinguishingCheckID: nil,
+        reserved: reservedBudget
+      )
+      let reserved = try store.commit(
         SharedEpisodeMemoryReducer.continuation(
           from: current.generation,
-          verification: verification
+          control: .actionReserved(reservation)
+        )
+      )
+      stored = try store.commit(
+        SharedEpisodeMemoryReducer.continuation(
+          from: reserved.generation,
+          control: .verification(
+            verification.rebinding(
+              parentGenerationSHA256: reserved.generationSHA256
+            ),
+            SharedEpisodeActionSettlement(
+              permitID: reservation.permitID,
+              actionID: reservation.actionID,
+              actual: reservedBudget
+            )
+          )
         )
       )
     case "show" where arguments.count == 2:
