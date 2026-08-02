@@ -15,6 +15,9 @@ final class SharedEpisodeMemoryTests: XCTestCase {
 
     let bootstrap = try runProbe(["memory", "bootstrap", root.path])
     let continuation = try runProbe(["memory", "continue", root.path, "primary"])
+    let verification = try runProbe([
+      "memory", "verify", root.path, "external_passed",
+    ])
     let replay = try runProbe(
       ["memory", "show", root.path],
       executableURL: detachedProbe
@@ -26,12 +29,27 @@ final class SharedEpisodeMemoryTests: XCTestCase {
       0,
       String(decoding: continuation.error, as: UTF8.self)
     )
+    XCTAssertEqual(
+      verification.status,
+      0,
+      String(decoding: verification.error, as: UTF8.self)
+    )
     XCTAssertEqual(replay.status, 0, String(decoding: replay.error, as: UTF8.self))
-    XCTAssertEqual(Set([bootstrap.processID, continuation.processID, replay.processID]).count, 3)
-    XCTAssertEqual(continuation.output, replay.output)
+    XCTAssertEqual(
+      Set([
+        bootstrap.processID,
+        continuation.processID,
+        verification.processID,
+        replay.processID,
+      ]).count,
+      4
+    )
+    XCTAssertEqual(verification.output, replay.output)
     let canonical = try XCTUnwrap(replay.output.last == 0x0a ? replay.output.dropLast() : nil)
     let generation = try SharedEpisodeGeneration.decodeCanonical(Data(canonical))
     XCTAssertEqual(generation.state.contributions.count, 1)
+    XCTAssertEqual(generation.state.verifications.count, 1)
+    XCTAssertEqual(generation.state.verificationReport.externalPassedCount, 1)
   }
 
   func testNewStoreContinuesConfirmedGenerationAndReplaysCanonicalBytes() throws {
@@ -87,7 +105,7 @@ final class SharedEpisodeMemoryTests: XCTestCase {
       continued.canonicalJSONData()
     )
     let journalProvenance = try XCTUnwrap(
-      decoded.eventJournal.entries.first?.contribution.provenance
+      decoded.eventJournal.entries.first?.event.contribution?.provenance
     )
     let stateProvenance = try XCTUnwrap(decoded.state.contributions.first?.provenance)
 
@@ -112,7 +130,7 @@ final class SharedEpisodeMemoryTests: XCTestCase {
       seed: SharedEpisodeMemoryFixtures.seed()
     )
     var root = try jsonObject(data: generation.canonicalJSONData())
-    root["schema_version"] = 1
+    root["schema_version"] = 2
 
     XCTAssertThrowsError(
       try SharedEpisodeGeneration.decodeCanonical(canonicalJSONObject(root))
@@ -150,6 +168,11 @@ final class SharedEpisodeMemoryTests: XCTestCase {
       let body = try jsonObject(data: artifact.decodedData())
       XCTAssertEqual(body["manifest_id"] as? String, identifier)
       XCTAssertEqual(sha256ByID[identifier], artifact.contentSHA256)
+    }
+    for identifier in ["criteria.main", "verification.main"] {
+      let artifact = try XCTUnwrap(artifacts[identifier])
+      XCTAssertEqual(sha256ByID[identifier], artifact.contentSHA256)
+      XCTAssertNoThrow(try artifact.decodedData())
     }
     let contribution = try SharedEpisodeMemoryFixtures.contribution(
       named: .primary,
@@ -626,6 +649,16 @@ final class SharedEpisodeMemoryTests: XCTestCase {
     XCTAssertTrue(invalidSyntax.output.isEmpty)
     XCTAssertTrue(
       String(decoding: invalidSyntax.error, as: UTF8.self).contains("Неизвестный вклад"))
+    let invalidVerification = try runProbe([
+      "memory", "verify", empty.path, "unknown",
+    ])
+    XCTAssertEqual(invalidVerification.status, 2)
+    XCTAssertTrue(invalidVerification.output.isEmpty)
+    XCTAssertTrue(
+      String(decoding: invalidVerification.error, as: UTF8.self).contains(
+        "Неизвестная проверка"
+      )
+    )
 
     let root = try temporaryDirectory()
     let store = SharedEpisodeMemoryStore(rootURL: root)

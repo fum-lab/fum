@@ -19,6 +19,7 @@ private func printUsage() {
 
     memory bootstrap <каталог> публикует пустое подтверждённое поколение стенда.
     memory continue <каталог> <primary|adversarial> добавляет один вклад к CURRENT.
+    memory verify <каталог> <фикстура> добавляет одну проверку к CURRENT.
     memory show <каталог> повторно проигрывает и печатает CURRENT.
 
     Код завершения: 0 для ready/valid и успешной команды памяти, 3 для split_required/invalid или отказа памяти, 2 для синтаксической ошибки команды.
@@ -59,6 +60,26 @@ private func runMemoryCommand(_ arguments: [String]) -> Never {
         SharedEpisodeMemoryReducer.continuation(
           from: current.generation,
           contribution: contribution
+        )
+      )
+    case "verify" where arguments.count == 3:
+      guard let fixture = SharedEpisodeVerificationFixture(rawValue: arguments[2]) else {
+        fputs("Неизвестная проверка стенда.\n", stderr)
+        exit(2)
+      }
+      let current = try store.loadCurrent()
+      guard let current else {
+        fputs("Память стенда ещё не имеет CURRENT.\n", stderr)
+        exit(3)
+      }
+      let verification = try SharedEpisodeMemoryFixtures.verification(
+        named: fixture,
+        parentGenerationSHA256: current.generationSHA256
+      )
+      stored = try store.commit(
+        SharedEpisodeMemoryReducer.continuation(
+          from: current.generation,
+          verification: verification
         )
       )
     case "show" where arguments.count == 2:

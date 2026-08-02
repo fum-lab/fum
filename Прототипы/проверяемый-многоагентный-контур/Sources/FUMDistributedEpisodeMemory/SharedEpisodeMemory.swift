@@ -13,6 +13,7 @@ extension SharedEpisodeCanonicalValue {
 public enum SharedEpisodeMemoryError: Error, Equatable, Sendable {
   case invalidSeed(String)
   case invalidContribution(String)
+  case invalidVerification(String)
   case incompatibleGeneration(String)
   case corruptGeneration(String)
   case generationConflict(expected: String?, actual: String?)
@@ -26,6 +27,8 @@ extension SharedEpisodeMemoryError: CustomStringConvertible {
       return "Недопустимый seed общей памяти: \(message)"
     case .invalidContribution(let message):
       return "Недопустимый вклад общей памяти: \(message)"
+    case .invalidVerification(let message):
+      return "Недопустимая проверка общей памяти: \(message)"
     case .incompatibleGeneration(let message):
       return "Несовместимое поколение общей памяти: \(message)"
     case .corruptGeneration(let message):
@@ -277,40 +280,126 @@ public struct SharedEpisodeContribution:
   }
 }
 
+public enum SharedEpisodeJournalEvent:
+  SharedEpisodeCanonicalValue, Equatable, Sendable
+{
+  case contribution(SharedEpisodeContribution)
+  case verification(SharedEpisodeVerificationRecord)
+
+  private enum Kind: String, Codable {
+    case contribution
+    case verification
+  }
+
+  private enum CodingKeys: String, CodingKey {
+    case kind
+    case contribution
+    case verification
+  }
+
+  public var identifier: String {
+    switch self {
+    case .contribution(let value):
+      value.contributionID
+    case .verification(let value):
+      value.recordID
+    }
+  }
+
+  public var parentGenerationSHA256: String {
+    switch self {
+    case .contribution(let value):
+      value.parentGenerationSHA256
+    case .verification(let value):
+      value.parentGenerationSHA256
+    }
+  }
+
+  public var contribution: SharedEpisodeContribution? {
+    guard case .contribution(let value) = self else { return nil }
+    return value
+  }
+
+  public var verification: SharedEpisodeVerificationRecord? {
+    guard case .verification(let value) = self else { return nil }
+    return value
+  }
+
+  public init(from decoder: Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    switch try container.decode(Kind.self, forKey: .kind) {
+    case .contribution:
+      guard Set(container.allKeys) == Set([.kind, .contribution]) else {
+        throw DecodingError.dataCorruptedError(
+          forKey: .kind,
+          in: container,
+          debugDescription: "Событие вклада содержит лишний или отсутствующий payload."
+        )
+      }
+      self = .contribution(
+        try container.decode(SharedEpisodeContribution.self, forKey: .contribution)
+      )
+    case .verification:
+      guard Set(container.allKeys) == Set([.kind, .verification]) else {
+        throw DecodingError.dataCorruptedError(
+          forKey: .kind,
+          in: container,
+          debugDescription: "Событие проверки содержит лишний или отсутствующий payload."
+        )
+      }
+      self = .verification(
+        try container.decode(SharedEpisodeVerificationRecord.self, forKey: .verification)
+      )
+    }
+  }
+
+  public func encode(to encoder: Encoder) throws {
+    var container = encoder.container(keyedBy: CodingKeys.self)
+    switch self {
+    case .contribution(let value):
+      try container.encode(Kind.contribution, forKey: .kind)
+      try container.encode(value, forKey: .contribution)
+    case .verification(let value):
+      try container.encode(Kind.verification, forKey: .kind)
+      try container.encode(value, forKey: .verification)
+    }
+  }
+}
+
 public struct SharedEpisodeJournalEntry:
   SharedEpisodeCanonicalValue, Equatable, Sendable
 {
-  public static let currentSchemaVersion = 2
+  public static let currentSchemaVersion = 3
 
   public let schemaVersion: Int
   public let ordinal: Int
-  public let contributionSHA256: String
-  public let contribution: SharedEpisodeContribution
+  public let eventSHA256: String
+  public let event: SharedEpisodeJournalEvent
 
   enum CodingKeys: String, CodingKey {
     case schemaVersion = "schema_version"
     case ordinal
-    case contributionSHA256 = "contribution_sha256"
-    case contribution
+    case eventSHA256 = "event_sha256"
+    case event
   }
 
   public init(
     schemaVersion: Int = SharedEpisodeJournalEntry.currentSchemaVersion,
     ordinal: Int,
-    contributionSHA256: String,
-    contribution: SharedEpisodeContribution
+    eventSHA256: String,
+    event: SharedEpisodeJournalEvent
   ) {
     self.schemaVersion = schemaVersion
     self.ordinal = ordinal
-    self.contributionSHA256 = contributionSHA256
-    self.contribution = contribution
+    self.eventSHA256 = eventSHA256
+    self.event = event
   }
 }
 
 public struct SharedEpisodeEventJournal:
   SharedEpisodeCanonicalValue, Equatable, Sendable
 {
-  public static let currentSchemaVersion = 2
+  public static let currentSchemaVersion = 3
 
   public let schemaVersion: Int
   public let episodeID: String
@@ -336,14 +425,16 @@ public struct SharedEpisodeEventJournal:
 public struct SharedEpisodeState:
   SharedEpisodeCanonicalValue, Equatable, Sendable
 {
-  public static let currentSchemaVersion = 2
+  public static let currentSchemaVersion = 3
 
   public let schemaVersion: Int
   public let episodeID: String
   public let passportSHA256: String
   public let artifactManifestSHA256: String
   public let contributions: [SharedEpisodeContribution]
+  public let verifications: [SharedEpisodeVerificationRecord]
   public let provenanceReport: SharedEpisodeProvenanceReport
+  public let verificationReport: SharedEpisodeVerificationReport
 
   enum CodingKeys: String, CodingKey {
     case schemaVersion = "schema_version"
@@ -351,7 +442,9 @@ public struct SharedEpisodeState:
     case passportSHA256 = "passport_sha256"
     case artifactManifestSHA256 = "artifact_manifest_sha256"
     case contributions
+    case verifications
     case provenanceReport = "provenance_report"
+    case verificationReport = "verification_report"
   }
 
   public init(
@@ -360,14 +453,18 @@ public struct SharedEpisodeState:
     passportSHA256: String,
     artifactManifestSHA256: String,
     contributions: [SharedEpisodeContribution],
-    provenanceReport: SharedEpisodeProvenanceReport
+    verifications: [SharedEpisodeVerificationRecord],
+    provenanceReport: SharedEpisodeProvenanceReport,
+    verificationReport: SharedEpisodeVerificationReport
   ) {
     self.schemaVersion = schemaVersion
     self.episodeID = episodeID
     self.passportSHA256 = passportSHA256
     self.artifactManifestSHA256 = artifactManifestSHA256
     self.contributions = contributions
+    self.verifications = verifications
     self.provenanceReport = provenanceReport
+    self.verificationReport = verificationReport
   }
 
   public static func decodeCanonical(_ data: Data) throws -> Self {
@@ -379,14 +476,18 @@ public struct SharedEpisodeGenerationProvenance:
   SharedEpisodeCanonicalValue, Equatable, Sendable
 {
   public let inputContributionIDs: [String]
+  public let inputVerificationRecordIDs: [String]
   public let acceptedContributionIDs: [String]
+  public let acceptedVerificationRecordIDs: [String]
   public let reducerVersion: String
   public let passportSHA256: String
   public let artifactManifestSHA256: String
 
   enum CodingKeys: String, CodingKey {
     case inputContributionIDs = "input_contribution_ids"
+    case inputVerificationRecordIDs = "input_verification_record_ids"
     case acceptedContributionIDs = "accepted_contribution_ids"
+    case acceptedVerificationRecordIDs = "accepted_verification_record_ids"
     case reducerVersion = "reducer_version"
     case passportSHA256 = "passport_sha256"
     case artifactManifestSHA256 = "artifact_manifest_sha256"
@@ -394,13 +495,17 @@ public struct SharedEpisodeGenerationProvenance:
 
   public init(
     inputContributionIDs: [String],
+    inputVerificationRecordIDs: [String],
     acceptedContributionIDs: [String],
+    acceptedVerificationRecordIDs: [String],
     reducerVersion: String,
     passportSHA256: String,
     artifactManifestSHA256: String
   ) {
     self.inputContributionIDs = inputContributionIDs
+    self.inputVerificationRecordIDs = inputVerificationRecordIDs
     self.acceptedContributionIDs = acceptedContributionIDs
+    self.acceptedVerificationRecordIDs = acceptedVerificationRecordIDs
     self.reducerVersion = reducerVersion
     self.passportSHA256 = passportSHA256
     self.artifactManifestSHA256 = artifactManifestSHA256
@@ -410,7 +515,7 @@ public struct SharedEpisodeGenerationProvenance:
 public struct SharedEpisodeGeneration:
   SharedEpisodeCanonicalValue, Equatable, Sendable
 {
-  public static let currentSchemaVersion = 2
+  public static let currentSchemaVersion = 3
 
   public let schemaVersion: Int
   public let canonicalProfile: String
@@ -532,8 +637,10 @@ public struct StoredSharedEpisodeGeneration:
 }
 
 public enum SharedEpisodeMemoryReducer {
-  public static let version = "fum.shared-episode-memory.reducer.v2"
+  public static let version = "fum.shared-episode-memory.reducer.v3"
   public static let maximumContributions = 256
+  public static let maximumVerifications = 256
+  public static let maximumEvents = maximumContributions + maximumVerifications
 
   public static func foundation(
     seed: SharedEpisodeMemorySeed
@@ -558,17 +665,55 @@ public enum SharedEpisodeMemoryReducer {
         "Вклад не ссылается на точное родительское поколение."
       )
     }
-    guard previous.eventJournal.entries.count < maximumContributions else {
+    guard previous.state.contributions.count < maximumContributions,
+      previous.eventJournal.entries.count < maximumEvents
+    else {
       throw SharedEpisodeMemoryError.invalidContribution(
-        "Журнал достиг предельного числа вкладов версии 2."
+        "Журнал достиг предельного числа вкладов или событий версии 3."
       )
     }
 
-    let contributionData = try contribution.canonicalJSONData()
+    let event = SharedEpisodeJournalEvent.contribution(contribution)
+    let eventData = try event.canonicalJSONData()
     let entry = SharedEpisodeJournalEntry(
       ordinal: previous.eventJournal.entries.count + 1,
-      contributionSHA256: CanonicalMemoryJSON.sha256(contributionData),
-      contribution: contribution
+      eventSHA256: CanonicalMemoryJSON.sha256(eventData),
+      event: event
+    )
+    let journal = SharedEpisodeEventJournal(
+      episodeID: previous.seed.episodeID,
+      entries: previous.eventJournal.entries + [entry]
+    )
+    return try replayDetails(seed: previous.seed, journal: journal).generation
+  }
+
+  public static func continuation(
+    from previous: SharedEpisodeGeneration,
+    verification: SharedEpisodeVerificationRecord
+  ) throws -> SharedEpisodeGeneration {
+    try validate(previous)
+    let previousSHA256 = CanonicalMemoryJSON.sha256(
+      try previous.canonicalJSONData()
+    )
+    guard verification.parentGenerationSHA256 == previousSHA256 else {
+      throw SharedEpisodeMemoryError.invalidVerification(
+        "Проверка не ссылается на точное родительское поколение."
+      )
+    }
+    guard previous.state.verifications.count < maximumVerifications,
+      previous.eventJournal.entries.count < maximumEvents
+    else {
+      throw SharedEpisodeMemoryError.invalidVerification(
+        "Журнал достиг предельного числа проверок или событий версии 3."
+      )
+    }
+
+    let event = SharedEpisodeJournalEvent.verification(verification)
+    let eventData = try event.canonicalJSONData()
+    let entry = SharedEpisodeJournalEntry(
+      ordinal: previous.eventJournal.entries.count + 1,
+      eventSHA256: CanonicalMemoryJSON.sha256(eventData),
+      event: event
     )
     let journal = SharedEpisodeEventJournal(
       episodeID: previous.seed.episodeID,
@@ -587,7 +732,7 @@ public enum SharedEpisodeMemoryReducer {
   public static func validate(_ generation: SharedEpisodeGeneration) throws {
     guard generation.schemaVersion == SharedEpisodeGeneration.currentSchemaVersion else {
       throw SharedEpisodeMemoryError.incompatibleGeneration(
-        "Поддерживается только схема поколения версии 2."
+        "Поддерживается только схема поколения версии 3."
       )
     }
     guard generation.canonicalProfile == CanonicalMemoryJSON.profileID else {
@@ -629,7 +774,7 @@ public enum SharedEpisodeMemoryReducer {
     let context = try validateSharedEpisodeSeed(seed)
     guard journal.schemaVersion == SharedEpisodeEventJournal.currentSchemaVersion,
       journal.episodeID == seed.episodeID,
-      journal.entries.count <= maximumContributions
+      journal.entries.count <= maximumEvents
     else {
       throw SharedEpisodeMemoryError.corruptGeneration(
         "Журнал имеет неподдерживаемую схему, эпизод или размер."
@@ -641,7 +786,12 @@ public enum SharedEpisodeMemoryReducer {
       passportSHA256: seed.passportSHA256,
       artifactManifestSHA256: seed.artifactManifestSHA256,
       contributions: [],
-      provenanceReport: try SharedEpisodeProvenanceValidator.analyze([])
+      verifications: [],
+      provenanceReport: try SharedEpisodeProvenanceValidator.analyze([]),
+      verificationReport: try SharedEpisodeVerificationValidator.analyze(
+        contributions: [],
+        verifications: []
+      )
     )
     var prefixJournal = SharedEpisodeEventJournal(
       episodeID: seed.episodeID,
@@ -653,9 +803,10 @@ public enum SharedEpisodeMemoryReducer {
       state: state,
       previousGenerationSHA256: nil,
       inputSHA256: CanonicalMemoryJSON.sha256(try seed.canonicalJSONData()),
-      inputContributionIDs: []
+      inputContributionIDs: [],
+      inputVerificationRecordIDs: []
     )
-    var contributionIDs = Set<String>()
+    var eventIDs = Set<String>()
 
     for (index, entry) in journal.entries.enumerated() {
       guard entry.schemaVersion == SharedEpisodeJournalEntry.currentSchemaVersion,
@@ -665,43 +816,83 @@ public enum SharedEpisodeMemoryReducer {
           "Журнал содержит разрыв или неподдерживаемую запись."
         )
       }
-      let contribution = entry.contribution
-      let contributionData = try contribution.canonicalJSONData()
-      let contributionSHA256 = CanonicalMemoryJSON.sha256(contributionData)
-      guard entry.contributionSHA256 == contributionSHA256,
-        contributionIDs.insert(contribution.contributionID).inserted
+      let eventData = try entry.event.canonicalJSONData()
+      let eventSHA256 = CanonicalMemoryJSON.sha256(eventData)
+      guard entry.eventSHA256 == eventSHA256,
+        eventIDs.insert(entry.event.identifier).inserted
       else {
         throw SharedEpisodeMemoryError.corruptGeneration(
           "Хэш или идентификатор записи журнала не согласован."
         )
       }
-      try validateContribution(
-        contribution,
-        context: context,
-        priorProvenances: state.contributions.map(\.provenance)
-      )
 
       let expectedParentSHA256 = CanonicalMemoryJSON.sha256(
         try generation.canonicalJSONData()
       )
-      guard contribution.parentGenerationSHA256 == expectedParentSHA256 else {
+      guard entry.event.parentGenerationSHA256 == expectedParentSHA256 else {
         throw SharedEpisodeMemoryError.corruptGeneration(
-          "Вклад не продолжает подтверждённую хэш-цепочку журнала."
+          "Событие не продолжает подтверждённую хэш-цепочку журнала."
         )
+      }
+
+      var contributions = state.contributions
+      var verifications = state.verifications
+      var inputContributionIDs: [String] = []
+      var inputVerificationRecordIDs: [String] = []
+      switch entry.event {
+      case .contribution(let contribution):
+        guard contributions.count < maximumContributions else {
+          throw SharedEpisodeMemoryError.corruptGeneration(
+            "Журнал превышает предел вкладов версии 3."
+          )
+        }
+        try validateContribution(
+          contribution,
+          context: context,
+          priorProvenances: contributions.map(\.provenance)
+        )
+        contributions.append(contribution)
+        for (verificationIndex, acceptedVerification) in verifications.enumerated() {
+          try validateVerificationRecord(
+            acceptedVerification,
+            context: context,
+            contributions: contributions,
+            priorVerifications: Array(verifications.prefix(verificationIndex))
+          )
+        }
+        inputContributionIDs = [contribution.contributionID]
+      case .verification(let verification):
+        guard verifications.count < maximumVerifications else {
+          throw SharedEpisodeMemoryError.corruptGeneration(
+            "Журнал превышает предел проверок версии 3."
+          )
+        }
+        try validateVerificationRecord(
+          verification,
+          context: context,
+          contributions: contributions,
+          priorVerifications: verifications
+        )
+        verifications.append(verification)
+        inputVerificationRecordIDs = [verification.recordID]
       }
 
       prefixJournal = SharedEpisodeEventJournal(
         episodeID: seed.episodeID,
         entries: prefixJournal.entries + [entry]
       )
-      let contributions = state.contributions + [contribution]
       state = SharedEpisodeState(
         episodeID: seed.episodeID,
         passportSHA256: seed.passportSHA256,
         artifactManifestSHA256: seed.artifactManifestSHA256,
         contributions: contributions,
+        verifications: verifications,
         provenanceReport: try SharedEpisodeProvenanceValidator.analyze(
           contributions.map(\.provenance)
+        ),
+        verificationReport: try SharedEpisodeVerificationValidator.analyze(
+          contributions: contributions,
+          verifications: verifications
         )
       )
       generation = try makeGeneration(
@@ -709,8 +900,9 @@ public enum SharedEpisodeMemoryReducer {
         journal: prefixJournal,
         state: state,
         previousGenerationSHA256: expectedParentSHA256,
-        inputSHA256: contributionSHA256,
-        inputContributionIDs: [contribution.contributionID]
+        inputSHA256: eventSHA256,
+        inputContributionIDs: inputContributionIDs,
+        inputVerificationRecordIDs: inputVerificationRecordIDs
       )
     }
 
@@ -723,7 +915,8 @@ public enum SharedEpisodeMemoryReducer {
     state: SharedEpisodeState,
     previousGenerationSHA256: String?,
     inputSHA256: String,
-    inputContributionIDs: [String]
+    inputContributionIDs: [String],
+    inputVerificationRecordIDs: [String]
   ) throws -> SharedEpisodeGeneration {
     SharedEpisodeGeneration(
       reducerVersion: version,
@@ -739,9 +932,13 @@ public enum SharedEpisodeMemoryReducer {
       state: state,
       provenance: SharedEpisodeGenerationProvenance(
         inputContributionIDs: inputContributionIDs,
+        inputVerificationRecordIDs: inputVerificationRecordIDs,
         acceptedContributionIDs: journal.entries.map {
-          $0.contribution.contributionID
-        },
+          $0.event.contribution?.contributionID
+        }.compactMap { $0 },
+        acceptedVerificationRecordIDs: journal.entries.map {
+          $0.event.verification?.recordID
+        }.compactMap { $0 },
         reducerVersion: version,
         passportSHA256: seed.passportSHA256,
         artifactManifestSHA256: seed.artifactManifestSHA256
@@ -807,7 +1004,8 @@ public struct SharedEpisodeMemoryStore {
     guard let current else {
       guard candidate.previousGenerationSHA256 == nil,
         candidate.eventJournal.entries.isEmpty,
-        candidate.state.contributions.isEmpty
+        candidate.state.contributions.isEmpty,
+        candidate.state.verifications.isEmpty
       else {
         throw SharedEpisodeMemoryError.incompatibleGeneration(
           "Первое подтверждённое поколение должно быть безвкладовым foundation."
@@ -831,16 +1029,38 @@ public struct SharedEpisodeMemoryStore {
       Array(
         candidate.eventJournal.entries.prefix(previous.eventJournal.entries.count)
       ) == previous.eventJournal.entries,
-      candidate.state.contributions.count == previous.state.contributions.count + 1,
-      Array(
-        candidate.state.contributions.prefix(previous.state.contributions.count)
-      ) == previous.state.contributions,
-      candidate.eventJournal.entries.last?.contribution.parentGenerationSHA256
-        == current.generationSHA256
+      candidate.eventJournal.entries.last?.event.parentGenerationSHA256
+        == current.generationSHA256,
+      let lastEvent = candidate.eventJournal.entries.last?.event
     else {
       throw SharedEpisodeMemoryError.incompatibleGeneration(
-        "Преемник должен добавить ровно один вклад к точному родителю."
+        "Преемник должен добавить ровно одно событие к точному родителю."
       )
+    }
+    switch lastEvent {
+    case .contribution:
+      guard
+        candidate.state.contributions.count == previous.state.contributions.count + 1,
+        Array(
+          candidate.state.contributions.prefix(previous.state.contributions.count)
+        ) == previous.state.contributions,
+        candidate.state.verifications == previous.state.verifications
+      else {
+        throw SharedEpisodeMemoryError.incompatibleGeneration(
+          "Событие вклада меняет не только список вкладов."
+        )
+      }
+    case .verification:
+      guard candidate.state.contributions == previous.state.contributions,
+        candidate.state.verifications.count == previous.state.verifications.count + 1,
+        Array(
+          candidate.state.verifications.prefix(previous.state.verifications.count)
+        ) == previous.state.verifications
+      else {
+        throw SharedEpisodeMemoryError.incompatibleGeneration(
+          "Событие проверки меняет не только список проверок."
+        )
+      }
     }
   }
 
@@ -946,6 +1166,20 @@ public enum SharedEpisodeMemoryFixtures {
     let instrumentObservationSHA256 = CanonicalMemoryJSON.sha256(
       try fixtureInstrumentObservation().canonicalJSONData()
     )
+    let criteriaArtifact = SharedEpisodeEmbeddedArtifact(
+      artifactID: "criteria.main",
+      kind: "criteria",
+      logicalPath: "verification/criteria.json",
+      mediaType: "application/json",
+      data: try fixtureVerificationCriteria().canonicalJSONData()
+    )
+    let verificationPlanArtifact = SharedEpisodeEmbeddedArtifact(
+      artifactID: "verification.main",
+      kind: "verification",
+      logicalPath: "verification/plan.json",
+      mediaType: "application/json",
+      data: try fixtureVerificationPlan().canonicalJSONData()
+    )
     let passport = try fixturePassport(
       source: EpisodePassportFixtures.load(named: "valid"),
       artifactSHA256ByID: [
@@ -956,6 +1190,8 @@ public enum SharedEpisodeMemoryFixtures {
         "contribution.primary": contributionContentSHA256,
         "contribution.adversarial": contributionContentSHA256,
         "observation.compiler": instrumentObservationSHA256,
+        criteriaArtifact.artifactID: criteriaArtifact.contentSHA256,
+        verificationPlanArtifact.artifactID: verificationPlanArtifact.contentSHA256,
       ]
     )
     let passportReport = EpisodePassportPreflight.analyze(passport)
@@ -979,7 +1215,9 @@ public enum SharedEpisodeMemoryFixtures {
       adversarialPackageArtifact,
       primaryManifestArtifact,
       adversarialManifestArtifact,
+      criteriaArtifact,
       requirementsArtifact,
+      verificationPlanArtifact,
     ].sorted { $0.artifactID < $1.artifactID }
     let manifest = SharedEpisodeArtifactManifest(
       schemaVersion: 1,
@@ -1124,6 +1362,211 @@ public enum SharedEpisodeMemoryFixtures {
     )
   }
 
+  public static func verification(
+    named fixture: SharedEpisodeVerificationFixture,
+    parentGenerationSHA256: String
+  ) throws -> SharedEpisodeVerificationRecord {
+    guard isSharedEpisodeSHA256(parentGenerationSHA256) else {
+      throw SharedEpisodeMemoryError.invalidVerification(
+        "Родительский SHA-256 проверки имеет недопустимый формат."
+      )
+    }
+    let seed = try seed()
+    let artifactsByID = Dictionary(
+      uniqueKeysWithValues: seed.artifacts.map { ($0.artifactID, $0) }
+    )
+    guard let criteriaArtifact = artifactsByID["criteria.main"],
+      let planArtifact = artifactsByID["verification.main"]
+    else {
+      throw SharedEpisodeMemoryError.invalidSeed(
+        "Фикстура проверки не нашла закреплённые критерии и план."
+      )
+    }
+    let criteria = try decodeExactCanonical(
+      SharedEpisodeVerificationCriteriaDocument.self,
+      data: criteriaArtifact.decodedData(),
+      kind: "критерии фикстуры проверки"
+    )
+    let plan = try decodeExactCanonical(
+      SharedEpisodeVerificationPlan.self,
+      data: planArtifact.decodedData(),
+      kind: "план фикстуры проверки"
+    )
+    let targetResultSHA256 = CanonicalMemoryJSON.sha256(
+      try fixtureContributionContent().canonicalJSONData()
+    )
+    let claim = SharedEpisodeVerificationClaim(
+      claimID: "claim.primary",
+      contributionID: "contribution.primary",
+      resultSHA256: targetResultSHA256
+    )
+    let observation = fixtureInstrumentObservation()
+    let observationSHA256 = CanonicalMemoryJSON.sha256(
+      try observation.canonicalJSONData()
+    )
+
+    let recordSuffix: String
+    let outcome: SharedEpisodeVerificationOutcome
+    let findings: [(SharedEpisodeVerificationCriterion, SharedEpisodeVerificationEvidenceFinding)]
+    let disagreements: [SharedEpisodeVerificationDisagreement]
+    switch fixture {
+    case .externalPassed:
+      recordSuffix = "external-passed"
+      outcome = .passed
+      findings = criteria.criteria.map { ($0, .supports) }
+      disagreements = []
+    case .selfPassed:
+      recordSuffix = "self-passed"
+      outcome = .passed
+      findings = criteria.criteria.map { ($0, .supports) }
+      disagreements = []
+    case .correlatedPassed:
+      recordSuffix = "correlated-passed"
+      outcome = .passed
+      findings = criteria.criteria.map { ($0, .supports) }
+      disagreements = []
+    case .inconclusive:
+      recordSuffix = "inconclusive"
+      outcome = .inconclusive
+      findings = [(criteria.criteria[0], .insufficient)]
+      disagreements = []
+    case .failed:
+      recordSuffix = "failed"
+      outcome = .failed
+      findings = [(criteria.criteria[2], .contradicts)]
+      disagreements = [
+        SharedEpisodeVerificationDisagreement(
+          disagreementID: "disagreement.claim-conflict",
+          claimID: claim.claimID,
+          kind: .claimConflict,
+          statement: "Инструментальное наблюдение противоречит проверяемому утверждению."
+        ),
+        SharedEpisodeVerificationDisagreement(
+          disagreementID: "disagreement.negative-result",
+          claimID: claim.claimID,
+          kind: .negativeResult,
+          statement: "Отрицательный результат сохранён независимо от последующего решения."
+        ),
+        SharedEpisodeVerificationDisagreement(
+          disagreementID: "disagreement.objection",
+          claimID: claim.claimID,
+          kind: .objection,
+          statement: "Проверяющий возражает против принятия утверждения без оговорки."
+        ),
+        SharedEpisodeVerificationDisagreement(
+          disagreementID: "disagreement.rejection-reason",
+          claimID: claim.claimID,
+          kind: .rejectionReason,
+          statement: "Утверждение отклонено из-за противоречащего внешнего наблюдения."
+        ),
+      ]
+    }
+
+    let evidence = findings.map { criterion, finding in
+      SharedEpisodeVerificationEvidence(
+        evidenceID: "evidence.\(recordSuffix).\(criterion.criterionID)",
+        claimID: claim.claimID,
+        criterionID: criterion.criterionID,
+        observationID: observation.observationID,
+        observationSHA256: observationSHA256,
+        resultSHA256: observation.resultSHA256,
+        finding: finding
+      )
+    }.sorted { $0.evidenceID < $1.evidenceID }
+    let content = SharedEpisodeVerificationContent(
+      verificationPlanArtifactID: plan.verificationPlanArtifactID,
+      criterionIDs: plan.criterionIDs,
+      claims: [claim],
+      evidence: evidence,
+      outcome: outcome,
+      disagreements: disagreements.sorted { $0.disagreementID < $1.disagreementID }
+    )
+    let contentSHA256 = CanonicalMemoryJSON.sha256(try content.canonicalJSONData())
+    let recordID = "verification.record.\(recordSuffix)"
+
+    let executorID: String
+    let modelID: String
+    let providerID: String
+    let modelGroupID: String
+    let providerGroupID: String
+    switch fixture {
+    case .selfPassed:
+      executorID = "executor.primary"
+      modelID = "model.fixture.verifier.self"
+      providerID = "provider.verifier.self"
+      modelGroupID = "correlation.model.verifier.self"
+      providerGroupID = "correlation.provider.verifier.self"
+    case .correlatedPassed:
+      executorID = "executor.verifier.correlated"
+      modelID = "model.fixture.verifier.correlated"
+      providerID = "provider.fixture"
+      modelGroupID = "correlation.model.verifier.correlated"
+      providerGroupID = "correlation.provider.fixture"
+    case .externalPassed, .inconclusive, .failed:
+      executorID = "executor.verifier.external"
+      modelID = "model.fixture.verifier.external"
+      providerID = "provider.verifier.external"
+      modelGroupID = "correlation.model.verifier.external"
+      providerGroupID = "correlation.provider.verifier.external"
+    }
+    let modelBasisSHA256 = CanonicalMemoryJSON.sha256(
+      Data("\(providerID):\(modelID)".utf8)
+    )
+    let correlationLinks = [
+      SharedEpisodeCorrelationLink(
+        groupID: modelGroupID,
+        kind: .model,
+        basisSHA256: modelBasisSHA256
+      ),
+      SharedEpisodeCorrelationLink(
+        groupID: providerGroupID,
+        kind: .provider,
+        basisSHA256: CanonicalMemoryJSON.sha256(Data(providerID.utf8))
+      ),
+      SharedEpisodeCorrelationLink(
+        groupID: "correlation.source.verification-criteria",
+        kind: .sourceMaterial,
+        basisSHA256: criteriaArtifact.contentSHA256
+      ),
+      SharedEpisodeCorrelationLink(
+        groupID: "correlation.source.verification-plan",
+        kind: .sourceMaterial,
+        basisSHA256: planArtifact.contentSHA256
+      ),
+      SharedEpisodeCorrelationLink(
+        groupID: "correlation.template.verifier.fixture",
+        kind: .systemTemplate,
+        basisSHA256: CanonicalMemoryJSON.sha256(Data("fixture-verifier-template-v1".utf8))
+      ),
+    ].sorted { left, right in
+      if left.groupID != right.groupID { return left.groupID < right.groupID }
+      return left.kind.rawValue < right.kind.rawValue
+    }
+    return SharedEpisodeVerificationRecord(
+      recordID: recordID,
+      parentGenerationSHA256: parentGenerationSHA256,
+      verifier: SharedEpisodeContributor(kind: .author, identifier: executorID),
+      contentSHA256: contentSHA256,
+      content: content,
+      provenance: SharedEpisodeVerificationProvenance(
+        recordID: recordID,
+        executorID: executorID,
+        roleID: plan.verifierRoleID,
+        verificationPlanArtifactID: plan.verificationPlanArtifactID,
+        modelID: modelID,
+        providerID: providerID,
+        taskSHA256: planArtifact.contentSHA256,
+        localInputSHA256s: [
+          criteriaArtifact.contentSHA256,
+          planArtifact.contentSHA256,
+        ].sorted(),
+        parentGenerationSHA256: parentGenerationSHA256,
+        resultSHA256: contentSHA256,
+        correlationLinks: correlationLinks
+      )
+    )
+  }
+
   private static func fixtureInputManifest(
     identifier: String,
     input: SharedEpisodeEmbeddedArtifact
@@ -1145,6 +1588,56 @@ public enum SharedEpisodeMemoryFixtures {
     SharedEpisodeContributionContent(
       mediaType: "text/plain;charset=utf-8",
       body: "Одинаковое наблюдаемое содержание двух различимых вкладов."
+    )
+  }
+
+  private static func fixtureVerificationCriteria()
+    -> SharedEpisodeVerificationCriteriaDocument
+  {
+    SharedEpisodeVerificationCriteriaDocument(
+      criteriaArtifactID: "criteria.main",
+      criteria: [
+        SharedEpisodeVerificationCriterion(
+          criterionID: "criterion.form",
+          kind: .form,
+          statement: "Каноническая форма и типизированные ссылки проверки замкнуты."
+        ),
+        SharedEpisodeVerificationCriterion(
+          criterionID: "criterion.instrumental-fact",
+          kind: .instrumentalFact,
+          statement: "Инструментальный факт закреплён точным наблюдением и его SHA-256."
+        ),
+        SharedEpisodeVerificationCriterion(
+          criterionID: "criterion.semantic-assessment",
+          kind: .semanticAssessment,
+          statement: "Семантическая оценка явно отделена от машинно подтверждаемого факта."
+        ),
+      ]
+    )
+  }
+
+  private static func fixtureVerificationPlan() -> SharedEpisodeVerificationPlan {
+    SharedEpisodeVerificationPlan(
+      verificationPlanArtifactID: "verification.main",
+      verifierRoleID: "verifier.main",
+      criteriaArtifactID: "criteria.main",
+      criterionIDs: [
+        "criterion.form",
+        "criterion.instrumental-fact",
+        "criterion.semantic-assessment",
+      ],
+      allowedContributionIDs: [
+        "contribution.adversarial",
+        "contribution.primary",
+      ],
+      allowedObservationIDs: ["observation.compiler"],
+      forbiddenCorrelationGroupIDs: [
+        "correlation.model.adversarial",
+        "correlation.model.primary",
+        "correlation.provider.fixture",
+        "correlation.source.requirements",
+        "correlation.template.fixture",
+      ]
     )
   }
 
@@ -1292,6 +1785,13 @@ private struct SharedEpisodePassportObservation {
   let contributionID: String
 }
 
+private struct SharedEpisodePassportVerification {
+  let artifactID: String
+  let roleID: String
+  let contributionIDs: [String]
+  let observationIDs: [String]
+}
+
 private struct SharedEpisodeInputBinding: Hashable {
   let artifactID: String
   let logicalPath: String
@@ -1300,15 +1800,21 @@ private struct SharedEpisodeInputBinding: Hashable {
 
 private struct SharedEpisodePassportIndex {
   let artifacts: [String: SharedEpisodePassportArtifactDeclaration]
+  let criteriaArtifactID: String
+  let roles: [String: String]
   let contributions: [String: SharedEpisodePassportContribution]
   let observations: [String: SharedEpisodePassportObservation]
+  let verification: SharedEpisodePassportVerification
 }
 
 private struct SharedEpisodeSeedContext {
   let artifactsByID: [String: SharedEpisodeEmbeddedArtifact]
   let passportArtifacts: [String: SharedEpisodePassportArtifactDeclaration]
+  let passportRoles: [String: String]
   let passportContributions: [String: SharedEpisodePassportContribution]
   let passportObservations: [String: SharedEpisodePassportObservation]
+  let criteriaDocument: SharedEpisodeVerificationCriteriaDocument
+  let verificationPlan: SharedEpisodeVerificationPlan
   let packageInputsByID: [String: Set<SharedEpisodeInputBinding>]
   let manifestInputsByID: [String: Set<SharedEpisodeInputBinding>]
 }
@@ -1480,11 +1986,105 @@ private func validateSharedEpisodeSeed(
     }
   }
 
+  guard
+    let criteriaDeclaration = passportIndex.artifacts[
+      passportIndex.criteriaArtifactID
+    ],
+    criteriaDeclaration.kind == "criteria",
+    let criteriaArtifact = artifactsByID[passportIndex.criteriaArtifactID],
+    criteriaArtifact.kind == criteriaDeclaration.kind,
+    criteriaArtifact.contentSHA256 == criteriaDeclaration.sha256,
+    let verificationDeclaration = passportIndex.artifacts[
+      passportIndex.verification.artifactID
+    ],
+    verificationDeclaration.kind == "verification",
+    let verificationArtifact = artifactsByID[
+      passportIndex.verification.artifactID
+    ],
+    verificationArtifact.kind == verificationDeclaration.kind,
+    verificationArtifact.contentSHA256 == verificationDeclaration.sha256
+  else {
+    throw SharedEpisodeMemoryError.invalidSeed(
+      "Паспорт не закрепляет точные встроенные критерии и план проверки."
+    )
+  }
+  let criteriaDocument: SharedEpisodeVerificationCriteriaDocument
+  let verificationPlan: SharedEpisodeVerificationPlan
+  do {
+    criteriaDocument = try decodeExactCanonical(
+      SharedEpisodeVerificationCriteriaDocument.self,
+      data: criteriaArtifact.decodedData(),
+      kind: "встроенные критерии проверки"
+    )
+    verificationPlan = try decodeExactCanonical(
+      SharedEpisodeVerificationPlan.self,
+      data: verificationArtifact.decodedData(),
+      kind: "встроенный план проверки"
+    )
+  } catch {
+    throw SharedEpisodeMemoryError.invalidSeed(
+      "Встроенные критерии или план проверки не соответствуют точной канонической схеме."
+    )
+  }
+  let criterionIDs = criteriaDocument.criteria.map(\.criterionID)
+  guard criteriaDocument.schemaVersion == 1,
+    criteriaDocument.criteriaArtifactID == passportIndex.criteriaArtifactID,
+    !criteriaDocument.criteria.isEmpty,
+    criteriaDocument.criteria.count <= 64,
+    criterionIDs == criterionIDs.sorted(),
+    Set(criterionIDs).count == criterionIDs.count,
+    criterionIDs.allSatisfy(isSharedEpisodeIdentifier),
+    Set(criteriaDocument.criteria.map(\.kind))
+      == Set([
+        SharedEpisodeVerificationCriterionKind.form,
+        .instrumentalFact,
+        .semanticAssessment,
+      ]),
+    criteriaDocument.criteria.allSatisfy({ criterion in
+      criterion.schemaVersion == 1 && !criterion.statement.isEmpty
+        && criterion.statement.utf8.count <= 4_096
+    }),
+    verificationPlan.schemaVersion == 1,
+    verificationPlan.verificationPlanArtifactID
+      == passportIndex.verification.artifactID,
+    verificationPlan.verifierRoleID == passportIndex.verification.roleID,
+    passportIndex.roles[verificationPlan.verifierRoleID] == "verifier",
+    verificationPlan.criteriaArtifactID == criteriaDocument.criteriaArtifactID,
+    verificationPlan.criterionIDs == criterionIDs,
+    verificationPlan.allowedContributionIDs
+      == verificationPlan.allowedContributionIDs.sorted(),
+    Set(verificationPlan.allowedContributionIDs).count
+      == verificationPlan.allowedContributionIDs.count,
+    Set(verificationPlan.allowedContributionIDs)
+      == Set(passportIndex.verification.contributionIDs),
+    verificationPlan.allowedObservationIDs
+      == verificationPlan.allowedObservationIDs.sorted(),
+    Set(verificationPlan.allowedObservationIDs).count
+      == verificationPlan.allowedObservationIDs.count,
+    Set(verificationPlan.allowedObservationIDs)
+      == Set(passportIndex.verification.observationIDs),
+    !verificationPlan.forbiddenCorrelationGroupIDs.isEmpty,
+    verificationPlan.forbiddenCorrelationGroupIDs
+      == verificationPlan.forbiddenCorrelationGroupIDs.sorted(),
+    Set(verificationPlan.forbiddenCorrelationGroupIDs).count
+      == verificationPlan.forbiddenCorrelationGroupIDs.count,
+    verificationPlan.forbiddenCorrelationGroupIDs.allSatisfy(
+      isSharedEpisodeIdentifier
+    )
+  else {
+    throw SharedEpisodeMemoryError.invalidSeed(
+      "Критерии и план проверки не совпадают с заранее объявленным паспортом."
+    )
+  }
+
   return SharedEpisodeSeedContext(
     artifactsByID: artifactsByID,
     passportArtifacts: passportIndex.artifacts,
+    passportRoles: passportIndex.roles,
     passportContributions: passportIndex.contributions,
     passportObservations: passportIndex.observations,
+    criteriaDocument: criteriaDocument,
+    verificationPlan: verificationPlan,
     packageInputsByID: packageInputsByID,
     manifestInputsByID: manifestInputsByID
   )
@@ -1598,11 +2198,15 @@ private func sharedEpisodePassportIndex(
 ) throws -> SharedEpisodePassportIndex {
   guard let root = try JSONSerialization.jsonObject(with: data) as? [String: Any],
     let artifacts = root["artifacts"] as? [[String: Any]],
+    let goal = root["goal"] as? [String: Any],
+    let criteriaArtifactID = goal["criteria_artifact_id"] as? String,
+    let roles = root["roles"] as? [[String: Any]],
     let contributions = root["contributions"] as? [[String: Any]],
-    let observations = root["observations"] as? [[String: Any]]
+    let observations = root["observations"] as? [[String: Any]],
+    let verification = root["verification"] as? [String: Any]
   else {
     throw SharedEpisodeMemoryError.invalidSeed(
-      "Паспорт не содержит реестры артефактов и вкладов."
+      "Паспорт не содержит критерии, роли, реестры артефактов и проверки."
     )
   }
   var artifactIndex: [String: SharedEpisodePassportArtifactDeclaration] = [:]
@@ -1623,6 +2227,26 @@ private func sharedEpisodePassportIndex(
       kind: kind,
       sha256: sha256
     )
+  }
+  guard artifactIndex[criteriaArtifactID]?.kind == "criteria" else {
+    throw SharedEpisodeMemoryError.invalidSeed(
+      "Паспорт не связывает цель с точным артефактом критериев."
+    )
+  }
+
+  var roleIndex: [String: String] = [:]
+  for value in roles {
+    guard let roleID = value["role_id"] as? String,
+      let kind = value["kind"] as? String,
+      isSharedEpisodeIdentifier(roleID),
+      ["producer", "verifier", "selector"].contains(kind),
+      roleIndex[roleID] == nil
+    else {
+      throw SharedEpisodeMemoryError.invalidSeed(
+        "Паспорт содержит неоднозначную роль."
+      )
+    }
+    roleIndex[roleID] = kind
   }
 
   var contributionIndex: [String: SharedEpisodePassportContribution] = [:]
@@ -1670,11 +2294,137 @@ private func sharedEpisodePassportIndex(
       contributionID: contributionID
     )
   }
+  guard let verificationID = verification["verification_id"] as? String,
+    let verificationArtifactID = verification["artifact_id"] as? String,
+    verificationID == verificationArtifactID,
+    artifactIndex[verificationArtifactID]?.kind == "verification",
+    let verificationRoleID = verification["role_id"] as? String,
+    roleIndex[verificationRoleID] == "verifier",
+    let verificationContributionIDs = verification["contribution_ids"] as? [String],
+    !verificationContributionIDs.isEmpty,
+    Set(verificationContributionIDs).count == verificationContributionIDs.count,
+    verificationContributionIDs.allSatisfy({ contributionIndex[$0] != nil }),
+    let verificationObservationIDs = verification["observation_ids"] as? [String],
+    !verificationObservationIDs.isEmpty,
+    Set(verificationObservationIDs).count == verificationObservationIDs.count,
+    verificationObservationIDs.allSatisfy({ observationIndex[$0] != nil })
+  else {
+    throw SharedEpisodeMemoryError.invalidSeed(
+      "Паспорт содержит неоднозначный или незамкнутый план проверки."
+    )
+  }
   return SharedEpisodePassportIndex(
     artifacts: artifactIndex,
+    criteriaArtifactID: criteriaArtifactID,
+    roles: roleIndex,
     contributions: contributionIndex,
-    observations: observationIndex
+    observations: observationIndex,
+    verification: SharedEpisodePassportVerification(
+      artifactID: verificationArtifactID,
+      roleID: verificationRoleID,
+      contributionIDs: verificationContributionIDs,
+      observationIDs: verificationObservationIDs
+    )
   )
+}
+
+private func validateVerificationRecord(
+  _ verification: SharedEpisodeVerificationRecord,
+  context: SharedEpisodeSeedContext,
+  contributions: [SharedEpisodeContribution],
+  priorVerifications: [SharedEpisodeVerificationRecord]
+) throws {
+  let plan = context.verificationPlan
+  let criteria = context.criteriaDocument
+  guard let criteriaArtifact = context.artifactsByID[criteria.criteriaArtifactID],
+    let planArtifact = context.artifactsByID[plan.verificationPlanArtifactID]
+  else {
+    throw SharedEpisodeMemoryError.invalidVerification(
+      "Паспортные критерии или план проверки отсутствуют во встроенном снимке."
+    )
+  }
+  _ = try SharedEpisodeVerificationValidator.analyze(
+    contributions: contributions,
+    verifications: priorVerifications + [verification]
+  )
+  let acceptedContributionIDs = Set(contributions.map(\.contributionID))
+  let claimContributionIDs = Set(verification.content.claims.map(\.contributionID))
+  let evidenceObservationIDs = Set(verification.content.evidence.map(\.observationID))
+  let expectedLocalInputs = [
+    criteriaArtifact.contentSHA256,
+    planArtifact.contentSHA256,
+  ].sorted()
+  let modelLinks = verification.provenance.correlationLinks.filter {
+    $0.kind == .model
+  }
+  let providerLinks = verification.provenance.correlationLinks.filter {
+    $0.kind == .provider
+  }
+  let sourceMaterialSHA256s = Set(
+    verification.provenance.correlationLinks
+      .filter { $0.kind == .sourceMaterial }
+      .map(\.basisSHA256)
+  )
+  guard context.passportRoles[verification.provenance.roleID] == "verifier",
+    verification.provenance.roleID == plan.verifierRoleID,
+    verification.content.verificationPlanArtifactID
+      == plan.verificationPlanArtifactID,
+    verification.provenance.verificationPlanArtifactID
+      == plan.verificationPlanArtifactID,
+    verification.content.criterionIDs == plan.criterionIDs,
+    Set(plan.allowedContributionIDs).isSuperset(of: claimContributionIDs),
+    acceptedContributionIDs.isSuperset(of: claimContributionIDs),
+    Set(plan.allowedObservationIDs).isSuperset(of: evidenceObservationIDs),
+    verification.provenance.taskSHA256 == planArtifact.contentSHA256,
+    verification.provenance.localInputSHA256s == expectedLocalInputs,
+    verification.provenance.modelID == nil || !modelLinks.isEmpty,
+    verification.provenance.providerID == nil || !providerLinks.isEmpty,
+    sourceMaterialSHA256s == Set(expectedLocalInputs)
+  else {
+    throw SharedEpisodeMemoryError.invalidVerification(
+      "Проверка не совпадает с заранее объявленными паспортом, ролью, критериями и планом."
+    )
+  }
+
+  let claimsByID = Dictionary(
+    uniqueKeysWithValues: verification.content.claims.map { ($0.claimID, $0) }
+  )
+  for evidence in verification.content.evidence {
+    guard let claim = claimsByID[evidence.claimID],
+      context.passportObservations[evidence.observationID]?.contributionID
+        == claim.contributionID
+    else {
+      throw SharedEpisodeMemoryError.invalidVerification(
+        "Доказательство не связывает наблюдение с тем же проверяемым вкладом."
+      )
+    }
+  }
+
+  let producerCorrelationGroupIDs = Set(
+    contributions.flatMap { contribution in
+      contribution.provenance.correlationLinks.map(\.groupID)
+    }
+  )
+  guard
+    Set(plan.forbiddenCorrelationGroupIDs).isSuperset(
+      of: producerCorrelationGroupIDs
+    )
+  else {
+    throw SharedEpisodeMemoryError.invalidVerification(
+      "План не объявляет все наблюдаемые группы корреляции производителей."
+    )
+  }
+
+  if verification.content.outcome == .failed {
+    let disagreementKinds = Set(verification.content.disagreements.map(\.kind))
+    guard disagreementKinds.contains(.negativeResult),
+      disagreementKinds.contains(.rejectionReason)
+    else {
+      throw SharedEpisodeMemoryError.invalidVerification(
+        "Исход failed не сохраняет отрицательный результат и причину отклонения."
+      )
+    }
+  }
 }
 
 private func validateContribution(
