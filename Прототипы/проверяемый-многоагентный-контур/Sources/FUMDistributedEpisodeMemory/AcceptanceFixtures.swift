@@ -1,7 +1,5 @@
 import Foundation
 
-@testable import FUMDistributedEpisodeMemory
-
 enum SharedEpisodeSelectionFixture: String, CaseIterable, Sendable {
   case externalEvidence = "external_evidence"
   case assertionVote = "assertion_vote"
@@ -872,13 +870,13 @@ enum SharedEpisodeControlFixtures {
 }
 
 extension SharedEpisodeControlFixtures {
-  fileprivate typealias PreparedTerminal = (
+  typealias PreparedTerminal = (
     generation: SharedEpisodeGeneration,
     terminal: SharedEpisodeTerminalRecord,
     settlement: SharedEpisodeActionSettlement
   )
 
-  fileprivate static let unitBudget = SharedEpisodeBudgetVector(
+  static let unitBudget = SharedEpisodeBudgetVector(
     executors: 1,
     rounds: 1,
     modelCalls: 1,
@@ -906,10 +904,12 @@ extension SharedEpisodeControlFixtures {
     return generation
   }
 
-  fileprivate static func selectionPrefixTrace(
+  static func selectionPrefixTrace(
     controlPlan: SharedEpisodeControlPlan,
     correlatedCopyCount: Int,
-    includeFailedVerification: Bool
+    includeFailedVerification: Bool,
+    includeAdversarialContribution: Bool = false,
+    includeExternalVerification: Bool = true
   ) throws -> [SharedEpisodeGeneration] {
     guard correlatedCopyCount >= 0 else {
       throw SharedEpisodeMemoryError.invalidSelection(
@@ -955,6 +955,45 @@ extension SharedEpisodeControlFixtures {
     )
     generations.append(current)
 
+    if includeAdversarialContribution {
+      let adversarialDraft = try SharedEpisodeMemoryFixtures.contribution(
+        named: .adversarial,
+        parentGenerationSHA256: generationSHA256(current)
+      )
+      let adversarialBudget = try SharedEpisodeControlKernel.meteredUsage(
+        for: adversarialDraft,
+        executors: 1,
+        rounds: 1
+      )
+      let adversarialReservation = reservation(
+        suffix: "setup.contribution.adversarial",
+        parentGenerationSHA256: try generationSHA256(current),
+        phase: .productive,
+        kind: .contribution,
+        reserved: adversarialBudget
+      )
+      current = try SharedEpisodeMemoryReducer.continuation(
+        from: current,
+        control: .actionReserved(adversarialReservation)
+      )
+      generations.append(current)
+      let adversarial = try SharedEpisodeMemoryFixtures.contribution(
+        named: .adversarial,
+        parentGenerationSHA256: generationSHA256(current)
+      )
+      current = try SharedEpisodeMemoryReducer.continuation(
+        from: current,
+        control: .contribution(
+          adversarial,
+          actionSettlement(
+            for: adversarialReservation,
+            actual: adversarialBudget
+          )
+        )
+      )
+      generations.append(current)
+    }
+
     if correlatedCopyCount > 0 {
       for index in 1...correlatedCopyCount {
         let copyDraft = try SharedEpisodeMemoryFixtures.correlatedCopy(
@@ -993,35 +1032,37 @@ extension SharedEpisodeControlFixtures {
       }
     }
 
-    let externalCandidate = try requiredContinuation(
-      "continuation.setup.verification.external",
-      in: controlPlan
-    )
-    let externalReservation = reservation(
-      suffix: "setup.verification.external",
-      parentGenerationSHA256: try generationSHA256(current),
-      phase: .verification,
-      kind: .verification,
-      continuationID: externalCandidate.continuationID,
-      reserved: externalCandidate.budget
-    )
-    current = try SharedEpisodeMemoryReducer.continuation(
-      from: current,
-      control: .actionReserved(externalReservation)
-    )
-    generations.append(current)
-    let externalVerification = try SharedEpisodeMemoryFixtures.verification(
-      named: .externalPassed,
-      parentGenerationSHA256: generationSHA256(current)
-    )
-    current = try SharedEpisodeMemoryReducer.continuation(
-      from: current,
-      control: .verification(
-        externalVerification,
-        actionSettlement(for: externalReservation, actual: externalCandidate.budget)
+    if includeExternalVerification {
+      let externalCandidate = try requiredContinuation(
+        "continuation.setup.verification.external",
+        in: controlPlan
       )
-    )
-    generations.append(current)
+      let externalReservation = reservation(
+        suffix: "setup.verification.external",
+        parentGenerationSHA256: try generationSHA256(current),
+        phase: .verification,
+        kind: .verification,
+        continuationID: externalCandidate.continuationID,
+        reserved: externalCandidate.budget
+      )
+      current = try SharedEpisodeMemoryReducer.continuation(
+        from: current,
+        control: .actionReserved(externalReservation)
+      )
+      generations.append(current)
+      let externalVerification = try SharedEpisodeMemoryFixtures.verification(
+        named: .externalPassed,
+        parentGenerationSHA256: generationSHA256(current)
+      )
+      current = try SharedEpisodeMemoryReducer.continuation(
+        from: current,
+        control: .verification(
+          externalVerification,
+          actionSettlement(for: externalReservation, actual: externalCandidate.budget)
+        )
+      )
+      generations.append(current)
+    }
 
     if includeFailedVerification {
       let failedCandidate = try requiredContinuation(
@@ -1057,7 +1098,7 @@ extension SharedEpisodeControlFixtures {
     return generations
   }
 
-  fileprivate static func selectionSteps(
+  static func selectionSteps(
     named fixture: SharedEpisodeSelectionFixture,
     from prefix: SharedEpisodeGeneration
   ) throws -> [SharedEpisodeGeneration] {
@@ -1087,7 +1128,7 @@ extension SharedEpisodeControlFixtures {
     return [reserved, selected]
   }
 
-  fileprivate static func selectionEvidenceContext(
+  static func selectionEvidenceContext(
     _ generation: SharedEpisodeGeneration
   ) throws -> SharedEpisodeSelectionEvidenceContext {
     guard
@@ -1173,7 +1214,7 @@ extension SharedEpisodeControlFixtures {
     )
   }
 
-  fileprivate static func selectionDecision(
+  static func selectionDecision(
     named fixture: SharedEpisodeSelectionFixture,
     generation: SharedEpisodeGeneration,
     parentGenerationSHA256: String
@@ -1276,7 +1317,7 @@ extension SharedEpisodeControlFixtures {
     )
   }
 
-  fileprivate static func prepareTerminal(
+  static func prepareTerminal(
     from generation: SharedEpisodeGeneration,
     suffix: String,
     outcome: SharedEpisodeTerminalOutcome,
@@ -1338,7 +1379,7 @@ extension SharedEpisodeControlFixtures {
     )
   }
 
-  fileprivate static func applyPreparedTerminal(
+  static func applyPreparedTerminal(
     _ prepared: PreparedTerminal
   ) throws -> SharedEpisodeGeneration {
     try SharedEpisodeMemoryReducer.continuation(
@@ -1347,7 +1388,7 @@ extension SharedEpisodeControlFixtures {
     )
   }
 
-  fileprivate static func requiredModelOnlyCandidate(
+  static func requiredModelOnlyCandidate(
     in plan: SharedEpisodeControlPlan
   ) throws -> SharedEpisodeContinuationCandidate {
     guard
@@ -1362,7 +1403,7 @@ extension SharedEpisodeControlFixtures {
     return candidate
   }
 
-  fileprivate static func requiredContinuation(
+  static func requiredContinuation(
     _ continuationID: String,
     in plan: SharedEpisodeControlPlan
   ) throws -> SharedEpisodeContinuationCandidate {
@@ -1378,7 +1419,7 @@ extension SharedEpisodeControlFixtures {
     return candidate
   }
 
-  fileprivate static let roomyMaximumBudget = SharedEpisodeBudgetVector(
+  static let roomyMaximumBudget = SharedEpisodeBudgetVector(
     executors: 32,
     rounds: 32,
     modelCalls: 64,
@@ -1387,7 +1428,7 @@ extension SharedEpisodeControlFixtures {
     output: 262_144
   )
 
-  fileprivate static let roomyVerificationReserve = SharedEpisodeBudgetVector(
+  static let roomyVerificationReserve = SharedEpisodeBudgetVector(
     executors: 16,
     rounds: 16,
     modelCalls: 32,
@@ -1396,7 +1437,7 @@ extension SharedEpisodeControlFixtures {
     output: 131_072
   )
 
-  fileprivate static let roomyHandoffReserve = SharedEpisodeBudgetVector(
+  static let roomyHandoffReserve = SharedEpisodeBudgetVector(
     executors: 1,
     rounds: 1,
     modelCalls: 1,
@@ -1422,7 +1463,7 @@ extension SharedEpisodeControlFixtures {
     )
   }
 
-  fileprivate static func selectionFixtureContinuations(
+  static func selectionFixtureContinuations(
     includeModelOnly: Bool
   ) throws -> [SharedEpisodeContinuationCandidate] {
     var continuations = [
@@ -1455,7 +1496,7 @@ extension SharedEpisodeControlFixtures {
     return continuations.sorted { $0.continuationID < $1.continuationID }
   }
 
-  fileprivate static func meteredVerificationBudget(
+  static func meteredVerificationBudget(
     named fixture: SharedEpisodeVerificationFixture
   ) throws -> SharedEpisodeBudgetVector {
     let verification = try SharedEpisodeMemoryFixtures.verification(
@@ -1469,7 +1510,7 @@ extension SharedEpisodeControlFixtures {
     )
   }
 
-  fileprivate static func modelOnlyReservation(
+  static func modelOnlyReservation(
     parentGenerationSHA256: String,
     candidate: SharedEpisodeContinuationCandidate,
     suffix: String
@@ -1484,7 +1525,7 @@ extension SharedEpisodeControlFixtures {
     )
   }
 
-  fileprivate static func reservation(
+  static func reservation(
     suffix: String,
     parentGenerationSHA256: String,
     phase: SharedEpisodeActionPhase,
@@ -1507,7 +1548,7 @@ extension SharedEpisodeControlFixtures {
     )
   }
 
-  fileprivate static func actionSettlement(
+  static func actionSettlement(
     for reservation: SharedEpisodeActionReservation,
     actual: SharedEpisodeBudgetVector
   ) -> SharedEpisodeActionSettlement {
@@ -1518,7 +1559,7 @@ extension SharedEpisodeControlFixtures {
     )
   }
 
-  fileprivate static func controlPlan(
+  static func controlPlan(
     maximum: SharedEpisodeBudgetVector,
     verificationReserve: SharedEpisodeBudgetVector,
     handoffReserve: SharedEpisodeBudgetVector,
@@ -1540,7 +1581,7 @@ extension SharedEpisodeControlFixtures {
     )
   }
 
-  fileprivate static func uniformBudget(_ value: Int64) -> SharedEpisodeBudgetVector {
+  static func uniformBudget(_ value: Int64) -> SharedEpisodeBudgetVector {
     SharedEpisodeBudgetVector(
       executors: value,
       rounds: value,
@@ -1551,7 +1592,7 @@ extension SharedEpisodeControlFixtures {
     )
   }
 
-  fileprivate static func replacingBudgetComponent(
+  static func replacingBudgetComponent(
     in budget: SharedEpisodeBudgetVector,
     dimension: SharedEpisodeBudgetDimension,
     with value: Int64
@@ -1566,7 +1607,7 @@ extension SharedEpisodeControlFixtures {
     )
   }
 
-  fileprivate static func identitySettlementBudget(
+  static func identitySettlementBudget(
     for reservation: SharedEpisodeActionReservation
   ) -> SharedEpisodeBudgetVector {
     SharedEpisodeBudgetVector(
@@ -1579,17 +1620,17 @@ extension SharedEpisodeControlFixtures {
     )
   }
 
-  fileprivate static func generationSHA256(
+  static func generationSHA256(
     _ generation: SharedEpisodeGeneration
   ) throws -> String {
     fixtureSHA256(try generation.canonicalJSONData())
   }
 
-  fileprivate static func fixtureSHA256(_ string: String) -> String {
+  static func fixtureSHA256(_ string: String) -> String {
     fixtureSHA256(Data(string.utf8))
   }
 
-  fileprivate static func fixtureSHA256(_ data: Data) -> String {
+  static func fixtureSHA256(_ data: Data) -> String {
     SharedEpisodeEmbeddedArtifact(
       artifactID: "fixture.hash",
       kind: "fixture_hash",

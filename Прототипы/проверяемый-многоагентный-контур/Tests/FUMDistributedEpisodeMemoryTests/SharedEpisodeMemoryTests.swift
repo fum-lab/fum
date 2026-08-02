@@ -4,6 +4,87 @@ import XCTest
 @testable import FUMDistributedEpisodeMemory
 
 final class SharedEpisodeMemoryTests: XCTestCase {
+  func testAcceptanceProbeRunsEveryRecordedScenarioAndStatesItsBoundary() throws {
+    let listed = try runProbe(["acceptance", "--list"])
+    XCTAssertEqual(listed.status, 0, String(decoding: listed.error, as: UTF8.self))
+    XCTAssertEqual(
+      String(decoding: listed.output, as: UTF8.self),
+      "positive_goal_met\nfalse_consensus\nbudget_exhaustion\npending_confirmation\n"
+    )
+
+    let reportProcess = try runProbe([
+      "acceptance", "all", "--repo-root", try repositoryRootURL().path,
+    ])
+    XCTAssertEqual(
+      reportProcess.status,
+      0,
+      String(decoding: reportProcess.error, as: UTF8.self)
+    )
+    let reportData =
+      reportProcess.output.last == 0x0a
+      ? Data(reportProcess.output.dropLast()) : reportProcess.output
+    let report = try XCTUnwrap(
+      JSONSerialization.jsonObject(with: reportData) as? [String: Any]
+    )
+    XCTAssertEqual(report["schema_version"] as? Int, 1)
+    XCTAssertEqual(report["status"] as? String, "passed")
+    XCTAssertEqual(report["live_multi_model_ready"] as? Bool, false)
+    XCTAssertEqual(report["fixture_only"] as? Bool, true)
+    XCTAssertEqual(report["live_model_used"] as? Bool, false)
+    XCTAssertEqual(report["live_tool_used"] as? Bool, false)
+    XCTAssertEqual(report["network_used"] as? Bool, false)
+
+    let scenarios = try XCTUnwrap(report["scenarios"] as? [[String: Any]])
+    XCTAssertEqual(
+      scenarios.compactMap { $0["scenario_id"] as? String },
+      [
+        "positive_goal_met",
+        "false_consensus",
+        "budget_exhaustion",
+        "pending_confirmation",
+      ]
+    )
+    XCTAssertTrue(scenarios.allSatisfy { $0["status"] as? String == "passed" })
+
+    let positive = scenarios[0]
+    XCTAssertEqual(positive["terminal_outcome"] as? String, "goal_met")
+    XCTAssertEqual(positive["canonical_outcomes_equal"] as? Bool, true)
+    XCTAssertGreaterThanOrEqual(
+      positive["process_count"] as? Int ?? 0,
+      4
+    )
+
+    let falseConsensus = scenarios[1]
+    XCTAssertEqual(falseConsensus["terminal_outcome"] as? String, "unresolved_conflict")
+    XCTAssertEqual(falseConsensus["accepted_result"] as? Bool, false)
+    XCTAssertEqual(falseConsensus["correlated_answer_count"] as? Int, 2)
+
+    let exhausted = scenarios[2]
+    XCTAssertEqual(exhausted["terminal_outcome"] as? String, "budget_exhausted")
+    XCTAssertEqual(exhausted["unconfirmed_result_published"] as? Bool, false)
+    XCTAssertNotNil(exhausted["remaining_budget"])
+    XCTAssertNotNil(exhausted["reason_code"])
+
+    let pending = scenarios[3]
+    XCTAssertEqual(pending["transition_phase"] as? String, "awaiting_confirmation")
+    XCTAssertEqual(pending["episode_state"] as? String, "model_selection_preserved")
+    XCTAssertEqual(pending["model_branch_count"] as? Int, 2)
+    XCTAssertEqual(pending["user_confirmed"] as? Bool, false)
+    XCTAssertEqual(pending["internally_selected"] as? Bool, true)
+    XCTAssertNil(pending["terminal_outcome"])
+    XCTAssertNil(pending["reason_code"])
+    XCTAssertTrue(
+      (pending["checks"] as? [String])?.contains("final_state_model_selection_preserved")
+        == true
+    )
+
+    let repeated = try runProbe([
+      "acceptance", "all", "--repo-root", try repositoryRootURL().path,
+    ])
+    XCTAssertEqual(repeated.status, 0, String(decoding: repeated.error, as: UTF8.self))
+    XCTAssertEqual(repeated.output, reportProcess.output)
+  }
+
   func testSeparateProbeProcessesBootstrapContinueAndReplayCurrent() throws {
     let root = try temporaryDirectory()
     let detachedRoot = try temporaryDirectory()
@@ -1038,6 +1119,31 @@ final class SharedEpisodeMemoryTests: XCTestCase {
     Bundle(for: SharedEpisodeMemoryTests.self).bundleURL
       .deletingLastPathComponent()
       .appendingPathComponent("FUMWorkPackageProbe", isDirectory: false)
+  }
+
+  private func repositoryRootURL() throws -> URL {
+    var candidate = URL(
+      fileURLWithPath: FileManager.default.currentDirectoryPath,
+      isDirectory: true
+    ).standardizedFileURL
+    for _ in 0..<12 {
+      let agents = candidate.appendingPathComponent("AGENTS.md", isDirectory: false)
+      let package = candidate.appendingPathComponent(
+        "Прототипы/проверяемый-многоагентный-контур/Package.swift",
+        isDirectory: false
+      )
+      if FileManager.default.fileExists(atPath: agents.path),
+        FileManager.default.fileExists(atPath: package.path)
+      {
+        return candidate
+      }
+      let parent = candidate.deletingLastPathComponent()
+      if parent.path == candidate.path { break }
+      candidate = parent
+    }
+    throw SharedEpisodeMemoryError.generationStore(
+      "Корень репозитория не найден от текущего рабочего каталога."
+    )
   }
 
   private func runProbe(

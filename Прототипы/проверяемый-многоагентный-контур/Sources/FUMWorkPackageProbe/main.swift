@@ -6,7 +6,7 @@ import Foundation
 private func printUsage() {
   print(
     """
-    Использование: FUMWorkPackageProbe [fixture [имя] | stdin | --list | episode <команда> | memory <команда> | --help]
+    Использование: FUMWorkPackageProbe [fixture [имя] | stdin | --list | episode <команда> | memory <команда> | acceptance <команда> | --help]
 
     Без аргументов анализирует положительную фикстуру ready.
     fixture [имя] анализирует встроенную фикстуру; без имени выбирается ready.
@@ -22,9 +22,55 @@ private func printUsage() {
     memory verify <каталог> <фикстура> добавляет проверку через резервацию и settlement.
     memory show <каталог> повторно проигрывает и печатает CURRENT.
 
+    acceptance --list печатает имена автономных приёмочных сценариев.
+    acceptance all --repo-root <каталог> запускает все сценарии без сети и секретов.
+
     Код завершения: 0 для ready/valid и успешной команды памяти, 3 для split_required/invalid или отказа памяти, 2 для синтаксической ошибки команды.
     """
   )
+}
+
+private func runAcceptanceCommand(_ arguments: [String]) -> Never {
+  if arguments == ["--list"] {
+    print(DistributedEpisodeAcceptance.scenarioIdentifiers.joined(separator: "\n"))
+    exit(0)
+  }
+
+  if arguments.count == 3,
+    arguments[0] == "all",
+    arguments[1] == "--repo-root"
+  {
+    do {
+      let report = try DistributedEpisodeAcceptance.runAll(
+        repositoryRoot: URL(fileURLWithPath: arguments[2], isDirectory: true),
+        probeExecutable: URL(
+          fileURLWithPath: CommandLine.arguments[0],
+          isDirectory: false
+        ).standardizedFileURL
+      )
+      writeLine(try report.canonicalJSONData(), to: .standardOutput)
+      exit(0)
+    } catch {
+      fputs("\(error)\n", stderr)
+      exit(3)
+    }
+  }
+
+  if arguments.count == 3, arguments[0] == "__stage" {
+    do {
+      try DistributedEpisodeAcceptance.runStage(
+        named: arguments[1],
+        storeRoot: URL(fileURLWithPath: arguments[2], isDirectory: true)
+      )
+      exit(0)
+    } catch {
+      fputs("\(error)\n", stderr)
+      exit(3)
+    }
+  }
+
+  fputs("Неизвестная команда автономной приёмки. Используйте --help.\n", stderr)
+  exit(2)
 }
 
 private func runMemoryCommand(_ arguments: [String]) -> Never {
@@ -231,6 +277,9 @@ private func runEpisodeCommand(_ arguments: [String]) -> Never {
 }
 
 let arguments = Array(CommandLine.arguments.dropFirst())
+if arguments.first == "acceptance" {
+  runAcceptanceCommand(Array(arguments.dropFirst()))
+}
 if arguments.first == "memory" {
   runMemoryCommand(Array(arguments.dropFirst()))
 }
