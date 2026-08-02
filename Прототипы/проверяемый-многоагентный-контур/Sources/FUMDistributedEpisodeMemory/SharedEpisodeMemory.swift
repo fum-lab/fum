@@ -230,6 +230,8 @@ public struct SharedEpisodeContributionOrigin:
 public struct SharedEpisodeContribution:
   SharedEpisodeCanonicalValue, Equatable, Sendable
 {
+  public static let currentSchemaVersion = 2
+
   public let schemaVersion: Int
   public let contributionID: String
   public let parentGenerationSHA256: String
@@ -237,6 +239,7 @@ public struct SharedEpisodeContribution:
   public let contentSHA256: String
   public let content: SharedEpisodeContributionContent
   public let origin: SharedEpisodeContributionOrigin
+  public let provenance: SharedEpisodeContributionProvenance
 
   enum CodingKeys: String, CodingKey {
     case schemaVersion = "schema_version"
@@ -246,16 +249,18 @@ public struct SharedEpisodeContribution:
     case contentSHA256 = "content_sha256"
     case content
     case origin
+    case provenance
   }
 
   public init(
-    schemaVersion: Int = 1,
+    schemaVersion: Int = SharedEpisodeContribution.currentSchemaVersion,
     contributionID: String,
     parentGenerationSHA256: String,
     contributor: SharedEpisodeContributor,
     contentSHA256: String,
     content: SharedEpisodeContributionContent,
-    origin: SharedEpisodeContributionOrigin
+    origin: SharedEpisodeContributionOrigin,
+    provenance: SharedEpisodeContributionProvenance
   ) {
     self.schemaVersion = schemaVersion
     self.contributionID = contributionID
@@ -264,6 +269,7 @@ public struct SharedEpisodeContribution:
     self.contentSHA256 = contentSHA256
     self.content = content
     self.origin = origin
+    self.provenance = provenance
   }
 
   public static func decodeCanonical(_ data: Data) throws -> Self {
@@ -274,6 +280,8 @@ public struct SharedEpisodeContribution:
 public struct SharedEpisodeJournalEntry:
   SharedEpisodeCanonicalValue, Equatable, Sendable
 {
+  public static let currentSchemaVersion = 2
+
   public let schemaVersion: Int
   public let ordinal: Int
   public let contributionSHA256: String
@@ -287,7 +295,7 @@ public struct SharedEpisodeJournalEntry:
   }
 
   public init(
-    schemaVersion: Int = 1,
+    schemaVersion: Int = SharedEpisodeJournalEntry.currentSchemaVersion,
     ordinal: Int,
     contributionSHA256: String,
     contribution: SharedEpisodeContribution
@@ -302,6 +310,8 @@ public struct SharedEpisodeJournalEntry:
 public struct SharedEpisodeEventJournal:
   SharedEpisodeCanonicalValue, Equatable, Sendable
 {
+  public static let currentSchemaVersion = 2
+
   public let schemaVersion: Int
   public let episodeID: String
   public let entries: [SharedEpisodeJournalEntry]
@@ -313,7 +323,7 @@ public struct SharedEpisodeEventJournal:
   }
 
   public init(
-    schemaVersion: Int = 1,
+    schemaVersion: Int = SharedEpisodeEventJournal.currentSchemaVersion,
     episodeID: String,
     entries: [SharedEpisodeJournalEntry]
   ) {
@@ -326,11 +336,14 @@ public struct SharedEpisodeEventJournal:
 public struct SharedEpisodeState:
   SharedEpisodeCanonicalValue, Equatable, Sendable
 {
+  public static let currentSchemaVersion = 2
+
   public let schemaVersion: Int
   public let episodeID: String
   public let passportSHA256: String
   public let artifactManifestSHA256: String
   public let contributions: [SharedEpisodeContribution]
+  public let provenanceReport: SharedEpisodeProvenanceReport
 
   enum CodingKeys: String, CodingKey {
     case schemaVersion = "schema_version"
@@ -338,20 +351,23 @@ public struct SharedEpisodeState:
     case passportSHA256 = "passport_sha256"
     case artifactManifestSHA256 = "artifact_manifest_sha256"
     case contributions
+    case provenanceReport = "provenance_report"
   }
 
   public init(
-    schemaVersion: Int = 1,
+    schemaVersion: Int = SharedEpisodeState.currentSchemaVersion,
     episodeID: String,
     passportSHA256: String,
     artifactManifestSHA256: String,
-    contributions: [SharedEpisodeContribution]
+    contributions: [SharedEpisodeContribution],
+    provenanceReport: SharedEpisodeProvenanceReport
   ) {
     self.schemaVersion = schemaVersion
     self.episodeID = episodeID
     self.passportSHA256 = passportSHA256
     self.artifactManifestSHA256 = artifactManifestSHA256
     self.contributions = contributions
+    self.provenanceReport = provenanceReport
   }
 
   public static func decodeCanonical(_ data: Data) throws -> Self {
@@ -394,7 +410,7 @@ public struct SharedEpisodeGenerationProvenance:
 public struct SharedEpisodeGeneration:
   SharedEpisodeCanonicalValue, Equatable, Sendable
 {
-  public static let currentSchemaVersion = 1
+  public static let currentSchemaVersion = 2
 
   public let schemaVersion: Int
   public let canonicalProfile: String
@@ -454,6 +470,19 @@ public struct SharedEpisodeGeneration:
 
   public static func decodeCanonical(_ data: Data) throws -> Self {
     do {
+      try CanonicalMemoryJSON.requireCanonical(data)
+      guard let root = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+        let schemaVersion = root["schema_version"] as? Int
+      else {
+        throw SharedEpisodeMemoryError.corruptGeneration(
+          "Поколение не содержит точную версию схемы."
+        )
+      }
+      guard schemaVersion == currentSchemaVersion else {
+        throw SharedEpisodeMemoryError.incompatibleGeneration(
+          "Поколение имеет версию схемы \(schemaVersion), ожидается \(currentSchemaVersion)."
+        )
+      }
       let generation = try decodeExactCanonical(
         Self.self,
         data: data,
@@ -503,7 +532,7 @@ public struct StoredSharedEpisodeGeneration:
 }
 
 public enum SharedEpisodeMemoryReducer {
-  public static let version = "fum.shared-episode-memory.reducer.v1"
+  public static let version = "fum.shared-episode-memory.reducer.v2"
   public static let maximumContributions = 256
 
   public static func foundation(
@@ -531,7 +560,7 @@ public enum SharedEpisodeMemoryReducer {
     }
     guard previous.eventJournal.entries.count < maximumContributions else {
       throw SharedEpisodeMemoryError.invalidContribution(
-        "Журнал достиг предельного числа вкладов версии 1."
+        "Журнал достиг предельного числа вкладов версии 2."
       )
     }
 
@@ -558,7 +587,7 @@ public enum SharedEpisodeMemoryReducer {
   public static func validate(_ generation: SharedEpisodeGeneration) throws {
     guard generation.schemaVersion == SharedEpisodeGeneration.currentSchemaVersion else {
       throw SharedEpisodeMemoryError.incompatibleGeneration(
-        "Поддерживается только схема поколения версии 1."
+        "Поддерживается только схема поколения версии 2."
       )
     }
     guard generation.canonicalProfile == CanonicalMemoryJSON.profileID else {
@@ -598,7 +627,7 @@ public enum SharedEpisodeMemoryReducer {
     journal: SharedEpisodeEventJournal
   ) throws -> (state: SharedEpisodeState, generation: SharedEpisodeGeneration) {
     let context = try validateSharedEpisodeSeed(seed)
-    guard journal.schemaVersion == 1,
+    guard journal.schemaVersion == SharedEpisodeEventJournal.currentSchemaVersion,
       journal.episodeID == seed.episodeID,
       journal.entries.count <= maximumContributions
     else {
@@ -611,7 +640,8 @@ public enum SharedEpisodeMemoryReducer {
       episodeID: seed.episodeID,
       passportSHA256: seed.passportSHA256,
       artifactManifestSHA256: seed.artifactManifestSHA256,
-      contributions: []
+      contributions: [],
+      provenanceReport: try SharedEpisodeProvenanceValidator.analyze([])
     )
     var prefixJournal = SharedEpisodeEventJournal(
       episodeID: seed.episodeID,
@@ -628,7 +658,9 @@ public enum SharedEpisodeMemoryReducer {
     var contributionIDs = Set<String>()
 
     for (index, entry) in journal.entries.enumerated() {
-      guard entry.schemaVersion == 1, entry.ordinal == index + 1 else {
+      guard entry.schemaVersion == SharedEpisodeJournalEntry.currentSchemaVersion,
+        entry.ordinal == index + 1
+      else {
         throw SharedEpisodeMemoryError.corruptGeneration(
           "Журнал содержит разрыв или неподдерживаемую запись."
         )
@@ -643,7 +675,11 @@ public enum SharedEpisodeMemoryReducer {
           "Хэш или идентификатор записи журнала не согласован."
         )
       }
-      try validateContribution(contribution, context: context)
+      try validateContribution(
+        contribution,
+        context: context,
+        priorProvenances: state.contributions.map(\.provenance)
+      )
 
       let expectedParentSHA256 = CanonicalMemoryJSON.sha256(
         try generation.canonicalJSONData()
@@ -658,11 +694,15 @@ public enum SharedEpisodeMemoryReducer {
         episodeID: seed.episodeID,
         entries: prefixJournal.entries + [entry]
       )
+      let contributions = state.contributions + [contribution]
       state = SharedEpisodeState(
         episodeID: seed.episodeID,
         passportSHA256: seed.passportSHA256,
         artifactManifestSHA256: seed.artifactManifestSHA256,
-        contributions: state.contributions + [contribution]
+        contributions: contributions,
+        provenanceReport: try SharedEpisodeProvenanceValidator.analyze(
+          contributions.map(\.provenance)
+        )
       )
       generation = try makeGeneration(
         seed: seed,
@@ -903,6 +943,9 @@ public enum SharedEpisodeMemoryFixtures {
     let contributionContentSHA256 = CanonicalMemoryJSON.sha256(
       try fixtureContributionContent().canonicalJSONData()
     )
+    let instrumentObservationSHA256 = CanonicalMemoryJSON.sha256(
+      try fixtureInstrumentObservation().canonicalJSONData()
+    )
     let passport = try fixturePassport(
       source: EpisodePassportFixtures.load(named: "valid"),
       artifactSHA256ByID: [
@@ -912,6 +955,7 @@ public enum SharedEpisodeMemoryFixtures {
         adversarialManifestArtifact.artifactID: adversarialManifestArtifact.contentSHA256,
         "contribution.primary": contributionContentSHA256,
         "contribution.adversarial": contributionContentSHA256,
+        "observation.compiler": instrumentObservationSHA256,
       ]
     )
     let passportReport = EpisodePassportPreflight.analyze(passport)
@@ -977,6 +1021,10 @@ public enum SharedEpisodeMemoryFixtures {
     let manifestID: String
     let contributionID: String
     let hypothesisID: String
+    let executorID: String
+    let modelID: String
+    let modelCorrelationID: String
+    let observation: SharedEpisodeInstrumentObservation?
     switch fixture {
     case .primary:
       roleID = "producer.primary"
@@ -984,17 +1032,46 @@ public enum SharedEpisodeMemoryFixtures {
       manifestID = "manifest.primary"
       contributionID = "contribution.primary"
       hypothesisID = "hypothesis.primary"
+      executorID = "executor.primary"
+      modelID = "model.fixture.primary"
+      modelCorrelationID = "correlation.model.primary"
+      observation = fixtureInstrumentObservation()
     case .adversarial:
       roleID = "producer.adversarial"
       packageID = "package.adversarial"
       manifestID = "manifest.adversarial"
       contributionID = "contribution.adversarial"
       hypothesisID = "hypothesis.adversarial"
+      executorID = "executor.adversarial"
+      modelID = "model.fixture.adversarial"
+      modelCorrelationID = "correlation.model.adversarial"
+      observation = nil
     }
+    let seed = try seed()
+    let artifactsByID = Dictionary(
+      uniqueKeysWithValues: seed.artifacts.map { ($0.artifactID, $0) }
+    )
+    guard let packageArtifact = artifactsByID[packageID],
+      let inputArtifact = artifactsByID["input.requirements"]
+    else {
+      throw SharedEpisodeMemoryError.invalidSeed(
+        "Фикстура вклада не нашла свои хэшированные рабочие входы."
+      )
+    }
+    let providerID = "provider.fixture"
+    let modelBasisSHA256 = CanonicalMemoryJSON.sha256(
+      Data("\(providerID):\(modelID)".utf8)
+    )
+    let providerBasisSHA256 = CanonicalMemoryJSON.sha256(Data(providerID.utf8))
+    let systemTemplateSHA256 = CanonicalMemoryJSON.sha256(
+      Data("fixture-system-template-v1".utf8)
+    )
+    let observations = observation.map { [$0] } ?? []
+    let derivedObservationIDs = observation.map { [$0.observationID] } ?? []
     return SharedEpisodeContribution(
       contributionID: contributionID,
       parentGenerationSHA256: parentGenerationSHA256,
-      contributor: SharedEpisodeContributor(kind: .role, identifier: roleID),
+      contributor: SharedEpisodeContributor(kind: .author, identifier: executorID),
       contentSHA256: contentSHA256,
       content: content,
       origin: SharedEpisodeContributionOrigin(
@@ -1003,6 +1080,46 @@ public enum SharedEpisodeMemoryFixtures {
         inputManifestArtifactID: manifestID,
         contributionArtifactID: contributionID,
         hypothesisIDs: [hypothesisID]
+      ),
+      provenance: SharedEpisodeContributionProvenance(
+        contributionID: contributionID,
+        executorID: executorID,
+        roleID: roleID,
+        workPackageArtifactID: packageID,
+        modelID: modelID,
+        providerID: providerID,
+        taskSHA256: packageArtifact.contentSHA256,
+        localInputSHA256s: [inputArtifact.contentSHA256],
+        parentGenerationSHA256: parentGenerationSHA256,
+        resultSHA256: contentSHA256,
+        correlationLinks: [
+          SharedEpisodeCorrelationLink(
+            groupID: modelCorrelationID,
+            kind: .model,
+            basisSHA256: modelBasisSHA256,
+            sourceContributionID: nil
+          ),
+          SharedEpisodeCorrelationLink(
+            groupID: "correlation.provider.fixture",
+            kind: .provider,
+            basisSHA256: providerBasisSHA256,
+            sourceContributionID: nil
+          ),
+          SharedEpisodeCorrelationLink(
+            groupID: "correlation.source.requirements",
+            kind: .sourceMaterial,
+            basisSHA256: inputArtifact.contentSHA256,
+            sourceContributionID: nil
+          ),
+          SharedEpisodeCorrelationLink(
+            groupID: "correlation.template.fixture",
+            kind: .systemTemplate,
+            basisSHA256: systemTemplateSHA256,
+            sourceContributionID: nil
+          ),
+        ],
+        instrumentObservations: observations,
+        derivedFromObservationIDs: derivedObservationIDs
       )
     )
   }
@@ -1028,6 +1145,17 @@ public enum SharedEpisodeMemoryFixtures {
     SharedEpisodeContributionContent(
       mediaType: "text/plain;charset=utf-8",
       body: "Одинаковое наблюдаемое содержание двух различимых вкладов."
+    )
+  }
+
+  private static func fixtureInstrumentObservation() -> SharedEpisodeInstrumentObservation {
+    SharedEpisodeInstrumentObservation(
+      observationID: "observation.compiler",
+      sourceAuthority: .localTool,
+      callID: "call.fixture.primary.1",
+      inputSHA256: CanonicalMemoryJSON.sha256(Data("fixture-tool-input".utf8)),
+      resultSHA256: CanonicalMemoryJSON.sha256(Data("fixture-tool-result".utf8)),
+      observedAtSeconds: 1_780_000_002
     )
   }
 
@@ -1159,6 +1287,11 @@ private struct SharedEpisodePassportArtifactDeclaration {
   let sha256: String
 }
 
+private struct SharedEpisodePassportObservation {
+  let artifactID: String
+  let contributionID: String
+}
+
 private struct SharedEpisodeInputBinding: Hashable {
   let artifactID: String
   let logicalPath: String
@@ -1168,12 +1301,16 @@ private struct SharedEpisodeInputBinding: Hashable {
 private struct SharedEpisodePassportIndex {
   let artifacts: [String: SharedEpisodePassportArtifactDeclaration]
   let contributions: [String: SharedEpisodePassportContribution]
+  let observations: [String: SharedEpisodePassportObservation]
 }
 
 private struct SharedEpisodeSeedContext {
   let artifactsByID: [String: SharedEpisodeEmbeddedArtifact]
   let passportArtifacts: [String: SharedEpisodePassportArtifactDeclaration]
   let passportContributions: [String: SharedEpisodePassportContribution]
+  let passportObservations: [String: SharedEpisodePassportObservation]
+  let packageInputsByID: [String: Set<SharedEpisodeInputBinding>]
+  let manifestInputsByID: [String: Set<SharedEpisodeInputBinding>]
 }
 
 private func validateSharedEpisodeSeed(
@@ -1346,7 +1483,10 @@ private func validateSharedEpisodeSeed(
   return SharedEpisodeSeedContext(
     artifactsByID: artifactsByID,
     passportArtifacts: passportIndex.artifacts,
-    passportContributions: passportIndex.contributions
+    passportContributions: passportIndex.contributions,
+    passportObservations: passportIndex.observations,
+    packageInputsByID: packageInputsByID,
+    manifestInputsByID: manifestInputsByID
   )
 }
 
@@ -1458,7 +1598,8 @@ private func sharedEpisodePassportIndex(
 ) throws -> SharedEpisodePassportIndex {
   guard let root = try JSONSerialization.jsonObject(with: data) as? [String: Any],
     let artifacts = root["artifacts"] as? [[String: Any]],
-    let contributions = root["contributions"] as? [[String: Any]]
+    let contributions = root["contributions"] as? [[String: Any]],
+    let observations = root["observations"] as? [[String: Any]]
   else {
     throw SharedEpisodeMemoryError.invalidSeed(
       "Паспорт не содержит реестры артефактов и вкладов."
@@ -1510,17 +1651,38 @@ private func sharedEpisodePassportIndex(
       hypothesisIDs: hypothesisIDs
     )
   }
+  var observationIndex: [String: SharedEpisodePassportObservation] = [:]
+  for value in observations {
+    guard let observationID = value["observation_id"] as? String,
+      let artifactID = value["artifact_id"] as? String,
+      let contributionID = value["contribution_id"] as? String,
+      isSharedEpisodeIdentifier(observationID),
+      observationIndex[observationID] == nil,
+      artifactIndex[artifactID]?.kind == "observation",
+      contributionIndex[contributionID] != nil
+    else {
+      throw SharedEpisodeMemoryError.invalidSeed(
+        "Паспорт содержит неоднозначное инструментальное наблюдение."
+      )
+    }
+    observationIndex[observationID] = SharedEpisodePassportObservation(
+      artifactID: artifactID,
+      contributionID: contributionID
+    )
+  }
   return SharedEpisodePassportIndex(
     artifacts: artifactIndex,
-    contributions: contributionIndex
+    contributions: contributionIndex,
+    observations: observationIndex
   )
 }
 
 private func validateContribution(
   _ contribution: SharedEpisodeContribution,
-  context: SharedEpisodeSeedContext
+  context: SharedEpisodeSeedContext,
+  priorProvenances: [SharedEpisodeContributionProvenance]
 ) throws {
-  guard contribution.schemaVersion == 1,
+  guard contribution.schemaVersion == SharedEpisodeContribution.currentSchemaVersion,
     isSharedEpisodeIdentifier(contribution.contributionID),
     isSharedEpisodeSHA256(contribution.parentGenerationSHA256),
     isSharedEpisodeIdentifier(contribution.contributor.identifier),
@@ -1547,6 +1709,9 @@ private func validateContribution(
       "Вклад нарушает схему, хэши, ограничения или точность происхождения."
     )
   }
+  _ = try SharedEpisodeProvenanceValidator.analyze(
+    priorProvenances + [contribution.provenance]
+  )
   guard let declared = context.passportContributions[contribution.contributionID],
     declared.roleID == contribution.origin.roleID,
     declared.workPackageArtifactID == contribution.origin.workPackageArtifactID,
@@ -1576,18 +1741,70 @@ private func validateContribution(
       contribution.origin.inputManifestArtifactID
     ],
     manifestArtifact.kind == manifestDeclaration.kind,
-    manifestArtifact.contentSHA256 == manifestDeclaration.sha256
+    manifestArtifact.contentSHA256 == manifestDeclaration.sha256,
+    let packageInputs = context.packageInputsByID[
+      contribution.origin.workPackageArtifactID
+    ],
+    let manifestInputs = context.manifestInputsByID[
+      contribution.origin.inputManifestArtifactID
+    ],
+    packageInputs == manifestInputs,
+    contribution.provenance.contributionID == contribution.contributionID,
+    contribution.provenance.roleID == contribution.origin.roleID,
+    contribution.provenance.workPackageArtifactID
+      == contribution.origin.workPackageArtifactID,
+    contribution.provenance.taskSHA256 == packageArtifact.contentSHA256,
+    contribution.provenance.localInputSHA256s
+      == packageInputs.map(\.sha256).sorted(),
+    contribution.provenance.parentGenerationSHA256
+      == contribution.parentGenerationSHA256,
+    contribution.provenance.resultSHA256 == contribution.contentSHA256,
+    Set(
+      contribution.provenance.correlationLinks
+        .filter { $0.kind == .sourceMaterial }
+        .map(\.basisSHA256)
+    ) == Set(packageInputs.map(\.sha256))
   else {
     throw SharedEpisodeMemoryError.invalidContribution(
       "Происхождение вклада не совпадает с паспортом и встроенным рабочим пакетом."
     )
   }
-  if contribution.contributor.kind == .role {
-    guard contribution.contributor.identifier == contribution.origin.roleID else {
+  let declaredObservationIDs = Set(
+    context.passportObservations.compactMap { entry in
+      entry.value.contributionID == contribution.contributionID ? entry.key : nil
+    }
+  )
+  guard
+    declaredObservationIDs
+      == Set(contribution.provenance.instrumentObservations.map(\.observationID))
+  else {
+    throw SharedEpisodeMemoryError.invalidContribution(
+      "Набор инструментальных наблюдений вклада не совпадает с паспортом."
+    )
+  }
+  for observation in contribution.provenance.instrumentObservations {
+    guard
+      let declaredObservation = context.passportObservations[
+        observation.observationID
+      ],
+      let artifactDeclaration = context.passportArtifacts[
+        declaredObservation.artifactID
+      ],
+      artifactDeclaration.kind == "observation",
+      artifactDeclaration.sha256
+        == CanonicalMemoryJSON.sha256(try observation.canonicalJSONData())
+    else {
       throw SharedEpisodeMemoryError.invalidContribution(
-        "Идентичность роли расходится с происхождением вклада."
+        "Инструментальное наблюдение не закреплено точным паспортным SHA-256."
       )
     }
+  }
+  guard contribution.contributor.kind == .author,
+    contribution.contributor.identifier == contribution.provenance.executorID
+  else {
+    throw SharedEpisodeMemoryError.invalidContribution(
+      "Исполнитель вклада не связан с его происхождением."
+    )
   }
 }
 

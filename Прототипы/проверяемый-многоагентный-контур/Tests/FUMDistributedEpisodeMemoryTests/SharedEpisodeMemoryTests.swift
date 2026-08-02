@@ -70,6 +70,59 @@ final class SharedEpisodeMemoryTests: XCTestCase {
     XCTAssertEqual(try replayed.canonicalJSONData(), try resumed.state.canonicalJSONData())
   }
 
+  func testGenerationRoundTripPreservesContributionProvenanceAndCorrelationReport() throws {
+    let seed = try SharedEpisodeMemoryFixtures.seed()
+    let foundation = try SharedEpisodeMemoryReducer.foundation(seed: seed)
+    let foundationSHA256 = contentSHA256(try foundation.canonicalJSONData())
+    let contribution = try SharedEpisodeMemoryFixtures.contribution(
+      named: .primary,
+      parentGenerationSHA256: foundationSHA256
+    )
+    let continued = try SharedEpisodeMemoryReducer.continuation(
+      from: foundation,
+      contribution: contribution
+    )
+
+    let decoded = try SharedEpisodeGeneration.decodeCanonical(
+      continued.canonicalJSONData()
+    )
+    let journalProvenance = try XCTUnwrap(
+      decoded.eventJournal.entries.first?.contribution.provenance
+    )
+    let stateProvenance = try XCTUnwrap(decoded.state.contributions.first?.provenance)
+
+    XCTAssertEqual(journalProvenance, contribution.provenance)
+    XCTAssertEqual(stateProvenance, contribution.provenance)
+    XCTAssertEqual(journalProvenance.correlationLinks.count, 4)
+    XCTAssertEqual(journalProvenance.instrumentObservations.count, 1)
+    XCTAssertEqual(
+      journalProvenance.derivedFromObservationIDs,
+      journalProvenance.instrumentObservations.map(\.observationID)
+    )
+    XCTAssertEqual(
+      decoded.state.provenanceReport.statusesByContributionID[contribution.contributionID],
+      .independentByObservedFeatures
+    )
+    XCTAssertEqual(decoded.state.provenanceReport.independentConfirmationCount, 1)
+    XCTAssertFalse(decoded.state.provenanceReport.semanticIndependenceProven)
+  }
+
+  func testEarlierGenerationSchemaIsClassifiedAsIncompatible() throws {
+    let generation = try SharedEpisodeMemoryReducer.foundation(
+      seed: SharedEpisodeMemoryFixtures.seed()
+    )
+    var root = try jsonObject(data: generation.canonicalJSONData())
+    root["schema_version"] = 1
+
+    XCTAssertThrowsError(
+      try SharedEpisodeGeneration.decodeCanonical(canonicalJSONObject(root))
+    ) { error in
+      guard case SharedEpisodeMemoryError.incompatibleGeneration = error else {
+        return XCTFail("Unexpected error: \(error)")
+      }
+    }
+  }
+
   func testFixtureBindsPassportPackageManifestAndContributionHashes() throws {
     let seed = try SharedEpisodeMemoryFixtures.seed()
     let artifacts = Dictionary(uniqueKeysWithValues: seed.artifacts.map { ($0.artifactID, $0) })
@@ -444,6 +497,45 @@ final class SharedEpisodeMemoryTests: XCTestCase {
       mediaType: valid.content.mediaType,
       body: "Иное самосогласованное содержание не совпадает с паспортной декларацией."
     )
+    let observation = try XCTUnwrap(valid.provenance.instrumentObservations.first)
+    let detachedObservation = SharedEpisodeInstrumentObservation(
+      observationID: observation.observationID,
+      sourceAuthority: observation.sourceAuthority,
+      callID: observation.callID,
+      inputSHA256: observation.inputSHA256,
+      resultSHA256: "sha256:" + String(repeating: "e", count: 64),
+      observedAtSeconds: observation.observedAtSeconds
+    )
+    let detachedObservationProvenance = SharedEpisodeContributionProvenance(
+      contributionID: valid.provenance.contributionID,
+      executorID: valid.provenance.executorID,
+      roleID: valid.provenance.roleID,
+      workPackageArtifactID: valid.provenance.workPackageArtifactID,
+      modelID: valid.provenance.modelID,
+      providerID: valid.provenance.providerID,
+      taskSHA256: valid.provenance.taskSHA256,
+      localInputSHA256s: valid.provenance.localInputSHA256s,
+      parentGenerationSHA256: valid.provenance.parentGenerationSHA256,
+      resultSHA256: valid.provenance.resultSHA256,
+      correlationLinks: valid.provenance.correlationLinks,
+      instrumentObservations: [detachedObservation],
+      derivedFromObservationIDs: [detachedObservation.observationID]
+    )
+    let detachedExecutorProvenance = SharedEpisodeContributionProvenance(
+      contributionID: valid.provenance.contributionID,
+      executorID: "executor.detached",
+      roleID: valid.provenance.roleID,
+      workPackageArtifactID: valid.provenance.workPackageArtifactID,
+      modelID: valid.provenance.modelID,
+      providerID: valid.provenance.providerID,
+      taskSHA256: valid.provenance.taskSHA256,
+      localInputSHA256s: valid.provenance.localInputSHA256s,
+      parentGenerationSHA256: valid.provenance.parentGenerationSHA256,
+      resultSHA256: valid.provenance.resultSHA256,
+      correlationLinks: valid.provenance.correlationLinks,
+      instrumentObservations: valid.provenance.instrumentObservations,
+      derivedFromObservationIDs: valid.provenance.derivedFromObservationIDs
+    )
     let invalid = [
       SharedEpisodeContribution(
         contributionID: valid.contributionID,
@@ -451,7 +543,8 @@ final class SharedEpisodeMemoryTests: XCTestCase {
         contributor: SharedEpisodeContributor(kind: .role, identifier: "producer.detached"),
         contentSHA256: valid.contentSHA256,
         content: valid.content,
-        origin: valid.origin
+        origin: valid.origin,
+        provenance: valid.provenance
       ),
       SharedEpisodeContribution(
         contributionID: valid.contributionID,
@@ -459,7 +552,8 @@ final class SharedEpisodeMemoryTests: XCTestCase {
         contributor: valid.contributor,
         contentSHA256: valid.contentSHA256,
         content: valid.content,
-        origin: valid.origin
+        origin: valid.origin,
+        provenance: valid.provenance
       ),
       SharedEpisodeContribution(
         contributionID: valid.contributionID,
@@ -467,7 +561,8 @@ final class SharedEpisodeMemoryTests: XCTestCase {
         contributor: valid.contributor,
         contentSHA256: "sha256:" + String(repeating: "d", count: 64),
         content: valid.content,
-        origin: valid.origin
+        origin: valid.origin,
+        provenance: valid.provenance
       ),
       SharedEpisodeContribution(
         contributionID: valid.contributionID,
@@ -475,7 +570,8 @@ final class SharedEpisodeMemoryTests: XCTestCase {
         contributor: valid.contributor,
         contentSHA256: contentSHA256(try detachedContent.canonicalJSONData()),
         content: detachedContent,
-        origin: valid.origin
+        origin: valid.origin,
+        provenance: valid.provenance
       ),
       SharedEpisodeContribution(
         contributionID: valid.contributionID,
@@ -489,7 +585,26 @@ final class SharedEpisodeMemoryTests: XCTestCase {
           inputManifestArtifactID: "manifest.detached",
           contributionArtifactID: valid.origin.contributionArtifactID,
           hypothesisIDs: valid.origin.hypothesisIDs
-        )
+        ),
+        provenance: valid.provenance
+      ),
+      SharedEpisodeContribution(
+        contributionID: valid.contributionID,
+        parentGenerationSHA256: valid.parentGenerationSHA256,
+        contributor: valid.contributor,
+        contentSHA256: valid.contentSHA256,
+        content: valid.content,
+        origin: valid.origin,
+        provenance: detachedObservationProvenance
+      ),
+      SharedEpisodeContribution(
+        contributionID: valid.contributionID,
+        parentGenerationSHA256: valid.parentGenerationSHA256,
+        contributor: valid.contributor,
+        contentSHA256: valid.contentSHA256,
+        content: valid.content,
+        origin: valid.origin,
+        provenance: detachedExecutorProvenance
       ),
     ]
 
@@ -610,6 +725,18 @@ final class SharedEpisodeMemoryTests: XCTestCase {
       afterAdversarial.state.contributions[0].origin,
       afterAdversarial.state.contributions[1].origin
     )
+    XCTAssertEqual(
+      afterAdversarial.state.provenanceReport.statusesByContributionID[primary.contributionID],
+      .correlated
+    )
+    XCTAssertEqual(
+      afterAdversarial.state.provenanceReport.statusesByContributionID[
+        adversarial.contributionID
+      ],
+      .correlated
+    )
+    XCTAssertEqual(afterAdversarial.state.provenanceReport.independentConfirmationCount, 1)
+    XCTAssertFalse(afterAdversarial.state.provenanceReport.semanticIndependenceProven)
   }
 
   private func temporaryDirectory() throws -> URL {
