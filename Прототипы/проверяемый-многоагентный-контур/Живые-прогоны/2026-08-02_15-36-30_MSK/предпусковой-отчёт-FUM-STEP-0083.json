@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "package_id": "fum.live-run.2026-08-02.resume-once.v1",
+  "contract_sha256": "sha256:384c7a950a25bab9c18b1f2fafd381f144e93b3dbd85aafce492d0f6b87ab62b",
+  "decision": "ready",
+  "violations": [],
+  "observed_duration_seconds": 1.330
+}

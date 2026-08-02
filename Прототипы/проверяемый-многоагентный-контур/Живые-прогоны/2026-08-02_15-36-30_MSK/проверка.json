@@ -1,0 +1,282 @@
+{
+  "schema_version": 1,
+  "verification_id": "verification.independent",
+  "public_executor_id": "codex.verifier.repository.v1",
+  "role": "independent_verifier",
+  "root_codex_thread_id": "019fc270-541d-7fa1-b6fd-78f0a25f2425",
+  "package": {
+    "path": "Прототипы/проверяемый-многоагентный-контур/Живые-прогоны/2026-08-02_15-36-30_MSK/рабочие-пакеты/проверяющий.json",
+    "package_id": "fum.live-run.2026-08-02.independent-verifier.v1",
+    "preflight_contract_sha256": "sha256:0d1bdfa269d384768c78891f2f3da390566c7501b218b7ef0b480f6aba71f68c"
+  },
+  "inputs": [
+    {
+      "path": "Прототипы/проверяемый-многоагентный-контур/Живые-прогоны/2026-08-02_15-36-30_MSK/вклад-нормативного-аналитика.json",
+      "sha256": "sha256:17dfd4b92e49ff37ffc2d435540ad950d9f17fe38b35f9c3f60d2d8b134fadd1"
+    },
+    {
+      "path": "Прототипы/проверяемый-многоагентный-контур/Живые-прогоны/2026-08-02_15-36-30_MSK/вклад-исполняемого-аудитора.json",
+      "sha256": "sha256:116c9a7184f9a9e16d5e191e31373e8b4ae45d9bead907a62ee910d36690308c"
+    },
+    {
+      "path": "Документация/49-контракт-восстанавливаемой-общей-памяти-распределённого-эпизода.md",
+      "sha256": "sha256:d5efb74e4f2c4581472bb59a8e126eb6d07becadb91ab2df2abe441da87a8978"
+    },
+    {
+      "path": "Требования/🚧-проверяемый-многоагентный-контур-FUM.md",
+      "sha256": "sha256:6cf81836854f9959d5781fb6ec740414b65e92b44834cba8925bf9671028a2fd"
+    },
+    {
+      "path": "Прототипы/проверяемый-многоагентный-контур/README.md",
+      "sha256": "sha256:f6eca33c47f90505ee5bcd3354d32bd57bdb9a383e555628ab21aa141b00d18a"
+    },
+    {
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMDistributedEpisodeMemory/DistributedEpisodeAcceptance.swift",
+      "sha256": "sha256:c501c4e7e2bd6086b71042792e6b6ff5b6ed5b4ed42de148e3f31bbc5da4926a"
+    },
+    {
+      "path": "Прототипы/проверяемый-многоагентный-контур/Package.swift",
+      "sha256": "sha256:8d507b9ab96e5f3ad32982a688deb6d553e08f9f9a854dae45cbfaa7313bbd96"
+    },
+    {
+      "path": "Прототипы/проверяемый-многоагентный-контур/запустить.sh",
+      "sha256": "sha256:e472a7c24f4fc621197acbd7820e02a309fd2970a1c0c1c59a25e1fc8fad8313"
+    }
+  ],
+  "command_evidence": [
+    {
+      "command": "./Прототипы/проверяемый-многоагентный-контур/запустить.sh acceptance all --repo-root .",
+      "duration_seconds": 30.002,
+      "exit_code": 0,
+      "result": "passed",
+      "observed_facts": [
+        "Терминальный JSON-отчёт имеет status=passed.",
+        "Пройдены четыре сценария: positive_goal_met, false_consensus, budget_exhaustion и pending_confirmation.",
+        "Положительный сценарий сохранил canonical_outcomes_equal=true, confirmed_restart_byte_equal и process_count=4.",
+        "Ложный консенсус завершился unresolved_conflict при двух одинаковых ответах и одном независимом подтверждении.",
+        "Сверхбюджетное действие завершилось budget_exhausted с reason_code=budget_limit_reached без публикации неподтверждённого результата.",
+        "Отчёт явно сохранил fixture_only=true, live_multi_model_ready=false, live_model_used=false, live_tool_used=false и network_used=false."
+      ]
+    },
+    {
+      "command": "swift test --package-path Прототипы/проверяемый-многоагентный-контур",
+      "duration_seconds": 185.718,
+      "exit_code": 0,
+      "result": "passed",
+      "observed_facts": [
+        "Сборка завершилась успешно.",
+        "Набор FUMVerifiableMultiAgentContourTests выполнил 22 теста без отказов.",
+        "Набор FUMDistributedEpisodeMemoryTests выполнил 58 тестов без отказов.",
+        "Среди пройденных проверок наблюдались отдельные тесты восстановления, точной канонической перезагрузки, ложного консенсуса, корреляций, бюджета, границы управления и межпроцессной публикации.",
+        "Два дополнительных запуска Swift Testing с нулём объявленных тестов завершились успешно."
+      ]
+    }
+  ],
+  "claim_assessments": [
+    {
+      "claim_id": "claim.normative.canonical-recovery",
+      "contribution_id": "contribution.normative",
+      "status": "passed",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "Документация/49-контракт-восстанавливаемой-общей-памяти-распределённого-эпизода.md",
+          "line_start": 107,
+          "line_end": 113
+        }
+      ],
+      "note": "Строка 109 прямо требует чтения и полной проверки CURRENT, replay seed и всего журнала из одного generation blob и перечисляет восстанавливаемое состояние без прежнего чата, внешней фикстуры или нового модельного вызова."
+    },
+    {
+      "claim_id": "claim.normative.append-only-disagreements",
+      "contribution_id": "contribution.normative",
+      "status": "passed",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "Документация/49-контракт-восстанавливаемой-общей-памяти-распределённого-эпизода.md",
+          "line_start": 69,
+          "line_end": 73
+        }
+      ],
+      "note": "Строка 71 закрепляет типизированное кумулятивное сохранение возражений, конфликтов, отрицательных результатов и причин отклонения без стирания последующими проверкой и выбором."
+    },
+    {
+      "claim_id": "claim.normative.executable-resume-acceptance",
+      "contribution_id": "contribution.normative",
+      "status": "passed",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "Документация/49-контракт-восстанавливаемой-общей-памяти-распределённого-эпизода.md",
+          "line_start": 115,
+          "line_end": 117
+        },
+        {
+          "kind": "command",
+          "command": "./Прототипы/проверяемый-многоагентный-контур/запустить.sh acceptance all --repo-root ."
+        }
+      ],
+      "note": "Документ задаёт четырёхсценарную локальную приёмку и побайтово одинаковые финальные CURRENT; свежий отчёт подтвердил positive_goal_met, process_count=4, canonical_outcomes_equal=true и confirmed_restart_byte_equal."
+    },
+    {
+      "claim_id": "claim.normative.executable-boundary-scenarios",
+      "contribution_id": "contribution.normative",
+      "status": "passed",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "Документация/49-контракт-восстанавливаемой-общей-памяти-распределённого-эпизода.md",
+          "line_start": 119,
+          "line_end": 121
+        },
+        {
+          "kind": "command",
+          "command": "./Прототипы/проверяемый-многоагентный-контур/запустить.sh acceptance all --repo-root ."
+        }
+      ],
+      "note": "Точные строки описывают три отрицательные границы; свежий отчёт независимо наблюдал unresolved_conflict, budget_limit_reached и сохранённый awaiting_confirmation с двумя model-only-ветвями без пользовательского подтверждения или внешнего действия."
+    },
+    {
+      "claim_id": "claim.normative.proof-boundary",
+      "contribution_id": "contribution.normative",
+      "status": "passed",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "Документация/49-контракт-восстанавливаемой-общей-памяти-распределённого-эпизода.md",
+          "line_start": 123,
+          "line_end": 127
+        },
+        {
+          "kind": "command",
+          "command": "./Прототипы/проверяемый-многоагентный-контур/запустить.sh acceptance all --repo-root ."
+        }
+      ],
+      "note": "Документ прямо ограничивает доказательство локальным фикстурным стендом и отвергает перечисленные расширенные выводы; свежий отчёт подтверждает fixture-only и отсутствие живой модели, инструмента, сети и готовности многомодельного режима."
+    },
+    {
+      "claim_id": "claim.documented.recovery_contract",
+      "contribution_id": "contribution.executable",
+      "status": "passed",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "Прототипы/проверяемый-многоагентный-контур/README.md",
+          "line_start": 70,
+          "line_end": 72
+        }
+      ],
+      "note": "Строка 72 прямо заявляет старт нового процесса от CURRENT, replay полного журнала, сравнение точных канонических байтов и без потерь перечисляет восстанавливаемое состояние."
+    },
+    {
+      "claim_id": "claim.executable.byte_equal_resumption",
+      "contribution_id": "contribution.executable",
+      "status": "passed",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMDistributedEpisodeMemory/DistributedEpisodeAcceptance.swift",
+          "line_start": 121,
+          "line_end": 160
+        },
+        {
+          "kind": "command",
+          "command": "./Прототипы/проверяемый-многоагентный-контур/запустить.sh acceptance all --repo-root ."
+        },
+        {
+          "kind": "command",
+          "command": "swift test --package-path Прототипы/проверяемый-многоагентный-контур"
+        }
+      ],
+      "note": "Код запускает continuous, prepare-resumption, inspect-resumption и resume, затем совместно требует равенства generationSHA256 и канонических байтов; свежая приёмка и полный SwiftPM test-suite завершились успешно."
+    },
+    {
+      "claim_id": "claim.executable.exact_restart_boundary",
+      "contribution_id": "contribution.executable",
+      "status": "passed",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMDistributedEpisodeMemory/DistributedEpisodeAcceptance.swift",
+          "line_start": 216,
+          "line_end": 248
+        },
+        {
+          "kind": "command",
+          "command": "./Прототипы/проверяемый-многоагентный-контур/запустить.sh acceptance all --repo-root ."
+        }
+      ],
+      "note": "Стадия inspect-resumption требует точный SHA-256 границы и единственный первый вклад, а resume сверяет канонические байты до дописывания суффикса; свежий отчёт сохранил confirmed_restart_byte_equal."
+    },
+    {
+      "claim_id": "claim.executable.false_consensus_rejected",
+      "contribution_id": "contribution.executable",
+      "status": "passed",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMDistributedEpisodeMemory/DistributedEpisodeAcceptance.swift",
+          "line_start": 493,
+          "line_end": 514
+        },
+        {
+          "kind": "command",
+          "command": "./Прототипы/проверяемый-многоагентный-контур/запустить.sh acceptance all --repo-root ."
+        }
+      ],
+      "note": "Код требует unresolved_conflict/no_distinguishing_check, два одинаковых ответа, independentConfirmationCount=1, externalPassedCount=0 и пустой выбор; свежий сценарий прошёл с теми же наблюдаемыми условиями."
+    },
+    {
+      "claim_id": "claim.executable.budget_failure_closed",
+      "contribution_id": "contribution.executable",
+      "status": "passed",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMDistributedEpisodeMemory/DistributedEpisodeAcceptance.swift",
+          "line_start": 546,
+          "line_end": 575
+        },
+        {
+          "kind": "command",
+          "command": "./Прототипы/проверяемый-многоагентный-контур/запустить.sh acceptance all --repo-root ."
+        }
+      ],
+      "note": "Код требует отказ сверхбюджетной резервации до записи, budget_exhausted/budget_limit_reached и отсутствие вкладов и решений; свежий сценарий прошёл и не опубликовал неподтверждённый результат."
+    },
+    {
+      "claim_id": "claim.executable.acceptance_scope",
+      "contribution_id": "contribution.executable",
+      "status": "passed",
+      "evidence": [
+        {
+          "kind": "file",
+          "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMDistributedEpisodeMemory/DistributedEpisodeAcceptance.swift",
+          "line_start": 162,
+          "line_end": 186
+        },
+        {
+          "kind": "command",
+          "command": "./Прототипы/проверяемый-многоагентный-контур/запустить.sh acceptance all --repo-root ."
+        }
+      ],
+      "note": "runAll формирует ровно четыре сценария и явно выставляет fixtureOnly=true и все живые признаки в false; свежий отчёт воспроизвёл эту границу."
+    }
+  ],
+  "disagreements": [],
+  "negative_results": [
+    "Приёмка остаётся fixture-only: живой многомодельный runtime, живые модельные провайдеры, живые инструменты, сеть и удалённая координация не проверены.",
+    "Прогоны не доказывают криптографическую подлинность ролей, семантическую независимость производителей, истинность вкладов или достоверность телеметрии недоверенного адаптера.",
+    "Локальные успешные команды не доказывают сохранность после потери питания, распределённый консенсус или готовую долговременную память FUM.",
+    "Четырёхсценарная acceptance-команда сама не проверяет неповышение подготовленного staging-указателя и сиротского поколения; это остаётся областью отдельных регрессий хранилища.",
+    "Два запуска Swift Testing не содержали объявленных тестов; доказательное покрытие текущего swift test обеспечили наблюдаемые XCTest-наборы из 22 и 58 тестов."
+  ],
+  "limitations": [
+    "Ручная файловая сверка ограничена только входами пакета и точными диапазонами строк, объявленными двумя вкладами; иные исходники и тестовые файлы вручную не читались.",
+    "Успех команд устанавливает состояние текущей локальной сборки и записанных сценариев, но не расширяет доказательство за явно зафиксированную фикстурную границу.",
+    "duration_seconds для acceptance получен из наблюдаемого времени команды, а для swift test — как сумма напечатанных длительностей сборки и двух последовательных XCTest-прогонов."
+  ],
+  "overall_outcome": "passed",
+  "result_summary": "Все 11 заявленных утверждений прошли покомпонентную проверку по точным строкам. Обе свежие автономные команды завершились с exit_code 0: четырёхсценарная acceptance-проверка вернула status=passed, а SwiftPM выполнил 80 XCTest-тестов без отказов. Результат подтверждает локальный фикстурный контракт восстановления и его границы, но не живой распределённый многомодельный runtime."
+}

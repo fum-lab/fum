@@ -6,7 +6,7 @@ import Foundation
 private func printUsage() {
   print(
     """
-    Использование: FUMWorkPackageProbe [fixture [имя] | stdin | --list | episode <команда> | memory <команда> | acceptance <команда> | --help]
+    Использование: FUMWorkPackageProbe [fixture [имя] | stdin | --list | episode <команда> | memory <команда> | live <команда> | acceptance <команда> | --help]
 
     Без аргументов анализирует положительную фикстуру ready.
     fixture [имя] анализирует встроенную фикстуру; без имени выбирается ready.
@@ -22,12 +22,76 @@ private func printUsage() {
     memory verify <каталог> <фикстура> добавляет проверку через резервацию и settlement.
     memory show <каталог> повторно проигрывает и печатает CURRENT.
 
+    live canonicalize <запрос.json> печатает канонические байты валидного запроса архива.
+    live archive <запрос.json> <каталог-поколений> --repo-root <корень> публикует хэшированные артефакты живого прогона.
+    live show <каталог-поколений> повторно читает и печатает подтверждённый CURRENT живого прогона.
+    live --list печатает команды архива живого прогона.
+
     acceptance --list печатает имена автономных приёмочных сценариев.
     acceptance all --repo-root <каталог> запускает все сценарии без сети и секретов.
 
     Код завершения: 0 для ready/valid и успешной команды памяти, 3 для split_required/invalid или отказа памяти, 2 для синтаксической ошибки команды.
     """
   )
+}
+
+private func runLiveCommand(_ arguments: [String]) -> Never {
+  if arguments == ["--list"] {
+    print("canonicalize\narchive\nshow")
+    exit(0)
+  }
+
+  do {
+    let reportData: Data
+    let writesExactCanonicalBytes: Bool
+    if arguments.count == 2, arguments[0] == "canonicalize" {
+      let requestURL = URL(fileURLWithPath: arguments[1], isDirectory: false)
+      let requestData = try LiveDistributedRunArchive.readRequestFile(at: requestURL)
+      reportData = try LiveDistributedRunArchive.canonicalizeRequest(requestData)
+      writesExactCanonicalBytes = true
+    } else if arguments.count == 5,
+      arguments[0] == "archive",
+      arguments[3] == "--repo-root"
+    {
+      let requestURL = URL(fileURLWithPath: arguments[1], isDirectory: false)
+      let storeRoot = URL(fileURLWithPath: arguments[2], isDirectory: true)
+      let repositoryRoot = URL(fileURLWithPath: arguments[4], isDirectory: true)
+      let requestData = try LiveDistributedRunArchive.readRequestFile(at: requestURL)
+      let publication = try LiveDistributedRunArchive.archivePublication(
+        requestData: requestData,
+        repositoryRoot: repositoryRoot,
+        storeRoot: storeRoot
+      )
+      reportData = publication.reportData
+      writesExactCanonicalBytes = false
+    } else if arguments.count == 2, arguments[0] == "show" {
+      let store = LiveDistributedRunArchiveStore(
+        rootURL: URL(fileURLWithPath: arguments[1], isDirectory: true)
+      )
+      guard let current = try store.loadCurrent() else {
+        fputs("Архив живого прогона ещё не имеет CURRENT.\n", stderr)
+        exit(3)
+      }
+      reportData = try LiveDistributedRunArchiveReport(
+        state: "replayed",
+        generationSHA256: current.generationSHA256,
+        generation: current.generation
+      ).canonicalJSONData()
+      writesExactCanonicalBytes = false
+    } else {
+      fputs("Неизвестная команда архива живого прогона. Используйте --help.\n", stderr)
+      exit(2)
+    }
+    if writesExactCanonicalBytes {
+      FileHandle.standardOutput.write(reportData)
+    } else {
+      writeLine(reportData, to: .standardOutput)
+    }
+    exit(0)
+  } catch {
+    fputs("Архив живого прогона отклонил команду: \(error)\n", stderr)
+    exit(3)
+  }
 }
 
 private func runAcceptanceCommand(_ arguments: [String]) -> Never {
@@ -282,6 +346,9 @@ if arguments.first == "acceptance" {
 }
 if arguments.first == "memory" {
   runMemoryCommand(Array(arguments.dropFirst()))
+}
+if arguments.first == "live" {
+  runLiveCommand(Array(arguments.dropFirst()))
 }
 if arguments.first == "episode" {
   runEpisodeCommand(Array(arguments.dropFirst()))

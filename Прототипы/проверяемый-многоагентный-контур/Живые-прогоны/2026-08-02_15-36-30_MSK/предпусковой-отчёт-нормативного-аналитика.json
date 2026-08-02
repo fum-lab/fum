@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "package_id": "fum.live-run.2026-08-02.normative-analyst.v1",
+  "contract_sha256": "sha256:02c45ae20310a4b0f44672e632c6b5780ac826621dc8c53fd4dde06d5b9b2d20",
+  "decision": "ready",
+  "violations": [],
+  "observed_duration_seconds": 2.945
+}

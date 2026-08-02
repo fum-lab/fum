@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "package_id": "fum.live-run.2026-08-02.independent-verifier.v1",
+  "goal": "Покомпонентно проверить утверждения двух вкладов по точным строкам первичных файлов и свежим автономным командам, сохранив расхождения, отрицательные результаты и доказательный исход без голосования ответами.",
+  "deliverables": [
+    {
+      "id": "independent_verification",
+      "role": "primary",
+      "description": "JSON-проверка каждого claim_id с файловыми и командными доказательствами, разногласиями и общим исходом.",
+      "depends_on": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "normative_contribution",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Живые-прогоны/2026-08-02_15-36-30_MSK/вклад-нормативного-аналитика.json",
+      "sha256": "sha256:17dfd4b92e49ff37ffc2d435540ad950d9f17fe38b35f9c3f60d2d8b134fadd1",
+      "required": true
+    },
+    {
+      "id": "executable_contribution",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Живые-прогоны/2026-08-02_15-36-30_MSK/вклад-исполняемого-аудитора.json",
+      "sha256": "sha256:116c9a7184f9a9e16d5e191e31373e8b4ae45d9bead907a62ee910d36690308c",
+      "required": true
+    },
+    {
+      "id": "distributed_memory_contract",
+      "path": "Документация/49-контракт-восстанавливаемой-общей-памяти-распределённого-эпизода.md",
+      "sha256": "sha256:d5efb74e4f2c4581472bb59a8e126eb6d07becadb91ab2df2abe441da87a8978",
+      "required": true
+    },
+    {
+      "id": "multi_agent_requirement",
+      "path": "Требования/🚧-проверяемый-многоагентный-контур-FUM.md",
+      "sha256": "sha256:6cf81836854f9959d5781fb6ec740414b65e92b44834cba8925bf9671028a2fd",
+      "required": true
+    },
+    {
+      "id": "prototype_passport",
+      "path": "Прототипы/проверяемый-многоагентный-контур/README.md",
+      "sha256": "sha256:f6eca33c47f90505ee5bcd3354d32bd57bdb9a383e555628ab21aa141b00d18a",
+      "required": true
+    },
+    {
+      "id": "acceptance_implementation",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMDistributedEpisodeMemory/DistributedEpisodeAcceptance.swift",
+      "sha256": "sha256:c501c4e7e2bd6086b71042792e6b6ff5b6ed5b4ed42de148e3f31bbc5da4926a",
+      "required": true
+    },
+    {
+      "id": "package_manifest",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Package.swift",
+      "sha256": "sha256:8d507b9ab96e5f3ad32982a688deb6d553e08f9f9a854dae45cbfaa7313bbd96",
+      "required": true
+    },
+    {
+      "id": "prototype_launcher",
+      "path": "Прототипы/проверяемый-многоагентный-контур/запустить.sh",
+      "sha256": "sha256:e472a7c24f4fc621197acbd7820e02a309fd2970a1c0c1c59a25e1fc8fad8313",
+      "required": true
+    }
+  ],
+  "change_scope": {
+    "policy": "listed_paths_only",
+    "allowed_paths": [
+      "Прототипы/проверяемый-многоагентный-контур/.build",
+      "Прототипы/проверяемый-многоагентный-контур/Живые-прогоны/2026-08-02_15-36-30_MSK/проверка.json"
+    ],
+    "excluded_paths": [
+      ".git",
+      ".codex",
+      "Документация",
+      "Требования",
+      "Прототипы/проверяемый-многоагентный-контур/Sources",
+      "Прототипы/проверяемый-многоагентный-контур/Tests",
+      "Прототипы/проверяемый-многоагентный-контур/Живые-прогоны/2026-08-02_15-36-30_MSK/вклад-нормативного-аналитика.json",
+      "Прототипы/проверяемый-многоагентный-контур/Живые-прогоны/2026-08-02_15-36-30_MSK/вклад-исполняемого-аудитора.json"
+    ]
+  },
+  "dependencies": [
+    {
+      "id": "local_swiftpm_dependencies",
+      "status": "resolved",
+      "evidence": "Package.swift закрепляет только локальную соседнюю SwiftPM-зависимость; проверочные команды не требуют сети или секретов."
+    }
+  ],
+  "checks": [
+    {
+      "id": "claim_by_claim_source_check",
+      "description": "Каждый claim_id получает passed, failed или inconclusive после сверки указанного диапазона строк."
+    },
+    {
+      "id": "recorded_acceptance",
+      "description": "Штатная команда acceptance all выполняется с явным корнем репозитория и её терминальный результат сохраняется."
+    },
+    {
+      "id": "swift_tests",
+      "description": "Автономный SwiftPM test-suite выполняется без сети и его терминальный результат сохраняется."
+    },
+    {
+      "id": "json_shape",
+      "description": "Выход является одним JSON-объектом без Markdown-обёртки."
+    }
+  ],
+  "handoff": {
+    "format": "live_verification_json_v1",
+    "required_artifacts": [
+      "Прототипы/проверяемый-многоагентный-контур/Живые-прогоны/2026-08-02_15-36-30_MSK/проверка.json"
+    ]
+  },
+  "budget": {
+    "unit": "planning_units",
+    "limit": 120,
+    "reading": 35,
+    "work": 25,
+    "verification": 30,
+    "response": 10,
+    "reserve": 20
+  },
+  "preflight": {
+    "before_model_call": true,
+    "before_user_data_mutation": true
+  }
+}

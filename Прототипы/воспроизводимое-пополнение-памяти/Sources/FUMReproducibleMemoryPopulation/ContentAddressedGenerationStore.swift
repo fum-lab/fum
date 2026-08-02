@@ -76,6 +76,7 @@ public struct ContentAddressedGenerationStore {
 
   private let validateGeneration: (Data) throws -> Void
   private let validateLineage: (Data, StoredContentAddressedGeneration?) throws -> Void
+  private let previousGenerationSHA256: ((Data) throws -> String?)?
   private let beforePointerCommit: (() throws -> Void)?
   private let publicationLockObserver:
     ((ContentAddressedGenerationPublicationLockEvent) throws -> Void)?
@@ -91,7 +92,8 @@ public struct ContentAddressedGenerationStore {
       @escaping (
         Data,
         StoredContentAddressedGeneration?
-      ) throws -> Void
+      ) throws -> Void,
+    previousGenerationSHA256: ((Data) throws -> String?)? = nil
   ) {
     self.init(
       rootURL: rootURL,
@@ -99,6 +101,7 @@ public struct ContentAddressedGenerationStore {
       maximumGenerationBytes: maximumGenerationBytes,
       validateGeneration: validateGeneration,
       validateLineage: validateLineage,
+      previousGenerationSHA256: previousGenerationSHA256,
       beforePointerCommit: nil,
       publicationLockObserver: nil,
       commitCheckpointObserver: nil
@@ -115,6 +118,7 @@ public struct ContentAddressedGenerationStore {
         Data,
         StoredContentAddressedGeneration?
       ) throws -> Void,
+    previousGenerationSHA256: ((Data) throws -> String?)? = nil,
     beforePointerCommit: (() throws -> Void)?,
     publicationLockObserver:
       ((ContentAddressedGenerationPublicationLockEvent) throws -> Void)?,
@@ -126,6 +130,7 @@ public struct ContentAddressedGenerationStore {
     self.maximumGenerationBytes = maximumGenerationBytes
     self.validateGeneration = validateGeneration
     self.validateLineage = validateLineage
+    self.previousGenerationSHA256 = previousGenerationSHA256
     self.beforePointerCommit = beforePointerCommit
     self.publicationLockObserver = publicationLockObserver
     self.commitCheckpointObserver = commitCheckpointObserver
@@ -189,8 +194,21 @@ public struct ContentAddressedGenerationStore {
       )
     }
 
+    let current = try loadGeneration(sha256: pointer.generationSHA256)
+    try validateConfirmedLineage(from: current)
+    return current
+  }
+
+  public func loadGeneration(
+    sha256 generationSHA256: String
+  ) throws -> StoredContentAddressedGeneration {
+    guard isContentAddressedSHA256(generationSHA256) else {
+      throw ContentAddressedGenerationStoreError.incompatibleGeneration(
+        "Адрес поколения не является каноническим SHA-256."
+      )
+    }
     let generationURL = generationsURL.appendingPathComponent(
-      "\(pointer.generationSHA256.dropFirst(7)).json",
+      "\(generationSHA256.dropFirst(7)).json",
       isDirectory: false
     )
     let generationData = try readBounded(
@@ -198,15 +216,15 @@ public struct ContentAddressedGenerationStore {
       limit: maximumGenerationBytes,
       kind: "файл поколения"
     )
-    guard CanonicalMemoryJSON.sha256(generationData) == pointer.generationSHA256 else {
+    guard CanonicalMemoryJSON.sha256(generationData) == generationSHA256 else {
       throw ContentAddressedGenerationStoreError.corruptGeneration(
-        "Хэш файла поколения не совпадает с указателем CURRENT."
+        "Хэш файла поколения не совпадает с его контентным адресом."
       )
     }
     try validateGeneration(generationData)
 
     return StoredContentAddressedGeneration(
-      generationSHA256: pointer.generationSHA256,
+      generationSHA256: generationSHA256,
       canonicalData: generationData
     )
   }
@@ -271,6 +289,21 @@ public struct ContentAddressedGenerationStore {
         canonicalData: canonicalData
       )
     }
+  }
+
+  private func validateConfirmedLineage(
+    from current: StoredContentAddressedGeneration
+  ) throws {
+    guard let previousGenerationSHA256 else { return }
+    var descendant = current
+    while let previousSHA256 = try previousGenerationSHA256(
+      descendant.canonicalData
+    ) {
+      let previous = try loadGeneration(sha256: previousSHA256)
+      try validateLineage(descendant.canonicalData, previous)
+      descendant = previous
+    }
+    try validateLineage(descendant.canonicalData, nil)
   }
 
   private var generationsURL: URL {

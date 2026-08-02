@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "package_id": "fum.live-run.2026-08-02.executable-auditor.v1",
+  "goal": "Ответить по исполняемому прототипу, какие свойства восстановления распределённого эпизода фактически реализованы и автономно проверяются, а какие выводы код и стенд не поддерживают.",
+  "deliverables": [
+    {
+      "id": "executable_contribution",
+      "role": "primary",
+      "description": "Структурированный JSON-вклад с точными утверждениями, ссылками на строки, отрицательными результатами и ограничениями.",
+      "depends_on": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "prototype_passport",
+      "path": "Прототипы/проверяемый-многоагентный-контур/README.md",
+      "sha256": "sha256:f6eca33c47f90505ee5bcd3354d32bd57bdb9a383e555628ab21aa141b00d18a",
+      "required": true
+    },
+    {
+      "id": "acceptance_implementation",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMDistributedEpisodeMemory/DistributedEpisodeAcceptance.swift",
+      "sha256": "sha256:c501c4e7e2bd6086b71042792e6b6ff5b6ed5b4ed42de148e3f31bbc5da4926a",
+      "required": true
+    }
+  ],
+  "change_scope": {
+    "policy": "listed_paths_only",
+    "allowed_paths": [
+      "Прототипы/проверяемый-многоагентный-контур/Живые-прогоны/2026-08-02_15-36-30_MSK/вклад-исполняемого-аудитора.json"
+    ],
+    "excluded_paths": [
+      ".git",
+      ".codex",
+      "Документация",
+      "Требования",
+      "Прототипы/проверяемый-многоагентный-контур/Tests",
+      "Прототипы/проверяемый-многоагентный-контур/Живые-прогоны/2026-08-02_15-36-30_MSK/вклад-нормативного-аналитика.json"
+    ]
+  },
+  "dependencies": [
+    {
+      "id": "local_prototype_snapshot",
+      "status": "resolved",
+      "evidence": "Паспорт и реализация автономной приёмки существуют в текущем checkout и закреплены SHA-256 в этом пакете."
+    }
+  ],
+  "checks": [
+    {
+      "id": "source_line_traceability",
+      "description": "Каждое утверждение содержит точный путь и диапазон строк одного из двух разрешённых входов."
+    },
+    {
+      "id": "json_shape",
+      "description": "Выход является одним JSON-объектом без Markdown-обёртки."
+    }
+  ],
+  "handoff": {
+    "format": "live_contribution_json_v1",
+    "required_artifacts": [
+      "Прототипы/проверяемый-многоагентный-контур/Живые-прогоны/2026-08-02_15-36-30_MSK/вклад-исполняемого-аудитора.json"
+    ]
+  },
+  "budget": {
+    "unit": "planning_units",
+    "limit": 100,
+    "reading": 25,
+    "work": 25,
+    "verification": 15,
+    "response": 15,
+    "reserve": 20
+  },
+  "preflight": {
+    "before_model_call": true,
+    "before_user_data_mutation": true
+  }
+}

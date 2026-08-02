@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "decision_id": "decision.root",
+  "status": "accepted",
+  "basis": "verified_evidence",
+  "verification_artifact_id": "verification.independent",
+  "considered_contribution_ids": [
+    "contribution.executable",
+    "contribution.normative"
+  ],
+  "selected_claim_ids": [
+    "claim.documented.recovery_contract",
+    "claim.executable.acceptance_scope",
+    "claim.executable.budget_failure_closed",
+    "claim.executable.byte_equal_resumption",
+    "claim.executable.exact_restart_boundary",
+    "claim.executable.false_consensus_rejected",
+    "claim.normative.append-only-disagreements",
+    "claim.normative.canonical-recovery",
+    "claim.normative.executable-boundary-scenarios",
+    "claim.normative.executable-resume-acceptance",
+    "claim.normative.proof-boundary"
+  ],
+  "rejected_claim_ids": [],
+  "unresolved_disagreement_ids": [],
+  "vote_count_used": false,
+  "evidence_summary": {
+    "claim_assessments_passed": 11,
+    "claim_assessments_failed": 0,
+    "claim_assessments_inconclusive": 0,
+    "autonomous_commands_passed": 2
+  },
+  "negative_results": [
+    "Живой многомодельный runtime, сеть, живой инструмент и удалённая координация не проверялись.",
+    "Криптографическая подлинность ролей, семантическая независимость, истинность вкладов и достоверность телеметрии не доказаны.",
+    "Успех не доказывает power-loss durability, распределённый консенсус или готовую долговременную память FUM.",
+    "Четырёхсценарная acceptance-команда не заменяет отдельные регрессии staging-указателя и orphan-поколения."
+  ],
+  "result": "Текущая локальная память описывает каноническое восстановление от CURRENT и свежо подтверждает его фикстурную исполняемую приёмку; расширенные живые и независимые свойства остаются недоказанными."
+}

@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "package_id": "fum.live-run.2026-08-02.normative-analyst.v1",
+  "goal": "Ответить по нормативным источникам, какие свойства восстановления распределённого эпизода FUM требуются, какие границы утверждений обязательны и что остаётся недоказанным.",
+  "deliverables": [
+    {
+      "id": "normative_contribution",
+      "role": "primary",
+      "description": "Структурированный JSON-вклад с точными утверждениями, ссылками на строки, отрицательными результатами и ограничениями.",
+      "depends_on": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "distributed_memory_contract",
+      "path": "Документация/49-контракт-восстанавливаемой-общей-памяти-распределённого-эпизода.md",
+      "sha256": "sha256:d5efb74e4f2c4581472bb59a8e126eb6d07becadb91ab2df2abe441da87a8978",
+      "required": true
+    },
+    {
+      "id": "multi_agent_requirement",
+      "path": "Требования/🚧-проверяемый-многоагентный-контур-FUM.md",
+      "sha256": "sha256:6cf81836854f9959d5781fb6ec740414b65e92b44834cba8925bf9671028a2fd",
+      "required": true
+    }
+  ],
+  "change_scope": {
+    "policy": "listed_paths_only",
+    "allowed_paths": [
+      "Прототипы/проверяемый-многоагентный-контур/Живые-прогоны/2026-08-02_15-36-30_MSK/вклад-нормативного-аналитика.json"
+    ],
+    "excluded_paths": [
+      ".git",
+      ".codex",
+      "Документация",
+      "Требования",
+      "Прототипы/проверяемый-многоагентный-контур/Sources"
+    ]
+  },
+  "dependencies": [
+    {
+      "id": "local_memory_snapshot",
+      "status": "resolved",
+      "evidence": "Оба обязательных Markdown-входа существуют в текущем checkout и закреплены SHA-256 в этом пакете."
+    }
+  ],
+  "checks": [
+    {
+      "id": "source_line_traceability",
+      "description": "Каждое утверждение содержит точный путь и диапазон строк одного из двух разрешённых входов."
+    },
+    {
+      "id": "json_shape",
+      "description": "Выход является одним JSON-объектом без Markdown-обёртки."
+    }
+  ],
+  "handoff": {
+    "format": "live_contribution_json_v1",
+    "required_artifacts": [
+      "Прототипы/проверяемый-многоагентный-контур/Живые-прогоны/2026-08-02_15-36-30_MSK/вклад-нормативного-аналитика.json"
+    ]
+  },
+  "budget": {
+    "unit": "planning_units",
+    "limit": 100,
+    "reading": 30,
+    "work": 20,
+    "verification": 15,
+    "response": 15,
+    "reserve": 20
+  },
+  "preflight": {
+    "before_model_call": true,
+    "before_user_data_mutation": true
+  }
+}

@@ -4,6 +4,16 @@ import XCTest
 @testable import FUMDistributedEpisodeMemory
 
 final class SharedEpisodeMemoryTests: XCTestCase {
+  func testLiveArchiveProbeAdvertisesArchiveAndReplayCommands() throws {
+    let listed = try runProbe(["live", "--list"])
+
+    XCTAssertEqual(listed.status, 0, String(decoding: listed.error, as: UTF8.self))
+    XCTAssertEqual(
+      String(decoding: listed.output, as: UTF8.self),
+      "canonicalize\narchive\nshow\n"
+    )
+  }
+
   func testAcceptanceProbeRunsEveryRecordedScenarioAndStatesItsBoundary() throws {
     let listed = try runProbe(["acceptance", "--list"])
     XCTAssertEqual(listed.status, 0, String(decoding: listed.error, as: UTF8.self))
