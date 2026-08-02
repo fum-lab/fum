@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "previous_generation_sha256": "sha256:c9c721deb92d3a2552af273a7304c66de99abc6f9637c7a6564733a0b0c8c089",
+  "previous_next_card_id": "FUM-STEP-0083",
+  "previous_work_package_artifact_id": "package.next",
+  "previous_work_package_content_sha256": "sha256:384c7a950a25bab9c18b1f2fafd381f144e93b3dbd85aafce492d0f6b87ab62b",
+  "executed_package_id": "fum.live-run.2026-08-02.resume-once.v1",
+  "root_codex_thread_id": "019fc38d-a1ac-7ba3-869c-54fc348626fd",
+  "input_checks": [
+    {
+      "input_id": "episode_passport",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Живые-прогоны/2026-08-02_15-36-30_MSK/паспорт-эпизода.json",
+      "sha256": "sha256:cd7757fc54fac1effe2e4bfc8f9715909024d319652eca32a42215147efeae7d",
+      "status": "passed"
+    },
+    {
+      "input_id": "normative_contribution",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Живые-прогоны/2026-08-02_15-36-30_MSK/вклад-нормативного-аналитика.json",
+      "sha256": "sha256:17dfd4b92e49ff37ffc2d435540ad950d9f17fe38b35f9c3f60d2d8b134fadd1",
+      "status": "passed"
+    },
+    {
+      "input_id": "executable_contribution",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Живые-прогоны/2026-08-02_15-36-30_MSK/вклад-исполняемого-аудитора.json",
+      "sha256": "sha256:116c9a7184f9a9e16d5e191e31373e8b4ae45d9bead907a62ee910d36690308c",
+      "status": "passed"
+    },
+    {
+      "input_id": "provenance_and_correlations",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Живые-прогоны/2026-08-02_15-36-30_MSK/происхождение-и-корреляции.json",
+      "sha256": "sha256:fff05eea76b1497969ed833b9cdf753d31fdfb517f45b2d767c54298870ff146",
+      "status": "passed"
+    },
+    {
+      "input_id": "independent_verification",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Живые-прогоны/2026-08-02_15-36-30_MSK/проверка.json",
+      "sha256": "sha256:14375c7312178768221dce0395991be5f433b380bc703f20885c90b017cbc642",
+      "status": "passed"
+    },
+    {
+      "input_id": "evidence_based_decision",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Живые-прогоны/2026-08-02_15-36-30_MSK/решение.json",
+      "sha256": "sha256:6abbf0bffc70317906ca2367fafe41a49bf30d4f28e67036acc39515b3f3e742",
+      "status": "passed"
+    },
+    {
+      "input_id": "terminal_outcome",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Живые-прогоны/2026-08-02_15-36-30_MSK/терминальный-исход.json",
+      "sha256": "sha256:8e9f7f3d3e053f72ee6345e026d35805cfa3133837f612ffa871e42541c7ed91",
+      "status": "passed"
+    }
+  ],
+  "terminal_outcome": "goal_met",
+  "outcome": "completed"
+}
