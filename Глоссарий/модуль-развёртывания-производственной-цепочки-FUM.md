@@ -14,9 +14,9 @@
 
 ## Источники требований
 
-- [исходный запрос 2026-07-02 20:08:37 MSK](../Запросы/2026-07-02_20-08-37_MSK.md)
+- [исходный запрос 2026-07-02 20:08:37 MSK](../Журнал/2026-07-02_20-08-37_MSK/запрос.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-02 20:18:31 MSK -->
-<!-- content-sha256: sha256:200a01019423cb0e38cf5e77627f355adbe459e7d72e7ec596a183c2a2aafe0c -->
+<!-- last-content-edit: 2026-08-03 14:54:04 MSK -->
+<!-- content-sha256: sha256:cbac0473f4a13209ca7b09c8f86f24e893d8fa941d16b1b1a21dc2a8212545ee -->
 <!-- FUM-MD-RECENCY:END -->

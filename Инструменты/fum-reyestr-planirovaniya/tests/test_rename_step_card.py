@@ -44,10 +44,10 @@ class RenameStepCardTests(unittest.TestCase):
 
     def write_fixture(self, root: Path) -> None:
         cards = root / "Планирование" / "карточки-шагов"
-        requests = root / "Запросы"
+        journal = root / "Журнал"
         sources = root / "Источники" / "сырой-снимок"
         cards.mkdir(parents=True)
-        requests.mkdir()
+        journal.mkdir()
         sources.mkdir(parents=True)
 
         (cards / OLD_NAME).write_text(
@@ -82,7 +82,12 @@ class RenameStepCardTests(unittest.TestCase):
             encoding="utf-8",
         )
 
-        request_one = requests / "2026-01-01_00-00-00_MSK_проверить-ссылки.md"
+        request_one = (
+            journal
+            / "2026-01-01_00-00-00_MSK_проверить-ссылки"
+            / "запрос.md"
+        )
+        request_one.parent.mkdir()
         request_one.write_text(
             "# Исходный запрос\n\n"
             "## Текст запроса\n\n"
@@ -95,12 +100,22 @@ class RenameStepCardTests(unittest.TestCase):
             f"- [{OLD_REPO_PATH}](../{OLD_REPO_PATH})\n",
             encoding="utf-8",
         )
-        request_two = requests / "2026-01-01_00-00-01_MSK_проверить-вторую-ссылку.md"
+        request_two = (
+            journal
+            / "2026-01-01_00-00-01_MSK_проверить-вторую-ссылку"
+            / "запрос.md"
+        )
+        request_two.parent.mkdir()
         request_two.write_text(
             "# Исходный запрос\n\n"
             "## Текст запроса\n\n```text\nБез пути.\n```\n\n"
             "## Повлиял на файлы\n\n"
             f"- [{OLD_REPO_PATH}](<../{OLD_REPO_PATH}>)\n",
+            encoding="utf-8",
+        )
+        (request_one.parent / "отчёт.md").write_text(
+            "# Отчёт\n\n"
+            f"Живая ссылка на карточку: {OLD_REPO_PATH}.\n",
             encoding="utf-8",
         )
         (root / "Планирование" / "реестр.json").write_text(
@@ -157,8 +172,9 @@ class RenameStepCardTests(unittest.TestCase):
             self.write_fixture(root)
             first_request = (
                 root
-                / "Запросы"
-                / "2026-01-01_00-00-00_MSK_проверить-ссылки.md"
+                / "Журнал"
+                / "2026-01-01_00-00-00_MSK_проверить-ссылки"
+                / "запрос.md"
             )
             raw_request_before = first_request.read_text(encoding="utf-8").split(
                 "## Повлиял на файлы",
@@ -205,11 +221,18 @@ class RenameStepCardTests(unittest.TestCase):
 
             second_text = (
                 root
-                / "Запросы"
-                / "2026-01-01_00-00-01_MSK_проверить-вторую-ссылку.md"
+                / "Журнал"
+                / "2026-01-01_00-00-01_MSK_проверить-вторую-ссылку"
+                / "запрос.md"
             ).read_text(encoding="utf-8")
             self.assertNotIn(OLD_NAME, second_text)
             self.assertIn(f"<../{NEW_REPO_PATH}>", second_text)
+
+            report_text = (first_request.parent / "отчёт.md").read_text(
+                encoding="utf-8"
+            )
+            self.assertIn(NEW_REPO_PATH, report_text)
+            self.assertNotIn(OLD_NAME, report_text)
 
             selector = (
                 root / "Планирование" / "следующий-шаг.md"

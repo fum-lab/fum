@@ -15,9 +15,20 @@ import sys
 import tempfile
 from dataclasses import dataclass
 from html.parser import HTMLParser
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Any, Callable, Protocol
 from urllib.parse import unquote, urlsplit
+
+
+REQUEST_LAYOUT_SCRIPTS = (
+    Path(__file__).resolve().parents[2]
+    / "fum-struktura-papok-zaprosov"
+    / "scripts"
+)
+if str(REQUEST_LAYOUT_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(REQUEST_LAYOUT_SCRIPTS))
+
+from request_folder_layout import session_stem_for_request_path  # noqa: E402
 
 
 COOKIE_REDACTION = "set-cookie: [REDACTED: response cookie]\n"
@@ -168,8 +179,25 @@ def hashed_url_component(prefix: str, value: str) -> str:
     return f"_{prefix}-{digest}"
 
 
+def request_repo_root(request_file: Path) -> Path:
+    absolute = Path(os.path.abspath(request_file))
+    candidate = PurePosixPath(
+        absolute.parent.parent.name,
+        absolute.parent.name,
+        absolute.name,
+    )
+    if session_stem_for_request_path(candidate) is None:
+        raise ValueError(
+            "request file must match "
+            "Журнал/<YYYY-MM-DD_HH-MM-SS_MSK[_название]>/запрос.md"
+        )
+    return absolute.parent.parent.parent
+
+
 def request_base_dir(request_file: Path) -> Path:
-    return request_file.parent.parent if request_file.parent.name == "Запросы" else request_file.parent
+    """Return the repository root for a canonical request path."""
+
+    return request_repo_root(request_file)
 
 
 def url_output_dir(base_dir: Path, url: str) -> Path:
@@ -520,6 +548,7 @@ def validate_request_file(request_file: Path) -> None:
         raise ValueError(f"request file must be an existing regular file: {request_file}")
     if request_file.suffix.lower() != ".md":
         raise ValueError(f"request file must be Markdown: {request_file}")
+    request_repo_root(request_file)
 
 
 def ensure_destination_matches_url(output_dir: Path, url: str) -> None:

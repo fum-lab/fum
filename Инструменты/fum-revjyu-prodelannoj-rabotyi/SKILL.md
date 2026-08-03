@@ -25,7 +25,7 @@ description: Создавать и проверять сохранённые р�
 ```json
 {
   "title": "Ревью проделанной работы",
-  "request_file": "Запросы/2026-07-01_17-03-14_MSK.md",
+  "request_file": "Журнал/2026-07-01_17-03-14_MSK_проверить-работу/запрос.md",
   "automation_file": "Инструменты/fum-revjyu-prodelannoj-rabotyi/SKILL.md",
   "base_ref": "origin/master",
   "head_ref": "HEAD",
@@ -40,7 +40,7 @@ description: Создавать и проверять сохранённые р�
   "checks": [
     {
       "name": "fum-kompleksnaya-proverka-repozitoriya",
-      "command": "python3 Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/run-smoke-check.py --request Запросы/<...>.md",
+      "command": "python3 Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/run-smoke-check.py --request Журнал/<имя-запроса>/запрос.md",
       "result": "прошло",
       "details": "Все локальные проверки прошли."
     }
@@ -103,10 +103,10 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты
 
 ## Источники требований
 
-- [исходный запрос 2026-07-22 13:39:29 MSK — Устранить машинно-локальные пути](../../Запросы/2026-07-22_13-39-29_MSK_устранить-машинно-локальные-пути.md)
+- [исходный запрос 2026-07-22 13:39:29 MSK — Устранить машинно-локальные пути](../../Журнал/2026-07-22_13-39-29_MSK_устранить-машинно-локальные-пути/запрос.md)
 
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-22 14:07:15 MSK -->
-<!-- content-sha256: sha256:deb9cf14306b5f6f63057e9565cf1b6f02f024e1110f9113d20b171b3574f1e1 -->
+<!-- last-content-edit: 2026-08-03 14:54:04 MSK -->
+<!-- content-sha256: sha256:ca83b6564803ef9a2b7f19d9c48607b1a1ecab34b5a7c507bd67b8dab6456ed6 -->
 <!-- FUM-MD-RECENCY:END -->

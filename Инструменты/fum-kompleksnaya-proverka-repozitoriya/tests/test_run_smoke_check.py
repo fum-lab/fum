@@ -22,6 +22,9 @@ TOOLS_DIR = Path(__file__).resolve().parents[2]
 MACHINE_LOCAL_PATH_AUTOMATION_DIR = (
     TOOLS_DIR / "fum-proverka-mashinno-lokaljnyikh-putej"
 )
+REQUEST_FOLDER_LAYOUT_AUTOMATION_DIR = (
+    TOOLS_DIR / "fum-struktura-papok-zaprosov"
+)
 
 spec = importlib.util.spec_from_file_location("run_smoke_check", SCRIPT_PATH)
 run_smoke_check = importlib.util.module_from_spec(spec)
@@ -31,6 +34,29 @@ spec.loader.exec_module(run_smoke_check)
 
 
 class RunSmokeCheckTests(unittest.TestCase):
+    def test_request_commit_context_rule_reads_parent_session_stem(self):
+        self.assertTrue(
+            run_smoke_check.request_requires_codex_commit_context(
+                Path(
+                    "Журнал/2026-07-14_02-31-47_MSK_"
+                    "добавлять-идентификатор-сеанса-Codex/запрос.md"
+                )
+            )
+        )
+        self.assertFalse(
+            run_smoke_check.request_requires_codex_commit_context(
+                Path(
+                    "Журнал/2026-07-14_01-55-34_MSK_"
+                    "интегрировать-рекурсивную-модель/запрос.md"
+                )
+            )
+        )
+        self.assertFalse(
+            run_smoke_check.request_requires_codex_commit_context(
+                Path("Журнал/добавлять-идентификатор-сеанса-Codex/запрос.md")
+            )
+        )
+
     def write_script_fixture(self, root: Path) -> None:
         for path in [
             root / "Инструменты" / "fum-reyestr-planirovaniya" / "scripts" / "build-planning-registry.py",
@@ -43,6 +69,7 @@ class RunSmokeCheckTests(unittest.TestCase):
             root / "Инструменты" / "fum-svezhestj-markdown" / "scripts" / "update-md-recency.py",
             root / "Инструменты" / "fum-svezhestj-grafa-obsidian" / "scripts" / "build-obsidian-graph-recency.py",
             root / "Инструменты" / "fum-svyaznostj-rabochej-sessii" / "scripts" / "check-session-coherence.py",
+            root / "Инструменты" / "fum-struktura-papok-zaprosov" / "scripts" / "struktura-papok-zaprosov.py",
         ]:
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text("print('fixture')\n", encoding="utf-8")
@@ -905,7 +932,7 @@ let package = Package(
 
             steps = run_smoke_check.build_steps(
                 root,
-                request=Path("Запросы/2026-07-01_14-12-17_MSK.md"),
+                request=Path("Журнал/2026-07-01_14-12-17_MSK/запрос.md"),
                 commit_message_file=Path("/tmp/fum-commit-message.txt"),
                 codex_thread_id="019f5dd0-c129-7fa0-9315-77e85dead3e7",
                 include_session=True,
@@ -918,6 +945,7 @@ let package = Package(
                 [
                     "Тесты fum-alpha",
                     "Тесты fum-beta",
+                    "Проверка структуры папок запросов",
                     "Сборка планового реестра",
                     "Проверка планового реестра",
                     "Проверка реестра названий автоматизаций",
@@ -932,6 +960,21 @@ let package = Package(
                 ],
             )
             self.assertIn("Инструменты/fum-alpha/tests", steps[0].command)
+            self.assertEqual(
+                next(
+                    step
+                    for step in steps
+                    if step.name == "Проверка структуры папок запросов"
+                ).command,
+                (
+                    "python3",
+                    "Инструменты/fum-struktura-papok-zaprosov/scripts/"
+                    "struktura-papok-zaprosov.py",
+                    "validate",
+                    "--repo-root",
+                    ".",
+                ),
+            )
             question_step = next(
                 step
                 for step in steps
@@ -1017,7 +1060,7 @@ let package = Package(
                 steps[-1].command[-6:],
                 (
                     "--request",
-                    "Запросы/2026-07-01_14-12-17_MSK.md",
+                    "Журнал/2026-07-01_14-12-17_MSK/запрос.md",
                     "--commit-message-file",
                     "/tmp/fum-commit-message.txt",
                     "--codex-thread-id",
@@ -1041,6 +1084,7 @@ let package = Package(
 
             names = [step.name for step in steps]
             self.assertNotIn("Проверка связности рабочей сессии", names)
+            self.assertIn("Проверка структуры папок запросов", names)
             self.assertIn("Проверка recency-меток Markdown", names)
             self.assertIn("Проверка тепловой карты графа Obsidian", names)
 
@@ -1049,8 +1093,8 @@ let package = Package(
             root = Path(tmp)
             self.write_script_fixture(root)
             request = Path(
-                "Запросы/2026-07-14_02-31-47_MSK_добавлять-"
-                "идентификатор-сеанса-Codex.md"
+                "Журнал/2026-07-14_02-31-47_MSK_добавлять-"
+                "идентификатор-сеанса-Codex/запрос.md"
             )
 
             for missing_message, missing_thread_id, expected_flag in [
@@ -1076,6 +1120,22 @@ let package = Package(
                             python="python3",
                         )
 
+    def test_rejects_request_folder_without_time_prefix(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_script_fixture(root)
+
+            with self.assertRaisesRegex(
+                ValueError,
+                "YYYY-MM-DD_HH-MM-SS_MSK",
+            ):
+                run_smoke_check.build_steps(
+                    root,
+                    request=Path("Журнал/добавить-запрос/запрос.md"),
+                    include_session=True,
+                    python="python3",
+                )
+
     def test_historical_request_allows_missing_commit_context(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -1083,7 +1143,7 @@ let package = Package(
 
             steps = run_smoke_check.build_steps(
                 root,
-                request=Path("Запросы/2026-07-01_14-12-17_MSK.md"),
+                request=Path("Журнал/2026-07-01_14-12-17_MSK/запрос.md"),
                 commit_message_file=None,
                 codex_thread_id=None,
                 include_session=True,
@@ -1092,7 +1152,7 @@ let package = Package(
 
             self.assertEqual(
                 steps[-1].command[-2:],
-                ("--request", "Запросы/2026-07-01_14-12-17_MSK.md"),
+                ("--request", "Журнал/2026-07-01_14-12-17_MSK/запрос.md"),
             )
 
     def test_requires_request_when_session_check_is_enabled(self):
@@ -1853,6 +1913,16 @@ let package = Package(
             shutil.copy2(
                 MACHINE_LOCAL_PATH_AUTOMATION_DIR / "scripts" / "path_forms.py",
                 target_automation / "scripts" / "path_forms.py",
+            )
+            shutil.copy2(
+                REQUEST_FOLDER_LAYOUT_AUTOMATION_DIR
+                / "scripts"
+                / "request_folder_layout.py",
+                root
+                / "Инструменты"
+                / "fum-struktura-papok-zaprosov"
+                / "scripts"
+                / "request_folder_layout.py",
             )
             (target_automation / "policy.json").write_text(
                 json.dumps(

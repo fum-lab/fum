@@ -109,7 +109,7 @@ class MachineLocalPathScannerTests(unittest.TestCase):
             self.init_repo(root)
             self.write_and_add(
                 root,
-                "Запросы/2026-07-22_00-00-00_MSK_fixture.md",
+                "Журнал/2026-07-22_00-00-00_MSK_fixture/запрос.md",
                 "# Запрос\n\n"
                 "## Текст запроса\n\n"
                 "```text\n"
@@ -128,11 +128,11 @@ class MachineLocalPathScannerTests(unittest.TestCase):
             result = self.scan(root)
 
             self.assertIn(
-                "Запросы/2026-07-22_00-00-00_MSK_fixture.md:6:report.request-text.posix-user-home",
+                "Журнал/2026-07-22_00-00-00_MSK_fixture/запрос.md:6:report.request-text.posix-user-home",
                 result.rendered_lines(),
             )
             self.assertIn(
-                "Запросы/2026-07-22_00-00-00_MSK_fixture.md:12:error.posix-user-home",
+                "Журнал/2026-07-22_00-00-00_MSK_fixture/запрос.md:12:error.posix-user-home",
                 result.rendered_lines(),
             )
             self.assertIn(
@@ -140,6 +140,23 @@ class MachineLocalPathScannerTests(unittest.TestCase):
                 result.rendered_lines(),
             )
             self.assertEqual(result.exit_code, 1)
+
+    def test_noncanonical_journal_markdown_does_not_gain_request_provenance(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.init_repo(root)
+            self.write_and_add(
+                root,
+                "Журнал/2026-07-22_00-00-00_MSK_fixture/отчёт.md",
+                "# Отчёт\n\n## Текст запроса\n\n/Users/example/not-verbatim\n",
+            )
+
+            result = self.scan(root)
+
+            self.assertIn(
+                "Журнал/2026-07-22_00-00-00_MSK_fixture/отчёт.md:5:error.posix-user-home",
+                result.rendered_lines(),
+            )
 
     def test_narrow_system_fixture_url_and_gitignore_categories(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:

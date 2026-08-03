@@ -17,9 +17,9 @@ status = "completed"
 
 ## Источники
 
-- [исходный запрос 2026-07-20 15:34:46 MSK](../../Запросы/2026-07-20_15-34-46_MSK_включить-SwiftPM-в-общий-smoke-check.md), [журнал](../../Журнал/2026-07-20_15-34-46_MSK_включить-SwiftPM-в-общий-smoke-check.md), [fum-kompleksnaya-proverka-repozitoriya](../../Инструменты/fum-kompleksnaya-proverka-repozitoriya/SKILL.md), [ревью проекта](../../Ревью/2026-07-18_07-44-15_MSK_ревью-проекта.md)
+- [исходный запрос 2026-07-20 15:34:46 MSK](../../Журнал/2026-07-20_15-34-46_MSK_включить-SwiftPM-в-общий-smoke-check/запрос.md), [журнал](../../Журнал/2026-07-20_15-34-46_MSK_включить-SwiftPM-в-общий-smoke-check/отчёт.md), [fum-kompleksnaya-proverka-repozitoriya](../../Инструменты/fum-kompleksnaya-proverka-repozitoriya/SKILL.md), [ревью проекта](../../Журнал/2026-07-18_07-44-15_MSK_провести-ревью-проекта/материалы/ревью/2026-07-18_07-44-15_MSK_ревью-проекта.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-22 09:17:49 MSK -->
-<!-- content-sha256: sha256:567d1cfced67fb72787adf37016bbbb873c26be674ffed664f5aabf1274fd05d -->
+<!-- last-content-edit: 2026-08-03 14:54:04 MSK -->
+<!-- content-sha256: sha256:0ccc962e69e295f6eeda1adf7c972296d858173665355a5c58be564fb93a1ea4 -->
 <!-- FUM-MD-RECENCY:END -->

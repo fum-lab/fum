@@ -139,7 +139,9 @@ class ArchiveChatgptShareTests(unittest.TestCase):
         }
 
     def test_default_output_dir_uses_sources_url_path_for_stable_url(self):
-        request_file = Path("/repo/Запросы/2026-06-23_17-37-29_MSK.md")
+        request_file = Path(
+            "/repo/Журнал/2026-06-23_17-37-29_MSK_архивировать-чат/запрос.md"
+        )
 
         output_dir = archive_chatgpt_share.default_output_dir(
             request_file,
@@ -155,7 +157,9 @@ class ArchiveChatgptShareTests(unittest.TestCase):
         )
 
     def test_default_output_dir_keeps_query_variants_separate(self):
-        request_file = Path("/repo/Запросы/2026-06-23_17-37-29_MSK.md")
+        request_file = Path(
+            "/repo/Журнал/2026-06-23_17-37-29_MSK_архивировать-чат/запрос.md"
+        )
 
         first = archive_chatgpt_share.default_output_dir(
             request_file,
@@ -172,7 +176,9 @@ class ArchiveChatgptShareTests(unittest.TestCase):
         self.assertRegex(first.name, r"^_query-[0-9a-f]{16}$")
 
     def test_default_output_dir_keeps_normalized_path_collisions_separate(self):
-        request_file = Path("/repo/Запросы/2026-06-23_17-37-29_MSK.md")
+        request_file = Path(
+            "/repo/Журнал/2026-06-23_17-37-29_MSK_архивировать-чат/запрос.md"
+        )
 
         first = archive_chatgpt_share.default_output_dir(
             request_file,
@@ -186,7 +192,9 @@ class ArchiveChatgptShareTests(unittest.TestCase):
         self.assertNotEqual(first, second)
 
     def test_default_output_dir_rejects_non_http_url(self):
-        request_file = Path("/repo/Запросы/2026-06-23_17-37-29_MSK.md")
+        request_file = Path(
+            "/repo/Журнал/2026-06-23_17-37-29_MSK_архивировать-чат/запрос.md"
+        )
 
         with self.assertRaisesRegex(ValueError, "HTTP or HTTPS"):
             archive_chatgpt_share.default_output_dir(
@@ -194,10 +202,35 @@ class ArchiveChatgptShareTests(unittest.TestCase):
                 "file://localhost/private/material.html",
             )
 
+    def test_non_url_fallback_is_owned_by_request_folder(self):
+        request_file = Path(
+            "/repo/Журнал/2026-06-23_17-37-29_MSK_архивировать-чат/запрос.md"
+        )
+
+        output_dir = archive_chatgpt_share.default_output_dir(
+            request_file,
+            "not-a-url",
+            "Сырой экспорт",
+        )
+
+        self.assertEqual(
+            output_dir,
+            Path(
+                "/repo/Журнал/2026-06-23_17-37-29_MSK_архивировать-чат/"
+                "материалы/источники/Сырой-экспорт"
+            ),
+        )
+
     def test_main_rejects_unsafe_url_even_with_explicit_output_dir(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            request_file = root / "request.md"
+            request_file = (
+                root
+                / "Журнал"
+                / "2026-06-23_17-37-29_MSK_архивировать-чат"
+                / "запрос.md"
+            )
+            request_file.parent.mkdir(parents=True)
             request_file.write_text("# Запрос\n", encoding="utf-8")
             args = SimpleNamespace(
                 url="https://user:secret@chatgpt.com/share/example",
@@ -242,6 +275,15 @@ class ArchiveChatgptShareTests(unittest.TestCase):
                     with self.assertRaisesRegex(ValueError, "request file"):
                         archive_chatgpt_share.main()
 
+    def test_existing_legacy_request_path_is_rejected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            request_file = Path(tmp) / "Запросы" / "legacy.md"
+            request_file.parent.mkdir()
+            request_file.write_text("# Запрос\n", encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "Журнал"):
+                archive_chatgpt_share.validate_request_file(request_file)
+
     def test_cli_reports_runtime_error_without_traceback(self):
         stderr = io.StringIO()
         with mock.patch.object(
@@ -261,7 +303,7 @@ class ArchiveChatgptShareTests(unittest.TestCase):
             "archive-chatgpt-share.py",
             "https://chatgpt.com/share/example",
             "--request-file",
-            "/repo/Запросы/2026-06-23_17-37-29_MSK.md",
+            "/repo/Журнал/2026-06-23_17-37-29_MSK_архивировать-чат/запрос.md",
         ]
 
         with mock.patch("sys.argv", argv):
@@ -303,7 +345,12 @@ class ArchiveChatgptShareTests(unittest.TestCase):
     def test_external_title_is_escaped_when_request_is_linked(self):
         with tempfile.TemporaryDirectory() as tmp:
             repo = Path(tmp)
-            request_file = repo / "Запросы" / "request.md"
+            request_file = (
+                repo
+                / "Журнал"
+                / "2026-06-23_17-37-29_MSK_архивировать-чат"
+                / "запрос.md"
+            )
             output_dir = repo / "Источники" / "source"
             request_file.parent.mkdir(parents=True)
             output_dir.mkdir(parents=True)
@@ -583,7 +630,12 @@ class ArchiveChatgptShareTests(unittest.TestCase):
     def test_link_source_in_request_file_adds_material_links_once(self):
         with tempfile.TemporaryDirectory() as tmp:
             repo = Path(tmp)
-            request_file = repo / "Запросы" / "2026-06-24_14-33-08_MSK.md"
+            request_file = (
+                repo
+                / "Журнал"
+                / "2026-06-24_14-33-08_MSK_архивировать-чат"
+                / "запрос.md"
+            )
             output_dir = (
                 repo
                 / "Источники"
@@ -617,15 +669,15 @@ class ArchiveChatgptShareTests(unittest.TestCase):
 
         self.assertIn("## Прикрепляемые материалы", markdown)
         self.assertIn(
-            "- [Источник: Запуск долгоживущей цепочки](../Источники/URL/https/chatgpt.com/share/example/)",
+            "- [Источник: Запуск долгоживущей цепочки](../../Источники/URL/https/chatgpt.com/share/example/)",
             markdown,
         )
         self.assertIn(
-            "- [Индекс источника](../Источники/URL/https/chatgpt.com/share/example/source-index.md)",
+            "- [Индекс источника](../../Источники/URL/https/chatgpt.com/share/example/source-index.md)",
             markdown,
         )
         self.assertIn(
-            "- [Отчёт об извлечении](../Источники/URL/https/chatgpt.com/share/example/extraction-report.md)",
+            "- [Отчёт об извлечении](../../Источники/URL/https/chatgpt.com/share/example/extraction-report.md)",
             markdown,
         )
         self.assertEqual(markdown.count("source-index.md"), 1)
@@ -633,7 +685,12 @@ class ArchiveChatgptShareTests(unittest.TestCase):
     def test_full_snapshot_then_partial_snapshot_replaces_managed_files_exactly(self):
         with tempfile.TemporaryDirectory() as tmp:
             repo = Path(tmp)
-            request_file = repo / "Запросы" / "request.md"
+            request_file = (
+                repo
+                / "Журнал"
+                / "2026-06-23_17-37-29_MSK_архивировать-чат"
+                / "запрос.md"
+            )
             output_dir = repo / "Источники" / "source"
             request_file.parent.mkdir(parents=True)
             request_file.write_text("# Запрос\n", encoding="utf-8")
@@ -688,7 +745,12 @@ class ArchiveChatgptShareTests(unittest.TestCase):
     def test_failed_rearchive_keeps_canonical_snapshot_byte_for_byte(self):
         with tempfile.TemporaryDirectory() as tmp:
             repo = Path(tmp)
-            request_file = repo / "Запросы" / "request.md"
+            request_file = (
+                repo
+                / "Журнал"
+                / "2026-06-23_17-37-29_MSK_архивировать-чат"
+                / "запрос.md"
+            )
             output_dir = repo / "Источники" / "source"
             request_file.parent.mkdir(parents=True)
             request_file.write_text("# Запрос\n", encoding="utf-8")
@@ -764,7 +826,12 @@ class ArchiveChatgptShareTests(unittest.TestCase):
     def test_request_link_failure_after_commit_is_reported_as_warning(self):
         with tempfile.TemporaryDirectory() as tmp:
             repo = Path(tmp)
-            request_file = repo / "Запросы" / "request.md"
+            request_file = (
+                repo
+                / "Журнал"
+                / "2026-06-23_17-37-29_MSK_архивировать-чат"
+                / "запрос.md"
+            )
             output_dir = repo / "Источники" / "source"
             request_file.parent.mkdir(parents=True)
             request_file.write_text("# Запрос\n", encoding="utf-8")
@@ -792,7 +859,12 @@ class ArchiveChatgptShareTests(unittest.TestCase):
     def test_request_file_update_is_atomic_when_replace_fails(self):
         with tempfile.TemporaryDirectory() as tmp:
             repo = Path(tmp)
-            request_file = repo / "Запросы" / "request.md"
+            request_file = (
+                repo
+                / "Журнал"
+                / "2026-06-23_17-37-29_MSK_архивировать-чат"
+                / "запрос.md"
+            )
             output_dir = repo / "Источники" / "source"
             request_file.parent.mkdir(parents=True)
             output_dir.mkdir(parents=True)
@@ -820,7 +892,12 @@ class ArchiveChatgptShareTests(unittest.TestCase):
     def test_post_commit_staging_residue_is_reported(self):
         with tempfile.TemporaryDirectory() as tmp:
             repo = Path(tmp)
-            request_file = repo / "Запросы" / "request.md"
+            request_file = (
+                repo
+                / "Журнал"
+                / "2026-06-23_17-37-29_MSK_архивировать-чат"
+                / "запрос.md"
+            )
             output_dir = repo / "Источники" / "source"
             request_file.parent.mkdir(parents=True)
             request_file.write_text("# Запрос\n", encoding="utf-8")

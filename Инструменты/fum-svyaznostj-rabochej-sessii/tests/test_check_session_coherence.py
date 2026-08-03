@@ -1,8 +1,10 @@
 import importlib.util
+import subprocess
 import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 
 SCRIPT_PATH = (
@@ -19,8 +21,185 @@ spec.loader.exec_module(check_session_coherence)
 
 
 class CheckSessionCoherenceTests(unittest.TestCase):
+    @staticmethod
+    def initialize_git_repository(root: Path) -> None:
+        subprocess.run(
+            ["git", "init", "--quiet"],
+            cwd=root,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+
+    @staticmethod
+    def canonical_request(stem: str) -> Path:
+        return Path("Журнал") / stem / "запрос.md"
+
+    def test_request_identity_comes_from_parent_stem_and_report_is_sibling(self):
+        request_path = Path(
+            "Журнал/2026-08-03_12-34-56_MSK_обновить-структуру/запрос.md"
+        )
+
+        self.assertIsNotNone(check_session_coherence.request_match(request_path))
+        self.assertEqual(
+            check_session_coherence.expected_request_heading(request_path),
+            "# Исходный запрос 2026-08-03 12:34:56 MSK - Обновить структуру",
+        )
+        self.assertEqual(
+            check_session_coherence.expected_journal_path(
+                request_path,
+                Path("/repo"),
+            ),
+            Path(
+                "Журнал/2026-08-03_12-34-56_MSK_обновить-структуру/отчёт.md"
+            ),
+        )
+
+    def test_request_file_is_exact_nested_journal_target(self):
+        root = Path("/repo")
+        canonical = root / "Журнал/2026-08-03_12-34-56_MSK/запрос.md"
+
+        self.assertTrue(check_session_coherence.is_request_file(canonical, root))
+        self.assertFalse(
+            check_session_coherence.is_request_file(
+                root / "Журнал/2026-08-03_12-34-56_MSK/отчёт.md",
+                root,
+            )
+        )
+        self.assertFalse(
+            check_session_coherence.is_request_file(
+                root / "Запросы/2026-08-03_12-34-56_MSK.md",
+                root,
+            )
+        )
+
+    def test_meta_and_provenance_guards_exempt_only_canonical_request(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request = (
+                root
+                / "Журнал"
+                / "2026-08-03_12-34-56_MSK_обновить-структуру"
+                / "запрос.md"
+            )
+            request.parent.mkdir(parents=True)
+            request.write_text(
+                "\n".join(
+                    [
+                        "# Исходный запрос",
+                        "",
+                        "Источники требований:",
+                        "",
+                        "Пользователь уточнил правило ведения памяти FUM.",
+                        "",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+
+            self.assertEqual(
+                check_session_coherence.validate_meta_request_coverage(
+                    {request},
+                    root,
+                ),
+                [],
+            )
+            self.assertEqual(
+                check_session_coherence.validate_provenance_section_position(
+                    {request},
+                    root,
+                ),
+                [],
+            )
+
+    def test_request_folder_requires_full_time_prefix(self):
+        malformed = Path("Журнал/обновить-структуру/запрос.md")
+
+        self.assertIsNone(check_session_coherence.request_match(malformed))
+        self.assertEqual(
+            check_session_coherence.validate_request_filename_title(malformed),
+            [],
+        )
+
+    def test_navigation_requires_exact_request_target_not_shared_basename(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            stems = (
+                "2026-08-03_12-00-00_MSK_создать-первый-запрос",
+                "2026-08-03_12-01-00_MSK_создать-второй-запрос",
+                "2026-08-03_12-02-00_MSK_создать-третий-запрос",
+            )
+            requests = []
+            for stem in stems:
+                request = root / "Журнал" / stem / "запрос.md"
+                request.parent.mkdir(parents=True)
+                request.write_text("# Запрос\n", encoding="utf-8")
+                requests.append(request.resolve())
+
+            current = requests[1]
+            text = "\n".join(
+                [
+                    "## Навигация по запросам",
+                    "",
+                    "- Предыдущий запрос: "
+                    f"[{check_session_coherence.request_label(requests[0])}]"
+                    f"(../{stems[2]}/запрос.md)",
+                    "- Следующий запрос: "
+                    f"[{check_session_coherence.request_label(requests[2])}]"
+                    f"(../{stems[2]}/запрос.md)",
+                    "",
+                ]
+            )
+
+            errors = check_session_coherence.validate_navigation(
+                root,
+                current,
+                text,
+                markdown_paths=set(requests),
+            )
+
+            self.assertIn(
+                f"missing previous request navigation link: {stems[0]}/запрос.md",
+                errors,
+            )
+
+    def test_layout_rejects_legacy_requests_directory_and_top_level_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.initialize_git_repository(root)
+            (root / "Запросы").mkdir()
+            journal = root / "Журнал"
+            journal.mkdir()
+            (journal / "2026-08-03_12-34-56_MSK_обновить-структуру.md").write_text(
+                "# Старый отчёт\n",
+                encoding="utf-8",
+            )
+
+            errors = check_session_coherence.validate_request_folder_layout(root)
+
+            self.assertTrue(errors)
+            self.assertTrue(
+                any("Запросы" in error or "README.md" in error for error in errors),
+                errors,
+            )
+
+    def test_layout_delegates_to_dedicated_automation_when_available(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            validator = mock.Mock(return_value={"status": "valid"})
+
+            with mock.patch.object(
+                check_session_coherence,
+                "validate_layout",
+                validator,
+            ):
+                errors = check_session_coherence.validate_request_folder_layout(root)
+
+            self.assertEqual(errors, [])
+            validator.assert_called_once_with(root.resolve())
+
     def write_fixture(self, root: Path) -> Path:
-        (root / "Запросы").mkdir()
+        self.initialize_git_repository(root)
         (root / "Журнал").mkdir()
         (root / "Документация").mkdir()
         (root / "Инструменты").mkdir()
@@ -33,7 +212,14 @@ class CheckSessionCoherenceTests(unittest.TestCase):
             "# Реестр системных приложений и инструментов\n",
             encoding="utf-8",
         )
-        (root / "Запросы" / "2026-06-24_16-26-47_MSK_первый-запрос.md").write_text(
+        first_stem = "2026-06-24_16-26-47_MSK_первый-запрос"
+        current_stem = "2026-06-24_16-32-29_MSK_проверка-связности-сессии"
+        first_dir = root / "Журнал" / first_stem
+        current_dir = root / "Журнал" / current_stem
+        first_dir.mkdir()
+        current_dir.mkdir()
+
+        (first_dir / "запрос.md").write_text(
             "\n".join(
                 [
                     "# Исходный запрос 2026-06-24 16:26:47 MSK - Первый запрос",
@@ -41,7 +227,7 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                     "## Навигация по запросам",
                     "",
                     "- Предыдущий запрос: нет",
-                    "- Следующий запрос: [2026-06-24 16:32:29 MSK - Проверка связности сессии](2026-06-24_16-32-29_MSK_проверка-связности-сессии.md)",
+                    "- Следующий запрос: [2026-06-24 16:32:29 MSK - Проверка связности сессии](../2026-06-24_16-32-29_MSK_проверка-связности-сессии/запрос.md)",
                     "",
                     "## Текст запроса",
                     "",
@@ -51,12 +237,13 @@ class CheckSessionCoherenceTests(unittest.TestCase):
             ),
             encoding="utf-8",
         )
-
-        request_path = (
-            root
-            / "Запросы"
-            / "2026-06-24_16-32-29_MSK_проверка-связности-сессии.md"
+        (first_dir / "отчёт.md").write_text(
+            "# Отчёт 2026-06-24 16:26:47 MSK - Первый запрос\n\n"
+            "## Источники\n\n- [исходный запрос](запрос.md)\n",
+            encoding="utf-8",
         )
+
+        request_path = current_dir / "запрос.md"
         request_path.write_text(
             "\n".join(
                 [
@@ -64,7 +251,7 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                     "",
                     "## Навигация по запросам",
                     "",
-                    "- Предыдущий запрос: [2026-06-24 16:26:47 MSK - Первый запрос](2026-06-24_16-26-47_MSK_первый-запрос.md)",
+                    "- Предыдущий запрос: [2026-06-24 16:26:47 MSK - Первый запрос](../2026-06-24_16-26-47_MSK_первый-запрос/запрос.md)",
                     "- Следующий запрос: нет",
                     "",
                     "## Текст запроса",
@@ -73,15 +260,15 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                     "",
                     "## Использованные инструменты",
                     "",
-                    "- [Реестр системных приложений и инструментов](../Инструменты/реестр-системных-приложений-и-инструментов.md) - общий справочник.",
+                    "- [Реестр системных приложений и инструментов](../../Инструменты/реестр-системных-приложений-и-инструментов.md) - общий справочник.",
                     "- `python3` - использован для запуска проверки.",
                     "",
                     "## Повлиял на файлы",
                     "",
-                    "- [Документация/17-воспроизводимые-автоматизации.md](../Документация/17-воспроизводимые-автоматизации.md)",
-                    "- [Журнал/2026-06-24_16-32-29_MSK_проверка-связности-сессии.md](../Журнал/2026-06-24_16-32-29_MSK_проверка-связности-сессии.md)",
-                    "- [Запросы/2026-06-24_16-26-47_MSK_первый-запрос.md](2026-06-24_16-26-47_MSK_первый-запрос.md)",
-                    "- [Запросы/2026-06-24_16-32-29_MSK_проверка-связности-сессии.md](2026-06-24_16-32-29_MSK_проверка-связности-сессии.md)",
+                    "- [Документация/17-воспроизводимые-автоматизации.md](../../Документация/17-воспроизводимые-автоматизации.md)",
+                    "- [Журнал/текущий запрос](запрос.md)",
+                    "- [Журнал/текущий отчёт](отчёт.md)",
+                    "- [Журнал/предыдущий запрос](../2026-06-24_16-26-47_MSK_первый-запрос/запрос.md)",
                     "",
                     "## Проверки",
                     "",
@@ -89,18 +276,14 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                     "",
                     "## Описание сделанного",
                     "",
-                    "Добавлена проверка [воспроизводимых автоматизаций](../Документация/17-воспроизводимые-автоматизации.md).",
+                    "Добавлена проверка [воспроизводимых автоматизаций](../../Документация/17-воспроизводимые-автоматизации.md).",
                     "",
                 ]
             ),
             encoding="utf-8",
         )
 
-        (
-            root
-            / "Журнал"
-            / "2026-06-24_16-32-29_MSK_проверка-связности-сессии.md"
-        ).write_text(
+        (current_dir / "отчёт.md").write_text(
             "\n".join(
                 [
                     "# Отчёт 2026-06-24 16:32:29 MSK - Проверка связности сессии",
@@ -111,7 +294,21 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                     "",
                     "## Источники",
                     "",
-                    "- [исходный запрос 2026-06-24 16:32:29 MSK - Проверка связности сессии](../Запросы/2026-06-24_16-32-29_MSK_проверка-связности-сессии.md)",
+                    "- [исходный запрос 2026-06-24 16:32:29 MSK - Проверка связности сессии](запрос.md)",
+                    "",
+                ]
+            ),
+            encoding="utf-8",
+        )
+        (root / "Журнал" / "README.md").write_text(
+            "\n".join(
+                [
+                    "# Журнал",
+                    "",
+                    "## Папки запросов",
+                    "",
+                    f"- [Текущий отчёт]({current_stem}/отчёт.md)",
+                    f"- [Первый отчёт]({first_stem}/отчёт.md)",
                     "",
                 ]
             ),
@@ -123,14 +320,16 @@ class CheckSessionCoherenceTests(unittest.TestCase):
         self,
         root: Path,
         *,
-        request_name: str,
+        request_stem: str,
         request_label: str,
         invocation_rows: list[str] | None,
         invocation_total: str | None,
     ) -> Path:
-        (root / "Запросы").mkdir()
         (root / "Журнал").mkdir()
-        request_path = root / "Запросы" / request_name
+        session_dir = root / "Журнал" / request_stem
+        session_dir.mkdir()
+        request_path = session_dir / "запрос.md"
+        request_path.write_text(f"# Исходный запрос {request_label}\n", encoding="utf-8")
         lines = [
             f"# Отчёт {request_label}",
             "",
@@ -163,11 +362,11 @@ class CheckSessionCoherenceTests(unittest.TestCase):
             [
                 "## Источники",
                 "",
-                f"- [исходный запрос](../Запросы/{request_path.name})",
+                "- [исходный запрос](запрос.md)",
                 "",
             ]
         )
-        (root / "Журнал" / request_path.name).write_text(
+        (session_dir / "отчёт.md").write_text(
             "\n".join(lines),
             encoding="utf-8",
         )
@@ -180,9 +379,9 @@ class CheckSessionCoherenceTests(unittest.TestCase):
             git_status = "\n".join(
                 [
                     " M Документация/17-воспроизводимые-автоматизации.md",
-                    " M Запросы/2026-06-24_16-26-47_MSK_первый-запрос.md",
-                    "?? Журнал/2026-06-24_16-32-29_MSK_проверка-связности-сессии.md",
-                    "?? Запросы/2026-06-24_16-32-29_MSK_проверка-связности-сессии.md",
+                    " M Журнал/2026-06-24_16-26-47_MSK_первый-запрос/запрос.md",
+                    "?? Журнал/2026-06-24_16-32-29_MSK_проверка-связности-сессии/отчёт.md",
+                    "?? Журнал/2026-06-24_16-32-29_MSK_проверка-связности-сессии/запрос.md",
                 ]
             )
 
@@ -195,7 +394,7 @@ class CheckSessionCoherenceTests(unittest.TestCase):
             self.assertEqual(errors, [])
 
     def test_historical_request_filename_without_title_still_has_old_heading(self):
-        request_path = Path("Запросы/2026-06-24_16-32-29_MSK.md")
+        request_path = self.canonical_request("2026-06-24_16-32-29_MSK")
 
         self.assertIsNotNone(check_session_coherence.request_match(request_path))
         self.assertEqual(
@@ -204,27 +403,31 @@ class CheckSessionCoherenceTests(unittest.TestCase):
         )
 
     def test_new_request_title_must_start_with_infinitive_verb(self):
-        request_path = Path("Запросы/2026-07-03_00-00-00_MSK_имена-запросов.md")
+        request_path = self.canonical_request(
+            "2026-07-03_00-00-00_MSK_имена-запросов"
+        )
 
         errors = check_session_coherence.validate_request_filename_title(request_path)
 
         self.assertEqual(
             errors,
             [
-                "request filename title must start with an infinitive verb: имена-запросов"
+                "request folder title must start with an infinitive verb: имена-запросов"
             ],
         )
 
     def test_historical_request_title_before_infinitive_rule_remains_allowed(self):
-        request_path = Path("Запросы/2026-07-02_22-43-41_MSK_имена-файлов-запросов.md")
+        request_path = self.canonical_request(
+            "2026-07-02_22-43-41_MSK_имена-файлов-запросов"
+        )
 
         errors = check_session_coherence.validate_request_filename_title(request_path)
 
         self.assertEqual(errors, [])
 
     def test_new_request_rejects_unqualified_codex_version_fallback(self):
-        request_path = Path(
-            "Запросы/2026-07-10_05-59-58_MSK_уточнить-учёт-версий-ChatGPT-и-Codex.md"
+        request_path = self.canonical_request(
+            "2026-07-10_05-59-58_MSK_уточнить-учёт-версий-ChatGPT-и-Codex"
         )
         generic_entries = (
             "- Codex - версия не раскрывается средой; использован как агентская среда.",
@@ -267,8 +470,8 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                 "",
             ]
         )
-        request_path = Path(
-            "Запросы/2026-07-10_05-51-44_MSK_создать-папку-вопросов-и-ответов.md"
+        request_path = self.canonical_request(
+            "2026-07-10_05-51-44_MSK_создать-папку-вопросов-и-ответов"
         )
 
         errors = check_session_coherence.validate_used_tools_section(
@@ -279,9 +482,9 @@ class CheckSessionCoherenceTests(unittest.TestCase):
         self.assertEqual(errors, [])
 
     def test_new_request_requires_canonical_session_time_tool(self):
-        request_path = Path(
-            "Запросы/2026-07-17_10-25-41_MSK_"
-            "предотвращать-смещение-времени-сессий.md"
+        request_path = self.canonical_request(
+            "2026-07-17_10-25-41_MSK_"
+            "предотвращать-смещение-времени-сессий"
         )
         text = "\n".join(
             [
@@ -306,9 +509,9 @@ class CheckSessionCoherenceTests(unittest.TestCase):
         )
 
     def test_new_request_requires_codex_thread_id(self):
-        request_path = Path(
-            "Запросы/2026-07-14_02-31-47_MSK_добавлять-"
-            "идентификатор-сеанса-Codex.md"
+        request_path = self.canonical_request(
+            "2026-07-14_02-31-47_MSK_добавлять-"
+            "идентификатор-сеанса-Codex"
         )
 
         errors = check_session_coherence.validate_codex_thread_id_section(
@@ -322,9 +525,9 @@ class CheckSessionCoherenceTests(unittest.TestCase):
         )
 
     def test_new_request_accepts_root_codex_thread_id(self):
-        request_path = Path(
-            "Запросы/2026-07-14_02-31-47_MSK_добавлять-"
-            "идентификатор-сеанса-Codex.md"
+        request_path = self.canonical_request(
+            "2026-07-14_02-31-47_MSK_добавлять-"
+            "идентификатор-сеанса-Codex"
         )
         root_thread_id = "019f5dd0-c129-7fa0-9315-77e85dead3e7"
         text = "\n".join(
@@ -345,9 +548,9 @@ class CheckSessionCoherenceTests(unittest.TestCase):
         self.assertEqual(errors, [])
 
     def test_new_request_rejects_split_or_non_unique_codex_thread_id_section(self):
-        request_path = Path(
-            "Запросы/2026-07-14_02-31-47_MSK_добавлять-"
-            "идентификатор-сеанса-Codex.md"
+        request_path = self.canonical_request(
+            "2026-07-14_02-31-47_MSK_добавлять-"
+            "идентификатор-сеанса-Codex"
         )
         root_thread_id = "019f5dd0-c129-7fa0-9315-77e85dead3e7"
         invalid_texts = {
@@ -377,9 +580,9 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                 self.assertTrue(errors)
 
     def test_new_request_rejects_subagent_codex_thread_id(self):
-        request_path = Path(
-            "Запросы/2026-07-14_02-31-47_MSK_добавлять-"
-            "идентификатор-сеанса-Codex.md"
+        request_path = self.canonical_request(
+            "2026-07-14_02-31-47_MSK_добавлять-"
+            "идентификатор-сеанса-Codex"
         )
         root_thread_id = "019f5dd0-c129-7fa0-9315-77e85dead3e7"
         child_thread_id = "019f5dd2-af59-7a31-99d0-243a677529ab"
@@ -407,9 +610,9 @@ class CheckSessionCoherenceTests(unittest.TestCase):
         )
 
     def test_new_request_rejects_non_uuid_codex_thread_id(self):
-        request_path = Path(
-            "Запросы/2026-07-14_02-31-47_MSK_добавлять-"
-            "идентификатор-сеанса-Codex.md"
+        request_path = self.canonical_request(
+            "2026-07-14_02-31-47_MSK_добавлять-"
+            "идентификатор-сеанса-Codex"
         )
         text = "\n".join(
             [
@@ -431,9 +634,9 @@ class CheckSessionCoherenceTests(unittest.TestCase):
         )
 
     def test_historical_request_without_codex_thread_id_remains_allowed(self):
-        request_path = Path(
-            "Запросы/2026-07-14_01-55-34_MSK_"
-            "интегрировать-рекурсивную-модель-агента-и-среды.md"
+        request_path = self.canonical_request(
+            "2026-07-14_01-55-34_MSK_"
+            "интегрировать-рекурсивную-модель-агента-и-среды"
         )
 
         errors = check_session_coherence.validate_codex_thread_id_section(
@@ -444,9 +647,9 @@ class CheckSessionCoherenceTests(unittest.TestCase):
         self.assertEqual(errors, [])
 
     def test_new_request_requires_commit_context_arguments(self):
-        request_path = Path(
-            "Запросы/2026-07-14_02-31-47_MSK_добавлять-"
-            "идентификатор-сеанса-Codex.md"
+        request_path = self.canonical_request(
+            "2026-07-14_02-31-47_MSK_добавлять-"
+            "идентификатор-сеанса-Codex"
         )
 
         errors = (
@@ -465,9 +668,9 @@ class CheckSessionCoherenceTests(unittest.TestCase):
             ],
         )
 
-        historical_path = Path(
-            "Запросы/2026-07-14_01-55-34_MSK_"
-            "интегрировать-рекурсивную-модель-агента-и-среды.md"
+        historical_path = self.canonical_request(
+            "2026-07-14_01-55-34_MSK_"
+            "интегрировать-рекурсивную-модель-агента-и-среды"
         )
         self.assertEqual(
             check_session_coherence.validate_codex_commit_context_requirements(
@@ -479,9 +682,9 @@ class CheckSessionCoherenceTests(unittest.TestCase):
         )
 
     def test_commit_message_requires_matching_codex_thread_id_trailer(self):
-        request_path = Path(
-            "Запросы/2026-07-14_02-31-47_MSK_добавлять-"
-            "идентификатор-сеанса-Codex.md"
+        request_path = self.canonical_request(
+            "2026-07-14_02-31-47_MSK_добавлять-"
+            "идентификатор-сеанса-Codex"
         )
         root_thread_id = "019f5dd0-c129-7fa0-9315-77e85dead3e7"
         request_text = "\n".join(
@@ -627,8 +830,10 @@ class CheckSessionCoherenceTests(unittest.TestCase):
     def test_affected_files_accepts_deleted_path_marker(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            request_path = root / "Запросы" / "запрос.md"
-            request_path.parent.mkdir()
+            request_path = (
+                root / "Журнал" / "2026-08-03_12-34-56_MSK" / "запрос.md"
+            )
+            request_path.parent.mkdir(parents=True)
             text = "\n".join(
                 [
                     "## Повлиял на файлы",
@@ -653,8 +858,10 @@ class CheckSessionCoherenceTests(unittest.TestCase):
     def test_deleted_path_marker_rejects_existing_file(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            request_path = root / "Запросы" / "запрос.md"
-            request_path.parent.mkdir()
+            request_path = (
+                root / "Журнал" / "2026-08-03_12-34-56_MSK" / "запрос.md"
+            )
+            request_path.parent.mkdir(parents=True)
             existing = root / "Документация" / "существующий-файл.md"
             existing.parent.mkdir()
             existing.write_text("# Существующий файл\n", encoding="utf-8")
@@ -681,15 +888,304 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                 ],
             )
 
-    def test_reports_missing_journal(self):
+    def test_git_status_accepts_existing_descendants_of_linked_directory(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = (
+                root / "Журнал" / "2026-08-03_12-34-56_MSK" / "запрос.md"
+            )
+            request_path.parent.mkdir(parents=True)
+            affected_directory = root / "Документация" / "модуль"
+            nested_directory = affected_directory / "вложенный"
+            nested_directory.mkdir(parents=True)
+            (affected_directory / "первый.md").write_text("# Первый\n", encoding="utf-8")
+            (nested_directory / "второй.md").write_text("# Второй\n", encoding="utf-8")
+            text = "\n".join(
+                [
+                    "## Повлиял на файлы",
+                    "",
+                    "- [Модуль](../../Документация/модуль/)",
+                    "",
+                ]
+            )
+
+            affected, affected_errors = (
+                check_session_coherence.affected_files_from_request(
+                    text,
+                    request_path,
+                    root,
+                )
+            )
+            status_errors = check_session_coherence.validate_git_status(
+                root,
+                affected,
+                "\n".join(
+                    [
+                        " M Документация/модуль/первый.md",
+                        "?? Документация/модуль/вложенный/второй.md",
+                    ]
+                ),
+            )
+
+            self.assertEqual(affected_errors, [])
+            self.assertEqual(status_errors, [])
+
+    def test_git_status_directory_scope_rejects_sibling_prefix_and_deleted_path(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = (
+                root / "Журнал" / "2026-08-03_12-34-56_MSK" / "запрос.md"
+            )
+            request_path.parent.mkdir(parents=True)
+            affected_directory = root / "Документация" / "модуль"
+            affected_directory.mkdir(parents=True)
+            sibling = root / "Документация" / "сосед.md"
+            sibling.write_text("# Сосед\n", encoding="utf-8")
+            prefix = root / "Документация" / "модуль-другой" / "файл.md"
+            prefix.parent.mkdir()
+            prefix.write_text("# Другой\n", encoding="utf-8")
+            text = "\n".join(
+                [
+                    "## Повлиял на файлы",
+                    "",
+                    "- [Модуль](../../Документация/модуль/)",
+                    "",
+                ]
+            )
+
+            affected, affected_errors = (
+                check_session_coherence.affected_files_from_request(
+                    text,
+                    request_path,
+                    root,
+                )
+            )
+            status_errors = check_session_coherence.validate_git_status(
+                root,
+                affected,
+                "\n".join(
+                    [
+                        " M Документация/сосед.md",
+                        " M Документация/модуль-другой/файл.md",
+                        " D Документация/модуль/удалённый.md",
+                    ]
+                ),
+            )
+
+            self.assertEqual(affected_errors, [])
+            self.assertEqual(
+                status_errors,
+                [
+                    "unexpected Git status path: Документация/сосед.md",
+                    "unexpected Git status path: Документация/модуль-другой/файл.md",
+                    "unexpected Git status path: Документация/модуль/удалённый.md",
+                ],
+            )
+
+    def test_deleted_direct_files_marker_allows_only_direct_children(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = (
+                root / "Журнал" / "2026-08-03_12-34-56_MSK" / "запрос.md"
+            )
+            request_path.parent.mkdir(parents=True)
+            journal = root / "Журнал"
+            (journal / "сессия").mkdir()
+            text = "\n".join(
+                [
+                    "## Повлиял на файлы",
+                    "",
+                    "- Удалённые непосредственные файлы каталога: `Журнал/`",
+                    "",
+                ]
+            )
+
+            affected, affected_errors = (
+                check_session_coherence.affected_files_from_request(
+                    text,
+                    request_path,
+                    root,
+                )
+            )
+            status_errors = check_session_coherence.validate_git_status(
+                root,
+                affected,
+                "\n".join(
+                    [
+                        "D  Журнал/старый-отчёт.md",
+                        "D  Журнал/сессия/вложенный.md",
+                        "D  Журнал-снимок/старый-отчёт.md",
+                    ]
+                ),
+            )
+
+            self.assertEqual(affected_errors, [])
+            self.assertEqual(
+                status_errors,
+                [
+                    "unexpected Git status path: Журнал/сессия/вложенный.md",
+                    "unexpected Git status path: Журнал-снимок/старый-отчёт.md",
+                ],
+            )
+
+    def test_deleted_direct_files_marker_requires_existing_directory_inside_repository(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = (
+                root / "Журнал" / "2026-08-03_12-34-56_MSK" / "запрос.md"
+            )
+            request_path.parent.mkdir(parents=True)
+            text = "\n".join(
+                [
+                    "## Повлиял на файлы",
+                    "",
+                    "- Удалённые непосредственные файлы каталога: `Нет/`",
+                    "- Удалённые непосредственные файлы каталога: `../вне-репозитория/`",
+                    "",
+                ]
+            )
+
+            _, errors = check_session_coherence.affected_files_from_request(
+                text,
+                request_path,
+                root,
+            )
+
+            self.assertEqual(
+                errors,
+                [
+                    "deleted direct-files directory must exist: Нет/",
+                    "deleted direct-files directory must stay inside the repository: "
+                    "../вне-репозитория/",
+                ],
+            )
+
+    def test_deleted_subtree_marker_allows_only_its_descendants(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = (
+                root / "Журнал" / "2026-08-03_12-34-56_MSK" / "запрос.md"
+            )
+            request_path.parent.mkdir(parents=True)
+            text = "\n".join(
+                [
+                    "## Повлиял на файлы",
+                    "",
+                    "- Удалённое поддерево: `Запросы/`",
+                    "",
+                ]
+            )
+
+            affected, affected_errors = (
+                check_session_coherence.affected_files_from_request(
+                    text,
+                    request_path,
+                    root,
+                )
+            )
+            status_errors = check_session_coherence.validate_git_status(
+                root,
+                affected,
+                "\n".join(
+                    [
+                        "D  Запросы/первый.md",
+                        "D  Запросы/вложенный/второй.md",
+                        "D  Запросы-архив/файл.md",
+                        "D  Запросы",
+                    ]
+                ),
+            )
+
+            self.assertEqual(affected_errors, [])
+            self.assertEqual(
+                status_errors,
+                [
+                    "unexpected Git status path: Запросы-архив/файл.md",
+                    "unexpected Git status path: Запросы",
+                ],
+            )
+
+    def test_deleted_subtree_marker_requires_absent_path_inside_repository(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = (
+                root / "Журнал" / "2026-08-03_12-34-56_MSK" / "запрос.md"
+            )
+            request_path.parent.mkdir(parents=True)
+            (root / "Запросы").mkdir()
+            text = "\n".join(
+                [
+                    "## Повлиял на файлы",
+                    "",
+                    "- Удалённое поддерево: `Запросы/`",
+                    "- Удалённое поддерево: `../вне-репозитория/`",
+                    "",
+                ]
+            )
+
+            _, errors = check_session_coherence.affected_files_from_request(
+                text,
+                request_path,
+                root,
+            )
+
+            self.assertEqual(
+                errors,
+                [
+                    "deleted affected subtree still exists: Запросы/",
+                    "deleted affected subtree must stay inside the repository: "
+                    "../вне-репозитория/",
+                ],
+            )
+
+    def test_deleted_file_marker_remains_exact_only(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = (
+                root / "Журнал" / "2026-08-03_12-34-56_MSK" / "запрос.md"
+            )
+            request_path.parent.mkdir(parents=True)
+            text = "\n".join(
+                [
+                    "## Повлиял на файлы",
+                    "",
+                    "- Удалённый файл: `Документация/удалённый.md`",
+                    "",
+                ]
+            )
+
+            affected, affected_errors = (
+                check_session_coherence.affected_files_from_request(
+                    text,
+                    request_path,
+                    root,
+                )
+            )
+            status_errors = check_session_coherence.validate_git_status(
+                root,
+                affected,
+                "\n".join(
+                    [
+                        "D  Документация/удалённый.md",
+                        "D  Документация/удалённый.md/вложенный.md",
+                    ]
+                ),
+            )
+
+            self.assertEqual(affected_errors, [])
+            self.assertEqual(
+                status_errors,
+                [
+                    "unexpected Git status path: "
+                    "Документация/удалённый.md/вложенный.md"
+                ],
+            )
+
+    def test_reports_missing_sibling_report(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             request_path = self.write_fixture(root)
-            (
-                root
-                / "Журнал"
-                / "2026-06-24_16-32-29_MSK_проверка-связности-сессии.md"
-            ).unlink()
+            (request_path.parent / "отчёт.md").unlink()
 
             errors = check_session_coherence.validate_session(
                 root,
@@ -698,22 +1194,46 @@ class CheckSessionCoherenceTests(unittest.TestCase):
             )
 
             self.assertIn(
-                "missing journal file: Журнал/2026-06-24_16-32-29_MSK_проверка-связности-сессии.md",
+                "missing sibling report file: Журнал/"
+                "2026-06-24_16-32-29_MSK_проверка-связности-сессии/отчёт.md",
+                errors,
+            )
+
+    def test_affected_files_requires_current_request_and_sibling_report(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = self.write_fixture(root)
+            request_text = request_path.read_text(encoding="utf-8").replace(
+                "- [Журнал/текущий отчёт](отчёт.md)\n",
+                "",
+            )
+            request_path.write_text(request_text, encoding="utf-8")
+
+            errors = check_session_coherence.validate_session(
+                root,
+                request_path.relative_to(root),
+                git_status="",
+            )
+
+            self.assertIn(
+                "affected files section must include sibling report: Журнал/"
+                "2026-06-24_16-32-29_MSK_проверка-связности-сессии/отчёт.md",
                 errors,
             )
 
     def test_new_journal_requires_time_profile(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            (root / "Запросы").mkdir()
             (root / "Журнал").mkdir()
-            request_path = (
+            session_dir = (
                 root
-                / "Запросы"
+                / "Журнал"
                 / "2026-07-23_14-47-43_MSK_"
-                "включать-профиль-времени-в-отчёты-журнала.md"
+                "включать-профиль-времени-в-отчёты-журнала"
             )
-            journal_path = root / "Журнал" / request_path.name
+            session_dir.mkdir()
+            request_path = session_dir / "запрос.md"
+            journal_path = session_dir / "отчёт.md"
             journal_path.write_text(
                 "\n".join(
                     [
@@ -724,7 +1244,7 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                         "",
                         "## Источники",
                         "",
-                        f"- [исходный запрос](../Запросы/{request_path.name})",
+                        "- [исходный запрос](запрос.md)",
                         "",
                     ]
                 ),
@@ -744,15 +1264,16 @@ class CheckSessionCoherenceTests(unittest.TestCase):
     def test_new_journal_accepts_two_stage_time_profile(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            (root / "Запросы").mkdir()
             (root / "Журнал").mkdir()
-            request_path = (
+            session_dir = (
                 root
-                / "Запросы"
+                / "Журнал"
                 / "2026-07-23_14-47-43_MSK_"
-                "включать-профиль-времени-в-отчёты-журнала.md"
+                "включать-профиль-времени-в-отчёты-журнала"
             )
-            journal_path = root / "Журнал" / request_path.name
+            session_dir.mkdir()
+            request_path = session_dir / "запрос.md"
+            journal_path = session_dir / "отчёт.md"
             journal_path.write_text(
                 "\n".join(
                     [
@@ -772,7 +1293,7 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                         "",
                         "## Источники",
                         "",
-                        f"- [исходный запрос](../Запросы/{request_path.name})",
+                        "- [исходный запрос](запрос.md)",
                         "",
                     ]
                 ),
@@ -791,9 +1312,9 @@ class CheckSessionCoherenceTests(unittest.TestCase):
             root = Path(tmp)
             request_path = self.write_time_profile_journal(
                 root,
-                request_name=(
+                request_stem=(
                     "2026-07-27_16-12-29_MSK_"
-                    "учитывать-все-запуски-проверок.md"
+                    "учитывать-все-запуски-проверок"
                 ),
                 request_label=(
                     "2026-07-27 16:12:29 MSK - "
@@ -822,9 +1343,9 @@ class CheckSessionCoherenceTests(unittest.TestCase):
             root = Path(tmp)
             request_path = self.write_time_profile_journal(
                 root,
-                request_name=(
+                request_stem=(
                     "2026-07-27_16-12-29_MSK_"
-                    "учитывать-все-запуски-проверок.md"
+                    "учитывать-все-запуски-проверок"
                 ),
                 request_label=(
                     "2026-07-27 16:12:29 MSK - "
@@ -864,9 +1385,9 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                 root = Path(tmp)
                 request_path = self.write_time_profile_journal(
                     root,
-                    request_name=(
+                    request_stem=(
                         "2026-07-27_16-12-29_MSK_"
-                        "учитывать-все-запуски-проверок.md"
+                        "учитывать-все-запуски-проверок"
                     ),
                     request_label=(
                         "2026-07-27 16:12:29 MSK - "
@@ -875,7 +1396,7 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                     invocation_rows=None,
                     invocation_total=None,
                 )
-                journal_path = root / "Журнал" / request_path.name
+                journal_path = request_path.parent / "отчёт.md"
                 journal_text = journal_path.read_text(encoding="utf-8")
                 journal_path.write_text(
                     journal_text.replace(
@@ -901,9 +1422,9 @@ class CheckSessionCoherenceTests(unittest.TestCase):
             root = Path(tmp)
             request_path = self.write_time_profile_journal(
                 root,
-                request_name=(
+                request_stem=(
                     "2026-07-27_16-12-29_MSK_"
-                    "учитывать-все-запуски-проверок.md"
+                    "учитывать-все-запуски-проверок"
                 ),
                 request_label=(
                     "2026-07-27 16:12:29 MSK - "
@@ -925,7 +1446,7 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                     "```",
                 ]
             )
-            journal_path = root / "Журнал" / request_path.name
+            journal_path = request_path.parent / "отчёт.md"
             journal_text = journal_path.read_text(encoding="utf-8")
             journal_path.write_text(
                 journal_text.replace(
@@ -951,9 +1472,9 @@ class CheckSessionCoherenceTests(unittest.TestCase):
             root = Path(tmp)
             request_path = self.write_time_profile_journal(
                 root,
-                request_name=(
+                request_stem=(
                     "2026-07-27_16-12-29_MSK_"
-                    "учитывать-все-запуски-проверок.md"
+                    "учитывать-все-запуски-проверок"
                 ),
                 request_label=(
                     "2026-07-27 16:12:29 MSK - "
@@ -964,7 +1485,7 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                 ],
                 invocation_total=None,
             )
-            journal_path = root / "Журнал" / request_path.name
+            journal_path = request_path.parent / "отчёт.md"
             journal_text = journal_path.read_text(encoding="utf-8")
             journal_path.write_text(
                 journal_text.replace(
@@ -1003,9 +1524,9 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                 root = Path(tmp)
                 request_path = self.write_time_profile_journal(
                     root,
-                    request_name=(
+                    request_stem=(
                         "2026-07-27_16-12-29_MSK_"
-                        "учитывать-все-запуски-проверок.md"
+                        "учитывать-все-запуски-проверок"
                     ),
                     request_label=(
                         "2026-07-27 16:12:29 MSK - "
@@ -1035,9 +1556,9 @@ class CheckSessionCoherenceTests(unittest.TestCase):
             root = Path(tmp)
             request_path = self.write_time_profile_journal(
                 root,
-                request_name=(
+                request_stem=(
                     "2026-07-27_16-12-29_MSK_"
-                    "учитывать-все-запуски-проверок.md"
+                    "учитывать-все-запуски-проверок"
                 ),
                 request_label=(
                     "2026-07-27 16:12:29 MSK - "
@@ -1097,9 +1618,9 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                 root = Path(tmp)
                 request_path = self.write_time_profile_journal(
                     root,
-                    request_name=(
+                    request_stem=(
                         "2026-07-27_16-12-29_MSK_"
-                        "учитывать-все-запуски-проверок.md"
+                        "учитывать-все-запуски-проверок"
                     ),
                     request_label=(
                         "2026-07-27 16:12:29 MSK - "
@@ -1121,9 +1642,9 @@ class CheckSessionCoherenceTests(unittest.TestCase):
             root = Path(tmp)
             request_path = self.write_time_profile_journal(
                 root,
-                request_name=(
+                request_stem=(
                     "2026-07-27_16-12-28_MSK_"
-                    "учитывать-старый-профиль-времени.md"
+                    "учитывать-старый-профиль-времени"
                 ),
                 request_label=(
                     "2026-07-27 16:12:28 MSK - "
@@ -1143,15 +1664,16 @@ class CheckSessionCoherenceTests(unittest.TestCase):
     def test_new_journal_rejects_incomplete_time_profile(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            (root / "Запросы").mkdir()
             (root / "Журнал").mkdir()
-            request_path = (
+            session_dir = (
                 root
-                / "Запросы"
+                / "Журнал"
                 / "2026-07-23_14-47-43_MSK_"
-                "включать-профиль-времени-в-отчёты-журнала.md"
+                "включать-профиль-времени-в-отчёты-журнала"
             )
-            journal_path = root / "Журнал" / request_path.name
+            session_dir.mkdir()
+            request_path = session_dir / "запрос.md"
+            journal_path = session_dir / "отчёт.md"
             journal_path.write_text(
                 "\n".join(
                     [
@@ -1166,7 +1688,7 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                         "",
                         "## Источники",
                         "",
-                        f"- [исходный запрос](../Запросы/{request_path.name})",
+                        "- [исходный запрос](запрос.md)",
                         "",
                     ]
                 ),
@@ -1198,15 +1720,16 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                 boundary_after=boundary_after,
             ), tempfile.TemporaryDirectory() as tmp:
                 root = Path(tmp)
-                (root / "Запросы").mkdir()
                 (root / "Журнал").mkdir()
-                request_path = (
+                session_dir = (
                     root
-                    / "Запросы"
+                    / "Журнал"
                     / "2026-07-23_14-47-43_MSK_"
-                    "включать-профиль-времени-в-отчёты-журнала.md"
+                    "включать-профиль-времени-в-отчёты-журнала"
                 )
-                journal_path = root / "Журнал" / request_path.name
+                session_dir.mkdir()
+                request_path = session_dir / "запрос.md"
+                journal_path = session_dir / "отчёт.md"
                 lines = [
                     "# Отчёт 2026-07-23 14:47:43 MSK - "
                     "Включать профиль времени в отчёты журнала",
@@ -1231,7 +1754,7 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                     [
                         "## Источники",
                         "",
-                        f"- [исходный запрос](../Запросы/{request_path.name})",
+                        "- [исходный запрос](запрос.md)",
                         "",
                     ]
                 )
@@ -1280,6 +1803,34 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                 any("broken Markdown link" in error for error in errors),
                 errors,
             )
+
+    def test_request_text_links_are_raw_provenance_but_links_after_it_remain_active(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request_path = (
+                root
+                / "Журнал"
+                / "2026-08-03_12-34-56_MSK_проверить-ссылки"
+                / "запрос.md"
+            )
+            request_path.parent.mkdir(parents=True)
+            request_path.write_text(
+                "# Исходный запрос 2026-08-03 12:34:56 MSK - Проверить ссылки\n\n"
+                "## Текст запроса\n\n"
+                "> Дословная [историческая ссылка](../нет-такого-файла.md).\n\n"
+                "## Результат\n\n"
+                "Активная [битая ссылка](../тоже-нет.md).\n",
+                encoding="utf-8",
+            )
+
+            errors = check_session_coherence.validate_markdown_links(
+                {request_path},
+                root,
+            )
+
+            self.assertEqual(len(errors), 1)
+            self.assertIn("тоже-нет.md", errors[0])
+            self.assertNotIn("нет-такого-файла.md", errors[0])
 
     def test_rejects_absolute_and_escaping_local_markdown_links(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -1480,18 +2031,18 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                     [
                         "# Служебная записка",
                         "",
-                        "Пользователь уточнил правило ведения памяти FUM: такие ответы надо сохранять в `Запросы/`.",
+                        "Пользователь уточнил правило ведения памяти FUM: такие ответы надо сохранять в папке запроса.",
                         "",
                     ]
                 ),
                 encoding="utf-8",
             )
             request_text = request_path.read_text(encoding="utf-8").replace(
-                "- [Журнал/2026-06-24_16-32-29_MSK_проверка-связности-сессии.md](../Журнал/2026-06-24_16-32-29_MSK_проверка-связности-сессии.md)",
+                "- [Журнал/текущий отчёт](отчёт.md)",
                 "\n".join(
                     [
-                        "- [Документация/служебная-записка.md](../Документация/служебная-записка.md)",
-                        "- [Журнал/2026-06-24_16-32-29_MSK_проверка-связности-сессии.md](../Журнал/2026-06-24_16-32-29_MSK_проверка-связности-сессии.md)",
+                        "- [Документация/служебная-записка.md](../../Документация/служебная-записка.md)",
+                        "- [Журнал/текущий отчёт](отчёт.md)",
                     ]
                 ),
             )
@@ -1504,12 +2055,12 @@ class CheckSessionCoherenceTests(unittest.TestCase):
             )
 
             self.assertIn(
-                "possible unregistered meta request in Документация/служебная-записка.md:3: add a link to a concrete request file in Запросы/ or create a separate request file",
+                "possible unregistered meta request in Документация/служебная-записка.md:3: add a link to a concrete Журнал/<session-stem>/запрос.md or create a separate request folder",
                 errors,
             )
 
-    def test_detects_meta_request_context_from_requests_directory_marker(self):
-        text = "Пользователь спросил, нужно ли сохранять это в `Запросы/`."
+    def test_detects_meta_request_context_from_request_folder_marker(self):
+        text = "Пользователь спросил, нужно ли сохранять это в папке запроса."
 
         line = check_session_coherence.possible_meta_request_line(text)
 
@@ -1527,7 +2078,7 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                         "",
                         "Источники требований:",
                         "",
-                        "- [исходный запрос 2026-06-24 16:32:29 MSK - Проверка связности сессии](../Запросы/2026-06-24_16-32-29_MSK_проверка-связности-сессии.md)",
+                        "- [исходный запрос 2026-06-24 16:32:29 MSK - Проверка связности сессии](../Журнал/2026-06-24_16-32-29_MSK_проверка-связности-сессии/запрос.md)",
                         "",
                         "## Содержание",
                         "",
@@ -1538,11 +2089,11 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                 encoding="utf-8",
             )
             request_text = request_path.read_text(encoding="utf-8").replace(
-                "- [Журнал/2026-06-24_16-32-29_MSK_проверка-связности-сессии.md](../Журнал/2026-06-24_16-32-29_MSK_проверка-связности-сессии.md)",
+                "- [Журнал/текущий отчёт](отчёт.md)",
                 "\n".join(
                     [
-                        "- [Документация/служебная-записка.md](../Документация/служебная-записка.md)",
-                        "- [Журнал/2026-06-24_16-32-29_MSK_проверка-связности-сессии.md](../Журнал/2026-06-24_16-32-29_MSK_проверка-связности-сессии.md)",
+                        "- [Документация/служебная-записка.md](../../Документация/служебная-записка.md)",
+                        "- [Журнал/текущий отчёт](отчёт.md)",
                     ]
                 ),
             )
@@ -1580,11 +2131,11 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                 encoding="utf-8",
             )
             request_text = request_path.read_text(encoding="utf-8").replace(
-                "- [Журнал/2026-06-24_16-32-29_MSK_проверка-связности-сессии.md](../Журнал/2026-06-24_16-32-29_MSK_проверка-связности-сессии.md)",
+                "- [Журнал/текущий отчёт](отчёт.md)",
                 "\n".join(
                     [
-                        "- [Документация/диаграмма.md](../Документация/диаграмма.md)",
-                        "- [Журнал/2026-06-24_16-32-29_MSK_проверка-связности-сессии.md](../Журнал/2026-06-24_16-32-29_MSK_проверка-связности-сессии.md)",
+                        "- [Документация/диаграмма.md](../../Документация/диаграмма.md)",
+                        "- [Журнал/текущий отчёт](отчёт.md)",
                     ]
                 ),
             )

@@ -50,7 +50,7 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover \
 
 ## Источники требований
 
-- [исходный запрос 2026-07-21 11:32:46 MSK - Актуализировать входные описания FUM](../../Запросы/2026-07-21_11-32-46_MSK_актуализировать-входные-описания-FUM.md)
+- [исходный запрос 2026-07-21 11:32:46 MSK - Актуализировать входные описания FUM](../../Журнал/2026-07-21_11-32-46_MSK_актуализировать-входные-описания-FUM/запрос.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
 <!-- last-content-edit: 2026-07-21 11:32:46 MSK -->
@@ -58,6 +58,6 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover \
 <!-- FUM-MD-RECENCY:END -->
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-22 09:17:49 MSK -->
-<!-- content-sha256: sha256:b612d66bbc4cc5d3855ee6a4923a2c65b7ef02d60fc5f91932b45ed9d879d37e -->
+<!-- last-content-edit: 2026-08-03 14:54:04 MSK -->
+<!-- content-sha256: sha256:a2cd937122838c699a837ba55f06691fb9edf49f6f5b022139eab9fcadb92b39 -->
 <!-- FUM-MD-RECENCY:END -->

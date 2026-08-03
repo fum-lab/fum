@@ -13,7 +13,22 @@ from pathlib import Path
 from urllib.parse import unquote
 
 
-REQUESTS_DIRECTORY = Path("Запросы")
+REQUEST_LAYOUT_SCRIPTS = (
+    Path(__file__).resolve().parents[2]
+    / "fum-struktura-papok-zaprosov"
+    / "scripts"
+)
+if str(REQUEST_LAYOUT_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(REQUEST_LAYOUT_SCRIPTS))
+
+from request_folder_layout import (  # noqa: E402
+    is_valid_session_stem,
+    session_stem_for_request_path,
+)
+
+
+JOURNAL_DIRECTORY = Path("Журнал")
+REQUEST_FILE_NAME = "запрос.md"
 ANSWER_CARDS_DIRECTORY = Path("Вопросы и ответы")
 REQUEST_TEXT_SECTION = "Текст запроса"
 SOURCES_SECTION = "Источники требований"
@@ -502,12 +517,13 @@ def resolve_request_link(
         return None
 
     requested = lexical_absolute(card.parent / path_part)
-    requests_root = (repo_root / REQUESTS_DIRECTORY).resolve()
+    requests_root = (repo_root / JOURNAL_DIRECTORY).resolve()
     try:
         relative = requested.relative_to(requests_root)
     except ValueError:
         return None
-    if relative.parent != Path(".") or relative.suffix != ".md":
+    request_relative = JOURNAL_DIRECTORY / relative
+    if session_stem_for_request_path(request_relative.as_posix()) is None:
         return None
 
     actual = actual_case_path(requested, repo_root)
@@ -551,11 +567,18 @@ def source_requests_for_card(card: Path, repo_root: Path) -> tuple[str, ...]:
 
 def audit_repository(repo_root: str | Path) -> AuditReport:
     root = Path(repo_root).resolve()
-    requests_directory = root / REQUESTS_DIRECTORY
+    requests_directory = root / JOURNAL_DIRECTORY
     if not requests_directory.is_dir():
-        raise ValueError(f"не найден каталог {REQUESTS_DIRECTORY.as_posix()}")
+        raise ValueError(f"не найден каталог {JOURNAL_DIRECTORY.as_posix()}")
 
-    request_files = sorted(requests_directory.glob("*.md"), key=lambda path: path.name)
+    request_files = sorted(
+        (
+            path
+            for path in requests_directory.glob(f"*/{REQUEST_FILE_NAME}")
+            if is_valid_session_stem(path.parent.name)
+        ),
+        key=lambda path: path.parent.name,
+    )
     questions_by_request: dict[str, list[ExtractedQuestion]] = {}
     for request in request_files:
         relative = request.relative_to(root).as_posix()

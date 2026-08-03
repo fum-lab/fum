@@ -1,9 +1,11 @@
 import importlib.util
 import json
+import os
 import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 
 SCRIPT_PATH = (
@@ -571,6 +573,187 @@ class BuildPlanningRegistryTests(unittest.TestCase):
 
             with self.assertRaisesRegex(ValueError, "source hash does not match"):
                 build_planning_registry.build_to_file(output, root)
+
+    def test_sync_boxed_graph_source_hash_is_atomic_and_idempotent(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_fixture(root)
+            graph_path = root / BOXED_GRAPH_JSON
+            graph_source = root / BOXED_GRAPH_MARKDOWN
+            graph_before = json.loads(graph_path.read_text(encoding="utf-8"))
+            graph_source.write_text(
+                graph_source.read_text(encoding="utf-8") + "Уточнение.\n",
+                encoding="utf-8",
+            )
+            expected_hash = build_planning_registry.content_sha256(
+                BOXED_GRAPH_MARKDOWN,
+                root,
+            )
+            replace_calls: list[tuple[Path, Path]] = []
+            real_replace = os.replace
+
+            def recording_replace(source, destination):
+                replace_calls.append((Path(source), Path(destination)))
+                real_replace(source, destination)
+
+            with mock.patch.object(
+                build_planning_registry.os,
+                "replace",
+                side_effect=recording_replace,
+            ):
+                changed = build_planning_registry.sync_boxed_graph_source_hash(root)
+
+            graph_after = json.loads(graph_path.read_text(encoding="utf-8"))
+            graph_before["source"]["content_sha256_without_recency"] = expected_hash
+            self.assertTrue(changed)
+            self.assertEqual(graph_after, graph_before)
+            self.assertEqual(len(replace_calls), 1)
+            self.assertEqual(replace_calls[0][0].parent, graph_path.parent.resolve())
+            self.assertEqual(replace_calls[0][1], graph_path.resolve())
+
+            bytes_after_first_sync = graph_path.read_bytes()
+            with mock.patch.object(build_planning_registry.os, "replace") as replace:
+                changed_again = build_planning_registry.sync_boxed_graph_source_hash(root)
+
+            self.assertFalse(changed_again)
+            self.assertEqual(graph_path.read_bytes(), bytes_after_first_sync)
+            replace.assert_not_called()
+
+    def test_sync_boxed_graph_source_hash_rejects_invalid_input_before_write(self):
+        cases = [
+            (
+                "malformed JSON",
+                lambda graph: "{\n",
+                "not valid JSON",
+            ),
+            (
+                "wrong schema",
+                lambda graph: {
+                    **graph,
+                    "schema": "fum.planning.boxed-implementation-dependency-graph.v0",
+                },
+                "unexpected boxed implementation graph schema",
+            ),
+            (
+                "wrong source path",
+                lambda graph: {
+                    **graph,
+                    "source": {
+                        **graph["source"],
+                        "path": "../вне-репозитория.md",
+                    },
+                },
+                "source path must be",
+            ),
+            (
+                "malformed source hash",
+                lambda graph: {
+                    **graph,
+                    "source": {
+                        **graph["source"],
+                        "content_sha256_without_recency": "broken",
+                    },
+                },
+                "source hash is malformed",
+            ),
+            (
+                "malformed source object",
+                lambda graph: {
+                    **graph,
+                    "source": {
+                        **graph["source"],
+                        "unexpected": True,
+                    },
+                },
+                "source has unknown fields",
+            ),
+        ]
+        for label, mutate, error_pattern in cases:
+            with self.subTest(label=label), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                self.write_fixture(root)
+                graph_path = root / BOXED_GRAPH_JSON
+                graph = json.loads(graph_path.read_text(encoding="utf-8"))
+                mutated = mutate(graph)
+                if isinstance(mutated, str):
+                    graph_path.write_text(mutated, encoding="utf-8")
+                else:
+                    graph_path.write_text(
+                        json.dumps(mutated, ensure_ascii=False, indent=2) + "\n",
+                        encoding="utf-8",
+                    )
+                bytes_before = graph_path.read_bytes()
+
+                with self.assertRaisesRegex(ValueError, error_pattern):
+                    build_planning_registry.sync_boxed_graph_source_hash(root)
+
+                self.assertEqual(graph_path.read_bytes(), bytes_before)
+
+    def test_sync_boxed_graph_source_hash_rejects_missing_markdown_before_write(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_fixture(root)
+            graph_path = root / BOXED_GRAPH_JSON
+            bytes_before = graph_path.read_bytes()
+            (root / BOXED_GRAPH_MARKDOWN).unlink()
+
+            with self.assertRaisesRegex(ValueError, "Markdown source does not exist"):
+                build_planning_registry.sync_boxed_graph_source_hash(root)
+
+            self.assertEqual(graph_path.read_bytes(), bytes_before)
+
+    def test_sync_boxed_graph_source_hash_rolls_back_atomic_replace_failure(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_fixture(root)
+            graph_path = root / BOXED_GRAPH_JSON
+            graph_source = root / BOXED_GRAPH_MARKDOWN
+            graph_source.write_text(
+                graph_source.read_text(encoding="utf-8") + "Уточнение.\n",
+                encoding="utf-8",
+            )
+            bytes_before = graph_path.read_bytes()
+            directory_before = set(graph_path.parent.iterdir())
+
+            with mock.patch.object(
+                build_planning_registry.os,
+                "replace",
+                side_effect=OSError("replace failed"),
+            ):
+                with self.assertRaisesRegex(OSError, "replace failed"):
+                    build_planning_registry.sync_boxed_graph_source_hash(root)
+
+            self.assertEqual(graph_path.read_bytes(), bytes_before)
+            self.assertEqual(set(graph_path.parent.iterdir()), directory_before)
+
+    def test_sync_boxed_graph_source_hash_command(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_fixture(root)
+            graph_source = root / BOXED_GRAPH_MARKDOWN
+            graph_source.write_text(
+                graph_source.read_text(encoding="utf-8") + "Уточнение.\n",
+                encoding="utf-8",
+            )
+
+            with mock.patch.object(
+                sys,
+                "argv",
+                [
+                    str(SCRIPT_PATH),
+                    "sync-boxed-graph-source-hash",
+                    "--repo-root",
+                    str(root),
+                ],
+            ):
+                result = build_planning_registry.main()
+
+            self.assertEqual(result, 0)
+            graph = json.loads((root / BOXED_GRAPH_JSON).read_text(encoding="utf-8"))
+            self.assertEqual(
+                graph["source"]["content_sha256_without_recency"],
+                build_planning_registry.content_sha256(BOXED_GRAPH_MARKDOWN, root),
+            )
 
     def test_build_rejects_requirement_missing_mandatory_section(self):
         for section in build_planning_registry.REQUIRED_REQUIREMENT_SECTIONS:

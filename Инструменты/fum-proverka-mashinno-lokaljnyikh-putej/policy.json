@@ -3,7 +3,7 @@
   "exceptions": [
     {
       "id": "historical-001",
-      "path": "Журнал/2026-07-10_05-03-09_MSK_сравнить-варианты-реализации.md",
+      "path": "Журнал/2026-07-10_05-03-09_MSK_сравнить-варианты-реализации/отчёт.md",
       "kind": "posix-absolute",
       "line_sha256": "sha256:00c850468fa1b2b82eb62bda36c32dd077494033d6e5d1f856fe69e077c7062a",
       "count": 1,
@@ -12,7 +12,7 @@
     },
     {
       "id": "historical-002",
-      "path": "Журнал/2026-07-17_12-20-17_MSK_создать-скрипты-запуска-прототипов.md",
+      "path": "Журнал/2026-07-17_12-20-17_MSK_создать-скрипты-запуска-прототипов/отчёт.md",
       "kind": "posix-absolute",
       "line_sha256": "sha256:1ead92b138c284782347e47dca05720a9a00d78b82323fcccb12507407040016",
       "count": 1,
@@ -21,7 +21,7 @@
     },
     {
       "id": "historical-003",
-      "path": "Журнал/2026-07-17_12-20-17_MSK_создать-скрипты-запуска-прототипов.md",
+      "path": "Журнал/2026-07-17_12-20-17_MSK_создать-скрипты-запуска-прототипов/отчёт.md",
       "kind": "posix-absolute",
       "line_sha256": "sha256:a61e8866ca165c143f55e5a8a81b73c4c40c9619a42d664be673f7542254d20d",
       "count": 1,
@@ -30,7 +30,7 @@
     },
     {
       "id": "historical-004",
-      "path": "Журнал/2026-07-17_12-33-01_MSK_добавить-панель-запуска-прототипов.md",
+      "path": "Журнал/2026-07-17_12-33-01_MSK_добавить-панель-запуска-прототипов/отчёт.md",
       "kind": "posix-absolute",
       "line_sha256": "sha256:23c6c67886521658215dcd6f3e1c8c056ab60f77bbf0a75a571d2b1de84dd712",
       "count": 1,
@@ -39,7 +39,7 @@
     },
     {
       "id": "historical-005",
-      "path": "Журнал/2026-07-17_12-45-07_MSK_закрепить-модель-Codex-по-умолчанию.md",
+      "path": "Журнал/2026-07-17_12-45-07_MSK_закрепить-модель-Codex-по-умолчанию/отчёт.md",
       "kind": "home-expansion",
       "line_sha256": "sha256:ac934d64b0819a45a018a814b2d2f9a68a7b4ca61633b7dc51b420dd2bf65cf3",
       "count": 1,
@@ -48,7 +48,7 @@
     },
     {
       "id": "historical-006",
-      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей.md",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/отчёт.md",
       "kind": "file-uri",
       "line_sha256": "sha256:f9722af8a9a7214141ab5042008f0da3d771e3f78e9cabcd06feb667541d53c6",
       "count": 1,
@@ -57,7 +57,7 @@
     },
     {
       "id": "historical-007",
-      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей.md",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/отчёт.md",
       "kind": "home-expansion",
       "line_sha256": "sha256:f9722af8a9a7214141ab5042008f0da3d771e3f78e9cabcd06feb667541d53c6",
       "count": 1,
@@ -66,7 +66,7 @@
     },
     {
       "id": "historical-008",
-      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей.md",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/отчёт.md",
       "kind": "posix-absolute",
       "line_sha256": "sha256:b14ac97870679f34476338ff51ff701848362c79df7a8e818dd84dc38823f593",
       "count": 6,
@@ -75,7 +75,7 @@
     },
     {
       "id": "historical-009",
-      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей.md",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/отчёт.md",
       "kind": "posix-user-home",
       "line_sha256": "sha256:31237e40a7a36abd321a9ebec3a6d5974647654136a7e5bc27a4b842cb00c43c",
       "count": 1,
@@ -84,7 +84,7 @@
     },
     {
       "id": "historical-010",
-      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей.md",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/отчёт.md",
       "kind": "posix-user-home",
       "line_sha256": "sha256:b14ac97870679f34476338ff51ff701848362c79df7a8e818dd84dc38823f593",
       "count": 1,
@@ -93,7 +93,7 @@
     },
     {
       "id": "historical-011",
-      "path": "Запросы/2026-07-10_05-03-09_MSK_сравнить-варианты-реализации.md",
+      "path": "Журнал/2026-07-10_05-03-09_MSK_сравнить-варианты-реализации/запрос.md",
       "kind": "posix-absolute",
       "line_sha256": "sha256:00c850468fa1b2b82eb62bda36c32dd077494033d6e5d1f856fe69e077c7062a",
       "count": 1,
@@ -102,7 +102,7 @@
     },
     {
       "id": "historical-012",
-      "path": "Запросы/2026-07-13_15-20-42_MSK_ограничить-вопросы-и-ответы-сущностью-FUM.md",
+      "path": "Журнал/2026-07-13_15-20-42_MSK_ограничить-вопросы-и-ответы-сущностью-FUM/запрос.md",
       "kind": "posix-user-home",
       "line_sha256": "sha256:3b72012165079d25b5fdf868f42001f7e68f7c6fca5b6a499152e73e48763ad2",
       "count": 1,
@@ -111,16 +111,16 @@
     },
     {
       "id": "historical-013",
-      "path": "Запросы/2026-07-13_20-34-23_MSK_закрепить-ролевую-семантику-взаимодействия-ИИ-агентов.md",
+      "path": "Журнал/2026-07-13_20-34-23_MSK_закрепить-ролевую-семантику-взаимодействия-ИИ-агентов/запрос.md",
       "kind": "posix-user-home",
-      "line_sha256": "sha256:2d2f1f328d692e649ed37411d5a74dfadca194d1fb169a2a607f22ce2d956cdf",
+      "line_sha256": "sha256:04ec79ae86bdc7472e232b9669d653bfc5d44de10ece0b3fa30aaf0b64ea3322",
       "count": 1,
       "category": "report.historical",
       "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
     },
     {
       "id": "historical-014",
-      "path": "Запросы/2026-07-17_12-20-17_MSK_создать-скрипты-запуска-прототипов.md",
+      "path": "Журнал/2026-07-17_12-20-17_MSK_создать-скрипты-запуска-прототипов/запрос.md",
       "kind": "posix-absolute",
       "line_sha256": "sha256:dc20dd4c3635a1492dd642e2915ac59cd514d28cf6ee3cd40dd7b781aae53863",
       "count": 1,
@@ -129,7 +129,7 @@
     },
     {
       "id": "historical-015",
-      "path": "Запросы/2026-07-17_12-33-01_MSK_добавить-панель-запуска-прототипов.md",
+      "path": "Журнал/2026-07-17_12-33-01_MSK_добавить-панель-запуска-прототипов/запрос.md",
       "kind": "posix-absolute",
       "line_sha256": "sha256:04682f063429221609b6d686ec2f0f45167147ce9d4b459788927b3280e9c428",
       "count": 1,
@@ -138,7 +138,7 @@
     },
     {
       "id": "historical-016",
-      "path": "Запросы/2026-07-21_10-36-18_MSK_завершить-сквозную-приёмку-архиватора-источников.md",
+      "path": "Журнал/2026-07-21_10-36-18_MSK_завершить-сквозную-приёмку-архиватора-источников/запрос.md",
       "kind": "posix-user-home",
       "line_sha256": "sha256:fbc7431b25bd44852aae2b52edd0e314d7b3cd2085bffc528dc6be2b251403b6",
       "count": 1,
@@ -147,7 +147,7 @@
     },
     {
       "id": "historical-017",
-      "path": "Запросы/2026-07-22_03-38-35_MSK_разрешить-выполнение-доступных-карточек-шагов.md",
+      "path": "Журнал/2026-07-22_03-38-35_MSK_разрешить-выполнение-доступных-карточек-шагов/запрос.md",
       "kind": "posix-user-home",
       "line_sha256": "sha256:2e269b7189fa270bb88dfaa0ebdb0d58a4f8d83a2b3f1686ef1576c2c5eebd14",
       "count": 1,
@@ -156,7 +156,7 @@
     },
     {
       "id": "historical-018",
-      "path": "Запросы/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей.md",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/запрос.md",
       "kind": "file-uri",
       "line_sha256": "sha256:77db65b503c51cddc885693ab58d592dd57ceea2fc902b3dc3ef8660b01c87a3",
       "count": 1,
@@ -165,7 +165,7 @@
     },
     {
       "id": "historical-019",
-      "path": "Запросы/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей.md",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/запрос.md",
       "kind": "posix-user-home",
       "line_sha256": "sha256:8d5bea1a5b9816595bd38bd345329d7c45b512e8b28b7cbed909dd5b1d0cdb0f",
       "count": 1,
@@ -248,8 +248,8 @@
       "id": "fixture-007",
       "path": "Инструменты/fum-materialyi-zaprosov/tests/test_archive_chatgpt_share.py",
       "kind": "posix-absolute",
-      "line_sha256": "sha256:3dd10c70d1079e8d2a4c5975728bb2ca4853f345e76e361a53e56f8cb538c938",
-      "count": 4,
+      "line_sha256": "sha256:1dc9ff818ad139520c6ef0adf42f945f480892ca90c2c9347063ef7db45d5ddd",
+      "count": 5,
       "category": "allow.test-fixture",
       "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
     },
@@ -266,7 +266,7 @@
       "id": "fixture-009",
       "path": "Инструменты/fum-materialyi-zaprosov/tests/test_archive_chatgpt_share.py",
       "kind": "posix-absolute",
-      "line_sha256": "sha256:cefee567a761d58231b902bca35dc3fe2936b5b137297337439d082b523b3071",
+      "line_sha256": "sha256:ed86a83b31732fe54220bbc7021da861eeb5a7ba5366a8996ca6496f41cb9f4b",
       "count": 1,
       "category": "allow.test-fixture",
       "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
@@ -1400,7 +1400,7 @@
       "id": "definition-034",
       "path": "Инструменты/fum-svyaznostj-rabochej-sessii/SKILL.md",
       "kind": "file-uri",
-      "line_sha256": "sha256:1724152b541d209be1bace229df50c3abfdda0b11d05d8816025077da861f51d",
+      "line_sha256": "sha256:ac9b7b6e04e8d1161a2a36431b653a2541b3aae2e2afe7c03653632bf3c78384",
       "count": 1,
       "category": "allow.path-validation-definition",
       "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
@@ -1560,7 +1560,7 @@
     },
     {
       "id": "historical-020",
-      "path": "Ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
       "kind": "file-uri",
       "line_sha256": "sha256:069fc94a5d79e616c655529d7d1a3853f6ca708e84f997998c6ea02245766aab",
       "count": 1,
@@ -1569,7 +1569,7 @@
     },
     {
       "id": "historical-021",
-      "path": "Ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
       "kind": "file-uri",
       "line_sha256": "sha256:2c0e88775fb0f0dffcb81f4b27e25bbc67dfe2137fc50faf01af455719a50c81",
       "count": 1,
@@ -1578,7 +1578,7 @@
     },
     {
       "id": "historical-022",
-      "path": "Ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
       "kind": "file-uri",
       "line_sha256": "sha256:41c304540c5602d6cc3c8d7882c7a6313cad5038c2e714e0a0b270bf26d91958",
       "count": 1,
@@ -1587,7 +1587,7 @@
     },
     {
       "id": "historical-023",
-      "path": "Ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
       "kind": "posix-absolute",
       "line_sha256": "sha256:069fc94a5d79e616c655529d7d1a3853f6ca708e84f997998c6ea02245766aab",
       "count": 2,
@@ -1596,7 +1596,7 @@
     },
     {
       "id": "historical-024",
-      "path": "Ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
       "kind": "posix-absolute",
       "line_sha256": "sha256:5d57cf2c22b247cf06a652e11622477beec85d1e7240d74862101d225ccc141e",
       "count": 1,
@@ -1605,7 +1605,7 @@
     },
     {
       "id": "historical-025",
-      "path": "Ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
       "kind": "posix-user-home",
       "line_sha256": "sha256:16f08460ea0c04b93a690a87a0b96989a1d0eea28fbb90d7e6c7c8dfb6981c5b",
       "count": 1,
@@ -1614,7 +1614,7 @@
     },
     {
       "id": "historical-026",
-      "path": "Ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
       "kind": "posix-user-home",
       "line_sha256": "sha256:1c427e30a356db7129dd6c35b958a38a61a734fc57d9cac224c4d1328e3e3e5c",
       "count": 1,
@@ -1623,7 +1623,7 @@
     },
     {
       "id": "historical-027",
-      "path": "Ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
       "kind": "posix-user-home",
       "line_sha256": "sha256:424fa00f5f959a95834d71cbd6feb254cefd80bd58b36ed23d48ee6647232900",
       "count": 1,
@@ -1632,7 +1632,7 @@
     },
     {
       "id": "historical-028",
-      "path": "Ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
       "kind": "posix-user-home",
       "line_sha256": "sha256:4f0d933802ddb0f08073eeb103ecb890349635bb81dcded95ff84e3b5fd24999",
       "count": 1,
@@ -1641,7 +1641,7 @@
     },
     {
       "id": "historical-029",
-      "path": "Ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
       "kind": "posix-user-home",
       "line_sha256": "sha256:5d57cf2c22b247cf06a652e11622477beec85d1e7240d74862101d225ccc141e",
       "count": 1,
@@ -1650,7 +1650,7 @@
     },
     {
       "id": "historical-030",
-      "path": "Ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
       "kind": "posix-user-home",
       "line_sha256": "sha256:5f34c438529bc857ad2f010b8972cf38fdc2bf7e7c03f8ceb7f05c2a36927c17",
       "count": 2,
@@ -1659,7 +1659,7 @@
     },
     {
       "id": "historical-031",
-      "path": "Ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
       "kind": "posix-user-home",
       "line_sha256": "sha256:60306c80c00dbcf2186f197b953c711e7ca2c96d75c9988dee7e3d35022a2a41",
       "count": 1,
@@ -1668,7 +1668,7 @@
     },
     {
       "id": "historical-032",
-      "path": "Ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
       "kind": "posix-user-home",
       "line_sha256": "sha256:732b23b0d837341c06acb33def515c0fafa44042466f762fccc9e8bf30455212",
       "count": 1,
@@ -1677,7 +1677,7 @@
     },
     {
       "id": "historical-033",
-      "path": "Ревью/Автоматизации/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
       "kind": "compiler-file-path",
       "line_sha256": "sha256:186c400bd4160e2f170cc3d074b68bc11879ebded5a06c54a0df12820922c5ee",
       "count": 1,
@@ -1686,7 +1686,7 @@
     },
     {
       "id": "historical-034",
-      "path": "Ревью/Автоматизации/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
       "kind": "compiler-file-path",
       "line_sha256": "sha256:28b886c191c204c721272126df5f7c0c5e98dfa854e18d6715b953a72f478475",
       "count": 1,
@@ -1695,7 +1695,7 @@
     },
     {
       "id": "historical-035",
-      "path": "Ревью/Автоматизации/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
       "kind": "compiler-file-path",
       "line_sha256": "sha256:495efcc5c15455157394c51ba9de1b7b7132c7b472f729d7e97d9e763b598f7b",
       "count": 1,
@@ -1704,7 +1704,7 @@
     },
     {
       "id": "historical-036",
-      "path": "Ревью/Автоматизации/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
       "kind": "compiler-file-path",
       "line_sha256": "sha256:c94b9ae0859de27431e26a3c34eb2c46af4a56c663d3a26fcb30dd3ae4889032",
       "count": 1,
@@ -1713,7 +1713,7 @@
     },
     {
       "id": "historical-037",
-      "path": "Ревью/Автоматизации/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
       "kind": "posix-absolute",
       "line_sha256": "sha256:50c64d889b6cec1f05107aefca3e05c0a44f957f1cc799854be3c7b708e8adba",
       "count": 2,
@@ -1722,7 +1722,7 @@
     },
     {
       "id": "historical-038",
-      "path": "Ревью/Автоматизации/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
       "kind": "posix-user-home",
       "line_sha256": "sha256:2c9eb5f05a682f3e298389186f520d9c7676c3fcbfe8b67718ec91b154d174a3",
       "count": 1,
@@ -1731,7 +1731,7 @@
     },
     {
       "id": "historical-039",
-      "path": "Ревью/Автоматизации/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
       "kind": "posix-user-home",
       "line_sha256": "sha256:42ff878ad9a368e051794f9c59e3e8d383ce19edac642b86129024daf6e70123",
       "count": 2,
@@ -1740,7 +1740,7 @@
     },
     {
       "id": "historical-040",
-      "path": "Ревью/Автоматизации/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
       "kind": "posix-user-home",
       "line_sha256": "sha256:43e3e3af550a672be08c5385b6336111c7b5b8ad0151f1d2ee781110ab1451d3",
       "count": 1,
@@ -1749,7 +1749,7 @@
     },
     {
       "id": "historical-041",
-      "path": "Ревью/Автоматизации/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
       "kind": "posix-user-home",
       "line_sha256": "sha256:65c1fe2424209e697ecc5bf73d24a2d72692e88f3ce030a277a30c434f7c981d",
       "count": 1,
@@ -1758,7 +1758,7 @@
     },
     {
       "id": "historical-042",
-      "path": "Ревью/Автоматизации/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
       "kind": "posix-user-home",
       "line_sha256": "sha256:6e090ac433140bd8734796c47a8744923ade8054fc0ba3310016e4ad3d934b6f",
       "count": 1,
@@ -1767,7 +1767,7 @@
     },
     {
       "id": "historical-043",
-      "path": "Ревью/Автоматизации/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
       "kind": "posix-user-home",
       "line_sha256": "sha256:f80315a6235add42cbe087c53a1ee4435380b5ce028a7fda5ce75cde81d8df07",
       "count": 1,
@@ -2061,6 +2061,150 @@
       "count": 2,
       "category": "allow.path-validation-definition",
       "reason": "Закрепляет точное определение JSON Schema, запрещающее домашнее сокращение в полном Git ref."
+    },
+    {
+      "id": "fixture-140",
+      "path": "Инструменты/fum-materialyi-zaprosov/tests/test_archive_chatgpt_share.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:49ebc847690d08c9a4b3dce5c7eed5582f18b02ca2f9048d919acad737f2aa72",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет одну точную тестовую фикстуру пути после механического переноса."
+    },
+    {
+      "id": "fixture-141",
+      "path": "Инструменты/fum-materialyi-zaprosov/tests/test_source_archive_cli.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:9130b966eb398dae809e92b63ea335344c465ed67ccd0f8262c61cf4da7815ef",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет одну точную тестовую фикстуру пути после механического переноса."
+    },
+    {
+      "id": "fixture-142",
+      "path": "Инструменты/fum-materialyi-zaprosov/tests/test_source_archive_cli.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:57cec43f707755b5471c115af46e969fa09812351d3e1a503f150ed46a1ad134",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет одну точную тестовую фикстуру пути после механического переноса."
+    },
+    {
+      "id": "definition-051",
+      "path": "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:6ba97c59d8ed679a91df304f838413e68b5a0efd493e5ce7bf884533a071b7a9",
+      "count": 3,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точное определение JSON Pointer с экранированием тильды и разделителя."
+    },
+    {
+      "id": "fixture-143",
+      "path": "Инструменты/fum-struktura-papok-zaprosov/tests/test_request_folder_layout.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c224e7f57fc4aa3c8f7bd469e811973b6309070c5c22be5aacbabdcb0e201ff4",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру классификации ссылки без расширения области."
+    },
+    {
+      "id": "fixture-144",
+      "path": "Инструменты/fum-struktura-papok-zaprosov/tests/test_request_folder_layout.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:5f13d2b365923cf0e9f21ff1cd1cacfd841a7f07020484ccc7be89e05026ee7c",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру классификации ссылки без расширения области."
+    },
+    {
+      "id": "fixture-145",
+      "path": "Инструменты/fum-struktura-papok-zaprosov/tests/test_request_folder_layout.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:84498443bb9a1847d79671f515213f18f54639d7b2543bfb28976a4e6673bb06",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру классификации ссылки без расширения области."
+    },
+    {
+      "id": "fixture-146",
+      "path": "Инструменты/fum-struktura-papok-zaprosov/tests/test_request_folder_layout.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c0de14a78888e13c19d3d36502a5ed6d90e2379f58bec9b26bba8471f7ce18af",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру классификации ссылки без расширения области."
+    },
+    {
+      "id": "definition-052",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d5bb6cd446baf6572a7af4e5e01cec219375369109a528efbe616e404298f746",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точное регулярное выражение для канонической ссылки на файл запроса."
+    },
+    {
+      "id": "fixture-147",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_check_session_coherence.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:460f7c637d3beb75a393bbba0aa897ab352eb71751a68e248d036831f7510020",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет одну точную тестовую фикстуру проверки связности рабочей сессии."
+    },
+    {
+      "id": "fixture-148",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_check_session_coherence.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:773b985d4229f13fc2cd7b279c31462380afbdd426b968aab0e9df5d2f7f522b",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет одну точную тестовую фикстуру проверки связности рабочей сессии."
+    },
+    {
+      "id": "fixture-149",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_obnovitj_policy.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:4683b3e2e1578d969b5b53e961d9421c5854c30397d057f384dec0d836696a53",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную автономную тестовую фикстуру обновления policy без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-150",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_obnovitj_policy.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:5438eaf3eb69d88d0c2a0bec2092e4ceff624fbeeb0cf450e566ffa0ca6c651c",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную автономную тестовую фикстуру обновления policy без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-151",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_obnovitj_policy.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ec1714ad0dece536d30ef42b2842889bea2ee9204aed379321ca223df0ce3c2c",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную автономную тестовую фикстуру обновления policy без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-152",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_obnovitj_policy.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:6ccc03032c53458e376b50830c78e27101f36ed5e9161f6900d9c607f547dd0b",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную автономную тестовую фикстуру обновления policy без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-153",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_obnovitj_policy.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d81df750f923932561301418d2f904bbff1b1f7f58cf644e28fbce362f9a254e",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную автономную тестовую фикстуру обновления policy без разрешения соседних строк."
     }
   ]
 }

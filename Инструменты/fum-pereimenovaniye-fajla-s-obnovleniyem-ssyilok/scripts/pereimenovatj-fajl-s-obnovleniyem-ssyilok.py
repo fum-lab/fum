@@ -34,10 +34,19 @@ from project_files import (  # noqa: E402
     project_markdown_paths,
 )
 
+REQUEST_LAYOUT_SCRIPTS = (
+    Path(__file__).resolve().parents[2]
+    / "fum-struktura-papok-zaprosov"
+    / "scripts"
+)
+if str(REQUEST_LAYOUT_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(REQUEST_LAYOUT_SCRIPTS))
+
+from request_folder_layout import session_stem_for_request_path  # noqa: E402
+
 
 STEP_CARDS_DIRECTORY = PurePosixPath("Планирование/карточки-шагов")
 PROTECTED_SOURCES_DIRECTORY = "Источники"
-REQUESTS_DIRECTORY = "Запросы"
 REQUEST_TEXT_HEADING = "Текст запроса"
 
 TILDE = chr(126)
@@ -1279,9 +1288,7 @@ def build_plan(
         if relative.parts[0] == PROTECTED_SOURCES_DIRECTORY:
             protected = ((0, len(text)),)
         elif (
-            relative.parts[0] == REQUESTS_DIRECTORY
-            and len(relative.parts) == 2
-            and relative.suffix.casefold() == ".md"
+            session_stem_for_request_path(relative) is not None
         ):
             protected = request_text_spans(text, hidden, relative)
 

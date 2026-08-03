@@ -44,6 +44,54 @@ class PassportValidatorTests(unittest.TestCase):
         errors = VALIDATOR.validate_passport(copy.deepcopy(self.example), EXAMPLE_PATH, ROOT)
         self.assertEqual([], errors)
 
+    def test_example_keeps_the_exact_historical_request_reference(self) -> None:
+        historical = (
+            "Запросы/"
+            "2026-07-23_11-50-58_MSK_"
+            "описать-минимальный-формат-преобразования-между-наблюдателями-FUM.md"
+        )
+        self.assertEqual(historical, self.example["provenance"]["producer_ref"])
+        self.assertEqual(historical, self.example["result"]["artifacts"][5]["publication_ref"])
+
+    def test_nonexistent_historical_producer_is_rejected_at_pinned_commit(self) -> None:
+        errors = self.errors_for(
+            lambda passport: passport["provenance"].__setitem__(
+                "producer_ref",
+                "Запросы/2026-07-23_11-50-58_MSK_отсутствующий.md",
+            )
+        )
+        self.assertTrue(any("путь отсутствует в закреплённом Git-коммите" in error for error in errors))
+        self.assertFalse(any("локальная ссылка отсутствует" in error for error in errors))
+
+    def test_unpinned_local_reference_still_uses_the_current_checkout(self) -> None:
+        errors: list[str] = []
+        VALIDATOR.validate_ref("README.md", "$.ref", ROOT, errors, EXAMPLE_PATH)
+        self.assertEqual([], errors)
+
+        VALIDATOR.validate_ref(
+            "Документация/отсутствующий.md",
+            "$.ref",
+            ROOT,
+            errors,
+            EXAMPLE_PATH,
+        )
+        self.assertTrue(any("локальная ссылка отсутствует" in error for error in errors))
+
+    def test_canonical_new_artifact_is_rejected_at_historical_commit(self) -> None:
+        canonical_new = (
+            "Журнал/"
+            "2026-07-23_11-50-58_MSK_"
+            "описать-минимальный-формат-преобразования-между-наблюдателями-FUM/"
+            "запрос.md"
+        )
+        errors = self.errors_for(
+            lambda passport: passport["result"]["artifacts"][5].__setitem__(
+                "publication_ref", canonical_new
+            )
+        )
+        self.assertTrue(any("путь отсутствует в закреплённом Git-коммите" in error for error in errors))
+        self.assertFalse(any("локальная ссылка отсутствует" in error for error in errors))
+
     def test_optional_transformation_ref_can_point_to_record(self) -> None:
         errors = self.errors_for(
             lambda passport: passport["transfers"][0].__setitem__(

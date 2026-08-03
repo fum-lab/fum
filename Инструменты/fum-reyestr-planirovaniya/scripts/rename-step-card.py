@@ -16,6 +16,17 @@ from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 
 
+REQUEST_LAYOUT_SCRIPTS = (
+    Path(__file__).resolve().parents[2]
+    / "fum-struktura-papok-zaprosov"
+    / "scripts"
+)
+if str(REQUEST_LAYOUT_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(REQUEST_LAYOUT_SCRIPTS))
+
+from request_folder_layout import session_stem_for_request_path  # noqa: E402
+
+
 CARDS_DIRECTORY = PurePosixPath("Планирование/карточки-шагов")
 CARDS_INDEX = CARDS_DIRECTORY / "README.md"
 BRANCH_STEPS_DIRECTORY = PurePosixPath(
@@ -549,11 +560,7 @@ def build_mutation_plan(
             continue
 
         spans: list[tuple[int, int]] = []
-        if (
-            path.parts
-            and path.parts[0] == "Запросы"
-            and path.suffix.casefold() == ".md"
-        ):
+        if session_stem_for_request_path(path) is not None:
             spans = request_source_spans(live_file.text)
         updated, replaced, preserved = replace_outside_spans(
             live_file.text,

@@ -17,9 +17,9 @@ status = "completed"
 
 ## Источники
 
-- [исходный запрос 2026-06-26 11:24:11 MSK](../../Запросы/2026-06-26_11-24-11_MSK.md), [журнал 2026-06-26 11:24:11 MSK](../../Журнал/2026-06-26_11-24-11_MSK.md), [fum-svezhestj-markdown](../../Инструменты/fum-svezhestj-markdown/SKILL.md)
+- [исходный запрос 2026-06-26 11:24:11 MSK](../../Журнал/2026-06-26_11-24-11_MSK/запрос.md), [журнал 2026-06-26 11:24:11 MSK](../../Журнал/2026-06-26_11-24-11_MSK/отчёт.md), [fum-svezhestj-markdown](../../Инструменты/fum-svezhestj-markdown/SKILL.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-22 09:17:49 MSK -->
-<!-- content-sha256: sha256:b1fb61ae949d2ff2f9d704684e0dc0894c6914afda73dd62795513fc40796cf0 -->
+<!-- last-content-edit: 2026-08-03 14:54:04 MSK -->
+<!-- content-sha256: sha256:0c7760278251954bf801630681b2be569ce84803a6fe9861fe8bfbafc9970498 -->
 <!-- FUM-MD-RECENCY:END -->

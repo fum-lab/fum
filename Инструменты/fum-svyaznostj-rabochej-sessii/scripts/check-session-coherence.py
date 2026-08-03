@@ -23,18 +23,37 @@ PROJECT_FILES_SCRIPTS = (
 if str(PROJECT_FILES_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(PROJECT_FILES_SCRIPTS))
 
+REQUEST_FOLDER_LAYOUT_SCRIPTS = (
+    Path(__file__).resolve().parents[2]
+    / "fum-struktura-papok-zaprosov"
+    / "scripts"
+)
+if str(REQUEST_FOLDER_LAYOUT_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(REQUEST_FOLDER_LAYOUT_SCRIPTS))
+
 from project_files import (
     ProjectFilesError,
     is_structurally_excluded_path,
     project_markdown_paths,
 )
 
+try:
+    from request_folder_layout import LayoutError, validate_layout
+except ModuleNotFoundError as exc:  # Keep isolated checker fixtures testable.
+    if exc.name != "request_folder_layout":
+        raise
+    LayoutError = RuntimeError
+    validate_layout = None
 
-REQUEST_FILENAME_RE = re.compile(
+
+REQUEST_STEM_RE = re.compile(
     r"^(?P<date>\d{4}-\d{2}-\d{2})_"
     r"(?P<hour>\d{2})-(?P<minute>\d{2})-(?P<second>\d{2})_MSK"
-    r"(?:_(?P<title>[0-9A-Za-zА-Яа-яЁё][0-9A-Za-zА-Яа-яЁё-]*))?\.md$"
+    r"(?:_(?P<title>[0-9A-Za-zА-Яа-яЁё][0-9A-Za-zА-Яа-яЁё-]*))?$"
 )
+JOURNAL_DIRECTORY = "Журнал"
+REQUEST_FILENAME = "запрос.md"
+REPORT_FILENAME = "отчёт.md"
 REQUEST_TITLE_INFINITIVE_RULE_START = (2026, 7, 2, 23, 1, 25)
 QUALIFIED_OPENAI_TOOL_VERSION_RULE_START = (2026, 7, 10, 5, 59, 58)
 CODEX_THREAD_ID_RULE_START = (2026, 7, 14, 2, 31, 47)
@@ -80,7 +99,8 @@ USER_META_REQUEST_RE = re.compile(
 META_RULE_CONTEXT_RE = re.compile(
     r"(?:"
     r"мета-запрос\w*|правил\w*|поряд\w*|практик\w*|"
-    r"памят[ьи]\s+FUM|рабоч\w*\s+сесси\w*|Запросы/|"
+    r"памят[ьи]\s+FUM|рабоч\w*\s+сесси\w*|"
+    r"Журнал/[^\s`]+/запрос\.md|папк\w*\s+запрос\w*|"
     r"AGENTS\.md|ведени\w*\s+памят\w*|ведени\w*\s+репозитори\w*|"
     r"хранени\w*\s+источник\w*|состав\w*\s+артефакт\w*"
     r")",
@@ -107,6 +127,14 @@ UNQUALIFIED_OPENAI_VERSION_FALLBACK_RE = re.compile(
 )
 DELETED_AFFECTED_PATH_RE = re.compile(
     r"^\s*-\s+Удалённый файл:\s+`([^`\n]+)`\s*$",
+    re.MULTILINE,
+)
+DELETED_AFFECTED_SUBTREE_RE = re.compile(
+    r"^\s*-\s+Удалённое поддерево:\s+`([^`\n]+)`\s*$",
+    re.MULTILINE,
+)
+DELETED_DIRECT_FILES_DIRECTORY_RE = re.compile(
+    r"^\s*-\s+Удалённые непосредственные файлы каталога:\s+`([^`\n]+)`\s*$",
     re.MULTILINE,
 )
 CODEX_THREAD_ID_LINE_RE = re.compile(
@@ -168,13 +196,26 @@ class MarkdownFence:
     info: str
 
 
+class AffectedPaths(set[Path]):
+    """Exact affected paths plus explicitly scoped directory permissions."""
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.existing_directories: set[Path] = set()
+        self.deleted_direct_files_directories: set[Path] = set()
+        self.deleted_subtrees: set[Path] = set()
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--request",
         required=True,
         type=Path,
-        help="Session request file, relative to the repository root.",
+        help=(
+            "Session request file Журнал/<YYYY-MM-DD_HH-MM-SS_MSK[_slug]>/"
+            "запрос.md, relative to the repository root."
+        ),
     )
     parser.add_argument(
         "--repo-root",
@@ -222,7 +263,9 @@ def read_text(path: Path) -> str:
 
 
 def request_match(path: Path) -> re.Match[str] | None:
-    return REQUEST_FILENAME_RE.fullmatch(path.name)
+    if path.name != REQUEST_FILENAME:
+        return None
+    return REQUEST_STEM_RE.fullmatch(path.parent.name)
 
 
 def request_datetime_key(match: re.Match[str]) -> tuple[int, int, int, int, int, int]:
@@ -259,7 +302,7 @@ def validate_request_filename_title(path: Path) -> list[str]:
     if slug_starts_with_infinitive_verb(slug):
         return []
 
-    return [f"request filename title must start with an infinitive verb: {slug}"]
+    return [f"request folder title must start with an infinitive verb: {slug}"]
 
 
 def is_request_file(path: Path, repo_root: Path) -> bool:
@@ -268,9 +311,10 @@ def is_request_file(path: Path, repo_root: Path) -> bool:
     except ValueError:
         return False
     return (
-        len(relative.parts) == 2
-        and relative.parts[0] == "Запросы"
-        and REQUEST_FILENAME_RE.fullmatch(relative.name) is not None
+        len(relative.parts) == 3
+        and relative.parts[0] == JOURNAL_DIRECTORY
+        and relative.parts[2] == REQUEST_FILENAME
+        and REQUEST_STEM_RE.fullmatch(relative.parts[1]) is not None
     )
 
 
@@ -332,22 +376,44 @@ def request_files(
     repo_root: Path,
     markdown_paths: set[Path] | None = None,
 ) -> list[Path]:
-    request_dir = repo_root / "Запросы"
-    if not request_dir.exists():
+    journal_dir = repo_root / JOURNAL_DIRECTORY
+    if not journal_dir.exists():
         return []
     candidates = markdown_paths
     if candidates is None:
         candidates = set(project_markdown_paths(repo_root))
     return sorted(
-        path
-        for path in candidates
-        if path.parent == request_dir.resolve()
-        if REQUEST_FILENAME_RE.fullmatch(path.name)
+        (
+            path
+            for path in candidates
+            if path.name == REQUEST_FILENAME
+            if path.parent.parent == journal_dir.resolve()
+            if REQUEST_STEM_RE.fullmatch(path.parent.name)
+        ),
+        key=lambda path: path.parent.name,
     )
 
 
-def contains_request_link(section: str, label: str, filename: str) -> bool:
-    return label in section and filename in section
+def contains_request_link(
+    section: str,
+    label: str,
+    target: Path,
+    source: Path,
+    repo_root: Path,
+) -> bool:
+    for line_number, line in enumerate(section.splitlines(), start=1):
+        for match in MARKDOWN_LINK_RE.finditer(line):
+            if label not in match.group(1):
+                continue
+            link = MarkdownLink(
+                source=source,
+                line=line_number,
+                target=strip_link_title(match.group(2)),
+            )
+            resolved = resolve_markdown_target(link, repo_root)
+            if resolved is not None and resolved == target.resolve():
+                return True
+    return False
 
 
 def validate_navigation(
@@ -365,7 +431,10 @@ def validate_navigation(
     try:
         index = [path.resolve() for path in files].index(request_path.resolve())
     except ValueError:
-        return [f"request file is not in Запросы/: {repo_relative(request_path, repo_root)}"]
+        return [
+            "request file is not a canonical Journal session request: "
+            f"{repo_relative(request_path, repo_root)}"
+        ]
 
     previous_file = files[index - 1] if index > 0 else None
     next_file = files[index + 1] if index + 1 < len(files) else None
@@ -376,15 +445,29 @@ def validate_navigation(
     elif not contains_request_link(
         navigation,
         request_label(previous_file),
-        previous_file.name,
+        previous_file,
+        request_path,
+        repo_root,
     ):
-        errors.append(f"missing previous request navigation link: {previous_file.name}")
+        errors.append(
+            "missing previous request navigation link: "
+            f"{previous_file.parent.name}/{previous_file.name}"
+        )
 
     if next_file is None:
         if "Следующий запрос: нет" not in navigation:
             errors.append("request navigation must state next request: нет")
-    elif not contains_request_link(navigation, request_label(next_file), next_file.name):
-        errors.append(f"missing next request navigation link: {next_file.name}")
+    elif not contains_request_link(
+        navigation,
+        request_label(next_file),
+        next_file,
+        request_path,
+        repo_root,
+    ):
+        errors.append(
+            "missing next request navigation link: "
+            f"{next_file.parent.name}/{next_file.name}"
+        )
 
     if previous_file is not None:
         previous_text = read_text(previous_file)
@@ -392,10 +475,13 @@ def validate_navigation(
         if not contains_request_link(
             previous_navigation,
             request_label(request_path),
-            request_path.name,
+            request_path,
+            previous_file,
+            repo_root,
         ):
             errors.append(
-                f"previous request does not link forward to current request: {previous_file.name}"
+                "previous request does not link forward to current request: "
+                f"{previous_file.parent.name}/{previous_file.name}"
             )
 
     if next_file is not None:
@@ -404,17 +490,21 @@ def validate_navigation(
         if not contains_request_link(
             next_navigation,
             request_label(request_path),
-            request_path.name,
+            request_path,
+            next_file,
+            repo_root,
         ):
             errors.append(
-                f"next request does not link back to current request: {next_file.name}"
+                "next request does not link back to current request: "
+                f"{next_file.parent.name}/{next_file.name}"
             )
 
     return errors
 
 
 def expected_journal_path(request_path: Path, repo_root: Path) -> Path:
-    return repo_root / "Журнал" / request_path.name
+    del repo_root
+    return request_path.parent / REPORT_FILENAME
 
 
 def relative_link(target: Path, source: Path, repo_root: Path) -> str:
@@ -732,19 +822,19 @@ def validate_journal_direct_check_runs(text: str) -> list[str]:
 
 def validate_journal(repo_root: Path, request_path: Path) -> list[str]:
     errors: list[str] = []
-    journal = expected_journal_path(request_path, repo_root)
-    if not journal.exists():
-        return [f"missing journal file: {repo_relative(journal, repo_root)}"]
+    report = expected_journal_path(request_path, repo_root)
+    if not report.exists():
+        return [f"missing sibling report file: {repo_relative(report, repo_root)}"]
 
-    text = read_text(journal)
+    text = read_text(report)
     heading = expected_journal_heading(request_path)
     if not text.startswith(f"{heading}\n"):
-        errors.append(f"journal must start with heading: {heading}")
+        errors.append(f"report must start with heading: {heading}")
 
-    request_link = relative_link(request_path, journal, repo_root)
+    request_link = relative_link(request_path, report, repo_root)
     if request_link not in text:
         errors.append(
-            f"journal does not link to request: {repo_relative(request_path, repo_root)}"
+            f"report does not link to sibling request: {repo_relative(request_path, repo_root)}"
         )
     match = request_match(request_path)
     if (
@@ -754,6 +844,53 @@ def validate_journal(repo_root: Path, request_path: Path) -> list[str]:
         errors.extend(validate_journal_time_profile(text))
         if request_datetime_key(match) >= JOURNAL_DIRECT_CHECK_RUNS_RULE_START:
             errors.extend(validate_journal_direct_check_runs(text))
+    return errors
+
+
+def validate_request_folder_layout(repo_root: Path) -> list[str]:
+    """Validate the global request layout, preferring its dedicated automation."""
+
+    root = repo_root.resolve()
+    if validate_layout is not None:
+        try:
+            validate_layout(root)
+        except LayoutError as exc:
+            return [f"request folder layout is invalid: {exc}"]
+        return []
+
+    errors: list[str] = []
+    legacy_requests = root / "Запросы"
+    if legacy_requests.exists():
+        errors.append("legacy Запросы/ directory must be absent")
+
+    journal = root / JOURNAL_DIRECTORY
+    if not journal.is_dir():
+        return errors + ["missing Журнал/ directory"]
+
+    for top_level_markdown in sorted(journal.glob("*.md")):
+        if top_level_markdown.name != "README.md":
+            errors.append(
+                "only Журнал/README.md may be a top-level Markdown file: "
+                f"{top_level_markdown.name}"
+            )
+
+    for session_dir in sorted(path for path in journal.iterdir() if path.is_dir()):
+        if REQUEST_STEM_RE.fullmatch(session_dir.name) is None:
+            errors.append(
+                "request folder must start with YYYY-MM-DD_HH-MM-SS_MSK: "
+                f"{session_dir.name}"
+            )
+            continue
+        for required_name in (REQUEST_FILENAME, REPORT_FILENAME):
+            if not (session_dir / required_name).is_file():
+                errors.append(
+                    f"request folder is missing {required_name}: {session_dir.name}"
+                )
+        materials = session_dir / "материалы"
+        if materials.exists() and not materials.is_dir():
+            errors.append(
+                f"request materials must be a directory: {session_dir.name}/материалы"
+            )
     return errors
 
 
@@ -1066,12 +1203,41 @@ def all_markdown_files(repo_root: Path) -> set[Path]:
     return set(project_markdown_paths(repo_root))
 
 
+def request_text_line_span(text: str) -> tuple[int, int] | None:
+    lines = text.splitlines()
+    headings = [
+        index
+        for index, line in enumerate(lines)
+        if re.fullmatch(r"##[ \t]+Текст запроса[ \t]*", line)
+    ]
+    if len(headings) != 1:
+        return None
+    heading = headings[0]
+    following = next(
+        (
+            index
+            for index in range(heading + 1, len(lines))
+            if re.match(r"^##[ \t]+", lines[index])
+        ),
+        len(lines),
+    )
+    return heading + 2, following + 1
+
+
 def validate_markdown_links(paths: set[Path], repo_root: Path) -> list[str]:
     errors: list[str] = []
     for path in sorted(paths):
         if not path.exists() or path.suffix.lower() != ".md":
             continue
+        ignored_request_span = None
+        if is_request_file(path, repo_root):
+            ignored_request_span = request_text_line_span(read_text(path))
         for link in iter_markdown_links(path):
+            if (
+                ignored_request_span is not None
+                and ignored_request_span[0] <= link.line < ignored_request_span[1]
+            ):
+                continue
             source_rel = repo_relative(link.source, repo_root)
             if is_absolute_local_markdown_link(link.target):
                 errors.append(
@@ -1183,7 +1349,8 @@ def validate_meta_request_coverage(paths: set[Path], repo_root: Path) -> list[st
         source_rel = repo_relative(path, repo_root)
         errors.append(
             f"possible unregistered meta request in {source_rel}:{line_number}: "
-            "add a link to a concrete request file in Запросы/ or create a separate request file"
+            "add a link to a concrete Журнал/<session-stem>/запрос.md or create "
+            "a separate request folder"
         )
     return errors
 
@@ -1309,13 +1476,13 @@ def affected_files_from_request(
     text: str,
     request_path: Path,
     repo_root: Path,
-) -> tuple[set[Path], list[str]]:
+) -> tuple[AffectedPaths, list[str]]:
     affected = section_body(text, "Повлиял на файлы")
     if affected is None:
-        return set(), ["missing section: Повлиял на файлы"]
+        return AffectedPaths(), ["missing section: Повлиял на файлы"]
 
     errors: list[str] = []
-    files: set[Path] = set()
+    files = AffectedPaths()
     pseudo_source = request_path
     for line in affected.splitlines():
         for match in MARKDOWN_LINK_RE.finditer(line):
@@ -1325,7 +1492,10 @@ def affected_files_from_request(
             link = MarkdownLink(pseudo_source, 1, target)
             resolved = resolve_markdown_target(link, repo_root)
             if resolved is not None:
-                files.add(resolved)
+                if resolved.is_dir():
+                    files.existing_directories.add(resolved)
+                else:
+                    files.add(resolved)
 
     for match in DELETED_AFFECTED_PATH_RE.finditer(affected):
         resolved = absolute_path(match.group(1), repo_root)
@@ -1344,10 +1514,51 @@ def affected_files_from_request(
             continue
         files.add(resolved)
 
-    if not files and not errors:
+    for match in DELETED_AFFECTED_SUBTREE_RE.finditer(affected):
+        resolved = absolute_path(match.group(1), repo_root)
+        try:
+            resolved.relative_to(repo_root.resolve())
+        except ValueError:
+            errors.append(
+                "deleted affected subtree must stay inside the repository: "
+                f"{match.group(1)}"
+            )
+            continue
+        if resolved.exists():
+            errors.append(
+                f"deleted affected subtree still exists: {match.group(1)}"
+            )
+            continue
+        files.deleted_subtrees.add(resolved)
+
+    for match in DELETED_DIRECT_FILES_DIRECTORY_RE.finditer(affected):
+        resolved = absolute_path(match.group(1), repo_root)
+        try:
+            resolved.relative_to(repo_root.resolve())
+        except ValueError:
+            errors.append(
+                "deleted direct-files directory must stay inside the repository: "
+                f"{match.group(1)}"
+            )
+            continue
+        if not resolved.is_dir():
+            errors.append(
+                f"deleted direct-files directory must exist: {match.group(1)}"
+            )
+            continue
+        files.deleted_direct_files_directories.add(resolved)
+
+    if (
+        not files
+        and not files.existing_directories
+        and not files.deleted_direct_files_directories
+        and not files.deleted_subtrees
+        and not errors
+    ):
         errors.append(
-            "affected files section must contain local Markdown links "
-            "or deleted-file path markers"
+            "affected files section must contain local Markdown links, "
+            "deleted-file markers, deleted-direct-files markers, or "
+            "deleted-subtree markers"
         )
     return files, errors
 
@@ -1418,10 +1629,45 @@ def validate_git_status(
     if errors:
         return errors
 
-    allowed = {repo_relative(path, repo_root) for path in allowed_files}
+    root = repo_root.resolve()
+    allowed = {repo_relative(path, root) for path in allowed_files}
+    existing_directories = {
+        path.resolve()
+        for path in getattr(allowed_files, "existing_directories", set())
+        if path.is_dir()
+    }
+    deleted_direct_files_directories = {
+        path.resolve()
+        for path in getattr(
+            allowed_files,
+            "deleted_direct_files_directories",
+            set(),
+        )
+        if path.is_dir()
+    }
+    deleted_subtrees = {
+        path.resolve()
+        for path in getattr(allowed_files, "deleted_subtrees", set())
+        if not path.exists()
+    }
     for status_path in parse_git_status_paths(status_text or ""):
         normalized = Path(status_path).as_posix()
-        if normalized not in allowed:
+        if normalized in allowed:
+            continue
+        candidate = absolute_path(normalized, root)
+        existing_descendant = candidate.exists() and any(
+            directory != candidate and directory in candidate.parents
+            for directory in existing_directories
+        )
+        deleted_direct_file = (
+            not candidate.exists()
+            and candidate.parent in deleted_direct_files_directories
+        )
+        deleted_descendant = any(
+            subtree != candidate and subtree in candidate.parents
+            for subtree in deleted_subtrees
+        )
+        if not existing_descendant and not deleted_direct_file and not deleted_descendant:
             errors.append(f"unexpected Git status path: {normalized}")
     return errors
 
@@ -1464,7 +1710,11 @@ def validate_session(
     errors: list[str] = []
 
     if request_match(request_path) is None:
-        errors.append(f"request filename does not match session format: {request_path.name}")
+        errors.append(
+            "request path must match "
+            "Журнал/<YYYY-MM-DD_HH-MM-SS_MSK[_slug]>/запрос.md: "
+            f"{repo_relative(request_path, root)}"
+        )
     errors.extend(validate_request_filename_title(request_path))
     if not request_path.exists():
         return errors + [f"request file does not exist: {request}"]
@@ -1473,6 +1723,8 @@ def validate_session(
         project_markdown = all_markdown_files(root)
     except ProjectFilesError as exc:
         return errors + [f"project Markdown inventory failed: {exc}"]
+
+    errors.extend(validate_request_folder_layout(root))
 
     text = read_text(request_path)
     expected_heading = expected_request_heading(request_path)
@@ -1522,7 +1774,7 @@ def validate_session(
     journal_path = expected_journal_path(request_path, root)
     expected_listed = {
         repo_relative(request_path, root): "current request",
-        repo_relative(journal_path, root): "journal",
+        repo_relative(journal_path, root): "sibling report",
     }
     affected_relative = {repo_relative(path, root) for path in affected_files}
     for expected_path, label in expected_listed.items():

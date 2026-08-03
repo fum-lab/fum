@@ -8,7 +8,9 @@ import hashlib
 import json
 import os
 import re
+import stat
 import sys
+import tempfile
 import tomllib
 from dataclasses import dataclass
 from pathlib import Path
@@ -125,6 +127,15 @@ def parse_args() -> argparse.Namespace:
     validate = subparsers.add_parser("validate", help="Validate a built registry JSON")
     validate.add_argument("--repo-root", type=Path, default=Path.cwd())
     validate.add_argument("--registry", type=Path, default=DEFAULT_OUTPUT)
+
+    sync_graph_hash = subparsers.add_parser(
+        "sync-boxed-graph-source-hash",
+        help=(
+            "Atomically synchronize only the boxed graph Markdown source hash "
+            "in its JSON projection"
+        ),
+    )
+    sync_graph_hash.add_argument("--repo-root", type=Path, default=Path.cwd())
     return parser.parse_args()
 
 
@@ -2122,6 +2133,88 @@ def registry_json(registry: dict[str, Any]) -> str:
     return json.dumps(registry, ensure_ascii=False, indent=2) + "\n"
 
 
+def canonical_existing_file(
+    relative_path: Path,
+    repo_root: Path,
+    label: str,
+) -> Path:
+    lexical_path = repo_root / relative_path
+    try:
+        resolved_path = lexical_path.resolve(strict=True)
+    except FileNotFoundError as error:
+        raise ValueError(f"{label} does not exist: {relative_path.as_posix()}") from error
+    try:
+        resolved_path.relative_to(repo_root)
+    except ValueError as error:
+        raise ValueError(f"{label} path escapes repository root") from error
+    if resolved_path != lexical_path or lexical_path.is_symlink():
+        raise ValueError(f"{label} path must not contain symbolic links")
+    if not resolved_path.is_file():
+        raise ValueError(f"{label} is not a regular file: {relative_path.as_posix()}")
+    return resolved_path
+
+
+def atomic_replace_text(path: Path, text: str) -> None:
+    descriptor, temporary_name = tempfile.mkstemp(
+        dir=path.parent,
+        prefix=f".{path.name}.",
+        suffix=".tmp",
+    )
+    temporary_path = Path(temporary_name)
+    try:
+        os.fchmod(descriptor, stat.S_IMODE(path.stat().st_mode))
+        handle = os.fdopen(descriptor, "w", encoding="utf-8", newline="")
+        descriptor = -1
+        with handle:
+            handle.write(text)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary_path, path)
+    finally:
+        if descriptor >= 0:
+            os.close(descriptor)
+        temporary_path.unlink(missing_ok=True)
+
+
+def sync_boxed_graph_source_hash(repo_root: Path | None = None) -> bool:
+    root = (repo_root or Path.cwd()).resolve()
+    graph_path = canonical_existing_file(
+        BOXED_GRAPH_JSON,
+        root,
+        "boxed implementation dependency graph",
+    )
+    canonical_existing_file(
+        BOXED_GRAPH_MARKDOWN,
+        root,
+        "boxed implementation graph Markdown source",
+    )
+    try:
+        graph = json.loads(graph_path.read_text(encoding="utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as error:
+        raise ValueError(
+            f"boxed implementation dependency graph is not valid JSON: {error}"
+        ) from error
+
+    errors = boxed_implementation_graph_errors(
+        graph,
+        extract_mvp_candidates(root),
+        root,
+    )
+    syncable_error = "boxed implementation graph source hash does not match Markdown"
+    blocking_errors = [error for error in errors if error != syncable_error]
+    if blocking_errors:
+        raise ValueError("\n".join(blocking_errors))
+
+    expected_hash = content_sha256(BOXED_GRAPH_MARKDOWN, root)
+    current_hash = graph["source"]["content_sha256_without_recency"]
+    if current_hash == expected_hash:
+        return False
+
+    graph["source"]["content_sha256_without_recency"] = expected_hash
+    atomic_replace_text(graph_path, registry_json(graph))
+    return True
+
+
 def build_to_file(output_path: Path, repo_root: Path | None = None) -> dict[str, Any]:
     root = (repo_root or Path.cwd()).resolve()
     registry = build_registry(root)
@@ -2164,6 +2257,10 @@ def main() -> int:
     try:
         if args.command == "build":
             build_to_file(args.output, args.repo_root)
+            return 0
+
+        if args.command == "sync-boxed-graph-source-hash":
+            sync_boxed_graph_source_hash(args.repo_root)
             return 0
 
         errors = validate_file(args.registry, args.repo_root)

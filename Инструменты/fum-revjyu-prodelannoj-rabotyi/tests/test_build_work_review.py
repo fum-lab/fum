@@ -53,10 +53,11 @@ class BuildWorkReviewTests(unittest.TestCase):
     def write_git_fixture(self, root: Path) -> tuple[Path, Path]:
         self.run_git(root, "init")
         (root / "Документация").mkdir()
-        (root / "Запросы").mkdir()
+        request_dir = root / "Журнал" / "2026-07-01_17-03-14_MSK_проверить-работу"
+        request_dir.mkdir(parents=True)
         (root / "Инструменты" / "fum-revjyu-prodelannoj-rabotyi").mkdir(parents=True)
 
-        request = root / "Запросы" / "2026-07-01_17-03-14_MSK.md"
+        request = request_dir / "запрос.md"
         request.write_text("# Исходный запрос\n", encoding="utf-8")
         automation = root / "Инструменты" / "fum-revjyu-prodelannoj-rabotyi" / "SKILL.md"
         automation.write_text("# FUM Work Review\n", encoding="utf-8")
@@ -120,7 +121,11 @@ class BuildWorkReviewTests(unittest.TestCase):
             self.assertIn("Документация/пример.md", text)
             self.assertIn("Существенных замечаний не выявлено.", text)
             self.assertIn("git diff --check HEAD~1..HEAD", text)
-            self.assertIn("../Запросы/2026-07-01_17-03-14_MSK.md", text)
+            self.assertIn(
+                "[исходный запрос 2026-07-01 17:03:14 MSK]"
+                "(../Журнал/2026-07-01_17-03-14_MSK_проверить-работу/запрос.md)",
+                text,
+            )
 
     def test_build_rejects_nonportable_serialized_path_fields_before_write(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -179,6 +184,21 @@ class BuildWorkReviewTests(unittest.TestCase):
             errors = build_work_review.validate_review_document(config, output, root, complete=True)
 
             self.assertEqual(errors, [])
+
+    def test_build_rejects_request_without_timestamped_journal_parent(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request, automation = self.write_git_fixture(root)
+            invalid_request = root / "Журнал" / "без-времени" / "запрос.md"
+            invalid_request.parent.mkdir()
+            invalid_request.write_text("# Запрос\n", encoding="utf-8")
+            config_path = self.write_config(root, invalid_request, automation)
+            output = root / "Ревью" / "пример-ревью.md"
+
+            with self.assertRaisesRegex(ValueError, "Журнал"):
+                build_work_review.build_review_document(config_path, output, root)
+
+            self.assertFalse(output.exists())
 
     def test_validate_reports_missing_findings_section(self):
         with tempfile.TemporaryDirectory() as tmp:

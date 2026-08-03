@@ -17,9 +17,9 @@ status = "completed"
 
 ## Источники
 
-- [исходный запрос 2026-07-01 15:51:24 MSK](../../Запросы/2026-07-01_15-51-24_MSK.md), [журнал 2026-07-01 15:51:24 MSK](../../Журнал/2026-07-01_15-51-24_MSK.md), [fum-svezhestj-grafa-obsidian](../../Инструменты/fum-svezhestj-grafa-obsidian/SKILL.md), [Воспроизводимые автоматизации FUM](../../Документация/17-воспроизводимые-автоматизации.md)
+- [исходный запрос 2026-07-01 15:51:24 MSK](../../Журнал/2026-07-01_15-51-24_MSK/запрос.md), [журнал 2026-07-01 15:51:24 MSK](../../Журнал/2026-07-01_15-51-24_MSK/отчёт.md), [fum-svezhestj-grafa-obsidian](../../Инструменты/fum-svezhestj-grafa-obsidian/SKILL.md), [Воспроизводимые автоматизации FUM](../../Документация/17-воспроизводимые-автоматизации.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-22 09:17:49 MSK -->
-<!-- content-sha256: sha256:df20952ae6d1e9a90da1fde02fb1c593def851c8e0572e0804204fccde6dac2b -->
+<!-- last-content-edit: 2026-08-03 14:54:04 MSK -->
+<!-- content-sha256: sha256:3004c5c97150ed27c2046d934ec3d46695b71cb0b2c66c02eb0a374ed685c2d0 -->
 <!-- FUM-MD-RECENCY:END -->

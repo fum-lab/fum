@@ -17,6 +17,16 @@ from typing import Iterable
 
 from path_forms import PathForm, detect_path_forms
 
+REQUEST_LAYOUT_SCRIPTS = (
+    Path(__file__).resolve().parents[2]
+    / "fum-struktura-papok-zaprosov"
+    / "scripts"
+)
+if str(REQUEST_LAYOUT_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(REQUEST_LAYOUT_SCRIPTS))
+
+from request_folder_layout import session_stem_for_request_path  # noqa: E402
+
 
 POLICY_SCHEMA = "fum.machine-local-path-policy.v2"
 POLICY_KEYS = frozenset({"schema", "exceptions"})
@@ -315,6 +325,10 @@ def _is_external_source(path: str) -> bool:
     return path == "Источники" or path.startswith("Источники/")
 
 
+def _is_request_file(path: str) -> bool:
+    return session_stem_for_request_path(path) is not None
+
+
 def _is_system_runtime(form: PathForm) -> bool:
     return form.kind == "posix-absolute" and form.value.startswith(
         SYSTEM_RUNTIME_PREFIXES
@@ -355,7 +369,7 @@ def classify_candidate(
 ) -> str:
     if _is_external_source(path):
         return f"report.external-source.{form.kind}"
-    if path.startswith("Запросы/") and line_number in request_text_lines:
+    if _is_request_file(path) and line_number in request_text_lines:
         return f"report.request-text.{form.kind}"
     if form.kind == "compiler-file-path":
         if not path.endswith(".md"):
@@ -384,7 +398,7 @@ def _line_digest(line: str) -> str:
 
 def scan_text(path: str, text: str) -> list[Candidate]:
     request_lines = (
-        request_text_line_numbers(text) if path.startswith("Запросы/") else frozenset()
+        request_text_line_numbers(text) if _is_request_file(path) else frozenset()
     )
     candidates: list[Candidate] = []
     for line_number, line in enumerate(text.splitlines(), start=1):

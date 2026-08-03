@@ -29,6 +29,16 @@ from project_files import (  # noqa: E402
     safe_project_output_path,
 )
 
+REQUEST_LAYOUT_SCRIPTS = (
+    Path(__file__).resolve().parents[2]
+    / "fum-struktura-papok-zaprosov"
+    / "scripts"
+)
+if str(REQUEST_LAYOUT_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(REQUEST_LAYOUT_SCRIPTS))
+
+from request_folder_layout import session_stem_for_request_path  # noqa: E402
+
 
 TODO_MARKER = "ESTIMATE_TODO"
 MSK = ZoneInfo("Europe/Moscow")
@@ -117,15 +127,11 @@ def first_heading(path: Path) -> str | None:
 
 
 def request_label(request_file: str) -> str:
-    stem = Path(request_file).stem
-    match = re.fullmatch(
-        r"(\d{4}-\d{2}-\d{2})_(\d{2})-(\d{2})-(\d{2})_([A-Z]+)",
-        stem,
-    )
-    if not match:
+    stem = session_stem_for_request_path(request_file)
+    if stem is None:
         return request_file
-    date, hour, minute, second, zone = match.groups()
-    return f"исходный запрос {date} {hour}:{minute}:{second} {zone}"
+    date, time, zone = stem[:23].split("_")
+    return f"исходный запрос {date} {time.replace('-', ':')} {zone}"
 
 
 def load_config(config_path: Path) -> dict[str, Any]:
@@ -263,6 +269,11 @@ def validate_config(config: dict[str, Any], repo_root: Path) -> list[str]:
         )
     except ProjectFilesError as error:
         errors.append(str(error))
+    if not isinstance(request, str) or session_stem_for_request_path(request) is None:
+        errors.append(
+            "request_file must match "
+            "Журнал/<YYYY-MM-DD_HH-MM-SS_MSK[_название]>/запрос.md"
+        )
 
     automation = config.get("automation_file", "Инструменты/fum-ocenki/SKILL.md")
     try:

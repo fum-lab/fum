@@ -304,7 +304,15 @@ def git_object_exists(root: Path, object_spec: str) -> bool:
     return exists
 
 
-def validate_ref(value: object, field: str, root: Path, errors: list[str], record: Path) -> None:
+def validate_ref(
+    value: object,
+    field: str,
+    root: Path,
+    errors: list[str],
+    record: Path,
+    *,
+    pinned_commit: str | None = None,
+) -> None:
     if not isinstance(value, str) or not value:
         add_error(errors, record, field, "должен быть непустой ссылкой")
         return
@@ -368,11 +376,27 @@ def validate_ref(value: object, field: str, root: Path, errors: list[str], recor
     except ValueError:
         add_error(errors, record, field, f"локальная ссылка выходит за корень памяти: {value}")
         return
-    if not exact_case_exists(root, path_text):
+    if pinned_commit is not None:
+        if not git_object_exists(root, f"{pinned_commit}:{path_text}"):
+            add_error(
+                errors,
+                record,
+                field,
+                f"путь отсутствует в закреплённом Git-коммите {pinned_commit}",
+            )
+    elif not exact_case_exists(root, path_text):
         add_error(errors, record, field, f"локальная ссылка отсутствует или не совпадает по регистру: {value}")
 
 
-def walk_refs(value: object, root: Path, errors: list[str], record: Path, prefix: str = "$") -> None:
+def walk_refs(
+    value: object,
+    root: Path,
+    errors: list[str],
+    record: Path,
+    prefix: str = "$",
+    *,
+    pinned_commit: str | None = None,
+) -> None:
     if isinstance(value, dict):
         for key, child in value.items():
             field = f"{prefix}.{key}"
@@ -380,17 +404,41 @@ def walk_refs(value: object, root: Path, errors: list[str], record: Path, prefix
                 if key == "transformation_ref" and child is None:
                     pass
                 else:
-                    validate_ref(child, field, root, errors, record)
+                    validate_ref(child, field, root, errors, record, pinned_commit=pinned_commit)
             elif key.endswith("_refs"):
                 if not isinstance(child, list):
                     add_error(errors, record, field, "должен быть массивом ссылок")
                 else:
                     for index, item in enumerate(child):
-                        validate_ref(item, f"{field}[{index}]", root, errors, record)
-            walk_refs(child, root, errors, record, field)
+                        validate_ref(
+                            item,
+                            f"{field}[{index}]",
+                            root,
+                            errors,
+                            record,
+                            pinned_commit=pinned_commit,
+                        )
+            walk_refs(child, root, errors, record, field, pinned_commit=pinned_commit)
     elif isinstance(value, list):
         for index, child in enumerate(value):
-            walk_refs(child, root, errors, record, f"{prefix}[{index}]")
+            walk_refs(child, root, errors, record, f"{prefix}[{index}]", pinned_commit=pinned_commit)
+
+
+def shared_git_commit(passport: dict) -> str | None:
+    """Вернуть commit, одинаково закрепляющий результат и его Git-происхождение."""
+
+    result = passport.get("result")
+    provenance = passport.get("provenance")
+    if not isinstance(result, dict) or not isinstance(provenance, dict):
+        return None
+    state_ref = result.get("state_ref")
+    state_match = GIT_COMMIT_REF_RE.fullmatch(state_ref) if isinstance(state_ref, str) else None
+    origin = provenance.get("origin")
+    commit_record = origin.get("commit") if isinstance(origin, dict) else None
+    commit = commit_record.get("value") if isinstance(commit_record, dict) else None
+    if state_match is None or not isinstance(commit, str) or state_match.group(1) != commit:
+        return None
+    return commit
 
 
 def validate_commit(value: object, field: str, root: Path, errors: list[str], record: Path) -> str | None:
@@ -436,7 +484,6 @@ def validate_result(value: object, root: Path, errors: list[str], record: Path) 
     if not artifacts_value:
         add_error(errors, record, "$.result.artifacts", "должен содержать хотя бы один артефакт")
     artifact_ids: set[str] = set()
-    state_commit_match = GIT_COMMIT_REF_RE.fullmatch(state_ref or "")
     state_sha_match = SHA256_REF_RE.fullmatch(state_ref or "")
     for index, item in enumerate(artifacts_value):
         field = f"$.result.artifacts[{index}]"
@@ -453,12 +500,7 @@ def validate_result(value: object, root: Path, errors: list[str], record: Path) 
             add_error(errors, record, f"{field}.state_ref", "должен совпадать с единым $.result.state_ref")
 
         local_path = local_ref_path(publication_ref, root) if publication_ref else None
-        if local_path is not None and state_commit_match:
-            path_text = publication_ref.split("#", 1)[0]
-            commit = state_commit_match.group(1)
-            if not git_object_exists(root, f"{commit}:{path_text}"):
-                add_error(errors, record, f"{field}.publication_ref", f"путь отсутствует в закреплённом Git-коммите {commit}")
-        elif local_path is not None and state_sha_match:
+        if local_path is not None and state_sha_match:
             try:
                 actual_hash = hashlib.sha256(local_path.read_bytes()).hexdigest()
             except OSError as exc:
@@ -749,7 +791,13 @@ def validate_passport(data: dict, record: Path, root: Path) -> list[str]:
     validate_confidence(passport.get("confidence"), artifact_ids, check_ids, errors, record)
     recipient_ids = validate_recipients(passport.get("recipients"), errors, record)
     validate_transfers(passport.get("transfers"), artifact_ids, recipient_ids, errors, record)
-    walk_refs(passport, root, errors, record)
+    walk_refs(
+        passport,
+        root,
+        errors,
+        record,
+        pinned_commit=shared_git_commit(passport),
+    )
     return errors
 
 

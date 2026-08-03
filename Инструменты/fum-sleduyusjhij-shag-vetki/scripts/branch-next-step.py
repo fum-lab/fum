@@ -11,6 +11,7 @@ import os
 import re
 import subprocess
 import sys
+import tempfile
 import time
 import tomllib
 import unicodedata
@@ -30,6 +31,9 @@ RECENCY_BLOCK_RE = re.compile(
     re.DOTALL,
 )
 STEP_ID_RE = re.compile(r"^[a-z0-9][a-z0-9._-]{2,127}$")
+VERSIONED_STEP_ID_RE = re.compile(
+    r"^(?P<stem>[a-z0-9][a-z0-9._-]*?)-v(?P<version>[1-9][0-9]*)$"
+)
 CARD_ID_RE = re.compile(r"^FUM-STEP-[0-9]{4}$")
 CONTENT_SHA256_RE = re.compile(r"^sha256:[0-9a-f]{64}$")
 OBJECT_ID_RE = re.compile(r"^(?:[0-9a-f]{40}|[0-9a-f]{64})$")
@@ -315,6 +319,7 @@ def parse_args() -> argparse.Namespace:
         "command",
         choices=(
             "validate",
+            "refresh-card-fences",
             "show",
             "claim",
             "bind-run",
@@ -386,6 +391,7 @@ def validate_command_options(args: argparse.Namespace) -> None:
     }
     allowed_by_command = {
         "validate": frozenset(),
+        "refresh-card-fences": frozenset(),
         "show": frozenset(
             {
                 "expected_branch_ref",
@@ -1344,6 +1350,251 @@ def parse_selector(path: Path, repo_root: Path) -> BranchSelection:
         record_content_sha256=record_content_sha256,
         candidates=candidates,
     )
+
+
+def reject_refresh_symlink(path: Path, repo_root: Path, label: str) -> None:
+    try:
+        relative = path.absolute().relative_to(repo_root.absolute())
+    except ValueError as error:
+        raise ContractError(f"{label}: путь выходит за пределы репозитория.") from error
+    current = repo_root
+    for component in relative.parts:
+        current = current / component
+        if current.is_symlink():
+            raise ContractError(
+                f"{label}: символьная ссылка запрещена: "
+                f"{relative.as_posix()}."
+            )
+
+
+def structurally_valid_selections(repo_root: Path) -> tuple[BranchSelection, ...]:
+    directory = repo_root / RECORDS_DIRECTORY
+    reject_refresh_symlink(directory, repo_root, RECORDS_DIRECTORY.as_posix())
+    if not directory.is_dir():
+        raise ContractError(
+            f"Не найден каталог записей: {RECORDS_DIRECTORY.as_posix()}."
+        )
+    paths = sorted(
+        (
+            path
+            for path in directory.rglob("*.md")
+            if path.name.casefold() != "readme.md"
+        ),
+        key=lambda path: path.relative_to(repo_root).as_posix(),
+    )
+    if not paths:
+        raise ContractError(
+            f"В {RECORDS_DIRECTORY.as_posix()} нет записей следующих шагов."
+        )
+    for path in paths:
+        reject_refresh_symlink(path, repo_root, repository_relative(path, repo_root))
+    selections = tuple(parse_selector(path, repo_root) for path in paths)
+    by_branch: dict[str, list[str]] = {}
+    for selection in selections:
+        by_branch.setdefault(selection.branch_ref, []).append(selection.record_path)
+    duplicates = {
+        branch_ref: record_paths
+        for branch_ref, record_paths in by_branch.items()
+        if len(record_paths) > 1
+    }
+    if duplicates:
+        details = "; ".join(
+            f"{branch_ref}: {', '.join(record_paths)}"
+            for branch_ref, record_paths in sorted(duplicates.items())
+        )
+        raise ContractError(
+            "Для каждой ветки должна существовать ровно одна запись; "
+            f"найдены дубликаты: {details}."
+        )
+    return selections
+
+
+def refreshable_candidate_spans(
+    text: str,
+    selection: BranchSelection,
+) -> tuple[dict[str, tuple[int, int]], ...]:
+    closing = text.find("\n+++\n", 4)
+    if not text.startswith("+++\n") or closing < 0:
+        raise ContractError(
+            f"{selection.record_path}: не удалось выделить TOML-блок для обновления."
+        )
+    frontmatter = text[4:closing]
+    header_re = re.compile(r"(?m)^[ \t]*\[\[[ \t]*candidates[ \t]*\]\][ \t]*(?:#.*)?$")
+    headers = tuple(header_re.finditer(frontmatter))
+    if len(headers) != len(selection.candidates):
+        raise ContractError(
+            f"{selection.record_path}: неоднозначная текстовая структура candidates."
+        )
+    result: list[dict[str, tuple[int, int]]] = []
+    for index, (header, candidate) in enumerate(zip(headers, selection.candidates)):
+        block_start = header.end()
+        block_end = headers[index + 1].start() if index + 1 < len(headers) else len(frontmatter)
+        block = frontmatter[block_start:block_end]
+        fields: dict[str, tuple[int, int]] = {}
+        for key, expected in (
+            ("step_id", candidate.step_id),
+            ("card_content_sha256", candidate.card_content_sha256),
+        ):
+            field_re = re.compile(
+                rf"(?m)^[ \t]*{re.escape(key)}[ \t]*=[ \t]*(?P<quote>[\"'])"
+                rf"(?P<value>[^\"'\r\n]*)(?P=quote)[ \t]*(?:#.*)?$"
+            )
+            matches = tuple(field_re.finditer(block))
+            if len(matches) != 1 or matches[0].group("value") != expected:
+                raise ContractError(
+                    f"{selection.record_path}: candidates[{index}].{key} "
+                    "должен быть однозначной однострочной ASCII-строкой."
+                )
+            value_start = 4 + block_start + matches[0].start("value")
+            value_end = 4 + block_start + matches[0].end("value")
+            fields[key] = (value_start, value_end)
+        result.append(fields)
+    return tuple(result)
+
+
+def atomically_replace_selector(
+    path: Path,
+    original: bytes,
+    replacement: bytes,
+    repo_root: Path,
+) -> None:
+    reject_refresh_symlink(path, repo_root, repository_relative(path, repo_root))
+    try:
+        original_stat = path.stat(follow_symlinks=False)
+    except OSError as error:
+        raise ContractError(f"Не удалось проверить селектор: {error}.") from error
+    temporary_path: Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="wb",
+            dir=path.parent,
+            prefix=f".{path.name}.refresh-",
+            delete=False,
+        ) as temporary:
+            temporary_path = Path(temporary.name)
+            temporary.write(replacement)
+            temporary.flush()
+            os.fsync(temporary.fileno())
+        os.chmod(temporary_path, original_stat.st_mode & 0o7777)
+        reject_refresh_symlink(path, repo_root, repository_relative(path, repo_root))
+        if path.read_bytes() != original:
+            raise ContractError(
+                "Селектор изменился конкурентно; обновление отменено."
+            )
+        try:
+            os.replace(temporary_path, path)
+        except OSError as error:
+            raise ContractError(
+                f"Атомарная замена селектора не выполнена: {error}."
+            ) from error
+        temporary_path = None
+    finally:
+        if temporary_path is not None:
+            try:
+                temporary_path.unlink()
+            except FileNotFoundError:
+                pass
+
+
+def refresh_card_fences(repo_root: Path) -> dict[str, object]:
+    branch_ref = active_branch_ref(repo_root)
+    selections = structurally_valid_selections(repo_root)
+    matching = [item for item in selections if item.branch_ref == branch_ref]
+    if len(matching) != 1:
+        raise ContractError(
+            f"Для активной ветки {branch_ref} должна существовать ровно одна "
+            f"запись в {RECORDS_DIRECTORY.as_posix()}."
+        )
+    selection = matching[0]
+    cards_directory = repo_root / CARDS_DIRECTORY
+    reject_refresh_symlink(cards_directory, repo_root, CARDS_DIRECTORY.as_posix())
+    for path in cards_directory.rglob("*.md"):
+        reject_refresh_symlink(path, repo_root, path.relative_to(repo_root).as_posix())
+    cards = load_cards(repo_root)
+    cards_by_id = {card.card_id: card for card in cards}
+    for candidate in selection.candidates:
+        version_match = VERSIONED_STEP_ID_RE.fullmatch(candidate.step_id)
+        if version_match is None:
+            raise ContractError(
+                f"{selection.record_path}: step_id {candidate.step_id!r} "
+                "должен заканчиваться каноническим -vN, где N > 0."
+            )
+        card = cards_by_id.get(candidate.card_id)
+        if card is None:
+            raise ContractError(
+                f"{selection.record_path}: не найдена карточка {candidate.card_id}."
+            )
+        if card.status != "active":
+            raise ContractError(
+                f"{selection.record_path}: выбрать можно только карточку "
+                f"status=active, но {candidate.card_id} имеет status={card.status}."
+            )
+        reject_refresh_symlink(repo_root / card.card_path, repo_root, card.card_path)
+        for required_id in candidate.requires_completed_card_ids:
+            if required_id not in cards_by_id:
+                raise ContractError(
+                    f"{selection.record_path}: для {candidate.card_id} не найдена "
+                    f"обязательная карточка {required_id}."
+                )
+
+    selector_path = repo_root / selection.record_path
+    original = selector_path.read_bytes()
+    try:
+        text = original.decode("utf-8")
+    except UnicodeError as error:
+        raise ContractError(f"Не удалось прочитать {selection.record_path}: {error}.") from error
+    spans = refreshable_candidate_spans(text, selection)
+    occupied_step_ids = {candidate.step_id for candidate in selection.candidates}
+    replacements: list[tuple[int, int, str]] = []
+    updated_card_ids: list[str] = []
+    for candidate, candidate_spans in zip(selection.candidates, spans):
+        card = cards_by_id[candidate.card_id]
+        if candidate.card_content_sha256 == card.card_content_sha256:
+            continue
+        match = VERSIONED_STEP_ID_RE.fullmatch(candidate.step_id)
+        if match is None:
+            raise ContractError("Внутренняя ошибка формата step_id.")
+        version = int(match.group("version")) + 1
+        while True:
+            next_step_id = f"{match.group('stem')}-v{version}"
+            if STEP_ID_RE.fullmatch(next_step_id) is None:
+                raise ContractError(
+                    f"{selection.record_path}: невозможно выпустить корректный step_id для "
+                    f"{candidate.card_id}."
+                )
+            if next_step_id not in occupied_step_ids:
+                break
+            version += 1
+        occupied_step_ids.add(next_step_id)
+        replacements.append((*candidate_spans["step_id"], next_step_id))
+        replacements.append(
+            (*candidate_spans["card_content_sha256"], card.card_content_sha256)
+        )
+        updated_card_ids.append(candidate.card_id)
+    if not replacements:
+        return {
+            "state": "unchanged",
+            "branch_ref": branch_ref,
+            "record_path": selection.record_path,
+            "updated_count": 0,
+            "updated_card_ids": [],
+        }
+    replacement_text = text
+    for start, end, value in sorted(replacements, reverse=True):
+        replacement_text = replacement_text[:start] + value + replacement_text[end:]
+    atomically_replace_selector(
+        selector_path,
+        original,
+        replacement_text.encode("utf-8"),
+        repo_root,
+    )
+    return {
+        "state": "refreshed",
+        "branch_ref": branch_ref,
+        "record_path": selection.record_path,
+        "updated_count": len(updated_card_ids),
+        "updated_card_ids": updated_card_ids,
+    }
 
 
 def resolve_selection(
@@ -3098,6 +3349,9 @@ def main() -> int:
                     for candidate in current.candidates
                 ),
             }
+            exit_code = 0
+        elif args.command == "refresh-card-fences":
+            payload = refresh_card_fences(repo_root)
             exit_code = 0
         elif args.command == "show":
             record = active_record(repo_root)

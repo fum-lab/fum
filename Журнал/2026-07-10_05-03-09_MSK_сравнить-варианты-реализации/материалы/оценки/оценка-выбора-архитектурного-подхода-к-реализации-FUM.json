@@ -1,0 +1,130 @@
+{
+  "schema": "fum.architecture-choice.v1",
+  "title": "Оценка выбора архитектурного подхода к реализации FUM",
+  "request_file": "Журнал/2026-07-10_05-03-09_MSK_сравнить-варианты-реализации/запрос.md",
+  "automation_file": "Инструменты/fum-ocenki/SKILL.md",
+  "method_status": "manual_comparative_matrix",
+  "repository_snapshot": {
+    "date": "2026-07-10",
+    "generated_at": "2026-07-10 05:03:37 MSK",
+    "metrics": [
+      {
+        "name": "Git-коммит",
+        "value": "520febf"
+      },
+      {
+        "name": "Ветка Git",
+        "value": "master"
+      },
+      {
+        "name": "Состояние рабочего дерева",
+        "value": "чистый"
+      },
+      {
+        "name": "Количество коммитов",
+        "value": "169"
+      },
+      {
+        "name": "Отслеживаемые файлы",
+        "value": "642"
+      },
+      {
+        "name": "Markdown-файлы",
+        "value": "513"
+      },
+      {
+        "name": "Общий объём строк в отслеживаемых файлах",
+        "value": "143392"
+      },
+      {
+        "name": "Общий объём слов в Markdown-файлах",
+        "value": "301982"
+      }
+    ]
+  },
+  "github_context": {
+    "repository": "fum-lab/fum",
+    "ref": "master",
+    "findings": [
+      "GitHub connector returned no recent pull requests for the repository.",
+      "GitHub connector branch search returned only master.",
+      "A repository file was fetched through the connector to confirm GitHub-backed code access."
+    ]
+  },
+  "decision": "Первым реализационным шагом выбрать репозиторный гиперсетевой контур и на его основе подготовить минимальный трассировщик агентского цикла.",
+  "options": [
+    {
+      "id": "repository_hypernetwork",
+      "name": "Репозиторный гиперсетевой контур",
+      "summary": "Развивать текущую Git/Codex/локальную память как первый исполняемый носитель происхождения, отбора, проверок и наследования."
+    },
+    {
+      "id": "agent_cycle_tracer",
+      "name": "Минимальный трассировщик агентского цикла",
+      "summary": "Создать маленький runtime одного ограниченного цикла с явной трассой, модельной заглушкой или чистым модельным провайдером."
+    },
+    {
+      "id": "local_application",
+      "name": "Единое локальное приложение",
+      "summary": "Собрать пользовательский вход намерения, подтверждения, локального действия, проверки и сохранения результата."
+    }
+  ],
+  "criteria": [
+    {
+      "id": "code_evidence",
+      "name": "Кодовая подтверждённость",
+      "scale": "1-5, больше лучше"
+    },
+    {
+      "id": "local_testability",
+      "name": "Локальная проверяемость",
+      "scale": "1-5, больше лучше"
+    },
+    {
+      "id": "architectural_core",
+      "name": "Близость к архитектурному ядру",
+      "scale": "1-5, больше лучше"
+    },
+    {
+      "id": "first_step_cost",
+      "name": "Цена первого шага",
+      "scale": "1-5, меньше лучше"
+    },
+    {
+      "id": "autonomy_risk",
+      "name": "Риск преждевременной автономии",
+      "scale": "1-5, меньше лучше"
+    },
+    {
+      "id": "demonstrability",
+      "name": "Демонстрируемость",
+      "scale": "1-5, больше лучше"
+    }
+  ],
+  "scores": {
+    "repository_hypernetwork": {
+      "code_evidence": 5,
+      "local_testability": 5,
+      "architectural_core": 4,
+      "first_step_cost": 2,
+      "autonomy_risk": 1,
+      "demonstrability": 3
+    },
+    "agent_cycle_tracer": {
+      "code_evidence": 2,
+      "local_testability": 4,
+      "architectural_core": 5,
+      "first_step_cost": 4,
+      "autonomy_risk": 3,
+      "demonstrability": 4
+    },
+    "local_application": {
+      "code_evidence": 1,
+      "local_testability": 3,
+      "architectural_core": 4,
+      "first_step_cost": 5,
+      "autonomy_risk": 4,
+      "demonstrability": 5
+    }
+  }
+}

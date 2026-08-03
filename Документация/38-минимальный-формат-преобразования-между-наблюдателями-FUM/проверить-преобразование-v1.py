@@ -14,6 +14,18 @@ from pathlib import Path
 from urllib.parse import parse_qsl, urlsplit
 
 
+REQUEST_FOLDER_LAYOUT_SCRIPTS = (
+    Path(__file__).resolve().parents[2]
+    / "Инструменты"
+    / "fum-struktura-papok-zaprosov"
+    / "scripts"
+)
+if str(REQUEST_FOLDER_LAYOUT_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(REQUEST_FOLDER_LAYOUT_SCRIPTS))
+
+from request_folder_layout import session_stem_for_request_path
+
+
 ROOT_KEYS = {
     "schema_version",
     "transformation_id",
@@ -32,6 +44,12 @@ IDENTIFIER_RE = re.compile(r"^[a-z0-9][a-z0-9._-]{0,127}$")
 SCHEME_RE = re.compile(r"^[A-Za-z][A-Za-z0-9+.-]*:")
 WINDOWS_ABSOLUTE_RE = re.compile(r"^[A-Za-z]:[\\/]")
 HOME_EXPANSION_PREFIX = chr(126) + "/"
+
+
+def is_canonical_request_ref(value: str) -> bool:
+    """Проверить точный путь `Журнал/<время>[_<имя>]/запрос.md`."""
+
+    return session_stem_for_request_path(value) is not None
 
 
 def add_error(errors: list[str], record: Path, message: str) -> None:
@@ -472,7 +490,7 @@ def validate_record(data: dict, record: Path, root: Path) -> list[str]:
     else:
         if not any(isinstance(ref, str) and ref.startswith("Документация/") for ref in provenance):
             add_error(errors, record, "provenance_refs не содержит нормативный документ формата")
-        if not any(isinstance(ref, str) and ref.startswith("Запросы/") for ref in provenance):
+        if not any(isinstance(ref, str) and is_canonical_request_ref(ref) for ref in provenance):
             add_error(errors, record, "provenance_refs не содержит исходное требование")
 
     walk_refs(data, root, errors, record)

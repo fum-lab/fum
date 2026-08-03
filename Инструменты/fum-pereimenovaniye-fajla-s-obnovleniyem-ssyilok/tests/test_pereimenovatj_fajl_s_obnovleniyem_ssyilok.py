@@ -202,10 +202,10 @@ class RenameFileWithLinksTests(unittest.TestCase):
     def test_protected_primary_sources_block_live_link_rewrite(self) -> None:
         cases = {
             "Источники/raw.md": "[raw](../docs/old.md)\n",
-            "Запросы/request.md": (
+            "Журнал/2026-07-24_16-26-31_MSK_переименовать-файл/запрос.md": (
                 "# Request\n\n"
                 "## Текст запроса\n\n"
-                "[verbatim](../docs/old.md)\n\n"
+                "[verbatim](../../docs/old.md)\n\n"
                 "## Результат\n\n"
                 "Без изменений.\n"
             ),
@@ -233,6 +233,19 @@ class RenameFileWithLinksTests(unittest.TestCase):
         self.fixture.commit()
 
         self.assert_failed_without_changes(source, destination, "rename-step-card.py")
+
+    def test_noncanonical_journal_file_is_not_treated_as_verbatim_request(self) -> None:
+        self.fixture.write("docs/old.md", "# Old\n")
+        self.fixture.write(
+            "Журнал/без-временного-префикса/запрос.md",
+            "# Не запрос\n\n## Текст запроса\n\n[link](../../docs/old.md)\n",
+        )
+        self.fixture.commit()
+
+        result = self.fixture.run_tool("plan", "docs/old.md", "docs/new.md")
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(json.loads(result.stdout)["updated_links"], 1)
 
     def test_unsafe_paths_and_portable_name_collisions_fail_closed(self) -> None:
         self.fixture.write("docs/old.md", "# Old\n")

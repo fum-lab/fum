@@ -20,6 +20,21 @@ import source_archive  # noqa: E402
 
 
 class SourceArchiveCoreTests(unittest.TestCase):
+    def test_default_url_output_is_shared_at_repository_root(self):
+        request_file = Path(
+            "/repo/Журнал/2026-07-21_10-36-18_MSK_архивировать-источник/запрос.md"
+        )
+
+        output_dir = source_archive.default_output_dir(
+            request_file,
+            "https://example.com/articles/fum",
+        )
+
+        self.assertEqual(
+            output_dir,
+            Path("/repo/Источники/URL/https/example.com/articles/fum"),
+        )
+
     def test_query_and_fragment_values_are_not_exposed_in_output_path(self):
         output_dir = source_archive.url_output_dir(
             Path("/repo"),
@@ -47,7 +62,12 @@ class SourceArchiveCoreTests(unittest.TestCase):
     def test_existing_snapshot_must_belong_to_exact_source_url(self):
         with tempfile.TemporaryDirectory() as tmp:
             repo = Path(tmp)
-            request_file = repo / "Запросы" / "request.md"
+            request_file = (
+                repo
+                / "Журнал"
+                / "2026-07-21_10-36-18_MSK_архивировать-источник"
+                / "запрос.md"
+            )
             request_file.parent.mkdir(parents=True)
             request_file.write_text("# Запрос\n", encoding="utf-8")
             url = "https://example.com/articles/fum"
@@ -77,9 +97,27 @@ class SourceArchiveCoreTests(unittest.TestCase):
 
     def test_request_file_must_exist_before_archive(self):
         with tempfile.TemporaryDirectory() as tmp:
-            request_file = Path(tmp) / "Запросы" / "missing.md"
+            request_file = (
+                Path(tmp)
+                / "Журнал"
+                / "2026-07-21_10-36-18_MSK_архивировать-источник"
+                / "запрос.md"
+            )
 
             with self.assertRaisesRegex(ValueError, "request file"):
+                source_archive.archive_url(
+                    "https://example.com/material.html",
+                    request_file,
+                    transport=mock.Mock(),
+                )
+
+    def test_existing_legacy_request_path_is_rejected_before_transport(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            request_file = Path(tmp) / "Запросы" / "legacy.md"
+            request_file.parent.mkdir()
+            request_file.write_text("# Запрос\n", encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "Журнал"):
                 source_archive.archive_url(
                     "https://example.com/material.html",
                     request_file,
@@ -220,7 +258,12 @@ class SourceArchiveCliAcceptanceTests(unittest.TestCase):
     ):
         with tempfile.TemporaryDirectory() as tmp:
             repo = Path(tmp)
-            request_file = repo / "Запросы" / "request.md"
+            request_file = (
+                repo
+                / "Журнал"
+                / "2026-07-21_10-36-18_MSK_архивировать-источник"
+                / "запрос.md"
+            )
             request_file.parent.mkdir(parents=True)
             request_file.write_text(
                 "# Исходный запрос\n\nИсходное содержимое.\n",
@@ -278,7 +321,7 @@ class SourceArchiveCliAcceptanceTests(unittest.TestCase):
             self.assertNotIn(b"fum-fixture-secret", published_snapshot)
 
             request_text = request_file.read_text(encoding="utf-8")
-            source_path = "../Источники/URL/https/fixture.invalid/articles/fum"
+            source_path = "../../Источники/URL/https/fixture.invalid/articles/fum"
             self.assertEqual(request_text.count("## Прикрепляемые материалы"), 1)
             self.assertEqual(request_text.count(f"({source_path}/)"), 1)
             self.assertEqual(request_text.count(f"({source_path}/source-index.md)"), 1)

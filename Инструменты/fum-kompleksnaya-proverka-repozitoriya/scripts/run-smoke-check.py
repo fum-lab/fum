@@ -45,6 +45,10 @@ MACHINE_LOCAL_PATH_CHECK_SCRIPT = Path(
     "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/"
     "proveritj-mashinno-lokaljnyiye-puti.py"
 )
+REQUEST_FOLDER_LAYOUT_SCRIPT = Path(
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/"
+    "struktura-papok-zaprosov.py"
+)
 GIT_DEPENDENCY_CHECK_SCRIPT = Path(
     "Инструменты/fum-proverka-git-zavisimostej/scripts/"
     "proveritj-git-zavisimostj.py"
@@ -56,8 +60,9 @@ LINGUISTIC_KIT_UPSTREAM_URL = (
 LINGUISTIC_KIT_PATH = "Зависимости/LinguisticKit"
 LINGUISTIC_KIT_REVISION = "837e2ce107b97ee7b9d3344c9fe99142281fe393"
 CODEX_COMMIT_CONTEXT_RULE_START = (2026, 7, 14, 2, 31, 47)
-REQUEST_DATETIME_PREFIX_RE = re.compile(
+REQUEST_SESSION_STEM_RE = re.compile(
     r"^(\d{4})-(\d{2})-(\d{2})_(\d{2})-(\d{2})-(\d{2})_MSK"
+    r"(?:_[0-9A-Za-zА-Яа-яЁё][0-9A-Za-zА-Яа-яЁё-]*)?$"
 )
 RECENCY_SCRIPT = Path("Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py")
 OBSIDIAN_GRAPH_RECENCY_SCRIPT = Path(
@@ -198,7 +203,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--request",
         type=Path,
-        help="Selected working session request file for fum-svyaznostj-rabochej-sessii.",
+        help=(
+            "Selected Журнал/<YYYY-MM-DD_HH-MM-SS_MSK[_slug]>/запрос.md "
+            "file for fum-svyaznostj-rabochej-sessii."
+        ),
     )
     parser.add_argument(
         "--commit-message-file",
@@ -230,8 +238,15 @@ def repo_relative(path: Path, repo_root: Path) -> str:
     return absolute.resolve().relative_to(repo_root.resolve()).as_posix()
 
 
+def request_session_match(request: str | Path) -> re.Match[str] | None:
+    path = Path(request)
+    if path.name != "запрос.md" or path.parent.parent.name != "Журнал":
+        return None
+    return REQUEST_SESSION_STEM_RE.fullmatch(path.parent.name)
+
+
 def request_requires_codex_commit_context(request: str | Path) -> bool:
-    match = REQUEST_DATETIME_PREFIX_RE.match(Path(request).name)
+    match = request_session_match(request)
     if match is None:
         return False
     return tuple(int(part) for part in match.groups()) >= CODEX_COMMIT_CONTEXT_RULE_START
@@ -1578,6 +1593,21 @@ def build_steps(
 ) -> list[SmokeStep]:
     root = Path(repo_root).resolve()
     validate_project_skill_isolation(root)
+    if include_session:
+        if request is None:
+            raise ValueError("--request is required unless --skip-session-coherence is used")
+        if request_session_match(request) is None:
+            raise ValueError(
+                "--request must match "
+                "Журнал/<YYYY-MM-DD_HH-MM-SS_MSK[_slug]>/запрос.md"
+            )
+        if request_requires_codex_commit_context(request):
+            if commit_message_file is None:
+                raise ValueError(
+                    "--commit-message-file is required for this request"
+                )
+            if codex_thread_id is None:
+                raise ValueError("--codex-thread-id is required for this request")
     python_cmd = python or sys.executable
     swift_cmd = swift or "swift"
     steps: list[SmokeStep] = []
@@ -1606,6 +1636,20 @@ def build_steps(
             swift_cmd,
             clock=clock,
             timing_sink=timing_sink,
+        )
+    )
+
+    request_folder_layout_script = require_file(root, REQUEST_FOLDER_LAYOUT_SCRIPT)
+    steps.append(
+        SmokeStep(
+            name="Проверка структуры папок запросов",
+            command=(
+                python_cmd,
+                request_folder_layout_script,
+                "validate",
+                "--repo-root",
+                ".",
+            ),
         )
     )
 
@@ -1715,16 +1759,8 @@ def build_steps(
     )
 
     if include_session:
-        if request is None:
-            raise ValueError("--request is required unless --skip-session-coherence is used")
-        if request_requires_codex_commit_context(request):
-            if commit_message_file is None:
-                raise ValueError(
-                    "--commit-message-file is required for this request"
-                )
-            if codex_thread_id is None:
-                raise ValueError("--codex-thread-id is required for this request")
         session_script = require_file(root, SESSION_COHERENCE_SCRIPT)
+        assert request is not None  # Validated before the plan is built.
         request_path = repo_relative(Path(request), root)
         session_command = [python_cmd, session_script, "--request", request_path]
         if commit_message_file is not None:

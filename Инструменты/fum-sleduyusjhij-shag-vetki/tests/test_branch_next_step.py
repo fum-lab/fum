@@ -887,6 +887,156 @@ class BranchNextStepTests(unittest.TestCase):
             recency_only.stdout + recency_only.stderr,
         )
 
+    def test_refresh_card_fences_updates_only_changed_candidate_and_is_idempotent(
+        self,
+    ) -> None:
+        first = self.write_card(
+            "🟡-FUM-STEP-0001-первый-кандидат.md",
+            card_id="FUM-STEP-0001",
+        )
+        second = self.write_card(
+            "🟡-FUM-STEP-0002-второй-кандидат.md",
+            card_id="FUM-STEP-0002",
+        )
+        selector = self.write_selector(
+            candidates=[
+                {
+                    "step_id": "master-first-v1",
+                    "status": "ready",
+                    "card_id": "FUM-STEP-0001",
+                },
+                {
+                    "step_id": "master-second-v7",
+                    "status": "paused",
+                    "card_id": "FUM-STEP-0002",
+                    "resume_condition": "Ждать решения.",
+                },
+            ]
+        )
+        original = selector.read_text(encoding="utf-8")
+        old_first_hash = self.card_content_sha256(first)
+        second_hash = self.card_content_sha256(second)
+        first.write_text(
+            first.read_text(encoding="utf-8").replace(
+                "Этот шаг проверяет карточный контракт.",
+                "Карточка изменена массовой миграцией.",
+            ),
+            encoding="utf-8",
+        )
+        new_first_hash = self.card_content_sha256(first)
+
+        stale = self.run_tool("validate")
+        refreshed = self.run_tool("refresh-card-fences")
+
+        self.assertEqual(stale.returncode, 2)
+        self.assertEqual(refreshed.returncode, 0, refreshed.stdout + refreshed.stderr)
+        payload = self.payload(refreshed)
+        self.assertEqual(payload["state"], "refreshed")
+        self.assertEqual(payload["updated_count"], 1)
+        self.assertEqual(payload["updated_card_ids"], ["FUM-STEP-0001"])
+        expected = original.replace(
+            'step_id = "master-first-v1"',
+            'step_id = "master-first-v2"',
+            1,
+        ).replace(
+            f'card_content_sha256 = "{old_first_hash}"',
+            f'card_content_sha256 = "{new_first_hash}"',
+            1,
+        )
+        self.assertEqual(selector.read_text(encoding="utf-8"), expected)
+        self.assertIn(f'card_content_sha256 = "{second_hash}"', expected)
+        self.assertIn('step_id = "master-second-v7"', expected)
+        stat_before_repeat = selector.stat()
+
+        repeated = self.run_tool("refresh-card-fences")
+
+        self.assertEqual(repeated.returncode, 0, repeated.stdout + repeated.stderr)
+        self.assertEqual(self.payload(repeated)["state"], "unchanged")
+        self.assertEqual(selector.read_text(encoding="utf-8"), expected)
+        stat_after_repeat = selector.stat()
+        self.assertEqual(stat_after_repeat.st_ino, stat_before_repeat.st_ino)
+        self.assertEqual(stat_after_repeat.st_mtime_ns, stat_before_repeat.st_mtime_ns)
+        valid = self.run_tool("validate")
+        self.assertEqual(valid.returncode, 0, valid.stdout + valid.stderr)
+
+    def test_refresh_card_fences_rejects_unversioned_or_malformed_fences(
+        self,
+    ) -> None:
+        self.write_record()
+        selector = (
+            self.repo
+            / "Планирование"
+            / "следующие-шаги-веток"
+            / "master.md"
+        )
+        original = selector.read_text(encoding="utf-8")
+        variants = (
+            original.replace("master-test-step-v1", "master-test-step", 1),
+            re.sub(
+                r'sha256:[0-9a-f]{64}',
+                "sha256:broken",
+                original,
+                count=1,
+            ),
+        )
+        for malformed in variants:
+            with self.subTest(malformed=malformed[:80]):
+                selector.write_text(malformed, encoding="utf-8")
+                before = selector.read_bytes()
+
+                result = self.run_tool("refresh-card-fences")
+
+                self.assertEqual(result.returncode, 2)
+                self.assertEqual(selector.read_bytes(), before)
+
+    def test_refresh_card_fences_rejects_a_selector_symlink(self) -> None:
+        self.write_record()
+        selector = (
+            self.repo
+            / "Планирование"
+            / "следующие-шаги-веток"
+            / "master.md"
+        )
+        target = self.repo / "selector-target.md"
+        selector.replace(target)
+        selector.symlink_to(target)
+        before = target.read_bytes()
+
+        result = self.run_tool("refresh-card-fences")
+
+        self.assertEqual(result.returncode, 2)
+        self.assertIn("символ", str(self.payload(result)["error"]).lower())
+        self.assertEqual(target.read_bytes(), before)
+
+    def test_refresh_card_fences_rolls_back_when_atomic_replace_fails(self) -> None:
+        card = self.write_record()
+        selector = (
+            self.repo
+            / "Планирование"
+            / "следующие-шаги-веток"
+            / "master.md"
+        )
+        original = selector.read_bytes()
+        card.write_text(
+            card.read_text(encoding="utf-8").replace(
+                "Этот шаг проверяет карточный контракт.",
+                "Карточка изменилась.",
+            ),
+            encoding="utf-8",
+        )
+
+        with mock.patch.object(
+            TOOL_MODULE.os,
+            "replace",
+            side_effect=OSError("тестовый отказ replace"),
+        ):
+            with self.assertRaises(TOOL_MODULE.ContractError):
+                TOOL_MODULE.refresh_card_fences(self.repo)
+
+        self.assertEqual(selector.read_bytes(), original)
+        leftovers = list(selector.parent.glob(".master.md.refresh-*"))
+        self.assertEqual(leftovers, [])
+
     def test_validate_rejects_invalid_or_duplicate_unselected_cards(self) -> None:
         self.write_record()
         self.write_card(
@@ -1501,12 +1651,12 @@ class BranchNextStepTests(unittest.TestCase):
             "CODEX_THREAD_ID",
             "verify-run",
             "generation",
-            "Запросы/",
-            "Журнал/",
+            "Журнал/<YYYY-MM-DD_HH-MM-SS_MSK>_<краткое-название-запроса>/запрос.md",
             "commit",
         ):
             with self.subTest(marker=marker):
                 self.assertIn(marker, child_contract)
+        self.assertNotIn("Запросы/", child_contract)
         self.assertTrue(
             "не сохран" in folded or "не перенос" in folded,
             "runtime-конверт нельзя персистировать",
@@ -6640,9 +6790,9 @@ class BranchNextStepTests(unittest.TestCase):
             validation.stdout + validation.stderr,
         )
         validation_payload = self.payload(validation)
-        self.assertEqual(validation_payload["candidate_count"], 13)
+        self.assertEqual(validation_payload["candidate_count"], 14)
         self.assertEqual(validation_payload["ready_count"], 1)
-        self.assertEqual(validation_payload["paused_count"], 11)
+        self.assertEqual(validation_payload["paused_count"], 12)
         self.assertEqual(validation_payload["blocked_count"], 1)
         self.assertEqual(shown.returncode, 0, shown.stdout + shown.stderr)
         shown_payload = self.payload(shown)
@@ -6650,7 +6800,7 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertEqual(shown_payload["card_id"], "FUM-STEP-0085")
         self.assertEqual(
             shown_payload["step_id"],
-            "master-fum-step-0085-automatic-v2",
+            "master-fum-step-0085-automatic-v3",
         )
         self.assertEqual(shown_payload["dispatch"], "automatic")
         self.assertEqual(shown_payload["status"], "ready")

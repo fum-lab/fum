@@ -27,6 +27,16 @@ from project_files import (  # noqa: E402
     safe_project_output_path,
 )
 
+REQUEST_LAYOUT_SCRIPTS = (
+    Path(__file__).resolve().parents[2]
+    / "fum-struktura-papok-zaprosov"
+    / "scripts"
+)
+if str(REQUEST_LAYOUT_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(REQUEST_LAYOUT_SCRIPTS))
+
+from request_folder_layout import session_stem_for_request_path  # noqa: E402
+
 
 TODO_MARKER = "WORK_REVIEW_TODO"
 REQUIRED_CONFIG_FIELDS = [
@@ -44,6 +54,14 @@ REQUIRED_CONFIG_FIELDS = [
     "residual_risks",
     "decision",
 ]
+def request_label(request_file: str) -> str:
+    stem = session_stem_for_request_path(request_file)
+    if stem is None:
+        return request_file
+    date, time, zone = stem[:23].split("_")
+    return f"исходный запрос {date} {time.replace('-', ':')} {zone}"
+
+
 REQUIRED_SECTIONS = [
     "Граница ревью",
     "Снимок Git",
@@ -145,6 +163,11 @@ def validate_config(config: dict[str, Any], repo_root: Path) -> list[str]:
         )
     except ProjectFilesError as error:
         errors.append(str(error))
+    if not isinstance(request, str) or session_stem_for_request_path(request) is None:
+        errors.append(
+            "request_file must match "
+            "Журнал/<YYYY-MM-DD_HH-MM-SS_MSK[_название]>/запрос.md"
+        )
 
     automation = config.get("automation_file")
     try:
@@ -389,7 +412,7 @@ def render_review(
 
 ## Граница ревью
 
-- Исходный запрос: [{config["request_file"]}]({request_link})
+- Исходный запрос: [{request_label(config["request_file"])}]({request_link})
 - Автоматизация: [{config["automation_file"]}]({automation_link})
 {config_line}- Ревьюер: {config["reviewer"]}
 - Время ревью: {config["reviewed_at"]}

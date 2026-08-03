@@ -16,9 +16,20 @@ import subprocess
 import sys
 import tempfile
 from html.parser import HTMLParser
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Any
 from urllib.parse import unquote, urlsplit
+
+
+REQUEST_LAYOUT_SCRIPTS = (
+    Path(__file__).resolve().parents[2]
+    / "fum-struktura-papok-zaprosov"
+    / "scripts"
+)
+if str(REQUEST_LAYOUT_SCRIPTS) not in sys.path:
+    sys.path.insert(0, str(REQUEST_LAYOUT_SCRIPTS))
+
+from request_folder_layout import session_stem_for_request_path  # noqa: E402
 
 
 REDACTION = "[REDACTED: local request metadata]"
@@ -88,7 +99,9 @@ def parse_args() -> argparse.Namespace:
         "--request-file",
         required=True,
         type=Path,
-        help="Path to the request Markdown file in Запросы/",
+        help=(
+            "Path to Журнал/<YYYY-MM-DD_HH-MM-SS_MSK[_name]>/запрос.md"
+        ),
     )
     parser.add_argument(
         "--output-dir",
@@ -135,8 +148,30 @@ def hashed_url_component(prefix: str, value: str) -> str:
     return f"_{prefix}-{digest}"
 
 
+def request_repo_root(request_file: Path) -> Path:
+    absolute = Path(os.path.abspath(request_file))
+    candidate = PurePosixPath(
+        absolute.parent.parent.name,
+        absolute.parent.name,
+        absolute.name,
+    )
+    if session_stem_for_request_path(candidate) is None:
+        raise ValueError(
+            "request file must match "
+            "Журнал/<YYYY-MM-DD_HH-MM-SS_MSK[_название]>/запрос.md"
+        )
+    return absolute.parent.parent.parent
+
+
 def request_base_dir(request_file: Path) -> Path:
-    return request_file.parent.parent if request_file.parent.name == "Запросы" else request_file.parent
+    """Return the repository root for a canonical request path."""
+
+    return request_repo_root(request_file)
+
+
+def request_materials_root(request_file: Path) -> Path:
+    request_repo_root(request_file)
+    return Path(os.path.abspath(request_file)).parent / "материалы" / "источники"
 
 
 def validate_source_url(url: str):
@@ -181,12 +216,12 @@ def default_output_dir(
     url: str,
     source_name: str | None = None,
 ) -> Path:
-    base_dir = request_base_dir(request_file)
+    repo_root = request_base_dir(request_file)
     try:
-        return url_output_dir(base_dir, url)
+        return url_output_dir(repo_root, url)
     except ValueError:
         if source_name:
-            return base_dir / "Источники" / f"{request_file.stem}_{source_name_slug(source_name)}"
+            return request_materials_root(request_file) / source_name_slug(source_name)
         raise
 
 
@@ -867,6 +902,7 @@ def validate_request_file(request_file: Path) -> None:
         raise ValueError(f"request file must be an existing regular file: {request_file}")
     if request_file.suffix.lower() != ".md":
         raise ValueError(f"request file must be Markdown: {request_file}")
+    request_repo_root(request_file)
 
 
 def build_snapshot(staging_dir: Path, url: str) -> dict[str, Any]:

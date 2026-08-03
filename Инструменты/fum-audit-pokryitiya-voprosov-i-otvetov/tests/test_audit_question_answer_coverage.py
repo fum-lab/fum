@@ -32,9 +32,10 @@ class AuditQuestionAnswerCoverageTests(unittest.TestCase):
         *,
         trailing_text: str = "",
     ) -> Path:
-        requests = root / "Запросы"
-        requests.mkdir(parents=True, exist_ok=True)
-        request = requests / name
+        journal = root / "Журнал"
+        request_stem = name.removesuffix(".md")
+        request = journal / request_stem / "запрос.md"
+        request.parent.mkdir(parents=True, exist_ok=True)
         request.write_text(
             "\n".join(
                 [
@@ -138,7 +139,7 @@ class AuditQuestionAnswerCoverageTests(unittest.TestCase):
             card = self.write_card(
                 root,
                 "2026-07-01_10-00-00_MSK_ответить.md",
-                f"../Запросы/{request_name}#Текст-запроса",
+                f"../Журнал/{request_name.removesuffix('.md')}/запрос.md#Текст-запроса",
             )
 
             report = audit_question_answer_coverage.audit_repository(root)
@@ -161,7 +162,7 @@ class AuditQuestionAnswerCoverageTests(unittest.TestCase):
             self.write_card(
                 root,
                 "2026-07-01_10-00-00_MSK_пример.md",
-                f"../Запросы/{request_name}",
+                f"../Журнал/{request_name.removesuffix('.md')}/запрос.md",
                 fenced=True,
             )
 
@@ -175,9 +176,10 @@ class AuditQuestionAnswerCoverageTests(unittest.TestCase):
     def test_prefers_text_fences_then_blockquotes_then_raw_fallback(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            requests = root / "Запросы"
-            requests.mkdir(parents=True)
-            (requests / "2026-07-01_10-00-00_MSK_несколько-ходов.md").write_text(
+            journal = root / "Журнал"
+            request_one = journal / "2026-07-01_10-00-00_MSK_несколько-ходов" / "запрос.md"
+            request_one.parent.mkdir(parents=True)
+            request_one.write_text(
                 "\n".join(
                     [
                         "# Исходный запрос",
@@ -202,11 +204,15 @@ class AuditQuestionAnswerCoverageTests(unittest.TestCase):
                 ),
                 encoding="utf-8",
             )
-            (requests / "2026-07-01_10-01-00_MSK_цитата.md").write_text(
+            request_two = journal / "2026-07-01_10-01-00_MSK_цитата" / "запрос.md"
+            request_two.parent.mkdir(parents=True)
+            request_two.write_text(
                 "# Исходный запрос\n\n## Текст запроса\n\n> Вопрос из цитаты?\n",
                 encoding="utf-8",
             )
-            (requests / "2026-07-01_10-02-00_MSK_сырой.md").write_text(
+            request_three = journal / "2026-07-01_10-02-00_MSK_сырой" / "запрос.md"
+            request_three.parent.mkdir(parents=True)
+            request_three.write_text(
                 "# Исходный запрос\n\n## Текст запроса\n\nСырой вопрос?\n",
                 encoding="utf-8",
             )
@@ -261,7 +267,7 @@ class AuditQuestionAnswerCoverageTests(unittest.TestCase):
                         "",
                         "## Ответ",
                         "",
-                        f"[Контекст](../Запросы/{request_name})",
+                        f"[Контекст](../Журнал/{request_name.removesuffix('.md')}/запрос.md)",
                         "",
                         "## Источники требований",
                         "",
@@ -286,7 +292,7 @@ class AuditQuestionAnswerCoverageTests(unittest.TestCase):
             cards.mkdir(parents=True)
             (cards / "README.md").write_text(
                 "# Индекс\n\n## Источники требований\n\n"
-                f"- [Исходный запрос](../Запросы/{request_name})\n",
+                f"- [Исходный запрос](../Журнал/{request_name.removesuffix('.md')}/запрос.md)\n",
                 encoding="utf-8",
             )
 
@@ -306,7 +312,7 @@ class AuditQuestionAnswerCoverageTests(unittest.TestCase):
             self.write_card(
                 root,
                 "2026-07-01_10-00-00_MSK_ответ.md",
-                f"../Запросы/{covered_name}",
+                f"../Журнал/{covered_name.removesuffix('.md')}/запрос.md",
             )
 
             report = audit_question_answer_coverage.audit_repository(root)
@@ -372,9 +378,9 @@ class AuditQuestionAnswerCoverageTests(unittest.TestCase):
     def test_missing_request_text_section_fails_closed(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            requests = root / "Запросы"
-            requests.mkdir(parents=True)
-            (requests / "2026-07-01_10-00-00_MSK_без-раздела.md").write_text(
+            request = root / "Журнал" / "2026-07-01_10-00-00_MSK_без-раздела" / "запрос.md"
+            request.parent.mkdir(parents=True)
+            request.write_text(
                 "# Исходный запрос\n\n## Другой раздел\n\nЕсть вопрос?\n",
                 encoding="utf-8",
             )
@@ -385,9 +391,9 @@ class AuditQuestionAnswerCoverageTests(unittest.TestCase):
     def test_duplicate_request_text_section_fails_closed(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            requests = root / "Запросы"
-            requests.mkdir(parents=True)
-            (requests / "2026-07-01_10-00-00_MSK_два-раздела.md").write_text(
+            request = root / "Журнал" / "2026-07-01_10-00-00_MSK_два-раздела" / "запрос.md"
+            request.parent.mkdir(parents=True)
+            request.write_text(
                 "# Исходный запрос\n\n"
                 "## Текст запроса\n\nПервый вопрос?\n\n"
                 "## Текст запроса\n\nВторой вопрос?\n",
@@ -396,6 +402,33 @@ class AuditQuestionAnswerCoverageTests(unittest.TestCase):
 
             with self.assertRaisesRegex(ValueError, "найдено 2"):
                 audit_question_answer_coverage.audit_repository(root)
+
+    def test_ignores_noncanonical_markdown_in_request_folder(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            request = self.write_request(
+                root,
+                "2026-07-01_10-00-00_MSK_канонический.md",
+                "Канонический вопрос?",
+            )
+            (request.parent / "отчёт.md").write_text(
+                "# Отчёт\n\nЭтот вопрос не является исходным?\n",
+                encoding="utf-8",
+            )
+            invalid_request = root / "Журнал" / "без-временного-префикса" / "запрос.md"
+            invalid_request.parent.mkdir(parents=True)
+            invalid_request.write_text(
+                "# Запрос\n\n## Текст запроса\n\nНеканонический вопрос?\n",
+                encoding="utf-8",
+            )
+
+            report = audit_question_answer_coverage.audit_repository(root)
+
+            self.assertEqual(report.request_count, 1)
+            self.assertEqual(
+                [finding.request_path for finding in report.findings],
+                [request.relative_to(root).as_posix()],
+            )
 
 
 if __name__ == "__main__":

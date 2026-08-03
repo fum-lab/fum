@@ -17,9 +17,9 @@ status = "completed"
 
 ## Источники
 
-- [исходный запрос 2026-07-01 15:35:24 MSK](../../Запросы/2026-07-01_15-35-24_MSK.md), [Воспроизводимые автоматизации FUM](../../Документация/17-воспроизводимые-автоматизации.md), [fum-svezhestj-grafa-obsidian](../../Инструменты/fum-svezhestj-grafa-obsidian/SKILL.md)
+- [исходный запрос 2026-07-01 15:35:24 MSK](../../Журнал/2026-07-01_15-35-24_MSK/запрос.md), [Воспроизводимые автоматизации FUM](../../Документация/17-воспроизводимые-автоматизации.md), [fum-svezhestj-grafa-obsidian](../../Инструменты/fum-svezhestj-grafa-obsidian/SKILL.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-07-22 09:17:49 MSK -->
-<!-- content-sha256: sha256:4643cd2e0d8ca033aadda8cbaad863311981cc9263b58183fb74c5be69c9ef92 -->
+<!-- last-content-edit: 2026-08-03 14:54:04 MSK -->
+<!-- content-sha256: sha256:4f5a6784fe5d4b559549273de42dc497d06a2a7b0266a37699704e1469c9a0e4 -->
 <!-- FUM-MD-RECENCY:END -->

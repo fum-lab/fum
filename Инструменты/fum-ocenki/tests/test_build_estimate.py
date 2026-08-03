@@ -24,10 +24,11 @@ spec.loader.exec_module(build_estimate)
 class BuildEstimateTests(unittest.TestCase):
     def write_fixture(self, root: Path) -> tuple[Path, Path]:
         (root / "Оценки").mkdir()
-        (root / "Запросы").mkdir()
+        request_dir = root / "Журнал" / "2026-06-29_19-05-53_MSK_оценить-трудоёмкость"
+        request_dir.mkdir(parents=True)
         (root / "Инструменты" / "fum-ocenki").mkdir(parents=True)
 
-        (root / "Запросы" / "2026-06-29_19-05-53_MSK.md").write_text(
+        (request_dir / "запрос.md").write_text(
             "# Исходный запрос 2026-06-29 19:05:53 MSK\n",
             encoding="utf-8",
         )
@@ -38,7 +39,7 @@ class BuildEstimateTests(unittest.TestCase):
 
         config = {
             "title": "Оценка тестовой трудоёмкости",
-            "request_file": "Запросы/2026-06-29_19-05-53_MSK.md",
+            "request_file": "Журнал/2026-06-29_19-05-53_MSK_оценить-трудоёмкость/запрос.md",
             "automation_file": "Инструменты/fum-ocenki/SKILL.md",
             "question": "Сколько времени потребовалось бы человеку?",
             "unit": "человеко-часы",
@@ -161,6 +162,25 @@ class BuildEstimateTests(unittest.TestCase):
             )
 
             self.assertEqual(errors, [])
+
+    def test_build_rejects_request_without_timestamped_journal_parent(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            config_path, output_path = self.write_fixture(root)
+            invalid_request = root / "Журнал" / "без-времени" / "запрос.md"
+            invalid_request.parent.mkdir()
+            invalid_request.write_text("# Запрос\n", encoding="utf-8")
+            config = json.loads(config_path.read_text(encoding="utf-8"))
+            config["request_file"] = invalid_request.relative_to(root).as_posix()
+            config_path.write_text(
+                json.dumps(config, ensure_ascii=False, indent=2),
+                encoding="utf-8",
+            )
+
+            with self.assertRaisesRegex(ValueError, "Журнал"):
+                build_estimate.build_document(config_path, output_path, root)
+
+            self.assertFalse(output_path.exists())
 
     def test_validate_reports_missing_required_section(self):
         with tempfile.TemporaryDirectory() as tmp:
