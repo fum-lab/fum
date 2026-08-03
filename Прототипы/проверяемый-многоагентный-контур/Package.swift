@@ -17,6 +17,10 @@ let package = Package(
       targets: ["FUMDistributedEpisodeMemory"]
     ),
     .executable(name: "FUMWorkPackageProbe", targets: ["FUMWorkPackageProbe"]),
+    .executable(
+      name: "FUMWritingSubnodePassportProbe",
+      targets: ["FUMWritingSubnodePassportProbe"]
+    ),
   ],
   dependencies: [
     .package(path: "../воспроизводимое-пополнение-памяти")
@@ -45,6 +49,11 @@ let package = Package(
       name: "FUMWorkPackageProbe",
       dependencies: ["FUMDistributedEpisodeMemory", "FUMVerifiableMultiAgentContour"],
       path: "Sources/FUMWorkPackageProbe"
+    ),
+    .executableTarget(
+      name: "FUMWritingSubnodePassportProbe",
+      dependencies: ["FUMVerifiableMultiAgentContour"],
+      path: "Sources/FUMWritingSubnodePassportProbe"
     ),
     .testTarget(
       name: "FUMVerifiableMultiAgentContourTests",

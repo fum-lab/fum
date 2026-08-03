@@ -68,6 +68,7 @@ SYSTEM_RUNTIME_CODE_PATHS = frozenset(
     {
         "Инструменты/fum-zapusk-prototipov/scripts/check-prototype-launchers.py",
         "Прототипы/живой-одноагентный-эпизод/Sources/FUMLiveEpisodeRuntime/LiveGitSystemRuntime.swift",
+        "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/WritingSubnodeSystemRuntime.swift",
         "Прототипы/теневой-редактор-продолжений/Sources/FUMShadowCore/LocalRuntimePolicy.swift",
     }
 )

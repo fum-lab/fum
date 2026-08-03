@@ -251,6 +251,31 @@ class MachineLocalPathScannerTests(unittest.TestCase):
             )
             self.assertEqual(result.exit_code, 1)
 
+    def test_registered_writing_subnode_runtime_literals_are_allowed(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.init_repo(root)
+            path = (
+                "Прототипы/проверяемый-многоагентный-контур/Sources/"
+                "FUMVerifiableMultiAgentContour/WritingSubnodeSystemRuntime.swift"
+            )
+            self.write_and_add(
+                root,
+                path,
+                'let git = "/usr/bin/git"\nlet null = "/dev/null"\n',
+            )
+
+            result = self.scan(root)
+
+            self.assertEqual(
+                result.rendered_lines(),
+                (
+                    f"{path}:1:allow.system-runtime",
+                    f"{path}:2:allow.system-runtime",
+                ),
+            )
+            self.assertEqual(result.exit_code, 0)
+
     def test_first_party_file_path_is_rejected_but_documented_reference_is_typed(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

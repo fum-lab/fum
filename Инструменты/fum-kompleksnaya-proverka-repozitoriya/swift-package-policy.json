@@ -94,7 +94,8 @@
     {
       "package": "Прототипы/проверяемый-многоагентный-контур",
       "executableProducts": [
-        "FUMWorkPackageProbe"
+        "FUMWorkPackageProbe",
+        "FUMWritingSubnodePassportProbe"
       ],
       "localDependencies": [
         {

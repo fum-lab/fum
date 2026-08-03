@@ -2205,6 +2205,96 @@
       "count": 1,
       "category": "allow.test-fixture",
       "reason": "Закрепляет точную автономную тестовую фикстуру обновления policy без разрешения соседних строк."
+    },
+    {
+      "id": "writing-subnode-relative-home-validator",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/WritingSubnodeExecutor.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:ba6f92783045b45c1fa4f3cfbeda824733972c8593dc0431da0e2bc7431386c3",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет явный запрет домашних сокращений в пути рабочего пакета."
+    },
+    {
+      "id": "writing-subnode-user-home-publication-validator",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/WritingSubnodeExecutor.swift",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:86129ac03b454e41851e943e77fc43bac7df32721a905f637c06c083783b749b",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет маркеры пользовательских домашних каталогов для публикационного запрета."
+    },
+    {
+      "id": "writing-subnode-temporary-path-publication-validator",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/WritingSubnodeExecutor.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:59c72872998962f234d466b61800843255c4422174670aa05c42b5c72d0efc54",
+      "count": 3,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет маркеры временных машинно-локальных каталогов для публикационного запрета."
+    },
+    {
+      "id": "writing-subnode-user-home-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/WritingSubnodeExecutorTests.swift",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:cc54efb0ec7d2eb0aff4f95e69f11d8361d0454de151b83c4d9d7db9e472315f",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Проверяет типизированный отказ публикации для одного фиктивного домашнего пути."
+    },
+    {
+      "id": "writing-subnode-git-diff-null-old-definition",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/WritingSubnodeExecutor.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2b1b650b4f9f862f650b3e413225987bfe9b2d829f888ef4ab016edb0daa5061",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет единственную допустимую служебную строку удаления файла в Git diff."
+    },
+    {
+      "id": "writing-subnode-git-diff-null-new-definition",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/WritingSubnodeExecutor.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:339cdbc0b85cb1bcbda669c448115717c8c206418607f2e9788eb2bf57f48476",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет единственную допустимую служебную строку добавления файла в Git diff."
+    },
+    {
+      "id": "writing-subnode-home-expansion-publication-validator",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/WritingSubnodeExecutor.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:7e9d260200302aa2a5b5280837537374a78736dd9b66b1279a6eb593ed262a03",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет регулярное выражение домашних сокращений для публикационного запрета."
+    },
+    {
+      "id": "writing-subnode-windows-drive-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/WritingSubnodeExecutorTests.swift",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:5733ea141323c753369963ec445938ca37ae85f36f2f8cb5bee7333443962d26",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Проверяет типизированный публикационный отказ для фиктивного Windows-пути."
+    },
+    {
+      "id": "writing-subnode-home-expansion-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/WritingSubnodeExecutorTests.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:9f4d77583954e3b31558b264b9c0d49ed4992eaa66fdf3ac0955e5515d13bf88",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Проверяет типизированный публикационный отказ для фиктивного домашнего сокращения."
+    },
+    {
+      "id": "writing-subnode-system-runtime-scanner-fixture",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ef0f737596f86e301ff7def6bd1ca0b1c4ec5f16146b369f0def7197124d29eb",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Проверяет разрешение двух закреплённых системных путей нового Swift runtime."
     }
   ]
 }
