@@ -2295,6 +2295,24 @@
       "count": 2,
       "category": "allow.test-fixture",
       "reason": "Проверяет разрешение двух закреплённых системных путей нового Swift runtime."
+    },
+    {
+      "id": "candidate-integrator-machine-junk-home-marker",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/CandidateCommitIntegrator.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:0c4dbbaf76723266b21aa4165536a9a46640d29e28805db27f043632e8739a73",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет точный суффикс резервной копии как машинный мусор интегрируемого дерева."
+    },
+    {
+      "id": "candidate-integrator-user-home-commit-message-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/CandidateCommitIntegratorTests.swift",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:ac79862cb329f657e32e3c8ae3dda323206d335dd5554da03b757f368b3099ed",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Проверяет типизированный публикационный отказ commit message с одним фиктивным домашним путём."
     }
   ]
 }

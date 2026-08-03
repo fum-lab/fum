@@ -1133,7 +1133,7 @@ public struct WritingSubnodeExecutor: Sendable {
   }
 }
 
-private enum WritingSubnodeCandidateAudit {
+enum WritingSubnodeCandidateAudit {
   static func validateTree(
     paths: [String],
     treeOID: String,
@@ -1654,7 +1654,7 @@ private enum WritingSubnodeSourceAudit {
   }
 }
 
-private enum WritingSubnodeFilesystem {
+enum WritingSubnodeFilesystem {
   static func validatePlainTreeWithoutSymlinks(at rootURL: URL) throws {
     guard WritingSubnodePersistence.isPlainDirectory(rootURL) else {
       throw WritingSubnodeExecutorError.unsafePath("Git-каталог не является обычным каталогом.")
@@ -1790,7 +1790,7 @@ private enum WritingSubnodeFilesystem {
   }
 }
 
-private struct WritingSubnodeGit: Sendable {
+struct WritingSubnodeGit: Sendable {
   func text(
     _ arguments: [String],
     at directory: URL,
@@ -1897,7 +1897,7 @@ private struct WritingSubnodeGit: Sendable {
   }
 }
 
-private enum WritingSubnodeJSON {
+enum WritingSubnodeJSON {
   static func encode<T: Encodable>(_ value: T) throws -> Data {
     let encoder = JSONEncoder()
     encoder.outputFormatting = [.sortedKeys, .withoutEscapingSlashes]
@@ -1909,7 +1909,7 @@ private enum WritingSubnodeJSON {
   }
 }
 
-private enum WritingSubnodeValidation {
+enum WritingSubnodeValidation {
   static func validate(_ request: WritingSubnodeExecutionRequest) throws {
     let identifiers = [
       request.episodeID, request.stepGenerationID, request.cardID, request.stepID, request.runID,
@@ -2114,7 +2114,7 @@ private struct WritingSubnodeRunReceiptStore {
   }
 }
 
-private enum WritingSubnodePersistence {
+enum WritingSubnodePersistence {
   final class RunLock: @unchecked Sendable {
     private var descriptor: Int32
 
