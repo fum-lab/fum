@@ -6,7 +6,7 @@ import Foundation
 private func printUsage() {
   print(
     """
-    Использование: FUMWorkPackageProbe [fixture [имя] | stdin | --list | episode <команда> | memory <команда> | live <команда> | acceptance <команда> | --help]
+    Использование: FUMWorkPackageProbe [fixture [имя] | stdin | --list | episode <команда> | composition <команда> | memory <команда> | live <команда> | acceptance <команда> | --help]
 
     Без аргументов анализирует положительную фикстуру ready.
     fixture [имя] анализирует встроенную фикстуру; без имени выбирается ready.
@@ -16,6 +16,9 @@ private func printUsage() {
     episode fixture [имя] проверяет встроенный паспорт; без имени выбирается valid.
     episode stdin принимает JSON-паспорт эпизода версии 1.
     episode --list печатает имена фикстур паспорта.
+
+    composition fixture [имя] проверяет репозиторную композицию; без имени выбирается valid.
+    composition --list печатает имена фикстур репозиторной композиции.
 
     memory bootstrap <каталог> публикует пустое подтверждённое поколение стенда.
     memory continue <каталог> <primary|adversarial> добавляет вклад через резервацию и settlement.
@@ -30,7 +33,7 @@ private func printUsage() {
     acceptance --list печатает имена автономных приёмочных сценариев.
     acceptance all --repo-root <каталог> запускает все сценарии без сети и секретов.
 
-    Код завершения: 0 для ready/valid и успешной команды памяти, 3 для split_required/invalid или отказа памяти, 2 для синтаксической ошибки команды.
+    Код завершения: 0 для ready/valid и успешной команды памяти, 3 для split_required/invalid или проверяемого отказа, 2 для ошибки команды либо фикстуры.
     """
   )
 }
@@ -303,6 +306,39 @@ private func writeLine(_ data: Data, to handle: FileHandle) {
   handle.write(Data("\n".utf8))
 }
 
+private func runCompositionCommand(_ arguments: [String]) -> Never {
+  if arguments == ["--list"] {
+    print(RepositoryCompositionFixtures.identifiers.joined(separator: "\n"))
+    exit(0)
+  }
+
+  let identifier: String
+  if arguments == ["fixture"] {
+    identifier = "valid"
+  } else if arguments.count == 2, arguments[0] == "fixture" {
+    identifier = arguments[1]
+  } else {
+    fputs("Неизвестная команда репозиторной композиции. Используйте --help.\n", stderr)
+    exit(2)
+  }
+
+  do {
+    let result: (reportData: Data, isValid: Bool) =
+      try RepositoryCompositionFixtures.withFixture(named: identifier) { fixture in
+        let report = RepositoryCompositionPreflight.analyze(
+          fixture.passportData,
+          context: fixture.context
+        )
+        return (try report.canonicalJSONData(), report.decision == .valid)
+      }
+    writeLine(result.reportData, to: .standardOutput)
+    exit(result.isValid ? 0 : 3)
+  } catch {
+    fputs("Не удалось проверить репозиторную композицию: \(error)\n", stderr)
+    exit(2)
+  }
+}
+
 private func runEpisodeCommand(_ arguments: [String]) -> Never {
   let input: Data
   do {
@@ -341,6 +377,9 @@ private func runEpisodeCommand(_ arguments: [String]) -> Never {
 }
 
 let arguments = Array(CommandLine.arguments.dropFirst())
+if arguments.first == "composition" {
+  runCompositionCommand(Array(arguments.dropFirst()))
+}
 if arguments.first == "acceptance" {
   runAcceptanceCommand(Array(arguments.dropFirst()))
 }

@@ -1471,12 +1471,12 @@ public enum WorkPackagePreflight {
   }
 }
 
-private enum JSONScanError: Error {
+enum JSONScanError: Error {
   case invalidJSON
   case structureLimitExceeded
 }
 
-private struct JSONDuplicateKeyDetector {
+struct JSONDuplicateKeyDetector {
   private static let maximumDepth = 64
   private static let maximumNodeCount = 10_000
 

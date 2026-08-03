@@ -2034,6 +2034,33 @@
       "count": 1,
       "category": "allow.path-validation-definition",
       "reason": "Закрепляет точную строку системного префикса устройств в определении проверки путей."
+    },
+    {
+      "id": "definition-048",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/RepositoryCompositionContract.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:4e4da1be9aaf6c5e8b8af4f0b29f4e06d4e1c2496667868b7c624efaada0f999",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку синтаксического запрета домашнего сокращения в полном Git ref паспорта композиции."
+    },
+    {
+      "id": "definition-049",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/RepositoryCompositionContract.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:01e691c7e4dca119fb4c7882dd401c58662ca9a9220f7e965cafccf6a843ea86",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку независимого Git-preflight-запрета домашнего сокращения в полном ref."
+    },
+    {
+      "id": "definition-050",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/Фикстуры/РепозиторнаяКомпозиция/repository-composition-v1.schema.json",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:cd93276666da7d4371925202a1d7061748cd182424b6882ee304d0a5ecb899e1",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точное определение JSON Schema, запрещающее домашнее сокращение в полном Git ref."
     }
   ]
 }
