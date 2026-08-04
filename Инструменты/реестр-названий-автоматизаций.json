@@ -154,6 +154,11 @@
       "source": "проверка трассы агентского цикла",
       "transliteration": "proverka trassyi agentskogo cikla",
       "slug": "fum-proverka-trassyi-agentskogo-cikla"
+    },
+    {
+      "source": "перевод объявлений кода на русский язык",
+      "transliteration": "perevod obyyavlenij koda na russkij yazyik",
+      "slug": "fum-perevod-obyyavlenij-koda-na-russkij-yazyik"
     }
   ],
   "display": [

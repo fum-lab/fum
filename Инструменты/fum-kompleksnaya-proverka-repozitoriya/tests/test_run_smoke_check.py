@@ -65,6 +65,7 @@ class RunSmokeCheckTests(unittest.TestCase):
             root / "Инструменты" / "fum-indeks-readme" / "scripts" / "check-readme-index.py",
             root / "Инструменты" / "fum-proverka-nazvanij-avtomatizacij" / "scripts" / "proveritj-nazvaniya-avtomatizacij.py",
             root / "Инструменты" / "fum-proverka-mashinno-lokaljnyikh-putej" / "scripts" / "proveritj-mashinno-lokaljnyiye-puti.py",
+            root / "Инструменты" / "fum-perevod-obyyavlenij-koda-na-russkij-yazyik" / "scripts" / "перевести-объявления-кода.py",
             root / "Инструменты" / "fum-proverka-git-zavisimostej" / "scripts" / "proveritj-git-zavisimostj.py",
             root / "Инструменты" / "fum-svezhestj-markdown" / "scripts" / "update-md-recency.py",
             root / "Инструменты" / "fum-svezhestj-grafa-obsidian" / "scripts" / "build-obsidian-graph-recency.py",
@@ -78,6 +79,13 @@ class RunSmokeCheckTests(unittest.TestCase):
         output.parent.mkdir(parents=True, exist_ok=True)
         names_registry = root / "Инструменты" / "реестр-названий-автоматизаций.json"
         names_registry.write_text("{}\n", encoding="utf-8")
+        снимок = (
+            root
+            / "Инструменты"
+            / "fum-perevod-obyyavlenij-koda-na-russkij-yazyik"
+            / "остаток-объявлений-кода.json"
+        )
+        снимок.write_text("{}\n", encoding="utf-8")
 
         codex_config = root / ".codex" / "config.toml"
         codex_config.parent.mkdir(parents=True, exist_ok=True)
@@ -950,6 +958,7 @@ let package = Package(
                     "Проверка планового реестра",
                     "Проверка реестра названий автоматизаций",
                     "Проверка машинно-локальных путей",
+                    "Проверка перевода объявлений кода",
                     "Проверка Git-зависимости LinguisticKit",
                     "Проверка скриптов запуска прототипов",
                     "Проверка двунаправленности вопросов",
@@ -1067,6 +1076,48 @@ let package = Package(
                     "019f5dd0-c129-7fa0-9315-77e85dead3e7",
                 ),
             )
+
+    def test_добавляет_проверку_перевода_после_машинно_локальных_путей(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_script_fixture(корень)
+
+            шаги = run_smoke_check.build_steps(
+                корень,
+                request=None,
+                include_session=False,
+                python="python3",
+            )
+
+            имена = [шаг.name for шаг in шаги]
+            индекс_путей = имена.index("Проверка машинно-локальных путей")
+            сам.assertEqual(
+                имена[индекс_путей + 1],
+                "Проверка перевода объявлений кода",
+            )
+            сам.assertEqual(
+                шаги[индекс_путей + 1].command,
+                (
+                    "python3",
+                    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/"
+                    "scripts/перевести-объявления-кода.py",
+                    "проверить",
+                    "--корень-репозитория",
+                    ".",
+                    "--снимок",
+                    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/"
+                    "остаток-объявлений-кода.json",
+                ),
+            )
+
+    def test_конфигурация_форматтера_разрешает_кириллические_идентификаторы(сам):
+        путь = SCRIPT_PATH.parents[1] / "swift-format.json"
+        конфигурация = json.loads(путь.read_text(encoding="utf-8"))
+
+        сам.assertIs(
+            конфигурация["rules"]["IdentifiersMustBeASCII"],
+            False,
+        )
 
     def test_session_check_can_be_skipped_for_partial_local_runs(self):
         with tempfile.TemporaryDirectory() as tmp:

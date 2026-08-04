@@ -45,6 +45,14 @@ MACHINE_LOCAL_PATH_CHECK_SCRIPT = Path(
     "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/"
     "proveritj-mashinno-lokaljnyiye-puti.py"
 )
+СКРИПТ_ПРОВЕРКИ_ПЕРЕВОДА_ОБЪЯВЛЕНИЙ_КОДА = Path(
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/"
+    "перевести-объявления-кода.py"
+)
+СНИМОК_ОСТАТКА_ОБЪЯВЛЕНИЙ_КОДА = Path(
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/"
+    "остаток-объявлений-кода.json"
+)
 REQUEST_FOLDER_LAYOUT_SCRIPT = Path(
     "Инструменты/fum-struktura-papok-zaprosov/scripts/"
     "struktura-papok-zaprosov.py"
@@ -1693,6 +1701,29 @@ def build_steps(
                 machine_local_path_script,
                 "--repo-root",
                 ".",
+            ),
+        )
+    )
+
+    скрипт_перевода = require_file(
+        root,
+        СКРИПТ_ПРОВЕРКИ_ПЕРЕВОДА_ОБЪЯВЛЕНИЙ_КОДА,
+    )
+    снимок_остатка = require_file(
+        root,
+        СНИМОК_ОСТАТКА_ОБЪЯВЛЕНИЙ_КОДА,
+    )
+    steps.append(
+        SmokeStep(
+            name="Проверка перевода объявлений кода",
+            command=(
+                python_cmd,
+                скрипт_перевода,
+                "проверить",
+                "--корень-репозитория",
+                ".",
+                "--снимок",
+                снимок_остатка,
             ),
         )
     )

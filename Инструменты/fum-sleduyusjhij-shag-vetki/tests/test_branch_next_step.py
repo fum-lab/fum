@@ -6790,9 +6790,9 @@ class BranchNextStepTests(unittest.TestCase):
             validation.stdout + validation.stderr,
         )
         validation_payload = self.payload(validation)
-        self.assertEqual(validation_payload["candidate_count"], 10)
+        self.assertEqual(validation_payload["candidate_count"], 14)
         self.assertEqual(validation_payload["ready_count"], 1)
-        self.assertEqual(validation_payload["paused_count"], 8)
+        self.assertEqual(validation_payload["paused_count"], 12)
         self.assertEqual(validation_payload["blocked_count"], 1)
         self.assertEqual(shown.returncode, 0, shown.stdout + shown.stderr)
         shown_payload = self.payload(shown)

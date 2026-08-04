@@ -7,36 +7,36 @@ import LinguisticKit
   import Glibc
 #endif
 
-private func fail(_ message: String, code: Int32) -> Never {
-  FileHandle.standardError.write(Data((message + "\n").utf8))
-  exit(code)
+private func завершитьСОшибкой(_ сообщение: String, код: Int32) -> Never {
+  FileHandle.standardError.write(Data((сообщение + "\n").utf8))
+  exit(код)
 }
 
-let inputData = FileHandle.standardInput.readDataToEndOfFile()
-let sources: [String]
+let входныеДанные = FileHandle.standardInput.readDataToEndOfFile()
+let исходныеСтроки: [String]
 do {
-  sources = try JSONDecoder().decode([String].self, from: inputData)
+  исходныеСтроки = try JSONDecoder().decode([String].self, from: входныеДанные)
 } catch {
-  fail("Ожидается JSON-массив строк: \(error)", code: 2)
+  завершитьСОшибкой("Ожидается JSON-массив строк: \(error)", код: 2)
 }
 
-let transliterations = sources.map { source -> String in
+let транслитерации = исходныеСтроки.map { исходнаяСтрока -> String in
   guard
-    let result = source.applyingTransform(
+    let результат = исходнаяСтрока.applyingTransform(
       from: .Cyrl,
       to: .Latn,
       withTable: .ru
     )
   else {
-    fail("Таблица ru не поддерживает Cyrl → Latn", code: 3)
+    завершитьСОшибкой("Таблица ru не поддерживает Cyrl → Latn", код: 3)
   }
-  return result
+  return результат
 }
 
 do {
-  let outputData = try JSONEncoder().encode(transliterations)
-  FileHandle.standardOutput.write(outputData)
+  let выходныеДанные = try JSONEncoder().encode(транслитерации)
+  FileHandle.standardOutput.write(выходныеДанные)
   FileHandle.standardOutput.write(Data("\n".utf8))
 } catch {
-  fail("Не удалось закодировать JSON-ответ: \(error)", code: 4)
+  завершитьСОшибкой("Не удалось закодировать JSON-ответ: \(error)", код: 4)
 }
