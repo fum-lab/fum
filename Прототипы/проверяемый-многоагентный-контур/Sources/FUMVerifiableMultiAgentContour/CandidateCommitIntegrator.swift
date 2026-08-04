@@ -12,6 +12,7 @@ public enum CandidateCommitIntegrationOutcome: String, Codable, Equatable, Senda
   case candidateInvalid = "candidate_invalid"
   case mergeConflict = "merge_conflict"
   case checkFailed = "check_failed"
+  case resolutionRequired = "resolution_required"
   case secretDetected = "secret_detected"
   case publicationRejected = "publication_rejected"
   case attemptAlreadyExists = "attempt_already_exists"
@@ -132,6 +133,7 @@ public struct CandidateCommitIntegrationRequest: Sendable {
   public let commitMessage: String
   public let candidates: [CandidateCommitReference]
   public let checkIDs: [String]
+  public let resolverRuleIDs: [String]
 
   public init(
     attemptID: String,
@@ -143,7 +145,8 @@ public struct CandidateCommitIntegrationRequest: Sendable {
     expectedTargetOID: String,
     commitMessage: String,
     candidates: [CandidateCommitReference],
-    checkIDs: [String]
+    checkIDs: [String],
+    resolverRuleIDs: [String] = []
   ) {
     self.attemptID = attemptID
     self.ownerID = ownerID
@@ -155,6 +158,7 @@ public struct CandidateCommitIntegrationRequest: Sendable {
     self.commitMessage = commitMessage
     self.candidates = candidates
     self.checkIDs = checkIDs
+    self.resolverRuleIDs = resolverRuleIDs
   }
 }
 
@@ -201,7 +205,12 @@ public struct CandidateCommitIntegrationPassport: Codable, Equatable, Sendable {
   public let integrationRef: String
   public let requestSHA256: String
   public let candidates: [CandidateIntegrationPassportCandidate]
+  public let resolverRegistryIdentity: String
+  public let resolverRegistryVersion: Int
+  public let resolverRules: [CandidateConflictResolverBinding]
+  public let resolutions: [CandidateConflictResolutionRecord]
   public let checks: [CandidateIntegrationRecordedCheck]
+  public let repeatedChecks: [CandidateIntegrationRecordedCheck]
 
   public var candidateOIDs: [String] { candidates.map(\.commitOID) }
 
@@ -218,7 +227,12 @@ public struct CandidateCommitIntegrationPassport: Codable, Equatable, Sendable {
     case integrationRef = "integration_ref"
     case requestSHA256 = "request_sha256"
     case candidates
+    case resolverRegistryIdentity = "resolver_registry_identity"
+    case resolverRegistryVersion = "resolver_registry_version"
+    case resolverRules = "resolver_rules"
+    case resolutions
     case checks
+    case repeatedChecks = "repeated_checks"
   }
 
   public func canonicalJSONData() throws -> Data {
@@ -232,11 +246,15 @@ public struct CandidateCommitIntegrationResult: Sendable {
   public let passport: CandidateCommitIntegrationPassport?
   public let passportCanonicalJSON: Data?
   public let passportSHA256: String?
+  public let diagnostic: CandidateResolutionDiagnostic?
+  public let diagnosticCanonicalJSON: Data?
+  public let diagnosticSHA256: String?
   public let targetUnchanged: Bool
 
   fileprivate init(
     outcome: CandidateCommitIntegrationOutcome,
     passport: CandidateCommitIntegrationPassport? = nil,
+    diagnostic: CandidateResolutionDiagnostic? = nil,
     targetUnchanged: Bool = true
   ) {
     self.outcome = outcome
@@ -244,6 +262,9 @@ public struct CandidateCommitIntegrationResult: Sendable {
     integrationOID = passport?.integrationOID
     passportCanonicalJSON = try? passport?.canonicalJSONData()
     passportSHA256 = passportCanonicalJSON.map(WritingSubnodeJSON.sha256)
+    self.diagnostic = diagnostic
+    diagnosticCanonicalJSON = try? diagnostic?.canonicalJSONData()
+    diagnosticSHA256 = diagnosticCanonicalJSON.map(WritingSubnodeJSON.sha256)
     self.targetUnchanged = targetUnchanged
   }
 }
@@ -266,20 +287,25 @@ struct CandidateCommitIntegratorHooks: Sendable {
 
 public struct CandidateCommitIntegrator: Sendable {
   private let checkRegistry: CandidateIntegrationCheckRegistry
+  private let resolverRegistry: CandidateConflictResolverRegistry
   private let hooks: CandidateCommitIntegratorHooks
 
   public init(
-    checkRegistry: CandidateIntegrationCheckRegistry = CandidateIntegrationCheckRegistry()
+    checkRegistry: CandidateIntegrationCheckRegistry = CandidateIntegrationCheckRegistry(),
+    resolverRegistry: CandidateConflictResolverRegistry = CandidateConflictResolverRegistry()
   ) {
     self.checkRegistry = checkRegistry
+    self.resolverRegistry = resolverRegistry
     hooks = CandidateCommitIntegratorHooks()
   }
 
   init(
     checkRegistry: CandidateIntegrationCheckRegistry,
+    resolverRegistry: CandidateConflictResolverRegistry = CandidateConflictResolverRegistry(),
     hooks: CandidateCommitIntegratorHooks
   ) {
     self.checkRegistry = checkRegistry
+    self.resolverRegistry = resolverRegistry
     self.hooks = hooks
   }
 
@@ -287,7 +313,12 @@ public struct CandidateCommitIntegrator: Sendable {
     _ request: CandidateCommitIntegrationRequest
   ) throws -> CandidateCommitIntegrationResult {
     let stableChecks = try checkRegistry.stableBindings(request.checkIDs)
-    try CandidateIntegrationValidation.validate(request, stableChecks: stableChecks)
+    let stableResolverRules = try resolverRegistry.stableBindings(request.resolverRuleIDs)
+    try CandidateIntegrationValidation.validate(
+      request,
+      stableChecks: stableChecks,
+      stableResolverRules: stableResolverRules
+    )
     if let messageOutcome = WritingSubnodeValidation.publicationOutcome(
       Data(request.commitMessage.utf8)
     ) {
@@ -341,7 +372,7 @@ public struct CandidateCommitIntegrator: Sendable {
     try hooks.afterTargetLockAcquired?()
 
     let stableRequest = CandidateStableRequest(
-      schemaVersion: 1,
+      schemaVersion: 2,
       attemptID: request.attemptID,
       ownerID: request.ownerID,
       repositoryID: request.repositoryID,
@@ -357,7 +388,10 @@ public struct CandidateCommitIntegrator: Sendable {
           expectedPassportSHA256: $0.expectedPassportSHA256
         )
       },
-      checks: stableChecks
+      checks: stableChecks,
+      resolverRegistryIdentity: CandidateConflictResolverRegistry.registryIdentity,
+      resolverRegistryVersion: CandidateConflictResolverRegistry.registryVersion,
+      resolverRules: stableResolverRules
     )
     let requestSHA256 = WritingSubnodeJSON.sha256(
       try WritingSubnodeJSON.encode(stableRequest)
@@ -366,7 +400,9 @@ public struct CandidateCommitIntegrator: Sendable {
     let requestHashURL = attemptURL.appending(path: "request.sha256")
     let preparedURL = attemptURL.appending(path: "prepared.json")
     let receiptURL = attemptURL.appending(path: "result.json")
+    let diagnosticURL = attemptURL.appending(path: "resolution-required.json")
     let cloneURL = attemptURL.appending(path: "clone", directoryHint: .isDirectory)
+    var replayingDiagnostic = false
 
     if WritingSubnodePersistence.pathExists(attemptURL) {
       guard WritingSubnodePersistence.isPlainDirectory(attemptURL),
@@ -377,30 +413,53 @@ public struct CandidateCommitIntegrator: Sendable {
       else {
         return CandidateCommitIntegrationResult(outcome: .attemptAlreadyExists)
       }
-      if WritingSubnodePersistence.pathExists(receiptURL) {
+      if WritingSubnodePersistence.pathExists(diagnosticURL) {
+        guard !WritingSubnodePersistence.pathExists(preparedURL),
+          !WritingSubnodePersistence.pathExists(receiptURL)
+        else {
+          throw WritingSubnodeExecutorError.persistenceFailed(
+            "Попытка одновременно хранит диагностику и подготовленный результат."
+          )
+        }
+        guard
+          try targetOID(request.targetRef, targetURL: targetURL, git: git)
+            == request.expectedTargetOID
+        else {
+          return CandidateCommitIntegrationResult(outcome: .targetChanged)
+        }
+        _ = try loadDiagnostic(
+          at: diagnosticURL,
+          request: request,
+          repositoryURL: cloneURL,
+          git: git
+        )
+        replayingDiagnostic = true
+      } else if WritingSubnodePersistence.pathExists(receiptURL) {
         return try recoverCompletedAttempt(
           request: request,
           requestSHA256: requestSHA256,
           stableChecks: stableChecks,
+          stableResolverRules: stableResolverRules,
           targetURL: targetURL,
           preparedURL: preparedURL,
           receiptURL: receiptURL,
           git: git
         )
-      }
-      if WritingSubnodePersistence.pathExists(preparedURL) {
+      } else if WritingSubnodePersistence.pathExists(preparedURL) {
         return try resumePreparedAttempt(
           request: request,
           requestSHA256: requestSHA256,
           stableChecks: stableChecks,
+          stableResolverRules: stableResolverRules,
           targetURL: targetURL,
           cloneURL: cloneURL,
           preparedURL: preparedURL,
           receiptURL: receiptURL,
           git: git
         )
+      } else {
+        try WritingSubnodePersistence.archiveIncompleteCloneIfPresent(cloneURL, in: attemptURL)
       }
-      try WritingSubnodePersistence.archiveIncompleteCloneIfPresent(cloneURL, in: attemptURL)
     } else {
       guard try WritingSubnodePersistence.reserveDirectory(attemptURL) else {
         return CandidateCommitIntegrationResult(outcome: .attemptAlreadyExists)
@@ -442,22 +501,39 @@ public struct CandidateCommitIntegrator: Sendable {
       return CandidateCommitIntegrationResult(outcome: .candidateInvalid)
     }
 
-    try cloneTarget(targetURL: targetURL, cloneURL: cloneURL, attemptURL: attemptURL, git: git)
-    for candidate in recovered {
-      let fetch = try git.run(
-        [
-          "fetch", "--quiet", "--no-tags", "--no-write-fetch-head",
-          candidate.cloneURL.path, candidate.passport.resultRef,
-        ],
-        at: cloneURL
-      )
-      guard fetch.status == 0,
-        try git.text(
-          ["cat-file", "-t", candidate.passport.commitOID],
-          at: cloneURL
-        ) == "commit"
+    if replayingDiagnostic {
+      _ = try? git.run(["merge", "--abort"], at: cloneURL)
+      _ = try git.data(["reset", "--hard", request.expectedTargetOID], at: cloneURL)
+      guard
+        try recovered.allSatisfy({ candidate in
+          try git.text(
+            ["cat-file", "-t", candidate.passport.commitOID],
+            at: cloneURL
+          ) == "commit"
+        })
       else {
-        return CandidateCommitIntegrationResult(outcome: .candidateInvalid)
+        throw WritingSubnodeExecutorError.persistenceFailed(
+          "Клон диагностической попытки потерял входной commit."
+        )
+      }
+    } else {
+      try cloneTarget(targetURL: targetURL, cloneURL: cloneURL, attemptURL: attemptURL, git: git)
+      for candidate in recovered {
+        let fetch = try git.run(
+          [
+            "fetch", "--quiet", "--no-tags", "--no-write-fetch-head",
+            candidate.cloneURL.path, candidate.passport.resultRef,
+          ],
+          at: cloneURL
+        )
+        guard fetch.status == 0,
+          try git.text(
+            ["cat-file", "-t", candidate.passport.commitOID],
+            at: cloneURL
+          ) == "commit"
+        else {
+          return CandidateCommitIntegrationResult(outcome: .candidateInvalid)
+        }
       }
     }
     _ = try git.data(
@@ -475,17 +551,36 @@ public struct CandidateCommitIntegrator: Sendable {
     else {
       return CandidateCommitIntegrationResult(outcome: .publicationRejected)
     }
-    let merge = try git.run(
-      ["merge", "--no-commit", "--no-ff", "--no-edit"] + candidateOIDs,
-      at: cloneURL,
-      additionalEnvironment: CandidateIntegrationGit.commitEnvironment
-    )
-    guard merge.status == 0 else {
-      _ = try? git.run(["merge", "--abort"], at: cloneURL)
-      _ = try? git.run(["reset", "--hard", request.expectedTargetOID], at: cloneURL)
-      return CandidateCommitIntegrationResult(outcome: .mergeConflict)
+    if !replayingDiagnostic {
+      try retainInputCommits(
+        request: request,
+        commonParentOID: commonParent,
+        candidateOIDs: candidateOIDs,
+        cloneURL: cloneURL,
+        git: git
+      )
     }
-    let treeOID = try git.text(["write-tree"], at: cloneURL)
+    let mergeResult = try mergeCandidates(
+      request: request,
+      stableResolverRules: stableResolverRules,
+      commonParentOID: commonParent,
+      recovered: recovered,
+      cloneURL: cloneURL,
+      git: git
+    )
+    let treeOID: String
+    let resolutions: [CandidateConflictResolutionRecord]
+    switch mergeResult {
+    case .resolved(let resolvedTreeOID, let recordedResolutions):
+      treeOID = resolvedTreeOID
+      resolutions = recordedResolutions
+    case .resolutionRequired(let diagnostic):
+      try persistDiagnostic(diagnostic, at: diagnosticURL)
+      return CandidateCommitIntegrationResult(
+        outcome: .resolutionRequired,
+        diagnostic: diagnostic
+      )
+    }
     let changedPaths = try git.nulStrings(
       [
         "diff", "--name-only", "--no-ext-diff", "--no-textconv", "--no-renames", "-z",
@@ -493,9 +588,36 @@ public struct CandidateCommitIntegrator: Sendable {
       ],
       at: cloneURL
     ).sorted()
+    let finalTreePaths = try git.nulStrings(
+      ["ls-tree", "-r", "--name-only", "-z", treeOID],
+      at: cloneURL
+    )
+    let finalTreeCollisions = CandidateIntegrationValidation.normalizedPathCollisions(
+      finalTreePaths
+    )
+    if !finalTreeCollisions.isEmpty {
+      let diagnostic = try makeDiagnostic(
+        request: request,
+        commonParentOID: commonParent,
+        recovered: recovered,
+        affectedPaths: finalTreeCollisions,
+        issues: finalTreeCollisions.map {
+          CandidateResolutionDiagnosticIssue(reason: .semanticConflict, path: $0)
+        },
+        checks: [],
+        repositoryURL: cloneURL,
+        git: git
+      )
+      try persistDiagnostic(diagnostic, at: diagnosticURL)
+      return CandidateCommitIntegrationResult(
+        outcome: .resolutionRequired,
+        diagnostic: diagnostic
+      )
+    }
     let candidatePaths = Set(recovered.flatMap(\.passport.actualPaths))
+    let resolverOutputPaths = Set(stableResolverRules.map(\.path))
     guard !changedPaths.isEmpty,
-      Set(changedPaths).isSubset(of: candidatePaths),
+      Set(changedPaths).isSubset(of: candidatePaths.union(resolverOutputPaths)),
       changedPaths.allSatisfy(WritingSubnodeValidation.isRelativePath)
     else {
       return CandidateCommitIntegrationResult(outcome: .candidateInvalid)
@@ -539,7 +661,25 @@ public struct CandidateCommitIntegrator: Sendable {
       git: git
     )
     guard checks.allSatisfy({ $0.status == .passed }) else {
-      return CandidateCommitIntegrationResult(outcome: .checkFailed)
+      let diagnostic = try makeDiagnostic(
+        request: request,
+        commonParentOID: commonParent,
+        recovered: recovered,
+        affectedPaths: changedPaths,
+        issues: checkFailureIssues(
+          checks,
+          resolutions: resolutions,
+          changedPaths: changedPaths
+        ),
+        checks: checks,
+        repositoryURL: cloneURL,
+        git: git
+      )
+      try persistDiagnostic(diagnostic, at: diagnosticURL)
+      return CandidateCommitIntegrationResult(
+        outcome: .resolutionRequired,
+        diagnostic: diagnostic
+      )
     }
 
     do {
@@ -556,6 +696,34 @@ public struct CandidateCommitIntegrator: Sendable {
       }
     } catch {
       return CandidateCommitIntegrationResult(outcome: .candidateInvalid)
+    }
+
+    let repeatedChecks = checkRegistry.run(
+      identifiers: request.checkIDs,
+      treeOID: treeOID,
+      repositoryURL: cloneURL,
+      git: git
+    )
+    guard repeatedChecks.allSatisfy({ $0.status == .passed }) else {
+      let diagnostic = try makeDiagnostic(
+        request: request,
+        commonParentOID: commonParent,
+        recovered: recovered,
+        affectedPaths: changedPaths,
+        issues: checkFailureIssues(
+          repeatedChecks,
+          resolutions: resolutions,
+          changedPaths: changedPaths
+        ),
+        checks: repeatedChecks,
+        repositoryURL: cloneURL,
+        git: git
+      )
+      try persistDiagnostic(diagnostic, at: diagnosticURL)
+      return CandidateCommitIntegrationResult(
+        outcome: .resolutionRequired,
+        diagnostic: diagnostic
+      )
     }
 
     var commitArguments = ["commit-tree", treeOID, "-p", request.expectedTargetOID]
@@ -579,6 +747,11 @@ public struct CandidateCommitIntegrator: Sendable {
         "Интеграционный commit получил неожиданную родословную."
       )
     }
+    guard !WritingSubnodePersistence.pathExists(diagnosticURL) else {
+      throw WritingSubnodeExecutorError.persistenceFailed(
+        "Диагностическая попытка не может стать подготовленной."
+      )
+    }
     let integrationRef =
       "refs/fum/integrations/\(request.repositoryID)/\(CandidateIntegrationValidation.targetLockName(targetRef: request.targetRef))/\(request.attemptID)"
     let retainTransaction = Data(
@@ -599,7 +772,7 @@ public struct CandidateCommitIntegrator: Sendable {
     }
     let passport = CandidateCommitIntegrationPassport(
       schemaIdentity: "fum.candidate-commit.integration-passport",
-      schemaVersion: 1,
+      schemaVersion: 2,
       attemptID: request.attemptID,
       ownerID: request.ownerID,
       repositoryID: request.repositoryID,
@@ -618,7 +791,12 @@ public struct CandidateCommitIntegrator: Sendable {
           treeOID: $0.passport.treeOID
         )
       },
-      checks: checks
+      resolverRegistryIdentity: CandidateConflictResolverRegistry.registryIdentity,
+      resolverRegistryVersion: CandidateConflictResolverRegistry.registryVersion,
+      resolverRules: stableResolverRules,
+      resolutions: resolutions,
+      checks: checks,
+      repeatedChecks: repeatedChecks
     )
     let canonicalPassport = try passport.canonicalJSONData()
     guard WritingSubnodeValidation.publicationOutcome(canonicalPassport) == nil else {
@@ -634,6 +812,850 @@ public struct CandidateCommitIntegrator: Sendable {
       git: git,
       integratedOutcome: .integrated
     )
+  }
+
+  private func checkFailureIssues(
+    _ checks: [CandidateIntegrationRecordedCheck],
+    resolutions: [CandidateConflictResolutionRecord],
+    changedPaths: [String]
+  ) -> [CandidateResolutionDiagnosticIssue] {
+    checks.filter { $0.status == .failed }.flatMap { check in
+      let matchingResolutions = resolutions.filter {
+        $0.requiredCheckIDs.contains(check.checkID)
+      }
+      if matchingResolutions.isEmpty {
+        return [
+          CandidateResolutionDiagnosticIssue(
+            reason: .checkFailed,
+            path: changedPaths.first ?? "integration",
+            checkID: check.checkID
+          )
+        ]
+      }
+      return matchingResolutions.map { resolution in
+        CandidateResolutionDiagnosticIssue(
+          reason: .checkFailed,
+          path: resolution.path,
+          matchingRuleIDs: [resolution.ruleID],
+          ruleID: resolution.ruleID,
+          checkID: check.checkID
+        )
+      }
+    }
+  }
+
+  private func mergeCandidates(
+    request: CandidateCommitIntegrationRequest,
+    stableResolverRules: [CandidateConflictResolverBinding],
+    commonParentOID: String,
+    recovered: [RecoveredIntegrationCandidate],
+    cloneURL: URL,
+    git: CandidateIntegrationGit
+  ) throws -> CandidateMergeResolutionResult {
+    let candidateOIDs = recovered.map(\.passport.commitOID)
+    let resolverPathAmbiguities = try resolverPathAmbiguities(
+      stableResolverRules,
+      candidatePaths: recovered.flatMap(\.passport.actualPaths)
+    )
+    if !resolverPathAmbiguities.isEmpty {
+      let affectedPaths = resolverPathAmbiguities.flatMap(\.paths)
+      return .resolutionRequired(
+        try makeDiagnostic(
+          request: request,
+          commonParentOID: commonParentOID,
+          recovered: recovered,
+          affectedPaths: affectedPaths,
+          issues: resolverPathAmbiguities.flatMap { ambiguity in
+            ambiguity.paths.map { path in
+              CandidateResolutionDiagnosticIssue(
+                reason: .ambiguousRule,
+                path: path,
+                matchingRuleIDs: ambiguity.ruleIDs
+              )
+            }
+          },
+          checks: [],
+          repositoryURL: cloneURL,
+          git: git
+        )
+      )
+    }
+    var currentOID = request.expectedTargetOID
+    var processedCandidateOIDs: [String] = []
+
+    for candidateOID in candidateOIDs {
+      let merge = try git.run(
+        ["merge", "--no-commit", "--no-ff", "--no-edit", candidateOID],
+        at: cloneURL,
+        additionalEnvironment: CandidateIntegrationGit.commitEnvironment
+      )
+      processedCandidateOIDs.append(candidateOID)
+      if merge.status != 0 {
+        let unresolvedPaths = try git.nulStrings(
+          ["diff", "--name-only", "--diff-filter=U", "-z", "--"],
+          at: cloneURL
+        ).sorted()
+        guard !unresolvedPaths.isEmpty else {
+          let diagnosticPath = stableResolverRules.first?.path ?? "integration"
+          let diagnostic = try makeDiagnostic(
+            request: request,
+            commonParentOID: commonParentOID,
+            recovered: recovered,
+            affectedPaths: [diagnosticPath],
+            issues: [
+              CandidateResolutionDiagnosticIssue(
+                reason: .resolverFailed,
+                path: diagnosticPath
+              )
+            ],
+            checks: [],
+            repositoryURL: cloneURL,
+            git: git
+          )
+          return .resolutionRequired(diagnostic)
+        }
+
+        var issues: [CandidateResolutionDiagnosticIssue] = []
+        for path in unresolvedPaths {
+          let matchingRules = stableResolverRules.filter { $0.path == path }
+          guard matchingRules.count == 1, let binding = matchingRules.first else {
+            issues.append(
+              CandidateResolutionDiagnosticIssue(
+                reason: matchingRules.isEmpty ? .unknownPath : .ambiguousRule,
+                path: path,
+                matchingRuleIDs: matchingRules.map(\.ruleID)
+              )
+            )
+            continue
+          }
+          if !Set(binding.requiredCheckIDs).isSubset(of: Set(request.checkIDs)) {
+            issues.append(
+              CandidateResolutionDiagnosticIssue(
+                reason: .preconditionFailed,
+                path: path,
+                matchingRuleIDs: [binding.ruleID],
+                ruleID: binding.ruleID
+              )
+            )
+            continue
+          }
+          do {
+            let output = try resolutionOutput(
+              for: binding,
+              request: request,
+              commonParentOID: commonParentOID,
+              candidateOIDs: processedCandidateOIDs,
+              cloneURL: cloneURL,
+              git: git
+            )
+            try applyResolutionOutput(output, at: cloneURL, git: git)
+          } catch let error as CandidateConflictResolverError {
+            issues.append(
+              error.issue
+                ?? CandidateResolutionDiagnosticIssue(
+                  reason: .resolverFailed,
+                  path: path,
+                  matchingRuleIDs: [binding.ruleID],
+                  ruleID: binding.ruleID
+                )
+            )
+          } catch {
+            issues.append(
+              CandidateResolutionDiagnosticIssue(
+                reason: .preconditionFailed,
+                path: path,
+                matchingRuleIDs: [binding.ruleID],
+                ruleID: binding.ruleID
+              )
+            )
+          }
+        }
+        if !issues.isEmpty {
+          return .resolutionRequired(
+            try makeDiagnostic(
+              request: request,
+              commonParentOID: commonParentOID,
+              recovered: recovered,
+              affectedPaths: unresolvedPaths,
+              issues: issues,
+              checks: [],
+              repositoryURL: cloneURL,
+              git: git
+            )
+          )
+        }
+        let remaining = try git.data(["ls-files", "-u", "-z"], at: cloneURL)
+        guard remaining.isEmpty else {
+          return .resolutionRequired(
+            try makeDiagnostic(
+              request: request,
+              commonParentOID: commonParentOID,
+              recovered: recovered,
+              affectedPaths: unresolvedPaths,
+              issues: unresolvedPaths.map {
+                CandidateResolutionDiagnosticIssue(reason: .resolverFailed, path: $0)
+              },
+              checks: [],
+              repositoryURL: cloneURL,
+              git: git
+            )
+          )
+        }
+      }
+
+      let intermediateTreeOID = try git.text(["write-tree"], at: cloneURL)
+      let intermediateOID = try git.text(
+        ["commit-tree", intermediateTreeOID, "-p", currentOID, "-p", candidateOID],
+        at: cloneURL,
+        input: Data("FUM deterministic integration stage\n".utf8),
+        additionalEnvironment: CandidateIntegrationGit.commitEnvironment
+      )
+      _ = try git.data(["reset", "--hard", intermediateOID], at: cloneURL)
+      currentOID = intermediateOID
+    }
+
+    let selectedPaths = stableResolverRules.map(\.path)
+    let duplicatePaths = Dictionary(grouping: stableResolverRules, by: \.path)
+      .filter { $0.value.count > 1 }
+    if !duplicatePaths.isEmpty {
+      let issues = duplicatePaths.keys.sorted().map { path in
+        CandidateResolutionDiagnosticIssue(
+          reason: .ambiguousRule,
+          path: path,
+          matchingRuleIDs: duplicatePaths[path, default: []].map(\.ruleID)
+        )
+      }
+      return .resolutionRequired(
+        try makeDiagnostic(
+          request: request,
+          commonParentOID: commonParentOID,
+          recovered: recovered,
+          affectedPaths: Array(duplicatePaths.keys),
+          issues: issues,
+          checks: [],
+          repositoryURL: cloneURL,
+          git: git
+        )
+      )
+    }
+    let missingCheckRules = stableResolverRules.filter {
+      !Set($0.requiredCheckIDs).isSubset(of: Set(request.checkIDs))
+    }
+    if !missingCheckRules.isEmpty {
+      return .resolutionRequired(
+        try makeDiagnostic(
+          request: request,
+          commonParentOID: commonParentOID,
+          recovered: recovered,
+          affectedPaths: missingCheckRules.map(\.path),
+          issues: missingCheckRules.map {
+            CandidateResolutionDiagnosticIssue(
+              reason: .preconditionFailed,
+              path: $0.path,
+              matchingRuleIDs: [$0.ruleID],
+              ruleID: $0.ruleID
+            )
+          },
+          checks: [],
+          repositoryURL: cloneURL,
+          git: git
+        )
+      )
+    }
+
+    let firstPass: CandidateResolverPassResult
+    do {
+      firstPass = try applySelectedResolvers(
+        stableResolverRules,
+        request: request,
+        commonParentOID: commonParentOID,
+        candidateOIDs: candidateOIDs,
+        cloneURL: cloneURL,
+        git: git
+      )
+    } catch let error as CandidateConflictResolverError {
+      return .resolutionRequired(
+        try makeDiagnostic(
+          request: request,
+          commonParentOID: commonParentOID,
+          recovered: recovered,
+          affectedPaths: selectedPaths,
+          issues: [
+            error.issue
+              ?? CandidateResolutionDiagnosticIssue(
+                reason: .resolverFailed,
+                path: selectedPaths.first ?? "integration"
+              )
+          ],
+          checks: [],
+          repositoryURL: cloneURL,
+          git: git
+        )
+      )
+    } catch {
+      return .resolutionRequired(
+        try makeDiagnostic(
+          request: request,
+          commonParentOID: commonParentOID,
+          recovered: recovered,
+          affectedPaths: selectedPaths,
+          issues: selectedPaths.map {
+            CandidateResolutionDiagnosticIssue(reason: .preconditionFailed, path: $0)
+          },
+          checks: [],
+          repositoryURL: cloneURL,
+          git: git
+        )
+      )
+    }
+
+    let secondPass: CandidateResolverPassResult
+    do {
+      secondPass = try applySelectedResolvers(
+        stableResolverRules,
+        request: request,
+        commonParentOID: commonParentOID,
+        candidateOIDs: candidateOIDs,
+        cloneURL: cloneURL,
+        git: git
+      )
+    } catch let error as CandidateConflictResolverError {
+      return .resolutionRequired(
+        try makeDiagnostic(
+          request: request,
+          commonParentOID: commonParentOID,
+          recovered: recovered,
+          affectedPaths: selectedPaths,
+          issues: [
+            error.issue
+              ?? CandidateResolutionDiagnosticIssue(
+                reason: .resolverFailed,
+                path: selectedPaths.first ?? "integration"
+              )
+          ],
+          checks: [],
+          repositoryURL: cloneURL,
+          git: git
+        )
+      )
+    }
+    guard firstPass == secondPass else {
+      return .resolutionRequired(
+        try makeDiagnostic(
+          request: request,
+          commonParentOID: commonParentOID,
+          recovered: recovered,
+          affectedPaths: selectedPaths,
+          issues: selectedPaths.map {
+            CandidateResolutionDiagnosticIssue(reason: .resolverFailed, path: $0)
+          },
+          checks: [],
+          repositoryURL: cloneURL,
+          git: git
+        )
+      )
+    }
+    return .resolved(
+      treeOID: firstPass.treeOID,
+      resolutions: firstPass.resolutions
+    )
+  }
+
+  private func applySelectedResolvers(
+    _ bindings: [CandidateConflictResolverBinding],
+    request: CandidateCommitIntegrationRequest,
+    commonParentOID: String,
+    candidateOIDs: [String],
+    cloneURL: URL,
+    git: CandidateIntegrationGit
+  ) throws -> CandidateResolverPassResult {
+    var resolutions: [CandidateConflictResolutionRecord] = []
+    for binding in bindings {
+      let output = try resolutionOutput(
+        for: binding,
+        request: request,
+        commonParentOID: commonParentOID,
+        candidateOIDs: candidateOIDs,
+        cloneURL: cloneURL,
+        git: git
+      )
+      try applyResolutionOutput(output, at: cloneURL, git: git)
+      resolutions.append(output.record)
+    }
+    return CandidateResolverPassResult(
+      treeOID: try git.text(["write-tree"], at: cloneURL),
+      resolutions: resolutions
+    )
+  }
+
+  private func resolutionOutput(
+    for binding: CandidateConflictResolverBinding,
+    request: CandidateCommitIntegrationRequest,
+    commonParentOID: String,
+    candidateOIDs: [String],
+    cloneURL: URL,
+    git: CandidateIntegrationGit
+  ) throws -> CandidateConflictResolutionOutput {
+    guard let specification = resolverRegistry.specification(for: binding.ruleID) else {
+      throw CandidateConflictResolverError.invalidRule(
+        "Resolver-правило исчезло из реестра."
+      )
+    }
+    switch specification {
+    case .rebuildDerivedManifest(_, _, let sourcePaths, _, _, _):
+      var sources: [String: Data] = [:]
+      for path in sourcePaths {
+        do {
+          sources[path] = try regularBlobAtIndex(
+            path: path,
+            repositoryURL: cloneURL,
+            git: git
+          )
+        } catch {
+          throw CandidateConflictResolverError.resolutionRequired(
+            CandidateResolutionDiagnosticIssue(
+              reason: .preconditionFailed,
+              path: binding.path,
+              matchingRuleIDs: [binding.ruleID],
+              ruleID: binding.ruleID
+            )
+          )
+        }
+      }
+      return try resolverRegistry.rebuildDerivedManifest(
+        ruleID: binding.ruleID,
+        sources: sources
+      )
+    case .mergeStableRecords:
+      let base: Data
+      do {
+        base = try regularBlob(
+          at: commonParentOID,
+          path: binding.path,
+          repositoryURL: cloneURL,
+          git: git
+        )
+      } catch {
+        throw CandidateConflictResolverError.resolutionRequired(
+          CandidateResolutionDiagnosticIssue(
+            reason: .preconditionFailed,
+            path: binding.path,
+            matchingRuleIDs: [binding.ruleID],
+            ruleID: binding.ruleID
+          )
+        )
+      }
+      let revisionInputs =
+        [("target", request.expectedTargetOID)]
+        + candidateOIDs.enumerated().map {
+          (String(format: "candidate-%03d", $0.offset + 1), $0.element)
+        }
+      let variants: [CandidateConflictResolverVariant]
+      do {
+        variants = try revisionInputs.map { identifier, oid in
+          CandidateConflictResolverVariant(
+            identifier: identifier,
+            data: try regularBlob(
+              at: oid,
+              path: binding.path,
+              repositoryURL: cloneURL,
+              git: git
+            )
+          )
+        }
+      } catch {
+        throw CandidateConflictResolverError.resolutionRequired(
+          CandidateResolutionDiagnosticIssue(
+            reason: .preconditionFailed,
+            path: binding.path,
+            matchingRuleIDs: [binding.ruleID],
+            ruleID: binding.ruleID
+          )
+        )
+      }
+      return try resolverRegistry.mergeStableRecords(
+        ruleID: binding.ruleID,
+        base: base,
+        variants: variants
+      )
+    }
+  }
+
+  private func resolverPathAmbiguities(
+    _ bindings: [CandidateConflictResolverBinding],
+    candidatePaths: [String]
+  ) throws -> [CandidateResolverPathAmbiguity] {
+    struct RulePath {
+      let path: String
+      let ruleID: String
+      let isOutput: Bool
+    }
+
+    var rulePaths: [RulePath] = []
+    for binding in bindings {
+      guard let specification = resolverRegistry.specification(for: binding.ruleID) else {
+        throw CandidateConflictResolverError.invalidRule(
+          "Resolver-правило исчезло из реестра."
+        )
+      }
+      rulePaths.append(RulePath(path: binding.path, ruleID: binding.ruleID, isOutput: true))
+      if case .rebuildDerivedManifest(_, _, let sourcePaths, _, _, _) = specification {
+        rulePaths += sourcePaths.map {
+          RulePath(path: $0, ruleID: binding.ruleID, isOutput: false)
+        }
+      }
+    }
+
+    var ambiguities: [CandidateResolverPathAmbiguity] = []
+    let collidingPaths = CandidateIntegrationValidation.normalizedPathCollisions(
+      Array(Set(candidatePaths)).sorted() + rulePaths.map(\.path)
+    )
+    if !collidingPaths.isEmpty {
+      ambiguities.append(
+        CandidateResolverPathAmbiguity(
+          paths: collidingPaths,
+          ruleIDs: Set(
+            rulePaths.filter { collidingPaths.contains($0.path) }.map(\.ruleID)
+          ).sorted()
+        )
+      )
+    }
+    let outputsByPath = Dictionary(grouping: rulePaths.filter(\.isOutput), by: \.path)
+    for (path, outputs) in outputsByPath where outputs.count > 1 {
+      ambiguities.append(
+        CandidateResolverPathAmbiguity(
+          paths: [path],
+          ruleIDs: Set(outputs.map(\.ruleID)).sorted()
+        )
+      )
+    }
+    for output in rulePaths.filter(\.isOutput) {
+      let dependencies = rulePaths.filter {
+        !$0.isOutput && $0.path == output.path && $0.ruleID != output.ruleID
+      }
+      if !dependencies.isEmpty {
+        ambiguities.append(
+          CandidateResolverPathAmbiguity(
+            paths: [output.path],
+            ruleIDs: Set([output.ruleID] + dependencies.map(\.ruleID)).sorted()
+          )
+        )
+      }
+    }
+    return Dictionary(
+      grouping: ambiguities,
+      by: { $0.paths.joined(separator: "\u{0}") + "\u{1}" + $0.ruleIDs.joined(separator: "\u{0}") }
+    ).values.compactMap(\.first).sorted {
+      let left =
+        $0.paths.joined(separator: "\u{0}") + "\u{1}"
+        + $0.ruleIDs.joined(separator: "\u{0}")
+      let right =
+        $1.paths.joined(separator: "\u{0}") + "\u{1}"
+        + $1.ruleIDs.joined(separator: "\u{0}")
+      return left < right
+    }
+  }
+
+  private func regularBlobAtIndex(
+    path: String,
+    repositoryURL: URL,
+    git: CandidateIntegrationGit
+  ) throws -> Data {
+    let listing = try git.data(["ls-files", "--stage", "-z", "--", path], at: repositoryURL)
+    let entries = listing.split(separator: 0, omittingEmptySubsequences: true)
+    guard entries.count == 1,
+      let tab = entries[0].firstIndex(of: 0x09)
+    else {
+      throw WritingSubnodeExecutorError.gitFailed(
+        "Канонический источник не имеет однозначной index-записи."
+      )
+    }
+    let metadata = entries[0][..<tab].split(separator: 0x20).map {
+      String(decoding: $0, as: UTF8.self)
+    }
+    let listedPath = String(decoding: entries[0][entries[0].index(after: tab)...], as: UTF8.self)
+    guard metadata.count == 3,
+      metadata[0] == "100644",
+      WritingSubnodeValidation.isObjectID(metadata[1]),
+      metadata[2] == "0",
+      listedPath == path,
+      try git.text(["cat-file", "-t", metadata[1]], at: repositoryURL) == "blob"
+    else {
+      throw WritingSubnodeExecutorError.gitFailed(
+        "Канонический источник не является обычным файлом."
+      )
+    }
+    return try git.data(["cat-file", "blob", metadata[1]], at: repositoryURL)
+  }
+
+  private func regularBlob(
+    at revision: String,
+    path: String,
+    repositoryURL: URL,
+    git: CandidateIntegrationGit
+  ) throws -> Data {
+    let listing = try git.data(
+      ["ls-tree", "-z", revision, "--", path],
+      at: repositoryURL
+    )
+    let entries = listing.split(separator: 0, omittingEmptySubsequences: true)
+    guard entries.count == 1,
+      let tab = entries[0].firstIndex(of: 0x09)
+    else {
+      throw WritingSubnodeExecutorError.gitFailed(
+        "Канонический источник не имеет однозначной tree-записи."
+      )
+    }
+    let metadata = entries[0][..<tab].split(separator: 0x20).map {
+      String(decoding: $0, as: UTF8.self)
+    }
+    let listedPath = String(decoding: entries[0][entries[0].index(after: tab)...], as: UTF8.self)
+    guard metadata.count == 3,
+      metadata[0] == "100644",
+      metadata[1] == "blob",
+      WritingSubnodeValidation.isObjectID(metadata[2]),
+      listedPath == path
+    else {
+      throw WritingSubnodeExecutorError.gitFailed(
+        "Канонический источник не является обычным файлом."
+      )
+    }
+    return try git.data(["cat-file", "blob", metadata[2]], at: repositoryURL)
+  }
+
+  private func applyResolutionOutput(
+    _ output: CandidateConflictResolutionOutput,
+    at cloneURL: URL,
+    git: CandidateIntegrationGit
+  ) throws {
+    let blobOID = try git.text(
+      ["hash-object", "-w", "--stdin"],
+      at: cloneURL,
+      input: output.data
+    )
+    _ = try git.data(
+      ["update-index", "--add", "--cacheinfo", "100644", blobOID, output.record.path],
+      at: cloneURL
+    )
+  }
+
+  private func retainInputCommits(
+    request: CandidateCommitIntegrationRequest,
+    commonParentOID: String,
+    candidateOIDs: [String],
+    cloneURL: URL,
+    git: CandidateIntegrationGit
+  ) throws {
+    let identity = CandidateIntegrationValidation.targetLockName(
+      targetRef: "\(request.repositoryID):\(request.attemptID)"
+    )
+    let prefix = "refs/fum/integration-inputs/\(identity)"
+    var transaction = "start\n"
+    transaction += "create \(prefix)/common-parent \(commonParentOID)\n"
+    transaction += "create \(prefix)/target \(request.expectedTargetOID)\n"
+    for (index, oid) in candidateOIDs.enumerated() {
+      let candidateRef = [
+        prefix,
+        "candidates",
+        String(format: "%03d", index + 1),
+      ].joined(separator: "/")
+      transaction += "create \(candidateRef) \(oid)\n"
+    }
+    transaction += "prepare\ncommit\n"
+    let retained = try git.run(
+      ["update-ref", "--stdin"],
+      at: cloneURL,
+      input: Data(transaction.utf8)
+    )
+    guard retained.status == 0,
+      try git.text(["rev-parse", "--verify", "\(prefix)/common-parent"], at: cloneURL)
+        == commonParentOID,
+      try git.text(["rev-parse", "--verify", "\(prefix)/target"], at: cloneURL)
+        == request.expectedTargetOID
+    else {
+      throw WritingSubnodeExecutorError.gitFailed(
+        "Не удалось закрепить входные commit попытки."
+      )
+    }
+  }
+
+  private func makeDiagnostic(
+    request: CandidateCommitIntegrationRequest,
+    commonParentOID: String,
+    recovered: [RecoveredIntegrationCandidate],
+    affectedPaths: [String],
+    issues: [CandidateResolutionDiagnosticIssue],
+    checks: [CandidateIntegrationRecordedCheck],
+    repositoryURL: URL,
+    git: CandidateIntegrationGit
+  ) throws -> CandidateResolutionDiagnostic {
+    var inputs = [
+      try diagnosticInput(
+        role: "common_parent",
+        identifier: "common-parent",
+        commitOID: commonParentOID,
+        affectedPaths: affectedPaths,
+        repositoryURL: repositoryURL,
+        git: git
+      ),
+      try diagnosticInput(
+        role: "target",
+        identifier: "expected-target",
+        commitOID: request.expectedTargetOID,
+        affectedPaths: affectedPaths,
+        repositoryURL: repositoryURL,
+        git: git
+      ),
+    ]
+    for candidate in recovered {
+      inputs.append(
+        try diagnosticInput(
+          role: "candidate",
+          identifier: candidate.passport.runID,
+          commitOID: candidate.passport.commitOID,
+          affectedPaths: affectedPaths,
+          repositoryURL: repositoryURL,
+          git: git
+        )
+      )
+    }
+    return CandidateResolutionDiagnostic(
+      attemptID: request.attemptID,
+      targetRef: request.targetRef,
+      expectedTargetOID: request.expectedTargetOID,
+      inputs: inputs,
+      affectedPaths: affectedPaths,
+      issues: issues,
+      checks: checks
+    )
+  }
+
+  private func diagnosticInput(
+    role: String,
+    identifier: String,
+    commitOID: String,
+    affectedPaths: [String],
+    repositoryURL: URL,
+    git: CandidateIntegrationGit
+  ) throws -> CandidateResolutionDiagnosticInput {
+    let treeOID = try git.text(
+      ["rev-parse", "\(commitOID)^{tree}"],
+      at: repositoryURL
+    )
+    var blobOIDs: [String: String] = [:]
+    for path in Array(Set(affectedPaths)).sorted() {
+      let object = try git.run(
+        ["rev-parse", "--verify", "\(commitOID):\(path)"],
+        at: repositoryURL
+      )
+      if object.status == 0 {
+        let oid = String(decoding: object.output, as: UTF8.self)
+          .trimmingCharacters(in: .whitespacesAndNewlines)
+        if WritingSubnodeValidation.isObjectID(oid) {
+          blobOIDs[path] = oid
+        }
+      }
+    }
+    return CandidateResolutionDiagnosticInput(
+      role: role,
+      identifier: identifier,
+      commitOID: commitOID,
+      treeOID: treeOID,
+      blobOIDs: blobOIDs
+    )
+  }
+
+  private func persistDiagnostic(
+    _ diagnostic: CandidateResolutionDiagnostic,
+    at url: URL
+  ) throws {
+    let canonical = try diagnostic.canonicalJSONData()
+    guard WritingSubnodeValidation.publicationOutcome(canonical) == nil else {
+      throw WritingSubnodeExecutorError.persistenceFailed(
+        "Диагностика resolver не прошла публикационную проверку."
+      )
+    }
+    if WritingSubnodePersistence.pathExists(url) {
+      guard
+        try WritingSubnodePersistence.readStableRegularFile(
+          at: url,
+          maximumBytes: 2 * 1_024 * 1_024
+        ) == canonical
+      else {
+        throw WritingSubnodeExecutorError.persistenceFailed(
+          "Существующая диагностика resolver не совпадает."
+        )
+      }
+      return
+    }
+    try WritingSubnodePersistence.persistExclusive(canonical, at: url)
+  }
+
+  private func loadDiagnostic(
+    at url: URL,
+    request: CandidateCommitIntegrationRequest,
+    repositoryURL: URL,
+    git: CandidateIntegrationGit
+  ) throws -> CandidateResolutionDiagnostic {
+    let data = try WritingSubnodePersistence.readStableRegularFile(
+      at: url,
+      maximumBytes: 2 * 1_024 * 1_024
+    )
+    let diagnostic = try JSONDecoder().decode(CandidateResolutionDiagnostic.self, from: data)
+    guard diagnostic.schemaIdentity == "fum.candidate-resolution-diagnostic",
+      diagnostic.schemaVersion == 1,
+      diagnostic.attemptID == request.attemptID,
+      diagnostic.targetRef == request.targetRef,
+      diagnostic.expectedTargetOID == request.expectedTargetOID,
+      !diagnostic.inputs.isEmpty,
+      !diagnostic.affectedPaths.isEmpty,
+      !diagnostic.issues.isEmpty,
+      diagnostic.affectedPaths.allSatisfy(WritingSubnodeValidation.isRelativePath),
+      diagnostic.issues.allSatisfy({
+        WritingSubnodeValidation.isRelativePath($0.path)
+      }),
+      try diagnostic.canonicalJSONData() == data,
+      WritingSubnodeValidation.publicationOutcome(data) == nil
+    else {
+      throw WritingSubnodeExecutorError.persistenceFailed(
+        "Диагностика resolver повреждена."
+      )
+    }
+    try CandidateIntegrationValidation.validateGitDirectory(
+      repositoryURL.appending(path: ".git", directoryHint: .isDirectory),
+      repositoryURL: repositoryURL
+    )
+    let identity = CandidateIntegrationValidation.targetLockName(
+      targetRef: "\(request.repositoryID):\(request.attemptID)"
+    )
+    let retainedData = try git.data(
+      [
+        "for-each-ref", "--format=%(objectname)",
+        "refs/fum/integration-inputs/\(identity)/",
+      ],
+      at: repositoryURL
+    )
+    let retainedOIDs = retainedData.split(whereSeparator: { $0 == 0x0A }).map {
+      String(decoding: $0, as: UTF8.self)
+    }.sorted()
+    guard retainedOIDs == diagnostic.inputs.map(\.commitOID).sorted(),
+      try diagnostic.inputs.allSatisfy({ input in
+        try git.text(["cat-file", "-t", input.commitOID], at: repositoryURL) == "commit"
+          && git.text(["rev-parse", "\(input.commitOID)^{tree}"], at: repositoryURL)
+            == input.treeOID
+          && input.blobOIDs.allSatisfy({ path, oid in
+            try git.text(
+              ["rev-parse", "--verify", "\(input.commitOID):\(path)"],
+              at: repositoryURL
+            ) == oid
+          })
+      })
+    else {
+      throw WritingSubnodeExecutorError.persistenceFailed(
+        "Входные commit диагностической попытки не сохранены."
+      )
+    }
+    return diagnostic
   }
 
   private func recoverCandidates(
@@ -709,6 +1731,7 @@ public struct CandidateCommitIntegrator: Sendable {
     request: CandidateCommitIntegrationRequest,
     requestSHA256: String,
     stableChecks: [CandidateStableCheck],
+    stableResolverRules: [CandidateConflictResolverBinding],
     targetURL: URL,
     preparedURL: URL,
     receiptURL: URL,
@@ -718,7 +1741,8 @@ public struct CandidateCommitIntegrator: Sendable {
       at: preparedURL,
       request: request,
       requestSHA256: requestSHA256,
-      stableChecks: stableChecks
+      stableChecks: stableChecks,
+      stableResolverRules: stableResolverRules
     )
     let receipt = try loadReceipt(at: receiptURL)
     let passportCanonical = try passport.canonicalJSONData()
@@ -753,6 +1777,7 @@ public struct CandidateCommitIntegrator: Sendable {
     request: CandidateCommitIntegrationRequest,
     requestSHA256: String,
     stableChecks: [CandidateStableCheck],
+    stableResolverRules: [CandidateConflictResolverBinding],
     targetURL: URL,
     cloneURL: URL,
     preparedURL: URL,
@@ -763,7 +1788,8 @@ public struct CandidateCommitIntegrator: Sendable {
       at: preparedURL,
       request: request,
       requestSHA256: requestSHA256,
-      stableChecks: stableChecks
+      stableChecks: stableChecks,
+      stableResolverRules: stableResolverRules
     )
     let current = try targetOID(request.targetRef, targetURL: targetURL, git: git)
     let alreadyPublished =
@@ -860,7 +1886,12 @@ public struct CandidateCommitIntegrator: Sendable {
         "Не удалось передать интеграционные объекты в целевой репозиторий."
       )
     }
-    try validatePreparedTopology(passport, repositoryURL: targetURL, git: git)
+    try validatePreparedTopology(
+      passport,
+      request: request,
+      repositoryURL: targetURL,
+      git: git
+    )
     guard
       try targetOID(request.targetRef, targetURL: targetURL, git: git)
         == request.expectedTargetOID
@@ -889,7 +1920,8 @@ public struct CandidateCommitIntegrator: Sendable {
     at url: URL,
     request: CandidateCommitIntegrationRequest,
     requestSHA256: String,
-    stableChecks: [CandidateStableCheck]
+    stableChecks: [CandidateStableCheck],
+    stableResolverRules: [CandidateConflictResolverBinding]
   ) throws -> CandidateCommitIntegrationPassport {
     let data = try WritingSubnodePersistence.readStableRegularFile(
       at: url,
@@ -902,7 +1934,7 @@ public struct CandidateCommitIntegrator: Sendable {
     let expectedIntegrationRef =
       "refs/fum/integrations/\(request.repositoryID)/\(CandidateIntegrationValidation.targetLockName(targetRef: request.targetRef))/\(request.attemptID)"
     guard passport.schemaIdentity == "fum.candidate-commit.integration-passport",
-      passport.schemaVersion == 1,
+      passport.schemaVersion == 2,
       passport.attemptID == request.attemptID,
       passport.ownerID == request.ownerID,
       passport.repositoryID == request.repositoryID,
@@ -925,6 +1957,27 @@ public struct CandidateCommitIntegrator: Sendable {
           && WritingSubnodeValidation.isObjectID($0.treeOID)
           && WritingSubnodeValidation.isSHA256($0.passportSHA256)
       }),
+      passport.resolverRegistryIdentity == CandidateConflictResolverRegistry.registryIdentity,
+      passport.resolverRegistryVersion == CandidateConflictResolverRegistry.registryVersion,
+      passport.resolverRules == stableResolverRules,
+      passport.resolutions.count == stableResolverRules.count,
+      zip(passport.resolutions, stableResolverRules).allSatisfy({ resolution, binding in
+        resolution.ruleID == binding.ruleID
+          && resolution.ruleVersion == binding.ruleVersion
+          && resolution.path == binding.path
+          && resolution.algorithm == binding.algorithm
+          && resolution.specificationSHA256 == binding.specificationSHA256
+          && resolution.requiredCheckIDs == binding.requiredCheckIDs
+      }),
+      passport.resolutions.allSatisfy({ resolution in
+        WritingSubnodeValidation.isIdentifier(resolution.ruleID)
+          && WritingSubnodeValidation.isRelativePath(resolution.path)
+          && WritingSubnodeValidation.isSHA256(resolution.specificationSHA256)
+          && !resolution.inputSHA256s.isEmpty
+          && resolution.inputSHA256s.allSatisfy(WritingSubnodeValidation.isSHA256)
+          && WritingSubnodeValidation.isSHA256(resolution.outputSHA256)
+          && !resolution.invariants.isEmpty
+      }),
       passport.checks.allSatisfy({
         $0.status == .passed
           && WritingSubnodeValidation.isIdentifier($0.checkID)
@@ -933,6 +1986,7 @@ public struct CandidateCommitIntegrator: Sendable {
       passport.checks.map(\.checkID) == stableChecks.map(\.checkID),
       passport.checks.map(\.specificationSHA256)
         == stableChecks.map(\.specificationSHA256),
+      passport.repeatedChecks == passport.checks,
       try passport.canonicalJSONData() == data,
       WritingSubnodeValidation.publicationOutcome(data) == nil
     else {
@@ -1021,7 +2075,12 @@ public struct CandidateCommitIntegrator: Sendable {
         "Подготовленный паспорт не совпадает с неизменяемым набором кандидатов."
       )
     }
-    try validatePreparedTopology(passport, repositoryURL: repositoryURL, git: git)
+    try validatePreparedTopology(
+      passport,
+      request: request,
+      repositoryURL: repositoryURL,
+      git: git
+    )
     guard
       try !CandidateIntegrationValidation.containsMergeAttributes(
         in: [passport.expectedTargetOID] + passport.candidateOIDs,
@@ -1033,6 +2092,35 @@ public struct CandidateCommitIntegrator: Sendable {
         "Подготовленное дерево зависит от запрещённых merge-атрибутов."
       )
     }
+    guard let commonParentOID = recovered.first?.passport.parentOID,
+      recovered.allSatisfy({ $0.passport.parentOID == commonParentOID })
+    else {
+      throw WritingSubnodeExecutorError.persistenceFailed(
+        "Подготовленные кандидаты не имеют общего предка."
+      )
+    }
+    let replayed: CandidateResolverPassResult
+    do {
+      replayed = try replayPreparedMerge(
+        request: request,
+        stableResolverRules: passport.resolverRules,
+        commonParentOID: commonParentOID,
+        recovered: recovered,
+        targetURL: targetURL,
+        git: git
+      )
+    } catch {
+      throw WritingSubnodeExecutorError.persistenceFailed(
+        "Полный повтор merge и resolver подготовленного дерева не выполнился."
+      )
+    }
+    guard replayed.treeOID == passport.integrationTreeOID,
+      replayed.resolutions == passport.resolutions
+    else {
+      throw WritingSubnodeExecutorError.persistenceFailed(
+        "Подготовленное дерево или resolver-записи не совпадают с полным повтором."
+      )
+    }
     let changedPaths = try git.nulStrings(
       [
         "diff", "--name-only", "--no-ext-diff", "--no-textconv", "--no-renames", "-z",
@@ -1041,9 +2129,18 @@ public struct CandidateCommitIntegrator: Sendable {
       at: repositoryURL
     ).sorted()
     let candidatePaths = recovered.flatMap(\.passport.actualPaths)
+    let allowedPaths = Set(candidatePaths).union(passport.resolutions.map(\.path))
+    let finalTreePaths = try git.nulStrings(
+      ["ls-tree", "-r", "--name-only", "-z", passport.integrationTreeOID],
+      at: repositoryURL
+    )
     guard !changedPaths.isEmpty,
-      Set(changedPaths).isSubset(of: Set(candidatePaths)),
-      !CandidateIntegrationValidation.hasNormalizedPathCollision(candidatePaths),
+      Set(changedPaths).isSubset(of: allowedPaths),
+      try resolverPathAmbiguities(
+        passport.resolverRules,
+        candidatePaths: candidatePaths
+      ).isEmpty,
+      !CandidateIntegrationValidation.hasNormalizedPathCollision(finalTreePaths),
       !changedPaths.contains(where: CandidateIntegrationValidation.isMachineJunk),
       try WritingSubnodeCandidateAudit.validateTree(
         paths: changedPaths,
@@ -1079,7 +2176,7 @@ public struct CandidateCommitIntegrator: Sendable {
       repositoryURL: repositoryURL,
       git: git
     )
-    guard repeatedChecks == passport.checks,
+    guard repeatedChecks == passport.repeatedChecks,
       repeatedChecks.allSatisfy({ $0.status == .passed })
     else {
       throw WritingSubnodeExecutorError.persistenceFailed(
@@ -1088,12 +2185,102 @@ public struct CandidateCommitIntegrator: Sendable {
     }
   }
 
+  private func replayPreparedMerge(
+    request: CandidateCommitIntegrationRequest,
+    stableResolverRules: [CandidateConflictResolverBinding],
+    commonParentOID: String,
+    recovered: [RecoveredIntegrationCandidate],
+    targetURL: URL,
+    git: CandidateIntegrationGit
+  ) throws -> CandidateResolverPassResult {
+    let integrationRootURL =
+      request.integrationRootURL.standardizedFileURL.resolvingSymlinksInPath()
+    let attemptURL = integrationRootURL.appending(
+      path: "attempts/\(request.attemptID)",
+      directoryHint: .isDirectory
+    )
+    guard WritingSubnodePersistence.isPlainDirectory(attemptURL) else {
+      throw WritingSubnodeExecutorError.persistenceFailed(
+        "Каталог подготовленной попытки повреждён."
+      )
+    }
+    let replayRootURL = attemptURL.appending(
+      path: "prepared-replay-\(UUID().uuidString)",
+      directoryHint: .isDirectory
+    )
+    guard try WritingSubnodePersistence.reserveDirectory(replayRootURL) else {
+      throw WritingSubnodeExecutorError.persistenceFailed(
+        "Не удалось зарезервировать каталог повтора интеграции."
+      )
+    }
+    defer { try? FileManager.default.removeItem(at: replayRootURL) }
+    let replayCloneURL = replayRootURL.appending(path: "clone", directoryHint: .isDirectory)
+    try cloneTarget(
+      targetURL: targetURL,
+      cloneURL: replayCloneURL,
+      attemptURL: replayRootURL,
+      git: git
+    )
+    for candidate in recovered {
+      let fetch = try git.run(
+        [
+          "fetch", "--quiet", "--no-tags", "--no-write-fetch-head",
+          candidate.cloneURL.path, candidate.passport.resultRef,
+        ],
+        at: replayCloneURL
+      )
+      guard fetch.status == 0,
+        try git.text(
+          ["cat-file", "-t", candidate.passport.commitOID],
+          at: replayCloneURL
+        ) == "commit"
+      else {
+        throw WritingSubnodeExecutorError.persistenceFailed(
+          "Повтор не получил закреплённый кандидат."
+        )
+      }
+    }
+    _ = try git.data(
+      ["checkout", "--quiet", "--detach", request.expectedTargetOID],
+      at: replayCloneURL
+    )
+    let replay = try mergeCandidates(
+      request: request,
+      stableResolverRules: stableResolverRules,
+      commonParentOID: commonParentOID,
+      recovered: recovered,
+      cloneURL: replayCloneURL,
+      git: git
+    )
+    switch replay {
+    case .resolved(let treeOID, let resolutions):
+      return CandidateResolverPassResult(treeOID: treeOID, resolutions: resolutions)
+    case .resolutionRequired:
+      throw WritingSubnodeExecutorError.persistenceFailed(
+        "Повтор подготовленной попытки потребовал ручного разрешения."
+      )
+    }
+  }
+
   private func validatePreparedTopology(
     _ passport: CandidateCommitIntegrationPassport,
+    request: CandidateCommitIntegrationRequest,
     repositoryURL: URL,
     git: CandidateIntegrationGit
   ) throws {
+    var expectedCommitArguments = ["commit-tree", passport.integrationTreeOID]
+    for parentOID in [passport.expectedTargetOID] + passport.candidateOIDs {
+      expectedCommitArguments += ["-p", parentOID]
+    }
+    let expectedIntegrationOID = try git.text(
+      expectedCommitArguments,
+      at: repositoryURL,
+      input: Data((request.commitMessage + "\n").utf8),
+      additionalEnvironment: CandidateIntegrationGit.commitEnvironment
+    )
     guard
+      WritingSubnodeValidation.publicationOutcome(Data(request.commitMessage.utf8)) == nil,
+      expectedIntegrationOID == passport.integrationOID,
       try git.text(["cat-file", "-t", passport.integrationOID], at: repositoryURL)
         == "commit",
       try git.text(
@@ -1162,6 +2349,24 @@ public struct CandidateCommitIntegrator: Sendable {
   }
 }
 
+private enum CandidateMergeResolutionResult {
+  case resolved(
+    treeOID: String,
+    resolutions: [CandidateConflictResolutionRecord]
+  )
+  case resolutionRequired(CandidateResolutionDiagnostic)
+}
+
+private struct CandidateResolverPassResult: Equatable {
+  let treeOID: String
+  let resolutions: [CandidateConflictResolutionRecord]
+}
+
+private struct CandidateResolverPathAmbiguity {
+  let paths: [String]
+  let ruleIDs: [String]
+}
+
 private struct RecoveredIntegrationCandidate {
   let passport: WritingSubnodePassport
   let passportSHA256: String
@@ -1200,6 +2405,9 @@ private struct CandidateStableRequest: Encodable {
   let commitMessage: String
   let candidates: [CandidateStableReference]
   let checks: [CandidateStableCheck]
+  let resolverRegistryIdentity: String
+  let resolverRegistryVersion: Int
+  let resolverRules: [CandidateConflictResolverBinding]
 
   enum CodingKeys: String, CodingKey {
     case schemaVersion = "schema_version"
@@ -1211,6 +2419,9 @@ private struct CandidateStableRequest: Encodable {
     case commitMessage = "commit_message"
     case candidates
     case checks
+    case resolverRegistryIdentity = "resolver_registry_identity"
+    case resolverRegistryVersion = "resolver_registry_version"
+    case resolverRules = "resolver_rules"
   }
 }
 
@@ -1230,10 +2441,11 @@ private struct CandidateIntegrationReceipt: Codable, Equatable {
   }
 }
 
-private enum CandidateIntegrationValidation {
+enum CandidateIntegrationValidation {
   static func validate(
     _ request: CandidateCommitIntegrationRequest,
-    stableChecks: [CandidateStableCheck]
+    stableChecks: [CandidateStableCheck],
+    stableResolverRules: [CandidateConflictResolverBinding]
   ) throws {
     let identifiers = [request.attemptID, request.ownerID, request.repositoryID]
     let sortedCandidateOIDs = request.candidates.map(\.expectedCommitOID).sorted()
@@ -1251,7 +2463,9 @@ private enum CandidateIntegrationValidation {
       }),
       Set(request.checkIDs).count == request.checkIDs.count,
       !request.checkIDs.isEmpty,
-      stableChecks.map(\.checkID) == request.checkIDs.sorted()
+      stableChecks.map(\.checkID) == request.checkIDs.sorted(),
+      Set(request.resolverRuleIDs).count == request.resolverRuleIDs.count,
+      stableResolverRules.map(\.ruleID) == request.resolverRuleIDs.sorted()
     else {
       throw WritingSubnodeExecutorError.invalidRequest(
         "Запрос CAS-интеграции некорректен."
@@ -1427,12 +2641,32 @@ private enum CandidateIntegrationValidation {
   }
 
   static func hasNormalizedPathCollision(_ paths: [String]) -> Bool {
-    var originalsByNormalizedPath: [String: Set<String>] = [:]
+    !normalizedPathCollisions(paths).isEmpty
+  }
+
+  static func normalizedPathCollisions(_ paths: [String]) -> [String] {
+    var originalPrefixesByNormalizedPrefix: [String: Set<String>] = [:]
+    var fullPathsByNormalizedPrefix: [String: Set<String>] = [:]
     for path in paths {
-      let normalized = path.precomposedStringWithCanonicalMapping.lowercased()
-      originalsByNormalizedPath[normalized, default: []].insert(path)
+      let components = path.split(separator: "/", omittingEmptySubsequences: false).map(String.init)
+      var normalizedComponents: [String] = []
+      var originalComponents: [String] = []
+      for component in components {
+        normalizedComponents.append(
+          component.precomposedStringWithCanonicalMapping.lowercased()
+        )
+        originalComponents.append(component)
+        let normalizedPrefix = normalizedComponents.joined(separator: "/")
+        originalPrefixesByNormalizedPrefix[normalizedPrefix, default: []].insert(
+          originalComponents.joined(separator: "/")
+        )
+        fullPathsByNormalizedPrefix[normalizedPrefix, default: []].insert(path)
+      }
     }
-    return originalsByNormalizedPath.values.contains { $0.count > 1 }
+    let collidingPrefixes = originalPrefixesByNormalizedPrefix.compactMap { key, originals in
+      originals.count > 1 ? key : nil
+    }
+    return Set(collidingPrefixes.flatMap { fullPathsByNormalizedPrefix[$0, default: []] }).sorted()
   }
 
   static func parents(

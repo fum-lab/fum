@@ -95,6 +95,598 @@ struct CandidateCommitIntegratorTests {
     }
   }
 
+  @Test("производный manifest полностью пересобирается из объединённых канонических источников")
+  func rebuildsDerivedManifestFromCanonicalSources() throws {
+    let baseManifest = try CandidateDerivedManifest(
+      schemaIdentity: "fum.fixture.derived-manifest",
+      schemaVersion: 1,
+      sources: [
+        CandidateDerivedManifestSource(
+          path: "sources/a.txt",
+          sha256: sha256Text("a0\n"),
+          byteCount: 3
+        ),
+        CandidateDerivedManifestSource(
+          path: "sources/b.txt",
+          sha256: sha256Text("b0\n"),
+          byteCount: 3
+        ),
+      ]
+    ).canonicalJSONData()
+    let fixture = try CandidateIntegrationFixture(initialFiles: [
+      "derived/index.json": String(decoding: baseManifest, as: UTF8.self),
+      "sources/a.txt": "a0\n",
+      "sources/b.txt": "b0\n",
+    ])
+    defer { fixture.remove() }
+    let left = try fixture.candidate(
+      runID: "run-derived-left",
+      subnodeID: "writer-derived-left",
+      writes: [
+        "derived/index.json": "left branch must not win\n",
+        "sources/a.txt": "a1\n",
+      ]
+    )
+    let right = try fixture.candidate(
+      runID: "run-derived-right",
+      subnodeID: "writer-derived-right",
+      writes: [
+        "derived/index.json": "right branch must not win\n",
+        "sources/b.txt": "b1\n",
+      ]
+    )
+    let expectedManifest = try CandidateDerivedManifest(
+      schemaIdentity: "fum.fixture.derived-manifest",
+      schemaVersion: 1,
+      sources: [
+        CandidateDerivedManifestSource(
+          path: "sources/a.txt",
+          sha256: fixture.sha256("a1\n"),
+          byteCount: 3
+        ),
+        CandidateDerivedManifestSource(
+          path: "sources/b.txt",
+          sha256: fixture.sha256("b1\n"),
+          byteCount: 3
+        ),
+      ]
+    ).canonicalJSONData()
+    let resolverRegistry = CandidateConflictResolverRegistry(specifications: [
+      "derived-index": .rebuildDerivedManifest(
+        ruleVersion: 1,
+        outputPath: "derived/index.json",
+        sourcePaths: ["sources/a.txt", "sources/b.txt"],
+        schemaIdentity: "fum.fixture.derived-manifest",
+        schemaVersion: 1,
+        requiredCheckIDs: ["derived-index"]
+      )
+    ])
+    let integrator = CandidateCommitIntegrator(
+      checkRegistry: CandidateIntegrationCheckRegistry(specifications: [
+        "derived-index": .regularFileSHA256(
+          path: "derived/index.json",
+          expectedSHA256: "sha256:" + sha256Data(expectedManifest)
+        )
+      ]),
+      resolverRegistry: resolverRegistry
+    )
+
+    let result = try integrator.integrate(
+      fixture.request(
+        attemptID: "attempt-derived",
+        candidates: [left.reference, right.reference],
+        checks: ["derived-index"],
+        resolverRuleIDs: ["derived-index"]
+      )
+    )
+
+    #expect(result.outcome == .integrated)
+    let integrationOID = try #require(result.integrationOID)
+    let passport = try #require(result.passport)
+    #expect(
+      try fixture.blobData(at: integrationOID, path: "derived/index.json")
+        == expectedManifest
+    )
+    #expect(passport.resolutions.map(\.ruleID) == ["derived-index"])
+    #expect(passport.resolutions.map(\.ruleVersion) == [1])
+    #expect(passport.schemaVersion == 2)
+    #expect(
+      passport.resolverRegistryIdentity
+        == CandidateConflictResolverRegistry.registryIdentity
+    )
+    #expect(
+      passport.resolverRegistryVersion
+        == CandidateConflictResolverRegistry.registryVersion
+    )
+    #expect(passport.resolverRules.map(\.ruleID) == ["derived-index"])
+    #expect(passport.resolverRules.map(\.path) == ["derived/index.json"])
+    #expect(passport.resolutions.map(\.requiredCheckIDs) == [["derived-index"]])
+    #expect(passport.resolutions.first?.inputSHA256s.count == 2)
+    #expect(passport.resolutions.first?.invariants.contains("manifest_rebuilt") == true)
+    #expect(
+      passport.resolutions.first?.outputSHA256
+        == "sha256:" + sha256Data(expectedManifest)
+    )
+    #expect(passport.checks == passport.repeatedChecks)
+    #expect(
+      try fixture.parents(of: integrationOID) == [fixture.baseOID]
+        + [left, right].map(\.commitOID).sorted())
+  }
+
+  @Test("записи с устойчивыми ID объединяются при согласованной схеме и полях")
+  func mergesStableRecordsWithCompatibleNormativeFields() throws {
+    let baseDocument = try stableDocument([
+      stableRecord(id: "base", normative: ["policy": "stable", "slug": "base"])
+    ])
+    let fixture = try CandidateIntegrationFixture(initialFiles: [
+      "registry/records.json": String(decoding: baseDocument, as: UTF8.self)
+    ])
+    defer { fixture.remove() }
+    let leftDocument = try stableDocument([
+      stableRecord(id: "base", normative: ["policy": "stable", "slug": "base"]),
+      stableRecord(
+        id: "left",
+        normative: ["policy": "automatic", "slug": "left"],
+        informative: ["note": "left contribution"]
+      ),
+    ])
+    let rightDocument = try stableDocument([
+      stableRecord(id: "base", normative: ["policy": "stable", "slug": "base"]),
+      stableRecord(
+        id: "right",
+        normative: ["policy": "automatic", "slug": "right"],
+        informative: ["note": "right contribution"]
+      ),
+    ])
+    let expectedDocument = try stableDocument([
+      stableRecord(id: "base", normative: ["policy": "stable", "slug": "base"]),
+      stableRecord(
+        id: "left",
+        normative: ["policy": "automatic", "slug": "left"],
+        informative: ["note": "left contribution"]
+      ),
+      stableRecord(
+        id: "right",
+        normative: ["policy": "automatic", "slug": "right"],
+        informative: ["note": "right contribution"]
+      ),
+    ])
+    let left = try fixture.candidate(
+      runID: "run-record-left",
+      subnodeID: "writer-record-left",
+      path: "registry/records.json",
+      contents: String(decoding: leftDocument, as: UTF8.self)
+    )
+    let right = try fixture.candidate(
+      runID: "run-record-right",
+      subnodeID: "writer-record-right",
+      path: "registry/records.json",
+      contents: String(decoding: rightDocument, as: UTF8.self)
+    )
+    let integrator = stableRecordIntegrator(
+      fixture: fixture,
+      expectedDocument: expectedDocument
+    )
+
+    let result = try integrator.integrate(
+      fixture.request(
+        attemptID: "attempt-record-union",
+        candidates: [left.reference, right.reference],
+        checks: ["stable-records"],
+        resolverRuleIDs: ["stable-records"]
+      )
+    )
+
+    #expect(result.outcome == .integrated)
+    let integrationOID = try #require(result.integrationOID)
+    #expect(
+      try fixture.blobData(at: integrationOID, path: "registry/records.json")
+        == expectedDocument
+    )
+    #expect(result.passport?.resolutions.map(\.algorithm) == ["merge_stable_records_v1"])
+  }
+
+  @Test("неизвестный конфликт сохраняет варианты и каноническую диагностику")
+  func unknownConflictRequiresResolutionAndPreservesInputs() throws {
+    let fixture = try CandidateIntegrationFixture()
+    defer { fixture.remove() }
+    let left = try fixture.candidate(
+      runID: "run-unknown-left",
+      subnodeID: "writer-unknown-left",
+      path: "shared.txt",
+      contents: "left\n"
+    )
+    let right = try fixture.candidate(
+      runID: "run-unknown-right",
+      subnodeID: "writer-unknown-right",
+      path: "shared.txt",
+      contents: "right\n"
+    )
+    let targetBefore = try fixture.targetSnapshot()
+    let leftBefore = try fixture.candidateSnapshot(left)
+    let rightBefore = try fixture.candidateSnapshot(right)
+    let request = fixture.request(
+      attemptID: "attempt-unknown-conflict",
+      candidates: [left.reference, right.reference]
+    )
+    let integrator = fixture.integrator()
+
+    let first = try integrator.integrate(request)
+    let second = try integrator.integrate(request)
+
+    #expect(first.outcome == .resolutionRequired)
+    #expect(second.outcome == .resolutionRequired)
+    #expect(first.diagnosticCanonicalJSON == second.diagnosticCanonicalJSON)
+    #expect(first.diagnosticSHA256 == second.diagnosticSHA256)
+    #expect(first.diagnostic?.issues.map(\.reason) == [.unknownPath])
+    #expect(first.diagnostic?.affectedPaths == ["shared.txt"])
+    #expect(first.diagnostic?.inputs.count == 4)
+    #expect(
+      try fixture.resolutionDiagnosticData(attemptID: "attempt-unknown-conflict")
+        == first.diagnosticCanonicalJSON
+    )
+    let retainedInputs = try fixture.retainedIntegrationInputOIDs(
+      attemptID: "attempt-unknown-conflict"
+    )
+    #expect(retainedInputs.count == 4)
+    #expect(
+      Set(retainedInputs)
+        == Set([fixture.baseOID, left.commitOID, right.commitOID])
+    )
+    #expect(try fixture.targetSnapshot() == targetBefore)
+    #expect(try fixture.candidateSnapshot(left) == leftBefore)
+    #expect(try fixture.candidateSnapshot(right) == rightBefore)
+  }
+
+  @Test("конкурирующие правила одного пути требуют явного разрешения")
+  func ambiguousRulesRequireResolution() throws {
+    let fixture = try CandidateIntegrationFixture()
+    defer { fixture.remove() }
+    let left = try fixture.candidate(
+      runID: "run-ambiguous-left",
+      subnodeID: "writer-ambiguous-left",
+      path: "shared.txt",
+      contents: "left\n"
+    )
+    let right = try fixture.candidate(
+      runID: "run-ambiguous-right",
+      subnodeID: "writer-ambiguous-right",
+      path: "shared.txt",
+      contents: "right\n"
+    )
+    let registry = CandidateConflictResolverRegistry(specifications: [
+      "shared-a": .rebuildDerivedManifest(
+        ruleVersion: 1,
+        outputPath: "shared.txt",
+        sourcePaths: ["base.txt"],
+        schemaIdentity: "fum.fixture.shared-a",
+        schemaVersion: 1,
+        requiredCheckIDs: ["base"]
+      ),
+      "shared-b": .rebuildDerivedManifest(
+        ruleVersion: 1,
+        outputPath: "shared.txt",
+        sourcePaths: ["base.txt"],
+        schemaIdentity: "fum.fixture.shared-b",
+        schemaVersion: 1,
+        requiredCheckIDs: ["base"]
+      ),
+    ])
+    let integrator = fixture.integrator(resolverRegistry: registry)
+
+    let result = try integrator.integrate(
+      fixture.request(
+        attemptID: "attempt-ambiguous",
+        candidates: [left.reference, right.reference],
+        resolverRuleIDs: ["shared-a", "shared-b"]
+      )
+    )
+
+    #expect(result.outcome == .resolutionRequired)
+    #expect(result.diagnostic?.issues.map(\.reason) == [.ambiguousRule])
+    #expect(result.diagnostic?.issues.first?.matchingRuleIDs == ["shared-a", "shared-b"])
+    #expect(try fixture.targetOID() == fixture.baseOID)
+  }
+
+  @Test("отсутствующая обязательная проверка нарушает предусловие resolver")
+  func missingRequiredResolverCheckRequiresResolution() throws {
+    let fixture = try CandidateIntegrationFixture()
+    defer { fixture.remove() }
+    let left = try fixture.candidate(
+      runID: "run-check-precondition-left",
+      subnodeID: "writer-check-precondition-left",
+      path: "shared.txt",
+      contents: "left\n"
+    )
+    let right = try fixture.candidate(
+      runID: "run-check-precondition-right",
+      subnodeID: "writer-check-precondition-right",
+      path: "shared.txt",
+      contents: "right\n"
+    )
+    let registry = CandidateConflictResolverRegistry(specifications: [
+      "shared": .rebuildDerivedManifest(
+        ruleVersion: 1,
+        outputPath: "shared.txt",
+        sourcePaths: ["base.txt"],
+        schemaIdentity: "fum.fixture.shared",
+        schemaVersion: 1,
+        requiredCheckIDs: ["resolver-check"]
+      )
+    ])
+
+    let result = try fixture.integrator(resolverRegistry: registry).integrate(
+      fixture.request(
+        attemptID: "attempt-required-check",
+        candidates: [left.reference, right.reference],
+        resolverRuleIDs: ["shared"]
+      )
+    )
+
+    #expect(result.outcome == .resolutionRequired)
+    #expect(result.diagnostic?.issues.map(\.reason) == [.preconditionFailed])
+    #expect(result.diagnostic?.issues.first?.ruleID == "shared")
+    #expect(try fixture.targetOID() == fixture.baseOID)
+  }
+
+  @Test("разные нормативные значения одного ID закрывают объединение")
+  func conflictingNormativeFieldRequiresResolution() throws {
+    let baseDocument = try stableDocument([])
+    let fixture = try CandidateIntegrationFixture(initialFiles: [
+      "registry/records.json": String(decoding: baseDocument, as: UTF8.self)
+    ])
+    defer { fixture.remove() }
+    let left = try fixture.candidate(
+      runID: "run-normative-left",
+      subnodeID: "writer-normative-left",
+      path: "registry/records.json",
+      contents: String(
+        decoding: try stableDocument([
+          stableRecord(id: "same", normative: ["policy": "left", "slug": "same"])
+        ]),
+        as: UTF8.self
+      )
+    )
+    let right = try fixture.candidate(
+      runID: "run-normative-right",
+      subnodeID: "writer-normative-right",
+      path: "registry/records.json",
+      contents: String(
+        decoding: try stableDocument([
+          stableRecord(id: "same", normative: ["policy": "right", "slug": "same"])
+        ]),
+        as: UTF8.self
+      )
+    )
+    let integrator = stableRecordIntegrator(
+      fixture: fixture,
+      expectedDocument: baseDocument
+    )
+
+    let result = try integrator.integrate(
+      fixture.request(
+        attemptID: "attempt-normative-conflict",
+        candidates: [left.reference, right.reference],
+        checks: ["stable-records"],
+        resolverRuleIDs: ["stable-records"]
+      )
+    )
+
+    #expect(result.outcome == .resolutionRequired)
+    #expect(result.diagnostic?.issues.map(\.reason) == [.normativeFieldConflict])
+    #expect(result.diagnostic?.issues.first?.recordID == "same")
+    #expect(result.diagnostic?.issues.first?.field == "policy")
+    #expect(try fixture.targetOID() == fixture.baseOID)
+  }
+
+  @Test("несогласованная схема закрывает объединение записей")
+  func mismatchedStableRecordSchemaRequiresResolution() throws {
+    let baseDocument = try stableDocument([])
+    let fixture = try CandidateIntegrationFixture(initialFiles: [
+      "registry/records.json": String(decoding: baseDocument, as: UTF8.self)
+    ])
+    defer { fixture.remove() }
+    let compatible = try stableDocument([
+      stableRecord(id: "left", normative: ["policy": "stable", "slug": "left"])
+    ])
+    let mismatched = try CandidateStableRecordDocument(
+      schemaIdentity: "fum.fixture.stable-records",
+      schemaVersion: 2,
+      records: [
+        stableRecord(id: "right", normative: ["policy": "stable", "slug": "right"])
+      ]
+    ).canonicalJSONData()
+    let left = try fixture.candidate(
+      runID: "run-schema-left",
+      subnodeID: "writer-schema-left",
+      path: "registry/records.json",
+      contents: String(decoding: compatible, as: UTF8.self)
+    )
+    let right = try fixture.candidate(
+      runID: "run-schema-right",
+      subnodeID: "writer-schema-right",
+      path: "registry/records.json",
+      contents: String(decoding: mismatched, as: UTF8.self)
+    )
+
+    let result = try stableRecordIntegrator(
+      fixture: fixture,
+      expectedDocument: baseDocument
+    ).integrate(
+      fixture.request(
+        attemptID: "attempt-schema-mismatch",
+        candidates: [left.reference, right.reference],
+        checks: ["stable-records"],
+        resolverRuleIDs: ["stable-records"]
+      )
+    )
+
+    #expect(result.outcome == .resolutionRequired)
+    #expect(result.diagnostic?.issues.map(\.reason) == [.schemaMismatch])
+    #expect(try fixture.targetOID() == fixture.baseOID)
+  }
+
+  @Test("повторяющийся устойчивый ID закрывает объединение")
+  func duplicateStableRecordIDRequiresResolution() throws {
+    let baseDocument = try stableDocument([])
+    let fixture = try CandidateIntegrationFixture(initialFiles: [
+      "registry/records.json": String(decoding: baseDocument, as: UTF8.self)
+    ])
+    defer { fixture.remove() }
+    let duplicateDocument = """
+      {
+        "records": [
+          {"id":"same","informative":{},"normative":{"policy":"stable","slug":"one"}},
+          {"id":"same","informative":{},"normative":{"policy":"stable","slug":"two"}}
+        ],
+        "schema_identity": "fum.fixture.stable-records",
+        "schema_version": 1
+      }
+      """
+    let validDocument = try stableDocument([
+      stableRecord(id: "other", normative: ["policy": "stable", "slug": "other"])
+    ])
+    let duplicate = try fixture.candidate(
+      runID: "run-duplicate",
+      subnodeID: "writer-duplicate",
+      path: "registry/records.json",
+      contents: duplicateDocument
+    )
+    let valid = try fixture.candidate(
+      runID: "run-duplicate-peer",
+      subnodeID: "writer-duplicate-peer",
+      path: "registry/records.json",
+      contents: String(decoding: validDocument, as: UTF8.self)
+    )
+
+    let result = try stableRecordIntegrator(
+      fixture: fixture,
+      expectedDocument: baseDocument
+    ).integrate(
+      fixture.request(
+        attemptID: "attempt-duplicate-id",
+        candidates: [duplicate.reference, valid.reference],
+        checks: ["stable-records"],
+        resolverRuleIDs: ["stable-records"]
+      )
+    )
+
+    #expect(result.outcome == .resolutionRequired)
+    #expect(result.diagnostic?.issues.map(\.reason) == [.duplicateID])
+    #expect(result.diagnostic?.issues.first?.recordID == "same")
+    #expect(try fixture.targetOID() == fixture.baseOID)
+  }
+
+  @Test("смысловая несовместимость обнаруживается после чистого textual merge")
+  func semanticConflictWithoutTextConflictRequiresResolution() throws {
+    let baseDocument = try stableDocument([
+      stableRecord(id: "alpha", normative: ["policy": "stable", "slug": "alpha"]),
+      stableRecord(id: "omega", normative: ["policy": "stable", "slug": "omega"]),
+    ])
+    let fixture = try CandidateIntegrationFixture(initialFiles: [
+      "registry/records.json": String(decoding: baseDocument, as: UTF8.self)
+    ])
+    defer { fixture.remove() }
+    let leftDocument = try stableDocument([
+      stableRecord(id: "alpha", normative: ["policy": "stable", "slug": "shared"]),
+      stableRecord(id: "omega", normative: ["policy": "stable", "slug": "omega"]),
+    ])
+    let rightDocument = try stableDocument([
+      stableRecord(id: "alpha", normative: ["policy": "stable", "slug": "alpha"]),
+      stableRecord(id: "omega", normative: ["policy": "stable", "slug": "shared"]),
+    ])
+    let left = try fixture.candidate(
+      runID: "run-semantic-left",
+      subnodeID: "writer-semantic-left",
+      path: "registry/records.json",
+      contents: String(decoding: leftDocument, as: UTF8.self)
+    )
+    let right = try fixture.candidate(
+      runID: "run-semantic-right",
+      subnodeID: "writer-semantic-right",
+      path: "registry/records.json",
+      contents: String(decoding: rightDocument, as: UTF8.self)
+    )
+    #expect(try fixture.textualMergeSucceeds([left, right]))
+    let integrator = stableRecordIntegrator(
+      fixture: fixture,
+      expectedDocument: baseDocument
+    )
+
+    let result = try integrator.integrate(
+      fixture.request(
+        attemptID: "attempt-semantic-clean",
+        candidates: [left.reference, right.reference],
+        checks: ["stable-records"],
+        resolverRuleIDs: ["stable-records"]
+      )
+    )
+
+    #expect(result.outcome == .resolutionRequired)
+    #expect(result.diagnostic?.issues.map(\.reason) == [.semanticConflict])
+    #expect(result.diagnostic?.issues.first?.field == "slug")
+    #expect(try fixture.targetOID() == fixture.baseOID)
+  }
+
+  @Test("сбой обязательной проверки после resolver не публикует дерево")
+  func failedCheckAfterResolutionRequiresResolution() throws {
+    let fixture = try CandidateIntegrationFixture(initialFiles: [
+      "derived/index.json": "base\n",
+      "sources/a.txt": "a0\n",
+      "sources/b.txt": "b0\n",
+    ])
+    defer { fixture.remove() }
+    let left = try fixture.candidate(
+      runID: "run-check-left",
+      subnodeID: "writer-check-left",
+      writes: [
+        "derived/index.json": "left\n",
+        "sources/a.txt": "a1\n",
+      ]
+    )
+    let right = try fixture.candidate(
+      runID: "run-check-right",
+      subnodeID: "writer-check-right",
+      writes: [
+        "derived/index.json": "right\n",
+        "sources/b.txt": "b1\n",
+      ]
+    )
+    let resolverRegistry = CandidateConflictResolverRegistry(specifications: [
+      "derived-index": .rebuildDerivedManifest(
+        ruleVersion: 1,
+        outputPath: "derived/index.json",
+        sourcePaths: ["sources/a.txt", "sources/b.txt"],
+        schemaIdentity: "fum.fixture.derived-manifest",
+        schemaVersion: 1,
+        requiredCheckIDs: ["derived-index"]
+      )
+    ])
+    let integrator = CandidateCommitIntegrator(
+      checkRegistry: CandidateIntegrationCheckRegistry(specifications: [
+        "derived-index": .regularFileSHA256(
+          path: "derived/index.json",
+          expectedSHA256: fixture.sha256("impossible\n")
+        )
+      ]),
+      resolverRegistry: resolverRegistry
+    )
+
+    let result = try integrator.integrate(
+      fixture.request(
+        attemptID: "attempt-resolved-check-failure",
+        candidates: [left.reference, right.reference],
+        checks: ["derived-index"],
+        resolverRuleIDs: ["derived-index"]
+      )
+    )
+
+    #expect(result.outcome == .resolutionRequired)
+    #expect(result.diagnostic?.issues.map(\.reason) == [.checkFailed])
+    #expect(result.diagnostic?.checks.map(\.status) == [.failed])
+    #expect(try fixture.targetOID() == fixture.baseOID)
+  }
+
   @Test("движение цели отменяет старую подготовку, свежая база требует новой попытки")
   func targetMovementRequiresFreshAttemptAndChecks() throws {
     let fixture = try CandidateIntegrationFixture()
@@ -363,7 +955,8 @@ struct CandidateCommitIntegratorTests {
       conflictFixture.request(
         attemptID: "attempt-conflict", candidates: [left.reference, right.reference]))
 
-    #expect(conflict.outcome == .mergeConflict)
+    #expect(conflict.outcome == .resolutionRequired)
+    #expect(conflict.diagnostic?.issues.map(\.reason) == [.unknownPath])
     #expect(try conflictFixture.targetSnapshot() == conflictTarget)
 
     let semanticFixture = try CandidateIntegrationFixture()
@@ -395,7 +988,8 @@ struct CandidateCommitIntegratorTests {
         checks: ["semantic"]
       )
     )
-    #expect(semantic.outcome == .checkFailed)
+    #expect(semantic.outcome == .resolutionRequired)
+    #expect(semantic.diagnostic?.issues.map(\.reason) == [.checkFailed])
     #expect(try semanticFixture.targetSnapshot() == semanticTarget)
   }
 
@@ -621,10 +1215,371 @@ struct CandidateCommitIntegratorTests {
     #expect(result.outcome == .candidateInvalid)
     #expect(try fixture.targetSnapshot() == targetBefore)
   }
+
+  @Test("нормализованная коллизия выходов resolver не публикуется")
+  func rejectsNormalizedResolverOutputCollision() throws {
+    let fixture = try CandidateIntegrationFixture()
+    defer { fixture.remove() }
+    let candidate = try fixture.candidate(
+      runID: "run-resolver-case",
+      subnodeID: "writer-resolver-case",
+      path: "output/touch.txt",
+      contents: "candidate\n"
+    )
+    let registry = CandidateConflictResolverRegistry(specifications: [
+      "derived-lower": .rebuildDerivedManifest(
+        ruleVersion: 1,
+        outputPath: "derived/index.json",
+        sourcePaths: ["base.txt"],
+        schemaIdentity: "fum.fixture.derived-lower",
+        schemaVersion: 1,
+        requiredCheckIDs: ["base"]
+      ),
+      "derived-upper": .rebuildDerivedManifest(
+        ruleVersion: 1,
+        outputPath: "derived/Index.json",
+        sourcePaths: ["base.txt"],
+        schemaIdentity: "fum.fixture.derived-upper",
+        schemaVersion: 1,
+        requiredCheckIDs: ["base"]
+      ),
+    ])
+
+    let result = try fixture.integrator(resolverRegistry: registry).integrate(
+      fixture.request(
+        attemptID: "attempt-resolver-case-collision",
+        candidates: [candidate.reference],
+        resolverRuleIDs: ["derived-lower", "derived-upper"]
+      )
+    )
+
+    #expect(result.outcome == .resolutionRequired)
+    #expect(Set(result.diagnostic?.issues.map(\.reason) ?? []) == [.ambiguousRule])
+    #expect(try fixture.targetOID() == fixture.baseOID)
+  }
+
+  @Test("каноническая подмена диагностики отклоняется повторным вычислением")
+  func rejectsCanonicalDiagnosticTampering() throws {
+    let fixture = try CandidateIntegrationFixture()
+    defer { fixture.remove() }
+    let left = try fixture.candidate(
+      runID: "run-diagnostic-left",
+      subnodeID: "writer-diagnostic-left",
+      path: "shared.txt",
+      contents: "left\n"
+    )
+    let right = try fixture.candidate(
+      runID: "run-diagnostic-right",
+      subnodeID: "writer-diagnostic-right",
+      path: "shared.txt",
+      contents: "right\n"
+    )
+    let request = fixture.request(
+      attemptID: "attempt-diagnostic-tamper",
+      candidates: [left.reference, right.reference]
+    )
+    let integrator = fixture.integrator()
+    let first = try integrator.integrate(request)
+    let diagnostic = try #require(first.diagnostic)
+    let tampered = CandidateResolutionDiagnostic(
+      attemptID: diagnostic.attemptID,
+      targetRef: diagnostic.targetRef,
+      expectedTargetOID: diagnostic.expectedTargetOID,
+      inputs: diagnostic.inputs,
+      affectedPaths: diagnostic.affectedPaths,
+      issues: [
+        CandidateResolutionDiagnosticIssue(
+          reason: .preconditionFailed,
+          path: "shared.txt"
+        )
+      ],
+      checks: diagnostic.checks
+    )
+    try fixture.writeResolutionDiagnostic(
+      tampered.canonicalJSONData(),
+      attemptID: request.attemptID
+    )
+
+    #expect(throws: WritingSubnodeExecutorError.self) {
+      try integrator.integrate(request)
+    }
+    #expect(try fixture.targetOID() == fixture.baseOID)
+  }
+
+  @Test("подмена resolver-происхождения prepared-паспорта отклоняется")
+  func rejectsPreparedResolutionTampering() throws {
+    let baseDocument = try stableDocument([])
+    let expectedDocument = try stableDocument([
+      stableRecord(id: "new", normative: ["policy": "stable", "slug": "new"])
+    ])
+    let fixture = try CandidateIntegrationFixture(initialFiles: [
+      "registry/records.json": String(decoding: baseDocument, as: UTF8.self)
+    ])
+    defer { fixture.remove() }
+    let candidate = try fixture.candidate(
+      runID: "run-prepared-resolution",
+      subnodeID: "writer-prepared-resolution",
+      path: "registry/records.json",
+      contents: String(decoding: expectedDocument, as: UTF8.self)
+    )
+    let request = fixture.request(
+      attemptID: "attempt-prepared-resolution-tamper",
+      candidates: [candidate.reference],
+      checks: ["stable-records"],
+      resolverRuleIDs: ["stable-records"]
+    )
+    let interrupted = CandidateCommitIntegrator(
+      checkRegistry: CandidateIntegrationCheckRegistry(specifications: [
+        "stable-records": .regularFileSHA256(
+          path: "registry/records.json",
+          expectedSHA256: "sha256:" + sha256Data(expectedDocument)
+        )
+      ]),
+      resolverRegistry: CandidateConflictResolverRegistry(specifications: [
+        "stable-records": .mergeStableRecords(
+          ruleVersion: 1,
+          path: "registry/records.json",
+          schemaIdentity: "fum.fixture.stable-records",
+          schemaVersion: 1,
+          normativeFields: ["policy", "slug"],
+          uniqueNormativeFields: ["slug"],
+          requiredCheckIDs: ["stable-records"]
+        )
+      ]),
+      hooks: CandidateCommitIntegratorHooks(beforeCompareAndSwap: {
+        throw FixtureFailure.crash
+      })
+    )
+    #expect(throws: FixtureFailure.self) {
+      try interrupted.integrate(request)
+    }
+    try fixture.tamperPreparedResolution(attemptID: request.attemptID)
+
+    #expect(throws: WritingSubnodeExecutorError.self) {
+      try stableRecordIntegrator(
+        fixture: fixture,
+        expectedDocument: expectedDocument
+      ).integrate(request)
+    }
+    #expect(try fixture.targetOID() == fixture.baseOID)
+  }
+
+  @Test("подмена prepared-commit с тем же tree и родителями отклоняется")
+  func rejectsPreparedCommitPayloadTampering() throws {
+    let fixture = try CandidateIntegrationFixture()
+    defer { fixture.remove() }
+    let candidate = try fixture.candidate(
+      runID: "run-prepared-payload",
+      subnodeID: "writer-prepared-payload",
+      path: "output/prepared-payload.txt",
+      contents: "prepared\n"
+    )
+    let request = fixture.request(
+      attemptID: "attempt-prepared-payload-tamper",
+      candidates: [candidate.reference],
+      checks: ["prepared-payload"]
+    )
+    let registry = CandidateIntegrationCheckRegistry(specifications: [
+      "prepared-payload": .regularFileSHA256(
+        path: "output/prepared-payload.txt",
+        expectedSHA256: fixture.sha256("prepared\n")
+      )
+    ])
+    let interrupted = CandidateCommitIntegrator(
+      checkRegistry: registry,
+      hooks: CandidateCommitIntegratorHooks(beforeCompareAndSwap: {
+        throw FixtureFailure.crash
+      })
+    )
+    #expect(throws: FixtureFailure.self) {
+      try interrupted.integrate(request)
+    }
+    try fixture.tamperPreparedCommitPayload(attemptID: request.attemptID)
+
+    #expect(throws: WritingSubnodeExecutorError.self) {
+      try CandidateCommitIntegrator(checkRegistry: registry).integrate(request)
+    }
+    #expect(try fixture.targetOID() == fixture.baseOID)
+  }
+
+  @Test("symlink вместо канонического источника нарушает предусловие")
+  func rejectsSymlinkAsDerivedSource() throws {
+    let fixture = try CandidateIntegrationFixture(initialFiles: [
+      "derived/index.json": "base\n",
+      "sources/a.txt": "a0\n",
+    ])
+    defer { fixture.remove() }
+    try fixture.replaceBaseFileWithSymlink(
+      path: "sources/a.txt",
+      destination: "../base.txt"
+    )
+    let candidate = try fixture.candidate(
+      runID: "run-derived-symlink",
+      subnodeID: "writer-derived-symlink",
+      path: "derived/index.json",
+      contents: "candidate\n"
+    )
+    let registry = CandidateConflictResolverRegistry(specifications: [
+      "derived-index": .rebuildDerivedManifest(
+        ruleVersion: 1,
+        outputPath: "derived/index.json",
+        sourcePaths: ["sources/a.txt"],
+        schemaIdentity: "fum.fixture.derived-manifest",
+        schemaVersion: 1,
+        requiredCheckIDs: ["base"]
+      )
+    ])
+
+    let result = try fixture.integrator(resolverRegistry: registry).integrate(
+      fixture.request(
+        attemptID: "attempt-derived-symlink",
+        candidates: [candidate.reference],
+        resolverRuleIDs: ["derived-index"]
+      )
+    )
+
+    #expect(result.outcome == .resolutionRequired)
+    #expect(result.diagnostic?.issues.map(\.reason) == [.preconditionFailed])
+    #expect(try fixture.targetOID() == fixture.baseOID)
+  }
+
+  @Test("подмена безопасного blob в prepared-tree отклоняется полным повтором")
+  func rejectsPreparedTreeTamperingByFullReplay() throws {
+    let fixture = try CandidateIntegrationFixture()
+    defer { fixture.remove() }
+    let candidate = try fixture.candidate(
+      runID: "run-prepared-tree",
+      subnodeID: "writer-prepared-tree",
+      path: "output/prepared-tree.txt",
+      contents: "candidate\n"
+    )
+    let request = fixture.request(
+      attemptID: "attempt-prepared-tree-tamper",
+      candidates: [candidate.reference]
+    )
+    let interrupted = fixture.integrator(
+      hooks: CandidateCommitIntegratorHooks(beforeCompareAndSwap: {
+        throw FixtureFailure.crash
+      })
+    )
+    #expect(throws: FixtureFailure.self) {
+      try interrupted.integrate(request)
+    }
+    try fixture.tamperPreparedTree(
+      attemptID: request.attemptID,
+      path: "output/prepared-tree.txt",
+      contents: "different but publishable\n",
+      commitMessage: request.commitMessage
+    )
+
+    #expect(throws: WritingSubnodeExecutorError.self) {
+      try fixture.integrator().integrate(request)
+    }
+    #expect(try fixture.targetOID() == fixture.baseOID)
+  }
+
+  @Test("нормализация видит коллизии target-путей и компонентов каталога")
+  func recognizesTargetAndDirectoryComponentCollisions() {
+    #expect(
+      Set(
+        CandidateIntegrationValidation.normalizedPathCollisions([
+          "output/Case.txt", "output/case.txt",
+        ])
+      ) == ["output/Case.txt", "output/case.txt"]
+    )
+    #expect(
+      Set(
+        CandidateIntegrationValidation.normalizedPathCollisions([
+          "Dir/a.txt", "dir/b.txt",
+        ])
+      ) == ["Dir/a.txt", "dir/b.txt"]
+    )
+  }
 }
 
 private enum FixtureFailure: Error {
   case crash
+}
+
+private func stableRecord(
+  id: String,
+  normative: [String: String],
+  informative: [String: String] = [:]
+) -> CandidateStableRecord {
+  CandidateStableRecord(
+    id: id,
+    normative: normative,
+    informative: informative
+  )
+}
+
+private func stableDocument(_ records: [CandidateStableRecord]) throws -> Data {
+  try CandidateStableRecordDocument(
+    schemaIdentity: "fum.fixture.stable-records",
+    schemaVersion: 1,
+    records: records
+  ).canonicalJSONData()
+}
+
+private func replacingIntegrationPassport(
+  _ passport: CandidateCommitIntegrationPassport,
+  integrationTreeOID: String? = nil,
+  integrationOID: String? = nil,
+  resolutions: [CandidateConflictResolutionRecord]? = nil
+) -> CandidateCommitIntegrationPassport {
+  CandidateCommitIntegrationPassport(
+    schemaIdentity: passport.schemaIdentity,
+    schemaVersion: passport.schemaVersion,
+    attemptID: passport.attemptID,
+    ownerID: passport.ownerID,
+    repositoryID: passport.repositoryID,
+    targetRef: passport.targetRef,
+    expectedTargetOID: passport.expectedTargetOID,
+    integrationTreeOID: integrationTreeOID ?? passport.integrationTreeOID,
+    integrationOID: integrationOID ?? passport.integrationOID,
+    integrationRef: passport.integrationRef,
+    requestSHA256: passport.requestSHA256,
+    candidates: passport.candidates,
+    resolverRegistryIdentity: passport.resolverRegistryIdentity,
+    resolverRegistryVersion: passport.resolverRegistryVersion,
+    resolverRules: passport.resolverRules,
+    resolutions: resolutions ?? passport.resolutions,
+    checks: passport.checks,
+    repeatedChecks: passport.repeatedChecks
+  )
+}
+
+private func stableRecordIntegrator(
+  fixture: CandidateIntegrationFixture,
+  expectedDocument: Data
+) -> CandidateCommitIntegrator {
+  CandidateCommitIntegrator(
+    checkRegistry: CandidateIntegrationCheckRegistry(specifications: [
+      "stable-records": .regularFileSHA256(
+        path: "registry/records.json",
+        expectedSHA256: "sha256:" + sha256Data(expectedDocument)
+      )
+    ]),
+    resolverRegistry: CandidateConflictResolverRegistry(specifications: [
+      "stable-records": .mergeStableRecords(
+        ruleVersion: 1,
+        path: "registry/records.json",
+        schemaIdentity: "fum.fixture.stable-records",
+        schemaVersion: 1,
+        normativeFields: ["policy", "slug"],
+        uniqueNormativeFields: ["slug"],
+        requiredCheckIDs: ["stable-records"]
+      )
+    ])
+  )
+}
+
+private func sha256Text(_ value: String) -> String {
+  "sha256:" + sha256Data(Data(value.utf8))
+}
+
+private func sha256Data(_ data: Data) -> String {
+  SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
 }
 
 private final class IntegrationGate: @unchecked Sendable {
@@ -664,7 +1619,7 @@ private final class CandidateIntegrationFixture: @unchecked Sendable {
   let sentinel: URL
   private(set) var baseOID = ""
 
-  init() throws {
+  init(initialFiles: [String: String] = [:]) throws {
     root = FileManager.default.temporaryDirectory.appending(
       path: "fum-candidate-integration-tests-\(UUID().uuidString)",
       directoryHint: .isDirectory
@@ -680,7 +1635,15 @@ private final class CandidateIntegrationFixture: @unchecked Sendable {
     _ = try git(["init", "--quiet", "--initial-branch=main"], at: source)
     try Data("pinned input\n".utf8).write(to: source.appending(path: "base.txt"))
     try Data("base\n".utf8).write(to: source.appending(path: "shared.txt"))
-    _ = try git(["add", "--", "base.txt", "shared.txt"], at: source)
+    for (path, contents) in initialFiles.sorted(by: { $0.key < $1.key }) {
+      let url = source.appending(path: path)
+      try FileManager.default.createDirectory(
+        at: url.deletingLastPathComponent(),
+        withIntermediateDirectories: true
+      )
+      try Data(contents.utf8).write(to: url)
+    }
+    _ = try git(["add", "--", "."], at: source)
     _ = try git(
       [
         "-c", "user.name=FUM Fixture", "-c", "user.email=fixture@invalid", "commit",
@@ -714,8 +1677,23 @@ private final class CandidateIntegrationFixture: @unchecked Sendable {
     path: String,
     contents: String
   ) throws -> CandidateFixtureResult {
+    try candidate(
+      runID: runID,
+      subnodeID: subnodeID,
+      writes: [path: contents]
+    )
+  }
+
+  func candidate(
+    runID: String,
+    subnodeID: String,
+    writes: [String: String]
+  ) throws -> CandidateFixtureResult {
     let result = try rawWritingResult(
-      runID: runID, subnodeID: subnodeID, path: path, contents: contents)
+      runID: runID,
+      subnodeID: subnodeID,
+      writes: writes
+    )
     let passport = try #require(result.passport)
     let passportSHA256 = try #require(result.passportSHA256)
     let cloneURL = try #require(result.cloneURL)
@@ -737,13 +1715,33 @@ private final class CandidateIntegrationFixture: @unchecked Sendable {
     path: String,
     contents: String
   ) throws -> WritingSubnodeExecutionResult {
-    let content = Data(contents.utf8)
-    let package = try workPackage(path: path)
+    try rawWritingResult(
+      runID: runID,
+      subnodeID: subnodeID,
+      writes: [path: contents]
+    )
+  }
+
+  func rawWritingResult(
+    runID: String,
+    subnodeID: String,
+    writes: [String: String]
+  ) throws -> WritingSubnodeExecutionResult {
+    let dataByPath = writes.mapValues { Data($0.utf8) }
+    let package = try workPackage(paths: Array(writes.keys))
+    let specifications = Dictionary(
+      uniqueKeysWithValues: dataByPath.map { path, content in
+        (
+          "content-check-" + sha256Data(Data(path.utf8)),
+          WritingSubnodeCheckSpecification.regularFileSHA256(
+            path: path,
+            expectedSHA256: "sha256:" + sha256Data(content)
+          )
+        )
+      }
+    )
     let executor = WritingSubnodeExecutor(
-      checkRegistry: WritingSubnodeCheckRegistry(specifications: [
-        "content-check": .regularFileSHA256(
-          path: path, expectedSHA256: "sha256:" + sha256Data(content))
-      ])
+      checkRegistry: WritingSubnodeCheckRegistry(specifications: specifications)
     )
     guard case .ready(let verified) = executor.verifyWorkPackage(package, workspaceRoot: source)
     else {
@@ -764,7 +1762,9 @@ private final class CandidateIntegrationFixture: @unchecked Sendable {
         targetRef: "refs/heads/main",
         baseOID: baseOID,
         commitMessage: "Create integration candidate",
-        writes: [WritingSubnodeWrite(path: path, contents: content)]
+        writes: dataByPath.sorted(by: { $0.key < $1.key }).map {
+          WritingSubnodeWrite(path: $0.key, contents: $0.value)
+        }
       )
     )
   }
@@ -776,7 +1776,8 @@ private final class CandidateIntegrationFixture: @unchecked Sendable {
     integrationRootURL: URL? = nil,
     commitMessage: String = "Integrate verified candidates",
     candidates: [CandidateCommitReference],
-    checks: [String] = ["base"]
+    checks: [String] = ["base"],
+    resolverRuleIDs: [String] = []
   ) -> CandidateCommitIntegrationRequest {
     CandidateCommitIntegrationRequest(
       attemptID: attemptID,
@@ -788,7 +1789,8 @@ private final class CandidateIntegrationFixture: @unchecked Sendable {
       expectedTargetOID: expectedTargetOID ?? baseOID,
       commitMessage: commitMessage,
       candidates: candidates,
-      checkIDs: checks
+      checkIDs: checks,
+      resolverRuleIDs: resolverRuleIDs
     )
   }
 
@@ -821,14 +1823,35 @@ private final class CandidateIntegrationFixture: @unchecked Sendable {
     try git(["cat-file", "blob", "\(revision):\(path)"], at: target)
   }
 
+  func blobData(at revision: String, path: String) throws -> Data {
+    let process = Process()
+    process.executableURL = WritingSubnodeSystemRuntime.gitExecutableURL
+    process.arguments = [
+      "--no-replace-objects", "--no-optional-locks", "cat-file", "blob",
+      "\(revision):\(path)",
+    ]
+    process.currentDirectoryURL = target
+    let output = Pipe()
+    process.standardOutput = output
+    process.standardError = FileHandle.nullDevice
+    try process.run()
+    try output.fileHandleForWriting.close()
+    let data = output.fileHandleForReading.readDataToEndOfFile()
+    process.waitUntilExit()
+    guard process.terminationStatus == 0 else { throw FixtureFailure.crash }
+    return data
+  }
+
   func integrator(
-    hooks: CandidateCommitIntegratorHooks = CandidateCommitIntegratorHooks()
+    hooks: CandidateCommitIntegratorHooks = CandidateCommitIntegratorHooks(),
+    resolverRegistry: CandidateConflictResolverRegistry = CandidateConflictResolverRegistry()
   ) -> CandidateCommitIntegrator {
     CandidateCommitIntegrator(
       checkRegistry: CandidateIntegrationCheckRegistry(specifications: [
         "base": .regularFileSHA256(
           path: "base.txt", expectedSHA256: sha256("pinned input\n"))
       ]),
+      resolverRegistry: resolverRegistry,
       hooks: hooks
     )
   }
@@ -843,10 +1866,163 @@ private final class CandidateIntegrationFixture: @unchecked Sendable {
     try gitStatus(["merge-base", "--is-ancestor", ancestor, descendant], at: target).status == 0
   }
 
+  func textualMergeSucceeds(_ candidates: [CandidateFixtureResult]) throws -> Bool {
+    let clone = root.appending(
+      path: "textual-merge-\(UUID().uuidString)", directoryHint: .isDirectory)
+    defer { try? FileManager.default.removeItem(at: clone) }
+    _ = try git(["clone", "--quiet", "--no-local", target.path, clone.path], at: root)
+    for candidate in candidates {
+      _ = try git(
+        [
+          "fetch", "--quiet", "--no-tags", "--no-write-fetch-head",
+          candidate.cloneURL.path, candidate.commitOID,
+        ],
+        at: clone
+      )
+    }
+    _ = try git(["checkout", "--quiet", "--detach", baseOID], at: clone)
+    return try gitStatus(
+      ["merge", "--no-commit", "--no-ff", "--no-edit"]
+        + candidates.map(\.commitOID).sorted(),
+      at: clone
+    ).status == 0
+  }
+
   func candidateIsReachable(_ candidate: CandidateFixtureResult) throws -> Bool {
     try git(
       ["rev-parse", "--verify", candidate.reference.expectedCommitOID], at: candidate.cloneURL)
       == candidate.commitOID
+  }
+
+  func resolutionDiagnosticData(attemptID: String) throws -> Data {
+    try Data(
+      contentsOf: integrationRoot.appending(
+        path: "attempts/\(attemptID)/resolution-required.json"
+      )
+    )
+  }
+
+  func writeResolutionDiagnostic(_ data: Data, attemptID: String) throws {
+    try data.write(
+      to: integrationRoot.appending(
+        path: "attempts/\(attemptID)/resolution-required.json"
+      )
+    )
+  }
+
+  func tamperPreparedResolution(attemptID: String) throws {
+    let preparedURL = integrationRoot.appending(
+      path: "attempts/\(attemptID)/prepared.json"
+    )
+    let passport = try JSONDecoder().decode(
+      CandidateCommitIntegrationPassport.self,
+      from: Data(contentsOf: preparedURL)
+    )
+    let resolution = try #require(passport.resolutions.first)
+    let tamperedResolution = CandidateConflictResolutionRecord(
+      ruleID: resolution.ruleID,
+      ruleVersion: resolution.ruleVersion,
+      path: resolution.path,
+      algorithm: resolution.algorithm,
+      specificationSHA256: resolution.specificationSHA256,
+      inputSHA256s: resolution.inputSHA256s,
+      outputSHA256: resolution.outputSHA256,
+      invariants: ["tampered_invariant"],
+      requiredCheckIDs: resolution.requiredCheckIDs
+    )
+    let tampered = replacingIntegrationPassport(
+      passport,
+      resolutions: [tamperedResolution] + passport.resolutions.dropFirst()
+    )
+    try tampered.canonicalJSONData().write(to: preparedURL)
+  }
+
+  func tamperPreparedCommitPayload(attemptID: String) throws {
+    let attemptURL = integrationRoot.appending(
+      path: "attempts/\(attemptID)",
+      directoryHint: .isDirectory
+    )
+    let preparedURL = attemptURL.appending(path: "prepared.json")
+    let cloneURL = attemptURL.appending(path: "clone", directoryHint: .isDirectory)
+    let passport = try JSONDecoder().decode(
+      CandidateCommitIntegrationPassport.self,
+      from: Data(contentsOf: preparedURL)
+    )
+    var arguments = [
+      "-c", "user.name=FUM Tamper Fixture",
+      "-c", "user.email=tamper@invalid",
+      "commit-tree", passport.integrationTreeOID,
+    ]
+    for parentOID in [passport.expectedTargetOID] + passport.candidateOIDs {
+      arguments += ["-p", parentOID]
+    }
+    arguments += ["-m", "tampered prepared commit"]
+    let tamperedOID = try git(arguments, at: cloneURL)
+    _ = try git(
+      ["update-ref", passport.integrationRef, tamperedOID, passport.integrationOID],
+      at: cloneURL
+    )
+    let tampered = replacingIntegrationPassport(
+      passport,
+      integrationOID: tamperedOID
+    )
+    try tampered.canonicalJSONData().write(to: preparedURL)
+  }
+
+  func tamperPreparedTree(
+    attemptID: String,
+    path: String,
+    contents: String,
+    commitMessage: String
+  ) throws {
+    let attemptURL = integrationRoot.appending(
+      path: "attempts/\(attemptID)",
+      directoryHint: .isDirectory
+    )
+    let preparedURL = attemptURL.appending(path: "prepared.json")
+    let cloneURL = attemptURL.appending(path: "clone", directoryHint: .isDirectory)
+    let passport = try JSONDecoder().decode(
+      CandidateCommitIntegrationPassport.self,
+      from: Data(contentsOf: preparedURL)
+    )
+    _ = try git(["read-tree", passport.integrationTreeOID], at: cloneURL)
+    try Data(contents.utf8).write(to: cloneURL.appending(path: path))
+    _ = try git(["add", "--", path], at: cloneURL)
+    let tamperedTreeOID = try git(["write-tree"], at: cloneURL)
+    var arguments = ["commit-tree", tamperedTreeOID]
+    for parentOID in [passport.expectedTargetOID] + passport.candidateOIDs {
+      arguments += ["-p", parentOID]
+    }
+    let tamperedOID = try git(
+      arguments,
+      at: cloneURL,
+      input: Data((commitMessage + "\n").utf8),
+      additionalEnvironment: CandidateIntegrationGit.commitEnvironment
+    )
+    _ = try git(
+      ["update-ref", passport.integrationRef, tamperedOID, passport.integrationOID],
+      at: cloneURL
+    )
+    let tampered = replacingIntegrationPassport(
+      passport,
+      integrationTreeOID: tamperedTreeOID,
+      integrationOID: tamperedOID
+    )
+    try tampered.canonicalJSONData().write(to: preparedURL)
+  }
+
+  func retainedIntegrationInputOIDs(attemptID: String) throws -> [String] {
+    let clone = integrationRoot.appending(
+      path: "attempts/\(attemptID)/clone",
+      directoryHint: .isDirectory
+    )
+    return try git(
+      [
+        "for-each-ref", "--format=%(objectname)",
+        "refs/fum/integration-inputs/",
+      ],
+      at: clone
+    ).split(separator: "\n").map(String.init).sorted()
   }
 
   func corruptPassport(runID: String) throws {
@@ -880,6 +2056,28 @@ private final class CandidateIntegrationFixture: @unchecked Sendable {
   func makeTargetRefSymbolic() throws {
     _ = try git(["update-ref", "refs/heads/real", baseOID], at: target)
     _ = try git(["symbolic-ref", "refs/heads/main", "refs/heads/real"], at: target)
+  }
+
+  func replaceBaseFileWithSymlink(path: String, destination: String) throws {
+    let url = source.appending(path: path)
+    try FileManager.default.removeItem(at: url)
+    try FileManager.default.createSymbolicLink(
+      atPath: url.path,
+      withDestinationPath: destination
+    )
+    _ = try git(["add", "--", path], at: source)
+    _ = try git(
+      [
+        "-c", "user.name=FUM Fixture", "-c", "user.email=fixture@invalid", "commit",
+        "--quiet", "-m", "replace source with symlink",
+      ],
+      at: source
+    )
+    baseOID = try git(["rev-parse", "HEAD"], at: source)
+    _ = try git(
+      ["push", "--quiet", "--force", target.path, "HEAD:refs/heads/main"],
+      at: source
+    )
   }
 
   func candidateSnapshot(_ candidate: CandidateFixtureResult) throws -> Data {
@@ -929,7 +2127,7 @@ private final class CandidateIntegrationFixture: @unchecked Sendable {
     try? FileManager.default.removeItem(at: root)
   }
 
-  private func workPackage(path: String) throws -> Data {
+  private func workPackage(paths: [String]) throws -> Data {
     let input = try Data(contentsOf: source.appending(path: "base.txt"))
     let package: [String: Any] = [
       "schema_version": 1,
@@ -948,16 +2146,19 @@ private final class CandidateIntegrationFixture: @unchecked Sendable {
         ]
       ],
       "change_scope": [
-        "policy": "listed_paths_only", "allowed_paths": [path],
+        "policy": "listed_paths_only", "allowed_paths": paths.sorted(),
         "excluded_paths": [".git", "runtime"],
       ],
       "dependencies": [
         ["id": "git", "status": "resolved", "evidence": "Локальный Git доступен."]
       ],
-      "checks": [
-        ["id": "content-check", "description": "Содержимое детерминировано."]
-      ],
-      "handoff": ["format": "candidate_commit_v1", "required_artifacts": [path]],
+      "checks": paths.sorted().map {
+        [
+          "id": "content-check-" + sha256Data(Data($0.utf8)),
+          "description": "Содержимое детерминировано.",
+        ]
+      },
+      "handoff": ["format": "candidate_commit_v1", "required_artifacts": paths.sorted()],
       "budget": [
         "unit": "planning_units", "limit": 20, "reading": 3, "work": 5,
         "verification": 3, "response": 2, "reserve": 7,
@@ -1002,8 +2203,18 @@ private final class CandidateIntegrationFixture: @unchecked Sendable {
   }
 
   @discardableResult
-  private func git(_ arguments: [String], at directory: URL) throws -> String {
-    let result = try gitStatus(arguments, at: directory)
+  private func git(
+    _ arguments: [String],
+    at directory: URL,
+    input: Data? = nil,
+    additionalEnvironment: [String: String] = [:]
+  ) throws -> String {
+    let result = try gitStatus(
+      arguments,
+      at: directory,
+      input: input,
+      additionalEnvironment: additionalEnvironment
+    )
     guard result.status == 0 else {
       throw NSError(
         domain: "CandidateIntegrationFixture.git",
@@ -1014,7 +2225,12 @@ private final class CandidateIntegrationFixture: @unchecked Sendable {
     return result.output
   }
 
-  private func gitStatus(_ arguments: [String], at directory: URL) throws -> (
+  private func gitStatus(
+    _ arguments: [String],
+    at directory: URL,
+    input: Data? = nil,
+    additionalEnvironment: [String: String] = [:]
+  ) throws -> (
     status: Int32, output: String
   ) {
     let process = Process()
@@ -1035,11 +2251,20 @@ private final class CandidateIntegrationFixture: @unchecked Sendable {
     environment["GIT_OPTIONAL_LOCKS"] = "0"
     environment["GIT_TERMINAL_PROMPT"] = "0"
     environment["LC_ALL"] = "C"
+    for (key, value) in additionalEnvironment {
+      environment[key] = value
+    }
     process.environment = environment
     let output = Pipe()
     process.standardOutput = output
     process.standardError = output
+    let inputPipe = input.map { _ in Pipe() }
+    process.standardInput = inputPipe
     try process.run()
+    if let input, let inputPipe {
+      try inputPipe.fileHandleForWriting.write(contentsOf: input)
+      try inputPipe.fileHandleForWriting.close()
+    }
     try output.fileHandleForWriting.close()
     let data = output.fileHandleForReading.readDataToEndOfFile()
     process.waitUntilExit()
