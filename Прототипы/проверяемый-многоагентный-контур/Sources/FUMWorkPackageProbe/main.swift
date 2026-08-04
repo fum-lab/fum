@@ -6,7 +6,7 @@ import Foundation
 private func printUsage() {
   print(
     """
-    Использование: FUMWorkPackageProbe [fixture [имя] | stdin | --list | episode <команда> | composition <команда> | memory <команда> | live <команда> | acceptance <команда> | --help]
+    Использование: FUMWorkPackageProbe [fixture [имя] | stdin | --list | episode <команда> | composition <команда> | fork <команда> | memory <команда> | live <команда> | acceptance <команда> | --help]
 
     Без аргументов анализирует положительную фикстуру ready.
     fixture [имя] анализирует встроенную фикстуру; без имени выбирается ready.
@@ -19,6 +19,9 @@ private func printUsage() {
 
     composition fixture [имя] проверяет репозиторную композицию; без имени выбирается valid.
     composition --list печатает имена фикстур репозиторной композиции.
+
+    fork fixture [имя] запускает автономный сценарий долговечного fork-подузла; без имени выбирается roundtrip.
+    fork --list печатает имена сценариев fork-подузла.
 
     memory bootstrap <каталог> публикует пустое подтверждённое поколение стенда.
     memory continue <каталог> <primary|adversarial> добавляет вклад через резервацию и settlement.
@@ -376,6 +379,30 @@ private func runEpisodeCommand(_ arguments: [String]) -> Never {
   exit(report.decision == .valid ? 0 : 3)
 }
 
+private func runForkCommand(_ arguments: [String]) -> Never {
+  if arguments == ["--list"] {
+    print(DurableForkSubnodeFixtures.identifiers.joined(separator: "\n"))
+    exit(0)
+  }
+  let identifier: String
+  if arguments == [] || arguments == ["fixture"] {
+    identifier = "roundtrip"
+  } else if arguments.count == 2, arguments[0] == "fixture" {
+    identifier = arguments[1]
+  } else {
+    fputs("Неизвестная команда fork-подузла. Используйте --help.\n", stderr)
+    exit(2)
+  }
+  do {
+    let report = try DurableForkSubnodeFixtures.run(named: identifier)
+    writeLine(try report.canonicalJSONData(), to: .standardOutput)
+    exit(report.decision == .passed ? 0 : 3)
+  } catch {
+    fputs("Сценарий fork-подузла отклонён: \(error)\n", stderr)
+    exit(2)
+  }
+}
+
 let arguments = Array(CommandLine.arguments.dropFirst())
 if arguments.first == "composition" {
   runCompositionCommand(Array(arguments.dropFirst()))
@@ -391,6 +418,9 @@ if arguments.first == "live" {
 }
 if arguments.first == "episode" {
   runEpisodeCommand(Array(arguments.dropFirst()))
+}
+if arguments.first == "fork" {
+  runForkCommand(Array(arguments.dropFirst()))
 }
 let input: Data
 let workspaceRoot: URL
