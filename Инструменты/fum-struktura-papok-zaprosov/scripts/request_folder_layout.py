@@ -36,10 +36,253 @@ ACTIVE_JSON_KEYS = frozenset({"request_file", "report_file", "config_file"})
 HASH_PATTERN = re.compile(r"^(?:sha256:)?[0-9a-f]{40,64}$", re.IGNORECASE)
 GIT_STATE_PATTERN = re.compile(r"^git:commit:[0-9a-f]{40,64}$", re.IGNORECASE)
 FULL_GIT_OID_PATTERN = re.compile(r"^[0-9a-f]{40,64}$")
+КАТАЛОГ_ШАБЛОНОВ = Path(__file__).resolve().parents[1] / "шаблоны"
+МАРКЕР_ПОЛЯ_ШАБЛОНА = re.compile(r"\{\{(?P<имя>[а-яё_]+)\}\}")
+ПОЛЯ_ШАБЛОНА_ЗАПРОСА = frozenset(
+    {
+        "метка_времени",
+        "заголовок",
+        "предыдущий_запрос",
+        "следующий_запрос",
+        "текст_запроса",
+        "идентификатор_сеанса",
+    }
+)
+ПОЛЯ_ШАБЛОНА_ОТЧЁТА = frozenset({"метка_времени", "заголовок"})
+МАРКЕР_НЕЗАПОЛНЕННОГО_ШАБЛОНА = "<!-- ШАБЛОН:НЕЗАПОЛНЕНО -->"
+КОММЕНТАРИЙ_ПРЯМЫХ_ПРОВЕРОК = (
+    "<!-- Добавлять отдельную строку для каждого прямого запуска, включая "
+    "неуспешные, прерванные и повторные; строку шаблона удалить. -->"
+)
+КАНОНИЧЕСКИЙ_ИДЕНТИФИКАТОР_СЕАНСА = re.compile(
+    r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+)
+КАНОНИЧЕСКАЯ_МЕТКА_СЕССИИ = re.compile(
+    r"^[0-9A-Za-zА-Яа-яЁё]+(?:-[0-9A-Za-zА-Яа-яЁё]+)*$"
+)
+РУССКИЕ_ОКОНЧАНИЯ_ИНФИНИТИВА = ("ться", "тись", "чься", "ть", "ти", "чь")
+ЗАМЕНЫ_ТОКЕНОВ_ЗАГОЛОВКА = {
+    "api": "API",
+    "chatgpt": "ChatGPT",
+    "cli": "CLI",
+    "codex": "Codex",
+    "fum": "FUM",
+    "git": "Git",
+    "github": "GitHub",
+    "json": "JSON",
+    "llm": "LLM",
+    "mcp": "MCP",
+    "md": "MD",
+    "msk": "MSK",
+    "obsidian": "Obsidian",
+    "tdd": "TDD",
+    "url": "URL",
+    "yaml": "YAML",
+}
 
 
 class LayoutError(RuntimeError):
     """A fail-closed layout or ownership error."""
+
+
+def _прочитать_шаблон(имя_файла: str, ожидаемые_поля: frozenset[str]) -> str:
+    путь = КАТАЛОГ_ШАБЛОНОВ / имя_файла
+    if КАТАЛОГ_ШАБЛОНОВ.is_symlink() or путь.is_symlink():
+        raise LayoutError(
+            f"символическая ссылка в пути шаблона запрещена: {имя_файла}"
+        )
+    try:
+        разрешённый_каталог = КАТАЛОГ_ШАБЛОНОВ.resolve(strict=True)
+        разрешённый_путь = путь.resolve(strict=True)
+    except (OSError, UnicodeError) as ошибка:
+        raise LayoutError(f"не удалось прочитать шаблон {имя_файла}: {ошибка}") from ошибка
+    if (
+        not разрешённый_каталог.is_dir()
+        or not разрешённый_путь.is_file()
+        or разрешённый_путь.parent != разрешённый_каталог
+    ):
+        raise LayoutError(f"шаблон вышел за канонический каталог: {имя_файла}")
+    try:
+        текст = разрешённый_путь.read_text(encoding="utf-8")
+    except (OSError, UnicodeError) as ошибка:
+        raise LayoutError(f"не удалось прочитать шаблон {имя_файла}: {ошибка}") from ошибка
+    if not текст.endswith("\n"):
+        raise LayoutError(f"шаблон должен завершаться переводом строки: {имя_файла}")
+    совпадения = list(МАРКЕР_ПОЛЯ_ШАБЛОНА.finditer(текст))
+    поля = [совпадение.group("имя") for совпадение in совпадения]
+    неизвестные = sorted(set(поля) - ожидаемые_поля)
+    отсутствующие = sorted(ожидаемые_поля - set(поля))
+    повторные = sorted({поле for поле in поля if поля.count(поле) != 1})
+    if неизвестные or отсутствующие or повторные:
+        raise LayoutError(
+            f"неверные поля шаблона {имя_файла}: "
+            f"неизвестные={неизвестные}, отсутствующие={отсутствующие}, "
+            f"повторные={повторные}"
+        )
+    без_полей = МАРКЕР_ПОЛЯ_ШАБЛОНА.sub("", текст)
+    if "{{" in без_полей or "}}" in без_полей:
+        raise LayoutError(f"повреждённый маркер поля в шаблоне: {имя_файла}")
+    return текст
+
+
+def _проверить_формат_шаблона_запроса(текст: str) -> None:
+    if not текст.startswith(
+        "# Исходный запрос {{метка_времени}} - {{заголовок}}\n\n"
+    ):
+        raise LayoutError("шаблон запроса имеет неверный заголовок")
+    заголовки = [строка for строка in текст.splitlines() if строка.startswith("## ")]
+    ожидаемые = [
+        "## Навигация по запросам",
+        "## Текст запроса",
+        "## Идентификатор сеанса Codex",
+        "## Использованные инструменты",
+        "## Проверки",
+        "## Повлиял на файлы",
+    ]
+    if заголовки != ожидаемые:
+        raise LayoutError("шаблон запроса имеет неверный порядок разделов")
+    обязательные_фрагменты = (
+        "## Навигация по запросам\n\n"
+        "- Предыдущий запрос: {{предыдущий_запрос}}\n"
+        "- Следующий запрос: {{следующий_запрос}}\n\n",
+        "## Текст запроса\n\n{{текст_запроса}}\n\n",
+        "## Идентификатор сеанса Codex\n\n"
+        "Codex-Thread-ID: {{идентификатор_сеанса}}\n\n",
+    )
+    if any(фрагмент not in текст for фрагмент in обязательные_фрагменты):
+        raise LayoutError("поля запроса находятся вне канонических разделов")
+    if текст.count(МАРКЕР_НЕЗАПОЛНЕННОГО_ШАБЛОНА) != 3:
+        raise LayoutError("шаблон запроса имеет неверное число маркеров заполнения")
+    _проверить_активность_каркаса(
+        текст,
+        (МАРКЕР_НЕЗАПОЛНЕННОГО_ШАБЛОНА,),
+    )
+
+
+def _проверить_активность_каркаса(
+    текст: str,
+    разрешённые_комментарии: tuple[str, ...],
+) -> None:
+    остаток = текст
+    for комментарий in разрешённые_комментарии:
+        остаток = остаток.replace(комментарий, "")
+    if "<!--" in остаток or "-->" in остаток:
+        raise LayoutError("каркас шаблона скрыт неизвестным HTML-комментарием")
+    if re.search(r"(?m)^[ \t]*(?:`{3,}|\x7e{3,})", остаток):
+        raise LayoutError("ограждённые блоки в каркасе шаблона запрещены")
+
+
+def _проверить_выравнивание_таблицы(текст: str, начало_заголовка: str) -> None:
+    строки = текст.splitlines()
+    начала = [
+        номер
+        for номер, строка in enumerate(строки)
+        if строка.startswith(начало_заголовка)
+    ]
+    if len(начала) != 1:
+        raise LayoutError(f"шаблон отчёта не содержит таблицу: {начало_заголовка}")
+    таблица: list[str] = []
+    for строка in строки[начала[0] :]:
+        if not строка.startswith("|"):
+            break
+        таблица.append(строка)
+    позиции = [
+        tuple(номер for номер, знак in enumerate(строка) if знак == "|")
+        for строка in таблица
+    ]
+    if len(позиции) < 3 or any(позиция != позиции[0] for позиция in позиции):
+        raise LayoutError(f"таблица шаблона не выровнена: {начало_заголовка}")
+
+
+def _проверить_формат_шаблона_отчёта(текст: str) -> None:
+    if not текст.startswith("# Отчёт {{метка_времени}} - {{заголовок}}\n\n"):
+        raise LayoutError("шаблон отчёта имеет неверный заголовок")
+    заголовки = [строка for строка in текст.splitlines() if строка.startswith("## ")]
+    ожидаемые = [
+        "## Профиль времени выполнения",
+        "## Проверки",
+        "## Решения и ограничения",
+        "## Источники",
+    ]
+    if заголовки != ожидаемые:
+        raise LayoutError("шаблон отчёта имеет неверный порядок разделов")
+    каркас_профиля = re.compile(
+        rf"(?m)^## Профиль времени выполнения\n\n"
+        rf"{re.escape(МАРКЕР_НЕЗАПОЛНЕННОГО_ШАБЛОНА)}\n\n"
+        r"^\|\s*Стадия\s*\|\s*Длительность\s*\|"
+        r"\s*Границы и способ измерения\s*\|$"
+    )
+    каркас_запусков = re.compile(
+        rf"(?m)^### Прямые запуски проверок\n\n"
+        rf"{re.escape(МАРКЕР_НЕЗАПОЛНЕННОГО_ШАБЛОНА)}\n\n"
+        r"^\|\s*Вызов\s*\|\s*Длительность\s*\|\s*Результат\s*\|$"
+    )
+    обязательные_фрагменты = (
+        "Граница профиля:",
+        "Общее время прямых запусков проверок:",
+        "## Источники\n\n- [исходный запрос](запрос.md)\n",
+    )
+    if (
+        каркас_профиля.search(текст) is None
+        or каркас_запусков.search(текст) is None
+        or any(фрагмент not in текст for фрагмент in обязательные_фрагменты)
+    ):
+        raise LayoutError("шаблон отчёта не содержит обязательный каркас профиля")
+    if текст.count(МАРКЕР_НЕЗАПОЛНЕННОГО_ШАБЛОНА) != 5:
+        raise LayoutError("шаблон отчёта имеет неверное число маркеров заполнения")
+    if текст.count(КОММЕНТАРИЙ_ПРЯМЫХ_ПРОВЕРОК) != 1:
+        raise LayoutError("шаблон отчёта имеет неверную подсказку прямых проверок")
+    _проверить_активность_каркаса(
+        текст,
+        (
+            МАРКЕР_НЕЗАПОЛНЕННОГО_ШАБЛОНА,
+            КОММЕНТАРИЙ_ПРЯМЫХ_ПРОВЕРОК,
+        ),
+    )
+    _проверить_выравнивание_таблицы(текст, "| Стадия")
+    _проверить_выравнивание_таблицы(текст, "| Вызов")
+
+
+def _прочитать_шаблоны() -> tuple[str, str]:
+    шаблон_запроса = _прочитать_шаблон("запрос.md.шаблон", ПОЛЯ_ШАБЛОНА_ЗАПРОСА)
+    шаблон_отчёта = _прочитать_шаблон("отчёт.md.шаблон", ПОЛЯ_ШАБЛОНА_ОТЧЁТА)
+    _проверить_формат_шаблона_запроса(шаблон_запроса)
+    _проверить_формат_шаблона_отчёта(шаблон_отчёта)
+    return шаблон_запроса, шаблон_отчёта
+
+
+def _заполнить_шаблон(шаблон: str, значения: dict[str, str]) -> str:
+    поля = {совпадение.group("имя") for совпадение in МАРКЕР_ПОЛЯ_ШАБЛОНА.finditer(шаблон)}
+    if set(значения) != поля:
+        raise LayoutError("набор значений не совпадает с полями шаблона")
+    return МАРКЕР_ПОЛЯ_ШАБЛОНА.sub(
+        lambda совпадение: значения[совпадение.group("имя")],
+        шаблон,
+    )
+
+
+def _заголовок_из_метки(метка: str) -> str:
+    слова = [
+        ЗАМЕНЫ_ТОКЕНОВ_ЗАГОЛОВКА.get(слово.lower(), слово)
+        for слово in метка.split("-")
+    ]
+    заголовок = " ".join(слова)
+    первое_слово = слова[0] if слова else ""
+    if первое_слово.lower() not in ЗАМЕНЫ_ТОКЕНОВ_ЗАГОЛОВКА and заголовок:
+        заголовок = заголовок[0].upper() + заголовок[1:]
+    return заголовок
+
+
+def _проверить_метку_сессии(метка: str) -> None:
+    первое_слово = метка.split("-", 1)[0].lower()
+    if (
+        КАНОНИЧЕСКАЯ_МЕТКА_СЕССИИ.fullmatch(метка) is None
+        or re.search(r"[А-Яа-яЁё]", первое_слово) is None
+        or not первое_слово.endswith(РУССКИЕ_ОКОНЧАНИЯ_ИНФИНИТИВА)
+    ):
+        raise LayoutError(
+            "start session label must be canonical and start with a Russian infinitive"
+        )
 
 
 @dataclass(frozen=True)
@@ -1408,6 +1651,7 @@ def _validate_retired_owned_areas(repo_root: Path) -> None:
 
 def validate_layout(repo_root: Path | str) -> dict[str, Any]:
     root = Path(repo_root).resolve()
+    _прочитать_шаблоны()
     _assert_no_symlinks(root, ("Запросы", "Журнал", "Ревью", "Оценки", "Источники"))
     publishable = set(_project_relative_files(root))
     legacy = root / str(REQUESTS)
@@ -1514,25 +1758,57 @@ def _request_heading_label(text: str, stem: str) -> str:
     return label
 
 
+def _значения_навигации(
+    предыдущий: str | None,
+    следующий: str | None,
+    подписи: dict[str, str],
+) -> tuple[str, str]:
+    значение_предыдущего = (
+        f"[{подписи[предыдущий]}](../{предыдущий}/{REQUEST_FILE})"
+        if предыдущий
+        else "нет"
+    )
+    значение_следующего = (
+        f"[{подписи[следующий]}](../{следующий}/{REQUEST_FILE})"
+        if следующий
+        else "нет"
+    )
+    return значение_предыдущего, значение_следующего
+
+
 def _navigation(
     previous: str | None,
     following: str | None,
     labels: dict[str, str],
 ) -> str:
-    previous_value = (
-        f"[{labels[previous]}](../{previous}/{REQUEST_FILE})"
-        if previous
-        else "нет"
-    )
-    following_value = (
-        f"[{labels[following]}](../{following}/{REQUEST_FILE})"
-        if following
-        else "нет"
-    )
+    previous_value, following_value = _значения_навигации(previous, following, labels)
     return (
         "## Навигация по запросам\n\n"
         f"- Предыдущий запрос: {previous_value}\n"
         f"- Следующий запрос: {following_value}\n"
+    )
+
+
+def _навигация_из_шаблона(
+    шаблон: str,
+    предыдущий: str | None,
+    следующий: str | None,
+    подписи: dict[str, str],
+) -> str:
+    начало = шаблон.index("## Навигация по запросам\n")
+    конец = шаблон.index("## Текст запроса\n", начало)
+    раздел = шаблон[начало:конец].rstrip("\n") + "\n"
+    значение_предыдущего, значение_следующего = _значения_навигации(
+        предыдущий,
+        следующий,
+        подписи,
+    )
+    return _заполнить_шаблон(
+        раздел,
+        {
+            "предыдущий_запрос": значение_предыдущего,
+            "следующий_запрос": значение_следующего,
+        },
     )
 
 
@@ -1541,13 +1817,23 @@ def _replace_navigation(
     previous: str | None,
     following: str | None,
     labels: dict[str, str],
+    шаблон_запроса: str | None = None,
 ) -> str:
     match = re.search(r"(?m)^##[ \t]+Навигация по запросам[ \t]*\r?$", text)
     if match is None:
         raise LayoutError("request has no navigation section")
     following_heading = re.search(r"(?m)^##[ \t]+", text[match.end() :])
     end = len(text) if following_heading is None else match.end() + following_heading.start()
-    replacement = _navigation(previous, following, labels) + "\n"
+    if шаблон_запроса is None:
+        значение_навигации = _navigation(previous, following, labels)
+    else:
+        значение_навигации = _навигация_из_шаблона(
+            шаблон_запроса,
+            previous,
+            following,
+            labels,
+        )
+    replacement = значение_навигации + "\n"
     return text[: match.start()] + replacement + text[end:]
 
 
@@ -1564,28 +1850,38 @@ def _request_document(
     messages: Sequence[str],
     thread_id: str,
     labels: dict[str, str],
+    шаблон: str,
 ) -> str:
     blocks: list[str] = []
     for message in messages:
         fence = _fence_for(message)
         blocks.append(f"{fence}text\n{message}\n{fence}")
     raw = "\n\n".join(blocks)
-    return (
-        f"# Исходный запрос {_expected_header_label(stem)} - {title}\n\n"
-        f"{_navigation(previous, following, labels)}\n"
-        "## Текст запроса\n\n"
-        f"{raw}\n\n"
-        "## Идентификатор сеанса Codex\n\n"
-        f"Codex-Thread-ID: {thread_id}\n"
+    предыдущий_запрос, следующий_запрос = _значения_навигации(
+        previous,
+        following,
+        labels,
+    )
+    return _заполнить_шаблон(
+        шаблон,
+        {
+            "метка_времени": _expected_header_label(stem),
+            "заголовок": title,
+            "предыдущий_запрос": предыдущий_запрос,
+            "следующий_запрос": следующий_запрос,
+            "текст_запроса": raw,
+            "идентификатор_сеанса": thread_id,
+        },
     )
 
 
-def _report_document(title: str) -> str:
-    return (
-        f"# Отчёт — {title}\n\n"
-        "Результат рабочей сессии будет зафиксирован здесь.\n\n"
-        "## Исходный запрос\n\n"
-        f"- [запрос]({REQUEST_FILE})\n"
+def _report_document(title: str, основа_сеанса: str, шаблон: str) -> str:
+    return _заполнить_шаблон(
+        шаблон,
+        {
+            "метка_времени": _expected_header_label(основа_сеанса),
+            "заголовок": title,
+        },
     )
 
 
@@ -1629,10 +1925,27 @@ def start_session(
     assert match is not None
     if not match.group("label") or match.group("label") != label:
         raise LayoutError("start session stem label does not match --label")
-    if not title.strip() or not thread_id.strip():
-        raise LayoutError("start requires non-empty title and Codex thread id")
-    if not all(isinstance(message, str) for message in messages):
-        raise LayoutError("messages JSON must be an array of strings")
+    _проверить_метку_сессии(label)
+    ожидаемый_заголовок = _заголовок_из_метки(label)
+    if (
+        not title
+        or title != title.strip()
+        or "\n" in title
+        or "\r" in title
+        or title != ожидаемый_заголовок
+    ):
+        raise LayoutError(
+            f"start title must equal the canonical session title: {ожидаемый_заголовок}"
+        )
+    if КАНОНИЧЕСКИЙ_ИДЕНТИФИКАТОР_СЕАНСА.fullmatch(thread_id) is None:
+        raise LayoutError("start Codex thread id must be a canonical lowercase UUID")
+    if (
+        not messages
+        or not all(isinstance(message, str) for message in messages)
+        or any(сообщение == "" for сообщение in messages)
+    ):
+        raise LayoutError("messages JSON must be a non-empty array of non-empty strings")
+    шаблон_запроса, шаблон_отчёта = _прочитать_шаблоны()
     current = _canonical_requests(root)
     if stem in current:
         others = sorted(value for value in current if value != stem)
@@ -1658,8 +1971,9 @@ def start_session(
         messages,
         thread_id,
         labels,
+        шаблон_запроса,
     )
-    report_text = _report_document(title)
+    report_text = _report_document(title, stem, шаблон_отчёта)
     request_rel = canonical_request_path(stem)
     report_rel = canonical_report_path(stem)
     request_path = root / request_rel
@@ -1696,6 +2010,7 @@ def start_session(
             before,
             after,
             labels,
+            шаблон_запроса,
         ).encode("utf-8")
         if updated != path.read_bytes():
             prepared.append(

@@ -38,11 +38,16 @@ from project_files import (
 )
 
 try:
-    from request_folder_layout import LayoutError, validate_layout
+    from request_folder_layout import (
+        LayoutError,
+        МАРКЕР_НЕЗАПОЛНЕННОГО_ШАБЛОНА,
+        validate_layout,
+    )
 except ModuleNotFoundError as exc:  # Keep isolated checker fixtures testable.
     if exc.name != "request_folder_layout":
         raise
     LayoutError = RuntimeError
+    МАРКЕР_НЕЗАПОЛНЕННОГО_ШАБЛОНА = "<!-- ШАБЛОН:НЕЗАПОЛНЕНО -->"
     validate_layout = None
 
 
@@ -1224,6 +1229,30 @@ def request_text_line_span(text: str) -> tuple[int, int] | None:
     return heading + 2, following + 1
 
 
+def проверить_незаполненный_маркер_шаблона(
+    текст: str,
+    путь: Path,
+    корень: Path,
+) -> list[str]:
+    игнорируемый_диапазон = (
+        request_text_line_span(текст) if is_request_file(путь, корень) else None
+    )
+    ошибки: list[str] = []
+    for номер, строка in enumerate(текст.splitlines(), start=1):
+        if МАРКЕР_НЕЗАПОЛНЕННОГО_ШАБЛОНА not in строка:
+            continue
+        if (
+            игнорируемый_диапазон is not None
+            and игнорируемый_диапазон[0] <= номер < игнорируемый_диапазон[1]
+        ):
+            continue
+        ошибки.append(
+            "незаполненный маркер шаблона: "
+            f"{repo_relative(путь, корень)}:{номер}"
+        )
+    return ошибки
+
+
 def validate_markdown_links(paths: set[Path], repo_root: Path) -> list[str]:
     errors: list[str] = []
     for path in sorted(paths):
@@ -1740,6 +1769,18 @@ def validate_session(
         )
     )
     errors.extend(validate_journal(root, request_path))
+    errors.extend(
+        проверить_незаполненный_маркер_шаблона(text, request_path, root)
+    )
+    путь_отчёта_шаблона = expected_journal_path(request_path, root)
+    if путь_отчёта_шаблона.is_file():
+        errors.extend(
+            проверить_незаполненный_маркер_шаблона(
+                read_text(путь_отчёта_шаблона),
+                путь_отчёта_шаблона,
+                root,
+            )
+        )
     errors.extend(validate_used_tools_section(text, request_path))
     errors.extend(
         validate_codex_commit_context_requirements(

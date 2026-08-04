@@ -17,10 +17,17 @@ TOOL_ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = TOOL_ROOT / "scripts"
 MODULE = SCRIPTS / "request_folder_layout.py"
 CLI = SCRIPTS / "struktura-papok-zaprosov.py"
+ШАБЛОНЫ = TOOL_ROOT / "шаблоны"
+СВЯЗНОСТЬ = (
+    TOOL_ROOT.parent
+    / "fum-svyaznostj-rabochej-sessii"
+    / "scripts"
+    / "check-session-coherence.py"
+)
 
 EARLY = "2026-06-23_18-43-31_MSK"
 LATE = "2026-06-24_13-57-52_MSK_vtoroj-zapros"
-NEW = "2026-08-03_12-00-00_MSK_novyj-zapros"
+NEW = "2026-08-03_12-00-00_MSK_создать-новый-запрос"
 THREAD_ID = "019fc66e-2668-77e1-8b1a-45d82a17b99a"
 
 
@@ -686,9 +693,9 @@ class RequestFolderLayoutTests(unittest.TestCase):
             "--session-stem",
             NEW,
             "--label",
-            "novyj-zapros",
+            "создать-новый-запрос",
             "--title",
-            "Новый запрос",
+            "Создать новый запрос",
             "--codex-thread-id",
             THREAD_ID,
             "--messages-json",
@@ -715,7 +722,7 @@ class RequestFolderLayoutTests(unittest.TestCase):
         ).read_text(encoding="utf-8")
         self.assertIn(f"../{NEW}/запрос.md", previous_text)
         self.assertIn(
-            f"[2026-08-03 12:00:00 MSK - Новый запрос](../{NEW}/запрос.md)",
+            f"[2026-08-03 12:00:00 MSK - Создать новый запрос](../{NEW}/запрос.md)",
             previous_text,
         )
         self.assertIn(f"{NEW}/отчёт.md", (self.fixture.root / "Журнал/README.md").read_text(encoding="utf-8"))
@@ -758,6 +765,367 @@ class RequestFolderLayoutTests(unittest.TestCase):
         )
         self.assertEqual(bad_stem.returncode, 1)
         self.assertIn("session stem", bad_stem.stderr.casefold())
+
+    def test_шаблоны_задают_полный_формат_старта(себя) -> None:
+        шаблон_запроса = (ШАБЛОНЫ / "запрос.md.шаблон").read_text(encoding="utf-8")
+        шаблон_отчёта = (ШАБЛОНЫ / "отчёт.md.шаблон").read_text(encoding="utf-8")
+        себя.assertEqual(
+            [
+                строка
+                for строка in шаблон_запроса.splitlines()
+                if строка.startswith("## ")
+            ],
+            [
+                "## Навигация по запросам",
+                "## Текст запроса",
+                "## Идентификатор сеанса Codex",
+                "## Использованные инструменты",
+                "## Проверки",
+                "## Повлиял на файлы",
+            ],
+        )
+        for маркер in (
+            "{{метка_времени}}",
+            "{{заголовок}}",
+            "{{предыдущий_запрос}}",
+            "{{следующий_запрос}}",
+            "{{текст_запроса}}",
+            "{{идентификатор_сеанса}}",
+        ):
+            себя.assertEqual(шаблон_запроса.count(маркер), 1)
+        себя.assertIn(
+            "# Отчёт {{метка_времени}} - {{заголовок}}",
+            шаблон_отчёта,
+        )
+        себя.assertIn("## Профиль времени выполнения", шаблон_отчёта)
+        себя.assertRegex(
+            шаблон_отчёта,
+            r"\|\s*Стадия\s*\|\s*Длительность\s*\|\s*Границы и способ измерения\s*\|",
+        )
+        себя.assertIn("### Прямые запуски проверок", шаблон_отчёта)
+        себя.assertRegex(
+            шаблон_отчёта,
+            r"\|\s*Вызов\s*\|\s*Длительность\s*\|\s*Результат\s*\|",
+        )
+        себя.assertEqual(шаблон_запроса.count("<!-- ШАБЛОН:НЕЗАПОЛНЕНО -->"), 3)
+        себя.assertEqual(шаблон_отчёта.count("<!-- ШАБЛОН:НЕЗАПОЛНЕНО -->"), 5)
+        for заголовок_таблицы in ("| Стадия", "| Вызов"):
+            строки = шаблон_отчёта.splitlines()
+            начало = next(
+                номер
+                for номер, строка in enumerate(строки)
+                if строка.startswith(заголовок_таблицы)
+            )
+            таблица = []
+            for строка in строки[начало:]:
+                if not строка.startswith("|"):
+                    break
+                таблица.append(строка)
+            позиции = [
+                tuple(номер for номер, знак in enumerate(строка) if знак == "|")
+                for строка in таблица
+            ]
+            себя.assertTrue(позиции)
+            себя.assertTrue(all(позиция == позиции[0] for позиция in позиции))
+
+        себя.fixture.make_canonical_layout()
+        путь_предыдущего = себя.fixture.root / f"Журнал/{LATE}/запрос.md"
+        текст_предыдущего = путь_предыдущего.read_text(encoding="utf-8")
+        путь_предыдущего.write_text(
+            текст_предыдущего.replace(
+                "# Исходный запрос 2026-06-24 13:57:52 MSK - Vtoroj: особый Запрос!",
+                "# Исходный запрос 2026-06-24 13:57:52 MSK - Vtoroj zapros",
+                1,
+            ),
+            encoding="utf-8",
+        )
+        результат = себя.fixture.run_tool(
+            "start",
+            "--session-stem",
+            NEW,
+            "--label",
+            "создать-новый-запрос",
+            "--title",
+            "Создать новый запрос",
+            "--codex-thread-id",
+            THREAD_ID,
+            "--messages-json",
+            "-",
+            stdin='["Текст {{идентификатор_сеанса}} с Unicode и ```."]',
+        )
+        себя.assertEqual(результат.returncode, 0, результат.stderr)
+        запрос = (себя.fixture.root / f"Журнал/{NEW}/запрос.md").read_text(encoding="utf-8")
+        отчёт = (себя.fixture.root / f"Журнал/{NEW}/отчёт.md").read_text(encoding="utf-8")
+        себя.assertIn("## Использованные инструменты", запрос)
+        себя.assertIn("## Проверки", запрос)
+        себя.assertIn("## Повлиял на файлы", запрос)
+        себя.assertIn("Текст {{идентификатор_сеанса}} с Unicode и ```.", запрос)
+        себя.assertTrue(
+            отчёт.startswith(
+                "# Отчёт 2026-08-03 12:00:00 MSK - Создать новый запрос\n"
+            )
+        )
+        себя.assertIn("## Профиль времени выполнения", отчёт)
+        спецификация = importlib.util.spec_from_file_location(
+            "проверка_связности_шаблона",
+            СВЯЗНОСТЬ,
+        )
+        себя.assertIsNotNone(спецификация)
+        себя.assertIsNotNone(спецификация.loader)
+        модуль_связности = importlib.util.module_from_spec(спецификация)
+        sys.modules[спецификация.name] = модуль_связности
+        спецификация.loader.exec_module(модуль_связности)
+        путь_запроса = себя.fixture.root / f"Журнал/{NEW}/запрос.md"
+        себя.assertEqual(
+            модуль_связности.validate_used_tools_section(запрос, путь_запроса),
+            [],
+        )
+        себя.assertEqual(
+            модуль_связности.validate_journal_time_profile(отчёт),
+            [],
+        )
+        себя.assertEqual(
+            модуль_связности.validate_journal_direct_check_runs(отчёт),
+            [],
+        )
+        себя.assertEqual(
+            модуль_связности.validate_navigation(
+                себя.fixture.root,
+                путь_запроса.resolve(),
+                запрос,
+                markdown_paths={
+                    путь.resolve() for путь in себя.fixture.root.rglob("*.md")
+                },
+            ),
+            [],
+        )
+        себя.assertEqual(
+            модуль_связности.validate_codex_thread_id_section(
+                запрос,
+                путь_запроса.resolve(),
+                expected_codex_thread_id=THREAD_ID,
+            ),
+            [],
+        )
+        себя.assertEqual(
+            модуль_связности.validate_journal(
+                себя.fixture.root,
+                путь_запроса.resolve(),
+            ),
+            [],
+        )
+        себя.assertEqual(
+            модуль_связности.validate_request_filename_title(
+                путь_запроса.resolve(),
+            ),
+            [],
+        )
+        себя.assertEqual(
+            len(
+                модуль_связности.проверить_незаполненный_маркер_шаблона(
+                    запрос,
+                    путь_запроса.resolve(),
+                    себя.fixture.root,
+                )
+            ),
+            3,
+        )
+        себя.assertEqual(
+            len(
+                модуль_связности.проверить_незаполненный_маркер_шаблона(
+                    отчёт,
+                    (себя.fixture.root / f"Журнал/{NEW}/отчёт.md").resolve(),
+                    себя.fixture.root,
+                )
+            ),
+            5,
+        )
+
+    def test_команда_старта_читает_изменённые_хранимые_шаблоны(себя) -> None:
+        модуль = себя.load_module("рендер_хранимых_шаблонов")
+        себя.fixture.make_canonical_layout()
+        маркеры = {
+            "запрос.md.шаблон": "Маркер хранимого шаблона запроса.",
+            "отчёт.md.шаблон": "Маркер хранимого шаблона отчёта.",
+        }
+        with tempfile.TemporaryDirectory() as временный:
+            каталог = Path(временный)
+            for имя, маркер in маркеры.items():
+                исходный = (ШАБЛОНЫ / имя).read_text(encoding="utf-8")
+                изменённый = исходный.replace("\n\n", f"\n\n{маркер}\n\n", 1)
+                (каталог / имя).write_text(изменённый, encoding="utf-8")
+            with mock.patch.object(модуль, "КАТАЛОГ_ШАБЛОНОВ", каталог):
+                модуль.start_session(
+                    себя.fixture.root,
+                    NEW,
+                    "создать-новый-запрос",
+                    "Создать новый запрос",
+                    THREAD_ID,
+                    ["Текст."],
+                )
+        себя.assertIn(
+            маркеры["запрос.md.шаблон"],
+            (себя.fixture.root / f"Журнал/{NEW}/запрос.md").read_text(encoding="utf-8"),
+        )
+        себя.assertIn(
+            маркеры["отчёт.md.шаблон"],
+            (себя.fixture.root / f"Журнал/{NEW}/отчёт.md").read_text(encoding="utf-8"),
+        )
+
+    def test_ошибка_шаблона_останавливает_команду_старта_до_записи(себя) -> None:
+        модуль = себя.load_module("проверка_шаблона")
+        себя.fixture.make_canonical_layout()
+        состояние_до = себя.fixture.git("status", "--porcelain=v1", "-z").stdout
+        исходный_запрос = (ШАБЛОНЫ / "запрос.md.шаблон").read_text(encoding="utf-8")
+        исходный_отчёт = (ШАБЛОНЫ / "отчёт.md.шаблон").read_text(encoding="utf-8")
+        варианты = {
+            "неизвестное поле": (
+                исходный_запрос.replace(
+                    "{{идентификатор_сеанса}}",
+                    "{{неизвестное_поле}}",
+                ),
+                исходный_отчёт,
+            ),
+            "отсутствующее поле": (
+                исходный_запрос.replace(
+                    "{{идентификатор_сеанса}}",
+                    "идентификатор не задан",
+                ),
+                исходный_отчёт,
+            ),
+            "повторное поле": (
+                исходный_запрос.replace(
+                    "{{идентификатор_сеанса}}",
+                    "{{идентификатор_сеанса}}\n{{идентификатор_сеанса}}",
+                ),
+                исходный_отчёт,
+            ),
+            "пропавший раздел отчёта": (
+                исходный_запрос,
+                исходный_отчёт.replace("## Проверки\n\n", "", 1),
+            ),
+            "переставленные поля навигации": (
+                исходный_запрос.replace(
+                    "- Предыдущий запрос: {{предыдущий_запрос}}\n"
+                    "- Следующий запрос: {{следующий_запрос}}",
+                    "- Предыдущий запрос: {{следующий_запрос}}\n"
+                    "- Следующий запрос: {{предыдущий_запрос}}",
+                ),
+                исходный_отчёт,
+            ),
+            "повреждённые колонки профиля": (
+                исходный_запрос,
+                исходный_отчёт.replace("Длительность", "Время", 1),
+            ),
+            "закомментированный профиль": (
+                исходный_запрос,
+                исходный_отчёт.replace(
+                    "## Профиль времени выполнения",
+                    "<!--\n## Профиль времени выполнения",
+                    1,
+                ).replace("## Проверки", "-->\n\n## Проверки", 1),
+            ),
+        }
+        for название, (повреждённый_запрос, повреждённый_отчёт) in варианты.items():
+            with себя.subTest(случай=название):
+                with tempfile.TemporaryDirectory() as временный:
+                    каталог = Path(временный)
+                    (каталог / "запрос.md.шаблон").write_text(
+                        повреждённый_запрос,
+                        encoding="utf-8",
+                    )
+                    (каталог / "отчёт.md.шаблон").write_text(
+                        повреждённый_отчёт,
+                        encoding="utf-8",
+                    )
+                    with mock.patch.object(модуль, "КАТАЛОГ_ШАБЛОНОВ", каталог):
+                        with себя.assertRaises(модуль.LayoutError):
+                            модуль.validate_layout(себя.fixture.root)
+                        with mock.patch.object(
+                            модуль,
+                            "_apply_prepared_transaction",
+                        ) as транзакция:
+                            with себя.assertRaises(модуль.LayoutError):
+                                модуль.start_session(
+                                    себя.fixture.root,
+                                    NEW,
+                                    "создать-новый-запрос",
+                                    "Создать новый запрос",
+                                    THREAD_ID,
+                                    ["Текст."],
+                                )
+                            транзакция.assert_not_called()
+        себя.assertEqual(
+            себя.fixture.git("status", "--porcelain=v1", "-z").stdout,
+            состояние_до,
+        )
+
+    def test_каталог_шаблонов_не_может_быть_символической_ссылкой(себя) -> None:
+        модуль = себя.load_module("граница_каталога_шаблонов")
+        себя.fixture.make_canonical_layout()
+        with tempfile.TemporaryDirectory() as временный:
+            ссылка = Path(временный) / "шаблоны"
+            ссылка.symlink_to(ШАБЛОНЫ, target_is_directory=True)
+            with mock.patch.object(модуль, "КАТАЛОГ_ШАБЛОНОВ", ссылка):
+                with себя.assertRaises(модуль.LayoutError):
+                    модуль.validate_layout(себя.fixture.root)
+                with mock.patch.object(
+                    модуль,
+                    "_apply_prepared_transaction",
+                ) as транзакция:
+                    with себя.assertRaises(модуль.LayoutError):
+                        модуль.start_session(
+                            себя.fixture.root,
+                            NEW,
+                            "создать-новый-запрос",
+                            "Создать новый запрос",
+                            THREAD_ID,
+                            ["Текст."],
+                        )
+                    транзакция.assert_not_called()
+
+    def test_команда_старта_отклоняет_неканонические_входы(себя) -> None:
+        модуль = себя.load_module("канонические_входы_старта")
+        себя.fixture.make_canonical_layout()
+        варианты = (
+            (" Чужой заголовок", THREAD_ID, ["Текст."]),
+            ("Создать новый запрос\n", THREAD_ID, ["Текст."]),
+            ("Чужой заголовок", THREAD_ID, ["Текст."]),
+            ("Создать новый запрос", "НЕ-UUID", ["Текст."]),
+            ("Создать новый запрос", THREAD_ID, []),
+            ("Создать новый запрос", THREAD_ID, [""]),
+        )
+        with mock.patch.object(
+            модуль,
+            "_apply_prepared_transaction",
+        ) as транзакция:
+            with себя.assertRaises(модуль.LayoutError):
+                модуль.start_session(
+                    себя.fixture.root,
+                    "2026-08-03_12-00-00_MSK_новый-запрос",
+                    "новый-запрос",
+                    "Новый запрос",
+                    THREAD_ID,
+                    ["Текст."],
+                )
+            транзакция.assert_not_called()
+            for заголовок, идентификатор, сообщения in варианты:
+                with себя.subTest(
+                    заголовок=заголовок,
+                    идентификатор=идентификатор,
+                    сообщения=сообщения,
+                ):
+                    транзакция.reset_mock()
+                    with себя.assertRaises(модуль.LayoutError):
+                        модуль.start_session(
+                            себя.fixture.root,
+                            NEW,
+                            "создать-новый-запрос",
+                            заголовок,
+                            идентификатор,
+                            сообщения,
+                        )
+                    транзакция.assert_not_called()
 
     def test_reindex_uses_only_baseline_index_section_and_rolls_back(self) -> None:
         self.fixture.make_canonical_layout()

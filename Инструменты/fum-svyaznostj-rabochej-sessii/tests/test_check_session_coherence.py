@@ -393,6 +393,48 @@ class CheckSessionCoherenceTests(unittest.TestCase):
 
             self.assertEqual(errors, [])
 
+    def test_незаполненный_маркер_шаблона_останавливает_связность(себя):
+        with tempfile.TemporaryDirectory() as временный:
+            корень = Path(временный)
+            путь_запроса = себя.write_fixture(корень)
+            состояние_репозитория = "\n".join(
+                [
+                    " M Документация/17-воспроизводимые-автоматизации.md",
+                    " M Журнал/2026-06-24_16-26-47_MSK_первый-запрос/запрос.md",
+                    "?? Журнал/2026-06-24_16-32-29_MSK_проверка-связности-сессии/отчёт.md",
+                    "?? Журнал/2026-06-24_16-32-29_MSK_проверка-связности-сессии/запрос.md",
+                ]
+            )
+            исходный = путь_запроса.read_text(encoding="utf-8")
+            только_сырой = исходный.replace(
+                "> Выделить автоматическую проверку связности рабочей сессии.",
+                "<!-- ШАБЛОН:НЕЗАПОЛНЕНО -->",
+            )
+            путь_запроса.write_text(только_сырой, encoding="utf-8")
+            себя.assertEqual(
+                check_session_coherence.validate_session(
+                    корень,
+                    путь_запроса.relative_to(корень),
+                    git_status=состояние_репозитория,
+                ),
+                [],
+            )
+
+            путь_запроса.write_text(
+                только_сырой + "\n<!-- ШАБЛОН:НЕЗАПОЛНЕНО -->\n",
+                encoding="utf-8",
+            )
+            ошибки = check_session_coherence.validate_session(
+                корень,
+                путь_запроса.relative_to(корень),
+                git_status=состояние_репозитория,
+            )
+
+            себя.assertTrue(
+                any("незаполненный маркер шаблона" in ошибка for ошибка in ошибки),
+                ошибки,
+            )
+
     def test_historical_request_filename_without_title_still_has_old_heading(self):
         request_path = self.canonical_request("2026-06-24_16-32-29_MSK")
 
