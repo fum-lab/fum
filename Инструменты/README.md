@@ -33,6 +33,7 @@
 - [fum-struktura-papok-zaprosov](fum-struktura-papok-zaprosov/SKILL.md) - строит детерминированный план, пакетно переносит прежние запросы, отчёты и собственные материалы в папки запросов, создаёт новую папку с навигацией и валидирует каноническую структуру.
 - [fum-moskovskoye-vremya-rabochej-sessii](fum-moskovskoye-vremya-rabochej-sessii/SKILL.md) - формирует согласованные имя и заголовочную метку рабочей сессии в зоне `Europe/Moscow` независимо от зоны хоста.
 - [fum-svyaznostj-rabochej-sessii](fum-svyaznostj-rabochej-sessii/SKILL.md) - проверяет связность [рабочей сессии](../Глоссарий/рабочая-сессия.md): навигацию запросов, журнальный профиль со всеми прямыми проверочными вызовами и их арифметической суммой, корневой Codex-Thread-ID в запросе и теле коммита, использование канонического MSK-времени, квалифицированную запись инструментов, Markdown-ссылки, регистр путей, формальный конечный `?` материалов `Вопросы и ответы/`, сигналы мета-запросов, нижнее расположение справочных блоков и Git-состояние.
+- [fum-otchyotyi-o-zapuskakh-proverok](fum-otchyotyi-o-zapuskakh-proverok/SKILL.md) - ведёт машинный учёт прямых проверочных вызовов, атомарно сохраняет их наблюдённые исходы и длительности, формирует, закрывает, возобновляет и строго проверяет детерминированную таблицу запусков в журнальном отчёте.
 - [fum-kompleksnaya-proverka-repozitoriya](fum-kompleksnaya-proverka-repozitoriya/SKILL.md) - запускает единый локальный smoke-check с длительностями подготовки, каждого шага и полного процесса: сохранность настройки изоляции и локальность путей навыков, тесты автоматизаций, пересборку проверяемых реестров, полноту корневого README, двунаправленность вопросов, recency-проверку и связность выбранной рабочей сессии.
 - [fum-proverka-trassyi-agentskogo-cikla](fum-proverka-trassyi-agentskogo-cikla/SKILL.md) - валидирует локальные трассы версии `3` с независимыми состояниями эпизода, модельной ветви, ожидающего перехода и внешнего исполнения без сети, секретов, живой LLM и физических эффектов.
 - [fum-revjyu-prodelannoj-rabotyi](fum-revjyu-prodelannoj-rabotyi/SKILL.md) - создаёт и проверяет сохранённые ревью проделанной работы: Git-срез, находки, проверки, остаточные риски и вывод.
@@ -72,6 +73,8 @@
 - `python3 Инструменты/fum-struktura-papok-zaprosov/scripts/struktura-papok-zaprosov.py validate --repo-root .` - проверка единой структуры папок запросов и отсутствия активного параллельного каталога `Запросы/`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-struktura-papok-zaprosov/tests -p 'test_*.py'` - автономные тесты планирования, миграции, отката, создания и валидации папок запросов.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-moskovskoye-vremya-rabochej-sessii/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-moskovskoye-vremya-rabochej-sessii`.
+- `python3 Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py запустить --корень-репозитория . --запрос Журнал/<YYYY-MM-DD_HH-MM-SS_MSK_краткое-название>/запрос.md --название '<название вызова>' --исполнитель '<метка исполнителя>' -- <программа> <аргументы...>` - точка входа для запуска одной прямой проверки с атомарной машинной записью её исхода и длительности.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-otchyotyi-o-zapuskakh-proverok/tests -p 'test_*.py'` - автономные тесты машинного учёта запусков, детерминированного снимка и Markdown-отчёта.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-svyaznostj-rabochej-sessii/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-svyaznostj-rabochej-sessii`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-kompleksnaya-proverka-repozitoriya/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-kompleksnaya-proverka-repozitoriya`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-proverka-trassyi-agentskogo-cikla/tests -p 'test_*.py'` - локальные тесты схемы, фикстур и межсобытийных инвариантов трассы агентского цикла версии `3`.
@@ -79,6 +82,7 @@
 
 ## Источники требований
 
+- [исходный запрос 2026-08-04 20:45:26 MSK - Формировать отчёты о запусках тестов](../Журнал/2026-08-04_20-45-26_MSK_формировать-отчёты-о-запусках-тестов/запрос.md)
 - [исходный запрос 2026-08-03 11:49:04 MSK — Объединить запросы и журнал](../Журнал/2026-08-03_11-49-04_MSK_объединить-запросы-и-журнал/запрос.md)
 - [исходный запрос 2026-08-01 09:16:33 MSK — Исправить повторный автозапуск после отката](../Журнал/2026-08-01_09-16-33_MSK_исправить-повторный-автозапуск-после-отката/запрос.md)
 - [исходный запрос 2026-07-31 16:31:18 MSK - Отключить автоматическую публикацию master](../Журнал/2026-07-31_16-31-18_MSK_отключить-автоматическую-публикацию-master/запрос.md)
@@ -101,6 +105,6 @@
 - [исходный запрос 2026-07-22 03:38:35 MSK - Разрешить выполнение доступных карточек шагов](../Журнал/2026-07-22_03-38-35_MSK_разрешить-выполнение-доступных-карточек-шагов/запрос.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-03 14:54:04 MSK -->
-<!-- content-sha256: sha256:9fc1f1461607e53852dd4feacc004ac9af408474f50ecb9e33bea098e1c7ec9c -->
+<!-- last-content-edit: 2026-08-04 23:50:44 MSK -->
+<!-- content-sha256: sha256:43708c104aed4cc767893ea3c93a1c5d40b6ee7162c89c20a48ea59aea2754e7 -->
 <!-- FUM-MD-RECENCY:END -->

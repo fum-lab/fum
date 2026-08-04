@@ -141,6 +141,11 @@
       "slug": "fum-kompleksnaya-proverka-repozitoriya"
     },
     {
+      "source": "отчёты о запусках проверок",
+      "transliteration": "otchyotyi o zapuskakh proverok",
+      "slug": "fum-otchyotyi-o-zapuskakh-proverok"
+    },
+    {
       "source": "проверка машинно-локальных путей",
       "transliteration": "proverka mashinno-lokaljnyikh putej",
       "slug": "fum-proverka-mashinno-lokaljnyikh-putej"

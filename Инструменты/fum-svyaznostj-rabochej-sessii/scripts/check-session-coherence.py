@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import ast
+import importlib.util
 import os
 import re
 import subprocess
@@ -65,6 +66,7 @@ CODEX_THREAD_ID_RULE_START = (2026, 7, 14, 2, 31, 47)
 SESSION_TIME_TOOL_RULE_START = (2026, 7, 17, 10, 25, 41)
 JOURNAL_TIME_PROFILE_RULE_START = (2026, 7, 23, 14, 47, 43)
 JOURNAL_DIRECT_CHECK_RUNS_RULE_START = (2026, 7, 27, 16, 12, 29)
+ПОРОГ_МАШИННЫХ_ОТЧЁТОВ_О_ЗАПУСКАХ = (2026, 8, 4, 20, 45, 26)
 RUSSIAN_INFINITIVE_ENDINGS = ("ться", "тись", "чься", "ть", "ти", "чь")
 TITLE_TOKEN_REPLACEMENTS = {
     "api": "API",
@@ -184,6 +186,12 @@ JOURNAL_DIRECT_CHECK_RUN_TOTAL_PREFIX = (
 JOURNAL_DIRECT_CHECK_RUN_TOTAL_RE = re.compile(
     rf"^{re.escape(JOURNAL_DIRECT_CHECK_RUN_TOTAL_PREFIX)}\s+"
     r"(?P<seconds>(?:0|[1-9]\d*)(?:[.,]\d+)?)\s+с\.?$"
+)
+ПУТЬ_АВТОМАТИЗАЦИИ_ОТЧЁТОВ_О_ПРОВЕРКАХ = (
+    Path(__file__).resolve().parents[2]
+    / "fum-otchyotyi-o-zapuskakh-proverok"
+    / "scripts"
+    / "отчёты_о_запусках_проверок.py"
 )
 
 
@@ -825,6 +833,36 @@ def validate_journal_direct_check_runs(text: str) -> list[str]:
     return errors
 
 
+def проверить_машинный_отчёт_о_запусках(
+    корень: Path,
+    путь_запроса: Path,
+) -> list[str]:
+    путь_сценария = ПУТЬ_АВТОМАТИЗАЦИИ_ОТЧЁТОВ_О_ПРОВЕРКАХ
+    if not путь_сценария.is_file() or путь_сценария.is_symlink():
+        return [
+            "missing check-run report automation: "
+            f"{путь_сценария}"
+        ]
+    спецификация = importlib.util.spec_from_file_location(
+        "fum_машинный_отчёт_о_запусках",
+        путь_сценария,
+    )
+    if спецификация is None or спецификация.loader is None:
+        return ["cannot load check-run report automation"]
+    модуль = importlib.util.module_from_spec(спецификация)
+    try:
+        спецификация.loader.exec_module(модуль)
+        проверка = getattr(модуль, "проверить_журнал_сессии")
+        ошибки = проверка(корень, путь_запроса)
+    except (AttributeError, OSError, RuntimeError, UnicodeError) as ошибка:
+        return [f"check-run report validation failed: {ошибка}"]
+    if not isinstance(ошибки, list) or any(
+        not isinstance(ошибка, str) for ошибка in ошибки
+    ):
+        return ["check-run report automation returned an invalid result"]
+    return [f"check-run report: {ошибка}" for ошибка in ошибки]
+
+
 def validate_journal(repo_root: Path, request_path: Path) -> list[str]:
     errors: list[str] = []
     report = expected_journal_path(request_path, repo_root)
@@ -849,6 +887,13 @@ def validate_journal(repo_root: Path, request_path: Path) -> list[str]:
         errors.extend(validate_journal_time_profile(text))
         if request_datetime_key(match) >= JOURNAL_DIRECT_CHECK_RUNS_RULE_START:
             errors.extend(validate_journal_direct_check_runs(text))
+        if request_datetime_key(match) >= ПОРОГ_МАШИННЫХ_ОТЧЁТОВ_О_ЗАПУСКАХ:
+            errors.extend(
+                проверить_машинный_отчёт_о_запусках(
+                    repo_root,
+                    request_path,
+                )
+            )
     return errors
 
 
