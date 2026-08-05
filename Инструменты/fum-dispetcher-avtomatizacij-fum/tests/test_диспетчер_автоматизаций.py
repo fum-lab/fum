@@ -434,8 +434,9 @@ class КонтрактДиспетчераАвтоматизаций(unittest.Te
         сам.assertIs(результаты["master.scheduled"]["состояние_разрешает"], True)
         сам.assertIs(результаты["master.scheduled"]["готово"], False)
 
-    def test_сценарий_не_имеет_сетевых_и_процессных_адаптеров(сам) -> None:
-        дерево = ast.parse(СЦЕНАРИЙ.read_text(encoding="utf-8"))
+    def test_сценарий_не_имеет_сетевых_и_внешних_адаптеров(сам) -> None:
+        исходник = СЦЕНАРИЙ.read_text(encoding="utf-8")
+        дерево = ast.parse(исходник)
         импорты: set[str] = set()
         for узел in ast.walk(дерево):
             if isinstance(узел, ast.Import):
@@ -444,9 +445,41 @@ class КонтрактДиспетчераАвтоматизаций(unittest.Te
                 импорты.add(узел.module.split(".")[0])
         сам.assertTrue(
             импорты.isdisjoint(
-                {"http", "requests", "socket", "subprocess", "urllib"}
+                {
+                    "http",
+                    "requests",
+                    "socket",
+                    "time",
+                    "urllib",
+                    "codex_app",
+                }
             )
         )
+        сам.assertNotIn("create_thread", исходник)
+        сам.assertNotIn("codex_app", исходник)
+        вызовы_процессов = [
+            узел
+            for узел in ast.walk(дерево)
+            if isinstance(узел, ast.Call)
+            and isinstance(узел.func, ast.Attribute)
+            and isinstance(узел.func.value, ast.Name)
+            and узел.func.value.id == "subprocess"
+            and узел.func.attr == "run"
+        ]
+        сам.assertEqual(len(вызовы_процессов), 1)
+        аргументы = вызовы_процессов[0].args[0]
+        сам.assertIsInstance(аргументы, ast.List)
+        первый = аргументы.elts[0]
+        сам.assertIsInstance(первый, ast.Constant)
+        сам.assertEqual(первый.value, "git")
+        запрещённые_часы = [
+            узел
+            for узел in ast.walk(дерево)
+            if isinstance(узел, ast.Call)
+            and isinstance(узел.func, ast.Attribute)
+            and узел.func.attr in {"now", "utcnow", "today"}
+        ]
+        сам.assertEqual(запрещённые_часы, [])
 
     def test_локальный_пробник_не_меняет_индекс(сам) -> None:
         путь_индекса = КОРЕНЬ_РЕПОЗИТОРИЯ / ".git" / "index"
