@@ -18,6 +18,7 @@ private func printUsage() {
     episode --list печатает имена фикстур паспорта.
 
     composition fixture [имя] проверяет репозиторную композицию; без имени выбирается valid.
+    composition acceptance запускает автономную сквозную приёмку репозиторной композиции без сети и секретов.
     composition --list печатает имена фикстур репозиторной композиции.
 
     fork fixture [имя] запускает автономный сценарий долговечного fork-подузла; без имени выбирается roundtrip.
@@ -313,6 +314,17 @@ private func runCompositionCommand(_ arguments: [String]) -> Never {
   if arguments == ["--list"] {
     print(RepositoryCompositionFixtures.identifiers.joined(separator: "\n"))
     exit(0)
+  }
+
+  if arguments == ["acceptance"] {
+    do {
+      let отчёт = try СквознаяПриёмкаРепозиторнойКомпозиции.выполнить()
+      writeLine(try отчёт.каноническиеДанные(), to: .standardOutput)
+      exit(отчёт.решение == .принято ? 0 : 3)
+    } catch {
+      fputs("Сквозная приёмка репозиторной композиции завершилась ошибкой: \(error)\n", stderr)
+      exit(2)
+    }
   }
 
   let identifier: String

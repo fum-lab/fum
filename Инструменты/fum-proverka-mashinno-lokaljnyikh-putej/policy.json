@@ -2313,6 +2313,15 @@
       "count": 1,
       "category": "allow.test-fixture",
       "reason": "Проверяет типизированный публикационный отказ commit message с одним фиктивным домашним путём."
+    },
+    {
+      "id": "repository-composition-acceptance-home-expansion-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/СквознаяПриёмкаРепозиторнойКомпозиции.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:26c139633b03f5b5558b86d84a54c503eeba3d1fb92883087c1687ccaa44232d",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет одну автономную строку, проверяющую публикационный отказ при домашнем сокращении пути."
     }
   ]
 }

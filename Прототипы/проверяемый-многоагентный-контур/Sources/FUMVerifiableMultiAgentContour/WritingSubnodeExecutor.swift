@@ -433,11 +433,26 @@ public struct WritingSubnodeCandidateRecovery: Sendable {
   }
 }
 
+public struct ХукиПишущегоПодузла: Sendable {
+  public let передТранзакциейСсылок: (@Sendable () throws -> Void)?
+
+  public init(
+    передТранзакциейСсылок: (@Sendable () throws -> Void)? = nil
+  ) {
+    self.передТранзакциейСсылок = передТранзакциейСсылок
+  }
+}
+
 public struct WritingSubnodeExecutor: Sendable {
   private let checkRegistry: WritingSubnodeCheckRegistry
+  private let хуки: ХукиПишущегоПодузла
 
-  public init(checkRegistry: WritingSubnodeCheckRegistry = WritingSubnodeCheckRegistry()) {
+  public init(
+    checkRegistry: WritingSubnodeCheckRegistry = WritingSubnodeCheckRegistry(),
+    хуки: ХукиПишущегоПодузла = ХукиПишущегоПодузла()
+  ) {
     self.checkRegistry = checkRegistry
+    self.хуки = хуки
   }
 
   public func verifyWorkPackage(
@@ -954,6 +969,7 @@ public struct WritingSubnodeExecutor: Sendable {
 
       """.utf8
     )
+    try хуки.передТранзакциейСсылок?()
     _ = try git.data(["update-ref", "--stdin"], at: cloneURL, input: refTransaction)
     let topology = try git.text(["rev-list", "--parents", "-n", "1", commitOID], at: cloneURL)
       .split(separator: " ").map(String.init)
@@ -1823,8 +1839,13 @@ struct WritingSubnodeGit: Sendable {
         "-c", "protocol.file.allow=always",
       ] + arguments
     process.currentDirectoryURL = directory
-    var environment = ProcessInfo.processInfo.environment.filter {
-      !$0.key.uppercased().hasPrefix("GIT_")
+    let системноеОкружение = ProcessInfo.processInfo.environment
+    var environment: [String: String] = [:]
+    if let путьИсполнения = системноеОкружение["PATH"] {
+      environment["PATH"] = путьИсполнения
+    }
+    if let временныйКаталог = системноеОкружение["TMPDIR"] {
+      environment["TMPDIR"] = временныйКаталог
     }
     environment["GIT_CONFIG_NOSYSTEM"] = "1"
     environment["GIT_CONFIG_GLOBAL"] = WritingSubnodeSystemRuntime.nullDevicePath

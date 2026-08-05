@@ -2717,8 +2717,13 @@ struct CandidateIntegrationGit: Sendable {
         "-c", "merge.renormalize=false",
       ] + arguments
     process.currentDirectoryURL = directory
-    var environment = ProcessInfo.processInfo.environment.filter {
-      !$0.key.uppercased().hasPrefix("GIT_")
+    let системноеОкружение = ProcessInfo.processInfo.environment
+    var environment: [String: String] = [:]
+    if let путьИсполнения = системноеОкружение["PATH"] {
+      environment["PATH"] = путьИсполнения
+    }
+    if let временныйКаталог = системноеОкружение["TMPDIR"] {
+      environment["TMPDIR"] = временныйКаталог
     }
     environment["GIT_CONFIG_NOSYSTEM"] = "1"
     environment["GIT_CONFIG_GLOBAL"] = WritingSubnodeSystemRuntime.nullDevicePath
