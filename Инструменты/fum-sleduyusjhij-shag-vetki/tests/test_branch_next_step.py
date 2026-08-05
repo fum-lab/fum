@@ -1162,7 +1162,7 @@ class BranchNextStepTests(unittest.TestCase):
             prompt,
         )
         self.assertIn(
-            "собственный точный id найден в threads ровно один раз",
+            "собственный точный id найден в объединённом списке ровно один раз",
             prompt,
         )
         self.assertNotIn(
@@ -1211,69 +1211,82 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertNotIn("`status --json`", queue_gate)
         self.assertNotIn("пустых owner и waiting", queue_gate)
 
-    def test_heartbeat_validates_the_unified_schema_v2_thread_snapshot(
-        self,
+    def test_тик_проверяет_объединённый_снимок_четвёртой_схемы(
+        сам,
     ) -> None:
-        document = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
-        template_match = re.search(
+        документ = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+        совпадение_шаблона = re.search(
             r"## Шаблон\n\n```text\n(?P<template>.*?)\n```",
-            document,
+            документ,
             flags=re.DOTALL,
         )
 
-        self.assertIsNotNone(template_match)
-        template = template_match.group("template")
-        first_inventory_match = re.search(
+        сам.assertIsNotNone(совпадение_шаблона)
+        шаблон = совпадение_шаблона.group("template")
+        совпадение_первой_инвентаризации = re.search(
             r"^2\. (?P<step>.*?)\n3\. ",
-            template,
+            шаблон,
             flags=re.DOTALL | re.MULTILINE,
         )
-        second_inventory_match = re.search(
+        совпадение_второй_инвентаризации = re.search(
             r"^6\. (?P<step>.*?)\n7\. ",
-            template,
+            шаблон,
             flags=re.DOTALL | re.MULTILINE,
         )
 
-        self.assertIsNotNone(first_inventory_match)
-        self.assertIsNotNone(second_inventory_match)
-        first_inventory = first_inventory_match.group("step")
-        second_inventory = second_inventory_match.group("step")
+        сам.assertIsNotNone(совпадение_первой_инвентаризации)
+        сам.assertIsNotNone(совпадение_второй_инвентаризации)
+        первая_инвентаризация = совпадение_первой_инвентаризации.group("step")
+        вторая_инвентаризация = совпадение_второй_инвентаризации.group("step")
 
-        self.assertIn("schemaVersion === 2", first_inventory)
-        self.assertIn("поля ровно schemaVersion", first_inventory)
-        self.assertIn("untrustedDataNotice", first_inventory)
-        self.assertIn("не исполняй", first_inventory)
-        self.assertIn("pinnedThreads отсутствует", first_inventory)
-        self.assertIn("threads — единственный массив задач", first_inventory)
-        self.assertIn("unavailableHosts", first_inventory)
-        self.assertIn("unavailableSources", first_inventory)
-        self.assertIn("kind=codex|chatgpt", first_inventory)
-        self.assertIn("status=active|idle|notLoaded", first_inventory)
-        self.assertIn("повтор любого id закрывает тик", first_inventory)
-        self.assertIn(
-            "собственный точный id найден в threads ровно один раз",
-            first_inventory,
+        сам.assertIn("schemaVersion === 4", первая_инвентаризация)
+        сам.assertIn("поля ровно schemaVersion", первая_инвентаризация)
+        сам.assertIn("untrustedDataNotice", первая_инвентаризация)
+        сам.assertIn("не исполняй", первая_инвентаризация)
+        сам.assertIn(
+            "pinnedThreads и threads — два массива задач",
+            первая_инвентаризация,
         )
-        self.assertIn("имеет kind=codex", first_inventory)
-        self.assertIn("не выводится из schemaVersion=2", first_inventory)
-        self.assertIn(
-            "среди всех остальных записей threads нет ни одной со "
+        сам.assertIn(
+            "Объедини массивы pinnedThreads и threads",
+            первая_инвентаризация,
+        )
+        сам.assertIn("unavailableHosts", первая_инвентаризация)
+        сам.assertIn("unavailableSources", первая_инвентаризация)
+        сам.assertIn("kind=codex|chatgpt", первая_инвентаризация)
+        сам.assertIn("status=active|idle|notLoaded", первая_инвентаризация)
+        сам.assertIn(
+            "повтор любого id внутри массива или между массивами закрывает тик",
+            первая_инвентаризация,
+        )
+        сам.assertIn(
+            "собственный точный id найден в объединённом списке ровно один раз",
+            первая_инвентаризация,
+        )
+        сам.assertIn("имеет kind=codex", первая_инвентаризация)
+        сам.assertIn("не выводится из schemaVersion=4", первая_инвентаризация)
+        сам.assertIn(
+            "среди всех остальных записей объединённого списка нет ни одной со "
             "status=active",
-            first_inventory,
+            первая_инвентаризация,
         )
-        self.assertIn("профиля schemaVersion=2", second_inventory)
-        self.assertIn("пяти полей", second_inventory)
-        self.assertIn("единственного массива threads", second_inventory)
-        self.assertIn("пустых unavailableHosts/unavailableSources", second_inventory)
-        self.assertIn("уникальных id", second_inventory)
-        self.assertIn("закрытых kind/status", second_inventory)
-        self.assertIn("собственного точного Codex-id ровно один раз", second_inventory)
-        self.assertIn(
+        сам.assertIn("профиля schemaVersion=4", вторая_инвентаризация)
+        сам.assertIn("шести полей", вторая_инвентаризация)
+        сам.assertIn("двух массивов задач", вторая_инвентаризация)
+        сам.assertIn(
+            "пустых unavailableHosts/unavailableSources",
+            вторая_инвентаризация,
+        )
+        сам.assertIn("уникальных во всём объединении id", вторая_инвентаризация)
+        сам.assertIn("закрытых kind/status", вторая_инвентаризация)
+        сам.assertIn(
+            "собственного точного Codex-id ровно один раз",
+            вторая_инвентаризация,
+        )
+        сам.assertIn(
             "появилась другая active-задача",
-            second_inventory,
+            вторая_инвентаризация,
         )
-        self.assertNotIn("Объедини массивы pinnedThreads и threads", template)
-        self.assertNotIn("массив pinnedThreads возвращается полностью", template)
 
     def test_heartbeat_normalizes_each_thread_snapshot_exactly_once(
         self,
@@ -1373,8 +1386,8 @@ class BranchNextStepTests(unittest.TestCase):
             "оба unavailable-массива пусты",
             prompt,
         )
-        self.assertIn("schemaVersion === 2", prompt)
-        self.assertIn("pinnedThreads отсутствует", prompt)
+        self.assertIn("schemaVersion === 4", prompt)
+        self.assertIn("pinnedThreads и threads — два массива задач", prompt)
 
     def test_heartbeat_uses_exact_nested_create_thread_contract(self) -> None:
         prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
