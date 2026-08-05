@@ -1,0 +1,7 @@
+Зафиксировать управление универсальными fork-подузлами
+
+Tyi dolzhen upravlyatj svoimi klonami/forkami dlya paralleljnogo vedeniya zadach v raznyikh celevyikh vetkakh podobno tomu, kak toboyu upravlyayu ya. Togda smozhem rasparallelitj rabotu. Klonyi/forki budut sabmodulyami. Oni mogut byitj takimi zhe universaljnyimi ispolnitelyami, kak i tyi, i tyi mozheshj peredavatj im na realizaciyu v otdeljnyikh vetkakh celyikh cepochek shagov, kotoryiye tyi potom budeshj proveryatj i myordzhitj.
+
+Определить универсальный исполнительный подузел как долговечный дочерний репозиторий с ограниченной делегацией конечной линейной цепочки, отдельными клонами попыток, корневым ревью и сериализованной CAS-интеграцией. Зарегистрировать новое требование и карточки FUM-STEP-0119–FUM-STEP-0127, обновить репозиторное ожидание рабочего набора и точный снимок неизменившегося остатка объявлений, не выдавая локальные Git-примитивы за уже работающий живой runtime.
+
+Codex-Thread-ID: 019fd144-7e26-7152-bfad-e23be38c4118
