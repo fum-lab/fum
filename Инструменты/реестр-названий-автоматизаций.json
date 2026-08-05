@@ -173,8 +173,12 @@
   ],
   "display": [
     {
-      "source": "Запуск следующего шага активной ветки",
-      "transliteration": "Zapusk sleduyusjhego shaga aktivnoj vetki"
+      "source": "Диспетчер автоматизаций FUM",
+      "transliteration": "Dispetcher avtomatizacij FUM"
+    },
+    {
+      "source": "Пятиминутный тик диспетчера автоматизаций FUM",
+      "transliteration": "Pyatiminutnyij tik dispetchera avtomatizacij FUM"
     },
     {
       "source": "Ежедневный отчёт памяти FUM",
@@ -193,6 +197,8 @@
       "transliteration": "postroyeniye opisaniya FUM dlya adresata"
     }
   ],
-  "legacy_display": [],
+  "legacy_display": [
+    "Zapusk sleduyusjhego shaga aktivnoj vetki"
+  ],
   "legacy": []
 }

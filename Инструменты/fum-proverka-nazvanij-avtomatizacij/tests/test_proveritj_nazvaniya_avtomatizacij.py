@@ -118,10 +118,20 @@ PRODUCTION_MIGRATED_ENTRIES = {
 }
 
 PRODUCTION_MIGRATED_DISPLAY = {
+    "Диспетчер автоматизаций FUM": (
+        "Dispetcher avtomatizacij FUM"
+    ),
+    "Пятиминутный тик диспетчера автоматизаций FUM": (
+        "Pyatiminutnyij tik dispetchera avtomatizacij FUM"
+    ),
     "построение описания FUM для адресата": (
         "postroyeniye opisaniya FUM dlya adresata"
     ),
 }
+
+ПРОИЗВОДСТВЕННЫЕ_УСТАРЕВШИЕ_ОТОБРАЖЕНИЯ = [
+    "Zapusk sleduyusjhego shaga aktivnoj vetki",
+]
 
 
 class RepositoryFixture:
@@ -218,7 +228,7 @@ class RepositoryFixture:
 
 
 class AutomationNamesValidationTests(unittest.TestCase):
-    def test_production_registry_has_no_legacy_name_exceptions(self):
+    def test_реестр_содержит_мигрированные_отображаемые_имена(self):
         registry_path = AUTOMATION_DIR.parent / "реестр-названий-автоматизаций.json"
         registry = json.loads(registry_path.read_text(encoding="utf-8"))
         actual_current = {
@@ -231,11 +241,22 @@ class AutomationNamesValidationTests(unittest.TestCase):
         }
 
         self.assertEqual(registry["legacy"], [])
-        self.assertEqual(registry["legacy_display"], [])
+        self.assertEqual(
+            registry["legacy_display"],
+            ПРОИЗВОДСТВЕННЫЕ_УСТАРЕВШИЕ_ОТОБРАЖЕНИЯ,
+        )
         for source, expected in PRODUCTION_MIGRATED_ENTRIES.items():
             self.assertEqual(actual_current.get(source), expected, source)
         for source, expected in PRODUCTION_MIGRATED_DISPLAY.items():
             self.assertEqual(actual_display.get(source), expected, source)
+        self.assertNotIn(
+            "Запуск следующего шага активной ветки",
+            actual_display,
+        )
+        self.assertNotIn(
+            "Zapusk sleduyusjhego shaga aktivnoj vetki",
+            actual_display.values(),
+        )
 
         declarative_automation = (
             AUTOMATION_DIR.parents[1]
@@ -477,6 +498,21 @@ class AutomationNamesValidationTests(unittest.TestCase):
             fixture.write_transformer()
 
             self.assertEqual(fixture.validate(), [])
+
+    def test_отображение_допускает_регистровый_вариант_текущего_имени(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            стенд = RepositoryFixture(Path(временный_каталог))
+            стенд.registry["display"] = [
+                {
+                    "source": "Прототипы",
+                    "transliteration": "Prototipyi",
+                }
+            ]
+            стенд.mapping["Прототипы"] = "Prototipyi"
+            стенд.write_registry()
+            стенд.write_transformer()
+
+            сам.assertEqual(стенд.validate(), [])
 
     def test_display_name_transliteration_and_collision_are_rejected(self):
         with tempfile.TemporaryDirectory() as tmp:

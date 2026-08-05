@@ -377,8 +377,99 @@ class AutomationStatusSnapshotTests(unittest.TestCase):
         self.assertEqual(verified.returncode, 0, verified.stderr)
         self.assertEqual(json.loads(verified.stdout)["state"], "verified")
 
+    def test_подготавливает_миграцию_на_месте_для_имени_и_промпта(
+        сам,
+    ) -> None:
+        до = сам.snapshot(status="ACTIVE")
+
+        подготовлено = SNAPSHOT.подготовить_миграцию(
+            до,
+            "Pyatiminutnyij tik dispetchera avtomatizacij FUM",
+            "Новый полный prompt\n",
+        )
+
+        сам.assertEqual(подготовлено["id"], до["id"])
+        сам.assertEqual(подготовлено["status"], "ACTIVE")
+        сам.assertEqual(подготовлено["rrule"], до["rrule"])
+        сам.assertEqual(подготовлено["targetThreadId"], "opaque-thread")
+        сам.assertEqual(
+            подготовлено["name"],
+            "Pyatiminutnyij tik dispetchera avtomatizacij FUM",
+        )
+        сам.assertEqual(подготовлено["prompt"], "Новый полный prompt\n")
+        сам.assertEqual(подготовлено["mode"], "update")
+
+    def test_миграция_допускает_только_разрешённые_поля(сам) -> None:
+        до = сам.snapshot(status="ACTIVE", updated_at="before")
+        после = сам.snapshot(status="ACTIVE", updated_at="after")
+        после["name"] = "Pyatiminutnyij tik dispetchera avtomatizacij FUM"
+        после["prompt"] = "Новый полный prompt\n"
+
+        проверено = SNAPSHOT.проверить_миграцию(
+            до,
+            после,
+            "Pyatiminutnyij tik dispetchera avtomatizacij FUM",
+            "Новый полный prompt\n",
+        )
+
+        сам.assertEqual(проверено["state"], "verified")
+        сам.assertEqual(
+            проверено["changed_fields"],
+            ["name", "prompt", "updated_at"],
+        )
+        после["rrule"] = "FREQ=MINUTELY;INTERVAL=10"
+        with сам.assertRaises(SNAPSHOT.SnapshotError):
+            SNAPSHOT.проверить_миграцию(
+                до,
+                после,
+                "Pyatiminutnyij tik dispetchera avtomatizacij FUM",
+                "Новый полный prompt\n",
+            )
+
 
 class HeartbeatControlContractTests(unittest.TestCase):
+    def test_общий_тик_маршрутизирует_первый_адаптер_и_два_ограждения(
+        сам,
+    ) -> None:
+        документ = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+        шаблон = RENDERER.extract_heartbeat_template(документ)
+
+        сам.assertTrue(
+            шаблон.startswith(
+                "Это пятиминутный тик диспетчера автоматизаций FUM."
+            )
+        )
+        for фрагмент in (
+            "fum-dispetcher-avtomatizacij-fum",
+            "master.next-step",
+            "fum-sleduyusjhij-shag-vetki.1",
+            "выбрать",
+            "зарезервировать",
+            "show",
+            "claim",
+            "начать-вызов-среды",
+            "подтвердить-создание",
+            "подтвердить-завершение-исполнителя",
+            "оба уровня fence",
+            "один UUID",
+        ):
+            сам.assertIn(фрагмент, шаблон)
+        первая_инвентаризация = шаблон.index("list_threads")
+        вторая_инвентаризация = шаблон.index(
+            "list_threads",
+            первая_инвентаризация + 1,
+        )
+        общая_резервация = шаблон.index("зарезервировать")
+        вызов_среды = шаблон.index("create_thread")
+        сам.assertLess(первая_инвентаризация, вторая_инвентаризация)
+        сам.assertLess(вторая_инвентаризация, общая_резервация)
+        сам.assertLess(общая_резервация, вызов_среды)
+        сам.assertIn("первым инструментальным действием", шаблон)
+        сам.assertIn("общий `bind-run`", шаблон)
+        сам.assertIn("общий `verify-run`", шаблон)
+        сам.assertIn("карточочный `bind-run`", шаблон)
+        сам.assertIn("карточочный `verify-run`", шаблон)
+
     def test_list_threads_schema_v2_uses_the_single_threads_array_safely(
         self,
     ) -> None:
@@ -520,18 +611,18 @@ class HeartbeatControlContractTests(unittest.TestCase):
             self.assertIn("Штатный `Stop`/`Start`", text)
             self.assertRegex(text, r"не вызыва\w* renderer|renderer не вызыва")
 
-    def test_replacement_repair_has_closed_diff_and_verified_recovery_attempt(
-        self,
-    ) -> None:
+    def test_миграция_разрешена_только_на_месте_без_замены(сам) -> None:
         prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
         skill = SKILL_PATH.read_text(encoding="utf-8")
 
         for text in (prompt, skill):
-            self.assertIn("`id`, `name`, `prompt`, `created_at` и `updated_at`", text)
-            self.assertIn("любое неизвестное поле закрывает замену", text)
-            self.assertIn("обязательную попытку восстановления", text)
-            self.assertIn("не гарантирует её успех", text)
-            self.assertIn("аварийным неуспехом", text)
+            сам.assertIn("на месте", text)
+            сам.assertIn("name", text)
+            сам.assertIn("prompt", text)
+            сам.assertIn("updated_at", text)
+            сам.assertIn("не созда", text)
+            сам.assertIn("втор", text)
+            сам.assertIn("replacement", text)
 
 
 if __name__ == "__main__":

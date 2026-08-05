@@ -13,8 +13,8 @@
 
 ## Навыки
 
-- [fum-dispetcher-avtomatizacij-fum](fum-dispetcher-avtomatizacij-fum/SKILL.md) - проверяет закрытый реестр заданий схемы `1`, чисто выбирает не более одного готового запуска и ведёт защищённую Git-резервацию без host-вызова или исполнения эффекта.
-- [fum-sleduyusjhij-shag-vetki](fum-sleduyusjhij-shag-vetki/SKILL.md) - проверяет конечный whitelist ветки, вычисляет runtime-готовность по точным завершённым карточечным зависимостям, ранжирует готовый пул по first-parent-истории, атомарно резервирует поколение выбора, привязывает запуск к созданной задаче, проверяет каждый FIFO-допуск и безопасно перевооружает полностью откатившуюся попытку.
+- [fum-dispetcher-avtomatizacij-fum](fum-dispetcher-avtomatizacij-fum/SKILL.md) - проверяет закрытый реестр заданий схемы `1`, чисто выбирает не более одного готового запуска, маршрутизирует `master.next-step` в специализированный адаптер, ведёт общую Git-резервацию, связывает её с фактическим FIFO-исполнителем и терминализирует по точному завершению очереди.
+- [fum-sleduyusjhij-shag-vetki](fum-sleduyusjhij-shag-vetki/SKILL.md) - служит первым адаптером общего диспетчера: проверяет конечный whitelist ветки, вычисляет runtime-готовность по точным завершённым карточечным зависимостям, выполняет `show` и `claim`, отдельно подтверждает карточочный fence после общего допуска и безопасно перевооружает полностью откатившуюся попытку.
 - [fum-sborka-svodnoj-dokumentacii](fum-sborka-svodnoj-dokumentacii/SKILL.md) - создаёт и проверяет каркас сводных статей документации из нескольких опорных материалов.
 - [fum-ocenki](fum-ocenki/SKILL.md) - создаёт и проверяет принадлежащие запросу оценочные материалы в `материалы/оценки/` со снимком репозитория, методикой, диапазонами, допущениями, ограничениями точности и оформлением результата.
 - [fum-glossarij](fum-glossarij/SKILL.md) - поддерживает глоссарий FUM по локальным правилам именования и ссылок.
@@ -52,6 +52,7 @@
 - `python3 -I -c "import os,subprocess,sys;p='Инструменты/fum-ocheredj-zadach-git-vetki/scripts/ocheredj-zadach-git-vetki.py';r=sys.argv[1];e={k:v for k,v in os.environ.items() if not k.upper().startswith('GIT_')};e['GIT_NO_REPLACE_OBJECTS']='1';e['GIT_OPTIONAL_LOCKS']='0';b=subprocess.check_output(['git','--no-replace-objects','-C',r,'show','HEAD:'+p],env=e,timeout=30);sys.argv=[p,*sys.argv[2:],'--repo-root',r];exec(compile(b,p,'exec'))" . status --json` - через изолированный закоммиченный HEAD-bootstrap показывает владельца и FIFO-список ожидающих корневых задач текущего worktree.
 - `python3 -I -c "import os,subprocess,sys;p='Инструменты/fum-ocheredj-zadach-git-vetki/scripts/ocheredj-zadach-git-vetki.py';r=sys.argv[1];e={k:v for k,v in os.environ.items() if not k.upper().startswith('GIT_')};e['GIT_NO_REPLACE_OBJECTS']='1';e['GIT_OPTIONAL_LOCKS']='0';b=subprocess.check_output(['git','--no-replace-objects','-C',r,'show','HEAD:'+p],env=e,timeout=30);sys.argv=[p,*sys.argv[2:],'--repo-root',r];exec(compile(b,p,'exec'))" . heartbeat-status --task-id <корневой-CODEX_THREAD_ID> --json` - возвращает для heartbeat только `idle`, `own_owner` или `busy` без непрозрачных полей FIFO.
 - `python3 Инструменты/fum-sleduyusjhij-shag-vetki/scripts/branch-next-step.py validate --repo-root . --json` - структурно проверяет рабочие наборы, вычисляет runtime-статусы всего whitelist и подтверждает единственное совпадение для активной именованной ветки, не выбирая победителя.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-dispetcher-avtomatizacij-fum/tests -p 'test_*.py'` - локальные тесты реестра, общего выбора и резервации, адаптера следующего шага, привязки фактического FIFO-исполнителя, терминализации по `last_completion` и точной in-place-миграции heartbeat.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-sleduyusjhij-shag-vetki/tests -p 'test_*.py'` - локальные тесты выбора по first-parent-истории, атомарного claim точного поколения, привязки запуска к задаче, проверки каждого FIFO-допуска, безопасного `rearm` после полного отката и отдельного fenced-восстановления неоднозначного создания.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-ocheredj-zadach-git-vetki/tests -p 'test_*.py'` - локальные тесты переносимой FIFO-очереди, атомарного commit+handoff и отдельно авторизуемого низкоуровневого транспортного примитива через автономный bare-remote.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-sborka-svodnoj-dokumentacii/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-sborka-svodnoj-dokumentacii`.
@@ -83,6 +84,7 @@
 
 ## Источники требований
 
+- [исходный запрос 2026-08-05 12:02:53 MSK - Перенести автозапуск шагов в универсальный диспетчер](../Журнал/2026-08-05_12-02-53_MSK_перенести-автозапуск-шагов-в-универсальный-диспетчер/запрос.md)
 - [исходный запрос 2026-08-05 09:07:08 MSK - Добавить универсальный выбор и защищённую резервацию запуска](../Журнал/2026-08-05_09-07-08_MSK_добавить-универсальный-выбор-и-защищённую-резервацию-запуска/запрос.md)
 - [исходный запрос 2026-08-04 20:45:26 MSK - Формировать отчёты о запусках тестов](../Журнал/2026-08-04_20-45-26_MSK_формировать-отчёты-о-запусках-тестов/запрос.md)
 - [исходный запрос 2026-08-03 11:49:04 MSK — Объединить запросы и журнал](../Журнал/2026-08-03_11-49-04_MSK_объединить-запросы-и-журнал/запрос.md)
@@ -107,6 +109,6 @@
 - [исходный запрос 2026-07-22 03:38:35 MSK - Разрешить выполнение доступных карточек шагов](../Журнал/2026-07-22_03-38-35_MSK_разрешить-выполнение-доступных-карточек-шагов/запрос.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-05 10:11:52 MSK -->
-<!-- content-sha256: sha256:bf7a6b28df91ea92f22e167304e3f20b43c60b416f85df33e081aea3b30a1134 -->
+<!-- last-content-edit: 2026-08-05 13:55:12 MSK -->
+<!-- content-sha256: sha256:f8f757382dc87d8d3df88c0153251a035f1ab38f7e1c83797ca68f028d9e44db -->
 <!-- FUM-MD-RECENCY:END -->

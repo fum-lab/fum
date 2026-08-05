@@ -1130,7 +1130,7 @@
       "id": "definition-028",
       "path": "Инструменты/fum-sleduyusjhij-shag-vetki/references/heartbeat-prompt.md",
       "kind": "file-uri",
-      "line_sha256": "sha256:8178b766897218bf74c1b0ebf582a70359bdde1505acf3affa56a1b438011c43",
+      "line_sha256": "sha256:f146d2164db6b9c896c8aab4c6e665904f98c3115f1669580385ba4e6863688d",
       "count": 1,
       "category": "allow.path-validation-definition",
       "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."

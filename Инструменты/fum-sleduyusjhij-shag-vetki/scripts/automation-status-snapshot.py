@@ -195,6 +195,78 @@ def verify_status_only_diff(
     }
 
 
+def подготовить_миграцию(
+    снимок: Any,
+    новое_имя: str,
+    новый_промпт: str,
+) -> dict[str, Any]:
+    if not isinstance(новое_имя, str) or not новое_имя:
+        raise SnapshotError("новое name должно быть непустой строкой")
+    if not isinstance(новый_промпт, str) or not новый_промпт:
+        raise SnapshotError("новый prompt должен быть непустой строкой")
+    подготовлено = declarative_snapshot(снимок)
+    подготовлено["name"] = новое_имя
+    подготовлено["prompt"] = новый_промпт
+    подготовлено["mode"] = "update"
+    return подготовлено
+
+
+def проверить_миграцию(
+    до: Any,
+    после: Any,
+    ожидаемое_имя: str,
+    ожидаемый_промпт: str,
+) -> dict[str, Any]:
+    if not isinstance(ожидаемое_имя, str) or not ожидаемое_имя:
+        raise SnapshotError("ожидаемое name должно быть непустой строкой")
+    if not isinstance(ожидаемый_промпт, str) or not ожидаемый_промпт:
+        raise SnapshotError("ожидаемый prompt должен быть непустой строкой")
+    до_проверки = validate_snapshot(до)
+    после_проверки = validate_snapshot(после)
+    до_декларативно = declarative_snapshot(до_проверки)
+    после_декларативно = declarative_snapshot(после_проверки)
+    if после_декларативно["name"] != ожидаемое_имя:
+        raise SnapshotError("итоговое name не совпадает с ожидаемым")
+    if после_декларативно["prompt"] != ожидаемый_промпт:
+        raise SnapshotError("итоговый prompt не совпадает с ожидаемым")
+
+    изменённые_поля: list[str] = []
+    for поле in sorted(set(до_декларативно) | set(после_декларативно)):
+        до_присутствует = поле in до_декларативно
+        после_присутствует = поле in после_декларативно
+        совпадает = (
+            до_присутствует
+            and после_присутствует
+            and до_декларативно[поле] == после_декларативно[поле]
+        )
+        if совпадает:
+            continue
+        if поле in {"name", "prompt"}:
+            изменённые_поля.append(поле)
+            continue
+        raise SnapshotError(
+            f"exact-diff миграции содержит запрещённое изменение поля {поле}"
+        )
+
+    for поле in sorted(HOST_OBSERVATION_FIELDS):
+        до_присутствует = поле in до_проверки
+        после_присутствует = поле in после_проверки
+        совпадает = (
+            до_присутствует
+            and после_присутствует
+            and до_проверки[поле] == после_проверки[поле]
+        )
+        if совпадает or (not до_присутствует and not после_присутствует):
+            continue
+        if поле in MUTABLE_HOST_OBSERVATION_FIELDS:
+            изменённые_поля.append(поле)
+            continue
+        raise SnapshotError(
+            f"exact-diff миграции содержит запрещённое изменение поля {поле}"
+        )
+    return {"state": "verified", "changed_fields": изменённые_поля}
+
+
 def _reject_duplicate_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
     result: dict[str, Any] = {}
     for key, value in pairs:
@@ -255,6 +327,33 @@ def build_parser() -> argparse.ArgumentParser:
     verify.add_argument("--after", required=True)
     verify.add_argument("--status", required=True, choices=sorted(ALLOWED_STATUSES))
     verify.add_argument("--input-format", choices=("auto", "json", "toml"), default="auto")
+    подготовка_миграции = subparsers.add_parser("prepare-migration")
+    подготовка_миграции.add_argument("--snapshot", required=True)
+    подготовка_миграции.add_argument("--name", required=True)
+    подготовка_миграции.add_argument(
+        "--prompt-file",
+        dest="файл_промпта",
+        required=True,
+    )
+    подготовка_миграции.add_argument(
+        "--input-format",
+        choices=("auto", "json", "toml"),
+        default="auto",
+    )
+    проверка_миграции = subparsers.add_parser("verify-migration")
+    проверка_миграции.add_argument("--before", required=True)
+    проверка_миграции.add_argument("--after", required=True)
+    проверка_миграции.add_argument("--name", required=True)
+    проверка_миграции.add_argument(
+        "--prompt-file",
+        dest="файл_промпта",
+        required=True,
+    )
+    проверка_миграции.add_argument(
+        "--input-format",
+        choices=("auto", "json", "toml"),
+        default="auto",
+    )
     return parser
 
 
@@ -266,12 +365,29 @@ def main(argv: list[str] | None = None) -> int:
                 read_snapshot(args.snapshot, args.input_format),
                 args.status,
             )
-        else:
+        elif args.command == "verify":
             result = verify_status_only_diff(
                 read_snapshot(args.before, args.input_format),
                 read_snapshot(args.after, args.input_format),
                 args.status,
             )
+        elif args.command == "prepare-migration":
+            результат_миграции = подготовить_миграцию(
+                read_snapshot(args.snapshot, args.input_format),
+                args.name,
+                Path(args.файл_промпта).read_text(encoding="utf-8"),
+            )
+            print(canonical_json(результат_миграции))
+            return 0
+        else:
+            результат_миграции = проверить_миграцию(
+                read_snapshot(args.before, args.input_format),
+                read_snapshot(args.after, args.input_format),
+                args.name,
+                Path(args.файл_промпта).read_text(encoding="utf-8"),
+            )
+            print(canonical_json(результат_миграции))
+            return 0
     except SnapshotError as error:
         print(f"Ошибка snapshot автоматизации: {error}", file=sys.stderr)
         return 2

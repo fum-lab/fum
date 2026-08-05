@@ -268,6 +268,18 @@ def parse_registry(data: Any) -> tuple[Registry | None, list[str]]:
     return registry, errors
 
 
+def является_регистровым_отображением(
+    первая: NameEntry,
+    вторая: NameEntry,
+) -> bool:
+    return (
+        (первая.slug is None) != (вторая.slug is None)
+        and первая.source.casefold() == вторая.source.casefold()
+        and первая.transliteration.casefold()
+        == вторая.transliteration.casefold()
+    )
+
+
 def validate_registry_semantics(registry: Registry) -> list[str]:
     errors: list[str] = []
 
@@ -286,7 +298,7 @@ def validate_registry_semantics(registry: Registry) -> list[str]:
         errors.append(f"golden: неожиданный эталон для {source!r}")
 
     sources: dict[str, str] = {}
-    transliterations: dict[str, str] = {}
+    transliterations: dict[str, NameEntry] = {}
     slugs: dict[str, str] = {}
     for entry in (*registry.current, *registry.display):
         previous = sources.get(entry.source)
@@ -299,12 +311,16 @@ def validate_registry_semantics(registry: Registry) -> list[str]:
 
         transliteration_key = entry.transliteration.casefold()
         previous = transliterations.get(transliteration_key)
-        if previous is not None:
+        if previous is not None and not является_регистровым_отображением(
+            previous,
+            entry,
+        ):
             errors.append(
-                f"{entry.location}.transliteration: коллизия {entry.transliteration!r} с {previous}"
+                f"{entry.location}.transliteration: коллизия "
+                f"{entry.transliteration!r} с {previous.location}"
             )
-        else:
-            transliterations[transliteration_key] = entry.location
+        elif previous is None:
+            transliterations[transliteration_key] = entry
 
         if entry.slug is None:
             continue
