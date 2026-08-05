@@ -169,6 +169,11 @@
       "source": "перевод объявлений кода на русский язык",
       "transliteration": "perevod obyyavlenij koda na russkij yazyik",
       "slug": "fum-perevod-obyyavlenij-koda-na-russkij-yazyik"
+    },
+    {
+      "source": "починка автозапуска",
+      "transliteration": "pochinka avtozapuska",
+      "slug": "fum-pochinka-avtozapuska"
     }
   ],
   "display": [

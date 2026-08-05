@@ -113,6 +113,22 @@ def _optional_value(snapshot: dict[str, Any], canonical_field: str) -> tuple[boo
     return True, copy.deepcopy(snapshot[present[0]])
 
 
+def точно_равны_сырые_значения(левое: Any, правое: Any) -> bool:
+    if type(левое) is not type(правое):
+        return False
+    if isinstance(левое, dict):
+        return set(левое) == set(правое) and all(
+            точно_равны_сырые_значения(левое[ключ], правое[ключ])
+            for ключ in левое
+        )
+    if isinstance(левое, list):
+        return len(левое) == len(правое) and all(
+            точно_равны_сырые_значения(левый, правый)
+            for левый, правый in zip(левое, правое)
+        )
+    return левое == правое
+
+
 def declarative_snapshot(snapshot: Any) -> dict[str, Any]:
     validated = validate_snapshot(snapshot)
     target_alias = next(iter(TARGET_FIELDS.intersection(validated)))
@@ -254,7 +270,10 @@ def проверить_миграцию(
         совпадает = (
             до_присутствует
             and после_присутствует
-            and до_проверки[поле] == после_проверки[поле]
+            and точно_равны_сырые_значения(
+                до_проверки[поле],
+                после_проверки[поле],
+            )
         )
         if совпадает or (not до_присутствует and not после_присутствует):
             continue
@@ -263,6 +282,70 @@ def проверить_миграцию(
             continue
         raise SnapshotError(
             f"exact-diff миграции содержит запрещённое изменение поля {поле}"
+        )
+    return {"state": "verified", "changed_fields": изменённые_поля}
+
+
+def проверить_полный_снимок_починки(снимок: Any) -> dict[str, Any]:
+    проверено = validate_snapshot(снимок)
+    отсутствуют = sorted(HOST_OBSERVATION_FIELDS - проверено.keys())
+    if отсутствуют:
+        raise SnapshotError(
+            "полный snapshot починки не содержит host-поля: "
+            + ", ".join(отсутствуют)
+        )
+    for поле in ("created_at", "updated_at"):
+        if not isinstance(проверено[поле], str) or not проверено[поле]:
+            raise SnapshotError(f"host-поле {поле} должно быть непустой строкой")
+    if type(проверено["version"]) is not int or проверено["version"] < 1:
+        raise SnapshotError("host-поле version должно быть положительным целым")
+    return проверено
+
+
+def подготовить_починку_промпта(
+    снимок: Any,
+    новый_промпт: str,
+) -> dict[str, Any]:
+    if not isinstance(новый_промпт, str) or not новый_промпт:
+        raise SnapshotError("новый prompt должен быть непустой строкой")
+    проверенный_снимок = проверить_полный_снимок_починки(снимок)
+    подготовлено = declarative_snapshot(проверенный_снимок)
+    подготовлено["prompt"] = новый_промпт
+    подготовлено["mode"] = "update"
+    return подготовлено
+
+
+def проверить_починку_промпта(
+    до: Any,
+    после: Any,
+    ожидаемый_промпт: str,
+) -> dict[str, Any]:
+    if not isinstance(ожидаемый_промпт, str) or not ожидаемый_промпт:
+        raise SnapshotError("ожидаемый prompt должен быть непустой строкой")
+    до_проверки = проверить_полный_снимок_починки(до)
+    после_проверки = проверить_полный_снимок_починки(после)
+    if после_проверки["prompt"] != ожидаемый_промпт:
+        raise SnapshotError("итоговый prompt не совпадает с ожидаемым")
+
+    изменённые_поля: list[str] = []
+    for поле in sorted(set(до_проверки) | set(после_проверки)):
+        до_присутствует = поле in до_проверки
+        после_присутствует = поле in после_проверки
+        совпадает = (
+            до_присутствует
+            and после_присутствует
+            and точно_равны_сырые_значения(
+                до_проверки[поле],
+                после_проверки[поле],
+            )
+        )
+        if совпадает:
+            continue
+        if поле in {"prompt", "updated_at"}:
+            изменённые_поля.append(поле)
+            continue
+        raise SnapshotError(
+            f"exact-diff починки содержит запрещённое изменение поля {поле}"
         )
     return {"state": "verified", "changed_fields": изменённые_поля}
 
@@ -354,6 +437,31 @@ def build_parser() -> argparse.ArgumentParser:
         choices=("auto", "json", "toml"),
         default="auto",
     )
+    подготовка_починки = subparsers.add_parser("prepare-repair")
+    подготовка_починки.add_argument("--snapshot", required=True)
+    подготовка_починки.add_argument(
+        "--prompt-file",
+        dest="файл_промпта",
+        required=True,
+    )
+    подготовка_починки.add_argument(
+        "--input-format",
+        choices=("auto", "json", "toml"),
+        default="auto",
+    )
+    проверка_починки = subparsers.add_parser("verify-repair")
+    проверка_починки.add_argument("--before", required=True)
+    проверка_починки.add_argument("--after", required=True)
+    проверка_починки.add_argument(
+        "--prompt-file",
+        dest="файл_промпта",
+        required=True,
+    )
+    проверка_починки.add_argument(
+        "--input-format",
+        choices=("auto", "json", "toml"),
+        default="auto",
+    )
     return parser
 
 
@@ -379,7 +487,7 @@ def main(argv: list[str] | None = None) -> int:
             )
             print(canonical_json(результат_миграции))
             return 0
-        else:
+        elif args.command == "verify-migration":
             результат_миграции = проверить_миграцию(
                 read_snapshot(args.before, args.input_format),
                 read_snapshot(args.after, args.input_format),
@@ -387,6 +495,21 @@ def main(argv: list[str] | None = None) -> int:
                 Path(args.файл_промпта).read_text(encoding="utf-8"),
             )
             print(canonical_json(результат_миграции))
+            return 0
+        elif args.command == "prepare-repair":
+            результат_починки = подготовить_починку_промпта(
+                read_snapshot(args.snapshot, args.input_format),
+                Path(args.файл_промпта).read_text(encoding="utf-8"),
+            )
+            print(canonical_json(результат_починки))
+            return 0
+        else:
+            результат_починки = проверить_починку_промпта(
+                read_snapshot(args.before, args.input_format),
+                read_snapshot(args.after, args.input_format),
+                Path(args.файл_промпта).read_text(encoding="utf-8"),
+            )
+            print(canonical_json(результат_починки))
             return 0
     except SnapshotError as error:
         print(f"Ошибка snapshot автоматизации: {error}", file=sys.stderr)

@@ -426,6 +426,114 @@ class AutomationStatusSnapshotTests(unittest.TestCase):
                 "Новый полный prompt\n",
             )
 
+    def test_подготавливает_починку_только_промпта(сам) -> None:
+        до = сам.snapshot(status="PAUSED")
+
+        подготовлено = SNAPSHOT.подготовить_починку_промпта(
+            до,
+            "Исправленный полный prompt\n",
+        )
+
+        сам.assertEqual(подготовлено["id"], до["id"])
+        сам.assertEqual(подготовлено["name"], до["name"])
+        сам.assertEqual(подготовлено["status"], "PAUSED")
+        сам.assertEqual(подготовлено["rrule"], до["rrule"])
+        сам.assertEqual(подготовлено["targetThreadId"], "opaque-thread")
+        сам.assertEqual(
+            подготовлено["prompt"],
+            "Исправленный полный prompt\n",
+        )
+        сам.assertEqual(подготовлено["mode"], "update")
+
+    def test_починка_промпта_отклоняет_любое_иное_изменение(сам) -> None:
+        до = сам.snapshot(status="ACTIVE", updated_at="before")
+        после = сам.snapshot(status="ACTIVE", updated_at="after")
+        после["prompt"] = "Исправленный полный prompt\n"
+
+        проверено = SNAPSHOT.проверить_починку_промпта(
+            до,
+            после,
+            "Исправленный полный prompt\n",
+        )
+
+        сам.assertEqual(проверено["state"], "verified")
+        сам.assertEqual(
+            проверено["changed_fields"],
+            ["prompt", "updated_at"],
+        )
+        после["name"] = "Чужое имя"
+        with сам.assertRaises(SNAPSHOT.SnapshotError):
+            SNAPSHOT.проверить_починку_промпта(
+                до,
+                после,
+                "Исправленный полный prompt\n",
+            )
+        for поле in ("created_at", "updated_at", "version"):
+            усечённый = сам.snapshot(status="ACTIVE", updated_at="after")
+            усечённый["prompt"] = "Исправленный полный prompt\n"
+            del усечённый[поле]
+            with сам.subTest(поле=поле), сам.assertRaises(SNAPSHOT.SnapshotError):
+                SNAPSHOT.проверить_починку_промпта(
+                    до,
+                    усечённый,
+                    "Исправленный полный prompt\n",
+                )
+        неверный_тип = сам.snapshot(status="ACTIVE", updated_at="after")
+        неверный_тип["prompt"] = "Исправленный полный prompt\n"
+        неверный_тип["version"] = "7"
+        with сам.assertRaises(SNAPSHOT.SnapshotError):
+            SNAPSHOT.проверить_починку_промпта(
+                до,
+                неверный_тип,
+                "Исправленный полный prompt\n",
+            )
+        иной_псевдоним_цели = сам.snapshot(status="ACTIVE", updated_at="after")
+        иной_псевдоним_цели["prompt"] = "Исправленный полный prompt\n"
+        иной_псевдоним_цели["targetThreadId"] = иной_псевдоним_цели.pop("target")[
+            "threadId"
+        ]
+        with сам.assertRaises(SNAPSHOT.SnapshotError):
+            SNAPSHOT.проверить_починку_промпта(
+                до,
+                иной_псевдоним_цели,
+                "Исправленный полный prompt\n",
+            )
+        иной_псевдоним_политики = сам.snapshot(
+            status="ACTIVE",
+            updated_at="after",
+        )
+        иной_псевдоним_политики["prompt"] = "Исправленный полный prompt\n"
+        иной_псевдоним_политики["notification_policy"] = (
+            иной_псевдоним_политики.pop(
+                "notificationPolicy"
+            )
+        )
+        with сам.assertRaises(SNAPSHOT.SnapshotError):
+            SNAPSHOT.проверить_починку_промпта(
+                до,
+                иной_псевдоним_политики,
+                "Исправленный полный prompt\n",
+            )
+        for поле, прежнее, новое in (
+            ("destination", True, 1),
+            ("notificationPolicy", 1, 1.0),
+            ("notificationPolicy", {"режим": [True]}, {"режим": [1]}),
+        ):
+            до_со_значением = сам.snapshot(status="ACTIVE", updated_at="before")
+            после_с_иным_типом = сам.snapshot(
+                status="ACTIVE",
+                updated_at="after",
+            )
+            до_со_значением[поле] = прежнее
+            после_с_иным_типом[поле] = новое
+            после_с_иным_типом["prompt"] = "Исправленный полный prompt\n"
+            with сам.subTest(поле=поле), сам.assertRaises(SNAPSHOT.SnapshotError):
+                SNAPSHOT.проверить_починку_промпта(
+                    до_со_значением,
+                    после_с_иным_типом,
+                    "Исправленный полный prompt\n",
+                )
+
 
 class HeartbeatControlContractTests(unittest.TestCase):
     def test_общий_тик_маршрутизирует_первый_адаптер_и_два_ограждения(
