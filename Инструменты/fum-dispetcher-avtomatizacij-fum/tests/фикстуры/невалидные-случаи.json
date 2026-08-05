@@ -1,0 +1,197 @@
+{
+  "cases": [
+    {
+      "error_contains": "неизвестные поля",
+      "mutation": {
+        "operation": "set",
+        "path": ["unexpected"],
+        "value": true
+      },
+      "name": "неизвестное поле реестра"
+    },
+    {
+      "error_contains": "неизвестные поля",
+      "mutation": {
+        "operation": "set",
+        "path": ["задания", 0, "цель", "unexpected"],
+        "value": true
+      },
+      "name": "неизвестное вложенное поле"
+    },
+    {
+      "error_contains": "повтор job_id",
+      "mutation": {
+        "operation": "duplicate_first_job"
+      },
+      "name": "повтор устойчивого идентификатора"
+    },
+    {
+      "error_contains": "поколение",
+      "mutation": {
+        "operation": "set",
+        "path": ["задания", 0, "поколение"],
+        "value": 0
+      },
+      "name": "нулевое поколение"
+    },
+    {
+      "error_contains": "поколение",
+      "mutation": {
+        "operation": "set",
+        "path": ["задания", 0, "поколение"],
+        "value": true
+      },
+      "name": "логическое поколение"
+    },
+    {
+      "error_contains": "не совпадает с поколением задания",
+      "mutation": {
+        "operation": "set",
+        "path": ["задания", 0, "защита_поколения", "поколение"],
+        "value": 2
+      },
+      "name": "fence другого поколения"
+    },
+    {
+      "error_contains": "противоречивый триггер",
+      "mutation": {
+        "operation": "set",
+        "path": ["задания", 0, "триггер", "тип_события"],
+        "value": "завершённое_поколение_шага"
+      },
+      "name": "смешанные формы триггера"
+    },
+    {
+      "error_contains": "не соответствует триггеру",
+      "mutation": {
+        "operation": "set",
+        "path": ["задания", 0, "курсор_результата", "тип"],
+        "value": "подтверждённые_события"
+      },
+      "name": "курсор другого триггера"
+    },
+    {
+      "error_contains": "эффект.политика",
+      "mutation": {
+        "operation": "delete",
+        "path": ["задания", 0, "эффект", "политика"]
+      },
+      "name": "нет политики эффекта"
+    },
+    {
+      "error_contains": "не согласованы",
+      "mutation": {
+        "operation": "set",
+        "path": ["задания", 0, "эффект", "класс"],
+        "value": "изменение_репозитория"
+      },
+      "name": "политика не соответствует классу эффекта"
+    },
+    {
+      "error_contains": "небезопасный branch_ref",
+      "mutation": {
+        "operation": "set",
+        "path": ["задания", 0, "цель", "branch_ref"],
+        "value": "master"
+      },
+      "name": "неполный ref"
+    },
+    {
+      "error_contains": "небезопасный branch_ref",
+      "mutation": {
+        "operation": "set",
+        "path": ["задания", 0, "цель", "branch_ref"],
+        "value": "refs/heads/master.lock"
+      },
+      "name": "запрещённый ref"
+    },
+    {
+      "error_contains": "небезопасный branch_ref",
+      "mutation": {
+        "operation": "set",
+        "path": ["задания", 0, "цель", "branch_ref"],
+        "value": "refs/heads/a..b"
+      },
+      "name": "две точки внутри ref"
+    },
+    {
+      "error_contains": "небезопасный branch_ref",
+      "mutation": {
+        "operation": "set",
+        "path": ["задания", 0, "цель", "branch_ref"],
+        "value": "refs/heads/.hidden"
+      },
+      "name": "скрытый компонент ref"
+    },
+    {
+      "error_contains": "небезопасный branch_ref",
+      "mutation": {
+        "operation": "set",
+        "path": ["задания", 0, "цель", "branch_ref"],
+        "value": "refs/heads/-danger"
+      },
+      "name": "ref с ведущим дефисом"
+    },
+    {
+      "error_contains": "небезопасный путь проекта",
+      "mutation": {
+        "operation": "set",
+        "path": ["задания", 0, "цель", "путь_проекта"],
+        "value": "../README.md"
+      },
+      "name": "выход пути проекта из рабочей копии"
+    },
+    {
+      "error_contains": "состояние",
+      "mutation": {
+        "operation": "set",
+        "path": ["задания", 0, "состояние"],
+        "value": "ready"
+      },
+      "name": "неверное состояние"
+    },
+    {
+      "error_contains": "не совпадает с веточным реестром",
+      "mutation": {
+        "operation": "set",
+        "path": ["задания", 0, "цель", "идентификатор_проекта"],
+        "value": "другой-проект"
+      },
+      "name": "цель задания другого проекта"
+    },
+    {
+      "error_contains": "неизвестный исполнитель",
+      "mutation": {
+        "operation": "set",
+        "path": ["задания", 0, "исполнитель"],
+        "value": {
+          "контракт": "неизвестный.1",
+          "тип": "неизвестный"
+        }
+      },
+      "name": "неизвестный исполнитель"
+    },
+    {
+      "error_contains": "мутирующий эффект требует обычную корневую задачу",
+      "mutation": {
+        "operation": "set",
+        "path": ["задания", 3, "исполнитель"],
+        "value": {
+          "контракт": "локальный-симулятор.1",
+          "тип": "локальный_пробник"
+        }
+      },
+      "name": "локальный пробник для внешнего эффекта"
+    },
+    {
+      "error_contains": "не совпадает с сеткой расписания",
+      "mutation": {
+        "operation": "set",
+        "path": ["задания", 0, "курсор_результата", "последнее_наступление"],
+        "value": "2026-08-05T00:01:00Z"
+      },
+      "name": "курсор между наступлениями расписания"
+    }
+  ],
+  "schema": "fum.dispatcher-invalid-fixtures.v1"
+}

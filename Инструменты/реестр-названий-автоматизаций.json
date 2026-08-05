@@ -36,6 +36,11 @@
   ],
   "current": [
     {
+      "source": "диспетчер автоматизаций FUM",
+      "transliteration": "dispetcher avtomatizacij FUM",
+      "slug": "fum-dispetcher-avtomatizacij-fum"
+    },
+    {
       "source": "аудит покрытия вопросов и ответов",
       "transliteration": "audit pokryitiya voprosov i otvetov",
       "slug": "fum-audit-pokryitiya-voprosov-i-otvetov"

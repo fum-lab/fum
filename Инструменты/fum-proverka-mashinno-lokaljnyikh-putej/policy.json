@@ -2322,6 +2322,15 @@
       "count": 1,
       "category": "allow.test-fixture",
       "reason": "Закрепляет одну автономную строку, проверяющую публикационный отказ при домашнем сокращении пути."
+    },
+    {
+      "id": "automation-dispatcher-project-path-home-expansion-validator",
+      "path": "Инструменты/fum-dispetcher-avtomatizacij-fum/scripts/диспетчер-автоматизаций.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:88fd7b9399ca4c83ae4e0ad86adc8baf469a6e9488c3b810f777db42e511ae6f",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет явный запрет домашних сокращений и file URI в пути проекта задания диспетчера."
     }
   ]
 }
