@@ -4,7 +4,7 @@
 
 ## LinguisticKit
 
-LinguisticKit подключён для канонической транслитерации русских смысловых названий [автоматизаций FUM](../Глоссарий/автоматизация-FUM.md):
+LinguisticKit подключён для канонической транслитерации русских смысловых названий [автоматизаций FUM](../Глоссарий/автоматизация-FUM.md) и целевой [братиславской версии памяти FUM](../Документация/50-братиславская-версия-памяти-FUM.md):
 
 - форк и `origin`: `https://github.com/fum-lab/LinguisticKit.git`;
 - оригинал и `upstream`: `https://github.com/Roman-Kerimov/LinguisticKit.git`;
@@ -34,6 +34,7 @@ python3 Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-g
 
 ## Источники
 
+- [исходный запрос 2026-08-05 18:12:35 MSK — Создать братиславскую версию памяти](../Журнал/2026-08-05_18-12-35_MSK_создать-братиславскую-версию-памяти/запрос.md)
 - [исходный запрос 2026-07-22 13:39:29 MSK — Устранить машинно-локальные пути](../Журнал/2026-07-22_13-39-29_MSK_устранить-машинно-локальные-пути/запрос.md)
 - [исходный запрос 2026-07-22 04:10:40 MSK](../Журнал/2026-07-22_04-10-40_MSK_добавить-инициализацию-зарегистрированных-Git-submodule/запрос.md)
 - [исходный запрос 2026-07-21 13:40:42 MSK](../Журнал/2026-07-21_13-40-42_MSK_актуализировать-форк-и-подключить-LinguisticKit/запрос.md)
@@ -41,6 +42,6 @@ python3 Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-g
 - [архивированная выбранная ревизия](../Источники/URL/https/github.com/Roman-Kerimov/LinguisticKit/commit/837e2ce107b97ee7b9d3344c9fe99142281fe393/source-index.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-03 14:54:04 MSK -->
-<!-- content-sha256: sha256:30aece822218f72b8f222358b4f30c144dd30ecbc25c822871b3afc1cc1943fe -->
+<!-- last-content-edit: 2026-08-05 18:28:33 MSK -->
+<!-- content-sha256: sha256:0fc2f591a289d0c91000bd5964823cdf341c795072d3d48eba7ab36fdf7aa60b -->
 <!-- FUM-MD-RECENCY:END -->

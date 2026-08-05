@@ -6790,9 +6790,9 @@ class BranchNextStepTests(unittest.TestCase):
             validation.stdout + validation.stderr,
         )
         validation_payload = self.payload(validation)
-        self.assertEqual(validation_payload["candidate_count"], 18)
-        self.assertEqual(validation_payload["ready_count"], 2)
-        self.assertEqual(validation_payload["paused_count"], 13)
+        self.assertEqual(validation_payload["candidate_count"], 20)
+        self.assertEqual(validation_payload["ready_count"], 3)
+        self.assertEqual(validation_payload["paused_count"], 14)
         self.assertEqual(validation_payload["blocked_count"], 3)
         self.assertEqual(shown.returncode, 0, shown.stdout + shown.stderr)
         shown_payload = self.payload(shown)
@@ -6804,7 +6804,7 @@ class BranchNextStepTests(unittest.TestCase):
         )
         self.assertEqual(shown_payload["dispatch"], "automatic")
         self.assertEqual(shown_payload["status"], "ready")
-        self.assertEqual(shown_payload["selection"]["ready_count"], 2)
+        self.assertEqual(shown_payload["selection"]["ready_count"], 3)
         self.assertEqual(
             shown_payload["selection"]["reason"],
             "completed_step_source",
