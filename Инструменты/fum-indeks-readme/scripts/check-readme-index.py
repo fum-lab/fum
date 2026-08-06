@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check that README indexes every numbered documentation entrypoint."""
+"""Проверка корневой инструкции и индекса номерной документации."""
 
 from __future__ import annotations
 
@@ -26,6 +26,9 @@ from project_files import ProjectFilesError, project_markdown_paths
 ROOT_README = Path("README.md")
 DOCUMENTATION_DIRECTORY = "Документация"
 THEMATIC_SECTION_TITLE = "Документация по темам"
+ИНДЕКС_ДОКУМЕНТАЦИИ = Path("Документация/README.md")
+ЗАГОЛОВОК_ТЕКУЩЕГО_СЦЕНАРИЯ = "Как использовать FUM сейчас"
+МАКСИМУМ_СИМВОЛОВ_КОРНЕВОЙ_ИНСТРУКЦИИ = 12_000
 NUMBERED_DOCUMENT_RE = re.compile(r"^\d{2}-.+\.md$")
 NUMBERED_DIRECTORY_RE = re.compile(r"^\d{2}-.+$")
 LEVEL_TWO_HEADING_RE = re.compile(
@@ -176,9 +179,17 @@ def thematic_section_lines(text: str) -> tuple[list[str] | None, str | None]:
         and match.group(1).strip() == THEMATIC_SECTION_TITLE
     ]
     if not section_starts:
-        return None, f"README.md is missing section: {THEMATIC_SECTION_TITLE}"
+        return (
+            None,
+            f"{ИНДЕКС_ДОКУМЕНТАЦИИ.as_posix()} is missing section: "
+            f"{THEMATIC_SECTION_TITLE}",
+        )
     if len(section_starts) != 1:
-        return None, f"README.md has duplicate section: {THEMATIC_SECTION_TITLE}"
+        return (
+            None,
+            f"{ИНДЕКС_ДОКУМЕНТАЦИИ.as_posix()} has duplicate section: "
+            f"{THEMATIC_SECTION_TITLE}",
+        )
 
     start = section_starts[0] + 1
     end = len(lines)
@@ -187,6 +198,14 @@ def thematic_section_lines(text: str) -> tuple[list[str] | None, str | None]:
             end = index
             break
     return lines[start:end], None
+
+
+def видимые_заголовки_второго_уровня(текст: str) -> tuple[str, ...]:
+    return tuple(
+        совпадение.group(1).strip()
+        for строка in mask_invisible_markdown(текст)
+        if (совпадение := LEVEL_TWO_HEADING_RE.fullmatch(строка)) is not None
+    )
 
 
 def strip_link_title(destination: str) -> str:
@@ -223,36 +242,82 @@ def indexed_targets(section_lines: list[str]) -> set[str]:
     return targets
 
 
+def видимые_цели_ссылок(текст: str) -> set[str]:
+    return indexed_targets(mask_invisible_markdown(текст))
+
+
+def цели_индекса_документации(строки_раздела: list[str]) -> set[str]:
+    return {
+        posixpath.normpath(
+            posixpath.join(DOCUMENTATION_DIRECTORY, относительная_цель)
+        )
+        for относительная_цель in indexed_targets(строки_раздела)
+    }
+
+
 def validate_repository(repo_root: str | Path) -> ValidationResult:
     root = Path(repo_root).resolve()
     required = required_documentation_entrypoints(root)
     readme = root / ROOT_README
+    ошибки: list[str] = []
+
     if not readme.is_file():
-        return ValidationResult(
-            errors=("README.md is missing",),
-            required_count=len(required),
-            indexed_count=0,
-        )
+        ошибки.append("README.md is missing")
+    else:
+        текст_инструкции = readme.read_text(encoding="utf-8")
+        длина_инструкции = len(текст_инструкции)
+        if длина_инструкции > МАКСИМУМ_СИМВОЛОВ_КОРНЕВОЙ_ИНСТРУКЦИИ:
+            ошибки.append(
+                "README.md exceeds "
+                f"{МАКСИМУМ_СИМВОЛОВ_КОРНЕВОЙ_ИНСТРУКЦИИ} characters: "
+                f"{длина_инструкции}"
+            )
+        заголовки = видимые_заголовки_второго_уровня(текст_инструкции)
+        число_сценариев = заголовки.count(ЗАГОЛОВОК_ТЕКУЩЕГО_СЦЕНАРИЯ)
+        if число_сценариев == 0:
+            ошибки.append(
+                "README.md is missing section: "
+                f"{ЗАГОЛОВОК_ТЕКУЩЕГО_СЦЕНАРИЯ}"
+            )
+        elif число_сценариев != 1:
+            ошибки.append(
+                "README.md has duplicate section: "
+                f"{ЗАГОЛОВОК_ТЕКУЩЕГО_СЦЕНАРИЯ}"
+            )
+        if THEMATIC_SECTION_TITLE in заголовки:
+            ошибки.append(
+                "README.md must not contain section: "
+                f"{THEMATIC_SECTION_TITLE}"
+            )
+        if ИНДЕКС_ДОКУМЕНТАЦИИ.as_posix() not in видимые_цели_ссылок(
+            текст_инструкции
+        ):
+            ошибки.append(
+                "README.md is missing visible link: "
+                f"{ИНДЕКС_ДОКУМЕНТАЦИИ.as_posix()}"
+            )
 
-    section, section_error = thematic_section_lines(
-        readme.read_text(encoding="utf-8")
-    )
-    if section_error is not None:
-        return ValidationResult(
-            errors=(section_error,),
-            required_count=len(required),
-            indexed_count=0,
+    индекс = root / ИНДЕКС_ДОКУМЕНТАЦИИ
+    targets: set[str] = set()
+    if not индекс.is_file():
+        ошибки.append(f"{ИНДЕКС_ДОКУМЕНТАЦИИ.as_posix()} is missing")
+    else:
+        section, section_error = thematic_section_lines(
+            индекс.read_text(encoding="utf-8")
         )
-    assert section is not None
+        if section_error is not None:
+            ошибки.append(section_error)
+        else:
+            assert section is not None
+            targets.update(цели_индекса_документации(section))
 
-    targets = indexed_targets(section)
     required_set = set(required)
     missing = sorted(required_set - targets)
+    ошибки.extend(
+        f"missing documentation-index link: {path}" for path in missing
+    )
     return ValidationResult(
-        errors=tuple(
-            f"missing README thematic-index link: {path}"
-            for path in missing
-        ),
+        errors=tuple(ошибки),
         required_count=len(required),
         indexed_count=len(required_set & targets),
     )
@@ -263,23 +328,23 @@ def main() -> int:
     try:
         result = validate_repository(args.repo_root)
     except (OSError, ProjectFilesError, UnicodeError) as exc:
-        print(f"README index check failed: {exc}", file=sys.stderr)
+        print(f"README contract check failed: {exc}", file=sys.stderr)
         return 1
 
     if result.errors:
         for error in result.errors:
             print(error, file=sys.stderr)
         print(
-            "README documentation index is incomplete: "
+            "README usage guide or documentation index is incomplete: "
             f"required={result.required_count} "
             f"indexed={result.indexed_count} "
-            f"missing={len(result.errors)}",
+            f"missing={result.required_count - result.indexed_count}",
             file=sys.stderr,
         )
         return 1
 
     print(
-        "README documentation index is complete: "
+        "README usage guide and documentation index are complete: "
         f"required={result.required_count} indexed={result.indexed_count}"
     )
     return 0
