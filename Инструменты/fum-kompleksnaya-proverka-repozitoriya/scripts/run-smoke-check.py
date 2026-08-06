@@ -134,6 +134,7 @@ class SmokeStep:
     command: tuple[str, ...] | None
     detail: str | None = None
     аналитический_ключ: str | None = None
+    ранняя_проверка: bool = False
 
     def __post_init__(self) -> None:
         if (self.command is None) == (self.detail is None):
@@ -143,6 +144,10 @@ class SmokeStep:
                 raise ValueError(
                     "analytical smoke key requires a command and must not be empty"
                 )
+        if self.ранняя_проверка and self.аналитический_ключ is not None:
+            raise ValueError(
+                "ранняя smoke-проверка не может быть аналитическим тестовым шагом"
+            )
 
 
 @dataclass(frozen=True)
@@ -223,10 +228,14 @@ def упорядочить_тестовые_шаги(
     шаги: list[SmokeStep],
     статистика: dict[str, СтатистикаТеста],
 ) -> list[SmokeStep]:
+    ранние_проверки: list[SmokeStep] = []
     тестовые: list[SmokeStep] = []
     фиксированные: list[SmokeStep] = []
     ключи: set[str] = set()
     for шаг in шаги:
+        if шаг.ранняя_проверка:
+            ранние_проверки.append(шаг)
+            continue
         ключ = шаг.аналитический_ключ
         if ключ is None:
             фиксированные.append(шаг)
@@ -255,7 +264,11 @@ def упорядочить_тестовые_шаги(
             ключ,
         )
 
-    return sorted(тестовые, key=ключ_порядка) + фиксированные
+    return (
+        ранние_проверки
+        + sorted(тестовые, key=ключ_порядка)
+        + фиксированные
+    )
 
 
 def канонические_машинные_байты(значение: object) -> bytes:
@@ -2224,6 +2237,7 @@ def build_steps(
                 "--repo-root",
                 ".",
             ),
+            ранняя_проверка=True,
         )
     )
 
@@ -2233,12 +2247,14 @@ def build_steps(
         SmokeStep(
             name="Сборка планового реестра",
             command=(python_cmd, planning_script, "build", "--output", planning_output),
+            ранняя_проверка=True,
         )
     )
     steps.append(
         SmokeStep(
             name="Проверка планового реестра",
             command=(python_cmd, planning_script, "validate", "--registry", planning_output),
+            ранняя_проверка=True,
         )
     )
 
@@ -2255,6 +2271,7 @@ def build_steps(
                 "--registry",
                 automation_names_registry,
             ),
+            ранняя_проверка=True,
         )
     )
 
@@ -2268,6 +2285,7 @@ def build_steps(
                 "--repo-root",
                 ".",
             ),
+            ранняя_проверка=True,
         )
     )
 
@@ -2291,6 +2309,7 @@ def build_steps(
                 "--снимок",
                 снимок_остатка,
             ),
+            ранняя_проверка=True,
         )
     )
 
@@ -2313,6 +2332,7 @@ def build_steps(
                 "--revision",
                 LINGUISTIC_KIT_REVISION,
             ),
+            ранняя_проверка=True,
         )
     )
 
@@ -2321,6 +2341,7 @@ def build_steps(
         SmokeStep(
             name="Проверка скриптов запуска прототипов",
             command=(python_cmd, prototype_launch_script),
+            ранняя_проверка=True,
         )
     )
 
@@ -2329,6 +2350,7 @@ def build_steps(
         SmokeStep(
             name="Проверка двунаправленности вопросов",
             command=(python_cmd, question_backlinks_script),
+            ранняя_проверка=True,
         )
     )
 
@@ -2337,6 +2359,7 @@ def build_steps(
         SmokeStep(
             name="Проверка тематического индекса README",
             command=(python_cmd, readme_index_script, "--repo-root", "."),
+            ранняя_проверка=True,
         )
     )
 
@@ -2345,6 +2368,7 @@ def build_steps(
         SmokeStep(
             name="Проверка recency-меток Markdown",
             command=(python_cmd, recency_script, "--check"),
+            ранняя_проверка=True,
         )
     )
     obsidian_graph_recency_script = require_file(root, OBSIDIAN_GRAPH_RECENCY_SCRIPT)
@@ -2352,6 +2376,7 @@ def build_steps(
         SmokeStep(
             name="Проверка тепловой карты графа Obsidian",
             command=(python_cmd, obsidian_graph_recency_script, "--check"),
+            ранняя_проверка=True,
         )
     )
 
@@ -2371,6 +2396,7 @@ def build_steps(
             SmokeStep(
                 name="Проверка связности рабочей сессии",
                 command=tuple(session_command),
+                ранняя_проверка=True,
             )
         )
 

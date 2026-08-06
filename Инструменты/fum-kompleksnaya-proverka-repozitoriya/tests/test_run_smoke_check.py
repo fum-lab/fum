@@ -970,6 +970,57 @@ let package = Package(
                     "Проверка связности рабочей сессии",
                 ],
             )
+            ранние_имена = {
+                "Проверка структуры папок запросов",
+                "Сборка планового реестра",
+                "Проверка планового реестра",
+                "Проверка реестра названий автоматизаций",
+                "Проверка машинно-локальных путей",
+                "Проверка перевода объявлений кода",
+                "Проверка Git-зависимости LinguisticKit",
+                "Проверка скриптов запуска прототипов",
+                "Проверка двунаправленности вопросов",
+                "Проверка тематического индекса README",
+                "Проверка recency-меток Markdown",
+                "Проверка тепловой карты графа Obsidian",
+                "Проверка связности рабочей сессии",
+            }
+            self.assertEqual(
+                {шаг.name for шаг in steps if шаг.ранняя_проверка},
+                ранние_имена,
+            )
+            self.assertFalse(steps[0].ранняя_проверка)
+            self.assertFalse(steps[1].ранняя_проверка)
+            упорядоченные = run_smoke_check.упорядочить_тестовые_шаги(
+                steps,
+                {},
+            )
+            сам_ранний_префикс = [
+                "Проверка структуры папок запросов",
+                "Сборка планового реестра",
+                "Проверка планового реестра",
+                "Проверка реестра названий автоматизаций",
+                "Проверка машинно-локальных путей",
+                "Проверка перевода объявлений кода",
+                "Проверка Git-зависимости LinguisticKit",
+                "Проверка скриптов запуска прототипов",
+                "Проверка двунаправленности вопросов",
+                "Проверка тематического индекса README",
+                "Проверка recency-меток Markdown",
+                "Проверка тепловой карты графа Obsidian",
+                "Проверка связности рабочей сессии",
+            ]
+            self.assertEqual(
+                [шаг.name for шаг in упорядоченные[:13]],
+                сам_ранний_префикс,
+            )
+            self.assertTrue(
+                all(шаг.ранняя_проверка for шаг in упорядоченные[:13])
+            )
+            self.assertEqual(
+                [шаг.name for шаг in упорядоченные[13:]],
+                ["Тесты fum-alpha", "Тесты fum-beta"],
+            )
             self.assertIn("Инструменты/fum-alpha/tests", steps[0].command)
             self.assertEqual(
                 next(
@@ -1630,6 +1681,114 @@ let package = Package(
         self.assertEqual(result, 0)
         self.assertIn("Проверенное исключение.", output.getvalue())
         self.assertIn("continued", output.getvalue())
+
+    def test_дешёвые_фиксированные_проверки_предшествуют_дорогим_наборам(сам):
+        шаги = [
+            run_smoke_check.SmokeStep(
+                name="Тесты дорогой Python-автоматизации",
+                command=("fixture", "python-tests"),
+                аналитический_ключ="Инструменты/fum-dorogaya/tests",
+            ),
+            run_smoke_check.SmokeStep(
+                name="Проверка связности рабочей сессии",
+                command=("fixture", "session-report-contract"),
+                ранняя_проверка=True,
+            ),
+            run_smoke_check.SmokeStep(
+                name="Тесты SwiftPM Прототипы/дорогой",
+                command=("fixture", "swift-tests"),
+                аналитический_ключ="Прототипы/дорогой",
+            ),
+            run_smoke_check.SmokeStep(
+                name="Проверка перевода объявлений кода",
+                command=("fixture", "declaration-snapshot"),
+                ранняя_проверка=True,
+            ),
+            run_smoke_check.SmokeStep(
+                name="Дорогая фиксированная сборка",
+                command=("fixture", "expensive-build"),
+            ),
+        ]
+
+        результат = run_smoke_check.упорядочить_тестовые_шаги(шаги, {})
+        имена = [шаг.name for шаг in результат]
+        индексы_дорогих = [
+            имена.index("Тесты дорогой Python-автоматизации"),
+            имена.index("Тесты SwiftPM Прототипы/дорогой"),
+        ]
+
+        for имя_проверки in (
+            "Проверка связности рабочей сессии",
+            "Проверка перевода объявлений кода",
+        ):
+            сам.assertLess(имена.index(имя_проверки), min(индексы_дорогих))
+        сам.assertGreater(
+            имена.index("Дорогая фиксированная сборка"),
+            max(индексы_дорогих),
+        )
+
+    def test_ранняя_проверка_не_может_быть_аналитическим_набором(сам):
+        with сам.assertRaisesRegex(ValueError, "ранняя smoke-проверка"):
+            run_smoke_check.SmokeStep(
+                name="Противоречивый шаг",
+                command=("fixture", "conflict"),
+                аналитический_ключ="Инструменты/fum-conflict/tests",
+                ранняя_проверка=True,
+            )
+
+    def test_ранний_отказ_фиксированной_проверки_не_запускает_дорогие_наборы(сам):
+        шаги = [
+            run_smoke_check.SmokeStep(
+                name="Проверка связности рабочей сессии",
+                command=("fixture", "session-report-contract"),
+                ранняя_проверка=True,
+            ),
+            run_smoke_check.SmokeStep(
+                name="Проверка перевода объявлений кода",
+                command=("fixture", "declaration-snapshot"),
+                ранняя_проверка=True,
+            ),
+            run_smoke_check.SmokeStep(
+                name="Тесты дорогой Python-автоматизации",
+                command=("fixture", "python-tests"),
+                аналитический_ключ="Инструменты/fum-dorogaya/tests",
+            ),
+            run_smoke_check.SmokeStep(
+                name="Тесты SwiftPM Прототипы/дорогой",
+                command=("fixture", "swift-tests"),
+                аналитический_ключ="Прототипы/дорогой",
+            ),
+            run_smoke_check.SmokeStep(
+                name="Сборка SwiftPM-продукта Прототипы/дорогой: CLI",
+                command=("fixture", "swift-build"),
+            ),
+            run_smoke_check.SmokeStep(
+                name="Строгий lint SwiftPM Прототипы/дорогой",
+                command=("fixture", "swift-lint"),
+            ),
+        ]
+        упорядоченные = run_smoke_check.упорядочить_тестовые_шаги(шаги, {})
+
+        def завершить(команда, **_):
+            код = 7 if команда[1] in {
+                "session-report-contract",
+                "declaration-snapshot",
+            } else 0
+            return subprocess.CompletedProcess(команда, код, "", "")
+
+        with mock.patch.object(
+            run_smoke_check.subprocess,
+            "run",
+            side_effect=завершить,
+        ) as запуск:
+            код = run_smoke_check.run_steps(упорядоченные, Path.cwd())
+
+        вызванные_команды = [вызов.args[0] for вызов in запуск.call_args_list]
+        сам.assertEqual(код, 7)
+        сам.assertNotIn(("fixture", "python-tests"), вызванные_команды)
+        сам.assertNotIn(("fixture", "swift-tests"), вызванные_команды)
+        сам.assertNotIn(("fixture", "swift-build"), вызванные_команды)
+        сам.assertNotIn(("fixture", "swift-lint"), вызванные_команды)
 
     def test_отказы_идут_до_неизвестных_а_надёжные_после(сам):
         шаги = [

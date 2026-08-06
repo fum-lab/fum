@@ -385,6 +385,64 @@ class ОтчётыОЗапускахПроверок(unittest.TestCase):
         сам.assertIsNone(запись["план"])
         сам.assertEqual(запись["наблюдения"], [])
 
+    def test_ранний_фиксированный_отказ_сохраняет_план_без_наблюдений(сам) -> None:
+        идентификатор = "00000000-0000-4000-8000-0000000000a9"
+        путь_полной_проверки = (
+            сам.фикстура.корень
+            / "Инструменты"
+            / "fum-kompleksnaya-proverka-repozitoriya"
+            / "scripts"
+            / "run-smoke-check.py"
+        )
+        путь_полной_проверки.parent.mkdir(parents=True)
+        путь_полной_проверки.write_text(
+            "import json, os\n"
+            "from pathlib import Path\n"
+            "значение = {\n"
+            "    'схема': 'fum.smoke-test-observations.v1',\n"
+            "    'идентификатор_запуска': os.environ['FUM_CHECK_RUN_ID'],\n"
+            "    'текущая_проверка': None,\n"
+            "    'план': [{\n"
+            "        'ключ_проверки': 'Инструменты/fum-alpha/tests',\n"
+            "        'название': 'Тесты fum-alpha',\n"
+            "    }],\n"
+            "    'наблюдения': [],\n"
+            "}\n"
+            "Path(os.environ['FUM_CHECK_RUN_OBSERVATIONS_PATH']).write_text(\n"
+            "    json.dumps(значение, ensure_ascii=False, indent=2, "
+            "sort_keys=True) + '\\n', encoding='utf-8'\n"
+            ")\n"
+            "raise SystemExit(7)\n",
+            encoding="utf-8",
+        )
+
+        результат = сам.фикстура.запустить(
+            идентификатор,
+            sys.executable,
+            str(путь_полной_проверки),
+            название="ранний фиксированный отказ",
+        )
+
+        сам.assertEqual(результат.returncode, 7, результат.stderr)
+        запись = сам.фикстура.запись(идентификатор)
+        сам.assertEqual(запись["статус"], "неуспешно")
+        сам.assertEqual(запись["код_завершения"], 7)
+        сам.assertEqual(
+            запись["план"],
+            [
+                {
+                    "ключ_проверки": "Инструменты/fum-alpha/tests",
+                    "название": "Тесты fum-alpha",
+                }
+            ],
+        )
+        сам.assertEqual(запись["наблюдения"], [])
+
+        закрытие = сам.фикстура.выполнить("закрыть")
+        сам.assertEqual(закрытие.returncode, 0, закрытие.stderr)
+        проверка = сам.фикстура.выполнить("проверить")
+        сам.assertEqual(проверка.returncode, 0, проверка.stderr)
+
     def test_тайм_аут_учитывает_текущий_зависший_тест(сам) -> None:
         идентификатор = "00000000-0000-4000-8000-0000000000a6"
         путь_полной_проверки = (

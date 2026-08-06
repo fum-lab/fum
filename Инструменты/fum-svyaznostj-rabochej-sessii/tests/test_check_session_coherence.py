@@ -583,10 +583,13 @@ class CheckSessionCoherenceTests(unittest.TestCase):
             ),
         ]
 
-    def _записи_с_активной(себя, стем: str) -> list[dict[str, object]]:
-        return [
-            себя._завершённые_записи(стем)[0],
-            себя._запись_запуска(
+    def _записи_с_активной(
+        себя,
+        стем: str,
+        *,
+        план: list[dict[str, str]] | None = None,
+    ) -> list[dict[str, object]]:
+        активная = себя._запись_запуска(
                 стем=стем,
                 порядок=2,
                 идентификатор="00000000-0000-4000-8000-000000000003",
@@ -597,8 +600,15 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                 статус=None,
                 код_завершения=None,
                 пояснение=None,
-            ),
-        ]
+            )
+        активная.update(
+            {
+                "схема": "fum.test-run.v2",
+                "план": план,
+                "наблюдения": [],
+            }
+        )
+        return [себя._завершённые_записи(стем)[0], активная]
 
     def test_valid_session_with_listed_dirty_files_passes(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -2011,6 +2021,42 @@ class CheckSessionCoherenceTests(unittest.TestCase):
             )
 
             себя.assertEqual(ошибки, [])
+
+    def test_открытый_журнал_отклоняет_план_активной_записи_версии_два(себя):
+        стем = (
+            "2026-08-04_20-45-26_MSK_"
+            "формировать-отчёты-о-запусках-тестов"
+        )
+        with tempfile.TemporaryDirectory() as временный:
+            корень = Path(временный)
+            путь_запроса, _, _, _ = себя._записать_машинный_профиль(
+                корень,
+                стем=стем,
+                метка=(
+                    "2026-08-04 20:45:26 MSK - "
+                    "Формировать отчёты о запусках тестов"
+                ),
+                записи=себя._записи_с_активной(
+                    стем,
+                    план=[
+                        {
+                            "ключ_проверки": "Инструменты/fum-alpha/tests",
+                            "название": "Тесты fum-alpha",
+                        }
+                    ],
+                ),
+                состояние="открыт",
+            )
+
+            ошибки = check_session_coherence.validate_journal(
+                корень.resolve(),
+                путь_запроса.resolve(),
+            )
+
+            себя.assertTrue(ошибки)
+            себя.assertTrue(
+                any("активная запись содержит план" in ошибка for ошибка in ошибки)
+            )
 
     def test_открытый_машинный_журнал_без_активной_записи_отклоняется(себя):
         стем = (
