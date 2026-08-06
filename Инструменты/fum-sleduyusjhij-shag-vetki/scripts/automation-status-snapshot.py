@@ -147,9 +147,19 @@ def declarative_snapshot(snapshot: Any) -> dict[str, Any]:
     return normalized
 
 
-def prepare_status_update(snapshot: Any, desired_status: str) -> dict[str, Any]:
+def prepare_status_update(
+    snapshot: Any,
+    desired_status: str,
+    ожидаемый_статус: str,
+) -> dict[str, Any]:
     _validate_status(desired_status)
-    prepared = declarative_snapshot(snapshot)
+    _validate_status(ожидаемый_статус)
+    if desired_status == ожидаемый_статус:
+        raise SnapshotError("исходный и целевой status должны различаться")
+    проверенный_снимок = validate_snapshot(snapshot)
+    if проверенный_снимок["status"] != ожидаемый_статус:
+        raise SnapshotError("исходный status не совпадает с предложением")
+    prepared = declarative_snapshot(проверенный_снимок)
     prepared["status"] = desired_status
     prepared["mode"] = "update"
     return prepared
@@ -403,6 +413,12 @@ def build_parser() -> argparse.ArgumentParser:
     prepare = subparsers.add_parser("prepare")
     prepare.add_argument("--snapshot", required=True)
     prepare.add_argument("--status", required=True, choices=sorted(ALLOWED_STATUSES))
+    prepare.add_argument(
+        "--ожидаемый-статус",
+        dest="ожидаемый_статус",
+        required=True,
+        choices=sorted(ALLOWED_STATUSES),
+    )
     prepare.add_argument("--input-format", choices=("auto", "json", "toml"), default="auto")
 
     verify = subparsers.add_parser("verify")
@@ -472,6 +488,7 @@ def main(argv: list[str] | None = None) -> int:
             result = prepare_status_update(
                 read_snapshot(args.snapshot, args.input_format),
                 args.status,
+                args.ожидаемый_статус,
             )
         elif args.command == "verify":
             result = verify_status_only_diff(

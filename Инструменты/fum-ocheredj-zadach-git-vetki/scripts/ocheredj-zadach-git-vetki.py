@@ -406,6 +406,60 @@ def read_ref_oid(context: QueueContext, reference_name: str) -> str | None:
     return decoded_stdout(reference)
 
 
+def подготовить_внешнее_ограждение(
+    контекст: QueueContext,
+    ограждающая_ссылка: str | None,
+    ожидаемый_объект: str | None,
+) -> tuple[str, str | None]:
+    if ограждающая_ссылка is None and ожидаемый_объект is None:
+        return "", None
+    if ограждающая_ссылка is None or ожидаемый_объект is None:
+        raise QueueError(
+            EXIT_CLI,
+            "invalid_guard",
+            "Guard требует одновременно ссылку и ожидаемый объект.",
+        )
+    if (
+        not ограждающая_ссылка.startswith("refs/fum/")
+        or "\n" in ограждающая_ссылка
+        or "\0" in ограждающая_ссылка
+    ):
+        raise QueueError(
+            EXIT_CLI,
+            "invalid_guard",
+            "Guard допускает только полную служебную ссылку refs/fum/....",
+        )
+    проверка_ссылки = run_git(
+        контекст.root,
+        ["check-ref-format", ограждающая_ссылка],
+        check=False,
+    )
+    if проверка_ссылки.returncode != 0:
+        raise QueueError(
+            EXIT_CLI,
+            "invalid_guard",
+            "Guard содержит некорректную Git-ссылку.",
+        )
+    длина_объекта = len(current_head(контекст.root))
+    if ожидаемый_объект == "absent":
+        нормализованный_объект = None
+        объект_для_проверки = "0" * длина_объекта
+    else:
+        if (
+            re.fullmatch(r"[0-9a-f]+", ожидаемый_объект) is None
+            or len(ожидаемый_объект) != длина_объекта
+        ):
+            raise QueueError(
+                EXIT_CLI,
+                "invalid_guard",
+                "Guard содержит объект неверного формата.",
+            )
+        нормализованный_объект = ожидаемый_объект
+        объект_для_проверки = ожидаемый_объект
+    команда = f"verify {ограждающая_ссылка} {объект_для_проверки}\n"
+    return команда, нормализованный_объект
+
+
 def read_state(context: QueueContext) -> tuple[dict[str, object], str | None]:
     oid = read_ref_oid(context, context.queue_ref)
     if oid is None:
@@ -477,10 +531,12 @@ def update_queue_with_head_verification(
     expected_head: str,
     old_queue_oid: str,
     new_queue_oid: str,
+    команда_внешнего_ограждения: str = "",
 ) -> subprocess.CompletedProcess[bytes]:
     transaction = (
         "start\n"
         f"verify {context.branch_ref} {expected_head}\n"
+        f"{команда_внешнего_ограждения}"
         f"update {context.queue_ref} {new_queue_oid} {old_queue_oid}\n"
         "prepare\n"
         "commit\n"
@@ -1061,10 +1117,26 @@ def finish_clean_and_handoff(
     context: QueueContext,
     task_id: str,
     generation: str,
+    ограждающая_ссылка: str | None = None,
+    ожидаемый_объект_ограждения: str | None = None,
 ) -> tuple[int, dict[str, object]]:
     task_id = validate_task_id(task_id)
     if not generation or "\0" in generation or "\n" in generation:
         raise QueueError(EXIT_CLI, "invalid_generation", "Некорректное поколение владельца.")
+    команда_ограждения, ожидаемый_объект = подготовить_внешнее_ограждение(
+        context,
+        ограждающая_ссылка,
+        ожидаемый_объект_ограждения,
+    )
+    if (
+        ограждающая_ссылка is not None
+        and read_ref_oid(context, ограждающая_ссылка) != ожидаемый_объект
+    ):
+        raise QueueError(
+            EXIT_CAS,
+            "guard_changed",
+            "Внешнее ограждение изменилось до чистой передачи.",
+        )
 
     unchanged_ref_failures = 0
     for _ in range(MAX_CAS_ATTEMPTS):
@@ -1124,12 +1196,23 @@ def finish_clean_and_handoff(
             expected_head=base_head,
             old_queue_oid=old_oid,
             new_queue_oid=new_oid,
+            команда_внешнего_ограждения=команда_ограждения,
         )
         if result.returncode == 0:
             return finished_clean_result(context, new_oid, completion)
         last_stderr = result.stderr.decode("utf-8", errors="replace").strip()
         observed_head = current_head(context.root)
         observed_state, observed_queue_oid = read_state(context)
+        if (
+            ограждающая_ссылка is not None
+            and read_ref_oid(context, ограждающая_ссылка)
+            != ожидаемый_объект
+        ):
+            raise QueueError(
+                EXIT_CAS,
+                "guard_changed",
+                "Внешнее ограждение изменилось во время чистой передачи.",
+            )
         observed_completion = matching_completion(
             observed_state,
             kind="finished_clean",
@@ -1163,6 +1246,8 @@ def finish_clean_and_handoff(
 def finish_own_clean_and_handoff(
     context: QueueContext,
     task_id: str,
+    ограждающая_ссылка: str | None = None,
+    ожидаемый_объект_ограждения: str | None = None,
 ) -> tuple[int, dict[str, object]]:
     task_id = validate_task_id(task_id)
     ensure_live_branch(context)
@@ -1176,7 +1261,13 @@ def finish_own_clean_and_handoff(
             "Задача не является текущим владельцем очереди.",
         )
     generation = str(owner["generation"])
-    return finish_clean_and_handoff(context, task_id, generation)
+    return finish_clean_and_handoff(
+        context,
+        task_id,
+        generation,
+        ограждающая_ссылка,
+        ожидаемый_объект_ограждения,
+    )
 
 
 def atomic_commit_and_handoff(
@@ -1983,6 +2074,14 @@ def build_parser() -> argparse.ArgumentParser:
     )
     add_common(finish_own_clean)
     finish_own_clean.add_argument("--task-id", required=True)
+    finish_own_clean.add_argument(
+        "--ограждающая-ссылка",
+        dest="ограждающая_ссылка",
+    )
+    finish_own_clean.add_argument(
+        "--ожидаемый-объект-ограждения",
+        dest="ожидаемый_объект_ограждения",
+    )
 
     commit = subparsers.add_parser(
         "commit",
@@ -2068,6 +2167,8 @@ def main(argv: list[str] | None = None) -> int:
             code, payload = finish_own_clean_and_handoff(
                 context,
                 args.task_id,
+                args.ограждающая_ссылка,
+                args.ожидаемый_объект_ограждения,
             )
         elif args.command == "commit":
             code, payload = atomic_commit_and_handoff(

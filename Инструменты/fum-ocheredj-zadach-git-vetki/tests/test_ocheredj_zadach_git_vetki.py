@@ -195,15 +195,31 @@ class GitQueueFixture(unittest.TestCase):
             "--json",
         )
 
-    def finish_own_clean(self, task_id: str):
-        return self.run_queue(
+    def finish_own_clean(
+        self,
+        task_id: str,
+        *,
+        ограждающая_ссылка: str | None = None,
+        ожидаемый_объект_ограждения: str | None = None,
+    ):
+        аргументы = [
             "finish-own-clean",
             "--repo-root",
             str(self.repo),
             "--task-id",
             task_id,
-            "--json",
-        )
+        ]
+        if ограждающая_ссылка is not None:
+            аргументы.extend(("--ограждающая-ссылка", ограждающая_ссылка))
+        if ожидаемый_объект_ограждения is not None:
+            аргументы.extend(
+                (
+                    "--ожидаемый-объект-ограждения",
+                    ожидаемый_объект_ограждения,
+                )
+            )
+        аргументы.append("--json")
+        return self.run_queue(*аргументы)
 
     def heartbeat_status(self, task_id: str):
         return self.run_queue(
@@ -951,6 +967,70 @@ class QueueSafetyTests(GitQueueFixture):
         ))
         self.assertEqual(active["owner"]["task_id"], "task-a")
         self.assertEqual(active["owner"]["generation"], owner["generation"])
+
+    def test_чистое_завершение_своего_владельца_атомарно_проверяет_внешнее_ограждение(
+        сам,
+    ) -> None:
+        модуль = load_queue_module()
+        _, владелец = сам.join("task-a")
+        контекст = модуль.resolve_context(сам.repo)
+        ограждающая_ссылка = "refs/fum/test-management-guard"
+        исходная_запись_состояния = модуль.write_state_blob
+        гонка = False
+
+        def записать_и_создать_ограждение(контекст_очереди, состояние):
+            nonlocal гонка
+            идентификатор_объекта = исходная_запись_состояния(
+                контекст_очереди,
+                состояние,
+            )
+            if not гонка and состояние.get("owner") is None:
+                гонка = True
+                объект_ограждения = сам.git(
+                    "rev-parse",
+                    "HEAD",
+                ).stdout.strip()
+                сам.git(
+                    "update-ref",
+                    ограждающая_ссылка,
+                    объект_ограждения,
+                )
+            return идентификатор_объекта
+
+        with mock.patch.object(
+            модуль,
+            "write_state_blob",
+            записать_и_создать_ограждение,
+        ):
+            with сам.assertRaises(модуль.QueueError) as исключение:
+                модуль.finish_own_clean_and_handoff(
+                    контекст,
+                    "task-a",
+                    ограждающая_ссылка,
+                    "absent",
+                )
+
+        сам.assertEqual(исключение.exception.state, "guard_changed")
+        активное = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        сам.assertEqual(активное["owner"]["task_id"], "task-a")
+        сам.assertEqual(
+            активное["owner"]["generation"],
+            владелец["generation"],
+        )
+
+        сам.git("update-ref", "-d", ограждающая_ссылка)
+        завершение = сам.finish_own_clean(
+            "task-a",
+            ограждающая_ссылка=ограждающая_ссылка,
+            ожидаемый_объект_ограждения="absent",
+        )
+        сам.assertEqual(завершение.returncode, 0, завершение.stderr)
+        сам.assertEqual(
+            сам.payload(завершение)["state"],
+            "finished_clean",
+        )
 
     def test_finish_clean_atomically_verifies_the_branch_head(self) -> None:
         module = load_queue_module()

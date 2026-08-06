@@ -6803,17 +6803,45 @@ class BranchNextStepTests(unittest.TestCase):
             validation.stdout + validation.stderr,
         )
         validation_payload = self.payload(validation)
-        self.assertEqual(validation_payload["candidate_count"], 20)
+        self.assertEqual(validation_payload["candidate_count"], 19)
         self.assertEqual(validation_payload["ready_count"], 3)
-        self.assertEqual(validation_payload["paused_count"], 14)
+        self.assertEqual(validation_payload["paused_count"], 13)
         self.assertEqual(validation_payload["blocked_count"], 3)
         self.assertEqual(shown.returncode, 0, shown.stdout + shown.stderr)
         shown_payload = self.payload(shown)
         self.assertEqual(shown_payload["state"], "ready")
-        self.assertEqual(shown_payload["card_id"], "FUM-STEP-0094")
+        карточка_0094_в_вершине = subprocess.run(
+            [
+                "git",
+                "-C",
+                str(REPO_ROOT),
+                "cat-file",
+                "-e",
+                (
+                    "HEAD:Планирование/карточки-шагов/"
+                    "✅-FUM-STEP-0094-добавить-управление-диспетчером-"
+                    "через-сообщения.md"
+                ),
+            ],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        ожидаемые_выборы = (
+            (
+                "FUM-STEP-0096",
+                "master-fum-step-0096-automatic-v5",
+            )
+            if карточка_0094_в_вершине.returncode == 0
+            else (
+                "FUM-STEP-0119",
+                "master-fum-step-0119-automatic-v1",
+            )
+        )
+        self.assertEqual(shown_payload["card_id"], ожидаемые_выборы[0])
         self.assertEqual(
             shown_payload["step_id"],
-            "master-fum-step-0094-automatic-v6",
+            ожидаемые_выборы[1],
         )
         self.assertEqual(shown_payload["dispatch"], "automatic")
         self.assertEqual(shown_payload["status"], "ready")

@@ -183,7 +183,11 @@ class AutomationStatusSnapshotTests(unittest.TestCase):
     def test_prepares_status_update_without_rebuilding_snapshot_fields(self) -> None:
         before = self.snapshot()
 
-        prepared = SNAPSHOT.prepare_status_update(before, "ACTIVE")
+        prepared = SNAPSHOT.prepare_status_update(
+            before,
+            "ACTIVE",
+            "PAUSED",
+        )
 
         self.assertEqual(prepared["status"], "ACTIVE")
         self.assertEqual(prepared["mode"], "update")
@@ -206,7 +210,11 @@ class AutomationStatusSnapshotTests(unittest.TestCase):
         before = self.snapshot()
         after = self.snapshot(status="ACTIVE", updated_at="after")
 
-        verified = SNAPSHOT.verify_status_only_diff(before, after, "ACTIVE")
+        verified = SNAPSHOT.verify_status_only_diff(
+            before,
+            after,
+            "ACTIVE",
+        )
 
         self.assertEqual(verified["state"], "verified")
         self.assertEqual(verified["changed_fields"], ["status", "updated_at"])
@@ -249,14 +257,18 @@ class AutomationStatusSnapshotTests(unittest.TestCase):
         ambiguous = self.snapshot()
         ambiguous["targetThreadId"] = "opaque-thread"
         with self.assertRaisesRegex(SNAPSHOT.SnapshotError, "ровно один"):
-            SNAPSHOT.prepare_status_update(ambiguous, "ACTIVE")
+            SNAPSHOT.prepare_status_update(ambiguous, "ACTIVE", "PAUSED")
 
         snake_case = self.snapshot()
         snake_case["target"] = {
             "type": "thread",
             "thread_id": "opaque-thread",
         }
-        prepared = SNAPSHOT.prepare_status_update(snake_case, "ACTIVE")
+        prepared = SNAPSHOT.prepare_status_update(
+            snake_case,
+            "ACTIVE",
+            "PAUSED",
+        )
         self.assertEqual(prepared["targetThreadId"], "opaque-thread")
 
     def test_created_at_and_version_are_observed_but_never_updated(self) -> None:
@@ -274,7 +286,21 @@ class AutomationStatusSnapshotTests(unittest.TestCase):
         unknown_before = self.snapshot()
         unknown_before["unknown_host_field"] = "value"
         with self.assertRaises(SNAPSHOT.SnapshotError):
-            SNAPSHOT.prepare_status_update(unknown_before, "ACTIVE")
+            SNAPSHOT.prepare_status_update(
+                unknown_before,
+                "ACTIVE",
+                "PAUSED",
+            )
+
+    def test_отклоняет_устаревший_или_уже_достигнутый_статус_среды(
+        сам,
+    ) -> None:
+        with сам.assertRaisesRegex(SNAPSHOT.SnapshotError, "исходный status"):
+            SNAPSHOT.prepare_status_update(
+                сам.snapshot(status="PAUSED"),
+                "PAUSED",
+                "ACTIVE",
+            )
 
     def test_cli_prepares_real_snake_case_toml_snapshot(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
@@ -308,6 +334,8 @@ class AutomationStatusSnapshotTests(unittest.TestCase):
                     str(snapshot_path),
                     "--status",
                     "ACTIVE",
+                    "--ожидаемый-статус",
+                    "PAUSED",
                 ],
                 check=False,
                 capture_output=True,
@@ -350,6 +378,8 @@ class AutomationStatusSnapshotTests(unittest.TestCase):
                     str(before_path),
                     "--status",
                     "ACTIVE",
+                    "--ожидаемый-статус",
+                    "PAUSED",
                 ],
                 check=False,
                 capture_output=True,
@@ -712,6 +742,44 @@ class HeartbeatControlContractTests(unittest.TestCase):
         self.assertLess(initial_idle, recovery)
         self.assertLess(recovery, busy)
         self.assertLess(recovery, active_exit)
+
+    def test_ограждение_управления_предшествует_самовосстановлению_и_границе_среды(
+        сам,
+    ) -> None:
+        промпт = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+        навык = SKILL_PATH.read_text(encoding="utf-8")
+        команда_внутреннего_снимка = (
+            "снимок-ограждения-чистого-завершения "
+            "--корень-рабочей-копии <КОРЕНЬ_КЛОНА> "
+            "--expected-branch-ref refs/heads/master --json"
+        )
+        команда_публичного_состояния = (
+            "состояние-управления --корень-рабочей-копии "
+            "<КОРЕНЬ_КЛОНА> --expected-branch-ref refs/heads/master --json"
+        )
+
+        for текст in (промпт, навык):
+            сам.assertIn(команда_внутреннего_снимка, текст)
+            сам.assertIn(команда_публичного_состояния, текст)
+            сам.assertIn("--ограждающая-ссылка", текст)
+            сам.assertIn("--ожидаемый-объект-ограждения", текст)
+            сам.assertIn("guard_changed", текст)
+            сам.assertIn("активно", текст)
+            сам.assertIn("неактивно", текст)
+            сам.assertIn("без чистого восстановления очереди", текст)
+            сам.assertIn("карточочной резервации", текст)
+            сам.assertIn("создания задачи", текст)
+
+        шаблон = RENDERER.extract_heartbeat_template(промпт)
+        первое_ограждение = шаблон.index(команда_внутреннего_снимка)
+        проверка_очереди = шаблон.index("heartbeat-status --task-id")
+        восстановление = шаблон.index("finish-own-clean")
+        повторное_ограждение = шаблон.index(команда_публичного_состояния)
+        граница_среды = шаблон.index("начать-вызов-среды")
+        сам.assertLess(первое_ограждение, проверка_очереди)
+        сам.assertLess(первое_ограждение, восстановление)
+        сам.assertLess(проверка_очереди, повторное_ограждение)
+        сам.assertLess(повторное_ограждение, граница_среды)
 
     def test_permission_retry_is_exact_and_requires_proven_denial(self) -> None:
         prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
