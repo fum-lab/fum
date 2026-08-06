@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.util
 import json
 import os
 import posixpath
@@ -14,8 +15,11 @@ import subprocess
 import sys
 import time
 import tomllib
-from collections.abc import Callable, Iterable
+import unicodedata as данные_юникода
+import uuid as уникальные_идентификаторы
+from collections.abc import Callable, Iterable, Sequence
 from dataclasses import dataclass
+from fractions import Fraction
 from pathlib import Path, PurePosixPath
 
 
@@ -88,6 +92,28 @@ SWIFT_FORMAT_CONFIG = Path(
 CODEX_PROJECT_CONFIG = Path(".codex/config.toml")
 SHA256_RE = re.compile(r"^sha256:[0-9a-f]{64}$")
 WINDOWS_ABSOLUTE_PATH_RE = re.compile(r"^[A-Za-z]:[\\/]")
+СХЕМА_СНИМКА_ЗАПУСКОВ = "fum.test-run-report.v1"
+СХЕМА_ЗАПУСКА_С_НАБЛЮДЕНИЯМИ = "fum.test-run.v2"
+СХЕМА_ЗАПУСКА_БЕЗ_НАБЛЮДЕНИЙ = "fum.test-run.v1"
+СХЕМА_КОНВЕРТА_НАБЛЮДЕНИЙ = "fum.smoke-test-observations.v1"
+ПЕРЕМЕННАЯ_ПУТИ_НАБЛЮДЕНИЙ = "FUM_CHECK_RUN_OBSERVATIONS_PATH"
+ПЕРЕМЕННАЯ_ИДЕНТИФИКАТОРА_ЗАПУСКА = "FUM_CHECK_RUN_ID"
+СТАТУСЫ_НАБЛЮДЕНИЙ = frozenset(
+    {"успешно", "неуспешно", "прервано", "не завершено"}
+)
+ЗАКРЫТЫЙ_МАРКЕР_ЗАПУСКОВ = re.compile(
+    r"^<!-- FUM-CHECK-RUNS:BEGIN состояние=закрыт; "
+    r"снимок=материалы/запуски-проверок/снимок\.json; "
+    r"sha256=sha256:(?P<хэш>[0-9a-f]{64}) -->$",
+    re.MULTILINE,
+)
+ПУТЬ_ПРОВЕРКИ_ЖУРНАЛА_ЗАПУСКОВ = (
+    Path(__file__).resolve().parents[2]
+    / "fum-otchyotyi-o-zapuskakh-proverok"
+    / "scripts"
+    / "отчёты_о_запусках_проверок.py"
+)
+_модуль_проверки_журнала: object | None = None
 SWIFT_OFFLINE_FLAGS = (
     "--disable-dependency-cache",
     "--manifest-cache",
@@ -107,10 +133,547 @@ class SmokeStep:
     name: str
     command: tuple[str, ...] | None
     detail: str | None = None
+    аналитический_ключ: str | None = None
 
     def __post_init__(self) -> None:
         if (self.command is None) == (self.detail is None):
             raise ValueError("smoke step must define exactly one of command or detail")
+        if self.аналитический_ключ is not None:
+            if self.command is None or not self.аналитический_ключ:
+                raise ValueError(
+                    "analytical smoke key requires a command and must not be empty"
+                )
+
+
+@dataclass(frozen=True)
+class СтатистикаТеста:
+    успешные: int
+    неуспешные: int
+    цензурированные: int
+    суммарная_длительность_наносекунды: int
+
+    def __post_init__(сам) -> None:
+        if any(
+            isinstance(значение, bool)
+            or not isinstance(значение, int)
+            or значение < 0
+            for значение in (
+                сам.успешные,
+                сам.неуспешные,
+                сам.цензурированные,
+                сам.суммарная_длительность_наносекунды,
+            )
+        ):
+            raise ValueError("test statistics values must be non-negative integers")
+
+    @property
+    def завершённые(сам) -> int:
+        return сам.успешные + сам.неуспешные
+
+    @property
+    def вероятность_успеха(сам) -> Fraction:
+        if сам.завершённые == 0:
+            raise ValueError("success probability requires completed observations")
+        return Fraction(сам.успешные, сам.завершённые)
+
+    @property
+    def средняя_длительность_наносекунды(сам) -> Fraction:
+        if сам.завершённые == 0:
+            raise ValueError("mean duration requires completed observations")
+        return Fraction(
+            сам.суммарная_длительность_наносекунды,
+            сам.завершённые,
+        )
+
+
+def собрать_статистику_наблюдений(
+    наблюдения: Iterable[dict[str, object]],
+) -> dict[str, СтатистикаТеста]:
+    накопители: dict[str, list[int]] = {}
+    for наблюдение in наблюдения:
+        ключ = наблюдение.get("ключ_проверки")
+        статус = наблюдение.get("статус")
+        длительность = наблюдение.get("длительность_наносекунды")
+        if not isinstance(ключ, str) or not ключ:
+            raise ValueError("smoke observation has an invalid test key")
+        if статус not in СТАТУСЫ_НАБЛЮДЕНИЙ:
+            raise ValueError(f"smoke observation has an invalid status: {ключ}")
+        if (
+            isinstance(длительность, bool)
+            or not isinstance(длительность, int)
+            or длительность < 0
+        ):
+            raise ValueError(f"smoke observation has an invalid duration: {ключ}")
+        накопитель = накопители.setdefault(ключ, [0, 0, 0, 0])
+        if статус == "успешно":
+            накопитель[0] += 1
+            накопитель[3] += длительность
+        elif статус in {"неуспешно", "не завершено"}:
+            накопитель[1] += 1
+            накопитель[3] += длительность
+        else:
+            накопитель[2] += 1
+    return {
+        ключ: СтатистикаТеста(*значения)
+        for ключ, значения in накопители.items()
+    }
+
+
+def упорядочить_тестовые_шаги(
+    шаги: list[SmokeStep],
+    статистика: dict[str, СтатистикаТеста],
+) -> list[SmokeStep]:
+    тестовые: list[SmokeStep] = []
+    фиксированные: list[SmokeStep] = []
+    ключи: set[str] = set()
+    for шаг in шаги:
+        ключ = шаг.аналитический_ключ
+        if ключ is None:
+            фиксированные.append(шаг)
+            continue
+        if ключ in ключи:
+            raise ValueError(f"duplicate analytical smoke key: {ключ}")
+        ключи.add(ключ)
+        тестовые.append(шаг)
+
+    def ключ_порядка(шаг: SmokeStep) -> tuple[object, ...]:
+        ключ = шаг.аналитический_ключ
+        assert ключ is not None
+        данные = статистика.get(ключ)
+        if данные is None or данные.завершённые == 0:
+            return (1, ключ)
+        if данные.неуспешные == 0:
+            return (
+                2,
+                данные.средняя_длительность_наносекунды,
+                ключ,
+            )
+        return (
+            0,
+            данные.вероятность_успеха,
+            данные.средняя_длительность_наносекунды,
+            ключ,
+        )
+
+    return sorted(тестовые, key=ключ_порядка) + фиксированные
+
+
+def канонические_машинные_байты(значение: object) -> bytes:
+    return (
+        json.dumps(
+            значение,
+            ensure_ascii=False,
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n"
+    ).encode("utf-8")
+
+
+def прочитать_каноническую_машинную_запись(путь: Path, назначение: str) -> tuple[object, bytes]:
+    if путь.is_symlink() or not путь.is_file():
+        raise ValueError(f"{назначение} is not a regular file: {путь}")
+    try:
+        байты = путь.read_bytes()
+        значение = json.loads(байты.decode("utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as ошибка:
+        raise ValueError(f"cannot read {назначение}: {путь}: {ошибка}") from ошибка
+    if байты != канонические_машинные_байты(значение):
+        raise ValueError(f"{назначение} is not canonical JSON: {путь}")
+    return значение, байты
+
+
+def проверить_наблюдение_истории(
+    значение: object,
+    источник: Path,
+) -> dict[str, object]:
+    поля = {
+        "ключ_проверки",
+        "название",
+        "статус",
+        "длительность_наносекунды",
+    }
+    if not isinstance(значение, dict) or set(значение) != поля:
+        raise ValueError(f"invalid smoke observation fields: {источник}")
+    for поле in ("ключ_проверки", "название"):
+        if not isinstance(значение[поле], str) or not значение[поле]:
+            raise ValueError(f"invalid smoke observation {поле}: {источник}")
+    проверить_аналитический_ключ(str(значение["ключ_проверки"]))
+    if значение["статус"] not in СТАТУСЫ_НАБЛЮДЕНИЙ:
+        raise ValueError(f"invalid smoke observation status: {источник}")
+    длительность = значение["длительность_наносекунды"]
+    if (
+        isinstance(длительность, bool)
+        or not isinstance(длительность, int)
+        or длительность < 0
+    ):
+        raise ValueError(f"invalid smoke observation duration: {источник}")
+    return значение
+
+
+def проверить_целостность_закрытой_сессии(
+    корень: Path,
+    каталог_сессии: Path,
+) -> None:
+    global _модуль_проверки_журнала
+    if _модуль_проверки_журнала is None:
+        спецификация = importlib.util.spec_from_file_location(
+            "fum_проверка_журнала_запусков_для_smoke",
+            ПУТЬ_ПРОВЕРКИ_ЖУРНАЛА_ЗАПУСКОВ,
+        )
+        if спецификация is None or спецификация.loader is None:
+            raise ValueError("cannot load the test-run report validator")
+        модуль = importlib.util.module_from_spec(спецификация)
+        спецификация.loader.exec_module(модуль)
+        _модуль_проверки_журнала = модуль
+    проверка = getattr(
+        _модуль_проверки_журнала,
+        "проверить_журнал_сессии",
+        None,
+    )
+    if not callable(проверка):
+        raise ValueError("test-run report validator has no session entry point")
+    запрос = каталог_сессии / "запрос.md"
+    ошибки = проверка(корень, запрос)
+    if ошибки:
+        raise ValueError(
+            "closed test-run session failed integrity validation: "
+            + "; ".join(str(ошибка) for ошибка in ошибки)
+        )
+
+
+def прочитать_наблюдения_закрытого_снимка(
+    корень: Path,
+    путь_снимка: Path,
+) -> list[dict[str, object]]:
+    каталог_сессии = путь_снимка.parents[2]
+    путь_отчёта = каталог_сессии / "отчёт.md"
+    if путь_отчёта.is_symlink() or not путь_отчёта.is_file():
+        raise ValueError(f"test-run snapshot has no session report: {путь_снимка}")
+    try:
+        текст_отчёта = путь_отчёта.read_text(encoding="utf-8")
+    except (OSError, UnicodeError) as ошибка:
+        raise ValueError(f"cannot read closed session report: {путь_отчёта}") from ошибка
+    маркеры = list(ЗАКРЫТЫЙ_МАРКЕР_ЗАПУСКОВ.finditer(текст_отчёта))
+    if not маркеры:
+        raise ValueError(
+            f"test-run snapshot is not in a closed session: {путь_снимка}"
+        )
+    if len(маркеры) != 1:
+        raise ValueError(f"multiple closed test-run markers: {путь_отчёта}")
+    проверить_целостность_закрытой_сессии(корень, каталог_сессии)
+
+    снимок, байты_снимка = прочитать_каноническую_машинную_запись(
+        путь_снимка,
+        "closed test-run snapshot",
+    )
+    if hashlib.sha256(байты_снимка).hexdigest() != маркеры[0].group("хэш"):
+        raise ValueError(f"closed test-run snapshot hash mismatch: {путь_снимка}")
+    if not isinstance(снимок, dict) or set(снимок) != {"схема", "сессия", "файлы"}:
+        raise ValueError(f"invalid closed test-run snapshot fields: {путь_снимка}")
+    if снимок["схема"] != СХЕМА_СНИМКА_ЗАПУСКОВ:
+        raise ValueError(f"invalid closed test-run snapshot schema: {путь_снимка}")
+    ожидаемая_сессия = (
+        каталог_сессии.relative_to(корень) / "запрос.md"
+    ).as_posix()
+    if снимок["сессия"] != ожидаемая_сессия:
+        raise ValueError(f"closed test-run snapshot belongs to another session: {путь_снимка}")
+    файлы = снимок["файлы"]
+    if not isinstance(файлы, list):
+        raise ValueError(f"invalid closed test-run snapshot file list: {путь_снимка}")
+
+    результат: list[dict[str, object]] = []
+    имена: set[str] = set()
+    for описание in файлы:
+        if not isinstance(описание, dict) or set(описание) != {"имя", "sha256"}:
+            raise ValueError(f"invalid closed test-run snapshot entry: {путь_снимка}")
+        имя = описание["имя"]
+        ожидаемый_хэш = описание["sha256"]
+        if (
+            not isinstance(имя, str)
+            or Path(имя).name != имя
+            or not имя.endswith(".json")
+            or имя in имена
+        ):
+            raise ValueError(f"invalid test-run record name in snapshot: {путь_снимка}")
+        if (
+            not isinstance(ожидаемый_хэш, str)
+            or re.fullmatch(r"[0-9a-f]{64}", ожидаемый_хэш) is None
+        ):
+            raise ValueError(f"invalid test-run record hash in snapshot: {путь_снимка}")
+        имена.add(имя)
+        путь_записи = путь_снимка.parent / имя
+        запись, байты_записи = прочитать_каноническую_машинную_запись(
+            путь_записи,
+            "snapshotted test-run record",
+        )
+        if hashlib.sha256(байты_записи).hexdigest() != ожидаемый_хэш:
+            raise ValueError(f"snapshotted test-run record hash mismatch: {путь_записи}")
+        if not isinstance(запись, dict):
+            raise ValueError(f"invalid snapshotted test-run record: {путь_записи}")
+        схема = запись.get("схема")
+        if схема == СХЕМА_ЗАПУСКА_БЕЗ_НАБЛЮДЕНИЙ:
+            continue
+        if схема != СХЕМА_ЗАПУСКА_С_НАБЛЮДЕНИЯМИ:
+            raise ValueError(f"unknown snapshotted test-run schema: {путь_записи}")
+        if запись.get("состояние") != "завершён":
+            raise ValueError(f"unfinished v2 test-run record in snapshot: {путь_записи}")
+        наблюдения = запись.get("наблюдения")
+        if not isinstance(наблюдения, list):
+            raise ValueError(f"invalid v2 smoke observations: {путь_записи}")
+        ключи: set[str] = set()
+        for наблюдение in наблюдения:
+            проверенное = проверить_наблюдение_истории(
+                наблюдение,
+                путь_записи,
+            )
+            ключ = str(проверенное["ключ_проверки"])
+            if ключ in ключи:
+                raise ValueError(
+                    f"duplicate smoke observation key in one run: {путь_записи}"
+                )
+            ключи.add(ключ)
+            результат.append(проверенное)
+    return результат
+
+
+def загрузить_статистику_закрытых_запусков(
+    корень: Path,
+) -> dict[str, СтатистикаТеста]:
+    наблюдения: list[dict[str, object]] = []
+    журнал = корень / "Журнал"
+    if not журнал.is_dir():
+        return {}
+    журналы_возобновления = sorted(
+        журнал.glob("*/материалы/запуски-проверок/возобновление.json"),
+        key=lambda путь: путь.as_posix(),
+    )
+    if журналы_возобновления:
+        raise ValueError(
+            "test-run history contains an unfinished recovery journal: "
+            f"{журналы_возобновления[0]}"
+        )
+    снимки = set(
+        журнал.glob("*/материалы/запуски-проверок/снимок.json")
+    )
+    for путь_отчёта in sorted(
+        журнал.glob("*/отчёт.md"),
+        key=lambda путь: путь.as_posix(),
+    ):
+        try:
+            текст = путь_отчёта.read_text(encoding="utf-8")
+        except (OSError, UnicodeError) as ошибка:
+            raise ValueError(f"cannot read test-run report: {путь_отчёта}") from ошибка
+        if "FUM-CHECK-RUNS:BEGIN состояние=закрыт;" not in текст:
+            continue
+        путь_снимка = (
+            путь_отчёта.parent
+            / "материалы"
+            / "запуски-проверок"
+            / "снимок.json"
+        )
+        if not путь_снимка.is_file() or путь_снимка.is_symlink():
+            raise ValueError(
+                f"closed test-run report has no regular snapshot: {путь_отчёта}"
+            )
+        снимки.add(путь_снимка)
+    for путь_снимка in sorted(снимки, key=lambda путь: путь.as_posix()):
+        наблюдения.extend(
+            прочитать_наблюдения_закрытого_снимка(корень, путь_снимка)
+        )
+    return собрать_статистику_наблюдений(наблюдения)
+
+
+def проверить_аналитический_ключ(ключ: str) -> str:
+    путь = PurePosixPath(ключ)
+    if (
+        not ключ
+        or ключ != данные_юникода.normalize("NFC", ключ)
+        or "\\" in ключ
+        or путь.is_absolute()
+        or путь.as_posix() != ключ
+        or any(часть in {"", ".", ".."} for часть in путь.parts)
+    ):
+        raise ValueError(f"invalid canonical analytical smoke key: {ключ!r}")
+    return ключ
+
+
+class СборщикНаблюдений:
+    def __init__(
+        сам,
+        путь: Path,
+        идентификатор_запуска: str,
+    ) -> None:
+        сам.путь = путь
+        сам.идентификатор_запуска = идентификатор_запуска
+        сам.план: list[dict[str, str]] | None = None
+        сам.наблюдения: list[dict[str, object]] = []
+        сам.текущая_проверка: dict[str, object] | None = None
+        значение, _ = прочитать_каноническую_машинную_запись(
+            сам.путь,
+            "initial smoke observation envelope",
+        )
+        ожидаемые_поля = {
+            "схема",
+            "идентификатор_запуска",
+            "план",
+            "наблюдения",
+            "текущая_проверка",
+        }
+        if (
+            not isinstance(значение, dict)
+            or set(значение) != ожидаемые_поля
+            or значение["схема"] != СХЕМА_КОНВЕРТА_НАБЛЮДЕНИЙ
+            or значение["идентификатор_запуска"] != идентификатор_запуска
+            or значение["план"] is not None
+            or значение["наблюдения"] != []
+            or значение["текущая_проверка"] is not None
+        ):
+            raise ValueError("invalid initial smoke observation envelope")
+
+    def установить_план(сам, шаги: Sequence[SmokeStep]) -> None:
+        if сам.план is not None:
+            raise ValueError("smoke analytical plan is already initialized")
+        план: list[dict[str, str]] = []
+        приведённые_ключи: set[str] = set()
+        for шаг in шаги:
+            if шаг.аналитический_ключ is None:
+                continue
+            ключ = проверить_аналитический_ключ(шаг.аналитический_ключ)
+            приведённый = ключ.casefold()
+            if приведённый in приведённые_ключи:
+                raise ValueError(
+                    f"case-insensitive analytical smoke key collision: {ключ}"
+                )
+            приведённые_ключи.add(приведённый)
+            план.append(
+                {"ключ_проверки": ключ, "название": шаг.name}
+            )
+        сам.план = план
+        сам._сохранить()
+
+    def начать(сам, шаг: SmokeStep) -> None:
+        ключ = шаг.аналитический_ключ
+        if ключ is None:
+            return
+        if сам.план is None:
+            raise ValueError("smoke analytical plan is not initialized")
+        if сам.текущая_проверка is not None:
+            raise ValueError("another smoke test is already active")
+        номер = len(сам.наблюдения)
+        if номер >= len(сам.план) or any(
+            значение != сам.план[номер][поле]
+            for поле, значение in (
+                ("ключ_проверки", ключ),
+                ("название", шаг.name),
+            )
+        ):
+            raise ValueError("active smoke test does not follow the analytical plan")
+        if сам.наблюдения and сам.наблюдения[-1]["статус"] != "успешно":
+            raise ValueError("active smoke test follows a fail-fast outcome")
+        сам.текущая_проверка = {
+            "ключ_проверки": ключ,
+            "название": шаг.name,
+            "начало_монотонные_наносекунды": time.monotonic_ns(),
+        }
+        сам._сохранить()
+
+    def учесть(
+        сам,
+        шаг: SmokeStep,
+        длительность_наносекунды: int,
+        статус: str,
+    ) -> None:
+        ключ = шаг.аналитический_ключ
+        if ключ is None:
+            return
+        if сам.план is None:
+            raise ValueError("smoke analytical plan is not initialized")
+        номер = len(сам.наблюдения)
+        if номер >= len(сам.план) or any(
+            значение != сам.план[номер][поле]
+            for поле, значение in (
+                ("ключ_проверки", ключ),
+                ("название", шаг.name),
+            )
+        ):
+            raise ValueError("smoke observations do not follow the analytical plan")
+        if сам.наблюдения and сам.наблюдения[-1]["статус"] != "успешно":
+            raise ValueError("smoke observation follows a fail-fast outcome")
+        if сам.текущая_проверка is None or any(
+            значение != сам.текущая_проверка[поле]
+            for поле, значение in (
+                ("ключ_проверки", ключ),
+                ("название", шаг.name),
+            )
+        ):
+            raise ValueError("completed smoke test does not match the active test")
+        наблюдение = проверить_наблюдение_истории(
+            {
+                "ключ_проверки": ключ,
+                "название": шаг.name,
+                "статус": статус,
+                "длительность_наносекунды": длительность_наносекунды,
+            },
+            сам.путь,
+        )
+        сам.наблюдения.append(наблюдение)
+        сам.текущая_проверка = None
+
+        сам._сохранить()
+
+    def _сохранить(сам) -> None:
+        конверт = {
+            "схема": СХЕМА_КОНВЕРТА_НАБЛЮДЕНИЙ,
+            "идентификатор_запуска": сам.идентификатор_запуска,
+            "план": сам.план,
+            "наблюдения": сам.наблюдения,
+            "текущая_проверка": сам.текущая_проверка,
+        }
+        временный = (
+            сам.путь.parent
+            / f".{сам.путь.name}.{уникальные_идентификаторы.uuid4()}.tmp"
+        )
+        try:
+            with временный.open("xb") as поток:
+                поток.write(канонические_машинные_байты(конверт))
+                поток.flush()
+                os.fsync(поток.fileno())
+            os.replace(временный, сам.путь)
+            дескриптор = os.open(сам.путь.parent, os.O_RDONLY)
+            try:
+                os.fsync(дескриптор)
+            finally:
+                os.close(дескриптор)
+        finally:
+            try:
+                временный.unlink()
+            except FileNotFoundError:
+                pass
+
+
+def создать_сборщик_наблюдений_из_окружения(
+) -> СборщикНаблюдений | None:
+    путь_строкой = os.environ.get(ПЕРЕМЕННАЯ_ПУТИ_НАБЛЮДЕНИЙ)
+    идентификатор = os.environ.get(ПЕРЕМЕННАЯ_ИДЕНТИФИКАТОРА_ЗАПУСКА)
+    if путь_строкой is None and идентификатор is None:
+        return None
+    if путь_строкой is None or идентификатор is None:
+        raise ValueError("incomplete smoke observation environment contract")
+    try:
+        канонический_идентификатор = str(
+            уникальные_идентификаторы.UUID(идентификатор)
+        )
+    except ValueError as ошибка:
+        raise ValueError("invalid smoke observation run identifier") from ошибка
+    if канонический_идентификатор != идентификатор:
+        raise ValueError("smoke observation run identifier must be canonical")
+    путь = Path(путь_строкой)
+    if not путь.is_absolute() or путь.parent.is_symlink():
+        raise ValueError("invalid smoke observation output path")
+    if not путь.parent.is_dir():
+        raise ValueError("smoke observation output directory is missing")
+    return СборщикНаблюдений(путь, идентификатор)
 
 
 @dataclass(frozen=True)
@@ -1531,6 +2094,7 @@ def build_swift_steps(
                     package_path,
                     *SWIFT_OFFLINE_FLAGS,
                 ),
+                аналитический_ключ=package_path,
             )
         )
         for product in manifest.executable_products:
@@ -1622,6 +2186,7 @@ def build_steps(
 
     for test_dir in discover_test_dirs(root):
         tool_name = test_dir.parent.name
+        путь_набора = repo_relative(test_dir, root)
         steps.append(
             SmokeStep(
                 name=f"Тесты {tool_name}",
@@ -1631,10 +2196,11 @@ def build_steps(
                     "unittest",
                     "discover",
                     "-s",
-                    repo_relative(test_dir, root),
+                    путь_набора,
                     "-p",
                     "test_*.py",
                 ),
+                аналитический_ключ=путь_набора,
             )
         )
 
@@ -1814,6 +2380,8 @@ def build_steps(
 def smoke_env() -> dict[str, str]:
     env = os.environ.copy()
     env["PYTHONDONTWRITEBYTECODE"] = "1"
+    env.pop(ПЕРЕМЕННАЯ_ПУТИ_НАБЛЮДЕНИЙ, None)
+    env.pop(ПЕРЕМЕННАЯ_ИДЕНТИФИКАТОРА_ЗАПУСКА, None)
     return env
 
 
@@ -1830,6 +2398,7 @@ def run_steps(
     *,
     clock: Clock | None = None,
     overall_started_at: float | None = None,
+    сборщик_наблюдений: СборщикНаблюдений | None = None,
 ) -> int:
     timer = clock or time.perf_counter
     total_started_at = (
@@ -1854,6 +2423,8 @@ def run_steps(
             )
             continue
         print(shlex.join(step.command), flush=True)
+        if сборщик_наблюдений is not None:
+            сборщик_наблюдений.начать(step)
         try:
             result = subprocess.run(
                 step.command,
@@ -1866,10 +2437,17 @@ def run_steps(
             )
         except OSError as exc:
             exit_code = 127
+            шаг_завершён = timer()
+            if сборщик_наблюдений is not None:
+                сборщик_наблюдений.учесть(
+                    step,
+                    round(max(0.0, шаг_завершён - step_started_at) * 1_000_000_000),
+                    "не завершено",
+                )
             print_timing(
                 timing_record(
                     "step",
-                    timer() - step_started_at,
+                    шаг_завершён - step_started_at,
                     "failed",
                     index=index,
                     total_steps=total,
@@ -1893,6 +2471,18 @@ def run_steps(
         step_finished_at = timer()
         print_output(result)
         step_result = "passed" if result.returncode == 0 else "failed"
+        if сборщик_наблюдений is not None:
+            статус_наблюдения = (
+                "успешно" if result.returncode == 0 else "неуспешно"
+            )
+            сборщик_наблюдений.учесть(
+                step,
+                round(
+                    max(0.0, step_finished_at - step_started_at)
+                    * 1_000_000_000
+                ),
+                статус_наблюдения,
+            )
         print_timing(
             timing_record(
                 "step",
@@ -1936,6 +2526,11 @@ def run_steps(
 def main(*, clock: Clock | None = None) -> int:
     timer = clock or time.perf_counter
     overall_started_at = timer()
+    try:
+        сборщик_наблюдений = создать_сборщик_наблюдений_из_окружения()
+    except (OSError, ValueError) as exc:
+        print(str(exc), file=sys.stderr)
+        return 2
     args = parse_args()
     root = args.repo_root.resolve()
     include_session = not args.skip_session_coherence
@@ -1951,6 +2546,10 @@ def main(*, clock: Clock | None = None) -> int:
             clock=timer,
             timing_sink=print_timing,
         )
+        статистика = загрузить_статистику_закрытых_запусков(root)
+        steps[:] = упорядочить_тестовые_шаги(steps, статистика)
+        if not args.list and сборщик_наблюдений is not None:
+            сборщик_наблюдений.установить_план(steps)
     except (OSError, ValueError) as exc:
         print(str(exc), file=sys.stderr)
         print_timing(
@@ -1999,6 +2598,7 @@ def main(*, clock: Clock | None = None) -> int:
         root,
         clock=timer,
         overall_started_at=overall_started_at,
+        сборщик_наблюдений=сборщик_наблюдений,
     )
 
 
