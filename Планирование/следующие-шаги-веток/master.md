@@ -45,67 +45,67 @@ requires_completed_card_ids = []
 resume_condition = "После полного машинного инвентаря собственных форматов вне Markdown, Python и Swift декомпозировать остаток по формату, синтаксическому анализатору и границе совместимости на контекстно ограниченные кластеры, закрепить для первого кластера TDD-сценарии, карту имён, сухой план, хэш входа и проверку коллизий, затем выпустить свежий step_id и отдельно аттестовать его как automatic."
 
 [[candidates]]
-step_id = "master-fum-step-0119-automatic-v1"
+step_id = "master-fum-step-0119-automatic-v2"
 dispatch = "automatic"
 card_id = "FUM-STEP-0119"
-card_content_sha256 = "sha256:ea61f5614524c02a131580a078a7d19e81d0b63cc41d173811a6edf98c56a1bf"
+card_content_sha256 = "sha256:22644a6fc19f20fe1768fcddc9c8684e3b57afbf2a5cb454ba378933f84a93f8"
 requires_completed_card_ids = ["FUM-STEP-0090"]
 
 [[candidates]]
-step_id = "master-fum-step-0120-automatic-v4"
+step_id = "master-fum-step-0120-automatic-v5"
 dispatch = "automatic"
 card_id = "FUM-STEP-0120"
-card_content_sha256 = "sha256:b19299136b088348b91a21be84e1ab3adb87839ae96f5554a3245fc308f98a6f"
+card_content_sha256 = "sha256:edae8fa1c3b6c6fef6cf806b3475534c3a113890d97bcf2d31fba9b8645c21b9"
 requires_completed_card_ids = ["FUM-STEP-0119", "FUM-STEP-0075"]
 
 [[candidates]]
-step_id = "master-fum-step-0121-automatic-v4"
+step_id = "master-fum-step-0121-automatic-v5"
 dispatch = "automatic"
 card_id = "FUM-STEP-0121"
-card_content_sha256 = "sha256:57a00781b11cd9f7132fb0af4d7f80a4fa57331c7d8850190f48ae9cdb22caa5"
+card_content_sha256 = "sha256:d3df4f66b5adfd541a408261a5d71af7fa3f3f2e4c7fa5d117f405218ca37590"
 requires_completed_card_ids = ["FUM-STEP-0120", "FUM-STEP-0093"]
 
 [[candidates]]
-step_id = "master-fum-step-0122-automatic-v2"
+step_id = "master-fum-step-0122-automatic-v3"
 dispatch = "automatic"
 card_id = "FUM-STEP-0122"
-card_content_sha256 = "sha256:84093a5ba86c8835d33dcf27b3e0932eb24b997902e6b0250d8726e0e3cfbf8d"
+card_content_sha256 = "sha256:5f189d363577418c533fcfabeb8b1b14371f2f098d48f30c436b2776d4031ad6"
 requires_completed_card_ids = ["FUM-STEP-0121", "FUM-STEP-0097"]
 
 [[candidates]]
-step_id = "master-fum-step-0127-automatic-v1"
+step_id = "master-fum-step-0127-automatic-v2"
 dispatch = "automatic"
 card_id = "FUM-STEP-0127"
-card_content_sha256 = "sha256:4eaf292bb5a51d0a3ef587246544c02f4322626fb83f508aef9ac8752fac4972"
+card_content_sha256 = "sha256:37c18bc33c30b263b34b7936556d4192adb9818a5d5fabee4ef05a8d962e0e5e"
 requires_completed_card_ids = ["FUM-STEP-0122"]
 
 [[candidates]]
-step_id = "master-fum-step-0123-automatic-v3"
+step_id = "master-fum-step-0123-automatic-v4"
 dispatch = "automatic"
 card_id = "FUM-STEP-0123"
-card_content_sha256 = "sha256:25fded7ac2974d3490c009e155bbd92545ad58173934e288ca97d302b5cb9b41"
+card_content_sha256 = "sha256:95bfadcb8ae36b0ac44a5b01b4cd38fc8adc2fd0ce078db4898f717d13893ac5"
 requires_completed_card_ids = ["FUM-STEP-0127", "FUM-STEP-0086", "FUM-STEP-0087"]
 
 [[candidates]]
-step_id = "master-fum-step-0124-automatic-v3"
+step_id = "master-fum-step-0124-automatic-v4"
 dispatch = "automatic"
 card_id = "FUM-STEP-0124"
-card_content_sha256 = "sha256:335a0f6d552b82ef3ab80c8415c24387b01f26208386d7d0f11101081f28f7df"
+card_content_sha256 = "sha256:e0b4193422a3cae4751d028b1e3d5a551f66c1b7dd430ca20df65ea2514bf8d5"
 requires_completed_card_ids = ["FUM-STEP-0123"]
 
 [[candidates]]
-step_id = "master-fum-step-0125-blocked-v2"
+step_id = "master-fum-step-0125-blocked-v3"
 dispatch = "blocked"
 card_id = "FUM-STEP-0125"
-card_content_sha256 = "sha256:381ae513a10ba7a7d4951385748b230b131cd1c21123139e9eeef3f96a73561c"
+card_content_sha256 = "sha256:15655d9c64333ee036513c2a65c9cf83869cb29eea1d1700d8dd97302b951dd8"
 requires_completed_card_ids = ["FUM-STEP-0124"]
 resume_condition = "После завершения автономной приёмки FUM-STEP-0124 и отдельного явного разрешения точных core, assembly и дочерних URL и refs, уровней доступа, создания или использования fork, регистрации submodule, сетевого push и host-задач повторить preflight внешних эффектов и выпустить свежее поколение."
 
 [[candidates]]
-step_id = "master-fum-step-0126-blocked-v3"
+step_id = "master-fum-step-0126-blocked-v4"
 dispatch = "blocked"
 card_id = "FUM-STEP-0126"
-card_content_sha256 = "sha256:c971f57bc9b0e6bd774d776a8c7c8486628910d3c7ff916ded66aa7d84f78eda"
+card_content_sha256 = "sha256:27c60e31e35640e8345e3a140a6b776f5908dd1100c77f25dcf8405874bbe4b3"
 requires_completed_card_ids = ["FUM-STEP-0125"]
 resume_condition = "После завершения FUM-STEP-0125 и отдельного явного разрешения точных живых Codex-задач, моделей и поставщиков, данных, инструментов, сети, бюджетов, публикации и состава принимаемых цепочек провести контекстный preflight и выпустить свежее поколение."
 
@@ -245,6 +245,6 @@ FUM-STEP-0108 закрепила исполнимый токен-бюджет, F
 - [исходный запрос о переименовании карточек шагов](../../Журнал/2026-07-22_11-48-49_MSK_оформить-карточки-шагов-описательными-именами-и-эмодзи-статусами/запрос.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-06 09:06:54 MSK -->
-<!-- content-sha256: sha256:a9f8079ef292fce8f322824562b3757fc2c1cbfafd6599d09fb56763bc2b6d2e -->
+<!-- last-content-edit: 2026-08-06 18:49:46 MSK -->
+<!-- content-sha256: sha256:4b3621ea32627adabecf7e45108fda8d3aacc866aee0314a43b77047d007cce1 -->
 <!-- FUM-MD-RECENCY:END -->
