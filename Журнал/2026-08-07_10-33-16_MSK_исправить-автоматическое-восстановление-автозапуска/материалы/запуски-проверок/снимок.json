@@ -1,0 +1,374 @@
+{
+  "сессия": "Журнал/2026-08-07_10-33-16_MSK_исправить-автоматическое-восстановление-автозапуска/запрос.md",
+  "схема": "fum.test-run-report.v1",
+  "файлы": [
+    {
+      "sha256": "a5e3a2c64f91790143158965ebcf45ae37fd88cc5183095e67a14ae20951d1c3",
+      "имя": "1_9fc6c930-1025-456b-8391-5dc1425d5da8.json"
+    },
+    {
+      "sha256": "dd504b6d51a0f6d364edcc7ded892ab080180e012950ed181201b86eb7ae08f2",
+      "имя": "2_a6a102e8-0fa5-4b65-9525-8d74cdaaaba8.json"
+    },
+    {
+      "sha256": "bcd32d4a49de9dcbddf564c57229f80a5742aff541f8d634d90c641381c7b515",
+      "имя": "3_d40e4a20-5831-4f47-8af3-4a31bbe5c7f8.json"
+    },
+    {
+      "sha256": "09faae5ef441a5ec58ba3ad0261ea9d40098d172b4cd9776ecc17ab5a37a3ec6",
+      "имя": "4_c5dcf06e-d2ea-4957-8adc-f27665c48fec.json"
+    },
+    {
+      "sha256": "0f661ebf5b55cd0257fade72963b63b8822b7972652c838a68b9a30b02b272ed",
+      "имя": "5_9ceea043-abb2-4c59-ab78-19b173b4a5b6.json"
+    },
+    {
+      "sha256": "4de9cc0904fa1524c3afe7ef67deeafcfa00ecda53e4a861f1c1860f3dfa8195",
+      "имя": "6_8d79a41a-3da3-48e5-b281-85a92ce31475.json"
+    },
+    {
+      "sha256": "797a1dd1ca6f4dc03f4941d4caf020e4ce13a2adb7636a9b7e5e9508cbe99457",
+      "имя": "7_c17cdcef-73ef-4eff-98b1-3a5ffecc8c37.json"
+    },
+    {
+      "sha256": "66640d01e97eb1d7254a54f630d8d2970b502f13d7ffc38c3dd0cdce2f50cbf5",
+      "имя": "8_4a1da581-fa34-4d80-8077-bfe5305dc51d.json"
+    },
+    {
+      "sha256": "a985d88fd36dc7ae8b15c5c4a7de9e544ce1914604e7de3c79c4939a9f104306",
+      "имя": "9_0fb70434-ce55-4a87-a75d-1b37f90c7fd4.json"
+    },
+    {
+      "sha256": "28ca6f133bbf4449d4cc82b9bbf9e59151ec91ea6981c5fbbeb94def242a095a",
+      "имя": "10_387931c3-7725-403e-a26b-10beeb0c67c7.json"
+    },
+    {
+      "sha256": "2fb05c0d40127a67dfdb5f9d3e9559e7d60d395b35657c51855ed7de68f9c6b4",
+      "имя": "11_713ddd2b-a751-4d4a-a779-0248ffd10e29.json"
+    },
+    {
+      "sha256": "1d2e21c70522b65edc6571273ff08d9d9efe059abe1e704c9cff5bc2149e6d81",
+      "имя": "12_1393b3ff-39a5-4dd9-85c9-b6d296e6ffc4.json"
+    },
+    {
+      "sha256": "7947ed14ada1f10cb0cdd8299c46b25628205a1de2148ccb4dbfdb1062aa000d",
+      "имя": "13_9bb0015b-d8fd-4e17-9115-c7e428d3dd15.json"
+    },
+    {
+      "sha256": "cb7390e3bcad5f47e630725144c22eba672fbd3ff69ee6460fec7d5670bf4c16",
+      "имя": "14_acda74a6-c550-4335-9431-1a730b4d478e.json"
+    },
+    {
+      "sha256": "f83dec6e1ec8385ea8a36c59e43f1da74509430b5f31bde2b5f5bc6f966069eb",
+      "имя": "15_eb2996bb-6371-4901-b70f-3a9747f0d508.json"
+    },
+    {
+      "sha256": "96b60f21a17d509ad21cb7cd6a34b850c74c90481fd0e4878f55ba0f3cc1f00f",
+      "имя": "16_b373cac1-1ab6-4b9e-b1e0-57c5a31b55ce.json"
+    },
+    {
+      "sha256": "d34d28afe1668386954561dfef8e32149cf90bfb25547ede94ec28b41da5e0ee",
+      "имя": "17_05045919-9b89-4b82-8e45-cdac57707352.json"
+    },
+    {
+      "sha256": "8a5745a6faeeea04461ef7f306f4a3c1bb9ea3e4ba112f50399cb9a0b67c473f",
+      "имя": "18_659c6e00-b823-4ccc-9369-8503405d1f37.json"
+    },
+    {
+      "sha256": "c344852b0ee65110f20219a14e7d587de126d2889f806e752b11655f3ea0e31d",
+      "имя": "19_e100255c-c6da-430a-b6f7-432a89d1fa73.json"
+    },
+    {
+      "sha256": "9630e24e5bb52a43f4c2256480d08dbed269e2c4863467ea41b9218669ca7926",
+      "имя": "20_f7ab0d2d-61ef-44b9-b7e8-9e52a1f1defc.json"
+    },
+    {
+      "sha256": "63d532ba1c7b242e80d7b466d6124bd2e7decc683cbef06ac075542db24ddb55",
+      "имя": "21_43998dcd-0fb1-462e-a5bc-02500a0b616e.json"
+    },
+    {
+      "sha256": "21990b99db48b576f07372b078724813d3130f460f9bae28f403ea28a9bf95f2",
+      "имя": "22_00aa0061-c1eb-45b6-9b1d-2ace214ca86b.json"
+    },
+    {
+      "sha256": "21038bab96641e73771e2dcc3de3efdaed3c3cda365ac07950c2014a6136101c",
+      "имя": "23_6391bfa2-39ac-491d-a5bc-aca2f9dbec0b.json"
+    },
+    {
+      "sha256": "982432b896c348a7dc45e798f46e0f30edde00d1e6ec0150caa1c62e34d3f1db",
+      "имя": "24_33f6d3c0-8c7f-42c2-9176-45ca234f2dce.json"
+    },
+    {
+      "sha256": "caf5585291f45cdef1f597f16252f8f566ff483cc6208da01941853e673fae3a",
+      "имя": "25_f6d94554-49e5-4941-835d-7ae0e9497aff.json"
+    },
+    {
+      "sha256": "f4ecec7986ebf4a9614fa72d8947faa9cee1cd164eb72d038d1320af664021d3",
+      "имя": "26_6dd8615a-40c6-4037-ba07-e28dab97d0dd.json"
+    },
+    {
+      "sha256": "62f12b837f40e423e548a8498b3eea5b722b5b80c50833da869ad0c76d2e3633",
+      "имя": "27_9074d602-8803-4be9-92d7-1227d4529662.json"
+    },
+    {
+      "sha256": "f8a8aafa4c5597d4d39270402e59854b49c3fdefa5562db7295fd933a69fbcb7",
+      "имя": "28_9b72d9af-6a35-49a5-87b5-41e98b892c15.json"
+    },
+    {
+      "sha256": "b9b2e1e136c59182810064ea4ff66215d137d5ac77e1225ee1f5a73b13df385e",
+      "имя": "29_67f4446e-b59e-440b-9ce0-5b2d577f741f.json"
+    },
+    {
+      "sha256": "527ac65a17808fbe2c2312bdd759e88674a6d6009239652a61df665e7317bf71",
+      "имя": "30_1845303d-1e90-4596-8753-8ea04d4e5174.json"
+    },
+    {
+      "sha256": "eb3167cdbed0269b0c33a38d76fecf2373b7f523a0c54a30b52e63125c29dd50",
+      "имя": "31_ce03e2c7-abb3-4b28-b064-088c3065a104.json"
+    },
+    {
+      "sha256": "7515f6f67cb9ca5220eaf65557aa78a0b3ba241f2031a8950d1bdb1b11ea438c",
+      "имя": "32_9202ad68-b10c-47fa-aac6-c20ca29bba5e.json"
+    },
+    {
+      "sha256": "5201f3745ad43939d680ad54ef9f0e54196a9407152cbcf2aca3e73eb0f2c8a8",
+      "имя": "33_6787a276-f3fc-402e-aeb0-a2f5608458be.json"
+    },
+    {
+      "sha256": "8927129911702fea404fa17966d1dba389ff0d3717ca59080b0ff77b1cb3d941",
+      "имя": "34_4b3ca846-3fe6-4ace-b179-78f05c9487f0.json"
+    },
+    {
+      "sha256": "c117f0e18171849ce94b60fcf84bfbf207ef374af0c02bea8fdf5963b003109d",
+      "имя": "35_68c95fc6-9515-43d1-9af2-c6649e047986.json"
+    },
+    {
+      "sha256": "24756f4545a64f2e8c053acba0f5ffe9112f93f617779f4c1097af8a20e33828",
+      "имя": "36_8bda32e8-acce-49df-9c1c-f847733e0543.json"
+    },
+    {
+      "sha256": "af517fbe261565cd7c9f4c0b3c559d68afc432a0f32519f2dddca649ac258278",
+      "имя": "37_9d699f8f-3351-47a4-bb43-0aabc168f808.json"
+    },
+    {
+      "sha256": "f32f8e07d744bed797b60acbb3601878d9d7c121be9c357e9fb1986fae38a75c",
+      "имя": "38_c2d229ce-de72-47b4-8917-613750f9c877.json"
+    },
+    {
+      "sha256": "f067d032623b4c6104746c1c504805376516d3ac3227aefa33f6890b9d96f9ca",
+      "имя": "39_49627cff-28a3-4149-ba02-be1c282eb868.json"
+    },
+    {
+      "sha256": "43b18b04cb60941bfad1a3a76f0dad8c506a757c6d91d1eb11adf479c0a172a0",
+      "имя": "40_ddccf8f8-c090-40d0-980d-df8d512f5d9c.json"
+    },
+    {
+      "sha256": "2335e88e46d28254c186c479e0808212d4cd310d684e33d65101bf3807fa444b",
+      "имя": "41_caa1d1a9-7876-47dc-b684-7ef88a117a62.json"
+    },
+    {
+      "sha256": "bd4f184fde4999e5ab712e15f13a6f94b0a6d9d34f6db863f0601fe80a99e947",
+      "имя": "42_d1465fc3-1fcb-47dd-8799-d641f65b449b.json"
+    },
+    {
+      "sha256": "02ddefc7dbcab4d5016b8157cea2def376c59ad6a4cdfa96298398a897064f1b",
+      "имя": "43_fdff21c8-ff86-44e7-af34-5c96b9bf44dd.json"
+    },
+    {
+      "sha256": "3811ce318b78966ca38ca3b20635ecdc4f257e5e70d3cdce64074bdd84db0ed7",
+      "имя": "44_f90030e5-8f28-4707-80dd-0292fe1d770b.json"
+    },
+    {
+      "sha256": "ecaca697e110e5a53e204eac5467b894d58c5b8b2bdca39d9aa266957d90f115",
+      "имя": "45_9d45962f-3d3b-4e33-9667-f349bf744bb8.json"
+    },
+    {
+      "sha256": "69df8f4327bc34765d7970dc06366d9211bf457e0f6650dabcb22d84f25af0c8",
+      "имя": "46_6c2affc5-5a9b-4920-8ec4-a869bf3e9ca2.json"
+    },
+    {
+      "sha256": "7953871094c6159bbcf49bc80a73434767057105ed766cba4923a16ec4cfa50e",
+      "имя": "47_3bf02f44-64ab-45db-9f9a-256e98d72b17.json"
+    },
+    {
+      "sha256": "c7dc4073fd5342a416bc713c6ce6c63cec35f7d6feb5a2f9d3436788c72036d2",
+      "имя": "48_b17472d4-8034-4186-898f-412af866592c.json"
+    },
+    {
+      "sha256": "27962115902978d5e7f1c849f3bb68295ec39d925d172347613b7f402153af4e",
+      "имя": "49_d2ca6d7d-1ea0-40a7-8d7a-57d2f70c5e86.json"
+    },
+    {
+      "sha256": "ea0bab9deebc314d589a716b58240d410cfcbde928907bf470f55f760b5ddee8",
+      "имя": "50_543ee914-7bfc-474b-8fea-8351c889955b.json"
+    },
+    {
+      "sha256": "289c5085127518bd35a46bf3facb4a77702170c7be2d3f1f94894f9a2eb63c7a",
+      "имя": "51_4a3c5598-d91a-48ef-bb33-57586ba19fac.json"
+    },
+    {
+      "sha256": "8b50a30c1f8c25f05c90faed61f5981d486ed755ec84027775e214bc2d8f5e7e",
+      "имя": "52_c5e1c323-a9dc-499b-83f7-f31b02226cc5.json"
+    },
+    {
+      "sha256": "b18cab5e62b81eaf3479a3116a8656a7a1b4ea27161f3a6d9828d2435e8e7d77",
+      "имя": "53_9984f8af-942b-4b0f-96f6-0164c59d2e62.json"
+    },
+    {
+      "sha256": "20efe81453df1273e9703d6b13740f39e7919cf71abaa54565697f4cb33fb187",
+      "имя": "54_7519b7d1-f5cd-4556-8bcd-50e1727842d3.json"
+    },
+    {
+      "sha256": "ada4934f25b92e50aaf5df22e69057f1ccecb031d4786cb86c881bc0a775e469",
+      "имя": "55_682c0736-a535-42c5-b482-9c8c3906c3e3.json"
+    },
+    {
+      "sha256": "7b0fd015be6a9d9fbc2246ab0b4e4f482861f51d1745b527afac9565e44faf0b",
+      "имя": "56_86cc5500-8392-475f-9e41-2a5a1c1019c6.json"
+    },
+    {
+      "sha256": "88196af202632c06ad07f324180561e513d1799ab895f137186ae87763f7ba4d",
+      "имя": "57_adba500a-2929-4475-bf16-edf44b884a18.json"
+    },
+    {
+      "sha256": "0dc9968a2a3ed618f393f5c7a851815921829079ba6e697668267690b6673dbd",
+      "имя": "58_066a58cb-c092-4e5e-9a7f-379352a7c625.json"
+    },
+    {
+      "sha256": "242b500283465c9c3d19789398bd9be048229fe5db5f445fb533561a812fc501",
+      "имя": "59_197e61c8-f917-4e3c-b499-56ad3105c17c.json"
+    },
+    {
+      "sha256": "f1f97d0cdff4815be9070c00d7f6c1cf81352d822827b0227cf5e084d6ff59bb",
+      "имя": "60_eb859539-49ca-4316-a99a-ee09f0b027e1.json"
+    },
+    {
+      "sha256": "bbf5e701709d5a4d1809dada97d7b9e9527f2e471d5b112b068b51fcae804437",
+      "имя": "61_1421642b-bfcf-4d63-b737-4220fbef2997.json"
+    },
+    {
+      "sha256": "9d135aeeb9a46a657bb6d28e1de10e6ac7f8849f21e21e120f6074037649628f",
+      "имя": "62_a92d30db-475f-4ffa-b4fe-9ad3be17c6c3.json"
+    },
+    {
+      "sha256": "dda19792f52fa87f972ac5b26ddedc68337b84630279c84cafee1d8b8a690663",
+      "имя": "63_aa0f5e91-c944-4a51-8891-25c95d828a4b.json"
+    },
+    {
+      "sha256": "862cd41367ec127df3557652b6e2387256a87ebe6c76cf40b28ac4048b276bb2",
+      "имя": "64_e4fefc21-7c96-4055-9ad1-e8451686ef29.json"
+    },
+    {
+      "sha256": "615ee0819e63d292df3aaf7cd2be8dfe7fd715a021496e457c2bca7592c752f1",
+      "имя": "65_6eef83fc-c008-4f26-be86-583542593402.json"
+    },
+    {
+      "sha256": "43a2aa0f4187d919f365106c96db06270346750ef1662a76e019b75c8ed5b3e2",
+      "имя": "66_35d81f2e-0434-4e96-9376-3185f3e6e188.json"
+    },
+    {
+      "sha256": "f0fa6a212bb2f753237470aaacefaf2310d37881551ce7d5135820faefcfb78d",
+      "имя": "67_a7f1effb-2512-4e5e-a5c1-143536624728.json"
+    },
+    {
+      "sha256": "70c66194397e4ddc677ebd70f2d5ba258d057532f19265332ae81e532d14e023",
+      "имя": "68_1f41dcf2-58bb-49d2-a33f-2ff4e2cec8c5.json"
+    },
+    {
+      "sha256": "e570e4b8f799e132bc4c36466315e2a0c5549d54000c98cc22c395aec04e9336",
+      "имя": "69_da25406a-0acc-4aab-b02a-3ab44d5bad8b.json"
+    },
+    {
+      "sha256": "de9960cb51d0846d8a385a64edc6350c402f1695330b30725ce8a0483e5babee",
+      "имя": "70_5b7dac7c-f834-4338-ac89-f7c861924270.json"
+    },
+    {
+      "sha256": "71d36b74b2357a81bdb69939aeb2cc07b6607e0a94e11afb0e4dc2d1acddb602",
+      "имя": "71_f9beeefb-0416-48d0-9b10-aecccd929f12.json"
+    },
+    {
+      "sha256": "0dff1f1fb99cb3505f78b7ab882d39661558db015992551947f7054defb92456",
+      "имя": "72_01d12a7f-e059-4d35-9e9d-a656e51e3b62.json"
+    },
+    {
+      "sha256": "28add5a642edf9f00a740d462bd6c6b11dad3d8797a5a0ae421aeaddb6cad1df",
+      "имя": "73_d68a579b-83e1-409b-8eeb-dc6cff35adc8.json"
+    },
+    {
+      "sha256": "050d1db26fe3392a437d2ae884459e7f4c4bece7076042d2b9bcc2dcd2edddbc",
+      "имя": "74_b7071adb-6be5-44e6-8e88-77f5e2f38c1c.json"
+    },
+    {
+      "sha256": "2bd0a48ff8989fbcdf9aaa040d1cbc71bd6cf545de7d7bea0b9695acc30f28bf",
+      "имя": "75_2e012287-b029-4134-8796-5da8aa361643.json"
+    },
+    {
+      "sha256": "d997eca9730aafca61579d7c677f1fa91dc6847d5942b114cacd4a5efed9ca3a",
+      "имя": "76_d4a0b017-084d-4002-8aff-d915357dad21.json"
+    },
+    {
+      "sha256": "a0978b62ba5e408418d0a817b3eab2dbe188a7be9888d98f0d63dfdf305001ea",
+      "имя": "77_ef78893a-78c9-4b78-a3c6-8dfee24c3319.json"
+    },
+    {
+      "sha256": "1dbca5d4a82fad225a8fa241fc76683f7fc30bceb46f7781b6028ef748c248d3",
+      "имя": "78_a5e946c8-f214-4bcb-8a62-25404e365bc8.json"
+    },
+    {
+      "sha256": "efc94b8c01acea3db4696be5f228d153275833743d2f3cab8e82e58af6a7beed",
+      "имя": "79_43d477bc-7444-4b9b-ab0a-3eb4567dca8b.json"
+    },
+    {
+      "sha256": "cd2d4f5c2c2f605dc042fbfecf61ee7b616ffd9bf9d3b0971700a25a68732c6d",
+      "имя": "80_db68b3b0-9d95-4eca-9705-47826c56da3d.json"
+    },
+    {
+      "sha256": "2dc3c5f6967cc3651a0f096fb063f5dea9df2a2c2669f40b83776d971c06c62c",
+      "имя": "81_11857771-ed96-42ab-a6b4-e2b23be33409.json"
+    },
+    {
+      "sha256": "10bf7ec6bd9cf675a014e33a26dbe4eee43acabc33691911175b61574cbd6847",
+      "имя": "82_773451e7-8d92-427c-9b50-d873f0d6d075.json"
+    },
+    {
+      "sha256": "d9d9658ff20eda425486dc5c46d98c2931989145f1c542c798f19f0a1f830884",
+      "имя": "83_bf4b8274-4eda-470d-a3f6-da4f2ea4fac1.json"
+    },
+    {
+      "sha256": "9752555ce9f1d1c52cba4eed072c348478d8e7bb35400769996e9e69a16c60a3",
+      "имя": "84_ac0cc766-322d-4402-96d8-ce9fedd350cf.json"
+    },
+    {
+      "sha256": "2d2799765a7eec4f794980e2bd69ec2b116b0d108e016147647787fa4272f9c0",
+      "имя": "85_c1571e53-d0b3-4735-8f4c-46636c651b72.json"
+    },
+    {
+      "sha256": "139bc6192061e5aacdda680a475ba78a76c7edba27c76e0a46f42726b405638b",
+      "имя": "86_66cd6a8d-85d5-44c5-b553-707465aed67d.json"
+    },
+    {
+      "sha256": "e7517a3b7aad08b87b28c6db011dcc973986063a4a288853de96d8d6a520200d",
+      "имя": "87_b6083445-ef3a-498b-87fc-09e9b9efab01.json"
+    },
+    {
+      "sha256": "fbf632aef7533e88e649abc9c1f1af3970017cc9fb3d36c965ec61026521800a",
+      "имя": "88_5f005c8b-9d33-4b89-bcb7-2693d9a287af.json"
+    },
+    {
+      "sha256": "d8ff7c2e79ad6971c7f53e6beb5430c8878c07ffc5b358484708db314a311f60",
+      "имя": "89_ba107a9c-9ebf-4b9e-87bc-05179a607f43.json"
+    },
+    {
+      "sha256": "ce36f13d1171e4e9a642441f98996eb18a2b78295a7df457f611948997ee38c2",
+      "имя": "90_ca6d4c18-03fe-44da-81c2-b10d8d16097a.json"
+    },
+    {
+      "sha256": "07087b65e666e78ea657a0877ad43dda3a57f6bd8391f49603af518c9de06ee4",
+      "имя": "91_5e11398b-bc36-4e74-8f2e-4437e421d351.json"
+    },
+    {
+      "sha256": "55cda80e21bb952afba980cadde9c255ef5a16686e95648225fef09d7265da61",
+      "имя": "92_cb5b833c-263e-473b-8f4c-3bbd9b04f3c5.json"
+    }
+  ]
+}

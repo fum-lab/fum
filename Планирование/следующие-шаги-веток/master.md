@@ -131,10 +131,10 @@ card_content_sha256 = "sha256:854b455d3503a90de05e3dc3128b5dbd7d284f8b6b0e25ebd0
 requires_completed_card_ids = ["FUM-STEP-0094"]
 
 [[candidates]]
-step_id = "master-fum-step-0097-automatic-v5"
+step_id = "master-fum-step-0097-automatic-v7"
 dispatch = "automatic"
 card_id = "FUM-STEP-0097"
-card_content_sha256 = "sha256:2a5373289cb35d6a443daebe01a8211fc18bdb5187436a696dbf28023c290303"
+card_content_sha256 = "sha256:b7a441e2f2f1da3c7ff9e6173c3b4b2165fcde08bc20e02d2f4dfb97999e55b5"
 requires_completed_card_ids = ["FUM-STEP-0096"]
 
 [[candidates]]
@@ -245,6 +245,6 @@ FUM-STEP-0108 закрепила исполнимый токен-бюджет, F
 - [исходный запрос о переименовании карточек шагов](../../Журнал/2026-07-22_11-48-49_MSK_оформить-карточки-шагов-описательными-именами-и-эмодзи-статусами/запрос.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-06 18:49:46 MSK -->
-<!-- content-sha256: sha256:4b3621ea32627adabecf7e45108fda8d3aacc866aee0314a43b77047d007cce1 -->
+<!-- last-content-edit: 2026-08-07 12:27:25 MSK -->
+<!-- content-sha256: sha256:01652c33b13c4ed8e4c8ce2390ed867831a132bdf60439105d97e29b92a48575 -->
 <!-- FUM-MD-RECENCY:END -->

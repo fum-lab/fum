@@ -24,6 +24,15 @@ from urllib.parse import urlsplit
 
 
 SCHEMA_VERSION = 1
+СХЕМА_ЖУРНАЛА_ЗАВЕРШЕНИЙ = "fum.task-completion-ledger-entry.v1"
+ЗАГОЛОВОК_АВТОРА_ЖУРНАЛА = (
+    "author FUM Completion Ledger "
+    "<fum-completion-ledger@example.invalid> 0 +0000"
+)
+ЗАГОЛОВОК_КОММИТЕРА_ЖУРНАЛА = (
+    "committer FUM Completion Ledger "
+    "<fum-completion-ledger@example.invalid> 0 +0000"
+)
 DEFAULT_WAIT_TIMEOUT_SECONDS = 300.0
 WAIT_POLL_SECONDS = 2.0
 GIT_COMMAND_TIMEOUT_SECONDS = 30.0
@@ -56,6 +65,7 @@ class QueueContext:
     git_dir: Path
     worktree_id: str
     queue_ref: str
+    ссылка_журнала_завершений: str
     branch_ref: str
 
 
@@ -134,18 +144,24 @@ def decoded_stdout(result: subprocess.CompletedProcess[bytes]) -> str:
     return result.stdout.decode("utf-8", errors="strict").strip()
 
 
-def validate_task_id(task_id: object) -> str:
+def validate_task_id(
+    task_id: object,
+    *,
+    код_ошибки: int = EXIT_CLI,
+    состояние_ошибки: str = "invalid_task_id",
+) -> str:
     if (
         not isinstance(task_id, str)
-        or not task_id.strip()
+        or not task_id
+        or task_id.strip() != task_id
         or len(task_id) > 1_024
         or "\0" in task_id
         or "\n" in task_id
         or "\r" in task_id
     ):
         raise QueueError(
-            EXIT_CLI,
-            "invalid_task_id",
+            код_ошибки,
+            состояние_ошибки,
             "Идентификатор задачи должен быть непустой однострочной строкой.",
         )
     return task_id
@@ -231,11 +247,17 @@ def resolve_context(repo_root: Path) -> QueueContext:
     identity = os.path.normcase(str(git_dir))
     worktree_id = hashlib.sha256(identity.encode("utf-8")).hexdigest()
     queue_ref = f"refs/fum/worktree-task-queues/{worktree_id}"
+    хэш_ветки = hashlib.sha256(branch_ref.encode("utf-8")).hexdigest()
+    ссылка_журнала_завершений = (
+        "refs/fum/worktree-task-completion-ledgers/"
+        f"{worktree_id}/{хэш_ветки}"
+    )
     return QueueContext(
         root=root,
         git_dir=git_dir,
         worktree_id=worktree_id,
         queue_ref=queue_ref,
+        ссылка_журнала_завершений=ссылка_журнала_завершений,
         branch_ref=branch_ref,
     )
 
@@ -288,7 +310,11 @@ def validate_ticket(ticket: object, *, owner: bool) -> dict[str, object]:
                 "corrupt_queue",
                 f"В записи участника очереди отсутствует поле {key}.",
             )
-    validate_task_id(ticket["task_id"])
+    validate_task_id(
+        ticket["task_id"],
+        код_ошибки=EXIT_CONTEXT,
+        состояние_ошибки="corrupt_queue",
+    )
     if not isinstance(ticket["ticket_id"], str) or not ticket["ticket_id"]:
         raise QueueError(EXIT_CONTEXT, "corrupt_queue", "Повреждён ticket_id очереди.")
     if not isinstance(ticket["seq"], int) or ticket["seq"] < 1:
@@ -309,6 +335,12 @@ def validate_ticket(ticket: object, *, owner: bool) -> dict[str, object]:
                 "corrupt_queue",
                 f"В записи участника очереди отсутствует поле {key}.",
             )
+    if owner:
+        проверить_поколение(
+            ticket["generation"],
+            код_ошибки=EXIT_CONTEXT,
+            состояние_ошибки="corrupt_queue",
+        )
     return ticket
 
 
@@ -355,17 +387,43 @@ def validate_state(state: object) -> dict[str, object]:
     if completion is not None:
         if not isinstance(completion, dict):
             raise QueueError(EXIT_CONTEXT, "corrupt_queue", "Повреждена запись завершения.")
-        for key in ["kind", "task_id", "generation", "head", "completed_at"]:
-            if not isinstance(completion.get(key), str) or not completion[key]:
+        вид_завершения = completion.get("kind")
+        if вид_завершения not in {"committed", "finished_clean"}:
+            raise QueueError(EXIT_CONTEXT, "corrupt_queue", "Неизвестен вид завершения.")
+        ожидаемые_поля_завершения = {
+            "kind",
+            "task_id",
+            "generation",
+            "head",
+            "completed_at",
+        }
+        if вид_завершения == "committed":
+            ожидаемые_поля_завершения.add("base_head")
+        if set(completion) != ожидаемые_поля_завершения:
+            raise QueueError(
+                EXIT_CONTEXT,
+                "corrupt_queue",
+                "Запись завершения не соответствует закрытой схеме очереди.",
+            )
+        validate_task_id(
+            completion["task_id"],
+            код_ошибки=EXIT_CONTEXT,
+            состояние_ошибки="corrupt_queue",
+        )
+        проверить_поколение(
+            completion["generation"],
+            код_ошибки=EXIT_CONTEXT,
+            состояние_ошибки="corrupt_queue",
+        )
+        for key in ["head", "completed_at"]:
+            if not isinstance(completion[key], str) or not completion[key]:
                 raise QueueError(
                     EXIT_CONTEXT,
                     "corrupt_queue",
                     f"В записи завершения отсутствует поле {key}.",
                 )
-        if completion["kind"] not in {"committed", "finished_clean"}:
-            raise QueueError(EXIT_CONTEXT, "corrupt_queue", "Неизвестен вид завершения.")
-        if completion["kind"] == "committed" and (
-            not isinstance(completion.get("base_head"), str)
+        if вид_завершения == "committed" and (
+            not isinstance(completion["base_head"], str)
             or not completion["base_head"]
         ):
             raise QueueError(
@@ -404,6 +462,643 @@ def read_ref_oid(context: QueueContext, reference_name: str) -> str | None:
             f"Не удалось прочитать Git-ссылку {reference_name}: {detail}",
         )
     return decoded_stdout(reference)
+
+
+def прочитать_идентификатор_прямой_ссылки_журнала(
+    контекст: QueueContext,
+) -> str | None:
+    символическая = run_git(
+        контекст.root,
+        ["symbolic-ref", "--quiet", контекст.ссылка_журнала_завершений],
+        check=False,
+    )
+    if символическая.returncode == 0:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_completion_ledger",
+            "Ссылка журнала завершений не должна быть символической.",
+        )
+    if символическая.returncode != 1:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "git_error",
+            "Git не смог проверить вид ссылки журнала завершений.",
+        )
+    return read_ref_oid(
+        контекст,
+        контекст.ссылка_журнала_завершений,
+    )
+
+
+def проверить_поколение(
+    поколение: object,
+    *,
+    код_ошибки: int = EXIT_CLI,
+    состояние_ошибки: str = "invalid_generation",
+) -> str:
+    if (
+        not isinstance(поколение, str)
+        or not поколение
+        or поколение.strip() != поколение
+        or len(поколение) > 1_024
+        or "\0" in поколение
+        or "\n" in поколение
+        or "\r" in поколение
+    ):
+        raise QueueError(
+            код_ошибки,
+            состояние_ошибки,
+            "Некорректное поколение владельца.",
+        )
+    return поколение
+
+
+def проверить_идентификатор_объекта_журнала(
+    значение: object,
+    *,
+    длина_идентификатора: int,
+    название: str,
+) -> str:
+    if (
+        not isinstance(значение, str)
+        or len(значение) != длина_идентификатора
+        or re.fullmatch(r"[0-9a-f]+", значение) is None
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_completion_ledger",
+            f"Поле {название} журнала завершений содержит неверный Git OID.",
+        )
+    return значение
+
+
+def проверить_метку_времени_журнала(значение: object) -> str:
+    if (
+        not isinstance(значение, str)
+        or re.fullmatch(
+            r"[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{3}Z",
+            значение,
+        )
+        is None
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_completion_ledger",
+            "Журнал завершений содержит неканоническую временную метку.",
+        )
+    try:
+        datetime.strptime(значение, "%Y-%m-%dT%H:%M:%S.%fZ")
+    except ValueError as exc:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_completion_ledger",
+            "Журнал завершений содержит невозможную временную метку.",
+        ) from exc
+    return значение
+
+
+def проверить_запись_журнала(
+    контекст: QueueContext,
+    запись: object,
+    *,
+    длина_идентификатора: int,
+) -> dict[str, object]:
+    ожидаемые_поля = {
+        "схема",
+        "идентификатор_рабочей_копии",
+        "ссылка_ветки",
+        "завершение",
+    }
+    if not isinstance(запись, dict) or set(запись) != ожидаемые_поля:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_completion_ledger",
+            "Запись журнала завершений не соответствует закрытой схеме.",
+        )
+    if запись["схема"] != СХЕМА_ЖУРНАЛА_ЗАВЕРШЕНИЙ:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_completion_ledger",
+            "Запись журнала завершений содержит неизвестную схему.",
+        )
+    if запись["идентификатор_рабочей_копии"] != контекст.worktree_id:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_completion_ledger",
+            "Запись журнала завершений принадлежит другому worktree.",
+        )
+    if запись["ссылка_ветки"] != контекст.branch_ref:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_completion_ledger",
+            "Запись журнала завершений принадлежит другой ветке.",
+        )
+    завершение = запись["завершение"]
+    if not isinstance(завершение, dict):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_completion_ledger",
+            "Запись журнала не содержит объект завершения.",
+        )
+    вид = завершение.get("kind")
+    if вид not in {"committed", "finished_clean"}:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_completion_ledger",
+            "Запись журнала завершений содержит неизвестный вид завершения.",
+        )
+    ожидаемые_поля_завершения = {
+        "kind",
+        "task_id",
+        "generation",
+        "head",
+        "completed_at",
+    }
+    if вид == "committed":
+        ожидаемые_поля_завершения.add("base_head")
+    if set(завершение) != ожидаемые_поля_завершения:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_completion_ledger",
+            "Вложенное завершение не совпадает с совместимой закрытой схемой.",
+        )
+    try:
+        validate_task_id(завершение["task_id"])
+        проверить_поколение(
+            завершение["generation"],
+            код_ошибки=EXIT_CONTEXT,
+            состояние_ошибки="corrupt_completion_ledger",
+        )
+    except QueueError as exc:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_completion_ledger",
+            "Запись журнала завершений содержит неверную идентичность задачи.",
+        ) from exc
+    проверить_идентификатор_объекта_журнала(
+        завершение["head"],
+        длина_идентификатора=длина_идентификатора,
+        название="head",
+    )
+    if вид == "committed":
+        проверить_идентификатор_объекта_журнала(
+            завершение["base_head"],
+            длина_идентификатора=длина_идентификатора,
+            название="base_head",
+        )
+    проверить_метку_времени_журнала(завершение["completed_at"])
+    return запись
+
+
+def канонические_байты_записи_журнала(
+    контекст: QueueContext,
+    запись: dict[str, object],
+    *,
+    длина_идентификатора: int,
+) -> bytes:
+    проверить_запись_журнала(
+        контекст,
+        запись,
+        длина_идентификатора=длина_идентификатора,
+    )
+    return (
+        json.dumps(
+            запись,
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+        + "\n"
+    ).encode("utf-8")
+
+
+def идентификатор_пустого_дерева(
+    контекст: QueueContext,
+    *,
+    записать: bool,
+) -> str:
+    аргументы = ["hash-object", "-t", "tree"]
+    if записать:
+        аргументы.append("-w")
+    аргументы.append("--stdin")
+    результат = run_git(
+        контекст.root,
+        аргументы,
+        input_bytes=b"",
+    )
+    return decoded_stdout(результат)
+
+
+def собрать_байты_узла_журнала(
+    *,
+    пустое_дерево: str,
+    родитель: str | None,
+    байты_записи: bytes,
+) -> bytes:
+    строки = [f"tree {пустое_дерево}"]
+    if родитель is not None:
+        строки.append(f"parent {родитель}")
+    строки.extend(
+        (
+            ЗАГОЛОВОК_АВТОРА_ЖУРНАЛА,
+            ЗАГОЛОВОК_КОММИТЕРА_ЖУРНАЛА,
+        )
+    )
+    return ("\n".join(строки) + "\n\n").encode("utf-8") + байты_записи
+
+
+def разобрать_пакет_объектов(
+    вывод: bytes,
+    ожидаемые_идентификаторы: list[str],
+) -> list[bytes]:
+    позиция = 0
+    объекты: list[bytes] = []
+    for ожидаемый_идентификатор in ожидаемые_идентификаторы:
+        конец_заголовка = вывод.find(b"\n", позиция)
+        if конец_заголовка < 0:
+            raise QueueError(
+                EXIT_CONTEXT,
+                "corrupt_completion_ledger",
+                "Пакетный ответ Git для журнала завершений оборван.",
+            )
+        try:
+            заголовок = вывод[позиция:конец_заголовка].decode("ascii")
+        except UnicodeDecodeError as exc:
+            raise QueueError(
+                EXIT_CONTEXT,
+                "corrupt_completion_ledger",
+                "Пакетный ответ Git для журнала завершений неканоничен.",
+            ) from exc
+        части = заголовок.split(" ")
+        if (
+            len(части) != 3
+            or части[0] != ожидаемый_идентификатор
+            or части[1] != "commit"
+        ):
+            raise QueueError(
+                EXIT_CONTEXT,
+                "corrupt_completion_ledger",
+                "Ссылка журнала завершений ведёт не на линейную цепочку commit-объектов.",
+            )
+        try:
+            размер = int(части[2])
+        except ValueError as exc:
+            raise QueueError(
+                EXIT_CONTEXT,
+                "corrupt_completion_ledger",
+                "Пакетный ответ Git содержит неверный размер узла журнала.",
+            ) from exc
+        начало_объекта = конец_заголовка + 1
+        конец_объекта = начало_объекта + размер
+        if (
+            размер < 0
+            or конец_объекта >= len(вывод)
+            or вывод[конец_объекта : конец_объекта + 1] != b"\n"
+        ):
+            raise QueueError(
+                EXIT_CONTEXT,
+                "corrupt_completion_ledger",
+                "Пакетный ответ Git содержит неполный узел журнала завершений.",
+            )
+        объекты.append(вывод[начало_объекта:конец_объекта])
+        позиция = конец_объекта + 1
+    if позиция != len(вывод):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_completion_ledger",
+            "Пакетный ответ Git содержит лишние данные после журнала завершений.",
+        )
+    return объекты
+
+
+def разобрать_узел_журнала(
+    контекст: QueueContext,
+    *,
+    байты_узла: bytes,
+    пустое_дерево: str,
+    ожидаемый_родитель: str | None,
+    длина_идентификатора: int,
+) -> dict[str, object]:
+    if байты_узла.count(b"\n\n") != 1:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_completion_ledger",
+            "Commit-конверт журнала завершений содержит неверную границу payload.",
+        )
+    заголовок, байты_записи = байты_узла.split(b"\n\n", 1)
+    try:
+        строки = заголовок.decode("utf-8", errors="strict").split("\n")
+    except UnicodeDecodeError as exc:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_completion_ledger",
+            "Commit-конверт журнала завершений не является UTF-8.",
+        ) from exc
+    ожидаемые_строки = [f"tree {пустое_дерево}"]
+    if ожидаемый_родитель is not None:
+        ожидаемые_строки.append(f"parent {ожидаемый_родитель}")
+    ожидаемые_строки.extend(
+        (
+            ЗАГОЛОВОК_АВТОРА_ЖУРНАЛА,
+            ЗАГОЛОВОК_КОММИТЕРА_ЖУРНАЛА,
+        )
+    )
+    if строки != ожидаемые_строки:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_completion_ledger",
+            "Commit-конверт журнала завершений не соответствует закрытой схеме.",
+        )
+    try:
+        запись = json.loads(байты_записи.decode("utf-8", errors="strict"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_completion_ledger",
+            "Payload узла журнала завершений не является корректным JSON.",
+        ) from exc
+    проверенная = проверить_запись_журнала(
+        контекст,
+        запись,
+        длина_идентификатора=длина_идентификатора,
+    )
+    if байты_записи != канонические_байты_записи_журнала(
+        контекст,
+        проверенная,
+        длина_идентификатора=длина_идентификатора,
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_completion_ledger",
+            "Payload узла журнала завершений имеет неканонические байты.",
+        )
+    return проверенная
+
+
+def прочитать_журнал_завершений(
+    контекст: QueueContext,
+) -> tuple[list[tuple[str, dict[str, object]]], str | None]:
+    вершина = прочитать_идентификатор_прямой_ссылки_журнала(контекст)
+    if вершина is None:
+        return [], None
+    длина_идентификатора = len(current_head(контекст.root))
+    проверить_идентификатор_объекта_журнала(
+        вершина,
+        длина_идентификатора=длина_идентификатора,
+        название="вершина",
+    )
+    перечисление = run_git(
+        контекст.root,
+        ["rev-list", "--first-parent", вершина],
+        check=False,
+    )
+    if перечисление.returncode != 0:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_completion_ledger",
+            "Git не смог пройти цепочку журнала завершений.",
+        )
+    try:
+        идентификаторы_узлов = перечисление.stdout.decode(
+            "ascii",
+            errors="strict",
+        ).splitlines()
+    except UnicodeDecodeError as exc:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_completion_ledger",
+            "Git вернул неканонический список узлов журнала завершений.",
+        ) from exc
+    if (
+        not идентификаторы_узлов
+        or идентификаторы_узлов[0] != вершина
+        or len(идентификаторы_узлов) != len(set(идентификаторы_узлов))
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_completion_ledger",
+            "Журнал завершений не является единственной линейной цепочкой.",
+        )
+    for идентификатор_узла in идентификаторы_узлов:
+        проверить_идентификатор_объекта_журнала(
+            идентификатор_узла,
+            длина_идентификатора=длина_идентификатора,
+            название="узел",
+        )
+    пакет = run_git(
+        контекст.root,
+        ["cat-file", "--batch"],
+        input_bytes=("\n".join(идентификаторы_узлов) + "\n").encode("ascii"),
+        check=False,
+    )
+    if пакет.returncode != 0:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_completion_ledger",
+            "Git не смог пакетно прочитать узлы журнала завершений.",
+        )
+    байты_узлов = разобрать_пакет_объектов(
+        пакет.stdout,
+        идентификаторы_узлов,
+    )
+    пустое_дерево = идентификатор_пустого_дерева(
+        контекст,
+        записать=False,
+    )
+    записи: list[tuple[str, dict[str, object]]] = []
+    идентичности: set[tuple[str, str]] = set()
+    for номер, (идентификатор_узла, байты_узла) in enumerate(
+        zip(идентификаторы_узлов, байты_узлов)
+    ):
+        ожидаемый_родитель = (
+            идентификаторы_узлов[номер + 1]
+            if номер + 1 < len(идентификаторы_узлов)
+            else None
+        )
+        запись = разобрать_узел_журнала(
+            контекст,
+            байты_узла=байты_узла,
+            пустое_дерево=пустое_дерево,
+            ожидаемый_родитель=ожидаемый_родитель,
+            длина_идентификатора=длина_идентификатора,
+        )
+        идентичность = (
+            str(запись["завершение"]["task_id"]),
+            str(запись["завершение"]["generation"]),
+        )
+        if идентичность in идентичности:
+            raise QueueError(
+                EXIT_CONTEXT,
+                "corrupt_completion_ledger",
+                "Журнал завершений повторяет одну пару задачи и поколения.",
+            )
+        идентичности.add(идентичность)
+        записи.append((идентификатор_узла, запись))
+    return записи, вершина
+
+
+def найти_запись_завершения(
+    записи: list[tuple[str, dict[str, object]]],
+    *,
+    идентификатор_задачи: str,
+    поколение: str,
+) -> tuple[str, dict[str, object]] | None:
+    for идентификатор_узла, запись in записи:
+        завершение = запись["завершение"]
+        if (
+            завершение["task_id"] == идентификатор_задачи
+            and завершение["generation"] == поколение
+        ):
+            return идентификатор_узла, запись
+    return None
+
+
+def проверить_проекцию_завершения_в_журнале(
+    записи: list[tuple[str, dict[str, object]]],
+    вершина: str | None,
+    завершение: dict[str, object],
+) -> None:
+    if вершина is None:
+        return
+    найденное = найти_запись_завершения(
+        записи,
+        идентификатор_задачи=str(завершение["task_id"]),
+        поколение=str(завершение["generation"]),
+    )
+    if (
+        найденное is None
+        or совместимое_завершение_из_записи(найденное[1]) != завершение
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_completion_ledger",
+            "Текущая проекция завершения отсутствует в существующем журнале.",
+        )
+
+
+def проверить_проекцию_вершины_журнала(
+    записи: list[tuple[str, dict[str, object]]],
+    вершина: str | None,
+    завершение: object,
+) -> None:
+    if вершина is None or завершение is None:
+        return
+    if (
+        not записи
+        or записи[0][0] != вершина
+        or совместимое_завершение_из_записи(записи[0][1]) != завершение
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_completion_ledger",
+            "Текущая проекция завершения не совпадает с вершиной журнала.",
+        )
+
+
+def совместимое_завершение_из_записи(
+    запись: dict[str, object],
+) -> dict[str, object]:
+    return copy.deepcopy(запись["завершение"])
+
+
+def создать_узел_журнала(
+    контекст: QueueContext,
+    *,
+    родитель: str | None,
+    завершение: dict[str, object],
+) -> str:
+    длина_идентификатора = len(current_head(контекст.root))
+    запись = {
+        "схема": СХЕМА_ЖУРНАЛА_ЗАВЕРШЕНИЙ,
+        "идентификатор_рабочей_копии": контекст.worktree_id,
+        "ссылка_ветки": контекст.branch_ref,
+        "завершение": copy.deepcopy(завершение),
+    }
+    байты_записи = канонические_байты_записи_журнала(
+        контекст,
+        запись,
+        длина_идентификатора=длина_идентификатора,
+    )
+    пустое_дерево = идентификатор_пустого_дерева(
+        контекст,
+        записать=True,
+    )
+    байты_узла = собрать_байты_узла_журнала(
+        пустое_дерево=пустое_дерево,
+        родитель=родитель,
+        байты_записи=байты_записи,
+    )
+    результат = run_git(
+        контекст.root,
+        ["hash-object", "-w", "-t", "commit", "--stdin"],
+        input_bytes=байты_узла,
+    )
+    идентификатор_узла = decoded_stdout(результат)
+    проверить_идентификатор_объекта_журнала(
+        идентификатор_узла,
+        длина_идентификатора=длина_идентификатора,
+        название="новый узел",
+    )
+    return идентификатор_узла
+
+
+def найти_завершение(
+    контекст: QueueContext,
+    идентификатор_задачи: str,
+    поколение: str,
+) -> tuple[int, dict[str, object]]:
+    идентификатор_задачи = validate_task_id(идентификатор_задачи)
+    поколение = проверить_поколение(поколение)
+    записи, вершина = прочитать_журнал_завершений(контекст)
+    найденное = найти_запись_завершения(
+        записи,
+        идентификатор_задачи=идентификатор_задачи,
+        поколение=поколение,
+    )
+    if найденное is None:
+        состояние_очереди, _ = read_state(контекст)
+        текущее_завершение = состояние_очереди.get("last_completion")
+        if (
+            состояние_очереди.get("worktree_id") == контекст.worktree_id
+            and состояние_очереди.get("branch_ref") == контекст.branch_ref
+            and isinstance(текущее_завершение, dict)
+            and текущее_завершение.get("task_id") == идентификатор_задачи
+            and текущее_завершение.get("generation") == поколение
+        ):
+            if вершина is not None:
+                raise QueueError(
+                    EXIT_CONTEXT,
+                    "corrupt_completion_ledger",
+                    "Текущая проекция завершения отсутствует в существующем журнале.",
+                )
+            совместимая_запись = {
+                "схема": СХЕМА_ЖУРНАЛА_ЗАВЕРШЕНИЙ,
+                "идентификатор_рабочей_копии": контекст.worktree_id,
+                "ссылка_ветки": контекст.branch_ref,
+                "завершение": copy.deepcopy(текущее_завершение),
+            }
+            проверить_запись_журнала(
+                контекст,
+                совместимая_запись,
+                длина_идентификатора=len(current_head(контекст.root)),
+            )
+            завершение = copy.deepcopy(текущее_завершение)
+            состояние = "найдено"
+        else:
+            завершение = None
+            состояние = "не_найдено"
+        идентификатор_завершения = None
+    else:
+        идентификатор_завершения, запись = найденное
+        завершение = совместимое_завершение_из_записи(запись)
+        состояние = "найдено"
+    return 0, {
+        "состояние": состояние,
+        "завершение": завершение,
+        "ссылка_журнала": контекст.ссылка_журнала_завершений,
+        "объект_журнала": вершина,
+        "объект_завершения": идентификатор_завершения,
+    }
 
 
 def подготовить_внешнее_ограждение(
@@ -525,6 +1220,38 @@ def cas_state(
     update_ref_error("обновить Git-ссылку очереди", last_stderr)
 
 
+def команда_обновления_журнала(
+    контекст: QueueContext,
+    *,
+    прежняя_вершина: str | None,
+    новая_вершина: str,
+) -> str:
+    if прежняя_вершина is None:
+        return (
+            f"create {контекст.ссылка_журнала_завершений} "
+            f"{новая_вершина}\n"
+        )
+    return (
+        f"update {контекст.ссылка_журнала_завершений} "
+        f"{новая_вершина} {прежняя_вершина}\n"
+    )
+
+
+def команда_проверки_журнала(
+    контекст: QueueContext,
+    *,
+    ожидаемая_вершина: str | None,
+    длина_идентификатора: int,
+) -> str:
+    ожидаемый_идентификатор = ожидаемая_вершина or (
+        "0" * длина_идентификатора
+    )
+    return (
+        f"verify {контекст.ссылка_журнала_завершений} "
+        f"{ожидаемый_идентификатор}\n"
+    )
+
+
 def update_queue_with_head_verification(
     context: QueueContext,
     *,
@@ -532,11 +1259,14 @@ def update_queue_with_head_verification(
     old_queue_oid: str,
     new_queue_oid: str,
     команда_внешнего_ограждения: str = "",
+    команда_журнала: str = "",
 ) -> subprocess.CompletedProcess[bytes]:
     transaction = (
         "start\n"
+        "option no-deref\n"
         f"verify {context.branch_ref} {expected_head}\n"
         f"{команда_внешнего_ограждения}"
+        f"{команда_журнала}"
         f"update {context.queue_ref} {new_queue_oid} {old_queue_oid}\n"
         "prepare\n"
         "commit\n"
@@ -566,6 +1296,7 @@ def ensure_state_identity(
     if allow_idle_rebind and state["owner"] is None and not state["waiting"]:
         rebound = copy.deepcopy(state)
         rebound["branch_ref"] = context.branch_ref
+        rebound["last_completion"] = None
         rebound["updated_at"] = utc_values()[0]
         return rebound
     raise QueueError(
@@ -783,6 +1514,13 @@ def attempt_admit(
                 **common_payload(context, old_oid),
             }
 
+        записи_журнала, вершина_журнала = прочитать_журнал_завершений(context)
+        проверить_проекцию_вершины_журнала(
+            записи_журнала,
+            вершина_журнала,
+            state.get("last_completion"),
+        )
+
         stamp, epoch = utc_values()
         owner_record = {
             "task_id": ticket["task_id"],
@@ -809,6 +1547,11 @@ def attempt_admit(
             expected_head=head,
             old_queue_oid=old_oid,
             new_queue_oid=new_oid,
+            команда_журнала=команда_проверки_журнала(
+                context,
+                ожидаемая_вершина=вершина_журнала,
+                длина_идентификатора=len(head),
+            ),
         )
         if result.returncode == 0:
             return owner_result(
@@ -852,6 +1595,9 @@ def join_queue(context: QueueContext, task_id: str) -> tuple[int, dict[str, obje
                 break
         if existing is not None:
             return attempt_admit(context, task_id)
+
+        if identity_state["owner"] is None and not identity_state["waiting"]:
+            прочитать_журнал_завершений(context)
 
         stamp, epoch = utc_values()
         updated = copy.deepcopy(identity_state)
@@ -1121,8 +1867,7 @@ def finish_clean_and_handoff(
     ожидаемый_объект_ограждения: str | None = None,
 ) -> tuple[int, dict[str, object]]:
     task_id = validate_task_id(task_id)
-    if not generation or "\0" in generation or "\n" in generation:
-        raise QueueError(EXIT_CLI, "invalid_generation", "Некорректное поколение владельца.")
+    проверить_поколение(generation)
     команда_ограждения, ожидаемый_объект = подготовить_внешнее_ограждение(
         context,
         ограждающая_ссылка,
@@ -1143,6 +1888,14 @@ def finish_clean_and_handoff(
         ensure_live_branch(context)
         state, old_oid = read_state(context)
         state = ensure_state_identity(context, state, allow_idle_rebind=False)
+        записи_журнала, прежняя_вершина_журнала = прочитать_журнал_завершений(
+            context
+        )
+        проверить_проекцию_вершины_журнала(
+            записи_журнала,
+            прежняя_вершина_журнала,
+            state.get("last_completion"),
+        )
         previous = matching_completion(
             state,
             kind="finished_clean",
@@ -1150,6 +1903,11 @@ def finish_clean_and_handoff(
             generation=generation,
         )
         if previous is not None:
+            проверить_проекцию_завершения_в_журнале(
+                записи_журнала,
+                прежняя_вершина_журнала,
+                previous,
+            )
             return finished_clean_result(context, old_oid, previous)
         owner = require_owner(context, state, task_id, generation)
         base_head = str(owner["base_head"])
@@ -1191,18 +1949,31 @@ def finish_clean_and_handoff(
         updated["last_completion"] = completion
         updated["updated_at"] = stamp
         new_oid = write_state_blob(context, updated)
+        новая_вершина_журнала = создать_узел_журнала(
+            context,
+            родитель=прежняя_вершина_журнала,
+            завершение=completion,
+        )
         result = update_queue_with_head_verification(
             context,
             expected_head=base_head,
             old_queue_oid=old_oid,
             new_queue_oid=new_oid,
             команда_внешнего_ограждения=команда_ограждения,
+            команда_журнала=команда_обновления_журнала(
+                context,
+                прежняя_вершина=прежняя_вершина_журнала,
+                новая_вершина=новая_вершина_журнала,
+            ),
         )
         if result.returncode == 0:
             return finished_clean_result(context, new_oid, completion)
         last_stderr = result.stderr.decode("utf-8", errors="replace").strip()
         observed_head = current_head(context.root)
         observed_state, observed_queue_oid = read_state(context)
+        наблюдаемые_записи, наблюдаемая_вершина_журнала = (
+            прочитать_журнал_завершений(context)
+        )
         if (
             ограждающая_ссылка is not None
             and read_ref_oid(context, ограждающая_ссылка)
@@ -1220,6 +1991,11 @@ def finish_clean_and_handoff(
             generation=generation,
         )
         if observed_completion is not None:
+            проверить_проекцию_завершения_в_журнале(
+                наблюдаемые_записи,
+                наблюдаемая_вершина_журнала,
+                observed_completion,
+            )
             return finished_clean_result(
                 context,
                 observed_queue_oid,
@@ -1236,6 +2012,12 @@ def finish_clean_and_handoff(
             unchanged_ref_failures = 0
             time.sleep(REF_RETRY_BASE_SECONDS)
             continue
+        if наблюдаемая_вершина_журнала != прежняя_вершина_журнала:
+            raise QueueError(
+                EXIT_CAS,
+                "completion_ledger_changed",
+                "Журнал завершений изменился без согласованной передачи очереди.",
+            )
         unchanged_ref_failures += 1
         if unchanged_ref_failures >= UNCHANGED_REF_RETRY_ATTEMPTS:
             update_ref_error("атомарно чисто завершить задачу", last_stderr)
@@ -1277,14 +2059,21 @@ def atomic_commit_and_handoff(
     message: str,
 ) -> tuple[int, dict[str, object]]:
     task_id = validate_task_id(task_id)
-    if not generation or "\0" in generation or "\n" in generation:
-        raise QueueError(EXIT_CLI, "invalid_generation", "Некорректное поколение владельца.")
+    проверить_поколение(generation)
     if not message.strip():
         raise QueueError(EXIT_CLI, "invalid_message", "Сообщение коммита не может быть пустым.")
 
     ensure_live_branch(context)
     state, state_oid = read_state(context)
     state = ensure_state_identity(context, state, allow_idle_rebind=False)
+    начальные_записи_журнала, начальная_вершина_журнала = (
+        прочитать_журнал_завершений(context)
+    )
+    проверить_проекцию_вершины_журнала(
+        начальные_записи_журнала,
+        начальная_вершина_журнала,
+        state.get("last_completion"),
+    )
     previous = matching_completion(
         state,
         kind="committed",
@@ -1292,6 +2081,11 @@ def atomic_commit_and_handoff(
         generation=generation,
     )
     if previous is not None and completion_head_is_current(context, previous):
+        проверить_проекцию_завершения_в_журнале(
+            начальные_записи_журнала,
+            начальная_вершина_журнала,
+            previous,
+        )
         return committed_completion_result(context, state_oid, previous)
     owner = require_owner(context, state, task_id, generation)
     base_head = str(owner["base_head"])
@@ -1351,6 +2145,14 @@ def atomic_commit_and_handoff(
                 generation=generation,
             )
             if live_head == commit_oid and completion is not None:
+                записи_после_коммита, вершина_после_коммита = (
+                    прочитать_журнал_завершений(context)
+                )
+                проверить_проекцию_завершения_в_журнале(
+                    записи_после_коммита,
+                    вершина_после_коммита,
+                    completion,
+                )
                 return committed_completion_result(context, latest_oid, completion)
             raise QueueError(
                 EXIT_HEAD_CHANGED,
@@ -1361,6 +2163,14 @@ def atomic_commit_and_handoff(
 
         latest, old_queue_oid = read_state(context)
         require_owner(context, latest, task_id, generation)
+        последние_записи_журнала, прежняя_вершина_журнала = прочитать_журнал_завершений(
+            context
+        )
+        проверить_проекцию_вершины_журнала(
+            последние_записи_журнала,
+            прежняя_вершина_журнала,
+            latest.get("last_completion"),
+        )
         if old_queue_oid is None:
             raise QueueError(
                 EXIT_CONTEXT,
@@ -1381,9 +2191,16 @@ def atomic_commit_and_handoff(
         updated["last_completion"] = completion
         updated["updated_at"] = stamp
         new_queue_oid = write_state_blob(context, updated)
+        новая_вершина_журнала = создать_узел_журнала(
+            context,
+            родитель=прежняя_вершина_журнала,
+            завершение=completion,
+        )
         transaction = (
             "start\n"
+            "option no-deref\n"
             f"update {context.branch_ref} {commit_oid} {base_head}\n"
+            f"{команда_обновления_журнала(context, прежняя_вершина=прежняя_вершина_журнала, новая_вершина=новая_вершина_журнала)}"
             f"update {context.queue_ref} {new_queue_oid} {old_queue_oid}\n"
             "prepare\n"
             "commit\n"
@@ -1408,6 +2225,9 @@ def atomic_commit_and_handoff(
         last_stderr = result.stderr.decode("utf-8", errors="replace").strip()
         observed_head = current_head(context.root)
         observed_state, observed_queue_oid = read_state(context)
+        наблюдаемые_записи, наблюдаемая_вершина_журнала = (
+            прочитать_журнал_завершений(context)
+        )
         observed_completion = matching_completion(
             observed_state,
             kind="committed",
@@ -1415,6 +2235,11 @@ def atomic_commit_and_handoff(
             generation=generation,
         )
         if observed_head == commit_oid and observed_completion is not None:
+            проверить_проекцию_завершения_в_журнале(
+                наблюдаемые_записи,
+                наблюдаемая_вершина_журнала,
+                observed_completion,
+            )
             return committed_completion_result(
                 context,
                 observed_queue_oid,
@@ -1431,6 +2256,12 @@ def atomic_commit_and_handoff(
             unchanged_ref_failures = 0
             time.sleep(REF_RETRY_BASE_SECONDS)
             continue
+        if наблюдаемая_вершина_журнала != прежняя_вершина_журнала:
+            raise QueueError(
+                EXIT_CAS,
+                "completion_ledger_changed",
+                "Журнал завершений изменился без согласованной передачи очереди.",
+            )
         unchanged_ref_failures += 1
         if unchanged_ref_failures >= UNCHANGED_REF_RETRY_ATTEMPTS:
             update_ref_error(
@@ -2009,6 +2840,23 @@ def build_parser() -> argparse.ArgumentParser:
     add_common(heartbeat_status_parser)
     heartbeat_status_parser.add_argument("--task-id", required=True)
 
+    завершение = subparsers.add_parser(
+        "завершение",
+        help="Найти точное долговечное завершение по задаче и поколению.",
+        allow_abbrev=False,
+    )
+    add_common(завершение)
+    завершение.add_argument(
+        "--task-id",
+        dest="идентификатор_задачи",
+        required=True,
+    )
+    завершение.add_argument(
+        "--generation",
+        dest="поколение",
+        required=True,
+    )
+
     join = subparsers.add_parser(
         "join",
         help="Атомарно зарегистрировать корневую задачу.",
@@ -2143,6 +2991,14 @@ def main(argv: list[str] | None = None) -> int:
             code, payload = queue_status(context)
         elif args.command == "heartbeat-status":
             code, payload = heartbeat_status(context, args.task_id)
+        elif args.command == "завершение":
+            код, данные = найти_завершение(
+                context,
+                args.идентификатор_задачи,
+                args.поколение,
+            )
+            emit(данные)
+            return код
         elif args.command == "join":
             code, payload = join_queue(context, args.task_id)
         elif args.command == "wait":

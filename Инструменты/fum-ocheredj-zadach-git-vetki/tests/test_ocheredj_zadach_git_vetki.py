@@ -1,3 +1,4 @@
+import copy
 import importlib.util
 import io
 import json
@@ -231,9 +232,54 @@ class GitQueueFixture(unittest.TestCase):
             "--json",
         )
 
+    def найти_завершение(
+        сам,
+        идентификатор_задачи: str,
+        поколение: str,
+    ):
+        return сам.run_queue(
+            "завершение",
+            "--repo-root",
+            str(сам.repo),
+            "--task-id",
+            идентификатор_задачи,
+            "--generation",
+            поколение,
+            "--json",
+        )
+
     def stage_change(self, value: str) -> None:
         (self.repo / "tracked.txt").write_text(value, encoding="utf-8")
         self.git("add", "tracked.txt")
+
+    def записать_сырое_состояние_очереди(
+        сам,
+        контекст,
+        состояние: dict[str, object],
+        прежний_объект: str,
+    ) -> str:
+        новый_объект = subprocess.run(
+            ["git", "-C", str(сам.repo), "hash-object", "-w", "--stdin"],
+            input=(
+                json.dumps(
+                    состояние,
+                    ensure_ascii=False,
+                    sort_keys=True,
+                    separators=(",", ":"),
+                )
+                + "\n"
+            ),
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        сам.git(
+            "update-ref",
+            контекст.queue_ref,
+            новый_объект,
+            прежний_объект,
+        )
+        return новый_объект
 
 
 class QueueContractTests(GitQueueFixture):
@@ -266,6 +312,580 @@ class QueueContractTests(GitQueueFixture):
 
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(self.payload(result), {"state": "idle"})
+
+    def test_завершение_остаётся_доступным_после_перезаписи_последней_проекции(
+        сам,
+    ) -> None:
+        _, первый_владелец = сам.join("task-a")
+        сам.stage_change("task a\n")
+        первый_результат = сам.commit(
+            "task-a",
+            str(первый_владелец["generation"]),
+        )
+        сам.assertEqual(первый_результат.returncode, 0, первый_результат.stderr)
+        первая_вершина_ветки = str(
+            сам.payload(первый_результат)["new_head"]
+        )
+
+        _, второй_владелец = сам.join("task-b")
+        второе_завершение = сам.finish_clean(
+            "task-b",
+            str(второй_владелец["generation"]),
+        )
+        сам.assertEqual(
+            второе_завершение.returncode,
+            0,
+            второе_завершение.stderr,
+        )
+
+        найденное = сам.найти_завершение(
+            "task-a",
+            str(первый_владелец["generation"]),
+        )
+
+        сам.assertEqual(найденное.returncode, 0, найденное.stderr)
+        найденные_данные = сам.payload(найденное)
+        сам.assertEqual(найденные_данные["состояние"], "найдено")
+        сам.assertEqual(
+            найденные_данные["завершение"],
+            {
+                "base_head": первый_владелец["base_head"],
+                "completed_at": найденные_данные["завершение"]["completed_at"],
+                "generation": первый_владелец["generation"],
+                "head": первая_вершина_ветки,
+                "kind": "committed",
+                "task_id": "task-a",
+            },
+        )
+        сам.assertRegex(
+            str(найденные_данные["ссылка_журнала"]),
+            r"^refs/fum/worktree-task-completion-ledgers/[0-9a-f]{64}/[0-9a-f]{64}$",
+        )
+        сам.assertRegex(str(найденные_данные["объект_журнала"]), r"^[0-9a-f]{40}$")
+        сам.assertRegex(str(найденные_данные["объект_завершения"]), r"^[0-9a-f]{40}$")
+
+    def test_текущая_проекция_до_журнала_остаётся_совместимым_резервом(
+        сам,
+    ) -> None:
+        модуль = load_queue_module()
+        _, владелец = сам.join("legacy-task")
+        сам.stage_change("legacy completion\n")
+        результат = сам.commit(
+            "legacy-task",
+            str(владелец["generation"]),
+        )
+        сам.assertEqual(результат.returncode, 0, результат.stderr)
+        контекст = модуль.resolve_context(сам.repo)
+        сам.git("update-ref", "-d", контекст.ссылка_журнала_завершений)
+
+        найденное = сам.найти_завершение(
+            "legacy-task",
+            str(владелец["generation"]),
+        )
+
+        сам.assertEqual(найденное.returncode, 0, найденное.stderr)
+        данные = сам.payload(найденное)
+        сам.assertEqual(данные["состояние"], "найдено")
+        сам.assertEqual(данные["завершение"]["kind"], "committed")
+        сам.assertIsNone(данные["объект_журнала"])
+        сам.assertIsNone(данные["объект_завершения"])
+        допуск, новый_владелец = сам.join("task-b")
+        сам.assertEqual(допуск.returncode, 0, допуск.stderr)
+        сам.assertEqual(новый_владелец["state"], "admitted")
+
+    def test_повреждённое_поколение_владельца_отклоняется_как_состояние_очереди(
+        сам,
+    ) -> None:
+        модуль = load_queue_module()
+        сам.join("task-a")
+        контекст = модуль.resolve_context(сам.repo)
+        состояние, прежний_объект = модуль.read_state(контекст)
+        повреждённое = copy.deepcopy(состояние)
+        повреждённое["owner"]["generation"] = " generation-a"
+        сам.записать_сырое_состояние_очереди(
+            контекст,
+            повреждённое,
+            str(прежний_объект),
+        )
+
+        результат = сам.run_queue(
+            "status",
+            "--repo-root",
+            str(сам.repo),
+            "--json",
+        )
+
+        сам.assertNotEqual(результат.returncode, 0)
+        сам.assertEqual(сам.payload(результат)["state"], "corrupt_queue")
+
+    def test_повреждённая_идентичность_проекции_отклоняется_как_состояние_очереди(
+        сам,
+    ) -> None:
+        модуль = load_queue_module()
+        _, владелец = сам.join("task-a")
+        завершение = сам.finish_clean("task-a", str(владелец["generation"]))
+        сам.assertEqual(завершение.returncode, 0, завершение.stderr)
+        контекст = модуль.resolve_context(сам.repo)
+        состояние, исходный_объект = модуль.read_state(контекст)
+        сам.assertIsNotNone(исходный_объект)
+
+        for поле, значение in (
+            ("task_id", "task-a\n"),
+            ("generation", "generation-a "),
+        ):
+            with сам.subTest(поле=поле):
+                повреждённое = copy.deepcopy(состояние)
+                повреждённое["last_completion"][поле] = значение
+                повреждённый_объект = сам.записать_сырое_состояние_очереди(
+                    контекст,
+                    повреждённое,
+                    str(исходный_объект),
+                )
+                результат = сам.run_queue(
+                    "status",
+                    "--repo-root",
+                    str(сам.repo),
+                    "--json",
+                )
+                сам.assertNotEqual(результат.returncode, 0)
+                сам.assertEqual(
+                    сам.payload(результат)["state"],
+                    "corrupt_queue",
+                )
+                сам.git(
+                    "update-ref",
+                    контекст.queue_ref,
+                    str(исходный_объект),
+                    повреждённый_объект,
+                )
+
+    def test_ненулевая_проекция_обязана_совпадать_с_вершиной_журнала(
+        сам,
+    ) -> None:
+        модуль = load_queue_module()
+        _, первый = сам.join("task-a")
+        первое = сам.finish_clean("task-a", str(первый["generation"]))
+        сам.assertEqual(первое.returncode, 0, первое.stderr)
+        _, второй = сам.join("task-b")
+        второе = сам.finish_clean("task-b", str(второй["generation"]))
+        сам.assertEqual(второе.returncode, 0, второе.stderr)
+        контекст = модуль.resolve_context(сам.repo)
+        записи, _ = модуль.прочитать_журнал_завершений(контекст)
+        состояние, прежний_объект = модуль.read_state(контекст)
+        историческая_проекция = copy.deepcopy(записи[1][1]["завершение"])
+        противоречивое = copy.deepcopy(состояние)
+        противоречивое["last_completion"] = историческая_проекция
+        сам.записать_сырое_состояние_очереди(
+            контекст,
+            противоречивое,
+            str(прежний_объект),
+        )
+
+        результат, данные = сам.join("task-c")
+
+        сам.assertNotEqual(результат.returncode, 0)
+        сам.assertEqual(данные["state"], "corrupt_completion_ledger")
+        текущее = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        сам.assertIsNone(текущее["owner"])
+
+    def test_пустая_проекция_допустима_при_существующем_журнале(
+        сам,
+    ) -> None:
+        модуль = load_queue_module()
+        _, первый = сам.join("task-a")
+        завершение = сам.finish_clean("task-a", str(первый["generation"]))
+        сам.assertEqual(завершение.returncode, 0, завершение.stderr)
+        контекст = модуль.resolve_context(сам.repo)
+        состояние, прежний_объект = модуль.read_state(контекст)
+        без_проекции = copy.deepcopy(состояние)
+        без_проекции["last_completion"] = None
+        сам.записать_сырое_состояние_очереди(
+            контекст,
+            без_проекции,
+            str(прежний_объект),
+        )
+
+        допуск, владелец = сам.join("task-b")
+
+        сам.assertEqual(допуск.returncode, 0, допуск.stderr)
+        сам.assertEqual(владелец["state"], "admitted")
+
+    def test_исторический_повтор_разрешён_только_без_журнала(
+        сам,
+    ) -> None:
+        модуль = load_queue_module()
+        _, владелец = сам.join("task-a")
+        первый = сам.finish_clean("task-a", str(владелец["generation"]))
+        сам.assertEqual(первый.returncode, 0, первый.stderr)
+        контекст = модуль.resolve_context(сам.repo)
+        исходная_вершина = сам.git(
+            "rev-parse",
+            контекст.ссылка_журнала_завершений,
+        ).stdout.strip()
+
+        сам.git(
+            "update-ref",
+            "-d",
+            контекст.ссылка_журнала_завершений,
+            исходная_вершина,
+        )
+        исторический_повтор = сам.finish_clean(
+            "task-a",
+            str(владелец["generation"]),
+        )
+        сам.assertEqual(
+            исторический_повтор.returncode,
+            0,
+            исторический_повтор.stderr,
+        )
+
+        чужое_завершение = {
+            "kind": "finished_clean",
+            "task_id": "task-b",
+            "generation": "generation-b",
+            "head": сам.git("rev-parse", "HEAD").stdout.strip(),
+            "completed_at": "2026-08-07T00:00:00.000Z",
+        }
+        чужая_вершина = модуль.создать_узел_журнала(
+            контекст,
+            родитель=None,
+            завершение=чужое_завершение,
+        )
+        сам.git(
+            "update-ref",
+            контекст.ссылка_журнала_завершений,
+            чужая_вершина,
+        )
+        несогласованный_повтор = сам.finish_clean(
+            "task-a",
+            str(владелец["generation"]),
+        )
+        сам.assertNotEqual(несогласованный_повтор.returncode, 0)
+        сам.assertEqual(
+            сам.payload(несогласованный_повтор)["state"],
+            "corrupt_completion_ledger",
+        )
+
+    def test_запись_отвергает_пробелы_в_идентичности_завершения(
+        сам,
+    ) -> None:
+        модуль = load_queue_module()
+        контекст = модуль.resolve_context(сам.repo)
+        завершение = {
+            "kind": "finished_clean",
+            "task_id": " task-a",
+            "generation": "generation-a ",
+            "head": сам.git("rev-parse", "HEAD").stdout.strip(),
+            "completed_at": "2026-08-07T00:00:00.000Z",
+        }
+
+        with сам.assertRaises(модуль.QueueError) as ошибка:
+            модуль.создать_узел_журнала(
+                контекст,
+                родитель=None,
+                завершение=завершение,
+            )
+
+        сам.assertEqual(ошибка.exception.state, "corrupt_completion_ledger")
+
+    def test_отсутствующее_завершение_возвращает_закрытый_ответ(
+        сам,
+    ) -> None:
+        результат = сам.найти_завершение("missing-task", "missing-generation")
+
+        сам.assertEqual(результат.returncode, 0, результат.stderr)
+        данные = сам.payload(результат)
+        сам.assertEqual(
+            set(данные),
+            {
+                "состояние",
+                "завершение",
+                "ссылка_журнала",
+                "объект_журнала",
+                "объект_завершения",
+            },
+        )
+        сам.assertEqual(данные["состояние"], "не_найдено")
+        сам.assertIsNone(данные["завершение"])
+        сам.assertIsNone(данные["объект_журнала"])
+        сам.assertIsNone(данные["объект_завершения"])
+
+    def test_журнал_линеен_достижим_и_читается_двумя_пакетными_вызовами(
+        сам,
+    ) -> None:
+        модуль = load_queue_module()
+        _, первый = сам.join("task-a")
+        сам.stage_change("first\n")
+        первый_результат = сам.commit("task-a", str(первый["generation"]))
+        сам.assertEqual(первый_результат.returncode, 0, первый_результат.stderr)
+
+        _, второй = сам.join("task-b")
+        второй_результат = сам.finish_clean("task-b", str(второй["generation"]))
+        сам.assertEqual(второй_результат.returncode, 0, второй_результат.stderr)
+
+        _, третий = сам.join("task-c")
+        сам.stage_change("third\n")
+        третий_результат = сам.commit("task-c", str(третий["generation"]))
+        сам.assertEqual(третий_результат.returncode, 0, третий_результат.stderr)
+
+        контекст = модуль.resolve_context(сам.repo)
+        исходный_запуск = модуль.run_git
+        пакетные_вызовы: list[tuple[str, ...]] = []
+
+        def наблюдать_запуск(каталог, аргументы, **параметры):
+            if аргументы[:2] in (["rev-list", "--first-parent"], ["cat-file", "--batch"]):
+                пакетные_вызовы.append(tuple(аргументы[:2]))
+            return исходный_запуск(каталог, аргументы, **параметры)
+
+        with mock.patch.object(модуль, "run_git", наблюдать_запуск):
+            записи, вершина = модуль.прочитать_журнал_завершений(контекст)
+
+        сам.assertEqual(len(записи), 3)
+        сам.assertEqual(
+            [запись["завершение"]["task_id"] for _, запись in записи],
+            ["task-c", "task-b", "task-a"],
+        )
+        сам.assertEqual(
+            пакетные_вызовы,
+            [("rev-list", "--first-parent"), ("cat-file", "--batch")],
+        )
+        ссылки = сам.git(
+            "for-each-ref",
+            "--format=%(refname)",
+            "refs/fum/worktree-task-completion-ledgers/",
+        ).stdout.splitlines()
+        сам.assertEqual(ссылки, [контекст.ссылка_журнала_завершений])
+        достижимые = сам.git("rev-list", str(вершина)).stdout.splitlines()
+        сам.assertEqual(len(достижимые), 3)
+        данные_вершины = json.loads(
+            сам.git("cat-file", "-p", str(вершина)).stdout.split("\n\n", 1)[1]
+        )
+        сам.assertEqual(
+            set(данные_вершины),
+            {
+                "схема",
+                "идентификатор_рабочей_копии",
+                "ссылка_ветки",
+                "завершение",
+            },
+        )
+        сам.assertEqual(
+            set(данные_вершины["завершение"]),
+            {
+                "kind",
+                "task_id",
+                "generation",
+                "base_head",
+                "head",
+                "completed_at",
+            },
+        )
+
+    def test_перепривязка_свободной_очереди_очищает_последнюю_проекцию(
+        сам,
+    ) -> None:
+        модуль = load_queue_module()
+        _, первый = сам.join("task-a")
+        сам.stage_change("master completion\n")
+        завершение = сам.commit("task-a", str(первый["generation"]))
+        сам.assertEqual(завершение.returncode, 0, завершение.stderr)
+        прежний_контекст = модуль.resolve_context(сам.repo)
+        прежняя_ссылка = прежний_контекст.ссылка_журнала_завершений
+
+        сам.git("switch", "-c", "other")
+        допуск, второй = сам.join("task-b")
+
+        сам.assertEqual(допуск.returncode, 0, допуск.stderr)
+        новый_контекст = модуль.resolve_context(сам.repo)
+        сам.assertNotEqual(
+            новый_контекст.ссылка_журнала_завершений,
+            прежняя_ссылка,
+        )
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        сохранённое = json.loads(
+            сам.git("cat-file", "blob", str(состояние["queue_oid"])).stdout
+        )
+        сам.assertIsNone(сохранённое["last_completion"])
+        старое = сам.найти_завершение(
+            "task-a",
+            str(первый["generation"]),
+        )
+        сам.assertEqual(старое.returncode, 0, старое.stderr)
+        сам.assertEqual(сам.payload(старое)["состояние"], "не_найдено")
+        сам.assertEqual(второй["base_head"], сам.git("rev-parse", "HEAD").stdout.strip())
+
+    def test_повреждённый_журнал_закрывает_первый_допуск_до_регистрации(
+        сам,
+    ) -> None:
+        модуль = load_queue_module()
+        контекст = модуль.resolve_context(сам.repo)
+        объект_данных = модуль.decoded_stdout(
+            модуль.run_git(
+                контекст.root,
+                ["hash-object", "-w", "--stdin"],
+                input_bytes=b"corrupt ledger\n",
+            )
+        )
+        сам.git(
+            "update-ref",
+            контекст.ссылка_журнала_завершений,
+            объект_данных,
+        )
+
+        результат, данные = сам.join("task-a")
+
+        сам.assertNotEqual(результат.returncode, 0)
+        сам.assertEqual(данные["state"], "corrupt_completion_ledger")
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        сам.assertIsNone(состояние["owner"])
+        сам.assertEqual(состояние["waiting"], [])
+
+    def test_строгий_читатель_отвергает_лишнее_слияние_повтор_и_символическую_ссылку(
+        сам,
+    ) -> None:
+        модуль = load_queue_module()
+        _, владелец = сам.join("task-a")
+        сам.stage_change("valid completion\n")
+        результат = сам.commit("task-a", str(владелец["generation"]))
+        сам.assertEqual(результат.returncode, 0, результат.stderr)
+        контекст = модуль.resolve_context(сам.repo)
+        записи, исходная_вершина = модуль.прочитать_журнал_завершений(контекст)
+        сам.assertIsNotNone(исходная_вершина)
+        исходная_запись = записи[0][1]
+        пустое_дерево = модуль.идентификатор_пустого_дерева(
+            контекст,
+            записать=True,
+        )
+        длина_идентификатора = len(
+            сам.git("rev-parse", "HEAD").stdout.strip()
+        )
+
+        def записать_коммит(байты: bytes) -> str:
+            return модуль.decoded_stdout(
+                модуль.run_git(
+                    контекст.root,
+                    ["hash-object", "-w", "-t", "commit", "--stdin"],
+                    input_bytes=байты,
+                )
+            )
+
+        новое_завершение = {
+            "kind": "finished_clean",
+            "task_id": "task-b",
+            "generation": "generation-b",
+            "head": сам.git("rev-parse", "HEAD").stdout.strip(),
+            "completed_at": "2026-08-07T00:00:00.000Z",
+        }
+        новая_запись = {
+            "схема": модуль.СХЕМА_ЖУРНАЛА_ЗАВЕРШЕНИЙ,
+            "идентификатор_рабочей_копии": контекст.worktree_id,
+            "ссылка_ветки": контекст.branch_ref,
+            "завершение": новое_завершение,
+        }
+        канонические_байты = модуль.канонические_байты_записи_журнала(
+            контекст,
+            новая_запись,
+            длина_идентификатора=длина_идентификатора,
+        )
+        правильный_узел = модуль.собрать_байты_узла_журнала(
+            пустое_дерево=пустое_дерево,
+            родитель=str(исходная_вершина),
+            байты_записи=канонические_байты,
+        )
+
+        лишний_заголовок = правильный_узел.replace(
+            (
+                модуль.ЗАГОЛОВОК_КОММИТЕРА_ЖУРНАЛА + "\n\n"
+            ).encode("utf-8"),
+            (
+                модуль.ЗАГОЛОВОК_КОММИТЕРА_ЖУРНАЛА
+                + "\nencoding UTF-8\n\n"
+            ).encode("utf-8"),
+            1,
+        )
+        второй_родитель = сам.git("rev-parse", "HEAD").stdout.strip()
+        слияние = правильный_узел.replace(
+            f"parent {исходная_вершина}\n".encode("ascii"),
+            (
+                f"parent {исходная_вершина}\n"
+                f"parent {второй_родитель}\n"
+            ).encode("ascii"),
+            1,
+        )
+        неканоническая_запись = copy.deepcopy(новая_запись)
+        неканоническая_запись["лишнее"] = True
+        лишнее_поле = модуль.собрать_байты_узла_журнала(
+            пустое_дерево=пустое_дерево,
+            родитель=str(исходная_вершина),
+            байты_записи=(
+                json.dumps(
+                    неканоническая_запись,
+                    ensure_ascii=False,
+                    sort_keys=True,
+                    separators=(",", ":"),
+                )
+                + "\n"
+            ).encode("utf-8"),
+        )
+        повтор = модуль.создать_узел_журнала(
+            контекст,
+            родитель=str(исходная_вершина),
+            завершение=исходная_запись["завершение"],
+        )
+
+        for название, повреждённый_объект in (
+            ("extra_header", записать_коммит(лишний_заголовок)),
+            ("merge", записать_коммит(слияние)),
+            ("extra_payload", записать_коммит(лишнее_поле)),
+            ("duplicate", повтор),
+        ):
+            with сам.subTest(случай=название):
+                сам.git(
+                    "update-ref",
+                    контекст.ссылка_журнала_завершений,
+                    повреждённый_объект,
+                    str(исходная_вершина),
+                )
+                проверка = сам.найти_завершение(
+                    "task-a",
+                    str(владелец["generation"]),
+                )
+                сам.assertNotEqual(проверка.returncode, 0)
+                сам.assertEqual(
+                    сам.payload(проверка)["state"],
+                    "corrupt_completion_ledger",
+                )
+                сам.git(
+                    "update-ref",
+                    контекст.ссылка_журнала_завершений,
+                    str(исходная_вершина),
+                    повреждённый_объект,
+                )
+
+        цель = "refs/fum/test-completion-ledger-target"
+        сам.git("update-ref", цель, str(исходная_вершина))
+        сам.git(
+            "update-ref",
+            "-d",
+            контекст.ссылка_журнала_завершений,
+            str(исходная_вершина),
+        )
+        сам.git("symbolic-ref", контекст.ссылка_журнала_завершений, цель)
+        символическая = сам.найти_завершение(
+            "task-a",
+            str(владелец["generation"]),
+        )
+        сам.assertNotEqual(символическая.returncode, 0)
+        сам.assertEqual(
+            сам.payload(символическая)["state"],
+            "corrupt_completion_ledger",
+        )
 
     def test_heartbeat_status_distinguishes_own_and_foreign_owner(self) -> None:
         self.join("heartbeat-task")
@@ -1060,6 +1680,16 @@ class QueueSafetyTests(GitQueueFixture):
             "status", "--repo-root", str(self.repo), "--json"
         ))
         self.assertEqual(status["owner"]["task_id"], "task-a")
+        self.assertNotEqual(
+            self.git(
+                "rev-parse",
+                "--verify",
+                "--quiet",
+                context.ссылка_журнала_завершений,
+                check=False,
+            ).returncode,
+            0,
+        )
 
     def test_admission_atomically_verifies_the_acknowledged_head(self) -> None:
         module = load_queue_module()
@@ -1853,6 +2483,40 @@ class Sha256QueueTests(GitQueueFixture):
         committed = self.commit("task-a", str(owner["generation"]), "SHA-256 task")
         self.assertEqual(committed.returncode, 0, committed.stderr)
         self.assertEqual(len(str(self.payload(committed)["new_head"])), 64)
+
+    def test_шестидесятичетырёхзначный_журнал_сохраняет_завершение(
+        сам,
+    ) -> None:
+        _, первый = сам.join("task-a")
+        сам.stage_change("sha256 first\n")
+        зафиксированное = сам.commit("task-a", str(первый["generation"]))
+        сам.assertEqual(
+            зафиксированное.returncode,
+            0,
+            зафиксированное.stderr,
+        )
+
+        _, второй = сам.join("task-b")
+        чистое_завершение = сам.finish_clean(
+            "task-b",
+            str(второй["generation"]),
+        )
+        сам.assertEqual(
+            чистое_завершение.returncode,
+            0,
+            чистое_завершение.stderr,
+        )
+
+        найденное = сам.найти_завершение(
+            "task-a",
+            str(первый["generation"]),
+        )
+
+        сам.assertEqual(найденное.returncode, 0, найденное.stderr)
+        данные = сам.payload(найденное)
+        сам.assertEqual(данные["состояние"], "найдено")
+        сам.assertEqual(len(str(данные["объект_журнала"])), 64)
+        сам.assertEqual(len(str(данные["объект_завершения"])), 64)
 
 
 if __name__ == "__main__":
