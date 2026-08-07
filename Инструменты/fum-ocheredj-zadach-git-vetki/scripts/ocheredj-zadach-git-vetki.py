@@ -11,6 +11,7 @@ import math
 import os
 import re
 from signal import SIGKILL, SIGTERM
+import stat
 import subprocess
 import sys
 import tempfile
@@ -46,8 +47,26 @@ EXIT_NOTHING_STAGED = 18
 EXIT_PUBLICATION_REJECTED = 19
 EXIT_PUBLICATION_DIVERGED = 20
 EXIT_PUBLICATION_UNCONFIRMED = 21
+КОД_ИДЁТ_СБРОС = 22
+КОД_НЕСОВПАДЕНИЯ_СЕССИЙ = 23
 EXIT_CLI = 64
 EXIT_INTERRUPTED = 130
+
+СХЕМА_СБРОСА = "fum.сброс-состояния-FIFO.1"
+СХЕМА_КВИТАНЦИИ_СБРОСА = "fum.квитанция-сброса-состояния-FIFO.1"
+ПРОСТРАНСТВО_КВИТАНЦИЙ_СБРОСА = (
+    "refs/fum/квитанции-сброса-состояния-FIFO"
+)
+ПРОСТРАНСТВО_РЕЗЕРВАЦИЙ = "refs/fum/резервации-запусков-автоматизаций"
+ПРОСТРАНСТВО_ЭПОХ_РЕЗЕРВАЦИЙ = (
+    "refs/fum/эпохи-резерваций-запусков-автоматизаций"
+)
+ПРОСТРАНСТВО_УПРАВЛЕНИЯ = "refs/fum/управление-диспетчером"
+ПРОСТРАНСТВО_ПРЕТЕНЗИЙ = "refs/fum/worktree-next-step-claims"
+ПРОСТРАНСТВО_ПОЧИНКИ = "refs/fum/починка-автозапуска"
+ФАЗЫ_СБРОСА = frozenset(
+    {"подготовлен", "сессии_остановлены", "очистка_рабочей_копии"}
+)
 
 
 @dataclass(frozen=True)
@@ -66,12 +85,12 @@ class QueueError(RuntimeError):
         state: str,
         message: str,
         *,
-        payload: dict[str, object] | None = None,
+        данные_результата_операции: dict[str, object] | None = None,
     ) -> None:
         super().__init__(message)
         self.exit_code = exit_code
         self.state = state
-        self.payload = payload or {}
+        self.данные_результата_операции = данные_результата_операции or {}
 
 
 def clean_git_environment() -> dict[str, str]:
@@ -240,15 +259,15 @@ def resolve_context(repo_root: Path) -> QueueContext:
     )
 
 
-def ensure_live_branch(context: QueueContext) -> None:
-    live_branch = symbolic_branch(context.root)
-    if live_branch != context.branch_ref:
+def ensure_live_branch(контекст_очереди: QueueContext) -> None:
+    live_branch = symbolic_branch(контекст_очереди.root)
+    if live_branch != контекст_очереди.branch_ref:
         raise QueueError(
             EXIT_CONTEXT,
             "branch_changed",
             "Git-ветка была переключена после начала операции очереди.",
-            payload={
-                "expected_branch_ref": context.branch_ref,
+            данные_результата_операции={
+                "expected_branch_ref": контекст_очереди.branch_ref,
                 "current_branch_ref": live_branch,
             },
         )
@@ -264,12 +283,12 @@ def utc_values(now_epoch: float | None = None) -> tuple[str, float]:
     return stamp, epoch
 
 
-def new_state(context: QueueContext) -> dict[str, object]:
+def new_state(контекст_очереди: QueueContext) -> dict[str, object]:
     stamp, _ = utc_values()
     return {
         "schema_version": SCHEMA_VERSION,
-        "worktree_id": context.worktree_id,
-        "branch_ref": context.branch_ref,
+        "worktree_id": контекст_очереди.worktree_id,
+        "branch_ref": контекст_очереди.branch_ref,
         "next_seq": 1,
         "owner": None,
         "waiting": [],
@@ -362,7 +381,7 @@ def validate_state(state: object) -> dict[str, object]:
                     "corrupt_queue",
                     f"В записи завершения отсутствует поле {key}.",
                 )
-        if completion["kind"] not in {"committed", "finished_clean"}:
+        if completion["kind"] not in {"committed", "finished_clean", "reset"}:
             raise QueueError(EXIT_CONTEXT, "corrupt_queue", "Неизвестен вид завершения.")
         if completion["kind"] == "committed" and (
             not isinstance(completion.get("base_head"), str)
@@ -373,6 +392,50 @@ def validate_state(state: object) -> dict[str, object]:
                 "corrupt_queue",
                 "В записи коммита отсутствует base_head.",
             )
+        if completion["kind"] == "reset":
+            if set(completion) != {
+                "kind",
+                "task_id",
+                "generation",
+                "head",
+                "completed_at",
+                "аннулированные_задачи",
+            }:
+                raise QueueError(
+                    EXIT_CONTEXT,
+                    "corrupt_queue",
+                    "Запись сброса содержит неизвестные поля.",
+                )
+            if re.fullmatch(r"sha256:[0-9a-f]{64}", completion["generation"]) is None:
+                raise QueueError(
+                    EXIT_CONTEXT,
+                    "corrupt_queue",
+                    "Запись сброса содержит неверное поколение.",
+                )
+            if (
+                re.fullmatch(r"(?:[0-9a-f]{40}|[0-9a-f]{64})", completion["head"])
+                is None
+            ):
+                raise QueueError(
+                    EXIT_CONTEXT,
+                    "corrupt_queue",
+                    "Запись сброса содержит неверную вершину.",
+                )
+            аннулированные = completion.get("аннулированные_задачи")
+            if not isinstance(аннулированные, list):
+                raise QueueError(
+                    EXIT_CONTEXT,
+                    "corrupt_queue",
+                    "В записи сброса отсутствует список аннулированных задач.",
+                )
+            for идентификатор in аннулированные:
+                validate_task_id(идентификатор)
+            if аннулированные != sorted(set(аннулированные)):
+                raise QueueError(
+                    EXIT_CONTEXT,
+                    "corrupt_queue",
+                    "Список аннулированных задач сброса неканоничен.",
+                )
     return state
 
 
@@ -388,9 +451,366 @@ def canonical_state_bytes(state: dict[str, object]) -> bytes:
     ).encode("utf-8")
 
 
-def read_ref_oid(context: QueueContext, reference_name: str) -> str | None:
+def проверить_снимок_отслеживаемого_пути(
+    значение: object,
+) -> dict[str, object]:
+    if not isinstance(значение, dict) or not isinstance(
+        значение.get("тип"),
+        str,
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_reset",
+            "Снимок отслеживаемого пути повреждён.",
+        )
+    тип = значение["тип"]
+    if тип in {"отсутствует", "каталог"}:
+        ожидаемые = {"тип"}
+    elif тип == "символическая_ссылка":
+        ожидаемые = {"тип", "sha256"}
+    elif тип == "обычный_файл":
+        ожидаемые = {"тип", "исполняемый", "sha256"}
+        if type(значение.get("исполняемый")) is not bool:
+            raise QueueError(
+                EXIT_CONTEXT,
+                "corrupt_reset",
+                "Снимок отслеживаемого файла не имеет точного режима.",
+            )
+    else:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_reset",
+            "Снимок отслеживаемого пути имеет неизвестный тип.",
+        )
+    if set(значение) != ожидаемые:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_reset",
+            "Снимок отслеживаемого пути имеет неизвестные поля.",
+        )
+    if "sha256" in ожидаемые and (
+        not isinstance(значение["sha256"], str)
+        or re.fullmatch(r"sha256:[0-9a-f]{64}", значение["sha256"]) is None
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_reset",
+            "Снимок отслеживаемого пути имеет неверный отпечаток.",
+        )
+    return значение
+
+
+def проверить_запись_сброса(
+    значение: object,
+    контекст: QueueContext,
+    *,
+    проверять_служебные_объекты: bool = True,
+) -> dict[str, object]:
+    if not isinstance(значение, dict):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_reset",
+            "Git-ссылка очереди содержит повреждённую запись сброса.",
+        )
+    ожидаемые_поля = {
+        "схема",
+        "фаза",
+        "идентификатор_рабочей_копии",
+        "ссылка_ветки",
+        "целевая_вершина",
+        "исходный_объект_очереди",
+        "исходное_состояние_очереди",
+        "идентификатор_сброса",
+        "идентификатор_диспетчера",
+        "участники",
+        "связанные_задачи",
+        "неактивные_задачи",
+        "изменённые_пути_плана",
+        "неотслеживаемые_пути_плана",
+        "неотслеживаемые_объекты_плана",
+        "отслеживаемые_объекты_плана",
+        "отпечаток_индекса_плана",
+        "отпечаток_изменений",
+        "служебные_ограждения",
+        "создано",
+        "обновлено",
+    }
+    if set(значение) != ожидаемые_поля or значение.get("схема") != СХЕМА_СБРОСА:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_reset",
+            "Запись сброса имеет неизвестную схему или набор полей.",
+        )
+    if значение["фаза"] not in ФАЗЫ_СБРОСА:
+        raise QueueError(EXIT_CONTEXT, "corrupt_reset", "Запись сброса имеет неизвестную фазу.")
+    if (
+        значение["идентификатор_рабочей_копии"] != контекст.worktree_id
+        or значение["ссылка_ветки"] != контекст.branch_ref
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "invalid_context",
+            "Запись сброса принадлежит другой рабочей копии или ветке.",
+        )
+    длина_объекта = len(current_head(контекст.root))
+    целевая_вершина = значение["целевая_вершина"]
+    if (
+        not isinstance(целевая_вершина, str)
+        or re.fullmatch(r"[0-9a-f]+", целевая_вершина) is None
+        or len(целевая_вершина) != длина_объекта
+    ):
+        raise QueueError(EXIT_CONTEXT, "corrupt_reset", "Запись сброса имеет неверную вершину.")
+    исходный_объект = значение["исходный_объект_очереди"]
+    if исходный_объект is not None and (
+        not isinstance(исходный_объект, str)
+        or re.fullmatch(r"[0-9a-f]+", исходный_объект) is None
+        or len(исходный_объект) != длина_объекта
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_reset",
+            "Запись сброса имеет неверный исходный объект очереди.",
+        )
+    исходное_состояние = validate_state(значение["исходное_состояние_очереди"])
+    if исходное_состояние["worktree_id"] != контекст.worktree_id:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_reset",
+            "Исходное состояние сброса принадлежит другой рабочей копии.",
+        )
+    if (
+        исходное_состояние["branch_ref"] != контекст.branch_ref
+        and (исходное_состояние["owner"] is not None or исходное_состояние["waiting"])
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_reset",
+            "Непустое исходное состояние сброса принадлежит другой ветке.",
+        )
+    вычисленный_объект = decoded_stdout(
+        run_git(
+            контекст.root,
+            ["hash-object", "--stdin"],
+            input_bytes=canonical_state_bytes(исходное_состояние),
+        )
+    )
+    if исходный_объект is None:
+        if (
+            исходное_состояние["next_seq"] != 1
+            or исходное_состояние["owner"] is not None
+            or исходное_состояние["waiting"]
+            or исходное_состояние["last_completion"] is not None
+        ):
+            raise QueueError(
+                EXIT_CONTEXT,
+                "corrupt_reset",
+                "Отсутствующей очереди соответствует непустое исходное состояние.",
+            )
+    elif вычисленный_объект != исходный_объект:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_reset",
+            "Исходное состояние не воспроизводит исходный объект очереди.",
+        )
+    идентификатор_сброса = значение["идентификатор_сброса"]
+    if (
+        not isinstance(идентификатор_сброса, str)
+        or re.fullmatch(r"sha256:[0-9a-f]{64}", идентификатор_сброса) is None
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_reset",
+            "Запись сброса имеет неверный идентификатор.",
+        )
+    validate_task_id(значение["идентификатор_диспетчера"])
+    участники = значение["участники"]
+    связанные = значение["связанные_задачи"]
+    неактивные = значение["неактивные_задачи"]
+    пути = значение["изменённые_пути_плана"]
+    неотслеживаемые = значение["неотслеживаемые_пути_плана"]
+    неотслеживаемые_объекты = значение["неотслеживаемые_объекты_плана"]
+    отслеживаемые_объекты = значение["отслеживаемые_объекты_плана"]
+    if (
+        not isinstance(участники, list)
+        or not isinstance(связанные, list)
+        or not isinstance(неактивные, list)
+    ):
+        raise QueueError(EXIT_CONTEXT, "corrupt_reset", "Запись сброса имеет неверные списки задач.")
+    for идентификатор in [*участники, *связанные, *неактивные]:
+        validate_task_id(идентификатор)
+    if (
+        участники != sorted(set(участники))
+        or связанные != sorted(set(связанные))
+        or неактивные != sorted(set(неактивные))
+    ):
+        raise QueueError(EXIT_CONTEXT, "corrupt_reset", "Запись сброса дублирует задачу.")
+    ожидаемые_участники = sorted(
+        set(участники_очереди(исходное_состояние)) | set(связанные)
+    )
+    if участники != ожидаемые_участники:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_reset",
+            "Участники сброса не выведены из очереди и связанных ограждений.",
+        )
+    требуемые = set(участники) - {str(значение["идентификатор_диспетчера"])}
+    if not set(неактивные).issubset(требуемые):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_reset",
+            "Запись сброса подтверждает постороннюю задачу.",
+        )
+    if значение["фаза"] != "подготовлен" and set(неактивные) != требуемые:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_reset",
+            "Поздняя фаза сброса не подтверждает всех участников.",
+        )
+    if (
+        not isinstance(пути, list)
+        or not isinstance(неотслеживаемые, list)
+        or any(not isinstance(путь, str) for путь in [*пути, *неотслеживаемые])
+    ):
+        raise QueueError(EXIT_CONTEXT, "corrupt_reset", "Запись сброса имеет неверные пути.")
+    if пути != sorted(set(пути)) or неотслеживаемые != sorted(set(неотслеживаемые)):
+        raise QueueError(EXIT_CONTEXT, "corrupt_reset", "Пути сброса неканоничны.")
+    if not isinstance(неотслеживаемые_объекты, list):
+        raise QueueError(EXIT_CONTEXT, "corrupt_reset", "Снимки неотслеживаемых объектов повреждены.")
+    проверенные_объекты: list[dict[str, str]] = []
+    for объект in неотслеживаемые_объекты:
+        if not isinstance(объект, dict) or set(объект) != {"путь", "тип", "sha256"}:
+            raise QueueError(EXIT_CONTEXT, "corrupt_reset", "Снимок неотслеживаемого объекта повреждён.")
+        if (
+            not isinstance(объект["путь"], str)
+            or объект["тип"]
+            not in {"обычный_файл", "символическая_ссылка", "вложенная_git_граница"}
+            or not isinstance(объект["sha256"], str)
+            or re.fullmatch(r"sha256:[0-9a-f]{64}", объект["sha256"]) is None
+        ):
+            raise QueueError(EXIT_CONTEXT, "corrupt_reset", "Снимок неотслеживаемого объекта имеет неверные поля.")
+        проверенные_объекты.append(объект)
+    if (
+        проверенные_объекты
+        != sorted(проверенные_объекты, key=lambda объект: объект["путь"])
+        or [объект["путь"] for объект in проверенные_объекты] != неотслеживаемые
+    ):
+        raise QueueError(EXIT_CONTEXT, "corrupt_reset", "Снимки неотслеживаемых объектов не совпадают с путями.")
+    if not isinstance(отслеживаемые_объекты, list):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_reset",
+            "Снимки отслеживаемых объектов повреждены.",
+        )
+    проверенные_отслеживаемые: list[dict[str, object]] = []
+    for объект in отслеживаемые_объекты:
+        if not isinstance(объект, dict) or set(объект) != {"путь", "до", "цель"}:
+            raise QueueError(
+                EXIT_CONTEXT,
+                "corrupt_reset",
+                "Снимок отслеживаемого объекта повреждён.",
+            )
+        путь_объекта = объект["путь"]
+        if (
+            not isinstance(путь_объекта, str)
+            or путь_объекта not in set(пути) - set(неотслеживаемые)
+        ):
+            raise QueueError(
+                EXIT_CONTEXT,
+                "corrupt_reset",
+                "Снимок отслеживаемого объекта имеет неверный путь.",
+            )
+        проверить_снимок_отслеживаемого_пути(объект["до"])
+        проверить_снимок_отслеживаемого_пути(объект["цель"])
+        проверенные_отслеживаемые.append(объект)
+    if проверенные_отслеживаемые != sorted(
+        проверенные_отслеживаемые,
+        key=lambda объект: str(объект["путь"]),
+    ) or len({str(объект["путь"]) for объект in проверенные_отслеживаемые}) != len(
+        проверенные_отслеживаемые
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_reset",
+            "Снимки отслеживаемых объектов неканоничны.",
+        )
+    отпечаток_индекса_плана = значение["отпечаток_индекса_плана"]
+    if (
+        not isinstance(отпечаток_индекса_плана, str)
+        or re.fullmatch(r"sha256:[0-9a-f]{64}", отпечаток_индекса_плана)
+        is None
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_reset",
+            "Запись сброса имеет неверный отпечаток индекса.",
+        )
+    отпечаток = значение["отпечаток_изменений"]
+    if not isinstance(отпечаток, str) or re.fullmatch(r"sha256:[0-9a-f]{64}", отпечаток) is None:
+        raise QueueError(EXIT_CONTEXT, "corrupt_reset", "Запись сброса имеет неверный отпечаток изменений.")
+    ограждения = проверить_служебные_ограждения(
+        значение["служебные_ограждения"], контекст
+    )
+    if (
+        проверять_служебные_объекты
+        and связанные != связанные_задачи_из_ограждений(контекст, ограждения)
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_reset",
+            "Связанные задачи не воспроизводятся из служебных ограждений.",
+        )
+    if идентификатор_подтверждения_сброса(
+        данные_подтверждения_из_записи(значение)
+    ) != идентификатор_сброса:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_reset",
+            "Идентификатор сброса не воспроизводится из сохранённого плана.",
+        )
+    for поле in ("создано", "обновлено"):
+        if not isinstance(значение[поле], str) or not значение[поле]:
+            raise QueueError(EXIT_CONTEXT, "corrupt_reset", "Запись сброса не имеет метки времени.")
+    return значение
+
+
+def канонические_байты_сброса(запись: dict[str, object]) -> bytes:
+    return (
+        json.dumps(
+            запись,
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+        + "\n"
+    ).encode("utf-8")
+
+
+def собрать_объект_без_повторов(
+    пары: list[tuple[str, object]],
+) -> dict[str, object]:
+    значение: dict[str, object] = {}
+    for ключ, элемент in пары:
+        if ключ in значение:
+            raise QueueError(
+                EXIT_CONTEXT,
+                "corrupt_queue",
+                f"Git-ссылка очереди повторяет поле {ключ!r}.",
+            )
+        значение[ключ] = элемент
+    return значение
+
+
+def отклонить_неконечное_число(значение: str) -> NoReturn:
+    raise QueueError(
+        EXIT_CONTEXT,
+        "corrupt_queue",
+        f"Git-ссылка очереди содержит неконечное число {значение}.",
+    )
+
+
+def read_ref_oid(контекст_очереди: QueueContext, reference_name: str) -> str | None:
     reference = run_git(
-        context.root,
+        контекст_очереди.root,
         ["rev-parse", "--verify", "--quiet", reference_name],
         check=False,
     )
@@ -460,20 +880,44 @@ def подготовить_внешнее_ограждение(
     return команда, нормализованный_объект
 
 
-def read_state(context: QueueContext) -> tuple[dict[str, object], str | None]:
-    oid = read_ref_oid(context, context.queue_ref)
-    if oid is None:
-        return new_state(context), None
-    blob = run_git(context.root, ["cat-file", "blob", oid])
+def прочитать_запись_очереди(
+    контекст_очереди: QueueContext,
+) -> tuple[str, dict[str, object], str | None]:
+    идентификатор_объекта_репозитория = read_ref_oid(контекст_очереди, контекст_очереди.queue_ref)
+    if идентификатор_объекта_репозитория is None:
+        return "очередь", new_state(контекст_очереди), None
+    blob = run_git(контекст_очереди.root, ["cat-file", "blob", идентификатор_объекта_репозитория])
     try:
-        state = json.loads(blob.stdout.decode("utf-8", errors="strict"))
+        значение = json.loads(
+            blob.stdout.decode("utf-8", errors="strict"),
+            object_pairs_hook=собрать_объект_без_повторов,
+            parse_constant=отклонить_неконечное_число,
+        )
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:
         raise QueueError(
             EXIT_CONTEXT,
             "corrupt_queue",
             "Git-ссылка очереди не содержит корректный JSON blob.",
         ) from exc
-    return validate_state(state), oid
+    if isinstance(значение, dict) and значение.get("схема") == СХЕМА_СБРОСА:
+        return "сброс", проверить_запись_сброса(значение, контекст_очереди), идентификатор_объекта_репозитория
+    return "очередь", validate_state(значение), идентификатор_объекта_репозитория
+
+
+def read_state(контекст_очереди: QueueContext) -> tuple[dict[str, object], str | None]:
+    вид, запись, идентификатор_объекта_репозитория = прочитать_запись_очереди(контекст_очереди)
+    if вид == "сброс":
+        raise QueueError(
+            КОД_ИДЁТ_СБРОС,
+            "reset_in_progress",
+            "Обычная операция очереди запрещена во время штатного сброса.",
+            данные_результата_операции={
+                "идентификатор_сброса": запись["идентификатор_сброса"],
+                "фаза": запись["фаза"],
+                **common_payload(контекст_очереди, идентификатор_объекта_репозитория),
+            },
+        )
+    return запись, идентификатор_объекта_репозитория
 
 
 def ref_retry_delay(attempt: int) -> float:
@@ -486,37 +930,223 @@ def update_ref_error(operation: str, stderr: str) -> NoReturn:
         EXIT_CAS,
         "git_error",
         f"Не удалось {operation}: {detail}",
-        payload={"git_stderr": detail},
+        данные_результата_операции={"git_stderr": detail},
     )
 
 
-def write_state_blob(context: QueueContext, state: dict[str, object]) -> str:
+def write_state_blob(контекст_очереди: QueueContext, state: dict[str, object]) -> str:
     validate_state(state)
     result = run_git(
-        context.root,
+        контекст_очереди.root,
         ["hash-object", "-w", "--stdin"],
         input_bytes=canonical_state_bytes(state),
     )
     return decoded_stdout(result)
 
 
+def записать_объект_сброса(
+    контекст: QueueContext,
+    запись: dict[str, object],
+) -> str:
+    проверить_запись_сброса(запись, контекст)
+    результат = run_git(
+        контекст.root,
+        ["hash-object", "-w", "--stdin"],
+        input_bytes=канонические_байты_сброса(запись),
+    )
+    return decoded_stdout(результат)
+
+
+def ссылка_квитанции_сброса(
+    контекст: QueueContext,
+    идентификатор_сброса: str,
+) -> str:
+    if re.fullmatch(r"sha256:[0-9a-f]{64}", идентификатор_сброса) is None:
+        raise QueueError(EXIT_CONTEXT, "corrupt_reset_receipt", "Неверен идентификатор квитанции сброса.")
+    ветка = hashlib.sha256(контекст.branch_ref.encode("utf-8")).hexdigest()
+    return (
+        f"{ПРОСТРАНСТВО_КВИТАНЦИЙ_СБРОСА}/{контекст.worktree_id}/"
+        f"{ветка}/{идентификатор_сброса.removeprefix('sha256:')}"
+    )
+
+
+def канонические_байты_квитанции_сброса(квитанция: dict[str, object]) -> bytes:
+    return (
+        json.dumps(
+            квитанция,
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+        + "\n"
+    ).encode("utf-8")
+
+
+def проверить_квитанцию_сброса(
+    значение: object,
+    контекст: QueueContext,
+) -> dict[str, object]:
+    поля = {
+        "схема",
+        "идентификатор_рабочей_копии",
+        "ссылка_ветки",
+        "идентификатор_сброса",
+        "идентификатор_диспетчера",
+        "целевая_вершина",
+        "объект_записи_сброса",
+        "запись_сброса",
+        "исходный_объект_очереди",
+        "объект_очереди_после",
+        "состояние_очереди_после",
+        "аннулированные_задачи",
+        "неактивные_задачи",
+        "предыдущее_завершение",
+        "завершено",
+    }
+    if (
+        not isinstance(значение, dict)
+        or set(значение) != поля
+        or значение.get("схема") != СХЕМА_КВИТАНЦИИ_СБРОСА
+    ):
+        raise QueueError(EXIT_CONTEXT, "corrupt_reset_receipt", "Квитанция сброса имеет неизвестную схему.")
+    if (
+        значение["идентификатор_рабочей_копии"] != контекст.worktree_id
+        or значение["ссылка_ветки"] != контекст.branch_ref
+    ):
+        raise QueueError(EXIT_CONTEXT, "invalid_context", "Квитанция сброса принадлежит другому checkout или ветке.")
+    идентификатор_сброса = значение["идентификатор_сброса"]
+    if not isinstance(идентификатор_сброса, str):
+        raise QueueError(EXIT_CONTEXT, "corrupt_reset_receipt", "Квитанция сброса не имеет идентификатора.")
+    ссылка_квитанции_сброса(контекст, идентификатор_сброса)
+    validate_task_id(значение["идентификатор_диспетчера"])
+    длина_объекта = len(current_head(контекст.root))
+    for поле in ("целевая_вершина", "объект_записи_сброса", "объект_очереди_после"):
+        объект = значение[поле]
+        if not isinstance(объект, str) or re.fullmatch(r"[0-9a-f]+", объект) is None or len(объект) != длина_объекта:
+            raise QueueError(EXIT_CONTEXT, "corrupt_reset_receipt", f"Квитанция сброса имеет неверное поле {поле}.")
+    исходный_объект = значение["исходный_объект_очереди"]
+    if исходный_объект is not None and (
+        not isinstance(исходный_объект, str)
+        or re.fullmatch(r"[0-9a-f]+", исходный_объект) is None
+        or len(исходный_объект) != длина_объекта
+    ):
+        raise QueueError(EXIT_CONTEXT, "corrupt_reset_receipt", "Квитанция сброса имеет неверный исходный объект.")
+    for поле in ("аннулированные_задачи", "неактивные_задачи"):
+        задачи = значение[поле]
+        if not isinstance(задачи, list):
+            raise QueueError(EXIT_CONTEXT, "corrupt_reset_receipt", f"Квитанция сброса не имеет списка {поле}.")
+        for задача in задачи:
+            validate_task_id(задача)
+        if задачи != sorted(set(задачи)):
+            raise QueueError(EXIT_CONTEXT, "corrupt_reset_receipt", f"Список {поле} в квитанции неканоничен.")
+    if not isinstance(значение["завершено"], str) or not значение["завершено"]:
+        raise QueueError(EXIT_CONTEXT, "corrupt_reset_receipt", "Квитанция сброса не имеет метки времени.")
+    проверенный_сброс = проверить_запись_сброса(
+        значение["запись_сброса"],
+        контекст,
+        проверять_служебные_объекты=False,
+    )
+    вычисленный_объект_сброса = decoded_stdout(
+        run_git(
+            контекст.root,
+            ["hash-object", "--stdin"],
+            input_bytes=канонические_байты_сброса(проверенный_сброс),
+        )
+    )
+    if (
+        вычисленный_объект_сброса != значение["объект_записи_сброса"]
+        or проверенный_сброс["фаза"] != "очистка_рабочей_копии"
+        or проверенный_сброс["идентификатор_сброса"] != идентификатор_сброса
+        or проверенный_сброс["идентификатор_диспетчера"] != значение["идентификатор_диспетчера"]
+        or проверенный_сброс["целевая_вершина"] != значение["целевая_вершина"]
+        or проверенный_сброс["исходный_объект_очереди"] != значение["исходный_объект_очереди"]
+        or проверенный_сброс["участники"] != значение["аннулированные_задачи"]
+        or проверенный_сброс["неактивные_задачи"] != значение["неактивные_задачи"]
+        or проверенный_сброс["исходное_состояние_очереди"].get("last_completion") != значение["предыдущее_завершение"]
+    ):
+        raise QueueError(EXIT_CONTEXT, "corrupt_reset_receipt", "Квитанция не воспроизводится из записи сброса.")
+    проверенная_очередь = validate_state(значение["состояние_очереди_после"])
+    вычисленный_объект_очереди = decoded_stdout(
+        run_git(
+            контекст.root,
+            ["hash-object", "--stdin"],
+            input_bytes=canonical_state_bytes(проверенная_очередь),
+        )
+    )
+    завершение = проверенная_очередь.get("last_completion")
+    ожидаемое_завершение = {
+        "kind": "reset",
+        "task_id": значение["идентификатор_диспетчера"],
+        "generation": идентификатор_сброса,
+        "head": значение["целевая_вершина"],
+        "completed_at": значение["завершено"],
+        "аннулированные_задачи": значение["аннулированные_задачи"],
+    }
+    if (
+        вычисленный_объект_очереди != значение["объект_очереди_после"]
+        or проверенная_очередь["worktree_id"] != контекст.worktree_id
+        or проверенная_очередь["branch_ref"] != контекст.branch_ref
+        or проверенная_очередь["owner"] is not None
+        or проверенная_очередь["waiting"] != []
+        or проверенная_очередь["next_seq"]
+        != проверенный_сброс["исходное_состояние_очереди"]["next_seq"]
+        or завершение != ожидаемое_завершение
+        or проверенная_очередь["updated_at"] != значение["завершено"]
+    ):
+        raise QueueError(EXIT_CONTEXT, "corrupt_reset_receipt", "Квитанция не воспроизводит итоговую очередь.")
+    return значение
+
+
+def записать_объект_квитанции_сброса(
+    контекст: QueueContext,
+    квитанция: dict[str, object],
+) -> str:
+    проверить_квитанцию_сброса(квитанция, контекст)
+    return decoded_stdout(
+        run_git(
+            контекст.root,
+            ["hash-object", "-w", "--stdin"],
+            input_bytes=канонические_байты_квитанции_сброса(квитанция),
+        )
+    )
+
+
+def прочитать_квитанцию_сброса(
+    контекст: QueueContext,
+    идентификатор_сброса: str,
+) -> tuple[dict[str, object] | None, str | None]:
+    ссылка = ссылка_квитанции_сброса(контекст, идентификатор_сброса)
+    объект = read_ref_oid(контекст, ссылка)
+    if объект is None:
+        return None, None
+    сырые = run_git(контекст.root, ["cat-file", "blob", объект]).stdout
+    try:
+        значение = json.loads(сырые.decode("utf-8", errors="strict"), object_pairs_hook=собрать_объект_без_повторов, parse_constant=отклонить_неконечное_число)
+    except (UnicodeDecodeError, json.JSONDecodeError) as ошибка:
+        raise QueueError(EXIT_CONTEXT, "corrupt_reset_receipt", "Git-квитанция сброса не содержит JSON.") from ошибка
+    квитанция = проверить_квитанцию_сброса(значение, контекст)
+    if сырые != канонические_байты_квитанции_сброса(квитанция):
+        raise QueueError(EXIT_CONTEXT, "corrupt_reset_receipt", "Git-квитанция сброса неканонична.")
+    return квитанция, объект
+
+
 def cas_state(
-    context: QueueContext,
+    контекст_очереди: QueueContext,
     old_oid: str | None,
     state: dict[str, object],
 ) -> tuple[bool, str]:
-    new_oid = write_state_blob(context, state)
+    new_oid = write_state_blob(контекст_очереди, state)
     last_stderr = ""
     for attempt in range(UNCHANGED_REF_RETRY_ATTEMPTS):
         result = run_git(
-            context.root,
-            ["update-ref", context.queue_ref, new_oid, old_oid or ""],
+            контекст_очереди.root,
+            ["update-ref", контекст_очереди.queue_ref, new_oid, old_oid or ""],
             check=False,
         )
         if result.returncode == 0:
             return True, new_oid
         last_stderr = result.stderr.decode("utf-8", errors="replace").strip()
-        current_oid = read_ref_oid(context, context.queue_ref)
+        current_oid = read_ref_oid(контекст_очереди, контекст_очереди.queue_ref)
         if current_oid != old_oid:
             time.sleep(REF_RETRY_BASE_SECONDS)
             return False, new_oid
@@ -526,7 +1156,7 @@ def cas_state(
 
 
 def update_queue_with_head_verification(
-    context: QueueContext,
+    контекст_очереди: QueueContext,
     *,
     expected_head: str,
     old_queue_oid: str,
@@ -535,14 +1165,14 @@ def update_queue_with_head_verification(
 ) -> subprocess.CompletedProcess[bytes]:
     transaction = (
         "start\n"
-        f"verify {context.branch_ref} {expected_head}\n"
+        f"verify {контекст_очереди.branch_ref} {expected_head}\n"
         f"{команда_внешнего_ограждения}"
-        f"update {context.queue_ref} {new_queue_oid} {old_queue_oid}\n"
+        f"update {контекст_очереди.queue_ref} {new_queue_oid} {old_queue_oid}\n"
         "prepare\n"
         "commit\n"
     ).encode("utf-8")
     return run_git(
-        context.root,
+        контекст_очереди.root,
         ["update-ref", "--stdin"],
         input_bytes=transaction,
         check=False,
@@ -550,31 +1180,31 @@ def update_queue_with_head_verification(
 
 
 def ensure_state_identity(
-    context: QueueContext,
+    контекст_очереди: QueueContext,
     state: dict[str, object],
     *,
     allow_idle_rebind: bool,
 ) -> dict[str, object]:
-    if state["worktree_id"] != context.worktree_id:
+    if state["worktree_id"] != контекст_очереди.worktree_id:
         raise QueueError(
             EXIT_CONTEXT,
             "invalid_context",
             "Git-ссылка очереди принадлежит другому worktree.",
         )
-    if state["branch_ref"] == context.branch_ref:
+    if state["branch_ref"] == контекст_очереди.branch_ref:
         return state
     if allow_idle_rebind and state["owner"] is None and not state["waiting"]:
         rebound = copy.deepcopy(state)
-        rebound["branch_ref"] = context.branch_ref
+        rebound["branch_ref"] = контекст_очереди.branch_ref
         rebound["updated_at"] = utc_values()[0]
         return rebound
     raise QueueError(
         EXIT_CONTEXT,
         "branch_changed",
         "В worktree переключена ветка при непустой очереди.",
-        payload={
+        данные_результата_операции={
             "expected_branch_ref": state["branch_ref"],
-            "current_branch_ref": context.branch_ref,
+            "current_branch_ref": контекст_очереди.branch_ref,
         },
     )
 
@@ -678,19 +1308,19 @@ def unsafe_commit_paths(root: Path) -> list[str]:
 
 
 def common_payload(
-    context: QueueContext,
+    контекст_очереди: QueueContext,
     state_oid: str | None,
 ) -> dict[str, object]:
     return {
-        "queue_ref": context.queue_ref,
+        "queue_ref": контекст_очереди.queue_ref,
         "queue_oid": state_oid,
-        "worktree_id": context.worktree_id,
-        "branch_ref": context.branch_ref,
+        "worktree_id": контекст_очереди.worktree_id,
+        "branch_ref": контекст_очереди.branch_ref,
     }
 
 
 def owner_result(
-    context: QueueContext,
+    контекст_очереди: QueueContext,
     owner: dict[str, object],
     state_oid: str | None,
     *,
@@ -700,12 +1330,12 @@ def owner_result(
         "state": "admitted",
         "ownership": ownership,
         **owner,
-        **common_payload(context, state_oid),
+        **common_payload(контекст_очереди, state_oid),
     }
 
 
 def waiting_result(
-    context: QueueContext,
+    контекст_очереди: QueueContext,
     state: dict[str, object],
     state_oid: str | None,
     task_id: str,
@@ -716,7 +1346,7 @@ def waiting_result(
                 "state": "waiting",
                 "position": index + 1,
                 **ticket,
-                **common_payload(context, state_oid),
+                **common_payload(контекст_очереди, state_oid),
             }
     raise QueueError(
         EXIT_NOT_REGISTERED,
@@ -726,24 +1356,24 @@ def waiting_result(
 
 
 def attempt_admit(
-    context: QueueContext,
+    контекст_очереди: QueueContext,
     task_id: str,
 ) -> tuple[int, dict[str, object]]:
     unchanged_ref_failures = 0
     for _ in range(MAX_CAS_ATTEMPTS):
-        ensure_live_branch(context)
-        state, old_oid = read_state(context)
-        state = ensure_state_identity(context, state, allow_idle_rebind=False)
+        ensure_live_branch(контекст_очереди)
+        state, old_oid = read_state(контекст_очереди)
+        state = ensure_state_identity(контекст_очереди, state, allow_idle_rebind=False)
         owner = state["owner"]
         if isinstance(owner, dict):
             if owner["task_id"] == task_id:
                 return owner_result(
-                    context,
+                    контекст_очереди,
                     owner,
                     old_oid,
                     ownership="existing",
                 )
-            return waiting_result(context, state, old_oid, task_id)
+            return waiting_result(контекст_очереди, state, old_oid, task_id)
 
         waiting = state["waiting"]
         target_index = next(
@@ -761,26 +1391,26 @@ def attempt_admit(
                 "Задача не зарегистрирована в очереди.",
             )
         if target_index != 0:
-            return waiting_result(context, state, old_oid, task_id)
+            return waiting_result(контекст_очереди, state, old_oid, task_id)
 
         ticket = waiting[0]
-        head = current_head(context.root)
+        head = current_head(контекст_очереди.root)
         if ticket["acknowledged_head"] != head:
             return EXIT_RELOAD_REQUIRED, {
                 "state": "reload_required",
                 "position": 1,
                 **ticket,
                 "current_head": head,
-                **common_payload(context, old_oid),
+                **common_payload(контекст_очереди, old_oid),
             }
-        blocking = all_changed_paths(context.root)
+        blocking = all_changed_paths(контекст_очереди.root)
         if blocking:
             return EXIT_DIRTY, {
                 "state": "dirty",
                 "position": 1,
                 **ticket,
                 "blocking_paths": blocking,
-                **common_payload(context, old_oid),
+                **common_payload(контекст_очереди, old_oid),
             }
 
         stamp, epoch = utc_values()
@@ -803,23 +1433,23 @@ def attempt_admit(
                 "corrupt_queue",
                 "У ожидающего билета отсутствует Git-ссылка состояния очереди.",
             )
-        new_oid = write_state_blob(context, updated)
+        new_oid = write_state_blob(контекст_очереди, updated)
         result = update_queue_with_head_verification(
-            context,
+            контекст_очереди,
             expected_head=head,
             old_queue_oid=old_oid,
             new_queue_oid=new_oid,
         )
         if result.returncode == 0:
             return owner_result(
-                context,
+                контекст_очереди,
                 owner_record,
                 new_oid,
                 ownership="new",
             )
         last_stderr = result.stderr.decode("utf-8", errors="replace").strip()
-        observed_head = current_head(context.root)
-        _, observed_queue_oid = read_state(context)
+        observed_head = current_head(контекст_очереди.root)
+        _, observed_queue_oid = read_state(контекст_очереди)
         if observed_head != head or observed_queue_oid != old_oid:
             unchanged_ref_failures = 0
             time.sleep(REF_RETRY_BASE_SECONDS)
@@ -831,19 +1461,19 @@ def attempt_admit(
     raise QueueError(EXIT_CAS, "cas_conflict", "Не удалось получить место владельца.")
 
 
-def join_queue(context: QueueContext, task_id: str) -> tuple[int, dict[str, object]]:
+def join_queue(контекст_очереди: QueueContext, task_id: str) -> tuple[int, dict[str, object]]:
     task_id = validate_task_id(task_id)
     for _ in range(MAX_CAS_ATTEMPTS):
-        ensure_live_branch(context)
-        state, old_oid = read_state(context)
+        ensure_live_branch(контекст_очереди)
+        state, old_oid = read_state(контекст_очереди)
         identity_state = ensure_state_identity(
-            context,
+            контекст_очереди,
             state,
             allow_idle_rebind=True,
         )
         owner = identity_state["owner"]
         if isinstance(owner, dict) and owner["task_id"] == task_id:
-            return owner_result(context, owner, old_oid, ownership="existing")
+            return owner_result(контекст_очереди, owner, old_oid, ownership="existing")
 
         existing: dict[str, object] | None = None
         for ticket in identity_state["waiting"]:
@@ -851,7 +1481,7 @@ def join_queue(context: QueueContext, task_id: str) -> tuple[int, dict[str, obje
                 existing = ticket
                 break
         if existing is not None:
-            return attempt_admit(context, task_id)
+            return attempt_admit(контекст_очереди, task_id)
 
         stamp, epoch = utc_values()
         updated = copy.deepcopy(identity_state)
@@ -861,22 +1491,22 @@ def join_queue(context: QueueContext, task_id: str) -> tuple[int, dict[str, obje
             "seq": updated["next_seq"],
             "registered_at": stamp,
             "registered_at_epoch": epoch,
-            "acknowledged_head": current_head(context.root),
+            "acknowledged_head": current_head(контекст_очереди.root),
         }
         updated["next_seq"] = int(updated["next_seq"]) + 1
         updated["waiting"].append(ticket)
         updated["updated_at"] = stamp
 
-        success, _ = cas_state(context, old_oid, updated)
+        success, _ = cas_state(контекст_очереди, old_oid, updated)
         if success:
             break
     else:
         raise QueueError(EXIT_CAS, "cas_conflict", "Не удалось зарегистрировать задачу.")
-    return attempt_admit(context, task_id)
+    return attempt_admit(контекст_очереди, task_id)
 
 
 def wait_queue(
-    context: QueueContext,
+    контекст_очереди: QueueContext,
     task_id: str,
     timeout_seconds: float,
 ) -> tuple[int, dict[str, object]]:
@@ -888,50 +1518,50 @@ def wait_queue(
         )
     deadline = time.monotonic() + timeout_seconds
     while True:
-        code, payload = attempt_admit(context, task_id)
-        if code != EXIT_WAITING:
-            return code, payload
+        код_завершения_операции, данные_результата_операции = attempt_admit(контекст_очереди, task_id)
+        if код_завершения_операции != EXIT_WAITING:
+            return код_завершения_операции, данные_результата_операции
         remaining = deadline - time.monotonic()
         if remaining <= 0:
-            return code, payload
+            return код_завершения_операции, данные_результата_операции
         time.sleep(min(WAIT_POLL_SECONDS, remaining))
 
 
 def wait_until_actionable_queue(
-    context: QueueContext,
+    контекст_очереди: QueueContext,
     task_id: str,
 ) -> tuple[int, dict[str, object]]:
     while True:
-        code, payload = wait_queue(
-            context,
+        код_завершения_операции, данные_результата_операции = wait_queue(
+            контекст_очереди,
             task_id,
             DEFAULT_WAIT_TIMEOUT_SECONDS,
         )
-        if code != EXIT_WAITING:
-            return code, payload
+        if код_завершения_операции != EXIT_WAITING:
+            return код_завершения_операции, данные_результата_операции
 
 
 def acknowledge_head(
-    context: QueueContext,
+    контекст_очереди: QueueContext,
     task_id: str,
     acknowledged_head: str,
 ) -> tuple[int, dict[str, object]]:
     task_id = validate_task_id(task_id)
-    live_head = current_head(context.root)
+    live_head = current_head(контекст_очереди.root)
     if acknowledged_head != live_head:
         raise QueueError(
             EXIT_HEAD_CHANGED,
             "head_mismatch",
             "Подтверждаемая ревизия не совпадает с текущим HEAD.",
-            payload={
+            данные_результата_операции={
                 "expected_head": live_head,
                 "provided_head": acknowledged_head,
             },
         )
     for _ in range(MAX_CAS_ATTEMPTS):
-        ensure_live_branch(context)
-        state, old_oid = read_state(context)
-        state = ensure_state_identity(context, state, allow_idle_rebind=False)
+        ensure_live_branch(контекст_очереди)
+        state, old_oid = read_state(контекст_очереди)
+        state = ensure_state_identity(контекст_очереди, state, allow_idle_rebind=False)
         owner = state["owner"]
         if isinstance(owner, dict) and owner["task_id"] == task_id:
             raise QueueError(
@@ -954,26 +1584,26 @@ def acknowledge_head(
             )
         target["acknowledged_head"] = acknowledged_head
         updated["updated_at"] = stamp
-        success, new_oid = cas_state(context, old_oid, updated)
+        success, new_oid = cas_state(контекст_очереди, old_oid, updated)
         if success:
             return 0, {
                 "state": "acknowledged",
                 **target,
-                **common_payload(context, new_oid),
+                **common_payload(контекст_очереди, new_oid),
             }
     raise QueueError(EXIT_CAS, "cas_conflict", "Не удалось подтвердить новый HEAD.")
 
 
 def cancel_waiter(
-    context: QueueContext,
+    контекст_очереди: QueueContext,
     task_id: str,
     ticket_id: str | None,
 ) -> tuple[int, dict[str, object]]:
     task_id = validate_task_id(task_id)
     for _ in range(MAX_CAS_ATTEMPTS):
-        ensure_live_branch(context)
-        state, old_oid = read_state(context)
-        state = ensure_state_identity(context, state, allow_idle_rebind=False)
+        ensure_live_branch(контекст_очереди)
+        state, old_oid = read_state(контекст_очереди)
+        state = ensure_state_identity(контекст_очереди, state, allow_idle_rebind=False)
         owner = state["owner"]
         if isinstance(owner, dict) and owner["task_id"] == task_id:
             raise QueueError(
@@ -1011,13 +1641,13 @@ def cancel_waiter(
             )
         ]
         updated["updated_at"] = stamp
-        success, new_oid = cas_state(context, old_oid, updated)
+        success, new_oid = cas_state(контекст_очереди, old_oid, updated)
         if success:
             return 0, {
                 "state": "cancelled",
                 "task_id": task_id,
                 "ticket_id": ticket_id,
-                **common_payload(context, new_oid),
+                **common_payload(контекст_очереди, new_oid),
             }
     raise QueueError(EXIT_CAS, "cas_conflict", "Не удалось отменить ожидающий билет.")
 
@@ -1041,12 +1671,12 @@ def staged_changes_exist(root: Path) -> bool:
 
 
 def require_owner(
-    context: QueueContext,
+    контекст_очереди: QueueContext,
     state: dict[str, object],
     task_id: str,
     generation: str,
 ) -> dict[str, object]:
-    state = ensure_state_identity(context, state, allow_idle_rebind=False)
+    state = ensure_state_identity(контекст_очереди, state, allow_idle_rebind=False)
     owner = state["owner"]
     if (
         not isinstance(owner, dict)
@@ -1080,19 +1710,19 @@ def matching_completion(
 
 
 def finished_clean_result(
-    context: QueueContext,
+    контекст_очереди: QueueContext,
     state_oid: str | None,
     completion: dict[str, object],
 ) -> tuple[int, dict[str, object]]:
     return 0, {
         "state": "finished_clean",
         **completion,
-        **common_payload(context, state_oid),
+        **common_payload(контекст_очереди, state_oid),
     }
 
 
 def committed_completion_result(
-    context: QueueContext,
+    контекст_очереди: QueueContext,
     state_oid: str | None,
     completion: dict[str, object],
 ) -> tuple[int, dict[str, object]]:
@@ -1102,19 +1732,19 @@ def committed_completion_result(
         "generation": completion["generation"],
         "old_head": completion["base_head"],
         "new_head": completion["head"],
-        **common_payload(context, state_oid),
+        **common_payload(контекст_очереди, state_oid),
     }
 
 
 def completion_head_is_current(
-    context: QueueContext,
+    контекст_очереди: QueueContext,
     completion: dict[str, object],
 ) -> bool:
-    return current_head(context.root) == completion["head"]
+    return current_head(контекст_очереди.root) == completion["head"]
 
 
 def finish_clean_and_handoff(
-    context: QueueContext,
+    контекст_очереди: QueueContext,
     task_id: str,
     generation: str,
     ограждающая_ссылка: str | None = None,
@@ -1124,13 +1754,13 @@ def finish_clean_and_handoff(
     if not generation or "\0" in generation or "\n" in generation:
         raise QueueError(EXIT_CLI, "invalid_generation", "Некорректное поколение владельца.")
     команда_ограждения, ожидаемый_объект = подготовить_внешнее_ограждение(
-        context,
+        контекст_очереди,
         ограждающая_ссылка,
         ожидаемый_объект_ограждения,
     )
     if (
         ограждающая_ссылка is not None
-        and read_ref_oid(context, ограждающая_ссылка) != ожидаемый_объект
+        and read_ref_oid(контекст_очереди, ограждающая_ссылка) != ожидаемый_объект
     ):
         raise QueueError(
             EXIT_CAS,
@@ -1140,9 +1770,9 @@ def finish_clean_and_handoff(
 
     unchanged_ref_failures = 0
     for _ in range(MAX_CAS_ATTEMPTS):
-        ensure_live_branch(context)
-        state, old_oid = read_state(context)
-        state = ensure_state_identity(context, state, allow_idle_rebind=False)
+        ensure_live_branch(контекст_очереди)
+        state, old_oid = read_state(контекст_очереди)
+        state = ensure_state_identity(контекст_очереди, state, allow_idle_rebind=False)
         previous = matching_completion(
             state,
             kind="finished_clean",
@@ -1150,27 +1780,27 @@ def finish_clean_and_handoff(
             generation=generation,
         )
         if previous is not None:
-            return finished_clean_result(context, old_oid, previous)
-        owner = require_owner(context, state, task_id, generation)
+            return finished_clean_result(контекст_очереди, old_oid, previous)
+        owner = require_owner(контекст_очереди, state, task_id, generation)
         base_head = str(owner["base_head"])
-        live_head = current_head(context.root)
+        live_head = current_head(контекст_очереди.root)
         if live_head != base_head:
             raise QueueError(
                 EXIT_HEAD_CHANGED,
                 "head_changed",
                 "HEAD изменился после допуска владельца.",
-                payload={"expected_head": base_head, "current_head": live_head},
+                данные_результата_операции={"expected_head": base_head, "current_head": live_head},
             )
         blocking = sorted(
-            set(all_changed_paths(context.root))
-            | set(staged_changed_paths(context.root))
+            set(all_changed_paths(контекст_очереди.root))
+            | set(staged_changed_paths(контекст_очереди.root))
         )
         if blocking:
             raise QueueError(
                 EXIT_DIRTY,
                 "dirty",
                 "Чистое завершение требует чистоты вне корневой .obsidian/ и отсутствия любых staged-изменений.",
-                payload={"blocking_paths": blocking},
+                данные_результата_операции={"blocking_paths": blocking},
             )
         if old_oid is None:
             raise QueueError(
@@ -1190,22 +1820,22 @@ def finish_clean_and_handoff(
         updated["owner"] = None
         updated["last_completion"] = completion
         updated["updated_at"] = stamp
-        new_oid = write_state_blob(context, updated)
+        new_oid = write_state_blob(контекст_очереди, updated)
         result = update_queue_with_head_verification(
-            context,
+            контекст_очереди,
             expected_head=base_head,
             old_queue_oid=old_oid,
             new_queue_oid=new_oid,
             команда_внешнего_ограждения=команда_ограждения,
         )
         if result.returncode == 0:
-            return finished_clean_result(context, new_oid, completion)
+            return finished_clean_result(контекст_очереди, new_oid, completion)
         last_stderr = result.stderr.decode("utf-8", errors="replace").strip()
-        observed_head = current_head(context.root)
-        observed_state, observed_queue_oid = read_state(context)
+        observed_head = current_head(контекст_очереди.root)
+        observed_state, observed_queue_oid = read_state(контекст_очереди)
         if (
             ограждающая_ссылка is not None
-            and read_ref_oid(context, ограждающая_ссылка)
+            and read_ref_oid(контекст_очереди, ограждающая_ссылка)
             != ожидаемый_объект
         ):
             raise QueueError(
@@ -1221,7 +1851,7 @@ def finish_clean_and_handoff(
         )
         if observed_completion is not None:
             return finished_clean_result(
-                context,
+                контекст_очереди,
                 observed_queue_oid,
                 observed_completion,
             )
@@ -1230,7 +1860,7 @@ def finish_clean_and_handoff(
                 EXIT_HEAD_CHANGED,
                 "head_changed",
                 "HEAD изменился во время чистого завершения.",
-                payload={"expected_head": base_head, "current_head": observed_head},
+                данные_результата_операции={"expected_head": base_head, "current_head": observed_head},
             )
         if observed_queue_oid != old_oid:
             unchanged_ref_failures = 0
@@ -1244,15 +1874,15 @@ def finish_clean_and_handoff(
 
 
 def finish_own_clean_and_handoff(
-    context: QueueContext,
+    контекст_очереди: QueueContext,
     task_id: str,
     ограждающая_ссылка: str | None = None,
     ожидаемый_объект_ограждения: str | None = None,
 ) -> tuple[int, dict[str, object]]:
     task_id = validate_task_id(task_id)
-    ensure_live_branch(context)
-    state, _ = read_state(context)
-    state = ensure_state_identity(context, state, allow_idle_rebind=False)
+    ensure_live_branch(контекст_очереди)
+    state, _ = read_state(контекст_очереди)
+    state = ensure_state_identity(контекст_очереди, state, allow_idle_rebind=False)
     owner = state["owner"]
     if not isinstance(owner, dict) or owner["task_id"] != task_id:
         raise QueueError(
@@ -1262,7 +1892,7 @@ def finish_own_clean_and_handoff(
         )
     generation = str(owner["generation"])
     return finish_clean_and_handoff(
-        context,
+        контекст_очереди,
         task_id,
         generation,
         ограждающая_ссылка,
@@ -1271,7 +1901,7 @@ def finish_own_clean_and_handoff(
 
 
 def atomic_commit_and_handoff(
-    context: QueueContext,
+    контекст_очереди: QueueContext,
     task_id: str,
     generation: str,
     message: str,
@@ -1282,46 +1912,46 @@ def atomic_commit_and_handoff(
     if not message.strip():
         raise QueueError(EXIT_CLI, "invalid_message", "Сообщение коммита не может быть пустым.")
 
-    ensure_live_branch(context)
-    state, state_oid = read_state(context)
-    state = ensure_state_identity(context, state, allow_idle_rebind=False)
+    ensure_live_branch(контекст_очереди)
+    state, state_oid = read_state(контекст_очереди)
+    state = ensure_state_identity(контекст_очереди, state, allow_idle_rebind=False)
     previous = matching_completion(
         state,
         kind="committed",
         task_id=task_id,
         generation=generation,
     )
-    if previous is not None and completion_head_is_current(context, previous):
-        return committed_completion_result(context, state_oid, previous)
-    owner = require_owner(context, state, task_id, generation)
+    if previous is not None and completion_head_is_current(контекст_очереди, previous):
+        return committed_completion_result(контекст_очереди, state_oid, previous)
+    owner = require_owner(контекст_очереди, state, task_id, generation)
     base_head = str(owner["base_head"])
-    live_head = current_head(context.root)
+    live_head = current_head(контекст_очереди.root)
     if live_head != base_head:
         raise QueueError(
             EXIT_HEAD_CHANGED,
             "head_changed",
             "HEAD изменился после допуска владельца.",
-            payload={"expected_head": base_head, "current_head": live_head},
+            данные_результата_операции={"expected_head": base_head, "current_head": live_head},
         )
 
-    blocking = unsafe_commit_paths(context.root)
+    blocking = unsafe_commit_paths(контекст_очереди.root)
     if blocking:
         raise QueueError(
             EXIT_DIRTY,
             "dirty",
             "Перед атомарным коммитом остаются unstaged, untracked или конфликтные пути.",
-            payload={"blocking_paths": blocking},
+            данные_результата_операции={"blocking_paths": blocking},
         )
-    if not staged_changes_exist(context.root):
+    if not staged_changes_exist(контекст_очереди.root):
         raise QueueError(
             EXIT_NOTHING_STAGED,
             "nothing_staged",
             "Для завершения задачи нет staged-изменений.",
         )
 
-    tree = decoded_stdout(run_git(context.root, ["write-tree"]))
+    tree = decoded_stdout(run_git(контекст_очереди.root, ["write-tree"]))
     parent_tree = decoded_stdout(
-        run_git(context.root, ["rev-parse", f"{base_head}^{{tree}}"])
+        run_git(контекст_очереди.root, ["rev-parse", f"{base_head}^{{tree}}"])
     )
     if tree == parent_tree:
         raise QueueError(
@@ -1332,7 +1962,7 @@ def atomic_commit_and_handoff(
     commit_message = message if message.endswith("\n") else f"{message}\n"
     commit_oid = decoded_stdout(
         run_git(
-            context.root,
+            контекст_очереди.root,
             ["commit-tree", tree, "-p", base_head],
             input_bytes=commit_message.encode("utf-8"),
         )
@@ -1340,10 +1970,10 @@ def atomic_commit_and_handoff(
 
     unchanged_ref_failures = 0
     for _ in range(MAX_CAS_ATTEMPTS):
-        ensure_live_branch(context)
-        live_head = current_head(context.root)
+        ensure_live_branch(контекст_очереди)
+        live_head = current_head(контекст_очереди.root)
         if live_head != base_head:
-            latest_state, latest_oid = read_state(context)
+            latest_state, latest_oid = read_state(контекст_очереди)
             completion = matching_completion(
                 latest_state,
                 kind="committed",
@@ -1351,16 +1981,16 @@ def atomic_commit_and_handoff(
                 generation=generation,
             )
             if live_head == commit_oid and completion is not None:
-                return committed_completion_result(context, latest_oid, completion)
+                return committed_completion_result(контекст_очереди, latest_oid, completion)
             raise QueueError(
                 EXIT_HEAD_CHANGED,
                 "head_changed",
                 "HEAD изменился до атомарной передачи очереди.",
-                payload={"expected_head": base_head, "current_head": live_head},
+                данные_результата_операции={"expected_head": base_head, "current_head": live_head},
             )
 
-        latest, old_queue_oid = read_state(context)
-        require_owner(context, latest, task_id, generation)
+        latest, old_queue_oid = read_state(контекст_очереди)
+        require_owner(контекст_очереди, latest, task_id, generation)
         if old_queue_oid is None:
             raise QueueError(
                 EXIT_CONTEXT,
@@ -1380,16 +2010,16 @@ def atomic_commit_and_handoff(
         updated["owner"] = None
         updated["last_completion"] = completion
         updated["updated_at"] = stamp
-        new_queue_oid = write_state_blob(context, updated)
+        new_queue_oid = write_state_blob(контекст_очереди, updated)
         transaction = (
             "start\n"
-            f"update {context.branch_ref} {commit_oid} {base_head}\n"
-            f"update {context.queue_ref} {new_queue_oid} {old_queue_oid}\n"
+            f"update {контекст_очереди.branch_ref} {commit_oid} {base_head}\n"
+            f"update {контекст_очереди.queue_ref} {new_queue_oid} {old_queue_oid}\n"
             "prepare\n"
             "commit\n"
         ).encode("utf-8")
         result = run_git(
-            context.root,
+            контекст_очереди.root,
             ["update-ref", "--stdin"],
             input_bytes=transaction,
             check=False,
@@ -1403,11 +2033,11 @@ def atomic_commit_and_handoff(
                 "generation": generation,
                 "old_head": base_head,
                 "new_head": commit_oid,
-                **common_payload(context, new_queue_oid),
+                **common_payload(контекст_очереди, new_queue_oid),
             }
         last_stderr = result.stderr.decode("utf-8", errors="replace").strip()
-        observed_head = current_head(context.root)
-        observed_state, observed_queue_oid = read_state(context)
+        observed_head = current_head(контекст_очереди.root)
+        observed_state, observed_queue_oid = read_state(контекст_очереди)
         observed_completion = matching_completion(
             observed_state,
             kind="committed",
@@ -1416,7 +2046,7 @@ def atomic_commit_and_handoff(
         )
         if observed_head == commit_oid and observed_completion is not None:
             return committed_completion_result(
-                context,
+                контекст_очереди,
                 observed_queue_oid,
                 observed_completion,
             )
@@ -1425,7 +2055,7 @@ def atomic_commit_and_handoff(
                 EXIT_HEAD_CHANGED,
                 "head_changed",
                 "HEAD изменился во время атомарной передачи очереди.",
-                payload={"expected_head": base_head, "current_head": observed_head},
+                данные_результата_операции={"expected_head": base_head, "current_head": observed_head},
             )
         if observed_queue_oid != old_queue_oid:
             unchanged_ref_failures = 0
@@ -1781,27 +2411,27 @@ def publication_failure(
     branch_ref: str,
     remote_head: str | None,
 ) -> NoReturn:
-    payload: dict[str, object] = {
+    данные_результата_операции: dict[str, object] = {
         "commit": commit,
         "branch_ref": branch_ref,
     }
     if remote_head is not None:
-        payload["remote_head"] = remote_head
-    raise QueueError(exit_code, state, message, payload=payload)
+        данные_результата_операции["remote_head"] = remote_head
+    raise QueueError(exit_code, state, message, данные_результата_операции=данные_результата_операции)
 
 
 def publish_exact_commit(
-    context: QueueContext,
+    контекст_очереди: QueueContext,
     commit: str,
     branch_ref: str,
     push_url: str,
     *,
     allow_url_rewrite_for_tests: bool = False,
 ) -> tuple[int, dict[str, object]]:
-    commit = validate_publication_commit(context.root, commit)
-    branch_ref = validate_publication_branch(context.root, branch_ref)
+    commit = validate_publication_commit(контекст_очереди.root, commit)
+    branch_ref = validate_publication_branch(контекст_очереди.root, branch_ref)
     push_url = validate_github_push_url(push_url)
-    rewrites = publication_url_rewrites(context.root, push_url)
+    rewrites = publication_url_rewrites(контекст_очереди.root, push_url)
     if rewrites and not allow_url_rewrite_for_tests:
         raise QueueError(
             EXIT_CLI,
@@ -1810,7 +2440,7 @@ def publish_exact_commit(
         )
     refspec = f"{commit}:{branch_ref}"
     pushed = run_publication_git(
-        context.root,
+        контекст_очереди.root,
         [
             "push",
             "--porcelain",
@@ -1830,7 +2460,7 @@ def publish_exact_commit(
             "branch_ref": branch_ref,
         }
 
-    observed, remote_head = remote_branch_head(context.root, push_url, branch_ref)
+    observed, remote_head = remote_branch_head(контекст_очереди.root, push_url, branch_ref)
     if not observed:
         publication_failure(
             state="unconfirmed",
@@ -1857,7 +2487,7 @@ def publish_exact_commit(
             remote_head=None,
         )
 
-    remote_available = commit_exists(context.root, remote_head)
+    remote_available = commit_exists(контекст_очереди.root, remote_head)
     if remote_available is None:
         publication_failure(
             state="unconfirmed",
@@ -1868,7 +2498,7 @@ def publish_exact_commit(
             remote_head=remote_head,
         )
     if remote_available:
-        commit_before_remote = is_ancestor(context.root, commit, remote_head)
+        commit_before_remote = is_ancestor(контекст_очереди.root, commit, remote_head)
         if commit_before_remote is None:
             publication_failure(
                 state="unconfirmed",
@@ -1885,7 +2515,7 @@ def publish_exact_commit(
                 "branch_ref": branch_ref,
                 "remote_head": remote_head,
             }
-        remote_before_commit = is_ancestor(context.root, remote_head, commit)
+        remote_before_commit = is_ancestor(контекст_очереди.root, remote_head, commit)
         if remote_before_commit is None:
             publication_failure(
                 state="unconfirmed",
@@ -1913,7 +2543,7 @@ def publish_exact_commit(
             remote_head=remote_head,
         )
 
-    contains = remote_contains_commit(context.root, push_url, branch_ref, commit)
+    contains = remote_contains_commit(контекст_очереди.root, push_url, branch_ref, commit)
     if contains is None:
         publication_failure(
             state="unconfirmed",
@@ -1940,22 +2570,1626 @@ def publish_exact_commit(
     )
 
 
-def queue_status(context: QueueContext) -> tuple[int, dict[str, object]]:
-    ensure_live_branch(context)
-    state, state_oid = read_state(context)
-    if state["worktree_id"] != context.worktree_id:
+def участники_очереди(состояние: dict[str, object]) -> list[str]:
+    участники: list[str] = []
+    владелец = состояние["owner"]
+    if isinstance(владелец, dict):
+        участники.append(str(владелец["task_id"]))
+    участники.extend(str(билет["task_id"]) for билет in состояние["waiting"])
+    return участники
+
+
+def изменённые_пути_для_сброса(корень: Path) -> list[str]:
+    return sorted(
+        {
+            путь
+            for _, пути in status_records(корень, include_root_obsidian=True)
+            for путь in пути
+        }
+    )
+
+
+def неотслеживаемые_пути_для_сброса(корень: Path) -> list[str]:
+    результат = run_git(
+        корень,
+        [
+            "-c",
+            "core.quotepath=false",
+            "ls-files",
+            "--others",
+            "--exclude-standard",
+            "-z",
+            "--",
+        ],
+    )
+    пути = sorted(
+        элемент.decode("utf-8", errors="surrogateescape")
+        for элемент in результат.stdout.split(b"\0")
+        if элемент
+    )
+    for путь in пути:
+        try:
+            путь.encode("utf-8", errors="strict")
+        except UnicodeEncodeError as ошибка:
+            raise QueueError(
+                EXIT_CONTEXT,
+                "unsupported_path",
+                "Штатный сброс не поддерживает путь с некорректным UTF-8.",
+            ) from ошибка
+    return пути
+
+
+def путь_виден_гит_как_неотслеживаемый(корень: Path, путь: str) -> bool:
+    сырые_пути = run_git(
+        корень,
+        [
+            "-c",
+            "core.quotepath=false",
+            "ls-files",
+            "--others",
+            "-z",
+            "--",
+            f":(top,literal){путь}",
+        ],
+    ).stdout.split(b"\0")
+    return путь.encode("utf-8", errors="strict") in сырые_пути
+
+
+def игнорируемые_пути_рабочей_копии(корень: Path) -> list[str]:
+    результат = run_git(
+        корень,
+        [
+            "-c",
+            "core.quotepath=false",
+            "ls-files",
+            "--others",
+            "--ignored",
+            "--exclude-standard",
+            "-z",
+            "--",
+        ],
+    )
+    пути = sorted(
+        элемент.decode("utf-8", errors="surrogateescape")
+        for элемент in результат.stdout.split(b"\0")
+        if элемент
+    )
+    for путь in пути:
+        try:
+            путь.encode("utf-8", errors="strict")
+        except UnicodeEncodeError as ошибка:
+            raise QueueError(
+                EXIT_CONTEXT,
+                "unsupported_path",
+                "Штатный сброс не поддерживает игнорируемый путь с некорректным UTF-8.",
+            ) from ошибка
+    return пути
+
+
+def потребовать_отсутствие_коллизий_игнорируемых_путей(
+    корень: Path,
+    целевая_вершина: str,
+) -> None:
+    игнорируемые = игнорируемые_пути_рабочей_копии(корень)
+    if not игнорируемые:
+        return
+    результат = run_git(
+        корень,
+        [
+            "-c",
+            "core.quotepath=false",
+            "ls-tree",
+            "-r",
+            "-z",
+            "--name-only",
+            целевая_вершина,
+        ],
+    )
+    целевые = [
+        элемент.decode("utf-8", errors="strict")
+        for элемент in результат.stdout.split(b"\0")
+        if элемент
+    ]
+    коллизии = sorted(
+        игнорируемый
+        for игнорируемый in игнорируемые
+        if any(
+            игнорируемый == целевой
+            or игнорируемый.startswith(f"{целевой}/")
+            or целевой.startswith(f"{игнорируемый}/")
+            for целевой in целевые
+        )
+    )
+    if коллизии:
+        raise QueueError(
+            EXIT_DIRTY,
+            "ignored_path_collision",
+            "Целевое дерево пересекается с игнорируемыми данными; штатный сброс их не удаляет.",
+            данные_результата_операции={"blocking_paths": коллизии},
+        )
+
+
+def добавить_часть_отпечатка(
+    вычислитель,
+    название: str,
+    содержимое: bytes,
+) -> None:
+    название_байты = название.encode("utf-8")
+    вычислитель.update(len(название_байты).to_bytes(8, "big"))
+    вычислитель.update(название_байты)
+    вычислитель.update(len(содержимое).to_bytes(8, "big"))
+    вычислитель.update(содержимое)
+
+
+def является_вложенной_границей_репозитория(каталог: Path) -> bool:
+    return os.path.lexists(каталог / ".git") or (
+        (каталог / "HEAD").is_file()
+        and (каталог / "objects").is_dir()
+        and (каталог / "refs").is_dir()
+    )
+
+
+def описать_неотслеживаемый_объект(
+    корень: Path,
+    путь: str,
+) -> tuple[dict[str, str], bytes, int]:
+    полный_путь = корень / путь
+    try:
+        сведения = полный_путь.lstat()
+    except FileNotFoundError as ошибка:
+        raise QueueError(
+            EXIT_CAS,
+            "reset_plan_changed",
+            "Неотслеживаемый путь изменился во время построения плана.",
+        ) from ошибка
+    вид = stat.S_IFMT(сведения.st_mode)
+    if stat.S_ISREG(сведения.st_mode):
+        тип = "обычный_файл"
+        содержимое = полный_путь.read_bytes()
+    elif stat.S_ISLNK(сведения.st_mode):
+        тип = "символическая_ссылка"
+        содержимое = os.readlink(полный_путь).encode(
+            "utf-8",
+            errors="surrogateescape",
+        )
+    elif stat.S_ISDIR(сведения.st_mode) and является_вложенной_границей_репозитория(
+        полный_путь
+    ):
+        тип = "вложенная_git_граница"
+        содержимое = b"nested-git-boundary"
+    else:
+        raise QueueError(
+            EXIT_DIRTY,
+            "unsupported_untracked_type",
+            "Штатный сброс не удаляет специальные неотслеживаемые файлы.",
+            данные_результата_операции={"path": путь},
+        )
+    return (
+        {
+            "путь": путь,
+            "тип": тип,
+            "sha256": f"sha256:{hashlib.sha256(содержимое).hexdigest()}",
+        },
+        содержимое,
+        вид,
+    )
+
+
+def описать_состояние_отслеживаемого_пути(
+    корень: Path,
+    путь: str,
+) -> dict[str, object]:
+    полный_путь = корень / путь
+    try:
+        сведения = полный_путь.lstat()
+    except (FileNotFoundError, NotADirectoryError):
+        return {"тип": "отсутствует"}
+    if stat.S_ISREG(сведения.st_mode):
+        содержимое = полный_путь.read_bytes()
+        return {
+            "тип": "обычный_файл",
+            "исполняемый": bool(сведения.st_mode & 0o111),
+            "sha256": f"sha256:{hashlib.sha256(содержимое).hexdigest()}",
+        }
+    if stat.S_ISLNK(сведения.st_mode):
+        цель = os.readlink(полный_путь).encode(
+            "utf-8",
+            errors="surrogateescape",
+        )
+        return {
+            "тип": "символическая_ссылка",
+            "sha256": f"sha256:{hashlib.sha256(цель).hexdigest()}",
+        }
+    if stat.S_ISDIR(сведения.st_mode):
+        return {"тип": "каталог"}
+    raise QueueError(
+        EXIT_DIRTY,
+        "unsupported_tracked_type",
+        "Штатный сброс не очищает специальный объект на отслеживаемом пути.",
+        данные_результата_операции={"path": путь},
+    )
+
+
+def целевое_состояние_отслеживаемого_пути(
+    корень: Path,
+    целевая_вершина: str,
+    путь: str,
+) -> dict[str, object]:
+    результат = run_git(
+        корень,
+        [
+            "ls-tree",
+            "-z",
+            "--full-tree",
+            целевая_вершина,
+            "--",
+            f":(top,literal){путь}",
+        ],
+    )
+    записи = [запись for запись in результат.stdout.split(b"\0") if запись]
+    if not записи:
+        return {"тип": "отсутствует"}
+    if len(записи) != 1 or b"\t" not in записи[0]:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "invalid_target_tree",
+            "Целевое дерево неоднозначно описывает отслеживаемый путь.",
+        )
+    метаданные, сырой_путь = записи[0].split(b"\t", 1)
+    части = метаданные.split(b" ")
+    if len(части) != 3:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "invalid_target_tree",
+            "Целевое дерево содержит повреждённую запись пути.",
+        )
+    режим, тип_объекта, объект = части
+    if сырой_путь.decode("utf-8", errors="strict") != путь:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "invalid_target_tree",
+            "Целевое дерево вернуло другой отслеживаемый путь.",
+        )
+    if режим == b"040000" and тип_объекта == b"tree":
+        return {"тип": "каталог"}
+    if режим == b"160000" and тип_объекта == b"commit":
+        return {"тип": "gitlink"}
+    if тип_объекта != b"blob" or режим not in {b"100644", b"100755", b"120000"}:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "invalid_target_tree",
+            "Целевое дерево содержит неподдерживаемый вид объекта.",
+        )
+    if режим == b"120000":
+        содержимое = run_git(
+            корень,
+            ["cat-file", "blob", объект.decode("ascii", errors="strict")],
+        ).stdout
+    else:
+        for режим_атрибутов in ([], ["--cached"]):
+            атрибут = run_git(
+                корень,
+                [
+                    "check-attr",
+                    "-z",
+                    *режим_атрибутов,
+                    "filter",
+                    "--",
+                    путь,
+                ],
+            ).stdout.split(b"\0")
+            if len(атрибут) != 4 or атрибут[-1] != b"":
+                raise QueueError(
+                    EXIT_CONTEXT,
+                    "git_error",
+                    "Git вернул неизвестный формат check-attr -z.",
+                )
+            значение_фильтра = атрибут[2]
+            if значение_фильтра not in {b"unspecified", b"unset"}:
+                raise QueueError(
+                    EXIT_DIRTY,
+                    "unsupported_checkout_filter",
+                    "Штатный сброс не запускает внешний checkout-filter.",
+                    данные_результата_операции={"path": путь},
+                )
+        содержимое = run_git(
+            корень,
+            [
+                "cat-file",
+                "--filters",
+                f"--path={путь}",
+                f"{целевая_вершина}:{путь}",
+            ],
+        ).stdout
+    отпечаток = f"sha256:{hashlib.sha256(содержимое).hexdigest()}"
+    if режим == b"120000":
+        return {"тип": "символическая_ссылка", "sha256": отпечаток}
+    return {
+        "тип": "обычный_файл",
+        "исполняемый": режим == b"100755",
+        "sha256": отпечаток,
+    }
+
+
+def индекс_содержит_ссылку_на_подмодуль(корень: Path, путь: str) -> bool:
+    результат = run_git(
+        корень,
+        [
+            "-c",
+            "core.quotepath=false",
+            "ls-files",
+            "--stage",
+            "-z",
+            "--",
+            f":(top,literal){путь}",
+        ],
+    )
+    return any(
+        запись.split(b" ", 1)[0] == b"160000"
+        for запись in результат.stdout.split(b"\0")
+        if запись
+    )
+
+
+def отпечаток_индекса(корень: Path) -> str:
+    содержимое = run_git(
+        корень,
+        ["-c", "core.quotepath=false", "ls-files", "--stage", "-z"],
+    ).stdout
+    return f"sha256:{hashlib.sha256(содержимое).hexdigest()}"
+
+
+def потребовать_обычные_флаги_индекса(корень: Path) -> None:
+    результат = run_git(
+        корень,
+        ["-c", "core.quotepath=false", "ls-files", "-v", "-z"],
+    )
+    скрытые: list[str] = []
+    for запись in результат.stdout.split(b"\0"):
+        if not запись:
+            continue
+        if len(запись) < 3 or запись[1:2] != b" ":
+            raise QueueError(
+                EXIT_CONTEXT,
+                "git_error",
+                "Git вернул неизвестный формат ls-files -v.",
+            )
+        метка = chr(запись[0])
+        if метка == "S" or метка.islower():
+            скрытые.append(
+                запись[2:].decode("utf-8", errors="surrogateescape")
+            )
+    if скрытые:
+        raise QueueError(
+            EXIT_DIRTY,
+            "hidden_index_flags",
+            "Штатный сброс не применяется при assume-unchanged или skip-worktree.",
+            данные_результата_операции={"blocking_paths": sorted(скрытые)},
+        )
+
+
+def снимок_изменений_для_сброса(корень: Path) -> dict[str, object]:
+    потребовать_обычные_флаги_индекса(корень)
+    изменённые = изменённые_пути_для_сброса(корень)
+    изменённые_правила_получения_рабочих_файлов = sorted(
+        путь
+        for путь in изменённые
+        if Path(путь).name in {".gitignore", ".gitattributes"}
+    )
+    if изменённые_правила_получения_рабочих_файлов:
+        raise QueueError(
+            EXIT_DIRTY,
+            "checkout_policy_changed",
+            "Штатный сброс требует заранее согласованные .gitignore и .gitattributes.",
+            данные_результата_операции={"blocking_paths": изменённые_правила_получения_рабочих_файлов},
+        )
+    неотслеживаемые = неотслеживаемые_пути_для_сброса(корень)
+    целевая_вершина = current_head(корень)
+    потребовать_отсутствие_коллизий_игнорируемых_путей(
+        корень,
+        целевая_вершина,
+    )
+    вычислитель = hashlib.sha256()
+    команды = (
+        (
+            "индекс",
+            ["-c", "core.quotepath=false", "ls-files", "--stage", "-z"],
+        ),
+        (
+            "подготовленные_изменения",
+            [
+                "-c",
+                "core.quotepath=false",
+                "diff",
+                "--cached",
+                "--binary",
+                "--full-index",
+                "--no-ext-diff",
+                "--no-textconv",
+                "HEAD",
+                "--",
+            ],
+        ),
+        (
+            "изменения_рабочего_дерева",
+            [
+                "-c",
+                "core.quotepath=false",
+                "diff",
+                "--binary",
+                "--full-index",
+                "--no-ext-diff",
+                "--no-textconv",
+                "--",
+            ],
+        ),
+    )
+    for название, аргументы in команды:
+        добавить_часть_отпечатка(
+            вычислитель,
+            название,
+            run_git(корень, аргументы).stdout,
+        )
+    добавить_часть_отпечатка(
+        вычислитель,
+        "изменённые_пути",
+        canonical_state_bytes({"пути": изменённые}),
+    )
+    неотслеживаемые_объекты: list[dict[str, str]] = []
+    for путь in неотслеживаемые:
+        объект, содержимое, вид = описать_неотслеживаемый_объект(корень, путь)
+        неотслеживаемые_объекты.append(объект)
+        добавить_часть_отпечатка(
+            вычислитель,
+            f"неотслеживаемый:{путь}:{вид:o}",
+            содержимое,
+        )
+    отслеживаемые_объекты: list[dict[str, object]] = []
+    for путь in sorted(set(изменённые) - set(неотслеживаемые)):
+        try:
+            путь.encode("utf-8", errors="strict")
+        except UnicodeEncodeError as ошибка:
+            raise QueueError(
+                EXIT_CONTEXT,
+                "unsupported_path",
+                "Штатный сброс не поддерживает отслеживаемый путь с некорректным UTF-8.",
+            ) from ошибка
+        целевое = целевое_состояние_отслеживаемого_пути(
+            корень,
+            целевая_вершина,
+            путь,
+        )
+        if целевое["тип"] == "gitlink" or индекс_содержит_ссылку_на_подмодуль(
+            корень,
+            путь,
+        ):
+            raise QueueError(
+                EXIT_DIRTY,
+                "nested_repository_dirty",
+                "Штатный сброс не очищает переход между gitlink и обычным путём.",
+                данные_результата_операции={"gitlink_paths": [путь]},
+            )
+        отслеживаемые_объекты.append(
+            {
+                "путь": путь,
+                "до": описать_состояние_отслеживаемого_пути(корень, путь),
+                "цель": целевое,
+            }
+        )
+    return {
+        "изменённые_пути": изменённые,
+        "неотслеживаемые_пути": неотслеживаемые,
+        "неотслеживаемые_объекты": неотслеживаемые_объекты,
+        "отслеживаемые_объекты": отслеживаемые_объекты,
+        "отпечаток_индекса": отпечаток_индекса(корень),
+        "отпечаток_изменений": f"sha256:{вычислитель.hexdigest()}",
+    }
+
+
+def фиксированные_служебные_ссылки(контекст: QueueContext) -> dict[str, str]:
+    ветка = hashlib.sha256(контекст.branch_ref.encode("utf-8")).hexdigest()
+    основа = f"{контекст.worktree_id}/{ветка}"
+    return {
+        f"{ПРОСТРАНСТВО_УПРАВЛЕНИЯ}/{основа}": "удалить",
+        f"{ПРОСТРАНСТВО_ПРЕТЕНЗИЙ}/{основа}": "удалить",
+        f"{ПРОСТРАНСТВО_ПОЧИНКИ}/{основа}": "удалить",
+        f"{ПРОСТРАНСТВО_ЭПОХ_РЕЗЕРВАЦИЙ}/{основа}": "сохранить",
+    }
+
+
+def проверить_служебные_ограждения(
+    значение: object,
+    контекст: QueueContext,
+) -> list[dict[str, str]]:
+    if not isinstance(значение, list):
+        raise QueueError(EXIT_CONTEXT, "corrupt_reset", "Служебные ограждения не являются списком.")
+    проверенные: list[dict[str, str]] = []
+    ссылки: set[str] = set()
+    фиксированные = фиксированные_служебные_ссылки(контекст)
+    ветка = hashlib.sha256(контекст.branch_ref.encode("utf-8")).hexdigest()
+    префикс_резерваций = (
+        f"{ПРОСТРАНСТВО_РЕЗЕРВАЦИЙ}/{контекст.worktree_id}/{ветка}/"
+    )
+    длина_объекта = len(current_head(контекст.root))
+    for элемент in значение:
+        if not isinstance(элемент, dict) or set(элемент) != {
+            "ссылка",
+            "объект",
+            "действие_при_завершении",
+        }:
+            raise QueueError(EXIT_CONTEXT, "corrupt_reset", "Служебное ограждение повреждено.")
+        ссылка = элемент["ссылка"]
+        объект = элемент["объект"]
+        действие = элемент["действие_при_завершении"]
+        if not isinstance(ссылка, str) or ссылка in ссылки:
+            raise QueueError(EXIT_CONTEXT, "corrupt_reset", "Служебная ссылка сброса неканонична.")
+        ссылки.add(ссылка)
+        ожидаемое_действие = фиксированные.get(ссылка)
+        if ожидаемое_действие is None and ссылка.startswith(префикс_резерваций):
+            ожидаемое_действие = "сохранить"
+        if действие != ожидаемое_действие:
+            raise QueueError(EXIT_CONTEXT, "corrupt_reset", "Служебная ссылка сброса вне допустимой области.")
+        if объект != "absent" and (
+            not isinstance(объект, str)
+            or re.fullmatch(r"[0-9a-f]+", объект) is None
+            or len(объект) != длина_объекта
+        ):
+            raise QueueError(EXIT_CONTEXT, "corrupt_reset", "Служебное ограждение имеет неверный объект.")
+        проверенные.append(
+            {
+                "ссылка": ссылка,
+                "объект": объект,
+                "действие_при_завершении": действие,
+            }
+        )
+    if ссылки.intersection(фиксированные) != set(фиксированные):
+        raise QueueError(EXIT_CONTEXT, "corrupt_reset", "Запись сброса не покрывает обязательные ограждения.")
+    if проверенные != sorted(проверенные, key=lambda элемент: элемент["ссылка"]):
+        raise QueueError(EXIT_CONTEXT, "corrupt_reset", "Служебные ограждения неканоничны.")
+    return проверенные
+
+
+def задачи_из_служебного_объекта(
+    контекст: QueueContext,
+    ссылка: str,
+    объект: str,
+) -> set[str]:
+    вид = decoded_stdout(run_git(контекст.root, ["cat-file", "-t", объект]))
+    if вид != "blob":
+        raise QueueError(EXIT_CONTEXT, "corrupt_service_fence", "Служебная ссылка не указывает на blob.")
+    сырые = run_git(контекст.root, ["cat-file", "blob", объект]).stdout
+    try:
+        значение = json.loads(
+            сырые.decode("utf-8", errors="strict"),
+            object_pairs_hook=собрать_объект_без_повторов,
+            parse_constant=отклонить_неконечное_число,
+        )
+    except (UnicodeDecodeError, json.JSONDecodeError) as ошибка:
+        raise QueueError(EXIT_CONTEXT, "corrupt_service_fence", "Служебный blob не содержит корректный JSON.") from ошибка
+    найденные: set[str] = set()
+
+    if ссылка.startswith(f"{ПРОСТРАНСТВО_РЕЗЕРВАЦИЙ}/"):
+        if not isinstance(значение, dict):
+            raise QueueError(EXIT_CONTEXT, "corrupt_service_fence", "Резервация запуска не является объектом.")
+        фаза = значение.get("фаза")
+        созданная_задача = значение.get("идентификатор_созданной_задачи")
+        фактическая_задача = значение.get("task_id")
+        свидетельство_среды = значение.get("свидетельство_среды")
+        точная_задача_среды = None
+        предварительное_свидетельство = False
+        if значение.get("версия_схемы") == 3 and свидетельство_среды is not None:
+            if not isinstance(свидетельство_среды, dict):
+                raise QueueError(EXIT_CONTEXT, "corrupt_service_fence", "Host-свидетельство диспетчера повреждено.")
+            if свидетельство_среды.get("вид") == "threadId":
+                if set(свидетельство_среды) != {"вид", "threadId", "hostId"}:
+                    raise QueueError(EXIT_CONTEXT, "corrupt_service_fence", "Точное host-свидетельство диспетчера повреждено.")
+                точная_задача_среды = validate_task_id(
+                    свидетельство_среды.get("threadId")
+                )
+                if not isinstance(свидетельство_среды.get("hostId"), str) or not свидетельство_среды["hostId"]:
+                    raise QueueError(EXIT_CONTEXT, "corrupt_service_fence", "Точное host-свидетельство диспетчера не содержит hostId.")
+                найденные.add(точная_задача_среды)
+            elif свидетельство_среды.get("вид") == "clientThreadId":
+                if set(свидетельство_среды) != {"вид", "значение"} or not isinstance(свидетельство_среды.get("значение"), str) or not свидетельство_среды["значение"]:
+                    raise QueueError(EXIT_CONTEXT, "corrupt_service_fence", "Предварительное host-свидетельство диспетчера повреждено.")
+                предварительное_свидетельство = True
+            else:
+                raise QueueError(EXIT_CONTEXT, "corrupt_service_fence", "Host-свидетельство диспетчера имеет неизвестный вид.")
+        if фактическая_задача is not None:
+            найденные.add(validate_task_id(фактическая_задача))
+        if фаза == "вызов_мог_состояться" and фактическая_задача is None:
+            raise QueueError(
+                EXIT_DIRTY,
+                "host_call_unresolved",
+                "Сброс запрещён, пока host-вызов создания задачи может завершиться позднее.",
+            )
+        if фаза == "задача_создана":
+            if not isinstance(созданная_задача, str) or not созданная_задача:
+                raise QueueError(
+                    EXIT_CONTEXT,
+                    "corrupt_service_fence",
+                    "Созданная диспетчером задача не имеет точного идентификатора.",
+                )
+            if точная_задача_среды is not None and созданная_задача != точная_задача_среды:
+                raise QueueError(EXIT_CONTEXT, "corrupt_service_fence", "Точное host-свидетельство не совпадает с резервацией диспетчера.")
+            if предварительное_свидетельство and созданная_задача != свидетельство_среды["значение"]:
+                raise QueueError(EXIT_CONTEXT, "corrupt_service_fence", "Предварительное host-свидетельство не совпадает с резервацией диспетчера.")
+            if фактическая_задача is None and точная_задача_среды is None:
+                raise QueueError(
+                    EXIT_DIRTY,
+                    "host_call_unresolved",
+                    "Нетипизированное host-свидетельство диспетчера не заменяет фактическую привязку задачи.",
+                )
+        elif фаза == "завершён":
+            if (
+                фактическая_задача is None
+                and точная_задача_среды is None
+                and (
+                    созданная_задача is not None
+                    or значение.get("исход") == "неопределённый"
+                )
+            ):
+                raise QueueError(
+                    EXIT_DIRTY,
+                    "host_call_unresolved",
+                    "Неопределённый host-вызов диспетчера не имеет точной созданной задачи.",
+                )
+        elif фаза not in {"зарезервирован", "вызов_мог_состояться"}:
+            raise QueueError(
+                EXIT_CONTEXT,
+                "corrupt_service_fence",
+                "Резервация запуска имеет неизвестную host-фазу.",
+            )
+
+    if ссылка.startswith(f"{ПРОСТРАНСТВО_ПОЧИНКИ}/"):
+        if (
+            not isinstance(значение, dict)
+            or значение.get("схема") != "fum.починка-автозапуска.v1"
+        ):
+            raise QueueError(EXIT_CONTEXT, "corrupt_service_fence", "Ограждение починки имеет неизвестную схему.")
+        фаза_починки = значение.get("состояние")
+        if фаза_починки not in {
+            "зарезервирован",
+            "вызов_мог_состояться",
+            "задача_создана",
+            "исполнитель_связан",
+            "исполнитель_подтверждён",
+            "завершён",
+        }:
+            raise QueueError(EXIT_CONTEXT, "corrupt_service_fence", "Починка имеет неизвестную host-фазу.")
+        свидетельство = значение.get("свидетельство_среды")
+        исполнитель = значение.get("исполнитель")
+        фактическая_задача_починки = None
+        if isinstance(исполнитель, dict) and исполнитель.get("задача") is not None:
+            фактическая_задача_починки = validate_task_id(
+                исполнитель["задача"]
+            )
+            найденные.add(фактическая_задача_починки)
+        if фаза_починки == "вызов_мог_состояться":
+            raise QueueError(
+                EXIT_DIRTY,
+                "host_call_unresolved",
+                "Сброс запрещён, пока host-вызов починки может завершиться позднее.",
+            )
+        if свидетельство is not None:
+            if not isinstance(свидетельство, dict):
+                raise QueueError(EXIT_CONTEXT, "corrupt_service_fence", "Починка не имеет host-свидетельства созданной задачи.")
+            if свидетельство.get("вид") == "clientThreadId":
+                if фактическая_задача_починки is None:
+                    raise QueueError(
+                        EXIT_DIRTY,
+                        "host_call_unresolved",
+                        "Предварительный clientThreadId не доказывает точную созданную задачу починки.",
+                    )
+            elif (
+                свидетельство.get("вид") != "threadId"
+                or not isinstance(свидетельство.get("threadId"), str)
+            ):
+                raise QueueError(EXIT_CONTEXT, "corrupt_service_fence", "Host-свидетельство починки повреждено.")
+            else:
+                найденные.add(validate_task_id(свидетельство["threadId"]))
+        elif фаза_починки == "задача_создана":
+            raise QueueError(EXIT_CONTEXT, "corrupt_service_fence", "Починка не имеет host-свидетельства созданной задачи.")
+
+    def обойти(узел: object) -> None:
+        if isinstance(узел, dict):
+            for ключ, вложенное in узел.items():
+                if ключ in {"task_id", "задача"}:
+                    if вложенное is not None:
+                        найденные.add(validate_task_id(вложенное))
+                else:
+                    обойти(вложенное)
+        elif isinstance(узел, list):
+            for вложенное in узел:
+                обойти(вложенное)
+
+    обойти(значение)
+    return найденные
+
+
+def связанные_задачи_из_ограждений(
+    контекст: QueueContext,
+    ограждения: list[dict[str, str]],
+) -> list[str]:
+    задачи: set[str] = set()
+    for ограждение in ограждения:
+        объект = ограждение["объект"]
+        if объект != "absent":
+            задачи.update(
+                задачи_из_служебного_объекта(
+                    контекст,
+                    ограждение["ссылка"],
+                    объект,
+                )
+            )
+    return sorted(задачи)
+
+
+def снимок_служебных_ограждений(
+    контекст: QueueContext,
+) -> tuple[list[dict[str, str]], list[str]]:
+    ограждения: list[dict[str, str]] = []
+    for ссылка, действие in фиксированные_служебные_ссылки(контекст).items():
+        ограждения.append(
+            {
+                "ссылка": ссылка,
+                "объект": read_ref_oid(контекст, ссылка) or "absent",
+                "действие_при_завершении": действие,
+            }
+        )
+    ветка = hashlib.sha256(контекст.branch_ref.encode("utf-8")).hexdigest()
+    префикс = f"{ПРОСТРАНСТВО_РЕЗЕРВАЦИЙ}/{контекст.worktree_id}/{ветка}/"
+    результат = run_git(
+        контекст.root,
+        ["for-each-ref", "--format=%(refname)%00%(objectname)", префикс],
+    )
+    for строка in результат.stdout.splitlines():
+        if not строка:
+            continue
+        ссылка_байты, объект_байты = строка.split(b"\0", 1)
+        ограждения.append(
+            {
+                "ссылка": ссылка_байты.decode("utf-8", errors="strict"),
+                "объект": объект_байты.decode("ascii", errors="strict"),
+                "действие_при_завершении": "сохранить",
+            }
+        )
+    ограждения.sort(key=lambda элемент: элемент["ссылка"])
+    проверенные = проверить_служебные_ограждения(ограждения, контекст)
+    return проверенные, связанные_задачи_из_ограждений(контекст, проверенные)
+
+
+def данные_подтверждения_сброса(
+    контекст: QueueContext,
+    состояние: dict[str, object],
+    объект_очереди: str | None,
+    идентификатор_диспетчера: str,
+) -> dict[str, object]:
+    снимок_изменений = снимок_изменений_для_сброса(контекст.root)
+    ограждения, связанные = снимок_служебных_ограждений(контекст)
+    участники = sorted(set(участники_очереди(состояние)) | set(связанные))
+    return {
+        "схема": "fum.план-сброса-состояния-FIFO.1",
+        "идентификатор_рабочей_копии": контекст.worktree_id,
+        "ссылка_ветки": контекст.branch_ref,
+        "целевая_вершина": current_head(контекст.root),
+        "объект_очереди": объект_очереди or "absent",
+        "идентификатор_диспетчера": идентификатор_диспетчера,
+        "участники": участники,
+        "связанные_задачи": связанные,
+        "изменённые_пути": снимок_изменений["изменённые_пути"],
+        "неотслеживаемые_пути": снимок_изменений["неотслеживаемые_пути"],
+        "неотслеживаемые_объекты": снимок_изменений["неотслеживаемые_объекты"],
+        "отслеживаемые_объекты": снимок_изменений["отслеживаемые_объекты"],
+        "отпечаток_индекса": снимок_изменений["отпечаток_индекса"],
+        "отпечаток_изменений": снимок_изменений["отпечаток_изменений"],
+        "служебные_ограждения": ограждения,
+    }
+
+
+def данные_подтверждения_из_записи(
+    запись: dict[str, object],
+) -> dict[str, object]:
+    return {
+        "схема": "fum.план-сброса-состояния-FIFO.1",
+        "идентификатор_рабочей_копии": запись["идентификатор_рабочей_копии"],
+        "ссылка_ветки": запись["ссылка_ветки"],
+        "целевая_вершина": запись["целевая_вершина"],
+        "объект_очереди": запись["исходный_объект_очереди"] or "absent",
+        "идентификатор_диспетчера": запись["идентификатор_диспетчера"],
+        "участники": запись["участники"],
+        "связанные_задачи": запись["связанные_задачи"],
+        "изменённые_пути": запись["изменённые_пути_плана"],
+        "неотслеживаемые_пути": запись["неотслеживаемые_пути_плана"],
+        "неотслеживаемые_объекты": запись["неотслеживаемые_объекты_плана"],
+        "отслеживаемые_объекты": запись["отслеживаемые_объекты_плана"],
+        "отпечаток_индекса": запись["отпечаток_индекса_плана"],
+        "отпечаток_изменений": запись["отпечаток_изменений"],
+        "служебные_ограждения": запись["служебные_ограждения"],
+    }
+
+
+def идентификатор_подтверждения_сброса(данные: dict[str, object]) -> str:
+    байты = (
+        json.dumps(
+            данные,
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+        + "\n"
+    ).encode("utf-8")
+    return f"sha256:{hashlib.sha256(байты).hexdigest()}"
+
+
+def план_сброса(
+    контекст: QueueContext,
+    идентификатор_диспетчера: str,
+) -> tuple[int, dict[str, object]]:
+    validate_task_id(идентификатор_диспетчера)
+    ensure_live_branch(контекст)
+    вид, состояние, объект_очереди = прочитать_запись_очереди(контекст)
+    if вид == "сброс":
+        raise QueueError(
+            КОД_ИДЁТ_СБРОС,
+            "reset_in_progress",
+            "В рабочей копии уже идёт штатный сброс.",
+            данные_результата_операции={
+                "идентификатор_сброса": состояние["идентификатор_сброса"],
+                "фаза": состояние["фаза"],
+            },
+        )
+    состояние = ensure_state_identity(
+        контекст,
+        состояние,
+        allow_idle_rebind=True,
+    )
+    данные = данные_подтверждения_сброса(
+        контекст,
+        состояние,
+        объект_очереди,
+        идентификатор_диспетчера,
+    )
+    подтверждение = идентификатор_подтверждения_сброса(данные)
+    return 0, {
+        "состояние": "требуется_подтверждение",
+        "подтверждение": подтверждение,
+        "идентификатор_сброса": подтверждение,
+        **данные,
+    }
+
+
+def заменить_запись_очереди_с_проверкой_ветки(
+    контекст: QueueContext,
+    ожидаемая_вершина: str,
+    прежний_объект: str | None,
+    новый_объект: str | None,
+    *,
+    служебные_ограждения: list[dict[str, str]] | None = None,
+    завершить_служебные_ограждения: bool = False,
+    дополнительные_команды: str = "",
+) -> bool:
+    if новый_объект is None:
+        if прежний_объект is None:
+            команда_очереди = ""
+        else:
+            команда_очереди = f"delete {контекст.queue_ref} {прежний_объект}\n"
+    elif прежний_объект is None:
+        команда_очереди = f"create {контекст.queue_ref} {новый_объект}\n"
+    else:
+        команда_очереди = (
+            f"update {контекст.queue_ref} {новый_объект} {прежний_объект}\n"
+        )
+    команды_ограждений = ""
+    for ограждение in служебные_ограждения or []:
+        ссылка = ограждение["ссылка"]
+        объект = ограждение["объект"]
+        нулевой = "0" * len(ожидаемая_вершина)
+        if (
+            завершить_служебные_ограждения
+            and ограждение["действие_при_завершении"] == "удалить"
+            and объект != "absent"
+        ):
+            команды_ограждений += f"delete {ссылка} {объект}\n"
+        else:
+            команды_ограждений += (
+                f"verify {ссылка} {нулевой if объект == 'absent' else объект}\n"
+            )
+    транзакция = (
+        "start\n"
+        f"verify {контекст.branch_ref} {ожидаемая_вершина}\n"
+        f"{команды_ограждений}"
+        f"{команда_очереди}"
+        f"{дополнительные_команды}"
+        "prepare\n"
+        "commit\n"
+    ).encode("utf-8")
+    результат = run_git(
+        контекст.root,
+        ["update-ref", "--no-deref", "--stdin"],
+        input_bytes=транзакция,
+        check=False,
+    )
+    if результат.returncode == 0:
+        return True
+    текущая_вершина = current_head(контекст.root)
+    if текущая_вершина != ожидаемая_вершина:
+        raise QueueError(
+            EXIT_HEAD_CHANGED,
+            "head_changed",
+            "Ветка изменилась во время штатного сброса.",
+            данные_результата_операции={
+                "expected_head": ожидаемая_вершина,
+                "current_head": текущая_вершина,
+            },
+        )
+    if read_ref_oid(контекст, контекст.queue_ref) != прежний_объект:
+        return False
+    подробность = результат.stderr.decode("utf-8", errors="replace").strip()
+    update_ref_error("атомарно заменить запись очереди для сброса", подробность)
+
+
+def подготовить_сброс(
+    контекст: QueueContext,
+    идентификатор_диспетчера: str,
+    ожидаемая_вершина: str,
+    ожидаемый_объект_очереди: str,
+    подтверждение: str,
+) -> tuple[int, dict[str, object]]:
+    validate_task_id(идентификатор_диспетчера)
+    ensure_live_branch(контекст)
+    вид, запись, объект_очереди = прочитать_запись_очереди(контекст)
+    if вид == "сброс":
+        if (
+            запись["идентификатор_сброса"] == подтверждение
+            and запись["идентификатор_диспетчера"] == идентификатор_диспетчера
+        ):
+            return 0, {
+                "состояние": str(запись["фаза"]),
+                "идентификатор_сброса": подтверждение,
+                **common_payload(контекст, объект_очереди),
+            }
+        raise QueueError(
+            КОД_ИДЁТ_СБРОС,
+            "reset_in_progress",
+            "Другая попытка сброса уже оградила очередь.",
+        )
+    исходное_состояние = запись
+    состояние = ensure_state_identity(
+        контекст,
+        запись,
+        allow_idle_rebind=True,
+    )
+    предоставленный_объект = (
+        None if ожидаемый_объект_очереди == "absent" else ожидаемый_объект_очереди
+    )
+    if объект_очереди != предоставленный_объект:
+        raise QueueError(
+            EXIT_CAS,
+            "queue_changed",
+            "Объект очереди изменился после плана сброса.",
+        )
+    if current_head(контекст.root) != ожидаемая_вершина:
+        raise QueueError(
+            EXIT_HEAD_CHANGED,
+            "head_changed",
+            "HEAD изменился после плана сброса.",
+        )
+    данные = данные_подтверждения_сброса(
+        контекст,
+        состояние,
+        объект_очереди,
+        идентификатор_диспетчера,
+    )
+    ожидаемое_подтверждение = идентификатор_подтверждения_сброса(данные)
+    if подтверждение != ожидаемое_подтверждение:
+        raise QueueError(
+            EXIT_CAS,
+            "confirmation_mismatch",
+            "Точное подтверждение не совпадает с текущим планом сброса.",
+        )
+    метка, _ = utc_values()
+    запись_сброса: dict[str, object] = {
+        "схема": СХЕМА_СБРОСА,
+        "фаза": "подготовлен",
+        "идентификатор_рабочей_копии": контекст.worktree_id,
+        "ссылка_ветки": контекст.branch_ref,
+        "целевая_вершина": ожидаемая_вершина,
+        "исходный_объект_очереди": объект_очереди,
+        "исходное_состояние_очереди": исходное_состояние,
+        "идентификатор_сброса": подтверждение,
+        "идентификатор_диспетчера": идентификатор_диспетчера,
+        "участники": данные["участники"],
+        "связанные_задачи": данные["связанные_задачи"],
+        "неактивные_задачи": [],
+        "изменённые_пути_плана": данные["изменённые_пути"],
+        "неотслеживаемые_пути_плана": данные["неотслеживаемые_пути"],
+        "неотслеживаемые_объекты_плана": данные["неотслеживаемые_объекты"],
+        "отслеживаемые_объекты_плана": данные["отслеживаемые_объекты"],
+        "отпечаток_индекса_плана": данные["отпечаток_индекса"],
+        "отпечаток_изменений": данные["отпечаток_изменений"],
+        "служебные_ограждения": данные["служебные_ограждения"],
+        "создано": метка,
+        "обновлено": метка,
+    }
+    новый_объект = записать_объект_сброса(контекст, запись_сброса)
+    if not заменить_запись_очереди_с_проверкой_ветки(
+        контекст,
+        ожидаемая_вершина,
+        объект_очереди,
+        новый_объект,
+        служебные_ограждения=list(данные["служебные_ограждения"]),
+    ):
+        raise QueueError(EXIT_CAS, "queue_changed", "Очередь изменилась до ограждения сброса.")
+    return 0, {
+        "состояние": "подготовлен",
+        "идентификатор_сброса": подтверждение,
+        **common_payload(контекст, новый_объект),
+    }
+
+
+def потребовать_сброс(
+    контекст: QueueContext,
+    идентификатор_диспетчера: str,
+    идентификатор_сброса: str,
+) -> tuple[dict[str, object], str]:
+    validate_task_id(идентификатор_диспетчера)
+    вид, запись, объект = прочитать_запись_очереди(контекст)
+    if вид != "сброс" or объект is None:
+        raise QueueError(
+            EXIT_NOT_REGISTERED,
+            "reset_not_found",
+            "Активная запись штатного сброса не найдена.",
+        )
+    if (
+        запись["идентификатор_сброса"] != идентификатор_сброса
+        or запись["идентификатор_диспетчера"] != идентификатор_диспетчера
+    ):
+        raise QueueError(
+            EXIT_OWNERSHIP,
+            "reset_not_owned",
+            "Идентификаторы диспетчера и попытки не совпадают со сбросом.",
+        )
+    return запись, объект
+
+
+def подтвердить_остановку_сессий(
+    контекст: QueueContext,
+    идентификатор_диспетчера: str,
+    идентификатор_сброса: str,
+    неактивные_задачи: list[str],
+) -> tuple[int, dict[str, object]]:
+    запись, прежний_объект = потребовать_сброс(
+        контекст,
+        идентификатор_диспетчера,
+        идентификатор_сброса,
+    )
+    for идентификатор in неактивные_задачи:
+        validate_task_id(идентификатор)
+    предоставленные = set(неактивные_задачи)
+    if len(предоставленные) != len(неактивные_задачи):
+        raise QueueError(
+            КОД_НЕСОВПАДЕНИЯ_СЕССИЙ,
+            "session_set_mismatch",
+            "Подтверждение содержит повтор идентификатора задачи.",
+        )
+    требуемые = set(запись["участники"]) - {идентификатор_диспетчера}
+    if предоставленные != требуемые:
+        raise QueueError(
+            КОД_НЕСОВПАДЕНИЯ_СЕССИЙ,
+            "session_set_mismatch",
+            "Подтверждение не совпадает с точным множеством участников сброса.",
+            данные_результата_операции={"требуемое_количество": len(требуемые)},
+        )
+    if запись["фаза"] in {"сессии_остановлены", "очистка_рабочей_копии"}:
+        return 0, {
+            "состояние": "сессии_остановлены",
+            "идентификатор_сброса": идентификатор_сброса,
+            **common_payload(контекст, прежний_объект),
+        }
+    обновлённая = copy.deepcopy(запись)
+    обновлённая["фаза"] = "сессии_остановлены"
+    обновлённая["неактивные_задачи"] = sorted(предоставленные)
+    обновлённая["обновлено"] = utc_values()[0]
+    новый_объект = записать_объект_сброса(контекст, обновлённая)
+    if not заменить_запись_очереди_с_проверкой_ветки(
+        контекст,
+        str(запись["целевая_вершина"]),
+        прежний_объект,
+        новый_объект,
+        служебные_ограждения=list(запись["служебные_ограждения"]),
+    ):
+        raise QueueError(EXIT_CAS, "queue_changed", "Запись сброса изменилась.")
+    return 0, {
+        "состояние": "сессии_остановлены",
+        "идентификатор_сброса": идентификатор_сброса,
+        **common_payload(контекст, новый_объект),
+    }
+
+
+def отменить_сброс(
+    контекст: QueueContext,
+    идентификатор_диспетчера: str,
+    идентификатор_сброса: str,
+) -> tuple[int, dict[str, object]]:
+    запись, объект_сброса = потребовать_сброс(
+        контекст,
+        идентификатор_диспетчера,
+        идентификатор_сброса,
+    )
+    if запись["фаза"] != "подготовлен":
+        raise QueueError(
+            КОД_ИДЁТ_СБРОС,
+            "reset_irreversible",
+            "Сброс нельзя отменить после подтверждения остановки сессий.",
+        )
+    исходный_объект = запись["исходный_объект_очереди"]
+    if исходный_объект is not None:
+        восстановленный = write_state_blob(
+            контекст,
+            dict(запись["исходное_состояние_очереди"]),
+        )
+        if восстановленный != исходный_объект:
+            raise QueueError(
+                EXIT_CONTEXT,
+                "corrupt_reset",
+                "Исходное состояние не воспроизводит сохранённый объект очереди.",
+            )
+    if not заменить_запись_очереди_с_проверкой_ветки(
+        контекст,
+        str(запись["целевая_вершина"]),
+        объект_сброса,
+        исходный_объект if isinstance(исходный_объект, str) else None,
+        служебные_ограждения=list(запись["служебные_ограждения"]),
+    ):
+        raise QueueError(EXIT_CAS, "queue_changed", "Запись сброса изменилась до отмены.")
+    return 0, {
+        "состояние": "отменён",
+        "идентификатор_сброса": идентификатор_сброса,
+        **common_payload(контекст, исходный_объект if isinstance(исходный_объект, str) else None),
+    }
+
+
+def проверить_вложенные_границы_репозиториев(корень: Path) -> None:
+    изменённые = изменённые_пути_для_сброса(корень)
+    индекс = run_git(
+        корень,
+        ["-c", "core.quotepath=false", "ls-files", "--stage", "-z"],
+    )
+    ссылки_на_подмодули: set[str] = set()
+    for запись in индекс.stdout.split(b"\0"):
+        if not запись:
+            continue
+        служебная, сырой_путь = запись.split(b"\t", 1)
+        if служебная.split(b" ", 1)[0] == b"160000":
+            ссылки_на_подмодули.add(сырой_путь.decode("utf-8", errors="surrogateescape"))
+    грязные_ссылки_на_подмодули = sorted(
+        путь
+        for путь in ссылки_на_подмодули
+        if any(
+            изменённый == путь or изменённый.startswith(f"{путь}/")
+            for изменённый in изменённые
+        )
+    )
+    непроиндексированные = run_git(
+        корень,
+        ["-c", "core.quotepath=false", "ls-files", "--others", "--exclude-standard", "-z"],
+    )
+    вложенные: set[str] = set()
+    for сырой_путь in непроиндексированные.stdout.split(b"\0"):
+        if not сырой_путь:
+            continue
+        путь = корень / сырой_путь.decode("utf-8", errors="surrogateescape")
+        кандидат = путь if путь.is_dir() else путь.parent
+        while кандидат != корень and корень in кандидат.parents:
+            if является_вложенной_границей_репозитория(кандидат):
+                вложенные.add(str(кандидат.relative_to(корень)))
+                break
+            кандидат = кандидат.parent
+    if грязные_ссылки_на_подмодули or вложенные:
+        raise QueueError(
+            EXIT_DIRTY,
+            "nested_repository_dirty",
+            "Штатный сброс не очищает грязные submodule или вложенные Git-репозитории.",
+            данные_результата_операции={
+                "gitlink_paths": грязные_ссылки_на_подмодули,
+                "nested_repository_paths": sorted(вложенные),
+            },
+        )
+
+
+def потребовать_подтверждённые_изменения(
+    корень: Path,
+    запись: dict[str, object],
+) -> None:
+    текущий = снимок_изменений_для_сброса(корень)
+    ожидаемый = {
+        "изменённые_пути": запись["изменённые_пути_плана"],
+        "неотслеживаемые_пути": запись["неотслеживаемые_пути_плана"],
+        "неотслеживаемые_объекты": запись["неотслеживаемые_объекты_плана"],
+        "отслеживаемые_объекты": запись["отслеживаемые_объекты_плана"],
+        "отпечаток_индекса": запись["отпечаток_индекса_плана"],
+        "отпечаток_изменений": запись["отпечаток_изменений"],
+    }
+    if текущий != ожидаемый:
+        raise QueueError(
+            EXIT_CAS,
+            "reset_plan_changed",
+            "Изменения рабочей копии разошлись с подтверждённым планом сброса.",
+            данные_результата_операции={
+                "expected_fingerprint": ожидаемый["отпечаток_изменений"],
+                "current_fingerprint": текущий["отпечаток_изменений"],
+            },
+        )
+
+
+def индекс_совместим_с_планом_или_целью(
+    корень: Path,
+    запись: dict[str, object],
+    целевая_вершина: str,
+) -> bool:
+    if отпечаток_индекса(корень) == запись["отпечаток_индекса_плана"]:
+        return True
+    целевое_дерево = decoded_stdout(
+        run_git(корень, ["rev-parse", f"{целевая_вершина}^{{tree}}"])
+    )
+    текущее_дерево = run_git(корень, ["write-tree"], check=False)
+    if текущее_дерево.returncode != 0:
+        return False
+    if decoded_stdout(текущее_дерево) != целевое_дерево:
+        return False
+    return True
+
+
+def потребовать_совместимое_частичное_состояние_отслеживаемых(
+    корень: Path,
+    запись: dict[str, object],
+    целевая_вершина: str,
+) -> None:
+    плановые_пути = set(запись["изменённые_пути_плана"]) - set(
+        запись["неотслеживаемые_пути_плана"]
+    )
+    текущие_неотслеживаемые = set(неотслеживаемые_пути_для_сброса(корень))
+    текущие_отслеживаемые = set(изменённые_пути_для_сброса(корень)) - (
+        текущие_неотслеживаемые
+    )
+    if not текущие_отслеживаемые.issubset(плановые_пути):
+        raise QueueError(
+            EXIT_CAS,
+            "reset_plan_changed",
+            "После начала очистки появился новый отслеживаемый путь.",
+            данные_результата_операции={
+                "blocking_paths": sorted(текущие_отслеживаемые - плановые_пути)
+            },
+        )
+    if not индекс_совместим_с_планом_или_целью(
+        корень,
+        запись,
+        целевая_вершина,
+    ):
+        raise QueueError(
+            EXIT_CAS,
+            "reset_plan_changed",
+            "Индекс после начала очистки не совпадает ни с планом, ни с целью.",
+        )
+    for объект in запись["отслеживаемые_объекты_плана"]:
+        if объект["путь"] not in текущие_отслеживаемые:
+            continue
+        текущий = описать_состояние_отслеживаемого_пути(
+            корень,
+            str(объект["путь"]),
+        )
+        if текущий != объект["до"] and текущий != объект["цель"]:
+            raise QueueError(
+                EXIT_CAS,
+                "reset_plan_changed",
+                "Отслеживаемый путь после начала очистки не совпадает ни с планом, ни с целью.",
+                данные_результата_операции={"path": объект["путь"]},
+            )
+
+
+def удалить_подтверждённые_неотслеживаемые_пути(
+    корень: Path,
+    ожидаемые: list[dict[str, str]],
+    целевая_вершина: str,
+) -> None:
+    for ожидаемый in ожидаемые:
+        путь = ожидаемый["путь"]
+        if not путь_виден_гит_как_неотслеживаемый(корень, путь):
+            continue
+        if not os.path.lexists(корень / путь):
+            continue
+        текущее_состояние = описать_состояние_отслеживаемого_пути(
+            корень,
+            путь,
+        )
+        целевое_состояние = целевое_состояние_отслеживаемого_пути(
+            корень,
+            целевая_вершина,
+            путь,
+        )
+        if (
+            целевое_состояние["тип"] != "отсутствует"
+            and текущее_состояние == целевое_состояние
+        ):
+            continue
+        текущий, _, _ = описать_неотслеживаемый_объект(корень, путь)
+        if текущий != ожидаемый:
+            raise QueueError(
+                EXIT_CAS,
+                "reset_plan_changed",
+                "Неотслеживаемый объект изменился непосредственно перед удалением.",
+                данные_результата_операции={"path": путь},
+            )
+        run_git(
+            корень,
+            ["clean", "-f", "-x", "--", f":(top,literal){путь}"],
+        )
+
+
+def потребовать_совместимые_неотслеживаемые_объекты(
+    корень: Path,
+    ожидаемые: list[dict[str, str]],
+    целевая_вершина: str,
+) -> None:
+    ожидаемые_пути = {ожидаемый["путь"] for ожидаемый in ожидаемые}
+    текущие_пути = set(неотслеживаемые_пути_для_сброса(корень))
+    новые_пути = sorted(текущие_пути - ожидаемые_пути)
+    if новые_пути:
+        raise QueueError(
+            EXIT_CAS,
+            "reset_plan_changed",
+            "После подтверждения сброса появились новые неотслеживаемые пути.",
+            данные_результата_операции={"blocking_paths": новые_пути},
+        )
+    for ожидаемый in ожидаемые:
+        путь = ожидаемый["путь"]
+        if not путь_виден_гит_как_неотслеживаемый(корень, путь):
+            continue
+        if not os.path.lexists(корень / путь):
+            continue
+        текущее_состояние = описать_состояние_отслеживаемого_пути(
+            корень,
+            путь,
+        )
+        целевое_состояние = целевое_состояние_отслеживаемого_пути(
+            корень,
+            целевая_вершина,
+            путь,
+        )
+        if (
+            целевое_состояние["тип"] != "отсутствует"
+            and текущее_состояние == целевое_состояние
+        ):
+            continue
+        текущий, _, _ = описать_неотслеживаемый_объект(корень, путь)
+        if текущий != ожидаемый:
+            raise QueueError(
+                EXIT_CAS,
+                "reset_plan_changed",
+                "Неотслеживаемый объект изменился после подтверждения сброса.",
+                данные_результата_операции={"path": путь},
+            )
+
+
+def применить_сброс(
+    контекст: QueueContext,
+    идентификатор_диспетчера: str,
+    идентификатор_сброса: str,
+) -> tuple[int, dict[str, object]]:
+    validate_task_id(идентификатор_диспетчера)
+    ensure_live_branch(контекст)
+    квитанция, _ = прочитать_квитанцию_сброса(контекст, идентификатор_сброса)
+    if квитанция is not None:
+        if квитанция["идентификатор_диспетчера"] != идентификатор_диспетчера:
+            raise QueueError(EXIT_OWNERSHIP, "reset_owned_by_other", "Квитанция сброса принадлежит другой задаче.")
+        _, _, текущий_объект_очереди = прочитать_запись_очереди(контекст)
+        return 0, {
+            "состояние": "сброшено",
+            "идентификатор_сброса": идентификатор_сброса,
+            "целевая_вершина": квитанция["целевая_вершина"],
+            **common_payload(контекст, текущий_объект_очереди),
+        }
+    вид, текущая_запись, текущий_объект = прочитать_запись_очереди(контекст)
+    if вид == "очередь":
+        завершение = текущая_запись.get("last_completion")
+        if (
+            isinstance(завершение, dict)
+            and завершение.get("kind") == "reset"
+            and завершение.get("task_id") == идентификатор_диспетчера
+            and завершение.get("generation") == идентификатор_сброса
+        ):
+            return 0, {
+                "состояние": "сброшено",
+                "идентификатор_сброса": идентификатор_сброса,
+                **common_payload(контекст, текущий_объект),
+            }
+        raise QueueError(EXIT_NOT_REGISTERED, "reset_not_found", "Активный сброс не найден.")
+    запись, объект_сброса = потребовать_сброс(
+        контекст,
+        идентификатор_диспетчера,
+        идентификатор_сброса,
+    )
+    целевая_вершина = str(запись["целевая_вершина"])
+    if current_head(контекст.root) != целевая_вершина:
+        raise QueueError(
+            EXIT_HEAD_CHANGED,
+            "head_changed",
+            "Ветка изменилась после ограждения сброса.",
+        )
+    if запись["фаза"] not in {"сессии_остановлены", "очистка_рабочей_копии"}:
+        raise QueueError(
+            КОД_НЕСОВПАДЕНИЯ_СЕССИЙ,
+            "sessions_not_stopped",
+            "Нельзя очищать рабочую копию без точного подтверждения сессий.",
+        )
+    потребовать_обычные_флаги_индекса(контекст.root)
+    if запись["фаза"] == "сессии_остановлены":
+        потребовать_подтверждённые_изменения(контекст.root, запись)
+        проверить_вложенные_границы_репозиториев(контекст.root)
+        очищаемая = copy.deepcopy(запись)
+        очищаемая["фаза"] = "очистка_рабочей_копии"
+        очищаемая["обновлено"] = utc_values()[0]
+        объект_очистки = записать_объект_сброса(контекст, очищаемая)
+        if not заменить_запись_очереди_с_проверкой_ветки(
+            контекст,
+            целевая_вершина,
+            объект_сброса,
+            объект_очистки,
+            служебные_ограждения=list(запись["служебные_ограждения"]),
+        ):
+            raise QueueError(EXIT_CAS, "queue_changed", "Запись сброса изменилась.")
+        запись = очищаемая
+        объект_сброса = объект_очистки
+    проверить_вложенные_границы_репозиториев(контекст.root)
+    потребовать_отсутствие_коллизий_игнорируемых_путей(
+        контекст.root,
+        целевая_вершина,
+    )
+    try:
+        потребовать_подтверждённые_изменения(контекст.root, запись)
+    except QueueError as ошибка:
+        if ошибка.state != "reset_plan_changed":
+            raise
+        потребовать_совместимое_частичное_состояние_отслеживаемых(
+            контекст.root,
+            запись,
+            целевая_вершина,
+        )
+    потребовать_совместимые_неотслеживаемые_объекты(
+        контекст.root,
+        list(запись["неотслеживаемые_объекты_плана"]),
+        целевая_вершина,
+    )
+    run_git(контекст.root, ["read-tree", "--reset", "-u", целевая_вершина])
+    потребовать_совместимые_неотслеживаемые_объекты(
+        контекст.root,
+        list(запись["неотслеживаемые_объекты_плана"]),
+        целевая_вершина,
+    )
+    удалить_подтверждённые_неотслеживаемые_пути(
+        контекст.root,
+        list(запись["неотслеживаемые_объекты_плана"]),
+        целевая_вершина,
+    )
+    if current_head(контекст.root) != целевая_вершина:
+        raise QueueError(EXIT_HEAD_CHANGED, "head_changed", "HEAD изменился во время очистки.")
+    блокирующие = sorted(
+        set(изменённые_пути_для_сброса(контекст.root))
+        | set(staged_changed_paths(контекст.root))
+    )
+    дерево = decoded_stdout(run_git(контекст.root, ["write-tree"]))
+    целевое_дерево = decoded_stdout(
+        run_git(контекст.root, ["rev-parse", f"{целевая_вершина}^{{tree}}"])
+    )
+    if блокирующие or дерево != целевое_дерево:
+        raise QueueError(
+            EXIT_DIRTY,
+            "reset_incomplete",
+            "Рабочая копия не приведена к точному дереву целевого коммита.",
+            данные_результата_операции={"blocking_paths": блокирующие},
+        )
+    метка, _ = utc_values()
+    новое_состояние = copy.deepcopy(запись["исходное_состояние_очереди"])
+    новое_состояние["branch_ref"] = контекст.branch_ref
+    новое_состояние["owner"] = None
+    новое_состояние["waiting"] = []
+    новое_состояние["last_completion"] = {
+        "kind": "reset",
+        "task_id": идентификатор_диспетчера,
+        "generation": идентификатор_сброса,
+        "head": целевая_вершина,
+        "completed_at": метка,
+        "аннулированные_задачи": list(запись["участники"]),
+    }
+    новое_состояние["updated_at"] = метка
+    новый_объект_очереди = write_state_blob(контекст, новое_состояние)
+    квитанция_сброса = {
+        "схема": СХЕМА_КВИТАНЦИИ_СБРОСА,
+        "идентификатор_рабочей_копии": контекст.worktree_id,
+        "ссылка_ветки": контекст.branch_ref,
+        "идентификатор_сброса": идентификатор_сброса,
+        "идентификатор_диспетчера": идентификатор_диспетчера,
+        "целевая_вершина": целевая_вершина,
+        "объект_записи_сброса": объект_сброса,
+        "запись_сброса": copy.deepcopy(запись),
+        "исходный_объект_очереди": запись["исходный_объект_очереди"],
+        "объект_очереди_после": новый_объект_очереди,
+        "состояние_очереди_после": copy.deepcopy(новое_состояние),
+        "аннулированные_задачи": list(запись["участники"]),
+        "неактивные_задачи": list(запись["неактивные_задачи"]),
+        "предыдущее_завершение": запись["исходное_состояние_очереди"].get("last_completion"),
+        "завершено": метка,
+    }
+    объект_квитанции = записать_объект_квитанции_сброса(контекст, квитанция_сброса)
+    ссылка_квитанции = ссылка_квитанции_сброса(контекст, идентификатор_сброса)
+    if read_ref_oid(контекст, ссылка_квитанции) is not None:
+        raise QueueError(EXIT_CAS, "reset_receipt_exists", "Квитанция этого сброса уже существует.")
+    if not заменить_запись_очереди_с_проверкой_ветки(
+        контекст,
+        целевая_вершина,
+        объект_сброса,
+        новый_объект_очереди,
+        служебные_ограждения=list(запись["служебные_ограждения"]),
+        завершить_служебные_ограждения=True,
+        дополнительные_команды=f"create {ссылка_квитанции} {объект_квитанции}\n",
+    ):
+        raise QueueError(EXIT_CAS, "queue_changed", "Запись сброса изменилась перед финалом.")
+    return 0, {
+        "состояние": "сброшено",
+        "идентификатор_сброса": идентификатор_сброса,
+        "целевая_вершина": целевая_вершина,
+        **common_payload(контекст, новый_объект_очереди),
+    }
+
+
+def состояние_сброса(контекст: QueueContext) -> tuple[int, dict[str, object]]:
+    ensure_live_branch(контекст)
+    вид, запись, объект = прочитать_запись_очереди(контекст)
+    if вид == "сброс":
+        return 0, {
+            "состояние": запись["фаза"],
+            "идентификатор_сброса": запись["идентификатор_сброса"],
+            "целевая_вершина": запись["целевая_вершина"],
+            "участники": запись["участники"],
+            "неактивные_задачи": запись["неактивные_задачи"],
+            **common_payload(контекст, объект),
+        }
+    завершение = запись.get("last_completion")
+    if isinstance(завершение, dict) and завершение.get("kind") == "reset":
+        return 0, {
+            "состояние": "завершён",
+            "идентификатор_сброса": завершение["generation"],
+            "целевая_вершина": завершение["head"],
+            **common_payload(контекст, объект),
+        }
+    return 0, {"состояние": "отсутствует", **common_payload(контекст, объект)}
+
+
+def queue_status(контекст_очереди: QueueContext) -> tuple[int, dict[str, object]]:
+    ensure_live_branch(контекст_очереди)
+    вид, state, state_oid = прочитать_запись_очереди(контекст_очереди)
+    if вид == "сброс":
+        return 0, {
+            "state": "resetting",
+            "фаза": state["фаза"],
+            "идентификатор_сброса": state["идентификатор_сброса"],
+            "участники": state["участники"],
+            **common_payload(контекст_очереди, state_oid),
+        }
+    if state["worktree_id"] != контекст_очереди.worktree_id:
         raise QueueError(EXIT_CONTEXT, "invalid_context", "Очередь принадлежит другому worktree.")
     if (
-        state["branch_ref"] != context.branch_ref
+        state["branch_ref"] != контекст_очереди.branch_ref
         and (state["owner"] is not None or state["waiting"])
     ):
         raise QueueError(
             EXIT_CONTEXT,
             "branch_changed",
             "В worktree переключена ветка при непустой очереди.",
-            payload={
+            данные_результата_операции={
                 "expected_branch_ref": state["branch_ref"],
-                "current_branch_ref": context.branch_ref,
+                "current_branch_ref": контекст_очереди.branch_ref,
             },
         )
     return 0, {
@@ -1964,16 +4198,18 @@ def queue_status(context: QueueContext) -> tuple[int, dict[str, object]]:
         "waiting": state["waiting"],
         "next_seq": state["next_seq"],
         "stored_branch_ref": state["branch_ref"],
-        **common_payload(context, state_oid),
+        **common_payload(контекст_очереди, state_oid),
     }
 
 
 def heartbeat_status(
-    context: QueueContext,
+    контекст_очереди: QueueContext,
     task_id: str,
 ) -> tuple[int, dict[str, object]]:
     task_id = validate_task_id(task_id)
-    _, status = queue_status(context)
+    _, status = queue_status(контекст_очереди)
+    if status["state"] == "resetting":
+        return 0, {"state": "busy"}
     owner = status["owner"]
     waiting = status["waiting"]
     if isinstance(owner, dict) and owner["task_id"] == task_id:
@@ -2008,6 +4244,105 @@ def build_parser() -> argparse.ArgumentParser:
     )
     add_common(heartbeat_status_parser)
     heartbeat_status_parser.add_argument("--task-id", required=True)
+
+    планировщик_сброса = subparsers.add_parser(
+        "план-сброса",
+        help="Построить точный read-only план штатного сброса.",
+        allow_abbrev=False,
+    )
+    add_common(планировщик_сброса)
+    планировщик_сброса.add_argument(
+        "--идентификатор-диспетчера",
+        dest="идентификатор_диспетчера",
+        required=True,
+    )
+
+    подготовка_сброса = subparsers.add_parser(
+        "подготовить-сброс",
+        help="Заменить очередь ограждённой записью точного сброса.",
+        allow_abbrev=False,
+    )
+    add_common(подготовка_сброса)
+    подготовка_сброса.add_argument(
+        "--идентификатор-диспетчера",
+        dest="идентификатор_диспетчера",
+        required=True,
+    )
+    подготовка_сброса.add_argument(
+        "--ожидаемая-вершина",
+        dest="ожидаемая_вершина",
+        required=True,
+    )
+    подготовка_сброса.add_argument(
+        "--ожидаемый-объект-очереди",
+        dest="ожидаемый_объект_очереди",
+        required=True,
+    )
+    подготовка_сброса.add_argument("--подтверждение", required=True)
+
+    подтверждение_сессий = subparsers.add_parser(
+        "подтвердить-остановку-сессий",
+        help="Зафиксировать точное host-доказательство неактивности участников.",
+        allow_abbrev=False,
+    )
+    add_common(подтверждение_сессий)
+    подтверждение_сессий.add_argument(
+        "--идентификатор-диспетчера",
+        dest="идентификатор_диспетчера",
+        required=True,
+    )
+    подтверждение_сессий.add_argument(
+        "--идентификатор-сброса",
+        dest="идентификатор_сброса",
+        required=True,
+    )
+    подтверждение_сессий.add_argument(
+        "--неактивная-задача",
+        dest="неактивные_задачи",
+        action="append",
+        default=[],
+    )
+
+    применение_сброса = subparsers.add_parser(
+        "применить-сброс",
+        help="Очистить checkout к точному HEAD и выпустить пустую очередь.",
+        allow_abbrev=False,
+    )
+    add_common(применение_сброса)
+    применение_сброса.add_argument(
+        "--идентификатор-диспетчера",
+        dest="идентификатор_диспетчера",
+        required=True,
+    )
+    применение_сброса.add_argument(
+        "--идентификатор-сброса",
+        dest="идентификатор_сброса",
+        required=True,
+    )
+
+    отмена_сброса = subparsers.add_parser(
+        "отменить-сброс",
+        help="Отменить подготовленный сброс до host-остановки.",
+        allow_abbrev=False,
+    )
+    add_common(отмена_сброса)
+    отмена_сброса.add_argument(
+        "--идентификатор-диспетчера",
+        dest="идентификатор_диспетчера",
+        required=True,
+    )
+    отмена_сброса.add_argument(
+        "--идентификатор-сброса",
+        dest="идентификатор_сброса",
+        required=True,
+    )
+
+    статус_сброса = subparsers.add_parser(
+        "состояние-сброса",
+        help="Показать узкое состояние попытки сброса.",
+        allow_abbrev=False,
+    )
+    add_common(статус_сброса)
 
     join = subparsers.add_parser(
         "join",
@@ -2126,60 +4461,117 @@ def error_payload(error: QueueError) -> dict[str, object]:
     return {
         "state": error.state,
         "message": str(error),
-        **error.payload,
+        **error.данные_результата_операции,
     }
 
 
-def emit(payload: dict[str, object]) -> None:
-    print(json.dumps(payload, ensure_ascii=True, sort_keys=True))
+def emit(данные_результата_операции: dict[str, object]) -> None:
+    print(json.dumps(данные_результата_операции, ensure_ascii=True, sort_keys=True))
+
+
+def потребовать_идентичность_задачи_диспетчера(
+    идентификатор_диспетчера: str,
+) -> None:
+    validate_task_id(идентификатор_диспетчера)
+    текущий_идентификатор = os.environ.get("CODEX_THREAD_ID")
+    if текущий_идентификатор != идентификатор_диспетчера:
+        raise QueueError(
+            EXIT_OWNERSHIP,
+            "dispatcher_identity_mismatch",
+            "Идентификатор диспетчера не совпадает с текущей задачей Codex.",
+        )
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
     try:
-        context = resolve_context(args.repo_root)
+        контекст_очереди = resolve_context(args.repo_root)
+        if args.command in {
+            "план-сброса",
+            "подготовить-сброс",
+            "подтвердить-остановку-сессий",
+            "применить-сброс",
+            "отменить-сброс",
+        }:
+            потребовать_идентичность_задачи_диспетчера(
+                args.идентификатор_диспетчера
+            )
         if args.command == "status":
-            code, payload = queue_status(context)
+            код_завершения_операции, данные_результата_операции = queue_status(контекст_очереди)
         elif args.command == "heartbeat-status":
-            code, payload = heartbeat_status(context, args.task_id)
+            код_завершения_операции, данные_результата_операции = heartbeat_status(контекст_очереди, args.task_id)
+        elif args.command == "план-сброса":
+            код_завершения_операции, данные_результата_операции = план_сброса(
+                контекст_очереди,
+                args.идентификатор_диспетчера,
+            )
+        elif args.command == "подготовить-сброс":
+            код_завершения_операции, данные_результата_операции = подготовить_сброс(
+                контекст_очереди,
+                args.идентификатор_диспетчера,
+                args.ожидаемая_вершина,
+                args.ожидаемый_объект_очереди,
+                args.подтверждение,
+            )
+        elif args.command == "подтвердить-остановку-сессий":
+            код_завершения_операции, данные_результата_операции = подтвердить_остановку_сессий(
+                контекст_очереди,
+                args.идентификатор_диспетчера,
+                args.идентификатор_сброса,
+                args.неактивные_задачи,
+            )
+        elif args.command == "применить-сброс":
+            код_завершения_операции, данные_результата_операции = применить_сброс(
+                контекст_очереди,
+                args.идентификатор_диспетчера,
+                args.идентификатор_сброса,
+            )
+        elif args.command == "отменить-сброс":
+            код_завершения_операции, данные_результата_операции = отменить_сброс(
+                контекст_очереди,
+                args.идентификатор_диспетчера,
+                args.идентификатор_сброса,
+            )
+        elif args.command == "состояние-сброса":
+            код_завершения_операции, данные_результата_операции = состояние_сброса(контекст_очереди)
         elif args.command == "join":
-            code, payload = join_queue(context, args.task_id)
+            код_завершения_операции, данные_результата_операции = join_queue(контекст_очереди, args.task_id)
         elif args.command == "wait":
-            code, payload = wait_queue(context, args.task_id, args.timeout_seconds)
+            код_завершения_операции, данные_результата_операции = wait_queue(контекст_очереди, args.task_id, args.timeout_seconds)
         elif args.command == "wait-until-actionable":
-            code, payload = wait_until_actionable_queue(context, args.task_id)
+            код_завершения_операции, данные_результата_операции = wait_until_actionable_queue(контекст_очереди, args.task_id)
         elif args.command == "ack-head":
-            code, payload = acknowledge_head(context, args.task_id, args.head)
+            код_завершения_операции, данные_результата_операции = acknowledge_head(контекст_очереди, args.task_id, args.head)
         elif args.command == "cancel":
-            code, payload = cancel_waiter(
-                context,
+            код_завершения_операции, данные_результата_операции = cancel_waiter(
+                контекст_очереди,
                 args.task_id,
                 args.ticket_id,
             )
         elif args.command == "finish-clean":
-            code, payload = finish_clean_and_handoff(
-                context,
+            код_завершения_операции, данные_результата_операции = finish_clean_and_handoff(
+                контекст_очереди,
                 args.task_id,
                 args.generation,
             )
         elif args.command == "finish-own-clean":
-            code, payload = finish_own_clean_and_handoff(
-                context,
+            код_завершения_операции, данные_результата_операции = finish_own_clean_and_handoff(
+                контекст_очереди,
                 args.task_id,
                 args.ограждающая_ссылка,
                 args.ожидаемый_объект_ограждения,
             )
         elif args.command == "commit":
-            code, payload = atomic_commit_and_handoff(
-                context,
+            код_завершения_операции, данные_результата_операции = atomic_commit_and_handoff(
+                контекст_очереди,
                 args.task_id,
                 args.generation,
                 commit_message_from_args(args),
             )
         elif args.command == "publish":
-            code, payload = publish_exact_commit(
-                context,
+            код_завершения_операции, данные_результата_операции = publish_exact_commit(
+                контекст_очереди,
                 args.commit,
                 args.branch_ref,
                 args.push_url,
@@ -2191,8 +4583,8 @@ def main(argv: list[str] | None = None) -> int:
     except QueueError as error:
         emit(error_payload(error))
         return error.exit_code
-    emit(payload)
-    return code
+    emit(данные_результата_операции)
+    return код_завершения_операции
 
 
 if __name__ == "__main__":

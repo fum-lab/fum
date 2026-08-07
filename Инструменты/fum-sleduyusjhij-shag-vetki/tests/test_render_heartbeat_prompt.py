@@ -475,6 +475,42 @@ class AutomationStatusSnapshotTests(unittest.TestCase):
         )
         сам.assertEqual(подготовлено["mode"], "update")
 
+    def test_починка_промпта_сохраняет_целые_миллисекундные_метки_среды(
+        сам,
+    ) -> None:
+        до = сам.snapshot(status="ACTIVE", updated_at="before")
+        до["created_at"] = 1_786_130_000_000
+        до["updated_at"] = 1_786_130_000_001
+        после = {
+            **до,
+            "prompt": "Исправленный полный prompt\n",
+            "updated_at": 1_786_130_000_002,
+        }
+
+        подготовлено = SNAPSHOT.подготовить_починку_промпта(
+            до,
+            "Исправленный полный prompt\n",
+        )
+        проверено = SNAPSHOT.проверить_починку_промпта(
+            до,
+            после,
+            "Исправленный полный prompt\n",
+        )
+
+        сам.assertNotIn("created_at", подготовлено)
+        сам.assertNotIn("updated_at", подготовлено)
+        сам.assertEqual(
+            проверено["changed_fields"],
+            ["prompt", "updated_at"],
+        )
+        после_с_иным_типом = {**после, "updated_at": "1786130000002"}
+        with сам.assertRaises(SNAPSHOT.SnapshotError):
+            SNAPSHOT.проверить_починку_промпта(
+                до,
+                после_с_иным_типом,
+                "Исправленный полный prompt\n",
+            )
+
     def test_починка_промпта_отклоняет_любое_иное_изменение(сам) -> None:
         до = сам.snapshot(status="ACTIVE", updated_at="before")
         после = сам.snapshot(status="ACTIVE", updated_at="after")
@@ -587,9 +623,17 @@ class HeartbeatControlContractTests(unittest.TestCase):
             "claim",
             "начать-вызов-среды",
             "подтвердить-создание",
+            "--thread-id <threadId> --host-id <hostId>",
+            "--client-thread-id <clientThreadId>",
+            "старый неоднозначный флаг не используй",
             "подтвердить-завершение-исполнителя",
             "оба уровня fence",
             "один UUID",
+            "план-сброса",
+            "подготовить-сброс",
+            "подтвердить-остановку-сессий",
+            "применить-сброс",
+            "heartbeat сам его не начинает и не продолжает",
         ):
             сам.assertIn(фрагмент, шаблон)
         первая_инвентаризация = шаблон.index("list_threads")

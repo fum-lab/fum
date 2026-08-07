@@ -102,6 +102,31 @@ class BranchNextStepTests(unittest.TestCase):
         self.git("update-ref", reference, oid)
         return reference
 
+    def установить_запись_сброса_очереди(сам) -> str:
+        запись = {"схема": "fum.сброс-состояния-FIFO.1"}
+        объект = сам.git(
+            "hash-object",
+            "-w",
+            "--stdin",
+            input_text=json.dumps(
+                запись,
+                ensure_ascii=False,
+                sort_keys=True,
+                separators=(",", ":"),
+            )
+            + "\n",
+        ).stdout.strip()
+        ссылка = QUEUE_MODULE.resolve_context(сам.repo).queue_ref
+        сам.git("update-ref", ссылка, объект)
+        return ссылка
+
+    def снимок_служебных_ссылок(сам) -> str:
+        return сам.git(
+            "for-each-ref",
+            "--format=%(refname) %(objectname)",
+            "refs/fum/",
+        ).stdout
+
     @staticmethod
     def card_content_sha256(path: Path) -> str:
         text = path.read_text(encoding="utf-8").rstrip() + "\n"
@@ -5723,6 +5748,63 @@ class BranchNextStepTests(unittest.TestCase):
         for payload in payloads:
             if payload["state"] == "already_claimed":
                 self.assertNotIn("lease_id", payload)
+
+    def test_запись_сброса_блокирует_создание_карточной_резервации(
+        сам,
+    ) -> None:
+        сам.write_record()
+        идентификатор_выбора = сам.current_selection_id()
+        сам.установить_запись_сброса_очереди()
+        ссылки_до = сам.снимок_служебных_ссылок()
+
+        результат = сам.run_tool(
+            "claim",
+            "--expected-branch-ref",
+            "refs/heads/master",
+            "--expected-step-id",
+            "master-test-step-v1",
+            "--expected-selection-id",
+            идентификатор_выбора,
+            "--lease-id",
+            "00000000-0000-0000-0000-000000000001",
+        )
+
+        сам.assertNotEqual(результат.returncode, 0, результат.stdout)
+        сам.assertEqual(сам.payload(результат)["state"], "mismatch")
+        сам.assertEqual(сам.снимок_служебных_ссылок(), ссылки_до)
+
+    def test_запись_сброса_блокирует_освобождение_карточной_резервации(
+        сам,
+    ) -> None:
+        сам.write_record()
+        идентификатор_выбора = сам.current_selection_id()
+        идентификатор_аренды = "00000000-0000-0000-0000-000000000001"
+        создание = сам.run_tool(
+            "claim",
+            "--expected-branch-ref",
+            "refs/heads/master",
+            "--expected-step-id",
+            "master-test-step-v1",
+            "--expected-selection-id",
+            идентификатор_выбора,
+            "--lease-id",
+            идентификатор_аренды,
+        )
+        сам.assertEqual(создание.returncode, 0, создание.stderr)
+        сам.установить_запись_сброса_очереди()
+        ссылки_до = сам.снимок_служебных_ссылок()
+
+        освобождение = сам.run_tool(
+            "release",
+            "--branch-ref",
+            "refs/heads/master",
+            "--expected-lease-id",
+            идентификатор_аренды,
+        )
+
+        сам.assertNotEqual(освобождение.returncode, 0, освобождение.stdout)
+        сам.assertEqual(сам.payload(освобождение)["state"], "mismatch")
+        сам.assertEqual(сам.снимок_служебных_ссылок(), ссылки_до)
 
     def test_lost_claim_response_is_recovered_by_the_same_client_lease(
         self,

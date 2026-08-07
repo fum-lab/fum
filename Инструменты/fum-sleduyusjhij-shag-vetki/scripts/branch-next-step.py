@@ -2496,6 +2496,54 @@ def ref_retry_delay(attempt: int) -> float:
     return min(REF_RETRY_BASE_SECONDS * (2**attempt), REF_RETRY_MAX_SECONDS)
 
 
+def снимок_отсутствия_сброса(
+    корень: Path,
+    длина_объекта: int,
+) -> tuple[bool, str, str | None]:
+    ссылка = queue_ref(корень)
+    объект = read_ref_oid(корень, ссылка)
+    if объект is not None:
+        тип = checked_git(
+            корень,
+            "проверить тип записи очереди перед claim",
+            "cat-file",
+            "-t",
+            объект,
+        ).stdout.strip()
+        if тип != "blob":
+            raise ContractError("Служебная очередь не указывает на Git blob.")
+        сырой = checked_git(
+            корень,
+            "прочитать запись очереди перед claim",
+            "cat-file",
+            "blob",
+            объект,
+        ).stdout
+        try:
+            значение = json.loads(
+                сырой,
+                object_pairs_hook=reject_duplicate_queue_keys,
+                parse_constant=reject_nonfinite_queue_number,
+            )
+        except (UnicodeError, json.JSONDecodeError) as ошибка:
+            raise ContractError("Запись очереди повреждена.") from ошибка
+        if (
+            isinstance(значение, dict)
+            and значение.get("схема") == "fum.сброс-состояния-FIFO.1"
+        ):
+            return False, "", объект
+    ожидаемый = объект or ("0" * длина_объекта)
+    return True, f"verify {ссылка} {ожидаемый}\n", объект
+
+
+def идёт_сброс_очереди(корень: Path) -> bool:
+    допускается, _, _ = снимок_отсутствия_сброса(
+        корень,
+        len(branch_head_oid(корень, active_branch_ref(корень))),
+    )
+    return not допускается
+
+
 def cas_claim_ref(
     repo_root: Path,
     reference: str,
@@ -2513,47 +2561,43 @@ def cas_claim_ref(
         )
     last_error = ""
     for attempt in range(UNCHANGED_REF_RETRY_ATTEMPTS):
-        if branch_ref is not None and selection_head is not None:
-            if new_oid is None:
-                claim_command = f"delete {reference} {old_oid}\n"
-            else:
-                claim_command = (
-                    f"create {reference} {new_oid}\n"
-                    if old_oid is None
-                    else f"update {reference} {new_oid} {old_oid}\n"
-                )
-            transaction = (
-                "start\n"
-                f"verify {branch_ref} {selection_head}\n"
-                f"{claim_command}"
-                "prepare\n"
-                "commit\n"
-            )
-            result = run_git(
-                repo_root,
-                "update-ref",
-                "--no-deref",
-                "--stdin",
-                input_text=transaction,
-            )
-        elif new_oid is None:
-            result = run_git(
-                repo_root,
-                "update-ref",
-                "--no-deref",
-                "-d",
-                reference,
-                str(old_oid),
-            )
+        длина_объекта = len(selection_head or old_oid or new_oid or "")
+        if длина_объекта not in {40, 64}:
+            raise ContractError("Нельзя определить формат Git-объекта claim.")
+        допускается, проверка_сброса, объект_очереди = снимок_отсутствия_сброса(
+            repo_root,
+            длина_объекта,
+        )
+        if not допускается:
+            return False
+        if new_oid is None:
+            команда_претензии = f"delete {reference} {old_oid}\n"
         else:
-            result = run_git(
-                repo_root,
-                "update-ref",
-                "--no-deref",
-                reference,
-                new_oid,
-                old_oid or "",
+            команда_претензии = (
+                f"create {reference} {new_oid}\n"
+                if old_oid is None
+                else f"update {reference} {new_oid} {old_oid}\n"
             )
+        проверка_ветки = (
+            f"verify {branch_ref} {selection_head}\n"
+            if branch_ref is not None and selection_head is not None
+            else ""
+        )
+        transaction = (
+            "start\n"
+            f"{проверка_ветки}"
+            f"{проверка_сброса}"
+            f"{команда_претензии}"
+            "prepare\n"
+            "commit\n"
+        )
+        result = run_git(
+            repo_root,
+            "update-ref",
+            "--no-deref",
+            "--stdin",
+            input_text=transaction,
+        )
         if result.returncode == 0:
             return True
         last_error = result.stderr.strip()
@@ -2565,6 +2609,8 @@ def cas_claim_ref(
             raise ContractError(
                 "Вершина ветки изменилась до атомарной записи claim."
             )
+        if read_ref_oid(repo_root, queue_ref(repo_root)) != объект_очереди:
+            return False
         if read_ref_oid(repo_root, reference) != old_oid:
             return False
         if attempt + 1 < UNCHANGED_REF_RETRY_ATTEMPTS:
@@ -2695,6 +2741,12 @@ def confirmed_existing_claim_response(
             branch_ref=ready_candidate.branch_ref,
             selection_head=str(selection["head"]),
         ):
+            if идёт_сброс_очереди(repo_root):
+                return (
+                    existing,
+                    old_oid,
+                    ({"state": "mismatch"}, EXIT_MISMATCH),
+                )
             continue
         if existing is None:
             raise ContractError(
@@ -2766,6 +2818,8 @@ def claim_step(
         raise ContractError("--lease-id должен быть каноническим UUID.") from error
     if str(parsed_lease_id) != lease_id:
         raise ContractError("--lease-id должен быть каноническим UUID.")
+    if идёт_сброс_очереди(repo_root):
+        return {"state": "mismatch"}, EXIT_MISMATCH
     record = active_record(repo_root)
     if record.branch_ref != expected_branch_ref:
         raise ContractError(
@@ -2833,6 +2887,8 @@ def claim_step(
             },
             0,
         )
+    if идёт_сброс_очереди(repo_root):
+        return {"state": "mismatch"}, EXIT_MISMATCH
     _concurrent, _concurrent_oid, concurrent_response = (
         confirmed_existing_claim_response(
             repo_root,
@@ -2938,6 +2994,8 @@ def bind_run(
     lease_id = validate_lease_id(expected_lease_id, "--expected-lease-id")
     exact_task_id = validate_runtime_identifier(task_id, "--task-id")
     for _attempt in range(MAX_CAS_ATTEMPTS):
+        if идёт_сброс_очереди(repo_root):
+            return run_mismatch("reset_in_progress", branch_ref)
         current = expected_ready_selection(
             repo_root,
             branch_ref,
@@ -3032,6 +3090,8 @@ def verify_run(
     exact_task_id = validate_runtime_identifier(task_id, "--task-id")
     exact_generation = validate_runtime_identifier(generation, "--generation")
     for _attempt in range(MAX_CAS_ATTEMPTS):
+        if идёт_сброс_очереди(repo_root):
+            return run_mismatch("reset_in_progress", branch_ref)
         current = expected_ready_selection(
             repo_root,
             branch_ref,
@@ -3158,6 +3218,8 @@ def rearm_claim(
     exact_task_id = validate_runtime_identifier(task_id, "--task-id")
     exact_generation = validate_runtime_identifier(generation, "--generation")
     for _attempt in range(MAX_CAS_ATTEMPTS):
+        if идёт_сброс_очереди(repo_root):
+            return run_mismatch("reset_in_progress", branch_ref)
         current = expected_ready_selection(
             repo_root,
             branch_ref,
@@ -3306,6 +3368,8 @@ def release_claim(
                 },
                 0,
             )
+        if идёт_сброс_очереди(repo_root):
+            return run_mismatch("reset_in_progress", branch_ref)
         time.sleep(REF_RETRY_BASE_SECONDS)
     raise ContractError("Исчерпан лимит конкурентных удалений claim.")
 

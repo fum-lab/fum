@@ -305,8 +305,15 @@ def проверить_полный_снимок_починки(снимок: An
             + ", ".join(отсутствуют)
         )
     for поле in ("created_at", "updated_at"):
-        if not isinstance(проверено[поле], str) or not проверено[поле]:
-            raise SnapshotError(f"host-поле {поле} должно быть непустой строкой")
+        значение = проверено[поле]
+        if not (
+            (isinstance(значение, str) and bool(значение))
+            or (type(значение) is int and значение > 0)
+        ):
+            raise SnapshotError(
+                f"host-поле {поле} должно быть непустой строкой "
+                "либо положительной целой millisecond-меткой"
+            )
     if type(проверено["version"]) is not int or проверено["version"] < 1:
         raise SnapshotError("host-поле version должно быть положительным целым")
     return проверено
@@ -336,6 +343,8 @@ def проверить_починку_промпта(
     после_проверки = проверить_полный_снимок_починки(после)
     if после_проверки["prompt"] != ожидаемый_промпт:
         raise SnapshotError("итоговый prompt не совпадает с ожидаемым")
+    if type(до_проверки["updated_at"]) is not type(после_проверки["updated_at"]):
+        raise SnapshotError("host изменил представление поля updated_at")
 
     изменённые_поля: list[str] = []
     for поле in sorted(set(до_проверки) | set(после_проверки)):

@@ -1,4 +1,5 @@
 import importlib.util
+import hashlib
 import io
 import json
 import os
@@ -76,7 +77,7 @@ def load_queue_module():
 
 
 class GitQueueFixture(unittest.TestCase):
-    object_format = "sha1"
+    формат_объектов = "sha1"
 
     def setUp(self) -> None:
         self.temporary_directory = tempfile.TemporaryDirectory()
@@ -85,8 +86,8 @@ class GitQueueFixture(unittest.TestCase):
         self.repo.mkdir()
 
         init = ["git", "init", "-b", "master"]
-        if self.object_format != "sha1":
-            init.append(f"--object-format={self.object_format}")
+        if self.формат_объектов != "sha1":
+            init.append(f"--object-format={self.формат_объектов}")
         subprocess.run(init, cwd=self.repo, check=True, capture_output=True)
         self.git("config", "user.name", "FUM Test")
         self.git("config", "user.email", "fum-test@example.invalid")
@@ -117,6 +118,10 @@ class GitQueueFixture(unittest.TestCase):
         *args: str,
         timeout: float = 10,
     ) -> subprocess.CompletedProcess[str]:
+        среда = dict(os.environ)
+        if "--идентификатор-диспетчера" in args:
+            позиция = args.index("--идентификатор-диспетчера")
+            среда["CODEX_THREAD_ID"] = args[позиция + 1]
         return subprocess.run(
             [sys.executable, str(SCRIPT_PATH), *args],
             cwd=self.repo,
@@ -124,6 +129,7 @@ class GitQueueFixture(unittest.TestCase):
             capture_output=True,
             text=True,
             timeout=timeout,
+            env=среда,
         )
 
     def payload(self, result: subprocess.CompletedProcess[str]) -> dict[str, object]:
@@ -607,6 +613,2026 @@ class QueueContractTests(GitQueueFixture):
         self.assertFalse(hasattr(module, "WAITING_TICKET_TTL_SECONDS"))
         self.assertFalse(hasattr(module, "prune_expired_waiters"))
         self.assertFalse(hasattr(module, "OWNER_TTL_SECONDS"))
+
+
+class ТестыШтатногоСбросаОчереди(GitQueueFixture):
+    def план_сброса(
+        сам,
+        идентификатор_диспетчера: str = "dispatcher-task",
+    ) -> tuple[subprocess.CompletedProcess[str], dict[str, object]]:
+        результат = сам.run_queue(
+            "план-сброса",
+            "--repo-root",
+            str(сам.repo),
+            "--идентификатор-диспетчера",
+            идентификатор_диспетчера,
+            "--json",
+        )
+        return результат, сам.payload(результат)
+
+    def подготовить_сброс(
+        сам,
+        план: dict[str, object],
+        идентификатор_диспетчера: str = "dispatcher-task",
+    ) -> tuple[subprocess.CompletedProcess[str], dict[str, object]]:
+        результат = сам.run_queue(
+            "подготовить-сброс",
+            "--repo-root",
+            str(сам.repo),
+            "--идентификатор-диспетчера",
+            идентификатор_диспетчера,
+            "--ожидаемая-вершина",
+            str(план["целевая_вершина"]),
+            "--ожидаемый-объект-очереди",
+            str(план["объект_очереди"]),
+            "--подтверждение",
+            str(план["подтверждение"]),
+            "--json",
+        )
+        return результат, сам.payload(результат)
+
+    def подтвердить_остановку(
+        сам,
+        идентификатор_сброса: str,
+        *неактивные_задачи: str,
+        идентификатор_диспетчера: str = "dispatcher-task",
+    ) -> tuple[subprocess.CompletedProcess[str], dict[str, object]]:
+        аргументы = [
+            "подтвердить-остановку-сессий",
+            "--repo-root",
+            str(сам.repo),
+            "--идентификатор-диспетчера",
+            идентификатор_диспетчера,
+            "--идентификатор-сброса",
+            идентификатор_сброса,
+        ]
+        for идентификатор_задачи in неактивные_задачи:
+            аргументы.extend(("--неактивная-задача", идентификатор_задачи))
+        аргументы.append("--json")
+        результат = сам.run_queue(*аргументы)
+        return результат, сам.payload(результат)
+
+    def test_план_и_подготовка_фиксируют_точную_границу_сброса(сам) -> None:
+        сам.join("owner-task")
+        сам.join("waiter-task")
+        (сам.repo / "tracked.txt").write_text("изменено\n", encoding="utf-8")
+        (сам.repo / ".obsidian" / "graph.json").write_text(
+            '{"zoom": 2}\n',
+            encoding="utf-8",
+        )
+        (сам.repo / "untracked.txt").write_text("новое\n", encoding="utf-8")
+        снимок = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+
+        результат_плана, план = сам.план_сброса()
+
+        сам.assertEqual(результат_плана.returncode, 0, результат_плана.stderr)
+        сам.assertEqual(
+            план["целевая_вершина"],
+            сам.git("rev-parse", "HEAD").stdout.strip(),
+        )
+        сам.assertEqual(план["объект_очереди"], снимок["queue_oid"])
+        сам.assertEqual(план["участники"], ["owner-task", "waiter-task"])
+        сам.assertEqual(
+            план["изменённые_пути"],
+            [".obsidian/graph.json", "tracked.txt", "untracked.txt"],
+        )
+
+        подготовка, подготовлено = сам.подготовить_сброс(план)
+
+        сам.assertEqual(
+            подготовка.returncode,
+            0,
+            подготовка.stdout + подготовка.stderr,
+        )
+        сам.assertEqual(подготовлено["состояние"], "подготовлен")
+        сам.assertEqual(
+            подготовлено["идентификатор_сброса"],
+            план["идентификатор_сброса"],
+        )
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        сам.assertEqual(состояние["state"], "resetting")
+        сам.assertEqual(состояние["фаза"], "подготовлен")
+
+        объект_сброса = str(состояние["queue_oid"])
+        запись = json.loads(сам.git("cat-file", "blob", объект_сброса).stdout)
+        сам.assertEqual(запись["схема"], "fum.сброс-состояния-FIFO.1")
+        сам.assertEqual(
+            запись["исходный_объект_очереди"],
+            снимок["queue_oid"],
+        )
+
+        заблокирован = сам.run_queue(
+            "join",
+            "--repo-root",
+            str(сам.repo),
+            "--task-id",
+            "late-task",
+            "--json",
+        )
+        сам.assertNotEqual(заблокирован.returncode, 0)
+        сам.assertEqual(сам.payload(заблокирован)["state"], "reset_in_progress")
+        сам.assertEqual(
+            сам.git("rev-parse", str(состояние["queue_ref"])).stdout.strip(),
+            объект_сброса,
+        )
+
+    def test_план_отклоняет_самодекларированный_идентификатор_диспетчера(
+        сам,
+    ) -> None:
+        среда = dict(os.environ)
+        среда.pop("CODEX_THREAD_ID", None)
+
+        результат = subprocess.run(
+            [
+                sys.executable,
+                str(SCRIPT_PATH),
+                "план-сброса",
+                "--repo-root",
+                str(сам.repo),
+                "--идентификатор-диспетчера",
+                "задача-диспетчера",
+                "--json",
+            ],
+            cwd=сам.repo,
+            check=False,
+            capture_output=True,
+            text=True,
+            env=среда,
+        )
+
+        сам.assertNotEqual(результат.returncode, 0)
+        сам.assertEqual(
+            сам.payload(результат)["state"],
+            "dispatcher_identity_mismatch",
+        )
+
+    def test_отмена_до_остановки_восстанавливает_очередь_и_не_трогает_файлы(
+        сам,
+    ) -> None:
+        сам.join("owner-task")
+        (сам.repo / "tracked.txt").write_text("не терять\n", encoding="utf-8")
+        _, план = сам.план_сброса()
+        _, подготовлено = сам.подготовить_сброс(план)
+
+        отмена = сам.run_queue(
+            "отменить-сброс",
+            "--repo-root",
+            str(сам.repo),
+            "--идентификатор-диспетчера",
+            "dispatcher-task",
+            "--идентификатор-сброса",
+            str(подготовлено["идентификатор_сброса"]),
+            "--json",
+        )
+
+        сам.assertEqual(отмена.returncode, 0, отмена.stderr)
+        сам.assertEqual(сам.payload(отмена)["состояние"], "отменён")
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        сам.assertEqual(состояние["queue_oid"], план["объект_очереди"])
+        сам.assertEqual(
+            (сам.repo / "tracked.txt").read_text(encoding="utf-8"),
+            "не терять\n",
+        )
+
+    def test_остановка_подтверждается_только_точным_множеством_участников(
+        сам,
+    ) -> None:
+        сам.join("owner-task")
+        сам.join("waiter-task")
+        _, план = сам.план_сброса()
+        _, подготовлено = сам.подготовить_сброс(план)
+        состояние_до = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+
+        неполное, неполный_ответ = сам.подтвердить_остановку(
+            str(подготовлено["идентификатор_сброса"]),
+            "owner-task",
+        )
+
+        сам.assertNotEqual(неполное.returncode, 0)
+        сам.assertEqual(неполный_ответ["state"], "session_set_mismatch")
+        состояние_после = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        сам.assertEqual(состояние_после["queue_oid"], состояние_до["queue_oid"])
+
+        полное, полный_ответ = сам.подтвердить_остановку(
+            str(подготовлено["идентификатор_сброса"]),
+            "waiter-task",
+            "owner-task",
+        )
+        сам.assertEqual(полное.returncode, 0, полное.stderr)
+        сам.assertEqual(полный_ответ["состояние"], "сессии_остановлены")
+
+        отмена = сам.run_queue(
+            "отменить-сброс",
+            "--repo-root",
+            str(сам.repo),
+            "--идентификатор-диспетчера",
+            "dispatcher-task",
+            "--идентификатор-сброса",
+            str(подготовлено["идентификатор_сброса"]),
+            "--json",
+        )
+        сам.assertNotEqual(отмена.returncode, 0)
+
+    def test_задача_диспетчера_исключается_из_остановки_только_по_идентификатору(сам) -> None:
+        сам.join("dispatcher-task")
+        сам.join("other-task")
+        _, план = сам.план_сброса()
+        _, подготовлено = сам.подготовить_сброс(план)
+
+        результат, ответ = сам.подтвердить_остановку(
+            str(подготовлено["идентификатор_сброса"]),
+            "other-task",
+        )
+
+        сам.assertEqual(результат.returncode, 0, результат.stderr)
+        сам.assertEqual(ответ["состояние"], "сессии_остановлены")
+
+    def test_применение_возвращает_рабочую_копию_к_вершине_и_обнуляет_очередь(сам) -> None:
+        (сам.repo / ".gitignore").write_text("ignored.tmp\n", encoding="utf-8")
+        сам.git("add", ".gitignore")
+        сам.git("commit", "-m", "Add ignored fixture")
+        исходная_вершина = сам.git("rev-parse", "HEAD").stdout.strip()
+        сам.join("owner-task")
+        сам.join("waiter-task")
+        сам.stage_change("staged\n")
+        (сам.repo / "tracked.txt").write_text("unstaged after staged\n", encoding="utf-8")
+        (сам.repo / ".obsidian" / "graph.json").write_text(
+            '{"zoom": 9}\n',
+            encoding="utf-8",
+        )
+        (сам.repo / "untracked.txt").write_text("remove\n", encoding="utf-8")
+        (сам.repo / "ignored.tmp").write_text("preserve\n", encoding="utf-8")
+        _, план = сам.план_сброса()
+        _, подготовлено = сам.подготовить_сброс(план)
+        сам.подтвердить_остановку(
+            str(подготовлено["идентификатор_сброса"]),
+            "owner-task",
+            "waiter-task",
+        )
+
+        применение = сам.run_queue(
+            "применить-сброс",
+            "--repo-root",
+            str(сам.repo),
+            "--идентификатор-диспетчера",
+            "dispatcher-task",
+            "--идентификатор-сброса",
+            str(подготовлено["идентификатор_сброса"]),
+            "--json",
+        )
+
+        сам.assertEqual(применение.returncode, 0, применение.stderr)
+        сам.assertEqual(сам.payload(применение)["состояние"], "сброшено")
+        сам.assertEqual(сам.git("rev-parse", "HEAD").stdout.strip(), исходная_вершина)
+        сам.assertEqual(
+            (сам.repo / "tracked.txt").read_text(encoding="utf-8"),
+            "initial\n",
+        )
+        сам.assertEqual(
+            (сам.repo / ".obsidian" / "graph.json").read_text(encoding="utf-8"),
+            '{"zoom": 1}\n',
+        )
+        сам.assertFalse((сам.repo / "untracked.txt").exists())
+        сам.assertTrue((сам.repo / "ignored.tmp").exists())
+        сам.assertEqual(сам.git("status", "--short").stdout, "")
+
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        сам.assertEqual(состояние["state"], "idle")
+        сам.assertIsNone(состояние["owner"])
+        сам.assertEqual(состояние["waiting"], [])
+        сам.assertEqual(состояние["next_seq"], 3)
+        очередь = json.loads(
+            сам.git("cat-file", "blob", str(состояние["queue_oid"])).stdout
+        )
+        сам.assertEqual(очередь["last_completion"]["kind"], "reset")
+        сам.assertEqual(
+            очередь["last_completion"]["generation"],
+            подготовлено["идентификатор_сброса"],
+        )
+
+    def test_квитанция_сохраняет_идемпотентность_после_нового_завершения(
+        сам,
+    ) -> None:
+        сам.join("owner-task")
+        _, план = сам.план_сброса()
+        _, подготовлено = сам.подготовить_сброс(план)
+        идентификатор_сброса = str(подготовлено["идентификатор_сброса"])
+        сам.подтвердить_остановку(
+            идентификатор_сброса,
+            "owner-task",
+        )
+        первое_применение = сам.run_queue(
+            "применить-сброс",
+            "--repo-root",
+            str(сам.repo),
+            "--идентификатор-диспетчера",
+            "dispatcher-task",
+            "--идентификатор-сброса",
+            идентификатор_сброса,
+            "--json",
+        )
+        сам.assertEqual(первое_применение.returncode, 0, первое_применение.stderr)
+        _, новый_владелец = сам.join("later-task")
+        завершение = сам.finish_clean(
+            "later-task",
+            str(новый_владелец["generation"]),
+        )
+        сам.assertEqual(завершение.returncode, 0, завершение.stderr)
+        сам.git("reflog", "expire", "--expire=now", "--all")
+        сам.git("gc", "--prune=now")
+
+        повтор = сам.run_queue(
+            "применить-сброс",
+            "--repo-root",
+            str(сам.repo),
+            "--идентификатор-диспетчера",
+            "dispatcher-task",
+            "--идентификатор-сброса",
+            идентификатор_сброса,
+            "--json",
+        )
+
+        сам.assertEqual(повтор.returncode, 0, повтор.stderr)
+        сам.assertEqual(сам.payload(повтор)["состояние"], "сброшено")
+        сам.assertRegex(
+            сам.git(
+                "for-each-ref",
+                "--format=%(objectname)",
+                "refs/fum/квитанции-сброса-состояния-FIFO",
+            ).stdout.strip(),
+            r"^(?:[0-9a-f]{40}|[0-9a-f]{64})$",
+        )
+
+    def test_сдвиг_ветки_после_ограждения_запрещает_очистку(сам) -> None:
+        сам.join("owner-task")
+        (сам.repo / "tracked.txt").write_text("сохранить при отказе\n", encoding="utf-8")
+        _, план = сам.план_сброса()
+        _, подготовлено = сам.подготовить_сброс(план)
+        сам.подтвердить_остановку(
+            str(подготовлено["идентификатор_сброса"]),
+            "owner-task",
+        )
+        сам.git("commit", "--allow-empty", "-m", "Move branch behind reset fence")
+
+        применение = сам.run_queue(
+            "применить-сброс",
+            "--repo-root",
+            str(сам.repo),
+            "--идентификатор-диспетчера",
+            "dispatcher-task",
+            "--идентификатор-сброса",
+            str(подготовлено["идентификатор_сброса"]),
+            "--json",
+        )
+
+        сам.assertNotEqual(применение.returncode, 0)
+        сам.assertEqual(сам.payload(применение)["state"], "head_changed")
+        сам.assertEqual(
+            (сам.repo / "tracked.txt").read_text(encoding="utf-8"),
+            "сохранить при отказе\n",
+        )
+
+    def test_применение_не_отматывает_конкурентный_коммит_после_атомарной_смены_фазы(
+        сам,
+    ) -> None:
+        модуль = load_queue_module()
+        идентификатор_диспетчера = "задача-диспетчера"
+        сам.join("задача-владельца")
+        (сам.repo / "tracked.txt").write_text(
+            "изменение владельца\n",
+            encoding="utf-8",
+        )
+        _, план = сам.план_сброса(идентификатор_диспетчера)
+        _, подготовлено = сам.подготовить_сброс(
+            план,
+            идентификатор_диспетчера,
+        )
+        сам.подтвердить_остановку(
+            str(подготовлено["идентификатор_сброса"]),
+            "задача-владельца",
+            идентификатор_диспетчера=идентификатор_диспетчера,
+        )
+        контекст = модуль.resolve_context(сам.repo)
+        исходная_замена = модуль.заменить_запись_очереди_с_проверкой_ветки
+        конкурентная_вершина: str | None = None
+        фаза_переведена = False
+
+        def заменить_и_сдвинуть_ветку(*аргументы, **именованные_аргументы):
+            nonlocal конкурентная_вершина, фаза_переведена
+            результат = исходная_замена(*аргументы, **именованные_аргументы)
+            if результат and not фаза_переведена:
+                фаза_переведена = True
+                сам.git(
+                    "commit",
+                    "--allow-empty",
+                    "-m",
+                    "Concurrent commit after reset phase CAS",
+                )
+                конкурентная_вершина = сам.git(
+                    "rev-parse",
+                    "HEAD",
+                ).stdout.strip()
+            return результат
+
+        ошибка: object | None = None
+        with mock.patch.object(
+            модуль,
+            "заменить_запись_очереди_с_проверкой_ветки",
+            заменить_и_сдвинуть_ветку,
+        ):
+            try:
+                модуль.применить_сброс(
+                    контекст,
+                    идентификатор_диспетчера,
+                    str(подготовлено["идентификатор_сброса"]),
+                )
+            except модуль.QueueError as исключение:
+                ошибка = исключение
+
+        сам.assertIsNotNone(конкурентная_вершина)
+        сам.assertEqual(
+            сам.git("rev-parse", "HEAD").stdout.strip(),
+            конкурентная_вершина,
+        )
+        сам.assertIsNotNone(ошибка)
+        сам.assertEqual(ошибка.state, "head_changed")
+
+    def test_повтор_очистки_не_удаляет_изменённый_после_падения_файл(
+        сам,
+    ) -> None:
+        модуль = load_queue_module()
+        идентификатор_диспетчера = "задача-диспетчера"
+        сам.join("задача-владельца")
+        неотслеживаемый = сам.repo / "planned-untracked.txt"
+        неотслеживаемый.write_text("подтверждённые байты\n", encoding="utf-8")
+        _, план = сам.план_сброса(идентификатор_диспетчера)
+        _, подготовлено = сам.подготовить_сброс(
+            план,
+            идентификатор_диспетчера,
+        )
+        идентификатор_сброса = str(подготовлено["идентификатор_сброса"])
+        сам.подтвердить_остановку(
+            идентификатор_сброса,
+            "задача-владельца",
+            идентификатор_диспетчера=идентификатор_диспетчера,
+        )
+        контекст = модуль.resolve_context(сам.repo)
+
+        with mock.patch.object(
+            модуль,
+            "удалить_подтверждённые_неотслеживаемые_пути",
+            side_effect=RuntimeError("имитация падения перед удалением"),
+        ):
+            with сам.assertRaisesRegex(RuntimeError, "имитация падения"):
+                модуль.применить_сброс(
+                    контекст,
+                    идентификатор_диспетчера,
+                    идентификатор_сброса,
+                )
+
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        сам.assertEqual(состояние["фаза"], "очистка_рабочей_копии")
+        неотслеживаемый.write_text("новые неподтверждённые байты\n", encoding="utf-8")
+
+        повтор = сам.run_queue(
+            "применить-сброс",
+            "--repo-root",
+            str(сам.repo),
+            "--идентификатор-диспетчера",
+            идентификатор_диспетчера,
+            "--идентификатор-сброса",
+            идентификатор_сброса,
+            "--json",
+        )
+
+        сам.assertNotEqual(повтор.returncode, 0)
+        сам.assertEqual(сам.payload(повтор)["state"], "reset_plan_changed")
+        сам.assertEqual(
+            неотслеживаемый.read_text(encoding="utf-8"),
+            "новые неподтверждённые байты\n",
+        )
+
+    def test_каждый_неотслеживаемый_путь_повторно_проверяется_перед_удалением(
+        сам,
+    ) -> None:
+        модуль = load_queue_module()
+        идентификатор_диспетчера = "задача-диспетчера"
+        сам.join("задача-владельца")
+        первый = сам.repo / "а-первый.txt"
+        второй = сам.repo / "б-второй.txt"
+        первый.write_text("первые байты\n", encoding="utf-8")
+        второй.write_text("вторые байты\n", encoding="utf-8")
+        _, план = сам.план_сброса(идентификатор_диспетчера)
+        _, подготовлено = сам.подготовить_сброс(
+            план,
+            идентификатор_диспетчера,
+        )
+        идентификатор_сброса = str(подготовлено["идентификатор_сброса"])
+        сам.подтвердить_остановку(
+            идентификатор_сброса,
+            "задача-владельца",
+            идентификатор_диспетчера=идентификатор_диспетчера,
+        )
+        контекст = модуль.resolve_context(сам.repo)
+        исходный_запуск_команды_репозитория = модуль.run_git
+        первый_удалён = False
+
+        def изменить_второй_после_первого(
+            корень,
+            аргументы,
+            **именованные_аргументы,
+        ):
+            nonlocal первый_удалён
+            результат = исходный_запуск_команды_репозитория(
+                корень,
+                аргументы,
+                **именованные_аргументы,
+            )
+            if аргументы and аргументы[0] == "clean" and not первый_удалён:
+                первый_удалён = True
+                второй.write_text(
+                    "новые неподтверждённые байты\n",
+                    encoding="utf-8",
+                )
+            return результат
+
+        with mock.patch.object(
+            модуль,
+            "run_git",
+            side_effect=изменить_второй_после_первого,
+        ):
+            with сам.assertRaises(модуль.QueueError) as ошибка:
+                модуль.применить_сброс(
+                    контекст,
+                    идентификатор_диспетчера,
+                    идентификатор_сброса,
+                )
+
+        сам.assertEqual(ошибка.exception.state, "reset_plan_changed")
+        сам.assertFalse(первый.exists())
+        сам.assertEqual(
+            второй.read_text(encoding="utf-8"),
+            "новые неподтверждённые байты\n",
+        )
+
+    def test_восстановление_дерева_принимает_плановый_неотслеживаемый_файл_вместо_целевого_каталога(
+        сам,
+    ) -> None:
+        идентификатор_диспетчера = "задача-диспетчера"
+        каталог = сам.repo / "целевой-каталог"
+        каталог.mkdir()
+        целевой = каталог / "файл.txt"
+        целевой.write_text("цель\n", encoding="utf-8")
+        сам.git("add", "--", "целевой-каталог/файл.txt")
+        сам.git("commit", "-m", "Добавить целевой каталог")
+        сам.join("задача-владельца")
+        целевой.unlink()
+        каталог.rmdir()
+        каталог.write_text("плановый untracked-файл\n", encoding="utf-8")
+        _, план = сам.план_сброса(идентификатор_диспетчера)
+        _, подготовлено = сам.подготовить_сброс(
+            план,
+            идентификатор_диспетчера,
+        )
+        идентификатор_сброса = str(подготовлено["идентификатор_сброса"])
+        сам.подтвердить_остановку(
+            идентификатор_сброса,
+            "задача-владельца",
+            идентификатор_диспетчера=идентификатор_диспетчера,
+        )
+
+        применение = сам.run_queue(
+            "применить-сброс",
+            "--repo-root",
+            str(сам.repo),
+            "--идентификатор-диспетчера",
+            идентификатор_диспетчера,
+            "--идентификатор-сброса",
+            идентификатор_сброса,
+            "--json",
+        )
+
+        сам.assertEqual(применение.returncode, 0, применение.stderr)
+        сам.assertTrue(каталог.is_dir())
+        сам.assertEqual(целевой.read_text(encoding="utf-8"), "цель\n")
+
+    def test_восстановление_дерева_не_обходит_целевую_ссылку_при_удалении_неотслеживаемого(
+        сам,
+    ) -> None:
+        идентификатор_диспетчера = "задача-диспетчера"
+        внешний_каталог = сам.repo.parent / "внешний-каталог"
+        внешний_каталог.mkdir()
+        внешний_файл = внешний_каталог / "файл.txt"
+        внешний_файл.write_text("внешние байты\n", encoding="utf-8")
+        ссылка = сам.repo / "целевая-ссылка"
+        ссылка.symlink_to("../внешний-каталог", target_is_directory=True)
+        сам.git("add", "--", "целевая-ссылка")
+        сам.git("commit", "-m", "Добавить целевую ссылку")
+        сам.join("задача-владельца")
+        ссылка.unlink()
+        ссылка.mkdir()
+        (ссылка / "файл.txt").write_text("плановые байты\n", encoding="utf-8")
+        _, план = сам.план_сброса(идентификатор_диспетчера)
+        _, подготовлено = сам.подготовить_сброс(
+            план,
+            идентификатор_диспетчера,
+        )
+        идентификатор_сброса = str(подготовлено["идентификатор_сброса"])
+        сам.подтвердить_остановку(
+            идентификатор_сброса,
+            "задача-владельца",
+            идентификатор_диспетчера=идентификатор_диспетчера,
+        )
+
+        применение = сам.run_queue(
+            "применить-сброс",
+            "--repo-root",
+            str(сам.repo),
+            "--идентификатор-диспетчера",
+            идентификатор_диспетчера,
+            "--идентификатор-сброса",
+            идентификатор_сброса,
+            "--json",
+        )
+
+        сам.assertEqual(применение.returncode, 0, применение.stderr)
+        сам.assertTrue(ссылка.is_symlink())
+        сам.assertEqual(
+            внешний_файл.read_text(encoding="utf-8"),
+            "внешние байты\n",
+        )
+
+    def test_повтор_после_восстановления_дерева_не_обходит_целевую_ссылку_для_отслеживаемого_потомка(
+        сам,
+    ) -> None:
+        модуль = load_queue_module()
+        идентификатор_диспетчера = "задача-диспетчера"
+        внешний_каталог = сам.repo.parent / "внешний-каталог"
+        внешний_каталог.mkdir()
+        внешний_файл = внешний_каталог / "файл.txt"
+        внешний_файл.write_text("внешние байты\n", encoding="utf-8")
+        ссылка = сам.repo / "целевая-ссылка"
+        ссылка.symlink_to("../внешний-каталог", target_is_directory=True)
+        сам.git("add", "--", "целевая-ссылка")
+        сам.git("commit", "-m", "Добавить целевую ссылку")
+        сам.join("задача-владельца")
+        ссылка.unlink()
+        ссылка.mkdir()
+        (ссылка / "файл.txt").write_text("плановые байты\n", encoding="utf-8")
+        сам.git("add", "-A", "--", "целевая-ссылка")
+        _, план = сам.план_сброса(идентификатор_диспетчера)
+        _, подготовлено = сам.подготовить_сброс(
+            план,
+            идентификатор_диспетчера,
+        )
+        идентификатор_сброса = str(подготовлено["идентификатор_сброса"])
+        сам.подтвердить_остановку(
+            идентификатор_сброса,
+            "задача-владельца",
+            идентификатор_диспетчера=идентификатор_диспетчера,
+        )
+        контекст = модуль.resolve_context(сам.repo)
+        исходный_запуск_команды_репозитория = модуль.run_git
+
+        def упасть_после_восстановления_дерева(корень, аргументы, **именованные_аргументы):
+            результат = исходный_запуск_команды_репозитория(
+                корень,
+                аргументы,
+                **именованные_аргументы,
+            )
+            if аргументы and аргументы[0] == "read-tree":
+                raise RuntimeError("имитация падения после read-tree")
+            return результат
+
+        with mock.patch.object(
+            модуль,
+            "run_git",
+            side_effect=упасть_после_восстановления_дерева,
+        ):
+            with сам.assertRaisesRegex(RuntimeError, "после read-tree"):
+                модуль.применить_сброс(
+                    контекст,
+                    идентификатор_диспетчера,
+                    идентификатор_сброса,
+                )
+        сам.assertTrue(ссылка.is_symlink())
+
+        повтор = сам.run_queue(
+            "применить-сброс",
+            "--repo-root",
+            str(сам.repo),
+            "--идентификатор-диспетчера",
+            идентификатор_диспетчера,
+            "--идентификатор-сброса",
+            идентификатор_сброса,
+            "--json",
+        )
+
+        сам.assertEqual(повтор.returncode, 0, повтор.stderr)
+        сам.assertEqual(
+            внешний_файл.read_text(encoding="utf-8"),
+            "внешние байты\n",
+        )
+
+    def test_план_блокирует_переход_ссылки_на_подмодуль_в_обычный_файл(сам) -> None:
+        вершина = сам.git("rev-parse", "HEAD").stdout.strip()
+        сам.git(
+            "update-index",
+            "--add",
+            "--cacheinfo",
+            "160000",
+            вершина,
+            "модуль",
+        )
+        сам.git("commit", "-m", "Добавить gitlink")
+        сам.git("rm", "--cached", "--", "модуль")
+        путь = сам.repo / "модуль"
+        путь.write_text("обычный файл\n", encoding="utf-8")
+        сам.git("add", "--", "модуль")
+
+        результат, ответ = сам.план_сброса("задача-диспетчера")
+
+        сам.assertNotEqual(результат.returncode, 0)
+        сам.assertEqual(ответ["state"], "nested_repository_dirty")
+        сам.assertEqual(путь.read_text(encoding="utf-8"), "обычный файл\n")
+
+    def test_повтор_после_перехода_фазы_не_стирает_новое_отслеживаемое_изменение(
+        сам,
+    ) -> None:
+        модуль = load_queue_module()
+        идентификатор_диспетчера = "задача-диспетчера"
+        сам.join("задача-владельца")
+        отслеживаемый = сам.repo / "tracked.txt"
+        отслеживаемый.write_text(
+            "содержимое из подтверждённого плана\n",
+            encoding="utf-8",
+        )
+        _, план = сам.план_сброса(идентификатор_диспетчера)
+        _, подготовлено = сам.подготовить_сброс(
+            план,
+            идентификатор_диспетчера,
+        )
+        идентификатор_сброса = str(подготовлено["идентификатор_сброса"])
+        сам.подтвердить_остановку(
+            идентификатор_сброса,
+            "задача-владельца",
+            идентификатор_диспетчера=идентификатор_диспетчера,
+        )
+        контекст = модуль.resolve_context(сам.repo)
+        исходный_запуск_команды_репозитория = модуль.run_git
+
+        def упасть_до_восстановления_дерева(корень, аргументы, **именованные_аргументы):
+            if аргументы and аргументы[0] == "read-tree":
+                raise RuntimeError("имитация падения до очистки tracked")
+            return исходный_запуск_команды_репозитория(
+                корень,
+                аргументы,
+                **именованные_аргументы,
+            )
+
+        with mock.patch.object(
+            модуль,
+            "run_git",
+            side_effect=упасть_до_восстановления_дерева,
+        ):
+            with сам.assertRaisesRegex(
+                RuntimeError,
+                "имитация падения до очистки tracked",
+            ):
+                модуль.применить_сброс(
+                    контекст,
+                    идентификатор_диспетчера,
+                    идентификатор_сброса,
+                )
+
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        сам.assertEqual(состояние["фаза"], "очистка_рабочей_копии")
+        отслеживаемый.write_text(
+            "новые неподтверждённые tracked-байты\n",
+            encoding="utf-8",
+        )
+        сам.git("add", "--", "tracked.txt")
+
+        повтор = сам.run_queue(
+            "применить-сброс",
+            "--repo-root",
+            str(сам.repo),
+            "--идентификатор-диспетчера",
+            идентификатор_диспетчера,
+            "--идентификатор-сброса",
+            идентификатор_сброса,
+            "--json",
+        )
+
+        сам.assertNotEqual(повтор.returncode, 0)
+        сам.assertEqual(сам.payload(повтор)["state"], "reset_plan_changed")
+        сам.assertEqual(
+            отслеживаемый.read_text(encoding="utf-8"),
+            "новые неподтверждённые tracked-байты\n",
+        )
+        сам.assertEqual(
+            сам.git("show", ":tracked.txt").stdout,
+            "новые неподтверждённые tracked-байты\n",
+        )
+
+    def test_повтор_не_позволяет_восстановлению_дерева_удалить_новый_неотслеживаемый_путь(
+        сам,
+    ) -> None:
+        модуль = load_queue_module()
+        идентификатор_диспетчера = "задача-диспетчера"
+        конфликт = сам.repo / "конфликт"
+        конфликт.write_text("цель\n", encoding="utf-8")
+        сам.git("add", "--", "конфликт")
+        сам.git("commit", "-m", "Добавить целевой файл")
+        сам.join("задача-владельца")
+        конфликт.unlink()
+        конфликт.mkdir()
+        (конфликт / "старое.txt").write_text("план\n", encoding="utf-8")
+        _, план = сам.план_сброса(идентификатор_диспетчера)
+        _, подготовлено = сам.подготовить_сброс(
+            план,
+            идентификатор_диспетчера,
+        )
+        идентификатор_сброса = str(подготовлено["идентификатор_сброса"])
+        сам.подтвердить_остановку(
+            идентификатор_сброса,
+            "задача-владельца",
+            идентификатор_диспетчера=идентификатор_диспетчера,
+        )
+        контекст = модуль.resolve_context(сам.repo)
+        исходный_запуск_команды_репозитория = модуль.run_git
+
+        def упасть_до_восстановления_дерева(корень, аргументы, **именованные_аргументы):
+            if аргументы and аргументы[0] == "read-tree":
+                raise RuntimeError("имитация падения до read-tree")
+            return исходный_запуск_команды_репозитория(
+                корень,
+                аргументы,
+                **именованные_аргументы,
+            )
+
+        with mock.patch.object(
+            модуль,
+            "run_git",
+            side_effect=упасть_до_восстановления_дерева,
+        ):
+            with сам.assertRaisesRegex(RuntimeError, "имитация падения"):
+                модуль.применить_сброс(
+                    контекст,
+                    идентификатор_диспетчера,
+                    идентификатор_сброса,
+                )
+        новый = конфликт / "новое.txt"
+        новый.write_text("не удалять\n", encoding="utf-8")
+
+        повтор = сам.run_queue(
+            "применить-сброс",
+            "--repo-root",
+            str(сам.repo),
+            "--идентификатор-диспетчера",
+            идентификатор_диспетчера,
+            "--идентификатор-сброса",
+            идентификатор_сброса,
+            "--json",
+        )
+
+        сам.assertNotEqual(повтор.returncode, 0)
+        сам.assertEqual(сам.payload(повтор)["state"], "reset_plan_changed")
+        сам.assertEqual(новый.read_text(encoding="utf-8"), "не удалять\n")
+
+    def test_план_не_позволяет_восстановлению_дерева_удалить_игнорируемые_данные(сам) -> None:
+        конфликт = сам.repo / "конфликт"
+        конфликт.write_text("цель\n", encoding="utf-8")
+        (сам.repo / ".gitignore").write_text(
+            "конфликт/секрет.tmp\n",
+            encoding="utf-8",
+        )
+        сам.git("add", "--", "конфликт", ".gitignore")
+        сам.git("commit", "-m", "Добавить целевой файл и правило игнорирования")
+        сам.join("задача-владельца")
+        конфликт.unlink()
+        конфликт.mkdir()
+        секрет = конфликт / "секрет.tmp"
+        секрет.write_text("сохранить\n", encoding="utf-8")
+
+        результат, ответ = сам.план_сброса("задача-диспетчера")
+
+        сам.assertNotEqual(результат.returncode, 0)
+        сам.assertEqual(ответ["state"], "ignored_path_collision")
+        сам.assertEqual(секрет.read_text(encoding="utf-8"), "сохранить\n")
+
+    def test_план_блокирует_скрытое_предположение_неизменности(сам) -> None:
+        путь = сам.repo / "tracked.txt"
+        путь.write_text("скрытые байты\n", encoding="utf-8")
+        сам.git("update-index", "--assume-unchanged", "--", "tracked.txt")
+
+        результат, ответ = сам.план_сброса("задача-диспетчера")
+
+        сам.assertNotEqual(результат.returncode, 0)
+        сам.assertEqual(ответ["state"], "hidden_index_flags")
+        сам.assertEqual(путь.read_text(encoding="utf-8"), "скрытые байты\n")
+
+    def test_план_блокирует_скрытый_пропуск_рабочего_дерева(сам) -> None:
+        путь = сам.repo / "tracked.txt"
+        сам.git("update-index", "--skip-worktree", "--", "tracked.txt")
+        путь.write_text("скрытые байты\n", encoding="utf-8")
+
+        результат, ответ = сам.план_сброса("задача-диспетчера")
+
+        сам.assertNotEqual(результат.returncode, 0)
+        сам.assertEqual(ответ["state"], "hidden_index_flags")
+        сам.assertEqual(путь.read_text(encoding="utf-8"), "скрытые байты\n")
+
+    def test_план_блокирует_удаление_правила_игнорирования(сам) -> None:
+        правило = сам.repo / ".gitignore"
+        правило.write_text("мусор\n", encoding="utf-8")
+        сам.git("add", "--", ".gitignore")
+        сам.git("commit", "-m", "Игнорировать мусор")
+        правило.write_text("", encoding="utf-8")
+        мусор = сам.repo / "мусор"
+        мусор.write_text("сохранить\n", encoding="utf-8")
+
+        результат, ответ = сам.план_сброса("задача-диспетчера")
+
+        сам.assertNotEqual(результат.returncode, 0)
+        сам.assertEqual(ответ["state"], "checkout_policy_changed")
+        сам.assertEqual(мусор.read_text(encoding="utf-8"), "сохранить\n")
+
+    def test_план_блокирует_добавление_правила_игнорирования(сам) -> None:
+        правило = сам.repo / ".gitignore"
+        правило.write_text("", encoding="utf-8")
+        сам.git("add", "--", ".gitignore")
+        сам.git("commit", "-m", "Добавить пустую политику игнорирования")
+        правило.write_text("мусор\n", encoding="utf-8")
+        мусор = сам.repo / "мусор"
+        мусор.write_text("сохранить\n", encoding="utf-8")
+
+        результат, ответ = сам.план_сброса("задача-диспетчера")
+
+        сам.assertNotEqual(результат.returncode, 0)
+        сам.assertEqual(ответ["state"], "checkout_policy_changed")
+        сам.assertEqual(мусор.read_text(encoding="utf-8"), "сохранить\n")
+
+    def test_повтор_завершает_частично_применённое_восстановление_дерева(сам) -> None:
+        модуль = load_queue_module()
+        идентификатор_диспетчера = "задача-диспетчера"
+        второй = сам.repo / "tracked-second.txt"
+        второй.write_text("цель второго файла\n", encoding="utf-8")
+        сам.git("add", "--", "tracked-second.txt")
+        сам.git("commit", "-m", "Добавить второй отслеживаемый файл")
+        сам.join("задача-владельца")
+        первый = сам.repo / "tracked.txt"
+        первый.write_text("план первого файла\n", encoding="utf-8")
+        второй.write_text("план второго файла\n", encoding="utf-8")
+        _, план = сам.план_сброса(идентификатор_диспетчера)
+        _, подготовлено = сам.подготовить_сброс(
+            план,
+            идентификатор_диспетчера,
+        )
+        идентификатор_сброса = str(подготовлено["идентификатор_сброса"])
+        сам.подтвердить_остановку(
+            идентификатор_сброса,
+            "задача-владельца",
+            идентификатор_диспетчера=идентификатор_диспетчера,
+        )
+        контекст = модуль.resolve_context(сам.repo)
+        исходный_запуск_команды_репозитория = модуль.run_git
+
+        def частично_восстановить_дерево(
+            корень,
+            аргументы,
+            **именованные_аргументы,
+        ):
+            if аргументы and аргументы[0] == "read-tree":
+                первый.write_text(
+                    "initial\n",
+                    encoding="utf-8",
+                )
+                raise RuntimeError("имитация частичного read-tree")
+            return исходный_запуск_команды_репозитория(
+                корень,
+                аргументы,
+                **именованные_аргументы,
+            )
+
+        with mock.patch.object(
+            модуль,
+            "run_git",
+            side_effect=частично_восстановить_дерево,
+        ):
+            with сам.assertRaisesRegex(
+                RuntimeError,
+                "имитация частичного read-tree",
+            ):
+                модуль.применить_сброс(
+                    контекст,
+                    идентификатор_диспетчера,
+                    идентификатор_сброса,
+                )
+
+        сам.assertEqual(первый.read_text(encoding="utf-8"), "initial\n")
+        сам.assertEqual(
+            второй.read_text(encoding="utf-8"),
+            "план второго файла\n",
+        )
+        повтор = сам.run_queue(
+            "применить-сброс",
+            "--repo-root",
+            str(сам.repo),
+            "--идентификатор-диспетчера",
+            идентификатор_диспетчера,
+            "--идентификатор-сброса",
+            идентификатор_сброса,
+            "--json",
+        )
+
+        сам.assertEqual(повтор.returncode, 0, повтор.stderr)
+        сам.assertEqual(сам.payload(повтор)["состояние"], "сброшено")
+        сам.assertEqual(первый.read_text(encoding="utf-8"), "initial\n")
+        сам.assertEqual(
+            второй.read_text(encoding="utf-8"),
+            "цель второго файла\n",
+        )
+
+    def test_повтор_принимает_представление_с_преобразованными_концами_строк(сам) -> None:
+        модуль = load_queue_module()
+        идентификатор_диспетчера = "задача-диспетчера"
+        (сам.repo / ".gitattributes").write_text(
+            "*.txt text eol=crlf\n",
+            encoding="utf-8",
+        )
+        сам.git("add", "--", ".gitattributes")
+        сам.git("commit", "-m", "Закрепить CRLF checkout")
+        отслеживаемый = сам.repo / "tracked.txt"
+        отслеживаемый.unlink()
+        сам.git("checkout-index", "-u", "--", "tracked.txt")
+        сам.assertEqual(отслеживаемый.read_bytes(), b"initial\r\n")
+        сам.join("задача-владельца")
+        отслеживаемый.write_bytes(b"planned\r\n")
+        _, план = сам.план_сброса(идентификатор_диспетчера)
+        _, подготовлено = сам.подготовить_сброс(
+            план,
+            идентификатор_диспетчера,
+        )
+        идентификатор_сброса = str(подготовлено["идентификатор_сброса"])
+        сам.подтвердить_остановку(
+            идентификатор_сброса,
+            "задача-владельца",
+            идентификатор_диспетчера=идентификатор_диспетчера,
+        )
+        контекст = модуль.resolve_context(сам.repo)
+        исходный_запуск_команды_репозитория = модуль.run_git
+
+        def частично_восстановить_дерево(
+            корень,
+            аргументы,
+            **именованные_аргументы,
+        ):
+            if аргументы and аргументы[0] == "read-tree":
+                отслеживаемый.write_bytes(b"initial\r\n")
+                raise RuntimeError("имитация падения read-tree с CRLF")
+            return исходный_запуск_команды_репозитория(
+                корень,
+                аргументы,
+                **именованные_аргументы,
+            )
+
+        with mock.patch.object(
+            модуль,
+            "run_git",
+            side_effect=частично_восстановить_дерево,
+        ):
+            with сам.assertRaisesRegex(RuntimeError, "с CRLF"):
+                модуль.применить_сброс(
+                    контекст,
+                    идентификатор_диспетчера,
+                    идентификатор_сброса,
+                )
+
+        повтор = сам.run_queue(
+            "применить-сброс",
+            "--repo-root",
+            str(сам.repo),
+            "--идентификатор-диспетчера",
+            идентификатор_диспетчера,
+            "--идентификатор-сброса",
+            идентификатор_сброса,
+            "--json",
+        )
+
+        сам.assertEqual(повтор.returncode, 0, повтор.stderr)
+        сам.assertEqual(отслеживаемый.read_bytes(), b"initial\r\n")
+
+    def test_план_не_запускает_внешний_фильтр_получения_рабочих_файлов(сам) -> None:
+        маркер = сам.repo / "маркер-фильтра"
+        сам.git(
+            "config",
+            "filter.danger.smudge",
+            "sh -c 'printf invoked > маркер-фильтра; cat'",
+        )
+        (сам.repo / ".gitattributes").write_text(
+            "tracked.txt filter=danger\n",
+            encoding="utf-8",
+        )
+        сам.git("add", "--", ".gitattributes")
+        сам.git("commit", "-m", "Закрепить внешний filter-атрибут")
+        (сам.repo / "tracked.txt").write_text(
+            "плановое изменение\n",
+            encoding="utf-8",
+        )
+
+        результат, ответ = сам.план_сброса("задача-диспетчера")
+
+        сам.assertNotEqual(результат.returncode, 0)
+        сам.assertEqual(ответ["state"], "unsupported_checkout_filter")
+        сам.assertFalse(маркер.exists())
+
+    def test_план_не_запускает_фильтр_из_игнорируемых_атрибутов(сам) -> None:
+        маркер = сам.repo / "маркер-фильтра"
+        (сам.repo / ".gitignore").write_text(
+            ".gitattributes\n",
+            encoding="utf-8",
+        )
+        сам.git("add", "--", ".gitignore")
+        сам.git("commit", "-m", "Игнорировать локальные attributes")
+        сам.git(
+            "config",
+            "filter.danger.smudge",
+            "sh -c 'printf invoked > маркер-фильтра; cat'",
+        )
+        (сам.repo / ".gitattributes").write_text(
+            "tracked.txt filter=danger\n",
+            encoding="utf-8",
+        )
+        (сам.repo / "tracked.txt").write_text(
+            "плановое изменение\n",
+            encoding="utf-8",
+        )
+
+        результат, ответ = сам.план_сброса("задача-диспетчера")
+
+        сам.assertNotEqual(результат.returncode, 0)
+        сам.assertEqual(ответ["state"], "unsupported_checkout_filter")
+        сам.assertFalse(маркер.exists())
+
+    def test_дрейф_изменений_после_подготовки_останавливает_сброс_до_удаления(
+        сам,
+    ) -> None:
+        идентификатор_диспетчера = "задача-диспетчера"
+        сам.join("задача-владельца")
+        (сам.repo / "tracked.txt").write_text(
+            "содержимое из подтверждённого плана\n",
+            encoding="utf-8",
+        )
+        _, план = сам.план_сброса(идентификатор_диспетчера)
+        _, подготовлено = сам.подготовить_сброс(
+            план,
+            идентификатор_диспетчера,
+        )
+        (сам.repo / "tracked.txt").write_text(
+            "новое неподтверждённое содержимое\n",
+            encoding="utf-8",
+        )
+        новый_путь = сам.repo / "появилось-после-подтверждения.txt"
+        новый_путь.write_text("не удалять\n", encoding="utf-8")
+        сам.подтвердить_остановку(
+            str(подготовлено["идентификатор_сброса"]),
+            "задача-владельца",
+            идентификатор_диспетчера=идентификатор_диспетчера,
+        )
+
+        применение = сам.run_queue(
+            "применить-сброс",
+            "--repo-root",
+            str(сам.repo),
+            "--идентификатор-диспетчера",
+            идентификатор_диспетчера,
+            "--идентификатор-сброса",
+            str(подготовлено["идентификатор_сброса"]),
+            "--json",
+        )
+
+        сам.assertNotEqual(применение.returncode, 0)
+        сам.assertEqual(
+            (сам.repo / "tracked.txt").read_text(encoding="utf-8"),
+            "новое неподтверждённое содержимое\n",
+        )
+        сам.assertEqual(
+            новый_путь.read_text(encoding="utf-8"),
+            "не удалять\n",
+        )
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        сам.assertEqual(состояние["state"], "resetting")
+
+    def test_повреждённая_связь_записи_сброса_с_планом_отвергается(сам) -> None:
+        идентификатор_диспетчера = "задача-диспетчера"
+        сам.join("задача-владельца")
+        сам.join("задача-ожидания")
+        _, план = сам.план_сброса(идентификатор_диспетчера)
+        _, подготовлено = сам.подготовить_сброс(
+            план,
+            идентификатор_диспетчера,
+        )
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        ссылка_очереди = str(состояние["queue_ref"])
+        исходный_объект = str(состояние["queue_oid"])
+        исходная_запись = json.loads(
+            сам.git("cat-file", "blob", исходный_объект).stdout
+        )
+        длина_объекта = len(сам.git("rev-parse", "HEAD").stdout.strip())
+
+        def скрыть_участника(запись: dict[str, object]) -> None:
+            запись["участники"] = ["задача-владельца"]
+
+        def отвязать_исходный_объект(запись: dict[str, object]) -> None:
+            запись["исходный_объект_очереди"] = "0" * длина_объекта
+
+        def отвязать_идентификатор_сброса(запись: dict[str, object]) -> None:
+            запись["идентификатор_сброса"] = "sha256:" + "0" * 64
+
+        повреждения = [
+            ("участники", скрыть_участника),
+            ("исходный объект", отвязать_исходный_объект),
+            ("идентификатор сброса", отвязать_идентификатор_сброса),
+        ]
+        for название, повредить in повреждения:
+            with сам.subTest(поле=название):
+                повреждённая = json.loads(
+                    json.dumps(исходная_запись, ensure_ascii=False)
+                )
+                повредить(повреждённая)
+                повреждённый_объект = subprocess.run(
+                    [
+                        "git",
+                        "-C",
+                        str(сам.repo),
+                        "hash-object",
+                        "-w",
+                        "--stdin",
+                    ],
+                    input=(
+                        json.dumps(
+                            повреждённая,
+                            ensure_ascii=False,
+                            sort_keys=True,
+                            separators=(",", ":"),
+                        )
+                        + "\n"
+                    ),
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                ).stdout.strip()
+                сам.git(
+                    "update-ref",
+                    ссылка_очереди,
+                    повреждённый_объект,
+                    исходный_объект,
+                )
+                try:
+                    результат = сам.run_queue(
+                        "status",
+                        "--repo-root",
+                        str(сам.repo),
+                        "--json",
+                    )
+                    сам.assertNotEqual(результат.returncode, 0)
+                    сам.assertEqual(
+                        сам.payload(результат)["state"],
+                        "corrupt_reset",
+                    )
+                finally:
+                    сам.git(
+                        "update-ref",
+                        ссылка_очереди,
+                        исходный_объект,
+                        повреждённый_объект,
+                    )
+
+    def test_пульс_считает_идущий_сброс_занятой_очередью(сам) -> None:
+        идентификатор_диспетчера = "задача-диспетчера"
+        сам.join("задача-владельца")
+        _, план = сам.план_сброса(идентификатор_диспетчера)
+        _, _ = сам.подготовить_сброс(план, идентификатор_диспетчера)
+
+        результат = сам.heartbeat_status(идентификатор_диспетчера)
+
+        сам.assertEqual(результат.returncode, 0, результат.stderr)
+        сам.assertEqual(сам.payload(результат), {"state": "busy"})
+
+    def test_полный_сброс_создаёт_пустую_очередь_из_отсутствующей_ссылки(
+        сам,
+    ) -> None:
+        идентификатор_диспетчера = "задача-диспетчера"
+        исходная_вершина = сам.git("rev-parse", "HEAD").stdout.strip()
+        (сам.repo / "tracked.txt").write_text(
+            "незафиксированное изменение\n",
+            encoding="utf-8",
+        )
+        новый_путь = сам.repo / "незафиксированный-файл.txt"
+        новый_путь.write_text("удалить\n", encoding="utf-8")
+
+        _, план = сам.план_сброса(идентификатор_диспетчера)
+
+        сам.assertEqual(план["объект_очереди"], "absent")
+        сам.assertEqual(план["участники"], [])
+        _, подготовлено = сам.подготовить_сброс(
+            план,
+            идентификатор_диспетчера,
+        )
+        остановка, _ = сам.подтвердить_остановку(
+            str(подготовлено["идентификатор_сброса"]),
+            идентификатор_диспетчера=идентификатор_диспетчера,
+        )
+        сам.assertEqual(остановка.returncode, 0, остановка.stderr)
+
+        применение = сам.run_queue(
+            "применить-сброс",
+            "--repo-root",
+            str(сам.repo),
+            "--идентификатор-диспетчера",
+            идентификатор_диспетчера,
+            "--идентификатор-сброса",
+            str(подготовлено["идентификатор_сброса"]),
+            "--json",
+        )
+
+        сам.assertEqual(применение.returncode, 0, применение.stderr)
+        сам.assertEqual(сам.git("rev-parse", "HEAD").stdout.strip(), исходная_вершина)
+        сам.assertFalse(новый_путь.exists())
+        сам.assertEqual(
+            (сам.repo / "tracked.txt").read_text(encoding="utf-8"),
+            "initial\n",
+        )
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        сам.assertEqual(состояние["state"], "idle")
+        сам.assertEqual(состояние["next_seq"], 1)
+        сам.assertIsNotNone(состояние["queue_oid"])
+        очередь = json.loads(
+            сам.git("cat-file", "blob", str(состояние["queue_oid"])).stdout
+        )
+        сам.assertEqual(очередь["last_completion"]["kind"], "reset")
+
+    def test_смена_резервации_после_плана_блокирует_подготовку_без_побочных_эффектов(
+        сам,
+    ) -> None:
+        идентификатор_диспетчера = "задача-диспетчера"
+        сам.join("задача-владельца")
+        (сам.repo / "tracked.txt").write_text(
+            "не удалять при конфликте резервации\n",
+            encoding="utf-8",
+        )
+        исходная_вершина = сам.git("rev-parse", "HEAD").stdout.strip()
+        состояние_очереди = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        хэш_ветки = hashlib.sha256(
+            str(состояние_очереди["branch_ref"]).encode("utf-8")
+        ).hexdigest()
+        ссылка_резервации = (
+            "refs/fum/резервации-запусков-автоматизаций/"
+            f"{состояние_очереди['worktree_id']}/{хэш_ветки}/{'3' * 64}"
+        )
+
+        def записать_объект_резервации(содержимое: str) -> str:
+            return subprocess.run(
+                [
+                    "git",
+                    "-C",
+                    str(сам.repo),
+                    "hash-object",
+                    "-w",
+                    "--stdin",
+                ],
+                input=содержимое,
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+
+        первый_объект = записать_объект_резервации(
+            json.dumps({"task_id": None, "фаза": "зарезервирован"}) + "\n"
+        )
+        второй_объект = записать_объект_резервации(
+            json.dumps({"task_id": None, "фаза": "вызов_мог_состояться"}) + "\n"
+        )
+        сам.git("update-ref", ссылка_резервации, первый_объект)
+        _, план = сам.план_сброса(идентификатор_диспетчера)
+        сам.git(
+            "update-ref",
+            ссылка_резервации,
+            второй_объект,
+            первый_объект,
+        )
+
+        подготовка, _ = сам.подготовить_сброс(
+            план,
+            идентификатор_диспетчера,
+        )
+
+        сам.assertNotEqual(подготовка.returncode, 0)
+        сам.assertEqual(сам.git("rev-parse", "HEAD").stdout.strip(), исходная_вершина)
+        сам.assertEqual(
+            сам.git("rev-parse", ссылка_резервации).stdout.strip(),
+            второй_объект,
+        )
+        сам.assertEqual(
+            (сам.repo / "tracked.txt").read_text(encoding="utf-8"),
+            "не удалять при конфликте резервации\n",
+        )
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        сам.assertEqual(состояние["queue_oid"], план["объект_очереди"])
+        сам.assertEqual(состояние["state"], "active")
+
+    def test_план_блокирует_неразрешённую_границу_среды_резервации(сам) -> None:
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        хэш_ветки = hashlib.sha256(
+            str(состояние["branch_ref"]).encode("utf-8")
+        ).hexdigest()
+        ссылка_резервации = (
+            "refs/fum/резервации-запусков-автоматизаций/"
+            f"{состояние['worktree_id']}/{хэш_ветки}/{'5' * 64}"
+        )
+        объект = subprocess.run(
+            ["git", "-C", str(сам.repo), "hash-object", "-w", "--stdin"],
+            input=json.dumps(
+                {
+                    "фаза": "вызов_мог_состояться",
+                    "task_id": None,
+                    "идентификатор_созданной_задачи": None,
+                },
+                ensure_ascii=False,
+            )
+            + "\n",
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        сам.git("update-ref", ссылка_резервации, объект)
+
+        результат, ответ = сам.план_сброса("задача-диспетчера")
+
+        сам.assertNotEqual(результат.returncode, 0)
+        сам.assertEqual(ответ["state"], "host_call_unresolved")
+        сам.assertEqual(
+            сам.payload(
+                сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+            )["state"],
+            "idle",
+        )
+
+    def test_план_блокирует_нетипизированный_предварительный_идентификатор_среды_до_привязки_запуска(
+        сам,
+    ) -> None:
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        хэш_ветки = hashlib.sha256(
+            str(состояние["branch_ref"]).encode("utf-8")
+        ).hexdigest()
+        ссылка = (
+            "refs/fum/резервации-запусков-автоматизаций/"
+            f"{состояние['worktree_id']}/{хэш_ветки}/{'6' * 64}"
+        )
+        объект = subprocess.run(
+            ["git", "-C", str(сам.repo), "hash-object", "-w", "--stdin"],
+            input=json.dumps(
+                {
+                    "версия_схемы": 3,
+                    "фаза": "задача_создана",
+                    "task_id": None,
+                    "идентификатор_созданной_задачи": "подготовка-host",
+                    "свидетельство_среды": {
+                        "вид": "clientThreadId",
+                        "значение": "подготовка-host",
+                    },
+                },
+                ensure_ascii=False,
+            )
+            + "\n",
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        сам.git("update-ref", ссылка, объект)
+
+        результат, ответ = сам.план_сброса("задача-диспетчера")
+
+        сам.assertNotEqual(результат.returncode, 0)
+        сам.assertEqual(ответ["state"], "host_call_unresolved")
+
+    def test_план_включает_точный_идентификатор_задачи_среды_общего_запуска_до_привязки_запуска(
+        сам,
+    ) -> None:
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        хэш_ветки = hashlib.sha256(
+            str(состояние["branch_ref"]).encode("utf-8")
+        ).hexdigest()
+        ссылка = (
+            "refs/fum/резервации-запусков-автоматизаций/"
+            f"{состояние['worktree_id']}/{хэш_ветки}/{'8' * 64}"
+        )
+        объект = subprocess.run(
+            ["git", "-C", str(сам.repo), "hash-object", "-w", "--stdin"],
+            input=json.dumps(
+                {
+                    "версия_схемы": 3,
+                    "фаза": "задача_создана",
+                    "task_id": None,
+                    "идентификатор_созданной_задачи": "точная-host-задача",
+                    "свидетельство_среды": {
+                        "вид": "threadId",
+                        "threadId": "точная-host-задача",
+                        "hostId": "host-1",
+                    },
+                },
+                ensure_ascii=False,
+            )
+            + "\n",
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        сам.git("update-ref", ссылка, объект)
+
+        результат, план = сам.план_сброса("задача-диспетчера")
+
+        сам.assertEqual(результат.returncode, 0, результат.stderr)
+        сам.assertEqual(план["участники"], ["точная-host-задача"])
+
+    def test_план_принимает_фактическую_привязку_запуска_после_неясной_границы_среды(
+        сам,
+    ) -> None:
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        хэш_ветки = hashlib.sha256(
+            str(состояние["branch_ref"]).encode("utf-8")
+        ).hexdigest()
+        ссылка = (
+            "refs/fum/резервации-запусков-автоматизаций/"
+            f"{состояние['worktree_id']}/{хэш_ветки}/{'7' * 64}"
+        )
+        объект = subprocess.run(
+            ["git", "-C", str(сам.repo), "hash-object", "-w", "--stdin"],
+            input=json.dumps(
+                {
+                    "фаза": "вызов_мог_состояться",
+                    "task_id": "фактическая-задача",
+                    "идентификатор_созданной_задачи": None,
+                },
+                ensure_ascii=False,
+            )
+            + "\n",
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        сам.git("update-ref", ссылка, объект)
+
+        результат, план = сам.план_сброса("задача-диспетчера")
+
+        сам.assertEqual(результат.returncode, 0, результат.stderr)
+        сам.assertEqual(план["участники"], ["фактическая-задача"])
+
+    def test_план_включает_точный_идентификатор_задачи_среды_созданной_задачи_починки(сам) -> None:
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        хэш_ветки = hashlib.sha256(
+            str(состояние["branch_ref"]).encode("utf-8")
+        ).hexdigest()
+        ссылка_починки = (
+            "refs/fum/починка-автозапуска/"
+            f"{состояние['worktree_id']}/{хэш_ветки}"
+        )
+        объект = subprocess.run(
+            ["git", "-C", str(сам.repo), "hash-object", "-w", "--stdin"],
+            input=json.dumps(
+                {
+                    "схема": "fum.починка-автозапуска.v1",
+                    "состояние": "задача_создана",
+                    "создатель": {
+                        "задача": "задача-координатора",
+                        "поколение": "11111111-1111-4111-8111-111111111111",
+                    },
+                    "свидетельство_среды": {
+                        "вид": "threadId",
+                        "threadId": "задача-починки",
+                        "hostId": "host-1",
+                    },
+                    "исполнитель": None,
+                },
+                ensure_ascii=False,
+            )
+            + "\n",
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        сам.git("update-ref", ссылка_починки, объект)
+
+        результат, план = сам.план_сброса("задача-диспетчера")
+
+        сам.assertEqual(результат.returncode, 0, результат.stderr)
+        сам.assertEqual(
+            план["участники"],
+            ["задача-координатора", "задача-починки"],
+        )
+
+    def test_план_сохраняет_идентификатор_задачи_среды_починки_после_привязки_исполнителя(
+        сам,
+    ) -> None:
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        хэш_ветки = hashlib.sha256(
+            str(состояние["branch_ref"]).encode("utf-8")
+        ).hexdigest()
+        ссылка = (
+            "refs/fum/починка-автозапуска/"
+            f"{состояние['worktree_id']}/{хэш_ветки}"
+        )
+        объект = subprocess.run(
+            ["git", "-C", str(сам.repo), "hash-object", "-w", "--stdin"],
+            input=json.dumps(
+                {
+                    "схема": "fum.починка-автозапуска.v1",
+                    "состояние": "исполнитель_связан",
+                    "создатель": {"задача": "задача-координатора"},
+                    "свидетельство_среды": {
+                        "вид": "threadId",
+                        "threadId": "созданная-host-задача",
+                        "hostId": "host-1",
+                    },
+                    "исполнитель": {
+                        "задача": "привязанный-исполнитель",
+                        "поколение": None,
+                    },
+                },
+                ensure_ascii=False,
+            )
+            + "\n",
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        сам.git("update-ref", ссылка, объект)
+
+        результат, план = сам.план_сброса("задача-диспетчера")
+
+        сам.assertEqual(результат.returncode, 0, результат.stderr)
+        сам.assertEqual(
+            план["участники"],
+            [
+                "задача-координатора",
+                "привязанный-исполнитель",
+                "созданная-host-задача",
+            ],
+        )
+
+    def test_сдвиг_эпохи_новых_резерваций_блокирует_подготовку(сам) -> None:
+        идентификатор_диспетчера = "задача-диспетчера"
+        _, план = сам.план_сброса(идентификатор_диспетчера)
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        хэш_ветки = hashlib.sha256(
+            str(состояние["branch_ref"]).encode("utf-8")
+        ).hexdigest()
+        ссылка_эпохи = (
+            "refs/fum/эпохи-резерваций-запусков-автоматизаций/"
+            f"{состояние['worktree_id']}/{хэш_ветки}"
+        )
+        объект_эпохи = subprocess.run(
+            ["git", "-C", str(сам.repo), "hash-object", "-w", "--stdin"],
+            input='{"\u0441\u0445\u0435\u043c\u0430":"fum.\u044d\u043f\u043e\u0445\u0430-\u0440\u0435\u0437\u0435\u0440\u0432\u0430\u0446\u0438\u0439.1"}\n',
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        сам.git("update-ref", ссылка_эпохи, объект_эпохи)
+
+        подготовка, _ = сам.подготовить_сброс(
+            план,
+            идентификатор_диспетчера,
+        )
+
+        сам.assertNotEqual(подготовка.returncode, 0)
+        сам.assertEqual(
+            сам.payload(сам.run_queue("status", "--repo-root", str(сам.repo), "--json"))["state"],
+            "idle",
+        )
+
+    def test_финал_согласует_точные_служебные_ограждения(сам) -> None:
+        идентификатор_диспетчера = "задача-диспетчера"
+        сам.join("задача-владельца")
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        хэш_ветки = hashlib.sha256(
+            str(состояние["branch_ref"]).encode("utf-8")
+        ).hexdigest()
+        основа = f"{состояние['worktree_id']}/{хэш_ветки}"
+        служебные = {
+            f"refs/fum/управление-диспетчером/{основа}": {
+                "task_id": идентификатор_диспетчера,
+            },
+            f"refs/fum/worktree-next-step-claims/{основа}": {
+                "task_id": "задача-карточки",
+            },
+            f"refs/fum/починка-автозапуска/{основа}": {
+                "схема": "fum.починка-автозапуска.v1",
+                "состояние": "зарезервирован",
+                "создатель": {"задача": "задача-починки"},
+                "свидетельство_среды": None,
+                "исполнитель": None,
+            },
+            (
+                "refs/fum/резервации-запусков-автоматизаций/"
+                f"{основа}/{'4' * 64}"
+            ): {
+                "идентификатор_созданной_задачи": "подготовка-запуска",
+                "task_id": "задача-запуска",
+                "фаза": "задача_создана",
+            },
+        }
+        объекты: dict[str, str] = {}
+        for ссылка, содержимое in служебные.items():
+            объект = subprocess.run(
+                ["git", "-C", str(сам.repo), "hash-object", "-w", "--stdin"],
+                input=json.dumps(содержимое, ensure_ascii=False) + "\n",
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+            сам.git("update-ref", ссылка, объект)
+            объекты[ссылка] = объект
+
+        _, план = сам.план_сброса(идентификатор_диспетчера)
+
+        сам.assertEqual(
+            план["участники"],
+            sorted(
+                {
+                    идентификатор_диспетчера,
+                    "задача-владельца",
+                    "задача-запуска",
+                    "задача-карточки",
+                    "задача-починки",
+                }
+            ),
+        )
+        _, подготовлено = сам.подготовить_сброс(
+            план,
+            идентификатор_диспетчера,
+        )
+        сам.подтвердить_остановку(
+            str(подготовлено["идентификатор_сброса"]),
+            "задача-владельца",
+            "задача-запуска",
+            "задача-карточки",
+            "задача-починки",
+            идентификатор_диспетчера=идентификатор_диспетчера,
+        )
+        применение = сам.run_queue(
+            "применить-сброс",
+            "--repo-root",
+            str(сам.repo),
+            "--идентификатор-диспетчера",
+            идентификатор_диспетчера,
+            "--идентификатор-сброса",
+            str(подготовлено["идентификатор_сброса"]),
+            "--json",
+        )
+
+        сам.assertEqual(применение.returncode, 0, применение.stderr)
+        for ссылка, объект in объекты.items():
+            обнаруженный = сам.git("rev-parse", "--verify", "--quiet", ссылка, check=False)
+            if "резервации-запусков-автоматизаций" in ссылка:
+                сам.assertEqual(обнаруженный.returncode, 0)
+                сам.assertEqual(обнаруженный.stdout.strip(), объект)
+            else:
+                сам.assertEqual(обнаруженный.returncode, 1)
+
+    def test_грязный_вложенный_обычный_репозиторий_не_удаляется(сам) -> None:
+        идентификатор_диспетчера = "задача-диспетчера"
+        сам.join("задача-владельца")
+        вложенный = сам.repo / "вложенный-репозиторий"
+        subprocess.run(
+            ["git", "init", "-b", "master", str(вложенный)],
+            check=True,
+            capture_output=True,
+        )
+        subprocess.run(
+            ["git", "-C", str(вложенный), "config", "user.name", "FUM Test"],
+            check=True,
+            capture_output=True,
+        )
+        subprocess.run(
+            [
+                "git",
+                "-C",
+                str(вложенный),
+                "config",
+                "user.email",
+                "fum-test@example.invalid",
+            ],
+            check=True,
+            capture_output=True,
+        )
+        вложенный_файл = вложенный / "данные.txt"
+        вложенный_файл.write_text("исходное\n", encoding="utf-8")
+        subprocess.run(
+            ["git", "-C", str(вложенный), "add", "данные.txt"],
+            check=True,
+            capture_output=True,
+        )
+        subprocess.run(
+            [
+                "git",
+                "-C",
+                str(вложенный),
+                "commit",
+                "-m",
+                "Начальное состояние вложенного репозитория",
+            ],
+            check=True,
+            capture_output=True,
+        )
+        вложенный_файл.write_text("грязное\n", encoding="utf-8")
+        _, план = сам.план_сброса(идентификатор_диспетчера)
+        _, подготовлено = сам.подготовить_сброс(
+            план,
+            идентификатор_диспетчера,
+        )
+        сам.подтвердить_остановку(
+            str(подготовлено["идентификатор_сброса"]),
+            "задача-владельца",
+            идентификатор_диспетчера=идентификатор_диспетчера,
+        )
+
+        применение = сам.run_queue(
+            "применить-сброс",
+            "--repo-root",
+            str(сам.repo),
+            "--идентификатор-диспетчера",
+            идентификатор_диспетчера,
+            "--идентификатор-сброса",
+            str(подготовлено["идентификатор_сброса"]),
+            "--json",
+        )
+
+        сам.assertNotEqual(применение.returncode, 0)
+        сам.assertEqual(сам.payload(применение)["state"], "nested_repository_dirty")
+        сам.assertTrue((вложенный / ".git").exists())
+        сам.assertEqual(вложенный_файл.read_text(encoding="utf-8"), "грязное\n")
+
+    def test_вложенный_репозиторий_без_рабочей_копии_не_удаляется(сам) -> None:
+        идентификатор_диспетчера = "задача-диспетчера"
+        сам.join("задача-владельца")
+        вложенный = сам.repo / "вложенное-хранилище.git"
+        subprocess.run(
+            ["git", "init", "--bare", str(вложенный)],
+            check=True,
+            capture_output=True,
+        )
+        служебный_файл = вложенный / "description"
+        исходное_содержимое = служебный_файл.read_text(encoding="utf-8")
+        _, план = сам.план_сброса(идентификатор_диспетчера)
+        _, подготовлено = сам.подготовить_сброс(
+            план,
+            идентификатор_диспетчера,
+        )
+        сам.подтвердить_остановку(
+            str(подготовлено["идентификатор_сброса"]),
+            "задача-владельца",
+            идентификатор_диспетчера=идентификатор_диспетчера,
+        )
+
+        применение = сам.run_queue(
+            "применить-сброс",
+            "--repo-root",
+            str(сам.repo),
+            "--идентификатор-диспетчера",
+            идентификатор_диспетчера,
+            "--идентификатор-сброса",
+            str(подготовлено["идентификатор_сброса"]),
+            "--json",
+        )
+
+        сам.assertNotEqual(применение.returncode, 0)
+        сам.assertEqual(сам.payload(применение)["state"], "nested_repository_dirty")
+        сам.assertTrue(вложенный.exists())
+        сам.assertEqual(
+            служебный_файл.read_text(encoding="utf-8"),
+            исходное_содержимое,
+        )
+
+
+class ТестыСбросаОчередиСХэшем256(GitQueueFixture):
+    формат_объектов = "sha256"
+
+    def test_полный_цикл_сброса_использует_полные_шестидесятичетырёхзначные_объекты(
+        сам,
+    ) -> None:
+        идентификатор_диспетчера = "задача-диспетчера"
+        _, владелец = сам.join("задача-владельца")
+        (сам.repo / "tracked.txt").write_text("изменено\n", encoding="utf-8")
+        исходная_вершина = сам.git("rev-parse", "HEAD").stdout.strip()
+
+        результат_плана = сам.run_queue(
+            "план-сброса",
+            "--repo-root",
+            str(сам.repo),
+            "--идентификатор-диспетчера",
+            идентификатор_диспетчера,
+            "--json",
+        )
+        план = сам.payload(результат_плана)
+
+        сам.assertEqual(результат_плана.returncode, 0, результат_плана.stderr)
+        сам.assertEqual(len(str(план["целевая_вершина"])), 64)
+        сам.assertEqual(len(str(план["объект_очереди"])), 64)
+        подготовка = сам.run_queue(
+            "подготовить-сброс",
+            "--repo-root",
+            str(сам.repo),
+            "--идентификатор-диспетчера",
+            идентификатор_диспетчера,
+            "--ожидаемая-вершина",
+            str(план["целевая_вершина"]),
+            "--ожидаемый-объект-очереди",
+            str(план["объект_очереди"]),
+            "--подтверждение",
+            str(план["подтверждение"]),
+            "--json",
+        )
+        подготовлено = сам.payload(подготовка)
+        сам.assertEqual(подготовка.returncode, 0, подготовка.stderr)
+        остановка = сам.run_queue(
+            "подтвердить-остановку-сессий",
+            "--repo-root",
+            str(сам.repo),
+            "--идентификатор-диспетчера",
+            идентификатор_диспетчера,
+            "--идентификатор-сброса",
+            str(подготовлено["идентификатор_сброса"]),
+            "--неактивная-задача",
+            str(владелец["task_id"]),
+            "--json",
+        )
+        сам.assertEqual(остановка.returncode, 0, остановка.stderr)
+        применение = сам.run_queue(
+            "применить-сброс",
+            "--repo-root",
+            str(сам.repo),
+            "--идентификатор-диспетчера",
+            идентификатор_диспетчера,
+            "--идентификатор-сброса",
+            str(подготовлено["идентификатор_сброса"]),
+            "--json",
+        )
+
+        сам.assertEqual(применение.returncode, 0, применение.stderr)
+        сам.assertEqual(сам.git("rev-parse", "HEAD").stdout.strip(), исходная_вершина)
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        сам.assertEqual(состояние["state"], "idle")
+        сам.assertEqual(len(str(состояние["queue_oid"])), 64)
+        очередь = json.loads(
+            сам.git("cat-file", "blob", str(состояние["queue_oid"])).stdout
+        )
+        сам.assertEqual(очередь["last_completion"]["kind"], "reset")
 
 
 class QueueSafetyTests(GitQueueFixture):
@@ -1831,7 +3857,7 @@ class RepositoryIntegrationTests(unittest.TestCase):
 
 
 class Sha256QueueTests(GitQueueFixture):
-    object_format = "sha256"
+    формат_объектов = "sha256"
 
     @classmethod
     def setUpClass(cls) -> None:
