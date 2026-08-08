@@ -1467,7 +1467,7 @@ class BranchNextStepTests(unittest.TestCase):
             str(REPO_ROOT.resolve()),
         )
         self.assertNotIn("<КОРЕНЬ_КЛОНА>", rendered)
-        self.assertLessEqual(len(rendered), 15_117)
+        self.assertLessEqual(len(rendered), 19_605)
 
     def test_heartbeat_computes_readiness_before_history_ranking(self) -> None:
         prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")

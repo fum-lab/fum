@@ -642,7 +642,7 @@ class HeartbeatControlContractTests(unittest.TestCase):
             первая_инвентаризация + 1,
         )
         общая_резервация = шаблон.index("зарезервировать")
-        вызов_среды = шаблон.index("create_thread")
+        вызов_среды = шаблон.index("tools.codex_app__create_thread({")
         сам.assertLess(первая_инвентаризация, вторая_инвентаризация)
         сам.assertLess(вторая_инвентаризация, общая_резервация)
         сам.assertLess(общая_резервация, вызов_среды)
@@ -824,6 +824,97 @@ class HeartbeatControlContractTests(unittest.TestCase):
         сам.assertLess(первое_ограждение, восстановление)
         сам.assertLess(проверка_очереди, повторное_ограждение)
         сам.assertLess(повторное_ограждение, граница_среды)
+
+    def test_возобновление_связанного_запуска_предшествует_выходу_по_занятой_очереди(
+        сам,
+    ) -> None:
+        документ = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+        шаблон = RENDERER.extract_heartbeat_template(документ)
+        начало = шаблон.index("Маршрут возобновления связанного запуска")
+        конец = шаблон.index("Конец маршрута возобновления", начало)
+        секция = шаблон[начало:конец]
+        состояние_резервации = секция.index("состояние-резервации")
+        чтение_задачи = секция.index("tools.codex_app__read_thread({")
+        сравнение_и_замена = секция.index("начать-возобновление-задачи")
+        сообщение = секция.index("tools.codex_app__send_message_to_thread({")
+
+        сам.assertLess(состояние_резервации, чтение_задачи)
+        сам.assertLess(чтение_задачи, сравнение_и_замена)
+        сам.assertLess(сравнение_и_замена, сообщение)
+        сам.assertLess(начало, шаблон.index("heartbeat-status --task-id"))
+        сам.assertLess(начало, шаблон.index("При точном `state=busy`"))
+        сам.assertEqual(секция.count("tools.codex_app__read_thread({"), 1)
+        сам.assertEqual(
+            секция.count("tools.codex_app__send_message_to_thread({"),
+            1,
+        )
+        сам.assertNotIn("tools.codex_app__create_thread({", секция)
+        сам.assertLess(
+            сообщение + начало,
+            шаблон.index("tools.codex_app__create_thread({"),
+        )
+
+    def test_возобновление_принимает_только_закрытый_профиль_разрыва_потока(
+        сам,
+    ) -> None:
+        текст = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+        шаблон = RENDERER.extract_heartbeat_template(текст)
+        начало = шаблон.index("Маршрут возобновления связанного запуска")
+        конец = шаблон.index("Конец маршрута возобновления", начало)
+        секция = шаблон[начало:конец]
+
+        for фрагмент in (
+            "schemaVersion === 1",
+            "schemaVersion, thread, page, turns",
+            "id == threadId == task_id",
+            "непустой `hostId`",
+            "точно совпадающий с hostId резервации",
+            "не должно быть ни одной записи со status=active",
+            "idle либо notLoaded",
+            "status=failed",
+            "stream disconnected before completion: error sending request for url (https://chatgpt.com/backend-api/codex/responses)",
+            "additionalDetails=null",
+            "физическая причина не определена",
+            "не доказывает гибернацию",
+            "не доказывает доступность всей сети",
+        ):
+            сам.assertIn(фрагмент, секция)
+        for закрытый_случай in (
+            "active",
+            "ожидание пользователя",
+            "иная ошибка",
+            "лишнее поле",
+            "несовпавшие threadId или hostId",
+        ):
+            сам.assertIn(закрытый_случай, секция)
+
+    def test_потерянный_ответ_сообщения_не_разрешает_повтор_или_замену(
+        сам,
+    ) -> None:
+        документ = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+        шаблон = RENDERER.extract_heartbeat_template(документ)
+        начало = шаблон.index("Маршрут возобновления связанного запуска")
+        конец = шаблон.index("Конец маршрута возобновления", начало)
+        секция = шаблон[начало:конец]
+
+        for фрагмент in (
+            "вызов_мог_состояться",
+            "ровно один",
+            "успех, ошибка или тайм-аут",
+            "не повторяй send",
+            "не вызывай create_thread",
+            "не создавай replacement",
+            "заверши тик",
+            "подтвердить-возобновление-задачи",
+            "тот же CODEX_THREAD_ID",
+            "первым инструментальным действием",
+            "идемпотентный join",
+            "перечитай AGENTS.md",
+            "уже запущенный процесс",
+            "долговечную контрольную точку",
+            "не повторяй внешний эффект с неизвестным исходом",
+        ):
+            сам.assertIn(фрагмент, секция)
 
     def test_permission_retry_is_exact_and_requires_proven_denial(self) -> None:
         prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")

@@ -1,0 +1,36 @@
+{
+  "page": {
+    "hasMore": false,
+    "limit": 1,
+    "nextCursor": null,
+    "order": "newest_first"
+  },
+  "schemaVersion": 1,
+  "thread": {
+    "createdAt": 1786179000,
+    "cwd": "<workspace>",
+    "hostId": "local",
+    "id": "exact-root-task",
+    "kind": "codex",
+    "preview": null,
+    "status": {
+      "type": "idle"
+    },
+    "title": "Обезличенная задача",
+    "updatedAt": 1786195962
+  },
+  "turns": [
+    {
+      "completedAt": 1786195962,
+      "durationMs": 11273576,
+      "error": {
+        "additionalDetails": null,
+        "message": "stream disconnected before completion: error sending request for url (https://chatgpt.com/backend-api/codex/responses)"
+      },
+      "id": "turn-transport-failure-1",
+      "items": [],
+      "startedAt": 1786180198,
+      "status": "failed"
+    }
+  ]
+}
