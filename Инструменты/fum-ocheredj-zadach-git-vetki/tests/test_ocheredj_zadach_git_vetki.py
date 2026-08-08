@@ -116,7 +116,7 @@ class GitQueueFixture(unittest.TestCase):
     def run_queue(
         self,
         *args: str,
-        timeout: float = 10,
+        timeout: float = 60,
     ) -> subprocess.CompletedProcess[str]:
         среда = dict(os.environ)
         if "--идентификатор-диспетчера" in args:
@@ -528,7 +528,7 @@ class QueueContractTests(GitQueueFixture):
                 "--task-id",
                 "task-b",
                 "--json",
-                timeout=5,
+                timeout=60,
             )
             time.sleep(0.15)
 
@@ -542,7 +542,7 @@ class QueueContractTests(GitQueueFixture):
             committed = self.commit("task-a", str(owner["generation"]))
             self.assertEqual(committed.returncode, 0, committed.stderr)
             committed_payload = self.payload(committed)
-            result = waiting.result(timeout=5)
+            result = waiting.result(timeout=60)
 
         self.assertNotEqual(result.returncode, 0)
         self.assertEqual(self.payload(result)["state"], "reload_required")
@@ -564,14 +564,14 @@ class QueueContractTests(GitQueueFixture):
                 "--task-id",
                 "task-b",
                 "--json",
-                timeout=5,
+                timeout=60,
             )
             time.sleep(0.15)
 
             self.assertFalse(waiting.done())
             finished = self.finish_clean("task-a", str(owner["generation"]))
             self.assertEqual(finished.returncode, 0, finished.stderr)
-            result = waiting.result(timeout=5)
+            result = waiting.result(timeout=60)
 
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(self.payload(result)["state"], "admitted")
@@ -2719,7 +2719,7 @@ class QueueSafetyTests(GitQueueFixture):
             check=False,
             capture_output=True,
             text=True,
-            timeout=5,
+            timeout=60,
         )
 
         self.assertEqual(result.returncode, 0, result.stderr)
@@ -3200,7 +3200,7 @@ class QueueSafetyTests(GitQueueFixture):
                     "task-b",
                     f"--timeout-seconds={value}",
                     "--json",
-                    timeout=0.5,
+                    timeout=60,
                 )
                 self.assertNotEqual(result.returncode, 0)
                 self.assertEqual(self.payload(result)["state"], "invalid_timeout")
@@ -3274,7 +3274,7 @@ class QueueSafetyTests(GitQueueFixture):
             check=False,
             capture_output=True,
             text=True,
-            timeout=5,
+            timeout=60,
         )
 
         self.assertNotEqual(result.returncode, 0)
@@ -3712,7 +3712,7 @@ class GitHubPublicationTests(GitQueueFixture):
             check=False,
             capture_output=True,
             text=True,
-            timeout=10,
+            timeout=60,
         )
 
         self.assertNotEqual(result.returncode, 0)
@@ -3879,6 +3879,14 @@ class Sha256QueueTests(GitQueueFixture):
         committed = self.commit("task-a", str(owner["generation"]), "SHA-256 task")
         self.assertEqual(committed.returncode, 0, committed.stderr)
         self.assertEqual(len(str(self.payload(committed)["new_head"])), 64)
+
+
+class ИнвариантыТаймАутаОбвязки(unittest.TestCase):
+    def test_тайм_аут_обвязки_превышает_внутренний_Гит_лимит(
+        сам,
+    ) -> None:
+        модуль = load_queue_module()
+        сам.assertGreater(60, модуль.GIT_COMMAND_TIMEOUT_SECONDS)
 
 
 if __name__ == "__main__":

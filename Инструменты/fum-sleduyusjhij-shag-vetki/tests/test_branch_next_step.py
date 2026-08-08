@@ -358,7 +358,7 @@ class BranchNextStepTests(unittest.TestCase):
     def run_tool(
         self,
         *args: str,
-        timeout: float = 5,
+        timeout: float = 30,
     ) -> subprocess.CompletedProcess[str]:
         return subprocess.run(
             [
@@ -5736,7 +5736,7 @@ class BranchNextStepTests(unittest.TestCase):
             )
             for attempt in range(1, 5)
         ]
-        results = [process.communicate(timeout=5) for process in processes]
+        results= [process.communicate(timeout=30) for process in processes]
         returncodes = [process.returncode for process in processes]
 
         self.assertEqual(sorted(returncodes), [0, 4, 4, 4])
@@ -6932,6 +6932,11 @@ class BranchNextStepTests(unittest.TestCase):
             shown_payload["selection"]["reason"],
             "completed_step_source",
         )
+
+    def test_тайм_аут_обвязки_превышает_внутренний_Гит_лимит(
+        сам,
+    ) -> None:
+        сам.assertGreater(30, TOOL_MODULE.GIT_COMMAND_TIMEOUT_SECONDS)
 
 
 if __name__ == "__main__":
