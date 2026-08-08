@@ -17,7 +17,7 @@ from pathlib import Path
 from typing import Any
 
 
-SCHEMA = "fum.planning.requirements-registry.v7"
+SCHEMA = "fum.planning.requirements-registry.v8"
 BOXED_GRAPH_SCHEMA = "fum.planning.boxed-implementation-dependency-graph.v1"
 BOXED_GRAPH_ID = "FUM-BOXED-IMPLEMENTATION-GRAPH"
 BOXED_GRAPH_ELEMENT_IDS = [f"P{index}" for index in range(17)]
@@ -34,6 +34,8 @@ BOXED_GRAPH_JSON = BOXED_GRAPH_MARKDOWN.with_suffix(".json")
 PROPOSALS_OVERVIEW = Path("Планирование/предложения-о-следующих-шагах.md")
 STEP_CARDS_DIR = Path("Планирование/карточки-шагов")
 STEP_CARDS_INDEX = STEP_CARDS_DIR / "README.md"
+КАТАЛОГ_КАРТОЧЕК_ЦЕПОЧЕК = Path("Планирование/карточки-цепочек-шагов")
+ИНДЕКС_КАРТОЧЕК_ЦЕПОЧЕК = КАТАЛОГ_КАРТОЧЕК_ЦЕПОЧЕК / "README.md"
 QUESTIONS_README = Path("Вопросы/README.md")
 AUTOMATION_FILE = Path("Инструменты/fum-reyestr-planirovaniya/SKILL.md")
 REQUIREMENTS_DIR = Path("Требования")
@@ -63,6 +65,53 @@ INDEX_STATUS_BY_MACHINE = {
 STEP_CARD_INDEX_HEADERS = ["Идентификатор", "Статус", "Карточка"]
 STEP_CARD_FRONTMATTER_KEYS = frozenset(
     {"schema_version", "card_id", "status"}
+)
+
+ШАБЛОН_ИДЕНТИФИКАТОРА_ЦЕПОЧКИ = re.compile(
+    r"^FUM-ЦЕПОЧКА-[0-9]{4}$"
+)
+СОСТОЯНИЯ_ЦЕПОЧКИ = {
+    "запланирована": {"эмодзи": "🟡", "метка": "Запланирована"},
+    "активна": {"эмодзи": "🚧", "метка": "Активна"},
+    "завершена": {"эмодзи": "✅", "метка": "Завершена"},
+    "отозвана": {"эмодзи": "🗑️", "метка": "Отозвана"},
+}
+СОСТОЯНИЕ_ЦЕПОЧКИ_ПО_ЭМОДЗИ = {
+    сведения["эмодзи"]: состояние
+    for состояние, сведения in СОСТОЯНИЯ_ЦЕПОЧКИ.items()
+}
+СОСТОЯНИЕ_ЦЕПОЧКИ_ПО_МЕТКЕ = {
+    f"{сведения['эмодзи']} {сведения['метка']}": состояние
+    for состояние, сведения in СОСТОЯНИЯ_ЦЕПОЧКИ.items()
+}
+ЗАГОЛОВКИ_ИНДЕКСА_ЦЕПОЧЕК = [
+    "Идентификатор",
+    "Состояние",
+    "Ветка",
+    "Карточка",
+]
+ПОЛЯ_КАРТОЧКИ_ЦЕПОЧКИ = frozenset(
+    {
+        "версия_схемы",
+        "идентификатор_цепочки",
+        "состояние",
+        "ветка",
+        "базовая_ветка",
+        "путь_проекта",
+        "карточки_шагов",
+    }
+)
+ПОЛЯ_ОБЪЕКТА_ЦЕПОЧКИ = frozenset(
+    {
+        "идентификатор",
+        "файл",
+        "заголовок",
+        "состояние",
+        "ветка",
+        "базовая_ветка",
+        "путь_проекта",
+        "карточки_шагов",
+    }
 )
 
 LINK_RE = re.compile(r"!?\[([^\]\n]+)\]\(([^)\n]+)\)")
@@ -1452,6 +1501,526 @@ def extract_step_cards(repo_root: Path) -> list[dict[str, Any]]:
     return ordered
 
 
+def метаданные_имени_карточки_цепочки(
+    путь: Path,
+) -> tuple[str, str, str]:
+    имя = путь.name
+    if len(имя.encode("utf-8")) > 255:
+        raise ValueError(
+            f"step chain card filename exceeds 255 UTF-8 bytes: {имя}"
+        )
+
+    эмодзи_имени: str | None = None
+    состояние_имени: str | None = None
+    for эмодзи in sorted(
+        СОСТОЯНИЕ_ЦЕПОЧКИ_ПО_ЭМОДЗИ,
+        key=len,
+        reverse=True,
+    ):
+        if имя.startswith(f"{эмодзи}-"):
+            эмодзи_имени = эмодзи
+            состояние_имени = СОСТОЯНИЕ_ЦЕПОЧКИ_ПО_ЭМОДЗИ[эмодзи]
+            break
+    if эмодзи_имени is None or состояние_имени is None:
+        raise ValueError(f"invalid step chain card filename state emoji: {имя}")
+
+    остаток = имя[len(эмодзи_имени) + 1 :]
+    совпадение = re.fullmatch(
+        r"(FUM-ЦЕПОЧКА-[0-9]{4})-(.*)\.md",
+        остаток,
+    )
+    if совпадение is None:
+        raise ValueError(
+            "invalid step chain card filename; expected "
+            f"<emoji>-FUM-ЦЕПОЧКА-NNNN-<description>.md: {имя}"
+        )
+    идентификатор, описание = совпадение.groups()
+    части_описания = описание.split("-")
+    if (
+        not описание
+        or any(not часть for часть in части_описания)
+        or any(
+            not all(символ.isalnum() for символ in часть)
+            for часть in части_описания
+        )
+    ):
+        raise ValueError(
+            "invalid step chain card filename description; expected Unicode "
+            f"letters or digits separated by single hyphens: {имя}"
+        )
+    return идентификатор, состояние_имени, описание
+
+
+def пути_карточек_цепочек(корень: Path) -> list[Path]:
+    каталог = absolute_path(КАТАЛОГ_КАРТОЧЕК_ЦЕПОЧЕК, корень)
+    if not каталог.is_dir():
+        raise ValueError(
+            "step chain cards directory does not exist: "
+            f"{КАТАЛОГ_КАРТОЧЕК_ЦЕПОЧЕК.as_posix()}"
+        )
+    пути_разметки = sorted(
+        путь
+        for путь in каталог.rglob("*")
+        if путь.is_file() and путь.suffix.casefold() == ".md"
+    )
+    путь_индекса = каталог / ИНДЕКС_КАРТОЧЕК_ЦЕПОЧЕК.name
+    пути: list[Path] = []
+    for путь in пути_разметки:
+        if путь == путь_индекса:
+            continue
+        if путь.parent != каталог:
+            относительный_путь = путь.relative_to(каталог).as_posix()
+            raise ValueError(
+                "step chain cards directory must be flat; nested Markdown is "
+                f"forbidden: {относительный_путь}"
+            )
+        пути.append(путь)
+    if not пути:
+        raise ValueError(
+            "step chain cards directory contains no cards: "
+            f"{КАТАЛОГ_КАРТОЧЕК_ЦЕПОЧЕК.as_posix()}"
+        )
+    return пути
+
+
+def разделить_метаданные_карточки_цепочки(
+    текст: str,
+    исходный_файл: str,
+) -> tuple[dict[str, Any], str]:
+    if not текст.startswith("+++\n"):
+        raise ValueError(
+            f"step chain card must start with TOML frontmatter: {исходный_файл}"
+        )
+    закрытие = текст.find("\n+++\n", 4)
+    if закрытие < 0:
+        raise ValueError(
+            f"step chain card TOML frontmatter is not closed: {исходный_файл}"
+        )
+    try:
+        метаданные = tomllib.loads(текст[4:закрытие])
+    except tomllib.TOMLDecodeError as ошибка:
+        raise ValueError(
+            f"invalid step chain card TOML in {исходный_файл}: {ошибка}"
+        ) from ошибка
+    if not isinstance(метаданные, dict):
+        raise ValueError(
+            f"step chain card TOML must be a table: {исходный_файл}"
+        )
+    ключи = frozenset(метаданные)
+    отсутствующие = ПОЛЯ_КАРТОЧКИ_ЦЕПОЧКИ - ключи
+    неизвестные = ключи - ПОЛЯ_КАРТОЧКИ_ЦЕПОЧКИ
+    if отсутствующие:
+        raise ValueError(
+            "missing step chain card TOML fields in "
+            f"{исходный_файл}: {', '.join(sorted(отсутствующие))}"
+        )
+    if неизвестные:
+        raise ValueError(
+            "unknown step chain card TOML fields in "
+            f"{исходный_файл}: {', '.join(sorted(неизвестные))}"
+        )
+    тело = RECENCY_RE.sub("\n", текст[закрытие + 5 :]).strip() + "\n"
+    return метаданные, тело
+
+
+def проверить_ссылку_локальной_ветки(
+    значение: Any,
+    требуемый_префикс: str,
+    описание: str,
+) -> str:
+    if not isinstance(значение, str) or not значение.startswith(
+        требуемый_префикс
+    ):
+        raise ValueError(
+            f"{описание} must start with {требуемый_префикс}: {значение!r}"
+        )
+    if not значение.startswith("refs/heads/"):
+        raise ValueError(f"{описание} must be a local branch: {значение!r}")
+    имя_ветки = значение[len("refs/heads/") :]
+    запрещённые_фрагменты = ("..", "@{")
+    запрещённые_символы = "~^:?*[\\"
+    части = имя_ветки.split("/")
+    недопустимо = (
+        not имя_ветки
+        or имя_ветки == "@"
+        or значение.endswith((".", "/"))
+        or any(фрагмент in значение for фрагмент in запрещённые_фрагменты)
+        or any(
+            ord(символ) <= 32
+            or ord(символ) == 127
+            or символ in запрещённые_символы
+            for символ in значение
+        )
+        or any(
+            not часть
+            or часть.startswith((".", "-"))
+            or часть.endswith((".", ".lock"))
+            for часть in части
+        )
+    )
+    if недопустимо:
+        raise ValueError(f"invalid {описание}: {значение!r}")
+    return значение
+
+
+def проверить_относительный_путь_проекта(
+    значение: Any,
+    корень: Path | None = None,
+) -> str:
+    if not isinstance(значение, str) or not значение:
+        raise ValueError(f"step chain project path must be non-empty: {значение!r}")
+    путь = Path(значение)
+    if (
+        путь.is_absolute()
+        or значение != путь.as_posix()
+        or any(часть in {"", ".", ".."} for часть in путь.parts)
+        or any(ord(символ) < 32 or ord(символ) == 127 for символ in значение)
+    ):
+        raise ValueError(
+            f"step chain project path must be a normalized relative path: {значение!r}"
+        )
+    if корень is None:
+        return значение
+    разрешённый_корень = корень.resolve()
+    разрешённый_путь = (разрешённый_корень / путь).resolve()
+    try:
+        разрешённый_путь.relative_to(разрешённый_корень)
+    except ValueError as ошибка:
+        raise ValueError(
+            f"step chain project path leaves repository: {значение!r}"
+        ) from ошибка
+    if not разрешённый_путь.exists():
+        raise ValueError(
+            f"step chain project path does not exist: {значение!r}"
+        )
+    return значение
+
+
+def разобрать_карточку_цепочки(
+    путь: Path,
+    корень: Path,
+    известные_шаги: set[str],
+) -> dict[str, Any]:
+    идентификатор_имени, состояние_имени, _описание = (
+        метаданные_имени_карточки_цепочки(путь)
+    )
+    исходный_файл = repo_relative(путь, корень)
+    метаданные, тело = разделить_метаданные_карточки_цепочки(
+        путь.read_text(encoding="utf-8"),
+        исходный_файл,
+    )
+    версия_схемы = метаданные["версия_схемы"]
+    if type(версия_схемы) is not int or версия_схемы != 1:
+        raise ValueError(
+            "step chain card supports only версия_схемы = 1: "
+            f"{исходный_файл}"
+        )
+    идентификатор = метаданные["идентификатор_цепочки"]
+    if (
+        not isinstance(идентификатор, str)
+        or ШАБЛОН_ИДЕНТИФИКАТОРА_ЦЕПОЧКИ.fullmatch(идентификатор) is None
+    ):
+        raise ValueError(
+            f"invalid step chain id in {исходный_файл}: {идентификатор!r}"
+        )
+    if идентификатор_имени != идентификатор:
+        raise ValueError(
+            "step chain card filename id does not match TOML id in "
+            f"{исходный_файл}: {идентификатор_имени!r} != {идентификатор!r}"
+        )
+    состояние = метаданные["состояние"]
+    if not isinstance(состояние, str) or состояние not in СОСТОЯНИЯ_ЦЕПОЧКИ:
+        raise ValueError(
+            f"invalid step chain state in {исходный_файл}: {состояние!r}"
+        )
+    if состояние_имени != состояние:
+        raise ValueError(
+            "step chain card filename state does not match TOML state in "
+            f"{исходный_файл}: {состояние_имени!r} != {состояние!r}"
+        )
+    ветка = проверить_ссылку_локальной_ветки(
+        метаданные["ветка"],
+        "refs/heads/codex/",
+        "step chain branch",
+    )
+    базовая_ветка = проверить_ссылку_локальной_ветки(
+        метаданные["базовая_ветка"],
+        "refs/heads/",
+        "step chain base branch",
+    )
+    путь_проекта = проверить_относительный_путь_проекта(
+        метаданные["путь_проекта"],
+        корень,
+    )
+    карточки_шагов = метаданные["карточки_шагов"]
+    if not isinstance(карточки_шагов, list) or not карточки_шагов:
+        raise ValueError(
+            f"step chain step cards must be a non-empty list: {исходный_файл}"
+        )
+    проверенные_шаги: list[str] = []
+    for карточка_шага in карточки_шагов:
+        if (
+            not isinstance(карточка_шага, str)
+            or STEP_CARD_ID_RE.fullmatch(карточка_шага) is None
+        ):
+            raise ValueError(
+                "invalid step card id in step chain "
+                f"{идентификатор}: {карточка_шага!r}"
+            )
+        if карточка_шага in проверенные_шаги:
+            raise ValueError(
+                "duplicate step card in step chain "
+                f"{идентификатор}: {карточка_шага}"
+            )
+        if карточка_шага not in известные_шаги:
+            raise ValueError(
+                f"unknown step card {карточка_шага} in step chain {идентификатор}"
+            )
+        проверенные_шаги.append(карточка_шага)
+
+    заголовки = list(re.finditer(r"^#\s+(.+?)\s*$", тело, re.MULTILINE))
+    if len(заголовки) != 1:
+        raise ValueError(
+            "step chain card must contain exactly one level-one heading: "
+            f"{исходный_файл}"
+        )
+    заголовок = clean_text(заголовки[0].group(1))
+    if not заголовок:
+        raise ValueError(f"step chain card title is empty: {исходный_файл}")
+
+    return {
+        "идентификатор": идентификатор,
+        "файл": исходный_файл,
+        "заголовок": заголовок,
+        "состояние": состояние,
+        "ветка": ветка,
+        "базовая_ветка": базовая_ветка,
+        "путь_проекта": путь_проекта,
+        "карточки_шагов": проверенные_шаги,
+    }
+
+
+def строки_индекса_цепочек(корень: Path) -> list[list[Cell]]:
+    исходный_путь = ИНДЕКС_КАРТОЧЕК_ЦЕПОЧЕК
+    текст = read_text(исходный_путь, корень)
+    строки = текст.splitlines()
+    номера_заголовков = [
+        номер
+        for номер, строка in enumerate(строки)
+        if [clean_text(ячейка) for ячейка in split_row(строка)]
+        == ЗАГОЛОВКИ_ИНДЕКСА_ЦЕПОЧЕК
+    ]
+    if len(номера_заголовков) != 1:
+        raise ValueError(
+            "step chain index must contain exactly one table with headers "
+            f"{' | '.join(ЗАГОЛОВКИ_ИНДЕКСА_ЦЕПОЧЕК)}: "
+            f"{исходный_путь.as_posix()}"
+        )
+    номер_заголовка = номера_заголовков[0]
+    номер_разделителя = номер_заголовка + 1
+    if номер_разделителя >= len(строки):
+        raise ValueError(
+            f"step chain index table has no separator: {исходный_путь}"
+        )
+    разделитель = split_row(строки[номер_разделителя])
+    if (
+        len(разделитель) != len(ЗАГОЛОВКИ_ИНДЕКСА_ЦЕПОЧЕК)
+        or not is_separator(разделитель)
+    ):
+        raise ValueError(
+            f"step chain index table has invalid separator: {исходный_путь}"
+        )
+
+    результат: list[list[Cell]] = []
+    for номер_строки in range(номер_разделителя + 1, len(строки)):
+        строка = строки[номер_строки]
+        if not строка.strip():
+            if результат:
+                break
+            continue
+        ячейки = split_row(строка)
+        if not ячейки:
+            if результат:
+                break
+            raise ValueError(
+                f"malformed step chain index row at line {номер_строки + 1}"
+            )
+        if (
+            len(ячейки) != len(ЗАГОЛОВКИ_ИНДЕКСА_ЦЕПОЧЕК)
+            or is_separator(ячейки)
+        ):
+            raise ValueError(
+                f"malformed step chain index row at line {номер_строки + 1}"
+            )
+        результат.append(
+            [
+                Cell(
+                    raw=ячейка,
+                    text=clean_text(ячейка),
+                    links=links_from_markdown(
+                        ячейка,
+                        исходный_путь,
+                        корень,
+                    ),
+                )
+                for ячейка in ячейки
+            ]
+        )
+    if not результат:
+        raise ValueError(f"step chain index table is empty: {исходный_путь}")
+    return результат
+
+
+def извлечь_карточки_цепочек(
+    корень: Path,
+    шаги: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    известные_шаги = {шаг["id"] for шаг in шаги}
+    карточки = [
+        разобрать_карточку_цепочки(путь, корень, известные_шаги)
+        for путь in пути_карточек_цепочек(корень)
+    ]
+    карточки_по_идентификатору: dict[str, dict[str, Any]] = {}
+    карточки_по_файлу: dict[str, dict[str, Any]] = {}
+    карточки_по_ветке: dict[str, dict[str, Any]] = {}
+    for карточка in карточки:
+        идентификатор = карточка["идентификатор"]
+        файл = карточка["файл"]
+        ветка = карточка["ветка"]
+        if идентификатор in карточки_по_идентификатору:
+            raise ValueError(f"duplicate step chain id: {идентификатор}")
+        if файл in карточки_по_файлу:
+            raise ValueError(f"duplicate step chain path: {файл}")
+        if ветка in карточки_по_ветке:
+            raise ValueError(f"duplicate step chain branch: {ветка}")
+        карточки_по_идентификатору[идентификатор] = карточка
+        карточки_по_файлу[файл] = карточка
+        карточки_по_ветке[ветка] = карточка
+
+    индексированные_идентификаторы: set[str] = set()
+    индексированные_файлы: set[str] = set()
+    упорядоченные: list[dict[str, Any]] = []
+    for номер_строки, строка in enumerate(
+        строки_индекса_цепочек(корень),
+        start=1,
+    ):
+        идентификатор, состояние, ветка, карточка_ячейка = строка
+        if (
+            ШАБЛОН_ИДЕНТИФИКАТОРА_ЦЕПОЧКИ.fullmatch(
+                идентификатор.text
+            )
+            is None
+        ):
+            raise ValueError(
+                "invalid step chain index id at row "
+                f"{номер_строки}: {идентификатор.text!r}"
+            )
+        if идентификатор.text in индексированные_идентификаторы:
+            raise ValueError(
+                f"duplicate step chain index id: {идентификатор.text}"
+            )
+        if состояние.text not in СОСТОЯНИЕ_ЦЕПОЧКИ_ПО_МЕТКЕ:
+            raise ValueError(
+                "invalid step chain index state at row "
+                f"{номер_строки}: {состояние.text!r}"
+            )
+        if len(карточка_ячейка.links) != 1:
+            raise ValueError(
+                f"step chain index row {номер_строки} must link exactly one card"
+            )
+        ссылка = карточка_ячейка.links[0]
+        if карточка_ячейка.text != ссылка["label"]:
+            raise ValueError(
+                f"step chain index row {номер_строки} must contain only one card link"
+            )
+        целевой_файл = ссылка["target"]
+        if целевой_файл in индексированные_файлы:
+            raise ValueError(f"duplicate step chain index path: {целевой_файл}")
+        if целевой_файл not in карточки_по_файлу:
+            raise ValueError(
+                f"step chain index points outside the card set: {целевой_файл}"
+            )
+        карточка = карточки_по_файлу[целевой_файл]
+        if идентификатор.text != карточка["идентификатор"]:
+            raise ValueError(
+                "step chain index id mismatch: "
+                f"{идентификатор.text} points to {карточка['идентификатор']}"
+            )
+        ожидаемое_состояние = СОСТОЯНИЕ_ЦЕПОЧКИ_ПО_МЕТКЕ[
+            состояние.text
+        ]
+        if ожидаемое_состояние != карточка["состояние"]:
+            raise ValueError(
+                "step chain index state mismatch: "
+                f"{карточка['идентификатор']} has {карточка['состояние']}, "
+                f"index has {состояние.text}"
+            )
+        if ветка.text != карточка["ветка"]:
+            raise ValueError(
+                "step chain index branch mismatch: "
+                f"{карточка['идентификатор']} has {карточка['ветка']}, "
+                f"index has {ветка.text}"
+            )
+        if ссылка["label"] != карточка["заголовок"]:
+            raise ValueError(
+                "step chain index link label mismatch: "
+                f"{карточка['идентификатор']} title is "
+                f"{карточка['заголовок']!r}, link is {ссылка['label']!r}"
+            )
+        индексированные_идентификаторы.add(идентификатор.text)
+        индексированные_файлы.add(целевой_файл)
+        упорядоченные.append(карточка)
+
+    файлы_карточек = set(карточки_по_файлу)
+    идентификаторы_карточек = set(карточки_по_идентификатору)
+    if (
+        индексированные_файлы != файлы_карточек
+        or индексированные_идентификаторы != идентификаторы_карточек
+    ):
+        отсутствующие_файлы = sorted(
+            файлы_карточек - индексированные_файлы
+        )
+        лишние_файлы = sorted(индексированные_файлы - файлы_карточек)
+        отсутствующие_идентификаторы = sorted(
+            идентификаторы_карточек - индексированные_идентификаторы
+        )
+        лишние_идентификаторы = sorted(
+            индексированные_идентификаторы - идентификаторы_карточек
+        )
+        raise ValueError(
+            "step chain index does not exactly cover cards: "
+            f"missing_files={отсутствующие_файлы}, "
+            f"extra_files={лишние_файлы}, "
+            f"missing_ids={отсутствующие_идентификаторы}, "
+            f"extra_ids={лишние_идентификаторы}"
+        )
+
+    занятость_шагов: dict[str, str] = {}
+    for карточка in упорядоченные:
+        if карточка["состояние"] == "отозвана":
+            continue
+        for карточка_шага in карточка["карточки_шагов"]:
+            предыдущая_цепочка = занятость_шагов.get(карточка_шага)
+            if предыдущая_цепочка is not None:
+                raise ValueError(
+                    "duplicate step chain membership for "
+                    f"{карточка_шага}: {предыдущая_цепочка}, "
+                    f"{карточка['идентификатор']}"
+                )
+            занятость_шагов[карточка_шага] = карточка["идентификатор"]
+    активные_цепочки = [
+        карточка
+        for карточка in упорядоченные
+        if карточка["состояние"] == "активна"
+    ]
+    if len(активные_цепочки) != 1:
+        raise ValueError(
+            "registry must contain exactly one active step chain: "
+            f"found {len(активные_цепочки)}"
+        )
+    return упорядоченные
+
+
 def proposal_inventory_from_steps(
     steps: list[dict[str, Any]],
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
@@ -1834,6 +2403,7 @@ def source_files(repo_root: Path, inventory: dict[str, Any]) -> list[Path]:
         BOXED_GRAPH_JSON,
         PROPOSALS_OVERVIEW,
         STEP_CARDS_INDEX,
+        ИНДЕКС_КАРТОЧЕК_ЦЕПОЧЕК,
         QUESTIONS_README,
     ]
     direction_files = sorted(
@@ -1858,6 +2428,7 @@ def source_files(repo_root: Path, inventory: dict[str, Any]) -> list[Path]:
     all_files.extend(question_files)
     all_files.extend(requirement_card_paths(repo_root))
     all_files.extend(step_card_paths(repo_root))
+    all_files.extend(пути_карточек_цепочек(repo_root))
 
     unique: dict[str, Path] = {}
     for path in all_files:
@@ -1944,6 +2515,7 @@ def build_registry(repo_root: Path | None = None) -> dict[str, Any]:
     }
     planning_views = extract_planning_views(root, requirements_by_file)
     steps = extract_step_cards(root)
+    цепочки_шагов = извлечь_карточки_цепочек(root, steps)
     active_proposals, proposal_history = proposal_inventory_from_steps(steps)
     inventory: dict[str, Any] = {
         "roadmap_horizons": extract_roadmap_horizons(root),
@@ -1974,10 +2546,158 @@ def build_registry(repo_root: Path | None = None) -> dict[str, Any]:
         "requirements": requirements,
         "planning_views": planning_views,
         "steps": steps,
+        "цепочки_шагов": цепочки_шагов,
         "boxed_implementation_graph": boxed_implementation_graph,
         "source_inventory": inventory,
         "coverage": coverage(planning_views, inventory),
     }
+
+
+def ошибки_цепочек_шагов(
+    значение: Any,
+    известные_шаги: set[str],
+) -> list[str]:
+    ошибки: list[str] = []
+    if not isinstance(значение, list) or not значение:
+        ошибки.append("registry must contain at least one step chain")
+        return ошибки
+
+    идентификаторы: set[str] = set()
+    файлы: set[str] = set()
+    ветки: set[str] = set()
+    занятость_шагов: dict[str, str] = {}
+    количество_активных_цепочек = 0
+    for номер, исходный_объект in enumerate(значение, start=1):
+        объект = exact_object(
+            исходный_объект,
+            ПОЛЯ_ОБЪЕКТА_ЦЕПОЧКИ,
+            f"step chain {номер}",
+            ошибки,
+        )
+        if объект is None:
+            continue
+
+        идентификатор = объект.get("идентификатор")
+        if (
+            not isinstance(идентификатор, str)
+            or ШАБЛОН_ИДЕНТИФИКАТОРА_ЦЕПОЧКИ.fullmatch(идентификатор)
+            is None
+        ):
+            ошибки.append(f"invalid step chain id: {идентификатор}")
+        elif идентификатор in идентификаторы:
+            ошибки.append(f"duplicate step chain id: {идентификатор}")
+        else:
+            идентификаторы.add(идентификатор)
+
+        файл = объект.get("файл")
+        метаданные_имени: tuple[str, str, str] | None = None
+        if not isinstance(файл, str) or not файл:
+            ошибки.append(f"step chain card file is empty: {идентификатор}")
+        else:
+            путь = Path(файл)
+            if путь.parent != КАТАЛОГ_КАРТОЧЕК_ЦЕПОЧЕК:
+                ошибки.append(
+                    "step chain card file is outside "
+                    f"{КАТАЛОГ_КАРТОЧЕК_ЦЕПОЧЕК.as_posix()}: {файл}"
+                )
+            else:
+                try:
+                    метаданные_имени = метаданные_имени_карточки_цепочки(
+                        путь
+                    )
+                except ValueError as ошибка:
+                    ошибки.append(str(ошибка))
+            if файл in файлы:
+                ошибки.append(f"duplicate step chain path: {файл}")
+            else:
+                файлы.add(файл)
+
+        заголовок = объект.get("заголовок")
+        if not isinstance(заголовок, str) or not заголовок:
+            ошибки.append(f"step chain card title is empty: {идентификатор}")
+
+        состояние = объект.get("состояние")
+        if состояние not in СОСТОЯНИЯ_ЦЕПОЧКИ:
+            ошибки.append(f"invalid step chain state: {состояние}")
+        elif состояние == "активна":
+            количество_активных_цепочек += 1
+        if метаданные_имени is not None:
+            идентификатор_имени, состояние_имени, _описание = метаданные_имени
+            if идентификатор_имени != идентификатор:
+                ошибки.append(
+                    "step chain card file id does not match chain id: "
+                    f"{идентификатор_имени} != {идентификатор}"
+                )
+            if состояние_имени != состояние:
+                ошибки.append(
+                    "step chain card file state does not match chain state: "
+                    f"{состояние_имени} != {состояние}"
+                )
+
+        ветка = объект.get("ветка")
+        try:
+            проверить_ссылку_локальной_ветки(
+                ветка,
+                "refs/heads/codex/",
+                "step chain branch",
+            )
+        except ValueError as ошибка:
+            ошибки.append(str(ошибка))
+        if isinstance(ветка, str):
+            if ветка in ветки:
+                ошибки.append(f"duplicate step chain branch: {ветка}")
+            else:
+                ветки.add(ветка)
+
+        try:
+            проверить_ссылку_локальной_ветки(
+                объект.get("базовая_ветка"),
+                "refs/heads/",
+                "step chain base branch",
+            )
+        except ValueError as ошибка:
+            ошибки.append(str(ошибка))
+        try:
+            проверить_относительный_путь_проекта(
+                объект.get("путь_проекта")
+            )
+        except ValueError as ошибка:
+            ошибки.append(str(ошибка))
+
+        карточки_шагов = nonempty_string_list(
+            объект.get("карточки_шагов"),
+            f"step chain {идентификатор} step cards",
+            ошибки,
+        )
+        for карточка_шага in карточки_шагов:
+            if STEP_CARD_ID_RE.fullmatch(карточка_шага) is None:
+                ошибки.append(
+                    "invalid step card id in step chain "
+                    f"{идентификатор}: {карточка_шага}"
+                )
+                continue
+            if карточка_шага not in известные_шаги:
+                ошибки.append(
+                    f"unknown step card {карточка_шага} in step chain "
+                    f"{идентификатор}"
+                )
+            if состояние == "отозвана":
+                continue
+            предыдущая_цепочка = занятость_шагов.get(карточка_шага)
+            if предыдущая_цепочка is not None:
+                ошибки.append(
+                    "duplicate step chain membership for "
+                    f"{карточка_шага}: {предыдущая_цепочка}, "
+                    f"{идентификатор}"
+                )
+            else:
+                занятость_шагов[карточка_шага] = str(идентификатор)
+    if количество_активных_цепочек != 1:
+        ошибки.append(
+            "registry must contain exactly one active step chain: "
+            f"found {количество_активных_цепочек}"
+        )
+    return ошибки
 
 
 def validate_registry_object(registry: dict[str, Any]) -> list[str]:
@@ -2058,6 +2778,13 @@ def validate_registry_object(registry: dict[str, Any]) -> list[str]:
                 errors.append(f"historical step card criteria must be empty: {step_id}")
             if not isinstance(step.get("outcome"), str) or not step.get("outcome"):
                 errors.append(f"historical step card outcome is empty: {step_id}")
+
+    errors.extend(
+        ошибки_цепочек_шагов(
+            registry.get("цепочки_шагов"),
+            step_ids,
+        )
+    )
 
     requirement_ids: set[str] = set()
     for requirement in registry.get("requirements", []):

@@ -25,6 +25,8 @@ ACTIVE_STEP_CARD = "🟡-FUM-STEP-0001-подготовить-тестовый-�
 COMPLETED_STEP_CARD = "✅-FUM-STEP-0002-старое-предложение.md"
 ABSORBED_STEP_CARD = "🧩-FUM-STEP-0003-поглощённое-предложение.md"
 WITHDRAWN_STEP_CARD = "🗑️-FUM-STEP-0004-снятое-предложение.md"
+АКТИВНАЯ_КАРТОЧКА_ЦЕПОЧКИ = "🚧-FUM-ЦЕПОЧКА-0001-тестовая-цепочка.md"
+ОТОЗВАННАЯ_КАРТОЧКА_ЦЕПОЧКИ = "🗑️-FUM-ЦЕПОЧКА-0002-отозванная-цепочка.md"
 BOXED_GRAPH_MARKDOWN = Path(
     "Планирование/стадии/02-коробочная-реализация-FUM/граф-зависимостей.md"
 )
@@ -165,6 +167,53 @@ class BuildPlanningRegistryTests(unittest.TestCase):
                 encoding="utf-8",
             )
 
+    def записать_карточки_цепочек(сам, корень: Path) -> None:
+        карточки = корень / "Планирование" / "карточки-цепочек-шагов"
+        карточки.mkdir(parents=True)
+        (корень / "README.md").write_text(
+            "# Тестовый проект FUM\n",
+            encoding="utf-8",
+        )
+        (карточки / "README.md").write_text(
+            "# Карточки цепочек шагов FUM\n\n"
+            "## Индекс\n\n"
+            "| Идентификатор | Состояние | Ветка | Карточка |\n"
+            "| --- | --- | --- | --- |\n"
+            "| `FUM-ЦЕПОЧКА-0001` | 🚧 Активна | `refs/heads/codex/test-chain` | "
+            f"[Тестовая цепочка]({АКТИВНАЯ_КАРТОЧКА_ЦЕПОЧКИ}) |\n"
+            "| `FUM-ЦЕПОЧКА-0002` | 🗑️ Отозвана | `refs/heads/codex/withdrawn-chain` | "
+            f"[Отозванная цепочка]({ОТОЗВАННАЯ_КАРТОЧКА_ЦЕПОЧКИ}) |\n",
+            encoding="utf-8",
+        )
+        (карточки / АКТИВНАЯ_КАРТОЧКА_ЦЕПОЧКИ).write_text(
+            "+++\n"
+            '"версия_схемы" = 1\n'
+            '"идентификатор_цепочки" = "FUM-ЦЕПОЧКА-0001"\n'
+            '"состояние" = "активна"\n'
+            '"ветка" = "refs/heads/codex/test-chain"\n'
+            '"базовая_ветка" = "refs/heads/master"\n'
+            '"путь_проекта" = "README.md"\n'
+            '"карточки_шагов" = ["FUM-STEP-0001", "FUM-STEP-0002"]\n'
+            "+++\n"
+            "# Тестовая цепочка\n\n"
+            "Цепочка задаёт упорядоченное последующее выполнение двух шагов.\n",
+            encoding="utf-8",
+        )
+        (карточки / ОТОЗВАННАЯ_КАРТОЧКА_ЦЕПОЧКИ).write_text(
+            "+++\n"
+            '"версия_схемы" = 1\n'
+            '"идентификатор_цепочки" = "FUM-ЦЕПОЧКА-0002"\n'
+            '"состояние" = "отозвана"\n'
+            '"ветка" = "refs/heads/codex/withdrawn-chain"\n'
+            '"базовая_ветка" = "refs/heads/master"\n'
+            '"путь_проекта" = "README.md"\n'
+            '"карточки_шагов" = ["FUM-STEP-0001"]\n'
+            "+++\n"
+            "# Отозванная цепочка\n\n"
+            "Отозванная цепочка сохраняет плановую историю.\n",
+            encoding="utf-8",
+        )
+
     def rename_step_card(self, root: Path, old_name: str, new_name: str) -> Path:
         cards = root / "Планирование" / "карточки-шагов"
         old_path = cards / old_name
@@ -185,6 +234,7 @@ class BuildPlanningRegistryTests(unittest.TestCase):
         (root / "Инструменты" / "fum-reyestr-planirovaniya").mkdir(parents=True)
         self.write_requirement_cards(root)
         self.write_step_cards(root)
+        self.записать_карточки_цепочек(root)
 
         (root / "Инструменты" / "fum-reyestr-planirovaniya" / "SKILL.md").write_text(
             "# FUM Planning Registry\n",
@@ -379,7 +429,7 @@ class BuildPlanningRegistryTests(unittest.TestCase):
             registry = build_planning_registry.build_registry(root)
 
             self.assertEqual(registry["schema"], build_planning_registry.SCHEMA)
-            self.assertEqual(registry["schema"], "fum.planning.requirements-registry.v7")
+            self.assertEqual(registry["schema"], "fum.planning.requirements-registry.v8")
             self.assertEqual(
                 registry["boxed_implementation_graph"]["schema"],
                 "fum.planning.boxed-implementation-dependency-graph.v1",
@@ -414,6 +464,41 @@ class BuildPlanningRegistryTests(unittest.TestCase):
                     ABSORBED_STEP_CARD,
                     WITHDRAWN_STEP_CARD,
                 ],
+            )
+            self.assertEqual(
+                [
+                    цепочка["идентификатор"]
+                    for цепочка in registry["цепочки_шагов"]
+                ],
+                ["FUM-ЦЕПОЧКА-0001", "FUM-ЦЕПОЧКА-0002"],
+            )
+            активная_цепочка = registry["цепочки_шагов"][0]
+            self.assertEqual(
+                set(активная_цепочка),
+                {
+                    "идентификатор",
+                    "файл",
+                    "заголовок",
+                    "состояние",
+                    "ветка",
+                    "базовая_ветка",
+                    "путь_проекта",
+                    "карточки_шагов",
+                },
+            )
+            self.assertEqual(активная_цепочка["состояние"], "активна")
+            self.assertEqual(
+                активная_цепочка["ветка"],
+                "refs/heads/codex/test-chain",
+            )
+            self.assertEqual(
+                активная_цепочка["базовая_ветка"],
+                "refs/heads/master",
+            )
+            self.assertEqual(активная_цепочка["путь_проекта"], "README.md")
+            self.assertEqual(
+                активная_цепочка["карточки_шагов"],
+                ["FUM-STEP-0001", "FUM-STEP-0002"],
             )
             self.assertEqual(
                 registry["source_inventory"]["active_proposals"][0]["id"],
@@ -462,6 +547,20 @@ class BuildPlanningRegistryTests(unittest.TestCase):
                 f"Планирование/карточки-шагов/{ACTIVE_STEP_CARD}",
                 source_paths,
             )
+            self.assertIn(
+                "Планирование/карточки-цепочек-шагов/README.md",
+                source_paths,
+            )
+            self.assertIn(
+                "Планирование/карточки-цепочек-шагов/"
+                f"{АКТИВНАЯ_КАРТОЧКА_ЦЕПОЧКИ}",
+                source_paths,
+            )
+            self.assertIn(
+                "Планирование/карточки-цепочек-шагов/"
+                f"{ОТОЗВАННАЯ_КАРТОЧКА_ЦЕПОЧКИ}",
+                source_paths,
+            )
             self.assertIn(BOXED_GRAPH_MARKDOWN.as_posix(), source_paths)
             self.assertIn(BOXED_GRAPH_JSON.as_posix(), source_paths)
             self.assertEqual(registry["source_inventory"]["roadmap_horizons"][0]["id"], "horizon-0")
@@ -482,6 +581,202 @@ class BuildPlanningRegistryTests(unittest.TestCase):
             self.assertEqual(registry["source_inventory"]["questions"]["open"][0]["title"], "Тестовый вопрос")
             self.assertTrue(registry["coverage"]["mvp_candidates"][0]["in_product_queue"])
             self.assertTrue(registry["coverage"]["mvp_candidates"][0]["in_stage_map"])
+
+    def test_реестр_отклоняет_повтор_шага_в_неотозванных_цепочках(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            выход = сам.write_fixture(корень)
+            каталог = корень / "Планирование" / "карточки-цепочек-шагов"
+            карточка = каталог / ОТОЗВАННАЯ_КАРТОЧКА_ЦЕПОЧКИ
+            карточка.write_text(
+                карточка.read_text(encoding="utf-8").replace(
+                    '"состояние" = "отозвана"',
+                    '"состояние" = "активна"',
+                ),
+                encoding="utf-8",
+            )
+            активированное_имя = ОТОЗВАННАЯ_КАРТОЧКА_ЦЕПОЧКИ.replace(
+                "🗑️-",
+                "🚧-",
+            )
+            карточка.rename(каталог / активированное_имя)
+            индекс = каталог / "README.md"
+            индекс.write_text(
+                индекс.read_text(encoding="utf-8")
+                .replace(
+                    "| `FUM-ЦЕПОЧКА-0002` | 🗑️ Отозвана |",
+                    "| `FUM-ЦЕПОЧКА-0002` | 🚧 Активна |",
+                )
+                .replace(
+                    ОТОЗВАННАЯ_КАРТОЧКА_ЦЕПОЧКИ,
+                    активированное_имя,
+                ),
+                encoding="utf-8",
+            )
+
+            with сам.assertRaisesRegex(
+                ValueError,
+                "duplicate step chain membership.*FUM-STEP-0001",
+            ):
+                build_planning_registry.build_to_file(выход, корень)
+
+    def test_реестр_отклоняет_тег_или_ветку_вне_целевого_пространства(сам):
+        случаи = (
+            "refs/tags/test-chain",
+            "refs/heads/feature/test-chain",
+            "refs/heads/codex/bad..chain",
+            "refs/heads/codex/bad@{chain",
+            "refs/heads/codex/bad chain",
+            "refs/heads/codex/bad\\chain",
+            "refs/heads/codex/trailing.",
+            "refs/heads/codex/trailing/",
+        )
+        for неверная_ветка in случаи:
+            with сам.subTest(ветка=неверная_ветка):
+                временный_каталог = tempfile.TemporaryDirectory()
+                сам.addCleanup(временный_каталог.cleanup)
+                корень = Path(временный_каталог.name)
+                выход = сам.write_fixture(корень)
+                каталог = корень / "Планирование" / "карточки-цепочек-шагов"
+                карточка = каталог / АКТИВНАЯ_КАРТОЧКА_ЦЕПОЧКИ
+                ветка_в_метаданных = неверная_ветка.replace("\\", "\\\\")
+                карточка.write_text(
+                    карточка.read_text(encoding="utf-8").replace(
+                        "refs/heads/codex/test-chain",
+                        ветка_в_метаданных,
+                    ),
+                    encoding="utf-8",
+                )
+                индекс = каталог / "README.md"
+                индекс.write_text(
+                    индекс.read_text(encoding="utf-8").replace(
+                        "refs/heads/codex/test-chain",
+                        неверная_ветка,
+                    ),
+                    encoding="utf-8",
+                )
+
+                with сам.assertRaisesRegex(
+                    ValueError,
+                    r"step chain branch.*refs/heads/codex/",
+                ):
+                    build_planning_registry.build_to_file(выход, корень)
+
+    def test_реестр_отклоняет_неизвестную_карточку_шага_цепочки(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            выход = сам.write_fixture(корень)
+            карточка = (
+                корень
+                / "Планирование"
+                / "карточки-цепочек-шагов"
+                / АКТИВНАЯ_КАРТОЧКА_ЦЕПОЧКИ
+            )
+            карточка.write_text(
+                карточка.read_text(encoding="utf-8").replace(
+                    "FUM-STEP-0002",
+                    "FUM-STEP-9999",
+                ),
+                encoding="utf-8",
+            )
+
+            with сам.assertRaisesRegex(
+                ValueError,
+                "unknown step card FUM-STEP-9999",
+            ):
+                build_planning_registry.build_to_file(выход, корень)
+
+    def test_реестр_требует_точное_покрытие_индекса_цепочек(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            выход = сам.write_fixture(корень)
+            индекс = (
+                корень
+                / "Планирование"
+                / "карточки-цепочек-шагов"
+                / "README.md"
+            )
+            строки = индекс.read_text(encoding="utf-8").splitlines()
+            индекс.write_text(
+                "\n".join(
+                    строка
+                    for строка in строки
+                    if "FUM-ЦЕПОЧКА-0002" not in строка
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            with сам.assertRaisesRegex(
+                ValueError,
+                "step chain index does not exactly cover cards",
+            ):
+                build_planning_registry.build_to_file(выход, корень)
+
+    def test_реестр_требует_ровно_одну_активную_цепочку(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            выход = сам.write_fixture(корень)
+            каталог = корень / "Планирование" / "карточки-цепочек-шагов"
+            карточка = каталог / АКТИВНАЯ_КАРТОЧКА_ЦЕПОЧКИ
+            запланированное_имя = АКТИВНАЯ_КАРТОЧКА_ЦЕПОЧКИ.replace(
+                "🚧-",
+                "🟡-",
+            )
+            карточка.write_text(
+                карточка.read_text(encoding="utf-8").replace(
+                    '"состояние" = "активна"',
+                    '"состояние" = "запланирована"',
+                ),
+                encoding="utf-8",
+            )
+            карточка.rename(каталог / запланированное_имя)
+            индекс = каталог / "README.md"
+            индекс.write_text(
+                индекс.read_text(encoding="utf-8")
+                .replace("🚧 Активна", "🟡 Запланирована", 1)
+                .replace(АКТИВНАЯ_КАРТОЧКА_ЦЕПОЧКИ, запланированное_имя),
+                encoding="utf-8",
+            )
+
+            with сам.assertRaisesRegex(
+                ValueError,
+                "registry must contain exactly one active step chain",
+            ):
+                build_planning_registry.build_to_file(выход, корень)
+
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            выход = сам.write_fixture(корень)
+            каталог = корень / "Планирование" / "карточки-цепочек-шагов"
+            карточка = каталог / ОТОЗВАННАЯ_КАРТОЧКА_ЦЕПОЧКИ
+            активированное_имя = ОТОЗВАННАЯ_КАРТОЧКА_ЦЕПОЧКИ.replace(
+                "🗑️-",
+                "🚧-",
+            )
+            карточка.write_text(
+                карточка.read_text(encoding="utf-8")
+                .replace(
+                    '"состояние" = "отозвана"',
+                    '"состояние" = "активна"',
+                )
+                .replace("FUM-STEP-0001", "FUM-STEP-0003"),
+                encoding="utf-8",
+            )
+            карточка.rename(каталог / активированное_имя)
+            индекс = каталог / "README.md"
+            индекс.write_text(
+                индекс.read_text(encoding="utf-8")
+                .replace("🗑️ Отозвана", "🚧 Активна")
+                .replace(ОТОЗВАННАЯ_КАРТОЧКА_ЦЕПОЧКИ, активированное_имя),
+                encoding="utf-8",
+            )
+
+            with сам.assertRaisesRegex(
+                ValueError,
+                "registry must contain exactly one active step chain",
+            ):
+                build_planning_registry.build_to_file(выход, корень)
 
     def test_build_rejects_boxed_graph_with_unknown_dependency(self):
         with tempfile.TemporaryDirectory() as tmp:

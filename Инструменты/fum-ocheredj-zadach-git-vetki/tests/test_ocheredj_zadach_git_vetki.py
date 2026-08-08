@@ -55,6 +55,15 @@ COMPATIBILITY_SCRIPT_PATH = (
 )
 CONFIG_PATH = REPO_ROOT / ".codex" / "config.toml"
 AGENTS_PATH = REPO_ROOT / "AGENTS.md"
+ПУТЬ_НАВЫКА_КОМПЛЕКСНОЙ_ПРОВЕРКИ = (
+    REPO_ROOT
+    / "Инструменты"
+    / "fum-kompleksnaya-proverka-repozitoriya"
+    / "SKILL.md"
+)
+ПУТЬ_ИНДЕКСА_КАРТОЧЕК_ЦЕПОЧЕК = (
+    REPO_ROOT / "Планирование" / "карточки-цепочек-шагов" / "README.md"
+)
 SKILL_PATH = TOOL_ROOT / "SKILL.md"
 HEARTBEAT_PROMPT_PATH = (
     REPO_ROOT
@@ -3835,6 +3844,25 @@ class RepositoryIntegrationTests(unittest.TestCase):
         self.assertIn("не является рабочим билетом FIFO-очереди", heartbeat_prompt)
         self.assertIn("вообще не создаёт задачу", heartbeat_prompt)
         self.assertIn("git --no-optional-locks status", heartbeat_prompt)
+
+    def test_успех_комплексной_проверки_сессии_завершается_коммитом_ветки_цепочки(это) -> None:
+        правила_агентов = AGENTS_PATH.read_text(encoding="utf-8")
+        навык_комплексной_проверки = ПУТЬ_НАВЫКА_КОМПЛЕКСНОЙ_ПРОВЕРКИ.read_text(encoding="utf-8")
+
+        for текст in (правила_агентов, навык_комплексной_проверки):
+            это.assertIn(
+                "нулевой код внутреннего проверочного процесса",
+                текст.casefold(),
+            )
+            это.assertIn("карточк", текст.casefold())
+            это.assertIn("цепоч", текст.casefold())
+            это.assertIn("`committed`", текст)
+            это.assertIn("commit+handoff", текст)
+
+        это.assertIn("между корневыми задачами", правила_агентов)
+        это.assertIn("не переключает ветку", правила_агентов)
+        это.assertIn("не выполняет Git-коммит", навык_комплексной_проверки)
+        это.assertTrue(ПУТЬ_ИНДЕКСА_КАРТОЧЕК_ЦЕПОЧЕК.is_file())
 
     def test_old_hook_loader_target_is_a_noop_compatibility_script_only(self) -> None:
         self.assertTrue(COMPATIBILITY_SCRIPT_PATH.is_file())

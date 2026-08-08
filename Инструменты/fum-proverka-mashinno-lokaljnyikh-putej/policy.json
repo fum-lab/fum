@@ -2331,6 +2331,15 @@
       "count": 1,
       "category": "allow.path-validation-definition",
       "reason": "Определяет явный запрет домашних сокращений и file URI в пути проекта задания диспетчера."
+    },
+    {
+      "id": "planning-step-chain-git-ref-forbidden-characters",
+      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/build-planning-registry.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:906075a2258d5aef5593fad96ad69c29aa40eef98399f818b7c8e2b93a7aa2b1",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Строка перечисляет запрещённые Git-символы и не раскрывает домашний путь."
     }
   ]
 }
