@@ -102,8 +102,11 @@ class BranchNextStepTests(unittest.TestCase):
         self.git("update-ref", reference, oid)
         return reference
 
-    def установить_запись_сброса_очереди(сам) -> str:
-        запись = {"схема": "fum.сброс-состояния-FIFO.1"}
+    def установить_запись_сброса_очереди(
+        сам,
+        схема: str = "fum.сброс-состояния-FIFO.1",
+    ) -> str:
+        запись = {"схема": схема}
         объект = сам.git(
             "hash-object",
             "-w",
@@ -119,6 +122,98 @@ class BranchNextStepTests(unittest.TestCase):
         ссылка = QUEUE_MODULE.resolve_context(сам.repo).queue_ref
         сам.git("update-ref", ссылка, объект)
         return ссылка
+
+    def ссылка_границы_простого_сброса(
+        сам,
+        ссылка_ветки: str = "refs/heads/master",
+    ) -> str:
+        хэш_ветки = hashlib.sha256(ссылка_ветки.encode("utf-8")).hexdigest()
+        return (
+            "refs/fum/границы-простого-сброса/"
+            f"{TOOL_MODULE.checkout_identity(сам.repo)}/{хэш_ветки}"
+        )
+
+    def установить_границу_простого_сброса(
+        сам,
+        ссылка_ветки: str = "refs/heads/master",
+    ) -> tuple[str, str]:
+        ссылка = сам.ссылка_границы_простого_сброса(ссылка_ветки)
+        запись = {
+            "схема": "fum.граница-простого-сброса.1",
+            "идентичность_рабочей_копии": TOOL_MODULE.checkout_identity(сам.repo),
+            "ссылка_ветки": ссылка_ветки,
+            "целевая_вершина": сам.git("rev-parse", ссылка_ветки).stdout.strip(),
+            "идентификатор_сброса": f"sha256:{'7' * 64}",
+            "создано": "2026-08-10T10:00:00.000Z",
+        }
+        объект = сам.git(
+            "hash-object",
+            "-w",
+            "--stdin",
+            input_text=(
+                json.dumps(
+                    запись,
+                    ensure_ascii=False,
+                    sort_keys=True,
+                    separators=(",", ":"),
+                )
+                + "\n"
+            ),
+        ).stdout.strip()
+        сам.git("update-ref", ссылка, объект)
+        return ссылка, объект
+
+    def установить_общую_резервацию(
+        сам,
+        идентификатор_попытки: str,
+        вершина_выбора: str,
+        *,
+        ссылка_ветки: str = "refs/heads/master",
+    ) -> tuple[str, str]:
+        хэш_ветки = hashlib.sha256(ссылка_ветки.encode("utf-8")).hexdigest()
+        хэш_задания = hashlib.sha256(b"master.next-step").hexdigest()
+        ссылка = (
+            "refs/fum/резервации-запусков-автоматизаций/"
+            f"{TOOL_MODULE.checkout_identity(сам.repo)}/{хэш_ветки}/{хэш_задания}"
+        )
+        запись = {
+            "версия_схемы": 3,
+            "branch_ref": ссылка_ветки,
+            "selection_head": вершина_выбора,
+            "идентификатор_реестра": "fum.dispatcher-registry",
+            "версия_схемы_реестра": 1,
+            "поколение_реестра": 1,
+            "хэш_реестра": f"sha256:{'1' * 64}",
+            "job_id": "master.next-step",
+            "spec_generation": 1,
+            "trigger_occurrence": {},
+            "run_key": f"sha256:{'2' * 64}",
+            "идентификатор_попытки": идентификатор_попытки,
+            "фаза": "зарезервирован",
+            "исход": None,
+            "идентификатор_созданной_задачи": None,
+            "свидетельство_среды": None,
+            "подтверждение_результата": None,
+            "курсор_до": {},
+            "task_id": None,
+            "generation": None,
+        }
+        объект = сам.git(
+            "hash-object",
+            "-w",
+            "--stdin",
+            input_text=(
+                json.dumps(
+                    запись,
+                    ensure_ascii=False,
+                    sort_keys=True,
+                    separators=(",", ":"),
+                )
+                + "\n"
+            ),
+        ).stdout.strip()
+        сам.git("update-ref", ссылка, объект)
+        return ссылка, объект
 
     def снимок_служебных_ссылок(сам) -> str:
         return сам.git(
@@ -5772,6 +5867,308 @@ class BranchNextStepTests(unittest.TestCase):
         сам.assertNotEqual(результат.returncode, 0, результат.stdout)
         сам.assertEqual(сам.payload(результат)["state"], "mismatch")
         сам.assertEqual(сам.снимок_служебных_ссылок(), ссылки_до)
+
+    def test_запись_простого_сброса_блокирует_создание_претензии(
+        сам,
+    ) -> None:
+        сам.write_record()
+        идентификатор_выбора = сам.current_selection_id()
+        сам.установить_запись_сброса_очереди(
+            "fum.простой-сброс-состояния-FIFO.1"
+        )
+        ссылки_до = сам.снимок_служебных_ссылок()
+
+        результат = сам.run_tool(
+            "claim",
+            "--expected-branch-ref",
+            "refs/heads/master",
+            "--expected-step-id",
+            "master-test-step-v1",
+            "--expected-selection-id",
+            идентификатор_выбора,
+            "--lease-id",
+            "00000000-0000-0000-0000-000000000001",
+        )
+
+        сам.assertNotEqual(результат.returncode, 0, результат.stdout)
+        сам.assertEqual(сам.payload(результат)["state"], "mismatch")
+        сам.assertEqual(сам.снимок_служебных_ссылок(), ссылки_до)
+
+    def test_до_границы_простого_сброса_претензия_сохраняет_обратную_совместимость(
+        сам,
+    ) -> None:
+        сам.write_record()
+        идентификатор_выбора = сам.current_selection_id()
+
+        результат = сам.run_tool(
+            "claim",
+            "--expected-branch-ref",
+            "refs/heads/master",
+            "--expected-step-id",
+            "master-test-step-v1",
+            "--expected-selection-id",
+            идентификатор_выбора,
+            "--lease-id",
+            "00000000-0000-0000-0000-000000000001",
+        )
+
+        сам.assertEqual(результат.returncode, 0, результат.stderr)
+        сам.assertEqual(сам.payload(результат)["state"], "claimed")
+
+    def test_граница_иной_ветки_не_требует_резервацию_задания_основной_ветки(
+        сам,
+    ) -> None:
+        ссылка_ветки = "refs/heads/codex/test-chain"
+        сам.git("checkout", "-b", "codex/test-chain")
+        сам.write_record(
+            "test-chain.md",
+            branch_ref=ссылка_ветки,
+            step_id="test-chain-step-v1",
+        )
+        выбор = сам.current_selection()
+        сам.установить_границу_простого_сброса(ссылка_ветки)
+
+        результат = сам.run_tool(
+            "claim",
+            "--expected-branch-ref",
+            ссылка_ветки,
+            "--expected-step-id",
+            "test-chain-step-v1",
+            "--expected-selection-id",
+            str(выбор["id"]),
+            "--lease-id",
+            "00000000-0000-0000-0000-000000000001",
+        )
+
+        сам.assertEqual(результат.returncode, 0, результат.stderr)
+        сам.assertEqual(сам.payload(результат)["state"], "claimed")
+
+    def test_после_границы_претензия_требует_общую_резервацию_следующего_шага(
+        сам,
+    ) -> None:
+        сам.write_record()
+        идентификатор_выбора = сам.current_selection_id()
+        сам.установить_границу_простого_сброса()
+
+        результат = сам.run_tool(
+            "claim",
+            "--expected-branch-ref",
+            "refs/heads/master",
+            "--expected-step-id",
+            "master-test-step-v1",
+            "--expected-selection-id",
+            идентификатор_выбора,
+            "--lease-id",
+            "00000000-0000-0000-0000-000000000001",
+        )
+        состояние = сам.run_tool("claim-status")
+
+        сам.assertEqual(результат.returncode, 5, результат.stdout)
+        сам.assertEqual(сам.payload(результат)["state"], "mismatch")
+        сам.assertEqual(сам.payload(состояние)["state"], "unclaimed")
+
+    def test_после_границы_претензия_сверяет_идентификатор_попытки_с_арендой(
+        сам,
+    ) -> None:
+        сам.write_record()
+        выбор = сам.current_selection()
+        сам.установить_границу_простого_сброса()
+        сам.установить_общую_резервацию(
+            "00000000-0000-0000-0000-000000000002",
+            str(выбор["head"]),
+        )
+
+        результат = сам.run_tool(
+            "claim",
+            "--expected-branch-ref",
+            "refs/heads/master",
+            "--expected-step-id",
+            "master-test-step-v1",
+            "--expected-selection-id",
+            str(выбор["id"]),
+            "--lease-id",
+            "00000000-0000-0000-0000-000000000001",
+        )
+        состояние = сам.run_tool("claim-status")
+
+        сам.assertEqual(результат.returncode, 5, результат.stdout)
+        сам.assertEqual(сам.payload(результат)["state"], "mismatch")
+        сам.assertEqual(сам.payload(состояние)["state"], "unclaimed")
+
+    def test_после_границы_совпадающая_резервация_разрешает_претензию(
+        сам,
+    ) -> None:
+        сам.write_record()
+        выбор = сам.current_selection()
+        идентификатор_попытки = "00000000-0000-0000-0000-000000000001"
+        сам.установить_границу_простого_сброса()
+        сам.установить_общую_резервацию(
+            идентификатор_попытки,
+            str(выбор["head"]),
+        )
+
+        результат = сам.run_tool(
+            "claim",
+            "--expected-branch-ref",
+            "refs/heads/master",
+            "--expected-step-id",
+            "master-test-step-v1",
+            "--expected-selection-id",
+            str(выбор["id"]),
+            "--lease-id",
+            идентификатор_попытки,
+        )
+
+        сам.assertEqual(результат.returncode, 0, результат.stderr)
+        сам.assertEqual(сам.payload(результат)["state"], "claimed")
+        сам.assertEqual(
+            сам.payload(результат)["lease_id"],
+            идентификатор_попытки,
+        )
+
+    def test_простой_сброс_открывает_новый_карточный_запуск(сам) -> None:
+        сам.write_record()
+        сам.commit_all("Добавить селектор для сброса")
+        контекст = QUEUE_MODULE.resolve_context(сам.repo)
+        код_входа, _ = QUEUE_MODULE.join_queue(контекст, "старая-задача")
+        сам.assertEqual(код_входа, 0)
+        план = QUEUE_MODULE.план_простого_сброса(контекст)
+        фраза = QUEUE_MODULE.фраза_подтверждения_простого_сброса(план)
+
+        class ТерминальныйБуфер:
+            def isatty(себя) -> bool:
+                return True
+
+            def write(себя, _текст: str) -> int:
+                return len(_текст)
+
+            def flush(себя) -> None:
+                return None
+
+        with (
+            mock.patch.object(QUEUE_MODULE.sys, "stdin", ТерминальныйБуфер()),
+            mock.patch.object(QUEUE_MODULE.sys, "stdout", ТерминальныйБуфер()),
+            mock.patch("builtins.input", return_value=фраза),
+        ):
+            код_сброса, ответ_сброса = QUEUE_MODULE.простой_сброс(контекст)
+        сам.assertEqual(код_сброса, 0)
+        сам.assertEqual(ответ_сброса["состояние"], "сброшено")
+
+        выбор = сам.current_selection()
+        идентификатор_попытки = "00000000-0000-0000-0000-000000000001"
+        сам.установить_общую_резервацию(
+            идентификатор_попытки,
+            str(выбор["head"]),
+        )
+        готовое = сам.claim_current_selection(идентификатор_попытки)
+        идентификатор_задачи = "10000000-0000-0000-0000-000000000001"
+        владелец = сам.admit_task(идентификатор_задачи)
+        сам.bind_current_claim(
+            готовое,
+            идентификатор_попытки,
+            идентификатор_задачи,
+        )
+        сам.verify_bound_run(
+            готовое,
+            идентификатор_задачи,
+            str(владелец["generation"]),
+            идентификатор_попытки,
+        )
+
+    def test_атомарная_запись_претензии_проверяет_точный_объект_общей_резервации(
+        сам,
+    ) -> None:
+        сам.write_record()
+        выбор = сам.current_selection()
+        идентификатор_попытки = "00000000-0000-0000-0000-000000000001"
+        сам.установить_границу_простого_сброса()
+        ссылка_резервации, исходный_объект = сам.установить_общую_резервацию(
+            идентификатор_попытки,
+            str(выбор["head"]),
+        )
+        исходная_атомарная_запись = TOOL_MODULE.cas_claim_ref
+        гонка_выполнена = False
+
+        def заменить_резервацию_перед_атомарной_записью(
+            *аргументы,
+            **параметры,
+        ):
+            nonlocal гонка_выполнена
+            if not гонка_выполнена:
+                гонка_выполнена = True
+                сам.установить_общую_резервацию(
+                    "00000000-0000-0000-0000-000000000002",
+                    str(выбор["head"]),
+                )
+            return исходная_атомарная_запись(
+                *аргументы,
+                **параметры,
+            )
+
+        with mock.patch.object(
+            TOOL_MODULE,
+            "cas_claim_ref",
+            side_effect=заменить_резервацию_перед_атомарной_записью,
+        ):
+            ответ, код = TOOL_MODULE.claim_step(
+                сам.repo,
+                "refs/heads/master",
+                "master-test-step-v1",
+                str(выбор["id"]),
+                идентификатор_попытки,
+            )
+
+        сам.assertTrue(гонка_выполнена)
+        сам.assertEqual(код, 5)
+        сам.assertEqual(ответ["state"], "mismatch")
+        сам.assertNotEqual(
+            сам.git("rev-parse", "--verify", ссылка_резервации).stdout.strip(),
+            исходный_объект,
+        )
+        состояние, код_состояния = TOOL_MODULE.claim_status(сам.repo, None)
+        сам.assertEqual(код_состояния, 0)
+        сам.assertEqual(состояние["state"], "unclaimed")
+
+    def test_появление_границы_перед_атомарной_записью_блокирует_претензию(
+        сам,
+    ) -> None:
+        сам.write_record()
+        выбор = сам.current_selection()
+        исходная_атомарная_запись = TOOL_MODULE.cas_claim_ref
+        гонка_выполнена = False
+
+        def создать_границу_перед_атомарной_записью(
+            *аргументы,
+            **параметры,
+        ):
+            nonlocal гонка_выполнена
+            if not гонка_выполнена:
+                гонка_выполнена = True
+                сам.установить_границу_простого_сброса()
+            return исходная_атомарная_запись(
+                *аргументы,
+                **параметры,
+            )
+
+        with mock.patch.object(
+            TOOL_MODULE,
+            "cas_claim_ref",
+            side_effect=создать_границу_перед_атомарной_записью,
+        ):
+            ответ, код = TOOL_MODULE.claim_step(
+                сам.repo,
+                "refs/heads/master",
+                "master-test-step-v1",
+                str(выбор["id"]),
+                "00000000-0000-0000-0000-000000000001",
+            )
+
+        сам.assertTrue(гонка_выполнена)
+        сам.assertEqual(код, 5)
+        сам.assertEqual(ответ["state"], "mismatch")
+        состояние, код_состояния = TOOL_MODULE.claim_status(сам.repo, None)
+        сам.assertEqual(код_состояния, 0)
+        сам.assertEqual(состояние["state"], "unclaimed")
 
     def test_запись_сброса_блокирует_освобождение_карточной_резервации(
         сам,

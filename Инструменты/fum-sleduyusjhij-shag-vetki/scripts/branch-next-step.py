@@ -25,6 +25,61 @@ RECORDS_DIRECTORY = Path("Планирование/следующие-шаги-�
 CARDS_DIRECTORY = Path("Планирование/карточки-шагов")
 CLAIM_REF_NAMESPACE = "refs/fum/worktree-next-step-claims"
 QUEUE_REF_NAMESPACE = "refs/fum/worktree-task-queues"
+ПРОСТРАНСТВО_ГРАНИЦ_ПРОСТОГО_СБРОСА = "refs/fum/границы-простого-сброса"
+ПРОСТРАНСТВО_ОБЩИХ_РЕЗЕРВАЦИЙ = (
+    "refs/fum/резервации-запусков-автоматизаций"
+)
+СХЕМА_ГРАНИЦЫ_ПРОСТОГО_СБРОСА = "fum.граница-простого-сброса.1"
+ИДЕНТИФИКАТОР_ОБЩЕГО_ЗАДАНИЯ = "master.next-step"
+ССЫЛКА_ВЕТКИ_ОБЩЕГО_ЗАДАНИЯ = "refs/heads/master"
+СХЕМЫ_ЗАПИСИ_СБРОСА_ОЧЕРЕДИ = frozenset(
+    {
+        "fum.сброс-состояния-FIFO.1",
+        "fum.простой-сброс-состояния-FIFO.1",
+    }
+)
+ПОЛЯ_ГРАНИЦЫ_ПРОСТОГО_СБРОСА = frozenset(
+    {
+        "схема",
+        "идентичность_рабочей_копии",
+        "ссылка_ветки",
+        "целевая_вершина",
+        "идентификатор_сброса",
+        "создано",
+    }
+)
+ПОЛЯ_ОБЩЕЙ_РЕЗЕРВАЦИИ_2 = frozenset(
+    {
+        "версия_схемы",
+        "branch_ref",
+        "selection_head",
+        "идентификатор_реестра",
+        "версия_схемы_реестра",
+        "поколение_реестра",
+        "хэш_реестра",
+        "job_id",
+        "spec_generation",
+        "trigger_occurrence",
+        "run_key",
+        "идентификатор_попытки",
+        "фаза",
+        "исход",
+        "идентификатор_созданной_задачи",
+        "подтверждение_результата",
+        "курсор_до",
+        "task_id",
+        "generation",
+    }
+)
+ПОЛЯ_ОБЩЕЙ_РЕЗЕРВАЦИИ_3 = ПОЛЯ_ОБЩЕЙ_РЕЗЕРВАЦИИ_2 | {
+    "свидетельство_среды"
+}
+ПОЛЯ_ОБЩЕЙ_РЕЗЕРВАЦИИ_4 = ПОЛЯ_ОБЩЕЙ_РЕЗЕРВАЦИИ_3 | {
+    "возобновление"
+}
+ШАБЛОН_МОМЕНТА = re.compile(
+    r"^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{3}Z$"
+)
 RECENCY_BLOCK_RE = re.compile(
     r"\n?<!-- FUM-MD-RECENCY:BEGIN -->.*?"
     r"<!-- FUM-MD-RECENCY:END -->\s*\Z",
@@ -134,6 +189,10 @@ FORBIDDEN_CHILD_PATH_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
 
 class ContractError(RuntimeError):
     """Raised when the branch-next-step contract cannot be proven."""
+
+
+class НесовпадениеОбщейРезервации(RuntimeError):
+    """После сброса нет точной общей резервации запуска."""
 
 
 def non_file_uri_spans(value: str) -> tuple[tuple[int, int], ...]:
@@ -2136,6 +2195,171 @@ def read_ref_oid(repo_root: Path, reference: str) -> str | None:
     return oid
 
 
+def собрать_объект_без_повторов(
+    пары: list[tuple[str, object]],
+) -> dict[str, object]:
+    объект: dict[str, object] = {}
+    for ключ, значение in пары:
+        if ключ in объект:
+            raise ContractError(
+                f"Служебный Git blob содержит повторяющееся поле {ключ!r}."
+            )
+        объект[ключ] = значение
+    return объект
+
+
+def прочитать_канонический_служебный_объект(
+    корень: Path,
+    ссылка: str,
+    объект: str,
+    название: str,
+) -> dict[str, object]:
+    тип = checked_git(
+        корень,
+        f"проверить тип {название}",
+        "cat-file",
+        "-t",
+        объект,
+    ).stdout.strip()
+    if тип != "blob":
+        raise ContractError(f"{название} не указывает на Git blob.")
+    сырой = checked_git(
+        корень,
+        f"прочитать {название}",
+        "cat-file",
+        "blob",
+        объект,
+    ).stdout
+    try:
+        значение = json.loads(
+            сырой,
+            object_pairs_hook=собрать_объект_без_повторов,
+            parse_constant=reject_nonfinite_queue_number,
+        )
+    except (UnicodeError, json.JSONDecodeError) as ошибка:
+        raise ContractError(f"{название} повреждён.") from ошибка
+    if not isinstance(значение, dict):
+        raise ContractError(f"{название} имеет неверный формат.")
+    канонический = (
+        json.dumps(
+            значение,
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+        + "\n"
+    )
+    if сырой != канонический:
+        raise ContractError(f"{название} имеет неканонические байты.")
+    return значение
+
+
+def ссылка_границы_простого_сброса(
+    корень: Path,
+    ссылка_ветки: str,
+) -> str:
+    хэш_ветки = hashlib.sha256(ссылка_ветки.encode("utf-8")).hexdigest()
+    return (
+        f"{ПРОСТРАНСТВО_ГРАНИЦ_ПРОСТОГО_СБРОСА}/"
+        f"{checkout_identity(корень)}/{хэш_ветки}"
+    )
+
+
+def прочитать_границу_простого_сброса(
+    корень: Path,
+    ссылка_ветки: str,
+) -> str | None:
+    ссылка = ссылка_границы_простого_сброса(корень, ссылка_ветки)
+    объект = read_ref_oid(корень, ссылка)
+    if объект is None:
+        return None
+    граница = прочитать_канонический_служебный_объект(
+        корень,
+        ссылка,
+        объект,
+        "граница простого сброса",
+    )
+    if (
+        frozenset(граница) != ПОЛЯ_ГРАНИЦЫ_ПРОСТОГО_СБРОСА
+        or граница.get("схема") != СХЕМА_ГРАНИЦЫ_ПРОСТОГО_СБРОСА
+        or граница.get("идентичность_рабочей_копии")
+        != checkout_identity(корень)
+        or граница.get("ссылка_ветки") != ссылка_ветки
+        or OBJECT_ID_RE.fullmatch(str(граница.get("целевая_вершина"))) is None
+        or CONTENT_SHA256_RE.fullmatch(
+            str(граница.get("идентификатор_сброса"))
+        )
+        is None
+        or ШАБЛОН_МОМЕНТА.fullmatch(str(граница.get("создано"))) is None
+    ):
+        raise ContractError("Граница простого сброса имеет неверный контракт.")
+    return объект
+
+
+def ссылка_общей_резервации(
+    корень: Path,
+    ссылка_ветки: str,
+) -> str:
+    хэш_ветки = hashlib.sha256(ссылка_ветки.encode("utf-8")).hexdigest()
+    хэш_задания = hashlib.sha256(
+        ИДЕНТИФИКАТОР_ОБЩЕГО_ЗАДАНИЯ.encode("utf-8")
+    ).hexdigest()
+    return (
+        f"{ПРОСТРАНСТВО_ОБЩИХ_РЕЗЕРВАЦИЙ}/"
+        f"{checkout_identity(корень)}/{хэш_ветки}/{хэш_задания}"
+    )
+
+
+def потребовать_общую_резервацию(
+    корень: Path,
+    ссылка_ветки: str,
+    вершина_выбора: str,
+    идентификатор_аренды: str,
+) -> tuple[str, str] | None:
+    if ссылка_ветки != ССЫЛКА_ВЕТКИ_ОБЩЕГО_ЗАДАНИЯ:
+        return None
+    if прочитать_границу_простого_сброса(корень, ссылка_ветки) is None:
+        return None
+    ссылка = ссылка_общей_резервации(корень, ссылка_ветки)
+    объект = read_ref_oid(корень, ссылка)
+    if объект is None:
+        raise НесовпадениеОбщейРезервации
+    резервация = прочитать_канонический_служебный_объект(
+        корень,
+        ссылка,
+        объект,
+        "общая резервация",
+    )
+    версия = резервация.get("версия_схемы")
+    ожидаемые_поля = {
+        2: ПОЛЯ_ОБЩЕЙ_РЕЗЕРВАЦИИ_2,
+        3: ПОЛЯ_ОБЩЕЙ_РЕЗЕРВАЦИИ_3,
+        4: ПОЛЯ_ОБЩЕЙ_РЕЗЕРВАЦИИ_4,
+    }.get(версия)
+    if ожидаемые_поля is None or frozenset(резервация) != ожидаемые_поля:
+        raise ContractError("Общая резервация имеет неверный контракт.")
+    попытка = резервация.get("идентификатор_попытки")
+    try:
+        разобранная_попытка = uuid.UUID(str(попытка))
+    except ValueError as ошибка:
+        raise ContractError(
+            "Общая резервация имеет неканонический UUID попытки."
+        ) from ошибка
+    if str(разобранная_попытка) != попытка:
+        raise ContractError(
+            "Общая резервация имеет неканонический UUID попытки."
+        )
+    if (
+        резервация.get("branch_ref") != ссылка_ветки
+        or резервация.get("selection_head") != вершина_выбора
+        or резервация.get("job_id") != ИДЕНТИФИКАТОР_ОБЩЕГО_ЗАДАНИЯ
+        or попытка != идентификатор_аренды
+        or резервация.get("фаза") != "зарезервирован"
+    ):
+        raise НесовпадениеОбщейРезервации
+    return ссылка, объект
+
+
 def reject_duplicate_claim_keys(
     pairs: list[tuple[str, object]],
 ) -> dict[str, object]:
@@ -2529,7 +2753,7 @@ def снимок_отсутствия_сброса(
             raise ContractError("Запись очереди повреждена.") from ошибка
         if (
             isinstance(значение, dict)
-            and значение.get("схема") == "fum.сброс-состояния-FIFO.1"
+            and значение.get("схема") in СХЕМЫ_ЗАПИСИ_СБРОСА_ОЧЕРЕДИ
         ):
             return False, "", объект
     ожидаемый = объект or ("0" * длина_объекта)
@@ -2552,12 +2776,20 @@ def cas_claim_ref(
     *,
     branch_ref: str | None = None,
     selection_head: str | None = None,
+    ограждающая_ссылка: str | None = None,
+    ожидаемый_объект_ограждения: str | None = None,
 ) -> bool:
     if new_oid is None and old_oid is None:
         raise ContractError("Нельзя удалить отсутствующее поколение claim.")
     if (branch_ref is None) != (selection_head is None):
         raise ContractError(
             "Проверка вершины claim требует branch_ref и selection_head."
+        )
+    if (ограждающая_ссылка is None) != (
+        ожидаемый_объект_ограждения is None
+    ):
+        raise ContractError(
+            "Дополнительное ограждение требует ссылку и object ID."
         )
     last_error = ""
     for attempt in range(UNCHANGED_REF_RETRY_ATTEMPTS):
@@ -2583,10 +2815,18 @@ def cas_claim_ref(
             if branch_ref is not None and selection_head is not None
             else ""
         )
+        проверка_ограждения = (
+            f"verify {ограждающая_ссылка} "
+            f"{ожидаемый_объект_ограждения}\n"
+            if ограждающая_ссылка is not None
+            and ожидаемый_объект_ограждения is not None
+            else ""
+        )
         transaction = (
             "start\n"
             f"{проверка_ветки}"
             f"{проверка_сброса}"
+            f"{проверка_ограждения}"
             f"{команда_претензии}"
             "prepare\n"
             "commit\n"
@@ -2610,6 +2850,17 @@ def cas_claim_ref(
                 "Вершина ветки изменилась до атомарной записи claim."
             )
         if read_ref_oid(repo_root, queue_ref(repo_root)) != объект_очереди:
+            return False
+        if (
+            ограждающая_ссылка is not None
+            and нарушено_ограждение_ссылки(
+                repo_root,
+                (
+                    ограждающая_ссылка,
+                    str(ожидаемый_объект_ограждения),
+                ),
+            )
+        ):
             return False
         if read_ref_oid(repo_root, reference) != old_oid:
             return False
@@ -2706,17 +2957,39 @@ def claim_matches_current_selection(
     return True
 
 
+def нарушено_ограждение_ссылки(
+    корень: Path,
+    ограждение: tuple[str, str] | None,
+) -> bool:
+    if ограждение is None:
+        return False
+    ссылка, ожидаемый_объект = ограждение
+    текущий_объект = read_ref_oid(корень, ссылка)
+    if ожидаемый_объект in {"0" * 40, "0" * 64}:
+        return текущий_объект is not None
+    return текущий_объект != ожидаемый_объект
+
+
 def confirmed_existing_claim_response(
     repo_root: Path,
     reference: str,
     ready_candidate: StepRecord,
     selection: dict[str, object],
     lease_id: str,
+    ограждение_ссылки: tuple[str, str] | None = None,
 ) -> tuple[
     dict[str, object] | None,
     str | None,
     tuple[dict[str, object], int] | None,
 ]:
+    параметры_ограждения = (
+        {
+            "ограждающая_ссылка": ограждение_ссылки[0],
+            "ожидаемый_объект_ограждения": ограждение_ссылки[1],
+        }
+        if ограждение_ссылки is not None
+        else {}
+    )
     for _attempt in range(MAX_CAS_ATTEMPTS):
         existing, old_oid = load_claim(
             repo_root,
@@ -2740,8 +3013,18 @@ def confirmed_existing_claim_response(
             old_oid,
             branch_ref=ready_candidate.branch_ref,
             selection_head=str(selection["head"]),
+            **параметры_ограждения,
         ):
             if идёт_сброс_очереди(repo_root):
+                return (
+                    existing,
+                    old_oid,
+                    ({"state": "mismatch"}, EXIT_MISMATCH),
+                )
+            if нарушено_ограждение_ссылки(
+                repo_root,
+                ограждение_ссылки,
+            ):
                 return (
                     existing,
                     old_oid,
@@ -2842,6 +3125,35 @@ def claim_step(
         expected_step_id,
         expected_selection_id,
     )
+    try:
+        ограждение_резервации = потребовать_общую_резервацию(
+            repo_root,
+            ready_candidate.branch_ref,
+            str(selection["head"]),
+            lease_id,
+        )
+    except НесовпадениеОбщейРезервации:
+        return {"state": "mismatch"}, EXIT_MISMATCH
+    ограждение_ссылки = ограждение_резервации
+    if (
+        ограждение_ссылки is None
+        and ready_candidate.branch_ref == ССЫЛКА_ВЕТКИ_ОБЩЕГО_ЗАДАНИЯ
+    ):
+        ограждение_ссылки = (
+            ссылка_границы_простого_сброса(
+                repo_root,
+                ready_candidate.branch_ref,
+            ),
+            "0" * len(str(selection["head"])),
+        )
+    параметры_ограждения = (
+        {
+            "ограждающая_ссылка": ограждение_ссылки[0],
+            "ожидаемый_объект_ограждения": ограждение_ссылки[1],
+        }
+        if ограждение_ссылки is not None
+        else {}
+    )
     reference = claim_ref(repo_root, ready_candidate.branch_ref)
     existing, old_oid, existing_response = confirmed_existing_claim_response(
         repo_root,
@@ -2849,6 +3161,7 @@ def claim_step(
         ready_candidate,
         selection,
         lease_id,
+        ограждение_ссылки,
     )
     if existing_response is not None:
         return existing_response
@@ -2873,6 +3186,7 @@ def claim_step(
         new_oid,
         branch_ref=ready_candidate.branch_ref,
         selection_head=str(selection["head"]),
+        **параметры_ограждения,
     ):
         return (
             {
@@ -2889,6 +3203,11 @@ def claim_step(
         )
     if идёт_сброс_очереди(repo_root):
         return {"state": "mismatch"}, EXIT_MISMATCH
+    if нарушено_ограждение_ссылки(
+        repo_root,
+        ограждение_ссылки,
+    ):
+        return {"state": "mismatch"}, EXIT_MISMATCH
     _concurrent, _concurrent_oid, concurrent_response = (
         confirmed_existing_claim_response(
             repo_root,
@@ -2896,6 +3215,7 @@ def claim_step(
             ready_candidate,
             selection,
             lease_id,
+            ограждение_ссылки,
         )
     )
     if concurrent_response is not None:

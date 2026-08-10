@@ -21,6 +21,7 @@ SCRIPT_REPO_PATH = (
     "scripts/ocheredj-zadach-git-vetki.py"
 )
 SCRIPT_PATH = REPO_ROOT / SCRIPT_REPO_PATH
+ПУТЬ_КОРНЕВОГО_СБРОСА = REPO_ROOT / "sbrositj.sh"
 HEAD_BOOTSTRAP_CODE = (
     "import os,subprocess,sys;"
     f"p={SCRIPT_REPO_PATH!r};"
@@ -3950,6 +3951,587 @@ class GitHubPublicationTests(GitQueueFixture):
                 transport.assert_not_called()
 
 
+class ТестыПростогоСбросаКТекущейВершине(GitQueueFixture):
+    def записать_служебный_объект(сам, ссылка: str, метка: str) -> str:
+        объект = subprocess.run(
+            ["git", "-C", str(сам.repo), "hash-object", "-w", "--stdin"],
+            input=json.dumps(
+                {"метка": метка, "фаза": "вызов_мог_состоять"},
+                ensure_ascii=False,
+                sort_keys=True,
+            )
+            + "\n",
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        сам.git("update-ref", ссылка, объект)
+        return объект
+
+    def служебные_ссылки(
+        сам,
+        состояние: dict[str, object],
+    ) -> dict[str, str]:
+        хэш_ветки = hashlib.sha256(
+            str(состояние["branch_ref"]).encode("utf-8")
+        ).hexdigest()
+        основа = f"{состояние['worktree_id']}/{хэш_ветки}"
+        return {
+            "управление": f"refs/fum/управление-диспетчером/{основа}",
+            "претензия": f"refs/fum/worktree-next-step-claims/{основа}",
+            "починка": f"refs/fum/починка-автозапуска/{основа}",
+            "резервация": (
+                "refs/fum/резервации-запусков-автоматизаций/"
+                f"{основа}/{'9' * 64}"
+            ),
+            "эпоха": (
+                "refs/fum/эпохи-резерваций-запусков-автоматизаций/"
+                f"{основа}"
+            ),
+            "аналитика": f"refs/fum/аналитика-завершённых-запусков/{основа}",
+            "журнал_завершений": f"refs/fum/worktree-task-completion-ledgers/{основа}",
+            "повреждённая_квитанция": (
+                "refs/fum/квитанции-сброса-состояния-FIFO/"
+                f"{основа}/{'6' * 64}"
+            ),
+            "постоянное_доказательство": (
+                "refs/fum/аварийные-снимки-состояния/"
+                f"{основа}/ранее/объект"
+            ),
+            "чужая_ветка": (
+                "refs/fum/аналитика-завершённых-запусков/"
+                f"{состояние['worktree_id']}/{'8' * 64}"
+            ),
+        }
+
+    def выполнить_простой_сброс(сам, ответ: str):
+        модуль = load_queue_module()
+        контекст = модуль.resolve_context(сам.repo)
+
+        class ИнтерактивныйБуфер(io.StringIO):
+            def isatty(себя) -> bool:
+                return True
+
+        вывод = ИнтерактивныйБуфер()
+        with (
+            mock.patch.object(модуль.sys, "stdin", ИнтерактивныйБуфер()),
+            mock.patch.object(модуль.sys, "stdout", вывод),
+            mock.patch.object(модуль.sys, "stderr", ИнтерактивныйБуфер()),
+            mock.patch("builtins.input", return_value=ответ),
+        ):
+            результат = модуль.простой_сброс(контекст)
+        return результат, вывод.getvalue()
+
+    def test_без_терминала_сброс_отказывает_до_мутации(сам) -> None:
+        сам.join("owner-task")
+        (сам.repo / "tracked.txt").write_text("изменено\n", encoding="utf-8")
+        до = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+
+        результат = сам.run_queue(
+            "простой-сброс",
+            "--repo-root",
+            str(сам.repo),
+            "--json",
+        )
+
+        сам.assertNotEqual(результат.returncode, 0)
+        сам.assertEqual(сам.payload(результат)["state"], "interactive_terminal_required")
+        после = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        сам.assertEqual(после["queue_oid"], до["queue_oid"])
+        сам.assertEqual((сам.repo / "tracked.txt").read_text(encoding="utf-8"), "изменено\n")
+
+    def test_терминал_требуется_и_для_стандартного_вывода(сам) -> None:
+        модуль = load_queue_module()
+        контекст = модуль.resolve_context(сам.repo)
+
+        class ТерминальныйБуфер(io.StringIO):
+            def isatty(себя) -> bool:
+                return True
+
+        with (
+            mock.patch.object(модуль.sys, "stdin", ТерминальныйБуфер()),
+            mock.patch.object(модуль.sys, "stdout", io.StringIO()),
+            mock.patch.object(модуль.sys, "stderr", ТерминальныйБуфер()),
+        ):
+            with сам.assertRaises(Exception) as отказ:
+                модуль.простой_сброс(контекст)
+
+        сам.assertEqual(
+            getattr(отказ.exception, "state", None),
+            "interactive_terminal_required",
+        )
+        сам.assertEqual(
+            сам.git(
+                "for-each-ref",
+                "--format=%(refname)",
+                "refs/fum/",
+            ).stdout,
+            "",
+        )
+
+    def test_неверная_фраза_ничего_не_сбрасывает(сам) -> None:
+        сам.join("owner-task")
+        до = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+
+        with сам.assertRaises(Exception) as отказ:
+            сам.выполнить_простой_сброс("нет")
+
+        сам.assertEqual(getattr(отказ.exception, "state", None), "confirmation_mismatch")
+        после = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        сам.assertEqual(после["queue_oid"], до["queue_oid"])
+
+    def test_изменение_оперативного_состояния_после_плана_закрывает_сброс(сам) -> None:
+        сам.join("owner-task")
+        модуль = load_queue_module()
+        контекст = модуль.resolve_context(сам.repo)
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        ссылка_управления = сам.служебные_ссылки(состояние)["управление"]
+        сам.записать_служебный_объект(ссылка_управления, "до")
+        план = модуль.план_простого_сброса(контекст)
+        фраза = модуль.фраза_подтверждения_простого_сброса(план)
+
+        class ИнтерактивныйБуфер(io.StringIO):
+            def isatty(себя) -> bool:
+                return True
+
+        новый_объект = ""
+
+        def изменить_и_подтвердить(*_аргументы: object) -> str:
+            nonlocal новый_объект
+            новый_объект = сам.записать_служебный_объект(
+                ссылка_управления,
+                "после",
+            )
+            return фраза
+
+        with (
+            mock.patch.object(модуль.sys, "stdin", ИнтерактивныйБуфер()),
+            mock.patch.object(модуль.sys, "stdout", ИнтерактивныйБуфер()),
+            mock.patch.object(модуль.sys, "stderr", ИнтерактивныйБуфер()),
+            mock.patch("builtins.input", side_effect=изменить_и_подтвердить),
+        ):
+            with сам.assertRaises(Exception) as отказ:
+                модуль.простой_сброс(контекст)
+
+        сам.assertEqual(getattr(отказ.exception, "state", None), "reset_plan_changed")
+        сам.assertEqual(
+            сам.git("rev-parse", "--verify", ссылка_управления).stdout.strip(),
+            новый_объект,
+        )
+        после = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        сам.assertEqual(после["queue_oid"], состояние["queue_oid"])
+
+    def test_повреждённая_очередь_не_блокирует_ручной_сброс(сам) -> None:
+        повреждённый_объект = subprocess.run(
+            ["git", "-C", str(сам.repo), "hash-object", "-w", "--stdin"],
+            input="не JSON\n",
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        контекст = load_queue_module().resolve_context(сам.repo)
+        сам.git("update-ref", контекст.queue_ref, повреждённый_объект)
+        (сам.repo / "tracked.txt").write_text("изменено\n", encoding="utf-8")
+        модуль = load_queue_module()
+        план = модуль.план_простого_сброса(модуль.resolve_context(сам.repo))
+
+        (код, ответ), _ = сам.выполнить_простой_сброс(
+            модуль.фраза_подтверждения_простого_сброса(план)
+        )
+
+        сам.assertEqual(код, 0)
+        сам.assertEqual(ответ["состояние"], "сброшено")
+        после = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        сам.assertEqual(после["state"], "idle")
+        сам.assertNotEqual(после["queue_oid"], повреждённый_объект)
+
+    def test_повтор_после_терминального_ответа_возвращает_прежний_успех_без_мутации(
+        сам,
+    ) -> None:
+        сам.join("задача-владельца")
+        модуль = load_queue_module()
+        контекст = модуль.resolve_context(сам.repo)
+        план = модуль.план_простого_сброса(контекст)
+        первый, _ = сам.выполнить_простой_сброс(
+            модуль.фраза_подтверждения_простого_сброса(план)
+        )
+        ссылки_до = сам.git(
+            "for-each-ref",
+            "--format=%(refname) %(objectname)",
+            "refs/fum/",
+        ).stdout
+
+        class ИнтерактивныйБуфер(io.StringIO):
+            def isatty(себя) -> bool:
+                return True
+
+        with (
+            mock.patch.object(модуль.sys, "stdin", ИнтерактивныйБуфер()),
+            mock.patch.object(модуль.sys, "stdout", ИнтерактивныйБуфер()),
+            mock.patch.object(модуль.sys, "stderr", ИнтерактивныйБуфер()),
+            mock.patch("builtins.input", side_effect=AssertionError("ввод не ожидался")) as ввод,
+        ):
+            повтор = модуль.простой_сброс(контекст)
+
+        ввод.assert_not_called()
+        сам.assertEqual(повтор, первый)
+        сам.assertEqual(
+            сам.git(
+                "for-each-ref",
+                "--format=%(refname) %(objectname)",
+                "refs/fum/",
+            ).stdout,
+            ссылки_до,
+        )
+
+    def test_грязная_рабочая_копия_не_маскируется_терминальной_квитанцией(
+        сам,
+    ) -> None:
+        модуль = load_queue_module()
+        контекст = модуль.resolve_context(сам.repo)
+        план = модуль.план_простого_сброса(контекст)
+        сам.выполнить_простой_сброс(
+            модуль.фраза_подтверждения_простого_сброса(план)
+        )
+        (сам.repo / "tracked.txt").write_text("новое изменение\n", encoding="utf-8")
+
+        with сам.assertRaises(Exception) as отказ:
+            сам.выполнить_простой_сброс("нет")
+
+        сам.assertEqual(getattr(отказ.exception, "state", None), "confirmation_mismatch")
+        сам.assertEqual(
+            (сам.repo / "tracked.txt").read_text(encoding="utf-8"),
+            "новое изменение\n",
+        )
+
+    def test_новая_оперативная_ссылка_не_маскируется_терминальной_квитанцией(
+        сам,
+    ) -> None:
+        модуль = load_queue_module()
+        контекст = модуль.resolve_context(сам.repo)
+        план = модуль.план_простого_сброса(контекст)
+        сам.выполнить_простой_сброс(
+            модуль.фраза_подтверждения_простого_сброса(план)
+        )
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        ссылка = сам.служебные_ссылки(состояние)["управление"]
+        объект = сам.записать_служебный_объект(ссылка, "после-сброса")
+
+        with сам.assertRaises(Exception) as отказ:
+            сам.выполнить_простой_сброс("нет")
+
+        сам.assertEqual(getattr(отказ.exception, "state", None), "confirmation_mismatch")
+        сам.assertEqual(
+            сам.git("rev-parse", "--verify", ссылка).stdout.strip(),
+            объект,
+        )
+
+    def test_точное_свидетельство_среды_получает_аннулирование_для_всей_рабочей_копии(
+        сам,
+    ) -> None:
+        сам.join("задача-владельца")
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        ссылка_починки = сам.служебные_ссылки(состояние)["починка"]
+        объект_починки = subprocess.run(
+            ["git", "-C", str(сам.repo), "hash-object", "-w", "--stdin"],
+            input=json.dumps(
+                {
+                    "схема": "fum.починка-автозапуска.v1",
+                    "состояние": "задача_создана",
+                    "свидетельство_среды": {
+                        "вид": "threadId",
+                        "threadId": "задача-из-свидетельства",
+                        "hostId": "проверочный-хост",
+                    },
+                },
+                ensure_ascii=False,
+                sort_keys=True,
+                separators=(",", ":"),
+            )
+            + "\n",
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        сам.git("update-ref", ссылка_починки, объект_починки)
+        модуль = load_queue_module()
+        контекст = модуль.resolve_context(сам.repo)
+        план = модуль.план_простого_сброса(контекст)
+        сам.assertIn("задача-из-свидетельства", план["участники"])
+
+        сам.выполнить_простой_сброс(
+            модуль.фраза_подтверждения_простого_сброса(план)
+        )
+
+        отпечаток = hashlib.sha256(
+            "задача-из-свидетельства".encode("utf-8")
+        ).hexdigest()
+        ссылка_аннулирования = (
+            "refs/fum/аннулированные-задачи-простого-сброса/"
+            f"{состояние['worktree_id']}/{отпечаток}"
+        )
+        сам.assertEqual(
+            сам.git(
+                "rev-parse",
+                "--verify",
+                ссылка_аннулирования,
+            ).returncode,
+            0,
+        )
+        сам.git("switch", "-c", "другая-ветка")
+        повтор, ответ = сам.join("задача-из-свидетельства")
+        сам.assertNotEqual(повтор.returncode, 0)
+        сам.assertEqual(ответ["state"], "task_annulled_by_simple_reset")
+
+    def test_подтверждённый_сброс_обнуляет_очередь_и_оперативное_состояние(
+        сам,
+    ) -> None:
+        (сам.repo / ".gitignore").write_text(".ignored/\n", encoding="utf-8")
+        сам.git("add", ".gitignore")
+        сам.git("commit", "-m", "Add ignored fixture")
+        _, владелец = сам.join("owner-task")
+        сам.join("waiter-task")
+        исходная_вершина = сам.git("rev-parse", "HEAD").stdout.strip()
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        исходная_очередь = json.loads(
+            сам.git("cat-file", "blob", str(состояние["queue_oid"])).stdout
+        )
+        текущая_цепочка = {
+            "идентификатор": "FUM-ЦЕПОЧКА-0001",
+            "путь": "Планирование/карточки-цепочек-шагов/фикстура.md",
+            "хэш": f"sha256:{'7' * 64}",
+            "ветка": состояние["branch_ref"],
+        }
+        исходная_очередь["текущая_цепочка"] = текущая_цепочка
+        объект_очереди_с_цепочкой = subprocess.run(
+            ["git", "-C", str(сам.repo), "hash-object", "-w", "--stdin"],
+            input=json.dumps(
+                исходная_очередь,
+                ensure_ascii=False,
+                sort_keys=True,
+                separators=(",", ":"),
+            )
+            + "\n",
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        сам.git(
+            "update-ref",
+            str(состояние["queue_ref"]),
+            объект_очереди_с_цепочкой,
+            str(состояние["queue_oid"]),
+        )
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        исходный_объект_очереди = str(состояние["queue_oid"])
+        ссылки = сам.служебные_ссылки(состояние)
+        исходные_объекты = {
+            имя: сам.записать_служебный_объект(ссылка, имя)
+            for имя, ссылка in ссылки.items()
+        }
+        (сам.repo / "tracked.txt").write_text("изменено\n", encoding="utf-8")
+        сам.git("add", "tracked.txt")
+        (сам.repo / "new.txt").write_text("удалить\n", encoding="utf-8")
+        (сам.repo / ".ignored").mkdir()
+        (сам.repo / ".ignored" / "keep.txt").write_text("сохранить\n", encoding="utf-8")
+
+        модуль = load_queue_module()
+        план = модуль.план_простого_сброса(
+            модуль.resolve_context(сам.repo)
+        )
+        фраза = модуль.фраза_подтверждения_простого_сброса(план)
+        сам.assertIn(исходная_вершина, фраза)
+        (код, ответ), вывод = сам.выполнить_простой_сброс(фраза)
+
+        сам.assertEqual(код, 0)
+        сам.assertEqual(ответ["состояние"], "сброшено")
+        сам.assertIn(исходная_вершина, вывод)
+        сам.assertIn(str(состояние["branch_ref"]), вывод)
+        сам.assertIn("new.txt", вывод)
+        сам.assertIn(ссылки["управление"], вывод)
+        сам.assertIn(исходные_объекты["управление"], вывод)
+        сам.assertEqual(сам.git("rev-parse", "HEAD").stdout.strip(), исходная_вершина)
+        сам.assertEqual((сам.repo / "tracked.txt").read_text(encoding="utf-8"), "initial\n")
+        сам.assertFalse((сам.repo / "new.txt").exists())
+        сам.assertTrue((сам.repo / ".ignored" / "keep.txt").is_file())
+        сам.assertEqual(сам.git("status", "--short").stdout, "")
+
+        после = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        сам.assertEqual(после["state"], "idle")
+        сам.assertIsNone(после["owner"])
+        сам.assertEqual(после["waiting"], [])
+        сам.assertEqual(после["next_seq"], 1)
+        сам.assertNotEqual(после["queue_oid"], исходный_объект_очереди)
+        конечная_очередь = json.loads(
+            сам.git("cat-file", "blob", str(после["queue_oid"])).stdout
+        )
+        сам.assertEqual(
+            конечная_очередь["текущая_цепочка"],
+            текущая_цепочка,
+        )
+
+        for имя in (
+            "управление",
+            "претензия",
+            "починка",
+            "резервация",
+            "аналитика",
+            "журнал_завершений",
+            "повреждённая_квитанция",
+        ):
+            сам.assertNotEqual(
+                сам.git("rev-parse", "--verify", "--quiet", ссылки[имя], check=False).returncode,
+                0,
+                имя,
+            )
+        хэш_ветки = hashlib.sha256(str(после["branch_ref"]).encode("utf-8")).hexdigest()
+        основа = f"{после['worktree_id']}/{хэш_ветки}/"
+        новая_эпоха = сам.git("rev-parse", "--verify", ссылки["эпоха"]).stdout.strip()
+        сам.assertNotEqual(новая_эпоха, исходные_объекты["эпоха"])
+        ссылка_границы = f"refs/fum/границы-простого-сброса/{основа[:-1]}"
+        объект_границы = сам.git(
+            "rev-parse",
+            "--verify",
+            ссылка_границы,
+        ).stdout.strip()
+        граница = json.loads(
+            сам.git("cat-file", "blob", объект_границы).stdout
+        )
+        сам.assertEqual(граница["схема"], "fum.граница-простого-сброса.1")
+        сам.assertEqual(
+            сам.git("rev-parse", "--verify", ссылки["постоянное_доказательство"]).stdout.strip(),
+            исходные_объекты["постоянное_доказательство"],
+        )
+        сам.assertEqual(
+            сам.git("rev-parse", "--verify", ссылки["чужая_ветка"]).stdout.strip(),
+            исходные_объекты["чужая_ветка"],
+        )
+
+        снимки = сам.git(
+            "for-each-ref",
+            "--format=%(refname) %(objectname)",
+            f"refs/fum/снимки-простого-сброса/{основа}",
+        ).stdout.splitlines()
+        квитанции = сам.git("for-each-ref", "--format=%(objectname)", f"refs/fum/квитанции-простого-сброса/{основа}").stdout.splitlines()
+        манифесты = [
+            строка for строка in снимки if строка.split()[0].endswith(chr(47) + "манифест")
+        ]
+        архивные_объекты = {
+            строка.split()[1]
+            for строка in снимки
+            if "объекты" in строка.split()[0].split(chr(47))
+        }
+        сам.assertEqual(len(манифесты), 1)
+        сам.assertEqual(len(квитанции), 1)
+        снимок = сам.git(
+            "cat-file",
+            "blob",
+            манифесты[0].split()[1],
+        ).stdout
+        архивированные = {исходный_объект_очереди}
+        архивированные.update(
+            объект
+            for имя, объект in исходные_объекты.items()
+            if имя not in {"постоянное_доказательство", "чужая_ветка"}
+        )
+        сам.assertLessEqual(архивированные, архивные_объекты)
+        for объект in архивированные:
+            сам.assertIn(объект, снимок)
+        сам.git("reflog", "expire", "--expire=now", "--all")
+        сам.git("gc", "--prune=now")
+        for объект in архивированные:
+            сам.assertEqual(сам.git("cat-file", "-t", объект).stdout.strip(), "blob")
+
+        старое_завершение = сам.finish_clean("owner-task", str(владелец["generation"]))
+        сам.assertNotEqual(старое_завершение.returncode, 0)
+        старый_повтор, старый_ответ = сам.join("owner-task")
+        сам.assertNotEqual(старый_повтор.returncode, 0)
+        сам.assertEqual(старый_ответ["state"], "task_annulled_by_simple_reset")
+        новый_запуск, новый_владелец = сам.join("autostart-task")
+        сам.assertEqual(новый_запуск.returncode, 0, новый_запуск.stderr)
+        сам.assertEqual(новый_владелец["base_head"], исходная_вершина)
+
+    def test_корневой_запускатель_исполняет_код_из_текущей_вершины(сам) -> None:
+        сам.assertTrue(ПУТЬ_КОРНЕВОГО_СБРОСА.is_file())
+        сам.assertTrue(os.access(ПУТЬ_КОРНЕВОГО_СБРОСА, os.X_OK))
+        текст = ПУТЬ_КОРНЕВОГО_СБРОСА.read_text(encoding="utf-8")
+        сам.assertIn("git','--no-replace-objects'", текст)
+        сам.assertIn(SCRIPT_REPO_PATH, текст)
+
+        путь_сценария = сам.repo / SCRIPT_REPO_PATH
+        путь_сценария.parent.mkdir(parents=True)
+        путь_сценария.write_bytes(SCRIPT_PATH.read_bytes())
+        путь_запускателя = сам.repo / "sbrositj.sh"
+        путь_запускателя.write_bytes(ПУТЬ_КОРНЕВОГО_СБРОСА.read_bytes())
+        путь_запускателя.chmod(0o755)
+        сам.git("add", SCRIPT_REPO_PATH, "sbrositj.sh")
+        сам.git("commit", "-m", "Add reset launcher fixture")
+
+        ссылки_до = сам.git(
+            "for-each-ref",
+            "--format=%(refname) %(objectname)",
+            "refs/fum/",
+        ).stdout
+        лишний_аргумент = subprocess.run(
+            [str(путь_запускателя), "лишний-аргумент"],
+            cwd=сам.repo,
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+
+        сам.assertNotEqual(лишний_аргумент.returncode, 0)
+        сам.assertEqual(
+            сам.git(
+                "for-each-ref",
+                "--format=%(refname) %(objectname)",
+                "refs/fum/",
+            ).stdout,
+            ссылки_до,
+        )
+
+        результат = subprocess.run(
+            [str(путь_запускателя)],
+            cwd=сам.repo,
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+
+        сам.assertNotEqual(результат.returncode, 0)
+        сам.assertEqual(json.loads(результат.stdout)["state"], "interactive_terminal_required")
+
+
+class ТестыПростогоСбросаВРепозиторииСДругимФорматомОбъектов(
+    ТестыПростогоСбросаКТекущейВершине
+):
+    формат_объектов = "sha256"
+
+
 class RepositoryIntegrationTests(unittest.TestCase):
     def test_project_configuration_has_no_hooks(self) -> None:
         with CONFIG_PATH.open("rb") as stream:
@@ -3973,7 +4555,8 @@ class RepositoryIntegrationTests(unittest.TestCase):
         self.assertIn("порядке атомарной регистрации", agents)
         self.assertIn("не переупорядоч", agents)
         self.assertIn("Субагент", agents)
-        self.assertIn("Единственное исключение", agents)
+        self.assertIn("два отдельно подтверждаемых пользовательских исключения", agents)
+        self.assertIn("`./sbrositj.sh`", agents)
         self.assertIn("не вызывает `join`", agents)
         self.assertIn("HEAD-bootstrap", agents)
         self.assertIn("isolated mode", agents)
