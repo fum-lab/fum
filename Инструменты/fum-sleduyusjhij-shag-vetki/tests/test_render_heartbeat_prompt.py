@@ -616,7 +616,10 @@ class HeartbeatControlContractTests(unittest.TestCase):
         for фрагмент in (
             "fum-dispetcher-avtomatizacij-fum",
             "master.next-step",
-            "fum-sleduyusjhij-shag-vetki.1",
+            "master.completed-step-analysis",
+            "branch-next-step.py show",
+            "fum-analitika-zavershyonnyikh-shagov/scripts/"
+            "аналитика-завершённых-шагов.py",
             "выбрать",
             "зарезервировать",
             "show",
@@ -628,12 +631,14 @@ class HeartbeatControlContractTests(unittest.TestCase):
             "старый неоднозначный флаг не используй",
             "подтвердить-завершение-исполнителя",
             "оба уровня fence",
-            "один UUID",
+            "Создай свежий UUID",
+            "используй его как общую идентификатор_попытки и "
+            "специализированный lease_id",
             "план-сброса",
             "подготовить-сброс",
             "подтвердить-остановку-сессий",
             "применить-сброс",
-            "heartbeat сам его не начинает и не продолжает",
+            "heartbeat его не начинает",
         ):
             сам.assertIn(фрагмент, шаблон)
         первая_инвентаризация = шаблон.index("list_threads")
@@ -651,6 +656,27 @@ class HeartbeatControlContractTests(unittest.TestCase):
         сам.assertIn("общий `verify-run`", шаблон)
         сам.assertIn("карточочный `bind-run`", шаблон)
         сам.assertIn("карточочный `verify-run`", шаблон)
+
+    def test_аналитика_различает_освобождение_и_чистое_завершение(
+        сам,
+    ) -> None:
+        документ = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+        шаблон = RENDERER.extract_heartbeat_template(документ)
+
+        for фрагмент in (
+            "Для любого адаптера общую фазу `зарезервирован` до host-границы",
+            "специализированным `освободить`",
+            "только `released|unclaimed` разрешает общий `освободить",
+            "с CAS отсутствия claim",
+            "Аналитический claim `очищена` сразу передай общему",
+            "а `finish-clean` — в `очищена` с exact",
+            "Pre-host `освободить` до эффекта выполняет только heartbeat",
+        ):
+            сам.assertIn(фрагмент, шаблон)
+        сам.assertNotIn(
+            "Незавершённая аналитика завершает тик без сообщения",
+            шаблон,
+        )
 
     def test_четвёртая_схема_объединяет_закреплённые_и_остальные_задачи(
         сам,
@@ -830,7 +856,7 @@ class HeartbeatControlContractTests(unittest.TestCase):
     ) -> None:
         документ = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
         шаблон = RENDERER.extract_heartbeat_template(документ)
-        начало = шаблон.index("Маршрут возобновления связанного запуска")
+        начало = шаблон.index("Маршрут связанного запуска выполняй")
         конец = шаблон.index("Конец маршрута возобновления", начало)
         секция = шаблон[начало:конец]
         состояние_резервации = секция.index("состояние-резервации")
@@ -859,7 +885,7 @@ class HeartbeatControlContractTests(unittest.TestCase):
     ) -> None:
         текст = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
         шаблон = RENDERER.extract_heartbeat_template(текст)
-        начало = шаблон.index("Маршрут возобновления связанного запуска")
+        начало = шаблон.index("Маршрут связанного запуска выполняй")
         конец = шаблон.index("Конец маршрута возобновления", начало)
         секция = шаблон[начало:конец]
 
@@ -874,7 +900,7 @@ class HeartbeatControlContractTests(unittest.TestCase):
             "status=failed",
             "stream disconnected before completion: error sending request for url (https://chatgpt.com/backend-api/codex/responses)",
             "additionalDetails=null",
-            "физическая причина не определена",
+            "Физическая причина не определена",
             "не доказывает гибернацию",
             "не доказывает доступность всей сети",
         ):
@@ -893,7 +919,7 @@ class HeartbeatControlContractTests(unittest.TestCase):
     ) -> None:
         документ = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
         шаблон = RENDERER.extract_heartbeat_template(документ)
-        начало = шаблон.index("Маршрут возобновления связанного запуска")
+        начало = шаблон.index("Маршрут связанного запуска выполняй")
         конец = шаблон.index("Конец маршрута возобновления", начало)
         секция = шаблон[начало:конец]
 

@@ -1421,7 +1421,7 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertIsNotNone(template_match)
         template = template_match.group("template")
         transport_match = re.search(
-            r"Ответы `codex_app` (?P<contract>.*?)\n\nРаботай fail-closed:",
+            r"Host-вызовы (?P<contract>.*?)\n\nРаботай fail-closed:",
             template,
             flags=re.DOTALL,
         )
@@ -1444,16 +1444,15 @@ class BranchNextStepTests(unittest.TestCase):
         second_inventory = second_inventory_match.group("step")
 
         normalized_transport = transport.lower()
-        self.assertEqual(template.count("одно транспортное правило"), 1)
-        self.assertIn("JSON-объект", transport)
+        self.assertEqual(template.count("Host-вызовы выполняй"), 1)
+        self.assertIn("объект используй напрямую", transport)
         self.assertIn("полный JSON-текст", transport)
-        self.assertIn("строго один раз", transport)
-        self.assertIn("не массивом и не null", transport)
+        self.assertIn("разбери один раз", transport)
+        self.assertIn("массив, null", transport)
         self.assertIn("повторный разбор", normalized_transport)
         self.assertIn("Markdown", transport)
-        self.assertIn("префикс", transport)
-        self.assertIn("суффикс", transport)
-        self.assertIn("wrapper-поле", transport)
+        self.assertIn("wrapper", transport)
+        self.assertIn("повторно не нормализуется", transport)
         self.assertIn("тайм-аут завершает тик до claim", transport)
 
         for inventory in (first_inventory, second_inventory):
@@ -1586,7 +1585,12 @@ class BranchNextStepTests(unittest.TestCase):
             "python3 -I -c 'import uuid; print(uuid.uuid4())'",
             prompt,
         )
-        self.assertIn("свежий случайный lease_id", prompt)
+        self.assertIn("Создай свежий UUID", prompt)
+        self.assertIn(
+            "используй его как общую идентификатор_попытки и "
+            "специализированный lease_id",
+            prompt,
+        )
         self.assertIn("--lease-id", prompt)
         self.assertIn(
             "повтори ту же команду claim с тем же lease_id",
@@ -1597,12 +1601,12 @@ class BranchNextStepTests(unittest.TestCase):
             prompt,
         )
         self.assertIn(
-            "после первого вызова create_thread в этой логической попытке "
-            "не повторяй claim или create_thread",
+            "после create_thread не повторяй их",
             prompt,
         )
         self.assertIn(
-            "release передавай сохранённые --branch-ref и --expected-lease-id",
+            "В release передавай сохранённые "
+            "branch/head/job/spec/registry/run/attempt/lease",
             prompt,
         )
         self.assertIn("--expected-selection-id", prompt)
@@ -1616,7 +1620,7 @@ class BranchNextStepTests(unittest.TestCase):
             "`tools.codex_app__list_threads({limit: 50})`"
         )
         dynamic_show = prompt.index("branch-next-step.py show")
-        claim = prompt.index("Выполни `python3 -I -c")
+        claim = prompt.index("Создай свежий UUID через `python3 -I -c")
         create_thread = prompt.index(
             "После этой проверки внутри `functions.exec` вызови "
             "`tools.codex_app__create_thread"
@@ -1653,13 +1657,17 @@ class BranchNextStepTests(unittest.TestCase):
             "selection.id",
             prompt,
         )
-        self.assertIn(
-            "новый selection.id следующей вершины получает свежий lease_id и "
-            "атомарно сменяет прежний claim",
-            prompt,
+        поглощение = prompt.index(
+            "общая `зарезервировать` одной CAS поглощает и удаляет exact "
+            "старый terminal claim вместе с заменой terminal reservation"
         )
+        свежая_претензия = prompt.index(
+            "только затем отдельная CAS адаптера создаёт свежий claim с новым "
+            "lease_id"
+        )
+        self.assertLess(поглощение, свежая_претензия)
         self.assertIn(
-            "неизменившийся выбор остаётся защищён штатным `already_claimed`",
+            "Неизменившийся выбор остаётся защищён штатным `already_claimed`",
             prompt,
         )
         self.assertNotIn(
@@ -1724,7 +1732,7 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertIsNotNone(child_contract_match)
         child_contract = child_contract_match.group("contract")
         self.assertIn(
-            "Первым видимым сообщением автоматически созданной задачи",
+            "Для next-step первым видимым сообщением автоматически созданной задачи",
             child_contract,
         )
         self.assertIn(
@@ -1748,7 +1756,7 @@ class BranchNextStepTests(unittest.TestCase):
             "работа не начата.",
             child_contract,
         )
-        visible = child_contract.index("Первым видимым сообщением")
+        visible = child_contract.index("первым видимым сообщением")
         join = child_contract.index("до `join`")
         assigned = child_contract.index("Автозапуск назначил карточку")
         admitted = child_contract.index("После каждого `admitted`")
@@ -1804,27 +1812,19 @@ class BranchNextStepTests(unittest.TestCase):
                 marker in clause
                 for marker in (
                     "release",
-                    "дочерн",
-                    "успешн",
                     "создан",
-                    "запуск",
+                    "дочерн",
                 )
             )
-            and (
-                "запрещ" in clause
-                or "не вызыв" in clause
-                or "не выполня" in clause
-            ),
-            "external_host_proof_only": lambda clause: all(
+            and "не вызыв" in clause,
+            "prehost_heartbeat_only": lambda clause: all(
                 marker in clause
                 for marker in (
-                    "release",
+                    "pre-host",
+                    "освободить",
                     "только",
-                    "внешн",
-                    "host",
-                    "доказ",
-                    "окончательн",
-                    "останов",
+                    "heartbeat",
+                    "до эффекта",
                 )
             ),
         }
@@ -1857,6 +1857,7 @@ class BranchNextStepTests(unittest.TestCase):
         self,
     ) -> None:
         prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+        навык = (TOOL_ROOT / "SKILL.md").read_text(encoding="utf-8")
         child_contract_match = re.search(
             r"^\d+\. .*?(?P<contract>Составь дочерний prompt.*?)^\d+\. ",
             prompt,
@@ -1883,16 +1884,19 @@ class BranchNextStepTests(unittest.TestCase):
             child_contract,
         )
         self.assertIn(
-            "используй только уже машинно проверенные значения",
+            "используй лишь машинно проверенные значения",
             child_contract.casefold(),
         )
-        self.assertIn("title, task и criteria", prompt)
-        self.assertIn("POSIX", prompt)
-        self.assertIn("Windows drive", prompt)
-        self.assertIn("UNC", prompt)
-        self.assertIn("file://", prompt)
-        self.assertIn("home-expansion", prompt)
-        self.assertIn("до claim", prompt)
+        self.assertIn("title, task, criteria", prompt)
+        for запрещённая_форма in (
+            "POSIX",
+            "Windows drive",
+            "UNC",
+            "file://",
+            "home-expansion",
+        ):
+            self.assertIn(запрещённая_форма, навык)
+        self.assertIn("до любой записи claim", навык)
         self.assertNotIn("<КОРЕНЬ_КЛОНА>", child_contract)
         self.assertIn("В <КОРЕНЬ_КЛОНА> проверь", prompt)
 
@@ -3687,17 +3691,25 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertNotIn("task_id", self.payload(missing))
 
         self.claim_current_selection(lease_id)
-        reference = TOOL_MODULE.claim_ref(self.repo, str(ready["branch_ref"]))
-        schema_two_oid = self.git(
+        ссылка_претензии = TOOL_MODULE.claim_ref(
+            self.repo,
+            str(ready["branch_ref"]),
+        )
+        объект_претензии = self.git(
             "rev-parse",
             "--verify",
-            reference,
+            ссылка_претензии,
         ).stdout.strip()
+        состояние_претензии = self.payload(self.run_tool("claim-status"))
+        self.assertEqual(состояние_претензии["schema_version"], 5)
+        self.assertEqual(состояние_претензии["card_id"], ready["card_id"])
+        self.assertIsNone(состояние_претензии["task_id"])
+        self.assertIsNone(состояние_претензии["generation"])
         first = self.run_tool("bind-run", *expected_arguments)
-        schema_three_oid = self.git(
+        связанный_объект = self.git(
             "rev-parse",
             "--verify",
-            reference,
+            ссылка_претензии,
         ).stdout.strip()
         second = self.run_tool("bind-run", *expected_arguments)
 
@@ -3713,23 +3725,29 @@ class BranchNextStepTests(unittest.TestCase):
             self.payload(first),
             {**common_payload, "ownership": "new"},
         )
-        self.assertNotEqual(schema_two_oid, schema_three_oid)
+        self.assertNotEqual(объект_претензии, связанный_объект)
         self.assertEqual(second.returncode, 0, second.stdout + second.stderr)
         self.assertEqual(
             self.payload(second),
             {**common_payload, "ownership": "existing"},
         )
         self.assertEqual(
-            self.git("rev-parse", "--verify", reference).stdout.strip(),
-            schema_three_oid,
+            self.git(
+                "rev-parse",
+                "--verify",
+                ссылка_претензии,
+            ).stdout.strip(),
+            связанный_объект,
         )
         status = self.payload(self.run_tool("claim-status"))
-        self.assertEqual(status["schema_version"], 3)
+        self.assertEqual(status["schema_version"], 5)
+        self.assertEqual(status["card_id"], ready["card_id"])
         self.assertEqual(status["lease_id"], lease_id)
         self.assertEqual(status["task_id"], task_id)
+        self.assertIsNone(status["generation"])
 
-        for schema_version in (3, 4):
-            with self.subTest(schema_version=schema_version):
+        for фаза in ("связан", "проверен"):
+            with self.subTest(фаза=фаза):
                 for attempted_lease in (
                     lease_id,
                     "00000000-0000-0000-0000-000000000002",
@@ -3752,14 +3770,14 @@ class BranchNextStepTests(unittest.TestCase):
                     )
                     self.assertNotIn("lease_id", self.payload(blocked))
                     self.assertNotIn("task_id", self.payload(blocked))
-            if schema_version == 3:
+            if фаза == "связан":
                 owner = self.admit_task(task_id)
                 generation = str(owner["generation"])
                 self.verify_bound_run(ready, task_id, generation)
-                schema_four_oid = self.git(
+                проверенный_объект = self.git(
                     "rev-parse",
                     "--verify",
-                    reference,
+                    ссылка_претензии,
                 ).stdout.strip()
                 rebound = self.run_tool("bind-run", *expected_arguments)
                 self.assertEqual(rebound.returncode, 0, rebound.stderr)
@@ -3771,10 +3789,14 @@ class BranchNextStepTests(unittest.TestCase):
                     self.git(
                         "rev-parse",
                         "--verify",
-                        reference,
+                        ссылка_претензии,
                     ).stdout.strip(),
-                    schema_four_oid,
+                    проверенный_объект,
                 )
+                проверенное_состояние = self.payload(self.run_tool("claim-status"))
+                self.assertEqual(проверенное_состояние["schema_version"], 5)
+                self.assertEqual(проверенное_состояние["card_id"], ready["card_id"])
+                self.assertEqual(проверенное_состояние["generation"], generation)
 
     def test_bind_run_rejects_a_different_lease_or_task_without_rebinding(
         self,
@@ -3786,8 +3808,15 @@ class BranchNextStepTests(unittest.TestCase):
         self.bind_current_claim(ready, lease_id, task_id)
         selection = ready["selection"]
         self.assertIsInstance(selection, dict)
-        reference = TOOL_MODULE.claim_ref(self.repo, str(ready["branch_ref"]))
-        before_oid = self.git("rev-parse", "--verify", reference).stdout.strip()
+        ссылка_претензии = TOOL_MODULE.claim_ref(
+            self.repo,
+            str(ready["branch_ref"]),
+        )
+        before_oid = self.git(
+            "rev-parse",
+            "--verify",
+            ссылка_претензии,
+        ).stdout.strip()
         identity_arguments = (
             "--expected-branch-ref",
             str(ready["branch_ref"]),
@@ -3820,65 +3849,90 @@ class BranchNextStepTests(unittest.TestCase):
             self.assertNotIn("lease_id", self.payload(result))
             self.assertNotIn("task_id", self.payload(result))
         self.assertEqual(
-            self.git("rev-parse", "--verify", reference).stdout.strip(),
+            self.git(
+                "rev-parse",
+                "--verify",
+                ссылка_претензии,
+            ).stdout.strip(),
             before_oid,
         )
         status = self.payload(self.run_tool("claim-status"))
         self.assertEqual(status["lease_id"], lease_id)
         self.assertEqual(status["task_id"], task_id)
 
-    def test_bind_run_rejects_identity_drift_without_replacing_schema_two(
+    def test_привязка_не_заменяет_претензию_схемы_пять_при_дрейфе(
         self,
     ) -> None:
         self.write_record()
         self.commit_all("Add next-step fixture")
-        lease_id = "00000000-0000-0000-0000-000000000001"
-        original = self.claim_current_selection(lease_id)
-        original_selection = original["selection"]
-        self.assertIsInstance(original_selection, dict)
-        reference = TOOL_MODULE.claim_ref(self.repo, str(original["branch_ref"]))
-        before_oid = self.git("rev-parse", "--verify", reference).stdout.strip()
+        идентификатор_аренды = "00000000-0000-0000-0000-000000000001"
+        исходный_результат = self.claim_current_selection(идентификатор_аренды)
+        исходный_выбор = исходный_результат["selection"]
+        self.assertIsInstance(исходный_выбор, dict)
+        ссылка_претензии = TOOL_MODULE.claim_ref(
+            self.repo,
+            str(исходный_результат["branch_ref"]),
+        )
+        объект_претензии_до = self.git(
+            "rev-parse",
+            "--verify",
+            ссылка_претензии,
+        ).stdout.strip()
         self.git("commit", "--allow-empty", "-m", "Advance selection head")
-        current_result = self.run_tool("show")
-        self.assertEqual(current_result.returncode, 0, current_result.stderr)
-        current = self.payload(current_result)
-        current_selection = current["selection"]
-        self.assertIsInstance(current_selection, dict)
-
-        stale_identity = self.run_tool(
-            "bind-run",
-            "--expected-branch-ref",
-            str(original["branch_ref"]),
-            "--expected-step-id",
-            str(original["step_id"]),
-            "--expected-selection-id",
-            str(original_selection["id"]),
-            "--expected-lease-id",
-            lease_id,
-            "--task-id",
-            "10000000-0000-0000-0000-000000000001",
-        )
-        stale_claim = self.run_tool(
-            "bind-run",
-            "--expected-branch-ref",
-            str(current["branch_ref"]),
-            "--expected-step-id",
-            str(current["step_id"]),
-            "--expected-selection-id",
-            str(current_selection["id"]),
-            "--expected-lease-id",
-            lease_id,
-            "--task-id",
-            "10000000-0000-0000-0000-000000000001",
-        )
-
-        self.assertEqual(stale_identity.returncode, 5)
-        self.assertEqual(self.payload(stale_identity)["state"], "mismatch")
-        self.assertEqual(stale_claim.returncode, 5)
-        self.assertEqual(self.payload(stale_claim)["state"], "mismatch")
+        текущий_результат = self.run_tool("show")
         self.assertEqual(
-            self.git("rev-parse", "--verify", reference).stdout.strip(),
-            before_oid,
+            текущий_результат.returncode,
+            0,
+            текущий_результат.stderr,
+        )
+        текущее_состояние = self.payload(текущий_результат)
+        текущий_выбор = текущее_состояние["selection"]
+        self.assertIsInstance(текущий_выбор, dict)
+
+        результат_устаревшей_идентичности = self.run_tool(
+            "bind-run",
+            "--expected-branch-ref",
+            str(исходный_результат["branch_ref"]),
+            "--expected-step-id",
+            str(исходный_результат["step_id"]),
+            "--expected-selection-id",
+            str(исходный_выбор["id"]),
+            "--expected-lease-id",
+            идентификатор_аренды,
+            "--task-id",
+            "10000000-0000-0000-0000-000000000001",
+        )
+        результат_устаревшей_претензии = self.run_tool(
+            "bind-run",
+            "--expected-branch-ref",
+            str(текущее_состояние["branch_ref"]),
+            "--expected-step-id",
+            str(текущее_состояние["step_id"]),
+            "--expected-selection-id",
+            str(текущий_выбор["id"]),
+            "--expected-lease-id",
+            идентификатор_аренды,
+            "--task-id",
+            "10000000-0000-0000-0000-000000000001",
+        )
+
+        self.assertEqual(результат_устаревшей_идентичности.returncode, 5)
+        self.assertEqual(
+            self.payload(результат_устаревшей_идентичности)["state"],
+            "mismatch",
+        )
+        self.assertEqual(результат_устаревшей_претензии.returncode, 5)
+        self.assertEqual(
+            self.payload(результат_устаревшей_претензии)["state"],
+            "mismatch",
+        )
+        self.assertEqual(
+            self.git(
+                "rev-parse",
+                "--verify",
+                ссылка_претензии,
+            ).stdout.strip(),
+            объект_претензии_до,
         )
 
     def test_bind_run_cas_race_keeps_the_competing_task_binding(self) -> None:
@@ -3889,7 +3943,10 @@ class BranchNextStepTests(unittest.TestCase):
         ready = self.claim_current_selection(lease_id)
         selection = ready["selection"]
         self.assertIsInstance(selection, dict)
-        reference = TOOL_MODULE.claim_ref(self.repo, str(ready["branch_ref"]))
+        ссылка_претензии = TOOL_MODULE.claim_ref(
+            self.repo,
+            str(ready["branch_ref"]),
+        )
         competing_payload = {
             "schema_version": 3,
             "branch_ref": ready["branch_ref"],
@@ -3923,12 +3980,17 @@ class BranchNextStepTests(unittest.TestCase):
             selection_head: str | None = None,
         ) -> bool:
             self.assertEqual(repo_root, self.repo)
-            self.assertEqual(claim_reference, reference)
+            self.assertEqual(claim_reference, ссылка_претензии)
             self.assertIsNotNone(new_oid)
             self.assertEqual(branch_ref, ready["branch_ref"])
             self.assertEqual(selection_head, selection["head"])
             self.assertIsNotNone(old_oid)
-            self.git("update-ref", reference, competing_oid, str(old_oid))
+            self.git(
+                "update-ref",
+                ссылка_претензии,
+                competing_oid,
+                str(old_oid),
+            )
             return False
 
         with mock.patch.object(
@@ -4162,6 +4224,77 @@ class BranchNextStepTests(unittest.TestCase):
         status = self.payload(self.run_tool("claim-status"))
         self.assertEqual(status["generation"], generation)
 
+    def test_проверка_запуска_принимает_завершение_штатного_сброса_очереди(
+        сам,
+    ) -> None:
+        сам.write_record()
+        сам.commit_all("Add clean next-step fixture")
+        идентификатор_аренды = "00000000-0000-0000-0000-000000000001"
+        идентификатор_задачи = "задача-после-сброса"
+        готовый_шаг = сам.claim_current_selection(идентификатор_аренды)
+        сам.bind_current_claim(
+            готовый_шаг,
+            идентификатор_аренды,
+            идентификатор_задачи,
+        )
+        владелец = сам.admit_task(идентификатор_задачи)
+        поколение = str(владелец["generation"])
+        контекст_очереди = QUEUE_MODULE.resolve_context(сам.repo)
+        состояние, прежний_объект = QUEUE_MODULE.read_state(контекст_очереди)
+        сам.assertIsNotNone(прежний_объект)
+        состояние["last_completion"] = {
+            "kind": "reset",
+            "task_id": "постоянная-задача-диспетчера",
+            "generation": "sha256:" + "a" * 64,
+            "head": сам.head_oid(),
+            "completed_at": "2026-08-10T00:00:00.000Z",
+            "аннулированные_задачи": [],
+        }
+        новый_объект = QUEUE_MODULE.write_state_blob(
+            контекст_очереди,
+            состояние,
+        )
+        сам.git(
+            "update-ref",
+            контекст_очереди.queue_ref,
+            новый_объект,
+            str(прежний_объект),
+        )
+
+        результат = сам.verify_bound_run(
+            готовый_шаг,
+            идентификатор_задачи,
+            поколение,
+            идентификатор_аренды,
+        )
+
+        сам.assertEqual(результат["state"], "verified")
+
+    def test_проверка_очереди_отклоняет_повреждённое_завершение_сброса(
+        сам,
+    ) -> None:
+        завершение = {
+            "kind": "reset",
+            "task_id": "постоянная-задача-диспетчера",
+            "generation": "sha256:" + "a" * 64,
+            "head": "b" * 40,
+            "completed_at": "2026-08-10T00:00:00.000Z",
+            "аннулированные_задачи": ["задача-два", "задача-один"],
+        }
+        повреждения = (
+            {"generation": "не-хэш"},
+            {"head": "не-вершина"},
+            {"аннулированные_задачи": ["задача-один", "задача-два"]},
+            {"аннулированные_задачи": ["задача-один", "задача-один"]},
+            {"аннулированные_задачи": [1]},
+        )
+
+        for повреждение in повреждения:
+            with сам.subTest(повреждение=повреждение):
+                значение = {**завершение, **повреждение}
+                with сам.assertRaises(TOOL_MODULE.ContractError):
+                    TOOL_MODULE.validate_queue_completion(значение)
+
     def test_verify_run_binds_generation_once_then_confirms_read_only(
         self,
     ) -> None:
@@ -4173,11 +4306,14 @@ class BranchNextStepTests(unittest.TestCase):
         self.bind_current_claim(ready, lease_id, task_id)
         selection = ready["selection"]
         self.assertIsInstance(selection, dict)
-        reference = TOOL_MODULE.claim_ref(self.repo, str(ready["branch_ref"]))
-        schema_three_oid = self.git(
+        ссылка_претензии = TOOL_MODULE.claim_ref(
+            self.repo,
+            str(ready["branch_ref"]),
+        )
+        связанный_объект = self.git(
             "rev-parse",
             "--verify",
-            reference,
+            ссылка_претензии,
         ).stdout.strip()
         owner = self.admit_task(task_id)
         generation = str(owner["generation"])
@@ -4198,10 +4334,10 @@ class BranchNextStepTests(unittest.TestCase):
             "--generation",
             generation,
         )
-        schema_four_oid = self.git(
+        проверенный_объект = self.git(
             "rev-parse",
             "--verify",
-            reference,
+            ссылка_претензии,
         ).stdout.strip()
         second = self.run_tool(
             "verify-run",
@@ -4223,17 +4359,100 @@ class BranchNextStepTests(unittest.TestCase):
         expected_payload["state"] = "verified"
         self.assertEqual(first.returncode, 0, first.stdout + first.stderr)
         self.assertEqual(self.payload(first), expected_payload)
-        self.assertNotEqual(schema_three_oid, schema_four_oid)
+        self.assertNotEqual(связанный_объект, проверенный_объект)
         self.assertEqual(second.returncode, 0, second.stdout + second.stderr)
         self.assertEqual(self.payload(second), expected_payload)
         self.assertEqual(
-            self.git("rev-parse", "--verify", reference).stdout.strip(),
-            schema_four_oid,
+            self.git(
+                "rev-parse",
+                "--verify",
+                ссылка_претензии,
+            ).stdout.strip(),
+            проверенный_объект,
         )
         status = self.payload(self.run_tool("claim-status"))
-        self.assertEqual(status["schema_version"], 4)
+        self.assertEqual(status["schema_version"], 5)
+        self.assertEqual(status["card_id"], ready["card_id"])
         self.assertEqual(status["task_id"], task_id)
         self.assertEqual(status["generation"], generation)
+
+    def test_перезарядка_мигрирует_точную_схему_четыре_в_схему_пять(
+        сам,
+    ) -> None:
+        сам.write_record()
+        сам.commit_all("Add clean next-step fixture")
+        идентификатор_аренды = "00000000-0000-0000-0000-000000000001"
+        идентификатор_задачи = "legacy-task"
+        результат_показа = сам.run_tool("show")
+        сам.assertEqual(
+            результат_показа.returncode,
+            0,
+            результат_показа.stderr,
+        )
+        готовый_шаг = сам.payload(результат_показа)
+        выбор = готовый_шаг["selection"]
+        сам.assertIsInstance(выбор, dict)
+        владелец = сам.admit_task(идентификатор_задачи)
+        поколение = str(владелец["generation"])
+        ссылка_претензии = TOOL_MODULE.claim_ref(
+            сам.repo,
+            str(готовый_шаг["branch_ref"]),
+        )
+        объект_старой_схемы = TOOL_MODULE.write_claim_blob(
+            сам.repo,
+            {
+                "schema_version": 4,
+                "branch_ref": готовый_шаг["branch_ref"],
+                "step_id": готовый_шаг["step_id"],
+                "selection_id": выбор["id"],
+                "selection_head": выбор["head"],
+                "lease_id": идентификатор_аренды,
+                "task_id": идентификатор_задачи,
+                "generation": поколение,
+            },
+            str(готовый_шаг["branch_ref"]),
+        )
+        сам.git("update-ref", ссылка_претензии, объект_старой_схемы)
+        ожидаемые_аргументы = (
+            "--expected-branch-ref",
+            str(готовый_шаг["branch_ref"]),
+            "--expected-step-id",
+            str(готовый_шаг["step_id"]),
+            "--expected-selection-id",
+            str(выбор["id"]),
+            "--expected-lease-id",
+            идентификатор_аренды,
+            "--task-id",
+            идентификатор_задачи,
+            "--generation",
+            поколение,
+        )
+
+        проверка = сам.run_tool("verify-run", *ожидаемые_аргументы)
+
+        сам.assertEqual(проверка.returncode, 0, проверка.stderr)
+        сам.assertEqual(сам.payload(проверка)["state"], "verified")
+        сам.assertEqual(
+            сам.git(
+                "rev-parse",
+                "--verify",
+                ссылка_претензии,
+            ).stdout.strip(),
+            объект_старой_схемы,
+        )
+        состояние_старой_схемы = сам.payload(сам.run_tool("claim-status"))
+        сам.assertEqual(состояние_старой_схемы["schema_version"], 4)
+        сам.assertNotIn("card_id", состояние_старой_схемы)
+
+        перезаряжено = сам.run_tool("rearm", *ожидаемые_аргументы)
+
+        сам.assertEqual(перезаряжено.returncode, 0, перезаряжено.stderr)
+        сам.assertEqual(сам.payload(перезаряжено)["state"], "rearmed")
+        сам.assertEqual(сам.payload(перезаряжено)["ownership"], "new")
+        состояние_после_миграции = сам.payload(сам.run_tool("claim-status"))
+        сам.assertEqual(состояние_после_миграции["state"], "claimed")
+        сам.assertEqual(состояние_после_миграции["schema_version"], 5)
+        сам.assertEqual(состояние_после_миграции["card_id"], готовый_шаг["card_id"])
 
     def test_verify_and_rearm_reject_a_changed_lease_without_mutating_claim(
         self,
@@ -4956,7 +5175,8 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertEqual(patched_cas.call_count, 2)
         status, status_code = TOOL_MODULE.claim_status(self.repo, None)
         self.assertEqual(status_code, 0)
-        self.assertEqual(status["schema_version"], 4)
+        self.assertEqual(status["schema_version"], 5)
+        self.assertEqual(status["card_id"], ready["card_id"])
         self.assertEqual(status["generation"], generation)
         queue_state, _queue_oid = QUEUE_MODULE.read_state(queue_context)
         self.assertEqual(queue_state["owner"]["task_id"], task_id)
@@ -4985,65 +5205,6 @@ class BranchNextStepTests(unittest.TestCase):
             self.assertEqual(args[5], ready["branch_ref"])
             self.assertEqual(args[6], selection["head"])
             self.assertIsNone(kwargs.get("new_claim_oid"))
-            self.assertTrue(kwargs["delete_claim"])
-            if not raced:
-                raced = True
-                wait_code, wait_payload = QUEUE_MODULE.join_queue(
-                    queue_context,
-                    "waiting-task",
-                )
-                self.assertEqual(wait_code, QUEUE_MODULE.EXIT_WAITING)
-                self.assertEqual(wait_payload["state"], "waiting")
-            return original_cas(*args, **kwargs)
-
-        with mock.patch.object(
-            TOOL_MODULE,
-            "cas_run_fence",
-            side_effect=add_waiter_then_cas,
-        ) as patched_cas:
-            payload, exit_code = TOOL_MODULE.rearm_claim(
-                self.repo,
-                str(ready["branch_ref"]),
-                str(ready["step_id"]),
-                str(selection["id"]),
-                lease_id,
-                task_id,
-                generation,
-            )
-
-        self.assertEqual(exit_code, 0)
-        self.assertEqual(payload["state"], "rearmed")
-        self.assertEqual(payload["ownership"], "new")
-        self.assertEqual(patched_cas.call_count, 2)
-        status, status_code = TOOL_MODULE.claim_status(self.repo, None)
-        self.assertEqual(status_code, 0)
-        self.assertEqual(status["state"], "unclaimed")
-        queue_state, _queue_oid = QUEUE_MODULE.read_state(queue_context)
-        self.assertEqual(queue_state["owner"]["task_id"], task_id)
-        self.assertEqual(queue_state["waiting"][0]["task_id"], "waiting-task")
-
-    def test_idempotent_rearm_atomically_verifies_absent_claim_and_queue(
-        self,
-    ) -> None:
-        self.write_record()
-        self.commit_all("Add clean next-step fixture")
-        lease_id = "00000000-0000-0000-0000-000000000001"
-        task_id = "owner-task"
-        ready_result = self.run_tool("show")
-        self.assertEqual(ready_result.returncode, 0, ready_result.stderr)
-        ready = self.payload(ready_result)
-        selection = ready["selection"]
-        self.assertIsInstance(selection, dict)
-        owner = self.admit_task(task_id)
-        generation = str(owner["generation"])
-        queue_context = QUEUE_MODULE.resolve_context(self.repo)
-        original_cas = TOOL_MODULE.cas_run_fence
-        raced = False
-
-        def add_waiter_then_cas(*args, **kwargs) -> bool:
-            nonlocal raced
-            self.assertIsNone(args[2])
-            self.assertEqual(args[3], queue_context.queue_ref)
             self.assertFalse(kwargs.get("delete_claim", False))
             if not raced:
                 raced = True
@@ -5076,137 +5237,191 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertEqual(patched_cas.call_count, 2)
         status, status_code = TOOL_MODULE.claim_status(self.repo, None)
         self.assertEqual(status_code, 0)
-        self.assertEqual(status["state"], "unclaimed")
+        self.assertEqual(status["state"], "claimed")
+        self.assertEqual(status["schema_version"], 5)
+        self.assertEqual(status["task_id"], task_id)
+        self.assertEqual(status["generation"], generation)
+        queue_state, _queue_oid = QUEUE_MODULE.read_state(queue_context)
+        self.assertEqual(queue_state["owner"]["task_id"], task_id)
+        self.assertEqual(queue_state["waiting"][0]["task_id"], "waiting-task")
 
-    def test_rearm_removes_only_the_exact_claim_and_allows_a_fresh_attempt(
+    def test_перезарядка_отвергает_отсутствующую_претензию(
         self,
     ) -> None:
         self.write_record()
         self.commit_all("Add clean next-step fixture")
-        first_lease = "00000000-0000-0000-0000-000000000001"
-        second_lease = "00000000-0000-0000-0000-000000000002"
-        first_task = "first-task"
-        second_task = "second-task"
-        ready = self.claim_current_selection(first_lease)
-        self.bind_current_claim(ready, first_lease, first_task)
-        selection = ready["selection"]
-        self.assertIsInstance(selection, dict)
-        expected_arguments = (
-            "--expected-branch-ref",
-            str(ready["branch_ref"]),
-            "--expected-step-id",
-            str(ready["step_id"]),
-            "--expected-selection-id",
-            str(selection["id"]),
-        )
-        first_owner = self.admit_task(first_task)
-        first_generation = str(first_owner["generation"])
-        self.verify_bound_run(ready, first_task, first_generation)
-
-        rearmed = self.run_tool(
-            "rearm",
-            *expected_arguments,
-            "--expected-lease-id",
-            first_lease,
-            "--task-id",
-            first_task,
-            "--generation",
-            first_generation,
-        )
-        repeated_rearm = self.run_tool(
-            "rearm",
-            *expected_arguments,
-            "--expected-lease-id",
-            first_lease,
-            "--task-id",
-            first_task,
-            "--generation",
-            first_generation,
-        )
-        status_after_rearm = self.run_tool("claim-status")
-
-        self.assertEqual(rearmed.returncode, 0, rearmed.stdout + rearmed.stderr)
+        идентификатор_аренды = "00000000-0000-0000-0000-000000000001"
+        идентификатор_задачи = "owner-task"
+        результат_готовности = self.run_tool("show")
         self.assertEqual(
-            self.payload(rearmed),
+            результат_готовности.returncode,
+            0,
+            результат_готовности.stderr,
+        )
+        готовность = self.payload(результат_готовности)
+        выбор = готовность["selection"]
+        self.assertIsInstance(выбор, dict)
+        владелец = self.admit_task(идентификатор_задачи)
+        поколение = str(владелец["generation"])
+        with mock.patch.object(
+            TOOL_MODULE,
+            "cas_run_fence",
+        ) as подменённая_атомарная_замена:
+            тело_ответа, код_выхода = TOOL_MODULE.rearm_claim(
+                self.repo,
+                str(готовность["branch_ref"]),
+                str(готовность["step_id"]),
+                str(выбор["id"]),
+                идентификатор_аренды,
+                идентификатор_задачи,
+                поколение,
+            )
+
+        self.assertEqual(код_выхода, 5)
+        self.assertEqual(тело_ответа["state"], "mismatch")
+        self.assertEqual(тело_ответа["reason"], "missing")
+        self.assertEqual(подменённая_атомарная_замена.call_count, 0)
+        состояние_претензии, код_состояния_претензии = (
+            TOOL_MODULE.claim_status(self.repo, None)
+        )
+        self.assertEqual(код_состояния_претензии, 0)
+        self.assertEqual(состояние_претензии["state"], "unclaimed")
+
+    def test_перезарядка_сохраняет_точную_претензию_до_чистого_завершения(
+        self,
+    ) -> None:
+        self.write_record()
+        self.commit_all("Add clean next-step fixture")
+        первая_аренда = "00000000-0000-0000-0000-000000000001"
+        первая_задача = "first-task"
+        готовность = self.claim_current_selection(первая_аренда)
+        self.bind_current_claim(готовность, первая_аренда, первая_задача)
+        выбор = готовность["selection"]
+        self.assertIsInstance(выбор, dict)
+        ожидаемые_аргументы = (
+            "--expected-branch-ref",
+            str(готовность["branch_ref"]),
+            "--expected-step-id",
+            str(готовность["step_id"]),
+            "--expected-selection-id",
+            str(выбор["id"]),
+        )
+        первый_владелец = self.admit_task(первая_задача)
+        первое_поколение = str(первый_владелец["generation"])
+        self.verify_bound_run(готовность, первая_задача, первое_поколение)
+        ссылка_претензии = TOOL_MODULE.claim_ref(
+            self.repo,
+            str(готовность["branch_ref"]),
+        )
+        проверенный_объект_претензии = self.git(
+            "rev-parse",
+            "--verify",
+            ссылка_претензии,
+        ).stdout.strip()
+
+        результат_перезарядки = self.run_tool(
+            "rearm",
+            *ожидаемые_аргументы,
+            "--expected-lease-id",
+            первая_аренда,
+            "--task-id",
+            первая_задача,
+            "--generation",
+            первое_поколение,
+        )
+        повторная_перезарядка = self.run_tool(
+            "rearm",
+            *ожидаемые_аргументы,
+            "--expected-lease-id",
+            первая_аренда,
+            "--task-id",
+            первая_задача,
+            "--generation",
+            первое_поколение,
+        )
+        состояние_после_перезарядки = self.run_tool("claim-status")
+
+        self.assertEqual(
+            результат_перезарядки.returncode,
+            0,
+            результат_перезарядки.stdout + результат_перезарядки.stderr,
+        )
+        self.assertEqual(
+            self.payload(результат_перезарядки),
             {
                 "state": "rearmed",
-                "ownership": "new",
-                "branch_ref": ready["branch_ref"],
-                "step_id": ready["step_id"],
-                "selection_id": selection["id"],
-                "selection_head": selection["head"],
-            },
-        )
-        self.assertNotIn("lease_id", self.payload(rearmed))
-        self.assertNotIn("task_id", self.payload(rearmed))
-        self.assertEqual(repeated_rearm.returncode, 0, repeated_rearm.stderr)
-        self.assertEqual(
-            self.payload(repeated_rearm),
-            {
-                **self.payload(rearmed),
                 "ownership": "existing",
+                "branch_ref": готовность["branch_ref"],
+                "step_id": готовность["step_id"],
+                "selection_id": выбор["id"],
+                "selection_head": выбор["head"],
             },
         )
-        self.assertEqual(self.payload(status_after_rearm)["state"], "unclaimed")
-
-        old_verify = self.run_tool(
-            "verify-run",
-            *expected_arguments,
-            "--expected-lease-id",
-            first_lease,
-            "--task-id",
-            first_task,
-            "--generation",
-            first_generation,
-        )
-        queue_context = QUEUE_MODULE.resolve_context(self.repo)
-        finish_code, finish_payload = QUEUE_MODULE.finish_clean_and_handoff(
-            queue_context,
-            first_task,
-            first_generation,
-        )
-        self.assertEqual(finish_code, 0)
-        self.assertEqual(finish_payload["state"], "finished_clean")
-        fresh_claim = self.run_tool(
-            "claim",
-            *expected_arguments,
-            "--lease-id",
-            second_lease,
-        )
-        self.assertEqual(fresh_claim.returncode, 0, fresh_claim.stderr)
-        self.bind_current_claim(ready, second_lease, second_task)
-        second_owner = self.admit_task(second_task)
-        second_generation = str(second_owner["generation"])
-        self.verify_bound_run(
-            ready,
-            second_task,
-            second_generation,
-            second_lease,
-        )
-        stale_rearm = self.run_tool(
-            "rearm",
-            *expected_arguments,
-            "--expected-lease-id",
-            first_lease,
-            "--task-id",
-            first_task,
-            "--generation",
-            first_generation,
-        )
-        final_status = self.run_tool("claim-status")
-
-        self.assertEqual(old_verify.returncode, 5)
-        self.assertEqual(self.payload(old_verify)["state"], "mismatch")
-        self.assertEqual(self.payload(fresh_claim)["lease_id"], second_lease)
-        self.assertEqual(stale_rearm.returncode, 5)
-        self.assertEqual(self.payload(stale_rearm)["state"], "mismatch")
-        self.assertNotIn("lease_id", self.payload(stale_rearm))
-        self.assertNotIn("task_id", self.payload(stale_rearm))
-        self.assertEqual(self.payload(final_status)["lease_id"], second_lease)
-        self.assertEqual(self.payload(final_status)["task_id"], second_task)
+        self.assertNotIn("lease_id", self.payload(результат_перезарядки))
+        self.assertNotIn("task_id", self.payload(результат_перезарядки))
         self.assertEqual(
-            self.payload(final_status)["generation"],
-            second_generation,
+            повторная_перезарядка.returncode,
+            0,
+            повторная_перезарядка.stderr,
+        )
+        self.assertEqual(
+            self.payload(повторная_перезарядка),
+            self.payload(результат_перезарядки),
+        )
+        self.assertEqual(
+            self.payload(состояние_после_перезарядки)["state"],
+            "claimed",
+        )
+        self.assertEqual(
+            self.payload(состояние_после_перезарядки)["schema_version"],
+            5,
+        )
+        self.assertEqual(
+            self.git(
+                "rev-parse",
+                "--verify",
+                ссылка_претензии,
+            ).stdout.strip(),
+            проверенный_объект_претензии,
+        )
+        контекст_очереди = QUEUE_MODULE.resolve_context(self.repo)
+        код_чистого_завершения, тело_чистого_завершения = (
+            QUEUE_MODULE.finish_clean_and_handoff(
+                контекст_очереди,
+                первая_задача,
+                первое_поколение,
+            )
+        )
+        self.assertEqual(код_чистого_завершения, 0)
+        self.assertEqual(
+            тело_чистого_завершения["state"],
+            "finished_clean",
+        )
+        объект_очищенной_претензии = self.git(
+            "rev-parse",
+            "--verify",
+            ссылка_претензии,
+        ).stdout.strip()
+        очищенная_претензия = json.loads(
+            self.git("cat-file", "blob", объект_очищенной_претензии).stdout
+        )
+        self.assertEqual(очищенная_претензия["schema_version"], 5)
+        self.assertEqual(очищенная_претензия["task_id"], первая_задача)
+        self.assertEqual(очищенная_претензия["generation"], первое_поколение)
+        свежая_претензия = self.run_tool(
+            "claim",
+            *ожидаемые_аргументы,
+            "--lease-id",
+            "00000000-0000-0000-0000-000000000002",
+        )
+        self.assertNotEqual(свежая_претензия.returncode, 0)
+        self.assertEqual(
+            self.git(
+                "rev-parse",
+                "--verify",
+                ссылка_претензии,
+            ).stdout.strip(),
+            объект_очищенной_претензии,
         )
 
     def test_rearm_is_idempotent_but_rejects_unverified_or_wrong_claim(self) -> None:
@@ -5241,18 +5456,9 @@ class BranchNextStepTests(unittest.TestCase):
             "--generation",
             generation,
         )
-        self.assertEqual(missing.returncode, 0, missing.stderr)
-        self.assertEqual(
-            self.payload(missing),
-            {
-                "state": "rearmed",
-                "ownership": "existing",
-                "branch_ref": ready["branch_ref"],
-                "step_id": ready["step_id"],
-                "selection_id": selection["id"],
-                "selection_head": selection["head"],
-            },
-        )
+        self.assertEqual(missing.returncode, 5, missing.stderr)
+        self.assertEqual(self.payload(missing)["state"], "mismatch")
+        self.assertEqual(self.payload(missing)["reason"], "missing")
         self.assertEqual(
             self.payload(self.run_tool("claim-status"))["state"],
             "unclaimed",
@@ -5307,6 +5513,30 @@ class BranchNextStepTests(unittest.TestCase):
             "--verify",
             reference,
         ).stdout.strip()
+        точная_перезарядка = self.run_tool(
+            "rearm",
+            *expected_arguments,
+            "--task-id",
+            task_id,
+            "--generation",
+            generation,
+        )
+        повторная_точная_перезарядка = self.run_tool(
+            "rearm",
+            *expected_arguments,
+            "--task-id",
+            task_id,
+            "--generation",
+            generation,
+        )
+        self.assertEqual(точная_перезарядка.returncode, 0, точная_перезарядка.stderr)
+        self.assertEqual(повторная_точная_перезарядка.returncode, 0, повторная_точная_перезарядка.stderr)
+        self.assertEqual(self.payload(точная_перезарядка), self.payload(повторная_точная_перезарядка))
+        self.assertEqual(self.payload(точная_перезарядка)["ownership"], "existing")
+        self.assertEqual(
+            self.git("rev-parse", "--verify", reference).stdout.strip(),
+            schema_four_oid,
+        )
         wrong_task = self.run_tool(
             "rearm",
             *expected_arguments,
@@ -5453,7 +5683,7 @@ class BranchNextStepTests(unittest.TestCase):
 
         self.assertEqual(rearmed.returncode, 0, rearmed.stderr)
         self.assertEqual(self.payload(rearmed)["state"], "rearmed")
-        self.assertEqual(self.payload(rearmed)["ownership"], "new")
+        self.assertEqual(self.payload(rearmed)["ownership"], "existing")
 
     def test_rearm_rejects_staged_root_obsidian_without_deleting_claim(
         self,
@@ -5720,7 +5950,7 @@ class BranchNextStepTests(unittest.TestCase):
             self.assertEqual(repo_root, self.repo)
             self.assertEqual(claim_reference, reference)
             self.assertIsNone(new_claim_oid)
-            self.assertTrue(delete_claim)
+            self.assertFalse(delete_claim)
             self.assertEqual(branch_ref, ready["branch_ref"])
             self.assertEqual(selection_head, selection["head"])
             self.assertEqual(queue_reference, queue_context.queue_ref)
@@ -6081,7 +6311,6 @@ class BranchNextStepTests(unittest.TestCase):
         сам.write_record()
         выбор = сам.current_selection()
         идентификатор_попытки = "00000000-0000-0000-0000-000000000001"
-        сам.установить_границу_простого_сброса()
         ссылка_резервации, исходный_объект = сам.установить_общую_резервацию(
             идентификатор_попытки,
             str(выбор["head"]),
@@ -6637,6 +6866,13 @@ class BranchNextStepTests(unittest.TestCase):
                 "task_id": "verified-task",
                 "generation": "verified-generation",
             },
+            5: {
+                "card_id": "FUM-STEP-0001",
+                "selection_id": selection["id"],
+                "selection_head": selection["head"],
+                "task_id": "verified-task",
+                "generation": "verified-generation",
+            },
         }
 
         for schema_version, extra_fields in schema_fields.items():
@@ -6697,6 +6933,7 @@ class BranchNextStepTests(unittest.TestCase):
                 for forbidden_field in (
                     "lease_id",
                     "schema_version",
+                    "card_id",
                     "task_id",
                     "generation",
                 ):
@@ -6717,6 +6954,129 @@ class BranchNextStepTests(unittest.TestCase):
                     },
                 )
                 self.assertEqual(oid_after_release, "")
+
+    def test_повтор_освобождения_после_потери_ответа_возвращает_отсутствие(
+        self,
+    ) -> None:
+        self.write_record()
+        ссылка_ветки = "refs/heads/master"
+        идентификатор_аренды = "00000000-0000-0000-0000-000000000001"
+        идентификатор_выбора = self.current_selection_id()
+        результат_претензии = self.run_tool(
+            "claim",
+            "--expected-branch-ref",
+            ссылка_ветки,
+            "--expected-step-id",
+            "master-test-step-v1",
+            "--expected-selection-id",
+            идентификатор_выбора,
+            "--lease-id",
+            идентификатор_аренды,
+        )
+        self.assertEqual(
+            результат_претензии.returncode,
+            0,
+            результат_претензии.stderr,
+        )
+
+        результат_освобождения = self.run_tool(
+            "release",
+            "--branch-ref",
+            ссылка_ветки,
+            "--expected-lease-id",
+            идентификатор_аренды,
+        )
+        повтор_освобождения = self.run_tool(
+            "release",
+            "--branch-ref",
+            ссылка_ветки,
+            "--expected-lease-id",
+            идентификатор_аренды,
+        )
+
+        self.assertEqual(
+            результат_освобождения.returncode,
+            0,
+            результат_освобождения.stderr,
+        )
+        self.assertEqual(
+            self.payload(результат_освобождения)["state"],
+            "released",
+        )
+        self.assertEqual(
+            повтор_освобождения.returncode,
+            0,
+            повтор_освобождения.stderr,
+        )
+        self.assertEqual(
+            self.payload(повтор_освобождения),
+            {
+                "state": "unclaimed",
+                "branch_ref": ссылка_ветки,
+            },
+        )
+
+    def test_освобождение_претензии_атомарно_проверяет_общую_резервацию(
+        сам,
+    ) -> None:
+        сам.write_record()
+        выбор = сам.current_selection()
+        идентификатор_попытки = "00000000-0000-0000-0000-000000000001"
+        ссылка_резервации, исходный_объект = сам.установить_общую_резервацию(
+            идентификатор_попытки,
+            str(выбор["head"]),
+        )
+        сам.claim_current_selection(идентификатор_попытки)
+        ссылка_претензии = TOOL_MODULE.claim_ref(
+            сам.repo,
+            "refs/heads/master",
+        )
+        объект_претензии = сам.git(
+            "rev-parse",
+            "--verify",
+            ссылка_претензии,
+        ).stdout.strip()
+        исходная_атомарная_запись = TOOL_MODULE.cas_claim_ref
+        гонка_выполнена = False
+
+        def заменить_резервацию_перед_освобождением(
+            *аргументы,
+            **параметры,
+        ):
+            nonlocal гонка_выполнена
+            if not гонка_выполнена:
+                гонка_выполнена = True
+                сам.установить_общую_резервацию(
+                    "00000000-0000-0000-0000-000000000002",
+                    str(выбор["head"]),
+                )
+            return исходная_атомарная_запись(
+                *аргументы,
+                **параметры,
+            )
+
+        with mock.patch.object(
+            TOOL_MODULE,
+            "cas_claim_ref",
+            side_effect=заменить_резервацию_перед_освобождением,
+        ):
+            ответ, код = TOOL_MODULE.release_claim(
+                сам.repo,
+                "refs/heads/master",
+                идентификатор_попытки,
+            )
+
+        сам.assertTrue(гонка_выполнена)
+        сам.assertEqual(код, 5, ответ)
+        сам.assertEqual(ответ["state"], "mismatch")
+        сам.assertEqual(
+            сам.git("rev-parse", "--verify", ссылка_претензии).stdout.strip(),
+            объект_претензии,
+        )
+        сам.assertNotEqual(
+            сам.git("rev-parse", "--verify", ссылка_резервации).stdout.strip(),
+            исходный_объект,
+        )
 
     def test_claim_replacement_and_fenced_release_follow_step_identity(self) -> None:
         self.write_record()
@@ -6853,11 +7213,14 @@ class BranchNextStepTests(unittest.TestCase):
             json.dumps(
                 {
                     "branch_ref": "refs/heads/master",
+                    "card_id": "FUM-STEP-0001",
+                    "generation": None,
                     "lease_id": self.payload(claimed)["lease_id"],
-                    "schema_version": 2,
+                    "schema_version": 5,
                     "selection_head": selection["head"],
                     "selection_id": selection["id"],
                     "step_id": "master-test-step-v1",
+                    "task_id": None,
                 },
                 ensure_ascii=False,
                 sort_keys=True,
@@ -6866,12 +7229,12 @@ class BranchNextStepTests(unittest.TestCase):
             + "\n",
         )
 
-    def test_legacy_schema_one_claim_is_read_and_replaced_by_schema_two(
+    def test_старая_схема_один_читается_и_заменяется_схемой_пять(
         self,
     ) -> None:
         self.write_record(step_id="master-test-step-v2")
-        selection = self.current_selection()
-        reference = self.install_raw_claim(
+        выбор = self.current_selection()
+        ссылка_претензии = self.install_raw_claim(
             json.dumps(
                 {
                     "schema_version": 1,
@@ -6884,40 +7247,59 @@ class BranchNextStepTests(unittest.TestCase):
             )
         )
 
-        legacy_status = self.run_tool("claim-status")
-        replacement = self.run_tool(
+        состояние_устаревшей_претензии = self.run_tool("claim-status")
+        результат_замены = self.run_tool(
             "claim",
             "--expected-branch-ref",
             "refs/heads/master",
             "--expected-step-id",
             "master-test-step-v2",
             "--expected-selection-id",
-            str(selection["id"]),
+            str(выбор["id"]),
             "--lease-id",
             "00000000-0000-0000-0000-000000000002",
         )
 
         self.assertEqual(
-            legacy_status.returncode,
+            состояние_устаревшей_претензии.returncode,
             0,
-            legacy_status.stdout + legacy_status.stderr,
+            состояние_устаревшей_претензии.stdout
+            + состояние_устаревшей_претензии.stderr,
         )
-        self.assertEqual(self.payload(legacy_status)["state"], "claimed")
         self.assertEqual(
-            self.payload(legacy_status)["step_id"],
+            self.payload(состояние_устаревшей_претензии)["state"],
+            "claimed",
+        )
+        self.assertEqual(
+            self.payload(состояние_устаревшей_претензии)["step_id"],
             "master-test-step-v1",
         )
         self.assertEqual(
-            replacement.returncode,
+            результат_замены.returncode,
             0,
-            replacement.stdout + replacement.stderr,
+            результат_замены.stdout + результат_замены.stderr,
         )
-        oid = self.git("rev-parse", "--verify", reference).stdout.strip()
-        stored = json.loads(self.git("cat-file", "blob", oid).stdout)
-        self.assertEqual(stored["schema_version"], 2)
-        self.assertEqual(stored["step_id"], "master-test-step-v2")
-        self.assertEqual(stored["selection_id"], selection["id"])
-        self.assertEqual(stored["selection_head"], selection["head"])
+        объект_претензии = self.git(
+            "rev-parse",
+            "--verify",
+            ссылка_претензии,
+        ).stdout.strip()
+        сохранённая_претензия = json.loads(
+            self.git("cat-file", "blob", объект_претензии).stdout
+        )
+        self.assertEqual(сохранённая_претензия["schema_version"], 5)
+        self.assertEqual(сохранённая_претензия["card_id"], "FUM-STEP-0001")
+        self.assertIsNone(сохранённая_претензия["task_id"])
+        self.assertIsNone(сохранённая_претензия["generation"])
+        self.assertEqual(
+            сохранённая_претензия["step_id"],
+            "master-test-step-v2",
+        )
+        self.assertEqual(сохранённая_претензия["selection_id"], выбор["id"])
+        self.assertEqual(
+            сохранённая_претензия["selection_head"],
+            выбор["head"],
+        )
 
     def test_corrupt_claim_blob_is_not_replaced_or_misreported(self) -> None:
         self.write_record()
@@ -7282,52 +7664,28 @@ class BranchNextStepTests(unittest.TestCase):
             validation.stdout + validation.stderr,
         )
         validation_payload = self.payload(validation)
-        self.assertEqual(validation_payload["candidate_count"], 19)
+        self.assertEqual(validation_payload["candidate_count"], 18)
         self.assertEqual(validation_payload["ready_count"], 3)
-        self.assertEqual(validation_payload["paused_count"], 13)
+        self.assertEqual(validation_payload["paused_count"], 12)
         self.assertEqual(validation_payload["blocked_count"], 3)
         self.assertEqual(shown.returncode, 0, shown.stdout + shown.stderr)
         shown_payload = self.payload(shown)
         self.assertEqual(shown_payload["state"], "ready")
-        карточка_0094_в_вершине = subprocess.run(
-            [
-                "git",
-                "-C",
-                str(REPO_ROOT),
-                "cat-file",
-                "-e",
-                (
-                    "HEAD:Планирование/карточки-шагов/"
-                    "✅-FUM-STEP-0094-добавить-управление-диспетчером-"
-                    "через-сообщения.md"
-                ),
-            ],
-            check=False,
-            capture_output=True,
-            text=True,
+        ожидаемый_выбор = (
+            "FUM-STEP-0097",
+            "master-fum-step-0097-automatic-v6",
         )
-        ожидаемые_выборы = (
-            (
-                "FUM-STEP-0096",
-                "master-fum-step-0096-automatic-v5",
-            )
-            if карточка_0094_в_вершине.returncode == 0
-            else (
-                "FUM-STEP-0119",
-                "master-fum-step-0119-automatic-v1",
-            )
-        )
-        self.assertEqual(shown_payload["card_id"], ожидаемые_выборы[0])
+        self.assertEqual(shown_payload["card_id"], ожидаемый_выбор[0])
         self.assertEqual(
             shown_payload["step_id"],
-            ожидаемые_выборы[1],
+            ожидаемый_выбор[1],
         )
         self.assertEqual(shown_payload["dispatch"], "automatic")
         self.assertEqual(shown_payload["status"], "ready")
         self.assertEqual(shown_payload["selection"]["ready_count"], 3)
         self.assertEqual(
             shown_payload["selection"]["reason"],
-            "completed_step_source",
+            "changed_source",
         )
 
     def test_тайм_аут_обвязки_превышает_внутренний_Гит_лимит(

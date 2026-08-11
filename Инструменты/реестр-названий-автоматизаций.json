@@ -36,6 +36,11 @@
   ],
   "current": [
     {
+      "source": "аналитика завершённых шагов",
+      "transliteration": "analitika zavershyonnyikh shagov",
+      "slug": "fum-analitika-zavershyonnyikh-shagov"
+    },
+    {
       "source": "диспетчер автоматизаций FUM",
       "transliteration": "dispetcher avtomatizacij FUM",
       "slug": "fum-dispetcher-avtomatizacij-fum"

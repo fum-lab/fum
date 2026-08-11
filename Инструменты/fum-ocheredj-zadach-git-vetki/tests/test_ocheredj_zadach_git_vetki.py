@@ -2608,7 +2608,10 @@ class ТестыШтатногоСбросаОчереди(GitQueueFixture):
         сам.assertEqual(применение.returncode, 0, применение.stderr)
         for ссылка, объект in объекты.items():
             обнаруженный = сам.git("rev-parse", "--verify", "--quiet", ссылка, check=False)
-            if "резервации-запусков-автоматизаций" in ссылка:
+            if (
+                "резервации-запусков-автоматизаций" in ссылка
+                or "worktree-next-step-claims" in ссылка
+            ):
                 сам.assertEqual(обнаруженный.returncode, 0)
                 сам.assertEqual(обнаруженный.stdout.strip(), объект)
             else:
@@ -3006,6 +3009,196 @@ class QueueSafetyTests(GitQueueFixture):
             "status", "--repo-root", str(self.repo), "--json"
         ))
         self.assertEqual(status["owner"]["task_id"], "task-a")
+
+    def test_малый_грязный_инвентарь_сохраняет_полную_диагностику(
+        сам,
+    ) -> None:
+        _, владелец = сам.join("task-a")
+        сам.stage_change("подготовлено\n")
+        (сам.repo / "untracked.txt").write_text("unknown\n", encoding="utf-8")
+        ожидаемые_пути = ["untracked.txt"]
+        вычислитель = hashlib.sha256()
+        вычислитель.update(b"FUM\0queue-dirty-blocking-paths\0v1\0")
+        вычислитель.update(len(ожидаемые_пути).to_bytes(8, "big"))
+        for путь in ожидаемые_пути:
+            сырые_байты = путь.encode("utf-8", errors="surrogateescape")
+            вычислитель.update(len(сырые_байты).to_bytes(8, "big"))
+            вычислитель.update(сырые_байты)
+
+        результат = сам.commit("task-a", str(владелец["generation"]))
+
+        сам.assertNotEqual(результат.returncode, 0)
+        ответ = сам.payload(результат)
+        сам.assertEqual(ответ["state"], "dirty")
+        сам.assertEqual(ответ["blocking_paths_schema"], 1)
+        сам.assertEqual(ответ["blocking_paths"], ожидаемые_пути)
+        сам.assertEqual(ответ["blocking_paths_count"], 1)
+        сам.assertEqual(
+            ответ["blocking_paths_sha256"],
+            f"sha256:{вычислитель.hexdigest()}",
+        )
+        сам.assertIs(ответ["blocking_paths_truncated"], False)
+
+    def test_большой_грязный_инвентарь_возвращает_ограниченный_детерминированный_ответ(
+        сам,
+    ) -> None:
+        модуль = load_queue_module()
+        _, владелец = сам.join("task-a")
+        сам.stage_change("подготовлено\n")
+        ожидаемые_пути = [
+            f"блокирующий-{номер:04d}-{'я' * 60}.txt"
+            for номер in range(320)
+        ]
+        for путь in ожидаемые_пути:
+            (сам.repo / путь).write_text("блокирует\n", encoding="utf-8")
+        вычислитель = hashlib.sha256()
+        вычислитель.update(b"FUM\0queue-dirty-blocking-paths\0v1\0")
+        вычислитель.update(len(ожидаемые_пути).to_bytes(8, "big"))
+        for путь in ожидаемые_пути:
+            сырые_байты = путь.encode("utf-8", errors="surrogateescape")
+            вычислитель.update(len(сырые_байты).to_bytes(8, "big"))
+            вычислитель.update(сырые_байты)
+        вершина_до = сам.git("rev-parse", "HEAD").stdout.strip()
+        контекст = модуль.resolve_context(сам.repo)
+        объект_очереди_до = сам.git(
+            "rev-parse",
+            контекст.queue_ref,
+        ).stdout.strip()
+        индекс_до = (сам.repo / ".git" / "index").read_bytes()
+
+        первый = сам.commit("task-a", str(владелец["generation"]))
+        повторный = сам.commit("task-a", str(владелец["generation"]))
+
+        сам.assertEqual(первый.returncode, модуль.EXIT_DIRTY)
+        сам.assertEqual(повторный.stdout, первый.stdout)
+        сам.assertLessEqual(len(первый.stdout.encode("utf-8")), 16384)
+        ответ = сам.payload(первый)
+        сам.assertEqual(
+            set(ответ),
+            {
+                "state",
+                "message",
+                "blocking_paths_schema",
+                "blocking_paths",
+                "blocking_paths_count",
+                "blocking_paths_sha256",
+                "blocking_paths_truncated",
+            },
+        )
+        сам.assertEqual(ответ["state"], "dirty")
+        сам.assertEqual(ответ["blocking_paths_schema"], 1)
+        сам.assertEqual(ответ["blocking_paths_count"], 320)
+        сам.assertEqual(
+            ответ["blocking_paths_sha256"],
+            f"sha256:{вычислитель.hexdigest()}",
+        )
+        сам.assertIs(ответ["blocking_paths_truncated"], True)
+        сам.assertEqual(
+            ответ["blocking_paths"],
+            ожидаемые_пути[:16],
+        )
+        сам.assertEqual(сам.git("rev-parse", "HEAD").stdout.strip(), вершина_до)
+        сам.assertEqual(
+            сам.git("rev-parse", контекст.queue_ref).stdout.strip(),
+            объект_очереди_до,
+        )
+        сам.assertEqual((сам.repo / ".git" / "index").read_bytes(), индекс_до)
+
+    def test_один_чрезмерный_путь_даёт_пустой_точный_предпросмотр(
+        сам,
+    ) -> None:
+        модуль = load_queue_module()
+        поток = io.StringIO()
+        with mock.patch.object(sys, "stdout", поток):
+            модуль.emit(
+                {
+                    "state": "dirty",
+                    "message": "Диагностика грязной рабочей копии.",
+                    "blocking_paths": ["я" * 20_000, "я" * 20_000],
+                }
+            )
+
+        сериализованный_ответ = поток.getvalue()
+        сам.assertLessEqual(len(сериализованный_ответ.encode("utf-8")), 16384)
+        ответ = json.loads(сериализованный_ответ)
+        сам.assertEqual(ответ["blocking_paths_count"], 1)
+        сам.assertEqual(ответ["blocking_paths"], [])
+        сам.assertIs(ответ["blocking_paths_truncated"], True)
+
+    def test_точный_повтор_коммита_не_требует_исчезнувший_файл_сообщения(
+        сам,
+    ) -> None:
+        _, владелец = сам.join("task-a")
+        сам.stage_change("готово\n")
+        файл_сообщения = Path(сам.temporary_directory.name) / "message.txt"
+        файл_сообщения.write_text("Завершить задачу\n", encoding="utf-8")
+        аргументы = (
+            "commit",
+            "--repo-root",
+            str(сам.repo),
+            "--task-id",
+            "task-a",
+            "--generation",
+            str(владелец["generation"]),
+            "--message-file",
+            str(файл_сообщения),
+            "--json",
+        )
+
+        первый = сам.run_queue(*аргументы)
+        сам.assertEqual(первый.returncode, 0, первый.stderr)
+        первый_ответ = сам.payload(первый)
+        сам.assertEqual(первый_ответ["state"], "committed")
+        файл_сообщения.unlink()
+        вершина_до = сам.git("rev-parse", "HEAD").stdout.strip()
+        индекс_до = (сам.repo / ".git" / "index").read_bytes()
+
+        повторный = сам.run_queue(*аргументы)
+
+        сам.assertEqual(повторный.returncode, 0, повторный.stderr)
+        повторный_ответ = сам.payload(повторный)
+        for поле in {
+            "state",
+            "task_id",
+            "generation",
+            "old_head",
+            "new_head",
+            "branch_ref",
+            "queue_ref",
+            "queue_oid",
+            "worktree_id",
+        }:
+            сам.assertEqual(повторный_ответ[поле], первый_ответ[поле])
+        сам.assertEqual(сам.git("rev-parse", "HEAD").stdout.strip(), вершина_до)
+        сам.assertEqual((сам.repo / ".git" / "index").read_bytes(), индекс_до)
+
+    def test_первый_коммит_с_отсутствующим_файлом_сообщения_отклоняется(
+        сам,
+    ) -> None:
+        модуль = load_queue_module()
+        _, владелец = сам.join("task-a")
+        сам.stage_change("готово\n")
+        отсутствующий_файл = Path(сам.temporary_directory.name) / "missing.txt"
+        вершина_до = сам.git("rev-parse", "HEAD").stdout.strip()
+        индекс_до = (сам.repo / ".git" / "index").read_bytes()
+
+        результат = сам.run_queue(
+            "commit",
+            "--repo-root",
+            str(сам.repo),
+            "--task-id",
+            "task-a",
+            "--generation",
+            str(владелец["generation"]),
+            "--message-file",
+            str(отсутствующий_файл),
+            "--json",
+        )
+
+        сам.assertEqual(результат.returncode, модуль.EXIT_CLI)
+        сам.assertEqual(сам.payload(результат)["state"], "invalid_message_file")
+        сам.assertEqual(сам.git("rev-parse", "HEAD").stdout.strip(), вершина_до)
+        сам.assertEqual((сам.repo / ".git" / "index").read_bytes(), индекс_до)
 
     def test_commit_requires_staged_changes_and_matching_generation(self) -> None:
         _, owner = self.join("task-a")

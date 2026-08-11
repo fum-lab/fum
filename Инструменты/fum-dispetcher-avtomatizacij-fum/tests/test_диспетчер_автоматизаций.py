@@ -86,7 +86,7 @@ class КонтрактДиспетчераАвтоматизаций(unittest.Te
             },
         )
 
-    def test_канонический_реестр_содержит_первый_мигрированный_адаптер(сам) -> None:
+    def test_канонический_реестр_содержит_два_активных_адаптера(сам) -> None:
         результат = сам.выполнить(
             "проверить",
             "--реестр",
@@ -98,8 +98,30 @@ class КонтрактДиспетчераАвтоматизаций(unittest.Te
 
         сам.assertEqual(результат.returncode, 0, результат.stderr)
         ответ = json.loads(результат.stdout)
-        сам.assertEqual(ответ["число_заданий"], 1)
-        сам.assertEqual(ответ["поколение_реестра"], 2)
+        сам.assertEqual(ответ["число_заданий"], 2)
+        сам.assertEqual(ответ["поколение_реестра"], 3)
+        реестр = json.loads(
+            КАНОНИЧЕСКИЙ_РЕЕСТР.read_text(encoding="utf-8")
+        )
+        аналитика = next(
+            задание
+            for задание in реестр["задания"]
+            if задание["job_id"] == "master.completed-step-analysis"
+        )
+        сам.assertEqual(
+            аналитика["адаптер"],
+            {
+                "тип": "аналитика_завершённых_шагов",
+                "контракт": "fum-analitika-zavershyonnyikh-shagov.1",
+            },
+        )
+        сам.assertGreater(аналитика["триггер"]["каждые"], 0)
+        курсор = аналитика["курсор_результата"]
+        сам.assertEqual(курсор["начальная_граница"]["минимальная_версия_claim"], 5)
+        сам.assertEqual(курсор["область_анализа"]["job_id"], "master.next-step")
+        сам.assertIsNone(
+            курсор["последний_подтверждённый_аналитический_результат"]
+        )
 
     def test_проверка_может_успешно_молчать(сам) -> None:
         результат = сам.выполнить(
@@ -467,12 +489,34 @@ class КонтрактДиспетчераАвтоматизаций(unittest.Te
             and узел.func.value.id == "subprocess"
             and узел.func.attr == "run"
         ]
-        сам.assertEqual(len(вызовы_процессов), 1)
-        аргументы = вызовы_процессов[0].args[0]
-        сам.assertIsInstance(аргументы, ast.List)
-        первый = аргументы.elts[0]
+        сам.assertEqual(len(вызовы_процессов), 3)
+        аргументы_вызовов = [
+            вызов.args[0] for вызов in вызовы_процессов
+        ]
+        общие_аргументы = next(
+            аргументы
+            for аргументы in аргументы_вызовов
+            if isinstance(аргументы, ast.List)
+        )
+        сам.assertIsInstance(общие_аргументы, ast.List)
+        первый = общие_аргументы.elts[0]
         сам.assertIsInstance(первый, ast.Constant)
         сам.assertEqual(первый.value, "git")
+        исторический_вызов_гит = next(
+            аргументы
+            for аргументы in аргументы_вызовов
+            if isinstance(аргументы, ast.Name)
+        )
+        сам.assertIsInstance(исторический_вызов_гит, ast.Name)
+        сам.assertEqual(исторический_вызов_гит.id, "команда")
+        исторический_адаптер = next(
+            аргументы
+            for аргументы in аргументы_вызовов
+            if isinstance(аргументы, ast.Tuple)
+        )
+        сам.assertIsInstance(исторический_адаптер, ast.Tuple)
+        сам.assertIsInstance(исторический_адаптер.elts[0], ast.Attribute)
+        сам.assertEqual(исторический_адаптер.elts[0].attr, "executable")
         запрещённые_часы = [
             узел
             for узел in ast.walk(дерево)

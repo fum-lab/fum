@@ -13,14 +13,15 @@
 
 ## Навыки
 
-- [fum-dispetcher-avtomatizacij-fum](fum-dispetcher-avtomatizacij-fum/SKILL.md) - проверяет закрытый реестр заданий схемы `1`, чисто выбирает не более одного готового запуска, маршрутизирует `master.next-step` в специализированный адаптер, ведёт общую Git-резервацию, связывает её с фактическим FIFO-исполнителем и терминализирует по точному завершению очереди либо самодостаточной reset-квитанции с точными reservation-ref/OID и recovery `released` либо `unclaimed`.
+- [fum-dispetcher-avtomatizacij-fum](fum-dispetcher-avtomatizacij-fum/SKILL.md) - выбирает один запуск и терминализирует оба адаптера: success сохраняет exact terminal claim для replay, clean-safe-failure его удаляет, а следующая резервация того же адаптера атомарно поглощает сохранённый claim; официальный reset сохраняет claims и не вызывает внешний release.
+- [fum-analitika-zavershyonnyikh-shagov](fum-analitika-zavershyonnyikh-shagov/SKILL.md) - выбирает один старейший конечный диапазон подтверждённых commit+handoff-событий, ограждает обычную FIFO-задачу ревизии и подтверждает отчёт вместе с точным продвижением tracked cursor.
 - [fum-pochinka-avtozapuska](fum-pochinka-avtozapuska/SKILL.md) - ограждает один внеполосный запуск отдельной FIFO-задачи, которая TDD-методом диагностирует автозапуск и исправляет существующую живую автоматизацию только на месте.
-- [fum-sleduyusjhij-shag-vetki](fum-sleduyusjhij-shag-vetki/SKILL.md) - служит первым адаптером общего диспетчера: проверяет конечный whitelist ветки, вычисляет runtime-готовность по точным завершённым карточечным зависимостям, выполняет `show` и `claim`, отдельно подтверждает карточочный fence после общего допуска и безопасно перевооружает полностью откатившуюся попытку.
+- [fum-sleduyusjhij-shag-vetki](fum-sleduyusjhij-shag-vetki/SKILL.md) - служит первым адаптером общего диспетчера: вычисляет runtime-готовность, выполняет `show`/`claim`, подтверждает карточочный fence и поддерживает claim схем `5`/`6`; `rearm` для схемы `5` является fenced no-op, legacy `4 → 5` мигрирует перед atomic `finish-clean 5 → 6` с exact clean-witness.
 - [fum-sborka-svodnoj-dokumentacii](fum-sborka-svodnoj-dokumentacii/SKILL.md) - создаёт и проверяет каркас сводных статей документации из нескольких опорных материалов.
 - [fum-ocenki](fum-ocenki/SKILL.md) - создаёт и проверяет принадлежащие запросу оценочные материалы в `материалы/оценки/` со снимком репозитория, методикой, диапазонами, допущениями, ограничениями точности и оформлением результата.
 - [fum-glossarij](fum-glossarij/SKILL.md) - поддерживает глоссарий FUM по локальным правилам именования и ссылок.
 - [fum-svezhestj-markdown](fum-svezhestj-markdown/SKILL.md) - обновляет служебные метки последнего содержательного редактирования во всех Markdown-файлах и собирает индекс `.md`-файлов от свежих к старым.
-- [fum-ocheredj-zadach-git-vetki](fum-ocheredj-zadach-git-vetki/SKILL.md) - последовательно допускает корневые задачи одного worktree, завершает владение локальным commit+handoff и предоставляет два раздельных сброса: безопасный dispatcher-only reset-record-протокол и человеческий `./sbrositj.sh` с TTY на stdin/stdout, архивом scoped runtime, terminal receipt replay и свежими FIFO/epoch/boundary/checkout-tombstone.
+- [fum-ocheredj-zadach-git-vetki](fum-ocheredj-zadach-git-vetki/SKILL.md) - последовательно допускает корневые задачи одного worktree, завершает владение локальным commit+handoff, атомарно записывает next-step schema-6 clean-witness при `finish-clean` и предоставляет раздельные dispatcher-only reset-record и человеческий `./sbrositj.sh`; официальный reset сохраняет связанные claims для общей терминализации.
 - [fum-svezhestj-grafa-obsidian](fum-svezhestj-grafa-obsidian/SKILL.md) - обновляет группы цвета графа Obsidian как тепловую карту Markdown-узлов по времени последнего содержательного редактирования.
 - [fum-reyestr-planirovaniya](fum-reyestr-planirovaniya/SKILL.md) - собирает и проверяет машинно читаемый JSON-реестр и безопасно переименовывает карточки шагов с обновлением живых текстовых путей.
 - [fum-proyektnyiye-fajlyi](fum-proyektnyiye-fajlyi/SKILL.md) - задаёт общий воспроизводимый инвентарь проектных Markdown-файлов и безопасные границы выходных путей служебных автоматизаций.
@@ -54,10 +55,11 @@
 - `python3 -I -c "import os,subprocess,sys;p='Инструменты/fum-ocheredj-zadach-git-vetki/scripts/ocheredj-zadach-git-vetki.py';r=sys.argv[1];e={k:v for k,v in os.environ.items() if not k.upper().startswith('GIT_')};e['GIT_NO_REPLACE_OBJECTS']='1';e['GIT_OPTIONAL_LOCKS']='0';b=subprocess.check_output(['git','--no-replace-objects','-C',r,'show','HEAD:'+p],env=e,timeout=30);sys.argv=[p,*sys.argv[2:],'--repo-root',r];exec(compile(b,p,'exec'))" . heartbeat-status --task-id <корневой-CODEX_THREAD_ID> --json` - возвращает для heartbeat только `idle`, `own_owner` или `busy` без непрозрачных полей FIFO.
 - `./sbrositj.sh` - ручной аварийный сброс exact текущих именованной ветки и `HEAD`; выполнять только человеку при настоящих TTY одновременно на stdin и stdout после чтения полного плана; не использовать как диагностическую или агентскую команду.
 - `python3 Инструменты/fum-sleduyusjhij-shag-vetki/scripts/branch-next-step.py validate --repo-root . --json` - структурно проверяет рабочие наборы, вычисляет runtime-статусы всего whitelist и подтверждает единственное совпадение для активной именованной ветки, не выбирая победителя.
-- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-dispetcher-avtomatizacij-fum/tests -p 'test_*.py'` - локальные тесты реестра, общего выбора и резервации, адаптера следующего шага, привязки фактического FIFO-исполнителя, терминализации по текущему `last_completion` либо самодостаточной reset-квитанции с `released|unclaimed` и точной in-place-миграции heartbeat.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-dispetcher-avtomatizacij-fum/tests -p 'test_*.py'` - локальные тесты реестра, обоих адаптеров, terminal replay, reserve-time consume terminal claim, next-step schema-5 success/schema-6 clean proof, аналитической претензии, reset без release и in-place-миграции heartbeat.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-analitika-zavershyonnyikh-shagov/tests -p 'test_*.py'` - автономные тесты старейшего порога, замороженных источников, bind/verify, атомарного свидетельства передачи, точного отчёта и курсора, рестарта, сохранения claim при reset и закрытых отказов.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-pochinka-avtozapuska/tests -p 'test_*.py'` - локальные тесты плана, Git-CAS-резервации, необратимой host-границы, отдельного FIFO-поколения исполнителя, чистоты перед работой и терминализации по точному коммиту.
-- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-sleduyusjhij-shag-vetki/tests -p 'test_*.py'` - локальные тесты выбора по first-parent-истории, атомарного claim точного поколения, привязки запуска к задаче, проверки каждого FIFO-допуска, безопасного `rearm` после полного отката и отдельного fenced-восстановления неоднозначного создания.
-- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-ocheredj-zadach-git-vetki/tests -p 'test_*.py'` - локальные тесты FIFO, commit+handoff, безопасного dispatcher-reset и человеческого break-glass во временных Git-репозиториях, а также отдельно авторизуемого транспорта через автономный bare-remote.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-sleduyusjhij-shag-vetki/tests -p 'test_*.py'` - локальные тесты выбора, exact claim/run-fence, schema `4 → 5` migration, fenced no-op `rearm` схемы `5`, atomic `finish-clean 5 → 6` и pre-host release.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-ocheredj-zadach-git-vetki/tests -p 'test_*.py'` - локальные тесты FIFO, commit+handoff, atomic schema-6 clean-witness, сохранения claims официальным dispatcher-reset, человеческого break-glass и отдельно авторизуемого транспорта.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-sborka-svodnoj-dokumentacii/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-sborka-svodnoj-dokumentacii`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-ocenki/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-ocenki`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-svezhestj-markdown/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-svezhestj-markdown`.
@@ -87,6 +89,7 @@
 
 ## Источники требований
 
+- [исходный запрос 2026-08-10 14:30:08 MSK — Добавить аналитику по числу завершённых шагов](../Журнал/2026-08-10_14-30-08_MSK_добавить-аналитику-по-числу-завершённых-шагов/запрос.md)
 - [исходный запрос 2026-08-10 10:19:59 MSK — Добавить простой сброс FIFO к текущему HEAD](../Журнал/2026-08-10_10-19-59_MSK_добавить-простой-сброс-FIFO-к-текущему-HEAD/запрос.md)
 - [исходный запрос 2026-08-07 20:34:22 MSK — Добавить штатный сброс очереди](../Журнал/2026-08-07_20-34-22_MSK_добавить-штатный-сброс-очереди/запрос.md)
 - [исходный запрос 2026-08-06 15:14:50 MSK — Сделать README инструкцией использования FUM](../Журнал/2026-08-06_15-14-50_MSK_сделать-README-инструкцией-использования-FUM/запрос.md)
@@ -116,6 +119,6 @@
 - [исходный запрос 2026-07-22 03:38:35 MSK - Разрешить выполнение доступных карточек шагов](../Журнал/2026-07-22_03-38-35_MSK_разрешить-выполнение-доступных-карточек-шагов/запрос.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-10 13:02:52 MSK -->
-<!-- content-sha256: sha256:c5c9da8672bfcb383bc9d6b50f396e0b1687cbfe2ecba8a9901475f1528aa0fa -->
+<!-- last-content-edit: 2026-08-11 01:31:16 MSK -->
+<!-- content-sha256: sha256:758444f85491385f7348d1e40cdde265255f4001f49cce94badf09c891fa3a06 -->
 <!-- FUM-MD-RECENCY:END -->

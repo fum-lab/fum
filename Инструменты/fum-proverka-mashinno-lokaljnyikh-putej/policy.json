@@ -1127,15 +1127,6 @@
       "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
     },
     {
-      "id": "definition-028",
-      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/references/heartbeat-prompt.md",
-      "kind": "file-uri",
-      "line_sha256": "sha256:bb4fe0eb41d688753d0988908b3801a8fa437a6091b2d29d164196200a3ca505",
-      "count": 1,
-      "category": "allow.path-validation-definition",
-      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
-    },
-    {
       "id": "definition-029",
       "path": "Инструменты/fum-sleduyusjhij-shag-vetki/scripts/branch-next-step.py",
       "kind": "home-expansion",

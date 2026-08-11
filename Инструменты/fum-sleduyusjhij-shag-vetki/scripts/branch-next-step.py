@@ -2318,11 +2318,11 @@ def потребовать_общую_резервацию(
 ) -> tuple[str, str] | None:
     if ссылка_ветки != ССЫЛКА_ВЕТКИ_ОБЩЕГО_ЗАДАНИЯ:
         return None
-    if прочитать_границу_простого_сброса(корень, ссылка_ветки) is None:
-        return None
     ссылка = ссылка_общей_резервации(корень, ссылка_ветки)
     объект = read_ref_oid(корень, ссылка)
     if объект is None:
+        if прочитать_границу_простого_сброса(корень, ссылка_ветки) is None:
+            return None
         raise НесовпадениеОбщейРезервации
     резервация = прочитать_канонический_служебный_объект(
         корень,
@@ -2380,29 +2380,31 @@ def validate_claim(
     if not isinstance(payload, dict):
         raise ContractError("Git blob claim имеет неверный формат.")
     schema_version = payload.get("schema_version")
-    if type(schema_version) is not int or schema_version not in {1, 2, 3, 4}:
+    if type(schema_version) is not int or schema_version not in {1, 2, 3, 4, 5}:
         raise ContractError("Git blob claim имеет неверный контракт.")
-    expected_keys = frozenset(
+    ожидаемые_ключи = frozenset(
         {"schema_version", "branch_ref", "step_id", "lease_id"}
     )
-    if schema_version in {2, 3, 4}:
-        expected_keys |= {
+    if schema_version in {2, 3, 4, 5}:
+        ожидаемые_ключи |= {
             "selection_id",
             "selection_head",
         }
     if schema_version in {3, 4}:
-        expected_keys |= {"task_id"}
+        ожидаемые_ключи |= {"task_id"}
     if schema_version == 4:
-        expected_keys |= {"generation"}
+        ожидаемые_ключи |= {"generation"}
+    if schema_version == 5:
+        ожидаемые_ключи |= {"card_id", "task_id", "generation"}
     if (
-        frozenset(payload) != expected_keys
+        frozenset(payload) != ожидаемые_ключи
         or payload.get("branch_ref") != expected_branch_ref
         or not isinstance(payload.get("step_id"), str)
         or STEP_ID_RE.fullmatch(str(payload.get("step_id"))) is None
         or not isinstance(payload.get("lease_id"), str)
     ):
         raise ContractError("Git blob claim имеет неверный контракт.")
-    if schema_version in {2, 3, 4} and (
+    if schema_version in {2, 3, 4, 5} and (
         not isinstance(payload.get("selection_id"), str)
         or CONTENT_SHA256_RE.fullmatch(str(payload.get("selection_id"))) is None
         or not isinstance(payload.get("selection_head"), str)
@@ -2413,6 +2415,18 @@ def validate_claim(
         validate_runtime_identifier(payload.get("task_id"), "task_id")
     if schema_version == 4:
         validate_runtime_identifier(payload.get("generation"), "generation")
+    if schema_version == 5:
+        if (
+            not isinstance(payload.get("card_id"), str)
+            or CARD_ID_RE.fullmatch(str(payload.get("card_id"))) is None
+        ):
+            raise ContractError("Git blob claim содержит неверный card_id.")
+        if payload.get("task_id") is not None:
+            validate_runtime_identifier(payload.get("task_id"), "task_id")
+        if payload.get("generation") is not None:
+            validate_runtime_identifier(payload.get("generation"), "generation")
+        if payload.get("generation") is not None and payload.get("task_id") is None:
+            raise ContractError("Git blob claim не может иметь generation без task_id.")
     try:
         parsed_lease_id = uuid.UUID(str(payload["lease_id"]))
     except ValueError as error:
@@ -2546,12 +2560,20 @@ def validate_queue_completion(value: object) -> None:
     }
     if kind == "committed":
         expected_keys.add("base_head")
+    elif kind == "reset":
+        expected_keys.add("аннулированные_задачи")
     elif kind != "finished_clean":
         raise ContractError("Запись завершения очереди имеет неверный kind.")
     if frozenset(value) != expected_keys:
         raise ContractError("Запись завершения очереди имеет неверный набор полей.")
     validate_runtime_identifier(value.get("task_id"), "task_id")
     validate_runtime_identifier(value.get("generation"), "generation")
+    if kind == "reset" and CONTENT_SHA256_RE.fullmatch(
+        str(value["generation"]),
+    ) is None:
+        raise ContractError(
+            "Запись завершения сброса имеет неверное поколение.",
+        )
     for name in ("head", "base_head"):
         if name not in value:
             continue
@@ -2560,6 +2582,21 @@ def validate_queue_completion(value: object) -> None:
             raise ContractError("Запись завершения очереди имеет неверную вершину.")
     if not isinstance(value.get("completed_at"), str) or not value["completed_at"]:
         raise ContractError("Запись завершения очереди имеет неверную метку времени.")
+    if kind == "reset":
+        аннулированные = value.get("аннулированные_задачи")
+        if not isinstance(аннулированные, list):
+            raise ContractError(
+                "Запись завершения сброса не содержит список задач.",
+            )
+        for идентификатор in аннулированные:
+            validate_runtime_identifier(
+                идентификатор,
+                "аннулированная задача",
+            )
+        if аннулированные != sorted(set(аннулированные)):
+            raise ContractError(
+                "Запись завершения сброса содержит неканонический список задач.",
+            )
 
 
 def validate_queue_state(
@@ -2942,17 +2979,21 @@ def claim_matches_current_selection(
 ) -> bool:
     if (
         claim is None
-        or claim["schema_version"] not in {2, 3, 4}
+        or claim["schema_version"] not in {2, 3, 4, 5}
         or claim["selection_id"] != selection["id"]
     ):
         return False
     if (
         claim["step_id"] != ready_candidate.step_id
         or claim["selection_head"] != selection["head"]
+        or (
+            claim["schema_version"] == 5
+            and claim["card_id"] != ready_candidate.card_id
+        )
     ):
         raise ContractError(
             "Git blob claim противоречит текущему selection: "
-            "step_id или selection_head не совпадает."
+            "step_id, card_id или selection_head не совпадает."
         )
     return True
 
@@ -3036,7 +3077,14 @@ def confirmed_existing_claim_response(
                 "Внутренняя ошибка: подтверждённый claim отсутствует."
             )
         if (
-            existing["schema_version"] == 2
+            (
+                existing["schema_version"] == 2
+                or (
+                    existing["schema_version"] == 5
+                    and existing["task_id"] is None
+                    and existing["generation"] is None
+                )
+            )
             and existing["lease_id"] == lease_id
         ):
             return (
@@ -3171,12 +3219,15 @@ def claim_step(
             "нужен свежий UUID попытки."
         )
     payload: dict[str, object] = {
-        "schema_version": 2,
+        "schema_version": 5,
         "branch_ref": ready_candidate.branch_ref,
         "step_id": ready_candidate.step_id,
+        "card_id": ready_candidate.card_id,
         "selection_id": selection["id"],
         "selection_head": selection["head"],
         "lease_id": lease_id,
+        "task_id": None,
+        "generation": None,
     }
     new_oid = write_claim_blob(repo_root, payload, ready_candidate.branch_ref)
     if cas_claim_ref(
@@ -3361,6 +3412,57 @@ def bind_run(
                     0,
                 )
             continue
+        if schema_version == 5:
+            связанная_задача = existing.get("task_id")
+            if связанная_задача is not None:
+                if связанная_задача != exact_task_id:
+                    return run_mismatch("task_changed", branch_ref)
+                if cas_claim_ref(
+                    repo_root,
+                    reference,
+                    old_oid,
+                    old_oid,
+                    branch_ref=branch_ref,
+                    selection_head=str(selection["head"]),
+                ):
+                    return (
+                        {
+                            "state": "bound",
+                            "ownership": "existing",
+                            "branch_ref": branch_ref,
+                            "step_id": step_id,
+                            "selection_id": selection_id,
+                            "selection_head": selection["head"],
+                        },
+                        0,
+                    )
+                continue
+            связанные_данные = {**existing, "task_id": exact_task_id}
+            новый_объект = write_claim_blob(
+                repo_root,
+                связанные_данные,
+                branch_ref,
+            )
+            if cas_claim_ref(
+                repo_root,
+                reference,
+                old_oid,
+                новый_объект,
+                branch_ref=branch_ref,
+                selection_head=str(selection["head"]),
+            ):
+                return (
+                    {
+                        "state": "bound",
+                        "ownership": "new",
+                        "branch_ref": branch_ref,
+                        "step_id": step_id,
+                        "selection_id": selection_id,
+                        "selection_head": selection["head"],
+                    },
+                    0,
+                )
+            continue
         if schema_version != 2:
             return run_mismatch("claim_changed", branch_ref)
         bound_payload = {
@@ -3442,24 +3544,42 @@ def verify_run(
         ):
             return run_mismatch("claim_changed", branch_ref)
         schema_version = int(existing["schema_version"])
-        if schema_version not in {3, 4}:
+        if schema_version not in {3, 4, 5}:
             return run_mismatch("unbound", branch_ref)
         if existing.get("task_id") != exact_task_id:
             return run_mismatch("task_changed", branch_ref)
         if existing.get("lease_id") != lease_id:
             return run_mismatch("lease_changed", branch_ref)
         ensure_run_checkout_clean(repo_root)
-        new_oid: str | None = None
+        новый_объект: str | None = None
         if schema_version == 4:
             if existing.get("generation") != exact_generation:
                 return run_mismatch("generation_changed", branch_ref)
+        elif schema_version == 5:
+            if existing.get("generation") is not None:
+                if existing.get("generation") != exact_generation:
+                    return run_mismatch("generation_changed", branch_ref)
+            else:
+                проверенные_данные = {
+                    **existing,
+                    "generation": exact_generation,
+                }
+                новый_объект = write_claim_blob(
+                    repo_root,
+                    проверенные_данные,
+                    branch_ref,
+                )
         else:
-            verified_payload = {
+            проверенные_данные = {
                 **existing,
                 "schema_version": 4,
                 "generation": exact_generation,
             }
-            new_oid = write_claim_blob(repo_root, verified_payload, branch_ref)
+            новый_объект = write_claim_blob(
+                repo_root,
+                проверенные_данные,
+                branch_ref,
+            )
         ensure_run_checkout_clean(repo_root)
         if cas_run_fence(
             repo_root,
@@ -3469,7 +3589,7 @@ def verify_run(
             queue_oid,
             branch_ref,
             str(selection["head"]),
-            new_claim_oid=new_oid,
+            new_claim_oid=новый_объект,
         ):
             return (
                 {
@@ -3562,35 +3682,15 @@ def rearm_claim(
         reference = claim_ref(repo_root, branch_ref)
         existing, old_oid = load_claim(repo_root, reference, branch_ref)
         if existing is None or old_oid is None:
-            ensure_run_checkout_clean(repo_root)
-            if cas_run_fence(
-                repo_root,
-                reference,
-                None,
-                queue_reference,
-                queue_oid,
-                branch_ref,
-                str(selection["head"]),
-            ):
-                return (
-                    {
-                        "state": "rearmed",
-                        "ownership": "existing",
-                        "branch_ref": branch_ref,
-                        "step_id": step_id,
-                        "selection_id": selection_id,
-                        "selection_head": selection["head"],
-                    },
-                    0,
-                )
-            continue
+            return run_mismatch("missing", branch_ref)
         if not claim_matches_current_selection(
             existing,
             ready_candidate,
             selection,
         ):
             return run_mismatch("claim_changed", branch_ref)
-        if int(existing["schema_version"]) != 4:
+        версия_претензии = int(existing["schema_version"])
+        if версия_претензии not in {4, 5}:
             return run_mismatch("unverified", branch_ref)
         if existing.get("task_id") != exact_task_id:
             return run_mismatch("task_changed", branch_ref)
@@ -3599,6 +3699,19 @@ def rearm_claim(
         if existing.get("generation") != exact_generation:
             return run_mismatch("generation_changed", branch_ref)
         ensure_run_checkout_clean(repo_root)
+        новый_объект = None
+        владение = "existing"
+        if версия_претензии == 4:
+            новый_объект = write_claim_blob(
+                repo_root,
+                {
+                    **existing,
+                    "schema_version": 5,
+                    "card_id": ready_candidate.card_id,
+                },
+                branch_ref,
+            )
+            владение = "new"
         if cas_run_fence(
             repo_root,
             reference,
@@ -3607,12 +3720,12 @@ def rearm_claim(
             queue_oid,
             branch_ref,
             str(selection["head"]),
-            delete_claim=True,
+            new_claim_oid=новый_объект,
         ):
             return (
                 {
                     "state": "rearmed",
-                    "ownership": "new",
+                    "ownership": владение,
                     "branch_ref": branch_ref,
                     "step_id": step_id,
                     "selection_id": selection_id,
@@ -3663,11 +3776,10 @@ def release_claim(
         if existing is None:
             return (
                 {
-                    "state": "mismatch",
-                    "reason": "missing",
+                    "state": "unclaimed",
                     "branch_ref": branch_ref,
                 },
-                EXIT_MISMATCH,
+                0,
             )
         if existing["lease_id"] != expected_lease_id:
             return (
@@ -3678,7 +3790,36 @@ def release_claim(
                 },
                 EXIT_MISMATCH,
             )
-        if cas_claim_ref(repo_root, reference, old_oid, None):
+        ограждение_резервации: tuple[str, str] | None = None
+        вершина_выбора = existing.get("selection_head")
+        if isinstance(вершина_выбора, str):
+            try:
+                ограждение_резервации = потребовать_общую_резервацию(
+                    repo_root,
+                    branch_ref,
+                    вершина_выбора,
+                    expected_lease_id,
+                )
+            except НесовпадениеОбщейРезервации:
+                return run_mismatch(
+                    "general_reservation_changed",
+                    branch_ref,
+                )
+        параметры_ограждения = (
+            {
+                "ограждающая_ссылка": ограждение_резервации[0],
+                "ожидаемый_объект_ограждения": ограждение_резервации[1],
+            }
+            if ограждение_резервации is not None
+            else {}
+        )
+        if cas_claim_ref(
+            repo_root,
+            reference,
+            old_oid,
+            None,
+            **параметры_ограждения,
+        ):
             return (
                 {
                     "state": "released",
