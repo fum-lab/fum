@@ -1511,11 +1511,11 @@ class BranchNextStepTests(unittest.TestCase):
     def test_heartbeat_uses_exact_nested_create_thread_contract(self) -> None:
         prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
 
-        self.assertIn("`tools.codex_app__create_thread", prompt)
+        self.assertIn("await tools.exec_command(", prompt)
+        self.assertIn("await Promise.race([tools.codex_app__create_thread", prompt)
         self.assertNotIn("вызови codex_app.create_thread", prompt)
         self.assertIn(
-            'target: {type: "project", projectId, '
-            'environment: {type: "local"}}',
+            'target: {type: "project", projectId: идентификаторПроекта, ' 'environment: {type: "local"}}',
             prompt,
         )
         self.assertIn("не передавай `model` или `thinking`", prompt)
@@ -1529,8 +1529,8 @@ class BranchNextStepTests(unittest.TestCase):
     ) -> None:
         prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
         creation_contract_match = re.search(
-            r"^(?P<contract>После этой проверки внутри `functions\.exec` "
-            r"вызови `tools\.codex_app__create_thread.*?)(?=^10\. )",
+            r"^9\. (?P<contract>После этой проверки одним вызовом "
+            r"`functions\.exec`.*?)(?=^10\. )",
             prompt,
             flags=re.DOTALL | re.MULTILINE,
         )
@@ -1541,11 +1541,11 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertIn("bind-run", creation_contract)
         self.assertIn("диспетчер", folded)
         self.assertIn("Диспетчер не вызывает `bind-run`", creation_contract)
-        self.assertIn(
-            "дочерняя задача сама выполняет его после admission",
-            creation_contract,
-        )
+        self.assertIn("дочерняя задача сама выполняет его после admission", creation_contract)
         self.assertIn("clientThreadId", creation_contract)
+        self.assertIn("await tools.exec_command(", creation_contract)
+        self.assertIn(
+            "await Promise.race([tools.codex_app__create_thread", creation_contract)
 
     def test_heartbeat_template_stays_within_live_repair_budget(self) -> None:
         document = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
@@ -1561,7 +1561,7 @@ class BranchNextStepTests(unittest.TestCase):
             str(REPO_ROOT.resolve()),
         )
         self.assertNotIn("<КОРЕНЬ_КЛОНА>", rendered)
-        self.assertLessEqual(len(rendered), 19_605)
+        self.assertLessEqual(len(rendered), 21_300)
 
     def test_heartbeat_computes_readiness_before_history_ranking(self) -> None:
         prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
@@ -1622,8 +1622,8 @@ class BranchNextStepTests(unittest.TestCase):
         dynamic_show = prompt.index("branch-next-step.py show")
         claim = prompt.index("Создай свежий UUID через `python3 -I -c")
         create_thread = prompt.index(
-            "После этой проверки внутри `functions.exec` вызови "
-            "`tools.codex_app__create_thread"
+            "await Promise.race(["
+            "tools.codex_app__create_thread"
         )
         self.assertLess(structural_validation, project_lookup)
         self.assertLess(project_lookup, second_inventory)

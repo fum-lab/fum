@@ -173,8 +173,8 @@ def verify_status_only_diff(
     _validate_status(desired_status)
     before_validated = validate_snapshot(before)
     after_validated = validate_snapshot(after)
-    before_declarative = declarative_snapshot(before_validated)
-    after_declarative = declarative_snapshot(after_validated)
+    before_declarative = before_validated
+    after_declarative = after_validated
     if after_declarative["status"] != desired_status:
         raise SnapshotError("итоговый status не совпадает с ожидаемым")
 
@@ -186,12 +186,12 @@ def verify_status_only_diff(
         equal = (
             before_present
             and after_present
-            and before_declarative[field] == after_declarative[field]
+            and точно_равны_сырые_значения(before_declarative[field], after_declarative[field])
         )
         if equal:
             continue
-        if field == "status":
-            changed_fields.append(field)
+        if field == "status" or field == "updated_at" and before_present and after_present and type(before_declarative[field]) is type(after_declarative[field]):
+            changed_fields.extend([field] if field == "status" else [])
             continue
         raise SnapshotError(
             f"exact-diff содержит запрещённое изменение поля {field}"
@@ -249,8 +249,8 @@ def проверить_миграцию(
         raise SnapshotError("ожидаемый prompt должен быть непустой строкой")
     до_проверки = validate_snapshot(до)
     после_проверки = validate_snapshot(после)
-    до_декларативно = declarative_snapshot(до_проверки)
-    после_декларативно = declarative_snapshot(после_проверки)
+    до_декларативно = до_проверки
+    после_декларативно = после_проверки
     if после_декларативно["name"] != ожидаемое_имя:
         raise SnapshotError("итоговое name не совпадает с ожидаемым")
     if после_декларативно["prompt"] != ожидаемый_промпт:
@@ -263,12 +263,12 @@ def проверить_миграцию(
         совпадает = (
             до_присутствует
             and после_присутствует
-            and до_декларативно[поле] == после_декларативно[поле]
+            and точно_равны_сырые_значения(до_декларативно[поле], после_декларативно[поле])
         )
         if совпадает:
             continue
-        if поле in {"name", "prompt"}:
-            изменённые_поля.append(поле)
+        if поле in {"name", "prompt"} or поле == "updated_at" and до_присутствует and после_присутствует and type(до_декларативно[поле]) is type(после_декларативно[поле]):
+            изменённые_поля.extend([поле] if поле in {"name", "prompt"} else [])
             continue
         raise SnapshotError(
             f"exact-diff миграции содержит запрещённое изменение поля {поле}"

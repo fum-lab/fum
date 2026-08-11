@@ -980,5 +980,172 @@ class HeartbeatControlContractTests(unittest.TestCase):
             сам.assertIn("replacement", text)
 
 
+ПУТЬ_ПРАВИЛ = TOOL_ROOT.parents[1] / "AGENTS.md"
+ПУТЬ_ФАКТИЧЕСКОЙ_ФИКСТУРЫ = (
+    TOOL_ROOT / "tests" / "фикстуры" / "снимок-list_threads-v4.json"
+)
+
+
+class ТестыФактическогоКонтрактаСреды(unittest.TestCase):
+    def test_стоп_старт_и_миграция_отклоняют_смену_псевдонима_или_типа(
+        сам,
+    ) -> None:
+        снимок = AutomationStatusSnapshotTests.snapshot
+        исходный = снимок()
+        варианты = []
+        иной_псевдоним = снимок(status="ACTIVE", updated_at="after")
+        иной_псевдоним["targetThreadId"] = иной_псевдоним.pop("target")[
+            "threadId"
+        ]
+        варианты.append(иной_псевдоним)
+        иной_тип = снимок(status="ACTIVE", updated_at="after")
+        иной_тип["notificationPolicy"] = True
+        до_с_логическим = снимок()
+        до_с_логическим["notificationPolicy"] = 1
+        варианты.append((до_с_логическим, иной_тип))
+        иной_вложенный_тип = снимок(status="ACTIVE", updated_at="after")
+        иной_вложенный_тип["notificationPolicy"] = {"режим": [1]}
+        до_с_вложенным_логическим = снимок()
+        до_с_вложенным_логическим["notificationPolicy"] = {
+            "режим": [True]
+        }
+        варианты.append((до_с_вложенным_логическим, иной_вложенный_тип))
+
+        for вариант in варианты:
+            до, после = (
+                вариант
+                if isinstance(вариант, tuple)
+                else (исходный, вариант)
+            )
+            with сам.subTest(после=после):
+                with сам.assertRaises(SNAPSHOT.SnapshotError):
+                    SNAPSHOT.verify_status_only_diff(до, после, "ACTIVE")
+
+                после_миграции = {
+                    **после,
+                    "name": "Pyatiminutnyij tik dispetchera avtomatizacij FUM",
+                    "prompt": "Новый полный prompt\n",
+                }
+                with сам.assertRaises(SNAPSHOT.SnapshotError):
+                    SNAPSHOT.проверить_миграцию(
+                        до,
+                        после_миграции,
+                        "Pyatiminutnyij tik dispetchera avtomatizacij FUM",
+                        "Новый полный prompt\n",
+                    )
+
+    def test_фактическая_схема_записей_списка_задач_закрыта(
+        сам,
+    ) -> None:
+        снимок = json.loads(
+            ПУТЬ_ФАКТИЧЕСКОЙ_ФИКСТУРЫ.read_text(encoding="utf-8")
+        )
+        закреплённая = снимок["pinnedThreads"][0]
+        исполнитель, обычный_чат = снимок["threads"]
+        общие_поля = {
+            "id",
+            "kind",
+            "projectId",
+            "status",
+            "title",
+            "summary",
+            "updatedAt",
+        }
+
+        сам.assertEqual(set(закреплённая), общие_поля | {
+            "hostId",
+            "cwd",
+            "pinnedIndex",
+        })
+        сам.assertEqual(set(исполнитель), общие_поля | {
+            "hostId",
+            "cwd",
+            "summaryOriginalChars",
+            "summaryTruncated",
+        })
+        сам.assertEqual(set(обычный_чат), общие_поля)
+        сам.assertIs(type(закреплённая["pinnedIndex"]), int)
+        сам.assertIs(type(исполнитель["summaryOriginalChars"]), int)
+        сам.assertIs(type(исполнитель["summaryTruncated"]), bool)
+        сам.assertIsNone(обычный_чат["projectId"])
+        сам.assertNotIn("hostId", обычный_чат)
+        сам.assertNotIn("cwd", обычный_чат)
+        идентификаторы = [
+            запись["id"]
+            for запись in [
+                *снимок["pinnedThreads"],
+                *снимок["threads"],
+            ]
+        ]
+        сам.assertEqual(len(идентификаторы), len(set(идентификаторы)))
+
+        шаблон = RENDERER.extract_heartbeat_template(
+            HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+        )
+        навык = SKILL_PATH.read_text(encoding="utf-8")
+        правила = ПУТЬ_ПРАВИЛ.read_text(encoding="utf-8")
+        for текст in (шаблон, навык, правила):
+            сам.assertIn(
+                "общие обязательные поля ровно `id`, `kind`, `projectId`, "
+                "`status`, `title`, `summary`, `updatedAt`",
+                текст,
+            )
+            сам.assertIn(
+                "Codex-запись требует непустые `hostId` и `cwd`, а "
+                "ChatGPT-запись запрещает оба поля",
+                текст,
+            )
+            сам.assertIn(
+                "`pinnedIndex` равен её однобазовой позиции",
+                текст,
+            )
+            сам.assertIn(
+                "`summaryOriginalChars` и `summaryTruncated` присутствуют "
+                "только вместе",
+                текст,
+            )
+            сам.assertIn("неизвестное поле записи закрывает тик", текст)
+
+    def test_создание_задачи_ожидается_сразу_после_границы_среды(
+        сам,
+    ) -> None:
+        шаблон = RENDERER.extract_heartbeat_template(
+            HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+        )
+        подготовка = шаблон.index(
+            "Полностью сформируй и проверь дочерний prompt до host-границы"
+        )
+        граница = шаблон.index("await tools.exec_command(", подготовка)
+        ожидание = шаблон.index("await Promise.race([", граница)
+        создание = шаблон.index(
+            "tools.codex_app__create_thread({prompt: дочернийПромпт,",
+            ожидание,
+        )
+        конец = шаблон.index("Непустые `threadId` и `hostId`", создание)
+        оркестрация = шаблон[граница:конец]
+
+        сам.assertLess(подготовка, граница)
+        сам.assertLess(граница, ожидание)
+        сам.assertLess(ожидание, создание)
+        сам.assertEqual(
+            оркестрация.count("tools.codex_app__create_thread({"),
+            1,
+        )
+        for запрещённая_граница in (
+            "text(",
+            "yield_control",
+            "return",
+        ):
+            сам.assertNotIn(
+                запрещённая_граница,
+                оркестрация[:оркестрация.index("await Promise.race([")],
+            )
+        сам.assertIn(
+            "одном вызове `functions.exec` без `text(...)`, возврата или "
+            "перехода модели между ними",
+            оркестрация,
+        )
+
+
 if __name__ == "__main__":
     unittest.main()
