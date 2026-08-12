@@ -1895,8 +1895,10 @@ struct WritingSubnodeGit: Sendable {
     }
     process.waitUntilExit()
     guard inputWriteSucceeded, process.terminationStatus == 0 else {
+      let вывод = String(decoding: output, as: UTF8.self)
+        .trimmingCharacters(in: .whitespacesAndNewlines)
       throw WritingSubnodeExecutorError.gitFailed(
-        "Git-команда завершилась с кодом \(process.terminationStatus)."
+        "Git-команда \(arguments.joined(separator: " ")) завершилась с кодом \(process.terminationStatus): \(вывод)"
       )
     }
     return output

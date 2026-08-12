@@ -24,6 +24,10 @@ private func printUsage() {
     fork fixture [имя] запускает автономный сценарий долговечного fork-подузла; без имени выбирается roundtrip.
     fork --list печатает имена сценариев fork-подузла.
 
+    цепочка присоединиться <checkout> <задача> создаёт ожидающий FIFO-билет продолжения.
+    цепочка продолжение <checkout> <управление> <задача> ожидает передачу и выполняет один шаг в том же процессе.
+    цепочка сессия <checkout> <управление> <задача> <режим> выполняет один возобновляемый шаг.
+
     memory bootstrap <каталог> публикует пустое подтверждённое поколение стенда.
     memory continue <каталог> <primary|adversarial> добавляет вклад через резервацию и settlement.
     memory verify <каталог> <фикстура> добавляет проверку через резервацию и settlement.
@@ -415,7 +419,63 @@ private func runForkCommand(_ arguments: [String]) -> Never {
   }
 }
 
+private func выполнитьКомандуКонечнойЦепочки(_ аргументы: [String]) -> Never {
+  do {
+    if аргументы.count == 3, аргументы[0] == "присоединиться" {
+      let данные = try КомандыВозобновляемойКонечнойЦепочки.присоединиться(
+        кореньЧекаута: URL(fileURLWithPath: аргументы[1], isDirectory: true),
+        идентификаторЗадачи: аргументы[2]
+      )
+      writeLine(данные, to: .standardOutput)
+      exit(0)
+    }
+
+    if аргументы.count == 4, аргументы[0] == "продолжение" {
+      let отчёт = try КомандыВозобновляемойКонечнойЦепочки.выполнитьПродолжение(
+        кореньЧекаута: URL(fileURLWithPath: аргументы[1], isDirectory: true),
+        кореньУправления: URL(fileURLWithPath: аргументы[2], isDirectory: true),
+        идентификаторЗадачи: аргументы[3],
+        исполняемыйФайлПробника: URL(
+          fileURLWithPath: CommandLine.arguments[0],
+          isDirectory: false
+        ).standardizedFileURL
+      )
+      writeLine(try отчёт.каноническиеДанные(), to: .standardOutput)
+      exit(0)
+    }
+
+    if аргументы.count == 5, аргументы[0] == "сессия",
+      let режим = РежимСессииВозобновляемойЦепочки(rawValue: аргументы[4])
+    {
+      let отчёт = try КомандыВозобновляемойКонечнойЦепочки.выполнитьСессию(
+        кореньЧекаута: URL(fileURLWithPath: аргументы[1], isDirectory: true),
+        кореньУправления: URL(fileURLWithPath: аргументы[2], isDirectory: true),
+        идентификаторЗадачи: аргументы[3],
+        исполняемыйФайлПробника: URL(
+          fileURLWithPath: CommandLine.arguments[0],
+          isDirectory: false
+        ).standardizedFileURL,
+        режим: режим
+      )
+      writeLine(try отчёт.каноническиеДанные(), to: .standardOutput)
+      exit(0)
+    }
+  } catch {
+    let пояснение =
+      (error as? ОшибкаВозобновляемогоИсполненияКонечнойЦепочки)?
+      .пояснение() ?? String(describing: error)
+    fputs("Возобновляемая конечная цепочка отклонила команду: \(пояснение)\n", stderr)
+    exit(3)
+  }
+
+  fputs("Неизвестная команда конечной цепочки. Используйте --help.\n", stderr)
+  exit(2)
+}
+
 let arguments = Array(CommandLine.arguments.dropFirst())
+if arguments.first == "цепочка" {
+  выполнитьКомандуКонечнойЦепочки(Array(arguments.dropFirst()))
+}
 if arguments.first == "composition" {
   runCompositionCommand(Array(arguments.dropFirst()))
 }
