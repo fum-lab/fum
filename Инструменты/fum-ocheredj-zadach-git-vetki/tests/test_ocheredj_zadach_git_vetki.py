@@ -21,6 +21,13 @@ SCRIPT_REPO_PATH = (
     "scripts/ocheredj-zadach-git-vetki.py"
 )
 SCRIPT_PATH = REPO_ROOT / SCRIPT_REPO_PATH
+ПУТЬ_МАРКЕРА_ОБЯЗАТЕЛЬНОГО_ПРОДОЛЖЕНИЯ = (
+    "Требования/"
+    "✅-обязательное-продолжение-Git-ветки-после-коммита.md"
+)
+ПРОСТРАНСТВО_КВИТАНЦИЙ_СВЯЗАННЫХ_КОММИТОВ = (
+    "refs/fum/квитанции-связанных-коммитов"
+)
 ПУТЬ_КОРНЕВОГО_СБРОСА = REPO_ROOT / "sbrositj.sh"
 HEAD_BOOTSTRAP_CODE = (
     "import os,subprocess,sys;"
@@ -185,8 +192,14 @@ class GitQueueFixture(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         return self.payload(result)
 
-    def commit(self, task_id: str, generation: str, message: str = "Finish task"):
-        return self.run_queue(
+    def commit(
+        self,
+        task_id: str,
+        generation: str,
+        message: str = "Finish task",
+        идентификатор_продолжения: str | None = None,
+    ):
+        аргументы = [
             "commit",
             "--repo-root",
             str(self.repo),
@@ -197,7 +210,31 @@ class GitQueueFixture(unittest.TestCase):
             "--message",
             message,
             "--json",
+        ]
+        if идентификатор_продолжения is not None:
+            аргументы[-1:-1] = [
+                "--идентификатор-продолжения",
+                идентификатор_продолжения,
+            ]
+        return self.run_queue(*аргументы)
+
+    def активировать_обязательное_продолжение(сам) -> None:
+        маркер = сам.repo / ПУТЬ_МАРКЕРА_ОБЯЗАТЕЛЬНОГО_ПРОДОЛЖЕНИЯ
+        маркер.parent.mkdir(parents=True, exist_ok=True)
+        маркер.write_text(
+            "# Обязательное продолжение Git-ветки\n",
+            encoding="utf-8",
         )
+        сам.git("add", ПУТЬ_МАРКЕРА_ОБЯЗАТЕЛЬНОГО_ПРОДОЛЖЕНИЯ)
+        сам.git("commit", "-m", "Активировать обязательное продолжение")
+
+    def ссылки_квитанций_связанных_коммитов(сам) -> list[str]:
+        вывод = сам.git(
+            "for-each-ref",
+            "--format=%(refname)",
+            f"{ПРОСТРАНСТВО_КВИТАНЦИЙ_СВЯЗАННЫХ_КОММИТОВ}/",
+        ).stdout
+        return [строка for строка in вывод.splitlines() if строка]
 
     def finish_clean(self, task_id: str, generation: str):
         return self.run_queue(
@@ -426,6 +463,636 @@ class QueueContractTests(GitQueueFixture):
         )
         self.assertNotEqual(stale_replay.returncode, 0)
         self.assertEqual(self.payload(stale_replay)["state"], "not_owner")
+
+    def test_коммит_хранит_точное_продолжение_и_закрывает_неточный_повтор(
+        сам,
+    ) -> None:
+        _, владелец = сам.join("задача-родитель")
+        сам.join("задача-продолжение")
+        исходная_вершина = сам.git("rev-parse", "HEAD").stdout.strip()
+        сам.stage_change("готово к продолжению\n")
+
+        завершён = сам.commit(
+            "задача-родитель",
+            str(владелец["generation"]),
+            "Передать работу продолжению",
+            "задача-продолжение",
+        )
+
+        сам.assertEqual(завершён.returncode, 0, завершён.stderr)
+        ответ = сам.payload(завершён)
+        сам.assertEqual(
+            ответ["идентификатор_продолжения"],
+            "задача-продолжение",
+        )
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        сырая_очередь = json.loads(
+            сам.git("cat-file", "blob", str(состояние["queue_oid"])).stdout
+        )
+        сам.assertEqual(
+            сырая_очередь["last_completion"]["идентификатор_продолжения"],
+            "задача-продолжение",
+        )
+        сам.assertEqual(
+            [билет["task_id"] for билет in состояние["waiting"]],
+            ["задача-продолжение"],
+        )
+        сам.assertEqual(
+            состояние["waiting"][0]["acknowledged_head"],
+            исходная_вершина,
+        )
+        вершина_до = сам.git("rev-parse", "HEAD").stdout.strip()
+        объект_очереди_до = str(состояние["queue_oid"])
+
+        без_связи = сам.commit(
+            "задача-родитель",
+            str(владелец["generation"]),
+        )
+        иное = сам.commit(
+            "задача-родитель",
+            str(владелец["generation"]),
+            идентификатор_продолжения="другая-задача",
+        )
+        точный = сам.commit(
+            "задача-родитель",
+            str(владелец["generation"]),
+            идентификатор_продолжения="задача-продолжение",
+        )
+
+        сам.assertNotEqual(без_связи.returncode, 0)
+        сам.assertEqual(сам.payload(без_связи)["state"], "несовпадение_продолжения")
+        сам.assertNotEqual(иное.returncode, 0)
+        сам.assertEqual(сам.payload(иное)["state"], "несовпадение_продолжения")
+        сам.assertEqual(точный.returncode, 0, точный.stderr)
+        сам.assertEqual(сам.payload(точный)["new_head"], вершина_до)
+        сам.assertEqual(сам.git("rev-parse", "HEAD").stdout.strip(), вершина_до)
+        сам.assertEqual(
+            сам.git("rev-parse", str(состояние["queue_ref"])).stdout.strip(),
+            объект_очереди_до,
+        )
+
+    def test_неподтверждённое_продолжение_отклоняется_до_создания_объекта_коммита(
+        сам,
+    ) -> None:
+        _, владелец = сам.join("родитель")
+        сам.join("продолжение")
+        сам.stage_change("новое дерево\n")
+
+        одинаковое_с_владельцем = сам.commit(
+            "родитель",
+            str(владелец["generation"]),
+            идентификатор_продолжения="родитель",
+        )
+        нет_билета = сам.commit(
+            "родитель",
+            str(владелец["generation"]),
+            идентификатор_продолжения="незарегистрированная-задача",
+        )
+        сам.assertEqual(
+            сам.payload(одинаковое_с_владельцем)["state"],
+            "продолжение_совпадает_с_владельцем",
+        )
+        сам.assertEqual(сам.payload(нет_билета)["state"], "продолжение_не_ожидает")
+
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        ссылка = str(состояние["queue_ref"])
+        прежний_объект = str(состояние["queue_oid"])
+        запись = json.loads(сам.git("cat-file", "blob", прежний_объект).stdout)
+        запись["waiting"][0]["acknowledged_head"] = "0" * len(
+            str(владелец["base_head"])
+        )
+        новый_объект = subprocess.run(
+            ["git", "-C", str(сам.repo), "hash-object", "-w", "--stdin"],
+            input=json.dumps(запись, ensure_ascii=False, sort_keys=True),
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        сам.git("update-ref", ссылка, новый_объект, прежний_объект)
+        вершина_до = сам.git("rev-parse", "HEAD").stdout.strip()
+        объекты_до = сам.git(
+            "cat-file", "--batch-all-objects", "--batch-check=%(objectname) %(objecttype)"
+        ).stdout
+
+        неверная_вершина = сам.commit(
+            "родитель",
+            str(владелец["generation"]),
+            идентификатор_продолжения="продолжение",
+        )
+
+        сам.assertEqual(
+            сам.payload(неверная_вершина)["state"],
+            "вершина_продолжения_не_совпадает",
+        )
+        сам.assertEqual(сам.git("rev-parse", "HEAD").stdout.strip(), вершина_до)
+        сам.assertEqual(сам.git("rev-parse", ссылка).stdout.strip(), новый_объект)
+        сам.assertEqual(
+            сам.git(
+                "cat-file",
+                "--batch-all-objects",
+                "--batch-check=%(objectname) %(objecttype)",
+            ).stdout,
+            объекты_до,
+        )
+
+    def test_промпт_продолжения_связан_с_точной_веткой_и_не_содержит_абсолютных_путей(
+        сам,
+    ) -> None:
+        сам.join("019ff27a-19da-7912-a9c8-6084e3cd2afc")
+        состояние_до = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        объекты_до = сам.git(
+            "cat-file", "--batch-all-objects", "--batch-check=%(objectname) %(objecttype)"
+        ).stdout
+
+        результат = сам.run_queue(
+            "сформировать-промпт-продолжения",
+            "--repo-root",
+            str(сам.repo),
+            "--task-id",
+            "019ff27a-19da-7912-a9c8-6084e3cd2afc",
+            "--json",
+        )
+
+        сам.assertEqual(результат.returncode, 0, результат.stderr)
+        ответ = сам.payload(результат)
+        сам.assertEqual(ответ["state"], "промпт_продолжения")
+        сам.assertEqual(ответ["branch_ref"], "refs/heads/master")
+        сам.assertEqual(
+            ответ["идентификатор_родительской_задачи"],
+            "019ff27a-19da-7912-a9c8-6084e3cd2afc",
+        )
+        промпт = str(ответ["промпт"])
+        for фрагмент in (
+            "refs/heads/master",
+            "019ff27a-19da-7912-a9c8-6084e3cd2afc",
+            "Первым инструментальным действием",
+            "join",
+            "wait-until-actionable",
+            "reload_required",
+            "ack-head",
+            "AGENTS.md",
+            "fum-ocheredj-zadach-git-vetki/SKILL.md",
+            "branch-next-step.py",
+            "show --repo-root . --json",
+            "not_ready",
+            "done",
+            "finish-clean",
+            "committed",
+        ):
+            сам.assertIn(фрагмент, промпт)
+        сам.assertNotIn(str(сам.repo), промпт)
+        сам.assertNotIn("file://", промпт)
+        сам.assertNotIn("~/", промпт)
+        сам.assertNotIn("hostId", промпт)
+        сам.assertNotIn("clientThreadId", промпт)
+        сам.assertNotIn("Планирование/карточки-цепочек-шагов/", промпт)
+        сам.assertEqual(
+            сам.git("rev-parse", str(состояние_до["queue_ref"])).stdout.strip(),
+            состояние_до["queue_oid"],
+        )
+        сам.assertEqual(
+            сам.git(
+                "cat-file",
+                "--batch-all-objects",
+                "--batch-check=%(objectname) %(objecttype)",
+            ).stdout,
+            объекты_до,
+        )
+
+    def test_маркер_в_текущей_вершине_машинно_требует_продолжение(сам) -> None:
+        сам.активировать_обязательное_продолжение()
+        _, владелец = сам.join("родитель")
+        сам.stage_change("изменение без продолжения\n")
+        вершина_до = сам.git("rev-parse", "HEAD").stdout.strip()
+        состояние_до = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        объекты_до = сам.git(
+            "cat-file", "--batch-all-objects", "--batch-check=%(objectname) %(objecttype)"
+        ).stdout
+
+        результат = сам.commit(
+            "родитель",
+            str(владелец["generation"]),
+        )
+
+        сам.assertNotEqual(результат.returncode, 0)
+        сам.assertEqual(сам.payload(результат)["state"], "продолжение_обязательно")
+        сам.assertEqual(сам.git("rev-parse", "HEAD").stdout.strip(), вершина_до)
+        сам.assertEqual(
+            сам.git("rev-parse", str(состояние_до["queue_ref"])).stdout.strip(),
+            состояние_до["queue_oid"],
+        )
+        сам.assertEqual(
+            сам.git(
+                "cat-file", "--batch-all-objects", "--batch-check=%(objectname) %(objecttype)"
+            ).stdout,
+            объекты_до,
+        )
+
+    def test_связанный_коммит_необратимо_активирует_продолжение(сам) -> None:
+        сам.активировать_обязательное_продолжение()
+        _, владелец = сам.join("родитель")
+        сам.join("ребёнок")
+        сам.git("rm", ПУТЬ_МАРКЕРА_ОБЯЗАТЕЛЬНОГО_ПРОДОЛЖЕНИЯ)
+
+        завершён = сам.commit(
+            "родитель",
+            str(владелец["generation"]),
+            "Удалить маркер без ослабления",
+            "ребёнок",
+        )
+
+        сам.assertEqual(завершён.returncode, 0, завершён.stderr)
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        сырая_очередь = json.loads(
+            сам.git("cat-file", "blob", str(состояние["queue_oid"])).stdout
+        )
+        сам.assertIs(сырая_очередь["обязательное_продолжение_активировано"], True)
+        сам.assertFalse((сам.repo / ПУТЬ_МАРКЕРА_ОБЯЗАТЕЛЬНОГО_ПРОДОЛЖЕНИЯ).exists())
+
+        _, ожидание = сам.wait("ребёнок")
+        сам.assertEqual(ожидание["state"], "reload_required")
+        сам.ack_head("ребёнок")
+        _, допущен = сам.wait("ребёнок")
+        сам.assertEqual(допущен["state"], "admitted")
+        сам.stage_change("маркера нет, обязанность есть\n")
+
+        обход = сам.commit(
+            "ребёнок",
+            str(допущен["generation"]),
+        )
+
+        сам.assertNotEqual(обход.returncode, 0)
+        сам.assertEqual(сам.payload(обход)["state"], "продолжение_обязательно")
+
+    def test_квитанция_даёт_точный_повтор_после_чистого_завершения_ребёнка(сам) -> None:
+        _, владелец = сам.join("родитель")
+        сам.join("ребёнок")
+        исходная_вершина = сам.git("rev-parse", "HEAD").stdout.strip()
+        сам.stage_change("коммит с квитанцией\n")
+        завершён = сам.commit(
+            "родитель",
+            str(владелец["generation"]),
+            "Записать неизменяемую квитанцию",
+            "ребёнок",
+        )
+        сам.assertEqual(завершён.returncode, 0, завершён.stderr)
+        ответ_коммита = сам.payload(завершён)
+        ссылки = сам.ссылки_квитанций_связанных_коммитов()
+        сам.assertEqual(ссылки, [ответ_коммита["ссылка_квитанции"]])
+        объект_квитанции = сам.git("rev-parse", ссылки[0]).stdout.strip()
+        квитанция = json.loads(сам.git("cat-file", "blob", объект_квитанции).stdout)
+        сам.assertEqual(
+            квитанция,
+            {
+                "схема": "fum.квитанция-связанного-коммита.1",
+                "идентификатор_рабочего_дерева": ответ_коммита["worktree_id"],
+                "ссылка_ветки": "refs/heads/master",
+                "идентификатор_задачи": "родитель",
+                "поколение": владелец["generation"],
+                "исходная_вершина": исходная_вершина,
+                "новая_вершина": ответ_коммита["new_head"],
+                "идентификатор_продолжения": "ребёнок",
+            },
+        )
+
+        _, ожидание = сам.wait("ребёнок")
+        сам.assertEqual(ожидание["state"], "reload_required")
+        сам.ack_head("ребёнок")
+        _, допущен = сам.wait("ребёнок")
+        чисто = сам.finish_clean("ребёнок", str(допущен["generation"]))
+        сам.assertEqual(чисто.returncode, 0, чисто.stderr)
+
+        точный = сам.commit(
+            "родитель",
+            str(владелец["generation"]),
+            идентификатор_продолжения="ребёнок",
+        )
+        иной = сам.commit(
+            "родитель",
+            str(владелец["generation"]),
+            идентификатор_продолжения="другой-ребёнок",
+        )
+        без_связи = сам.commit(
+            "родитель",
+            str(владелец["generation"]),
+        )
+
+        сам.assertEqual(точный.returncode, 0, точный.stderr)
+        сам.assertEqual(сам.payload(точный)["new_head"], ответ_коммита["new_head"])
+        сам.assertEqual(сам.payload(точный)["ссылка_квитанции"], ссылки[0])
+        сам.assertEqual(сам.payload(иной)["state"], "несовпадение_продолжения")
+        сам.assertEqual(сам.payload(без_связи)["state"], "несовпадение_продолжения")
+        сам.assertEqual(сам.git("rev-parse", ссылки[0]).stdout.strip(), объект_квитанции)
+
+    def test_квитанция_родителя_переживает_связанный_коммит_ребёнка_и_требует_объект_очереди(
+        сам,
+    ) -> None:
+        _, родитель = сам.join("родитель")
+        сам.join("ребёнок")
+        сам.stage_change("первый связанный коммит\n")
+        первый = сам.commit(
+            "родитель",
+            str(родитель["generation"]),
+            "Передать ребёнку",
+            "ребёнок",
+        )
+        сам.assertEqual(первый.returncode, 0, первый.stderr)
+        первый_ответ = сам.payload(первый)
+
+        _, ожидание = сам.wait("ребёнок")
+        сам.assertEqual(ожидание["state"], "reload_required")
+        сам.ack_head("ребёнок")
+        _, ребёнок = сам.wait("ребёнок")
+        сам.assertEqual(ребёнок["state"], "admitted")
+        сам.join("внук")
+        сам.stage_change("второй связанный коммит\n")
+        второй = сам.commit(
+            "ребёнок",
+            str(ребёнок["generation"]),
+            "Передать внуку",
+            "внук",
+        )
+        сам.assertEqual(второй.returncode, 0, второй.stderr)
+        второй_ответ = сам.payload(второй)
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+
+        точный = сам.commit(
+            "родитель",
+            str(родитель["generation"]),
+            идентификатор_продолжения="ребёнок",
+        )
+        иной = сам.commit(
+            "родитель",
+            str(родитель["generation"]),
+            идентификатор_продолжения="другая-задача",
+        )
+        без_связи = сам.commit(
+            "родитель",
+            str(родитель["generation"]),
+        )
+
+        сам.assertEqual(точный.returncode, 0, точный.stderr)
+        точный_ответ = сам.payload(точный)
+        сам.assertEqual(точный_ответ["new_head"], первый_ответ["new_head"])
+        сам.assertEqual(сам.git("rev-parse", "HEAD").stdout.strip(), второй_ответ["new_head"])
+        сам.assertEqual(точный_ответ["queue_oid"], состояние["queue_oid"])
+        сам.assertRegex(
+            str(точный_ответ["queue_oid"]),
+            rf"\A[0-9a-f]{{{len(str(второй_ответ['new_head']))}}}\Z",
+        )
+        сам.assertEqual(сам.payload(иной)["state"], "несовпадение_продолжения")
+        сам.assertEqual(сам.payload(без_связи)["state"], "несовпадение_продолжения")
+
+        сам.git(
+            "update-ref",
+            "-d",
+            str(состояние["queue_ref"]),
+            str(состояние["queue_oid"]),
+        )
+        без_объекта_очереди = сам.commit(
+            "родитель",
+            str(родитель["generation"]),
+            идентификатор_продолжения="ребёнок",
+        )
+        сам.assertNotEqual(без_объекта_очереди.returncode, 0)
+        сам.assertEqual(
+            сам.payload(без_объекта_очереди)["state"],
+            "отсутствует_объект_очереди_связанного_коммита",
+        )
+
+    def test_более_ранний_билет_не_мешает_точно_связать_позднее_продолжение(сам) -> None:
+        _, владелец = сам.join("родитель")
+        сам.join("более-ранняя-задача")
+        сам.join("точное-продолжение")
+        сам.stage_change("не переупорядочивать FIFO\n")
+
+        завершён = сам.commit(
+            "родитель",
+            str(владелец["generation"]),
+            "Связать позднее продолжение",
+            "точное-продолжение",
+        )
+
+        сам.assertEqual(завершён.returncode, 0, завершён.stderr)
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        сам.assertEqual(
+            [билет["task_id"] for билет in состояние["waiting"]],
+            ["более-ранняя-задача", "точное-продолжение"],
+        )
+        сам.assertEqual(
+            json.loads(
+                сам.git(
+                    "cat-file",
+                    "blob",
+                    сам.git(
+                        "rev-parse",
+                        сам.ссылки_квитанций_связанных_коммитов()[0],
+                    ).stdout.strip(),
+                ).stdout
+            )["идентификатор_продолжения"],
+            "точное-продолжение",
+        )
+        _, ранняя = сам.wait("более-ранняя-задача")
+        сам.assertEqual(ранняя["state"], "reload_required")
+        сам.ack_head("более-ранняя-задача")
+        _, допущена = сам.wait("более-ранняя-задача")
+        сам.assertEqual(допущена["state"], "admitted")
+        _, поздняя = сам.wait("точное-продолжение")
+        сам.assertEqual(поздняя["state"], "waiting")
+
+    def test_связанный_коммит_не_касается_устаревших_переходов(сам) -> None:
+        модуль = load_queue_module()
+        _, владелец = сам.join("родитель")
+        сам.join("ребёнок")
+        сам.stage_change("без диспетчерского контура\n")
+        контекст = модуль.resolve_context(сам.repo)
+        запрет = AssertionError("Устаревший переход не должен вызываться")
+
+        with (
+            mock.patch.object(
+                модуль,
+                "прочитать_долговечное_завершение_следующего_шага",
+                side_effect=запрет,
+            ),
+            mock.patch.object(
+                модуль,
+                "потребовать_сохранность_незавершённого_автозапуска",
+                side_effect=запрет,
+            ),
+            mock.patch.object(
+                модуль,
+                "подготовить_переход_журнала_завершений",
+                side_effect=запрет,
+            ),
+            mock.patch.object(
+                модуль,
+                "подготовить_переход_передачи_аналитики",
+                side_effect=запрет,
+            ),
+        ):
+            код, ответ = модуль.atomic_commit_and_handoff(
+                контекст,
+                "родитель",
+                str(владелец["generation"]),
+                "Передать без устаревших переходов",
+                "ребёнок",
+            )
+
+        сам.assertEqual(код, 0)
+        сам.assertEqual(ответ["state"], "committed")
+
+    def test_активное_чистое_завершение_не_касается_устаревших_переходов(
+        сам,
+    ) -> None:
+        модуль = load_queue_module()
+        сам.активировать_обязательное_продолжение()
+        _, владелец = сам.join("владелец")
+        контекст = модуль.resolve_context(сам.repo)
+        запрет = AssertionError("Устаревший переход не должен вызываться")
+
+        with (
+            mock.patch.object(
+                модуль,
+                "прочитать_долговечное_чистое_завершение_аналитики",
+                side_effect=запрет,
+            ),
+            mock.patch.object(
+                модуль,
+                "прочитать_долговечное_чистое_завершение_следующего_шага",
+                side_effect=запрет,
+            ),
+            mock.patch.object(
+                модуль,
+                "потребовать_сохранность_незавершённого_автозапуска",
+                side_effect=запрет,
+            ),
+            mock.patch.object(
+                модуль,
+                "подготовить_переход_чистого_завершения_аналитики",
+                side_effect=запрет,
+            ),
+            mock.patch.object(
+                модуль,
+                "подготовить_переход_чистого_завершения_следующего_шага",
+                side_effect=запрет,
+            ),
+            mock.patch.object(
+                модуль,
+                "команды_перехода_чистого_завершения_аналитики",
+                side_effect=запрет,
+            ),
+            mock.patch.object(
+                модуль,
+                "команды_перехода_чистого_завершения_следующего_шага",
+                side_effect=запрет,
+            ),
+        ):
+            код, ответ = модуль.finish_clean_and_handoff(
+                контекст,
+                "владелец",
+                str(владелец["generation"]),
+            )
+            код_повтора, ответ_повтора = модуль.finish_clean_and_handoff(
+                контекст,
+                "владелец",
+                str(владелец["generation"]),
+            )
+
+        сам.assertEqual(код, 0)
+        сам.assertEqual(ответ["state"], "finished_clean")
+        сам.assertEqual(код_повтора, 0)
+        сам.assertEqual(ответ_повтора, ответ)
+
+    def test_отмена_продолжения_в_гонке_не_двигает_ветку_и_не_создаёт_квитанцию(сам) -> None:
+        модуль = load_queue_module()
+        _, владелец = сам.join("родитель")
+        _, билет = сам.join("ребёнок")
+        сам.stage_change("гонка после точной проверки\n")
+        контекст = модуль.resolve_context(сам.repo)
+        исходная_запись = модуль.write_state_blob
+        вершина_до = сам.git("rev-parse", "HEAD").stdout.strip()
+        объекты_до = {
+            строка.split()[0]
+            for строка in сам.git(
+                "cat-file", "--batch-all-objects", "--batch-check=%(objectname) %(objecttype)"
+            ).stdout.splitlines()
+        }
+        гонка = False
+
+        def записать_и_отменить(контекст_очереди, состояние):
+            nonlocal гонка
+            объект = исходная_запись(контекст_очереди, состояние)
+            завершение = состояние.get("last_completion")
+            if (
+                not гонка
+                and состояние.get("owner") is None
+                and isinstance(завершение, dict)
+                and завершение.get("kind") == "committed"
+            ):
+                гонка = True
+                текущее, текущий_объект = модуль.read_state(контекст_очереди)
+                отменённое = json.loads(json.dumps(текущее))
+                отменённое["waiting"] = []
+                отменённое["updated_at"] = модуль.utc_values()[0]
+                объект_отмены = исходная_запись(контекст_очереди, отменённое)
+                сам.git(
+                    "update-ref",
+                    контекст_очереди.queue_ref,
+                    объект_отмены,
+                    str(текущий_объект),
+                )
+            return объект
+
+        with mock.patch.object(модуль, "write_state_blob", записать_и_отменить):
+            with сам.assertRaises(модуль.QueueError) as исключение:
+                модуль.atomic_commit_and_handoff(
+                    контекст,
+                    "родитель",
+                    str(владелец["generation"]),
+                    "Гонка отмены",
+                    "ребёнок",
+                )
+
+        сам.assertEqual(исключение.exception.state, "продолжение_не_ожидает")
+        сам.assertEqual(сам.git("rev-parse", "HEAD").stdout.strip(), вершина_до)
+        сам.assertEqual(сам.ссылки_квитанций_связанных_коммитов(), [])
+        состояние = сам.payload(
+            сам.run_queue("status", "--repo-root", str(сам.repo), "--json")
+        )
+        сам.assertEqual(состояние["owner"]["task_id"], "родитель")
+        сам.assertEqual(состояние["waiting"], [])
+        объекты_после = {
+            строка.split()[0]
+            for строка in сам.git(
+                "cat-file", "--batch-all-objects", "--batch-check=%(objectname) %(objecttype)"
+            ).stdout.splitlines()
+        }
+        новые_коммиты = [
+            объект
+            for объект in объекты_после - объекты_до
+            if сам.git("cat-file", "-t", объект).stdout.strip() == "commit"
+        ]
+        сам.assertEqual(len(новые_коммиты), 1)
+        достижимые = {
+            строка.split()[0]
+            for строка in сам.git("rev-list", "--objects", "--all").stdout.splitlines()
+        }
+        сам.assertNotIn(новые_коммиты[0], достижимые)
+        сам.assertEqual(билет["task_id"], "ребёнок")
 
     def test_later_waiter_cannot_bypass_the_first_live_waiter(self) -> None:
         _, first = self.join("task-a")
@@ -3605,18 +4272,27 @@ class QueueSafetyTests(GitQueueFixture):
         self.git("switch", "-c", "проверка/очереди")
         joined, owner = self.join("task-a")
         self.assertEqual(joined.returncode, 0, joined.stderr)
+        self.join("продолжение-юникод")
         self.stage_change("unicode branch\n")
 
         committed = self.commit(
             "task-a",
             str(owner["generation"]),
             "Коммит в Unicode-ветке",
+            "продолжение-юникод",
         )
 
         self.assertEqual(committed.returncode, 0, committed.stderr)
         self.assertEqual(self.payload(committed)["state"], "committed")
         self.assertEqual(
             self.git("symbolic-ref", "HEAD").stdout.strip(),
+            "refs/heads/проверка/очереди",
+        )
+        ссылка = self.ссылки_квитанций_связанных_коммитов()[0]
+        объект = self.git("rev-parse", ссылка).stdout.strip()
+        квитанция = json.loads(self.git("cat-file", "blob", объект).stdout)
+        self.assertEqual(
+            квитанция["ссылка_ветки"],
             "refs/heads/проверка/очереди",
         )
 
@@ -4748,9 +5424,10 @@ class RepositoryIntegrationTests(unittest.TestCase):
         self.assertIn("порядке атомарной регистрации", agents)
         self.assertIn("не переупорядоч", agents)
         self.assertIn("Субагент", agents)
-        self.assertIn("два отдельно подтверждаемых пользовательских исключения", agents)
         self.assertIn("`./sbrositj.sh`", agents)
-        self.assertIn("не вызывает `join`", agents)
+        self.assertIn("--идентификатор-продолжения", agents)
+        self.assertIn("`create_thread`", agents)
+        self.assertIn("должна оставаться остановленной", agents)
         self.assertIn("HEAD-bootstrap", agents)
         self.assertIn("isolated mode", agents)
         self.assertIn("--no-replace-objects", agents)
@@ -4766,21 +5443,24 @@ class RepositoryIntegrationTests(unittest.TestCase):
         self.assertIn("Прямой вызов", skill)
         self.assertIn("--timeout-seconds 300", skill)
         self.assertIn("wait-until-actionable", skill)
-        for text in (agents, skill):
-            self.assertIn("Ручной push пользователя", text)
-            self.assertIn("не предоставляет полномочий", text)
-            self.assertIn("не входит в обычный протокол `master`", text)
+        self.assertIn("Ручной push пользователя", agents)
+        self.assertIn("не предоставляет полномочий", agents)
+        self.assertIn("Ручная публикация пользователя", skill)
+        self.assertIn("не дают текущей задаче полномочий", skill)
+        self.assertIn("не подготавливает push", agents)
+        self.assertIn("не выполняет push", skill)
         self.assertIn("Состояние remote не используется как gate готовности", agents)
-        self.assertIn("Remote не является условием готовности", skill)
-        self.assertIn("отдельного явно разрешённого транспортного действия", skill)
+        self.assertIn("самостоятельным транспортным действием", skill)
+        self.assertIn("не входит в причинную цепочку продолжений", skill)
 
         self.assertIn("один долгоживущий `wait-until-actionable`", agents)
         self.assertIn("не отправляет промежуточные сообщения", agents)
 
         heartbeat_prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
-        self.assertIn("не является рабочим билетом FIFO-очереди", heartbeat_prompt)
-        self.assertIn("вообще не создаёт задачу", heartbeat_prompt)
-        self.assertIn("git --no-optional-locks status", heartbeat_prompt)
+        self.assertIn("больше не является шаблоном prompt", heartbeat_prompt)
+        self.assertIn("сохраняются только в истории", heartbeat_prompt)
+        self.assertIn("заранее создаёт ровно одну задачу-продолжение", heartbeat_prompt)
+        self.assertNotIn("Это пятиминутный тик", heartbeat_prompt)
 
     def test_успех_комплексной_проверки_сессии_завершается_коммитом_ветки_цепочки(это) -> None:
         правила_агентов = AGENTS_PATH.read_text(encoding="utf-8")
@@ -4840,10 +5520,20 @@ class Sha256QueueTests(GitQueueFixture):
         result, owner = self.join("task-a")
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(len(str(owner["base_head"])), 64)
+        self.join("продолжение-sha256")
         self.stage_change("sha256 task\n")
-        committed = self.commit("task-a", str(owner["generation"]), "SHA-256 task")
+        committed = self.commit(
+            "task-a",
+            str(owner["generation"]),
+            "SHA-256 task",
+            "продолжение-sha256",
+        )
         self.assertEqual(committed.returncode, 0, committed.stderr)
-        self.assertEqual(len(str(self.payload(committed)["new_head"])), 64)
+        ответ = self.payload(committed)
+        self.assertEqual(len(str(ответ["new_head"])), 64)
+        self.assertRegex(str(ответ["queue_oid"]), r"\A[0-9a-f]{64}\Z")
+        ссылка = self.ссылки_квитанций_связанных_коммитов()[0]
+        self.assertEqual(len(self.git("rev-parse", ссылка).stdout.strip()), 64)
 
 
 class ИнвариантыТаймАутаОбвязки(unittest.TestCase):

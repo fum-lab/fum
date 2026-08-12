@@ -1250,6 +1250,16 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertEqual(result.returncode, 2)
         self.assertIn("не должен дублировать", str(self.payload(result)["error"]))
 
+    def test_каноническая_справка_о_пульсе_не_содержит_живой_шаблон(
+        сам,
+    ) -> None:
+        справка = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+
+        сам.assertNotIn("## Шаблон", справка)
+        сам.assertIn("Этот механизм снят целиком", справка)
+        сам.assertIn("не разрешают создание новой сессии", справка)
+
+    @unittest.skip("Снятый heartbeat-prompt сохранён только исторически")
     def test_heartbeat_keeps_claim_after_ambiguous_thread_creation(self) -> None:
         prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
 
@@ -1266,6 +1276,7 @@ class BranchNextStepTests(unittest.TestCase):
             prompt,
         )
 
+    @unittest.skip("Снятый heartbeat-prompt сохранён только исторически")
     def test_heartbeat_excludes_own_thread_without_requiring_active(self) -> None:
         prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
 
@@ -1290,6 +1301,7 @@ class BranchNextStepTests(unittest.TestCase):
             prompt,
         )
 
+    @unittest.skip("Снятый heartbeat-prompt сохранён только исторически")
     def test_heartbeat_queue_gate_explicitly_continues_on_primary_idle(
         self,
     ) -> None:
@@ -1331,6 +1343,7 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertNotIn("`status --json`", queue_gate)
         self.assertNotIn("пустых owner и waiting", queue_gate)
 
+    @unittest.skip("Снятый heartbeat-prompt сохранён только исторически")
     def test_тик_проверяет_объединённый_снимок_четвёртой_схемы(
         сам,
     ) -> None:
@@ -1408,6 +1421,7 @@ class BranchNextStepTests(unittest.TestCase):
             вторая_инвентаризация,
         )
 
+    @unittest.skip("Снятый heartbeat-prompt сохранён только исторически")
     def test_heartbeat_normalizes_each_thread_snapshot_exactly_once(
         self,
     ) -> None:
@@ -1463,6 +1477,7 @@ class BranchNextStepTests(unittest.TestCase):
             second_inventory,
         )
 
+    @unittest.skip("Снятый heartbeat-prompt сохранён только исторически")
     def test_heartbeat_normalizes_project_inventory_exactly_once(
         self,
     ) -> None:
@@ -1490,6 +1505,7 @@ class BranchNextStepTests(unittest.TestCase):
             project_inventory,
         )
 
+    @unittest.skip("Снятый heartbeat-prompt сохранён только исторически")
     def test_heartbeat_runs_host_reads_inside_bounded_orchestration(self) -> None:
         prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
 
@@ -1508,6 +1524,7 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertIn("schemaVersion === 4", prompt)
         self.assertIn("pinnedThreads и threads — два массива задач", prompt)
 
+    @unittest.skip("Снятый heartbeat-prompt сохранён только исторически")
     def test_heartbeat_uses_exact_nested_create_thread_contract(self) -> None:
         prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
 
@@ -1524,6 +1541,7 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertIn("ошибка или тайм-аут остаются неоднозначными", prompt)
         self.assertIn("не освобождай claim", prompt)
 
+    @unittest.skip("Снятый heartbeat-prompt сохранён только исторически")
     def test_heartbeat_thread_creation_does_not_depend_on_dispatcher_bind(
         self,
     ) -> None:
@@ -1547,6 +1565,7 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertIn(
             "await Promise.race([tools.codex_app__create_thread", creation_contract)
 
+    @unittest.skip("Снятый heartbeat-prompt сохранён только исторически")
     def test_heartbeat_template_stays_within_live_repair_budget(self) -> None:
         document = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
         template_match = re.search(
@@ -1563,6 +1582,7 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertNotIn("<КОРЕНЬ_КЛОНА>", rendered)
         self.assertLessEqual(len(rendered), 21_300)
 
+    @unittest.skip("Снятый heartbeat-prompt сохранён только исторически")
     def test_heartbeat_computes_readiness_before_history_ranking(self) -> None:
         prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
 
@@ -1576,6 +1596,7 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertIn("сохранить корректные automatic/paused/blocked", prompt)
         self.assertNotIn("добавлять в ready", prompt)
 
+    @unittest.skip("Снятый heartbeat-prompt сохранён только исторически")
     def test_heartbeat_recovers_a_lost_claim_response_with_the_same_lease(
         self,
     ) -> None:
@@ -1632,6 +1653,7 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertLess(second_inventory, claim)
         self.assertLess(claim, create_thread)
 
+    @unittest.skip("Снятый heartbeat-prompt сохранён только исторически")
     def test_heartbeat_scopes_thread_creation_guard_to_the_current_tick(
         self,
     ) -> None:
@@ -1676,6 +1698,7 @@ class BranchNextStepTests(unittest.TestCase):
             prompt,
         )
 
+    @unittest.skip("Снятый heartbeat-prompt сохранён только исторически")
     def test_heartbeat_requires_child_to_read_record_and_project_passport(
         self,
     ) -> None:
@@ -1692,6 +1715,7 @@ class BranchNextStepTests(unittest.TestCase):
             r"и проверки паспорта",
         )
 
+    @unittest.skip("Снятый heartbeat-prompt сохранён только исторически")
     def test_child_preflights_context_bounded_card_and_decomposes_oversized_scope(
         self,
     ) -> None:
@@ -1719,6 +1743,7 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertIn("до содержательных изменений", skill.casefold())
         self.assertIn("контекстно ограниченной карточки", skill)
 
+    @unittest.skip("Снятый heartbeat-prompt сохранён только исторически")
     def test_heartbeat_child_reports_assigned_and_confirmed_card(
         self,
     ) -> None:
@@ -1771,6 +1796,7 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertLess(bind, verify)
         self.assertLess(verify, confirmed)
 
+    @unittest.skip("Снятый heartbeat-prompt сохранён только исторически")
     def test_heartbeat_child_binds_run_from_nonpublished_runtime_envelope(
         self,
     ) -> None:
@@ -1843,6 +1869,7 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertLess(bind, verify)
         self.assertLess(verify, confirmed)
 
+    @unittest.skip("Снятый heartbeat-prompt сохранён только исторически")
     def test_heartbeat_child_leaves_master_for_manual_push(self) -> None:
         prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
         skill = (TOOL_ROOT / "SKILL.md").read_text(encoding="utf-8")
@@ -1853,6 +1880,7 @@ class BranchNextStepTests(unittest.TestCase):
             self.assertIn("не является подтверждением каждой карточки", contract)
         self.assertNotIn("автоматически опубликовать", prompt)
 
+    @unittest.skip("Снятый heartbeat-prompt сохранён только исторически")
     def test_heartbeat_child_prompt_uses_only_project_relative_paths(
         self,
     ) -> None:
@@ -1900,6 +1928,7 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertNotIn("<КОРЕНЬ_КЛОНА>", child_contract)
         self.assertIn("В <КОРЕНЬ_КЛОНА> проверь", prompt)
 
+    @unittest.skip("Снятый heartbeat-prompt сохранён только исторически")
     def test_heartbeat_documents_native_stop_start_control(self) -> None:
         prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
         skill = (TOOL_ROOT / "SKILL.md").read_text(encoding="utf-8")
@@ -7664,16 +7693,16 @@ class BranchNextStepTests(unittest.TestCase):
             validation.stdout + validation.stderr,
         )
         validation_payload = self.payload(validation)
-        self.assertEqual(validation_payload["candidate_count"], 18)
+        self.assertEqual(validation_payload["candidate_count"], 17)
         self.assertEqual(validation_payload["ready_count"], 2)
         self.assertEqual(validation_payload["paused_count"], 12)
-        self.assertEqual(validation_payload["blocked_count"], 4)
+        self.assertEqual(validation_payload["blocked_count"], 3)
         self.assertEqual(shown.returncode, 0, shown.stdout + shown.stderr)
         shown_payload = self.payload(shown)
         self.assertEqual(shown_payload["state"], "ready")
         ожидаемый_выбор = (
             "FUM-STEP-0119",
-            "master-fum-step-0119-automatic-v2",
+            "master-fum-step-0119-automatic-v3",
         )
         self.assertEqual(shown_payload["card_id"], ожидаемый_выбор[0])
         self.assertEqual(

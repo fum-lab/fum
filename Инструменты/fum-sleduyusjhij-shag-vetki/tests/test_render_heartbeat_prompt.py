@@ -137,13 +137,17 @@ class HeartbeatPromptRendererTests(unittest.TestCase):
                         invalid_root,
                     )
 
-    def test_cli_emits_only_the_complete_rendered_prompt(self) -> None:
+    def test_каноническая_справка_не_рендерится_как_живой_промпт(сам) -> None:
+        документ = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
+        сам.assertNotIn("## Шаблон", документ)
+        сам.assertIn("больше не является шаблоном prompt", документ)
+
         result = subprocess.run(
             [
                 sys.executable,
                 str(SCRIPT_PATH),
                 "--repo-root",
-                str(self.repo / ".." / self.repo.name),
+                str(сам.repo / ".." / сам.repo.name),
                 "--template-document",
                 str(HEARTBEAT_PROMPT_PATH),
             ],
@@ -152,14 +156,9 @@ class HeartbeatPromptRendererTests(unittest.TestCase):
             text=True,
         )
 
-        self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertTrue(result.stdout.startswith("Это пятиминутный тик"))
-        self.assertTrue(result.stdout.endswith("глобальную блокировку."))
-        self.assertFalse(result.stdout.endswith("\n"))
-        self.assertNotIn("## Штатное управление Stop/Start", result.stdout)
-        self.assertNotIn("<КОРЕНЬ_КЛОНА>", result.stdout)
-        self.assertIn(str(self.repo.resolve(strict=True)), result.stdout)
-        self.assertEqual(result.stderr, "")
+        сам.assertEqual(result.returncode, 2)
+        сам.assertEqual(result.stdout, "")
+        сам.assertIn("должен содержать ровно один", result.stderr)
 
 
 class AutomationStatusSnapshotTests(unittest.TestCase):
@@ -601,6 +600,9 @@ class AutomationStatusSnapshotTests(unittest.TestCase):
                 )
 
 
+@unittest.skip(
+    "Снятый heartbeat-контур сохранён только как историческая фикстура"
+)
 class HeartbeatControlContractTests(unittest.TestCase):
     def test_общий_тик_маршрутизирует_первый_адаптер_и_два_ограждения(
         сам,
@@ -1034,6 +1036,7 @@ class ТестыФактическогоКонтрактаСреды(unittest.Te
                         "Новый полный prompt\n",
                     )
 
+    @unittest.skip("Проверка относилась к снятому heartbeat-prompt")
     def test_фактическая_схема_записей_списка_задач_закрыта(
         сам,
     ) -> None:
@@ -1106,6 +1109,7 @@ class ТестыФактическогоКонтрактаСреды(unittest.Te
             )
             сам.assertIn("неизвестное поле записи закрывает тик", текст)
 
+    @unittest.skip("Проверка относилась к снятому heartbeat-prompt")
     def test_создание_задачи_ожидается_сразу_после_границы_среды(
         сам,
     ) -> None:

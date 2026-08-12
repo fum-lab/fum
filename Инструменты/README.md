@@ -6,22 +6,24 @@
 
 Локальные автоматизации в этом каталоге должны сопровождаться тестами, которые можно запустить без секретов и сетевых зависимостей по умолчанию.
 
+Действующий маршрут продолжения работы не использует периодический heartbeat или универсальный диспетчер. Корневая задача заранее создаёт exact продолжение той же именованной Git-ветки, подтверждает его waiting-билет в FIFO и связывает с атомарным `commit+handoff`; ребёнок перечитывает новый `HEAD` и непосредственно вызывает веточный селектор. Диспетчер, периодическая аналитика и починка автозапуска ниже сохраняются только как исторические контракты и наборы регрессионной совместимости без разрешения живых host-эффектов.
+
 ## Реестры
 
 - [Реестр системных приложений и инструментов](реестр-системных-приложений-и-инструментов.md) - фиксирует повторно используемые приложения, CLI-команды, инструменты среды агента, MCP-инструменты и способы проверки их версий.
-- [Реестр названий автоматизаций](реестр-названий-автоматизаций.json) - хранит кириллические источники, точные результаты LinguisticKit, технические slug, отображаемые имена и эталоны; канонические поля совместимости `legacy` и `legacy_display` пусты после миграции.
+- [Реестр названий автоматизаций](реестр-названий-автоматизаций.json) - хранит кириллические источники, точные результаты LinguisticKit, технические slug, отображаемые имена и эталоны; наличие исторического имени или slug в этом реестре не означает эксплуатационный статус автоматизации.
 
 ## Навыки
 
-- [fum-dispetcher-avtomatizacij-fum](fum-dispetcher-avtomatizacij-fum/SKILL.md) - выбирает один запуск и терминализирует оба адаптера: success сохраняет exact terminal claim для replay, clean-safe-failure его удаляет, а следующая резервация того же адаптера атомарно поглощает сохранённый claim; официальный reset сохраняет claims и не вызывает внешний release.
-- [fum-analitika-zavershyonnyikh-shagov](fum-analitika-zavershyonnyikh-shagov/SKILL.md) - выбирает один старейший конечный диапазон подтверждённых commit+handoff-событий, ограждает обычную FIFO-задачу ревизии и подтверждает отчёт вместе с точным продвижением tracked cursor.
-- [fum-pochinka-avtozapuska](fum-pochinka-avtozapuska/SKILL.md) - ограждает один внеполосный запуск отдельной FIFO-задачи, которая TDD-методом диагностирует автозапуск и исправляет существующую живую автоматизацию только на месте.
-- [fum-sleduyusjhij-shag-vetki](fum-sleduyusjhij-shag-vetki/SKILL.md) - служит первым адаптером общего диспетчера: вычисляет runtime-готовность, выполняет `show`/`claim`, подтверждает карточочный fence и поддерживает claim схем `5`/`6`; `rearm` для схемы `5` является fenced no-op, legacy `4 → 5` мигрирует перед atomic `finish-clean 5 → 6` с exact clean-witness.
+- [fum-dispetcher-avtomatizacij-fum](fum-dispetcher-avtomatizacij-fum/SKILL.md) - исторический контракт снятого универсального диспетчера; не разрешает выбор запуска, резервацию, создание задачи или иной живой host-эффект.
+- [fum-analitika-zavershyonnyikh-shagov](fum-analitika-zavershyonnyikh-shagov/SKILL.md) - исторический контракт снятой периодической аналитики; прежние события и курсоры читаются для происхождения и регрессионной совместимости, но порог больше не создаёт задание.
+- [fum-pochinka-avtozapuska](fum-pochinka-avtozapuska/SKILL.md) - исторический контракт снятой починки автозапуска; не разрешает создавать ремонтную задачу или менять host-автоматизацию.
+- [fum-sleduyusjhij-shag-vetki](fum-sleduyusjhij-shag-vetki/SKILL.md) - непосредственно проверяет конечный рабочий набор текущей именованной ветки и read-only-командой `show` возвращает не более одного готового кандидата для уже допущенной задачи-продолжения; legacy claim-команды сохраняются только для совместимости.
 - [fum-sborka-svodnoj-dokumentacii](fum-sborka-svodnoj-dokumentacii/SKILL.md) - создаёт и проверяет каркас сводных статей документации из нескольких опорных материалов.
 - [fum-ocenki](fum-ocenki/SKILL.md) - создаёт и проверяет принадлежащие запросу оценочные материалы в `материалы/оценки/` со снимком репозитория, методикой, диапазонами, допущениями, ограничениями точности и оформлением результата.
 - [fum-glossarij](fum-glossarij/SKILL.md) - поддерживает глоссарий FUM по локальным правилам именования и ссылок.
 - [fum-svezhestj-markdown](fum-svezhestj-markdown/SKILL.md) - обновляет служебные метки последнего содержательного редактирования во всех Markdown-файлах и собирает индекс `.md`-файлов от свежих к старым.
-- [fum-ocheredj-zadach-git-vetki](fum-ocheredj-zadach-git-vetki/SKILL.md) - последовательно допускает корневые задачи одного worktree, завершает владение локальным commit+handoff, атомарно записывает next-step schema-6 clean-witness при `finish-clean` и предоставляет раздельные dispatcher-only reset-record и человеческий `./sbrositj.sh`; официальный reset сохраняет связанные claims для общей терминализации.
+- [fum-ocheredj-zadach-git-vetki](fum-ocheredj-zadach-git-vetki/SKILL.md) - последовательно допускает корневые задачи одного worktree и атомарно связывает локальный коммит с заранее созданным exact продолжением той же Git-ветки; `finish-clean` завершает no-op-владение без создания ребёнка, а `./sbrositj.sh` остаётся отдельным человеческим break-glass.
 - [fum-svezhestj-grafa-obsidian](fum-svezhestj-grafa-obsidian/SKILL.md) - обновляет группы цвета графа Obsidian как тепловую карту Markdown-узлов по времени последнего содержательного редактирования.
 - [fum-reyestr-planirovaniya](fum-reyestr-planirovaniya/SKILL.md) - собирает и проверяет машинно читаемый JSON-реестр и безопасно переименовывает карточки шагов с обновлением живых текстовых путей.
 - [fum-proyektnyiye-fajlyi](fum-proyektnyiye-fajlyi/SKILL.md) - задаёт общий воспроизводимый инвентарь проектных Markdown-файлов и безопасные границы выходных путей служебных автоматизаций.
@@ -52,14 +54,13 @@
 - `python3 Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py check --repo-root . --fork-url https://github.com/fum-lab/LinguisticKit.git --upstream-url https://github.com/Roman-Kerimov/LinguisticKit.git --path Зависимости/LinguisticKit --revision 837e2ce107b97ee7b9d3344c9fe99142281fe393` - автономная проверка подключённого submodule LinguisticKit без получения remote.
 - `python3 Инструменты/fum-proverka-nazvanij-avtomatizacij/scripts/proveritj-nazvaniya-avtomatizacij.py --repo-root . --registry Инструменты/реестр-названий-автоматизаций.json` - автономная структурная либо живая проверка реестра названий автоматизаций.
 - `python3 -I -c "import os,subprocess,sys;p='Инструменты/fum-ocheredj-zadach-git-vetki/scripts/ocheredj-zadach-git-vetki.py';r=sys.argv[1];e={k:v for k,v in os.environ.items() if not k.upper().startswith('GIT_')};e['GIT_NO_REPLACE_OBJECTS']='1';e['GIT_OPTIONAL_LOCKS']='0';b=subprocess.check_output(['git','--no-replace-objects','-C',r,'show','HEAD:'+p],env=e,timeout=30);sys.argv=[p,*sys.argv[2:],'--repo-root',r];exec(compile(b,p,'exec'))" . status --json` - через изолированный закоммиченный HEAD-bootstrap показывает владельца и FIFO-список ожидающих корневых задач текущего worktree.
-- `python3 -I -c "import os,subprocess,sys;p='Инструменты/fum-ocheredj-zadach-git-vetki/scripts/ocheredj-zadach-git-vetki.py';r=sys.argv[1];e={k:v for k,v in os.environ.items() if not k.upper().startswith('GIT_')};e['GIT_NO_REPLACE_OBJECTS']='1';e['GIT_OPTIONAL_LOCKS']='0';b=subprocess.check_output(['git','--no-replace-objects','-C',r,'show','HEAD:'+p],env=e,timeout=30);sys.argv=[p,*sys.argv[2:],'--repo-root',r];exec(compile(b,p,'exec'))" . heartbeat-status --task-id <корневой-CODEX_THREAD_ID> --json` - возвращает для heartbeat только `idle`, `own_owner` или `busy` без непрозрачных полей FIFO.
 - `./sbrositj.sh` - ручной аварийный сброс exact текущих именованной ветки и `HEAD`; выполнять только человеку при настоящих TTY одновременно на stdin и stdout после чтения полного плана; не использовать как диагностическую или агентскую команду.
 - `python3 Инструменты/fum-sleduyusjhij-shag-vetki/scripts/branch-next-step.py validate --repo-root . --json` - структурно проверяет рабочие наборы, вычисляет runtime-статусы всего whitelist и подтверждает единственное совпадение для активной именованной ветки, не выбирая победителя.
-- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-dispetcher-avtomatizacij-fum/tests -p 'test_*.py'` - локальные тесты реестра, обоих адаптеров, terminal replay, reserve-time consume terminal claim, next-step schema-5 success/schema-6 clean proof, аналитической претензии, reset без release и in-place-миграции heartbeat.
-- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-analitika-zavershyonnyikh-shagov/tests -p 'test_*.py'` - автономные тесты старейшего порога, замороженных источников, bind/verify, атомарного свидетельства передачи, точного отчёта и курсора, рестарта, сохранения claim при reset и закрытых отказов.
-- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-pochinka-avtozapuska/tests -p 'test_*.py'` - локальные тесты плана, Git-CAS-резервации, необратимой host-границы, отдельного FIFO-поколения исполнителя, чистоты перед работой и терминализации по точному коммиту.
-- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-sleduyusjhij-shag-vetki/tests -p 'test_*.py'` - локальные тесты выбора, exact claim/run-fence, schema `4 → 5` migration, fenced no-op `rearm` схемы `5`, atomic `finish-clean 5 → 6` и pre-host release.
-- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-ocheredj-zadach-git-vetki/tests -p 'test_*.py'` - локальные тесты FIFO, commit+handoff, atomic schema-6 clean-witness, сохранения claims официальным dispatcher-reset, человеческого break-glass и отдельно авторизуемого транспорта.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-dispetcher-avtomatizacij-fum/tests -p 'test_*.py'` - локальная историческая регрессия форматов снятого диспетчера; тесты не разрешают его эксплуатационный запуск.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-analitika-zavershyonnyikh-shagov/tests -p 'test_*.py'` - локальная историческая регрессия прежних аналитических событий, курсоров и претензий без периодического запуска.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-pochinka-avtozapuska/tests -p 'test_*.py'` - локальная историческая регрессия прежнего repair-fence без создания задач и изменения host-автоматизаций.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-sleduyusjhij-shag-vetki/tests -p 'test_*.py'` - локальные тесты `validate`/`show` прямого веточного выбора и историческая регрессия legacy claim-состояний.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-ocheredj-zadach-git-vetki/tests -p 'test_*.py'` - локальные тесты FIFO, exact waiting-билета продолжения, атомарного `commit+handoff`, исторических reset/claim-состояний, человеческого break-glass и отдельно авторизуемого транспорта.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-sborka-svodnoj-dokumentacii/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-sborka-svodnoj-dokumentacii`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-ocenki/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-ocenki`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-svezhestj-markdown/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-svezhestj-markdown`.
@@ -89,6 +90,7 @@
 
 ## Источники требований
 
+- [исходный запрос 2026-08-11 23:30:57 MSK — Заменить автозапуск обязательным продолжением ветки](../Журнал/2026-08-11_23-30-57_MSK_заменить-автозапуск-обязательным-продолжением-ветки/запрос.md)
 - [исходный запрос 2026-08-10 14:30:08 MSK — Добавить аналитику по числу завершённых шагов](../Журнал/2026-08-10_14-30-08_MSK_добавить-аналитику-по-числу-завершённых-шагов/запрос.md)
 - [исходный запрос 2026-08-10 10:19:59 MSK — Добавить простой сброс FIFO к текущему HEAD](../Журнал/2026-08-10_10-19-59_MSK_добавить-простой-сброс-FIFO-к-текущему-HEAD/запрос.md)
 - [исходный запрос 2026-08-07 20:34:22 MSK — Добавить штатный сброс очереди](../Журнал/2026-08-07_20-34-22_MSK_добавить-штатный-сброс-очереди/запрос.md)
@@ -119,6 +121,6 @@
 - [исходный запрос 2026-07-22 03:38:35 MSK - Разрешить выполнение доступных карточек шагов](../Журнал/2026-07-22_03-38-35_MSK_разрешить-выполнение-доступных-карточек-шагов/запрос.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-11 01:31:16 MSK -->
-<!-- content-sha256: sha256:758444f85491385f7348d1e40cdde265255f4001f49cce94badf09c891fa3a06 -->
+<!-- last-content-edit: 2026-08-12 01:34:29 MSK -->
+<!-- content-sha256: sha256:a7183ce5725fb4f8614bf9027d2ec9ef9c1afa949218fda5a67e697e01db89fa -->
 <!-- FUM-MD-RECENCY:END -->

@@ -1109,24 +1109,6 @@
       "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
     },
     {
-      "id": "definition-026",
-      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/SKILL.md",
-      "kind": "file-uri",
-      "line_sha256": "sha256:5d9cbd4ffb2790f930157d4798fa589466492070d418f9eada928887242bbf57",
-      "count": 1,
-      "category": "allow.path-validation-definition",
-      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
-    },
-    {
-      "id": "definition-027",
-      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/SKILL.md",
-      "kind": "file-uri",
-      "line_sha256": "sha256:b661800fa2fce5105a61c7e0979ca8eec22575a747846aee59d3c34049953b0d",
-      "count": 1,
-      "category": "allow.path-validation-definition",
-      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
-    },
-    {
       "id": "definition-029",
       "path": "Инструменты/fum-sleduyusjhij-shag-vetki/scripts/branch-next-step.py",
       "kind": "home-expansion",
@@ -2331,6 +2313,15 @@
       "count": 1,
       "category": "allow.path-validation-definition",
       "reason": "Строка перечисляет запрещённые Git-символы и не раскрывает домашний путь."
+    },
+    {
+      "id": "branch-continuation-prompt-home-expansion-negative-fixture",
+      "path": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:b4d225cb55a9fe552ee38ce45adda2f16c7aa8e23584295af26ac913bd54b777",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет отрицательную проверку отсутствия сокращённого домашнего пути в промпте продолжения ветки, не разрешая соседние строки."
     }
   ]
 }
