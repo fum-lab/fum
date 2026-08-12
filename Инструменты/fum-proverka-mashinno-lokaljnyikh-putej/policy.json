@@ -2322,6 +2322,123 @@
       "count": 1,
       "category": "allow.test-fixture",
       "reason": "Закрепляет отрицательную проверку отсутствия сокращённого домашнего пути в промпте продолжения ветки, не разрешая соседние строки."
+    },
+    {
+      "id": "linear-chain-git-ref-forbidden-characters",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/КонтрактДелегированияКонечнойЦепочки.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:dab826ea77c9e87ef19b015ed687cc5455ce25443aee0b9426c48a834915a68a",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Перечисляет запрещённые Git-символы переносимого ref и не задаёт домашний путь."
+    },
+    {
+      "id": "closed-schema-json-pointer-slash-decoder",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/ПроверкаЗакрытойСхемы.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:46d7cb6aa727e9b94bdaf59bd558b9780821abfd5a1210515475308c55745d74",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет декодирование экранированного разделителя JSON Pointer."
+    },
+    {
+      "id": "closed-schema-json-pointer-tilde-decoder",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/ПроверкаЗакрытойСхемы.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:bcb6d3ec5db7021d0fdb7917818824dc04eb8a573b8ae0ba47778709412d5e51",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет декодирование экранированной тильды JSON Pointer."
+    },
+    {
+      "id": "closed-schema-json-pointer-tilde-encoder",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/ПроверкаЗакрытойСхемы.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:5e9e2b70c77d5387ccdc2126cf062961807fc1640009bc08822d3ebebb890d38",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет кодирование тильды в сегменте JSON Pointer."
+    },
+    {
+      "id": "closed-schema-json-pointer-slash-encoder",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/ПроверкаЗакрытойСхемы.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:9172f9e1f2ada79985352919ac1c112f35ef13169a5971a9a984fc489942bcbb",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет кодирование разделителя в сегменте JSON Pointer."
+    },
+    {
+      "id": "linear-chain-assignment-relative-path-schema",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/Фикстуры/ДелегированиеКонечнойЦепочки/схема-назначения-конечной-линейной-цепочки-v1.json",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:0de9c06f83518fca6ccaece1c5ceec31240759076c0670caaa04cd5fe49c6655",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет закрытый шаблон относительного пути и явный запрет домашнего сокращения."
+    },
+    {
+      "id": "linear-chain-state-relative-path-schema",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/Фикстуры/ДелегированиеКонечнойЦепочки/схема-состояния-конечной-линейной-цепочки-v1.json",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:0de9c06f83518fca6ccaece1c5ceec31240759076c0670caaa04cd5fe49c6655",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет закрытый шаблон относительного пути и явный запрет домашнего сокращения."
+    },
+    {
+      "id": "linear-chain-home-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыДелегированияКонечнойЦепочки.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:3773a7e159903e3dedbc0b0f8fd48a3cf926bf5ed1a238499f144fef0ace1b54",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Проверяет отказ для фиктивного домашнего сокращения в переносимом документе."
+    },
+    {
+      "id": "linear-chain-user-home-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыДелегированияКонечнойЦепочки.swift",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:1eca433a5abba2ad66a2694179fe474507d26a1c8c7461e91dceef7a1d57c18c",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Проверяет отказ для одного фиктивного пользовательского POSIX-пути."
+    },
+    {
+      "id": "linear-chain-windows-slash-drive-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыДелегированияКонечнойЦепочки.swift",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:a37824830e4f75318ba3611b17884e4137628c976d43dbed11c3bfe724f6c4f1",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Проверяет отказ для фиктивного Windows-пути с прямыми разделителями."
+    },
+    {
+      "id": "linear-chain-windows-backslash-drive-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыДелегированияКонечнойЦепочки.swift",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:d7724dbc8f4658f98b608f8ed5adf02782742ffd9e51d9d764fae39551e95500",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Проверяет отказ для фиктивного Windows-пути с обратными разделителями."
+    },
+    {
+      "id": "linear-chain-file-uri-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыДелегированияКонечнойЦепочки.swift",
+      "kind": "file-uri",
+      "line_sha256": "sha256:aa71fac9d4e2e5ab849a1dd252212456466acba224511cf4fa9971b1e3fa45d5",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Проверяет отказ для фиктивного file URI."
+    },
+    {
+      "id": "linear-chain-named-home-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыДелегированияКонечнойЦепочки.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:904792dcf7db1dc88ef28adf6bb06d8074a4e9285fe19ed003ce7289865aaf08",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Проверяет отказ для фиктивного именного домашнего сокращения."
     }
   ]
 }
