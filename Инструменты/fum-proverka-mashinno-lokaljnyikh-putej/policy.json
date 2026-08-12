@@ -2439,6 +2439,24 @@
       "count": 1,
       "category": "allow.test-fixture",
       "reason": "Проверяет отказ для фиктивного именного домашнего сокращения."
+    },
+    {
+      "id": "fork-tree-current-checkout-posix-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыДереваВетвевыхФорков.swift",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:f24e1d766ef720383d8ab5da4924950f0e490ef50ce229b3078cefb22002c0f6",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Проверяет отказ текущего дескриптора ребёнка для фиктивного пользовательского POSIX-пути checkout."
+    },
+    {
+      "id": "fork-tree-saved-checkout-posix-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыДереваВетвевыхФорков.swift",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:2c40610de80f1235b8a0e1d0c0c97169937f6a24f738e29f93ab68b88f0024f4",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Проверяет отказ сохранённого дескриптора ребёнка для того же фиктивного пользовательского POSIX-пути checkout."
     }
   ]
 }
