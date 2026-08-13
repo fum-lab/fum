@@ -2457,6 +2457,24 @@
       "count": 1,
       "category": "allow.test-fixture",
       "reason": "Проверяет отказ сохранённого дескриптора ребёнка для того же фиктивного пользовательского POSIX-пути checkout."
+    },
+    {
+      "id": "resource-work-ref-home-marker",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/РесурсноеРаспределениеЦепочек.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:2b7197da69310c65c0eccf262fd00d71a046260325c4f1ce68cc43419ec69441",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет точный набор запрещённых знаков полного Git ref, включая домашнее сокращение."
+    },
+    {
+      "id": "resource-external-path-absolute-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыРесурсногоРаспределенияЦепочек.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:be8a543742ef0019e60f5420bcd2cfda8c50312d0767352d646b99506b302787",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную отрицательную фикстуру неканонического абсолютного внешнего пути."
     }
   ]
 }
