@@ -2475,6 +2475,168 @@
       "count": 1,
       "category": "allow.test-fixture",
       "reason": "Закрепляет точную отрицательную фикстуру неканонического абсолютного внешнего пути."
+    },
+    {
+      "id": "root-review-schema-json-pointer-moderation-value",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/СхемыКорневогоРевьюЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d6b1131ee03198bda19afd9239949b52450cee15bc1be332aeed23c07c79916c",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет точный JSON Pointer диагностического поля значения и не задаёт путь файловой системы."
+    },
+    {
+      "id": "root-review-schema-json-pointer-identity",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/СхемыКорневогоРевьюЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:e8cd7abac761a7995b862f0933f324a66db997e731686833e4a6df4443109913",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет точный JSON Pointer поля идентичности закрытой схемы."
+    },
+    {
+      "id": "root-review-schema-json-pointer-version",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/СхемыКорневогоРевьюЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:7368bde4c410741f2ba108390f49b16ad6d42f430021d5170cdbb2466cf1602c",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет точный JSON Pointer поля версии закрытой схемы."
+    },
+    {
+      "id": "root-review-schema-json-pointer-runtime-value",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/СхемыКорневогоРевьюЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ce9195dde7d2e76b9c30df0829bc5395565b271d4938ff110e1e988af1ec3800",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет точный JSON Pointer значения при несовпадении runtime и закрытой схемы."
+    },
+    {
+      "id": "root-review-git-ref-home-marker",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/КорневоеРевьюИИнтеграцияЦепочки.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:62099b11d43f4a096708306bdf790f0da50e56165dfbf3c3b0a200f1617dbb27",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Перечисляет запрещённые знаки полного Git ref, включая домашнее сокращение."
+    },
+    {
+      "id": "root-review-relative-path-home-marker-schema",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/Фикстуры/КорневоеРевьюЦепочки/схема-паспорта-корневого-ревью-цепочки-v1.json",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:cc367d665ccf9f88f87d550bee43dff130abea153f993effd2b6e5b2e16f3f06",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет закрытый шаблон относительного пути с явным запретом домашнего сокращения."
+    },
+    {
+      "id": "root-review-child-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыКорневогоРевьюИИнтеграцииЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:fd8f1c34462bea8454b54badfabee96847c62c0c42cd745ca1b372ba28586838",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь исходного репозитория в автономной фикстуре ревью."
+    },
+    {
+      "id": "root-review-project-target-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыКорневогоРевьюИИнтеграцииЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:7246cefec760db4597e3a9892b4c279070f2f79f4b9794c8fd6cde2fc54f744c",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь проектной цели в автономной фикстуре ревью."
+    },
+    {
+      "id": "root-review-core-target-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыКорневогоРевьюИИнтеграцииЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:0ee8f76f928c547410bd6c3a13c1b6d8b738219476047b0b6efb71625cfcbdf7",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь цели ядра в автономной фикстуре ревью."
+    },
+    {
+      "id": "root-review-right-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыКорневогоРевьюИИнтеграцииЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:407447405847d17c599495bc51ed38b5a149a80a172bc2352392526ddc5831b8",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь правого репозитория в фикстуре модерации."
+    },
+    {
+      "id": "root-review-envelope-child-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыКорневогоРевьюИИнтеграцииЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c438bef71bb861de1317094af3878a2566fe21eaaa3d04dbc24a57f163a42813",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь источника в фикстуре конверта запроса слияния."
+    },
+    {
+      "id": "root-review-envelope-core-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыКорневогоРевьюИИнтеграцииЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ebf95996bb784f0a7a60053f25210f0083316f0a2177b6787a95b8970dac4813",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь цели в фикстуре конверта запроса слияния."
+    },
+    {
+      "id": "root-review-schema-child-source-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыСхемКорневогоРевьюЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c438bef71bb861de1317094af3878a2566fe21eaaa3d04dbc24a57f163a42813",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет две одинаковые строки синтетического пути источника в schema-фикстурах."
+    },
+    {
+      "id": "root-review-schema-core-target-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыСхемКорневогоРевьюЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:0442465e1b0733b5befcee5f4693260a0f17e3e91808d7c7e4cb8cfe07d830d3",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь цели в schema-фикстуре паспорта ревью."
+    },
+    {
+      "id": "root-review-schema-nested-child-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыСхемКорневогоРевьюЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:6f421e3825823ddf9b630f4b902d7df071408fe7b74fa2b38a002b379e96ca24",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь вложенного результата ребёнка в schema-фикстуре."
+    },
+    {
+      "id": "root-review-schema-right-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыСхемКорневогоРевьюЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:3f60b6840c24cf98025647fade2c88e8a0d1d8c190e15fd81aa4eb6e9155de60",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь правого результата в schema-фикстуре."
+    },
+    {
+      "id": "root-review-schema-parent-core-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыСхемКорневогоРевьюЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:fb304c2c28cfeabf53633fbbcd16693a2642496d9bd6b8ab435aaf0975c61126",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь родительского репозитория в schema-фикстуре."
+    },
+    {
+      "id": "root-review-schema-core-target-terminal-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыСхемКорневогоРевьюЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ebf95996bb784f0a7a60053f25210f0083316f0a2177b6787a95b8970dac4813",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь цели в завершающей строке schema-фикстуры конверта."
     }
   ]
 }
