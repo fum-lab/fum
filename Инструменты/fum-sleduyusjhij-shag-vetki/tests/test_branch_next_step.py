@@ -7693,16 +7693,16 @@ class BranchNextStepTests(unittest.TestCase):
             validation.stdout + validation.stderr,
         )
         validation_payload = self.payload(validation)
-        self.assertEqual(validation_payload["candidate_count"], 14)
+        self.assertEqual(validation_payload["candidate_count"], 13)
         self.assertEqual(validation_payload["ready_count"], 2)
-        self.assertEqual(validation_payload["paused_count"], 9)
+        self.assertEqual(validation_payload["paused_count"], 8)
         self.assertEqual(validation_payload["blocked_count"], 3)
         self.assertEqual(shown.returncode, 0, shown.stdout + shown.stderr)
         shown_payload = self.payload(shown)
         self.assertEqual(shown_payload["state"], "ready")
         ожидаемый_выбор = (
-            "FUM-STEP-0122",
-            "master-fum-step-0122-automatic-v13",
+            "FUM-STEP-0127",
+            "master-fum-step-0127-automatic-v6",
         )
         self.assertEqual(shown_payload["card_id"], ожидаемый_выбор[0])
         self.assertEqual(
@@ -7714,7 +7714,7 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertEqual(shown_payload["selection"]["ready_count"], 2)
         self.assertEqual(
             shown_payload["selection"]["reason"],
-            "completed_step_source",
+            "changed_source",
         )
 
     def test_тайм_аут_обвязки_превышает_внутренний_Гит_лимит(
