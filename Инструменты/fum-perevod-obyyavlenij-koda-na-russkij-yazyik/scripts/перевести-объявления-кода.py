@@ -12,6 +12,7 @@ import keyword
 import os
 import re
 import stat
+import subprocess
 import sys
 import tempfile
 import tokenize
@@ -213,16 +214,86 @@ def путь_исключён(путь: Path) -> bool:
     return any(часть in исключённые_части_пути for часть in путь.parts)
 
 
+def зарегистрированные_гитссылки(корень: Path) -> frozenset[PurePosixPath]:
+    окружение = {
+        имя: значение
+        for имя, значение in os.environ.items()
+        if not имя.startswith("GIT_")
+    }
+    try:
+        результат = subprocess.run(
+            ["git", "-C", str(корень), "ls-files", "--stage", "-z", "--"],
+            check=False,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            timeout=30,
+            env=окружение,
+        )
+    except (OSError, subprocess.TimeoutExpired) as ошибка:
+        raise ОшибкаКонтракта(
+            f"не удалось прочитать Git-индекс репозитория: {ошибка}"
+        ) from ошибка
+    маркер_гит = корень / ".git"
+    корень_гит = (
+        маркер_гит.is_file()
+        or маркер_гит.is_dir()
+        or маркер_гит.is_symlink()
+    )
+    if результат.returncode != 0:
+        if корень_гит:
+            пояснение = os.fsdecode(результат.stderr).strip() or "без диагностики"
+            raise ОшибкаКонтракта(
+                "не удалось прочитать Git-индекс репозитория: " + пояснение
+            )
+        return frozenset()
+    if результат.stdout and not результат.stdout.endswith(b"\0"):
+        raise ОшибкаКонтракта("Git-индекс вернул незавершённую NUL-запись")
+
+    пути: set[PurePosixPath] = set()
+    for запись in результат.stdout.rstrip(b"\0").split(b"\0"):
+        if not запись:
+            continue
+        метаданные, разделитель, байты_пути = запись.partition(b"\t")
+        поля = метаданные.split()
+        if not разделитель or len(поля) != 3:
+            raise ОшибкаКонтракта("Git-индекс вернул некорректную stage-запись")
+        режим, _, стадия = поля
+        if режим != b"160000" or стадия != b"0":
+            continue
+        путь = PurePosixPath(os.fsdecode(байты_пути))
+        if путь.is_absolute() or any(часть in {"", ".", ".."} for часть in путь.parts):
+            raise ОшибкаКонтракта("Git-индекс содержит небезопасный путь gitlink")
+        пути.add(путь)
+    return frozenset(пути)
+
+
 def файлы_репозитория(корень: Path) -> list[Path]:
     найденные: list[Path] = []
-    for файл in корень.rglob("*"):
-        if путь_исключён(файл.relative_to(корень)):
-            continue
-        if файл.is_symlink() or not файл.is_file():
-            continue
-        if файл.suffix.lower() not in {".md", ".py", ".swift"}:
-            continue
-        найденные.append(файл)
+    гитссылки = зарегистрированные_гитссылки(корень)
+    for текущий, каталоги, имена in os.walk(корень, topdown=True, followlinks=False):
+        текущий_каталог = Path(текущий)
+        допустимые_каталоги: list[str] = []
+        for имя in каталоги:
+            каталог = текущий_каталог / имя
+            относительный = каталог.relative_to(корень)
+            путь_посикс = PurePosixPath(относительный.as_posix())
+            if каталог.is_symlink() or путь_исключён(относительный):
+                continue
+            if путь_посикс in гитссылки:
+                continue
+            допустимые_каталоги.append(имя)
+        каталоги[:] = допустимые_каталоги
+
+        for имя in имена:
+            файл = текущий_каталог / имя
+            относительный = файл.relative_to(корень)
+            if путь_исключён(относительный):
+                continue
+            if файл.is_symlink() or not файл.is_file():
+                continue
+            if файл.suffix.lower() not in {".md", ".py", ".swift"}:
+                continue
+            найденные.append(файл)
     return sorted(найденные, key=lambda файл: файл.relative_to(корень).as_posix())
 
 

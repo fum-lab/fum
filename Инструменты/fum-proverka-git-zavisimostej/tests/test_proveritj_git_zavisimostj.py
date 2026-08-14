@@ -352,6 +352,160 @@ class GitDependencyAutomationTests(unittest.TestCase):
                 errors,
             )
 
+    def test_принимает_переименованный_дочерний_форк_того_же_владельца(сам):
+        with tempfile.TemporaryDirectory() as временный:
+            фикстура = GitDependencyFixture(Path(временный))
+            run_git(
+                "remote",
+                "set-url",
+                "origin",
+                "https://github.com/fum-lab/fum.git",
+                cwd=фикстура.superproject,
+            )
+            дочерний = proveritj_git_zavisimostj.DependencySpec(
+                fork_url="https://github.com/fum-lab/fum-yadro.git",
+                upstream_url="https://github.com/fum-lab/fum.git",
+                path="Ядра/fum-yadro",
+                revision=фикстура.first_revision,
+            )
+
+            ошибки = proveritj_git_zavisimostj.validate_repository_topology(
+                фикстура.superproject,
+                дочерний,
+            )
+
+            сам.assertEqual(ошибки, [])
+
+    def test_дочерний_форк_требует_корневой_источник_как_основу(сам):
+        with tempfile.TemporaryDirectory() as временный:
+            фикстура = GitDependencyFixture(Path(временный))
+            run_git(
+                "remote",
+                "set-url",
+                "origin",
+                "https://github.com/fum-lab/fum.git",
+                cwd=фикстура.superproject,
+            )
+            дочерний = proveritj_git_zavisimostj.DependencySpec(
+                fork_url="https://github.com/fum-lab/fum-yadro.git",
+                upstream_url="https://github.com/fum-lab/drugoe-yadro.git",
+                path="Ядра/fum-yadro",
+                revision=фикстура.first_revision,
+            )
+
+            ошибки = proveritj_git_zavisimostj.validate_repository_topology(
+                фикстура.superproject,
+                дочерний,
+            )
+
+            сам.assertTrue(
+                any("origin родительского FUM" in ошибка for ошибка in ошибки),
+                ошибки,
+            )
+
+    def test_дочерний_форк_отклоняет_прямую_рекурсивную_композицию(сам):
+        with tempfile.TemporaryDirectory() as временный:
+            фикстура = GitDependencyFixture(Path(временный))
+            дочерний_источник = фикстура.root / "дочерний-источник"
+            дочерний_форк = фикстура.namespace / "fum-yadro.git"
+            run_git("clone", str(фикстура.fum_origin), str(дочерний_источник))
+            run_git(
+                "config",
+                "user.name",
+                "FUM Test",
+                cwd=дочерний_источник,
+            )
+            run_git(
+                "config",
+                "user.email",
+                "fum-test@example.invalid",
+                cwd=дочерний_источник,
+            )
+            (дочерний_источник / "Ядра").mkdir()
+            (дочерний_источник / "Ядра" / "маркер.txt").write_text(
+                "прямая рекурсивная композиция\n",
+                encoding="utf-8",
+            )
+            run_git("add", "Ядра/маркер.txt", cwd=дочерний_источник)
+            run_git(
+                "commit",
+                "-m",
+                "Добавить прямую рекурсивную композицию",
+                cwd=дочерний_источник,
+            )
+            ревизия = run_git("rev-parse", "HEAD", cwd=дочерний_источник)
+            run_git("clone", "--bare", str(дочерний_источник), str(дочерний_форк))
+            дочерний = proveritj_git_zavisimostj.DependencySpec(
+                fork_url=str(дочерний_форк),
+                upstream_url=str(фикстура.fum_origin),
+                path="Ядра/fum-yadro",
+                revision=ревизия,
+            )
+
+            ошибки_добавления = proveritj_git_zavisimostj.materialize_dependency(
+                фикстура.superproject,
+                дочерний,
+            )
+
+            сам.assertTrue(
+                any(
+                    "прямую рекурсивную композицию" in ошибка
+                    for ошибка in ошибки_добавления
+                ),
+                ошибки_добавления,
+            )
+            сам.assertFalse(
+                (фикстура.superproject / "Ядра" / "fum-yadro").exists()
+            )
+            run_git(
+                "-c",
+                "protocol.file.allow=always",
+                "submodule",
+                "add",
+                "--",
+                str(дочерний_форк),
+                "Ядра/fum-yadro",
+                cwd=фикстура.superproject,
+            )
+            зависимость = фикстура.superproject / "Ядра" / "fum-yadro"
+            run_git(
+                "remote",
+                "add",
+                "upstream",
+                str(фикстура.fum_origin),
+                cwd=зависимость,
+            )
+            run_git("fetch", "origin", cwd=зависимость)
+            run_git("fetch", "upstream", cwd=зависимость)
+            run_git("checkout", "--detach", ревизия, cwd=зависимость)
+            run_git(
+                "config",
+                "-f",
+                ".gitmodules",
+                "submodule.Ядра/fum-yadro.fumUpstream",
+                str(фикстура.fum_origin),
+                cwd=фикстура.superproject,
+            )
+            run_git(
+                "add",
+                ".gitmodules",
+                "Ядра/fum-yadro",
+                cwd=фикстура.superproject,
+            )
+
+            ошибки_проверки = proveritj_git_zavisimostj.validate_dependency(
+                фикстура.superproject,
+                дочерний,
+            )
+
+            сам.assertTrue(
+                any(
+                    "прямую рекурсивную композицию" in ошибка
+                    for ошибка in ошибки_проверки
+                ),
+                ошибки_проверки,
+            )
+
     def test_rejects_non_public_https_github_upstream_urls(self):
         invalid_upstream_urls = (
             "https://token@github.com/Roman-Kerimov/Primer.git",

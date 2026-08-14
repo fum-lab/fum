@@ -71,6 +71,25 @@ LINGUISTIC_KIT_UPSTREAM_URL = (
 )
 LINGUISTIC_KIT_PATH = "Зависимости/LinguisticKit"
 LINGUISTIC_KIT_REVISION = "837e2ce107b97ee7b9d3344c9fe99142281fe393"
+ОСНОВА_ДОЧЕРНИХ_СНИМКОВ = "https://github.com/fum-lab/fum.git"
+РЕВИЗИЯ_ДОЧЕРНИХ_СНИМКОВ = "249d076b1857f4e1727e5448587d13f16b15a30a"
+ДОЧЕРНИЕ_СНИМКИ = (
+    (
+        "fum-yadro",
+        "https://github.com/fum-lab/fum-yadro.git",
+        "Ядра/fum-yadro",
+    ),
+    (
+        "fum-optimizator",
+        "https://github.com/fum-lab/fum-optimizator.git",
+        "Ядра/fum-optimizator",
+    ),
+    (
+        "fum-pisatelj",
+        "https://github.com/fum-lab/fum-pisatelj.git",
+        "Ядра/fum-pisatelj",
+    ),
+)
 CODEX_COMMIT_CONTEXT_RULE_START = (2026, 7, 14, 2, 31, 47)
 REQUEST_SESSION_STEM_RE = re.compile(
     r"^(\d{4})-(\d{2})-(\d{2})_(\d{2})-(\d{2})-(\d{2})_MSK"
@@ -2335,6 +2354,28 @@ def build_steps(
             ранняя_проверка=True,
         )
     )
+    for имя_снимка, адрес_снимка, путь_снимка in ДОЧЕРНИЕ_СНИМКИ:
+        steps.append(
+            SmokeStep(
+                name=f"Проверка дочернего fork {имя_снимка}",
+                command=(
+                    python_cmd,
+                    git_dependency_script,
+                    "check",
+                    "--repo-root",
+                    ".",
+                    "--fork-url",
+                    адрес_снимка,
+                    "--upstream-url",
+                    ОСНОВА_ДОЧЕРНИХ_СНИМКОВ,
+                    "--path",
+                    путь_снимка,
+                    "--revision",
+                    РЕВИЗИЯ_ДОЧЕРНИХ_СНИМКОВ,
+                ),
+                ранняя_проверка=True,
+            )
+        )
 
     prototype_launch_script = require_file(root, PROTOTYPE_LAUNCH_CHECK_SCRIPT)
     steps.append(

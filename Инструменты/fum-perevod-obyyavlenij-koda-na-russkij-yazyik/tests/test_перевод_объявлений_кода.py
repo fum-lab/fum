@@ -159,6 +159,89 @@ class ПроверкаПереводаОбъявленийКода(unittest.Test
             инвентарь = json.loads(результат.stdout)
             сам.assertEqual(инвентарь["объявления"], [])
 
+    def test_инвентарь_не_заходит_в_зарегистрированную_гитссылку(сам) -> None:
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.записать(
+                корень,
+                "собственный.py",
+                "def own_name():\n    pass\n",
+            )
+            дочерний = корень / "Ядра" / "внешний"
+            сам.записать(
+                корень,
+                "Ядра/внешний/чужой.py",
+                "def foreign_name():\n    pass\n",
+            )
+            subprocess.run(
+                ["git", "init", str(корень)],
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            subprocess.run(
+                ["git", "init", str(дочерний)],
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            subprocess.run(
+                ["git", "add", "чужой.py"],
+                cwd=дочерний,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            subprocess.run(
+                [
+                    "git",
+                    "-c",
+                    "user.name=FUM Test",
+                    "-c",
+                    "user.email=fum-test@example.invalid",
+                    "commit",
+                    "-m",
+                    "Дочерний снимок",
+                ],
+                cwd=дочерний,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            ревизия = subprocess.run(
+                ["git", "rev-parse", "HEAD"],
+                cwd=дочерний,
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+            subprocess.run(
+                [
+                    "git",
+                    "update-index",
+                    "--add",
+                    "--cacheinfo",
+                    f"160000,{ревизия},Ядра/внешний",
+                ],
+                cwd=корень,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+
+            результат = сам.запустить(
+                "инвентаризировать",
+                "--корень-репозитория",
+                str(корень),
+            )
+
+            сам.assertEqual(результат.returncode, 0, результат.stderr)
+            имена = {
+                запись["имя"]
+                for запись in json.loads(результат.stdout)["объявления"]
+            }
+            сам.assertEqual(имена, {"own_name"})
+
     def test_снимок_проверяет_точный_остаток(сам) -> None:
         with tempfile.TemporaryDirectory() as временный_каталог:
             корень = Path(временный_каталог)

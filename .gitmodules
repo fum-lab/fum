@@ -2,3 +2,15 @@
 	path = Зависимости/LinguisticKit
 	url = https://github.com/fum-lab/LinguisticKit.git
 	fumUpstream = https://github.com/Roman-Kerimov/LinguisticKit.git
+[submodule "Ядра/fum-yadro"]
+	path = Ядра/fum-yadro
+	url = https://github.com/fum-lab/fum-yadro.git
+	fumUpstream = https://github.com/fum-lab/fum.git
+[submodule "Ядра/fum-optimizator"]
+	path = Ядра/fum-optimizator
+	url = https://github.com/fum-lab/fum-optimizator.git
+	fumUpstream = https://github.com/fum-lab/fum.git
+[submodule "Ядра/fum-pisatelj"]
+	path = Ядра/fum-pisatelj
+	url = https://github.com/fum-lab/fum-pisatelj.git
+	fumUpstream = https://github.com/fum-lab/fum.git

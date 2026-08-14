@@ -363,6 +363,80 @@ def validate_repository_topology(repo_root: Path, spec: DependencySpec) -> list[
     if fum_origin is None or fork is None or upstream is None:
         return errors
 
+    части_пути = PurePosixPath(spec.path).parts
+    if части_пути and части_пути[0] == "Ядра":
+        if len(части_пути) != 2:
+            errors.append(
+                "дочерний fork должен находиться непосредственно в Ядра/<имя>"
+            )
+        if fum_origin.kind != fork.kind or fum_origin.kind != upstream.kind:
+            errors.append(
+                "дочерний fork, его upstream и origin родительского FUM "
+                "должны использовать один тип Git-расположения"
+            )
+        else:
+            if fork.kind == "github":
+                владелец_совпадает = (
+                    fum_origin.namespace.casefold() == fork.namespace.casefold()
+                )
+                основа_совпадает = (
+                    normalized_github_location(fum_origin)
+                    == normalized_github_location(upstream)
+                )
+                ребёнок_совпадает = (
+                    normalized_github_location(fum_origin)
+                    == normalized_github_location(fork)
+                )
+                имя_пути_совпадает = (
+                    len(части_пути) == 2
+                    and части_пути[1].casefold() == fork.name.casefold()
+                )
+            else:
+                владелец_совпадает = fum_origin.namespace == fork.namespace
+                основа_совпадает = (
+                    fum_origin.namespace,
+                    fum_origin.name,
+                ) == (
+                    upstream.namespace,
+                    upstream.name,
+                )
+                ребёнок_совпадает = (
+                    fum_origin.namespace,
+                    fum_origin.name,
+                ) == (
+                    fork.namespace,
+                    fork.name,
+                )
+                имя_пути_совпадает = (
+                    len(части_пути) == 2 and части_пути[1] == fork.name
+                )
+            if not владелец_совпадает:
+                errors.append(
+                    "дочерний fork должен принадлежать владельцу origin "
+                    f"родительского FUM {fum_origin.namespace!r}"
+                )
+            if not основа_совпадает:
+                errors.append(
+                    "upstream дочернего fork должен обозначать origin "
+                    "родительского FUM"
+                )
+            if ребёнок_совпадает:
+                errors.append(
+                    "дочерний fork не должен обозначать сам родительский FUM"
+                )
+            if not имя_пути_совпадает:
+                errors.append(
+                    "имя каталога дочернего fork должно совпадать с именем "
+                    "его репозитория"
+                )
+        if fork.kind == "github":
+            errors.extend(validate_public_github_https_url(spec.fork_url, "форка"))
+        if upstream.kind == "github":
+            errors.extend(
+                validate_public_github_https_url(spec.upstream_url, "upstream")
+            )
+        return errors
+
     if fum_origin.kind != fork.kind:
         errors.append(
             "форк зависимости и актуальный origin FUM должны использовать "
@@ -540,6 +614,36 @@ def remote_revision_is_reachable(
         if result.returncode == 0:
             return True, []
     return False, []
+
+
+def проверить_прямую_рекурсивную_композицию(
+    зависимость: Path,
+    спецификация: DependencySpec,
+) -> list[str]:
+    части_пути = PurePosixPath(спецификация.path).parts
+    if not части_пути or части_пути[0] != "Ядра":
+        return []
+    try:
+        результат = run_git(
+            зависимость,
+            "ls-tree",
+            "--name-only",
+            спецификация.revision,
+            "--",
+            "Ядра",
+        )
+    except RuntimeError as ошибка:
+        return [
+            f"{спецификация.path}: не удалось проверить дочерний коммит "
+            f"на прямую рекурсивную композицию: {ошибка}"
+        ]
+    if результат.stdout:
+        return [
+            f"{спецификация.path}: закреплённый дочерний коммит "
+            f"{спецификация.revision} содержит путь Ядра и создаёт "
+            "прямую рекурсивную композицию"
+        ]
+    return []
 
 
 def validate_remote_urls(
@@ -947,6 +1051,9 @@ def validate_dependency(repo_root: Path, spec: DependencySpec) -> list[str]:
         if not revision_exists:
             errors.append(f"{spec.path}: ревизия {spec.revision} отсутствует")
     if revision_exists:
+        errors.extend(
+            проверить_прямую_рекурсивную_композицию(dependency, spec)
+        )
         reachable, reachability_errors = remote_revision_is_reachable(
             dependency,
             spec.revision,
@@ -1258,6 +1365,12 @@ def preflight_dependency(spec: DependencySpec) -> list[str]:
             return reachability_errors
         if not reachable:
             return [f"ревизия {spec.revision} не достижима из origin форка"]
+        ошибки_композиции = проверить_прямую_рекурсивную_композицию(
+            clone,
+            spec,
+        )
+        if ошибки_композиции:
+            return ошибки_композиции
     return []
 
 
