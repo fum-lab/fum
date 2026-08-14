@@ -236,6 +236,34 @@ class BuildPlanningRegistryTests(unittest.TestCase):
         self.write_step_cards(root)
         self.записать_карточки_цепочек(root)
 
+        карточка_активного_шага = (
+            Path("Планирование") / "карточки-шагов" / ACTIVE_STEP_CARD
+        )
+        хэш_карточки = build_planning_registry.content_sha256(
+            карточка_активного_шага,
+            root,
+        )
+        каталог_следующих_шагов = (
+            root / "Планирование" / "следующие-шаги-веток"
+        )
+        каталог_следующих_шагов.mkdir(parents=True)
+        (каталог_следующих_шагов / "master.md").write_text(
+            "+++\n"
+            "schema_version = 5\n"
+            'branch_ref = "refs/heads/master"\n'
+            'state = "open"\n\n'
+            'project_path = "README.md"\n\n'
+            "[[candidates]]\n"
+            'step_id = "master-fum-step-0001-automatic-v1"\n'
+            'dispatch = "automatic"\n'
+            'card_id = "FUM-STEP-0001"\n'
+            f'card_content_sha256 = "{хэш_карточки}"\n'
+            "requires_completed_card_ids = []\n"
+            "+++\n"
+            "# Выбирать следующий шаг\n",
+            encoding="utf-8",
+        )
+
         (root / "Инструменты" / "fum-reyestr-planirovaniya" / "SKILL.md").write_text(
             "# FUM Planning Registry\n",
             encoding="utf-8",
@@ -243,7 +271,21 @@ class BuildPlanningRegistryTests(unittest.TestCase):
         (root / "Планирование" / "дорожная-карта.md").write_text(
             "# Дорожная карта FUM\n\n"
             "## Горизонт 0. Связная память проекта\n\n"
-            "Тестовый горизонт.\n",
+            "Тестовый горизонт.\n\n"
+            "## Горизонт 1. Воспроизводимые автоматизации\n\n"
+            "Тестовый горизонт без назначенного шага.\n\n"
+            "## Проверяемая очередь следующих шагов\n\n"
+            "Таблица проецирует канонический рабочий набор `master`.\n\n"
+            "| Порядок записи | Поколение | Карточка | Режим | Зависимости | Стадии | Горизонты | Плановый горизонт |\n"
+            "| --- | --- | --- | --- | --- | --- | --- | --- |\n"
+            f"| 1 | master-fum-step-0001-automatic-v1 | [FUM-STEP-0001](карточки-шагов/{ACTIVE_STEP_CARD}) | `automatic` | — | [01. Тестовая стадия](стадии/01-тестовая-стадия/README.md) | `0` | готов сейчас |\n\n"
+            "## Покрытие стадий и горизонтов\n\n"
+            "Отсутствие назначенного шага показано явно.\n\n"
+            "| Контур | Следующие шаги |\n"
+            "| --- | --- |\n"
+            f"| [01. Тестовая стадия](стадии/01-тестовая-стадия/README.md) | [FUM-STEP-0001](карточки-шагов/{ACTIVE_STEP_CARD}) |\n"
+            f"| [Горизонт 0](#горизонт-0-связная-память-проекта) | [FUM-STEP-0001](карточки-шагов/{ACTIVE_STEP_CARD}) |\n"
+            "| [Горизонт 1](#горизонт-1-воспроизводимые-автоматизации) | Нет назначенного шага |\n",
             encoding="utf-8",
         )
         (root / "Планирование" / "сводная-таблица-требований-и-реализаций.md").write_text(
@@ -429,7 +471,7 @@ class BuildPlanningRegistryTests(unittest.TestCase):
             registry = build_planning_registry.build_registry(root)
 
             self.assertEqual(registry["schema"], build_planning_registry.SCHEMA)
-            self.assertEqual(registry["schema"], "fum.planning.requirements-registry.v8")
+            self.assertEqual(registry["schema"], "fum.planning.requirements-registry.v9")
             self.assertEqual(
                 registry["boxed_implementation_graph"]["schema"],
                 "fum.planning.boxed-implementation-dependency-graph.v1",
@@ -563,6 +605,10 @@ class BuildPlanningRegistryTests(unittest.TestCase):
             )
             self.assertIn(BOXED_GRAPH_MARKDOWN.as_posix(), source_paths)
             self.assertIn(BOXED_GRAPH_JSON.as_posix(), source_paths)
+            self.assertIn(
+                "Планирование/следующие-шаги-веток/master.md",
+                source_paths,
+            )
             self.assertEqual(registry["source_inventory"]["roadmap_horizons"][0]["id"], "horizon-0")
             self.assertEqual(registry["source_inventory"]["stages"][0]["id"], "stage-01")
             self.assertEqual(
@@ -581,6 +627,602 @@ class BuildPlanningRegistryTests(unittest.TestCase):
             self.assertEqual(registry["source_inventory"]["questions"]["open"][0]["title"], "Тестовый вопрос")
             self.assertTrue(registry["coverage"]["mvp_candidates"][0]["in_product_queue"])
             self.assertTrue(registry["coverage"]["mvp_candidates"][0]["in_stage_map"])
+            self.assertEqual(
+                registry["source_inventory"]["очередь_дорожной_карты"],
+                [
+                    {
+                        "порядок_записи": 1,
+                        "идентификатор_шага": "master-fum-step-0001-automatic-v1",
+                        "карточка": "FUM-STEP-0001",
+                        "файл": f"Планирование/карточки-шагов/{ACTIVE_STEP_CARD}",
+                        "хэш_содержимого_карточки": (
+                            build_planning_registry.content_sha256(
+                                Path("Планирование")
+                                / "карточки-шагов"
+                                / ACTIVE_STEP_CARD,
+                                root,
+                            )
+                        ),
+                        "режим": "automatic",
+                        "зависимости": [],
+                        "стадии": ["stage-01"],
+                        "горизонты": ["horizon-0"],
+                        "плановый_горизонт": "готов сейчас",
+                    }
+                ],
+            )
+            self.assertEqual(
+                registry["source_inventory"]["покрытие_дорожной_карты"][-1],
+                {
+                    "вид": "горизонт",
+                    "идентификатор": "horizon-1",
+                    "название": "Воспроизводимые автоматизации",
+                    "файл": "Планирование/дорожная-карта.md#горизонт-1-воспроизводимые-автоматизации",
+                    "карточки": [],
+                },
+            )
+
+    def test_дорожная_карта_отклоняет_пропущенный_горизонт(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_fixture(корень)
+            карта = корень / "Планирование" / "дорожная-карта.md"
+            текст = карта.read_text(encoding="utf-8")
+            текст = "\n".join(
+                строка
+                for строка in текст.splitlines()
+                if not строка.startswith("| [Горизонт 1]")
+            ) + "\n"
+            карта.write_text(текст, encoding="utf-8")
+
+            with сам.assertRaisesRegex(ValueError, "roadmap coverage misses contours.*horizon-1"):
+                build_planning_registry.build_registry(корень)
+
+    def test_валидация_реестра_проверяет_проекции_дорожной_карты(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_fixture(корень)
+            реестр = build_planning_registry.build_registry(корень)
+            очередь = реестр["source_inventory"]["очередь_дорожной_карты"]
+            покрытие = реестр["source_inventory"]["покрытие_дорожной_карты"]
+            очередь[0]["режим"] = "неизвестный"
+            очередь[0]["лишнее"] = True
+            очередь[0]["плановый_горизонт"] = []
+            покрытие[0]["карточки"] = []
+
+            ошибки = build_planning_registry.validate_registry_object(реестр)
+
+            сам.assertIn(
+                "roadmap queue object has unexpected fields",
+                "\n".join(ошибки),
+            )
+            сам.assertIn(
+                "invalid roadmap queue dispatch",
+                "\n".join(ошибки),
+            )
+            сам.assertIn(
+                "invalid roadmap queue planning horizon",
+                "\n".join(ошибки),
+            )
+            сам.assertIn(
+                "roadmap coverage cards do not match queue",
+                "\n".join(ошибки),
+            )
+
+    def test_карта_стадий_отклоняет_несуществующую_точную_цель(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_fixture(корень)
+            карта_стадий = корень / "Планирование" / "стадии" / "README.md"
+            карта_стадий.write_text(
+                карта_стадий.read_text(encoding="utf-8").replace(
+                    "01-тестовая-стадия/README.md",
+                    "99-несуществующая-стадия/README.md",
+                ),
+                encoding="utf-8",
+            )
+
+            with сам.assertRaisesRegex(
+                ValueError,
+                "planning stage link is not an exact stage README",
+            ):
+                build_planning_registry.build_registry(корень)
+
+    def test_карта_стадий_требует_точный_заголовок_таблицы(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_fixture(корень)
+            карта_стадий = корень / "Планирование" / "стадии" / "README.md"
+            карта_стадий.write_text(
+                карта_стадий.read_text(encoding="utf-8").replace(
+                    "| Стадия | Смысл |",
+                    "| Этап | Смысл |",
+                    1,
+                ),
+                encoding="utf-8",
+            )
+
+            with сам.assertRaisesRegex(
+                ValueError,
+                "unexpected table header.*Карта стадий",
+            ):
+                build_planning_registry.build_registry(корень)
+
+    def test_карта_стадий_отклоняет_символьный_псевдоним_цели(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_fixture(корень)
+            каталог_стадии = (
+                корень / "Планирование" / "стадии" / "01-тестовая-стадия"
+            )
+            (каталог_стадии / "README-ссылка.md").symlink_to("README.md")
+            карта_стадий = корень / "Планирование" / "стадии" / "README.md"
+            карта_стадий.write_text(
+                карта_стадий.read_text(encoding="utf-8").replace(
+                    "01-тестовая-стадия/README.md",
+                    "01-тестовая-стадия/README-ссылка.md",
+                    1,
+                ),
+                encoding="utf-8",
+            )
+
+            with сам.assertRaisesRegex(
+                ValueError,
+                "planning stage link is not lexically exact",
+            ):
+                build_planning_registry.build_registry(корень)
+
+    def test_инвентарь_стадий_отклоняет_символьный_псевдоним_паспорта(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_fixture(корень)
+            каталог_стадий = корень / "Планирование" / "стадии"
+            (каталог_стадий / "99-псевдоним").symlink_to(
+                "01-тестовая-стадия",
+                target_is_directory=True,
+            )
+
+            with сам.assertRaisesRegex(
+                ValueError,
+                "planning stage inventory path must not contain symbolic links",
+            ):
+                build_planning_registry.build_registry(корень)
+
+    def test_рабочий_набор_отклоняет_нестрогую_границу_метаданных(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_fixture(корень)
+            набор = корень / "Планирование" / "следующие-шаги-веток" / "master.md"
+            набор.write_text(
+                набор.read_text(encoding="utf-8").replace(
+                    "+++\nschema_version",
+                    "+++schema_version",
+                    1,
+                ),
+                encoding="utf-8",
+            )
+
+            with сам.assertRaisesRegex(
+                ValueError,
+                "master next-step set must start with TOML frontmatter",
+            ):
+                build_planning_registry.build_registry(корень)
+
+    def test_рабочий_набор_отклоняет_вещественную_версию_схемы(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_fixture(корень)
+            набор = корень / "Планирование" / "следующие-шаги-веток" / "master.md"
+            набор.write_text(
+                набор.read_text(encoding="utf-8").replace(
+                    "schema_version = 5",
+                    "schema_version = 5.0",
+                    1,
+                ),
+                encoding="utf-8",
+            )
+
+            with сам.assertRaisesRegex(
+                ValueError,
+                "master next-step set supports only schema_version = 5",
+            ):
+                build_planning_registry.build_registry(корень)
+
+    def test_рабочий_набор_отклоняет_нетекстовое_состояние(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_fixture(корень)
+            набор = корень / "Планирование" / "следующие-шаги-веток" / "master.md"
+            набор.write_text(
+                набор.read_text(encoding="utf-8").replace(
+                    'state = "open"',
+                    "state = []",
+                    1,
+                ),
+                encoding="utf-8",
+            )
+
+            with сам.assertRaisesRegex(
+                ValueError,
+                "master next-step set has invalid state or candidates",
+            ):
+                build_planning_registry.build_registry(корень)
+
+    def test_рабочий_набор_отклоняет_нетекстовый_режим(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_fixture(корень)
+            набор = корень / "Планирование" / "следующие-шаги-веток" / "master.md"
+            набор.write_text(
+                набор.read_text(encoding="utf-8").replace(
+                    'dispatch = "automatic"',
+                    "dispatch = []",
+                    1,
+                ),
+                encoding="utf-8",
+            )
+
+            with сам.assertRaisesRegex(
+                ValueError,
+                "invalid master next-step dispatch",
+            ):
+                build_planning_registry.build_registry(корень)
+
+    def test_рабочий_набор_отклоняет_нетекстовую_карточку(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_fixture(корень)
+            набор = корень / "Планирование" / "следующие-шаги-веток" / "master.md"
+            набор.write_text(
+                набор.read_text(encoding="utf-8").replace(
+                    'card_id = "FUM-STEP-0001"',
+                    "card_id = []",
+                    1,
+                ),
+                encoding="utf-8",
+            )
+
+            with сам.assertRaisesRegex(
+                ValueError,
+                "invalid master next-step card id",
+            ):
+                build_planning_registry.build_registry(корень)
+
+    def test_рабочий_набор_принимает_общий_устойчивый_идентификатор_шага(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_fixture(корень)
+            набор = корень / "Планирование" / "следующие-шаги-веток" / "master.md"
+            набор.write_text(
+                набор.read_text(encoding="utf-8").replace(
+                    "master-fum-step-0001-automatic-v1",
+                    "stable-step.id-v7",
+                ),
+                encoding="utf-8",
+            )
+            карта = корень / "Планирование" / "дорожная-карта.md"
+            карта.write_text(
+                карта.read_text(encoding="utf-8").replace(
+                    "master-fum-step-0001-automatic-v1",
+                    "stable-step.id-v7",
+                ),
+                encoding="utf-8",
+            )
+            реестр = build_planning_registry.build_registry(корень)
+
+            сам.assertEqual(
+                реестр["source_inventory"]["очередь_дорожной_карты"][0][
+                    "идентификатор_шага"
+                ],
+                "stable-step.id-v7",
+            )
+
+    def test_дорожная_карта_отклоняет_несинхронную_перестановку_записей(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_fixture(корень)
+            имя_второй_карточки = (
+                "🟡-FUM-STEP-0005-подготовить-второй-тестовый-реестр.md"
+            )
+            путь_второй_карточки = (
+                корень
+                / "Планирование"
+                / "карточки-шагов"
+                / имя_второй_карточки
+            )
+            путь_второй_карточки.write_text(
+                "+++\n"
+                "schema_version = 1\n"
+                'card_id = "FUM-STEP-0005"\n'
+                'status = "active"\n'
+                "+++\n"
+                "# Подготовить второй тестовый реестр\n\n"
+                "Карточка сохраняет второй самостоятельный шаг.\n\n"
+                "## Задача\n\n"
+                "Подготовить второй тестовый реестр.\n\n"
+                "## Почему сейчас\n\n"
+                "Нужна проверка перестановки.\n\n"
+                "## Критерии завершения\n\n"
+                "- Реестр собирается.\n\n"
+                "## Источники\n\n"
+                "- [дорожная карта](../дорожная-карта.md)\n",
+                encoding="utf-8",
+            )
+            индекс = корень / "Планирование" / "карточки-шагов" / "README.md"
+            индекс.write_text(
+                индекс.read_text(encoding="utf-8")
+                + "| `FUM-STEP-0005` | 🟡 Актуально | "
+                + f"[Подготовить второй тестовый реестр]({имя_второй_карточки}) |\n",
+                encoding="utf-8",
+            )
+            хэш_первой_карточки = build_planning_registry.content_sha256(
+                Path("Планирование") / "карточки-шагов" / ACTIVE_STEP_CARD,
+                корень,
+            )
+            хэш_второй_карточки = build_planning_registry.content_sha256(
+                Path("Планирование") / "карточки-шагов" / имя_второй_карточки,
+                корень,
+            )
+            первая_запись = (
+                "[[candidates]]\n"
+                'step_id = "master-fum-step-0001-automatic-v1"\n'
+                'dispatch = "automatic"\n'
+                'card_id = "FUM-STEP-0001"\n'
+                f'card_content_sha256 = "{хэш_первой_карточки}"\n'
+                "requires_completed_card_ids = []\n"
+            )
+            вторая_запись = (
+                "[[candidates]]\n"
+                'step_id = "master-fum-step-0005-automatic-v1"\n'
+                'dispatch = "automatic"\n'
+                'card_id = "FUM-STEP-0005"\n'
+                f'card_content_sha256 = "{хэш_второй_карточки}"\n'
+                "requires_completed_card_ids = []\n"
+            )
+            набор = корень / "Планирование" / "следующие-шаги-веток" / "master.md"
+            набор.write_text(
+                набор.read_text(encoding="utf-8").replace(
+                    первая_запись + "+++\n",
+                    первая_запись + "\n" + вторая_запись + "+++\n",
+                ),
+                encoding="utf-8",
+            )
+            карта = корень / "Планирование" / "дорожная-карта.md"
+            ссылка_на_вторую = (
+                f"[FUM-STEP-0005](карточки-шагов/{имя_второй_карточки})"
+            )
+            строка_первой_очереди = (
+                "| 1 | master-fum-step-0001-automatic-v1 | "
+                f"[FUM-STEP-0001](карточки-шагов/{ACTIVE_STEP_CARD}) | "
+                "`automatic` | — | [01. Тестовая стадия]"
+                "(стадии/01-тестовая-стадия/README.md) | `0` | готов сейчас |\n"
+            )
+            строка_второй_очереди = (
+                "| 2 | master-fum-step-0005-automatic-v1 | "
+                f"{ссылка_на_вторую} | `automatic` | — | "
+                "[01. Тестовая стадия]"
+                "(стадии/01-тестовая-стадия/README.md) | `0` | готов сейчас |\n"
+            )
+            карта.write_text(
+                карта.read_text(encoding="utf-8")
+                .replace(
+                    строка_первой_очереди,
+                    строка_первой_очереди + строка_второй_очереди,
+                    1,
+                )
+                .replace(
+                    f") | [FUM-STEP-0001](карточки-шагов/{ACTIVE_STEP_CARD}) |",
+                    f") | [FUM-STEP-0001](карточки-шагов/{ACTIVE_STEP_CARD}), {ссылка_на_вторую} |",
+                    1,
+                )
+                .replace(
+                    f"| [Горизонт 0](#горизонт-0-связная-память-проекта) | [FUM-STEP-0001](карточки-шагов/{ACTIVE_STEP_CARD}) |",
+                    f"| [Горизонт 0](#горизонт-0-связная-память-проекта) | [FUM-STEP-0001](карточки-шагов/{ACTIVE_STEP_CARD}), {ссылка_на_вторую} |",
+                ),
+                encoding="utf-8",
+            )
+            build_planning_registry.build_registry(корень)
+            набор.write_text(
+                набор.read_text(encoding="utf-8").replace(
+                    первая_запись + "\n" + вторая_запись,
+                    вторая_запись + "\n" + первая_запись,
+                ),
+                encoding="utf-8",
+            )
+
+            with сам.assertRaisesRegex(
+                ValueError,
+                "roadmap queue generation mismatch",
+            ):
+                build_planning_registry.build_registry(корень)
+
+    def test_дорожная_карта_отклоняет_пропущенную_стадию(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_fixture(корень)
+            карта = корень / "Планирование" / "дорожная-карта.md"
+            текст = карта.read_text(encoding="utf-8")
+            текст = "\n".join(
+                строка
+                for строка in текст.splitlines()
+                if not строка.startswith("| [01. Тестовая стадия]")
+            ) + "\n"
+            карта.write_text(текст, encoding="utf-8")
+
+            with сам.assertRaisesRegex(
+                ValueError,
+                "roadmap coverage misses contours.*stage-01",
+            ):
+                build_planning_registry.build_registry(корень)
+
+    def test_дорожная_карта_отклоняет_битую_карточку(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_fixture(корень)
+            карта = корень / "Планирование" / "дорожная-карта.md"
+            карта.write_text(
+                карта.read_text(encoding="utf-8").replace(
+                    f"карточки-шагов/{ACTIVE_STEP_CARD}",
+                    "карточки-шагов/несуществующая-карточка.md",
+                    1,
+                ),
+                encoding="utf-8",
+            )
+
+            with сам.assertRaisesRegex(ValueError, "roadmap queue card path mismatch"):
+                build_planning_registry.build_registry(корень)
+
+    def test_дорожная_карта_отклоняет_смену_режима_без_синхронизации(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_fixture(корень)
+            набор = корень / "Планирование" / "следующие-шаги-веток" / "master.md"
+            набор.write_text(
+                набор.read_text(encoding="utf-8")
+                .replace(
+                    'step_id = "master-fum-step-0001-automatic-v1"',
+                    'step_id = "master-fum-step-0001-paused-v2"',
+                )
+                .replace(
+                    'dispatch = "automatic"',
+                    'dispatch = "paused"\nresume_condition = "До повторной аттестации."',
+                ),
+                encoding="utf-8",
+            )
+            карта = корень / "Планирование" / "дорожная-карта.md"
+            карта.write_text(
+                карта.read_text(encoding="utf-8").replace(
+                    "master-fum-step-0001-automatic-v1",
+                    "master-fum-step-0001-paused-v2",
+                ),
+                encoding="utf-8",
+            )
+
+            with сам.assertRaisesRegex(ValueError, "roadmap queue dispatch mismatch"):
+                build_planning_registry.build_registry(корень)
+
+    def test_дорожная_карта_отклоняет_смену_поколения_без_синхронизации(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_fixture(корень)
+            набор = корень / "Планирование" / "следующие-шаги-веток" / "master.md"
+            набор.write_text(
+                набор.read_text(encoding="utf-8").replace(
+                    "master-fum-step-0001-automatic-v1",
+                    "master-fum-step-0001-automatic-v2",
+                ),
+                encoding="utf-8",
+            )
+
+            with сам.assertRaisesRegex(ValueError, "roadmap queue generation mismatch"):
+                build_planning_registry.build_registry(корень)
+
+    def test_дорожная_карта_отклоняет_смену_зависимостей_без_синхронизации(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_fixture(корень)
+            набор = корень / "Планирование" / "следующие-шаги-веток" / "master.md"
+            набор.write_text(
+                набор.read_text(encoding="utf-8").replace(
+                    "requires_completed_card_ids = []",
+                    'requires_completed_card_ids = ["FUM-STEP-0002"]',
+                ),
+                encoding="utf-8",
+            )
+
+            with сам.assertRaisesRegex(ValueError, "roadmap queue dependencies mismatch"):
+                build_planning_registry.build_registry(корень)
+
+    def test_рабочий_набор_отклоняет_цикл_зависимостей(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_fixture(корень)
+            набор = корень / "Планирование" / "следующие-шаги-веток" / "master.md"
+            набор.write_text(
+                набор.read_text(encoding="utf-8").replace(
+                    "requires_completed_card_ids = []",
+                    'requires_completed_card_ids = ["FUM-STEP-0001"]',
+                ),
+                encoding="utf-8",
+            )
+
+            with сам.assertRaisesRegex(
+                ValueError,
+                "master next-step dependencies contain cycle",
+            ):
+                build_planning_registry.build_registry(корень)
+
+    def test_дорожная_карта_отклоняет_пропущенного_кандидата(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_fixture(корень)
+            карта = корень / "Планирование" / "дорожная-карта.md"
+            текст = карта.read_text(encoding="utf-8")
+            текст = "\n".join(
+                строка
+                for строка in текст.splitlines()
+                if not строка.startswith(
+                    "| 1 | master-fum-step-0001-automatic-v1 |"
+                )
+            ) + "\n"
+            карта.write_text(текст, encoding="utf-8")
+
+            with сам.assertRaisesRegex(
+                ValueError,
+                "roadmap queue does not exactly cover master candidates",
+            ):
+                build_planning_registry.build_registry(корень)
+
+    def test_рабочий_набор_отклоняет_снятую_карточку(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_fixture(корень)
+            снятая_карточка = (
+                Path("Планирование")
+                / "карточки-шагов"
+                / WITHDRAWN_STEP_CARD
+            )
+            хэш_снятой_карточки = build_planning_registry.content_sha256(
+                снятая_карточка,
+                корень,
+            )
+            набор = корень / "Планирование" / "следующие-шаги-веток" / "master.md"
+            набор.write_text(
+                набор.read_text(encoding="utf-8")
+                .replace("FUM-STEP-0001", "FUM-STEP-0004")
+                .replace(
+                    build_planning_registry.content_sha256(
+                        Path("Планирование")
+                        / "карточки-шагов"
+                        / ACTIVE_STEP_CARD,
+                        корень,
+                    ),
+                    хэш_снятой_карточки,
+                ),
+                encoding="utf-8",
+            )
+
+            with сам.assertRaisesRegex(
+                ValueError,
+                "master next-step candidate references non-active card.*FUM-STEP-0004",
+            ):
+                build_planning_registry.build_registry(корень)
+
+    def test_дорожная_карта_отклоняет_отсутствующий_плановый_горизонт(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_fixture(корень)
+            карта = корень / "Планирование" / "дорожная-карта.md"
+            карта.write_text(
+                карта.read_text(encoding="utf-8").replace(
+                    "| `0` | готов сейчас |",
+                    "| `0` |  |",
+                ),
+                encoding="utf-8",
+            )
+
+            with сам.assertRaisesRegex(ValueError, "roadmap queue planning horizon mismatch"):
+                build_planning_registry.build_registry(корень)
 
     def test_реестр_отклоняет_повтор_шага_в_неотозванных_цепочках(сам):
         with tempfile.TemporaryDirectory() as временный_каталог:
@@ -1471,6 +2113,14 @@ class BuildPlanningRegistryTests(unittest.TestCase):
                 "🟡-FUM-STEP-0001-собрать-SwiftPM-2.md"
             )
             self.rename_step_card(root, ACTIVE_STEP_CARD, renamed)
+            карта = root / "Планирование" / "дорожная-карта.md"
+            карта.write_text(
+                карта.read_text(encoding="utf-8").replace(
+                    ACTIVE_STEP_CARD,
+                    renamed,
+                ),
+                encoding="utf-8",
+            )
 
             registry = build_planning_registry.build_registry(root)
 

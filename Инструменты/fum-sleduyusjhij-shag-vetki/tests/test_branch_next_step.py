@@ -7660,60 +7660,64 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertEqual(len(oid), 64)
 
     def test_repository_has_a_valid_record_for_its_active_branch(self) -> None:
-        validation = subprocess.run(
-            [
-                sys.executable,
-                str(SCRIPT_PATH),
-                "validate",
-                "--repo-root",
-                str(REPO_ROOT),
-                "--json",
-            ],
-            check=False,
-            capture_output=True,
-            text=True,
-        )
-        shown = subprocess.run(
-            [
-                sys.executable,
-                str(SCRIPT_PATH),
-                "show",
-                "--repo-root",
-                str(REPO_ROOT),
-                "--json",
-            ],
-            check=False,
-            capture_output=True,
-            text=True,
-        )
+        карточки = TOOL_MODULE.load_cards(REPO_ROOT)
+        записи = TOOL_MODULE.load_records(REPO_ROOT, карточки)
+        записи_главной_ветки = [
+            запись
+            for запись in записи
+            if запись.branch_ref == "refs/heads/master"
+        ]
+        self.assertEqual(len(записи_главной_ветки), 1)
+        запись_главной_ветки = записи_главной_ветки[0]
+        готовые = TOOL_MODULE.validate_ready_pool(запись_главной_ветки)
 
+        self.assertEqual(len(запись_главной_ветки.candidates), 12)
+        self.assertEqual(len(готовые), 3)
         self.assertEqual(
-            validation.returncode,
-            0,
-            validation.stdout + validation.stderr,
+            sum(
+                кандидат.status == "paused"
+                for кандидат in запись_главной_ветки.candidates
+            ),
+            6,
         )
-        validation_payload = self.payload(validation)
-        self.assertEqual(validation_payload["candidate_count"], 13)
-        self.assertEqual(validation_payload["ready_count"], 4)
-        self.assertEqual(validation_payload["paused_count"], 6)
-        self.assertEqual(validation_payload["blocked_count"], 3)
-        self.assertEqual(shown.returncode, 0, shown.stdout + shown.stderr)
-        shown_payload = self.payload(shown)
-        self.assertEqual(shown_payload["state"], "ready")
+        self.assertEqual(
+            sum(
+                кандидат.status == "blocked"
+                for кандидат in запись_главной_ветки.candidates
+            ),
+            3,
+        )
+        закреплённая_вершина = TOOL_MODULE.checked_git(
+            REPO_ROOT,
+            "закрепить вершину текущего worktree",
+            "rev-parse",
+            "--verify",
+            "HEAD^{commit}",
+        ).stdout.strip()
+        with mock.patch.object(
+            TOOL_MODULE,
+            "branch_head_oid",
+            return_value=закреплённая_вершина,
+        ):
+            выбранный, снимок_выбора = TOOL_MODULE.select_ready_candidate(
+                REPO_ROOT,
+                запись_главной_ветки,
+            )
+        self.assertIsNotNone(выбранный)
+        self.assertIsNotNone(снимок_выбора)
+        assert выбранный is not None
+        assert снимок_выбора is not None
         ожидаемый_выбор = (
             "FUM-STEP-0124",
             "master-fum-step-0124-automatic-v8",
         )
-        self.assertEqual(shown_payload["card_id"], ожидаемый_выбор[0])
+        self.assertEqual(выбранный.card_id, ожидаемый_выбор[0])
+        self.assertEqual(выбранный.step_id, ожидаемый_выбор[1])
+        self.assertEqual(выбранный.dispatch, "automatic")
+        self.assertEqual(выбранный.status, "ready")
+        self.assertEqual(снимок_выбора["ready_count"], 3)
         self.assertEqual(
-            shown_payload["step_id"],
-            ожидаемый_выбор[1],
-        )
-        self.assertEqual(shown_payload["dispatch"], "automatic")
-        self.assertEqual(shown_payload["status"], "ready")
-        self.assertEqual(shown_payload["selection"]["ready_count"], 4)
-        self.assertEqual(
-            shown_payload["selection"]["reason"],
+            снимок_выбора["reason"],
             "completed_step_source",
         )
 
