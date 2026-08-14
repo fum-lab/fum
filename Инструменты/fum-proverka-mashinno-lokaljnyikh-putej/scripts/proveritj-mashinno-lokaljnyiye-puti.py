@@ -74,6 +74,43 @@ SYSTEM_RUNTIME_CODE_PATHS = frozenset(
 )
 FENCE_OPEN_RE = re.compile(r"^ {0,3}(`{3,}|~{3,})")
 H2_RE = re.compile(r"^ {0,3}##(?!#)[ \t]+(.+?)(?:[ \t]+#+[ \t]*)?$")
+ШАБЛОН_ИМЕНИ_ФАЙЛА_ЗАПУСКА = re.compile(
+    r"(?P<порядок>0*[1-9][0-9]*)_"
+    r"(?P<идентификатор>[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-"
+    r"[0-9a-f]{4}-[0-9a-f]{12})\.json\Z"
+)
+КОРЕНЬ_ИДЕНТИФИКАТОРА_СУБАГЕНТА = "/" + "root/"
+ФОРМА_ИМЕНИ_ЗАДАЧИ_СУБАГЕНТА = r"[a-z0-9]+(?:_[a-z0-9]+)*"
+ШАБЛОН_ИСПОЛНИТЕЛЯ_СУБАГЕНТА = re.compile(
+    re.escape(КОРЕНЬ_ИДЕНТИФИКАТОРА_СУБАГЕНТА)
+    + ФОРМА_ИМЕНИ_ЗАДАЧИ_СУБАГЕНТА
+    + r"\Z"
+)
+ПОЛЯ_ЗАПИСИ_ЗАПУСКА = frozenset(
+    {
+        "схема",
+        "идентификатор",
+        "сессия",
+        "порядок",
+        "исполнитель",
+        "вызов",
+        "состояние",
+        "длительность_наносекунды",
+        "статус",
+        "код_завершения",
+        "пояснение",
+    }
+)
+ОТКРЫТЫЙ_МАРКЕР_ЗАПУСКОВ = (
+    "<!-- FUM-CHECK-RUNS:BEGIN состояние=открыт; "
+    "каталог=материалы/запуски-проверок -->"
+)
+ШАБЛОН_ЗАКРЫТОГО_МАРКЕРА_ЗАПУСКОВ = re.compile(
+    r"<!-- FUM-CHECK-RUNS:BEGIN состояние=закрыт; "
+    r"снимок=материалы/запуски-проверок/снимок\.json; "
+    r"sha256=sha256:[0-9a-f]{64} -->\Z"
+)
+КОНЕЧНЫЙ_МАРКЕР_ЗАПУСКОВ = "<!-- FUM-CHECK-RUNS:END -->"
 
 
 class PolicyError(ValueError):
@@ -330,6 +367,113 @@ def _is_request_file(path: str) -> bool:
     return session_stem_for_request_path(path) is not None
 
 
+def _ствол_журнала(путь: str, окончание: tuple[str, ...]) -> str | None:
+    части = PurePosixPath(путь).parts
+    if len(части) != 2 + len(окончание) or части[0] != "Журнал":
+        return None
+    if tuple(части[2:]) != окончание:
+        return None
+    ствол = части[1]
+    канонический_запрос = PurePosixPath("Журнал") / ствол / "запрос.md"
+    if session_stem_for_request_path(канонический_запрос) != ствол:
+        return None
+    return ствол
+
+
+def _каноническая_запись_исполнителя(
+    путь: str,
+    текст: str,
+) -> tuple[str, str] | None:
+    части = PurePosixPath(путь).parts
+    if len(части) != 5:
+        return None
+    ствол = _ствол_журнала(
+        путь,
+        ("материалы", "запуски-проверок", части[-1]),
+    )
+    совпадение_имени = ШАБЛОН_ИМЕНИ_ФАЙЛА_ЗАПУСКА.fullmatch(части[-1])
+    if ствол is None or совпадение_имени is None:
+        return None
+    try:
+        значение = json.loads(текст)
+    except json.JSONDecodeError:
+        return None
+    if not isinstance(значение, dict):
+        return None
+    схема = значение.get("схема")
+    ожидаемые_поля = ПОЛЯ_ЗАПИСИ_ЗАПУСКА
+    if схема == "fum.test-run.v2":
+        ожидаемые_поля = ожидаемые_поля | {"план", "наблюдения"}
+    elif схема != "fum.test-run.v1":
+        return None
+    if set(значение) != ожидаемые_поля:
+        return None
+    канонический_текст = json.dumps(
+        значение,
+        ensure_ascii=False,
+        sort_keys=True,
+        indent=2,
+    ) + "\n"
+    if текст != канонический_текст:
+        return None
+    исполнитель = значение.get("исполнитель")
+    if (
+        not isinstance(исполнитель, str)
+        or ШАБЛОН_ИСПОЛНИТЕЛЯ_СУБАГЕНТА.fullmatch(исполнитель) is None
+        or значение.get("сессия") != f"Журнал/{ствол}/запрос.md"
+        or значение.get("идентификатор") != совпадение_имени.group("идентификатор")
+        or значение.get("порядок") != int(совпадение_имени.group("порядок"))
+    ):
+        return None
+    return ствол, исполнитель
+
+
+def _позиции_исполнителя_субагента(
+    путь: str,
+    текст: str,
+    известные_исполнители: frozenset[str],
+) -> frozenset[tuple[int, int, int]]:
+    запись = _каноническая_запись_исполнителя(путь, текст)
+    if запись is not None:
+        _ствол, исполнитель = запись
+        for номер, строка in enumerate(текст.splitlines(), start=1):
+            начало = строка.find(исполнитель)
+            if строка.startswith('  "исполнитель": "') and начало >= 0:
+                return frozenset({(номер, начало, начало + len(исполнитель))})
+        return frozenset()
+
+    ствол = _ствол_журнала(путь, ("отчёт.md",))
+    if ствол is None or not известные_исполнители:
+        return frozenset()
+    строки = текст.splitlines()
+    начала = [
+        номер
+        for номер, строка in enumerate(строки)
+        if строка == ОТКРЫТЫЙ_МАРКЕР_ЗАПУСКОВ
+        or ШАБЛОН_ЗАКРЫТОГО_МАРКЕРА_ЗАПУСКОВ.fullmatch(строка) is not None
+    ]
+    концы = [
+        номер
+        for номер, строка in enumerate(строки)
+        if строка == КОНЕЧНЫЙ_МАРКЕР_ЗАПУСКОВ
+    ]
+    if len(начала) != 1 or len(концы) != 1 or начала[0] >= концы[0]:
+        return frozenset()
+    позиции: set[tuple[int, int, int]] = set()
+    for номер in range(начала[0] + 1, концы[0]):
+        строка = строки[номер]
+        совпадение = re.match(
+            rf"^\| \[({re.escape(КОРЕНЬ_ИДЕНТИФИКАТОРА_СУБАГЕНТА)}"
+            rf"{ФОРМА_ИМЕНИ_ЗАДАЧИ_СУБАГЕНТА})\] "
+            r".+\| .+ \| .+ \|$",
+            строка,
+        )
+        if совпадение is None or совпадение.group(1) not in известные_исполнители:
+            continue
+        позиции.add((номер + 1, совпадение.start(1), совпадение.end(1)))
+    return frozenset(позиции)
+
+
 def _is_system_runtime(form: PathForm) -> bool:
     return form.kind == "posix-absolute" and form.value.startswith(
         SYSTEM_RUNTIME_PREFIXES
@@ -367,11 +511,17 @@ def classify_candidate(
     line_number: int,
     form: PathForm,
     request_text_lines: frozenset[int],
+    позиции_исполнителя: frozenset[tuple[int, int, int]],
 ) -> str:
     if _is_external_source(path):
         return f"report.external-source.{form.kind}"
     if _is_request_file(path) and line_number in request_text_lines:
         return f"report.request-text.{form.kind}"
+    if (
+        form.kind == "posix-user-home"
+        and (line_number, form.start, form.end) in позиции_исполнителя
+    ):
+        return "allow.collaboration-executor-id"
     if form.kind == "compiler-file-path":
         if not path.endswith(".md"):
             return "error.compiler-file-path"
@@ -397,9 +547,18 @@ def _line_digest(line: str) -> str:
     return "sha256:" + hashlib.sha256(line.encode("utf-8")).hexdigest()
 
 
-def scan_text(path: str, text: str) -> list[Candidate]:
+def scan_text(
+    path: str,
+    text: str,
+    известные_исполнители: frozenset[str] = frozenset(),
+) -> list[Candidate]:
     request_lines = (
         request_text_line_numbers(text) if _is_request_file(path) else frozenset()
+    )
+    позиции_исполнителя = _позиции_исполнителя_субагента(
+        path,
+        text,
+        известные_исполнители,
     )
     candidates: list[Candidate] = []
     for line_number, line in enumerate(text.splitlines(), start=1):
@@ -417,6 +576,7 @@ def scan_text(path: str, text: str) -> list[Candidate]:
                         line_number,
                         form,
                         request_lines,
+                        позиции_исполнителя,
                     ),
                 )
             )
@@ -488,6 +648,7 @@ def scan_repository(repo_root: str | Path, policy_path: str | Path) -> ScanResul
 
     candidates: list[Candidate] = []
     fixed_findings: list[Finding] = []
+    текстовые_файлы: list[tuple[str, str]] = []
     inventory_failed = False
     for entry in git_inventory(root):
         if entry.mode == "160000":
@@ -551,7 +712,26 @@ def scan_repository(repo_root: str | Path, policy_path: str | Path) -> ScanResul
             fixed_findings.append(Finding(path=entry.path, line=0, category=category))
             inventory_failed = inventory_failed or category.startswith("error.")
             continue
-        candidates.extend(scan_text(entry.path, text))
+        текстовые_файлы.append((entry.path, text))
+
+    исполнители_по_стволам: dict[str, set[str]] = {}
+    for путь, текст in текстовые_файлы:
+        запись = _каноническая_запись_исполнителя(путь, текст)
+        if запись is None:
+            continue
+        ствол, исполнитель = запись
+        исполнители_по_стволам.setdefault(ствол, set()).add(исполнитель)
+
+    for путь, текст in текстовые_файлы:
+        части = PurePosixPath(путь).parts
+        ствол = части[1] if len(части) >= 2 and части[0] == "Журнал" else ""
+        candidates.extend(
+            scan_text(
+                путь,
+                текст,
+                frozenset(исполнители_по_стволам.get(ствол, set())),
+            )
+        )
 
     candidates, policy_findings, policy_failed = _apply_policy(
         candidates,

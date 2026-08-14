@@ -69,7 +69,7 @@ EXIT_INTERRUPTED = 130
 СХЕМА_ГРАНИЦЫ_ПРОСТОГО_СБРОСА = "fum.граница-простого-сброса.1"
 СХЕМА_ГРАНИЦЫ_ЭПОХИ_ПРОСТОГО_СБРОСА = "fum.граница-эпохи-простого-сброса.1"
 СХЕМА_АННУЛИРОВАННОЙ_ЗАДАЧИ = "fum.аннулированная-задача-простого-сброса.1"
-СХЕМА_ПЕРЕХОДА_НА_ЦЕПОЧКУ = "fum.переход-на-цепочку.1"
+СХЕМА_ПЕРЕХОДА_НА_ЦЕПОЧКУ = "fum.переход-на-цепочку.2"
 СХЕМА_РЕЕСТРА_БАРЬЕРОВ_ПРЕДАКТИВАЦИИ = (
     "fum.реестр-барьеров-предактивации.2"
 )
@@ -78,6 +78,20 @@ EXIT_INTERRUPTED = 130
 )
 СХЕМА_КВИТАНЦИИ_СВЯЗАННОГО_КОММИТА = (
     "fum.квитанция-связанного-коммита.1"
+)
+СХЕМА_КВИТАНЦИИ_ПРИНЯТОЙ_ИНТЕГРАЦИИ = (
+    "fum.квитанция-принятой-интеграции-worktree-подузлов.1"
+)
+СХЕМА_ПУЛА_РАБОЧИХ_ДЕРЕВЬЕВ_ПОДУЗЛОВ = "fum.пул-worktree-подузлов.2"
+СХЕМА_КВИТАНЦИИ_СРАВНЕНИЯ_И_ЗАМЕНЫ_ИНТЕГРАЦИИ_ПОДУЗЛОВ = (
+    "fum.квитанция-CAS-интеграции-worktree-подузлов.1"
+)
+СХЕМА_КВИТАНЦИИ_ИНТЕГРАЦИОННОГО_КАНДИДАТА_ПОДУЗЛОВ = (
+    "fum.квитанция-интеграционного-кандидата-worktree-подузлов.1"
+)
+СХЕМА_КВИТАНЦИИ_РЕВЬЮ_ПОДУЗЛА = "fum.квитанция-агентского-ревью-worktree-подузла.1"
+СХЕМА_НАМЕРЕНИЯ_ПУБЛИКАЦИИ_ИНТЕГРАЦИИ = (
+    "fum.намерение-публикации-принятой-интеграции.1"
 )
 ПУТЬ_МАРКЕРА_ОБЯЗАТЕЛЬНОГО_ПРОДОЛЖЕНИЯ = (
     "Требования/"
@@ -117,6 +131,10 @@ EXIT_INTERRUPTED = 130
 ПРОСТРАНСТВО_КВИТАНЦИЙ_СВЯЗАННЫХ_КОММИТОВ = (
     "refs/fum/квитанции-связанных-коммитов"
 )
+ПРОСТРАНСТВО_КВИТАНЦИЙ_ПРИНЯТЫХ_ИНТЕГРАЦИЙ = (
+    "refs/fum/квитанции-принятых-интеграций-worktree-подузлов"
+)
+ПРОСТРАНСТВО_МАРШРУТОВ_ЗАДАЧ = "refs/fum/task-runtime-routes"
 ПРОСТРАНСТВО_РЕЕСТРОВ_БАРЬЕРОВ_ПРЕДАКТИВАЦИИ = (
     "refs/fum/реестры-барьеров-предактивации"
 )
@@ -860,6 +878,132 @@ def canonical_state_bytes(state: dict[str, object]) -> bytes:
     ).encode("utf-8")
 
 
+def ссылка_маршрута_задачи(идентификатор_задачи: str) -> str:
+    отпечаток = hashlib.sha256(идентификатор_задачи.encode("utf-8")).hexdigest()
+    return f"{ПРОСТРАНСТВО_МАРШРУТОВ_ЗАДАЧ}/{отпечаток}"
+
+
+def хэш_идентичности_обычной_очереди(контекст: QueueContext) -> str:
+    идентичность: dict[str, object] = {
+        "schema": "fum.идентичность-ordinary-fifo.1",
+        "worktree_id": контекст.worktree_id,
+        "queue_ref": контекст.queue_ref,
+        "branch_ref": контекст.branch_ref,
+    }
+    return "sha256:" + hashlib.sha256(
+        canonical_state_bytes(идентичность)
+    ).hexdigest()
+
+
+def данные_маршрута_обычной_очереди(
+    контекст: QueueContext,
+    идентификатор_задачи: str,
+) -> dict[str, object]:
+    return {
+        "schema": "fum.маршрут-задачи-runtime.1",
+        "task_id": идентификатор_задачи,
+        "route_kind": "ordinary_fifo",
+        "route_identity": хэш_идентичности_обычной_очереди(контекст),
+    }
+
+
+def подготовить_маршрут_обычной_очереди(
+    контекст: QueueContext,
+    идентификатор_задачи: str,
+) -> tuple[str, str, str | None]:
+    нагрузка = данные_маршрута_обычной_очереди(
+        контекст,
+        идентификатор_задачи,
+    )
+    байты = canonical_state_bytes(нагрузка)
+    ожидаемый_объект = decoded_stdout(
+        run_git(
+            контекст.root,
+            ["hash-object", "-w", "--stdin"],
+            input_bytes=байты,
+        )
+    )
+    ссылка = ссылка_маршрута_задачи(идентификатор_задачи)
+    существующий_объект = read_ref_oid(контекст, ссылка)
+    if существующий_объект is None:
+        return ссылка, ожидаемый_объект, None
+    сырые = run_git(контекст.root, ["cat-file", "blob", существующий_объект]).stdout
+    try:
+        существующий = json.loads(сырые.decode("utf-8", errors="strict"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as ошибка:
+        raise QueueError(EXIT_CONTEXT, "corrupt_task_route", "Runtime-маршрут задачи повреждён.") from ошибка
+    if (
+        существующий != нагрузка
+        or сырые != байты
+        or существующий_объект != ожидаемый_объект
+    ):
+        raise QueueError(EXIT_OWNERSHIP, "task_route_already_reserved", "Задача уже необратимо связана с иным runtime-маршрутом.")
+    return ссылка, ожидаемый_объект, существующий_объект
+
+
+def команда_маршрута_задачи(ссылка: str, объект: str, прежний_объект: str | None) -> str:
+    if прежний_объект is None:
+        return f"create {ссылка} {объект}\n"
+    return f"verify {ссылка} {прежний_объект}\n"
+
+
+def дозаполнить_маршрут_существующего_участника(
+    контекст: QueueContext,
+    состояние: dict[str, object],
+    прежний_объект_очереди: str | None,
+    идентификатор_задачи: str,
+    ссылка_маршрута: str,
+    объект_маршрута: str,
+) -> bool:
+    if прежний_объект_очереди is None:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_queue",
+            "У существующего участника отсутствует Git-ссылка очереди.",
+        )
+    ожидаемая_вершина = current_head(контекст.root)
+    метка, _ = utc_values()
+    обновлённое = copy.deepcopy(состояние)
+    обновлённое["updated_at"] = метка
+    новый_объект_очереди = write_state_blob(контекст, обновлённое)
+    результат = update_queue_with_head_verification(
+        контекст,
+        expected_head=ожидаемая_вершина,
+        old_queue_oid=прежний_объект_очереди,
+        new_queue_oid=новый_объект_очереди,
+        команда_внешнего_ограждения=(
+            f"create {ссылка_маршрута} {объект_маршрута}\n"
+        ),
+    )
+    if результат.returncode == 0:
+        try:
+            ensure_live_branch(контекст)
+        except QueueError:
+            восстановить_ссылку_очереди_после_смены_ветки(
+                контекст,
+                прежний_объект_очереди,
+                новый_объект_очереди,
+            )
+            raise
+        return True
+    _, _, наблюдаемый_объект_маршрута = подготовить_маршрут_обычной_очереди(
+        контекст,
+        идентификатор_задачи,
+    )
+    if наблюдаемый_объект_маршрута is not None:
+        return False
+    if (
+        current_head(контекст.root) != ожидаемая_вершина
+        or read_ref_oid(контекст, контекст.queue_ref)
+        != прежний_объект_очереди
+    ):
+        return False
+    update_ref_error(
+        "дозаполнить runtime-маршрут существующего участника",
+        результат.stderr.decode("utf-8", errors="replace").strip(),
+    )
+
+
 def проверить_ссылку_ветки_цепочки(
     корень: Path,
     значение: object,
@@ -1169,6 +1313,8 @@ def проверить_запись_перехода_на_цепочку(
         "исходная_вершина",
         "исходный_объект_очереди",
         "идентификатор_задачи",
+        "ссылка_маршрута",
+        "объект_маршрута",
         "идентификатор_цепочки",
         "путь_карточки",
         "хэш_карточки",
@@ -1251,6 +1397,42 @@ def проверить_запись_перехода_на_цепочку(
             "corrupt_chain_transition",
             "Запись перехода имеет неверный идентификатор задачи.",
         )
+    целевой_контекст = QueueContext(
+        root=контекст.root,
+        git_dir=контекст.git_dir,
+        worktree_id=контекст.worktree_id,
+        queue_ref=контекст.queue_ref,
+        branch_ref=целевая_ветка,
+    )
+    ссылка_маршрута = значение["ссылка_маршрута"]
+    объект_маршрута = значение["объект_маршрута"]
+    ожидаемая_ссылка_маршрута = ссылка_маршрута_задачи(
+        идентификатор_задачи
+    )
+    ожидаемый_объект_маршрута = decoded_stdout(
+        run_git(
+            контекст.root,
+            ["hash-object", "--stdin"],
+            input_bytes=canonical_state_bytes(
+                данные_маршрута_обычной_очереди(
+                    целевой_контекст,
+                    идентификатор_задачи,
+                )
+            ),
+        )
+    )
+    if (
+        ссылка_маршрута != ожидаемая_ссылка_маршрута
+        or not isinstance(объект_маршрута, str)
+        or re.fullmatch(r"[0-9a-f]+", объект_маршрута) is None
+        or len(объект_маршрута) != длина_объекта
+        or объект_маршрута != ожидаемый_объект_маршрута
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_chain_transition",
+            "Запись перехода имеет неверный runtime-маршрут задачи.",
+        )
     текущая_цепочка = проверить_текущую_цепочку(
         {
             "идентификатор": значение["идентификатор_цепочки"],
@@ -1317,6 +1499,7 @@ def проверить_запись_перехода_на_цепочку(
     if проверять_ссылки and (
         read_ref_oid(контекст, исходная_ветка) != исходная_вершина
         or read_ref_oid(контекст, целевая_ветка) != исходная_вершина
+        or read_ref_oid(контекст, ссылка_маршрута) != объект_маршрута
         or current_head(контекст.root) != исходная_вершина
     ):
         raise QueueError(
@@ -3371,6 +3554,40 @@ def восстановить_ссылку_очереди_после_смены_�
         )
 
 
+def восстановить_очередь_и_новый_маршрут_после_смены_ветки(
+    контекст: QueueContext,
+    прежний_объект_очереди: str | None,
+    записанный_объект_очереди: str,
+    ссылка_маршрута: str,
+    объект_маршрута: str,
+    прежний_объект_маршрута: str | None,
+) -> None:
+    команды = команда_замены_ссылки(
+        контекст.queue_ref,
+        записанный_объект_очереди,
+        прежний_объект_очереди,
+    )
+    if прежний_объект_маршрута is None:
+        команды += f"delete {ссылка_маршрута} {объект_маршрута}\n"
+    else:
+        команды += (
+            f"verify {ссылка_маршрута} "
+            f"{прежний_объект_маршрута}\n"
+        )
+    результат = run_git(
+        контекст.root,
+        ["update-ref", "--no-deref", "--stdin"],
+        input_bytes=("start\n" + команды + "prepare\ncommit\n").encode("utf-8"),
+        check=False,
+    )
+    if результат.returncode != 0:
+        raise QueueError(
+            EXIT_CAS,
+            "branch_changed_queue_fenced",
+            "Ветка переключилась; FIFO-билет и его runtime-маршрут остались закрыты единым CAS-ограждением.",
+        )
+
+
 def проверить_барьерное_ограждение_участника(
     контекст: QueueContext,
     участник: dict[str, object],
@@ -3602,20 +3819,6 @@ def attempt_admit(
         state, old_oid = read_state(контекст_очереди)
         state = ensure_state_identity(контекст_очереди, state, allow_idle_rebind=False)
         owner = state["owner"]
-        if isinstance(owner, dict):
-            if owner["task_id"] == task_id:
-                проверить_барьерное_ограждение_участника(
-                    контекст_очереди,
-                    owner,
-                )
-                return owner_result(
-                    контекст_очереди,
-                    owner,
-                    old_oid,
-                    ownership="existing",
-                )
-            return waiting_result(контекст_очереди, state, old_oid, task_id)
-
         waiting = state["waiting"]
         target_index = next(
             (
@@ -3625,13 +3828,50 @@ def attempt_admit(
             ),
             None,
         )
+        if isinstance(owner, dict) and owner["task_id"] == task_id:
+            ссылка_маршрута, объект_маршрута, прежний_объект_маршрута = (
+                подготовить_маршрут_обычной_очереди(контекст_очереди, task_id)
+            )
+            if прежний_объект_маршрута is None:
+                дозаполнить_маршрут_существующего_участника(
+                    контекст_очереди,
+                    state,
+                    old_oid,
+                    task_id,
+                    ссылка_маршрута,
+                    объект_маршрута,
+                )
+                continue
+            проверить_барьерное_ограждение_участника(
+                контекст_очереди,
+                owner,
+            )
+            return owner_result(
+                контекст_очереди,
+                owner,
+                old_oid,
+                ownership="existing",
+            )
         if target_index is None:
             raise QueueError(
                 EXIT_NOT_REGISTERED,
                 "not_registered",
                 "Задача не зарегистрирована в очереди.",
             )
-        if target_index != 0:
+        ссылка_маршрута, объект_маршрута, прежний_объект_маршрута = (
+            подготовить_маршрут_обычной_очереди(контекст_очереди, task_id)
+        )
+        if isinstance(owner, dict) or target_index != 0:
+            if прежний_объект_маршрута is None:
+                дозаполнить_маршрут_существующего_участника(
+                    контекст_очереди,
+                    state,
+                    old_oid,
+                    task_id,
+                    ссылка_маршрута,
+                    объект_маршрута,
+                )
+                continue
             return waiting_result(контекст_очереди, state, old_oid, task_id)
 
         ticket = waiting[0]
@@ -3677,6 +3917,16 @@ def attempt_admit(
             ticket,
         )
         if ticket["acknowledged_head"] != head:
+            if прежний_объект_маршрута is None:
+                дозаполнить_маршрут_существующего_участника(
+                    контекст_очереди,
+                    state,
+                    old_oid,
+                    task_id,
+                    ссылка_маршрута,
+                    объект_маршрута,
+                )
+                continue
             return EXIT_RELOAD_REQUIRED, {
                 "state": "reload_required",
                 "position": 1,
@@ -3686,6 +3936,16 @@ def attempt_admit(
             }
         blocking = all_changed_paths(контекст_очереди.root)
         if blocking:
+            if прежний_объект_маршрута is None:
+                дозаполнить_маршрут_существующего_участника(
+                    контекст_очереди,
+                    state,
+                    old_oid,
+                    task_id,
+                    ссылка_маршрута,
+                    объект_маршрута,
+                )
+                continue
             return EXIT_DIRTY, {
                 "state": "dirty",
                 "position": 1,
@@ -3747,7 +4007,14 @@ def attempt_admit(
             expected_head=head,
             old_queue_oid=old_oid,
             new_queue_oid=new_oid,
-            команда_внешнего_ограждения=команда_барьерного_ограждения,
+            команда_внешнего_ограждения=(
+                команда_барьерного_ограждения
+                + команда_маршрута_задачи(
+                    ссылка_маршрута,
+                    объект_маршрута,
+                    прежний_объект_маршрута,
+                )
+            ),
         )
         if result.returncode == 0:
             try:
@@ -3766,9 +4033,18 @@ def attempt_admit(
                 ownership="new",
             )
         last_stderr = result.stderr.decode("utf-8", errors="replace").strip()
+        _, _, наблюдаемый_объект_маршрута = подготовить_маршрут_обычной_очереди(
+            контекст_очереди,
+            task_id,
+        )
         observed_head = current_head(контекст_очереди.root)
         _, observed_queue_oid = read_state(контекст_очереди)
-        if observed_head != head or observed_queue_oid != old_oid:
+        if (
+            observed_head != head
+            or observed_queue_oid != old_oid
+            or наблюдаемый_объект_маршрута
+            != прежний_объект_маршрута
+        ):
             unchanged_ref_failures = 0
             time.sleep(REF_RETRY_BASE_SECONDS)
             continue
@@ -3803,9 +4079,12 @@ def join_queue(контекст_очереди: QueueContext, task_id: str) -> t
             task_id,
             identity_state,
         )
+        ссылка_маршрута, объект_маршрута, прежний_объект_маршрута = (
+            подготовить_маршрут_обычной_очереди(контекст_очереди, task_id)
+        )
         owner = identity_state["owner"]
         if isinstance(owner, dict) and owner["task_id"] == task_id:
-            return owner_result(контекст_очереди, owner, old_oid, ownership="existing")
+            return attempt_admit(контекст_очереди, task_id)
 
         existing: dict[str, object] | None = None
         for ticket in identity_state["waiting"]:
@@ -3846,6 +4125,9 @@ def join_queue(контекст_очереди: QueueContext, task_id: str) -> t
             task_id,
             объект_реестра_барьеров,
             ожидаемая_базовая_вершина_барьера,
+            ссылка_маршрута,
+            объект_маршрута,
+            прежний_объект_маршрута,
         )
         if success:
             break
@@ -3957,6 +4239,8 @@ def установить_временную_запись_перехода(
     исходный_объект_очереди: str | None,
     объект_перехода: str,
     идентификатор_задачи: str,
+    ссылка_маршрута: str,
+    объект_маршрута: str,
 ) -> None:
     if (
         symbolic_branch(контекст.root) != контекст.branch_ref
@@ -3983,8 +4267,9 @@ def установить_временную_запись_перехода(
     нулевой_объект = "0" * len(исходная_вершина)
     команды = (
         "start\n"
-        f"symref-verify HEAD {контекст.branch_ref}\n"
+        f"verify {контекст.branch_ref} {исходная_вершина}\n"
         f"verify {ссылка_аннулирования} {нулевой_объект}\n"
+        f"create {ссылка_маршрута} {объект_маршрута}\n"
         f"create {целевая_ветка} {исходная_вершина}\n"
         f"{команда_очереди}"
         "prepare\n"
@@ -4000,6 +4285,12 @@ def установить_временную_запись_перехода(
         return
     текущий_объект_очереди = read_ref_oid(контекст, контекст.queue_ref)
     if текущий_объект_очереди == объект_перехода:
+        if read_ref_oid(контекст, ссылка_маршрута) != объект_маршрута:
+            raise QueueError(
+                EXIT_CONTEXT,
+                "corrupt_chain_transition",
+                "Переход сохранён без exact runtime-маршрута задачи.",
+            )
         потребовать_неаннулированную_задачу(
             контекст,
             идентификатор_задачи,
@@ -4014,6 +4305,12 @@ def установить_временную_запись_перехода(
             EXIT_CONTEXT,
             "target_branch_exists",
             "Целевая ветка уже существует и не принадлежит этому переходу.",
+        )
+    if read_ref_oid(контекст, ссылка_маршрута) is not None:
+        raise QueueError(
+            EXIT_OWNERSHIP,
+            "task_route_already_reserved",
+            "Задача уже необратимо связана с иным runtime-маршрутом.",
         )
     подробности = результат.stderr.decode("utf-8", errors="replace").strip()
     update_ref_error("подготовить переход на цепочку", подробности)
@@ -4032,6 +4329,8 @@ def завершить_временную_запись_перехода(
     идентификатор_задачи = validate_task_id(
         переход["идентификатор_задачи"]
     )
+    ссылка_маршрута = str(переход["ссылка_маршрута"])
+    объект_маршрута = str(переход["объект_маршрута"])
     потребовать_неаннулированную_задачу(
         исходный_контекст,
         идентификатор_задачи,
@@ -4050,7 +4349,7 @@ def завершить_временную_запись_перехода(
             "HEAD изменился до атомарного переключения на ветку цепочки.",
         )
     команда_головы = (
-        f"symref-update HEAD {целевая_ветка} ref {исходная_ветка}\n"
+        f"symref-update HEAD {целевая_ветка} oid {исходная_вершина}\n"
         if живая_ветка == исходная_ветка
         else f"symref-verify HEAD {целевая_ветка}\n"
     )
@@ -4071,7 +4370,11 @@ def завершить_временную_запись_перехода(
         )
     текущий_объект = read_ref_oid(целевой_контекст, целевой_контекст.queue_ref)
     if текущий_объект == итоговый_объект:
-        if symbolic_branch(целевой_контекст.root) != целевая_ветка:
+        if (
+            symbolic_branch(целевой_контекст.root) != целевая_ветка
+            or read_ref_oid(целевой_контекст, ссылка_маршрута)
+            != объект_маршрута
+        ):
             raise QueueError(
                 EXIT_CONTEXT,
                 "corrupt_chain_transition",
@@ -4105,6 +4408,8 @@ def завершить_временную_запись_перехода(
         != исходная_вершина
         or read_ref_oid(целевой_контекст, целевая_ветка)
         != исходная_вершина
+        or read_ref_oid(целевой_контекст, ссылка_маршрута)
+        != объект_маршрута
     ):
         raise QueueError(
             EXIT_HEAD_CHANGED,
@@ -4120,6 +4425,7 @@ def завершить_временную_запись_перехода(
         "start\n"
         f"{команда_головы}"
         f"verify {ссылка_аннулирования} {нулевой_объект}\n"
+        f"verify {ссылка_маршрута} {объект_маршрута}\n"
         f"update {целевой_контекст.queue_ref} {итоговый_объект} {объект_перехода}\n"
         "prepare\n"
         "commit\n"
@@ -4153,6 +4459,8 @@ def завершить_временную_запись_перехода(
     if (
         symbolic_branch(целевой_контекст.root) != целевая_ветка
         or current_head(целевой_контекст.root) != исходная_вершина
+        or read_ref_oid(целевой_контекст, ссылка_маршрута)
+        != объект_маршрута
     ):
         raise QueueError(
             EXIT_CONTEXT,
@@ -4172,6 +4480,45 @@ def завершить_временную_запись_перехода(
         итоговый_объект,
         ownership="new" if новый_переход else "existing",
     )
+
+
+def проверить_снимок_завершённого_перехода(
+    контекст: QueueContext,
+    идентификатор_задачи: str,
+    исходная_ветка: str,
+    целевая_ветка: str,
+    исходная_вершина: str,
+    объект_очереди: str,
+    ссылка_маршрута: str,
+    объект_маршрута: str,
+) -> None:
+    ссылка_аннулирования = ссылка_аннулированной_задачи(
+        контекст,
+        идентификатор_задачи,
+    )
+    нулевой_объект = "0" * len(исходная_вершина)
+    команды = (
+        "start\n"
+        f"symref-verify HEAD {целевая_ветка}\n"
+        f"verify {исходная_ветка} {исходная_вершина}\n"
+        f"verify {контекст.queue_ref} {объект_очереди}\n"
+        f"verify {ссылка_маршрута} {объект_маршрута}\n"
+        f"verify {ссылка_аннулирования} {нулевой_объект}\n"
+        "prepare\n"
+        "commit\n"
+    ).encode("utf-8")
+    результат = run_git(
+        контекст.root,
+        ["update-ref", "--no-deref", "--stdin"],
+        input_bytes=команды,
+        check=False,
+    )
+    if результат.returncode != 0:
+        raise QueueError(
+            EXIT_CAS,
+            "completed_transition_snapshot_changed",
+            "Exact снимок завершённого перехода изменился до ответа.",
+        )
 
 
 def перейти_на_цепочку(
@@ -4198,6 +4545,15 @@ def перейти_на_цепочку(
     )
     ensure_live_branch(контекст)
     потребовать_поддержку_символьных_транзакций(контекст)
+    целевой_контекст = контекст_для_ветки(контекст, карточка.ветка)
+    (
+        ссылка_маршрута,
+        объект_маршрута,
+        прежний_объект_маршрута,
+    ) = подготовить_маршрут_обычной_очереди(
+        целевой_контекст,
+        идентификатор_задачи,
+    )
     вид, запись, объект_очереди = прочитать_запись_очереди(
         контекст,
         разрешить_переход_на_цепочку=True,
@@ -4221,6 +4577,16 @@ def перейти_на_цепочку(
                 "chain_transition_in_progress",
                 "Другая попытка перехода уже оградила очередь.",
             )
+        if (
+            запись.get("ссылка_маршрута") != ссылка_маршрута
+            or запись.get("объект_маршрута") != объект_маршрута
+            or прежний_объект_маршрута != объект_маршрута
+        ):
+            raise QueueError(
+                EXIT_CONTEXT,
+                "corrupt_chain_transition",
+                "Переход не связан с exact runtime-маршрутом задачи.",
+            )
         return завершить_временную_запись_перехода(
             контекст,
             запись,
@@ -4238,11 +4604,39 @@ def перейти_на_цепочку(
         ожидаемая_исходная_вершина,
     )
     if существующий_владелец is not None:
+        if прежний_объект_маршрута != объект_маршрута:
+            raise QueueError(
+                EXIT_CONTEXT,
+                "corrupt_task_route",
+                "Завершённый переход потерял runtime-маршрут задачи.",
+            )
+        if объект_очереди is None:
+            raise QueueError(
+                EXIT_CONTEXT,
+                "corrupt_chain_transition",
+                "Завершённый переход потерял объект очереди.",
+            )
+        проверить_снимок_завершённого_перехода(
+            контекст,
+            идентификатор_задачи,
+            ожидаемая_исходная_ветка,
+            карточка.ветка,
+            ожидаемая_исходная_вершина,
+            объект_очереди,
+            ссылка_маршрута,
+            объект_маршрута,
+        )
         return owner_result(
             контекст,
             существующий_владелец,
             объект_очереди,
             ownership="existing",
+        )
+    if прежний_объект_маршрута is not None:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "corrupt_task_route",
+            "Runtime-маршрут задачи существует без перехода или участника очереди.",
         )
     if состояние["owner"] is not None or состояние["waiting"]:
         raise QueueError(
@@ -4307,6 +4701,8 @@ def перейти_на_цепочку(
         "исходная_вершина": ожидаемая_исходная_вершина,
         "исходный_объект_очереди": объект_очереди,
         "идентификатор_задачи": идентификатор_задачи,
+        "ссылка_маршрута": ссылка_маршрута,
+        "объект_маршрута": объект_маршрута,
         "идентификатор_цепочки": карточка.идентификатор,
         "путь_карточки": карточка.путь,
         "хэш_карточки": карточка.хэш,
@@ -4333,6 +4729,8 @@ def перейти_на_цепочку(
         объект_очереди,
         объект_перехода,
         идентификатор_задачи,
+        ссылка_маршрута,
+        объект_маршрута,
     )
     проверенный_переход = проверить_запись_перехода_на_цепочку(
         переход,
@@ -4410,7 +4808,7 @@ def acknowledge_head(
                 "not_waiting",
                 "Текущий владелец уже допущен и не подтверждает HEAD повторно.",
             )
-        stamp, epoch = utc_values()
+        stamp, _ = utc_values()
         updated = copy.deepcopy(state)
         target: dict[str, object] | None = None
         for ticket in updated["waiting"]:
@@ -4436,8 +4834,28 @@ def acknowledge_head(
             )
         target["acknowledged_head"] = acknowledged_head
         updated["updated_at"] = stamp
-        success, new_oid = cas_state(контекст_очереди, old_oid, updated)
-        if success:
+        ссылка_маршрута, объект_маршрута, прежний_объект_маршрута = (
+            подготовить_маршрут_обычной_очереди(контекст_очереди, task_id)
+        )
+        if old_oid is None:
+            raise QueueError(
+                EXIT_CONTEXT,
+                "corrupt_queue",
+                "У ожидающего билета отсутствует Git-ссылка очереди.",
+            )
+        new_oid = write_state_blob(контекст_очереди, updated)
+        результат = update_queue_with_head_verification(
+            контекст_очереди,
+            expected_head=acknowledged_head,
+            old_queue_oid=old_oid,
+            new_queue_oid=new_oid,
+            команда_внешнего_ограждения=команда_маршрута_задачи(
+                ссылка_маршрута,
+                объект_маршрута,
+                прежний_объект_маршрута,
+            ),
+        )
+        if результат.returncode == 0:
             try:
                 ensure_live_branch(контекст_очереди)
                 if current_head(контекст_очереди.root) != acknowledged_head:
@@ -4458,6 +4876,26 @@ def acknowledge_head(
                 **target,
                 **common_payload(контекст_очереди, new_oid),
             }
+        _, _, наблюдаемый_объект_маршрута = подготовить_маршрут_обычной_очереди(
+            контекст_очереди,
+            task_id,
+        )
+        if current_head(контекст_очереди.root) != acknowledged_head:
+            raise QueueError(
+                EXIT_HEAD_CHANGED,
+                "head_mismatch",
+                "HEAD изменился во время подтверждения ожидающего билета.",
+            )
+        if (
+            read_ref_oid(контекст_очереди, контекст_очереди.queue_ref) != old_oid
+            or наблюдаемый_объект_маршрута
+            != прежний_объект_маршрута
+        ):
+            continue
+        update_ref_error(
+            "атомарно подтвердить вершину ожидающего билета",
+            результат.stderr.decode("utf-8", errors="replace").strip(),
+        )
     raise QueueError(EXIT_CAS, "cas_conflict", "Не удалось подтвердить новый HEAD.")
 
 
@@ -7501,6 +7939,663 @@ def atomic_commit_and_handoff(
     )
 
 
+def ссылка_квитанции_принятой_интеграции(
+    контекст_очереди: QueueContext,
+    идентификатор_задачи: str,
+    поколение: str,
+) -> str:
+    идентичность = {
+        "идентификатор_рабочего_дерева": контекст_очереди.worktree_id,
+        "ссылка_ветки": контекст_очереди.branch_ref,
+        "идентификатор_задачи": идентификатор_задачи,
+        "поколение": поколение,
+    }
+    отпечаток = hashlib.sha256(canonical_state_bytes(идентичность)).hexdigest()
+    return (
+        f"{ПРОСТРАНСТВО_КВИТАНЦИЙ_ПРИНЯТЫХ_ИНТЕГРАЦИЙ}/"
+        f"{контекст_очереди.worktree_id}/{отпечаток}"
+    )
+
+
+def проверить_объект_пула(
+    контекст_очереди: QueueContext,
+    идентификатор_объекта: str,
+) -> str:
+    длина = len(current_head(контекст_очереди.root))
+    if re.fullmatch(rf"[0-9a-f]{{{длина}}}", идентификатор_объекта) is None:
+        raise QueueError(EXIT_CLI, "invalid_pool_oid", "OID состояния пула имеет неверный формат.")
+    вид = run_git(
+        контекст_очереди.root,
+        ["cat-file", "-t", идентификатор_объекта],
+        check=False,
+    )
+    if вид.returncode != 0 or decoded_stdout(вид) != "blob":
+        raise QueueError(EXIT_CLI, "invalid_pool_oid", "Состояние пула не является Git blob.")
+    return идентификатор_объекта
+
+
+def хэш_канонического_объекта_пула(значение: dict[str, object]) -> str:
+    return "sha256:" + hashlib.sha256(canonical_state_bytes(значение)).hexdigest()
+
+
+def прочитать_канонический_пул(
+    контекст_очереди: QueueContext,
+    идентификатор_объекта: str,
+) -> dict[str, object]:
+    данные = run_git(
+        контекст_очереди.root,
+        ["cat-file", "blob", идентификатор_объекта],
+    ).stdout
+    try:
+        состояние = json.loads(данные)
+    except (UnicodeDecodeError, json.JSONDecodeError) as ошибка:
+        raise QueueError(EXIT_CONTEXT, "invalid_pool_state", "Состояние пула повреждено.") from ошибка
+    if not isinstance(состояние, dict) or canonical_state_bytes(состояние) != данные:
+        raise QueueError(EXIT_CONTEXT, "invalid_pool_state", "Состояние пула неканонично.")
+    return состояние
+
+
+def ожидаемая_ссылка_пула(контекст_очереди: QueueContext) -> tuple[str, str]:
+    общий_текст = decoded_stdout(
+        run_git(контекст_очереди.root, ["rev-parse", "--git-common-dir"])
+    )
+    общий = Path(общий_текст)
+    if not общий.is_absolute():
+        общий = контекст_очереди.root / общий
+    идентификатор = hashlib.sha256(
+        os.path.normcase(str(общий.resolve())).encode("utf-8")
+    ).hexdigest()
+    return f"refs/fum/worktree-subnode-pools/{идентификатор}", идентификатор
+
+
+def проверить_переход_пула_интеграции(
+    контекст_очереди: QueueContext,
+    исходный_объект: str,
+    новый_объект: str,
+    хэш_интеграции: str,
+    идентификатор_задачи: str,
+    поколение: str,
+    идентификатор_продолжения: str,
+    исходная_вершина: str,
+    новая_вершина: str,
+) -> None:
+    исходное = прочитать_канонический_пул(контекст_очереди, исходный_объект)
+    новое = прочитать_канонический_пул(контекст_очереди, новый_объект)
+    поля = {
+        "schema", "repository_identity", "primary_root", "revision", "next_slot",
+        "slots", "assignments", "activations", "results", "reviews",
+        "integration_candidates", "integrations", "publications", "session_routes",
+    }
+    _, идентификатор_репозитория = ожидаемая_ссылка_пула(контекст_очереди)
+    if any(
+        set(состояние) != поля
+        or состояние.get("schema") != СХЕМА_ПУЛА_РАБОЧИХ_ДЕРЕВЬЕВ_ПОДУЗЛОВ
+        or состояние.get("repository_identity") != идентификатор_репозитория
+        or состояние.get("primary_root") != str(контекст_очереди.root)
+        or not isinstance(состояние.get("revision"), int)
+        for состояние in (исходное, новое)
+    ) or новое["revision"] != исходное["revision"] + 1:
+        raise QueueError(EXIT_CONTEXT, "invalid_pool_transition", "Переход пула не прошёл закрытую схему.")
+    for поле in поля - {"revision", "integration_candidates", "integrations", "publications"}:
+        if исходное[поле] != новое[поле]:
+            raise QueueError(EXIT_CONTEXT, "invalid_pool_transition", "Переход изменил постороннее поле пула.")
+
+    исходные_интеграции = исходное["integrations"]
+    новые_интеграции = новое["integrations"]
+    if not isinstance(исходные_интеграции, dict) or not isinstance(новые_интеграции, dict):
+        raise QueueError(EXIT_CONTEXT, "invalid_pool_transition", "Реестр интеграций повреждён.")
+    ожидаемые_интеграции = copy.deepcopy(исходные_интеграции)
+    квитанция = новые_интеграции.get(хэш_интеграции)
+    поля_квитанции = {
+        "schema", "integration_candidate_hash", "review_hash", "task_id", "generation",
+        "continuation_task_id", "target_ref", "remote", "base_oid", "head_oid",
+        "result_hashes", "result_heads",
+    }
+    if (
+        not isinstance(квитанция, dict)
+        or set(квитанция) != поля_квитанции
+        or квитанция.get("schema") != СХЕМА_КВИТАНЦИИ_СРАВНЕНИЯ_И_ЗАМЕНЫ_ИНТЕГРАЦИИ_ПОДУЗЛОВ
+        or хэш_канонического_объекта_пула(квитанция) != хэш_интеграции
+        or квитанция.get("task_id") != идентификатор_задачи
+        or квитанция.get("generation") != поколение
+        or квитанция.get("continuation_task_id") != идентификатор_продолжения
+        or квитанция.get("target_ref") != контекст_очереди.branch_ref
+        or квитанция.get("base_oid") != исходная_вершина
+        or квитанция.get("head_oid") != новая_вершина
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "integration_pool_receipt_mismatch",
+            "Новое состояние пула не содержит exact квитанцию интеграции.",
+        )
+    if хэш_интеграции in исходные_интеграции:
+        raise QueueError(EXIT_CONTEXT, "invalid_pool_transition", "Квитанция интеграции уже была в исходном пуле.")
+    ожидаемые_интеграции[хэш_интеграции] = квитанция
+    if ожидаемые_интеграции != новые_интеграции:
+        raise QueueError(EXIT_CONTEXT, "invalid_pool_transition", "Реестр интеграций изменён неточно.")
+
+    хэш_кандидата = квитанция["integration_candidate_hash"]
+    исходный_кандидат = исходное["integration_candidates"].get(хэш_кандидата)
+    новый_кандидат = новое["integration_candidates"].get(хэш_кандидата)
+    if (
+        not isinstance(исходный_кандидат, dict)
+        or хэш_канонического_объекта_пула(исходный_кандидат) != хэш_кандидата
+        or исходный_кандидат.get("schema") != СХЕМА_КВИТАНЦИИ_ИНТЕГРАЦИОННОГО_КАНДИДАТА_ПОДУЗЛОВ
+        or исходный_кандидат.get("target_ref") != квитанция["target_ref"]
+        or исходный_кандидат.get("base_oid") != квитанция["base_oid"]
+        or исходный_кандидат.get("head_oid") != квитанция["head_oid"]
+        or исходный_кандидат.get("remote") != квитанция["remote"]
+        or исходный_кандидат.get("result_hashes") != квитанция["result_hashes"]
+        or исходный_кандидат.get("result_heads") != квитанция["result_heads"]
+        or not isinstance(новый_кандидат, dict)
+    ):
+        raise QueueError(EXIT_CONTEXT, "integration_candidate_mismatch", "Квитанция не связана с exact кандидатом.")
+    ожидаемый_кандидат = copy.deepcopy(исходный_кандидат)
+    ожидаемый_кандидат["integration_hash"] = хэш_интеграции
+    ожидаемые_кандидаты = copy.deepcopy(исходное["integration_candidates"])
+    ожидаемые_кандидаты[хэш_кандидата] = ожидаемый_кандидат
+    if новое["integration_candidates"] != ожидаемые_кандидаты or новый_кандидат != ожидаемый_кандидат:
+        raise QueueError(EXIT_CONTEXT, "integration_candidate_mismatch", "Кандидат изменён помимо exact хэша интеграции.")
+
+    поля_ревью = {
+        "schema", "reviewer_assignment_id", "reviewer_assignment_hash", "task_id", "host_id",
+        "reviewed_object_kind", "reviewed_object_hash", "reviewed_head_oid", "reviewed_branch_ref",
+        "verdict", "checks", "report_sha256",
+    }
+
+    def проверить_релевантное_ревью(
+        хэш_ревью: str,
+        ревью: object,
+        вид_объекта: str,
+        хэш_объекта: str,
+    ) -> dict[str, object]:
+        if (
+            not isinstance(ревью, dict)
+            or set(ревью) != поля_ревью
+            or ревью.get("schema") != СХЕМА_КВИТАНЦИИ_РЕВЬЮ_ПОДУЗЛА
+            or хэш_канонического_объекта_пула(ревью) != хэш_ревью
+            or ревью.get("reviewed_object_kind") != вид_объекта
+            or ревью.get("reviewed_object_hash") != хэш_объекта
+            or ревью.get("verdict") not in {"принято", "на_доработку", "отклонено"}
+        ):
+            raise QueueError(EXIT_CONTEXT, "invalid_pool_review_receipt", "Релевантная квитанция ревью повреждена.")
+        return ревью
+
+    хэши_результатов = исходный_кандидат.get("result_hashes")
+    головы_результатов = исходный_кандидат.get("result_heads")
+    хэши_ревью_результатов = исходный_кандидат.get("review_hashes")
+    if (
+        not isinstance(хэши_результатов, list)
+        or not isinstance(головы_результатов, list)
+        or not isinstance(хэши_ревью_результатов, list)
+        or not хэши_результатов
+        or len(хэши_результатов) != len(головы_результатов)
+        or len(хэши_результатов) != len(хэши_ревью_результатов)
+        or len(set(хэши_результатов)) != len(хэши_результатов)
+        or len(set(хэши_ревью_результатов)) != len(хэши_ревью_результатов)
+    ):
+        raise QueueError(EXIT_CONTEXT, "integration_result_set_mismatch", "Кандидат имеет неверный набор результатов.")
+
+    покрытые_результаты: set[str] = set()
+    for хэш_ревью_результата in хэши_ревью_результатов:
+        ревью_результата = исходное["reviews"].get(хэш_ревью_результата)
+        if not isinstance(ревью_результата, dict):
+            raise QueueError(EXIT_CONTEXT, "integration_result_review_missing", "Ревью результата отсутствует.")
+        хэш_результата = ревью_результата.get("reviewed_object_hash")
+        if not isinstance(хэш_результата, str):
+            raise QueueError(EXIT_CONTEXT, "integration_result_review_mismatch", "Ревью результата повреждено.")
+        проверенное_ревью = проверить_релевантное_ревью(
+            хэш_ревью_результата,
+            ревью_результата,
+            "result",
+            хэш_результата,
+        )
+        if (
+            проверенное_ревью.get("verdict") != "принято"
+            or "публикационная чистота" not in проверенное_ревью.get("checks", [])
+            or хэш_результата not in хэши_результатов
+            or хэш_результата in покрытые_результаты
+        ):
+            raise QueueError(EXIT_CONTEXT, "integration_result_review_mismatch", "Ревью не покрывают exact результаты.")
+        покрытые_результаты.add(хэш_результата)
+    if покрытые_результаты != set(хэши_результатов):
+        raise QueueError(EXIT_CONTEXT, "integration_result_review_mismatch", "Ревью не покрывают exact результаты.")
+
+    for хэш_результата, голова_результата in zip(хэши_результатов, головы_результатов):
+        результат = исходное["results"].get(хэш_результата)
+        if (
+            not isinstance(результат, dict)
+            or хэш_канонического_объекта_пула(результат) != хэш_результата
+            or результат.get("schema") != "fum.квитанция-результата-worktree-подузла.2"
+            or результат.get("head_oid") != голова_результата
+            or результат.get("target_ref") != квитанция["target_ref"]
+        ):
+            raise QueueError(EXIT_CONTEXT, "integration_result_receipt_mismatch", "Кандидат не связан с exact результатом.")
+
+    релевантные_объекты = {хэш_кандидата: "integration_candidate", **{хэш: "result" for хэш in хэши_результатов}}
+    for иной_хэш_ревью, иное_ревью in исходное["reviews"].items():
+        if not isinstance(иное_ревью, dict):
+            continue
+        иной_объект = иное_ревью.get("reviewed_object_hash")
+        if иной_объект not in релевантные_объекты:
+            continue
+        проверенное = проверить_релевантное_ревью(
+            иной_хэш_ревью,
+            иное_ревью,
+            релевантные_объекты[иной_объект],
+            иной_объект,
+        )
+        if проверенное["verdict"] != "принято":
+            raise QueueError(EXIT_CONTEXT, "integration_blocked_by_review", "Отрицательное ревью запрещает интеграцию.")
+
+    хэш_ревью = квитанция["review_hash"]
+    ревью = исходное["reviews"].get(хэш_ревью)
+    if (
+        not isinstance(ревью, dict)
+        or хэш_канонического_объекта_пула(ревью) != хэш_ревью
+        or ревью.get("schema") != СХЕМА_КВИТАНЦИИ_РЕВЬЮ_ПОДУЗЛА
+        or ревью.get("verdict") != "принято"
+        or "публикационная чистота" not in ревью.get("checks", [])
+        or ревью.get("reviewed_object_kind") != "integration_candidate"
+        or ревью.get("reviewed_object_hash") != хэш_кандидата
+        or ревью.get("reviewed_head_oid") != новая_вершина
+    ):
+        raise QueueError(EXIT_CONTEXT, "integration_review_mismatch", "Интеграция не имеет exact принятого ревью.")
+
+    ключ_публикации = хэш_канонического_объекта_пула(
+        {
+            "schema": "fum.ключ-публикации-принятой-интеграции.1",
+            "integration_hash": хэш_интеграции,
+            "remote": квитанция["remote"],
+            "remote_ref": квитанция["target_ref"],
+        }
+    )
+    намерение = новое["publications"].get(ключ_публикации)
+    ожидаемое_намерение = {
+        "schema": СХЕМА_НАМЕРЕНИЯ_ПУБЛИКАЦИИ_ИНТЕГРАЦИИ,
+        "status": "publication_pending",
+        "integration_hash": хэш_интеграции,
+        "review_hash": хэш_ревью,
+        "remote": квитанция["remote"],
+        "remote_ref": квитанция["target_ref"],
+        "base_oid": исходная_вершина,
+        "head_oid": новая_вершина,
+        "remote_url_sha256": None,
+    }
+    if намерение != ожидаемое_намерение or ключ_публикации in исходное["publications"]:
+        raise QueueError(EXIT_CONTEXT, "integration_publication_intent_mismatch", "Переход не содержит exact pending intent.")
+    ожидаемые_публикации = copy.deepcopy(исходное["publications"])
+    ожидаемые_публикации[ключ_публикации] = ожидаемое_намерение
+    if новое["publications"] != ожидаемые_публикации:
+        raise QueueError(EXIT_CONTEXT, "integration_publication_intent_mismatch", "Реестр публикаций изменён неточно.")
+
+
+def прочитать_квитанцию_принятой_интеграции(
+    контекст_очереди: QueueContext,
+    идентификатор_задачи: str,
+    поколение: str,
+) -> tuple[dict[str, object], str, str] | None:
+    ссылка = ссылка_квитанции_принятой_интеграции(
+        контекст_очереди,
+        идентификатор_задачи,
+        поколение,
+    )
+    объект = read_ref_oid(контекст_очереди, ссылка)
+    if объект is None:
+        return None
+    квитанция = прочитать_канонический_объект_данных(
+        контекст_очереди,
+        объект,
+        состояние_ошибки="повреждена_квитанция_принятой_интеграции",
+        пояснение="Квитанция принятой интеграции повреждена.",
+    )
+    ожидаемые = {
+        "схема",
+        "идентификатор_рабочего_дерева",
+        "ссылка_ветки",
+        "идентификатор_задачи",
+        "поколение",
+        "исходная_вершина",
+        "новая_вершина",
+        "идентификатор_продолжения",
+        "ссылка_пула",
+        "исходный_объект_пула",
+        "новый_объект_пула",
+        "хэш_интеграции",
+    }
+    if (
+        not isinstance(квитанция, dict)
+        or set(квитанция) != ожидаемые
+        or квитанция.get("схема") != СХЕМА_КВИТАНЦИИ_ПРИНЯТОЙ_ИНТЕГРАЦИИ
+        or квитанция.get("идентификатор_рабочего_дерева") != контекст_очереди.worktree_id
+        or квитанция.get("ссылка_ветки") != контекст_очереди.branch_ref
+        or квитанция.get("идентификатор_задачи") != идентификатор_задачи
+        or квитанция.get("поколение") != поколение
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "повреждена_квитанция_принятой_интеграции",
+            "Квитанция принятой интеграции повреждена.",
+        )
+    return квитанция, объект, ссылка
+
+
+def синхронизировано_основное_рабочее_дерево(
+    контекст_очереди: QueueContext,
+    вершина: str,
+) -> bool:
+    наблюдаемая_вершина = current_head(контекст_очереди.root)
+    if run_git(
+        контекст_очереди.root,
+        ["merge-base", "--is-ancestor", вершина, наблюдаемая_вершина],
+        check=False,
+    ).returncode != 0:
+        return False
+    дерево = decoded_stdout(run_git(контекст_очереди.root, ["write-tree"]))
+    целевое_дерево = decoded_stdout(
+        run_git(контекст_очереди.root, ["rev-parse", f"{наблюдаемая_вершина}^{{tree}}"])
+    )
+    незарегистрированные = run_git(
+        контекст_очереди.root,
+        ["ls-files", "--others", "--exclude-standard", "-z"],
+    ).stdout
+    незаписанные = run_git(
+        контекст_очереди.root,
+        ["diff", "--quiet", "--"],
+        check=False,
+    )
+    return дерево == целевое_дерево and not незарегистрированные and незаписанные.returncode == 0
+
+
+def результат_принятой_интеграции(
+    контекст_очереди: QueueContext,
+    квитанция: dict[str, object],
+    объект_квитанции: str,
+    ссылка_квитанции: str,
+) -> tuple[int, dict[str, object]]:
+    новая_вершина = str(квитанция["новая_вершина"])
+    достижимость = run_git(
+        контекст_очереди.root,
+        ["merge-base", "--is-ancestor", новая_вершина, current_head(контекст_очереди.root)],
+        check=False,
+    )
+    if достижимость.returncode != 0 or not синхронизировано_основное_рабочее_дерево(
+        контекст_очереди,
+        новая_вершина,
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "integration_checkout_not_synced",
+            "Принятая интеграция не имеет достижимого чистого readback checkout.",
+        )
+    return 0, {
+        "state": "integrated_and_handed_off",
+        "task_id": квитанция["идентификатор_задачи"],
+        "generation": квитанция["поколение"],
+        "old_head": квитанция["исходная_вершина"],
+        "new_head": квитанция["новая_вершина"],
+        "идентификатор_продолжения": квитанция["идентификатор_продолжения"],
+        "хэш_интеграции": квитанция["хэш_интеграции"],
+        "объект_квитанции": объект_квитанции,
+        "ссылка_квитанции": ссылка_квитанции,
+        **common_payload(
+            контекст_очереди,
+            read_ref_oid(контекст_очереди, контекст_очереди.queue_ref),
+        ),
+    }
+
+
+def проверить_повтор_принятой_интеграции(
+    квитанция: dict[str, object],
+    идентификатор_продолжения: str,
+    новая_вершина: str,
+    ссылка_пула: str | None,
+    исходный_объект_пула: str | None,
+    новый_объект_пула: str | None,
+    хэш_интеграции: str,
+) -> None:
+    if (
+        квитанция["идентификатор_продолжения"] != идентификатор_продолжения
+        or квитанция["новая_вершина"] != новая_вершина
+        or квитанция["хэш_интеграции"] != хэш_интеграции
+        or (ссылка_пула is not None and квитанция["ссылка_пула"] != ссылка_пула)
+        or (
+            исходный_объект_пула is not None
+            and квитанция["исходный_объект_пула"] != исходный_объект_пула
+        )
+        or (
+            новый_объект_пула is not None
+            and квитанция["новый_объект_пула"] != новый_объект_пула
+        )
+    ):
+        raise QueueError(EXIT_OWNERSHIP, "integration_replay_mismatch", "Повтор интеграции не совпал.")
+
+
+def принять_интеграционный_кандидат(
+    контекст_очереди: QueueContext,
+    идентификатор_задачи: str,
+    поколение: str,
+    идентификатор_продолжения: str,
+    новая_вершина: str,
+    ссылка_пула: str | None,
+    исходный_объект_пула: str | None,
+    новый_объект_пула: str | None,
+    хэш_интеграции: str,
+) -> tuple[int, dict[str, object]]:
+    идентификатор_задачи = validate_task_id(идентификатор_задачи)
+    идентификатор_продолжения = validate_task_id(идентификатор_продолжения)
+    if not поколение or any(символ in поколение for символ in ("\0", "\n", "\r")):
+        raise QueueError(EXIT_CLI, "invalid_generation", "Некорректное поколение владельца.")
+    if re.fullmatch(r"sha256:[0-9a-f]{64}", хэш_интеграции) is None:
+        raise QueueError(EXIT_CLI, "invalid_integration_hash", "Хэш интеграции неканоничен.")
+    сохранённая = прочитать_квитанцию_принятой_интеграции(
+        контекст_очереди,
+        идентификатор_задачи,
+        поколение,
+    )
+    if сохранённая is not None:
+        квитанция, объект_квитанции, ссылка_квитанции = сохранённая
+        проверить_повтор_принятой_интеграции(
+            квитанция,
+            идентификатор_продолжения,
+            новая_вершина,
+            ссылка_пула,
+            исходный_объект_пула,
+            новый_объект_пула,
+            хэш_интеграции,
+        )
+        return результат_принятой_интеграции(
+            контекст_очереди,
+            квитанция,
+            объект_квитанции,
+            ссылка_квитанции,
+        )
+
+    if ссылка_пула is None or исходный_объект_пула is None or новый_объект_пула is None:
+        raise QueueError(EXIT_CLI, "missing_pool_transition", "Первичное принятие требует exact CAS пула.")
+    ожидаемая_ссылка, _ = ожидаемая_ссылка_пула(контекст_очереди)
+    if ссылка_пула != ожидаемая_ссылка or run_git(
+        контекст_очереди.root,
+        ["check-ref-format", ссылка_пула],
+        check=False,
+    ).returncode != 0:
+        raise QueueError(EXIT_CLI, "invalid_pool_ref", "Ссылка пула не совпала с exact common-dir.")
+    исходный_объект_пула = проверить_объект_пула(контекст_очереди, исходный_объект_пула)
+    новый_объект_пула = проверить_объект_пула(контекст_очереди, новый_объект_пула)
+    новая_вершина = validate_publication_commit(контекст_очереди.root, новая_вершина)
+    ensure_live_branch(контекст_очереди)
+    состояние, объект_очереди = read_state(контекст_очереди)
+    if объект_очереди is None:
+        raise QueueError(EXIT_CONTEXT, "corrupt_queue", "У владельца отсутствует Git-ссылка очереди.")
+    владелец = require_owner(
+        контекст_очереди,
+        состояние,
+        идентификатор_задачи,
+        поколение,
+    )
+    исходная_вершина = str(владелец["base_head"])
+    if current_head(контекст_очереди.root) != исходная_вершина:
+        raise QueueError(EXIT_HEAD_CHANGED, "head_changed", "HEAD изменился после допуска владельца.")
+    потребовать_ожидающее_продолжение(
+        состояние,
+        владелец,
+        идентификатор_продолжения,
+    )
+    if новая_вершина == исходная_вершина or run_git(
+        контекст_очереди.root,
+        ["merge-base", "--is-ancestor", исходная_вершина, новая_вершина],
+        check=False,
+    ).returncode != 0:
+        raise QueueError(
+            EXIT_HEAD_CHANGED,
+            "integration_candidate_not_descendant",
+            "Интеграционный кандидат не продолжает exact исходную вершину.",
+        )
+    if read_ref_oid(контекст_очереди, ссылка_пула) != исходный_объект_пула:
+        raise QueueError(EXIT_CAS, "pool_cas_changed", "Состояние пула сдвинулось до принятия.")
+    проверить_переход_пула_интеграции(
+        контекст_очереди,
+        исходный_объект_пула,
+        новый_объект_пула,
+        хэш_интеграции,
+        идентификатор_задачи,
+        поколение,
+        идентификатор_продолжения,
+        исходная_вершина,
+        новая_вершина,
+    )
+    целевое_дерево = decoded_stdout(
+        run_git(контекст_очереди.root, ["rev-parse", f"{новая_вершина}^{{tree}}"])
+    )
+    дерево_индекса = decoded_stdout(run_git(контекст_очереди.root, ["write-tree"]))
+    подготовлено = дерево_индекса == целевое_дерево
+    if not подготовлено and decoded_stdout(
+        run_git(
+            контекст_очереди.root,
+            ["status", "--porcelain", "--untracked-files=all"],
+        )
+    ):
+        raise QueueError(EXIT_DIRTY, "dirty", "Основной checkout не чист перед интеграцией.")
+    if not подготовлено:
+        run_git(
+            контекст_очереди.root,
+            ["read-tree", "--reset", "-u", новая_вершина],
+        )
+    if decoded_stdout(run_git(контекст_очереди.root, ["write-tree"])) != целевое_дерево:
+        raise QueueError(EXIT_DIRTY, "integration_checkout_prepare_failed", "Не удалось подготовить checkout.")
+    if run_git(
+        контекст_очереди.root,
+        ["ls-files", "--others", "--exclude-standard", "-z"],
+    ).stdout or run_git(
+        контекст_очереди.root,
+        ["diff", "--quiet", "--"],
+        check=False,
+    ).returncode != 0:
+        raise QueueError(EXIT_DIRTY, "integration_checkout_prepare_failed", "Подготовленный checkout изменён.")
+
+    метка, _ = utc_values()
+    новое_состояние = copy.deepcopy(состояние)
+    новое_состояние["owner"] = None
+    новое_состояние["last_completion"] = {
+        "kind": "committed",
+        "task_id": идентификатор_задачи,
+        "generation": поколение,
+        "base_head": исходная_вершина,
+        "head": новая_вершина,
+        "completed_at": метка,
+        "идентификатор_продолжения": идентификатор_продолжения,
+    }
+    новое_состояние["updated_at"] = метка
+    новое_состояние[ПОЛЕ_НЕОБРАТИМОЙ_АКТИВАЦИИ_ПРОДОЛЖЕНИЯ] = True
+    новый_объект_очереди = write_state_blob(контекст_очереди, новое_состояние)
+    квитанция = {
+        "схема": СХЕМА_КВИТАНЦИИ_ПРИНЯТОЙ_ИНТЕГРАЦИИ,
+        "идентификатор_рабочего_дерева": контекст_очереди.worktree_id,
+        "ссылка_ветки": контекст_очереди.branch_ref,
+        "идентификатор_задачи": идентификатор_задачи,
+        "поколение": поколение,
+        "исходная_вершина": исходная_вершина,
+        "новая_вершина": новая_вершина,
+        "идентификатор_продолжения": идентификатор_продолжения,
+        "ссылка_пула": ссылка_пула,
+        "исходный_объект_пула": исходный_объект_пула,
+        "новый_объект_пула": новый_объект_пула,
+        "хэш_интеграции": хэш_интеграции,
+    }
+    объект_квитанции = записать_канонический_объект_данных(
+        контекст_очереди,
+        квитанция,
+    )
+    ссылка_квитанции = ссылка_квитанции_принятой_интеграции(
+        контекст_очереди,
+        идентификатор_задачи,
+        поколение,
+    )
+    транзакция = (
+        "start\n"
+        f"create {ссылка_квитанции} {объект_квитанции}\n"
+        f"update {контекст_очереди.branch_ref} {новая_вершина} {исходная_вершина}\n"
+        f"update {контекст_очереди.queue_ref} {новый_объект_очереди} {объект_очереди}\n"
+        f"update {ссылка_пула} {новый_объект_пула} {исходный_объект_пула}\n"
+        "prepare\n"
+        "commit\n"
+    ).encode("utf-8")
+    переход = run_git(
+        контекст_очереди.root,
+        ["update-ref", "--stdin"],
+        input_bytes=транзакция,
+        check=False,
+    )
+    if переход.returncode != 0:
+        сохранённая = прочитать_квитанцию_принятой_интеграции(
+            контекст_очереди,
+            идентификатор_задачи,
+            поколение,
+        )
+        if сохранённая is not None:
+            проверить_повтор_принятой_интеграции(
+                сохранённая[0],
+                идентификатор_продолжения,
+                новая_вершина,
+                ссылка_пула,
+                исходный_объект_пула,
+                новый_объект_пула,
+                хэш_интеграции,
+            )
+            return результат_принятой_интеграции(контекст_очереди, *сохранённая)
+        фактическая_вершина = current_head(контекст_очереди.root)
+        if (
+            decoded_stdout(run_git(контекст_очереди.root, ["write-tree"])) != целевое_дерево
+            or run_git(контекст_очереди.root, ["diff", "--quiet", "--"], check=False).returncode != 0
+            or run_git(
+                контекст_очереди.root,
+                ["ls-files", "--others", "--exclude-standard", "-z"],
+            ).stdout
+        ):
+            raise QueueError(
+                EXIT_DIRTY,
+                "integration_checkout_recovery_blocked",
+                "Checkout изменён после подготовки; автоматический rollback запрещён.",
+            )
+        run_git(
+            контекст_очереди.root,
+            ["read-tree", "--reset", "-u", фактическая_вершина],
+        )
+        if not синхронизировано_основное_рабочее_дерево(контекст_очереди, фактическая_вершина):
+            raise QueueError(EXIT_DIRTY, "integration_checkout_recovery_failed", "Checkout не восстановился к фактическому HEAD.")
+        if фактическая_вершина != исходная_вершина:
+            raise QueueError(EXIT_HEAD_CHANGED, "head_changed", "Целевая ветка сдвинулась во время CAS; checkout восстановлен.")
+        if read_ref_oid(контекст_очереди, ссылка_пула) != исходный_объект_пула:
+            raise QueueError(EXIT_CAS, "pool_cas_changed", "Состояние пула сдвинулось во время CAS.")
+        raise QueueError(EXIT_CAS, "integration_cas_failed", "Не удалось атомарно принять интеграцию.")
+    return результат_принятой_интеграции(
+        контекст_очереди,
+        квитанция,
+        объект_квитанции,
+        ссылка_квитанции,
+    )
+
+
 def validate_publication_commit(root: Path, commit: str) -> str:
     object_format = decoded_stdout(run_git(root, ["rev-parse", "--show-object-format"]))
     expected_length = {"sha1": 40, "sha256": 64}.get(object_format)
@@ -10510,11 +11605,19 @@ def сравнить_очередь_при_отсутствии_аннулиро
     идентификатор_задачи: str,
     ожидаемый_объект_реестра_барьеров: str | None,
     ожидаемая_базовая_вершина_барьера: str | None,
+    ссылка_маршрута: str,
+    объект_маршрута: str,
+    прежний_объект_маршрута: str | None,
 ) -> tuple[bool, str]:
     новый_объект_очереди = write_state_blob(контекст, состояние)
     ссылка_аннулирования = ссылка_аннулированной_задачи(контекст, идентификатор_задачи)
     нулевой_объект = "0" * len(current_head(контекст.root))
     команды = f"verify {ссылка_аннулирования} {нулевой_объект}\n"
+    команды += команда_маршрута_задачи(
+        ссылка_маршрута,
+        объект_маршрута,
+        прежний_объект_маршрута,
+    )
     команды += (
         f"verify {ссылка_реестра_барьеров_предактивации(контекст)} "
         f"{ожидаемый_объект_реестра_барьеров or нулевой_объект}\n"
@@ -10539,15 +11642,24 @@ def сравнить_очередь_при_отсутствии_аннулиро
         try:
             ensure_live_branch(контекст)
         except QueueError:
-            восстановить_ссылку_очереди_после_смены_ветки(
+            восстановить_очередь_и_новый_маршрут_после_смены_ветки(
                 контекст,
                 прежний_объект_очереди,
                 новый_объект_очереди,
+                ссылка_маршрута,
+                объект_маршрута,
+                прежний_объект_маршрута,
             )
             raise
         return True, новый_объект_очереди
     потребовать_неаннулированную_задачу(контекст, идентификатор_задачи)
     ensure_live_branch(контекст)
+    _, _, наблюдаемый_объект_маршрута = подготовить_маршрут_обычной_очереди(
+        контекст,
+        идентификатор_задачи,
+    )
+    if наблюдаемый_объект_маршрута != прежний_объект_маршрута:
+        return False, новый_объект_очереди
     if read_ref_oid(контекст, контекст.queue_ref) != прежний_объект_очереди:
         return False, новый_объект_очереди
     if (
@@ -11202,7 +12314,7 @@ def сформировать_промпт_продолжения(
 
 После передачи ожидай `reload_required`. Перечитай из нового закоммиченного HEAD как минимум `AGENTS.md` и `Инструменты/fum-ocheredj-zadach-git-vetki/SKILL.md`, проверь точные HEAD и symbolic ref `{ ветка }`, затем вызови `ack-head` для этого HEAD и снова `wait-until-actionable`. Начинай содержательную работу только после `admitted`.
 
-После допуска прямо вызови `python3 Инструменты/fum-sleduyusjhij-shag-vetki/scripts/branch-next-step.py show --repo-root . --json`. Если ответ означает `done` или `not_ready`, ничего не пиши, останови всех писателей и выполни `finish-clean`. Если выбран готовый шаг, выполни точную карточку по новым правилам HEAD. Если твоя работа завершается `committed`, до собственного commit+handoff создай ровно одну новую сессию-продолжение этой же ветки и повтори весь этот протокол.
+После допуска сначала через safe HEAD-bootstrap пула вызови `повторить-ожидающие-публикации` со своими exact `task_id` и `generation`, затем прямо вызови `python3 Инструменты/fum-sleduyusjhij-shag-vetki/scripts/branch-next-step.py show --repo-root . --json`. Если ответ означает `done` или `not_ready`, ничего не пиши, останови всех писателей и выполни `finish-clean`. Если выбран готовый шаг, выполни точную карточку по новым правилам HEAD. Если твоя работа завершается `committed`, до собственного commit+handoff создай ровно одну новую сессию-продолжение этой же ветки и повтори весь этот протокол.
 """.strip()
     if re.search(
         r"(?:^|[\s`'\"(])(?:/[^\s]|[A-Za-z]:[\\/]|\\\\)",
@@ -11594,6 +12706,21 @@ def build_parser() -> argparse.ArgumentParser:
     message_group.add_argument("--message")
     message_group.add_argument("--message-file")
 
+    принятие_интеграции = subparsers.add_parser(
+        "принять-интеграционный-кандидат",
+        help="Атомарно принять reviewed-кандидат вместе с FIFO handoff и CAS пула.",
+        allow_abbrev=False,
+    )
+    add_common(принятие_интеграции)
+    принятие_интеграции.add_argument("--task-id", required=True)
+    принятие_интеграции.add_argument("--generation", required=True)
+    принятие_интеграции.add_argument("--идентификатор-продолжения", required=True)
+    принятие_интеграции.add_argument("--новая-вершина", required=True)
+    принятие_интеграции.add_argument("--ссылка-пула")
+    принятие_интеграции.add_argument("--исходный-объект-пула")
+    принятие_интеграции.add_argument("--новый-объект-пула")
+    принятие_интеграции.add_argument("--хэш-интеграции", required=True)
+
     publish = subparsers.add_parser(
         "publish",
         help="Опубликовать точный коммит в точную ветку GitHub.",
@@ -11899,6 +13026,21 @@ def main(argv: list[str] | None = None) -> int:
                 код_завершения_операции,
                 данные_результата_операции,
             ) = предварительный_повтор
+        elif args.command == "принять-интеграционный-кандидат":
+            (
+                код_завершения_операции,
+                данные_результата_операции,
+            ) = принять_интеграционный_кандидат(
+                контекст_очереди,
+                args.task_id,
+                args.generation,
+                args.идентификатор_продолжения,
+                args.новая_вершина,
+                args.ссылка_пула,
+                args.исходный_объект_пула,
+                args.новый_объект_пула,
+                args.хэш_интеграции,
+            )
         elif args.command == "publish":
             код_завершения_операции, данные_результата_операции = publish_exact_commit(
                 контекст_очереди,

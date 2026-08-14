@@ -187,6 +187,26 @@ class ТестыПереходаНаЦепочку(unittest.TestCase):
         )
         return результат.returncode != 0
 
+    def ссылка_маршрута_задачи(это, идентификатор_задачи: str) -> str:
+        отпечаток = hashlib.sha256(
+            идентификатор_задачи.encode("utf-8")
+        ).hexdigest()
+        return f"refs/fum/task-runtime-routes/{отпечаток}"
+
+    def прочитать_маршрут_задачи(
+        это,
+        идентификатор_задачи: str,
+    ) -> dict[str, object]:
+        значение = json.loads(
+            это.выполнить_гит(
+                "cat-file",
+                "blob",
+                это.ссылка_маршрута_задачи(идентификатор_задачи),
+            ).stdout
+        )
+        это.assertIsInstance(значение, dict)
+        return значение
+
     def подготовить_переходную_запись(это, модуль):
         контекст = модуль.resolve_context(это.репозиторий)
         with mock.patch.object(
@@ -254,6 +274,32 @@ class ТестыПереходаНаЦепочку(unittest.TestCase):
                 "ветка": это.целевая_ссылка_ветки,
             },
         )
+        идентичность = {
+            "schema": "fum.идентичность-ordinary-fifo.1",
+            "worktree_id": ответ["worktree_id"],
+            "queue_ref": ответ["queue_ref"],
+            "branch_ref": это.целевая_ссылка_ветки,
+        }
+        хэш_идентичности = "sha256:" + hashlib.sha256(
+            (
+                json.dumps(
+                    идентичность,
+                    ensure_ascii=False,
+                    sort_keys=True,
+                    separators=(",", ":"),
+                )
+                + "\n"
+            ).encode("utf-8")
+        ).hexdigest()
+        это.assertEqual(
+            это.прочитать_маршрут_задачи("задача-цепочки"),
+            {
+                "schema": "fum.маршрут-задачи-runtime.1",
+                "task_id": "задача-цепочки",
+                "route_kind": "ordinary_fifo",
+                "route_identity": хэш_идентичности,
+            },
+        )
 
     def test_успешный_переход_атомарно_согласует_голову_и_очередь(
         это,
@@ -287,15 +333,99 @@ class ТестыПереходаНаЦепочку(unittest.TestCase):
                 in вызов.kwargs.get("input_bytes", b"")
             )
         ]
+        ссылка_маршрута = это.ссылка_маршрута_задачи("задача-цепочки")
+        подготовительные_транзакции = [
+            вызов.kwargs.get("input_bytes", b"")
+            for вызов in запуски.call_args_list
+            if (
+                f"create {это.целевая_ссылка_ветки} ".encode("utf-8")
+                in вызов.kwargs.get("input_bytes", b"")
+            )
+        ]
         это.assertEqual(код, 0)
         это.assertEqual(len(транзакции), 1)
+        это.assertEqual(len(подготовительные_транзакции), 1)
+        это.assertIn(
+            f"create {ссылка_маршрута} ".encode("utf-8"),
+            подготовительные_транзакции[0],
+        )
+        это.assertIn(
+            b"create refs/fum/worktree-task-queues/",
+            подготовительные_транзакции[0],
+        )
+        это.assertIn(
+            f"verify {это.исходная_ссылка_ветки} {это.исходная_вершина}".encode("utf-8"),
+            подготовительные_транзакции[0],
+        )
         это.assertIn(b"update refs/fum/worktree-task-queues/", транзакции[0])
+        это.assertIn(
+            (
+                f"symref-update HEAD {это.целевая_ссылка_ветки} "
+                f"oid {это.исходная_вершина}"
+            ).encode("utf-8"),
+            транзакции[0],
+        )
         это.assertEqual(
             это.выполнить_гит("symbolic-ref", "HEAD").stdout.strip(),
             это.целевая_ссылка_ветки,
         )
         состояние = это.прочитать_состояние_очереди(str(ответ["queue_ref"]))
         это.assertEqual(состояние["owner"]["task_id"], "задача-цепочки")
+
+    def test_чужой_неизменяемый_маршрут_закрывает_переход_без_движения_ссылок(
+        это,
+    ) -> None:
+        это.подготовить()
+        идентификатор_задачи = "задача-цепочки"
+        ссылка_маршрута = это.ссылка_маршрута_задачи(
+            идентификатор_задачи
+        )
+        чужой_маршрут = {
+            "schema": "fum.маршрут-задачи-runtime.1",
+            "task_id": идентификатор_задачи,
+            "route_kind": "worktree_self",
+            "route_identity": f"sha256:{'7' * 64}",
+        }
+        байты = (
+            json.dumps(
+                чужой_маршрут,
+                ensure_ascii=False,
+                sort_keys=True,
+                separators=(",", ":"),
+            )
+            + "\n"
+        )
+        объект = subprocess.run(
+            ["git", "-C", str(это.репозиторий), "hash-object", "-w", "--stdin"],
+            input=байты,
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        это.выполнить_гит("update-ref", ссылка_маршрута, объект)
+
+        результат = это.вызвать_переход(идентификатор_задачи)
+        ответ = это.разобрать_ответ(результат)
+
+        это.assertNotEqual(результат.returncode, 0)
+        это.assertEqual(ответ["state"], "task_route_already_reserved")
+        это.assertEqual(
+            это.выполнить_гит("rev-parse", ссылка_маршрута).stdout.strip(),
+            объект,
+        )
+        это.assertTrue(это.целевая_ветка_отсутствует())
+        это.assertEqual(
+            это.выполнить_гит("symbolic-ref", "HEAD").stdout.strip(),
+            это.исходная_ссылка_ветки,
+        )
+        это.assertEqual(
+            это.выполнить_гит(
+                "for-each-ref",
+                "--format=%(refname)",
+                "refs/fum/worktree-task-queues",
+            ).stdout,
+            "",
+        )
 
     def test_подготовка_перехода_побеждает_начало_сброса_одним_сравнением(
         это,
@@ -662,6 +792,68 @@ class ТестыПереходаНаЦепочку(unittest.TestCase):
                 "хэш": это.хэш_карточки,
                 "ветка": это.целевая_ссылка_ветки,
             },
+        )
+
+    def test_завершённый_повтор_проверяет_маршрут_ветки_голову_и_очередь_одной_транзакцией(
+        это,
+    ) -> None:
+        это.подготовить()
+        модуль = загрузить_модуль_очереди()
+        исходный_контекст = модуль.resolve_context(это.репозиторий)
+        код, первый = модуль.перейти_на_цепочку(
+            исходный_контекст,
+            "задача-цепочки",
+            это.относительный_путь_карточки,
+            это.идентификатор_цепочки,
+            это.хэш_карточки,
+            это.исходная_ссылка_ветки,
+            это.исходная_вершина,
+        )
+        это.assertEqual(код, 0)
+        текущий_контекст = модуль.resolve_context(это.репозиторий)
+        исходный_запуск = модуль.run_git
+        with mock.patch.object(
+            модуль,
+            "run_git",
+            wraps=исходный_запуск,
+        ) as запуски:
+            код_повтора, повтор = модуль.перейти_на_цепочку(
+                текущий_контекст,
+                "задача-цепочки",
+                это.относительный_путь_карточки,
+                это.идентификатор_цепочки,
+                это.хэш_карточки,
+                это.исходная_ссылка_ветки,
+                это.исходная_вершина,
+            )
+        транзакции = [
+            вызов.kwargs.get("input_bytes", b"")
+            for вызов in запуски.call_args_list
+            if (
+                b"symref-verify HEAD " in вызов.kwargs.get("input_bytes", b"")
+                and b"prepare\ncommit\n" in вызов.kwargs.get("input_bytes", b"")
+            )
+        ]
+        это.assertEqual(код_повтора, 0)
+        это.assertEqual(повтор["ownership"], "existing")
+        это.assertEqual(повтор["queue_oid"], первый["queue_oid"])
+        это.assertEqual(len(транзакции), 1)
+        снимок = транзакции[0]
+        это.assertIn(
+            f"verify {это.исходная_ссылка_ветки} {это.исходная_вершина}".encode("utf-8"),
+            снимок,
+        )
+        это.assertIn(
+            f"symref-verify HEAD {это.целевая_ссылка_ветки}".encode("utf-8"),
+            снимок,
+        )
+        это.assertIn(
+            f"verify {первый['queue_ref']} {первый['queue_oid']}".encode("utf-8"),
+            снимок,
+        )
+        это.assertIn(
+            f"verify {это.ссылка_маршрута_задачи('задача-цепочки')} ".encode("utf-8"),
+            снимок,
         )
 
     def test_аннулированная_в_рабочей_копии_задача_не_переходит_на_новую_ветку(

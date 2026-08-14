@@ -28,6 +28,7 @@ SCRIPT_PATH = REPO_ROOT / SCRIPT_REPO_PATH
 ПРОСТРАНСТВО_КВИТАНЦИЙ_СВЯЗАННЫХ_КОММИТОВ = (
     "refs/fum/квитанции-связанных-коммитов"
 )
+ПРОСТРАНСТВО_МАРШРУТОВ_ЗАДАЧ = "refs/fum/task-runtime-routes"
 ПУТЬ_КОРНЕВОГО_СБРОСА = REPO_ROOT / "sbrositj.sh"
 HEAD_BOOTSTRAP_CODE = (
     "import os,subprocess,sys;"
@@ -288,8 +289,204 @@ class GitQueueFixture(unittest.TestCase):
         (self.repo / "tracked.txt").write_text(value, encoding="utf-8")
         self.git("add", "tracked.txt")
 
+    def ссылка_маршрута_задачи(сам, идентификатор_задачи: str) -> str:
+        отпечаток = hashlib.sha256(
+            идентификатор_задачи.encode("utf-8")
+        ).hexdigest()
+        return f"{ПРОСТРАНСТВО_МАРШРУТОВ_ЗАДАЧ}/{отпечаток}"
+
+    def прочитать_маршрут_задачи(
+        сам,
+        идентификатор_задачи: str,
+    ) -> tuple[str, dict[str, object]]:
+        ссылка = сам.ссылка_маршрута_задачи(идентификатор_задачи)
+        объект = сам.git("rev-parse", "--verify", ссылка).stdout.strip()
+        нагрузка = json.loads(сам.git("cat-file", "blob", объект).stdout)
+        return объект, нагрузка
+
+    def записать_маршрут_задачи(
+        сам,
+        идентификатор_задачи: str,
+        нагрузка: dict[str, object],
+    ) -> str:
+        байты = (
+            json.dumps(
+                нагрузка,
+                ensure_ascii=False,
+                sort_keys=True,
+                separators=(",", ":"),
+            )
+            + "\n"
+        ).encode("utf-8")
+        объект = subprocess.run(
+            ["git", "-C", str(сам.repo), "hash-object", "-w", "--stdin"],
+            input=байты,
+            check=True,
+            capture_output=True,
+        ).stdout.decode("ascii").strip()
+        сам.git("update-ref", сам.ссылка_маршрута_задачи(идентификатор_задачи), объект)
+        return объект
+
 
 class QueueContractTests(GitQueueFixture):
+    def test_маршрут_задачи_хэширует_точную_идентичность_обычной_очереди(сам) -> None:
+        _, допуск = сам.join("task-route-identity")
+
+        _, маршрут = сам.прочитать_маршрут_задачи("task-route-identity")
+        идентичность = {
+            "schema": "fum.идентичность-ordinary-fifo.1",
+            "worktree_id": допуск["worktree_id"],
+            "queue_ref": допуск["queue_ref"],
+            "branch_ref": допуск["branch_ref"],
+        }
+        канонические_байты = (
+            json.dumps(
+                идентичность,
+                ensure_ascii=False,
+                sort_keys=True,
+                separators=(",", ":"),
+            )
+            + "\n"
+        ).encode("utf-8")
+        ожидаемый_хэш = (
+            "sha256:" + hashlib.sha256(канонические_байты).hexdigest()
+        )
+
+        сам.assertEqual(
+            маршрут,
+            {
+                "schema": "fum.маршрут-задачи-runtime.1",
+                "task_id": "task-route-identity",
+                "route_kind": "ordinary_fifo",
+                "route_identity": ожидаемый_хэш,
+            },
+        )
+
+    def test_потеря_процесса_после_атомарной_транзакции_не_оставляет_маршрут_без_билета(сам) -> None:
+        модуль = load_queue_module()
+        контекст = модуль.resolve_context(сам.repo)
+        исходный_запуск = модуль.run_git
+        сбой_выдан = False
+
+        class ИскусственнаяПотеряПроцесса(Exception):
+            pass
+
+        def запустить_и_потеряться(*аргументы, **именованные_аргументы):
+            nonlocal сбой_выдан
+            результат = исходный_запуск(*аргументы, **именованные_аргументы)
+            команда = аргументы[1]
+            ввод = именованные_аргументы.get("input_bytes", b"")
+            if (
+                not сбой_выдан
+                and команда == ["update-ref", "--no-deref", "--stdin"]
+                and результат.returncode == 0
+                and ПРОСТРАНСТВО_МАРШРУТОВ_ЗАДАЧ.encode("utf-8") in ввод
+            ):
+                сбой_выдан = True
+                raise ИскусственнаяПотеряПроцесса
+            return результат
+
+        with mock.patch.object(модуль, "run_git", запустить_и_потеряться):
+            with сам.assertRaises(ИскусственнаяПотеряПроцесса):
+                модуль.join_queue(контекст, "task-lost-after-route-CAS")
+
+        сам.assertTrue(сбой_выдан)
+        объект_очереди = сам.git(
+            "rev-parse",
+            "--verify",
+            контекст.queue_ref,
+            check=False,
+        )
+        сам.assertEqual(объект_очереди.returncode, 0)
+        очередь = json.loads(
+            сам.git("cat-file", "blob", объект_очереди.stdout.strip()).stdout
+        )
+        сам.assertIn(
+            "task-lost-after-route-CAS",
+            [
+                *(
+                    [очередь["owner"]["task_id"]]
+                    if isinstance(очередь["owner"], dict)
+                    else []
+                ),
+                *[билет["task_id"] for билет in очередь["waiting"]],
+            ],
+        )
+
+    def test_прежние_владелец_и_ожидающий_без_маршрута_безопасно_дозаполняют_его(сам) -> None:
+        _, владелец = сам.join("legacy-owner-route")
+        сам.join("legacy-waiter-route")
+
+        сам.git("update-ref", "-d", сам.ссылка_маршрута_задачи("legacy-owner-route"))
+        повтор, ответ_повтора = сам.join("legacy-owner-route")
+        сам.assertEqual(повтор.returncode, 0, повтор.stderr)
+        сам.assertEqual(ответ_повтора["generation"], владелец["generation"])
+        сам.прочитать_маршрут_задачи("legacy-owner-route")
+
+        сам.git("update-ref", "-d", сам.ссылка_маршрута_задачи("legacy-waiter-route"))
+        ожидание, ответ_ожидания = сам.wait("legacy-waiter-route")
+        сам.assertNotEqual(ожидание.returncode, 0)
+        сам.assertEqual(ответ_ожидания["state"], "waiting")
+        сам.прочитать_маршрут_задачи("legacy-waiter-route")
+
+    def test_подтверждение_вершины_не_обходит_несовпавший_маршрут_задачи(сам) -> None:
+        сам.join("route-owner-for-ack")
+        сам.join("route-waiter-for-ack")
+        сам.записать_маршрут_задачи(
+            "route-waiter-for-ack",
+            {
+                "schema": "fum.маршрут-задачи-runtime.1",
+                "task_id": "route-waiter-for-ack",
+                "route_kind": "worktree_self",
+                "route_identity": "sha256:" + "1" * 64,
+            },
+        )
+        до = сам.payload(сам.run_queue("status", "--repo-root", str(сам.repo), "--json"))
+
+        результат = сам.run_queue(
+            "ack-head",
+            "--repo-root",
+            str(сам.repo),
+            "--task-id",
+            "route-waiter-for-ack",
+            "--head",
+            сам.git("rev-parse", "HEAD").stdout.strip(),
+            "--json",
+        )
+
+        сам.assertNotEqual(результат.returncode, 0)
+        сам.assertEqual(сам.payload(результат)["state"], "task_route_already_reserved")
+        после = сам.payload(сам.run_queue("status", "--repo-root", str(сам.repo), "--json"))
+        сам.assertEqual(после["queue_oid"], до["queue_oid"])
+
+    def test_допуск_не_обходит_несовпавший_маршрут_задачи(сам) -> None:
+        _, владелец = сам.join("route-owner-for-admission")
+        сам.join("route-waiter-for-admission")
+        завершение = сам.finish_clean(
+            "route-owner-for-admission",
+            str(владелец["generation"]),
+        )
+        сам.assertEqual(завершение.returncode, 0, завершение.stderr)
+        сам.записать_маршрут_задачи(
+            "route-waiter-for-admission",
+            {
+                "schema": "fum.маршрут-задачи-runtime.1",
+                "task_id": "route-waiter-for-admission",
+                "route_kind": "worktree_continuation",
+                "route_identity": "sha256:" + "2" * 64,
+            },
+        )
+        до = сам.payload(сам.run_queue("status", "--repo-root", str(сам.repo), "--json"))
+
+        ожидание, ответ = сам.wait("route-waiter-for-admission")
+
+        сам.assertNotEqual(ожидание.returncode, 0)
+        сам.assertEqual(ответ["state"], "task_route_already_reserved")
+        после = сам.payload(сам.run_queue("status", "--repo-root", str(сам.repo), "--json"))
+        сам.assertEqual(после["queue_oid"], до["queue_oid"])
+        сам.assertIsNone(после["owner"])
+        сам.assertEqual(после["waiting"][0]["task_id"], "route-waiter-for-admission")
+
     def test_heartbeat_status_reports_exact_idle_without_opaque_fields(self) -> None:
         result = self.heartbeat_status("heartbeat-task")
 
