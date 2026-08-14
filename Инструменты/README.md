@@ -81,7 +81,7 @@
 - `python3 Инструменты/fum-struktura-papok-zaprosov/scripts/struktura-papok-zaprosov.py validate --repo-root .` - проверка единой структуры папок запросов и отсутствия активного параллельного каталога `Запросы/`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-struktura-papok-zaprosov/tests -p 'test_*.py'` - автономные тесты планирования, миграции, отката, создания и валидации папок запросов.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-moskovskoye-vremya-rabochej-sessii/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-moskovskoye-vremya-rabochej-sessii`.
-- `python3 Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py запустить --корень-репозитория . --запрос Журнал/<YYYY-MM-DD_HH-MM-SS_MSK_краткое-название>/запрос.md --название '<название вызова>' --исполнитель '<метка исполнителя>' -- <программа> <аргументы...>` - точка входа для запуска одной прямой проверки с атомарной машинной записью её исхода и длительности.
+- `python3 Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py запустить --корень-репозитория . --запрос Журнал/<YYYY-MM-DD_HH-MM-SS_MSK_краткое-название>/запрос.md --название '<название вызова>' --исполнитель '<метка исполнителя>' --класс-проверки адресная -- <программа> <аргументы...>` - точка входа для запуска одной адресной прямой проверки с атомарной машинной записью её исхода и длительности; диагностические и полные профили описаны в [навыке отчётов о запусках проверок](fum-otchyotyi-o-zapuskakh-proverok/SKILL.md).
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-otchyotyi-o-zapuskakh-proverok/tests -p 'test_*.py'` - автономные тесты машинного учёта запусков, детерминированного снимка и Markdown-отчёта.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-svyaznostj-rabochej-sessii/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-svyaznostj-rabochej-sessii`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-kompleksnaya-proverka-repozitoriya/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-kompleksnaya-proverka-repozitoriya`.
@@ -121,6 +121,6 @@
 - [исходный запрос 2026-07-22 03:38:35 MSK - Разрешить выполнение доступных карточек шагов](../Журнал/2026-07-22_03-38-35_MSK_разрешить-выполнение-доступных-карточек-шагов/запрос.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-12 01:34:29 MSK -->
-<!-- content-sha256: sha256:a7183ce5725fb4f8614bf9027d2ec9ef9c1afa949218fda5a67e697e01db89fa -->
+<!-- last-content-edit: 2026-08-15 00:47:22 MSK -->
+<!-- content-sha256: sha256:050f710a06e0e223c8cf9c676c1124a14382643f10248502e5330978a168169e -->
 <!-- FUM-MD-RECENCY:END -->

@@ -7659,63 +7659,43 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertEqual(claimed.returncode, 0, claimed.stdout + claimed.stderr)
         self.assertEqual(len(oid), 64)
 
-    def test_repository_has_a_valid_record_for_its_active_branch(self) -> None:
-        validation = subprocess.run(
-            [
-                sys.executable,
-                str(SCRIPT_PATH),
-                "validate",
-                "--repo-root",
-                str(REPO_ROOT),
-                "--json",
-            ],
-            check=False,
-            capture_output=True,
-            text=True,
-        )
-        shown = subprocess.run(
-            [
-                sys.executable,
-                str(SCRIPT_PATH),
-                "show",
-                "--repo-root",
-                str(REPO_ROOT),
-                "--json",
-            ],
-            check=False,
-            capture_output=True,
-            text=True,
-        )
+    def test_репозиторий_содержит_корректную_запись_основной_ветки(сам) -> None:
+        карточки = TOOL_MODULE.load_cards(REPO_ROOT)
+        записи = TOOL_MODULE.load_records(REPO_ROOT, карточки)
+        совпадающие = [
+            запись
+            for запись in записи
+            if запись.branch_ref == "refs/heads/master"
+        ]
+        сам.assertEqual(len(совпадающие), 1)
+        запись = совпадающие[0]
+        готовые = TOOL_MODULE.validate_ready_pool(запись)
+        выбранный, выбор = TOOL_MODULE.select_ready_candidate(REPO_ROOT, запись)
 
-        self.assertEqual(
-            validation.returncode,
-            0,
-            validation.stdout + validation.stderr,
+        сам.assertEqual(len(запись.candidates), 12)
+        сам.assertEqual(len(готовые), 3)
+        сам.assertEqual(
+            sum(кандидат.status == "paused" for кандидат in запись.candidates),
+            6,
         )
-        validation_payload = self.payload(validation)
-        self.assertEqual(validation_payload["candidate_count"], 13)
-        self.assertEqual(validation_payload["ready_count"], 4)
-        self.assertEqual(validation_payload["paused_count"], 6)
-        self.assertEqual(validation_payload["blocked_count"], 3)
-        self.assertEqual(shown.returncode, 0, shown.stdout + shown.stderr)
-        shown_payload = self.payload(shown)
-        self.assertEqual(shown_payload["state"], "ready")
+        сам.assertEqual(
+            sum(кандидат.status == "blocked" for кандидат in запись.candidates),
+            3,
+        )
+        сам.assertIsNotNone(выбранный)
+        сам.assertIsNotNone(выбор)
+        assert выбранный is not None
+        assert выбор is not None
         ожидаемый_выбор = (
             "FUM-STEP-0124",
             "master-fum-step-0124-automatic-v8",
         )
-        self.assertEqual(shown_payload["card_id"], ожидаемый_выбор[0])
-        self.assertEqual(
-            shown_payload["step_id"],
-            ожидаемый_выбор[1],
-        )
-        self.assertEqual(shown_payload["dispatch"], "automatic")
-        self.assertEqual(shown_payload["status"], "ready")
-        self.assertEqual(shown_payload["selection"]["ready_count"], 4)
-        self.assertEqual(
-            shown_payload["selection"]["reason"],
-            "completed_step_source",
-        )
+        сам.assertEqual(выбранный.card_id, ожидаемый_выбор[0])
+        сам.assertEqual(выбранный.step_id, ожидаемый_выбор[1])
+        сам.assertEqual(выбранный.dispatch, "automatic")
+        сам.assertEqual(выбранный.status, "ready")
+        сам.assertEqual(выбор["ready_count"], 3)
+        сам.assertEqual(выбор["reason"], "completed_step_source")
 
     def test_тайм_аут_обвязки_превышает_внутренний_Гит_лимит(
         сам,

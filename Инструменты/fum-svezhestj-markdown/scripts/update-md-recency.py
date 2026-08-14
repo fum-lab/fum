@@ -46,6 +46,18 @@ DISPLAY_TIME_RE = re.compile(
     r"^(?P<date>\d{4}-\d{2}-\d{2}) "
     r"(?P<hour>\d{2}):(?P<minute>\d{2}):(?P<second>\d{2}) MSK$"
 )
+УПРАВЛЯЕМЫЙ_БЛОК_ЗАПУСКОВ = re.compile(
+    r"^<!-- FUM-CHECK-RUNS:BEGIN "
+    r"(?:состояние=открыт; каталог=материалы/запуски-проверок|"
+    r"состояние=закрыт; снимок=материалы/запуски-проверок/снимок\.json; "
+    r"sha256=sha256:[0-9a-f]{64}) -->\n"
+    r".*?\n"
+    r"<!-- FUM-CHECK-RUNS:END -->$",
+    re.MULTILINE | re.DOTALL,
+)
+ЗАМЕСТИТЕЛЬ_УПРАВЛЯЕМОГО_БЛОКА_ЗАПУСКОВ = (
+    "<!-- FUM-CHECK-RUNS:MANAGED -->"
+)
 
 
 @dataclass(frozen=True)
@@ -153,6 +165,37 @@ def split_recency_block(text: str) -> tuple[str, RecencyMetadata | None, bool]:
         digest=match.group("digest"),
     )
     return content, metadata, False
+
+
+def стабильное_содержание_отчёта(
+    путь: Path,
+    корень_репозитория: Path,
+    содержание: str,
+) -> tuple[str, bool]:
+    части = Path(repo_relative(путь, корень_репозитория)).parts
+    if not (
+        len(части) == 3
+        and части[0] == "Журнал"
+        and части[-1] == "отчёт.md"
+    ):
+        return содержание, False
+    число_начал = содержание.count("<!-- FUM-CHECK-RUNS:BEGIN ")
+    число_концов = содержание.count("<!-- FUM-CHECK-RUNS:END -->")
+    if число_начал == 0 and число_концов == 0:
+        return содержание, False
+    совпадение = УПРАВЛЯЕМЫЙ_БЛОК_ЗАПУСКОВ.search(содержание)
+    if (
+        число_начал != 1
+        or число_концов != 1
+        or совпадение is None
+    ):
+        return содержание, True
+    стабильное = (
+        содержание[: совпадение.start()]
+        + ЗАМЕСТИТЕЛЬ_УПРАВЛЯЕМОГО_БЛОКА_ЗАПУСКОВ
+        + содержание[совпадение.end() :]
+    )
+    return canonical_content(стабильное), False
 
 
 def render_recency_block(timestamp: str, digest: str) -> str:
@@ -287,11 +330,17 @@ def process_markdown_file(
     original_text = read_text(path)
     content, metadata, malformed = split_recency_block(original_text)
     content = canonical_content(content)
-    digest = content_digest(content)
+    полный_хэш = content_digest(content)
+    стабильное_содержание, повреждённый_блок_запусков = (
+        стабильное_содержание_отчёта(path, repo_root, content)
+    )
+    стабильный_хэш = content_digest(стабильное_содержание)
     rel_path = repo_relative(path, repo_root)
 
     if malformed:
         errors.append(f"malformed recency metadata: {rel_path}")
+    if повреждённый_блок_запусков:
+        errors.append(f"malformed managed test-run block: {rel_path}")
 
     if metadata is None:
         if check:
@@ -303,12 +352,18 @@ def process_markdown_file(
             now_label,
             use_git,
         )
-    elif metadata.digest != digest:
+    elif metadata.digest not in {полный_хэш, стабильный_хэш}:
         if check:
             errors.append(f"stale recency metadata: {rel_path}")
         timestamp = now_label
     else:
         timestamp = metadata.timestamp
+
+    digest = (
+        полный_хэш
+        if metadata is not None and metadata.digest == полный_хэш
+        else стабильный_хэш
+    )
 
     record = MarkdownRecord(path=path, rel_path=rel_path, timestamp=timestamp, digest=digest)
     expected_text = attach_recency_block(content, timestamp, digest)
@@ -351,6 +406,7 @@ def render_index_body(records: list[MarkdownRecord], index_path: Path, repo_root
         "Этот индекс строится локальной автоматизацией `fum-svezhestj-markdown`. Он перечисляет все Markdown-файлы [памяти FUM](../Глоссарий/память-FUM.md) от свежих к более старым по метке последнего содержательного редактирования.",
         "",
         "Служебная метка `FUM-MD-RECENCY` хранится в конце каждого `.md`-файла и не учитывается при расчёте хэша содержательного текста.",
+        "В каноническом `Журнал/<сессия>/отчёт.md` единственный управляемый блок `FUM-CHECK-RUNS` тоже не изменяет метку свежести.",
         "",
         *render_aligned_markdown_table(
             ["Файл", "Последнее содержательное редактирование"],
