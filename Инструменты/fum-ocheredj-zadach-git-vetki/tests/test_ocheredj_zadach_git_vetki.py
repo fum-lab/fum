@@ -837,6 +837,11 @@ class QueueContractTests(GitQueueFixture):
             "fum-ocheredj-zadach-git-vetki/SKILL.md",
             "branch-next-step.py",
             "show --repo-root . --json",
+            "set_thread_title",
+            "card_id",
+            "title",
+            "FUM-STEP-NNNN — <краткое содержательное название>",
+            "Название задачи не доказывает маршрут",
             "not_ready",
             "done",
             "finish-clean",
@@ -5624,6 +5629,11 @@ class RepositoryIntegrationTests(unittest.TestCase):
         self.assertIn("`./sbrositj.sh`", agents)
         self.assertIn("--идентификатор-продолжения", agents)
         self.assertIn("`create_thread`", agents)
+        self.assertIn("`set_thread_title`", agents)
+        self.assertIn("FUM-STEP-NNNN — <краткое содержательное название>", agents)
+        self.assertIn("не доказывает маршрут", agents)
+        self.assertIn("корневой `.obsidian/`", agents)
+        self.assertIn("стартовой маршрутизации", agents)
         self.assertIn("должна оставаться остановленной", agents)
         self.assertIn("HEAD-bootstrap", agents)
         self.assertIn("isolated mode", agents)
@@ -5631,6 +5641,8 @@ class RepositoryIntegrationTests(unittest.TestCase):
         self.assertNotIn("FUM-BRANCH-TASK-GATE", agents)
 
         skill = SKILL_PATH.read_text(encoding="utf-8")
+        self.assertIn("`set_thread_title`", skill)
+        self.assertIn("корневой `.obsidian/`", skill)
         self.assertIn("python3 -I -c", skill)
         self.assertIn(HEAD_BOOTSTRAP_CODE, skill)
         self.assertIn("git','--no-replace-objects'", skill)
@@ -5649,6 +5661,16 @@ class RepositoryIntegrationTests(unittest.TestCase):
         self.assertIn("Состояние remote не используется как gate готовности", agents)
         self.assertIn("самостоятельным транспортным действием", skill)
         self.assertIn("не входит в причинную цепочку продолжений", skill)
+
+        навык_следующего_шага = (
+            REPO_ROOT
+            / "Инструменты"
+            / "fum-sleduyusjhij-shag-vetki"
+            / "SKILL.md"
+        ).read_text(encoding="utf-8")
+        self.assertIn("`set_thread_title`", навык_следующего_шага)
+        self.assertIn("`card_id`", навык_следующего_шага)
+        self.assertIn("`title`", навык_следующего_шага)
 
         self.assertIn("один долгоживущий `wait-until-actionable`", agents)
         self.assertIn("не отправляет промежуточные сообщения", agents)
