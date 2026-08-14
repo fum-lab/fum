@@ -6,7 +6,7 @@ import Foundation
 private func printUsage() {
   print(
     """
-    Использование: FUMWorkPackageProbe [fixture [имя] | stdin | --list | episode <команда> | composition <команда> | fork <команда> | memory <команда> | live <команда> | acceptance <команда> | --help]
+    Использование: FUMWorkPackageProbe [fixture [имя] | stdin | --list | episode <команда> | composition <команда> | подузлы <команда> | fork <команда> | memory <команда> | live <команда> | acceptance <команда> | --help]
 
     Без аргументов анализирует положительную фикстуру ready.
     fixture [имя] анализирует встроенную фикстуру; без имени выбирается ready.
@@ -20,6 +20,8 @@ private func printUsage() {
     composition fixture [имя] проверяет репозиторную композицию; без имени выбирается valid.
     composition acceptance запускает автономную сквозную приёмку репозиторной композиции без сети и секретов.
     composition --list печатает имена фикстур репозиторной композиции.
+
+    подузлы приёмка запускает полный автономный локальный контур двух ролевых цепочек, ревью, сравнительной замены и сборки ссылок подмодулей.
 
     fork fixture [имя] запускает автономный сценарий долговечного fork-подузла; без имени выбирается roundtrip.
     fork --list печатает имена сценариев fork-подузла.
@@ -146,6 +148,21 @@ private func runAcceptanceCommand(_ arguments: [String]) -> Never {
 
   fputs("Неизвестная команда автономной приёмки. Используйте --help.\n", stderr)
   exit(2)
+}
+
+private func выполнитьКомандуПараллельныхПодузлов(_ аргументы: [String]) -> Never {
+  guard аргументы == ["приёмка"] else {
+    fputs("Неизвестная команда параллельных подузлов. Используйте --help.\n", stderr)
+    exit(2)
+  }
+  do {
+    let отчёт = try АвтономнаяПриёмкаПараллельныхУниверсальныхПодузлов.выполнить()
+    writeLine(try отчёт.каноническиеДанные(), to: .standardOutput)
+    exit(отчёт.решение == .принято ? 0 : 3)
+  } catch {
+    fputs("Автономная приёмка параллельных подузлов завершилась ошибкой: \(error)\n", stderr)
+    exit(2)
+  }
 }
 
 private func runMemoryCommand(_ arguments: [String]) -> Never {
@@ -478,6 +495,9 @@ if arguments.first == "цепочка" {
 }
 if arguments.first == "composition" {
   runCompositionCommand(Array(arguments.dropFirst()))
+}
+if arguments.first == "подузлы" {
+  выполнитьКомандуПараллельныхПодузлов(Array(arguments.dropFirst()))
 }
 if arguments.first == "acceptance" {
   runAcceptanceCommand(Array(arguments.dropFirst()))

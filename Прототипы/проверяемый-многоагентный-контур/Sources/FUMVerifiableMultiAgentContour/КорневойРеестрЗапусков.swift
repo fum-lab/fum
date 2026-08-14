@@ -3406,16 +3406,24 @@ private func идентичностьЦелевойРабочейКопии(_ а
 private func командаГит(_ аргументы: [String], корень: URL) throws -> String {
   let процесс = Process()
   процесс.executableURL = WritingSubnodeSystemRuntime.gitExecutableURL
-  процесс.arguments = аргументы
+  процесс.arguments =
+    [
+      "-c", "protocol.allow=never",
+      "-c", "protocol.file.allow=always",
+      "-c", "core.hooksPath=\(WritingSubnodeSystemRuntime.nullDevicePath)",
+      "-c", "core.autocrlf=false",
+      "-c", "core.filemode=false",
+    ] + аргументы
   процесс.currentDirectoryURL = корень
-  var окружение = ProcessInfo.processInfo.environment.filter {
-    !$0.key.uppercased().hasPrefix("GIT_")
-  }
-  окружение["GIT_CONFIG_NOSYSTEM"] = "1"
-  окружение["GIT_CONFIG_GLOBAL"] = WritingSubnodeSystemRuntime.nullDevicePath
-  окружение["GIT_TERMINAL_PROMPT"] = "0"
-  окружение["LC_ALL"] = "C"
-  процесс.environment = окружение
+  процесс.environment = [
+    "PATH": ProcessInfo.processInfo.environment["PATH"] ?? "",
+    "LC_ALL": "C",
+    "LANG": "C",
+    "TZ": "UTC",
+    "GIT_CONFIG_NOSYSTEM": "1",
+    "GIT_CONFIG_GLOBAL": WritingSubnodeSystemRuntime.nullDevicePath,
+    "GIT_TERMINAL_PROMPT": "0",
+  ]
   let вывод = Pipe()
   процесс.standardOutput = вывод
   процесс.standardError = вывод
