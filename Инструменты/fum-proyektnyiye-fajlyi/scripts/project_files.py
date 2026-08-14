@@ -55,6 +55,11 @@ def is_excluded_directory_name(name: str) -> bool:
     )
 
 
+def путь_локального_каталога_обсидиана(относительный_путь: str | Path) -> bool:
+    части = Path(относительный_путь).parts
+    return bool(части) and части[0] == ".obsidian"
+
+
 def _directory_parts_are_excluded(parts: tuple[str, ...]) -> bool:
     folded = tuple(part.casefold() for part in parts)
     return any(is_excluded_directory_name(part) for part in folded) or any(
@@ -140,7 +145,7 @@ def normalized_project_relative_path(
         )
     if not relative.parts:
         raise ProjectFilesError(f"{field_name}: empty project path is forbidden")
-    if is_structurally_excluded(relative):
+    if is_structurally_excluded(relative) or путь_локального_каталога_обсидиана(relative):
         raise ProjectFilesError(
             f"{field_name}: structurally excluded project path is forbidden"
         )
@@ -180,13 +185,17 @@ def is_structurally_excluded_path(path: str | Path, repo_root: str | Path) -> bo
         lexical_relative = candidate.relative_to(root)
     except ValueError:
         return False
-    if is_structurally_excluded(lexical_relative):
+    if is_structurally_excluded(lexical_relative) or путь_локального_каталога_обсидиана(
+        lexical_relative
+    ):
         return True
     try:
         resolved_relative = candidate.resolve().relative_to(root)
     except ValueError:
         return False
-    return is_structurally_excluded(resolved_relative)
+    return is_structurally_excluded(resolved_relative) or путь_локального_каталога_обсидиана(
+        resolved_relative
+    )
 
 
 def safe_project_output_path(path: str | Path, repo_root: str | Path) -> Path:
@@ -290,12 +299,14 @@ def _git_markdown_relpaths(repo_root: Path) -> tuple[list[Path], set[Path]]:
         for value in candidate_values
         if Path(value).suffix == ".md"
         and not is_structurally_excluded(value)
+        and not путь_локального_каталога_обсидиана(value)
     ]
     tracked = {
         Path(value)
         for value in tracked_values
         if Path(value).suffix == ".md"
         and not is_structurally_excluded(value)
+        and not путь_локального_каталога_обсидиана(value)
     }
     return candidates, tracked
 
@@ -333,6 +344,9 @@ def _filesystem_markdown_relpaths(repo_root: Path) -> list[Path]:
             for name in directory_names
             if not _directory_parts_are_excluded(
                 (current_path / name).relative_to(repo_root).parts
+            )
+            and not путь_локального_каталога_обсидиана(
+                (current_path / name).relative_to(repo_root)
             )
             and not (current_path / name).is_symlink()
         )
@@ -390,9 +404,66 @@ def project_markdown_paths(
             resolved_relative = resolved.relative_to(root)
         except ValueError:
             raise ProjectFilesError(f"project Markdown escapes repository: {relative.as_posix()}")
-        if is_structurally_excluded(resolved_relative):
+        if is_structurally_excluded(resolved_relative) or путь_локального_каталога_обсидиана(
+            resolved_relative
+        ):
             raise ProjectFilesError(
                 f"project Markdown resolves into excluded storage: {relative.as_posix()}"
             )
         paths.add(resolved)
     return sorted(paths)
+
+
+КОРНЕВОЕ_ПРАВИЛО_ИГНОРИРОВАНИЯ_ОБСИДИАНА = "/" + ".obsidian/"
+
+
+def проверить_эффективное_игнорирование_корневого_обсидиана(
+    корень_репозитория: str | Path,
+) -> list[str]:
+    корень = Path(корень_репозитория).resolve()
+    if not (корень / ".git").exists():
+        return []
+
+    проверочные_пути = {
+        ".obsidian/.fum-проверка-игнорирования",
+        ".obsidian/вложенный/.fum-проверка-игнорирования",
+        ".obsidian/graph.json",
+        ".obsidian/fum-recency-reference-date",
+    }
+    локальный_каталог = корень / ".obsidian"
+    if локальный_каталог.is_dir() and not локальный_каталог.is_symlink():
+        for путь in локальный_каталог.rglob("*"):
+            проверочные_пути.add(путь.relative_to(корень).as_posix())
+
+    ошибки: list[str] = []
+    for относительный_путь in sorted(проверочные_пути):
+        вызов = subprocess.run(
+            [
+                "git",
+                "-C",
+                str(корень),
+                "check-ignore",
+                "--no-index",
+                "--quiet",
+                "--",
+                относительный_путь,
+            ],
+            check=False,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+        if вызов.returncode == 0:
+            continue
+        if вызов.returncode == 1:
+            ошибки.append(
+                "корневой `.obsidian/` должен целиком и эффективно "
+                "игнорироваться Git; правило повторно включает путь: "
+                f"{относительный_путь}"
+            )
+            continue
+        пояснение = вызов.stderr.decode("utf-8", errors="replace").strip()
+        ошибки.append(
+            "не удалось проверить эффективное игнорирование корневого "
+            f"`.obsidian/`: {пояснение or 'неизвестная ошибка Git'}"
+        )
+    return ошибки

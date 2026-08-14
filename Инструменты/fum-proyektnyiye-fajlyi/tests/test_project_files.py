@@ -92,7 +92,7 @@ class ProjectFilesTests(unittest.TestCase):
                 stderr=subprocess.PIPE,
             )
             (root / ".gitignore").write_text(
-                ".build/\n.swiftpm/\nlocal-cache/\n",
+                ".build/\n.swiftpm/\nlocal-cache/\n/.obsidian/\n",
                 encoding="utf-8",
             )
             tracked = root / "README.md"
@@ -113,6 +113,7 @@ class ProjectFilesTests(unittest.TestCase):
                 ".build/checkouts/vendor/README.md",
                 ".swiftpm/cache/README.md",
                 "local-cache/README.md",
+                ".obsidian/local/README.md",
             }
             for relative in ignored:
                 path = root / relative
@@ -125,6 +126,7 @@ class ProjectFilesTests(unittest.TestCase):
                     "-f",
                     ".build/checkouts/vendor/README.md",
                     "local-cache/README.md",
+                    ".obsidian/local/README.md",
                 ],
                 cwd=root,
                 check=True,
@@ -151,6 +153,7 @@ class ProjectFilesTests(unittest.TestCase):
             ignored_paths = [
                 root / ".build" / "checkouts" / "vendor" / "README.md",
                 root / ".obsidian" / "plugins" / "local" / "README.md",
+                root / ".obsidian" / "local" / "README.md",
             ]
             for ignored in ignored_paths:
                 ignored.parent.mkdir(parents=True)
@@ -159,6 +162,20 @@ class ProjectFilesTests(unittest.TestCase):
             paths = project_files.project_markdown_paths(root)
 
             self.assertEqual(paths, [included.resolve()])
+
+    def test_корневое_исключение_обсидиана_требует_точного_регистра(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            документ_с_иным_регистром = корень / ".Obsidian" / "README.md"
+            документ_с_иным_регистром.parent.mkdir()
+            документ_с_иным_регистром.write_text(
+                "# Не корневой .obsidian\n",
+                encoding="utf-8",
+            )
+
+            пути = project_files.project_markdown_paths(корень, use_git=False)
+
+            сам.assertEqual(пути, [документ_с_иным_регистром.resolve()])
 
     def test_rejects_tracked_path_with_symlink_parent_into_build_directory(self):
         with tempfile.TemporaryDirectory() as tmp:

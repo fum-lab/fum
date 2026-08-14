@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import subprocess
 import sys
 from dataclasses import dataclass
 from datetime import date, datetime
@@ -22,7 +23,9 @@ if str(PROJECT_FILES_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(PROJECT_FILES_SCRIPTS))
 
 from project_files import (
+    КОРНЕВОЕ_ПРАВИЛО_ИГНОРИРОВАНИЯ_ОБСИДИАНА,
     ProjectFilesError,
+    проверить_эффективное_игнорирование_корневого_обсидиана,
     project_markdown_paths,
     safe_project_output_path,
 )
@@ -57,6 +60,7 @@ class RecencyBucket:
 class GraphUpdateResult:
     errors: list[str]
     changed: bool
+    пропущено: bool = False
 
 
 BUCKETS = [
@@ -232,6 +236,50 @@ def render_graph(data: dict[str, object]) -> str:
     return json.dumps(data, ensure_ascii=False, indent=2) + "\n"
 
 
+def проверить_политику_учёта_локального_обсидиана(корень: Path) -> list[str]:
+    if not (корень / ".git").exists():
+        return []
+
+    ошибки: list[str] = []
+    путь_игнорирования = корень / ".gitignore"
+    строки = (
+        read_text(путь_игнорирования).splitlines()
+        if путь_игнорирования.is_file()
+        else []
+    )
+    if строки.count(КОРНЕВОЕ_ПРАВИЛО_ИГНОРИРОВАНИЯ_ОБСИДИАНА) != 1:
+        ошибки.append(
+            "корневой .gitignore должен содержать ровно одну точную строку "
+            + КОРНЕВОЕ_ПРАВИЛО_ИГНОРИРОВАНИЯ_ОБСИДИАНА
+        )
+    ошибки.extend(
+        проверить_эффективное_игнорирование_корневого_обсидиана(корень)
+    )
+
+    вызов = subprocess.run(
+        ["git", "-C", str(корень), "ls-files", "-z", "--", ".obsidian"],
+        check=False,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    if вызов.returncode != 0:
+        ошибки.append(
+            "не удалось проверить Git-инвентарь .obsidian: "
+            + вызов.stderr.decode("utf-8", errors="replace").strip()
+        )
+    elif вызов.stdout:
+        пути = [
+            значение.decode("utf-8", errors="replace")
+            for значение in вызов.stdout.split(b"\0")
+            if значение
+        ]
+        ошибки.append(
+            "Git не должен содержать отслеживаемые пути .obsidian: "
+            + ", ".join(пути)
+        )
+    return ошибки
+
+
 def update_graph(
     repo_root: str | Path,
     today: date | None = None,
@@ -249,8 +297,15 @@ def update_graph(
             errors=[f"project output path check failed: {exc}"],
             changed=False,
         )
+    ошибки_политики_учёта = проверить_политику_учёта_локального_обсидиана(root)
+    if ошибки_политики_учёта:
+        return GraphUpdateResult(errors=ошибки_политики_учёта, changed=False)
+    if check and not graph_path.exists() and not reference_date_path.exists():
+        return GraphUpdateResult(errors=[], changed=False, пропущено=True)
     records, record_errors = collect_recency_records(root)
-    graph_data, graph_errors = read_graph(graph_path)
+    graph_data, graph_errors = (
+        read_graph(graph_path) if graph_path.exists() else ({}, [])
+    )
     errors = [*record_errors, *graph_errors]
     if errors or graph_data is None:
         return GraphUpdateResult(errors=errors, changed=False)
@@ -269,7 +324,7 @@ def update_graph(
 
     expected_data = expected_graph_data(graph_data, records, current_date)
     expected_text = render_graph(expected_data)
-    original_text = read_text(graph_path)
+    original_text = read_text(graph_path) if graph_path.exists() else None
     graph_changed = expected_text != original_text
     expected_reference_text = f"{current_date.isoformat()}\n"
     original_reference_text = (
@@ -288,6 +343,8 @@ def update_graph(
             f"{REFERENCE_DATE_PATH.as_posix()}"
         )
     if not check:
+        if graph_changed or reference_changed:
+            graph_path.parent.mkdir(parents=True, exist_ok=True)
         if graph_changed:
             graph_path.write_text(expected_text, encoding="utf-8")
         if reference_changed:
@@ -308,7 +365,9 @@ def main() -> int:
             print(error, file=sys.stderr)
         return 1
 
-    if args.check:
+    if result.пропущено:
+        print("проверка пропущена: локальная тепловая карта Obsidian отсутствует")
+    elif args.check:
         print("obsidian graph recency heatmap check passed")
     else:
         state = "changed" if result.changed else "already current"

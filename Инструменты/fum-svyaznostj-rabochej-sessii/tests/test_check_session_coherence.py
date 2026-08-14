@@ -20,6 +20,9 @@ check_session_coherence = importlib.util.module_from_spec(spec)
 assert spec.loader is not None
 sys.modules[spec.name] = check_session_coherence
 spec.loader.exec_module(check_session_coherence)
+ПРАВИЛО_ИГНОРИРОВАНИЯ_ОБСИДИАНА = (
+    check_session_coherence.КОРНЕВОЕ_ПРАВИЛО_ИГНОРИРОВАНИЯ_ОБСИДИАНА
+)
 
 
 class CheckSessionCoherenceTests(unittest.TestCase):
@@ -32,6 +35,59 @@ class CheckSessionCoherenceTests(unittest.TestCase):
             capture_output=True,
             text=True,
         )
+
+    def подготовить_ранее_отслеживаемый_файл_обсидиана(
+        сам,
+        корень: Path,
+    ) -> Path:
+        сам.initialize_git_repository(корень)
+        граф = корень / ".obsidian/graph.json"
+        граф.parent.mkdir()
+        граф.write_text("{}\n", encoding="utf-8")
+        subprocess.run(
+            ["git", "add", "--", ".obsidian/graph.json"],
+            cwd=корень,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        subprocess.run(
+            [
+                "git",
+                "-c",
+                "user.name=FUM Test",
+                "-c",
+                "user.email=fum-test@example.invalid",
+                "commit",
+                "--quiet",
+                "-m",
+                "Добавить локальный файл Obsidian",
+            ],
+            cwd=корень,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        return граф
+
+    def ошибки_маркера_снятия_обсидиана_с_учёта(
+        сам,
+        корень: Path,
+    ) -> list[str]:
+        путь_запроса = (
+            корень / "Журнал/2026-08-03_12-34-56_MSK/запрос.md"
+        )
+        путь_запроса.parent.mkdir(parents=True, exist_ok=True)
+        текст = (
+            "## Повлиял на файлы\n\n"
+            "- Снято с Git-учёта без удаления локальных файлов: `.obsidian/`\n"
+        )
+        _, ошибки = check_session_coherence.affected_files_from_request(
+            текст,
+            путь_запроса,
+            корень,
+        )
+        return ошибки
 
     @staticmethod
     def canonical_request(stem: str) -> Path:
@@ -1166,6 +1222,362 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                     "deleted affected path still exists: "
                     "Документация/существующий-файл.md"
                 ],
+            )
+
+    def test_маркер_снятия_с_учёта_покрывает_индексированное_удаление_сохранённого_обсидиана(
+        сам,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            граф = сам.подготовить_ранее_отслеживаемый_файл_обсидиана(корень)
+            (корень / ".gitignore").write_text(
+                f"{ПРАВИЛО_ИГНОРИРОВАНИЯ_ОБСИДИАНА}\n",
+                encoding="utf-8",
+            )
+            subprocess.run(
+                ["git", "add", "--", ".gitignore"],
+                cwd=корень,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            subprocess.run(
+                ["git", "rm", "--cached", "--", ".obsidian/graph.json"],
+                cwd=корень,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            состояние = subprocess.run(
+                [
+                    "git",
+                    "status",
+                    "--short",
+                    "--untracked-files=all",
+                    "--",
+                    ".obsidian",
+                ],
+                cwd=корень,
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout
+            отслеживаемые = subprocess.run(
+                ["git", "ls-files", ".obsidian"],
+                cwd=корень,
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout
+            путь_запроса = (
+                корень / "Журнал/2026-08-03_12-34-56_MSK/запрос.md"
+            )
+            путь_запроса.parent.mkdir(parents=True)
+            текст = (
+                "## Повлиял на файлы\n\n"
+                "- Снято с Git-учёта без удаления локальных файлов: `.obsidian/`\n"
+            )
+
+            затронутые, ошибки_раздела = (
+                check_session_coherence.affected_files_from_request(
+                    текст,
+                    путь_запроса,
+                    корень,
+                )
+            )
+            ошибки_состояния = check_session_coherence.validate_git_status(
+                корень,
+                затронутые,
+                состояние,
+            )
+
+            сам.assertTrue(граф.is_file())
+            сам.assertEqual(
+                (корень / ".gitignore").read_text(encoding="utf-8"),
+                f"{ПРАВИЛО_ИГНОРИРОВАНИЯ_ОБСИДИАНА}\n",
+            )
+            сам.assertEqual(состояние, "D  .obsidian/graph.json\n")
+            сам.assertEqual(отслеживаемые, "")
+            сам.assertEqual(ошибки_раздела, [])
+            сам.assertEqual(ошибки_состояния, [])
+
+    def test_маркер_снятия_с_учёта_требует_точное_корневое_правило_игнорирования(
+        сам,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            граф = сам.подготовить_ранее_отслеживаемый_файл_обсидиана(корень)
+            (корень / ".gitignore").write_text(".obsidian/\n", encoding="utf-8")
+            subprocess.run(
+                ["git", "add", "--", ".gitignore"],
+                cwd=корень,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            subprocess.run(
+                ["git", "rm", "--cached", "--", ".obsidian/graph.json"],
+                cwd=корень,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            путь_запроса = (
+                корень / "Журнал/2026-08-03_12-34-56_MSK/запрос.md"
+            )
+            путь_запроса.parent.mkdir(parents=True)
+            текст = (
+                "## Повлиял на файлы\n\n"
+                "- Снято с Git-учёта без удаления локальных файлов: `.obsidian/`\n"
+            )
+
+            _, ошибки = check_session_coherence.affected_files_from_request(
+                текст,
+                путь_запроса,
+                корень,
+            )
+
+            сам.assertTrue(граф.is_file())
+            сам.assertEqual(
+                subprocess.run(
+                    ["git", "ls-files", ".obsidian"],
+                    cwd=корень,
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                ).stdout,
+                "",
+            )
+            сам.assertTrue(
+                any(
+                    ПРАВИЛО_ИГНОРИРОВАНИЯ_ОБСИДИАНА in ошибка
+                    for ошибка in ошибки
+                ),
+                ошибки,
+            )
+
+    def test_маркер_снятия_с_учёта_отклоняет_повторное_включение_обсидиана(
+        сам,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            граф = сам.подготовить_ранее_отслеживаемый_файл_обсидиана(корень)
+            (корень / ".gitignore").write_text(
+                (
+                    f"{ПРАВИЛО_ИГНОРИРОВАНИЯ_ОБСИДИАНА}\n"
+                    f"!{ПРАВИЛО_ИГНОРИРОВАНИЯ_ОБСИДИАНА}\n"
+                    f"!{ПРАВИЛО_ИГНОРИРОВАНИЯ_ОБСИДИАНА}**\n"
+                ),
+                encoding="utf-8",
+            )
+            subprocess.run(
+                ["git", "add", "--", ".gitignore"],
+                cwd=корень,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            subprocess.run(
+                ["git", "rm", "--cached", "--", ".obsidian/graph.json"],
+                cwd=корень,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            проверка_игнорирования = subprocess.run(
+                [
+                    "git",
+                    "check-ignore",
+                    "--quiet",
+                    "--no-index",
+                    "--",
+                    ".obsidian/graph.json",
+                ],
+                cwd=корень,
+                check=False,
+                capture_output=True,
+                text=True,
+            )
+            путь_запроса = (
+                корень / "Журнал/2026-08-03_12-34-56_MSK/запрос.md"
+            )
+            путь_запроса.parent.mkdir(parents=True)
+            текст = (
+                "## Повлиял на файлы\n\n"
+                "- Снято с Git-учёта без удаления локальных файлов: `.obsidian/`\n"
+            )
+
+            _, ошибки = check_session_coherence.affected_files_from_request(
+                текст,
+                путь_запроса,
+                корень,
+            )
+
+            сам.assertTrue(граф.is_file())
+            сам.assertEqual(
+                проверка_игнорирования.returncode,
+                1,
+                проверка_игнорирования.stderr,
+            )
+            сам.assertTrue(
+                any(".obsidian" in ошибка for ошибка in ошибки),
+                ошибки,
+            )
+
+    def test_маркер_снятия_с_учёта_отклоняет_оставшийся_отслеживаемый_путь(
+        сам,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            граф = сам.подготовить_ранее_отслеживаемый_файл_обсидиана(корень)
+            (корень / ".gitignore").write_text(
+                f"{ПРАВИЛО_ИГНОРИРОВАНИЯ_ОБСИДИАНА}\n",
+                encoding="utf-8",
+            )
+            subprocess.run(
+                ["git", "add", "--", ".gitignore"],
+                cwd=корень,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            путь_запроса = (
+                корень / "Журнал/2026-08-03_12-34-56_MSK/запрос.md"
+            )
+            путь_запроса.parent.mkdir(parents=True)
+            текст = (
+                "## Повлиял на файлы\n\n"
+                "- Снято с Git-учёта без удаления локальных файлов: `.obsidian/`\n"
+            )
+
+            _, ошибки = check_session_coherence.affected_files_from_request(
+                текст,
+                путь_запроса,
+                корень,
+            )
+
+            сам.assertTrue(граф.is_file())
+            сам.assertEqual(
+                subprocess.run(
+                    ["git", "ls-files", ".obsidian"],
+                    cwd=корень,
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                ).stdout,
+                ".obsidian/graph.json\n",
+            )
+            сам.assertTrue(
+                any(".obsidian/graph.json" in ошибка for ошибка in ошибки),
+                ошибки,
+            )
+
+    def test_маркер_снятия_с_учёта_требует_непустой_исходный_инвентарь_обсидиана(
+        сам,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.initialize_git_repository(корень)
+            subprocess.run(
+                [
+                    "git",
+                    "-c",
+                    "user.name=FUM Test",
+                    "-c",
+                    "user.email=fum-test@example.invalid",
+                    "commit",
+                    "--quiet",
+                    "--allow-empty",
+                    "-m",
+                    "Создать пустую вершину",
+                ],
+                cwd=корень,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            (корень / ".gitignore").write_text(
+                f"{ПРАВИЛО_ИГНОРИРОВАНИЯ_ОБСИДИАНА}\n",
+                encoding="utf-8",
+            )
+            граф = корень / ".obsidian/graph.json"
+            граф.parent.mkdir()
+            граф.write_text("{}\n", encoding="utf-8")
+
+            ошибки = сам.ошибки_маркера_снятия_обсидиана_с_учёта(корень)
+
+            сам.assertTrue(any("HEAD" in ошибка for ошибка in ошибки), ошибки)
+
+    def test_маркер_снятия_с_учёта_требует_сохранить_каждый_локальный_файл(
+        сам,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            граф = сам.подготовить_ранее_отслеживаемый_файл_обсидиана(корень)
+            (корень / ".gitignore").write_text(
+                f"{ПРАВИЛО_ИГНОРИРОВАНИЯ_ОБСИДИАНА}\n",
+                encoding="utf-8",
+            )
+            subprocess.run(
+                ["git", "rm", "--cached", "--", ".obsidian/graph.json"],
+                cwd=корень,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            граф.unlink()
+
+            ошибки = сам.ошибки_маркера_снятия_обсидиана_с_учёта(корень)
+
+            сам.assertTrue(
+                any(".obsidian/graph.json" in ошибка for ошибка in ошибки),
+                ошибки,
+            )
+
+    def test_маркер_снятия_с_учёта_отклоняет_индексированное_переименование(
+        сам,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            граф = сам.подготовить_ранее_отслеживаемый_файл_обсидиана(корень)
+            (корень / ".gitignore").write_text(
+                f"{ПРАВИЛО_ИГНОРИРОВАНИЯ_ОБСИДИАНА}\n",
+                encoding="utf-8",
+            )
+            subprocess.run(
+                ["git", "mv", "--", ".obsidian/graph.json", "graph.json"],
+                cwd=корень,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            граф.write_text("{}\n", encoding="utf-8")
+
+            ошибки = сам.ошибки_маркера_снятия_обсидиана_с_учёта(корень)
+
+            сам.assertTrue(
+                any("переимен" in ошибка or "staged" in ошибка for ошибка in ошибки),
+                ошибки,
+            )
+
+    def test_статус_учитывает_исходный_и_целевой_пути_переименования(
+        сам,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            целевой = корень / "Заявленный/новый.md"
+            целевой.parent.mkdir()
+            целевой.write_text("# Новый\n", encoding="utf-8")
+
+            ошибки = check_session_coherence.validate_git_status(
+                корень,
+                {целевой.resolve()},
+                "R  Незаявленный/старый.md -> Заявленный/новый.md\n",
+            )
+
+            сам.assertEqual(
+                ошибки,
+                ["unexpected Git status path: Незаявленный/старый.md"],
             )
 
     def test_git_status_accepts_existing_descendants_of_linked_directory(self):
@@ -2473,6 +2885,53 @@ class CheckSessionCoherenceTests(unittest.TestCase):
             self.assertEqual(
                 check_session_coherence.validate_markdown_links({source}, root),
                 [],
+            )
+
+    def test_игнорируемый_локальный_файл_обсидиана_не_удовлетворяет_проектную_ссылку(
+        сам,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.initialize_git_repository(корень)
+            (корень / ".gitignore").write_text(
+                f"{ПРАВИЛО_ИГНОРИРОВАНИЯ_ОБСИДИАНА}\n",
+                encoding="utf-8",
+            )
+            цель = корень / ".obsidian/локальная-цель.md"
+            цель.parent.mkdir()
+            цель.write_text("# Локальная цель\n", encoding="utf-8")
+            источник = корень / "Документация/индекс.md"
+            источник.parent.mkdir()
+            источник.write_text(
+                "# Индекс\n\n"
+                "[локальная цель](../.obsidian/локальная-цель.md)\n",
+                encoding="utf-8",
+            )
+            проверка_игнорирования = subprocess.run(
+                ["git", "check-ignore", "--quiet", "--", ".obsidian/локальная-цель.md"],
+                cwd=корень,
+                check=False,
+                capture_output=True,
+                text=True,
+            )
+            сам.assertEqual(
+                проверка_игнорирования.returncode,
+                0,
+                проверка_игнорирования.stderr,
+            )
+
+            ошибки = check_session_coherence.validate_markdown_links(
+                {источник},
+                корень,
+            )
+
+            сам.assertTrue(
+                any(
+                    "broken Markdown link in Документация/индекс.md:3" in ошибка
+                    and ".obsidian/локальная-цель.md" in ошибка
+                    for ошибка in ошибки
+                ),
+                ошибки,
             )
 
     def test_nested_shorter_fence_does_not_expose_markdown_link(self):

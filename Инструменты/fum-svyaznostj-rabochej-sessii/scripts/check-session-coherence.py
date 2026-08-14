@@ -33,8 +33,10 @@ if str(REQUEST_FOLDER_LAYOUT_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(REQUEST_FOLDER_LAYOUT_SCRIPTS))
 
 from project_files import (
+    КОРНЕВОЕ_ПРАВИЛО_ИГНОРИРОВАНИЯ_ОБСИДИАНА,
     ProjectFilesError,
     is_structurally_excluded_path,
+    проверить_эффективное_игнорирование_корневого_обсидиана,
     project_markdown_paths,
 )
 
@@ -144,6 +146,11 @@ DELETED_DIRECT_FILES_DIRECTORY_RE = re.compile(
     r"^\s*-\s+Удалённые непосредственные файлы каталога:\s+`([^`\n]+)`\s*$",
     re.MULTILINE,
 )
+ШАБЛОН_СНЯТИЯ_С_УЧЁТА_БЕЗ_УДАЛЕНИЯ = re.compile(
+    r"^\s*-\s+Снято с Git-учёта без удаления локальных файлов:"
+    r"\s+`([^`\n]+)`\s*$",
+    re.MULTILINE,
+)
 CODEX_THREAD_ID_LINE_RE = re.compile(
     r"^Codex-Thread-ID:[ \t]+(\S+)[ \t]*$",
 )
@@ -217,6 +224,7 @@ class AffectedPaths(set[Path]):
         self.existing_directories: set[Path] = set()
         self.deleted_direct_files_directories: set[Path] = set()
         self.deleted_subtrees: set[Path] = set()
+        self.снятые_с_учёта_локальные_поддеревья: set[Path] = set()
 
 
 def parse_args() -> argparse.Namespace:
@@ -1546,6 +1554,220 @@ def validate_mermaid_markdown_list_labels(
     return errors
 
 
+def проверить_снятие_корневого_обсидиана_с_учёта(
+    корень_репозитория: Path,
+) -> tuple[Path | None, list[str]]:
+    ошибки: list[str] = []
+    путь_игнорирования = корень_репозитория / ".gitignore"
+    try:
+        строки_игнорирования = read_text(путь_игнорирования).splitlines()
+    except OSError as исключение:
+        ошибки.append(
+            "маркер снятия `.obsidian/` с Git-учёта требует "
+            f"читаемый корневой `.gitignore`: {исключение}"
+        )
+        строки_игнорирования = []
+
+    if (
+        строки_игнорирования.count(
+            КОРНЕВОЕ_ПРАВИЛО_ИГНОРИРОВАНИЯ_ОБСИДИАНА
+        )
+        != 1
+    ):
+        ошибки.append(
+            "маркер снятия `.obsidian/` с Git-учёта требует "
+            "ровно одну точную строку `"
+            + КОРНЕВОЕ_ПРАВИЛО_ИГНОРИРОВАНИЯ_ОБСИДИАНА
+            + "` в корневом `.gitignore`"
+        )
+    ошибки.extend(
+        проверить_эффективное_игнорирование_корневого_обсидиана(
+            корень_репозитория
+        )
+    )
+
+    снимок_исходной_вершины = subprocess.run(
+        [
+            "git",
+            "-C",
+            str(корень_репозитория),
+            "-c",
+            "core.quotepath=false",
+            "ls-tree",
+            "-r",
+            "--name-only",
+            "-z",
+            "HEAD",
+            "--",
+            ".obsidian",
+        ],
+        check=False,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    пути_исходной_вершины: set[str] = set()
+    if снимок_исходной_вершины.returncode != 0:
+        пояснение = снимок_исходной_вершины.stderr.decode(
+            "utf-8", errors="replace"
+        ).strip()
+        ошибки.append(
+            "не удалось проверить HEAD-инвентарь `.obsidian/`: "
+            f"{пояснение or 'неизвестная ошибка'}"
+        )
+    else:
+        пути_исходной_вершины = {
+            сырой_путь.decode("utf-8", errors="replace")
+            for сырой_путь in снимок_исходной_вершины.stdout.split(b"\0")
+            if сырой_путь
+        }
+        if not пути_исходной_вершины:
+            ошибки.append(
+                "маркер снятия `.obsidian/` с Git-учёта требует "
+                "непустой HEAD-инвентарь ранее отслеживаемых путей"
+            )
+
+    индексированные_изменения = subprocess.run(
+        [
+            "git",
+            "-C",
+            str(корень_репозитория),
+            "-c",
+            "core.quotepath=false",
+            "diff",
+            "--cached",
+            "--name-status",
+            "-z",
+            "--find-renames",
+        ],
+        check=False,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    индексированные_удаления: set[str] = set()
+    if индексированные_изменения.returncode != 0:
+        пояснение = индексированные_изменения.stderr.decode(
+            "utf-8", errors="replace"
+        ).strip()
+        ошибки.append(
+            "не удалось проверить staged-удаления `.obsidian/`: "
+            f"{пояснение or 'неизвестная ошибка'}"
+        )
+    else:
+        поля = индексированные_изменения.stdout.split(b"\0")
+        позиция = 0
+        while позиция < len(поля) and поля[позиция]:
+            состояние = поля[позиция].decode("utf-8", errors="replace")
+            позиция += 1
+            количество_путей = 2 if состояние[:1] in {"R", "C"} else 1
+            if позиция + количество_путей > len(поля):
+                ошибки.append(
+                    "не удалось разобрать staged-изменения `.obsidian/`: "
+                    "неполная NUL-запись Git"
+                )
+                break
+            пути = tuple(
+                поля[позиция + смещение].decode("utf-8", errors="replace")
+                for смещение in range(количество_путей)
+            )
+            позиция += количество_путей
+            if not any(
+                путь == ".obsidian" or путь.startswith(".obsidian/")
+                for путь in пути
+            ):
+                continue
+            if состояние == "D" and len(пути) == 1:
+                индексированные_удаления.add(пути[0])
+                continue
+            вид = (
+                "переименование или копирование"
+                if состояние[:1] in {"R", "C"}
+                else f"состояние {состояние}"
+            )
+            ошибки.append(
+                "маркер снятия `.obsidian/` с Git-учёта отклоняет "
+                f"staged-{вид}: {', '.join(пути)}"
+            )
+
+    if (
+        пути_исходной_вершины
+        and индексированные_удаления != пути_исходной_вершины
+    ):
+        отсутствующие = sorted(
+            пути_исходной_вершины - индексированные_удаления
+        )
+        лишние = sorted(
+            индексированные_удаления - пути_исходной_вершины
+        )
+        подробности: list[str] = []
+        if отсутствующие:
+            подробности.append(
+                "не удалены из индекса: " + ", ".join(отсутствующие)
+            )
+        if лишние:
+            подробности.append(
+                "не входили в HEAD: " + ", ".join(лишние)
+            )
+        ошибки.append(
+            "маркер снятия `.obsidian/` с Git-учёта требует точное "
+            "совпадение HEAD-инвентаря и staged D: "
+            + "; ".join(подробности)
+        )
+
+    for путь_исходной_вершины in sorted(пути_исходной_вершины):
+        локальная_копия = корень_репозитория / путь_исходной_вершины
+        if локальная_копия.is_symlink() or not локальная_копия.is_file():
+            ошибки.append(
+                "маркер снятия `.obsidian/` с Git-учёта требует "
+                "сохранённую обычную локальную копию: "
+                f"{путь_исходной_вершины}"
+            )
+
+    результат = subprocess.run(
+        [
+            "git",
+            "-C",
+            str(корень_репозитория),
+            "-c",
+            "core.quotepath=false",
+            "ls-files",
+            "-z",
+            "--",
+            ".obsidian",
+        ],
+        check=False,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    if результат.returncode != 0:
+        пояснение = результат.stderr.decode("utf-8", errors="replace").strip()
+        ошибки.append(
+            "не удалось проверить Git-инвентарь `.obsidian/`: "
+            f"{пояснение or 'неизвестная ошибка'}"
+        )
+    else:
+        отслеживаемые = [
+            сырой_путь.decode("utf-8", errors="replace")
+            for сырой_путь in результат.stdout.split(b"\0")
+            if сырой_путь
+        ]
+        for отслеживаемый in отслеживаемые:
+            ошибки.append(
+                "маркер снятия `.obsidian/` с Git-учёта отклоняет "
+                f"оставшийся отслеживаемый путь: {отслеживаемый}"
+            )
+
+    локальный_каталог = корень_репозитория / ".obsidian"
+    if локальный_каталог.is_symlink() or not локальный_каталог.is_dir():
+        ошибки.append(
+            "маркер снятия `.obsidian/` с Git-учёта требует "
+            "сохранённый обычный локальный каталог `.obsidian/`"
+        )
+
+    if ошибки:
+        return None, ошибки
+    return локальный_каталог.resolve(), []
+
+
 def affected_files_from_request(
     text: str,
     request_path: Path,
@@ -1622,17 +1844,35 @@ def affected_files_from_request(
             continue
         files.deleted_direct_files_directories.add(resolved)
 
+    for совпадение in ШАБЛОН_СНЯТИЯ_С_УЧЁТА_БЕЗ_УДАЛЕНИЯ.finditer(affected):
+        if совпадение.group(1) != ".obsidian/":
+            errors.append(
+                "маркер снятия с Git-учёта без удаления "
+                "допускает только точный корень `.obsidian/`: "
+                f"{совпадение.group(1)}"
+            )
+            continue
+        локальное_поддерево, ошибки_политики = (
+            проверить_снятие_корневого_обсидиана_с_учёта(repo_root)
+        )
+        errors.extend(ошибки_политики)
+        if локальное_поддерево is not None:
+            files.снятые_с_учёта_локальные_поддеревья.add(
+                локальное_поддерево
+            )
+
     if (
         not files
         and not files.existing_directories
         and not files.deleted_direct_files_directories
         and not files.deleted_subtrees
+        and not files.снятые_с_учёта_локальные_поддеревья
         and not errors
     ):
         errors.append(
             "affected files section must contain local Markdown links, "
             "deleted-file markers, deleted-direct-files markers, or "
-            "deleted-subtree markers"
+            "deleted-subtree or local-untracking markers"
         )
     return files, errors
 
@@ -1654,14 +1894,35 @@ def decode_git_path(path: str) -> str:
 
 
 def parse_git_status_paths(status_text: str) -> list[str]:
+    if "\0" in status_text:
+        поля = status_text.split("\0")
+        пути_статуса: list[str] = []
+        позиция = 0
+        while позиция < len(поля) and поля[позиция]:
+            запись = поля[позиция]
+            позиция += 1
+            состояние = запись[:2]
+            путь = запись[3:] if len(запись) > 3 else запись
+            пути_статуса.append(путь)
+            if any(код in состояние for код in ("R", "C")):
+                if позиция >= len(поля) or not поля[позиция]:
+                    break
+                пути_статуса.append(поля[позиция])
+                позиция += 1
+        return пути_статуса
+
     paths: list[str] = []
     for line in status_text.splitlines():
         if not line.strip():
             continue
         path = line[3:] if len(line) > 3 else line
         if " -> " in path:
-            path = path.split(" -> ", 1)[1]
-        paths.append(decode_git_path(path))
+            исходный, целевой = path.split(" -> ", 1)
+            paths.extend(
+                [decode_git_path(исходный), decode_git_path(целевой)]
+            )
+        else:
+            paths.append(decode_git_path(path))
     return paths
 
 
@@ -1677,7 +1938,8 @@ def read_git_status(repo_root: Path) -> tuple[str, list[str]]:
             "-c",
             "core.quotepath=false",
             "status",
-            "--short",
+            "--porcelain=v1",
+            "-z",
             "--untracked-files=all",
         ],
         check=False,
@@ -1724,6 +1986,15 @@ def validate_git_status(
         for path in getattr(allowed_files, "deleted_subtrees", set())
         if not path.exists()
     }
+    снятые_с_учёта_локальные_поддеревья = {
+        path.resolve()
+        for path in getattr(
+            allowed_files,
+            "снятые_с_учёта_локальные_поддеревья",
+            set(),
+        )
+        if path.is_dir() and not path.is_symlink()
+    }
     for status_path in parse_git_status_paths(status_text or ""):
         normalized = Path(status_path).as_posix()
         if normalized in allowed:
@@ -1741,7 +2012,16 @@ def validate_git_status(
             subtree != candidate and subtree in candidate.parents
             for subtree in deleted_subtrees
         )
-        if not existing_descendant and not deleted_direct_file and not deleted_descendant:
+        снятый_с_учёта_потомок = any(
+            поддерево != candidate and поддерево in candidate.parents
+            for поддерево in снятые_с_учёта_локальные_поддеревья
+        )
+        if (
+            not existing_descendant
+            and not deleted_direct_file
+            and not deleted_descendant
+            and not снятый_с_учёта_потомок
+        ):
             errors.append(f"unexpected Git status path: {normalized}")
     return errors
 

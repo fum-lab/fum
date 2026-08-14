@@ -1962,6 +1962,31 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertEqual(self.payload(duplicate)["state"], "invalid")
         self.assertIn("ровно одна", str(self.payload(duplicate)["error"]))
 
+    def test_ветка_пула_без_записи_закрывает_проверку_и_выбор(
+        сам,
+    ) -> None:
+        сам.write_record()
+        полная_ветка = "refs/heads/codex/подузлы/без-записи"
+        сам.git("checkout", "-b", "codex/подузлы/без-записи")
+        ожидаемая_ошибка = (
+            f"Для активной ветки {полная_ветка} должна существовать ровно "
+            "одна запись в Планирование/следующие-шаги-веток."
+        )
+
+        for команда in ("validate", "show"):
+            with сам.subTest(команда=команда):
+                результат = сам.run_tool(команда)
+
+                сам.assertEqual(
+                    результат.returncode,
+                    2,
+                    результат.stdout + результат.stderr,
+                )
+                сам.assertEqual(
+                    сам.payload(результат),
+                    {"state": "invalid", "error": ожидаемая_ошибка},
+                )
+
     def test_show_rejects_detached_head(self) -> None:
         self.write_record()
         self.git("checkout", "--detach", "HEAD")
@@ -7660,6 +7685,59 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertEqual(len(oid), 64)
 
     def test_repository_has_a_valid_record_for_its_active_branch(self) -> None:
+        текущая_ветка = TOOL_MODULE.active_branch_ref(REPO_ROOT)
+        if текущая_ветка.startswith("refs/heads/codex/подузлы/"):
+            карточки = TOOL_MODULE.load_cards(REPO_ROOT)
+            записи = TOOL_MODULE.load_records(REPO_ROOT, карточки)
+            записи_ветки_пула = tuple(
+                запись
+                for запись in записи
+                if запись.branch_ref == текущая_ветка
+            )
+            self.assertEqual(записи_ветки_пула, ())
+
+            канонические_записи = tuple(
+                запись
+                for запись in записи
+                if запись.branch_ref == "refs/heads/master"
+            )
+            self.assertEqual(len(канонические_записи), 1)
+            каноническая_запись = канонические_записи[0]
+            готовые = TOOL_MODULE.validate_ready_pool(каноническая_запись)
+            выбранный, выбор = TOOL_MODULE.select_ready_candidate(
+                REPO_ROOT,
+                каноническая_запись,
+            )
+
+            self.assertEqual(len(каноническая_запись.candidates), 13)
+            self.assertEqual(len(готовые), 4)
+            self.assertEqual(
+                sum(
+                    кандидат.status == "paused"
+                    for кандидат in каноническая_запись.candidates
+                ),
+                6,
+            )
+            self.assertEqual(
+                sum(
+                    кандидат.status == "blocked"
+                    for кандидат in каноническая_запись.candidates
+                ),
+                3,
+            )
+            self.assertIsNotNone(выбранный)
+            self.assertIsNotNone(выбор)
+            self.assertEqual(выбранный.card_id, "FUM-STEP-0124")
+            self.assertEqual(
+                выбранный.step_id,
+                "master-fum-step-0124-automatic-v8",
+            )
+            self.assertEqual(выбранный.dispatch, "automatic")
+            self.assertEqual(выбранный.status, "ready")
+            self.assertEqual(выбор["ready_count"], 4)
+            self.assertEqual(выбор["reason"], "completed_step_source")
+            return
+
         validation = subprocess.run(
             [
                 sys.executable,

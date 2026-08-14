@@ -12,12 +12,5 @@ __pycache__/
 # Сырые события клавиатуры игнорируются по умолчанию; проверенный сеанс для существенного вывода добавляется только точным `git add -f`.
 /Прототипы/физические-состояния-клавиш/Локальные-данные-прогонов/
 
-# Локальное и изменчивое состояние Obsidian не является общей памятью.
-.obsidian/workspace.json
-.obsidian/workspace-mobile.json
-.obsidian/cache/
-.obsidian/plugins/
-.obsidian/themes/
-.obsidian/sync.json
-.obsidian/device.json
-.obsidian/session.json
+# Весь корневой каталог Obsidian является локальным состоянием и не входит в Git-память проекта.
+/.obsidian/
