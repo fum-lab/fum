@@ -95,7 +95,7 @@ git push origin master
 
 ## Лицензия
 
-Проект публикуется под [CC0 1.0 Universal](LICENSE.md). Канонический публичный upstream — [fum-lab/fum](https://github.com/fum-lab/fum).
+Проект публикуется под [CC0 1.0 Universal](ЛИЦЕНЗИЯ.md). Канонический публичный upstream — [fum-lab/fum](https://github.com/fum-lab/fum).
 
 ## Источники требований
 
@@ -110,6 +110,6 @@ git push origin master
 - [исходный запрос 2026-08-06 06:59:01 MSK — Добавить управление диспетчером через сообщения](Журнал/2026-08-06_06-59-01_MSK_добавить-управление-диспетчером-через-сообщения/запрос.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-14 13:51:39 MSK -->
-<!-- content-sha256: sha256:e3443b6f400438f66a1ca2f105c0516ca7e79f24858f9154cddda11684a4d9cf -->
+<!-- last-content-edit: 2026-08-14 23:10:40 MSK -->
+<!-- content-sha256: sha256:8fe411c5b26cec3aba92630d85eb4c050e3794809cee7021dd6e1e421b866ac5 -->
 <!-- FUM-MD-RECENCY:END -->
