@@ -33,6 +33,15 @@ python3 Инструменты/fum-sleduyusjhij-shag-vetki/scripts/branch-next-s
   validate --repo-root . --json
 ```
 
+Из result-ref или иной служебной ветки изолированного Git-слота проверяй рабочий набор целевой ветки явно, не подменяя symbolic `HEAD` и не создавая запись для служебной ветки:
+
+```bash
+python3 Инструменты/fum-sleduyusjhij-shag-vetki/scripts/branch-next-step.py \
+  validate --repo-root . --branch-ref refs/heads/master --json
+```
+
+Тот же `--branch-ref` допустим для read-only `show`; возвращённый выбор остаётся диагностическим свидетельством и не даёт служебной ветке FIFO-полномочий цели.
+
 Прямой выбор после FIFO-допуска продолжения:
 
 ```bash
@@ -91,6 +100,6 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover \
 - [исходный запрос 2026-07-20 20:06:04 MSK — Запускать следующие шаги веток](../../Журнал/2026-07-20_20-06-04_MSK_запускать-следующие-шаги-веток/запрос.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-12 01:34:29 MSK -->
-<!-- content-sha256: sha256:edca26c448a033a2f98fcb9b5ad3b38942a5b43bae0afb970466a5eac6cf5e07 -->
+<!-- last-content-edit: 2026-08-14 22:30:47 MSK -->
+<!-- content-sha256: sha256:e6763b2baf8740b708ad6efe1529bc4e5bd8dbaf312596fc584d304cc21251d9 -->
 <!-- FUM-MD-RECENCY:END -->

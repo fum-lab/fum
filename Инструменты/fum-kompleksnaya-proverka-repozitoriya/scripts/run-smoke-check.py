@@ -95,6 +95,7 @@ WINDOWS_ABSOLUTE_PATH_RE = re.compile(r"^[A-Za-z]:[\\/]")
 СХЕМА_СНИМКА_ЗАПУСКОВ = "fum.test-run-report.v1"
 СХЕМА_ЗАПУСКА_С_НАБЛЮДЕНИЯМИ = "fum.test-run.v2"
 СХЕМА_ЗАПУСКА_БЕЗ_НАБЛЮДЕНИЙ = "fum.test-run.v1"
+СХЕМА_ОСИРОТЕВШЕГО_ЗАПУСКА = "fum.осиротевший-запуск-проверки.1"
 СХЕМА_КОНВЕРТА_НАБЛЮДЕНИЙ = "fum.smoke-test-observations.v1"
 ПЕРЕМЕННАЯ_ПУТИ_НАБЛЮДЕНИЙ = "FUM_CHECK_RUN_OBSERVATIONS_PATH"
 ПЕРЕМЕННАЯ_ИДЕНТИФИКАТОРА_ЗАПУСКА = "FUM_CHECK_RUN_ID"
@@ -426,6 +427,8 @@ def прочитать_наблюдения_закрытого_снимка(
             raise ValueError(f"invalid snapshotted test-run record: {путь_записи}")
         схема = запись.get("схема")
         if схема == СХЕМА_ЗАПУСКА_БЕЗ_НАБЛЮДЕНИЙ:
+            continue
+        if схема == СХЕМА_ОСИРОТЕВШЕГО_ЗАПУСКА:
             continue
         if схема != СХЕМА_ЗАПУСКА_С_НАБЛЮДЕНИЯМИ:
             raise ValueError(f"unknown snapshotted test-run schema: {путь_записи}")

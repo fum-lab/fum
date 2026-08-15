@@ -177,8 +177,12 @@ JOURNAL_DIRECT_CHECK_RUN_COLUMNS = (
 JOURNAL_DIRECT_CHECK_RUN_SECONDS_RE = re.compile(
     r"^(?P<seconds>(?:0|[1-9]\d*)(?:[.,]\d+)?)\s+с$"
 )
+НЕИЗВЕСТНАЯ_ДЛИТЕЛЬНОСТЬ_ПРЯМОГО_ЗАПУСКА_ЖУРНАЛА = "неизвестно"
 JOURNAL_DIRECT_CHECK_RUN_RESULT_RE = re.compile(
     r"^(?:успешно|неуспешно|прервано|не завершено)(?:\s+\S.*)?$"
+)
+ШАБЛОН_РЕЗУЛЬТАТА_ОСИРОТЕВШЕГО_ПРЯМОГО_ЗАПУСКА_ЖУРНАЛА = re.compile(
+    r"^не завершено — осиротевший запуск: \S.*$"
 )
 JOURNAL_DIRECT_CHECK_RUN_TOTAL_PREFIX = (
     "Общее время прямых запусков проверок:"
@@ -788,13 +792,22 @@ def validate_journal_direct_check_runs(text: str) -> list[str]:
             )
         parsed_duration = journal_seconds(duration)
         if parsed_duration is None:
-            errors.append(
-                f"journal direct check run row {row_index} has invalid duration: "
-                f"{duration}"
-            )
-            all_durations_valid = False
+            if (
+                duration != НЕИЗВЕСТНАЯ_ДЛИТЕЛЬНОСТЬ_ПРЯМОГО_ЗАПУСКА_ЖУРНАЛА
+                or ШАБЛОН_РЕЗУЛЬТАТА_ОСИРОТЕВШЕГО_ПРЯМОГО_ЗАПУСКА_ЖУРНАЛА.fullmatch(result) is None
+            ):
+                errors.append(
+                    f"journal direct check run row {row_index} has invalid duration: "
+                    f"{duration}"
+                )
+                all_durations_valid = False
         else:
             durations.append(parsed_duration)
+            if ШАБЛОН_РЕЗУЛЬТАТА_ОСИРОТЕВШЕГО_ПРЯМОГО_ЗАПУСКА_ЖУРНАЛА.fullmatch(result) is not None:
+                errors.append(
+                    f"journal direct check run row {row_index} must use unknown "
+                    "duration for an orphaned run"
+                )
         if not JOURNAL_DIRECT_CHECK_RUN_RESULT_RE.fullmatch(result):
             errors.append(
                 f"journal direct check run row {row_index} has invalid result status: "

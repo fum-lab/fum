@@ -377,7 +377,11 @@ class ArchiveChatgptShareTests(unittest.TestCase):
             },
             "statsigPayload": json.dumps(
                 {
-                    "user": {"country": "RU", "stableID": "stable-secret"},
+                    "user": {
+                        "account_user_id": "ua-account-secret",
+                        "country": "RU",
+                        "stableID": "stable-secret",
+                    },
                     "feature": "visible",
                 }
             ),
@@ -391,6 +395,7 @@ class ArchiveChatgptShareTests(unittest.TestCase):
         self.assertEqual(redacted["nested"]["keep"], "public value")
 
         statsig = json.loads(redacted["statsigPayload"])
+        self.assertEqual(statsig["user"]["account_user_id"], archive_chatgpt_share.REDACTION)
         self.assertEqual(statsig["user"]["country"], archive_chatgpt_share.REDACTION)
         self.assertEqual(statsig["user"]["stableID"], archive_chatgpt_share.REDACTION)
         self.assertEqual(statsig["feature"], "visible")
@@ -436,6 +441,46 @@ class ArchiveChatgptShareTests(unittest.TestCase):
         self.assertEqual(initial_state["cfConnectingIp"], archive_chatgpt_share.REDACTION)
         self.assertNotIn("127.0.0.1", sanitized_html)
         self.assertIn(archive_chatgpt_share.REDACTION, sanitized_html)
+
+    def test_редакция_начального_состояния_удаляет_идентификатор_из_соседнего_скрипта(себя):
+        идентификатор = "ua-account-secret"
+        начальное_состояние = {
+            "authStatus": "ok",
+            "statsigPayload": json.dumps(
+                {"user": {"account_user_id": идентификатор}}
+            ),
+        }
+        тело_начального_состояния = json.dumps(
+            начальное_состояние,
+            ensure_ascii=False,
+            separators=(",", ":"),
+        )
+        соседний_скрипт = (
+            'window.__REACT_QUERY_CACHE__={"user":{"id":"'
+            + идентификатор
+            + '"},"content":"public value"};'
+        )
+        разметка = (
+            "<html><body><script>"
+            + тело_начального_состояния
+            + "</script><script>"
+            + соседний_скрипт
+            + "</script></body></html>"
+        )
+        скрипты = archive_chatgpt_share.collect_scripts(разметка)
+
+        очищенная_разметка, очищенное_состояние = archive_chatgpt_share.sanitize_html(
+            разметка,
+            скрипты,
+        )
+
+        себя.assertNotIn(идентификатор, очищенная_разметка)
+        себя.assertIn("public value", очищенная_разметка)
+        очищенная_телеметрия = json.loads(очищенное_состояние["statsigPayload"])
+        себя.assertEqual(
+            очищенная_телеметрия["user"]["account_user_id"],
+            archive_chatgpt_share.REDACTION,
+        )
 
     def test_extract_stream_parts_decodes_enqueued_json_strings(self):
         scripts = [

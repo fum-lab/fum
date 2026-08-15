@@ -37,6 +37,7 @@ COOKIE_REDACTION = "set-cookie: [REDACTED: response cookie]\n"
 SNAPSHOT_MANIFEST_NAME = "snapshot-manifest.json"
 SNAPSHOT_MANIFEST_SCHEMA = "fum.request-materials.snapshot-manifest.v1"
 LOCAL_METADATA_KEYS = {
+    "account_user_id",
     "async_source",
     "notification_id",
     "request_id",
@@ -412,16 +413,23 @@ def redact_initial_state(value: Any) -> Any:
     return value
 
 
-def collect_local_metadata_values(value: Any) -> set[str]:
+def собрать_значения_локальных_метаданных(value: Any) -> set[str]:
     values: set[str] = set()
     if isinstance(value, dict):
         for key, item in value.items():
             if key in LOCAL_METADATA_KEYS and isinstance(item, str) and item:
                 values.add(item)
-            values.update(collect_local_metadata_values(item))
+            if key == "statsigPayload" and isinstance(item, str):
+                try:
+                    разобранная_телеметрия = json.loads(item)
+                except json.JSONDecodeError:
+                    pass
+                else:
+                    values.update(собрать_значения_локальных_метаданных(разобранная_телеметрия))
+            values.update(собрать_значения_локальных_метаданных(item))
     elif isinstance(value, list):
         for item in value:
-            values.update(collect_local_metadata_values(item))
+            values.update(собрать_значения_локальных_метаданных(item))
     elif isinstance(value, str) and "bon-user-" in value:
         values.add(value)
     return values
@@ -458,9 +466,11 @@ def sanitize_html(html_text: str, scripts: list[str]) -> tuple[str, Any | None]:
             parsed = json.loads(stripped)
         except json.JSONDecodeError:
             continue
+        значения_локальных_метаданных = собрать_значения_локальных_метаданных(parsed)
         initial_state = redact_initial_state(parsed)
         redacted_body = json.dumps(initial_state, ensure_ascii=False, separators=(",", ":"))
         html_text = html_text.replace(body, redacted_body, 1)
+        html_text = redact_text_values(html_text, значения_локальных_метаданных)
         break
     return html_text, initial_state
 
@@ -748,7 +758,7 @@ def write_report(
         "## Редакции перед сохранением",
         "",
         "- Значения `Set-Cookie` в HTTP-заголовках заменены на `[REDACTED: response cookie]`.",
-        "- Локальные IP, геометаданные запроса, user-agent, device/session/statsig-идентификаторы в bootstrap-состоянии страницы и служебные request-id распакованного потока заменены на `[REDACTED: local request metadata]`.",
+        "- Локальные IP, геометаданные запроса, user-agent, идентификаторы устройства, сессии, пользователя, аккаунта и Statsig в bootstrap-состоянии страницы, а также служебные request-id распакованного потока заменены на `[REDACTED: local request metadata]`.",
         "- Сырой текст диалога, поток React Router и распакованные сообщения не нормализовались и не переводились.",
         "- Оформленный Markdown-слой пропускает служебные сообщения, убирает машинные citation-маркеры и переводит TeX-делимитеры в формат, отображаемый Obsidian.",
         "",
@@ -929,7 +939,7 @@ def build_snapshot(staging_dir: Path, url: str) -> dict[str, Any]:
         try:
             raw_decoded = decode_react_router_table(stream_text)
             decoded_ok = True
-            local_metadata_values = collect_local_metadata_values(raw_decoded)
+            local_metadata_values = собрать_значения_локальных_метаданных(raw_decoded)
             decoded = redact_initial_state(raw_decoded)
             messages_data = extract_messages(decoded)
             messages_data["source_url"] = url

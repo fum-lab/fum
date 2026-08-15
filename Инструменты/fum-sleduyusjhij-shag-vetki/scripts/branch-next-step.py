@@ -449,10 +449,11 @@ def validate_command_options(args: argparse.Namespace) -> None:
         "generation": "--generation",
     }
     allowed_by_command = {
-        "validate": frozenset(),
+        "validate": frozenset({"branch_ref"}),
         "refresh-card-fences": frozenset(),
         "show": frozenset(
             {
+                "branch_ref",
                 "expected_branch_ref",
                 "expected_step_id",
                 "expected_selection_id",
@@ -1796,15 +1797,23 @@ def load_records(
 def active_record(
     repo_root: Path,
     records: tuple[BranchRecord, ...] | None = None,
+    ветка_для_диагностики: str | None = None,
 ) -> BranchRecord:
-    branch_ref = active_branch_ref(repo_root)
+    branch_ref = ветка_для_диагностики or active_branch_ref(repo_root)
+    if ветка_для_диагностики is not None:
+        validate_branch_ref(repo_root, ветка_для_диагностики)
     available_records = records if records is not None else load_records(repo_root)
     matching_records = [
         record for record in available_records if record.branch_ref == branch_ref
     ]
     if len(matching_records) != 1:
+        назначение_ветки = (
+            "ветки диагностики"
+            if ветка_для_диагностики is not None
+            else "активной ветки"
+        )
         raise ContractError(
-            f"Для активной ветки {branch_ref} должна существовать ровно одна "
+            f"Для {назначение_ветки} {branch_ref} должна существовать ровно одна "
             f"запись в {RECORDS_DIRECTORY.as_posix()}."
         )
     return matching_records[0]
@@ -3856,7 +3865,7 @@ def main() -> int:
         if args.command == "validate":
             cards = load_cards(repo_root)
             records = load_records(repo_root, cards)
-            current = active_record(repo_root, records)
+            current = active_record(repo_root, records, args.branch_ref)
             ready_candidates = validate_ready_pool(current)
             payload = {
                 "state": "valid",
@@ -3879,7 +3888,7 @@ def main() -> int:
             payload = refresh_card_fences(repo_root)
             exit_code = 0
         elif args.command == "show":
-            record = active_record(repo_root)
+            record = active_record(repo_root, ветка_для_диагностики=args.branch_ref)
             ready_candidate, selection = select_ready_candidate(
                 repo_root,
                 record,

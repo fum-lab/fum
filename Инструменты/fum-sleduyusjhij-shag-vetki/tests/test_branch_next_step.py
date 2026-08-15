@@ -2161,8 +2161,8 @@ class BranchNextStepTests(unittest.TestCase):
         )
         shown = self.run_tool(
             "show",
-            "--branch-ref",
-            "refs/heads/project/other",
+            "--task-id",
+            "10000000-0000-0000-0000-000000000001",
         )
 
         self.assertEqual(validate.returncode, 2)
@@ -2170,7 +2170,7 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertIn("--expected-step-id", str(self.payload(validate)["error"]))
         self.assertEqual(shown.returncode, 2)
         self.assertEqual(self.payload(shown)["state"], "invalid")
-        self.assertIn("--branch-ref", str(self.payload(shown)["error"]))
+        self.assertIn("--task-id", str(self.payload(shown)["error"]))
 
     def test_bind_verify_and_rearm_require_the_exact_option_matrix(self) -> None:
         self.write_record()
@@ -7667,6 +7667,8 @@ class BranchNextStepTests(unittest.TestCase):
                 "validate",
                 "--repo-root",
                 str(REPO_ROOT),
+                "--branch-ref",
+                "refs/heads/master",
                 "--json",
             ],
             check=False,
@@ -7680,6 +7682,8 @@ class BranchNextStepTests(unittest.TestCase):
                 "show",
                 "--repo-root",
                 str(REPO_ROOT),
+                "--branch-ref",
+                "refs/heads/master",
                 "--json",
             ],
             check=False,
@@ -7693,10 +7697,10 @@ class BranchNextStepTests(unittest.TestCase):
             validation.stdout + validation.stderr,
         )
         validation_payload = self.payload(validation)
-        self.assertEqual(validation_payload["candidate_count"], 13)
-        self.assertEqual(validation_payload["ready_count"], 4)
-        self.assertEqual(validation_payload["paused_count"], 6)
-        self.assertEqual(validation_payload["blocked_count"], 3)
+        self.assertEqual(validation_payload["candidate_count"], 28)
+        self.assertEqual(validation_payload["ready_count"], 5)
+        self.assertEqual(validation_payload["paused_count"], 18)
+        self.assertEqual(validation_payload["blocked_count"], 5)
         self.assertEqual(shown.returncode, 0, shown.stdout + shown.stderr)
         shown_payload = self.payload(shown)
         self.assertEqual(shown_payload["state"], "ready")
@@ -7711,7 +7715,7 @@ class BranchNextStepTests(unittest.TestCase):
         )
         self.assertEqual(shown_payload["dispatch"], "automatic")
         self.assertEqual(shown_payload["status"], "ready")
-        self.assertEqual(shown_payload["selection"]["ready_count"], 4)
+        self.assertEqual(shown_payload["selection"]["ready_count"], 5)
         self.assertEqual(
             shown_payload["selection"]["reason"],
             "completed_step_source",
