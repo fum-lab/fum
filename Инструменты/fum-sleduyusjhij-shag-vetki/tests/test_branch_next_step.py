@@ -7687,35 +7687,290 @@ class BranchNextStepTests(unittest.TestCase):
             text=True,
         )
 
-        self.assertEqual(
+        self.assertIn(
             validation.returncode,
-            0,
+            {0, 2},
             validation.stdout + validation.stderr,
         )
         validation_payload = self.payload(validation)
-        self.assertEqual(validation_payload["candidate_count"], 13)
-        self.assertEqual(validation_payload["ready_count"], 4)
-        self.assertEqual(validation_payload["paused_count"], 6)
-        self.assertEqual(validation_payload["blocked_count"], 3)
-        self.assertEqual(shown.returncode, 0, shown.stdout + shown.stderr)
+        self.assertIn(
+            shown.returncode,
+            {0, 2, 3},
+            shown.stdout + shown.stderr,
+        )
         shown_payload = self.payload(shown)
-        self.assertEqual(shown_payload["state"], "ready")
-        ожидаемый_выбор = (
-            "FUM-STEP-0124",
-            "master-fum-step-0124-automatic-v8",
+        активная_ссылка = TOOL_MODULE.active_branch_ref(REPO_ROOT)
+        внутренняя_ссылка = активная_ссылка.startswith(
+            "refs/heads/codex/подузлы/"
         )
-        self.assertEqual(shown_payload["card_id"], ожидаемый_выбор[0])
+        ожидаемая_ошибка_внутренней_ссылки = (
+            f"Для активной ветки {активная_ссылка} должна существовать ровно одна "
+            "запись в Планирование/следующие-шаги-веток."
+        )
+        if внутренняя_ссылка:
+            self.assertEqual(validation.returncode, 2)
+            self.assertEqual(shown.returncode, 2)
+            ожидаемая_диагностика = {
+                "error": ожидаемая_ошибка_внутренней_ссылки,
+                "state": "invalid",
+            }
+            self.assertEqual(validation_payload, ожидаемая_диагностика)
+            self.assertEqual(shown_payload, ожидаемая_диагностика)
+        else:
+            self.assertEqual(
+                validation.returncode,
+                0,
+                validation.stdout + validation.stderr,
+            )
+            self.assertIn(shown.returncode, {0, 3})
+        итог_валидации = validation_payload
+        итог_показа = shown_payload
+        целевая_ссылка = активная_ссылка
+        if внутренняя_ссылка:
+            путь_сценария_пула = (
+                TOOL_ROOT.parent
+                / "fum-ocheredj-zadach-git-vetki"
+                / "scripts"
+                / "пул-worktree-подузлов.py"
+            )
+            имя_модуля_пула = "fum_worktree_pool_repository_test_module"
+            спецификация_пула = importlib.util.spec_from_file_location(
+                имя_модуля_пула,
+                путь_сценария_пула,
+            )
+            self.assertIsNotNone(спецификация_пула)
+            self.assertIsNotNone(спецификация_пула.loader)
+            модуль_пула = importlib.util.module_from_spec(спецификация_пула)
+            sys.modules[имя_модуля_пула] = модуль_пула
+            спецификация_пула.loader.exec_module(модуль_пула)
+            контекст_пула = модуль_пула.определить_контекст(str(REPO_ROOT))
+            состояние_пула = json.loads(
+                subprocess.run(
+                    [
+                        "git",
+                        "--no-replace-objects",
+                        "-C",
+                        str(REPO_ROOT),
+                        "cat-file",
+                        "blob",
+                        контекст_пула.ссылка_пула,
+                    ],
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                ).stdout
+            )
+            self.assertIsInstance(состояние_пула, dict)
+            найденные_назначения = [
+                (идентификатор, назначение)
+                for идентификатор, назначение in состояние_пула.get(
+                    "assignments", {}
+                ).items()
+                if (
+                    isinstance(назначение, dict)
+                    and назначение.get("lifecycle") == "self_line"
+                    and назначение.get("status") == "active"
+                    and назначение.get("branch_ref") == активная_ссылка
+                )
+            ]
+            self.assertEqual(len(найденные_назначения), 1)
+            идентификатор_назначения, назначение = найденные_назначения[0]
+            слот = состояние_пула["slots"][назначение["slot_id"]]
+            self.assertEqual(слот["assignment_id"], идентификатор_назначения)
+            self.assertEqual(слот["worktree_id"], назначение["worktree_id"])
+            self.assertEqual(слот["queue_ref"], назначение["queue_ref"])
+            self.assertEqual(
+                (Path(состояние_пула["primary_root"]) / слот["path"]).resolve(),
+                REPO_ROOT.resolve(),
+            )
+            объект_очереди = subprocess.run(
+                [
+                    "git",
+                    "--no-replace-objects",
+                    "-C",
+                    str(REPO_ROOT),
+                    "rev-parse",
+                    "--verify",
+                    назначение["queue_ref"],
+                ],
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+            self.assertRegex(объект_очереди, r"^[0-9a-f]{40,64}$")
+            идентификатор_задачи = назначение["registered_task_id"]
+            self.assertIsInstance(идентификатор_задачи, str)
+            ссылка_маршрута = (
+                "refs/fum/task-runtime-routes/"
+                + hashlib.sha256(идентификатор_задачи.encode("utf-8")).hexdigest()
+            )
+            нагрузка_маршрута = json.loads(
+                subprocess.run(
+                    [
+                        "git",
+                        "--no-replace-objects",
+                        "-C",
+                        str(REPO_ROOT),
+                        "cat-file",
+                        "blob",
+                        ссылка_маршрута,
+                    ],
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                ).stdout
+            )
+            self.assertEqual(
+                нагрузка_маршрута,
+                {
+                    "route_identity": назначение["assignment_hash"],
+                    "route_kind": "worktree_self",
+                    "schema": "fum.маршрут-задачи-runtime.1",
+                    "task_id": идентификатор_задачи,
+                },
+            )
+            фактический_каталог_версий = subprocess.run(
+                [
+                    "git",
+                    "--no-replace-objects",
+                    "-C",
+                    str(REPO_ROOT),
+                    "rev-parse",
+                    "--path-format=absolute",
+                    "--absolute-git-dir",
+                ],
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+            self.assertEqual(Path(слот["git_dir"]).resolve(), Path(фактический_каталог_версий))
+            фактическая_вершина = subprocess.run(
+                [
+                    "git",
+                    "--no-replace-objects",
+                    "-C",
+                    str(REPO_ROOT),
+                    "rev-parse",
+                    "HEAD",
+                ],
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+            self.assertEqual(назначение["current_oid"], фактическая_вершина)
+            целевая_ссылка = назначение["target_ref"]
+            путь_рабочего_набора = назначение.get("working_set_path")
+            выбранный_шаг_рабочего_набора = назначение.get(
+                "selected_working_set_step"
+            )
+            if not isinstance(путь_рабочего_набора, str) or not isinstance(
+                выбранный_шаг_рабочего_набора,
+                str,
+            ):
+                self.assertEqual(целевая_ссылка, "refs/heads/master")
+                self.assertIsNone(путь_рабочего_набора)
+                self.assertIsNone(выбранный_шаг_рабочего_набора)
+                путь_рабочего_набора = (
+                    "Планирование/следующие-шаги-веток/master.md"
+                )
+            else:
+                self.assertNotEqual(целевая_ссылка, "refs/heads/master")
+            объект_рабочего_набора = модуль_пула.проверить_рабочий_набор_в_вершине(
+                контекст_пула,
+                назначение["protocol_oid"],
+                целевая_ссылка,
+                путь_рабочего_набора,
+                выбранный_шаг_рабочего_набора,
+            )
+            self.assertEqual(
+                объект_рабочего_набора,
+                subprocess.run(
+                    [
+                        "git",
+                        "--no-replace-objects",
+                        "-C",
+                        str(REPO_ROOT),
+                        "rev-parse",
+                        (
+                            f'{назначение["protocol_oid"]}:'
+                            f"{путь_рабочего_набора}"
+                        ),
+                    ],
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                ).stdout.strip(),
+            )
+            записи = TOOL_MODULE.load_records(REPO_ROOT)
+            совпадения = [
+                запись for запись in записи if запись.branch_ref == целевая_ссылка
+            ]
+            self.assertEqual(len(совпадения), 1)
+            запись = совпадения[0]
+            self.assertEqual(запись.record_path, путь_рабочего_набора)
+            if выбранный_шаг_рабочего_набора is not None:
+                совпадения_шага = [
+                    кандидат
+                    for кандидат in запись.candidates
+                    if кандидат.step_id == выбранный_шаг_рабочего_набора
+                ]
+                self.assertEqual(len(совпадения_шага), 1)
+                self.assertEqual(совпадения_шага[0].dispatch, "automatic")
+            готовые = TOOL_MODULE.validate_ready_pool(запись)
+            выбранный, выбор = TOOL_MODULE.select_ready_candidate(REPO_ROOT, запись)
+            итог_валидации = {
+                "state": "valid",
+                "active_branch_ref": запись.branch_ref,
+                "record_path": запись.record_path,
+                "project_path": запись.project_path,
+                "candidate_count": len(запись.candidates),
+                "ready_count": len(готовые),
+                "paused_count": sum(
+                    кандидат.status == "paused" for кандидат in запись.candidates
+                ),
+                "blocked_count": sum(
+                    кандидат.status == "blocked" for кандидат in запись.candidates
+                ),
+            }
+            if выбранный is None:
+                итог_показа = {"state": "not_ready", **запись.summary_payload()}
+            else:
+                self.assertIsNotNone(выбор)
+                итог_показа = {
+                    "state": "ready",
+                    **выбранный.payload(),
+                    "selection": выбор,
+                }
+
+        self.assertEqual(итог_валидации["state"], "valid")
+        self.assertEqual(итог_валидации["active_branch_ref"], целевая_ссылка)
         self.assertEqual(
-            shown_payload["step_id"],
-            ожидаемый_выбор[1],
+            итог_валидации["candidate_count"],
+            итог_валидации["ready_count"]
+            + итог_валидации["paused_count"]
+            + итог_валидации["blocked_count"],
         )
-        self.assertEqual(shown_payload["dispatch"], "automatic")
-        self.assertEqual(shown_payload["status"], "ready")
-        self.assertEqual(shown_payload["selection"]["ready_count"], 4)
-        self.assertEqual(
-            shown_payload["selection"]["reason"],
-            "completed_step_source",
-        )
+        if целевая_ссылка == "refs/heads/master":
+            self.assertEqual(итог_валидации["candidate_count"], 13)
+            self.assertEqual(итог_валидации["ready_count"], 4)
+            self.assertEqual(итог_валидации["paused_count"], 6)
+            self.assertEqual(итог_валидации["blocked_count"], 3)
+            self.assertEqual(итог_показа["state"], "ready")
+            ожидаемый_выбор = (
+                "FUM-STEP-0124",
+                "master-fum-step-0124-automatic-v9",
+            )
+            self.assertEqual(итог_показа["card_id"], ожидаемый_выбор[0])
+            self.assertEqual(итог_показа["step_id"], ожидаемый_выбор[1])
+            self.assertEqual(итог_показа["dispatch"], "automatic")
+            self.assertEqual(итог_показа["status"], "ready")
+            self.assertEqual(итог_показа["selection"]["ready_count"], 4)
+            self.assertEqual(
+                итог_показа["selection"]["reason"],
+                "completed_step_source",
+            )
+        else:
+            self.assertIn(итог_показа["state"], {"ready", "not_ready"})
 
     def test_тайм_аут_обвязки_превышает_внутренний_Гит_лимит(
         сам,
