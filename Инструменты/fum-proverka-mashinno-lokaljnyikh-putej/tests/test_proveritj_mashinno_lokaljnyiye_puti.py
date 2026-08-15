@@ -158,7 +158,7 @@ class MachineLocalPathScannerTests(unittest.TestCase):
                 result.rendered_lines(),
             )
 
-    def test_канонический_исполнитель_субагента_допускается_только_в_точном_контексте(сам) -> None:
+    def test_канонический_исполнитель_агента_допускается_только_в_точном_контексте(сам) -> None:
         with tempfile.TemporaryDirectory() as временный_каталог:
             корень = Path(временный_каталог)
             сам.init_repo(корень)
@@ -191,6 +191,22 @@ class MachineLocalPathScannerTests(unittest.TestCase):
                 indent=2,
             ) + "\n"
             сам.write_and_add(корень, путь_записи, текст_записи)
+            идентификатор_корня = "33333333-3333-4333-8333-333333333333"
+            исполнитель_корня = "Codex " + "/" + "root"
+            запись_корня = {
+                **запись,
+                "порядок": 3,
+                "идентификатор": идентификатор_корня,
+                "исполнитель": исполнитель_корня,
+            }
+            путь_записи_корня = f"{каталог}/3_{идентификатор_корня}.json"
+            текст_записи_корня = json.dumps(
+                запись_корня,
+                ensure_ascii=False,
+                sort_keys=True,
+                indent=2,
+            ) + "\n"
+            сам.write_and_add(корень, путь_записи_корня, текст_записи_корня)
 
             путь_отчёта = f"Журнал/{ствол}/отчёт.md"
             текст_отчёта = (
@@ -200,6 +216,7 @@ class MachineLocalPathScannerTests(unittest.TestCase):
                 "| Вызов | Длительность | Результат |\n"
                 "| ------ | ------------ | --------- |\n"
                 f"| [{исполнитель}] Целевая проверка | 0,001 с | успешно |\n"
+                f"| [{исполнитель_корня}] Корневая проверка | 0,001 с | успешно |\n"
                 "<!-- FUM-CHECK-RUNS:END -->\n\n"
                 f"Вне блока: {исполнитель}\n"
             )
@@ -236,6 +253,12 @@ class MachineLocalPathScannerTests(unittest.TestCase):
             строка_таблицы = текст_отчёта.splitlines().index(
                 f"| [{исполнитель}] Целевая проверка | 0,001 с | успешно |"
             ) + 1
+            строка_исполнителя_корня = текст_записи_корня.splitlines().index(
+                f'  "исполнитель": "{исполнитель_корня}",'
+            ) + 1
+            строка_таблицы_корня = текст_отчёта.splitlines().index(
+                f"| [{исполнитель_корня}] Корневая проверка | 0,001 с | успешно |"
+            ) + 1
             строка_вне_блока = len(текст_отчёта.splitlines())
             сам.assertIn(
                 f"{путь_записи}:{строка_исполнителя}:allow.collaboration-executor-id",
@@ -243,6 +266,14 @@ class MachineLocalPathScannerTests(unittest.TestCase):
             )
             сам.assertIn(
                 f"{путь_отчёта}:{строка_таблицы}:allow.collaboration-executor-id",
+                результат.rendered_lines(),
+            )
+            сам.assertIn(
+                f"{путь_записи_корня}:{строка_исполнителя_корня}:allow.collaboration-executor-id",
+                результат.rendered_lines(),
+            )
+            сам.assertIn(
+                f"{путь_отчёта}:{строка_таблицы_корня}:allow.collaboration-executor-id",
                 результат.rendered_lines(),
             )
             сам.assertIn(

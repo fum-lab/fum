@@ -86,8 +86,17 @@ EXIT_INTERRUPTED = 130
 СХЕМА_КВИТАНЦИИ_СРАВНЕНИЯ_И_ЗАМЕНЫ_ИНТЕГРАЦИИ_ПОДУЗЛОВ = (
     "fum.квитанция-CAS-интеграции-worktree-подузлов.1"
 )
-СХЕМА_КВИТАНЦИИ_ИНТЕГРАЦИОННОГО_КАНДИДАТА_ПОДУЗЛОВ = (
+ПРЕЖНЯЯ_СХЕМА_КВИТАНЦИИ_ИНТЕГРАЦИОННОГО_КАНДИДАТА_ПОДУЗЛОВ = (
     "fum.квитанция-интеграционного-кандидата-worktree-подузлов.1"
+)
+СХЕМА_КВИТАНЦИИ_ИНТЕГРАЦИОННОГО_КАНДИДАТА_ПОДУЗЛОВ = (
+    "fum.квитанция-интеграционного-кандидата-worktree-подузлов.2"
+)
+ПРЕЖНЯЯ_СХЕМА_КВИТАНЦИИ_РЕЗУЛЬТАТА_ПОДУЗЛА = (
+    "fum.квитанция-результата-worktree-подузла.2"
+)
+СХЕМА_КВИТАНЦИИ_РЕЗУЛЬТАТА_ПОДУЗЛА = (
+    "fum.квитанция-результата-worktree-подузла.3"
 )
 СХЕМА_КВИТАНЦИИ_РЕВЬЮ_ПОДУЗЛА = "fum.квитанция-агентского-ревью-worktree-подузла.1"
 СХЕМА_НАМЕРЕНИЯ_ПУБЛИКАЦИИ_ИНТЕГРАЦИИ = (
@@ -8008,6 +8017,328 @@ def ожидаемая_ссылка_пула(контекст_очереди: Qu
     return f"refs/fum/worktree-subnode-pools/{идентификатор}", идентификатор
 
 
+def найти_назначение_пула_по_хэшу(
+    пул: dict[str, object],
+    хэш_назначения: object,
+) -> dict[str, object]:
+    назначения = пул.get("assignments")
+    совпадения = (
+        [значение for значение in назначения.values() if isinstance(значение, dict) and значение.get("assignment_hash") == хэш_назначения]
+        if isinstance(назначения, dict)
+        else []
+    )
+    if len(совпадения) != 1:
+        raise QueueError(EXIT_CONTEXT, "commit_intent_assignment_mismatch", "Доказательство коммита не связано с одним assignment.")
+    return совпадения[0]
+
+
+def проверить_объект_по_намерению_пула(
+    контекст_очереди: QueueContext,
+    назначение: dict[str, object],
+    хэш_намерения: object,
+    ожидаемый_вид: str,
+    идентификатор_коммита: object,
+) -> dict[str, object]:
+    намерения = назначение.get("намерения_коммитов")
+    if not isinstance(намерения, dict) or not isinstance(хэш_намерения, str):
+        raise QueueError(EXIT_CONTEXT, "commit_intent_missing", "Квитанция потеряла реестр commit intent.")
+    совпадения = [
+        (ключ, значение)
+        for ключ, значение in намерения.items()
+        if isinstance(ключ, str)
+        and isinstance(значение, dict)
+        and хэш_канонического_объекта_пула(значение) == хэш_намерения
+    ]
+    поля = {
+        "schema", "ключ_операции", "вид", "assignment_hash", "task_id",
+        "поколение_владения", "branch_ref", "хэш_продолжения", "индекс_результата",
+        "родители", "tree_oid", "хэш_сообщения", "имя_автора", "email_автора",
+        "дата_автора", "имя_коммитера", "email_коммитера", "дата_коммитера",
+    }
+    if len(совпадения) != 1:
+        raise QueueError(EXIT_CONTEXT, "commit_intent_missing", "Хэш commit intent не найден однозначно.")
+    ключ_реестра, намерение = совпадения[0]
+    ожидаемый_ключ = хэш_канонического_объекта_пула(
+        {
+            "schema": "fum.ключ-операции-коммита-worktree-подузла.1",
+            "assignment_hash": намерение.get("assignment_hash"),
+            "вид": намерение.get("вид"),
+            "хэш_продолжения": намерение.get("хэш_продолжения"),
+            "индекс_результата": намерение.get("индекс_результата"),
+        }
+    )
+    дата_автора = намерение.get("дата_автора")
+    родители = намерение.get("родители")
+    хэш_продолжения = намерение.get("хэш_продолжения")
+    индекс_результата = намерение.get("индекс_результата")
+    допустимая_операция = (
+        ожидаемый_вид == "результат"
+        and хэш_продолжения is None
+        and индекс_результата is None
+        and isinstance(родители, list)
+        and len(родители) == 1
+    ) or (
+        ожидаемый_вид == "передача_линии"
+        and isinstance(хэш_продолжения, str)
+        and bool(хэш_продолжения)
+        and индекс_результата is None
+        and isinstance(родители, list)
+        and len(родители) == 1
+    ) or (
+        ожидаемый_вид == "интеграционное_слияние"
+        and хэш_продолжения is None
+        and isinstance(индекс_результата, int)
+        and not isinstance(индекс_результата, bool)
+        and индекс_результата >= 0
+        and isinstance(родители, list)
+        and len(родители) == 2
+    )
+    длина_идентификатора_объекта = len(current_head(контекст_очереди.root))
+    if (
+        set(намерение) != поля
+        or намерение.get("schema") != "fum.намерение-коммита-worktree-подузла.1"
+        or ключ_реестра != ожидаемый_ключ
+        or намерение.get("ключ_операции") != ожидаемый_ключ
+        or намерение.get("вид") != ожидаемый_вид
+        or not допустимая_операция
+        or намерение.get("assignment_hash") != назначение.get("assignment_hash")
+        or намерение.get("branch_ref") != назначение.get("branch_ref")
+        or any(
+            not isinstance(намерение.get(поле), str) or not намерение[поле]
+            for поле in ("assignment_hash", "task_id", "поколение_владения", "branch_ref")
+        )
+        or any(
+            not isinstance(родитель, str)
+            or re.fullmatch(rf"[0-9a-f]{{{длина_идентификатора_объекта}}}", родитель) is None
+            for родитель in намерение["родители"]
+        )
+        or not isinstance(намерение.get("tree_oid"), str)
+        or re.fullmatch(rf"[0-9a-f]{{{длина_идентификатора_объекта}}}", намерение["tree_oid"]) is None
+        or not isinstance(намерение.get("хэш_сообщения"), str)
+        or re.fullmatch(r"sha256:[0-9a-f]{64}", намерение["хэш_сообщения"]) is None
+        or not isinstance(дата_автора, str)
+        or re.fullmatch(r"[0-9]+ \+0000", дата_автора) is None
+        or дата_автора != намерение.get("дата_коммитера")
+        or int(дата_автора.split()[0]) <= 946684800
+        or any(
+            not isinstance(намерение.get(поле), str)
+            or not намерение[поле]
+            or any(знак in намерение[поле] for знак in ("\x00", "\n", "\r", "<", ">"))
+            for поле in ("имя_автора", "email_автора", "имя_коммитера", "email_коммитера")
+        )
+        or not isinstance(идентификатор_коммита, str)
+        or re.fullmatch(rf"[0-9a-f]{{{длина_идентификатора_объекта}}}", идентификатор_коммита) is None
+    ):
+        raise QueueError(EXIT_CONTEXT, "invalid_commit_intent", "Commit intent не прошёл закрытую схему bridge.")
+    объект = run_git(
+        контекст_очереди.root,
+        ["cat-file", "commit", идентификатор_коммита],
+        check=False,
+    )
+    if объект.returncode != 0:
+        raise QueueError(EXIT_CONTEXT, "commit_intent_object_missing", "Объект commit intent недоступен.")
+    _, разделитель, сообщение = объект.stdout.partition(b"\n\n")
+    if разделитель != b"\n\n" or "sha256:" + hashlib.sha256(сообщение).hexdigest() != намерение.get("хэш_сообщения"):
+        raise QueueError(EXIT_CONTEXT, "commit_intent_object_mismatch", "Сообщение коммита не совпало с intent.")
+    заголовки = [f"tree {намерение['tree_oid']}"]
+    заголовки.extend(f"parent {родитель}" for родитель in намерение["родители"])
+    заголовки.extend(
+        [
+            f"author {намерение['имя_автора']} <{намерение['email_автора']}> {намерение['дата_автора']}",
+            f"committer {намерение['имя_коммитера']} <{намерение['email_коммитера']}> {намерение['дата_коммитера']}",
+        ]
+    )
+    ожидаемые_байты = "\n".join(заголовки).encode("utf-8") + b"\n\n" + сообщение
+    if объект.stdout != ожидаемые_байты:
+        raise QueueError(EXIT_CONTEXT, "commit_intent_object_mismatch", "Commit содержит байты вне exact intent.")
+    return намерение
+
+
+def проверить_доказательство_результата_пула(
+    контекст_очереди: QueueContext,
+    пул: dict[str, object],
+    результат: dict[str, object],
+) -> None:
+    назначение = найти_назначение_пула_по_хэшу(пул, результат.get("assignment_hash"))
+    намерения = назначение.get("намерения_коммитов")
+    есть_новое_намерение_результата = isinstance(намерения, dict) and any(
+        isinstance(намерение, dict) and намерение.get("вид") == "результат"
+        for намерение in намерения.values()
+    )
+    хэш_намерения = результат.get("хэш_намерения_коммита")
+    схема = результат.get("schema")
+    if схема == ПРЕЖНЯЯ_СХЕМА_КВИТАНЦИИ_РЕЗУЛЬТАТА_ПОДУЗЛА:
+        if хэш_намерения is not None or есть_новое_намерение_результата:
+            raise QueueError(EXIT_CONTEXT, "result_commit_intent_downgrade", "Legacy result смешан с новым commit intent.")
+        return
+    if схема != СХЕМА_КВИТАНЦИИ_РЕЗУЛЬТАТА_ПОДУЗЛА or хэш_намерения is None:
+        raise QueueError(EXIT_CONTEXT, "result_commit_intent_missing", "Новый result потерял exact commit intent.")
+    намерение = проверить_объект_по_намерению_пула(
+        контекст_очереди,
+        назначение,
+        хэш_намерения,
+        "результат",
+        результат.get("head_oid"),
+    )
+    коммиты = результат.get("commits")
+    if (
+        намерение.get("task_id") != результат.get("task_id")
+        or намерение.get("tree_oid") != результат.get("tree_oid")
+        or намерение.get("хэш_сообщения") != результат.get("хэш_сообщения")
+        or not isinstance(коммиты, list)
+        or not коммиты
+        or коммиты[-1] != результат.get("head_oid")
+    ):
+        raise QueueError(EXIT_CONTEXT, "result_commit_intent_mismatch", "Result receipt не совпал с exact intent.")
+    предыдущая_вершина = результат.get("base_oid")
+    if not isinstance(предыдущая_вершина, str):
+        raise QueueError(EXIT_CONTEXT, "result_commit_intent_mismatch", "Result потерял исходную вершину.")
+    for промежуточный_коммит in коммиты[:-1]:
+        совпадения_намерений_передачи = [
+            промежуточное_намерение
+            for промежуточное_намерение in намерения.values()
+            if isinstance(промежуточное_намерение, dict)
+            and промежуточное_намерение.get("вид") == "передача_линии"
+            and промежуточное_намерение.get("родители") == [предыдущая_вершина]
+        ]
+        if len(совпадения_намерений_передачи) != 1:
+            raise QueueError(
+                EXIT_CONTEXT,
+                "result_commit_intent_chain_mismatch",
+                "Линейный диапазон result потерял exact handoff intent.",
+            )
+        намерение_коммита_передачи = совпадения_намерений_передачи[0]
+        проверить_объект_по_намерению_пула(
+            контекст_очереди,
+            назначение,
+            хэш_канонического_объекта_пула(намерение_коммита_передачи),
+            "передача_линии",
+            промежуточный_коммит,
+        )
+        предыдущая_вершина = промежуточный_коммит
+    if намерение.get("родители") != [предыдущая_вершина]:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "result_commit_intent_chain_mismatch",
+            "Terminal result intent не продолжает exact handoff-цепочку.",
+        )
+
+
+def проверить_доказательство_кандидата_пула(
+    контекст_очереди: QueueContext,
+    пул: dict[str, object],
+    кандидат: dict[str, object],
+) -> None:
+    назначение = найти_назначение_пула_по_хэшу(пул, кандидат.get("integrator_assignment_hash"))
+    хэши = кандидат.get("хэши_намерений_коммитов")
+    записи = кандидат.get("интеграционные_коммиты")
+    намерения = назначение.get("намерения_коммитов")
+    есть_новые_намерения_слияния = isinstance(намерения, dict) and any(
+        isinstance(намерение, dict) and намерение.get("вид") == "интеграционное_слияние"
+        for намерение in намерения.values()
+    )
+    схема = кандидат.get("schema")
+    if схема == ПРЕЖНЯЯ_СХЕМА_КВИТАНЦИИ_ИНТЕГРАЦИОННОГО_КАНДИДАТА_ПОДУЗЛОВ:
+        if хэши is not None or записи is not None or есть_новые_намерения_слияния:
+            raise QueueError(EXIT_CONTEXT, "candidate_commit_intent_downgrade", "Legacy candidate смешан с новыми commit intent.")
+        return
+    if схема != СХЕМА_КВИТАНЦИИ_ИНТЕГРАЦИОННОГО_КАНДИДАТА_ПОДУЗЛОВ:
+        raise QueueError(EXIT_CONTEXT, "candidate_commit_intent_missing", "Новый кандидат имеет неизвестную схему.")
+    if not isinstance(хэши, list) or not isinstance(записи, list) or len(хэши) != len(записи):
+        raise QueueError(EXIT_CONTEXT, "candidate_commit_intent_mismatch", "Кандидат потерял цепочку commit intent.")
+    результаты = кандидат.get("result_hashes")
+    головы = кандидат.get("result_heads")
+    if (
+        not isinstance(результаты, list)
+        or not isinstance(головы, list)
+        or len(результаты) != len(головы)
+    ):
+        raise QueueError(EXIT_CONTEXT, "candidate_commit_intent_mismatch", "Кандидат потерял результаты.")
+    предыдущая_вершина = кандидат.get("base_oid")
+    предыдущий_индекс = -1
+    for позиция, запись in enumerate(записи):
+        if not isinstance(запись, dict) or set(запись) != {
+            "индекс_результата", "хэш_результата", "commit_oid",
+            "хэш_намерения_коммита", "конфликт_разрешён",
+        }:
+            raise QueueError(EXIT_CONTEXT, "candidate_commit_intent_mismatch", "Запись коммита кандидата повреждена.")
+        индекс = запись["индекс_результата"]
+        if (
+            not isinstance(индекс, int)
+            or индекс <= предыдущий_индекс
+            or индекс < 0
+            or индекс >= len(результаты)
+            or индекс >= len(головы)
+            or результаты[индекс] != запись["хэш_результата"]
+            or хэши[позиция] != запись["хэш_намерения_коммита"]
+        ):
+            raise QueueError(EXIT_CONTEXT, "candidate_commit_intent_mismatch", "Порядок intent кандидата повреждён.")
+        намерение = проверить_объект_по_намерению_пула(
+            контекст_очереди,
+            назначение,
+            запись["хэш_намерения_коммита"],
+            "интеграционное_слияние",
+            запись["commit_oid"],
+        )
+        if (
+            намерение.get("индекс_результата") != индекс
+            or намерение.get("родители") != [предыдущая_вершина, головы[индекс]]
+            or намерение.get("хэш_сообщения")
+            != "sha256:"
+            + hashlib.sha256(
+                (
+                    f"Разрешить конфликт результата {запись['хэш_результата']}\n"
+                    if запись["конфликт_разрешён"]
+                    else f"Интегрировать результат {запись['хэш_результата']}\n"
+                ).encode("utf-8")
+            ).hexdigest()
+        ):
+            raise QueueError(EXIT_CONTEXT, "candidate_commit_intent_mismatch", "Intent не продолжает цепочку кандидата.")
+        предыдущая_вершина = запись["commit_oid"]
+        предыдущий_индекс = индекс
+    if (
+        предыдущая_вершина != кандидат.get("head_oid")
+        or bool(any(запись["конфликт_разрешён"] for запись in записи))
+        != bool(кандидат.get("conflict_resolved"))
+    ):
+        raise QueueError(EXIT_CONTEXT, "candidate_commit_intent_mismatch", "Вершина кандидата не совпала с цепочкой intent.")
+    for голова_результата in головы:
+        if run_git(
+            контекст_очереди.root,
+            ["merge-base", "--is-ancestor", голова_результата, кандидат["head_oid"]],
+            check=False,
+        ).returncode != 0:
+            raise QueueError(
+                EXIT_CONTEXT,
+                "candidate_commit_intent_mismatch",
+                "Кандидат не содержит заявленный result head.",
+            )
+
+
+def проверить_предслиянийный_барьер_дат_пула(
+    пул: dict[str, object],
+    кандидат: dict[str, object],
+) -> None:
+    хэши_результатов = кандидат.get("result_hashes")
+    результаты = пул.get("results")
+    if (
+        кандидат.get("schema") != СХЕМА_КВИТАНЦИИ_ИНТЕГРАЦИОННОГО_КАНДИДАТА_ПОДУЗЛОВ
+        or not isinstance(хэши_результатов, list)
+        or not хэши_результатов
+        or not isinstance(результаты, dict)
+        or any(
+            not isinstance(результаты.get(хэш), dict)
+            or результаты[хэш].get("schema") != СХЕМА_КВИТАНЦИИ_РЕЗУЛЬТАТА_ПОДУЗЛА
+            for хэш in хэши_результатов
+        )
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "integration_commit_date_policy_required",
+            "Перед merge каждый candidate и result обязан пройти новую политику долговечного времени коммита.",
+        )
+
+
 def проверить_переход_пула_интеграции(
     контекст_очереди: QueueContext,
     исходный_объект: str,
@@ -8077,10 +8408,24 @@ def проверить_переход_пула_интеграции(
     хэш_кандидата = квитанция["integration_candidate_hash"]
     исходный_кандидат = исходное["integration_candidates"].get(хэш_кандидата)
     новый_кандидат = новое["integration_candidates"].get(хэш_кандидата)
+    основные_поля_кандидата = {
+        "schema", "integrator_assignment_id", "integrator_assignment_hash", "task_id",
+        "host_id", "branch_ref", "target_ref", "remote", "base_oid", "head_oid",
+        "commits", "result_hashes", "review_hashes", "result_heads", "conflict_resolved",
+    }
+    схема_кандидата = исходный_кандидат.get("schema") if isinstance(исходный_кандидат, dict) else None
+    поля_кандидата_допустимы = (
+        схема_кандидата == ПРЕЖНЯЯ_СХЕМА_КВИТАНЦИИ_ИНТЕГРАЦИОННОГО_КАНДИДАТА_ПОДУЗЛОВ
+        and set(исходный_кандидат) == основные_поля_кандидата
+    ) or (
+        схема_кандидата == СХЕМА_КВИТАНЦИИ_ИНТЕГРАЦИОННОГО_КАНДИДАТА_ПОДУЗЛОВ
+        and set(исходный_кандидат)
+        == основные_поля_кандидата | {"хэши_намерений_коммитов", "интеграционные_коммиты"}
+    )
     if (
         not isinstance(исходный_кандидат, dict)
         or хэш_канонического_объекта_пула(исходный_кандидат) != хэш_кандидата
-        or исходный_кандидат.get("schema") != СХЕМА_КВИТАНЦИИ_ИНТЕГРАЦИОННОГО_КАНДИДАТА_ПОДУЗЛОВ
+        or not поля_кандидата_допустимы
         or исходный_кандидат.get("target_ref") != квитанция["target_ref"]
         or исходный_кандидат.get("base_oid") != квитанция["base_oid"]
         or исходный_кандидат.get("head_oid") != квитанция["head_oid"]
@@ -8090,6 +8435,12 @@ def проверить_переход_пула_интеграции(
         or not isinstance(новый_кандидат, dict)
     ):
         raise QueueError(EXIT_CONTEXT, "integration_candidate_mismatch", "Квитанция не связана с exact кандидатом.")
+    проверить_предслиянийный_барьер_дат_пула(исходное, исходный_кандидат)
+    проверить_доказательство_кандидата_пула(
+        контекст_очереди,
+        исходное,
+        исходный_кандидат,
+    )
     ожидаемый_кандидат = copy.deepcopy(исходный_кандидат)
     ожидаемый_кандидат["integration_hash"] = хэш_интеграции
     ожидаемые_кандидаты = copy.deepcopy(исходное["integration_candidates"])
@@ -8163,14 +8514,32 @@ def проверить_переход_пула_интеграции(
 
     for хэш_результата, голова_результата in zip(хэши_результатов, головы_результатов):
         результат = исходное["results"].get(хэш_результата)
+        основные_поля_результата = {
+            "schema", "assignment_hash", "activation_hash", "task_id", "host_id", "slot_id",
+            "worktree_id", "queue_ref", "branch_ref", "base_oid", "head_oid", "tree_oid",
+            "commits", "write_paths", "target_ref", "remote", "хэш_сообщения",
+        }
+        схема_результата = результат.get("schema") if isinstance(результат, dict) else None
+        поля_результата_допустимы = (
+            схема_результата == ПРЕЖНЯЯ_СХЕМА_КВИТАНЦИИ_РЕЗУЛЬТАТА_ПОДУЗЛА
+            and set(результат) == основные_поля_результата
+        ) or (
+            схема_результата == СХЕМА_КВИТАНЦИИ_РЕЗУЛЬТАТА_ПОДУЗЛА
+            and set(результат) == основные_поля_результата | {"хэш_намерения_коммита"}
+        )
         if (
             not isinstance(результат, dict)
             or хэш_канонического_объекта_пула(результат) != хэш_результата
-            or результат.get("schema") != "fum.квитанция-результата-worktree-подузла.2"
+            or not поля_результата_допустимы
             or результат.get("head_oid") != голова_результата
             or результат.get("target_ref") != квитанция["target_ref"]
         ):
             raise QueueError(EXIT_CONTEXT, "integration_result_receipt_mismatch", "Кандидат не связан с exact результатом.")
+        проверить_доказательство_результата_пула(
+            контекст_очереди,
+            исходное,
+            результат,
+        )
 
     релевантные_объекты = {хэш_кандидата: "integration_candidate", **{хэш: "result" for хэш in хэши_результатов}}
     for иной_хэш_ревью, иное_ревью in исходное["reviews"].items():

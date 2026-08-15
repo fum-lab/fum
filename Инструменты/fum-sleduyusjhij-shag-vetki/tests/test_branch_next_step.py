@@ -7660,60 +7660,49 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertEqual(len(oid), 64)
 
     def test_repository_has_a_valid_record_for_its_active_branch(self) -> None:
-        validation = subprocess.run(
-            [
-                sys.executable,
-                str(SCRIPT_PATH),
-                "validate",
-                "--repo-root",
-                str(REPO_ROOT),
-                "--json",
-            ],
-            check=False,
-            capture_output=True,
-            text=True,
-        )
-        shown = subprocess.run(
-            [
-                sys.executable,
-                str(SCRIPT_PATH),
-                "show",
-                "--repo-root",
-                str(REPO_ROOT),
-                "--json",
-            ],
-            check=False,
-            capture_output=True,
-            text=True,
+        карточки = TOOL_MODULE.load_cards(REPO_ROOT)
+        записи = TOOL_MODULE.load_records(REPO_ROOT, карточки)
+        совпадающие_записи = [
+            запись
+            for запись in записи
+            if запись.branch_ref == "refs/heads/master"
+        ]
+        self.assertEqual(len(совпадающие_записи), 1)
+        основная_запись = совпадающие_записи[0]
+        готовые_кандидаты = TOOL_MODULE.validate_ready_pool(основная_запись)
+        показанный_кандидат, выбор = TOOL_MODULE.select_ready_candidate(
+            REPO_ROOT,
+            основная_запись,
         )
 
+        self.assertEqual(len(основная_запись.candidates), 13)
+        self.assertEqual(len(готовые_кандидаты), 4)
         self.assertEqual(
-            validation.returncode,
-            0,
-            validation.stdout + validation.stderr,
+            sum(кандидат.status == "paused" for кандидат in основная_запись.candidates),
+            6,
         )
-        validation_payload = self.payload(validation)
-        self.assertEqual(validation_payload["candidate_count"], 13)
-        self.assertEqual(validation_payload["ready_count"], 4)
-        self.assertEqual(validation_payload["paused_count"], 6)
-        self.assertEqual(validation_payload["blocked_count"], 3)
-        self.assertEqual(shown.returncode, 0, shown.stdout + shown.stderr)
-        shown_payload = self.payload(shown)
-        self.assertEqual(shown_payload["state"], "ready")
+        self.assertEqual(
+            sum(кандидат.status == "blocked" for кандидат in основная_запись.candidates),
+            3,
+        )
+        self.assertIsNotNone(показанный_кандидат)
+        self.assertIsNotNone(выбор)
+        assert показанный_кандидат is not None
+        assert выбор is not None
         ожидаемый_выбор = (
             "FUM-STEP-0124",
             "master-fum-step-0124-automatic-v8",
         )
-        self.assertEqual(shown_payload["card_id"], ожидаемый_выбор[0])
+        self.assertEqual(показанный_кандидат.card_id, ожидаемый_выбор[0])
         self.assertEqual(
-            shown_payload["step_id"],
+            показанный_кандидат.step_id,
             ожидаемый_выбор[1],
         )
-        self.assertEqual(shown_payload["dispatch"], "automatic")
-        self.assertEqual(shown_payload["status"], "ready")
-        self.assertEqual(shown_payload["selection"]["ready_count"], 4)
+        self.assertEqual(показанный_кандидат.dispatch, "automatic")
+        self.assertEqual(показанный_кандидат.status, "ready")
+        self.assertEqual(выбор["ready_count"], 4)
         self.assertEqual(
-            shown_payload["selection"]["reason"],
+            выбор["reason"],
             "completed_step_source",
         )
 
