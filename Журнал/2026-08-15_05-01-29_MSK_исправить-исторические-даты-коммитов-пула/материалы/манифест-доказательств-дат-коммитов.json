@@ -1,0 +1,189 @@
+{
+  "схема": "fum.манифест-доказательств-дат-коммитов-worktree-пула.1",
+  "снимок": {
+    "ссылка_пула": "refs/fum/worktree-subnode-pools/98604a11502b6e6a1e109aa8a020d32da18db709ba17d2dcd2aa56efefee386d",
+    "oid_пула": "7ae9a41b8bc61658966b6eb76076dd1222d77d0d",
+    "целевая_ссылка": "refs/heads/master",
+    "oid_цели": "249d076b1857f4e1727e5448587d13f16b15a30a",
+    "число_коммитов": 15,
+    "число_веток": 14
+  },
+  "политика": {
+    "дата": "секунда exact branch reflog, совпадающая с floor(timestamp) единственного успешного custom_tool_call_output",
+    "запрещённые_замены": [
+      "timestamp начала вызова",
+      "detached HEAD reflog",
+      "mtime",
+      "тема коммита",
+      "порядок FIFO"
+    ],
+    "часовой_пояс_git": "+0000"
+  },
+  "коммиты": [
+    {
+      "старый_oid": "4664885043b6954e871698878ec4e98eeed9fd8b",
+      "ожидаемый_новый_oid": "f821f3b55e0c3eab2cf1ea05d01cf02ffd571e1f",
+      "эпоха": 1786732292,
+      "task_id": "01a000f2-ab64-7101-acfc-8a2c6382946d",
+      "call_id": "call_MNA0SV92C4NTfVSwTQFCjHhP",
+      "assignment_hash": "sha256:ca3048cf611e1d9f13ee9c1d78e070fbf8539617d4044c23e3e8a6f98cd57662",
+      "хэш_квитанции": "sha256:3dca0fbafa440767a35ec962218d03bb5164b836eb067e3a800e780cee4085b4",
+      "вид_квитанции": "результат",
+      "ссылка_ветки": "refs/heads/codex/подузлы/сессия-12b43691fc6371660755681e"
+    },
+    {
+      "старый_oid": "1c9c82d51651bdf52283b1b791408bf66b837ccc",
+      "ожидаемый_новый_oid": "1de99504e46497f4d384ee6c5fc110063bcbfb6c",
+      "эпоха": 1786746403,
+      "task_id": "01a000ea-3a7e-7043-8beb-f4b92ce77385",
+      "call_id": "call_ZIbkOkSVyMHyQ5QOYLEOtPrE",
+      "assignment_hash": "sha256:75d57ef19739e9db4121735a7d5c3e21833075cf05f738e5852f743a745affdf",
+      "хэш_квитанции": "sha256:ed969a56081d521cfbb10601cacd744c69ee6740ca0672796ee3c67d8013d220",
+      "вид_квитанции": "результат",
+      "ссылка_ветки": "refs/heads/codex/подузлы/сессия-260d116b5d1f2911884d3651"
+    },
+    {
+      "старый_oid": "218ab0b8227b94888288ece3bf6b51ef44b64ff5",
+      "ожидаемый_новый_oid": "b0403b8047a411255c66bc4e818402d5ec6ab300",
+      "эпоха": 1786747732,
+      "task_id": "01a000c5-4ed0-74d3-be55-e203b5a50210",
+      "call_id": "call_ZimfIoqGprNvw2t5IhtOJcfB",
+      "assignment_hash": "sha256:62e16b600e9b564e4e08ac16d0ca88ef92ae928ecb3f0a19e2442c8221b90576",
+      "хэш_квитанции": "sha256:a688c1c75339821c3a85b63c03aec7b3dd4f80dbc103c0520a8e79547d900c19",
+      "вид_квитанции": "результат",
+      "ссылка_ветки": "refs/heads/codex/подузлы/сессия-2b381b69b99d4e96092ffa4f"
+    },
+    {
+      "старый_oid": "6ad10c372139f0f0dec65d981cc28d7b0571b67d",
+      "ожидаемый_новый_oid": "1a47d4746324bdb361d99398dc235d9bea192c4b",
+      "эпоха": 1786748297,
+      "task_id": "01a000f5-16f4-7432-963f-9fa0677fb2f8",
+      "call_id": "call_SBkBxoaCBGOby6slow38WibE",
+      "assignment_hash": "sha256:9265f576ec06809c41d76602db89cd2c62c1278d30539a77e5e8d609fe0c77b1",
+      "хэш_квитанции": "sha256:5ed5303e3c220e68a1229e60285f4d0a66c9a7f4ec90c77426ca35db12d393e0",
+      "вид_квитанции": "результат",
+      "ссылка_ветки": "refs/heads/codex/подузлы/сессия-409742d2b28e477012b06626"
+    },
+    {
+      "старый_oid": "303e8cb6171a8b1e15c5394d7142ff8b49ba1972",
+      "ожидаемый_новый_oid": "bec2f501b6c6bbf793c23bc02c1780bd8921b182",
+      "эпоха": 1786737017,
+      "task_id": "01a00163-8b87-7ae3-bed6-9694d8f31493",
+      "call_id": "call_0DnKD089NU83Lia1os5JYp44",
+      "assignment_hash": "sha256:41fae981f426edb66f121bd6e2ba9fa5aea9943bfd47ad00ae1db049f64e5b6a",
+      "хэш_квитанции": "sha256:2bba2db412741dc973eb6ec8f82ab8ede3eb4326249ee8ee1b98a1406eca0be7",
+      "вид_квитанции": "передача",
+      "ссылка_ветки": "refs/heads/codex/подузлы/сессия-5145e5cfc1174e66a304a9ec"
+    },
+    {
+      "старый_oid": "267ae2b821ce001cab6b086acbe235ebef1fdfca",
+      "ожидаемый_новый_oid": "aa04f749400da6cb4b1a8eec1e86baa00fe11e5f",
+      "эпоха": 1786746387,
+      "task_id": "01a00184-3f16-7193-9e7e-6bb0b70367b4",
+      "call_id": "call_90v6YzOEfGU3GD6mfTBiYuSw",
+      "assignment_hash": "sha256:41fae981f426edb66f121bd6e2ba9fa5aea9943bfd47ad00ae1db049f64e5b6a",
+      "хэш_квитанции": "sha256:a7bc2a5c23c0f2c2ae74923d901a47bc0d80c41fa1fd3ecb3d65d2b656ec280e",
+      "вид_квитанции": "результат",
+      "ссылка_ветки": "refs/heads/codex/подузлы/сессия-5145e5cfc1174e66a304a9ec"
+    },
+    {
+      "старый_oid": "24d03013f0126ee37129f91bcb01d83c9046cebf",
+      "ожидаемый_новый_oid": "7ee98fa4f72c319217d4284d30ecd1b1ca3198ab",
+      "эпоха": 1786753287,
+      "task_id": "01a00254-78d5-7a91-9a78-031f175d8e16",
+      "call_id": "call_4dSX1teTWsxgA14CvkLE32K9",
+      "assignment_hash": "sha256:a2c6ad46b7d84b763ea92cc205e9e5d39fd2a34b31c6f4c391d8cb0fac5ce5c0",
+      "хэш_квитанции": "sha256:c0176eda1004e5dc277ee6ca0efc0b8c582994090dc4841f28da0ef3017eda29",
+      "вид_квитанции": "результат",
+      "ссылка_ветки": "refs/heads/codex/подузлы/сессия-781706e17230e4e1307fe6b2"
+    },
+    {
+      "старый_oid": "57d4ffe8747f643b1cd3c0612cea9018f01652a8",
+      "ожидаемый_новый_oid": "cbeb686f4bc2ad7fa08fcb10fc0c44baeec1915b",
+      "эпоха": 1786738818,
+      "task_id": "01a000e7-7082-7bf1-8777-3a56728ff747",
+      "call_id": "call_1Y9yZXabQiYtAhOescDGTX52",
+      "assignment_hash": "sha256:16c60c16b428597e5b6ba3623f12216b8db7e2110c7384065c04d0923d8f80b5",
+      "хэш_квитанции": "sha256:07ff66f63d715454154b69e6be2c6129bc939bf3ad0ffca762af2fdc8976a552",
+      "вид_квитанции": "результат",
+      "ссылка_ветки": "refs/heads/codex/подузлы/сессия-bc79104b1252c679a5fcba21"
+    },
+    {
+      "старый_oid": "287d1c96de4bef6f14dd7fd6a52bd7103751390a",
+      "ожидаемый_новый_oid": "0ded7d2ed7f89ef739c2a69d4bf594e322756994",
+      "эпоха": 1786730964,
+      "task_id": "01a000d6-90d2-7b43-9f01-a8f041889d49",
+      "call_id": "call_lmpyzmsN8ZOxlcRgNG5fx18h",
+      "assignment_hash": "sha256:03e19848c72ea373b6b7cf08179b13c5ce2b4cfda5d278b2eafd12c8fd9bb81b",
+      "хэш_квитанции": "sha256:0a4df969441609f860db9a05a0c8f61eb649d30aeba6417a00f45cc595fe2568",
+      "вид_квитанции": "результат",
+      "ссылка_ветки": "refs/heads/codex/подузлы/сессия-c8121b1382fa3ef091cd8fcf"
+    },
+    {
+      "старый_oid": "c058c98df464f982b4a6a4283494a085e18e410d",
+      "ожидаемый_новый_oid": "db927feb6fa9bce952d53a30ed15562f86ba25b6",
+      "эпоха": 1786738949,
+      "task_id": "01a0010d-a7ae-7ef0-a255-7c008d3b5da3",
+      "call_id": "call_W8msKUWfEiMOHLldf5j03HyQ",
+      "assignment_hash": "sha256:e4979b28b058f8324d7e320bd6bfec9cb089525156e9bf6d1af9b5c59f4f86e7",
+      "хэш_квитанции": "sha256:d0f513a4c34f4e8094826b6b216d384983fc0f46bcf73c8a4304e3426ecdd1ce",
+      "вид_квитанции": "результат",
+      "ссылка_ветки": "refs/heads/codex/подузлы/сессия-e4c4e011613e9dcfe6d0bc14"
+    },
+    {
+      "старый_oid": "b60bcae5ddfe80322827921dc0e3325d60628ac8",
+      "ожидаемый_новый_oid": "87d0f3e4f80ec8df6eeacdf498dad8eced430543",
+      "эпоха": 1786738891,
+      "task_id": "01a000cc-5679-72a1-9e5e-23c8df5eb71c",
+      "call_id": "call_FMdBLfrxPpOpVoT5jDzzhH2n",
+      "assignment_hash": "sha256:f7407e9a0efb1b85d800b174bbea9ffa7872a966b7c2ad5fefbd9f0b76d7af6a",
+      "хэш_квитанции": "sha256:f6b050b9927f7c69727286e42d6b6fa073be749f7a16facf0552f5e50a804637",
+      "вид_квитанции": "результат",
+      "ссылка_ветки": "refs/heads/codex/подузлы/сессия-e56bcc3b0ea834216351fb42"
+    },
+    {
+      "старый_oid": "c0eaf7886b5c1c1dc984c1fb55c983bc82ee45f5",
+      "ожидаемый_новый_oid": "3832cdae90d040052d212253b523596c024ef0a7",
+      "эпоха": 1786748027,
+      "task_id": "01a0010b-813f-7041-b6b6-adb670029c8c",
+      "call_id": "call_vYdwpApiDEpsvxU660mOvqxf",
+      "assignment_hash": "sha256:5b19c923b37c32ae925400fc3b918ac190d215d56316ee63c8827430b86fcd0f",
+      "хэш_квитанции": "sha256:a2d260480d8292716b1cd0ca570d1f6537be8702484f6d307315e884eb0ed072",
+      "вид_квитанции": "результат",
+      "ссылка_ветки": "refs/heads/codex/подузлы/сессия-f19e343180b26b3d462e8269"
+    },
+    {
+      "старый_oid": "d6b183504f63322c0c392959c378bba5244b79cf",
+      "ожидаемый_новый_oid": "0536e103e17aaf97de4ee53c033890780cfa76e7",
+      "эпоха": 1786758393,
+      "task_id": "01a001ee-011f-75d2-b826-d9b40e9bba6b",
+      "call_id": "call_YbxbHZmZPjb78sTId0nZqoxZ",
+      "assignment_hash": "sha256:6ba2b9d874048bab77f56d22f9db44af8d7d1b0af0f8a2d8b70ef9c2ad541dba",
+      "хэш_квитанции": "sha256:2eabf55ef2cf3db35765696b2124cba14cf11aececc181a6a8845fe08e51d51e",
+      "вид_квитанции": "передача",
+      "ссылка_ветки": "refs/heads/codex/подузлы/сессия-ff6b955430eb0f6c79ff1532"
+    },
+    {
+      "старый_oid": "2f68c91aa6de01adbbe97cbb1afa7546a0fb39b6",
+      "ожидаемый_новый_oid": "62f3d8db20ec9ea5abb57b0cf090a4a3630402c6",
+      "эпоха": 1786758824,
+      "task_id": "01a00129-64f8-7d33-8a61-573c190aa5ee",
+      "call_id": "call_yBwe5OygzZYHQgvVqVK5L1v2",
+      "assignment_hash": "sha256:4b3990f0044d75aa7ae2c8ac47cc05ac9559a00e02878502dfaceb4d051e9518",
+      "хэш_квитанции": "sha256:f164d89bb559889d7e91b2a56abd581007da5ca03b19d7f9cbb75eb69d353910",
+      "вид_квитанции": "результат",
+      "ссылка_ветки": "refs/heads/codex/подузлы/сессия-0e726c1afc99b3bc6b4df54b"
+    },
+    {
+      "старый_oid": "8b65388d67ff9d98433695199cb42bdfeeb96587",
+      "ожидаемый_новый_oid": "3c38e4bda26abef9dc27c281ec46943f480d32d3",
+      "эпоха": 1786762306,
+      "task_id": "01a00175-8e80-7a22-b3b8-be8571fa36a7",
+      "call_id": "call_mO9ogTQrtUP8ymWge10MqEkq",
+      "assignment_hash": "sha256:7f7c9e12a61f76d9d5f5b0ac340bb5424affc5cecf786eb6fa845ac8da62d299",
+      "хэш_квитанции": "sha256:aee8ec56bb7995720dc2253deb39d82a3f1c8c6942c82a89b2c3f985113caa74",
+      "вид_квитанции": "результат",
+      "ссылка_ветки": "refs/heads/codex/подузлы/сессия-0f0e16308c739e9d2d6f3b9f"
+    }
+  ]
+}

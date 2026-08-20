@@ -82,7 +82,29 @@ EXIT_INTERRUPTED = 130
 СХЕМА_КВИТАНЦИИ_ПРИНЯТОЙ_ИНТЕГРАЦИИ = (
     "fum.квитанция-принятой-интеграции-worktree-подузлов.1"
 )
-СХЕМА_ПУЛА_РАБОЧИХ_ДЕРЕВЬЕВ_ПОДУЗЛОВ = "fum.пул-worktree-подузлов.2"
+ПРЕЖНЯЯ_СХЕМА_ПУЛА_РАБОЧИХ_ДЕРЕВЬЕВ_ПОДУЗЛОВ = (
+    "fum.пул-worktree-подузлов.2"
+)
+СХЕМА_ПУЛА_РАБОЧИХ_ДЕРЕВЬЕВ_ПОДУЗЛОВ = "fum.пул-worktree-подузлов.3"
+СХЕМА_СОСТОЯНИЯ_МИГРАЦИИ_ДАТ_ПУЛА = (
+    "fum.состояние-миграции-дат-коммитов-worktree-пула.1"
+)
+СХЕМА_АТТЕСТАЦИИ_МИГРАЦИИ_ДАТ_ПУЛА = (
+    "fum.аттестация-миграции-дат-коммитов-worktree-пула.1"
+)
+СХЕМА_КВИТАНЦИИ_МИГРАЦИИ_ДАТ_ПУЛА = (
+    "fum.квитанция-миграции-дат-коммитов-worktree-пула.1"
+)
+СХЕМА_ДОКАЗАТЕЛЬСТВА_МИГРАЦИИ_ДАТЫ_КОММИТА = (
+    "fum.доказательство-миграции-даты-коммита-worktree-пула.1"
+)
+СХЕМА_ДОКАЗАТЕЛЬСТВА_ПЕРЕЗАПИСИ_ПОТОМКА = (
+    "fum.доказательство-перезаписи-потомка-миграции-дат-коммитов-worktree-пула.1"
+)
+СХЕМА_КВИТАНЦИИ_НАЧАЛЬНОЙ_ИНТЕГРАЦИИ_АКТИВАЦИИ_МОСТА_МИГРАЦИИ_ДАТ = (
+    "fum.квитанция-C0-активации-моста-миграции-дат-worktree-пула.1"
+)
+ФИКТИВНАЯ_ДАТА_КОММИТА_РАБОЧЕГО_ДЕРЕВА_ПУЛА = "946684800 +0000"
 СХЕМА_КВИТАНЦИИ_СРАВНЕНИЯ_И_ЗАМЕНЫ_ИНТЕГРАЦИИ_ПОДУЗЛОВ = (
     "fum.квитанция-CAS-интеграции-worktree-подузлов.1"
 )
@@ -97,6 +119,9 @@ EXIT_INTERRUPTED = 130
 )
 СХЕМА_КВИТАНЦИИ_РЕЗУЛЬТАТА_ПОДУЗЛА = (
     "fum.квитанция-результата-worktree-подузла.3"
+)
+СХЕМА_МИГРИРОВАННОЙ_КВИТАНЦИИ_РЕЗУЛЬТАТА_ПОДУЗЛА = (
+    "fum.квитанция-результата-worktree-подузла.4"
 )
 СХЕМА_КВИТАНЦИИ_РЕВЬЮ_ПОДУЗЛА = "fum.квитанция-агентского-ревью-worktree-подузла.1"
 СХЕМА_НАМЕРЕНИЯ_ПУБЛИКАЦИИ_ИНТЕГРАЦИИ = (
@@ -142,6 +167,18 @@ EXIT_INTERRUPTED = 130
 )
 ПРОСТРАНСТВО_КВИТАНЦИЙ_ПРИНЯТЫХ_ИНТЕГРАЦИЙ = (
     "refs/fum/квитанции-принятых-интеграций-worktree-подузлов"
+)
+ПРОСТРАНСТВО_КВИТАНЦИЙ_НАЧАЛЬНОЙ_ИНТЕГРАЦИИ_АКТИВАЦИИ_МОСТА_МИГРАЦИИ_ДАТ = (
+    "refs/fum/квитанции-C0-активации-моста-миграции-дат-worktree-пула"
+)
+ПРОСТРАНСТВО_АРХИВОВ_КОММИТОВ_МИГРАЦИИ_ДАТ = (
+    "refs/fum/архивы-миграции-дат-коммитов-worktree-подузлов"
+)
+ПРОСТРАНСТВО_АРХИВОВ_СОСТОЯНИЯ_МИГРАЦИИ_ДАТ = (
+    "refs/fum/архивы-миграции-дат-состояния-worktree-подузлов"
+)
+ПРОСТРАНСТВО_КВИТАНЦИЙ_МИГРАЦИИ_ДАТ = (
+    "refs/fum/квитанции-миграции-дат-коммитов-worktree-подузлов"
 )
 ПРОСТРАНСТВО_МАРШРУТОВ_ЗАДАЧ = "refs/fum/task-runtime-routes"
 ПРОСТРАНСТВО_РЕЕСТРОВ_БАРЬЕРОВ_ПРЕДАКТИВАЦИИ = (
@@ -7948,6 +7985,97 @@ def atomic_commit_and_handoff(
     )
 
 
+def построить_квитанцию_начальной_интеграции_активации_моста(
+    контекст: QueueContext,
+    состояние_очереди: dict[str, object],
+    объект_очереди: str,
+    *,
+    идентификатор_задачи: str,
+    поколение: str,
+    идентификатор_продолжения: str,
+    новая_вершина: str,
+    ссылка_пула: str,
+    исходный_объект_пула: str,
+    хэш_интеграции: str,
+    доказательство_начальной_интеграции: dict[str, str],
+) -> dict[str, object]:
+    владелец = состояние_очереди.get("owner")
+    ожидающие = состояние_очереди.get("waiting")
+    if (
+        not isinstance(владелец, dict)
+        or not isinstance(ожидающие, list)
+        or not ожидающие
+        or not isinstance(ожидающие[0], dict)
+        or владелец.get("task_id") != идентификатор_задачи
+        or владелец.get("generation") != поколение
+        or ожидающие[0].get("task_id") != идентификатор_продолжения
+    ):
+        raise QueueError(
+            EXIT_OWNERSHIP,
+            "bootstrap_C0_fifo_mismatch",
+            "C0 требует exact владельца и первое уже существующее FIFO-продолжение.",
+        )
+    _, идентификатор_репозитория = ожидаемая_ссылка_пула(контекст)
+    return {
+        "schema": СХЕМА_КВИТАНЦИИ_НАЧАЛЬНОЙ_ИНТЕГРАЦИИ_АКТИВАЦИИ_МОСТА_МИГРАЦИИ_ДАТ,
+        "repository_identity": идентификатор_репозитория,
+        "task_id": идентификатор_задачи,
+        "generation": поколение,
+        "continuation_task_id": идентификатор_продолжения,
+        "target_ref": контекст.branch_ref,
+        "target_oid": владелец["base_head"],
+        "candidate_head_oid": новая_вершина,
+        "tool_oid": доказательство_начальной_интеграции["tool_oid"],
+        "candidate_hash": доказательство_начальной_интеграции["candidate_hash"],
+        "review_hash": доказательство_начальной_интеграции["review_hash"],
+        "migration_receipt_hash": доказательство_начальной_интеграции["migration_receipt_hash"],
+        "migration_receipt_oid": доказательство_начальной_интеграции["migration_receipt_oid"],
+        "migration_attestation_hash": доказательство_начальной_интеграции["migration_attestation_hash"],
+        "pool_ref": ссылка_пула,
+        "source_pool_oid": исходный_объект_пула,
+        "integration_hash": хэш_интеграции,
+        "queue_ref": контекст.queue_ref,
+        "source_queue_oid": объект_очереди,
+        "owner_ticket_id": владелец["ticket_id"],
+        "owner_seq": владелец["seq"],
+        "first_continuation_ticket_id": ожидающие[0]["ticket_id"],
+        "first_continuation_seq": ожидающие[0]["seq"],
+        "waiting_hash": "sha256:"
+        + hashlib.sha256(canonical_state_bytes({"waiting": ожидающие})).hexdigest(),
+        "next_seq": состояние_очереди["next_seq"],
+    }
+
+
+def ссылка_квитанции_начальной_интеграции_активации_моста(
+    идентификатор_репозитория: str,
+    хэш_квитанции: str,
+) -> str:
+    if re.fullmatch(r"[0-9a-f]{64}", идентификатор_репозитория) is None or re.fullmatch(
+        r"sha256:[0-9a-f]{64}", хэш_квитанции
+    ) is None:
+        raise QueueError(EXIT_CONTEXT, "bootstrap_C0_receipt_identity_invalid", "Идентичность C0 receipt повреждена.")
+    return (
+        f"{ПРОСТРАНСТВО_КВИТАНЦИЙ_НАЧАЛЬНОЙ_ИНТЕГРАЦИИ_АКТИВАЦИИ_МОСТА_МИГРАЦИИ_ДАТ}/"
+        f"{идентификатор_репозитория}/{хэш_квитанции.removeprefix('sha256:')}"
+    )
+
+
+def проверить_неизменность_очереди_начальной_интеграции(
+    исходное: dict[str, object],
+    новое: dict[str, object],
+) -> None:
+    if (
+        исходное.get("next_seq") != новое.get("next_seq")
+        or canonical_state_bytes({"waiting": исходное.get("waiting")})
+        != canonical_state_bytes({"waiting": новое.get("waiting")})
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "bootstrap_C0_fifo_changed",
+            "C0 не может менять FIFO task/seq/order/priority или next_seq.",
+        )
+
+
 def ссылка_квитанции_принятой_интеграции(
     контекст_очереди: QueueContext,
     идентификатор_задачи: str,
@@ -8015,6 +8143,687 @@ def ожидаемая_ссылка_пула(контекст_очереди: Qu
         os.path.normcase(str(общий.resolve())).encode("utf-8")
     ).hexdigest()
     return f"refs/fum/worktree-subnode-pools/{идентификатор}", идентификатор
+
+
+ПОЛЯ_СОСТОЯНИЯ_МИГРАЦИИ_ДАТ_ПУЛА = {
+    "schema",
+    "status",
+    "plan_hash",
+    "source_pool_oid",
+    "tool_oid",
+    "task_id",
+    "assignment_id",
+    "generation",
+    "target_ref",
+    "target_oid",
+    "branch_refs",
+    "queue_refs",
+    "route_refs",
+    "receipt_hash",
+    "receipt_oid",
+    "attestation_hash",
+    "legacy_reachable",
+    "stale_dependencies",
+    "candidate_hash",
+    "review_hash",
+    "bootstrap_receipt_hash",
+}
+ПОЛЯ_АТТЕСТАЦИИ_МИГРАЦИИ_ДАТ_ПУЛА = (
+    "plan_hash",
+    "source_pool_oid",
+    "tool_oid",
+    "task_id",
+    "assignment_id",
+    "generation",
+    "target_ref",
+    "target_oid",
+    "branch_refs",
+    "queue_refs",
+    "route_refs",
+    "receipt_hash",
+    "receipt_oid",
+)
+
+
+def данные_аттестации_миграции_дат_пула(
+    состояние_миграции: dict[str, object],
+) -> dict[str, object]:
+    """Вернуть неизменяемую часть completed- и activated-эпохи."""
+
+    return {
+        "schema": СХЕМА_АТТЕСТАЦИИ_МИГРАЦИИ_ДАТ_ПУЛА,
+        **{
+            поле: copy.deepcopy(состояние_миграции.get(поле))
+            for поле in ПОЛЯ_АТТЕСТАЦИИ_МИГРАЦИИ_ДАТ_ПУЛА
+        },
+    }
+
+
+def хэш_аттестации_миграции_дат_пула(
+    состояние_миграции: dict[str, object],
+) -> str:
+    return хэш_канонического_объекта_пула(
+        данные_аттестации_миграции_дат_пула(состояние_миграции)
+    )
+
+
+def проверить_карту_ссылок_аттестации(
+    значение: object,
+    префикс: str,
+    длина_идентификатора_объекта_миграции: int,
+) -> bool:
+    return (
+        isinstance(значение, dict)
+        and all(
+            isinstance(ссылка, str)
+            and ссылка.startswith(префикс)
+            and isinstance(объект, str)
+            and re.fullmatch(rf"[0-9a-f]{{{длина_идентификатора_объекта_миграции}}}", объект) is not None
+            for ссылка, объект in значение.items()
+        )
+    )
+
+
+ПОЛЯ_ДОКАЗАТЕЛЬСТВА_МИГРАЦИИ_ДАТЫ_КОММИТА = {
+    "schema",
+    "task_id",
+    "call_id",
+    "assignment_id",
+    "operation",
+    "old_oid",
+    "branch_ref",
+    "receipt_hash",
+    "commit_timestamp",
+    "git_date",
+    "source_records",
+    "source_hashes",
+}
+ПОЛЯ_ЗАПИСЕЙ_ИСТОЧНИКА_МИГРАЦИИ_ДАТЫ = {"session", "call", "output"}
+ПОЛЯ_ПОЗИЦИИ_ЗАПИСИ_ИСТОЧНИКА = {"index", "offset"}
+ПОЛЯ_ХЭШЕЙ_ИСТОЧНИКОВ_МИГРАЦИИ_ДАТЫ = {
+    "session_record_hash",
+    "call_record_hash",
+    "output_record_hash",
+    "reflog_record_hash",
+}
+ПОЛЯ_ДОКАЗАТЕЛЬСТВА_ПЕРЕЗАПИСИ_ПОТОМКА = {
+    "schema",
+    "old_oid",
+    "new_oid",
+    "reason",
+    "old_parents",
+    "new_parents",
+    "git_date",
+    "seed_proof_hashes",
+    "plan_hash",
+}
+ПОЛЯ_КВИТАНЦИИ_МИГРАЦИИ_ДАТ_ПУЛА = {
+    "schema",
+    "plan_hash",
+    "source_pool_oid",
+    "locked_pool_oid",
+    "tool_oid",
+    "task_id",
+    "assignment_id",
+    "generation",
+    "target_ref",
+    "target_oid",
+    "branch_refs_before",
+    "branch_refs_after",
+    "queue_refs_before",
+    "queue_refs_after",
+    "route_refs",
+    "oid_mapping",
+    "proofs",
+    "result_supersessions",
+    "archive_refs",
+    "state_archive_refs",
+}
+
+
+def проверить_доказательство_миграции_даты_коммита(
+    доказательство: object,
+    *,
+    прежний_идентификатор_объекта: str,
+    длина_идентификатора_объекта_миграции: int,
+) -> dict[str, object]:
+    if not isinstance(доказательство, dict):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migrated_result_proof_invalid",
+            "Proof мигрированного result отсутствует.",
+        )
+    записи_источника = доказательство.get("source_records")
+    хэши_источников = доказательство.get("source_hashes")
+    метка = доказательство.get("commit_timestamp")
+    дата = доказательство.get("git_date")
+    if (
+        set(доказательство) != ПОЛЯ_ДОКАЗАТЕЛЬСТВА_МИГРАЦИИ_ДАТЫ_КОММИТА
+        or доказательство.get("schema")
+        != СХЕМА_ДОКАЗАТЕЛЬСТВА_МИГРАЦИИ_ДАТЫ_КОММИТА
+        or доказательство.get("old_oid") != прежний_идентификатор_объекта
+        or not isinstance(прежний_идентификатор_объекта, str)
+        or re.fullmatch(rf"[0-9a-f]{{{длина_идентификатора_объекта_миграции}}}", прежний_идентификатор_объекта) is None
+        or any(
+            not isinstance(доказательство.get(поле), str)
+            or not доказательство[поле]
+            for поле in ("task_id", "call_id", "assignment_id")
+        )
+        or доказательство.get("operation")
+        not in {"передать-линию", "зафиксировать-результат"}
+        or not isinstance(доказательство.get("branch_ref"), str)
+        or not доказательство["branch_ref"].startswith("refs/heads/")
+        or not isinstance(доказательство.get("receipt_hash"), str)
+        or re.fullmatch(
+            r"sha256:[0-9a-f]{64}",
+            доказательство["receipt_hash"],
+        )
+        is None
+        or not isinstance(метка, int)
+        or isinstance(метка, bool)
+        or метка <= 946684800
+        or дата != f"{метка} +0000"
+        or not isinstance(записи_источника, dict)
+        or set(записи_источника)
+        != ПОЛЯ_ЗАПИСЕЙ_ИСТОЧНИКА_МИГРАЦИИ_ДАТЫ
+        or any(
+            not isinstance(запись, dict)
+            or set(запись) != ПОЛЯ_ПОЗИЦИИ_ЗАПИСИ_ИСТОЧНИКА
+            or any(
+                not isinstance(значение, int)
+                or isinstance(значение, bool)
+                or значение < 0
+                for значение in запись.values()
+            )
+            for запись in записи_источника.values()
+        )
+        or not isinstance(хэши_источников, dict)
+        or set(хэши_источников) != ПОЛЯ_ХЭШЕЙ_ИСТОЧНИКОВ_МИГРАЦИИ_ДАТЫ
+        or any(
+            not isinstance(значение, str)
+            or re.fullmatch(r"sha256:[0-9a-f]{64}", значение) is None
+            for значение in хэши_источников.values()
+        )
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migrated_result_proof_invalid",
+            "Proof мигрированного result не прошёл закрытую схему.",
+        )
+    return доказательство
+
+
+def проверить_доказательство_перезаписи_потомка(
+    доказательство: object,
+    *,
+    прежний_идентификатор_объекта: str,
+    длина_идентификатора_объекта_миграции: int,
+    соответствие_идентификаторов_объектов: dict[str, str],
+    хэш_плана: str,
+    хэши_доказательств_семян: dict[str, str],
+) -> dict[str, object]:
+    if not isinstance(доказательство, dict):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migrated_result_proof_invalid",
+            "Parent-only proof мигрированного result отсутствует.",
+        )
+    старые_родители = доказательство.get("old_parents")
+    новые_родители = доказательство.get("new_parents")
+    if (
+        set(доказательство)
+        != ПОЛЯ_ДОКАЗАТЕЛЬСТВА_ПЕРЕЗАПИСИ_ПОТОМКА
+        or доказательство.get("schema")
+        != СХЕМА_ДОКАЗАТЕЛЬСТВА_ПЕРЕЗАПИСИ_ПОТОМКА
+        or доказательство.get("old_oid") != прежний_идентификатор_объекта
+        or re.fullmatch(rf"[0-9a-f]{{{длина_идентификатора_объекта_миграции}}}", прежний_идентификатор_объекта) is None
+        or доказательство.get("new_oid")
+        != соответствие_идентификаторов_объектов.get(прежний_идентификатор_объекта)
+        or доказательство.get("new_oid") == прежний_идентификатор_объекта
+        or доказательство.get("reason") != "parent_only"
+        or доказательство.get("plan_hash") != хэш_плана
+        or доказательство.get("seed_proof_hashes")
+        != хэши_доказательств_семян
+        or not isinstance(старые_родители, list)
+        or not isinstance(новые_родители, list)
+        or len(старые_родители) != len(новые_родители)
+        or старые_родители == новые_родители
+        or any(
+            not isinstance(идентификатор_объекта_миграции, str)
+            or re.fullmatch(rf"[0-9a-f]{{{длина_идентификатора_объекта_миграции}}}", идентификатор_объекта_миграции) is None
+            for идентификатор_объекта_миграции in [*старые_родители, *новые_родители]
+        )
+        or новые_родители
+        != [
+            соответствие_идентификаторов_объектов.get(родитель, родитель)
+            for родитель in старые_родители
+        ]
+        or not isinstance(доказательство.get("git_date"), str)
+        or re.fullmatch(r"[0-9]+ [+-][0-9]{4}", доказательство["git_date"])
+        is None
+        or доказательство["git_date"]
+        == ФИКТИВНАЯ_ДАТА_КОММИТА_РАБОЧЕГО_ДЕРЕВА_ПУЛА
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migrated_result_proof_invalid",
+            "Parent-only proof не прошло closed schema и cross-link.",
+        )
+    return доказательство
+
+
+def проверить_квитанцию_миграции_дат_пула(
+    состояние_миграции: dict[str, object],
+    квитанция: dict[str, object],
+    *,
+    длина_идентификатора_объекта_миграции: int,
+    идентификатор_репозитория: str,
+) -> None:
+    поля_идентификаторов_объектов = (
+        "source_pool_oid",
+        "locked_pool_oid",
+        "tool_oid",
+        "target_oid",
+    )
+    поля_идентичности = ("task_id", "assignment_id", "generation")
+    снимки = (
+        ("branch_refs_before", "refs/heads/"),
+        ("branch_refs_after", "refs/heads/"),
+        ("queue_refs_before", "refs/fum/"),
+        ("queue_refs_after", "refs/fum/"),
+        ("route_refs", "refs/fum/"),
+    )
+    соответствие = квитанция.get("oid_mapping")
+    доказательства = квитанция.get("proofs")
+    замещения = квитанция.get("result_supersessions")
+    архивы = квитанция.get("archive_refs")
+    архивы_состояния = квитанция.get("state_archive_refs")
+    if (
+        set(квитанция) != ПОЛЯ_КВИТАНЦИИ_МИГРАЦИИ_ДАТ_ПУЛА
+        or квитанция.get("schema") != СХЕМА_КВИТАНЦИИ_МИГРАЦИИ_ДАТ_ПУЛА
+        or re.fullmatch(r"[0-9a-f]{64}", идентификатор_репозитория) is None
+        or not isinstance(квитанция.get("plan_hash"), str)
+        or re.fullmatch(r"sha256:[0-9a-f]{64}", квитанция["plan_hash"])
+        is None
+        or any(
+            not isinstance(квитанция.get(поле), str)
+            or re.fullmatch(rf"[0-9a-f]{{{длина_идентификатора_объекта_миграции}}}", квитанция[поле])
+            is None
+            for поле in поля_идентификаторов_объектов
+        )
+        or any(
+            not isinstance(квитанция.get(поле), str) or not квитанция[поле]
+            for поле in поля_идентичности
+        )
+        or not isinstance(квитанция.get("target_ref"), str)
+        or not квитанция["target_ref"].startswith("refs/heads/")
+        or any(
+            not проверить_карту_ссылок_аттестации(
+                квитанция.get(поле),
+                префикс,
+                длина_идентификатора_объекта_миграции,
+            )
+            for поле, префикс in снимки
+        )
+        or not isinstance(соответствие, dict)
+        or not соответствие
+        or any(
+            not isinstance(старый, str)
+            or re.fullmatch(rf"[0-9a-f]{{{длина_идентификатора_объекта_миграции}}}", старый) is None
+            or not isinstance(новый, str)
+            or re.fullmatch(rf"[0-9a-f]{{{длина_идентификатора_объекта_миграции}}}", новый) is None
+            or старый == новый
+            for старый, новый in соответствие.items()
+        )
+        or len(set(соответствие.values())) != len(соответствие)
+        or not isinstance(доказательства, dict)
+        or not доказательства
+        or set(доказательства) != set(соответствие)
+        or not isinstance(замещения, dict)
+        or any(
+            not isinstance(старый, str)
+            or re.fullmatch(r"sha256:[0-9a-f]{64}", старый) is None
+            or not isinstance(новый, str)
+            or re.fullmatch(r"sha256:[0-9a-f]{64}", новый) is None
+            for старый, новый in замещения.items()
+        )
+        or not isinstance(архивы, dict)
+        or len(архивы) != len(соответствие)
+        or not isinstance(архивы_состояния, dict)
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migration_receipt_invalid",
+            "Migration receipt не прошла закрытую схему.",
+        )
+    ожидаемые_архивы = {
+        f"{ПРОСТРАНСТВО_АРХИВОВ_КОММИТОВ_МИГРАЦИИ_ДАТ}/{идентификатор_репозитория}/{прежний_идентификатор_объекта}": прежний_идентификатор_объекта
+        for прежний_идентификатор_объекта in sorted(соответствие)
+    }
+    идентификатор_состояния_миграции = {
+        квитанция["source_pool_oid"],
+        квитанция["locked_pool_oid"],
+        *квитанция["queue_refs_before"].values(),
+    }
+    ожидаемые_архивы_состояния = {
+        f"{ПРОСТРАНСТВО_АРХИВОВ_СОСТОЯНИЯ_МИГРАЦИИ_ДАТ}/{идентификатор_репозитория}/{идентификатор_объекта_миграции}": идентификатор_объекта_миграции
+        for идентификатор_объекта_миграции in sorted(идентификатор_состояния_миграции)
+    }
+    if (
+        архивы != ожидаемые_архивы
+        or архивы_состояния != ожидаемые_архивы_состояния
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migration_receipt_invalid",
+            "Migration receipt имеет неточные deterministic archive refs.",
+        )
+
+    хэши_доказательств_семян: dict[str, str] = {}
+    for прежний_идентификатор_объекта, доказательство in доказательства.items():
+        if (
+            isinstance(доказательство, dict)
+            and доказательство.get("schema")
+            == СХЕМА_ДОКАЗАТЕЛЬСТВА_МИГРАЦИИ_ДАТЫ_КОММИТА
+        ):
+            проверенное = проверить_доказательство_миграции_даты_коммита(
+                доказательство,
+                прежний_идентификатор_объекта=прежний_идентификатор_объекта,
+                длина_идентификатора_объекта_миграции=длина_идентификатора_объекта_миграции,
+            )
+            хэши_доказательств_семян[прежний_идентификатор_объекта] = хэш_канонического_объекта_пула(
+                проверенное
+            )
+    if not хэши_доказательств_семян:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migrated_result_proof_invalid",
+            "Migration receipt не имеет ни одного canonical seed proof.",
+        )
+    for прежний_идентификатор_объекта, доказательство in доказательства.items():
+        if прежний_идентификатор_объекта in хэши_доказательств_семян:
+            continue
+        проверить_доказательство_перезаписи_потомка(
+            доказательство,
+            прежний_идентификатор_объекта=прежний_идентификатор_объекта,
+            длина_идентификатора_объекта_миграции=длина_идентификатора_объекта_миграции,
+            соответствие_идентификаторов_объектов=соответствие,
+            хэш_плана=квитанция["plan_hash"],
+            хэши_доказательств_семян=хэши_доказательств_семян,
+        )
+    ветви_до = квитанция["branch_refs_before"]
+    ветви_после = квитанция["branch_refs_after"]
+    if (
+        set(ветви_до) != set(ветви_после)
+        or any(
+            ветви_после[ссылка]
+            != соответствие.get(прежний_идентификатор_объекта, прежний_идентификатор_объекта)
+            for ссылка, прежний_идентификатор_объекта in ветви_до.items()
+        )
+        or any(
+            квитанция.get(поле_квитанции) != состояние_миграции.get(поле_состояния)
+            for поле_квитанции, поле_состояния in (
+                ("plan_hash", "plan_hash"),
+                ("source_pool_oid", "source_pool_oid"),
+                ("tool_oid", "tool_oid"),
+                ("task_id", "task_id"),
+                ("assignment_id", "assignment_id"),
+                ("generation", "generation"),
+                ("target_ref", "target_ref"),
+                ("target_oid", "target_oid"),
+                ("branch_refs_after", "branch_refs"),
+                ("queue_refs_after", "queue_refs"),
+                ("route_refs", "route_refs"),
+            )
+        )
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migration_receipt_state_mismatch",
+            "Migration receipt не совпала с closed состоянием пула.",
+        )
+
+
+def прочитать_квитанцию_миграции_дат(
+    контекст: QueueContext,
+    состояние_миграции: dict[str, object],
+) -> dict[str, object]:
+    объект = состояние_миграции["receipt_oid"]
+    if not isinstance(объект, str):
+        raise QueueError(EXIT_CONTEXT, "migration_attestation_invalid", "OID migration receipt повреждён.")
+    сырые_байты = run_git(
+        контекст.root,
+        ["cat-file", "blob", объект],
+        check=False,
+    )
+    if сырые_байты.returncode != 0:
+        raise QueueError(EXIT_CONTEXT, "migration_receipt_missing", "Migration receipt недоступна.")
+    try:
+        квитанция = json.loads(сырые_байты.stdout)
+    except (UnicodeDecodeError, json.JSONDecodeError) as ошибка:
+        raise QueueError(EXIT_CONTEXT, "migration_receipt_invalid", "Migration receipt повреждена.") from ошибка
+    if (
+        not isinstance(квитанция, dict)
+        or canonical_state_bytes(квитанция) != сырые_байты.stdout
+        or хэш_канонического_объекта_пула(квитанция)
+        != состояние_миграции.get("receipt_hash")
+    ):
+        raise QueueError(EXIT_CONTEXT, "migration_receipt_invalid", "Migration receipt не совпала с immutable хэшем.")
+    _, идентификатор_репозитория = ожидаемая_ссылка_пула(контекст)
+    проверить_квитанцию_миграции_дат_пула(
+        состояние_миграции,
+        квитанция,
+        длина_идентификатора_объекта_миграции=len(current_head(контекст.root)),
+        идентификатор_репозитория=идентификатор_репозитория,
+    )
+    хэш_квитанции = состояние_миграции.get("receipt_hash")
+    ожидаемая_ссылка_квитанции = (
+        f"{ПРОСТРАНСТВО_КВИТАНЦИЙ_МИГРАЦИИ_ДАТ}/"
+        f"{идентификатор_репозитория}/{хэш_квитанции[7:]}"
+    )
+    if read_ref_oid(контекст, ожидаемая_ссылка_квитанции) != объект:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migration_receipt_ref_mismatch",
+            "Deterministic ref migration receipt не указывает на exact receipt blob.",
+        )
+    for ссылка, идентификатор_объекта_миграции in квитанция["archive_refs"].items():
+        тип_объекта = run_git(контекст.root, ["cat-file", "-t", идентификатор_объекта_миграции], check=False)
+        if (
+            read_ref_oid(контекст, ссылка) != идентификатор_объекта_миграции
+            or тип_объекта.returncode != 0
+            or decoded_stdout(тип_объекта) != "commit"
+        ):
+            raise QueueError(
+                EXIT_CONTEXT,
+                "migration_commit_archive_mismatch",
+                "Commit archive ref не указывает на exact old commit.",
+            )
+    for ссылка, идентификатор_объекта_миграции in квитанция["state_archive_refs"].items():
+        тип_объекта = run_git(контекст.root, ["cat-file", "-t", идентификатор_объекта_миграции], check=False)
+        if (
+            read_ref_oid(контекст, ссылка) != идентификатор_объекта_миграции
+            or тип_объекта.returncode != 0
+            or decoded_stdout(тип_объекта) != "blob"
+        ):
+            raise QueueError(
+                EXIT_CONTEXT,
+                "migration_state_archive_mismatch",
+                "State archive ref не указывает на exact immutable blob.",
+            )
+    длина_идентификатора_объекта_миграции = len(current_head(контекст.root))
+    for прежний_идентификатор_объекта, новый_идентификатор_объекта in квитанция["oid_mapping"].items():
+        старые_байты = прочитать_сырой_коммит_миграции(
+            контекст,
+            прежний_идентификатор_объекта,
+            длина_идентификатора_объекта_миграции=длина_идентификатора_объекта_миграции,
+        )
+        новые_байты = прочитать_сырой_коммит_миграции(
+            контекст,
+            новый_идентификатор_объекта,
+            длина_идентификатора_объекта_миграции=длина_идентификатора_объекта_миграции,
+        )
+        ожидаемые_байты, _, _, _ = построить_ожидаемые_байты_мигрированного_коммита(
+            старые_байты,
+            квитанция["oid_mapping"],
+            квитанция["proofs"][прежний_идентификатор_объекта],
+            длина_идентификатора_объекта_миграции=длина_идентификатора_объекта_миграции,
+        )
+        if новые_байты != ожидаемые_байты:
+            raise QueueError(
+                EXIT_CONTEXT,
+                "migration_raw_object_mismatch",
+                "Old→new mapping migration receipt не совпал с exact raw commit bytes.",
+            )
+    return квитанция
+
+
+def прочитать_закреплённые_квитанции_миграции_дат(
+    контекст: QueueContext,
+) -> list[dict[str, object]]:
+    """Прочитать все неизменяемые эпохи, а не только текущую."""
+
+    _, идентификатор_репозитория = ожидаемая_ссылка_пула(контекст)
+    префикс = (
+        f"{ПРОСТРАНСТВО_КВИТАНЦИЙ_МИГРАЦИИ_ДАТ}/"
+        f"{идентификатор_репозитория}/"
+    )
+    вывод = decoded_stdout(
+        run_git(
+            контекст.root,
+            ["for-each-ref", "--format=%(refname)%09%(objectname)", префикс],
+        )
+    )
+    квитанции: list[dict[str, object]] = []
+    обработанные_ссылки: set[str] = set()
+    for строка in вывод.splitlines():
+        части = строка.split("\t")
+        if (
+            len(части) != 2
+            or not части[0].startswith(префикс)
+            or части[0] in обработанные_ссылки
+        ):
+            raise QueueError(
+                EXIT_CONTEXT,
+                "migration_receipt_ref_mismatch",
+                "Реестр migration receipt повреждён.",
+            )
+        ссылка, объект = части
+        обработанные_ссылки.add(ссылка)
+        квитанция = прочитать_канонический_объект_данных(
+            контекст,
+            объект,
+            состояние_ошибки="migration_receipt_invalid",
+            пояснение="Migration receipt повреждена.",
+        )
+        хэш = хэш_канонического_объекта_пула(квитанция)
+        if ссылка != f"{префикс}{хэш[7:]}":
+            raise QueueError(
+                EXIT_CONTEXT,
+                "migration_receipt_ref_mismatch",
+                "Migration receipt закреплена под иной deterministic ref.",
+            )
+        состояние = {
+            поле: copy.deepcopy(квитанция.get(поле_квитанции))
+            for поле, поле_квитанции in (
+                ("plan_hash", "plan_hash"),
+                ("source_pool_oid", "source_pool_oid"),
+                ("tool_oid", "tool_oid"),
+                ("task_id", "task_id"),
+                ("assignment_id", "assignment_id"),
+                ("generation", "generation"),
+                ("target_ref", "target_ref"),
+                ("target_oid", "target_oid"),
+                ("branch_refs", "branch_refs_after"),
+                ("queue_refs", "queue_refs_after"),
+                ("route_refs", "route_refs"),
+            )
+        }
+        состояние.update({"receipt_hash": хэш, "receipt_oid": объект})
+        проверенная = прочитать_квитанцию_миграции_дат(контекст, состояние)
+        if проверенная != квитанция:
+            raise QueueError(
+                EXIT_CONTEXT,
+                "migration_receipt_invalid",
+                "Migration receipt изменилась при durable readback.",
+            )
+        квитанции.append(проверенная)
+    return квитанции
+
+
+def проверить_аттестацию_миграции_дат_пула(
+    контекст: QueueContext,
+    пул: dict[str, object],
+    *,
+    допустимые_состояния: frozenset[str],
+) -> dict[str, object]:
+    if пул.get("schema") == ПРЕЖНЯЯ_СХЕМА_ПУЛА_РАБОЧИХ_ДЕРЕВЬЕВ_ПОДУЗЛОВ:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "integration_commit_date_migration_required",
+            "Pool .2 не проходит target-side барьер дат.",
+        )
+    состояние = пул.get("миграция_дат_коммитов")
+    длина_идентификатора_объекта_миграции = len(current_head(контекст.root))
+    хэшевые_поля = (
+        "plan_hash",
+        "receipt_hash",
+        "attestation_hash",
+    )
+    нулевые_либо_хэши = ("candidate_hash", "review_hash", "bootstrap_receipt_hash")
+    if (
+        not isinstance(состояние, dict)
+        or set(состояние) != ПОЛЯ_СОСТОЯНИЯ_МИГРАЦИИ_ДАТ_ПУЛА
+        or состояние.get("schema") != СХЕМА_СОСТОЯНИЯ_МИГРАЦИИ_ДАТ_ПУЛА
+        or состояние.get("status") not in допустимые_состояния
+        or any(
+            not isinstance(состояние.get(поле), str)
+            or re.fullmatch(r"sha256:[0-9a-f]{64}", состояние[поле]) is None
+            for поле in хэшевые_поля
+        )
+        or any(
+            состояние.get(поле) is not None
+            and (
+                not isinstance(состояние[поле], str)
+                or re.fullmatch(r"sha256:[0-9a-f]{64}", состояние[поле]) is None
+            )
+            for поле in нулевые_либо_хэши
+        )
+        or any(
+            not isinstance(состояние.get(поле), str)
+            or re.fullmatch(rf"[0-9a-f]{{{длина_идентификатора_объекта_миграции}}}", состояние[поле]) is None
+            for поле in ("source_pool_oid", "tool_oid", "target_oid", "receipt_oid")
+        )
+        or any(
+            not isinstance(состояние.get(поле), str) or not состояние[поле]
+            for поле in ("task_id", "assignment_id", "generation")
+        )
+        or not isinstance(состояние.get("target_ref"), str)
+        or not состояние["target_ref"].startswith("refs/heads/")
+        or not проверить_карту_ссылок_аттестации(состояние.get("branch_refs"), "refs/heads/", длина_идентификатора_объекта_миграции)
+        or not проверить_карту_ссылок_аттестации(состояние.get("queue_refs"), "refs/fum/", длина_идентификатора_объекта_миграции)
+        or not проверить_карту_ссылок_аттестации(состояние.get("route_refs"), "refs/fum/", длина_идентификатора_объекта_миграции)
+        or not isinstance(состояние.get("legacy_reachable"), list)
+        or not isinstance(состояние.get("stale_dependencies"), list)
+    ):
+        raise QueueError(EXIT_CONTEXT, "migration_attestation_invalid", "Closed migration attestation повреждена.")
+    if состояние["legacy_reachable"]:
+        raise QueueError(EXIT_CONTEXT, "integration_legacy_commit_reachable", "Live pool всё ещё достигает legacy-date commit.")
+    if состояние["stale_dependencies"]:
+        raise QueueError(EXIT_CONTEXT, "integration_candidate_stale_after_migration", "Candidate либо review ссылается на stale OID.")
+    фазовые_поля = ("candidate_hash", "review_hash", "bootstrap_receipt_hash")
+    if (
+        состояние["status"] == "completed"
+        and any(состояние[поле] is not None for поле in фазовые_поля)
+    ) or (
+        состояние["status"] == "activated"
+        and any(состояние[поле] is None for поле in фазовые_поля)
+    ):
+        raise QueueError(EXIT_CONTEXT, "migration_activation_receipt_mismatch", "Фаза migration attestation не совпала с C0 receipt.")
+    if хэш_аттестации_миграции_дат_пула(состояние) != состояние["attestation_hash"]:
+        raise QueueError(EXIT_CONTEXT, "migration_attestation_mismatch", "Migration attestation не воспроизводится.")
+    прочитать_квитанцию_миграции_дат(контекст, состояние)
+    return состояние
 
 
 def найти_назначение_пула_по_хэшу(
@@ -8154,6 +8963,601 @@ def проверить_объект_по_намерению_пула(
     return намерение
 
 
+ПОЛЯ_ПРЕЖНЕЙ_КВИТАНЦИИ_РЕЗУЛЬТАТА_ПОДУЗЛА = {
+    "schema",
+    "assignment_hash",
+    "activation_hash",
+    "task_id",
+    "host_id",
+    "slot_id",
+    "worktree_id",
+    "queue_ref",
+    "branch_ref",
+    "base_oid",
+    "head_oid",
+    "tree_oid",
+    "commits",
+    "write_paths",
+    "target_ref",
+    "remote",
+    "хэш_сообщения",
+}
+ПОЛЯ_ПРОИСХОЖДЕНИЯ_МИГРИРОВАННОЙ_КВИТАНЦИИ_РЕЗУЛЬТАТА = {
+    "предыдущая_квитанция",
+    "хэш_предыдущей_квитанции",
+    "хэш_байтов_предыдущей_квитанции",
+    "замещает",
+    "доказательство_миграции",
+    "хэш_доказательства_миграции",
+    "old_base_oid",
+    "old_head_oid",
+    "old_commits",
+}
+
+
+def прочитать_сырой_коммит_миграции(
+    контекст: QueueContext,
+    идентификатор_объекта_миграции: str,
+    *,
+    длина_идентификатора_объекта_миграции: int,
+) -> bytes:
+    if re.fullmatch(rf"[0-9a-f]{{{длина_идентификатора_объекта_миграции}}}", идентификатор_объекта_миграции) is None:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migrated_result_commit_oid_invalid",
+            "OID commit в migrated result повреждён.",
+        )
+    объект = run_git(
+        контекст.root,
+        ["cat-file", "commit", идентификатор_объекта_миграции],
+        check=False,
+    )
+    if объект.returncode != 0:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migrated_result_commit_missing",
+            "Commit migrated result недоступен.",
+        )
+    вычисленный_идентификатор_объекта = decoded_stdout(
+        run_git(
+            контекст.root,
+            ["hash-object", "-t", "commit", "--stdin"],
+            input_bytes=объект.stdout,
+        )
+    )
+    if вычисленный_идентификатор_объекта != идентификатор_объекта_миграции:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migrated_result_commit_oid_mismatch",
+            "Raw commit migrated result не совпал со своим OID.",
+        )
+    return объект.stdout
+
+
+def построить_ожидаемые_байты_мигрированного_коммита(
+    старые_байты: bytes,
+    соответствие_идентификаторов_объектов: dict[str, str],
+    доказательство: dict[str, object] | None,
+    *,
+    длина_идентификатора_объекта_миграции: int,
+) -> tuple[bytes, str, bytes, list[str]]:
+    заголовок, разделитель, сообщение = старые_байты.partition(b"\n\n")
+    строки = заголовок.split(b"\n")
+    if разделитель != b"\n\n" or not строки or any(not строка for строка in строки):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migrated_result_commit_invalid",
+            "Legacy commit migrated result повреждён.",
+        )
+    деревья = [строка[5:] for строка in строки if строка.startswith(b"tree ")]
+    строки_дат = [
+        строка
+        for строка in строки
+        if строка.startswith(b"author ") or строка.startswith(b"committer ")
+    ]
+    шаблон_даты = re.compile(
+        rb"^(?:author|committer) .+ <[^\n<>]+> (?P<date>[0-9]+ [+-][0-9]{4})$"
+    )
+    совпадения_дат = [шаблон_даты.fullmatch(строка) for строка in строки_дат]
+    if (
+        len(деревья) != 1
+        or re.fullmatch(rf"[0-9a-f]{{{длина_идентификатора_объекта_миграции}}}".encode("ascii"), деревья[0])
+        is None
+        or len(строки_дат) != 2
+        or any(совпадение is None for совпадение in совпадения_дат)
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migrated_result_commit_invalid",
+            "Legacy commit не имеет exact tree/author/committer headers.",
+        )
+    даты = [
+        совпадение.group("date").decode("ascii")
+        for совпадение in совпадения_дат
+        if совпадение is not None
+    ]
+    if len(set(даты)) != 1:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migrated_result_commit_date_ambiguous",
+            "Author и committer legacy commit имеют разные даты.",
+        )
+    схема_доказательства = (
+        доказательство.get("schema")
+        if доказательство is not None
+        else None
+    )
+    новая_дата = (
+        доказательство.get("git_date")
+        if доказательство is not None
+        else None
+    )
+    заменить_дату = схема_доказательства == СХЕМА_ДОКАЗАТЕЛЬСТВА_МИГРАЦИИ_ДАТЫ_КОММИТА
+    доказан_только_родитель = (
+        схема_доказательства == СХЕМА_ДОКАЗАТЕЛЬСТВА_ПЕРЕЗАПИСИ_ПОТОМКА
+    )
+    if (
+        заменить_дату
+        and (
+            даты[0] != ФИКТИВНАЯ_ДАТА_КОММИТА_РАБОЧЕГО_ДЕРЕВА_ПУЛА
+            or not isinstance(новая_дата, str)
+            or новая_дата == ФИКТИВНАЯ_ДАТА_КОММИТА_РАБОЧЕГО_ДЕРЕВА_ПУЛА
+        )
+    ) or (
+        доказан_только_родитель
+        and (
+            даты[0] == ФИКТИВНАЯ_ДАТА_КОММИТА_РАБОЧЕГО_ДЕРЕВА_ПУЛА
+            or новая_дата != даты[0]
+        )
+    ) or (
+        доказательство is None
+        and даты[0] == ФИКТИВНАЯ_ДАТА_КОММИТА_РАБОЧЕГО_ДЕРЕВА_ПУЛА
+    ) or (
+        доказательство is not None
+        and not заменить_дату
+        and not доказан_только_родитель
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migrated_result_commit_date_mismatch",
+            "Date commit не соответствует immutable proof миграции.",
+        )
+
+    новые_строки: list[bytes] = []
+    изменён_родитель = False
+    родители: list[str] = []
+    новые_родители: list[str] = []
+    for строка in строки:
+        if строка.startswith(b"parent "):
+            try:
+                старый_родитель = строка[7:].decode("ascii")
+            except UnicodeDecodeError as ошибка:
+                raise QueueError(
+                    EXIT_CONTEXT,
+                    "migrated_result_commit_parent_invalid",
+                    "Parent legacy commit повреждён.",
+                ) from ошибка
+            if re.fullmatch(rf"[0-9a-f]{{{длина_идентификатора_объекта_миграции}}}", старый_родитель) is None:
+                raise QueueError(
+                    EXIT_CONTEXT,
+                    "migrated_result_commit_parent_invalid",
+                    "Parent legacy commit имеет неверный OID.",
+                )
+            родители.append(старый_родитель)
+            новый_родитель = соответствие_идентификаторов_объектов.get(старый_родитель, старый_родитель)
+            изменён_родитель = изменён_родитель or новый_родитель != старый_родитель
+            новые_родители.append(новый_родитель)
+            новые_строки.append(b"parent " + новый_родитель.encode("ascii"))
+        elif заменить_дату and строка in строки_дат:
+            префикс, пробел, _ = строка.rpartition(b" ")
+            префикс, пробел_эпохи, _ = префикс.rpartition(b" ")
+            if not пробел or not пробел_эпохи:
+                raise QueueError(
+                    EXIT_CONTEXT,
+                    "migrated_result_commit_date_mismatch",
+                    "Date header legacy commit невозможно заменить.",
+                )
+            новые_строки.append(префикс + b" " + новая_дата.encode("ascii"))
+        else:
+            новые_строки.append(строка)
+    if доказан_только_родитель and (
+        not изменён_родитель
+        or родители != доказательство.get("old_parents")
+        or новые_родители != доказательство.get("new_parents")
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migrated_result_commit_parent_mismatch",
+            "Raw parent-only commit не совпал с exact descendant proof.",
+        )
+    if доказательство is None and not изменён_родитель:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migrated_result_commit_unchanged",
+            "Commit без seed-proof не имеет изменённого родителя.",
+        )
+    ожидаемые_байты = b"\n".join(новые_строки) + b"\n\n" + сообщение
+    if ожидаемые_байты == старые_байты:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migrated_result_commit_unchanged",
+            "Заявленный migrated commit побайтно не изменился.",
+        )
+    return ожидаемые_байты, деревья[0].decode("ascii"), сообщение, родители
+
+
+def найти_квитанцию_миграции_по_новому_коммиту(
+    контекст: QueueContext,
+    новый_идентификатор_объекта: str,
+) -> tuple[dict[str, object], str] | None:
+    совпадения: list[tuple[dict[str, object], str]] = []
+    for квитанция in прочитать_закреплённые_квитанции_миграции_дат(контекст):
+        соответствие = квитанция.get("oid_mapping")
+        if not isinstance(соответствие, dict):
+            raise QueueError(
+                EXIT_CONTEXT,
+                "migration_receipt_invalid",
+                "Migration receipt потеряла old→new mapping.",
+            )
+        прежние_идентификаторы_объектов = [
+            прежний_идентификатор_объекта
+            for прежний_идентификатор_объекта, кандидат in соответствие.items()
+            if кандидат == новый_идентификатор_объекта
+        ]
+        if len(прежние_идентификаторы_объектов) > 1:
+            raise QueueError(
+                EXIT_CONTEXT,
+                "migration_oid_mapping_ambiguous",
+                "Один new OID имеет несколько old OID в migration receipt.",
+            )
+        if прежние_идентификаторы_объектов:
+            совпадения.append((квитанция, прежние_идентификаторы_объектов[0]))
+    if len(совпадения) > 1:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migration_oid_mapping_ambiguous",
+            "New OID повторяется в нескольких migration receipts.",
+        )
+    return совпадения[0] if совпадения else None
+
+
+def найти_квитанцию_миграции_замещения_результата(
+    контекст: QueueContext,
+    старый_хэш: str,
+    новый_хэш: str,
+) -> dict[str, object]:
+    совпадения = []
+    for квитанция in прочитать_закреплённые_квитанции_миграции_дат(контекст):
+        замещения = квитанция.get("result_supersessions")
+        if not isinstance(замещения, dict):
+            raise QueueError(
+                EXIT_CONTEXT,
+                "migration_receipt_invalid",
+                "Migration receipt потеряла result supersessions.",
+            )
+        if замещения.get(старый_хэш) == новый_хэш:
+            совпадения.append(квитанция)
+    if len(совпадения) != 1:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migrated_result_supersession_mismatch",
+            "Supersession migrated result не найден однозначно в immutable migration receipts.",
+        )
+    return совпадения[0]
+
+
+def проверить_мигрированный_коммит_префикса_результата(
+    контекст: QueueContext,
+    результат: dict[str, object],
+    новый_идентификатор_объекта: str,
+    предыдущая_вершина: str,
+) -> bool:
+    найденное = найти_квитанцию_миграции_по_новому_коммиту(
+        контекст,
+        новый_идентификатор_объекта,
+    )
+    if найденное is None:
+        return False
+    квитанция, прежний_идентификатор_объекта = найденное
+    соответствие = квитанция["oid_mapping"]
+    доказательства = квитанция["proofs"]
+    if not isinstance(соответствие, dict) or not isinstance(доказательства, dict):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migration_receipt_invalid",
+            "Migration receipt потеряла mapping/proofs.",
+        )
+    длина_идентификатора_объекта_миграции = len(current_head(контекст.root))
+    старые_байты = прочитать_сырой_коммит_миграции(
+        контекст,
+        прежний_идентификатор_объекта,
+        длина_идентификатора_объекта_миграции=длина_идентификатора_объекта_миграции,
+    )
+    новые_байты = прочитать_сырой_коммит_миграции(
+        контекст,
+        новый_идентификатор_объекта,
+        длина_идентификатора_объекта_миграции=длина_идентификатора_объекта_миграции,
+    )
+    ожидаемые_байты, _, _, _ = построить_ожидаемые_байты_мигрированного_коммита(
+        старые_байты,
+        соответствие,
+        доказательства.get(прежний_идентификатор_объекта),
+        длина_идентификатора_объекта_миграции=длина_идентификатора_объекта_миграции,
+    )
+    заголовок = новые_байты.partition(b"\n\n")[0]
+    родители = [
+        строка[7:].decode("ascii")
+        for строка in заголовок.splitlines()
+        if строка.startswith(b"parent ")
+    ]
+    ссылка_ветки = результат.get("branch_ref")
+    ветви_до = квитанция.get("branch_refs_before")
+    ветви_после = квитанция.get("branch_refs_after")
+    старая_голова = ветви_до.get(ссылка_ветки) if isinstance(ветви_до, dict) else None
+    новая_голова = ветви_после.get(ссылка_ветки) if isinstance(ветви_после, dict) else None
+    if (
+        новые_байты != ожидаемые_байты
+        or родители != [предыдущая_вершина]
+        or not isinstance(старая_голова, str)
+        or not isinstance(новая_голова, str)
+        or соответствие.get(старая_голова, старая_голова) != новая_голова
+        or run_git(контекст.root, ["merge-base", "--is-ancestor", прежний_идентификатор_объекта, старая_голова], check=False).returncode != 0
+        or run_git(контекст.root, ["merge-base", "--is-ancestor", новый_идентификатор_объекта, новая_голова], check=False).returncode != 0
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migrated_result_prefix_mismatch",
+            "Migrated prefix не связан с contiguous result/branch snapshot.",
+        )
+    return True
+
+
+def проверить_мигрированную_квитанцию_результата_пула(
+    контекст: QueueContext,
+    пул: dict[str, object],
+    результат: dict[str, object],
+) -> None:
+    прежняя = результат.get("предыдущая_квитанция")
+    if not isinstance(прежняя, dict):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migrated_result_receipt_mismatch",
+            "Migrated result потерял embedded legacy receipt.",
+        )
+    прежняя_схема = прежняя.get("schema")
+    прежние_поля = set(ПОЛЯ_ПРЕЖНЕЙ_КВИТАНЦИИ_РЕЗУЛЬТАТА_ПОДУЗЛА)
+    if прежняя_схема == СХЕМА_КВИТАНЦИИ_РЕЗУЛЬТАТА_ПОДУЗЛА:
+        прежние_поля.add("хэш_намерения_коммита")
+    if (
+        прежняя_схема
+        not in {
+            ПРЕЖНЯЯ_СХЕМА_КВИТАНЦИИ_РЕЗУЛЬТАТА_ПОДУЗЛА,
+            СХЕМА_КВИТАНЦИИ_РЕЗУЛЬТАТА_ПОДУЗЛА,
+        }
+        or set(прежняя) != прежние_поля
+        or set(результат)
+        != прежние_поля
+        | ПОЛЯ_ПРОИСХОЖДЕНИЯ_МИГРИРОВАННОЙ_КВИТАНЦИИ_РЕЗУЛЬТАТА
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migrated_result_receipt_mismatch",
+            "Migrated result не прошёл exact supersession schema.",
+        )
+    старые_байты_квитанции = canonical_state_bytes(прежняя)
+    хэш_прежней = "sha256:" + hashlib.sha256(старые_байты_квитанции).hexdigest()
+    if any(
+        результат.get(поле) != хэш_прежней
+        for поле in (
+            "хэш_предыдущей_квитанции",
+            "хэш_байтов_предыдущей_квитанции",
+            "замещает",
+        )
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migrated_result_previous_receipt_forged",
+            "Embedded legacy receipt не совпала с canonical hash и bytes.",
+        )
+
+    новый_хэш = хэш_канонического_объекта_пула(результат)
+    квитанция_миграции = найти_квитанцию_миграции_замещения_результата(
+        контекст,
+        хэш_прежней,
+        новый_хэш,
+    )
+    соответствие_идентификаторов_объектов = квитанция_миграции["oid_mapping"]
+    исходный_пул = прочитать_канонический_пул(
+        контекст,
+        квитанция_миграции["source_pool_oid"],
+    )
+    исходные_результаты = исходный_пул.get("results")
+    if (
+        not isinstance(исходные_результаты, dict)
+        or исходные_результаты.get(хэш_прежней) != прежняя
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migrated_result_previous_receipt_forged",
+            "Embedded legacy receipt отсутствует в immutable source pool bytes.",
+        )
+
+    доказательство = результат.get("доказательство_миграции")
+    прежний_идентификатор_объекта_доказательства = (
+        доказательство.get("old_oid") if isinstance(доказательство, dict) else ""
+    )
+    if (
+        not isinstance(доказательство, dict)
+        or
+        результат.get("хэш_доказательства_миграции")
+        != хэш_канонического_объекта_пула(доказательство)
+        or квитанция_миграции["proofs"].get(прежний_идентификатор_объекта_доказательства)
+        != доказательство
+        or прежний_идентификатор_объекта_доказательства != результат.get("old_head_oid")
+        or соответствие_идентификаторов_объектов.get(прежний_идентификатор_объекта_доказательства)
+        != результат.get("head_oid")
+        or (
+            доказательство.get("schema")
+            == СХЕМА_ДОКАЗАТЕЛЬСТВА_МИГРАЦИИ_ДАТЫ_КОММИТА
+            and доказательство.get("branch_ref") != результат.get("branch_ref")
+        )
+        or (
+            доказательство.get("schema")
+            == СХЕМА_ДОКАЗАТЕЛЬСТВА_ПЕРЕЗАПИСИ_ПОТОМКА
+            and доказательство.get("new_oid") != результат.get("head_oid")
+        )
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migrated_result_proof_forged",
+            "Proof migrated result не совпал с immutable migration receipt.",
+        )
+
+    старые_коммиты = результат.get("old_commits")
+    новые_коммиты = результат.get("commits")
+    длина_идентификатора_объекта_миграции = len(current_head(контекст.root))
+    if (
+        not isinstance(старые_коммиты, list)
+        or not isinstance(новые_коммиты, list)
+        or not старые_коммиты
+        or any(
+            not isinstance(идентификатор_объекта_миграции, str)
+            or re.fullmatch(rf"[0-9a-f]{{{длина_идентификатора_объекта_миграции}}}", идентификатор_объекта_миграции) is None
+            for идентификатор_объекта_миграции in [*старые_коммиты, *новые_коммиты]
+        )
+        or not isinstance(результат.get("old_base_oid"), str)
+        or re.fullmatch(
+            rf"[0-9a-f]{{{длина_идентификатора_объекта_миграции}}}",
+            результат["old_base_oid"],
+        )
+        is None
+        or not isinstance(результат.get("old_head_oid"), str)
+        or re.fullmatch(
+            rf"[0-9a-f]{{{длина_идентификатора_объекта_миграции}}}",
+            результат["old_head_oid"],
+        )
+        is None
+        or not isinstance(результат.get("base_oid"), str)
+        or not isinstance(результат.get("head_oid"), str)
+        or len(старые_коммиты) != len(новые_коммиты)
+        or len(set(старые_коммиты)) != len(старые_коммиты)
+        or len(set(новые_коммиты)) != len(новые_коммиты)
+        or старые_коммиты != прежняя.get("commits")
+        or результат.get("old_base_oid") != прежняя.get("base_oid")
+        or результат.get("old_head_oid") != прежняя.get("head_oid")
+        or старые_коммиты[-1] != результат.get("old_head_oid")
+        or новые_коммиты[-1] != результат.get("head_oid")
+        or результат.get("base_oid")
+        != соответствие_идентификаторов_объектов.get(результат.get("old_base_oid"), результат.get("old_base_oid"))
+        or any(
+            not isinstance(прежний_идентификатор_объекта, str)
+            or not isinstance(новый_идентификатор_объекта, str)
+            or соответствие_идентификаторов_объектов.get(прежний_идентификатор_объекта) != новый_идентификатор_объекта
+            for прежний_идентификатор_объекта, новый_идентификатор_объекта in zip(старые_коммиты, новые_коммиты)
+        )
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migrated_result_oid_mapping_mismatch",
+            "Old→new commits migrated result не совпали с immutable mapping.",
+        )
+    исходные_назначения = исходный_пул.get("assignments")
+    совпавшие_назначения = (
+        [
+            (идентификатор, назначение)
+            for идентификатор, назначение in исходные_назначения.items()
+            if isinstance(идентификатор, str)
+            and isinstance(назначение, dict)
+            and назначение.get("assignment_hash") == прежняя.get("assignment_hash")
+        ]
+        if isinstance(исходные_назначения, dict)
+        else []
+    )
+    доказательства_семян_цепочки = [
+        квитанция_миграции["proofs"][идентификатор_объекта_миграции]
+        for идентификатор_объекта_миграции in старые_коммиты
+        if квитанция_миграции["proofs"][идентификатор_объекта_миграции].get("schema")
+        == СХЕМА_ДОКАЗАТЕЛЬСТВА_МИГРАЦИИ_ДАТЫ_КОММИТА
+    ]
+    if (
+        len(совпавшие_назначения) != 1
+        or совпавшие_назначения[0][1].get("id")
+        != совпавшие_назначения[0][0]
+        or any(
+            доказательство_семени.get("assignment_id")
+            != совпавшие_назначения[0][0]
+            for доказательство_семени in доказательства_семян_цепочки
+        )
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migrated_result_assignment_mismatch",
+            "Seed proof не связано с exact assignment immutable source pool.",
+        )
+    if run_git(
+        контекст.root,
+        [
+            "merge-base",
+            "--is-ancestor",
+            прежний_идентификатор_объекта_доказательства,
+            str(результат["old_head_oid"]),
+        ],
+        check=False,
+    ).returncode != 0:
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migrated_result_proof_ancestry_mismatch",
+            "Proof migrated result относится к иной legacy-цепочке.",
+        )
+
+    последнее_дерево = ""
+    последнее_сообщение = b""
+    доказательства = квитанция_миграции["proofs"]
+    предыдущий_прежний_идентификатор_объекта = результат["old_base_oid"]
+    for прежний_идентификатор_объекта, новый_идентификатор_объекта in zip(старые_коммиты, новые_коммиты):
+        старые_байты = прочитать_сырой_коммит_миграции(
+            контекст,
+            прежний_идентификатор_объекта,
+            длина_идентификатора_объекта_миграции=длина_идентификатора_объекта_миграции,
+        )
+        новые_байты = прочитать_сырой_коммит_миграции(
+            контекст,
+            новый_идентификатор_объекта,
+            длина_идентификатора_объекта_миграции=длина_идентификатора_объекта_миграции,
+        )
+        ожидаемые_байты, последнее_дерево, последнее_сообщение, родители = (
+            построить_ожидаемые_байты_мигрированного_коммита(
+                старые_байты,
+                соответствие_идентификаторов_объектов,
+                доказательства.get(прежний_идентификатор_объекта),
+                длина_идентификатора_объекта_миграции=длина_идентификатора_объекта_миграции,
+            )
+        )
+        if новые_байты != ожидаемые_байты or родители != [предыдущий_прежний_идентификатор_объекта]:
+            raise QueueError(
+                EXIT_CONTEXT,
+                "migrated_result_raw_object_mismatch",
+                "Commit-цепочка изменила байты или родителей вне разрешённого mapping.",
+            )
+        предыдущий_прежний_идентификатор_объекта = прежний_идентификатор_объекта
+    if (
+        результат.get("tree_oid") != последнее_дерево
+        or результат.get("tree_oid") != прежняя.get("tree_oid")
+        or результат.get("хэш_сообщения")
+        != "sha256:" + hashlib.sha256(последнее_сообщение).hexdigest()
+        or any(
+            результат.get(поле) != прежняя.get(поле)
+            for поле in прежние_поля
+            - {"schema", "base_oid", "head_oid", "commits"}
+        )
+    ):
+        raise QueueError(
+            EXIT_CONTEXT,
+            "migrated_result_receipt_mismatch",
+            "Migrated result изменил immutable receipt либо terminal tree/message.",
+        )
+
+
 def проверить_доказательство_результата_пула(
     контекст_очереди: QueueContext,
     пул: dict[str, object],
@@ -8167,6 +9571,13 @@ def проверить_доказательство_результата_пул�
     )
     хэш_намерения = результат.get("хэш_намерения_коммита")
     схема = результат.get("schema")
+    if схема == СХЕМА_МИГРИРОВАННОЙ_КВИТАНЦИИ_РЕЗУЛЬТАТА_ПОДУЗЛА:
+        проверить_мигрированную_квитанцию_результата_пула(
+            контекст_очереди,
+            пул,
+            результат,
+        )
+        return
     if схема == ПРЕЖНЯЯ_СХЕМА_КВИТАНЦИИ_РЕЗУЛЬТАТА_ПОДУЗЛА:
         if хэш_намерения is not None or есть_новое_намерение_результата:
             raise QueueError(EXIT_CONTEXT, "result_commit_intent_downgrade", "Legacy result смешан с новым commit intent.")
@@ -8194,6 +9605,20 @@ def проверить_доказательство_результата_пул�
     if not isinstance(предыдущая_вершина, str):
         raise QueueError(EXIT_CONTEXT, "result_commit_intent_mismatch", "Result потерял исходную вершину.")
     for промежуточный_коммит in коммиты[:-1]:
+        if not isinstance(промежуточный_коммит, str):
+            raise QueueError(
+                EXIT_CONTEXT,
+                "result_commit_intent_chain_mismatch",
+                "OID промежуточного result-коммита повреждён.",
+            )
+        if проверить_мигрированный_коммит_префикса_результата(
+            контекст_очереди,
+            результат,
+            промежуточный_коммит,
+            предыдущая_вершина,
+        ):
+            предыдущая_вершина = промежуточный_коммит
+            continue
         совпадения_намерений_передачи = [
             промежуточное_намерение
             for промежуточное_намерение in намерения.values()
@@ -8316,9 +9741,15 @@ def проверить_доказательство_кандидата_пула(
 
 
 def проверить_предслиянийный_барьер_дат_пула(
+    контекст: QueueContext,
     пул: dict[str, object],
     кандидат: dict[str, object],
 ) -> None:
+    проверить_аттестацию_миграции_дат_пула(
+        контекст,
+        пул,
+        допустимые_состояния=frozenset({"completed", "activated"}),
+    )
     хэши_результатов = кандидат.get("result_hashes")
     результаты = пул.get("results")
     if (
@@ -8328,7 +9759,11 @@ def проверить_предслиянийный_барьер_дат_пула
         or not isinstance(результаты, dict)
         or any(
             not isinstance(результаты.get(хэш), dict)
-            or результаты[хэш].get("schema") != СХЕМА_КВИТАНЦИИ_РЕЗУЛЬТАТА_ПОДУЗЛА
+            or результаты[хэш].get("schema")
+            not in {
+                СХЕМА_КВИТАНЦИИ_РЕЗУЛЬТАТА_ПОДУЗЛА,
+                СХЕМА_МИГРИРОВАННОЙ_КВИТАНЦИИ_РЕЗУЛЬТАТА_ПОДУЗЛА,
+            }
             for хэш in хэши_результатов
         )
     ):
@@ -8349,6 +9784,7 @@ def проверить_переход_пула_интеграции(
     идентификатор_продолжения: str,
     исходная_вершина: str,
     новая_вершина: str,
+    доказательство_начальной_интеграции: dict[str, str] | None = None,
 ) -> None:
     исходное = прочитать_канонический_пул(контекст_очереди, исходный_объект)
     новое = прочитать_канонический_пул(контекст_очереди, новый_объект)
@@ -8356,6 +9792,7 @@ def проверить_переход_пула_интеграции(
         "schema", "repository_identity", "primary_root", "revision", "next_slot",
         "slots", "assignments", "activations", "results", "reviews",
         "integration_candidates", "integrations", "publications", "session_routes",
+        "миграция_дат_коммитов",
     }
     _, идентификатор_репозитория = ожидаемая_ссылка_пула(контекст_очереди)
     if any(
@@ -8367,9 +9804,49 @@ def проверить_переход_пула_интеграции(
         for состояние in (исходное, новое)
     ) or новое["revision"] != исходное["revision"] + 1:
         raise QueueError(EXIT_CONTEXT, "invalid_pool_transition", "Переход пула не прошёл закрытую схему.")
-    for поле in поля - {"revision", "integration_candidates", "integrations", "publications"}:
+    for поле in поля - {
+        "revision",
+        "integration_candidates",
+        "integrations",
+        "publications",
+        "миграция_дат_коммитов",
+    }:
         if исходное[поле] != новое[поле]:
             raise QueueError(EXIT_CONTEXT, "invalid_pool_transition", "Переход изменил постороннее поле пула.")
+
+    исходная_миграция = проверить_аттестацию_миграции_дат_пула(
+        контекст_очереди,
+        исходное,
+        допустимые_состояния=frozenset(
+            {"completed"} if доказательство_начальной_интеграции is not None else {"activated"}
+        ),
+    )
+    новая_миграция = проверить_аттестацию_миграции_дат_пула(
+        контекст_очереди,
+        новое,
+        допустимые_состояния=frozenset({"activated"}),
+    )
+    if доказательство_начальной_интеграции is None:
+        if исходная_миграция != новая_миграция:
+            raise QueueError(EXIT_CONTEXT, "migration_attestation_changed", "Обычный bridge изменил migration attestation.")
+    else:
+        ожидаемая_миграция = copy.deepcopy(исходная_миграция)
+        ожидаемая_миграция.update(
+            {
+                "status": "activated",
+                "candidate_hash": доказательство_начальной_интеграции["candidate_hash"],
+                "review_hash": доказательство_начальной_интеграции["review_hash"],
+                "bootstrap_receipt_hash": доказательство_начальной_интеграции["bootstrap_receipt_hash"],
+            }
+        )
+        if (
+            any(
+                исходная_миграция[поле] is not None
+                for поле in ("candidate_hash", "review_hash", "bootstrap_receipt_hash")
+            )
+            or новая_миграция != ожидаемая_миграция
+        ):
+            raise QueueError(EXIT_CONTEXT, "bootstrap_C0_pool_transition_mismatch", "C0 не выполнил exact необратимую активацию.")
 
     исходные_интеграции = исходное["integrations"]
     новые_интеграции = новое["integrations"]
@@ -8401,6 +9878,11 @@ def проверить_переход_пула_интеграции(
         )
     if хэш_интеграции in исходные_интеграции:
         raise QueueError(EXIT_CONTEXT, "invalid_pool_transition", "Квитанция интеграции уже была в исходном пуле.")
+    if доказательство_начальной_интеграции is not None and (
+        доказательство_начальной_интеграции["candidate_hash"] != квитанция.get("integration_candidate_hash")
+        or доказательство_начальной_интеграции["review_hash"] != квитанция.get("review_hash")
+    ):
+        raise QueueError(EXIT_CONTEXT, "bootstrap_C0_review_mismatch", "C0 не совпал с exact independently reviewed candidate.")
     ожидаемые_интеграции[хэш_интеграции] = квитанция
     if ожидаемые_интеграции != новые_интеграции:
         raise QueueError(EXIT_CONTEXT, "invalid_pool_transition", "Реестр интеграций изменён неточно.")
@@ -8435,7 +9917,11 @@ def проверить_переход_пула_интеграции(
         or not isinstance(новый_кандидат, dict)
     ):
         raise QueueError(EXIT_CONTEXT, "integration_candidate_mismatch", "Квитанция не связана с exact кандидатом.")
-    проверить_предслиянийный_барьер_дат_пула(исходное, исходный_кандидат)
+    проверить_предслиянийный_барьер_дат_пула(
+        контекст_очереди,
+        исходное,
+        исходный_кандидат,
+    )
     проверить_доказательство_кандидата_пула(
         контекст_очереди,
         исходное,
@@ -8526,6 +10012,20 @@ def проверить_переход_пула_интеграции(
         ) or (
             схема_результата == СХЕМА_КВИТАНЦИИ_РЕЗУЛЬТАТА_ПОДУЗЛА
             and set(результат) == основные_поля_результата | {"хэш_намерения_коммита"}
+        ) or (
+            схема_результата == СХЕМА_МИГРИРОВАННОЙ_КВИТАНЦИИ_РЕЗУЛЬТАТА_ПОДУЗЛА
+            and основные_поля_результата
+            | {
+                "предыдущая_квитанция",
+                "хэш_предыдущей_квитанции",
+                "хэш_байтов_предыдущей_квитанции",
+                "замещает",
+                "доказательство_миграции",
+                "old_base_oid",
+                "old_head_oid",
+                "old_commits",
+            }
+            <= set(результат)
         )
         if (
             not isinstance(результат, dict)
@@ -8649,6 +10149,126 @@ def прочитать_квитанцию_принятой_интеграции(
     return квитанция, объект, ссылка
 
 
+def прочитать_квитанцию_начальной_интеграции_из_пула(
+    контекст: QueueContext,
+    объект_пула: str,
+) -> tuple[dict[str, object], str, str] | None:
+    пул = прочитать_канонический_пул(контекст, объект_пула)
+    if пул.get("schema") != СХЕМА_ПУЛА_РАБОЧИХ_ДЕРЕВЬЕВ_ПОДУЗЛОВ:
+        return None
+    миграция = пул.get("миграция_дат_коммитов")
+    if not isinstance(миграция, dict):
+        return None
+    хэш = миграция.get("bootstrap_receipt_hash")
+    if хэш is None:
+        return None
+    _, идентификатор_репозитория = ожидаемая_ссылка_пула(контекст)
+    ссылка = ссылка_квитанции_начальной_интеграции_активации_моста(
+        идентификатор_репозитория,
+        str(хэш),
+    )
+    объект = read_ref_oid(контекст, ссылка)
+    if объект is None:
+        raise QueueError(EXIT_CONTEXT, "bootstrap_C0_receipt_missing", "Активированный пул потерял C0 receipt.")
+    квитанция = прочитать_канонический_объект_данных(
+        контекст,
+        объект,
+        состояние_ошибки="bootstrap_C0_receipt_invalid",
+        пояснение="C0 receipt повреждена.",
+    )
+    if (
+        квитанция.get("schema")
+        != СХЕМА_КВИТАНЦИИ_НАЧАЛЬНОЙ_ИНТЕГРАЦИИ_АКТИВАЦИИ_МОСТА_МИГРАЦИИ_ДАТ
+        or хэш_канонического_объекта_пула(квитанция) != хэш
+        or квитанция.get("repository_identity") != идентификатор_репозитория
+    ):
+        raise QueueError(EXIT_CONTEXT, "bootstrap_C0_receipt_invalid", "C0 receipt не совпала с активированным пулом.")
+    return квитанция, объект, ссылка
+
+
+def проверить_повтор_начальной_интеграции(
+    контекст: QueueContext,
+    квитанция_интеграции: dict[str, object],
+    доказательство_начальной_интеграции: dict[str, str] | None,
+) -> tuple[dict[str, object], str, str] | None:
+    сохранённая = прочитать_квитанцию_начальной_интеграции_из_пула(
+        контекст,
+        str(квитанция_интеграции["новый_объект_пула"]),
+    )
+    это_начальная_интеграция = (
+        сохранённая is not None
+        and сохранённая[0].get("integration_hash")
+        == квитанция_интеграции.get("хэш_интеграции")
+    )
+    if это_начальная_интеграция != (доказательство_начальной_интеграции is not None):
+        raise QueueError(EXIT_OWNERSHIP, "bootstrap_C0_replay_mode_mismatch", "Повтор C0 имеет иной режим bridge.")
+    if not это_начальная_интеграция:
+        return None
+    if сохранённая is None or доказательство_начальной_интеграции is None:
+        raise AssertionError("C0 replay потерял квитанцию.")
+    квитанция_начальной_интеграции = сохранённая[0]
+    соответствие = {
+        "tool_oid": "tool_oid",
+        "candidate_hash": "candidate_hash",
+        "review_hash": "review_hash",
+        "migration_receipt_hash": "migration_receipt_hash",
+        "migration_receipt_oid": "migration_receipt_oid",
+        "migration_attestation_hash": "migration_attestation_hash",
+    }
+    if any(квитанция_начальной_интеграции.get(поле_квитанции) != доказательство_начальной_интеграции[поле_вызова] for поле_вызова, поле_квитанции in соответствие.items()):
+        raise QueueError(EXIT_OWNERSHIP, "bootstrap_C0_replay_mismatch", "Повтор C0 не совпал с immutable receipt.")
+    return сохранённая
+
+
+def подготовить_начальную_интеграцию_активации_моста(
+    контекст: QueueContext,
+    состояние_очереди: dict[str, object],
+    объект_очереди: str,
+    *,
+    идентификатор_задачи: str,
+    поколение: str,
+    идентификатор_продолжения: str,
+    новая_вершина: str,
+    ссылка_пула: str,
+    исходный_объект_пула: str,
+    хэш_интеграции: str,
+    доказательство_начальной_интеграции: dict[str, str] | None,
+) -> tuple[dict[str, str] | None, tuple[dict[str, object], str, str] | None]:
+    if доказательство_начальной_интеграции is None:
+        return None, None
+    пул = прочитать_канонический_пул(контекст, исходный_объект_пула)
+    миграция = проверить_аттестацию_миграции_дат_пула(
+        контекст, пул, допустимые_состояния=frozenset({"completed"})
+    )
+    ожидаемые = {
+        "tool_oid": миграция["tool_oid"],
+        "migration_receipt_hash": миграция["receipt_hash"],
+        "migration_receipt_oid": миграция["receipt_oid"],
+        "migration_attestation_hash": миграция["attestation_hash"],
+    }
+    if any(доказательство_начальной_интеграции[поле] != значение for поле, значение in ожидаемые.items()):
+        raise QueueError(EXIT_OWNERSHIP, "bootstrap_C0_migration_mismatch", "C0 не совпал с migration attestation.")
+    if (
+        миграция["target_ref"] != контекст.branch_ref
+        or миграция["target_oid"] != состояние_очереди["owner"]["base_head"]
+        or run_git(контекст.root, ["merge-base", "--is-ancestor", доказательство_начальной_интеграции["tool_oid"], новая_вершина], check=False).returncode != 0
+    ):
+        raise QueueError(EXIT_OWNERSHIP, "bootstrap_C0_tool_target_mismatch", "C0 tool/candidate/target не образуют exact цепь.")
+    квитанция = построить_квитанцию_начальной_интеграции_активации_моста(
+        контекст, состояние_очереди, объект_очереди,
+        идентификатор_задачи=идентификатор_задачи, поколение=поколение,
+        идентификатор_продолжения=идентификатор_продолжения, новая_вершина=новая_вершина,
+        ссылка_пула=ссылка_пула, исходный_объект_пула=исходный_объект_пула,
+        хэш_интеграции=хэш_интеграции, доказательство_начальной_интеграции=доказательство_начальной_интеграции,
+    )
+    хэш = хэш_канонического_объекта_пула(квитанция)
+    доказательство_с_хэшем = {**доказательство_начальной_интеграции, "bootstrap_receipt_hash": хэш}
+    объект = записать_канонический_объект_данных(контекст, квитанция)
+    _, идентификатор_репозитория = ожидаемая_ссылка_пула(контекст)
+    ссылка = ссылка_квитанции_начальной_интеграции_активации_моста(идентификатор_репозитория, хэш)
+    return доказательство_с_хэшем, (квитанция, объект, ссылка)
+
+
 def синхронизировано_основное_рабочее_дерево(
     контекст_очереди: QueueContext,
     вершина: str,
@@ -8681,6 +10301,7 @@ def результат_принятой_интеграции(
     квитанция: dict[str, object],
     объект_квитанции: str,
     ссылка_квитанции: str,
+    квитанция_начальной_интеграции: tuple[dict[str, object], str, str] | None = None,
 ) -> tuple[int, dict[str, object]]:
     новая_вершина = str(квитанция["новая_вершина"])
     достижимость = run_git(
@@ -8697,7 +10318,7 @@ def результат_принятой_интеграции(
             "integration_checkout_not_synced",
             "Принятая интеграция не имеет достижимого чистого readback checkout.",
         )
-    return 0, {
+    ответ = {
         "state": "integrated_and_handed_off",
         "task_id": квитанция["идентификатор_задачи"],
         "generation": квитанция["поколение"],
@@ -8712,6 +10333,16 @@ def результат_принятой_интеграции(
             read_ref_oid(контекст_очереди, контекст_очереди.queue_ref),
         ),
     }
+    if квитанция_начальной_интеграции is not None:
+        ответ.update(
+            {
+                "bootstrap_C0": True,
+                "хэш_квитанции_C0": хэш_канонического_объекта_пула(квитанция_начальной_интеграции[0]),
+                "объект_квитанции_C0": квитанция_начальной_интеграции[1],
+                "ссылка_квитанции_C0": квитанция_начальной_интеграции[2],
+            }
+        )
+    return 0, ответ
 
 
 def проверить_повтор_принятой_интеграции(
@@ -8750,6 +10381,7 @@ def принять_интеграционный_кандидат(
     исходный_объект_пула: str | None,
     новый_объект_пула: str | None,
     хэш_интеграции: str,
+    доказательство_начальной_интеграции: dict[str, str] | None = None,
 ) -> tuple[int, dict[str, object]]:
     идентификатор_задачи = validate_task_id(идентификатор_задачи)
     идентификатор_продолжения = validate_task_id(идентификатор_продолжения)
@@ -8757,6 +10389,12 @@ def принять_интеграционный_кандидат(
         raise QueueError(EXIT_CLI, "invalid_generation", "Некорректное поколение владельца.")
     if re.fullmatch(r"sha256:[0-9a-f]{64}", хэш_интеграции) is None:
         raise QueueError(EXIT_CLI, "invalid_integration_hash", "Хэш интеграции неканоничен.")
+    поля_начальной_интеграции = {
+        "tool_oid", "candidate_hash", "review_hash", "migration_receipt_hash",
+        "migration_receipt_oid", "migration_attestation_hash",
+    }
+    if доказательство_начальной_интеграции is not None and set(доказательство_начальной_интеграции) != поля_начальной_интеграции:
+        raise QueueError(EXIT_CLI, "bootstrap_C0_arguments_incomplete", "C0 требует шесть exact ограждений.")
     сохранённая = прочитать_квитанцию_принятой_интеграции(
         контекст_очереди,
         идентификатор_задачи,
@@ -8773,11 +10411,13 @@ def принять_интеграционный_кандидат(
             новый_объект_пула,
             хэш_интеграции,
         )
+        повтор_начальной_интеграции = проверить_повтор_начальной_интеграции(контекст_очереди, квитанция, доказательство_начальной_интеграции)
         return результат_принятой_интеграции(
             контекст_очереди,
             квитанция,
             объект_квитанции,
             ссылка_квитанции,
+            повтор_начальной_интеграции,
         )
 
     if ссылка_пула is None or исходный_объект_пула is None or новый_объект_пула is None:
@@ -8810,6 +10450,13 @@ def принять_интеграционный_кандидат(
         владелец,
         идентификатор_продолжения,
     )
+    доказательство_начальной_интеграции, квитанция_начальной_интеграции = подготовить_начальную_интеграцию_активации_моста(
+        контекст_очереди, состояние, объект_очереди,
+        идентификатор_задачи=идентификатор_задачи, поколение=поколение,
+        идентификатор_продолжения=идентификатор_продолжения, новая_вершина=новая_вершина,
+        ссылка_пула=ссылка_пула, исходный_объект_пула=исходный_объект_пула,
+        хэш_интеграции=хэш_интеграции, доказательство_начальной_интеграции=доказательство_начальной_интеграции,
+    )
     if новая_вершина == исходная_вершина or run_git(
         контекст_очереди.root,
         ["merge-base", "--is-ancestor", исходная_вершина, новая_вершина],
@@ -8832,6 +10479,7 @@ def принять_интеграционный_кандидат(
         идентификатор_продолжения,
         исходная_вершина,
         новая_вершина,
+        доказательство_начальной_интеграции,
     )
     целевое_дерево = decoded_stdout(
         run_git(контекст_очереди.root, ["rev-parse", f"{новая_вершина}^{{tree}}"])
@@ -8876,6 +10524,8 @@ def принять_интеграционный_кандидат(
     }
     новое_состояние["updated_at"] = метка
     новое_состояние[ПОЛЕ_НЕОБРАТИМОЙ_АКТИВАЦИИ_ПРОДОЛЖЕНИЯ] = True
+    if квитанция_начальной_интеграции is not None:
+        проверить_неизменность_очереди_начальной_интеграции(состояние, новое_состояние)
     новый_объект_очереди = write_state_blob(контекст_очереди, новое_состояние)
     квитанция = {
         "схема": СХЕМА_КВИТАНЦИИ_ПРИНЯТОЙ_ИНТЕГРАЦИИ,
@@ -8900,9 +10550,15 @@ def принять_интеграционный_кандидат(
         идентификатор_задачи,
         поколение,
     )
+    команда_создания_начальной_интеграции = (
+        f"create {квитанция_начальной_интеграции[2]} {квитанция_начальной_интеграции[1]}\n"
+        if квитанция_начальной_интеграции is not None
+        else ""
+    )
     транзакция = (
         "start\n"
         f"create {ссылка_квитанции} {объект_квитанции}\n"
+        f"{команда_создания_начальной_интеграции}"
         f"update {контекст_очереди.branch_ref} {новая_вершина} {исходная_вершина}\n"
         f"update {контекст_очереди.queue_ref} {новый_объект_очереди} {объект_очереди}\n"
         f"update {ссылка_пула} {новый_объект_пула} {исходный_объект_пула}\n"
@@ -8931,7 +10587,8 @@ def принять_интеграционный_кандидат(
                 новый_объект_пула,
                 хэш_интеграции,
             )
-            return результат_принятой_интеграции(контекст_очереди, *сохранённая)
+            повтор_начальной_интеграции = проверить_повтор_начальной_интеграции(контекст_очереди, сохранённая[0], доказательство_начальной_интеграции)
+            return результат_принятой_интеграции(контекст_очереди, *сохранённая, повтор_начальной_интеграции)
         фактическая_вершина = current_head(контекст_очереди.root)
         if (
             decoded_stdout(run_git(контекст_очереди.root, ["write-tree"])) != целевое_дерево
@@ -8962,6 +10619,7 @@ def принять_интеграционный_кандидат(
         квитанция,
         объект_квитанции,
         ссылка_квитанции,
+        квитанция_начальной_интеграции,
     )
 
 
@@ -13089,6 +14747,13 @@ def build_parser() -> argparse.ArgumentParser:
     принятие_интеграции.add_argument("--исходный-объект-пула")
     принятие_интеграции.add_argument("--новый-объект-пула")
     принятие_интеграции.add_argument("--хэш-интеграции", required=True)
+    принятие_интеграции.add_argument("--bootstrap-C0", action="store_true")
+    принятие_интеграции.add_argument("--ревизия-инструмента-C0")
+    принятие_интеграции.add_argument("--хэш-кандидата-C0")
+    принятие_интеграции.add_argument("--хэш-ревью-C0")
+    принятие_интеграции.add_argument("--хэш-квитанции-миграции-C0")
+    принятие_интеграции.add_argument("--объект-квитанции-миграции-C0")
+    принятие_интеграции.add_argument("--хэш-аттестации-миграции-C0")
 
     publish = subparsers.add_parser(
         "publish",
@@ -13396,6 +15061,18 @@ def main(argv: list[str] | None = None) -> int:
                 данные_результата_операции,
             ) = предварительный_повтор
         elif args.command == "принять-интеграционный-кандидат":
+            значения_начальной_интеграции = {
+                "tool_oid": args.ревизия_инструмента_C0,
+                "candidate_hash": args.хэш_кандидата_C0,
+                "review_hash": args.хэш_ревью_C0,
+                "migration_receipt_hash": args.хэш_квитанции_миграции_C0,
+                "migration_receipt_oid": args.объект_квитанции_миграции_C0,
+                "migration_attestation_hash": args.хэш_аттестации_миграции_C0,
+            }
+            есть_начальная_интеграция = any(значение is not None for значение in значения_начальной_интеграции.values())
+            полная_начальная_интеграция = all(isinstance(значение, str) and значение for значение in значения_начальной_интеграции.values())
+            if args.bootstrap_C0 != полная_начальная_интеграция or есть_начальная_интеграция != args.bootstrap_C0:
+                raise QueueError(EXIT_CLI, "bootstrap_C0_arguments_incomplete", "Флаг C0 и шесть exact ограждений задаются только вместе.")
             (
                 код_завершения_операции,
                 данные_результата_операции,
@@ -13409,6 +15086,7 @@ def main(argv: list[str] | None = None) -> int:
                 args.исходный_объект_пула,
                 args.новый_объект_пула,
                 args.хэш_интеграции,
+                значения_начальной_интеграции if args.bootstrap_C0 else None,
             )
         elif args.command == "publish":
             код_завершения_операции, данные_результата_операции = publish_exact_commit(
