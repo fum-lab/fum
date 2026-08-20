@@ -524,8 +524,8 @@ class ТестыМиграцииДатКоммитов(ФикстураМигр�
         сам.assertEqual(доказательство["assignment_id"], назначение)
         сам.assertEqual(доказательство["operation"], "зафиксировать-результат")
 
-        вызов_json_cmd = copy.deepcopy(json.loads(записи[1]))
-        вызов_json_cmd["payload"]["input"] = (
+        вызов_с_командой_в_словаре = copy.deepcopy(json.loads(записи[1]))
+        вызов_с_командой_в_словаре["payload"]["input"] = (
             "const r = await tools.exec_command("
             + json.dumps(
                 {
@@ -541,19 +541,23 @@ class ТестыМиграцииДатКоммитов(ФикстураМигр�
             )
             + ");"
         )
-        источник_json_cmd = Path(сам.временный_каталог.name) / "json-cmd.jsonl"
-        источник_json_cmd.write_bytes(
+        источник_команды_в_словаре = Path(сам.временный_каталог.name) / "json-cmd.jsonl"
+        источник_команды_в_словаре.write_bytes(
             b"\n".join(
                 [
                     записи[0],
-                    json.dumps(вызов_json_cmd, ensure_ascii=False, separators=(",", ":")).encode("utf-8"),
+                    json.dumps(вызов_с_командой_в_словаре, ensure_ascii=False, separators=(",", ":")).encode("utf-8"),
                     записи[2],
                 ]
             )
             + b"\n"
         )
-        доказательство_json_cmd = модуль.доказать_дату_коммита(источник_json_cmd, журнал_ссылки, **аргументы)
-        сам.assertEqual(доказательство_json_cmd["call_id"], "call-exact")
+        доказательство_команды_в_словаре = модуль.доказать_дату_коммита(
+            источник_команды_в_словаре,
+            журнал_ссылки,
+            **аргументы,
+        )
+        сам.assertEqual(доказательство_команды_в_словаре["call_id"], "call-exact")
 
         варианты: list[tuple[str, list[bytes], str]] = []
         иная_задача = copy.deepcopy(json.loads(записи[1]))
