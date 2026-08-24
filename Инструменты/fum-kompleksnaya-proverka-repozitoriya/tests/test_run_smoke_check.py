@@ -96,6 +96,7 @@ class RunSmokeCheckTests(unittest.TestCase):
             root / "Инструменты" / "fum-indeks-readme" / "scripts" / "check-readme-index.py",
             root / "Инструменты" / "fum-proverka-nazvanij-avtomatizacij" / "scripts" / "proveritj-nazvaniya-avtomatizacij.py",
             root / "Инструменты" / "fum-proverka-mashinno-lokaljnyikh-putej" / "scripts" / "proveritj-mashinno-lokaljnyiye-puti.py",
+            root / "Инструменты" / "fum-dekompoziciya-pravil-agentov" / "scripts" / "проверить-декомпозицию-правил.py",
             root / "Инструменты" / "fum-perevod-obyyavlenij-koda-na-russkij-yazyik" / "scripts" / "перевести-объявления-кода.py",
             root / "Инструменты" / "fum-proverka-git-zavisimostej" / "scripts" / "proveritj-git-zavisimostj.py",
             root / "Инструменты" / "fum-svezhestj-markdown" / "scripts" / "update-md-recency.py",
@@ -1015,6 +1016,7 @@ let package = Package(
                     "Сборка планового реестра",
                     "Проверка планового реестра",
                     "Проверка машинно-локальных путей",
+                    "Проверка декомпозиции правил агентов",
                     "Проверка двунаправленности вопросов",
                     "Проверка тематического индекса README",
                     "Проверка recency-меток Markdown",
@@ -1034,12 +1036,12 @@ let package = Package(
                 ],
             )
             сам.assertTrue(
-                all(шаг.ранняя_проверка for шаг in упорядоченные[:8])
+                all(шаг.ранняя_проверка for шаг in упорядоченные[:9])
             )
             сам.assertTrue(
                 all(
                     шаг.аналитический_ключ is not None
-                    for шаг in упорядоченные[8:]
+                    for шаг in упорядоченные[9:]
                 )
             )
 
@@ -1068,7 +1070,38 @@ let package = Package(
                     python="python3",
                 )
 
-            сам.assertEqual(len(шаги), 19)
+            сам.assertEqual(len(шаги), 20)
+
+    def test_стандартный_план_включает_лёгкую_проверку_правил_агентов(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_script_fixture(корень)
+            сам.создать_фикстуры_документационных_тестов(корень)
+
+            шаги = run_smoke_check.build_steps(
+                корень,
+                request=None,
+                include_session=False,
+                python="python3",
+            )
+
+            шаг = next(
+                шаг
+                for шаг in шаги
+                if шаг.name == "Проверка декомпозиции правил агентов"
+            )
+            сам.assertEqual(
+                шаг.command,
+                (
+                    "python3",
+                    "Инструменты/fum-dekompoziciya-pravil-agentov/scripts/"
+                    "проверить-декомпозицию-правил.py",
+                    "--корень-репозитория",
+                    ".",
+                    "проверить",
+                ),
+            )
+            сам.assertTrue(шаг.ранняя_проверка)
 
     def test_стандартный_план_отклоняет_отсутствующий_разрешённый_набор(сам):
         with tempfile.TemporaryDirectory() as временный_каталог:
@@ -1139,7 +1172,7 @@ let package = Package(
                 python="python3",
             )
 
-            сам.assertEqual(len(шаги), 19)
+            сам.assertEqual(len(шаги), 20)
 
     def test_стандартный_план_отклоняет_внешнюю_ссылку_набора(сам):
         with tempfile.TemporaryDirectory() as временный_каталог:
@@ -1233,6 +1266,7 @@ let package = Package(
                     "Проверка планового реестра",
                     "Проверка реестра названий автоматизаций",
                     "Проверка машинно-локальных путей",
+                    "Проверка декомпозиции правил агентов",
                     "Проверка перевода объявлений кода",
                     "Проверка Git-зависимости LinguisticKit",
                     "Проверка скриптов запуска прототипов",
@@ -1248,6 +1282,7 @@ let package = Package(
                 "Проверка планового реестра",
                 "Проверка реестра названий автоматизаций",
                 "Проверка машинно-локальных путей",
+                "Проверка декомпозиции правил агентов",
                 "Проверка перевода объявлений кода",
                 "Проверка Git-зависимости LinguisticKit",
                 "Проверка скриптов запуска прототипов",
@@ -1272,6 +1307,7 @@ let package = Package(
                 "Проверка планового реестра",
                 "Проверка реестра названий автоматизаций",
                 "Проверка машинно-локальных путей",
+                "Проверка декомпозиции правил агентов",
                 "Проверка перевода объявлений кода",
                 "Проверка Git-зависимости LinguisticKit",
                 "Проверка скриптов запуска прототипов",
@@ -1281,14 +1317,14 @@ let package = Package(
                 "Проверка связности рабочей сессии",
             ]
             self.assertEqual(
-                [шаг.name for шаг in упорядоченные[:12]],
+                [шаг.name for шаг in упорядоченные[:13]],
                 сам_ранний_префикс,
             )
             self.assertTrue(
-                all(шаг.ранняя_проверка for шаг in упорядоченные[:12])
+                all(шаг.ранняя_проверка for шаг in упорядоченные[:13])
             )
             self.assertEqual(
-                [шаг.name for шаг in упорядоченные[12:]],
+                [шаг.name for шаг in упорядоченные[13:]],
                 ["Тесты fum-alpha", "Тесты fum-beta"],
             )
             self.assertIn("Инструменты/fum-alpha/tests", steps[0].command)
@@ -1400,7 +1436,7 @@ let package = Package(
                 ),
             )
 
-    def test_добавляет_проверку_перевода_после_машинно_локальных_путей(сам):
+    def test_добавляет_проверки_правил_и_перевода_после_машинно_локальных_путей(сам):
         with tempfile.TemporaryDirectory() as временный_каталог:
             корень = Path(временный_каталог)
             сам.write_script_fixture(корень)
@@ -1417,10 +1453,14 @@ let package = Package(
             индекс_путей = имена.index("Проверка машинно-локальных путей")
             сам.assertEqual(
                 имена[индекс_путей + 1],
+                "Проверка декомпозиции правил агентов",
+            )
+            сам.assertEqual(
+                имена[индекс_путей + 2],
                 "Проверка перевода объявлений кода",
             )
             сам.assertEqual(
-                шаги[индекс_путей + 1].command,
+                шаги[индекс_путей + 2].command,
                 (
                     "python3",
                     "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/"

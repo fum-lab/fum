@@ -2,7 +2,7 @@
 
 Этот каталог хранит канонические инструменты и рабочие инструкции, которые нужны именно для репозитория FUM.
 
-В задачах FUM используются только локальные навыки `Инструменты/*/SKILL.md`. Навыки за пределами текущего checkout не открываются и не сравниваются с локальными; проектная настройка `skills.include_instructions = false` исключает общий каталог навыков среды из агентского контекста. Если подходящего локального навыка нет, работа продолжается непосредственно по `AGENTS.md` и материалам репозитория.
+В задачах FUM используются только локальные навыки `Инструменты/*/SKILL.md`. Навыки за пределами текущего checkout не открываются и не сравниваются с локальными; проектная настройка `skills.include_instructions = false` исключает общий каталог навыков среды из агентского контекста. Если подходящего локального навыка нет, работа продолжается непосредственно по `AGENTS.md`, обязательным тематическим маршрутам в `Правила/агентов/` и материалам репозитория.
 
 Локальные автоматизации в этом каталоге должны сопровождаться тестами, которые можно запустить без секретов и сетевых зависимостей по умолчанию.
 
@@ -30,6 +30,7 @@
 - [fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok](fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/SKILL.md) - планирует и применяет Git-переименование обычного файла с разрешением и пересчётом входящих и исходящих локальных Markdown-ссылок без глобальной замены имени.
 - [fum-proverka-git-zavisimostej](fum-proverka-git-zavisimostej/SKILL.md) - добавляет Git submodule из форка рядом с актуальным FUM, инициализирует уже зарегистрированную зависимость после свежего клонирования и автономно проверяет отдельный upstream, достижимость выбранной ревизии из локально полученных refs форка и точный gitlink.
 - [fum-proverka-nazvanij-avtomatizacij](fum-proverka-nazvanij-avtomatizacij/SKILL.md) - проверяет точную транслитерацию репозиторных и отображаемых имён, slug, отсутствие канонических legacy-исключений, коллизии и явное состояние зависимости LinguisticKit.
+- [fum-dekompoziciya-pravil-agentov](fum-dekompoziciya-pravil-agentov/SKILL.md) - проверяет компактность всегда загружаемого `AGENTS.md`, локальность и хэши тематических маршрутов и полное однозначное покрытие исходного инвентаря правил.
 - [fum-zapusk-prototipov](fum-zapusk-prototipov/SKILL.md) - проверяет корневую POSIX-панель `prototipyi.sh` и обязательные `запустить.sh` у всех устойчивых прототипов.
 - [fum-obratnyiye-ssyilki-voprosov](fum-obratnyiye-ssyilki-voprosov/SKILL.md) - проверяет двунаправленность локальных ссылок между открытыми или частично прояснёнными вопросами и заявленной затронутой документацией.
 - [fum-audit-pokryitiya-voprosov-i-otvetov](fum-audit-pokryitiya-voprosov-i-otvetov/SKILL.md) - извлекает вопросительные предложения из дословных блоков запросов, сопоставляет их с source-ссылками карточек и оставляет смысловой отбор ручным.
@@ -53,6 +54,7 @@
 - `python3 Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py init --repo-root . --path Зависимости/LinguisticKit` - сетевая инициализация уже зарегистрированного submodule из отслеживаемой `.gitmodules` и gitlink после свежего клонирования FUM.
 - `python3 Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py check --repo-root . --fork-url https://github.com/fum-lab/LinguisticKit.git --upstream-url https://github.com/Roman-Kerimov/LinguisticKit.git --path Зависимости/LinguisticKit --revision 837e2ce107b97ee7b9d3344c9fe99142281fe393` - автономная проверка подключённого submodule LinguisticKit без получения remote.
 - `python3 Инструменты/fum-proverka-nazvanij-avtomatizacij/scripts/proveritj-nazvaniya-avtomatizacij.py --repo-root . --registry Инструменты/реестр-названий-автоматизаций.json` - автономная структурная либо живая проверка реестра названий автоматизаций.
+- `python3 Инструменты/fum-dekompoziciya-pravil-agentov/scripts/проверить-декомпозицию-правил.py --корень-репозитория . проверить` - автономная проверка корня, тематических маршрутов и машинного инвентаря правил агентов.
 - `python3 -I -c "import os,subprocess,sys;p='Инструменты/fum-ocheredj-zadach-git-vetki/scripts/ocheredj-zadach-git-vetki.py';r=sys.argv[1];e={k:v for k,v in os.environ.items() if not k.upper().startswith('GIT_')};e['GIT_NO_REPLACE_OBJECTS']='1';e['GIT_OPTIONAL_LOCKS']='0';b=subprocess.check_output(['git','--no-replace-objects','-C',r,'show','HEAD:'+p],env=e,timeout=30);sys.argv=[p,*sys.argv[2:],'--repo-root',r];exec(compile(b,p,'exec'))" . status --json` - read-only-диагностика сохранённой исторической FIFO; не является входом обычной ручной сессии.
 - `./sbrositj.sh` - ручной аварийный сброс exact текущих именованной ветки и `HEAD`; выполнять только человеку при настоящих TTY одновременно на stdin и stdout после чтения полного плана; не использовать как диагностическую или агентскую команду.
 - `python3 Инструменты/fum-sleduyusjhij-shag-vetki/scripts/branch-next-step.py validate --repo-root . --json` - структурная регрессия исторических рабочих наборов; обычную следующую задачу не выбирает и не запускает.
@@ -90,6 +92,8 @@
 
 ## Источники требований
 
+- [исходный запрос 2026-08-24 15:31:12 MSK — Декомпозировать AGENTS MD](../Журнал/2026-08-24_15-31-12_MSK_декомпозировать-AGENTS-md/запрос.md)
+
 - [исходный запрос 2026-08-23 11:33:38 MSK — Вернуть ручную последовательную схему сессий](../Журнал/2026-08-23_11-33-38_MSK_вернуть-ручную-последовательную-схему-сессий/запрос.md)
 
 - [исходный запрос 2026-08-11 23:30:57 MSK — Заменить автозапуск обязательным продолжением ветки](../Журнал/2026-08-11_23-30-57_MSK_заменить-автозапуск-обязательным-продолжением-ветки/запрос.md)
@@ -123,6 +127,6 @@
 - [исходный запрос 2026-07-22 03:38:35 MSK - Разрешить выполнение доступных карточек шагов](../Журнал/2026-07-22_03-38-35_MSK_разрешить-выполнение-доступных-карточек-шагов/запрос.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-23 11:56:54 MSK -->
-<!-- content-sha256: sha256:e7cdf1f45f4f9379962b7a730e81bf6c252ec358e1c3c8bdc89d8d4eff151af8 -->
+<!-- last-content-edit: 2026-08-24 16:13:37 MSK -->
+<!-- content-sha256: sha256:95a2b3c3df867680f008f9cc5a702837bf1a75c7c54e65692d5bdf1f92baae3c -->
 <!-- FUM-MD-RECENCY:END -->

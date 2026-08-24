@@ -49,6 +49,10 @@ MACHINE_LOCAL_PATH_CHECK_SCRIPT = Path(
     "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/"
     "proveritj-mashinno-lokaljnyiye-puti.py"
 )
+СКРИПТ_ПРОВЕРКИ_ДЕКОМПОЗИЦИИ_ПРАВИЛ = Path(
+    "Инструменты/fum-dekompoziciya-pravil-agentov/scripts/"
+    "проверить-декомпозицию-правил.py"
+)
 СКРИПТ_ПРОВЕРКИ_ПЕРЕВОДА_ОБЪЯВЛЕНИЙ_КОДА = Path(
     "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/"
     "перевести-объявления-кода.py"
@@ -2359,6 +2363,24 @@ def build_steps(
                 machine_local_path_script,
                 "--repo-root",
                 ".",
+            ),
+            ранняя_проверка=True,
+        )
+    )
+
+    скрипт_декомпозиции_правил = require_file(
+        root,
+        СКРИПТ_ПРОВЕРКИ_ДЕКОМПОЗИЦИИ_ПРАВИЛ,
+    )
+    steps.append(
+        SmokeStep(
+            name="Проверка декомпозиции правил агентов",
+            command=(
+                python_cmd,
+                скрипт_декомпозиции_правил,
+                "--корень-репозитория",
+                ".",
+                "проверить",
             ),
             ранняя_проверка=True,
         )
