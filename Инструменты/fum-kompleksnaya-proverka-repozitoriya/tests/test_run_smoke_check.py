@@ -36,6 +36,35 @@ spec.loader.exec_module(run_smoke_check)
 
 
 class RunSmokeCheckTests(unittest.TestCase):
+    def test_профиль_по_умолчанию_документационный_а_полный_явный(сам):
+        with mock.patch.object(sys, "argv", [str(SCRIPT_PATH)]):
+            аргументы = run_smoke_check.parse_args()
+        сам.assertEqual(
+            аргументы.профиль,
+            run_smoke_check.ДОКУМЕНТАЦИОННЫЙ_ПРОФИЛЬ,
+        )
+
+        with mock.patch.object(
+            sys,
+            "argv",
+            [str(SCRIPT_PATH), "--профиль", "полный"],
+        ):
+            аргументы = run_smoke_check.parse_args()
+        сам.assertEqual(
+            аргументы.профиль,
+            run_smoke_check.ПОЛНЫЙ_ПРОФИЛЬ,
+        )
+
+    def test_неизвестный_профиль_отклоняется_до_построения_плана(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            with сам.assertRaisesRegex(ValueError, "неизвестный smoke-профиль"):
+                run_smoke_check.build_steps(
+                    временный_каталог,
+                    request=None,
+                    include_session=False,
+                    профиль="неизвестный",
+                )
+
     def test_request_commit_context_rule_reads_parent_session_stem(self):
         self.assertTrue(
             run_smoke_check.request_requires_codex_commit_context(
@@ -95,6 +124,31 @@ class RunSmokeCheckTests(unittest.TestCase):
             "[skills]\ninclude_instructions = false\n",
             encoding="utf-8",
         )
+
+    def создать_фикстуры_документационных_тестов(сам, корень: Path) -> None:
+        for название in (
+            "fum-proyektnyiye-fajlyi",
+            "fum-moskovskoye-vremya-rabochej-sessii",
+            "fum-struktura-papok-zaprosov",
+            "fum-otchyotyi-o-zapuskakh-proverok",
+            "fum-svyaznostj-rabochej-sessii",
+            "fum-svezhestj-markdown",
+            "fum-reyestr-planirovaniya",
+            "fum-obratnyiye-ssyilki-voprosov",
+            "fum-indeks-readme",
+            "fum-proverka-mashinno-lokaljnyikh-putej",
+            "fum-materialyi-zaprosov",
+            "fum-kompleksnaya-proverka-repozitoriya",
+        ):
+            каталог = корень / "Инструменты" / название / "tests"
+            каталог.mkdir(parents=True, exist_ok=True)
+            (каталог / "test_фикстура.py").write_text(
+                "import unittest\n\n"
+                "class Фикстура(unittest.TestCase):\n"
+                "    def test_проходит(сам):\n"
+                "        pass\n",
+                encoding="utf-8",
+            )
 
     def test_requires_external_skill_instructions_disabled(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -928,6 +982,224 @@ let package = Package(
                 },
             )
 
+    def test_стандартный_план_содержит_точный_разрешённый_перечень(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_script_fixture(корень)
+            сам.создать_фикстуры_документационных_тестов(корень)
+            тяжёлые_тесты = корень / "Инструменты" / "тяжёлый-инструмент" / "tests"
+            тяжёлые_тесты.mkdir(parents=True)
+            (тяжёлые_тесты / "test_тяжёлый.py").write_text(
+                "import unittest\n\n"
+                "class Фикстура(unittest.TestCase):\n"
+                "    def test_проходит(сам):\n"
+                "        pass\n",
+                encoding="utf-8",
+            )
+
+            шаги = run_smoke_check.build_steps(
+                корень,
+                request=Path("Журнал/2026-07-01_14-12-17_MSK/запрос.md"),
+                include_session=True,
+                python="python3",
+            )
+
+            упорядоченные = run_smoke_check.упорядочить_тестовые_шаги(
+                шаги,
+                {},
+            )
+            сам.assertEqual(
+                [шаг.name for шаг in упорядоченные],
+                [
+                    "Проверка структуры папок запросов",
+                    "Сборка планового реестра",
+                    "Проверка планового реестра",
+                    "Проверка машинно-локальных путей",
+                    "Проверка двунаправленности вопросов",
+                    "Проверка тематического индекса README",
+                    "Проверка recency-меток Markdown",
+                    "Проверка связности рабочей сессии",
+                    "Тесты fum-indeks-readme",
+                    "Тесты fum-kompleksnaya-proverka-repozitoriya",
+                    "Тесты fum-materialyi-zaprosov",
+                    "Тесты fum-moskovskoye-vremya-rabochej-sessii",
+                    "Тесты fum-obratnyiye-ssyilki-voprosov",
+                    "Тесты fum-otchyotyi-o-zapuskakh-proverok",
+                    "Тесты fum-proverka-mashinno-lokaljnyikh-putej",
+                    "Тесты fum-proyektnyiye-fajlyi",
+                    "Тесты fum-reyestr-planirovaniya",
+                    "Тесты fum-struktura-papok-zaprosov",
+                    "Тесты fum-svezhestj-markdown",
+                    "Тесты fum-svyaznostj-rabochej-sessii",
+                ],
+            )
+            сам.assertTrue(
+                all(шаг.ранняя_проверка for шаг in упорядоченные[:8])
+            )
+            сам.assertTrue(
+                all(
+                    шаг.аналитический_ключ is not None
+                    for шаг in упорядоченные[8:]
+                )
+            )
+
+    def test_стандартный_план_не_строит_тяжёлые_контуры(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_script_fixture(корень)
+            сам.создать_фикстуры_документационных_тестов(корень)
+
+            with (
+                mock.patch.object(
+                    run_smoke_check,
+                    "discover_test_dirs",
+                    side_effect=AssertionError("автопоиск тестов вызван"),
+                ),
+                mock.patch.object(
+                    run_smoke_check,
+                    "build_swift_steps",
+                    side_effect=AssertionError("Swift-контур вызван"),
+                ),
+            ):
+                шаги = run_smoke_check.build_steps(
+                    корень,
+                    request=None,
+                    include_session=False,
+                    python="python3",
+                )
+
+            сам.assertEqual(len(шаги), 19)
+
+    def test_стандартный_план_отклоняет_отсутствующий_разрешённый_набор(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_script_fixture(корень)
+            сам.создать_фикстуры_документационных_тестов(корень)
+            shutil.rmtree(
+                корень
+                / "Инструменты"
+                / "fum-svezhestj-markdown"
+                / "tests"
+            )
+
+            with сам.assertRaisesRegex(
+                FileNotFoundError,
+                "fum-svezhestj-markdown/tests",
+            ):
+                run_smoke_check.build_steps(
+                    корень,
+                    request=None,
+                    include_session=False,
+                    python="python3",
+                )
+
+    def test_стандартный_план_не_требует_компоненты_полного_профиля(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_script_fixture(корень)
+            сам.создать_фикстуры_документационных_тестов(корень)
+            for путь in (
+                корень
+                / "Инструменты"
+                / "fum-zapusk-prototipov"
+                / "scripts"
+                / "check-prototype-launchers.py",
+                корень
+                / "Инструменты"
+                / "fum-proverka-nazvanij-avtomatizacij"
+                / "scripts"
+                / "proveritj-nazvaniya-avtomatizacij.py",
+                корень / "Инструменты" / "реестр-названий-автоматизаций.json",
+                корень
+                / "Инструменты"
+                / "fum-perevod-obyyavlenij-koda-na-russkij-yazyik"
+                / "scripts"
+                / "перевести-объявления-кода.py",
+                корень
+                / "Инструменты"
+                / "fum-perevod-obyyavlenij-koda-na-russkij-yazyik"
+                / "остаток-объявлений-кода.json",
+                корень
+                / "Инструменты"
+                / "fum-proverka-git-zavisimostej"
+                / "scripts"
+                / "proveritj-git-zavisimostj.py",
+                корень
+                / "Инструменты"
+                / "fum-svezhestj-grafa-obsidian"
+                / "scripts"
+                / "build-obsidian-graph-recency.py",
+            ):
+                путь.unlink()
+
+            шаги = run_smoke_check.build_steps(
+                корень,
+                request=None,
+                include_session=False,
+                python="python3",
+            )
+
+            сам.assertEqual(len(шаги), 19)
+
+    def test_стандартный_план_отклоняет_внешнюю_ссылку_набора(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            область = Path(временный_каталог)
+            корень = область / "репозиторий"
+            корень.mkdir()
+            сам.write_script_fixture(корень)
+            сам.создать_фикстуры_документационных_тестов(корень)
+            каталог = (
+                корень
+                / "Инструменты"
+                / "fum-svezhestj-markdown"
+                / "tests"
+            )
+            shutil.rmtree(каталог)
+            внешний = область / "внешние-тесты"
+            внешний.mkdir()
+            (внешний / "test_внешний.py").write_text(
+                "import unittest\n",
+                encoding="utf-8",
+            )
+            каталог.symlink_to(внешний, target_is_directory=True)
+
+            with сам.assertRaisesRegex(ValueError, "обычным локальным каталогом"):
+                run_smoke_check.build_steps(
+                    корень,
+                    request=None,
+                    include_session=False,
+                    python="python3",
+                )
+
+    def test_полный_профиль_обнаруживает_дополнительный_набор(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_script_fixture(корень)
+            дополнительный = (
+                корень / "Инструменты" / "тяжёлый-инструмент" / "tests"
+            )
+            дополнительный.mkdir(parents=True)
+            (дополнительный / "test_тяжёлый.py").write_text(
+                "import unittest\n\n"
+                "class Фикстура(unittest.TestCase):\n"
+                "    def test_проходит(сам):\n"
+                "        pass\n",
+                encoding="utf-8",
+            )
+
+            шаги = run_smoke_check.build_steps(
+                корень,
+                request=None,
+                include_session=False,
+                python="python3",
+                профиль=run_smoke_check.ПОЛНЫЙ_ПРОФИЛЬ,
+            )
+
+            сам.assertIn(
+                "Тесты тяжёлый-инструмент",
+                [шаг.name for шаг in шаги],
+            )
+
     def test_builds_full_plan_from_local_automation_tests(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -947,6 +1219,7 @@ let package = Package(
                 codex_thread_id="019f5dd0-c129-7fa0-9315-77e85dead3e7",
                 include_session=True,
                 python="python3",
+                профиль=run_smoke_check.ПОЛНЫЙ_ПРОФИЛЬ,
             )
 
             names = [step.name for step in steps]
@@ -1137,6 +1410,7 @@ let package = Package(
                 request=None,
                 include_session=False,
                 python="python3",
+                профиль=run_smoke_check.ПОЛНЫЙ_ПРОФИЛЬ,
             )
 
             имена = [шаг.name for шаг in шаги]
@@ -1173,6 +1447,7 @@ let package = Package(
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             self.write_script_fixture(root)
+            self.создать_фикстуры_документационных_тестов(root)
 
             steps = run_smoke_check.build_steps(
                 root,
@@ -1241,6 +1516,7 @@ let package = Package(
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             self.write_script_fixture(root)
+            self.создать_фикстуры_документационных_тестов(root)
 
             steps = run_smoke_check.build_steps(
                 root,
@@ -1347,6 +1623,7 @@ let package = Package(
                     include_session=False,
                     python="python3",
                     swift="swift-fixture",
+                    профиль=run_smoke_check.ПОЛНЫЙ_ПРОФИЛЬ,
                 )
 
             swift_steps = [
@@ -1473,6 +1750,7 @@ let package = Package(
                         include_session=False,
                         python="python3",
                         swift="swift-fixture",
+                        профиль=run_smoke_check.ПОЛНЫЙ_ПРОФИЛЬ,
                     )
 
             self.assertTrue(package.exists())
@@ -1587,6 +1865,7 @@ let package = Package(
                     include_session=False,
                     python="python3",
                     swift="swift-fixture",
+                    профиль=run_smoke_check.ПОЛНЫЙ_ПРОФИЛЬ,
                 )
 
             policy = json.loads(policy_path.read_text(encoding="utf-8"))
@@ -1611,6 +1890,7 @@ let package = Package(
                         include_session=False,
                         python="python3",
                         swift="swift-fixture",
+                        профиль=run_smoke_check.ПОЛНЫЙ_ПРОФИЛЬ,
                     )
 
             self.assertTrue(package.exists())
@@ -1656,6 +1936,7 @@ let package = Package(
                     include_session=False,
                     python="python3",
                     swift="swift-fixture",
+                    профиль=run_smoke_check.ПОЛНЫЙ_ПРОФИЛЬ,
                 )
 
     def test_run_steps_prints_lint_exception_and_continues(self):
@@ -2401,6 +2682,7 @@ let package = Package(
                 commit_message_file=None,
                 codex_thread_id=None,
                 skip_session_coherence=True,
+                профиль=run_smoke_check.ДОКУМЕНТАЦИОННЫЙ_ПРОФИЛЬ,
                 list=False,
             )
             clock_values = iter((10.0, 11.0, 14.0, 16.0))
@@ -2454,6 +2736,7 @@ let package = Package(
                 commit_message_file=None,
                 codex_thread_id=None,
                 skip_session_coherence=True,
+                профиль=run_smoke_check.ДОКУМЕНТАЦИОННЫЙ_ПРОФИЛЬ,
                 list=False,
             )
             clock_values = iter((40.0, 41.0, 44.0, 46.0))
@@ -2564,6 +2847,7 @@ let package = Package(
                 request=None,
                 include_session=False,
                 python=sys.executable,
+                профиль=run_smoke_check.ПОЛНЫЙ_ПРОФИЛЬ,
             )
             stdout = io.StringIO()
             stderr = io.StringIO()
@@ -2585,7 +2869,64 @@ let package = Package(
                 stderr.getvalue(),
             )
 
-    def test_list_evaluates_manifest_but_does_not_run_swift_checks(self):
+    def test_стандартный_список_не_строит_полные_контуры(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_script_fixture(корень)
+            сам.создать_фикстуры_документационных_тестов(корень)
+            аргументы = types.SimpleNamespace(
+                repo_root=корень,
+                request=None,
+                commit_message_file=None,
+                codex_thread_id=None,
+                skip_session_coherence=True,
+                профиль=run_smoke_check.ДОКУМЕНТАЦИОННЫЙ_ПРОФИЛЬ,
+                list=True,
+            )
+            вывод = io.StringIO()
+            значения_часов = iter((10.0, 11.0, 12.0, 13.0))
+
+            with (
+                mock.patch.object(
+                    run_smoke_check,
+                    "parse_args",
+                    return_value=аргументы,
+                ),
+                mock.patch.object(
+                    run_smoke_check,
+                    "discover_test_dirs",
+                ) as автопоиск,
+                mock.patch.object(
+                    run_smoke_check,
+                    "build_swift_steps",
+                ) as swift_контур,
+                mock.patch.object(
+                    run_smoke_check,
+                    "загрузить_статистику_закрытых_запусков",
+                ) as история,
+                mock.patch.object(
+                    run_smoke_check.subprocess,
+                    "run",
+                ) as процесс,
+                contextlib.redirect_stdout(вывод),
+            ):
+                результат = run_smoke_check.main(
+                    clock=lambda: next(значения_часов),
+                )
+
+            сам.assertEqual(результат, 0)
+            автопоиск.assert_not_called()
+            swift_контур.assert_not_called()
+            история.assert_not_called()
+            процесс.assert_not_called()
+            текст = вывод.getvalue()
+            сам.assertIn("Тесты fum-kompleksnaya-proverka-repozitoriya", текст)
+            сам.assertNotIn("SwiftPM", текст)
+            сам.assertNotIn("тяжёлый-инструмент", текст)
+            сам.assertNotIn("Проверка перевода объявлений кода", текст)
+            сам.assertNotIn("Проверка скриптов запуска прототипов", текст)
+
+    def test_полный_список_читает_манифест_но_не_запускает_шаги_пакета(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             self.write_script_fixture(root)
@@ -2646,6 +2987,7 @@ let package = Package(
                 commit_message_file=None,
                 codex_thread_id=None,
                 skip_session_coherence=True,
+                профиль=run_smoke_check.ПОЛНЫЙ_ПРОФИЛЬ,
                 list=True,
             )
 

@@ -98,6 +98,26 @@ WINDOWS_ABSOLUTE_PATH_RE = re.compile(r"^[A-Za-z]:[\\/]")
 СХЕМА_КОНВЕРТА_НАБЛЮДЕНИЙ = "fum.smoke-test-observations.v1"
 ПЕРЕМЕННАЯ_ПУТИ_НАБЛЮДЕНИЙ = "FUM_CHECK_RUN_OBSERVATIONS_PATH"
 ПЕРЕМЕННАЯ_ИДЕНТИФИКАТОРА_ЗАПУСКА = "FUM_CHECK_RUN_ID"
+ДОКУМЕНТАЦИОННЫЙ_ПРОФИЛЬ = "документационный"
+ПОЛНЫЙ_ПРОФИЛЬ = "полный"
+ПРОФИЛИ_ПРОВЕРКИ = (
+    ДОКУМЕНТАЦИОННЫЙ_ПРОФИЛЬ,
+    ПОЛНЫЙ_ПРОФИЛЬ,
+)
+ДОКУМЕНТАЦИОННЫЕ_НАБОРЫ_ТЕСТОВ = (
+    Path("Инструменты/fum-proyektnyiye-fajlyi/tests"),
+    Path("Инструменты/fum-moskovskoye-vremya-rabochej-sessii/tests"),
+    Path("Инструменты/fum-struktura-papok-zaprosov/tests"),
+    Path("Инструменты/fum-otchyotyi-o-zapuskakh-proverok/tests"),
+    Path("Инструменты/fum-svyaznostj-rabochej-sessii/tests"),
+    Path("Инструменты/fum-svezhestj-markdown/tests"),
+    Path("Инструменты/fum-reyestr-planirovaniya/tests"),
+    Path("Инструменты/fum-obratnyiye-ssyilki-voprosov/tests"),
+    Path("Инструменты/fum-indeks-readme/tests"),
+    Path("Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests"),
+    Path("Инструменты/fum-materialyi-zaprosov/tests"),
+    Path("Инструменты/fum-kompleksnaya-proverka-repozitoriya/tests"),
+)
 СТАТУСЫ_НАБЛЮДЕНИЙ = frozenset(
     {"успешно", "неуспешно", "прервано", "не завершено"}
 )
@@ -807,11 +827,21 @@ def parse_args() -> argparse.Namespace:
         help="Run repository checks without validating a specific working session.",
     )
     parser.add_argument(
+        "--профиль",
+        choices=ПРОФИЛИ_ПРОВЕРКИ,
+        default=ДОКУМЕНТАЦИОННЫЙ_ПРОФИЛЬ,
+        help=(
+            "Проверочный профиль: документационный положительный перечень "
+            "используется по умолчанию; полный профиль явно включает все "
+            "тесты автоматизаций и SwiftPM-контуры."
+        ),
+    )
+    parser.add_argument(
         "--list",
         action="store_true",
         help=(
             "Print planned check commands without running tests, builds or lint. "
-            "Swift manifests are evaluated for discovery."
+            "Swift manifests are evaluated only for the explicit full profile."
         ),
     )
     return parser.parse_args()
@@ -902,6 +932,41 @@ def discover_test_dirs(repo_root: Path) -> list[Path]:
         if tests_path.is_dir() and any(tests_path.glob("test_*.py")):
             test_dirs.append(tests_path)
     return sorted(test_dirs, key=lambda path: repo_relative(path, repo_root))
+
+
+def разрешить_документационные_наборы_тестов(
+    корень_репозитория: Path,
+) -> list[Path]:
+    корень = корень_репозитория.resolve()
+    результат: list[Path] = []
+    for относительный_путь in ДОКУМЕНТАЦИОННЫЕ_НАБОРЫ_ТЕСТОВ:
+        путь = корень / относительный_путь
+        try:
+            разрешённый_путь = путь.resolve(strict=True)
+        except FileNotFoundError as ошибка:
+            raise FileNotFoundError(
+                "отсутствует обязательный документационный набор smoke-тестов: "
+                f"{относительный_путь.as_posix()}"
+            ) from ошибка
+        if разрешённый_путь != путь or not путь.is_dir():
+            raise ValueError(
+                "документационный набор smoke-тестов должен быть обычным "
+                "локальным каталогом: "
+                f"{относительный_путь.as_posix()}"
+            )
+        файлы_тестов = tuple(
+            файл
+            for файл in путь.glob("test_*.py")
+            if файл.is_file() and not файл.is_symlink()
+        )
+        if not файлы_тестов:
+            raise FileNotFoundError(
+                "обязательный документационный набор smoke-тестов "
+                "не содержит test_*.py: "
+                f"{относительный_путь.as_posix()}"
+            )
+        результат.append(путь)
+    return результат
 
 
 def discover_swift_packages(repo_root: Path) -> list[Path]:
@@ -2175,8 +2240,11 @@ def build_steps(
     codex_thread_id: str | None = None,
     clock: Clock | None = None,
     timing_sink: TimingSink | None = None,
+    профиль: str = ДОКУМЕНТАЦИОННЫЙ_ПРОФИЛЬ,
 ) -> list[SmokeStep]:
     root = Path(repo_root).resolve()
+    if профиль not in ПРОФИЛИ_ПРОВЕРКИ:
+        raise ValueError(f"неизвестный smoke-профиль: {профиль}")
     validate_project_skill_isolation(root)
     if include_session:
         if request is None:
@@ -2197,7 +2265,12 @@ def build_steps(
     swift_cmd = swift or "swift"
     steps: list[SmokeStep] = []
 
-    for test_dir in discover_test_dirs(root):
+    каталоги_тестов = (
+        discover_test_dirs(root)
+        if профиль == ПОЛНЫЙ_ПРОФИЛЬ
+        else разрешить_документационные_наборы_тестов(root)
+    )
+    for test_dir in каталоги_тестов:
         tool_name = test_dir.parent.name
         путь_набора = repo_relative(test_dir, root)
         steps.append(
@@ -2217,14 +2290,15 @@ def build_steps(
             )
         )
 
-    steps.extend(
-        build_swift_steps(
-            root,
-            swift_cmd,
-            clock=clock,
-            timing_sink=timing_sink,
+    if профиль == ПОЛНЫЙ_ПРОФИЛЬ:
+        steps.extend(
+            build_swift_steps(
+                root,
+                swift_cmd,
+                clock=clock,
+                timing_sink=timing_sink,
+            )
         )
-    )
 
     request_folder_layout_script = require_file(root, REQUEST_FOLDER_LAYOUT_SCRIPT)
     steps.append(
@@ -2258,22 +2332,23 @@ def build_steps(
         )
     )
 
-    automation_names_script = require_file(root, AUTOMATION_NAMES_CHECK_SCRIPT)
-    automation_names_registry = require_file(root, AUTOMATION_NAMES_REGISTRY)
-    steps.append(
-        SmokeStep(
-            name="Проверка реестра названий автоматизаций",
-            command=(
-                python_cmd,
-                automation_names_script,
-                "--repo-root",
-                ".",
-                "--registry",
-                automation_names_registry,
-            ),
-            ранняя_проверка=True,
+    if профиль == ПОЛНЫЙ_ПРОФИЛЬ:
+        automation_names_script = require_file(root, AUTOMATION_NAMES_CHECK_SCRIPT)
+        automation_names_registry = require_file(root, AUTOMATION_NAMES_REGISTRY)
+        steps.append(
+            SmokeStep(
+                name="Проверка реестра названий автоматизаций",
+                command=(
+                    python_cmd,
+                    automation_names_script,
+                    "--repo-root",
+                    ".",
+                    "--registry",
+                    automation_names_registry,
+                ),
+                ранняя_проверка=True,
+            )
         )
-    )
 
     machine_local_path_script = require_file(root, MACHINE_LOCAL_PATH_CHECK_SCRIPT)
     steps.append(
@@ -2289,61 +2364,62 @@ def build_steps(
         )
     )
 
-    скрипт_перевода = require_file(
-        root,
-        СКРИПТ_ПРОВЕРКИ_ПЕРЕВОДА_ОБЪЯВЛЕНИЙ_КОДА,
-    )
-    снимок_остатка = require_file(
-        root,
-        СНИМОК_ОСТАТКА_ОБЪЯВЛЕНИЙ_КОДА,
-    )
-    steps.append(
-        SmokeStep(
-            name="Проверка перевода объявлений кода",
-            command=(
-                python_cmd,
-                скрипт_перевода,
-                "проверить",
-                "--корень-репозитория",
-                ".",
-                "--снимок",
-                снимок_остатка,
-            ),
-            ранняя_проверка=True,
+    if профиль == ПОЛНЫЙ_ПРОФИЛЬ:
+        скрипт_перевода = require_file(
+            root,
+            СКРИПТ_ПРОВЕРКИ_ПЕРЕВОДА_ОБЪЯВЛЕНИЙ_КОДА,
         )
-    )
+        снимок_остатка = require_file(
+            root,
+            СНИМОК_ОСТАТКА_ОБЪЯВЛЕНИЙ_КОДА,
+        )
+        steps.append(
+            SmokeStep(
+                name="Проверка перевода объявлений кода",
+                command=(
+                    python_cmd,
+                    скрипт_перевода,
+                    "проверить",
+                    "--корень-репозитория",
+                    ".",
+                    "--снимок",
+                    снимок_остатка,
+                ),
+                ранняя_проверка=True,
+            )
+        )
 
-    git_dependency_script = require_file(root, GIT_DEPENDENCY_CHECK_SCRIPT)
-    steps.append(
-        SmokeStep(
-            name="Проверка Git-зависимости LinguisticKit",
-            command=(
-                python_cmd,
-                git_dependency_script,
-                "check",
-                "--repo-root",
-                ".",
-                "--fork-url",
-                LINGUISTIC_KIT_FORK_URL,
-                "--upstream-url",
-                LINGUISTIC_KIT_UPSTREAM_URL,
-                "--path",
-                LINGUISTIC_KIT_PATH,
-                "--revision",
-                LINGUISTIC_KIT_REVISION,
-            ),
-            ранняя_проверка=True,
+        git_dependency_script = require_file(root, GIT_DEPENDENCY_CHECK_SCRIPT)
+        steps.append(
+            SmokeStep(
+                name="Проверка Git-зависимости LinguisticKit",
+                command=(
+                    python_cmd,
+                    git_dependency_script,
+                    "check",
+                    "--repo-root",
+                    ".",
+                    "--fork-url",
+                    LINGUISTIC_KIT_FORK_URL,
+                    "--upstream-url",
+                    LINGUISTIC_KIT_UPSTREAM_URL,
+                    "--path",
+                    LINGUISTIC_KIT_PATH,
+                    "--revision",
+                    LINGUISTIC_KIT_REVISION,
+                ),
+                ранняя_проверка=True,
+            )
         )
-    )
 
-    prototype_launch_script = require_file(root, PROTOTYPE_LAUNCH_CHECK_SCRIPT)
-    steps.append(
-        SmokeStep(
-            name="Проверка скриптов запуска прототипов",
-            command=(python_cmd, prototype_launch_script),
-            ранняя_проверка=True,
+        prototype_launch_script = require_file(root, PROTOTYPE_LAUNCH_CHECK_SCRIPT)
+        steps.append(
+            SmokeStep(
+                name="Проверка скриптов запуска прототипов",
+                command=(python_cmd, prototype_launch_script),
+                ранняя_проверка=True,
+            )
         )
-    )
 
     question_backlinks_script = require_file(root, QUESTION_BACKLINKS_SCRIPT)
     steps.append(
@@ -2371,9 +2447,10 @@ def build_steps(
             ранняя_проверка=True,
         )
     )
-    # Историческая ручная утилита остаётся обязательным локальным файлом,
-    # но ignored graph.json больше не добавляет исполняемый smoke-шаг.
-    obsidian_graph_recency_script = require_file(root, OBSIDIAN_GRAPH_RECENCY_SCRIPT)
+    if профиль == ПОЛНЫЙ_ПРОФИЛЬ:
+        # Историческая ручная утилита остаётся частью полного профиля,
+        # но ignored graph.json больше не добавляет исполняемый smoke-шаг.
+        require_file(root, OBSIDIAN_GRAPH_RECENCY_SCRIPT)
     if include_session:
         session_script = require_file(root, SESSION_COHERENCE_SCRIPT)
         assert request is not None  # Validated before the plan is built.
@@ -2565,8 +2642,13 @@ def main(*, clock: Clock | None = None) -> int:
             codex_thread_id=args.codex_thread_id,
             clock=timer,
             timing_sink=print_timing,
+            профиль=args.профиль,
         )
-        статистика = загрузить_статистику_закрытых_запусков(root)
+        статистика = (
+            загрузить_статистику_закрытых_запусков(root)
+            if args.профиль == ПОЛНЫЙ_ПРОФИЛЬ
+            else {}
+        )
         steps[:] = упорядочить_тестовые_шаги(steps, статистика)
         if not args.list and сборщик_наблюдений is not None:
             сборщик_наблюдений.установить_план(steps)
