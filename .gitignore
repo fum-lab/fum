@@ -13,6 +13,7 @@ __pycache__/
 /Прототипы/физические-состояния-клавиш/Локальные-данные-прогонов/
 
 # Локальное и изменчивое состояние Obsidian не является общей памятью.
+.obsidian/graph.json
 .obsidian/workspace.json
 .obsidian/workspace-mobile.json
 .obsidian/cache/

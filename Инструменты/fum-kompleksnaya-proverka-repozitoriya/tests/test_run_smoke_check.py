@@ -966,7 +966,6 @@ let package = Package(
                     "Проверка двунаправленности вопросов",
                     "Проверка тематического индекса README",
                     "Проверка recency-меток Markdown",
-                    "Проверка тепловой карты графа Obsidian",
                     "Проверка связности рабочей сессии",
                 ],
             )
@@ -982,7 +981,6 @@ let package = Package(
                 "Проверка двунаправленности вопросов",
                 "Проверка тематического индекса README",
                 "Проверка recency-меток Markdown",
-                "Проверка тепловой карты графа Obsidian",
                 "Проверка связности рабочей сессии",
             }
             self.assertEqual(
@@ -1007,18 +1005,17 @@ let package = Package(
                 "Проверка двунаправленности вопросов",
                 "Проверка тематического индекса README",
                 "Проверка recency-меток Markdown",
-                "Проверка тепловой карты графа Obsidian",
                 "Проверка связности рабочей сессии",
             ]
             self.assertEqual(
-                [шаг.name for шаг in упорядоченные[:13]],
+                [шаг.name for шаг in упорядоченные[:12]],
                 сам_ранний_префикс,
             )
             self.assertTrue(
-                all(шаг.ранняя_проверка for шаг in упорядоченные[:13])
+                all(шаг.ранняя_проверка for шаг in упорядоченные[:12])
             )
             self.assertEqual(
-                [шаг.name for шаг in упорядоченные[13:]],
+                [шаг.name for шаг in упорядоченные[12:]],
                 ["Тесты fum-alpha", "Тесты fum-beta"],
             )
             self.assertIn("Инструменты/fum-alpha/tests", steps[0].command)
@@ -1190,7 +1187,7 @@ let package = Package(
             self.assertNotIn("Проверка связности рабочей сессии", names)
             self.assertIn("Проверка структуры папок запросов", names)
             self.assertIn("Проверка recency-меток Markdown", names)
-            self.assertIn("Проверка тепловой карты графа Obsidian", names)
+            self.assertNotIn("Проверка тепловой карты графа Obsidian", names)
 
     def test_new_request_requires_commit_context(self):
         with tempfile.TemporaryDirectory() as tmp:

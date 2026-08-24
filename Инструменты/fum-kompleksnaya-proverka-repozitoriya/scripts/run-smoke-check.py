@@ -2371,15 +2371,9 @@ def build_steps(
             ранняя_проверка=True,
         )
     )
+    # Историческая ручная утилита остаётся обязательным локальным файлом,
+    # но ignored graph.json больше не добавляет исполняемый smoke-шаг.
     obsidian_graph_recency_script = require_file(root, OBSIDIAN_GRAPH_RECENCY_SCRIPT)
-    steps.append(
-        SmokeStep(
-            name="Проверка тепловой карты графа Obsidian",
-            command=(python_cmd, obsidian_graph_recency_script, "--check"),
-            ранняя_проверка=True,
-        )
-    )
-
     if include_session:
         session_script = require_file(root, SESSION_COHERENCE_SCRIPT)
         assert request is not None  # Validated before the plan is built.

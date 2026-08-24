@@ -1168,6 +1168,122 @@ class CheckSessionCoherenceTests(unittest.TestCase):
                 ],
             )
 
+    def test_маркер_снятого_с_учёта_файла_принимает_локальный_файл(это):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            путь_запроса = (
+                корень / "Журнал" / "2026-08-03_12-34-56_MSK" / "запрос.md"
+            )
+            путь_запроса.parent.mkdir(parents=True)
+            граф = корень / ".obsidian" / "graph.json"
+            граф.parent.mkdir()
+            граф.write_text('{"локальный": true}\n', encoding="utf-8")
+            текст = "\n".join(
+                [
+                    "## Повлиял на файлы",
+                    "",
+                    "- Снят с Git-учёта и сохранён локально: `.obsidian/graph.json`",
+                    "",
+                ]
+            )
+
+            затронутые, ошибки = check_session_coherence.affected_files_from_request(
+                текст,
+                путь_запроса,
+                корень,
+            )
+
+            это.assertEqual(ошибки, [])
+            это.assertEqual(затронутые, {граф.resolve()})
+            это.assertEqual(
+                затронутые.локально_сохранённые_снятые_с_учёта_файлы,
+                {граф.resolve()},
+            )
+
+    def test_маркер_снятого_с_учёта_файла_требует_точное_состояние_гит(это):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            это.initialize_git_repository(корень)
+            путь_запроса = (
+                корень / "Журнал" / "2026-08-03_12-34-56_MSK" / "запрос.md"
+            )
+            путь_запроса.parent.mkdir(parents=True)
+            граф = корень / ".obsidian" / "graph.json"
+            граф.parent.mkdir()
+            граф.write_text('{"локальный": true}\n', encoding="utf-8")
+            subprocess.run(
+                ["git", "add", "-f", ".obsidian/graph.json"],
+                cwd=корень,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            subprocess.run(
+                [
+                    "git",
+                    "-c",
+                    "user.name=Проверка",
+                    "-c",
+                    "user.email=check@example.invalid",
+                    "commit",
+                    "--quiet",
+                    "-m",
+                    "Исходный снимок",
+                ],
+                cwd=корень,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            (корень / ".gitignore").write_text(
+                ".obsidian/graph.json\n",
+                encoding="utf-8",
+            )
+            subprocess.run(
+                ["git", "rm", "--cached", "--", ".obsidian/graph.json"],
+                cwd=корень,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            текст = "\n".join(
+                [
+                    "## Повлиял на файлы",
+                    "",
+                    "- Снят с Git-учёта и сохранён локально: `.obsidian/graph.json`",
+                    "",
+                ]
+            )
+            затронутые, ошибки_разбора = (
+                check_session_coherence.affected_files_from_request(
+                    текст,
+                    путь_запроса,
+                    корень,
+                )
+            )
+            затронутые.add((корень / ".gitignore").resolve())
+
+            это.assertEqual(ошибки_разбора, [])
+            это.assertEqual(
+                check_session_coherence.validate_git_status(
+                    корень,
+                    затронутые,
+                    None,
+                ),
+                [],
+            )
+            это.assertEqual(
+                check_session_coherence.validate_git_status(
+                    корень,
+                    затронутые,
+                    "?? .gitignore\n",
+                ),
+                [
+                    "locally preserved untracked file must have exact staged "
+                    "deletion: .obsidian/graph.json"
+                ],
+            )
+
     def test_git_status_accepts_existing_descendants_of_linked_directory(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

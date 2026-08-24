@@ -144,6 +144,10 @@ DELETED_DIRECT_FILES_DIRECTORY_RE = re.compile(
     r"^\s*-\s+Удалённые непосредственные файлы каталога:\s+`([^`\n]+)`\s*$",
     re.MULTILINE,
 )
+СНЯТЫЙ_С_УЧЁТА_И_СОХРАНЁННЫЙ_ЛОКАЛЬНО_ПУТЬ = re.compile(
+    r"^\s*-\s+Снят с Git-учёта и сохранён локально:\s+`([^`\n]+)`\s*$",
+    re.MULTILINE,
+)
 CODEX_THREAD_ID_LINE_RE = re.compile(
     r"^Codex-Thread-ID:[ \t]+(\S+)[ \t]*$",
 )
@@ -217,6 +221,7 @@ class AffectedPaths(set[Path]):
         self.existing_directories: set[Path] = set()
         self.deleted_direct_files_directories: set[Path] = set()
         self.deleted_subtrees: set[Path] = set()
+        self.локально_сохранённые_снятые_с_учёта_файлы: set[Path] = set()
 
 
 def parse_args() -> argparse.Namespace:
@@ -1622,6 +1627,27 @@ def affected_files_from_request(
             continue
         files.deleted_direct_files_directories.add(resolved)
 
+    for совпадение in СНЯТЫЙ_С_УЧЁТА_И_СОХРАНЁННЫЙ_ЛОКАЛЬНО_ПУТЬ.finditer(
+        affected
+    ):
+        разрешённый_путь = absolute_path(совпадение.group(1), repo_root)
+        try:
+            разрешённый_путь.relative_to(repo_root.resolve())
+        except ValueError:
+            errors.append(
+                "locally preserved untracked path must stay inside the "
+                f"repository: {совпадение.group(1)}"
+            )
+            continue
+        if not разрешённый_путь.is_file() or разрешённый_путь.is_symlink():
+            errors.append(
+                "locally preserved untracked path must be an existing regular "
+                f"file: {совпадение.group(1)}"
+            )
+            continue
+        files.add(разрешённый_путь)
+        files.локально_сохранённые_снятые_с_учёта_файлы.add(разрешённый_путь)
+
     if (
         not files
         and not files.existing_directories
@@ -1632,7 +1658,7 @@ def affected_files_from_request(
         errors.append(
             "affected files section must contain local Markdown links, "
             "deleted-file markers, deleted-direct-files markers, or "
-            "deleted-subtree markers"
+            "deleted-subtree or locally-preserved-untracked markers"
         )
     return files, errors
 
@@ -1724,6 +1750,53 @@ def validate_git_status(
         for path in getattr(allowed_files, "deleted_subtrees", set())
         if not path.exists()
     }
+    локально_сохранённые = {
+        repo_relative(путь, root)
+        for путь in getattr(
+            allowed_files,
+            "локально_сохранённые_снятые_с_учёта_файлы",
+            set(),
+        )
+    }
+    статусы_по_пути: dict[str, set[str]] = {}
+    for строка in (status_text or "").splitlines():
+        if not строка.strip():
+            continue
+        код_статуса = строка[:2] if len(строка) >= 2 else строка
+        путь_статуса = строка[3:] if len(строка) > 3 else строка
+        if " -> " in путь_статуса:
+            путь_статуса = путь_статуса.split(" -> ", 1)[1]
+        нормализованный_путь = Path(decode_git_path(путь_статуса)).as_posix()
+        статусы_по_пути.setdefault(нормализованный_путь, set()).add(
+            код_статуса
+        )
+    for локальный_путь in sorted(локально_сохранённые):
+        if "D " not in статусы_по_пути.get(локальный_путь, set()):
+            errors.append(
+                "locally preserved untracked file must have exact staged "
+                f"deletion: {локальный_путь}"
+            )
+        проверка_игнорирования = subprocess.run(
+            [
+                "git",
+                "-C",
+                str(root),
+                "check-ignore",
+                "--quiet",
+                "--no-index",
+                "--",
+                локальный_путь,
+            ],
+            check=False,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.PIPE,
+            text=True,
+        )
+        if проверка_игнорирования.returncode != 0:
+            errors.append(
+                "locally preserved untracked file must match a Git ignore "
+                f"rule: {локальный_путь}"
+            )
     for status_path in parse_git_status_paths(status_text or ""):
         normalized = Path(status_path).as_posix()
         if normalized in allowed:

@@ -136,6 +136,19 @@ EXIT_INVALID = 2
 EXIT_NOT_READY = 3
 EXIT_ALREADY_CLAIMED = 4
 EXIT_MISMATCH = 5
+МАРКЕР_РУЧНОЙ_ПОСЛЕДОВАТЕЛЬНОЙ_СХЕМЫ = (
+    "<!-- FUM-WRITING-MODE: manual-sequential-v1 -->"
+)
+ИЗМЕНЯЮЩИЕ_КОМАНДЫ_ОТЛОЖЕННОГО_СЕЛЕКТОРА = frozenset(
+    {
+        "refresh-card-fences",
+        "claim",
+        "bind-run",
+        "verify-run",
+        "rearm",
+        "release",
+    }
+)
 MAX_CAS_ATTEMPTS = 200
 UNCHANGED_REF_RETRY_ATTEMPTS = 8
 REF_RETRY_BASE_SECONDS = 0.005
@@ -3848,12 +3861,37 @@ def emit(payload: dict[str, object], as_json: bool) -> None:
             print(f"{key}: {value}")
 
 
+def действует_ручная_последовательная_схема(корень_репозитория: Path) -> bool:
+    путь_правил = корень_репозитория / "AGENTS.md"
+    if not путь_правил.is_file():
+        return False
+    return МАРКЕР_РУЧНОЙ_ПОСЛЕДОВАТЕЛЬНОЙ_СХЕМЫ in путь_правил.read_text(
+        encoding="utf-8"
+    )
+
+
 def main() -> int:
     args = parse_args()
     try:
         validate_command_options(args)
         repo_root = resolve_repo_root(args.repo_root)
-        if args.command == "validate":
+        ручная_схема = действует_ручная_последовательная_схема(repo_root)
+        if ручная_схема and args.command == "show":
+            полезная_нагрузка = {
+                "state": "done",
+                "reason": "manual-sequential-v1",
+            }
+            emit(полезная_нагрузка, args.json)
+            return 0
+        elif (
+            ручная_схема
+            and args.command in ИЗМЕНЯЮЩИЕ_КОМАНДЫ_ОТЛОЖЕННОГО_СЕЛЕКТОРА
+        ):
+            raise ContractError(
+                "manual-sequential-v1 сохраняет веточный селектор только как "
+                "историческую реализацию; изменяющая команда запрещена."
+            )
+        elif args.command == "validate":
             cards = load_cards(repo_root)
             records = load_records(repo_root, cards)
             current = active_record(repo_root, records)

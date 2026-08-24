@@ -643,6 +643,48 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertIsNone(selection["distance"])
         self.assertEqual(selection["matched_paths"], [])
 
+    def test_ручной_режим_возвращает_завершение_без_выбора_шага(это) -> None:
+        это.write_record()
+        (это.repo / "AGENTS.md").write_text(
+            "# Правила\n\n<!-- FUM-WRITING-MODE: manual-sequential-v1 -->\n",
+            encoding="utf-8",
+        )
+
+        результат = это.run_tool("show")
+
+        это.assertEqual(результат.returncode, 0, результат.stderr)
+        полезная_нагрузка = это.payload(результат)
+        это.assertEqual(
+            полезная_нагрузка,
+            {
+                "state": "done",
+                "reason": "manual-sequential-v1",
+            },
+        )
+
+    def test_ручной_режим_запрещает_изменяющую_команду_селектора(это) -> None:
+        (это.repo / "AGENTS.md").write_text(
+            "# Правила\n\n<!-- FUM-WRITING-MODE: manual-sequential-v1 -->\n",
+            encoding="utf-8",
+        )
+
+        результат = это.run_tool(
+            "claim",
+            "--expected-branch-ref",
+            "refs/heads/master",
+            "--expected-step-id",
+            "master-test-step-v1",
+            "--expected-selection-id",
+            "sha256:" + "0" * 64,
+            "--lease-id",
+            "00000000-0000-4000-8000-000000000001",
+        )
+
+        это.assertEqual(результат.returncode, 2, результат.stderr)
+        полезная_нагрузка = это.payload(результат)
+        это.assertEqual(полезная_нагрузка["state"], "invalid")
+        это.assertIn("manual-sequential-v1", полезная_нагрузка["error"])
+
     def test_child_prompt_payload_scans_every_ready_string_field(self) -> None:
         payload: dict[str, object] = {
             "state": "ready",
@@ -7699,22 +7741,12 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertEqual(validation_payload["blocked_count"], 3)
         self.assertEqual(shown.returncode, 0, shown.stdout + shown.stderr)
         shown_payload = self.payload(shown)
-        self.assertEqual(shown_payload["state"], "ready")
-        ожидаемый_выбор = (
-            "FUM-STEP-0124",
-            "master-fum-step-0124-automatic-v8",
-        )
-        self.assertEqual(shown_payload["card_id"], ожидаемый_выбор[0])
         self.assertEqual(
-            shown_payload["step_id"],
-            ожидаемый_выбор[1],
-        )
-        self.assertEqual(shown_payload["dispatch"], "automatic")
-        self.assertEqual(shown_payload["status"], "ready")
-        self.assertEqual(shown_payload["selection"]["ready_count"], 4)
-        self.assertEqual(
-            shown_payload["selection"]["reason"],
-            "completed_step_source",
+            shown_payload,
+            {
+                "state": "done",
+                "reason": "manual-sequential-v1",
+            },
         )
 
     def test_тайм_аут_обвязки_превышает_внутренний_Гит_лимит(

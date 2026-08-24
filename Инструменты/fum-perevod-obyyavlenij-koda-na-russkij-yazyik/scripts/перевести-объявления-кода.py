@@ -42,6 +42,7 @@ from pathlib import Path, PurePosixPath
         "Источники",
     }
 )
+исключённые_корни_репозитория = frozenset({"Подузлы"})
 внешние_имена_посетителя = frozenset(
     {
         "visit_ClassDef",
@@ -210,6 +211,8 @@ def хэш_файла(файл: Path) -> str:
 
 
 def путь_исключён(путь: Path) -> bool:
+    if путь.parts and путь.parts[0] in исключённые_корни_репозитория:
+        return True
     return any(часть in исключённые_части_пути for часть in путь.parts)
 
 
