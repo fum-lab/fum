@@ -1,0 +1,42 @@
+{
+  "сессия": "Журнал/2026-08-26_11-57-06_MSK_игнорировать-локальное-состояние-Obsidian/запрос.md",
+  "схема": "fum.test-run-report.v1",
+  "файлы": [
+    {
+      "sha256": "b2e418b838bcc7b82b14518796d37b5a1ce5b999909a2ff135a738a25f41dcfe",
+      "имя": "1_1e66fa39-63bb-4974-83f8-0ccc8a276fc6.json"
+    },
+    {
+      "sha256": "bf856617ca4eca3d80cba77a519c36c7730889c6e1b73bc2664c3db9812e0151",
+      "имя": "2_1f81a986-49d3-4389-97e8-2987bceaa9c2.json"
+    },
+    {
+      "sha256": "a1e842898d3bed0c92732a7ed94c1b5eef7e78a78458a6d14440354ec259b034",
+      "имя": "3_c03947ee-596e-4223-a6e2-80abdfe54e29.json"
+    },
+    {
+      "sha256": "292de7b4cd982ebb1fa7a442436cf759054a551a5ebf57faccc40d987fc80292",
+      "имя": "4_9db767d4-5a89-4f5a-814c-734aa7bad0b6.json"
+    },
+    {
+      "sha256": "0a60d0a528a2c38e634c6c0f16ed9a0fd9f037a8bf651132816441c4e1c1d95a",
+      "имя": "5_5a8593fd-b344-423a-835c-0b53799037de.json"
+    },
+    {
+      "sha256": "310e85d013205b119c3a39d128d476e45e01284af4262e1545e6c9a29781a8cf",
+      "имя": "6_f0661f69-eafa-427b-8a92-88943eafd32d.json"
+    },
+    {
+      "sha256": "9d34fd6e7cbb4d0bf292db2e9964b694dac709cd5215dc49fee9370328c1e097",
+      "имя": "7_8b3e552d-d767-4b45-89ad-7d350f46f340.json"
+    },
+    {
+      "sha256": "854f8290eb1e26aedcfa3b72ad3fdb0b45a51079077685c4bfc6b1114150c5c3",
+      "имя": "8_370bdeab-f4f3-439f-b9f7-64e9faef6773.json"
+    },
+    {
+      "sha256": "30406d93ba906e1514cb19205a37365e9f4cf3b846df39cdf6d42ddf9608c109",
+      "имя": "9_e7a6dfc8-bf24-4384-9bed-e2c0979fd6f0.json"
+    }
+  ]
+}
