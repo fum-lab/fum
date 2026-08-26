@@ -7701,21 +7701,38 @@ class BranchNextStepTests(unittest.TestCase):
         self.assertEqual(claimed.returncode, 0, claimed.stdout + claimed.stderr)
         self.assertEqual(len(oid), 64)
 
-    def test_repository_has_a_valid_record_for_its_active_branch(self) -> None:
-        validation = subprocess.run(
-            [
-                sys.executable,
-                str(SCRIPT_PATH),
-                "validate",
-                "--repo-root",
-                str(REPO_ROOT),
-                "--json",
-            ],
-            check=False,
-            capture_output=True,
-            text=True,
+    def test_репозиторная_проекция_валидна_только_как_legacy_диагностика(
+        сам,
+    ) -> None:
+        карточки = TOOL_MODULE.load_cards(REPO_ROOT)
+        записи = TOOL_MODULE.load_records(REPO_ROOT, карточки)
+        записи_главной_ветки = [
+            запись
+            for запись in записи
+            if запись.branch_ref == "refs/heads/master"
+        ]
+        сам.assertEqual(len(записи_главной_ветки), 1)
+        запись_главной_ветки = записи_главной_ветки[0]
+        legacy_готовые = TOOL_MODULE.validate_ready_pool(запись_главной_ветки)
+
+        сам.assertEqual(len(запись_главной_ветки.candidates), 12)
+        сам.assertEqual(len(legacy_готовые), 3)
+        сам.assertEqual(
+            sum(
+                кандидат.status == "paused"
+                for кандидат in запись_главной_ветки.candidates
+            ),
+            6,
         )
-        shown = subprocess.run(
+        сам.assertEqual(
+            sum(
+                кандидат.status == "blocked"
+                for кандидат in запись_главной_ветки.candidates
+            ),
+            3,
+        )
+        # Legacy-расчёт проверяет структуру проекции, но не разрешает запуск.
+        показанное = subprocess.run(
             [
                 sys.executable,
                 str(SCRIPT_PATH),
@@ -7728,21 +7745,13 @@ class BranchNextStepTests(unittest.TestCase):
             capture_output=True,
             text=True,
         )
-
-        self.assertEqual(
-            validation.returncode,
+        сам.assertEqual(
+            показанное.returncode,
             0,
-            validation.stdout + validation.stderr,
+            показанное.stdout + показанное.stderr,
         )
-        validation_payload = self.payload(validation)
-        self.assertEqual(validation_payload["candidate_count"], 13)
-        self.assertEqual(validation_payload["ready_count"], 4)
-        self.assertEqual(validation_payload["paused_count"], 6)
-        self.assertEqual(validation_payload["blocked_count"], 3)
-        self.assertEqual(shown.returncode, 0, shown.stdout + shown.stderr)
-        shown_payload = self.payload(shown)
-        self.assertEqual(
-            shown_payload,
+        сам.assertEqual(
+            сам.payload(показанное),
             {
                 "state": "done",
                 "reason": "manual-sequential-v1",

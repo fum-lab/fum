@@ -17,13 +17,16 @@ from pathlib import Path
 from typing import Any
 
 
-SCHEMA = "fum.planning.requirements-registry.v8"
+SCHEMA = "fum.planning.requirements-registry.v9"
 BOXED_GRAPH_SCHEMA = "fum.planning.boxed-implementation-dependency-graph.v1"
 BOXED_GRAPH_ID = "FUM-BOXED-IMPLEMENTATION-GRAPH"
 BOXED_GRAPH_ELEMENT_IDS = [f"P{index}" for index in range(17)]
 DEFAULT_OUTPUT = Path("Планирование/реестр-требований-вариантов-и-кандидатов.json")
 SUMMARY_TABLE = Path("Планирование/сводная-таблица-требований-и-реализаций.md")
 ROADMAP = Path("Планирование/дорожная-карта.md")
+РАБОЧИЙ_НАБОР_ГЛАВНОЙ_ВЕТКИ = Path(
+    "Планирование/следующие-шаги-веток/master.md"
+)
 STAGES_README = Path("Планирование/стадии/README.md")
 DIRECTIONS_README = Path("Планирование/направления-проектирования-и-развития/README.md")
 MVP_README = Path("Планирование/MVP-кандидаты/README.md")
@@ -66,6 +69,68 @@ STEP_CARD_INDEX_HEADERS = ["Идентификатор", "Статус", "Кар
 STEP_CARD_FRONTMATTER_KEYS = frozenset(
     {"schema_version", "card_id", "status"}
 )
+ЗАГОЛОВКИ_ОЧЕРЕДИ_ДОРОЖНОЙ_КАРТЫ = [
+    "Порядок записи",
+    "Поколение",
+    "Карточка",
+    "Режим",
+    "Зависимости",
+    "Стадии",
+    "Горизонты",
+    "Плановый горизонт",
+]
+ЗАГОЛОВКИ_ПОКРЫТИЯ_ДОРОЖНОЙ_КАРТЫ = [
+    "Контур",
+    "Следующие шаги",
+]
+ЗАГОЛОВКИ_КАРТЫ_СТАДИЙ = [
+    "Стадия",
+    "Смысл",
+    "Основные плановые материалы",
+    "Проверка",
+]
+РЕЖИМЫ_РАБОЧЕГО_НАБОРА = {"automatic", "paused", "blocked"}
+ШАБЛОН_ИДЕНТИФИКАТОРА_ШАГА_РАБОЧЕГО_НАБОРА = re.compile(
+    r"^[a-z0-9][a-z0-9._-]{2,127}$"
+)
+ПОЛЯ_КАНДИДАТА_РАБОЧЕГО_НАБОРА = frozenset(
+    {
+        "step_id",
+        "dispatch",
+        "card_id",
+        "card_content_sha256",
+        "requires_completed_card_ids",
+    }
+)
+ПОЛЯ_ОБЪЕКТА_ОЧЕРЕДИ_ДОРОЖНОЙ_КАРТЫ = frozenset(
+    {
+        "порядок_записи",
+        "идентификатор_шага",
+        "карточка",
+        "файл",
+        "хэш_содержимого_карточки",
+        "режим",
+        "зависимости",
+        "стадии",
+        "горизонты",
+        "плановый_горизонт",
+    }
+)
+ПОЛЯ_ОБЪЕКТА_ПОКРЫТИЯ_ДОРОЖНОЙ_КАРТЫ = frozenset(
+    {
+        "вид",
+        "идентификатор",
+        "название",
+        "файл",
+        "карточки",
+    }
+)
+ПЛАНОВЫЕ_ГОРИЗОНТЫ = {
+    "готов сейчас",
+    "после зависимостей",
+    "после снятия паузы",
+    "после снятия блокировки",
+}
 
 ШАБЛОН_ИДЕНТИФИКАТОРА_ЦЕПОЧКИ = re.compile(
     r"^FUM-ЦЕПОЧКА-[0-9]{4}$"
@@ -648,6 +713,25 @@ def normalize_target(target: str, source_path: Path, repo_root: Path) -> str:
     if sep:
         return f"{result}#{fragment}"
     return result
+
+
+def лексические_цели_ссылок(разметка: str, исходный_путь: Path) -> list[str]:
+    цели: list[str] = []
+    for совпадение in LINK_RE.finditer(разметка):
+        цель = совпадение.group(2)
+        if цель.startswith("<") and цель.endswith(">"):
+            цель = цель[1:-1]
+        if re.match(r"^[a-z][a-z0-9+.-]*:", цель) or цель.startswith("#"):
+            цели.append(цель)
+            continue
+        часть_пути, разделитель, фрагмент = цель.partition("#")
+        нормализованная = os.path.normpath(
+            (исходный_путь.parent / часть_пути).as_posix()
+        )
+        if разделитель:
+            нормализованная = f"{нормализованная}#{фрагмент}"
+        цели.append(нормализованная)
+    return цели
 
 
 def links_from_markdown(markdown: str, source_path: Path, repo_root: Path) -> list[dict[str, str]]:
@@ -1261,6 +1345,7 @@ def strict_table_after_heading(
     repo_root: Path,
     *,
     allow_preamble: bool = False,
+    допустить_послетекст: bool = False,
 ) -> list[list[Cell]]:
     source_path = Path(path)
     text = read_text(source_path, repo_root)
@@ -1290,14 +1375,28 @@ def strict_table_after_heading(
             f"section {heading}: line {line_index + 1}"
         )
 
-    populated_after_header = [
-        index
-        for index in range(header_index, len(lines))
-        if lines[index].strip()
-    ]
-    last = populated_after_header[-1]
+    if допустить_послетекст:
+        последняя_строка = header_index
+        while (
+            последняя_строка + 1 < len(lines)
+            and lines[последняя_строка + 1].strip()
+        ):
+            последняя_строка += 1
+        for индекс_строки in range(последняя_строка + 1, len(lines)):
+            if split_row(lines[индекс_строки]):
+                raise ValueError(
+                    f"unexpected table after postamble in {source_path.as_posix()} "
+                    f"section {heading}: line {индекс_строки + 1}"
+                )
+    else:
+        populated_after_header = [
+            index
+            for index in range(header_index, len(lines))
+            if lines[index].strip()
+        ]
+        последняя_строка = populated_after_header[-1]
     parsed_rows: list[list[str]] = []
-    for line_index in range(header_index, last + 1):
+    for line_index in range(header_index, последняя_строка + 1):
         line = lines[line_index]
         cells = split_row(line)
         if len(cells) != len(expected_headers):
@@ -2263,28 +2362,528 @@ def extract_roadmap_horizons(repo_root: Path) -> list[dict[str, Any]]:
                 "source_file": ROADMAP.as_posix(),
             }
         )
+    идентификаторы = [горизонт["id"] for горизонт in horizons]
+    if len(идентификаторы) != len(set(идентификаторы)):
+        raise ValueError("roadmap contains duplicate horizon ids")
+    ожидаемые_идентификаторы = {f"horizon-{номер}" for номер in range(9)}
+    фактические_идентификаторы = set(идентификаторы)
+    if фактические_идентификаторы != ожидаемые_идентификаторы:
+        пропущенные = sorted(ожидаемые_идентификаторы - фактические_идентификаторы)
+        лишние = sorted(фактические_идентификаторы - ожидаемые_идентификаторы)
+        части = []
+        if пропущенные:
+            части.append("missing: " + ", ".join(пропущенные))
+        if лишние:
+            части.append("unexpected: " + ", ".join(лишние))
+        raise ValueError(
+            "roadmap horizon ids must exactly cover horizon-0..horizon-8; "
+            + "; ".join(части)
+        )
     return horizons
 
 
 def extract_stages(repo_root: Path) -> list[dict[str, Any]]:
-    rows = table_after_heading(STAGES_README, "Карта стадий", repo_root)
+    rows = strict_table_after_heading(
+        STAGES_README,
+        "Карта стадий",
+        ЗАГОЛОВКИ_КАРТЫ_СТАДИЙ,
+        repo_root,
+        допустить_послетекст=True,
+    )
+    фактические_файлы: set[str] = set()
+    for путь in absolute_path(STAGES_README.parent, repo_root).glob(
+        "*/README.md"
+    ):
+        if not путь.is_file():
+            continue
+        относительный_путь = путь.relative_to(repo_root)
+        canonical_existing_file(
+            относительный_путь,
+            repo_root,
+            "planning stage inventory",
+        )
+        фактические_файлы.add(относительный_путь.as_posix())
     stages: list[dict[str, Any]] = []
     for index, row in enumerate(rows, start=1):
         if len(row) != 4:
-            continue
+            raise ValueError("planning stage row must contain four cells")
         stage, meaning, materials, check = row
+        if len(stage.links) != 1 or stage.text != stage.links[0]["label"]:
+            raise ValueError("planning stage must contain exactly one link")
+        файл_стадии = first_link_target(stage)
+        if лексические_цели_ссылок(stage.raw, STAGES_README) != [файл_стадии]:
+            raise ValueError("planning stage link is not lexically exact")
+        if файл_стадии not in фактические_файлы:
+            raise ValueError(
+                f"planning stage link is not an exact stage README: {файл_стадии}"
+            )
+        canonical_existing_file(
+            Path(файл_стадии),
+            repo_root,
+            "planning stage",
+        )
         stages.append(
             {
                 "id": f"stage-{index:02d}",
                 "title": stage.text,
-                "file": first_link_target(stage),
+                "file": файл_стадии,
                 "meaning": meaning.text,
                 "planning_materials": materials.text,
                 "check": check.text,
                 "links": stage.links + meaning.links + materials.links + check.links,
             }
         )
+    файлы = [стадия["file"] for стадия in stages]
+    if len(файлы) != len(set(файлы)):
+        raise ValueError("planning stages contain duplicate files")
+    if set(файлы) != фактические_файлы:
+        raise ValueError("planning stage map does not exactly cover stage README files")
     return stages
+
+
+def якорь_заголовка_дорожной_карты(заголовок: str) -> str:
+    без_пунктуации = re.sub(
+        r"[^\w\s-]",
+        "",
+        заголовок.casefold(),
+        flags=re.UNICODE,
+    )
+    return re.sub(r"[\s-]+", "-", без_пунктуации).strip("-")
+
+
+def извлечь_кандидатов_рабочего_набора(
+    корень: Path,
+    шаги: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    текст = read_text(РАБОЧИЙ_НАБОР_ГЛАВНОЙ_ВЕТКИ, корень)
+    if not текст.startswith("+++\n"):
+        raise ValueError("master next-step set must start with TOML frontmatter")
+    конец_метаданных = текст.find("\n+++\n", 4)
+    if конец_метаданных < 0:
+        raise ValueError("master next-step TOML frontmatter is not closed")
+    try:
+        метаданные = tomllib.loads(текст[4:конец_метаданных])
+    except tomllib.TOMLDecodeError as ошибка:
+        raise ValueError(f"invalid master next-step TOML: {ошибка}") from ошибка
+    if set(метаданные) != {
+        "schema_version",
+        "branch_ref",
+        "state",
+        "project_path",
+        "candidates",
+    }:
+        raise ValueError("master next-step set has unexpected TOML fields")
+    if (
+        type(метаданные.get("schema_version")) is not int
+        or метаданные["schema_version"] != 5
+    ):
+        raise ValueError("master next-step set supports only schema_version = 5")
+    if метаданные.get("branch_ref") != "refs/heads/master":
+        raise ValueError("master next-step set has unexpected branch_ref")
+    if метаданные.get("project_path") != "README.md":
+        raise ValueError("master next-step set has unexpected project_path")
+    состояние = метаданные.get("state")
+    кандидаты = метаданные.get("candidates")
+    if (
+        not isinstance(состояние, str)
+        or состояние not in {"open", "done"}
+        or not isinstance(кандидаты, list)
+    ):
+        raise ValueError("master next-step set has invalid state or candidates")
+    if (состояние == "open") != bool(кандидаты):
+        raise ValueError("master next-step set state does not match candidates")
+
+    шаги_по_идентификатору = {шаг["id"]: шаг for шаг in шаги}
+    увиденные_шаги: set[str] = set()
+    увиденные_карточки: set[str] = set()
+    результат: list[dict[str, Any]] = []
+    for порядок_записи, значение in enumerate(кандидаты, start=1):
+        if not isinstance(значение, dict):
+            raise ValueError(
+                f"master next-step candidate {порядок_записи} must be a table"
+            )
+        режим = значение.get("dispatch")
+        if not isinstance(режим, str) or режим not in РЕЖИМЫ_РАБОЧЕГО_НАБОРА:
+            raise ValueError(f"invalid master next-step dispatch: {режим}")
+        ожидаемые_поля = set(ПОЛЯ_КАНДИДАТА_РАБОЧЕГО_НАБОРА)
+        if режим in {"paused", "blocked"}:
+            ожидаемые_поля.add("resume_condition")
+        if set(значение) != ожидаемые_поля:
+            raise ValueError(
+                "master next-step candidate "
+                f"{порядок_записи} has unexpected fields"
+            )
+        if режим in {"paused", "blocked"} and not isinstance(
+            значение.get("resume_condition"),
+            str,
+        ):
+            raise ValueError("paused or blocked master candidate has no resume condition")
+        if режим in {"paused", "blocked"} and not значение[
+            "resume_condition"
+        ].strip():
+            raise ValueError("paused or blocked master candidate has empty resume condition")
+
+        идентификатор_карточки = значение.get("card_id")
+        if (
+            not isinstance(идентификатор_карточки, str)
+            or STEP_CARD_ID_RE.fullmatch(идентификатор_карточки) is None
+        ):
+            raise ValueError(
+                f"invalid master next-step card id: {идентификатор_карточки}"
+            )
+        карточка = шаги_по_идентификатору.get(идентификатор_карточки)
+        if карточка is None or карточка["status"] != "active":
+            raise ValueError(
+                "master next-step candidate references non-active card: "
+                f"{идентификатор_карточки}"
+            )
+        if идентификатор_карточки in увиденные_карточки:
+            raise ValueError(
+                f"duplicate master next-step card: {идентификатор_карточки}"
+            )
+        увиденные_карточки.add(идентификатор_карточки)
+        if content_sha256(Path(карточка["file"]), корень) != значение.get(
+            "card_content_sha256"
+        ):
+            raise ValueError(
+                f"stale master next-step card hash: {идентификатор_карточки}"
+            )
+        идентификатор_шага = значение.get("step_id")
+        if (
+            not isinstance(идентификатор_шага, str)
+            or (
+                ШАБЛОН_ИДЕНТИФИКАТОРА_ШАГА_РАБОЧЕГО_НАБОРА.fullmatch(
+                    идентификатор_шага
+                )
+                is None
+            )
+        ):
+            raise ValueError(f"invalid master next-step id: {идентификатор_шага}")
+        if идентификатор_шага in увиденные_шаги:
+            raise ValueError(f"duplicate master next-step id: {идентификатор_шага}")
+        увиденные_шаги.add(идентификатор_шага)
+
+        зависимости = значение.get("requires_completed_card_ids")
+        if (
+            not isinstance(зависимости, list)
+            or any(
+                not isinstance(зависимость, str)
+                or зависимость not in шаги_по_идентификатору
+                for зависимость in зависимости
+            )
+            or len(зависимости) != len(set(зависимости))
+        ):
+            raise ValueError(
+                f"invalid master next-step dependencies: {идентификатор_шага}"
+            )
+        результат.append(
+            {
+                "порядок_записи": порядок_записи,
+                "идентификатор_шага": идентификатор_шага,
+                "карточка": идентификатор_карточки,
+                "файл": карточка["file"],
+                "хэш_содержимого_карточки": значение["card_content_sha256"],
+                "режим": режим,
+                "зависимости": зависимости,
+            }
+        )
+    кандидаты_по_карточке = {
+        кандидат["карточка"]: кандидат for кандидат in результат
+    }
+    посещённые: set[str] = set()
+    текущий_путь: list[str] = []
+
+    def посетить(идентификатор_карточки: str) -> None:
+        if идентификатор_карточки in посещённые:
+            return
+        if идентификатор_карточки in текущий_путь:
+            начало_цикла = текущий_путь.index(идентификатор_карточки)
+            цикл = текущий_путь[начало_цикла:] + [идентификатор_карточки]
+            raise ValueError(
+                "master next-step dependencies contain cycle: "
+                + " -> ".join(цикл)
+            )
+        текущий_путь.append(идентификатор_карточки)
+        for зависимость in кандидаты_по_карточке[идентификатор_карточки][
+            "зависимости"
+        ]:
+            if зависимость in кандидаты_по_карточке:
+                посетить(зависимость)
+        текущий_путь.pop()
+        посещённые.add(идентификатор_карточки)
+
+    for идентификатор_карточки in кандидаты_по_карточке:
+        посетить(идентификатор_карточки)
+    return результат
+
+
+def вычислить_плановый_горизонт(
+    кандидат: dict[str, Any],
+    шаги_по_идентификатору: dict[str, dict[str, Any]],
+) -> str:
+    if кандидат["режим"] == "paused":
+        return "после снятия паузы"
+    if кандидат["режим"] == "blocked":
+        return "после снятия блокировки"
+    if all(
+        шаги_по_идентификатору[зависимость].get("status") == "completed"
+        for зависимость in кандидат["зависимости"]
+    ):
+        return "готов сейчас"
+    return "после зависимостей"
+
+
+def извлечь_очередь_дорожной_карты(
+    корень: Path,
+    шаги: list[dict[str, Any]],
+    стадии: list[dict[str, Any]],
+    горизонты: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    кандидаты = извлечь_кандидатов_рабочего_набора(корень, шаги)
+    строки = strict_table_after_heading(
+        ROADMAP,
+        "Проверяемая очередь следующих шагов",
+        ЗАГОЛОВКИ_ОЧЕРЕДИ_ДОРОЖНОЙ_КАРТЫ,
+        корень,
+        allow_preamble=True,
+    )
+    if len(строки) != len(кандидаты):
+        raise ValueError("roadmap queue does not exactly cover master candidates")
+
+    шаги_по_идентификатору = {шаг["id"]: шаг for шаг in шаги}
+    стадии_по_файлу = {стадия["file"]: стадия for стадия in стадии}
+    известные_горизонты = {горизонт["id"] for горизонт in горизонты}
+    результат: list[dict[str, Any]] = []
+    for кандидат, строка in zip(кандидаты, строки, strict=True):
+        (
+            порядок_записи,
+            поколение,
+            карточка,
+            режим,
+            зависимости,
+            стадии_ячейка,
+            горизонты_ячейка,
+            плановый_горизонт,
+        ) = строка
+        if порядок_записи.text != str(кандидат["порядок_записи"]):
+            raise ValueError(
+                "roadmap queue record order does not match master candidates"
+            )
+        if поколение.text != кандидат["идентификатор_шага"]:
+            raise ValueError("roadmap queue generation mismatch")
+        if (
+            len(карточка.links) != 1
+            or карточка.text != кандидат["карточка"]
+            or карточка.links[0]["label"] != кандидат["карточка"]
+            or карточка.links[0]["target"] != кандидат["файл"]
+            or лексические_цели_ссылок(карточка.raw, ROADMAP)
+            != [кандидат["файл"]]
+        ):
+            raise ValueError("roadmap queue card path mismatch")
+        if режим.text != кандидат["режим"]:
+            raise ValueError("roadmap queue dispatch mismatch")
+
+        ожидаемые_зависимости = кандидат["зависимости"]
+        if ожидаемые_зависимости:
+            фактические_зависимости = [ссылка["label"] for ссылка in зависимости.links]
+            фактические_файлы = [ссылка["target"] for ссылка in зависимости.links]
+            ожидаемые_файлы = [
+                шаги_по_идентификатору[зависимость]["file"]
+                for зависимость in ожидаемые_зависимости
+            ]
+            if (
+                зависимости.text != ", ".join(ожидаемые_зависимости)
+                or len(зависимости.links) != len(ожидаемые_зависимости)
+                or фактические_зависимости != ожидаемые_зависимости
+                or фактические_файлы != ожидаемые_файлы
+                or лексические_цели_ссылок(зависимости.raw, ROADMAP)
+                != ожидаемые_файлы
+            ):
+                raise ValueError("roadmap queue dependencies mismatch")
+        elif зависимости.text != "—" or зависимости.links:
+            raise ValueError("roadmap queue dependencies mismatch")
+
+        идентификаторы_стадий: list[str] = []
+        лексические_файлы_стадий = лексические_цели_ссылок(
+            стадии_ячейка.raw,
+            ROADMAP,
+        )
+        if стадии_ячейка.text != ", ".join(
+            ссылка["label"] for ссылка in стадии_ячейка.links
+        ):
+            raise ValueError("roadmap queue stages contain extra text")
+        for ссылка in стадии_ячейка.links:
+            стадия = стадии_по_файлу.get(ссылка["target"])
+            if стадия is None:
+                raise ValueError("roadmap queue references unknown stage")
+            if ссылка["label"] != стадия["title"]:
+                raise ValueError("roadmap queue stage label mismatch")
+            идентификаторы_стадий.append(стадия["id"])
+        ожидаемые_файлы_стадий = [
+            стадии_по_файлу[ссылка["target"]]["file"]
+            for ссылка in стадии_ячейка.links
+            if ссылка["target"] in стадии_по_файлу
+        ]
+        if лексические_файлы_стадий != ожидаемые_файлы_стадий:
+            raise ValueError("roadmap queue stage path is not lexically exact")
+        if not идентификаторы_стадий or len(идентификаторы_стадий) != len(
+            set(идентификаторы_стадий)
+        ):
+            raise ValueError("roadmap queue stages are empty or duplicated")
+
+        if re.fullmatch(r"[0-9]+(?:,\s*[0-9]+)*", горизонты_ячейка.text) is None:
+            raise ValueError("roadmap queue horizons are malformed")
+        идентификаторы_горизонтов = [
+            f"horizon-{номер.strip()}"
+            for номер in горизонты_ячейка.text.split(",")
+        ]
+        if (
+            any(горизонт not in известные_горизонты for горизонт in идентификаторы_горизонтов)
+            or len(идентификаторы_горизонтов) != len(set(идентификаторы_горизонтов))
+        ):
+            raise ValueError("roadmap queue references unknown or duplicate horizon")
+
+        ожидаемый_плановый_горизонт = вычислить_плановый_горизонт(
+            кандидат,
+            шаги_по_идентификатору,
+        )
+        if плановый_горизонт.text != ожидаемый_плановый_горизонт:
+            raise ValueError("roadmap queue planning horizon mismatch")
+
+        результат.append(
+            {
+                **кандидат,
+                "стадии": идентификаторы_стадий,
+                "горизонты": идентификаторы_горизонтов,
+                "плановый_горизонт": ожидаемый_плановый_горизонт,
+            }
+        )
+    return результат
+
+
+def извлечь_покрытие_дорожной_карты(
+    корень: Path,
+    очередь: list[dict[str, Any]],
+    стадии: list[dict[str, Any]],
+    горизонты: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    строки = strict_table_after_heading(
+        ROADMAP,
+        "Покрытие стадий и горизонтов",
+        ЗАГОЛОВКИ_ПОКРЫТИЯ_ДОРОЖНОЙ_КАРТЫ,
+        корень,
+        allow_preamble=True,
+    )
+    ожидаемые_контуры: list[dict[str, str]] = []
+    for стадия in стадии:
+        ожидаемые_контуры.append(
+            {
+                "вид": "стадия",
+                "идентификатор": стадия["id"],
+                "название": стадия["title"],
+                "метка_ссылки": стадия["title"],
+                "цель_ссылки": стадия["file"],
+                "файл": стадия["file"],
+            }
+        )
+    for горизонт in горизонты:
+        номер = горизонт["id"].removeprefix("horizon-")
+        заголовок = f"Горизонт {номер}. {горизонт['title']}"
+        якорь = "#" + якорь_заголовка_дорожной_карты(заголовок)
+        ожидаемые_контуры.append(
+            {
+                "вид": "горизонт",
+                "идентификатор": горизонт["id"],
+                "название": горизонт["title"],
+                "метка_ссылки": f"Горизонт {номер}",
+                "цель_ссылки": якорь,
+                "файл": f"{ROADMAP.as_posix()}{якорь}",
+            }
+        )
+
+    ожидаемые_по_цели = {контур["цель_ссылки"]: контур for контур in ожидаемые_контуры}
+    строки_по_контуру: dict[str, Cell] = {}
+    неизвестные: list[str] = []
+    for контур_ячейка, карточки_ячейка in строки:
+        if len(контур_ячейка.links) != 1:
+            raise ValueError("roadmap coverage contour must contain one link")
+        if контур_ячейка.text != контур_ячейка.links[0]["label"]:
+            raise ValueError("roadmap coverage contour contains extra text")
+        цель = контур_ячейка.links[0]["target"]
+        контур = ожидаемые_по_цели.get(цель)
+        if контур is None:
+            неизвестные.append(цель)
+            continue
+        идентификатор = контур["идентификатор"]
+        if лексические_цели_ссылок(контур_ячейка.raw, ROADMAP) != [
+            контур["цель_ссылки"]
+        ]:
+            raise ValueError(
+                f"roadmap coverage contour path is not lexically exact: {идентификатор}"
+            )
+        if контур_ячейка.links[0]["label"] != контур["метка_ссылки"]:
+            raise ValueError(
+                f"roadmap coverage contour label mismatch: {идентификатор}"
+            )
+        if идентификатор in строки_по_контуру:
+            raise ValueError(
+                f"duplicate roadmap coverage contour: {идентификатор}"
+            )
+        строки_по_контуру[идентификатор] = карточки_ячейка
+    if неизвестные:
+        raise ValueError("roadmap coverage has unknown contours: " + ", ".join(sorted(неизвестные)))
+    ожидаемые_идентификаторы = {
+        контур["идентификатор"] for контур in ожидаемые_контуры
+    }
+    пропущенные = sorted(ожидаемые_идентификаторы - строки_по_контуру.keys())
+    if пропущенные:
+        raise ValueError("roadmap coverage misses contours: " + ", ".join(пропущенные))
+
+    карточки_по_контуру: dict[str, list[str]] = {
+        идентификатор: [] for идентификатор in ожидаемые_идентификаторы
+    }
+    файлы_карточек = {запись["карточка"]: запись["файл"] for запись in очередь}
+    for запись in очередь:
+        for идентификатор in [*запись["стадии"], *запись["горизонты"]]:
+            карточки_по_контуру[идентификатор].append(запись["карточка"])
+
+    результат: list[dict[str, Any]] = []
+    for контур in ожидаемые_контуры:
+        идентификатор = контур["идентификатор"]
+        ячейка = строки_по_контуру[идентификатор]
+        ожидаемые_карточки = карточки_по_контуру[идентификатор]
+        if ожидаемые_карточки:
+            фактические_карточки = [ссылка["label"] for ссылка in ячейка.links]
+            фактические_файлы = [ссылка["target"] for ссылка in ячейка.links]
+            ожидаемые_файлы = [файлы_карточек[карточка] for карточка in ожидаемые_карточки]
+            if фактические_карточки != ожидаемые_карточки or фактические_файлы != ожидаемые_файлы:
+                raise ValueError(
+                    f"roadmap coverage cards mismatch: {идентификатор}"
+                )
+            if лексические_цели_ссылок(ячейка.raw, ROADMAP) != ожидаемые_файлы:
+                raise ValueError(
+                    "roadmap coverage card paths are not lexically exact: "
+                    f"{идентификатор}"
+                )
+            if ячейка.text != ", ".join(ожидаемые_карточки):
+                raise ValueError(
+                    f"roadmap coverage cards contain extra text: {идентификатор}"
+                )
+        elif ячейка.text != "Нет назначенного шага" or ячейка.links:
+            raise ValueError(
+                "roadmap coverage must state missing assignment: "
+                f"{идентификатор}"
+            )
+        результат.append(
+            {
+                "вид": контур["вид"],
+                "идентификатор": идентификатор,
+                "название": контур["название"],
+                "файл": контур["файл"],
+                "карточки": ожидаемые_карточки,
+            }
+        )
+    return результат
 
 
 def extract_directions(repo_root: Path) -> list[dict[str, Any]]:
@@ -2404,6 +3003,7 @@ def source_files(repo_root: Path, inventory: dict[str, Any]) -> list[Path]:
         PROPOSALS_OVERVIEW,
         STEP_CARDS_INDEX,
         ИНДЕКС_КАРТОЧЕК_ЦЕПОЧЕК,
+        РАБОЧИЙ_НАБОР_ГЛАВНОЙ_ВЕТКИ,
         QUESTIONS_README,
     ]
     direction_files = sorted(
@@ -2517,9 +3117,25 @@ def build_registry(repo_root: Path | None = None) -> dict[str, Any]:
     steps = extract_step_cards(root)
     цепочки_шагов = извлечь_карточки_цепочек(root, steps)
     active_proposals, proposal_history = proposal_inventory_from_steps(steps)
+    горизонты = extract_roadmap_horizons(root)
+    стадии = extract_stages(root)
+    очередь_дорожной_карты = извлечь_очередь_дорожной_карты(
+        root,
+        steps,
+        стадии,
+        горизонты,
+    )
+    покрытие_дорожной_карты = извлечь_покрытие_дорожной_карты(
+        root,
+        очередь_дорожной_карты,
+        стадии,
+        горизонты,
+    )
     inventory: dict[str, Any] = {
-        "roadmap_horizons": extract_roadmap_horizons(root),
-        "stages": extract_stages(root),
+        "roadmap_horizons": горизонты,
+        "stages": стадии,
+        "очередь_дорожной_карты": очередь_дорожной_карты,
+        "покрытие_дорожной_карты": покрытие_дорожной_карты,
         "directions": extract_directions(root),
         "mvp_candidates": extract_mvp_candidates(root),
         "mvp_stage_map": extract_mvp_stage_map(root),
@@ -2700,6 +3316,202 @@ def ошибки_цепочек_шагов(
     return ошибки
 
 
+def ошибки_проекций_дорожной_карты(
+    очередь: Any,
+    покрытие: Any,
+    шаги: list[dict[str, Any]],
+    стадии: Any,
+    горизонты: Any,
+) -> list[str]:
+    ошибки: list[str] = []
+    шаги_по_идентификатору = {
+        шаг.get("id"): шаг
+        for шаг in шаги
+        if isinstance(шаг, dict) and isinstance(шаг.get("id"), str)
+    }
+    список_стадий = стадии if isinstance(стадии, list) else []
+    список_горизонтов = горизонты if isinstance(горизонты, list) else []
+    стадии_по_идентификатору = {
+        стадия.get("id"): стадия
+        for стадия in список_стадий
+        if isinstance(стадия, dict)
+        and isinstance(стадия.get("id"), str)
+    }
+    горизонты_по_идентификатору = {
+        горизонт.get("id"): горизонт
+        for горизонт in список_горизонтов
+        if isinstance(горизонт, dict)
+        and isinstance(горизонт.get("id"), str)
+    }
+
+    if not isinstance(очередь, list):
+        return ["roadmap queue projection must be a list"]
+
+    увиденные_поколения: set[str] = set()
+    увиденные_карточки: set[str] = set()
+    карточки_по_контуру: dict[str, list[str]] = {
+        идентификатор: []
+        for идентификатор in [
+            *стадии_по_идентификатору,
+            *горизонты_по_идентификатору,
+        ]
+    }
+    for ожидаемый_порядок, объект in enumerate(очередь, start=1):
+        if not isinstance(объект, dict):
+            ошибки.append("roadmap queue projection contains non-object")
+            continue
+        if set(объект) != ПОЛЯ_ОБЪЕКТА_ОЧЕРЕДИ_ДОРОЖНОЙ_КАРТЫ:
+            ошибки.append("roadmap queue object has unexpected fields")
+        if (
+            type(объект.get("порядок_записи")) is not int
+            or объект["порядок_записи"] != ожидаемый_порядок
+        ):
+            ошибки.append("roadmap queue record orders must be contiguous")
+
+        поколение = объект.get("идентификатор_шага")
+        карточка = объект.get("карточка")
+        режим = объект.get("режим")
+        if not isinstance(поколение, str) or not поколение:
+            ошибки.append("roadmap queue step generation is invalid")
+        elif поколение in увиденные_поколения:
+            ошибки.append(f"duplicate roadmap queue generation: {поколение}")
+        else:
+            увиденные_поколения.add(поколение)
+        if not isinstance(режим, str) or режим not in РЕЖИМЫ_РАБОЧЕГО_НАБОРА:
+            ошибки.append(f"invalid roadmap queue dispatch: {режим}")
+        if isinstance(поколение, str) and (
+            ШАБЛОН_ИДЕНТИФИКАТОРА_ШАГА_РАБОЧЕГО_НАБОРА.fullmatch(
+                поколение
+            )
+            is None
+        ):
+            ошибки.append(f"invalid roadmap queue generation: {поколение}")
+
+        сведения_о_карточке = (
+            шаги_по_идентификатору.get(карточка)
+            if isinstance(карточка, str)
+            else None
+        )
+        if сведения_о_карточке is None or сведения_о_карточке.get("status") != "active":
+            ошибки.append(f"roadmap queue references non-active card: {карточка}")
+        else:
+            if карточка in увиденные_карточки:
+                ошибки.append(f"duplicate roadmap queue card: {карточка}")
+            увиденные_карточки.add(карточка)
+            if объект.get("файл") != сведения_о_карточке.get("file"):
+                ошибки.append(f"roadmap queue card file mismatch: {карточка}")
+        хэш = объект.get("хэш_содержимого_карточки")
+        if not isinstance(хэш, str) or re.fullmatch(
+            r"sha256:[0-9a-f]{64}",
+            хэш,
+        ) is None:
+            ошибки.append(f"invalid roadmap queue card hash: {карточка}")
+
+        зависимости = объект.get("зависимости")
+        if (
+            not isinstance(зависимости, list)
+            or not all(isinstance(зависимость, str) for зависимость in зависимости)
+            or any(зависимость not in шаги_по_идентификатору for зависимость in зависимости)
+            or len(зависимости) != len(set(зависимости))
+        ):
+            ошибки.append(f"invalid roadmap queue dependencies: {поколение}")
+            зависимости = []
+
+        for имя_поля, известные in (
+            ("стадии", стадии_по_идентификатору),
+            ("горизонты", горизонты_по_идентификатору),
+        ):
+            значения = объект.get(имя_поля)
+            if (
+                not isinstance(значения, list)
+                or not значения
+                or not all(isinstance(значение, str) for значение in значения)
+                or any(значение not in известные for значение in значения)
+                or len(значения) != len(set(значения))
+            ):
+                ошибки.append(f"invalid roadmap queue {имя_поля}")
+                continue
+            if isinstance(карточка, str):
+                for идентификатор in значения:
+                    карточки_по_контуру[идентификатор].append(карточка)
+
+        плановый_горизонт = объект.get("плановый_горизонт")
+        if (
+            not isinstance(плановый_горизонт, str)
+            or плановый_горизонт not in ПЛАНОВЫЕ_ГОРИЗОНТЫ
+        ):
+            ошибки.append(f"invalid roadmap queue planning horizon: {поколение}")
+        elif (
+            isinstance(режим, str)
+            and режим in РЕЖИМЫ_РАБОЧЕГО_НАБОРА
+        ):
+            ожидаемый_горизонт = вычислить_плановый_горизонт(
+                {
+                    "режим": режим,
+                    "зависимости": зависимости,
+                },
+                шаги_по_идентификатору,
+            )
+            if плановый_горизонт != ожидаемый_горизонт:
+                ошибки.append(
+                    f"roadmap queue planning horizon does not match: {поколение}"
+                )
+
+    ожидаемые_контуры: list[dict[str, Any]] = []
+    for стадия in стадии_по_идентификатору.values():
+        ожидаемые_контуры.append(
+            {
+                "вид": "стадия",
+                "идентификатор": стадия["id"],
+                "название": стадия.get("title"),
+                "файл": стадия.get("file"),
+            }
+        )
+    for горизонт in горизонты_по_идентификатору.values():
+        номер = горизонт["id"].removeprefix("horizon-")
+        заголовок = f"Горизонт {номер}. {горизонт.get('title')}"
+        ожидаемые_контуры.append(
+            {
+                "вид": "горизонт",
+                "идентификатор": горизонт["id"],
+                "название": горизонт.get("title"),
+                "файл": (
+                    f"{ROADMAP.as_posix()}#"
+                    f"{якорь_заголовка_дорожной_карты(заголовок)}"
+                ),
+            }
+        )
+    if not isinstance(покрытие, list):
+        ошибки.append("roadmap coverage projection must be a list")
+        return ошибки
+    if len(покрытие) != len(ожидаемые_контуры):
+        ошибки.append("roadmap coverage does not exactly cover contours")
+    for ожидаемый_контур, объект in zip(
+        ожидаемые_контуры,
+        покрытие,
+        strict=False,
+    ):
+        if not isinstance(объект, dict):
+            ошибки.append("roadmap coverage projection contains non-object")
+            continue
+        if set(объект) != ПОЛЯ_ОБЪЕКТА_ПОКРЫТИЯ_ДОРОЖНОЙ_КАРТЫ:
+            ошибки.append("roadmap coverage object has unexpected fields")
+        идентификатор = ожидаемый_контур["идентификатор"]
+        for поле in ("вид", "идентификатор", "название", "файл"):
+            if объект.get(поле) != ожидаемый_контур[поле]:
+                ошибки.append(
+                    f"roadmap coverage contour does not match: {идентификатор}"
+                )
+                break
+        карточки = объект.get("карточки")
+        if карточки != карточки_по_контуру.get(идентификатор, []):
+            ошибки.append(
+                "roadmap coverage cards do not match queue: "
+                f"{идентификатор}"
+            )
+    return ошибки
+
+
 def validate_registry_object(registry: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     if registry.get("schema") != SCHEMA:
@@ -2812,9 +3624,29 @@ def validate_registry_object(registry: dict[str, Any]) -> list[str]:
     if not isinstance(inventory, dict):
         errors.append("source inventory must be an object")
         inventory = {}
-    for field in ["roadmap_horizons", "stages", "directions", "mvp_candidates", "mvp_stage_map"]:
+    for field in [
+        "roadmap_horizons",
+        "stages",
+        "покрытие_дорожной_карты",
+        "directions",
+        "mvp_candidates",
+        "mvp_stage_map",
+    ]:
         if not inventory.get(field):
             errors.append(f"source inventory is empty: {field}")
+    if not isinstance(inventory.get("очередь_дорожной_карты"), list):
+        errors.append(
+            "source inventory must contain list: очередь_дорожной_карты"
+        )
+    errors.extend(
+        ошибки_проекций_дорожной_карты(
+            inventory.get("очередь_дорожной_карты"),
+            inventory.get("покрытие_дорожной_карты"),
+            steps,
+            inventory.get("stages"),
+            inventory.get("roadmap_horizons"),
+        )
+    )
 
     errors.extend(
         boxed_implementation_graph_errors(
@@ -2966,7 +3798,16 @@ def validate_file(registry_path: Path, repo_root: Path | None = None) -> list[st
         return [f"registry is not valid JSON: {exc}"]
 
     errors = validate_registry_object(actual)
-    expected = build_registry(root)
+    try:
+        expected = build_registry(root)
+    except ValueError as ошибка:
+        errors.append(f"registry source validation failed: {ошибка}")
+        errors.append(
+            "registry is stale; rebuild it with "
+            "python3 Инструменты/fum-reyestr-planirovaniya/scripts/"
+            "build-planning-registry.py build"
+        )
+        return errors
     expected_errors = validate_registry_object(expected)
     if expected_errors:
         errors.extend(expected_errors)
