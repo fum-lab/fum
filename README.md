@@ -93,7 +93,7 @@ FIFO, обязательное продолжение, branch-next-step, worktre
 
 ## Лицензия
 
-Проект публикуется под [CC0 1.0 Universal](LICENSE.md). Канонический публичный upstream — [fum-lab/fum](https://github.com/fum-lab/fum).
+Проект публикуется под [CC0 1.0 Universal](ЛИЦЕНЗИЯ.md). Канонический публичный upstream — [fum-lab/fum](https://github.com/fum-lab/fum).
 
 ## Источники требований
 
@@ -110,6 +110,6 @@ FIFO, обязательное продолжение, branch-next-step, worktre
 - [исходный запрос 2026-08-06 06:59:01 MSK — Добавить управление диспетчером через сообщения](Журнал/2026-08-06_06-59-01_MSK_добавить-управление-диспетчером-через-сообщения/запрос.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-23 15:37:47 MSK -->
-<!-- content-sha256: sha256:a8438ce71226f59235e0d9db80bd5e89c0ec0fa01daa64d91c4a8d6608548e92 -->
+<!-- last-content-edit: 2026-08-26 11:32:07 MSK -->
+<!-- content-sha256: sha256:8057ab84a287d5d014cb05e32b5994b1a7076f14bf314d7d5df684104a9e1ae2 -->
 <!-- FUM-MD-RECENCY:END -->

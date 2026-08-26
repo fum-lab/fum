@@ -1,0 +1,12 @@
+{
+  "schema": "fum.request-materials.snapshot-manifest.v1",
+  "managed_files": [
+    "extracted-text.md",
+    "extraction-report.md",
+    "response.body.html",
+    "response.headers.txt",
+    "snapshot-manifest.json",
+    "source-index.md",
+    "source-url.txt"
+  ]
+}

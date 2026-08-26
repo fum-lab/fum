@@ -320,6 +320,8 @@ def redact_headers(raw: str) -> str:
     for line in raw.splitlines(keepends=True):
         if line.lower().startswith("set-cookie:"):
             lines.append(COOKIE_REDACTION)
+        elif line.lower().startswith("cf-ray:"):
+            lines.append("cf-ray: [REDACTED: response trace identifier]\n")
         else:
             lines.append(line)
     return "".join(lines)
@@ -635,6 +637,7 @@ def write_report(
         "## Редакции перед сохранением",
         "",
         "- Значения `Set-Cookie` в HTTP-заголовках заменены на `[REDACTED: response cookie]`.",
+        "- Значения `CF-Ray` в HTTP-заголовках заменены на `[REDACTED: response trace identifier]`.",
         "- HTML и извлечённый текст сохранены без перевода и смысловой нормализации.",
         "",
         "## Ограничения извлечения",

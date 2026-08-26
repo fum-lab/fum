@@ -20,6 +20,21 @@ import source_archive  # noqa: E402
 
 
 class SourceArchiveCoreTests(unittest.TestCase):
+    def test_служебный_идентификатор_cf_ray_редактируется(self):
+        сырьё = (
+            "HTTP/2 200\r\n"
+            "Content-Type: text/html\r\n"
+            "CF-Ray: trace-identifier-VNO\r\n"
+        )
+
+        очищенное = source_archive.redact_headers(сырьё)
+
+        self.assertNotIn("trace-identifier-VNO", очищенное)
+        self.assertIn(
+            "cf-ray: [REDACTED: response trace identifier]\n",
+            очищенное,
+        )
+
     def test_default_url_output_is_shared_at_repository_root(self):
         request_file = Path(
             "/repo/Журнал/2026-07-21_10-36-18_MSK_архивировать-источник/запрос.md"
