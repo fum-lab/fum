@@ -1,0 +1,168 @@
+{
+  "вызов": "Полный smoke-check после восстановления локальных предпосылок",
+  "длительность_наносекунды": 88259303583,
+  "идентификатор": "ee4cd95e-7561-4df4-995a-52bf0548c00b",
+  "исполнитель": "корневой агент",
+  "код_завершения": 1,
+  "наблюдения": [],
+  "план": [
+    {
+      "ключ_проверки": "Инструменты/fum-sleduyusjhij-shag-vetki/tests",
+      "название": "Тесты fum-sleduyusjhij-shag-vetki"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-pochinka-avtozapuska/tests",
+      "название": "Тесты fum-pochinka-avtozapuska"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-ocheredj-zadach-git-vetki/tests",
+      "название": "Тесты fum-ocheredj-zadach-git-vetki"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-sborka-svodnoj-dokumentacii/tests",
+      "название": "Тесты fum-sborka-svodnoj-dokumentacii"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-proverka-trassyi-agentskogo-cikla/tests",
+      "название": "Тесты fum-proverka-trassyi-agentskogo-cikla"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-obratnyiye-ssyilki-voprosov/tests",
+      "название": "Тесты fum-obratnyiye-ssyilki-voprosov"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-svezhestj-markdown/tests",
+      "название": "Тесты fum-svezhestj-markdown"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-moskovskoye-vremya-rabochej-sessii/tests",
+      "название": "Тесты fum-moskovskoye-vremya-rabochej-sessii"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-audit-pokryitiya-voprosov-i-otvetov/tests",
+      "название": "Тесты fum-audit-pokryitiya-voprosov-i-otvetov"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-ocenki/tests",
+      "название": "Тесты fum-ocenki"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-proyektnyiye-fajlyi/tests",
+      "название": "Тесты fum-proyektnyiye-fajlyi"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-materialyi-zaprosov/tests",
+      "название": "Тесты fum-materialyi-zaprosov"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-indeks-readme/tests",
+      "название": "Тесты fum-indeks-readme"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-svezhestj-grafa-obsidian/tests",
+      "название": "Тесты fum-svezhestj-grafa-obsidian"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-proverka-nazvanij-avtomatizacij/tests",
+      "название": "Тесты fum-proverka-nazvanij-avtomatizacij"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-revjyu-prodelannoj-rabotyi/tests",
+      "название": "Тесты fum-revjyu-prodelannoj-rabotyi"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests",
+      "название": "Тесты fum-perevod-obyyavlenij-koda-na-russkij-yazyik"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-zapusk-prototipov/tests",
+      "название": "Тесты fum-zapusk-prototipov"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-svyaznostj-rabochej-sessii/tests",
+      "название": "Тесты fum-svyaznostj-rabochej-sessii"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests",
+      "название": "Тесты fum-proverka-mashinno-lokaljnyikh-putej"
+    },
+    {
+      "ключ_проверки": "Прототипы/теневой-редактор-продолжений",
+      "название": "Тесты SwiftPM Прототипы/теневой-редактор-продолжений"
+    },
+    {
+      "ключ_проверки": "Прототипы/иерархия-функций-и-данных",
+      "название": "Тесты SwiftPM Прототипы/иерархия-функций-и-данных"
+    },
+    {
+      "ключ_проверки": "Прототипы/компиляция-численных-автоматизаций-в-тензорный-граф",
+      "название": "Тесты SwiftPM Прототипы/компиляция-численных-автоматизаций-в-тензорный-граф"
+    },
+    {
+      "ключ_проверки": "Прототипы/агентное-чтение-сетевой-среды",
+      "название": "Тесты SwiftPM Прототипы/агентное-чтение-сетевой-среды"
+    },
+    {
+      "ключ_проверки": "Прототипы/физические-состояния-клавиш",
+      "название": "Тесты SwiftPM Прототипы/физические-состояния-клавиш"
+    },
+    {
+      "ключ_проверки": "Прототипы/чистый-модельный-шаг",
+      "название": "Тесты SwiftPM Прототипы/чистый-модельный-шаг"
+    },
+    {
+      "ключ_проверки": "Прототипы/память-структурирующих-операторов",
+      "название": "Тесты SwiftPM Прототипы/память-структурирующих-операторов"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-reyestr-planirovaniya/tests",
+      "название": "Тесты fum-reyestr-planirovaniya"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/tests",
+      "название": "Тесты fum-otchyotyi-o-zapuskakh-proverok"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-struktura-papok-zaprosov/tests",
+      "название": "Тесты fum-struktura-papok-zaprosov"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/tests",
+      "название": "Тесты fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-kompleksnaya-proverka-repozitoriya/tests",
+      "название": "Тесты fum-kompleksnaya-proverka-repozitoriya"
+    },
+    {
+      "ключ_проверки": "Прототипы/воспроизводимое-пополнение-памяти",
+      "название": "Тесты SwiftPM Прототипы/воспроизводимое-пополнение-памяти"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-proverka-git-zavisimostej/tests",
+      "название": "Тесты fum-proverka-git-zavisimostej"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-analitika-zavershyonnyikh-shagov/tests",
+      "название": "Тесты fum-analitika-zavershyonnyikh-shagov"
+    },
+    {
+      "ключ_проверки": "Прототипы/живой-одноагентный-эпизод",
+      "название": "Тесты SwiftPM Прототипы/живой-одноагентный-эпизод"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-dispetcher-avtomatizacij-fum/tests",
+      "название": "Тесты fum-dispetcher-avtomatizacij-fum"
+    },
+    {
+      "ключ_проверки": "Прототипы/проверяемый-многоагентный-контур",
+      "название": "Тесты SwiftPM Прототипы/проверяемый-многоагентный-контур"
+    }
+  ],
+  "порядок": 13,
+  "пояснение": null,
+  "сессия": "Журнал/2026-08-14_18-46-19_MSK_именовать-сессии-Codex-и-игнорировать-изменения-Obsidian-при-старте/запрос.md",
+  "состояние": "завершён",
+  "статус": "неуспешно",
+  "схема": "fum.test-run.v2"
+}
