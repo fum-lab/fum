@@ -7715,8 +7715,8 @@ class BranchNextStepTests(unittest.TestCase):
         запись_главной_ветки = записи_главной_ветки[0]
         legacy_готовые = TOOL_MODULE.validate_ready_pool(запись_главной_ветки)
 
-        сам.assertEqual(len(запись_главной_ветки.candidates), 11)
-        сам.assertEqual(len(legacy_готовые), 3)
+        сам.assertEqual(len(запись_главной_ветки.candidates), 10)
+        сам.assertEqual(len(legacy_готовые), 2)
         сам.assertEqual(
             sum(
                 кандидат.status == "paused"

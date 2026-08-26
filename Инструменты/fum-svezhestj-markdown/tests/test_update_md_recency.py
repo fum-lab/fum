@@ -106,6 +106,127 @@ class UpdateMdRecencyTests(unittest.TestCase):
             self.assertEqual(repeated.changed_paths, [])
             self.assertEqual(before, after)
 
+    def test_служебный_блок_запусков_не_старит_отчёт_и_индекс(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            каталог_сессии = корень / "Журнал" / "2026-08-14_12-00-00_MSK_проверить-свежесть"
+            каталог_сессии.mkdir(parents=True)
+            отчёт = каталог_сессии / "отчёт.md"
+            открытый_блок = (
+                "<!-- FUM-CHECK-RUNS:BEGIN состояние=открыт; каталог=материалы/запуски-проверок -->\n"
+                "Запусков пока нет.\n"
+                "<!-- FUM-CHECK-RUNS:END -->"
+            )
+            отчёт.write_text(
+                f"# Отчёт\n\nСодержательный итог.\n\n{открытый_блок}\n",
+                encoding="utf-8",
+            )
+            первый = update_md_recency.update_repository(
+                корень,
+                now=update_md_recency.parse_now("2026-08-14T12:00:00+03:00"),
+                use_git=False,
+            )
+            сам.assertEqual(первый.errors, [])
+            индекс = корень / update_md_recency.INDEX_PATH
+            исходный_индекс = индекс.read_bytes()
+            закрытый_блок = (
+                "<!-- FUM-CHECK-RUNS:BEGIN состояние=закрыт; снимок=материалы/запуски-проверок/снимок.json; "
+                f"sha256=sha256:{'a' * 64} -->\n"
+                "| Проверка | Итог |\n"
+                "| --------- | ---- |\n"
+                "| Набор    | 2 с  |\n"
+                "<!-- FUM-CHECK-RUNS:END -->"
+            )
+            отчёт.write_text(
+                отчёт.read_text(encoding="utf-8").replace(
+                    открытый_блок,
+                    закрытый_блок,
+                ),
+                encoding="utf-8",
+            )
+
+            проверка = update_md_recency.update_repository(
+                корень,
+                now=update_md_recency.parse_now("2026-08-14T13:00:00+03:00"),
+                check=True,
+                use_git=False,
+            )
+
+            сам.assertEqual(проверка.errors, [])
+            сам.assertEqual(проверка.changed_paths, [])
+            сам.assertEqual(индекс.read_bytes(), исходный_индекс)
+            сам.assertIn(
+                "<!-- last-content-edit: 2026-08-14 12:00:00 MSK -->",
+                отчёт.read_text(encoding="utf-8"),
+            )
+
+    def test_исторический_полный_хэш_отчёта_остаётся_читаемым(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            отчёт = корень / "Журнал" / "2026-08-14_12-00-00_MSK_история" / "отчёт.md"
+            отчёт.parent.mkdir(parents=True)
+            содержание = (
+                "# Отчёт\n\nИтог.\n\n"
+                "<!-- FUM-CHECK-RUNS:BEGIN состояние=открыт; каталог=материалы/запуски-проверок -->\n"
+                "Запусков пока нет.\n"
+                "<!-- FUM-CHECK-RUNS:END -->\n"
+            )
+            полный_хэш = update_md_recency.content_digest(
+                update_md_recency.canonical_content(содержание)
+            )
+            отчёт.write_text(
+                update_md_recency.attach_recency_block(
+                    содержание,
+                    "2026-08-14 12:00:00 MSK",
+                    полный_хэш,
+                ),
+                encoding="utf-8",
+            )
+            байты_до = отчёт.read_bytes()
+
+            _, ошибки, изменён = update_md_recency.process_markdown_file(
+                отчёт,
+                корень,
+                set(),
+                "2026-08-15 12:00:00 MSK",
+                False,
+                False,
+            )
+
+            сам.assertEqual(ошибки, [])
+            сам.assertFalse(изменён)
+            сам.assertEqual(отчёт.read_bytes(), байты_до)
+
+    def test_повреждённый_и_повторный_блок_запусков_отклоняется(сам):
+        открытое_начало = (
+            "<!-- FUM-CHECK-RUNS:BEGIN состояние=открыт; каталог=материалы/запуски-проверок -->"
+        )
+        конец = "<!-- FUM-CHECK-RUNS:END -->"
+        варианты = (
+            f"# Отчёт\n\n{открытое_начало}\nБез конца.\n",
+            f"# Отчёт\n\n{открытое_начало}\nПервый.\n{конец}\n\n{открытое_начало}\nВторой.\n{конец}\n",
+        )
+        for номер, содержание in enumerate(варианты):
+            with сам.subTest(номер=номер), tempfile.TemporaryDirectory() as временный_каталог:
+                корень = Path(временный_каталог)
+                отчёт = корень / "Журнал" / "2026-08-14_12-00-00_MSK_повреждение" / "отчёт.md"
+                отчёт.parent.mkdir(parents=True)
+                отчёт.write_text(содержание, encoding="utf-8")
+
+                _, ошибки, _ = update_md_recency.process_markdown_file(
+                    отчёт,
+                    корень,
+                    set(),
+                    "2026-08-15 12:00:00 MSK",
+                    True,
+                    False,
+                )
+
+                сам.assertTrue(
+                    any("malformed managed test-run block" in ошибка for ошибка in ошибки),
+                    ошибки,
+                )
+
     def test_ignored_build_and_cache_markdown_files_are_never_rewritten(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

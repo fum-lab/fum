@@ -97,7 +97,9 @@ CODEX_PROJECT_CONFIG = Path(".codex/config.toml")
 SHA256_RE = re.compile(r"^sha256:[0-9a-f]{64}$")
 WINDOWS_ABSOLUTE_PATH_RE = re.compile(r"^[A-Za-z]:[\\/]")
 СХЕМА_СНИМКА_ЗАПУСКОВ = "fum.test-run-report.v1"
+СХЕМА_СНИМКА_ЗАПУСКОВ_С_ВЕРДИКТОМ = "fum.test-run-report.v2"
 СХЕМА_ЗАПУСКА_С_НАБЛЮДЕНИЯМИ = "fum.test-run.v2"
+СХЕМА_ПРОФИЛИРОВАННОГО_ЗАПУСКА = "fum.test-run.v3"
 СХЕМА_ЗАПУСКА_БЕЗ_НАБЛЮДЕНИЙ = "fum.test-run.v1"
 СХЕМА_КОНВЕРТА_НАБЛЮДЕНИЙ = "fum.smoke-test-observations.v1"
 ПЕРЕМЕННАЯ_ПУТИ_НАБЛЮДЕНИЙ = "FUM_CHECK_RUN_OBSERVATIONS_PATH"
@@ -406,10 +408,29 @@ def прочитать_наблюдения_закрытого_снимка(
     )
     if hashlib.sha256(байты_снимка).hexdigest() != маркеры[0].group("хэш"):
         raise ValueError(f"closed test-run snapshot hash mismatch: {путь_снимка}")
-    if not isinstance(снимок, dict) or set(снимок) != {"схема", "сессия", "файлы"}:
+    if not isinstance(снимок, dict):
         raise ValueError(f"invalid closed test-run snapshot fields: {путь_снимка}")
-    if снимок["схема"] != СХЕМА_СНИМКА_ЗАПУСКОВ:
+    схема_снимка = снимок.get("схема")
+    if схема_снимка == СХЕМА_СНИМКА_ЗАПУСКОВ:
+        ожидаемые_поля_снимка = {"схема", "сессия", "файлы"}
+    elif схема_снимка == СХЕМА_СНИМКА_ЗАПУСКОВ_С_ВЕРДИКТОМ:
+        ожидаемые_поля_снимка = {
+            "схема",
+            "сессия",
+            "файлы",
+            "отпечаток_закрытия",
+        }
+        отпечаток_закрытия = снимок.get("отпечаток_закрытия")
+        if not isinstance(отпечаток_закрытия, str) or SHA256_RE.fullmatch(
+            отпечаток_закрытия
+        ) is None:
+            raise ValueError(
+                f"invalid closed test-run snapshot fingerprint: {путь_снимка}"
+            )
+    else:
         raise ValueError(f"invalid closed test-run snapshot schema: {путь_снимка}")
+    if set(снимок) != ожидаемые_поля_снимка:
+        raise ValueError(f"invalid closed test-run snapshot fields: {путь_снимка}")
     ожидаемая_сессия = (
         каталог_сессии.relative_to(корень) / "запрос.md"
     ).as_posix()
@@ -451,13 +472,16 @@ def прочитать_наблюдения_закрытого_снимка(
         схема = запись.get("схема")
         if схема == СХЕМА_ЗАПУСКА_БЕЗ_НАБЛЮДЕНИЙ:
             continue
-        if схема != СХЕМА_ЗАПУСКА_С_НАБЛЮДЕНИЯМИ:
+        if схема not in {
+            СХЕМА_ЗАПУСКА_С_НАБЛЮДЕНИЯМИ,
+            СХЕМА_ПРОФИЛИРОВАННОГО_ЗАПУСКА,
+        }:
             raise ValueError(f"unknown snapshotted test-run schema: {путь_записи}")
         if запись.get("состояние") != "завершён":
-            raise ValueError(f"unfinished v2 test-run record in snapshot: {путь_записи}")
+            raise ValueError(f"unfinished observed test-run record in snapshot: {путь_записи}")
         наблюдения = запись.get("наблюдения")
         if not isinstance(наблюдения, list):
-            raise ValueError(f"invalid v2 smoke observations: {путь_записи}")
+            raise ValueError(f"invalid smoke observations: {путь_записи}")
         ключи: set[str] = set()
         for наблюдение in наблюдения:
             проверенное = проверить_наблюдение_истории(
