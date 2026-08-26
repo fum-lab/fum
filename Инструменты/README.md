@@ -27,6 +27,7 @@
 - [fum-svezhestj-grafa-obsidian](fum-svezhestj-grafa-obsidian/SKILL.md) - обновляет группы цвета графа Obsidian как тепловую карту Markdown-узлов по времени последнего содержательного редактирования.
 - [fum-reyestr-planirovaniya](fum-reyestr-planirovaniya/SKILL.md) - собирает и проверяет машинно читаемый JSON-реестр и безопасно переименовывает карточки шагов с обновлением живых текстовых путей.
 - [fum-proyektnyiye-fajlyi](fum-proyektnyiye-fajlyi/SKILL.md) - задаёт общий воспроизводимый инвентарь проектных Markdown-файлов и безопасные границы выходных путей служебных автоматизаций.
+- [fum-bratislavskaya-proyekciya-pamyati](fum-bratislavskaya-proyekciya-pamyati/SKILL.md) - строит полный детерминированный сухой план братиславской проекции канонической памяти и валидирует происхождение готового производного поколения.
 - [fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok](fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/SKILL.md) - планирует и применяет Git-переименование обычного файла с разрешением и пересчётом входящих и исходящих локальных Markdown-ссылок без глобальной замены имени.
 - [fum-proverka-git-zavisimostej](fum-proverka-git-zavisimostej/SKILL.md) - добавляет Git submodule из форка рядом с актуальным FUM, инициализирует уже зарегистрированную зависимость после свежего клонирования и автономно проверяет отдельный upstream, достижимость выбранной ревизии из локально полученных refs форка и точный gitlink.
 - [fum-proverka-nazvanij-avtomatizacij](fum-proverka-nazvanij-avtomatizacij/SKILL.md) - проверяет точную транслитерацию репозиторных и отображаемых имён, slug, отсутствие канонических legacy-исключений, коллизии и явное состояние зависимости LinguisticKit.
@@ -70,6 +71,7 @@
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-reyestr-planirovaniya/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-reyestr-planirovaniya`.
 - `python3 Инструменты/fum-reyestr-planirovaniya/scripts/rename-step-card.py --card-id FUM-STEP-NNNN --status <active|completed|absorbed|withdrawn> [--description <краткое-название>]` - Git-переименование карточки шага с синхронизацией статуса, индекса и живых текстовых путей.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-proyektnyiye-fajlyi/tests -p 'test_*.py'` - локальные тесты общей политики проектных файлов.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-bratislavskaya-proyekciya-pamyati/tests -p 'test_*.py'` - автономные фикстуры инвентаря, путей, коллизий, закреплённого LinguisticKit и манифеста братиславской проекции.
 - `python3 Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py plan --source <старый-путь> --destination <новый-путь> --repo-root .` - полный read-only-план обычного переименования с проверкой ссылок, защищённых зон и переносимых коллизий.
 - `python3 Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py apply --source <старый-путь> --destination <новый-путь> --repo-root .` - повторная проверка плана, `git mv` и согласованная установка обновлённых Markdown-файлов с откатом при перехватываемой ошибке.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/tests -p 'test_*.py'` - автономные тесты переименования, разрешения ссылок, fail-closed-границ и отката.
@@ -127,6 +129,6 @@
 - [исходный запрос 2026-07-22 03:38:35 MSK - Разрешить выполнение доступных карточек шагов](../Журнал/2026-07-22_03-38-35_MSK_разрешить-выполнение-доступных-карточек-шагов/запрос.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-24 16:13:37 MSK -->
-<!-- content-sha256: sha256:95a2b3c3df867680f008f9cc5a702837bf1a75c7c54e65692d5bdf1f92baae3c -->
+<!-- last-content-edit: 2026-08-26 11:01:01 MSK -->
+<!-- content-sha256: sha256:c60acca2ea930a96b84700ea56c3ec2f47c31c1db32c23170272d1fee08b672c -->
 <!-- FUM-MD-RECENCY:END -->
