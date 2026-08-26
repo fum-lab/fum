@@ -5606,9 +5606,9 @@ class RepositoryIntegrationTests(unittest.TestCase):
         self.assertNotIn("hooks", config.get("features", {}))
 
     def test_agents_contract_names_the_portable_fifo_protocol(self) -> None:
-        agents = AGENTS_PATH.read_text(encoding="utf-8")
+        agents = AGENTS_PATH.read_text(encoding="utf-8") + SKILL_PATH.read_text(encoding="utf-8")
         self.assertIn("fum-ocheredj-zadach-git-vetki", agents)
-        self.assertIn("CODEX_THREAD_ID", agents)
+        self.assertIn("manual-sequential-v1", agents)
         for command in [
             "join",
             "wait",
@@ -5617,16 +5617,16 @@ class RepositoryIntegrationTests(unittest.TestCase):
             "finish-clean",
             "commit",
         ]:
-            self.assertIn(f"`{command}`", agents)
-        self.assertIn("порядке атомарной регистрации", agents)
+            self.assertIn(command, agents)
+        self.assertIn("возрастающий `seq`", agents)
         self.assertIn("не переупорядоч", agents)
         self.assertIn("Субагент", agents)
         self.assertIn("`./sbrositj.sh`", agents)
         self.assertIn("--идентификатор-продолжения", agents)
         self.assertIn("`create_thread`", agents)
-        self.assertIn("должна оставаться остановленной", agents)
+        self.assertIn("не вызывает FIFO/pool/CAS", agents)
         self.assertIn("HEAD-bootstrap", agents)
-        self.assertIn("isolated mode", agents)
+        self.assertIn("Isolated mode", agents)
         self.assertIn("--no-replace-objects", agents)
         self.assertNotIn("FUM-BRANCH-TASK-GATE", agents)
 
@@ -5640,18 +5640,18 @@ class RepositoryIntegrationTests(unittest.TestCase):
         self.assertIn("Прямой вызов", skill)
         self.assertIn("--timeout-seconds 300", skill)
         self.assertIn("wait-until-actionable", skill)
-        self.assertIn("Ручной push пользователя", agents)
-        self.assertIn("не предоставляет полномочий", agents)
+        self.assertIn("remote-публикация", agents)
+        self.assertIn("не даёт полномочий", agents)
         self.assertIn("Ручная публикация пользователя", skill)
         self.assertIn("не дают текущей задаче полномочий", skill)
-        self.assertIn("не подготавливает push", agents)
+        self.assertIn("`push`, remote-публикация", agents)
         self.assertIn("не выполняет push", skill)
-        self.assertIn("Состояние remote не используется как gate готовности", agents)
+        self.assertIn("другие внешние эффекты", agents)
         self.assertIn("самостоятельным транспортным действием", skill)
         self.assertIn("не входит в причинную цепочку продолжений", skill)
 
-        self.assertIn("один долгоживущий `wait-until-actionable`", agents)
-        self.assertIn("не отправляет промежуточные сообщения", agents)
+        self.assertIn("не вызывает FIFO/pool/CAS", agents)
+        self.assertIn("read-only-наблюдатели", agents)
 
         heartbeat_prompt = HEARTBEAT_PROMPT_PATH.read_text(encoding="utf-8")
         self.assertIn("больше не является шаблоном prompt", heartbeat_prompt)
@@ -5672,15 +5672,15 @@ class RepositoryIntegrationTests(unittest.TestCase):
 
         for текст in (правила_агентов, навык_комплексной_проверки):
             это.assertIn(
-                "нулевой код внутреннего проверочного процесса",
+                "итогового локального коммита",
                 текст.casefold(),
             )
             это.assertIn("manual-sequential-v1", текст)
 
         это.assertIn("обычным локальным `git commit`", правила_агентов)
         это.assertIn("не создаёт и не передаёт следующую задачу", правила_агентов)
-        это.assertIn("Отложенный исторический конвейер", правила_агентов)
-        это.assertIn("Отложенные профили самостоятельных проектов и подузлов", правила_агентов)
+        это.assertIn("Исторические queue/pool/worktree", правила_агентов)
+        это.assertIn("не дают активного права записи", правила_агентов)
         это.assertIn("первичный checkout `refs/heads/master`", корневая_инструкция)
         это.assertIn("не выполняет Git-коммит", навык_комплексной_проверки)
         это.assertIn("одного итогового локального коммита", навык_комплексной_проверки)
@@ -5728,8 +5728,8 @@ class RepositoryIntegrationTests(unittest.TestCase):
             "Планирование/стадии/01-документационный-прототип-FUM/README.md": "текущая стадия использует ручную последовательную схему",
             "Планирование/MVP-кандидаты/04-исполняемый-агентский-цикл/README.md": "действующая запись выполняется вручную запускаемыми",
             "Планирование/предложения-о-следующих-шагах.md": "актуальный пул остаётся навигационным перечнем возможностей",
-            "Планирование/следующие-шаги-веток/master.md": "исторический снимок последнего `open`-пула",
-            "Планирование/дорожная-карта.md": "снимок прежнего selector/worktree-конвейера",
+            "Планирование/следующие-шаги-веток/master.md": "историческими источниками прежнего конвейера",
+            "Планирование/дорожная-карта.md": "selector/worktree-конвейере сохраняют его исторический контракт",
             "Планирование/направления-проектирования-и-развития/02-автоматизации-и-язык.md": "прежнюю линию обязательного продолжения ветки",
             "Планирование/направления-проектирования-и-развития/03-агентский-цикл-и-исполняемый-контур.md": "прежний Git + Codex-конвейер",
             "Вопросы/2026-07-03_15-36-48_MSK_развилка-гиперсети-и-агентского-цикла-FUM.md": "не является текущим маршрутом работы",
