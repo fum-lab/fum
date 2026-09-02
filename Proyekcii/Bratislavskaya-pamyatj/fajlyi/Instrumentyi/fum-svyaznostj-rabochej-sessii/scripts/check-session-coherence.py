@@ -87,6 +87,19 @@ TITLE_TOKEN_REPLACEMENTS = {
     "yaml": "YAML",
 }
 MARKDOWN_LINK_RE = re.compile(r"!?\[([^\]\n]+)\]\(([^)\n]+)\)")
+ЧАСТИ_КАТАЛОГА_CHATGPT_SHARE = (
+    "Источники",
+    "URL",
+    "https",
+    "chatgpt.com",
+    "share",
+)
+МАРКЕР_НАЧАЛА_ДОСЛОВНОГО_ДИАЛОГА = (
+    "<!-- FUM-CHATGPT-SHARE-VERBATIM:BEGIN -->"
+)
+МАРКЕР_КОНЦА_ДОСЛОВНОГО_ДИАЛОГА = (
+    "<!-- FUM-CHATGPT-SHARE-VERBATIM:END -->"
+)
 HEADING_RE = re.compile(r"^## .+$", re.MULTILINE)
 PROVENANCE_LABEL_RE = re.compile(
     r"^(?:##\s+)?(?:"
@@ -1279,6 +1292,50 @@ def request_text_line_span(text: str) -> tuple[int, int] | None:
     return heading + 2, following + 1
 
 
+def диапазон_дословного_диалога_chatgpt(
+    текст: str,
+    путь: Path,
+    корень: Path,
+) -> tuple[int, int] | None:
+    try:
+        относительный = путь.resolve().relative_to(корень.resolve())
+    except ValueError:
+        return None
+    части = относительный.parts
+    if (
+        len(части) != len(ЧАСТИ_КАТАЛОГА_CHATGPT_SHARE) + 2
+        or tuple(части[: len(ЧАСТИ_КАТАЛОГА_CHATGPT_SHARE)])
+        != ЧАСТИ_КАТАЛОГА_CHATGPT_SHARE
+        or путь.suffix.lower() != ".md"
+    ):
+        return None
+
+    строки = текст.splitlines()
+    начала = [
+        индекс
+        for индекс, строка in enumerate(строки)
+        if строка == МАРКЕР_НАЧАЛА_ДОСЛОВНОГО_ДИАЛОГА
+    ]
+    концы = [
+        индекс
+        for индекс, строка in enumerate(строки)
+        if строка == МАРКЕР_КОНЦА_ДОСЛОВНОГО_ДИАЛОГА
+    ]
+    if len(начала) != 1 or len(концы) != 1 or начала[0] >= концы[0]:
+        return None
+    предыдущая_содержательная = next(
+        (
+            строки[индекс]
+            for индекс in range(начала[0] - 1, -1, -1)
+            if строки[индекс].strip()
+        ),
+        None,
+    )
+    if предыдущая_содержательная != "## Диалог":
+        return None
+    return начала[0] + 2, концы[0] + 1
+
+
 def проверить_незаполненный_маркер_шаблона(
     текст: str,
     путь: Path,
@@ -1308,13 +1365,24 @@ def validate_markdown_links(paths: set[Path], repo_root: Path) -> list[str]:
     for path in sorted(paths):
         if not path.exists() or path.suffix.lower() != ".md":
             continue
+        текст = read_text(path)
         ignored_request_span = None
         if is_request_file(path, repo_root):
-            ignored_request_span = request_text_line_span(read_text(path))
+            ignored_request_span = request_text_line_span(текст)
+        игнорируемый_диалог = диапазон_дословного_диалога_chatgpt(
+            текст,
+            path,
+            repo_root,
+        )
         for link in iter_markdown_links(path):
             if (
                 ignored_request_span is not None
                 and ignored_request_span[0] <= link.line < ignored_request_span[1]
+            ):
+                continue
+            if (
+                игнорируемый_диалог is not None
+                and игнорируемый_диалог[0] <= link.line < игнорируемый_диалог[1]
             ):
                 continue
             source_rel = repo_relative(link.source, repo_root)

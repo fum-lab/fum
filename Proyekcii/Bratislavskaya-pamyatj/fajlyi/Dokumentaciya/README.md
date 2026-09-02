@@ -61,6 +61,7 @@ Dlya pervogo znakomstva dostatochno prochitatj [obzor proyekta](00-obzor-proyekt
 - [44 — Repozitornyij graf pishusjhikh poduzlov i proyektov FUM](44-repozitornyij-graf-pishusjhikh-poduzlov-i-proyektov-FUM.md)
 - [45 — Obyazateljnoye prodolzheniye Git-vetki posle kommita](45-obyazateljnoye-prodolzheniye-Git-vetki-posle-kommita.md)
 - [50 — Bratislavskaya versiya pamyati FUM](50-bratislavskaya-versiya-pamyati-FUM.md)
+- [51 — Proveryayemyij priyom vneshnego vklada](51-proveryayemyij-priyom-vneshnego-vklada.md)
 
 ### Strukturyi znanij, istorii i samoopisaniya
 
@@ -85,6 +86,6 @@ Dlya pervogo znakomstva dostatochno prochitatj [obzor proyekta](00-obzor-proyekt
 - [iskhodnyij zapros 2026-07-21 11:32:46 MSK — Aktualizirovatj vkhodnyiye opisaniya FUM](../Zhurnal/2026-07-21_11-32-46_MSK_aktualizirovatj-vkhodnyiye-opisaniya-FUM/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-12 01:34:29 MSK -->
-<!-- content-sha256: sha256:23b6b3d1b04ae26594edd955c5466898fd986efdd02037868a0e1f71064d9772 -->
+<!-- last-content-edit: 2026-09-02 09:36:08 MSK -->
+<!-- content-sha256: sha256:022cc640cd753e1c64ecdce71aaec9d6919248075d790ec8e3fc969a17bae750 -->
 <!-- FUM-MD-RECENCY:END -->

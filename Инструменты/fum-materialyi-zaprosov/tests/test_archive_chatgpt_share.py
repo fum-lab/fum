@@ -534,6 +534,22 @@ class ArchiveChatgptShareTests(unittest.TestCase):
         self.assertTrue(markdown.startswith("# Запуск долгоживущей цепочки\n"))
         self.assertIn("Полный структурный слой: [chatgpt-share.messages.json](chatgpt-share.messages.json)", markdown)
         self.assertIn("## Диалог", markdown)
+        self.assertIn(
+            "<!-- FUM-CHATGPT-SHARE-VERBATIM:BEGIN -->",
+            markdown,
+        )
+        self.assertIn(
+            "<!-- FUM-CHATGPT-SHARE-VERBATIM:END -->",
+            markdown,
+        )
+        self.assertLess(
+            markdown.index("<!-- FUM-CHATGPT-SHARE-VERBATIM:BEGIN -->"),
+            markdown.index("### 1. Пользователь"),
+        )
+        self.assertLess(
+            markdown.index("### 2. Ассистент"),
+            markdown.index("<!-- FUM-CHATGPT-SHARE-VERBATIM:END -->"),
+        )
         self.assertIn("### 1. Пользователь", markdown)
         self.assertIn("### 2. Ассистент", markdown)
         self.assertNotIn("## Сообщение 1: user", markdown)

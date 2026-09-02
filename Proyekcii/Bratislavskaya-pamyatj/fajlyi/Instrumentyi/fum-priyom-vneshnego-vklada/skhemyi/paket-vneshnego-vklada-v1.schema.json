@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/fum-lab/fum/blob/master/Инструменты/fum-priyom-vneshnego-vklada/схемы/пакет-внешнего-вклада-v1.schema.json",
+  "title": "Пакет внешнего вклада FUM v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["схема", "идентификатор_предложения", "репозиторий", "утверждение", "критерии_приёмки", "манифест", "патч", "заявленные_проверки", "ограничения"],
+  "properties": {
+    "схема": {"const": "fum.пакет-внешнего-вклада.v1"},
+    "идентификатор_предложения": {"type": "string", "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"},
+    "репозиторий": {
+      "type": "object", "additionalProperties": false,
+      "required": ["адрес", "базовый_коммит"],
+      "properties": {
+        "адрес": {"type": "string", "pattern": "^https://[^\\s]+$", "maxLength": 65536},
+        "базовый_коммит": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+      }
+    },
+    "утверждение": {"type": "string", "minLength": 1, "maxLength": 65536},
+    "критерии_приёмки": {"type": "array", "minItems": 1, "maxItems": 256, "items": {"type": "string", "minLength": 1, "maxLength": 65536}},
+    "манифест": {
+      "type": "array", "minItems": 1, "maxItems": 256,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["путь", "операция"],
+        "properties": {
+          "путь": {"type": "string", "minLength": 1, "maxLength": 1024},
+          "операция": {"enum": ["добавить", "изменить", "удалить"]}
+        }
+      }
+    },
+    "патч": {
+      "type": "object", "additionalProperties": false,
+      "required": ["формат", "кодировка", "размер_в_байтах", "хэш_sha256", "данные"],
+      "properties": {
+        "формат": {"const": "полный-бинарный-патч-git-v1"},
+        "кодировка": {"const": "base64"},
+        "размер_в_байтах": {"type": "integer", "minimum": 1, "maximum": 262144},
+        "хэш_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "данные": {"type": "string", "minLength": 1, "maxLength": 349528}
+      }
+    },
+    "заявленные_проверки": {
+      "type": "array", "minItems": 1, "maxItems": 256,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["название", "статус", "свидетельство", "причина"],
+        "properties": {
+          "название": {"type": "string", "minLength": 1, "maxLength": 65536},
+          "статус": {"enum": ["пройдена", "неуспешна", "неопределённо", "не_запускалась"]},
+          "свидетельство": {"type": ["string", "null"], "maxLength": 65536},
+          "причина": {"type": ["string", "null"], "maxLength": 65536}
+        },
+        "allOf": [
+          {"if": {"properties": {"статус": {"enum": ["пройдена", "неуспешна"]}}}, "then": {"properties": {"свидетельство": {"type": "string", "minLength": 1}}}},
+          {"if": {"properties": {"статус": {"enum": ["неопределённо", "не_запускалась"]}}}, "then": {"properties": {"причина": {"type": "string", "minLength": 1}}}}
+        ]
+      }
+    },
+    "ограничения": {"type": "array", "minItems": 1, "maxItems": 256, "items": {"type": "string", "minLength": 1, "maxLength": 65536}}
+  }
+}

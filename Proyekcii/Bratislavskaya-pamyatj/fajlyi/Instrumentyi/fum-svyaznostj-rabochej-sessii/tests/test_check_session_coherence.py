@@ -2535,6 +2535,81 @@ class CheckSessionCoherenceTests(unittest.TestCase):
             self.assertIn("тоже-нет.md", errors[0])
             self.assertNotIn("нет-такого-файла.md", errors[0])
 
+    def test_ссылки_дословного_диалога_chatgpt_не_переинтерпретируются(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            каталог = (
+                root
+                / "Источники"
+                / "URL"
+                / "https"
+                / "chatgpt.com"
+                / "share"
+                / "example"
+            )
+            каталог.mkdir(parents=True)
+            (каталог / "chatgpt-share.messages.json").write_text(
+                "{}\n",
+                encoding="utf-8",
+            )
+            source = каталог / "пример-диалога.md"
+            source.write_text(
+                "# Пример диалога\n\n"
+                "Источник: <https://chatgpt.com/share/example>\n\n"
+                "Полный структурный слой: "
+                "[chatgpt-share.messages.json](chatgpt-share.messages.json).\n\n"
+                "## Диалог\n\n"
+                "<!-- FUM-CHATGPT-SHARE-VERBATIM:BEGIN -->\n\n"
+                "### 1. Ассистент\n\n"
+                "Дословная [внешняя относительная ссылка](../нет-такого-файла.md).\n\n"
+                "<!-- FUM-CHATGPT-SHARE-VERBATIM:END -->\n\n"
+                "Служебная [битая ссылка](нет-служебного-файла.md).\n",
+                encoding="utf-8",
+            )
+
+            errors = check_session_coherence.validate_markdown_links(
+                {source},
+                root,
+            )
+
+            self.assertEqual(len(errors), 1)
+            self.assertIn("нет-служебного-файла.md", errors[0])
+            self.assertNotIn("нет-такого-файла.md", errors[0])
+
+    def test_повторный_маркер_дословного_диалога_закрывает_исключение(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source = (
+                root
+                / "Источники"
+                / "URL"
+                / "https"
+                / "chatgpt.com"
+                / "share"
+                / "example"
+                / "пример-диалога.md"
+            )
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                "# Пример диалога\n\n"
+                "## Диалог\n\n"
+                "<!-- FUM-CHATGPT-SHARE-VERBATIM:BEGIN -->\n\n"
+                "[битая ссылка](нет-файла.md)\n\n"
+                "<!-- FUM-CHATGPT-SHARE-VERBATIM:BEGIN -->\n\n"
+                "<!-- FUM-CHATGPT-SHARE-VERBATIM:END -->\n",
+                encoding="utf-8",
+            )
+
+            errors = check_session_coherence.validate_markdown_links(
+                {source},
+                root,
+            )
+
+            self.assertTrue(
+                any("нет-файла.md" in error for error in errors),
+                errors,
+            )
+
     def test_rejects_absolute_and_escaping_local_markdown_links(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

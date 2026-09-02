@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-08-26 13:36:12 MSK - Isklyuchitj dublirovaniye polnoj regressii pered finaljnyim smoke check](../2026-08-26_13-36-12_MSK_isklyuchitj-dublirovaniye-polnoj-regressii-pered-finaljnyim-smoke-check/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-02 07:51:07 MSK - Organizovatj priyom vneshnego vklada](../2026-09-02_07-51-07_MSK_organizovatj-priyom-vneshnego-vklada/zapros.md)
 
 ## Tekst zaprosa
 
@@ -47,6 +47,6 @@ Codex-Thread-ID: 01a05bfb-4abb-7562-a80e-a63768e6b988
 - [khranimaya bratislavskaya proyekciya](../../../../) — polnostjyu peresobrannoye proizvodnoye pokoleniye i manifest proiskhozhdeniya.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-02 01:02:43 MSK -->
-<!-- content-sha256: sha256:70d0aa23d2cda2e997f05faabc28114fdd55d05bc4ac417c05bb4e8e0ac153c0 -->
+<!-- last-content-edit: 2026-09-02 09:36:08 MSK -->
+<!-- content-sha256: sha256:1c8b7a6d10f8ef685091d333dc28a669fb631916de208256c98c556bce5cdfcf -->
 <!-- FUM-MD-RECENCY:END -->

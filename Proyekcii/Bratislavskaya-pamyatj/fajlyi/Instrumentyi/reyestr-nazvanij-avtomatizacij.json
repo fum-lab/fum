@@ -189,6 +189,11 @@
       "source": "починка автозапуска",
       "transliteration": "pochinka avtozapuska",
       "slug": "fum-pochinka-avtozapuska"
+    },
+    {
+      "source": "приём внешнего вклада",
+      "transliteration": "priyom vneshnego vklada",
+      "slug": "fum-priyom-vneshnego-vklada"
     }
   ],
   "display": [

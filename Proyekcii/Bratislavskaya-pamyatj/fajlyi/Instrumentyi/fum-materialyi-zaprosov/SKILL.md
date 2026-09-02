@@ -86,7 +86,7 @@ V papke istochnikov sokhranyayutsya:
 - `extraction-report.md` - otchyot o sposobe izvlecheniya, kolichestve soobsjhenij i redakciyakh.
 - `snapshot-manifest.json` - tochnyij otsortirovannyij perechenj vsekh fajlov, kotoryimi upravlyayet ustanovlennyij snimok, vklyuchaya sam manifest.
 
-Oformlennyij Markdown-fajl dolzhen byitj nazvan po chelovekochitayemomu nazvaniyu dialoga iz istochnika ili bezopasnomu fallback-nazvaniyu, naprimer `запуск-долгоживущей-цепочки.md`. Zagolovok pervogo urovnya raven etomu nazvaniyu, a soobsjheniya imeyut chitayemyiye russkiye podpisi rolej. Sluzhebnyiye soobsjheniya, vyivodyi instrumentov i mashinnyiye JSON-vyizovyi ne vklyuchayutsya v oformlennyij sloj; oni sokhranyayutsya v `chatgpt-share.messages.json`.
+Oformlennyij Markdown-fajl dolzhen byitj nazvan po chelovekochitayemomu nazvaniyu dialoga iz istochnika ili bezopasnomu fallback-nazvaniyu, naprimer `запуск-долгоживущей-цепочки.md`. Zagolovok pervogo urovnya raven etomu nazvaniyu, a soobsjheniya imeyut chitayemyiye russkiye podpisi rolej. Doslovnyij diapazon soobsjhenij ogranichivayetsya yedinstvennoj paroj `<!-- FUM-CHATGPT-SHARE-VERBATIM:BEGIN -->` i `<!-- FUM-CHATGPT-SHARE-VERBATIM:END -->`: otnositeljnyiye Markdown-ssyilki vnutri nego yavlyayutsya dannyimi vneshnego razgovora i ne pereinterpretiruyutsya kak ssyilki pamyati FUM, togda kak sluzhebnaya shapka, indeks i otchyot arkhiva ostayutsya obyichnyim proveryayemyim Markdown. Povtornyij ili neparnyij marker ne sozdayot isklyucheniya. Sluzhebnyiye soobsjheniya, vyivodyi instrumentov i mashinnyiye JSON-vyizovyi ne vklyuchayutsya v oformlennyij sloj; oni sokhranyayutsya v `chatgpt-share.messages.json`.
 
 TeX-formulyi v oformlennom Markdown-sloye privodyatsya k formatu, kotoryij Obsidian otobrazhayet cherez MathJax: blochnyiye formulyi pishutsya v `$$ ... $$`, a strochnyiye formulyi - v `$...$`. Syiroj strukturnyij sloj ne normalizuyetsya radi otobrazheniya.
 
@@ -95,6 +95,8 @@ Yesli v papke istochnika yestj `source-index.md`, ukazhi v nyom chelovekochitaye
 Skript takzhe obnovlyayet fajl, peredannyij cherez `--request-file`: dobavlyayet razdel `## Прикрепляемые материалы` so ssyilkami na papku istochnika, `source-index.md` i `extraction-report.md`. Povtornyij zapusk dlya togo zhe zaprosa i istochnika ne dolzhen dublirovatj eti ssyilki.
 
 Yesli skript ne smog izvlechj soobsjheniya, ostavj syiroj HTML, zagolovki, potokovyiye bloki i otchyot s prichinoj. Ne vyidumyivaj otsutstvuyusjhij tekst dialoga.
+
+Yesli dialog dolzhen peredatj izmeneniye repozitoriya ot vneshnego agenta, arkhivirovaniye ostayotsya pervyim shagom i ne schitayetsya priyomkoj izmeneniya. Posle nego ispoljzuj [navyik priyoma vneshnego vklada](../fum-priyom-vneshnego-vklada/SKILL.md): on isjhet v strukturnom sloye rovno odin inline-paket, proveryayet tochnuyu Git-bazu, manifest i khyesh i materializuyet nedoverennyij patch toljko v yavno ukazannoye mesto. Vlozheniya `sandbox:/...`, ustnyiye utverzhdeniya o kommite i vneshniye samootchyotyi etim konturom ne vosstanavlivayutsya.
 
 ## Drugiye materialyi
 
@@ -112,6 +114,6 @@ Yesli material nevozmozhno poluchitj iz-za dostupa, istecheniya share-ssyilki il
 - [iskhodnyij zapros 2026-07-21 10:36:18 MSK - Zavershitj skvoznuyu priyomku arkhivatora istochnikov](../../Zhurnal/2026-07-21_10-36-18_MSK_zavershitj-skvoznuyu-priyomku-arkhivatora-istochnikov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-03 14:54:04 MSK -->
-<!-- content-sha256: sha256:99c90be987d835f991ad102ec2e9899a21b53bdb34561bbc0f6b5df7f9e2db07 -->
+<!-- last-content-edit: 2026-09-02 15:15:05 MSK -->
+<!-- content-sha256: sha256:6080cb09d46550126a00ccd1ae176ab1dbd0bcd6d1d2695d8bf7da6e22d1059b -->
 <!-- FUM-MD-RECENCY:END -->

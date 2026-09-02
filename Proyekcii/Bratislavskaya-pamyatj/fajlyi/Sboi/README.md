@@ -27,6 +27,7 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0019 | `устранена` | [Zavisimostj repozitornogo testa selektora ot aktivnoj worktree-vetki](FUM-SBOJ-0019-zavisimostj-repozitornogo-testa-selektora-ot-aktivnoj-worktree-vetki.md)       | 1          | —                       |
 | FUM-SBOJ-0020 | `устранена` | [Publikaciya sluzhebnogo `CF-Ray` v snimke istochnika](FUM-SBOJ-0020-publikaciya-sluzhebnogo-CF-Ray-v-snimke-istochnika.md)                                               | 1          | —                       |
 | FUM-SBOJ-0021 | `устранена` | [Nematerializovannaya Git-zavisimostj avtomaticheski sozdannogo slota](FUM-SBOJ-0021-nematerializovannaya-Git-zavisimostj-avtomaticheski-sozdannogo-slota.md)           | 1          | —                       |
+| FUM-SBOJ-0022 | `устранена` | [Nedostavka izmenenij iz Web ChatGPT](FUM-SBOJ-0022-nedostavka-izmenenij-iz-Web-ChatGPT.md)                                                                   | 1          | —                       |
 
 ## Pravila vedeniya
 
@@ -59,6 +60,6 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 - [pravila rabochikh sessij](../AGENTS.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-26 12:38:11 MSK -->
-<!-- content-sha256: sha256:ecb1e194f8c47ffbfa3c08eb34b2592a1d6976fd2fd6a437d38ce0f0ac72e136 -->
+<!-- last-content-edit: 2026-09-02 09:36:08 MSK -->
+<!-- content-sha256: sha256:52db39a6504733601dfe46126e4dae70918b07188fe22493d791b33fb742a34b -->
 <!-- FUM-MD-RECENCY:END -->

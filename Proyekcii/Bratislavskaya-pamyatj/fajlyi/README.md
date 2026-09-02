@@ -32,6 +32,8 @@ Napishite zadache Codex, chto nuzhno ponyatj, izmenitj, proveritj ili sokhranitj
 
 Poleznyij zapros obyichno soderzhit ozhidayemyij rezuljtat, iskhodnyiye materialyi i susjhestvennyiye ogranicheniya. Znatj vnutrenneye ustrojstvo pamyati ili specialjnyiye komandyi FUM dlya nachala rabotyi ne trebuyetsya.
 
+Yesli issledovaniye uzhe vyipolneno vo vneshnem Web ChatGPT, ne prosite yego imitirovatj pryamoj kommit ili push cherez obyichnoye GitHub-podklyucheniye: etot kanal prednaznachen dlya chteniya. Poprosite vernutj odin [tipizirovannyij paket vneshnego vklada](Dokumentaciya/51-proveryayemyij-priyom-vneshnego-vklada.md) pryamo v tekstovom soobsjhenii, opublikujte share-ssyilku i peredajte yeyo novoj lokaljnoj zadache Codex. Lokaljnaya zadacha arkhiviruyet dialog, proveryayet tochnyiye bazu, manifest i khyesh, pokazyivayet nedoverennyij patch i toljko zatem samostoyateljno oformlyayet prinimayemoye izmeneniye po pravilam FUM.
+
 ### 3. Zapustite odnu pishusjhuyu sessiyu
 
 Kazhduyu pishusjhuyu zadachu zapuskajte vruchnuyu v Codex Desktop dlya pervichnogo checkout `refs/heads/master`. Odnovremenno rabotayet toljko odna pishusjhaya sessiya; otdeljnyiye read-only-zadachi mogut nablyudatj sostoyaniye, no ne izmenyayut fajlyi ili Git.
@@ -88,6 +90,7 @@ Skript bez `sudo` trebuyet nastoyasjhiye TTY odnovremenno na stdin i stdout, pok
 - [Obzor proyekta](Dokumentaciya/00-obzor-proyekta.md) — kratkaya smyislovaya ramka.
 - [Osnovnaya poljzovateljskaya istoriya svyaznoj pamyati](Dokumentaciya/31-poljzovateljskiye-istorii-FUM/vesti-svyaznuyu-pamyatj-FUM.md) — nablyudayemyij potok ot zaprosa do vozobnovlyayemoj pamyati.
 - [Pasport dokumentacionnogo prototipa](Dokumentaciya/36-pasport-dokumentacionnogo-prototipa-i-pervogo-korobochnogo-sreza.md) — sostav tekusjhego kontura i yego granicyi.
+- [Proveryayemyij priyom vneshnego vklada](Dokumentaciya/51-proveryayemyij-priyom-vneshnego-vklada.md) — peredacha predlozheniya iz Web ChatGPT v lokaljnuyu kornevuyu sessiyu bez fiktivnogo write-dostupa.
 - [Dorozhnaya karta](Planirovaniye/dorozhnaya-karta.md), [sleduyusjhiye shagi vetok](Planirovaniye/sleduyusjhiye-shagi-vetok/README.md) i [prototipyi](Prototipyi/) — razvitiye i ispolnyayemyiye proverki otdeljnyikh reshenij.
 - [Glossarij proyekta](Glossarij/glossarij-proyekta.md) — znacheniya ustojchivyikh terminov FUM.
 
@@ -110,6 +113,6 @@ Proyekt publikuyetsya pod [CC0 1.0 Universal](LICENZIYA.md). Kanonicheskij publi
 - [iskhodnyij zapros 2026-08-06 06:59:01 MSK — Dobavitj upravleniye dispetcherom cherez soobsjheniya](Zhurnal/2026-08-06_06-59-01_MSK_dobavitj-upravleniye-dispetcherom-cherez-soobsjheniya/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-26 11:32:07 MSK -->
-<!-- content-sha256: sha256:7d459d154c0a039dd4369c44d2550e29f009c993913ff6f749fca535297d37ef -->
+<!-- last-content-edit: 2026-09-02 09:36:08 MSK -->
+<!-- content-sha256: sha256:b7b2c0f06c8f3fd8acaa4a7fdb5847f67a7113837d9ac4410d975aab43e4cf3e -->
 <!-- FUM-MD-RECENCY:END -->

@@ -32,11 +32,14 @@ Eti pravila polnostjyu chitayutsya do importa istochnika, rabotyi s vlozheniyem 
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000166 -->
 - Vneshniye ssyilki i drugiye materialyi s ustojchivyim URL sokhranyayutsya v `Источники/` maksimaljno syiro v predelakh publikacionnoj chistotyi; prinadlezhasjhiye odnomu zaprosu vlozheniya bez ustojchivogo URL tak zhe sokhranyayutsya v yego `материалы/`. Dlya oboikh klassov fiksiruyutsya dostupnyiye iskhodnyiye dannyiye, izvlechyonnyij tekst i otchyot ob izvlechenii, no cookie, tokenyi, lokaljnyiye IP, geometadannyiye zaprosa i drugiye sekretyi redaktiruyutsya pered kommitom.
 
+<!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-НОВОЕ-000007 -->
+- Yesli rassharennyij dialog Web ChatGPT soderzhit predlozheniye izmeneniya repozitoriya, snachala arkhiviruj dialog navyikom `fum-materialyi-zaprosov`, zatem izvlekaj i proveryaj rovno odin tipizirovannyij inline-paket toljko navyikom `Инструменты/fum-priyom-vneshnego-vklada/SKILL.md`. Ssyilka `sandbox:/...`, obyichnyij perechenj fajlov, zayavleniye vneshnego agenta o commit, push ili proverkakh i sluchajno sgenerirovannyij im `Codex-Thread-ID` ne yavlyayutsya dostavlennyim rezuljtatom ili kvitanciyej; otsutstviye polnogo paketa fiksiruyetsya kak otsutstviye mashinno prinimayemogo predlozheniya, a ne vospolnyayetsya dogadkoj.
+
 ## Istochnik dekompozicii
 
 - [iskhodnyij zapros 2026-08-24 15:31:12 MSK — Dekompozirovatj AGENTS MD](../../Zhurnal/2026-08-24_15-31-12_MSK_dekompozirovatj-AGENTS-md/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-24 16:13:37 MSK -->
-<!-- content-sha256: sha256:2936359d391ff17f892289c9595e9e31122abe685a0c551f0676404e5b4274b6 -->
+<!-- last-content-edit: 2026-09-02 09:36:08 MSK -->
+<!-- content-sha256: sha256:39306f0e138619978b1f52aa0881a432e1d20d2fecb217548712ddb10efdea7d -->
 <!-- FUM-MD-RECENCY:END -->

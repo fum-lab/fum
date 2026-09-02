@@ -36,6 +36,12 @@ REDACTION = "[REDACTED: local request metadata]"
 COOKIE_REDACTION = "set-cookie: [REDACTED: response cookie]\n"
 SNAPSHOT_MANIFEST_NAME = "snapshot-manifest.json"
 SNAPSHOT_MANIFEST_SCHEMA = "fum.request-materials.snapshot-manifest.v1"
+МАРКЕР_НАЧАЛА_ДОСЛОВНОГО_ДИАЛОГА = (
+    "<!-- FUM-CHATGPT-SHARE-VERBATIM:BEGIN -->"
+)
+МАРКЕР_КОНЦА_ДОСЛОВНОГО_ДИАЛОГА = (
+    "<!-- FUM-CHATGPT-SHARE-VERBATIM:END -->"
+)
 LOCAL_METADATA_KEYS = {
     "async_source",
     "notification_id",
@@ -606,6 +612,8 @@ def write_messages_markdown(path: Path, url: str, messages_data: dict[str, Any])
         "",
         "## Диалог",
         "",
+        МАРКЕР_НАЧАЛА_ДОСЛОВНОГО_ДИАЛОГА,
+        "",
     ]
     if not readable_messages:
         lines.append("_Читаемых сообщений не найдено._")
@@ -616,6 +624,8 @@ def write_messages_markdown(path: Path, url: str, messages_data: dict[str, Any])
         lines.append("")
         lines.append(format_message_text(message.get("text", "")))
         lines.append("")
+    lines.append(МАРКЕР_КОНЦА_ДОСЛОВНОГО_ДИАЛОГА)
+    lines.append("")
     path.write_text(trim_trailing_whitespace("\n".join(lines)), encoding="utf-8")
 
 

@@ -134,6 +134,8 @@ git switch -c upstream-improvement/<краткое-название>
 
 V takuyu vetku popadayet toljko publikacionno chistyij obsjhij rezuljtat: ispravleniye dokumentacii, uluchsheniye avtomatizacii, test, glossarnoye utochneniye, pravilo rabochej sessii ili arkhitekturnoye resheniye. Pull request v upstream dolzhen zakreplyatj tochnyiye base/head, polnyij diapazon commit, naznacheniye i rolj, oblastj, proverki, granicyi primenimosti i publikacionnyij audit. Izmeneniye base ili head annuliruyet prezhneye prinyatiye. Sam pull request yavlyayetsya konvertom peredachi i revjyu, a ne dokazateljstvom poleznosti ili razresheniyem sliyaniya.
 
+Shtatnoye GitHub-podklyucheniye Web ChatGPT ne yavlyayetsya takim pishusjhim fork-konturom: ono chitayet repozitorij, no ne sozdayot commit, vetku ili pull request. Dlya neboljshogo vneshnego rezuljtata dejstvuyet [proveryayemyij priyom vneshnego vklada](51-proveryayemyij-priyom-vneshnego-vklada.md): vneshnij agent pomesjhayet polnyij tipizirovannyij paket v tekst share-dialoga, a lokaljnaya kornevaya sessiya arkhiviruyet istochnik, proveryayet tochnyiye bazu, manifest, khyesh i primenimostj patch i sama oformlyayet prinyatyij rezuljtat. Dlya boljshogo rezuljtata dopustim fork i zakreplyonnyij draft pull request, sozdannyij Codex web/cloud ili inyim otdeljno dopusjhennyim pishusjhim adapterom; eto menyayet transport, no ne dayot PR prava na merge i ne obkhodit lokaljnuyu priyomku.
+
 Yesli poleznaya ideya voznikla vnutri privatnoj pamyati, naruzhu peredayotsya ne vsya vetka, a obezlichennaya ili zanovo oformlennaya [narabotka](../Glossarij/narabotka.md): tekst trebovaniya, patch, test, shablon, otchyot ili drugoye soderzhaniye, kotoroye mozhno opublikovatj pod CC0.
 
 Dlya poduzla dejstvuyet ta zhe granica: vverkh ne slivayetsya vsya yego rolevaya vetka s pamyatjyu. Publikacionno chistyij obsjhij vklad perenositsya na vetku ot tochnogo commit celevogo upstream i soprovozhdayetsya proiskhozhdeniyem, proverkami i ogranicheniyami. [Perenosimyij navyik FUM](../Glossarij/perenosimyij-navyik-FUM.md) stanovitsya kanonicheskim toljko posle vosproizvodimogo revjyu i integracii v kornevoj `master`; novyij celevoj agent nasleduyet tochnyij prinyatyij commit, a susjhestvuyusjhij fork poluchayet yego cherez yavnuyu sinkhronizaciyu. Rabota nad proyektom analogichno prinimayetsya snachala v proyektnyij repozitorij; assembly obnovlyayet yego gitlink toljko posle dokazannoj publikacii i proverki prinyatogo commit.
@@ -183,6 +185,6 @@ Eta skhema delayet GitHub ne prosto mestom publikacii, a pervyim socialjnyim nos
 - [Dorozhnaya karta FUM](../Planirovaniye/dorozhnaya-karta.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-26 11:32:07 MSK -->
-<!-- content-sha256: sha256:fb8686480a575cc20cf86910c88c643e7fe4aff422961c514025dc45f8e2d83b -->
+<!-- last-content-edit: 2026-09-02 09:36:08 MSK -->
+<!-- content-sha256: sha256:69f5244724075ce8639916b2621dcaa470297da5ca89afb5c5cb4b49969715fa -->
 <!-- FUM-MD-RECENCY:END -->

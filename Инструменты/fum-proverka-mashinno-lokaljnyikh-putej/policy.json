@@ -1373,7 +1373,7 @@
       "id": "definition-034",
       "path": "Инструменты/fum-svyaznostj-rabochej-sessii/SKILL.md",
       "kind": "file-uri",
-      "line_sha256": "sha256:ac9b7b6e04e8d1161a2a36431b653a2541b3aae2e2afe7c03653632bf3c78384",
+      "line_sha256": "sha256:fd047bd9a60512372bea969c8a41ca3d2f6d022f47e6e9ab3cfb0be564a530b7",
       "count": 1,
       "category": "allow.path-validation-definition",
       "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
@@ -2664,6 +2664,51 @@
       "count": 1,
       "category": "allow.test-fixture",
       "reason": "Закрепляет синтетический домашний путь во вложенном почти совпадающем каталоге."
+    },
+    {
+      "id": "external-contribution-git-base85-definition",
+      "path": "Инструменты/fum-priyom-vneshnego-vklada/scripts/proveritj-paket-vneshnego-vklada.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:5dbc9a33075c02c9856aff023fb43998c70d07c0a30a928aa587eaa8f8a11e69",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точный алфавит Git Base85 с символом тильды, который не является путём файловой системы."
+    },
+    {
+      "id": "external-contribution-old-null-header-definition",
+      "path": "Инструменты/fum-priyom-vneshnego-vklada/scripts/proveritj-paket-vneshnego-vklada.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2226ae20b31fd8e030ab2684375214dc6db36a61b5f4ba77084a952f9be80fe5",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точный служебный маркер Git для старой стороны добавляемого файла без разрешения соседних строк."
+    },
+    {
+      "id": "external-contribution-new-null-header-definition",
+      "path": "Инструменты/fum-priyom-vneshnego-vklada/scripts/proveritj-paket-vneshnego-vklada.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:4856c1bb5b44091329daf0305232d2ba6c90caec08e61b2f2c09a1f1125c5622",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точный служебный маркер Git для новой стороны удаляемого файла без разрешения соседних строк."
+    },
+    {
+      "id": "external-contribution-git-base85-fixture",
+      "path": "Инструменты/fum-priyom-vneshnego-vklada/tests/test_proveritj_paket_vneshnego_vklada.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:5dbc9a33075c02c9856aff023fb43998c70d07c0a30a928aa587eaa8f8a11e69",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую копию алфавита Git Base85 с тильдой без разрешения соседних строк."
+    },
+    {
+      "id": "external-contribution-null-header-fixture",
+      "path": "Инструменты/fum-priyom-vneshnego-vklada/tests/test_proveritj_paket_vneshnego_vklada.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:809df6558d9c856b5042b7679b6fd72d2a0cd42218f6b4bdbe1ed50aa5028364",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точный служебный маркер Git в тестовом патче добавления без разрешения соседних строк."
     }
   ]
 }
