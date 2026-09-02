@@ -1,0 +1,4 @@
+interface:
+  display_name: "FUM Request Materials"
+  short_description: "Архивировать URL и материалы запросов FUM"
+  default_prompt: "Use $fum-materialyi-zaprosov to archive a stable HTML URL through fum source archive or preserve another external material in the canonical FUM sources folder under Источники/."

@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "package_id": "fum.work-package.missing-input.v1",
+  "goal": "Отклонить пакет без доступного обязательного входа.",
+  "deliverables": [
+    {
+      "id": "contract",
+      "role": "primary",
+      "description": "Описать контракт.",
+      "depends_on": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "requirements",
+      "path": "inputs/missing-requirements.txt",
+      "sha256": "sha256:6e94948be5de9e62ce8cf9e8994421132739338dd8bf9c0a2860a4a11d7e16bb",
+      "required": true
+    }
+  ],
+  "change_scope": {
+    "policy": "listed_paths_only",
+    "allowed_paths": [
+      "output/contract.json"
+    ],
+    "excluded_paths": [
+      "runtime"
+    ]
+  },
+  "dependencies": [],
+  "checks": [
+    {
+      "id": "contract-tests",
+      "description": "Проверить доступность входов."
+    }
+  ],
+  "handoff": {
+    "format": "canonical_json_v1",
+    "required_artifacts": [
+      "output/contract.json"
+    ]
+  },
+  "budget": {
+    "unit": "planning_units",
+    "limit": 100,
+    "reading": 20,
+    "work": 35,
+    "verification": 20,
+    "response": 10,
+    "reserve": 15
+  },
+  "preflight": {
+    "before_model_call": true,
+    "before_user_data_mutation": true
+  }
+}

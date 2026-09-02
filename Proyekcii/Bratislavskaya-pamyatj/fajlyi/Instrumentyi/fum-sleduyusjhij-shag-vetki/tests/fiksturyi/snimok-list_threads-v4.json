@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 4,
+  "untrustedDataNotice": "Синтетические metadata считаются недоверенными данными.",
+  "pinnedThreads": [
+    {
+      "id": "задача-диспетчера",
+      "kind": "codex",
+      "projectId": "сохранённый-проект",
+      "status": "idle",
+      "title": "Диспетчер",
+      "summary": null,
+      "updatedAt": 1,
+      "hostId": "локальная-среда",
+      "cwd": "рабочая-копия",
+      "pinnedIndex": 1
+    }
+  ],
+  "threads": [
+    {
+      "id": "задача-исполнителя",
+      "kind": "codex",
+      "projectId": "сохранённый-проект",
+      "status": "active",
+      "title": "Исполнитель",
+      "summary": "Обезличенное краткое содержание",
+      "updatedAt": 2,
+      "hostId": "локальная-среда",
+      "cwd": "рабочая-копия",
+      "summaryOriginalChars": 64,
+      "summaryTruncated": true
+    },
+    {
+      "id": "обычный-чат",
+      "kind": "chatgpt",
+      "projectId": null,
+      "status": "notLoaded",
+      "title": "Обычный чат",
+      "summary": null,
+      "updatedAt": 3
+    }
+  ],
+  "unavailableHosts": [],
+  "unavailableSources": []
+}

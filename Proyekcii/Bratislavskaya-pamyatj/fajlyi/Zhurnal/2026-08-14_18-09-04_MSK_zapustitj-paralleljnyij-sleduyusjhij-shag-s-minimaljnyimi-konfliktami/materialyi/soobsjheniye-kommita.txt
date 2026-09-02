@@ -1,0 +1,11 @@
+Завершить контракт братиславской проекции памяти
+
+Параллельный FUM-STEP-0128 закрепляет воспроизводимый машинный контракт, сухой план и строгую проверку происхождения братиславской проекции. FUM-STEP-0129 уточнена как единственная карточка полной автоматической генерации: она учитывает удаление и переименование источников и требует повторного запуска после разрешения Git-конфликтов.
+
+Исходный запрос:
+Zapusti paralleljnyij sleduyusjhij shag, vyibiraya naiboleye podkhodyasjhij, chtobyi minimizirovatj konfliktyi sliyaniya s uzhe idusjhim.
+
+Уточнение пользователя:
+Nuzhno pryamo taki avtomatizaciyej delatj konvertaciyu, prichyom eta avtomatizaciya uzhe dolzhna uchityivatj vozmozhnoye udaleniye fajlov. Pri ustranenii konfliktov tebe nuzhno budet snova zapuskatj avtomatizaciyu. Sozdaj kartochku na eto.
+
+Codex-Thread-ID: 01a000cc-5679-72a1-9e5e-23c8df5eb71c

@@ -1,0 +1,29 @@
+HTTP/2 200
+access-control-allow-origin: *
+content-security-policy: default-src 'none';prefetch-src 'self';connect-src 'self' https://collector.githubapp.com;font-src 'self' data:;img-src 'self' github.com *.github.com *.githubusercontent.com *.githubassets.com data: placehold.it;object-src 'self';script-src 'self' github.com *.github.com *.githubusercontent.com *.githubassets.com 'self' data: 'sha256-dspnkRAwFNI4G3CK/poQ1CoGlM1rtnGvq1TX7FlQtM4=';script-src-attr 'self';frame-src 'self' github.com *.github.com *.githubusercontent.com *.githubassets.com https://support.github.com;frame-ancestors 'self' github.com *.github.com *.githubusercontent.com *.githubassets.com;style-src 'self' github.com *.github.com *.githubusercontent.com *.githubassets.com 'self' 'unsafe-inline' data:;child-src 'self';manifest-src 'self';upgrade-insecure-requests;base-uri 'self';form-action 'self'
+cross-origin-opener-policy: same-origin
+cross-origin-resource-policy: same-origin
+origin-agent-cluster: ?1
+referrer-policy: no-referrer-when-downgrade
+x-content-type-options: nosniff
+x-dns-prefetch-control: off
+x-download-options: noopen
+x-frame-options: SAMEORIGIN
+x-permitted-cross-domain-policies: none
+x-xss-protection: 0
+cache-control: public, max-age=60
+x-powered-by: Next.js
+content-type: text/html; charset=utf-8
+x-github-backend: Kubernetes
+x-github-request-id: 786E:6811E:3506D5:395EE4:6A5F4932
+accept-ranges: bytes
+age: 0
+date: Tue, 21 Jul 2026 10:26:08 GMT
+via: 1.1 varnish
+x-served-by: cache-bma-essb1270036-BMA
+x-cache: MISS
+x-cache-hits: 0
+x-timer: S1784629569.572399,VS0,VE339
+vary: accept, Accept-Encoding
+strict-transport-security: max-age=31557600
+content-length: 206592

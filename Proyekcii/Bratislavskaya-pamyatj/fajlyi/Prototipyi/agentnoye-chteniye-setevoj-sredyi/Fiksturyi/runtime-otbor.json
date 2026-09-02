@@ -1,0 +1,404 @@
+{
+  "base_map_unchanged": true,
+  "budget": {
+    "max_agents": 4,
+    "max_births": 1,
+    "max_generations": 1,
+    "max_graph_writes": 0,
+    "max_node_visits": 20,
+    "max_trace_steps": 20
+  },
+  "evaluations": [
+    {
+      "agent": {
+        "generation": 0,
+        "id": "agent.additive",
+        "mutations": [],
+        "settings": {
+          "signal_weights": {
+            "finish": 10,
+            "growth": 0,
+            "refine": 0,
+            "shortcut": 10
+          },
+          "step_limit": 3
+        }
+      },
+      "metrics": {
+        "economic_utility": -40,
+        "exact_cases": 1,
+        "mutation_cost": 0,
+        "node_visits": 6,
+        "quality_gate_passed": false,
+        "resource_cost": 120,
+        "task_reward": 80,
+        "total_error": 2
+      },
+      "traces": [
+        {
+          "absolute_error": 2,
+          "case_id": "case.two",
+          "input": 2,
+          "output": 5,
+          "steps": [
+            {
+              "chosen_signal": "shortcut",
+              "index": 0,
+              "input": 2,
+              "node_id": "entry",
+              "output": 2,
+              "target_node_id": "add-three"
+            },
+            {
+              "chosen_signal": "finish",
+              "index": 1,
+              "input": 2,
+              "node_id": "add-three",
+              "output": 5,
+              "target_node_id": "terminal"
+            },
+            {
+              "index": 2,
+              "input": 5,
+              "node_id": "terminal",
+              "output": 5
+            }
+          ],
+          "stop_reason": "terminal_node",
+          "target": 3
+        },
+        {
+          "absolute_error": 0,
+          "case_id": "case.four",
+          "input": 4,
+          "output": 7,
+          "steps": [
+            {
+              "chosen_signal": "shortcut",
+              "index": 0,
+              "input": 4,
+              "node_id": "entry",
+              "output": 4,
+              "target_node_id": "add-three"
+            },
+            {
+              "chosen_signal": "finish",
+              "index": 1,
+              "input": 4,
+              "node_id": "add-three",
+              "output": 7,
+              "target_node_id": "terminal"
+            },
+            {
+              "index": 2,
+              "input": 7,
+              "node_id": "terminal",
+              "output": 7
+            }
+          ],
+          "stop_reason": "terminal_node",
+          "target": 7
+        }
+      ]
+    },
+    {
+      "agent": {
+        "generation": 0,
+        "id": "agent.resource-saver",
+        "mutations": [],
+        "settings": {
+          "signal_weights": {
+            "finish": 10,
+            "growth": 10,
+            "refine": 0,
+            "shortcut": 0
+          },
+          "step_limit": 1
+        }
+      },
+      "metrics": {
+        "economic_utility": 20,
+        "exact_cases": 0,
+        "mutation_cost": 0,
+        "node_visits": 2,
+        "quality_gate_passed": false,
+        "resource_cost": 40,
+        "task_reward": 60,
+        "total_error": 4
+      },
+      "traces": [
+        {
+          "absolute_error": 1,
+          "case_id": "case.two",
+          "input": 2,
+          "output": 2,
+          "steps": [
+            {
+              "index": 0,
+              "input": 2,
+              "node_id": "entry",
+              "output": 2
+            }
+          ],
+          "stop_reason": "step_limit",
+          "target": 3
+        },
+        {
+          "absolute_error": 3,
+          "case_id": "case.four",
+          "input": 4,
+          "output": 4,
+          "steps": [
+            {
+              "index": 0,
+              "input": 4,
+              "node_id": "entry",
+              "output": 4
+            }
+          ],
+          "stop_reason": "step_limit",
+          "target": 7
+        }
+      ]
+    },
+    {
+      "agent": {
+        "generation": 0,
+        "id": "agent.scaling",
+        "mutations": [],
+        "settings": {
+          "signal_weights": {
+            "finish": 10,
+            "growth": 10,
+            "refine": 0,
+            "shortcut": 0
+          },
+          "step_limit": 3
+        }
+      },
+      "metrics": {
+        "economic_utility": -40,
+        "exact_cases": 0,
+        "mutation_cost": 0,
+        "node_visits": 6,
+        "quality_gate_passed": false,
+        "resource_cost": 120,
+        "task_reward": 80,
+        "total_error": 2
+      },
+      "traces": [
+        {
+          "absolute_error": 1,
+          "case_id": "case.two",
+          "input": 2,
+          "output": 4,
+          "steps": [
+            {
+              "chosen_signal": "growth",
+              "index": 0,
+              "input": 2,
+              "node_id": "entry",
+              "output": 2,
+              "target_node_id": "double"
+            },
+            {
+              "chosen_signal": "finish",
+              "index": 1,
+              "input": 2,
+              "node_id": "double",
+              "output": 4,
+              "target_node_id": "terminal"
+            },
+            {
+              "index": 2,
+              "input": 4,
+              "node_id": "terminal",
+              "output": 4
+            }
+          ],
+          "stop_reason": "terminal_node",
+          "target": 3
+        },
+        {
+          "absolute_error": 1,
+          "case_id": "case.four",
+          "input": 4,
+          "output": 8,
+          "steps": [
+            {
+              "chosen_signal": "growth",
+              "index": 0,
+              "input": 4,
+              "node_id": "entry",
+              "output": 4,
+              "target_node_id": "double"
+            },
+            {
+              "chosen_signal": "finish",
+              "index": 1,
+              "input": 4,
+              "node_id": "double",
+              "output": 8,
+              "target_node_id": "terminal"
+            },
+            {
+              "index": 2,
+              "input": 8,
+              "node_id": "terminal",
+              "output": 8
+            }
+          ],
+          "stop_reason": "terminal_node",
+          "target": 7
+        }
+      ]
+    },
+    {
+      "agent": {
+        "generation": 1,
+        "id": "agent.scaling.refined",
+        "mutations": [
+          {
+            "delta": 20,
+            "signal": "refine"
+          }
+        ],
+        "parent_id": "agent.scaling",
+        "settings": {
+          "signal_weights": {
+            "finish": 10,
+            "growth": 10,
+            "refine": 20,
+            "shortcut": 0
+          },
+          "step_limit": 3
+        }
+      },
+      "metrics": {
+        "economic_utility": -25,
+        "exact_cases": 2,
+        "mutation_cost": 5,
+        "node_visits": 6,
+        "quality_gate_passed": true,
+        "resource_cost": 120,
+        "task_reward": 100,
+        "total_error": 0
+      },
+      "traces": [
+        {
+          "absolute_error": 0,
+          "case_id": "case.two",
+          "input": 2,
+          "output": 3,
+          "steps": [
+            {
+              "chosen_signal": "growth",
+              "index": 0,
+              "input": 2,
+              "node_id": "entry",
+              "output": 2,
+              "target_node_id": "double"
+            },
+            {
+              "chosen_signal": "refine",
+              "index": 1,
+              "input": 2,
+              "node_id": "double",
+              "output": 4,
+              "target_node_id": "subtract-one"
+            },
+            {
+              "index": 2,
+              "input": 4,
+              "node_id": "subtract-one",
+              "output": 3
+            }
+          ],
+          "stop_reason": "terminal_node",
+          "target": 3
+        },
+        {
+          "absolute_error": 0,
+          "case_id": "case.four",
+          "input": 4,
+          "output": 7,
+          "steps": [
+            {
+              "chosen_signal": "growth",
+              "index": 0,
+              "input": 4,
+              "node_id": "entry",
+              "output": 4,
+              "target_node_id": "double"
+            },
+            {
+              "chosen_signal": "refine",
+              "index": 1,
+              "input": 4,
+              "node_id": "double",
+              "output": 8,
+              "target_node_id": "subtract-one"
+            },
+            {
+              "index": 2,
+              "input": 8,
+              "node_id": "subtract-one",
+              "output": 7
+            }
+          ],
+          "stop_reason": "terminal_node",
+          "target": 7
+        }
+      ]
+    }
+  ],
+  "generations": [
+    {
+      "evaluated_agent_ids": [
+        "agent.additive",
+        "agent.resource-saver",
+        "agent.scaling"
+      ],
+      "generation": 0,
+      "scheduled_agent_ids": [
+        "agent.additive",
+        "agent.resource-saver",
+        "agent.scaling"
+      ],
+      "skipped_agent_ids": [],
+      "spawned_agent_ids": [
+        "agent.scaling.refined"
+      ]
+    },
+    {
+      "evaluated_agent_ids": [
+        "agent.scaling.refined"
+      ],
+      "generation": 1,
+      "scheduled_agent_ids": [
+        "agent.scaling.refined"
+      ],
+      "skipped_agent_ids": [],
+      "spawned_agent_ids": []
+    }
+  ],
+  "network_sha256_after": "sha256:fe295dc4b79b02174b7a41bdd052adcfe8308b31825c811c2c970216ab7f6a89",
+  "network_sha256_before": "sha256:fe295dc4b79b02174b7a41bdd052adcfe8308b31825c811c2c970216ab7f6a89",
+  "schema_version": 1,
+  "selection_criteria": [
+    "quality_gate",
+    "total_error",
+    "economic_utility",
+    "node_visits",
+    "agent_id"
+  ],
+  "skipped_agent_ids": [],
+  "usage": {
+    "births": 1,
+    "evaluated_agents": 4,
+    "graph_writes": 0,
+    "node_visits": 20,
+    "trace_steps": 20
+  },
+  "winner_agent_id": "agent.scaling.refined"
+}

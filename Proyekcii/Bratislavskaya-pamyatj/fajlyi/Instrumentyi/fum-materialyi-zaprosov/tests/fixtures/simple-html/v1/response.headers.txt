@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Content-Type: text/html; charset=utf-8
+Content-Language: ru
+ETag: "fum-fixture-v1"
+Set-Cookie: fum_fixture_session=fum-fixture-secret-v1; Path=/; HttpOnly

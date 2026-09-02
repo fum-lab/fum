@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "package_id": "fum.live-run.2026-08-02.executable-auditor.v1",
+  "contract_sha256": "sha256:a720b8352f76c63f0d454a44de934da4a6eb1da0286b0734fdc26bbd0acd1088",
+  "decision": "ready",
+  "violations": [],
+  "observed_duration_seconds": 3.720
+}

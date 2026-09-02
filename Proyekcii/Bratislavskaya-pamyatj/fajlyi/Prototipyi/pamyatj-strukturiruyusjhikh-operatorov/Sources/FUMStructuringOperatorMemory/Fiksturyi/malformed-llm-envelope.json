@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "adapter_id": "recorded-fixture-v1",
+  "model": "fixture-llm",
+  "prompt_hash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "proposals": []
+}

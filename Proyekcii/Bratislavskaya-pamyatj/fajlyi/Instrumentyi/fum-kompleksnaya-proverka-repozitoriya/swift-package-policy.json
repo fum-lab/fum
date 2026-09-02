@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 2,
+  "defaultMode": "strict",
+  "packages": [
+    {
+      "package": "Прототипы/воспроизводимое-пополнение-памяти",
+      "executableProducts": [
+        "FUMMemoryPopulationProbe"
+      ],
+      "localDependencies": []
+    },
+    {
+      "package": "Прототипы/теневой-редактор-продолжений",
+      "executableProducts": [
+        "FUMShadowEditor",
+        "FUMShadowProbe"
+      ],
+      "localDependencies": []
+    },
+    {
+      "package": "Прототипы/физические-состояния-клавиш",
+      "executableProducts": [
+        "FUMInputGuide",
+        "FUMInputProbe"
+      ],
+      "localDependencies": []
+    },
+    {
+      "package": "Прототипы/чистый-модельный-шаг",
+      "executableProducts": [
+        "FUMModelStepProbe"
+      ],
+      "localDependencies": []
+    },
+    {
+      "package": "Прототипы/живой-одноагентный-эпизод",
+      "executableProducts": [
+        "FUMLiveCandidateAcceptanceProbe",
+        "FUMLiveEpisodeHarness",
+        "FUMLiveEpisodeProbe",
+        "FUMLiveEpisodeWorker"
+      ],
+      "localDependencies": [
+        {
+          "package": "Прототипы/воспроизводимое-пополнение-памяти",
+          "identity": "воспроизводимое-пополнение-памяти",
+          "products": [
+            {
+              "target": "FUMLiveEpisodeRuntime",
+              "product": "FUMReproducibleMemoryPopulation"
+            }
+          ]
+        },
+        {
+          "package": "Прототипы/чистый-модельный-шаг",
+          "identity": "чистый-модельный-шаг",
+          "products": [
+            {
+              "target": "FUMLiveEpisodeRuntime",
+              "product": "FUMPureModelStep"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "package": "Прототипы/иерархия-функций-и-данных",
+      "executableProducts": [
+        "FUMFunctionHierarchyProbe"
+      ],
+      "localDependencies": []
+    },
+    {
+      "package": "Прототипы/агентное-чтение-сетевой-среды",
+      "executableProducts": [
+        "FUMNetworkEnvironmentProbe"
+      ],
+      "localDependencies": []
+    },
+    {
+      "package": "Прототипы/компиляция-численных-автоматизаций-в-тензорный-граф",
+      "executableProducts": [
+        "FUMTensorGraphProbe"
+      ],
+      "localDependencies": []
+    },
+    {
+      "package": "Прототипы/память-структурирующих-операторов",
+      "executableProducts": [
+        "FUMStructuringOperatorMemoryProbe"
+      ],
+      "localDependencies": []
+    },
+    {
+      "package": "Прототипы/проверяемый-многоагентный-контур",
+      "executableProducts": [
+        "FUMWorkPackageProbe",
+        "FUMWritingSubnodePassportProbe"
+      ],
+      "localDependencies": [
+        {
+          "package": "Прототипы/воспроизводимое-пополнение-памяти",
+          "identity": "воспроизводимое-пополнение-памяти",
+          "products": [
+            {
+              "target": "FUMDistributedEpisodeMemory",
+              "product": "FUMReproducibleMemoryPopulation"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "exceptions": []
+}

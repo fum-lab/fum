@@ -1,0 +1,46 @@
+{
+  "сессия": "Журнал/2026-08-26_11-16-52_MSK_перевести-лицензионную-памятку-на-английский-язык/запрос.md",
+  "схема": "fum.test-run-report.v1",
+  "файлы": [
+    {
+      "sha256": "a3ba5f781091fbf363981d3eb4d6e36cc57c5a2bc37dfadb15e0e5c26699a667",
+      "имя": "1_5ad820cf-9e0a-48e1-82bf-abba226764a5.json"
+    },
+    {
+      "sha256": "447bea72ed679e1494453b40041dc6c77cfa07a2ec2ed3eea9073ee7bfcf2c94",
+      "имя": "2_34ea0dd9-eaf8-4939-ade1-385fcd44c4a6.json"
+    },
+    {
+      "sha256": "79aded8d10513655911fce7318adc41eb400d6c75bd4c2085bff0af6ed7dea98",
+      "имя": "3_cad5af96-cbe3-4692-81da-d2dbaa515968.json"
+    },
+    {
+      "sha256": "0282bdcee1d40afa5e305ca45e4a2362afe50e5d26b1dc2e9a9004476d92700e",
+      "имя": "4_8e180267-ee77-41dd-8fa8-431ba516107c.json"
+    },
+    {
+      "sha256": "7fb2b9dc13962753f9012d5fbad6275093cdd6628d02460f1a7dbc6e5b9ecb2f",
+      "имя": "5_f0be2d04-3811-4c6b-9bc2-25c8035dfc78.json"
+    },
+    {
+      "sha256": "350946ee5e60c23e5a411a6acf291d834c1a750437bb85cfa2c99b24f7772c5c",
+      "имя": "6_c6055e2f-5b84-497b-bb0c-3425b77da42b.json"
+    },
+    {
+      "sha256": "503a81e4ddf2f209afa10839f2422e396e1139ee86560cf092190da2ed9aa84e",
+      "имя": "7_beadfd89-1307-4db2-a60f-41350bf90337.json"
+    },
+    {
+      "sha256": "d47fea5eaa616f13f14f2ba489eee16960f882639003718bb312dcec21d22b3e",
+      "имя": "8_a060665f-adf5-4761-9d0d-87b48b02d4e3.json"
+    },
+    {
+      "sha256": "25c3829587ba23d9604b7f34c4f1ea9f1d314654122f734750f283875a2cf468",
+      "имя": "9_3ec76f5c-114c-4718-a323-b61d685d9387.json"
+    },
+    {
+      "sha256": "a492d63bc7ed755d3f5de34510e247b82ed46c187844784801e48181e392cfbb",
+      "имя": "10_b98a4c91-20a6-4101-87bc-0f510ca8be54.json"
+    }
+  ]
+}

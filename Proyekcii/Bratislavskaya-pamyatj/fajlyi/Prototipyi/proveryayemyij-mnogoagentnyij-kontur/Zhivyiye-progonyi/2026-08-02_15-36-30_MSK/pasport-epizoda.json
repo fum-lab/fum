@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "episode_id": "fum.live-distributed-codex.2026-08-02.v1",
+  "question": "Какие утверждения о восстановлении распределённого эпизода FUM подтверждены текущей локальной памятью, какие исполняемо проверены и что остаётся недоказанным?",
+  "goal": "Получить два различимых вклада по непересекающимся входам, отдельно проверить все утверждения и сохранить доказательный исход с полной передачей следующей сессии.",
+  "root_codex_thread_id": "019fc270-541d-7fa1-b6fd-78f0a25f2425",
+  "roles": [
+    {
+      "public_executor_id": "codex.worker.normative.v1",
+      "role": "normative_analyst",
+      "package_id": "fum.live-run.2026-08-02.normative-analyst.v1",
+      "input_scope": "Документация/49 и требование о проверяемом многоагентном контуре"
+    },
+    {
+      "public_executor_id": "codex.worker.executable.v1",
+      "role": "executable_auditor",
+      "package_id": "fum.live-run.2026-08-02.executable-auditor.v1",
+      "input_scope": "паспорт прототипа и реализация автономной приёмки"
+    },
+    {
+      "public_executor_id": "codex.verifier.repository.v1",
+      "role": "independent_verifier",
+      "package_id": "fum.live-run.2026-08-02.independent-verifier.v1",
+      "input_scope": "два опубликованных вклада, их четыре первичных источника и две автономные команды"
+    },
+    {
+      "public_executor_id": "codex.root.selector.v1",
+      "role": "selector_and_archivist",
+      "input_scope": "опубликованные вклады, проверка и исполняемая передача"
+    }
+  ],
+  "selection_policy": {
+    "basis": "verified_evidence",
+    "agreement_is_evidence": false,
+    "independence_inferred_from_count": false,
+    "allowed_outcomes": [
+      "accepted",
+      "inconclusive",
+      "unresolved_conflict"
+    ]
+  },
+  "stop_condition": {
+    "terminal_when": "Все опубликованные утверждения покомпонентно проверены, решение и отрицательные результаты сохранены, а подтверждённый CURRENT содержит пакет передачи FUM-STEP-0083.",
+    "terminal_outcomes": [
+      "goal_met",
+      "inconclusive",
+      "unresolved_conflict",
+      "failed"
+    ]
+  },
+  "memory_contract": {
+    "profile": "fum.live-distributed-run-generation.v1",
+    "current_path": "memory/CURRENT.json",
+    "generation_directory": "memory/generations",
+    "canonical_replay_required": true,
+    "exact_parent_required_for_successor": true
+  },
+  "provenance_boundary": {
+    "hidden_reasoning_persisted": false,
+    "orchestrator_messages_persisted": false,
+    "subagent_private_identifiers_persisted": false,
+    "public_role_and_input_provenance_persisted": true,
+    "semantic_independence_proven": false
+  },
+  "proof_boundary": "Успех подтверждает работу Codex как внешних исполнителей стенда в одной корневой сессии; он не доказывает независимость моделей, внутренний многоагентный runtime FUM, распределённый консенсус или готовую долговременную память."
+}

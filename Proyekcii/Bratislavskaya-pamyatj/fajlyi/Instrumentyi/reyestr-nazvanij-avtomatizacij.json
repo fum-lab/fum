@@ -1,0 +1,224 @@
+{
+  "schema": "fum.automation-names.v1",
+  "linguistic_kit": {
+    "path": "Зависимости/LinguisticKit",
+    "fork_repository": "https://github.com/fum-lab/LinguisticKit.git",
+    "upstream_repository": "https://github.com/Roman-Kerimov/LinguisticKit.git",
+    "revision": "837e2ce107b97ee7b9d3344c9fe99142281fe393",
+    "source_script": "Cyrl",
+    "target_script": "Latn",
+    "table": "ru",
+    "materialization": {
+      "status": "ready"
+    }
+  },
+  "golden": [
+    {
+      "source": "автоматизации",
+      "transliteration": "avtomatizacii"
+    },
+    {
+      "source": "имён",
+      "transliteration": "imyon"
+    },
+    {
+      "source": "следующий шаг ветки",
+      "transliteration": "sleduyusjhij shag vetki"
+    },
+    {
+      "source": "прототипы",
+      "transliteration": "prototipyi"
+    },
+    {
+      "source": "проверка названий автоматизаций",
+      "transliteration": "proverka nazvanij avtomatizacij"
+    }
+  ],
+  "current": [
+    {
+      "source": "братиславская проекция памяти",
+      "transliteration": "bratislavskaya proyekciya pamyati",
+      "slug": "fum-bratislavskaya-proyekciya-pamyati"
+    },
+    {
+      "source": "аналитика завершённых шагов",
+      "transliteration": "analitika zavershyonnyikh shagov",
+      "slug": "fum-analitika-zavershyonnyikh-shagov"
+    },
+    {
+      "source": "диспетчер автоматизаций FUM",
+      "transliteration": "dispetcher avtomatizacij FUM",
+      "slug": "fum-dispetcher-avtomatizacij-fum"
+    },
+    {
+      "source": "аудит покрытия вопросов и ответов",
+      "transliteration": "audit pokryitiya voprosov i otvetov",
+      "slug": "fum-audit-pokryitiya-voprosov-i-otvetov"
+    },
+    {
+      "source": "очередь задач Git-ветки",
+      "transliteration": "ocheredj zadach Git-vetki",
+      "slug": "fum-ocheredj-zadach-git-vetki"
+    },
+    {
+      "source": "проверка Git-зависимостей",
+      "transliteration": "proverka Git-zavisimostej",
+      "slug": "fum-proverka-git-zavisimostej"
+    },
+    {
+      "source": "проверка названий автоматизаций",
+      "transliteration": "proverka nazvanij avtomatizacij",
+      "slug": "fum-proverka-nazvanij-avtomatizacij"
+    },
+    {
+      "source": "декомпозиция правил агентов",
+      "transliteration": "dekompoziciya pravil agentov",
+      "slug": "fum-dekompoziciya-pravil-agentov"
+    },
+    {
+      "source": "следующий шаг ветки",
+      "transliteration": "sleduyusjhij shag vetki",
+      "slug": "fum-sleduyusjhij-shag-vetki"
+    },
+    {
+      "source": "сборка сводной документации",
+      "transliteration": "sborka svodnoj dokumentacii",
+      "slug": "fum-sborka-svodnoj-dokumentacii"
+    },
+    {
+      "source": "оценки",
+      "transliteration": "ocenki",
+      "slug": "fum-ocenki"
+    },
+    {
+      "source": "глоссарий",
+      "transliteration": "glossarij",
+      "slug": "fum-glossarij"
+    },
+    {
+      "source": "свежесть Markdown",
+      "transliteration": "svezhestj Markdown",
+      "slug": "fum-svezhestj-markdown"
+    },
+    {
+      "source": "свежесть графа Obsidian",
+      "transliteration": "svezhestj grafa Obsidian",
+      "slug": "fum-svezhestj-grafa-obsidian"
+    },
+    {
+      "source": "реестр планирования",
+      "transliteration": "reyestr planirovaniya",
+      "slug": "fum-reyestr-planirovaniya"
+    },
+    {
+      "source": "проектные файлы",
+      "transliteration": "proyektnyiye fajlyi",
+      "slug": "fum-proyektnyiye-fajlyi"
+    },
+    {
+      "source": "переименование файла с обновлением ссылок",
+      "transliteration": "pereimenovaniye fajla s obnovleniyem ssyilok",
+      "slug": "fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok"
+    },
+    {
+      "source": "запуск прототипов",
+      "transliteration": "zapusk prototipov",
+      "slug": "fum-zapusk-prototipov"
+    },
+    {
+      "source": "обратные ссылки вопросов",
+      "transliteration": "obratnyiye ssyilki voprosov",
+      "slug": "fum-obratnyiye-ssyilki-voprosov"
+    },
+    {
+      "source": "индекс README",
+      "transliteration": "indeks README",
+      "slug": "fum-indeks-readme"
+    },
+    {
+      "source": "материалы запросов",
+      "transliteration": "materialyi zaprosov",
+      "slug": "fum-materialyi-zaprosov"
+    },
+    {
+      "source": "структура папок запросов",
+      "transliteration": "struktura papok zaprosov",
+      "slug": "fum-struktura-papok-zaprosov"
+    },
+    {
+      "source": "связность рабочей сессии",
+      "transliteration": "svyaznostj rabochej sessii",
+      "slug": "fum-svyaznostj-rabochej-sessii"
+    },
+    {
+      "source": "московское время рабочей сессии",
+      "transliteration": "moskovskoye vremya rabochej sessii",
+      "slug": "fum-moskovskoye-vremya-rabochej-sessii"
+    },
+    {
+      "source": "комплексная проверка репозитория",
+      "transliteration": "kompleksnaya proverka repozitoriya",
+      "slug": "fum-kompleksnaya-proverka-repozitoriya"
+    },
+    {
+      "source": "отчёты о запусках проверок",
+      "transliteration": "otchyotyi o zapuskakh proverok",
+      "slug": "fum-otchyotyi-o-zapuskakh-proverok"
+    },
+    {
+      "source": "проверка машинно-локальных путей",
+      "transliteration": "proverka mashinno-lokaljnyikh putej",
+      "slug": "fum-proverka-mashinno-lokaljnyikh-putej"
+    },
+    {
+      "source": "ревью проделанной работы",
+      "transliteration": "revjyu prodelannoj rabotyi",
+      "slug": "fum-revjyu-prodelannoj-rabotyi"
+    },
+    {
+      "source": "проверка трассы агентского цикла",
+      "transliteration": "proverka trassyi agentskogo cikla",
+      "slug": "fum-proverka-trassyi-agentskogo-cikla"
+    },
+    {
+      "source": "перевод объявлений кода на русский язык",
+      "transliteration": "perevod obyyavlenij koda na russkij yazyik",
+      "slug": "fum-perevod-obyyavlenij-koda-na-russkij-yazyik"
+    },
+    {
+      "source": "починка автозапуска",
+      "transliteration": "pochinka avtozapuska",
+      "slug": "fum-pochinka-avtozapuska"
+    }
+  ],
+  "display": [
+    {
+      "source": "Диспетчер автоматизаций FUM",
+      "transliteration": "Dispetcher avtomatizacij FUM"
+    },
+    {
+      "source": "Пятиминутный тик диспетчера автоматизаций FUM",
+      "transliteration": "Pyatiminutnyij tik dispetchera avtomatizacij FUM"
+    },
+    {
+      "source": "Ежедневный отчёт памяти FUM",
+      "transliteration": "YEzhednevnyij otchyot pamyati FUM"
+    },
+    {
+      "source": "Автокоммит памяти сессий Codex",
+      "transliteration": "Avtokommit pamyati sessij Codex"
+    },
+    {
+      "source": "Еженедельное обновление Homebrew",
+      "transliteration": "Yezhenedeljnoye obnovleniye Homebrew"
+    },
+    {
+      "source": "построение описания FUM для адресата",
+      "transliteration": "postroyeniye opisaniya FUM dlya adresata"
+    }
+  ],
+  "legacy_display": [
+    "Zapusk sleduyusjhego shaga aktivnoj vetki"
+  ],
+  "legacy": []
+}

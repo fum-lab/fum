@@ -1,0 +1,20 @@
+{
+  "schema": "fum.request-materials.snapshot-manifest.v1",
+  "managed_files": [
+    "chatgpt-share.decoded-data.json",
+    "chatgpt-share.headers.txt",
+    "chatgpt-share.html",
+    "chatgpt-share.initial-state.json",
+    "chatgpt-share.messages.json",
+    "chatgpt-share.react-router-stream.txt",
+    "chatgpt-share.script-03.txt",
+    "chatgpt-share.script-08.txt",
+    "chatgpt-share.script-10.txt",
+    "chatgpt-share.visible-text.txt",
+    "extraction-report.md",
+    "proyekti-analizi.md",
+    "snapshot-manifest.json",
+    "source-index.md",
+    "source-url.txt"
+  ]
+}

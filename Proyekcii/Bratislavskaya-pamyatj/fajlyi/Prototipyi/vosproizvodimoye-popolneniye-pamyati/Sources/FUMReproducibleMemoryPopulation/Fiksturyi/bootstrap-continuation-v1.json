@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "policy_version": "fum.memory.policy.v1",
+  "dataset_id": "fum.bootstrap.memory.v1",
+  "events": [
+    {
+      "id": "event.005.bootstrap",
+      "sequence": 5,
+      "operation": "compose",
+      "target": "bootstrap",
+      "sources": ["starting-mode", "memory-policy", "execution-policy"],
+      "separator": "; "
+    },
+    {
+      "id": "event.006.next-stage",
+      "sequence": 6,
+      "operation": "compose",
+      "target": "next-stage",
+      "sources": ["bootstrap", "goal"],
+      "separator": " -> "
+    }
+  ]
+}

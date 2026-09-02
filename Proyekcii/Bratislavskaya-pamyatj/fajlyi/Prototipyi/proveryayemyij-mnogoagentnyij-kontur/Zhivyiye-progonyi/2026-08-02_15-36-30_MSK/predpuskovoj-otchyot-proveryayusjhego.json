@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "package_id": "fum.live-run.2026-08-02.independent-verifier.v1",
+  "contract_sha256": "sha256:0d1bdfa269d384768c78891f2f3da390566c7501b218b7ef0b480f6aba71f68c",
+  "decision": "ready",
+  "violations": [],
+  "observed_duration_seconds": 1.363
+}

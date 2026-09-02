@@ -1,0 +1,831 @@
+{
+  "schema_version": 1,
+  "operator_catalog": [
+    {
+      "id": "op.request.correct",
+      "version": 1,
+      "stratum": "form",
+      "status": "confirmed",
+      "recognition_patterns": ["исправь"],
+      "generation_template": "исправь",
+      "language": "ru",
+      "script": "Cyrl",
+      "semantic_key": "request.correct",
+      "storage_cost_bits": 16,
+      "confidence_ppm": 930000,
+      "origin": "seed",
+      "positive_examples": ["исправь отчёт"],
+      "negative_examples": []
+    },
+    {
+      "id": "op.object.report",
+      "version": 1,
+      "stratum": "form",
+      "status": "confirmed",
+      "recognition_patterns": ["отчёт"],
+      "generation_template": "отчёт",
+      "language": "ru",
+      "script": "Cyrl",
+      "semantic_key": "object.report",
+      "storage_cost_bits": 16,
+      "confidence_ppm": 930000,
+      "origin": "seed",
+      "positive_examples": ["исправь отчёт"],
+      "negative_examples": []
+    },
+    {
+      "id": "op.tex.section",
+      "version": 1,
+      "stratum": "syntax",
+      "status": "confirmed",
+      "recognition_patterns": ["\\section{FUM}"],
+      "generation_template": "\\section{FUM}",
+      "language": "formal",
+      "script": "TeX",
+      "semantic_key": "document.section",
+      "storage_cost_bits": 24,
+      "confidence_ppm": 990000,
+      "origin": "seed",
+      "positive_examples": ["\\section{FUM}"],
+      "negative_examples": ["\\sectoin{FUM}"]
+    },
+    {
+      "id": "op.markdown.heading",
+      "version": 1,
+      "stratum": "syntax",
+      "status": "confirmed",
+      "recognition_patterns": ["# FUM"],
+      "generation_template": "# FUM",
+      "language": "formal",
+      "script": "Markdown",
+      "semantic_key": "document.heading",
+      "storage_cost_bits": 16,
+      "confidence_ppm": 990000,
+      "origin": "seed",
+      "positive_examples": ["# FUM"],
+      "negative_examples": []
+    },
+    {
+      "id": "op.swift.binding",
+      "version": 1,
+      "stratum": "syntax",
+      "status": "confirmed",
+      "recognition_patterns": ["let status = \"ready\""],
+      "generation_template": "let status = \"ready\"",
+      "language": "formal",
+      "script": "Swift",
+      "semantic_key": "binding.ready_status",
+      "storage_cost_bits": 24,
+      "confidence_ppm": 990000,
+      "origin": "seed",
+      "positive_examples": ["let status = \"ready\""],
+      "negative_examples": []
+    },
+    {
+      "id": "op.ru.large_house.nominative",
+      "version": 1,
+      "stratum": "form",
+      "status": "confirmed",
+      "recognition_patterns": ["большой дом"],
+      "generation_template": "большой дом",
+      "language": "ru",
+      "script": "Cyrl",
+      "semantic_key": "large_house",
+      "storage_cost_bits": 24,
+      "confidence_ppm": 920000,
+      "origin": "seed",
+      "positive_examples": ["большой дом"],
+      "negative_examples": []
+    },
+    {
+      "id": "op.ru.large_house.genitive",
+      "version": 1,
+      "stratum": "form",
+      "status": "confirmed",
+      "recognition_patterns": ["большого дома"],
+      "generation_template": "большого дома",
+      "language": "ru",
+      "script": "Cyrl",
+      "semantic_key": "large_house",
+      "storage_cost_bits": 24,
+      "confidence_ppm": 920000,
+      "origin": "seed",
+      "positive_examples": ["большого дома"],
+      "negative_examples": []
+    },
+    {
+      "id": "op.ru.large_house.instrumental",
+      "version": 1,
+      "stratum": "form",
+      "status": "confirmed",
+      "recognition_patterns": ["большим домом"],
+      "generation_template": "большим домом",
+      "language": "ru",
+      "script": "Cyrl",
+      "semantic_key": "large_house",
+      "storage_cost_bits": 24,
+      "confidence_ppm": 920000,
+      "origin": "seed",
+      "positive_examples": ["большим домом"],
+      "negative_examples": []
+    },
+    {
+      "id": "op.ru.large_house.translit",
+      "version": 1,
+      "stratum": "form",
+      "status": "confirmed",
+      "recognition_patterns": ["boljshoj dom"],
+      "generation_template": "boljshoj dom",
+      "language": "ru-Latn",
+      "script": "Latn",
+      "semantic_key": "large_house",
+      "storage_cost_bits": 24,
+      "confidence_ppm": 850000,
+      "origin": "seed",
+      "positive_examples": ["boljshoj dom"],
+      "negative_examples": []
+    },
+    {
+      "id": "op.ru.correct.surface",
+      "version": 1,
+      "stratum": "form",
+      "status": "confirmed",
+      "recognition_patterns": ["Агент исправил файл"],
+      "generation_template": "Агент исправил файл",
+      "language": "ru",
+      "script": "Cyrl",
+      "semantic_key": "correct_event",
+      "storage_cost_bits": 32,
+      "confidence_ppm": 940000,
+      "origin": "seed",
+      "positive_examples": ["Агент исправил файл"],
+      "negative_examples": []
+    },
+    {
+      "id": "op.ru.correct.syntax",
+      "version": 1,
+      "stratum": "syntax",
+      "status": "confirmed",
+      "recognition_patterns": [],
+      "generation_template": null,
+      "language": "ru",
+      "script": "Cyrl",
+      "semantic_key": "agent_corrected_object",
+      "storage_cost_bits": 16,
+      "confidence_ppm": 930000,
+      "origin": "seed",
+      "positive_examples": ["Агент исправил файл"],
+      "negative_examples": []
+    },
+    {
+      "id": "op.en.correct.surface",
+      "version": 1,
+      "stratum": "form",
+      "status": "confirmed",
+      "recognition_patterns": ["The agent corrected the file"],
+      "generation_template": "The agent corrected the file",
+      "language": "en",
+      "script": "Latn",
+      "semantic_key": "correct_event",
+      "storage_cost_bits": 32,
+      "confidence_ppm": 940000,
+      "origin": "seed",
+      "positive_examples": ["The agent corrected the file"],
+      "negative_examples": []
+    },
+    {
+      "id": "op.en.correct.syntax",
+      "version": 1,
+      "stratum": "syntax",
+      "status": "confirmed",
+      "recognition_patterns": [],
+      "generation_template": null,
+      "language": "en",
+      "script": "Latn",
+      "semantic_key": "agent_corrected_object",
+      "storage_cost_bits": 16,
+      "confidence_ppm": 930000,
+      "origin": "seed",
+      "positive_examples": ["The agent corrected the file"],
+      "negative_examples": []
+    },
+    {
+      "id": "op.semantic.correct_event",
+      "version": 1,
+      "stratum": "semantic",
+      "status": "confirmed",
+      "recognition_patterns": [],
+      "generation_template": null,
+      "language": null,
+      "script": null,
+      "semantic_key": "event=correct(agent,file)",
+      "storage_cost_bits": 16,
+      "confidence_ppm": 950000,
+      "origin": "seed",
+      "positive_examples": ["Агент исправил файл", "The agent corrected the file"],
+      "negative_examples": []
+    },
+    {
+      "id": "op.semantic.report_dependency",
+      "version": 1,
+      "stratum": "semantic",
+      "status": "confirmed",
+      "recognition_patterns": ["отчёт зависит от журнала"],
+      "generation_template": "отчёт зависит от журнала",
+      "language": "ru",
+      "script": "Cyrl",
+      "semantic_key": "depends(report,log)",
+      "storage_cost_bits": 24,
+      "confidence_ppm": 900000,
+      "origin": "seed",
+      "positive_examples": ["отчёт зависит от журнала"],
+      "negative_examples": ["отчёт не зависит от журнала"]
+    },
+    {
+      "id": "op.semantic.action.correct",
+      "version": 1,
+      "stratum": "semantic",
+      "status": "confirmed",
+      "recognition_patterns": ["исправить"],
+      "generation_template": "исправить",
+      "language": "ru",
+      "script": "Cyrl",
+      "semantic_key": "action=исправить",
+      "storage_cost_bits": 16,
+      "confidence_ppm": 990000,
+      "origin": "seed",
+      "positive_examples": ["нужно исправить"],
+      "negative_examples": []
+    },
+    {
+      "id": "op.semantic.target.report",
+      "version": 1,
+      "stratum": "semantic",
+      "status": "confirmed",
+      "recognition_patterns": ["отчёт"],
+      "generation_template": "отчёт",
+      "language": "ru",
+      "script": "Cyrl",
+      "semantic_key": "target=отчёт",
+      "storage_cost_bits": 16,
+      "confidence_ppm": 990000,
+      "origin": "seed",
+      "positive_examples": ["исправить отчёт"],
+      "negative_examples": []
+    },
+    {
+      "id": "op.semantic.time.tomorrow_noon",
+      "version": 1,
+      "stratum": "semantic",
+      "status": "confirmed",
+      "recognition_patterns": ["завтра до полудня"],
+      "generation_template": "завтра до полудня",
+      "language": "ru",
+      "script": "Cyrl",
+      "semantic_key": "time=завтра до полудня",
+      "storage_cost_bits": 24,
+      "confidence_ppm": 990000,
+      "origin": "seed",
+      "positive_examples": ["завтра до полудня"],
+      "negative_examples": []
+    },
+    {
+      "id": "op.semantic.follow_up.check_log",
+      "version": 1,
+      "stratum": "semantic",
+      "status": "confirmed",
+      "recognition_patterns": ["проверить журнал"],
+      "generation_template": "проверить журнал",
+      "language": "ru",
+      "script": "Cyrl",
+      "semantic_key": "follow_up=проверить журнал",
+      "storage_cost_bits": 24,
+      "confidence_ppm": 990000,
+      "origin": "seed",
+      "positive_examples": ["проверить журнал"],
+      "negative_examples": []
+    },
+    {
+      "id": "op.semantic.provenance.preserve",
+      "version": 1,
+      "stratum": "semantic",
+      "status": "confirmed",
+      "recognition_patterns": ["сохранить происхождение"],
+      "generation_template": "сохранить происхождение",
+      "language": "ru",
+      "script": "Cyrl",
+      "semantic_key": "provenance=сохранить",
+      "storage_cost_bits": 24,
+      "confidence_ppm": 990000,
+      "origin": "seed",
+      "positive_examples": ["сохранить происхождение"],
+      "negative_examples": []
+    },
+    {
+      "id": "op.semantic.normalize_request_intent",
+      "version": 1,
+      "stratum": "semantic",
+      "status": "confirmed",
+      "recognition_patterns": ["  ИСПРАВЬ   ОТЧЁТ  "],
+      "generation_template": "  ИСПРАВЬ   ОТЧЁТ  ",
+      "language": "ru",
+      "script": "Cyrillic",
+      "semantic_key": "intent=normalize_request",
+      "storage_cost_bits": 32,
+      "confidence_ppm": 990000,
+      "origin": "seed",
+      "positive_examples": ["  ИСПРАВЬ   ОТЧЁТ  "],
+      "negative_examples": []
+    },
+    {
+      "id": "op.automation.normalize_request",
+      "version": 1,
+      "stratum": "automation",
+      "status": "confirmed",
+      "recognition_patterns": [],
+      "generation_template": null,
+      "language": "ru",
+      "script": "DSL",
+      "semantic_key": "normalize_request",
+      "storage_cost_bits": 24,
+      "confidence_ppm": 950000,
+      "origin": "seed",
+      "positive_examples": ["  ИСПРАВЬ   ОТЧЁТ  "],
+      "negative_examples": []
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "local_stream",
+      "kind": "stream",
+      "description": "Локальный поток запросов, правок и логов с LLM-пополнением.",
+      "recovery_mode": "exact",
+      "configuration": {
+        "max_depth": 4,
+        "max_nodes": 16,
+        "max_unit_bytes": 32,
+        "max_candidates": 8,
+        "max_events": 16,
+        "max_event_bytes": 4096,
+        "max_operators": 64,
+        "max_lattice_candidates_per_offset": 16,
+        "min_support": 2,
+        "reference_cost_bits": 8
+      },
+      "events": [
+        {"id": "stream-1", "sequence": 1, "kind": "request", "text": "исправь отчёт", "node_id": "human", "provenance": {"initiator": "human", "executor": "fixture", "source": "request", "ordinal": 1}},
+        {"id": "stream-2", "sequence": 2, "kind": "log", "text": "лог: исправь отчёт", "node_id": "agent", "provenance": {"initiator": "automation", "executor": "fixture", "source": "log", "ordinal": 2}},
+        {"id": "stream-3", "sequence": 3, "kind": "edit", "text": "правка: исправь отчёт", "node_id": "human", "provenance": {"initiator": "human", "executor": "fixture", "source": "edit", "ordinal": 3}},
+        {"id": "stream-4", "sequence": 4, "kind": "session", "text": "исправь отчёт", "node_id": "agent", "provenance": {"initiator": "agent", "executor": "fixture", "source": "session", "ordinal": 4}}
+      ],
+      "expected_source_hashes": {
+        "stream-1": "sha256:2ebc344f623448722f9df3d9c001349deb194e5fd87f3b7e31a41db7f9433252",
+        "stream-2": "sha256:5fd63451516223c98a4b86f4ad346d1e6bcc3cdb86b262cd3d83c8712e096fe4",
+        "stream-3": "sha256:859a162b3ead85bab9736c6ff85f735933cd0d757dd925b6b42d2d234815627f",
+        "stream-4": "sha256:2ebc344f623448722f9df3d9c001349deb194e5fd87f3b7e31a41db7f9433252"
+      },
+      "seed_operator_ids": ["op.request.correct", "op.object.report"],
+      "recorded_llm": {
+        "schema_version": 1,
+        "adapter_id": "recorded-fixture-v1",
+        "model": "fixture-llm",
+        "prompt_text": "Предложи операторы для повторяющегося запроса «исправь отчёт».",
+        "prompt_hash": "sha256:337ad5839deba0e5a7a28664a4634d168a1e61614421ac142dc943ef0e6d391e",
+        "response_hash": "sha256:a4837fe0663dc92c497bd04053162a09d7b0548e1a0b6432c0e3b013b8a8f0ea",
+        "proposals": [
+          {
+            "id": "op.llm.fix_report",
+            "version": 1,
+            "stratum": "discourse",
+            "status": "hypothesis",
+            "recognition_patterns": ["исправь отчёт"],
+            "generation_template": "исправь отчёт",
+            "language": "ru",
+            "script": "Cyrl",
+            "semantic_key": "request.correct_report",
+            "storage_cost_bits": 24,
+            "confidence_ppm": 760000,
+            "origin": "llm",
+            "positive_examples": ["исправь отчёт"],
+            "negative_examples": []
+          },
+          {
+            "id": "op.llm.edit_marker",
+            "version": 1,
+            "stratum": "form",
+            "status": "hypothesis",
+            "recognition_patterns": ["правка:"],
+            "generation_template": "правка:",
+            "language": "ru",
+            "script": "Cyrl",
+            "semantic_key": "edit.marker",
+            "storage_cost_bits": 24,
+            "confidence_ppm": 610000,
+            "origin": "llm",
+            "positive_examples": ["правка:"],
+            "negative_examples": []
+          },
+          {
+            "id": "op.llm.archive_report",
+            "version": 1,
+            "stratum": "discourse",
+            "status": "hypothesis",
+            "recognition_patterns": ["исправь отчёт"],
+            "generation_template": "исправь отчёт",
+            "language": "ru",
+            "script": "Cyrl",
+            "semantic_key": "request.archive_report",
+            "storage_cost_bits": 24,
+            "confidence_ppm": 420000,
+            "origin": "llm",
+            "positive_examples": ["исправь отчёт"],
+            "negative_examples": []
+          }
+        ]
+      },
+      "residual_hints": [],
+      "expected_semantic_facts": [],
+      "graph_edges": [],
+      "semantic_links": [],
+      "automation": null,
+      "synchronization": null,
+      "expectation": {
+        "exact_round_trip": true,
+        "positive_prediction_gain": true,
+        "positive_compression_gain": true,
+        "semantic_quality_ppm": null,
+        "residual_categories": [],
+        "candidate_statuses": {"op.llm.fix_report": "confirmed", "op.llm.edit_marker": "low_confidence", "op.llm.archive_report": "conflicting"},
+        "graph_path": [],
+        "minimum_pruned_contexts": 1,
+        "minimum_pruned_candidates": 1,
+        "action_executed": null,
+        "llm_backed_required": false,
+        "source_unchanged": true
+      }
+    },
+    {
+      "id": "bad_input_rejection",
+      "kind": "error",
+      "description": "Опечатка TeX остаётся диагностическим остатком и не становится оператором.",
+      "recovery_mode": "exact",
+      "configuration": {"max_depth": 4, "max_nodes": 32, "max_unit_bytes": 24, "max_candidates": 16, "max_events": 8, "max_event_bytes": 4096, "max_operators": 64, "max_lattice_candidates_per_offset": 16, "min_support": 2, "reference_cost_bits": 8},
+      "events": [
+        {"id": "bad-1", "sequence": 1, "kind": "request", "text": "\\sectoin{FUM}", "node_id": "human", "provenance": {"initiator": "human", "executor": "fixture", "source": "request", "ordinal": 1}}
+      ],
+      "expected_source_hashes": {
+        "bad-1": "sha256:9a87aa8a7982f995da3e4ab668308d4c6daef8bc610306345a550b097d19ea95"
+      },
+      "seed_operator_ids": ["op.tex.section"],
+      "recorded_llm": {
+        "schema_version": 1,
+        "adapter_id": "recorded-fixture-v1",
+        "model": "fixture-llm",
+        "prompt_text": "Оцени, является ли «\\sectoin{FUM}» оператором или ошибкой входа.",
+        "prompt_hash": "sha256:2923ff356834c0d0fd47ce07b6852e4c923801a641a6948890211a10989a7acf",
+        "response_hash": "sha256:d497372861e340f799e995af4018c208a60bf7043ab5534ed2968c6cb15c47c8",
+        "proposals": [
+          {
+            "id": "op.llm.tex.sectoin",
+            "version": 1,
+            "stratum": "syntax",
+            "status": "hypothesis",
+            "recognition_patterns": ["\\sectoin{FUM}"],
+            "generation_template": "\\sectoin{FUM}",
+            "language": "formal",
+            "script": "TeX",
+            "semantic_key": "document.section_typo",
+            "storage_cost_bits": 32,
+            "confidence_ppm": 510000,
+            "origin": "llm",
+            "positive_examples": ["\\sectoin{FUM}"],
+            "negative_examples": []
+          }
+        ]
+      },
+      "residual_hints": [
+        {"event_id": "bad-1", "needle": "\\sectoin", "category": "probable_input_error", "explanation": "Вероятная перестановка букв в известной TeX-команде."}
+      ],
+      "expected_semantic_facts": [],
+      "graph_edges": [],
+      "semantic_links": [],
+      "automation": null,
+      "synchronization": null,
+      "expectation": {
+        "exact_round_trip": true,
+        "positive_prediction_gain": null,
+        "positive_compression_gain": null,
+        "semantic_quality_ppm": null,
+        "residual_categories": ["probable_input_error"],
+        "candidate_statuses": {"op.llm.tex.sectoin": "rejected"},
+        "graph_path": [],
+        "minimum_pruned_contexts": 0,
+        "minimum_pruned_candidates": 0,
+        "action_executed": null,
+        "llm_backed_required": false,
+        "source_unchanged": true
+      }
+    },
+    {
+      "id": "exact_roundtrip",
+      "kind": "exact_roundtrip",
+      "description": "Markdown, TeX и Swift восстанавливаются побайтово.",
+      "recovery_mode": "exact",
+      "configuration": {"max_depth": 4, "max_nodes": 64, "max_unit_bytes": 32, "max_candidates": 32, "max_events": 8, "max_event_bytes": 4096, "max_operators": 64, "max_lattice_candidates_per_offset": 16, "min_support": 1, "reference_cost_bits": 8},
+      "events": [
+        {"id": "exact-md", "sequence": 1, "kind": "edit", "text": "# FUM\n", "node_id": "human", "provenance": {"initiator": "human", "executor": "fixture", "source": "markdown", "ordinal": 1}},
+        {"id": "exact-tex", "sequence": 2, "kind": "edit", "text": "\u005csection{FUM}\n", "node_id": "human", "provenance": {"initiator": "human", "executor": "fixture", "source": "tex", "ordinal": 2}},
+        {"id": "exact-swift", "sequence": 3, "kind": "edit", "text": "let status = \"ready\"\n", "node_id": "agent", "provenance": {"initiator": "agent", "executor": "fixture", "source": "swift", "ordinal": 3}}
+      ],
+      "expected_source_hashes": {
+        "exact-md": "sha256:db0acc0bd0ad626f3018a8a8ca710ca0e6cf0865c940170a4d233df2d7552805",
+        "exact-swift": "sha256:3cb4b728bae2307022ada2e159ee2242f3175a13959cb2f41b7d8f35f47812dd",
+        "exact-tex": "sha256:4fb41522fd1f96bd968c5a1812b1574a3decb9bdd0887223ebb05de1310b3522"
+      },
+      "seed_operator_ids": ["op.markdown.heading", "op.tex.section", "op.swift.binding"],
+      "recorded_llm": null,
+      "residual_hints": [],
+      "expected_semantic_facts": [],
+      "graph_edges": [],
+      "semantic_links": [],
+      "automation": null,
+      "synchronization": null,
+      "expectation": {"exact_round_trip": true, "positive_prediction_gain": null, "positive_compression_gain": true, "semantic_quality_ppm": null, "residual_categories": [], "candidate_statuses": {}, "graph_path": [], "minimum_pruned_contexts": 0, "minimum_pruned_candidates": 0, "action_executed": null, "llm_backed_required": false, "source_unchanged": true}
+    },
+    {
+      "id": "semantic_compression",
+      "kind": "semantic_compression",
+      "description": "Смысловой режим сохраняет факты и ссылку на сырой материал.",
+      "recovery_mode": "semantic",
+      "configuration": {"max_depth": 4, "max_nodes": 64, "max_unit_bytes": 64, "max_candidates": 32, "max_events": 8, "max_event_bytes": 4096, "max_operators": 64, "max_lattice_candidates_per_offset": 16, "min_support": 1, "reference_cost_bits": 8},
+      "events": [
+        {"id": "semantic-1", "sequence": 1, "kind": "request", "text": "Согласно плану завтра до полудня нужно исправить отчёт, затем проверить журнал и сохранить происхождение результата.", "node_id": "human", "provenance": {"initiator": "human", "executor": "fixture", "source": "plan", "ordinal": 1}}
+      ],
+      "expected_source_hashes": {
+        "semantic-1": "sha256:91c2623f8e0509497f4ecf6cd6be5eb5d0887bb202f036f8f55951cbe4c3ce19"
+      },
+      "seed_operator_ids": ["op.semantic.action.correct", "op.semantic.target.report", "op.semantic.time.tomorrow_noon", "op.semantic.follow_up.check_log", "op.semantic.provenance.preserve"],
+      "recorded_llm": null,
+      "residual_hints": [],
+      "expected_semantic_facts": [
+        {"key": "action", "value": "исправить", "language": "ru", "source_event_id": "semantic-1"},
+        {"key": "target", "value": "отчёт", "language": "ru", "source_event_id": "semantic-1"},
+        {"key": "time", "value": "завтра до полудня", "language": "ru", "source_event_id": "semantic-1"},
+        {"key": "follow_up", "value": "проверить журнал", "language": "ru", "source_event_id": "semantic-1"},
+        {"key": "provenance", "value": "сохранить", "language": "ru", "source_event_id": "semantic-1"}
+      ],
+      "graph_edges": [],
+      "semantic_links": [],
+      "automation": null,
+      "synchronization": null,
+      "expectation": {"exact_round_trip": null, "positive_prediction_gain": null, "positive_compression_gain": true, "semantic_quality_ppm": 1000000, "residual_categories": [], "candidate_statuses": {}, "graph_path": [], "minimum_pruned_contexts": 0, "minimum_pruned_candidates": 0, "action_executed": null, "llm_backed_required": false, "source_unchanged": true}
+    },
+    {
+      "id": "language_forms",
+      "kind": "language_forms",
+      "description": "Русские согласованные формы и транслит остаются отдельными поверхностными операторами.",
+      "recovery_mode": "exact",
+      "configuration": {"max_depth": 4, "max_nodes": 64, "max_unit_bytes": 32, "max_candidates": 32, "max_events": 8, "max_event_bytes": 4096, "max_operators": 64, "max_lattice_candidates_per_offset": 16, "min_support": 1, "reference_cost_bits": 8},
+      "events": [
+        {"id": "form-1", "sequence": 1, "kind": "request", "text": "большой дом", "node_id": "human", "provenance": {"initiator": "human", "executor": "fixture", "source": "ru", "ordinal": 1}},
+        {"id": "form-2", "sequence": 2, "kind": "edit", "text": "большого дома", "node_id": "human", "provenance": {"initiator": "human", "executor": "fixture", "source": "ru", "ordinal": 2}},
+        {"id": "form-3", "sequence": 3, "kind": "edit", "text": "большим домом", "node_id": "human", "provenance": {"initiator": "human", "executor": "fixture", "source": "ru", "ordinal": 3}},
+        {"id": "form-4", "sequence": 4, "kind": "request", "text": "boljshoj dom", "node_id": "human", "provenance": {"initiator": "human", "executor": "fixture", "source": "translit", "ordinal": 4}}
+      ],
+      "expected_source_hashes": {
+        "form-1": "sha256:91c789d6a9e47c42ba4f938e99c91f685534a255ebe6895ac3934e3c50cdba41",
+        "form-2": "sha256:e1d276513822bdb3960efa4e6e301fdf8a896925574c2e9ef0fd55f00ef687a0",
+        "form-3": "sha256:f1228d58319ccc4a17cf34e67be636dca2781c69ea22e997958ff02c7f4c569c",
+        "form-4": "sha256:59c9c93b885d24e7c040dc63fcae5b6913fef92e3e2d3a43aa1675f71e59f94e"
+      },
+      "seed_operator_ids": ["op.ru.large_house.nominative", "op.ru.large_house.genitive", "op.ru.large_house.instrumental", "op.ru.large_house.translit"],
+      "recorded_llm": null,
+      "residual_hints": [],
+      "expected_semantic_facts": [],
+      "graph_edges": [],
+      "semantic_links": [],
+      "automation": null,
+      "synchronization": null,
+      "expectation": {"exact_round_trip": true, "positive_prediction_gain": null, "positive_compression_gain": true, "semantic_quality_ppm": null, "residual_categories": [], "candidate_statuses": {}, "graph_path": [], "minimum_pruned_contexts": 0, "minimum_pruned_candidates": 0, "action_executed": null, "llm_backed_required": false, "source_unchanged": true}
+    },
+    {
+      "id": "cross_language_graph",
+      "kind": "cross_language_graph",
+      "description": "Русская и английская формы связываются через общий семантический фрейм.",
+      "recovery_mode": "semantic",
+      "configuration": {"max_depth": 4, "max_nodes": 64, "max_unit_bytes": 40, "max_candidates": 32, "max_events": 8, "max_event_bytes": 4096, "max_operators": 64, "max_lattice_candidates_per_offset": 16, "min_support": 1, "reference_cost_bits": 8},
+      "events": [
+        {"id": "cross-ru", "sequence": 1, "kind": "request", "text": "Агент исправил файл", "node_id": "ru-node", "provenance": {"initiator": "human", "executor": "fixture", "source": "ru", "ordinal": 1}},
+        {"id": "cross-en", "sequence": 2, "kind": "request", "text": "The agent corrected the file", "node_id": "en-node", "provenance": {"initiator": "agent", "executor": "fixture", "source": "en", "ordinal": 2}}
+      ],
+      "expected_source_hashes": {
+        "cross-en": "sha256:7ffe04474e241f58494543dbe29e2e16891e491c9773f672a39e21631f26f34c",
+        "cross-ru": "sha256:bfc8b10dfddf7c1ca82c12f0ac5e7e24c06ef85dbaca36dd766a25531a6b4651"
+      },
+      "seed_operator_ids": ["op.ru.correct.surface", "op.ru.correct.syntax", "op.en.correct.surface", "op.en.correct.syntax", "op.semantic.correct_event"],
+      "recorded_llm": null,
+      "residual_hints": [
+        {"event_id": "cross-ru", "needle": "исправил", "category": "translation_loss", "explanation": "Совершенный вид русского глагола остаётся языково-специфичным остатком."},
+        {"event_id": "cross-en", "needle": "the", "category": "translation_loss", "explanation": "Определённый артикль не стирается общим событийным фреймом."}
+      ],
+      "expected_semantic_facts": [
+        {"key": "event", "value": "correct(agent,file)", "language": null, "source_event_id": "cross-ru"},
+        {"key": "event", "value": "correct(agent,file)", "language": null, "source_event_id": "cross-en"}
+      ],
+      "graph_edges": [
+        {"id": "edge-ru-form-syntax", "from_id": "op.ru.correct.surface", "to_id": "op.ru.correct.syntax", "relation": "abstracts", "provenance": {"initiator": "human", "executor": "fixture", "source": "graph", "ordinal": 1}},
+        {"id": "edge-ru-syntax-semantic", "from_id": "op.ru.correct.syntax", "to_id": "op.semantic.correct_event", "relation": "abstracts", "provenance": {"initiator": "human", "executor": "fixture", "source": "graph", "ordinal": 2}},
+        {"id": "edge-en-form-syntax", "from_id": "op.en.correct.surface", "to_id": "op.en.correct.syntax", "relation": "abstracts", "provenance": {"initiator": "human", "executor": "fixture", "source": "graph", "ordinal": 3}},
+        {"id": "edge-en-syntax-semantic", "from_id": "op.en.correct.syntax", "to_id": "op.semantic.correct_event", "relation": "abstracts", "provenance": {"initiator": "human", "executor": "fixture", "source": "graph", "ordinal": 4}},
+        {"id": "edge-semantic-en-syntax", "from_id": "op.semantic.correct_event", "to_id": "op.en.correct.syntax", "relation": "generates", "provenance": {"initiator": "automation", "executor": "fixture", "source": "graph", "ordinal": 5}},
+        {"id": "edge-en-syntax-form", "from_id": "op.en.correct.syntax", "to_id": "op.en.correct.surface", "relation": "generates", "provenance": {"initiator": "automation", "executor": "fixture", "source": "graph", "ordinal": 6}}
+      ],
+      "semantic_links": [],
+      "automation": null,
+      "synchronization": null,
+      "expectation": {"exact_round_trip": null, "positive_prediction_gain": null, "positive_compression_gain": true, "semantic_quality_ppm": 1000000, "residual_categories": ["translation_loss"], "candidate_statuses": {}, "graph_path": ["op.ru.correct.surface", "op.ru.correct.syntax", "op.semantic.correct_event", "op.en.correct.syntax", "op.en.correct.surface"], "minimum_pruned_contexts": 0, "minimum_pruned_candidates": 0, "action_executed": null, "llm_backed_required": false, "source_unchanged": true}
+    },
+    {
+      "id": "explainability_and_links",
+      "kind": "explainability",
+      "description": "Объяснения и семантические переходы не меняют исходный текст.",
+      "recovery_mode": "semantic",
+      "configuration": {"max_depth": 4, "max_nodes": 64, "max_unit_bytes": 40, "max_candidates": 32, "max_events": 8, "max_event_bytes": 4096, "max_operators": 64, "max_lattice_candidates_per_offset": 16, "min_support": 1, "reference_cost_bits": 8},
+      "events": [
+        {"id": "link-report", "sequence": 1, "kind": "edit", "text": "Отчёт строится из проверенных записей.", "node_id": "human", "provenance": {"initiator": "human", "executor": "fixture", "source": "document", "ordinal": 1}},
+        {"id": "link-log", "sequence": 2, "kind": "log", "text": "Журнал содержит проверенные записи запуска.", "node_id": "agent", "provenance": {"initiator": "automation", "executor": "fixture", "source": "log", "ordinal": 2}},
+        {"id": "link-negative", "sequence": 3, "kind": "edit", "text": "Погода не относится к отчёту запуска.", "node_id": "human", "provenance": {"initiator": "human", "executor": "fixture", "source": "document", "ordinal": 3}}
+      ],
+      "expected_source_hashes": {
+        "link-log": "sha256:8c0bab32e652caf549e66220d00adb652e1a9f0f02aab4c97e339d8520e004d5",
+        "link-negative": "sha256:99a979102caba35592028e9da8e5977a0fd012748c3df6f41f7e44c9efa1567e",
+        "link-report": "sha256:9fa152a0034b1fb52fb52bcff020ac5db4fda180f6f140967c942b042ec0ebbc"
+      },
+      "seed_operator_ids": ["op.semantic.report_dependency"],
+      "recorded_llm": null,
+      "residual_hints": [],
+      "expected_semantic_facts": [],
+      "graph_edges": [],
+      "semantic_links": [
+        {"id": "link-positive", "source_event_id": "link-report", "target_event_id": "link-log", "operator_id": "op.semantic.report_dependency", "status": "confirmed", "confidence_ppm": 900000, "counterexample": null},
+        {"id": "link-negative-pair", "source_event_id": "link-report", "target_event_id": "link-negative", "operator_id": "op.semantic.report_dependency", "status": "rejected", "confidence_ppm": 100000, "counterexample": "Явное отрицание предметной связи."},
+        {"id": "link-ambiguous", "source_event_id": "link-log", "target_event_id": "link-negative", "operator_id": "op.semantic.report_dependency", "status": "pending_external_review", "confidence_ppm": 400000, "counterexample": "Нужна экспертная проверка контекста."}
+      ],
+      "automation": null,
+      "synchronization": null,
+      "expectation": {"exact_round_trip": null, "positive_prediction_gain": null, "positive_compression_gain": null, "semantic_quality_ppm": null, "residual_categories": [], "candidate_statuses": {}, "graph_path": [], "minimum_pruned_contexts": 0, "minimum_pruned_candidates": 0, "action_executed": null, "llm_backed_required": false, "source_unchanged": true}
+    },
+    {
+      "id": "automation_projection",
+      "kind": "automation",
+      "description": "Верхний оператор проецируется в чистую типизированную автоматизацию.",
+      "recovery_mode": "semantic",
+      "configuration": {"max_depth": 4, "max_nodes": 32, "max_unit_bytes": 32, "max_candidates": 16, "max_events": 8, "max_event_bytes": 4096, "max_operators": 64, "max_lattice_candidates_per_offset": 16, "min_support": 1, "reference_cost_bits": 8},
+      "events": [
+        {"id": "automation-1", "sequence": 1, "kind": "request", "text": "  ИСПРАВЬ   ОТЧЁТ  ", "node_id": "human", "provenance": {"initiator": "human", "executor": "fixture", "source": "request", "ordinal": 1}}
+      ],
+      "expected_source_hashes": {
+        "automation-1": "sha256:10b9452a6f3a0cefc16c68b6d932a1b77d35b5d7ed731e4c5a8494671d4347cb"
+      },
+      "seed_operator_ids": ["op.semantic.normalize_request_intent", "op.automation.normalize_request"],
+      "recorded_llm": null,
+      "residual_hints": [],
+      "expected_semantic_facts": [],
+      "graph_edges": [
+        {"id": "edge-normalization-intent-automation", "from_id": "op.semantic.normalize_request_intent", "to_id": "op.automation.normalize_request", "relation": "projects_to", "provenance": {"initiator": "human", "executor": "fixture", "source": "graph", "ordinal": 1}}
+      ],
+      "semantic_links": [],
+      "automation": {
+        "operator_id": "op.automation.normalize_request",
+        "input": "  ИСПРАВЬ   ОТЧЁТ  ",
+        "expected_output": "исправь отчёт",
+        "effects": [],
+        "steps": [
+          {"id": "trim", "kind": "trim", "argument": null},
+          {"id": "lowercase", "kind": "lowercase", "argument": null},
+          {"id": "collapse", "kind": "collapse_whitespace", "argument": null}
+        ]
+      },
+      "synchronization": null,
+      "expectation": {"exact_round_trip": null, "positive_prediction_gain": null, "positive_compression_gain": null, "semantic_quality_ppm": null, "residual_categories": [], "candidate_statuses": {}, "graph_path": [], "minimum_pruned_contexts": 0, "minimum_pruned_candidates": 0, "action_executed": null, "llm_backed_required": false, "source_unchanged": true}
+    },
+    {
+      "id": "sync_external_confirmed",
+      "kind": "synchronization",
+      "description": "Человекоподобный и LLM-поддерживаемый узлы достигают совместного действия.",
+      "recovery_mode": "semantic",
+      "configuration": {"max_depth": 3, "max_nodes": 32, "max_unit_bytes": 32, "max_candidates": 16, "max_events": 16, "max_event_bytes": 4096, "max_operators": 64, "max_lattice_candidates_per_offset": 16, "min_support": 1, "reference_cost_bits": 8},
+      "events": [],
+      "expected_source_hashes": {},
+      "seed_operator_ids": [],
+      "recorded_llm": {
+        "schema_version": 1,
+        "adapter_id": "recorded-sync-v1",
+        "model": "fixture-llm",
+        "prompt_text": "Подтверди отсутствие новых операторных предложений для записанного контура синхронизации.",
+        "prompt_hash": "sha256:87642ce39cff25a097bbcfc4c8bebecee5bf254920a1926ac95426e18d4c7b30",
+        "response_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "proposals": []
+      },
+      "residual_hints": [],
+      "expected_semantic_facts": [],
+      "graph_edges": [],
+      "semantic_links": [],
+      "automation": null,
+      "synchronization": {
+        "nodes": [
+          {"id": "human-node", "kind": "human_like", "initial_facts": [{"key": "meeting_time", "value": "15:00", "modality": "believed", "time": "tomorrow", "source": "personal-note", "confidence_ppm": 700000}]},
+          {"id": "llm-node", "kind": "llm_backed", "initial_facts": [{"key": "meeting_time", "value": "16:00", "modality": "reported", "time": "tomorrow", "source": "calendar", "confidence_ppm": 900000}]}
+        ],
+        "acts": [
+          {"id": "sync-c-1", "sequence": 1, "type": "statement", "speaker_id": "human-node", "recipient_ids": ["llm-node"], "fact": {"key": "meeting_time", "value": "15:00", "modality": "believed", "time": "tomorrow", "source": "personal-note", "confidence_ppm": 700000}, "role_bindings": [{"form": "я", "node_ids": ["human-node"], "group_version": null, "quoted_speaker_id": null, "represents_composite": false}, {"form": "ты", "node_ids": ["llm-node"], "group_version": null, "quoted_speaker_id": null, "represents_composite": false}], "authorized": true, "quote_source_id": null},
+          {"id": "sync-c-2", "sequence": 2, "type": "question", "speaker_id": "llm-node", "recipient_ids": ["human-node"], "fact": null, "role_bindings": [{"form": "я", "node_ids": ["llm-node"], "group_version": null, "quoted_speaker_id": null, "represents_composite": false}, {"form": "ты", "node_ids": ["human-node"], "group_version": null, "quoted_speaker_id": null, "represents_composite": false}], "authorized": true, "quote_source_id": null},
+          {"id": "sync-c-3", "sequence": 3, "type": "clarification", "speaker_id": "human-node", "recipient_ids": ["llm-node"], "fact": {"key": "timezone", "value": "Europe/Saratov", "modality": "asserted", "time": "tomorrow", "source": "speaker", "confidence_ppm": 950000}, "role_bindings": [{"form": "мы", "node_ids": ["human-node", "llm-node"], "group_version": "team-v1", "quoted_speaker_id": null, "represents_composite": true}], "authorized": true, "quote_source_id": null},
+          {"id": "sync-c-4", "sequence": 4, "type": "correction", "speaker_id": "llm-node", "recipient_ids": ["human-node"], "fact": {"key": "meeting_time", "value": "16:00", "modality": "reported", "time": "tomorrow", "source": "calendar", "confidence_ppm": 900000}, "role_bindings": [{"form": "они", "node_ids": ["calendar-service"], "group_version": "calendar-v1", "quoted_speaker_id": "calendar-service", "represents_composite": false}], "authorized": true, "quote_source_id": "calendar-service"},
+          {"id": "sync-c-5", "sequence": 5, "type": "paraphrase", "speaker_id": "human-node", "recipient_ids": ["llm-node"], "fact": {"key": "meeting_time", "value": "16:00", "modality": "working", "time": "tomorrow", "source": "calendar-via-llm", "confidence_ppm": 850000}, "role_bindings": [{"form": "вы", "node_ids": ["llm-node", "calendar-service"], "group_version": "sources-v1", "quoted_speaker_id": null, "represents_composite": false}], "authorized": true, "quote_source_id": null},
+          {"id": "sync-c-6", "sequence": 6, "type": "confirmation", "speaker_id": "llm-node", "recipient_ids": ["human-node"], "fact": {"key": "meeting_time", "value": "16:00", "modality": "confirmed", "time": "tomorrow", "source": "calendar", "confidence_ppm": 950000}, "role_bindings": [], "authorized": true, "quote_source_id": null},
+          {"id": "sync-c-7", "sequence": 7, "type": "joint_action", "speaker_id": "human-node", "recipient_ids": ["llm-node"], "fact": {"key": "calendar_action", "value": "create:16:00", "modality": "authorized", "time": "now", "source": "joint", "confidence_ppm": 1000000}, "role_bindings": [{"form": "мы", "node_ids": ["human-node", "llm-node"], "group_version": "team-v1", "quoted_speaker_id": null, "represents_composite": true}], "authorized": true, "quote_source_id": null}
+        ],
+        "required_fact_keys": ["meeting_time", "timezone"],
+        "expect_action": true
+      },
+      "expectation": {"exact_round_trip": null, "positive_prediction_gain": null, "positive_compression_gain": null, "semantic_quality_ppm": null, "residual_categories": [], "candidate_statuses": {}, "graph_path": [], "minimum_pruned_contexts": 0, "minimum_pruned_candidates": 0, "action_executed": true, "llm_backed_required": true, "source_unchanged": true}
+    },
+    {
+      "id": "sync_external_divergence",
+      "kind": "synchronization",
+      "description": "Несовместимый пересказ сохраняется как расхождение и блокирует действие.",
+      "recovery_mode": "semantic",
+      "configuration": {"max_depth": 3, "max_nodes": 32, "max_unit_bytes": 32, "max_candidates": 16, "max_events": 16, "max_event_bytes": 4096, "max_operators": 64, "max_lattice_candidates_per_offset": 16, "min_support": 1, "reference_cost_bits": 8},
+      "events": [],
+      "expected_source_hashes": {},
+      "seed_operator_ids": [],
+      "recorded_llm": {
+        "schema_version": 1,
+        "adapter_id": "recorded-sync-v1",
+        "model": "fixture-llm",
+        "prompt_text": "Подтверди отсутствие новых операторных предложений для записанного контура синхронизации.",
+        "prompt_hash": "sha256:87642ce39cff25a097bbcfc4c8bebecee5bf254920a1926ac95426e18d4c7b30",
+        "response_hash": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "proposals": []
+      },
+      "residual_hints": [],
+      "expected_semantic_facts": [],
+      "graph_edges": [],
+      "semantic_links": [],
+      "automation": null,
+      "synchronization": {
+        "nodes": [
+          {"id": "human-node", "kind": "human_like", "initial_facts": [{"key": "release_day", "value": "friday", "modality": "believed", "time": "this-week", "source": "note", "confidence_ppm": 700000}]},
+          {"id": "llm-node", "kind": "llm_backed", "initial_facts": [{"key": "release_day", "value": "monday", "modality": "reported", "time": "next-week", "source": "plan", "confidence_ppm": 900000}]}
+        ],
+        "acts": [
+          {"id": "sync-d-1", "sequence": 1, "type": "statement", "speaker_id": "human-node", "recipient_ids": ["llm-node"], "fact": {"key": "release_day", "value": "friday", "modality": "believed", "time": "this-week", "source": "note", "confidence_ppm": 700000}, "role_bindings": [], "authorized": true, "quote_source_id": null},
+          {"id": "sync-d-2", "sequence": 2, "type": "question", "speaker_id": "llm-node", "recipient_ids": ["human-node"], "fact": null, "role_bindings": [], "authorized": true, "quote_source_id": null},
+          {"id": "sync-d-3", "sequence": 3, "type": "clarification", "speaker_id": "human-node", "recipient_ids": ["llm-node"], "fact": {"key": "release_scope", "value": "prototype", "modality": "asserted", "time": "this-week", "source": "speaker", "confidence_ppm": 900000}, "role_bindings": [], "authorized": true, "quote_source_id": null},
+          {"id": "sync-d-4", "sequence": 4, "type": "correction", "speaker_id": "llm-node", "recipient_ids": ["human-node"], "fact": {"key": "release_day", "value": "monday", "modality": "reported", "time": "next-week", "source": "plan", "confidence_ppm": 900000}, "role_bindings": [], "authorized": true, "quote_source_id": null},
+          {"id": "sync-d-5", "sequence": 5, "type": "paraphrase", "speaker_id": "human-node", "recipient_ids": ["llm-node"], "fact": {"key": "release_day", "value": "friday", "modality": "working", "time": "this-week", "source": "note", "confidence_ppm": 700000}, "role_bindings": [], "authorized": true, "quote_source_id": null},
+          {"id": "sync-d-6", "sequence": 6, "type": "divergence", "speaker_id": "llm-node", "recipient_ids": ["human-node"], "fact": {"key": "release_day", "value": "monday", "modality": "disputed", "time": "next-week", "source": "plan", "confidence_ppm": 900000}, "role_bindings": [], "authorized": true, "quote_source_id": null},
+          {"id": "sync-d-7", "sequence": 7, "type": "joint_action", "speaker_id": "human-node", "recipient_ids": ["llm-node"], "fact": {"key": "release_action", "value": "publish", "modality": "requested", "time": "now", "source": "joint", "confidence_ppm": 700000}, "role_bindings": [], "authorized": true, "quote_source_id": null}
+        ],
+        "required_fact_keys": ["release_day", "release_scope"],
+        "expect_action": false
+      },
+      "expectation": {"exact_round_trip": null, "positive_prediction_gain": null, "positive_compression_gain": null, "semantic_quality_ppm": null, "residual_categories": [], "candidate_statuses": {}, "graph_path": [], "minimum_pruned_contexts": 0, "minimum_pruned_candidates": 0, "action_executed": false, "llm_backed_required": true, "source_unchanged": true}
+    },
+    {
+      "id": "sync_internal_subnodes",
+      "kind": "synchronization",
+      "description": "Тот же языковой контур повторяется между внутренними подузлами FUM.",
+      "recovery_mode": "semantic",
+      "configuration": {"max_depth": 3, "max_nodes": 32, "max_unit_bytes": 32, "max_candidates": 16, "max_events": 16, "max_event_bytes": 4096, "max_operators": 64, "max_lattice_candidates_per_offset": 16, "min_support": 1, "reference_cost_bits": 8},
+      "events": [],
+      "expected_source_hashes": {},
+      "seed_operator_ids": [],
+      "recorded_llm": null,
+      "residual_hints": [],
+      "expected_semantic_facts": [],
+      "graph_edges": [],
+      "semantic_links": [],
+      "automation": null,
+      "synchronization": {
+        "nodes": [
+          {"id": "planner", "kind": "internal_subnode", "initial_facts": [{"key": "check_order", "value": "tests-first", "modality": "planned", "time": "now", "source": "plan", "confidence_ppm": 900000}]},
+          {"id": "executor", "kind": "internal_subnode", "initial_facts": [{"key": "check_order", "value": "build-first", "modality": "cached", "time": "past", "source": "cache", "confidence_ppm": 600000}]}
+        ],
+        "acts": [
+          {"id": "sync-i-1", "sequence": 1, "type": "statement", "speaker_id": "planner", "recipient_ids": ["executor"], "fact": {"key": "check_order", "value": "tests-first", "modality": "planned", "time": "now", "source": "plan", "confidence_ppm": 900000}, "role_bindings": [], "authorized": true, "quote_source_id": null},
+          {"id": "sync-i-2", "sequence": 2, "type": "question", "speaker_id": "executor", "recipient_ids": ["planner"], "fact": null, "role_bindings": [], "authorized": true, "quote_source_id": null},
+          {"id": "sync-i-3", "sequence": 3, "type": "clarification", "speaker_id": "planner", "recipient_ids": ["executor"], "fact": {"key": "test_scope", "value": "fixture-contract", "modality": "required", "time": "now", "source": "card", "confidence_ppm": 1000000}, "role_bindings": [], "authorized": true, "quote_source_id": null},
+          {"id": "sync-i-4", "sequence": 4, "type": "correction", "speaker_id": "planner", "recipient_ids": ["executor"], "fact": {"key": "check_order", "value": "tests-first", "modality": "required", "time": "now", "source": "card", "confidence_ppm": 1000000}, "role_bindings": [], "authorized": true, "quote_source_id": null},
+          {"id": "sync-i-5", "sequence": 5, "type": "paraphrase", "speaker_id": "executor", "recipient_ids": ["planner"], "fact": {"key": "check_order", "value": "tests-first", "modality": "working", "time": "now", "source": "planner", "confidence_ppm": 950000}, "role_bindings": [], "authorized": true, "quote_source_id": null},
+          {"id": "sync-i-6", "sequence": 6, "type": "confirmation", "speaker_id": "planner", "recipient_ids": ["executor"], "fact": {"key": "check_order", "value": "tests-first", "modality": "confirmed", "time": "now", "source": "card", "confidence_ppm": 1000000}, "role_bindings": [], "authorized": true, "quote_source_id": null},
+          {"id": "sync-i-7", "sequence": 7, "type": "joint_action", "speaker_id": "executor", "recipient_ids": ["planner"], "fact": {"key": "test_action", "value": "run", "modality": "authorized", "time": "now", "source": "joint", "confidence_ppm": 1000000}, "role_bindings": [], "authorized": true, "quote_source_id": null}
+        ],
+        "required_fact_keys": ["check_order", "test_scope"],
+        "expect_action": true
+      },
+      "expectation": {"exact_round_trip": null, "positive_prediction_gain": null, "positive_compression_gain": null, "semantic_quality_ppm": null, "residual_categories": [], "candidate_statuses": {}, "graph_path": [], "minimum_pruned_contexts": 0, "minimum_pruned_candidates": 0, "action_executed": true, "llm_backed_required": false, "source_unchanged": true}
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+HTTP/2 200
+date: Mon, 06 Jul 2026 07:51:59 GMT
+content-type: text/html; charset=utf-8
+server: cloudflare
+x-content-type-options: nosniff
+cf-cache-status: DYNAMIC
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+nel: {"report_to":"cf-nel","success_fraction":0.01,"max_age":604800}
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=eNAL4S0KXG73S%2BpTnyuwrgToU3uSwPvZNaWYkNoNU0LW7IfeDT%2B7uVwZ%2B0T2csVu8w2q7uXiYFGeOfFKG184xkl%2BVes6L2VwDGaSOFwqIDD8rHpts9Fs6fe62hwE"}]}
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+referrer-policy: strict-origin-when-cross-origin
+cross-origin-opener-policy: same-origin-allow-popups
+cf-ray: a16d07004c3afc65-RIX

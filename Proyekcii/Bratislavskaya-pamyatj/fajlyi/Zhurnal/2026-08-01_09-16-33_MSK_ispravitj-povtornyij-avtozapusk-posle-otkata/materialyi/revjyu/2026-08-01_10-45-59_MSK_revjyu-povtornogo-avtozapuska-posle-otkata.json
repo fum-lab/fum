@@ -1,0 +1,68 @@
+{
+  "title": "Ревью повторного автозапуска после отката",
+  "request_file": "Журнал/2026-08-01_09-16-33_MSK_исправить-повторный-автозапуск-после-отката/запрос.md",
+  "automation_file": "Инструменты/fum-revjyu-prodelannoj-rabotyi/SKILL.md",
+  "base_ref": "6d5cb5f98c08144eab77cfa22c05da938c269e46",
+  "head_ref": "HEAD",
+  "reviewed_at": "2026-08-01 10:45:59 MSK",
+  "reviewer": "Codex",
+  "scope": "Проверен рабочий diff исправления повторного автозапуска после полного чистого отката: доказанная причина stale claim, схемы привязки запуска 2–4, FIFO- и веточный run-fence, rearm, привилегированное внешнее recovery, канонический и live heartbeat, документация и регрессии. Непрозрачные runtime-значения и приватные базы Codex в публикуемую область не входили.",
+  "review_focus": [
+    "связь claim с точными lease, task_id, FIFO-generation, base_head и selection до содержательной работы",
+    "атомарность queue-ref, branch-ref и claim-ref при verify-run и rearm",
+    "безопасная живость между rearm и finish-clean без возможности второго писателя",
+    "разграничение штатного rearm живой задачи и привилегированного внешнего release после host-доказательства остановки",
+    "непубликуемый runtime-конверт, асинхронный clientThreadId и отсутствие зависимости от dispatcher-side bind",
+    "точный допустимый diff существующей ACTIVE heartbeat-автоматизации и восстановление текущего stale claim"
+  ],
+  "findings": [
+    {
+      "priority": "P2",
+      "status": "устранено до завершения ревью",
+      "title": "Граница release живого и окончательно остановленного запуска была неявной",
+      "details": "Первоначальная редакция правильно ввела rearm для живого исполнителя, но после сжатия дочернего prompt потеряла прямой запрет release успешно созданного запуска. Одновременно формулировка рабочего набора могла читаться как абсолютный запрет внешнего release схем 3 и 4, что оставляло бы вечный claim после host-доказанной окончательной остановки успевшей связаться задачи.",
+      "recommendation": "Явно запретить release дочерней задаче, требовать от живого исполнителя только rearm до finish-clean и сохранить exact-lease release любой читаемой схемы как отдельное привилегированное внешнее recovery лишь после host-доказательства окончательной остановки.",
+      "file": "Инструменты/fum-sleduyusjhij-shag-vetki/references/heartbeat-prompt.md",
+      "line": 31
+    }
+  ],
+  "checks": [
+    {
+      "name": "Полный набор следующего шага ветки",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-sleduyusjhij-shag-vetki/tests -p 'test_*.py'",
+      "result": "прошло: 149 тестов",
+      "details": "Проверены схемы claim 1–4, bind, verify, rearm, внешний recovery, гонки Git refs, чистота checkout, runtime-конверт и лимит heartbeat prompt."
+    },
+    {
+      "name": "Полный набор FIFO-очереди",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-ocheredj-zadach-git-vetki/tests -p 'test_*.py'",
+      "result": "прошло: 58 тестов",
+      "details": "Межконтрактная очередь сохранила строгий admission, поколения и атомарную передачу."
+    },
+    {
+      "name": "Live exact-diff",
+      "command": "python3 -I -c '<полная read-only-сверка automation.toml с renderer до и после штатного host-обновления>'",
+      "result": "прошло",
+      "details": "Финальный in-place-ремонт изменил только prompt и updated_at; статус ACTIVE, идентичность, цель и расписание сохранены."
+    },
+    {
+      "name": "Fenced-восстановление текущего claim",
+      "command": "python3 Инструменты/fum-sleduyusjhij-shag-vetki/scripts/branch-next-step.py release --repo-root . --branch-ref refs/heads/master --expected-lease-id <непубликуемое-значение> --json",
+      "result": "прошло",
+      "details": "После повторного host-доказательства завершённого чистого отката exact schema-2 claim удалён; post-view вернул unclaimed."
+    },
+    {
+      "name": "Публикационная чистота diff",
+      "command": "git diff --check HEAD",
+      "result": "прошло",
+      "details": "Пробельные ошибки в текущем рабочем diff не обнаружены."
+    }
+  ],
+  "residual_risks": [
+    "Проверка чистоты checkout не атомарна с Git-транзакцией refs, поэтому протокол обязательно останавливает всех способных позднее записать процессов до rearm.",
+    "Сбой между успешным rearm и finish-clean сохраняет прежнего FIFO-владельца и требует возобновления той же задачи; это безопасно блокирует повтор, но временно останавливает живость.",
+    "Host-доказательство окончательной остановки для привилегированного внешнего release остаётся процедурным предусловием: Git-команда проверяет exact lease и CAS, но сама не читает host-инвентаризацию.",
+    "Host-обновление автоматизации не предоставляет expected-version/CAS; полный snapshot и post-view exact-diff обнаруживают наблюдаемое расхождение, но не обещают транзакционную защиту от одновременного внешнего изменения."
+  ],
+  "decision": "Обнаруженное замечание P2 устранено; незакрытых существенных замечаний не выявлено."
+}

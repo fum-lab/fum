@@ -1,0 +1,45 @@
+# Universaljnyij ispolniteljnyij poduzel FUM
+
+Opisannyiye nizhe avtomaticheskiye naznacheniya, worktree-slotyi, FIFO, continuation, reviewer/integrator/candidate/CAS i publikaciya yavlyayutsya otlozhennoj celevoj arkhitekturoj. Oni ne dayut polnomochij tekusjhej rabochej sessii: dejstvuyusjhaya zapisj repozitoriya vyipolnyayetsya posledovateljno i vruchnuyu toljko v pervichnom checkout `refs/heads/master`.
+
+Universaljnyij ispolniteljnyij poduzel FUM — dolgovechnyij dochernij [poduzel FUM](poduzel-FUM.md), sokhranyayusjhij obsjhij profilj sposobnostej roditeljskogo uzla: chteniye pamyati, planirovaniye, dekompoziciyu, rabotu s razreshyonnyimi instrumentami, proverku, sokhraneniye rezuljtata i peredachu. Universaljnostj opisyivayet klass dostupnyikh sposobnostej, no ne oznachayet ravnyiye s roditelem polnomochiya, dostup, sekretyi ili pravo na vneshniye effektyi.
+
+Vse celevyiye FUM-agentyi proyektiruyutsya universaljnyimi v etom smyisle. Ikh specializaciya yavlyayetsya [kontekstnoj roljyu](kontekstnaya-rolj-FUM-agenta.md) naznacheniya, a ne neobratimyim urezaniyem sposobnostej ili otdeljnyim vidom agenta. Rolj napravlyayet tekusjhuyu rabotu i kriterii kachestva; dostup, byudzhetyi i effektyi ostayutsya samostoyateljnyimi ogranicheniyami. Potencialjnaya sposobnostj vyipolnitj rabotu takzhe ne zamenyayet dokazateljstvo fakticheskoj kompetentnosti dlya konkretnogo klassa zadach.
+
+Korenj upravlyayet takim poduzlom cherez versionirovannoye konechnoye naznacheniye. V nyom ukazanyi tochnyij repozitorij i iskhodnyij commit, polnyij rabochij ref i polnyij celevoj ref, uporyadochennyij spisok kartochek, oblastj zapisi, dostup, vneshniye effektyi, byudzhetyi, parallelizm, glubina rekursii, proverki, ostanovka, vozobnovleniye, revjyu i forma integracii. Poduzel mozhet suzhatj eti granicyi, no ne rasshiryatj ikh; daljnejshaya delegaciya po umolchaniyu zapresjhena i trebuyet otdeljnogo konechnogo razresheniya.
+
+Naznacheniye mozhet okhvatyivatj cepochku shagov, odnako kazhdyij soderzhateljnyij perekhod vyipolnyayetsya otdeljnyim [pishusjhim poduzlom FUM](pishusjhij-poduzel-FUM.md) kak odin kontekstno posiljnyij rabochij paket s sobstvennyim commit, pasportom i tipizirovannyim iskhodom. Dolgovechnaya linejnaya cepochka samostoyateljnogo repozitoriya zakreplyayetsya za odnim fizicheskim zhivyim klonom i tochnyim polnyim rabochim ref: korenj sozdayot toljko nachaljnuyu host-zadachu, a kazhdyij kommityasjhij vladelec zaraneye sozdayot rovno odno prodolzheniye togo zhe checkout i ref. Lokaljnaya `self_line` FUM-STEP-0148 sleduyet toj zhe prichinnoj forme vnutri pereispoljzuyemogo linked worktree `Подузлы/слот-*`: dolgovechnyij FIFO-bilet sokhranyayet za prodolzheniyem te zhe slot, ref i worktree, CAS `commit+handoff` sozdayot neposredstvennyij odnoroditeljskij commit i peredayot ocheredj, a novyij vladelec posle `reload_required` perechityivayet fakticheskij `HEAD` i podtverzhdayet exact OID. Merge-kommityi vnutri proizvodyasjhej cepochki zapresjhenyi. Sostoyaniye i kvitancii tochnogo povtora i vosstanovleniya sokhranyayutsya v Git, chtobyi sleduyusjhij process mog prodolzhitj rabotu bez skryitoj istorii chata.
+
+Pered lokaljnyim rezervirovaniyem obyichnaya sessiya stroit exact committed routing snapshot s OID planovyikh istochnikov, aktivnyimi liniyami i sostoyaniyem ikh FIFO. Novaya liniya lenivo poluchayet svobodnyij slot, prodolzheniye vkhodit v susjhestvuyusjhuyu liniyu, a read-only-marshrut ne zanimayet pisateljskij slot. Odnovremenno aktivnyiye pisatelj, nezavisimyij recenzent i integrator zanimayut raznyiye worktree-slotyi; posledovateljnyiye vladeljcyi odnoj linii razdelyayut odin slot strogo po odnomu. Object database, Git common-dir i refs ostayutsya obsjhimi.
+
+Terminaljnyij commit linii zamorazhivayetsya pod ustojchivyim lokaljnyim result-ref; nalichiye ozhidayusjhego prodolzheniya zapresjhayet zamorozku, a slot osvobozhdayetsya toljko posle terminala vsej linii i dokazannoj chistotyi. Rezuljtat avtomaticheski prokhodit nezavisimoye agentskoye revjyu, otdeljnuyu agentskuyu integraciyu i pri neobkhodimosti avtomaticheskoye razresheniye dopustimogo konflikta; itog obyazateljno povtorno revjyuiruyetsya nezavisimyim agentom. Toljko prinyatyij obyyekt cherez obyichnuyu FIFO osnovnoj vetki i exact-CAS dvigayet lokaljnyij `master`. Vse result-ref sokhranyayutsya i posle publikacionnogo audita otpravlyayutsya bez force v nastroyennyij remote s tochnyim readback; zablokirovannyij rezuljtat ostayotsya otdeljnyim ref, a setevoj otkaz oznachayet `publication_pending`. GitHub fork i pull request ne vkhodyat v etot lokaljnyij marshrut.
+
+Dokumentaljnyij etalonnyij CLI trebuyet exact repo-root i `worktree_id` naznachennogo slota dlya soderzhateljnyikh i terminaljnyikh komand. On ne dokazyivayet host-level perenos ili vozobnovleniye workspace Codex Desktop i otsutstviye avtomaticheskikh chtenij osnovnogo checkout do pervogo instrumenta, poetomu lokaljnyij profilj ne nazyivayetsya nativnoj izolyaciyej. Dolgovechnyij otdeljnyij fork-repozitorij nizhe ostayotsya samostoyateljnyim arkhitekturnyim profilem.
+
+Dolgovechnyij dochernij repozitorij registriruyetsya v otdeljnoj [repozitornoj kompozicii FUM](repozitornaya-kompoziciya-FUM.md) kak Git submodule na tochnom prinyatom commit. Materializovannyij submodule yavlyayetsya chistyim detached-snimkom, a kazhdaya linejnaya cepochka vedyot zapisj v odnom otdeljnom zhivom klone s sobstvennoj ocheredjyu i tochnyim rabochim ref; celevoj ref ne menyayetsya do kornevogo revjyu i integracii. Korenj proveryayet tochnuyu vershinu i vsyu posledovateljnostj rezuljtatov v otdeljnom klone vne vetochnogo vladeniya cepochkoj; toljko prinyatuyu cepochku ili yavno vyibrannyij tochnyij prefiks mozhno peredatj v serializovannuyu CAS-integraciyu i posleduyusjheye obnovleniye gitlink. Mezhdu prinyatiyem v dochernij celevoj ref i obnovleniyem gitlink dopustimo toljko yavno zapisannoye i idempotentno vozobnovlyayemoye promezhutochnoye sostoyaniye.
+
+Otdeljnyij fork-repozitorij materializuyet [dochernego fork-agenta FUM](dochernij-fork-agent-FUM.md). Kazhdaya efemernaya [sessiya shaga FUM](sessiya-shaga-FUM.md) ispolnyayet toljko odin shag yego naznacheniya i ne yavlyayetsya ustojchivoj identichnostjyu samogo poduzla: nachaljnuyu sessiyu sozdayot korenj, a kazhduyu sleduyusjhuyu — predyidusjhij kommityasjhij vladelec vetki. Prodolzheniye vosstanavlivayetsya iz fakticheskogo `HEAD`, Git, pasportov i artefaktov, a ne iz skryitoj istorii chata.
+
+Pri otdeljnom razreshenii linejnyij [vetvevoj fork](vetvevoj-fork-FUM.md) takogo poduzla mozhet poroditj dva dochernikh fork. Kazhdyij rebyonok poluchayet sobstvennyiye ref, checkout i linejnuyu cepochku prodolzhenij, a tot zhe roditeljskij logicheskij uzel osvobozhdayet prezhnyuyu sessiyu i sokhranyayetsya kak vosstanavlivayemyij moderator. Universaljnostj sama po sebe ne razreshayet razvilku: nuzhnyi konechnyiye glubina, koefficiyent vetvleniya, byudzhetyi, polnomochiya i kriterii sravneniya.
+
+Universaljnyij poduzel ne yavlyayetsya avtomaticheski nezavisimyim svideteljstvom. Obsjhaya modelj, postavsjhik, iskhodnyiye dannyiye, sistemnyij shablon ili instrumentyi ostayutsya nablyudayemyimi gruppami korrelyacii, a kornevoye revjyu samo po sebe ne prevrasjhayet korrelirovannyij rezuljtat vo vneshnyuyu proverku.
+
+## Svyazannyiye dokumentyi
+
+- [Repozitornyij graf pishusjhikh poduzlov i proyektov FUM](../Dokumentaciya/44-repozitornyij-graf-pishusjhikh-poduzlov-i-proyektov-FUM.md)
+- [Paralleljnaya rabota i sliyaniye](../Dokumentaciya/04-paralleljnaya-rabota-i-sliyaniye.md)
+- [Trebovaniye ob upravlyayemom ispolnenii cepochek universaljnyimi fork-poduzlami](../Trebovaniya/🟡-upravlyayemoye-ispolneniye-cepochek-universaljnyimi-fork-poduzlami.md)
+
+## Istochniki trebovanij
+
+- [iskhodnyij zapros 2026-08-23 11:33:38 MSK — Vernutj ruchnuyu posledovateljnuyu skhemu sessij](../Zhurnal/2026-08-23_11-33-38_MSK_vernutj-ruchnuyu-posledovateljnuyu-skhemu-sessij/zapros.md)
+- [iskhodnyij zapros 2026-08-13 18:17:47 MSK — Organizovatj paralleljnyiye sessii v lokaljnyikh worktree-poduzlakh](../Zhurnal/2026-08-13_18-17-47_MSK_organizovatj-paralleljnyiye-sessii-v-izolirovannyikh-fork-poduzlakh/zapros.md)
+- [iskhodnyij zapros 2026-08-12 03:09:35 MSK — Smodelirovatj vetvleniye FUM derevom forkov](../Zhurnal/2026-08-12_03-09-35_MSK_smodelirovatj-vetvleniye-FUM-derevom-forkov/zapros.md)
+- [iskhodnyij zapros 2026-08-11 23:30:57 MSK — Zamenitj avtozapusk obyazateljnyim prodolzheniyem vetki](../Zhurnal/2026-08-11_23-30-57_MSK_zamenitj-avtozapusk-obyazateljnyim-prodolzheniyem-vetki/zapros.md)
+- [iskhodnyij zapros 2026-08-06 17:38:49 MSK — Sozdatj dochernikh fork-agentov FUM](../Zhurnal/2026-08-06_17-38-49_MSK_sozdatj-docherniye-fork-agentyi-FUM/zapros.md)
+- [iskhodnyij zapros 2026-08-05 15:49:53 MSK — Upravlyatj universaljnyimi pishusjhimi poduzlami](../Zhurnal/2026-08-05_15-49-53_MSK_upravlyatj-universaljnyimi-pishusjhimi-poduzlami/zapros.md)
+
+<!-- FUM-MD-RECENCY:BEGIN -->
+<!-- last-content-edit: 2026-08-23 15:37:47 MSK -->
+<!-- content-sha256: sha256:ea4cbc2e79a834b5470846780142b5271c66cb1daa800e5b3ebde06dcda9b24e -->
+<!-- FUM-MD-RECENCY:END -->

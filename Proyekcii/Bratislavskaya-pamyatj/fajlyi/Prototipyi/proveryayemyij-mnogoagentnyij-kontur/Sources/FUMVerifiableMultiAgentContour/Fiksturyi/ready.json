@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "package_id": "fum.work-package.ready.v1",
+  "goal": "Проверить один ограниченный рабочий пакет до начала модельной или изменяющей работы.",
+  "deliverables": [
+    {
+      "id": "contract",
+      "role": "primary",
+      "description": "Канонический отчёт предпускового анализа.",
+      "depends_on": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "requirements",
+      "path": "inputs/requirements.txt",
+      "sha256": "sha256:6e94948be5de9e62ce8cf9e8994421132739338dd8bf9c0a2860a4a11d7e16bb",
+      "required": true
+    }
+  ],
+  "change_scope": {
+    "policy": "listed_paths_only",
+    "allowed_paths": [
+      "output/contract.json"
+    ],
+    "excluded_paths": [
+      "runtime",
+      "network"
+    ]
+  },
+  "dependencies": [
+    {
+      "id": "swift-6",
+      "status": "resolved",
+      "evidence": "Фикстура использует только локальную стандартную библиотеку Swift 6."
+    }
+  ],
+  "checks": [
+    {
+      "id": "contract-tests",
+      "description": "Автономные тесты проверяют решение и коды нарушений."
+    }
+  ],
+  "handoff": {
+    "format": "canonical_json_v1",
+    "required_artifacts": [
+      "output/contract.json"
+    ]
+  },
+  "budget": {
+    "unit": "planning_units",
+    "limit": 100,
+    "reading": 20,
+    "work": 35,
+    "verification": 20,
+    "response": 10,
+    "reserve": 15
+  },
+  "preflight": {
+    "before_model_call": true,
+    "before_user_data_mutation": true
+  }
+}

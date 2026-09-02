@@ -1,0 +1,26 @@
+Добавить корневое ревью и ограждённую интеграцию цепочки
+
+Исходный пользовательский запрос:
+
+Neobkhodimo svyazatj sleduyusjhiye shagi s dorozhnoj kartoj v vide ssyilok na shag dlya kazhdoj stadi i etapa. V khode planirovaniya smena prioritetov i pereuporyadochivaniye mogut proiskhoditj, no eto dolzhno vyizyivatj otrazheniye v dorozhnoj karte. To yestj glyadya na dorozhnuyu kartu dolzhna byitj vozmozhnostj ponimatj, kogda primerno budet vyipolnena ta ili inaya zadacha, chtobyi po karte byila vozmozhnostj menyatj prioritetyi.
+
+Prodolzhaj.
+
+<codex_delegation>
+  <source_thread_id>019ff966-9411-7be1-b6c6-76b52725c809</source_thread_id>
+  <input>Возобнови работу по уже зарегистрированному FIFO-билету этой задачи seq=20 на refs/heads/master. Текущий владелец 019ff966-9411-7be1-b6c6-76b52725c809 сейчас завершится через finish-clean без изменения HEAD. Не выполняй повторный join, не отменяй и не обходи билет seq=21. Используй один wait-until-actionable; при reload_required полностью перечитай из фактического нового HEAD AGENTS.md, Инструменты/fum-ocheredj-zadach-git-vetki/SKILL.md и Инструменты/fum-sleduyusjhij-shag-vetki/SKILL.md, проверь точные HEAD и symbolic ref refs/heads/master, выполни ack-head со своим точным CODEX_THREAD_ID и снова wait-until-actionable. Только после admitted напрямую вызови branch-next-step.py show и следуй актуальному результату и правилам HEAD. Никакой старый выбор карточки не считай полномочием.</input>
+</codex_delegation>
+
+Pochemu ponadobilosj zapuskatj polnuyu regressiyu pered finaljnyim smoke-check? Pochemu neljzya byilo obojtisj toljko finaljnyim, chtobyi syekonomitj vremya?
+
+Dobavj shag v ocheredj dlya zakrepleniya etoj optimizacii v pamyati.
+
+Posle etoj zadachi v samom vyisokom prioritete zapusti organizaciyu paralleljnoj rabotyi sessij. Pod kazhduyu aktivnuyu sessiyu dolzhen vyidelyatjsya svoj fork-poduzel, i togda oni ne budut meshatj drug-drugu. Rezuljtat dolzhen integrirovatjsya cherez fork-mekhanizm. Tyi mozheshj pushitj vetki i sozdavatj neobkhodimyiye pulrekvestyi dlya etogo. Tyi mozheshj sozdavatj forki.
+
+Net, prodolzhaj smoke. Sdelaj eto posle nego i kommita.
+
+Описание сделанного:
+
+Завершить выбранный веточным селектором FUM-STEP-0123: добавить закрытые паспорта корневого ревью и модерации, проверяемый конверт запроса слияния, ограждённое разрешение принятого диапазона и автономный local-bare исполнитель точного Git-перехода. Сохранить исходное требование о дорожной карте отдельным FUM-STEP-0146, требование об устранении избыточного полного прогона перед финальным smoke-check отдельным FUM-STEP-0147 и высший следующий приоритет изоляции активных сессий fork-подузлами отдельным FUM-STEP-0148.
+
+Codex-Thread-ID: 019ffa3f-be7b-76c0-a974-94a8901eb7a1

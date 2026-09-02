@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "policy_version": "fum.memory.policy.v1",
+  "dataset_id": "fum.bootstrap.memory.v1",
+  "events": [
+    {
+      "id": "event.001.goal",
+      "sequence": 1,
+      "operation": "remember",
+      "target": "goal",
+      "value": "жизнеспособный образец FUM с GUI"
+    },
+    {
+      "id": "event.002.starting-mode",
+      "sequence": 2,
+      "operation": "remember",
+      "target": "starting-mode",
+      "value": "минимальный Swift-прототип без графического интерфейса"
+    },
+    {
+      "id": "event.003.memory-policy",
+      "sequence": 3,
+      "operation": "remember",
+      "target": "memory-policy",
+      "value": "штатное пополнение воспроизводимой памяти"
+    },
+    {
+      "id": "event.004.execution-policy",
+      "sequence": 4,
+      "operation": "remember",
+      "target": "execution-policy",
+      "value": "только внутренние операции remember и compose"
+    },
+    {
+      "id": "event.005.bootstrap",
+      "sequence": 5,
+      "operation": "compose",
+      "target": "bootstrap",
+      "sources": ["starting-mode", "memory-policy", "execution-policy"],
+      "separator": "; "
+    },
+    {
+      "id": "event.006.next-stage",
+      "sequence": 6,
+      "operation": "compose",
+      "target": "next-stage",
+      "sources": ["bootstrap", "goal"],
+      "separator": " -> "
+    }
+  ]
+}

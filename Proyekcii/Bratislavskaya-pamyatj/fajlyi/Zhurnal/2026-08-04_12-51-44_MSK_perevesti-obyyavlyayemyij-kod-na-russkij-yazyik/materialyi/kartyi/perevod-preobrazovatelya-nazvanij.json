@@ -1,0 +1,20 @@
+{
+  "версия_схемы": 1,
+  "файлы": [
+    {
+      "путь": "Инструменты/fum-proverka-nazvanij-avtomatizacij/Sources/preobrazovatj-nazvaniya/main.swift",
+      "ожидаемый_хэш": "sha256:2938982fabc582721168642ba2781f3bcab4e71deba9884b6486c11ec47d4937",
+      "переименования": {
+        "fail": "завершитьСОшибкой",
+        "message": "сообщение",
+        "code": "код",
+        "inputData": "входныеДанные",
+        "sources": "исходныеСтроки",
+        "source": "исходнаяСтрока",
+        "transliterations": "транслитерации",
+        "result": "результат",
+        "outputData": "выходныеДанные"
+      }
+    }
+  ]
+}

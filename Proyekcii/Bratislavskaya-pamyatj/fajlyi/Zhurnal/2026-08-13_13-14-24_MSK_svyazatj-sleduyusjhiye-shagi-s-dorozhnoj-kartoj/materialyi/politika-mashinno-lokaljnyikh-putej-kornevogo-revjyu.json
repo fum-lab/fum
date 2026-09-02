@@ -1,0 +1,131 @@
+{
+  "schema": "fum.machine-local-path-policy-update.v1",
+  "declarations": [
+    {
+      "id": "root-review-schema-json-pointer-moderation-value",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/СхемыКорневогоРевьюЦепочки.swift",
+      "line": 73,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет точный JSON Pointer диагностического поля значения и не задаёт путь файловой системы."
+    },
+    {
+      "id": "root-review-schema-json-pointer-identity",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/СхемыКорневогоРевьюЦепочки.swift",
+      "line": 177,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет точный JSON Pointer поля идентичности закрытой схемы."
+    },
+    {
+      "id": "root-review-schema-json-pointer-version",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/СхемыКорневогоРевьюЦепочки.swift",
+      "line": 193,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет точный JSON Pointer поля версии закрытой схемы."
+    },
+    {
+      "id": "root-review-schema-json-pointer-runtime-value",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/СхемыКорневогоРевьюЦепочки.swift",
+      "line": 209,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет точный JSON Pointer значения при несовпадении runtime и закрытой схемы."
+    },
+    {
+      "id": "root-review-git-ref-home-marker",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/КорневоеРевьюИИнтеграцияЦепочки.swift",
+      "line": 1501,
+      "category": "allow.path-validation-definition",
+      "reason": "Перечисляет запрещённые знаки полного Git ref, включая домашнее сокращение."
+    },
+    {
+      "id": "root-review-relative-path-home-marker-schema",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/Фикстуры/КорневоеРевьюЦепочки/схема-паспорта-корневого-ревью-цепочки-v1.json",
+      "line": 112,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет закрытый шаблон относительного пути с явным запретом домашнего сокращения."
+    },
+    {
+      "id": "root-review-child-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыКорневогоРевьюИИнтеграцииЦепочки.swift",
+      "line": 614,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь исходного репозитория в автономной фикстуре ревью."
+    },
+    {
+      "id": "root-review-project-target-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыКорневогоРевьюИИнтеграцииЦепочки.swift",
+      "line": 620,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь проектной цели в автономной фикстуре ревью."
+    },
+    {
+      "id": "root-review-core-target-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыКорневогоРевьюИИнтеграцииЦепочки.swift",
+      "line": 622,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь цели ядра в автономной фикстуре ревью."
+    },
+    {
+      "id": "root-review-right-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыКорневогоРевьюИИнтеграцииЦепочки.swift",
+      "line": 651,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь правого репозитория в фикстуре модерации."
+    },
+    {
+      "id": "root-review-envelope-child-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыКорневогоРевьюИИнтеграцииЦепочки.swift",
+      "line": 745,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь источника в фикстуре конверта запроса слияния."
+    },
+    {
+      "id": "root-review-envelope-core-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыКорневогоРевьюИИнтеграцииЦепочки.swift",
+      "line": 746,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь цели в фикстуре конверта запроса слияния."
+    },
+    {
+      "id": "root-review-schema-child-source-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыСхемКорневогоРевьюЦепочки.swift",
+      "line": 176,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет две одинаковые строки синтетического пути источника в schema-фикстурах."
+    },
+    {
+      "id": "root-review-schema-core-target-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыСхемКорневогоРевьюЦепочки.swift",
+      "line": 177,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь цели в schema-фикстуре паспорта ревью."
+    },
+    {
+      "id": "root-review-schema-nested-child-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыСхемКорневогоРевьюЦепочки.swift",
+      "line": 199,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь вложенного результата ребёнка в schema-фикстуре."
+    },
+    {
+      "id": "root-review-schema-right-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыСхемКорневогоРевьюЦепочки.swift",
+      "line": 214,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь правого результата в schema-фикстуре."
+    },
+    {
+      "id": "root-review-schema-parent-core-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыСхемКорневогоРевьюЦепочки.swift",
+      "line": 226,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь родительского репозитория в schema-фикстуре."
+    },
+    {
+      "id": "root-review-schema-core-target-terminal-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыСхемКорневогоРевьюЦепочки.swift",
+      "line": 249,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь цели в завершающей строке schema-фикстуры конверта."
+    }
+  ]
+}

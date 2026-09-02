@@ -1,0 +1,233 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fum:schema:repository-composition-passport:v1",
+  "title": "FUM repository composition passport v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "passport_id",
+    "composition_id",
+    "parent_repository",
+    "children"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "passport_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "composition_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "parent_repository": {
+      "$ref": "#/$defs/parent_repository"
+    },
+    "children": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 256,
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "entry_id",
+              "kind",
+              "node_id",
+              "target_repository_id",
+              "base_oid",
+              "live_ref",
+              "access_level",
+              "publication_boundary",
+              "checks",
+              "handoff"
+            ],
+            "properties": {
+              "entry_id": { "$ref": "#/$defs/identifier" },
+              "kind": { "const": "step_branch" },
+              "node_id": { "$ref": "#/$defs/identifier" },
+              "target_repository_id": { "$ref": "#/$defs/identifier" },
+              "base_oid": { "$ref": "#/$defs/oid" },
+              "live_ref": { "$ref": "#/$defs/live_ref" },
+              "access_level": { "$ref": "#/$defs/access_level" },
+              "publication_boundary": { "$ref": "#/$defs/access_level" },
+              "checks": { "$ref": "#/$defs/checks" },
+              "handoff": { "$ref": "#/$defs/handoff" }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "entry_id",
+              "kind",
+              "node_id",
+              "repository_id",
+              "repository_url",
+              "upstream_repository_id",
+              "base_oid",
+              "live_ref",
+              "submodule_path",
+              "gitlink_oid",
+              "snapshot_mode",
+              "writer_mode",
+              "nested_submodules",
+              "access_level",
+              "publication_boundary",
+              "checks",
+              "handoff"
+            ],
+            "properties": {
+              "entry_id": { "$ref": "#/$defs/identifier" },
+              "kind": { "const": "specialized_subnode" },
+              "node_id": { "$ref": "#/$defs/identifier" },
+              "repository_id": { "$ref": "#/$defs/identifier" },
+              "repository_url": { "$ref": "#/$defs/repository_url" },
+              "upstream_repository_id": { "$ref": "#/$defs/identifier" },
+              "base_oid": { "$ref": "#/$defs/oid" },
+              "live_ref": { "$ref": "#/$defs/live_ref" },
+              "submodule_path": { "$ref": "#/$defs/submodule_path" },
+              "gitlink_oid": { "$ref": "#/$defs/oid" },
+              "snapshot_mode": { "const": "detached_read_only" },
+              "writer_mode": { "const": "separate_clone" },
+              "nested_submodules": { "$ref": "#/$defs/nested_submodules" },
+              "access_level": { "$ref": "#/$defs/access_level" },
+              "publication_boundary": { "$ref": "#/$defs/access_level" },
+              "checks": { "$ref": "#/$defs/checks" },
+              "handoff": { "$ref": "#/$defs/handoff" }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "entry_id",
+              "kind",
+              "project_id",
+              "repository_id",
+              "repository_url",
+              "base_oid",
+              "live_ref",
+              "submodule_path",
+              "gitlink_oid",
+              "snapshot_mode",
+              "writer_mode",
+              "nested_submodules",
+              "access_level",
+              "publication_boundary",
+              "checks",
+              "handoff"
+            ],
+            "properties": {
+              "entry_id": { "$ref": "#/$defs/identifier" },
+              "kind": { "const": "project" },
+              "project_id": { "$ref": "#/$defs/identifier" },
+              "repository_id": { "$ref": "#/$defs/identifier" },
+              "repository_url": { "$ref": "#/$defs/repository_url" },
+              "base_oid": { "$ref": "#/$defs/oid" },
+              "live_ref": { "$ref": "#/$defs/live_ref" },
+              "submodule_path": { "$ref": "#/$defs/submodule_path" },
+              "gitlink_oid": { "$ref": "#/$defs/oid" },
+              "snapshot_mode": { "const": "detached_read_only" },
+              "writer_mode": { "const": "separate_clone" },
+              "nested_submodules": { "$ref": "#/$defs/nested_submodules" },
+              "access_level": { "$ref": "#/$defs/access_level" },
+              "publication_boundary": { "$ref": "#/$defs/access_level" },
+              "checks": { "$ref": "#/$defs/checks" },
+              "handoff": { "$ref": "#/$defs/handoff" }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"
+    },
+    "oid": {
+      "type": "string",
+      "oneOf": [
+        { "pattern": "^[0-9a-f]{40}$" },
+        { "pattern": "^[0-9a-f]{64}$" }
+      ]
+    },
+    "live_ref": {
+      "type": "string",
+      "pattern": "^refs/heads/[^ ~^:?*[\\\\]+(?:/[^ ~^:?*[\\\\]+)*$"
+    },
+    "repository_url": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2048,
+      "format": "uri",
+      "not": {
+        "pattern": "^[Ff][Ii][Ll][Ee]:"
+      }
+    },
+    "submodule_path": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024
+    },
+    "access_level": {
+      "enum": ["public", "restricted", "private", "closed"]
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/identifier" }
+    },
+    "handoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_repository_id", "target_ref", "required_check_ids"],
+      "properties": {
+        "target_repository_id": { "$ref": "#/$defs/identifier" },
+        "target_ref": { "$ref": "#/$defs/live_ref" },
+        "required_check_ids": { "$ref": "#/$defs/checks" }
+      }
+    },
+    "nested_submodules": {
+      "type": "array",
+      "maxItems": 256,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["repository_id", "submodule_path"],
+        "properties": {
+          "repository_id": { "$ref": "#/$defs/identifier" },
+          "submodule_path": { "$ref": "#/$defs/submodule_path" }
+        }
+      }
+    },
+    "parent_repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository_id",
+        "repository_url",
+        "snapshot_oid",
+        "live_ref",
+        "access_level",
+        "publication_boundary"
+      ],
+      "properties": {
+        "repository_id": { "$ref": "#/$defs/identifier" },
+        "repository_url": { "$ref": "#/$defs/repository_url" },
+        "snapshot_oid": { "$ref": "#/$defs/oid" },
+        "live_ref": { "$ref": "#/$defs/live_ref" },
+        "access_level": { "$ref": "#/$defs/access_level" },
+        "publication_boundary": { "$ref": "#/$defs/access_level" }
+      }
+    }
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "title": "Ревью ограниченного автоматического разрешения Git-конфликтов",
+  "request_file": "Журнал/2026-08-04_02-55-45_MSK_добавить-ограниченное-автоматическое-разрешение-Git-конфликтов/запрос.md",
+  "automation_file": "Инструменты/fum-revjyu-prodelannoj-rabotyi/SKILL.md",
+  "config_file": "Журнал/2026-08-04_02-55-45_MSK_добавить-ограниченное-автоматическое-разрешение-Git-конфликтов/материалы/ревью/2026-08-04_05-07-21_MSK_ограниченное-разрешение-Git-конфликтов.json",
+  "base_ref": "HEAD",
+  "head_ref": "HEAD",
+  "reviewed_at": "2026-08-04 05:07:21 MSK",
+  "reviewer": "Codex",
+  "scope": "Проверяется незакоммиченное рабочее дерево FUM-STEP-0087 поверх неизменного HEAD: resolver-реестр, CAS-восстановление, тесты, документация, требования и плановый переход.",
+  "review_focus": [
+    "точность области и предусловий каждого зарегистрированного resolver-правила",
+    "fail-closed-поведение без изменения целевого ref и сохранность исходных commit",
+    "полнота происхождения паспорта и повторного построения prepared-результата",
+    "достаточность регрессий для конфликтов, подмен и нормализованных путей",
+    "честность README, требований и рабочего набора следующего шага"
+  ],
+  "findings": [],
+  "checks": [
+    {
+      "name": "строгий Swift-format lint",
+      "command": "xcrun swift-format lint --strict --recursive Sources Tests",
+      "result": "прошло",
+      "details": "Исходники и тесты соответствуют центральному стилю."
+    },
+    {
+      "name": "строгая Swift-сборка",
+      "command": "swift build --disable-dependency-cache --manifest-cache none --disable-prefetching --disable-netrc --disable-keychain --disable-automatic-resolution -Xswiftc -strict-concurrency=complete -Xswiftc -warnings-as-errors",
+      "result": "прошло",
+      "details": "Пакет собран с полной проверкой конкурентности и предупреждениями как ошибками."
+    },
+    {
+      "name": "полный Swift-набор",
+      "command": "swift test --disable-dependency-cache --manifest-cache none --disable-prefetching --disable-netrc --disable-keychain --disable-automatic-resolution",
+      "result": "прошло",
+      "details": "Прошли 35 XCTest, 82 XCTest и 46 Swift Testing, включая 30 сценариев CAS-интегратора и resolver."
+    },
+    {
+      "name": "селектор следующего шага",
+      "command": "python3 Инструменты/fum-sleduyusjhij-shag-vetki/scripts/branch-next-step.py validate --repo-root . --json",
+      "result": "прошло",
+      "details": "Подтверждены 11 кандидатов и единственная готовая FUM-STEP-0088."
+    },
+    {
+      "name": "полный тестовый набор селектора",
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-sleduyusjhij-shag-vetki/tests -p 'test_*.py'",
+      "result": "прошло",
+      "details": "После обновления точного snapshot прошли все 153 теста."
+    },
+    {
+      "name": "публикационный сканер",
+      "command": "python3 Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py --repo-root .",
+      "result": "прошло",
+      "details": "Git-ref собирается из безопасных компонентов; новое policy-исключение не потребовалось."
+    },
+    {
+      "name": "resolver-набор после публикационной правки",
+      "command": "swift test --disable-dependency-cache --manifest-cache none --disable-prefetching --disable-netrc --disable-keychain --disable-automatic-resolution --filter CandidateCommitIntegratorTests",
+      "result": "прошло",
+      "details": "После структурной правки Git-ref повторно прошли все 30 сценариев."
+    },
+    {
+      "name": "полный smoke-check репозитория",
+      "command": "python3 Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/smoke-check.py --repo-root .",
+      "result": "прошло",
+      "details": "Итоговый регрессионный контур прошёл все 71 этап."
+    }
+  ],
+  "residual_risks": [
+    "Реестр версии 1 намеренно не разрешает конфликты за пределами двух объявленных классов.",
+    "Проверенная блокировка и CAS относятся к одному host и локальному bare-репозиторию, а не к распределённой межмашинной очереди.",
+    "Смысловая корректность нового resolver-правила требует отдельной регистрации и тестов; модельное предложение само по себе не повышает статус кандидата."
+  ],
+  "decision": "Существенных замечаний не выявлено."
+}

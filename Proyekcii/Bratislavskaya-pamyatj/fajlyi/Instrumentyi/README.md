@@ -1,0 +1,135 @@
+# Instrumentyi repozitoriya
+
+Etot katalog khranit kanonicheskiye instrumentyi i rabochiye instrukcii, kotoryiye nuzhnyi imenno dlya repozitoriya FUM.
+
+V zadachakh FUM ispoljzuyutsya toljko lokaljnyiye navyiki `Инструменты/*/SKILL.md`. Navyiki za predelami tekusjhego checkout ne otkryivayutsya i ne sravnivayutsya s lokaljnyimi; proyektnaya nastrojka `skills.include_instructions = false` isklyuchayet obsjhij katalog navyikov sredyi iz agentskogo konteksta. Yesli podkhodyasjhego lokaljnogo navyika net, rabota prodolzhayetsya neposredstvenno po `AGENTS.md`, obyazateljnyim tematicheskim marshrutam v `Правила/агентов/` i materialam repozitoriya.
+
+Lokaljnyiye avtomatizacii v etom kataloge dolzhnyi soprovozhdatjsya testami, kotoryiye mozhno zapustitj bez sekretov i setevyikh zavisimostej po umolchaniyu.
+
+Dejstvuyusjhij marshrut rabotyi — ruchnaya posledovateljnostj: poljzovatelj zapuskayet odnu pishusjhuyu sessiyu v pervichnom checkout `refs/heads/master`, ona vyipolnyayet odin zapros, sozdayot ne boleye odnogo itogovogo kommita i zavershayetsya. Continuation, FIFO/pool, worktree-pisateli, reviewer/integrator/candidate, branch-next-step, heartbeat, dispatcher, autostart i avtomaticheskaya publikaciya ne zapuskayutsya. Ikh instrumentyi nizhe sokhranyayutsya toljko kak istoricheskiye kontraktyi i regressionnaya narabotka bez razresheniya zhivyikh host- ili Git-effektov.
+
+## Reyestryi
+
+- [Reyestr sistemnyikh prilozhenij i instrumentov](reyestr-sistemnyikh-prilozhenij-i-instrumentov.md) - fiksiruyet povtorno ispoljzuyemyiye prilozheniya, CLI-komandyi, instrumentyi sredyi agenta, MCP-instrumentyi i sposobyi proverki ikh versij.
+- [Reyestr nazvanij avtomatizacij](reyestr-nazvanij-avtomatizacij.json) - khranit kirillicheskiye istochniki, tochnyiye rezuljtatyi LinguisticKit, tekhnicheskiye slug, otobrazhayemyiye imena i etalonyi; nalichiye istoricheskogo imeni ili slug v etom reyestre ne oznachayet ekspluatacionnyij status avtomatizacii.
+
+## Navyiki
+
+- [fum-dispetcher-avtomatizacij-fum](fum-dispetcher-avtomatizacij-fum/SKILL.md) - istoricheskij kontrakt snyatogo universaljnogo dispetchera; ne razreshayet vyibor zapuska, rezervaciyu, sozdaniye zadachi ili inoj zhivoj host-effekt.
+- [fum-analitika-zavershyonnyikh-shagov](fum-analitika-zavershyonnyikh-shagov/SKILL.md) - istoricheskij kontrakt snyatoj periodicheskoj analitiki; prezhniye sobyitiya i kursoryi chitayutsya dlya proiskhozhdeniya i regressionnoj sovmestimosti, no porog boljshe ne sozdayot zadaniye.
+- [fum-pochinka-avtozapuska](fum-pochinka-avtozapuska/SKILL.md) - istoricheskij kontrakt snyatoj pochinki avtozapuska; ne razreshayet sozdavatj remontnuyu zadachu ili menyatj host-avtomatizaciyu.
+- [fum-sleduyusjhij-shag-vetki](fum-sleduyusjhij-shag-vetki/SKILL.md) - khranit istoricheskij selector i yego testyi; v ruchnoj posledovateljnoj skheme `show` ne vyizyivayetsya.
+- [fum-sborka-svodnoj-dokumentacii](fum-sborka-svodnoj-dokumentacii/SKILL.md) - sozdayot i proveryayet karkas svodnyikh statej dokumentacii iz neskoljkikh opornyikh materialov.
+- [fum-ocenki](fum-ocenki/SKILL.md) - sozdayot i proveryayet prinadlezhasjhiye zaprosu ocenochnyiye materialyi v `материалы/оценки/` so snimkom repozitoriya, metodikoj, diapazonami, dopusjheniyami, ogranicheniyami tochnosti i oformleniyem rezuljtata.
+- [fum-glossarij](fum-glossarij/SKILL.md) - podderzhivayet glossarij FUM po lokaljnyim pravilam imenovaniya i ssyilok.
+- [fum-svezhestj-markdown](fum-svezhestj-markdown/SKILL.md) - obnovlyayet sluzhebnyiye metki poslednego soderzhateljnogo redaktirovaniya vo vsekh Markdown-fajlakh i sobirayet indeks `.md`-fajlov ot svezhikh k staryim.
+- [fum-ocheredj-zadach-git-vetki](fum-ocheredj-zadach-git-vetki/SKILL.md) - khranit istoricheskiye FIFO/pool/CAS-protokolyi, kvitancii i regressionnyiye testyi; obyichnaya ruchnaya sessiya ikh ne vyizyivayet. Yedinstvennaya uzhe sozdannaya bridge-zadacha perekhodnogo kommita mozhet vyipolnitj `ack-head` i `finish-clean`.
+- [fum-svezhestj-grafa-obsidian](fum-svezhestj-grafa-obsidian/SKILL.md) - obnovlyayet gruppyi cveta grafa Obsidian kak teplovuyu kartu Markdown-uzlov po vremeni poslednego soderzhateljnogo redaktirovaniya.
+- [fum-reyestr-planirovaniya](fum-reyestr-planirovaniya/SKILL.md) - sobirayet i proveryayet mashinno chitayemyij JSON-reyestr i bezopasno pereimenovyivayet kartochki shagov s obnovleniyem zhivyikh tekstovyikh putej.
+- [fum-proyektnyiye-fajlyi](fum-proyektnyiye-fajlyi/SKILL.md) - zadayot obsjhij vosproizvodimyij inventarj proyektnyikh Markdown-fajlov i bezopasnyiye granicyi vyikhodnyikh putej sluzhebnyikh avtomatizacij.
+- [fum-bratislavskaya-proyekciya-pamyati](fum-bratislavskaya-proyekciya-pamyati/SKILL.md) - stroit polnyij determinirovannyij sukhoj plan bratislavskoj proyekcii kanonicheskoj pamyati i validiruyet proiskhozhdeniye gotovogo proizvodnogo pokoleniya.
+- [fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok](fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/SKILL.md) - planiruyet i primenyayet Git-pereimenovaniye obyichnogo fajla s razresheniyem i pereschyotom vkhodyasjhikh i iskhodyasjhikh lokaljnyikh Markdown-ssyilok bez globaljnoj zamenyi imeni.
+- [fum-proverka-git-zavisimostej](fum-proverka-git-zavisimostej/SKILL.md) - dobavlyayet Git submodule iz forka ryadom s aktualjnyim FUM, inicializiruyet uzhe zaregistrirovannuyu zavisimostj posle svezhego klonirovaniya i avtonomno proveryayet otdeljnyij upstream, dostizhimostj vyibrannoj revizii iz lokaljno poluchennyikh refs forka i tochnyij gitlink.
+- [fum-proverka-nazvanij-avtomatizacij](fum-proverka-nazvanij-avtomatizacij/SKILL.md) - proveryayet tochnuyu transliteraciyu repozitornyikh i otobrazhayemyikh imyon, slug, otsutstviye kanonicheskikh legacy-isklyuchenij, kollizii i yavnoye sostoyaniye zavisimosti LinguisticKit.
+- [fum-dekompoziciya-pravil-agentov](fum-dekompoziciya-pravil-agentov/SKILL.md) - proveryayet kompaktnostj vsegda zagruzhayemogo `AGENTS.md`, lokaljnostj i khyeshi tematicheskikh marshrutov i polnoye odnoznachnoye pokryitiye iskhodnogo inventarya pravil.
+- [fum-zapusk-prototipov](fum-zapusk-prototipov/SKILL.md) - proveryayet kornevuyu POSIX-panelj `prototipyi.sh` i obyazateljnyiye `запустить.sh` u vsekh ustojchivyikh prototipov.
+- [fum-obratnyiye-ssyilki-voprosov](fum-obratnyiye-ssyilki-voprosov/SKILL.md) - proveryayet dvunapravlennostj lokaljnyikh ssyilok mezhdu otkryityimi ili chastichno proyasnyonnyimi voprosami i zayavlennoj zatronutoj dokumentaciyej.
+- [fum-audit-pokryitiya-voprosov-i-otvetov](fum-audit-pokryitiya-voprosov-i-otvetov/SKILL.md) - izvlekayet voprositeljnyiye predlozheniya iz doslovnyikh blokov zaprosov, sopostavlyayet ikh s source-ssyilkami kartochek i ostavlyayet smyislovoj otbor ruchnyim.
+- [fum-indeks-readme](fum-indeks-readme/SKILL.md) - proveryayet kompaktnuyu kornevuyu instrukciyu tekusjhego ispoljzovaniya FUM i polnyij tematicheskij indeks v `Документация/README.md`.
+- [fum-materialyi-zaprosov](fum-materialyi-zaprosov/SKILL.md) - arkhiviruyet ustojchivyiye HTML-URL cherez obsjhij vkhod `fum source archive`, sokhranyayet obsjhiye [prikreplyayemyiye materialyi](../Glossarij/prikreplyayemyij-material.md) v `Источники/URL/`, prinadlezhasjhiye odnomu zaprosu materialyi — v yego `материалы/источники/`, i podderzhivayet specializirovannoye izvlecheniye rassharennyikh chatov ChatGPT.
+- [fum-struktura-papok-zaprosov](fum-struktura-papok-zaprosov/SKILL.md) - stroit determinirovannyij plan, paketno perenosit prezhniye zaprosyi, otchyotyi i sobstvennyiye materialyi v papki zaprosov, sozdayot novuyu papku s navigaciyej i validiruyet kanonicheskuyu strukturu.
+- [fum-moskovskoye-vremya-rabochej-sessii](fum-moskovskoye-vremya-rabochej-sessii/SKILL.md) - formiruyet soglasovannyiye imya i zagolovochnuyu metku rabochej sessii v zone `Europe/Moscow` nezavisimo ot zonyi khosta.
+- [fum-svyaznostj-rabochej-sessii](fum-svyaznostj-rabochej-sessii/SKILL.md) - proveryayet svyaznostj [rabochej sessii](../Glossarij/rabochaya-sessiya.md): navigaciyu zaprosov, zhurnaljnyij profilj so vsemi pryamyimi proverochnyimi vyizovami i ikh arifmeticheskoj summoj, kornevoj Codex-Thread-ID v zaprose i tele kommita, ispoljzovaniye kanonicheskogo MSK-vremeni, kvalificirovannuyu zapisj instrumentov, Markdown-ssyilki, registr putej, formaljnyij konechnyij `?` materialov `Вопросы и ответы/`, signalyi meta-zaprosov, nizhneye raspolozheniye spravochnyikh blokov i Git-sostoyaniye.
+- [fum-otchyotyi-o-zapuskakh-proverok](fum-otchyotyi-o-zapuskakh-proverok/SKILL.md) - vedyot profilirovannyij mashinnyij uchyot pryamyikh proverochnyikh vyizovov, svyazyivayet ikh s Git-otpechatkom, vyiyavlyayet dublirovaniye polnogo okhvata, atomarno formiruyet, proveryayet, zakryivayet i pri dopustimom otkaze vozobnovlyayet determinirovannuyu tablicu zapuskov.
+- [fum-kompleksnaya-proverka-repozitoriya](fum-kompleksnaya-proverka-repozitoriya/SKILL.md) - zapuskayet yedinyij lokaljnyij smoke-check s dliteljnostyami podgotovki, kazhdogo shaga i polnogo processa: sokhrannostj nastrojki izolyacii i lokaljnostj putej navyikov, testyi avtomatizacij, peresborku proveryayemyikh reyestrov, kontrakt kornevoj instrukcii i otdeljnogo indeksa dokumentacii, dvunapravlennostj voprosov, recency-proverku i svyaznostj vyibrannoj rabochej sessii.
+- [fum-proverka-trassyi-agentskogo-cikla](fum-proverka-trassyi-agentskogo-cikla/SKILL.md) - validiruyet lokaljnyiye trassyi versii `3` s nezavisimyimi sostoyaniyami epizoda, modeljnoj vetvi, ozhidayusjhego perekhoda i vneshnego ispolneniya bez seti, sekretov, zhivoj LLM i fizicheskikh effektov.
+- [fum-revjyu-prodelannoj-rabotyi](fum-revjyu-prodelannoj-rabotyi/SKILL.md) - sozdayot i proveryayet sokhranyonnyiye revjyu prodelannoj rabotyi: Git-srez, nakhodki, proverki, ostatochnyiye riski i vyivod.
+
+## Proverki
+
+- `python3 Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/run-smoke-check.py --request Журнал/<YYYY-MM-DD_HH-MM-SS_MSK_краткое-название>/запрос.md --commit-message-file <путь> --codex-thread-id <UUID>` - yedinyij lokaljnyij smoke-check repozitoriya dlya vyibrannoj rabochej sessii i yeyo podgotovlennogo soobsjheniya kommita.
+- `python3 Инструменты/fum-zapusk-prototipov/scripts/check-prototype-launchers.py` - proverka kornevoj paneli `prototipyi.sh` i obyazateljnyikh tochek vkhoda `запустить.sh` vsekh ustojchivyikh prototipov.
+- `python3 Инструменты/fum-obratnyiye-ssyilki-voprosov/scripts/check-question-backlinks.py` - avtonomnaya proverka susjhestvovaniya, registra i obratnyikh ssyilok vsekh lokaljnyikh celej aktivnyikh voprosov.
+- `python3 Инструменты/fum-audit-pokryitiya-voprosov-i-otvetov/scripts/audit-question-answer-coverage.py --repo-root .` - determinirovannyij spisok voprositeljnyikh kandidatov, ikh ssyilochnogo pokryitiya i obyazateljnyikh ruchnyikh smyislovyikh proverok.
+- `python3 Инструменты/fum-indeks-readme/scripts/check-readme-index.py --repo-root .` - avtonomnaya proverka kompaktnosti kornevoj instrukcii i polnotyi tematicheskogo indeksa `Документация/README.md`.
+- `python3 Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py init --repo-root . --path Зависимости/LinguisticKit` - setevaya inicializaciya uzhe zaregistrirovannogo submodule iz otslezhivayemoj `.gitmodules` i gitlink posle svezhego klonirovaniya FUM.
+- `python3 Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py check --repo-root . --fork-url https://github.com/fum-lab/LinguisticKit.git --upstream-url https://github.com/Roman-Kerimov/LinguisticKit.git --path Зависимости/LinguisticKit --revision 837e2ce107b97ee7b9d3344c9fe99142281fe393` - avtonomnaya proverka podklyuchyonnogo submodule LinguisticKit bez polucheniya remote.
+- `python3 Инструменты/fum-proverka-nazvanij-avtomatizacij/scripts/proveritj-nazvaniya-avtomatizacij.py --repo-root . --registry Инструменты/реестр-названий-автоматизаций.json` - avtonomnaya strukturnaya libo zhivaya proverka reyestra nazvanij avtomatizacij.
+- `python3 Инструменты/fum-dekompoziciya-pravil-agentov/scripts/проверить-декомпозицию-правил.py --корень-репозитория . проверить` - avtonomnaya proverka kornya, tematicheskikh marshrutov i mashinnogo inventarya pravil agentov.
+- `python3 -I -c "import os,subprocess,sys;p='Инструменты/fum-ocheredj-zadach-git-vetki/scripts/ocheredj-zadach-git-vetki.py';r=sys.argv[1];e={k:v for k,v in os.environ.items() if not k.upper().startswith('GIT_')};e['GIT_NO_REPLACE_OBJECTS']='1';e['GIT_OPTIONAL_LOCKS']='0';b=subprocess.check_output(['git','--no-replace-objects','-C',r,'show','HEAD:'+p],env=e,timeout=30);sys.argv=[p,*sys.argv[2:],'--repo-root',r];exec(compile(b,p,'exec'))" . status --json` - read-only-diagnostika sokhranyonnoj istoricheskoj FIFO; ne yavlyayetsya vkhodom obyichnoj ruchnoj sessii.
+- `./sbrositj.sh` - ruchnoj avarijnyij sbros exact tekusjhikh imenovannoj vetki i `HEAD`; vyipolnyatj toljko cheloveku pri nastoyasjhikh TTY odnovremenno na stdin i stdout posle chteniya polnogo plana; ne ispoljzovatj kak diagnosticheskuyu ili agentskuyu komandu.
+- `python3 Инструменты/fum-sleduyusjhij-shag-vetki/scripts/branch-next-step.py validate --repo-root . --json` - strukturnaya regressiya istoricheskikh rabochikh naborov; obyichnuyu sleduyusjhuyu zadachu ne vyibirayet i ne zapuskayet.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-dispetcher-avtomatizacij-fum/tests -p 'test_*.py'` - lokaljnaya istoricheskaya regressiya formatov snyatogo dispetchera; testyi ne razreshayut yego ekspluatacionnyij zapusk.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-analitika-zavershyonnyikh-shagov/tests -p 'test_*.py'` - lokaljnaya istoricheskaya regressiya prezhnikh analiticheskikh sobyitij, kursorov i pretenzij bez periodicheskogo zapuska.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-pochinka-avtozapuska/tests -p 'test_*.py'` - lokaljnaya istoricheskaya regressiya prezhnego repair-fence bez sozdaniya zadach i izmeneniya host-avtomatizacij.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-sleduyusjhij-shag-vetki/tests -p 'test_*.py'` - lokaljnyiye testyi `validate`/`show` pryamogo vetochnogo vyibora i istoricheskaya regressiya legacy claim-sostoyanij.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-ocheredj-zadach-git-vetki/tests -p 'test_*.py'` - lokaljnyiye testyi FIFO, exact waiting-bileta prodolzheniya, atomarnogo `commit+handoff`, istoricheskikh reset/claim-sostoyanij, chelovecheskogo break-glass i otdeljno avtorizuyemogo transporta.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-sborka-svodnoj-dokumentacii/tests -p 'test_*.py'` - lokaljnyiye testyi avtomatizacii `fum-sborka-svodnoj-dokumentacii`.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-ocenki/tests -p 'test_*.py'` - lokaljnyiye testyi avtomatizacii `fum-ocenki`.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-svezhestj-markdown/tests -p 'test_*.py'` - lokaljnyiye testyi avtomatizacii `fum-svezhestj-markdown`.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-svezhestj-grafa-obsidian/tests -p 'test_*.py'` - lokaljnyiye testyi avtomatizacii `fum-svezhestj-grafa-obsidian`.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-reyestr-planirovaniya/tests -p 'test_*.py'` - lokaljnyiye testyi avtomatizacii `fum-reyestr-planirovaniya`.
+- `python3 Инструменты/fum-reyestr-planirovaniya/scripts/rename-step-card.py --card-id FUM-STEP-NNNN --status <active|completed|absorbed|withdrawn> [--description <краткое-название>]` - Git-pereimenovaniye kartochki shaga s sinkhronizaciyej statusa, indeksa i zhivyikh tekstovyikh putej.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-proyektnyiye-fajlyi/tests -p 'test_*.py'` - lokaljnyiye testyi obsjhej politiki proyektnyikh fajlov.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-bratislavskaya-proyekciya-pamyati/tests -p 'test_*.py'` - avtonomnyiye fiksturyi inventarya, putej, kollizij, zakreplyonnogo LinguisticKit i manifesta bratislavskoj proyekcii.
+- `python3 Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py plan --source <старый-путь> --destination <новый-путь> --repo-root .` - polnyij read-only-plan obyichnogo pereimenovaniya s proverkoj ssyilok, zasjhisjhyonnyikh zon i perenosimyikh kollizij.
+- `python3 Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py apply --source <старый-путь> --destination <новый-путь> --repo-root .` - povtornaya proverka plana, `git mv` i soglasovannaya ustanovka obnovlyonnyikh Markdown-fajlov s otkatom pri perekhvatyivayemoj oshibke.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/tests -p 'test_*.py'` - avtonomnyiye testyi pereimenovaniya, razresheniya ssyilok, fail-closed-granic i otkata.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-proverka-git-zavisimostej/tests -p 'test_*.py'` - avtonomnyiye testyi cepochki fork — `origin` — `upstream` — `.gitmodules` — gitlink.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-proverka-nazvanij-avtomatizacij/tests -p 'test_*.py'` - lokaljnyiye testyi reyestra russkikh latinskikh nazvanij avtomatizacij.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-zapusk-prototipov/tests -p 'test_*.py'` - lokaljnyiye testyi avtomatizacii `fum-zapusk-prototipov`.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-obratnyiye-ssyilki-voprosov/tests -p 'test_*.py'` - lokaljnyiye testyi avtomatizacii `fum-obratnyiye-ssyilki-voprosov`.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-audit-pokryitiya-voprosov-i-otvetov/tests -p 'test_*.py'` - lokaljnyiye testyi avtomatizacii `fum-audit-pokryitiya-voprosov-i-otvetov`.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-indeks-readme/tests -p 'test_*.py'` - lokaljnyiye testyi avtomatizacii `fum-indeks-readme`.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-materialyi-zaprosov/tests -p 'test_*.py'` - lokaljnyiye testyi avtomatizacii `fum-materialyi-zaprosov`.
+- `python3 Инструменты/fum-struktura-papok-zaprosov/scripts/struktura-papok-zaprosov.py validate --repo-root .` - proverka yedinoj strukturyi papok zaprosov i otsutstviya aktivnogo paralleljnogo kataloga `Запросы/`.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-struktura-papok-zaprosov/tests -p 'test_*.py'` - avtonomnyiye testyi planirovaniya, migracii, otkata, sozdaniya i validacii papok zaprosov.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-moskovskoye-vremya-rabochej-sessii/tests -p 'test_*.py'` - lokaljnyiye testyi avtomatizacii `fum-moskovskoye-vremya-rabochej-sessii`.
+- `python3 Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py запустить --корень-репозитория . --запрос Журнал/<YYYY-MM-DD_HH-MM-SS_MSK_краткое-название>/запрос.md --название '<название вызова>' --исполнитель '<метка исполнителя>' --класс-проверки адресная -- <программа> <аргументы...>` - tochka vkhoda dlya zapuska odnoj pryamoj proverki s obyazateljnyim klassom i atomarnoj mashinnoj zapisjyu yeyo iskhoda, dliteljnosti i Git-otpechatka; pered zakryitiyem `проверить-план` podtverzhdayet yedinstvennyij finaljnyij smoke-check.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-otchyotyi-o-zapuskakh-proverok/tests -p 'test_*.py'` - avtonomnyiye testyi mashinnogo uchyota zapuskov, determinirovannogo snimka i Markdown-otchyota.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-svyaznostj-rabochej-sessii/tests -p 'test_*.py'` - lokaljnyiye testyi avtomatizacii `fum-svyaznostj-rabochej-sessii`.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-kompleksnaya-proverka-repozitoriya/tests -p 'test_*.py'` - lokaljnyiye testyi avtomatizacii `fum-kompleksnaya-proverka-repozitoriya`.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-proverka-trassyi-agentskogo-cikla/tests -p 'test_*.py'` - lokaljnyiye testyi skhemyi, fikstur i mezhsobyitijnyikh invariantov trassyi agentskogo cikla versii `3`.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-revjyu-prodelannoj-rabotyi/tests -p 'test_*.py'` - lokaljnyiye testyi avtomatizacii `fum-revjyu-prodelannoj-rabotyi`.
+
+## Istochniki trebovanij
+
+- [iskhodnyij zapros 2026-08-14 18:59:37 MSK — Isklyuchitj dublirovaniye polnoj regressii](../Zhurnal/2026-08-14_18-59-37_MSK_isklyuchitj-dublirovaniye-polnoj-regressii/zapros.md)
+- [iskhodnyij zapros 2026-08-24 15:31:12 MSK — Dekompozirovatj AGENTS MD](../Zhurnal/2026-08-24_15-31-12_MSK_dekompozirovatj-AGENTS-md/zapros.md)
+
+- [iskhodnyij zapros 2026-08-23 11:33:38 MSK — Vernutj ruchnuyu posledovateljnuyu skhemu sessij](../Zhurnal/2026-08-23_11-33-38_MSK_vernutj-ruchnuyu-posledovateljnuyu-skhemu-sessij/zapros.md)
+
+- [iskhodnyij zapros 2026-08-11 23:30:57 MSK — Zamenitj avtozapusk obyazateljnyim prodolzheniyem vetki](../Zhurnal/2026-08-11_23-30-57_MSK_zamenitj-avtozapusk-obyazateljnyim-prodolzheniyem-vetki/zapros.md)
+- [iskhodnyij zapros 2026-08-10 14:30:08 MSK — Dobavitj analitiku po chislu zavershyonnyikh shagov](../Zhurnal/2026-08-10_14-30-08_MSK_dobavitj-analitiku-po-chislu-zavershyonnyikh-shagov/zapros.md)
+- [iskhodnyij zapros 2026-08-10 10:19:59 MSK — Dobavitj prostoj sbros FIFO k tekusjhemu HEAD](../Zhurnal/2026-08-10_10-19-59_MSK_dobavitj-prostoj-sbros-FIFO-k-tekusjhemu-HEAD/zapros.md)
+- [iskhodnyij zapros 2026-08-07 20:34:22 MSK — Dobavitj shtatnyij sbros ocheredi](../Zhurnal/2026-08-07_20-34-22_MSK_dobavitj-shtatnyij-sbros-ocheredi/zapros.md)
+- [iskhodnyij zapros 2026-08-06 15:14:50 MSK — Sdelatj README instrukciyej ispoljzovaniya FUM](../Zhurnal/2026-08-06_15-14-50_MSK_sdelatj-README-instrukciyej-ispoljzovaniya-FUM/zapros.md)
+- [iskhodnyij zapros 2026-08-05 22:56:33 MSK — Proanalizirovatj opyit pochinki i sozdatj instrument pochinki avtozapuska](../Zhurnal/2026-08-05_22-56-33_MSK_proanalizirovatj-opyit-pochinki-i-sozdatj-instrument-pochinki-avtozapuska/zapros.md)
+- [iskhodnyij zapros 2026-08-05 12:02:53 MSK - Perenesti avtozapusk shagov v universaljnyij dispetcher](../Zhurnal/2026-08-05_12-02-53_MSK_perenesti-avtozapusk-shagov-v-universaljnyij-dispetcher/zapros.md)
+- [iskhodnyij zapros 2026-08-05 09:07:08 MSK - Dobavitj universaljnyij vyibor i zasjhisjhyonnuyu rezervaciyu zapuska](../Zhurnal/2026-08-05_09-07-08_MSK_dobavitj-universaljnyij-vyibor-i-zasjhisjhyonnuyu-rezervaciyu-zapuska/zapros.md)
+- [iskhodnyij zapros 2026-08-04 20:45:26 MSK - Formirovatj otchyotyi o zapuskakh testov](../Zhurnal/2026-08-04_20-45-26_MSK_formirovatj-otchyotyi-o-zapuskakh-testov/zapros.md)
+- [iskhodnyij zapros 2026-08-03 11:49:04 MSK — Obyyedinitj zaprosyi i zhurnal](../Zhurnal/2026-08-03_11-49-04_MSK_obyyedinitj-zaprosyi-i-zhurnal/zapros.md)
+- [iskhodnyij zapros 2026-08-01 09:16:33 MSK — Ispravitj povtornyij avtozapusk posle otkata](../Zhurnal/2026-08-01_09-16-33_MSK_ispravitj-povtornyij-avtozapusk-posle-otkata/zapros.md)
+- [iskhodnyij zapros 2026-07-31 16:31:18 MSK - Otklyuchitj avtomaticheskuyu publikaciyu master](../Zhurnal/2026-07-31_16-31-18_MSK_otklyuchitj-avtomaticheskuyu-publikaciyu-master/zapros.md)
+- [iskhodnyij zapros 2026-07-31 14:59:59 MSK — Ispravitj podtverzhdeniye svobodnoj ocheredi avtozapuska](../Zhurnal/2026-07-31_14-59-59_MSK_ispravitj-podtverzhdeniye-svobodnoj-ocheredi-avtozapuska/zapros.md)
+- [iskhodnyij zapros 2026-07-29 14:32:38 MSK — Zakrepitj neblokiruyusjheye modeljnoye vetvleniye](../Zhurnal/2026-07-29_14-32-38_MSK_zakrepitj-neblokiruyusjheye-modeljnoye-vetvleniye/zapros.md)
+- [iskhodnyij zapros 2026-07-29 09:04:03 MSK — Rasshiritj dinamicheskij vyibor sleduyusjhego shaga](../Zhurnal/2026-07-29_09-04-03_MSK_rasshiritj-dinamicheskij-vyibor-sleduyusjhego-shaga/zapros.md)
+- [iskhodnyij zapros 2026-07-27 18:28:42 MSK - Vyibiratj sleduyusjhij shag pri zapuske s uchyotom istorii kommitov](../Zhurnal/2026-07-27_18-28-42_MSK_vyibiratj-sleduyusjhij-shag-pri-zapuske-s-uchyotom-istorii-kommitov/zapros.md)
+- [iskhodnyij zapros 2026-07-27 16:12:29 MSK - Uchityivatj vse proverochnyiye vyizovyi v profile vremeni](../Zhurnal/2026-07-27_16-12-29_MSK_uchityivatj-vse-proverochnyiye-vyizovyi-v-profile-vremeni/zapros.md)
+- [iskhodnyij zapros 2026-07-26 15:15:18 MSK - Publikovatj rabotu v GitHub avtomaticheski](../Zhurnal/2026-07-26_15-15-18_MSK_publikovatj-rabotu-v-GitHub-avtomaticheski/zapros.md)
+- [iskhodnyij zapros 2026-07-24 16:26:31 MSK - Sozdatj obobsjhyonnyij instrument pereimenovaniya fajla](../Zhurnal/2026-07-24_16-26-31_MSK_sozdatj-obobsjhyonnyij-instrument-pereimenovaniya-fajla/zapros.md)
+- [iskhodnyij zapros 2026-07-23 15:26:35 MSK - Zapretitj vneshniye navyiki v repozitorii](../Zhurnal/2026-07-23_15-26-35_MSK_zapretitj-vneshniye-navyiki-v-repozitorii/zapros.md)
+- [iskhodnyij zapros 2026-07-23 14:47:43 MSK - Vklyuchatj profilj vremeni v otchyotyi zhurnala](../Zhurnal/2026-07-23_14-47-43_MSK_vklyuchatj-profilj-vremeni-v-otchyotyi-zhurnala/zapros.md)
+- [iskhodnyij zapros 2026-07-23 10:44:00 MSK - Avtomatizirovatj obnovleniye ssyilok pri smene statusa kartochki](../Zhurnal/2026-07-23_10-44-00_MSK_avtomatizirovatj-obnovleniye-ssyilok-pri-smene-statusa-kartochki/zapros.md)
+- [iskhodnyij zapros 2026-07-22 10:02:43 MSK - Dobavitj audit pokryitiya voprosov i otvetov](../Zhurnal/2026-07-22_10-02-43_MSK_dobavitj-audit-pokryitiya-voprosov-i-otvetov/zapros.md)
+- [iskhodnyij zapros 2026-07-22 08:44:00 MSK - Migrirovatj legacy imena avtomatizacij](../Zhurnal/2026-07-22_08-44-00_MSK_migrirovatj-legacy-imena-avtomatizacij/zapros.md)
+- [iskhodnyij zapros 2026-07-21 11:32:46 MSK - Aktualizirovatj vkhodnyiye opisaniya FUM](../Zhurnal/2026-07-21_11-32-46_MSK_aktualizirovatj-vkhodnyiye-opisaniya-FUM/zapros.md)
+- [iskhodnyij zapros 2026-07-21 12:18:37 MSK - Zakrepitj transliteraciyu nazvanij avtomatizacij](../Zhurnal/2026-07-21_12-18-37_MSK_zakrepitj-transliteraciyu-nazvanij-avtomatizacij/zapros.md)
+- [iskhodnyij zapros 2026-07-21 13:40:42 MSK — Aktualizirovatj fork i podklyuchitj LinguisticKit](../Zhurnal/2026-07-21_13-40-42_MSK_aktualizirovatj-fork-i-podklyuchitj-LinguisticKit/zapros.md)
+- [iskhodnyij zapros 2026-07-21 18:31:35 MSK — Vvesti posledovateljnuyu ocheredj sessij bez hooks](../Zhurnal/2026-07-21_18-31-35_MSK_vvesti-posledovateljnuyu-ocheredj-sessij-bez-hooks/zapros.md)
+- [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](../Zhurnal/2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
+
+<!-- FUM-MD-RECENCY:BEGIN -->
+<!-- last-content-edit: 2026-08-26 14:29:42 MSK -->
+<!-- content-sha256: sha256:f6a1aabd7e46c215ae55faa8e0a345bacd8c73b5fc0dcfad185a235473030cd8 -->
+<!-- FUM-MD-RECENCY:END -->

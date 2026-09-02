@@ -1,0 +1,53 @@
+#!/usr/bin/env python3
+"""Common command-line entry point for local FUM tools."""
+
+from __future__ import annotations
+
+import argparse
+import sys
+from pathlib import Path
+
+
+sys.dont_write_bytecode = True
+SCRIPTS_DIR = (
+    Path(__file__).resolve().parent
+    / "Инструменты"
+    / "fum-materialyi-zaprosov"
+    / "scripts"
+)
+sys.path.insert(0, str(SCRIPTS_DIR))
+
+import source_archive  # noqa: E402
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    commands = parser.add_subparsers(dest="command", required=True)
+    source = commands.add_parser("source", help="Work with FUM source materials.")
+    source_commands = source.add_subparsers(dest="source_command", required=True)
+    archive = source_commands.add_parser(
+        "archive",
+        help="Archive a stable URL into the canonical FUM sources folder.",
+    )
+    archive.add_argument("url", help="Stable source URL.")
+    archive.add_argument(
+        "--request",
+        required=True,
+        type=Path,
+        help="Request Markdown file that should link the archived source.",
+    )
+    archive.set_defaults(handler=source_archive.archive_command)
+    return parser.parse_args()
+
+
+def main() -> int:
+    args = parse_args()
+    try:
+        return args.handler(args)
+    except (OSError, RuntimeError, ValueError) as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())

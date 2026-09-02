@@ -1,0 +1,299 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fum:calendar-transport-fixture-set:v1",
+  "title": "Набор фикстур календарно-транспортного сервисного контура FUM v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "fixture_set_id",
+    "frozen_at",
+    "source_refs",
+    "fixtures"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "fixture_set_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "frozen_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_refs": {
+      "$ref": "#/$defs/nonEmptyStrings"
+    },
+    "fixtures": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/fixture"
+      }
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$"
+    },
+    "nullableString": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "nullableInteger": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "nonEmptyStrings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "strings": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "fixture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fixture_id",
+        "intent_id",
+        "access",
+        "operation",
+        "confirmation",
+        "conditions",
+        "adapter",
+        "private_payload",
+        "expected"
+      ],
+      "properties": {
+        "fixture_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "intent_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "access": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "level",
+            "grants"
+          ],
+          "properties": {
+            "level": {
+              "enum": [
+                "public",
+                "restricted",
+                "private",
+                "closed"
+              ]
+            },
+            "grants": {
+              "$ref": "#/$defs/strings"
+            }
+          }
+        },
+        "operation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "operation_id",
+            "kind",
+            "adapter_id",
+            "state_fingerprint",
+            "terms_version",
+            "amount_minor",
+            "currency",
+            "data_categories"
+          ],
+          "properties": {
+            "operation_id": {
+              "$ref": "#/$defs/identifier"
+            },
+            "kind": {
+              "enum": [
+                "read_calendar",
+                "read_schedule",
+                "plan_route",
+                "write_calendar_event",
+                "send_notification",
+                "order_taxi",
+                "purchase_ticket",
+                "cancel_reservation"
+              ]
+            },
+            "adapter_id": {
+              "$ref": "#/$defs/identifier"
+            },
+            "state_fingerprint": {
+              "$ref": "#/$defs/identifier"
+            },
+            "terms_version": {
+              "$ref": "#/$defs/identifier"
+            },
+            "amount_minor": {
+              "$ref": "#/$defs/nullableInteger"
+            },
+            "currency": {
+              "$ref": "#/$defs/nullableString"
+            },
+            "data_categories": {
+              "$ref": "#/$defs/strings"
+            }
+          }
+        },
+        "confirmation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "confirmation_id",
+            "operation_id",
+            "state_fingerprint",
+            "terms_version",
+            "amount_minor",
+            "currency",
+            "data_categories",
+            "valid_until"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "absent",
+                "granted"
+              ]
+            },
+            "confirmation_id": {
+              "$ref": "#/$defs/nullableString"
+            },
+            "operation_id": {
+              "$ref": "#/$defs/nullableString"
+            },
+            "state_fingerprint": {
+              "$ref": "#/$defs/nullableString"
+            },
+            "terms_version": {
+              "$ref": "#/$defs/nullableString"
+            },
+            "amount_minor": {
+              "$ref": "#/$defs/nullableInteger"
+            },
+            "currency": {
+              "$ref": "#/$defs/nullableString"
+            },
+            "data_categories": {
+              "$ref": "#/$defs/strings"
+            },
+            "valid_until": {
+              "$ref": "#/$defs/nullableString"
+            }
+          }
+        },
+        "conditions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "schedule_conflict",
+            "route_risk"
+          ],
+          "properties": {
+            "schedule_conflict": {
+              "enum": [
+                "none",
+                "private"
+              ]
+            },
+            "route_risk": {
+              "enum": [
+                "acceptable",
+                "unknown",
+                "unsafe"
+              ]
+            }
+          }
+        },
+        "adapter": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "network",
+            "outcome",
+            "error_code"
+          ],
+          "properties": {
+            "network": {
+              "enum": [
+                "available",
+                "unavailable"
+              ]
+            },
+            "outcome": {
+              "enum": [
+                "success",
+                "error",
+                "cancelled",
+                "unknown"
+              ]
+            },
+            "error_code": {
+              "$ref": "#/$defs/nullableString"
+            }
+          }
+        },
+        "private_payload": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "expected": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "decision",
+            "reason_code",
+            "public_conflict"
+          ],
+          "properties": {
+            "decision": {
+              "enum": [
+                "modeled",
+                "blocked",
+                "access_denied",
+                "confirmation_required",
+                "reconfirmation_required",
+                "simulated_success",
+                "simulated_error",
+                "simulated_cancelled"
+              ]
+            },
+            "reason_code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "public_conflict": {
+              "$ref": "#/$defs/nullableString"
+            }
+          }
+        }
+      }
+    }
+  }
+}
