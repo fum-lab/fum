@@ -2,7 +2,7 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-08-14 19:25:10 MSK - Avtomatizirovatj dobavleniye slotov dlya novyikh sessij](../2026-08-14_19-25-10_MSK_avtomatizirovatj-dobavleniye-slotov-dlya-novyikh-sessij/zapros.md)
+- Predyidusjhij zapros: [2026-08-14 19:27:55 MSK - Sozdatj derevo dokumentov s otrisovkoj cherez Metal](../2026-08-14_19-27-55_MSK_sozdatj-derevo-dokumentov-s-otrisovkoj-cherez-Metal/zapros.md)
 - Sleduyusjhij zapros: [2026-08-14 22:57:07 MSK - Perevesti licenzionnuyu pamyatku na anglijskij yazyik](../2026-08-14_22-57-07_MSK_perevesti-licenzionnuyu-pamyatku-na-anglijskij-yazyik/zapros.md)
 
 ## Tekst zaprosa
@@ -68,6 +68,6 @@ Codex-Thread-ID: 01a00163-8b87-7ae3-bed6-9694d8f31493
 - [Otchyot ob izvlechenii](../../Istochniki/URL/https/wiki.creativecommons.org/wiki/Publicdomain/zero/1.0/LegalText_-Russian-35eacbaf5d6489ab/extraction-report.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-26 12:38:11 MSK -->
-<!-- content-sha256: sha256:c4223b4e0bb24d1205543c596c058bddec433c65e495e39a4c0cbcc47f1699be -->
+<!-- last-content-edit: 2026-09-02 21:55:27 MSK -->
+<!-- content-sha256: sha256:4f6645c94f9f056f017f84e6eea46eca049349fab58f7437009250845dfc6fbb -->
 <!-- FUM-MD-RECENCY:END -->

@@ -8,6 +8,7 @@ Novyiye rabochiye prototipyi po umolchaniyu pishutsya na Swift. Eto delayet prot
 
 ## Dejstvuyusjhiye prototipyi
 
+- [Derevo Markdown-dokumentov s otrisovkoj cherez Metal](derevo-Markdown-dokumentov-s-Metal/README.md) - proveryayemyij Swift-prototip dostupnoj toljko dlya chteniya proyekcii fajlovoj iyerarkhii katalogov i `.md`: `MTKView` vyivodit fon i geometriyu cherez `CIContext`, privyazannyij k Metal, i yedinyij komandnyij bufer, `CATextLayer` nakladyivayet podpisi, a poisk, vyibor, panoramirovaniye, masshtabirovaniye, svorachivaniye vetvej, otsecheniye i urovni detalizacii pozvolyayut issledovatj kartu bez podmenyi fajlovogo dereva semanticheskim grafom FUM.
 - [Vosproizvodimoye popolneniye pamyati](vosproizvodimoye-popolneniye-pamyati/README.md) - bezokonnyij Swift-kontur korobochnogo prototipa: versionirovannyiye sobyitiya prokhodyat ogranichennyiye `remember` i `compose`, sokhranyayutsya polnyimi kanonicheskimi telami v vosstanavlivayemom pokolenii, samodostatochno pereispolnyayutsya vmeste s proyekciyej i proiskhozhdeniyem, a vyidelennoye skhemonezavisimoye yadro publikacii `CURRENT` mezhdu sotrudnichayusjhimi processami predostavlyayet linearizuyemyij compare-and-swap i proverennyij na vosjmi tochkakh process-crash-protokol; power-loss durability ne zayavlena.
 - [Pamyatj strukturiruyusjhikh operatorov](pamyatj-strukturiruyusjhikh-operatorov/README.md) - proverochnyij Swift-prototip ogranichennogo kontekstnogo lesa, veroyatnostnoj reshyotki, zaraneye sokhranyonnyikh i zapisannyikh LLM-predlozhenij operatorov, gain-metrik, obratnogo porozhdeniya, diagnosticheskikh ostatkov, pruning, proiskhozhdeniya i yestestvenno-yazyikovoj sinkhronizacii vneshnikh i vnutrennikh uzlov.
 - [Kompilyaciya chislennyikh avtomatizacij v tenzornyij graf](kompilyaciya-chislennyikh-avtomatizacij-v-tenzornyij-graf/README.md) - proverochnyij Swift-prototip chistogo `mul_add` nad staticheskimi `tensor<4xf32>`: strogij deklarativnyij JSON-DSL kompiliruyetsya v otdeljnyij tipizirovannyij SSA-graf, etalonnyij i grafovyij CPU-puti sveryayutsya, a determinirovannyij StableHLO/MLIR-kandidat sokhranyayetsya vmeste s benchmark, trassoj sredyi i yavnyim fallback pri nenastroyennom celevom provajdere.
@@ -39,6 +40,7 @@ Dlya polucheniya spiska bez zapuska i pryamogo vyibora po nomeru dostupnyi:
 U kazhdogo dejstvuyusjhego i budusjhego ustojchivogo prototipa yestj odinakovo nazvannaya ispolnyayemaya tochka vkhoda `запустить.sh`. Iz kornya repozitoriya dejstvuyusjhiye prototipyi zapuskayutsya tak:
 
 ```bash
+./Прототипы/дерево-Markdown-документов-с-Metal/запустить.sh
 ./Прототипы/воспроизводимое-пополнение-памяти/запустить.sh
 ./Прототипы/память-структурирующих-операторов/запустить.sh
 ./Прототипы/компиляция-численных-автоматизаций-в-тензорный-граф/запустить.sh
@@ -57,7 +59,7 @@ Polnaya avtonomnaya priyomka proveryayemogo mnogoagentnogo kontura zapuskayetsya
 ./Прототипы/проверяемый-многоагентный-контур/запустить.sh acceptance all
 ```
 
-Skriptyi rabotayut i iz drugogo tekusjhego kataloga, potomu chto sami opredelyayut putj k svoyemu prototipu. Dopolniteljnyiye argumentyi peredayutsya konkretnomu prilozheniyu ili probniku; tochnyiye bezopasnyiye scenarii opisanyi v pasportakh.
+Skriptyi rabotayut i iz drugogo tekusjhego kataloga, potomu chto sami opredelyayut putj k svoyemu prototipu. Dopolniteljnyiye argumentyi peredayutsya konkretnomu prilozheniyu ili probniku; tochnyiye bezopasnyiye scenarii opisanyi v pasportakh. Derevo Markdown-dokumentov bez argumentov otkryivayet graficheskuyu proyekciyu tekusjhego repozitoriya, prinimayet drugoj korenj pervyim argumentom, a `диагностика [путь]` bez okna proveryayet skanirovaniye, Metal-ustrojstvo i ocheredj komand.
 
 Vosproizvodimoye popolneniye pamyati, pamyatj strukturiruyusjhikh operatorov, kompilyaciya chislennyikh avtomatizacij, agentnoye chteniye setevoj sredyi, iyerarkhiya funkcij i dannyikh, chistyij modeljnyij shag, zhivoj odnoagentnyij epizod i proveryayemyij mnogoagentnyij kontur bez argumentov vyipolnyayut vstroyennyiye determinirovannyiye fiksturyi. Tenevoj redaktor bez argumentov otkryivayet GUI, a putj k tekstovomu fajlu mozhno peredatj pervyim argumentom. Prototip fizicheskikh sostoyanij klavish bez argumentov otkryivayet GUI-provodnik, no ne zapuskayet istochniki i ne zapisyivayet sobyitiya do yavnogo soglasiya i starta kartochki; bezopasnaya matrica dostupna argumentom `matrix`. Vosproizvodimoye popolneniye pamyati dopolniteljno podderzhivayet yavnyiye `bootstrap <каталог>`, `continue <каталог>` i `show <каталог>`, sobstvennyij JSON-vkhod chistogo modeljnogo shaga peredayotsya cherez `stdin`, a zhivoj epizod prinimayet cherez `stdin` strogiye komandyi `create`, `inspect`, `status`, `resume` i `replay` s yavnyim katalogom. Otdeljnyiye yavnyiye rezhimyi `recorded` i `live` napravlyayut vyipolneniye v sobstvennyij harness: bez puti on sozdayot i udalyayet vremennyij katalog, a s odnim putyom trebuyet uzhe susjhestvuyusjhij pustoj katalog. `live` ne zapuskayet provider i ne skachivayet modelj. Proveryayemyij mnogoagentnyij kontur razdelyayet komandyi rabochego paketa, pasporta `episode`, obsjhej pamyati `memory bootstrap|continue|show` i polnoj lokaljnoj priyomki `acceptance all`; poslednyaya vyipolnyayet chetyire zapisannyikh scenariya bez seti, sekretov, zhivoj modeli i zhivogo instrumenta i pechatayet odin kanonicheskij JSON-otchyot.
 
@@ -137,6 +139,6 @@ Poka rezuljtat ostayotsya toljko v `Прототипы/`, on schitayetsya raboch
 - [Vosproizvodimyiye avtomatizacii FUM](../Dokumentaciya/17-vosproizvodimyiye-avtomatizacii.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-05 20:15:36 MSK -->
-<!-- content-sha256: sha256:4d0ddd7246b5ac3dbf6e7207a18b281051710e31805b93a10b55e81e35aa3b6c -->
+<!-- last-content-edit: 2026-08-14 21:12:30 MSK -->
+<!-- content-sha256: sha256:f7ad48fefec07826967d5afc67b9af56d4e036dd0c75e39d3e47458447d03d35 -->
 <!-- FUM-MD-RECENCY:END -->

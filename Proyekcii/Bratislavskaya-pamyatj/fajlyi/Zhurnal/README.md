@@ -16,6 +16,7 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-02 21:42:27 MSK — Slitj vetku s Metal derevom Markdown dokumentov](2026-09-02_21-42-27_MSK_slitj-vetku-s-Metal-derevom-Markdown-dokumentov/otchyot.md)
 - [2026-09-02 07:51:07 MSK — Organizovatj priyom vneshnego vklada](2026-09-02_07-51-07_MSK_organizovatj-priyom-vneshnego-vklada/otchyot.md)
 - [2026-09-01 11:19:59 MSK — Realizovatj bratislavskuyu proyekciyu pamyati](2026-09-01_11-19-59_MSK_realizovatj-bratislavskuyu-proyekciyu-pamyati/otchyot.md)
 - [2026-08-26 13:36:12 MSK — Isklyuchitj dublirovaniye polnoj regressii pered finaljnyim smoke check](2026-08-26_13-36-12_MSK_isklyuchitj-dublirovaniye-polnoj-regressii-pered-finaljnyim-smoke-check/otchyot.md)
@@ -30,6 +31,7 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [2026-08-23 11:33:38 MSK — Vernutj ruchnuyu posledovateljnuyu skhemu sessij](2026-08-23_11-33-38_MSK_vernutj-ruchnuyu-posledovateljnuyu-skhemu-sessij/otchyot.md)
 - [2026-08-14 22:57:07 MSK - Perevesti licenzionnuyu pamyatku na anglijskij yazyik](2026-08-14_22-57-07_MSK_perevesti-licenzionnuyu-pamyatku-na-anglijskij-yazyik/otchyot.md)
 - [2026-08-14 21:13:35 MSK - Perevesti licenziyu na russkij yazyik](2026-08-14_21-13-35_MSK_perevesti-licenziyu-na-russkij-yazyik/otchyot.md)
+- [2026-08-14 19:27:55 MSK - Sozdatj derevo dokumentov s otrisovkoj cherez Metal](2026-08-14_19-27-55_MSK_sozdatj-derevo-dokumentov-s-otrisovkoj-cherez-Metal/otchyot.md)
 - [2026-08-14 19:25:10 MSK - Avtomatizirovatj dobavleniye slotov dlya novyikh sessij](2026-08-14_19-25-10_MSK_avtomatizirovatj-dobavleniye-slotov-dlya-novyikh-sessij/otchyot.md)
 - [2026-08-14 18:59:37 MSK - Isklyuchitj dublirovaniye polnoj regressii](2026-08-14_18-59-37_MSK_isklyuchitj-dublirovaniye-polnoj-regressii/otchyot.md)
 - [2026-08-14 18:46:19 MSK - Imenovatj sessii Codex i ignorirovatj izmeneniya Obsidian pri starte](2026-08-14_18-46-19_MSK_imenovatj-sessii-Codex-i-ignorirovatj-izmeneniya-Obsidian-pri-starte/otchyot.md)
@@ -472,6 +474,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-02 09:36:08 MSK -->
-<!-- content-sha256: sha256:2b23e1a3d5d8f2ba28ae2f27d58cab5876c3461027a6dad5b84cd8a1087e5d38 -->
+<!-- last-content-edit: 2026-09-02 21:55:27 MSK -->
+<!-- content-sha256: sha256:0841dd1b50179988c70c5ea6cca97e18e4616dc098657dc990adff8d0e0fe337 -->
 <!-- FUM-MD-RECENCY:END -->

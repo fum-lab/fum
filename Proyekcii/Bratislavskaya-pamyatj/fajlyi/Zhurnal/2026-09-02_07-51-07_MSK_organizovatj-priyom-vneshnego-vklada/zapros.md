@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-01 11:19:59 MSK - Realizovatj bratislavskuyu proyekciyu pamyati](../2026-09-01_11-19-59_MSK_realizovatj-bratislavskuyu-proyekciyu-pamyati/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-02 21:42:27 MSK - Slitj vetku s Metal derevom Markdown dokumentov](../2026-09-02_21-42-27_MSK_slitj-vetku-s-Metal-derevom-Markdown-dokumentov/zapros.md)
 
 ## Tekst zaprosa
 
@@ -67,6 +67,6 @@ Codex-Thread-ID: 01a0606b-5f1a-7fc1-b59b-7dea60438293
 - [Otchyot ob izvlechenii](../../Istochniki/URL/https/help.openai.com/en/articles/11145903-connecting-github-to-chatgpt-deep-research-to-chatgpt-deep-research/extraction-report.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-02 15:15:05 MSK -->
-<!-- content-sha256: sha256:4d9e5d47263f296cdde6c9f5cee8e75b192c32a134d2decd62b0f1c9e1fa9541 -->
+<!-- last-content-edit: 2026-09-02 21:55:27 MSK -->
+<!-- content-sha256: sha256:e2118902fe08f2bc97cdfe69d73971ecc0199d9680042fa32a1eba64aa8c9dfc -->
 <!-- FUM-MD-RECENCY:END -->

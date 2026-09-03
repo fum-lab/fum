@@ -1,0 +1,39 @@
+{
+  "отпечаток_закрытия": "sha256:2b6d7522aa6d14f19d51d5ef6e2e1d1fb7d5059e45ada657ad64e8585ececca6",
+  "сессия": "Журнал/2026-09-02_21-42-27_MSK_слить-ветку-с-Metal-деревом-Markdown-документов/запрос.md",
+  "схема": "fum.test-run-report.v2",
+  "файлы": [
+    {
+      "sha256": "2c2d030582b1599a1741023f13f2d0e58d68c0e5433aee52d45c99dda21d8fb4",
+      "имя": "1_55665d6f-18d0-4e12-ad97-e264b8ae1c27.json"
+    },
+    {
+      "sha256": "6e00ae2b38107810abf17f50bfd9341c2a9af23a6455c1605d3bfa1aa2056fa9",
+      "имя": "2_e096a8ba-3111-42ed-9582-b104b2dce048.json"
+    },
+    {
+      "sha256": "b9b20e7e3a52a873c3c7cc8fbecc047e838ab9dfae9e76b69434b6540f0ee07b",
+      "имя": "3_aacc92a1-91c0-424f-95fa-4f4827ec37e7.json"
+    },
+    {
+      "sha256": "f95b445c9e920ecc7992689cdbf97c6ef211c6dfdc0b5d2cb18763909e80fbdd",
+      "имя": "4_b3661e5a-39db-49a9-87fe-73766a6b2b77.json"
+    },
+    {
+      "sha256": "174793be85750f0d8b2484a3edab5927eefd9aedb86614a874750deaf723a9fb",
+      "имя": "5_f889e4c9-6049-4e27-934f-beb191c75743.json"
+    },
+    {
+      "sha256": "dde530a98d49a0efb64eab83d3f9ca6e9ac0456a18d90c7c7dd02b0a6186edb0",
+      "имя": "6_b5842342-1298-4201-866e-43e7a7378046.json"
+    },
+    {
+      "sha256": "a8e24366273f40778b70bd30e509fd341cf1d75a2b20e7d94da72b5d75c47afd",
+      "имя": "7_83964226-249e-4bd6-9d03-688befb45e91.json"
+    },
+    {
+      "sha256": "0acf3bbe078aaf8a0d6f95e39dc54fd05d77c49a807fd9fabd7d96b4f24316d3",
+      "имя": "8_47794ce2-78fc-4954-b828-13cb26bfa533.json"
+    }
+  ]
+}

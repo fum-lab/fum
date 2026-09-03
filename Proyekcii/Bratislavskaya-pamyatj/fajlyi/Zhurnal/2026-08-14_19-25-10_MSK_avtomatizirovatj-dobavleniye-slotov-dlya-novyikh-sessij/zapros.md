@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-08-14 18:59:37 MSK - Isklyuchitj dublirovaniye polnoj regressii](../2026-08-14_18-59-37_MSK_isklyuchitj-dublirovaniye-polnoj-regressii/zapros.md)
-- Sleduyusjhij zapros: [2026-08-14 21:13:35 MSK - Perevesti licenziyu na russkij yazyik](../2026-08-14_21-13-35_MSK_perevesti-licenziyu-na-russkij-yazyik/zapros.md)
+- Sleduyusjhij zapros: [2026-08-14 19:27:55 MSK - Sozdatj derevo dokumentov s otrisovkoj cherez Metal](../2026-08-14_19-27-55_MSK_sozdatj-derevo-dokumentov-s-otrisovkoj-cherez-Metal/zapros.md)
 
 ## Tekst zaprosa
 
@@ -65,6 +65,6 @@ Codex-Thread-ID: 01a0010b-813f-7041-b6b6-adb670029c8c
 - [materialyi tekusjhego zaprosa](materialyi/)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-26 14:29:42 MSK -->
-<!-- content-sha256: sha256:fc64c71d596f1aa9793214c99e9b7b3a72e001738ea19dea7c58b18fe3465fc9 -->
+<!-- last-content-edit: 2026-09-02 21:55:27 MSK -->
+<!-- content-sha256: sha256:3f9f901f9018f207c073e305b99f0a8dedf37c59c9e826d6ef347a5ba2384ec1 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -109,6 +109,13 @@
           ]
         }
       ]
+    },
+    {
+      "package": "Прототипы/дерево-Markdown-документов-с-Metal",
+      "executableProducts": [
+        "ДеревоДокументов"
+      ],
+      "localDependencies": []
     }
   ],
   "exceptions": []

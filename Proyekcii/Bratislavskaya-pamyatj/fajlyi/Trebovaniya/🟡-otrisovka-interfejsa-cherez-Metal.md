@@ -17,7 +17,7 @@
 
 ## Status i granicyi
 
-[Status trebovaniya FUM](../Glossarij/status-trebovaniya-FUM.md) — `🟡`: trebovaniye prinyato i zaplanirovano, UI-stek i izmerimyiye porogi proizvoditeljnosti yesjhyo ne vyibranyi. Metal otnositsya k GPU; dostup k Neural Engine i Media Engine trebuyet otdeljnyikh specializirovannyikh API.
+[Status trebovaniya FUM](../Glossarij/status-trebovaniya-FUM.md) — `🟡`: trebovaniye prinyato i zaplanirovano. [Prototip dereva Markdown-dokumentov](../Prototipyi/derevo-Markdown-dokumentov-s-Metal/README.md) realizuyet putj geometrii cherez `MTKView`, `CIContext` i Metal-komandnyij bufer; yego bezokonnaya diagnostika podtverzhdayet sozdaniye `MTLDevice` i `MTLCommandQueue`, a korotkij graficheskij smoke-progon — ustojchivyij zapusk cikla sobyitij. Pikseljnoye obratnoye chteniye kadra ne vyipolnyalosj, poetomu proba ne zakryivayet polnoekrannyij interfejs, obratnyij sobyitijnyij kontur i izmerimyiye porogi proizvoditeljnosti. Vyibrannyij dlya etoj probyi stek ne opredelyayet UI-stek polnoekrannoj postavki. Metal otnositsya k GPU; dostup k Neural Engine i Media Engine trebuyet otdeljnyikh specializirovannyikh API.
 
 ## Istochniki trebovanij
 
@@ -26,6 +26,6 @@
 
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-03 14:54:04 MSK -->
-<!-- content-sha256: sha256:97ecf0a9749f197fe7da522a882d290bfed5f9cf06816dddf70d27ee611e0c19 -->
+<!-- last-content-edit: 2026-08-14 21:12:30 MSK -->
+<!-- content-sha256: sha256:16219ab692e9176f5e018e22376817edee6f4d86c589fa672edf7d7358509cae -->
 <!-- FUM-MD-RECENCY:END -->
