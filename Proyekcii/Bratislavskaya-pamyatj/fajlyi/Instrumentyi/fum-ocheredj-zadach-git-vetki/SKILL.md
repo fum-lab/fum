@@ -7,7 +7,7 @@ description: Sokhranyayet istoricheskij FIFO/pool-protokol FUM dlya chteniya kvi
 
 ## Dejstvuyusjhij status
 
-Posle markera `manual-sequential-v1` etot navyik ne yavlyayetsya marshrutom obyichnoj pishusjhej rabotyi. Novuyu sessiyu vruchnuyu zapuskayet poljzovatelj v pervichnom checkout na `refs/heads/master`; ona ne vyizyivayet route, `join`, pool allocation, continuation, reviewer, integrator, candidate, target CAS, publikaciyu ili vetochnyij selector. Scenarii, refs, kvitancii i testyi nizhe sokhranyayutsya kak istoricheskaya realizaciya i istochnik proiskhozhdeniya, a ne kak polnomochiye.
+Posle markera `manual-sequential-v1` etot navyik ne yavlyayetsya marshrutom obyichnoj pishusjhej rabotyi. Novuyu sessiyu vruchnuyu zapuskayet poljzovatelj; nezavisimaya zadacha rabotayet v sobstvennom worktree i vetke po dejstvuyusjhim kornevyim pravilam; ona ne vyizyivayet route, `join`, pool allocation, continuation, reviewer, integrator, candidate, target CAS, publikaciyu ili vetochnyij selector. Scenarii, refs, kvitancii i testyi nizhe sokhranyayutsya kak istoricheskaya realizaciya i istochnik proiskhozhdeniya, a ne kak polnomochiye.
 
 Yedinstvennoye perekhodnoye isklyucheniye — bridge-zadacha, kotoraya byila sozdana i zaregistrirovana prezhnim `HEAD` do kommita, vpervyiye vvodyasjhego `manual-sequential-v1`. Posle handoff ona perechityivayet novyij `HEAD`, vyipolnyayet toljko exact `ack-head`, dozhidayetsya `admitted` i vyizyivayet `finish-clean`. Ona ne povtoryayet ozhidayusjhiye publikacii, ne zapuskayet `branch-next-step.py`, ne vyibirayet kartochku i ne sozdayot sleduyusjhuyu zadachu. Posle `finished_clean` ordinary FIFO ostayotsya istoricheskim sostoyaniyem.
 
@@ -514,6 +514,6 @@ Testyi obyichnogo profilya pokryivayut FIFO, ozhidaniye, `reload_required`/`ack-
 - [iskhodnyij zapros 2026-07-20 16:11:17 MSK — Serializovatj zadachi v vetke](../../Zhurnal/2026-07-20_16-11-17_MSK_serializovatj-zadachi-v-vetke/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-26 12:38:11 MSK -->
-<!-- content-sha256: sha256:1f1441374193fff15f64ded3ad7e91337fb0430af3fb70e57ce57c5a8c2c091e -->
+<!-- last-content-edit: 2026-09-07 23:04:16 MSK -->
+<!-- content-sha256: sha256:4a0b69e6873db031d337e0de3878f21d7294481d55a6b73f468c2f6f2ada487e -->
 <!-- FUM-MD-RECENCY:END -->

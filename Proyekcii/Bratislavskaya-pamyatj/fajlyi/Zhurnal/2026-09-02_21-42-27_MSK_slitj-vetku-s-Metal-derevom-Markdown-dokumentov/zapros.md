@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-02 07:51:07 MSK - Organizovatj priyom vneshnego vklada](../2026-09-02_07-51-07_MSK_organizovatj-priyom-vneshnego-vklada/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-07 22:11:38 MSK - Sostavitj plan uskoreniya proyekcii](../2026-09-07_22-11-38_MSK_sostavitj-plan-uskoreniya-proyekcii/zapros.md)
 
 ## Tekst zaprosa
 
@@ -56,6 +56,6 @@ Codex-Thread-ID: 01a06363-86f4-7c01-b841-f36495b4523c
 - [bratislavskaya proyekciya pamyati](../../../../)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-02 21:57:18 MSK -->
-<!-- content-sha256: sha256:7988d7dcbeaf56b86dd6ea4d25e5f3c6b87d46f8dc7b6cc40ecb3a86a34c774b -->
+<!-- last-content-edit: 2026-09-07 23:04:16 MSK -->
+<!-- content-sha256: sha256:e674c0c3ab5f11933d0f0134ae97ebad15909d96c616a31f569be1e163cb373d -->
 <!-- FUM-MD-RECENCY:END -->

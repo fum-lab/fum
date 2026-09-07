@@ -5,7 +5,7 @@ description: Istoricheskij snyatyij kontrakt prezhnego heartbeat-dispetchera FUM
 
 # Snyatyij dispetcher avtomatizacij FUM
 
-Etot navyik sokhranyayet proiskhozhdeniye prezhnego universaljnogo dispetchera, no boljshe ne yavlyayetsya dejstvuyusjhim marshrutom. Pyatiminutnyij heartbeat, postoyannaya prikreplyonnaya zadacha, obsjhij reyestr zadanij, dispatcher-reservation, management-fence, avtomaticheskoye vosstanoviteljnoye soobsjheniye i analitika po chislu zavershenij snachala byili zamenenyi [obyazateljnyim prodolzheniyem vetki](../../Glossarij/obyazateljnoye-prodolzheniye-vetki.md), a zatem dejstvuyusjhej ruchnoj posledovateljnoj skhemoj iz `AGENTS.md`.
+Etot navyik sokhranyayet proiskhozhdeniye prezhnego universaljnogo dispetchera, no boljshe ne yavlyayetsya dejstvuyusjhim marshrutom. Pyatiminutnyij heartbeat, postoyannaya prikreplyonnaya zadacha, obsjhij reyestr zadanij, dispatcher-reservation, management-fence, avtomaticheskoye vosstanoviteljnoye soobsjheniye i analitika po chislu zavershenij snachala byili zamenenyi [obyazateljnyim prodolzheniyem vetki](../../Glossarij/obyazateljnoye-prodolzheniye-vetki.md), a zatem dejstvuyusjhej ruchnoj skhemoj iz `AGENTS.md`.
 
 Novaya rabochaya sessiya ne dolzhna:
 
@@ -28,7 +28,7 @@ Do perekhoda na `manual-sequential-v1` zadacha, gotovaya zavershitjsya kommitom:
 4. peredayot yego identifikator atomarnoj komande commit+handoff;
 5. posle kommita boljshe ne delayet host-effektov.
 
-Rebyonok perechityival novyij `HEAD` i neposredstvenno vyizyival [selektor sleduyusjhego shaga vetki](../fum-sleduyusjhij-shag-vetki/SKILL.md). `done` i `not_ready` zakanchivalisj `finish-clean`. Podrobnyij istoricheskij kontrakt nakhoditsya v [dokumente 45](../../Dokumentaciya/45-obyazateljnoye-prodolzheniye-Git-vetki-posle-kommita.md) i [navyike FIFO-ocheredi](../fum-ocheredj-zadach-git-vetki/SKILL.md). Obyichnaya tekusjhaya sessiya vmesto etogo sozdayot ne boleye odnogo lokaljnogo kommita `master` i zavershayetsya bez rebyonka, FIFO-handoff i selector.
+Rebyonok perechityival novyij `HEAD` i neposredstvenno vyizyival [selektor sleduyusjhego shaga vetki](../fum-sleduyusjhij-shag-vetki/SKILL.md). `done` i `not_ready` zakanchivalisj `finish-clean`. Podrobnyij istoricheskij kontrakt nakhoditsya v [dokumente 45](../../Dokumentaciya/45-obyazateljnoye-prodolzheniye-Git-vetki-posle-kommita.md) i [navyike FIFO-ocheredi](../fum-ocheredj-zadach-git-vetki/SKILL.md). Obyichnaya tekusjhaya sessiya vmesto etogo rabotayet v sobstvennom rabochem dereve i sozdayot ne boleye odnogo lokaljnogo kommita v svoyej vetke i zavershayetsya bez rebyonka, FIFO-handoff i selector.
 
 ## Istoricheskaya granica
 
@@ -41,6 +41,6 @@ Prezhnyaya realizaciya i yeyo avtonomnyiye testyi mogut prodolzhatj vyipolnyatjs
 - [iskhodnyij zapros 2026-08-05 05:48:39 MSK — Zakrepitj kontrakt universaljnogo dispetchera avtomatizacij FUM](../../Zhurnal/2026-08-05_05-48-39_MSK_zakrepitj-kontrakt-universaljnogo-dispetchera-avtomatizacij-FUM/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-23 15:37:47 MSK -->
-<!-- content-sha256: sha256:a6199b62582492b266db5f7d6c31074aa9fa18cac3a38d2e7ddb9a6bd470295f -->
+<!-- last-content-edit: 2026-09-07 23:04:16 MSK -->
+<!-- content-sha256: sha256:1c12537cd97671c4b0038cbc75eaa33b460f06daa2441c87e4acbf2648adf825 -->
 <!-- FUM-MD-RECENCY:END -->

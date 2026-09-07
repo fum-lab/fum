@@ -120,6 +120,22 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover \
   -p 'test_*.py'
 ~~~
 
+## Profilirovochnyiye metki
+
+Dlya analiza dliteljnyikh etapov kazhdaya CLI-komanda prinimayet `--профилировать`. Peremennaya okruzheniya `FUM_PROJECTION_PROFILE=1` vklyuchayet tot zhe rezhim vo vlozhennyikh CLI-komandakh kompleksnoj proverki; drugiye znacheniya yego ne vklyuchayut. Po umolchaniyu diagnostika otklyuchena. Metki ne chitayut soderzhimoye dopolniteljnyikh istochnikov i ne menyayut stdout, kontrakt, manifest ili bajtyi pokoleniya.
+
+V stderr nemedlenno vyivodyatsya stroki s prefiksom `FUM-PROFILE ` i JSON-obyyektom skhemyi `fum.профиль-проекции.1`. Polya `запуск`, `интервал`, `родитель` i `метка` razlichayut processyi, povtornyiye i vlozhennyiye etapyi. Sobyitiya `начало` i `окончание` soderzhat monotonnoye `смещение_нс`; okonchaniye takzhe soderzhit `длительность_нс` i iskhod `успешно` libo `ошибка`. Pole `счётчики` u vyizova Swift soderzhit yego poryadkovyij nomer, chislo strok i razmer vkhodnogo JSON v UTF-8. Soderzhimoye strok i lokaljnyiye puti v metki ne vkhodyat. Posle zhyostkogo preryivaniya mozhet ostatjsya nachalo bez okonchaniya: takoj interval nezavershyon, yego dliteljnostj ne ugadyivayetsya.
+
+Izmeryayutsya inventarizaciya i khyeshirovaniye, puti, podgotovka Markdown i ssyilok, sborka yakorej i vyikhodnyikh bajtov, zapisj i sinkhronizaciya pokoleniya, chteniye celevogo dereva i nezavisimaya proverka. Vnutrennyaya proverka vlozhena v primeneniye; otdeljnaya CLI-proverka imeyet drugoj identifikator zapuska. Roditelj vklyuchayet vremya detej: ikh dliteljnosti neljzya skladyivatj kak nezavisimyiye zatratyi.
+
+Metka `Swift run: сборка, запуск и преобразование` okhvatyivayet vesj dochernij process. Pervyij vyizov vklyuchayet lenivuyu kompilyaciyu, posleduyusjhiye mogut vklyuchatj rabotu SwiftPM; eto ne chistoye vremya transliteracii. Proverki granicyi do i posle vyizova izmeryayutsya otdeljno. Podgotovka izolyacii pokryita chastichno: proverka materializacii i razvyortyivaniye arkhivov otmechenyi, a Git-arkhivirovaniye i ochistka vremennogo dereva ne imeyut otdeljnyikh intervalov.
+
+Obyichnyiye oshibki zapisi v diagnosticheskij potok ne upravlyayut tranzakciyej i ne podmenyayut iskhodnoye isklyucheniye. Metki sami po sebe ne yavlyayutsya dolgovechnyim zhurnalom: vyivod sokhranyayetsya vyizyivayusjhej zadachej na postoyannyij nositelj vne proveryayemogo kanonicheskogo snimka s ukazaniyem komandyi, iskhodnogo snimka i rezuljtata. Poterya diagnosticheskogo potoka oznachayet nepolnyij profilj. Izmereniya i ikh ogranicheniya svyazyivayutsya s Zhurnalom zadachi; syiryiye lokaljnyiye logi ne kopiruyutsya v publichnyij checkout.
+
+Kompleksnaya proverka buferizuyet vyivod dochernikh shagov i posle zaversheniya shaga perenosit oba potoka v sobstvennyij stdout. Dlya neyo sokhranyayetsya obyyedinyonnyij log; nemedlennyij vyivod otdeljnoj CLI-komandyi ne oznachayet nemedlennuyu vidimostj cherez etot vneshnij ispolnitelj.
+
+Regressii proveryayut otklyuchyonnyij rezhim, CLI i okruzheniye, vlozhennyiye povtoryi, sokhraneniye iskhodnogo isklyucheniya pri otkaze stderr i sovpadeniye pokoleniya pri pervoj ustanovke i povtore s profilem.
+
 ## Realizovannaya granica FUM-STEP-0129
 
 `применить` stroit novoye pokoleniye vo vremennom sluzhebnom kataloge vnutri `Proyekcii`, proveryayet yego do ustanovki i povtorno sveryayet iskhodnyij snimok. Nezavershyonnyij fajl snachala zapisyivayetsya v vyivedennoye iz tokena prostranstvo chastichnoj zapisi s rezhimom `0600`, sinkhroniziruyetsya, poluchayet okonchateljnyij rezhim, snova sinkhroniziruyetsya i toljko zatem atomarno pereimenovyivayetsya v polnyij vyikhod. Otdeljnoye vremennoye imya fazovogo zhurnala takzhe vyivoditsya iz tokena; poetomu vosstanovleniye mozhet otlichitj prinadlezhavshij prervannoj tranzakcii chastichnyij obyyekt ot neizvestnogo puti.
@@ -143,6 +159,6 @@ Kanonicheskiye avtodiskaveri-konturyi isklyuchayut toljko kornevuyu oblastj `Pro
 - [iskhodnyij zapros realizacii FUM-STEP-0129](../../Zhurnal/2026-09-01_11-19-59_MSK_realizovatj-bratislavskuyu-proyekciyu-pamyati/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-01 17:52:20 MSK -->
-<!-- content-sha256: sha256:59295586537787aec2b4813e6b1ed1f20d5ab122bd522c1bd09e3c4c1375c8a7 -->
+<!-- last-content-edit: 2026-09-07 23:48:47 MSK -->
+<!-- content-sha256: sha256:b2c21d0b1d8875efeef8bdea4ea1a6147f71d5f465c22593977bbfd5d60efc6c -->
 <!-- FUM-MD-RECENCY:END -->

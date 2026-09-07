@@ -274,6 +274,10 @@ def parse_args() -> argparse.Namespace:
             "CODEX_THREAD_ID so a subagent identifier cannot be recorded by mistake."
         ),
     )
+    parser.add_argument(
+        "--контрольная-точка", action="store_true",
+        help="Проверить промежуточный коммит с точным открытым терминальным отчётом.",
+    )
     return parser.parse_args()
 
 
@@ -854,6 +858,7 @@ def validate_journal_direct_check_runs(text: str) -> list[str]:
 def проверить_машинный_отчёт_о_запусках(
     корень: Path,
     путь_запроса: Path,
+    *, контрольная_точка: bool = False,
 ) -> list[str]:
     путь_сценария = ПУТЬ_АВТОМАТИЗАЦИИ_ОТЧЁТОВ_О_ПРОВЕРКАХ
     if not путь_сценария.is_file() or путь_сценария.is_symlink():
@@ -871,7 +876,7 @@ def проверить_машинный_отчёт_о_запусках(
     try:
         спецификация.loader.exec_module(модуль)
         проверка = getattr(модуль, "проверить_журнал_сессии")
-        ошибки = проверка(корень, путь_запроса)
+        ошибки = проверка(корень, путь_запроса, контрольная_точка=контрольная_точка)
     except (AttributeError, OSError, RuntimeError, UnicodeError) as ошибка:
         return [f"check-run report validation failed: {ошибка}"]
     if not isinstance(ошибки, list) or any(
@@ -881,7 +886,9 @@ def проверить_машинный_отчёт_о_запусках(
     return [f"check-run report: {ошибка}" for ошибка in ошибки]
 
 
-def validate_journal(repo_root: Path, request_path: Path) -> list[str]:
+def validate_journal(
+    repo_root: Path, request_path: Path, *, контрольная_точка: bool = False,
+) -> list[str]:
     errors: list[str] = []
     report = expected_journal_path(request_path, repo_root)
     if not report.exists():
@@ -898,6 +905,10 @@ def validate_journal(repo_root: Path, request_path: Path) -> list[str]:
             f"report does not link to sibling request: {repo_relative(request_path, repo_root)}"
         )
     match = request_match(request_path)
+    if контрольная_точка and (
+        match is None or request_datetime_key(match) < ПОРОГ_МАШИННЫХ_ОТЧЁТОВ_О_ЗАПУСКАХ
+    ):
+        errors.append("контрольная точка требует карточку с обязательным машинным журналом")
     if (
         match is not None
         and request_datetime_key(match) >= JOURNAL_TIME_PROFILE_RULE_START
@@ -910,6 +921,7 @@ def validate_journal(repo_root: Path, request_path: Path) -> list[str]:
                 проверить_машинный_отчёт_о_запусках(
                     repo_root,
                     request_path,
+                    контрольная_точка=контрольная_точка,
                 )
             )
     return errors
@@ -1919,6 +1931,7 @@ def validate_session(
     check_git_status: bool = True,
     expected_codex_thread_id: str | None = None,
     commit_message: str | None = None,
+    контрольная_точка: bool = False,
 ) -> list[str]:
     root = Path(repo_root).resolve()
     request_path = absolute_path(request, root)
@@ -1954,7 +1967,7 @@ def validate_session(
             markdown_paths=project_markdown,
         )
     )
-    errors.extend(validate_journal(root, request_path))
+    errors.extend(validate_journal(root, request_path, контрольная_точка=контрольная_точка))
     errors.extend(
         проверить_незаполненный_маркер_шаблона(text, request_path, root)
     )
@@ -2047,6 +2060,7 @@ def main() -> int:
         check_git_status=not args.skip_git_status,
         expected_codex_thread_id=args.codex_thread_id,
         commit_message=commit_message,
+        контрольная_точка=args.контрольная_точка,
     )
     if errors:
         for error in errors:

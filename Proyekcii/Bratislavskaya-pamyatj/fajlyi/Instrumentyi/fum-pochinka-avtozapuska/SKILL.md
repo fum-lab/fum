@@ -7,7 +7,7 @@ description: Istoricheskij kontrakt snyatogo instrumenta pochinki avtozapuska; s
 
 Instrument vyiveden iz ekspluatacii vmeste s periodicheskim heartbeat, postoyannoj zadachej dispetchera i marshrutami `Stop`/`Start`. On sokhranyayetsya kak istoricheskij kontrakt prezhnego repair-fence, host-snimkov i regressionnyikh fikstur. Etot navyik ne razreshayet vyizyivatj `create_thread`, menyatj ili zapuskatj host-avtomatizaciyu, sozdavatj remontnuyu rezervaciyu, privyazyivatj ispolnitelya libo vyipolnyatj inoj zhivoj effekt.
 
-Dejstvuyusjhij marshrut ne chinit avtozapusk, potomu chto avtozapusk boljshe ne yavlyayetsya chastjyu rabochego kontura. V ruchnoj skheme `manual-sequential-v1` poljzovatelj sam zapuskayet odnu pishusjhuyu kornevuyu zadachu v pervichnom checkout; ona sozdayot ne boleye odnogo lokaljnogo kommita `master` i zavershayetsya bez continuation, FIFO-handoff i vetochnogo selector. Predshestvuyusjhij marshrut s exact [zadachej-prodolzheniyem vetki](../../Glossarij/obyazateljnoye-prodolzheniye-vetki.md) sokhranyayetsya toljko kak istoriya perekhoda.
+Dejstvuyusjhij marshrut ne chinit avtozapusk, potomu chto avtozapusk boljshe ne yavlyayetsya chastjyu rabochego kontura. V ruchnoj skheme `manual-sequential-v1` poljzovatelj sam zapuskayet pishusjhuyu kornevuyu zadachu v sobstvennom rabochem dereve i vetke; ona sozdayot ne boleye odnogo lokaljnogo kommita v etoj vetke i zavershayetsya bez continuation, FIFO-handoff i vetochnogo selector. Predshestvuyusjhij marshrut s exact [zadachej-prodolzheniyem vetki](../../Glossarij/obyazateljnoye-prodolzheniye-vetki.md) sokhranyayetsya toljko kak istoriya perekhoda.
 
 Kanonicheskoye istoricheskoye nazvaniye — `починка автозапуска`, tekhnicheskij slug — `fum-pochinka-avtozapuska`. Sokhraneniye imeni obespechivayet ssyilki iz prezhnikh kommitov i ne oznachayet ekspluatacionnyij status.
 
@@ -41,6 +41,6 @@ Avtonomnyiye testyi istoricheskoj realizacii ne trebuyut seti i mogut ispoljzova
 - [kontrakt FIFO-ocheredi](../fum-ocheredj-zadach-git-vetki/SKILL.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-23 15:37:47 MSK -->
-<!-- content-sha256: sha256:dec3b4af945aadfcd2a97bd7632c4035adc6ca5644fa894755b2108c011cdfd6 -->
+<!-- last-content-edit: 2026-09-07 23:04:16 MSK -->
+<!-- content-sha256: sha256:0a0316c15b22013f25712119a789070f2c78350fad824e3d31364d2aac2e5d85 -->
 <!-- FUM-MD-RECENCY:END -->

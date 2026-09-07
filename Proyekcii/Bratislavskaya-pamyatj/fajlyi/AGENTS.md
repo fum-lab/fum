@@ -15,6 +15,7 @@ Kornevoj `AGENTS.md` vmeste s kanonicheskimi tematicheskimi fajlami v `Прав�
 - Do lyubogo dejstviya, krome read-only-proverok, nuzhnyikh dlya vyibora marshruta, opredeli vse podkhodyasjhiye triggeryi po tablice nizhe. Pri neskoljkikh triggerakh polnostjyu chitayutsya fajlyi iz obyyedineniya vsekh marshrutov; pri neodnoznachnosti vyibirayetsya bezopasnoye obyyedineniye, a ne propusk.
 
 - `только-чтение` — prostoj otvet ili osmotr bez izmeneniya repozitoriya, Git i vneshnego sostoyaniya; dopolniteljnyiye predmetnyiye triggeryi vsyo ravno primenyayutsya.
+- `диалог` — kazhdoye poljzovateljskoye soobsjheniye i vosstanovleniye tekusjhej zadachi posle szhatiya konteksta.
 - `изменение` — lyubaya zapisj v checkout, indeks ili istoriyu.
 - `документация` — pamyatj, proizvodnaya dokumentaciya, README ili dokumentacionnyiye indeksyi.
 - `код` — sobstvennyij kod, psevdokod, skhema, diagramma ili mashinnyij kontrakt.
@@ -29,6 +30,7 @@ Kornevoj `AGENTS.md` vmeste s kanonicheskimi tematicheskimi fajlami v `Прав�
 - `правила` — izmeneniye `AGENTS.md`, lyubogo fajla `Правила/агентов/`, inventarya ili validatora dekompozicii.
 
 <!-- FUM-МАРШРУТ: только-чтение =>  -->
+<!-- FUM-МАРШРУТ: диалог => Правила/агентов/журнал-и-происхождение.md;Правила/агентов/локальные-навыки-и-инструменты.md;Правила/агентов/планирование-требования-вопросы-и-сбои.md -->
 <!-- FUM-МАРШРУТ: изменение => Правила/агентов/Git-и-рабочая-сессия.md;Правила/агентов/проверки-коммит-и-публикация.md;Правила/агентов/журнал-и-происхождение.md -->
 <!-- FUM-МАРШРУТ: документация => Правила/агентов/память-и-документация.md -->
 <!-- FUM-МАРШРУТ: код => Правила/агентов/язык-и-код.md -->
@@ -71,26 +73,31 @@ Kornevoj `AGENTS.md` vmeste s kanonicheskimi tematicheskimi fajlami v `Прав�
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000050 -->
 - Eta granica otnositsya imenno k instrukciyam `SKILL.md`; dostupnyiye instrumentyi sredyi, CLI, MCP i vneshniye servisyi reguliruyutsya otdeljnyimi pravilami zadachi, publikacionnoj chistotyi i reyestra instrumentov.
 
-## Dejstvuyusjhaya ruchnaya posledovateljnaya skhema
+## Dejstvuyusjhaya ruchnaya skhema s izolyaciyej zadach
 
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000054 -->
 <!-- FUM-WRITING-MODE: manual-sequential-v1 -->
+<!-- FUM-WORKTREE-POLICY: isolated-per-task-v1 -->
+Marker `manual-sequential-v1` sokhranyayet sovmestimyij zapret starogo avtokonvejyera. Posledovateljnostj zapisi otnositsya k odnomu rabochemu derevu; razmesjheniye nezavisimyikh zadach zadayot `isolated-per-task-v1`.
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000058 -->
-- Obyichnuyu pishusjhuyu rabotu poljzovatelj zapuskayet vruchnuyu otdeljnoj kornevoj zadachej Codex v pervichnom checkout na `refs/heads/master`. Odnovremenno dopuskayetsya ne boleye odnoj pishusjhej kornevoj zadachi; read-only-nablyudateli mogut sosusjhestvovatj, no ne poluchayut prava menyatj fajlyi, indeks, refs, Git-konfiguraciyu ili vneshneye sostoyaniye.
+- Obyichnuyu pishusjhuyu rabotu poljzovatelj zapuskayet vruchnuyu otdeljnoj kornevoj zadachej Codex. Nezavisimaya zadacha rabotayet paralleljno v otdeljnom Git worktree s sobstvennoj vetkoj `refs/heads/codex/...`; vnutri odnogo dereva dopuskayetsya ne boleye odnoj pishusjhej kornevoj zadachi. V checkout drugoj aktivnoj zadachi agent rabotayet toljko v rezhime chteniya, vklyuchaya yeyo Zhurnal i proizvodnyiye fajlyi.
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000059 -->
 - Odna pishusjhaya sessiya obrabatyivayet odin soderzhateljnyij poljzovateljskij zapros, sozdayot ne boleye odnogo itogovogo lokaljnogo kommita i posle otveta zavershayetsya. Sleduyusjhuyu pishusjhuyu sessiyu zapuskayet toljko poljzovatelj; agent ne sozdayot `create_thread`, continuation, handoff, heartbeat, dispatcher, autostart ili inoj avtomaticheskij follow-up.
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000060 -->
-- Pered pervoj zapisjyu kornevaya zadacha perechityivayet fakticheskiye `HEAD`, symbolic ref i `AGENTS.md`, ubezhdayetsya, chto rabotayet v pervichnom checkout na `refs/heads/master`, fiksiruyet iskhodnyij `HEAD` i proveryayet otsutstviye drugoj pishusjhej zadachi po dostupnyim yej nablyudayemyim svideteljstvam. Otsutstviye mashinnogo globaljnogo lock ne razreshayet paralleljnuyu zapisj: pri neodnoznachnosti zadacha ostanavlivayetsya do pervoj mutacii i prosit poljzovatelya ustranitj konkurenciyu.
+- Pered pervoj zapisjyu kornevaya zadacha perechityivayet fakticheskiye `HEAD`, symbolic ref i `AGENTS.md`, fiksiruyet iskhodnyij commit, polnyij ref i fizicheskij korenj sobstvennogo worktree. Po dostupnyim svideteljstvam proveryayet otsutstviye drugogo pisatelya imenno etogo dereva i ref. Neyasnoye vladeniye zapresjhayet zapisj v spornuyu oblastj; nalichiye drugikh zadach v otdeljnyikh derevjyakh ne blokiruyet sobstvennuyu rabotu. Vse soderzhateljnyiye komandyi poluchayut yavnyij korenj sobstvennogo worktree.
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000061 -->
-- Obyichnaya rabota vedyotsya neposredstvenno v pervichnom checkout. Agent ne vyidelyayet linked worktree, otdeljnuyu vetku, assignment, slot, reviewer, integrator ili candidate i ne vyizyivayet FIFO/pool/CAS/branch-next-step kak dejstvuyusjhij marshrut. Subagentyi dopustimyi toljko dlya read-only-analiza; pisatj rabocheye derevo, indeks i istoriyu mozhet lishj kornevaya sessiya.
+- Dlya nezavisimoj zadachi agent sozdayot otdeljnyiye worktree i vetku vne chuzhikh checkout libo ispoljzuyet uzhe naznachennyiye etoj zadache. Obsjhiye Git-obyyektyi ne dayut prava menyatj chuzhiye refs, indeks, konfiguraciyu ili rabochiye fajlyi. Agent ne vyizyivayet FIFO/pool/CAS/branch-next-step kak dejstvuyusjhij marshrut; read-only-nablyudateli ne poluchayut polnomochij pisatelya. Subagentyi dopustimyi toljko dlya read-only-analiza; pishet toljko korenj v svoyej oblasti. Integraciya v zanyatuyu osnovnuyu vetku otkladyivayetsya do zaversheniya yeyo pisatelya; otdeljnaya vetka sama po sebe ne garantiruyet otsutstviya konfliktov sliyaniya.
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000062 -->
-- Itog fiksiruyetsya obyichnyim lokaljnyim `git commit` na `refs/heads/master` posle proverki exact diff, indeksa, zhurnaljnogo otchyota, recency i primenimogo smoke-check. Kommit ne sozdayot i ne peredayot sleduyusjhuyu zadachu. Posle uspeshnogo kommita sessiya vyipolnyayet toljko read-only-proverku rezuljtata i finaljnyij otvet.
+- Itog fiksiruyetsya obyichnyim lokaljnyim `git commit` v sobstvennoj vetke sessii posle proverki exact diff, indeksa, zhurnaljnogo otchyota, recency i primenimogo smoke-check. Kommit ne sozdayot i ne peredayot sleduyusjhuyu zadachu. Posle uspeshnogo kommita sessiya vyipolnyayet toljko read-only-proverku rezuljtata i finaljnyij otvet; fiksaciyu v svoyej vetke ne vyidayot za integraciyu v `master`.
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000064 -->
 - `push`, remote-publikaciya, vneshniye soobsjheniya i drugiye vneshniye effektyi vyipolnyayutsya toljko po otdeljnomu yavnomu zaprosu poljzovatelya. Lokaljnyij kommit sam po sebe publikaciyej ne yavlyayetsya.
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000066 -->
 - Istoricheskiye queue/pool/worktree/review/integration/candidate/CAS/branch-next-step instrumentyi, refs, kvitancii, kartochki i chernovyiye vetki sokhranyayutsya kak proiskhozhdeniye i narabotka. Oni ne dayut aktivnogo prava zapisi, ne udalyayutsya avtomaticheski i mogut vernutjsya v dejstvuyusjhij kontur toljko otdeljnyim poljzovateljskim zaprosom i novyim proverennyim perekhodom pravil.
 
 ## Bezopasnostj i publikacionnaya chistota
+
+<!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-НОВОЕ-000009 -->
+- Pri kazhdom poljzovateljskom soobsjhenii i vosstanovlenii zadachi dopolniteljno vyibirayetsya marshrut `диалог`: upravlyayusjhiye soobsjheniya i soderzhateljnyiye otvetyi sokhranyayutsya v Zhurnale sobstvennoj zadachi, ustojchivyiye ukazaniya zakreplyayutsya v kanonicheskikh pravilakh, a susjhestvennaya neodnoznachnostj utochnyayetsya. Rezhim chteniya ne rasshiryayet pravo zapisi: do polucheniya sobstvennogo dereva ispoljzuyetsya razreshyonnyij chernovik vne chuzhogo checkout.
 
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000065 -->
 - `.obsidian/graph.json` yavlyayetsya lokaljnyim poljzovateljskim sostoyaniyem Obsidian: fajl sokhranyayetsya na diske, ignoriruyetsya Git, ne blokiruyet rabotu, ne vkhodit v kommityi i ne zamenyayetsya libo peresobirayetsya poverkh poljzovateljskogo sostoyaniya toljko iz-za yego izmeneniya.
@@ -102,6 +109,6 @@ Kornevoj `AGENTS.md` vmeste s kanonicheskimi tematicheskimi fajlami v `Прав�
 - Pered kommitom proveryaj `git status --short` i vklyuchaj toljko osmyislennyiye izmeneniya tekusjhej sessii.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-01 13:45:05 MSK -->
-<!-- content-sha256: sha256:692cceb4c9c449b0c50921ddeafa35e34a6e8a070141d80f863124698e584b55 -->
+<!-- last-content-edit: 2026-09-07 23:04:16 MSK -->
+<!-- content-sha256: sha256:e90acc930ea4dcc6fffabd72510c1ffea924c269c4721e47c0ebee4c6440330d -->
 <!-- FUM-MD-RECENCY:END -->

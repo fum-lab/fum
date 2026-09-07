@@ -49,6 +49,7 @@ Eti pravila polnostjyu chitayutsya do vyibora, sozdaniya, izmeneniya ili povtory
 
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000172 -->
 - Vnovj vyiyavlennyij v rabochej sessii obobsjhayemyij princip, sposobnyij vliyatj na posleduyusjhiye zadachi, ne ostayotsya toljko v otvete ili doslovnom zhurnale. Sessiya svyazyivayet yego s tochnyim iskhodnyim svideteljstvom i libo zakreplyayet v kanonicheskom istochnike pravil ili trebovanij s primenimoj proverkoj, libo ukazyivayet uzhe susjhestvuyusjhij ne boleye slabyij ekvivalent, libo sozdayot aktualjnuyu kartochku daljnejshej realizacii s yavno zafiksirovannoj granicej. Kartochka ne podmenyayet nemedlenno primenimuyu fiksaciyu, a vremennaya celj ne prevrasjhayetsya bez otdeljnogo osnovaniya v bessrochnoye pravilo.
+  Postoyannoye upravlyayusjheye ukazaniye poljzovatelya zakreplyayetsya v dejstvuyusjhikh pravilakh povedeniya s oblastjyu dejstviya i proiskhozhdeniyem libo svyazyivayetsya s uzhe susjhestvuyusjhej ravnosiljnoj normoj. V takikh postoyannyikh ukazaniyakh formulirovki «dolzhen», «obyazan» i «nuzhno» oboznachayut obyazateljnoye povedeniye v ukazannoj oblasti i primenyayutsya v posleduyusjhikh zadachakh; imi neljzya podmenyatj predpolozheniye, rekomendaciyu ili yesjhyo ne vyipolnennoye namereniye. Pravilo o povedenii agenta otnositsya k kanonicheskomu naboru pravil, trebovaniye k produktu — k trebovaniyam FUM. Otvet «zapomnil» dopustim toljko posle fakticheskoj zapisi s ukazaniyem yeyo mesta i statusa; chernovik ili nepodklyuchyonnaya vetka ne obyyavlyayutsya uzhe dejstvuyusjhim pravilom osnovnoj vetki. Yesli nemedlennomu zakrepleniyu meshayet konkretnaya granica zapisi, sokhranyayutsya iskhodnaya komanda, otvet, prichina i nezavershyonnyij perenos, a obyazateljstvo ne obyyavlyayetsya ispolnennyim.
 
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000173 -->
 - Yesli odin i tot zhe mekhanicheskij shag trebuyetsya vyipolnitj dlya neskoljkikh fajlov, zapisej ili inyikh odnotipnyikh obyyektov, agent ne povtoryayet yego vruchnuyu. Snachala ispoljzuyetsya susjhestvuyusjhaya lokaljnaya avtomatizaciya; yesli yeyo kontrakt nedostatochen, do massovogo vyipolneniya sozdayotsya ili rasshiryayetsya TDD-avtomatizaciya, posle chego sama operaciya vyipolnyayetsya cherez neyo. Otsutstviye gotovoj avtomatizacii ne schitayetsya razresheniyem na ruchnoye povtoreniye.
@@ -68,11 +69,15 @@ Eti pravila polnostjyu chitayutsya do vyibora, sozdaniya, izmeneniya ili povtory
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000232 -->
 - Dlya rabotyi s glossariyem ispoljzuj toljko lokaljnyij navyik `Инструменты/fum-glossarij/SKILL.md`.
 
+## Istochnik tekusjhego utochneniya
+
+- [Upravlyayusjhiye komandyi tekusjhej zadachi](../../Zhurnal/2026-09-07_22-11-38_MSK_sostavitj-plan-uskoreniya-proyekcii/zapros.md).
+
 ## Istochnik dekompozicii
 
 - [iskhodnyij zapros 2026-08-24 15:31:12 MSK — Dekompozirovatj AGENTS MD](../../Zhurnal/2026-08-24_15-31-12_MSK_dekompozirovatj-AGENTS-md/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-24 16:13:37 MSK -->
-<!-- content-sha256: sha256:293c2037af6bc7478d868372585292c6d4a015f07052e0f1ba32e4311c564e25 -->
+<!-- last-content-edit: 2026-09-07 23:04:16 MSK -->
+<!-- content-sha256: sha256:e86ef05a5802fa2feb9f68a01ba31dd1e4b2365adb4b00fe12e0200f12be0593 -->
 <!-- FUM-MD-RECENCY:END -->

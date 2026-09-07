@@ -42,13 +42,13 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover \
   -p 'test_*.py'
 ```
 
-Validator toljko chitayet strukturu. On zakryito otklonyayet otsutstvuyusjhij putj, nevernyij registr, lyuboj symlink-komponent, vyikhod za checkout, podmenu soderzhaniya, povtor identifikatora ili aktivnoj semantiki, nepolnoye iskhodnoye pokryitiye, nekompaktnyij korenj, nesoglasovannyij marshrut i vklyucheniye istoricheskikh polnomochij v obyichnyij marshrut.
+Validator toljko chitayet strukturu. On sveryayet registraciyu kazhdogo fakticheskogo yakorya v obe storonyi, zapresjhayet dejstvuyusjhuyu normu v teme bez polnomochij i pri politike izolirovannyikh worktree trebuyet yedinstvennyij sovmestimyij marker zapreta starogo avtokonvejyera. On zakryito otklonyayet otsutstvuyusjhij putj, nevernyij registr, lyuboj symlink-komponent, vyikhod za checkout, podmenu soderzhaniya, povtor identifikatora ili aktivnoj semantiki, nepolnoye iskhodnoye pokryitiye, nekompaktnyij korenj, nesoglasovannyij marshrut i vklyucheniye istoricheskikh polnomochij v obyichnyij marshrut.
 
 ## Istochnik trebovanij
 
 - [iskhodnyij zapros 2026-08-24 15:31:12 MSK — Dekompozirovatj AGENTS MD](../../Zhurnal/2026-08-24_15-31-12_MSK_dekompozirovatj-AGENTS-md/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-24 16:13:37 MSK -->
-<!-- content-sha256: sha256:8dda70e09ea481dc709a2e334b9eea9adee1cb52d132f7179acaeb63c932bfee -->
+<!-- last-content-edit: 2026-09-07 23:04:16 MSK -->
+<!-- content-sha256: sha256:c05d69c3555454525a1489f7b10e2072219b2f3820b10108cb9213145173180d -->
 <!-- FUM-MD-RECENCY:END -->

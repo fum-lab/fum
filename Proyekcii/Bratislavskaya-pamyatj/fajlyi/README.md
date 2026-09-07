@@ -79,7 +79,7 @@ Skript bez `sudo` trebuyet nastoyasjhiye TTY odnovremenno na stdin i stdout, pok
 ## Granicyi tekusjhej formyi
 
 - Yedinogo korobochnogo prilozheniya, sobstvennogo samostoyateljnogo runtime i gotovogo GUI FUM poka net; Codex i yego host-orkestraciya ostayutsya vneshnej sredoj.
-- Sokhranyonnyij otlozhennyij prototip worktree-pula proveryayet exact slot `repo-root` soderzhateljnyikh komand, no ne yavlyayetsya dejstvuyusjhim marshrutom zapisi. Tekusjhaya ruchnaya skhema ispoljzuyet toljko pervichnyij checkout `refs/heads/master`; istoricheskaya proverka slota ne dokazyivayet nativnuyu host-izolyaciyu Codex Desktop.
+- Sokhranyonnyij otlozhennyij prototip worktree-pula proveryayet exact slot `repo-root` soderzhateljnyikh komand, no ne yavlyayetsya dejstvuyusjhim marshrutom zapisi. Tekusjhaya ruchnaya skhema ispoljzuyet sobstvennoye rabocheye derevo i otdeljnuyu vetku kazhdoj nezavisimoj zadachi; istoricheskaya proverka slota ne dokazyivayet nativnuyu host-izolyaciyu Codex Desktop.
 - Git, zhurnal i avtomaticheskiye proverki podtverzhdayut proiskhozhdeniye, strukturu i vosproizvodimyiye invariantyi, no ne dokazyivayut istinnostj kazhdogo soderzhateljnogo vyivoda ili preimusjhestvo FUM nad drugimi agentami.
 - Setj, sekretyi, platnyiye servisyi, publikaciya, polucheniye dannyikh iz vneshnikh istochnikov i fizicheskiye effektyi trebuyut otdeljnogo yavnogo razresheniya.
 - Ispolnyayemyiye prototipyi podtverzhdayut toljko svoi ogranichennyiye scenarii i ne yavlyayutsya obesjhaniyem gotovnosti polnogo produkta.
@@ -113,6 +113,6 @@ Proyekt publikuyetsya pod [CC0 1.0 Universal](LICENZIYA.md). Kanonicheskij publi
 - [iskhodnyij zapros 2026-08-06 06:59:01 MSK — Dobavitj upravleniye dispetcherom cherez soobsjheniya](Zhurnal/2026-08-06_06-59-01_MSK_dobavitj-upravleniye-dispetcherom-cherez-soobsjheniya/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-02 09:36:08 MSK -->
-<!-- content-sha256: sha256:b7b2c0f06c8f3fd8acaa4a7fdb5847f67a7113837d9ac4410d975aab43e4cf3e -->
+<!-- last-content-edit: 2026-09-07 23:04:16 MSK -->
+<!-- content-sha256: sha256:6557095b4bcad5cbc66882cd4b9deff042389fea806f15195a41f94e5fc81462 -->
 <!-- FUM-MD-RECENCY:END -->

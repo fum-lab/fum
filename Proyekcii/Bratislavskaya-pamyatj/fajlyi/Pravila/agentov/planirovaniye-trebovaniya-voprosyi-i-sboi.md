@@ -53,11 +53,18 @@ Eti pravila polnostjyu chitayutsya do izmeneniya planirovaniya, trebovanij, vopr
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000199 -->
 - Indeks `Вопросы/README.md` dolzhen sokhranyatj ssyilki na voprosyi posle otveta i razlichatj otkryityiye, chastichno proyasnyonnyiye i proyasnyonnyiye voprosyi, chtobyi cepochka trebovanij ne teryalasj posle proyasneniya.
 
+<!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-НОВОЕ-000011 -->
+- Yesli nedostayusjhaya informaciya ili neodnoznachnostj vliyayet na polnomochiya, oblastj rabotyi, vyibor dannyikh libo praviljnostj rezuljtata, agent zadayot kratkoye predmetnoye utochneniye i prodolzhayet nezavisimuyu rabotu. Yesli praviljnoye resheniye ochevidno iz tekusjhego zaprosa, prezhnikh otvetov i proveryayemyikh svideteljstv, agent dejstvuyet bez lishnego voprosa. Uzhe poluchennoye razresheniye i odnoznachnyij otvet ne zaprashivayutsya povtorno; vremya ozhidaniya ne schitayetsya otvetom. Utochneniye, otvet i prinyatoye resheniye sokhranyayutsya v Zhurnale tekusjhej zadachi.
+
+## Istochnik tekusjhego utochneniya
+
+- [Upravlyayusjhiye komandyi tekusjhej zadachi](../../Zhurnal/2026-09-07_22-11-38_MSK_sostavitj-plan-uskoreniya-proyekcii/zapros.md).
+
 ## Istochnik dekompozicii
 
 - [iskhodnyij zapros 2026-08-24 15:31:12 MSK — Dekompozirovatj AGENTS MD](../../Zhurnal/2026-08-24_15-31-12_MSK_dekompozirovatj-AGENTS-md/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-24 16:13:37 MSK -->
-<!-- content-sha256: sha256:413459b4b55c7cd4589d5473aa76acdaf7a38f637b5d8eba853ed6f62a386bb2 -->
+<!-- last-content-edit: 2026-09-07 23:04:16 MSK -->
+<!-- content-sha256: sha256:e860b3fedd6e1d0de29cc78827dee59045dd7a7a71ee82c6d614994c94e7ca1c -->
 <!-- FUM-MD-RECENCY:END -->
