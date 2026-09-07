@@ -1,16 +1,18 @@
 # Отчёт об извлечении прикрепляемого материала
 
 - Источник: https://chatgpt.com/share/6a97050e-9da8-83ed-b92c-a3850dd6486d
-- Время извлечения UTC: 2026-09-02T04:51:47.282253+00:00
+- Время извлечения UTC: 2026-09-07T15:17:03.180789+00:00
 - Effective URL: https://chatgpt.com/share/6a97050e-9da8-83ed-b92c-a3850dd6486d
 - HTTP-код: 200
 - Content-Type: text/html; charset=utf-8
-- Размер загрузки: 1638369 байт
+- Размер загрузки: 2122815 байт
 - Начальное состояние страницы найдено: да
 - Распаковка диалога выполнена: да
-- Извлечено сообщений: 398
+- Извлечено сообщений: 465
 
 ## Редакции перед сохранением
+
+- Значения `CF-Ray`, `X-Request-ID`, `Request-Context`, `X-MS-Middleware-Request-ID` заменены на `[REDACTED: response trace identifier]`; продолжения очищаемых заголовков удалены.
 
 - Значения `Set-Cookie` в HTTP-заголовках заменены на `[REDACTED: response cookie]`.
 - Локальные IP, геометаданные запроса, user-agent, device/session/statsig-идентификаторы в bootstrap-состоянии страницы и служебные request-id распакованного потока заменены на `[REDACTED: local request metadata]`.
@@ -36,6 +38,6 @@
 - `модель-строительства-сооружений.md`
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-02 09:36:08 MSK -->
-<!-- content-sha256: sha256:65da9812db1e3bb427286beb550c7e501b76a6b262353a586eb198fa332d0bb0 -->
+<!-- last-content-edit: 2026-09-07 18:43:58 MSK -->
+<!-- content-sha256: sha256:62bd7dc22adb155fc2bba3f311888ac3fe3f7dcfac28210a7c353e4600374961 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -1,0 +1,15 @@
+HTTP/2 200
+date: Mon, 07 Sep 2026 15:24:44 GMT
+content-type: text/html; charset=utf-8
+content-length: 55575
+server: Microsoft-IIS/10.0
+cache-control: private
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+strict-transport-security: max-age=31536000; includeSubDomains
+x-ms-middleware-request-id: [REDACTED: response trace identifier]
+x-aspnetmvc-version: 5.2
+x-aspnet-version: 4.0.30319
+request-context: [REDACTED: response trace identifier]
+x-powered-by: ASP.NET

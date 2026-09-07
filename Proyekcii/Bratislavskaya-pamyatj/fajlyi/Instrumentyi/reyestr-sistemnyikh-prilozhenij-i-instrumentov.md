@@ -59,6 +59,8 @@ Nablyudayemyij lokaljnyij snimok na 2026-09-02 08:00 MSK:
 | `web__run` / istoricheskij `web.run`                    | Veb-poisk i chteniye vneshnikh stranic dlya proverki aktualjnoj publichnoj spravki.                               | Vlozhennyij kontrakt `functions.exec`; otdeljnaya versiya ne raskryivayetsya.                                             | Ispoljzuyetsya toljko dlya publikacionno chistyikh vneshnikh istochnikov; privatnyiye URL, tokenyi i lokaljnoye sostoyaniye ne fiksiruyutsya.                                                                 |
 | `collaboration.*`                                      | Paralleljnaya rabota subagentov, peredacha soobsjhenij i nezavisimoye revjyu.                                     | Kontraktyi sredyi Codex; otdeljnyiye versii ne raskryivayutsya.                                                           | Subagentyi razdelyayut rabocheye derevo; izmeneniya i vyivodyi trebuyut proverki osnovnyim agentom.                                                                                                    |
 
+Nablyudyonnyij 2026-09-07 kontrakt `mcp__cua_repl.js` predostavlyayet chteniye i upravleniye brauzerom cherez CUA API. V [sessii priyoma modeli](../Zhurnal/2026-09-07_18-16-36_MSK_prinyatj-modelj-betonnyikh-glubinnyikh-sistem/zapros.md) ispoljzovanyi toljko otkryitiye publichnogo share i chteniye dereva dostupnosti; nomer versii instrumenta ne raskryivayetsya. Yego dostupnostj ne podklyuchayet vneshnij `SKILL.md` i ne razreshayet publikaciyu.
+
 Dejstvuyusjhij kontur ne vyivodit globaljnyij prostoj iz `list_threads`, ne zhdyot heartbeat i ne sozdayot continuation. Poljzovatelj vruchnuyu zapuskayet odnu pishusjhuyu zadachu v pervichnom checkout `refs/heads/master`; ona vyipolnyayet odin soderzhateljnyij zapros, sozdayot ne boleye odnogo lokaljnogo kommita i zavershayetsya. Interfejsyi spiska i sozdaniya zadach ostayutsya dostupnyimi instrumentami sredyi, no sami po sebe ne dayut prava zapisi ili avtozapuska.
 
 Prezhniye skhemyi `list_threads`, dispetcherskoj inventarizacii prostoya, ruchnoj pochinki avtozapuska i host-rezervacij ostayutsya istoricheskimi formatami. Ikh lokaljnyiye fiksturyi i testyi ne razreshayut zhivoj zapusk, izmeneniye host-avtomatizacii, sozdaniye remontnoj zadachi ili vosstanoviteljnoye soobsjheniye. Susjhestvuyusjhaya heartbeat-avtomatizaciya dolzhna ostavatjsya ostanovlennoj.
@@ -219,6 +221,6 @@ Yesli instrument razovyij i ne dolzhen stanovitjsya ustojchivoj chastjyu pamyati
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](../Zhurnal/2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-02 09:36:08 MSK -->
-<!-- content-sha256: sha256:a430e86e26eca77b4c8886017de2a058646b4f18dcc327c9173e8b24168af05c -->
+<!-- last-content-edit: 2026-09-07 18:43:58 MSK -->
+<!-- content-sha256: sha256:f802526812a2ac62623ea2e085d23b8301f404d3c477f6c9fb045de5925b501b -->
 <!-- FUM-MD-RECENCY:END -->

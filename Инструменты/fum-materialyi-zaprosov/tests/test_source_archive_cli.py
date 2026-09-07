@@ -1,3 +1,4 @@
+import importlib.util
 import json
 import os
 import subprocess
@@ -20,6 +21,34 @@ import source_archive  # noqa: E402
 
 
 class SourceArchiveCoreTests(unittest.TestCase):
+    def test_служебные_заголовки_обоих_архиваторов_очищаются(сам):
+        спецификация = importlib.util.spec_from_file_location(
+            "архиватор_для_проверки_заголовков", SCRIPTS_DIR / "archive-chatgpt-share.py"
+        )
+        архиватор = importlib.util.module_from_spec(спецификация)
+        спецификация.loader.exec_module(архиватор)
+        for очистить in (source_archive.redact_headers, архиватор.redact_headers):
+            for имя in ("CF-Ray", "X-Request-ID", "Request-Context", "X-MS-Middleware-Request-ID"):
+                with сам.subTest(вход=очистить.__module__, заголовок=имя):
+                    сырьё = (
+                        "HTTP/2 200\r\n"
+                        f"{имя.swapcase()}: private-fum-fixture\r\n"
+                        "\tprivate-fum-continuation\r\n"
+                        "Set-Cookie: private-fum-cookie\r\n"
+                        " private-fum-cookie-continuation\r\n"
+                        "Content-Type: text/html\r\n"
+                        "Content-Language: ru\r\n"
+                        "Last-Modified: Mon, 07 Sep 2026 12:00:00 GMT\r\n"
+                    )
+                    результат = очистить(сырьё)
+                    сам.assertNotIn("private-fum-", результат)
+                    сам.assertIn(f"{имя.lower()}: [REDACTED: response trace identifier]\n", результат)
+                    сам.assertIn("set-cookie: [REDACTED: response cookie]\n", результат)
+                    сам.assertIn("Content-Type: text/html\r\n", результат)
+                    сам.assertIn("Content-Language: ru\r\n", результат)
+                    сам.assertIn("Last-Modified: Mon, 07 Sep 2026 12:00:00 GMT\r\n", результат)
+                    сам.assertEqual(очистить(результат), результат)
+
     def test_служебный_идентификатор_cf_ray_редактируется(self):
         сырьё = (
             "HTTP/2 200\r\n"

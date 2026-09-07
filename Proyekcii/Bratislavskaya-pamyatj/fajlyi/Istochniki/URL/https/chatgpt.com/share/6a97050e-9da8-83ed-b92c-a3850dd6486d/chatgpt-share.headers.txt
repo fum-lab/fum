@@ -1,7 +1,7 @@
 HTTP/2 200
-date: Wed, 02 Sep 2026 04:51:46 GMT
+date: Mon, 07 Sep 2026 15:16:58 GMT
 content-type: text/html; charset=utf-8
-cf-ray: a349e6af7c45a14c-VNO
+cf-ray: [REDACTED: response trace identifier]
 cf-cache-status: DYNAMIC
 server: cloudflare
 x-web-mobile-experiment-router: 1
@@ -10,17 +10,17 @@ vary: Origin
 content-security-policy: base-uri 'none'; object-src 'none'; frame-ancestors 'self'
 cross-origin-opener-policy: same-origin-allow-popups
 referrer-policy: strict-origin-when-cross-origin
-server-timing: edge;dur=3538.0
-server-timing: cf_rtt;dur=42
+server-timing: edge;dur=1826.0
+server-timing: cf_rtt;dur=47
 x-content-type-options: nosniff
 x-frame-options: SAMEORIGIN
-x-worker-version: a5d77e9a-9965-43ad-a2d6-a63787362621
-x-worker-version-tag: 3888f13eed5a2d59085d209299c88e7dd986edfb
-x-request-id: cfb4c1ea-0a0b-4755-8003-979f8ad9d46a
+x-worker-version: 404b9d58-e9cc-4ab1-b07d-625adeba888a
+x-worker-version-tag: 31efdfa04bb637e7886ee240f9e6c928d9aa0438
+x-request-id: [REDACTED: response trace identifier]
 set-cookie: [REDACTED: response cookie]
 set-cookie: [REDACTED: response cookie]
 set-cookie: [REDACTED: response cookie]
 set-cookie: [REDACTED: response cookie]
 set-cookie: [REDACTED: response cookie]
-report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=XUhrdoE0ritWCKKYi%2FMdBrCIfRmkTfI7ygGQ1uWZeVCeilAXq9y1nagMWlW8ohYF6r7SJ7M1MTaiWidZJupw%2Be7uEN8lAIOxTWBnTOLtx6TkASrxHYmJ%2FIRpo4%2Fr"}]}
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=VD9GrH264R0CYdrfD7Jgwz9qINaeaO1J9X%2BMip1pHOFex5sUbxSpav8pq8I55pQuwV1dJghCIJQC9zzuB%2BfK0m0Rj1FJSkDJdRPgVvPI%2FElzu3O2qqDMJoSRtady"}]}
 nel: {"report_to":"cf-nel","success_fraction":0.01,"max_age":604800}

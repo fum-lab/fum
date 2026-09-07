@@ -14,7 +14,7 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0006 | `активна`   | [Opechatka puti tekusjhego zaprosa pri uchyote proverki](FUM-SBOJ-0006-opechatka-puti-tekusjhego-zaprosa-pri-uchyote-proverki.md)                                             | 1          | FUM-STEP-0134           |
 | FUM-SBOJ-0007 | `активна`   | [Propusk opornoj datyi grafa posle perekhoda cherez polnochj MSK](FUM-SBOJ-0007-propusk-opornoj-datyi-grafa-posle-perekhoda-cherez-polnochj-MSK.md)                         | 1          | FUM-STEP-0135           |
 | FUM-SBOJ-0008 | `активна`   | [Pustoj scenarij orkestracii proverki bez dochernego vyizova](FUM-SBOJ-0008-pustoj-scenarij-orkestracii-proverki-bez-dochernego-vyizova.md)                             | 1          | FUM-STEP-0136           |
-| FUM-SBOJ-0009 | `активна`   | [Ruchnoye ugadyivaniye lokaljnyikh putej pered vyizovom](FUM-SBOJ-0009-ruchnoye-ugadyivaniye-lokaljnyikh-putej-pered-vyizovom.md)                                                 | 3          | FUM-STEP-0137           |
+| FUM-SBOJ-0009 | `активна`   | [Ruchnoye ugadyivaniye lokaljnyikh putej pered vyizovom](FUM-SBOJ-0009-ruchnoye-ugadyivaniye-lokaljnyikh-putej-pered-vyizovom.md)                                                 | 4          | FUM-STEP-0137           |
 | FUM-SBOJ-0010 | `активна`   | [Maskirovka rannego otkaza sostavnoj shell-diagnostiki](FUM-SBOJ-0010-maskirovka-rannego-otkaza-sostavnoj-shell-diagnostiki.md)                                     | 2          | FUM-STEP-0138           |
 | FUM-SBOJ-0011 | `активна`   | [Kopirovaniye kriteriyev shagov v kartochki sboyev](FUM-SBOJ-0011-kopirovaniye-kriteriyev-shagov-v-kartochki-sboyev.md)                                                       | 3          | FUM-STEP-0139           |
 | FUM-SBOJ-0012 | `активна`   | [Pereobesjhannoye adresuyemoye dokazateljstvo proyavleniya](FUM-SBOJ-0012-pereobesjhannoye-adresuyemoye-dokazateljstvo-proyavleniya.md)                                           | 6          | FUM-STEP-0140           |
@@ -25,9 +25,12 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0017 | `устранена` | [Blokirovka starta zadachi izmeneniyami v kornevoj `.obsidian/`](FUM-SBOJ-0017-blokirovka-starta-zadachi-izmeneniyami-v-kornevoj-obsidian.md)                           | 1          | —                       |
 | FUM-SBOJ-0018 | `устранена` | [Tekhnicheskoye nazvaniye zadachi Codex posle naznacheniya kartochki](FUM-SBOJ-0018-tekhnicheskoye-nazvaniye-zadachi-Codex-posle-naznacheniya-kartochki.md)                         | 1          | —                       |
 | FUM-SBOJ-0019 | `устранена` | [Zavisimostj repozitornogo testa selektora ot aktivnoj worktree-vetki](FUM-SBOJ-0019-zavisimostj-repozitornogo-testa-selektora-ot-aktivnoj-worktree-vetki.md)       | 1          | —                       |
-| FUM-SBOJ-0020 | `устранена` | [Publikaciya sluzhebnogo `CF-Ray` v snimke istochnika](FUM-SBOJ-0020-publikaciya-sluzhebnogo-CF-Ray-v-snimke-istochnika.md)                                               | 1          | —                       |
+| FUM-SBOJ-0020 | `устранена` | [Publikaciya sluzhebnogo `CF-Ray` v snimke istochnika](FUM-SBOJ-0020-publikaciya-sluzhebnogo-CF-Ray-v-snimke-istochnika.md)                                               | 2          | FUM-STEP-0151           |
 | FUM-SBOJ-0021 | `устранена` | [Nematerializovannaya Git-zavisimostj avtomaticheski sozdannogo slota](FUM-SBOJ-0021-nematerializovannaya-Git-zavisimostj-avtomaticheski-sozdannogo-slota.md)           | 1          | —                       |
-| FUM-SBOJ-0022 | `устранена` | [Nedostavka izmenenij iz Web ChatGPT](FUM-SBOJ-0022-nedostavka-izmenenij-iz-Web-ChatGPT.md)                                                                   | 1          | —                       |
+| FUM-SBOJ-0022 | `устранена` | [Nedostavka izmenenij iz Web ChatGPT](FUM-SBOJ-0022-nedostavka-izmenenij-iz-Web-ChatGPT.md)                                                                         | 1          | —                       |
+| FUM-SBOJ-0023 | `активна`   | [Nekorrektnyij vneshnij paket](FUM-SBOJ-0023-nekorrektnyij-vneshnij-paket.md)                                                                                           | 1          | FUM-STEP-0150           |
+| FUM-SBOJ-0024 | `активна`   | [Nesovmestimyij format patcha v proyekcii](FUM-SBOJ-0024-nesovmestimyij-format-patcha-v-proyekcii.md)                                                                     | 1          | FUM-STEP-0152           |
+| FUM-SBOJ-0025 | `активна`   | [Pryamoj zapusk proverki vne mashinnogo uchyota](FUM-SBOJ-0025-pryamoj-zapusk-proverki-vne-mashinnogo-uchyota.md)                                                           | 1          | FUM-STEP-0153           |
 
 ## Pravila vedeniya
 
@@ -60,6 +63,6 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 - [pravila rabochikh sessij](../AGENTS.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-02 09:36:08 MSK -->
-<!-- content-sha256: sha256:52db39a6504733601dfe46126e4dae70918b07188fe22493d791b33fb742a34b -->
+<!-- last-content-edit: 2026-09-07 20:27:55 MSK -->
+<!-- content-sha256: sha256:9f64da386f15b91c88e09507e25b8800247f8e29ffaa1243a720206fe3e2aad1 -->
 <!-- FUM-MD-RECENCY:END -->

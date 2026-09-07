@@ -31,6 +31,11 @@ if str(REQUEST_LAYOUT_SCRIPTS) not in sys.path:
 
 from request_folder_layout import session_stem_for_request_path  # noqa: E402
 
+if str(Path(__file__).resolve().parent) not in sys.path:
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from source_archive import redact_headers as очистить_общие_заголовки  # noqa: E402
+
 
 REDACTION = "[REDACTED: local request metadata]"
 COOKIE_REDACTION = "set-cookie: [REDACTED: response cookie]\n"
@@ -279,13 +284,7 @@ def run_curl(url: str, html_path: Path, headers_path: Path) -> dict[str, str]:
 
 
 def redact_headers(raw: str) -> str:
-    lines = []
-    for line in raw.splitlines(keepends=True):
-        if line.lower().startswith("set-cookie:"):
-            lines.append(COOKIE_REDACTION)
-        else:
-            lines.append(line)
-    return "".join(lines)
+    return очистить_общие_заголовки(raw)
 
 
 def trim_trailing_whitespace(text: str) -> str:
@@ -758,6 +757,7 @@ def write_report(
         "## Редакции перед сохранением",
         "",
         "- Значения `Set-Cookie` в HTTP-заголовках заменены на `[REDACTED: response cookie]`.",
+        "- Значения `CF-Ray`, `X-Request-ID`, `Request-Context`, `X-MS-Middleware-Request-ID` заменены на `[REDACTED: response trace identifier]`; продолжения очищаемых заголовков удалены.",
         "- Локальные IP, геометаданные запроса, user-agent, device/session/statsig-идентификаторы в bootstrap-состоянии страницы и служебные request-id распакованного потока заменены на `[REDACTED: local request metadata]`.",
         "- Сырой текст диалога, поток React Router и распакованные сообщения не нормализовались и не переводились.",
         "- Оформленный Markdown-слой пропускает служебные сообщения, убирает машинные citation-маркеры и переводит TeX-делимитеры в формат, отображаемый Obsidian.",

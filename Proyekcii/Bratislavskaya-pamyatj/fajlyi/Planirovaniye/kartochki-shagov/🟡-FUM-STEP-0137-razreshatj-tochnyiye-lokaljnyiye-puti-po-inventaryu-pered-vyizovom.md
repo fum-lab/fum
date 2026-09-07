@@ -24,11 +24,17 @@ Posle setevogo vosstanovleniya putj k proverke svyaznosti byil snachala ugadan i
 - Razresheniye zakreplyayet pokoleniye ili khyesh inventarya i proveryayemuyu identichnostj fajla; udaleniye, zamena ili pereimenovaniye mezhdu razresheniyem i ispoljzovaniyem ne perevodyat ustarevshij putj v vyizov.
 - Dochernyaya komanda poluchayet tochnyij rezuljtat razreshitelya bez povtornoj sborki stroki, normalizacii libo dobavleniya opisateljnogo suffiksa; mashinnoye svideteljstvo sokhranyayet iskhodnyij identifikator i fakticheski ispoljzovannyij putj.
 - Nechyotkij poisk, blizhajsheye imya i prezhnij putj mogut formirovatj diagnosticheskiye podskazki, no nikogda ne vyibirayut celj avtomaticheski i ne podmenyayut yavnyij otkaz.
-- Otricateljnyiye fiksturyi pokryivayut vse tri proyavleniya FUM-SBOJ-0009, nolj i neskoljko celej, pereimenovaniye, novyij neignoriruyemyij fajl, registrovoye i Unicode-raskhozhdeniye, simvoljnuyu ssyilku, vyikhod za korenj i gonku izmeneniya inventarya.
+- Otricateljnyiye fiksturyi pokryivayut vse chetyire proyavleniya FUM-SBOJ-0009, nolj i neskoljko celej, pereimenovaniye, novyij neignoriruyemyij fajl, registrovoye i Unicode-raskhozhdeniye, simvoljnuyu ssyilku, vyikhod za korenj i gonku izmeneniya inventarya.
 - Yavnyij putj ostayotsya dostupen toljko ograzhdyonnyim istoricheskim operaciyam i avtonomnyim otricateljnyim fiksturam; shtatnyij agentskij marshrut k susjhestvuyusjhemu obyyektu ne prinimayet svobodno ugadannyij putj.
 - Avtonomnyiye testyi razreshitelya i zatronutyikh lokaljnyikh obyortok, regressiya FUM-SBOJ-0009, proverka svyaznosti rabochej sessii i obsjhij smoke-check prokhodyat bez seti i sekretov.
 
+## Utochneniye posle povtornogo proyavleniya
+
+`FUM-СБОЙ-0009/ПРОЯВЛЕНИЕ-0004` povtorilo ugadyivaniye smyislovyikh imyon kartochek pri priyome inzhenernogo paketa. Regressionnyij nabor dolzhen vklyuchatj kartochku, chej ustojchivyij identifikator sokhranilsya, no opisaniye ne sovpadayet s ozhidayemoj temoj.
+
 ## Istochniki
+
+- [Iskhodnyij zapros priyoma modeli](../../Zhurnal/2026-09-07_18-16-36_MSK_prinyatj-modelj-betonnyikh-glubinnyikh-sistem/zapros.md) — `FUM-СБОЙ-0009/ПРОЯВЛЕНИЕ-0004`.
 
 - [FUM-SBOJ-0009 — Ruchnoye ugadyivaniye lokaljnyikh putej pered vyizovom](../../Sboi/FUM-SBOJ-0009-ruchnoye-ugadyivaniye-lokaljnyikh-putej-pered-vyizovom.md) — tochnoye osnovaniye `FUM-СБОЙ-0009/ПРОЯВЛЕНИЕ-0002`
 - [tretjye proyavleniye FUM-SBOJ-0009](../../Sboi/FUM-SBOJ-0009-ruchnoye-ugadyivaniye-lokaljnyikh-putej-pered-vyizovom.md#proyavleniya) — aktualizaciya `FUM-СБОЙ-0009/ПРОЯВЛЕНИЕ-0003`
@@ -37,6 +43,6 @@ Posle setevogo vosstanovleniya putj k proverke svyaznosti byil snachala ugadan i
 - [proverka svyaznosti rabochej sessii](../../Instrumentyi/fum-svyaznostj-rabochej-sessii/SKILL.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-07 01:09:33 MSK -->
-<!-- content-sha256: sha256:83404bdcc8ca903238181bad22e1f2f9878243ee384fead43363ae27a55d9064 -->
+<!-- last-content-edit: 2026-09-07 18:43:58 MSK -->
+<!-- content-sha256: sha256:cfc55357f4a5cad107ae22fa3ede52a60d6858b008f7f6cdfeb342abb52881fe -->
 <!-- FUM-MD-RECENCY:END -->

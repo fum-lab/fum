@@ -80,12 +80,14 @@ Dlya pervogo znakomstva dostatochno prochitatj [obzor proyekta](00-obzor-proyekt
 - [16 — Nauchnyiye issledovaniya i otkryitiya](16-nauchnyiye-issledovaniya-i-otkryitiya.md)
 - [40 — Karta ogranichitelej fizicheskogo dejstviya FUM](40-karta-ogranichitelej-fizicheskogo-dejstviya-FUM.md)
 
+- [52 — Modelj betonnyikh glubinnyikh sooruzhenij i podvodnyikh gruzovyikh sistem](52-modelj-betonnyikh-glubinnyikh-sistem.md)
+
 ## Istochniki trebovanij
 
 - [iskhodnyij zapros 2026-08-06 15:14:50 MSK — Sdelatj README instrukciyej ispoljzovaniya FUM](../Zhurnal/2026-08-06_15-14-50_MSK_sdelatj-README-instrukciyej-ispoljzovaniya-FUM/zapros.md)
 - [iskhodnyij zapros 2026-07-21 11:32:46 MSK — Aktualizirovatj vkhodnyiye opisaniya FUM](../Zhurnal/2026-07-21_11-32-46_MSK_aktualizirovatj-vkhodnyiye-opisaniya-FUM/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-02 09:36:08 MSK -->
-<!-- content-sha256: sha256:022cc640cd753e1c64ecdce71aaec9d6919248075d790ec8e3fc969a17bae750 -->
+<!-- last-content-edit: 2026-09-07 18:43:58 MSK -->
+<!-- content-sha256: sha256:f990edd6152362ae61b1f6ff2558d1c6876acfb26caf016cfb4a2658253ce45c -->
 <!-- FUM-MD-RECENCY:END -->

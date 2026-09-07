@@ -30,6 +30,6 @@
 - `модель-строительства-сооружений.md`
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-02 09:36:08 MSK -->
+<!-- last-content-edit: 2026-09-07 18:43:58 MSK -->
 <!-- content-sha256: sha256:efe3e08cee03e75edb0805b88842027b1a2b156cc6932f05f47deb5ea9406dc7 -->
 <!-- FUM-MD-RECENCY:END -->

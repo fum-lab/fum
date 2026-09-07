@@ -317,11 +317,22 @@ def fixture_transport(fixture_dir: Path) -> Transport:
 
 def redact_headers(raw: str) -> str:
     lines = []
+    скрыть_продолжение = False
     for line in raw.splitlines(keepends=True):
-        if line.lower().startswith("set-cookie:"):
+        if line.startswith((" ", "\t")):
+            if not скрыть_продолжение:
+                lines.append(line)
+            continue
+        имя, разделитель, _ = line.partition(":")
+        имя = имя.lower()
+        скрыть_продолжение = bool(разделитель) and имя in {
+            "set-cookie", "cf-ray", "x-request-id", "request-context",
+            "x-ms-middleware-request-id",
+        }
+        if скрыть_продолжение and имя == "set-cookie":
             lines.append(COOKIE_REDACTION)
-        elif line.lower().startswith("cf-ray:"):
-            lines.append("cf-ray: [REDACTED: response trace identifier]\n")
+        elif скрыть_продолжение:
+            lines.append(f"{имя}: [REDACTED: response trace identifier]\n")
         else:
             lines.append(line)
     return "".join(lines)
@@ -637,7 +648,7 @@ def write_report(
         "## Редакции перед сохранением",
         "",
         "- Значения `Set-Cookie` в HTTP-заголовках заменены на `[REDACTED: response cookie]`.",
-        "- Значения `CF-Ray` в HTTP-заголовках заменены на `[REDACTED: response trace identifier]`.",
+        "- Значения `CF-Ray`, `X-Request-ID`, `Request-Context`, `X-MS-Middleware-Request-ID` заменены на `[REDACTED: response trace identifier]`; продолжения очищаемых заголовков удалены.",
         "- HTML и извлечённый текст сохранены без перевода и смысловой нормализации.",
         "",
         "## Ограничения извлечения",

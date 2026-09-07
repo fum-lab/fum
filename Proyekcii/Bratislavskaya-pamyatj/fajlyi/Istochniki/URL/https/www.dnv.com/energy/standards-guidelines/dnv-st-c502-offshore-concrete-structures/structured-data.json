@@ -1,0 +1,46 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://www.dnv.com#organization",
+      "name": "DNV",
+      "url": "https://www.dnv.com",
+      "logo": "https://www.dnv.com/assets/images/DNV_logo_RGB_tcm8-197625.png",
+      "description": "DNV is a global independent assurance and risk management company. We pride ourselves on our uncompromising standards of quality and integrity wherever you meet us around the world. We enable our customers and their stakeholders to manage risk and compliance with confidence.",
+      "sameAs": [
+        "https://www.linkedin.com/company/dnv/",
+        "https://www.facebook.com/dnvofficial"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Veritasveien 1",
+        "addressLocality": "Oslo",
+        "postalCode": "1363",
+        "addressCountry": "Norway"
+      },
+      "telephone": "+4767579900"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.dnv.com/#website",
+      "url": "https://www.dnv.com/",
+      "name": "DNV - Global",
+      "publisher": {
+        "@id": "https://www.dnv.com#organization"
+      },
+      "inLanguage": "en"
+    },
+    {
+      "@id": "https://www.dnv.com/energy/standards-guidelines/dnv-st-c502-offshore-concrete-structures/#webpage",
+      "url": "https://www.dnv.com/energy/standards-guidelines/dnv-st-c502-offshore-concrete-structures/",
+      "name": "DNV-ST-C502 Offshore concrete structures",
+      "isPartOf": {
+        "@id": "https://www.dnv.com/#website"
+      },
+      "inLanguage": "en",
+      "description": "This DNV standard (ST) provides principles, technical requirements and guidelines for the design, construction and in-service inspection of offshore concrete structures.",
+      "@type": "WebPage"
+    }
+  ]
+}

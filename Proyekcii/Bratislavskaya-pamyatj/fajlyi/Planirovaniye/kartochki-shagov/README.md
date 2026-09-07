@@ -190,6 +190,11 @@ Dlya odnovremennogo utochneniya imeni dobavj `--description новое-крат�
 | FUM-STEP-0146 | ✅ Vyipolneno | [Svyazatj sleduyusjhiye shagi s dorozhnoj kartoj](✅-FUM-STEP-0146-svyazatj-sleduyusjhiye-shagi-s-dorozhnoj-kartoj.md)                                                                                                                                                                                                                     |
 | FUM-STEP-0147 | ✅ Vyipolneno | [Isklyuchitj dublirovaniye polnoj regressii pered finaljnyim smoke-check](✅-FUM-STEP-0147-isklyuchitj-dublirovaniye-polnoj-regressii-pered-finaljnyim-smoke-check.md)                                                                                                                                                               |
 | FUM-STEP-0148 | ✅ Vyipolneno | [Organizovatj paralleljnyiye sessii v izolirovannyikh worktree-poduzlakh](✅-FUM-STEP-0148-organizovatj-paralleljnyiye-sessii-v-izolirovannyikh-worktree-poduzlakh.md)                                                                                                                                                                 |
+| FUM-STEP-0149 | 🟡 Aktualjno | [Vyibratj opornyiye scenarii betonnyikh glubinnyikh sistem](🟡-FUM-STEP-0149-vyibratj-opornyiye-scenarii-betonnyikh-glubinnyikh-sistem.md)                                                                                                                                                                                                 |
+| FUM-STEP-0150 | 🟡 Aktualjno | [Proveritj vyipusk korrektnogo vneshnego paketa](🟡-FUM-STEP-0150-proveritj-vyipusk-korrektnogo-vneshnego-paketa.md)                                                                                                                                                                                                             |
+| FUM-STEP-0151 | ✅ Vyipolneno | [Obyyedinitj ochistku sluzhebnyikh zagolovkov arkhivatorov](✅-FUM-STEP-0151-obyyedinitj-ochistku-sluzhebnyikh-zagolovkov-arkhivatorov.md)                                                                                                                                                                                               |
+| FUM-STEP-0152 | 🟡 Aktualjno | [Soglasovatj format patcha priyomsjhika s proyekciyej](🟡-FUM-STEP-0152-soglasovatj-format-patcha-priyomsjhika-s-proyekciyej.md)                                                                                                                                                                                                         |
+| FUM-STEP-0153 | 🟡 Aktualjno | [Predotvrasjhatj pryamyiye proverki vne obyortki](🟡-FUM-STEP-0153-predotvrasjhatj-pryamyiye-proverki-vne-obyortki.md)                                                                                                                                                                                                                   |
 
 ## Istochniki trebovanij
 
@@ -224,6 +229,6 @@ Dlya odnovremennogo utochneniya imeni dobavj `--description новое-крат�
 - [iskhodnyij zapros 2026-07-24 10:44:28 MSK — Nachatj bezokonnyij Swift-prototip vosproizvodimogo popolneniya pamyati FUM](../../Zhurnal/2026-07-24_10-44-28_MSK_nachatj-bezokonnyij-Swift-prototip-vosproizvodimogo-popolneniya-pamyati-FUM/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-01 13:45:05 MSK -->
-<!-- content-sha256: sha256:11e7bdf9d56b713efdc0bd2dd41d4d851466b58ebb175dae5564cdc77cc493fc -->
+<!-- last-content-edit: 2026-09-07 20:27:55 MSK -->
+<!-- content-sha256: sha256:89093cbdedeaf7c507b2985d74ba6d67e2da89b6404f5b42e46bb049774ffc18 -->
 <!-- FUM-MD-RECENCY:END -->
