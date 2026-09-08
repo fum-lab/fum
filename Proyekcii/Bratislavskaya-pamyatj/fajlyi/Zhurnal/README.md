@@ -16,6 +16,7 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-08 18:50:08 MSK — Ustranitj ostanovku postoyannoj zadachi](2026-09-08_18-50-08_MSK_ustranitj-ostanovku-postoyannoj-zadachi/otchyot.md)
 - [2026-09-08 17:18:45 MSK — Uskoritj peresborku proyekcii](2026-09-08_17-18-45_MSK_uskoritj-peresborku-proyekcii/otchyot.md)
 - [2026-09-07 22:11:38 MSK — Sostavitj plan uskoreniya proyekcii](2026-09-07_22-11-38_MSK_sostavitj-plan-uskoreniya-proyekcii/otchyot.md)
 - [2026-09-02 21:42:27 MSK — Slitj vetku s Metal derevom Markdown dokumentov](2026-09-02_21-42-27_MSK_slitj-vetku-s-Metal-derevom-Markdown-dokumentov/otchyot.md)
@@ -476,6 +477,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 17:30:03 MSK -->
-<!-- content-sha256: sha256:8f2df3cfe5b5e1dcc0839b700eaf4a2118a4efea5017b7dffbcc65525f390453 -->
+<!-- last-content-edit: 2026-09-08 19:21:41 MSK -->
+<!-- content-sha256: sha256:550779d27bb159170f6081f56a21ba7ccea0da2fdf854b0827eace28c3e85ada -->
 <!-- FUM-MD-RECENCY:END -->

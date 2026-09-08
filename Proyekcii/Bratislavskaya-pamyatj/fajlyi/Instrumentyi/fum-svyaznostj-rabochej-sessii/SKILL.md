@@ -19,6 +19,16 @@ Avtomatizaciya osobenno polezna, kogda sessiya menyayet neskoljko oblastej pamya
 
 Yavnyij flag --kontroljnaya-tochka primenyayetsya toljko k promezhutochnomu kommitu, razreshyonnomu poljzovatelem. Vse proverki zaprosa, soobsjheniya kommita, identifikatora, ssyilok, recency i Git-sostoyaniya sokhranyayutsya. Mashinnyij zhurnal dolzhen byitj otkryityim, soderzhatj toljko terminaljnyiye zapisi i tochnyij aktualjnyij predprosmotr; aktivnaya zapisj, snimok, zhurnal vozobnovleniya ili podmena bloka zapresjhayut dopusk. Rezhim po umolchaniyu ne menyayetsya. Proverka ne zakryivayet otchyot i ne zayavlyayet gotovnostj proyekcii ili finaljnogo rezuljtata.
 
+## Resheniye o prodolzhenii zadachi
+
+Pered zaversheniyem otveta i posle kommita etapa korenj chitayet sokhranyonnyij v materialakh tekusjhego etapa plan komandoj `scripts/проверить-продолжение-задачи.py --корень-репозитория . --план <локальный-путь> --codex-thread-id <корневой-UUID> --перед-завершением`. Otdeljnyij read-only-vyizov posle kommita nakhoditsya vne uzhe zakryitogo zhurnala proverok. Bez `--перед-завершением` komanda vozvrasjhayet sleduyusjhij shag s kodom 0; s etim flagom kod 3 oznachayet obyazateljnoye prodolzheniye i zapresjhayet final. Kod 2 oznachayet nekorrektnyij plan, istochnik ili identifikator i ne schitayetsya razresheniyem zavershitj zadachu.
+
+Plan skhemyi `fum.продолжение-задачи.1` soderzhit tochnyiye polya `схема`, `задача`, `режим`, `остановка`, `работы`. Rezhim — `постоянная` ili `разовая`; ni odin vid kommita ne pogashayet ostavshijsya soglasovannyij obyyom. Kazhdaya rabota soderzhit unikaljnyij `идентификатор`, nepustoye `действие`, `состояние`, `основание` i `свидетельство`. Sostoyaniya — `доступна`, `ожидает-ответа`, `завершена`; posledniye dva trebuyut nepustogo svideteljstva, dostupnaya rabota — null. Osnovaniye soderzhit `запрос` i doslovnuyu `цитата` iz razdela iskhodnogo teksta zaprosa toj zhe kornevoj zadachi. Pole ostanovki ravno null libo imeyet tot zhe format osnovaniya yavnoj komandyi ostanovitjsya. Pustoj perechenj ne dokazyivayet ischerpaniye obyyoma, neizvestnyiye polya, sostoyaniya i povtornyiye klyuchi JSON otklonyayutsya. Proverennaya yavnaya komanda ostanovitjsya primenyayetsya do proverki ostatka rabot, v tom chisle pri pustom ili ustarevshem perechne. Sluzhebnyij identifikator beryotsya toljko iz yedinstvennogo nastoyasjhego razdela; zagolovki vnutri doslovnyikh ograd i kommentariyev yego ne zamenyayut. Kazhdyij iskhodnyij zapros chitayetsya odin raz v predelakh vyizova; mezhdu vyizovami kyesh ne sokhranyayetsya. Pervoj vyibirayetsya dostupnaya rabota v sokhranyonnom poryadke; ozhidaniye drugogo punkta yeyo ne blokiruyet. Yesli dostupnyikh rabot net, ozhidaniye dayot `ожидать-ответа`, zaversheniye vsekh rabot — `завершить`. Yavnaya ostanovka imeyet prioritet.
+
+`--вид-коммита контрольный|итоговый-этапа` zapisyivayet obyyavlennyij kontekst, no ne dokazyivayet susjhestvovaniye kommita. Yego OID, derevo i posledovateljnostj daljnejshikh dejstvij otdeljno proveryayet korenj po Git i JSONL. `--профиль` vyivodit monotonnoye vremya i iskhod v stderr, sokhranyaya stdout mashinnyim resheniyem.
+
+Eto ogranichennaya procedurnaya mera. Ona proveryayet strukturu i proiskhozhdeniye zayavlennogo plana, no ne polnotu spiska, smyisl citat ili istinnostj svobodnogo svideteljstva; eti utverzhdeniya proveryayet korenj. Komanda ne perekhvatyivayet final na urovne Codex, ne sozdayot raspisaniye i ne vozobnovlyayet ostanovlennyij runtime. Poetomu testyi resheniya dopolnyayutsya fakticheskim dejstviyem posle kommita bez novogo soobsjheniya poljzovatelya; nalichiye teksta pravila ne obyyavlyayetsya universaljnoj garantiyej.
+
 ## Komanda zapuska
 
 ```bash
@@ -102,6 +112,6 @@ Proverka Git-sostoyaniya sravnivayet toljko puti. Ona ne reshayet, nuzhno li vkl
 - [iskhodnyij zapros 2026-07-21 05:39:00 MSK - Sdelatj sluzhebnyiye generatoryi vosproizvodimyimi](../../Zhurnal/2026-07-21_05-39-00_MSK_sdelatj-sluzhebnyiye-generatoryi-vosproizvodimyimi/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 00:57:55 MSK -->
-<!-- content-sha256: sha256:323c69c119c12303baf8b4cf7135f025e6206f5094aa5a1878841dd5b43c5ff8 -->
+<!-- last-content-edit: 2026-09-08 19:21:41 MSK -->
+<!-- content-sha256: sha256:c94010e0693889859ffe86448818da700bf6b622434660636957eb13153934bd -->
 <!-- FUM-MD-RECENCY:END -->

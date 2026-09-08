@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-07 22:11:38 MSK - Sostavitj plan uskoreniya proyekcii](../2026-09-07_22-11-38_MSK_sostavitj-plan-uskoreniya-proyekcii/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-08 18:50:08 MSK - Ustranitj ostanovku postoyannoj zadachi](../2026-09-08_18-50-08_MSK_ustranitj-ostanovku-postoyannoj-zadachi/zapros.md)
 
 ## Tekst zaprosa
 
@@ -51,6 +51,6 @@ Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb
 - [Proizvodnoye pokoleniye proyekcii](../../../../).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 18:04:26 MSK -->
-<!-- content-sha256: sha256:c232cb464963077b83fd57aaf31d9fe86e92783d91c7a439dd88ece5766afde8 -->
+<!-- last-content-edit: 2026-09-08 19:21:41 MSK -->
+<!-- content-sha256: sha256:3a0090360073da9b7b33c0473b0faacb9d373df5f3f23576137af591bb112d92 -->
 <!-- FUM-MD-RECENCY:END -->
