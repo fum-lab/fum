@@ -684,9 +684,9 @@ class ТестыЗаписиРаундов(unittest.TestCase):
             + "данные=json.loads(путь.read_text())\n"
             + "данные['план']=[{'ключ_проверки':" + repr(ключ) + ",'название':'Проверка'}]\n"
             + "данные['наблюдения']=[{**данные['план'][0],'статус':'успешно','длительность_наносекунды':1}]\n"
-            + "путь.write_text(json.dumps(данные,ensure_ascii=False,sort_keys=True,indent=2)+'\\n')\n"
+            + "путь.write_text(json.dumps(данные,ensure_ascii=False,sort_keys=True,indent=2)+chr(10))\n"
             + "отчёт=Path(" + repr(str(сам.отчёт)) + ")\n"
-            + "отчёт.write_text(отчёт.read_text()+'Дочерний процесс выполнен.\\n')\n"
+            + "отчёт.write_text(отчёт.read_text()+'Дочерний процесс выполнен.'+chr(10))\n"
             + "sys.exit(" + str(код_выхода) + ")\n"
         )
 

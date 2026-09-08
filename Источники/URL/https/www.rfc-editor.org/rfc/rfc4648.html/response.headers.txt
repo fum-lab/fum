@@ -1,0 +1,11 @@
+HTTP/2 200
+date: Tue, 08 Sep 2026 10:48:48 GMT
+content-type: text/html
+access-control-allow-origin: *
+set-cookie: [REDACTED: response cookie]
+link: <https://www.rfc-editor.org/info/rfc4648/>; rel="canonical"
+cf-r2-served: 1
+etag: W/"63e6685b76e69c925fbc5e71c4a5099e"
+server: cloudflare
+cf-ray: [REDACTED: response trace identifier]
+alt-svc: h3=":443"; ma=86400

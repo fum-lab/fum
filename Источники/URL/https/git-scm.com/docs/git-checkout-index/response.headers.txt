@@ -1,0 +1,23 @@
+HTTP/2 200
+date: Tue, 08 Sep 2026 10:48:47 GMT
+content-type: text/html; charset=utf-8
+server: cloudflare
+x-origin-cache: HIT
+last-modified: Mon, 31 Aug 2026 06:42:24 GMT
+access-control-allow-origin: *
+etag: W/"6a952250-865e"
+expires: Tue, 08 Sep 2026 09:22:11 GMT
+cache-control: max-age=14400
+x-proxy-cache: MISS
+x-github-request-id: [REDACTED: служебная трассировка ответа]
+x-github-edge-region: [REDACTED: служебная трассировка ответа]
+via: 1.1 varnish
+age: 5795
+x-served-by: [REDACTED: служебная трассировка ответа]
+x-cache: MISS
+x-cache-hits: 0
+x-timer: [REDACTED: служебная трассировка ответа]
+vary: Accept-Encoding
+x-fastly-request-id: [REDACTED: служебная трассировка ответа]
+cf-cache-status: HIT
+cf-ray: [REDACTED: response trace identifier]
