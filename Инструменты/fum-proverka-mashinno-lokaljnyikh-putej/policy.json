@@ -2709,6 +2709,24 @@
       "count": 1,
       "category": "allow.test-fixture",
       "reason": "Закрепляет точный служебный маркер Git в тестовом патче добавления без разрешения соседних строк."
+    },
+    {
+      "id": "continuation-markdown-fence-pattern",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-продолжение-задачи.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:a327bac9701e11c34d1b93f9a2c00c6cf0fc9e462cf187b15f907cdb8b735a6d",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Регулярное выражение распознаёт ограду Markdown из обратных кавычек либо тильд; тильда здесь не является домашним путём."
+    },
+    {
+      "id": "continuation-journal-request-pattern",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-продолжение-задачи.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b7708b4b7e9c4d7521d89298621fe5afdabe4cacb17435b94548b0df131b74bb",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Регулярное выражение ограничивает основание относительным каноническим путём запроса Журнала; слэши и класс символов задают синтаксис проверки."
     }
   ]
 }
