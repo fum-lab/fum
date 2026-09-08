@@ -1,0 +1,175 @@
+{
+  "conclusion": "success",
+  "databaseId": 34271986351,
+  "headSha": "dd583a4031c5af2147c5c2b85d522ef76b018fff",
+  "jobs": [
+    {
+      "completedAt": "2026-09-08T19:59:57Z",
+      "conclusion": "success",
+      "databaseId": 102215552460,
+      "name": "test (ubuntu-24.04)",
+      "startedAt": "2026-09-08T19:57:45Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-09-08T19:57:46Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-09-08T19:57:45Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-08T19:57:47Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "number": 2,
+          "startedAt": "2026-09-08T19:57:46Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-08T19:58:01Z",
+          "conclusion": "success",
+          "name": "Run swift-actions/setup-swift@364295d9c23900ce04d4e5cc708387921b4e50f9",
+          "number": 3,
+          "startedAt": "2026-09-08T19:57:47Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-08T19:58:01Z",
+          "conclusion": "success",
+          "name": "Run swift --version",
+          "number": 4,
+          "startedAt": "2026-09-08T19:58:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-08T19:58:52Z",
+          "conclusion": "success",
+          "name": "Run swift test -Xswiftc -warnings-as-errors",
+          "number": 5,
+          "startedAt": "2026-09-08T19:58:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-08T19:59:26Z",
+          "conclusion": "success",
+          "name": "Run swift build -c release -Xswiftc -warnings-as-errors",
+          "number": 6,
+          "startedAt": "2026-09-08T19:58:52Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-08T19:59:56Z",
+          "conclusion": "success",
+          "name": "Check generated tables",
+          "number": 7,
+          "startedAt": "2026-09-08T19:59:26Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-08T19:59:56Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "number": 14,
+          "startedAt": "2026-09-08T19:59:56Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-08T19:59:56Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 15,
+          "startedAt": "2026-09-08T19:59:56Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/fum-lab/LinguisticKit/actions/runs/34271986351/job/102215552460"
+    },
+    {
+      "completedAt": "2026-09-08T20:01:56Z",
+      "conclusion": "success",
+      "databaseId": 102215552856,
+      "name": "test (macos-15)",
+      "startedAt": "2026-09-08T19:57:52Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-09-08T19:57:54Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-09-08T19:57:52Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-08T19:57:56Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "number": 2,
+          "startedAt": "2026-09-08T19:57:54Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-08T19:59:07Z",
+          "conclusion": "success",
+          "name": "Run swift-actions/setup-swift@364295d9c23900ce04d4e5cc708387921b4e50f9",
+          "number": 3,
+          "startedAt": "2026-09-08T19:57:56Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-08T19:59:07Z",
+          "conclusion": "success",
+          "name": "Run swift --version",
+          "number": 4,
+          "startedAt": "2026-09-08T19:59:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-08T20:00:18Z",
+          "conclusion": "success",
+          "name": "Run swift test -Xswiftc -warnings-as-errors",
+          "number": 5,
+          "startedAt": "2026-09-08T19:59:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-08T20:01:17Z",
+          "conclusion": "success",
+          "name": "Run swift build -c release -Xswiftc -warnings-as-errors",
+          "number": 6,
+          "startedAt": "2026-09-08T20:00:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-08T20:01:52Z",
+          "conclusion": "success",
+          "name": "Check generated tables",
+          "number": 7,
+          "startedAt": "2026-09-08T20:01:17Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-08T20:01:53Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "number": 14,
+          "startedAt": "2026-09-08T20:01:52Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-08T20:01:55Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 15,
+          "startedAt": "2026-09-08T20:01:53Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/fum-lab/LinguisticKit/actions/runs/34271986351/job/102215552856"
+    }
+  ],
+  "status": "completed",
+  "url": "https://github.com/fum-lab/LinguisticKit/actions/runs/34271986351"
+}
