@@ -5528,7 +5528,7 @@ def преобразователь_процесса(
             try:
                 вход = json.dumps(list(строки), ensure_ascii=False) + "\n"
                 with профилировочная_метка(
-                    "Swift run: сборка, запуск и преобразование",
+                    "запуск и преобразование Swift",
                     вызов=номер_вызова,
                     строк=len(строки),
                     байтов_входного_JSON=len(вход.encode("utf-8")) if _ПРОФИЛЬ.get() else 0,
@@ -5792,6 +5792,55 @@ def развернуть_архив_дерева(байты_архива: bytes,
         ) from ошибка
 
 
+def собрать_изолированный_продукт(
+    пакет: Path,
+    каталог_сборки: Path,
+    проверить_границу: Callable[[], None],
+) -> list[str]:
+    команда = [
+        "swift", "build", "--quiet", "--configuration", "release",
+        "--package-path", str(пакет),
+        "--scratch-path", str(каталог_сборки),
+    ]
+    проверить_границу()
+    try:
+        try:
+            with профилировочная_метка("сборка Swift Release"):
+                subprocess.run(
+                    [*команда, "--product", "preobrazovatj-nazvaniya"],
+                    text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                    check=True,
+                )
+            with профилировочная_метка("определение каталога продукта Swift"):
+                результат = subprocess.run(
+                    [*команда, "--show-bin-path"],
+                    text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                    check=True,
+                )
+        finally:
+            проверить_границу()
+    except (OSError, subprocess.CalledProcessError) as ошибка:
+        пояснение = getattr(ошибка, "stderr", None) or str(ошибка)
+        raise ОшибкаКонтракта(
+            f"Не удалось собрать LinguisticKit: {str(пояснение).strip()}"
+        ) from ошибка
+    try:
+        каталог = Path(результат.stdout.strip())
+        if not каталог.is_absolute():
+            raise ValueError("Swift вернул не абсолютный каталог продукта")
+        каталог = каталог.resolve(strict=True)
+        каталог.relative_to(каталог_сборки.resolve(strict=True))
+        продукт = каталог / "preobrazovatj-nazvaniya"
+        сведения = продукт.lstat()
+        if not stat.S_ISREG(сведения.st_mode) or not os.access(продукт, os.X_OK):
+            raise ValueError("Продукт не является обычным исполняемым файлом")
+    except (OSError, ValueError) as ошибка:
+        raise ОшибкаКонтракта(
+            "Непригодный продукт Swift вне изолированной сборки или без права исполнения"
+        ) from ошибка
+    return [str(продукт)]
+
+
 @contextmanager
 def подготовить_изолированный_преобразователь(
     корень: Path,
@@ -5855,16 +5904,9 @@ def подготовить_изолированный_преобразовате
                 ожидаемое_дерево,
             )
 
-        команда = [
-            "swift",
-            "run",
-            "--quiet",
-            "--package-path",
-            str(пакет),
-            "--scratch-path",
-            str(временный_корень / "сборка"),
-            "preobrazovatj-nazvaniya",
-        ]
+        команда = собрать_изолированный_продукт(
+            пакет, временный_корень / "сборка", проверить_изолированную_границу,
+        )
         yield команда, проверить_изолированную_границу
 
 
