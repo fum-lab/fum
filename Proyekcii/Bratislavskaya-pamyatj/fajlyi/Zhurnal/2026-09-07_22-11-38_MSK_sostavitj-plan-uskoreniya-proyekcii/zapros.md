@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-02 21:42:27 MSK - Slitj vetku s Metal derevom Markdown dokumentov](../2026-09-02_21-42-27_MSK_slitj-vetku-s-Metal-derevom-Markdown-dokumentov/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-08 17:18:45 MSK - Uskoritj peresborku proyekcii](../2026-09-08_17-18-45_MSK_uskoritj-peresborku-proyekcii/zapros.md)
 
 ## Tekst zaprosa
 
@@ -262,6 +262,6 @@ Promezhutochnyiye kommityi razreshenyi soobsjheniyem 23 v etoj postoyannoj zadac
 - [Otchyot ob izvlechenii](../../Istochniki/URL/https/www.rfc-editor.org/rfc/rfc4648.html/extraction-report.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 15:24:29 MSK -->
-<!-- content-sha256: sha256:41b103587458d85aa8aef88be88db41e73164e6227d5495ac3fc7ca5de488a2d -->
+<!-- last-content-edit: 2026-09-08 17:30:03 MSK -->
+<!-- content-sha256: sha256:489c50b4ab686047219d45a03264197432babc706bd09c813b87b040ac4e03c3 -->
 <!-- FUM-MD-RECENCY:END -->

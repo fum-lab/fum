@@ -77,6 +77,8 @@ Shtatnyij process povtorno ispoljzuyet ispolnyayemuyu celj `preobrazovatj-nazvan
 
 Pered zhivyim ispoljzovaniyem Git-topologiya i tochnyij identifikator zavisimosti proveryayutsya otdeljnoj avtomatizaciyej fum-proverka-git-zavisimostej. Materializaciya dopolniteljno sveryayetsya s zakreplyonnyim derevom po polnomu naboru obyichnyikh fajlov, rezhimam i bajtam obyyektov. Otslezhivayemyiye zakreplyonnyim derevom fajlyi v `.swiftpm` otnosyatsya k tochnoj zavisimosti, a lyuboj lishnij fajl v `.build`, `.swiftpm` ili inom meste zakryivayet zapusk. Sam SwiftPM-process ne chitayet etot izmenyayemyij checkout: avtomatizaciya razvorachivayet vo vremennom kataloge Git-arkhiv obyortki iz tochnoj vershinyi osnovnogo repozitoriya i otdeljnyij Git-arkhiv LinguisticKit iz zakreplyonnoj revizii, napravlyayet sborochnoye sostoyaniye v otdeljnyij vremennyij korenj i do i posle vyizova povtorno proveryayet izolirovannoye derevo. Poetomu ignoriruyemyij novyij iskhodnik, skryitoye indeksnyim flagom izmeneniye i tranzitnaya podmena fajla rabochej materializacii ne mogut popastj v sborku pod imenem zakreplyonnoj revizii. Avtonomnyiye testyi etogo instrumenta inyyeciruyut vyizyivayemoye preobrazovaniye putej na vnutrennej granice Python i ne trebuyut seti ili materializovannoj zavisimosti.
 
+V kazhdom takom vremennom korne produkt odin raz sobirayetsya komandoj `swift build --configuration release --product preobrazovatj-nazvaniya`. Katalog produkta zaprashivayetsya u SwiftPM s temi zhe package-path, scratch-path i konfiguraciyej; on dolzhen razreshatjsya vnutri sobstvennogo kataloga sborki i soderzhatj obyichnyij ispolnyayemyij fajl. Produkt zapuskayetsya napryamuyu na meste vmeste s dinamicheskoj bibliotekoj, poka zhiv kontekst izolyacii. Proverka arkhivnoj granicyi vyipolnyayetsya do i posle sborki, vklyuchaya yeyo neuspekh, i do i posle kazhdogo preobrazovaniya. Mezhdu CLI-komandami sborka ne pereispoljzuyetsya; kazhdyij vyizov generatora i nezavisimogo validatora zanovo vyichislyayet stroki.
+
 ## Komandyi
 
 Sam kontrakt proveryayetsya bez zapuska LinguisticKit:
@@ -128,7 +130,7 @@ V stderr nemedlenno vyivodyatsya stroki s prefiksom `FUM-PROFILE ` i JSON-obyyek
 
 Izmeryayutsya inventarizaciya i khyeshirovaniye, puti, podgotovka Markdown i ssyilok, sborka yakorej i vyikhodnyikh bajtov, zapisj i sinkhronizaciya pokoleniya, chteniye celevogo dereva i nezavisimaya proverka. Vnutrennyaya proverka vlozhena v primeneniye; otdeljnaya CLI-proverka imeyet drugoj identifikator zapuska. Roditelj vklyuchayet vremya detej: ikh dliteljnosti neljzya skladyivatj kak nezavisimyiye zatratyi.
 
-Metka `Swift run: сборка, запуск и преобразование` okhvatyivayet vesj dochernij process. Pervyij vyizov vklyuchayet lenivuyu kompilyaciyu, posleduyusjhiye mogut vklyuchatj rabotu SwiftPM; eto ne chistoye vremya transliteracii. Proverki granicyi do i posle vyizova izmeryayutsya otdeljno. Podgotovka izolyacii pokryita chastichno: proverka materializacii i razvyortyivaniye arkhivov otmechenyi, a Git-arkhivirovaniye i ochistka vremennogo dereva ne imeyut otdeljnyikh intervalov.
+Metka `сборка Swift Release` otdeljno okhvatyivayet odnokratnuyu kompilyaciyu, a `определение каталога продукта Swift` — zapros puti u SwiftPM. Metka `запуск и преобразование Swift` okhvatyivayet pryamoye ispolneniye produkta bez rabotyi sborsjhika: zapusk processa, razbor JSON, transliteraciyu i serializaciyu otveta. Eto yesjhyo ne chistoye vremya funkcii transliteracii. Istoricheskaya metka `Swift run: сборка, запуск и преобразование` sokhranyayet prezhnij smyisl v staryikh profilyakh. Proverki granicyi do i posle vyizova izmeryayutsya otdeljno. Podgotovka izolyacii pokryita chastichno: proverka materializacii i razvyortyivaniye arkhivov otmechenyi, a Git-arkhivirovaniye i ochistka vremennogo dereva ne imeyut otdeljnyikh intervalov.
 
 Obyichnyiye oshibki zapisi v diagnosticheskij potok ne upravlyayut tranzakciyej i ne podmenyayut iskhodnoye isklyucheniye. Metki sami po sebe ne yavlyayutsya dolgovechnyim zhurnalom: vyivod sokhranyayetsya vyizyivayusjhej zadachej na postoyannyij nositelj vne proveryayemogo kanonicheskogo snimka s ukazaniyem komandyi, iskhodnogo snimka i rezuljtata. Poterya diagnosticheskogo potoka oznachayet nepolnyij profilj. Izmereniya i ikh ogranicheniya svyazyivayutsya s Zhurnalom zadachi; syiryiye lokaljnyiye logi ne kopiruyutsya v publichnyij checkout.
 
@@ -159,6 +161,6 @@ Kanonicheskiye avtodiskaveri-konturyi isklyuchayut toljko kornevuyu oblastj `Pro
 - [iskhodnyij zapros realizacii FUM-STEP-0129](../../Zhurnal/2026-09-01_11-19-59_MSK_realizovatj-bratislavskuyu-proyekciyu-pamyati/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-07 23:48:47 MSK -->
-<!-- content-sha256: sha256:b2c21d0b1d8875efeef8bdea4ea1a6147f71d5f465c22593977bbfd5d60efc6c -->
+<!-- last-content-edit: 2026-09-08 17:30:03 MSK -->
+<!-- content-sha256: sha256:59781f57c46238ef3a89fcea2da6b647b0d3ff07212ce8ad3fe760696d1ed08f -->
 <!-- FUM-MD-RECENCY:END -->

@@ -194,6 +194,7 @@ Dlya odnovremennogo utochneniya imeni dobavj `--description новое-крат�
 | FUM-STEP-0155 | 🟡 Aktualjno | [Realizovatj priyomku snimkov indeksa v odnoj zadache](🟡-FUM-STEP-0155-realizovatj-priyomku-snimkov-indeksa-v-odnoj-zadache.md) |
 | FUM-STEP-0156 | 🟡 Aktualjno | [Realizovatj kontejner nablyudenij s binarnyimi blokami](🟡-FUM-STEP-0156-realizovatj-kontejner-nablyudenij-s-binarnyimi-blokami.md) |
 | FUM-STEP-0157 | 🟡 Aktualjno | [Ispravitj razbor razdelitelya pered trailer](🟡-FUM-STEP-0157-ispravitj-razbor-razdelitelya-pered-trailer.md) |
+| FUM-STEP-0158 | 🟡 Aktualjno | [Sveritj istoricheskij snimok obyyavlenij koda](🟡-FUM-STEP-0158-sveritj-istoricheskij-snimok-obyyavlenij-koda.md) |
 
 ## Istochniki trebovanij
 
@@ -228,6 +229,6 @@ Dlya odnovremennogo utochneniya imeni dobavj `--description новое-крат�
 - [iskhodnyij zapros 2026-07-24 10:44:28 MSK — Nachatj bezokonnyij Swift-prototip vosproizvodimogo popolneniya pamyati FUM](../../Zhurnal/2026-07-24_10-44-28_MSK_nachatj-bezokonnyij-Swift-prototip-vosproizvodimogo-popolneniya-pamyati-FUM/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 15:24:29 MSK -->
-<!-- content-sha256: sha256:6927bfef3365aeaa71695970e677a6b25cfaa23ae470c022b3f4c184d286e6ba -->
+<!-- last-content-edit: 2026-09-08 18:00:11 MSK -->
+<!-- content-sha256: sha256:be134a4425bd417e2b3f12c8aeedcca1e655e11c90dd26286530806518a1d72c -->
 <!-- FUM-MD-RECENCY:END -->
