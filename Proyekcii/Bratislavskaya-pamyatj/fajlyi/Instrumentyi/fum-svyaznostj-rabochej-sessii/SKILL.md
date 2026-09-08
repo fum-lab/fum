@@ -15,6 +15,10 @@ Ispoljzuj etu avtomatizaciyu pered kommitom rabochej sessii, vliyayusjhej na pro
 
 Avtomatizaciya osobenno polezna, kogda sessiya menyayet neskoljko oblastej pamyati: `Документация/`, `Глоссарий/`, `Инструменты/`, `Планирование/` i `Журнал/`.
 
+## Promezhutochnyij kommit postoyannoj zadachi
+
+Yavnyij flag --kontroljnaya-tochka primenyayetsya toljko k promezhutochnomu kommitu, razreshyonnomu poljzovatelem. Vse proverki zaprosa, soobsjheniya kommita, identifikatora, ssyilok, recency i Git-sostoyaniya sokhranyayutsya. Mashinnyij zhurnal dolzhen byitj otkryityim, soderzhatj toljko terminaljnyiye zapisi i tochnyij aktualjnyij predprosmotr; aktivnaya zapisj, snimok, zhurnal vozobnovleniya ili podmena bloka zapresjhayut dopusk. Rezhim po umolchaniyu ne menyayetsya. Proverka ne zakryivayet otchyot i ne zayavlyayet gotovnostj proyekcii ili finaljnogo rezuljtata.
+
 ## Komanda zapuska
 
 ```bash
@@ -98,6 +102,6 @@ Proverka Git-sostoyaniya sravnivayet toljko puti. Ona ne reshayet, nuzhno li vkl
 - [iskhodnyij zapros 2026-07-21 05:39:00 MSK - Sdelatj sluzhebnyiye generatoryi vosproizvodimyimi](../../Zhurnal/2026-07-21_05-39-00_MSK_sdelatj-sluzhebnyiye-generatoryi-vosproizvodimyimi/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-02 15:15:05 MSK -->
-<!-- content-sha256: sha256:2a68603670e2c28cb880d47e1b7e9ae8c85981619aebb5937b0406f188499909 -->
+<!-- last-content-edit: 2026-09-08 00:57:55 MSK -->
+<!-- content-sha256: sha256:323c69c119c12303baf8b4cf7135f025e6206f5094aa5a1878841dd5b43c5ff8 -->
 <!-- FUM-MD-RECENCY:END -->

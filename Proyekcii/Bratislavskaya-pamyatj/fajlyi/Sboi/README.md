@@ -29,6 +29,10 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0021 | `устранена` | [Nematerializovannaya Git-zavisimostj avtomaticheski sozdannogo slota](FUM-SBOJ-0021-nematerializovannaya-Git-zavisimostj-avtomaticheski-sozdannogo-slota.md)           | 1          | —                       |
 | FUM-SBOJ-0022 | `устранена` | [Nedostavka izmenenij iz Web ChatGPT](FUM-SBOJ-0022-nedostavka-izmenenij-iz-Web-ChatGPT.md)                                                                   | 1          | —                       |
 | FUM-SBOJ-0026 | `устранена` | [Obesjhaniye zapomnitj vmesto zakrepleniya pravila](FUM-SBOJ-0026-obesjhaniye-zapomnitj-vmesto-zakrepleniya-pravila.md) | 1 | — |
+| FUM-SBOJ-0027 | `активна` | [Zaversheniye otveta posle promezhutochnogo kommita](FUM-SBOJ-0027-zaversheniye-otveta-posle-promezhutochnogo-kommita.md) | 1 | FUM-STEP-0154 |
+| FUM-SBOJ-0028 | `устранена` | [Ekranirovaniye fiksturyi raspoznano kak mashinnyij putj](FUM-SBOJ-0028-ekranirovaniye-fiksturyi-raspoznano-kak-mashinnyij-putj.md) | 1 | — |
+| FUM-SBOJ-0029 | `устранена` | [Propusk obratnoj ssyilki v glossarii](FUM-SBOJ-0029-propusk-obratnoj-ssyilki-v-glossarii.md) | 1 | — |
+| FUM-SBOJ-0030 | `активна` | [Lishnyaya pustaya stroka narushayet razbor trailer](FUM-SBOJ-0030-lishnyaya-pustaya-stroka-narushayet-razbor-trailer.md) | 1 | FUM-STEP-0157 |
 
 ## Pravila vedeniya
 
@@ -61,6 +65,6 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 - [pravila rabochikh sessij](../AGENTS.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-07 23:08:40 MSK -->
-<!-- content-sha256: sha256:8f00eff0620a4da0cca0f1769e99c80efb4f84cba63b02edf2663a8120eb9f99 -->
+<!-- last-content-edit: 2026-09-08 15:24:29 MSK -->
+<!-- content-sha256: sha256:552553b136e6356de6365bb9c5bcf36388164708f7312ae5ce8bac76d4fda05a -->
 <!-- FUM-MD-RECENCY:END -->

@@ -28,7 +28,7 @@ Do perekhoda na `manual-sequential-v1` zadacha, gotovaya zavershitjsya kommitom:
 4. peredayot yego identifikator atomarnoj komande commit+handoff;
 5. posle kommita boljshe ne delayet host-effektov.
 
-Rebyonok perechityival novyij `HEAD` i neposredstvenno vyizyival [selektor sleduyusjhego shaga vetki](../fum-sleduyusjhij-shag-vetki/SKILL.md). `done` i `not_ready` zakanchivalisj `finish-clean`. Podrobnyij istoricheskij kontrakt nakhoditsya v [dokumente 45](../../Dokumentaciya/45-obyazateljnoye-prodolzheniye-Git-vetki-posle-kommita.md) i [navyike FIFO-ocheredi](../fum-ocheredj-zadach-git-vetki/SKILL.md). Obyichnaya tekusjhaya sessiya vmesto etogo rabotayet v sobstvennom rabochem dereve i sozdayot ne boleye odnogo lokaljnogo kommita v svoyej vetke i zavershayetsya bez rebyonka, FIFO-handoff i selector.
+Rebyonok perechityival novyij `HEAD` i neposredstvenno vyizyival [selektor sleduyusjhego shaga vetki](../fum-sleduyusjhij-shag-vetki/SKILL.md). `done` i `not_ready` zakanchivalisj `finish-clean`. Podrobnyij istoricheskij kontrakt nakhoditsya v [dokumente 45](../../Dokumentaciya/45-obyazateljnoye-prodolzheniye-Git-vetki-posle-kommita.md) i [navyike FIFO-ocheredi](../fum-ocheredj-zadach-git-vetki/SKILL.md). Tekusjhaya sessiya rabotayet v sobstvennom rabochem dereve; kontroljnyiye i itogovyiye kommityi reguliruyet AGENTS.md. Rebyonok, FIFO-handoff i selector ne zapuskayutsya.
 
 ## Istoricheskaya granica
 
@@ -41,6 +41,6 @@ Prezhnyaya realizaciya i yeyo avtonomnyiye testyi mogut prodolzhatj vyipolnyatjs
 - [iskhodnyij zapros 2026-08-05 05:48:39 MSK — Zakrepitj kontrakt universaljnogo dispetchera avtomatizacij FUM](../../Zhurnal/2026-08-05_05-48-39_MSK_zakrepitj-kontrakt-universaljnogo-dispetchera-avtomatizacij-FUM/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-07 23:04:16 MSK -->
-<!-- content-sha256: sha256:1c12537cd97671c4b0038cbc75eaa33b460f06daa2441c87e4acbf2648adf825 -->
+<!-- last-content-edit: 2026-09-08 00:57:55 MSK -->
+<!-- content-sha256: sha256:0904a203087f23029645dbc963b3467ab6f91e915eb41beda18a1d1be5e5938c -->
 <!-- FUM-MD-RECENCY:END -->

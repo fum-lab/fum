@@ -1,0 +1,1746 @@
+<!DOCTYPE html>
+
+
+
+<html lang="en">
+
+
+
+
+
+
+<head>
+  <script type="text/javascript">
+    
+    const currentTheme = localStorage.getItem("theme")
+    if (currentTheme) {
+      
+      const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches
+      if (prefersDarkScheme === (currentTheme === "dark")) localStorage.removeItem("theme")
+      else if ((prefersDarkScheme && currentTheme === "light")
+        || (!prefersDarkScheme && currentTheme === "dark")) {
+	document.documentElement.dataset.theme = currentTheme
+      }
+    }
+  </script>
+
+  <meta charset='utf-8'>
+  <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Git - git-checkout-index Documentation</title>
+
+  <link href="/favicon.ico" rel='shortcut icon' type='image/x-icon'>
+
+  
+  <link rel="stylesheet" href="/application.min.1735659ab01277d1a47a6bf1697bf1323e6c5d3ac218e80b6fbeed5eee146237.css" integrity="sha256-FzVlmrASd9GkemvxaXvxMj5sXTrCGOgLb77tXu4UYjc=">
+  <script src="/js/modernizr.js"></script>
+  
+
+</head>
+
+<body id="documentation">
+
+  <div class="inner">
+    <header>
+  <a id="logo" href="/"><img src="/images/logo@2x.png" width="110" height="46" alt="Git" class="no-filter" /></a>
+  <span id="tagline"></span>
+  <script type="text/javascript">
+   const taglines = [
+     "fast-version-control",
+     "everything-is-local",
+     "distributed-even-if-your-workflow-isnt",
+     "local-branching-on-the-cheap",
+     "distributed-is-the-new-centralized"
+   ];
+   var tagline = taglines[Math.floor(Math.random() * taglines.length)];
+   document.getElementById('tagline').innerHTML = '--' + tagline;
+  </script>
+
+  
+  <div id="search-container">
+    <form id="search" action="/search/results">
+      <input id="search-text" name="search" placeholder="Type / to search entire site…" autocomplete="off" type="text" />
+    </form>
+    <div id="search-results"></div>
+  </div>
+  
+  <img src="/images/dark-mode.svg" id="dark-mode-button" />
+</header>
+
+  </div> 
+
+  
+    <div class="inner">
+      <div id="content-wrapper">
+        
+<div tabindex="1" class="sidebar-btn"></div>
+<aside class="sidebar" id="sidebar">
+  <nav>
+    <ul>
+      <li>
+        <a href="/about">About</a>
+        <ul >
+          <li>
+            <a href="/about/trademark">Trademark</a>
+          </li>
+        </ul>
+      </li>
+
+      <li>
+        <a href="/learn">Learn</a>
+        <ul >
+          <li>
+            <a href="/book">Book</a>
+          </li>
+          <li>
+            <a href="/cheat-sheet">Cheat Sheet</a>
+          </li>
+          <li>
+            <a href="/videos">Videos</a>
+          </li>
+          <li>
+            <a href="/doc/ext">External Links</a>
+          </li>
+        </ul>
+      </li>
+
+      <li>
+        <a href="/tools">Tools</a>
+        <ul >
+          <li>
+            <a href="/tools/command-line">Command Line</a>
+          </li>
+          <li>
+            <a href="/tools/guis">GUIs</a>
+          </li>
+          <li>
+            <a href="/tools/hosting">Hosting</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="/docs" class="active">Reference</a>
+      </li>
+      <li>
+        <a href="/install" class="install-link">Install</a>
+      </li>
+      <li>
+        <a href="/community">Community</a>
+        <ul>
+          
+        </ul>
+      </li>
+    </ul>
+
+    
+    
+    <ul id="toc">
+      <li> Table of Contents
+        <ul class="expanded">
+          
+            <li><a href="#_name">NAME</a> </li>
+          
+            <li><a href="#_synopsis">SYNOPSIS</a> </li>
+          
+            <li><a href="#_description">DESCRIPTION</a> </li>
+          
+            <li><a href="#_options">OPTIONS</a> </li>
+          
+            <li><a href="#_using_temp_or_stageall">Using --temp or --stage=all</a> </li>
+          
+            <li><a href="#_examples">EXAMPLES</a> </li>
+          
+            <li><a href="#_git">GIT</a> </li>
+          
+        </ul>
+      </li>
+    </ul>
+    
+
+    
+  </nav>
+</aside>
+
+        <div id="content">
+          <div id='reference-version'>
+            
+<a class="dropdown-trigger" id="reference-languages-trigger" data-panel-id="l10n-versions-dropdown" href="#"> English ▾</a>
+<div class='dropdown-panel right' id='l10n-versions-dropdown'>
+  <header>Localized versions of <strong>git-checkout-index</strong> manual</header>
+  <ol class='reference-previous-versions'>
+    
+    <li>
+      <a href="/docs/git-checkout-index"><span class="version">English</span>
+      </a>
+      </li>
+    
+    
+    <li>
+        <a href="/docs/git-checkout-index/fr"><span class="version">Français</span>
+        </a>
+        </li>
+    
+    <li>
+        <a href="/docs/git-checkout-index/ja"><span class="version">日本語</span>
+        </a>
+        </li>
+    
+    <li>
+        <a href="/docs/git-checkout-index/pt_BR"><span class="version">Português (Brasil)</span>
+        </a>
+        </li>
+    
+    <li>
+        <a href="/docs/git-checkout-index/ru"><span class="version">Русский</span>
+        </a>
+        </li>
+    
+    <li>
+        <a href="/docs/git-checkout-index/sv"><span class="version">Svenska</span>
+        </a>
+        </li>
+    
+    <li>
+        <a href="/docs/git-checkout-index/uk"><span class="version">українська мова</span>
+        </a>
+        </li>
+    
+    <li>
+        <a href="/docs/git-checkout-index/zh_HANS-CN"><span class="version">简体中文</span>
+        </a>
+        </li>
+    
+  </ol>
+  <footer>
+    Want to read in your language or fix typos?<br/> <a href="https://github.com/jnavila/git-manpages-l10n">You can help translate this page</a>.
+  </footer>
+</div>
+
+            
+<a class="dropdown-trigger" id="reference-topics-trigger" data-panel-id="topics-dropdown" href="#">Topics ▾</a>
+<div class='dropdown-panel right' id='topics-dropdown'>
+  <div class='three-column'>
+    <div class='column-left'>
+      
+      
+      
+
+<h3 class='setup'>Setup and Config</h3>
+<ul class='unstyled'>
+  
+  <li>
+    
+      <a href="/docs/git">
+    
+      
+        git
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-config">
+    
+      
+        config
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-help">
+    
+      
+        help
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-bugreport">
+    
+      
+        bugreport
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/doc/credential-helpers">
+    
+      
+        Credential helpers
+      
+    </a>
+  </li>
+  
+</ul>
+
+      
+      
+      
+
+<h3 class='projects'>Getting and Creating Projects</h3>
+<ul class='unstyled'>
+  
+  <li>
+    
+      <a href="/docs/git-init">
+    
+      
+        init
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-clone">
+    
+      
+        clone
+      
+    </a>
+  </li>
+  
+</ul>
+
+      
+      
+      
+
+<h3 class='snapshotting'>Basic Snapshotting</h3>
+<ul class='unstyled'>
+  
+  <li>
+    
+      <a href="/docs/git-add">
+    
+      
+        add
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-status">
+    
+      
+        status
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-diff">
+    
+      
+        diff
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-commit">
+    
+      
+        commit
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-notes">
+    
+      
+        notes
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-restore">
+    
+      
+        restore
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-reset">
+    
+      
+        reset
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-rm">
+    
+      
+        rm
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-mv">
+    
+      
+        mv
+      
+    </a>
+  </li>
+  
+</ul>
+
+      
+      
+      
+
+<h3 class='branching'>Branching and Merging</h3>
+<ul class='unstyled'>
+  
+  <li>
+    
+      <a href="/docs/git-branch">
+    
+      
+        branch
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-checkout">
+    
+      
+        checkout
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-switch">
+    
+      
+        switch
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-merge">
+    
+      
+        merge
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-mergetool">
+    
+      
+        mergetool
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-log">
+    
+      
+        log
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-stash">
+    
+      
+        stash
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-tag">
+    
+      
+        tag
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-worktree">
+    
+      
+        worktree
+      
+    </a>
+  </li>
+  
+</ul>
+
+      
+      
+      
+
+<h3 class='sharing'>Sharing and Updating Projects</h3>
+<ul class='unstyled'>
+  
+  <li>
+    
+      <a href="/docs/git-fetch">
+    
+      
+        fetch
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-pull">
+    
+      
+        pull
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-push">
+    
+      
+        push
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-remote">
+    
+      
+        remote
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-submodule">
+    
+      
+        submodule
+      
+    </a>
+  </li>
+  
+</ul>
+
+      
+    </div>
+    <div class='column-middle'>
+      
+      
+      
+
+<h3 class='inspection'>Inspection and Comparison</h3>
+<ul class='unstyled'>
+  
+  <li>
+    
+      <a href="/docs/git-show">
+    
+      
+        show
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-log">
+    
+      
+        log
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-diff">
+    
+      
+        diff
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-difftool">
+    
+      
+        difftool
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-range-diff">
+    
+      
+        range-diff
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-shortlog">
+    
+      
+        shortlog
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-describe">
+    
+      
+        describe
+      
+    </a>
+  </li>
+  
+</ul>
+
+      
+      
+      
+
+<h3 class='patching'>Patching</h3>
+<ul class='unstyled'>
+  
+  <li>
+    
+      <a href="/docs/git-apply">
+    
+      
+        apply
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-cherry-pick">
+    
+      
+        cherry-pick
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-diff">
+    
+      
+        diff
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-rebase">
+    
+      
+        rebase
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-revert">
+    
+      
+        revert
+      
+    </a>
+  </li>
+  
+</ul>
+
+      
+      
+      
+
+<h3 class='debugging'>Debugging</h3>
+<ul class='unstyled'>
+  
+  <li>
+    
+      <a href="/docs/git-bisect">
+    
+      
+        bisect
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-blame">
+    
+      
+        blame
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-grep">
+    
+      
+        grep
+      
+    </a>
+  </li>
+  
+</ul>
+
+      
+      
+      
+
+<h3 class='email'>Email</h3>
+<ul class='unstyled'>
+  
+  <li>
+    
+      <a href="/docs/git-am">
+    
+      
+        am
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-apply">
+    
+      
+        apply
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-imap-send">
+    
+      
+        imap-send
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-format-patch">
+    
+      
+        format-patch
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-send-email">
+    
+      
+        send-email
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-request-pull">
+    
+      
+        request-pull
+      
+    </a>
+  </li>
+  
+</ul>
+
+      
+      
+      
+
+<h3 class='external'>External Systems</h3>
+<ul class='unstyled'>
+  
+  <li>
+    
+      <a href="/docs/git-svn">
+    
+      
+        svn
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-fast-import">
+    
+      
+        fast-import
+      
+    </a>
+  </li>
+  
+</ul>
+
+      
+      
+      
+
+<h3 class='server-admin'>Server Admin</h3>
+<ul class='unstyled'>
+  
+  <li>
+    
+      <a href="/docs/git-daemon">
+    
+      
+        daemon
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-update-server-info">
+    
+      
+        update-server-info
+      
+    </a>
+  </li>
+  
+</ul>
+
+      
+    </div>
+    <div class='column-right'>
+      
+      
+      
+
+<h3 class='guides'>Guides</h3>
+<ul class='unstyled'>
+  
+  <li>
+    
+      <a href="/docs/gitattributes">
+    
+      
+        gitattributes
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/gitcli">
+    
+      
+        Command-line interface conventions
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/giteveryday">
+    
+      
+        Everyday Git
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/gitfaq">
+    
+      
+        Frequently Asked Questions (FAQ)
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/gitglossary">
+    
+      
+        Glossary
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/githooks">
+    
+      
+        Hooks
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/gitignore">
+    
+      
+        gitignore
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/gitmodules">
+    
+      
+        gitmodules
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/gitrevisions">
+    
+      
+        Revisions
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/gitsubmodules">
+    
+      
+        Submodules
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/gittutorial">
+    
+      
+        Tutorial
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/gitworkflows">
+    
+      
+        Workflows
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git#_guides">
+    
+      
+        All guides...
+      
+    </a>
+  </li>
+  
+</ul>
+
+      
+      
+      
+
+<h3 class='admin'>Administration</h3>
+<ul class='unstyled'>
+  
+  <li>
+    
+      <a href="/docs/git-clean">
+    
+      
+        clean
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-gc">
+    
+      
+        gc
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-fsck">
+    
+      
+        fsck
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-reflog">
+    
+      
+        reflog
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-filter-branch">
+    
+      
+        filter-branch
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-instaweb">
+    
+      
+        instaweb
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-archive">
+    
+      
+        archive
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-bundle">
+    
+      
+        bundle
+      
+    </a>
+  </li>
+  
+</ul>
+
+      
+      
+      
+
+<h3 class='plumbing'>Plumbing Commands</h3>
+<ul class='unstyled'>
+  
+  <li>
+    
+      <a href="/docs/git-cat-file">
+    
+      
+        cat-file
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-check-ignore">
+    
+      
+        check-ignore
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-checkout-index">
+    
+      
+        checkout-index
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-commit-tree">
+    
+      
+        commit-tree
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-count-objects">
+    
+      
+        count-objects
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-diff-index">
+    
+      
+        diff-index
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-for-each-ref">
+    
+      
+        for-each-ref
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-hash-object">
+    
+      
+        hash-object
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-ls-files">
+    
+      
+        ls-files
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-ls-tree">
+    
+      
+        ls-tree
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-merge-base">
+    
+      
+        merge-base
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-read-tree">
+    
+      
+        read-tree
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-rev-list">
+    
+      
+        rev-list
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-rev-parse">
+    
+      
+        rev-parse
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-show-ref">
+    
+      
+        show-ref
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-symbolic-ref">
+    
+      
+        symbolic-ref
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-update-index">
+    
+      
+        update-index
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-update-ref">
+    
+      
+        update-ref
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-verify-pack">
+    
+      
+        verify-pack
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-write-tree">
+    
+      
+        write-tree
+      
+    </a>
+  </li>
+  
+</ul>
+
+      
+    </div>
+  </div>
+</div>
+
+            
+<a class="dropdown-trigger" id="reference-versions-trigger" data-panel-id="previous-versions-dropdown" href="#">
+  
+    Latest version
+   ▾ </a>
+<span class="light d-flex">git-checkout-index last updated in 2.43.0</span>
+<div class='dropdown-panel left' id='previous-versions-dropdown'>
+  <header>Changes in the <strong>git-checkout-index</strong> manual</header>
+  <ol class='reference-previous-versions'>
+    
+      
+        <li class="no-change"><span>2.43.1 → 2.55.0 no changes</span></li>
+      
+    
+      
+        <li>
+        <a href="/docs/git-checkout-index/2.43.0"><span class="version">2.43.0</span>
+          <span class="diff">
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+            
+              <img src="/images/icons/red-dot.png" />
+            
+              <img src="/images/icons/red-dot.png" />
+            
+              <img src="/images/icons/red-dot.png" />
+            
+              <img src="/images/icons/red-dot.png" />
+            
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+          </span>
+          <em class="date">2023-11-20</em>
+        </a>
+        </li>
+      
+    
+      
+        <li class="no-change"><span>2.36.1 → 2.42.4 no changes</span></li>
+      
+    
+      
+        <li>
+        <a href="/docs/git-checkout-index/2.36.0"><span class="version">2.36.0</span>
+          <span class="diff">
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+            
+              <img src="/images/icons/red-dot.png" />
+            
+              <img src="/images/icons/red-dot.png" />
+            
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+          </span>
+          <em class="date">2022-04-18</em>
+        </a>
+        </li>
+      
+    
+      
+        <li class="no-change"><span>2.1.4 → 2.35.8 no changes</span></li>
+      
+    
+      
+        <li>
+        <a href="/docs/git-checkout-index/2.0.5"><span class="version">2.0.5</span>
+          <span class="diff">
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+            
+              <img src="/images/icons/red-dot.png" />
+            
+              <img src="/images/icons/red-dot.png" />
+            
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+          </span>
+          <em class="date">2014-12-17</em>
+        </a>
+        </li>
+      
+    
+    <li>&nbsp;</li>
+    
+  </ol>
+  <footer>
+    <p>Check your version of git by running</p>
+    <code class="command">git --version</code>
+  </footer>
+</div>
+
+          </div>
+
+          
+          
+          <div id="main" data-pagefind-filter="category:reference" data-pagefind-meta="category:Reference" data-pagefind-weight="0.05" data-pagefind-body>
+	    
+            <div class="sect1">
+<h2 id="_name"><a class="anchor" href="#_name"></a>NAME</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>git-checkout-index - Copy files from the index to the working tree</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_synopsis"><a class="anchor" href="#_synopsis"></a>SYNOPSIS</h2>
+<div class="sectionbody">
+<div class="verseblock">
+<pre class="content"><em>git checkout-index</em> [-u] [-q] [-a] [-f] [-n] [--prefix=&lt;string&gt;]
+		   [--stage=&lt;number&gt;|all]
+		   [--temp]
+		   [--ignore-skip-worktree-bits]
+		   [-z] [--stdin]
+		   [--] [&lt;file&gt;&#8230;&#8203;]</pre>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_description"><a class="anchor" href="#_description"></a>DESCRIPTION</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Copies all listed files from the index to the working directory
+(not overwriting existing files).</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_options"><a class="anchor" href="#_options"></a>OPTIONS</h2>
+<div class="sectionbody">
+<div class="dlist">
+<dl>
+<dt class="hdlist1" id="Documentation/git-checkout-index.txt--u"><a class="anchor" href="#Documentation/git-checkout-index.txt--u"></a>-u </dt>
+<dt class="hdlist1" id="Documentation/git-checkout-index.txt---index"><a class="anchor" href="#Documentation/git-checkout-index.txt---index"></a>--index </dt>
+<dd>
+<p>update stat information for the checked out entries in
+the index file.</p>
+</dd>
+<dt class="hdlist1" id="Documentation/git-checkout-index.txt--q"><a class="anchor" href="#Documentation/git-checkout-index.txt--q"></a>-q </dt>
+<dt class="hdlist1" id="Documentation/git-checkout-index.txt---quiet"><a class="anchor" href="#Documentation/git-checkout-index.txt---quiet"></a>--quiet </dt>
+<dd>
+<p>be quiet if files exist or are not in the index</p>
+</dd>
+<dt class="hdlist1" id="Documentation/git-checkout-index.txt--f"><a class="anchor" href="#Documentation/git-checkout-index.txt--f"></a>-f </dt>
+<dt class="hdlist1" id="Documentation/git-checkout-index.txt---force"><a class="anchor" href="#Documentation/git-checkout-index.txt---force"></a>--force </dt>
+<dd>
+<p>forces overwrite of existing files</p>
+</dd>
+<dt class="hdlist1" id="Documentation/git-checkout-index.txt--a"><a class="anchor" href="#Documentation/git-checkout-index.txt--a"></a>-a </dt>
+<dt class="hdlist1" id="Documentation/git-checkout-index.txt---all"><a class="anchor" href="#Documentation/git-checkout-index.txt---all"></a>--all </dt>
+<dd>
+<p>checks out all files in the index except for those with the
+skip-worktree bit set (see <span class='synopsis'><code>--ignore-skip-worktree-bits</code></span>).
+Cannot be used together with explicit filenames.</p>
+</dd>
+<dt class="hdlist1" id="Documentation/git-checkout-index.txt--n"><a class="anchor" href="#Documentation/git-checkout-index.txt--n"></a>-n </dt>
+<dt class="hdlist1" id="Documentation/git-checkout-index.txt---no-create"><a class="anchor" href="#Documentation/git-checkout-index.txt---no-create"></a>--no-create </dt>
+<dd>
+<p>Don&#8217;t checkout new files, only refresh files already checked
+out.</p>
+</dd>
+<dt class="hdlist1" id="Documentation/git-checkout-index.txt---prefixltstringgt"><a id="Documentation/git-checkout-index.txt---prefixstring" class="anchor" href="#Documentation/git-checkout-index.txt---prefixstring"></a>--prefix=&lt;string&gt; </dt>
+<dd>
+<p>When creating files, prepend &lt;string&gt; (usually a directory
+including a trailing /)</p>
+</dd>
+<dt class="hdlist1" id="Documentation/git-checkout-index.txt---stageltnumbergtall"><a id="Documentation/git-checkout-index.txt---stagenumberall" class="anchor" href="#Documentation/git-checkout-index.txt---stagenumberall"></a>--stage=&lt;number&gt;|all </dt>
+<dd>
+<p>Instead of checking out unmerged entries, copy out the
+files from the named stage.  &lt;number&gt; must be between 1 and 3.
+Note: --stage=all automatically implies --temp.</p>
+</dd>
+<dt class="hdlist1" id="Documentation/git-checkout-index.txt---temp"><a class="anchor" href="#Documentation/git-checkout-index.txt---temp"></a>--temp </dt>
+<dd>
+<p>Instead of copying the files to the working directory,
+write the content to temporary files.  The temporary name
+associations will be written to stdout.</p>
+</dd>
+<dt class="hdlist1" id="Documentation/git-checkout-index.txt---ignore-skip-worktree-bits"><a class="anchor" href="#Documentation/git-checkout-index.txt---ignore-skip-worktree-bits"></a>--ignore-skip-worktree-bits </dt>
+<dd>
+<p>Check out all files, including those with the skip-worktree bit
+set.</p>
+</dd>
+<dt class="hdlist1" id="Documentation/git-checkout-index.txt---stdin"><a class="anchor" href="#Documentation/git-checkout-index.txt---stdin"></a>--stdin </dt>
+<dd>
+<p>Instead of taking a list of paths from the command line,
+read the list of paths from the standard input.  Paths are
+separated by LF (i.e. one path per line) by default.</p>
+</dd>
+<dt class="hdlist1" id="Documentation/git-checkout-index.txt--z"><a class="anchor" href="#Documentation/git-checkout-index.txt--z"></a>-z </dt>
+<dd>
+<p>Only meaningful with <span class='synopsis'><code>--stdin</code></span>; paths are separated with
+NUL character instead of LF.</p>
+</dd>
+<dt class="hdlist1" id="Documentation/git-checkout-index.txt---"><a class="anchor" href="#Documentation/git-checkout-index.txt---"></a>-- </dt>
+<dd>
+<p>Do not interpret any more arguments as options.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>The order of the flags used to matter, but not anymore.</p>
+</div>
+<div class="paragraph">
+<p>Just doing <span class='synopsis'><code>git</code> <code>checkout-index</code></span> does nothing. You probably meant
+<span class='synopsis'><code>git</code> <code>checkout-index</code> <code>-a</code></span>. And if you want to force it, you want
+<span class='synopsis'><code>git</code> <code>checkout-index</code> <code>-f</code> <code>-a</code></span>.</p>
+</div>
+<div class="paragraph">
+<p>Intuitiveness is not the goal here. Repeatability is. The reason for
+the "no arguments means no work" behavior is that from scripts you are
+supposed to be able to do:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ find . -name '*.h' -print0 | xargs -0 git checkout-index -f --</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>which will force all existing <span class='synopsis'><code>*.h</code></span> files to be replaced with their
+cached copies. If an empty command line implied "all", then this would
+force-refresh everything in the index, which was not the point.  But
+since <em>git checkout-index</em> accepts --stdin it would be faster to use:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ find . -name '*.h' -print0 | git checkout-index -f -z --stdin</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <span class='synopsis'><code>--</code></span> is just a good idea when you know the rest will be filenames;
+it will prevent problems with a filename of, for example,  <span class='synopsis'><code>-a</code></span>.
+Using <span class='synopsis'><code>--</code></span> is probably a good policy in scripts.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_temp_or_stageall"><a class="anchor" href="#_using_temp_or_stageall"></a>Using --temp or --stage=all</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When <span class='synopsis'><code>--temp</code></span> is used (or implied by <span class='synopsis'><code>--stage=all</code></span>)
+<em>git checkout-index</em> will create a temporary file for each index
+entry being checked out.  The index will not be updated with stat
+information.  These options can be useful if the caller needs all
+stages of all unmerged entries so that the unmerged files can be
+processed by an external merge tool.</p>
+</div>
+<div class="paragraph">
+<p>A listing will be written to stdout providing the association of
+temporary file names to tracked path names.  The listing format
+has two variations:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>tempname TAB path RS</p>
+<div class="paragraph">
+<p>The first format is what gets used when <span class='synopsis'><code>--stage</code></span> is omitted or
+is not <span class='synopsis'><code>--stage=all</code></span>. The field tempname is the temporary file
+name holding the file content and path is the tracked path name in
+the index.  Only the requested entries are output.</p>
+</div>
+</li>
+<li>
+<p>stage1temp SP stage2temp SP stage3tmp TAB path RS</p>
+<div class="paragraph">
+<p>The second format is what gets used when <span class='synopsis'><code>--stage=all</code></span>.  The three
+stage temporary fields (stage1temp, stage2temp, stage3temp) list the
+name of the temporary file if there is a stage entry in the index
+or <span class='synopsis'><code>.</code></span> if there is no stage entry.  Paths which only have a stage 0
+entry will always be omitted from the output.</p>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>In both formats RS (the record separator) is newline by default
+but will be the null byte if -z was passed on the command line.
+The temporary file names are always safe strings; they will never
+contain directory separators or whitespace characters.  The path
+field is always relative to the current directory and the temporary
+file names are always relative to the top level directory.</p>
+</div>
+<div class="paragraph">
+<p>If the object being copied out to a temporary file is a symbolic
+link the content of the link will be written to a normal file.  It is
+up to the end-user or the Porcelain to make use of this information.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_examples"><a class="anchor" href="#_examples"></a>EXAMPLES</h2>
+<div class="sectionbody">
+<div class="dlist">
+<dl>
+<dt class="hdlist1" id="Documentation/git-checkout-index.txt-Toupdateandrefreshonlythefilesalreadycheckedout"><a class="anchor" href="#Documentation/git-checkout-index.txt-Toupdateandrefreshonlythefilesalreadycheckedout"></a>To update and refresh only the files already checked out </dt>
+<dd>
+<div class="listingblock">
+<div class="content">
+<pre>$ git checkout-index -n -f -a &amp;&amp; git update-index --ignore-missing --refresh</pre>
+</div>
+</div>
+</dd>
+<dt class="hdlist1" id="Documentation/git-checkout-index.txt-Usingemgitcheckout-indexemtoexportanentiretree"><a id="Documentation/git-checkout-index.txt-Usinggitcheckout-indextoexportanentiretree" class="anchor" href="#Documentation/git-checkout-index.txt-Usinggitcheckout-indextoexportanentiretree"></a>Using <em>git checkout-index</em> to "export an entire tree" </dt>
+<dd>
+<p>The prefix ability basically makes it trivial to use
+<em>git checkout-index</em> as an "export as tree" function.
+Just read the desired tree into the index, and do:</p>
+<div class="listingblock">
+<div class="content">
+<pre>$ git checkout-index --prefix=git-export-dir/ -a</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><span class='synopsis'><code>git</code> <code>checkout-index</code></span> will "export" the index into the specified
+directory.</p>
+</div>
+<div class="paragraph">
+<p>The final "/" is important. The exported name is literally just
+prefixed with the specified string.  Contrast this with the
+following example.</p>
+</div>
+</dd>
+<dt class="hdlist1" id="Documentation/git-checkout-index.txt-Exportfileswithaprefix"><a class="anchor" href="#Documentation/git-checkout-index.txt-Exportfileswithaprefix"></a>Export files with a prefix </dt>
+<dd>
+<div class="listingblock">
+<div class="content">
+<pre>$ git checkout-index --prefix=.merged- Makefile</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will check out the currently cached copy of <span class='synopsis'><code>Makefile</code></span>
+into the file <span class='synopsis'><code>.merged-Makefile</code></span>.</p>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_git"><a class="anchor" href="#_git"></a>GIT</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Part of the <a href='/docs/git'>git[1]</a> suite</p>
+</div>
+</div>
+</div>
+            
+            
+              
+              
+              
+              <h3 hidden="true" data-pagefind-weight="7">checkout-index</h3>
+            
+          </div>
+        </div>
+      </div>
+      <footer>
+  <div class="site-source">
+    <a href="/site">About this site</a><br>
+    Patches, suggestions, and comments are welcome.
+  </div>
+  <div class="sfc-member">
+    Git is a member of <a href="/sfc">Software Freedom Conservancy</a>
+  </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.min.js"></script>
+<script src="/js/jquery.defaultvalue.js"></script>
+<script src="/js/session.min.js"></script>
+
+<script src="/js/application.min.9fa9fb38ef6c02fbb5e3624499214101f82d3b15ce4ba8856f64c2c3456798c8.js" integrity="sha256-n6n7OO9sAvu142JEmSFBAfgtOxXOS6iFb2TCw0VnmMg="></script>
+
+      <script src="/js/nanopop.umd.js"></script>
+      <script src="/js/glossary.js"></script>
+    </div>
+  
+
+</body>
+</html>
+

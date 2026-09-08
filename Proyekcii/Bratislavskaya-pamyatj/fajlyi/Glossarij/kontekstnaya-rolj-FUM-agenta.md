@@ -8,6 +8,8 @@ Odin agent mozhet posledovateljno dejstvovatj v raznyikh rolyakh, yesli kazhdoye
 
 Tekhnicheskiye identifikatoryi `fum-yadro`, `fum-optimizator` i `fum-pisatelj` nazyivayut dolgovechnyiye fork-agentyi nachaljnogo pula. Ikh preimusjhestvennyiye roli zadayut marshrutizaciyu rabotyi, a ne isklyuchiteljnyij nabor dostupnyikh sposobnostej.
 
+V utochnyonnoj modeli poljzovatelj nazyivayet takuyu rolj [genderom FUM-agenta](gender-FUM-agenta.md); eto svyazyivayet specializaciyu s gipotezoj obsjhego algoritma kletochnoj i agentskoj organizacii.
+
 ## Svyazannyiye dokumentyi
 
 - [Dochernij fork-agent FUM](dochernij-fork-agent-FUM.md)
@@ -16,9 +18,11 @@ Tekhnicheskiye identifikatoryi `fum-yadro`, `fum-optimizator` i `fum-pisatelj` n
 
 ## Istochniki trebovanij
 
+- [Utochneniye roli kak gendera, soobsjheniye 28](../Zhurnal/2026-09-07_22-11-38_MSK_sostavitj-plan-uskoreniya-proyekcii/zapros.md).
+
 - [iskhodnyij zapros 2026-08-06 17:38:49 MSK — Sozdatj dochernikh fork-agentov FUM](../Zhurnal/2026-08-06_17-38-49_MSK_sozdatj-docherniye-fork-agentyi-FUM/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-06 18:39:31 MSK -->
-<!-- content-sha256: sha256:75763ddb480e3bc698000fc81c4c28fc71a7d556a5fd21f55eac9d05f5587ace -->
+<!-- last-content-edit: 2026-09-08 11:25:54 MSK -->
+<!-- content-sha256: sha256:9d1b549bad2116c80d79b67d892f7cc9c3ab75d7eb65043249cf0254dc2b3bc3 -->
 <!-- FUM-MD-RECENCY:END -->

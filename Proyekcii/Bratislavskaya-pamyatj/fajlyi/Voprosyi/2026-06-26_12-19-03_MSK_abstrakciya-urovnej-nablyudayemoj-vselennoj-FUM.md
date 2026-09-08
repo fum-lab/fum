@@ -18,6 +18,10 @@ Neyasnostj sostoit v tom, gde prokhodit granica mezhdu siljnoj perenosimoj abstr
 
 ## Voprosyi dlya proyasneniya
 
+- Chto sostavlyayet «genom» agenta i kak proveryatj obsjhuyu sovmestimostj nasleduyemyikh osnovanij do sliyaniya?
+- Kakiye shagi specializacii kletki sootvetstvuyut naznacheniyu [roli agenta](../Glossarij/gender-FUM-agenta.md), kakiye invariantyi sokhranyayutsya i chto oproverglo byi tezis o polnom povtorenii algoritma?
+- Kak svyazatj kratkiye vozdejstviya i dliteljnoye izmeneniye sredyi s nablyudayemyimi proverkami ustojchivosti, sokhranyaya otdeljno iskhod ispyitaniya i ustanovlennuyu prichinu otkaza?
+
 - Kakiye invariantyi dolzhnyi vkhoditj v minimaljnuyu [obsjhuyu skhemu FUM](../Glossarij/obsjhaya-skhema-FUM.md) dlya urovnej ot fizicheskikh konfiguracij do civilizacij?
 - Po kakim kriteriyam [okruzhayusjhaya sreda FUM](../Glossarij/okruzhayusjhaya-sreda-FUM.md) mozhet schitatjsya agentom ili [FUM-uzlom](../Glossarij/FUM-uzel.md) sleduyusjhego masshtaba, a ne toljko fonom dlya vlozhennyikh agentov?
 - Kak nezavisimo izmeryatj sokhraneniye celogo i soglasovannostj chastej, chtobyi kriterij agentnosti ne zamyikalsya na sobstvennom opredelenii?
@@ -38,6 +42,8 @@ Neyasnostj sostoit v tom, gde prokhodit granica mezhdu siljnoj perenosimoj abstr
 
 ## Istochniki trebovanij
 
+- [Soobsjheniya 26–31 o sliyanii, rolyakh i otbore](../Zhurnal/2026-09-07_22-11-38_MSK_sostavitj-plan-uskoreniya-proyekcii/zapros.md).
+
 - [iskhodnyij zapros 2026-06-26 12:19:03 MSK](../Zhurnal/2026-06-26_12-19-03_MSK/zapros.md)
 - [iskhodnyij zapros 2026-06-26 12:05:01 MSK](../Zhurnal/2026-06-26_12-05-01_MSK/zapros.md)
 - [iskhodnyij zapros 2026-07-02 10:20:18 MSK](../Zhurnal/2026-07-02_10-20-18_MSK/zapros.md)
@@ -45,6 +51,9 @@ Neyasnostj sostoit v tom, gde prokhodit granica mezhdu siljnoj perenosimoj abstr
 - [iskhodnyij zapros 2026-07-14 01:55:34 MSK - Integrirovatj rekursivnuyu modelj agenta i sredyi](../Zhurnal/2026-07-14_01-55-34_MSK_integrirovatj-rekursivnuyu-modelj-agenta-i-sredyi/zapros.md)
 
 ## Zatronutaya dokumentaciya
+
+- [Gender FUM-agenta](../Glossarij/gender-FUM-agenta.md).
+- [Git-kartochka sootvetstviya](../Dokumentaciya/28-reyestr-kartochek-sootvetstviya-FUM/FUM-MAP-GIT-01.md).
 
 - [Dokumentaciya/00-obzor-proyekta.md](../Dokumentaciya/00-obzor-proyekta.md)
 - [Dokumentaciya/03-evolyuciya-i-myishleniye.md](../Dokumentaciya/03-evolyuciya-i-myishleniye.md)
@@ -58,6 +67,6 @@ Neyasnostj sostoit v tom, gde prokhodit granica mezhdu siljnoj perenosimoj abstr
 - [Planirovaniye/predlozheniya-o-sleduyusjhikh-shagakh.md](../Planirovaniye/predlozheniya-o-sleduyusjhikh-shagakh.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-03 14:54:04 MSK -->
-<!-- content-sha256: sha256:81d42a23931581bf905c80fad17e492bf559017672bedf6c221ca0331158e68a -->
+<!-- last-content-edit: 2026-09-08 11:25:54 MSK -->
+<!-- content-sha256: sha256:59c8a7e35a52b23d57723a5d6a37d64851e3c82f9f6bb6ad834ef549688e203a -->
 <!-- FUM-MD-RECENCY:END -->

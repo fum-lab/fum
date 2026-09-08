@@ -14,6 +14,12 @@ Ssyilki na nomera strok nizhe otnosyatsya k iskhodnoj versii a3bde39c84528848b13
 - Standartnyij smoke-check vyizyivayet primeneniye, zatem otdeljnuyu proverku. Posle zakryitiya otchyota dejstvuyusjheye pravilo FUM-PRAVILO-000188 trebuyet yesjhyo odnu takuyu paru. Eto ustanovlennyij poryadok, a ne sluchajnyij povtor, kotoryij mozhno molcha udalitj.
 - Inventarj vklyuchayet novyiye neignoriruyemyiye fajlyi. Dobavleniye dazhe sobstvennoj kartochki v `Журнал/` menyayet snimok, kotoryij uzhe rabotayusjhaya peresborka obyazana povtorno sveritj. Otsutstviye konflikta sliyaniya ne garantiruyet neizmennosti etogo snimka.
 
+## Utochneniye po nablyudyonnomu profilyu i novyim komandam
+
+Progon 19 dal iskhodnuyu stoimostj: primeneniye 1918,608 s, dva preobrazovaniya soderzhimogo 1788,628 s summarno, otdeljnoye tretjye preobrazovaniye 1116,120 s. Snachala nuzhnyi vnutrenniye Swift-metki po dokumentam i obrabotke registra. V zakreplyonnom LinguisticKit uchastok StringProtocol.swift:119–129 povtoryayet filjtraciyu massiva dlya kazhdogo neodnoznachnogo registra i mozhet imetj kvadratichnuyu stoimostj; eto staticheskaya gipoteza, a ne izmerennyij vklad funkcii. Optimizaciya sokhranyayet fakticheskuyu semantiku konteksta i tochnyiye vyikhodnyiye bajtyi.
+
+Dlya kazhdogo izmeneniya ispolnyayemogo koda obyazatelen cikl iz pravila 000176. Rabota sokhranyayetsya promezhutochnyimi kommitami v etoj postoyannoj zadache. Versionirovannaya podderzhka priyomochnyikh raundov realizovana s sokhraneniyem prezhnikh zakryityikh otchyotov. Zapisj 89 perevela tekusjhij otkryityij zhurnal na v4; predstoyasjhaya finaljnaya priyomka budet proveryatj aktualjnoye soderzhimoye.
+
 ## Posledovateljnostj realizacii
 
 1. **Snyatj profilj na neizmenyayemom vkhode.** Razdelitj vremya podgotovki i kompilyacii preobrazovatelya, inventarizacii i khyeshirovaniya, preobrazovaniya putej, razbora Markdown, transliteracii soderzhimogo, zapisi pokoleniya i nezavisimoj proverki. Sravnitj kholodnyij zapusk, povtor bez izmenenij, izmeneniye odnogo dokumenta i izmeneniye toljko zakryivayusjhegosya otchyota. Uchityivatj chislo fajlov i bajtov, vyizovyi preobrazovatelya i perepisannyiye vyikhodyi. Zapuski vyipolnyatj v sobstvennoj dopusjhennoj pishusjhej sessii cherez shtatnuyu otchyotnuyu obyortku. V tekusjhej vetke metki uzhe dobavlenyi: oni razlichayut povtornyiye i vlozhennyiye intervalyi i sokhranyayut monotonnoye vremya. CLI-flag `--профилировать` libo `FUM_PROJECTION_PROFILE=1` vklyuchayet diagnostiku v stderr. Pervyij zamer Swift ostayotsya obsjhej stoimostjyu sborki, zapuska i preobrazovaniya; daljnejsheye razdeleniye etikh zatrat trebuyet dopolniteljnyikh izmerenij.
@@ -49,6 +55,22 @@ Komandyi poljzovatelya i soderzhateljnyiye otvetyi sokhranyayutsya v sobstvennyi
 
 [Swift-nablyudeniye macOS, dolgovremennyij zhurnal i chteniye dialoga iz JSONL](plan-nablyudeniya-macOS.md) sostavlyayut dopolniteljnyiye napravleniya tekusjhego plana. Postoyannoye zakrepleniye rezhima planirovaniya vklyuchayet vosstanovleniye tochnyikh komand iz JSONL posle szhatiya konteksta.
 
+## Prodolzheniye posle kontroljnogo kommita
+
+Kommit a521c41d ne zavershil soglasovannyij obyyom. Posle vyiyavleniya prezhdevremennogo zavershayusjhego otveta rabota prodolzhayetsya v toj zhe zadache.
+
+Sleduyusjhej proveryayemoj chastjyu stal otdeljnyij otpechatok fakticheskogo kanonicheskogo soderzhimogo. Realizovannyij otpechatok sokhranyayetsya posle obyichnogo ili pustogo kommita i izmeneniya sposoba staging, ignorirovatj toljko razreshyonnyiye tekusjhij otchyot, mashinnyiye zapisi i tochnuyu oblastj Proyekcii, no menyatjsya pri soderzhateljnom izmenenii fajlov, putej, rezhima ili zakreplyonnoj zavisimosti. Prezhnij Git-otpechatok ostayotsya proverkoj neizmennosti finaljnogo snimka.
+
+Zatem realizovanyi novaya zapisj zapuska v4 i snimok otchyota v3 s yavnoj proveryayemoj granicej migracii. Istoricheskiye v3-zapuski ne poluchayut vyimyishlennyij soderzhateljnyij otpechatok. Sokhranyonnyij staryij prefiks i yego khyeshi zasjhisjhayutsya ot izmeneniya; staryiye zakryityiye otchyotyi vosproizvodyatsya prezhnej semantikoj. Povtor polnogo zapuska na uzhe proverennom soderzhimom otklonyayetsya do zapuska dochernego processa, vklyuchaya vozvrat A → B → A.
+
+Novyij promezhutochnyij kommit sam po sebe ne yavlyayetsya usloviyem ostanovki: neposredstvenno posle sokhraneniya zapisi sboya vyipolnyayetsya adresnyij RED/GREEN-scenarij otpechatka soderzhimogo. Etot poryadok dayot nablyudayemoye svideteljstvo prodolzheniya, no ne schitayetsya universaljnoj mashinnoj garantiyej povedeniya agenta.
+
+## Konvejyer vnutri odnoj postoyannoj zadachi
+
+Soobsjheniya 34–35 dobavili napravleniye [priyomki neizmenyayemogo dereva Git](plan-konvejyera-odnoj-zadachi.md), poka pozdniye komandyi sokhranyayutsya v checkout. Eto otdeljnoye izmeneniye protokola i zakryitij raundov, poka nakhodyasjheyesya v plane. Ono ne uskoryayet sam preobrazovatelj i ne menyayet zadnim chislom predmet susjhestvuyusjhikh progonov.
+
+[Kontejner nablyudenij](plan-kontejnera-nablyudenij.md) utochnyayet sposob dolgovremennogo khraneniya Swift-nablyudatelya: JSON-zagolovki i vstroyennyiye syiryiye binarnyiye gruppyi vmesto vneshnikh krupnyikh obyyektov.
+
 ## Istochniki
 
 - [Doslovnyiye komandyi poljzovatelya](../../zapros.md).
@@ -58,7 +80,15 @@ Komandyi poljzovatelya i soderzhateljnyiye otvetyi sokhranyayutsya v sobstvennyi
 - Pravila proverki i zamyikaniya: `Правила/агентов/проверки-коммит-и-публикация.md`, FUM-PRAVILO-000188 i FUM-PRAVILO-000189.
 - Sokhranyonnyij otchyot zamerov: `Журнал/2026-09-07_18-16-36_MSK_принять-модель-бетонных-глубинных-систем/отчёт.md`, razdel pryamyikh zapuskov.
 
+## Proveryayemyiye chasti perekhoda priyomochnyikh raundov
+
+1. Primitiv soderzhateljnogo otpechatka podgotovlen i proveren otdeljno; prezhnij Git-otpechatok ne izmenyon. Posle profilya sokrasjhyon obkhod roditelej, sovpadeniye rezuljtatov podtverzhdeno na odnom vkhode.
+2. Strogij chitatelj zapuska v4 i proveryayemaya granica iskhodnogo prefiksa podgotovlenyi, staryiye komandyi otklonyayut nepodderzhivayemyij format. Podgotovlen otdeljnyij plan nastoyasjhikh raundov s globaljnyim zapretom povtornoj polnoj popyitki na odnom soderzhimom i sokhraneniyem ogranichenij diagnostiki i istoricheskikh narushenij. Vse 20 testov chitatelya i plana proshli; izmerennaya mediana plana 3,543125 ms obosnovyivayet sokhraneniye pryamoj proverki bez novogo kyesha. Na etape kontroljnoj tochki 84d68a95 CLI yesjhyo sozdaval v3.
+3. Podgotovlen snimok otchyota v3 i yego vosproizvedeniye iz dvukh sokhranyonnyikh otpechatkov; staryiye zakryityiye formatyi sokhranyayut bajtyi i verdikt. Proverenyi podgotovlennoye zakryitiye, aktivnaya istoriya, kontroljnaya tochka i smezhnyij chitatelj smoke-check. Profilj zakryitogo chteniya obosnoval sokhraneniye pryamoj proverki bez novogo kyesha; etot etap zafiksirovan v d5efcdbf.
+4. Novaya zapisj vklyuchena pod dejstvuyusjhim zamkom: dopusk proveryayet iskhodnyij kontrakt i bazu, oba otpechatka lokalizacii i zapret povtornoj polnoj popyitki do dochernego processa. Pervoye soderzhimoye migracii isklyucheno iz polnyikh popyitok; dlya priyomki nuzhno neobkhodimoye izmeneniye posle registracii. Vse 48 adresnyikh testov i 37 regressij starogo plana/snimkov proshli. Profilj okonchateljnoj realizacii: odnokratnyij dopusk 289,483875 ms; plan 82 zapisej 4,522875 ms po mediane tryokh vyizovov. Resheniye — sokhranitj pryamuyu proverku bez kyesha. Pravilo NEW000006 i inventarj obnovlenyi; zapusk 89 podtverdil 215 pravil, zafiksiroval iskhodnyiye 88 zapisej i stal pervoj fakticheskoj v4. Posleduyusjhij zapusk 90 avtomaticheski sokhranil v4. Itogi, ogranicheniya i proiskhozhdeniye teperj vklyuchayutsya v plan i otchyot.
+5. Posle zakonchennogo perekhoda vyipolnitj tekusjhuyu finaljnuyu priyomku i shtatnuyu aktualizaciyu proyekcii. Kazhdyij promezhutochnyij kommit sokhranyayet zakonchennuyu chastj, posle nego prodolzhayetsya sleduyusjhij razreshyonnyij shag.
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-07 23:46:15 MSK -->
-<!-- content-sha256: sha256:86cdf04d83d3b0c9f89bffe6f1517084cfd9a5584bca08c2c3bbf587cd3c91f7 -->
+<!-- last-content-edit: 2026-09-08 13:49:48 MSK -->
+<!-- content-sha256: sha256:edd30d1f72355c03d52f80f4fe542eb4f5ced63c8b6ed929e265424a4889aeca -->
 <!-- FUM-MD-RECENCY:END -->

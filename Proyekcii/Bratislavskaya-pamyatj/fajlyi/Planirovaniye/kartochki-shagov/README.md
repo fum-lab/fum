@@ -190,6 +190,10 @@ Dlya odnovremennogo utochneniya imeni dobavj `--description новое-крат�
 | FUM-STEP-0146 | ✅ Vyipolneno | [Svyazatj sleduyusjhiye shagi s dorozhnoj kartoj](✅-FUM-STEP-0146-svyazatj-sleduyusjhiye-shagi-s-dorozhnoj-kartoj.md)                                                                                                                                                                                                                     |
 | FUM-STEP-0147 | ✅ Vyipolneno | [Isklyuchitj dublirovaniye polnoj regressii pered finaljnyim smoke-check](✅-FUM-STEP-0147-isklyuchitj-dublirovaniye-polnoj-regressii-pered-finaljnyim-smoke-check.md)                                                                                                                                                               |
 | FUM-STEP-0148 | ✅ Vyipolneno | [Organizovatj paralleljnyiye sessii v izolirovannyikh worktree-poduzlakh](✅-FUM-STEP-0148-organizovatj-paralleljnyiye-sessii-v-izolirovannyikh-worktree-poduzlakh.md)                                                                                                                                                                 |
+| FUM-STEP-0154 | 🟡 Aktualjno | [Proveryatj granicu zaversheniya postoyannoj zadachi](🟡-FUM-STEP-0154-proveryatj-granicu-zaversheniya-postoyannoj-zadachi.md) |
+| FUM-STEP-0155 | 🟡 Aktualjno | [Realizovatj priyomku snimkov indeksa v odnoj zadache](🟡-FUM-STEP-0155-realizovatj-priyomku-snimkov-indeksa-v-odnoj-zadache.md) |
+| FUM-STEP-0156 | 🟡 Aktualjno | [Realizovatj kontejner nablyudenij s binarnyimi blokami](🟡-FUM-STEP-0156-realizovatj-kontejner-nablyudenij-s-binarnyimi-blokami.md) |
+| FUM-STEP-0157 | 🟡 Aktualjno | [Ispravitj razbor razdelitelya pered trailer](🟡-FUM-STEP-0157-ispravitj-razbor-razdelitelya-pered-trailer.md) |
 
 ## Istochniki trebovanij
 
@@ -224,6 +228,6 @@ Dlya odnovremennogo utochneniya imeni dobavj `--description новое-крат�
 - [iskhodnyij zapros 2026-07-24 10:44:28 MSK — Nachatj bezokonnyij Swift-prototip vosproizvodimogo popolneniya pamyati FUM](../../Zhurnal/2026-07-24_10-44-28_MSK_nachatj-bezokonnyij-Swift-prototip-vosproizvodimogo-popolneniya-pamyati-FUM/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-01 13:45:05 MSK -->
-<!-- content-sha256: sha256:11e7bdf9d56b713efdc0bd2dd41d4d851466b58ebb175dae5564cdc77cc493fc -->
+<!-- last-content-edit: 2026-09-08 15:24:29 MSK -->
+<!-- content-sha256: sha256:6927bfef3365aeaa71695970e677a6b25cfaa23ae470c022b3f4c184d286e6ba -->
 <!-- FUM-MD-RECENCY:END -->

@@ -25,6 +25,7 @@ Etot katalog khranit terminyi proyekta FUM. Kazhdyij termin opisyivayetsya otdel
 - [Vosproizvedeniye prinyatogo epizoda FUM](vosproizvedeniye-prinyatogo-epizoda-FUM.md)
 - [Vosproizvedyonnyij rezuljtat FUM](vosproizvedyonnyij-rezuljtat-FUM.md)
 - [Vspominaniye FUM](vspominaniye-FUM.md)
+- [Gender FUM-agenta](gender-FUM-agenta.md)
 - [Gibridnyij mozg](gibridnyij-mozg.md)
 - [Gibridnyij uzel](gibridnyij-uzel.md)
 - [Gipoteza FUM](gipoteza-FUM.md)
@@ -230,6 +231,6 @@ Etot katalog khranit terminyi proyekta FUM. Kazhdyij termin opisyivayetsya otdel
 - [iskhodnyij zapros 2026-07-22 02:59:22 MSK - Dekompozirovatj predlozheniya na kartochki shagov](../Zhurnal/2026-07-22_02-59-22_MSK_dekompozirovatj-predlozheniya-na-kartochki-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-12 03:53:39 MSK -->
-<!-- content-sha256: sha256:8a0c6ebcc6c183349581575df64e0fc60552f0a82817c95b948252d304573121 -->
+<!-- last-content-edit: 2026-09-08 11:25:54 MSK -->
+<!-- content-sha256: sha256:23ab8db2d32d98c93be7ccf42c5444be2fb4d816f7bce486f5362114f7305f89 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -83,18 +83,20 @@ Kazhdyij podklyuchyonnyij vid nablyudeniya dolzhen imetj sokhranyayemoye predsta
 
 ### Format i podtverzhdeniye zapisi
 
-- Neizmenyayemyiye segmentyi uporyadochennogo zhurnala soderzhat posledovateljnostj, identifikator seansa i istochnika, versiyu skhemyi, vremya polucheniya i sobyitiya, tip dannyikh, khyesh i ssyilku na boljshiye dannyiye.
-- Kadryi i drugiye krupnyiye obyyektyi zapisyivayutsya otdeljno s adresaciyej po khyeshu. Podtverzhdyonnaya zapisj sobyitiya ne dolzhna ssyilatjsya na nezafiksirovannyij obyyekt.
-- Poleznyiye dannyiye snachala polnostjyu zapisyivayutsya i sinkhroniziruyutsya; zatem fiksiruyetsya segment i podtverzhdyonnyij ukazatelj zhurnala. Otvet «sokhraneno» vyidayotsya toljko posle uspeshnoj granicyi fiksacii. Paketnaya fiksaciya dopustima s yavnyim razlichiyem prinyatogo v bufer i podtverzhdyonnogo.
-- Pri povtore ispoljzuyutsya ustojchivyiye identifikatoryi zapisi. Sboj posle publikacii ukazatelya trebuyet perechitatj yego: oshibka otveta sama po sebe ne dokazyivayet otkat.
-- Posle perezapuska proveryayutsya granica podtverzhdyonnogo prefiksa, khyeshi, ssyilki i versiya; nepodtverzhdyonnyij khvost i vremennyiye fajlyi ne stanovyatsya prinyatoj istoriyej avtomaticheski.
-- Indeks po vremeni, istochniku, prilozheniyu i tipu vosstanavlivayetsya iz zhurnala. SQLite mozhno ocenitj kak proizvodnyij indeks; yesli on uchastvuyet v podtverzhdenii dannyikh, rezhimyi sinkhronizacii vyibirayutsya yavno, poskoljku WAL s NORMAL i FULL dayot raznyiye garantii pri sboye. [Dokumentaciya SQLite](https://www.sqlite.org/wal.html).
+Po soobsjheniyam 32–33 vyibran yedinyij kontejner s JSON-zagolovkami i syiryimi binarnyimi blokami. Eto otdeljnyij format, otlichnyij ot iskhodnogo JSONL dialoga Codex. [Podrobnyij plan kontejnera](plan-kontejnera-nablyudenij.md) zadayot granicyi, celostnostj, vstroyennyiye specifikacii i scenarii vosstanovleniya.
+
+- Versionirovannyij segment soderzhit zapisi s dlinami zagolovka i nagruzki; perevodyi strok vnutri binarnyikh dannyikh ne sluzhat granicej.
+- Zagolovok svyazyivayet dannyiye s istochnikom, poryadkom, vremenem, tipom, versiyej i vstroyennoj specifikaciyej. Neizvestnyij tip ne prepyatstvuyet sokhraneniyu iskhodnyikh bajtov.
+- Krupnyiye kadryi i drugiye obyyektyi vklyuchayutsya v tot zhe kontejner ogranichennyimi fragmentami; fiksaciya gruppyi svyazyivayet ikh poryadok, obsjhij razmer i khyesh. Vneshneye khranilisjhe boljshikh obyyektov, predlozhennoye pervonachaljno, zameneno etim vyibrannyim variantom.
+- Yedinstvennyij pisatelj polnostjyu zapisyivayet i sinkhroniziruyet gruppu do podtverzhdeniya sokhraneniya. Paketnaya fiksaciya razlichayet bufer i podtverzhdyonnyiye dannyiye; poteryannyij otvet trebuyet perechitatj fiksaciyu po ustojchivomu identifikatoru.
+- Vosstanovleniye proveryayet podtverzhdyonnyij prefiks i celostnostj. Nezavershyonnyij khvost i povrezhdeniye prinyatogo prefiksa ne obkhodyatsya poiskom sleduyusjhej signaturyi.
+- Indeks vremeni, istochnika, prilozheniya i tipa vosstanavlivayetsya iz kontejnera. Yesli vyibran SQLite, yego rolj i garantii sinkhronizacii zadayutsya otdeljno. [Dokumentaciya SQLite](https://www.sqlite.org/wal.html).
 
 ### Pereispoljzovaniye Swift-koda FUM
 
 `ContentAddressedGenerationStore` v `Прототипы/воспроизводимое-пополнение-памяти/Sources/FUMReproducibleMemoryPopulation/ContentAddressedGenerationStore.swift` uzhe obespechivayet adresnoye pokoleniye, staging, polnuyu zapisj, fsync, publikaciyu bez zamesjheniya i CURRENT s blokirovkoj. Metod fiksacii nachinayetsya na stroke 232; vozvrat posle publikacii i sinkhronizacii — na stroke 394. Etot skhemonezavisimyij mekhanizm sleduyet proveritj kak osnovu publikacii manifestov segmentov.
 
-Neljzya perenositj susjhestvuyusjhuyu domennuyu modelj pamyati bez izmenenij: ona rasschitana na remember/compose i ogranichennoye chislo sobyitij, a nepreryivnomu nablyudeniyu nuzhnyi segmentyi i otdeljnyiye krupnyiye obyyektyi. Proverennaya garantiya susjhestvuyusjhego prototipa otnositsya k avarii processa; ustojchivostj k potere pitaniya yego pasport ne zayavlyayet. V novom zhurnale otdeljno zadayutsya i proveryayutsya granicyi avarii processa, perezapuska OS i poteri pitaniya dlya vyibrannogo nositelya.
+Neljzya perenositj susjhestvuyusjhuyu domennuyu modelj pamyati bez izmenenij: ona rasschitana na remember/compose i ogranichennoye chislo sobyitij, a nepreryivnomu nablyudeniyu nuzhnyi segmentyi novogo kontejnera so vstroyennyimi binarnyimi gruppami. Proverennaya garantiya susjhestvuyusjhego prototipa otnositsya k avarii processa; ustojchivostj k potere pitaniya yego pasport ne zayavlyayet. V novom zhurnale otdeljno zadayutsya i proveryayutsya granicyi avarii processa, perezapuska OS i poteri pitaniya dlya vyibrannogo nositelya.
 
 Klaviaturnyij `GuidedCaptureRecorder` prigoden kak primer formata JSONL, no ne gotov kak postoyannyij nadyozhnyij zhurnal: sinkhronizaciya vyipolnyayetsya pri zakryitii kartochki ili seansa. Reduktor menyayetsya do append, a GUI pri oshibke zapisi toljko pokazyivayet soobsjheniye. Do integracii neobkhodimyi podtverzhdeniye fiksacii i ostanovka libo diagnosticheskij razryiv pri otkaze.
 
@@ -102,8 +104,8 @@ Klaviaturnyij `GuidedCaptureRecorder` prigoden kak primer formata JSONL, no ne g
 
 - Pri nekhvatke mesta ili I/O-oshibke zapisj ne podtverzhdayetsya; potok ostanavlivayetsya ili yavno fiksiruyetsya nedostupnyij interval. Yesli nositelj uzhe ne prinimayet dazhe soobsjheniye ob oshibke, oshibka vozvrasjhayetsya vyizyivayusjhemu kodu, a neopredelyonnyij razryiv otmechayetsya pri vosstanovlenii. Neljzya obesjhatj zapisj markera na zapolnennyij disk.
 - Proverka svobodnogo mesta polezna, no ne zamenyayet obrabotku oshibok fakticheskogo write/fsync. Bufer ogranichen; molchalivoye udaleniye raneye podtverzhdyonnyikh nablyudenij ne primenyayetsya.
-- Rotaciya razdelyayet segmentyi; udaleniye, szhatiye s poteryami i sokrasjheniye sroka khraneniya trebuyut yavno vyibrannoj politiki. Rezervnaya kopiya dolzhna vklyuchatj zhurnal i vse dostizhimyiye obyyektyi soglasovannogo snimka.
-- Adresnyiye scenarii okhvatyivayut chastichnyij write, ENOSPC, oshibku fsync, preryivaniye do i posle publikacii ukazatelya, povrezhdeniye segmenta, otsutstvuyusjhij obyyekt, povtor podachi i povtornoye otkryitiye. Poslednij podtverzhdyonnyij prefiks obyazan vosstanavlivatjsya bez izmeneniya smyisla.
+- Rotaciya razdelyayet segmentyi; udaleniye, szhatiye s poteryami i sokrasjheniye sroka khraneniya trebuyut yavno vyibrannoj politiki. Rezervnaya kopiya dolzhna vklyuchatj soglasovannyij nabor segmentov zhurnala so vsemi fragmentami i specifikaciyami.
+- Adresnyiye scenarii okhvatyivayut chastichnyij write, ENOSPC, oshibku fsync, preryivaniye do i posle publikacii ukazatelya, povrezhdeniye segmenta, otsutstvuyusjhij fragment, povtor podachi i povtornoye otkryitiye. Poslednij podtverzhdyonnyij prefiks obyazan vosstanavlivatjsya bez izmeneniya smyisla.
 - Priyomka vklyuchayet zapisj na vyibrannyij postoyannyij nositelj, zakryitiye i povtornoye otkryitiye drugim processom, chteniye iskhodnyikh dannyikh i vosproizvedeniye nablyudenij. Do takoj proverki sposobnostj dolgovremennogo khraneniya ne obyyavlyayetsya realizovannoj.
 
 ## Vosstanovleniye dialoga iz JSONL
@@ -120,7 +122,7 @@ Chtobyi szhatiye konteksta nichego ne bylo.
 
 ### Rabochij kontrakt
 
-Iskhodnyij lokaljnyij JSONL tekusjhej zadachi Codex stanovitsya proveryayemyim istochnikom dlya vosstanovleniya perepiski. Tochnyij seans opredelyayetsya iz CODEX_THREAD_ID i metadannyikh fajla, a ne po pokhozhemu zagolovku. V etoj zadache fajl uzhe najden i prochitan; pri pervonachaljnom chtenii vosstanovlenyi devyatj poljzovateljskikh soobsjhenij. Posleduyusjhiye komandyi dobavlyalisj po mere postupleniya; tekusjhij Zhurnal soderzhit 19 komand v iskhodnoj posledovateljnosti.
+Iskhodnyij lokaljnyij JSONL tekusjhej zadachi Codex stanovitsya proveryayemyim istochnikom dlya vosstanovleniya perepiski. Tochnyij seans opredelyayetsya iz CODEX_THREAD_ID i metadannyikh fajla, a ne po pokhozhemu zagolovku. V etoj zadache fajl uzhe najden i prochitan; pri pervonachaljnom chtenii vosstanovlenyi devyatj poljzovateljskikh soobsjhenij. Posleduyusjhiye komandyi dobavlyalisj po mere postupleniya; pri perenose soobsjhenij 32–35 v Zhurnale byili sokhranenyi 35 komand v iskhodnoj posledovateljnosti; posleduyusjhiye soobsjheniya dopolnyayut yego.
 
 Chteniye fiksiruyet polnyij zavershyonnyij prefiks fajla. Nezavershyonnaya poslednyaya stroka ostayotsya dlya sleduyusjhego chteniya. Dlya poljzovateljskogo dialoga izvlekayutsya toljko poljzovateljskiye soobsjheniya i vidimyiye otvetyi kornevogo assistenta; sluzhebnyiye instrukcii sredyi, vnutrenniye rassuzhdeniya, otvetyi instrumentov i soobsjheniya subagentov ne perepisyivayutsya v publikuyemyij zhurnal. U otveta cherez voprosnik sokhranyayutsya tochnyiye tekst voprosa i vyibrannyij otvet bez tekhnicheskikh identifikatorov interfejsa.
 
@@ -139,6 +141,6 @@ Dlya napravleniya nablyudeniya vyipolnenyi staticheskij analiz imeyusjhegosya Sw
 - [Plan uskoreniya proyekcii i zakrepleniya povedeniya](plan.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-07 23:48:47 MSK -->
-<!-- content-sha256: sha256:debb573cb6539dfed878b88ad3bf6a725e1e1aa3a8380475f17040a513096bf2 -->
+<!-- last-content-edit: 2026-09-08 14:20:57 MSK -->
+<!-- content-sha256: sha256:d12f60f8e8f9e5fdf88499d2b217c2b5a5e683fd6246b483387a8c1b16b97ca7 -->
 <!-- FUM-MD-RECENCY:END -->

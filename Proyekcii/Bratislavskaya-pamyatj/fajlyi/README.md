@@ -34,13 +34,13 @@ Poleznyij zapros obyichno soderzhit ozhidayemyij rezuljtat, iskhodnyiye material
 
 Yesli issledovaniye uzhe vyipolneno vo vneshnem Web ChatGPT, ne prosite yego imitirovatj pryamoj kommit ili push cherez obyichnoye GitHub-podklyucheniye: etot kanal prednaznachen dlya chteniya. Poprosite vernutj odin [tipizirovannyij paket vneshnego vklada](Dokumentaciya/51-proveryayemyij-priyom-vneshnego-vklada.md) pryamo v tekstovom soobsjhenii, opublikujte share-ssyilku i peredajte yeyo novoj lokaljnoj zadache Codex. Lokaljnaya zadacha arkhiviruyet dialog, proveryayet tochnyiye bazu, manifest i khyesh, pokazyivayet nedoverennyij patch i toljko zatem samostoyateljno oformlyayet prinimayemoye izmeneniye po pravilam FUM.
 
-### 3. Zapustite odnu pishusjhuyu sessiyu
+### 3. Zapustite pishusjhuyu zadachu v otdeljnom rabochem dereve
 
-Kazhduyu pishusjhuyu zadachu zapuskajte vruchnuyu v Codex Desktop dlya pervichnogo checkout `refs/heads/master`. Odnovremenno rabotayet toljko odna pishusjhaya sessiya; otdeljnyiye read-only-zadachi mogut nablyudatj sostoyaniye, no ne izmenyayut fajlyi ili Git.
+Kazhduyu pishusjhuyu zadachu zapuskajte vruchnuyu v Codex Desktop. Nezavisimyiye zadachi rabotayut v otdeljnyikh Git worktree i sobstvennyikh vetkakh `codex/`; v odnom dereve pishet toljko odna kornevaya zadacha. Chuzhoye aktivnoye derevo dostupno agentu toljko dlya chteniya.
 
-Odna sessiya vyipolnyayet odin soderzhateljnyij zapros: chitayet prinyatuyu pamyatj, obnovlyayet dokumentyi ili kod, sokhranyayet proiskhozhdeniye v `Журнал/`, zapuskayet proverki i sozdayot ne boleye odnogo lokaljnogo kommita. Posle rezuljtata ona zavershayetsya; sleduyusjhuyu sessiyu zapuskayete vyi novyim zaprosom.
+Sessiya chitayet prinyatuyu pamyatj, obnovlyayet dokumentyi ili kod, sokhranyayet komandyi i otvetyi v `Журнал/` i proveryayet rezuljtat. Po vashemu ukazaniyu postoyannaya sessiya regulyarno sokhranyayet zavershyonnyiye etapyi promezhutochnyimi lokaljnyimi kommitami. Kontroljnaya tochka ukazyivayet nezavershyonnyiye rabotyi; itogovyij rezuljtat prokhodit otdeljnuyu finaljnuyu priyomku.
 
-Obyichnyij marshrut ne sozdayot continuation, handoff, FIFO-bilet, otdeljnyij worktree, reviewer, integrator ili candidate. Istoricheskiye instrumentyi i refs etikh skhem sokhranenyi v repozitorii kak narabotka, no sami po sebe ne zapuskayut rabotu.
+Kommit ne zapuskayet sleduyusjhuyu zadachu. Istoricheskiye continuation, handoff, FIFO, reviewer, integrator i candidate sokhranenyi kak narabotka i sami po sebe ne dayut polnomochij prodolzhatj rabotu.
 
 Lokaljno menyayusjhijsya `.obsidian/graph.json` ostayotsya poljzovateljskim sostoyaniyem Obsidian, ignoriruyetsya Git i ne blokiruyet kommit.
 
@@ -113,6 +113,6 @@ Proyekt publikuyetsya pod [CC0 1.0 Universal](LICENZIYA.md). Kanonicheskij publi
 - [iskhodnyij zapros 2026-08-06 06:59:01 MSK — Dobavitj upravleniye dispetcherom cherez soobsjheniya](Zhurnal/2026-08-06_06-59-01_MSK_dobavitj-upravleniye-dispetcherom-cherez-soobsjheniya/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-07 23:04:16 MSK -->
-<!-- content-sha256: sha256:6557095b4bcad5cbc66882cd4b9deff042389fea806f15195a41f94e5fc81462 -->
+<!-- last-content-edit: 2026-09-08 00:57:55 MSK -->
+<!-- content-sha256: sha256:cf80599532d941c4b6b7a58cfb7bc4c3d5cfdfec2d0afdec70357e0d334f6b3c -->
 <!-- FUM-MD-RECENCY:END -->
