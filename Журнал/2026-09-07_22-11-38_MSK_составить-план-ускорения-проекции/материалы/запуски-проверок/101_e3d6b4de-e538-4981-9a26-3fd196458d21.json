@@ -1,0 +1,39 @@
+{
+  "вызов": "Диагностика документационного хвоста после отказа обратной ссылки",
+  "длительность_наносекунды": 193370069083,
+  "идентификатор": "e3d6b4de-e538-4981-9a26-3fd196458d21",
+  "исполнитель": "Корень",
+  "код_завершения": 1,
+  "наблюдения": [],
+  "отпечаток_содержимого": "sha256:1d231c4b071e3c1f7b31c309eacf561bad593b917be8945fb13291edda85ecb3",
+  "переход_схемы": null,
+  "план": null,
+  "порядок": 101,
+  "пояснение": null,
+  "профиль_проверки": {
+    "идентификатор_отказа": "339118dd-ef12-465e-a546-a5eeae563361",
+    "класс": "диагностическая",
+    "ожидаемое_свидетельство": "Найти остальные нарушения документационного хвоста и несовместимости приёмочного контура до повторной дорогой пересборки; известный отказ ссылки сохраняется, остальные шаги диагностически продолжаются",
+    "основание": "локализация_наблюдаемого_отказа",
+    "отпечаток_снимка": "sha256:b9d3424c37dfa321c04975ecbf07d6331bbb29f7a3b1fe1f40226901100c02ca",
+    "полные_наборы": [
+      "Инструменты/fum-bratislavskaya-proyekciya-pamyati/tests",
+      "Инструменты/fum-indeks-readme/tests",
+      "Инструменты/fum-kompleksnaya-proverka-repozitoriya/tests",
+      "Инструменты/fum-materialyi-zaprosov/tests",
+      "Инструменты/fum-moskovskoye-vremya-rabochej-sessii/tests",
+      "Инструменты/fum-obratnyiye-ssyilki-voprosov/tests",
+      "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/tests",
+      "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests",
+      "Инструменты/fum-proyektnyiye-fajlyi/tests",
+      "Инструменты/fum-reyestr-planirovaniya/tests",
+      "Инструменты/fum-struktura-papok-zaprosov/tests",
+      "Инструменты/fum-svezhestj-markdown/tests",
+      "Инструменты/fum-svyaznostj-rabochej-sessii/tests"
+    ]
+  },
+  "сессия": "Журнал/2026-09-07_22-11-38_MSK_составить-план-ускорения-проекции/запрос.md",
+  "состояние": "завершён",
+  "статус": "неуспешно",
+  "схема": "fum.test-run.v4"
+}
