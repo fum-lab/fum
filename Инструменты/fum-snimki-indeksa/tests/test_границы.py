@@ -1,0 +1,132 @@
+import copy
+import os
+import shutil
+import subprocess
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
+from канон import ОшибкаВхода, кодировать, конверт, прочитать
+from фикстуры import создать, гит, заменить_манифест, ЗАДАЧА
+from объекты import ОбъектыГит, путь
+from вход import проверить_вход, РеестрВходов
+from диалог import экспортировать
+from test_диалог import сообщение, строка_события
+
+
+class ДополнительныеГраницы(unittest.TestCase):
+    def test_строки_JSONL_разделяются_только_LF(self):
+        данные = строка_события('session_meta', {'id': ЗАДАЧА}) + сообщение('user', 'первая')[:-1] + b'\r' + сообщение('user', 'вторая')
+        with self.assertRaises(ОшибкаВхода): экспортировать(данные, ЗАДАЧА)
+
+    def test_неизвестное_сообщение_и_Unicode_путь_отвергаются(self):
+        основа = строка_события('session_meta', {'id': ЗАДАЧА}) + сообщение('user', 'команда')
+        for виды in ([], ['user.text.v2'], ['unexpected']):
+            неизвестное = строка_события('response_item', {'type': 'message', 'role': 'user',
+                'internal_chat_message_metadata_passthrough': {'content_item_kinds': виды},
+                'content': [{'type': 'input_text', 'text': 'поздняя команда'}]})
+            with self.subTest(виды=виды), self.assertRaises(ОшибкаВхода): экспортировать(основа + неизвестное, ЗАДАЧА)
+        with self.assertRaises(ОшибкаВхода): путь('.fum-приёмка/вход.json')
+
+    def test_позитивный_gitlink_архив_и_недоступные_байты(self):
+        with tempfile.TemporaryDirectory() as временный:
+            папка = Path(временный).resolve()
+            корень = папка / 'repo'
+            вход = создать(корень)
+            зависимость = папка / 'dep'
+            дочерний = создать(зависимость)
+            хранилище = ОбъектыГит(зависимость)
+            дерево_зависимости = хранилище.дерево_коммита(дочерний['исходный_коммит'])
+            листья = хранилище.дерево(дерево_зависимости)
+            манифест = {'схема': 'fum.файлы-зависимости.1', 'файлы': [
+                {'ссылка': хранилище.ссылка(дерево_зависимости, имя, листья), 'режим': листья[имя]['режим']}
+                for имя in sorted(листья, key=lambda имя: имя.encode())]}
+            (корень / 'зависимость.json').write_bytes(кодировать(манифест))
+            (корень / 'архив.bin').write_bytes(b'opaque archive fixture')
+            гит(корень, 'add', 'зависимость.json', 'архив.bin')
+            гит(корень, 'update-index', '--add', '--cacheinfo', '160000,' + дочерний['исходный_коммит']['значение'] + ',внешняя')
+            план = прочитать((корень / 'план.json').read_bytes())
+            план['происхождение'] += [{'путь': имя, 'вид': 'непрозрачные_байты', 'зависит_от': []} for имя in ('зависимость.json', 'архив.bin', 'внешняя')]
+            план['происхождение'].sort(key=lambda узел: узел['путь'].encode())
+            вход = заменить_манифест(корень, вход, 'план_проверок', план)
+            объекты = ОбъектыГит(корень)
+            вход['зависимости'] = [
+                {'вид': 'gitlink', 'путь': 'внешняя', 'коммит': дочерний['исходный_коммит'], 'дерево': дерево_зависимости,
+                 'манифест': объекты.ссылка(вход['дерево_входа'], 'зависимость.json')},
+                {'вид': 'архив', 'ссылка': объекты.ссылка(вход['дерево_входа'], 'архив.bin')}]
+            реестр = РеестрВходов(папка / 'registry', корень)
+            def проверить(запись, карта):
+                байты = кодировать(запись)
+                return проверить_вход(корень, байты, кодировать(конверт(байты)), ожидаемый_коммит=вход['исходный_коммит'],
+                                     ожидаемая_ветка=вход['исходная_ветка'], реестр=реестр, локальные_зависимости=карта)
+            self.assertFalse(проверить(вход, {'внешняя': зависимость})['исполнение_разрешено'])
+            (зависимость / 'инструмент.py').write_bytes(b'dirty checkout is not materialized execution')
+            self.assertFalse(проверить(вход, {'внешняя': зависимость})['исполнение_разрешено'])
+            with self.assertRaises(ОшибкаВхода): проверить(вход, {})
+            другой = copy.deepcopy(вход)
+            другой['зависимости'][1]['ссылка']['длина'] += 1
+            with self.assertRaises(ОшибкаВхода): проверить(другой, {'внешняя': зависимость})
+            плохой = copy.deepcopy(манифест)
+            плохой['файлы'][0]['режим'] = '100755'
+            вход = заменить_манифест(корень, вход, 'план_проверок', план)
+            (корень / 'зависимость.json').write_bytes(кодировать(плохой))
+            гит(корень, 'add', 'зависимость.json')
+            вход['дерево_входа'] = объекты.оид(гит(корень, 'write-tree').decode().strip())
+            вход['зависимости'][0]['манифест'] = объекты.ссылка(вход['дерево_входа'], 'зависимость.json')
+            with self.assertRaises(ОшибкаВхода): проверить(вход, {'внешняя': зависимость})
+
+    def test_реестр_привязан_к_корню_и_не_следует_симлинку(self):
+        with tempfile.TemporaryDirectory() as временный:
+            папка = Path(временный).resolve()
+            корень = папка / 'repo'
+            запись = создать(корень)
+            (корень / 'subdir').mkdir()
+            with self.assertRaises(ОшибкаВхода): ОбъектыГит(корень / 'subdir')
+            реестр = РеестрВходов(папка / 'registry', корень)
+            (корень / 'registry-target').mkdir()
+            (папка / 'registry').symlink_to(корень / 'registry-target')
+            with self.assertRaises(ОшибкаВхода): реестр.зарегистрировать(кодировать(запись))
+            self.assertEqual(list((корень / 'registry-target').iterdir()), [])
+
+    def test_экспорт_cli_не_принимает_подкаталог_за_корень(self):
+        with tempfile.TemporaryDirectory() as временный:
+            папка = Path(временный).resolve()
+            корень = папка / 'repo'
+            создать(корень)
+            (корень / 'subdir').mkdir()
+            (корень / 'source.jsonl').write_bytes(строка_события('session_meta', {'id': ЗАДАЧА}) + сообщение('user', 'команда'))
+            результат = subprocess.run([sys.executable, str(Path(__file__).resolve().parents[1] / 'scripts/снимки-индекса.py'),
+                '--корень-репозитория', str(корень / 'subdir'), 'экспортировать', '--источник', str(корень / 'source.jsonl'), '--задача', ЗАДАЧА], capture_output=True)
+            self.assertEqual(результат.returncode, 2)
+
+    def test_cli_чистое_чтение_sha256_и_запрет_допуска(self):
+        with tempfile.TemporaryDirectory() as временный:
+            папка = Path(временный).resolve()
+            корень = папка / 'repo'
+            запись = создать(корень, алгоритм='sha256')
+            байты = кодировать(запись)
+            (папка / 'input.json').write_bytes(байты)
+            (папка / 'envelope.json').write_bytes(кодировать(конверт(байты)))
+            скрипты = папка / 'reader'
+            shutil.copytree(Path(__file__).resolve().parents[1] / 'scripts', скрипты)
+            исходники_до = {имя.relative_to(скрипты).as_posix(): имя.read_bytes() for имя in скрипты.rglob('*') if имя.is_file()}
+            окружение = {ключ: значение for ключ, значение in os.environ.items() if ключ != 'PYTHONDONTWRITEBYTECODE'}
+            команда = [sys.executable, str(скрипты / 'снимки-индекса.py'), '--корень-репозитория', str(корень)]
+            до = {имя.relative_to(корень).as_posix(): имя.read_bytes() for имя in корень.rglob('*') if имя.is_file()}
+            результат = subprocess.run(команда + ['проверить', '--вход', str(папка / 'input.json'), '--конверт', str(папка / 'envelope.json'),
+                '--реестр', str(папка / 'registry'), '--ожидаемый-коммит', запись['исходный_коммит']['значение'], '--ожидаемая-ветка', запись['исходная_ветка']], capture_output=True, env=окружение)
+            self.assertEqual(результат.returncode, 0, результат.stderr)
+            self.assertFalse(прочитать(результат.stdout)['коммит_разрешён'])
+            self.assertFalse((папка / 'registry').exists())
+            после = {имя.relative_to(корень).as_posix(): имя.read_bytes() for имя in корень.rglob('*') if имя.is_file()}
+            self.assertEqual(до, после)
+            исходники_после = {имя.relative_to(скрипты).as_posix(): имя.read_bytes() for имя in скрипты.rglob('*') if имя.is_file()}
+            self.assertEqual(исходники_до, исходники_после)
+            отказ = subprocess.run(команда + ['допустить'], capture_output=True)
+            self.assertEqual(отказ.returncode, 2)
+            self.assertIn('очередь доставки'.encode(), отказ.stderr)
+
+
+if __name__ == '__main__': unittest.main()
