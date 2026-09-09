@@ -1,0 +1,14 @@
+{
+  "схема": "fum.снимок-черновика-контейнера.1",
+  "база": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+  "статус": "не завершён",
+  "файлы": {
+    "Package.swift": "0fc0aae6b8d51868045af0e51b68bfd626a2d1e46f81ef400052ab0093a3d043",
+    "Sources/КонтейнерНаблюдений/Контракт.swift": "20ececc6f1aaa0799b86d0fe7e464cb5846d27ecd4878247bf893c8fee8487b0",
+    "Sources/КонтейнерНаблюдений/Файлы.swift": "a91387e8b8dd0ab8edaeac3a1d58caf141043920e7dce7f2cb87acb0a1391dbd",
+    "Sources/КонтейнерНаблюдений/Формат.swift": "c74d584963ff9c16554ea8868898df296d17407012f3b651a6b7e04df6a15fbf",
+    "Sources/ПисательКонтейнера/main.swift": "f67fa9b56f97b7f7ffbb73b5bd655379c2e0ab221ffa320b0718058dee1f563f",
+    "Sources/ЧитательКонтейнера/main.swift": "ebdc641d269b50d7ae2c14d0b0e49d88a658998e48f166b9aaa592d7dc688e3d",
+    "Tests/КонтейнерНаблюденийTests/СегментTests.swift": "a2dfeca6fbfa1e0a530bd3dfa0704f209d6cf6460c455854d968766c20ed8f82"
+  }
+}
