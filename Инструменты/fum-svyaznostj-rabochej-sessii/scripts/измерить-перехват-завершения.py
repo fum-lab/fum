@@ -67,4 +67,3 @@ def выполнить():
 
 if __name__ == "__main__":
     raise SystemExit(выполнить())
-
