@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
 """Проверяет заявленный объём задачи; не перехватывает завершение Codex."""
 import argparse
+import importlib.util
 import json
 from pathlib import Path
 import re
 import sys
+import subprocess
 import time
 import uuid
+
+setattr(sys, "dont_write_bytecode", True)
 
 
 class ОшибкаПродолжения(ValueError):
@@ -150,7 +154,7 @@ def без_повторных_ключей(пары):
 def выполнить():
     параметры = argparse.ArgumentParser(description=__doc__)
     параметры.add_argument("--корень-репозитория", type=Path, required=True)
-    параметры.add_argument("--план", required=True)
+    параметры.add_argument("--план")
     параметры.add_argument("--codex-thread-id", required=True)
     параметры.add_argument("--вид-коммита", choices=("контрольный", "итоговый-этапа"))
     параметры.add_argument("--перед-завершением", action="store_true")
@@ -158,15 +162,37 @@ def выполнить():
     аргументы = параметры.parse_args()
     начало = time.perf_counter_ns()
     исход = "ошибка"
+    метки = []
     try:
         корень = аргументы.корень_репозитория.resolve(strict=True)
-        план = json.loads(локальный_файл(корень, аргументы.план).read_text(encoding="utf-8"), object_pairs_hook=без_повторных_ключей)
-        результат = определить_продолжение(корень, план, аргументы.codex_thread_id)
+        if str(uuid.UUID(аргументы.codex_thread_id)) != аргументы.codex_thread_id:
+            raise ОшибкаПродолжения("неканонический идентификатор задачи")
+        путь_модуля = Path(__file__).resolve().with_name("обязательства_задачи.py")
+        описание = importlib.util.spec_from_file_location("обязательства_продолжения", путь_модуля)
+        обязательства = importlib.util.module_from_spec(описание)
+        описание.loader.exec_module(обязательства)
+        реестр = корень / f"Планирование/задачи/{аргументы.codex_thread_id}/обязательства.json"
+        if реестр.exists() or реестр.is_symlink() or аргументы.план is None:
+            результат = обязательства.проверить_обязательства(корень, аргументы.codex_thread_id, аргументы.план, разделы_запроса, метки)
+        else:
+            if (корень / ".git").exists() or (корень / ".git").is_symlink():
+                история = обязательства.ПроверкаОбязательств(корень, аргументы.codex_thread_id, разделы_запроса, метки)
+                версии = история.гит.версии_пути(list(история.родители), история.путь_реестра)
+                if any(версии.values()):
+                    raise ОшибкаПродолжения("удаление рабочего реестра не разрешает возврат к историческому плану")
+            план = json.loads(локальный_файл(корень, аргументы.план).read_text(encoding="utf-8"), object_pairs_hook=без_повторных_ключей)
+            объект(план, ("схема", "задача", "режим", "остановка", "работы"))
+            if план.get("остановка") is not None:
+                обязательства.проверить_остановку(корень, план, аргументы.codex_thread_id, разделы_запроса)
+            результат = определить_продолжение(корень, план, аргументы.codex_thread_id)
+            if аргументы.перед_завершением and план["режим"] == "постоянная" and результат["решение"] == "завершить":
+                результат["решение"] = "продолжить"
+                результат["причина"] = "исторический план не доказывает завершение постоянной задачи без реестра v2"
         результат["вид_коммита"] = аргументы.вид_коммита
         print(json.dumps(результат, ensure_ascii=False, sort_keys=True))
         исход = результат["решение"]
         return 3 if аргументы.перед_завершением and исход == "продолжить" else 0
-    except (OSError, ValueError, TypeError) as ошибка:
+    except (OSError, ValueError, TypeError, KeyError, IndexError, subprocess.TimeoutExpired) as ошибка:
         print("ошибка: " + str(ошибка), file=sys.stderr)
         return 2
     finally:
@@ -174,7 +200,7 @@ def выполнить():
             try:
                 print("FUM-PROFILE " + json.dumps({"схема": "fum.профиль-продолжения.1",
                       "метка": "проверка решения о продолжении", "исход": исход,
-                      "длительность_нс": time.perf_counter_ns() - начало}, ensure_ascii=False), file=sys.stderr)
+                      "длительность_нс": time.perf_counter_ns() - начало, "стадии": метки}, ensure_ascii=False), file=sys.stderr)
             except OSError:
                 pass
 
