@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/openai/codex/3d2ee51ca2d5db578f328aa75e20aa22c0197c9a/codex-rs/protocol/src/models/item_metadata.rs
