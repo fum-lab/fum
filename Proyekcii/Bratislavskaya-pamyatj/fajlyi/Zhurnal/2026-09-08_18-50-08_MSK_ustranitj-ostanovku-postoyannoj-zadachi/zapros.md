@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-08 17:18:45 MSK - Uskoritj peresborku proyekcii](../2026-09-08_17-18-45_MSK_uskoritj-peresborku-proyekcii/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-08 19:07:59 MSK - Utochnitj kontrakt snimkov indeksa](../2026-09-08_19-07-59_MSK_utochnitj-kontrakt-snimkov-indeksa/zapros.md)
 
 ## Tekst zaprosa
 
@@ -62,7 +62,7 @@ Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb
 - [SKILL.md](../../Instrumentyi/fum-svyaznostj-rabochej-sessii/SKILL.md)
 - [proveritj-prodolzheniye-zadachi.py](../../Instrumentyi/fum-svyaznostj-rabochej-sessii/scripts/proveritj-prodolzheniye-zadachi.py)
 - [test_prodolzheniye_zadachi.py](../../Instrumentyi/fum-svyaznostj-rabochej-sessii/tests/test_prodolzheniye_zadachi.py)
-- [🟡-FUM-STEP-0154-proveryatj-granicu-zaversheniya-postoyannoj-zadachi.md](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0154-proveryatj-granicu-zaversheniya-postoyannoj-zadachi.md)
+- [✅-FUM-STEP-0154-proveryatj-granicu-zaversheniya-postoyannoj-zadachi.md](../../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0154-proveryatj-granicu-zaversheniya-postoyannoj-zadachi.md)
 - [reyestr-trebovanij-variantov-i-kandidatov.json](../../Planirovaniye/reyestr-trebovanij-variantov-i-kandidatov.json)
 - [inventarj-pravil.json](../../Pravila/agentov/inventarj-pravil.json)
 - [proverki-kommit-i-publikaciya.md](../../Pravila/agentov/proverki-kommit-i-publikaciya.md)
@@ -71,6 +71,6 @@ Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb
 - [Generiruyemaya proyekciya](../../../../).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 20:24:30 MSK -->
-<!-- content-sha256: sha256:3aa925add34b8d07fcc502db828622b413e7fb2deaa8929f062067022bb5fade -->
+<!-- last-content-edit: 2026-09-08 22:46:18 MSK -->
+<!-- content-sha256: sha256:8ffa85a0a7fb1733e6be21b5a851ce88bf71406e838010beec78493e4c9262e0 -->
 <!-- FUM-MD-RECENCY:END -->

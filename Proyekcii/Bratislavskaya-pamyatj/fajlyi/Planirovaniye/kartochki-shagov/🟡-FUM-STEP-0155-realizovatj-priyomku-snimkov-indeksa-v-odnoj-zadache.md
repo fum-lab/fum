@@ -23,11 +23,12 @@ Poljzovatelj predlozhil gotovitj kommit v indekse i odnovremenno popolnyatj Zhur
 
 ## Istochniki
 
+- [Proyekt kontrakta snimkov indeksa i granicyi komand; realizaciya ostayotsya otkryitoj](../../Zhurnal/2026-09-08_19-07-59_MSK_utochnitj-kontrakt-snimkov-indeksa/materialyi/planyi/kontrakt-snimkov-indeksa.md).
 - [Komandyi tekusjhej zadachi](../../Zhurnal/2026-09-07_22-11-38_MSK_sostavitj-plan-uskoreniya-proyekcii/zapros.md).
 - [Otvetyi i granicyi rezuljtata](../../Zhurnal/2026-09-07_22-11-38_MSK_sostavitj-plan-uskoreniya-proyekcii/otchyot.md).
 - [Podrobnyij plan](../../Zhurnal/2026-09-07_22-11-38_MSK_sostavitj-plan-uskoreniya-proyekcii/materialyi/planyi/plan-konvejyera-odnoj-zadachi.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 13:49:48 MSK -->
-<!-- content-sha256: sha256:b63b284d7b35fd850d185ba86da6302ac48348379b3307e7bbea052ab3b534f9 -->
+<!-- last-content-edit: 2026-09-08 19:28:39 MSK -->
+<!-- content-sha256: sha256:f073aa15947c2ff887d76110e64a9709d45194e5f72a7b173c96452ee4e2fbeb -->
 <!-- FUM-MD-RECENCY:END -->

@@ -1,0 +1,18 @@
+{
+  "схема": "fum.продолжение-задачи.1",
+  "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "режим": "разовая",
+  "остановка": null,
+  "работы": [
+    {
+      "идентификатор": "LinguisticKit-Concurrency-PR",
+      "действие": "Обновить LinguisticKit, проверить и доставить изменения upstream PR",
+      "состояние": "завершена",
+      "основание": {
+        "запрос": "Журнал/2026-09-08_22-21-18_MSK_обновить-LinguisticKit-для-Swift-Concurrency/запрос.md",
+        "цитата": "Obnovi LinguisticKit do novoj versii Swift i polnocennoj podderzhki aktualjnoj Concurrency, i dostavj izmeneniya v iskhodnyij repozitorij cherez PR."
+      },
+      "свидетельство": "PR https://github.com/Roman-Kerimov/LinguisticKit/pull/14, commit dd583a4031c5af2147c5c2b85d522ef76b018fff, CI34271986351 success; локальные tests/Release/TSan и независимое ревью подтверждены. Интеграция FUM остаётся отдельной работой корня."
+    }
+  ]
+}

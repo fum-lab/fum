@@ -49,6 +49,7 @@ Eti pravila polnostjyu chitayutsya do izmeneniya pamyati FUM, proizvodnoj dokume
 
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000042 -->
 - Kornevoj `README.md` yavlyayetsya kratkoj instrukciyej tekusjhego ispoljzovaniya FUM, a ne khronikoj progressa, polnyim perechnem prototipov ili tematicheskim indeksom. On soderzhit rovno odin vidimyij razdel `## Как использовать FUM сейчас`, pryamuyu vidimuyu ssyilku na `Документация/README.md`, ne soderzhit razdela `## Документация по темам` i vmeste so sluzhebnyim blokom svezhesti ne prevyishayet `12 000` Unicode-simvolov. Yego soderzhateljno obnovlyayut toljko pri izmenenii nablyudayemogo poljzovateljskogo scenariya, susjhestvennoj granicyi tekusjhej formyi ili osnovnyikh marshrutov vkhoda.
+  Ponyatnostj ispoljzovaniya dlya cheloveka imeyet prioritet: snachala opisyivayutsya nachalo rabotyi, primeryi obyichnyikh zaprosov, nablyudayemyij rezuljtat i dejstviya dlya proverki, utochneniya, prodolzheniya i ostanovki. Vnutrenniye identifikatoryi, formatyi i mekhanizmyi obyyasnyayutsya toljko tam, gde pomogayut prinyatj resheniye; podrobnosti vyinosyatsya v svyazannyiye dokumentyi. Chitatelyu yavno pokazyivayut granicu mezhdu dostupnyim sejchas povedeniyem i planiruyemyimi vozmozhnostyami.
 
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000043 -->
 - Polnyij tematicheskij indeks nomernyikh dokumentov khranitsya v `Документация/README.md`: yedinstvennyij razdel `## Документация по темам` napryamuyu pokryivayet vse `Документация/NN-*.md` i `Документация/NN-*/README.md`. Razdeleniye kornevoj instrukcii i polnogo indeksa proveryayet `Инструменты/fum-indeks-readme/scripts/check-readme-index.py`.
@@ -68,8 +69,9 @@ Eti pravila polnostjyu chitayutsya do izmeneniya pamyati FUM, proizvodnoj dokume
 ## Istochnik dekompozicii
 
 - [iskhodnyij zapros 2026-08-24 15:31:12 MSK — Dekompozirovatj AGENTS MD](../../Zhurnal/2026-08-24_15-31-12_MSK_dekompozirovatj-AGENTS-md/zapros.md)
+- [Opisatj aktualjnyij sposob ispoljzovaniya ponyatno dlya cheloveka](../../Zhurnal/2026-09-08_21-16-26_MSK_integrirovatj-paralleljnyiye-rezuljtatyi-i-opisatj-rabotu/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-01 13:45:05 MSK -->
-<!-- content-sha256: sha256:c9f4f0233661d821a8a722e6af62e0070ec92711c4340eae3451a1f69b2da5d2 -->
+<!-- last-content-edit: 2026-09-08 21:45:23 MSK -->
+<!-- content-sha256: sha256:c785d490bd807cd7af74ec109b1688c1bd80856b7f26439d6b54637dad6341f2 -->
 <!-- FUM-MD-RECENCY:END -->

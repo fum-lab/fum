@@ -1,0 +1,212 @@
+{
+  "база": "f26d46c99367bb1eef37c50906d2691ef36ca4d2",
+  "байты_совпадают": true,
+  "измеритель": "https://github.com/fum-lab/LinguisticKit/blob/b8684654b2a16b04852b5b4cb0ec29e23c354939/Benchmarks/TransformBenchmark.swift",
+  "измеритель_sha256": "e7f4aaa2c7f51e064fc51349b34aec28f2828ad9fc8913054c8a973a19414e0f",
+  "исходные_измерения": [
+    {
+      "all_tables_ns": 948083,
+      "checked_repeat_bytes": 102396,
+      "first_transform_ns": 139610167,
+      "input_bytes": 53713,
+      "iterations": 3,
+      "output_bytes": 34132,
+      "output_sha256": "ddd4ba24a8e31d8324f2ecb926de29e4c160dbd07bb7ac93c47cc9d22db736c4",
+      "peak_resident_bytes": 13959168,
+      "prepare_ns": 1148875,
+      "process_ns": 833852667,
+      "repeat_ns": 410190333
+    },
+    {
+      "all_tables_ns": 900042,
+      "checked_repeat_bytes": 102396,
+      "first_transform_ns": 137255500,
+      "input_bytes": 53713,
+      "iterations": 3,
+      "output_bytes": 34132,
+      "output_sha256": "ddd4ba24a8e31d8324f2ecb926de29e4c160dbd07bb7ac93c47cc9d22db736c4",
+      "peak_resident_bytes": 13778944,
+      "prepare_ns": 1129375,
+      "process_ns": 549214209,
+      "repeat_ns": 397930083
+    },
+    {
+      "all_tables_ns": 803959,
+      "checked_repeat_bytes": 102396,
+      "first_transform_ns": 133339417,
+      "input_bytes": 53713,
+      "iterations": 3,
+      "output_bytes": 34132,
+      "output_sha256": "ddd4ba24a8e31d8324f2ecb926de29e4c160dbd07bb7ac93c47cc9d22db736c4",
+      "peak_resident_bytes": 13533184,
+      "prepare_ns": 1023583,
+      "process_ns": 539709959,
+      "repeat_ns": 393440958
+    },
+    {
+      "all_tables_ns": 808708,
+      "checked_repeat_bytes": 102396,
+      "first_transform_ns": 134977834,
+      "input_bytes": 53713,
+      "iterations": 3,
+      "output_bytes": 34132,
+      "output_sha256": "ddd4ba24a8e31d8324f2ecb926de29e4c160dbd07bb7ac93c47cc9d22db736c4",
+      "peak_resident_bytes": 13991936,
+      "prepare_ns": 1090541,
+      "process_ns": 549726000,
+      "repeat_ns": 398401458
+    },
+    {
+      "all_tables_ns": 799209,
+      "checked_repeat_bytes": 102396,
+      "first_transform_ns": 136876417,
+      "input_bytes": 53713,
+      "iterations": 3,
+      "output_bytes": 34132,
+      "output_sha256": "ddd4ba24a8e31d8324f2ecb926de29e4c160dbd07bb7ac93c47cc9d22db736c4",
+      "peak_resident_bytes": 14352384,
+      "prepare_ns": 1042250,
+      "process_ns": 553012042,
+      "repeat_ns": 402874458
+    },
+    {
+      "all_tables_ns": 856417,
+      "checked_repeat_bytes": 102396,
+      "first_transform_ns": 140666417,
+      "input_bytes": 53713,
+      "iterations": 3,
+      "output_bytes": 34132,
+      "output_sha256": "ddd4ba24a8e31d8324f2ecb926de29e4c160dbd07bb7ac93c47cc9d22db736c4",
+      "peak_resident_bytes": 14647296,
+      "prepare_ns": 1385833,
+      "process_ns": 580519125,
+      "repeat_ns": 426884125
+    },
+    {
+      "all_tables_ns": 899667,
+      "checked_repeat_bytes": 102396,
+      "first_transform_ns": 141765333,
+      "input_bytes": 53713,
+      "iterations": 3,
+      "output_bytes": 34132,
+      "output_sha256": "ddd4ba24a8e31d8324f2ecb926de29e4c160dbd07bb7ac93c47cc9d22db736c4",
+      "peak_resident_bytes": 13500416,
+      "prepare_ns": 1073250,
+      "process_ns": 566158041,
+      "repeat_ns": 411082125
+    }
+  ],
+  "кандидат": "b8684654b2a16b04852b5b4cb0ec29e23c354939",
+  "компилятор": "Apple Swift 6.4 (swiftlang-6.4.0.30.4)",
+  "корпус": {
+    "bytes": 53713,
+    "commit": "9b9c456e0be6ce409f21f4653b6caa09d132f3d7",
+    "paths": [
+      "README.md",
+      "Документация/04-параллельная-работа-и-слияние.md"
+    ],
+    "repository": "fum-lab/fum",
+    "sha256": "70dbb65f4cacf3e3a2948d0e3904b00e288e263eb420c174de0d12a7573422fd"
+  },
+  "новые_измерения": [
+    {
+      "all_tables_ns": 2885459,
+      "checked_repeat_bytes": 102396,
+      "first_transform_ns": 134700042,
+      "input_bytes": 53713,
+      "iterations": 3,
+      "output_bytes": 34132,
+      "output_sha256": "ddd4ba24a8e31d8324f2ecb926de29e4c160dbd07bb7ac93c47cc9d22db736c4",
+      "peak_resident_bytes": 14319616,
+      "prepare_ns": 1741583,
+      "process_ns": 1330401458,
+      "repeat_ns": 406625708
+    },
+    {
+      "all_tables_ns": 3043666,
+      "checked_repeat_bytes": 102396,
+      "first_transform_ns": 135531667,
+      "input_bytes": 53713,
+      "iterations": 3,
+      "output_bytes": 34132,
+      "output_sha256": "ddd4ba24a8e31d8324f2ecb926de29e4c160dbd07bb7ac93c47cc9d22db736c4",
+      "peak_resident_bytes": 14368768,
+      "prepare_ns": 1873667,
+      "process_ns": 554425916,
+      "repeat_ns": 402784875
+    },
+    {
+      "all_tables_ns": 2844333,
+      "checked_repeat_bytes": 102396,
+      "first_transform_ns": 130845958,
+      "input_bytes": 53713,
+      "iterations": 3,
+      "output_bytes": 34132,
+      "output_sha256": "ddd4ba24a8e31d8324f2ecb926de29e4c160dbd07bb7ac93c47cc9d22db736c4",
+      "peak_resident_bytes": 14286848,
+      "prepare_ns": 2156875,
+      "process_ns": 548867541,
+      "repeat_ns": 399847167
+    },
+    {
+      "all_tables_ns": 3138542,
+      "checked_repeat_bytes": 102396,
+      "first_transform_ns": 139685667,
+      "input_bytes": 53713,
+      "iterations": 3,
+      "output_bytes": 34132,
+      "output_sha256": "ddd4ba24a8e31d8324f2ecb926de29e4c160dbd07bb7ac93c47cc9d22db736c4",
+      "peak_resident_bytes": 14204928,
+      "prepare_ns": 1918583,
+      "process_ns": 566098417,
+      "repeat_ns": 406050958
+    },
+    {
+      "all_tables_ns": 2977500,
+      "checked_repeat_bytes": 102396,
+      "first_transform_ns": 135544292,
+      "input_bytes": 53713,
+      "iterations": 3,
+      "output_bytes": 34132,
+      "output_sha256": "ddd4ba24a8e31d8324f2ecb926de29e4c160dbd07bb7ac93c47cc9d22db736c4",
+      "peak_resident_bytes": 13877248,
+      "prepare_ns": 1711791,
+      "process_ns": 545764917,
+      "repeat_ns": 394271083
+    },
+    {
+      "all_tables_ns": 2876792,
+      "checked_repeat_bytes": 102396,
+      "first_transform_ns": 133959792,
+      "input_bytes": 53713,
+      "iterations": 3,
+      "output_bytes": 34132,
+      "output_sha256": "ddd4ba24a8e31d8324f2ecb926de29e4c160dbd07bb7ac93c47cc9d22db736c4",
+      "peak_resident_bytes": 14073856,
+      "prepare_ns": 1851083,
+      "process_ns": 542107875,
+      "repeat_ns": 391877666
+    },
+    {
+      "all_tables_ns": 2887458,
+      "checked_repeat_bytes": 102396,
+      "first_transform_ns": 134721750,
+      "input_bytes": 53713,
+      "iterations": 3,
+      "output_bytes": 34132,
+      "output_sha256": "ddd4ba24a8e31d8324f2ecb926de29e4c160dbd07bb7ac93c47cc9d22db736c4",
+      "peak_resident_bytes": 14417920,
+      "prepare_ns": 1703042,
+      "process_ns": 543498834,
+      "repeat_ns": 392447875
+    }
+  ],
+  "ограничение_базы": "Исходник не собирается в Swift 6; режим Swift 5 выбран явно только для сравнительного профиля.",
+  "оптимизация": "-O; SwiftPM release; build-system native",
+  "платформа": "arm64 macOS 27.0; Xcode 27.0 (27A5237l)",
+  "режим_языка": {
+    "база": 5,
+    "кандидат": 6
+  },
+  "решение": "Сохранить неизменяемую подготовку; прирост менее 1 мс для русской таблицы и около 2 мс для остальных таблиц оправдан устранением общего изменяемого состояния. Дополнительные блокировки и ленивые кеши не вводить. Ускорение повторного пути не доказано."
+}

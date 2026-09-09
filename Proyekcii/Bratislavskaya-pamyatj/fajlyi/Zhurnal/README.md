@@ -16,6 +16,11 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-08 23:27:42 MSK - Ustranitj blokirovku proyekcii metadannyimi Finder](2026-09-08_23-27-42_MSK_ustranitj-blokirovku-proyekcii-metadannyimi-Finder/otchyot.md)
+- [2026-09-08 22:21:18 MSK - Obnovitj LinguisticKit dlya Swift Concurrency](2026-09-08_22-21-18_MSK_obnovitj-LinguisticKit-dlya-Swift-Concurrency/otchyot.md)
+- [2026-09-08 21:16:26 MSK — Integrirovatj paralleljnyiye rezuljtatyi i opisatj rabotu](2026-09-08_21-16-26_MSK_integrirovatj-paralleljnyiye-rezuljtatyi-i-opisatj-rabotu/otchyot.md)
+- [2026-09-08 20:55:36 MSK - Zasjhititj istoricheskiye profili pri pereimenovanii](2026-09-08_20-55-36_MSK_zasjhititj-istoricheskiye-profili-pri-pereimenovanii/otchyot.md)
+- [2026-09-08 19:07:59 MSK - Utochnitj kontrakt snimkov indeksa](2026-09-08_19-07-59_MSK_utochnitj-kontrakt-snimkov-indeksa/otchyot.md)
 - [2026-09-08 18:50:08 MSK — Ustranitj ostanovku postoyannoj zadachi](2026-09-08_18-50-08_MSK_ustranitj-ostanovku-postoyannoj-zadachi/otchyot.md)
 - [2026-09-08 17:18:45 MSK — Uskoritj peresborku proyekcii](2026-09-08_17-18-45_MSK_uskoritj-peresborku-proyekcii/otchyot.md)
 - [2026-09-07 22:11:38 MSK — Sostavitj plan uskoreniya proyekcii](2026-09-07_22-11-38_MSK_sostavitj-plan-uskoreniya-proyekcii/otchyot.md)
@@ -477,6 +482,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 19:21:41 MSK -->
-<!-- content-sha256: sha256:550779d27bb159170f6081f56a21ba7ccea0da2fdf854b0827eace28c3e85ada -->
+<!-- last-content-edit: 2026-09-08 23:52:52 MSK -->
+<!-- content-sha256: sha256:60cf65cda70b651f3f8c533e650f804e4ad2500c745ee854d4b7f65715080171 -->
 <!-- FUM-MD-RECENCY:END -->

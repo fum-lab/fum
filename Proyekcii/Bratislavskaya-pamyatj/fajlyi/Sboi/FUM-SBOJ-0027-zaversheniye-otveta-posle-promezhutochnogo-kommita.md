@@ -1,7 +1,7 @@
 +++
 "версия_схемы" = 1
 "идентификатор_сбоя" = "FUM-СБОЙ-0027"
-"статус" = "активна"
+"статус" = "устранена"
 +++
 # Zaversheniye otveta posle promezhutochnogo kommita
 
@@ -24,7 +24,7 @@ Promezhutochnyij libo itogovyij kommit otdeljnogo etapa oshibochno prinimayetsya
 
 ## Mekhanizm i sistemnoye ustraneniye
 
-Pravilo 000062 uzhe soderzhalo obyazannostj prodolzhatj posle kontroljnogo kommita. Narusheno primeneniye normyi pri vyibore zavershayusjhego otveta. Eto otlichayetsya ot otsutstviya zapisannogo pravila v FUM-SBOJ-0026. Vtoroye proyavleniye obnaruzhilo takzhe ostatochnoye trebovaniye zhdatj novoye soobsjheniye posle itogovogo kommita etapa. Obsjhaya mera — proveryayemoye resheniye po polnomu razreshyonnomu obyyomu, nezavisimo ot vida kommita. Razovoye vozobnovleniye ne dokazyivayet predotvrasjheniye povtoreniya; [shag FUM-STEP-0154](../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0154-proveryatj-granicu-zaversheniya-postoyannoj-zadachi.md) issleduyet proveryayemuyu granicu ostanovki bez zapuska zapresjhyonnogo avtokonvejyera.
+Pravilo 000062 uzhe soderzhalo obyazannostj prodolzhatj posle kontroljnogo kommita. Narusheno primeneniye normyi pri vyibore zavershayusjhego otveta. Eto otlichayetsya ot otsutstviya zapisannogo pravila v FUM-SBOJ-0026. Vtoroye proyavleniye obnaruzhilo takzhe ostatochnoye trebovaniye zhdatj novoye soobsjheniye posle itogovogo kommita etapa. Obsjhaya mera — proveryayemoye resheniye po polnomu razreshyonnomu obyyomu, nezavisimo ot vida kommita. Razovoye vozobnovleniye ne dokazyivayet predotvrasjheniye povtoreniya; [shag FUM-STEP-0154](../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0154-proveryatj-granicu-zaversheniya-postoyannoj-zadachi.md) issleduyet proveryayemuyu granicu ostanovki bez zapuska zapresjhyonnogo avtokonvejyera.
 
 ## Kriterii zakryitiya
 
@@ -32,13 +32,19 @@ Pravilo 000062 uzhe soderzhalo obyazannostj prodolzhatj posle kontroljnogo kommi
 - Pri nalichii razreshyonnogo sleduyusjhego dejstviya posle kontroljnogo i itogovogo kommitov etapa nablyudayetsya yego vyipolneniye v tom zhe khode bez novogo poljzovateljskogo zapuska.
 - Vozmozhnosti i ogranicheniya meryi yavno opisanyi; proverka nalichiya teksta pravila ne vyidayotsya za garantiyu povedeniya vsekh budusjhikh ispolnitelej.
 
+## Rezuljtat ustraneniya
+
+Granica etapa i postoyannoj zadachi zakreplena v pravilakh i lokaljnoj proverke spiska rabot. Prinyatyi 13 testov resheniya i ogranicheniye mashinnyikh garantij. Posle kontroljnogo kommita 39c40194 i itogovogo f5cb17c4 nablyudalosj daljnejsheye dejstviye bez novoj komandyi: [prinyataya priyomka](../Zhurnal/2026-09-08_18-50-08_MSK_ustranitj-ostanovku-postoyannoj-zadachi/otchyot.md), [svideteljstvo prodolzheniya](../Zhurnal/2026-09-08_21-16-26_MSK_integrirovatj-paralleljnyiye-rezuljtatyi-i-opisatj-rabotu/materialyi/svideteljstvo-prodolzheniya.json).
+
+Zakryita opredelyonnaya vyishe procedurnaya mera, a ne vozmozhnostj lyubogo budusjhego sboya. CLI ne perekhvatyivayet proizvoljnyij final i ne garantiruyet dostupnostj sredyi.
+
 ## Istochniki
 
 - [Iskhodnyij dialog](../Zhurnal/2026-09-07_22-11-38_MSK_sostavitj-plan-uskoreniya-proyekcii/zapros.md).
 - [Pravilo 000062](../AGENTS.md).
-- [Shag issledovaniya](../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0154-proveryatj-granicu-zaversheniya-postoyannoj-zadachi.md).
+- [Shag issledovaniya](../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0154-proveryatj-granicu-zaversheniya-postoyannoj-zadachi.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 19:21:41 MSK -->
-<!-- content-sha256: sha256:222650bdc22dc35697eb2dbb67c75c5c195e0fc4a1c4692d4937ae9d943d669d -->
+<!-- last-content-edit: 2026-09-08 22:46:18 MSK -->
+<!-- content-sha256: sha256:0434be8185a2e59f1930fa6ccb41140ae26a1cd5cf3aa8542a4fb73947f5f438 -->
 <!-- FUM-MD-RECENCY:END -->

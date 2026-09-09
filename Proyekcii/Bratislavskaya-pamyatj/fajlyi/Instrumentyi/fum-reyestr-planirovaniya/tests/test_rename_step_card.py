@@ -23,6 +23,87 @@ NEW_REPO_PATH = f"Планирование/карточки-шагов/{NEW_NAME
 
 
 class RenameStepCardTests(unittest.TestCase):
+    def записать_исторический_профиль(сам, корень: Path) -> Path:
+        путь = корень / 'Журнал/2026-01-01_00-00-00_MSK_проверить-ссылки/материалы/профили/сверка-объявлений.json'
+        путь.parent.mkdir(parents=True)
+        путь.write_text(json.dumps({
+            'база': сам.git(корень, 'rev-parse', 'HEAD').stdout.strip(),
+            'собственные_объявления_совпадают_с_базой': True,
+            'внешний_контракт': 'Обязательный внешний API сохранён.',
+            'файлы': [{'путь': OLD_REPO_PATH, 'объявлений_до': 0, 'объявлений_после': 0}],
+        }, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+        сам.git(корень, 'add', '.')
+        сам.git(корень, 'commit', '-qm', 'historical fixture')
+        return путь
+
+    def test_исторический_профиль_сохраняет_байты_а_живые_ссылки_обновляются(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_fixture(корень)
+            путь = сам.записать_исторический_профиль(корень)
+            исходные_байты = путь.read_bytes()
+            результат = сам.run_script(корень, '--status', 'completed')
+            сам.assertEqual(результат.returncode, 0, результат.stderr)
+            сам.assertEqual(путь.read_bytes(), исходные_байты)
+            сам.assertIn(NEW_REPO_PATH, (корень / 'Планирование/реестр.json').read_text())
+            сам.assertFalse((корень / OLD_REPO_PATH).exists())
+            сам.assertTrue((корень / NEW_REPO_PATH).exists())
+
+    def test_повреждённый_исторический_профиль_отклонён_до_переименования(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_fixture(корень)
+            путь = сам.записать_исторический_профиль(корень)
+            профиль = json.loads(путь.read_text())
+            варианты = ['{', '[]', путь.read_text().replace('"база":', '"база": "' + 'a' * 40 + '", "база":', 1)]
+            for поле, значение in [('база', 'не-коммит'), ('собственные_объявления_совпадают_с_базой', 1), ('внешний_контракт', ''), ('файлы', [])]:
+                варианты.append(json.dumps({**профиль, поле: значение}, ensure_ascii=False))
+            for поле, значение in [('объявлений_до', True), ('объявлений_после', -1), ('путь', '../выход.md'), ('путь', '.')]:
+                варианты.append(json.dumps({**профиль, 'файлы': [{**профиль['файлы'][0], поле: значение}]}, ensure_ascii=False))
+            варианты.append(json.dumps({**профиль, 'файлы': профиль['файлы'] * 2}, ensure_ascii=False))
+            варианты.append(json.dumps({**профиль, 'неизвестно': OLD_NAME}, ensure_ascii=False))
+            индекс = сам.git(корень, 'ls-files', '--stage', '-z').stdout
+            for содержимое in варианты:
+                with сам.subTest(содержимое=содержимое):
+                    путь.write_text(содержимое, encoding='utf-8')
+                    снимок = {запись: запись.read_bytes() for запись in корень.rglob('*') if запись.is_file() and '.git' not in запись.relative_to(корень).parts}
+                    результат = сам.run_script(корень, '--status', 'completed')
+                    сам.assertNotEqual(результат.returncode, 0)
+                    сам.assertEqual(сам.git(корень, 'ls-files', '--stage', '-z').stdout, индекс)
+                    сам.assertEqual({запись: запись.read_bytes() for запись in снимок}, снимок)
+                    сам.assertFalse((корень / NEW_REPO_PATH).exists())
+
+    def test_близкие_пути_профиля_остаются_живыми(сам):
+        with tempfile.TemporaryDirectory() as временный_каталог:
+            корень = Path(временный_каталог)
+            сам.write_fixture(корень)
+            путь = сам.записать_исторический_профиль(корень)
+            соседи = [путь.with_name('живая-ссылка.json'), путь.with_name('сверка-объявлений-копия.json'), путь.parent.with_name('профили-копия') / путь.name, корень / 'Журнал/не-временная-запись/материалы/профили/сверка-объявлений.json']
+            for сосед in соседи:
+                сосед.parent.mkdir(parents=True, exist_ok=True)
+                сосед.write_bytes(путь.read_bytes())
+            результат = сам.run_script(корень, '--status', 'completed')
+            сам.assertEqual(результат.returncode, 0, результат.stderr)
+            for сосед in соседи:
+                сам.assertIn(NEW_REPO_PATH, сосед.read_text())
+
+    def test_недоступный_исторический_профиль_отклонён_до_переименования(сам):
+        for вариант in ['нет-файла', 'символическая-ссылка', 'не-UTF-8']:
+            with сам.subTest(вариант=вариант), tempfile.TemporaryDirectory() as временный_каталог:
+                корень = Path(временный_каталог)
+                сам.write_fixture(корень)
+                путь = сам.записать_исторический_профиль(корень)
+                путь.unlink()
+                if вариант == 'символическая-ссылка':
+                    путь.symlink_to(корень / 'Планирование/реестр.json')
+                elif вариант == 'не-UTF-8':
+                    путь.write_bytes(b'\xff')
+                индекс = сам.git(корень, 'ls-files', '--stage', '-z').stdout
+                результат = сам.run_script(корень, '--status', 'completed')
+                сам.assertNotEqual(результат.returncode, 0)
+                сам.assertEqual(сам.git(корень, 'ls-files', '--stage', '-z').stdout, индекс)
+                сам.assertTrue((корень / OLD_REPO_PATH).exists())
+
     def git(сам, корень: Path, *args: str) -> subprocess.CompletedProcess[str]:
         return subprocess.run(
             ["git", *args],

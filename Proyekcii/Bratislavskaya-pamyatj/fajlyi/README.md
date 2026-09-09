@@ -1,118 +1,88 @@
 # [FUM](Glossarij/FUM.md)
 
-[FUM](Glossarij/FUM.md) — `fraktaljnyij uzel myishleniya`, po-russki — [fraktaljnyij uzel myishleniya](Glossarij/fraktaljnyij-uzel-myishleniya.md). Proyekt razrabatyivayetsya kak otkryityij agent sleduyusjhego pokoleniya.
+FUM — [fraktaljnyij uzel myishleniya](Glossarij/fraktaljnyij-uzel-myishleniya.md). Proyekt pomogayet vesti svyaznuyu pamyatj: sokhranyatj voprosyi, resheniya, iskhodnyiye materialyi i rezuljtatyi rabotyi tak, chtobyi k nim mozhno byilo vernutjsya i prodolzhitj razvitiye.
 
-Sejchas etot repozitorij — [pamyatj proyekta](Glossarij/pamyatj-FUM.md) i yego [dokumentacionnyij prototip](Glossarij/dokumentacionnyij-prototip-FUM.md), a ne gotovoye otdeljnoye prilozheniye. Prakticheskij interfejs tekusjhej formyi — chelovek, vneshnyaya zadacha Codex i lokaljnaya kopiya pamyati v Git i Markdown. Obsidian mozhno ispoljzovatj kak udobnyij interfejs chteniya i navigacii, no kanonicheskim istochnikom ostayutsya fajlyi repozitoriya.
+Sejchas rabotatj s FUM mozhno cherez Codex Desktop i lokaljnuyu kopiyu etogo repozitoriya. Vyi formuliruyete zadachu obyichnyimi slovami, Codex pomogayet razobratjsya, podgotovitj izmeneniya i sokhranitj proverennyij rezuljtat. Fajlyi mozhno chitatj v lyubom redaktore; Obsidian udoben dlya perekhoda po svyazyam. Sobstvennoye otdeljnoye prilozheniye FUM yesjhyo razrabatyivayetsya.
 
 ## Kak ispoljzovatj FUM sejchas
 
-### 1. Podgotovjte svoyu kopiyu
+### 1. Otkrojte proyekt
 
-Dlya lichnoj ili publichnoj rabotyi sozdajte fork, zamenite `USERNAME` svoim imenem na GitHub, klonirujte fork i pri neobkhodimosti podklyuchite bazovyij repozitorij kak `upstream`:
+Otkrojte korenj svoyej lokaljnoj kopii FUM kak proyekt v Codex Desktop. Yesli kopii yesjhyo net, nachnite s [podgotovki proyekta](Dokumentaciya/52-tekusjhij-poryadok-rabotyi.md#podgotovitj-lokaljnuyu-kopiyu). Znatj vnutrenneye ustrojstvo pamyati FUM dlya pervogo zaprosa ne trebuyetsya.
 
-```bash
-git clone https://github.com/USERNAME/fum.git FUM
-cd FUM
-git remote add upstream https://github.com/fum-lab/fum.git
-```
+### 2. Skazhite, kakoj rezuljtat vam nuzhen
 
-Posle svezhego klonirovaniya inicializirujte zakreplyonnuyu Git-zavisimostj LinguisticKit:
+Napishite, chto khotite ponyatj, izmenitj ili sokhranitj. Naprimer:
 
-```bash
-python3 Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py init \
-  --repo-root . \
-  --path Зависимости/LinguisticKit
-```
+> Obyyasni tekusjhuyu arkhitekturu FUM prostyimi slovami. Poka nichego ne menyaj.
 
-Otkrojte korenj repozitoriya kak lokaljnyij proyekt v Codex Desktop. Pri zhelanii otkrojte tot zhe katalog kak khranilisjhe Obsidian.
+> Sostavj plan uskoreniya peresborki proyekcii i sokhrani yego v pamyati proyekta.
 
-### 2. Sformulirujte obyichnyij zapros
+> Ispravj etu oshibku: [chto proizoshlo i chto ozhidalosj]. Proverj ispravleniye i sokhrani rezuljtat lokaljno.
 
-Napishite zadache Codex, chto nuzhno ponyatj, izmenitj, proveritj ili sokhranitj. Mozhno pisatj yestestvennyim yazyikom, v tom chisle translitom. Yesli zapros vliyayet na pamyatj proyekta, yego iskhodnaya formulirovka sokhranyayetsya doslovno, a proizvodnaya pamyatj vedyotsya po-russki kirillicej. Yesli vazhnyi dostup, publikaciya, setj, sekretyi, platnyiye servisyi ili drugiye vneshniye effektyi, ukazhite razreshyonnyiye granicyi yavno.
+Mozhno pisatj po-russki, v tom chisle translitom. Prilozhite vazhnyiye materialyi i ogranicheniya: naprimer, «toljko izuchitj», «snachala podgotovitj plan» ili «prodolzhaj realizaciyu soglasovannogo plana». Yesli praviljnoye resheniye zavisit ot nedostayusjhikh dannyikh, zadacha zaprosit utochneniye.
 
-Poleznyij zapros obyichno soderzhit ozhidayemyij rezuljtat, iskhodnyiye materialyi i susjhestvennyiye ogranicheniya. Znatj vnutrenneye ustrojstvo pamyati ili specialjnyiye komandyi FUM dlya nachala rabotyi ne trebuyetsya.
+Dlya dliteljnoj rabotyi oboznachjte eto pryamo:
 
-Yesli issledovaniye uzhe vyipolneno vo vneshnem Web ChatGPT, ne prosite yego imitirovatj pryamoj kommit ili push cherez obyichnoye GitHub-podklyucheniye: etot kanal prednaznachen dlya chteniya. Poprosite vernutj odin [tipizirovannyij paket vneshnego vklada](Dokumentaciya/51-proveryayemyij-priyom-vneshnego-vklada.md) pryamo v tekstovom soobsjhenii, opublikujte share-ssyilku i peredajte yeyo novoj lokaljnoj zadache Codex. Lokaljnaya zadacha arkhiviruyet dialog, proveryayet tochnyiye bazu, manifest i khyesh, pokazyivayet nedoverennyij patch i toljko zatem samostoyateljno oformlyayet prinimayemoye izmeneniye po pravilam FUM.
+> Vedi etu zadachu postoyanno: vyipolnyaj soglasovannyiye etapyi, sokhranyaj kontroljnyiye tochki i prodolzhaj nezavershyonnuyu rabotu.
 
-### 3. Zapustite pishusjhuyu zadachu v otdeljnom rabochem dereve
+### 3. Sledite za soderzhateljnyimi obnovleniyami
 
-Kazhduyu pishusjhuyu zadachu zapuskajte vruchnuyu v Codex Desktop. Nezavisimyiye zadachi rabotayut v otdeljnyikh Git worktree i sobstvennyikh vetkakh `codex/`; v odnom dereve pishet toljko odna kornevaya zadacha. Chuzhoye aktivnoye derevo dostupno agentu toljko dlya chteniya.
+V otvetakh zadachi budut poyavlyatjsya najdennyiye prichinyi, prinyatyiye resheniya, rezuljtatyi proverok i ostavshayasya rabota. Kogda nezavisimyiye chasti polezno vyipolnyatj paralleljno, oni mogut byitj poruchenyi dochernim ispolnitelyam. Pishusjhiye ispolniteli rabotayut v otdeljnyikh rabochikh kopiyakh i vetkakh; rezuljtat vozvrasjhayetsya v osnovnuyu zadachu dlya soglasovaniya.
 
-Sessiya chitayet prinyatuyu pamyatj, obnovlyayet dokumentyi ili kod, sokhranyayet komandyi i otvetyi v `Журнал/` i proveryayet rezuljtat. Po vashemu ukazaniyu postoyannaya sessiya regulyarno sokhranyayet zavershyonnyiye etapyi promezhutochnyimi lokaljnyimi kommitami. Kontroljnaya tochka ukazyivayet nezavershyonnyiye rabotyi; itogovyij rezuljtat prokhodit otdeljnuyu finaljnuyu priyomku.
+Vnutrenniye docherniye rabotyi pomogayut vyipolnitj vash zapros. Yesli khotite otdeljnuyu zadachu Codex so svoim dialogom, poprosite sozdatj yeyo yavno.
 
-Kommit ne zapuskayet sleduyusjhuyu zadachu. Istoricheskiye continuation, handoff, FIFO, reviewer, integrator i candidate sokhranenyi kak narabotka i sami po sebe ne dayut polnomochij prodolzhatj rabotu.
+### 4. Posmotrite, chto poluchilosj i gde eto sokhraneno
 
-Lokaljno menyayusjhijsya `.obsidian/graph.json` ostayotsya poljzovateljskim sostoyaniyem Obsidian, ignoriruyetsya Git i ne blokiruyet kommit.
+Otvet zadachi soderzhit ssyilki na izmenyonnyiye dokumentyi ili kod, svedeniya o proverkakh i izvestnyiye ogranicheniya. Dlya podrobnostej otkrojte yeyo papku v [Zhurnale](Zhurnal/README.md): `запрос.md` sokhranyayet iskhodnyiye komandyi, a `отчёт.md` obyyasnyayet rezuljtat i yego proverku.
 
-### 4. Proverjte rezuljtat
+Yesli zadacha rabotayet v otdeljnoj kopii, pervonachaljno otkryityij katalog mozhet yesjhyo soderzhatj prezhniye fajlyi. Poprosite: «Pokazhi rabochuyu kopiyu etoj zadachi i otkroj yeyo rezuljtat i Zhurnal». Dlya chteniya v Obsidian otkrojte imenno etu kopiyu. Kogda rezuljtat prinyat, mozhno poprositj obyyedinitj yego s osnovnoj kopiyej; zadacha proverit, chto drugoj ispolnitelj sejchas ne pishet v neyo.
 
-Prochitajte itog zadachi, prosmotrite izmenyonnyiye fajlyi i Git-diff, a pri neobkhodimosti — sosedniye `запрос.md` i `отчёт.md` v novoj papke `Журнал/`. Otchyot pokazyivayet smyisl izmeneniya, proverki, resheniya i izvestnyiye ogranicheniya; Git-kommit zakreplyayet tochnyij prinyatyij snimok.
+Lokaljnyij Git-kommit sokhranyayet opredelyonnoye sostoyaniye fajlov. Sveryajte nazvannyiye v otvete vetku i kommit: rabota v otdeljnoj vetke sama po sebe ne menyayet `master`. Kontroljnaya tochka sokhranyayet promezhutochnyij rezuljtat. V postoyannoj zadache posle neyo prodolzhayetsya uzhe soglasovannaya nezavershyonnaya rabota.
 
-Posle kommita ubeditesj, chto `master` ukazyivayet na pokazannuyu vershinu. Avtomaticheskoj sleduyusjhej zadachi net: pri neobkhodimosti sformulirujte novyij zapros i zapustite novuyu sessiyu vruchnuyu. Kartochki i planyi ostayutsya pamyatjyu razvitiya, a ne ocheredjyu avtozapuska.
+### 5. Utochnyajte, prodolzhajte ili ostanavlivajte rabotu v tom zhe dialoge
 
-### 5. Opublikujte otdeljno, yesli eto nuzhno
+Obyichnogo soobsjheniya dostatochno:
 
-Publikujte vyibrannyij lokaljnyij rezuljtat toljko otdeljnyim yavnyim dejstviyem, naprimer:
+> Utochni vtoroj punkt plana: vazhno sokhranitj sovmestimostj so staryimi dannyimi.
 
-```bash
-git push origin master
-```
+> Prodolzhi soglasovannyij plan s pervogo nezavershyonnogo etapa.
 
-Dlya drugoj vetki ili tochnogo ref ispoljzujte sootvetstvuyusjhuyu yavnuyu komandu. Ruchnoj push publikuyet proverennyij Git-prefiks, no ne rasshiryayet razresheniya na inyiye vneshniye effektyi. Avtomaticheskoj publikacii net.
+> Pokazhi, chto uzhe provereno, a chto poka ostayotsya predpolozheniyem.
 
-## Otlozhennyij konvejyer
+> Ostanovi daljnejshuyu rabotu i sokhrani tekusjhij status.
 
-FIFO, obyazateljnoye prodolzheniye, branch-next-step, worktree-pul, nezavisimoye agentskoye revjyu, integraciya, candidate CAS i avtomaticheskij transport sokhranenyi kak [istoricheski realizovannyij konvejyer](Dokumentaciya/45-obyazateljnoye-prodolzheniye-Git-vetki-posle-kommita.md) i vozmozhnaya budusjhaya arkhitektura. Sejchas on ne dejstvuyet i ne yavlyayetsya instrukciyej poljzovatelyu ili agentu. Nizhe sokhraneno obyyasneniye yego prezhnikh zasjhitnyikh svojstv.
+Yesli rabota prervalasj, poprosite vosstanovitj sostoyaniye po Zhurnalu i prodolzhitj soglasovannyij etap. Sokhranyonnyiye materialyi pomogayut vosstanovleniyu; dostupnostj sredyi i ispolnitelya vsyo ravno vliyayet na vozmozhnostj prodolzhatj.
 
-Kommit razreshyon toljko posle podtverzhdeniya exact continuation-intent i pervogo ozhidayusjhego bileta na iskhodnoj vershine tekh zhe ref i worktree. Atomarnyij commit+handoff dvigayet vetku i peredayot ocheredj. Worktree-prodolzheniye podtverzhdayet novuyu vershinu v tom zhe slote; prodolzheniye obyichnoj vetki perechityivayet novyij `HEAD`, zapuskayet selektor i beryot odin dopustimyij shag. Nesovpavshaya kvitanciya zakryivayet marshrut bez rezervnogo nezavisimogo vyideleniya. `done`, otsutstviye gotovogo shaga ili chistyij otkaz zakanchivayutsya `finish-clean`, poetomu pustoj petli net.
+Ostanovka daljnejshej rabotyi ne otmenyayet uzhe sokhranyonnyiye izmeneniya. Yesli nuzhen otkat, ukazhite zhelayemyij rezuljtat otdeljno.
 
-Zadacha sleduyusjhej fazyi susjhestvuyet do promezhutochnogo kommita namerenno. Git-kvitancii pozvolyayut novoj sessii posle obryiva read-only vosstanovitj tot zhe slot, ref, FIFO, intent i sleduyusjhuyu dopustimuyu komandu bez dublikata. No oshibka, tajm-aut, odin `clientThreadId` ili poteryannyij otvet pri sozdanii yesjhyo neizvestnoj host-zadachi zapresjhayut kommit i slepoj povtor: host-poverkhnostj ne imeyet idempotentnogo klyucha i avtoritetnogo poiska takogo rezuljtata. Eto bezopasnaya ostanovka, no ne obesjhaniye bezuslovnogo progressa posle lyubogo sboya sredyi.
+### 6. Razlichajte dostavku vetki i prinyatiye rezuljtata
 
-Yesli imenno eti zasjhitnyiye ograzhdeniya ne dayut bezopasno prodolzhitj lokaljnuyu rabotu, chelovek mozhet ispoljzovatj otdeljnyij avarijnyij marshrut iz kornya repozitoriya:
+Posle kommita svoyej rabochej vetki agent avtomaticheski otpravlyayet yeyo v repozitorij `origin`; vetka `master` isklyuchena. Vetka mozhet soderzhatj proverennuyu kontroljnuyu tochku s yesjhyo nezavershyonnoj rabotoj. Poprosite pokazatj ssyilku na dostavlennyij kommit i ostavshiyesya etapyi.
 
-```bash
-./sbrositj.sh
-```
+Obyyedineniye s osnovnoj vetkoj, yeyo publikaciya i sozdaniye PR vyipolnyayutsya po otdeljnomu zaprosu. Yesli otpravka ne udalasj, zadacha soobsjhayet ob etom: lokaljno sokhranyonnyij rezuljtat ostayotsya dostupen, no yesjhyo ne dostavlen.
 
-Skript bez `sudo` trebuyet nastoyasjhiye TTY odnovremenno na stdin i stdout, pokazyivayet tochnyiye tekusjhiye vetku, `HEAD`, udalyayemyiye izmeneniya i runtime-ssyilki i zaprashivayet dinamicheskuyu frazu polnogo plana. Posle podtverzhdeniya on vozvrasjhayet indeks i rabocheye derevo k etomu `HEAD`, sokhranyaya ignored-dannyiye i vlozhennyiye repozitorii, arkhiviruyet i annuliruyet prezhneye scoped runtime-sostoyaniye i sozdayot svezhuyu pustuyu FIFO. Eto soznateljnyij `break-glass`, a ne host-stop i ne istochnik novoj zadachi-prodolzheniya: daljnejsheye ispolneniye nachinayet chelovek otdeljnyim zaprosom. Oshibka frazyi ili izmeneniye plana zavershayut vyizov bez sbrosa; skript ne prinimayet neinteraktivnyij force-obkhod.
+## Gde chitatj daljshe
 
-## Granicyi tekusjhej formyi
-
-- Yedinogo korobochnogo prilozheniya, sobstvennogo samostoyateljnogo runtime i gotovogo GUI FUM poka net; Codex i yego host-orkestraciya ostayutsya vneshnej sredoj.
-- Sokhranyonnyij otlozhennyij prototip worktree-pula proveryayet exact slot `repo-root` soderzhateljnyikh komand, no ne yavlyayetsya dejstvuyusjhim marshrutom zapisi. Tekusjhaya ruchnaya skhema ispoljzuyet sobstvennoye rabocheye derevo i otdeljnuyu vetku kazhdoj nezavisimoj zadachi; istoricheskaya proverka slota ne dokazyivayet nativnuyu host-izolyaciyu Codex Desktop.
-- Git, zhurnal i avtomaticheskiye proverki podtverzhdayut proiskhozhdeniye, strukturu i vosproizvodimyiye invariantyi, no ne dokazyivayut istinnostj kazhdogo soderzhateljnogo vyivoda ili preimusjhestvo FUM nad drugimi agentami.
-- Setj, sekretyi, platnyiye servisyi, publikaciya, polucheniye dannyikh iz vneshnikh istochnikov i fizicheskiye effektyi trebuyut otdeljnogo yavnogo razresheniya.
-- Ispolnyayemyiye prototipyi podtverzhdayut toljko svoi ogranichennyiye scenarii i ne yavlyayutsya obesjhaniyem gotovnosti polnogo produkta.
-
-## Kuda idti daljshe
-
-- [Polnyij indeks dokumentacii FUM](Dokumentaciya/README.md) — tematicheskaya karta vsekh nomernyikh dokumentov.
-- [Obzor proyekta](Dokumentaciya/00-obzor-proyekta.md) — kratkaya smyislovaya ramka.
-- [Osnovnaya poljzovateljskaya istoriya svyaznoj pamyati](Dokumentaciya/31-poljzovateljskiye-istorii-FUM/vesti-svyaznuyu-pamyatj-FUM.md) — nablyudayemyij potok ot zaprosa do vozobnovlyayemoj pamyati.
-- [Pasport dokumentacionnogo prototipa](Dokumentaciya/36-pasport-dokumentacionnogo-prototipa-i-pervogo-korobochnogo-sreza.md) — sostav tekusjhego kontura i yego granicyi.
-- [Proveryayemyij priyom vneshnego vklada](Dokumentaciya/51-proveryayemyij-priyom-vneshnego-vklada.md) — peredacha predlozheniya iz Web ChatGPT v lokaljnuyu kornevuyu sessiyu bez fiktivnogo write-dostupa.
-- [Dorozhnaya karta](Planirovaniye/dorozhnaya-karta.md), [sleduyusjhiye shagi vetok](Planirovaniye/sleduyusjhiye-shagi-vetok/README.md) i [prototipyi](Prototipyi/) — razvitiye i ispolnyayemyiye proverki otdeljnyikh reshenij.
-- [Glossarij proyekta](Glossarij/glossarij-proyekta.md) — znacheniya ustojchivyikh terminov FUM.
+- [Kak sejchas rabotatj s FUM](Dokumentaciya/52-tekusjhij-poryadok-rabotyi.md) — podgotovka kopii, ustrojstvo sovmestnoj rabotyi, sokhraneniye pamyati i tekusjhiye granicyi.
+- [Polnyij indeks dokumentacii](Dokumentaciya/README.md) — karta tem proyekta.
+- [Obzor FUM](Dokumentaciya/00-obzor-proyekta.md) i [istoriya vedeniya svyaznoj pamyati](Dokumentaciya/31-poljzovateljskiye-istorii-FUM/vesti-svyaznuyu-pamyatj-FUM.md) — naznacheniye proyekta na primere.
+- [Proveryayemyij priyom vneshnego vklada](Dokumentaciya/51-proveryayemyij-priyom-vneshnego-vklada.md) — kak peredatj issledovaniye iz vneshnego dialoga v lokaljnuyu rabotu.
+- [Dorozhnaya karta](Planirovaniye/dorozhnaya-karta.md) i [kartochki shagov](Planirovaniye/kartochki-shagov/README.md) — chto zaplanirovano i chto uzhe vyipolneno.
+- [Glossarij](Glossarij/glossarij-proyekta.md) — znacheniya terminov.
 
 ## Licenziya
 
-Proyekt publikuyetsya pod [CC0 1.0 Universal](LICENZIYA.md). Kanonicheskij publichnyij upstream — [fum-lab/fum](https://github.com/fum-lab/fum).
+Proyekt publikuyetsya pod [CC0 1.0 Universal](LICENZIYA.md). Kanonicheskij publichnyij repozitorij — [fum-lab/fum](https://github.com/fum-lab/fum).
 
 ## Istochniki trebovanij
 
-- [iskhodnyij zapros 2026-08-23 11:33:38 MSK — Vernutj ruchnuyu posledovateljnuyu skhemu sessij](Zhurnal/2026-08-23_11-33-38_MSK_vernutj-ruchnuyu-posledovateljnuyu-skhemu-sessij/zapros.md)
-
-- [iskhodnyij zapros 2026-08-11 23:30:57 MSK — Zamenitj avtozapusk obyazateljnyim prodolzheniyem vetki](Zhurnal/2026-08-11_23-30-57_MSK_zamenitj-avtozapusk-obyazateljnyim-prodolzheniyem-vetki/zapros.md)
-- [iskhodnyij zapros 2026-08-13 18:17:47 MSK — Organizovatj paralleljnyiye sessii v lokaljnyikh worktree-poduzlakh](Zhurnal/2026-08-13_18-17-47_MSK_organizovatj-paralleljnyiye-sessii-v-izolirovannyikh-fork-poduzlakh/zapros.md)
-- [iskhodnyij zapros 2026-08-10 14:30:08 MSK — Dobavitj analitiku po chislu zavershyonnyikh shagov](Zhurnal/2026-08-10_14-30-08_MSK_dobavitj-analitiku-po-chislu-zavershyonnyikh-shagov/zapros.md)
-- [iskhodnyij zapros 2026-08-10 10:19:59 MSK — Dobavitj prostoj sbros FIFO k tekusjhemu HEAD](Zhurnal/2026-08-10_10-19-59_MSK_dobavitj-prostoj-sbros-FIFO-k-tekusjhemu-HEAD/zapros.md)
-- [iskhodnyij zapros 2026-08-07 20:34:22 MSK — Dobavitj shtatnyij sbros ocheredi](Zhurnal/2026-08-07_20-34-22_MSK_dobavitj-shtatnyij-sbros-ocheredi/zapros.md)
-- [iskhodnyij zapros 2026-08-06 15:14:50 MSK — Sdelatj README instrukciyej ispoljzovaniya FUM](Zhurnal/2026-08-06_15-14-50_MSK_sdelatj-README-instrukciyej-ispoljzovaniya-FUM/zapros.md)
-- [iskhodnyij zapros 2026-07-27 20:10:35 MSK — Razreshitj nachaljnuyu korobochnuyu FUM bez GUI cherez Codex](Zhurnal/2026-07-27_20-10-35_MSK_razreshitj-nachaljnuyu-korobochnuyu-FUM-bez-GUI-cherez-Codex/zapros.md)
-- [iskhodnyij zapros 2026-07-31 16:31:18 MSK — Otklyuchitj avtomaticheskuyu publikaciyu master](Zhurnal/2026-07-31_16-31-18_MSK_otklyuchitj-avtomaticheskuyu-publikaciyu-master/zapros.md)
-- [iskhodnyij zapros 2026-08-06 06:59:01 MSK — Dobavitj upravleniye dispetcherom cherez soobsjheniya](Zhurnal/2026-08-06_06-59-01_MSK_dobavitj-upravleniye-dispetcherom-cherez-soobsjheniya/zapros.md)
+- [Opisatj aktualjnyij sposob rabotyi s uporom na ponyatnostj cheloveku](Zhurnal/2026-09-08_21-16-26_MSK_integrirovatj-paralleljnyiye-rezuljtatyi-i-opisatj-rabotu/zapros.md).
+- [Postoyannaya rabota, sokhraneniye dialoga, profilirovaniye i kontroljnyiye kommityi](Zhurnal/2026-09-07_22-11-38_MSK_sostavitj-plan-uskoreniya-proyekcii/zapros.md).
+- [Sdelatj README instrukciyej ispoljzovaniya FUM](Zhurnal/2026-08-06_15-14-50_MSK_sdelatj-README-instrukciyej-ispoljzovaniya-FUM/zapros.md).
+- [Razreshitj nachaljnuyu formu FUM bez sobstvennogo GUI cherez Codex](Zhurnal/2026-07-27_20-10-35_MSK_razreshitj-nachaljnuyu-korobochnuyu-FUM-bez-GUI-cherez-Codex/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 00:57:55 MSK -->
-<!-- content-sha256: sha256:cf80599532d941c4b6b7a58cfb7bc4c3d5cfdfec2d0afdec70357e0d334f6b3c -->
+<!-- last-content-edit: 2026-09-08 22:46:18 MSK -->
+<!-- content-sha256: sha256:698a7174c64daca53949e754e9c97c106196a3f8024060c091fa6884c8822079 -->
 <!-- FUM-MD-RECENCY:END -->

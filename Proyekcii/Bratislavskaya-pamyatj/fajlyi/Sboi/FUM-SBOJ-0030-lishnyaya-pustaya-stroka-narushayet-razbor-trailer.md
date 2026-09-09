@@ -18,6 +18,7 @@ Dopolniteljnaya pustaya stroka pered konechnyim trailer-blokom ostavlyayet pustu
 | Lokaljnyij nomer | Istochnik i dokazateljstvo | Effekt | Vosstanovleniye |
 | --- | --- | --- | --- |
 | `FUM-СБОЙ-0030/ПРОЯВЛЕНИЕ-0001` | [Diagnostika 101 i razbor prichinyi](../Zhurnal/2026-09-07_22-11-38_MSK_sostavitj-plan-uskoreniya-proyekcii/otchyot.md) | Svyaznostj otklonyayet konechnyij praviljnyij identifikator iz-za razdelitelya. | V podgotovlennom fajle normalizovatj toljko razdelitelj do odnoj pustoj stroki; sokhranitj doslovnyiye komandyi. |
+| `FUM-СБОЙ-0030/ПРОЯВЛЕНИЕ-0002` | [Povtor pri podgotovke kontroljnogo kommita 9b9c456e](../Zhurnal/2026-09-08_21-16-26_MSK_integrirovatj-paralleljnyiye-rezuljtatyi-i-opisatj-rabotu/otchyot.md) | Yedinstvennyij praviljnyij trailer snova otklonyon pri tryokh perevodakh stroki pered nim. | Normalizovan toljko konechnyij razdelitelj; parser poka ne ispravlen. |
 
 ## Ozhidaniye i klassifikaciya
 
@@ -44,6 +45,6 @@ Praviljnyij konechnyij trailer raspoznayotsya pri dopustimyikh pustyikh razdelit
 - [Validator svyaznosti](../Instrumentyi/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 15:25:40 MSK -->
-<!-- content-sha256: sha256:7dd1547bacde5b2a060a4d3f8d69ed6ceab1bcb82e6cca35217b0c122bc3cc28 -->
+<!-- last-content-edit: 2026-09-08 22:46:18 MSK -->
+<!-- content-sha256: sha256:76bd32930e87af1623374c14bc7f3c44757bc838916ebf0a40de3fa358ae7dc9 -->
 <!-- FUM-MD-RECENCY:END -->

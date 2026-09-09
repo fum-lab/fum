@@ -288,10 +288,10 @@ Kontroljnyij kommit fiksiruyet realizaciyu, adresnyiye proverki i profili. Otkry
 - [Plan prodolzheniya](materialyi/prodolzheniye.json).
 - [Profilj do optimizacii](materialyi/profili/prodolzheniye-do.json) i [posle](materialyi/profili/prodolzheniye-posle.json).
 - [Kartochka sboya](../../Sboi/FUM-SBOJ-0027-zaversheniye-otveta-posle-promezhutochnogo-kommita.md).
-- [Shag FUM-STEP-0154](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0154-proveryatj-granicu-zaversheniya-postoyannoj-zadachi.md).
+- [Shag FUM-STEP-0154](../../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0154-proveryatj-granicu-zaversheniya-postoyannoj-zadachi.md).
 - [Soglasovannyij plan konvejyera](../2026-09-07_22-11-38_MSK_sostavitj-plan-uskoreniya-proyekcii/materialyi/planyi/plan-konvejyera-odnoj-zadachi.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 20:24:30 MSK -->
-<!-- content-sha256: sha256:7fae654fb85219a5c7db769f655a24835b22f6f6ced87981e4255c95aaf38918 -->
+<!-- last-content-edit: 2026-09-08 22:46:18 MSK -->
+<!-- content-sha256: sha256:30436c26760c5caa2d3de0a21566000e30637846f5de2b9a837357370c4ab02e -->
 <!-- FUM-MD-RECENCY:END -->

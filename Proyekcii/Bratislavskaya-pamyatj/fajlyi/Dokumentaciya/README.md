@@ -2,7 +2,7 @@
 
 Etot fajl sluzhit polnoj tematicheskoj kartoj proizvodnoj dokumentacii [FUM](../Glossarij/FUM.md). Kratkaya instrukciya prakticheskoj rabotyi nakhoditsya v [kornevom README](../README.md), a zdesj sokhranyayetsya pryamoj vkhod vo vse nomernyiye dokumentyi i kanonicheskiye indeksyi nomernyikh razdelov.
 
-Dlya pervogo znakomstva dostatochno prochitatj [obzor proyekta](00-obzor-proyekta.md), [arkhitekturu FUM](22-arkhitektura-FUM.md), [osnovnuyu poljzovateljskuyu istoriyu svyaznoj pamyati](31-poljzovateljskiye-istorii-FUM/vesti-svyaznuyu-pamyatj-FUM.md) i [pasport tekusjhego dokumentacionnogo prototipa](36-pasport-dokumentacionnogo-prototipa-i-pervogo-korobochnogo-sreza.md). Terminyi raskryivayet [glossarij proyekta](../Glossarij/glossarij-proyekta.md), a prakticheskiye prodolzheniya sobranyi v [kartochkakh shagov](../Planirovaniye/kartochki-shagov/README.md).
+Dlya prakticheskoj rabotyi nachnite s dokumenta [«Kak sejchas rabotatj s FUM»](52-tekusjhij-poryadok-rabotyi.md). Dlya znakomstva s zamyislom proyekta dostatochno prochitatj [obzor proyekta](00-obzor-proyekta.md), [arkhitekturu FUM](22-arkhitektura-FUM.md), [osnovnuyu poljzovateljskuyu istoriyu svyaznoj pamyati](31-poljzovateljskiye-istorii-FUM/vesti-svyaznuyu-pamyatj-FUM.md) i [pasport tekusjhego dokumentacionnogo prototipa](36-pasport-dokumentacionnogo-prototipa-i-pervogo-korobochnogo-sreza.md). Terminyi raskryivayet [glossarij proyekta](../Glossarij/glossarij-proyekta.md), a prakticheskiye prodolzheniya sobranyi v [kartochkakh shagov](../Planirovaniye/kartochki-shagov/README.md).
 
 ## Dokumentaciya po temam
 
@@ -62,6 +62,7 @@ Dlya pervogo znakomstva dostatochno prochitatj [obzor proyekta](00-obzor-proyekt
 - [45 — Obyazateljnoye prodolzheniye Git-vetki posle kommita](45-obyazateljnoye-prodolzheniye-Git-vetki-posle-kommita.md)
 - [50 — Bratislavskaya versiya pamyati FUM](50-bratislavskaya-versiya-pamyati-FUM.md)
 - [51 — Proveryayemyij priyom vneshnego vklada](51-proveryayemyij-priyom-vneshnego-vklada.md)
+- [52 — Kak sejchas rabotatj s FUM](52-tekusjhij-poryadok-rabotyi.md)
 
 ### Strukturyi znanij, istorii i samoopisaniya
 
@@ -82,10 +83,11 @@ Dlya pervogo znakomstva dostatochno prochitatj [obzor proyekta](00-obzor-proyekt
 
 ## Istochniki trebovanij
 
+- [Opisatj aktualjnyij sposob rabotyi s uporom na ponyatnostj cheloveku](../Zhurnal/2026-09-08_21-16-26_MSK_integrirovatj-paralleljnyiye-rezuljtatyi-i-opisatj-rabotu/zapros.md).
 - [iskhodnyij zapros 2026-08-06 15:14:50 MSK — Sdelatj README instrukciyej ispoljzovaniya FUM](../Zhurnal/2026-08-06_15-14-50_MSK_sdelatj-README-instrukciyej-ispoljzovaniya-FUM/zapros.md)
 - [iskhodnyij zapros 2026-07-21 11:32:46 MSK — Aktualizirovatj vkhodnyiye opisaniya FUM](../Zhurnal/2026-07-21_11-32-46_MSK_aktualizirovatj-vkhodnyiye-opisaniya-FUM/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-02 09:36:08 MSK -->
-<!-- content-sha256: sha256:022cc640cd753e1c64ecdce71aaec9d6919248075d790ec8e3fc969a17bae750 -->
+<!-- last-content-edit: 2026-09-08 21:55:42 MSK -->
+<!-- content-sha256: sha256:1600d921840658636378e8a6d2dfd0c616725c24a6e072aed4e01679663ef7bd -->
 <!-- FUM-MD-RECENCY:END -->

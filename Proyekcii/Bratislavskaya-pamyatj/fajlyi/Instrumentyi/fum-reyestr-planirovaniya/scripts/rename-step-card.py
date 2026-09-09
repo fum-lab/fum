@@ -167,6 +167,57 @@ def is_cache_path(path: PurePosixPath) -> bool:
     return bool(CACHE_COMPONENTS.intersection(path.parts)) or path.suffix == ".pyc"
 
 
+def путь_исторического_профиля(путь: PurePosixPath) -> bool:
+    return (
+        len(путь.parts) == 5
+        and путь.parts[2:] == ('материалы', 'профили', 'сверка-объявлений.json')
+        and session_stem_for_request_path(
+            PurePosixPath(*путь.parts[:2], 'запрос.md')
+        ) is not None
+    )
+
+
+def проверить_исторический_профиль(текст: str, путь: PurePosixPath) -> None:
+    """Распознать конечный legacy-контракт, не мигрируя исторические байты."""
+    def объект_без_повторов(пары):
+        объект = {}
+        for ключ, значение in пары:
+            if ключ in объект:
+                raise ValueError(f'Повтор поля исторического профиля: {путь}')
+            объект[ключ] = значение
+        return объект
+
+    def отказ():
+        raise ValueError(f'Неверный контракт исторического профиля: {путь}')
+
+    профиль = json.loads(текст, object_pairs_hook=объект_без_повторов)
+    if (
+        not isinstance(профиль, dict)
+        or set(профиль) != {'база', 'собственные_объявления_совпадают_с_базой', 'внешний_контракт', 'файлы'}
+        or not isinstance(профиль['база'], str)
+        or re.fullmatch(r'[0-9a-f]{40}', профиль['база']) is None
+        or type(профиль['собственные_объявления_совпадают_с_базой']) is not bool
+        or not isinstance(профиль['внешний_контракт'], str)
+        or not профиль['внешний_контракт'].strip()
+        or not isinstance(профиль['файлы'], list)
+        or not профиль['файлы']
+    ):
+        отказ()
+    пути = set()
+    for запись in профиль['файлы']:
+        if not isinstance(запись, dict) or set(запись) != {'путь', 'объявлений_до', 'объявлений_после'}:
+            отказ()
+        имя = запись['путь']
+        if not isinstance(имя, str) or not имя or '\\' in имя or '\0' in имя:
+            отказ()
+        относительный = PurePosixPath(имя)
+        if not относительный.parts or относительный.is_absolute() or '..' in относительный.parts or str(относительный) != имя or имя in пути:
+            отказ()
+        пути.add(имя)
+        if any(type(запись[поле]) is not int or запись[поле] < 0 for поле in ('объявлений_до', 'объявлений_после')):
+            отказ()
+
+
 def load_live_files(
     repo_root: Path,
     paths: set[PurePosixPath],
@@ -174,6 +225,9 @@ def load_live_files(
     files: dict[PurePosixPath, LiveFile] = {}
     for relative in sorted(paths, key=str):
         absolute = repo_root.joinpath(*relative.parts)
+        if путь_исторического_профиля(relative):
+            if any(repo_root.joinpath(*relative.parts[:номер]).is_symlink() for номер in range(1, len(relative.parts) + 1)) or not absolute.is_file():
+                raise ValueError(f'Исторический профиль недоступен как обычный файл: {relative}')
         if is_cache_path(relative) or absolute.is_symlink() or not absolute.is_file():
             continue
         data = absolute.read_bytes()
@@ -184,6 +238,10 @@ def load_live_files(
             text = None
         if text is not None and "\0" in text:
             text = None
+        if путь_исторического_профиля(relative):
+            if text is None:
+                raise ValueError(f'Исторический профиль не является текстом UTF-8: {relative}')
+            проверить_исторический_профиль(text, relative)
         files[relative] = LiveFile(relative, absolute, data, text)
     return files
 
@@ -557,7 +615,7 @@ def build_mutation_plan(
         # after the status cell has been checked.
         if path == CARDS_INDEX:
             continue
-        if path.parts and path.parts[0] == "Источники":
+        if (path.parts and path.parts[0] == "Источники") or путь_исторического_профиля(path):
             preserved_occurrences += live_file.text.count(old_name)
             continue
 

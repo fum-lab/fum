@@ -1,0 +1,57 @@
+{
+  "граница": "Исходный Release требовал -enable-testing и режим Swift 5. Новый Release не использует эти обходы. Оба собраны Swift 6.4 -O; длительность процесса включает запись всех Extracted JSON.",
+  "исходный": {
+    "длительности_наносекунды": [
+      809663166,
+      14673208,
+      14171708,
+      13915958,
+      13867042,
+      14395208,
+      14104250
+    ],
+    "файлы": {
+      "Extracted/ScriptTables/az.json": "b46be7845fec63466f17e77c3514bb1a8b8d2cc6493c68a7c6c5ed50de34cfad",
+      "Extracted/ScriptTables/be.json": "9d38a5a4a281353d2c4700941191ce96035fd1fa76228aa98a41bb9b3f24975e",
+      "Extracted/ScriptTables/bs.json": "06cf4aa4d5fbf5cbb3c9485906416a7ad7bdd039b8d3b0e5346ff7933d697190",
+      "Extracted/ScriptTables/cnr.json": "2052a412a2ade0935a08270d48c7292626d910fa8a1ac50a3095955e58067f89",
+      "Extracted/ScriptTables/el.json": "6984fa5ca3e047ae84146df0a274e9ec23c839351c5ccc09b2c2cc9f36786b02",
+      "Extracted/ScriptTables/gr.json": "1c1fdfebb52812dfb9cd67c32338acfa2d0d6fdd974a4b2255a78d841814c9e6",
+      "Extracted/ScriptTables/ja.json": "9662498d6c8e3f5b6572af12267f2396561224b5f5b14a2f6a582d3c5461496f",
+      "Extracted/ScriptTables/mk.json": "2578e5f27476764aab3fc397e0c13e3e15377a8262f1da80ce12a3b381470893",
+      "Extracted/ScriptTables/ru.json": "ff1bfa5e1e3595789760376bf8600cb8a84b6e450906ca8b09706a7789d8fcd8",
+      "Extracted/ScriptTables/sr.json": "0510aa7d61521e969deb6daef0cb1319c39d79e1c03889c0ed01b0ffbdeb1533",
+      "Extracted/ScriptTables/uk.json": "06538f47dfaf656167f384d894bd991af2bd722b7c7a5db75a610566b9a6ecca",
+      "Extracted/ScriptTablesDescription/ContextValues.json": "7eb4894857ced57bff45def09d0070df81116c9b924fdff59f42e84d5bad31ce",
+      "Extracted/Scripts/caseSensitiveScripts.json": "7e34e0ac200db9c6f2882223dbc6e9af53fbda034848dec5dc5689db5ac3f4d1",
+      "Extracted/Scripts/scripts.json": "8566981e686ae3b407f11752d85a9db388bfd042798efef5e67d5c9786f17a27"
+    }
+  },
+  "новый": {
+    "длительности_наносекунды": [
+      22771125,
+      16706292,
+      16615792,
+      16724875,
+      16664542,
+      17653834,
+      17837709
+    ],
+    "файлы": {
+      "Extracted/ScriptTables/az.json": "b46be7845fec63466f17e77c3514bb1a8b8d2cc6493c68a7c6c5ed50de34cfad",
+      "Extracted/ScriptTables/be.json": "9d38a5a4a281353d2c4700941191ce96035fd1fa76228aa98a41bb9b3f24975e",
+      "Extracted/ScriptTables/bs.json": "06cf4aa4d5fbf5cbb3c9485906416a7ad7bdd039b8d3b0e5346ff7933d697190",
+      "Extracted/ScriptTables/cnr.json": "2052a412a2ade0935a08270d48c7292626d910fa8a1ac50a3095955e58067f89",
+      "Extracted/ScriptTables/el.json": "6984fa5ca3e047ae84146df0a274e9ec23c839351c5ccc09b2c2cc9f36786b02",
+      "Extracted/ScriptTables/gr.json": "1c1fdfebb52812dfb9cd67c32338acfa2d0d6fdd974a4b2255a78d841814c9e6",
+      "Extracted/ScriptTables/ja.json": "9662498d6c8e3f5b6572af12267f2396561224b5f5b14a2f6a582d3c5461496f",
+      "Extracted/ScriptTables/mk.json": "2578e5f27476764aab3fc397e0c13e3e15377a8262f1da80ce12a3b381470893",
+      "Extracted/ScriptTables/ru.json": "ff1bfa5e1e3595789760376bf8600cb8a84b6e450906ca8b09706a7789d8fcd8",
+      "Extracted/ScriptTables/sr.json": "0510aa7d61521e969deb6daef0cb1319c39d79e1c03889c0ed01b0ffbdeb1533",
+      "Extracted/ScriptTables/uk.json": "06538f47dfaf656167f384d894bd991af2bd722b7c7a5db75a610566b9a6ecca",
+      "Extracted/ScriptTablesDescription/ContextValues.json": "7eb4894857ced57bff45def09d0070df81116c9b924fdff59f42e84d5bad31ce",
+      "Extracted/Scripts/caseSensitiveScripts.json": "7e34e0ac200db9c6f2882223dbc6e9af53fbda034848dec5dc5689db5ac3f4d1",
+      "Extracted/Scripts/scripts.json": "8566981e686ae3b407f11752d85a9db388bfd042798efef5e67d5c9786f17a27"
+    }
+  }
+}

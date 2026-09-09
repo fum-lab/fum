@@ -12,13 +12,13 @@ Eti pravila polnostjyu chitayutsya do izmeneniya Git-sostoyaniya, podgotovki kom
 - Ssyilkoj na fajl iskhodnogo zaprosa neljzya zamenyatj sam tekst zaprosa v soobsjhenii kommita; ssyilka mozhet byitj dobavlena toljko kak dopolniteljnaya spravka.
 
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-НОВОЕ-000008 -->
-- Vneshnij agent bez dopusjhennogo lokaljnogo checkout peredayot toljko nedoverennoye predlozheniye izmeneniya s tochnyimi bazoj, manifestom i khyeshem i ne stanovitsya pisatelem `master`. Proverka takogo paketa ne primenyayet yego i ne oznachayet prinyatiye: toljko dejstvuyusjhaya lokaljnaya kornevaya sessiya v sobstvennom rabochem dereve dejstvuyusjhej ruchnoj skhemyi vprave vyibratj soderzhateljnyiye stroki, sformirovatj lokaljnyiye `Журнал/`, recency, indeksyi i `Proyekcii/**`, vyipolnitj proverki i sozdatj lokaljnyij kommit po dejstvuyusjhemu dopusku; push po-prezhnemu trebuyet otdeljnogo yavnogo zaprosa poljzovatelya.
+- Vneshnij agent bez dopusjhennogo lokaljnogo checkout peredayot toljko nedoverennoye predlozheniye izmeneniya s tochnyimi bazoj, manifestom i khyeshem i ne stanovitsya pisatelem `master`. Proverka takogo paketa ne primenyayet yego i ne oznachayet prinyatiye: toljko dejstvuyusjhaya lokaljnaya kornevaya sessiya v sobstvennom rabochem dereve dejstvuyusjhej skhemyi vprave vyibratj soderzhateljnyiye stroki, sformirovatj lokaljnyiye `Журнал/`, recency, indeksyi i `Proyekcii/**`, vyipolnitj proverki i sozdatj lokaljnyij kommit po dejstvuyusjhemu dopusku. Publikaciyu prinyatogo kommita reguliruyet pravilo `FUM-ПРАВИЛО-000064` kornevogo yadra.
 
 ## Istochnik dekompozicii
 
 - [iskhodnyij zapros 2026-08-24 15:31:12 MSK — Dekompozirovatj AGENTS MD](../../Zhurnal/2026-08-24_15-31-12_MSK_dekompozirovatj-AGENTS-md/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 00:57:55 MSK -->
-<!-- content-sha256: sha256:a52f5d5dfbe05ce26389c0c5514dafe1529aa078518f64081c228d06becfc0ae -->
+<!-- last-content-edit: 2026-09-08 22:46:18 MSK -->
+<!-- content-sha256: sha256:751833c316f4f6f844df7de1c332fa7da2ebcf37ef29d972a04b64a5bd44fa6f -->
 <!-- FUM-MD-RECENCY:END -->

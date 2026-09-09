@@ -33,9 +33,13 @@ Nablyudayemyij lokaljnyij snimok na 2026-09-02 08:00 MSK:
 - Desktop bundle `/Applications/ChatGPT.app` - `CFBundleDisplayName` `ChatGPT`, `CFBundleIdentifier` `com.openai.codex`, versiya `26.831.20005`, sborka `7524`; proveryayetsya po lokaljnomu `Info.plist`.
 - Vstroyennyij v paket prilozheniya ispolnyayemyij fajl Codex - `codex-cli 0.152.0`; proveryayetsya komandoj `/Applications/ChatGPT.app/Contents/Resources/codex --version`. Nalichiye etoj versii v pakete ne dokazyivayet versiyu aktivnoj agentskoj sessii, vozmozhnoj udalyonnoj servisnoj chasti ili modeli.
 - Samostoyateljnyij Codex CLI v tekusjhem `PATH` - `codex-cli 0.151.0`; proveryayetsya komandoj `codex --version`.
-- Proyektnyij fajl `.codex/config.toml` zakreplyayet modelj po umolchaniyu `gpt-5.6-sol`, rezhim rassuzhdeniya `ultra` i standartnuyu skorostj cherez `service_tier = "default"`. Vozmozhnostj `fast_mode` ostayotsya vklyuchyonnoj toljko dlya dostupnosti yavnogo pereklyuchatelya Fast, a `skills.include_instructions = false` isklyuchayet obsjhij katalog navyikov sredyi iz peredavayemyikh agentu instrukcij; project hooks v konfiguracii otsutstvuyut. Lokaljnyiye navyiki FUM podklyuchayutsya toljko yavnyimi putyami `Инструменты/*/SKILL.md`, dejstvuyusjhuyu ruchnuyu posledovateljnuyu skhemu kornevyikh zadach zadayot `AGENTS.md`, a perenosimaya Git-CAS-ocheredj sokhranena kak istoricheskaya realizaciya; znacheniya konfiguracii po-prezhnemu ne dokazyivayut snimok fakticheski aktivnoj modeli ili skorosti uzhe otkryitoj sessii.
-- Upravlyayemyij sistemnyij profilj macOS `com.openai.codex` dlya `models.new_thread` zakreplyayet te zhe `gpt-5.6-sol`, `ultra` i standartnyij `service_tier = "default"`. Do ispravleniya profilj soderzhal `priority`, kotoryij katalog modeli otobrazhayet kak Fast i kotoryij Desktop peredaval novoj zadache poverkh proyektnogo znacheniya. Dekodirovannoye chteniye preferences i shtatnyij `configRequirements/read` podtverzhdayut ispravlennyij profilj; uzhe rabotayusjhij Desktop-host mozhet potrebovatj polnogo perezapuska dlya perechityivaniya etogo sloya.
+- Upravlyayemyij sistemnyij profilj macOS `com.openai.codex` dlya `models.new_thread` v snimke 2026-09-02 zakreplyal `gpt-5.6-sol`, `ultra` i standartnyij `service_tier = "default"`. Do ispravleniya profilj soderzhal `priority`, kotoryij katalog modeli otobrazhayet kak Fast i kotoryij Desktop peredaval novoj zadache poverkh proyektnogo znacheniya. Dekodirovannoye chteniye preferences i shtatnyij `configRequirements/read` podtverzhdayut ispravlennyij profilj; uzhe rabotayusjhij Desktop-host mozhet potrebovatj polnogo perezapuska dlya perechityivaniya etogo sloya.
 - Kornevoj `CODEX_THREAD_ID` dostupen kak nablyudayemyij neversionirovannyij identifikator zadachi i publikuyetsya v fajle zaprosa i Git trailer. Otdeljnyiye versii aktivnoj agentskoj sessii, vozmozhnoj udalyonnoj servisnoj chasti i kontraktov po-prezhnemu ne raskryivayutsya etim polem.
+
+Nastrojka proyekta obnovlena 2026-09-08 po [iskhodnomu zaprosu](../Zhurnal/2026-09-08_21-16-26_MSK_integrirovatj-paralleljnyiye-rezuljtatyi-i-opisatj-rabotu/zapros.md).
+
+- `.codex/config.toml` zadayot modelj po umolchaniyu `gpt-6-astra` (GPT-6 Astra), rassuzhdeniye `ultra` i `service_tier = "default"`. Dostupnyij katalog modelej Codex podtverzhdayet sochetaniye `gpt-6-astra` i `ultra`. `fast_mode = true` sokhranyayet dostupnostj pereklyuchatelya Fast, a `skills.include_instructions = false` isklyuchayet vneshnij katalog navyikov. Lokaljnyiye navyiki podklyuchayutsya po yavnyim putyam; dejstvuyusjhiye pravila izolyacii, paralleljnoj rabotyi i prodolzheniya nakhodyatsya v `AGENTS.md`.
+- Proyektnaya nastrojka ne dokazyivayet aktivnuyu modelj uzhe otkryitoj zadachi. Sistemnyij profilj macOS iz istoricheskogo snimka etim izmeneniyem ne obnovlyalsya; yego prioritet nad proyektom i yavnyiye nastrojki zadachi sleduyet uchityivatj pri zapuske.
 
 ## Instrumentyi sredyi agenta
 
@@ -219,6 +223,6 @@ Yesli instrument razovyij i ne dolzhen stanovitjsya ustojchivoj chastjyu pamyati
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](../Zhurnal/2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-02 09:36:08 MSK -->
-<!-- content-sha256: sha256:a430e86e26eca77b4c8886017de2a058646b4f18dcc327c9173e8b24168af05c -->
+<!-- last-content-edit: 2026-09-08 21:45:23 MSK -->
+<!-- content-sha256: sha256:25c094b568e68bddc897b62ef3eba93b2a8aadfd807c248cdd8252e79ecf471d -->
 <!-- FUM-MD-RECENCY:END -->

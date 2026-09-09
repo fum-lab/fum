@@ -69,6 +69,8 @@ Posle polnogo preflight komanda vyivodit novoye imya iz `card_id`, statusa i opi
 
 Razdel `## Текст запроса` kazhdogo tochnogo fajla `Журнал/<имя-с-обязательным-временным-префиксом>/запрос.md`, vesj katalog `Источники/`, simvoljnyiye ssyilki, dvoichnyiye i ne-UTF-8 fajlyi ostayutsya pobajtno neizmennyimi. JSON-reyestr posle operacii peresobirayetsya obyichnoj komandoj `build`, a recency i graf — sobstvennyimi generatorami.
 
+Otdeljnyij konechnyij adapter sokhranyayet susjhestvuyusjhij istoricheskij format sverki obyyavlenij toljko v tochnoj oblasti `Журнал/<канонический временной stem>/материалы/профили/сверка-объявлений.json`. Proveryayutsya rovno chetyire polya: `база` — 40 lowercase hex-simvolov OID; `собственные_объявления_совпадают_с_базой` — boolean; `внешний_контракт` — nepustaya stroka; `файлы` — nepustoj massiv zapisej s tochnyimi polyami `путь`, `объявлений_до`, `объявлений_после`. Puti nepustyi, otnositeljnyi, normalizovanyi, unikaljnyi i ne soderzhat vyikhoda cherez `..`; schyotchiki — neotricateljnyiye celyiye chisla, boolean ne dopuskayetsya. Povtor JSON-polya, neizvestnoye pole, nevernaya struktura, nedostupnyij libo simvoljnyij putj i ne-UTF-8 fajl v etoj tochnoj oblasti zakryivayut komandu do podgotovki zapisi i `git mv`. Validnyij profilj sokhranyayetsya pobajtno, vklyuchaya istoricheskiye puti; prezhnij fajl ne migriruyetsya i ne poluchayet pridumannuyu versiyu skhemyi. Skhodnyiye imena, drugiye katalogi i sosednij zhivoj JSON prodolzhayut obnovlyatjsya. Eta granica ne klassificiruyet ostaljnyiye materialyi Zhurnala i ne utverzhdayet istinnostj istoricheskogo izmereniya; format bazovogo OID ne dokazyivayet dostizhimostj Git-obyyekta.
+
 ## Chto proveryayetsya
 
 Validator:
@@ -121,6 +123,8 @@ Avtomatizaciya ne vyivodit novyiye trebovaniya ili shagi iz smyisla dokumentov, 
 
 ## Istochniki trebovanij
 
+- [Zasjhititj istoricheskiye profili pri pereimenovanii](../../Zhurnal/2026-09-08_20-55-36_MSK_zasjhititj-istoricheskiye-profili-pri-pereimenovanii/zapros.md).
+
 - [iskhodnyij zapros 2026-08-14 18:59:37 MSK — Isklyuchitj dublirovaniye polnoj regressii](../../Zhurnal/2026-08-14_18-59-37_MSK_isklyuchitj-dublirovaniye-polnoj-regressii/zapros.md)
 - [iskhodnyij zapros 2026-08-13 13:14:24 MSK — Svyazatj sleduyusjhiye shagi s dorozhnoj kartoj](../../Zhurnal/2026-08-13_13-14-24_MSK_svyazatj-sleduyusjhiye-shagi-s-dorozhnoj-kartoj/zapros.md)
 - [iskhodnyij zapros 2026-08-08 13:37:10 MSK — Vnedritj vetochnyiye cepochki shagov](../../Zhurnal/2026-08-08_13-37-10_MSK_vnedritj-vetochnyiye-cepochki-shagov/zapros.md)
@@ -132,6 +136,6 @@ Avtomatizaciya ne vyivodit novyiye trebovaniya ili shagi iz smyisla dokumentov, 
 - [iskhodnyij zapros 2026-07-22 11:48:49 MSK — Oformitj kartochki shagov opisateljnyimi imenami i emodzi statusami](../../Zhurnal/2026-07-22_11-48-49_MSK_oformitj-kartochki-shagov-opisateljnyimi-imenami-i-emodzi-statusami/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-01 13:45:05 MSK -->
-<!-- content-sha256: sha256:3820199f88b502394ee8ed588bda1f417dd135909f4bff69bc45d76ca5abaa5f -->
+<!-- last-content-edit: 2026-09-08 21:46:11 MSK -->
+<!-- content-sha256: sha256:0814da68190b1f7fe224baa57d9a9ffa89eff903331af5ccaf36a69b91465874 -->
 <!-- FUM-MD-RECENCY:END -->
