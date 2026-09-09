@@ -1,0 +1,185 @@
+{
+  "schema": "fum.machine-local-path-policy-snapshot.v1",
+  "exceptions": [
+    {
+      "id": "stop-bundle-git-path",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовить-комплект-завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:cbb2ce6521e1bfe3ff761737dda4b4b6bdcb5e336c3fe4626bffb62c0830e5fc",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет закрытую границу поиска системных команд при проверке Git-источника."
+    },
+    {
+      "id": "stop-bundle-git-config",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовить-комплект-завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:cf0876d2ac07108706387068f61d9eea5918015e796ac59b24fe272ec50d1495",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Отключает глобальную конфигурацию Git системным пустым источником в проверяемой границе запуска."
+    },
+    {
+      "id": "stop-bundle-git-executable",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовить-комплект-завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:a51250ca80b75e2b085509e505e0fe236d547470e4aaad04b297930d01723f41",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точный системный Git для проверки цепочки исходных объектов."
+    },
+    {
+      "id": "stop-bundle-python-path",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовить-комплект-завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c05cd67ff63d4ce48eb1a24334c472a2470831292574301442f96e5686b22b69",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет очищенное окружение проверки выбранного интерпретатора."
+    },
+    {
+      "id": "stop-bundle-bootstrap-env",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовить-комплект-завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:7c0396572f5eb068a3cf1c8c2ee7b87afef0937ea0bd420f8d8d4237839286ed",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет проверяемую границу запуска загрузчика через системный env и фиксированный PATH."
+    },
+    {
+      "id": "stop-bundle-profile-reference-env",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-комплект-завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ac38d5594fcbfa59cbfaf675b5abce38288681eb60b4f0a505af58468e1fbae3",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический сквозной опыт использует фиксированное окружение эталонной проверки guard."
+    },
+    {
+      "id": "stop-bundle-profile-hook-shell",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-комплект-завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:033348c878ad4ee6bcc924a0866d604af5265647c244b1700e23467f567d1a5f",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический сквозной опыт исполняет точную проверяемую command системной оболочкой."
+    },
+    {
+      "id": "stop-bundle-fixture-assert-path",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ad4e7ad5207e17052cbdfc3a4b399b5a14c308e24578325022451fdc77c9e24c",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический исходник проверяет точное очищенное окружение загрузчика."
+    },
+    {
+      "id": "stop-bundle-fixture-git",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:f4781ea2388aa11078928611186356780cdb914ea51bbc6f36d3cf46b58952a6",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Системный Git обслуживает только временный синтетический репозиторий теста."
+    },
+    {
+      "id": "stop-bundle-fixture-shell",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:955ae446ba39d057c6a160ef7a312c0a3f46586f8a7535971e7f4b6bc754f7c7",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Системная оболочка проверяет quoting и контракт синтетического hook."
+    },
+    {
+      "id": "stop-bundle-fixture-subtree-blob",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b148609a13349d5cacf97e3a117a8f2096e7758975427b7af111f19e371dc7af",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Системный Git создаёт подменный blob только внутри изолированной отрицательной фикстуры."
+    },
+    {
+      "id": "stop-bundle-fixture-subtree-read",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d427496239a68e8a321b48316732dba36767c4435ec52264d35e32bf58d38ef5",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Системный Git читает синтетический tree для воспроизведения статической подмены."
+    },
+    {
+      "id": "stop-bundle-fixture-signal",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:f7e7444270d4e497877ec277a3dbe88e4341ef36633a3e400dca0f605c7c54c9",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Системная оболочка проверяет сохранение сигнала на точной синтетической command."
+    },
+    {
+      "id": "stop-bundle-fixture-bare",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:21c8af1940917adcb1844f4e19dba9c57836af7cb974e11d4007db9c28acdc62",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Системный Git создаёт голый репозиторий отрицательной фикстуры приватного предка."
+    },
+    {
+      "id": "stop-bundle-fixture-common-create",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:cfe36beb88a3a46c78c0fcf8e4a25ba6fd246c4cc523fd1568504eaab62a0a82",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Системный Git создаёт вынесенный общий каталог только в отрицательной фикстуре."
+    },
+    {
+      "id": "stop-bundle-fixture-common-prove",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:31aec80d96bf99815fa073e929f7062216c1e07102fe58d4bc314c8190f5d185",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Системный Git подтверждает реальность вынесенного общего каталога отрицательной фикстуры."
+    },
+    {
+      "id": "stop-bundle-fixture-malformed",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:240212aa7a3379ae65873f72f1dbe927569d349f990de6d9ee8e02e868ab08b7",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Системная оболочка проверяет ограниченный отказ на повреждённом синтетическом вводе."
+    },
+    {
+      "id": "stop-bundle-fixture-open-stdin",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:3f8d054790b6cca97970e1e6a960b2a35e1a85928db22129d416286c104987ac",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Системная оболочка проверяет ограниченное ожидание незакрытого синтетического stdin."
+    },
+    {
+      "id": "stop-fixture-transcript",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_перехват_завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:dc2bd482fff886c4ff2bf700e4fd0523d6cb661e0bed5375c90b809223c8859f",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический путь transcript_path проверяет, что содержимое чужого транскрипта не читается и не сохраняется."
+    },
+    {
+      "id": "stop-fixture-foreign-cwd",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_перехват_завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:75ec12591e37ffd481eab6b1b389655720555647bd1e9eddf2c54a52e6315d96",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический чужой cwd проверяет отказ от принятия события с несовпадающей рабочей директорией."
+    }
+  ]
+}
