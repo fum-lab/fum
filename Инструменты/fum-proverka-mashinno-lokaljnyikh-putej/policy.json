@@ -2727,6 +2727,15 @@
       "count": 1,
       "category": "allow.path-validation-definition",
       "reason": "Регулярное выражение ограничивает основание относительным каноническим путём запроса Журнала; слэши и класс символов задают синтаксис проверки."
+    },
+    {
+      "id": "cache-key-absolute-fixture",
+      "path": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/tests/test_кэш_преобразователя.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:fe8d28a5b5ad9065eff03130e075e7598a1221f9814a78b058bea5a827ef2040",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Автономная фикстура абсолютного ключа проверяет отказ от выхода за корень кэша и не является действительным локальным адресом."
     }
   ]
 }

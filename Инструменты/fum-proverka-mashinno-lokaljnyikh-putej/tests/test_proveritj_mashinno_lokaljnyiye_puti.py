@@ -172,6 +172,42 @@ class MachineLocalPathScannerTests(unittest.TestCase):
             )
             себя.assertEqual(результат_сценария.exit_code, 1)
 
+    def test_бинарное_вложение_принадлежит_точной_папке_запроса(сам) -> None:
+        with tempfile.TemporaryDirectory() as временный:
+            корень = Path(временный)
+            сам.init_repo(корень)
+            ствол = "2026-09-08_21-16-28_MSK_фикстура"
+            основа = f"Журнал/{ствол}/материалы/источники"
+            допустимый = f"{основа}/вложение/архив.bin"
+            запрещённые = (
+                f"{основа}/архив.bin",
+                f"Журнал/без-времени/материалы/источники/вложение/архив.bin",
+                f"Журнал/{ствол}/материалы/источники-копия/вложение/архив.bin",
+                f"Документация/{допустимый}",
+            )
+            сам.assertFalse(scanner._это_бинарное_вложение_запроса(
+                f"Журнал/{ствол}/материалы/Источники/вложение/архив.bin",
+                frozenset({f"Журнал/{ствол}/запрос.md"}),
+            ))
+            for имя in (допустимый, *запрещённые):
+                путь = корень / имя
+                путь.parent.mkdir(parents=True, exist_ok=True)
+                путь.write_bytes(b"archive\0payload")
+            текстовый = f"{основа}/вложение/производное.md"
+            (корень / текстовый).write_text(str(корень / "фикстура"), encoding="utf-8")
+            сам.assertIn(f"{допустимый}:0:error.binary-input", сам.scan(корень).rendered_lines())
+            сам.write_and_add(корень, f"Журнал/{ствол}/запрос.md", "# Запрос\n")
+            нетекстовый = f"{основа}/вложение/не-utf8.txt"
+            (корень / нетекстовый).write_bytes(b"\xff")
+            результат = сам.scan(корень)
+            строки = результат.rendered_lines()
+            сам.assertIn(f"{допустимый}:0:report.external-source.binary", строки)
+            сам.assertIn(f"{нетекстовый}:0:error.non-utf8-input", строки)
+            for имя in запрещённые:
+                сам.assertIn(f"{имя}:0:error.binary-input", строки)
+            сам.assertTrue(any(строка.startswith(f"{текстовый}:1:error.") for строка in строки))
+            сам.assertEqual(результат.exit_code, 2)
+
     def test_noncanonical_journal_markdown_does_not_gain_request_provenance(себя) -> None:
         with tempfile.TemporaryDirectory() as временный_каталог_сценария:
             корень_сценария = Path(временный_каталог_сценария)
