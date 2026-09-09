@@ -1,0 +1,117 @@
+{
+  "schema": "fum.machine-local-path-policy-update.v1",
+  "declarations": [
+    {
+      "id": "obligations-v2-source-pattern",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "line": 65,
+      "category": "allow.path-validation-definition",
+      "reason": "Шаблон канонического относительного пути журнального источника; не абсолютный путь машины."
+    },
+    {
+      "id": "obligations-v2-text-fence",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "line": 103,
+      "category": "allow.path-validation-definition",
+      "reason": "Тильда — синтаксис Markdown-ограды дословной команды; не домашний каталог."
+    },
+    {
+      "id": "obligations-v2-readme-suffix",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "line": 377,
+      "category": "allow.path-validation-definition",
+      "reason": "Суффикс имени README при чтении карточек из Git; не самостоятельный абсолютный путь."
+    },
+    {
+      "id": "obligations-v2-fingerprint-runs",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "line": 408,
+      "category": "allow.path-validation-definition",
+      "reason": "Относительный суффикс каталога запусков, добавляемый к проверенному пути сессии."
+    },
+    {
+      "id": "obligations-v2-fingerprint-report",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "line": 410,
+      "category": "allow.path-validation-definition",
+      "reason": "Относительный суффикс отчёта, добавляемый к проверенному пути сессии."
+    },
+    {
+      "id": "obligations-v2-closed-runs",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "line": 442,
+      "category": "allow.path-validation-definition",
+      "reason": "Относительный суффикс каталога закрытых запусков внутри канонического источника."
+    },
+    {
+      "id": "obligations-v2-closed-snapshot-presence",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "line": 444,
+      "category": "allow.path-validation-definition",
+      "reason": "Имя снимка присоединяется к проверенному относительному каталогу запусков."
+    },
+    {
+      "id": "obligations-v2-closed-snapshot-read",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "line": 459,
+      "category": "allow.path-validation-definition",
+      "reason": "Имя снимка присоединяется к проверенному относительному каталогу для чтения."
+    },
+    {
+      "id": "obligations-v2-closed-report",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "line": 468,
+      "category": "allow.path-validation-definition",
+      "reason": "Относительный суффикс отчёта внутри проверенной сессии."
+    },
+    {
+      "id": "obligations-v2-closed-history",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "line": 478,
+      "category": "allow.path-validation-definition",
+      "reason": "Исторический путь снимка строится внутри относительного каталога запусков."
+    },
+    {
+      "id": "obligations-v2-closed-anchor",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "line": 479,
+      "category": "allow.path-validation-definition",
+      "reason": "Ключ снимка в относительном Git-дереве; не локальный абсолютный путь."
+    },
+    {
+      "id": "obligations-v2-receipt-runs",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "line": 499,
+      "category": "allow.path-validation-definition",
+      "reason": "Относительный суффикс каталога запусков при поиске приёмочного коммита."
+    },
+    {
+      "id": "obligations-v2-receipt-history",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "line": 500,
+      "category": "allow.path-validation-definition",
+      "reason": "Относительный путь снимка для полного обхода истории приёмки."
+    },
+    {
+      "id": "obligations-v2-receipt-anchor",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "line": 501,
+      "category": "allow.path-validation-definition",
+      "reason": "Относительный ключ снимка при доказательстве приёмки."
+    },
+    {
+      "id": "obligations-v2-fixture-snapshot",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обязательства_задачи.py",
+      "line": 181,
+      "category": "allow.test-fixture",
+      "reason": "Имя снимка присоединяется к относительному каталогу изолированной синтетической приёмки."
+    },
+    {
+      "id": "obligations-v2-fixture-dependency",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обязательства_задачи.py",
+      "line": 471,
+      "category": "allow.test-fixture",
+      "reason": "Имя исходника присоединяется к относительному пути временной Git-зависимости."
+    }
+  ]
+}

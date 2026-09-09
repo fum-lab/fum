@@ -1,0 +1,66 @@
+{
+  "схема": "fum.свидетельство-переноса-исходников.1",
+  "исходный_HEAD": "25f8c1c50333e71cf3b09485817c57ff7869b1c6",
+  "файлы": [
+    {
+      "источник": "7a5f77c0e00b291338c737d227119975857155af",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "sha256": "1f125f2424150c7632a6ba6a3bfe3379cae4cc30cd2fad194f44cbff07213ea9",
+      "байтов": 51746
+    },
+    {
+      "источник": "7a5f77c0e00b291338c737d227119975857155af",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-продолжение-задачи.py",
+      "sha256": "94419214a67d42a6d481b151493326f377c1a127e75abee336e5dd951482098e",
+      "байтов": 14215
+    },
+    {
+      "источник": "7a5f77c0e00b291338c737d227119975857155af",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обязательства_задачи.py",
+      "sha256": "c1dbfccc867ea9f099220cdd9e506c8ff1699e7dcc9e4d57492aeef7967de0a9",
+      "байтов": 35688
+    },
+    {
+      "источник": "7a5f77c0e00b291338c737d227119975857155af",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_продолжение_задачи.py",
+      "sha256": "1c9452f11cecc323100fdce501f62539c10f66ab19836b7adec57f0c0f482567",
+      "байтов": 11877
+    },
+    {
+      "источник": "7a5f77c0e00b291338c737d227119975857155af",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_обязательств.py",
+      "sha256": "345053c381ac2d28bbbeabe79d356ac9db29786f8c46218a3f27cd4f30dc2782",
+      "байтов": 5417
+    },
+    {
+      "источник": "baf07fce7f492236cbf5c780877a9fd42f407e9d",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перехватить-завершение.py",
+      "sha256": "7bd76f7607fa9023144c4da831739605a09d3043a6aca5b4c9212b5abc8da33c",
+      "байтов": 27711
+    },
+    {
+      "источник": "baf07fce7f492236cbf5c780877a9fd42f407e9d",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-интеграцию-перехвата.py",
+      "sha256": "3044ec986c3baacc5b7b89267923b15cccf8922adb6331b77cef79a0b6bfb481",
+      "байтов": 8679
+    },
+    {
+      "источник": "baf07fce7f492236cbf5c780877a9fd42f407e9d",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/измерить-перехват-завершения.py",
+      "sha256": "427127ded48b20e56024ab88f9b58487ed07e5e93f058c2d4fb960fd9fa1757f",
+      "байтов": 4244
+    },
+    {
+      "источник": "baf07fce7f492236cbf5c780877a9fd42f407e9d",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_перехват_завершения.py",
+      "sha256": "6d97b00d0792bbccf17549bd12481b8d6e8336463102e97c467dce47abc4e62f",
+      "байтов": 21750
+    },
+    {
+      "источник": "baf07fce7f492236cbf5c780877a9fd42f407e9d",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/шаблоны/Stop.hooks.json.шаблон",
+      "sha256": "7dd64e65d15def8b0cfc28c121dce7de023ca3bfbf3f54e3c14ab5d9d8c085c0",
+      "байтов": 1564
+    }
+  ]
+}

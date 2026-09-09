@@ -1,0 +1,69 @@
+{
+  "схема": "fum.исходники-контейнера.1",
+  "проверка": {
+    "порядок_v4": 40,
+    "результат": "28 тестов в 5 наборах успешно, 1.091 с по Swift Testing; процесс 3.184282584 с по v4"
+  },
+  "файлы": [
+    {
+      "путь": "Packages/КонтейнерНаблюдений/Package.swift",
+      "sha256": "a0f1c303f555ed9d5f795713c81b1ec30e3eeb18609eece85fdb579279ef592d"
+    },
+    {
+      "путь": "Packages/КонтейнерНаблюдений/Sources/ВосстановительКонтейнера/main.swift",
+      "sha256": "7d7f36228aa4ca1d8a20c46dd883464be97c186faf70eda18d3c5bafed1d31bf"
+    },
+    {
+      "путь": "Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift",
+      "sha256": "83c6a08c4be4201fe279adcd0caac4c78298e377b1a92511d1d2a5bc724b5acb"
+    },
+    {
+      "путь": "Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+      "sha256": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160"
+    },
+    {
+      "путь": "Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+      "sha256": "b26253cbdbbfd8e87bfcbf401fd345a11e35cc6420c7244c6b1d1c8e23e6d46e"
+    },
+    {
+      "путь": "Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift",
+      "sha256": "6a97a004a15aea2e483c1b71de9b2a10141985abc94d037ab148d4b3bc244e2f"
+    },
+    {
+      "путь": "Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift",
+      "sha256": "6d19959226189ce0df9d5c3e4519b4c0e535b79b263dfde2a8201374e77ecc07"
+    },
+    {
+      "путь": "Packages/КонтейнерНаблюдений/Sources/ПисательКонтейнера/main.swift",
+      "sha256": "ea282dae86fea64b7db8572a673c660c112fc2e38fe70bd3479488ca4359f4fe"
+    },
+    {
+      "путь": "Packages/КонтейнерНаблюдений/Sources/ПрофильКонтейнера/main.swift",
+      "sha256": "979e4a33aa8442a86bb68c546c0f997f53a4459912fb45548c78adc501bd1aab"
+    },
+    {
+      "путь": "Packages/КонтейнерНаблюдений/Sources/ЧитательКонтейнера/main.swift",
+      "sha256": "ab9d86ad9a4a61b8f1898076cbda3a78785a43fe4301c7d76467b3d5312c7cdd"
+    },
+    {
+      "путь": "Packages/КонтейнерНаблюдений/Tests/КонтейнерНаблюденийTests/ОтказыTests.swift",
+      "sha256": "fbb00b27f1e281685efadb2278d5ed9ea9bb1d4dab65f0c38d52348a530aea8a"
+    },
+    {
+      "путь": "Packages/КонтейнерНаблюдений/Tests/КонтейнерНаблюденийTests/ПрофильTests.swift",
+      "sha256": "e57a80d81b989644c43320f6658e9b76cf3c5e1df971213b2406223857a23b1b"
+    },
+    {
+      "путь": "Packages/КонтейнерНаблюдений/Tests/КонтейнерНаблюденийTests/ПроцессыTests.swift",
+      "sha256": "b02edd2df2ba769d4f0dad52729caf77fa765f7777e3573c708ccc0aa732292b"
+    },
+    {
+      "путь": "Packages/КонтейнерНаблюдений/Tests/КонтейнерНаблюденийTests/СегментTests.swift",
+      "sha256": "4a1d424184ab7420b6b302d4e65074a3f20cbaa01d4f0b9f0b28f6d2853f913c"
+    },
+    {
+      "путь": "Packages/КонтейнерНаблюдений/Tests/КонтейнерНаблюденийTests/ФорматTests.swift",
+      "sha256": "64daaa409de6b2c35480850dc9480db9f50fb053ebde45fbaa677cf3583993dd"
+    }
+  ]
+}
