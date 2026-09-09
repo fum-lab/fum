@@ -63,6 +63,30 @@
       "вид_результата": "реализация",
       "карточка": "FUM-STEP-0159",
       "приёмки": []
+    },
+    {
+      "идентификатор": "FUMA-СТАТИСТИКА-ВЫЗОВОВ",
+      "родитель": "FUMA-НАБЛЮДЕНИЕ",
+      "основание": {
+        "коммит": "670a1fda352b34668d87000602e76e246aefa22f",
+        "запрос": "Журнал/2026-09-09_14-35-59_MSK_подготовить-нативное-продолжение-задачи/запрос.md",
+        "цитата": "Myi dolzhnyi sokhranyatj i nakaplivatj statistiku vyizovov avtomatizacij i instrumentov vmeste s istochnikami vyizovov, chtobyi eti dannyiye mozhno byilo ispoljzovatj dlya vyiyavleniya neobkhodimosti sozdaniya sleduyusjhego urovnya avtomatizacii, yesli chislo ruchnyikh vyizovov instrumenta modeljyu stanovitsya slishkom boljshim, naprimer, no eto yavno ne vse vozmozhnyiye evristiki, kotoryiye nam stoit otkryitj."
+      },
+      "вид_результата": "реализация",
+      "карточка": "FUM-STEP-0160",
+      "приёмки": []
+    },
+    {
+      "идентификатор": "FUMA-ВСЕЛЕННАЯ",
+      "родитель": null,
+      "основание": {
+        "коммит": "670a1fda352b34668d87000602e76e246aefa22f",
+        "запрос": "Журнал/2026-09-09_14-35-59_MSK_подготовить-нативное-продолжение-задачи/запрос.md",
+        "цитата": "Проработай проект вселенной для создания художественных научно-фантастических произведений о ближайшем или далёком будущем о FUM, вокруг FUM, на базе FUM. Это должно быть на уровне высоковероятной аналитики будущего."
+      },
+      "вид_результата": "документ",
+      "карточка": null,
+      "приёмки": []
     }
   ]
 }
