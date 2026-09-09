@@ -872,16 +872,39 @@ class ПроверкаКонтрактаБратиславскойПроекци
         )
         сам._зафиксировать()
         зависимость, исходник, ревизия = сам._создать_репозиторий_зависимости()
+
+        def собрать(пакет, каталог, граница, **параметры):
+            граница()
+            каталог.mkdir()
+            for имя in модуль.ИМЕНА_ИСПОЛНЯЕМОЙ_СРЕДЫ:
+                путь = каталог / имя
+                путь.write_bytes(b"fixture")
+                путь.chmod(0o755)
+            граница()
+            return [str(каталог / "preobrazovatj-nazvaniya")]
+
         with mock.patch.object(модуль, "РЕВИЗИЯ_ЗАВИСИМОСТИ", ревизия), mock.patch.object(
-            модуль, "собрать_изолированный_продукт", return_value=["исполняемый-продукт"]
-        ) as сборка:
+            модуль, "собрать_изолированный_продукт", side_effect=собрать
+        ) as сборка, mock.patch.object(
+            модуль, "сведения_для_повторной_сборки", return_value=({}, "swift")
+        ):
             with модуль.подготовить_изолированный_преобразователь(
                 сам.корень
             ) as (команда, проверить_границу):
-                сам.assertEqual(команда, ["исполняемый-продукт"])
                 сборка.assert_called_once()
+                временный_корень = Path(команда[0]).parents[1]
                 пакет = сборка.call_args.args[0]
-                временный_корень = пакет.parents[1]
+                сам.assertEqual(пакет, временный_корень / "Инструменты/fum-proverka-nazvanij-avtomatizacij")
+                сам.assertEqual(Path(команда[0]).parent.name, "исполнение")
+                сам.assertEqual(Path(команда[0]).read_bytes(), b"fixture")
+                каталог_кэша, _ = модуль.подготовить_локальный_кэш(сам.корень)
+                for путь in каталог_кэша.glob("*/preobrazovatj-nazvaniya"):
+                    путь.write_bytes(b"foreign cache")
+                проверить_границу()
+                Path(команда[0]).write_bytes(b"foreign private copy")
+                with сам.assertRaisesRegex(модуль.ОшибкаКонтракта, "Частная копия"):
+                    проверить_границу()
+                Path(команда[0]).write_bytes(b"fixture")
                 изолированный_исходник = (
                     временный_корень
                     / "Зависимости/LinguisticKit/Sources/Преобразователь.swift"
@@ -891,6 +914,10 @@ class ПроверкаКонтрактаБратиславскойПроекци
                     изолированный_исходник.read_text(encoding="utf-8"),
                     "let значение = 1\n",
                 )
+                (пакет / "Package.swift").write_text("изменённый пакет\n", encoding="utf-8")
+                with сам.assertRaisesRegex(модуль.ОшибкаКонтракта, "пакет.*изменён"):
+                    проверить_границу()
+                (пакет / "Package.swift").write_text("// swift-tools-version: 6.0\n", encoding="utf-8")
 
                 исходник.write_text("let значение = 2\n", encoding="utf-8")
                 проверить_границу()

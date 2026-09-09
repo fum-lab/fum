@@ -37,6 +37,8 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0032 | `устранена` | [Obsjhiye izmenyayemyiye tablicyi LinguisticKit ne podderzhivayut Swift 6](FUM-SBOJ-0032-obsjhiye-izmenyayemyiye-tablicyi-LinguisticKit.md)                                           | 1          | Ustraneno v etoj rabote |
 | FUM-SBOJ-0033 | `устранена` | [Ekstraktor LinguisticKit trebuyet testovyij import v Release](FUM-SBOJ-0033-testovyij-import-ekstraktora-LinguisticKit.md)                                            | 1          | Ustraneno v etoj rabote |
 | FUM-SBOJ-0034 | `устранена`   | [Fajlyi Finder preryivayut ustanovku proyekcii](FUM-SBOJ-0034-fajlyi-Finder-preryivayut-ustanovku-proyekcii.md)                                                             | 1          | —                       |
+| FUM-SBOJ-0035 | `устранена` | [Propusk udalyonnogo puti proyekcii v zaprose](FUM-SBOJ-0035-propusk-udalyonnogo-puti-proyekcii-v-zaprose.md) | 1 | — |
+| FUM-SBOJ-0036 | `устранена` | [Konkurentnaya podgotovka doveriya kyesha vyizyivayet lozhnyij otkaz](FUM-SBOJ-0036-gonka-inicializacii-doveriya-kyesha.md)                                                     | 1          | Ustraneno v etoj rabote |
 
 ## Pravila vedeniya
 
@@ -69,6 +71,6 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 - [pravila rabochikh sessij](../AGENTS.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 23:52:52 MSK -->
-<!-- content-sha256: sha256:7b8262f5c4559ed7ef1112a133242200d95e8f32fd10f167abc47c7833de9113 -->
+<!-- last-content-edit: 2026-09-09 10:18:25 MSK -->
+<!-- content-sha256: sha256:bfaba7e3f8a9c25d82c6026c623d94b4064d89076aaad8e2f5ed9bd9d3705aa7 -->
 <!-- FUM-MD-RECENCY:END -->

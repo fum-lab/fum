@@ -77,6 +77,10 @@ V .gitignore etot .DS\_Store
 
 ````
 
+````text
+Osvobodil.
+````
+
 ## Identifikator seansa Codex
 
 Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb
@@ -86,7 +90,7 @@ Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb
 - [Reyestr instrumentov](../../Instrumentyi/reyestr-sistemnyikh-prilozhenij-i-instrumentov.md): Python 3.14.7; Git 2.54.0 (Apple Git-157); sreda soobsjhayet GPT-6, tochnyij aktivnyij model ID i rezhim rassuzhdeniya ne nablyudalisj. Proyektnaya modelj obnovlena otdeljno.
 - `fum-moskovskoye-vremya-rabochej-sessii` — poluchena yedinaya para vremeni 2026-09-08 21:16:26 MSK.
 - Lokaljnyiye navyiki strukturyi Zhurnala, dekompozicii pravil, indeksa README, reyestra planirovaniya, otchyotov proverok, recency, svyaznosti i proyekcii.
-- Kontraktyi Codex `create_thread`, `list_threads` i collaboration: otdeljnaya zadacha «Uskoritj povtornuyu podgotovku preobrazovatelya» aktivna v svoyom worktree; docherniye rabotyi vyipolnyayutsya s ukazannyimi granicami; versii kontraktov sreda otdeljno ne predostavlyayet.
+- Kontraktyi Codex `create_thread`, `list_threads` i collaboration: otdeljnaya zadacha «Uskoritj povtornuyu podgotovku preobrazovatelya» zavershila svoj etap v otdeljnom worktree; yeyo rezuljtat nezavisimo proveren i obyyedinyon cherez dochernij kommit 4a7c3c2c; docherniye rabotyi vyipolnyayutsya s ukazannyimi granicami; versii kontraktov sreda otdeljno ne predostavlyayet.
 
 ## Proverki
 
@@ -99,10 +103,12 @@ Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb
 - [Pravila yadra](../../AGENTS.md) i [tematicheskiye pravila s inventaryom](../../Pravila/agentov/).
 - [README](../../README.md), [dokumentaciya](../../Dokumentaciya/), [konfiguraciya modeli](../../.codex/config.toml) i [reyestr instrumentov](../../Instrumentyi/reyestr-sistemnyikh-prilozhenij-i-instrumentov.md).
 - [Zhurnal](../), [indeks svezhesti](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md), [planovyiye materialyi](../../Planirovaniye/).
-- [Generator proyekcii i yego regressii](../../Instrumentyi/fum-bratislavskaya-proyekciya-pamyati/).
+- [Generator proyekcii i yego regressii](../../Instrumentyi/fum-bratislavskaya-proyekciya-pamyati/), [proverka publikacionnyikh putej](../../Instrumentyi/fum-proverka-mashinno-lokaljnyikh-putej/).
+- [Istoricheskiye svideteljstva uskoreniya i granicyi importa](materialyi/istochniki/priyomka-kyesha-preobrazovatelya/opisaniye.md).
+- Udalyonnyij fajl: `Proyekcii/Bratislavskaya-pamyatj/fajlyi/Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0154-proveryatj-granicu-zaversheniya-postoyannoj-zadachi.md`
 - [Pereimenovatelj kartochek i yego proverki](../../Instrumentyi/fum-reyestr-planirovaniya/), [sboi](../../Sboi/) i [generiruyemaya proyekciya](../../../../).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 23:55:05 MSK -->
-<!-- content-sha256: sha256:05bfd9053480fe03542659a9dd739415c2a50b2bd1f5f55f9c73a46822cee8c9 -->
+<!-- last-content-edit: 2026-09-09 10:18:25 MSK -->
+<!-- content-sha256: sha256:b4195c048fa1dc8c0e367b907293da53615e2b95e36aa8b5c1a5c19bbe73cf85 -->
 <!-- FUM-MD-RECENCY:END -->

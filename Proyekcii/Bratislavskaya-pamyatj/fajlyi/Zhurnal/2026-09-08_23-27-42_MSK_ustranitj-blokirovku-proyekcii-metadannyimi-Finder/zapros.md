@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-08 22:21:18 MSK - Obnovitj LinguisticKit dlya Swift Concurrency](../2026-09-08_22-21-18_MSK_obnovitj-LinguisticKit-dlya-Swift-Concurrency/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-09 09:50:11 MSK - Ustranitj gonku podgotovki kyesha preobrazovatelya](../2026-09-09_09-50-11_MSK_ustranitj-gonku-podgotovki-kyesha-preobrazovatelya/zapros.md)
 
 ## Tekst zaprosa
 
@@ -46,6 +46,6 @@ Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb
 - [Predyidusjhij zapros: obnovleniye LinguisticKit](../2026-09-08_22-21-18_MSK_obnovitj-LinguisticKit-dlya-Swift-Concurrency/zapros.md) — toljko ssyilka na sleduyusjhij etap.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 23:45:14 MSK -->
-<!-- content-sha256: sha256:a3ec6019a27efb9237e6287dd985e8d4671b227b900119b4c02561c56f59bf4e -->
+<!-- last-content-edit: 2026-09-09 10:04:05 MSK -->
+<!-- content-sha256: sha256:9949fa5bd373d6823b15b96a7e1393d3e6af2949e1fc808ab11bef2c2455adf7 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -61,6 +61,8 @@ Doslovnoye soderzhimoye toljko razdela `## Текст запроса` v tochnyik
 
 Gitlink vyivoditsya kak granica `report.gitlink`: skaner ne vkhodit v vendored istoriyu. Poetomu izvestnoye upstream-ispoljzovaniye `#filePath` v `LinguisticKitBuildTool` fiksiruyetsya kak ogranicheniye zavisimosti, a first-party Swift-fajl s `#filePath` ostanavlivayet proverku.
 
+Binarnoye vlozheniye s NUL-bajtom v tochnoj oblasti `Журнал/<канонический-временной-префикс>/материалы/источники/<описательное-название>/<файл>` poluchayet `report.external-source.binary`, kak syiroj istochnik verkhnego urovnya, toljko pri susjhestvuyusjhem obyichnom `запрос.md` etoj sessii v Git-inventare. Eto ne rasprostranyayetsya na tekstovyiye i non-UTF-8 fajlyi bez NUL, proizvodnyiye opisaniya, blizkiye imena katalogov i beskhoznyiye libo nekanonicheskiye papki zaprosov. Otsutstviye analiza soderzhimogo binarnogo istochnika ne zamenyayet ruchnuyu publikacionnuyu proverku i yego tochnoye proiskhozhdeniye.
+
 Istoricheskiye dokazateljnyiye citatyi, opredeleniya raspoznavatelya i testovyiye fiksturyi vne strukturnyikh blokov proiskhozhdeniya dopuskayutsya toljko cherez [policy.json](policy.json). Kazhdaya zapisj skhemyi v2 zakreplyayet tochnyij otnositeljnyij putj, vid formyi, SHA-256 vsej stroki, ozhidayemoye chislo sovpadenij, odnu bazovuyu kategoriyu iz zakryitogo spiska `report.historical`, `allow.path-validation-definition` ili `allow.test-fixture` i soderzhateljnuyu prichinu. Poetomu fikstura ne pereimenovyivayetsya v istoricheskuyu citatu. Neispoljzuyemaya zapisj, izmenivshayasya stroka, neizvestnoye pole ili kategoriya, wildcard, vyikhod iz repozitoriya, dublikat ili chrezmernyij schyotchik delayut politiku oshibochnoj; novaya sosednyaya stroka ostayotsya narusheniyem.
 
 V kanonicheskom zhurnale zapuskov skaner uzko raspoznayot metku ispolnitelya toljko v zakryityikh verkhnikh skhemakh `fum.test-run.v1`, `fum.test-run.v2` i `fum.test-run.v3`; v3 trebuyet dopolniteljnoye pole `профиль_проверки`. Otsutstvuyusjheye ili lishneye verkhneye pole ne dayot nekanonicheskoj zapisi ljgotu dlya mashinno-lokaljnoj metki ispolnitelya.
@@ -82,6 +84,6 @@ Testyi bez seti i sekretov proveryayut vse raspoznavayemyiye formyi, Git-inventa
 - [audit absolyutnyikh putej](../../Zhurnal/2026-07-22_12-35-05_MSK_provesti-audit-absolyutnyikh-putej/materialyi/revjyu/2026-07-22_12-35-05_MSK_audit-absolyutnyikh-putej.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-15 00:47:22 MSK -->
-<!-- content-sha256: sha256:2211ba76b9d56945ca4b2ba3648dcdfca8ab9b7e74fa4f0b25ebd869676f3703 -->
+<!-- last-content-edit: 2026-09-08 23:53:00 MSK -->
+<!-- content-sha256: sha256:4d87f7de629020c52dbe9182d0c294da0d348838e066b92de653e15f303a1f8f -->
 <!-- FUM-MD-RECENCY:END -->

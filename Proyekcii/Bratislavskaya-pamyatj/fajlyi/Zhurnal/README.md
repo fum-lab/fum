@@ -16,6 +16,7 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-09 09:50:11 MSK — Ustranitj gonku podgotovki kyesha preobrazovatelya](2026-09-09_09-50-11_MSK_ustranitj-gonku-podgotovki-kyesha-preobrazovatelya/otchyot.md)
 - [2026-09-08 23:27:42 MSK - Ustranitj blokirovku proyekcii metadannyimi Finder](2026-09-08_23-27-42_MSK_ustranitj-blokirovku-proyekcii-metadannyimi-Finder/otchyot.md)
 - [2026-09-08 22:21:18 MSK - Obnovitj LinguisticKit dlya Swift Concurrency](2026-09-08_22-21-18_MSK_obnovitj-LinguisticKit-dlya-Swift-Concurrency/otchyot.md)
 - [2026-09-08 21:16:26 MSK — Integrirovatj paralleljnyiye rezuljtatyi i opisatj rabotu](2026-09-08_21-16-26_MSK_integrirovatj-paralleljnyiye-rezuljtatyi-i-opisatj-rabotu/otchyot.md)
@@ -482,6 +483,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 23:52:52 MSK -->
-<!-- content-sha256: sha256:60cf65cda70b651f3f8c533e650f804e4ad2500c745ee854d4b7f65715080171 -->
+<!-- last-content-edit: 2026-09-09 10:18:25 MSK -->
+<!-- content-sha256: sha256:294c70a8bcf233ee663e857b5c4e239b135227a332f4e7f47549dc701efb1c61 -->
 <!-- FUM-MD-RECENCY:END -->

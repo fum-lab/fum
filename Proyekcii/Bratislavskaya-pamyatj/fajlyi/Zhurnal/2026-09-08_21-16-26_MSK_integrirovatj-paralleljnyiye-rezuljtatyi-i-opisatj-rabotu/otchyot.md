@@ -15,49 +15,58 @@ Prodolzheniye postoyannoj zadachi posle prinyatogo kommita `f5cb17c4d1de779e9be9
 
 | Stadiya                | Dliteljnostj | Granicyi i sposob izmereniya                                     |
 | --------------------- | ------------ | -------------------------------------------------------------- |
-| Soderzhateljnaya rabota | prodolzhayetsya | Novyij etap nachat 2026-09-08 21:16:26 MSK                          |
+| Soderzhateljnaya podgotovka | ne izmereno | Aktivnoye vremya otdeljno ne izmeryalosj; kalendarnyiye granicyi nizhe |
 | Celevyiye proverki      | sm. nizhe     | Monotonnoye vremya kazhdogo vyizova v mashinnom zhurnale              |
 | Finaljnaya priyomka     | sm. nizhe     | Fakticheskij itog registriruyetsya poslednim polnyim zapuskom       |
 | Kontroljnyij kommit    | vyipolnen     | 9b9c456e posle adresnyikh proverok i tochnogo dopuska indeksa       |
 
-Granica profilya: rabota etogo etapa nachalasj 2026-09-08 21:16:26 MSK i prodolzhayetsya; tablica pryamyikh vyizovov soderzhit ikh otdeljnoye monotonnoye vremya, a ne polnuyu kalendarnuyu dliteljnostj.
+Granica profilya: soderzhateljnaya podgotovka nachalasj 2026-09-08 21:16:26 MSK i zavershena 2026-09-09 10:20:20 MSK. Kalendarnyij interval vklyuchayet pereryivyi i ozhidaniye osvobozhdeniya diska; aktivnoye vremya otdeljno ne izmereno. Posleduyusjhaya finaljnaya priyomka uchityivayetsya poslednim polnyim zapuskom nizhe. Kommit, otpravka i finaljnaya peredacha lezhat za granicej pryamyikh proverok.
 
 V predyidusjhem zakryitom etape primeneniye posle zakryitiya zanyalo 216,010525041 s, nezavisimaya proverka — 112,806328541 s. Eti izmereniya otnosyatsya k konkretnomu pokoleniyu i ne prognoziruyut vremya lyubogo vkhoda.
 
 ### Pryamyiye zapuski proverok
 
-<!-- FUM-CHECK-RUNS:BEGIN состояние=открыт; каталог=материалы/запуски-проверок -->
+<!-- FUM-CHECK-RUNS:BEGIN состояние=закрыт; снимок=материалы/запуски-проверок/снимок.json; sha256=sha256:5217486cd1a9ef138c4e26e54f309ead4ed4b5ecc4d570d278f72a04c23ca04e -->
 
-| Vyizov                                                                         | Dliteljnostj | Rezuljtat |
-| ----------------------------------------------------------------------------- | ------------ | --------- |
-| [Korenj] Proveritj pravila paralleljnoj rabotyi i ponyatnosti instrukcii        | 0,118 s      | uspeshno   |
-| [Korenj] Proveritj kompaktnuyu instrukciyu i indeks dokumentacii                | 0,383 s      | uspeshno   |
-| [Korenj] Sveritj modelj i sokhrannostj prinyatoj istorii pri integracii         | 0,67 s       | uspeshno   |
-| [Korenj] Proveritj obnovlyonnyiye granicyi otpravki rabochikh vetok                 | 0,134 s      | uspeshno   |
-| [Korenj] Sveritj istoriyu tryokh etapov posle realjnogo pereimenovaniya           | 0,914 s      | uspeshno   |
-| [Korenj] Proveritj publikacionnuyu chistotu obyyedinyonnyikh izmenenij              | 17,831 s     | uspeshno   |
-| [Korenj] Prinyatj obyyedinyonnyiye rezuljtatyi i poryadok rabotyi FUM                 | 135,135 s    | neuspeshno |
-| [Korenj] Vosstanovitj prezhnyuyu proyekciyu posle karantina fajlov nastroyek Finder | 4,772 s      | uspeshno   |
-| [Korenj] Sveritj pyatj prinyatyikh istorij i proverennoye ispravleniye proyekcii     | 1,252 s      | uspeshno   |
+| Vyizov                                                                             | Dliteljnostj | Rezuljtat |
+| --------------------------------------------------------------------------------- | ------------ | --------- |
+| [Korenj] Proveritj pravila paralleljnoj rabotyi i ponyatnosti instrukcii            | 0,118 s      | uspeshno   |
+| [Korenj] Proveritj kompaktnuyu instrukciyu i indeks dokumentacii                    | 0,383 s      | uspeshno   |
+| [Korenj] Sveritj modelj i sokhrannostj prinyatoj istorii pri integracii             | 0,67 s       | uspeshno   |
+| [Korenj] Proveritj obnovlyonnyiye granicyi otpravki rabochikh vetok                     | 0,134 s      | uspeshno   |
+| [Korenj] Sveritj istoriyu tryokh etapov posle realjnogo pereimenovaniya               | 0,914 s      | uspeshno   |
+| [Korenj] Proveritj publikacionnuyu chistotu obyyedinyonnyikh izmenenij                  | 17,831 s     | uspeshno   |
+| [Korenj] Prinyatj obyyedinyonnyiye rezuljtatyi i poryadok rabotyi FUM                     | 135,135 s    | neuspeshno |
+| [Korenj] Vosstanovitj prezhnyuyu proyekciyu posle karantina fajlov nastroyek Finder     | 4,772 s      | uspeshno   |
+| [Korenj] Sveritj pyatj prinyatyikh istorij i proverennoye ispravleniye proyekcii         | 1,252 s      | uspeshno   |
+| [Korenj] Prinyatj integraciyu s ispravleniyem metadannyikh Finder                      | 377,427 s    | neuspeshno |
+| [Korenj] Lokalizovatj neukazannoye udaleniye prezhnej proyekcii kartochki              | 0,263 s      | uspeshno   |
+| [Korenj] Proveritj svyaznostj posle tochnogo uchyota udaleniya proyekcii                | 36,219 s     | uspeshno   |
+| [Korenj] Sokhranitj i sveritj dopustimuyu chastj istoricheskikh svideteljstv uskoreniya | 0,855 s      | uspeshno   |
+| [Korenj] Sveritj shestj istorij i tochnyij kod posle obyyedineniya kyesha                | 1,544 s      | neuspeshno |
+| [Korenj] Podtverditj sokhrannostj shesti istorij i fajlov obyyedinyonnogo instrumenta | 1,695 s      | uspeshno   |
+| [Korenj] Proveritj svyaznostj obyyedinyonnogo Zhurnala i publikacionnyikh materialov    | 35,498 s     | uspeshno   |
+| [Korenj] Prinyatj obyyedinyonnoye sostoyaniye s kyeshem preobrazovatelya                   | 538,338 s    | uspeshno   |
 
-Obsjheye vremya pryamyikh zapuskov proverok: 161,209 s.
+Obsjheye vremya pryamyikh zapuskov proverok: 1153,048 s.
 
-Priyomochnyiye raundyi: ne gotov.
-Kontekst Git-snimka: sha256:572581feb093d8842809264ff99b618ebdd3d2b324e7649183bbb619e35b647b.
-Kontekst soderzhimogo: sha256:f32e053369b2c339ac4fe5e9428fe3cda931030c4606cb87abf63be35876ef71.
-Polnyikh popyitok: 1; uspeshnyikh: 0.
+Priyomochnyiye raundyi: gotov.
+Kontekst Git-snimka: sha256:b1addf8794bced4ff40d02f7b765726e245d90f366767b70fefe1414b1cefadf.
+Kontekst soderzhimogo: sha256:95000ca0a32355f0aadc259f8f5ae899df4158a0eccb11bec9afa516358f12c5.
+Polnyikh popyitok: 3; uspeshnyikh: 1.
 Usloviye «perekhod ne zamenyayet izmeneniye soderzhimogo»: vyipolneno.
 Usloviye «net aktivnyikh»: vyipolneno.
-Usloviye «finaljnaya polnaya poslednyaya»: ne vyipolneno.
-Usloviye «finaljnaya polnaya uspeshna»: ne vyipolneno.
-Usloviye «snimok sovpadayet»: ne vyipolneno.
-Usloviye «soderzhimoye sovpadayet»: ne vyipolneno.
+Usloviye «finaljnaya polnaya poslednyaya»: vyipolneno.
+Usloviye «finaljnaya polnaya uspeshna»: vyipolneno.
+Usloviye «snimok sovpadayet»: vyipolneno.
+Usloviye «soderzhimoye sovpadayet»: vyipolneno.
 Usloviye «net povtornyikh polnyikh popyitok»: vyipolneno.
 Usloviye «lokalizacii svyazanyi s predshestvuyusjhim otkazom»: vyipolneno.
 Usloviye «net zapresjhyonnyikh perekryitij»: vyipolneno.
 Usloviye «nepokryityiye diagnostiki uspeshnyi»: vyipolneno.
 Usloviye «istoricheskiye narusheniya otsutstvuyut»: vyipolneno.
 Dublirovaniye polnogo nabora: razresheno; zapusk: 6e189779-97e1-4629-9432-8649869f7eca; soderzhimoye: sha256:fb6e3bbca9c63ad70c59d917c7fd44565470e80748e760794b2a4c3b82a9ab01; naboryi: Instrumentyi/fum-bratislavskaya-proyekciya-pamyati/tests; dliteljnostj: 4,772 s; rezuljtat: uspeshno; osnovaniye: lokalizaciya_nablyudayemogo_otkaza; lokalizuyemyij otkaz: 3b82338a-40fd-445c-8953-9140f3ba7d67; ozhidayemoye svideteljstvo: Chetyire fajla sokhranenyi; prezhnij khyesh vosstanovlen i sovpadayet s HEAD.
+Dublirovaniye polnogo nabora: razresheno; zapusk: a2cc8e4f-e2dc-43b3-80e1-fc121f2aaffe; soderzhimoye: sha256:f32e053369b2c339ac4fe5e9428fe3cda931030c4606cb87abf63be35876ef71; naboryi: Instrumentyi/fum-svyaznostj-rabochej-sessii/tests; dliteljnostj: 0,263 s; rezuljtat: uspeshno; osnovaniye: lokalizaciya_nablyudayemogo_otkaza; lokalizuyemyij otkaz: a76dc5e1-8872-404e-b604-990af4a7de95; ozhidayemoye svideteljstvo: Yedinstvennyij otvergnutyij putj yavlyayetsya udalyonnoj staroj proyekciyej; tochnyij marker pokryivayet toljko yego.
 
 <!-- FUM-CHECK-RUNS:END -->
 
@@ -74,7 +83,7 @@ Dublirovaniye polnogo nabora: razresheno; zapusk: 6e189779-97e1-4629-9432-864986
 
 Kontroljnaya tochka ne yavlyayetsya finaljnoj priyomkoj. Do obsjhej priyomki pokoleniye `Proyekcii/` sokhranyalosj dlya vkhoda predyidusjhego etapa v `f5cb17c4`; yego posleduyusjhuyu peresborku i itogovyij dopusk otrazhayet mashinnaya tablica etogo otchyota. Zakryityij otchyot predyidusjhego etapa ne vozobnovlyayetsya.
 
-Podgotovka otdeljnoj zadachi podtverzhdena: «Uskoritj povtornuyu podgotovku preobrazovatelya», identifikator 01a0822b-7dd4-7e31-87af-f2f22874b0c2, aktivna v sobstvennom worktree. Kompaktnyij snimok sostoyaniya podtverzhdayet prodolzheniye testov kyesha; soobsjhyonnyiye yeyu dve podgotovki 22,42 i 19,60 s otnosyatsya k yeyo vkhodu i ne podmenyayut profilj vsej peresborki. Povtor sozdaniya ne vyipolnyalsya. Vnutrenniye docherniye ispolniteli uchityivayutsya otdeljno.
+Otdeljnaya zadacha «Uskoritj povtornuyu podgotovku preobrazovatelya» 01a0822b-7dd4-7e31-87af-f2f22874b0c2 zavershila svoj etap kommitom 4065ae6d314dc36014af856ab724961b00a87b2b. Ona soobsjhayet podgotovku 23,24 → 0,95 s pri ravenstve vyikhodnyikh bajtov i prokhozhdeniye 24 etapov. Eti rezuljtatyi peredanyi na nezavisimoye revjyu; uskoreniye podgotovki ne podmenyayet profilj vsej peresborki, integraciya kandidata yesjhyo ne vyipolnena. Povtor sozdaniya ne vyipolnyalsya. Vnutrenniye docherniye ispolniteli uchityivayutsya otdeljno.
 
 Zasjhita istoricheskogo profilya 63f1b0f0 vklyuchena v kontroljnyij kommit 7b692126. Realjnaya kartochka 0154 zavershena shtatnyim pereimenovatelem: obnovlenyi desyatj vkhozhdenij v semi zhivyikh fajlakh, istoricheskoye vkhozhdeniye sokhraneno. Povtornaya sverka podtverdila 38 neizmennyikh syiryikh zapisej i snimkov tryokh etapov, neizmennostj iskhodnyikh komand i upravlyayemyikh blokov otchyotov. Sboj 0027 zakryit v predelakh dokazannoj procedurnoj meryi. Ostayotsya finaljnaya priyomka obyyedinyonnogo sostoyaniya. Daljnejsheye uskoreniye povtornoj podgotovki Swift-preobrazovatelya vyideleno otdeljno; konvejyer indeksa poka opisan kontraktom, yego runtime ne realizovan.
 
@@ -112,7 +121,41 @@ Obyichnyij .DS_Store boljshe ne uchastvuyet v upravlyayemom snimke. Read-only pr
 
 122 avtonomnyikh testa proshli; nezavisimyij revjyuyer proveril tochnyij e1fa94d0 i SHA-256 generatora 1cbee7a634da1fb37cd1249a0c81eb214d36280071d8a1296df0658ca5731f44. V 27 izmereniyakh na 512 fajlakh i 32 katalogakh vse upravlyayemyiye snimki ravnyi; chteniye bez metadannyikh 16,915 → 17,042 ms, s nimi 18,474 ms. Medianyi ochistki 61,377 → 61,042/67,432 ms. Profilj ne dokazyivayet uskoreniye polnoj peresborki; proverki identichnosti sokhranyayutsya.
 
-Sboj0034 zakryit v predelakh etogo proverennogo ispravleniya; obyyedinyonnoye sostoyaniye i realjnuyu priyomku ocenivayet korenj po rezuljtatam tekusjhego otchyota. Pri finaljnom staging ispoljzuyutsya tochnyiye itogovyiye_fajlyi i putj_manifesta proverennogo pokoleniya; prinuditeljnoye dobavleniye vsej fizicheskoj oblasti ne primenyayetsya, chtobyi .DS_Store ne popal v kommit.
+Sboj 0034 zakryit v predelakh etogo proverennogo ispravleniya; obyyedinyonnoye sostoyaniye i realjnuyu priyomku ocenivayet korenj po rezuljtatam tekusjhego otchyota. Pri finaljnom staging ispoljzuyutsya tochnyiye itogovyiye_fajlyi i putj_manifesta proverennogo pokoleniya; prinuditeljnoye dobavleniye vsej fizicheskoj oblasti ne primenyayetsya, chtobyi .DS_Store ne popal v kommit.
+
+## Utochneniye spiska udalyonnyikh fajlov
+
+Polnaya popyitka a76dc5e1-8872-404e-b604-990af4a7de95 zavershilasj neuspeshno za 377,427256542 s vneshnego zapuska. Primeneniye proyekcii proshlo za 202,019 s, nezavisimaya proverka — za 103,978 s. Otkaz proizoshyol na shage svyaznosti: zapros ne perechislyal udalyonnuyu staruyu proyekciyu pereimenovannoj kartochki 0154. Eto otdeljnaya oshibka podgotovki zaprosa, a ne povtor otkaza Finder.
+
+Nezavisimoye chteniye i svyazannaya s etim otkazom diagnostika podtverdili yedinstvennoye udaleniye v Proyekcii: staruyu 🟡-kartochku. Novyij manifest otobrazhayet uzhe susjhestvuyusjhuyu kanonicheskuyu ✅-kartochku v praviljnyij novyij putj. V zapros dobavlen tochnyij marker udalyonnogo fajla po dejstvuyusjhemu kontraktu. Proveryayusjhij kod sokhranyon; sosedniye udaleniya ne razreshenyi. Nablyudeniye i ogranichennaya mera vosstanovleniya sokhranenyi v [kartochke sboya 0035](../../Sboi/FUM-SBOJ-0035-propusk-udalyonnogo-puti-proyekcii-v-zaprose.md).
+
+Pri prodolzhenii na diske nablyudalosj okolo 116 MB i dva otkaza sluzhebnogo sozdaniya fajla s ENOSPC. V privatnoj oblasti zadachi udalenyi toljko vosstanovimyiye artefaktyi zavershyonnyikh sborok LinguisticKit: tsan, candidate-release i baseline/.build. Iskhodniki, Git, zhurnalyi, rezuljtatyi i profili sokhranenyi. Posle ochistki svobodno 456450048 bajt; poljzovatelyu otpravlen vopros ob osvobozhdenii khotya byi 1 GB. Novaya tyazhyolaya priyomka do dostatochnogo mesta ne zapuskalasj.
+
+## Vozobnovleniye posle osvobozhdeniya diska
+
+Sleduyusjhaya podgotovka kontroljnoj tochki poluchila ENOSPC yesjhyo do zapisi arkhiva dialoga, otchyota, spiska staging i fajla dopuska. Kommit ne byil sozdan; HEAD ostalsya 7b692126, MERGE_HEAD — e1fa94d0. Chteniye podtverdilo pobajtnoye ravenstvo zaprosa, otchyota i kartochki 0035 podgotovlennomu indeksu, otsutstviye konfliktov i sokhrannostj arkhiva s kursorom. Otdeljnaya adresnaya proverka svyaznosti posle markera udaleniya raneye zavershilasj uspeshno: zapusk 1b4fd2f0-7271-4757-a47a-56613f472234. Neudachnaya podgotovka ne vyidana za vyipolnennyij dopusk.
+
+Posle soobsjheniya «Osvobodil.» fakticheski nablyudalosj 74 GB svobodnogo mesta. Arkhiv dialoga prochitan iz JSONL i popolnen propusjhennyimi soobsjheniyami; zapisj vozobnovlena. Proverennoye v popyitke a76dc5e1 pokoleniye proyekcii poka sokhranyayetsya; posleduyusjhiye utochneniya zaprosa i otchyota trebuyut novoj generacii pri finaljnoj priyomke.
+
+Nezavisimoye revjyu uskoreniya podtverdilo odnu paru podgotovki 23,244 → 0,950 s, ispolneniye 37,985 → 36,520 s, otsutstviye povtornoj sborki i ravenstvo 10018076 vyikhodnyikh bajtov. V kode obnaruzhena vozmozhnaya gonka pervogo sozdaniya kyesha; otdeljnomu ispolnitelyu poruchenyi soderzhateljnoye obyyedineniye i RED/GREEN s profilem. Perenosyatsya toljko predmetnyiye izmeneniya: pryamoj cherry-pick mog byi udalitj 24 fajla susjhestvuyusjhego istoricheskogo Zhurnala, a iskhodnyij zapros kandidata soderzhit lokaljnyij putj, kotoryij ne sleduyet publikovatj. Obsjhaya predyistoriya master i iskhodnyiye commit kandidata ne prinimayutsya avtomaticheski.
+
+## Sokhraneniye ispravleniya i podgotovka kyesha
+
+Kontroljnyij kommit bbd8fbc153754ce8f5eb564986c2efa0b4d36d9e sozdan posle uspeshnogo tochnogo dopuska svyaznosti; yego derevo 37674d0637aa5538e394fcf6034fe2cdd36c656d. Obyichnyij push otpravil toljko etot OID v sobstvennuyu vetku origin, udalyonnoye chteniye podtverdilo sovpadeniye. Srazu posle kommita proverka prodolzheniya vernula kod 3; v tom zhe khode nachato sokhraneniye svideteljstv uskoreniya i prodolzheno delegirovannoye obyyedineniye kyesha.
+
+Primenyon lokaljnyij navyik fum-materialyi-zaprosov. [Arkhiv istoricheskikh svideteljstv](materialyi/istochniki/priyomka-kyesha-preobrazovatelya/opisaniye.md) sokhranyayet 47 iz 49 fajlov kandidata pobajtno, vklyuchaya 35 syiryikh zapisej, snimok i otchyot. Iskhodnyij zapros i arkhiv polnogo vkhoda isklyuchenyi iz publikacii s sokhraneniyem iskhodnyikh SHA-256 i prichin. Staryiye svedeniya ne pereimenovanyi v tekusjhiye zapuski i ne pribavlenyi k stoimosti proverok etogo etapa. Polnyij import iskhodnoj sessii ne vyipolnen; bez isklyuchyonnogo korpusa prezhnij profilj celikom ne vosproizvoditsya iz publichnogo paketa.
+
+Kod podgotovlen v dochernem kommite 4a7c3c2cb8f6af211abce0e46101be558c66f639 ot proverennogo e1fa94d0 i otpravlen v sobstvennuyu vetku. Nezavisimoye revjyu tochnogo kommita ne nashlo blokiruyusjhikh zamechanij. Korenj podgotovil yego sliyaniye: razreshenyi toljko konfliktyi navigacii Zhurnala, sboyev i proizvodnogo indeksa. Vosemj instrumentaljnyikh fajlov v checkout i indekse pobajtno ravnyi rassmotrennomu kommitu; 17 prezhnikh profilirovochnyikh metok sokhranenyi, dobavlenyi tri.
+
+## Rezuljtat obyyedineniya kyesha
+
+[Dochernij otchyot](../2026-09-09_09-50-11_MSK_ustranitj-gonku-podgotovki-kyesha-preobrazovatelya/otchyot.md) sokhranyayet determinirovannyij RED gonki pervogo sozdaniya doveriya i posleduyusjhij GREEN. Ispravleniye povtorno proveryayet doveriye posle poyavleniya kyesha; osirotevshij kyesh po-prezhnemu otklonyayetsya bez sozdaniya novogo klyucha. Projdenyi 140 testov proyekcii i 34 testa skanera. Prezhnyaya proverka Release-sborki sokhranena pobajtno. Publikacionnyij skaner poluchil otdeljnyij RED/GREEN dlya binarnogo vlozheniya iskhodnogo zaprosa; mediana dobavlennoj stoimosti — 0,235 ms.
+
+Na [publichnom sinteticheskom vkhode](../2026-09-09_09-50-11_MSK_ustranitj-gonku-podgotovki-kyesha-preobrazovatelya/materialyi/publichnyij-vkhod.json) iz 12 strok i 570 bajtov dochernyaya kholodnaya podgotovka zanyala 21,2205 s, povtornaya — 0,9335 s, chislo sborok — 1 i 0; 389 vyikhodnyikh bajtov sovpali. [Profilj](../2026-09-09_09-50-11_MSK_ustranitj-gonku-podgotovki-kyesha-preobrazovatelya/materialyi/profilj-publichnogo-vkhoda.json) fiksiruyet odnu paru novyikh processov. Na polnom privatnom vkhode podgotovka zanyala 22,9199 i 0,9417 s, ispolneniye — 35,278 i 35,237 s; 10018076 vyikhodnyikh bajtov sovpali s prezhnim SHA-256 4b075f54cb501033b605c064c824d27498a0f494400e8057600dae2aec989cd3. Eto uskoreniye podgotovki, ne izmereniye polnoj peresborki FUM. Privatnyij korpus ne perenesyon v vetku.
+
+Adresnaya sverka kornya 9e91e3e4-d311-477e-b27e-d40e4ee6612a podtverdila 81 prezhnyuyu zapisj i snimok shesti rabot, iskhodnyiye soobsjheniya, upravlyayemyiye bloki i zasjhisjhyonnyij profilj. Predyidusjhij vyizov 5ab5114f-caae-4efe-af34-f8d9c1a353ad sokhranil neuspekh iz-za nevernogo obyyedineniya flagov v odnorazovoj komande git diff-tree; on ne obnaruzhil defekta koda. Povtor s otdeljnyimi flagami proshyol. Zapisi oboikh vyizovov sokhranenyi.
+
+Otkryityij perechenj rabot utochnyayetsya po fakticheski podgotovlennyim rezuljtatam; polnota obsjhej priyomki opredelyayetsya otdeljno poslednim polnyim zapuskom i zakryityim snimkom etogo otchyota. Posle nikh obyazateljnyi odno primeneniye i odna proverka finaljnogo pokoleniya, tochnyij dopusk, itogovyij kommit i podtverzhdyonnaya otpravka sobstvennoj vetki. Do ikh fakticheskogo uspekha obyyedinyonnoye sostoyaniye ne obyyavlyayetsya finaljno prinyatyim. Kartochki 0155 i 0156 sokhranyayut otdeljnyij obyyom budusjhej realizacii; tekusjhij etap prinyal kontrakt i plan, a ne gotovyij kontejner nablyudenij.
 
 ## Istochniki
 
@@ -121,6 +164,6 @@ Sboj0034 zakryit v predelakh etogo proverennogo ispravleniya; obyyedinyonnoye so
 - [Kontrakt indeksa](../2026-09-08_19-07-59_MSK_utochnitj-kontrakt-snimkov-indeksa/materialyi/planyi/kontrakt-snimkov-indeksa.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 23:55:05 MSK -->
-<!-- content-sha256: sha256:79db25a5badd7524c8688d99914776e1465de4c453d6e982b67f1984ea0fa5ba -->
+<!-- last-content-edit: 2026-09-09 10:20:20 MSK -->
+<!-- content-sha256: sha256:d96da784ea999640a609512b8875cc0f36b1b7a0b04fef8a62ab3027adbde7df -->
 <!-- FUM-MD-RECENCY:END -->
