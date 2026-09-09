@@ -1,7 +1,7 @@
 +++
 schema_version = 1
 card_id = "FUM-STEP-0154"
-status = "completed"
+status = "active"
 +++
 # Proveryatj granicu zaversheniya postoyannoj zadachi
 
@@ -15,14 +15,20 @@ Opredelitj i proveritj meru protiv neobosnovannogo zaversheniya otveta posle pro
 
 Povtor [FUM-SBOJ-0027/PROYAVLENIYE-0002](../../Sboi/FUM-SBOJ-0027-zaversheniye-otveta-posle-promezhutochnogo-kommita.md) posle priyomki uskoreniya delayet etu rabotu prioritetnoj po [novoj komande](../../Zhurnal/2026-09-08_18-50-08_MSK_ustranitj-ostanovku-postoyannoj-zadachi/zapros.md).
 
+## Utochneniye posle povtornoj ostanovki
+
+[FUM-SBOJ-0027/PROYAVLENIYE-0003](../../Sboi/FUM-SBOJ-0027-zaversheniye-otveta-posle-promezhutochnogo-kommita.md) vernul kartochku v aktivnuyu rabotu: spisok etapa poteryal roditeljskiye obyazateljstva realizacii. Nuzhnyi ustojchivyij reyestr, proverka sokhraneniya obyazateljstv po Git-istorii i adapter k shtatnoj granice Stop tekusjhego runtime. Uspekh dokumenta ili otdeljnogo etapa ne zakryivayet realizaciyu.
+
 ## Kriterii zaversheniya
 
+- RED/GREEN vosproizvodit poteryu obyazateljstva, podmenu realizacii planom i zavershyonnuyu podzadachu pri aktivnom roditele; realjnyiye rezuljtatyi chitayutsya nezavisimo ot svobodnoj stroki svideteljstva.
+- Vozmozhnostj i fakticheskij status Stop-hook proverenyi otdeljno ot repozitornogo CLI; ostanovka poljzovatelya i otsutstviye progressa ne prevrasjhayutsya v beskonechnyij cikl.
 - Opredelenyi nablyudayemyiye sostoyaniya i dopustimyiye osnovaniya zaversheniya, vklyuchaya yavnuyu ostanovku poljzovatelem.
 - Najdena proveryayemaya mera na dostupnoj granice upravleniya tekusjhej zadachej libo dokazano otsutstviye takoj mashinnoj vozmozhnosti s yavno ogranichennoj proceduroj vosstanovleniya.
 - Posle kontroljnogo i itogovogo kommitov etapa nablyudayetsya vyipolneniye razreshyonnogo sleduyusjhego dejstviya bez novogo poljzovateljskogo soobsjheniya; eto svideteljstvo ne obyyavlyayetsya universaljnoj garantiyej.
 - Rezuljtat i ogranicheniya svyazanyi s tochnyim proyavleniyem sboya; status kartochki izmenyon po fakticheskomu dokazateljstvu.
 
-## Rezuljtat
+## Predyidusjhij ogranichennyij rezuljtat
 
 Prinyata ogranichennaya procedurnaya mera: lokaljnyij CLI proveryayet proiskhozhdeniye zayavlennogo perechnya rabot, razlichayet dostupnuyu rabotu, ozhidaniye, ischerpaniye obyyoma i yavnuyu ostanovku. Kod 3 pri dostupnom punkte zapresjhayet final. Trinadcatj celevyikh testov i obsjhaya priyomka proshli; profilj i ogranicheniya sokhranenyi v [otchyote ispravleniya](../../Zhurnal/2026-09-08_18-50-08_MSK_ustranitj-ostanovku-postoyannoj-zadachi/otchyot.md).
 
@@ -32,6 +38,8 @@ Mera ne perekhvatyivayet final na urovne Codex i ne vozobnovlyayet nedostupnyij 
 
 ## Istochniki
 
+- [Sistemnoye ispravleniye i PROYAVLENIYE-0003](../../Zhurnal/2026-09-09_11-39-26_MSK_predotvratitj-poteryu-obyazateljstv-postoyannoj-zadachi/zapros.md).
+
 - [Komandyi postoyannoj zadachi](../../Zhurnal/2026-09-07_22-11-38_MSK_sostavitj-plan-uskoreniya-proyekcii/zapros.md).
 - [FUM-SBOJ-0027/PROYAVLENIYE-0001](../../Sboi/FUM-SBOJ-0027-zaversheniye-otveta-posle-promezhutochnogo-kommita.md).
 - [FUM-SBOJ-0027/PROYAVLENIYE-0002](../../Sboi/FUM-SBOJ-0027-zaversheniye-otveta-posle-promezhutochnogo-kommita.md).
@@ -39,6 +47,6 @@ Mera ne perekhvatyivayet final na urovne Codex i ne vozobnovlyayet nedostupnyij 
 - [Dejstvuyusjhaya granica kommita](../../AGENTS.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 22:46:18 MSK -->
-<!-- content-sha256: sha256:86fb4aff8e11f069b381566883334ad456ebc8474b523831b346efbb5d422738 -->
+<!-- last-content-edit: 2026-09-09 12:06:38 MSK -->
+<!-- content-sha256: sha256:db0c430de9c03ae655b633cbff6727c8a095783a7a2bdccf85df0c37a994557f -->
 <!-- FUM-MD-RECENCY:END -->

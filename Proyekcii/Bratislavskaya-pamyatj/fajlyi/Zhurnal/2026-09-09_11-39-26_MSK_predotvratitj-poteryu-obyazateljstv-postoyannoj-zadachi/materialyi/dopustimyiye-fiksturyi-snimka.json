@@ -1,0 +1,19 @@
+{
+  "schema": "fum.machine-local-path-policy-update.v1",
+  "declarations": [
+    {
+      "id": "index-snapshot-fixture-missing-symlink",
+      "path": "Инструменты/fum-snimki-indeksa/tests/test_git.py",
+      "line": 43,
+      "category": "allow.test-fixture",
+      "reason": "Искусственная отсутствующая цель symlink доказывает, что закреплённые байты читаются из Git-объекта, а не из позднего checkout."
+    },
+    {
+      "id": "index-snapshot-fixture-upload-pack",
+      "path": "Инструменты/fum-snimki-indeksa/tests/test_git.py",
+      "line": 96,
+      "category": "allow.test-fixture",
+      "reason": "Shebang собственного временного помощника локальной promisor-фикстуры фиксирует реальную попытку догрузки; это не путь пользовательского состояния."
+    }
+  ]
+}

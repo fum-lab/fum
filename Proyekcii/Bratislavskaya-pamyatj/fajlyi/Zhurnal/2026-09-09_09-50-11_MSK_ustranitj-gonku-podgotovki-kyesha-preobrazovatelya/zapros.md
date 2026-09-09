@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-08 23:27:42 MSK - Ustranitj blokirovku proyekcii metadannyimi Finder](../2026-09-08_23-27-42_MSK_ustranitj-blokirovku-proyekcii-metadannyimi-Finder/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-09 11:39:26 MSK - Predotvratitj poteryu obyazateljstv postoyannoj zadachi](../2026-09-09_11-39-26_MSK_predotvratitj-poteryu-obyazateljstv-postoyannoj-zadachi/zapros.md)
 
 ## Tekst zaprosa
 
@@ -53,6 +53,6 @@ Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb
 - [Kartochka gonki i indeks sboyev](../../Sboi/).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 10:04:05 MSK -->
-<!-- content-sha256: sha256:8f4c551827bb098ca7cc490756304e765c134ecee5bb43299683699f8c6ff79a -->
+<!-- last-content-edit: 2026-09-09 12:06:38 MSK -->
+<!-- content-sha256: sha256:341cd5c79375e22e18089991433606e84d91ffc2e3682694f3f02bd1aca51f54 -->
 <!-- FUM-MD-RECENCY:END -->

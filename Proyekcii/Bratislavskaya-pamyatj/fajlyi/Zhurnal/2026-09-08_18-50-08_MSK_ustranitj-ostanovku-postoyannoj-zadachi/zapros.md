@@ -62,7 +62,7 @@ Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb
 - [SKILL.md](../../Instrumentyi/fum-svyaznostj-rabochej-sessii/SKILL.md)
 - [proveritj-prodolzheniye-zadachi.py](../../Instrumentyi/fum-svyaznostj-rabochej-sessii/scripts/proveritj-prodolzheniye-zadachi.py)
 - [test_prodolzheniye_zadachi.py](../../Instrumentyi/fum-svyaznostj-rabochej-sessii/tests/test_prodolzheniye_zadachi.py)
-- [✅-FUM-STEP-0154-proveryatj-granicu-zaversheniya-postoyannoj-zadachi.md](../../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0154-proveryatj-granicu-zaversheniya-postoyannoj-zadachi.md)
+- [🟡-FUM-STEP-0154-proveryatj-granicu-zaversheniya-postoyannoj-zadachi.md](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0154-proveryatj-granicu-zaversheniya-postoyannoj-zadachi.md)
 - [reyestr-trebovanij-variantov-i-kandidatov.json](../../Planirovaniye/reyestr-trebovanij-variantov-i-kandidatov.json)
 - [inventarj-pravil.json](../../Pravila/agentov/inventarj-pravil.json)
 - [proverki-kommit-i-publikaciya.md](../../Pravila/agentov/proverki-kommit-i-publikaciya.md)
@@ -71,6 +71,6 @@ Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb
 - [Generiruyemaya proyekciya](../../../../).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 22:46:18 MSK -->
-<!-- content-sha256: sha256:8ffa85a0a7fb1733e6be21b5a851ce88bf71406e838010beec78493e4c9262e0 -->
+<!-- last-content-edit: 2026-09-09 12:06:38 MSK -->
+<!-- content-sha256: sha256:fc20e01b177a0a274c664b0d451c4d1706f0bfb432507d482feda8926a40e232 -->
 <!-- FUM-MD-RECENCY:END -->

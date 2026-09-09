@@ -1,0 +1,19 @@
+{
+  "schema": "fum.machine-local-path-policy-update.v1",
+  "declarations": [
+    {
+      "id": "stop-fixture-transcript",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_перехват_завершения.py",
+      "line": 72,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический путь transcript_path проверяет, что содержимое чужого транскрипта не читается и не сохраняется."
+    },
+    {
+      "id": "stop-fixture-foreign-cwd",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_перехват_завершения.py",
+      "line": 127,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический чужой cwd проверяет отказ от принятия события с несовпадающей рабочей директорией."
+    }
+  ]
+}

@@ -29,7 +29,7 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0021 | `устранена` | [Nematerializovannaya Git-zavisimostj avtomaticheski sozdannogo slota](FUM-SBOJ-0021-nematerializovannaya-Git-zavisimostj-avtomaticheski-sozdannogo-slota.md)           | 1          | —                       |
 | FUM-SBOJ-0022 | `устранена` | [Nedostavka izmenenij iz Web ChatGPT](FUM-SBOJ-0022-nedostavka-izmenenij-iz-Web-ChatGPT.md)                                                                         | 1          | —                       |
 | FUM-SBOJ-0026 | `устранена` | [Obesjhaniye zapomnitj vmesto zakrepleniya pravila](FUM-SBOJ-0026-obesjhaniye-zapomnitj-vmesto-zakrepleniya-pravila.md)                                                     | 1          | —                       |
-| FUM-SBOJ-0027 | `устранена` | [Zaversheniye otveta posle promezhutochnogo kommita](FUM-SBOJ-0027-zaversheniye-otveta-posle-promezhutochnogo-kommita.md)                                                   | 2          | FUM-STEP-0154           |
+| FUM-SBOJ-0027 | `активна` | [Zaversheniye otveta posle promezhutochnogo kommita](FUM-SBOJ-0027-zaversheniye-otveta-posle-promezhutochnogo-kommita.md)                                                   | 3 | FUM-STEP-0154           |
 | FUM-SBOJ-0028 | `устранена` | [Ekranirovaniye fiksturyi raspoznano kak mashinnyij putj](FUM-SBOJ-0028-ekranirovaniye-fiksturyi-raspoznano-kak-mashinnyij-putj.md)                                         | 1          | —                       |
 | FUM-SBOJ-0029 | `устранена` | [Propusk obratnoj ssyilki v glossarii](FUM-SBOJ-0029-propusk-obratnoj-ssyilki-v-glossarii.md)                                                                         | 1          | —                       |
 | FUM-SBOJ-0030 | `активна`   | [Lishnyaya pustaya stroka narushayet razbor trailer](FUM-SBOJ-0030-lishnyaya-pustaya-stroka-narushayet-razbor-trailer.md)                                                       | 2          | FUM-STEP-0157           |
@@ -71,6 +71,6 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 - [pravila rabochikh sessij](../AGENTS.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 10:18:25 MSK -->
-<!-- content-sha256: sha256:bfaba7e3f8a9c25d82c6026c623d94b4064d89076aaad8e2f5ed9bd9d3705aa7 -->
+<!-- last-content-edit: 2026-09-09 12:06:38 MSK -->
+<!-- content-sha256: sha256:3a650f96d73e93ea3c385dd9a16e35a3b161ab7c21789f74785cb9c104ac5b93 -->
 <!-- FUM-MD-RECENCY:END -->

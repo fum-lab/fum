@@ -29,6 +29,12 @@ Dlya [FUM](../Glossarij/FUM.md) dejstvuyet princip simmetrii interfejsa: sostoya
 
 Iz etogo sleduyet, chto v sisteme ne dolzhno byitj toljko interfejsnyikh faktov: yesli interfejs soobsjhayet poljzovatelyu znachimuyu informaciyu, eta informaciya dolzhna byitj dostupna [FUM](../Glossarij/FUM.md) dlya rassuzhdeniya, [pamyati](../Glossarij/pamyatj-FUM.md) i dejstviya.
 
+### Sostoyaniye sobstvennogo runtime
+
+[Snimok agentskogo runtime i interfejsa](../Trebovaniya/🟡-nablyudayemoye-sostoyaniye-agentskogo-runtime-i-interfejsa.md) svyazyivayet rabotu zadachi s tem, chto vidit chelovek: ispolnitelya i modelj, rabochuyu sredu, processyi, ozhidaniya i rezuljtat dejstviya. U kazhdogo znacheniya sokhranyayutsya istochnik i vremya nablyudeniya. Yesli spisok API, zhurnal sobyitij i poljzovateljskij interfejs raskhodyatsya, snimok pokazyivayet raskhozhdeniye i dostupnyiye svideteljstva. Znacheniye po umolchaniyu, namereniye i prinyataya komanda ne podmenyayut nablyudyonnyij rezuljtat.
+
+Petlya obratnoj svyazi vklyuchayet dejstviye, yego fakticheskij effekt v interfejse, nablyudeniye effekta agentom i posleduyusjhuyu korrektirovku. Zhurnal sokhranyayet svyazj mezhdu etimi etapami i pozvolyayet vosstanovitj yeyo posle perezapuska. Otdeljno proveryayutsya dostupnostj sobyitiya, yego interpretaciya, sopostavleniye s zadachej, sokhraneniye i ispoljzovaniye pri sleduyusjhem dejstvii.
+
 ## Skhema nablyudayemosti sostoyaniya
 
 ```mermaid
@@ -108,6 +114,6 @@ Poetomu kazhdoye sostoyaniye ili proizvodnaya [narabotka](../Glossarij/narabotka
 - [iskhodnyij zapros 2026-06-23 19:06:56 MSK](../Zhurnal/2026-06-23_19-06-56_MSK/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-03 14:54:04 MSK -->
-<!-- content-sha256: sha256:e3d0980589bcd6e3b17c23e15d1bbfdf106ad833b509102b0c11d10d3c7bb9e0 -->
+<!-- last-content-edit: 2026-09-09 12:28:17 MSK -->
+<!-- content-sha256: sha256:813e531619f513d89d570bf0121431ea5bafb7e744ede5359e110c204ee077cc -->
 <!-- FUM-MD-RECENCY:END -->

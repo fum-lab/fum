@@ -18,7 +18,11 @@ Pishusjhiye ispolniteli ispoljzuyut otdeljnyiye Git worktree — rabochiye kopii
 
 Rolj opisyivayet vklad ispolnitelya: naprimer, proyektirovaniye, realizaciyu ili proverku. Ona pomogayet raspredelitj rabotu i ponyatj proiskhozhdeniye rezuljtata; sama po sebe rolj ne dayot dopolniteljnyikh razreshenij.
 
-U vnutrennej dochernej rabotyi i otdeljnoj zadachi Codex raznoye naznacheniye. Dochernyaya rabota obsluzhivayet tekusjhij zapros i peredayot rezuljtat osnovnoj zadache. Otdeljnaya zadacha imeyet sobstvennyij dialog, kotoryim vyi mozhete upravlyatj samostoyateljno; yeyo sozdayut po yavnoj prosjbe. Soobsjheniye o podgotovke takoj zadachi yesjhyo ne podtverzhdayet, chto ispolnitelj uzhe zapusjhen.
+Dlya korotkogo analiza podkhodyat vnutrenniye docherniye ispolniteli. Yesli nezavisimyiye rabotyi nuzhno videtj i obsuzhdatj otdeljno, poprosite sozdatj otdeljnyiye zadachi Codex Desktop i soglasovyivatj ikh rezuljtatyi v osnovnoj. U kazhdoj poyavitsya kartochka v bokovom menyu i sobstvennyij dialog. Peredacha rezuljtata obratno yesjhyo ne oznachayet yego prinyatiya: osnovnaya zadacha proveryayet izmeneniya i obsjhij ostavshijsya obyyom.
+
+Pri neobkhodimosti ukazhite modelj i rezhim rassuzhdeniya v zaprose, naprimer GPT-6 Astra i Uljtra. Parametryi osnovnoj zadachi i nastrojki proyekta mogut ne statj parametrami novoj zadachi. Dlya proverki otkrojte sozdannuyu zadachu i sopostavjte yeyo fakticheskuyu modelj s vyibrannoj; pri raskhozhdenii poprosite ispravitj sleduyusjhiye zapuski. Eto ne menyayet modelj, uzhe ispoljzovannuyu v prezhnikh otvetakh.
+
+Sozdaniye prokhodit neskoljko sostoyanij: zapros prinyat, rabochaya kopiya podgotavlivayetsya, ispolnitelj rabotayet, ogranichennoye porucheniye zaversheno. Soobsjheniye o podgotovke yesjhyo ne podtverzhdayet nachalo rabotyi. Yesli kartochka vidna, a svodka osnovnoj zadachi yeyo ne pokazyivayet, soobsjhite o raskhozhdenii: otsutstviye v nepolnom spiske ne dokazyivayet otsutstviye zadachi. V [nablyudyonnom sluchaye](../Zhurnal/2026-09-09_11-39-26_MSK_predotvratitj-poteryu-obyazateljstv-postoyannoj-zadachi/materialyi/vidimyiye-zadachi.json) soglasovaniye udalosj vosstanovitj po zapisi dialoga i adresnoj proverke sostoyaniya bez povtornogo sozdaniya kartochek.
 
 ## Chto sokhranyayetsya v pamyati
 
@@ -36,7 +40,9 @@ Kontroljnyij kommit — eto sokhranyonnyij etap. Yego otchyot mozhet chestno ost
 
 V postoyannoj zadache kommit ne oznachayet prosjbu ostanovitjsya. Posle nego vyipolnyayetsya sleduyusjhij uzhe soglasovannyij poleznyij shag. Yesli vsyo soglasovannoye vyipolneno, nuzhno otsutstvuyusjheye resheniye poljzovatelya ili voznikla nastoyasjhaya blokirovka sredyi, zadacha soobsjhayet sootvetstvuyusjhij status.
 
-Dlya podderzhki etogo poryadka imeyetsya proverka obyyavlennogo spiska rabot posle kommita. Ona obnaruzhivayet ostavshiyesya obyazateljnyiye dejstviya, no ne perekhvatyivayet lyuboj sposob zavershitj otvet v Codex i ne upravlyayet dostupnostjyu vneshnej sredyi. Poetomu sokhranyonnyij plan i Zhurnal vazhnyi i pri vosstanovlenii posle obryiva.
+Proverka obyazateljstv vtoroj versii sokhranyayet iskhodnyiye porucheniya v otdeljnom reyestre mezhdu etapami i sveryayet yego s istoriyej Git, kartochkami i dokazateljstvami priyomki. Perepisyivaniye tekusjhego plana boljshe ne pozvolyayet nezametno udalitj sokhranyonnoye obyazateljstvo. Polnotu pervonachaljnogo perechnya i sootvetstviye realizacii smyislu zaprosa po-prezhnemu proveryayet koordinator.
+
+Proverka i adapter ostanovki realizovanyi i sovmestno proverenyi na sinteticheskikh scenariyakh. Na nastoyasjhem reyestre etoj zadachi proverka obnaruzhila pyatj nezavershyonnyikh obyazateljstv. Nativnoye podklyucheniye k Codex yesjhyo ne podtverzhdeno: proverennyij zapusk adaptera iz komandnoj stroki sam po sebe ne vklyuchayet zasjhitu rabotayusjhej zadachi. Status, izmereniya i ogranicheniya sokhranenyi v [otchyote](../Zhurnal/2026-09-09_11-39-26_MSK_predotvratitj-poteryu-obyazateljstv-postoyannoj-zadachi/otchyot.md).
 
 Proveryaya rezuljtat, smotrite na nazvannyiye rabochuyu vetku i kommit. Oni identificiruyut sokhranyonnyij etap; osnovnaya vetka menyayetsya toljko posle sootvetstvuyusjhego obyyedineniya. Posle kommita svoyej rabochej vetki agent sam otpravlyayet yeyo v proverennyij `origin` i podtverzhdayet udalyonnyij kommit. Tochnaya vetka `master` iz avtomaticheskoj otpravki isklyuchena. Obyyedineniye s osnovnoj vetkoj, yeyo publikaciya i sozdaniye PR trebuyut otdeljnogo zaprosa; neuspeshnaya otpravka yavno otmechayetsya.
 
@@ -60,7 +66,9 @@ Prosjba «Ostanovi daljnejshuyu rabotu i sokhrani tekusjhij status» otnositsya 
 
 Samostoyateljnoye prilozheniye FUM s sobstvennyim GUI i avtonomnyim ispolneniyem yesjhyo razrabatyivayetsya. Tekusjhij process ispoljzuyet Codex i dostupnyiye yemu instrumentyi.
 
-[Kontrakt snimkov Git-indeksa](../Zhurnal/2026-09-08_19-07-59_MSK_utochnitj-kontrakt-snimkov-indeksa/materialyi/planyi/kontrakt-snimkov-indeksa.md) opisyivayet budusjhij konvejyer: prinimatj zafiksirovannyij snimok i otdeljno sokhranyatj pozdniye komandyi. Dokument opredelyayet granicyi i budusjhiye proverki; sootvetstvuyusjhij ispolnitelj poka ne realizovan. Na dliteljnoj priyomke tekusjhego processa novyiye dannyiye mogut vremenno sokhranyatjsya v izolirovannom chernovike i perenositjsya v sleduyusjhij zhurnaljnyij etap.
+[Obsjhij snimok sostoyaniya agenta i chelovecheskogo interfejsa](../Trebovaniya/🟡-nablyudayemoye-sostoyaniye-agentskogo-runtime-i-interfejsa.md) poka yavlyayetsya trebovaniyem. On dolzhen pomogatj videtj, chto agent sdelal, kakoj rezuljtat poyavilsya dlya cheloveka, chto ostalosj neizvestnyim i kakoye ispravleniye byilo prinyato. Sejchas etu kartinu prikhoditsya sobiratj iz neskoljkikh istochnikov s raznyim vremenem obnovleniya.
+
+[Kontrakt snimkov Git-indeksa](../Zhurnal/2026-09-08_19-07-59_MSK_utochnitj-kontrakt-snimkov-indeksa/materialyi/planyi/kontrakt-snimkov-indeksa.md) opisyivayet budusjhij konvejyer: prinimatj zafiksirovannyij snimok i otdeljno sokhranyatj pozdniye komandyi. Pervyij [proveryayusjhij komponent](../Instrumentyi/fum-snimki-indeksa/kontrakt.md) uzhe podtverzhdayet zafiksirovannyiye bajtyi i strukturu vkhoda. On poka ne razreshayet vyipolneniye ili kommit: dostavka pozdnikh komand, otmena i zakryitiye priyomki trebuyut sleduyusjhikh komponentov. Na dliteljnoj priyomke tekusjhego processa novyiye dannyiye mogut vremenno sokhranyatjsya v izolirovannom chernovike i perenositjsya v sleduyusjhij zhurnaljnyij etap.
 
 Staryiye FIFO, CAS i avtomaticheskiye peredachi zadach opisanyi v [istorii konvejyera](45-obyazateljnoye-prodolzheniye-Git-vetki-posle-kommita.md). Nalichiye etikh narabotok ne oznachayet, chto oni upravlyayut tekusjhej rabotoj.
 
@@ -92,6 +100,8 @@ Yesli material podgotovlen vo vneshnem dialoge, vospoljzujtesj [poryadkom priyom
 
 ## Istochniki
 
+- [Vidimyiye zadachi, vyibor modeli i vosstanovleniye obyazateljstv](../Zhurnal/2026-09-09_11-39-26_MSK_predotvratitj-poteryu-obyazateljstv-postoyannoj-zadachi/zapros.md).
+
 - [Opisatj aktualjnyij sposob rabotyi s uporom na ponyatnostj cheloveku](../Zhurnal/2026-09-08_21-16-26_MSK_integrirovatj-paralleljnyiye-rezuljtatyi-i-opisatj-rabotu/zapros.md).
 - [Postoyannaya zadacha, sokhraneniye dialoga, profilirovaniye i kontroljnyiye kommityi](../Zhurnal/2026-09-07_22-11-38_MSK_sostavitj-plan-uskoreniya-proyekcii/zapros.md).
 - [Ustraneniye ostanovki postoyannoj zadachi](../Zhurnal/2026-09-08_18-50-08_MSK_ustranitj-ostanovku-postoyannoj-zadachi/otchyot.md).
@@ -99,6 +109,6 @@ Yesli material podgotovlen vo vneshnem dialoge, vospoljzujtesj [poryadkom priyom
 - [Proyekt kontrakta snimkov indeksa](../Zhurnal/2026-09-08_19-07-59_MSK_utochnitj-kontrakt-snimkov-indeksa/otchyot.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 22:46:18 MSK -->
-<!-- content-sha256: sha256:438dc14f8a5aa3856ac66641130ed5f3b21ee5b4e2b980fa45c2a2ff47be8954 -->
+<!-- last-content-edit: 2026-09-09 13:56:30 MSK -->
+<!-- content-sha256: sha256:1bf213a40a9585f5f5cbb07edbd9a7c2a5a4f3c6bfbe19e7499cafd142ab614a -->
 <!-- FUM-MD-RECENCY:END -->

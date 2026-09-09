@@ -8,6 +8,7 @@ Izmeneniye «trayektorii myishleniya» proveryayetsya cherez nablyudayemyiye cel
 
 ## Semanticheskiye svyazi
 
+- **dopolnyayetsya:** [nablyudayemyim sostoyaniyem agentskogo runtime i interfejsa](🟡-nablyudayemoye-sostoyaniye-agentskogo-runtime-i-interfejsa.md) — svyazyivayet korrektirovku rabotyi s podtverzhdyonnyimi sostoyaniyami zadachi i yeyo interfejsa.
 - **usilivayetsya:** [avtonomnyim modeljnyim prodolzheniyem pri ozhidanii podtverzhdeniya](🟡-avtonomnoye-modeljnoye-prodolzheniye-pri-ozhidanii-podtverzhdeniya.md) — ozhidaniye signala blokiruyet toljko podtverzhdayemyij perekhod, poka bezopasnaya produktivnaya modeljnaya rabota ostayotsya vozmozhnoj.
 - **usilivayetsya:** [nepreryivnyim sobyitijnyim nablyudeniyem poljzovateljskogo vvoda](🟡-nepreryivnoye-sobyitijnoye-nablyudeniye-poljzovateljskogo-vvoda.md) — korobochnaya forma perenosit perenapravleniye s granic soobsjhenij-zadach na razreshyonnyiye sobyitiya, postupayusjhiye vo vremya rabotyi.
 - **dopolnyayet:** [vyibor sleduyusjhego shaga vetki iz kartochek shagov](✅-vyibor-sleduyusjhego-shaga-vetki-iz-kartochek-shagov.md) — obobsjhayet uzhe proverennuyu smenu prodolzheniya mezhdu diskretnyimi zadachami do kontrakta rabotayusjhego produktovogo cikla.
@@ -36,6 +37,6 @@ Kartochka ne dayot agentu novyikh prav, ne trebuyet beskonechnogo modeljnogo pro
 - [pasport dokumentacionnogo prototipa i pervogo korobochnogo sreza](../Dokumentaciya/36-pasport-dokumentacionnogo-prototipa-i-pervogo-korobochnogo-sreza.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-12 01:34:29 MSK -->
-<!-- content-sha256: sha256:a9b82177f9d0af25ab34c70dc3d377840ddbfd1cb891334a2fc4e18da4ef6d40 -->
+<!-- last-content-edit: 2026-09-09 12:28:17 MSK -->
+<!-- content-sha256: sha256:092c7e20122ba380db9c3580f18fa193c7d9354b14d48933c627864ee10bdf85 -->
 <!-- FUM-MD-RECENCY:END -->

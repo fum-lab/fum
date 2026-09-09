@@ -56,6 +56,7 @@ Status menyayetsya pereimenovaniyem fajla cherez `git mv`. Emodzi ne zamenyayet 
 
 ## Agentskij cikl i poljzovateljskij vvod
 
+- `FUM-REQ-0044` — [🟡 Nablyudayemoye sostoyaniye agentskogo runtime i interfejsa](🟡-nablyudayemoye-sostoyaniye-agentskogo-runtime-i-interfejsa.md)
 - `FUM-REQ-0017` — [🟡 Poljzovateljskoye perenapravleniye nepreryivnogo agentskogo cikla](🟡-poljzovateljskoye-perenapravleniye-nepreryivnogo-agentskogo-cikla.md)
 - `FUM-REQ-0018` — [🟡 Nepreryivnoye sobyitijnoye nablyudeniye poljzovateljskogo vvoda](🟡-nepreryivnoye-sobyitijnoye-nablyudeniye-poljzovateljskogo-vvoda.md)
 - `FUM-REQ-0029` — [✅ Skvoznoj proveryayemyij odnoagentnyij epizod FUM](✅-skvoznoj-proveryayemyij-odnoagentnyij-epizod-FUM.md)
@@ -137,6 +138,6 @@ Status menyayetsya pereimenovaniyem fajla cherez `git mv`. Emodzi ne zamenyayet 
 
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-01 13:45:05 MSK -->
-<!-- content-sha256: sha256:07a989a8eeb3037bc6259b69d5171e78cae8d1c26944a8a50068d4c61d1594ba -->
+<!-- last-content-edit: 2026-09-09 12:28:17 MSK -->
+<!-- content-sha256: sha256:b5cd7052cf105be9fd7fae6ac9798a9fe6f6784be4c2dd92de6188ab45794549 -->
 <!-- FUM-MD-RECENCY:END -->

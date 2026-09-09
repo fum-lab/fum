@@ -16,6 +16,12 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-09 13:23:25 MSK - Podgotovitj privatnyij komplekt zaversheniya](2026-09-09_13-23-25_MSK_podgotovitj-privatnyij-komplekt-zaversheniya/otchyot.md)
+- [2026-09-09 12:51:11 MSK - Realizovatj vkhod snimka indeksa](2026-09-09_12-51-11_MSK_realizovatj-vkhod-snimka-indeksa/otchyot.md)
+- [2026-09-09 12:13:51 MSK - Razrabotatj perekhvat zaversheniya](2026-09-09_12-13-51_MSK_razrabotatj-perekhvat-zaversheniya/otchyot.md)
+- [2026-09-09 11:52:29 MSK - Zasjhititj sokhranyonnyiye obyazateljstva zadachi](2026-09-09_11-52-29_MSK_zasjhititj-sokhranyonnyiye-obyazateljstva-zadachi/otchyot.md)
+- [2026-09-09 11:48:04 MSK - Realizovatj pervyij segment kontejnera nablyudenij](2026-09-09_11-48-04_MSK_realizovatj-pervyij-segment-kontejnera-nablyudenij/otchyot.md)
+- [2026-09-09 11:39:26 MSK — Predotvratitj poteryu obyazateljstv postoyannoj zadachi](2026-09-09_11-39-26_MSK_predotvratitj-poteryu-obyazateljstv-postoyannoj-zadachi/otchyot.md)
 - [2026-09-09 09:50:11 MSK — Ustranitj gonku podgotovki kyesha preobrazovatelya](2026-09-09_09-50-11_MSK_ustranitj-gonku-podgotovki-kyesha-preobrazovatelya/otchyot.md)
 - [2026-09-08 23:27:42 MSK - Ustranitj blokirovku proyekcii metadannyimi Finder](2026-09-08_23-27-42_MSK_ustranitj-blokirovku-proyekcii-metadannyimi-Finder/otchyot.md)
 - [2026-09-08 22:21:18 MSK - Obnovitj LinguisticKit dlya Swift Concurrency](2026-09-08_22-21-18_MSK_obnovitj-LinguisticKit-dlya-Swift-Concurrency/otchyot.md)
@@ -483,6 +489,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 10:18:25 MSK -->
-<!-- content-sha256: sha256:294c70a8bcf233ee663e857b5c4e239b135227a332f4e7f47549dc701efb1c61 -->
+<!-- last-content-edit: 2026-09-09 13:56:30 MSK -->
+<!-- content-sha256: sha256:653baea661f9bcddd0e81574a4670c9579051c9cb7db0e2da1d84ee47d6979ee -->
 <!-- FUM-MD-RECENCY:END -->

@@ -30,7 +30,11 @@ Dlya dliteljnoj rabotyi oboznachjte eto pryamo:
 
 V otvetakh zadachi budut poyavlyatjsya najdennyiye prichinyi, prinyatyiye resheniya, rezuljtatyi proverok i ostavshayasya rabota. Kogda nezavisimyiye chasti polezno vyipolnyatj paralleljno, oni mogut byitj poruchenyi dochernim ispolnitelyam. Pishusjhiye ispolniteli rabotayut v otdeljnyikh rabochikh kopiyakh i vetkakh; rezuljtat vozvrasjhayetsya v osnovnuyu zadachu dlya soglasovaniya.
 
-Vnutrenniye docherniye rabotyi pomogayut vyipolnitj vash zapros. Yesli khotite otdeljnuyu zadachu Codex so svoim dialogom, poprosite sozdatj yeyo yavno.
+Chtobyi nezavisimyiye rabotyi byili vidnyi otdeljnyimi zadachami v bokovom menyu Codex Desktop, poprosite ob etom pryamo:
+
+> Vedi nezavisimyiye rabotyi otdeljnyimi zadachami Codex Desktop. Soglasovyivaj ikh rezuljtatyi zdesj. Ispoljzuj GPT-6 Astra s rezhimom Uljtra.
+
+U kazhdoj takoj zadachi svoj dialog i rabochaya kopiya. Vyi mozhete otkryitj yeyo i uvidetj khod rabotyi, a obsjhij rezuljtat i ostavshiyesya etapyi obsuditj v osnovnoj zadache. Podgotovka kartochki yesjhyo ne oznachayet nachalo vyipolneniya. Vyibrannuyu modelj polezno proveritj v samoj zadache: nastrojka osnovnoj zadachi mozhet ne peredatjsya avtomaticheski.
 
 ### 4. Posmotrite, chto poluchilosj i gde eto sokhraneno
 
@@ -77,12 +81,14 @@ Proyekt publikuyetsya pod [CC0 1.0 Universal](LICENZIYA.md). Kanonicheskij publi
 
 ## Istochniki trebovanij
 
+- [Vidimyiye nezavisimyiye zadachi, vyibor modeli i nablyudayemostj rabotyi](Zhurnal/2026-09-09_11-39-26_MSK_predotvratitj-poteryu-obyazateljstv-postoyannoj-zadachi/zapros.md).
+
 - [Opisatj aktualjnyij sposob rabotyi s uporom na ponyatnostj cheloveku](Zhurnal/2026-09-08_21-16-26_MSK_integrirovatj-paralleljnyiye-rezuljtatyi-i-opisatj-rabotu/zapros.md).
 - [Postoyannaya rabota, sokhraneniye dialoga, profilirovaniye i kontroljnyiye kommityi](Zhurnal/2026-09-07_22-11-38_MSK_sostavitj-plan-uskoreniya-proyekcii/zapros.md).
 - [Sdelatj README instrukciyej ispoljzovaniya FUM](Zhurnal/2026-08-06_15-14-50_MSK_sdelatj-README-instrukciyej-ispoljzovaniya-FUM/zapros.md).
 - [Razreshitj nachaljnuyu formu FUM bez sobstvennogo GUI cherez Codex](Zhurnal/2026-07-27_20-10-35_MSK_razreshitj-nachaljnuyu-korobochnuyu-FUM-bez-GUI-cherez-Codex/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 22:46:18 MSK -->
-<!-- content-sha256: sha256:698a7174c64daca53949e754e9c97c106196a3f8024060c091fa6884c8822079 -->
+<!-- last-content-edit: 2026-09-09 12:41:19 MSK -->
+<!-- content-sha256: sha256:31a243958baaa5342e43842e0ede02014ffc1b9c23fc5b2f8e5920207816142e -->
 <!-- FUM-MD-RECENCY:END -->

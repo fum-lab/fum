@@ -1,0 +1,17 @@
+{
+  "схема": "fum.снимок-контейнера.1",
+  "база": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+  "этап": "Семь базовых GREEN",
+  "файлы": {
+    "Package.swift": "7cd6e14de0078a16437e66b2ffbf0cf1dc536de202cd5839d8ae434697431f86",
+    "Sources/ВосстановительКонтейнера/main.swift": "f59430d22ebd317fdbd4e10d1c14fcd8cc66afd96840db81090f748f862030a1",
+    "Sources/КонтейнерНаблюдений/Ввод.swift": "a803fb46478766ee2c46846a6456340a02b58504781ed01b50a05ec9a1f8fac7",
+    "Sources/КонтейнерНаблюдений/Контракт.swift": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160",
+    "Sources/КонтейнерНаблюдений/Сегмент.swift": "495bc24bfefc3eb8a0cb72694fea7ce8f571deaf535c075e349ab6dc0ee5fcf2",
+    "Sources/КонтейнерНаблюдений/Файлы.swift": "a91387e8b8dd0ab8edaeac3a1d58caf141043920e7dce7f2cb87acb0a1391dbd",
+    "Sources/КонтейнерНаблюдений/Формат.swift": "6d19959226189ce0df9d5c3e4519b4c0e535b79b263dfde2a8201374e77ecc07",
+    "Sources/ПисательКонтейнера/main.swift": "9b9e0083e55008aef35a4a29bd8ed956601037e226ee631f57db6442287a5aec",
+    "Sources/ЧитательКонтейнера/main.swift": "ab9d86ad9a4a61b8f1898076cbda3a78785a43fe4301c7d76467b3d5312c7cdd",
+    "Tests/КонтейнерНаблюденийTests/СегментTests.swift": "4a1d424184ab7420b6b302d4e65074a3f20cbaa01d4f0b9f0b28f6d2853f913c"
+  }
+}
