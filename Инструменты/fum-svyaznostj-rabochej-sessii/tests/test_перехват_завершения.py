@@ -8,6 +8,7 @@ import sys
 import tempfile
 import time
 import unittest
+import venv
 
 
 СЦЕНАРИЙ = Path(__file__).resolve().parents[1] / "scripts/перехватить-завершение.py"
@@ -102,6 +103,28 @@ class ПерехватЗавершения(unittest.TestCase):
         это.assertIn("код", первый["reason"])
         это.событие.update(turn_id="ход-2", stop_hook_active=True)
         это.assertEqual(это.вызвать(), первый)
+
+    def test_дочерний_guard_не_исполняет_site_код_собственного_venv(это):
+        окружение = это.каталог / "изолированный-python"
+        venv.EnvBuilder(with_pip=False).create(окружение)
+        интерпретатор = окружение / "bin/python"
+        каталоги = list((окружение / "lib").glob("python*/site-packages"))
+        это.assertEqual(len(каталоги), 1)
+        маркер = это.каталог / "побочное-исполнение"
+        (каталоги[0] / "побочный.pth").write_text(
+            "import pathlib; pathlib.Path(" + repr(str(маркер)) + ").touch()\n")
+        контроль = subprocess.run([str(интерпретатор), "-B", "-c", "pass"],
+                                   capture_output=True, timeout=5)
+        это.assertEqual(контроль.returncode, 0, контроль.stderr)
+        это.assertTrue(маркер.exists(), "Фикстура должна действительно исполнять .pth")
+        маркер.unlink()
+        команда = [str(интерпретатор), "-I", "-S", "-B", *это.команда()[1:]]
+        результат = subprocess.run(команда, input=json.dumps(это.событие).encode(),
+                                    capture_output=True, timeout=5)
+        это.assertEqual(результат.returncode, 0, результат.stderr)
+        это.assertEqual(json.loads(результат.stdout)["decision"], "block")
+        это.assertTrue((это.корень / "вызван").exists())
+        это.assertFalse(маркер.exists(), "Дочерний guard не должен исполнять .pth")
 
     def test_чужая_задача_не_читает_проверку_и_не_создаёт_состояние(это):
         это.событие["session_id"] = ЧУЖАЯ
