@@ -200,6 +200,8 @@ Dlya odnovremennogo utochneniya imeni dobavj `--description новое-крат�
 | FUM-STEP-0169 | ✅ Vyipolneno | [Sokhranyatj metadannyiye Finder pri pereustanovke proyekcii](✅-FUM-STEP-0169-sokhranyatj-metadannyiye-Finder-pri-pereustanovke-proyekcii.md)                                                                                                                                                                                              |
 | FUM-STEP-0170 | 🟡 Aktualjno | [Sokhranyatj neizmennostj vkhoda do zaversheniya proverki](🟡-FUM-STEP-0170-sokhranyatj-neizmennostj-vkhoda-do-zaversheniya-proverki.md)                                                                                                                                                                                               |
 | FUM-STEP-0171 | 🟡 Aktualjno | [Proveryatj indeks do zakryitiya otchyota](🟡-FUM-STEP-0171-proveryatj-indeks-do-zakryitiya-otchyota.md) |
+| FUM-STEP-0172 | 🟡 Aktualjno | [Proveryatj ostatok obyazateljstv zadachi](🟡-FUM-STEP-0172-proveryatj-ostatok-obyazateljstv-zadachi.md) |
+| FUM-STEP-0173 | 🟡 Aktualjno | [Razobratj drejf snimka obyyavlenij](🟡-FUM-STEP-0173-razobratj-drejf-snimka-obyyavlenij.md) |
 
 ## Istochniki trebovanij
 
@@ -234,6 +236,6 @@ Dlya odnovremennogo utochneniya imeni dobavj `--description новое-крат�
 - [iskhodnyij zapros 2026-07-24 10:44:28 MSK — Nachatj bezokonnyij Swift-prototip vosproizvodimogo popolneniya pamyati FUM](../../Zhurnal/2026-07-24_10-44-28_MSK_nachatj-bezokonnyij-Swift-prototip-vosproizvodimogo-popolneniya-pamyati-FUM/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 20:34:49 MSK -->
-<!-- content-sha256: sha256:ca656281959f70a6465af60ed3022a3558a5aaa9f9f4e45d8d05defe5ad12095 -->
+<!-- last-content-edit: 2026-09-10 01:19:47 MSK -->
+<!-- content-sha256: sha256:ba0894118e8059f21a1cb47029c33038c71746214cb3cbb741dfe9c2871f61dd -->
 <!-- FUM-MD-RECENCY:END -->

@@ -13,6 +13,8 @@ Nachinaya s rabochej sessii `2026-08-04_20-45-26_MSK_формировать-от
 
 ## Komandnyij interfejs
 
+Dlya svyazi uzhe proverennyikh v3-svideteljstv s prinyatyim kommitom dostupen otdeljnyij [adapter otpechatka](svyazj-s-kommitom.md). On chitayet Git i vozvrasjhayet podtverzhdyonnoye sootvetstviye libo yavnoye otsutstviye dokazateljstva; gotovnostj otchyota i zaversheniye obyazateljstv proveryayutsya otdeljno.
+
 Tochka vkhoda avtomatizacii prinimayet odnu iz shesti komand: `запустить`, `предпросмотр`, `проверить-план`, `закрыть`, `возобновить` ili `проверить`. Dlya kazhdoj komandyi obyazateljnyi obsjhiye parametryi `--корень-репозитория` i `--запрос`. Putj zaprosa kanonicheski razreshayetsya vnutri ukazannogo kornya i obyazan vesti k obyichnomu fajlu `Журнал/<stem>/запрос.md`; sosednij `отчёт.md` vyivoditsya toljko iz nego.
 
 Pryamoj zapusk oformlyayetsya tak:
@@ -192,6 +194,6 @@ Leksicheskaya proverka simvolicheskikh ssyilok ne ustranyayet vrazhdebnuyu TOCTO
 - [iskhodnyij zapros 2026-08-04 20:45:26 MSK - Formirovatj otchyotyi o zapuskakh testov](../../Zhurnal/2026-08-04_20-45-26_MSK_formirovatj-otchyotyi-o-zapuskakh-testov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 00:27:00 MSK -->
-<!-- content-sha256: sha256:83941f7c85ac41f5cb7cd8cd3a8cd3460d87f9c1f65ab6d359538dcf24efea15 -->
+<!-- last-content-edit: 2026-09-10 01:11:48 MSK -->
+<!-- content-sha256: sha256:789333ff0d290ddcd78c99f5d7373df18fa9fb5fd509ea228174bb2b65f28c08 -->
 <!-- FUM-MD-RECENCY:END -->

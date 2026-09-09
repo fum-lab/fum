@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-09 20:29:51 MSK - Zavershitj priyomku ignorirovaniya fajlov macos](../2026-09-09_20-29-51_MSK_zavershitj-priyomku-ignorirovaniya-fajlov-macos/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-10 00:49:43 MSK - Svyazatj proverki s kommitami](../2026-09-10_00-49-43_MSK_svyazatj-proverki-s-kommitami/zapros.md)
 
 ## Tekst zaprosa
 
@@ -100,6 +100,6 @@ Vse pryamyiye proverochnyiye vyizovyi i nablyudyonnyiye iskhodyi sokhranyayutsya
 - [Mashinnyiye zapisi vsekh proverok etapa](materialyi/zapuski-proverok/)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 00:24:58 MSK -->
-<!-- content-sha256: sha256:8ab1a4ca3d6ed01b8f742443cb5c189f89a69e7ee5e4f0098a4e5144813d432e -->
+<!-- last-content-edit: 2026-09-10 01:11:48 MSK -->
+<!-- content-sha256: sha256:c68e1319888e8e5ecf6e69b6e3c7e08a59f95189a4b5cd45679326418655f5c6 -->
 <!-- FUM-MD-RECENCY:END -->

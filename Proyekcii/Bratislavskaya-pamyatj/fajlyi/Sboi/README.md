@@ -35,6 +35,7 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0042 | `устранена` | [Sluzhebnyiye fajlyi Finder blokiruyut pereustanovku proyekcii](FUM-SBOJ-0042-sluzhebnyiye-fajlyi-Finder-blokiruyut-pereustanovku-proyekcii.md) | 2 | FUM-STEP-0169 |
 | FUM-SBOJ-0043 | `активна` | [Izmeneniye proveryayemogo snimka do zaversheniya proverki](FUM-SBOJ-0043-izmeneniye-proveryayemogo-snimka-do-zaversheniya-proverki.md) | 1 | FUM-STEP-0170 |
 | FUM-SBOJ-0044 | `активна` | [Proverka indeksa propusjhena do zakryitiya otchyota](FUM-SBOJ-0044-proverka-indeksa-propusjhena-do-zakryitiya-otchyota.md) | 1 | FUM-STEP-0171 |
+| FUM-SBOJ-0045 | `активна` | [Drejf snimka obyyavlenij koda](FUM-SBOJ-0045-drejf-snimka-obyyavlenij-koda.md) | 1 | FUM-STEP-0173 |
 
 ## Pravila vedeniya
 
@@ -67,6 +68,6 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 - [pravila rabochikh sessij](../AGENTS.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 20:34:49 MSK -->
-<!-- content-sha256: sha256:e8a6a4d5b39fcfeb311312e5852b329e227c5b8d7a8172bbe713ee79d2f22972 -->
+<!-- last-content-edit: 2026-09-10 01:19:47 MSK -->
+<!-- content-sha256: sha256:c4b5a8d106243aba3e484c235349c7bbb5e132e56a7e6d23f933d39bb974338a -->
 <!-- FUM-MD-RECENCY:END -->

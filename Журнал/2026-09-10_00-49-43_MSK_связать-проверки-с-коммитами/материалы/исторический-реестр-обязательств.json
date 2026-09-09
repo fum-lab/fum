@@ -1,0 +1,92 @@
+{
+  "схема": "fum.обязательства-задачи.2",
+  "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "исходный_коммит": "008f27dcc34d6991b437109ddfc8166f25be9e28",
+  "план_этапа": "Журнал/2026-09-09_14-35-59_MSK_подготовить-нативное-продолжение-задачи/материалы/этап-v2.json",
+  "обязательства": [
+    {
+      "идентификатор": "FUM-ПРОДОЛЖЕНИЕ-СИСТЕМА",
+      "родитель": null,
+      "основание": {
+        "коммит": "008f27dcc34d6991b437109ddfc8166f25be9e28",
+        "запрос": "Журнал/2026-09-09_11-39-26_MSK_предотвратить-потерю-обязательств-постоянной-задачи/запрос.md",
+        "цитата": "Kak mozhno sistemno reshitj etu problemu s prezhdevremennoj ostanovkoj?"
+      },
+      "вид_результата": "реализация",
+      "карточка": "FUM-STEP-0154",
+      "приёмки": []
+    },
+    {
+      "идентификатор": "FUM-STEP-0155-РЕАЛИЗАЦИЯ",
+      "родитель": null,
+      "основание": {
+        "коммит": "008f27dcc34d6991b437109ddfc8166f25be9e28",
+        "запрос": "Журнал/2026-09-07_22-11-38_MSK_составить-план-ускорения-проекции/запрос.md",
+        "цитата": "Ya dumayu myi mozhem zadejstvovatj mekhanizm indeksa v gite, chtobyi imetj vozmozhnostj i gotovitj kommit v indekse, i dobavlyatj lyubyiye utochnyayusjhiye zhurnaljnyiye dannyiye v chekaut."
+      },
+      "вид_результата": "реализация",
+      "карточка": "FUM-STEP-0155",
+      "приёмки": []
+    },
+    {
+      "идентификатор": "FUM-STEP-0156-РЕАЛИЗАЦИЯ",
+      "родитель": "FUMA-НАБЛЮДЕНИЕ",
+      "основание": {
+        "коммит": "008f27dcc34d6991b437109ddfc8166f25be9e28",
+        "запрос": "Журнал/2026-09-07_22-11-38_MSK_составить-план-ускорения-проекции/запрос.md",
+        "цитата": "Vsyo eto nablyudeniye myi dolzhnyi byitj sposobnyi sokhranyatj v zhurnal v postoyannom zapominayusjhem ustrojstve."
+      },
+      "вид_результата": "реализация",
+      "карточка": "FUM-STEP-0156",
+      "приёмки": []
+    },
+    {
+      "идентификатор": "FUMA-НАБЛЮДЕНИЕ",
+      "родитель": null,
+      "основание": {
+        "коммит": "008f27dcc34d6991b437109ddfc8166f25be9e28",
+        "запрос": "Журнал/2026-09-07_22-11-38_MSK_составить-план-ускорения-проекции/запрос.md",
+        "цитата": "Nauchisj videtj cherez vse API, kotoryiye predostavlyayet macOS. Ispoljzuj Swift v proyekte FUMA."
+      },
+      "вид_результата": "реализация",
+      "карточка": null,
+      "приёмки": []
+    },
+    {
+      "идентификатор": "FUMA-СНИМОК-RUNTIME",
+      "родитель": "FUMA-НАБЛЮДЕНИЕ",
+      "основание": {
+        "коммит": "008f27dcc34d6991b437109ddfc8166f25be9e28",
+        "запрос": "Журнал/2026-09-09_11-39-26_MSK_предотвратить-потерю-обязательств-постоянной-задачи/запрос.md",
+        "цитата": "Znachiteljnaya chastj problem v rabote voznikayet iz-za togo, chto u tebya net normaljnoj po-chelovecheski realizovannoj vozmozhnosti uvedetj polnoye sostoyaniye svoyego agentskogo rantajma, vklyuchaya interfejs s chelovekom."
+      },
+      "вид_результата": "реализация",
+      "карточка": "FUM-STEP-0159",
+      "приёмки": []
+    },
+    {
+      "идентификатор": "FUMA-СТАТИСТИКА-ВЫЗОВОВ",
+      "родитель": "FUMA-НАБЛЮДЕНИЕ",
+      "основание": {
+        "коммит": "670a1fda352b34668d87000602e76e246aefa22f",
+        "запрос": "Журнал/2026-09-09_14-35-59_MSK_подготовить-нативное-продолжение-задачи/запрос.md",
+        "цитата": "Myi dolzhnyi sokhranyatj i nakaplivatj statistiku vyizovov avtomatizacij i instrumentov vmeste s istochnikami vyizovov, chtobyi eti dannyiye mozhno byilo ispoljzovatj dlya vyiyavleniya neobkhodimosti sozdaniya sleduyusjhego urovnya avtomatizacii, yesli chislo ruchnyikh vyizovov instrumenta modeljyu stanovitsya slishkom boljshim, naprimer, no eto yavno ne vse vozmozhnyiye evristiki, kotoryiye nam stoit otkryitj."
+      },
+      "вид_результата": "реализация",
+      "карточка": "FUM-STEP-0160",
+      "приёмки": []
+    },
+    {
+      "идентификатор": "FUMA-ВСЕЛЕННАЯ",
+      "родитель": null,
+      "основание": {
+        "коммит": "670a1fda352b34668d87000602e76e246aefa22f",
+        "запрос": "Журнал/2026-09-09_14-35-59_MSK_подготовить-нативное-продолжение-задачи/запрос.md",
+        "цитата": "Проработай проект вселенной для создания художественных научно-фантастических произведений о ближайшем или далёком будущем о FUM, вокруг FUM, на базе FUM. Это должно быть на уровне высоковероятной аналитики будущего."
+      },
+      "вид_результата": "документ",
+      "карточка": null,
+      "приёмки": []
+    }
+  ]
+}
