@@ -1,0 +1,16 @@
+HTTP/2 200 
+server: nginx
+date: Wed, 09 Sep 2026 12:15:22 GMT
+content-type: application/pdf
+content-length: 1075626
+etag: "9290eb4fff54eebe"
+last-modified: Tue, 23 Jan 2024 15:04:15 GMT
+access-control-allow-methods: GET, HEAD
+access-control-allow-origin: *
+cache-control: max-age=31536000
+accept-ranges: bytes
+x-rq: hhn1
+x-cache: HIT
+accept-ranges: bytes
+strict-transport-security: max-age=31536000;includeSubdomains;preload
+

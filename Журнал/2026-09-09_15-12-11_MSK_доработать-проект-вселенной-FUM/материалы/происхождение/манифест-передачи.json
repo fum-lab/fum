@@ -1,0 +1,97 @@
+{
+  "схема": "fum.передача-черновика.1",
+  "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "база": "5f4bc9654ca227b919b228d648753c4ac6c238bc",
+  "файлы": [
+    {
+      "путь": "Документация/53-вселенная-FUM/README.md",
+      "байтов": 13091,
+      "sha256": "2b0969c0f373f8196ba1b986869f08ddd39741410c22087adefb4e0cb67f3a2b"
+    },
+    {
+      "путь": "Документация/53-вселенная-FUM/аналитическая-основа.md",
+      "байтов": 15711,
+      "sha256": "2fa49115caee72b1543bdaee2ff882d6e6aa85cd3446cd61bd9b6382c2360b3f"
+    },
+    {
+      "путь": "Документация/53-вселенная-FUM/мир-и-произведения.md",
+      "байтов": 19755,
+      "sha256": "31f7c02723db28ec63fc77dd0699505bb7586000501a32844b8699ee82d3be6c"
+    },
+    {
+      "путь": "Документация/53-вселенная-FUM/контракт-производства.md",
+      "байтов": 8624,
+      "sha256": "999cf9eb12208988be06fe686663460229677edf4cab55e339ebfbd71d55e90e"
+    },
+    {
+      "путь": "Источники/URL/https/www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary/extraction-report.md",
+      "байтов": 1271,
+      "sha256": "d8466d8a092017741957b44ed784f1de7957ab8da29518afb9d221668a697214"
+    },
+    {
+      "путь": "Источники/URL/https/www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary/response.headers.txt",
+      "байтов": 1589,
+      "sha256": "9879e8e4c843554aa179390cbab87b5aa53d224b64ed8133c288181a787485df"
+    },
+    {
+      "путь": "Источники/URL/https/www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary/source-index.md",
+      "байтов": 1387,
+      "sha256": "bd27f4035cc7eac64d0e05b82537e03ed675e8b7206c0540afbd630ecdde7392"
+    },
+    {
+      "путь": "Источники/URL/https/www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary/source-url.txt",
+      "байтов": 77,
+      "sha256": "4058727f89050b97fe7b526381f0b01824727a050b0e760a821c50be9d9318b1"
+    },
+    {
+      "путь": "Источники/URL/https/www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary/snapshot-manifest.json",
+      "байтов": 268,
+      "sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be"
+    },
+    {
+      "путь": "Источники/URL/https/www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary/response.body.html",
+      "байтов": 374266,
+      "sha256": "8aa42e6868d0ba14c26f5163e27209cb5559a77ae22b803f9251d12ffc5f8ba4"
+    },
+    {
+      "путь": "Источники/URL/https/www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary/extracted-text.md",
+      "байтов": 23027,
+      "sha256": "d0242aecf95555bce98be69b02b7b997177989f8987204e62b5872b475196638"
+    },
+    {
+      "путь": "Источники/URL/https/internationalaisafetyreport.org/publication/international-ai-safety-report-2026/extraction-report.md",
+      "байтов": 1294,
+      "sha256": "0d57f0fbc614cc751703e1810e25ac14c1571030b20e8983293c26cee4523046"
+    },
+    {
+      "путь": "Источники/URL/https/internationalaisafetyreport.org/publication/international-ai-safety-report-2026/response.headers.txt",
+      "байтов": 1300,
+      "sha256": "ec9cf3e64a3dc5f1d70321242e7f34219bfd67639dd1ddba9b233f9a4f5d81b0"
+    },
+    {
+      "путь": "Источники/URL/https/internationalaisafetyreport.org/publication/international-ai-safety-report-2026/source-index.md",
+      "байтов": 834,
+      "sha256": "368e3c637e1abc1506c08423c6dbc0a50d6de40f83fa14dc7be168736d44680b"
+    },
+    {
+      "путь": "Источники/URL/https/internationalaisafetyreport.org/publication/international-ai-safety-report-2026/source-url.txt",
+      "байтов": 88,
+      "sha256": "84c7237fafc6507295d8b86a24a2e3d90a5cec7c313eec3f47d70683ba371374"
+    },
+    {
+      "путь": "Источники/URL/https/internationalaisafetyreport.org/publication/international-ai-safety-report-2026/snapshot-manifest.json",
+      "байтов": 268,
+      "sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be"
+    },
+    {
+      "путь": "Источники/URL/https/internationalaisafetyreport.org/publication/international-ai-safety-report-2026/response.body.html",
+      "байтов": 3943774,
+      "sha256": "786ece17799331a37ed05a44f5cb8b068a4d733a53bf32a8cfc9ee3ff44d5f39"
+    },
+    {
+      "путь": "Источники/URL/https/internationalaisafetyreport.org/publication/international-ai-safety-report-2026/extracted-text.md",
+      "байтов": 803735,
+      "sha256": "8268da82dd6dc09211edcdc948736b1d5c61be4e44f8427c235fa7a285b0e281"
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+from pathlib import Path
+import hashlib
+import importlib.util
+import json
+import re
+import subprocess
+import sys
+
+# Одноразовая проверка контрольной поставки, без изменения файлов.
+# Используются только совместимые read-only-функции локальной связности.
+корень = Path.cwd().resolve()
+журнал = корень / 'Журнал/2026-09-09_15-12-11_MSK_доработать-проект-вселенной-FUM'
+запрос = журнал / 'запрос.md'
+спека = importlib.util.spec_from_file_location('связность', корень / 'Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py')
+связность = importlib.util.module_from_spec(спека)
+sys.modules[спека.name] = связность
+спека.loader.exec_module(связность)
+текст = запрос.read_text()
+изменённые = subprocess.check_output(['git', 'diff', '--name-only', '-z', 'HEAD'], text=True).split('\0')
+новые = subprocess.check_output(['git', 'ls-files', '--others', '--exclude-standard', '-z'], text=True).split('\0')
+пути = {корень / путь for путь in изменённые + новые if путь and путь.endswith('.md') and not путь.startswith('Proyekcii/')}
+ошибки = связность.validate_markdown_links(пути, корень)
+ошибки += связность.validate_request_filename_title(запрос)
+ошибки += связность.validate_navigation(корень, запрос, текст)
+ошибки += связность.validate_used_tools_section(текст, запрос)
+ошибки += связность.validate_codex_thread_id_section(текст, запрос, '01a08612-e0c6-7cf0-85f5-f804cd6cab92')
+ошибки += связность.validate_provenance_section_position(пути, корень)
+допустимые, дополнительные = связность.affected_files_from_request(текст, запрос, корень)
+ошибки += дополнительные
+ошибки += связность.validate_git_status(корень, допустимые, None)
+if len(sys.argv) == 2:
+ ошибки += связность.validate_commit_message_codex_thread_id(текст, запрос, Path(sys.argv[1]).read_text())
+for путь in [запрос, журнал / 'отчёт.md']:
+ очищенный = re.sub(r'(?ms)^## Текст запроса\n.*?(?=^## )', '', путь.read_text())
+ if '<!-- ШАБЛОН:НЕЗАПОЛНЕНО -->' in очищенный:
+  ошибки.append('Незаполненный шаблон: ' + путь.name)
+манифест = журнал / 'материалы/происхождение/манифест-передачи.json'
+if hashlib.sha256(манифест.read_bytes()).hexdigest() != '1746dfcffc6c23b6a1bd806d0d04a7ff07813e297bfcc3808f95e87ba4570bd6':
+ ошибки.append('Изменён манифест передачи')
+очистка = json.loads((журнал / 'материалы/происхождение/очистка-источников.json').read_text())
+for источник in очистка['источники']:
+ папка = None
+ for запись in источник['файлы']:
+  путь = корень / запись['файл']
+  папка = путь.parent
+  if путь.name == 'extracted-text.md':
+   continue  # Его последующий служебный блок проверяет recency.
+  if hashlib.sha256(путь.read_bytes()).hexdigest() != запись['после_sha256']:
+   ошибки.append('Нарушена квитанция очистки: ' + запись['файл'])
+  содержимое = путь.read_text()
+  if путь.name == 'response.headers.txt':
+   for строка in содержимое.splitlines():
+    if re.match(r'(?i)(set-cookie|cf-ray|x-request-id|x-nf-request-id|report-to|x-amz-cf-id|x-openai-public-ip|server-timing|via):', строка) and '[REDACTED' not in строка:
+     ошибки.append('Неочищенный служебный заголовок: ' + запись['файл'])
+  if any(re.search(шаблон, содержимое) for шаблон in [r'''(?i)nonce=["'][^\["']''', r'nonce-[A-Za-z0-9+\x2f_=-]+', r'"csp"\s*:\s*\{\s*"nonce"\s*:\s*"[^\["]']):
+   ошибки.append('Неочищенный nonce: ' + запись['файл'])
+ if папка:
+  снимок = json.loads((папка / 'snapshot-manifest.json').read_text())
+  if set(снимок['managed_files']) != {путь.name for путь in папка.iterdir() if путь.is_file()}:
+   ошибки.append('Неверный инвентарь снимка: ' + str(папка.relative_to(корень)))
+# Сырые тела, заголовки и извлечения проверены хэшами; их исходные пробелы не нормализуются.
+исключения = []
+for источник in очистка['источники']:
+ for запись in источник['файлы']:
+  if Path(запись['файл']).name in {'response.body.html', 'response.headers.txt', 'extracted-text.md'}:
+   исключения.append(':(exclude,literal)' + запись['файл'])
+результат = subprocess.run(['git', 'diff', '--cached', '--check', '--', '.', *исключения])
+if результат.returncode:
+ ошибки.append('Нарушение оформления staged diff вне точных сырых файлов')
+# Дополнительные дешёвые проверки конечной контрольной точки.
+индекс = subprocess.check_output(['git', 'diff', '--cached', '--name-only', '-z'], text=True).split('\0')
+if any(путь.startswith('Proyekcii/') for путь in индекс):
+ ошибки.append('Неподтверждённая проекция включена в индекс контрольной поставки')
+for команда in [
+ ['python3', '-B', 'Инструменты/fum-reyestr-planirovaniya/scripts/build-planning-registry.py', 'validate', '--registry', 'Планирование/реестр-требований-вариантов-и-кандидатов.json'],
+ ['python3', '-B', 'Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py', '--repo-root', '.'],
+]:
+ результат = subprocess.run(команда, capture_output=True, text=True)
+ if 'fum-proverka-mashinno-lokaljnyikh-putej' in команда[2]:
+  сообщения = результат.stdout.splitlines()
+  отказы = [строка for строка in сообщения if ':error.' in строка]
+  print('Проверка машинных путей: сообщений', len(сообщения), '; ошибок', len(отказы))
+  for строка in отказы:
+   print(строка)
+ else:
+  print(результат.stdout, end='')
+ if результат.stderr:
+  print(результат.stderr, end='')
+ if результат.returncode:
+  ошибки.append('Неуспешная адресная проверка: ' + команда[2])
+for ошибка in ошибки:
+ print(ошибка)
+print('Проверены Markdown-файлы:', len(пути), '; источники:', len(очистка['источники']), '; ошибок:', len(ошибки))
+raise SystemExit(bool(ошибки))
