@@ -31,6 +31,10 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0023 | `активна`   | [Nekorrektnyij vneshnij paket](FUM-SBOJ-0023-nekorrektnyij-vneshnij-paket.md)                                                                                           | 1          | FUM-STEP-0150           |
 | FUM-SBOJ-0024 | `активна`   | [Nesovmestimyij format patcha v proyekcii](FUM-SBOJ-0024-nesovmestimyij-format-patcha-v-proyekcii.md)                                                                     | 1          | FUM-STEP-0152           |
 | FUM-SBOJ-0025 | `активна`   | [Pryamoj zapusk proverki vne mashinnogo uchyota](FUM-SBOJ-0025-pryamoj-zapusk-proverki-vne-mashinnogo-uchyota.md)                                                           | 1          | FUM-STEP-0153           |
+| FUM-SBOJ-0041 | `активна`   | [Drejf mashinnogo zagolovka otchyota](FUM-SBOJ-0041-drejf-mashinnogo-zagolovka-otchyota.md)                                                                               | 1          | FUM-STEP-0168           |
+| FUM-SBOJ-0042 | `устранена` | [Sluzhebnyiye fajlyi Finder blokiruyut pereustanovku proyekcii](FUM-SBOJ-0042-sluzhebnyiye-fajlyi-Finder-blokiruyut-pereustanovku-proyekcii.md) | 2 | FUM-STEP-0169 |
+| FUM-SBOJ-0043 | `активна` | [Izmeneniye proveryayemogo snimka do zaversheniya proverki](FUM-SBOJ-0043-izmeneniye-proveryayemogo-snimka-do-zaversheniya-proverki.md) | 1 | FUM-STEP-0170 |
+| FUM-SBOJ-0044 | `активна` | [Proverka indeksa propusjhena do zakryitiya otchyota](FUM-SBOJ-0044-proverka-indeksa-propusjhena-do-zakryitiya-otchyota.md) | 1 | FUM-STEP-0171 |
 
 ## Pravila vedeniya
 
@@ -63,6 +67,6 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 - [pravila rabochikh sessij](../AGENTS.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-07 20:27:55 MSK -->
-<!-- content-sha256: sha256:9f64da386f15b91c88e09507e25b8800247f8e29ffaa1243a720206fe3e2aad1 -->
+<!-- last-content-edit: 2026-09-09 20:34:49 MSK -->
+<!-- content-sha256: sha256:e8a6a4d5b39fcfeb311312e5852b329e227c5b8d7a8172bbe713ee79d2f22972 -->
 <!-- FUM-MD-RECENCY:END -->

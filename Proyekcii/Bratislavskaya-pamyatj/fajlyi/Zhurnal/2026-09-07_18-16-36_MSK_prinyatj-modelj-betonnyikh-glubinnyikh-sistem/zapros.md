@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-02 21:42:27 MSK - Slitj vetku s Metal derevom Markdown dokumentov](../2026-09-02_21-42-27_MSK_slitj-vetku-s-Metal-derevom-Markdown-dokumentov/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-09 18:43:02 MSK - Zavershitj priyomku arkhivnogo snimka](../2026-09-09_18-43-02_MSK_zavershitj-priyomku-arkhivnogo-snimka/zapros.md)
 
 ## Tekst zaprosa
 
@@ -72,6 +72,6 @@ Posle zakryitiya dopuskayutsya toljko predpisannyiye proverki zamyikaniya i odin
 - [Otchyot ob izvlechenii](../../Istochniki/URL/https/www.imo.org/en/mediacentre/pressbriefings/pages/imo-adopts-mass-code.aspx/extraction-report.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-07 20:27:55 MSK -->
-<!-- content-sha256: sha256:fa93ed4ac5a0829724f0900205a4693201a90bd41de3042730c87d9473a58713 -->
+<!-- last-content-edit: 2026-09-09 18:54:52 MSK -->
+<!-- content-sha256: sha256:b1b81c78bb9bdbd10b828592c23e8ffb62a26f25e30e9c285ec951d9e9863f36 -->
 <!-- FUM-MD-RECENCY:END -->

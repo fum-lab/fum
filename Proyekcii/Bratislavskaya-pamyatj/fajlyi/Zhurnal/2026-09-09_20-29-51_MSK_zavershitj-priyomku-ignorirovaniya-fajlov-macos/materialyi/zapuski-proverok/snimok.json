@@ -1,0 +1,39 @@
+{
+  "отпечаток_закрытия": "sha256:8605bd6dfc20346030b2f5ff6187ed52864422dfaed5251b5b8b3e33945cb914",
+  "сессия": "Журнал/2026-09-09_20-29-51_MSK_завершить-приёмку-игнорирования-файлов-macos/запрос.md",
+  "схема": "fum.test-run-report.v2",
+  "файлы": [
+    {
+      "sha256": "6c924b9760fea9896fe5c35a8eafcc86f8b14e923bc16e8db36ee54056cf6cc5",
+      "имя": "1_28323153-a17b-4021-b12a-6f0b824404fc.json"
+    },
+    {
+      "sha256": "949addaf4d60c3e7c56f6e83cbd0bf3d1f86a78d14287c6187441c55ec9deb3b",
+      "имя": "2_fbe94ed2-2430-48be-af05-6e35b3bfbce4.json"
+    },
+    {
+      "sha256": "92a8caa98df31de40c098c0253ec66356a1427450928044e4a4853a55380ce9e",
+      "имя": "3_4060ae5e-ea9f-4a64-bdeb-086f8a87006f.json"
+    },
+    {
+      "sha256": "a4d524e3df6a668548abdf67f4748da9834f9c33b3e9a709a62ec8d9bd98b19c",
+      "имя": "4_169039c8-e34a-4b9b-9a50-99ec685c57b1.json"
+    },
+    {
+      "sha256": "2aef509e3c6c9da41e74678749628b9cf8b7bc897270977becf44816deca0ac7",
+      "имя": "5_c7ff7568-c287-482f-b0a6-45a49f28e733.json"
+    },
+    {
+      "sha256": "6949ee5b2fbe0ff81e050660b60c57082ada0e341ec136d2b828938d8de026f2",
+      "имя": "6_730636bb-2d50-408f-8a3d-2761686282f6.json"
+    },
+    {
+      "sha256": "8e6cfdcd0d0901d5eefe3bfe4344f7dede2d2aa4f579e94307c4a458b972b8a1",
+      "имя": "7_d6ffac12-e2eb-4c76-8024-023ba7a1fcce.json"
+    },
+    {
+      "sha256": "d3804c25d4aca16a2f78555c3972e58c09fc4eb56ed76c737408fb9d8592ce30",
+      "имя": "8_015f8b76-758d-4d6f-9524-59994c1d50e6.json"
+    }
+  ]
+}

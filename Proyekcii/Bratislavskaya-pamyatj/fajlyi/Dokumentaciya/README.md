@@ -40,6 +40,8 @@ Dlya pervogo znakomstva dostatochno prochitatj [obzor proyekta](00-obzor-proyekt
 
 ### Sredyi, interfejsyi i prilozheniye
 
+- [Arkhivnyij snimok odnoj zadachi FUMA](arkhivnyij-snimok-zadachi-FUMA.md)
+
 - [11 — Sreda dlya vnutrennikh FUM](11-sreda-dlya-vnutrennikh-FUM.md)
 - [19 — Yedinaya tochka vzaimodejstviya s kompjyuterom](19-yedinaya-tochka-vzaimodejstviya-s-kompjyuterom.md)
 - [23 — Virtualizovannyiye sredyi i dolgovremennaya pamyatj](23-virtualizovannyiye-sredyi-i-dolgovremennaya-pamyatj.md)
@@ -88,6 +90,6 @@ Dlya pervogo znakomstva dostatochno prochitatj [obzor proyekta](00-obzor-proyekt
 - [iskhodnyij zapros 2026-07-21 11:32:46 MSK — Aktualizirovatj vkhodnyiye opisaniya FUM](../Zhurnal/2026-07-21_11-32-46_MSK_aktualizirovatj-vkhodnyiye-opisaniya-FUM/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-07 18:43:58 MSK -->
-<!-- content-sha256: sha256:f990edd6152362ae61b1f6ff2558d1c6876acfb26caf016cfb4a2658253ce45c -->
+<!-- last-content-edit: 2026-09-09 18:54:52 MSK -->
+<!-- content-sha256: sha256:5d53288c7b60c7c35b3a905cd42550315772f2c8d6157903021e2a15fd66f849 -->
 <!-- FUM-MD-RECENCY:END -->

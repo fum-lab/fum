@@ -1,0 +1,20 @@
+{
+  "source_commit": "cffd4c52852da19d3e71c5a2d22e41712b3e734f",
+  "boundary": {
+    "sha256": "486031a8304d82cd2cf7a1e24696d7b39bc22985cce3322aedace90fafb78a46",
+    "\u0431\u0430\u0439\u0442\u044b": 117069638,
+    "\u0441\u0442\u0440\u043e\u043a\u0438": 17968
+  },
+  "container": {
+    "bytes": 4877,
+    "sha256": "8170825a139dc5ec2de00f6670b9247f6f93e732641cd6a12f4697902f33dcd5"
+  },
+  "report": {
+    "bytes": 8071,
+    "sha256": "98295a0ace2bec9e158f8288f851e5e49a41c6e53ceb753fae1c2b0feba3bb4e"
+  },
+  "repeat_and_replay_equal": true,
+  "same_prefix_as_statistics": true,
+  "binary_sha256": "2882e1c04319a20ce13001a3b6c0120cc6e17ab44f112780b6d2af8888c532e5",
+  "scope": "Private pinned real source; separate CLI processes; canonical stdout and container bytes equal. No live-status claim."
+}

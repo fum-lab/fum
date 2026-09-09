@@ -195,6 +195,11 @@ Dlya odnovremennogo utochneniya imeni dobavj `--description новое-крат�
 | FUM-STEP-0151 | ✅ Vyipolneno | [Obyyedinitj ochistku sluzhebnyikh zagolovkov arkhivatorov](✅-FUM-STEP-0151-obyyedinitj-ochistku-sluzhebnyikh-zagolovkov-arkhivatorov.md)                                                                                                                                                                                               |
 | FUM-STEP-0152 | 🟡 Aktualjno | [Soglasovatj format patcha priyomsjhika s proyekciyej](🟡-FUM-STEP-0152-soglasovatj-format-patcha-priyomsjhika-s-proyekciyej.md)                                                                                                                                                                                                         |
 | FUM-STEP-0153 | 🟡 Aktualjno | [Predotvrasjhatj pryamyiye proverki vne obyortki](🟡-FUM-STEP-0153-predotvrasjhatj-pryamyiye-proverki-vne-obyortki.md)                                                                                                                                                                                                                   |
+| FUM-STEP-0164 | ✅ Vyipolneno | [Prinyatj formyi runtime i realjnyij arkhiv](✅-FUM-STEP-0164-prinyatj-formyi-runtime-i-realjnyij-arkhiv.md)                                                                                                                                                                                                                         |
+| FUM-STEP-0168 | 🟡 Aktualjno | [Sokhranyatj mashinnyij zagolovok pri zapolnenii otchyota](🟡-FUM-STEP-0168-sokhranyatj-mashinnyij-zagolovok-pri-zapolnenii-otchyota.md)                                                                                                                                                                                                 |
+| FUM-STEP-0169 | ✅ Vyipolneno | [Sokhranyatj metadannyiye Finder pri pereustanovke proyekcii](✅-FUM-STEP-0169-sokhranyatj-metadannyiye-Finder-pri-pereustanovke-proyekcii.md)                                                                                                                                                                                              |
+| FUM-STEP-0170 | 🟡 Aktualjno | [Sokhranyatj neizmennostj vkhoda do zaversheniya proverki](🟡-FUM-STEP-0170-sokhranyatj-neizmennostj-vkhoda-do-zaversheniya-proverki.md)                                                                                                                                                                                               |
+| FUM-STEP-0171 | 🟡 Aktualjno | [Proveryatj indeks do zakryitiya otchyota](🟡-FUM-STEP-0171-proveryatj-indeks-do-zakryitiya-otchyota.md) |
 
 ## Istochniki trebovanij
 
@@ -229,6 +234,6 @@ Dlya odnovremennogo utochneniya imeni dobavj `--description новое-крат�
 - [iskhodnyij zapros 2026-07-24 10:44:28 MSK — Nachatj bezokonnyij Swift-prototip vosproizvodimogo popolneniya pamyati FUM](../../Zhurnal/2026-07-24_10-44-28_MSK_nachatj-bezokonnyij-Swift-prototip-vosproizvodimogo-popolneniya-pamyati-FUM/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-07 20:27:55 MSK -->
-<!-- content-sha256: sha256:89093cbdedeaf7c507b2985d74ba6d67e2da89b6404f5b42e46bb049774ffc18 -->
+<!-- last-content-edit: 2026-09-09 20:34:49 MSK -->
+<!-- content-sha256: sha256:ca656281959f70a6465af60ed3022a3558a5aaa9f9f4e45d8d05defe5ad12095 -->
 <!-- FUM-MD-RECENCY:END -->

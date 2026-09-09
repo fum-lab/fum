@@ -147,6 +147,10 @@ Codex-Thread-ID: <значение CODEX_THREAD_ID корневой задачи
 
 Yesli instrument razovyij i ne dolzhen stanovitjsya ustojchivoj chastjyu pamyati, yego mozhno ukazatj toljko v fajle zaprosa. Yesli instrument povtoryayetsya v rabochikh sessiyakh ili vliyayet na vosproizvodimostj, yego nuzhno dobavitj v etot reyestr.
 
+## Arkhivnyij snimok zadachi FUMA
+
+Gotovyij Swift CLI `архивный-снимок` importiruyet odin yavno ukazannyij Codex JSONL s ozhidayemyim UUID i vosstanavlivayet ogranichennyij snimok iz kontejnera. Priyomka zakreplena Swift-kommitom `cffd4c52852da19d3e71c5a2d22e41712b3e734f` i SHA-256 binarnika `2882e1c04319a20ce13001a3b6c0120cc6e17ab44f112780b6d2af8888c532e5`; eto identichnostj proverennoj postavki, a ne versiya Codex ili zayavleniye o zhivom sostoyanii zadachi. [Kontrakt i granicyi](../Dokumentaciya/arkhivnyij-snimok-zadachi-FUMA.md), [povtoryayemaya priyomka](../Zhurnal/2026-09-09_18-43-02_MSK_zavershitj-priyomku-arkhivnogo-snimka/otchyot.md).
+
 ## Istochniki trebovanij
 
 - [iskhodnyij zapros realizacii FUM-STEP-0129](../Zhurnal/2026-09-01_11-19-59_MSK_realizovatj-bratislavskuyu-proyekciyu-pamyati/zapros.md)
@@ -221,6 +225,6 @@ Yesli instrument razovyij i ne dolzhen stanovitjsya ustojchivoj chastjyu pamyati
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](../Zhurnal/2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-07 18:43:58 MSK -->
-<!-- content-sha256: sha256:f802526812a2ac62623ea2e085d23b8301f404d3c477f6c9fb045de5925b501b -->
+<!-- last-content-edit: 2026-09-09 18:54:52 MSK -->
+<!-- content-sha256: sha256:3a73fe3e66ec848ef37cff4b675a648c9932640dd404bede376384e7cb00e64c -->
 <!-- FUM-MD-RECENCY:END -->
