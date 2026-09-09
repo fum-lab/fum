@@ -61,7 +61,7 @@ Nablyudayemyij lokaljnyij snimok na 2026-09-02 08:00 MSK:
 
 Nablyudyonnyij 2026-09-07 kontrakt `mcp__cua_repl.js` predostavlyayet chteniye i upravleniye brauzerom cherez CUA API. V [sessii priyoma modeli](../Zhurnal/2026-09-07_18-16-36_MSK_prinyatj-modelj-betonnyikh-glubinnyikh-sistem/zapros.md) ispoljzovanyi toljko otkryitiye publichnogo share i chteniye dereva dostupnosti; nomer versii instrumenta ne raskryivayetsya. Yego dostupnostj ne podklyuchayet vneshnij `SKILL.md` i ne razreshayet publikaciyu.
 
-Dejstvuyusjhij kontur ne vyivodit globaljnyij prostoj iz `list_threads`, ne zhdyot heartbeat i ne sozdayot continuation. Poljzovatelj vruchnuyu zapuskayet odnu pishusjhuyu zadachu v pervichnom checkout `refs/heads/master`; ona vyipolnyayet odin soderzhateljnyij zapros, sozdayot ne boleye odnogo lokaljnogo kommita i zavershayetsya. Interfejsyi spiska i sozdaniya zadach ostayutsya dostupnyimi instrumentami sredyi, no sami po sebe ne dayut prava zapisi ili avtozapuska.
+Dejstvuyusjhij kontur ne vyivodit globaljnyij prostoj iz `list_threads`, ne zhdyot heartbeat i ne sozdayot continuation. Poljzovatelj vruchnuyu zapuskayet odnu pishusjhuyu zadachu v pervichnom checkout `refs/heads/master`; ona posledovateljno vyipolnyayet soglasovannyiye etapyi i posle kazhdogo proverennogo lokaljnogo kommita prodolzhayet dostupnuyu rabotu v toj zhe zadache. Interfejsyi spiska i sozdaniya zadach ostayutsya dostupnyimi instrumentami sredyi, no sami po sebe ne dayut prava zapisi ili avtozapuska.
 
 Prezhniye skhemyi `list_threads`, dispetcherskoj inventarizacii prostoya, ruchnoj pochinki avtozapuska i host-rezervacij ostayutsya istoricheskimi formatami. Ikh lokaljnyiye fiksturyi i testyi ne razreshayut zhivoj zapusk, izmeneniye host-avtomatizacii, sozdaniye remontnoj zadachi ili vosstanoviteljnoye soobsjheniye. Susjhestvuyusjhaya heartbeat-avtomatizaciya dolzhna ostavatjsya ostanovlennoj.
 
@@ -225,6 +225,6 @@ Gotovyij Swift CLI `архивный-снимок` importiruyet odin yavno ukaza
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](../Zhurnal/2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 18:54:52 MSK -->
-<!-- content-sha256: sha256:3a73fe3e66ec848ef37cff4b675a648c9932640dd404bede376384e7cb00e64c -->
+<!-- last-content-edit: 2026-09-10 00:22:39 MSK -->
+<!-- content-sha256: sha256:282f9717d990dc6f324d99a7d507c029fbce5ccff1e481a150bdab4813b01460 -->
 <!-- FUM-MD-RECENCY:END -->

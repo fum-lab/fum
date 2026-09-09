@@ -74,17 +74,17 @@ Kornevoj `AGENTS.md` vmeste s kanonicheskimi tematicheskimi fajlami v `Прав�
 ## Dejstvuyusjhaya ruchnaya posledovateljnaya skhema
 
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000054 -->
-<!-- FUM-WRITING-MODE: manual-sequential-v1 -->
+<!-- FUM-WRITING-MODE: manual-sequential-v2 -->
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000058 -->
 - Obyichnuyu pishusjhuyu rabotu poljzovatelj zapuskayet vruchnuyu otdeljnoj kornevoj zadachej Codex v pervichnom checkout na `refs/heads/master`. Odnovremenno dopuskayetsya ne boleye odnoj pishusjhej kornevoj zadachi; read-only-nablyudateli mogut sosusjhestvovatj, no ne poluchayut prava menyatj fajlyi, indeks, refs, Git-konfiguraciyu ili vneshneye sostoyaniye.
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000059 -->
-- Odna pishusjhaya sessiya obrabatyivayet odin soderzhateljnyij poljzovateljskij zapros, sozdayot ne boleye odnogo itogovogo lokaljnogo kommita i posle otveta zavershayetsya. Sleduyusjhuyu pishusjhuyu sessiyu zapuskayet toljko poljzovatelj; agent ne sozdayot `create_thread`, continuation, handoff, heartbeat, dispatcher, autostart ili inoj avtomaticheskij follow-up.
+- Odna pishusjhaya zadacha posledovateljno vyipolnyayet soglasovannyij poljzovatelem obyyom, vklyuchaya yego utochneniya, i regulyarno fiksiruyet proverennyiye soderzhateljnyiye etapyi lokaljnyimi kommitami. Kommit zavershayet etap, a ne zadachu: pri nalichii dostupnoj soglasovannoj rabotyi agent prodolzhayet yeyo v toj zhe zadache bez novogo zaprosa poljzovatelya. Zaversheniye dopustimo posle vyipolneniya vsego soglasovannogo obyyoma, yavnoj ostanovki poljzovatelem libo konkretnogo prepyatstviya, bez ustraneniya kotorogo prodolzheniye nevozmozhno. Kommit ne razreshayet rasshiryatj obyyom. Novuyu pishusjhuyu zadachu zapuskayet poljzovatelj; agent ne sozdayot `create_thread`, continuation, handoff, heartbeat, dispatcher, autostart ili inoj avtomaticheskij follow-up.
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000060 -->
-- Pered pervoj zapisjyu kornevaya zadacha perechityivayet fakticheskiye `HEAD`, symbolic ref i `AGENTS.md`, ubezhdayetsya, chto rabotayet v pervichnom checkout na `refs/heads/master`, fiksiruyet iskhodnyij `HEAD` i proveryayet otsutstviye drugoj pishusjhej zadachi po dostupnyim yej nablyudayemyim svideteljstvam. Otsutstviye mashinnogo globaljnogo lock ne razreshayet paralleljnuyu zapisj: pri neodnoznachnosti zadacha ostanavlivayetsya do pervoj mutacii i prosit poljzovatelya ustranitj konkurenciyu.
+- Pered pervoj zapisjyu kazhdogo etapa, v tom chisle posle kommita ili vosstanovleniya svyazi, kornevaya zadacha perechityivayet fakticheskiye `HEAD`, symbolic ref i `AGENTS.md`, ubezhdayetsya, chto rabotayet v pervichnom checkout na `refs/heads/master`, fiksiruyet iskhodnyij `HEAD` i proveryayet otsutstviye drugoj pishusjhej zadachi po dostupnyim yej nablyudayemyim svideteljstvam. Otsutstviye mashinnogo globaljnogo lock ne razreshayet paralleljnuyu zapisj: pri neodnoznachnosti zadacha ostanavlivayetsya do pervoj mutacii i prosit poljzovatelya ustranitj konkurenciyu.
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000061 -->
 - Obyichnaya rabota vedyotsya neposredstvenno v pervichnom checkout. Agent ne vyidelyayet linked worktree, otdeljnuyu vetku, assignment, slot, reviewer, integrator ili candidate i ne vyizyivayet FIFO/pool/CAS/branch-next-step kak dejstvuyusjhij marshrut. Subagentyi dopustimyi toljko dlya read-only-analiza; pisatj rabocheye derevo, indeks i istoriyu mozhet lishj kornevaya sessiya.
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000062 -->
-- Itog fiksiruyetsya obyichnyim lokaljnyim `git commit` na `refs/heads/master` posle proverki exact diff, indeksa, zhurnaljnogo otchyota, recency i primenimogo smoke-check. Kommit ne sozdayot i ne peredayot sleduyusjhuyu zadachu. Posle uspeshnogo kommita sessiya vyipolnyayet toljko read-only-proverku rezuljtata i finaljnyij otvet.
+- Kazhdyij soderzhateljnyij etap fiksiruyetsya obyichnyim lokaljnyim `git commit` na `refs/heads/master` posle proverki exact diff, indeksa, otdeljnogo zhurnaljnogo otchyota etapa, recency i primenimogo smoke-check. Kommit ne sozdayot i ne peredayot sleduyusjhuyu zadachu. Posle uspeshnogo kommita agent proveryayet rezuljtat chteniyem, sveryayet ostavshiyesya obyazateljstva s iskhodnyimi komandami i prinyatyimi rezuljtatami, vyibirayet sleduyusjhij dostupnyij soglasovannyij etap i prodolzhayet rabotu po pravilu `FUM-ПРАВИЛО-000059`. Plan, otvet dochernego agenta i sam kommit ne dokazyivayut zaversheniye obyazateljstva.
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000064 -->
 - `push`, remote-publikaciya, vneshniye soobsjheniya i drugiye vneshniye effektyi vyipolnyayutsya toljko po otdeljnomu yavnomu zaprosu poljzovatelya. Lokaljnyij kommit sam po sebe publikaciyej ne yavlyayetsya.
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000066 -->
@@ -102,6 +102,6 @@ Kornevoj `AGENTS.md` vmeste s kanonicheskimi tematicheskimi fajlami v `Прав�
 - Pered kommitom proveryaj `git status --short` i vklyuchaj toljko osmyislennyiye izmeneniya tekusjhej sessii.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-01 13:45:05 MSK -->
-<!-- content-sha256: sha256:692cceb4c9c449b0c50921ddeafa35e34a6e8a070141d80f863124698e584b55 -->
+<!-- last-content-edit: 2026-09-10 00:22:39 MSK -->
+<!-- content-sha256: sha256:b53eae81b6ff6e3c777cccc39d14ed2cd5f5a931ecaeeb643a296af880394d62 -->
 <!-- FUM-MD-RECENCY:END -->

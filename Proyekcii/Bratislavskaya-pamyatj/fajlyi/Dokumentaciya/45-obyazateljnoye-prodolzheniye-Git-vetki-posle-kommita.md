@@ -2,7 +2,7 @@
 
 ## Status kontura
 
-Opisannyij nizhe FIFO/pool-konvejyer sokhranyon kak istoricheski realizovannaya i otlozhennaya arkhitektura. On ne yavlyayetsya dejstvuyusjhim marshrutom repozitoriya posle perekhoda na ruchnuyu posledovateljnuyu skhemu: kazhduyu pishusjhuyu sessiyu zapuskayet poljzovatelj, ona sozdayot ne boleye odnogo lokaljnogo kommita na `refs/heads/master` i zavershayetsya bez continuation, selector, worktree-pula ili avtomaticheskoj publikacii. Vozvrat etogo kontura potrebuyet otdeljnogo poljzovateljskogo zaprosa i novogo proverennogo perekhoda pravil.
+Opisannyij nizhe FIFO/pool-konvejyer sokhranyon kak istoricheski realizovannaya i otlozhennaya arkhitektura. On ne yavlyayetsya dejstvuyusjhim marshrutom repozitoriya posle perekhoda na ruchnuyu posledovateljnuyu skhemu: kazhduyu pishusjhuyu sessiyu zapuskayet poljzovatelj, ona fiksiruyet kazhdyij proverennyij etap lokaljnyim kommitom na `refs/heads/master` i prodolzhayet soglasovannuyu rabotu v toj zhe zadache bez continuation, selector, worktree-pula ili avtomaticheskoj publikacii. Vozvrat etogo kontura potrebuyet otdeljnogo poljzovateljskogo zaprosa i novogo proverennogo perekhoda pravil.
 
 [Obyazateljnoye prodolzheniye vetki](../Glossarij/obyazateljnoye-prodolzheniye-vetki.md) byilo konturom posledovateljnogo razvitiya uzhe vyibrannoj imenovannoj Git-linii. Do obyichnogo promezhutochnogo kommita [rabochej sessii](../Glossarij/rabochaya-sessiya.md) susjhestvoval rovno odin pervyij exact-bilet prodolzheniya togo zhe polnogo ref, fizicheskogo worktree i FIFO. Dlya worktree-linii yego mog zaraneye zaregistrirovatj samostoyateljno otkryityij chat; toljko pri otsutstvii bileta vladelec sozdaval odnu zadachu-prodolzheniye. Dlya obyichnoj branch FIFO, vklyuchaya `master`, vladelec vsegda zaraneye sozdaval otdeljnuyu zadachu. Terminaljnyiye commits rezuljtata pisatelya, revjyu i integracionnogo kandidata lokaljnogo pula zavershali otdeljnyiye naznacheniya sobstvennyimi kvitanciyami i obyazateljnogo prodolzheniya ne sozdavali.
 
@@ -132,6 +132,6 @@ Predyidusjhij kontur sokhranyal dve oporyi prezhnej infrastrukturyi: FIFO-serial
 - [iskhodnyij zapros 2026-07-20 20:06:04 MSK — Zapuskatj sleduyusjhiye shagi vetok](../Zhurnal/2026-07-20_20-06-04_MSK_zapuskatj-sleduyusjhiye-shagi-vetok/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-23 15:47:26 MSK -->
-<!-- content-sha256: sha256:4d112e60eb92e4dbb933d5a42c3d62e64ccca689b33824e671030c19a4103b4c -->
+<!-- last-content-edit: 2026-09-10 00:22:39 MSK -->
+<!-- content-sha256: sha256:f0ebd5a8b1e836d547553c6820c9de4df96b2fe6387fbd2cb7a84fac3b9398d0 -->
 <!-- FUM-MD-RECENCY:END -->

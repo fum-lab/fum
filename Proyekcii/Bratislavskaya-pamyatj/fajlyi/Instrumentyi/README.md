@@ -6,7 +6,7 @@ V zadachakh FUM ispoljzuyutsya toljko lokaljnyiye navyiki `Инструмент�
 
 Lokaljnyiye avtomatizacii v etom kataloge dolzhnyi soprovozhdatjsya testami, kotoryiye mozhno zapustitj bez sekretov i setevyikh zavisimostej po umolchaniyu.
 
-Dejstvuyusjhij marshrut rabotyi — ruchnaya posledovateljnostj: poljzovatelj zapuskayet odnu pishusjhuyu sessiyu v pervichnom checkout `refs/heads/master`, ona vyipolnyayet odin zapros, sozdayot ne boleye odnogo itogovogo kommita i zavershayetsya. Continuation, FIFO/pool, worktree-pisateli, reviewer/integrator/candidate, branch-next-step, heartbeat, dispatcher, autostart i avtomaticheskaya publikaciya ne zapuskayutsya. Ikh instrumentyi nizhe sokhranyayutsya toljko kak istoricheskiye kontraktyi i regressionnaya narabotka bez razresheniya zhivyikh host- ili Git-effektov.
+Dejstvuyusjhij marshrut rabotyi — ruchnaya posledovateljnostj: poljzovatelj zapuskayet odnu pishusjhuyu sessiyu v pervichnom checkout `refs/heads/master`, ona vyipolnyayet soglasovannyiye etapyi, otdeljno proveryayet i kommitit kazhdyij iz nikh i prodolzhayet dostupnuyu rabotu v toj zhe zadache. Continuation, FIFO/pool, worktree-pisateli, reviewer/integrator/candidate, branch-next-step, heartbeat, dispatcher, autostart i avtomaticheskaya publikaciya ne zapuskayutsya. Ikh instrumentyi nizhe sokhranyayutsya toljko kak istoricheskiye kontraktyi i regressionnaya narabotka bez razresheniya zhivyikh host- ili Git-effektov.
 
 ## Reyestryi
 
@@ -130,6 +130,6 @@ Dejstvuyusjhij marshrut rabotyi — ruchnaya posledovateljnostj: poljzovatelj za
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](../Zhurnal/2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-26 14:29:42 MSK -->
-<!-- content-sha256: sha256:f6a1aabd7e46c215ae55faa8e0a345bacd8c73b5fc0dcfad185a235473030cd8 -->
+<!-- last-content-edit: 2026-09-10 00:22:39 MSK -->
+<!-- content-sha256: sha256:65ee63ec23801a1b5de97f7c0317f50954e705fe53f425641523cd0c06dffe54 -->
 <!-- FUM-MD-RECENCY:END -->

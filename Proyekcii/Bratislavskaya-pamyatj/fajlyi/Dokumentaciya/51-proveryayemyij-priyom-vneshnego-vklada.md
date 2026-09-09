@@ -2,7 +2,7 @@
 
 Vneshnij agent Web ChatGPT mozhet issledovatj publichnyij repozitorij FUM, no shtatnoye GitHub-podklyucheniye ChatGPT predostavlyayet yemu toljko chteniye. Dobavleniye instrukcii v prompt ne sozdayot pishusjhij checkout i ne vyidayot GitHub-polnomochiye. Vremennaya `sandbox:/...`-ssyilka i samootchyot agenta takzhe ne dokazyivayut dostavku. [Oficialjnaya spravka OpenAI](https://help.openai.com/en/articles/11145903-connecting-github-to-chatgpt-deep-research-to-chatgpt-deep-research) napravlyayet zadachi generacii, redaktirovaniya i otpravki koda v Codex.
 
-FUM poetomu razdelyayet proizvodstvo predlozheniya i kanonicheskuyu zapisj. Web ChatGPT gotovit perenosimyij nedoverennyij paket. Lokaljnaya kornevaya zadacha Codex v pervichnom checkout arkhiviruyet istochnik, proveryayet paket, recenziruyet soderzhaniye i toljko sama sozdayot zhurnal, proizvodnyiye fajlyi, proverki i kommit. Skhema sokhranyayet dejstvuyusjhij profilj `manual-sequential-v1`.
+FUM poetomu razdelyayet proizvodstvo predlozheniya i kanonicheskuyu zapisj. Web ChatGPT gotovit perenosimyij nedoverennyij paket. Lokaljnaya kornevaya zadacha Codex v pervichnom checkout arkhiviruyet istochnik, proveryayet paket, recenziruyet soderzhaniye i toljko sama sozdayot zhurnal, proizvodnyiye fajlyi, proverki i kommit. Skhema sokhranyayet dejstvuyusjhij profilj `manual-sequential-v2`.
 
 ## Nablyudayemaya prichina
 
@@ -20,7 +20,7 @@ Lokaljnaya kornevaya zadacha:
 2. vyizyivayet `проверить-share` navyika `fum-priyom-vneshnego-vklada` na `chatgpt-share.messages.json`;
 3. poluchayet `пакет.json`, `предложение.patch` i `проверка.json` toljko v `Журнал/<текущая-сессия>/материалы/внешний-вклад/`;
 4. chitayet ikh kak nedoverennyij kandidat i otdeljno ocenivayet soderzhaniye;
-5. prinimayet toljko vyibrannyiye stroki, lokaljno sozdayot sluzhebnyiye sloi, provodit proverki i delayet ne boleye odnogo kommita na `master`;
+5. prinimayet toljko vyibrannyiye stroki, lokaljno sozdayot sluzhebnyiye sloi, provodit proverki i delayet kommit sootvetstvuyusjhego proverennogo etapa na `master`;
 6. vyipolnyayet push toljko po otdeljnomu yavnomu zaprosu.
 
 ## Zakryitaya granica
@@ -56,6 +56,6 @@ Testyi ne dokazyivayut istinnostj predmetnogo soderzhaniya, podlinnostj lichnost
 - [publichnyij upstream i forki pamyati FUM](27-publichnyij-upstream-i-forki-pamyati.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-02 10:28:38 MSK -->
-<!-- content-sha256: sha256:dcd21492e940600b8c1133d1832cd52752066f5ec3e29eee436bdb79915a21df -->
+<!-- last-content-edit: 2026-09-10 00:22:39 MSK -->
+<!-- content-sha256: sha256:22ea675c844842b27f6eb054e8cd76ae1b16f8538dce4871303755995a709168 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -136,9 +136,7 @@ EXIT_INVALID = 2
 EXIT_NOT_READY = 3
 EXIT_ALREADY_CLAIMED = 4
 EXIT_MISMATCH = 5
-МАРКЕР_РУЧНОЙ_ПОСЛЕДОВАТЕЛЬНОЙ_СХЕМЫ = (
-    "<!-- FUM-WRITING-MODE: manual-sequential-v1 -->"
-)
+РУЧНЫЕ_ПОСЛЕДОВАТЕЛЬНЫЕ_РЕЖИМЫ = ("manual-sequential-v1", "manual-sequential-v2")
 ИЗМЕНЯЮЩИЕ_КОМАНДЫ_ОТЛОЖЕННОГО_СЕЛЕКТОРА = frozenset(
     {
         "refresh-card-fences",
@@ -3861,13 +3859,15 @@ def emit(payload: dict[str, object], as_json: bool) -> None:
             print(f"{key}: {value}")
 
 
-def действует_ручная_последовательная_схема(корень_репозитория: Path) -> bool:
+def действует_ручная_последовательная_схема(корень_репозитория: Path) -> str | None:
     путь_правил = корень_репозитория / "AGENTS.md"
     if not путь_правил.is_file():
-        return False
-    return МАРКЕР_РУЧНОЙ_ПОСЛЕДОВАТЕЛЬНОЙ_СХЕМЫ in путь_правил.read_text(
-        encoding="utf-8"
-    )
+        return None
+    текст = путь_правил.read_text(encoding="utf-8")
+    for режим in РУЧНЫЕ_ПОСЛЕДОВАТЕЛЬНЫЕ_РЕЖИМЫ:
+        if f"<!-- FUM-WRITING-MODE: {режим} -->" in текст:
+            return режим
+    return None
 
 
 def main() -> int:
@@ -3879,7 +3879,7 @@ def main() -> int:
         if ручная_схема and args.command == "show":
             полезная_нагрузка = {
                 "state": "done",
-                "reason": "manual-sequential-v1",
+                "reason": ручная_схема,
             }
             emit(полезная_нагрузка, args.json)
             return 0
@@ -3888,7 +3888,7 @@ def main() -> int:
             and args.command in ИЗМЕНЯЮЩИЕ_КОМАНДЫ_ОТЛОЖЕННОГО_СЕЛЕКТОРА
         ):
             raise ContractError(
-                "manual-sequential-v1 сохраняет веточный селектор только как "
+                f"{ручная_схема} сохраняет веточный селектор только как "
                 "историческую реализацию; изменяющая команда запрещена."
             )
         elif args.command == "validate":

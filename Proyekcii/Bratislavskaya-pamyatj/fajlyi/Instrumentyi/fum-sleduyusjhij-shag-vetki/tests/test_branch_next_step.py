@@ -685,6 +685,33 @@ class BranchNextStepTests(unittest.TestCase):
         это.assertEqual(полезная_нагрузка["state"], "invalid")
         это.assertIn("manual-sequential-v1", полезная_нагрузка["error"])
 
+    def test_продолжение_той_же_задачи_не_включает_веточный_конвейер(это) -> None:
+        это.write_record()
+        (это.repo / "AGENTS.md").write_text(
+            "# Правила\n\n<!-- FUM-WRITING-MODE: manual-sequential-v2 -->\n",
+            encoding="utf-8",
+        )
+        исходный_индекс = (это.repo / ".git" / "index").read_bytes()
+        исходные_ссылки = это.git("show-ref").stdout
+        исходные_файлы = это.git("status", "--porcelain=v1", "-uall").stdout
+
+        результат = это.run_tool("show")
+        это.assertEqual(результат.returncode, 0, результат.stderr)
+        это.assertEqual(это.payload(результат), {
+            "state": "done", "reason": "manual-sequential-v2",
+        })
+        результат = это.run_tool(
+            "claim", "--expected-branch-ref", "refs/heads/master",
+            "--expected-step-id", "master-test-step-v1",
+            "--expected-selection-id", "sha256:" + "0" * 64,
+            "--lease-id", "00000000-0000-4000-8000-000000000001",
+        )
+        это.assertEqual(результат.returncode, 2, результат.stderr)
+        это.assertIn("manual-sequential-v2", это.payload(результат)["error"])
+        это.assertEqual((это.repo / ".git" / "index").read_bytes(), исходный_индекс)
+        это.assertEqual(это.git("show-ref").stdout, исходные_ссылки)
+        это.assertEqual(это.git("status", "--porcelain=v1", "-uall").stdout, исходные_файлы)
+
     def test_child_prompt_payload_scans_every_ready_string_field(self) -> None:
         payload: dict[str, object] = {
             "state": "ready",
@@ -7754,7 +7781,7 @@ class BranchNextStepTests(unittest.TestCase):
             сам.payload(показанное),
             {
                 "state": "done",
-                "reason": "manual-sequential-v1",
+                "reason": "manual-sequential-v2",
             },
         )
 

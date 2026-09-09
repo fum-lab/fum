@@ -16,6 +16,7 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-09 21:31:19 MSK — Prodolzhatj rabotu posle kommita](2026-09-09_21-31-19_MSK_prodolzhatj-rabotu-posle-kommita/otchyot.md)
 - [2026-09-09 20:29:51 MSK — Zavershitj priyomku ignorirovaniya fajlov macos](2026-09-09_20-29-51_MSK_zavershitj-priyomku-ignorirovaniya-fajlov-macos/otchyot.md)
 - [2026-09-09 18:43:02 MSK — Zavershitj priyomku arkhivnogo snimka](2026-09-09_18-43-02_MSK_zavershitj-priyomku-arkhivnogo-snimka/otchyot.md)
 - [2026-09-07 18:16:36 MSK — Prinyatj modelj betonnyikh glubinnyikh sistem](2026-09-07_18-16-36_MSK_prinyatj-modelj-betonnyikh-glubinnyikh-sistem/otchyot.md)
@@ -477,6 +478,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 20:34:49 MSK -->
-<!-- content-sha256: sha256:774c0a6ab6cfbc707817da8d2beb047b0878e1f092426a9e407a632fecb78003 -->
+<!-- last-content-edit: 2026-09-10 00:22:39 MSK -->
+<!-- content-sha256: sha256:ec188cec36cae203fd32fa41aa82a2c41cb5ee43b3ee2d13a7fc903ec4ddda13 -->
 <!-- FUM-MD-RECENCY:END -->

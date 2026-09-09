@@ -38,7 +38,7 @@ Yesli issledovaniye uzhe vyipolneno vo vneshnem Web ChatGPT, ne prosite yego imi
 
 Kazhduyu pishusjhuyu zadachu zapuskajte vruchnuyu v Codex Desktop dlya pervichnogo checkout `refs/heads/master`. Odnovremenno rabotayet toljko odna pishusjhaya sessiya; otdeljnyiye read-only-zadachi mogut nablyudatj sostoyaniye, no ne izmenyayut fajlyi ili Git.
 
-Odna sessiya vyipolnyayet odin soderzhateljnyij zapros: chitayet prinyatuyu pamyatj, obnovlyayet dokumentyi ili kod, sokhranyayet proiskhozhdeniye v `Журнал/`, zapuskayet proverki i sozdayot ne boleye odnogo lokaljnogo kommita. Posle rezuljtata ona zavershayetsya; sleduyusjhuyu sessiyu zapuskayete vyi novyim zaprosom.
+Odna zadacha vyipolnyayet soglasovannuyu vami rabotu posledovateljnyimi etapami: chitayet prinyatuyu pamyatj, obnovlyayet dokumentyi ili kod, sokhranyayet komandyi i rezuljtatyi v `Журнал/`, proveryayet kazhdyij etap i fiksiruyet yego lokaljnyim kommitom. Posle kommita ona prodolzhayet sleduyusjhij dostupnyij etap bez povtornogo zaprosa. Vyi mozhete utochnitj napravleniye ili ostanovitj rabotu; zaversheniye zadachi oznachayet vyipolneniye vsego soglasovannogo obyyoma libo konkretnoye prepyatstviye, trebuyusjheye vashego uchastiya.
 
 Obyichnyij marshrut ne sozdayot continuation, handoff, FIFO-bilet, otdeljnyij worktree, reviewer, integrator ili candidate. Istoricheskiye instrumentyi i refs etikh skhem sokhranenyi v repozitorii kak narabotka, no sami po sebe ne zapuskayut rabotu.
 
@@ -113,6 +113,6 @@ Proyekt publikuyetsya pod [CC0 1.0 Universal](LICENZIYA.md). Kanonicheskij publi
 - [iskhodnyij zapros 2026-08-06 06:59:01 MSK — Dobavitj upravleniye dispetcherom cherez soobsjheniya](Zhurnal/2026-08-06_06-59-01_MSK_dobavitj-upravleniye-dispetcherom-cherez-soobsjheniya/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-02 09:36:08 MSK -->
-<!-- content-sha256: sha256:b7b2c0f06c8f3fd8acaa4a7fdb5847f67a7113837d9ac4410d975aab43e4cf3e -->
+<!-- last-content-edit: 2026-09-10 00:22:39 MSK -->
+<!-- content-sha256: sha256:35a0b51d3295db7bb5a24334048ceb3f82c186b74b82c1ae6f4aed44d0f130ee -->
 <!-- FUM-MD-RECENCY:END -->

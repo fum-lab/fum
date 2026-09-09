@@ -4,7 +4,7 @@ Zadacha pochinki avtozapuska — istoricheskij termin snyatogo heartbeat-kontura
 
 Prezhnij zapuskatelj svyazyival odin `create_thread` s repair-fence, tochnyim sokhranyonnyim proyektom, vetkoj, vershinoj i FIFO-pokoleniyem. Remontnaya zadacha nablyudala host-raspisaniye, rezervaciyu, claim i polnyij prompt, zakreplyala novyij dopustimyij host-profilj TDD-fiksturoj i mogla obnovitj susjhestvuyusjhuyu avtomatizaciyu toljko na meste s zakryityim readback. Eti pravila sokhranyayutsya kak proiskhozhdeniye, no boljshe ne yavlyayutsya ekspluatacionnyim marshrutom.
 
-V dejstvuyusjhem konture net avtozapuska, kotoryij mogla byi chinitj takaya zadacha. Poljzovatelj vruchnuyu zapuskayet kazhduyu pishusjhuyu sessiyu; ona sozdayot ne boleye odnogo lokaljnogo kommita i zavershayetsya. Predshestvuyusjhaya skhema s [obyazateljnyim prodolzheniyem vetki](obyazateljnoye-prodolzheniye-vetki.md) i sokhranyonnyij prompt pochinki yavlyayutsya istoricheskimi spravkami. Kornevoj `./sbrositj.sh` sbrasyivayet lokaljnuyu FIFO kak chelovecheskij break-glass, no ne vozobnovlyayet avtozapusk i ne sozdayot prodolzheniye.
+V dejstvuyusjhem konture net avtozapuska, kotoryij mogla byi chinitj takaya zadacha. Poljzovatelj vruchnuyu zapuskayet kazhduyu pishusjhuyu sessiyu; ona posledovateljno vyipolnyayet soglasovannyiye etapyi i prodolzhayet dostupnuyu rabotu posle ikh proverennyikh lokaljnyikh kommitov. Predshestvuyusjhaya skhema s [obyazateljnyim prodolzheniyem vetki](obyazateljnoye-prodolzheniye-vetki.md) i sokhranyonnyij prompt pochinki yavlyayutsya istoricheskimi spravkami. Kornevoj `./sbrositj.sh` sbrasyivayet lokaljnuyu FIFO kak chelovecheskij break-glass, no ne vozobnovlyayet avtozapusk i ne sozdayot prodolzheniye.
 
 ## Istochniki trebovanij
 
@@ -19,6 +19,6 @@ V dejstvuyusjhem konture net avtozapuska, kotoryij mogla byi chinitj takaya zada
 - [iskhodnyij zapros 2026-08-05 21:02:54 MSK — Ispravitj avtozapusk](../Zhurnal/2026-08-05_21-02-54_MSK_ispravitj-avtozapusk/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-23 15:37:47 MSK -->
-<!-- content-sha256: sha256:4abc9f216a82abf33feb887e232c5f88faf3a11e4c08d36ec74c7a43c66827f9 -->
+<!-- last-content-edit: 2026-09-10 00:22:39 MSK -->
+<!-- content-sha256: sha256:449f588b9a8e15ee064945be72dd5867f579fe514e87f6d28493da2c6dc55607 -->
 <!-- FUM-MD-RECENCY:END -->

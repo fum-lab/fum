@@ -5,6 +5,9 @@ Eti pravila polnostjyu chitayutsya do registracii zaprosa, izmeneniya navigacii 
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000114 -->
 - Kazhdyij [iskhodnyij poljzovateljskij zapros](../../Glossarij/iskhodnyij-zapros.md), vliyayusjhij na proyekt, poluchayet sobstvennuyu [papku zaprosa](../../Glossarij/papka-zaprosa.md) `Журнал/<YYYY-MM-DD_HH-MM-SS_MSK>_<краткое-название-запроса>/`. Imya papki yavlyayetsya identichnostjyu zapisi i obyazateljno nachinayetsya s tochnogo kanonicheskogo vremennogo prefiksa `YYYY-MM-DD_HH-MM-SS_MSK`; suffiks posle nego sleduyet tem zhe pravilam, po kotoryim prezhde imenovalsya fajl zaprosa. U rannego istoricheskogo zaprosa bez kratkogo nazvaniya papka mozhet sostoyatj iz odnogo tochnogo vremennogo prefiksa. Vnutri papki obyazateljnyij `запрос.md` khranit doslovnyij pervichnyij tekst, `отчёт.md` khranit otchyot tekusjhej rabochej sessii, a prinadlezhasjhiye toljko etomu zaprosu artefaktyi razmesjhayutsya v `материалы/` po soderzhateljnyim podpapkam. Istoricheskiye zaprosyi, sozdannyiye do vvedeniya otdeljnogo zhurnala, ne poluchayut vyimyishlennyij `отчёт.md` zadnim chislom.
 
+<!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-НОВОЕ-000009 -->
+- Posleduyusjhij etap toj zhe zadachi posle prinyatogo kommita poluchayet novuyu papku po vremeni nachala etapa, novyij otchyot i otdeljnuyu mashinnuyu granicu proverok s tem zhe `Codex-Thread-ID`. V `запрос.md` sokhranyayutsya doslovnyiye realjnyiye komandyi, na kotoryikh osnovan etap, ssyilki na pervonachaljnyij zapros i predyidusjhij etap s tochnyim kommitom; yavno ukazyivayetsya, chto eto prodolzheniye, a ne novoye soobsjheniye poljzovatelya. Upravlyayusjhiye utochneniya i soderzhateljnyiye otvetyi sokhranyayutsya s proiskhozhdeniyem. Uzhe zakryityij gotovyij otchyot ne vozobnovlyayetsya i ne perepisyivayetsya radi prodolzheniya.
+
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000116 -->
 - Kanonicheskiye karkasyi novyikh `запрос.md` i `отчёт.md` khranyatsya v [shablone zaprosa](../../Instrumentyi/fum-struktura-papok-zaprosov/shablonyi/zapros.md.shablon) i [shablone otchyota](../../Instrumentyi/fum-struktura-papok-zaprosov/shablonyi/otchyot.md.shablon). Komanda `start` obyazana do pervoj zapisi zakryito proveritj tochnyij nabor i odnokratnostj polej, obyazateljnyiye razdelyi, aktivnostj karkasa, poryadok zagolovkov i vyiravnivaniye tablic, a zatem odnoprokhodno zapolnitj imenno eti fajlyi; samostoyateljnoye dublirovaniye karkasa v generatore ne dopuskayetsya. Sozdannaya zagotovka sokhranyayet mashinnyij marker `<!-- ШАБЛОН:НЕЗАПОЛНЕНО -->` v kazhdom trebuyusjhem zaversheniya smyislovom bloke, a proverka svyaznosti zapresjhayet etot marker vne doslovnogo teksta zaprosa do kommita. Avtonomnyiye testyi ispoljzuyut te zhe khranimyiye shablonyi i dopolniteljno peredayut sgenerirovannyij rezuljtat nezavisimyim proverkam svyaznosti. Zavershyonnyiye istoricheskiye zaprosyi i otchyotyi ne perepisyivayutsya radi vyiravnivaniya s tekusjhim shablonom.
 
@@ -31,6 +34,6 @@ Eti pravila polnostjyu chitayutsya do registracii zaprosa, izmeneniya navigacii 
 - [iskhodnyij zapros 2026-08-24 15:31:12 MSK — Dekompozirovatj AGENTS MD](../../Zhurnal/2026-08-24_15-31-12_MSK_dekompozirovatj-AGENTS-md/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-24 16:13:37 MSK -->
-<!-- content-sha256: sha256:2a0ae84bef43818c229338b0b28f19e0965de360171b16526665f437ff536ad1 -->
+<!-- last-content-edit: 2026-09-10 00:22:39 MSK -->
+<!-- content-sha256: sha256:59158f6aaf4d9552781b31a72e3ae8c190e628c7e8cc8fd42e09c271f51e4437 -->
 <!-- FUM-MD-RECENCY:END -->

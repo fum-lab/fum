@@ -1,6 +1,6 @@
 # Rabochaya sessiya
 
-Rabochaya sessiya — otdeljnyij vruchnuyu zapusjhennyij prokhod rabotyi nad odnim zaprosom, kotoryij vliyayet na pamyatj proyekta FUM. V dejstvuyusjhej skheme ona vyipolnyayetsya yedinstvennoj pishusjhej kornevoj zadachej v pervichnom checkout `refs/heads/master`, vklyuchayet sozdaniye [papki zaprosa](papka-zaprosa.md), sokhraneniye [iskhodnogo zaprosa](iskhodnyij-zapros.md), obnovleniye svyazannyikh materialov, zapisj `отчёт.md` v [zhurnal rabot](zhurnal-rabot.md), proverki i ne boleye odnogo itogovogo lokaljnogo Git-kommita. Posle kommita sessiya zavershayetsya; sleduyusjhuyu zapuskayet toljko poljzovatelj.
+Rabochaya sessiya — vruchnuyu zapusjhennaya rabota nad soglasovannyim obyyomom i yego utochneniyami, kotoryij vliyayet na pamyatj proyekta FUM. V dejstvuyusjhej skheme ona vyipolnyayetsya yedinstvennoj pishusjhej kornevoj zadachej v pervichnom checkout `refs/heads/master`, vklyuchayet sozdaniye [papki zaprosa](papka-zaprosa.md), sokhraneniye [iskhodnogo zaprosa](iskhodnyij-zapros.md), obnovleniye svyazannyikh materialov, zapisj `отчёт.md` v [zhurnal rabot](zhurnal-rabot.md), proverki i lokaljnyiye Git-kommityi otdeljnyikh etapov. Posle kommita ta zhe zadacha prodolzhayet dostupnuyu soglasovannuyu rabotu; kazhdomu novomu etapu sootvetstvuyet otdeljnyij otchyot, svyazannyij s pervonachaljnyimi komandami i prezhnim kommitom.
 
 Rabochaya sessiya dolzhna ostavlyatj proveryayemyij sled: kakiye fajlyi izmenenyi, kakoye trebovaniye obrabotano, kakiye instrumentyi i versii ispoljzovalisj, kakiye voprosyi otkryityi, kakoj kornevoj identifikator Codex zafiksirovan i kakoj lokaljnyij kommit sokhranil rezuljtat. Odinakovyij `Codex-Thread-ID` v fajle zaprosa i soobsjhenii kommita svyazyivayet proiskhozhdeniye tekusjhej sessii. Avtomaticheskoj sleduyusjhej zadachi i identifikatora prodolzheniya v dejstvuyusjhej skheme net.
 
@@ -48,6 +48,6 @@ Otkryityij predprosmotr mashinnogo zhurnala mozhet promezhutochno susjhestvovatj
 - [iskhodnyij zapros 2026-07-22 02:59:22 MSK - Dekompozirovatj predlozheniya na kartochki shagov](../Zhurnal/2026-07-22_02-59-22_MSK_dekompozirovatj-predlozheniya-na-kartochki-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-24 15:00:57 MSK -->
-<!-- content-sha256: sha256:2745d0b8e89c1ffeccb9a78bf00f338d01770466a5739c3288343098e252f79e -->
+<!-- last-content-edit: 2026-09-10 00:22:39 MSK -->
+<!-- content-sha256: sha256:22eddde65d69c601d80829383da7684f7741c214cbedc97d8b0f301347e0eb04 -->
 <!-- FUM-MD-RECENCY:END -->

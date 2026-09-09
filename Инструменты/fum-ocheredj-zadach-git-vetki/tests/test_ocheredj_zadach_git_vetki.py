@@ -5671,11 +5671,10 @@ class RepositoryIntegrationTests(unittest.TestCase):
         корневая_инструкция = корень.joinpath("README.md").read_text(encoding="utf-8")
 
         for текст in (правила_агентов, навык_комплексной_проверки):
-            это.assertIn(
-                "итогового локального коммита",
-                текст.casefold(),
-            )
-            это.assertIn("manual-sequential-v1", текст)
+            это.assertIn("manual-sequential-v2", текст)
+
+        это.assertIn("Коммит завершает этап, а не задачу", правила_агентов)
+        это.assertIn("продолжает работу", правила_агентов)
 
         это.assertIn("обычным локальным `git commit`", правила_агентов)
         это.assertIn("не создаёт и не передаёт следующую задачу", правила_агентов)
@@ -5683,12 +5682,12 @@ class RepositoryIntegrationTests(unittest.TestCase):
         это.assertIn("не дают активного права записи", правила_агентов)
         это.assertIn("первичный checkout `refs/heads/master`", корневая_инструкция)
         это.assertIn("не выполняет Git-коммит", навык_комплексной_проверки)
-        это.assertIn("одного итогового локального коммита", навык_комплексной_проверки)
+        это.assertIn("локального коммита проверенного этапа", навык_комплексной_проверки)
         это.assertIn("не создаёт continuation, FIFO-handoff", навык_комплексной_проверки)
 
         ограждения = {
             "Инструменты/fum-dispetcher-avtomatizacij-fum/SKILL.md": "Предыдущая историческая замена",
-            "Инструменты/fum-pochinka-avtozapuska/SKILL.md": "manual-sequential-v1",
+            "Инструменты/fum-pochinka-avtozapuska/SKILL.md": "manual-sequential-v2",
             "Инструменты/fum-analitika-zavershyonnyikh-shagov/SKILL.md": "ручной пишущей сессии",
             "Инструменты/fum-svezhestj-grafa-obsidian/SKILL.md": "не запускает её режим `--check`",
             "Инструменты/fum-sleduyusjhij-shag-vetki/references/heartbeat-prompt.md": "Предыдущий контур обязательного продолжения",

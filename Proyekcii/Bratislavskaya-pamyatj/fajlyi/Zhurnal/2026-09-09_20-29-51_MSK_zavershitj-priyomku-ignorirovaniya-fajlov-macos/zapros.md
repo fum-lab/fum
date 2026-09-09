@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-09 18:43:02 MSK - Zavershitj priyomku arkhivnogo snimka](../2026-09-09_18-43-02_MSK_zavershitj-priyomku-arkhivnogo-snimka/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-09 21:31:19 MSK - Prodolzhatj rabotu posle kommita](../2026-09-09_21-31-19_MSK_prodolzhatj-rabotu-posle-kommita/zapros.md)
 
 ## Tekst zaprosa
 
@@ -63,6 +63,6 @@ Posle gotovogo snimka 18:43 obnaruzhen pozdnij otkaz `git diff --cached --check`
 - [README.md](../../Sboi/README.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 20:37:36 MSK -->
-<!-- content-sha256: sha256:393139843dc1ece69799a2d00eb1d364a2513bd8c1b1cc6fa31ac84c68047405 -->
+<!-- last-content-edit: 2026-09-10 00:22:39 MSK -->
+<!-- content-sha256: sha256:d2376a297bc119b2d34fdfdcd83ebe1c202e465d256b3b0d287c636484fc58e0 -->
 <!-- FUM-MD-RECENCY:END -->
