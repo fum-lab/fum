@@ -2898,6 +2898,24 @@
       "count": 1,
       "category": "allow.test-fixture",
       "reason": "Синтетический чужой cwd проверяет отказ от принятия события с несовпадающей рабочей директорией."
+    },
+    {
+      "id": "index-snapshot-fixture-missing-symlink",
+      "path": "Инструменты/fum-snimki-indeksa/tests/test_git.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:3bea246dc5532d29d320a2efae8f51989c972b6c625ce4518a27d26de15f3223",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Искусственная отсутствующая цель symlink доказывает, что закреплённые байты читаются из Git-объекта, а не из позднего checkout."
+    },
+    {
+      "id": "index-snapshot-fixture-upload-pack",
+      "path": "Инструменты/fum-snimki-indeksa/tests/test_git.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:fc00e6cc33001656a3b5b5404026342a0686dfd5bd9ebc4cde3e056e2871a413",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Shebang собственного временного помощника локальной promisor-фикстуры фиксирует реальную попытку догрузки; это не путь пользовательского состояния."
     }
   ]
 }
