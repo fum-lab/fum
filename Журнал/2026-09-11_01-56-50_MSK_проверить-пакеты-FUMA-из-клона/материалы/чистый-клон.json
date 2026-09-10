@@ -1,0 +1,10 @@
+{
+  "коммит": "aeae18cb146a34563ff39c84d9bc5ef59fffab91",
+  "origin": "https://github.com/fum-lab/fum.git",
+  "чистый_перед_сборкой": true,
+  "нет_старых_путей_в_исходниках": true,
+  "запрет_чтения_прежних_каталогов": "sandbox-exec: file-read* denied; проверено отказом чтения существующего Package.swift",
+  "swift": "Apple Swift version 6.4 (swiftlang-6.4.0.30.4 clang-2100.3.30.1)\nTarget: arm64-apple-macosx27.0.0",
+  "зависимости_пакетов": "Только соседние собственные SwiftPM-пакеты; сетевых package dependencies нет",
+  "linguistickit": "Пакетами не используется; gitlink в FUM сохранён без материализации"
+}
