@@ -1,0 +1,48 @@
+{
+  "схема": "fum.продолжение-задачи.1",
+  "задача": "01a08d6d-e706-7e70-9f70-fdfa5a6826c2",
+  "режим": "разовая",
+  "остановка": null,
+  "работы": [
+    {
+      "идентификатор": "исходники-пакетов",
+      "действие": "Сохранить 71 файл четырёх пакетов с точным происхождением и контрольным коммитом",
+      "состояние": "доступна",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_01-28-44_MSK_перенести-исходники-FUMA/запрос.md",
+        "цитата": "Eto dejstviteljno tak? Nuzhno togda sleduyusjhim shagom budet zanesti vsyo v yedinyij repozitorij, krome sabmoduljnyikh zavisimostej."
+      },
+      "свидетельство": null
+    },
+    {
+      "идентификатор": "исходники-приложения",
+      "действие": "Сохранить 39 файлов приложения, адаптировать локальные связи и проверить новый код",
+      "состояние": "доступна",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_01-28-44_MSK_перенести-исходники-FUMA/запрос.md",
+        "цитата": "Eto dejstviteljno tak? Nuzhno togda sleduyusjhim shagom budet zanesti vsyo v yedinyij repozitorij, krome sabmoduljnyikh zavisimostej."
+      },
+      "свидетельство": null
+    },
+    {
+      "идентификатор": "чистая-проверка",
+      "действие": "Воспроизвести сборки, тесты и профили из чистого клона без старых каталогов",
+      "состояние": "доступна",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_01-28-44_MSK_перенести-исходники-FUMA/запрос.md",
+        "цитата": "Eto dejstviteljno tak? Nuzhno togda sleduyusjhim shagom budet zanesti vsyo v yedinyij repozitorij, krome sabmoduljnyikh zavisimostej."
+      },
+      "свидетельство": null
+    },
+    {
+      "идентификатор": "финальная-поставка",
+      "действие": "Пройти финальный допуск, опубликовать exactOID и передать координатору границу интеграции",
+      "состояние": "доступна",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_01-28-44_MSK_перенести-исходники-FUMA/запрос.md",
+        "цитата": "Eto dejstviteljno tak? Nuzhno togda sleduyusjhim shagom budet zanesti vsyo v yedinyij repozitorij, krome sabmoduljnyikh zavisimostej."
+      },
+      "свидетельство": null
+    }
+  ]
+}

@@ -3150,6 +3150,303 @@
       "count": 1,
       "category": "report.historical",
       "reason": "Точное свидетельство дочернего RED на стандартной символической ссылке macOS; не содержит имени пользователя, частного каталога или разрешения произвольных путей."
+    },
+    {
+      "id": "fum-0176-import-001",
+      "path": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Sources/АварийнаяФикстура/Авария.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:a32b3b1e69441b1755adbd84323f329de602de621ead00aaa9ae9c533b32a2f5",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая фикстура или её генератор: условное значение каталога либо проверяемый shebang, не данные и не путь пользователя."
+    },
+    {
+      "id": "fum-0176-import-002",
+      "path": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Sources/ПрофильАрхивногоСнимка/Профиль.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:469433fad22c1236b96ce8ce17aa95bcf9624098b803c2feb6c8ffa9047dce98",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая фикстура или её генератор: условное значение каталога либо проверяемый shebang, не данные и не путь пользователя."
+    },
+    {
+      "id": "fum-0176-import-003",
+      "path": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Tests/АрхивныйСнимокЗадачиTests/АрхивTests.swift",
+      "kind": "compiler-file-path",
+      "line_sha256": "sha256:96ff506427bc14241382bd90c36e2886b804ccd8c8d4baa43d2c597193bf1399",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Процессный тест находит собственную сборку относительно исходного файла либо передаёт XCTest место утверждения; путь не сохраняется в публичном результате."
+    },
+    {
+      "id": "fum-0176-import-004",
+      "path": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Tests/АрхивныйСнимокЗадачиTests/АрхивTests.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:e6c0fcd690ffe27eb382a81399eb754c64fade074495cf3eb657e4c8ed56228f",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая фикстура или её генератор: условное значение каталога либо проверяемый shebang, не данные и не путь пользователя."
+    },
+    {
+      "id": "fum-0176-import-005",
+      "path": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Tests/АрхивныйСнимокЗадачиTests/АрхивTests.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:9e0108271812dffab4192f04a93ca449e8579ae6e0eea75fde8e5de2e5d2207b",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая фикстура или её генератор: условное значение каталога либо проверяемый shebang, не данные и не путь пользователя."
+    },
+    {
+      "id": "fum-0176-import-006",
+      "path": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Tests/АрхивныйСнимокЗадачиTests/ДополнительныеTests.swift",
+      "kind": "compiler-file-path",
+      "line_sha256": "sha256:96ff506427bc14241382bd90c36e2886b804ccd8c8d4baa43d2c597193bf1399",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Процессный тест находит собственную сборку относительно исходного файла либо передаёт XCTest место утверждения; путь не сохраняется в публичном результате."
+    },
+    {
+      "id": "fum-0176-import-007",
+      "path": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Tests/АрхивныйСнимокЗадачиTests/КомандаTests.swift",
+      "kind": "compiler-file-path",
+      "line_sha256": "sha256:96ff506427bc14241382bd90c36e2886b804ccd8c8d4baa43d2c597193bf1399",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Процессный тест находит собственную сборку относительно исходного файла либо передаёт XCTest место утверждения; путь не сохраняется в публичном результате."
+    },
+    {
+      "id": "fum-0176-import-008",
+      "path": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Tests/АрхивныйСнимокЗадачиTests/КурсорTests.swift",
+      "kind": "compiler-file-path",
+      "line_sha256": "sha256:53784b74c8d32eb2a037f6d114c5fc9b9883c2c5b98ad7a8819ac1acfceb07f3",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Процессный тест находит собственную сборку относительно исходного файла либо передаёт XCTest место утверждения; путь не сохраняется в публичном результате."
+    },
+    {
+      "id": "fum-0176-import-009",
+      "path": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Tests/АрхивныйСнимокЗадачиTests/ОболочкаTests.swift",
+      "kind": "compiler-file-path",
+      "line_sha256": "sha256:7b555686c242951ec17c18dbe3ada27d417a7ce0382d1cf24f9add4cc993dc92",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Процессный тест находит собственную сборку относительно исходного файла либо передаёт XCTest место утверждения; путь не сохраняется в публичном результате."
+    },
+    {
+      "id": "fum-0176-import-010",
+      "path": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Tests/АрхивныйСнимокЗадачиTests/ОболочкаTests.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b15f3af4173a7744d4c7bd54bb7ef80271ccb1c1ee27f68eaa5cdfde8ccfc635",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая фикстура или её генератор: условное значение каталога либо проверяемый shebang, не данные и не путь пользователя."
+    },
+    {
+      "id": "fum-0176-import-011",
+      "path": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Примеры/записанный-префикс.jsonl",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:6822cd8cab2213f343900e1d52ae35b15c8a58e93e68438ccbe9ef2b026ebeb6",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая фикстура или её генератор: условное значение каталога либо проверяемый shebang, не данные и не путь пользователя."
+    },
+    {
+      "id": "fum-0176-import-012",
+      "path": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Примеры/записанный-префикс.jsonl",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:a9063ef4b88669be7f189bb2094da2ea91edbe62186faf71cf6a500788f24bb0",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая фикстура или её генератор: условное значение каталога либо проверяемый shebang, не данные и не путь пользователя."
+    },
+    {
+      "id": "fum-0176-import-013",
+      "path": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Tests/КонтейнерНаблюденийTests/ПроцессыTests.swift",
+      "kind": "compiler-file-path",
+      "line_sha256": "sha256:a737e0ca8b9023ee88b593347d5b2f97371fdeaa1698460d066e17c95037d3a4",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Процессный тест находит собственную сборку относительно исходного файла либо передаёт XCTest место утверждения; путь не сохраняется в публичном результате."
+    },
+    {
+      "id": "fum-0176-import-014",
+      "path": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Tests/КонтейнерНаблюденийTests/СегментTests.swift",
+      "kind": "compiler-file-path",
+      "line_sha256": "sha256:a737e0ca8b9023ee88b593347d5b2f97371fdeaa1698460d066e17c95037d3a4",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Процессный тест находит собственную сборку относительно исходного файла либо передаёт XCTest место утверждения; путь не сохраняется в публичном результате."
+    },
+    {
+      "id": "fum-0176-import-015",
+      "path": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/README.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c1b8d4e8612be084706905f40d0372208313672aa2280bcfd1b59fe9d88b0876",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Дословный пример синтетического профиля сохранён из закреплённого исходного README при переносе 0176; не является персональным каталогом или параметром сборки."
+    },
+    {
+      "id": "fum-0176-import-016",
+      "path": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Sources/СнимокАгентскойЗадачи/Пример.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:6e95a548c23a451a9bb9f3eef5478a8b8b847b170c23078b4142bf1dd8989cc0",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая фикстура или её генератор: условное значение каталога либо проверяемый shebang, не данные и не путь пользователя."
+    },
+    {
+      "id": "fum-0176-import-017",
+      "path": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Sources/СнимокАгентскойЗадачи/Пример.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c70719fc783ec0164f2d361ae36ccbbdfc3698e47a8bb1f0443e3182dabd8728",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая фикстура или её генератор: условное значение каталога либо проверяемый shebang, не данные и не путь пользователя."
+    },
+    {
+      "id": "fum-0176-import-018",
+      "path": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Sources/СнимокАгентскойЗадачи/Пример.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:aa64c191ceb39a1c0d30e589b557b5ae63766713e905610c084a3a8cca31e799",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая фикстура или её генератор: условное значение каталога либо проверяемый shebang, не данные и не путь пользователя."
+    },
+    {
+      "id": "fum-0176-import-019",
+      "path": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Tests/СнимокАгентскойЗадачиTests/ПроцессыTests.swift",
+      "kind": "compiler-file-path",
+      "line_sha256": "sha256:1ef40634c4317ada2f0df7a27129fb5473995cbc0e0e5e4b71df75c86692668f",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Процессный тест находит собственную сборку относительно исходного файла либо передаёт XCTest место утверждения; путь не сохраняется в публичном результате."
+    },
+    {
+      "id": "fum-0176-import-020",
+      "path": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Tests/СнимокАгентскойЗадачиTests/СценарииTests.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:e5eaecc97d827dc07bc23e7d8c683926941268d3e84f6d1eb1affe491b1dc78b",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая фикстура или её генератор: условное значение каталога либо проверяемый shebang, не данные и не путь пользователя."
+    },
+    {
+      "id": "fum-0176-import-021",
+      "path": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Tests/СнимокАгентскойЗадачиTests/СценарииTests.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d4d1d712b33a46215c97767b4307f9e66c765128ff8bcd238653cbe7527dd192",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая фикстура или её генератор: условное значение каталога либо проверяемый shebang, не данные и не путь пользователя."
+    },
+    {
+      "id": "fum-0176-import-022",
+      "path": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Tests/СнимокАгентскойЗадачиTests/СценарииTests.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:7f34a258fef4832575fbeb3ee6fab1402225005ee237d91c9e46703d2966dd9c",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая фикстура или её генератор: условное значение каталога либо проверяемый shebang, не данные и не путь пользователя."
+    },
+    {
+      "id": "fum-0176-import-023",
+      "path": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Tests/СнимокАгентскойЗадачиTests/СценарииTests.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:61fb45767ff3e944d301cc285de4a3f6b6e0adc94d862e1fa242d9fd8d525e8e",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая фикстура или её генератор: условное значение каталога либо проверяемый shebang, не данные и не путь пользователя."
+    },
+    {
+      "id": "fum-0176-import-024",
+      "path": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Tests/СнимокАгентскойЗадачиTests/СценарииTests.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c409216b6828707befffd192fc5e872d3c4a42eb5509368f3055ef21e97de124",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая фикстура или её генератор: условное значение каталога либо проверяемый shebang, не данные и не путь пользователя."
+    },
+    {
+      "id": "fum-0176-import-025",
+      "path": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Tests/СнимокАгентскойЗадачиTests/СценарииTests.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:69c58f0ca4079686fecb2f1717970606af032e91715ef226c4b9b704d9b7cd70",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая фикстура или её генератор: условное значение каталога либо проверяемый shebang, не данные и не путь пользователя."
+    },
+    {
+      "id": "fum-0176-import-026",
+      "path": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Примеры/пять-сценариев.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:dde63d2cf1ab6e86bd16636f6e66260399c6c2b3e2f6f6f3d74b738079d1af59",
+      "count": 3,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая фикстура или её генератор: условное значение каталога либо проверяемый shebang, не данные и не путь пользователя."
+    },
+    {
+      "id": "fum-0176-import-027",
+      "path": "Приложения/FUMA/Packages/СтатистикаВызовов/README.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:920b2cc628154ac578bd252d2f4240fba009533e386d70798df8fcab77da7f73",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Дословный пример синтетического профиля сохранён из закреплённого исходного README при переносе 0176; не является персональным каталогом или параметром сборки."
+    },
+    {
+      "id": "fum-0176-import-028",
+      "path": "Приложения/FUMA/Packages/СтатистикаВызовов/README.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b43f6d1751bf1fb26d1a08a69df2845b8907d12898e09fc47ef7c767f8dfadaf",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Дословный пример синтетического профиля сохранён из закреплённого исходного README при переносе 0176; не является персональным каталогом или параметром сборки."
+    },
+    {
+      "id": "fum-0176-import-029",
+      "path": "Приложения/FUMA/Packages/СтатистикаВызовов/README.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:81f94dd9df843dfc0d90a638a555ceb408d55d8dd857f647526c0e1fa3e36910",
+      "count": 2,
+      "category": "report.historical",
+      "reason": "Дословный пример синтетического профиля сохранён из закреплённого исходного README при переносе 0176; не является персональным каталогом или параметром сборки."
+    },
+    {
+      "id": "fum-0176-import-030",
+      "path": "Приложения/FUMA/Packages/СтатистикаВызовов/README.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:58057e792f842fbad6bfd9bf3bdcc851b954f473e43ae3369361d59e2208e550",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Дословный пример синтетического профиля сохранён из закреплённого исходного README при переносе 0176; не является персональным каталогом или параметром сборки."
+    },
+    {
+      "id": "fum-0176-import-031",
+      "path": "Приложения/FUMA/Packages/СтатистикаВызовов/Tests/СтатистикаВызововTests/ТестыКоманды.swift",
+      "kind": "compiler-file-path",
+      "line_sha256": "sha256:107c0dff56315bd36038845c52db81d019a820800800ce515dec8fbe5eb1388d",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Процессный тест находит собственную сборку относительно исходного файла либо передаёт XCTest место утверждения; путь не сохраняется в публичном результате."
+    },
+    {
+      "id": "fum-0176-import-032",
+      "path": "Приложения/FUMA/Packages/СтатистикаВызовов/Tests/СтатистикаВызововTests/ТестыКоманды.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:be4ba5dc47b6e8c7dfbc5d6e9c3d4bd55259f6de6c50ab662ad5cdc40b1e5d04",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая фикстура или её генератор: условное значение каталога либо проверяемый shebang, не данные и не путь пользователя."
+    },
+    {
+      "id": "fum-0176-import-033",
+      "path": "Приложения/FUMA/сценарии/tests/test_перенос.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:eab23cba27dd0a4bf5ac4146fb92f5959fe6a4a03fbd4ab89d672b91f08a2332",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая фикстура или её генератор: условное значение каталога либо проверяемый shebang, не данные и не путь пользователя."
     }
   ]
 }
