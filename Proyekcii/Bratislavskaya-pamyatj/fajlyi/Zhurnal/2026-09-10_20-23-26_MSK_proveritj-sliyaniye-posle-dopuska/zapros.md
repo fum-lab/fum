@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-10 17:33:36 MSK - Zakrepitj dopusk sliyaniya iz master](../2026-09-10_17-33-36_MSK_zakrepitj-dopusk-sliyaniya-iz-master/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-11 00:50:16 MSK - Sokhranitj dialog o robototekhnike](../2026-09-11_00-50-16_MSK_sokhranitj-dialog-o-robototekhnike/zapros.md)
 
 ## Tekst zaprosa
 
@@ -97,6 +97,6 @@ Vse pryamyiye proverochnyiye zapuski i ikh iskhodyi sokhranyayutsya v [otchyote]
 - [Otchyot ob izvlechenii](../../Istochniki/URL/https/github.com/git/git/blob/v2.54.0/builtin/update-ref.c/extraction-report.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 21:37:35 MSK -->
-<!-- content-sha256: sha256:c2a5279239d1a3a8e431d1800e826858e5995b8ae016e48aca2efb6865a4cf87 -->
+<!-- last-content-edit: 2026-09-11 00:53:32 MSK -->
+<!-- content-sha256: sha256:758f19c8a3b7d7f2650a55df066c2ef84f598fa48f427cccb762ed279b10eb4c -->
 <!-- FUM-MD-RECENCY:END -->

@@ -48,6 +48,8 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0043 | `активна`   | [Izmeneniye proveryayemogo snimka do zaversheniya proverki](FUM-SBOJ-0043-izmeneniye-proveryayemogo-snimka-do-zaversheniya-proverki.md)                                       | 1          | FUM-STEP-0170           |
 | FUM-SBOJ-0044 | `активна`   | [Proverka indeksa propusjhena do zakryitiya otchyota](FUM-SBOJ-0044-proverka-indeksa-propusjhena-do-zakryitiya-otchyota.md)                                                     | 1          | FUM-STEP-0171           |
 | FUM-SBOJ-0045 | `активна`   | [Drejf snimka obyyavlenij koda](FUM-SBOJ-0045-drejf-snimka-obyyavlenij-koda.md)                                                                                       | 1          | FUM-STEP-0173           |
+| FUM-SBOJ-0047 | `устранена` | [Podmena committer pri vyibore roli avtora](FUM-SBOJ-0047-podmena-committer-pri-vyibore-roli-avtora.md)                                                               | 1          | Ustraneno v etoj rabote |
+| FUM-SBOJ-0049 | `активна`   | [Propusk vidimoj zadachi pishusjhej rabotyi](FUM-SBOJ-0049-propusk-vidimoj-zadachi-pishusjhej-rabotyi.md)                                                                     | 1          | FUM-STEP-0196           |
 
 ## Pravila vedeniya
 
@@ -80,6 +82,6 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 - [pravila rabochikh sessij](../AGENTS.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 16:38:28 MSK -->
-<!-- content-sha256: sha256:8461f5dc0e14091065df8469d55341d8bc117fcfbcabd9521f41fd043d4ef3fe -->
+<!-- last-content-edit: 2026-09-11 01:40:19 MSK -->
+<!-- content-sha256: sha256:4c583d0837cbdba4ae85d8fc8dfb8eea61601fb86b00c920f03446318178fec4 -->
 <!-- FUM-MD-RECENCY:END -->

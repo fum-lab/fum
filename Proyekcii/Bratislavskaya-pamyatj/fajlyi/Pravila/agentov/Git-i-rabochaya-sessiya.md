@@ -5,6 +5,8 @@ Eti pravila polnostjyu chitayutsya do izmeneniya Git-sostoyaniya, podgotovki kom
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000063 -->
 - Dlya agentskogo kommita `Author Name` imeyet tochnyij format `FUM <Название роли с большой буквы>` i otrazhayet fakticheskuyu rolj tekusjhej sessii, naprimer `FUM Писатель`, `FUM Запросы`, `FUM Ревью` ili `FUM Интегратор`. Eto pravilo ne menyayet email i dannyiye committer; rolj neljzya pridumyivatj vmesto fakticheski naznachennoj ili yavno prinyatoj v ruchnoj skheme.
 
+Dlya vyibora roli menyaj toljko `GIT_AUTHOR_NAME`; pered kommitom sravnivaj `git var GIT_AUTHOR_IDENT` i `git var GIT_COMMITTER_IDENT` s iskhodnyimi dannyimi, posle nego proveryaj fakticheskiye polya commit. Pereopredeleniye obsjhego `user.name` radi roli zatragivayet takzhe committer i ne sootvetstvuyet etoj norme. [Nablyudayemaya oshibka i proverennoye vosstanovleniye](../../Sboi/FUM-SBOJ-0047-podmena-committer-pri-vyibore-roli-avtora.md).
+
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000201 -->
 - Soobsjheniye kommita pishetsya na russkom yazyike i vklyuchayet tochnyij tekst iskhodnogo poljzovateljskogo zaprosa, opisaniye sdelannogo i poslednij Git trailer `Codex-Thread-ID: <UUID>` v tele soobsjheniya. Znacheniye trailer dolzhno sovpadatj s razdelom `## Идентификатор сеанса Codex` fajla zaprosa i otnositjsya k kornevoj poljzovateljskoj zadache Codex, a ne k dochernemu subagentu.
 
@@ -24,6 +26,6 @@ Eti pravila polnostjyu chitayutsya do izmeneniya Git-sostoyaniya, podgotovki kom
 - [Sozdavatj celesoobraznyiye paralleljnyiye rabotyi i opisatj dejstvuyusjhij poryadok](../../Zhurnal/2026-09-08_21-16-26_MSK_integrirovatj-paralleljnyiye-rezuljtatyi-i-opisatj-rabotu/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 16:38:28 MSK -->
-<!-- content-sha256: sha256:cdc0865ac635f31b09ae7f3e816e4a3ef230fad9df7a3635d77dc6118d943690 -->
+<!-- last-content-edit: 2026-09-11 01:08:05 MSK -->
+<!-- content-sha256: sha256:fa8d68df3e68694ce6d1685f9bd899181e8eef599944afe67771a457f09c42d9 -->
 <!-- FUM-MD-RECENCY:END -->

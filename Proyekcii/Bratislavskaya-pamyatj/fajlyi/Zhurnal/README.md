@@ -16,6 +16,10 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-11 01:26:17 MSK — Podtverzhdatj vidimyiye zadachi nezavisimyikh rabot](2026-09-11_01-26-17_MSK_podtverzhdatj-vidimyiye-zadachi-nezavisimyikh-rabot/otchyot.md)
+- [2026-09-11 00:59:45 MSK — Zakrepitj posledovateljnuyu istoriyu dialoga fuma](2026-09-11_00-59-45_MSK_zakrepitj-posledovateljnuyu-istoriyu-dialoga-fuma/otchyot.md)
+- [2026-09-11 00:56:27 MSK — Sokhranitj dialog o nauchnyikh napravleniyakh](2026-09-11_00-56-27_MSK_sokhranitj-dialog-o-nauchnyikh-napravleniyakh/otchyot.md)
+- [2026-09-11 00:50:16 MSK — Sokhranitj dialog o robototekhnike](2026-09-11_00-50-16_MSK_sokhranitj-dialog-o-robototekhnike/otchyot.md)
 - [2026-09-10 20:23:26 MSK — Proveritj sliyaniye posle dopuska](2026-09-10_20-23-26_MSK_proveritj-sliyaniye-posle-dopuska/otchyot.md)
 - [2026-09-10 17:33:36 MSK — Zakrepitj dopusk sliyaniya iz master](2026-09-10_17-33-36_MSK_zakrepitj-dopusk-sliyaniya-iz-master/otchyot.md)
 - [2026-09-10 15:09:56 MSK — Vlitj master v vedusjhuyu vetku](2026-09-10_15-09-56_MSK_vlitj-master-v-vedusjhuyu-vetku/otchyot.md)
@@ -509,6 +513,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 20:36:12 MSK -->
-<!-- content-sha256: sha256:3372b3ee5e449eb4ed16e70e29e39f73b0cfb8e1c6728cf74544ff1484475a74 -->
+<!-- last-content-edit: 2026-09-11 01:40:19 MSK -->
+<!-- content-sha256: sha256:83fe161c0d34aa0b52481721f6ccacbdb06c44684f5aac58a169481e30227510 -->
 <!-- FUM-MD-RECENCY:END -->
