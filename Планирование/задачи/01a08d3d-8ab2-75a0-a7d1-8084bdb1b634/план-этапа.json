@@ -67,12 +67,12 @@
     {
       "идентификатор": "план-07",
       "действие": "Сохранить и доставить: Мессенджеры",
-      "состояние": "доступна",
+      "состояние": "завершена",
       "основание": {
         "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
         "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
       },
-      "свидетельство": null
+      "свидетельство": "Коммит a8e0be8a14753ae08105662cc94110191f0f866a; удалённый OID подтверждён a8e0be8a14753ae08105662cc94110191f0f866a"
     },
     {
       "идентификатор": "план-08",
