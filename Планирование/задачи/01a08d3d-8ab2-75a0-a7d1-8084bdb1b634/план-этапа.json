@@ -47,12 +47,12 @@
     {
       "идентификатор": "план-05",
       "действие": "Сохранить и доставить: Платформы и графика FUMA",
-      "состояние": "доступна",
+      "состояние": "завершена",
       "основание": {
         "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
         "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
       },
-      "свидетельство": null
+      "свидетельство": "Коммит 5cd2e653de6c3a0749534f07d72ebf1f66c7048f; удалённый OID подтверждён 5cd2e653de6c3a0749534f07d72ebf1f66c7048f"
     },
     {
       "идентификатор": "план-06",
