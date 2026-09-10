@@ -17,12 +17,12 @@
     {
       "идентификатор": "план-02",
       "действие": "Сохранить и доставить: macOS",
-      "состояние": "доступна",
+      "состояние": "завершена",
       "основание": {
         "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
         "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
       },
-      "свидетельство": null
+      "свидетельство": "Коммит b39fd52ac7a7e9aae93820082db96689631ffdbd; удалённый OID подтверждён b39fd52ac7a7e9aae93820082db96689631ffdbd"
     },
     {
       "идентификатор": "план-03",
