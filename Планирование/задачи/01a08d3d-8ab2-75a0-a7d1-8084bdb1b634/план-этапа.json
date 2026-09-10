@@ -87,12 +87,12 @@
     {
       "идентификатор": "план-09",
       "действие": "Сохранить и доставить: Принтеры и сканеры",
-      "состояние": "доступна",
+      "состояние": "завершена",
       "основание": {
         "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
         "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
       },
-      "свидетельство": null
+      "свидетельство": "Коммит 38de1019ba3896a2d57c41ec8cc109d8e93aa319; удалённый OID подтверждён 38de1019ba3896a2d57c41ec8cc109d8e93aa319"
     },
     {
       "идентификатор": "план-10",
