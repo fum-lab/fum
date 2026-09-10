@@ -12,6 +12,15 @@ from pathlib import Path
 from unittest import mock
 
 
+def путь_проверяемой_реализации(путь: Path) -> Path:
+    выбранный = os.environ.get("FUM_CHECKED_CODE_ROOT")
+    if выбранный is None:
+        return путь
+    if not выбранный or not Path(выбранный).is_absolute():
+        raise ValueError("корень проверяемой реализации должен быть явным абсолютным путём")
+    return Path(выбранный) / путь.relative_to(Path(__file__).resolve().parents[3])
+
+
 def машинные_байты(значение):
     return (json.dumps(значение, ensure_ascii=False, sort_keys=True, indent=2) + "\n").encode("utf-8")
 
@@ -47,7 +56,7 @@ class ТестыОбязательств(unittest.TestCase):
         сам.записать(сам.карта, машинные_байты(карта))
         сам.источник = сам.коммит()
         сам.граница = {"задача": сам.задача, "коммит": сам.источник, "запрос": сам.запрос, "архив": сам.архив, "карта": сам.карта, "sha256_архива": сам.хэш_архива}
-        сценарии = Path(__file__).resolve().parents[1] / "scripts"
+        сценарии = путь_проверяемой_реализации(Path(__file__).resolve().parents[1] / "scripts")
         sys.path.insert(0, str(сценарии))
         сам.addCleanup(sys.path.remove, str(сценарии))
         описание = importlib.util.spec_from_file_location("остаток_для_теста", сценарии / "обязательства_задачи.py")
@@ -167,7 +176,7 @@ Path(os.environ["FUM_CHECK_RUN_OBSERVATIONS_PATH"]).write_text(json.dumps(ито
 """
         сам.записать(сценарий, программа.encode())
         сам.гит("add", "-A")
-        обёртка = Path(__file__).resolve().parents[2] / "fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py"
+        обёртка = путь_проверяемой_реализации(Path(__file__).resolve().parents[2] / "fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py")
         for действие, хвост in [
             ("запустить", ["--название", "Полная фикстура", "--исполнитель", "Проверка", "--класс-проверки", "полная", "--идентификатор-запуска", идентификатор, "--", sys.executable, сценарий]),
             ("закрыть", []),

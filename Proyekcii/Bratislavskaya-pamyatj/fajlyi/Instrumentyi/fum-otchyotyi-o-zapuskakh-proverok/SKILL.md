@@ -31,7 +31,7 @@ python3 Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отч
   -- <программа> <аргументы...>
 ```
 
-Parametr `--идентификатор-запуска <UUID>` mozhno peredatj posle `--исполнитель` dlya avtonomnoj fiksturyi ili zaraneye svyazannogo vyizova. V obyichnom zapuske avtomatizaciya sozdayot novyij kanonicheskij lowercase UUID. Povtor uzhe susjhestvuyusjhego identifikatora, pustoye nazvaniye, pustoj ispolnitelj, upravlyayusjhij simvol v etikh publikuyemyikh metkakh, neizvestnyij parametr, otsutstvuyusjhaya komanda posle `--`, NUL v argumente dochernej komandyi i nedopustimyij tajm-aut otklonyayutsya do zapuska processa. Drugiye argumentyi dochernej komandyi peredayutsya bukvaljno i ne publikuyutsya. `--тайм-аут-секунды` neobyazatelen; yesli on otsutstvuyet, avtomatizaciya ne pridumyivayet neyavnyij predel.
+Parametr `--идентификатор-запуска <UUID>` mozhno peredatj posle `--исполнитель` dlya avtonomnoj fiksturyi ili zaraneye svyazannogo vyizova. V obyichnom zapuske avtomatizaciya sozdayot novyij kanonicheskij lowercase UUID. Povtor uzhe susjhestvuyusjhego identifikatora, pustoye nazvaniye, pustoj ispolnitelj, upravlyayusjhij simvol v etikh publikuyemyikh metkakh, neizvestnyij parametr, otsutstvuyusjhaya komanda posle `--`, NUL v argumente dochernej komandyi i nedopustimyij tajm-aut otklonyayutsya do zapuska processa. V obyichnom rezhime drugiye argumentyi dochernej komandyi peredayutsya bukvaljno i ne publikuyutsya. V yavnom konture sliyaniya obyortka dopolniteljno zadayot parametryi Python `-B` i `-X pycache_prefix` dlya sobstvennogo pustogo kyesha i ochisjhayet upravlyayusjhuyu sredu. `--тайм-аут-секунды` neobyazatelen; yesli on otsutstvuyet, avtomatizaciya ne pridumyivayet neyavnyij predel.
 
 Sobstvennyiye chelovekochitayemyiye znacheniya `--название` i `--исполнитель` zadayutsya po-russki kirillicej; tochnyiye tekhnicheskiye tokenyi sokhranyayutsya toljko tam, gde bez nikh teryayetsya identichnostj proveryayemogo kontrakta. Posle sozdaniya eti metki stanovyatsya chastjyu khyeshirovannogo svideteljstva fakticheskogo zapuska i ne perepisyivayutsya radi perevoda ili kosmeticheskogo ispravleniya: oshibochnuyu metku yavno priznayut v otchyote, a posleduyusjhiye zapuski nazyivayut praviljno.
 
@@ -49,9 +49,11 @@ python3 Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отч
 
 `предпросмотр` chitayet zapisi, proveryayet ikh i atomarno obnovlyayet otkryityij upravlyayemyij Markdown-blok bez sozdaniya snimka. `проверить-план` nichego ne menyayet, dopuskayetsya toljko v otkryitoj sessii bez snimka i zhurnala vosstanovleniya i trebuyet poslednij uspeshnyij polnyij zapusk, otsutstviye nerazreshyonnogo perekryitiya i sovpadeniye tekusjhego Git-otpechatka s finaljnyim. Dlya obyichnoj v3-istorii uspeshnyij polnyij zapusk yedinstvennyij; dlya v4 dopolniteljno proveryayutsya soderzhateljnyij otpechatok, zapret povtornyikh polnyikh popyitok i granica migracii. `закрыть` dopuskayetsya toljko posle zaversheniya vsekh ispolnitelej: snachala ono dolgovechno ustanavlivayet kanonicheskij snimok, zatem atomarno zamenyayet upravlyayemyij Markdown-blok; fakticheskoye narusheniye plana chestno sokhranyayetsya kak `не готов`, no ne prokhodit terminaljnyij dopusk. `возобновить` otkryivayet toljko dopustimyij negotovyij profilirovannyij libo chisto istoricheskij v1-sbor posle strogogo podtverzhdeniya vsekh khyeshej i bajtov i provodit perekhod cherez otdeljnyij zhurnal vosstanovleniya. Gotovyij v3-snimok i istoricheskij snimok s v2 ne vozobnovlyayutsya. `проверить` nichego ne menyayet: otkryityij sbor ono dopuskayet toljko pri nalichii vyipolnyayusjhejsya zapisi, a zakryityij — kak tochnoye ravenstvo zapisej, snimka, marker-khyesha i Markdown; lyubaya nezavershyonnaya perekhodnaya faza otklonyayetsya.
 
+Dlya yavno razreshyonnogo sliyaniya dostupen [kontur iz zakreplyonnogo master](proverka-sliyaniya-iz-master.md). Klass `полная` raspoznayotsya toljko po polnoj yavnoj komande M-smoke. Istochnik i zaraneye indeksirovannoye svideteljstvo sveryayutsya do i posle ispolneniya i svyazyivayutsya s `--идентификатор-запуска`; skhema ostayotsya `fum.test-run.v3`. Otdeljnoye svideteljstvo `материалы/контур-слияния.json` vkhodit v otpechatok i posle finaljnogo zapuska ne menyayetsya. Toljko posle uspeshnyikh proverok istochnika do i posle ispolneniya i okonchateljnogo uspeshnogo iskhoda obyortka zapolnyayet pole polnoj zapisi `ожидаемое_свидетельство` tochnoj metkoj `fum.контур-проверки-слияния.1:sha256:<64 lowercase hex>` ot kanonicheskikh bajtov etogo svideteljstva. Nazvaniye polya istoricheskoye: v dannom rezhime ono podtverzhdayet ispolneniye, a ne opisyivayet budusjhuyu diagnostiku. Peredacha nenulevogo znacheniya etogo polya cherez CLI/API polnoj proverki zapresjhena. Staryiye polnyiye v3 s `null` sokhranyayut prezhnij dopusk, no ne podtverzhdayut proiskhozhdeniye iz M.
+
 ## Razmesjheniye i skhema zapisi zapuska
 
-Vse mashinnyiye dannyiye prinadlezhat odnomu zaprosu i razmesjhayutsya toljko v kataloge:
+Mashinnyiye zapisi zapuskov, snimok i zhurnal vozobnovleniya prinadlezhat odnomu zaprosu i razmesjhayutsya v kataloge:
 
 ```text
 Журнал/<stem>/материалы/запуски-проверок/
@@ -226,7 +228,14 @@ Leksicheskaya proverka simvolicheskikh ssyilok ne ustranyayet vrazhdebnuyu TOCTO
 
 [Chitatelj zakryitogo otchyota](proverka-otchyota-v-kommite.md) proveryayet neizmenyayemyiye v3-svideteljstva pryamo iz Git bez vremennogo checkout i zhurnaljnogo lock-fajla. On otdeljno podtverzhdayet polnyij sostav, celostnostj, gotovnostj plana i istoricheskuyu svyazj s kommitom. Yego rezuljtat ne udostoveryayet proiskhozhdeniye komandyi ili zaversheniye obyazateljstva; eti proverki ostayutsya u vyizyivayusjhego sloya.
 
+
+Tekusjhij `--допуск-слияния` prinimayet toljko zakryityij v3 s podtverzhdeniyem ispolneniya iz master. Sokhranyonnaya vozmozhnostj v4 otnositsya k otdeljnomu rezhimu i sama po sebe ne rasshiryayet etot dopusk.
+
+## Prodvizheniye prinyatogo sliyaniya
+
+[Uzkij ispolnitelj](prodvizheniye-prinyatogo-sliyaniya.md) soglasuyet primary master, indeks i rabochiye fajlyi s tem zhe prinyatyim C. Do mutacii CLI povtoryayet vyisokij dopusk sredstvami M. Dve podgotovlennyiye Git-tranzakcii uderzhivayut proverku HEAD i ozhidayemyij prezhnij master; FIFO i publikaciya ne zapuskayutsya. Otdeljnyiye adresnyiye regressii i profilj obyazateljnyi dlya etogo pervogo perekhoda; standartnyij katalog iskhodnogo M ikh yesjhyo ne soderzhit. Pri oshibke sokhranyayutsya intent i fakticheskoye sostoyaniye, avtomaticheskogo rollback net.
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 16:38:28 MSK -->
-<!-- content-sha256: sha256:cf9c5f96d68be849706e20e6ed1b660e18b604e8c026969f0bc2fd68b7f600da -->
+<!-- last-content-edit: 2026-09-10 21:26:37 MSK -->
+<!-- content-sha256: sha256:5da26b553d5779bda2de4a61a5018273d3286e67b3471b12d95d122ec38d88dd -->
 <!-- FUM-MD-RECENCY:END -->

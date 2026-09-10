@@ -1,0 +1,3155 @@
+{
+  "schema": "fum.machine-local-path-policy.v2",
+  "exceptions": [
+    {
+      "id": "historical-001",
+      "path": "Журнал/2026-07-10_05-03-09_MSK_сравнить-варианты-реализации/отчёт.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:00c850468fa1b2b82eb62bda36c32dd077494033d6e5d1f856fe69e077c7062a",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-002",
+      "path": "Журнал/2026-07-17_12-20-17_MSK_создать-скрипты-запуска-прототипов/отчёт.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:1ead92b138c284782347e47dca05720a9a00d78b82323fcccb12507407040016",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-003",
+      "path": "Журнал/2026-07-17_12-20-17_MSK_создать-скрипты-запуска-прототипов/отчёт.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:a61e8866ca165c143f55e5a8a81b73c4c40c9619a42d664be673f7542254d20d",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-004",
+      "path": "Журнал/2026-07-17_12-33-01_MSK_добавить-панель-запуска-прототипов/отчёт.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:23c6c67886521658215dcd6f3e1c8c056ab60f77bbf0a75a571d2b1de84dd712",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-005",
+      "path": "Журнал/2026-07-17_12-45-07_MSK_закрепить-модель-Codex-по-умолчанию/отчёт.md",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:ac934d64b0819a45a018a814b2d2f9a68a7b4ca61633b7dc51b420dd2bf65cf3",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-006",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/отчёт.md",
+      "kind": "file-uri",
+      "line_sha256": "sha256:f9722af8a9a7214141ab5042008f0da3d771e3f78e9cabcd06feb667541d53c6",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-007",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/отчёт.md",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:f9722af8a9a7214141ab5042008f0da3d771e3f78e9cabcd06feb667541d53c6",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-008",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/отчёт.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b14ac97870679f34476338ff51ff701848362c79df7a8e818dd84dc38823f593",
+      "count": 6,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-009",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/отчёт.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:31237e40a7a36abd321a9ebec3a6d5974647654136a7e5bc27a4b842cb00c43c",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-010",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/отчёт.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:b14ac97870679f34476338ff51ff701848362c79df7a8e818dd84dc38823f593",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-011",
+      "path": "Журнал/2026-07-10_05-03-09_MSK_сравнить-варианты-реализации/запрос.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:00c850468fa1b2b82eb62bda36c32dd077494033d6e5d1f856fe69e077c7062a",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-012",
+      "path": "Журнал/2026-07-13_15-20-42_MSK_ограничить-вопросы-и-ответы-сущностью-FUM/запрос.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:3b72012165079d25b5fdf868f42001f7e68f7c6fca5b6a499152e73e48763ad2",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-013",
+      "path": "Журнал/2026-07-13_20-34-23_MSK_закрепить-ролевую-семантику-взаимодействия-ИИ-агентов/запрос.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:04ec79ae86bdc7472e232b9669d653bfc5d44de10ece0b3fa30aaf0b64ea3322",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-014",
+      "path": "Журнал/2026-07-17_12-20-17_MSK_создать-скрипты-запуска-прототипов/запрос.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:dc20dd4c3635a1492dd642e2915ac59cd514d28cf6ee3cd40dd7b781aae53863",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-015",
+      "path": "Журнал/2026-07-17_12-33-01_MSK_добавить-панель-запуска-прототипов/запрос.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:04682f063429221609b6d686ec2f0f45167147ce9d4b459788927b3280e9c428",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-016",
+      "path": "Журнал/2026-07-21_10-36-18_MSK_завершить-сквозную-приёмку-архиватора-источников/запрос.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:fbc7431b25bd44852aae2b52edd0e314d7b3cd2085bffc528dc6be2b251403b6",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-017",
+      "path": "Журнал/2026-07-22_03-38-35_MSK_разрешить-выполнение-доступных-карточек-шагов/запрос.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:2e269b7189fa270bb88dfaa0ebdb0d58a4f8d83a2b3f1686ef1576c2c5eebd14",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-018",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/запрос.md",
+      "kind": "file-uri",
+      "line_sha256": "sha256:77db65b503c51cddc885693ab58d592dd57ceea2fc902b3dc3ef8660b01c87a3",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-019",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/запрос.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:8d5bea1a5b9816595bd38bd345329d7c45b512e8b28b7cbed909dd5b1d0cdb0f",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "definition-001",
+      "path": "Инструменты/fum-audit-pokryitiya-voprosov-i-otvetov/scripts/audit-question-answer-coverage.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:aa7ac4ca24d0629d315c8bb7b8fb2170163de51facaf3f875bc3866a19eb9689",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "definition-002",
+      "path": "Инструменты/fum-indeks-readme/scripts/check-readme-index.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:7031abfea7e93be928b52c7302b08b3dfd88bd188f36888a60554337788a71d4",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-001",
+      "path": "Инструменты/fum-kompleksnaya-proverka-repozitoriya/tests/test_run_smoke_check.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:10cb79dec645a33e9cf6b24ea11489921907986fbec48032667b051f3d7ece2d",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-002",
+      "path": "Инструменты/fum-kompleksnaya-proverka-repozitoriya/tests/test_run_smoke_check.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:3a776f9c5615bfd1ae431da011b680d96c5089293344891128b4872e5afbf8e3",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-003",
+      "path": "Инструменты/fum-kompleksnaya-proverka-repozitoriya/tests/test_run_smoke_check.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:87f8e33c4fdefea1299610ce493028b11afa1051aac2f8328dce2381409b3953",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-004",
+      "path": "Инструменты/fum-kompleksnaya-proverka-repozitoriya/tests/test_run_smoke_check.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:f301e01d345b041280068e8e67ba0eec51d1cc8dfe24d3eff472227356c2e70e",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-005",
+      "path": "Инструменты/fum-materialyi-zaprosov/tests/test_archive_chatgpt_share.py",
+      "kind": "file-uri",
+      "line_sha256": "sha256:7dc4b31fecd295c2f1141ed96756286369031e54111ae3b2e7fd0c7628a4354f",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-006",
+      "path": "Инструменты/fum-materialyi-zaprosov/tests/test_archive_chatgpt_share.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:1019c2f967aadaa4efd25c331362564925220b80728aa64da773e0c7c384b694",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-007",
+      "path": "Инструменты/fum-materialyi-zaprosov/tests/test_archive_chatgpt_share.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:1dc9ff818ad139520c6ef0adf42f945f480892ca90c2c9347063ef7db45d5ddd",
+      "count": 5,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-008",
+      "path": "Инструменты/fum-materialyi-zaprosov/tests/test_archive_chatgpt_share.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:97368af472ff8833f603a927930e8213a845b289209f4c2a95b75aa69026ed94",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-009",
+      "path": "Инструменты/fum-materialyi-zaprosov/tests/test_archive_chatgpt_share.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ed86a83b31732fe54220bbc7021da861eeb5a7ba5366a8996ca6496f41cb9f4b",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-010",
+      "path": "Инструменты/fum-materialyi-zaprosov/tests/test_archive_chatgpt_share.py",
+      "kind": "windows-unc",
+      "line_sha256": "sha256:8b837e4c9c532ef2ac8aaaba6afea5ab00a7b8dc2226e89aae234a45fa9f988e",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-011",
+      "path": "Инструменты/fum-materialyi-zaprosov/tests/test_archive_chatgpt_share.py",
+      "kind": "windows-unc",
+      "line_sha256": "sha256:d9ee58b77da1d5dff2904c3fc85c2e7ae853f96dbfb2666d48c2011edaaf33ad",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-012",
+      "path": "Инструменты/fum-materialyi-zaprosov/tests/test_source_archive_cli.py",
+      "kind": "file-uri",
+      "line_sha256": "sha256:7dc4b31fecd295c2f1141ed96756286369031e54111ae3b2e7fd0c7628a4354f",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-013",
+      "path": "Инструменты/fum-materialyi-zaprosov/tests/test_source_archive_cli.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:460f7c637d3beb75a393bbba0aa897ab352eb71751a68e248d036831f7510020",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-014",
+      "path": "Инструменты/fum-materialyi-zaprosov/tests/test_source_archive_cli.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:f2b7394ef0d15d39fa4b03c8d283e89abf5fd585a71d7ea1b16aff4926d6c6bf",
+      "count": 3,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-015",
+      "path": "Инструменты/fum-materialyi-zaprosov/tests/test_source_archive_cli.py",
+      "kind": "windows-unc",
+      "line_sha256": "sha256:5ab3de0dfd5b6637afa464ff3f397bc9567599c3cba859d2915af7b28c22b299",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "definition-003",
+      "path": "Инструменты/fum-obratnyiye-ssyilki-voprosov/scripts/check-question-backlinks.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:7031abfea7e93be928b52c7302b08b3dfd88bd188f36888a60554337788a71d4",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-016",
+      "path": "Инструменты/fum-obratnyiye-ssyilki-voprosov/tests/test_check_question_backlinks.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:655efc0b82e02b36253201757c46528bd513550cc7d7d54e642099da281ef03f",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-017",
+      "path": "Инструменты/fum-ocenki/tests/test_build_estimate.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:f56de7c7e4ba63e584829dd4c8baf2ccdefa3ed026aaa7a35406f6c75dbb3a0c",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-018",
+      "path": "Инструменты/fum-proverka-git-zavisimostej/tests/test_proveritj_git_zavisimostj.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:4abff05aa9d9f12715fb9a38963b714233211367a40fe6bd7decca481a8f53f2",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "definition-004",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/SKILL.md",
+      "kind": "file-uri",
+      "line_sha256": "sha256:b82037887f1c5f373672a90bd90cf6982dd2dd4e33c65ee95067dda1bd268632",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "definition-005",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/SKILL.md",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:b82037887f1c5f373672a90bd90cf6982dd2dd4e33c65ee95067dda1bd268632",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "definition-006",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py",
+      "kind": "compiler-file-path",
+      "line_sha256": "sha256:73fee6a51564b5b65fef9427719a2b95ffbcb0aabb8859d046c4f2d1e50ccd1e",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "definition-009",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:159bc9b0d2ac8185a0615bc94112e9c3a9a2877156c4232565f57b2ea751ba6e",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "definition-010",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:1bcdd4b03455b7cf95aa4ff72e792681f08e6eff25bd7464f0334da4b87b5aa9",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "definition-011",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:4a05f7f24857d99c0e86ab28a808cdca950a622304e6b28fac3fdb91bbb81af0",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "definition-012",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:a7e8028f5f8a5ae1bb06e50f7c272baacc7d34f6e649f40c446020a922470c25",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "definition-013",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:b9dbd2a717979234a7afe8bcc8b81314f6cc86148dd7e1474f8bcfe5146d6418",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "definition-014",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:ee1a8d4e4610320e8f24b3a9d140d66ca7bd99bfdc0e14f90789fd455c3366a8",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "definition-016",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py",
+      "kind": "windows-unc",
+      "line_sha256": "sha256:2bc341812aba2b5105fd0608a69cca20e49abfa38323b8d815c3b3386e1a5446",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "definition-017",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:b88755a66b189c7055874d4b7e72218cbb5e0f8eed2d4a37c063d2d37fbd3501",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "definition-018",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:050d64f681294055f88fef3072196a79ce954d70738af80d379ac284ba65b903",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "definition-019",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:26d93185766bb48bc4b599c928fac6d0a8cb1b201996c8ae8150af96120f623e",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "definition-020",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:55fbf23efe40d0e602794c67d368344ccbd9b3d17e33ba75224364efc00eb95c",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "definition-021",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:8d30195d3f08b0bdc5e6ccb3949a215e6405687832ad75649d7b46c61c358a88",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "definition-022",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:93c65ac43e8ee646af723a3d7f3ec2e768dde33a805c86a99fa0bc88dd9a8675",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "definition-023",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:967a7c36f3f6439d0dd59728cf24230f5fadf6c1c51b80ef26fff2a1485cb9dd",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "definition-024",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d56bab2eeecfc3414a8d2eff4a53a645a0acf683ba5b437fcda7f3d9f2720f34",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-019",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "compiler-file-path",
+      "line_sha256": "sha256:24fbcef5dbaaf460f82833e2e0ee9edee6117fe477efa0fdffa854b1df3b24f8",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-020",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "file-uri",
+      "line_sha256": "sha256:409dfa0ac1feb2d5679fab51d9fd914c16c05109d71131d2d47ae9ec6fdd4ea5",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-021",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "file-uri",
+      "line_sha256": "sha256:bc9bea09560c8f7366990277f272fd5bad3d41cd099a7bf447498d7f3b4d4879",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-022",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "file-uri",
+      "line_sha256": "sha256:e8a5b9caabbdaec543b5d042e66ab8e9558580b9ebcf0415938e8d62939aa48b",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-023",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:07ab1a178d095c792055474836ae153566a1c8ddd3c0ecff28481f9a56785bbb",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-024",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:1752fcc803c999e476c125aaa0fc97c297fb499ff1e138cf97617de5d4bd5966",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-025",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:1ae545502aff2232d6ffafcdeaa672db2c3f23b417278b34ded6bf68a01c4fb1",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-026",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:4819e417924121de0d37eb5d048df137f7ed0b3b57e9044b3bd22a02ae3cd70c",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-027",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:50cb19aded27f6b8f73b0fdfa5dc5e03865a7b55db3a6fe55a2ef1a251698314",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-028",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:76e7957bf58400e6008d64eae71b56f4927926614916e13e8d05560d281aa2b5",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-029",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:790edcdf7f07cba8ce23050ddd484c4c9952157a34029b1c194a04d7f0a49761",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-030",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:82e6ca8ac2b32b4b64b046c041f14327f0b958c6f651c757455e1d1f77977d71",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-031",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:9f0f01739038fa01bd12d4f5813e0c7a9469f59e23daa51c912a870fe9694cf0",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-032",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:d52d38a77743ed4c1559a6813df42c5b22e6f54268fb39d243c7464f2ce8c534",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-033",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:e1c78d6958f458ef0d637778131a8ec77612f4be9e03332114bc3ae943b9ade9",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-034",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:70f66330b6b4ff8d981283eb32e0e57d649674e72774289e1e95084f8c4beac3",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-035",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:9017c47ed4605a99b93cb5353d427ae6f6e50ded5418864804792c1ba4e93daa",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-036",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:bc340eea6d8c29ae4f63ce1a7c8f5957205dbe0f26b78b22662049bcb157b8b2",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-037",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:1edc0bb0ea0eab1fa6b706639ea2cff25ce70e84f408b4b137b5208d82ddbe7d",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-038",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:477dea9d832cb9263455dfbe08e10ef698abcd7a7fc7b68cf0b26d4219f5c786",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-039",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:d45e9bce3417b2d0fb2174f2439e6788b5b33e5a655610a3a596f7aa8102c2ea",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-040",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:e832a4357fee217698ce76904606756f08f1834f543dc66f042655fd8e8985d0",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-041",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:067399e0defd4b9997616b8f270741ec8a984b4c5142cf876f11a1b408cd1b43",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-042",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:f6fd2300ce465fdb3c5fc75e002e1c45989c157407704e08696b499387e95ffb",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-043",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "windows-unc",
+      "line_sha256": "sha256:0988561380545b11876cccc9e62d1243fd779e181c6f149478b1f4f8d11b65a9",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-044",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "windows-unc",
+      "line_sha256": "sha256:fbe6c2e48246dfc8d1985818385d9653b01ec5d6d3e9aef65907d2dee8917197",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-045",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "compiler-file-path",
+      "line_sha256": "sha256:24cdab16518db083534440098e3ce81451d63947bda660f5434dbdbe280c06fd",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-046",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "compiler-file-path",
+      "line_sha256": "sha256:b1483c6fd932c089ac3b18210c14b8f588ba9f48482c11a65dd192974fc66914",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-047",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "file-uri",
+      "line_sha256": "sha256:2fcdd345254b21879e387eae7b2111f3e2e87d8de86e5b4248e894e63a641d6f",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-048",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "file-uri",
+      "line_sha256": "sha256:d4b7f7087640c7722ddee93b24723b8843b1e3b6c8ad5c3cff1c128143c49ee3",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-049",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:62ffda04cbd4d4ac45ac462c7583e269b3812f9714fc1700ce420717c47551fb",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-050",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:efb49731f7b7bf9280cdde4dbe6457a4ebddd1b6c772658025b8322ad7f8a81e",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-051",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:0cc90158861b606819ea0f8db62c92fd1ccd08400b68d297abe5381474b193cd",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-052",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:4ffa6502ce9d68eaff770a90db228093599a65967fe31288e07d536e19f1c732",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-053",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:586f0dd443f5acc6087bb272d6d62d078ffc150e6947fdb206145bddb30524b1",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-054",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b9258b6cfcbc74b9fbb93bbfe6be246f6c6f9d6389f74d225273dc92d65e5b86",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-055",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c9d1b331db62570b8d9709e8b496ca20f9429345232574bcdbf71db513e70822",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-056",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d4b7f7087640c7722ddee93b24723b8843b1e3b6c8ad5c3cff1c128143c49ee3",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-057",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:f2a89b03ce673b7a9707ed9b539fa1df350b219c231896db1fff2bb449cf9359",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-058",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:0cb43e0eeef76b09bafcc977f72944729a0e131bbffb53d2a479f224885459bf",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-059",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:0f12563f9ecf97b20306ad625dea88e58bc971d4977f01a3ad0415d82c38a520",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-060",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:a0512d4e43cc653bdec3a136256e17611951f1462c5677479ec6848590d09522",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-061",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:a362cef70e7fa6f5b0ec7af95e218ed111608060eedae2d5a7ca1a2b83cf65fb",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-062",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:dfcd3d3b3984857c163d4924b1bc1593fa770cd00ee0c181f2e9a9b702fc8f4f",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-063",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:e0182b1016d38611283db5282daf84d1d0247f9bd28a01e54b22652e66693ff3",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-064",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:ef996b1a3f39100b2fe4791e31b99812c60d05125491f580e874ae5cc1300e5b",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-065",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:f301e01d345b041280068e8e67ba0eec51d1cc8dfe24d3eff472227356c2e70e",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-066",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:5d0feb44d4d512d90736121989df4c2020aff31c52cfed1aa3da817c19a5ddd2",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-067",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:fa1da622d3f5e4c7202b5b0d8943c82ef06b21bd680cd1e257edbc90cdcac3f9",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-068",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "windows-unc",
+      "line_sha256": "sha256:845b216b58f1deed42451db69dd9d197375137164ec52eb2e01156ec4d16f6c6",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "definition-025",
+      "path": "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:ef246df1e1b44a95094d58fa953460d6888787b98d9685da598aa8e70a2b2dd0",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-069",
+      "path": "Инструменты/fum-proyektnyiye-fajlyi/tests/test_project_files.py",
+      "kind": "file-uri",
+      "line_sha256": "sha256:26a3face39bfe38989ca09cbfe3f3e38c8d58ca5346c1115e828d67db4825f9c",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-070",
+      "path": "Инструменты/fum-proyektnyiye-fajlyi/tests/test_project_files.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:3b1d6e5f2a50f628f489d615e311861bdbdf78d71532c1efee069cb94698f243",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-071",
+      "path": "Инструменты/fum-proyektnyiye-fajlyi/tests/test_project_files.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:6bc24181d474ce894749807ecb5a017f927fe71b6d45a4e2ef52a39421826353",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-072",
+      "path": "Инструменты/fum-proyektnyiye-fajlyi/tests/test_project_files.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:6bddf5cc55e0c868416289025863d31301f3c1a086080673803e5d417763653e",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-073",
+      "path": "Инструменты/fum-proyektnyiye-fajlyi/tests/test_project_files.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:b371bf7b18613bb6363fade86854c6e4b5a6bc0921ecaf6cf2d2cbbabb8bc13d",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-074",
+      "path": "Инструменты/fum-proyektnyiye-fajlyi/tests/test_project_files.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:c9055dde71f0880c67286222b9f031e8f84377b8f09a6b28713967bc4ebe0822",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-075",
+      "path": "Инструменты/fum-proyektnyiye-fajlyi/tests/test_project_files.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:e8e79faf535ea78b07d27a5c0b5e9f92e563d3ce59d8b16d15d87c03f991009d",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-076",
+      "path": "Инструменты/fum-proyektnyiye-fajlyi/tests/test_project_files.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:ef0e89735317a0c1b0e928c35a19bb643f444507f1d2e0f32607e6f8e1d69871",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-077",
+      "path": "Инструменты/fum-proyektnyiye-fajlyi/tests/test_project_files.py",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:1d32929db12a2b5b7aa8f7e0185ca264cd513f4f149274ec47a280c9ac1d246e",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-078",
+      "path": "Инструменты/fum-proyektnyiye-fajlyi/tests/test_project_files.py",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:49808993f921ecaff9a224e9c2a7bdc5987aebeb6da7d7b5e0a3426107ce62fd",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-079",
+      "path": "Инструменты/fum-revjyu-prodelannoj-rabotyi/tests/test_build_work_review.py",
+      "kind": "file-uri",
+      "line_sha256": "sha256:18464a505355388252a5a1d06c8acbd89e0cbbbab6d102bf1c4b12adde86368e",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-080",
+      "path": "Инструменты/fum-revjyu-prodelannoj-rabotyi/tests/test_build_work_review.py",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:d33feaf6112946e22895acc04f023f6f896dea092a1e3708e85cacd74dd3f52d",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-081",
+      "path": "Инструменты/fum-sborka-svodnoj-dokumentacii/tests/test_build_doc_aggregation.py",
+      "kind": "file-uri",
+      "line_sha256": "sha256:d38d23e41467081a2b11504a5b876d43f975ca99e249067f32b90950f7f89142",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-082",
+      "path": "Инструменты/fum-sborka-svodnoj-dokumentacii/tests/test_build_doc_aggregation.py",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:21015764e35de683ebfc2febf01d3fdc8ab42c43a7bcaaaefd09435f687f2afe",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "definition-029",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/scripts/branch-next-step.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:4ab63cb5130366ad8d80572caf0fcbba796c57954e12102e72e36bf8673dad17",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "definition-030",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/scripts/branch-next-step.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:a46d997a56944acb770c6d88a53f59328dde6dddb33e9530d666a9885fabf6f0",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "definition-031",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/scripts/branch-next-step.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:db26f7b900d458de3a38dec119d50fc35c48fa48c6fe72fd41dd22dcc52ba9a1",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "definition-032",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/scripts/branch-next-step.py",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:6e11c694c21370e05fbf4f817606fab483b86237a65e99dc92af5ca5d42664ab",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "definition-033",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/scripts/branch-next-step.py",
+      "kind": "windows-unc",
+      "line_sha256": "sha256:6e11c694c21370e05fbf4f817606fab483b86237a65e99dc92af5ca5d42664ab",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-083",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/tests/test_branch_next_step.py",
+      "kind": "file-uri",
+      "line_sha256": "sha256:73493d5d13e69b29c1c9c2cd9ab93de038b56e76cb17bb737659c25e344ca46b",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-084",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/tests/test_branch_next_step.py",
+      "kind": "file-uri",
+      "line_sha256": "sha256:b8537e2e52150fd011a1b1fb908554bd8c44d3c9447e6e4096c5f91a5b02cc42",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-085",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/tests/test_branch_next_step.py",
+      "kind": "file-uri",
+      "line_sha256": "sha256:fce6126234b74093ec6986cf2cd81b1a5b5c2f1cbadc749c9e5c492d50ee0c2c",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-086",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/tests/test_branch_next_step.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:0da82f6a14b56bd9e5503addfb8a131a1034b3b6691370f1e5bddc5b60e848e1",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-087",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/tests/test_branch_next_step.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:3667d8a8d261fe99a5722e8167770b550569d4e0cf372b3088fce475e5474cf5",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-088",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/tests/test_branch_next_step.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:37f2c7953ffe2b38e335d6911cd478bbccbb58334da858a3c191bc0e92e60d7d",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-089",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/tests/test_branch_next_step.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:3a80833227794e61b649be5a76be554fdb1e39827f2a7e7c4a9eff6b8d6e259a",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-090",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/tests/test_branch_next_step.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:42ac7cfdcfc7c242a683802b355b08b5adc5c9f1c1701f962b40fc4041123c60",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-091",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/tests/test_branch_next_step.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:64788d38a2dfcb459b0ce8259f7ca66ed98a27d1028254a582cbbedba96acfe0",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-092",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/tests/test_branch_next_step.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:64cd4342deeee5bf9acaacb4e6d90a3cbc004cbe35581c76e42104988646c84f",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-093",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/tests/test_branch_next_step.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:a7db1213aef08b140a52897fb1d945eb2df2e68571cac61022d2a2d230f48b40",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-094",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/tests/test_branch_next_step.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:bec4082f2cd0530162f8bc0e6c0c9843ce005c5f378f8695c53495422ae24c6d",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-095",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/tests/test_branch_next_step.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:fbf93bd2e2fcdc6adc78622e0fd9cc73de51efc67f883663e2c18e928009f64c",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-096",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/tests/test_branch_next_step.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b29e35e5cb6299184dab59bc790cde4a6e9849097a030c5b98629d2223381293",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-097",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/tests/test_branch_next_step.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:00873a22f18e31923b844470d997f5cbfe328a3102eb0827b30f859efd8bcb36",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-098",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/tests/test_branch_next_step.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:6a98237e819b2994d708eb5e83a38c0e4965a35a9a2f1b15065a241614c6bd00",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-099",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/tests/test_branch_next_step.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:aa6fe880905de444557e1584fb10f82b194978fb8442ad2a6d0abfd9cb19bd2b",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-100",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/tests/test_branch_next_step.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:ded05303fbccffab6f49241c033bf194275f7488142e3a310e43446885499f92",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-101",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/tests/test_branch_next_step.py",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:6936ee4bb60796154387d69837c8d2f9032fe50fb1860437441cf5a4a0173062",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-102",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/tests/test_branch_next_step.py",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:6b2cf36f108df4f484b19b4abbabc5b62b73e79ad17d64f651ce1cd1699269dd",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-103",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/tests/test_branch_next_step.py",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:bcdb86ee1c030863d45df87d197f73ddde62de8b19820745309357e2e29a12bc",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-104",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/tests/test_branch_next_step.py",
+      "kind": "windows-unc",
+      "line_sha256": "sha256:43f492b2bfcbd7171e472572ebf577a0b8e9a7484436ffe0ea3f7adedede8920",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-105",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/tests/test_branch_next_step.py",
+      "kind": "windows-unc",
+      "line_sha256": "sha256:6c80889ee5ee3d3c07a6190f01a985784ba9d631a1e8dfc08c1686846b44d5af",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-106",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/tests/test_branch_next_step.py",
+      "kind": "windows-unc",
+      "line_sha256": "sha256:bdc6110b649938db854921c68dbd4cd1ae9db108ad2b7a015988936cbd8e0ed4",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "definition-034",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/SKILL.md",
+      "kind": "file-uri",
+      "line_sha256": "sha256:fd047bd9a60512372bea969c8a41ca3d2f6d022f47e6e9ab3cfb0be564a530b7",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-107",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_check_session_coherence.py",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:b041d664a71e99c336184f27cf24231cd2fabb28aa9edba8211b6c95163a8275",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-108",
+      "path": "Инструменты/fum-zapusk-prototipov/tests/test_check_prototype_launchers.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2b783a5f7552a851d4bccf96f969d4f9b6af5f8ab23dd2b21f6c0478a74e21fe",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-109",
+      "path": "Инструменты/fum-zapusk-prototipov/tests/test_check_prototype_launchers.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:490bf858a48e9b6f34453da2451ab3e492c1558451b9279e1c540453b1df370e",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-110",
+      "path": "Инструменты/fum-zapusk-prototipov/tests/test_check_prototype_launchers.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:5b56665101cc0c86dc085f900279c4aa9f68e8c2cbe20736dd4dc5c17f8eccd1",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-111",
+      "path": "Инструменты/fum-zapusk-prototipov/tests/test_check_prototype_launchers.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:6c0ba8b4a92aca78746112f6599c4bcda2edc4d35323d1a30d2ca582b871260e",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-112",
+      "path": "Инструменты/fum-zapusk-prototipov/tests/test_check_prototype_launchers.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:6e6538b1be85ee3c685f8747a03d7ef5b6a1b61fa70808eaba2c510ec761a5d6",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-113",
+      "path": "Инструменты/fum-zapusk-prototipov/tests/test_check_prototype_launchers.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ace54fe5145b842b54faf0ff0c36baa54c8ae7a57dbe41316d96faa750032d38",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-114",
+      "path": "Инструменты/fum-zapusk-prototipov/tests/test_check_prototype_launchers.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:bf2c52df442e738659e9b98917378a2531c19e95784ed56c2f9748d0815a506d",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-115",
+      "path": "Инструменты/fum-zapusk-prototipov/tests/test_check_prototype_launchers.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:cf080ba673812501e1a0e321e6f659477308b73758468521250dc9f196d3887e",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-116",
+      "path": "Инструменты/fum-zapusk-prototipov/tests/test_check_prototype_launchers.py",
+      "kind": "windows-unc",
+      "line_sha256": "sha256:1842f02e0e71aa145d1283ee0aff233178b799fe9bf9942327f032f343f48aa2",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "definition-035",
+      "path": "Планирование/реестр-требований-вариантов-и-кандидатов.json",
+      "kind": "compiler-file-path",
+      "line_sha256": "sha256:3e118408c1f6de52a6e4a875f3704f23890e928d529390420d2e73e1ca55fe8c",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "definition-036",
+      "path": "Планирование/реестр-требований-вариантов-и-кандидатов.json",
+      "kind": "compiler-file-path",
+      "line_sha256": "sha256:8a2925c0829969562940272ae33f9e7ee99b678c0f2aacf261ea542bd531164a",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-117",
+      "path": "Прототипы/теневой-редактор-продолжений/Tests/FUMShadowCoreTests/LocalRuntimePolicyTests.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2040c8979fdf6d05a5201a3d7095d88f862650ff59e3c81bd5a00c89ad991edf",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-118",
+      "path": "Прототипы/теневой-редактор-продолжений/Tests/FUMShadowCoreTests/LocalRuntimePolicyTests.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:48eb72a779570d8542ebe34efa1e4241101f5b9e8738aa00417bf5871b5295b2",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-119",
+      "path": "Прототипы/теневой-редактор-продолжений/Tests/FUMShadowCoreTests/LocalRuntimePolicyTests.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:905a62d0c5f4d8f88f367f81e093413044bef8e2ee40d42f913b1088f2a706d3",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-120",
+      "path": "Прототипы/теневой-редактор-продолжений/Tests/FUMShadowCoreTests/LocalRuntimePolicyTests.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:afee2a875d44c52e10eab4a2d53918245a93740655c56eba1e199d915fdc68d9",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-121",
+      "path": "Прототипы/теневой-редактор-продолжений/Tests/FUMShadowCoreTests/LocalRuntimePolicyTests.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d4982befb0dcbcd370cb05febed9235194bf57abe9fb17765a9b846d11cbeafc",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "historical-020",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
+      "kind": "file-uri",
+      "line_sha256": "sha256:069fc94a5d79e616c655529d7d1a3853f6ca708e84f997998c6ea02245766aab",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-021",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
+      "kind": "file-uri",
+      "line_sha256": "sha256:2c0e88775fb0f0dffcb81f4b27e25bbc67dfe2137fc50faf01af455719a50c81",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-022",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
+      "kind": "file-uri",
+      "line_sha256": "sha256:41c304540c5602d6cc3c8d7882c7a6313cad5038c2e714e0a0b270bf26d91958",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-023",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:069fc94a5d79e616c655529d7d1a3853f6ca708e84f997998c6ea02245766aab",
+      "count": 2,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-024",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:5d57cf2c22b247cf06a652e11622477beec85d1e7240d74862101d225ccc141e",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-025",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:16f08460ea0c04b93a690a87a0b96989a1d0eea28fbb90d7e6c7c8dfb6981c5b",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-026",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:1c427e30a356db7129dd6c35b958a38a61a734fc57d9cac224c4d1328e3e3e5c",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-027",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:424fa00f5f959a95834d71cbd6feb254cefd80bd58b36ed23d48ee6647232900",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-028",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:4f0d933802ddb0f08073eeb103ecb890349635bb81dcded95ff84e3b5fd24999",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-029",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:5d57cf2c22b247cf06a652e11622477beec85d1e7240d74862101d225ccc141e",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-030",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:5f34c438529bc857ad2f010b8972cf38fdc2bf7e7c03f8ceb7f05c2a36927c17",
+      "count": 2,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-031",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:60306c80c00dbcf2186f197b953c711e7ca2c96d75c9988dee7e3d35022a2a41",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-032",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:732b23b0d837341c06acb33def515c0fafa44042466f762fccc9e8bf30455212",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-033",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
+      "kind": "compiler-file-path",
+      "line_sha256": "sha256:186c400bd4160e2f170cc3d074b68bc11879ebded5a06c54a0df12820922c5ee",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-034",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
+      "kind": "compiler-file-path",
+      "line_sha256": "sha256:28b886c191c204c721272126df5f7c0c5e98dfa854e18d6715b953a72f478475",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-035",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
+      "kind": "compiler-file-path",
+      "line_sha256": "sha256:495efcc5c15455157394c51ba9de1b7b7132c7b472f729d7e97d9e763b598f7b",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-036",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
+      "kind": "compiler-file-path",
+      "line_sha256": "sha256:c94b9ae0859de27431e26a3c34eb2c46af4a56c663d3a26fcb30dd3ae4889032",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-037",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:50c64d889b6cec1f05107aefca3e05c0a44f957f1cc799854be3c7b708e8adba",
+      "count": 2,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-038",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:2c9eb5f05a682f3e298389186f520d9c7676c3fcbfe8b67718ec91b154d174a3",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-039",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:42ff878ad9a368e051794f9c59e3e8d383ce19edac642b86129024daf6e70123",
+      "count": 2,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-040",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:43e3e3af550a672be08c5385b6336111c7b5b8ad0151f1d2ee781110ab1451d3",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-041",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:65c1fe2424209e697ecc5bf73d24a2d72692e88f3ce030a277a30c434f7c981d",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-042",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:6e090ac433140bd8734796c47a8744923ade8054fc0ba3310016e4ad3d934b6f",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "historical-043",
+      "path": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:f80315a6235add42cbe087c53a1ee4435380b5ce028a7fda5ce75cde81d8df07",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет точную историческую доказательную строку без расширения исключения."
+    },
+    {
+      "id": "definition-037",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:e79036fa960bc6a0111ad1f5481c85ce2a428bb0af5ba53a65abeb0f18e4942d",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "definition-038",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c23cc23bcdce956c1c87da679c40842fdd5cefa0b556ecc7c2a14a968e8f399e",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "definition-039",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:062d0f6b18720e7ae1fef68eb7faaae2ebf806512c5d8bd27cefc765a25277ed",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "definition-040",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py",
+      "kind": "windows-unc",
+      "line_sha256": "sha256:4b546dac10d8e5851890a7814ab461ec8c4d17414200ac6b0231474de118029b",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения проверки путей без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-122",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:13d9b9bf9ecbac41df4bbbad27141ccdeb0840396e69582a6af5a45d32633d6c",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-123",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:3f8493d0e6bbcba0e91e6bdce80f0255951d8b4fd484bdb2f1779f0f0bc29bbe",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-124",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:e54ba29951d547f3f5e269325aa66e241d84757274e884da10bbe70ffe9358b5",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-125",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:88e716896c0aa6aff1c47e6c527f8f43797c03ece28325424a3ddb4de30d11c4",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-126",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:9588430fe1fafbfc0f8143ce4cd84f255d068f3c97808bfb4f8d7f0046536a52",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-127",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:3baee41436b607cab193cba4da1a3fef4fa3c0076522cf9e6142ce05de7acf24",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-128",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:6e5d169b13d175276f826a2b6e028dde5d752b56efcf8ca17da42a0439a2be55",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-129",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "windows-unc",
+      "line_sha256": "sha256:79946fd05a5857f1b53676f178027ecad90c3bc22d002e1bb8500a4eb5d02b12",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-130",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:9199dbe6dd7b633d2e69547a03f943501942f89e6a4e148a1bf156337f1946e1",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру пути без разрешения соседних строк."
+    },
+    {
+      "id": "definition-041",
+      "path": "Документация/39-минимальный-паспорт-передаваемого-результата-FUM/проверить-паспорт-v1.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:e5567a75786f374be264cfd43fcccca5661d5edb8ef1109ff467cd9fce217d05",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения запрета машинно-локальных ссылок в валидаторе паспорта."
+    },
+    {
+      "id": "definition-042",
+      "path": "Документация/39-минимальный-паспорт-передаваемого-результата-FUM/проверить-паспорт-v1.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:ea2163bc46675313560e45542bc6340f95bb3dd7f3782dfedf46abf7d79e8ece",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку семантического запрета машинно-локальных ссылок в паспорте."
+    },
+    {
+      "id": "fixture-131",
+      "path": "Документация/39-минимальный-паспорт-передаваемого-результата-FUM/тест-проверить-паспорт-v1.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:3781a45ce0d54b57cb4d8242a6a4ba5a4d1449609aab119e2d40e98f1bd12225",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную отрицательную фикстуру абсолютного домашнего пути без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-132",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/tests/test_branch_next_step.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:b3db9a4b2fe00cde366e0f0dce085ea3effb13a5a8d2cb5acc6dd048f813192f",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную отрицательную фикстуру fail-closed-проверки ready-payload без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-133",
+      "path": "Инструменты/fum-sleduyusjhij-shag-vetki/tests/test_branch_next_step.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:7b39d598224f271c9cddbd013f47df32eb9a6a6ebcbb45d3a65ace7c423c9ee6",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную проверку нераскрытия отрицательной фикстуры ready-payload без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-134",
+      "path": "Инструменты/fum-kompleksnaya-proverka-repozitoriya/tests/test_run_smoke_check.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:1adc3d2b2ba10de8600bd795983e144a244c0cb1ff6cb8202c55b10cefd8ebae",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную отрицательную фикстуру абсолютного пути локальной SwiftPM-зависимости без разрешения соседних строк."
+    },
+    {
+      "id": "definition-043",
+      "path": "Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/run-smoke-check.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:f07a83caff0f4df29806662fa8eaadbeb665cc0fcdc077e60d9392f2f5f32bc5",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения запрета домашнего сокращения в пути политики SwiftPM."
+    },
+    {
+      "id": "definition-044",
+      "path": "Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/run-smoke-check.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:5c41f24c7991bc714564a16a27d422de3d80d68f31dba15d25b39bb063ee0265",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения запрета домашнего сокращения в пути Package.swift."
+    },
+    {
+      "id": "definition-045",
+      "path": "Прототипы/живой-одноагентный-эпизод/Sources/FUMLiveEpisodeCore/LiveGitCandidateContract.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:4e4da1be9aaf6c5e8b8af4f0b29f4e06d4e1c2496667868b7c624efaada0f999",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения запрета домашнего сокращения в имени Git ref."
+    },
+    {
+      "id": "definition-046",
+      "path": "Прототипы/живой-одноагентный-эпизод/Sources/FUMLiveEpisodeRuntime/IsolatedGitCandidateAdapter.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:8ed2c6c93248f2d34be910ef21a6acff79ccf83eb50a76138c57bd70d61b1612",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку определения запрета домашнего сокращения в пути кандидата."
+    },
+    {
+      "id": "fixture-135",
+      "path": "Прототипы/живой-одноагентный-эпизод/Tests/FUMLiveEpisodeCoreTests/LiveGitCandidateContractTests.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:20595c1c162255dcccf12b13dfd97e6f87a382506f464f3072f1ebd377647e91",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную отрицательную фикстуру абсолютного пути политики Git-кандидата."
+    },
+    {
+      "id": "fixture-136",
+      "path": "Прототипы/живой-одноагентный-эпизод/Tests/FUMLiveEpisodeRuntimeTests/LiveGitCandidateAcceptanceTests.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:7391f06dff452751fb603dce1216fb4d1437b0c1ead20e226a9873c87d5920d1",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную враждебную фикстуру системной команды в clone-конфигурации."
+    },
+    {
+      "id": "fixture-137",
+      "path": "Прототипы/живой-одноагентный-эпизод/Tests/FUMLiveEpisodeRuntimeTests/LiveGitCandidateAcceptanceTests.swift",
+      "kind": "file-uri",
+      "line_sha256": "sha256:9a2ef25b8ea040b338c03100e0ba326466f5513ca321b7946bda4e09c0e1e572",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную враждебную фикстуру локального file URI в clone-конфигурации."
+    },
+    {
+      "id": "fixture-138",
+      "path": "Прототипы/живой-одноагентный-эпизод/Tests/FUMLiveEpisodeRuntimeTests/LiveGitCandidateRuntimeTests.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:79c1ba3bca75d80df652dd53fce5cff5acd80c19eb64f9b21e32406bfcbaf8bb",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную отрицательную фикстуру абсолютного пути Git-кандидата."
+    },
+    {
+      "id": "fixture-139",
+      "path": "Прототипы/живой-одноагентный-эпизод/Tests/FUMLiveEpisodeRuntimeTests/LiveGitCandidateRuntimeTests.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:9658649a4f3370a93f6c8b14156e955c381039686d845fd57695edba33df6047",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную враждебную shell-фикстуру системной команды без разрешения соседних строк."
+    },
+    {
+      "id": "definition-047",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d7e7985b660ae55cb67932051d46cbb0f941b87d0d10c13175fdbf7fa1ec1a8e",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку системного префикса устройств в определении проверки путей."
+    },
+    {
+      "id": "definition-048",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/RepositoryCompositionContract.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:4e4da1be9aaf6c5e8b8af4f0b29f4e06d4e1c2496667868b7c624efaada0f999",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку синтаксического запрета домашнего сокращения в полном Git ref паспорта композиции."
+    },
+    {
+      "id": "definition-049",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/RepositoryCompositionContract.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:01e691c7e4dca119fb4c7882dd401c58662ca9a9220f7e965cafccf6a843ea86",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точную строку независимого Git-preflight-запрета домашнего сокращения в полном ref."
+    },
+    {
+      "id": "definition-050",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/Фикстуры/РепозиторнаяКомпозиция/repository-composition-v1.schema.json",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:cd93276666da7d4371925202a1d7061748cd182424b6882ee304d0a5ecb899e1",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точное определение JSON Schema, запрещающее домашнее сокращение в полном Git ref."
+    },
+    {
+      "id": "fixture-140",
+      "path": "Инструменты/fum-materialyi-zaprosov/tests/test_archive_chatgpt_share.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:49ebc847690d08c9a4b3dce5c7eed5582f18b02ca2f9048d919acad737f2aa72",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет одну точную тестовую фикстуру пути после механического переноса."
+    },
+    {
+      "id": "fixture-141",
+      "path": "Инструменты/fum-materialyi-zaprosov/tests/test_source_archive_cli.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:9130b966eb398dae809e92b63ea335344c465ed67ccd0f8262c61cf4da7815ef",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет одну точную тестовую фикстуру пути после механического переноса."
+    },
+    {
+      "id": "fixture-142",
+      "path": "Инструменты/fum-materialyi-zaprosov/tests/test_source_archive_cli.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:57cec43f707755b5471c115af46e969fa09812351d3e1a503f150ed46a1ad134",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет одну точную тестовую фикстуру пути после механического переноса."
+    },
+    {
+      "id": "definition-051",
+      "path": "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:6ba97c59d8ed679a91df304f838413e68b5a0efd493e5ce7bf884533a071b7a9",
+      "count": 3,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точное определение JSON Pointer с экранированием тильды и разделителя."
+    },
+    {
+      "id": "fixture-143",
+      "path": "Инструменты/fum-struktura-papok-zaprosov/tests/test_request_folder_layout.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:83139a6cb416debea544876edf5aee74a3a8697daa4df8e7bbe1fa8cc9a02748",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру классификации ссылки без расширения области."
+    },
+    {
+      "id": "fixture-144",
+      "path": "Инструменты/fum-struktura-papok-zaprosov/tests/test_request_folder_layout.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:3815921348e133fddd2f061a788b7faa4b6e9f8adfe2a8c9ae733eba3ce99024",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру классификации ссылки без расширения области."
+    },
+    {
+      "id": "fixture-145",
+      "path": "Инструменты/fum-struktura-papok-zaprosov/tests/test_request_folder_layout.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:84498443bb9a1847d79671f515213f18f54639d7b2543bfb28976a4e6673bb06",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру классификации ссылки без расширения области."
+    },
+    {
+      "id": "fixture-146",
+      "path": "Инструменты/fum-struktura-papok-zaprosov/tests/test_request_folder_layout.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c0de14a78888e13c19d3d36502a5ed6d90e2379f58bec9b26bba8471f7ce18af",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую фикстуру классификации ссылки без расширения области."
+    },
+    {
+      "id": "definition-052",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d5bb6cd446baf6572a7af4e5e01cec219375369109a528efbe616e404298f746",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точное регулярное выражение для канонической ссылки на файл запроса."
+    },
+    {
+      "id": "fixture-147",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_check_session_coherence.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:460f7c637d3beb75a393bbba0aa897ab352eb71751a68e248d036831f7510020",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет одну точную тестовую фикстуру проверки связности рабочей сессии."
+    },
+    {
+      "id": "fixture-148",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_check_session_coherence.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:773b985d4229f13fc2cd7b279c31462380afbdd426b968aab0e9df5d2f7f522b",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет одну точную тестовую фикстуру проверки связности рабочей сессии."
+    },
+    {
+      "id": "fixture-149",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_obnovitj_policy.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:4683b3e2e1578d969b5b53e961d9421c5854c30397d057f384dec0d836696a53",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную автономную тестовую фикстуру обновления policy без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-150",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_obnovitj_policy.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:5438eaf3eb69d88d0c2a0bec2092e4ceff624fbeeb0cf450e566ffa0ca6c651c",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную автономную тестовую фикстуру обновления policy без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-151",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_obnovitj_policy.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ec1714ad0dece536d30ef42b2842889bea2ee9204aed379321ca223df0ce3c2c",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную автономную тестовую фикстуру обновления policy без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-152",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_obnovitj_policy.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:6ccc03032c53458e376b50830c78e27101f36ed5e9161f6900d9c607f547dd0b",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную автономную тестовую фикстуру обновления policy без разрешения соседних строк."
+    },
+    {
+      "id": "fixture-153",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_obnovitj_policy.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d81df750f923932561301418d2f904bbff1b1f7f58cf644e28fbce362f9a254e",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную автономную тестовую фикстуру обновления policy без разрешения соседних строк."
+    },
+    {
+      "id": "writing-subnode-relative-home-validator",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/WritingSubnodeExecutor.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:ba6f92783045b45c1fa4f3cfbeda824733972c8593dc0431da0e2bc7431386c3",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет явный запрет домашних сокращений в пути рабочего пакета."
+    },
+    {
+      "id": "writing-subnode-user-home-publication-validator",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/WritingSubnodeExecutor.swift",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:86129ac03b454e41851e943e77fc43bac7df32721a905f637c06c083783b749b",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет маркеры пользовательских домашних каталогов для публикационного запрета."
+    },
+    {
+      "id": "writing-subnode-temporary-path-publication-validator",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/WritingSubnodeExecutor.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:59c72872998962f234d466b61800843255c4422174670aa05c42b5c72d0efc54",
+      "count": 3,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет маркеры временных машинно-локальных каталогов для публикационного запрета."
+    },
+    {
+      "id": "writing-subnode-user-home-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/WritingSubnodeExecutorTests.swift",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:cc54efb0ec7d2eb0aff4f95e69f11d8361d0454de151b83c4d9d7db9e472315f",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Проверяет типизированный отказ публикации для одного фиктивного домашнего пути."
+    },
+    {
+      "id": "writing-subnode-git-diff-null-old-definition",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/WritingSubnodeExecutor.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2b1b650b4f9f862f650b3e413225987bfe9b2d829f888ef4ab016edb0daa5061",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет единственную допустимую служебную строку удаления файла в Git diff."
+    },
+    {
+      "id": "writing-subnode-git-diff-null-new-definition",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/WritingSubnodeExecutor.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:339cdbc0b85cb1bcbda669c448115717c8c206418607f2e9788eb2bf57f48476",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет единственную допустимую служебную строку добавления файла в Git diff."
+    },
+    {
+      "id": "writing-subnode-home-expansion-publication-validator",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/WritingSubnodeExecutor.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:7e9d260200302aa2a5b5280837537374a78736dd9b66b1279a6eb593ed262a03",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет регулярное выражение домашних сокращений для публикационного запрета."
+    },
+    {
+      "id": "writing-subnode-windows-drive-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/WritingSubnodeExecutorTests.swift",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:5733ea141323c753369963ec445938ca37ae85f36f2f8cb5bee7333443962d26",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Проверяет типизированный публикационный отказ для фиктивного Windows-пути."
+    },
+    {
+      "id": "writing-subnode-home-expansion-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/WritingSubnodeExecutorTests.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:9f4d77583954e3b31558b264b9c0d49ed4992eaa66fdf3ac0955e5515d13bf88",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Проверяет типизированный публикационный отказ для фиктивного домашнего сокращения."
+    },
+    {
+      "id": "writing-subnode-system-runtime-scanner-fixture",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ef0f737596f86e301ff7def6bd1ca0b1c4ec5f16146b369f0def7197124d29eb",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Проверяет разрешение двух закреплённых системных путей нового Swift runtime."
+    },
+    {
+      "id": "candidate-integrator-machine-junk-home-marker",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/CandidateCommitIntegrator.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:0c4dbbaf76723266b21aa4165536a9a46640d29e28805db27f043632e8739a73",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет точный суффикс резервной копии как машинный мусор интегрируемого дерева."
+    },
+    {
+      "id": "candidate-integrator-user-home-commit-message-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/CandidateCommitIntegratorTests.swift",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:ac79862cb329f657e32e3c8ae3dda323206d335dd5554da03b757f368b3099ed",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Проверяет типизированный публикационный отказ commit message с одним фиктивным домашним путём."
+    },
+    {
+      "id": "repository-composition-acceptance-home-expansion-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/СквознаяПриёмкаРепозиторнойКомпозиции.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:26c139633b03f5b5558b86d84a54c503eeba3d1fb92883087c1687ccaa44232d",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет одну автономную строку, проверяющую публикационный отказ при домашнем сокращении пути."
+    },
+    {
+      "id": "automation-dispatcher-project-path-home-expansion-validator",
+      "path": "Инструменты/fum-dispetcher-avtomatizacij-fum/scripts/диспетчер-автоматизаций.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:88fd7b9399ca4c83ae4e0ad86adc8baf469a6e9488c3b810f777db42e511ae6f",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет явный запрет домашних сокращений и file URI в пути проекта задания диспетчера."
+    },
+    {
+      "id": "planning-step-chain-git-ref-forbidden-characters",
+      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/build-planning-registry.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:906075a2258d5aef5593fad96ad69c29aa40eef98399f818b7c8e2b93a7aa2b1",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Строка перечисляет запрещённые Git-символы и не раскрывает домашний путь."
+    },
+    {
+      "id": "branch-continuation-prompt-home-expansion-negative-fixture",
+      "path": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:b4d225cb55a9fe552ee38ce45adda2f16c7aa8e23584295af26ac913bd54b777",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет отрицательную проверку отсутствия сокращённого домашнего пути в промпте продолжения ветки, не разрешая соседние строки."
+    },
+    {
+      "id": "linear-chain-git-ref-forbidden-characters",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/КонтрактДелегированияКонечнойЦепочки.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:dab826ea77c9e87ef19b015ed687cc5455ce25443aee0b9426c48a834915a68a",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Перечисляет запрещённые Git-символы переносимого ref и не задаёт домашний путь."
+    },
+    {
+      "id": "closed-schema-json-pointer-slash-decoder",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/ПроверкаЗакрытойСхемы.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:46d7cb6aa727e9b94bdaf59bd558b9780821abfd5a1210515475308c55745d74",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет декодирование экранированного разделителя JSON Pointer."
+    },
+    {
+      "id": "closed-schema-json-pointer-tilde-decoder",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/ПроверкаЗакрытойСхемы.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:bcb6d3ec5db7021d0fdb7917818824dc04eb8a573b8ae0ba47778709412d5e51",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет декодирование экранированной тильды JSON Pointer."
+    },
+    {
+      "id": "closed-schema-json-pointer-tilde-encoder",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/ПроверкаЗакрытойСхемы.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:5e9e2b70c77d5387ccdc2126cf062961807fc1640009bc08822d3ebebb890d38",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет кодирование тильды в сегменте JSON Pointer."
+    },
+    {
+      "id": "closed-schema-json-pointer-slash-encoder",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/ПроверкаЗакрытойСхемы.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:9172f9e1f2ada79985352919ac1c112f35ef13169a5971a9a984fc489942bcbb",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет кодирование разделителя в сегменте JSON Pointer."
+    },
+    {
+      "id": "linear-chain-assignment-relative-path-schema",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/Фикстуры/ДелегированиеКонечнойЦепочки/схема-назначения-конечной-линейной-цепочки-v1.json",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:0de9c06f83518fca6ccaece1c5ceec31240759076c0670caaa04cd5fe49c6655",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет закрытый шаблон относительного пути и явный запрет домашнего сокращения."
+    },
+    {
+      "id": "linear-chain-state-relative-path-schema",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/Фикстуры/ДелегированиеКонечнойЦепочки/схема-состояния-конечной-линейной-цепочки-v1.json",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:0de9c06f83518fca6ccaece1c5ceec31240759076c0670caaa04cd5fe49c6655",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет закрытый шаблон относительного пути и явный запрет домашнего сокращения."
+    },
+    {
+      "id": "linear-chain-home-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыДелегированияКонечнойЦепочки.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:3773a7e159903e3dedbc0b0f8fd48a3cf926bf5ed1a238499f144fef0ace1b54",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Проверяет отказ для фиктивного домашнего сокращения в переносимом документе."
+    },
+    {
+      "id": "linear-chain-user-home-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыДелегированияКонечнойЦепочки.swift",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:1eca433a5abba2ad66a2694179fe474507d26a1c8c7461e91dceef7a1d57c18c",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Проверяет отказ для одного фиктивного пользовательского POSIX-пути."
+    },
+    {
+      "id": "linear-chain-windows-slash-drive-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыДелегированияКонечнойЦепочки.swift",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:a37824830e4f75318ba3611b17884e4137628c976d43dbed11c3bfe724f6c4f1",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Проверяет отказ для фиктивного Windows-пути с прямыми разделителями."
+    },
+    {
+      "id": "linear-chain-windows-backslash-drive-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыДелегированияКонечнойЦепочки.swift",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:d7724dbc8f4658f98b608f8ed5adf02782742ffd9e51d9d764fae39551e95500",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Проверяет отказ для фиктивного Windows-пути с обратными разделителями."
+    },
+    {
+      "id": "linear-chain-file-uri-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыДелегированияКонечнойЦепочки.swift",
+      "kind": "file-uri",
+      "line_sha256": "sha256:aa71fac9d4e2e5ab849a1dd252212456466acba224511cf4fa9971b1e3fa45d5",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Проверяет отказ для фиктивного file URI."
+    },
+    {
+      "id": "linear-chain-named-home-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыДелегированияКонечнойЦепочки.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:904792dcf7db1dc88ef28adf6bb06d8074a4e9285fe19ed003ce7289865aaf08",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Проверяет отказ для фиктивного именного домашнего сокращения."
+    },
+    {
+      "id": "fork-tree-current-checkout-posix-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыДереваВетвевыхФорков.swift",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:f24e1d766ef720383d8ab5da4924950f0e490ef50ce229b3078cefb22002c0f6",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Проверяет отказ текущего дескриптора ребёнка для фиктивного пользовательского POSIX-пути checkout."
+    },
+    {
+      "id": "fork-tree-saved-checkout-posix-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыДереваВетвевыхФорков.swift",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:2c40610de80f1235b8a0e1d0c0c97169937f6a24f738e29f93ab68b88f0024f4",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Проверяет отказ сохранённого дескриптора ребёнка для того же фиктивного пользовательского POSIX-пути checkout."
+    },
+    {
+      "id": "resource-work-ref-home-marker",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/РесурсноеРаспределениеЦепочек.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:2b7197da69310c65c0eccf262fd00d71a046260325c4f1ce68cc43419ec69441",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет точный набор запрещённых знаков полного Git ref, включая домашнее сокращение."
+    },
+    {
+      "id": "resource-external-path-absolute-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыРесурсногоРаспределенияЦепочек.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:be8a543742ef0019e60f5420bcd2cfda8c50312d0767352d646b99506b302787",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную отрицательную фикстуру неканонического абсолютного внешнего пути."
+    },
+    {
+      "id": "root-review-schema-json-pointer-moderation-value",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/СхемыКорневогоРевьюЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d6b1131ee03198bda19afd9239949b52450cee15bc1be332aeed23c07c79916c",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет точный JSON Pointer диагностического поля значения и не задаёт путь файловой системы."
+    },
+    {
+      "id": "root-review-schema-json-pointer-identity",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/СхемыКорневогоРевьюЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:e8cd7abac761a7995b862f0933f324a66db997e731686833e4a6df4443109913",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет точный JSON Pointer поля идентичности закрытой схемы."
+    },
+    {
+      "id": "root-review-schema-json-pointer-version",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/СхемыКорневогоРевьюЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:7368bde4c410741f2ba108390f49b16ad6d42f430021d5170cdbb2466cf1602c",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет точный JSON Pointer поля версии закрытой схемы."
+    },
+    {
+      "id": "root-review-schema-json-pointer-runtime-value",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/СхемыКорневогоРевьюЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ce9195dde7d2e76b9c30df0829bc5395565b271d4938ff110e1e988af1ec3800",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет точный JSON Pointer значения при несовпадении runtime и закрытой схемы."
+    },
+    {
+      "id": "root-review-git-ref-home-marker",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/КорневоеРевьюИИнтеграцияЦепочки.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:62099b11d43f4a096708306bdf790f0da50e56165dfbf3c3b0a200f1617dbb27",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Перечисляет запрещённые знаки полного Git ref, включая домашнее сокращение."
+    },
+    {
+      "id": "root-review-relative-path-home-marker-schema",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/Фикстуры/КорневоеРевьюЦепочки/схема-паспорта-корневого-ревью-цепочки-v1.json",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:cc367d665ccf9f88f87d550bee43dff130abea153f993effd2b6e5b2e16f3f06",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет закрытый шаблон относительного пути с явным запретом домашнего сокращения."
+    },
+    {
+      "id": "root-review-child-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыКорневогоРевьюИИнтеграцииЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:fd8f1c34462bea8454b54badfabee96847c62c0c42cd745ca1b372ba28586838",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь исходного репозитория в автономной фикстуре ревью."
+    },
+    {
+      "id": "root-review-project-target-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыКорневогоРевьюИИнтеграцииЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:7246cefec760db4597e3a9892b4c279070f2f79f4b9794c8fd6cde2fc54f744c",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь проектной цели в автономной фикстуре ревью."
+    },
+    {
+      "id": "root-review-core-target-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыКорневогоРевьюИИнтеграцииЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:0ee8f76f928c547410bd6c3a13c1b6d8b738219476047b0b6efb71625cfcbdf7",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь цели ядра в автономной фикстуре ревью."
+    },
+    {
+      "id": "root-review-right-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыКорневогоРевьюИИнтеграцииЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:407447405847d17c599495bc51ed38b5a149a80a172bc2352392526ddc5831b8",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь правого репозитория в фикстуре модерации."
+    },
+    {
+      "id": "root-review-envelope-child-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыКорневогоРевьюИИнтеграцииЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c438bef71bb861de1317094af3878a2566fe21eaaa3d04dbc24a57f163a42813",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь источника в фикстуре конверта запроса слияния."
+    },
+    {
+      "id": "root-review-envelope-core-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыКорневогоРевьюИИнтеграцииЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ebf95996bb784f0a7a60053f25210f0083316f0a2177b6787a95b8970dac4813",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь цели в фикстуре конверта запроса слияния."
+    },
+    {
+      "id": "root-review-schema-child-source-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыСхемКорневогоРевьюЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c438bef71bb861de1317094af3878a2566fe21eaaa3d04dbc24a57f163a42813",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет две одинаковые строки синтетического пути источника в schema-фикстурах."
+    },
+    {
+      "id": "root-review-schema-core-target-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыСхемКорневогоРевьюЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:0442465e1b0733b5befcee5f4693260a0f17e3e91808d7c7e4cb8cfe07d830d3",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь цели в schema-фикстуре паспорта ревью."
+    },
+    {
+      "id": "root-review-schema-nested-child-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыСхемКорневогоРевьюЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:6f421e3825823ddf9b630f4b902d7df071408fe7b74fa2b38a002b379e96ca24",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь вложенного результата ребёнка в schema-фикстуре."
+    },
+    {
+      "id": "root-review-schema-right-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыСхемКорневогоРевьюЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:3f60b6840c24cf98025647fade2c88e8a0d1d8c190e15fd81aa4eb6e9155de60",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь правого результата в schema-фикстуре."
+    },
+    {
+      "id": "root-review-schema-parent-core-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыСхемКорневогоРевьюЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:fb304c2c28cfeabf53633fbbcd16693a2642496d9bd6b8ab435aaf0975c61126",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь родительского репозитория в schema-фикстуре."
+    },
+    {
+      "id": "root-review-schema-core-target-terminal-path-test-fixture",
+      "path": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыСхемКорневогоРевьюЦепочки.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ebf95996bb784f0a7a60053f25210f0083316f0a2177b6787a95b8970dac4813",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический абсолютный путь цели в завершающей строке schema-фикстуры конверта."
+    },
+    {
+      "id": "projection-root-exclusion-fixture",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:796a0ca8087060bea9aa4516240bbcb45e02617fe741d4836bc29f57c119089e",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический домашний путь внутри исключённого корня производной проекции."
+    },
+    {
+      "id": "projection-prefix-near-miss-fixture",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:6e9bc531df44fc7e2a7e32f22675defaec598540ed48d701e6293447bdf403d4",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический домашний путь в проверке префиксного почти совпадения."
+    },
+    {
+      "id": "projection-nested-near-miss-fixture",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:ac70ec90572bd8b87f88fbbc975a516816b7783ad548048cb715f1c183b8385b",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет синтетический домашний путь во вложенном почти совпадающем каталоге."
+    },
+    {
+      "id": "external-contribution-git-base85-definition",
+      "path": "Инструменты/fum-priyom-vneshnego-vklada/scripts/proveritj-paket-vneshnego-vklada.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:5dbc9a33075c02c9856aff023fb43998c70d07c0a30a928aa587eaa8f8a11e69",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точный алфавит Git Base85 с символом тильды, который не является путём файловой системы."
+    },
+    {
+      "id": "external-contribution-old-null-header-definition",
+      "path": "Инструменты/fum-priyom-vneshnego-vklada/scripts/proveritj-paket-vneshnego-vklada.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2226ae20b31fd8e030ab2684375214dc6db36a61b5f4ba77084a952f9be80fe5",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точный служебный маркер Git для старой стороны добавляемого файла без разрешения соседних строк."
+    },
+    {
+      "id": "external-contribution-new-null-header-definition",
+      "path": "Инструменты/fum-priyom-vneshnego-vklada/scripts/proveritj-paket-vneshnego-vklada.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:4856c1bb5b44091329daf0305232d2ba6c90caec08e61b2f2c09a1f1125c5622",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точный служебный маркер Git для новой стороны удаляемого файла без разрешения соседних строк."
+    },
+    {
+      "id": "external-contribution-git-base85-fixture",
+      "path": "Инструменты/fum-priyom-vneshnego-vklada/tests/test_proveritj_paket_vneshnego_vklada.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:5dbc9a33075c02c9856aff023fb43998c70d07c0a30a928aa587eaa8f8a11e69",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точную тестовую копию алфавита Git Base85 с тильдой без разрешения соседних строк."
+    },
+    {
+      "id": "external-contribution-null-header-fixture",
+      "path": "Инструменты/fum-priyom-vneshnego-vklada/tests/test_proveritj_paket_vneshnego_vklada.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:809df6558d9c856b5042b7679b6fd72d2a0cd42218f6b4bdbe1ed50aa5028364",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точный служебный маркер Git в тестовом патче добавления без разрешения соседних строк."
+    },
+    {
+      "id": "continuation-markdown-fence-pattern",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-продолжение-задачи.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:a327bac9701e11c34d1b93f9a2c00c6cf0fc9e462cf187b15f907cdb8b735a6d",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Регулярное выражение распознаёт ограду Markdown из обратных кавычек либо тильд; тильда здесь не является домашним путём."
+    },
+    {
+      "id": "continuation-journal-request-pattern",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-продолжение-задачи.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b7708b4b7e9c4d7521d89298621fe5afdabe4cacb17435b94548b0df131b74bb",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Регулярное выражение ограничивает основание относительным каноническим путём запроса Журнала; слэши и класс символов задают синтаксис проверки."
+    },
+    {
+      "id": "cache-key-absolute-fixture",
+      "path": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/tests/test_кэш_преобразователя.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:fe8d28a5b5ad9065eff03130e075e7598a1221f9814a78b058bea5a827ef2040",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Автономная фикстура абсолютного ключа проверяет отказ от выхода за корень кэша и не является действительным локальным адресом."
+    },
+    {
+      "id": "obligations-v2-source-pattern",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:4dccd6b4a80dfa58f5f7c482c4f34a1e282be87a89fedf2bcd48afb9866deae1",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Шаблон канонического относительного пути журнального источника; не абсолютный путь машины."
+    },
+    {
+      "id": "obligations-v2-text-fence",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:40354f967ab6549c71bcc3fa41297cb1f957bf71e1ceeb09eb310498162e2040",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Тильда — синтаксис Markdown-ограды дословной команды; не домашний каталог."
+    },
+    {
+      "id": "obligations-v2-readme-suffix",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:0c5e46391fbb97ac7103031b248f39e6531bccafb27ca20f7f677128ea9cd19e",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Суффикс имени README при чтении карточек из Git; не самостоятельный абсолютный путь."
+    },
+    {
+      "id": "obligations-v2-fingerprint-runs",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:997abf7c1b1619bc41b9fd36ce545c3c54062d5748e24c7bfe5b161389c9f439",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Относительный суффикс каталога запусков, добавляемый к проверенному пути сессии."
+    },
+    {
+      "id": "obligations-v2-fingerprint-report",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:460162f0d8d10d5ce5408f700049f438cbcdd2a09ae3adf46c8a9c2f48ce7f19",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Относительный суффикс отчёта, добавляемый к проверенному пути сессии."
+    },
+    {
+      "id": "obligations-v2-closed-runs",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ecc46927c13193ec2321bd4ab059961eff21a21abdb6f17d86919e95ac6616a4",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Относительный суффикс каталога закрытых запусков внутри канонического источника."
+    },
+    {
+      "id": "obligations-v2-closed-snapshot-presence",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c31a6fbd36fd5359c2c01f938a2f478d034f9963ff49f0992eeedab9a5e30b26",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Имя снимка присоединяется к проверенному относительному каталогу запусков."
+    },
+    {
+      "id": "obligations-v2-closed-snapshot-read",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:7a1f6aca65421483c08c2e82444149996e6fd554c6555f8afe266c4d65c6ebe3",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Имя снимка присоединяется к проверенному относительному каталогу для чтения."
+    },
+    {
+      "id": "obligations-v2-closed-report",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:bcf89ca3ec79916f3d36eb0719393044b6a98abc7c56871ef13b2f54417a065f",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Относительный суффикс отчёта внутри проверенной сессии."
+    },
+    {
+      "id": "obligations-v2-closed-history",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:19d98b7d30c1a07b38c4dffef8f14b6243f01e85b75fcbccfaafffeb6288d6d9",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Исторический путь снимка строится внутри относительного каталога запусков."
+    },
+    {
+      "id": "obligations-v2-closed-anchor",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:87e2a3564ddf8633428cb8b87fe7e3af0f42302a95630788410e9093a0c67b73",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Ключ снимка в относительном Git-дереве; не локальный абсолютный путь."
+    },
+    {
+      "id": "obligations-v2-receipt-runs",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:136b138244a3d4e1b91f533d05f965d0e693c6798fe3eea1f605680fba0c89c9",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Относительный суффикс каталога запусков при поиске приёмочного коммита."
+    },
+    {
+      "id": "obligations-v2-receipt-history",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:041511e7309c68610d0e51ad12b89ee43429393ea9dc6f155ab642c78b343566",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Относительный путь снимка для полного обхода истории приёмки."
+    },
+    {
+      "id": "obligations-v2-receipt-anchor",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:654c38a9705805f2a867a39313c296c0ae56d7f1708f5c2447ec3df01875e0ab",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Относительный ключ снимка при доказательстве приёмки."
+    },
+    {
+      "id": "obligations-v2-fixture-snapshot",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обязательства_задачи_v2.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2ec22d5c3a566df50b646306d250263bc20b4697f3043028cfbf1df702f5adbb",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Имя снимка присоединяется к относительному каталогу изолированной синтетической приёмки."
+    },
+    {
+      "id": "obligations-v2-fixture-dependency",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обязательства_задачи_v2.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:1c78ae0785036bf287b113f27c6bbdb17d5c5056bd8d52b5916a83b0e2146d7f",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Имя исходника присоединяется к относительному пути временной Git-зависимости."
+    },
+    {
+      "id": "stop-fixture-transcript",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_перехват_завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:dc2bd482fff886c4ff2bf700e4fd0523d6cb661e0bed5375c90b809223c8859f",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический путь transcript_path проверяет, что содержимое чужого транскрипта не читается и не сохраняется."
+    },
+    {
+      "id": "stop-fixture-foreign-cwd",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_перехват_завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:75ec12591e37ffd481eab6b1b389655720555647bd1e9eddf2c54a52e6315d96",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический чужой cwd проверяет отказ от принятия события с несовпадающей рабочей директорией."
+    },
+    {
+      "id": "index-snapshot-fixture-missing-symlink",
+      "path": "Инструменты/fum-snimki-indeksa/tests/test_git.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:3bea246dc5532d29d320a2efae8f51989c972b6c625ce4518a27d26de15f3223",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Искусственная отсутствующая цель symlink доказывает, что закреплённые байты читаются из Git-объекта, а не из позднего checkout."
+    },
+    {
+      "id": "index-snapshot-fixture-upload-pack",
+      "path": "Инструменты/fum-snimki-indeksa/tests/test_git.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:fc00e6cc33001656a3b5b5404026342a0686dfd5bd9ebc4cde3e056e2871a413",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Shebang собственного временного помощника локальной promisor-фикстуры фиксирует реальную попытку догрузки; это не путь пользовательского состояния."
+    },
+    {
+      "id": "stop-bundle-git-path",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовить-комплект-завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:cbb2ce6521e1bfe3ff761737dda4b4b6bdcb5e336c3fe4626bffb62c0830e5fc",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет закрытую границу поиска системных команд при проверке Git-источника."
+    },
+    {
+      "id": "stop-bundle-git-config",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовить-комплект-завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:cf0876d2ac07108706387068f61d9eea5918015e796ac59b24fe272ec50d1495",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Отключает глобальную конфигурацию Git системным пустым источником в проверяемой границе запуска."
+    },
+    {
+      "id": "stop-bundle-git-executable",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовить-комплект-завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:a51250ca80b75e2b085509e505e0fe236d547470e4aaad04b297930d01723f41",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точный системный Git для проверки цепочки исходных объектов."
+    },
+    {
+      "id": "stop-bundle-python-path",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовить-комплект-завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c05cd67ff63d4ce48eb1a24334c472a2470831292574301442f96e5686b22b69",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет очищенное окружение проверки выбранного интерпретатора."
+    },
+    {
+      "id": "stop-bundle-bootstrap-env",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовить-комплект-завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:7c0396572f5eb068a3cf1c8c2ee7b87afef0937ea0bd420f8d8d4237839286ed",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет проверяемую границу запуска загрузчика через системный env и фиксированный PATH."
+    },
+    {
+      "id": "stop-bundle-profile-reference-env",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-комплект-завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ac38d5594fcbfa59cbfaf675b5abce38288681eb60b4f0a505af58468e1fbae3",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический сквозной опыт использует фиксированное окружение эталонной проверки guard."
+    },
+    {
+      "id": "stop-bundle-profile-hook-shell",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-комплект-завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:033348c878ad4ee6bcc924a0866d604af5265647c244b1700e23467f567d1a5f",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический сквозной опыт исполняет точную проверяемую command системной оболочкой."
+    },
+    {
+      "id": "stop-bundle-fixture-assert-path",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ad4e7ad5207e17052cbdfc3a4b399b5a14c308e24578325022451fdc77c9e24c",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический исходник проверяет точное очищенное окружение загрузчика."
+    },
+    {
+      "id": "stop-bundle-fixture-git",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:f4781ea2388aa11078928611186356780cdb914ea51bbc6f36d3cf46b58952a6",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Системный Git обслуживает только временный синтетический репозиторий теста."
+    },
+    {
+      "id": "stop-bundle-fixture-shell",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:955ae446ba39d057c6a160ef7a312c0a3f46586f8a7535971e7f4b6bc754f7c7",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Системная оболочка проверяет quoting и контракт синтетического hook."
+    },
+    {
+      "id": "stop-bundle-fixture-subtree-blob",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b148609a13349d5cacf97e3a117a8f2096e7758975427b7af111f19e371dc7af",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Системный Git создаёт подменный blob только внутри изолированной отрицательной фикстуры."
+    },
+    {
+      "id": "stop-bundle-fixture-subtree-read",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d427496239a68e8a321b48316732dba36767c4435ec52264d35e32bf58d38ef5",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Системный Git читает синтетический tree для воспроизведения статической подмены."
+    },
+    {
+      "id": "stop-bundle-fixture-signal",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:f7e7444270d4e497877ec277a3dbe88e4341ef36633a3e400dca0f605c7c54c9",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Системная оболочка проверяет сохранение сигнала на точной синтетической command."
+    },
+    {
+      "id": "stop-bundle-fixture-bare",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:21c8af1940917adcb1844f4e19dba9c57836af7cb974e11d4007db9c28acdc62",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Системный Git создаёт голый репозиторий отрицательной фикстуры приватного предка."
+    },
+    {
+      "id": "stop-bundle-fixture-common-create",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:cfe36beb88a3a46c78c0fcf8e4a25ba6fd246c4cc523fd1568504eaab62a0a82",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Системный Git создаёт вынесенный общий каталог только в отрицательной фикстуре."
+    },
+    {
+      "id": "stop-bundle-fixture-common-prove",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:31aec80d96bf99815fa073e929f7062216c1e07102fe58d4bc314c8190f5d185",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Системный Git подтверждает реальность вынесенного общего каталога отрицательной фикстуры."
+    },
+    {
+      "id": "stop-bundle-fixture-malformed",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:240212aa7a3379ae65873f72f1dbe927569d349f990de6d9ee8e02e868ab08b7",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Системная оболочка проверяет ограниченный отказ на повреждённом синтетическом вводе."
+    },
+    {
+      "id": "stop-bundle-fixture-open-stdin",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:3f8d054790b6cca97970e1e6a960b2a35e1a85928db22129d416286c104987ac",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Системная оболочка проверяет ограниченное ожидание незакрытого синтетического stdin."
+    },
+    {
+      "id": "synthetic-snapshot-example-json-1",
+      "path": "Журнал/2026-09-09_13-39-31_MSK_собрать-синтетический-снимок-агентской-задачи/материалы/пример-снимка.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:cdd5a4cbdb3a14606ced6252b98a8b9131d12873c47546b057bdc78bcc138845",
+      "count": 6,
+      "category": "allow.test-fixture",
+      "reason": "Точный открытый синтетический пример снимка; вымышленные каталоги являются значениями проверяемого сценария, а не путями рабочей машины."
+    },
+    {
+      "id": "synthetic-snapshot-example-markdown-11",
+      "path": "Журнал/2026-09-09_13-39-31_MSK_собрать-синтетический-снимок-агентской-задачи/материалы/пример-снимка.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:314769b8ae1827c7d71b83ed08fd4d933823d947dca63ca63865fc2717ec96c2",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Точная строка человекочитаемого синтетического примера; вымышленный каталог воспроизводит JSON-фикстуру и не обозначает путь рабочей машины."
+    },
+    {
+      "id": "synthetic-snapshot-example-markdown-13",
+      "path": "Журнал/2026-09-09_13-39-31_MSK_собрать-синтетический-снимок-агентской-задачи/материалы/пример-снимка.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:8b7a4d95cd00b4575a0ef53261885d2ceda3517303bbd04130e2a892c61fc6b2",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Точная строка человекочитаемого синтетического примера; вымышленный каталог воспроизводит JSON-фикстуру и не обозначает путь рабочей машины."
+    },
+    {
+      "id": "synthetic-snapshot-example-markdown-17",
+      "path": "Журнал/2026-09-09_13-39-31_MSK_собрать-синтетический-снимок-агентской-задачи/материалы/пример-снимка.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:24ffd5880e0b4ab11fe17925efe1bb1beef0df53c609c44e42020f6cf477c269",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Точная строка человекочитаемого синтетического примера; вымышленный каталог воспроизводит JSON-фикстуру и не обозначает путь рабочей машины."
+    },
+    {
+      "id": "synthetic-snapshot-example-markdown-38",
+      "path": "Журнал/2026-09-09_13-39-31_MSK_собрать-синтетический-снимок-агентской-задачи/материалы/пример-снимка.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:f8f16b652f846996ccc52c6fa7f6a2097e20654a7d78170c147e0cadabf227e1",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Точная строка человекочитаемого синтетического примера; вымышленный каталог воспроизводит JSON-фикстуру и не обозначает путь рабочей машины."
+    },
+    {
+      "id": "synthetic-snapshot-example-markdown-39",
+      "path": "Журнал/2026-09-09_13-39-31_MSK_собрать-синтетический-снимок-агентской-задачи/материалы/пример-снимка.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:cff5309e1d05e78b1a9eaf22a8925ccd953d6cd48ad1e6c583ad10d4d2476a86",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Точная строка человекочитаемого синтетического примера; вымышленный каталог воспроизводит JSON-фикстуру и не обозначает путь рабочей машины."
+    },
+    {
+      "id": "synthetic-snapshot-example-markdown-40",
+      "path": "Журнал/2026-09-09_13-39-31_MSK_собрать-синтетический-снимок-агентской-задачи/материалы/пример-снимка.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:f7c53e60f9c3d7678e2fc0a6b4259abce7a3ee836d4d45e5fcc4979f0d329746",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Точная строка человекочитаемого синтетического примера; вымышленный каталог воспроизводит JSON-фикстуру и не обозначает путь рабочей машины."
+    },
+    {
+      "id": "late-queue-report-var-symlink",
+      "path": "Журнал/2026-09-09_15-19-16_MSK_сохранить-очередь-поздних-команд/отчёт.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:e1bf02a560daac2f32cb2049d0364443e691bca64581869e1174e154f7bf8d60",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Точное свидетельство дочернего RED на стандартной символической ссылке macOS; не содержит имени пользователя, частного каталога или разрешения произвольных путей."
+    }
+  ]
+}

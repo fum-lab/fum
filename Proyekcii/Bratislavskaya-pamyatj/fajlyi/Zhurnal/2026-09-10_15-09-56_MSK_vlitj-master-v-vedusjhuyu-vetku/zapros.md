@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-10 14:26:58 MSK - Proveryatj sliyaniye master v vedusjhuyu vetku](../2026-09-10_14-26-58_MSK_proveryatj-sliyaniye-master-v-vedusjhuyu-vetku/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-10 17:33:36 MSK - Zakrepitj dopusk sliyaniya iz master](../2026-09-10_17-33-36_MSK_zakrepitj-dopusk-sliyaniya-iz-master/zapros.md)
 
 ## Tekst zaprosa
 
@@ -81,6 +81,6 @@ Posledneye nablyudeniye prochitano neposredstvenno iz JSONL tekusjhej zadachi: v
 - [Pravila](../../Pravila/agentov), [AGENTS.md](../../AGENTS.md), [README](../../README.md), [instrumentyi](../../Instrumentyi), [planirovaniye](../../Planirovaniye), [dokumentaciya](../../Dokumentaciya), [glossarij](../../Glossarij), [istochniki](../../Istochniki), [sboi](../../Sboi) i [proyektnaya konfiguraciya Codex](../../.codex/config.toml) vkhodyat v tochnyij sostav obyyedineniya dvukh iskhodnyikh linij. Itogovyiye izmeneniya otnositeljno roditelej proveryayutsya otdeljno pered fiksaciyej.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 17:15:18 MSK -->
-<!-- content-sha256: sha256:8ad7174240b3f5b212bc39c2153c86ab64a67677c1c276d2df050ae7f1e0adab -->
+<!-- last-content-edit: 2026-09-10 20:36:12 MSK -->
+<!-- content-sha256: sha256:9282f9b29679bd182ef00504491136f2065c709e4261853ef08618ddfa2cbc06 -->
 <!-- FUM-MD-RECENCY:END -->

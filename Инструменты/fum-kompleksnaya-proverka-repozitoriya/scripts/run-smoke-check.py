@@ -13,7 +13,9 @@ import re
 import shlex
 import subprocess
 import sys
+import tempfile
 import time
+import types
 import tomllib
 import unicodedata as данные_юникода
 import uuid as уникальные_идентификаторы
@@ -892,6 +894,9 @@ def parse_args() -> argparse.Namespace:
             "Swift manifests are evaluated only for the explicit full profile."
         ),
     )
+    parser.add_argument("--источник-проверок", help="Полный OID принятого master для проверки слияния.")
+    parser.add_argument("--ведущая-основа", help="Полный OID ведущей основы слияния.")
+    parser.add_argument("--свидетельство-контура", help="Заранее индексированное происхождение полного запуска.")
     return parser.parse_args()
 
 
@@ -2289,8 +2294,18 @@ def build_steps(
     clock: Clock | None = None,
     timing_sink: TimingSink | None = None,
     профиль: str = ДОКУМЕНТАЦИОННЫЙ_ПРОФИЛЬ,
+    *,
+    корень_проверок: Path | None = None,
 ) -> list[SmokeStep]:
     root = Path(repo_root).resolve()
+    источник = root if корень_проверок is None else Path(корень_проверок).resolve(strict=True)
+    if корень_проверок is not None and (not include_session or профиль != ДОКУМЕНТАЦИОННЫЙ_ПРОФИЛЬ):
+        raise ValueError("контур слияния требует полного документационного плана со связностью сессии")
+
+    def проверочный_файл(путь: Path) -> str:
+        относительный = require_file(источник, путь)
+        return относительный if корень_проверок is None else str(источник / относительный)
+
     if профиль not in ПРОФИЛИ_ПРОВЕРКИ:
         raise ValueError(f"неизвестный smoke-профиль: {профиль}")
     validate_project_skill_isolation(root)
@@ -2314,23 +2329,24 @@ def build_steps(
     steps: list[SmokeStep] = []
 
     каталоги_тестов = (
-        discover_test_dirs(root)
+        discover_test_dirs(источник)
         if профиль == ПОЛНЫЙ_ПРОФИЛЬ
-        else разрешить_документационные_наборы_тестов(root)
+        else разрешить_документационные_наборы_тестов(источник)
     )
     for test_dir in каталоги_тестов:
         tool_name = test_dir.parent.name
-        путь_набора = repo_relative(test_dir, root)
+        путь_набора = repo_relative(test_dir, источник)
         steps.append(
             SmokeStep(
                 name=f"Тесты {tool_name}",
                 command=(
                     python_cmd,
+                    *(("-I", "-B") if корень_проверок is not None else ()),
                     "-m",
                     "unittest",
                     "discover",
                     "-s",
-                    путь_набора,
+                    путь_набора if корень_проверок is None else str(test_dir),
                     "-p",
                     "test_*.py",
                 ),
@@ -2348,7 +2364,7 @@ def build_steps(
             )
         )
 
-    request_folder_layout_script = require_file(root, REQUEST_FOLDER_LAYOUT_SCRIPT)
+    request_folder_layout_script = проверочный_файл(REQUEST_FOLDER_LAYOUT_SCRIPT)
     steps.append(
         SmokeStep(
             name="Проверка структуры папок запросов",
@@ -2363,7 +2379,7 @@ def build_steps(
         )
     )
 
-    planning_script = require_file(root, PLANNING_REGISTRY_SCRIPT)
+    planning_script = проверочный_файл(PLANNING_REGISTRY_SCRIPT)
     planning_output = PLANNING_REGISTRY_OUTPUT.as_posix()
     steps.append(
         SmokeStep(
@@ -2380,11 +2396,8 @@ def build_steps(
         )
     )
 
-    скрипт_проекции = require_file(root, СКРИПТ_БРАТИСЛАВСКОЙ_ПРОЕКЦИИ)
-    контракт_проекции = require_file(
-        root,
-        КОНТРАКТ_БРАТИСЛАВСКОЙ_ПРОЕКЦИИ,
-    )
+    скрипт_проекции = проверочный_файл(СКРИПТ_БРАТИСЛАВСКОЙ_ПРОЕКЦИИ)
+    контракт_проекции = проверочный_файл(КОНТРАКТ_БРАТИСЛАВСКОЙ_ПРОЕКЦИИ)
     steps.append(
         SmokeStep(
             name="Применение братиславской проекции памяти",
@@ -2419,8 +2432,8 @@ def build_steps(
     )
 
     if профиль == ПОЛНЫЙ_ПРОФИЛЬ:
-        automation_names_script = require_file(root, AUTOMATION_NAMES_CHECK_SCRIPT)
-        automation_names_registry = require_file(root, AUTOMATION_NAMES_REGISTRY)
+        automation_names_script = проверочный_файл(AUTOMATION_NAMES_CHECK_SCRIPT)
+        automation_names_registry = проверочный_файл(AUTOMATION_NAMES_REGISTRY)
         steps.append(
             SmokeStep(
                 name="Проверка реестра названий автоматизаций",
@@ -2436,7 +2449,7 @@ def build_steps(
             )
         )
 
-    machine_local_path_script = require_file(root, MACHINE_LOCAL_PATH_CHECK_SCRIPT)
+    machine_local_path_script = проверочный_файл(MACHINE_LOCAL_PATH_CHECK_SCRIPT)
     steps.append(
         SmokeStep(
             name="Проверка машинно-локальных путей",
@@ -2445,15 +2458,15 @@ def build_steps(
                 machine_local_path_script,
                 "--repo-root",
                 ".",
+                *(("--policy", проверочный_файл(Path(
+                    "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/policy-кандидата-слияния.json"
+                ))) if корень_проверок is not None else ()),
             ),
             ранняя_проверка=True,
         )
     )
 
-    скрипт_декомпозиции_правил = require_file(
-        root,
-        СКРИПТ_ПРОВЕРКИ_ДЕКОМПОЗИЦИИ_ПРАВИЛ,
-    )
+    скрипт_декомпозиции_правил = проверочный_файл(СКРИПТ_ПРОВЕРКИ_ДЕКОМПОЗИЦИИ_ПРАВИЛ)
     steps.append(
         SmokeStep(
             name="Проверка декомпозиции правил агентов",
@@ -2469,14 +2482,8 @@ def build_steps(
     )
 
     if профиль == ПОЛНЫЙ_ПРОФИЛЬ:
-        скрипт_перевода = require_file(
-            root,
-            СКРИПТ_ПРОВЕРКИ_ПЕРЕВОДА_ОБЪЯВЛЕНИЙ_КОДА,
-        )
-        снимок_остатка = require_file(
-            root,
-            СНИМОК_ОСТАТКА_ОБЪЯВЛЕНИЙ_КОДА,
-        )
+        скрипт_перевода = проверочный_файл(СКРИПТ_ПРОВЕРКИ_ПЕРЕВОДА_ОБЪЯВЛЕНИЙ_КОДА)
+        снимок_остатка = проверочный_файл(СНИМОК_ОСТАТКА_ОБЪЯВЛЕНИЙ_КОДА)
         steps.append(
             SmokeStep(
                 name="Проверка перевода объявлений кода",
@@ -2493,7 +2500,7 @@ def build_steps(
             )
         )
 
-        git_dependency_script = require_file(root, GIT_DEPENDENCY_CHECK_SCRIPT)
+        git_dependency_script = проверочный_файл(GIT_DEPENDENCY_CHECK_SCRIPT)
         steps.append(
             SmokeStep(
                 name="Проверка Git-зависимости LinguisticKit",
@@ -2516,7 +2523,7 @@ def build_steps(
             )
         )
 
-        prototype_launch_script = require_file(root, PROTOTYPE_LAUNCH_CHECK_SCRIPT)
+        prototype_launch_script = проверочный_файл(PROTOTYPE_LAUNCH_CHECK_SCRIPT)
         steps.append(
             SmokeStep(
                 name="Проверка скриптов запуска прототипов",
@@ -2525,7 +2532,7 @@ def build_steps(
             )
         )
 
-    question_backlinks_script = require_file(root, QUESTION_BACKLINKS_SCRIPT)
+    question_backlinks_script = проверочный_файл(QUESTION_BACKLINKS_SCRIPT)
     steps.append(
         SmokeStep(
             name="Проверка двунаправленности вопросов",
@@ -2534,7 +2541,7 @@ def build_steps(
         )
     )
 
-    readme_index_script = require_file(root, README_INDEX_CHECK_SCRIPT)
+    readme_index_script = проверочный_файл(README_INDEX_CHECK_SCRIPT)
     steps.append(
         SmokeStep(
             name="Проверка тематического индекса README",
@@ -2543,7 +2550,7 @@ def build_steps(
         )
     )
 
-    recency_script = require_file(root, RECENCY_SCRIPT)
+    recency_script = проверочный_файл(RECENCY_SCRIPT)
     steps.append(
         SmokeStep(
             name="Проверка recency-меток Markdown",
@@ -2554,9 +2561,9 @@ def build_steps(
     if профиль == ПОЛНЫЙ_ПРОФИЛЬ:
         # Историческая ручная утилита остаётся частью полного профиля,
         # но ignored graph.json больше не добавляет исполняемый smoke-шаг.
-        require_file(root, OBSIDIAN_GRAPH_RECENCY_SCRIPT)
+        проверочный_файл(OBSIDIAN_GRAPH_RECENCY_SCRIPT)
     if include_session:
-        session_script = require_file(root, SESSION_COHERENCE_SCRIPT)
+        session_script = проверочный_файл(SESSION_COHERENCE_SCRIPT)
         assert request is not None  # Validated before the plan is built.
         request_path = repo_relative(Path(request), root)
         session_command = [python_cmd, session_script, "--request", request_path]
@@ -2581,6 +2588,7 @@ def build_steps(
 def smoke_env() -> dict[str, str]:
     env = os.environ.copy()
     env["PYTHONDONTWRITEBYTECODE"] = "1"
+    env.pop("FUM_CHECKED_CODE_ROOT", None)
     env.pop(ПЕРЕМЕННАЯ_ПУТИ_НАБЛЮДЕНИЙ, None)
     env.pop(ПЕРЕМЕННАЯ_ИДЕНТИФИКАТОРА_ЗАПУСКА, None)
     return env
@@ -2600,12 +2608,33 @@ def run_steps(
     clock: Clock | None = None,
     overall_started_at: float | None = None,
     сборщик_наблюдений: СборщикНаблюдений | None = None,
+    корень_реализации: Path | None = None,
+    префикс_кэша: Path | None = None,
 ) -> int:
+    if корень_реализации is not None and префикс_кэша is None:
+        with tempfile.TemporaryDirectory(prefix="fum-source-only-") as временный:
+            return run_steps(steps, repo_root, clock=clock, overall_started_at=overall_started_at,
+                             сборщик_наблюдений=сборщик_наблюдений, корень_реализации=корень_реализации,
+                             префикс_кэша=Path(временный).resolve())
     timer = clock or time.perf_counter
     total_started_at = (
         timer() if overall_started_at is None else overall_started_at
     )
     env = smoke_env()
+    if корень_реализации is not None:
+        env = {ключ: значение for ключ, значение in env.items()
+               if not ключ.startswith(("PYTHON", "GIT_"))}
+        env["PYTHONDONTWRITEBYTECODE"] = "1"
+        env["GIT_NO_REPLACE_OBJECTS"] = "1"
+        env["GIT_NO_LAZY_FETCH"] = "1"
+        assert префикс_кэша is not None
+        if префикс_кэша.is_symlink() or not префикс_кэша.is_dir() or any(префикс_кэша.iterdir()):
+            raise ValueError("нужен пустой собственный каталог кэша Python")
+        env["PYTHONPYCACHEPREFIX"] = str(префикс_кэша)
+        выбранный_корень = Path(корень_реализации).resolve(strict=True)
+        if not выбранный_корень.is_dir():
+            raise ValueError("корень проверяемой реализации должен быть каталогом")
+        env["FUM_CHECKED_CODE_ROOT"] = str(выбранный_корень)
     total = len(steps)
     for index, step in enumerate(steps, start=1):
         print(f"[{index}/{total}] {step.name}", flush=True)
@@ -2627,8 +2656,11 @@ def run_steps(
         if сборщик_наблюдений is not None:
             сборщик_наблюдений.начать(step)
         try:
+            команда = step.command
+            if префикс_кэша is not None and Path(команда[0]).resolve() == Path(sys.executable).resolve():
+                команда = (команда[0], "-B", "-X", "pycache_prefix=" + str(префикс_кэша), *команда[1:])
             result = subprocess.run(
-                step.command,
+                команда,
                 cwd=repo_root,
                 env=env,
                 check=False,
@@ -2670,6 +2702,8 @@ def run_steps(
             )
             return exit_code
         step_finished_at = timer()
+        if префикс_кэша is not None and any(префикс_кэша.iterdir()):
+            raise ValueError("дочерний процесс изменил пустой каталог кэша Python")
         print_output(result)
         step_result = "passed" if result.returncode == 0 else "failed"
         if сборщик_наблюдений is not None:
@@ -2736,8 +2770,17 @@ def main(*, clock: Clock | None = None) -> int:
     root = args.repo_root.resolve()
     include_session = not args.skip_session_coherence
     preparation_started_at = timer()
+    контур = None
+    источник = None
+    команда_контура = [sys.executable, "-B", str(Path(__file__).resolve()), *sys.argv[1:]]
 
     try:
+        if any((args.источник_проверок, args.ведущая_основа, args.свидетельство_контура)):
+            путь_контура = Path(__file__).resolve().with_name("контур_слияния.py")
+            контур = types.ModuleType("контур_слияния")
+            exec(compile(путь_контура.read_bytes(), str(путь_контура), "exec"), контур.__dict__)
+            источник = Path(__file__).resolve().parents[3]
+            контур.проверить_запуск(источник, root, команда_контура, str(args.request), os.environ.get(ПЕРЕМЕННАЯ_ИДЕНТИФИКАТОРА_ЗАПУСКА, ""))
         steps = build_steps(
             root,
             args.request,
@@ -2747,6 +2790,7 @@ def main(*, clock: Clock | None = None) -> int:
             clock=timer,
             timing_sink=print_timing,
             профиль=args.профиль,
+            корень_проверок=источник,
         )
         статистика = (
             загрузить_статистику_закрытых_запусков(root)
@@ -2799,13 +2843,21 @@ def main(*, clock: Clock | None = None) -> int:
         )
         return 0
 
-    return run_steps(
+    код = run_steps(
         steps,
         root,
         clock=timer,
         overall_started_at=overall_started_at,
         сборщик_наблюдений=сборщик_наблюдений,
+        корень_реализации=root if контур is not None else None,
     )
+    if контур is not None:
+        try:
+            контур.проверить_запуск(источник, root, команда_контура, str(args.request), os.environ.get(ПЕРЕМЕННАЯ_ИДЕНТИФИКАТОРА_ЗАПУСКА, ""))
+        except (OSError, ValueError) as ошибка:
+            print("Источник проверки изменился: " + str(ошибка), file=sys.stderr)
+            return 125
+    return код
 
 
 if __name__ == "__main__":

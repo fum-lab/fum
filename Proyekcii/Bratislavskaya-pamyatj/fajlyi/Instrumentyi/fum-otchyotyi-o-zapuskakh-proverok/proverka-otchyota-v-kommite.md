@@ -9,7 +9,9 @@ python3 -B Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/з�
   --запрос Журнал/<stem>/запрос.md
 ```
 
-Peredayotsya polnyij OID dostupnogo kommita i tochnyij otnositeljnyij putj zaprosa. Korenj sovpadayet s realjnyim checkout. Teg, sokrasjhyonnyij OID, nachaljnyij kommit i merge ne prokhodyat ogranicheniya adaptera svyazi. Otsutstvuyusjhiye obyyektyi ne zagruzhayutsya iz seti.
+Peredayotsya polnyij OID dostupnogo kommita i tochnyij otnositeljnyij putj zaprosa. Korenj sovpadayet s realjnyim checkout. Bez yavnogo rezhima sliyaniya dopuskayetsya kommit s odnim roditelem; merge i nachaljnyij kommit otklonyayutsya. Teg i sokrasjhyonnyij OID ne prinimayutsya v lyubom rezhime. Otsutstvuyusjhiye obyyektyi ne zagruzhayutsya iz seti.
+
+Dlya tochnogo C s roditelyami `[L, M]` parametr `--слияние` proveryayet zakryityij otchyot i svyazj otpechatkov, a `--допуск-слияния` dopolniteljno trebuyet sokhranyonnoye proiskhozhdeniye proverok iz M. Rezhimyi vzaimoisklyuchayusjhiye; oba trebuyut polnyiye `--база L`, `--присоединяемый M` i `--дерево T`. Podgotovka i komandyi opisanyi v [proverke sliyaniya iz master](proverka-sliyaniya-iz-master.md).
 
 | Kod | Sostoyaniye | Znacheniye |
 | --- | --- | --- |
@@ -20,6 +22,8 @@ Peredayotsya polnyij OID dostupnogo kommita i tochnyij otnositeljnyij putj zapro
 Vyivod imeyet skhemu `fum.проверенный-отчёт.1`, soderzhit polnyij kommit, putj zaprosa, chislo zapuskov, UUID finaljnogo zapuska, khyesh snimka, oba otpechatka i rezuljtat ikh svyazi. Pole `завершение_обязательства_доказано` vsegda ravno `false`: uspeshnaya priyomka koda sama po sebe ne zakryivayet poljzovateljskoye obyazateljstvo.
 
 ## Chto proveryayetsya
+
+Rezhim dopuska dobavlyayet `происхождение_проверок`: putj i blob OID svideteljstva, M i yego derevo, L, obyortku, zavisimostj, khyesh politiki, zapros i UUID, ravnyij `финальный_запуск`. Metka ispolneniya v pole `ожидаемое_свидетельство` finaljnoj zapisi dolzhna tochno svyazyivatj kanonicheskiye bajtyi etogo svideteljstva. Obyichnaya polnaya zapisj s `null` ne podtverzhdayet istochnik M. Svideteljstvo chitayetsya iz C; politika i yeyo opisaniye — iz M. Proveryayutsya odinakovyiye derevjya arkhiviruyemogo paketa M/L/C i gitlink M/C. Otsutstviye svideteljstva, inoj rezhim fajla, nekanonicheskiye bajtyi, drugoj UUID ili istochnik oznachayut otkaz. Etot rezhim ne menyayet refs i ne dokazyivayet zaversheniye obyazateljstva.
 
 Inventarj beryotsya iz dereva Git, vklyuchaya vlozhennyiye derevjya. Spisok vnutri snimka ne sluzhit yedinstvennyim istochnikom sostava. V kataloge zapuskov nedopustimyi neizvestnyiye fajlyi, vlozhennyiye katalogi, dazhe pustyiye, i perekhodnyij zhurnal vozobnovleniya. Zapros, otchyot i svideteljstva dolzhnyi byitj obyichnyimi blobs s rezhimom `100644` ili `100755`; simvolicheskiye ssyilki i gitlink otklonyayutsya. Fakticheskij tip kazhdogo obyyekta proveryayetsya otdeljno ot rezhima zapisi dereva: tag na korrektnyij blob ne podmenyayet sam blob.
 
@@ -46,6 +50,6 @@ Soderzhimoye poljzovateljskikh komand, `Codex-Thread-ID`, polnota reyestra, smyi
 [Testyi](tests/test_zakryityij_otchyot_iz_gita.py) ispoljzuyut nastoyasjhij formatiruyusjhij i otchyotnyij mekhanizm v avtonomnyikh vremennyikh repozitoriyakh. Dochernij smoke v fiksture sinteticheskij: eti testyi ne zayavlyayut vyipolneniye realjnogo polnogo nabora. Realjnaya priyomka tekusjhego koda vyipolnyayetsya otdeljno i sokhranyayetsya v [otchyote etapa](../../Zhurnal/2026-09-10_02-01-28_MSK_proveryatj-zakryityiye-otchyotyi-iz-kommitov/otchyot.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 11:27:33 MSK -->
-<!-- content-sha256: sha256:b9122674b3335a77f11e7559c48291577ad2192db59e0bf7f52bd9ff041e3f59 -->
+<!-- last-content-edit: 2026-09-10 19:46:01 MSK -->
+<!-- content-sha256: sha256:c9941525eababae3abde67d76526e183594812d8f5272f4c9ecb433d6a8f1e0f -->
 <!-- FUM-MD-RECENCY:END -->

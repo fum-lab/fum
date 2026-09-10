@@ -11,9 +11,18 @@ import unittest
 from pathlib import Path
 
 
+def путь_проверяемой_реализации(путь: Path) -> Path:
+    выбранный = os.environ.get("FUM_CHECKED_CODE_ROOT")
+    if выбранный is None:
+        return путь
+    if not выбранный or not Path(выбранный).is_absolute():
+        raise ValueError("корень проверяемой реализации должен быть явным абсолютным путём")
+    return Path(выбранный) / путь.relative_to(Path(__file__).resolve().parents[3])
+
+
 AUTOMATION_DIR = Path(__file__).resolve().parents[1]
-SCRIPT_PATH = AUTOMATION_DIR / "scripts" / "obnovitj-policy.py"
-SCRIPTS_DIR = AUTOMATION_DIR / "scripts"
+SCRIPT_PATH = путь_проверяемой_реализации(AUTOMATION_DIR / "scripts" / "obnovitj-policy.py")
+SCRIPTS_DIR = путь_проверяемой_реализации(AUTOMATION_DIR / "scripts")
 if str(SCRIPTS_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPTS_DIR))
 

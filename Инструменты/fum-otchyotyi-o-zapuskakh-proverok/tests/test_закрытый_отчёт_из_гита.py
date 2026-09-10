@@ -14,7 +14,16 @@ from unittest import mock
 from test_отчёты_о_запусках_проверок import ФикстураОтчётов, путь_запроса
 
 
-сценарии = Path(__file__).resolve().parents[1] / "scripts"
+def путь_проверяемой_реализации(путь: Path) -> Path:
+    выбранный = os.environ.get("FUM_CHECKED_CODE_ROOT")
+    if выбранный is None:
+        return путь
+    if not выбранный or not Path(выбранный).is_absolute():
+        raise ValueError("корень проверяемой реализации должен быть явным абсолютным путём")
+    return Path(выбранный) / путь.relative_to(Path(__file__).resolve().parents[3])
+
+
+сценарии = путь_проверяемой_реализации(Path(__file__).resolve().parents[1] / "scripts")
 
 
 class ТестыЧтенияЗакрытогоОтчёта(unittest.TestCase):

@@ -3,6 +3,7 @@ import hashlib
 import importlib.util
 import io
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -15,14 +16,23 @@ from pathlib import Path
 from unittest import mock
 
 
+def путь_проверяемой_реализации(путь: Path) -> Path:
+    выбранный = os.environ.get("FUM_CHECKED_CODE_ROOT")
+    if выбранный is None:
+        return путь
+    if not выбранный or not Path(выбранный).is_absolute():
+        raise ValueError("корень проверяемой реализации должен быть явным абсолютным путём")
+    return Path(выбранный) / путь.relative_to(Path(__file__).resolve().parents[3])
+
+
 SCRIPT_PATH = (
-    Path(__file__).resolve().parents[1]
+    путь_проверяемой_реализации(Path(__file__).resolve().parents[1]
     / "scripts"
-    / "run-smoke-check.py"
+    / "run-smoke-check.py")
 )
 TOOLS_DIR = Path(__file__).resolve().parents[2]
 MACHINE_LOCAL_PATH_AUTOMATION_DIR = (
-    TOOLS_DIR / "fum-proverka-mashinno-lokaljnyikh-putej"
+    путь_проверяемой_реализации(TOOLS_DIR / "fum-proverka-mashinno-lokaljnyikh-putej")
 )
 REQUEST_FOLDER_LAYOUT_AUTOMATION_DIR = (
     TOOLS_DIR / "fum-struktura-papok-zaprosov"
@@ -36,6 +46,159 @@ spec.loader.exec_module(run_smoke_check)
 
 
 class RunSmokeCheckTests(unittest.TestCase):
+    def test_контур_слияния_сохраняет_тесты_и_фикстуры_источника(сам):
+        with tempfile.TemporaryDirectory() as временный:
+            источник = Path(временный).resolve() / "источник"
+            кандидат = Path(временный).resolve() / "кандидат"
+            for корень in (источник, кандидат):
+                сам.write_script_fixture(корень)
+                сам.создать_фикстуры_документационных_тестов(корень)
+            (источник / "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/policy-кандидата-слияния.json").write_text("{}\n")
+            относительный = run_smoke_check.ДОКУМЕНТАЦИОННЫЕ_НАБОРЫ_ТЕСТОВ[0]
+            (источник / относительный / "образец.txt").write_text("ожидается")
+            (кандидат / относительный / "образец.txt").write_text("подмена")
+            (кандидат / "реализация.txt").write_text("дефект кандидата")
+            (кандидат / "unittest.py").write_text('raise RuntimeError("Подменён раннер")\n')
+            (источник / относительный / "test_фикстура.py").write_text(
+                "import os, unittest\nfrom pathlib import Path\n"
+                "class Проверка(unittest.TestCase):\n"
+                " def test_реализация(сам):\n"
+                "  сам.assertEqual(Path(__file__).with_name('образец.txt').read_text(), 'ожидается')\n"
+                "  сам.assertEqual((Path(os.environ['FUM_CHECKED_CODE_ROOT']) / 'реализация.txt').read_text(), 'ожидается', 'Проверяется дефект кандидата')\n"
+            )
+            шаги = run_smoke_check.build_steps(
+                кандидат, Path("Журнал/2026-01-01_00-00-00_MSK/запрос.md"),
+                корень_проверок=источник,
+            )
+            тесты = [шаг for шаг in шаги if шаг.аналитический_ключ is not None]
+            сам.assertEqual(len(тесты), 13)
+            сам.assertEqual(тесты[0].аналитический_ключ, относительный.as_posix())
+            сам.assertEqual(тесты[0].command[1:4], ("-I", "-B", "-m"))
+            вывод = io.StringIO()
+            with contextlib.redirect_stdout(вывод):
+                код = run_smoke_check.run_steps([тесты[0]], кандидат, корень_реализации=кандидат)
+            сам.assertEqual(код, 1)
+            сам.assertIn("Проверяется дефект кандидата", вывод.getvalue())
+            for шаг in шаги:
+                if шаг.аналитический_ключ is None:
+                    сам.assertTrue(Path(шаг.command[1]).is_relative_to(источник))
+            сканер = next(шаг for шаг in шаги if шаг.name == "Проверка машинно-локальных путей")
+            сам.assertIn(str(источник / "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/policy-кандидата-слияния.json"), сканер.command)
+
+    def test_контур_слияния_не_допускает_сокращённого_плана(сам):
+        with tempfile.TemporaryDirectory() as временный:
+            for параметры in ({"include_session": False}, {"профиль": "полный"}):
+                with сам.subTest(параметры=параметры), сам.assertRaisesRegex(ValueError, "слияния"):
+                    run_smoke_check.build_steps(временный, None, корень_проверок=Path(временный), **параметры)
+
+    def test_контур_слияния_очищает_перенаправление_python_и_git(сам):
+        with tempfile.TemporaryDirectory() as временный:
+            корень = Path(временный).resolve()
+            ключи = ("PYTHONPATH", "PYTHONHOME", "GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE")
+            шаг = run_smoke_check.SmokeStep(
+                name="Проверить окружение слияния",
+                command=(sys.executable, "-I", "-B", "-c", "import os, sys; assert not any(k in os.environ for k in sys.argv[1:])", *ключи),
+            )
+            with mock.patch.dict(os.environ, {ключ: "подмена" for ключ in ключи}):
+                with contextlib.redirect_stdout(io.StringIO()):
+                    сам.assertEqual(run_smoke_check.run_steps([шаг], корень, корень_реализации=корень), 0)
+
+    def test_выбранная_реализация_импортируется_до_запуска_доверенных_тестов(сам):
+        соответствия = (
+            ("fum-bratislavskaya-proyekciya-pamyati", "test_братиславская_проекция_памяти.py", "братиславская_проекция_памяти.py"),
+            ("fum-svyaznostj-rabochej-sessii", "test_check_session_coherence.py", "check-session-coherence.py"),
+            ("fum-proverka-mashinno-lokaljnyikh-putej", "test_proveritj_mashinno_lokaljnyiye_puti.py", "proveritj-mashinno-lokaljnyiye-puti.py"),
+            ("fum-kompleksnaya-proverka-repozitoriya", "test_run_smoke_check.py", "run-smoke-check.py"),
+        )
+        with tempfile.TemporaryDirectory() as временный:
+            корень = Path(временный).resolve()
+            for инструмент, тест, реализация in соответствия:
+                with сам.subTest(инструмент=инструмент):
+                    путь = корень / "Инструменты" / инструмент / "scripts" / реализация
+                    путь.parent.mkdir(parents=True, exist_ok=True)
+                    путь.write_text('raise RuntimeError("Выбрана контрольная реализация")\n', encoding="utf-8")
+                    среда = os.environ.copy()
+                    среда["FUM_CHECKED_CODE_ROOT"] = str(корень)
+                    итог = subprocess.run(
+                        [sys.executable, "-B", "-c", "import runpy, sys; runpy.run_path(sys.argv[1])", str(TOOLS_DIR / инструмент / "tests" / тест)],
+                        capture_output=True, text=True, env=среда,
+                    )
+                    сам.assertNotEqual(итог.returncode, 0, "Доверенный тест проигнорировал выбранную реализацию")
+                    сам.assertTrue(итог.stderr.rstrip().endswith("RuntimeError: Выбрана контрольная реализация"))
+
+    def test_вложенный_импорт_выбран_при_полном_обнаружении_тестов_сканера(сам):
+        инструмент = "fum-proverka-mashinno-lokaljnyikh-putej"
+        with tempfile.TemporaryDirectory() as временный:
+            корень = Path(временный).resolve()
+            for имя in (инструмент, "fum-struktura-papok-zaprosov"):
+                shutil.copytree(TOOLS_DIR / имя / "scripts", корень / "Инструменты" / имя / "scripts")
+            вложенный = корень / "Инструменты" / инструмент / "scripts/path_forms.py"
+            вложенный.write_text('raise RuntimeError("Выбран вложенный распознаватель кандидата")\n', encoding="utf-8")
+            среда = os.environ.copy()
+            среда["FUM_CHECKED_CODE_ROOT"] = str(корень)
+            программа = """import sys, unittest
+загрузчик = unittest.TestLoader()
+загрузчик.discover(sys.argv[1], pattern="test_*.py")
+if not any("RuntimeError: Выбран вложенный распознаватель кандидата" in ошибка for ошибка in загрузчик.errors):
+    raise AssertionError("Полное обнаружение сохранило вложенный распознаватель из master")
+"""
+            итог = subprocess.run(
+                [sys.executable, "-I", "-B", *(("-X", "pycache_prefix=" + os.environ["PYTHONPYCACHEPREFIX"]) if "PYTHONPYCACHEPREFIX" in os.environ else ()), "-c", программа, str(TOOLS_DIR / инструмент / "tests")],
+                capture_output=True, text=True, env=среда,
+            )
+            сам.assertEqual(итог.returncode, 0, итог.stderr)
+
+    def test_выбранная_реализация_не_переносит_шаблоны_тестов_в_кандидат(сам):
+        with tempfile.TemporaryDirectory() as временный:
+            корень = Path(временный).resolve()
+            среда = os.environ.copy()
+            среда["FUM_CHECKED_CODE_ROOT"] = str(корень)
+            программа = """import runpy, sys
+from pathlib import Path
+значения = runpy.run_path(sys.argv[1])
+инструмент = Path(sys.argv[1]).resolve().parents[1]
+assert значения['TOOL_ROOT'] == инструмент
+assert значения['ШАБЛОНЫ'] == инструмент / 'шаблоны'
+assert значения['СВЯЗНОСТЬ'] == Path(sys.argv[2]) / 'Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py'
+"""
+            итог = subprocess.run(
+                [sys.executable, "-B", "-c", программа, str(REQUEST_FOLDER_LAYOUT_AUTOMATION_DIR / "tests/test_request_folder_layout.py"), str(корень)],
+                capture_output=True, text=True, env=среда,
+            )
+            сам.assertEqual(итог.returncode, 0, "Выбор реализации должен сохранять корень доверенных шаблонов")
+
+    def test_обычный_smoke_не_наследует_корень_реализации(сам):
+        with mock.patch.dict(os.environ, {"FUM_CHECKED_CODE_ROOT": "случайный-внешний-корень"}):
+            сам.assertFalse(
+                "FUM_CHECKED_CODE_ROOT" in run_smoke_check.smoke_env(),
+                "Обычный smoke унаследовал внешний корень реализации",
+            )
+            шаг = run_smoke_check.SmokeStep(
+                name="Проверить обычное окружение",
+                command=(sys.executable, "-c", "import os; assert 'FUM_CHECKED_CODE_ROOT' not in os.environ"),
+            )
+            with contextlib.redirect_stdout(io.StringIO()):
+                сам.assertEqual(run_smoke_check.run_steps([шаг], Path.cwd()), 0)
+
+    def test_явный_корень_реализации_передаётся_только_дочернему_процессу(сам):
+        with tempfile.TemporaryDirectory() as временный:
+            корень = Path(временный).resolve()
+            шаг = run_smoke_check.SmokeStep(
+                name="Проверить выбранную реализацию",
+                command=(
+                    sys.executable, "-c",
+                    "import os, sys; assert os.environ['FUM_CHECKED_CODE_ROOT'] == sys.argv[1]",
+                    str(корень),
+                ),
+            )
+            with mock.patch.dict(os.environ, {"FUM_CHECKED_CODE_ROOT": "значение-родителя"}):
+                with contextlib.redirect_stdout(io.StringIO()):
+                    сам.assertEqual(
+                        run_smoke_check.run_steps([шаг], Path.cwd(), корень_реализации=корень),
+                        0,
+                    )
+                сам.assertEqual(os.environ["FUM_CHECKED_CODE_ROOT"], "значение-родителя")
+
     def test_профиль_по_умолчанию_документационный_а_полный_явный(сам):
         with mock.patch.object(sys, "argv", [str(SCRIPT_PATH)]):
             аргументы = run_smoke_check.parse_args()
@@ -2858,6 +3021,9 @@ let package = Package(
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             args = types.SimpleNamespace(
+                источник_проверок=None,
+                ведущая_основа=None,
+                свидетельство_контура=None,
                 repo_root=root,
                 request=None,
                 commit_message_file=None,
@@ -2912,6 +3078,9 @@ let package = Package(
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             args = types.SimpleNamespace(
+                источник_проверок=None,
+                ведущая_основа=None,
+                свидетельство_контура=None,
                 repo_root=root,
                 request=None,
                 commit_message_file=None,
@@ -3056,6 +3225,9 @@ let package = Package(
             сам.write_script_fixture(корень)
             сам.создать_фикстуры_документационных_тестов(корень)
             аргументы = types.SimpleNamespace(
+                источник_проверок=None,
+                ведущая_основа=None,
+                свидетельство_контура=None,
                 repo_root=корень,
                 request=None,
                 commit_message_file=None,
@@ -3163,6 +3335,9 @@ let package = Package(
                 stderr="",
             )
             args = types.SimpleNamespace(
+                источник_проверок=None,
+                ведущая_основа=None,
+                свидетельство_контура=None,
                 repo_root=root,
                 request=None,
                 commit_message_file=None,

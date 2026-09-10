@@ -174,7 +174,11 @@ Kanonicheskiye avtodiskaveri-konturyi isklyuchayut toljko kornevuyu oblastj `Pro
 - [Podklyucheniye LinguisticKit](../../Zavisimosti/README.md)
 - [iskhodnyij zapros realizacii FUM-STEP-0129](../../Zhurnal/2026-09-01_11-19-59_MSK_realizovatj-bratislavskuyu-proyekciyu-pamyati/zapros.md)
 
+## Sovmestimostj Python API podgotovki
+
+Odnoparametricheskij vyizov `подготовить_изолированный_преобразователь(корень)` sokhranyayet prezhnij kontrakt: izoliruyet zakreplyonnyiye iskhodniki i vozvrasjhayet nastoyasjhuyu komandu Swift s proverkoj granicyi; sborku zapuskayet vyizyivayusjhij. Yavnyij keyword-only parametr `использовать_кэш=True` vyibirayet predvariteljnuyu sborku, proverennyij kyesh i chastnuyu kopiyu produkta. Rabochiye CLI-komandyi generatora vsegda vyibirayut etot rezhim. Proverki zakreplyonnogo dereva i izolyacii obsjhiye dlya oboikh rezhimov.
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 16:38:28 MSK -->
-<!-- content-sha256: sha256:314b0dc731966fb952b7496cb942b87b8274c168660efdd9dcd37f4ad9dbb2c5 -->
+<!-- last-content-edit: 2026-09-10 22:02:46 MSK -->
+<!-- content-sha256: sha256:b5c63c3fef363e8e8a4e63f65acea0f1f1d8ffd89d3e4615d7acfd63b01a6210 -->
 <!-- FUM-MD-RECENCY:END -->

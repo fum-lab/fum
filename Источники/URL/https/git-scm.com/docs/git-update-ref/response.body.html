@@ -1,0 +1,2160 @@
+<!DOCTYPE html>
+
+
+
+<html lang="en">
+
+
+
+
+
+
+<head>
+  <script type="text/javascript">
+    
+    const currentTheme = localStorage.getItem("theme")
+    if (currentTheme) {
+      
+      const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches
+      if (prefersDarkScheme === (currentTheme === "dark")) localStorage.removeItem("theme")
+      else if ((prefersDarkScheme && currentTheme === "light")
+        || (!prefersDarkScheme && currentTheme === "dark")) {
+	document.documentElement.dataset.theme = currentTheme
+      }
+    }
+  </script>
+
+  <meta charset='utf-8'>
+  <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Git - git-update-ref Documentation</title>
+
+  <link href="/favicon.ico" rel='shortcut icon' type='image/x-icon'>
+
+  
+  <link rel="stylesheet" href="/application.min.1735659ab01277d1a47a6bf1697bf1323e6c5d3ac218e80b6fbeed5eee146237.css" integrity="sha256-FzVlmrASd9GkemvxaXvxMj5sXTrCGOgLb77tXu4UYjc=">
+  <script src="/js/modernizr.js"></script>
+  
+
+</head>
+
+<body id="documentation">
+
+  <div class="inner">
+    <header>
+  <a id="logo" href="/"><img src="/images/logo@2x.png" width="110" height="46" alt="Git" class="no-filter" /></a>
+  <span id="tagline"></span>
+  <script type="text/javascript">
+   const taglines = [
+     "fast-version-control",
+     "everything-is-local",
+     "distributed-even-if-your-workflow-isnt",
+     "local-branching-on-the-cheap",
+     "distributed-is-the-new-centralized"
+   ];
+   var tagline = taglines[Math.floor(Math.random() * taglines.length)];
+   document.getElementById('tagline').innerHTML = '--' + tagline;
+  </script>
+
+  
+  <div id="search-container">
+    <form id="search" action="/search/results">
+      <input id="search-text" name="search" placeholder="Type / to search entire site…" autocomplete="off" type="text" />
+    </form>
+    <div id="search-results"></div>
+  </div>
+  
+  <img src="/images/dark-mode.svg" id="dark-mode-button" />
+</header>
+
+  </div> 
+
+  
+    <div class="inner">
+      <div id="content-wrapper">
+        
+<div tabindex="1" class="sidebar-btn"></div>
+<aside class="sidebar" id="sidebar">
+  <nav>
+    <ul>
+      <li>
+        <a href="/about">About</a>
+        <ul >
+          <li>
+            <a href="/about/trademark">Trademark</a>
+          </li>
+        </ul>
+      </li>
+
+      <li>
+        <a href="/learn">Learn</a>
+        <ul >
+          <li>
+            <a href="/book">Book</a>
+          </li>
+          <li>
+            <a href="/cheat-sheet">Cheat Sheet</a>
+          </li>
+          <li>
+            <a href="/videos">Videos</a>
+          </li>
+          <li>
+            <a href="/doc/ext">External Links</a>
+          </li>
+        </ul>
+      </li>
+
+      <li>
+        <a href="/tools">Tools</a>
+        <ul >
+          <li>
+            <a href="/tools/command-line">Command Line</a>
+          </li>
+          <li>
+            <a href="/tools/guis">GUIs</a>
+          </li>
+          <li>
+            <a href="/tools/hosting">Hosting</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="/docs" class="active">Reference</a>
+      </li>
+      <li>
+        <a href="/install" class="install-link">Install</a>
+      </li>
+      <li>
+        <a href="/community">Community</a>
+        <ul>
+          
+        </ul>
+      </li>
+    </ul>
+
+    
+    
+    <ul id="toc">
+      <li> Table of Contents
+        <ul class="expanded">
+          
+            <li><a href="#_name">NAME</a> </li>
+          
+            <li><a href="#_synopsis">SYNOPSIS</a> </li>
+          
+            <li><a href="#_description">DESCRIPTION</a> </li>
+          
+            <li><a href="#_logging_updates">LOGGING UPDATES</a> </li>
+          
+            <li><a href="#_notes">NOTES</a> </li>
+          
+            <li><a href="#_see_also">SEE ALSO</a> </li>
+          
+            <li><a href="#_git">GIT</a> </li>
+          
+        </ul>
+      </li>
+    </ul>
+    
+
+    
+  </nav>
+</aside>
+
+        <div id="content">
+          <div id='reference-version'>
+            
+<a class="dropdown-trigger" id="reference-languages-trigger" data-panel-id="l10n-versions-dropdown" href="#"> English ▾</a>
+<div class='dropdown-panel right' id='l10n-versions-dropdown'>
+  <header>Localized versions of <strong>git-update-ref</strong> manual</header>
+  <ol class='reference-previous-versions'>
+    
+    <li>
+      <a href="/docs/git-update-ref"><span class="version">English</span>
+      </a>
+      </li>
+    
+    
+    <li>
+        <a href="/docs/git-update-ref/fr"><span class="version">Français</span>
+        </a>
+        </li>
+    
+    <li>
+        <a href="/docs/git-update-ref/ru"><span class="version">Русский</span>
+        </a>
+        </li>
+    
+    <li>
+        <a href="/docs/git-update-ref/sv"><span class="version">Svenska</span>
+        </a>
+        </li>
+    
+    <li>
+        <a href="/docs/git-update-ref/uk"><span class="version">українська мова</span>
+        </a>
+        </li>
+    
+    <li>
+        <a href="/docs/git-update-ref/zh_HANS-CN"><span class="version">简体中文</span>
+        </a>
+        </li>
+    
+  </ol>
+  <footer>
+    Want to read in your language or fix typos?<br/> <a href="https://github.com/jnavila/git-manpages-l10n">You can help translate this page</a>.
+  </footer>
+</div>
+
+            
+<a class="dropdown-trigger" id="reference-topics-trigger" data-panel-id="topics-dropdown" href="#">Topics ▾</a>
+<div class='dropdown-panel right' id='topics-dropdown'>
+  <div class='three-column'>
+    <div class='column-left'>
+      
+      
+      
+
+<h3 class='setup'>Setup and Config</h3>
+<ul class='unstyled'>
+  
+  <li>
+    
+      <a href="/docs/git">
+    
+      
+        git
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-config">
+    
+      
+        config
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-help">
+    
+      
+        help
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-bugreport">
+    
+      
+        bugreport
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/doc/credential-helpers">
+    
+      
+        Credential helpers
+      
+    </a>
+  </li>
+  
+</ul>
+
+      
+      
+      
+
+<h3 class='projects'>Getting and Creating Projects</h3>
+<ul class='unstyled'>
+  
+  <li>
+    
+      <a href="/docs/git-init">
+    
+      
+        init
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-clone">
+    
+      
+        clone
+      
+    </a>
+  </li>
+  
+</ul>
+
+      
+      
+      
+
+<h3 class='snapshotting'>Basic Snapshotting</h3>
+<ul class='unstyled'>
+  
+  <li>
+    
+      <a href="/docs/git-add">
+    
+      
+        add
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-status">
+    
+      
+        status
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-diff">
+    
+      
+        diff
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-commit">
+    
+      
+        commit
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-notes">
+    
+      
+        notes
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-restore">
+    
+      
+        restore
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-reset">
+    
+      
+        reset
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-rm">
+    
+      
+        rm
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-mv">
+    
+      
+        mv
+      
+    </a>
+  </li>
+  
+</ul>
+
+      
+      
+      
+
+<h3 class='branching'>Branching and Merging</h3>
+<ul class='unstyled'>
+  
+  <li>
+    
+      <a href="/docs/git-branch">
+    
+      
+        branch
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-checkout">
+    
+      
+        checkout
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-switch">
+    
+      
+        switch
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-merge">
+    
+      
+        merge
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-mergetool">
+    
+      
+        mergetool
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-log">
+    
+      
+        log
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-stash">
+    
+      
+        stash
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-tag">
+    
+      
+        tag
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-worktree">
+    
+      
+        worktree
+      
+    </a>
+  </li>
+  
+</ul>
+
+      
+      
+      
+
+<h3 class='sharing'>Sharing and Updating Projects</h3>
+<ul class='unstyled'>
+  
+  <li>
+    
+      <a href="/docs/git-fetch">
+    
+      
+        fetch
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-pull">
+    
+      
+        pull
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-push">
+    
+      
+        push
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-remote">
+    
+      
+        remote
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-submodule">
+    
+      
+        submodule
+      
+    </a>
+  </li>
+  
+</ul>
+
+      
+    </div>
+    <div class='column-middle'>
+      
+      
+      
+
+<h3 class='inspection'>Inspection and Comparison</h3>
+<ul class='unstyled'>
+  
+  <li>
+    
+      <a href="/docs/git-show">
+    
+      
+        show
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-log">
+    
+      
+        log
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-diff">
+    
+      
+        diff
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-difftool">
+    
+      
+        difftool
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-range-diff">
+    
+      
+        range-diff
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-shortlog">
+    
+      
+        shortlog
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-describe">
+    
+      
+        describe
+      
+    </a>
+  </li>
+  
+</ul>
+
+      
+      
+      
+
+<h3 class='patching'>Patching</h3>
+<ul class='unstyled'>
+  
+  <li>
+    
+      <a href="/docs/git-apply">
+    
+      
+        apply
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-cherry-pick">
+    
+      
+        cherry-pick
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-diff">
+    
+      
+        diff
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-rebase">
+    
+      
+        rebase
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-revert">
+    
+      
+        revert
+      
+    </a>
+  </li>
+  
+</ul>
+
+      
+      
+      
+
+<h3 class='debugging'>Debugging</h3>
+<ul class='unstyled'>
+  
+  <li>
+    
+      <a href="/docs/git-bisect">
+    
+      
+        bisect
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-blame">
+    
+      
+        blame
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-grep">
+    
+      
+        grep
+      
+    </a>
+  </li>
+  
+</ul>
+
+      
+      
+      
+
+<h3 class='email'>Email</h3>
+<ul class='unstyled'>
+  
+  <li>
+    
+      <a href="/docs/git-am">
+    
+      
+        am
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-apply">
+    
+      
+        apply
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-imap-send">
+    
+      
+        imap-send
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-format-patch">
+    
+      
+        format-patch
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-send-email">
+    
+      
+        send-email
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-request-pull">
+    
+      
+        request-pull
+      
+    </a>
+  </li>
+  
+</ul>
+
+      
+      
+      
+
+<h3 class='external'>External Systems</h3>
+<ul class='unstyled'>
+  
+  <li>
+    
+      <a href="/docs/git-svn">
+    
+      
+        svn
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-fast-import">
+    
+      
+        fast-import
+      
+    </a>
+  </li>
+  
+</ul>
+
+      
+      
+      
+
+<h3 class='server-admin'>Server Admin</h3>
+<ul class='unstyled'>
+  
+  <li>
+    
+      <a href="/docs/git-daemon">
+    
+      
+        daemon
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-update-server-info">
+    
+      
+        update-server-info
+      
+    </a>
+  </li>
+  
+</ul>
+
+      
+    </div>
+    <div class='column-right'>
+      
+      
+      
+
+<h3 class='guides'>Guides</h3>
+<ul class='unstyled'>
+  
+  <li>
+    
+      <a href="/docs/gitattributes">
+    
+      
+        gitattributes
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/gitcli">
+    
+      
+        Command-line interface conventions
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/giteveryday">
+    
+      
+        Everyday Git
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/gitfaq">
+    
+      
+        Frequently Asked Questions (FAQ)
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/gitglossary">
+    
+      
+        Glossary
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/githooks">
+    
+      
+        Hooks
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/gitignore">
+    
+      
+        gitignore
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/gitmodules">
+    
+      
+        gitmodules
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/gitrevisions">
+    
+      
+        Revisions
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/gitsubmodules">
+    
+      
+        Submodules
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/gittutorial">
+    
+      
+        Tutorial
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/gitworkflows">
+    
+      
+        Workflows
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git#_guides">
+    
+      
+        All guides...
+      
+    </a>
+  </li>
+  
+</ul>
+
+      
+      
+      
+
+<h3 class='admin'>Administration</h3>
+<ul class='unstyled'>
+  
+  <li>
+    
+      <a href="/docs/git-clean">
+    
+      
+        clean
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-gc">
+    
+      
+        gc
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-fsck">
+    
+      
+        fsck
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-reflog">
+    
+      
+        reflog
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-filter-branch">
+    
+      
+        filter-branch
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-instaweb">
+    
+      
+        instaweb
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-archive">
+    
+      
+        archive
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-bundle">
+    
+      
+        bundle
+      
+    </a>
+  </li>
+  
+</ul>
+
+      
+      
+      
+
+<h3 class='plumbing'>Plumbing Commands</h3>
+<ul class='unstyled'>
+  
+  <li>
+    
+      <a href="/docs/git-cat-file">
+    
+      
+        cat-file
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-check-ignore">
+    
+      
+        check-ignore
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-checkout-index">
+    
+      
+        checkout-index
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-commit-tree">
+    
+      
+        commit-tree
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-count-objects">
+    
+      
+        count-objects
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-diff-index">
+    
+      
+        diff-index
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-for-each-ref">
+    
+      
+        for-each-ref
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-hash-object">
+    
+      
+        hash-object
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-ls-files">
+    
+      
+        ls-files
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-ls-tree">
+    
+      
+        ls-tree
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-merge-base">
+    
+      
+        merge-base
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-read-tree">
+    
+      
+        read-tree
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-rev-list">
+    
+      
+        rev-list
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-rev-parse">
+    
+      
+        rev-parse
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-show-ref">
+    
+      
+        show-ref
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-symbolic-ref">
+    
+      
+        symbolic-ref
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-update-index">
+    
+      
+        update-index
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-update-ref">
+    
+      
+        update-ref
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-verify-pack">
+    
+      
+        verify-pack
+      
+    </a>
+  </li>
+  
+  <li>
+    
+      <a href="/docs/git-write-tree">
+    
+      
+        write-tree
+      
+    </a>
+  </li>
+  
+</ul>
+
+      
+    </div>
+  </div>
+</div>
+
+            
+<a class="dropdown-trigger" id="reference-versions-trigger" data-panel-id="previous-versions-dropdown" href="#">
+  
+    Latest version
+   ▾ </a>
+<span class="light d-flex">git-update-ref last updated in 2.53.0</span>
+<div class='dropdown-panel left' id='previous-versions-dropdown'>
+  <header>Changes in the <strong>git-update-ref</strong> manual</header>
+  <ol class='reference-previous-versions'>
+    
+      
+        <li class="no-change"><span>2.54.0 → 2.55.0 no changes</span></li>
+      
+    
+      
+        <li>
+        <a href="/docs/git-update-ref/2.53.0"><span class="version">2.53.0</span>
+          <span class="diff">
+            
+              <img src="/images/icons/green-dot.png" />
+            
+            
+              <img src="/images/icons/red-dot.png" />
+            
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+          </span>
+          <em class="date">2026-02-02</em>
+        </a>
+        </li>
+      
+    
+      
+        <li class="no-change"><span>2.50.1 → 2.52.0 no changes</span></li>
+      
+    
+      
+        <li>
+        <a href="/docs/git-update-ref/2.50.0"><span class="version">2.50.0</span>
+          <span class="diff">
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+            
+              <img src="/images/icons/red-dot.png" />
+            
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+          </span>
+          <em class="date">2025-06-16</em>
+        </a>
+        </li>
+      
+    
+      
+        <li class="no-change"><span>2.48.1 → 2.49.1 no changes</span></li>
+      
+    
+      
+        <li>
+        <a href="/docs/git-update-ref/2.48.0"><span class="version">2.48.0</span>
+          <span class="diff">
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+            
+              <img src="/images/icons/red-dot.png" />
+            
+              <img src="/images/icons/red-dot.png" />
+            
+              <img src="/images/icons/red-dot.png" />
+            
+              <img src="/images/icons/red-dot.png" />
+            
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+          </span>
+          <em class="date">2025-01-10</em>
+        </a>
+        </li>
+      
+    
+      
+        <li class="no-change"><span>2.46.1 → 2.47.3 no changes</span></li>
+      
+    
+      
+        <li>
+        <a href="/docs/git-update-ref/2.46.0"><span class="version">2.46.0</span>
+          <span class="diff">
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+            
+              <img src="/images/icons/red-dot.png" />
+            
+              <img src="/images/icons/red-dot.png" />
+            
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+          </span>
+          <em class="date">2024-07-29</em>
+        </a>
+        </li>
+      
+    
+      
+        <li class="no-change"><span>2.45.1 → 2.45.4 no changes</span></li>
+      
+    
+      
+        <li>
+        <a href="/docs/git-update-ref/2.45.0"><span class="version">2.45.0</span>
+          <span class="diff">
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+            
+              <img src="/images/icons/red-dot.png" />
+            
+              <img src="/images/icons/red-dot.png" />
+            
+              <img src="/images/icons/red-dot.png" />
+            
+              <img src="/images/icons/red-dot.png" />
+            
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+          </span>
+          <em class="date">2024-04-29</em>
+        </a>
+        </li>
+      
+    
+      
+        <li class="no-change"><span>2.43.1 → 2.44.4 no changes</span></li>
+      
+    
+      
+        <li>
+        <a href="/docs/git-update-ref/2.43.0"><span class="version">2.43.0</span>
+          <span class="diff">
+            
+              <img src="/images/icons/green-dot.png" />
+            
+            
+              <img src="/images/icons/red-dot.png" />
+            
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+          </span>
+          <em class="date">2023-11-20</em>
+        </a>
+        </li>
+      
+    
+      
+        <li class="no-change"><span>2.30.1 → 2.42.4 no changes</span></li>
+      
+    
+      
+        <li>
+        <a href="/docs/git-update-ref/2.30.0"><span class="version">2.30.0</span>
+          <span class="diff">
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+            
+              <img src="/images/icons/red-dot.png" />
+            
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+          </span>
+          <em class="date">2020-12-27</em>
+        </a>
+        </li>
+      
+    
+      
+        <li class="no-change"><span>2.29.1 → 2.29.3 no changes</span></li>
+      
+    
+      
+        <li>
+        <a href="/docs/git-update-ref/2.29.0"><span class="version">2.29.0</span>
+          <span class="diff">
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+            
+              <img src="/images/icons/red-dot.png" />
+            
+              <img src="/images/icons/red-dot.png" />
+            
+              <img src="/images/icons/red-dot.png" />
+            
+              <img src="/images/icons/red-dot.png" />
+            
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+          </span>
+          <em class="date">2020-10-19</em>
+        </a>
+        </li>
+      
+    
+      
+        <li class="no-change"><span>2.27.1 → 2.28.1 no changes</span></li>
+      
+    
+      
+        <li>
+        <a href="/docs/git-update-ref/2.27.0"><span class="version">2.27.0</span>
+          <span class="diff">
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+            
+              <img src="/images/icons/red-dot.png" />
+            
+              <img src="/images/icons/red-dot.png" />
+            
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+          </span>
+          <em class="date">2020-06-01</em>
+        </a>
+        </li>
+      
+    
+      
+        <li class="no-change"><span>2.19.3 → 2.26.3 no changes</span></li>
+      
+    
+      
+        <li>
+        <a href="/docs/git-update-ref/2.19.2"><span class="version">2.19.2</span>
+          <span class="diff">
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+            
+              <img src="/images/icons/red-dot.png" />
+            
+              <img src="/images/icons/red-dot.png" />
+            
+              <img src="/images/icons/red-dot.png" />
+            
+              <img src="/images/icons/red-dot.png" />
+            
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+          </span>
+          <em class="date">2018-11-21</em>
+        </a>
+        </li>
+      
+    
+      
+        <li class="no-change"><span>2.18.1 → 2.19.1 no changes</span></li>
+      
+    
+      
+        <li>
+        <a href="/docs/git-update-ref/2.18.0"><span class="version">2.18.0</span>
+          <span class="diff">
+            
+              <img src="/images/icons/green-dot.png" />
+            
+            
+              <img src="/images/icons/red-dot.png" />
+            
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+          </span>
+          <em class="date">2018-06-21</em>
+        </a>
+        </li>
+      
+    
+      
+        <li class="no-change"><span>2.7.6 → 2.17.6 no changes</span></li>
+      
+    
+      
+        <li>
+        <a href="/docs/git-update-ref/2.6.7"><span class="version">2.6.7</span>
+          <span class="diff">
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+            
+              <img src="/images/icons/red-dot.png" />
+            
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+          </span>
+          <em class="date">2017-05-05</em>
+        </a>
+        </li>
+      
+    
+      
+        <li class="no-change"><span>2.2.3 → 2.5.6 no changes</span></li>
+      
+    
+      
+        <li>
+        <a href="/docs/git-update-ref/2.1.4"><span class="version">2.1.4</span>
+          <span class="diff">
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+            
+              <img src="/images/icons/red-dot.png" />
+            
+              <img src="/images/icons/red-dot.png" />
+            
+              <img src="/images/icons/red-dot.png" />
+            
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+          </span>
+          <em class="date">2014-12-17</em>
+        </a>
+        </li>
+      
+    
+      
+        <li>
+        <a href="/docs/git-update-ref/2.0.5"><span class="version">2.0.5</span>
+          <span class="diff">
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+              <img src="/images/icons/green-dot.png" />
+            
+            
+              <img src="/images/icons/red-dot.png" />
+            
+              <img src="/images/icons/red-dot.png" />
+            
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+              <img src="/images/icons/grey-dot.png" />
+            
+          </span>
+          <em class="date">2014-12-17</em>
+        </a>
+        </li>
+      
+    
+    <li>&nbsp;</li>
+    
+  </ol>
+  <footer>
+    <p>Check your version of git by running</p>
+    <code class="command">git --version</code>
+  </footer>
+</div>
+
+          </div>
+
+          
+          
+          <div id="main" data-pagefind-filter="category:reference" data-pagefind-meta="category:Reference" data-pagefind-weight="0.05" data-pagefind-body>
+	    
+            <div class="sect1">
+<h2 id="_name"><a class="anchor" href="#_name"></a>NAME</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>git-update-ref - Update the object name stored in a ref safely</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_synopsis"><a class="anchor" href="#_synopsis"></a>SYNOPSIS</h2>
+<div class="sectionbody">
+<div class="verseblock">
+<pre class="content"><span class='synopsis'><code>git</code></span> <span class='synopsis'><code>update-ref</code></span> [<span class='synopsis'><code>-m</code></span> <em>&lt;reason&gt;</em>] [<span class='synopsis'><code>--no-deref</code></span>] <span class='synopsis'><code>-d</code></span> <em><span class="hover-term" data-term="ref">&lt;ref&gt;</span></em> [<em>&lt;old-oid&gt;</em>]
+<span class='synopsis'><code>git</code></span> <span class='synopsis'><code>update-ref</code></span> [<span class='synopsis'><code>-m</code></span> <em>&lt;reason&gt;</em>] [<span class='synopsis'><code>--no-deref</code></span>] [<span class='synopsis'><code>--create-reflog</code></span>] <em><span class="hover-term" data-term="ref">&lt;ref&gt;</span></em> <em>&lt;new-oid&gt;</em> [<em>&lt;old-oid&gt;</em>]
+<span class='synopsis'><code>git</code></span> <span class='synopsis'><code>update-ref</code></span> [<span class='synopsis'><code>-m</code></span> <em>&lt;reason&gt;</em>] [<span class='synopsis'><code>--no-deref</code></span>] <span class='synopsis'><code>--stdin</code></span> [<span class='synopsis'><code>-z</code></span>] [<span class='synopsis'><code>--batch-updates</code></span>]</pre>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_description"><a class="anchor" href="#_description"></a>DESCRIPTION</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Given two arguments, stores the &lt;new-oid&gt; in the <span class="hover-term" data-term="ref">&lt;ref&gt;</span>, possibly
+dereferencing the symbolic refs.  E.g. <span class='synopsis'><code>git</code> <code>update-ref</code> <code>HEAD</code>
+
+<em>&lt;new-oid&gt;</em></span> updates the current branch head to the new object.</p>
+</div>
+<div class="paragraph">
+<p>Given three arguments, stores the &lt;new-oid&gt; in the <span class="hover-term" data-term="ref">&lt;ref&gt;</span>,
+possibly dereferencing the symbolic refs, after verifying that
+the current value of the <span class="hover-term" data-term="ref">&lt;ref&gt;</span> matches &lt;old-oid&gt;.
+E.g. <span class='synopsis'><code>git</code> <code>update-ref</code> <code>refs/heads/master</code> <em>&lt;new-oid&gt;</em> <em>&lt;old-oid&gt;</em></span>
+updates the master branch head to &lt;new-oid&gt; only if its current
+value is &lt;old-oid&gt;.  You can specify 40 "0" or an empty string
+as &lt;old-oid&gt; to make sure that the ref you are creating does
+not exist.</p>
+</div>
+<div class="paragraph">
+<p>The final arguments are object names; this command without any options
+does not support updating a symbolic ref to point to another ref (see
+<a href='/docs/git-symbolic-ref'>git-symbolic-ref[1]</a>).  But <span class='synopsis'><code>git</code> <code>update-ref</code> <code>--stdin</code></span> does have
+the <span class='synopsis'><code>symref-*</code></span> commands so that regular refs and symbolic refs can be
+committed in the same transaction.</p>
+</div>
+<div class="paragraph">
+<p>If --no-deref is given, <span class="hover-term" data-term="ref">&lt;ref&gt;</span> itself is overwritten, rather than
+the result of following the symbolic pointers.</p>
+</div>
+<div class="paragraph">
+<p>With <span class='synopsis'><code>-d</code></span>, it deletes the named <span class="hover-term" data-term="ref">&lt;ref&gt;</span> after verifying that it
+still contains &lt;old-oid&gt;.</p>
+</div>
+<div class="paragraph">
+<p>With <span class='synopsis'><code>--stdin</code></span>, update-ref reads instructions from standard input and
+performs all modifications together.  Specify commands of the form:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>update SP <span class="hover-term" data-term="ref">&lt;ref&gt;</span> SP &lt;new-oid&gt; [SP &lt;old-oid&gt;] LF
+create SP <span class="hover-term" data-term="ref">&lt;ref&gt;</span> SP &lt;new-oid&gt; LF
+delete SP <span class="hover-term" data-term="ref">&lt;ref&gt;</span> [SP &lt;old-oid&gt;] LF
+verify SP <span class="hover-term" data-term="ref">&lt;ref&gt;</span> [SP &lt;old-oid&gt;] LF
+symref-update SP <span class="hover-term" data-term="ref">&lt;ref&gt;</span> SP &lt;new-target&gt; [SP (ref SP &lt;old-target&gt; | oid SP &lt;old-oid&gt;)] LF
+symref-create SP <span class="hover-term" data-term="ref">&lt;ref&gt;</span> SP &lt;new-target&gt; LF
+symref-delete SP <span class="hover-term" data-term="ref">&lt;ref&gt;</span> [SP &lt;old-target&gt;] LF
+symref-verify SP <span class="hover-term" data-term="ref">&lt;ref&gt;</span> [SP &lt;old-target&gt;] LF
+option SP &lt;opt&gt; LF
+start LF
+prepare LF
+commit LF
+abort LF</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>With <span class='synopsis'><code>--create-reflog</code></span>, update-ref will create a reflog for each ref
+even if one would not ordinarily be created.</p>
+</div>
+<div class="paragraph">
+<p>With <span class='synopsis'><code>--batch-updates</code></span>, update-ref executes the updates in a batch but allows
+individual updates to fail due to invalid or incorrect user input, applying only
+the successful updates. However, system-related errors—such as I/O failures or
+memory issues—will result in a full failure of all batched updates. Any failed
+updates will be reported in the following format:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>rejected SP (&lt;old-oid&gt; | &lt;old-target&gt;) SP (&lt;new-oid&gt; | &lt;new-target&gt;) SP &lt;rejection-reason&gt; LF</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Quote fields containing whitespace as if they were strings in C source
+code; i.e., surrounded by double-quotes and with backslash escapes.
+Use 40 "0" characters or the empty string to specify a zero value.  To
+specify a missing value, omit the value and its preceding SP entirely.</p>
+</div>
+<div class="paragraph">
+<p>Alternatively, use <span class='synopsis'><code>-z</code></span> to specify in NUL-terminated format, without
+quoting:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>update SP <span class="hover-term" data-term="ref">&lt;ref&gt;</span> NUL &lt;new-oid&gt; NUL [&lt;old-oid&gt;] NUL
+create SP <span class="hover-term" data-term="ref">&lt;ref&gt;</span> NUL &lt;new-oid&gt; NUL
+delete SP <span class="hover-term" data-term="ref">&lt;ref&gt;</span> NUL [&lt;old-oid&gt;] NUL
+verify SP <span class="hover-term" data-term="ref">&lt;ref&gt;</span> NUL [&lt;old-oid&gt;] NUL
+symref-update SP <span class="hover-term" data-term="ref">&lt;ref&gt;</span> NUL &lt;new-target&gt; [NUL (ref NUL &lt;old-target&gt; | oid NUL &lt;old-oid&gt;)] NUL
+symref-create SP <span class="hover-term" data-term="ref">&lt;ref&gt;</span> NUL &lt;new-target&gt; NUL
+symref-delete SP <span class="hover-term" data-term="ref">&lt;ref&gt;</span> [NUL &lt;old-target&gt;] NUL
+symref-verify SP <span class="hover-term" data-term="ref">&lt;ref&gt;</span> [NUL &lt;old-target&gt;] NUL
+option SP &lt;opt&gt; NUL
+start NUL
+prepare NUL
+commit NUL
+abort NUL</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this format, use 40 "0" to specify a zero value, and use the empty
+string to specify a missing value.</p>
+</div>
+<div class="paragraph">
+<p>In either format, values can be specified in any form that Git
+recognizes as an object name.  Commands in any other format or a
+repeated <span class="hover-term" data-term="ref">&lt;ref&gt;</span> produce an error.  Command meanings are:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1" id="Documentation/git-update-ref.txt-update"><a class="anchor" href="#Documentation/git-update-ref.txt-update"></a>update </dt>
+<dd>
+<p>Set <span class="hover-term" data-term="ref">&lt;ref&gt;</span> to &lt;new-oid&gt; after verifying &lt;old-oid&gt;, if given.
+Specify a zero &lt;new-oid&gt; to ensure the ref does not exist
+after the update and/or a zero &lt;old-oid&gt; to make sure the
+ref does not exist before the update.</p>
+</dd>
+<dt class="hdlist1" id="Documentation/git-update-ref.txt-create"><a class="anchor" href="#Documentation/git-update-ref.txt-create"></a>create </dt>
+<dd>
+<p>Create <span class="hover-term" data-term="ref">&lt;ref&gt;</span> with &lt;new-oid&gt; after verifying that it does not
+exist.  The given &lt;new-oid&gt; may not be zero.</p>
+</dd>
+<dt class="hdlist1" id="Documentation/git-update-ref.txt-delete"><a class="anchor" href="#Documentation/git-update-ref.txt-delete"></a>delete </dt>
+<dd>
+<p>Delete <span class="hover-term" data-term="ref">&lt;ref&gt;</span> after verifying that it exists with &lt;old-oid&gt;, if
+given.  If given, &lt;old-oid&gt; may not be zero.</p>
+</dd>
+<dt class="hdlist1" id="Documentation/git-update-ref.txt-symref-update"><a class="anchor" href="#Documentation/git-update-ref.txt-symref-update"></a>symref-update </dt>
+<dd>
+<p>Set <span class="hover-term" data-term="ref">&lt;ref&gt;</span> to &lt;new-target&gt; after verifying &lt;old-target&gt; or &lt;old-oid&gt;,
+if given. Specify a zero &lt;old-oid&gt; to ensure that the ref does not
+exist before the update.</p>
+</dd>
+<dt class="hdlist1" id="Documentation/git-update-ref.txt-verify"><a class="anchor" href="#Documentation/git-update-ref.txt-verify"></a>verify </dt>
+<dd>
+<p>Verify <span class="hover-term" data-term="ref">&lt;ref&gt;</span> against &lt;old-oid&gt; but do not change it.  If
+&lt;old-oid&gt; is zero or missing, the ref must not exist.</p>
+</dd>
+<dt class="hdlist1" id="Documentation/git-update-ref.txt-symref-create"><a class="anchor" href="#Documentation/git-update-ref.txt-symref-create"></a>symref-create </dt>
+<dd>
+<p>Create symbolic ref <span class="hover-term" data-term="ref">&lt;ref&gt;</span> with &lt;new-target&gt; after verifying that
+it does not exist.</p>
+</dd>
+<dt class="hdlist1" id="Documentation/git-update-ref.txt-symref-delete"><a class="anchor" href="#Documentation/git-update-ref.txt-symref-delete"></a>symref-delete </dt>
+<dd>
+<p>Delete <span class="hover-term" data-term="ref">&lt;ref&gt;</span> after verifying that it exists with &lt;old-target&gt;, if given.</p>
+</dd>
+<dt class="hdlist1" id="Documentation/git-update-ref.txt-symref-verify"><a class="anchor" href="#Documentation/git-update-ref.txt-symref-verify"></a>symref-verify </dt>
+<dd>
+<p>Verify symbolic <span class="hover-term" data-term="ref">&lt;ref&gt;</span> against &lt;old-target&gt; but do not change it.
+If &lt;old-target&gt; is missing, the ref must not exist.  Can only be
+used in <span class='synopsis'><code>no-deref</code></span> mode.</p>
+</dd>
+<dt class="hdlist1" id="Documentation/git-update-ref.txt-option"><a class="anchor" href="#Documentation/git-update-ref.txt-option"></a>option </dt>
+<dd>
+<p>Modify the behavior of the next command naming a <span class="hover-term" data-term="ref">&lt;ref&gt;</span>.
+The only valid option is <span class='synopsis'><code>no-deref</code></span> to avoid dereferencing
+a symbolic ref.</p>
+</dd>
+<dt class="hdlist1" id="Documentation/git-update-ref.txt-start"><a class="anchor" href="#Documentation/git-update-ref.txt-start"></a>start </dt>
+<dd>
+<p>Start a transaction. In contrast to a non-transactional session, a
+transaction will automatically abort if the session ends without an
+explicit commit. This command may create a new empty transaction when
+the current one has been committed or aborted already.</p>
+</dd>
+<dt class="hdlist1" id="Documentation/git-update-ref.txt-prepare"><a class="anchor" href="#Documentation/git-update-ref.txt-prepare"></a>prepare </dt>
+<dd>
+<p>Prepare to commit the transaction. This will create lock files for all
+queued reference updates. If one reference could not be locked, the
+transaction will be aborted.</p>
+</dd>
+<dt class="hdlist1" id="Documentation/git-update-ref.txt-commit"><a class="anchor" href="#Documentation/git-update-ref.txt-commit"></a>commit </dt>
+<dd>
+<p>Commit all reference updates queued for the transaction, ending the
+transaction.</p>
+</dd>
+<dt class="hdlist1" id="Documentation/git-update-ref.txt-abort"><a class="anchor" href="#Documentation/git-update-ref.txt-abort"></a>abort </dt>
+<dd>
+<p>Abort the transaction, releasing all locks if the transaction is in
+prepared state.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>If all <span class="hover-term" data-term="ref">&lt;ref&gt;</span>s can be locked with matching &lt;old-oid&gt;s
+simultaneously, all modifications are performed.  Otherwise, no
+modifications are performed.  Note that while each individual
+<span class="hover-term" data-term="ref">&lt;ref&gt;</span> is updated or deleted atomically, a concurrent reader may
+still see a subset of the modifications.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_logging_updates"><a class="anchor" href="#_logging_updates"></a>LOGGING UPDATES</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>If config parameter "core.logAllRefUpdates" is true and the ref is one
+under "refs/heads/", "refs/remotes/", "refs/notes/", or a pseudoref
+like HEAD or ORIG_HEAD; or the file "$GIT_DIR/logs/<span class="hover-term" data-term="ref">&lt;ref&gt;</span>" exists then
+<span class='synopsis'><code>git</code> <code>update-ref</code></span> will append a line to the log file
+"$GIT_DIR/logs/<span class="hover-term" data-term="ref">&lt;ref&gt;</span>" (dereferencing all symbolic refs before creating
+the log name) describing the change in ref value.  Log lines are
+formatted as:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>oldsha1 SP newsha1 SP committer LF</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Where "oldsha1" is the 40 character hexadecimal value previously
+stored in <span class="hover-term" data-term="ref">&lt;ref&gt;</span>, "newsha1" is the 40 character hexadecimal value of
+&lt;new-oid&gt; and "committer" is the committer&#8217;s name, email address
+and date in the standard Git committer ident format.</p>
+</div>
+<div class="paragraph">
+<p>Optionally with -m:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>oldsha1 SP newsha1 SP committer TAB message LF</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Where all fields are as described above and "message" is the
+value supplied to the -m option.</p>
+</div>
+<div class="paragraph">
+<p>An update will fail (without changing <span class="hover-term" data-term="ref">&lt;ref&gt;</span>) if the current user is
+unable to create a new log file, append to the existing log file
+or does not have committer information available.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_notes"><a class="anchor" href="#_notes"></a>NOTES</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Symbolic refs were initially implemented using symbolic links.  This is
+now deprecated since not all filesystems support symbolic links.</p>
+</div>
+<div class="paragraph">
+<p>This command follows <strong>real</strong> symlinks only if they start with "refs/":
+otherwise it will just try to read them and update them as a regular
+file (i.e. it will allow the filesystem to follow them, but will
+overwrite such a symlink to somewhere else with a regular filename).</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also"><a class="anchor" href="#_see_also"></a>SEE ALSO</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href='/docs/git-symbolic-ref'>git-symbolic-ref[1]</a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_git"><a class="anchor" href="#_git"></a>GIT</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Part of the <a href='/docs/git'>git[1]</a> suite</p>
+</div>
+</div>
+</div>
+            
+            
+              
+              
+              
+              <h3 hidden="true" data-pagefind-weight="7">update-ref</h3>
+            
+          </div>
+        </div>
+      </div>
+      <footer>
+  <div class="site-source">
+    <a href="/site">About this site</a><br>
+    Patches, suggestions, and comments are welcome.
+  </div>
+  <div class="sfc-member">
+    Git is a member of <a href="/sfc">Software Freedom Conservancy</a>
+  </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.min.js"></script>
+<script src="/js/jquery.defaultvalue.js"></script>
+<script src="/js/session.min.js"></script>
+
+<script src="/js/application.min.9fa9fb38ef6c02fbb5e3624499214101f82d3b15ce4ba8856f64c2c3456798c8.js" integrity="sha256-n6n7OO9sAvu142JEmSFBAfgtOxXOS6iFb2TCw0VnmMg="></script>
+
+      <script src="/js/nanopop.umd.js"></script>
+      <script src="/js/glossary.js"></script>
+    </div>
+  
+
+</body>
+</html>
+

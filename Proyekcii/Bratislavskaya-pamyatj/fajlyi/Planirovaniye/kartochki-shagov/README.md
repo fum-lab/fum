@@ -214,6 +214,8 @@ Dlya odnovremennogo utochneniya imeni dobavj `--description новое-крат�
 | FUM-STEP-0173 | 🟡 Aktualjno | [Razobratj drejf snimka obyyavlenij](🟡-FUM-STEP-0173-razobratj-drejf-snimka-obyyavlenij.md)                                                                                                                                                                                                                                   |
 | FUM-STEP-0174 | 🟡 Aktualjno | [Opisyivatj primeneniye avtomatizacij bez chteniya koda](🟡-FUM-STEP-0174-opisyivatj-primeneniye-avtomatizacij-bez-chteniya-koda.md)                                                                                                                                                                                                 |
 | FUM-STEP-0175 | 🟡 Aktualjno | [Podgotovitj smenu golovnoj vetki razrabotki](🟡-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md)                                                                                                                                                                                                               |
+| FUM-STEP-0176 | 🟡 Aktualjno | [Sobratj sobstvennuyu realizaciyu v FUM](🟡-FUM-STEP-0176-sobratj-sobstvennuyu-realizaciyu-v-FUM.md)                                                                                                                                                                                                                             |
+| FUM-STEP-0177 | 🟡 Aktualjno | [Vozvrasjhatj neobrabotannyiye soobsjheniya poljzovatelya](🟡-FUM-STEP-0177-vozvrasjhatj-neobrabotannyiye-soobsjheniya-poljzovatelya.md)                                                                                                                                                                                                     |
 
 ## Istochniki trebovanij
 
@@ -248,6 +250,6 @@ Dlya odnovremennogo utochneniya imeni dobavj `--description новое-крат�
 - [iskhodnyij zapros 2026-07-24 10:44:28 MSK — Nachatj bezokonnyij Swift-prototip vosproizvodimogo popolneniya pamyati FUM](../../Zhurnal/2026-07-24_10-44-28_MSK_nachatj-bezokonnyij-Swift-prototip-vosproizvodimogo-popolneniya-pamyati-FUM/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 16:38:28 MSK -->
-<!-- content-sha256: sha256:6deb80cf35b4fb8cd2cda481ea054879908e188d939e76f28d09691a2e28097d -->
+<!-- last-content-edit: 2026-09-10 20:36:12 MSK -->
+<!-- content-sha256: sha256:8ddf99352969d445473f51a45fcdff182e8d5cb90e48188da8d8b9c6f0a7fa4e -->
 <!-- FUM-MD-RECENCY:END -->

@@ -1,0 +1,23 @@
+HTTP/2 200
+date: Thu, 10 Sep 2026 18:10:00 GMT
+content-type: text/html; charset=utf-8
+server: cloudflare
+x-origin-cache: HIT
+last-modified: Mon, 31 Aug 2026 06:42:23 GMT
+access-control-allow-origin: *
+etag: W/"6a95224f-be96"
+expires: Thu, 10 Sep 2026 18:19:59 GMT
+cache-control: max-age=14400
+x-proxy-cache: MISS
+x-github-request-id: E168:22AE4:1D1705C:1D67D07:6AA2F276
+x-github-edge-region: fra
+age: 0
+via: 1.1 varnish
+x-served-by: cache-hel1410029-HEL
+x-cache: MISS
+x-cache-hits: 0
+x-timer: S1789063800.893321,VS0,VE122
+vary: Accept-Encoding
+x-fastly-request-id: b917a3bfc56bf7243ba3bac4828be52f550acf7c
+cf-cache-status: MISS
+cf-ray: [REDACTED: response trace identifier]

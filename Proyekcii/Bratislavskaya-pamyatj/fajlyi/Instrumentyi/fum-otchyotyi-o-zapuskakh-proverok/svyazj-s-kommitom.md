@@ -1,6 +1,6 @@
 # Svyazj otpechatka proverki s kommitom
 
-Kommit sam po sebe ne dokazyivayet, chto proverka proshla imenno na yego vkhode. Vspomogateljnyij [adapter](scripts/svyazj_otpechatka_s_kommitom.py) sopostavlyayet polnyij OID kommita s dvumya uzhe proverennyimi otpechatkami v3: iz zakryitogo otchyota i poslednego priyomochnogo zapuska. On nichego ne zapisyivayet i vozvrasjhayet mashinnyij rezuljtat skhemyi `fum.связь-отпечатка-с-коммитом.1`.
+Kommit sam po sebe ne dokazyivayet, chto proverka proshla imenno na yego vkhode. Vspomogateljnyij [adapter](scripts/svyazj_otpechatka_s_kommitom.py) sopostavlyayet polnyij OID kommita s dvumya uzhe proverennyimi otpechatkami v3: iz zakryitogo otchyota i poslednego priyomochnogo zapuska. On nichego ne zapisyivayet; obyichnyij rezhim vozvrasjhayet mashinnyij rezuljtat skhemyi `fum.связь-отпечатка-с-коммитом.1`.
 
 ```bash
 python3 Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/связь_отпечатка_с_коммитом.py \
@@ -12,7 +12,9 @@ python3 Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/свя
   --режим исторический
 ```
 
-`--сессия` oboznachayet papku, a ne `запрос.md`. Korenj dolzhen sovpadatj s fakticheskim kornem checkout. Dopuskayetsya toljko obyyekt kommita s odnim dostupnyim roditelem; teg, sokrasjhyonnyij OID, merge i nachaljnyij kommit otklonyayutsya. Podderzhanyi polnyiye SHA-1 i SHA-256.
+`--сессия` oboznachayet papku, a ne `запрос.md`. Korenj dolzhen sovpadatj s fakticheskim kornem checkout. V obyichnyikh rezhimakh dopuskayetsya toljko obyyekt kommita s odnim dostupnyim roditelem; teg, sokrasjhyonnyij OID, merge i nachaljnyij kommit otklonyayutsya. Podderzhanyi polnyiye SHA-1 i SHA-256.
+
+Yavnyij `--слияние` trebuyet `--режим исторический` i polnyiye `--база L`, `--присоединяемый M`, `--дерево T`. On sveryayet rovno roditelej `[L, M]` i tochnoye derevo T, zatem vosstanavlivayet otpechatok s HEAD=L, diff L→C i pustoj rabochej raznicej. M proveryayetsya otdeljno ot osnovyi otpechatka. Rezuljtat imeyet skhemu `fum.связь-отпечатка-со-слиянием.1`; gotovnostj otchyota i proiskhozhdeniye proverok on ne dokazyivayet. Dlya etogo ispoljzuyetsya [chitatelj s parametrom `--допуск-слияния`](proverka-sliyaniya-iz-master.md).
 
 | Kod zaversheniya | Rezuljtat | Znacheniye |
 | --- | --- | --- |
@@ -37,6 +39,6 @@ Ravenstvo SHA ne udostoveryayet proiskhozhdeniye peredannyikh strok, gotovnostj 
 Regressii nakhodyatsya v [adresnom nabore](tests/test_svyazj_otpechatka_s_kommitom.py). Profilj, iskhodnaya realizaciya do optimizacii i proverka realjnogo prinyatogo kommita sokhranenyi v [zhurnale etapa](../../Zhurnal/2026-09-10_00-49-43_MSK_svyazatj-proverki-s-kommitami/otchyot.md). Prodolzheniye uchyota obyazateljstv oformleno [otdeljnoj kartochkoj](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0172-proveryatj-ostatok-obyazateljstv-zadachi.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 01:11:48 MSK -->
-<!-- content-sha256: sha256:932212043a4c2bdde5a61723fa36056ef69f987cff4ccdf7c033704ec0ef4063 -->
+<!-- last-content-edit: 2026-09-10 19:46:01 MSK -->
+<!-- content-sha256: sha256:c4ca9406def515eeaf8c8fdd680a5f1dbaeda0a7977f3fced48bea57fa09f7a2 -->
 <!-- FUM-MD-RECENCY:END -->

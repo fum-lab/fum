@@ -11,13 +11,22 @@ import unittest
 from unittest import mock
 
 
+def путь_проверяемой_реализации(путь: Path) -> Path:
+    выбранный = os.environ.get("FUM_CHECKED_CODE_ROOT")
+    if выбранный is None:
+        return путь
+    if not выбранный or not Path(выбранный).is_absolute():
+        raise ValueError("корень проверяемой реализации должен быть явным абсолютным путём")
+    return Path(выбранный) / путь.relative_to(Path(__file__).resolve().parents[3])
+
+
 КОРЕНЬ = Path(__file__).resolve().parents[3]
 СЦЕНАРИЙ = (
-    КОРЕНЬ
+    путь_проверяемой_реализации(КОРЕНЬ
     / "Инструменты"
     / "fum-bratislavskaya-proyekciya-pamyati"
     / "scripts"
-    / "братиславская_проекция_памяти.py"
+    / "братиславская_проекция_памяти.py")
 )
 
 
@@ -872,6 +881,67 @@ class ПроверкаКонтрактаБратиславскойПроекци
         )
         сам._зафиксировать()
         зависимость, исходник, ревизия = сам._создать_репозиторий_зависимости()
+        with mock.patch.object(модуль, "РЕВИЗИЯ_ЗАВИСИМОСТИ", ревизия):
+            with модуль.подготовить_изолированный_преобразователь(
+                сам.корень
+            ) as (команда, проверить_границу):
+                сам.assertEqual(команда.count("--configuration"), 1)
+                сам.assertEqual(команда[команда.index("--configuration") + 1], "release")
+                пакет = Path(команда[команда.index("--package-path") + 1])
+                временный_корень = пакет.parents[1]
+                изолированный_исходник = (
+                    временный_корень
+                    / "Зависимости/LinguisticKit/Sources/Преобразователь.swift"
+                )
+                сам.assertNotIn(сам.корень, пакет.parents)
+                сам.assertEqual(
+                    изолированный_исходник.read_text(encoding="utf-8"),
+                    "let значение = 1\n",
+                )
+
+                исходник.write_text("let значение = 2\n", encoding="utf-8")
+                проверить_границу()
+                изолированный_исходник.write_text(
+                    "let значение = 3\n",
+                    encoding="utf-8",
+                )
+                with сам.assertRaisesRegex(
+                    модуль.ОшибкаКонтракта,
+                    "Байты файла",
+                ):
+                    проверить_границу()
+
+    def test_ленивая_команда_реально_исполняется_без_предварительной_сборки(сам):
+        сам._записать(
+            "Инструменты/fum-proverka-nazvanij-avtomatizacij/Package.swift",
+            '// swift-tools-version: 6.0\nimport PackageDescription\n'
+            'let package = Package(name: "FUMFixture", '
+            'products: [.executable(name: "preobrazovatj-nazvaniya", targets: ["Runner"])], '
+            'targets: [.executableTarget(name: "Runner")])\n',
+        )
+        сам._записать(
+            "Инструменты/fum-proverka-nazvanij-avtomatizacij/Sources/Runner/main.swift",
+            'print("FUM fixture")\n',
+        )
+        сам._зафиксировать()
+        _, _, ревизия = сам._создать_репозиторий_зависимости()
+        with mock.patch.object(модуль, "РЕВИЗИЯ_ЗАВИСИМОСТИ", ревизия), mock.patch.object(
+            модуль, "собрать_изолированный_продукт", side_effect=AssertionError("Лишняя предварительная сборка")
+        ), mock.patch.object(
+            модуль, "подготовить_локальный_кэш", side_effect=AssertionError("Лишний кэш")
+        ):
+            with модуль.подготовить_изолированный_преобразователь(сам.корень) as (команда, граница):
+                результат = subprocess.run(команда, text=True, capture_output=True, check=True)
+                сам.assertEqual(результат.stdout, "FUM fixture\n")
+                граница()
+
+    def test_кэшированный_процесс_использует_изолированный_архив_закреплённого_дерева(сам):
+        сам._записать(
+            "Инструменты/fum-proverka-nazvanij-avtomatizacij/Package.swift",
+            "// swift-tools-version: 6.0\n",
+        )
+        сам._зафиксировать()
+        зависимость, исходник, ревизия = сам._создать_репозиторий_зависимости()
 
         def собрать(пакет, каталог, граница, **параметры):
             граница()
@@ -889,7 +959,7 @@ class ПроверкаКонтрактаБратиславскойПроекци
             модуль, "сведения_для_повторной_сборки", return_value=({}, "swift")
         ):
             with модуль.подготовить_изолированный_преобразователь(
-                сам.корень
+                сам.корень, использовать_кэш=True
             ) as (команда, проверить_границу):
                 сборка.assert_called_once()
                 временный_корень = Path(команда[0]).parents[1]

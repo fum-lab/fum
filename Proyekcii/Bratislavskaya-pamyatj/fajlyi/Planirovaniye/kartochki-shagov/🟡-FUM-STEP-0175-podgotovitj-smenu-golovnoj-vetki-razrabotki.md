@@ -30,7 +30,7 @@ Poljzovatelj utochnil napravleniye v [sleduyusjhem etape](../../Zhurnal/2026-09-
 
 [Karta sokhraneniya rezuljtatov](../../Zhurnal/2026-09-10_14-26-58_MSK_proveryatj-sliyaniye-master-v-vedusjhuyu-vetku/materialyi/karta-obyyedineniya.md) podtverzhdayet: Git-mekhanika sliyaniya, vosstanovleniya, proverki roditelej i CAS uzhe yestj v oboikh derevjyakh pobajtno. Yeyo povtornaya realizaciya isklyuchena iz plana. Kyesh, v4-raundyi, vkhod snimka indeksa i zasjhita prodolzheniya berutsya iz podgotovlennoj vetki. Soglasovaniyu podlezhat sokhraneniye fajlov Finder, raznyiye pokoleniya reyestra obyazateljstv i priyomochnyikh svideteljstv, a takzhe yavno vyibrannyiye pravila rabotyi.
 
-Snachala gotovitsya konkretnyij kandidat i razreshayutsya eti razlichiya. Toljko nedostayusjhiye dlya yego priyomki proverki dorabatyivayutsya otdeljno. Novyij chitatelj svyazi otchyota so sliyaniyem poka ostayotsya chastnyim chernovikom vne checkout: on ne nuzhen dlya sostavleniya samogo kandidata. Istochnik doverennogo proverochnogo koda M i predkommitnyij HEAD L razlichayutsya. Tekusjhaya obyortka i smoke yesjhyo smeshivayut istochnik proverok s celevyim kornem; eto ogranicheniye ne skryivayetsya uspeshnyimi proverkami drugogo sostava.
+Snachala gotovitsya konkretnyij kandidat i razreshayutsya eti razlichiya. Toljko nedostayusjhiye dlya yego priyomki proverki dorabatyivayutsya otdeljno. Chastnyiye chernoviki chitatelya svyazi otchyota so sliyaniyem i yego testov perenesenyi v tekusjhij etap M1; 17 adresnyikh scenariyev proshli. Istochnik polnogo zapuska iz master otdelyon ot proveryayemoj realizacii kandidata i proveren skvoznoj v3-fiksturoj; etot etap yesjhyo ne prinyat v master. Istochnik doverennogo proverochnogo koda M i predkommitnyij HEAD L razlichayutsya. Neizmenyayemoye podtverzhdeniye polnogo zapuska i profilj realizovanyi: 15 scenariyev istochnika i ispolneniya proshli, adapter optimizirovan s 13 do 6 processov Git. Nezavershyonnyimi ostayutsya finaljnaya priyomka M1, zatem proverka novogo kandidata C2 i prodvizheniye master.
 
 ## Kriterii zaversheniya
 
@@ -38,7 +38,7 @@ Snachala gotovitsya konkretnyij kandidat i razreshayutsya eti razlichiya. Toljko
 - Opredelenyi vyibrannaya golovnaya liniya, yeyo osnovaniye i poryadok bezopasnoj smenyi s sokhraneniyem nezavershyonnyikh zadach.
 - Razdelenyi nezavisimyiye rabochiye derevjya i mesto sovmestnoj priyomki; obnovlyon obyazateljnyij nabor pravil bez neyavnogo vklyucheniya istoricheskikh polnomochij.
 - Rezuljtat integracii proveryayetsya do popadaniya v master; kontroljnyij kommit s planom ne vyidayotsya za prinyatuyu realizaciyu.
-- Podderzhana priyomka nastoyasjhikh merge-kommitov: tekusjhij adapter ogranichen odnim roditelem. Integracionnaya vetka v otdeljnom dereve stroitsya ot vedusjhej L, prinimayet master M i sokhranyayet C s roditelyami [L, M]; posle proverki master prodvigayetsya do togo zhe C pri sokhranenii M i soglasovannosti osnovnogo checkout.
+- Prinyata podderzhka nastoyasjhikh merge-kommitov i proveryayusjhego istochnika; obyichnyij rezhim adaptera sokhranyayet ogranicheniye odnim roditelem. Integracionnaya vetka v otdeljnom dereve stroitsya ot vedusjhej L, prinimayet master M i sokhranyayet C s roditelyami [L, M]; posle proverki master prodvigayetsya do togo zhe C pri sokhranenii M i soglasovannosti osnovnogo checkout.
 - Izmeneniya pravil samoj integriruyemoj linii ne mogut nezametno oslabitj yeyo priyomku; susjhestvennyiye ogranicheniya i vozrazheniya soobsjhayutsya poljzovatelyu.
 - Priyomka vyipolnyayetsya po pravilam zafiksirovannogo iskhodnogo master. Predlagayemyiye novyiye pravila ocenivayutsya vnutri kandidata i nachinayut dejstvovatj posle prinyatiya; proveryayusjhaya storona ne podmenyayetsya kandidatnoj realizaciyej.
 - Utochnena granica rannego sokhraneniya nablyudenij: vetka opravdana samostoyateljnyim rezuljtatom i pervyim shagom, a dannyiye sokhranyayutsya nezavisimo ot sozdaniya vetki.
@@ -49,6 +49,6 @@ Snachala gotovitsya konkretnyij kandidat i razreshayutsya eti razlichiya. Toljko
 - [Podgotovka proveryayemogo perenosa soderzhimogo vetok](../../Zhurnal/2026-09-10_02-01-28_MSK_proveryatj-zakryityiye-otchyotyi-iz-kommitov/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 14:37:13 MSK -->
-<!-- content-sha256: sha256:41306367388eadba55fc1175b3ec47ea678abd4272b986fa1906a790b4cc5858 -->
+<!-- last-content-edit: 2026-09-10 19:46:01 MSK -->
+<!-- content-sha256: sha256:e391354918d05efd457b39606a77d553065eb168b4b4dfa3f2f2d9193ada4abb -->
 <!-- FUM-MD-RECENCY:END -->

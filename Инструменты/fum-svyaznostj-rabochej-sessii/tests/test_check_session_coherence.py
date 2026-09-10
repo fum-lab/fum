@@ -9,10 +9,21 @@ from pathlib import Path
 from unittest import mock
 
 
+import os
+
+def путь_проверяемой_реализации(путь: Path) -> Path:
+    выбранный = os.environ.get("FUM_CHECKED_CODE_ROOT")
+    if выбранный is None:
+        return путь
+    if not выбранный or not Path(выбранный).is_absolute():
+        raise ValueError("корень проверяемой реализации должен быть явным абсолютным путём")
+    return Path(выбранный) / путь.relative_to(Path(__file__).resolve().parents[3])
+
+
 SCRIPT_PATH = (
-    Path(__file__).resolve().parents[1]
+    путь_проверяемой_реализации(Path(__file__).resolve().parents[1]
     / "scripts"
-    / "check-session-coherence.py"
+    / "check-session-coherence.py")
 )
 
 spec = importlib.util.spec_from_file_location("check_session_coherence", SCRIPT_PATH)

@@ -74,6 +74,6 @@ Pervyiye dve komandyi doslovno perenesenyi iz [predyidusjhego zaprosa](../2026-0
 - [Navigaciya predyidusjhego zaprosa](../2026-09-10_13-40-29_MSK_zakrepitj-pravila-opisaniya-avtomatizacij-i-priyomki-sliyanij/zapros.md), [indeks Zhurnala](../README.md), [indeks svezhesti](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md) i avtomaticheski poluchennaya [proyekciya](../../../..).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 16:38:28 MSK -->
+<!-- last-content-edit: 2026-09-10 20:36:12 MSK -->
 <!-- content-sha256: sha256:f8ad6afe57359d64ba6160af0f865b34d6e69677205ff3fe430124bef71cf02a -->
 <!-- FUM-MD-RECENCY:END -->
