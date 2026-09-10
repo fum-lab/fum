@@ -97,12 +97,12 @@
     {
       "идентификатор": "план-10",
       "действие": "Сохранить и доставить: Такси и грузовая доставка",
-      "состояние": "доступна",
+      "состояние": "завершена",
       "основание": {
         "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
         "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
       },
-      "свидетельство": null
+      "свидетельство": "Коммит c1adc4d1595b2e7be8c65f1764c98956d00845ad; удалённый OID подтверждён c1adc4d1595b2e7be8c65f1764c98956d00845ad"
     },
     {
       "идентификатор": "план-11",
@@ -177,6 +177,16 @@
     {
       "идентификатор": "план-18",
       "действие": "Сохранить и доставить: Правило постоянной ветки",
+      "состояние": "доступна",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": null
+    },
+    {
+      "идентификатор": "план-19",
+      "действие": "Сохранить и доставить: SwiftNIO",
       "состояние": "доступна",
       "основание": {
         "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
