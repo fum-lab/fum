@@ -77,12 +77,12 @@
     {
       "идентификатор": "план-08",
       "действие": "Сохранить и доставить: Интернет и VPN",
-      "состояние": "доступна",
+      "состояние": "завершена",
       "основание": {
         "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
         "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
       },
-      "свидетельство": null
+      "свидетельство": "Коммит b827cb82e145c2ca3a10e23812a36f4c69fdacf6; удалённый OID подтверждён b827cb82e145c2ca3a10e23812a36f4c69fdacf6"
     },
     {
       "идентификатор": "план-09",
