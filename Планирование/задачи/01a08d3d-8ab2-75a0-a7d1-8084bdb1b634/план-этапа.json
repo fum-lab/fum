@@ -1,0 +1,198 @@
+{
+  "схема": "fum.продолжение-задачи.1",
+  "задача": "01a08d3d-8ab2-75a0-a7d1-8084bdb1b634",
+  "режим": "постоянная",
+  "остановка": null,
+  "работы": [
+    {
+      "идентификатор": "план-01",
+      "действие": "Сохранить и доставить: GitHub Actions",
+      "состояние": "завершена",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": "Коммит 63d7400c989375080803970a1644a58199256435; удалённый OID подтверждён 63d7400c989375080803970a1644a58199256435"
+    },
+    {
+      "идентификатор": "план-02",
+      "действие": "Сохранить и доставить: macOS",
+      "состояние": "доступна",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": null
+    },
+    {
+      "идентификатор": "план-03",
+      "действие": "Сохранить и доставить: Linux",
+      "состояние": "доступна",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": null
+    },
+    {
+      "идентификатор": "план-04",
+      "действие": "Сохранить и доставить: Windows",
+      "состояние": "доступна",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": null
+    },
+    {
+      "идентификатор": "план-05",
+      "действие": "Сохранить и доставить: Платформы и графика FUMA",
+      "состояние": "доступна",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": null
+    },
+    {
+      "идентификатор": "план-06",
+      "действие": "Сохранить и доставить: Децентрализованные сети",
+      "состояние": "доступна",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": null
+    },
+    {
+      "идентификатор": "план-07",
+      "действие": "Сохранить и доставить: Мессенджеры",
+      "состояние": "доступна",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": null
+    },
+    {
+      "идентификатор": "план-08",
+      "действие": "Сохранить и доставить: Интернет и VPN",
+      "состояние": "доступна",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": null
+    },
+    {
+      "идентификатор": "план-09",
+      "действие": "Сохранить и доставить: Принтеры и сканеры",
+      "состояние": "доступна",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": null
+    },
+    {
+      "идентификатор": "план-10",
+      "действие": "Сохранить и доставить: Такси и грузовая доставка",
+      "состояние": "доступна",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": null
+    },
+    {
+      "идентификатор": "план-11",
+      "действие": "Сохранить и доставить: Строительное направление",
+      "состояние": "доступна",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": null
+    },
+    {
+      "идентификатор": "план-12",
+      "действие": "Сохранить и доставить: Сельское хозяйство и еда",
+      "состояние": "доступна",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": null
+    },
+    {
+      "идентификатор": "план-13",
+      "действие": "Сохранить и доставить: Роботы",
+      "состояние": "доступна",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": null
+    },
+    {
+      "идентификатор": "план-14",
+      "действие": "Сохранить и доставить: Биотехнологии",
+      "состояние": "доступна",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": null
+    },
+    {
+      "идентификатор": "план-15",
+      "действие": "Сохранить и доставить: Генетика",
+      "состояние": "доступна",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": null
+    },
+    {
+      "идентификатор": "план-16",
+      "действие": "Сохранить и доставить: Химия",
+      "состояние": "доступна",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": null
+    },
+    {
+      "идентификатор": "план-17",
+      "действие": "Сохранить и доставить: Физика",
+      "состояние": "доступна",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": null
+    },
+    {
+      "идентификатор": "план-18",
+      "действие": "Сохранить и доставить: Правило постоянной ветки",
+      "состояние": "доступна",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": null
+    },
+    {
+      "идентификатор": "приёмка-и-интеграция-серии",
+      "действие": "Провести отложенную приёмку и интеграцию серии в master после отдельного запроса пользователя",
+      "состояние": "ожидает-ответа",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": "Пользователь отложил слияние: «Potom podmyordzhim». Интеграция требует отдельного явного запроса; проекция сохраняется от базового поколения 406c6ba1."
+    }
+  ]
+}
