@@ -117,12 +117,12 @@
     {
       "идентификатор": "план-12",
       "действие": "Сохранить и доставить: Сельское хозяйство и еда",
-      "состояние": "доступна",
+      "состояние": "завершена",
       "основание": {
         "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
         "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
       },
-      "свидетельство": null
+      "свидетельство": "Коммит 715060f02bf5d4a69f2e3561da35013efb1e8226; удалённый OID подтверждён 715060f02bf5d4a69f2e3561da35013efb1e8226"
     },
     {
       "идентификатор": "план-13",
