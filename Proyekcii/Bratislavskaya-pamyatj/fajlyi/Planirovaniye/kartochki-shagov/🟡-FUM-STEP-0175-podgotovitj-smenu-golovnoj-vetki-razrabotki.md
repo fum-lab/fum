@@ -26,9 +26,11 @@ Osnovnyiye puti v etikh Git-obyyektakh: `AGENTS.md` i `Правила/агент
 
 ## Podgotovlennaya granica i prodolzheniye
 
-V [etape pravil priyomki](../../Zhurnal/2026-09-10_13-40-29_MSK_zakrepitj-pravila-opisaniya-avtomatizacij-i-priyomki-sliyanij/zapros.md) podgotovleno uzkoye razresheniye odnogo integracionnogo dereva. Sleduyusjhij tekhnicheskij shag — dokazatj proiskhozhdeniye ispolnyayemyikh proverok iz B i podderzhku kommita s roditelyami `[B, S]`. Tekusjhaya obyortka priznayot shtatnyij smoke toljko vnutri proveryayemogo kornya; sam smoke i svyaznostj zapuskayut chastj otnositeljnyikh instrumentov ottuda zhe. Poetomu vneshnij fajl iz B s argumentom kornya kandidata ne reshayet zadachu.
+Poljzovatelj utochnil napravleniye v [sleduyusjhem etape](../../Zhurnal/2026-09-10_14-26-58_MSK_proveryatj-sliyaniye-master-v-vedusjhuyu-vetku/zapros.md): iskhodnyij master M vlivayetsya v gotovuyu vedusjhuyu vetku L; posle proverki master prodvigayetsya do togo zhe C s roditelyami `[L, M]`. Vedusjhej osnovoj vyibrana `codex/планирование-наблюдения-macos-01a07d3d` na `ef0b528c8c117f7cfddb83d1699aa333d9c486a5`. Osnovnoj prioritet — yeyo polnocennoye obyyedineniye s sokhraneniyem rezuljtatov master. Podgotovka kandidata otdelena ot razresheniya yego prodvizheniya.
 
-Dlya pervogo ogranichennogo varianta mozhno trebovatj tochnogo sovpadeniya polnogo proveryayusjhego komplekta kandidata s B. Takoj variant dolzhen chestno otklonyatj izmeneniya komplekta, v tom chisle podgotovlennoye uskoreniye generatora. Dlya priyomki izmenenij samikh pravil i instrumentov trebuyetsya razdelitj istochnik obyazateljnyikh proverok i proveryayemyij kod. Oba varianta sokhranyayut polnyij sostav, rezhimyi i bajtyi rezuljtata; vremennaya podstanovka staryikh instrumentov s vozvratom novyikh posle proverki ne yavlyayetsya priyomkoj novogo dereva.
+[Karta sokhraneniya rezuljtatov](../../Zhurnal/2026-09-10_14-26-58_MSK_proveryatj-sliyaniye-master-v-vedusjhuyu-vetku/materialyi/karta-obyyedineniya.md) podtverzhdayet: Git-mekhanika sliyaniya, vosstanovleniya, proverki roditelej i CAS uzhe yestj v oboikh derevjyakh pobajtno. Yeyo povtornaya realizaciya isklyuchena iz plana. Kyesh, v4-raundyi, vkhod snimka indeksa i zasjhita prodolzheniya berutsya iz podgotovlennoj vetki. Soglasovaniyu podlezhat sokhraneniye fajlov Finder, raznyiye pokoleniya reyestra obyazateljstv i priyomochnyikh svideteljstv, a takzhe yavno vyibrannyiye pravila rabotyi.
+
+Snachala gotovitsya konkretnyij kandidat i razreshayutsya eti razlichiya. Toljko nedostayusjhiye dlya yego priyomki proverki dorabatyivayutsya otdeljno. Novyij chitatelj svyazi otchyota so sliyaniyem poka ostayotsya chastnyim chernovikom vne checkout: on ne nuzhen dlya sostavleniya samogo kandidata. Istochnik doverennogo proverochnogo koda M i predkommitnyij HEAD L razlichayutsya. Tekusjhaya obyortka i smoke yesjhyo smeshivayut istochnik proverok s celevyim kornem; eto ogranicheniye ne skryivayetsya uspeshnyimi proverkami drugogo sostava.
 
 ## Kriterii zaversheniya
 
@@ -36,7 +38,7 @@ Dlya pervogo ogranichennogo varianta mozhno trebovatj tochnogo sovpadeniya polno
 - Opredelenyi vyibrannaya golovnaya liniya, yeyo osnovaniye i poryadok bezopasnoj smenyi s sokhraneniyem nezavershyonnyikh zadach.
 - Razdelenyi nezavisimyiye rabochiye derevjya i mesto sovmestnoj priyomki; obnovlyon obyazateljnyij nabor pravil bez neyavnogo vklyucheniya istoricheskikh polnomochij.
 - Rezuljtat integracii proveryayetsya do popadaniya v master; kontroljnyij kommit s planom ne vyidayotsya za prinyatuyu realizaciyu.
-- Podderzhana priyomka nastoyasjhikh merge-kommitov: tekusjhij adapter ogranichen odnim roditelem. Integracionnaya vetka v otdeljnom dereve stroitsya ot nablyudyonnogo master; posle proverki prodvigayetsya tot zhe kommit pri sokhranenii bazyi i soglasovannosti osnovnogo checkout.
+- Podderzhana priyomka nastoyasjhikh merge-kommitov: tekusjhij adapter ogranichen odnim roditelem. Integracionnaya vetka v otdeljnom dereve stroitsya ot vedusjhej L, prinimayet master M i sokhranyayet C s roditelyami [L, M]; posle proverki master prodvigayetsya do togo zhe C pri sokhranenii M i soglasovannosti osnovnogo checkout.
 - Izmeneniya pravil samoj integriruyemoj linii ne mogut nezametno oslabitj yeyo priyomku; susjhestvennyiye ogranicheniya i vozrazheniya soobsjhayutsya poljzovatelyu.
 - Priyomka vyipolnyayetsya po pravilam zafiksirovannogo iskhodnogo master. Predlagayemyiye novyiye pravila ocenivayutsya vnutri kandidata i nachinayut dejstvovatj posle prinyatiya; proveryayusjhaya storona ne podmenyayetsya kandidatnoj realizaciyej.
 - Utochnena granica rannego sokhraneniya nablyudenij: vetka opravdana samostoyateljnyim rezuljtatom i pervyim shagom, a dannyiye sokhranyayutsya nezavisimo ot sozdaniya vetki.
@@ -47,6 +49,6 @@ Dlya pervogo ogranichennogo varianta mozhno trebovatj tochnogo sovpadeniya polno
 - [Podgotovka proveryayemogo perenosa soderzhimogo vetok](../../Zhurnal/2026-09-10_02-01-28_MSK_proveryatj-zakryityiye-otchyotyi-iz-kommitov/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 13:49:34 MSK -->
-<!-- content-sha256: sha256:2467370775fc436540a951bf02f765cc5c53cc7401dea8767df2ec24f540ff8e -->
+<!-- last-content-edit: 2026-09-10 14:37:13 MSK -->
+<!-- content-sha256: sha256:41306367388eadba55fc1175b3ec47ea678abd4272b986fa1906a790b4cc5858 -->
 <!-- FUM-MD-RECENCY:END -->

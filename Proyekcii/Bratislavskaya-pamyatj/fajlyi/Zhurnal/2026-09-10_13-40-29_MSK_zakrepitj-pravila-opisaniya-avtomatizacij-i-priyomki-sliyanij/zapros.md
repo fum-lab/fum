@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-10 11:51:55 MSK - Sokhranyatj ostatok obyazateljstv](../2026-09-10_11-51-55_MSK_sokhranyatj-ostatok-obyazateljstv/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-10 14:26:58 MSK - Proveryatj sliyaniye master v vedusjhuyu vetku](../2026-09-10_14-26-58_MSK_proveryatj-sliyaniye-master-v-vedusjhuyu-vetku/zapros.md)
 
 ## Tekst zaprosa
 
@@ -84,6 +84,6 @@ Pryamyiye proverki i ikh iskhodyi sokhranyayutsya v [otchyote](otchyot.md). Ispo
 - [Etot zapros](zapros.md), [otchyot](otchyot.md), [predyidusjhij zapros: navigaciya](../2026-09-10_11-51-55_MSK_sokhranyatj-ostatok-obyazateljstv/zapros.md), [indeks Zhurnala](../README.md), [indeks Markdown](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md), [proyekciya](../../../..).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 13:51:44 MSK -->
-<!-- content-sha256: sha256:b82ec8716a4eab6c38d01fd840070f3c5563e4c435e8b37e3da0423543c78851 -->
+<!-- last-content-edit: 2026-09-10 14:37:13 MSK -->
+<!-- content-sha256: sha256:ea3c617a4a66719cf3d44966c8b5b4a532395df3f797289f997b25bb59c471b7 -->
 <!-- FUM-MD-RECENCY:END -->
