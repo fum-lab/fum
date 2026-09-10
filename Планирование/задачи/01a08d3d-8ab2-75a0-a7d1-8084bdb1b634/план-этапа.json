@@ -157,12 +157,12 @@
     {
       "идентификатор": "план-16",
       "действие": "Сохранить и доставить: Химия",
-      "состояние": "доступна",
+      "состояние": "завершена",
       "основание": {
         "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
         "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
       },
-      "свидетельство": null
+      "свидетельство": "Коммит a167fdee347d4582bf08e563bb0d590e6a5c3fbe; удалённый OID подтверждён a167fdee347d4582bf08e563bb0d590e6a5c3fbe"
     },
     {
       "идентификатор": "план-17",
