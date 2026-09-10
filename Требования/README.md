@@ -120,6 +120,7 @@
 - `FUM-REQ-0058` — [🟡 Генетическое направление FUMA](🟡-генетическое-направление-FUMA.md)
 - `FUM-REQ-0059` — [🟡 Химическое направление FUMA](🟡-химическое-направление-FUMA.md)
 - `FUM-REQ-0060` — [🟡 Физическое исследовательское направление FUMA](🟡-физическое-исследовательское-направление-FUMA.md)
+- `FUM-REQ-0061` — [🟡 Сетевой слой Swift-части FUMA на SwiftNIO](🟡-сетевой-слой-Swift-части-FUMA-на-SwiftNIO.md)
 
 ## Источники требований
 
@@ -157,6 +158,6 @@
 
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 01:44:45 MSK -->
-<!-- content-sha256: sha256:f11a0595f9df0a0f4e858623cf197b030ef53f9dbdf1984184bdbf610e9c9b48 -->
+<!-- last-content-edit: 2026-09-11 01:54:36 MSK -->
+<!-- content-sha256: sha256:ead6eae7e290918b6b0b0bf9fb3855653d5d41c084127af2a13baea2102a91c9 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -128,7 +128,7 @@
     },
     {
       "path": "Планирование/карточки-шагов/README.md",
-      "content_sha256_without_recency": "sha256:2ab639cfe912fe0f471913386204f7a6627785519e525ad5d080ad52fe87e192"
+      "content_sha256_without_recency": "sha256:6c94581a1a2f3ecf6a2f0ec5701c7a0d7a207e0b1225629f0c3b0df45f37802e"
     },
     {
       "path": "Планирование/карточки-шагов/✅-FUM-STEP-0001-проверить-минимальный-Swift-прототип-иерархии-функций-и-данных-FUM.md",
@@ -887,6 +887,10 @@
       "content_sha256_without_recency": "sha256:df5434f5a829c80e4773ffbab1c12ab6968b1d2eabff0c39784481ce5dc5f4be"
     },
     {
+      "path": "Планирование/карточки-шагов/🟡-FUM-STEP-0195-определить-матрицу-SwiftNIO-и-сетевые-адаптеры-FUMA.md",
+      "content_sha256_without_recency": "sha256:35ebc2f8897b9b62bd34ab788d415027cb2562441836c934ef4afe79da1fb0f6"
+    },
+    {
       "path": "Планирование/карточки-шагов/🧩-FUM-STEP-0042-провести-первый-полный-локальный-прогон-архиватора-материалов.md",
       "content_sha256_without_recency": "sha256:b73edc04e5ce381432f23ea371c4355ee1385be53e605d89a90e0d7aebc8df2c"
     },
@@ -964,7 +968,7 @@
     },
     {
       "path": "Требования/README.md",
-      "content_sha256_without_recency": "sha256:a0fa8fcb320fb37ef17964425905f36ab10e05733d016def918fcc2f471fe079"
+      "content_sha256_without_recency": "sha256:65ebbf4d2e4a5d486713319817ccdfa42d4322cd840903f72cf6bb0fbd34fc6b"
     },
     {
       "path": "Требования/✅-атомарные-карточки-плановых-шагов.md",
@@ -1169,6 +1173,10 @@
     {
       "path": "Требования/🟡-сельское-хозяйство-и-производство-еды.md",
       "content_sha256_without_recency": "sha256:b9a14ddd31cfc3dd07ecca275e62d1f44ea44698d2853cb417cc33bdcdf41f3f"
+    },
+    {
+      "path": "Требования/🟡-сетевой-слой-Swift-части-FUMA-на-SwiftNIO.md",
+      "content_sha256_without_recency": "sha256:54073289a624f5151779fd28458b44640b7fea8074bfe42f99027ca1fa3003d5"
     },
     {
       "path": "Требования/🟡-скрытие-Dock-и-строки-меню.md",
@@ -5714,6 +5722,65 @@
       "semantic_relations": [],
       "source": {
         "file": "Требования/🟡-физическое-исследовательское-направление-FUMA.md",
+        "index_file": "Требования/README.md"
+      }
+    },
+    {
+      "id": "FUM-REQ-0061",
+      "title": "Сетевой слой Swift-части FUMA на SwiftNIO",
+      "file": "Требования/🟡-сетевой-слой-Swift-части-FUMA-на-SwiftNIO.md",
+      "status": {
+        "symbol": "🟡",
+        "code": "planned",
+        "label": "принято и запланировано"
+      },
+      "formulation": {
+        "markdown": "SwiftNIO выбран основой сетевого слоя Swift-части FUMA. Общая сетевая архитектура должна отделять прикладные операции FUMA, протоколы, транспорт и платформенные возможности, сохраняя проверяемое поведение при обмене данными, отказе, отмене и восстановлении.\n\nSwiftNIO предоставляет низкоуровневые асинхронные средства сетевого ввода-вывода. Для прикладных протоколов, TLS, браузерного исполнения и управления подключением требуются явно выбранные компоненты и адаптеры. Само присутствие Swift или сборка одного модуля NIO на платформе не подтверждает весь сетевой сценарий FUMA. [Назначение и состав SwiftNIO](https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/README.md).",
+        "text": "SwiftNIO выбран основой сетевого слоя Swift-части FUMA. Общая сетевая архитектура должна отделять прикладные операции FUMA, протоколы, транспорт и платформенные возможности, сохраняя проверяемое поведение при обмене данными, отказе, отмене и восстановлении. SwiftNIO предоставляет низкоуровневые асинхронные средства сетевого ввода-вывода. Для прикладных протоколов, TLS, браузерного исполнения и управления подключением требуются явно выбранные компоненты и адаптеры. Само присутствие Swift или сборка одного модуля NIO на платформе не подтверждает весь сетевой сценарий FUMA. Назначение и состав SwiftNIO.",
+        "links": [
+          {
+            "label": "Назначение и состав SwiftNIO",
+            "target": "https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/README.md"
+          }
+        ]
+      },
+      "criteria": [
+        {
+          "text": "Роль SwiftNIO закреплена как выбранная основа сетевого слоя Swift-части; для каждого адаптера объяснены назначение, входы, выходы и граница между прикладной операцией, протоколом и платформенным транспортом.",
+          "links": []
+        },
+        {
+          "text": "Для всех 15 целевых платформ или семейств и отдельно Safari, Chrome и Firefox сохранена матрица. Она различает поддержку Swift, наличие нужного модуля NIO, объявленную upstream-поддержку, конфигурацию сборки или тестов, наблюдённый результат прогона и проверенный сценарий FUMA.",
+          "links": []
+        },
+        {
+          "text": "Свидетельство связано с точными версиями ОС, архитектурой, SDK, Swift, NIO и протокольных пакетов, источником, датой наблюдения и пределом вывода. Отсутствие доказательства обозначено явно и не превращено в поддержку или окончательную невозможность.",
+          "links": []
+        },
+        {
+          "text": "Для HTTP/1.1, WebSocket, TLS и HTTP/2 определены необходимые компоненты и прикладные обязанности. NIOTLS не считается реализацией TLS; новый транспортный или протокольный пакет не считается выбранным только из-за родства со SwiftNIO.",
+          "links": []
+        },
+        {
+          "text": "Для Tor, I2P, Bitcoin, мессенджеров, настройки интернета и VPN сохранены самостоятельные контракты интеграции. Наличие TCP, SOCKS, TLS или системного сетевого API не подменяет эти возможности.",
+          "links": []
+        },
+        {
+          "text": "Контракт сетевой операции задаёт разрешённую цель, разрешение имени, параметры соединения и доверия, ограничения ресурсов, тайм-ауты, отмену, обратное давление, семантику повтора, завершение ресурсов, наблюдаемый результат и ошибки.",
+          "links": []
+        },
+        {
+          "text": "Браузерный адаптер и возможная связь с серверной Swift-частью описаны отдельно. WebSocket-протокол в NIO и NIOCore для WebAssembly не объявляются готовым браузерным транспортом.",
+          "links": []
+        },
+        {
+          "text": "Будущая реализация сохраняет собственные исходники и применимые команды воспроизведения в FUM, проходит адресные RED/GREEN, профиль и решение об оптимизации. Первичная матрица и архитектурный план не означают наличия этой реализации.",
+          "links": []
+        }
+      ],
+      "semantic_relations": [],
+      "source": {
+        "file": "Требования/🟡-сетевой-слой-Swift-части-FUMA-на-SwiftNIO.md",
         "index_file": "Требования/README.md"
       }
     }
@@ -13542,6 +13609,100 @@
           "target": "Документация/40-карта-ограничителей-физического-действия-FUM.md"
         }
       ]
+    },
+    {
+      "id": "FUM-STEP-0195",
+      "file": "Планирование/карточки-шагов/🟡-FUM-STEP-0195-определить-матрицу-SwiftNIO-и-сетевые-адаптеры-FUMA.md",
+      "title": "Определить матрицу SwiftNIO и сетевые адаптеры FUMA",
+      "status": "active",
+      "task": "Зафиксировать роль SwiftNIO, уточнить платформенные профили и разделить общий сетевой контракт, протоколы, транспорт и системное управление связью. Подготовить решение, какие компоненты NIO нужны каждому первому сценарию, какие задачи остаются прикладными адаптерами и где доказательств поддержки пока недостаточно. Этот шаг заканчивается предметным решением с источниками и явным остатком. Он не добавляет пакеты в проект, не реализует сетевой слой, не подключает учётные записи и не изменяет текущую сеть пользователя.",
+      "why_now": "Пользователь выбрал SwiftNIO для интернет-возможностей FUMA. Уже запланированы 15 платформ или семейств, три браузера, децентрализованные сети, мессенджеры и управление интернетом/VPN. Общая сетевая основа должна связывать эти планы без автоматического переноса поддержки между разными протоколами и платформами.",
+      "criteria": [
+        "Согласована точная роль выбранного SwiftNIO: общие абстракции и сетевой ввод-вывод Swift-части. План называет конкретные модули, их ответственность и основания выбора; родство пакетов не означает обязательного включения всего семейства.",
+        "Матрица покрывает все 15 целей и отдельно Safari, Chrome и Firefox. Для каждой указаны профиль устройства или эмулятора, ОС, архитектура, SDK, Swift, NIO, необходимые модули и способ исполнения. Неопределённый параметр имеет явный статус и конкретный источник следующего уточнения.",
+        "Каждая оценка различает поддержку языка, наличие исходного кода, заявление проекта, конфигурацию CI, наблюдённый результат сборки, тестовый прогон и полезный сетевой сценарий FUMA. Точные коммиты, версии, дата наблюдения, изменяемые ссылки и предел свидетельства сохранены.",
+        "Подготовлен план общих контрактов и платформенных адаптеров: применение NIOCore, выбор подходящего транспорта, HTTP/1.1, WebSocket, TLS и при необходимости HTTP/2. Для TLS отдельно определены реализация, проверка имени и доверия, настройка сертификатов и источник системных ограничений.",
+        "Для Tor, I2P, Bitcoin и мессенджеров указаны отдельные протокольные контракты и способ взаимодействия с необходимым компонентом. SOCKS или TCP не считаются готовой интеграцией. Настройка сети и VPN описана через отдельные системные API, права и состояние, а не как следствие подключения NIO.",
+        "Для браузеров спроектирован отдельный путь транспорта; кандидаты — браузерные Fetch/WebSocket API и явное взаимодействие с серверной Swift-частью. Сборка NIOCore/Wasm не считается доказательством работы NIOPosix либо полного канала в Safari, Chrome или Firefox. Способ исполнения остаётся предложением до своей проверки.",
+        "Выбран один ограниченный первый сетевой сценарий для последующей реализации, с входом, наблюдаемым результатом, отменой, тайм-аутом, ограничениями ресурсов, обратным давлением, повтором и закрытием соединения. Протоколы, нужные только более поздним сценариям, обозначены отдельно.",
+        "План будущей приёмки называет изолированные фикстуры, точные платформы и необходимые свидетельства для отказа DNS, соединения и TLS, разрыва, отмены и повторной операции. Для будущего кода предусмотрены RED/GREEN, профиль времени и ресурсов и решение об оптимизации; успешные прогоны сейчас не заявляются.",
+        "Итог содержит заполненную матрицу свидетельств, архитектурное решение, список необходимых адаптеров и ограниченные последующие реализации. Если цель не подтверждена, она остаётся в матрице с объяснённым пробелом; ни одна платформа не исключается молча. Зависимости, реализации и реальные сетевые настройки этим шагом не изменяются."
+      ],
+      "outcome": null,
+      "source_links": [
+        {
+          "label": "Прямое поручение пользователя и содержательный ответ",
+          "target": "Журнал/2026-09-11_01-54-11_MSK_запланировать-сетевой-слой-на-SwiftNIO/запрос.md"
+        },
+        {
+          "label": "SwiftNIO README",
+          "target": "https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/README.md"
+        },
+        {
+          "label": "манифест",
+          "target": "https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/Package.swift"
+        },
+        {
+          "label": "PR CI",
+          "target": "https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/.github/workflows/pull_request.yml"
+        },
+        {
+          "label": "Windows/Linux unit-test workflow",
+          "target": "https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/.github/workflows/unit_tests.yml"
+        },
+        {
+          "label": "Apple workflow",
+          "target": "https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/.github/workflows/macos_tests.yml"
+        },
+        {
+          "label": "Android build script",
+          "target": "https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/scripts/swift-build-with-android-sdk.sh"
+        },
+        {
+          "label": "Swift platform support",
+          "target": "https://github.com/swiftlang/swift-org-website/blob/ee5a7123ce9ddb631f3c45a9efc94787c0c72de0/platform-support/_platform-support.md"
+        },
+        {
+          "label": "Swift SDK for Android",
+          "target": "https://github.com/swiftlang/swift-org-website/blob/ee5a7123ce9ddb631f3c45a9efc94787c0c72de0/documentation/articles/swift-sdk-for-android-getting-started.md"
+        },
+        {
+          "label": "Swift SDKs for Wasm",
+          "target": "https://github.com/swiftlang/swift-org-website/blob/ee5a7123ce9ddb631f3c45a9efc94787c0c72de0/documentation/articles/wasm-getting-started.md"
+        },
+        {
+          "label": "NIOSSL README",
+          "target": "https://github.com/apple/swift-nio-ssl/blob/322f3c2a4a21df31c84ca416bf65ee5e9059e440/README.md"
+        },
+        {
+          "label": "NIOHTTP2 DocC",
+          "target": "https://github.com/apple/swift-nio-http2/blob/c702a62e279b520712837887ea7f28d456189bc9/Sources/NIOHTTP2/Docs.docc/index.md"
+        },
+        {
+          "label": "NIOTS README",
+          "target": "https://github.com/apple/swift-nio-transport-services/blob/f5b11d7931f92e3b6fcbf590de446fd48e9deec5/README.md"
+        },
+        {
+          "label": "NIOSOCKS DocC",
+          "target": "https://github.com/apple/swift-nio-extras/blob/9b2b225177296c405b63afa4849bbb7af51a75d9/Sources/NIOSOCKS/Docs.docc/index.md"
+        },
+        {
+          "label": "SwiftNIO QUIC",
+          "target": "https://github.com/apple/swift-nio-quic/blob/05363a4355e417e9aa05ad9e51bec34916c6f916/README.md"
+        },
+        {
+          "label": "SwiftNIO HTTP/3",
+          "target": "https://github.com/apple/swift-nio-http3/blob/5a9ed08d16fb0222ffe6d02c3ceea2a010cec1f3/README.md"
+        },
+        {
+          "label": "Swift Wasm: Porting",
+          "target": "https://docs.swift.org/latest/documentation/wasmguide/porting/"
+        },
+        {
+          "label": "DocC JSON",
+          "target": "https://docs.swift.org/latest/data/documentation/wasmguide/porting.json"
+        }
+      ]
     }
   ],
   "цепочки_шагов": [
@@ -16904,6 +17065,86 @@
           {
             "label": "Карта ограничителей физического действия",
             "target": "Документация/40-карта-ограничителей-физического-действия-FUM.md"
+          }
+        ]
+      },
+      {
+        "id": "FUM-STEP-0195",
+        "status": "Актуально",
+        "proposal": "Зафиксировать роль SwiftNIO, уточнить платформенные профили и разделить общий сетевой контракт, протоколы, транспорт и системное управление связью. Подготовить решение, какие компоненты NIO нужны каждому первому сценарию, какие задачи остаются прикладными адаптерами и где доказательств поддержки пока недостаточно. Этот шаг заканчивается предметным решением с источниками и явным остатком. Он не добавляет пакеты в проект, не реализует сетевой слой, не подключает учётные записи и не изменяет текущую сеть пользователя.",
+        "reason": "Пользователь выбрал SwiftNIO для интернет-возможностей FUMA. Уже запланированы 15 платформ или семейств, три браузера, децентрализованные сети, мессенджеры и управление интернетом/VPN. Общая сетевая основа должна связывать эти планы без автоматического переноса поддержки между разными протоколами и платформами.",
+        "source_links": [
+          {
+            "label": "Прямое поручение пользователя и содержательный ответ",
+            "target": "Журнал/2026-09-11_01-54-11_MSK_запланировать-сетевой-слой-на-SwiftNIO/запрос.md"
+          },
+          {
+            "label": "SwiftNIO README",
+            "target": "https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/README.md"
+          },
+          {
+            "label": "манифест",
+            "target": "https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/Package.swift"
+          },
+          {
+            "label": "PR CI",
+            "target": "https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/.github/workflows/pull_request.yml"
+          },
+          {
+            "label": "Windows/Linux unit-test workflow",
+            "target": "https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/.github/workflows/unit_tests.yml"
+          },
+          {
+            "label": "Apple workflow",
+            "target": "https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/.github/workflows/macos_tests.yml"
+          },
+          {
+            "label": "Android build script",
+            "target": "https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/scripts/swift-build-with-android-sdk.sh"
+          },
+          {
+            "label": "Swift platform support",
+            "target": "https://github.com/swiftlang/swift-org-website/blob/ee5a7123ce9ddb631f3c45a9efc94787c0c72de0/platform-support/_platform-support.md"
+          },
+          {
+            "label": "Swift SDK for Android",
+            "target": "https://github.com/swiftlang/swift-org-website/blob/ee5a7123ce9ddb631f3c45a9efc94787c0c72de0/documentation/articles/swift-sdk-for-android-getting-started.md"
+          },
+          {
+            "label": "Swift SDKs for Wasm",
+            "target": "https://github.com/swiftlang/swift-org-website/blob/ee5a7123ce9ddb631f3c45a9efc94787c0c72de0/documentation/articles/wasm-getting-started.md"
+          },
+          {
+            "label": "NIOSSL README",
+            "target": "https://github.com/apple/swift-nio-ssl/blob/322f3c2a4a21df31c84ca416bf65ee5e9059e440/README.md"
+          },
+          {
+            "label": "NIOHTTP2 DocC",
+            "target": "https://github.com/apple/swift-nio-http2/blob/c702a62e279b520712837887ea7f28d456189bc9/Sources/NIOHTTP2/Docs.docc/index.md"
+          },
+          {
+            "label": "NIOTS README",
+            "target": "https://github.com/apple/swift-nio-transport-services/blob/f5b11d7931f92e3b6fcbf590de446fd48e9deec5/README.md"
+          },
+          {
+            "label": "NIOSOCKS DocC",
+            "target": "https://github.com/apple/swift-nio-extras/blob/9b2b225177296c405b63afa4849bbb7af51a75d9/Sources/NIOSOCKS/Docs.docc/index.md"
+          },
+          {
+            "label": "SwiftNIO QUIC",
+            "target": "https://github.com/apple/swift-nio-quic/blob/05363a4355e417e9aa05ad9e51bec34916c6f916/README.md"
+          },
+          {
+            "label": "SwiftNIO HTTP/3",
+            "target": "https://github.com/apple/swift-nio-http3/blob/5a9ed08d16fb0222ffe6d02c3ceea2a010cec1f3/README.md"
+          },
+          {
+            "label": "Swift Wasm: Porting",
+            "target": "https://docs.swift.org/latest/documentation/wasmguide/porting/"
+          },
+          {
+            "label": "DocC JSON",
+            "target": "https://docs.swift.org/latest/data/documentation/wasmguide/porting.json"
           }
         ]
       }

@@ -177,12 +177,12 @@
     {
       "идентификатор": "план-18",
       "действие": "Сохранить и доставить: Правило постоянной ветки",
-      "состояние": "доступна",
+      "состояние": "завершена",
       "основание": {
         "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
         "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
       },
-      "свидетельство": null
+      "свидетельство": "Коммит 537f784ec3bcff3458f2b5e811f4c21e5935c3a9; удалённый OID подтверждён 537f784ec3bcff3458f2b5e811f4c21e5935c3a9"
     },
     {
       "идентификатор": "план-19",
