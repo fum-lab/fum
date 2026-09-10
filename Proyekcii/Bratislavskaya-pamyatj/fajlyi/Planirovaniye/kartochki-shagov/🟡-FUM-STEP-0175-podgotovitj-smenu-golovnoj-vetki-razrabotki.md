@@ -24,6 +24,12 @@ Vetka `codex/планирование-наблюдения-macos-01a07d3d`, vers
 
 Osnovnyiye puti v etikh Git-obyyektakh: `AGENTS.md` i `Правила/агентов/проверки-коммит-и-публикация.md`. Oni rassmatrivayutsya kak istochniki perekhoda; nalichiye istoricheskogo pravila samo po sebe ne vklyuchayet staryiye ocheredi, hooks ili publikaciyu. Na moment nablyudeniya master `ef6b936be7ac4ac518e0c5b5f5792263a686fab7` i sokhranyonnaya vetka imeyut 5 i 33 sobstvennyikh kommita ot obsjhej bazyi `a3bde39c84528848b13b0b2b415a7e6fd033b9a1`; gotovnostj avtomaticheskogo merge ne dokazana.
 
+## Podgotovlennaya granica i prodolzheniye
+
+V [etape pravil priyomki](../../Zhurnal/2026-09-10_13-40-29_MSK_zakrepitj-pravila-opisaniya-avtomatizacij-i-priyomki-sliyanij/zapros.md) podgotovleno uzkoye razresheniye odnogo integracionnogo dereva. Sleduyusjhij tekhnicheskij shag — dokazatj proiskhozhdeniye ispolnyayemyikh proverok iz B i podderzhku kommita s roditelyami `[B, S]`. Tekusjhaya obyortka priznayot shtatnyij smoke toljko vnutri proveryayemogo kornya; sam smoke i svyaznostj zapuskayut chastj otnositeljnyikh instrumentov ottuda zhe. Poetomu vneshnij fajl iz B s argumentom kornya kandidata ne reshayet zadachu.
+
+Dlya pervogo ogranichennogo varianta mozhno trebovatj tochnogo sovpadeniya polnogo proveryayusjhego komplekta kandidata s B. Takoj variant dolzhen chestno otklonyatj izmeneniya komplekta, v tom chisle podgotovlennoye uskoreniye generatora. Dlya priyomki izmenenij samikh pravil i instrumentov trebuyetsya razdelitj istochnik obyazateljnyikh proverok i proveryayemyij kod. Oba varianta sokhranyayut polnyij sostav, rezhimyi i bajtyi rezuljtata; vremennaya podstanovka staryikh instrumentov s vozvratom novyikh posle proverki ne yavlyayetsya priyomkoj novogo dereva.
+
 ## Kriterii zaversheniya
 
 - Sopostavlenyi podgotovlennaya politika i prinyatyiye izmeneniya master, sokhranenyi proverennyiye v3-svideteljstva i proiskhozhdeniye obeikh linij.
@@ -41,6 +47,6 @@ Osnovnyiye puti v etikh Git-obyyektakh: `AGENTS.md` i `Правила/агент
 - [Podgotovka proveryayemogo perenosa soderzhimogo vetok](../../Zhurnal/2026-09-10_02-01-28_MSK_proveryatj-zakryityiye-otchyotyi-iz-kommitov/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 13:15:44 MSK -->
-<!-- content-sha256: sha256:70c4a34cc6e84010a229c035acbdeb89aa1cd4ddb660ec3bfbbcbf060be794c3 -->
+<!-- last-content-edit: 2026-09-10 13:49:34 MSK -->
+<!-- content-sha256: sha256:2467370775fc436540a951bf02f765cc5c53cc7401dea8767df2ec24f540ff8e -->
 <!-- FUM-MD-RECENCY:END -->

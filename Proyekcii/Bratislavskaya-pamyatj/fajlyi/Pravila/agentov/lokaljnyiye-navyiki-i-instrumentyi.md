@@ -41,6 +41,9 @@ Eti pravila polnostjyu chitayutsya do vyibora, sozdaniya, izmeneniya ili povtory
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000169 -->
 - Yesli vneshnyuyu avtomatizaciyu, servis ili modelj neljzya polnostjyu vosproizvesti lokaljno iz-za dostupa, sekretov, licenzij ili tekhnicheskikh ogranichenij, v repozitorii sokhranyayetsya lokaljnyij proveryayemyij sloj: interfejsnyij kontrakt, adapter, fiksturyi, simulyator, otchyot o nevosproizvodimoj chasti ili inaya publikacionno chistaya forma.
 
+<!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-НОВОЕ-000010 -->
+- Opisaniye avtomatizacii FUM sluzhit yeyo chelovecheskim interfejsom: obyyasnyayet naznacheniye, sposob zapuska, neobkhodimyiye vkhodnyiye dannyiye, ozhidayemyij rezuljtat, oshibki i daljnejshiye dejstviya, a takzhe ogranicheniya. Po etomu opisaniyu chelovek dolzhen umetj vyipolnitj obyichnyij zapusk i ponyatj rezuljtat bez chteniya realizacii. Pri sozdanii ili izmenenii avtomatizacii podderzhivaj eto opisaniye vmeste s yeyo povedeniyem v susjhestvuyusjhej dostupnoj tochke vkhoda — README, SKILL.md ili svyazannom rukovodstve. Otdeljnyij dokument i yedinyij obyazateljnyij shablon razdelov dlya etogo ne trebuyutsya.
+
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000170 -->
 - Yesli [rabochaya sessiya](../../Glossarij/rabochaya-sessiya.md) vyiyavlyayet zadachu, kotoraya potencialjno mozhet povtoryatjsya, agent dolzhen rassmatrivatj yeyo kak kandidata na [avtomatizaciyu FUM](../../Glossarij/avtomatizaciya-FUM.md) uzhe pri pervom vyipolnenii. K takim zadacham otnosyatsya, naprimer, ocenki, svodnyiye tablicyi, peresborka opisanij, proverki, sbor statistiki, shablonyi otchyotov i drugiye proceduryi, gde ozhidayemo prigodyatsya povtornyij zapusk, yedinaya metodika ili sravnimostj rezuljtatov.
 
@@ -73,6 +76,6 @@ Eti pravila polnostjyu chitayutsya do vyibora, sozdaniya, izmeneniya ili povtory
 - [iskhodnyij zapros 2026-08-24 15:31:12 MSK — Dekompozirovatj AGENTS MD](../../Zhurnal/2026-08-24_15-31-12_MSK_dekompozirovatj-AGENTS-md/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-24 16:13:37 MSK -->
-<!-- content-sha256: sha256:293c2037af6bc7478d868372585292c6d4a015f07052e0f1ba32e4311c564e25 -->
+<!-- last-content-edit: 2026-09-10 13:49:34 MSK -->
+<!-- content-sha256: sha256:f1a870fed68219775fcc1bac1b9d8ce742aee3d62ea9d703cbee686363ec8ac7 -->
 <!-- FUM-MD-RECENCY:END -->

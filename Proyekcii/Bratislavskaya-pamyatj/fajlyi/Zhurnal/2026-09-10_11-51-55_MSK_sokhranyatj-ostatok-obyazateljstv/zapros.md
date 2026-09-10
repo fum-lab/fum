@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-10 02:01:28 MSK - Proveryatj zakryityiye otchyotyi iz kommitov](../2026-09-10_02-01-28_MSK_proveryatj-zakryityiye-otchyotyi-iz-kommitov/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-10 13:40:29 MSK - Zakrepitj pravila opisaniya avtomatizacij i priyomki sliyanij](../2026-09-10_13-40-29_MSK_zakrepitj-pravila-opisaniya-avtomatizacij-i-priyomki-sliyanij/zapros.md)
 
 ## Tekst zaprosa
 
@@ -177,6 +177,6 @@ RED/GREEN vosproizvodit utratu obyazateljstv v istorii, nevernyiye osnovaniya i 
 - [Indeks Markdown](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md), [proyekciya](../../../..).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 13:15:44 MSK -->
-<!-- content-sha256: sha256:19623102ae8220ec1238918165c1371aee764674ebb579bd80ed77b1533b1254 -->
+<!-- last-content-edit: 2026-09-10 13:49:34 MSK -->
+<!-- content-sha256: sha256:dccb2c809077f44bac24e0d92af4b2ed83046ac0f124f50bc8031a8a270252ab -->
 <!-- FUM-MD-RECENCY:END -->

@@ -90,6 +90,11 @@ Kornevoj `AGENTS.md` vmeste s kanonicheskimi tematicheskimi fajlami v `Прав�
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000066 -->
 - Istoricheskiye queue/pool/worktree/review/integration/candidate/CAS/branch-next-step instrumentyi, refs, kvitancii, kartochki i chernovyiye vetki sokhranyayutsya kak proiskhozhdeniye i narabotka. Oni ne dayut aktivnogo prava zapisi, ne udalyayutsya avtomaticheski i mogut vernutjsya v dejstvuyusjhij kontur toljko otdeljnyim poljzovateljskim zaprosom i novyim proverennyim perekhodom pravil.
 
+<!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-НОВОЕ-000011 -->
+- Po sokhranyonnomu yavnomu zaprosu poljzovatelya o sliyanii tekusjhaya kornevaya zadacha vprave podgotovitj odno ukazannoye sliyaniye i sokhranitj kandidat v otdeljnom linked worktree i sobstvennoj vetke `refs/heads/codex/...`. Eto ogranichennoye isklyucheniye iz pravil `FUM-ПРАВИЛО-000058`, `FUM-ПРАВИЛО-000060`, `FUM-ПРАВИЛО-000061` i `FUM-ПРАВИЛО-000062`: do sozdaniya dereva fiksiruyutsya polnyij OID iskhodnogo proverennogo `master` B, polnyij OID prisoyedinyayemoj vershinyi S, sobstvennyij ref, fizicheskij korenj i iskhodnaya komanda. B uzhe soderzhit proverennoye razresheniye etogo marshruta; kandidat ne mozhet razreshitj sobstvennuyu podgotovku. Yedinstvennyim pisatelem ostayotsya tekusjhaya kornevaya zadacha; vo vremya podgotovki pervichnyij checkout, yego indeks, `master` i chuzhiye rabochiye oblasti sokhranyayutsya.
+- Podgotovkoj i priyomkoj upravlyayet obyazateljnyij nabor pravil iz B. Pravila, nastrojki i proverochnyiye instrumentyi kandidata yavlyayutsya predlagayemyim izmeneniyem i ne mogut oslabitj yego dopusk. Ispolnyayemyij priyomochnyij kontur i neobkhodimyiye yemu zavisimosti berutsya iz B; kandidat proveryayetsya kak vkhod. Yesli dejstvuyusjhiye instrumentyi yesjhyo ne obespechivayut eto razdeleniye ili proverku nastoyasjhego sliyaniya, snachala prinimayetsya sootvetstvuyusjhaya dorabotka v `master`, zatem B fiksiruyetsya zanovo. Prostaya ssyilka na B libo zapusk odnogo fajla iz B proiskhozhdeniye vsego kontura ne dokazyivayut.
+- Priyomka svyazyivayet tochnyiye B, S, itogovoye derevo i kommit C s roditelyami `[B, S]`. Prodvizheniye `master` dopuskayetsya toljko tem zhe proverennyim C, s proverkoj ozhidayemogo prezhnego B pri izmenenii ref i soglasovannyim obnovleniyem pervichnogo checkout i yego indeksa; sdvig B trebuyet novoj priyomki. Do poyavleniya proverennoj realizacii etogo perekhoda kandidat sokhranyayetsya bez prodvizheniya `master`. Eto isklyucheniye ne sozdayot drugikh pishusjhikh zadach, FIFO/pool, avtomaticheskikh prodolzhenij ili prava publikacii.
+
 ## Bezopasnostj i publikacionnaya chistota
 
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000065 -->
@@ -102,6 +107,6 @@ Kornevoj `AGENTS.md` vmeste s kanonicheskimi tematicheskimi fajlami v `Прав�
 - Pered kommitom proveryaj `git status --short` i vklyuchaj toljko osmyislennyiye izmeneniya tekusjhej sessii.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 00:22:39 MSK -->
-<!-- content-sha256: sha256:b53eae81b6ff6e3c777cccc39d14ed2cd5f5a931ecaeeb643a296af880394d62 -->
+<!-- last-content-edit: 2026-09-10 13:49:34 MSK -->
+<!-- content-sha256: sha256:80cf06a212e0c24bb0d626257b0851c1774e7736a634eb7f5705946c4cc74dfc -->
 <!-- FUM-MD-RECENCY:END -->

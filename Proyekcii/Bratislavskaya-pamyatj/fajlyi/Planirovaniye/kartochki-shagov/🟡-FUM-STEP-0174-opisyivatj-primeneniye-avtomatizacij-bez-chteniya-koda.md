@@ -19,6 +19,10 @@ Poljzovatelj poprosil zakrepitj primeneniye avtomatizacij bez chteniya iskhodnik
 2. Do dorogoj peresborki proveryatj deshyovyiye prichinyi otkaza: sobstvennyiye imena novyikh obyyavlenij i nalichiye doslovnyikh komand v soobsjhenii kommita. Uchityivatj tochnyij izmenyonnyij nabor i istoricheskiye isklyucheniya; proveritj sluchai rannego otkaza.
 3. Proveritj vosstanovleniye nevyipolnennogo nablyudeniya po kanonicheskoj zapisi i proiskhozhdeniyu posle poteri tekusjhego konteksta. Vetka dlya samoj zapisi ne trebuyetsya; pozdniye utochneniya vo vremya neizmenyayemoj priyomki sokhranyayutsya vne checkout s posleduyusjhim perenosom.
 
+## Vyipolnennaya chastj i prodolzheniye
+
+Normativnaya chastj podgotovlena v [otdeljnom etape](../../Zhurnal/2026-09-10_13-40-29_MSK_zakrepitj-pravila-opisaniya-avtomatizacij-i-priyomki-sliyanij/zapros.md): pravilo `FUM-ПРАВИЛО-НОВОЕ-000010` ispoljzuyet susjhestvuyusjhuyu tochku vkhoda bez novogo obyazateljnogo shablona. [Rukovodstvo komandyi ostatka](../../Instrumentyi/fum-svyaznostj-rabochej-sessii/ostatok-obyazateljstv.md) prinyato v `76f71fad3adab90f85ae31cb2f7d75f6ceb12e8d`. Ranniye proverki i scenarij vosstanovleniya nablyudeniya ostayutsya sleduyusjhimi etapami; kartochka ostayotsya aktivnoj.
+
 ## Kriterii zaversheniya
 
 - Poljzovatelj mozhet opredelitj primenimostj, zapustitj avtomatizaciyu i ponyatj yeyo rezuljtat po opisaniyu bez chteniya realizacii.
@@ -32,6 +36,6 @@ Poljzovatelj poprosil zakrepitj primeneniye avtomatizacij bez chteniya iskhodnik
 - [Plan i proiskhozhdeniye nablyudenij](../../Zhurnal/2026-09-10_11-51-55_MSK_sokhranyatj-ostatok-obyazateljstv/materialyi/plan-opisaniya-avtomatizacij.json).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 13:03:44 MSK -->
-<!-- content-sha256: sha256:5f0d5bc42172adef337a67cbd0f632aa155cb933d7d7f872c26dbdcd121bff89 -->
+<!-- last-content-edit: 2026-09-10 13:49:34 MSK -->
+<!-- content-sha256: sha256:34fef648e079e29ad7f4d8f8bae79a0bb3ebd0e31db6351dfa50e03ab30a2400 -->
 <!-- FUM-MD-RECENCY:END -->

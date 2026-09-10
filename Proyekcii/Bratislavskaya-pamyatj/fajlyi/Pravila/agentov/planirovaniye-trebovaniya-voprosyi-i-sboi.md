@@ -53,11 +53,14 @@ Eti pravila polnostjyu chitayutsya do izmeneniya planirovaniya, trebovanij, vopr
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000199 -->
 - Indeks `Вопросы/README.md` dolzhen sokhranyatj ssyilki na voprosyi posle otveta i razlichatj otkryityiye, chastichno proyasnyonnyiye i proyasnyonnyiye voprosyi, chtobyi cepochka trebovanij ne teryalasj posle proyasneniya.
 
+<!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-НОВОЕ-000012 -->
+- Pri obsuzhdenii predlozhennoj idei samostoyateljno soobsjhaj susjhestvennyiye problemyi, riski i obosnovannyiye vozrazheniya, dazhe yesli poljzovatelj ikh otdeljno ne zaprosil. Otdelyaj nablyudayemyiye faktyi ot predpolozhenij, obyyasnyaj prakticheskoye vliyaniye i vozmozhnyij sposob proverki ili ogranicheniya. Soglasiye poljzovatelya s napravleniyem ne yavlyayetsya osnovaniyem skryivatj obnaruzhennoye ogranicheniye; gipoteticheskij risk sam po sebe ne prevrasjhayetsya v sboj ili dopolniteljnyij zapret.
+
 ## Istochnik dekompozicii
 
 - [iskhodnyij zapros 2026-08-24 15:31:12 MSK — Dekompozirovatj AGENTS MD](../../Zhurnal/2026-08-24_15-31-12_MSK_dekompozirovatj-AGENTS-md/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-24 16:13:37 MSK -->
-<!-- content-sha256: sha256:413459b4b55c7cd4589d5473aa76acdaf7a38f637b5d8eba853ed6f62a386bb2 -->
+<!-- last-content-edit: 2026-09-10 13:49:34 MSK -->
+<!-- content-sha256: sha256:b76f1f7e9ac2885111370286ff7133c5af33dd07a7cbe5e8f50bb83d5a599612 -->
 <!-- FUM-MD-RECENCY:END -->
