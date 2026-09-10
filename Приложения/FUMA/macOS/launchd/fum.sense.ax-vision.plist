@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>fum.sense.ax-vision</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>${FUM_BUILD_ROOT}/dist/FUMAXVisionSense.app/Contents/MacOS/FUMAXVisionSense</string>
+		<string>--background</string>
+		<string>--interval</string>
+		<string>0.5</string>
+		<string>--include-elements</string>
+		<string>--tree-depth</string>
+		<string>1</string>
+		<string>--max-array-items</string>
+		<string>80</string>
+		<string>--output</string>
+		<string>${FUM_RUNTIME_ROOT}/senses/ax-vision/latest.json</string>
+		<string>--changes-output</string>
+		<string>${FUM_MEMORY_ROOT}/senses/ax-vision/state-changes.jsonl</string>
+	</array>
+	<key>WorkingDirectory</key>
+	<string>${FUM_RUNTIME_ROOT}</string>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>KeepAlive</key>
+	<true/>
+	<key>StandardOutPath</key>
+	<string>${FUM_RUNTIME_ROOT}/senses/ax-vision/stdout.log</string>
+	<key>StandardErrorPath</key>
+	<string>${FUM_RUNTIME_ROOT}/senses/ax-vision/stderr.log</string>
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>FUM_RUNTIME_ROOT</key>
+		<string>${FUM_RUNTIME_ROOT}</string>
+		<key>FUM_MEMORY_ROOT</key>
+		<string>${FUM_MEMORY_ROOT}</string>
+	</dict>
+</dict>
+</plist>
