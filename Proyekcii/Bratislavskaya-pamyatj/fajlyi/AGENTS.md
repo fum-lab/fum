@@ -53,6 +53,10 @@ Kornevoj `AGENTS.md` vmeste s kanonicheskimi tematicheskimi fajlami v `Прав�
 
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000007 -->
 - Repozitorij yavlyayetsya [pamyatjyu proyekta FUM](Glossarij/pamyatj-FUM.md).
+<!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-НОВОЕ-000016 -->
+- Na tekusjhem etape sobstvennyiye iskhodniki FUM, vklyuchaya FUMA, prilozheniya i prototipyi, ikh testyi, otkryityiye fiksturyi, scenarii profilirovaniya, konfiguracii i instrukcii vosproizvedeniya po umolchaniyu khranyatsya obyichnyimi otslezhivayemyimi fajlami v tematicheskikh katalogakh yedinogo monorepozitoriya FUM. Novyij otdeljnyij repozitorij sobstvennogo komponenta dopuskayetsya toljko po yavnomu poljzovateljskomu isklyucheniyu; vneshnij Git submodule prednaznachen dlya vneshnikh zavisimostej, naprimer LinguisticKit, po ikh otdeljnyim pravilam. Linked worktree toj zhe Git-bazyi sokhranyayet granicu monorepozitoriya i dopuskayetsya toljko dejstvuyusjhim rezhimom sessii. Vremennyiye sborki, kyeshi i privatnyiye runtime-dannyiye ostayutsya lokaljnyim sostoyaniyem vne Git. Gotovnostj postavki sobstvennogo komponenta trebuyet nalichiya yego iskhodnikov i vosproizvodimyikh komand sborki, proverki i profilirovaniya, primenimyikh k komponentu, iz chistogo klona FUM s obyyavlennyimi zavisimostyami; publikacionnaya dostupnostj proveryayetsya otdeljno. Uzhe susjhestvuyusjhiye otdeljnyiye narabotki sokhranyayutsya do proverennogo perenosa v FUM i ne schitayutsya dostavlennyimi toljko po zhurnalu libo binarniku.
+<!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-НОВОЕ-000017 -->
+- Vosstanovleniye konteksta i pereproverka dogovoryonnostej dolzhnyi poluchatj polnyij ostatok poljzovateljskikh soobsjhenij JSONL bez dejstviteljnoj zapisi obrabotki cherez obyazateljnuyu avtomatizaciyu FUM-STEP-0177. Yeyo vyizov i dopusk vvodyatsya posle proverennoj realizacii; do etogo yavno sokhranyayetsya vremennaya sverka iskhodnyikh soobsjhenij, pozdnikh utochnenij, Zhurnala i plana. Staryiye soobsjheniya proveryayutsya po posleduyusjhim utochneniyam; ikh aktualjnostj i otmena trebuyut sokhranyonnyikh osnovanij. Chteniye ne otmechayet soobsjheniye obrabotannyim; obrabotka ne oznachayet vyipolneniye zadachi. Svodka ne zamenyayet pervichnyiye soobsjheniya, nedostupnostj istochnika ne vospolnyayetsya dogadkoj.
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000010 -->
 - `Документация/` opisyivayet sam razrabatyivayemyij FUM, yego trebovaniya, modelj, arkhitekturu i resheniya i ne sluzhit instrukciyami agentu; pravila povedeniya repozitoriya khranyatsya toljko v obyazateljnom nabore `AGENTS.md` i `Правила/агентов/`.
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000015 -->
@@ -107,6 +111,6 @@ Kornevoj `AGENTS.md` vmeste s kanonicheskimi tematicheskimi fajlami v `Прав�
 - Pered kommitom proveryaj `git status --short` i vklyuchaj toljko osmyislennyiye izmeneniya tekusjhej sessii.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 14:37:13 MSK -->
-<!-- content-sha256: sha256:85c849870a9fc71abb14d6a4b3e36f84885888ae0e6bc5c9bcec49cec912abe4 -->
+<!-- last-content-edit: 2026-09-10 19:46:01 MSK -->
+<!-- content-sha256: sha256:ea6babfd256d2a374b95a77d8efddabd955a02ea93fb6b78c07069823cc61e41 -->
 <!-- FUM-MD-RECENCY:END -->

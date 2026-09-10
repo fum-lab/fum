@@ -10,6 +10,15 @@ from pathlib import Path
 from unittest import mock
 
 
+def путь_проверяемой_реализации(путь: Path) -> Path:
+    выбранный = os.environ.get("FUM_CHECKED_CODE_ROOT")
+    if выбранный is None:
+        return путь
+    if not выбранный or not Path(выбранный).is_absolute():
+        raise ValueError("корень проверяемой реализации должен быть явным абсолютным путём")
+    return Path(выбранный) / путь.relative_to(Path(__file__).resolve().parents[3])
+
+
 class ТестыИсторииПути(unittest.TestCase):
     def setUp(сам):
         среда = mock.patch.dict(os.environ, {"GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": os.devnull})
@@ -24,7 +33,7 @@ class ТестыИсторииПути(unittest.TestCase):
         сам.гит("commit", "--allow-empty", "-qm", "Источник")
         сам.источник = сам.гит("rev-parse", "HEAD").decode().strip()
         сам.путь = "Планирование/задачи/пример/обязательства.json"
-        сценарии = Path(__file__).resolve().parents[1] / "scripts"
+        сценарии = путь_проверяемой_реализации(Path(__file__).resolve().parents[1] / "scripts")
         sys.path.insert(0, str(сценарии))
         сам.addCleanup(sys.path.remove, str(сценарии))
         описание = importlib.util.spec_from_file_location("история_для_теста", сценарии / "история_пути_гита.py")

@@ -10,13 +10,24 @@ import unittest
 from pathlib import Path
 
 
+import os
+
+def путь_проверяемой_реализации(путь: Path) -> Path:
+    выбранный = os.environ.get("FUM_CHECKED_CODE_ROOT")
+    if выбранный is None:
+        return путь
+    if not выбранный or not Path(выбранный).is_absolute():
+        raise ValueError("корень проверяемой реализации должен быть явным абсолютным путём")
+    return Path(выбранный) / путь.relative_to(Path(__file__).resolve().parents[3])
+
+
 AUTOMATION_DIR = Path(__file__).resolve().parents[1]
 SCRIPT_PATH = (
-    AUTOMATION_DIR
+    путь_проверяемой_реализации(AUTOMATION_DIR
     / "scripts"
-    / "proveritj-mashinno-lokaljnyiye-puti.py"
+    / "proveritj-mashinno-lokaljnyiye-puti.py")
 )
-SCRIPTS_DIR = AUTOMATION_DIR / "scripts"
+SCRIPTS_DIR = путь_проверяемой_реализации(AUTOMATION_DIR / "scripts")
 if str(SCRIPTS_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPTS_DIR))
 
@@ -31,6 +42,66 @@ spec.loader.exec_module(scanner)
 
 
 class MachineLocalPathScannerTests(unittest.TestCase):
+    def test_бинарное_вложение_требует_обычный_запрос(сам) -> None:
+        with tempfile.TemporaryDirectory() as временный:
+            корень = Path(временный)
+            сам.init_repo(корень)
+            папка = "Журнал/2026-09-10_17-33-36_MSK_проверить-вложение"
+            имя = f"{папка}/материалы/источники/вложение/архив.zip"
+            архив = корень / имя
+            архив.parent.mkdir(parents=True)
+            архив.write_bytes(b"archive\0payload")
+            отказ = f"{имя}:0:error.binary-input"
+            сам.assertIn(отказ, сам.scan(корень).rendered_lines())
+            чужой = корень / "другой-запрос.md"
+            чужой.write_text("# Другой запрос\n", encoding="utf-8")
+            запрос = корень / папка / "запрос.md"
+            запрос.symlink_to(чужой)
+            сам.assertIn(отказ, сам.scan(корень).rendered_lines())
+            запрос.unlink()
+            сам.write_and_add(корень, f"{папка}/запрос.md", "# Запрос\n")
+            сам.assertIn(
+                f"{имя}:0:report.external-source.binary",
+                сам.scan(корень).rendered_lines(),
+            )
+
+    def test_бинарное_вложение_принадлежит_точной_папке_запроса(сам) -> None:
+        with tempfile.TemporaryDirectory() as временный:
+            корень = Path(временный)
+            сам.init_repo(корень)
+            ствол = "2026-09-08_21-16-28_MSK_фикстура"
+            основа = f"Журнал/{ствол}/материалы/источники"
+            допустимый = f"{основа}/вложение/архив.bin"
+            запрещённые = (
+                f"{основа}/архив.bin",
+                f"Журнал/без-времени/материалы/источники/вложение/архив.bin",
+                f"Журнал/{ствол}/материалы/источники-копия/вложение/архив.bin",
+                f"Документация/{допустимый}",
+            )
+            сам.assertFalse(scanner._это_бинарное_вложение_запроса(
+                f"Журнал/{ствол}/материалы/Источники/вложение/архив.bin",
+                frozenset({f"Журнал/{ствол}/запрос.md"}),
+            ))
+            for имя in (допустимый, *запрещённые):
+                путь = корень / имя
+                путь.parent.mkdir(parents=True, exist_ok=True)
+                путь.write_bytes(b"archive\0payload")
+            текстовый = f"{основа}/вложение/производное.md"
+            (корень / текстовый).write_text(str(корень / "фикстура"), encoding="utf-8")
+            сам.assertIn(f"{допустимый}:0:error.binary-input", сам.scan(корень).rendered_lines())
+            сам.write_and_add(корень, f"Журнал/{ствол}/запрос.md", "# Запрос\n")
+            нетекстовый = f"{основа}/вложение/не-utf8.txt"
+            (корень / нетекстовый).write_bytes(b"\xff")
+            результат = сам.scan(корень)
+            строки = результат.rendered_lines()
+            сам.assertIn(f"{допустимый}:0:report.external-source.binary", строки)
+            сам.assertIn(f"{нетекстовый}:0:error.non-utf8-input", строки)
+            for имя in запрещённые:
+                сам.assertIn(f"{имя}:0:error.binary-input", строки)
+            сам.assertTrue(any(строка.startswith(f"{текстовый}:1:error.") for строка in строки))
+            сам.assertEqual(результат.exit_code, 2)
+
+
     def init_repo(себя, корень_сценария: Path) -> None:
         subprocess.run(
             ["git", "init"],

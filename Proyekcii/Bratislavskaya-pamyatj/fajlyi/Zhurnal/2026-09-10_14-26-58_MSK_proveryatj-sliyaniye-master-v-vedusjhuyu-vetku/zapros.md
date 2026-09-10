@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-10 13:40:29 MSK - Zakrepitj pravila opisaniya avtomatizacij i priyomki sliyanij](../2026-09-10_13-40-29_MSK_zakrepitj-pravila-opisaniya-avtomatizacij-i-priyomki-sliyanij/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-10 17:33:36 MSK - Zakrepitj dopusk sliyaniya iz master](../2026-09-10_17-33-36_MSK_zakrepitj-dopusk-sliyaniya-iz-master/zapros.md)
 
 ## Tekst zaprosa
 
@@ -74,6 +74,6 @@ Pervyiye dve komandyi doslovno perenesenyi iz [predyidusjhego zaprosa](../2026-0
 - [Navigaciya predyidusjhego zaprosa](../2026-09-10_13-40-29_MSK_zakrepitj-pravila-opisaniya-avtomatizacij-i-priyomki-sliyanij/zapros.md), [indeks Zhurnala](../README.md), [indeks svezhesti](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md) i avtomaticheski poluchennaya [proyekciya](../../../..).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 14:42:03 MSK -->
-<!-- content-sha256: sha256:9cd91f4fc9c0763c79df55024e56a24bc2508ce10c9b35be57ed7946e6726118 -->
+<!-- last-content-edit: 2026-09-10 18:07:01 MSK -->
+<!-- content-sha256: sha256:3c9db113c8669bc3c4e50d53c556bb3aa7d7a2fcc5770ac2e7eb9895f47b0f58 -->
 <!-- FUM-MD-RECENCY:END -->

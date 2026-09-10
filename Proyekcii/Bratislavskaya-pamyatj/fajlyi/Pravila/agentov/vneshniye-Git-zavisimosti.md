@@ -3,7 +3,7 @@
 Eti pravila polnostjyu chitayutsya do klonirovaniya, sinkhronizacii, registracii ili obnovleniya vneshnej Git-zavisimosti FUM.
 
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000206 -->
-- Do pervogo ispoljzovaniya vneshnego Git-repozitoriya kak zavisimosti FUM sozdayotsya ili podtverzhdayetsya yego postoyannyij fork ryadom s aktualjnyim GitHub-repozitoriyem FUM: v toj zhe organizacii libo v tom zhe individualjnom akkaunte, na kotoryij ukazyivayet publikacionnyij remote `origin` tekusjhej rabochej kopii FUM. Yesli GitHub-vladelec aktualjnogo FUM ne opredelyayetsya odnoznachno, dobavleniye zavisimosti zakryivayetsya do yavnogo resheniya. Originaljnyij repozitorij ne ispoljzuyetsya napryamuyu kak istochnik Git submodule; isklyucheniye vozmozhno toljko po otdeljnomu yavnomu poljzovateljskomu zaprosu, sokhranyonnomu kak istochnik resheniya.
+- Etot marshrut otnositsya k vneshnim po proiskhozhdeniyu zavisimostyam: sobstvennaya realizaciya FUM ne stanovitsya vneshnej zavisimostjyu iz-za otdeljnogo kataloga ili Git-repozitoriya. Do pervogo ispoljzovaniya vneshnego Git-repozitoriya kak zavisimosti FUM sozdayotsya ili podtverzhdayetsya yego postoyannyij fork ryadom s aktualjnyim GitHub-repozitoriyem FUM: v toj zhe organizacii libo v tom zhe individualjnom akkaunte, na kotoryij ukazyivayet publikacionnyij remote `origin` tekusjhej rabochej kopii FUM. Yesli GitHub-vladelec aktualjnogo FUM ne opredelyayetsya odnoznachno, dobavleniye zavisimosti zakryivayetsya do yavnogo resheniya. Originaljnyij repozitorij ne ispoljzuyetsya napryamuyu kak istochnik Git submodule; isklyucheniye vozmozhno toljko po otdeljnomu yavnomu poljzovateljskomu zaprosu, sokhranyonnomu kak istochnik resheniya.
 
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000207 -->
 - Fork u GitHub-vladeljca aktualjnogo FUM kloniruyetsya komandoj `git clone` v prednaznachennyij dlya zavisimosti lokaljnyij putj i nastraivayetsya kak remote `origin`, a originaljnyij repozitorij — kak otdeljnyij remote `upstream`. Soderzhimoye zavisimosti neljzya nachinatj ispoljzovatj po ssyilke, iz arkhiva, cherez vyiborochno skachannyiye fajlyi ili iz neuchtyonnogo vlozhennogo repozitoriya vmesto polnocennogo klona.
@@ -22,6 +22,6 @@ Eti pravila polnostjyu chitayutsya do klonirovaniya, sinkhronizacii, registracii
 - [iskhodnyij zapros 2026-08-24 15:31:12 MSK — Dekompozirovatj AGENTS MD](../../Zhurnal/2026-08-24_15-31-12_MSK_dekompozirovatj-AGENTS-md/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-24 16:13:37 MSK -->
-<!-- content-sha256: sha256:4360e50071c489d98917fe11290d603dc0cebcdec45e0b36fd596e44b732b599 -->
+<!-- last-content-edit: 2026-09-10 18:13:28 MSK -->
+<!-- content-sha256: sha256:df416ee3b5d1058ebf8b8b8cd871b06f648a5144c9cc0c35841bfbfc7db8d4ff -->
 <!-- FUM-MD-RECENCY:END -->

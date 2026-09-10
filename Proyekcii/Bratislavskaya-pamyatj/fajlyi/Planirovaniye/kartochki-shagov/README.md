@@ -204,6 +204,8 @@ Dlya odnovremennogo utochneniya imeni dobavj `--description новое-крат�
 | FUM-STEP-0173 | 🟡 Aktualjno | [Razobratj drejf snimka obyyavlenij](🟡-FUM-STEP-0173-razobratj-drejf-snimka-obyyavlenij.md) |
 | FUM-STEP-0174 | 🟡 Aktualjno | [Opisyivatj primeneniye avtomatizacij bez chteniya koda](🟡-FUM-STEP-0174-opisyivatj-primeneniye-avtomatizacij-bez-chteniya-koda.md)                                                                                                                                                                                                 |
 | FUM-STEP-0175 | 🟡 Aktualjno | [Podgotovitj smenu golovnoj vetki razrabotki](🟡-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md)                                                                                                                                                                                                               |
+| FUM-STEP-0176 | 🟡 Aktualjno | [Sobratj sobstvennuyu realizaciyu v FUM](🟡-FUM-STEP-0176-sobratj-sobstvennuyu-realizaciyu-v-FUM.md)                                                                                                                                                                                                                             |
+| FUM-STEP-0177 | 🟡 Aktualjno | [Vozvrasjhatj neobrabotannyiye soobsjheniya poljzovatelya](🟡-FUM-STEP-0177-vozvrasjhatj-neobrabotannyiye-soobsjheniya-poljzovatelya.md)                                                                                                                                                                                                     |
 
 ## Istochniki trebovanij
 
@@ -238,6 +240,6 @@ Dlya odnovremennogo utochneniya imeni dobavj `--description новое-крат�
 - [iskhodnyij zapros 2026-07-24 10:44:28 MSK — Nachatj bezokonnyij Swift-prototip vosproizvodimogo popolneniya pamyati FUM](../../Zhurnal/2026-07-24_10-44-28_MSK_nachatj-bezokonnyij-Swift-prototip-vosproizvodimogo-popolneniya-pamyati-FUM/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 13:12:46 MSK -->
-<!-- content-sha256: sha256:0a608be8072041655e0a1144aabaac16cae2749057a1dcbf55fd2e819c9b45c6 -->
+<!-- last-content-edit: 2026-09-10 19:46:01 MSK -->
+<!-- content-sha256: sha256:14d1d35874ba168860d417c593ec8608e8111d5734ec1aa8dd8819cd3259dd52 -->
 <!-- FUM-MD-RECENCY:END -->

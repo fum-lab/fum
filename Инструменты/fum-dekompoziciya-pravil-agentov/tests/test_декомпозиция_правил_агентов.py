@@ -9,8 +9,19 @@ import tempfile
 import unittest
 
 
+import os
+
+def путь_проверяемой_реализации(путь: Path) -> Path:
+    выбранный = os.environ.get("FUM_CHECKED_CODE_ROOT")
+    if выбранный is None:
+        return путь
+    if not выбранный or not Path(выбранный).is_absolute():
+        raise ValueError("корень проверяемой реализации должен быть явным абсолютным путём")
+    return Path(выбранный) / путь.relative_to(Path(__file__).resolve().parents[3])
+
+
 КОРЕНЬ_ИНСТРУМЕНТА = Path(__file__).resolve().parents[1]
-СЦЕНАРИЙ = КОРЕНЬ_ИНСТРУМЕНТА / "scripts" / "проверить-декомпозицию-правил.py"
+СЦЕНАРИЙ = путь_проверяемой_реализации(КОРЕНЬ_ИНСТРУМЕНТА / "scripts" / "проверить-декомпозицию-правил.py")
 
 
 def хэш_текста(текст: str) -> str:

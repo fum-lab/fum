@@ -19,11 +19,20 @@ from pathlib import Path
 from unittest import mock
 
 
+def путь_проверяемой_реализации(путь: Path) -> Path:
+    выбранный = os.environ.get("FUM_CHECKED_CODE_ROOT")
+    if выбранный is None:
+        return путь
+    if not выбранный or not Path(выбранный).is_absolute():
+        raise ValueError("корень проверяемой реализации должен быть явным абсолютным путём")
+    return Path(выбранный) / путь.relative_to(Path(__file__).resolve().parents[3])
+
+
 корень_автоматизации = Path(__file__).resolve().parents[1]
 сценарий = (
-    корень_автоматизации
+    путь_проверяемой_реализации(корень_автоматизации
     / "scripts"
-    / "отчёты_о_запусках_проверок.py"
+    / "отчёты_о_запусках_проверок.py")
 )
 имя_сессии = "2026-08-04_20-45-26_MSK_формировать-отчёты-о-запусках-тестов"
 путь_запроса = f"Журнал/{имя_сессии}/запрос.md"
@@ -262,6 +271,25 @@ class ФикстураОтчётов:
 
 
 class ОтчётыОЗапускахПроверок(unittest.TestCase):
+    def test_полный_запуск_слияния_требует_точного_источника_и_полного_набора_аргументов(сам):
+        спецификация = importlib.util.spec_from_file_location("отчёты_слияния_для_теста", сценарий)
+        модуль = importlib.util.module_from_spec(спецификация)
+        спецификация.loader.exec_module(модуль)
+        источник = сценарий.resolve().parents[3]
+        with tempfile.TemporaryDirectory() as временный:
+            кандидат = Path(временный).resolve()
+            команда = [sys.executable, "-B", str(источник / "Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/run-smoke-check.py"),
+                       "--repo-root", str(кандидат), "--request", путь_запроса,
+                       "--commit-message-file", str(кандидат / "коммит.txt"), "--codex-thread-id", "00000000-0000-4000-8000-000000000001",
+                       "--источник-проверок", "1" * 40, "--ведущая-основа", "2" * 40,
+                       "--свидетельство-контура", str(Path(путь_запроса).parent / "материалы/контур-слияния.json")]
+            сам.assertTrue(модуль.является_запуском_полной_проверки(кандидат, команда))
+            for хвост in (["--list"], ["--skip-session-coherence"], ["--repo-root", str(источник)]):
+                with сам.subTest(хвост=хвост):
+                    сам.assertFalse(модуль.является_запуском_полной_проверки(кандидат, команда + хвост))
+            команда[2] = str(кандидат / "Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/run-smoke-check.py")
+            сам.assertFalse(модуль.является_запуском_полной_проверки(кандидат, команда))
+
     @property
     def фикстура(сам) -> ФикстураОтчётов:
         if not hasattr(сам, "_фикстура"):

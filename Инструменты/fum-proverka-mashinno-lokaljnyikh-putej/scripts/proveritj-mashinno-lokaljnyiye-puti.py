@@ -367,6 +367,17 @@ def _is_external_source(path: str) -> bool:
     return path == "Источники" or path.startswith("Источники/")
 
 
+def _это_бинарное_вложение_запроса(путь: str, запросы: frozenset[str]) -> bool:
+    части = PurePosixPath(путь).parts
+    return (
+        len(части) >= 6
+        and части[0] == "Журнал"
+        and части[2:4] == ("материалы", "источники")
+        and session_stem_for_request_path(f"Журнал/{части[1]}/запрос.md") is not None
+        and f"Журнал/{части[1]}/запрос.md" in запросы
+    )
+
+
 def _is_request_file(path: str) -> bool:
     return session_stem_for_request_path(path) is not None
 
@@ -660,7 +671,15 @@ def scan_repository(repo_root: str | Path, policy_path: str | Path) -> ScanResul
     fixed_findings: list[Finding] = []
     текстовые_файлы: list[tuple[str, str]] = []
     inventory_failed = False
-    for entry in git_inventory(root):
+    инвентарь = tuple(git_inventory(root))
+    запросы = frozenset(
+        запись.path for запись in инвентарь
+        if _is_request_file(запись.path)
+        and запись.mode in {None, "100644", "100755"}
+        and not (root / запись.path).is_symlink()
+        and (root / запись.path).is_file()
+    )
+    for entry in инвентарь:
         if entry.mode == "160000":
             fixed_findings.append(
                 Finding(path=entry.path, line=0, category="report.gitlink")
@@ -705,7 +724,7 @@ def scan_repository(repo_root: str | Path, policy_path: str | Path) -> ScanResul
         if b"\0" in data:
             category = (
                 "report.external-source.binary"
-                if _is_external_source(entry.path)
+                if _is_external_source(entry.path) or _это_бинарное_вложение_запроса(entry.path, запросы)
                 else "error.binary-input"
             )
             fixed_findings.append(Finding(path=entry.path, line=0, category=category))

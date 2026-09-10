@@ -10,10 +10,19 @@ from unittest import mock
 from pathlib import Path
 
 
+def путь_проверяемой_реализации(путь: Path) -> Path:
+    выбранный = os.environ.get("FUM_CHECKED_CODE_ROOT")
+    if выбранный is None:
+        return путь
+    if not выбранный or not Path(выбранный).is_absolute():
+        raise ValueError("корень проверяемой реализации должен быть явным абсолютным путём")
+    return Path(выбранный) / путь.relative_to(Path(__file__).resolve().parents[3])
+
+
 SCRIPT_PATH = (
-    Path(__file__).resolve().parents[1]
+    путь_проверяемой_реализации(Path(__file__).resolve().parents[1]
     / "scripts"
-    / "rename-step-card.py"
+    / "rename-step-card.py")
 )
 
 OLD_NAME = "🟡-FUM-STEP-0001-проверить-ссылки.md"

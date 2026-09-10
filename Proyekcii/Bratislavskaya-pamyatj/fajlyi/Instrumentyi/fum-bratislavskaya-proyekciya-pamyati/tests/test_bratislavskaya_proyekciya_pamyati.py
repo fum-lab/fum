@@ -11,13 +11,22 @@ import unittest
 from unittest import mock
 
 
+def путь_проверяемой_реализации(путь: Path) -> Path:
+    выбранный = os.environ.get("FUM_CHECKED_CODE_ROOT")
+    if выбранный is None:
+        return путь
+    if not выбранный or not Path(выбранный).is_absolute():
+        raise ValueError("корень проверяемой реализации должен быть явным абсолютным путём")
+    return Path(выбранный) / путь.relative_to(Path(__file__).resolve().parents[3])
+
+
 КОРЕНЬ = Path(__file__).resolve().parents[3]
 СЦЕНАРИЙ = (
-    КОРЕНЬ
+    путь_проверяемой_реализации(КОРЕНЬ
     / "Инструменты"
     / "fum-bratislavskaya-proyekciya-pamyati"
     / "scripts"
-    / "братиславская_проекция_памяти.py"
+    / "братиславская_проекция_памяти.py")
 )
 
 

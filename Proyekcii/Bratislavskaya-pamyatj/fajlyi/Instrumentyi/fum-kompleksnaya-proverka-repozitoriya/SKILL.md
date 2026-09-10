@@ -11,7 +11,7 @@ Eta lokaljnaya [avtomatizaciya FUM](../../Glossarij/avtomatizaciya-FUM.md) razde
 
 Oba profilya rabotayut lokaljno, ne trebuyut sekretov, setevyikh zaprosov i vneshnikh servisov i izmeryayut monotonnoye wall-clock-vremya podgotovki, kazhdogo obyyavlennogo shaga i polnogo processa. Standartnyij profilj stroitsya neposredstvenno iz polozhiteljnogo perechnya: odinnadcatj live-proverok i trinadcatj avtonomnyikh naborov yadra — 24 shaga s proverkoj sessii i 23 s `--skip-session-coherence`. Lyogkij live-shag dekompozicii pravil neobkhodim dokumentacionnomu prototipu, potomu chto proveryayet vsegda zagruzhayemyij korenj i obyazateljnostj tematicheskikh marshrutov; avtonomnyiye testyi etoj avtomatizacii ostayutsya toljko v polnom profile. Standart ne vyipolnyayet obsjhij avtopoisk `Инструменты/*/tests`, shirokij `dump-package`, SwiftPM-testyi, sborki i lint prototipov i ne zagruzhayet istoriyu riska. Primeneniye proyekcii pri etom trebuyet lokaljnyiye Swift 5.9+ i materializovannyij tochnyij LinguisticKit i zapuskayet izolirovannuyu sluzhebnuyu Swift-obyortku. Novyij nabor testov ne popadayet v standart sam soboj: izmeneniye perechnya trebuyet osmyislennoj pravki i regressionnogo testa sostava.
 
-Nulevoj kod vnutrennego proverochnogo processa oznachayet toljko, chto obyyavlennyij proverochnyij plan projden. Sam `run-smoke-check.py` ne vyipolnyayet Git-kommit: posle yego vyikhoda obyazateljnaya otchyotnaya obyortka yesjhyo sokhranyayet terminaljnuyu zapisj zapuska i zakryivayet khyeshirovannyij snimok. Zatem vyipolnyayutsya rovno odna finaljnaya peresborka `Proyekcii/**`, odin pryamoj nezavisimyij validator, tochnaya postanovka pokoleniya v indeks i ogranichennyiye proverki zamyikaniya. Polnaya ruchnaya sessiya s osmyislennyim diff schitayetsya zavershyonnoj toljko posle lokaljnogo kommita proverennogo etapa na `refs/heads/master`; smoke-check ne sozdayot continuation, FIFO-handoff ili publikaciyu.
+Nulevoj kod vnutrennego proverochnogo processa oznachayet toljko, chto obyyavlennyij proverochnyij plan projden. Sam `run-smoke-check.py` ne vyipolnyayet Git-kommit: posle yego vyikhoda obyazateljnaya otchyotnaya obyortka yesjhyo sokhranyayet terminaljnuyu zapisj zapuska i zakryivayet khyeshirovannyij snimok. Zatem vyipolnyayutsya rovno odna finaljnaya peresborka `Proyekcii/**`, odin pryamoj nezavisimyij validator, tochnaya postanovka pokoleniya v indeks i ogranichennyiye proverki zamyikaniya. Obyichnyij proverennyij etap s osmyislennyim diff fiksiruyetsya lokaljnyim kommitom na `refs/heads/master`; razreshyonnoye sliyaniye sokhranyayetsya i proveryayetsya po otdeljnoj granice `AGENTS.md`. Smoke-check ne sozdayot continuation, FIFO-handoff ili publikaciyu.
 
 ## Kogda ispoljzovatj
 
@@ -67,6 +67,10 @@ Chastichnyij lokaljnyij zapusk bez proverki konkretnoj rabochej sessii:
 python3 Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/run-smoke-check.py \
   --skip-session-coherence
 ```
+
+## Yavnaya proverka sliyaniya
+
+[Komandyi i podgotovka svideteljstva](../fum-otchyotyi-o-zapuskakh-proverok/proverka-sliyaniya-iz-master.md) ispoljzuyut proveryayusjhij kontur iz prinyatogo pervichnogo master M, a kandidat — kak vkhod. Perechenj, testyi, fiksturyi, politiki i upravlyayusjhij kod berutsya iz M; izmenyonnaya realizaciya kandidata peredayotsya testam otdeljno. Istochniki, zavisimosti i zaraneye indeksirovannoye svideteljstvo sveryayutsya do i posle zapuska. Vse tri parametra `--источник-проверок`, `--ведущая-основа` i `--свидетельство-контура` obyazateljnyi vmeste s tochnyim kornem, zaprosom i kontekstom kommita. Rezhim ne dopuskayet `--list`, `--skip-session-coherence` i `--профиль полный`; vneshnyaya `FUM_CHECKED_CODE_ROOT` yego ne vklyuchayet. Zakryityij otchyot zatem proveryayetsya otdeljnyim `--допуск-слияния` na tochnom C s roditelyami `[L, M]`.
 
 ## Chto zapuskayetsya
 
@@ -396,6 +400,6 @@ Tekusjhij Swift-kontur prednaznachen dlya macOS: vse paketyi trebuyut macOS 14 i
 - [kartochka shaga FUM-STEP-0070](../../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0070-ustranitj-mashinno-lokaljnyiye-absolyutnyiye-puti-i-dobavitj-ikh-avtomaticheskuyu-proverku.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 00:22:39 MSK -->
-<!-- content-sha256: sha256:7b2832d1f9fa5fe3ea9d77c82dce034f0ef822b6bfbf2f731f66b3905156a143 -->
+<!-- last-content-edit: 2026-09-10 19:46:01 MSK -->
+<!-- content-sha256: sha256:67dd4038010836849c39de810bbdf5bc4ce916230d8e68b2b5a0109ff883735f -->
 <!-- FUM-MD-RECENCY:END -->

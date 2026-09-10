@@ -13,16 +13,25 @@ from pathlib import Path
 from unittest import mock
 
 
+def путь_проверяемой_реализации(путь: Path) -> Path:
+    выбранный = os.environ.get("FUM_CHECKED_CODE_ROOT")
+    if выбранный is None:
+        return путь
+    if not выбранный or not Path(выбранный).is_absolute():
+        raise ValueError("корень проверяемой реализации должен быть явным абсолютным путём")
+    return Path(выбранный) / путь.relative_to(Path(__file__).resolve().parents[3])
+
+
 TOOL_ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = TOOL_ROOT / "scripts"
 MODULE = SCRIPTS / "request_folder_layout.py"
 CLI = SCRIPTS / "struktura-papok-zaprosov.py"
 ШАБЛОНЫ = TOOL_ROOT / "шаблоны"
 СВЯЗНОСТЬ = (
-    TOOL_ROOT.parent
+    путь_проверяемой_реализации(TOOL_ROOT.parent
     / "fum-svyaznostj-rabochej-sessii"
     / "scripts"
-    / "check-session-coherence.py"
+    / "check-session-coherence.py")
 )
 
 EARLY = "2026-06-23_18-43-31_MSK"
