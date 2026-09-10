@@ -193,7 +193,12 @@ Leksicheskaya proverka simvolicheskikh ssyilok ne ustranyayet vrazhdebnuyu TOCTO
 - [iskhodnyij zapros 2026-08-06 11:22:33 MSK - Dobavitj analitiku poryadka zapuska testov](../../Zhurnal/2026-08-06_11-22-33_MSK_dobavitj-analitiku-poryadka-zapuska-testov/zapros.md)
 - [iskhodnyij zapros 2026-08-04 20:45:26 MSK - Formirovatj otchyotyi o zapuskakh testov](../../Zhurnal/2026-08-04_20-45-26_MSK_formirovatj-otchyotyi-o-zapuskakh-testov/zapros.md)
 
+
+## Chteniye priyomki iz kommita
+
+[Chitatelj zakryitogo otchyota](proverka-otchyota-v-kommite.md) proveryayet neizmenyayemyiye v3-svideteljstva pryamo iz Git bez vremennogo checkout i zhurnaljnogo lock-fajla. On otdeljno podtverzhdayet polnyij sostav, celostnostj, gotovnostj plana i istoricheskuyu svyazj s kommitom. Yego rezuljtat ne udostoveryayet proiskhozhdeniye komandyi ili zaversheniye obyazateljstva; eti proverki ostayutsya u vyizyivayusjhego sloya.
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 01:11:48 MSK -->
-<!-- content-sha256: sha256:789333ff0d290ddcd78c99f5d7373df18fa9fb5fd509ea228174bb2b65f28c08 -->
+<!-- last-content-edit: 2026-09-10 11:27:33 MSK -->
+<!-- content-sha256: sha256:10d999a9b817731e98a9881b38d49951c9c3c887e2093d75a9b872aeb761252d -->
 <!-- FUM-MD-RECENCY:END -->

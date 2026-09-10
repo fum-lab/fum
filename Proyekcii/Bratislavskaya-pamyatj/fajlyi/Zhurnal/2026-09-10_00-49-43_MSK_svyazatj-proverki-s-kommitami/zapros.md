@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-09 21:31:19 MSK - Prodolzhatj rabotu posle kommita](../2026-09-09_21-31-19_MSK_prodolzhatj-rabotu-posle-kommita/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-10 02:01:28 MSK - Proveryatj zakryityiye otchyotyi iz kommitov](../2026-09-10_02-01-28_MSK_proveryatj-zakryityiye-otchyotyi-iz-kommitov/zapros.md)
 
 ## Tekst zaprosa
 
@@ -96,6 +96,6 @@ Dopolniteljnaya proverka polnogo istoricheskogo snimka obyyavlenij ne projdena: 
 - [Indeks Markdown](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md), [proizvodnaya proyekciya](../../../..).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 01:44:23 MSK -->
-<!-- content-sha256: sha256:fee8ed7c53f995df3d7fffc8215917d0b8643b86a22655b75f96c1704ca8e8b9 -->
+<!-- last-content-edit: 2026-09-10 11:27:33 MSK -->
+<!-- content-sha256: sha256:794e9c2d83bb2d21879f66fbb3a052cb14128592ebe831c1a2f73e1b89662f10 -->
 <!-- FUM-MD-RECENCY:END -->

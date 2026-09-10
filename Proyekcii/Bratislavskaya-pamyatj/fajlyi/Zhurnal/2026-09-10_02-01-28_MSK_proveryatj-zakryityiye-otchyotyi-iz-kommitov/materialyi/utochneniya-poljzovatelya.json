@@ -1,0 +1,20 @@
+{
+  "схема": "fum.уточнения-этапа.1",
+  "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "источники": [
+    {
+      "строка": 22682,
+      "смещение": 155981767,
+      "байтов": 467,
+      "sha256": "8133e503b9935df1a9c331306913964d59002f75c1f3d9fcd3d5a38006ecbede",
+      "цитата": "Po kommitam v master myi sejchas priblizhayemsya k vozmozhnosti vlivatj vetki v master?\n"
+    },
+    {
+      "строка": 22776,
+      "смещение": 156412143,
+      "байтов": 926,
+      "sha256": "83f6cd90e1a926248b573fe7cdfcb8ea8769d57326aa4fec0b0798de28061ec7",
+      "цитата": "<send_user_message_question_reply>\n[{\"questionItemId\":\"[\\\"request_user_input_async\\\",\\\"call_anyhCCBFZYoDWUI6tFSvqQWj\\\",0]\",\"question\":\"Система отказала в записи из-за нехватки места; сейчас свободно около 101 МиБ. Можете освободить хотя бы 1–2 ГБ? Пока проверю и уберу подтверждённые временные результаты нашей работы.\",\"answer\":\"Osvobodil\"}]\n</send_user_message_question_reply>"
+    }
+  ]
+}
