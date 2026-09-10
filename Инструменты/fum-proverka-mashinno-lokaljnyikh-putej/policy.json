@@ -3447,6 +3447,231 @@
       "count": 1,
       "category": "allow.test-fixture",
       "reason": "Открытая синтетическая фикстура или её генератор: условное значение каталога либо проверяемый shebang, не данные и не путь пользователя."
+    },
+    {
+      "id": "fum-app-0176-fixture-42",
+      "path": "Приложения/FUMA/macOS/проверки/test_адаптации.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:7f78d934d687ee1e7efd7e5d943f42eca0c68c74958d0d00805af7d20c5dc708",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетическая строка проверки переносимости или подставного runner; не используется как рабочий системный путь."
+    },
+    {
+      "id": "fum-app-0176-fixture-56",
+      "path": "Приложения/FUMA/macOS/проверки/test_адаптации.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:41b9d08d078568b1907fd5ff1cff5c33da329ac07a5f4f1b8508a1a9a0dbc8fa",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетическая строка проверки переносимости или подставного runner; не используется как рабочий системный путь."
+    },
+    {
+      "id": "fum-app-0176-fixture-57",
+      "path": "Приложения/FUMA/macOS/проверки/test_адаптации.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ffe39ff9efad9c0a90b1739e6dc9b82195dd1dc3934328c001e53ab9de05106c",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетическая строка проверки переносимости или подставного runner; не используется как рабочий системный путь."
+    },
+    {
+      "id": "fum-app-0176-fixture-63",
+      "path": "Приложения/FUMA/macOS/проверки/test_адаптации.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:579ef5343562c9c5802f36043741e9f964ffdcde71ff2f907992c88c507adba3",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетическая строка проверки переносимости или подставного runner; не используется как рабочий системный путь."
+    },
+    {
+      "id": "fum-app-0176-fixture-64",
+      "path": "Приложения/FUMA/macOS/проверки/test_адаптации.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:a3d6eb61993794c330380bdd6de7b9b1f15330c8940849d8d0126bbf5650871b",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетическая строка проверки переносимости или подставного runner; не используется как рабочий системный путь."
+    },
+    {
+      "id": "fum-app-0176-fixture-65",
+      "path": "Приложения/FUMA/macOS/проверки/test_адаптации.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:36c7771559ab88984eebb38a720cbeb53e4a6aed4685ef1f2afbec145614369c",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетическая строка проверки переносимости или подставного runner; не используется как рабочий системный путь."
+    },
+    {
+      "id": "fum-app-0176-fixture-67",
+      "path": "Приложения/FUMA/macOS/проверки/test_адаптации.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:6c7dda012cd06d4d15700c8237a8729821ae03d3d9f16cfcfc1ef7a83803e2be",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетическая строка проверки переносимости или подставного runner; не используется как рабочий системный путь."
+    },
+    {
+      "id": "fum-app-0176-fixture-93",
+      "path": "Приложения/FUMA/macOS/проверки/test_адаптации.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:01d4a034f7811aeb0eee5ba49e43acccb062838bc36f85c49335e9e2ab3b3f01",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетическая строка проверки переносимости или подставного runner; не используется как рабочий системный путь."
+    },
+    {
+      "id": "fum-app-0176-fixture-103",
+      "path": "Приложения/FUMA/macOS/проверки/test_адаптации.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:a77f61a0a49b5a2fae9230ae0c3b98bebe25fe30fd8aedce4f4f1a43e07f79c8",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетическая строка проверки переносимости или подставного runner; не используется как рабочий системный путь."
+    },
+    {
+      "id": "fum-app-0176-fixture-146",
+      "path": "Приложения/FUMA/macOS/проверки/test_адаптации.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:814433071903915ded0bbd4ba7311c19c0832ed505a2ca997748664c65b5fae3",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетическая строка проверки переносимости или подставного runner; не используется как рабочий системный путь."
+    },
+    {
+      "id": "fum-app-0176-definition-14",
+      "path": "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:1bf5f4940eefd4ac903bcf6d29e4ca21c086d599bf2ff683956774c95da80400",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Точное определение распознаваемой исторической формы в преобразователе путей; удаляет привязку и не исполняет её."
+    },
+    {
+      "id": "fum-app-0176-definition-15",
+      "path": "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:ad88f6de703f2b08dab8b88e81a6d5a85d4be6907d2c4cfb928f857d479f194f",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Точное определение распознаваемой исторической формы в преобразователе путей; удаляет привязку и не исполняет её."
+    },
+    {
+      "id": "fum-app-0176-definition-16",
+      "path": "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:0549117a7bac6957a609240c952662ca9a84e13837ba99edd4c50621b5957bb6",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Точное определение распознаваемой исторической формы в преобразователе путей; удаляет привязку и не исполняет её."
+    },
+    {
+      "id": "fum-app-0176-definition-17",
+      "path": "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:0909c1e5aa6d3b1a9c981a31286f82633b79afeb52e82f0ec15b26dd2b267622",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Точное определение распознаваемой исторической формы в преобразователе путей; удаляет привязку и не исполняет её."
+    },
+    {
+      "id": "fum-app-0176-definition-18",
+      "path": "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:13a88dd842a2bfb65b8481c720208f0302f23798784c533a3377ac8de6c6bf8a",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Точное определение распознаваемой исторической формы в преобразователе путей; удаляет привязку и не исполняет её."
+    },
+    {
+      "id": "fum-app-0176-definition-19",
+      "path": "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:9d0482437f4840d40a86f8c8f642f93e1b911215118911a758032b62e3fd2ed6",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Точное определение распознаваемой исторической формы в преобразователе путей; удаляет привязку и не исполняет её."
+    },
+    {
+      "id": "fum-app-0176-definition-20",
+      "path": "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:f44e1ff03da8023da4ef482678dd9339ee543c07354d99a300c425c4710dc233",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Точное определение распознаваемой исторической формы в преобразователе путей; удаляет привязку и не исполняет её."
+    },
+    {
+      "id": "fum-app-0176-definition-21",
+      "path": "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:dfd171656f0238437c134dc1ebba56f4641cf0194dffb2d0ffd117c988189325",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Точное определение распознаваемой исторической формы в преобразователе путей; удаляет привязку и не исполняет её."
+    },
+    {
+      "id": "fum-app-0176-definition-22",
+      "path": "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:5815655d51552dab6ab19501ccc78d3be31e02c535c71e3fd167635cf664bc3d",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Точное определение распознаваемой исторической формы в преобразователе путей; удаляет привязку и не исполняет её."
+    },
+    {
+      "id": "fum-app-0176-definition-39",
+      "path": "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:e3c14d64d6ab5a092eb9c709d85f2e77165067203787ad08948620a92ce27940",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Точное определение распознаваемой исторической формы в преобразователе путей; удаляет привязку и не исполняет её."
+    },
+    {
+      "id": "fum-app-0176-definition-41",
+      "path": "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:e189fb8f68a3b54281dff75c9dbf5f5756c9f87663cfa833802becc79fc85b9d",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Точное определение распознаваемой исторической формы в преобразователе путей; удаляет привязку и не исполняет её."
+    },
+    {
+      "id": "fum-app-0176-definition-46",
+      "path": "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:54d47efe0f4fa961eda91861475be21adc48bb9af08c22a9ba27aa1ec89f723b",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Точное определение распознаваемой исторической формы в преобразователе путей; удаляет привязку и не исполняет её."
+    },
+    {
+      "id": "fum-app-0176-definition-60",
+      "path": "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:067b6189d3af7919ed6577f7ab71fb6d4d9145e299ab0a8d07696e4d8acf9ff3",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Точное определение распознаваемой исторической формы в преобразователе путей; удаляет привязку и не исполняет её."
+    },
+    {
+      "id": "fum-app-0176-definition-61",
+      "path": "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:bf39b1cec69167afcaf7529e90579e677f2032328b3c0f616f25de2b691582ff",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Точное определение распознаваемой исторической формы в преобразователе путей; удаляет привязку и не исполняет её."
+    },
+    {
+      "id": "fum-app-0176-definition-62",
+      "path": "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:245f512d03ae5a7582f6a4963e16dffcce6a6e472a9bfa6e29b2596c7514eb05",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Точное определение распознаваемой исторической формы в преобразователе путей; удаляет привязку и не исполняет её."
     }
   ]
 }
