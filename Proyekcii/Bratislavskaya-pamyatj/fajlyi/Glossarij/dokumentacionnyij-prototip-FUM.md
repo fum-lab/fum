@@ -2,7 +2,7 @@
 
 Dokumentacionnyij prototip FUM - stadiya razvitiya [FUM](FUM.md), v kotoroj tekusjhij repozitorij yesjhyo ne yavlyayetsya polnocennoj programmnoj sistemoj, no uzhe pokazyivayet formu budusjhej rabotyi [korobochnoj realizacii FUM](korobochnaya-realizaciya-FUM.md): vkhodnyiye signalyi sokhranyayutsya kak [iskhodnyiye zaprosyi](iskhodnyij-zapros.md), trebovaniya perekhodyat v [proizvodnuyu dokumentaciyu](proizvodnaya-dokumentaciya.md), terminyi zakreplyayutsya v glossarii, proverki i [avtomatizacii](avtomatizaciya-FUM.md) stanovyatsya chastjyu [pamyati](pamyatj-FUM.md), a rezuljtat fiksiruyetsya v zhurnale i Git-istorii.
 
-Na masshtabe diskretnyikh zadach etot kontur yavlyayetsya povedencheskim prototipom [agentskogo cikla](agentskij-cikl.md). V dejstvuyusjhej ruchnoj skheme poljzovatelj zapuskayet odnu zadachu Codex v pervichnom checkout `refs/heads/master`; ona vyipolnyayet odin soderzhateljnyij zapros, sozdayot ne boleye odnogo lokaljnogo kommita i zavershayetsya. Prezhnij vozobnovlyayemyij profilj s [obyazateljnyim prodolzheniyem vetki](obyazateljnoye-prodolzheniye-vetki.md), FIFO i avtomaticheskim [sleduyusjhim shagom vetki](sleduyusjhij-shag-vetki.md) sokhranyon kak otlozhennaya narabotka, a ne ekspluatacionnyij marshrut. Poljzovateljskaya zadacha mozhet izmenitj pamyatj, trebovaniya i ogranicheniya, no sleduyusjhuyu pishusjhuyu sessiyu zapuskayet toljko poljzovatelj.
+Na masshtabe diskretnyikh zadach etot kontur yavlyayetsya povedencheskim prototipom [agentskogo cikla](agentskij-cikl.md). V dejstvuyusjhej ruchnoj skheme poljzovatelj zapuskayet odnu zadachu Codex v pervichnom checkout `refs/heads/master`; ona vyipolnyayet soglasovannyiye etapyi, otdeljno proveryayet i kommitit kazhdyij iz nikh, zatem prodolzhayet dostupnuyu rabotu v toj zhe zadache. Prezhnij vozobnovlyayemyij profilj s [obyazateljnyim prodolzheniyem vetki](obyazateljnoye-prodolzheniye-vetki.md), FIFO i avtomaticheskim [sleduyusjhim shagom vetki](sleduyusjhij-shag-vetki.md) sokhranyon kak otlozhennaya narabotka, a ne ekspluatacionnyij marshrut. Poljzovateljskaya zadacha mozhet izmenitj pamyatj, trebovaniya i ogranicheniya, no sleduyusjhuyu pishusjhuyu sessiyu zapuskayet toljko poljzovatelj.
 
 Yego preobladayusjhij smyislovoj i chelovekochitayemyij sloj - tekst dvukh razlichimyikh tipov proiskhozhdeniya. Chelovek porozhdayet iskhodnyiye formulirovki, namereniya, ogranicheniya i podtverzhdeniya; LLM v agentskoj sessii Codex v osnovnom porozhdayet i pererabatyivayet proizvodnyiye tekstyi. Prilozheniye ChatGPT pri etom yavlyayetsya nablyudayemoj poverkhnostjyu tekusjhej sessii, a ne obsjhim imenem modeli, agenta, runtime i instrumentov.
 
@@ -27,6 +27,6 @@ Takoj prototip ne schitayetsya gotovyim produktom. Yego zadacha - na zhivom prim
 - [iskhodnyij zapros 2026-07-24 10:01:26 MSK - Utochnitj sobyitijnuyu nepreryivnostj dokumentacionnogo prototipa FUM](../Zhurnal/2026-07-24_10-01-26_MSK_utochnitj-sobyitijnuyu-nepreryivnostj-dokumentacionnogo-prototipa-FUM/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-23 15:37:47 MSK -->
-<!-- content-sha256: sha256:d3a8f26bd5bb3cf4c531231792daf9f8476901054136d11c7a1fc52d04b9e256 -->
+<!-- last-content-edit: 2026-09-10 00:22:39 MSK -->
+<!-- content-sha256: sha256:b60cc49a9c66c5a39931e2f5439f7f547b7665132cdeb44b74792473fbb94035 -->
 <!-- FUM-MD-RECENCY:END -->

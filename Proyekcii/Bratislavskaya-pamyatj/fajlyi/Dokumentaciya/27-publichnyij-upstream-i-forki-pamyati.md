@@ -29,7 +29,7 @@ Publichnostj udalyonnogo repozitoriya ne oznachayet, chto lyubaya tekusjhaya lok
 
 ## Ruchnaya publikaciya `master`
 
-Kazhdaya obyichnaya rabochaya sessiya `master` s osmyislennyim diff zakanchivayetsya lokaljnyimi proverkami i ne boleye chem odnim obyichnyim lokaljnyim kommitom. Zatem zadacha zavershayetsya bez continuation; sleduyusjhuyu pishusjhuyu sessiyu zapuskayet poljzovatelj. Kommit sam po sebe ne razreshayet `push` ili `publish`.
+Kazhdyij soderzhateljnyij etap obyichnoj rabotyi na `master` zakanchivayetsya lokaljnyimi proverkami i obyichnyim lokaljnyim kommitom. Zatem ta zhe zadacha proveryayet rezuljtat i prodolzhayet dostupnyij soglasovannyij etap. Novuyu pishusjhuyu zadachu zapuskayet poljzovatelj. Kommit sam po sebe ne razreshayet `push` ili `publish`.
 
 Publikaciyu podtverzhdayet otdeljnyij ruchnoj `push`, iniciirovannyij poljzovatelem posle prosmotra lokaljnogo rezuljtata. Yego obyyektom sluzhit tochnyij proverennyij commit i yego predki; vozmozhnyiye boleye pozdniye lokaljnyiye potomki ne poluchayut razresheniye avtomaticheski. Takoye podtverzhdeniye publikacii ne vyidayot polnomochij na podklyucheniye provajdera, polucheniye novyikh sekretov, platnyij dostup, chteniye poljzovateljskikh dannyikh ili inoj vneshnij effekt. Zaversheniye zadachi bez izmenenij ne sozdayot kommit i nichego ne otpravlyayet; istoricheskaya komanda `finish-clean` ne vkhodit v dejstvuyusjhij ruchnoj marshrut.
 
@@ -185,6 +185,6 @@ Eta skhema delayet GitHub ne prosto mestom publikacii, a pervyim socialjnyim nos
 - [Dorozhnaya karta FUM](../Planirovaniye/dorozhnaya-karta.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-02 09:36:08 MSK -->
-<!-- content-sha256: sha256:69f5244724075ce8639916b2621dcaa470297da5ca89afb5c5cb4b49969715fa -->
+<!-- last-content-edit: 2026-09-10 00:22:39 MSK -->
+<!-- content-sha256: sha256:fa289d4a5278e7f0eefcaec4203f5e18d902673a39bf1944767ac85c1f2801d1 -->
 <!-- FUM-MD-RECENCY:END -->

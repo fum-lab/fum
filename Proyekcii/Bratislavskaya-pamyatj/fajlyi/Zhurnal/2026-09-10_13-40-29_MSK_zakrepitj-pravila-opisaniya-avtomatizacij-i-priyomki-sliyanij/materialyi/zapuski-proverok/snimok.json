@@ -1,0 +1,39 @@
+{
+  "отпечаток_закрытия": "sha256:2944163ca91e7d05f87cb4f9a575495fc260eee624447a2849b589da0ba23207",
+  "сессия": "Журнал/2026-09-10_13-40-29_MSK_закрепить-правила-описания-автоматизаций-и-приёмки-слияний/запрос.md",
+  "схема": "fum.test-run-report.v2",
+  "файлы": [
+    {
+      "sha256": "cac77f38ea7c3f26ab222c8f9690e8a8b0cb62bffea0195f49764f74b077645d",
+      "имя": "1_230584fe-1794-477c-ae3c-b8a9d3d46786.json"
+    },
+    {
+      "sha256": "bc9a1eedfa2a112f0dd14cb036db1de33cd6affa2e08d19e12216e94f429a230",
+      "имя": "2_1cfffd1f-73eb-4468-8f96-bbc07e741cdd.json"
+    },
+    {
+      "sha256": "549b4dcf6e46678349245f252408ddf26d1cdde0b12b0c5e89a448af21f49c58",
+      "имя": "3_eb6b1c77-9183-4efa-aea4-a0777590449c.json"
+    },
+    {
+      "sha256": "5beb7ef71bfbcef4ed6acd507d1db684a2e2812b7039469cd411cdfd59fc90b1",
+      "имя": "4_68a82eb2-6723-4e17-8d0e-514ff6361c68.json"
+    },
+    {
+      "sha256": "a6b8e8c90234e70bfbaf4ba4750dab9d28949759d9834aa3500619847caa1aa3",
+      "имя": "5_2e0fa579-0658-4dab-ba67-adddf585a07f.json"
+    },
+    {
+      "sha256": "d7f4971f1787ec479b6a7b211a3054e46726db15876b57626ccb333eab5ccbea",
+      "имя": "6_667009c9-5695-4276-adb0-ee06574eae7d.json"
+    },
+    {
+      "sha256": "68f25fb7df90860b811f1400bb4206e4353f5d269faf7c4f05ca9a85b383bc0c",
+      "имя": "7_370fafcf-517f-4cc3-b5a2-f39a4c14cbd1.json"
+    },
+    {
+      "sha256": "af227ba3b8a5ae3836b0e1e629a72728aa24ddd2bc831aa94c3f6d342fc2d972",
+      "имя": "8_28be9532-a63d-4eb2-ba7b-2bb2ef2af441.json"
+    }
+  ]
+}

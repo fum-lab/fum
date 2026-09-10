@@ -14,7 +14,7 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0006 | `активна`   | [Opechatka puti tekusjhego zaprosa pri uchyote proverki](FUM-SBOJ-0006-opechatka-puti-tekusjhego-zaprosa-pri-uchyote-proverki.md)                                             | 1          | FUM-STEP-0134           |
 | FUM-SBOJ-0007 | `активна`   | [Propusk opornoj datyi grafa posle perekhoda cherez polnochj MSK](FUM-SBOJ-0007-propusk-opornoj-datyi-grafa-posle-perekhoda-cherez-polnochj-MSK.md)                         | 1          | FUM-STEP-0135           |
 | FUM-SBOJ-0008 | `активна`   | [Pustoj scenarij orkestracii proverki bez dochernego vyizova](FUM-SBOJ-0008-pustoj-scenarij-orkestracii-proverki-bez-dochernego-vyizova.md)                             | 1          | FUM-STEP-0136           |
-| FUM-SBOJ-0009 | `активна`   | [Ruchnoye ugadyivaniye lokaljnyikh putej pered vyizovom](FUM-SBOJ-0009-ruchnoye-ugadyivaniye-lokaljnyikh-putej-pered-vyizovom.md)                                                 | 3          | FUM-STEP-0137           |
+| FUM-SBOJ-0009 | `активна`   | [Ruchnoye ugadyivaniye lokaljnyikh putej pered vyizovom](FUM-SBOJ-0009-ruchnoye-ugadyivaniye-lokaljnyikh-putej-pered-vyizovom.md)                                                 | 4          | FUM-STEP-0137           |
 | FUM-SBOJ-0010 | `активна`   | [Maskirovka rannego otkaza sostavnoj shell-diagnostiki](FUM-SBOJ-0010-maskirovka-rannego-otkaza-sostavnoj-shell-diagnostiki.md)                                     | 2          | FUM-STEP-0138           |
 | FUM-SBOJ-0011 | `активна`   | [Kopirovaniye kriteriyev shagov v kartochki sboyev](FUM-SBOJ-0011-kopirovaniye-kriteriyev-shagov-v-kartochki-sboyev.md)                                                       | 3          | FUM-STEP-0139           |
 | FUM-SBOJ-0012 | `активна`   | [Pereobesjhannoye adresuyemoye dokazateljstvo proyavleniya](FUM-SBOJ-0012-pereobesjhannoye-adresuyemoye-dokazateljstvo-proyavleniya.md)                                           | 6          | FUM-STEP-0140           |
@@ -25,20 +25,29 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0017 | `устранена` | [Blokirovka starta zadachi izmeneniyami v kornevoj `.obsidian/`](FUM-SBOJ-0017-blokirovka-starta-zadachi-izmeneniyami-v-kornevoj-obsidian.md)                           | 1          | —                       |
 | FUM-SBOJ-0018 | `устранена` | [Tekhnicheskoye nazvaniye zadachi Codex posle naznacheniya kartochki](FUM-SBOJ-0018-tekhnicheskoye-nazvaniye-zadachi-Codex-posle-naznacheniya-kartochki.md)                         | 1          | —                       |
 | FUM-SBOJ-0019 | `устранена` | [Zavisimostj repozitornogo testa selektora ot aktivnoj worktree-vetki](FUM-SBOJ-0019-zavisimostj-repozitornogo-testa-selektora-ot-aktivnoj-worktree-vetki.md)       | 1          | —                       |
-| FUM-SBOJ-0020 | `устранена` | [Publikaciya sluzhebnogo `CF-Ray` v snimke istochnika](FUM-SBOJ-0020-publikaciya-sluzhebnogo-CF-Ray-v-snimke-istochnika.md)                                               | 1          | —                       |
+| FUM-SBOJ-0020 | `устранена` | [Publikaciya sluzhebnogo `CF-Ray` v snimke istochnika](FUM-SBOJ-0020-publikaciya-sluzhebnogo-CF-Ray-v-snimke-istochnika.md)                                               | 2          | FUM-STEP-0151           |
 | FUM-SBOJ-0021 | `устранена` | [Nematerializovannaya Git-zavisimostj avtomaticheski sozdannogo slota](FUM-SBOJ-0021-nematerializovannaya-Git-zavisimostj-avtomaticheski-sozdannogo-slota.md)           | 1          | —                       |
 | FUM-SBOJ-0022 | `устранена` | [Nedostavka izmenenij iz Web ChatGPT](FUM-SBOJ-0022-nedostavka-izmenenij-iz-Web-ChatGPT.md)                                                                         | 1          | —                       |
+| FUM-SBOJ-0023 | `активна`   | [Nekorrektnyij vneshnij paket](FUM-SBOJ-0023-nekorrektnyij-vneshnij-paket.md)                                                                                           | 1          | FUM-STEP-0150           |
+| FUM-SBOJ-0024 | `активна`   | [Nesovmestimyij format patcha v proyekcii](FUM-SBOJ-0024-nesovmestimyij-format-patcha-v-proyekcii.md)                                                                     | 1          | FUM-STEP-0152           |
+| FUM-SBOJ-0025 | `активна`   | [Pryamoj zapusk proverki vne mashinnogo uchyota](FUM-SBOJ-0025-pryamoj-zapusk-proverki-vne-mashinnogo-uchyota.md)                                                           | 1          | FUM-STEP-0153           |
 | FUM-SBOJ-0026 | `устранена` | [Obesjhaniye zapomnitj vmesto zakrepleniya pravila](FUM-SBOJ-0026-obesjhaniye-zapomnitj-vmesto-zakrepleniya-pravila.md)                                                     | 1          | —                       |
-| FUM-SBOJ-0027 | `активна` | [Zaversheniye otveta posle promezhutochnogo kommita](FUM-SBOJ-0027-zaversheniye-otveta-posle-promezhutochnogo-kommita.md)                                                   | 3 | FUM-STEP-0154           |
+| FUM-SBOJ-0027 | `активна`   | [Zaversheniye otveta posle promezhutochnogo kommita](FUM-SBOJ-0027-zaversheniye-otveta-posle-promezhutochnogo-kommita.md)                                                   | 3          | FUM-STEP-0154           |
 | FUM-SBOJ-0028 | `устранена` | [Ekranirovaniye fiksturyi raspoznano kak mashinnyij putj](FUM-SBOJ-0028-ekranirovaniye-fiksturyi-raspoznano-kak-mashinnyij-putj.md)                                         | 1          | —                       |
 | FUM-SBOJ-0029 | `устранена` | [Propusk obratnoj ssyilki v glossarii](FUM-SBOJ-0029-propusk-obratnoj-ssyilki-v-glossarii.md)                                                                         | 1          | —                       |
 | FUM-SBOJ-0030 | `активна`   | [Lishnyaya pustaya stroka narushayet razbor trailer](FUM-SBOJ-0030-lishnyaya-pustaya-stroka-narushayet-razbor-trailer.md)                                                       | 2          | FUM-STEP-0157           |
 | FUM-SBOJ-0031 | `устранена` | [Perezapisj istoricheskogo profilya pri pereimenovanii kartochki](FUM-SBOJ-0031-perezapisj-istoricheskogo-profilya-pri-pereimenovanii-kartochki.md)                       | 1          | —                       |
 | FUM-SBOJ-0032 | `устранена` | [Obsjhiye izmenyayemyiye tablicyi LinguisticKit ne podderzhivayut Swift 6](FUM-SBOJ-0032-obsjhiye-izmenyayemyiye-tablicyi-LinguisticKit.md)                                           | 1          | Ustraneno v etoj rabote |
 | FUM-SBOJ-0033 | `устранена` | [Ekstraktor LinguisticKit trebuyet testovyij import v Release](FUM-SBOJ-0033-testovyij-import-ekstraktora-LinguisticKit.md)                                            | 1          | Ustraneno v etoj rabote |
-| FUM-SBOJ-0034 | `устранена`   | [Fajlyi Finder preryivayut ustanovku proyekcii](FUM-SBOJ-0034-fajlyi-Finder-preryivayut-ustanovku-proyekcii.md)                                                             | 1          | —                       |
-| FUM-SBOJ-0035 | `устранена` | [Propusk udalyonnogo puti proyekcii v zaprose](FUM-SBOJ-0035-propusk-udalyonnogo-puti-proyekcii-v-zaprose.md) | 1 | — |
+| FUM-SBOJ-0034 | `устранена` | [Fajlyi Finder preryivayut ustanovku proyekcii](FUM-SBOJ-0034-fajlyi-Finder-preryivayut-ustanovku-proyekcii.md)                                                             | 1          | —                       |
+| FUM-SBOJ-0035 | `устранена` | [Propusk udalyonnogo puti proyekcii v zaprose](FUM-SBOJ-0035-propusk-udalyonnogo-puti-proyekcii-v-zaprose.md)                                                           | 1          | —                       |
 | FUM-SBOJ-0036 | `устранена` | [Konkurentnaya podgotovka doveriya kyesha vyizyivayet lozhnyij otkaz](FUM-SBOJ-0036-gonka-inicializacii-doveriya-kyesha.md)                                                     | 1          | Ustraneno v etoj rabote |
+| FUM-SBOJ-0037 | `активна`   | [Nepolnaya integraciya dochernikh fajlov](FUM-SBOJ-0037-nepolnaya-integraciya-dochernikh-fajlov.md)                                                                         | 2          | FUM-STEP-0162           |
+| FUM-SBOJ-0041 | `активна`   | [Drejf mashinnogo zagolovka otchyota](FUM-SBOJ-0041-drejf-mashinnogo-zagolovka-otchyota.md)                                                                               | 1          | FUM-STEP-0168           |
+| FUM-SBOJ-0042 | `устранена` | [Sluzhebnyiye fajlyi Finder blokiruyut pereustanovku proyekcii](FUM-SBOJ-0042-sluzhebnyiye-fajlyi-Finder-blokiruyut-pereustanovku-proyekcii.md)                                 | 2          | FUM-STEP-0169           |
+| FUM-SBOJ-0043 | `активна`   | [Izmeneniye proveryayemogo snimka do zaversheniya proverki](FUM-SBOJ-0043-izmeneniye-proveryayemogo-snimka-do-zaversheniya-proverki.md)                                       | 1          | FUM-STEP-0170           |
+| FUM-SBOJ-0044 | `активна`   | [Proverka indeksa propusjhena do zakryitiya otchyota](FUM-SBOJ-0044-proverka-indeksa-propusjhena-do-zakryitiya-otchyota.md)                                                     | 1          | FUM-STEP-0171           |
+| FUM-SBOJ-0045 | `активна`   | [Drejf snimka obyyavlenij koda](FUM-SBOJ-0045-drejf-snimka-obyyavlenij-koda.md)                                                                                       | 1          | FUM-STEP-0173           |
 
 ## Pravila vedeniya
 
@@ -71,6 +80,6 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 - [pravila rabochikh sessij](../AGENTS.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 12:06:38 MSK -->
-<!-- content-sha256: sha256:3a650f96d73e93ea3c385dd9a16e35a3b161ab7c21789f74785cb9c104ac5b93 -->
+<!-- last-content-edit: 2026-09-10 16:38:28 MSK -->
+<!-- content-sha256: sha256:8461f5dc0e14091065df8469d55341d8bc117fcfbcabd9521f41fd043d4ef3fe -->
 <!-- FUM-MD-RECENCY:END -->

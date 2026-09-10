@@ -2,6 +2,8 @@
 
 Skhema `fum.вход-снимка.1` proveryayet pervyij nezavisimyij vkhod po polnomu Git tree. Ona ne realizuyet perekhodyi polnogo proyekta priyomki i ne menyayet run-v4/report-v3. Ispolnyayemoye opredeleniye — [vkhod.py](scripts/vkhod.py), strogiye bajtyi — [kanon.py](scripts/kanon.py).
 
+Materializaciya proverennyikh syiryikh fajlov opisana otdeljnoj skhemoj [lokaljnoj kvitancii](materializaciya.md). Ona ne menyayet polya vkhoda ili zapret ispolneniya.
+
 ## Bajtyi i ssyilki
 
 JSON kodiruyetsya UTF-8 bez BOM, odnim LF v konce, bez neznachasjhikh probelov. Klyuchi uporyadochenyi po kodovyim tochkam Unicode; normalizacii strok net. Kavyichka i obratnaya kosaya cherta ekraniruyutsya; U+0000…U+001F vsegda imeyut formu `\u0000` s chetyirjmya strochnyimi hex-ciframi. Ostaljnyiye skalyarnyiye simvolyi zapisyivayutsya neposredstvenno. Surrogatyi, povtornyiye klyuchi, aljternativnyiye escape, drobnyiye i specialjnyiye chisla, otricateljnyiye celyiye i znacheniya boljshe 2^63−1 otvergayutsya. Tip boolean susjhestvuyet v JSON, no ne prinimayetsya vmesto celogo polya.
@@ -48,6 +50,6 @@ Arkhiv soderzhit `вид: архив`, `ссылка`. Gitlink soderzhit `вид
 - [Iskhodnyij zapros ogranichennogo segmenta](../../Zhurnal/2026-09-09_12-51-11_MSK_realizovatj-vkhod-snimka-indeksa/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 13:22:34 MSK -->
-<!-- content-sha256: sha256:ca01e60998cc65f263947d35ff8387d66b4e374b90e0c7b4e9979381d854e246 -->
+<!-- last-content-edit: 2026-09-09 14:41:44 MSK -->
+<!-- content-sha256: sha256:2cc21703386b0f3c6985024c7f2fec63cccc270bfd21f0c1f10bfe4cf81abc82 -->
 <!-- FUM-MD-RECENCY:END -->

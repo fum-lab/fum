@@ -9,7 +9,7 @@ import statistics
 import subprocess
 import time
 
-from test_обязательства_задачи import КОРЕНЬ, ОбязательстваЗадачи
+from test_обязательства_задачи_v2 import КОРЕНЬ, ОбязательстваЗадачи
 
 
 def выполнить():
@@ -56,9 +56,13 @@ def выполнить():
                              'медиана_нс': statistics.median(замер['внешнее_время_нс'] for замер in замеры)})
         finally:
             случай.doCleanups()
-    пути = [Path(__file__), Path(__file__).with_name('test_обязательства_задачи.py'),
+    пути = [Path(__file__), Path(__file__).with_name('test_обязательства_задачи_v2.py'),
             КОРЕНЬ / 'Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py',
+            КОРЕНЬ / 'Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py',
+            КОРЕНЬ / 'Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_пути_гита.py',
             КОРЕНЬ / 'Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-продолжение-задачи.py',
+            КОРЕНЬ / 'Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py',
+            КОРЕНЬ / 'Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/связь_отпечатка_с_коммитом.py',
             КОРЕНЬ / 'Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py']
     результат = {'схема': 'fum.профиль-обязательств.1', 'python': platform.python_version(),
                  'git': subprocess.run(['git', '--version'], check=True, capture_output=True, text=True).stdout.strip(),

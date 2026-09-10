@@ -5,11 +5,13 @@ description: Zapuskatj standartnyij lokaljnyij smoke-check dokumentacionnogo pro
 
 # FUM Smoke Check
 
+Tekusjhaya granica priyomki — odin proverennyij etap rezhima, vyibrannogo `AGENTS.md`; posle yego kommita zadacha prodolzhayet soglasovannuyu rabotu po `AGENTS.md`.
+
 Eta lokaljnaya [avtomatizaciya FUM](../../Glossarij/avtomatizaciya-FUM.md) razdelyayet dve raznyiye priyomochnyiye zadachi. Standartnyij profilj `документационный`, vyibrannyij po umolchaniyu, byistro podtverzhdayet rabotosposobnostj nablyudayemogo dokumentacionnogo prototipa pered obyichnyim kommitom. Yavnyij profilj `полный` sokhranyayet prezhnij shirokij repozitornyij kontur dlya celevoj regressii avtomatizacij, Git-zavisimosti i korobochnyikh SwiftPM-prototipov, no nikogda ne zapuskayetsya avtomaticheski vmesto standartnogo.
 
 Oba profilya rabotayut lokaljno, ne trebuyut sekretov, setevyikh zaprosov i vneshnikh servisov i izmeryayut monotonnoye wall-clock-vremya podgotovki, kazhdogo obyyavlennogo shaga i polnogo processa. Standartnyij profilj stroitsya neposredstvenno iz polozhiteljnogo perechnya: odinnadcatj live-proverok i trinadcatj avtonomnyikh naborov yadra — 24 shaga s proverkoj sessii i 23 s `--skip-session-coherence`. Lyogkij live-shag dekompozicii pravil neobkhodim dokumentacionnomu prototipu, potomu chto proveryayet vsegda zagruzhayemyij korenj i obyazateljnostj tematicheskikh marshrutov; avtonomnyiye testyi etoj avtomatizacii ostayutsya toljko v polnom profile. Standart ne vyipolnyayet obsjhij avtopoisk `Инструменты/*/tests`, shirokij `dump-package`, SwiftPM-testyi, sborki i lint prototipov i ne zagruzhayet istoriyu riska. Primeneniye proyekcii pri etom trebuyet lokaljnyiye Swift 5.9+ i materializovannyij tochnyij LinguisticKit i zapuskayet izolirovannuyu sluzhebnuyu Swift-obyortku. Novyij nabor testov ne popadayet v standart sam soboj: izmeneniye perechnya trebuyet osmyislennoj pravki i regressionnogo testa sostava.
 
-Nulevoj kod vnutrennego proverochnogo processa oznachayet toljko, chto obyyavlennyij proverochnyij plan projden. Sam `run-smoke-check.py` ne vyipolnyayet Git-kommit: posle yego vyikhoda obyazateljnaya otchyotnaya obyortka yesjhyo sokhranyayet terminaljnuyu zapisj zapuska i zakryivayet khyeshirovannyij snimok. Zatem vyipolnyayutsya rovno odna finaljnaya peresborka `Proyekcii/**`, odin pryamoj nezavisimyij validator, tochnaya postanovka pokoleniya v indeks i ogranichennyiye proverki zamyikaniya. Priyomka etapa s osmyislennyim diff schitayetsya zavershyonnoj toljko posle itogovogo lokaljnogo kommita v sobstvennoj vetke; daljnejshaya rabota postoyannoj zadachi opredelyayetsya pravilom 000062, a ne faktom kommita; smoke-check ne sozdayot continuation, FIFO-handoff ili publikaciyu.
+Nulevoj kod vnutrennego proverochnogo processa oznachayet toljko, chto obyyavlennyij proverochnyij plan projden. Sam `run-smoke-check.py` ne vyipolnyayet Git-kommit: posle yego vyikhoda obyazateljnaya otchyotnaya obyortka yesjhyo sokhranyayet terminaljnuyu zapisj zapuska i zakryivayet khyeshirovannyij snimok. Zatem vyipolnyayutsya rovno odna finaljnaya peresborka `Proyekcii/**`, odin pryamoj nezavisimyij validator, tochnaya postanovka pokoleniya v indeks i ogranichennyiye proverki zamyikaniya. Priyomka etapa s osmyislennyim diff schitayetsya zavershyonnoj toljko posle itogovogo lokaljnogo kommita v sobstvennoj vetke; daljnejshaya soglasovannaya rabota opredelyayetsya pravilom 000062, a ne faktom kommita; smoke-check ne sozdayot continuation, FIFO-handoff ili publikaciyu.
 
 Kontroljnyij kommit yavno razreshyonnoj postoyannoj zadachi imeyet otdeljnyij dopusk po FUM-PRAVILO-000188 i ne trebuyet zapuska etogo polnogo kontura. On ne obyyavlyayetsya itogovyim rezuljtatom.
 
@@ -396,6 +398,6 @@ Tekusjhij Swift-kontur prednaznachen dlya macOS: vse paketyi trebuyut macOS 14 i
 - [kartochka shaga FUM-STEP-0070](../../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0070-ustranitj-mashinno-lokaljnyiye-absolyutnyiye-puti-i-dobavitj-ikh-avtomaticheskuyu-proverku.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 19:21:41 MSK -->
-<!-- content-sha256: sha256:c138260cce5bc76035bf40c77d1206c9b09d155463a46bd3c4757f50dac4bc77 -->
+<!-- last-content-edit: 2026-09-10 16:38:28 MSK -->
+<!-- content-sha256: sha256:e238c7cf9727a6907de0c5fc3c823b67eef68c4cab03b9185ae9ddd4af442b8e -->
 <!-- FUM-MD-RECENCY:END -->

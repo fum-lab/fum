@@ -12,6 +12,8 @@ Obratnaya svyazj svyazyivayet namereniye, vyipolnennoye dejstviye, rezuljtat v p
 
 ## Semanticheskiye svyazi
 
+- **dopolnyayetsya:** [statistikoj vyizovov dlya razvitiya avtomatizacij](🟡-statistika-vyizovov-dlya-razvitiya-avtomatizacij.md) — dayot istoriyu obrasjhenij i izmereniye povtoryayemoj rabotyi.
+
 - **dopolnyayet:** [poljzovateljskoye perenapravleniye nepreryivnogo agentskogo cikla](🟡-poljzovateljskoye-perenapravleniye-nepreryivnogo-agentskogo-cikla.md) — dayot nablyudayemyij kontekst dlya korrektirovki rabotyi i podtverzhdeniya yeyo effekta.
 
 ## Kriterii proverki
@@ -38,6 +40,6 @@ Nablyudayemostj ogranichivayetsya dostupnyimi i razreshyonnyimi vneshnimi sostoy
 - [Interfejs FUM-uzla](../Dokumentaciya/25-interfejs-FUM-uzla.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 12:28:17 MSK -->
-<!-- content-sha256: sha256:76e88bb0e7d59605c6c575b16acccfaafb221707a4a3aeba5840d0e3084fb4b7 -->
+<!-- last-content-edit: 2026-09-09 15:20:29 MSK -->
+<!-- content-sha256: sha256:f80fc8db3a486968114c9df573f94e81215f02a90f3d9a176346c672ad2ddadb -->
 <!-- FUM-MD-RECENCY:END -->

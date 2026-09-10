@@ -30,6 +30,8 @@ Dlya dliteljnoj rabotyi oboznachjte eto pryamo:
 
 V otvetakh zadachi budut poyavlyatjsya najdennyiye prichinyi, prinyatyiye resheniya, rezuljtatyi proverok i ostavshayasya rabota. Kogda nezavisimyiye chasti polezno vyipolnyatj paralleljno, oni mogut byitj poruchenyi dochernim ispolnitelyam. Pishusjhiye ispolniteli rabotayut v otdeljnyikh rabochikh kopiyakh i vetkakh; rezuljtat vozvrasjhayetsya v osnovnuyu zadachu dlya soglasovaniya.
 
+Odna zadacha vyipolnyayet soglasovannuyu vami rabotu posledovateljnyimi etapami: chitayet prinyatuyu pamyatj, obnovlyayet dokumentyi ili kod, sokhranyayet komandyi i rezuljtatyi v `Журнал/`, proveryayet kazhdyij etap i fiksiruyet yego lokaljnyim kommitom. Posle kommita ona prodolzhayet sleduyusjhij dostupnyij etap bez povtornogo zaprosa. Vyi mozhete utochnitj napravleniye ili ostanovitj rabotu; zaversheniye zadachi oznachayet vyipolneniye vsego soglasovannogo obyyoma libo konkretnoye prepyatstviye, trebuyusjheye vashego uchastiya.
+
 Chtobyi nezavisimyiye rabotyi byili vidnyi otdeljnyimi zadachami v bokovom menyu Codex Desktop, poprosite ob etom pryamo:
 
 > Vedi nezavisimyiye rabotyi otdeljnyimi zadachami Codex Desktop. Soglasovyivaj ikh rezuljtatyi zdesj. Ispoljzuj GPT-6 Astra s rezhimom Uljtra.
@@ -89,6 +91,6 @@ Proyekt publikuyetsya pod [CC0 1.0 Universal](LICENZIYA.md). Kanonicheskij publi
 - [Razreshitj nachaljnuyu formu FUM bez sobstvennogo GUI cherez Codex](Zhurnal/2026-07-27_20-10-35_MSK_razreshitj-nachaljnuyu-korobochnuyu-FUM-bez-GUI-cherez-Codex/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 12:41:19 MSK -->
-<!-- content-sha256: sha256:31a243958baaa5342e43842e0ede02014ffc1b9c23fc5b2f8e5920207816142e -->
+<!-- last-content-edit: 2026-09-10 16:38:28 MSK -->
+<!-- content-sha256: sha256:9abb9861914de49f31599fd612e0781d6e640ca4a849e17d73edf6b61b633ac4 -->
 <!-- FUM-MD-RECENCY:END -->

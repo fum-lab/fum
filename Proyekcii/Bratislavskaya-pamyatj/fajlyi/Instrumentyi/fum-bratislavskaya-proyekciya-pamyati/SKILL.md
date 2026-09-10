@@ -156,6 +156,10 @@ Modelj rasschitana na odnu dobrosovestnuyu pishusjhuyu sessiyu: Git-dir yavlyaye
 
 Kazhdyij zapusk zanovo vyivodit polnyij upravlyayemyij nabor. Poetomu ischeznuvshij ili pereimenovannyij kanonicheskij istochnik udalyayet prezhnij vyikhod toljko vmeste s polnoj zamenoj podtverzhdyonnogo pokoleniya; neizvestnyij fajl ne udalyayetsya i zakryivayet ustanovku. Povtor bez izmenenij bajtovo idempotenten.
 
+Tochnoye imya `.DS_Store` izvestno kak lokaljnyiye metadannyiye Finder: toljko obyichnyij fizicheskij fajl, ignoriruyemyij Git po svoyemu puti vnutri `Proyekcii/**`, isklyuchayetsya iz upravlyayemogo snimka. Otslezhivayemyij ili neignoriruyemyij fajl, simvolicheskaya ssyilka, katalog i specialjnyij obyyekt takogo isklyucheniya ne poluchayut. Drugiye ignoriruyemyiye imena tozhe ne stanovyatsya razreshyonnyimi.
+
+V sokhranyayemom kataloge metadannyiye ostayutsya na meste. Pered udaleniyem prinadlezhasjhego generatoru kataloga obyichnyij ignoriruyemyij `.DS_Store` atomarno perenositsya v unikaljnyij privatnyij katalog `fum-finder-*` proverennogo Git-dir; yego soderzhimoye sokhranyayetsya vne indeksa i publikacii. Do perenosa proveryayutsya fizicheskoye imya i dev/ino/mode, sinkhroniziruyutsya fajl i imya privatnogo kataloga cherez yego roditelya; otkaz fajlovogo `fsync` sokhranyayet istochnik na meste. Arkhiv ne yavlyayetsya kvitanciyej vladeniya i ne razreshayet vosstanovleniye sluzhebnogo kataloga bez kvitancii. Udaleniye etikh arkhivov ne avtomatizirovano.
+
 Proizvodnuyu oblastj ne obyyedinyayut vruchnuyu. Posle Git-konflikta snachala razreshayut kanonicheskij sloj, zanovo zapuskayut `применить`, tochno stavyat vosstanovlennuyu `Proyekcii/**` v indeks komandoj `git add -f -A -- Proyekcii ':(exclude,glob)Proyekcii/**/.DS_Store'` i toljko zatem vyizyivayut nezavisimyij `проверить-манифест`: validator obyazan uvidetj tochnoye pokoleniye bez ostatochnyikh konfliktnyikh stadij. Standartnyij smoke-check nachinayetsya uzhe s beskonfliktnogo indeksa i vyipolnyayet obe komandyi posle kanonicheskikh pishusjhikh generatorov. Posle zakryitiya otchyota, gde konflikta takzhe net, dejstvuyet inoj tochnyij poryadok: odna finaljnaya peresborka, odin pryamoj nezavisimyij validator i lishj zatem postanovka pokoleniya v indeks. Neljzya prinuditeljno dobavlyatj vsyu fizicheskuyu oblastj bez isklyucheniya `.DS_Store`: inache lokaljnyiye metadannyiye popadut v kommit, nesmotrya na `.gitignore`. Boleye strogij variant — dobavitj toljko tochnyiye puti iz proverennogo manifesta i otdeljno zafiksirovatj udaleniya upravlyayemyikh putej.
 
 Kanonicheskiye avtodiskaveri-konturyi isklyuchayut toljko kornevuyu oblastj `Proyekcii` i yeyo potomkov. Blizkiye imena, inoj registr i vlozhennyiye odnoimyonnyiye katalogi ostayutsya kanonicheskimi. Proyeciruyemyiye `AGENTS.md`, `SKILL.md` i lyubyiye drugiye fajlyi pod `Proyekcii/**` nikogda ne stanovyatsya instrukciyami, kornem proyekta ili rabochim katalogom agenta. Lokaljnaya ssyilka na isklyuchyonnuyu iz pokoleniya kanonicheskuyu celj sokhranyayetsya po yavno versionirovannoj politike `сохранить_ссылку_на_канонический_слой`.
@@ -171,6 +175,6 @@ Kanonicheskiye avtodiskaveri-konturyi isklyuchayut toljko kornevuyu oblastj `Pro
 - [iskhodnyij zapros realizacii FUM-STEP-0129](../../Zhurnal/2026-09-01_11-19-59_MSK_realizovatj-bratislavskuyu-proyekciyu-pamyati/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 10:04:05 MSK -->
-<!-- content-sha256: sha256:7d97bec9030671e63d3ffbdf369cab1a36b3b8fc03021fab4b11c5c0ec9cf2cb -->
+<!-- last-content-edit: 2026-09-10 16:38:28 MSK -->
+<!-- content-sha256: sha256:314b0dc731966fb952b7496cb942b87b8274c168660efdd9dcd37f4ad9dbb2c5 -->
 <!-- FUM-MD-RECENCY:END -->

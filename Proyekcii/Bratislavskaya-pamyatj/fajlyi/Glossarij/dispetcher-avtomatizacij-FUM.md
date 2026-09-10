@@ -4,7 +4,7 @@ Dispetcher avtomatizacij FUM — istoricheskij snyatyij termin dokumentacionnogo
 
 Etot mekhanizm boljshe ne yavlyayetsya dejstvuyusjhej chastjyu FUM i ne dayot runtime-polnomochij. Vmeste s nim snyatyi planovyij heartbeat, postoyannaya upravlyayusjhaya zadacha, obsjheye rezervirovaniye zapuskov, analiticheskij zapusk po nakoplennyim zaversheniyam i avtomaticheskoye vosstanovleniye po sleduyusjhemu tiku. Sokhranivshiyesya realizacii, sluzhebnyiye refs i istoricheskiye materialyi dopustimyi toljko kak proiskhozhdeniye, sovmestimostj ili osnovaniye bezopasnoj migracii; ikh nalichiye ne oznachayet aktivnogo avtozapuska.
 
-Predyidusjhej zamenoj byilo [obyazateljnoye prodolzheniye vetki](obyazateljnoye-prodolzheniye-vetki.md): sessiya do kommita sozdavala dochernyuyu zadachu, dozhidalasj FIFO-bileta i vyipolnyala atomarnyij commit+handoff. Etot kontur tozhe otlozhen. Sejchas poljzovatelj vruchnuyu zapuskayet odnu pishusjhuyu sessiyu v pervichnom checkout `refs/heads/master`; ona vyipolnyayet odin soderzhateljnyij zapros, sozdayot ne boleye odnogo lokaljnogo kommita i zavershayetsya bez sleduyusjhej zadachi i avtomaticheskogo selector.
+Predyidusjhej zamenoj byilo [obyazateljnoye prodolzheniye vetki](obyazateljnoye-prodolzheniye-vetki.md): sessiya do kommita sozdavala dochernyuyu zadachu, dozhidalasj FIFO-bileta i vyipolnyala atomarnyij commit+handoff. Etot kontur tozhe otlozhen. Sejchas poljzovatelj vruchnuyu zapuskayet odnu pishusjhuyu sessiyu v pervichnom checkout `refs/heads/master`; ona vyipolnyayet soglasovannyiye etapyi i posle kazhdogo proverennogo kommita prodolzhayet dostupnuyu rabotu v toj zhe zadache. Etot poryadok ne ispoljzuyet avtomaticheskij selector.
 
 ## Svyazannyiye dokumentyi
 
@@ -19,6 +19,6 @@ Predyidusjhej zamenoj byilo [obyazateljnoye prodolzheniye vetki](obyazateljnoye-
 - [iskhodnyij zapros 2026-07-27 15:21:35 MSK — Sdelatj dispetcher avtomatizacij vetki universaljnyim](../Zhurnal/2026-07-27_15-21-35_MSK_sdelatj-dispetcher-avtomatizacij-vetki-universaljnyim/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-23 15:37:47 MSK -->
-<!-- content-sha256: sha256:a581a3724ebe842e1edd733267ae88fd95250fcc0530d4c695f10fcedf2049a7 -->
+<!-- last-content-edit: 2026-09-10 00:22:39 MSK -->
+<!-- content-sha256: sha256:2f9bef91d66fa5255ffc84d437f513585c5edfeb0c7473789bb9ed1a3a45f959 -->
 <!-- FUM-MD-RECENCY:END -->

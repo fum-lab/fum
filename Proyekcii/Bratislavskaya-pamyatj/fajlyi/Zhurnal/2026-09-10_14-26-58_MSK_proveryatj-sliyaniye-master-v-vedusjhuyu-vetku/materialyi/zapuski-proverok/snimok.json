@@ -1,0 +1,31 @@
+{
+  "отпечаток_закрытия": "sha256:ebfa6e02db231e37e7b78781d2e5b9de7782606eaea815febc39a2a8eef744dd",
+  "сессия": "Журнал/2026-09-10_14-26-58_MSK_проверять-слияние-master-в-ведущую-ветку/запрос.md",
+  "схема": "fum.test-run-report.v2",
+  "файлы": [
+    {
+      "sha256": "82abe703536704505ec5047fd09216b3620005cf4becd800c4368a39ddec4228",
+      "имя": "1_35aca1d9-e25c-42f7-b71c-362c2c7effd7.json"
+    },
+    {
+      "sha256": "f7db6efac7b1b5476cc1b4afe012f8e8c67520576b6c647840615e47a0c0505f",
+      "имя": "2_4500376e-511a-4baa-992d-78efe95a54bc.json"
+    },
+    {
+      "sha256": "05f3f2c5fc682d79b04b1c6b8aaa0f5664bd9e581b65f38921198dcbdc8fcfc2",
+      "имя": "3_8fe3891b-b1f4-48f7-a121-7a7777d1a250.json"
+    },
+    {
+      "sha256": "db5bb50f63729da735a4cf3a38300a9364a64e317cbba652a296d7dc955d79ad",
+      "имя": "4_3f6da151-7678-44ee-b719-212b47475b8e.json"
+    },
+    {
+      "sha256": "822dbf7e86902bb7ed9c31e2639c4ffb081585a3e74c16854b4f0fd55470d66b",
+      "имя": "5_2d8d99ba-2146-4b0a-b095-f3a2b2379e1a.json"
+    },
+    {
+      "sha256": "028bd36b2e99dbba0fd8b80fca535fc834e80894fb90e7489a335ec0bad50fa9",
+      "имя": "6_cbcb9269-70f7-45aa-be99-4a3f1fe73844.json"
+    }
+  ]
+}

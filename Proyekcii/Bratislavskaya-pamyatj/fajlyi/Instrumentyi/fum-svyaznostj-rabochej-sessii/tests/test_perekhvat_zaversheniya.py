@@ -104,7 +104,7 @@ class ПерехватЗавершения(unittest.TestCase):
         это.событие.update(turn_id="ход-2", stop_hook_active=True)
         это.assertEqual(это.вызвать(), первый)
 
-    def test_дочерний_guard_не_исполняет_site_код_собственного_venv(это):
+    def test_дочерняя_проверка_не_исполняет_сторонний_код(это):
         окружение = это.каталог / "изолированный-python"
         venv.EnvBuilder(with_pip=False).create(окружение)
         интерпретатор = окружение / "bin/python"

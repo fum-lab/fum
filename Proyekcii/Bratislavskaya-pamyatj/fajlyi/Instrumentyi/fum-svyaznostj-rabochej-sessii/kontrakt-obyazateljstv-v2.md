@@ -54,9 +54,9 @@ Profilj vosproizvoditsya cherez obyazateljnuyu otchyotnuyu obyortku vyizovom `py
 ## Istochnik i proverochnyij kontur
 
 - [Iskhodnyij zapros i otchyot realizacii](../../Zhurnal/2026-09-09_11-52-29_MSK_zasjhititj-sokhranyonnyiye-obyazateljstva-zadachi/zapros.md).
-- [Lokaljnyij navyik](SKILL.md), [proverka v2](scripts/obyazateljstva_zadachi.py), [regressii](tests/test_obyazateljstva_zadachi.py).
+- [Lokaljnyij navyik](SKILL.md), [proverka v2](scripts/obyazateljstva_zadachi_v2.py), [regressii](tests/test_obyazateljstva_zadachi_v2.py).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 12:53:23 MSK -->
-<!-- content-sha256: sha256:af10254f56915c0869dffac5ce01a45339f968706eb09632f05cbf727340420d -->
+<!-- last-content-edit: 2026-09-10 16:38:28 MSK -->
+<!-- content-sha256: sha256:f84ede1cef66ad41bab86b703f34490950ccd9d8cd0cbf76da004ce35de57148 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -2,7 +2,7 @@
 
 Na etoj stadii sam repozitorij yavlyayetsya [dokumentacionnyim prototipom FUM](../../../Glossarij/dokumentacionnyij-prototip-FUM.md). On yesjhyo ne yavlyayetsya gotovoj [korobochnoj realizaciyej FUM](../../../Glossarij/korobochnaya-realizaciya-FUM.md), no uzhe pokazyivayet obyazateljnyiye svojstva budusjhego uzla: vkhod sokhranyayetsya kak istochnik, resheniya poluchayut proiskhozhdeniye, proveryayemyiye dejstviya oformlyayutsya lokaljnyimi avtomatizaciyami, a rezuljtat vozvrasjhayetsya v dolgovremennuyu [pamyatj FUM](../../../Glossarij/pamyatj-FUM.md).
 
-Ekspluatacionnyij status: tekusjhaya stadiya ispoljzuyet ruchnuyu posledovateljnuyu skhemu «odna poljzovateljski zapusjhennaya pishusjhaya sessiya — odin rezuljtat — ne boleye odnogo lokaljnogo kommita». Opisannyiye nizhe continuation, FIFO, selector i atomarnaya peredacha sokhranyayut istoriyu prezhnego povedencheskogo prototipa i ne yavlyayutsya dejstvuyusjhim marshrutom.
+Ekspluatacionnyij status: tekusjhaya stadiya ispoljzuyet ruchnuyu posledovateljnuyu skhemu «odna poljzovateljski zapusjhennaya pishusjhaya zadacha — posledovateljnyiye proverennyiye etapyi — kommit kazhdogo etapa i prodolzheniye soglasovannoj rabotyi». Opisannyiye nizhe continuation, FIFO, selector i atomarnaya peredacha sokhranyayut istoriyu prezhnego povedencheskogo prototipa i ne yavlyayutsya dejstvuyusjhim marshrutom.
 
 V soderzhateljnom priblizhenii osnovnoj smyislovoj nositelj etoj stadii - tekst, porozhdayemyij v sovmestnom konture cheloveka i LLM. Doslovnyiye [iskhodnyiye zaprosyi](../../../Glossarij/iskhodnyij-zapros.md) sokhranyayut formulirovki cheloveka, a LLM vo vneshnej agentskoj sessii Codex porozhdayet i pererabatyivayet proizvodnyiye tekstyi. Otdeljnaya sessiya Codex ne yavlyayetsya sobstvennyim runtime FUM, odnako polnyij kontur Git + Codex s obyazateljnyim prodolzheniyem vetki, pryamyim vyiborom sleduyusjhego shaga, strogoj FIFO-ocheredjyu i atomarnoj peredachej uzhe yavlyayetsya povedencheskim prototipom vozobnovlyayemogo [agentskogo cikla](../../../Glossarij/agentskij-cikl.md) na masshtabe diskretnyikh zadach i kommitov. Prezhnij periodicheskij heartbeat otnositsya toljko k istorii etogo prototipa.
 
@@ -88,6 +88,6 @@ Tekusjhij status: **stadiya ne projdena — vyipolnenyi 5 iz 6 punktov**. Pervyi
 - [Svodnaya tablica trebovanij i realizacij FUM](../../svodnaya-tablica-trebovanij-i-realizacij.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-24 09:37:36 MSK -->
-<!-- content-sha256: sha256:87a2c800e23bf67c6de69d7435d55f72e7faaf5915e508e81d692dad9f61ebd1 -->
+<!-- last-content-edit: 2026-09-10 00:22:39 MSK -->
+<!-- content-sha256: sha256:733e4cdd7b762c36d6d3dd8cff9f59e3d6a387108e6582401658745c04be9c10 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -1,11 +1,11 @@
 ---
 name: fum-snimki-indeksa
-description: Proveryatj zakryityij vkhod pervogo raunda po syiryim obyyektam zakreplyonnogo Git tree bez dopuska ispolneniya ili kommita.
+description: Proveryatj zakreplyonnyij vkhod, materializovyivatj yego syiryiye fajlyi i sokhranyatj pozdniye komandyi bez dopuska ispolneniya ili kommita.
 ---
 
 # Snimki indeksa
 
-Instrument realizuyet pervyij ogranichennyij segment FUM-STEP-0155. Rezuljtat uspeshnogo chteniya — podtverzhdyonnyiye syiryiye bajtyi i struktura vkhodnyikh manifestov. Polya `исполнение_разрешено` i `коммит_разрешён` vsegda ravnyi `false`. Komanda `допустить` vsegda otkazyivayet, poskoljku ocheredj dostavki i svyazj otmenyi s dopuskom yesjhyo ne realizovanyi.
+Instrument realizuyet ogranichennyiye segmentyi FUM-STEP-0155: proverku zakreplyonnogo vkhoda, materializaciyu syiryikh fajlov i dolgovechnuyu ocheredj pozdnikh komand. Polya `исполнение_разрешено` i `коммит_разрешён` ostayutsya `false`. Komanda `допустить` otkazyivayet: ispolnitelj proverok i protokol primeneniya prinyatogo rezuljtata yesjhyo ne realizovanyi.
 
 Ispoljzovatj toljko kanonicheskij instrument tekusjhego checkout. Skhema `fum.вход-снимка.1` otdeljna ot run-v4/report-v3. Realjnyij indeks FUM etim segmentom ne prinimalsya. Imya instrumenta zaregistrirovano v obsjhikh reyestrakh; soglasovaniye dejstvuyusjhego dopuska i podklyucheniye priyomochnogo kontura ostayutsya za koordinatorom.
 
@@ -20,6 +20,14 @@ Vse komandyi poluchayut tochnyij fizicheskij korenj repozitoriya. Podkatalog, si
 - `... экспортировать --источник <локальный JSONL> --задача <UUID> [--курсор <файл>] [--закрепить]` vyidayot lokaljnyij sostavnoj otvet s polyami `экспорт` i `локальная_квитанция`. V derevo pomesjhayut toljko kanonicheskiye bajtyi polya `экспорт`; kvitanciyu ostavlyayut vne publichnogo checkout. Flag `--закрепить` vosproizvodit prezhnyuyu granicu, dazhe yesli istochnik uzhe dopisan.
 
 Kanonicheskoye kodirovaniye i sozdaniye konverta dostupnyi v `scripts/канон.py`. Primer polnogo sinteticheskogo vkhoda vosproizvodit `tests/фикстуры.py`; on ne obrasjhayetsya k indeksu FUM. Vse sobstvennyiye manifestyi opisanyi v [kontrakte](kontrakt.md).
+
+## Materializaciya i pozdniye komandyi
+
+Materializaciya izvlekayet syiryiye Git-obyyektyi v otdeljnuyu celj vne Git. Proveryayutsya zakreplyonnyiye zavisimosti, polnyij inventarj, bajtyi i rezhimyi; filjtryi checkout i izmenyonnyiye rabochiye fajlyi ne ispoljzuyutsya. Kvitanciya podtverzhdayet podgotovlennoye soderzhimoye, no ne ispolneniye proverok ili pravo kommita.
+
+API `scripts/очередь.py` i [kontrakt ocheredi](ocheredj.md) sokhranyayut nablyudyonnyij khvost do podtverzhdeniya dostavki. Dlya chelovecheskogo vvoda trebuyetsya otdeljnoye tipizirovannoye resheniye; sluzhebnyij HookPrompt ne stanovitsya otmenoj. Istochnik perechityivayetsya do i posle callback so svezhim nonce. Barjyer svyazyivayet nablyudyonnoye pokoleniye i vsyo yesjhyo vozvrasjhayet zapret ispolneniya: posle snyatiya blokirovki ostayotsya gonka, kotoruyu dolzhen zakryitj budusjhij ispolniteljnyij protokol.
+
+Syiryiye dannyiye ocheredi, yeyo WAL i lokaljnyiye kvitancii khranyatsya privatno vne publichnogo checkout. Lyuboj otkaz vvoda-vyivoda zapresjhayet prodolzhatj po prezhnemu barjyeru. Callback poka yavlyayetsya doverennoj obyazannostjyu vyizyivayusjhego sloya; nastoyasjheye podklyucheniye runtime etim segmentom ne dokazyivayetsya.
 
 ## Proverka i profilj
 
@@ -50,14 +58,17 @@ JSONL-adapter podderzhivayet rovno odno tekstovoye soderzhimoye poljzovateljskoj
 
 Gitlink proveryayetsya po tochnomu commit/tree i polnomu manifestu syiryikh fajlov otdeljnogo repozitoriya. Zhivyiye gryaznyiye bajtyi zavisimosti ne ispoljzuyutsya i ne obyyavlyayutsya proverennoj materializaciyej. Vlozhennyiye gitlink, symlink i nestandartnyiye rezhimyi ne podderzhanyi. Arkhiv proveryayetsya kak neprozrachnyij blob, bez raspakovki.
 
-Reyestr zasjhisjhayet ot povtornogo UUID s drugimi bajtami toljko v peredannom polnom doverennom lokaljnom kataloge. Udaleniye reyestra, zamena yego celikom libo vyibor pustogo kataloga ne dokazyivayut novuyu istoriyu. Povtornyiye proverki putej obnaruzhivayut nablyudayemuyu podmenu, no ne sozdayut atomarnoj zasjhityi ot obkhodyasjhego protokol pisatelya. Razdeljnyiye chteniya HEAD/ref takzhe ne dayut atomarnoj garantii. Materializaciya ispolneniya, konechnaya deljta, dolgovechnoye zakryitiye, publikaciya rezuljtata i tochnyij kommit ostayutsya sleduyusjhimi segmentami.
+Reyestr zasjhisjhayet ot povtornogo UUID s drugimi bajtami toljko v peredannom polnom doverennom lokaljnom kataloge. Udaleniye reyestra, zamena yego celikom libo vyibor pustogo kataloga ne dokazyivayut novuyu istoriyu. Povtornyiye proverki putej obnaruzhivayut nablyudayemuyu podmenu, no ne sozdayut atomarnoj zasjhityi ot obkhodyasjhego protokol pisatelya. Razdeljnyiye chteniya HEAD/ref takzhe ne dayut atomarnoj garantii. Ispolneniye proverok, konechnaya deljta, yeyo dolgovechnoye prinyatiye, publikaciya rezuljtata i tochnyij kommit ostayutsya sleduyusjhimi segmentami. Tekusjhaya ocheredj ogranichivayet pervichnyij istochnik 64 MiB; prigodnostj etoj versii dlya polnogo dlinnogo dialoga koordinatora ne zayavlyayetsya.
 
 ## Istochniki
 
 - [Zapros i granica zapisi](../../Zhurnal/2026-09-09_12-51-11_MSK_realizovatj-vkhod-snimka-indeksa/zapros.md).
 - [Otchyot s RED/GREEN i profilem](../../Zhurnal/2026-09-09_12-51-11_MSK_realizovatj-vkhod-snimka-indeksa/otchyot.md).
+- [Materializaciya zakreplyonnogo vkhoda](../../Zhurnal/2026-09-09_14-12-34_MSK_materializovatj-zakreplyonnyij-vkhod/otchyot.md).
+- [Podtverzhdeniye materializacii](../../Zhurnal/2026-09-09_14-42-57_MSK_podtverditj-materializaciyu-vkhoda/otchyot.md).
+- [Ocheredj pozdnikh komand](../../Zhurnal/2026-09-09_15-19-16_MSK_sokhranitj-ocheredj-pozdnikh-komand/otchyot.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 13:56:30 MSK -->
-<!-- content-sha256: sha256:a5d9bdc7f30258a5354cbbc8a727bf1d1f52745d49fcd85c82f1e056d365bdd6 -->
+<!-- last-content-edit: 2026-09-09 17:24:00 MSK -->
+<!-- content-sha256: sha256:b8de36c51be5aa0b9753bc8540fd13ee54a572a6c6bd19220fb2a380f9ebf038 -->
 <!-- FUM-MD-RECENCY:END -->

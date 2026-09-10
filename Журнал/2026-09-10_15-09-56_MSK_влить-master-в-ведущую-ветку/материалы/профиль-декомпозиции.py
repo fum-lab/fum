@@ -1,0 +1,70 @@
+"""Сравнение двух валидаторов на одной публичной фикстуре принятого источника."""
+from pathlib import Path
+import argparse
+import hashlib
+import importlib.util
+import json
+import resource
+import subprocess
+import sys
+import time
+
+
+def главная():
+    разбор = argparse.ArgumentParser(description=__doc__)
+    разбор.add_argument("--корень-фикстуры", type=Path, required=True)
+    разбор.add_argument("--до", type=Path, required=True)
+    разбор.add_argument("--после", type=Path, required=True)
+    разбор.add_argument("--вывод", type=Path, required=True)
+    аргументы = разбор.parse_args()
+    путь = аргументы.корень_фикстуры / "Инструменты/fum-dekompoziciya-pravil-agentov/tests/test_декомпозиция_правил_агентов.py"
+    описание = importlib.util.spec_from_file_location("фикстура", путь)
+    модуль = importlib.util.module_from_spec(описание)
+    описание.loader.exec_module(модуль)
+    стенд = модуль.ПроверкаДекомпозицииПравил()
+    измерения = []
+    выводы = set()
+    try:
+        стенд.подготовить_стенд()
+        # Обе реализации получают один корректный изолированный режим.
+        корень = стенд.корень / "AGENTS.md"
+        текст = корень.read_text().replace("manual-sequential-v2", "manual-sequential-v1")
+        текст += "\n<!-- FUM-WORKTREE-POLICY: isolated-per-task-v1 -->\n"
+        корень.write_text(текст)
+        for повтор in range(5):
+            for имя, сценарий in (("до", аргументы.до), ("после", аргументы.после)):
+                начальные_ресурсы = resource.getrusage(resource.RUSAGE_CHILDREN)
+                начало = time.perf_counter_ns()
+                результат = subprocess.run(
+                    [sys.executable, "-I", "-B", str(сценарий),
+                     "--корень-репозитория", str(стенд.корень), "проверить"],
+                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True,
+                )
+                длительность = time.perf_counter_ns() - начало
+                конечные_ресурсы = resource.getrusage(resource.RUSAGE_CHILDREN)
+                выводы.add(результат.stdout)
+                измерения.append({
+                    "вариант": имя, "повтор": повтор, "длительность_нс": длительность,
+                    "процессорное_время_с": конечные_ресурсы.ru_utime + конечные_ресурсы.ru_stime - начальные_ресурсы.ru_utime - начальные_ресурсы.ru_stime,
+                })
+        if len(выводы) != 1 or b"7" not in next(iter(выводы)):
+            raise ValueError("проверки одной фикстуры дали разные результаты")
+        данные = {
+            "схема": "fum.профиль-декомпозиции.1",
+            "граница": "Полный адресный CLI-процесс с запуском Python; подготовка фикстуры исключена.",
+            "фикстура_sha256": hashlib.sha256(путь.read_bytes()).hexdigest(),
+            "до_sha256": hashlib.sha256(аргументы.до.read_bytes()).hexdigest(),
+            "после_sha256": hashlib.sha256(аргументы.после.read_bytes()).hexdigest(),
+            "измеритель_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+            "результаты_совпали": True, "измерения": измерения,
+        }
+        with аргументы.вывод.open("x") as выход:
+            json.dump(данные, выход, ensure_ascii=False, indent=2)
+            выход.write("\n")
+        print(json.dumps(данные, ensure_ascii=False))
+    finally:
+        стенд.doCleanups()
+
+
+if __name__ == "__main__":
+    главная()

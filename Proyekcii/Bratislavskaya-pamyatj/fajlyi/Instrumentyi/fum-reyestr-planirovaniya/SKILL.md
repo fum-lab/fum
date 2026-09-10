@@ -22,7 +22,7 @@ Etot navyik opisyivayet lokaljnuyu [avtomatizaciyu FUM](../../Glossarij/avtomati
 
 Rezuljtat skhemyi `9` khranitsya v [reyestre trebovanij, stadij realizacii i kandidatov](../../Planirovaniye/reyestr-trebovanij-variantov-i-kandidatov.json). Massiv `requirements` stroitsya toljko iz atomarnyikh kartochek `Требования/` s ustojchivyimi `FUM-REQ-*`; shirokiye stroki svodnoj tablicyi vkhodyat otdeljno kak `planning_views`; massiv `steps` stroitsya iz kartochek s ustojchivyimi `FUM-STEP-*`; massiv `цепочки_шагов` stroitsya iz kartochek `FUM-ЦЕПОЧКА-*` i sokhranyayet ikh uporyadochennyiye ssyilki na shagi i tochnyiye lokaljnyiye vetki; `boxed_implementation_graph` vklyuchayet proverennuyu mashinnuyu proyekciyu elementov `P0`–`P16`, ikh zavisimostej, predposyilok gotovnosti, paralleljnyikh vetvej, riskov i MVP-svyazej. `source_inventory.очередь_дорожной_карты` svyazyivayet kazhduyu iz 9 zapisej planovoj vyiborki s aktualjnoj kartochkoj, kategoriyej ogranicheniya, zavisimostyami, stadiyami, gorizontami i pribliziteljnyim usloviyem ruchnogo vyibora, a `source_inventory.покрытие_дорожной_карты` dokazyivayet polnotu obeikh osej. Eto ne polnyij pul: posle zaversheniya FUM-STEP-0129 v kataloge ostayutsya yesjhyo 30 aktivnyikh kartochek vne etoj proyekcii. Sovmestimyiye predstavleniya `source_inventory.active_proposals` i `source_inventory.proposal_history` proizvodyatsya iz tekh zhe kartochek shagov i sokhranyayut ikh stabiljnyiye identifikatoryi. JSON ne zamenyayet iskhodnyiye Markdown-materialyi, a dayot proveryayemyij sloj dlya programmnoj sverki i budusjhej peresborki navigacii.
 
-Pri `manual-sequential-v1` polya prezhnej skhemyi `step_id`, `dispatch` i vyichislennyij legacy-nabor bez nezavershyonnyikh zavisimostej ne dayut runtime-ready, selector-prioriteta, avtozapuska ili polnomochij na dejstviye. Kazhdyij sleduyusjhij shag vyibirayet poljzovatelj otdeljnyim soderzhateljnyim zaprosom.
+V ruchnyikh rezhimakh `manual-sequential-v1` i `manual-sequential-v2` polya prezhnej skhemyi `step_id`, `dispatch` i vyichislennyij legacy-nabor bez nezavershyonnyikh zavisimostej ne dayut runtime-ready, selector-prioriteta, avtozapuska ili polnomochij na dejstviye. V ruchnom rezhime po `AGENTS.md` agent vyibirayet sleduyusjhij etap toljko vnutri uzhe soglasovannogo poljzovatelem obyyoma toj zhe zadachi.
 
 ## Kogda ispoljzovatj
 
@@ -136,6 +136,6 @@ Avtomatizaciya ne vyivodit novyiye trebovaniya ili shagi iz smyisla dokumentov, 
 - [iskhodnyij zapros 2026-07-22 11:48:49 MSK — Oformitj kartochki shagov opisateljnyimi imenami i emodzi statusami](../../Zhurnal/2026-07-22_11-48-49_MSK_oformitj-kartochki-shagov-opisateljnyimi-imenami-i-emodzi-statusami/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 21:46:11 MSK -->
-<!-- content-sha256: sha256:0814da68190b1f7fe224baa57d9a9ffa89eff903331af5ccaf36a69b91465874 -->
+<!-- last-content-edit: 2026-09-10 16:38:28 MSK -->
+<!-- content-sha256: sha256:75b1f955f6d0c4f7792cfe2c61a9aa1771096c706c48b263deba293b89c62b5a -->
 <!-- FUM-MD-RECENCY:END -->

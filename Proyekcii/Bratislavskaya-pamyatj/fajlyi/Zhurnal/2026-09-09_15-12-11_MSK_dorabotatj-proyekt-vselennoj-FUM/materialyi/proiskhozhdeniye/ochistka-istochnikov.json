@@ -1,0 +1,209 @@
+{
+  "схема": "fum.очистка-источников-вселенной.1",
+  "дата": "2026-09-09",
+  "источники": [
+    {
+      "источник": "IEA2026",
+      "предел": "Полный HTML и извлечённый текст. Удалены служебные nonce из HTML и политики заголовка; смысл статьи сохранён.",
+      "файлы": [
+        {
+          "файл": "Источники/URL/https/www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary/response.headers.txt",
+          "до_sha256": "9879e8e4c843554aa179390cbab87b5aa53d224b64ed8133c288181a787485df",
+          "после_sha256": "68e07087f37a061d80dc2f7293a76038905916a94a3fd8ee4520b45731483eb2",
+          "редакции": {
+            "via": 1,
+            "cf-ray": 1,
+            "nonce_политика": 1
+          }
+        },
+        {
+          "файл": "Источники/URL/https/www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary/response.body.html",
+          "до_sha256": "8aa42e6868d0ba14c26f5163e27209cb5559a77ae22b803f9251d12ffc5f8ba4",
+          "после_sha256": "603e77b164d93f0d60824e10c04ce39e01270378a3a9c43a723cc0501cc5efd2",
+          "редакции": {
+            "nonce_атрибут": 15
+          }
+        },
+        {
+          "файл": "Источники/URL/https/www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary/extracted-text.md",
+          "до_sha256": "d0242aecf95555bce98be69b02b7b997177989f8987204e62b5872b475196638",
+          "после_sha256": "d0242aecf95555bce98be69b02b7b997177989f8987204e62b5872b475196638",
+          "редакции": {}
+        }
+      ]
+    },
+    {
+      "источник": "AI Safety Report2026",
+      "предел": "Полный HTML и извлечённый текст. Служебные заголовки проверены; содержательные упоминания tokens в статье не являются секретами.",
+      "файлы": [
+        {
+          "файл": "Источники/URL/https/internationalaisafetyreport.org/publication/international-ai-safety-report-2026/response.headers.txt",
+          "до_sha256": "ec9cf3e64a3dc5f1d70321242e7f34219bfd67639dd1ddba9b233f9a4f5d81b0",
+          "после_sha256": "f86b248c8d12e6ce280448db929332d9749ed1098bf868d308e9c501e23a58df",
+          "редакции": {
+            "cf-ray": 1,
+            "report-to": 1
+          },
+          "дополнительные_проходы": [
+            {
+              "до_sha256": "4778f2af5d2ec5fc63de572ff630ba54e6721ffdb6b895d903033437d55f32fc",
+              "после_sha256": "f86b248c8d12e6ce280448db929332d9749ed1098bf868d308e9c501e23a58df",
+              "редакции": {
+                "report-to": 1
+              }
+            }
+          ]
+        },
+        {
+          "файл": "Источники/URL/https/internationalaisafetyreport.org/publication/international-ai-safety-report-2026/response.body.html",
+          "до_sha256": "786ece17799331a37ed05a44f5cb8b068a4d733a53bf32a8cfc9ee3ff44d5f39",
+          "после_sha256": "3c471a6204ebb4227c16ca41de88aa3c59da152f4c5ea75eb5660616bda2ffdd",
+          "редакции": {
+            "nonce_настройки_csp": 1
+          },
+          "дополнительные_проходы": [
+            {
+              "до_sha256": "786ece17799331a37ed05a44f5cb8b068a4d733a53bf32a8cfc9ee3ff44d5f39",
+              "после_sha256": "3c471a6204ebb4227c16ca41de88aa3c59da152f4c5ea75eb5660616bda2ffdd",
+              "редакции": {
+                "nonce_настройки_csp": 1
+              }
+            }
+          ]
+        },
+        {
+          "файл": "Источники/URL/https/internationalaisafetyreport.org/publication/international-ai-safety-report-2026/extracted-text.md",
+          "до_sha256": "8268da82dd6dc09211edcdc948736b1d5c61be4e44f8427c235fa7a285b0e281",
+          "после_sha256": "8268da82dd6dc09211edcdc948736b1d5c61be4e44f8427c235fa7a285b0e281",
+          "редакции": {}
+        }
+      ]
+    },
+    {
+      "источник": "METR",
+      "предел": "HTML и извлечённый текст. Служебные заголовки очищены.",
+      "файлы": [
+        {
+          "файл": "Источники/URL/https/metr.org/time-horizons/response.headers.txt",
+          "до_sha256": "cfa55f93f8960f238016757c1f4bfc34e55ec78aca43f22d99bb301523ab6fa5",
+          "после_sha256": "5debba011628402c5ad56f14f5cbdc9a6f2a992a2df4fc3dbc34894d458123fb",
+          "редакции": {
+            "x-nf-request-id": 1
+          },
+          "дополнительные_проходы": [
+            {
+              "до_sha256": "cfa55f93f8960f238016757c1f4bfc34e55ec78aca43f22d99bb301523ab6fa5",
+              "после_sha256": "5debba011628402c5ad56f14f5cbdc9a6f2a992a2df4fc3dbc34894d458123fb",
+              "редакции": {
+                "x-nf-request-id": 1
+              }
+            }
+          ]
+        },
+        {
+          "файл": "Источники/URL/https/metr.org/time-horizons/response.body.html",
+          "до_sha256": "135e45721caa232e18609af9c910e47646127b0074ea5215054a4db9210acced",
+          "после_sha256": "135e45721caa232e18609af9c910e47646127b0074ea5215054a4db9210acced",
+          "редакции": {}
+        },
+        {
+          "файл": "Источники/URL/https/metr.org/time-horizons/extracted-text.md",
+          "до_sha256": "bb70473953737f4513c344e207267a2c2ac454378670f5c4f17c7bc02c70337a",
+          "после_sha256": "bb70473953737f4513c344e207267a2c2ac454378670f5c4f17c7bc02c70337a",
+          "редакции": {}
+        }
+      ]
+    },
+    {
+      "источник": "NASA/JPL",
+      "предел": "curl получил HTTP 403 CloudFront; HTML и extracted-text содержат отказ, а не статью. Служебный Request ID удалён. Публикация и факты прочитаны отдельно веб-инструментом 2026-09-09; полного локального снимка статьи нет.",
+      "файлы": [
+        {
+          "файл": "Источники/URL/https/www.jpl.nasa.gov/news/nasas-perseverance-rover-completes-first-ai-planned-drive-on-mars/response.headers.txt",
+          "до_sha256": "03c0eb3e18208d5292d3a2b9fb8d0757bafd89d45f3d63d66112a7abd0d42c3d",
+          "после_sha256": "99f1d548196a249cfc4e3142ade536aaf2c456b55ee777954f07887e401bba63",
+          "редакции": {
+            "via": 1,
+            "x-amz-cf-pop": 1,
+            "x-amz-cf-id": 1
+          }
+        },
+        {
+          "файл": "Источники/URL/https/www.jpl.nasa.gov/news/nasas-perseverance-rover-completes-first-ai-planned-drive-on-mars/response.body.html",
+          "до_sha256": "543e9100b3b9e52ce78068821816a486d576214988423a0e11c345f60baf90f7",
+          "после_sha256": "1c060ca7d139768d6a47b3370159c6301d5521779fc9c436ea185506c3874585",
+          "редакции": {
+            "идентификатор_отказа": 1
+          }
+        },
+        {
+          "файл": "Источники/URL/https/www.jpl.nasa.gov/news/nasas-perseverance-rover-completes-first-ai-planned-drive-on-mars/extracted-text.md",
+          "до_sha256": "0291d64cdf1701007b61ed07d91739533e28e037c484af3e6359b713cbd8e5bb",
+          "после_sha256": "8acdcfd9f280940a35794a225b5df8705590f88041eaed3d05fc7a89ba80e3a4",
+          "редакции": {
+            "идентификатор_отказа": 1
+          }
+        }
+      ]
+    },
+    {
+      "источник": "OECD",
+      "предел": "curl получил HTTP 403 и JavaScript challenge; снимок не содержит исследование. Служебный challenge-скрипт удалён целиком. Аннотация прочитана веб-инструментом 2026-09-09; полный текст исследования не использован.",
+      "файлы": [
+        {
+          "файл": "Источники/URL/https/www.oecd.org/en/publications/skills-in-the-ai-age_972bd15e-en.html/response.headers.txt",
+          "до_sha256": "4ff492ebc35a809cb67a39009bad46ae3eaba6802b57a34d86296a991e17d206",
+          "после_sha256": "8fdc2a1b5db98b77a34425a05478143c49920009ce9988582258f64dee86e536",
+          "редакции": {
+            "server-timing": 1,
+            "set-cookie": 1,
+            "cf-ray": 1,
+            "nonce_политика": 1
+          }
+        },
+        {
+          "файл": "Источники/URL/https/www.oecd.org/en/publications/skills-in-the-ai-age_972bd15e-en.html/response.body.html",
+          "до_sha256": "f4282d1438951ce68d8dcb528f71fe0bbf8be12192575d6b6542fedf8a881cdf",
+          "после_sha256": "bf563054bd78a86a8e4123a7ad59e8dda6dbb769eb322ff80d9f04e2effd0722",
+          "редакции": {
+            "challenge_скрипт": 1,
+            "nonce_политика_html": 1
+          },
+          "дополнительные_проходы": [
+            {
+              "до_sha256": "632d092aa0008e56ba36e8fb7998b57da7f662e353577b2b776633ef0500d74c",
+              "после_sha256": "bf563054bd78a86a8e4123a7ad59e8dda6dbb769eb322ff80d9f04e2effd0722",
+              "редакции": {
+                "nonce_политика_html": 1
+              }
+            }
+          ]
+        },
+        {
+          "файл": "Источники/URL/https/www.oecd.org/en/publications/skills-in-the-ai-age_972bd15e-en.html/extracted-text.md",
+          "до_sha256": "8a8ac58fcb0381e51a0caa6ff76a50991b96e2f14614eedb59293a50b03b6ee4",
+          "после_sha256": "8a8ac58fcb0381e51a0caa6ff76a50991b96e2f14614eedb59293a50b03b6ee4",
+          "редакции": {}
+        }
+      ]
+    },
+    {
+      "источник": "NASA PDF",
+      "предел": "Исходный PDF, HTTP 200, постраничное извлечение pypdf. Дата пути URL не заменяет дату материала обзора архитектуры 2023 года.",
+      "файлы": [
+        {
+          "файл": "Источники/URL/https/www.nasa.gov/wp-content/uploads/2024/01/mars-communications-disruption-and-delay.pdf/response.headers.txt",
+          "до_sha256": "56a3d0db9fa0186ca9f6872d4c31afca177fc827a9c1af876bd3cfbb326de0a7",
+          "после_sha256": "f217c1548074015aecd04a761cbc3000f36af728a3ecae728c2d03625354bc12",
+          "редакции": {}
+        },
+        {
+          "файл": "Источники/URL/https/www.nasa.gov/wp-content/uploads/2024/01/mars-communications-disruption-and-delay.pdf/extracted-text.md",
+          "до_sha256": "5f9d098e393f54cfc2e157c9729e8c10afdb03bd1487ea20a9da96efa354cddb",
+          "после_sha256": "5f9d098e393f54cfc2e157c9729e8c10afdb03bd1487ea20a9da96efa354cddb",
+          "редакции": {}
+        }
+      ]
+    }
+  ]
+}

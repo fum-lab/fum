@@ -63,6 +63,7 @@ class ПроверкаДекомпозицииПравил(unittest.TestCase):
         )
         корневой_текст = (
             "# Правила\n\n"
+            "<!-- FUM-WRITING-MODE: manual-sequential-v2 -->\n"
             "При нескольких триггерах читается объединение всех маршрутов; "
             "неоднозначность разрешается безопасным объединением.\n\n"
             + строки_маршрутов
@@ -260,7 +261,7 @@ class ПроверкаДекомпозицииПравил(unittest.TestCase):
         политика = "\n<!-- FUM-WORKTREE-POLICY: isolated-per-task-v1 -->\n"
         путь.write_text(текст + политика, encoding="utf-8")
         это.потребовать_отказ("автоконвейера")
-        путь.write_text(текст + политика + "<!-- FUM-WRITING-MODE: manual-sequential-v1 -->\n", encoding="utf-8")
+        путь.write_text(текст.replace("manual-sequential-v2", "manual-sequential-v1") + политика, encoding="utf-8")
         результат = это.запустить("проверить")
         это.assertEqual(результат.returncode, 0, результат.stderr)
 
@@ -279,9 +280,8 @@ class ПроверкаДекомпозицииПравил(unittest.TestCase):
     def test_отклоняет_смешанные_политики_изоляции(это) -> None:
         это.подготовить_стенд()
         путь = это.корень / "AGENTS.md"
-        текст = путь.read_text(encoding="utf-8") + (
+        текст = путь.read_text(encoding="utf-8").replace("manual-sequential-v2", "manual-sequential-v1") + (
             "\n<!-- FUM-WORKTREE-POLICY: isolated-per-task-v1 -->\n"
-            "<!-- FUM-WRITING-MODE: manual-sequential-v1 -->\n"
         )
         for префикс in ("FUM-WORKTREE-POLICY", "FUM-WRITING-MODE"):
             with это.subTest(префикс=префикс):
@@ -298,6 +298,26 @@ class ПроверкаДекомпозицииПравил(unittest.TestCase):
         тема["sha256_содержания"] = хэш_текста(текст)
         это.сохранить_манифест(манифест)
         это.потребовать_отказ("назначение")
+    def test_отклоняет_потерю_повтор_и_неизвестный_режим_записи(это) -> None:
+        это.подготовить_стенд()
+        путь = это.корень / "AGENTS.md"
+        исходный = путь.read_text(encoding="utf-8")
+        маркер = "<!-- FUM-WRITING-MODE: manual-sequential-v2 -->"
+        for замена in ("", маркер + "\n" + маркер,
+                       "<!-- FUM-WRITING-MODE: manual-sequential-v99 -->"):
+            with это.subTest(замена=замена):
+                путь.write_text(исходный.replace(маркер, замена), encoding="utf-8")
+                это.потребовать_отказ("режим записи")
+
+    def test_принимает_обе_версии_ручного_режима(это) -> None:
+        это.подготовить_стенд()
+        путь = это.корень / "AGENTS.md"
+        исходный = путь.read_text(encoding="utf-8")
+        for версия in ("v1", "v2"):
+            with это.subTest(версия=версия):
+                путь.write_text(исходный.replace("manual-sequential-v2", "manual-sequential-" + версия), encoding="utf-8")
+                результат = это.запустить("проверить")
+                это.assertEqual(результат.returncode, 0, результат.stderr)
 
     def test_отклоняет_неверный_регистр_пути(это) -> None:
         это.подготовить_стенд()

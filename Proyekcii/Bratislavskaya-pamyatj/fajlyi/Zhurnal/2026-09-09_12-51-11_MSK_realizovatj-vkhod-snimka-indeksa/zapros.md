@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [# Iskhodnyij zapros 2026-09-09 12:13:51 MSK - Razrabotatj perekhvat zaversheniya](../2026-09-09_12-13-51_MSK_razrabotatj-perekhvat-zaversheniya/zapros.md)
-- Sleduyusjhij zapros: [# Iskhodnyij zapros 2026-09-09 13:23:25 MSK - Podgotovitj privatnyij komplekt zaversheniya](../2026-09-09_13-23-25_MSK_podgotovitj-privatnyij-komplekt-zaversheniya/zapros.md)
+- Predyidusjhij zapros: [2026-09-09 12:13:51 MSK - Razrabotatj perekhvat zaversheniya](../2026-09-09_12-13-51_MSK_razrabotatj-perekhvat-zaversheniya/zapros.md)
+- Sleduyusjhij zapros: [2026-09-09 13:23:25 MSK - Podgotovitj privatnyij komplekt zaversheniya](../2026-09-09_13-23-25_MSK_podgotovitj-privatnyij-komplekt-zaversheniya/zapros.md)
 
 ## Tekst zaprosa
 
@@ -56,6 +56,6 @@ Obsjhij smoke i peresborka FUM pryamo isklyuchenyi peredannoj komandoj. Polnaya 
 - [Materialyi proverki i profilya](materialyi/).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 13:56:30 MSK -->
-<!-- content-sha256: sha256:98216e9713dc5cc1af07c710eaf001cc9de4e13230eb1b571b3e3b0011ce6d84 -->
+<!-- last-content-edit: 2026-09-10 16:38:28 MSK -->
+<!-- content-sha256: sha256:50022434c78e5151f9cf4cb82c8a59a3ab4ffaaa25ed97aeb06deae3f6be239e -->
 <!-- FUM-MD-RECENCY:END -->

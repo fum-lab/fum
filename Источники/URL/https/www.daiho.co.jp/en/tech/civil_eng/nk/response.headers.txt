@@ -1,0 +1,11 @@
+HTTP/2 200
+server: nginx
+date: Mon, 07 Sep 2026 15:24:41 GMT
+content-type: text/html; charset=UTF-8
+vary: Accept-Encoding
+link: <https://www.daiho.co.jp/en/wp-json/>; rel="https://api.w.org/", <https://www.daiho.co.jp/en/wp-json/wp/v2/pages/3040>; rel="alternate"; title="JSON"; type="application/json", <https://www.daiho.co.jp/en/?p=3040>; rel=shortlink
+set-cookie: [REDACTED: response cookie]
+x-frame-options: SAMEORIGIN
+x-xss-protection: 1; mode=block
+x-content-type-options: nosniff
+strict-transport-security: max-age=31536000; includeSubDomains

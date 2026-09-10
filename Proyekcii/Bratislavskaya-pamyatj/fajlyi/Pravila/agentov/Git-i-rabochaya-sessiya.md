@@ -18,7 +18,12 @@ Eti pravila polnostjyu chitayutsya do izmeneniya Git-sostoyaniya, podgotovki kom
 
 - [iskhodnyij zapros 2026-08-24 15:31:12 MSK — Dekompozirovatj AGENTS MD](../../Zhurnal/2026-08-24_15-31-12_MSK_dekompozirovatj-AGENTS-md/zapros.md)
 
+## Istochnik utochneniya postoyannoj zadachi
+
+- [Ustranitj ostanovku postoyannoj zadachi i vesti paralleljnyiye docherniye rabotyi](../../Zhurnal/2026-09-08_18-50-08_MSK_ustranitj-ostanovku-postoyannoj-zadachi/zapros.md).
+- [Sozdavatj celesoobraznyiye paralleljnyiye rabotyi i opisatj dejstvuyusjhij poryadok](../../Zhurnal/2026-09-08_21-16-26_MSK_integrirovatj-paralleljnyiye-rezuljtatyi-i-opisatj-rabotu/zapros.md).
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 22:46:18 MSK -->
-<!-- content-sha256: sha256:751833c316f4f6f844df7de1c332fa7da2ebcf37ef29d972a04b64a5bd44fa6f -->
+<!-- last-content-edit: 2026-09-10 16:38:28 MSK -->
+<!-- content-sha256: sha256:cdc0865ac635f31b09ae7f3e816e4a3ef230fad9df7a3635d77dc6118d943690 -->
 <!-- FUM-MD-RECENCY:END -->

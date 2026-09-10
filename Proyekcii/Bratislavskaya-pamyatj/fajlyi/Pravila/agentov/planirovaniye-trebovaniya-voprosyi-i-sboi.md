@@ -53,8 +53,11 @@ Eti pravila polnostjyu chitayutsya do izmeneniya planirovaniya, trebovanij, vopr
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000199 -->
 - Indeks `Вопросы/README.md` dolzhen sokhranyatj ssyilki na voprosyi posle otveta i razlichatj otkryityiye, chastichno proyasnyonnyiye i proyasnyonnyiye voprosyi, chtobyi cepochka trebovanij ne teryalasj posle proyasneniya.
 
-<!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-НОВОЕ-000011 -->
+<!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-НОВОЕ-000015 -->
 - Yesli nedostayusjhaya informaciya ili neodnoznachnostj vliyayet na polnomochiya, oblastj rabotyi, vyibor dannyikh libo praviljnostj rezuljtata, agent zadayot kratkoye predmetnoye utochneniye i prodolzhayet nezavisimuyu rabotu. Yesli praviljnoye resheniye ochevidno iz tekusjhego zaprosa, prezhnikh otvetov i proveryayemyikh svideteljstv, agent dejstvuyet bez lishnego voprosa. Uzhe poluchennoye razresheniye i odnoznachnyij otvet ne zaprashivayutsya povtorno; vremya ozhidaniya ne schitayetsya otvetom. Utochneniye, otvet i prinyatoye resheniye sokhranyayutsya v Zhurnale tekusjhej zadachi.
+
+<!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-НОВОЕ-000012 -->
+- Pri obsuzhdenii predlozhennoj idei samostoyateljno soobsjhaj susjhestvennyiye problemyi, riski i obosnovannyiye vozrazheniya, dazhe yesli poljzovatelj ikh otdeljno ne zaprosil. Otdelyaj nablyudayemyiye faktyi ot predpolozhenij, obyyasnyaj prakticheskoye vliyaniye i vozmozhnyij sposob proverki ili ogranicheniya. Soglasiye poljzovatelya s napravleniyem ne yavlyayetsya osnovaniyem skryivatj obnaruzhennoye ogranicheniye; gipoteticheskij risk sam po sebe ne prevrasjhayetsya v sboj ili dopolniteljnyij zapret.
 
 ## Istochnik tekusjhego utochneniya
 
@@ -65,6 +68,6 @@ Eti pravila polnostjyu chitayutsya do izmeneniya planirovaniya, trebovanij, vopr
 - [iskhodnyij zapros 2026-08-24 15:31:12 MSK — Dekompozirovatj AGENTS MD](../../Zhurnal/2026-08-24_15-31-12_MSK_dekompozirovatj-AGENTS-md/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-07 23:04:16 MSK -->
-<!-- content-sha256: sha256:e860b3fedd6e1d0de29cc78827dee59045dd7a7a71ee82c6d614994c94e7ca1c -->
+<!-- last-content-edit: 2026-09-10 16:38:28 MSK -->
+<!-- content-sha256: sha256:78539629e2e1ccbf37225d0be619a7ad9f410b9427ff302465ecceacbe3a4d43 -->
 <!-- FUM-MD-RECENCY:END -->

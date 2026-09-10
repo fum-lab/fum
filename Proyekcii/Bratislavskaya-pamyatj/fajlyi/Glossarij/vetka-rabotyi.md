@@ -10,7 +10,7 @@ Dlya konechnoj posledovateljnosti shagov kanonicheskij upstream vetki zadayot [k
 
 V dereve ispolneniya odna para identichnosti repozitoriya i polnogo ref yavlyayetsya avtoritetnoj rabochej liniyej odnogo [vetvevogo fork FUM](vetvevoj-fork-FUM.md) i ne pereispoljzuyetsya drugim uzlom. Linejnyij fork mozhet otdeljnyim ograzhdyonnyim perekhodom poroditj rovno dva dochernikh fork ot proverennogo obsjhego iskhodnogo sostoyaniya; kazhdyij rebyonok poluchayet druguyu paru repozitoriya i polnogo ref i zhivoj checkout, a tot zhe roditeljskij uzel stanovitsya moderatorom. Vnutri kazhdogo rebyonka posledovateljnostj kommitov ostayotsya linejnoj, a posleduyusjhaya integraciya ne menyayet derevo proiskhozhdeniya.
 
-V dejstvuyusjhej ruchnoj skheme odna poljzovateljski zapusjhennaya pishusjhaya sessiya vyipolnyayet odin soderzhateljnyij zapros, zakryivayet proverochnyij otchyot, sozdayot ne boleye odnogo lokaljnogo kommita `refs/heads/master` i zavershayetsya. Avtomaticheskiye selector/dispatcher, FIFO i `commit+handoff` yavlyayutsya istoricheskoj libo otlozhennoj narabotkoj i ne zapuskayut sleduyusjhuyu rabotu.
+V dejstvuyusjhej ruchnoj skheme odna poljzovateljski zapusjhennaya pishusjhaya sessiya vyipolnyayet soglasovannyiye etapyi, zakryivayet otdeljnyij proverochnyij otchyot kazhdogo etapa i sozdayot yego lokaljnyij kommit na `refs/heads/master`, zatem prodolzhayet dostupnuyu rabotu v toj zhe zadache. Avtomaticheskiye selector/dispatcher, FIFO i `commit+handoff` yavlyayutsya istoricheskoj libo otlozhennoj narabotkoj i ne zapuskayut sleduyusjhuyu rabotu.
 
 [Vetka shaga FUM](vetka-shaga-FUM.md) yavlyayetsya odnorazovoj vetkoj odnoj pishusjhej popyitki ot tochnogo `base_oid`; ona ne zamenyayet dolgovechnuyu vetku poduzla ili proyekta. Git submodule khranit tochnyij gitlink, a ne samu zhivuyu vetku.
 
@@ -32,6 +32,6 @@ V dejstvuyusjhej ruchnoj skheme odna poljzovateljski zapusjhennaya pishusjhaya s
 - [iskhodnyij zapros 2026-07-26 12:59:08 MSK — Sproyektirovatj Git-graf pishusjhikh subagentov i proyektov](../Zhurnal/2026-07-26_12-59-08_MSK_sproyektirovatj-Git-graf-pishusjhikh-subagentov-i-proyektov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-23 15:37:47 MSK -->
-<!-- content-sha256: sha256:7689a12f5ac8cc13aa48944df6cf7c1b1f3fb4c6fc01c70bf24298c34d316bc3 -->
+<!-- last-content-edit: 2026-09-10 00:22:39 MSK -->
+<!-- content-sha256: sha256:1b3785e173e315f5a3112e2c68e97a49efd4b7f4a868d7875eb48f24be29c367 -->
 <!-- FUM-MD-RECENCY:END -->

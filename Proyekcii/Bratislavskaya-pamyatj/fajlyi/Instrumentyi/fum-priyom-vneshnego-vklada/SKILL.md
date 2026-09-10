@@ -24,7 +24,7 @@ python3 Инструменты/fum-priyom-vneshnego-vklada/scripts/proveritj-pak
   --выход-проверка Журнал/<текущая-сессия>/материалы/внешний-вклад/проверка.json
 ```
 
-4. Prochitaj stdout i vse tri materiala. Toljko lokaljnaya kornevaya sessiya reshayet, kakiye stroki prinyatj, i sama formiruyet `Журнал/`, recency, indeksyi, `Proyekcii/**`, proverki i yedinstvennyij kommit. Push ostayotsya otdeljnyim yavnyim dejstviyem poljzovatelya.
+4. Prochitaj stdout i vse tri materiala. Toljko lokaljnaya kornevaya sessiya reshayet, kakiye stroki prinyatj, i sama formiruyet `Журнал/`, recency, indeksyi, `Proyekcii/**`, proverki i kommit sootvetstvuyusjhego etapa. Push ostayotsya otdeljnyim yavnyim dejstviyem poljzovatelya.
 
 Otdeljnyij JSON-paket proveryayetsya komandoj `проверить` s temi zhe `--корень-репозитория` i `--запрос`, obyazateljnyim `--пакет <пакет.json>` i neobyazateljnyim `--выход-патч` v tochnoye mesto tekusjhej sessii.
 
@@ -73,6 +73,6 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover \
 - [arkhivirovannyij dialog «Modelj stroiteljstva sooruzhenij»](../../Istochniki/URL/https/chatgpt.com/share/6a97050e-9da8-83ed-b92c-a3850dd6486d/source-index.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-02 10:28:38 MSK -->
-<!-- content-sha256: sha256:0c7d0aaed5e0d75b998a9efec04d5092b0250f31d15bd6a88f652293c21fa23b -->
+<!-- last-content-edit: 2026-09-10 00:22:39 MSK -->
+<!-- content-sha256: sha256:fc02fe9e5c63a42c9ed1ec34941d15be98ce56d6874edc90056210b6a7dcb660 -->
 <!-- FUM-MD-RECENCY:END -->

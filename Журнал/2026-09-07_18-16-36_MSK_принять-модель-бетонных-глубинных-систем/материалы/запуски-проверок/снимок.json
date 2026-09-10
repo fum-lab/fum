@@ -1,0 +1,107 @@
+{
+  "отпечаток_закрытия": "sha256:c462a66021bf0343daa92b57393d7f105498c21668dd500137001c7d2516619a",
+  "сессия": "Журнал/2026-09-07_18-16-36_MSK_принять-модель-бетонных-глубинных-систем/запрос.md",
+  "схема": "fum.test-run-report.v2",
+  "файлы": [
+    {
+      "sha256": "c799c6bca76b6031f9de01e6b6a3bd1cebc9b485737c0cc74d1349eb99e80f15",
+      "имя": "1_a2c346f3-6779-4641-ab06-f0832dbf049c.json"
+    },
+    {
+      "sha256": "5c3cc1708ca4bd557cdb1fd0e666231e9f99470660593cb182fcec4cf97acc35",
+      "имя": "2_fc844018-3de8-4b33-99bd-76b801b644f3.json"
+    },
+    {
+      "sha256": "31013e108f54ecda9a5a1fa544fe1c492c37330a1ece4c7b23b37f73cf944fa7",
+      "имя": "3_a92445fd-74a3-4cd2-a7d8-c7b887811aaa.json"
+    },
+    {
+      "sha256": "3f61af20fbdd1dde375b7ea2f7a5859f3d1105380df28ddf04ad6065754e10a6",
+      "имя": "4_94125f11-0fcc-4bc1-b981-d104cf2b8e86.json"
+    },
+    {
+      "sha256": "f820ce25e287bf7dba69faa69b2869d69721adafd5b99dd01c0a89508b63a219",
+      "имя": "5_7f369c65-b391-44c7-b48a-f514205c961d.json"
+    },
+    {
+      "sha256": "60d1e05b26da3fb5f5eeb6d9f85bd2ad8017d030edc52e3a9b6f07b1436ca15a",
+      "имя": "6_ec2104c4-d899-4b08-9583-be526eb5218f.json"
+    },
+    {
+      "sha256": "5cbca4d57d1ada3deeed50b2f0cab7d819cd8ca11614b98d50460389f5208331",
+      "имя": "7_c16a5240-10ad-4881-b952-2c2e8b133e00.json"
+    },
+    {
+      "sha256": "7d036789fb2908da2ed451e9d881faeb45a0dca5571d23a4aefe3ad28a0be93c",
+      "имя": "8_836f9374-90a9-43d3-941c-b7ea0af8067f.json"
+    },
+    {
+      "sha256": "f3595c716c780bcdf0d0db8dccb304d35e6ffbba23529a07f231854ef292d289",
+      "имя": "9_118661e2-8bed-47d4-a31d-7e712d21f3d9.json"
+    },
+    {
+      "sha256": "b2f768a67a7cfa2842d3280f3c1adf636280e2ef696addca683e1c36e7869e48",
+      "имя": "10_ee4725ad-fb12-47ac-89ff-652d7125a225.json"
+    },
+    {
+      "sha256": "ec2a8c3ebd0f8dd117b6ef145a43a47fb0104e3492a921bb66864da7530fec5f",
+      "имя": "11_3d0b6761-0644-450b-b1ab-046667ff5bc5.json"
+    },
+    {
+      "sha256": "2217885cc2a4169ce6471aa988621b93db03d6b73f2a9eb8f4934dd543845d3d",
+      "имя": "12_fe301584-9302-459e-91c3-515257e5030f.json"
+    },
+    {
+      "sha256": "03fbb6af2130acfacb269fcae49a30604aa49f3a37b1c58923fbd293844760fd",
+      "имя": "13_d5cacdcf-621f-4dd0-8219-7f8fa2d6b303.json"
+    },
+    {
+      "sha256": "994f313354cc17032010919e7de3906cd9c994311958ab2bcb229a744586422f",
+      "имя": "14_70893788-a82c-418b-99db-4932681e003a.json"
+    },
+    {
+      "sha256": "43a48d8357e5e83cf084d979342e285e24f01cb2dd2a3a1be9b4c8a4e31c1b19",
+      "имя": "15_12c3257e-5d89-4486-8b7e-bd73ae31a634.json"
+    },
+    {
+      "sha256": "cd9564dac231ee7cf07e6cd0828a10ce5feaf04f0609607f6aa81390fecd3ce3",
+      "имя": "16_d071a2a9-b4ee-4ad8-bca8-899ec556cabc.json"
+    },
+    {
+      "sha256": "9e7bacc067ce353a494f68cb0ce7f3a8fa580b8c32fd09a0b1a6b85bf55431ef",
+      "имя": "17_43cf28a4-03e6-4ba0-b7c0-9bb079091171.json"
+    },
+    {
+      "sha256": "0276370575c73d0c5b8d04deade522d80a3dcc932e04ffac82040b1969822fa8",
+      "имя": "18_b67bbdf6-d4c2-4e48-ad85-ec143c963128.json"
+    },
+    {
+      "sha256": "9de9c4e7d74304b849d84b5ae153f9667542bdc0cb8a17ba41030c9e275a80e5",
+      "имя": "19_0b7a1282-f693-4b74-9e8f-772f135f5c4d.json"
+    },
+    {
+      "sha256": "2d5909487259dc815400232a4bc1940cccc326d81d95524b9eb32cc793c3c0df",
+      "имя": "20_2e240470-dec5-4db8-8cf5-0426d9567d4e.json"
+    },
+    {
+      "sha256": "ea9a3f89003babe528031dab592d1ceb0a531e5aba2b0adcdeb4ed0774e2aec2",
+      "имя": "21_eda9d2cb-9fb5-4838-b384-30d34e5c5706.json"
+    },
+    {
+      "sha256": "3e887085e7dccfdf2a51bbf70a784e6b7addf649aa799a05d6df2d328bd70af5",
+      "имя": "22_03f3ab3b-9106-4185-903b-f8874c4aa6e8.json"
+    },
+    {
+      "sha256": "eb21261b65976cb728abb4b687e799910c64cb9823dbec4af7bd9865c5b9524c",
+      "имя": "23_8ce8a976-8331-466b-a0bf-c546a54b37f2.json"
+    },
+    {
+      "sha256": "def5b0615b60ed369741a94f6ed0c9c381ac7f02bda444ce068a9d1d042f27e0",
+      "имя": "24_4b790e05-b0dd-444a-951c-d73be05ab224.json"
+    },
+    {
+      "sha256": "21ebb7f40bfabc78e43ef817dce80b1b1ab39ab59da528d9d3f881bb1b5bce58",
+      "имя": "25_b4321a7c-d2f1-4f45-94da-a4d8dae87041.json"
+    }
+  ]
+}

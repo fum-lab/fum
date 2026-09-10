@@ -49,7 +49,7 @@ Yadro arkhitekturyi sostoit iz chetyiryokh povtoryayemyikh svyazej:
 - ustojchivyiye dejstviya vyidelyayutsya v vosproizvodimyiye [avtomatizacii FUM](../Glossarij/avtomatizaciya-FUM.md);
 - rezuljtatyi prokhodyat otbor, poluchayut formu [narabotok](../Glossarij/narabotka.md) i mogut peredavatjsya drugim [FUM-uzlam](../Glossarij/FUM-uzel.md) s uchyotom proiskhozhdeniya i [urovnej dostupa](../Glossarij/urovenj-dostupa.md).
 
-Tekusjhaya ruchnaya skhema materializuyet malyij kontur obratnoj svyazi mezhdu etimi svyazyami cherez otdeljnyiye poljzovateljskiye zapuski: odna kornevaya zadacha v pervichnom checkout vyipolnyayet odin soderzhateljnyij zapros, sozdayot ne boleye odnogo lokaljnogo kommita i zavershayetsya. [Obyazateljnoye prodolzheniye Git-vetki posle kommita](45-obyazateljnoye-prodolzheniye-Git-vetki-posle-kommita.md), FIFO i `commit+handoff` sokhranenyi kak otlozhennaya arkhitekturnaya narabotka. Raspisaniye, obsjhij reyestr i nablyudayemyij host-prostoj ne dayut polnomochij na zapusk.
+Tekusjhaya ruchnaya skhema materializuyet malyij kontur obratnoj svyazi mezhdu etimi svyazyami cherez otdeljnyiye poljzovateljskiye zapuski: odna kornevaya zadacha v pervichnom checkout vyipolnyayet soglasovannyiye etapyi, fiksiruyet kazhdyij proverennyij etap lokaljnyim kommitom i prodolzhayet dostupnuyu rabotu v toj zhe zadache. [Obyazateljnoye prodolzheniye Git-vetki posle kommita](45-obyazateljnoye-prodolzheniye-Git-vetki-posle-kommita.md), FIFO i `commit+handoff` sokhranenyi kak otlozhennaya arkhitekturnaya narabotka. Raspisaniye, obsjhij reyestr i nablyudayemyij host-prostoj ne dayut polnomochij na zapusk.
 
 Prezhniye zhurnal zavershenij, porog `N`, specializirovannyiye claims, dispetcherskiye rezervacii i avtomaticheskoye sozdaniye periodicheskoj analitiki sokhranyayutsya toljko kak istoriya snyatogo kontura. Yesli analiticheskaya reviziya nuzhna vnovj, poljzovatelj zapuskayet dlya neyo otdeljnuyu obyichnuyu pishusjhuyu sessiyu s sobstvennyim soderzhateljnyim zaprosom; kartochka, dispetcherskij vyibor i protokol prodolzheniya ne zapuskayutsya avtomaticheski. Chislo sobyitij, shagov, kommitov ili dokumentov ostayotsya operacionnyim svideteljstvom i samo po sebe ne dokazyivayet uluchsheniye.
 
@@ -280,6 +280,6 @@ Budusjhiye krupnyiye peresborki etogo razdela mozhno vesti cherez lokaljnuyu avt
 - [Yestestvennyij yazyik i sinkhronizaciya znanij FUM](34-yestestvennyij-yazyik-i-sinkhronizaciya-znanij-FUM.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-23 15:52:01 MSK -->
-<!-- content-sha256: sha256:da3e35e75a17ef49d2dba470bdec3bc6c0d80666a70eea358fb118c1ce598222 -->
+<!-- last-content-edit: 2026-09-10 00:22:39 MSK -->
+<!-- content-sha256: sha256:5422d82308b2950271705bb803eda0bcc0f760aa4bea0c0c97459cc40289251b -->
 <!-- FUM-MD-RECENCY:END -->

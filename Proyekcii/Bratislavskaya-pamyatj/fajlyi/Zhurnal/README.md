@@ -16,6 +16,23 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-10 15:09:56 MSK — Vlitj master v vedusjhuyu vetku](2026-09-10_15-09-56_MSK_vlitj-master-v-vedusjhuyu-vetku/otchyot.md)
+- [2026-09-10 14:26:58 MSK — Proveryatj sliyaniye master v vedusjhuyu vetku](2026-09-10_14-26-58_MSK_proveryatj-sliyaniye-master-v-vedusjhuyu-vetku/otchyot.md)
+- [2026-09-10 13:40:29 MSK — Zakrepitj pravila opisaniya avtomatizacij i priyomki sliyanij](2026-09-10_13-40-29_MSK_zakrepitj-pravila-opisaniya-avtomatizacij-i-priyomki-sliyanij/otchyot.md)
+- [2026-09-10 11:51:55 MSK — Sokhranyatj ostatok obyazateljstv](2026-09-10_11-51-55_MSK_sokhranyatj-ostatok-obyazateljstv/otchyot.md)
+- [2026-09-10 02:01:28 MSK — Proveryatj zakryityiye otchyotyi iz kommitov](2026-09-10_02-01-28_MSK_proveryatj-zakryityiye-otchyotyi-iz-kommitov/otchyot.md)
+- [2026-09-10 00:49:43 MSK — Svyazatj proverki s kommitami](2026-09-10_00-49-43_MSK_svyazatj-proverki-s-kommitami/otchyot.md)
+- [2026-09-09 21:31:19 MSK — Prodolzhatj rabotu posle kommita](2026-09-09_21-31-19_MSK_prodolzhatj-rabotu-posle-kommita/otchyot.md)
+- [2026-09-09 20:29:51 MSK — Zavershitj priyomku ignorirovaniya fajlov macos](2026-09-09_20-29-51_MSK_zavershitj-priyomku-ignorirovaniya-fajlov-macos/otchyot.md)
+- [2026-09-09 18:43:02 MSK — Zavershitj priyomku arkhivnogo snimka](2026-09-09_18-43-02_MSK_zavershitj-priyomku-arkhivnogo-snimka/otchyot.md)
+- [2026-09-09 15:19:16 MSK - Sokhranitj ocheredj pozdnikh komand](2026-09-09_15-19-16_MSK_sokhranitj-ocheredj-pozdnikh-komand/otchyot.md)
+- [2026-09-09 15:12:11 MSK - Dorabotatj proyekt vselennoj FUM](2026-09-09_15-12-11_MSK_dorabotatj-proyekt-vselennoj-FUM/otchyot.md)
+- [2026-09-09 14:58:37 MSK - Nakaplivatj statistiku vyizovov iz zhurnala](2026-09-09_14-58-37_MSK_nakaplivatj-statistiku-vyizovov-iz-zhurnala/otchyot.md)
+- [2026-09-09 14:42:57 MSK - Podtverditj materializaciyu vkhoda](2026-09-09_14-42-57_MSK_podtverditj-materializaciyu-vkhoda/otchyot.md)
+- [2026-09-09 14:35:59 MSK — Podgotovitj nativnoye prodolzheniye zadachi](2026-09-09_14-35-59_MSK_podgotovitj-nativnoye-prodolzheniye-zadachi/otchyot.md)
+- [2026-09-09 14:30:04 MSK - Razlichatj proiskhozhdeniye soobsjhenij](2026-09-09_14-30-04_MSK_razlichatj-proiskhozhdeniye-soobsjhenij/otchyot.md)
+- [2026-09-09 14:12:34 MSK - Materializovatj zakreplyonnyij vkhod](2026-09-09_14-12-34_MSK_materializovatj-zakreplyonnyij-vkhod/otchyot.md)
+- [2026-09-09 13:39:31 MSK - Sobratj sinteticheskij snimok agentskoj zadachi](2026-09-09_13-39-31_MSK_sobratj-sinteticheskij-snimok-agentskoj-zadachi/otchyot.md)
 - [2026-09-09 13:23:25 MSK - Podgotovitj privatnyij komplekt zaversheniya](2026-09-09_13-23-25_MSK_podgotovitj-privatnyij-komplekt-zaversheniya/otchyot.md)
 - [2026-09-09 12:51:11 MSK - Realizovatj vkhod snimka indeksa](2026-09-09_12-51-11_MSK_realizovatj-vkhod-snimka-indeksa/otchyot.md)
 - [2026-09-09 12:13:51 MSK - Razrabotatj perekhvat zaversheniya](2026-09-09_12-13-51_MSK_razrabotatj-perekhvat-zaversheniya/otchyot.md)
@@ -31,6 +48,7 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [2026-09-08 18:50:08 MSK — Ustranitj ostanovku postoyannoj zadachi](2026-09-08_18-50-08_MSK_ustranitj-ostanovku-postoyannoj-zadachi/otchyot.md)
 - [2026-09-08 17:18:45 MSK — Uskoritj peresborku proyekcii](2026-09-08_17-18-45_MSK_uskoritj-peresborku-proyekcii/otchyot.md)
 - [2026-09-07 22:11:38 MSK — Sostavitj plan uskoreniya proyekcii](2026-09-07_22-11-38_MSK_sostavitj-plan-uskoreniya-proyekcii/otchyot.md)
+- [2026-09-07 18:16:36 MSK — Prinyatj modelj betonnyikh glubinnyikh sistem](2026-09-07_18-16-36_MSK_prinyatj-modelj-betonnyikh-glubinnyikh-sistem/otchyot.md)
 - [2026-09-02 21:42:27 MSK — Slitj vetku s Metal derevom Markdown dokumentov](2026-09-02_21-42-27_MSK_slitj-vetku-s-Metal-derevom-Markdown-dokumentov/otchyot.md)
 - [2026-09-02 07:51:07 MSK — Organizovatj priyom vneshnego vklada](2026-09-02_07-51-07_MSK_organizovatj-priyom-vneshnego-vklada/otchyot.md)
 - [2026-09-01 11:19:59 MSK — Realizovatj bratislavskuyu proyekciyu pamyati](2026-09-01_11-19-59_MSK_realizovatj-bratislavskuyu-proyekciyu-pamyati/otchyot.md)
@@ -489,6 +507,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 13:56:30 MSK -->
-<!-- content-sha256: sha256:653baea661f9bcddd0e81574a4670c9579051c9cb7db0e2da1d84ee47d6979ee -->
+<!-- last-content-edit: 2026-09-10 16:38:28 MSK -->
+<!-- content-sha256: sha256:d5849ee48a8fc4883a9ad2d70ac65219f2db3833c15bf9a964e3a2e1301286b3 -->
 <!-- FUM-MD-RECENCY:END -->

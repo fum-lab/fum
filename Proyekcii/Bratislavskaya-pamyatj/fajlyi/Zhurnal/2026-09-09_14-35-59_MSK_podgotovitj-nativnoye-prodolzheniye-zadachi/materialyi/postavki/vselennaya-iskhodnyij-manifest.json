@@ -1,0 +1,747 @@
+{
+  "схема": "fum.поставка-вселенной.1",
+  "коммит": "775f38b93ba144907419718be66b12b934c0c5f8",
+  "родитель": "f74763f5a9e93e97fb7966c71d02e851473dfbf7",
+  "ветка": "refs/heads/codex/вселенная-FUM-01a08612",
+  "проект": "Документация/53-вселенная-FUM/README.md",
+  "запрос": "Журнал/2026-09-09_15-12-11_MSK_доработать-проект-вселенной-FUM/запрос.md",
+  "отчёт": "Журнал/2026-09-09_15-12-11_MSK_доработать-проект-вселенной-FUM/отчёт.md",
+  "граница": "Законченный содержательный checkpoint; полная интеграционная приёмка не заявлена",
+  "проекция": "Proyekcii/** не входит в изменения коммита и этот манифест; неподтверждённый локальный вывод сохранён на диске",
+  "контрольная_точка": {
+    "результат": "успешно до коммита",
+    "код_завершения": 0,
+    "режим": "--контрольная-точка",
+    "checker_commit": "11d71fdd5ea8b958d8e3fc9aa028b8720024b853",
+    "checker_sha256": "4af845c1d056043475805f10b6308bdc77e6221dd4d511fa13ef70add800725b",
+    "обёртка_sha256": "52d6e215a05612d801bcd28a69c96033b2a9b86bf8a9feede15998ba48f94e55",
+    "машинный_журнал": "открыт, активных записей нет; приёмочные раунды не готовы"
+  },
+  "проверки": [
+    {
+      "порядок": 1,
+      "идентификатор": "6da9708b-caaa-4005-be0c-60d817fa7ccf",
+      "статус": "успешно",
+      "класс": "адресная",
+      "длительность_наносекунды": 393430667
+    },
+    {
+      "порядок": 2,
+      "идентификатор": "16cffaaf-f51d-4c09-b4ab-635d4ac52366",
+      "статус": "успешно",
+      "класс": "адресная",
+      "длительность_наносекунды": 1757835875
+    },
+    {
+      "порядок": 3,
+      "идентификатор": "b2e95703-219a-46ef-ba13-023c765178ba",
+      "статус": "неуспешно",
+      "класс": "адресная",
+      "длительность_наносекунды": 277671208
+    },
+    {
+      "порядок": 4,
+      "идентификатор": "90141a5e-01ff-4474-a11f-d481fae2c278",
+      "статус": "успешно",
+      "класс": "адресная",
+      "длительность_наносекунды": 383911125
+    },
+    {
+      "порядок": 5,
+      "идентификатор": "48dd12d1-5f96-435a-b0e5-9aebcee2187f",
+      "статус": "успешно",
+      "класс": "адресная",
+      "длительность_наносекунды": 394755542
+    },
+    {
+      "порядок": 6,
+      "идентификатор": "9f29ce58-8282-490a-85ef-e95997251b4a",
+      "статус": "неуспешно",
+      "класс": "адресная",
+      "длительность_наносекунды": 3461315000
+    },
+    {
+      "порядок": 7,
+      "идентификатор": "3bffccce-2cfa-4802-a73c-5424f6f1247d",
+      "статус": "неуспешно",
+      "класс": "полная",
+      "длительность_наносекунды": 40933961042
+    },
+    {
+      "порядок": 8,
+      "идентификатор": "72dc90ee-38d1-456e-9b5f-58a56123ae64",
+      "статус": "успешно",
+      "класс": "адресная",
+      "длительность_наносекунды": 3316636500
+    },
+    {
+      "порядок": 9,
+      "идентификатор": "f7eeb49d-f16a-4ad7-84b1-7e17855fd7cf",
+      "статус": "прервано",
+      "класс": "полная",
+      "длительность_наносекунды": 314110147625
+    },
+    {
+      "порядок": 10,
+      "идентификатор": "f6ea096a-65f8-4fb5-92c2-ea1c2ad2ea16",
+      "статус": "успешно",
+      "класс": "адресная",
+      "длительность_наносекунды": 3259849833
+    },
+    {
+      "порядок": 11,
+      "идентификатор": "957339c3-572e-4e47-ac22-48fa4450fdab",
+      "статус": "прервано",
+      "класс": "полная",
+      "длительность_наносекунды": 1073607309916
+    },
+    {
+      "порядок": 12,
+      "идентификатор": "416f8e0d-1f14-4816-a7cd-482106d27cc2",
+      "статус": "неуспешно",
+      "класс": "адресная",
+      "длительность_наносекунды": 24268945541
+    },
+    {
+      "порядок": 13,
+      "идентификатор": "98106be3-45e2-4b87-a6fc-cd65667f35bd",
+      "статус": "неуспешно",
+      "класс": "адресная",
+      "длительность_наносекунды": 19517488834
+    },
+    {
+      "порядок": 14,
+      "идентификатор": "9cf92d88-b4b3-43e9-a513-fce14c701f67",
+      "статус": "успешно",
+      "класс": "адресная",
+      "длительность_наносекунды": 25267671708
+    }
+  ],
+  "ограничения": [
+    "Полного успешного smoke нет: одна неуспешная и две прерванные попытки; исторический повтор не скрыт.",
+    "Нынешний сканер связности checkout поддерживает v3; заключительный gate проверен разрешённым точным v4-совместимым инструментом.",
+    "JPL и OECD локально сохранили HTTP 403; статья JPL и аннотация OECD проверены отдельным веб-чтением.",
+    "Полные произведения, исполняемая фабрика и будущий валидатор паспорта не реализованы.",
+    "Общие индексы и журнальную навигацию нужно согласовать с принимающей базой; производные данные и проекцию пересобрать там."
+  ],
+  "число_файлов": 77,
+  "сумма_байтов": 10192858,
+  "файлы": [
+    {
+      "путь": "Документация/53-вселенная-FUM/README.md",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "f2548906c7768e361dbca57e343db8610639022b",
+      "размер": 13909,
+      "sha256": "c4b4cc490a863ac4e89c1479788e1f89db9e65247c9784751021f54127ea3ecc"
+    },
+    {
+      "путь": "Документация/53-вселенная-FUM/аналитическая-основа.md",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "8cbf2457958546e846b7c09b5a1e0a9ea2b55aec",
+      "размер": 38854,
+      "sha256": "bf328e8986a63752a08aca89223ab6f9f61786cee806ff46cb7ec61b03d560f3"
+    },
+    {
+      "путь": "Документация/53-вселенная-FUM/контракт-производства.md",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "77df4b70231d864724c940907517276c02e4e1b2",
+      "размер": 17914,
+      "sha256": "5f93095bf3efa751a642bbd69d77b45475ace2c6246b25b00b0523cfde02f9ec"
+    },
+    {
+      "путь": "Документация/53-вселенная-FUM/мир-и-произведения.md",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "4ef7cb865d33270204496ec46b33422391039ca2",
+      "размер": 22522,
+      "sha256": "91771041c7b1dfeb1c979ec6a7646b04aea61b1752e438e3a0a2383efbb52cf8"
+    },
+    {
+      "путь": "Документация/README.md",
+      "операция": "M",
+      "режим": "100644",
+      "git_blob": "d6cf38a14a094996cffc122005dc0af345a8899a",
+      "размер": 11476,
+      "sha256": "5f0065753acd5c1068c65700140c96867424bce1b8a48b0ebdb33f33bfcbdfb3"
+    },
+    {
+      "путь": "Журнал/2026-09-07_18-16-36_MSK_принять-модель-бетонных-глубинных-систем/запрос.md",
+      "операция": "M",
+      "режим": "100644",
+      "git_blob": "a387116c494580cdf1a609f6855eae1a6a30f176",
+      "размер": 10846,
+      "sha256": "240fd30a856f8fd37e7292d21a71b2e5da8ebddbd508fddf9af29c13ba72c2b4"
+    },
+    {
+      "путь": "Журнал/2026-09-09_15-12-11_MSK_доработать-проект-вселенной-FUM/запрос.md",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "21ac5fb48b641a228e1ceb9e54d6ea260fe9efaa",
+      "размер": 33997,
+      "sha256": "bfdfdf867151aa66b68d4bec92cf2a19724134c84c74705c3a1847342f26427b"
+    },
+    {
+      "путь": "Журнал/2026-09-09_15-12-11_MSK_доработать-проект-вселенной-FUM/материалы/запуски-проверок/10_f6ea096a-65f8-4fb5-92c2-ea1c2ad2ea16.json",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "886cb95c89d2798cf7e0262e5afc0b5f3d8fc676",
+      "размер": 1250,
+      "sha256": "2f1b1de53c4bb44434229af16b77754935f4fe31cf1ff7b355c0c00abeb5d32c"
+    },
+    {
+      "путь": "Журнал/2026-09-09_15-12-11_MSK_доработать-проект-вселенной-FUM/материалы/запуски-проверок/11_957339c3-572e-4e47-ac22-48fa4450fdab.json",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "2b69f848eeaa85a70cbc0064cbc0ff947c5f8f34",
+      "размер": 4489,
+      "sha256": "62e0ac51bb9dadadb3cf7b6b8e30017c1401d169ceb87876168706a2319c45b8"
+    },
+    {
+      "путь": "Журнал/2026-09-09_15-12-11_MSK_доработать-проект-вселенной-FUM/материалы/запуски-проверок/12_416f8e0d-1f14-4816-a7cd-482106d27cc2.json",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "f65c44c828f27e8992c2f9b73be9341ee8e93cd5",
+      "размер": 1249,
+      "sha256": "6927e627d1f8dfa19edac871d9f90f71326447ab797999b9a5fef655a59b3da1"
+    },
+    {
+      "путь": "Журнал/2026-09-09_15-12-11_MSK_доработать-проект-вселенной-FUM/материалы/запуски-проверок/13_98106be3-45e2-4b87-a6fc-cd65667f35bd.json",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "9c357139be243233c9895892b22d534ca43663ac",
+      "размер": 1220,
+      "sha256": "299307823c679b52f5c1f39b78be0d7e1b46cacb4c2445f5bec28e0b21c7c7de"
+    },
+    {
+      "путь": "Журнал/2026-09-09_15-12-11_MSK_доработать-проект-вселенной-FUM/материалы/запуски-проверок/14_9cf92d88-b4b3-43e9-a513-fce14c701f67.json",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "25d93050519359b46a765b0bfbbdac6810c4b634",
+      "размер": 1266,
+      "sha256": "e91c00e6e1a6b9a3a3a8a2f8f32417eba5984fc78b6ff123a74bf19fca8b41d8"
+    },
+    {
+      "путь": "Журнал/2026-09-09_15-12-11_MSK_доработать-проект-вселенной-FUM/материалы/запуски-проверок/1_6da9708b-caaa-4005-be0c-60d817fa7ccf.json",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "69a4e0e4175b27ea50f28f44052e235a0f3ae392",
+      "размер": 1224,
+      "sha256": "f262d9877ed38ab77db94e78396653d7458b36262ed4efba825a8c85d42cda47"
+    },
+    {
+      "путь": "Журнал/2026-09-09_15-12-11_MSK_доработать-проект-вселенной-FUM/материалы/запуски-проверок/2_16cffaaf-f51d-4c09-b4ab-635d4ac52366.json",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "480c09b8ed310e13211b4dd654a8f8df10cb2d06",
+      "размер": 1228,
+      "sha256": "03beee7d91d1c3042a7a10d2911c7ca02cb7a8afb0aead6168d5f3da83cb49de"
+    },
+    {
+      "путь": "Журнал/2026-09-09_15-12-11_MSK_доработать-проект-вселенной-FUM/материалы/запуски-проверок/3_b2e95703-219a-46ef-ba13-023c765178ba.json",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "8576e38389ab9e76fc8639acf9f6e1bff82b0a34",
+      "размер": 1236,
+      "sha256": "b4e2e3e2b07b935245a2b4edd29f03e6f06bec9506282e0ed5803de9f699fe1b"
+    },
+    {
+      "путь": "Журнал/2026-09-09_15-12-11_MSK_доработать-проект-вселенной-FUM/материалы/запуски-проверок/4_90141a5e-01ff-4474-a11f-d481fae2c278.json",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "fd4f6dafdbb7ccb994238a98c52f38afcc0482ca",
+      "размер": 1230,
+      "sha256": "d620fca756c94a9855d4fdc9a94bd50cd8a4f4dcfe7514c7c558fc8c56170623"
+    },
+    {
+      "путь": "Журнал/2026-09-09_15-12-11_MSK_доработать-проект-вселенной-FUM/материалы/запуски-проверок/5_48dd12d1-5f96-435a-b0e5-9aebcee2187f.json",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "5f8256b89c94719d7e8c22fd56bc50304a310127",
+      "размер": 1249,
+      "sha256": "362233d488f971a2e55c4779035ee5ba0aa5beee9a9589e63691b28a10632338"
+    },
+    {
+      "путь": "Журнал/2026-09-09_15-12-11_MSK_доработать-проект-вселенной-FUM/материалы/запуски-проверок/6_9f29ce58-8282-490a-85ef-e95997251b4a.json",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "176e169ab22e156d0128e5e6f3a4339ff6e71170",
+      "размер": 1223,
+      "sha256": "fe49c644a0d94b2d8c65fa29723cc699d61b760ec31885bb1908f371a0389317"
+    },
+    {
+      "путь": "Журнал/2026-09-09_15-12-11_MSK_доработать-проект-вселенной-FUM/материалы/запуски-проверок/7_3bffccce-2cfa-4802-a73c-5424f6f1247d.json",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "aa18af1b8a7563d0497ecd11fc77631d10fb03ba",
+      "размер": 4470,
+      "sha256": "562c4d65fc1fed42c1d6f9f66f4fea51488cc46b07e2c93c46c61f3f682720c1"
+    },
+    {
+      "путь": "Журнал/2026-09-09_15-12-11_MSK_доработать-проект-вселенной-FUM/материалы/запуски-проверок/8_72dc90ee-38d1-456e-9b5f-58a56123ae64.json",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "91defd1af455982cd5c89b4359d99116d1ca6110",
+      "размер": 1265,
+      "sha256": "2ab996cb0e5f16070d658a163053418cf97a022f5c941fe82279e7c3774d1160"
+    },
+    {
+      "путь": "Журнал/2026-09-09_15-12-11_MSK_доработать-проект-вселенной-FUM/материалы/запуски-проверок/9_f7eeb49d-f16a-4ad7-84b1-7e17855fd7cf.json",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "d66a4d11d2158f9c30e81d89985ceac6863f9c84",
+      "размер": 4476,
+      "sha256": "a5bd538c5d4bdb919147bd946f0983ded039be3c47ce3e86d850718864b04854"
+    },
+    {
+      "путь": "Журнал/2026-09-09_15-12-11_MSK_доработать-проект-вселенной-FUM/материалы/проверить-поставку.txt",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "58a60df1c4f8379cb2840317ae6fe362e511ffbc",
+      "размер": 7468,
+      "sha256": "7e42604692298aa1e1e34e4be7b47b488349985563c4d7848b26149f5e40b933"
+    },
+    {
+      "путь": "Журнал/2026-09-09_15-12-11_MSK_доработать-проект-вселенной-FUM/материалы/происхождение/манифест-передачи.json",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "8c4f0f3e8fc4bbbe64e014cb2cc3f207642eced4",
+      "размер": 4871,
+      "sha256": "1746dfcffc6c23b6a1bd806d0d04a7ff07813e297bfcc3808f95e87ba4570bd6"
+    },
+    {
+      "путь": "Журнал/2026-09-09_15-12-11_MSK_доработать-проект-вселенной-FUM/материалы/происхождение/очистка-источников.json",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "b93ffde5bd2d4dca302a3e3f8ccb79a9ace4285f",
+      "размер": 11116,
+      "sha256": "5c9c72b375deb3405a5631a07b9b827f2bf68b0722d5a1b7e4dfb668313840e8"
+    },
+    {
+      "путь": "Журнал/2026-09-09_15-12-11_MSK_доработать-проект-вселенной-FUM/отчёт.md",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "6b043532f2709cfd445ca2fe22f072aeb082e416",
+      "размер": 25286,
+      "sha256": "ffa647eacaa3c7a673dd3ab05435e75f46516c6aa7e4f88217f11cee5b12f9fe"
+    },
+    {
+      "путь": "Журнал/README.md",
+      "операция": "M",
+      "режим": "100644",
+      "git_blob": "031c30a3331320ef7c327093a62a86477e5fff9d",
+      "размер": 145251,
+      "sha256": "4fb029cf40ddf13a91cc9ccbe01d5b00493c76a9c29f687eeda3bce78617e8c8"
+    },
+    {
+      "путь": "Индексы/markdown-файлы-по-времени-редактирования.md",
+      "операция": "M",
+      "режим": "100644",
+      "git_blob": "5b67fabbdf886490855d4ec1630afe55389dee30",
+      "размер": 738413,
+      "sha256": "c27061810c0294e7c9fa81f7396eeebfa23e18375552fd04bc3452da24ead592"
+    },
+    {
+      "путь": "Инструменты/реестр-системных-приложений-и-инструментов.md",
+      "операция": "M",
+      "режим": "100644",
+      "git_blob": "4d7e57b2ebbf55ae4febdbfe7d3d5a7929fe78ad",
+      "размер": 74575,
+      "sha256": "627aa0ff4a3e1625b3c55932f06c996b6f3af4a1b5e0bae9a30b43b9ddf9772f"
+    },
+    {
+      "путь": "Источники/URL/https/internationalaisafetyreport.org/publication/international-ai-safety-report-2026/extracted-text.md",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "5ede54eb97fda9d13b723a1297ef7a31b9b0ad1d",
+      "размер": 803943,
+      "sha256": "eb9e321d689a13a315b264fb7cebc86790226bef3ef62ba5eb2802f53fe9d667"
+    },
+    {
+      "путь": "Источники/URL/https/internationalaisafetyreport.org/publication/international-ai-safety-report-2026/extraction-report.md",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "a06f10662b25a92df9f5418108bd0111622d4040",
+      "размер": 2586,
+      "sha256": "f9e6e1e9810c6a8a5d3ff18caaca5cb66a26a2d7031efe8a928f2ccdf834be6f"
+    },
+    {
+      "путь": "Источники/URL/https/internationalaisafetyreport.org/publication/international-ai-safety-report-2026/response.body.html",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "b7af6ee11fe4084cfb0556f81edcd39eb98bfb0e",
+      "размер": 3943778,
+      "sha256": "3c471a6204ebb4227c16ca41de88aa3c59da152f4c5ea75eb5660616bda2ffdd"
+    },
+    {
+      "путь": "Источники/URL/https/internationalaisafetyreport.org/publication/international-ai-safety-report-2026/response.headers.txt",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "b2e93d7712ce7af7a042b300a3e2e3b72e865573",
+      "размер": 1088,
+      "sha256": "f86b248c8d12e6ce280448db929332d9749ed1098bf868d308e9c501e23a58df"
+    },
+    {
+      "путь": "Источники/URL/https/internationalaisafetyreport.org/publication/international-ai-safety-report-2026/snapshot-manifest.json",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "791da8a251981336bccdc2ce87891df0739b9fe6",
+      "размер": 268,
+      "sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be"
+    },
+    {
+      "путь": "Источники/URL/https/internationalaisafetyreport.org/publication/international-ai-safety-report-2026/source-index.md",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "9e28e086cccc1418c4b5837d3650f27ea1c3d9e0",
+      "размер": 1227,
+      "sha256": "1545d3c846b2d9fe555635a9d250abc5796ef182c1617c2f7ee53842e2dc3fd1"
+    },
+    {
+      "путь": "Источники/URL/https/internationalaisafetyreport.org/publication/international-ai-safety-report-2026/source-url.txt",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "74b54c212f641ee5715ffdc5e898b54ccd21168e",
+      "размер": 88,
+      "sha256": "84c7237fafc6507295d8b86a24a2e3d90a5cec7c313eec3f47d70683ba371374"
+    },
+    {
+      "путь": "Источники/URL/https/metr.org/time-horizons/extracted-text.md",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "d3b714538305d1bd1c4ca3f8b3918a6da5b02905",
+      "размер": 14720,
+      "sha256": "3a49d18a721df082ca22c11549b9becd2cd2277886993d7200a23eec14a45a6f"
+    },
+    {
+      "путь": "Источники/URL/https/metr.org/time-horizons/extraction-report.md",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "4a6fb03057b5e5fc0bcc87a64e2a65bfb96644ec",
+      "размер": 2366,
+      "sha256": "a6518b63c0f236302ca92979bc59161d36199a4400b78e8a880aef6c4d77612c"
+    },
+    {
+      "путь": "Источники/URL/https/metr.org/time-horizons/response.body.html",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "3f054532d6d2c6f7b26b7dac78b1da9f5dbd144b",
+      "размер": 681209,
+      "sha256": "135e45721caa232e18609af9c910e47646127b0074ea5215054a4db9210acced"
+    },
+    {
+      "путь": "Источники/URL/https/metr.org/time-horizons/response.headers.txt",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "cbc1fa751dc25e9d0f52a804e617eb2b8a28ed41",
+      "размер": 430,
+      "sha256": "5debba011628402c5ad56f14f5cbdc9a6f2a992a2df4fc3dbc34894d458123fb"
+    },
+    {
+      "путь": "Источники/URL/https/metr.org/time-horizons/snapshot-manifest.json",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "7581ad925d66409da786435284bcb8b9c884db60",
+      "размер": 296,
+      "sha256": "e437df2f0718cdf7b3869e5814b6e72245939da63b4dddf251628d29f0e0942b"
+    },
+    {
+      "путь": "Источники/URL/https/metr.org/time-horizons/source-index.md",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "d8a029bfe48086ff887747d44199e95d8fc0196d",
+      "размер": 1020,
+      "sha256": "3436ef3ad4c7f3e4913db3bf4f3365c85ebe3e9ebc351315745870d1c9fb2f90"
+    },
+    {
+      "путь": "Источники/URL/https/metr.org/time-horizons/source-url.txt",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "fd48672a0780d2d7302277cb22cb23bd07826bd9",
+      "размер": 32,
+      "sha256": "5cba8511a07b680acc54647c463e418695470733355202a02dcb27fe3772365f"
+    },
+    {
+      "путь": "Источники/URL/https/metr.org/time-horizons/structured-data.json",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "59e5efdc34700aa48fecb39c4942e7a952cb0cae",
+      "размер": 109,
+      "sha256": "0dd6b214f0f1a7f1ac02b7c424bb03c80315bbfe27667ce634b9d242916e544c"
+    },
+    {
+      "путь": "Источники/URL/https/www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary/extracted-text.md",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "899894fc7e59aec531a4020f75eb972f829bd3aa",
+      "размер": 23235,
+      "sha256": "d2d034e96a81cb79c2d22c551b423c0ec19552fc72701761a2429304f99204a8"
+    },
+    {
+      "путь": "Источники/URL/https/www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary/extraction-report.md",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "80257f4147b99988bcafd08107b2bb97d71a79f7",
+      "размер": 2234,
+      "sha256": "d50ce628a6629c249bb66d9b948dfabfc45bbb989507dd2ed3a5387a7c39f255"
+    },
+    {
+      "путь": "Источники/URL/https/www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary/response.body.html",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "d78ca1846184c1943216060cef56f7e08687d036",
+      "размер": 373936,
+      "sha256": "603e77b164d93f0d60824e10c04ce39e01270378a3a9c43a723cc0501cc5efd2"
+    },
+    {
+      "путь": "Источники/URL/https/www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary/response.headers.txt",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "a2d5e45ee8785291974c3a4226712b1d3673be4d",
+      "размер": 1633,
+      "sha256": "68e07087f37a061d80dc2f7293a76038905916a94a3fd8ee4520b45731483eb2"
+    },
+    {
+      "путь": "Источники/URL/https/www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary/snapshot-manifest.json",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "791da8a251981336bccdc2ce87891df0739b9fe6",
+      "размер": 268,
+      "sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be"
+    },
+    {
+      "путь": "Источники/URL/https/www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary/source-index.md",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "3558c8afde785eb70ce09ac55535379c52127cfe",
+      "размер": 1165,
+      "sha256": "4650eda9cbf712fe79c092f646400a943f271cf748054c687f87e1f8f628e097"
+    },
+    {
+      "путь": "Источники/URL/https/www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary/source-url.txt",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "b893c483c6fdfcb433eec574b1c3d4530fe60cab",
+      "размер": 77,
+      "sha256": "4058727f89050b97fe7b526381f0b01824727a050b0e760a821c50be9d9318b1"
+    },
+    {
+      "путь": "Источники/URL/https/www.jpl.nasa.gov/news/nasas-perseverance-rover-completes-first-ai-planned-drive-on-mars/extracted-text.md",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "340eff53074008127ebf55cb49d6ebaf54f46fd4",
+      "размер": 896,
+      "sha256": "2ad7a8ac92926004d24f753bb2f578514f8bcb63b49ea75e2a7e371737356778"
+    },
+    {
+      "путь": "Источники/URL/https/www.jpl.nasa.gov/news/nasas-perseverance-rover-completes-first-ai-planned-drive-on-mars/extraction-report.md",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "062538c41c0ee9185c5ce21856dcff5725f64472",
+      "размер": 2524,
+      "sha256": "9e594af8bcd661c957faa07e603a72b08f4b0868d680e09c3254d6ca754fba93"
+    },
+    {
+      "путь": "Источники/URL/https/www.jpl.nasa.gov/news/nasas-perseverance-rover-completes-first-ai-planned-drive-on-mars/response.body.html",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "462416eb613e6cb502acc504e5d0ffb74225c5f3",
+      "размер": 873,
+      "sha256": "1c060ca7d139768d6a47b3370159c6301d5521779fc9c436ea185506c3874585"
+    },
+    {
+      "путь": "Источники/URL/https/www.jpl.nasa.gov/news/nasas-perseverance-rover-completes-first-ai-planned-drive-on-mars/response.headers.txt",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "5abb414bdc257f6031c93847ee2f4743d6de8df7",
+      "размер": 344,
+      "sha256": "99f1d548196a249cfc4e3142ade536aaf2c456b55ee777954f07887e401bba63"
+    },
+    {
+      "путь": "Источники/URL/https/www.jpl.nasa.gov/news/nasas-perseverance-rover-completes-first-ai-planned-drive-on-mars/snapshot-manifest.json",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "791da8a251981336bccdc2ce87891df0739b9fe6",
+      "размер": 268,
+      "sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be"
+    },
+    {
+      "путь": "Источники/URL/https/www.jpl.nasa.gov/news/nasas-perseverance-rover-completes-first-ai-planned-drive-on-mars/source-index.md",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "b69502dea8af40f734bb46cf74c5d8f6b1eaa9a3",
+      "размер": 1339,
+      "sha256": "0a785d39227fca7ce0c9f854b96198bf1f48b68266a24581921c559180173adc"
+    },
+    {
+      "путь": "Источники/URL/https/www.jpl.nasa.gov/news/nasas-perseverance-rover-completes-first-ai-planned-drive-on-mars/source-url.txt",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "c9b94413b337711c24bccb934a61d313feb18e9c",
+      "размер": 97,
+      "sha256": "e8196626406a2ade387f938ae54c4906d12cf006f5a879bc2a6ba332420b9e19"
+    },
+    {
+      "путь": "Источники/URL/https/www.nasa.gov/wp-content/uploads/2024/01/mars-communications-disruption-and-delay.pdf/extracted-text.md",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "1f2bf851f9072859059ea35c9204f606a7331939",
+      "размер": 8077,
+      "sha256": "308e6a964a73d4e4c48a15d2f7fd555383f55ae2cce2b7dd30bfc475b6517705"
+    },
+    {
+      "путь": "Источники/URL/https/www.nasa.gov/wp-content/uploads/2024/01/mars-communications-disruption-and-delay.pdf/extraction-report.md",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "f34ad244d36235f09aaac6631b4c9b7aaa68f7fb",
+      "размер": 1355,
+      "sha256": "ec002816488c8b7554c5ec42aaad991dea39ab87d57792c95ccbcf16d3ed42e7"
+    },
+    {
+      "путь": "Источники/URL/https/www.nasa.gov/wp-content/uploads/2024/01/mars-communications-disruption-and-delay.pdf/response.body.pdf",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "9a49a7c9bd5f9612db0543fdff326bbcffd3981a",
+      "размер": 1075626,
+      "sha256": "afa0a7fb4cd4a6b1c9e919645ce0a7b2f005c33f96b8e27cbb57047821dc9c97"
+    },
+    {
+      "путь": "Источники/URL/https/www.nasa.gov/wp-content/uploads/2024/01/mars-communications-disruption-and-delay.pdf/response.headers.txt",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "ab7abaf1e2b8cc3372c6f1d21e5f63d68b47c799",
+      "размер": 426,
+      "sha256": "f217c1548074015aecd04a761cbc3000f36af728a3ecae728c2d03625354bc12"
+    },
+    {
+      "путь": "Источники/URL/https/www.nasa.gov/wp-content/uploads/2024/01/mars-communications-disruption-and-delay.pdf/snapshot-manifest.json",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "0a598657dd62e3f8d9f17e273eff958a9d40224c",
+      "размер": 267,
+      "sha256": "259953e1fee4335ea50d42f09135a8be68498734ab12fa77c6fa3454c462c26f"
+    },
+    {
+      "путь": "Источники/URL/https/www.nasa.gov/wp-content/uploads/2024/01/mars-communications-disruption-and-delay.pdf/source-index.md",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "a79e997cfbf30efbe86aa52eb2d8b837c52ddc12",
+      "размер": 1207,
+      "sha256": "6aa868bf91ba9db2a5263508525fc55c9a805658734f74cd329a331c0055b4d2"
+    },
+    {
+      "путь": "Источники/URL/https/www.nasa.gov/wp-content/uploads/2024/01/mars-communications-disruption-and-delay.pdf/source-url.txt",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "841ad07f2d1e6712d204fe8fb10daf23e9731ec0",
+      "размер": 93,
+      "sha256": "250a6cbdd4edc898934a6ae19b39ef6ab1e1a5e4ebd7bc32c2a40e7468145060"
+    },
+    {
+      "путь": "Источники/URL/https/www.oecd.org/en/publications/skills-in-the-ai-age_972bd15e-en.html/extracted-text.md",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "6f5fea4f19be61266162473cdba8b08d0b4cdb3a",
+      "размер": 425,
+      "sha256": "5b48a85abc11d4fcee7a6b3faf80e118e00ec30d5dc796728fd88c672226e4a7"
+    },
+    {
+      "путь": "Источники/URL/https/www.oecd.org/en/publications/skills-in-the-ai-age_972bd15e-en.html/extraction-report.md",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "2ee1a92a980bf505d2a105cd08c44b9b474ed7a3",
+      "размер": 2722,
+      "sha256": "f077ad368cbf90bf917f599dea21da3afabb0a8eeb76abd61a31f16ed481374c"
+    },
+    {
+      "путь": "Источники/URL/https/www.oecd.org/en/publications/skills-in-the-ai-age_972bd15e-en.html/response.body.html",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "9b8df72f88a870fc874e3835ce1355f10717af00",
+      "размер": 2394,
+      "sha256": "bf563054bd78a86a8e4123a7ad59e8dda6dbb769eb322ff80d9f04e2effd0722"
+    },
+    {
+      "путь": "Источники/URL/https/www.oecd.org/en/publications/skills-in-the-ai-age_972bd15e-en.html/response.headers.txt",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "974f47ccdacf04c6e52418eb18a1ba0afffe5585",
+      "размер": 1919,
+      "sha256": "8fdc2a1b5db98b77a34425a05478143c49920009ce9988582258f64dee86e536"
+    },
+    {
+      "путь": "Источники/URL/https/www.oecd.org/en/publications/skills-in-the-ai-age_972bd15e-en.html/snapshot-manifest.json",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "791da8a251981336bccdc2ce87891df0739b9fe6",
+      "размер": 268,
+      "sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be"
+    },
+    {
+      "путь": "Источники/URL/https/www.oecd.org/en/publications/skills-in-the-ai-age_972bd15e-en.html/source-index.md",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "39ca904cd6629f9961ce592daad7a389bfd58612",
+      "размер": 1318,
+      "sha256": "5169160ef955e7ea3624e6a5610e1a787d9e323aba4d408f38fe27d6dd56bcd9"
+    },
+    {
+      "путь": "Источники/URL/https/www.oecd.org/en/publications/skills-in-the-ai-age_972bd15e-en.html/source-url.txt",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "6d2939afd0789347a6693e7a6f34264ac3e6056a",
+      "размер": 75,
+      "sha256": "26c96a15399e437962bc6bd1116d71ce1560fb2bcdd44e3dcd6f5024b42ff586"
+    },
+    {
+      "путь": "Планирование/карточки-шагов/README.md",
+      "операция": "M",
+      "режим": "100644",
+      "git_blob": "f1d713e52ffb13479d784978934d99e7c912b698",
+      "размер": 89321,
+      "sha256": "baf8f716d4a72dc7f79e72c7b3166b951093b410dc05a25113ef76e712673dd7"
+    },
+    {
+      "путь": "Планирование/карточки-шагов/🟡-FUM-STEP-0153-предотвращать-прямые-проверки-вне-обёртки.md",
+      "операция": "M",
+      "режим": "100644",
+      "git_blob": "2fa84752afa4a4f2327c415a6457c0de76e7718d",
+      "размер": 3068,
+      "sha256": "ffdd2e8dad620700a32cebfbb26aa5230eee070641519db58234a2cd8c3959dd"
+    },
+    {
+      "путь": "Планирование/карточки-шагов/🟡-FUM-STEP-0161-проверять-паспорт-фантастического-произведения.md",
+      "операция": "A",
+      "режим": "100644",
+      "git_blob": "47298081146289143f45fa4bb826f4f14b2a3ad8",
+      "размер": 3913,
+      "sha256": "f80911a9d74c6b6e2ea96f1af5fcedd7af761058ef6742561677222263bbb8d0"
+    },
+    {
+      "путь": "Планирование/реестр-требований-вариантов-и-кандидатов.json",
+      "операция": "M",
+      "режим": "100644",
+      "git_blob": "25389abcd2e0c31931521647a8f5246f78c89323",
+      "размер": 1934401,
+      "sha256": "c68f97e829d55425ab2aa8cd45bd054abda4614fb46e6870c8c49029f28d069f"
+    },
+    {
+      "путь": "Сбои/FUM-СБОЙ-0025-прямой-запуск-проверки-вне-машинного-учёта.md",
+      "операция": "M",
+      "режим": "100644",
+      "git_blob": "6cd6365f183deda00e2b7312d3180568f4d2b02c",
+      "размер": 4565,
+      "sha256": "665a08ff4db0bc0e5379974ba8c6de8ae8c35dcc5b8912aea9d51503c4cefc5e"
+    },
+    {
+      "путь": "Сбои/README.md",
+      "операция": "M",
+      "режим": "100644",
+      "git_blob": "3a3cb75b2d4da218deccd9bb251bff9d5758f1f9",
+      "размер": 15796,
+      "sha256": "f8a7a5b4f78f8507d88f36872b68df36776557b4169eca0540b95659bf37e34f"
+    }
+  ]
+}

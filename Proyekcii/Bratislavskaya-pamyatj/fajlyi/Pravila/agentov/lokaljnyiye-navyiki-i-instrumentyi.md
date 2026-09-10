@@ -43,6 +43,9 @@ Pri sozdanii otdeljnoj zadachi i peredache yej sleduyusjhego soobsjheniya yavno 
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000169 -->
 - Yesli vneshnyuyu avtomatizaciyu, servis ili modelj neljzya polnostjyu vosproizvesti lokaljno iz-za dostupa, sekretov, licenzij ili tekhnicheskikh ogranichenij, v repozitorii sokhranyayetsya lokaljnyij proveryayemyij sloj: interfejsnyij kontrakt, adapter, fiksturyi, simulyator, otchyot o nevosproizvodimoj chasti ili inaya publikacionno chistaya forma.
 
+<!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-НОВОЕ-000010 -->
+- Opisaniye avtomatizacii FUM sluzhit yeyo chelovecheskim interfejsom: obyyasnyayet naznacheniye, sposob zapuska, neobkhodimyiye vkhodnyiye dannyiye, ozhidayemyij rezuljtat, oshibki i daljnejshiye dejstviya, a takzhe ogranicheniya. Po etomu opisaniyu chelovek dolzhen umetj vyipolnitj obyichnyij zapusk i ponyatj rezuljtat bez chteniya realizacii. Pri sozdanii ili izmenenii avtomatizacii podderzhivaj eto opisaniye vmeste s yeyo povedeniyem v susjhestvuyusjhej dostupnoj tochke vkhoda — README, SKILL.md ili svyazannom rukovodstve. Otdeljnyij dokument i yedinyij obyazateljnyij shablon razdelov dlya etogo ne trebuyutsya.
+
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000170 -->
 - Yesli [rabochaya sessiya](../../Glossarij/rabochaya-sessiya.md) vyiyavlyayet zadachu, kotoraya potencialjno mozhet povtoryatjsya, agent dolzhen rassmatrivatj yeyo kak kandidata na [avtomatizaciyu FUM](../../Glossarij/avtomatizaciya-FUM.md) uzhe pri pervom vyipolnenii. K takim zadacham otnosyatsya, naprimer, ocenki, svodnyiye tablicyi, peresborka opisanij, proverki, sbor statistiki, shablonyi otchyotov i drugiye proceduryi, gde ozhidayemo prigodyatsya povtornyij zapusk, yedinaya metodika ili sravnimostj rezuljtatov.
 
@@ -51,6 +54,10 @@ Pri sozdanii otdeljnoj zadachi i peredache yej sleduyusjhego soobsjheniya yavno 
 - Dlya kazhdogo urovnya zadayutsya konkretnyij vkhod, proveryayemyij rezuljtat, granicyi primeneniya i svideteljstvo poleznosti. Vyibor sleduyusjhego obobsjheniya opirayetsya na obnaruzhennyij povtoryayemyij mekhanizm i soglasovannyij obyyom rabotyi. Obobsjheniye sokhranyayet svyazj s iskhodnoj zadachej, yeyo trebovaniyami i obratnoj svyazjyu cheloveka. Izmeneniya ispolnyayemogo koda na lyubom urovne prokhodyat TDD, profilirovaniye i resheniye ob optimizacii.
 - Predpochtiteljnyij rezuljtat — rabotayusjhaya lokaljnaya avtomatizaciya ili testiruyemyij scenarij yeyo zapuska. Proveryayemyij shablon i deklarativnyij kontrakt mogut byitj promezhutochnyimi rezuljtatami; ikh podgotovka ne obyyavlyayetsya ispolneniyem yesjhyo ne realizovannoj avtomatizacii. Yesli tekusjhaya granica zadachi ne pozvolyayet zakonchitj avtomatizaciyu, fiksiruyutsya prichina, ruchnoj libo promezhutochnyij status i blizhajshij shag v iskhodnom zaprose, otchyote i aktualjnoj kartochke prodolzheniya. Razovoye ruchnoye resheniye samo po sebe ne pogashayet obyazateljstvo avtomatizacii.
 - [Istochnik prioriteta i rekursivnogo primeneniya](../../Zhurnal/2026-09-09_11-39-26_MSK_predotvratitj-poteryu-obyazateljstv-postoyannoj-zadachi/zapros.md).
+
+- Dlya vyibora sleduyusjhego urovnya avtomatizacii agent obyazan sokhranyatj i nakaplivatj dostupnuyu statistiku vyizovov vmeste s dokazannyim proiskhozhdeniyem. Ispoljzuyetsya vosproizvodimyij sbor iz pervichnyikh sobyitij; oblastj okhvata, neizvestnyiye polya i yesjhyo ne podklyuchyonnyiye istochniki ukazyivayutsya yavno. Razlichayutsya pryamoj vyizov modeli, operaciya runtime, avtomatizaciya i vlozhennyij shag; vremya urovnej ne summiruyetsya povtorno. Povtornyij import ne uvelichivayet schyotchiki, zakryitaya istoriya ne perepisyivayetsya, sluzhebnoye sobyitiye ne pripisyivayetsya cheloveku.
+- Kandidatyi vyivodyatsya iz izmerimyikh priznakov: povtoryayemyikh posledovateljnostej i chastotyi pryamyikh vyizovov na sopostavimuyu zadachu, vremeni, neozhidannyikh otkazov, ispravlenij i probelov proiskhozhdeniya. Etot perechenj otkryit dlya novyikh evristik. Dlya primenyonnoj evristiki sokhranyayutsya vkhodnyiye sobyitiya, metod i znamenatelj, oblastj i osnovaniye poroga; poleznostj proveryayetsya sravneniyem do/posle pri ravnom rezuljtate i s uchyotom stoimosti sbora. Predpolozheniye ne vyidayotsya za dokazannyij roditeljskij vyizov, a svodka ne dayot novyikh polnomochij.
+- [Istochnik trebovaniya o statistike vyizovov](../../Zhurnal/2026-09-09_14-35-59_MSK_podgotovitj-nativnoye-prodolzheniye-zadachi/zapros.md).
 
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000172 -->
 - Vnovj vyiyavlennyij v rabochej sessii obobsjhayemyij princip, sposobnyij vliyatj na posleduyusjhiye zadachi, ne ostayotsya toljko v otvete ili doslovnom zhurnale. Sessiya svyazyivayet yego s tochnyim iskhodnyim svideteljstvom i libo zakreplyayet v kanonicheskom istochnike pravil ili trebovanij s primenimoj proverkoj, libo ukazyivayet uzhe susjhestvuyusjhij ne boleye slabyij ekvivalent, libo sozdayot aktualjnuyu kartochku daljnejshej realizacii s yavno zafiksirovannoj granicej. Kartochka ne podmenyayet nemedlenno primenimuyu fiksaciyu, a vremennaya celj ne prevrasjhayetsya bez otdeljnogo osnovaniya v bessrochnoye pravilo.
@@ -83,6 +90,6 @@ Pri sozdanii otdeljnoj zadachi i peredache yej sleduyusjhego soobsjheniya yavno 
 - [iskhodnyij zapros 2026-08-24 15:31:12 MSK — Dekompozirovatj AGENTS MD](../../Zhurnal/2026-08-24_15-31-12_MSK_dekompozirovatj-AGENTS-md/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 13:26:34 MSK -->
-<!-- content-sha256: sha256:ee482e83ea539d5273daa2dc2c4b4e3527a8d9b36312f6523c365f191a7eecc9 -->
+<!-- last-content-edit: 2026-09-10 16:38:28 MSK -->
+<!-- content-sha256: sha256:852e0483717444181ef8d373595afb0f689c9144c936e85c414ba6349c2c8e3d -->
 <!-- FUM-MD-RECENCY:END -->

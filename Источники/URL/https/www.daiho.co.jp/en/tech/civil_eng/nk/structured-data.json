@@ -1,0 +1,95 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://www.daiho.co.jp/en/tech/civil_eng/nk/",
+      "url": "https://www.daiho.co.jp/en/tech/civil_eng/nk/",
+      "name": "Outline of Pneumatic Caisson | Civil Engineering Business | Technology & Solution | Daiho Corporation",
+      "isPartOf": {
+        "@id": "https://www.daiho.co.jp/en/#website"
+      },
+      "datePublished": "2022-04-06T09:12:16+00:00",
+      "dateModified": "2022-12-19T09:29:56+00:00",
+      "breadcrumb": {
+        "@id": "https://www.daiho.co.jp/en/tech/civil_eng/nk/#breadcrumb"
+      },
+      "inLanguage": "ja",
+      "potentialAction": [
+        {
+          "@type": "ReadAction",
+          "target": [
+            "https://www.daiho.co.jp/en/tech/civil_eng/nk/"
+          ]
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.daiho.co.jp/en/tech/civil_eng/nk/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "技術・ソリューション",
+          "item": "https://www.daiho.co.jp/en/tech/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "土木事業",
+          "item": "https://www.daiho.co.jp/en/tech/civil_eng/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "ニューマチックケーソン 概要"
+        }
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.daiho.co.jp/en/#website",
+      "url": "https://www.daiho.co.jp/en/",
+      "name": "Daiho Corporation",
+      "description": "The official corporate site of Daiho Corporation. With our technological abilities, we are contributing to infrastructure development and urban development that support society and are working to realize a safe and secure society.",
+      "publisher": {
+        "@id": "https://www.daiho.co.jp/en/#organization"
+      },
+      "potentialAction": [
+        {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://www.daiho.co.jp/en/?s={search_term_string}"
+          },
+          "query-input": {
+            "@type": "PropertyValueSpecification",
+            "valueRequired": true,
+            "valueName": "search_term_string"
+          }
+        }
+      ],
+      "inLanguage": "ja"
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://www.daiho.co.jp/en/#organization",
+      "name": "Daiho Corporation",
+      "url": "https://www.daiho.co.jp/en/",
+      "logo": {
+        "@type": "ImageObject",
+        "inLanguage": "ja",
+        "@id": "https://www.daiho.co.jp/en/#/schema/logo/image/",
+        "url": "https://www.daiho.co.jp/en/wp/wp-content/uploads/2022/04/header-logo-wh.png",
+        "contentUrl": "https://www.daiho.co.jp/en/wp/wp-content/uploads/2022/04/header-logo-wh.png",
+        "width": 238,
+        "height": 76,
+        "caption": "Daiho Corporation"
+      },
+      "image": {
+        "@id": "https://www.daiho.co.jp/en/#/schema/logo/image/"
+      }
+    }
+  ]
+}

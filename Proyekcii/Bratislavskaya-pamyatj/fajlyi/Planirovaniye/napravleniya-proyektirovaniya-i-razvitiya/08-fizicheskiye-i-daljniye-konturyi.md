@@ -26,6 +26,8 @@ Fizicheskoye napravleniye dolzhno postoyanno sveryatjsya s decentralizaciyej: so
 
 Proverka: karta ssyilayetsya na voprosyi o granicakh apparatnoj, issledovateljskoj, vlastnoj, potrebiteljskoj, zemnoj resursnoj i kosmicheskoj avtonomii i yavno fiksiruyet, chto perekhod k realjnomu fizicheskomu dejstviyu trebuyet otdeljnogo trebovaniya, proverki i podtverzhdyonnoj trassyi.
 
+[Modelj betonnyikh glubinnyikh sistem](../../Dokumentaciya/52-modelj-betonnyikh-glubinnyikh-sistem.md) dobavlyayet predmetnyij scenarij sravneniya podzemnogo obyyekta i podvodnogo gruzovogo marshruta. [Vyibor opornoj paryi](../kartochki-shagov/🟡-FUM-STEP-0149-vyibratj-opornyiye-scenarii-betonnyikh-glubinnyikh-sistem.md) ostayotsya dokumentacionnoj zadachej.
+
 ## Proveryayemyiye rezuljtatyi
 
 - Dlya fizicheskogo kontura snachala susjhestvuyet modelj, simulyator ili publikacionno chistyij kontrakt.
@@ -55,6 +57,6 @@ Eto napravleniye ne razreshayet fizicheskoye dejstviye samo po sebe. Ono sokhran
 - [otkryityij vopros o granicakh kosmicheskoj avtonomii](../../Voprosyi/2026-06-22_07-40-59_MSK_granicyi-kosmicheskoj-avtonomii-FUM.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-03 14:54:04 MSK -->
-<!-- content-sha256: sha256:97a66e4ac2eb0e60b4b29145d50f165a2603b3d647506c3fde0aad02f0219807 -->
+<!-- last-content-edit: 2026-09-07 18:43:58 MSK -->
+<!-- content-sha256: sha256:6076bb7fcf3ad0328235af45bc2a1e88a827c5ef3ef2850cb17c1db7f638548f -->
 <!-- FUM-MD-RECENCY:END -->

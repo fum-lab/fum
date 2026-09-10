@@ -7,7 +7,7 @@ description: Sokhranyatj istoricheskij selektor sleduyusjhego shaga vetki i yego
 
 ## Dejstvuyusjhij status
 
-Posle `manual-sequential-v1` vetochnyij selector ne yavlyayetsya dejstvuyusjhim marshrutom. Poljzovatelj vruchnuyu zapuskayet kazhduyu sleduyusjhuyu pishusjhuyu sessiyu s novyim soderzhateljnyim zaprosom; `create_thread`, continuation, heartbeat i avtomaticheskij vyibor kartochki ne vyizyivayutsya. Zasjhitnyij readback `branch-next-step.py show` vozvrasjhayet `done` s prichinoj `manual-sequential-v1`, a izmenyayusjhiye komandyi istoricheskogo selector fail-closed zapresjhenyi. Scenarij, naboryi i testyi nizhe sokhranenyi kak istoricheskaya narabotka i mogut snova statj aktivnyimi toljko otdeljnyim poljzovateljskim zaprosom i proverennyim izmeneniyem `AGENTS.md`.
+V rezhimakh `manual-sequential-v1` i `manual-sequential-v2` vetochnyij selector ne yavlyayetsya dejstvuyusjhim marshrutom. V v2 ta zhe zadacha prodolzhayet soglasovannuyu rabotu posle kommita po `AGENTS.md`; eto ne vklyuchayet prezhnij konvejyer. Zasjhitnyij readback `branch-next-step.py show` vozvrasjhayet `done` s prichinoj, ravnoj tochnoj versii ruchnogo rezhima, a izmenyayusjhiye komandyi istoricheskogo selector fail-closed zapresjhenyi. Scenarij, naboryi i testyi nizhe sokhranyayutsya kak istoricheskaya narabotka bez polnomochij na ispolneniye.
 
 Yedinstvennaya bridge-zadacha perekhodnogo kommita selector ne zapuskayet: posle `ack-head` i dopuska ona vyipolnyayet toljko `finish-clean` prezhnej FIFO.
 
@@ -103,6 +103,6 @@ Selektor dokazyivayet strukturnuyu dopustimostj i vyibirayet odin kandidat na te
 - [iskhodnyij zapros 2026-07-20 20:06:04 MSK — Zapuskatj sleduyusjhiye shagi vetok](../../Zhurnal/2026-07-20_20-06-04_MSK_zapuskatj-sleduyusjhiye-shagi-vetok/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-24 09:37:36 MSK -->
-<!-- content-sha256: sha256:8d33eaa5b887f910f85a6483b580719a75af64c4f33bb94eb8c0fd7fd06192f0 -->
+<!-- last-content-edit: 2026-09-10 00:22:39 MSK -->
+<!-- content-sha256: sha256:b2fe21d90d4fa07fd84b887b74dd2ac709c4b8f791e7c7d954aff4d64bd28af8 -->
 <!-- FUM-MD-RECENCY:END -->

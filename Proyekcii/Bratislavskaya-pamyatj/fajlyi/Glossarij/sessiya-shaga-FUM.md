@@ -1,6 +1,6 @@
 # Sessiya shaga FUM
 
-Avtomaticheskaya cepochka takikh sessij cherez continuation, FIFO i `commit+handoff` yavlyayetsya otlozhennyim profilem. V dejstvuyusjhej ruchnoj skheme poljzovatelj sam zapuskayet kazhduyu pishusjhuyu sessiyu v pervichnom checkout `refs/heads/master`; ona vyipolnyayet odin soderzhateljnyij zapros, sozdayot ne boleye odnogo itogovogo lokaljnogo kommita i zavershayetsya bez preyemnika.
+Avtomaticheskaya cepochka takikh sessij cherez continuation, FIFO i `commit+handoff` yavlyayetsya otlozhennyim profilem. V dejstvuyusjhej ruchnoj skheme poljzovatelj sam zapuskayet kazhduyu pishusjhuyu sessiyu v pervichnom checkout `refs/heads/master`; ona vyipolnyayet soglasovannyiye etapyi, fiksiruyet kazhdyij proverennyij etap lokaljnyim kommitom i prodolzhayet rabotu v toj zhe zadache.
 
 Sessiya shaga FUM — efemernaya host-zadacha, ispolnyayusjhaya odin kontekstno posiljnyij rabochij paket dochernego fork-agenta FUM. V nachaljnom profile kornevoj FUM sozdayot v Codex Desktop toljko pervuyu sessiyu cepochki i svyazyivayet yeyo s tochnyimi naznacheniyem, roljyu, `CODEX_THREAD_ID`, repozitoriyem, zhivyim klonom, bazovyim commit, polnyim rabochim ref i byudzhetami. Kazhduyu sleduyusjhuyu sessiyu zaraneye sozdayot kommityasjhij vladelec kak obyazateljnoye prodolzheniye togo zhe klona i ref.
 
@@ -26,6 +26,6 @@ Odin ekzemplyar Codex Desktop yavlyayetsya zayavlennyim nachaljnyim profilem raz
 - [iskhodnyij zapros 2026-08-06 17:38:49 MSK — Sozdatj dochernikh fork-agentov FUM](../Zhurnal/2026-08-06_17-38-49_MSK_sozdatj-docherniye-fork-agentyi-FUM/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-23 15:37:47 MSK -->
-<!-- content-sha256: sha256:0e3c84b45e2aa6d74fade895ecc63fa7d0d975607b66c40fac98e28126f9ef5b -->
+<!-- last-content-edit: 2026-09-10 00:22:39 MSK -->
+<!-- content-sha256: sha256:4a372a576f32cb18915bb510f5429a8da02e2829714f2efa9a89a6aeb0f90757 -->
 <!-- FUM-MD-RECENCY:END -->

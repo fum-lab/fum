@@ -1,0 +1,9 @@
+HTTP/2 403
+server: CloudFront
+date: Wed, 09 Sep 2026 12:14:37 GMT
+content-type: text/html
+content-length: 919
+x-cache: Error from cloudfront
+via: [REDACTED: служебные данные ответа]
+x-amz-cf-pop: [REDACTED: служебные данные ответа]
+x-amz-cf-id: [REDACTED: служебные данные ответа]

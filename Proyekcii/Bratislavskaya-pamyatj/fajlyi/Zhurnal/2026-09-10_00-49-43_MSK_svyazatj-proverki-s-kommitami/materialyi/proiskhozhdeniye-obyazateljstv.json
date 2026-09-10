@@ -1,0 +1,78 @@
+{
+  "схема": "fum.источники-продолжения.1",
+  "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "граница": "Только происхождение реальных команд; карта не является приёмкой, полным реестром или новым запросом. Историческая линия не является предком первичного checkout.",
+  "источники": {
+    "FUM-ПРОДОЛЖЕНИЕ-СИСТЕМА": [
+      {
+        "строка": 12554,
+        "смещение": 66502588,
+        "байтов": 451,
+        "sha256": "8cf472cce8b29d34fb3bcce517b6dfdf392ee407486dd5e81349987b2a6c49d6",
+        "цитата": "Kak mozhno sistemno reshitj etu problemu s prezhdevremennoj ostanovkoj?"
+      }
+    ],
+    "FUM-STEP-0155-РЕАЛИЗАЦИЯ": [
+      {
+        "строка": 4739,
+        "смещение": 28056783,
+        "байтов": 1002,
+        "sha256": "64faf63250ce155fd447a0307552cf02035f508ecc6a844e6885f66f3f45a10a",
+        "цитата": "Ya dumayu myi mozhem zadejstvovatj mekhanizm indeksa v gite, chtobyi imetj vozmozhnostj i gotovitj kommit v indekse, i dobavlyatj lyubyiye utochnyayusjhiye zhurnaljnyiye dannyiye v chekaut."
+      }
+    ],
+    "FUM-STEP-0156-РЕАЛИЗАЦИЯ": [
+      {
+        "строка": 383,
+        "смещение": 2982648,
+        "байтов": 492,
+        "sha256": "97ead1b3bb302a4b77b3b58001a3303d8c845d2d7a95a9cd68f0744b5b877402",
+        "цитата": "Vsyo eto nablyudeniye myi dolzhnyi byitj sposobnyi sokhranyatj v zhurnal v postoyannom zapominayusjhem ustrojstve."
+      }
+    ],
+    "FUMA-НАБЛЮДЕНИЕ": [
+      {
+        "строка": 310,
+        "смещение": 2498135,
+        "байтов": 475,
+        "sha256": "e445450c80ddf084e45b19f8ad62f1a4252b33dca432cdc5c9495f0aa426dab6",
+        "цитата": "Nauchisj videtj cherez vse API, kotoryiye predostavlyayet macOS. Ispoljzuj Swift v proyekte FUMA."
+      }
+    ],
+    "FUMA-СНИМОК-RUNTIME": [
+      {
+        "строка": 13170,
+        "смещение": 71426532,
+        "байтов": 603,
+        "sha256": "8a3a0f667866c3c3fa67aafb9780212fd061c44e095ceba1ab8864017f0617e9",
+        "цитата": "Znachiteljnaya chastj problem v rabote voznikayet iz-za togo, chto u tebya net normaljnoj po-chelovecheski realizovannoj vozmozhnosti uvedetj polnoye sostoyaniye svoyego agentskogo rantajma, vklyuchaya interfejs s chelovekom."
+      }
+    ],
+    "FUMA-СТАТИСТИКА-ВЫЗОВОВ": [
+      {
+        "строка": 15699,
+        "смещение": 93782853,
+        "байтов": 794,
+        "sha256": "e367c22238654fae0e36b8fec4102af4878a2d39e08d28439e08128d340abc6f",
+        "цитата": "Myi dolzhnyi sokhranyatj i nakaplivatj statistiku vyizovov avtomatizacij i instrumentov vmeste s istochnikami vyizovov, chtobyi eti dannyiye mozhno byilo ispoljzovatj dlya vyiyavleniya neobkhodimosti sozdaniya sleduyusjhego urovnya avtomatizacii, yesli chislo ruchnyikh vyizovov instrumenta modeljyu stanovitsya slishkom boljshim, naprimer, no eto yavno ne vse vozmozhnyiye evristiki, kotoryiye nam stoit otkryitj."
+      }
+    ],
+    "FUMA-ВСЕЛЕННАЯ": [
+      {
+        "строка": 15817,
+        "смещение": 97971257,
+        "байтов": 771,
+        "sha256": "e98c87ca8135dbf1e0ff7843b4ee35fa447ac50578db7a45804c5825d623c07a",
+        "цитата": "Проработай проект вселенной для создания художественных научно-фантастических произведений о ближайшем или далёком будущем о FUM, вокруг FUM, на базе FUM. Это должно быть на уровне высоковероятной аналитики будущего."
+      }
+    ]
+  },
+  "исторический_генезис": "008f27dcc34d6991b437109ddfc8166f25be9e28",
+  "исторический_снимок_реестра": {
+    "коммит": "11d71fdd5ea8b958d8e3fc9aa028b8720024b853",
+    "путь": "Планирование/задачи/01a07d3d-d376-7ad2-aafc-67e4c25a67eb/обязательства.json",
+    "sha256": "c2d4f4054e15132ee0a79afa0f88962ce3ea2573cf918b3d8426c47802da0b5d",
+    "байтов": 5738,
+    "определений": 7
+  }
+}

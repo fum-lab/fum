@@ -2739,7 +2739,7 @@
     },
     {
       "id": "obligations-v2-source-pattern",
-      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
       "kind": "posix-absolute",
       "line_sha256": "sha256:4dccd6b4a80dfa58f5f7c482c4f34a1e282be87a89fedf2bcd48afb9866deae1",
       "count": 1,
@@ -2748,7 +2748,7 @@
     },
     {
       "id": "obligations-v2-text-fence",
-      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
       "kind": "home-expansion",
       "line_sha256": "sha256:40354f967ab6549c71bcc3fa41297cb1f957bf71e1ceeb09eb310498162e2040",
       "count": 1,
@@ -2757,7 +2757,7 @@
     },
     {
       "id": "obligations-v2-readme-suffix",
-      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
       "kind": "posix-absolute",
       "line_sha256": "sha256:0c5e46391fbb97ac7103031b248f39e6531bccafb27ca20f7f677128ea9cd19e",
       "count": 1,
@@ -2766,7 +2766,7 @@
     },
     {
       "id": "obligations-v2-fingerprint-runs",
-      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
       "kind": "posix-absolute",
       "line_sha256": "sha256:997abf7c1b1619bc41b9fd36ce545c3c54062d5748e24c7bfe5b161389c9f439",
       "count": 1,
@@ -2775,7 +2775,7 @@
     },
     {
       "id": "obligations-v2-fingerprint-report",
-      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
       "kind": "posix-absolute",
       "line_sha256": "sha256:460162f0d8d10d5ce5408f700049f438cbcdd2a09ae3adf46c8a9c2f48ce7f19",
       "count": 1,
@@ -2784,7 +2784,7 @@
     },
     {
       "id": "obligations-v2-closed-runs",
-      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
       "kind": "posix-absolute",
       "line_sha256": "sha256:ecc46927c13193ec2321bd4ab059961eff21a21abdb6f17d86919e95ac6616a4",
       "count": 1,
@@ -2793,7 +2793,7 @@
     },
     {
       "id": "obligations-v2-closed-snapshot-presence",
-      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
       "kind": "posix-absolute",
       "line_sha256": "sha256:c31a6fbd36fd5359c2c01f938a2f478d034f9963ff49f0992eeedab9a5e30b26",
       "count": 1,
@@ -2802,7 +2802,7 @@
     },
     {
       "id": "obligations-v2-closed-snapshot-read",
-      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
       "kind": "posix-absolute",
       "line_sha256": "sha256:7a1f6aca65421483c08c2e82444149996e6fd554c6555f8afe266c4d65c6ebe3",
       "count": 1,
@@ -2811,7 +2811,7 @@
     },
     {
       "id": "obligations-v2-closed-report",
-      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
       "kind": "posix-absolute",
       "line_sha256": "sha256:bcf89ca3ec79916f3d36eb0719393044b6a98abc7c56871ef13b2f54417a065f",
       "count": 1,
@@ -2820,7 +2820,7 @@
     },
     {
       "id": "obligations-v2-closed-history",
-      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
       "kind": "posix-absolute",
       "line_sha256": "sha256:19d98b7d30c1a07b38c4dffef8f14b6243f01e85b75fcbccfaafffeb6288d6d9",
       "count": 1,
@@ -2829,7 +2829,7 @@
     },
     {
       "id": "obligations-v2-closed-anchor",
-      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
       "kind": "posix-absolute",
       "line_sha256": "sha256:87e2a3564ddf8633428cb8b87fe7e3af0f42302a95630788410e9093a0c67b73",
       "count": 1,
@@ -2838,7 +2838,7 @@
     },
     {
       "id": "obligations-v2-receipt-runs",
-      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
       "kind": "posix-absolute",
       "line_sha256": "sha256:136b138244a3d4e1b91f533d05f965d0e693c6798fe3eea1f605680fba0c89c9",
       "count": 1,
@@ -2847,7 +2847,7 @@
     },
     {
       "id": "obligations-v2-receipt-history",
-      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
       "kind": "posix-absolute",
       "line_sha256": "sha256:041511e7309c68610d0e51ad12b89ee43429393ea9dc6f155ab642c78b343566",
       "count": 1,
@@ -2856,7 +2856,7 @@
     },
     {
       "id": "obligations-v2-receipt-anchor",
-      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
       "kind": "posix-absolute",
       "line_sha256": "sha256:654c38a9705805f2a867a39313c296c0ae56d7f1708f5c2447ec3df01875e0ab",
       "count": 1,
@@ -2865,7 +2865,7 @@
     },
     {
       "id": "obligations-v2-fixture-snapshot",
-      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обязательства_задачи.py",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обязательства_задачи_v2.py",
       "kind": "posix-absolute",
       "line_sha256": "sha256:2ec22d5c3a566df50b646306d250263bc20b4697f3043028cfbf1df702f5adbb",
       "count": 1,
@@ -2874,7 +2874,7 @@
     },
     {
       "id": "obligations-v2-fixture-dependency",
-      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обязательства_задачи.py",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обязательства_задачи_v2.py",
       "kind": "posix-absolute",
       "line_sha256": "sha256:1c78ae0785036bf287b113f27c6bbdb17d5c5056bd8d52b5916a83b0e2146d7f",
       "count": 1,

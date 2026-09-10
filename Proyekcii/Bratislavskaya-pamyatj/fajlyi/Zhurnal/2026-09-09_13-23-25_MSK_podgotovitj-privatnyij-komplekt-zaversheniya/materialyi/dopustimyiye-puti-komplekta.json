@@ -1,0 +1,145 @@
+{
+  "schema": "fum.machine-local-path-policy-update.v1",
+  "declarations": [
+    {
+      "id": "stop-bundle-git-path",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовить-комплект-завершения.py",
+      "line": 248,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет закрытую границу поиска системных команд при проверке Git-источника."
+    },
+    {
+      "id": "stop-bundle-git-config",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовить-комплект-завершения.py",
+      "line": 249,
+      "category": "allow.path-validation-definition",
+      "reason": "Отключает глобальную конфигурацию Git системным пустым источником в проверяемой границе запуска."
+    },
+    {
+      "id": "stop-bundle-git-executable",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовить-комплект-завершения.py",
+      "line": 250,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точный системный Git для проверки цепочки исходных объектов."
+    },
+    {
+      "id": "stop-bundle-python-path",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовить-комплект-завершения.py",
+      "line": 355,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет очищенное окружение проверки выбранного интерпретатора."
+    },
+    {
+      "id": "stop-bundle-bootstrap-env",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовить-комплект-завершения.py",
+      "line": 408,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет проверяемую границу запуска загрузчика через системный env и фиксированный PATH."
+    },
+    {
+      "id": "stop-bundle-profile-reference-env",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-комплект-завершения.py",
+      "line": 98,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический сквозной опыт использует фиксированное окружение эталонной проверки guard."
+    },
+    {
+      "id": "stop-bundle-profile-hook-shell",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-комплект-завершения.py",
+      "line": 114,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический сквозной опыт исполняет точную проверяемую command системной оболочкой."
+    },
+    {
+      "id": "stop-bundle-fixture-assert-path",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "line": 49,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический исходник проверяет точное очищенное окружение загрузчика."
+    },
+    {
+      "id": "stop-bundle-fixture-git",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "line": 60,
+      "category": "allow.test-fixture",
+      "reason": "Системный Git обслуживает только временный синтетический репозиторий теста."
+    },
+    {
+      "id": "stop-bundle-fixture-shell",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "line": 92,
+      "category": "allow.test-fixture",
+      "reason": "Системная оболочка проверяет quoting и контракт синтетического hook."
+    },
+    {
+      "id": "stop-bundle-fixture-subtree-blob",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "line": 224,
+      "category": "allow.test-fixture",
+      "reason": "Системный Git создаёт подменный blob только внутри изолированной отрицательной фикстуры."
+    },
+    {
+      "id": "stop-bundle-fixture-subtree-read",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "line": 226,
+      "category": "allow.test-fixture",
+      "reason": "Системный Git читает синтетический tree для воспроизведения статической подмены."
+    },
+    {
+      "id": "stop-bundle-fixture-signal",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "line": 267,
+      "category": "allow.test-fixture",
+      "reason": "Системная оболочка проверяет сохранение сигнала на точной синтетической command."
+    },
+    {
+      "id": "stop-bundle-fixture-bare",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "line": 295,
+      "category": "allow.test-fixture",
+      "reason": "Системный Git создаёт голый репозиторий отрицательной фикстуры приватного предка."
+    },
+    {
+      "id": "stop-bundle-fixture-common-create",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "line": 331,
+      "category": "allow.test-fixture",
+      "reason": "Системный Git создаёт вынесенный общий каталог только в отрицательной фикстуре."
+    },
+    {
+      "id": "stop-bundle-fixture-common-prove",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "line": 336,
+      "category": "allow.test-fixture",
+      "reason": "Системный Git подтверждает реальность вынесенного общего каталога отрицательной фикстуры."
+    },
+    {
+      "id": "stop-bundle-fixture-malformed",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "line": 350,
+      "category": "allow.test-fixture",
+      "reason": "Системная оболочка проверяет ограниченный отказ на повреждённом синтетическом вводе."
+    },
+    {
+      "id": "stop-bundle-fixture-open-stdin",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "line": 353,
+      "category": "allow.test-fixture",
+      "reason": "Системная оболочка проверяет ограниченное ожидание незакрытого синтетического stdin."
+    },
+    {
+      "id": "stop-fixture-transcript",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_перехват_завершения.py",
+      "line": 73,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический путь transcript_path проверяет, что содержимое чужого транскрипта не читается и не сохраняется."
+    },
+    {
+      "id": "stop-fixture-foreign-cwd",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_перехват_завершения.py",
+      "line": 150,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический чужой cwd проверяет отказ от принятия события с несовпадающей рабочей директорией."
+    }
+  ]
+}

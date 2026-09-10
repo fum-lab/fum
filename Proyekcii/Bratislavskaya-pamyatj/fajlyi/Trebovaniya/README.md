@@ -56,6 +56,8 @@ Status menyayetsya pereimenovaniyem fajla cherez `git mv`. Emodzi ne zamenyayet 
 
 ## Agentskij cikl i poljzovateljskij vvod
 
+- `FUM-REQ-0045` — [🟡 Statistika vyizovov dlya razvitiya avtomatizacij](🟡-statistika-vyizovov-dlya-razvitiya-avtomatizacij.md)
+
 - `FUM-REQ-0044` — [🟡 Nablyudayemoye sostoyaniye agentskogo runtime i interfejsa](🟡-nablyudayemoye-sostoyaniye-agentskogo-runtime-i-interfejsa.md)
 - `FUM-REQ-0017` — [🟡 Poljzovateljskoye perenapravleniye nepreryivnogo agentskogo cikla](🟡-poljzovateljskoye-perenapravleniye-nepreryivnogo-agentskogo-cikla.md)
 - `FUM-REQ-0018` — [🟡 Nepreryivnoye sobyitijnoye nablyudeniye poljzovateljskogo vvoda](🟡-nepreryivnoye-sobyitijnoye-nablyudeniye-poljzovateljskogo-vvoda.md)
@@ -138,6 +140,6 @@ Status menyayetsya pereimenovaniyem fajla cherez `git mv`. Emodzi ne zamenyayet 
 
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 12:28:17 MSK -->
-<!-- content-sha256: sha256:b5cd7052cf105be9fd7fae6ac9798a9fe6f6784be4c2dd92de6188ab45794549 -->
+<!-- last-content-edit: 2026-09-09 15:20:29 MSK -->
+<!-- content-sha256: sha256:12efd7915b8e73106c346c2426d5963a2d8a07e599f5e1064331b821650ff7c5 -->
 <!-- FUM-MD-RECENCY:END -->

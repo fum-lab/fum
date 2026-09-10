@@ -7,7 +7,7 @@ description: Istoricheskij kontrakt snyatogo instrumenta pochinki avtozapuska; s
 
 Instrument vyiveden iz ekspluatacii vmeste s periodicheskim heartbeat, postoyannoj zadachej dispetchera i marshrutami `Stop`/`Start`. On sokhranyayetsya kak istoricheskij kontrakt prezhnego repair-fence, host-snimkov i regressionnyikh fikstur. Etot navyik ne razreshayet vyizyivatj `create_thread`, menyatj ili zapuskatj host-avtomatizaciyu, sozdavatj remontnuyu rezervaciyu, privyazyivatj ispolnitelya libo vyipolnyatj inoj zhivoj effekt.
 
-Dejstvuyusjhij marshrut ne chinit avtozapusk, potomu chto avtozapusk boljshe ne yavlyayetsya chastjyu rabochego kontura. V ruchnoj skheme `manual-sequential-v1` poljzovatelj sam zapuskayet pishusjhuyu kornevuyu zadachu v sobstvennom rabochem dereve i vetke; kontroljnyiye i itogovyiye kommityi v etoj vetke reguliruyet AGENTS.md; avtomaticheskiye continuation, FIFO-handoff i vetochnyij selector ne razreshenyi. Predshestvuyusjhij marshrut s exact [zadachej-prodolzheniyem vetki](../../Glossarij/obyazateljnoye-prodolzheniye-vetki.md) sokhranyayetsya toljko kak istoriya perekhoda.
+Dejstvuyusjhij marshrut ne chinit istoricheskij avtozapusk. Poljzovatelj vruchnuyu zapuskayet zadachu, kotoraya fiksiruyet proverennyiye etapyi i prodolzhayet soglasovannyij obyyom po `AGENTS.md`; etot navyik ne zadayot inoj checkout ili ref i ne razreshayet continuation, FIFO-handoff ili vetochnyij selector. Predshestvuyusjhij marshrut s exact [zadachej-prodolzheniyem vetki](../../Glossarij/obyazateljnoye-prodolzheniye-vetki.md) sokhranyayetsya toljko kak istoriya. Novyij sinkhronnyij guard zaversheniya ne vozrozhdayet staryij dispetcher i svoim nalichiyem ne vklyuchayet native hook.
 
 Kanonicheskoye istoricheskoye nazvaniye — `починка автозапуска`, tekhnicheskij slug — `fum-pochinka-avtozapuska`. Sokhraneniye imeni obespechivayet ssyilki iz prezhnikh kommitov i ne oznachayet ekspluatacionnyij status.
 
@@ -41,6 +41,6 @@ Avtonomnyiye testyi istoricheskoj realizacii ne trebuyut seti i mogut ispoljzova
 - [kontrakt FIFO-ocheredi](../fum-ocheredj-zadach-git-vetki/SKILL.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 00:57:55 MSK -->
-<!-- content-sha256: sha256:f19b5ab2ea667c304130c13699dedcbd047a89a2de12d1c7132de9796ff21024 -->
+<!-- last-content-edit: 2026-09-10 16:38:28 MSK -->
+<!-- content-sha256: sha256:bfdd5589504e53de8e3259ae0707caf4d1e431102fbdcfa46872c73fe56068b6 -->
 <!-- FUM-MD-RECENCY:END -->

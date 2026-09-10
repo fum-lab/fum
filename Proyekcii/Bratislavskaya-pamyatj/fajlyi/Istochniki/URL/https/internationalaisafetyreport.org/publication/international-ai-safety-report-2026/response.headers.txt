@@ -1,0 +1,21 @@
+HTTP/2 200
+date: Wed, 09 Sep 2026 12:07:41 GMT
+content-type: text/html; charset=utf-8
+server: cloudflare
+vary: Accept-Encoding
+vary: Accept-Encoding
+cache-control: must-revalidate, no-cache, private
+x-drupal-dynamic-cache: MISS
+content-language: en
+x-content-type-options: nosniff
+x-frame-options: SAMEORIGIN
+expires: Sun, 19 Nov 1978 05:00:00 GMT
+x-generator: Drupal 11 (https://www.drupal.org)
+content-security-policy: object-src 'none'; script-src * 'report-sample' 'unsafe-inline' 'unsafe-eval'; style-src * 'report-sample' 'unsafe-inline'; worker-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; report-uri /system/reporting/content_security_policy; report-to content_security_policy
+reporting-endpoints: content_security_policy="/system/reporting/content_security_policy", default="/system/reporting/default"
+x-drupal-cache: HIT
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+cf-cache-status: DYNAMIC
+report-to: [REDACTED: reporting endpoint]
+cf-ray: [REDACTED: служебные данные ответа]
+alt-svc: h3=":443"; ma=86400

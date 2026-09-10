@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [# Iskhodnyij zapros 2026-09-09 12:51:11 MSK - Realizovatj vkhod snimka indeksa](../2026-09-09_12-51-11_MSK_realizovatj-vkhod-snimka-indeksa/zapros.md)
-- Sleduyusjhij zapros: net
+- Predyidusjhij zapros: [2026-09-09 12:51:11 MSK - Realizovatj vkhod snimka indeksa](../2026-09-09_12-51-11_MSK_realizovatj-vkhod-snimka-indeksa/zapros.md)
+- Sleduyusjhij zapros: [2026-09-09 13:39:31 MSK - Sobratj sinteticheskij snimok agentskoj zadachi](../2026-09-09_13-39-31_MSK_sobratj-sinteticheskij-snimok-agentskoj-zadachi/zapros.md)
 
 ## Tekst zaprosa
 
@@ -25,6 +25,24 @@ TDD: RED для отсутствующего четвёртого файла, н
 Единый интеграционный источник четырёх файлов теперь зафиксирован: корневой commit 1e5b355bd142a19a5d9b7e9032ffbda31d360f36, tree 073172b164a514e4addc84154e874e62961158c6; объекты доступны в общем FUM Git. Guard/модуль точные 7a5f77c, adapter пока точный baf07fc. Используй этот exact commit для проверки подготовки исходного комплекта и сквозных сценариев; твою новую версию adapter -I -S -B проверим из следующего твоего полного commit/tree. Публикационная проверка корня обнаружила две неучтённые синтетические абсолютные строки test_перехват_завершения.py:72 и :127. Они исправлены адресной политикой, тесты неизменны; декларации сохранены в корневом Журнал/2026-09-09_11-39-26_MSK_предотвратить-потерю-обязательств-постоянной-задачи/материалы/допустимые-фикстуры-Stop.json. Общую policy в своём дереве не переписывай; при интеграции учтём изменившиеся точные строки.
 ````
 
+````text
+Принял границу: следующий твой commit сам не содержит guard; единый снимок новой версии соберу в корне. На текущей общей приёмке выявлен неизвестный проектору суффикс шаблона Stop.hooks.json.шаблон. В корне файл без изменения байтов переименован в Инструменты/fum-svyaznostj-rabochej-sessii/шаблоны/Stop.hooks.шаблон.json — валидный JSON с уже поддерживаемым .json; контракт проекции не меняется. Учти новое имя в своих новых ссылках и генераторе. Чужое дерево не трогай; при следующей интеграции согласую исходную ссылку SKILL. Все четыре исполняемых blob прежнего источника 1e5b355b остаются неизменными.
+````
+
+````text
+Единый точный источник готов: корневой commit ffa85681473488d7ea7b5a33f17b86a79a3ef899, tree ee7b9dfcd7e27851e7fc5868249e221eadd52b49. В нём четыре зависимых исходника, включая твой адаптер eabb7fa7 с -I -S -B; чтение через общий Git object store. Адресные 28 тестов входа, шесть Stop, профиль реального реестра, публикация и допуск checkpoint прошли; независимое ревью точных исходников без замечаний. Родительский шаблон теперь Stop.hooks.шаблон.json с -I -S -B. Используй этот OID для финальной интеграции/профиля подготовителя; нативного подключения нет. Дополнительный аудит runtime: hooks Stable/default true; наблюдаемых локальных off-gates/managed-only нет. Trust сохраняет старые features/requirements задачи, так что фактический native Stop обязателен как свидетельство позже. Не меняй настройки/Trust. Доведи свой ограниченный комплект до проверенного, закоммиченного, отправленного результата и передай точные файлы/CLI-команду подготовки/кандидат определения/границы; вся защита и 0154 остаются открыты до корневой проверки подключения.
+````
+
+````text
+Разрешаю подготовить настоящий приватный bundle и конкретный reviewable кандидат; без установки hooks/config/Trust и без создания или использования реального состояния. Выбранный уникальный корень: /Users/Shared/.fum-stop-501-01a07d3d-d376-7ad2-aafc-67e4c25a67eb. До создания проверь отсутствие/обычность предков, отсутствие любого Git ancestor и чужого владельца; existing несовместимое не чинить. Внутри раздели content-addressed bundle-хранилище и зарезервированный путь состояния state; имя bundle выбирается вашим проверенным контрактом. Владелец 501, private 0700. Target repository=/Users/fum/Projects/FUM-worktrees/планирование-01a07d3d; ожидаемый native cwd=/Users/fum/Projects/FUM; UUID корня прежний. Файлы прогресса относительно target: Планирование/задачи/01a07d3d-d376-7ad2-aafc-67e4c25a67eb/обязательства.json; Планирование/карточки-шагов/🟡-FUM-STEP-0154-проверять-границу-завершения-постоянной-задачи.md; Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py; Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перехватить-завершение.py; Инструменты/fum-snimki-indeksa/scripts/вход.py. Не добавляй диалог, отчёт или часы как прогресс. Зафиксируй полный выбранный интерпретатор и проверь env-i работу Git. Все пробные вызовы только с отдельными синтетическими состояниями; настоящий state должен оставаться отсутствующим до нативного вызова. Корень начал стандартный smoke своих уже интегрированных компонентов и в это время не меняет канонику. Передай абсолютные пути подготовленного комплекта и определения, SHA/проверки; они остаются вне публичного FUM. Если выбранный корень неожиданно занят чужими файлами — сообщи вместо замены.
+````
+
+````text
+Разрешаю адресно обновить policy.json только в твоём собственном checkout для этих 20 точных строк штатным updater по сохранённому манифесту: полный путь, SHA всей строки, ожидаемое число, назначение фиксированного POSIX runtime или синтетической фикстуры. Общий распознаватель, маски и весь policy не пересчитывать; существующие совпадающие декларации не дублировать. Затем повтори публикационный сканер и сохрани результат. После успеха — обычный checkpoint/push по прежним требованиям. 282 старых graph.json ссылок, если только они остаются в общей связности, имеют прежнее записанное временное неприменение; иные ошибки так не исключать.
+
+Дополнение для документации подключения: аудит pinned runtime показал, что HookStarted/Completed НЕ сохраняются в JSONL и игнорируются thread_history. Блокировка сохраняет response_item HookPrompt role=user, затем continue в том же run_turn, а не новый TurnStarted. Готовится точная классификация происхождения, чтобы не принять hook feedback за человеческую команду. Нативный probe пока не запускать. Реальный bundle и reviewable определение готовь как согласовано; state/hooks/config/Trust не активировать.
+````
+
 ## Identifikator seansa Codex
 
 Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb
@@ -34,7 +52,9 @@ Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb
 - [Reyestr sistemnyikh prilozhenij i instrumentov](../../Instrumentyi/reyestr-sistemnyikh-prilozhenij-i-instrumentov.md): Python 3.14.7, Git 2.54.0 (Apple Git-157), zsh, jq, fajlovyiye i koordinacionnyiye instrumentyi Codex; granica versij instrumentov sredyi ne raskryita.
 - Lokaljnyiye navyiki `fum-struktura-papok-zaprosov`, `fum-svyaznostj-rabochej-sessii`, `fum-svezhestj-markdown`, `fum-otchyotyi-o-zapuskakh-proverok` ispoljzuyutsya dlya novogo etapa, proverok i kontroljnoj tochki. Subagent vyipolnyayet toljko nezavisimoye chteniye kontrakta i Git-obyyektov.
 - `fum-moskovskoye-vremya-rabochej-sessii`: odnim zapuskom poluchena para `2026-09-09_13-23-25_MSK` / `2026-09-09 13:23:25 MSK`.
+- `fum-proverka-mashinno-lokaljnyikh-putej`: publikacionnyij audit i shtatnoye adresnoye obnovleniye 20 deklaracij po otdeljnomu razresheniyu koordinatora; obsjhij raspoznavatelj ne menyalsya.
 - Dejstvuyusjhij interpretator i modelj nasleduyut nablyudyonnuyu sredu predyidusjhego etapa; novyij otdeljnyij zamer versii modeli ne zayavlyayetsya. Sistemnyiye site-packages ne izmenyayutsya; venv sozdayotsya toljko vo vremennoj testovoj fiksture.
+- `fum-perevod-obyyavlenij-koda-na-russkij-yazyik`: inventarj, proverennyiye kartyi i mekhanicheskij perevod novyikh sobstvennyikh obyyavlenij; vneshnij API sokhranyon. Web ispoljzovan toljko dlya chteniya oficialjnyikh iskhodnikov Git 2.54, podtverzhdayusjhikh vyinesennyij common dir i proverku obyyektnyikh khyeshej; soderzhimoye chuzhikh repozitoriyev ne importirovalosj.
 
 ## Proverki
 
@@ -48,11 +68,12 @@ Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb
 - [tekusjhij otchyot](otchyot.md)
 - [scenarii i testyi](../../Instrumentyi/fum-svyaznostj-rabochej-sessii/)
 - [materialyi etapa](materialyi/)
+- [adresnyiye deklaracii publikacionnoj chistotyi](../../Instrumentyi/fum-proverka-mashinno-lokaljnyikh-putej/policy.json)
 - [predyidusjhij zapros: toljko shtatnaya navigaciya](../2026-09-09_12-13-51_MSK_razrabotatj-perekhvat-zaversheniya/zapros.md)
 - [indeks Zhurnala](../README.md)
 - [indeks svezhesti](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 13:56:30 MSK -->
-<!-- content-sha256: sha256:913c3c926bb260925b60d2c95f53a47f287e286dc8e795b22c9292b953ffbda4 -->
+<!-- last-content-edit: 2026-09-09 17:24:00 MSK -->
+<!-- content-sha256: sha256:1e4d0ad6921e2d3717ae1936c08b61eaeccee74a8b7d01ce08d5b717d68d795d -->
 <!-- FUM-MD-RECENCY:END -->

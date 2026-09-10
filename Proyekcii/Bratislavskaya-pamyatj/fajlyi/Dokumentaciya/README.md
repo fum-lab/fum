@@ -40,6 +40,8 @@ Dlya prakticheskoj rabotyi nachnite s dokumenta [«Kak sejchas rabotatj s FUM»]
 
 ### Sredyi, interfejsyi i prilozheniye
 
+- [Arkhivnyij snimok odnoj zadachi FUMA](arkhivnyij-snimok-zadachi-FUMA.md)
+
 - [11 — Sreda dlya vnutrennikh FUM](11-sreda-dlya-vnutrennikh-FUM.md)
 - [19 — Yedinaya tochka vzaimodejstviya s kompjyuterom](19-yedinaya-tochka-vzaimodejstviya-s-kompjyuterom.md)
 - [23 — Virtualizovannyiye sredyi i dolgovremennaya pamyatj](23-virtualizovannyiye-sredyi-i-dolgovremennaya-pamyatj.md)
@@ -63,6 +65,7 @@ Dlya prakticheskoj rabotyi nachnite s dokumenta [«Kak sejchas rabotatj s FUM»]
 - [50 — Bratislavskaya versiya pamyati FUM](50-bratislavskaya-versiya-pamyati-FUM.md)
 - [51 — Proveryayemyij priyom vneshnego vklada](51-proveryayemyij-priyom-vneshnego-vklada.md)
 - [52 — Kak sejchas rabotatj s FUM](52-tekusjhij-poryadok-rabotyi.md)
+- [53 — Vselennaya FUM: analiticheskaya osnova i khudozhestvennyiye proizvedeniya](53-vselennaya-FUM/README.md)
 
 ### Strukturyi znanij, istorii i samoopisaniya
 
@@ -81,6 +84,8 @@ Dlya prakticheskoj rabotyi nachnite s dokumenta [«Kak sejchas rabotatj s FUM»]
 - [16 — Nauchnyiye issledovaniya i otkryitiya](16-nauchnyiye-issledovaniya-i-otkryitiya.md)
 - [40 — Karta ogranichitelej fizicheskogo dejstviya FUM](40-karta-ogranichitelej-fizicheskogo-dejstviya-FUM.md)
 
+- [52 — Modelj betonnyikh glubinnyikh sooruzhenij i podvodnyikh gruzovyikh sistem](52-modelj-betonnyikh-glubinnyikh-sistem.md)
+
 ## Istochniki trebovanij
 
 - [Opisatj aktualjnyij sposob rabotyi s uporom na ponyatnostj cheloveku](../Zhurnal/2026-09-08_21-16-26_MSK_integrirovatj-paralleljnyiye-rezuljtatyi-i-opisatj-rabotu/zapros.md).
@@ -88,6 +93,6 @@ Dlya prakticheskoj rabotyi nachnite s dokumenta [«Kak sejchas rabotatj s FUM»]
 - [iskhodnyij zapros 2026-07-21 11:32:46 MSK — Aktualizirovatj vkhodnyiye opisaniya FUM](../Zhurnal/2026-07-21_11-32-46_MSK_aktualizirovatj-vkhodnyiye-opisaniya-FUM/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 21:55:42 MSK -->
-<!-- content-sha256: sha256:1600d921840658636378e8a6d2dfd0c616725c24a6e072aed4e01679663ef7bd -->
+<!-- last-content-edit: 2026-09-10 16:38:28 MSK -->
+<!-- content-sha256: sha256:2e131c79e535e93074eefa0670638f68bf4819d549a2e9c8e47ed787c68aaa88 -->
 <!-- FUM-MD-RECENCY:END -->
