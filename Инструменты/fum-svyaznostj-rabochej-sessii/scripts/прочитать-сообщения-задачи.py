@@ -12,13 +12,14 @@ def выполнить():
     разбор.add_argument("--корень-репозитория", type=Path, required=True)
     разбор.add_argument("--исходник", type=Path, required=True)
     разбор.add_argument("--codex-thread-id", dest="задача", required=True)
-    разбор.add_argument("--кэш", type=Path, required=True)
+    разбор.add_argument("--кэш", type=Path)
+    разбор.add_argument("--без-записи", action="store_true", help="Не создавать и не обновлять кэш или замки; путь кэша можно опустить")
     разбор.add_argument("--перепроверить", action="store_true")
     параметры = разбор.parse_args()
     try:
         результат = прочитать_сообщения(параметры.исходник, параметры.задача,
             корень_репозитория=параметры.корень_репозитория, кэш=параметры.кэш,
-            перепроверить=параметры.перепроверить)
+            перепроверить=параметры.перепроверить, без_записи=параметры.без_записи)
     except ОшибкаСообщений as ошибка:
         print(str(ошибка), file=sys.stderr)
         return 2
