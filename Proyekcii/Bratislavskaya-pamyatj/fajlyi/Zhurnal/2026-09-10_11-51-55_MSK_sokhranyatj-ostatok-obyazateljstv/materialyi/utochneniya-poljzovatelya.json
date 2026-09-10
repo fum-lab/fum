@@ -1,0 +1,77 @@
+{
+  "схема": "fum.уточнения-этапа.1",
+  "сообщения": [
+    {
+      "смещение": 162785276,
+      "байтов": 395,
+      "sha256": "784211ff66b2c6944daf861f234e303eb3ee3cd77ac8ba7878df35faeddee483",
+      "текст": "Kak dvizhemsya?\n"
+    },
+    {
+      "смещение": 162832241,
+      "байтов": 487,
+      "sha256": "1dab2c9c82b09c8a89f8bc72a65963dfde4568f09f099dd85bc659e811ce588d",
+      "текст": "Myi ne siljno tut byurokratiziruyemsya, eto zhe opravdannyiye trebovaniya dlya dokumentacionnogo prototipa?\n"
+    },
+    {
+      "смещение": 166980600,
+      "байтов": 538,
+      "sha256": "37c4319fa98b800f83139ae54e87173eec56a3e9991e5b480462f8ed80ee05c3",
+      "текст": "Vsyo verno — teperj leztj v iskhodnyij kod yazyika programmirovaniya srodni tomu, chto lezdj v assemblernyij kod. Inogda nuzhno, no namnogo chasjhe — net.\n"
+    },
+    {
+      "смещение": 167062784,
+      "байтов": 533,
+      "sha256": "20bc2e4d37cf1bea3845f8af10f1a2a33d0a029ed4546f138b2fdffa8065b009",
+      "текст": "Eto zhe kasayetsya i neobkhodimosti cheloveku pisatj i chitatj kod vruchnuyu — tyi namnogo luchshe dlya etogo prisposoblen s ogromnyim oknom konteksta.\n"
+    },
+    {
+      "смещение": 168202484,
+      "байтов": 533,
+      "sha256": "117d7319eefb4ff5d75ac7b35085db9817217c7c8cff0fd9905f40eb6141fd4e",
+      "текст": "Mozhet vsyo zhe yestj celesoobraznostj srazu nachinatj vetki po takim dorabotkam, po krajnej mere pervyiye shagi takikh vetok s sokhraneniyem v kommityi?\n"
+    },
+    {
+      "смещение": 168203628,
+      "байтов": 426,
+      "sha256": "e80064e81c699598f89564537844c0cd89a92fe80895c73aeaec2bb796ce3d25",
+      "текст": "Ili zdesj yestj pobochnyiye effektyi ot etogo?\n"
+    },
+    {
+      "смещение": 168291407,
+      "байтов": 440,
+      "sha256": "56ff6b2706644c3610223647fbdbe8a3efd44b0c1df12c2608a1ea37ce1344f6",
+      "текст": "No u nas zhe yestj mekhanizm zapuska v rabochikh derevjyakh?\n"
+    },
+    {
+      "смещение": 168471272,
+      "байтов": 464,
+      "sha256": "1c9ca6f1b198fe9b63ed9a28c5ce29bbae1956f6924462eccd6ca4d5e84995cd",
+      "текст": "Myi zhe uzhe obnovili eto povedeniye v odnoj iz vetok, kotoruyu budem integrirovatj?\n"
+    },
+    {
+      "смещение": 168681796,
+      "байтов": 623,
+      "sha256": "fae519fe73b80e88417d41c5059adfcf029cea5a5a49bc3e57bbf32ad401c4fe",
+      "текст": "Kak budto byi dlya takikh kluchevyikh izmenenij pravil myi dolzhnyi imetj vozmozhnostj regulyarno menyatj golovnuyu vetku razrabotki pri neobkhodimosti, a v master pereodicheski vlivatj proverennyij i integrirovannyij rezuljtat posle proverki.\n"
+    },
+    {
+      "смещение": 168752008,
+      "байтов": 482,
+      "sha256": "18fb1faff480e799a52ca837f0e0650136740d8ed386d6ac2494d8528e8f93ff",
+      "текст": "Yesli s etoj ideyej yestj problemyi i riski, to ne stesnyajsya izlagatj ikh, kak i s lyubyimi ideyami.\n"
+    },
+    {
+      "смещение": 168753050,
+      "байтов": 488,
+      "sha256": "ccbee19b656718a218be20245ad7ecc12a6701c99a1b91c44604b77f1f05698f",
+      "текст": "I samu integraciyu v master tozhe mozhno provoditj iz golovnoj vetki v otdeljnom rabochem dereve, ne tak li?\n"
+    },
+    {
+      "смещение": 168823314,
+      "байтов": 598,
+      "sha256": "7ac4af7f4d220a8bd0c5de2bb00c0dd0fba5a77322e13bbbe7eed3e18b6945bf",
+      "текст": "Nu togda vsyo zhe budem myordzhitj v master po pravilam master. Sejchas pokhodu prosto samoye slozhnoye — nastroitj pervuyu rabotayusjhuyu versiyu takogo myordzha, a daljshe yeyo uzhe mozhno budet prosjhe obnovlyatj.\n"
+    }
+  ]
+}

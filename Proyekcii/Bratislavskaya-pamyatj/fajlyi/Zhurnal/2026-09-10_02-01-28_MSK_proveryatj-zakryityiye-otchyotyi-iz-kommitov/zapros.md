@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-10 00:49:43 MSK - Svyazatj proverki s kommitami](../2026-09-10_00-49-43_MSK_svyazatj-proverki-s-kommitami/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-10 11:51:55 MSK - Sokhranyatj ostatok obyazateljstv](../2026-09-10_11-51-55_MSK_sokhranyatj-ostatok-obyazateljstv/zapros.md)
 
 ## Tekst zaprosa
 
@@ -65,6 +65,6 @@ Zapuski vyipolnyayutsya cherez tekusjhij [otchyot](otchyot.md). Pervyimi dobavly
 - [Indeks Markdown](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md), [proyekciya](../../../..).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 11:29:35 MSK -->
-<!-- content-sha256: sha256:cef5cf9569d7fb288bb372779c1b3e2e7850eef776e3978dd3071154635bac72 -->
+<!-- last-content-edit: 2026-09-10 12:39:57 MSK -->
+<!-- content-sha256: sha256:17de80683e2bc85b76bb7c7deeeaf017f41d37d77d060bbf9d488d1dc58263c4 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -68,6 +68,8 @@ Testyi fiksiruyut bazovyij kontrakt: uspeshnaya sessiya prokhodit pri perechisle
 
 ## Granica avtomatizacii
 
+Otdeljnaya komanda [ostatka obyazateljstv](ostatok-obyazateljstv.md) chitayet prinyatyij reyestr zadachi i vyibirayet dostupnuyu rabotu po proverennyim etapam. Ona vyizyivayetsya yavno; obyichnaya proverka svyaznosti ne zapuskayet yeyo avtomaticheski i ne poluchayet polnomochij prodolzhatj ili zavershatj zadachu.
+
 Skript proveryayet strukturnuyu svyaznostj rabochej sessii, no ne podmenyayet smyislovuyu proverku dokumentacii. Agent po-prezhnemu otvechayet za korrektnostj trebovanij, publikacionnuyu chistotu soderzhaniya, polnotu spiska instrumentov, umestnostj zatronutyikh fajlov i kachestvo kommita.
 
 Mashinnyij zhurnal pozvolyayet dokazatj tochnoye sootvetstviye zafiksirovannyikh zapuskov, snimka i Markdown, no ne mozhet obnaruzhitj process, namerenno zapusjhennyij v obkhod obyazateljnoj obyortki. Za soblyudeniye granicyi zapuska otvechayut korenj i subagentyi. Pri perekryitii pryamyikh zapuskov ikh arifmeticheskaya summa yavlyayetsya agregirovannyim call-time, a ne kalendarnyim wall-clock; obsjhiye granicyi sessii i stadij po-prezhnemu opisyivayutsya otdeljno v osnovnoj tablice profilya.
@@ -98,6 +100,6 @@ Proverka Git-sostoyaniya sravnivayet toljko puti. Ona ne reshayet, nuzhno li vkl
 - [iskhodnyij zapros 2026-07-21 05:39:00 MSK - Sdelatj sluzhebnyiye generatoryi vosproizvodimyimi](../../Zhurnal/2026-07-21_05-39-00_MSK_sdelatj-sluzhebnyiye-generatoryi-vosproizvodimyimi/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-02 15:15:05 MSK -->
-<!-- content-sha256: sha256:2a68603670e2c28cb880d47e1b7e9ae8c85981619aebb5937b0406f188499909 -->
+<!-- last-content-edit: 2026-09-10 12:39:57 MSK -->
+<!-- content-sha256: sha256:f002edad7a9329727df94a9e7882c21bc3c9e263b781ce37b00927c680d0dd20 -->
 <!-- FUM-MD-RECENCY:END -->

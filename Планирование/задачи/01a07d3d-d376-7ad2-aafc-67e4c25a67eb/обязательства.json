@@ -1,0 +1,140 @@
+{
+  "генезис": "6fc2c7a76dd7d23a703418b4072f0fdc561a4f53",
+  "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "обязательства": [
+    {
+      "вид_результата": "реализация",
+      "идентификатор": "FUM-ПРОДОЛЖЕНИЕ-СИСТЕМА",
+      "историческая_карточка": "FUM-STEP-0154",
+      "историческое_основание": {
+        "запрос": "Журнал/2026-09-09_11-39-26_MSK_предотвратить-потерю-обязательств-постоянной-задачи/запрос.md",
+        "коммит": "008f27dcc34d6991b437109ddfc8166f25be9e28",
+        "цитата": "Kak mozhno sistemno reshitj etu problemu s prezhdevremennoj ostanovkoj?"
+      },
+      "основание": {
+        "запрос": "Журнал/2026-09-10_00-49-43_MSK_связать-проверки-с-коммитами/запрос.md",
+        "коммит": "6fc2c7a76dd7d23a703418b4072f0fdc561a4f53",
+        "цитата": "Kak mozhno sistemno reshitj etu problemu s prezhdevremennoj ostanovkoj?"
+      },
+      "родитель": null
+    },
+    {
+      "вид_результата": "реализация",
+      "идентификатор": "FUM-STEP-0155-РЕАЛИЗАЦИЯ",
+      "историческая_карточка": "FUM-STEP-0155",
+      "историческое_основание": {
+        "запрос": "Журнал/2026-09-07_22-11-38_MSK_составить-план-ускорения-проекции/запрос.md",
+        "коммит": "008f27dcc34d6991b437109ddfc8166f25be9e28",
+        "цитата": "Ya dumayu myi mozhem zadejstvovatj mekhanizm indeksa v gite, chtobyi imetj vozmozhnostj i gotovitj kommit v indekse, i dobavlyatj lyubyiye utochnyayusjhiye zhurnaljnyiye dannyiye v chekaut."
+      },
+      "основание": {
+        "запрос": "Журнал/2026-09-10_00-49-43_MSK_связать-проверки-с-коммитами/запрос.md",
+        "коммит": "6fc2c7a76dd7d23a703418b4072f0fdc561a4f53",
+        "цитата": "Ya dumayu myi mozhem zadejstvovatj mekhanizm indeksa v gite, chtobyi imetj vozmozhnostj i gotovitj kommit v indekse, i dobavlyatj lyubyiye utochnyayusjhiye zhurnaljnyiye dannyiye v chekaut."
+      },
+      "родитель": null
+    },
+    {
+      "вид_результата": "реализация",
+      "идентификатор": "FUM-STEP-0156-РЕАЛИЗАЦИЯ",
+      "историческая_карточка": "FUM-STEP-0156",
+      "историческое_основание": {
+        "запрос": "Журнал/2026-09-07_22-11-38_MSK_составить-план-ускорения-проекции/запрос.md",
+        "коммит": "008f27dcc34d6991b437109ddfc8166f25be9e28",
+        "цитата": "Vsyo eto nablyudeniye myi dolzhnyi byitj sposobnyi sokhranyatj v zhurnal v postoyannom zapominayusjhem ustrojstve."
+      },
+      "основание": {
+        "запрос": "Журнал/2026-09-10_00-49-43_MSK_связать-проверки-с-коммитами/запрос.md",
+        "коммит": "6fc2c7a76dd7d23a703418b4072f0fdc561a4f53",
+        "цитата": "Vsyo eto nablyudeniye myi dolzhnyi byitj sposobnyi sokhranyatj v zhurnal v postoyannom zapominayusjhem ustrojstve."
+      },
+      "родитель": "FUMA-НАБЛЮДЕНИЕ"
+    },
+    {
+      "вид_результата": "реализация",
+      "идентификатор": "FUMA-НАБЛЮДЕНИЕ",
+      "историческая_карточка": null,
+      "историческое_основание": {
+        "запрос": "Журнал/2026-09-07_22-11-38_MSK_составить-план-ускорения-проекции/запрос.md",
+        "коммит": "008f27dcc34d6991b437109ddfc8166f25be9e28",
+        "цитата": "Nauchisj videtj cherez vse API, kotoryiye predostavlyayet macOS. Ispoljzuj Swift v proyekte FUMA."
+      },
+      "основание": {
+        "запрос": "Журнал/2026-09-10_00-49-43_MSK_связать-проверки-с-коммитами/запрос.md",
+        "коммит": "6fc2c7a76dd7d23a703418b4072f0fdc561a4f53",
+        "цитата": "Nauchisj videtj cherez vse API, kotoryiye predostavlyayet macOS. Ispoljzuj Swift v proyekte FUMA."
+      },
+      "родитель": null
+    },
+    {
+      "вид_результата": "реализация",
+      "идентификатор": "FUMA-СНИМОК-RUNTIME",
+      "историческая_карточка": "FUM-STEP-0159",
+      "историческое_основание": {
+        "запрос": "Журнал/2026-09-09_11-39-26_MSK_предотвратить-потерю-обязательств-постоянной-задачи/запрос.md",
+        "коммит": "008f27dcc34d6991b437109ddfc8166f25be9e28",
+        "цитата": "Znachiteljnaya chastj problem v rabote voznikayet iz-za togo, chto u tebya net normaljnoj po-chelovecheski realizovannoj vozmozhnosti uvedetj polnoye sostoyaniye svoyego agentskogo rantajma, vklyuchaya interfejs s chelovekom."
+      },
+      "основание": {
+        "запрос": "Журнал/2026-09-10_00-49-43_MSK_связать-проверки-с-коммитами/запрос.md",
+        "коммит": "6fc2c7a76dd7d23a703418b4072f0fdc561a4f53",
+        "цитата": "Znachiteljnaya chastj problem v rabote voznikayet iz-za togo, chto u tebya net normaljnoj po-chelovecheski realizovannoj vozmozhnosti uvedetj polnoye sostoyaniye svoyego agentskogo rantajma, vklyuchaya interfejs s chelovekom."
+      },
+      "родитель": "FUMA-НАБЛЮДЕНИЕ"
+    },
+    {
+      "вид_результата": "реализация",
+      "идентификатор": "FUMA-СТАТИСТИКА-ВЫЗОВОВ",
+      "историческая_карточка": "FUM-STEP-0160",
+      "историческое_основание": {
+        "запрос": "Журнал/2026-09-09_14-35-59_MSK_подготовить-нативное-продолжение-задачи/запрос.md",
+        "коммит": "670a1fda352b34668d87000602e76e246aefa22f",
+        "цитата": "Myi dolzhnyi sokhranyatj i nakaplivatj statistiku vyizovov avtomatizacij i instrumentov vmeste s istochnikami vyizovov, chtobyi eti dannyiye mozhno byilo ispoljzovatj dlya vyiyavleniya neobkhodimosti sozdaniya sleduyusjhego urovnya avtomatizacii, yesli chislo ruchnyikh vyizovov instrumenta modeljyu stanovitsya slishkom boljshim, naprimer, no eto yavno ne vse vozmozhnyiye evristiki, kotoryiye nam stoit otkryitj."
+      },
+      "основание": {
+        "запрос": "Журнал/2026-09-10_00-49-43_MSK_связать-проверки-с-коммитами/запрос.md",
+        "коммит": "6fc2c7a76dd7d23a703418b4072f0fdc561a4f53",
+        "цитата": "Myi dolzhnyi sokhranyatj i nakaplivatj statistiku vyizovov avtomatizacij i instrumentov vmeste s istochnikami vyizovov, chtobyi eti dannyiye mozhno byilo ispoljzovatj dlya vyiyavleniya neobkhodimosti sozdaniya sleduyusjhego urovnya avtomatizacii, yesli chislo ruchnyikh vyizovov instrumenta modeljyu stanovitsya slishkom boljshim, naprimer, no eto yavno ne vse vozmozhnyiye evristiki, kotoryiye nam stoit otkryitj."
+      },
+      "родитель": "FUMA-НАБЛЮДЕНИЕ"
+    },
+    {
+      "вид_результата": "документ",
+      "идентификатор": "FUMA-ВСЕЛЕННАЯ",
+      "историческая_карточка": null,
+      "историческое_основание": {
+        "запрос": "Журнал/2026-09-09_14-35-59_MSK_подготовить-нативное-продолжение-задачи/запрос.md",
+        "коммит": "670a1fda352b34668d87000602e76e246aefa22f",
+        "цитата": "Проработай проект вселенной для создания художественных научно-фантастических произведений о ближайшем или далёком будущем о FUM, вокруг FUM, на базе FUM. Это должно быть на уровне высоковероятной аналитики будущего."
+      },
+      "основание": {
+        "запрос": "Журнал/2026-09-10_00-49-43_MSK_связать-проверки-с-коммитами/запрос.md",
+        "коммит": "6fc2c7a76dd7d23a703418b4072f0fdc561a4f53",
+        "цитата": "Проработай проект вселенной для создания художественных научно-фантастических произведений о ближайшем или далёком будущем о FUM, вокруг FUM, на базе FUM. Это должно быть на уровне высоковероятной аналитики будущего."
+      },
+      "родитель": null
+    }
+  ],
+  "покрытие": "частичное",
+  "приёмки_этапов": [],
+  "работы": [
+    {
+      "действие": "Сохранить семь известных обязательств и проверять доступный остаток отдельной командой",
+      "идентификатор": "FUM-ОСТАТОК-РЕЕСТР",
+      "обязательство": "FUM-ПРОДОЛЖЕНИЕ-СИСТЕМА",
+      "ожидание": null,
+      "основание": {
+        "запрос": "Журнал/2026-09-10_00-49-43_MSK_связать-проверки-с-коммитами/запрос.md",
+        "коммит": "6fc2c7a76dd7d23a703418b4072f0fdc561a4f53",
+        "цитата": "Kak mozhno sistemno reshitj etu problemu s prezhdevremennoj ostanovkoj?"
+      },
+      "предпосылки": [],
+      "результаты": [
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_пути_гита.py",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/остаток-обязательств.md"
+      ]
+    }
+  ],
+  "схема": "fum.обязательства-задачи.3"
+}
