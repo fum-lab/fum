@@ -127,12 +127,12 @@
     {
       "идентификатор": "план-13",
       "действие": "Сохранить и доставить: Роботы",
-      "состояние": "доступна",
+      "состояние": "завершена",
       "основание": {
         "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
         "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
       },
-      "свидетельство": null
+      "свидетельство": "Коммит 2a5fd9ee870ccf7fd04502392f8c86f8b7717aa5; удалённый OID подтверждён 2a5fd9ee870ccf7fd04502392f8c86f8b7717aa5"
     },
     {
       "идентификатор": "план-14",
