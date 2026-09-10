@@ -34,9 +34,11 @@ Microsoft Windows Holographic исключена из целей поддерж�
 
 ## Источники требований
 
+- [Команда отмены Windows Holographic с соседними ответами](../Журнал/2026-09-11_02-34-29_MSK_восстановить-контекст-платформенного-решения-и-SwiftNIO/материалы/источники/контекст-решений/контекст-отмены-Windows-Holographic.md).
+
 - [Перечень платформ и последующее добавление PlayStation и Xbox](../Журнал/2026-09-11_01-03-38_MSK_запланировать-платформы-и-графику-FUMA/запрос.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 01:06:16 MSK -->
-<!-- content-sha256: sha256:144b8a3ec9d4d952d9856362edcf013ea882763a77ec19eb79eaba89ec6c70df -->
+<!-- last-content-edit: 2026-09-11 02:37:53 MSK -->
+<!-- content-sha256: sha256:30ca67237742d1b04c5857f3a9180d475b0426b7a6f0d71ba247fc0f21a4c08b -->
 <!-- FUM-MD-RECENCY:END -->
