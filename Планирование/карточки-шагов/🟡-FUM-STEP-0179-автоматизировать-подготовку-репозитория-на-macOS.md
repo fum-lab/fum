@@ -30,6 +30,7 @@ status = "active"
 
 - [Автоматизировать настройку GitHub Actions](🟡-FUM-STEP-0178-автоматизировать-настройку-GitHub-Actions.md).
 - [Автоматизировать подготовку репозитория на Linux](🟡-FUM-STEP-0180-автоматизировать-подготовку-репозитория-на-Linux.md).
+- [Автоматизировать подготовку репозитория на Windows](🟡-FUM-STEP-0181-автоматизировать-подготовку-репозитория-на-Windows.md).
 - [Доставка собственной реализации в монорепозиторий](🟡-FUM-STEP-0176-собрать-собственную-реализацию-в-FUM.md).
 
 ## Источники
@@ -39,6 +40,6 @@ status = "active"
 - [Существующий контракт комплексной проверки](../../Инструменты/fum-kompleksnaya-proverka-repozitoriya/SKILL.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 00:54:04 MSK -->
-<!-- content-sha256: sha256:888173895dc3f7bc0059b20ad7c58d89ca0f1f7bfe5834fd61a4e1c7b17d16e0 -->
+<!-- last-content-edit: 2026-09-11 00:59:28 MSK -->
+<!-- content-sha256: sha256:0e36a3f5d978b28951fd29baa3d3574c8599bb3c7fdf5f299546b8fac43eb224 -->
 <!-- FUM-MD-RECENCY:END -->

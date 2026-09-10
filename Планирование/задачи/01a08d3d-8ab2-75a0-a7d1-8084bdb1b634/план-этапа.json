@@ -27,12 +27,12 @@
     {
       "идентификатор": "план-03",
       "действие": "Сохранить и доставить: Linux",
-      "состояние": "доступна",
+      "состояние": "завершена",
       "основание": {
         "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
         "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
       },
-      "свидетельство": null
+      "свидетельство": "Коммит 1650b663914bd884f8f8ed85b1d66d1533ecb5f3; удалённый OID подтверждён 1650b663914bd884f8f8ed85b1d66d1533ecb5f3"
     },
     {
       "идентификатор": "план-04",
