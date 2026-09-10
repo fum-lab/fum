@@ -217,12 +217,12 @@
     {
       "идентификатор": "план-22",
       "действие": "Сохранить и доставить: Разрешение коллизии ID и межветочная сверка",
-      "состояние": "доступна",
+      "состояние": "завершена",
       "основание": {
         "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
         "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
       },
-      "свидетельство": null
+      "свидетельство": "Коммит 983756cf3773312bd282086fb351e147e15fa3c8; удалённый OID подтверждён 983756cf3773312bd282086fb351e147e15fa3c8"
     },
     {
       "идентификатор": "план-23",
