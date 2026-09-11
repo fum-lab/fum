@@ -16,6 +16,19 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-11 10:36:27 MSK — Avtomatizirovatj rasshireniye shablonov](2026-09-11_10-36-27_MSK_avtomatizirovatj-rasshireniye-shablonov/otchyot.md)
+- [2026-09-11 10:20:32 MSK — Sokhranitj postanovku integracii i nablyudeniya](2026-09-11_10-20-32_MSK_sokhranitj-postanovku-integracii-i-nablyudeniya/otchyot.md)
+- [2026-09-11 09:40:24 MSK — Sokhranitj i obrabotatj vopros o progresse](2026-09-11_09-40-24_MSK_sokhranitj-i-obrabotatj-vopros-o-progresse/otchyot.md)
+- [2026-09-11 06:02:48 MSK — Zaregistrirovatj ispolneniye dvukh poruchenij](2026-09-11_06-02-48_MSK_zaregistrirovatj-ispolneniye-dvukh-poruchenij/otchyot.md)
+- [2026-09-11 05:29:54 MSK — Zaregistrirovatj shestj istoricheskikh otvetov](2026-09-11_05-29-54_MSK_zaregistrirovatj-shestj-istoricheskikh-otvetov/otchyot.md)
+- [2026-09-11 05:17:54 MSK — Sokhranitj istoricheskiye voprosyi i otvetyi o rabote](2026-09-11_05-17-54_MSK_sokhranitj-istoricheskiye-voprosyi-i-otvetyi-o-rabote/otchyot.md)
+- [2026-09-11 04:16:49 MSK — Sokhranitj nablyudeniya i utochnitj plan konteksta](2026-09-11_04-16-49_MSK_sokhranitj-nablyudeniya-i-utochnitj-plan-konteksta/otchyot.md)
+- [2026-09-11 03:47:15 MSK — Sokhranitj diagnostiku szhatiya i tajm autov](2026-09-11_03-47-15_MSK_sokhranitj-diagnostiku-szhatiya-i-tajm-autov/otchyot.md)
+- [2026-09-11 03:27:54 MSK — Sokhranitj vosstanovleniye dialoga posle perezapuska](2026-09-11_03-27-54_MSK_sokhranitj-vosstanovleniye-dialoga-posle-perezapuska/otchyot.md)
+- [2026-09-11 02:41:36 MSK — Zakrepitj kommit postanovki novyikh zadach](2026-09-11_02-41-36_MSK_zakrepitj-kommit-postanovki-novyikh-zadach/otchyot.md)
+- [2026-09-11 02:31:45 MSK — Sokhranitj perenos uzlov i prodolzheniye rabotyi](2026-09-11_02-31-45_MSK_sokhranitj-perenos-uzlov-i-prodolzheniye-rabotyi/otchyot.md)
+- [2026-09-11 02:13:51 MSK — Sokhranitj operatoryi sistemnyij sloj i granicu poduzlov](2026-09-11_02-13-51_MSK_sokhranitj-operatoryi-sistemnyij-sloj-i-granicu-poduzlov/otchyot.md)
+- [2026-09-11 02:05:32 MSK — Sokhranitj novyiye napravleniya i utochneniya FUMA](2026-09-11_02-05-32_MSK_sokhranitj-novyiye-napravleniya-i-utochneniya-FUMA/otchyot.md)
 - [2026-09-11 01:26:17 MSK — Podtverzhdatj vidimyiye zadachi nezavisimyikh rabot](2026-09-11_01-26-17_MSK_podtverzhdatj-vidimyiye-zadachi-nezavisimyikh-rabot/otchyot.md)
 - [2026-09-11 00:59:45 MSK — Zakrepitj posledovateljnuyu istoriyu dialoga fuma](2026-09-11_00-59-45_MSK_zakrepitj-posledovateljnuyu-istoriyu-dialoga-fuma/otchyot.md)
 - [2026-09-11 00:56:27 MSK — Sokhranitj dialog o nauchnyikh napravleniyakh](2026-09-11_00-56-27_MSK_sokhranitj-dialog-o-nauchnyikh-napravleniyakh/otchyot.md)
@@ -513,6 +526,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 01:40:19 MSK -->
-<!-- content-sha256: sha256:83fe161c0d34aa0b52481721f6ccacbdb06c44684f5aac58a169481e30227510 -->
+<!-- last-content-edit: 2026-09-11 10:59:59 MSK -->
+<!-- content-sha256: sha256:67cf39642610b953481834fa9ae6cc47a865f2b0009c4e463147a4c3cba8dc2c -->
 <!-- FUM-MD-RECENCY:END -->

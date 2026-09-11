@@ -36,6 +36,10 @@ Pri sozdanii otdeljnoj zadachi i peredache yej sleduyusjhego soobsjheniya yavno 
 
 Sokhranyonnyij poljzovateljskij zapros otdeljnyikh vidimyikh zadach primenyayetsya pri kazhdom sleduyusjhem nezavisimom pishusjhem naznachenii, poka poljzovatelj ne izmenit yego oblastj. Vnutrennij subagent i otdeljnyij worktree sami po sebe etot zapros ne vyipolnyayut. Read-only-analiz mozhet ostavatjsya dochernej rabotoj obsjhej zadachi. Poryadok primenyayetsya i posle vosstanovleniya konteksta; prezhneye uspeshnoye sozdaniye ne pogashayet postoyannoye ukazaniye.
 
+Dlya kazhdoj novoj nezavisimoj pishusjhej zadachi do `create_thread` korenj fiksiruyet polnyij OID kommita, soderzhasjhego aktualjnuyu soglasovannuyu postanovku, i yavno zadayot yego iskhodnyim Git-sostoyaniyem sozdavayemyikh vetki i worktree. Postanovka toljko v tekste soobsjheniya i baza proyekta po umolchaniyu etogo ne zamenyayut. Do pervoj zapisi ispolnitelj po `000060` sveryayet fakticheskij nachaljnyij HEAD s etim OID; korenj svyazyivayet rezuljtat sverki s realjnyim task ID, polnyim ref i fizicheskim kornem worktree. Nedostupnyij kommit, nesovpadeniye ili otsutstviye podtverzhdeniya sokhranyayutsya kak nezavershyonnyij zapusk bez podmenyi bazyi.
+
+Etot vyibor bazyi otnositsya k sozdaniyu novoj nezavisimoj zadachi. Postoyannaya zadacha i prodolzheniye susjhestvuyusjhej rabotyi sokhranyayut svoyu tekusjhuyu vetku i istoriyu; novyiye porucheniya fiksiruyutsya ocherednyim etapom. Dlya uzhe rabotayusjhej zadachi sokhranyayetsya yavnaya svyazj s kommitom postanovki; utochneniye ne razreshayet perepisyivatj yeyo istoriyu ili sozdavatj dublikat. [Istochnik trebovaniya k kommitu postanovki](../../Zhurnal/2026-09-11_02-41-36_MSK_zakrepitj-kommit-postanovki-novyikh-zadach/zapros.md). [Prezhneye utochneniye vidimosti zadach](../../Zhurnal/2026-09-11_01-26-17_MSK_podtverzhdatj-vidimyiye-zadachi-nezavisimyikh-rabot/zapros.md).
+
 Razlichayutsya prinyatoye sozdaniye, podgotovka i podtverzhdyonnyij zapusk. Do zayavleniya zapuska korenj svyazyivayet realjnyij task ID s adresnyim statusom i otvetom ispolnitelya, fizicheskim kornem worktree, polnyim ref, HEAD i yedinstvennyim naznachennyim pisatelem; zaproshennaya i nablyudyonnaya modelj s rezhimom ukazyivayutsya razdeljno. Odin clientThreadId podtverzhdayet toljko podgotovku. Otsutstviye zadachi v obsjhem spiske API ne dokazyivayet yeyo otsutstviya: prodolzhaj adresnuyu sverku izvestnogo ID cherez `wait_threads` ili `read_thread`, ne sozdavaya dublikat iz-za nepolnogo spiska. Neodnoznachnyij iskhod sokhranyayetsya kak nezavershyonnyij; pri peredache susjhestvuyusjhej vetki prezhnij pisatelj snachala podtverzhdyonno prekrasjhayet zapisj. Lokaljnyiye puti i syiryiye otvetyi API ostayutsya v privatnyikh svideteljstvakh; Zhurnal soderzhit publikacionno dopustimyiye faktyi i granicu ikh proverki.
 
 [Istochnik povtornogo utochneniya i nablyudayemogo vosstanovleniya](../../Zhurnal/2026-09-11_01-26-17_MSK_podtverzhdatj-vidimyiye-zadachi-nezavisimyikh-rabot/zapros.md). Eta procedura ne podklyuchayet runtime, heartbeat ili avtomaticheskoye prodolzheniye.
@@ -96,6 +100,6 @@ Razlichayutsya prinyatoye sozdaniye, podgotovka i podtverzhdyonnyij zapusk. Do z
 - [iskhodnyij zapros 2026-08-24 15:31:12 MSK — Dekompozirovatj AGENTS MD](../../Zhurnal/2026-08-24_15-31-12_MSK_dekompozirovatj-AGENTS-md/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 01:40:19 MSK -->
-<!-- content-sha256: sha256:f7d96d2ad1eadee0e8bdb395f31ecdef54857b8f470059ec03e66153937907c3 -->
+<!-- last-content-edit: 2026-09-11 02:45:51 MSK -->
+<!-- content-sha256: sha256:b24817fa9b2629e683092cf63c56d63c3c32ab1ad8f76ab128cee04aa152d946 -->
 <!-- FUM-MD-RECENCY:END -->

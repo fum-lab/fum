@@ -36,7 +36,17 @@ Posle kontroljnogo kommita 39c40194655fbe27e851abfea17c5c432dca5a9f rabota prodo
 
 Mera ne perekhvatyivayet final na urovne Codex i ne vozobnovlyayet nedostupnyij runtime. Polnotu razreshyonnogo obyyoma, smyisl osnovanij i dejstviteljnostj svideteljstv proveryayet korenj; rezuljtat ne obyyavlyayetsya garantiyej povedeniya vsekh budusjhikh ispolnitelej.
 
+## Nablyudeniye sokhranyonnogo Stop
+
+V [ogranichennom snimke ot 11 sentyabrya 2026 goda](../../Zhurnal/2026-09-11_04-16-49_MSK_sokhranitj-nablyudeniya-i-utochnitj-plan-konteksta/materialyi/istochniki/nablyudayemostj/sostoyaniye-Stop.json) prezhnij Stop sokhranyon vyiklyuchennyim, yego opredeleniye v prochitannoj proyektnoj konfiguracii otsutstvuyet. Fakticheskij hooks/list aktivnogo Desktop ne poluchen; poetomu ni polnaya inventarizaciya obrabotchikov, ni nativnaya ustanovka ne podtverzhdenyi. Sostoyaniye disabled ne menyalosj. Eto iskhodnoye nablyudeniye dlya daljnejshej proverki 0154, a ne prichina tajm-autov szhatiya ili poteri boleye rannikh soobsjhenij.
+
+Nuzhno otdeljno sveritj dejstvuyusjhiye sloi runtime i doveriya, podgotovitj ogranichennuyu ustanovku iz prinyatogo rezuljtata 0177 i dokazatj ispolneniye zagruzchika, resheniye block i sleduyusjheye razreshyonnoye dejstviye v tom zhe run_turn. Nalichiye prinyatogo CLI samo po sebe etoj proverki ne zamenyayet. Status kartochki ostayotsya active.
+
+Do nativnogo podklyucheniya nuzhno proveritj polnyij guard i adapter na fakticheskom istochnike v ustanovlennom tajm-aute. Ukazannyij v iskhodnom nablyudenii sinteticheskij profilj 70 MiB ne podtverzhdayet rabotu na istochnike obyyomom 296513041 bajt za 3 sekundyi; soderzhateljnyij otkaz po nezavershyonnyim soobsjheniyam sleduyet otlichatj ot tajm-auta. Etot profilj v tekusjhem etape ne zapuskalsya.
+
 ## Istochniki
+
+- [Nablyudeniye i granicyi tekusjhego prodolzheniya](../../Zhurnal/2026-09-11_04-16-49_MSK_sokhranitj-nablyudeniya-i-utochnitj-plan-konteksta/zapros.md).
 
 - [Sistemnoye ispravleniye i PROYAVLENIYE-0003](../../Zhurnal/2026-09-09_11-39-26_MSK_predotvratitj-poteryu-obyazateljstv-postoyannoj-zadachi/zapros.md).
 
@@ -47,6 +57,6 @@ Mera ne perekhvatyivayet final na urovne Codex i ne vozobnovlyayet nedostupnyij 
 - [Dejstvuyusjhaya granica kommita](../../AGENTS.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 12:06:38 MSK -->
-<!-- content-sha256: sha256:db0c430de9c03ae655b633cbff6727c8a095783a7a2bdccf85df0c37a994557f -->
+<!-- last-content-edit: 2026-09-11 04:31:49 MSK -->
+<!-- content-sha256: sha256:7b2711e1cb08565401e9dd3a4510fc769d9f50bd63448c58ec8be98b7c309389 -->
 <!-- FUM-MD-RECENCY:END -->

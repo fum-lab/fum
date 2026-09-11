@@ -10,6 +10,22 @@ Pervaya postavka — lokaljnaya komanda, kotoraya toljko chitayet yavno vyibrann
 
 Obyazateljnoye yadro instrukcij i polnyiye tematicheskiye fajlyi, trebuyemyiye dejstvuyusjhim marshrutom, zagruzhayutsya po svoim pravilam. Srez khranit ukazateli na nikh i rezuljtatyi sverki versij; on ne zamenyayet obyazateljnyij tekst sokrasjhyonnyim pereskazom.
 
+## Pervyij chitayusjhij srez nablyudayemosti
+
+Pervyij ogranichennyij rezuljtat 0165 — lokaljnaya komanda dlya odnoj yavno vyibrannoj zadachi. Ona prinimayet manifest svideteljstv i moment ocenki, sokhranyayet posledneye podtverzhdyonnoye sostoyaniye kazhdogo kanala i yavno pokazyivayet neizvestnostj tekusjhego sostoyaniya. Snachala realizuyutsya susjhestvuyusjhij DETEKTOR-07 poteri nablyudayemosti i zavisimoye ustarevaniye DETEKTOR-02. Signal trebuyet nedostatochnogo okhvata neobkhodimoj oblasti: sam tajm-aut ili token_limit_reached yego ne zamenyayet.
+
+Pyatj nablyudyonnyikh situacij stanovyatsya konkretnyimi variantami [susjhestvuyusjhikh scenariyev](scenarii-priyomki.json):
+
+1. Dva epizoda szhatiya — KONTEKST-09. Pryamoj token_limit_reached=true, znacheniya auto_compact_scope_tokens 256258 i 249772, zadacha i vremya sokhranyayutsya kak faktyi runtime. Eto vnutrennij porog sootvetstvuyusjhego sobyitiya, ne kvota akkaunta, sobstvennaya kalibrovka detektora ili tekusjheye zapolneniye posle szhatiya. Posleduyusjhiye transportnyiye otkazyi sokhranyayutsya otdeljno; obsjhaya pervoprichina ne ustanovlena.
+2. Chastichnyij otvet API — KONTEKST-02/03/04. Sostoyaniye active zadachi i staryij latestTurn: interrupted otnosyatsya k svoim oblastyam i ne obyazateljno protivorechat drug drugu. Ni otsutstviye otveta, ni boleye pozdneye polucheniye starogo znacheniya ne podtverzhdayut tekusjheye sostoyaniye processa.
+3. Povtornaya dostavka — KONTEKST-05. Te zhe iskhodnyiye sobyitiya ne uvelichivayut chislo nablyudenij; dva tajm-auta s odinakovyim tekstom sokhranyayutsya razdeljno. Dopisj menyayet granicu snimka, sokhranyaya prezhniye identichnosti i ssyilki.
+4. Chastichnoye vosstanovleniye — KONTEKST-04/13. Novaya aktivnostj podtverzhdayet toljko sobstvennuyu zadachu i kanal; vosstanovleniye kornya ne snimayet neizvestnosti rebyonka. Novyij snimok ne obyyavlyayet ustranyonnoj prichinu starogo otkaza.
+5. Izobrazheniye raskhoditsya s istoriyej — KONTEKST-07/03. Vidimyiye repliki ostayutsya svideteljstvom izobrazheniya bez vyidumannyikh JSONL-pozicij, vremeni otpravki i otmetok obrabotki. Ikh boleye ranneye otsutstviye i pozdniye tajm-autyi prichinno ne svyazanyi imeyusjhimisya dannyimi. Aktualjnostj utochnyayetsya otdeljno.
+
+Eto utochneniye prioriteta susjhestvuyusjhej kartochki, ne novyij nabor detektorov ili skhem. Pervyij srez ne zakryivayet vse kriterii 0165. Posle RED/GREEN nuzhen neboljshoj profilj na odinakovyikh vkhodakh s uchyotom stoimosti samogo sborsjhika i sokhrannosti obyazateljstv; porog poleznosti zaraneye ne naznachayetsya.
+
+[Staticheski proverennaya karta interfejsov](../../Zhurnal/2026-09-11_04-16-49_MSK_sokhranitj-nablyudeniya-i-utochnitj-plan-konteksta/materialyi/karta-interfejsov.md) ogranichivayet povtornoye ispoljzovaniye. Python-reader 0177 predostavlyayet chelovecheskoye proiskhozhdeniye i konechnyij snimok; API/runtime trebuyut otdeljnyikh svideteljstv. Swift-reduktor prigoden dlya podderzhannyikh polej v pamyati novoj epokhi, s sokhraneniyem prezhnej istorii, no yego logicheskiye taktyi ne podmenyayut realjnyiye vremena. Statistika boljshogo iskhodnogo JSONL poka nepolna iz-za predela 268435456 bajt; vyirezaniye i perenumeraciya khvosta ne snimayut etot predel korrektno. Minimaljnoye soyedineniye etikh interfejsov yesjhyo trebuyet proverki koda adaptera i sovmestnogo ispolneniya; zdesj ono ne realizovano.
+
 ## Vkhod i proiskhozhdeniye
 
 Vkhod zadayotsya tochnyim identifikatorom zadachi, manifestom istochnikov i momentom ocenki. Dlya Git fiksiruyetsya polnyij commit i otnositeljnyij putj; dlya JSONL — zavershyonnaya bajtovaya granica, SHA prefiksa, nomera iskhodnyikh strok i otdeljnaya granica nezavershyonnogo khvosta. Dlya otveta API sokhranyayutsya identifikator nablyudeniya, vremya polucheniya i obyyavlennaya oblastj okhvata. Neizvestnaya versiya ili polnota ostayotsya neizvestnoj.
@@ -88,6 +104,8 @@ Osnova sleduyusjhej avtomatizacii — vosproizvodimaya zapisj «pokazaniye → r
 
 ## Istochniki
 
+- [Nablyudeniya i adresnoye utochneniye pervogo sreza](../../Zhurnal/2026-09-11_04-16-49_MSK_sokhranitj-nablyudeniya-i-utochnitj-plan-konteksta/zapros.md).
+
 - [Zadacha 0165](../kartochki-shagov/🟡-FUM-STEP-0165-sobiratj-rabochij-kontekst-zadachi.md).
 - [Pryamoye porucheniye zaplanirovatj zadachu i osnovu budusjhikh proverok](../../Zhurnal/2026-09-09_14-35-59_MSK_podgotovitj-nativnoye-prodolzheniye-zadachi/zapros.md).
 - [Nablyudeniya o zatratakh i ispoljzovanii konteksta](../../Zhurnal/2026-09-09_14-35-59_MSK_podgotovitj-nativnoye-prodolzheniye-zadachi/otchyot.md).
@@ -95,6 +113,6 @@ Osnova sleduyusjhej avtomatizacii — vosproizvodimaya zapisj «pokazaniye → r
 - [Snimok sostoyaniya](../kartochki-shagov/🟡-FUM-STEP-0159-sobratj-snimok-agentskogo-runtime-i-interfejsa.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 17:24:00 MSK -->
-<!-- content-sha256: sha256:065afa97586d9450452d712e92e66ad979e32e89147496a87f8a49d0acda9660 -->
+<!-- last-content-edit: 2026-09-11 04:25:12 MSK -->
+<!-- content-sha256: sha256:4c0ce51300ed778b7584c59cd7f31b33e6ed5484de2150073519d6c251c178bd -->
 <!-- FUM-MD-RECENCY:END -->

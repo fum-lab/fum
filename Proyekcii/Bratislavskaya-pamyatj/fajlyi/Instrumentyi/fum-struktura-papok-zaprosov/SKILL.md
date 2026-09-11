@@ -30,6 +30,8 @@ Komanda `start` prinimayet toljko nepustoj massiv nepustyikh soobsjhenij, kanoni
 
 ## Komandyi
 
+Dlya ustanovki novogo sovmestimogo tipa voprosa i sozdaniya dokumenta iz yego smyislovyikh polej ispoljzuyetsya [interfejs rasshireniya shablonov](rasshireniye-shablonov.md): opisaniye → tochnyij plan/diff → primeneniye sokhranyonnogo plana. On pereispoljzuyet podstanovku i fajlovuyu tranzakciyu etogo instrumenta; susjhestvuyusjhiye zaprosyi i otchyotyi ne migriruyet. `validate` dopolniteljno proveryayet vse ustanovlennyiye opisaniya tipov i ikh shablonyi do obkhoda dokumentov.
+
 Vse komandyi zapuskayutsya iz kornya checkout:
 
 ```bash
@@ -81,6 +83,6 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты
 - [iskhodnyij zapros 2026-08-04 15:48:19 MSK - Shablonizirovatj fajlyi zaprosov i otchyotov](../../Zhurnal/2026-08-04_15-48-19_MSK_shablonizirovatj-fajlyi-zaprosov-i-otchyotov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-04 23:50:44 MSK -->
-<!-- content-sha256: sha256:024d3003265aa07a682b8c4c702a2f3c59f33a832e54ceddba9183d84aa580c4 -->
+<!-- last-content-edit: 2026-09-11 10:59:59 MSK -->
+<!-- content-sha256: sha256:f07bf68ca6a6bcd56d79662f2ca0575705caf2c829edb8109ae08c165854400f -->
 <!-- FUM-MD-RECENCY:END -->
