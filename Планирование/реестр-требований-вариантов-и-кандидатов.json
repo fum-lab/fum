@@ -1188,7 +1188,7 @@
     },
     {
       "path": "Требования/🟡-полная-переносимая-офлайн-автономность-FUM.md",
-      "content_sha256_without_recency": "sha256:ac55246c29a9c94d49e3d72a9002d8c28d13c6330b1653181ce315d3fcb631d0"
+      "content_sha256_without_recency": "sha256:284451ed2ec1afee82c5a814a567cbaf287bfc34f8252b6a87b3d6b4b78b630b"
     },
     {
       "path": "Требования/🟡-полноэкранное-приложение-без-системной-оболочки.md",
@@ -1216,7 +1216,7 @@
     },
     {
       "path": "Требования/🟡-сборка-Swift-toolchain-из-полностью-зеркальных-зависимостей.md",
-      "content_sha256_without_recency": "sha256:cba9867b9b0a040c3c1ecf4dbe688d6b342ee8c34efef9146b2cc8274cf73d13"
+      "content_sha256_without_recency": "sha256:ebd4052b57f4ac432d9da208d440071f4b64ba1162131c48e0196680b8f5cc1a"
     },
     {
       "path": "Требования/🟡-связь-направлений-развития-с-Git-ветками.md",
