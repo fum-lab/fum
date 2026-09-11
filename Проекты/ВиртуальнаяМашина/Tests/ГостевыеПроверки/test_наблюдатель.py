@@ -65,7 +65,24 @@ def родительский_процесс(корень, режим):
         if режим == 'общие-приёмники':
             параметры['ошибки'] = os.dup(вывод.fileno()); добавленные.append(параметры['ошибки'])
         if режим == 'без-родителя': os.close(жизнь); жизнь = None
-        процесс = subprocess.Popen([sys.executable, '-I', '-S', '-B', '-c', наблюдатель.read_text(),
+        исходник = наблюдатель.read_text()
+        if режим == 'задержка-срока':
+            исходник = f'''import os, time
+исходный_waitid = os.waitid
+задержано = False
+def медленный_waitid(*аргументы):
+    global задержано
+    результат = исходный_waitid(*аргументы)
+    if результат is not None and not задержано:
+        задержано = True
+        до = time.monotonic_ns()
+        time.sleep(max(0, ({описание['срок_нс']} - time.monotonic_ns()) / 1e9) + 0.05)
+        with open({str(корень / 'задержка-достигнута')!r}, 'w') as поток:
+            поток.write(str(до) + ',' + str(time.monotonic_ns()))
+    return результат
+os.waitid = медленный_waitid
+''' + исходник
+        процесс = subprocess.Popen([sys.executable, '-I', '-S', '-B', '-c', исходник,
             *[часть for имя, номер in параметры.items() for часть in ('--' + имя, str(номер))]],
             pass_fds=tuple(параметры.values()), start_new_session=True, stdout=subprocess.DEVNULL)
         os.close(чтение)
@@ -222,6 +239,19 @@ class ПроверкиНаблюдателя(unittest.TestCase):
         сам.assertNotEqual(процесс.returncode, 0)
         сам.assertFalse((сам.корень / 'число-команд').exists())
         сам.assertFalse(сам.квитанция(описание).exists())
+
+    def test_срок_повторно_проверяется_после_задержавшегося_waitid(сам):
+        описание = сам.описание(срок=0.8)
+        процесс = сам.запустить(описание, 'задержка-срока'); _, ошибки = процесс.communicate(timeout=5)
+        сам.assertEqual(процесс.returncode, 0, ошибки.decode())
+        сам.assertTrue((сам.корень / 'задержка-достигнута').exists())
+        до, после = map(int, (сам.корень / 'задержка-достигнута').read_text().split(','))
+        сам.assertLess(до, описание['срок_нс'])
+        сам.assertGreaterEqual(после, описание['срок_нс'] + 50_000_000)
+        итог = json.loads(сам.квитанция(описание).read_bytes())
+        сам.assertEqual(итог['код_команды'], 0)
+        сам.assertEqual((итог['причина'], итог['исход']), ('срок', 'ошибка'))
+        сам.assertTrue(итог['группа_исчезла']); сам.assertTrue(сам.свободен())
 
 
 if __name__ == '__main__':
