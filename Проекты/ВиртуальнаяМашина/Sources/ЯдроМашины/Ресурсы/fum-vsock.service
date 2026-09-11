@@ -1,0 +1,10 @@
+[Unit]
+Description=Передача VSOCK в локальный SSH
+Requires=fum-vsock.socket ssh.socket
+After=fum-vsock.socket ssh.socket
+[Service]
+Type=notify
+ExecStart=/usr/lib/systemd/systemd-socket-proxyd --connections-max=32 127.0.0.1:22
+Restart=on-failure
+RestartSec=2
+NoNewPrivileges=yes

@@ -23,6 +23,7 @@ public final class СлужбаVZ: NSObject, VZVirtualMachineDelegate {
         try Хост.ресурсы(план.каталог).проверить(план.профиль, подготовка: false)
         хранилище = try Хранилище(план: план, создать: false)
         super.init()
+        проверитьГостя = ГотовностьГостя.выполнить
     }
     private func путь(_ имя: String) -> URL { URL(fileURLWithPath: хранилище.путь + "/" + имя) }
     private func сохранить(_ фаза: String, причина: String? = nil) throws {

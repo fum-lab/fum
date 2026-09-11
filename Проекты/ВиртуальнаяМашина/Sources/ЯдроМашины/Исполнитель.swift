@@ -119,6 +119,7 @@ public func объединитьСобытия(_ события: [Событие
 public final class МетрикиМашины {
     public let хранилище: Хранилище
     private var родители: [String] = []
+    public var текущийРодитель: String? { родители.last }
     public init(_ хранилище: Хранилище) { self.хранилище = хранилище }
     public func измерить<T>(_ название: String, _ действие: () throws -> T) throws -> T {
         let идентификатор = UUID().uuidString.lowercased()

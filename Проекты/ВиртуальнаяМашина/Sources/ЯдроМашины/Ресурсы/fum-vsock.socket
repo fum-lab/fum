@@ -1,0 +1,7 @@
+[Unit]
+Description=Доступ SSH через VSOCK для VM FUM
+[Socket]
+ListenStream=vsock::2222
+Accept=no
+[Install]
+WantedBy=sockets.target

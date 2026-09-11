@@ -1,0 +1,21 @@
+{
+  "схема": "fum.решение-гостевого-доступа.1",
+  "предыдущий_коммит": "105da013a18a9ea77f03d1dbf9994452c54e1c20",
+  "наблюдения": [
+    "Повторный запуск того же диска и идентичности успешен; cloud-init второй загрузки имеет code0, status done, extended_status done, errors[], recoverable_errors{}; прежний отказ первой загрузки сохранён.",
+    "systemd255.4-1ubuntu8.17 и /usr/lib/systemd/systemd-socket-proxyd присутствуют в госте.",
+    "ОдинIPv4 Ubuntu91.189.92.20: host HTTPS200; guest прямойHTTPS код28/3,007с; host route utun5, guest route через NAT. Это локализация различия, не доказанная причина политикиVPN.",
+    "Временный ssh -R127.0.0.1:1080 с PermitRemoteOpen ports.ubuntu.com:443 дал curl гостя HTTPS200. SSHключ закреплён; туннель закончился вместе с командой."
+  ],
+  "решение": "Проверить встроенный systemd-socket-proxyd вместо socat, убрать APT из ранней подготовки канала. NoCloud устанавливает ключи и две units; исходящий HTTPS/Git профиля получает явный временный обратный SOCKS через хост. Необходимые программы проверяются по закреплённому образу. Системные VPN/PF/маршруты хоста не меняются.",
+  "предел": "РесурсыPython восстановление/готовность находятся в исходниках и проверены на открытых фикстурах, но не подключены кSwift и не применены в VM. Реальная работа nativeproxy и готовностьFUM ещё не доказаны. Тяжёлое окно передано M; VM простаивает, только лёгкий SSH/I/O.",
+  "первичные_источники": [
+    "https://raw.githubusercontent.com/systemd/systemd/v255/src/basic/socket-util.c",
+    "https://raw.githubusercontent.com/systemd/systemd/v255/src/socket-proxy/socket-proxyd.c",
+    "https://manpages.ubuntu.com/manpages/noble/man8/systemd-socket-proxyd.8.html",
+    "https://packages.ubuntu.com/noble/arm64/systemd/filelist",
+    "https://man.openbsd.org/ssh",
+    "https://manpages.ubuntu.com/manpages/noble/man1/apt-transport-http.1.html"
+  ],
+  "граница_языка": "УправлениеVM/план/хранилище/исполнитель остаются Swift. Pythonstdlib используется только в Linux-госте, где Python3 входит в закреплённый образ; установка Swift в госте не требуется выбранному профилю."
+}

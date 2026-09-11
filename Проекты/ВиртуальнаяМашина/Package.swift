@@ -6,7 +6,7 @@ let package = Package(
     platforms: [.macOS(.v13)],
     products: [.executable(name: "машина", targets: ["Машина"])],
     targets: [
-        .target(name: "ЯдроМашины"),
+        .target(name: "ЯдроМашины", resources: [.process("Ресурсы")]),
         .executableTarget(name: "Машина", dependencies: ["ЯдроМашины"]),
         .testTarget(name: "ПроверкиМашины", dependencies: ["ЯдроМашины"]),
     ]

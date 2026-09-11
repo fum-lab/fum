@@ -7,7 +7,10 @@ public enum НастройкаГостя {
         guard UUID(uuidString: идентификатор) != nil,
               ключКлиента.hasPrefix("ssh-ed25519 "), ключХоста.hasPrefix("ssh-ed25519 "),
               !закрытыйКлючХоста.isEmpty else { throw ОшибкаМашины("Неверные идентичность или ключи NoCloud.") }
-        func строка(_ текст: String) throws -> String { String(decoding: try JSONEncoder().encode(текст.trimmingCharacters(in: .whitespacesAndNewlines)), as: UTF8.self) }
+        func строка(_ текст: String) throws -> String {
+            let кодировщик = JSONEncoder(); кодировщик.outputFormatting = [.withoutEscapingSlashes]
+            return String(decoding: try кодировщик.encode(текст.trimmingCharacters(in: .whitespacesAndNewlines)), as: UTF8.self)
+        }
         let закрытый = закрытыйКлючХоста.split(separator: "\n", omittingEmptySubsequences: false).map { "    " + $0 }.joined(separator: "\n")
         return """
         #cloud-config
@@ -27,35 +30,19 @@ public enum НастройкаГостя {
           ed25519_public: \(try строка(ключХоста))
           ed25519_private: |
         \(закрытый)
-        package_update: true
-        package_upgrade: false
-        packages: [socat, openssh-server, git, python3, tzdata, ca-certificates]
-        apt:
-          conf: |
-            Acquire::Retries "3";
-            Acquire::http::Timeout "30";
-            Acquire::https::Timeout "30";
-        output:
-          all: "| tee -a /var/log/cloud-init-output.log /dev/hvc0"
         write_files:
           - path: /etc/fum-vm-id
             permissions: '0444'
             content: \(try строка(идентификатор))
           - path: /etc/systemd/system/fum-vsock.service
             permissions: '0644'
-            content: |
-              [Unit]
-              Description=SSH over virtio socket for this FUM VM
-              After=network.target ssh.service
-              [Service]
-              ExecStart=/usr/bin/socat VSOCK-LISTEN:2222,fork,reuseaddr TCP4:127.0.0.1:22
-              Restart=on-failure
-              RestartSec=2
-              [Install]
-              WantedBy=multi-user.target
+            content: \(try строка(РесурсыГостя.текст("fum-vsock.service")))
+          - path: /etc/systemd/system/fum-vsock.socket
+            permissions: '0644'
+            content: \(try строка(РесурсыГостя.текст("fum-vsock.socket")))
         runcmd:
           - [systemctl, daemon-reload]
-          - [systemctl, enable, --now, fum-vsock.service]
+          - [systemctl, enable, --now, fum-vsock.socket]
           - [systemctl, enable, --now, serial-getty@hvc0.service]
         """ + "\n"
     }

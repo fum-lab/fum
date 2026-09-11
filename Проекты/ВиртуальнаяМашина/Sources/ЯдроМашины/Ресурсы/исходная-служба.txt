@@ -1,0 +1,9 @@
+[Unit]
+Description=SSH over virtio socket for this FUM VM
+After=network.target ssh.service
+[Service]
+ExecStart=/usr/bin/socat VSOCK-LISTEN:2222,fork,reuseaddr TCP4:127.0.0.1:22
+Restart=on-failure
+RestartSec=2
+[Install]
+WantedBy=multi-user.target
