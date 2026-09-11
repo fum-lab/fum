@@ -124,7 +124,7 @@ Rezuljtat kazhdogo pryamogo vyizova otrazhayetsya v upravlyayemom bloke. Okoncha
 
 Pervichnyij checkout, indeks i master sokhranyayutsya na M1 vo vremya podgotovki kandidata. Prezhniye nezakommichennyiye izmeneniya voshli v M1; otdeljnyiye proverennyiye rezervnyiye snimki takzhe sokhranenyi. Prodvizheniye master yavlyayetsya sleduyusjhim dejstviyem toljko posle proverki fakticheskogo C2 i mekhanizma soglasovannogo fast-forward s ozhidayemyim prezhnim M1. Vtoroye sliyaniye i publikaciya ne sozdayutsya.
 
-Posle integracii ostayutsya [FUM-STEP-0177 — vkhod neobrabotannyikh soobsjhenij](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0177-vozvrasjhatj-neobrabotannyiye-soobsjheniya-poljzovatelya.md), zatem [FUM-STEP-0176 — perenos sobstvennoj realizacii v FUM](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0176-sobratj-sobstvennuyu-realizaciyu-v-FUM.md). Oni ne schitayutsya vyipolnennyimi po etomu otchyotu. Ostaljnyiye obyazateljstva prodolzhayut khranitjsya v planirovanii i iskhodnoj istorii.
+Posle integracii ostayutsya [FUM-STEP-0177 — vkhod neobrabotannyikh soobsjhenij](../../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0177-vozvrasjhatj-neobrabotannyiye-soobsjheniya-poljzovatelya.md), zatem [FUM-STEP-0176 — perenos sobstvennoj realizacii v FUM](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0176-sobratj-sobstvennuyu-realizaciyu-v-FUM.md). Oni ne schitayutsya vyipolnennyimi po etomu otchyotu. Ostaljnyiye obyazateljstva prodolzhayut khranitjsya v planirovanii i iskhodnoj istorii.
 
 ## Istochniki
 
@@ -134,6 +134,6 @@ Posle integracii ostayutsya [FUM-STEP-0177 — vkhod neobrabotannyikh soobsjheni
 - [doverennaya procedura proverki](../../Instrumentyi/fum-otchyotyi-o-zapuskakh-proverok/proverka-sliyaniya-iz-master.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 22:02:46 MSK -->
-<!-- content-sha256: sha256:c3f26f01545dc41fde8b64cb427433a8682e5a95b088105e6223e6a8c05c37ba -->
+<!-- last-content-edit: 2026-09-11 02:33:08 MSK -->
+<!-- content-sha256: sha256:174bd2518bcd719c89feddbb7b12554b6998443c3ff6d1ef6a85f73215b4261a -->
 <!-- FUM-MD-RECENCY:END -->

@@ -1,7 +1,7 @@
 +++
 schema_version = 1
 card_id = "FUM-STEP-0177"
-status = "active"
+status = "completed"
 +++
 # Vozvrasjhatj neobrabotannyiye soobsjheniya poljzovatelya
 
@@ -31,6 +31,21 @@ V kandidate C1 `436909208424595f7151f6febca75f89018c0bcb` uzhe yestj chistyiye c
 
 Tekusjhaya ocheredj ogranichena khvostom posle iskhodnogo kursora i obyyomom 64 MiB; ona ne dokazyivayet polnotu starogo ostatka. Ekzemplyar soobsjheniya sleduyet svyazyivatj s UUID zadachi, khyeshem iskhodnogo session_meta, diapazonom bajtov i khyeshem raw-stroki s LF. Proverka prinadlezhnosti citatyi spisku komand ne razlichayet odinakovyiye povtornyiye soobsjheniya. Ostatok vyichislyayetsya po vsem ekzemplyaram bez dejstviteljnoj obrabotki; staryiye otmetki perenosyatsya toljko pri odnoznachnom sootvetstvii ekzemplyaru. Neodnoznachnoye proiskhozhdeniye uchityivayetsya otdeljno i ne dayot rezuljtat «neobrabotannyikh net».
 
+## Sokhranyonnyiye segmentyi
+
+Posle prinyatiya merge-kommita `406c6ba1` v otdeljnom sobstvennom worktree realizovan [polnyij chitatelj JSONL](../../Instrumentyi/fum-svyaznostj-rabochej-sessii/soobsjheniya-zadachi.md): vse ekzemplyaryi do i posle kursora, mnogochastnoye soderzhimoye, proiskhozhdeniye, transportnyiye povtoryi, atomarnyij privatnyij kyesh i proverka prezhnego prefiksa. Adresnyiye regressii, profilj na 70 MiB i razbor iskhodnogo dialoga sokhranenyi v [otchyote segmenta](../../Zhurnal/2026-09-10_22-36-51_MSK_vernutj-neobrabotannyiye-soobsjheniya/otchyot.md).
+
+Pervyij segment byil sokhranyon kontroljnoj tochkoj. Vo vtorom segmente realizovanyi [istoriya obrabotki](../../Instrumentyi/fum-svyaznostj-rabochej-sessii/obrabotka-soobsjhenij.md), proveryayemyiye svideteljstva, pozdnij kontekst i polnyij ostatok: istoriya, zhivoye chteniye i rezhim bez zapisi proshli 67 adresnyikh testov; [otchyot](../../Zhurnal/2026-09-10_23-24-41_MSK_svyazatj-obrabotku-soobsjhenij-s-istoriyej/otchyot.md). Pri zhivom chtenii obnaruzheno dopisyivaniye runtime, preryivayusjheye vosstanovleniye: [FUM-SBOJ-0046/PROYAVLENIYE-0001](../../Sboi/FUM-SBOJ-0046-dopisyivaniye-JSONL-preryivayet-vosstanovleniye.md). Ogranichennyij prefiks pri append, obnaruzheniye neproverennogo khvosta i bezzapisnyij raschyot realizovanyi; pamyatj odnogo vyizova isklyuchayet povtornyij razbor staryikh strok. Profilj na 70 MiB: okolo 1,11 → 0,72 s dlya rezhima bez zapisi. Zaklyuchiteljnyij segment dobavlyayet obyazateljnyij proyektnyij vkhod i sostavnoj zavershayusjhij dopusk; yego svideteljstva privedenyi nizhe.
+
+
+## Rezuljtat
+
+Realizovanyi polnyij chitatelj, dolgovechnaya istoriya obrabotki, pozdnyaya pereocenka soobsjhenij i obyazateljnyiye vyizovyi po kanonicheskim pravilam. Dopusk prinimayet yavnyij JSONL i vozvrasjhayet stroguyu vneshnyuyu skhemu 3 s otdeljnyim neizmenyonnyim resheniyem obyazateljstv. Oshibka istochnika, nepolnyij khvost i nepustoj ostatok ne razreshayut zaversheniye; podtverzhdyonnaya ostanovka poljzovatelya sokhranyayet prioritet. Novyij privatnyij komplekt vklyuchayet odinnadcatj iskhodnikov.
+
+[Zaklyuchiteljnyij otchyot i mashinnaya priyomka](../../Zhurnal/2026-09-11_02-02-21_MSK_zakrepitj-dopusk-ostatka-soobsjhenij/otchyot.md) svyazyivayut RED/GREEN, proverki migracii, polnyij profilj na 70 MiB i obyazateljnyij standartnyij smoke-check. Medianyi celogo processa guard 1,03–1,24 s, adaptera 1,10–1,31 s pri prezhnem limite 3 s. Staraya konfiguraciya adaptera bez istochnika teperj diagnosticheski ostanavlivayet podtverzhdyonnyij celevoj Stop, sokhranyaya chuzhiye zadachi.
+
+Nativnaya ustanovka Stop i nablyudeniye realjnogo prodolzheniya runtime ne zayavlyayutsya; obyazateljnostj proyektnoj proceduryi, CLI i sinteticheskaya integraciya proveryayutsya otdeljno ot host-runtime. Istoricheskiye soobsjheniya iskhodnoj roditeljskoj zadachi avtomaticheski ne pogashayutsya.
+
 ## Istochniki
 
 - [Pryamyiye soobsjheniya i soderzhateljnyiye otvetyi](../../Zhurnal/2026-09-10_17-33-36_MSK_zakrepitj-dopusk-sliyaniya-iz-master/zapros.md).
@@ -39,6 +54,6 @@ Tekusjhaya ocheredj ogranichena khvostom posle iskhodnogo kursora i obyyomom 64 
 - [Sleduyusjhij perenos sobstvennoj realizacii](🟡-FUM-STEP-0176-sobratj-sobstvennuyu-realizaciyu-v-FUM.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 19:46:01 MSK -->
-<!-- content-sha256: sha256:45e0ce28332a8473b2fcf0eda0a60dd91a8947be5b1efb51cc65edda0c611097 -->
+<!-- last-content-edit: 2026-09-11 02:33:08 MSK -->
+<!-- content-sha256: sha256:a8dcf385377d3a02367677a913948a427926de8cafb92e1f581861458406f8d8 -->
 <!-- FUM-MD-RECENCY:END -->

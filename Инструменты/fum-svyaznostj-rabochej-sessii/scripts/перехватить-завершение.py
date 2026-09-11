@@ -84,7 +84,7 @@ class Параметры(argparse.ArgumentParser):
 
 
 def аргументы():
-    парсер = Параметры(description=__doc__)
+    парсер = Параметры(description=__doc__, add_help=False, allow_abbrev=False)
     парсер.add_argument("--корень-репозитория", type=Path, required=True)
     парсер.add_argument("--codex-thread-id", required=True)
     парсер.add_argument("--ожидаемый-cwd", type=Path, required=True)
@@ -100,6 +100,19 @@ def аргументы():
     парсер.add_argument("--тайм-аут-ввода", type=число_секунд, default=1.0)
     парсер.add_argument("--профиль", action="store_true")
     return парсер.parse_args()
+
+
+def задача_из_параметров():
+    """Доказать область управления независимо от остальной конфигурации."""
+    парсер = Параметры(add_help=False, allow_abbrev=False)
+    парсер.add_argument("--codex-thread-id", action="append", required=True)
+    область, остаток = парсер.parse_known_args()
+    if len(область.codex_thread_id) != 1:
+        raise Отказ("неоднозначная-область")
+    задача = область.codex_thread_id[0]
+    if str(uuid.UUID(задача)) != задача:
+        raise Отказ("идентификатор-настройки")
+    return задача
 
 
 def прочитать_ввод(секунды):
@@ -428,6 +441,8 @@ def обработать(настройки, событие, стадии):
         return диагностика("неверный-вход")
     if событие.get("session_id") != настройки.codex_thread_id or событие.get("hook_event_name") != "Stop":
         return {} if событие.get("session_id") and событие.get("hook_event_name") else диагностика("нет-идентичности")
+    if len(настройки.файл_прогресса) > 32:
+        raise Отказ("предел-файлов")
     if (type(событие.get("stop_hook_active")) is not bool or not isinstance(событие.get("turn_id"), str)
             or not событие["turn_id"].strip() or событие.get("cwd") != str(настройки.ожидаемый_cwd)):
         return остановить("неверный целевой вход")
@@ -483,22 +498,28 @@ def выполнить():
     signal.signal(signal.SIGTERM, прервать)
     signal.signal(signal.SIGINT, прервать)
     try:
-        настройки = аргументы()
-        if str(uuid.UUID(настройки.codex_thread_id)) != настройки.codex_thread_id:
-            raise Отказ("идентификатор-настройки")
-        if len(настройки.файл_прогресса) > 32:
-            raise Отказ("предел-файлов")
+        задача = задача_из_параметров()
+        try:
+            настройки = аргументы()
+        except (ValueError, TypeError):
+            # Старый argv без --исходник также обязан пройти проверку области.
+            настройки = None
         try:
             начало_ввода = time.perf_counter_ns()
-            вход = прочитать_ввод(настройки.тайм_аут_ввода)
+            вход = прочитать_ввод(настройки.тайм_аут_ввода if настройки is not None else 1.0)
             размер = len(вход)
             событие = разобрать(вход)
             стадии["ввод"] = time.perf_counter_ns() - начало_ввода
         except (OSError, ValueError):
             ответ = диагностика("неверный-или-неполный-вход")
         else:
-            целевой = isinstance(событие, dict) and событие.get("session_id") == настройки.codex_thread_id and событие.get("hook_event_name") == "Stop"
-            ответ = обработать(настройки, событие, стадии)
+            целевой = isinstance(событие, dict) and событие.get("session_id") == задача and событие.get("hook_event_name") == "Stop"
+            if настройки is None:
+                ответ = (остановить("ошибка параметров") if целевой else
+                         {} if isinstance(событие, dict) and событие.get("session_id") and событие.get("hook_event_name") else
+                         диагностика("ошибка параметров"))
+            else:
+                ответ = обработать(настройки, событие, стадии)
     except Прерывание:
         ответ = остановить("вызов прерван") if целевой else диагностика("вызов прерван")
     except (OSError, ValueError, TypeError, RecursionError):

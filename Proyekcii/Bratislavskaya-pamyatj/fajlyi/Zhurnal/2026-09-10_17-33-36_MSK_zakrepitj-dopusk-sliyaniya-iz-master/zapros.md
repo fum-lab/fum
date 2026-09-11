@@ -194,7 +194,7 @@ Rabota vozobnovlena predmetno: sokhranyonnyij test nastoyasjhego merge snachala 
 
 Poljzovatelj utochnil sleduyusjhij etap: obyazateljnaya avtomatizaciya vozvrasjhayet vse soobsjheniya poljzovatelya, kotoryiye yesjhyo ne otmechenyi v istorii kak obrabotannyiye. Pervichnaya zapisj JSONL: `2026-09-10T15:22:07.900Z`, SHA-256 `c69eb042e2da28fd6568e2600eb4424af54969dd6cb1b4a82de8f59616288028`. Eto utochneniye zamenyayet postoyannuyu ruchnuyu pereproverku avtomatizirovannyim polucheniyem polnogo ostatka.
 
-Soderzhateljnyij otvet: sleduyusjhij etap posle tekusjhego dopuska — [FUM-STEP-0177](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0177-vozvrasjhatj-neobrabotannyiye-soobsjheniya-poljzovatelya.md). On predshestvuyet perenosu iskhodnikov FUM-STEP-0176 i ne otmenyayet yego. Chteniye soobsjheniya samo po sebe ne otmechayet obrabotku; otmetka svyazyivayetsya s sokhranyonnyim otvetom i resheniyem po soobsjheniyu. Vyipolneniye postavlennoj zadachi uchityivayetsya otdeljno. Staryiye propuski i odinakovyiye povtornyiye komandyi dolzhnyi ostavatjsya razlichimyimi. Do priyomki avtomatizacii sokhranyayetsya yavnaya sverka JSONL; susjhestvovaniye obyazateljnogo mashinnogo vyizova ne zayavlyayetsya. Pravilo NEW000017 utochneno etoj granicej.
+Soderzhateljnyij otvet: sleduyusjhij etap posle tekusjhego dopuska — [FUM-STEP-0177](../../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0177-vozvrasjhatj-neobrabotannyiye-soobsjheniya-poljzovatelya.md). On predshestvuyet perenosu iskhodnikov FUM-STEP-0176 i ne otmenyayet yego. Chteniye soobsjheniya samo po sebe ne otmechayet obrabotku; otmetka svyazyivayetsya s sokhranyonnyim otvetom i resheniyem po soobsjheniyu. Vyipolneniye postavlennoj zadachi uchityivayetsya otdeljno. Staryiye propuski i odinakovyiye povtornyiye komandyi dolzhnyi ostavatjsya razlichimyimi. Do priyomki avtomatizacii sokhranyayetsya yavnaya sverka JSONL; susjhestvovaniye obyazateljnogo mashinnogo vyizova ne zayavlyayetsya. Pravilo NEW000017 utochneno etoj granicej.
 
 ## Aktualjnostj starogo neobrabotannogo soobsjheniya
 
@@ -238,6 +238,6 @@ Plan i fakticheskiye iskhodyi nakhodyatsya v [otchyote](otchyot.md). Dlya izmene
 - [Otchyot ob izvlechenii](../../Istochniki/URL/https/chatgpt.com/share/6aa2c5c7-fe90-83ed-bd10-d7b03db8b334/extraction-report.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 20:36:12 MSK -->
-<!-- content-sha256: sha256:49de0180f2f45c428ada22ec08d86ce202cd397fa43371c6b6a0d23a5d335598 -->
+<!-- last-content-edit: 2026-09-11 02:33:08 MSK -->
+<!-- content-sha256: sha256:75c1535917ce3474c1bf1698ad709f21ae6ff2c3f774c40bbe758ad100d6726f -->
 <!-- FUM-MD-RECENCY:END -->

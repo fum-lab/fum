@@ -141,6 +141,41 @@ class ПерехватЗавершения(unittest.TestCase):
         это.assertFalse(это.состояние.exists())
         это.assertFalse((это.корень / "вызван").exists())
 
+    def test_ошибка_argv_не_пропускает_целевой_Stop_и_не_блокирует_чужой(это):
+        без_исходника = это.команда()
+        позиция = без_исходника.index("--исходник")
+        del без_исходника[позиция:позиция + 2]
+        варианты = [без_исходника, [*без_исходника, "--исходник"],
+                    это.команда("--тайм-аут-backend", "не-число"),
+                    это.команда("--тайм-аут-ввода", "не-число"),
+                    это.команда("--help"),
+                    это.команда("--неизвестный-параметр")]
+        for команда in варианты:
+            for задача in (ЗАДАЧА, ЧУЖАЯ):
+                with это.subTest(параметры=команда[2:], задача=задача):
+                    событие = dict(это.событие, session_id=задача)
+                    итог = subprocess.run(команда, input=json.dumps(событие).encode(),
+                                          capture_output=True, timeout=5)
+                    это.assertEqual(итог.returncode, 0, итог.stderr)
+                    ответ = json.loads(итог.stdout)
+                    if задача == ЗАДАЧА:
+                        это.остановлен(ответ, "параметров")
+                    else:
+                        это.assertEqual(ответ, {})
+                    это.assertFalse(это.состояние.exists())
+                    это.assertFalse((это.корень / "вызван").exists())
+
+    def test_неоднозначный_UUID_не_даёт_полномочий_при_ошибке_argv(это):
+        for добавка in (["--codex-thread-id", ЗАДАЧА], ["--codex-thread-id=" + ЧУЖАЯ],
+                        ["--codex-thread-id", "не-UUID"]):
+            with это.subTest(добавка=добавка):
+                итог = subprocess.run(это.команда(*добавка, "--help"),
+                                      input=json.dumps(это.событие).encode(), capture_output=True, timeout=5)
+                это.assertEqual(итог.returncode, 0, итог.stderr)
+                это.assertEqual(set(json.loads(итог.stdout)), {"systemMessage"})
+                это.assertFalse(это.состояние.exists())
+                это.assertFalse((это.корень / "вызван").exists())
+
     def test_другое_событие_не_управляет_ходом(это):
         это.событие["hook_event_name"] = "SubagentStop"
         это.assertEqual(это.вызвать(), {})

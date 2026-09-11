@@ -27,6 +27,8 @@ import time
 парсер.add_argument("--codex-thread-id", required=True)
 парсер.add_argument("--перед-завершением", action="store_true", required=True)
 парсер.add_argument("--план")
+парсер.add_argument("--исходник", required=True)
+парсер.add_argument("--кэш")
 аргументы = парсер.parse_args()
 корень = Path(аргументы.корень_репозитория)
 (корень / "вызван").touch()
@@ -73,12 +75,18 @@ class ПерехватЗавершения(unittest.TestCase):
                       "last_assistant_message": "СЕКРЕТНЫЙ-МАРКЕР", "transcript_path": "/приватное"}
 
     def установить(это):
-        (это.корень / "ответ.json").write_text(json.dumps(это.ответ, ensure_ascii=False))
+        сводка = None if это.ответ["решение"] == "остановлено-пользователем" else {
+            "всего": 0, "остаток": 0, "полнота_источника": True,
+            "непроверенный_хвост": 0, "разбор_сообщений_завершён": True}
+        составной = {"схема": "fum.решение-продолжения.3", "задача": ЗАДАЧА,
+                     "решение": это.ответ["решение"], "обязательства": это.ответ, "сообщения": сводка}
+        (это.корень / "ответ.json").write_text(json.dumps(составной, ensure_ascii=False))
 
     def команда(это, *добавка):
         return [sys.executable, str(СЦЕНАРИЙ), "--корень-репозитория", str(это.корень),
                 "--codex-thread-id", ЗАДАЧА, "--ожидаемый-cwd", str(это.корень),
                 "--guard", str(это.бэкенд), "--каталог-состояния", str(это.состояние),
+                "--исходник", str(это.каталог / "диалог.jsonl"),
                 "--файл-прогресса", "результат.py", "--предел-повторов", "2",
                 "--тайм-аут-backend", "0.5", *добавка]
 
@@ -132,6 +140,41 @@ class ПерехватЗавершения(unittest.TestCase):
         это.assertEqual(это.вызвать(), {})
         это.assertFalse(это.состояние.exists())
         это.assertFalse((это.корень / "вызван").exists())
+
+    def test_ошибка_argv_не_пропускает_целевой_Stop_и_не_блокирует_чужой(это):
+        без_исходника = это.команда()
+        позиция = без_исходника.index("--исходник")
+        del без_исходника[позиция:позиция + 2]
+        варианты = [без_исходника, [*без_исходника, "--исходник"],
+                    это.команда("--тайм-аут-backend", "не-число"),
+                    это.команда("--тайм-аут-ввода", "не-число"),
+                    это.команда("--help"),
+                    это.команда("--неизвестный-параметр")]
+        for команда in варианты:
+            for задача in (ЗАДАЧА, ЧУЖАЯ):
+                with это.subTest(параметры=команда[2:], задача=задача):
+                    событие = dict(это.событие, session_id=задача)
+                    итог = subprocess.run(команда, input=json.dumps(событие).encode(),
+                                          capture_output=True, timeout=5)
+                    это.assertEqual(итог.returncode, 0, итог.stderr)
+                    ответ = json.loads(итог.stdout)
+                    if задача == ЗАДАЧА:
+                        это.остановлен(ответ, "параметров")
+                    else:
+                        это.assertEqual(ответ, {})
+                    это.assertFalse(это.состояние.exists())
+                    это.assertFalse((это.корень / "вызван").exists())
+
+    def test_неоднозначный_UUID_не_даёт_полномочий_при_ошибке_argv(это):
+        for добавка in (["--codex-thread-id", ЗАДАЧА], ["--codex-thread-id=" + ЧУЖАЯ],
+                        ["--codex-thread-id", "не-UUID"]):
+            with это.subTest(добавка=добавка):
+                итог = subprocess.run(это.команда(*добавка, "--help"),
+                                      input=json.dumps(это.событие).encode(), capture_output=True, timeout=5)
+                это.assertEqual(итог.returncode, 0, итог.stderr)
+                это.assertEqual(set(json.loads(итог.stdout)), {"systemMessage"})
+                это.assertFalse(это.состояние.exists())
+                это.assertFalse((это.корень / "вызван").exists())
 
     def test_другое_событие_не_управляет_ходом(это):
         это.событие["hook_event_name"] = "SubagentStop"

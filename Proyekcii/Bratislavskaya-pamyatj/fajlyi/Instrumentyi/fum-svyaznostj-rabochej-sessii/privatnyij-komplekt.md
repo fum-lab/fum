@@ -1,24 +1,24 @@
 # Privatnyij komplekt perekhvata zaversheniya
 
-[Podgotovka](scripts/podgotovitj-komplekt-zaversheniya.py) izvlekayet vosemj iskhodnikov iz odnogo tochnogo Git commit, sokhranyayet ikh iyerarkhiyu i pechatayet proveryayemogo kandidata Stop. Ona ne ustanavlivayet nastrojki, ne menyayet Trust, ne zapuskayet poluchennyij project-kod i ne sozdayot sostoyaniye realjnoj zadachi.
+[Podgotovka](scripts/podgotovitj-komplekt-zaversheniya.py) izvlekayet odinnadcatj iskhodnikov iz odnogo tochnogo Git commit, sokhranyayet ikh iyerarkhiyu i pechatayet proveryayemogo kandidata Stop. Ona ne ustanavlivayet nastrojki, ne menyayet Trust, ne zapuskayet poluchennyij project-kod i ne sozdayot sostoyaniye realjnoj zadachi.
 
-Novaya versiya `fum.комплект-Stop.2` soderzhit prezhniye adapter, guard i otchyotnuyu obyortku, oba modulya reyestra obyazateljstv, chitatelj polnogo Git DAG, chitatelj zakryitogo otchyota i adapter svyazi otpechatka s kommitom. Fiksirovannyij sostav proveryayetsya celikom. Staryiye sokhranyonnyiye komandyi versii 1 vklyuchayut sobstvennyij zagruzchik i ne perepisyivayutsya; novyij podgotovitelj ne vyidayot komplekt iz chetyiryokh fajlov za versiyu 2 i ne prinimayet staruyu skhemu kak novuyu.
+Versiya `fum.комплект-Stop.3` dobavlyayet k prezhnim vosjmi iskhodnikam obrabotchik soobsjhenij, chitatelj JSONL i klassifikator proiskhozhdeniya. Vse odinnadcatj fajlov proveryayutsya celikom. Staryiye sokhranyonnyiye komandyi versij 1/2 vklyuchayut sobstvennyij zagruzchik i ne perepisyivayutsya. Dlya novogo dopuska podgotovjte otdeljnyij komplekt versii 3 s yavnyim istochnikom JSONL; staraya skhema ne prinimayetsya kak novaya.
 
 ## Vkhod i rezuljtat
 
-Obyazateljnyi polnyij 40-znachnyij lowercase commit OID, absolyutnyiye istochnik, privatnoye khranilisjhe, interpretator, derevo dannyikh guard, fakticheskij cwd zadachi i katalog sostoyaniya; otdeljno peredayutsya UUID i konkretnyiye otnositeljnyiye fajlyi progressa. Neobyazateljnyij plan takzhe otnositelen derevu dannyikh. Sokrasjhyonnyiye OID, refs, tegi vmesto commit i format Git SHA-256 ne prinimayutsya.
+Obyazateljnyi polnyij 40-znachnyij lowercase commit OID, absolyutnyiye istochnik, privatnoye khranilisjhe, interpretator, derevo dannyikh guard, fakticheskij cwd zadachi i katalog sostoyaniya; otdeljno peredayutsya UUID i konkretnyiye otnositeljnyiye fajlyi progressa. Neobyazateljnyij plan takzhe otnositelen derevu dannyikh. `--источник` zadayot fizicheskij absolyutnyij checkout iskhodnogo koda, a obyazateljnyij `--исходник` — absolyutnyij JSONL kornevoj zadachi. Neobyazateljnyij `--кэш` ostayotsya privatnyim vne Git. Nedostupnyij JSONL ne chitayetsya pri podgotovke, chtobyi ne narushitj prioritet ostanovki poljzovatelya v guard. Sokrasjhyonnyiye OID, refs, tegi vmesto commit i format Git SHA-256 ne prinimayutsya.
 
 Khranilisjhe zadayotsya vne lyubogo obnaruzhennogo Git-predka: zapresjhenyi `.git` lyubogo tipa i konservativno raspoznavayemyij bare-layout. Vse komponentyi privatnogo puti proveryayutsya bez simvolicheskikh ssyilok; roditelj dolzhen susjhestvovatj. Samo khranilisjhe sozdayotsya 0700 libo prinimayetsya s uzhe tochnyimi pravami i vladeljcem. Susjhestvuyusjheye poljzovateljskoye sostoyaniye ne ispravlyayetsya radi podgotovki.
 
 Komanda zapuskayetsya iz sobstvennogo checkout. Nizhe vse uglovyiye oboznacheniya — plejskholderyi, ne gotovyiye mashinnyiye puti:
 
 ```text
-python3 -I -S -B Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовить-комплект-завершения.py --источник <абсолютный-репозиторий-источника> --commit <полный-OID> --хранилище <приватный-каталог-вне-Git> --интерпретатор <абсолютный-Python> --корень-репозитория <дерево-данных-guard> --ожидаемый-cwd <фактический-cwd-задачи> --codex-thread-id <UUID-задачи> --каталог-состояния <приватное-состояние-вне-Git> --файл-прогресса <относительный-результат>
+python3 -I -S -B Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовить-комплект-завершения.py --источник <абсолютный-репозиторий-источника> --commit <полный-OID> --хранилище <приватный-каталог-вне-Git> --интерпретатор <абсолютный-Python> --корень-репозитория <дерево-данных-guard> --ожидаемый-cwd <фактический-cwd-задачи> --codex-thread-id <UUID-задачи> --исходник <абсолютный-JSONL-задачи> --каталог-состояния <приватное-состояние-вне-Git> --файл-прогресса <относительный-результат>
 ```
 
-Stdout soderzhit JSON so skhemoj `fum.кандидат-комплекта-Stop.1`, putyom komplekta, SHA-256 manifesta, samim manifestom, kandidatom `hooks` i spravochnyim SHA-256 zagruzchika. Vyivod soderzhit lokaljnyiye puti: yego sleduyet khranitj privatno, a ne bez proverki publikovatj v FUM. Pri otkaze stdout pust, kod 2 i ogranichennaya po naznacheniyu diagnostika v stderr; podgotovka ne vyidayot otkaz za gotovogo kandidata.
+Stdout soderzhit JSON so skhemoj `fum.кандидат-комплекта-Stop.3`, putyom komplekta, SHA-256 manifesta, samim manifestom, kandidatom `hooks` i spravochnyim SHA-256 zagruzchika. Vyivod soderzhit lokaljnyiye puti: yego sleduyet khranitj privatno, a ne bez proverki publikovatj v FUM. Pri otkaze stdout pust, kod 2 i ogranichennaya po naznacheniyu diagnostika v stderr; podgotovka ne vyidayot otkaz za gotovogo kandidata.
 
-Manifest svyazyivayet commit, tree, vosemj putej, iskhodnyiye blob OID, rezhim Git 100644, privatnyij rezhim 0400, razmer, SHA-256 i konfiguraciyu vyipolneniya. Bajtyi ne preobrazuyutsya. Itogovyij katalog imenuyetsya `stop-<SHA256-манифеста>`, katalogi vnutri imeyut 0500. Pomimo vosjmi `.py` razreshyon toljko `манифест.json` 0400 i neobkhodimyiye katalogi. Odnoimyonnaya povrezhdyonnaya celj ne remontiruyetsya i ne zamenyayetsya; ispravleniye trebuyet otdeljnogo resheniya cheloveka.
+Manifest svyazyivayet commit, tree, odinnadcatj putej, iskhodnyiye blob OID, rezhim Git 100644, privatnyij rezhim 0400, razmer, SHA-256 i konfiguraciyu vyipolneniya. Bajtyi ne preobrazuyutsya. Itogovyij katalog imenuyetsya `stop-<SHA256-манифеста>`, katalogi vnutri imeyut 0500. Pomimo odinnadcati `.py` razreshyon toljko `манифест.json` 0400 i neobkhodimyiye katalogi. Odnoimyonnaya povrezhdyonnaya celj ne remontiruyetsya i ne zamenyayetsya; ispravleniye trebuyet otdeljnogo resheniya cheloveka.
 
 ## Proverka do ispolneniya
 
@@ -34,6 +34,8 @@ Zagruzchik do ispolneniya project-koda sveryayet zakryituyu skhemu manifesta, po
 
 - `scripts/перехватить-завершение.py`;
 - `scripts/проверить-продолжение-задачи.py`;
+- `scripts/обработка_сообщений.py`, `scripts/сообщения_задачи.py` togo zhe navyika;
+- `Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py`;
 - `scripts/обязательства_задачи.py`, `scripts/обязательства_задачи_v2.py` i `scripts/история_пути_гита.py` togo zhe navyika;
 - `Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py`, `закрытый_отчёт_из_гита.py` i `связь_отпечатка_с_коммитом.py` v tom zhe kataloge otchyotnoj obyortki.
 
@@ -47,7 +49,7 @@ Trust opredeleniya zakreplyayet stroku s zagruzchikom i khyeshem manifesta, no n
 
 Privatnyij komplekt ne zamenyayet dannyiye guard: reyestr, plan, kartochki i Git-obyyektyi chitayutsya iz otdeljno naznachennogo nastoyasjhego dereva. Mezhdu proverkoj i lenivyim chteniyem sosednego koda ne zayavlyayetsya zasjhita ot atak vladeljca fajlov. Sostoyaniye i native Trust takzhe ne vkhodyat v manifest; ogranicheniye prodolzhenij ostayotsya obyazannostjyu adaptera.
 
-Koordinator otdeljno proveryayet vyivod, vyibrannyij commit, vosemj SHA, fakticheskij cwd, puti, limityi i dejstvuyusjhij sloj nastroyek. Zatem chelovek doveryayet konkretnomu opredeleniyu v shtatnoj poverkhnosti Codex. Eta avtomatizaciya ne pishet `hooks.json`, `trusted_hash`, poljzovateljskiye nastrojki ili chuzhoj checkout. Imya otdeljnogo iskhodnogo primera u koordinatora — `Stop.hooks.шаблон.json`; dlya podgotovki on ne yavlyayetsya ispolnyayemyim vkhodom.
+Koordinator otdeljno proveryayet vyivod, vyibrannyij commit, odinnadcatj SHA, fakticheskij cwd, puti, limityi i dejstvuyusjhij sloj nastroyek. Zatem chelovek doveryayet konkretnomu opredeleniyu v shtatnoj poverkhnosti Codex. Eta avtomatizaciya ne pishet `hooks.json`, `trusted_hash`, poljzovateljskiye nastrojki ili chuzhoj checkout. Imya otdeljnogo iskhodnogo primera u koordinatora — `Stop.hooks.шаблон.json`; dlya podgotovki on ne yavlyayetsya ispolnyayemyim vkhodom.
 
 ## Vosproizvodimyiye proverki
 
@@ -63,6 +65,6 @@ Po peredannomu auditu zakreplyonnogo runtime blokirovka sokhranyayetsya kak `res
 - [Otchyot, TDD i syiryiye izmereniya](../../Zhurnal/2026-09-09_13-23-25_MSK_podgotovitj-privatnyij-komplekt-zaversheniya/otchyot.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 16:38:28 MSK -->
-<!-- content-sha256: sha256:7c97f463e054b916769e76917a601f53284fb66c2e6d72f8169a3006ad0845b2 -->
+<!-- last-content-edit: 2026-09-11 02:33:08 MSK -->
+<!-- content-sha256: sha256:7a62205cd748fcfcbe561b9273d6b1d1585d50641e7724f4f08e1b61b3b58a00 -->
 <!-- FUM-MD-RECENCY:END -->
