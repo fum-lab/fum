@@ -149,8 +149,9 @@
 - `FUM-REQ-0058` — [🟡 Генетическое направление FUMA](🟡-генетическое-направление-FUMA.md)
 - `FUM-REQ-0069` — [🟡 Финансирование и ресурсы развития FUM](🟡-финансирование-и-ресурсы-развития-FUM.md)
 - `FUM-REQ-0070` — [🟡 План интеграции FUMA с Госуслугами](🟡-план-интеграции-FUMA-с-Госуслугами.md)
+- `FUM-REQ-0071` — [🟡 План воспроизводимой macOS VM для FUMA](🟡-план-воспроизводимой-macOS-VM-для-FUMA.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 15:58:22 MSK -->
-<!-- content-sha256: sha256:3040c063e5b82ac29dffcd01777dba31542ed4636b72682adb13fac0dae45371 -->
+<!-- last-content-edit: 2026-09-11 16:39:21 MSK -->
+<!-- content-sha256: sha256:0c20834e5ca2c86ee17550ac6ce36ab1f5cdf7fb02808814b94209aa0b52140d -->
 <!-- FUM-MD-RECENCY:END -->
