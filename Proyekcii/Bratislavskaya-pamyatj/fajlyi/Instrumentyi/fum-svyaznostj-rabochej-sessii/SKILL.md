@@ -123,6 +123,8 @@ python3 Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-sess
 
 ## Chto proveryayetsya
 
+Tochnaya ssyilka na otsutstvuyusjhij lokaljnyij `.obsidian/graph.json` dopustima bez sozdaniya poljzovateljskogo fajla. Susjhestvuyusjhij fajl sokhranyayetsya. Isklyucheniye proveryayet kazhdyij komponent puti i ne okhvatyivayet pokhozhiye imena, nevernyij registr, simvolicheskiye ssyilki libo vyikhod iz checkout. Proyekciya dopolniteljno trebuyet tochnoye ignorirovaniye etogo puti Git.
+
 - Obsjhaya struktura prokhodit `fum-struktura-papok-zaprosov`: kataloga `Запросы/` net, neposredstvenno v `Журнал/` iz Markdown-fajlov dopustim toljko `README.md`, a kazhdaya papka zaprosa imeyet obyazateljnyij vremennoj prefiks `YYYY-MM-DD_HH-MM-SS_MSK`, obyazateljnyij `запрос.md` i neobyazateljnyij katalog `материалы/`. U novoj rabochej sessii obyazatelen takzhe sosednij `отчёт.md`; yego otsutstviye dopustimo toljko u istoricheskogo zaprosa, dlya kotorogo otchyot ne susjhestvoval do migracii.
 - Identichnostj, data i korotkoye nazvaniye zaprosa berutsya toljko iz imeni roditeljskoj papki; zagolovok sootvetstvuyet etomu imeni. Nachinaya s imeni `2026-07-02_23-01-25_MSK_обновить-правило-именования-запросов` korotkoye nazvaniye dolzhno nachinatjsya s glagola v infinitive, a istoricheskiye zaprosyi do etogo pravila ostayutsya dopustimyimi dlya obratnoj sovmestimosti.
 - Nachinaya s imeni `2026-07-14_02-31-47_MSK_добавлять-идентификатор-сеанса-Codex`, rovno odin razdel `## Идентификатор сеанса Codex` soderzhit yedinstvennuyu nepustuyu stroku s korrektnyim `Codex-Thread-ID`; obyazateljnyij `--codex-thread-id` sovpadayet s identifikatorom kornevoj zadachi, a obyazateljnyij `--commit-message-file` - s poslednim odnoimyonnyim Git trailer tela soobsjheniya.
@@ -169,6 +171,8 @@ Proverka Git-sostoyaniya sravnivayet toljko puti. Ona ne reshayet, nuzhno li vkl
 
 ## Istochniki trebovanij
 
+- [Paket sovmestimosti FUM-STEP-0175](../../Zhurnal/2026-09-11_14-47-00_MSK_podgotovitj-sovmestimostj-master-i-FUMA/zapros.md).
+
 - [Razrabotatj perekhvat zaversheniya](../../Zhurnal/2026-09-09_12-13-51_MSK_razrabotatj-perekhvat-zaversheniya/zapros.md).
 - [Oficialjnyij kontrakt hooks](https://learn.chatgpt.com/docs/hooks#stop).
 - [Obrabotchik Stop Codex rust-v0.153.4](https://raw.githubusercontent.com/openai/codex/rust-v0.153.4/codex-rs/hooks/src/events/stop.rs).
@@ -189,6 +193,6 @@ Proverka Git-sostoyaniya sravnivayet toljko puti. Ona ne reshayet, nuzhno li vkl
 - [iskhodnyij zapros 2026-07-21 05:39:00 MSK - Sdelatj sluzhebnyiye generatoryi vosproizvodimyimi](../../Zhurnal/2026-07-21_05-39-00_MSK_sdelatj-sluzhebnyiye-generatoryi-vosproizvodimyimi/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 02:33:08 MSK -->
-<!-- content-sha256: sha256:109cb7ca701ba3ea26251db90dd8036052cf6ae0b708c577beeccc8f8bc5da8c -->
+<!-- last-content-edit: 2026-09-11 20:36:50 MSK -->
+<!-- content-sha256: sha256:140d6b5742054b532678da85d2a827fdf154c1ee8db6c234ecbf17fe052daad5 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -1670,13 +1670,11 @@ def _validate_retired_owned_areas(repo_root: Path) -> None:
 def validate_layout(repo_root: Path | str) -> dict[str, Any]:
     root = Path(repo_root).resolve()
     _прочитать_шаблоны()
-    каталог_типов = root / "Инструменты/fum-struktura-papok-zaprosov/типы"
-    if каталог_типов.exists() or каталог_типов.is_symlink():
-        from расширение_шаблонов import ОшибкаРасширения, проверить_установленные_типы
-        try:
-            проверить_установленные_типы(root)
-        except ОшибкаРасширения as ошибка:
-            raise LayoutError(f"несовместимый установленный шаблон: {ошибка}") from ошибка
+    from расширение_шаблонов import ОшибкаРасширения, проверить_установленные_типы
+    try:
+        проверить_установленные_типы(root)
+    except ОшибкаРасширения as ошибка:
+        raise LayoutError(f"несовместимый установленный шаблон: {ошибка}") from ошибка
     _assert_no_symlinks(root, ("Запросы", "Журнал", "Ревью", "Оценки", "Источники"))
     publishable = set(_project_relative_files(root))
     legacy = root / str(REQUESTS)

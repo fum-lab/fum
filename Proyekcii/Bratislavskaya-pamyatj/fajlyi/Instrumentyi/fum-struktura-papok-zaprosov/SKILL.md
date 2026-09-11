@@ -65,6 +65,8 @@ python3 Инструменты/fum-struktura-papok-zaprosov/scripts/struktura-pa
 
 ## Granicyi perenosa
 
+Komanda `validate --repo-root <корень-кандидата>` proveryayet ustanovlennyiye opisaniya iz `Инструменты/fum-struktura-papok-zaprosov/типы` i sootvetstvuyusjhiye khranimyiye shablonyi kandidata. Istoricheskoye otsutstviye kataloga dopustimo i ne sozdayot yego. Prinimayusjhij `validate_layout` ispoljzuyet svoj sosednij modulj `расширение_шаблонов.py`, a ispolnyayemyiye fajlyi kandidata ne zagruzhayet. Nesovmestimyij, povrezhdyonnyij ili nepolnyij tip, neizvestnyij fajl, simvolicheskaya ssyilka libo nevernyij registr lyubogo komponenta zakryivayut proverku, vklyuchaya pustoj katalog. Pri otkaze ispravjte dannyiye tipa i povtorite `validate`; dopusk ne ustanavlivayet tip i ne zapuskayet sozdaniye dokumentov.
+
 Artefakt perenositsya toljko pri rovno odnom dokazannom vladeljce. Dlya revjyu i ocenok dokazateljstvom sluzhit yavnaya ssyilka `request_file` ili Markdown-ssyilka. Paket istochnika trebuyet dvustoronnyuyu ssyilku mezhdu paketom i zaprosom. Sovpadeniye imeni ili vremeni ne schitayetsya vladeniyem. `Источники/URL/` i obsjhiye tematicheskiye materialyi ne perenosyatsya.
 
 V `## Текст запроса` bajtyi ne menyayutsya. Syiryiye URL-snimki i ne-Markdown payload-fajlyi istochnika ne perepisyivayutsya. `Источники/URL/**/source-index.md` yavlyayetsya metadannyimi, poetomu v nyom perebaziruyutsya toljko semantic-ssyilki; sosedniye `response.body.*` ostayutsya bajtovo neizmennyimi. V Markdown-metadannyikh perenosimogo paketa, vklyuchaya appshot-kontekst i otchyot ob izvlechenii, perebaziruyutsya toljko celi semantic-ssyilok; ostaljnoj tekst sokhranyayetsya. Ssyilki s inline-code v podpisi uchityivayutsya naravne s ostaljnyimi. V JSON menyayutsya toljko dokazanno aktivnyiye `request_file`, `report_file`, `config_file`, `exceptions[].path` mashinnoj politiki i `provenance_refs` zhivogo kontura. Istoricheskiye `checks[].command`, obyyektyi s zakreplyonnyim `git:commit` i khyesh-svyazannyiye neizmenyayemyiye paketyi sokhranyayutsya.
@@ -79,10 +81,12 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты
 
 ## Istochniki trebovanij
 
+- [Paket sovmestimosti FUM-STEP-0175](../../Zhurnal/2026-09-11_14-47-00_MSK_podgotovitj-sovmestimostj-master-i-FUMA/zapros.md).
+
 - [iskhodnyij zapros 2026-08-04 20:45:26 MSK - Formirovatj otchyotyi o zapuskakh testov](../../Zhurnal/2026-08-04_20-45-26_MSK_formirovatj-otchyotyi-o-zapuskakh-testov/zapros.md)
 - [iskhodnyij zapros 2026-08-04 15:48:19 MSK - Shablonizirovatj fajlyi zaprosov i otchyotov](../../Zhurnal/2026-08-04_15-48-19_MSK_shablonizirovatj-fajlyi-zaprosov-i-otchyotov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 10:59:59 MSK -->
-<!-- content-sha256: sha256:f07bf68ca6a6bcd56d79662f2ca0575705caf2c829edb8109ae08c165854400f -->
+<!-- last-content-edit: 2026-09-11 20:36:50 MSK -->
+<!-- content-sha256: sha256:edc362c47ec180618fbd42c219c3a262ce02361b8d485284cc285e43bde5023e -->
 <!-- FUM-MD-RECENCY:END -->

@@ -16,6 +16,12 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-11 21:58:48 MSK — Prinyatj sliyaniye posle ispravleniya putej](2026-09-11_21-58-48_MSK_prinyatj-sliyaniye-posle-ispravleniya-putej/otchyot.md)
+- [2026-09-11 20:18:06 MSK — Prinyatj sliyaniye fuma i master](2026-09-11_20-18-06_MSK_prinyatj-sliyaniye-fuma-i-master/otchyot.md)
+- [2026-09-11 15:50:49 MSK - Prinyatj sovmestimostj FUMA cherez otchyot v3](2026-09-11_15-50-49_MSK_prinyatj-sovmestimostj-FUMA-cherez-otchyot-v3/otchyot.md)
+- [2026-09-11 15:22:57 MSK - Proveritj paket sovmestimosti master i FUMA](2026-09-11_15-22-57_MSK_proveritj-paket-sovmestimosti-master-i-FUMA/otchyot.md)
+- [2026-09-11 14:47:00 MSK - Podgotovitj sovmestimostj master i FUMA](2026-09-11_14-47-00_MSK_podgotovitj-sovmestimostj-master-i-FUMA/otchyot.md)
+- [2026-09-11 14:00:14 MSK — Sokhranitj peredachu integracii i pozdnij dialog](2026-09-11_14-00-14_MSK_sokhranitj-peredachu-integracii-i-pozdnij-dialog/otchyot.md)
 - [2026-09-11 12:35:21 MSK — Prinyatj sovmestnuyu integraciyu vosjmi vkhodov](2026-09-11_12-35-21_MSK_prinyatj-sovmestnuyu-integraciyu-vosjmi-vkhodov/otchyot.md)
 - [2026-09-11 12:17:50 MSK — Vklyuchitj prinyatyij interpretator](2026-09-11_12-17-50_MSK_vklyuchitj-prinyatyij-interpretator/otchyot.md)
 - [2026-09-11 12:09:57 MSK — Vklyuchitj realizaciyu perenosa derevjyev](2026-09-11_12-09-57_MSK_vklyuchitj-realizaciyu-perenosa-derevjyev/otchyot.md)
@@ -596,6 +602,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 12:40:43 MSK -->
-<!-- content-sha256: sha256:37047425f030645d1f3c912392b7febdd36cb149a2e04bc340277800c099765b -->
+<!-- last-content-edit: 2026-09-11 22:03:48 MSK -->
+<!-- content-sha256: sha256:3669e9f9879740da3d693165d9078530a147605356ac1b60ef51cf87aa958807 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-11 12:17:50 MSK - Vklyuchitj prinyatyij interpretator](../2026-09-11_12-17-50_MSK_vklyuchitj-prinyatyij-interpretator/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-11 14:00:14 MSK - Sokhranitj peredachu integracii i pozdnij dialog](../2026-09-11_14-00-14_MSK_sokhranitj-peredachu-integracii-i-pozdnij-dialog/zapros.md)
 
 ## Tekst zaprosa
 
@@ -112,6 +112,6 @@ Vosjmoj etap obyyedinyayet tochnyij prinyatyij vkhod shablonov `acab107170a4a124
 Prinyatyiye vosemj OID zakreplenyi v karte vkhodov. Novyiye benchmark-izmeneniya, ustanovka Linux na Mac i prodvizheniye master v etot kandidat ne vkhodyat. Po soobsjheniyu koordinatora nomera sboyev 0073 i 0074 zarezervirovanyi drugoj zadachej; zdesj oni ne naznachayutsya. Peredacha proverennogo C yedinstvennomu pisatelyu fuma trebuyet tochnogo iskhodnogo OID i podtverzhdeniya polucheniya; eto yesjhyo dostupnaya rabota, a ne sovershivshijsya fakt.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 13:03:06 MSK -->
-<!-- content-sha256: sha256:53589818104b947ace9f73057fe825634a2b5028b48d1823d88ca81fad085835 -->
+<!-- last-content-edit: 2026-09-11 14:07:57 MSK -->
+<!-- content-sha256: sha256:5e9741dcbbfb0d9eca0d487e89b52532eab8f504caef2f16d18121cd209945a2 -->
 <!-- FUM-MD-RECENCY:END -->
