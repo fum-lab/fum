@@ -135,6 +135,28 @@ public final class Хранилище {
     }
     deinit { if замок >= 0 { close(замок) }; if дескриптор >= 0 { close(дескриптор) } }
 
+    func именаАртефактов() throws -> [String] {
+        // Отдельное open file description: dup разделил бы курсор каталога с владельцем.
+        let копия = openat(дескриптор, ".", O_RDONLY | O_DIRECTORY | O_CLOEXEC)
+        guard копия >= 0 else { throw ОшибкаМашины("Не удалось прочитать каталог артефактов.") }
+        guard let поток = fdopendir(копия) else { close(копия); throw ОшибкаМашины("Не удалось открыть перечисление артефактов.") }
+        defer { closedir(поток) }
+        var имена: [String] = []
+        while true {
+            errno = 0
+            guard let запись = readdir(поток) else {
+                guard errno == 0 else { throw ОшибкаМашины("Перечисление артефактов прервано.") }
+                break
+            }
+            let имя = withUnsafePointer(to: запись.pointee.d_name) {
+                $0.withMemoryRebound(to: CChar.self, capacity: Int(запись.pointee.d_namlen) + 1) { String(cString: $0) }
+            }
+            if имя == "." || имя == ".." { continue }
+            guard имена.count < 65_536 else { throw ОшибкаМашины("В каталоге слишком много артефактов.") }
+            имена.append(имя)
+        }
+        return имена.sorted()
+    }
     public func есть(_ имя: String) throws -> Bool {
         try проверитьИмя(имя)
         var сведения = stat()
