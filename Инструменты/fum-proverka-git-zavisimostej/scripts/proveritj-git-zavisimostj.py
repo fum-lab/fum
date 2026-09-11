@@ -42,12 +42,19 @@ class RepositoryLocation:
     name: str
 
 
+def проверить_тайм_аут(значение: int) -> None:
+    if type(значение) is not int or not 1 <= значение <= 3600:
+        raise ValueError("Тайм-аут Git должен быть целым числом 1–3600 секунд")
+
+
 def run_git(
     cwd: Path,
     *arguments: str,
     allowed_returncodes: tuple[int, ...] = (0,),
     strip_output: bool = True,
+    тайм_аут_секунд: int = 120,
 ) -> GitResult:
+    проверить_тайм_аут(тайм_аут_секунд)
     try:
         result = subprocess.run(
             ["git", *arguments],
@@ -56,7 +63,7 @@ def run_git(
             text=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            timeout=120,
+            timeout=тайм_аут_секунд,
         )
     except (OSError, subprocess.TimeoutExpired, UnicodeError) as error:
         raise RuntimeError(f"git {' '.join(arguments)}: {error}") from error
@@ -379,13 +386,8 @@ def validate_repository_topology(repo_root: Path, spec: DependencySpec) -> list[
         )
     if fork.kind != upstream.kind:
         errors.append("форк и upstream должны использовать один тип Git-расположения")
-    names_match = (
-        fork.name.casefold() == upstream.name.casefold()
-        if fork.kind == upstream.kind == "github"
-        else fork.name == upstream.name
-    )
-    if not names_match:
-        errors.append("имена репозиториев форка и upstream должны совпадать")
+    # Форк может быть переименован. Родство проверяется отдельно по GitHub,
+    # а здесь сохраняются точные URL, владельцы и достижимость закреплённого OID.
     if fork.kind == upstream.kind == "github":
         if normalized_github_location(fork) == normalized_github_location(upstream):
             errors.append(
@@ -1093,7 +1095,10 @@ def validate_initialization_target(
 def initialize_registered_dependency(
     repo_root: Path,
     path: str,
+    *,
+    тайм_аут_получения_секунд: int = 600,
 ) -> tuple[DependencySpec | None, list[str]]:
+    проверить_тайм_аут(тайм_аут_получения_секунд)
     repo_root = repo_root.resolve()
     spec, errors = registered_dependency_spec(repo_root, path)
     if spec is None or errors:
@@ -1166,6 +1171,7 @@ def initialize_registered_dependency(
                 "--no-recommend-shallow",
                 "--",
                 spec.path,
+                тайм_аут_секунд=тайм_аут_получения_секунд,
             )
         except RuntimeError as error:
             return spec, [
@@ -1198,8 +1204,8 @@ def initialize_registered_dependency(
             ]
 
     try:
-        run_git(dependency, "fetch", "--prune", "origin")
-        run_git(dependency, "fetch", "--prune", "upstream")
+        run_git(dependency, "fetch", "--prune", "origin", тайм_аут_секунд=тайм_аут_получения_секунд)
+        run_git(dependency, "fetch", "--prune", "upstream", тайм_аут_секунд=тайм_аут_получения_секунд)
     except RuntimeError as error:
         return spec, [f"не удалось получить remote для {spec.path}: {error}"]
     try:
@@ -1218,7 +1224,8 @@ def initialize_registered_dependency(
     return spec, validate_dependency(repo_root, spec)
 
 
-def preflight_dependency(spec: DependencySpec) -> list[str]:
+def preflight_dependency(spec: DependencySpec, *, тайм_аут_получения_секунд: int = 600) -> list[str]:
+    проверить_тайм_аут(тайм_аут_получения_секунд)
     with tempfile.TemporaryDirectory(prefix="fum-git-dependency-") as tmp:
         temporary_root = Path(tmp)
         clone = temporary_root / "dependency"
@@ -1234,10 +1241,11 @@ def preflight_dependency(spec: DependencySpec) -> list[str]:
                 "--",
                 spec.fork_url,
                 str(clone),
+                тайм_аут_секунд=тайм_аут_получения_секунд,
             )
             run_git(clone, "remote", "add", "upstream", spec.upstream_url)
-            run_git(clone, "fetch", "origin")
-            run_git(clone, "fetch", "upstream")
+            run_git(clone, "fetch", "origin", тайм_аут_секунд=тайм_аут_получения_секунд)
+            run_git(clone, "fetch", "upstream", тайм_аут_секунд=тайм_аут_получения_секунд)
             object_result = run_git(
                 clone,
                 "cat-file",
@@ -1261,7 +1269,8 @@ def preflight_dependency(spec: DependencySpec) -> list[str]:
     return []
 
 
-def materialize_dependency(repo_root: Path, spec: DependencySpec) -> list[str]:
+def materialize_dependency(repo_root: Path, spec: DependencySpec, *, тайм_аут_получения_секунд: int = 600) -> list[str]:
+    проверить_тайм_аут(тайм_аут_получения_секунд)
     repo_root = repo_root.resolve()
     errors = validate_spec(spec)
     errors.extend(validate_repo_root(repo_root))
@@ -1302,7 +1311,7 @@ def materialize_dependency(repo_root: Path, spec: DependencySpec) -> list[str]:
         errors.append(f"{spec.path}: обнаружен остаточный Git-каталог submodule")
     if errors:
         return errors
-    errors.extend(preflight_dependency(spec))
+    errors.extend(preflight_dependency(spec, тайм_аут_получения_секунд=тайм_аут_получения_секунд))
     if errors:
         return errors
 
@@ -1316,11 +1325,12 @@ def materialize_dependency(repo_root: Path, spec: DependencySpec) -> list[str]:
             "--",
             spec.fork_url,
             spec.path,
+            тайм_аут_секунд=тайм_аут_получения_секунд,
         )
         target = dependency_path(repo_root, spec)
         run_git(target, "remote", "add", "upstream", spec.upstream_url)
-        run_git(target, "fetch", "origin")
-        run_git(target, "fetch", "upstream")
+        run_git(target, "fetch", "origin", тайм_аут_секунд=тайм_аут_получения_секунд)
+        run_git(target, "fetch", "upstream", тайм_аут_секунд=тайм_аут_получения_секунд)
         run_git(target, "checkout", "--detach", spec.revision)
         section, section_errors = find_submodule_section(repo_root, spec.path)
         if section_errors or section is None:
@@ -1372,6 +1382,21 @@ def add_common_arguments(parser: argparse.ArgumentParser) -> None:
     )
 
 
+def разобрать_предел_получения(значение: str) -> int:
+    try:
+        предел = int(значение)
+    except ValueError as ошибка:
+        raise argparse.ArgumentTypeError("Нужно целое число 1–3600 секунд") from ошибка
+    if not 1 <= предел <= 3600:
+        raise argparse.ArgumentTypeError("Нужно целое число 1–3600 секунд")
+    return предел
+
+
+def добавить_предел_получения(парсер: argparse.ArgumentParser) -> None:
+    парсер.add_argument("--тайм-аут-получения-секунд", type=разобрать_предел_получения, default=600,
+                       help="Предел одной операции clone/fetch, включая submodule add/update: 1–3600 секунд.")
+
+
 def parse_arguments(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
@@ -1382,6 +1407,7 @@ def parse_arguments(argv: Sequence[str] | None = None) -> argparse.Namespace:
     commands = parser.add_subparsers(dest="command", required=True)
     add_parser = commands.add_parser("add", help="Добавить новый Git submodule.")
     add_common_arguments(add_parser)
+    добавить_предел_получения(add_parser)
     check_parser = commands.add_parser(
         "check",
         help="Автономно проверить уже материализованную зависимость.",
@@ -1393,6 +1419,7 @@ def parse_arguments(argv: Sequence[str] | None = None) -> argparse.Namespace:
     )
     add_repo_root_argument(init_parser)
     add_path_argument(init_parser)
+    добавить_предел_получения(init_parser)
     return parser.parse_args(argv)
 
 
@@ -1402,6 +1429,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         dependency_spec, errors = initialize_registered_dependency(
             arguments.repo_root,
             arguments.path,
+            тайм_аут_получения_секунд=arguments.тайм_аут_получения_секунд,
         )
         success_message = "Инициализирована и проверена Git-зависимость"
     else:
@@ -1412,7 +1440,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             revision=arguments.revision.lower(),
         )
         if arguments.command == "add":
-            errors = materialize_dependency(arguments.repo_root, dependency_spec)
+            errors = materialize_dependency(arguments.repo_root, dependency_spec,
+                                            тайм_аут_получения_секунд=arguments.тайм_аут_получения_секунд)
         else:
             errors = validate_dependency(arguments.repo_root, dependency_spec)
         success_message = "Проверена Git-зависимость"

@@ -14,6 +14,77 @@ from pathlib import Path
 
 
 class ПроверкаПереводаОбъявленийКода(unittest.TestCase):
+    def test_межфайловой_тип_закрывает_ложные_объявления_импорты_и_коллизии(сам):
+        случаи = [
+            [("class func OldType() {}", {"OldType": "СтарыйТип"}), ("let значение: OldType? = nil", {"OldType": "СтарыйТип"})],
+            [("import struct OldType.Foreign", {"OldType": "СтарыйТип"}), ("let значение: OldType? = nil", {"OldType": "СтарыйТип"})],
+            [("struct OldType {}", {"OldType": "СтарыйТип"}), ("import OldType", {"OldType": "СтарыйТип"})],
+            [("struct OldType {}", {"OldType": "СтарыйТип"}), ("import struct Foreign.OldType", {"OldType": "СтарыйТип"})],
+            [("struct Date {}", {"Date": "Дата"}), ("import Foundation\nlet значение: Foundation.Date? = nil", {"Date": "Дата"})],
+            [("struct OldType {}", {"OldType": "СтарыйТип"}), ("let значение: OldType? = nil", {"OldType": "СтарыйТип"}), ("struct СтарыйТип {}\nlet OldValue = 1", {"OldValue": "СтароеЗначение"})],
+            [("struct OldType {}", {"OldType": "СтарыйТип"}), ("struct OldType {}", {"OldType": "ИнойТип"})],
+            [("struct OldType {}", {"OldType": "СтарыйТип"}), ("struct OtherType {}", {"OtherType": "СтарыйТип"})],
+            [("struct OldType {}", {"OldType": "Сущность"}), ("let OldValue = 1", {"OldValue": "Сущность"})],
+        ]
+        for случай in случаи:
+            with сам.subTest(случай=случай), tempfile.TemporaryDirectory() as временный:
+                корень = Path(временный)
+                файлы = [сам.записать(корень, f"Код{номер}.swift", текст) for номер, (текст, _) in enumerate(случай)]
+                карта = корень / "карта.json"
+                карта.write_text(json.dumps(сам.карта([(файл.name, сам.хэш(файл), пара) for файл, (_, пара) in zip(файлы, случай)]), ensure_ascii=False), encoding="utf-8")
+                результат = сам.запустить("применить", "--корень-репозитория", str(корень), "--карта", str(карта))
+                сам.assertNotEqual(результат.returncode, 0, случай)
+                сам.assertEqual([файл.read_text() for файл in файлы], [текст for текст, _ in случай])
+
+    def test_свифт_непрозрачно_сохраняет_сырые_и_многострочные_строки(сам):
+        строки = ['#"{"OldType": 1}"#', '##"#"OldType"#"##', '"""\nOldType\n"""', '#"""\n"OldType"\n"""#', '"OldType \\" OldType"']
+        with tempfile.TemporaryDirectory() as временный:
+            корень = Path(временный)
+            владелец = сам.записать(корень, "Тип.swift", "struct OldType {}\n")
+            исходный = "let значение: OldType? = nil\n" + "\n".join(f"let строка{номер} = {строка}" for номер, строка in enumerate(строки))
+            ссылка = сам.записать(корень, "Ссылка.swift", исходный)
+            карта = корень / "карта.json"
+            карта.write_text(json.dumps(сам.карта([(файл.name, сам.хэш(файл), {"OldType": "СтарыйТип"}) for файл in [владелец, ссылка]]), ensure_ascii=False), encoding="utf-8")
+            результат = сам.запустить("применить", "--корень-репозитория", str(корень), "--карта", str(карта))
+            сам.assertEqual(результат.returncode, 0, результат.stderr)
+            сам.assertEqual(ссылка.read_text(), исходный.replace("let значение: OldType", "let значение: СтарыйТип"))
+
+    def test_межфайловой_тип_требует_единственного_явного_владельца(сам):
+        with tempfile.TemporaryDirectory() as временный:
+            корень = Path(временный)
+            владелец = сам.записать(корень, "Тип.swift", "struct OldType {}\n")
+            ссылка = сам.записать(корень, "Ссылка.swift", 'let значение: OldType? = nil\n// OldType\nlet строка = "OldType"\n')
+            карта = корень / "карта.json"
+            def проверить(файлы, режим="план"):
+                карта.write_text(json.dumps(сам.карта(файлы), ensure_ascii=False), encoding="utf-8")
+                return сам.запустить(режим, "--корень-репозитория", str(корень), "--карта", str(карта))
+            записи = [("Ссылка.swift", сам.хэш(ссылка), {"OldType": "СтарыйТип"}), ("Тип.swift", сам.хэш(владелец), {"OldType": "СтарыйТип"})]
+            результат = проверить(записи)
+            сам.assertEqual(результат.returncode, 0, результат.stderr)
+            сам.assertIn("OldType", ссылка.read_text())
+            for опасная in [записи[:1], [записи[0], ("Тип.swift", сам.хэш(владелец), {"OldType": "ИнойТип"})],
+                             [записи[0], ("Тип.swift", "sha256:" + "0" * 64, {"OldType": "СтарыйТип"})]]:
+                сам.assertNotEqual(проверить(опасная, "применить").returncode, 0)
+                сам.assertIn("struct OldType", владелец.read_text())
+            результат = проверить(записи, "применить")
+            сам.assertEqual(результат.returncode, 0, результат.stderr)
+            сам.assertIn("struct СтарыйТип", владелец.read_text())
+            сам.assertEqual(ссылка.read_text(), 'let значение: СтарыйТип? = nil\n// OldType\nlet строка = "OldType"\n')
+
+    def test_межфайловой_тип_отвергает_неоднозначность_и_ложного_владельца(сам):
+        for объявление in ["let OldType = 1\n", "struct OldType {}\nstruct OldType {}\n"]:
+            with tempfile.TemporaryDirectory() as временный:
+                корень = Path(временный)
+                владелец = сам.записать(корень, "Тип.swift", объявление)
+                ссылка = сам.записать(корень, "Ссылка.swift", "let значение: OldType? = nil\n")
+                карта = корень / "карта.json"
+                карта.write_text(json.dumps(сам.карта([
+                    ("Тип.swift", сам.хэш(владелец), {"OldType": "СтарыйТип"}),
+                    ("Ссылка.swift", сам.хэш(ссылка), {"OldType": "СтарыйТип"})]), ensure_ascii=False), encoding="utf-8")
+                результат = сам.запустить("применить", "--корень-репозитория", str(корень), "--карта", str(карта))
+                сам.assertNotEqual(результат.returncode, 0)
+                сам.assertEqual(владелец.read_text(), объявление)
+
     def запустить(сам, *аргументы: str) -> subprocess.CompletedProcess[str]:
         return subprocess.run(
             [sys.executable, str(путь_сценария), *аргументы],

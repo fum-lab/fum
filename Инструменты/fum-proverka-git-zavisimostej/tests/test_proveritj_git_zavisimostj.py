@@ -131,6 +131,87 @@ class GitDependencyFixture:
 
 
 class GitDependencyAutomationTests(unittest.TestCase):
+    def test_неверный_предел_отклоняется_до_любого_действия(сам):
+        договор = proveritj_git_zavisimostj.DependencySpec("https://github.com/fum-lab/TDLib.git", "https://github.com/tdlib/td.git", "Зависимости/TDLib", "a" * 40)
+        with mock.patch.object(proveritj_git_zavisimostj, "run_git") as запуск:
+            with mock.patch.object(proveritj_git_zavisimostj.tempfile, "TemporaryDirectory") as временный:
+                for предел in [None, True, 0, 3601, 1.5]:
+                    with сам.assertRaises(ValueError):
+                        proveritj_git_zavisimostj.preflight_dependency(договор, тайм_аут_получения_секунд=предел)
+                    with сам.assertRaises(ValueError):
+                        proveritj_git_zavisimostj.materialize_dependency(Path.cwd(), договор, тайм_аут_получения_секунд=предел)
+                    with сам.assertRaises(ValueError):
+                        proveritj_git_zavisimostj.initialize_registered_dependency(Path.cwd(), договор.path, тайм_аут_получения_секунд=предел)
+                запуск.assert_not_called()
+                временный.assert_not_called()
+
+    def test_конечный_предел_получения_не_увеличивает_обычные_команды(сам):
+        with mock.patch.object(proveritj_git_zavisimostj.subprocess, "run") as запуск:
+            запуск.return_value = subprocess.CompletedProcess([], 0, "", "")
+            proveritj_git_zavisimostj.run_git(Path.cwd(), "status")
+            сам.assertEqual(запуск.call_args.kwargs["timeout"], 120)
+            proveritj_git_zavisimostj.run_git(Path.cwd(), "fetch", тайм_аут_секунд=1800)
+            сам.assertEqual(запуск.call_args.kwargs["timeout"], 1800)
+            for предел in [None, True, 0, -1, 3601, 1.5]:
+                with сам.assertRaises(ValueError):
+                    proveritj_git_zavisimostj.run_git(Path.cwd(), "fetch", тайм_аут_секунд=предел)
+            запуск.side_effect = subprocess.TimeoutExpired(["git", "fetch"], 1800)
+            with сам.assertRaises(RuntimeError):
+                proveritj_git_zavisimostj.run_git(Path.cwd(), "fetch", тайм_аут_секунд=1800)
+
+    def test_конечный_предел_получения_проходит_в_подключение_и_восстановление(сам):
+        with tempfile.TemporaryDirectory() as временный:
+            пример = GitDependencyFixture(Path(временный))
+            исходный = proveritj_git_zavisimostj.run_git
+            with mock.patch.object(proveritj_git_zavisimostj, "run_git", wraps=исходный) as вызовы:
+                сам.assertEqual(proveritj_git_zavisimostj.materialize_dependency(
+                    пример.superproject, пример.dependency_spec(), тайм_аут_получения_секунд=1800), [])
+                пример.publish_dependency_registration()
+                клон = пример.fresh_clone(recurse_submodules=False)
+                _, ошибки = proveritj_git_zavisimostj.initialize_registered_dependency(
+                    клон, пример.path, тайм_аут_получения_секунд=1800)
+                сам.assertEqual(ошибки, [])
+            получений = 0
+            for вызов in вызовы.call_args_list:
+                аргументы = вызов.args[1:]
+                получение = "clone" in аргументы or "fetch" in аргументы or (
+                    "submodule" in аргументы and ("add" in аргументы or "update" in аргументы))
+                сам.assertEqual(вызов.kwargs.get("тайм_аут_секунд", 120), 1800 if получение else 120)
+                получений += получение
+            сам.assertEqual(получений, 9)
+            сам.assertEqual(run_git("rev-parse", "--is-shallow-repository", cwd=клон / пример.path), "false")
+
+    def test_конечный_предел_получения_проверяется_на_входе_до_гита(сам):
+        общие = ["--repo-root", ".", "--fork-url", "https://github.com/fum-lab/TDLib.git",
+                 "--upstream-url", "https://github.com/tdlib/td.git", "--path", "Зависимости/TDLib", "--revision", "a" * 40]
+        for предел in ["1", "600", "1800", "3600"]:
+            результат = proveritj_git_zavisimostj.parse_arguments(["add", *общие, "--тайм-аут-получения-секунд", предел])
+            сам.assertEqual(результат.тайм_аут_получения_секунд, int(предел))
+        with mock.patch.object(proveritj_git_zavisimostj, "run_git") as запуск:
+            for предел in ["0", "-1", "3601", "nan", "inf", "1.5"]:
+                with сам.assertRaises(SystemExit):
+                    proveritj_git_zavisimostj.parse_arguments(["init", "--path", "Зависимости/TDLib", "--тайм-аут-получения-секунд", предел])
+            with сам.assertRaises(SystemExit):
+                proveritj_git_zavisimostj.parse_arguments(["check", *общие, "--тайм-аут-получения-секунд", "1800"])
+            запуск.assert_not_called()
+
+    def test_переименованный_форк_сохраняет_точные_адреса_и_ревизию(self):
+        with tempfile.TemporaryDirectory() as каталог:
+            пример = GitDependencyFixture(Path(каталог))
+            прежний = пример.fork
+            пример.fork = пример.namespace / "TDLib.git"
+            прежний.rename(пример.fork)
+            self.assertEqual(пример.add_dependency(), [])
+            self.assertEqual(
+                proveritj_git_zavisimostj.validate_dependency(
+                    пример.superproject, пример.dependency_spec()
+                ), []
+            )
+            self.assertEqual(
+                run_git("rev-parse", "HEAD", cwd=пример.superproject / пример.path),
+                пример.first_revision,
+            )
+
     def test_materializes_and_validates_fork_backed_submodule_offline(self):
         with tempfile.TemporaryDirectory() as tmp:
             fixture = GitDependencyFixture(Path(tmp))
