@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 import subprocess
 import tempfile
+from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 
@@ -29,6 +30,15 @@ class ПроверкиКлона(unittest.TestCase):
         сам.корень = сам.основа / 'гость'
         сам.владелец = {'схема': 'фикстура.1', 'машина': 'открытая-фикстура'}
         сам.получений = 0
+        # Только явный контекст локальной Git-фикстуры; production fallback запрещён.
+        контекст = patch.object(модуль, 'ТЕКУЩИЕ_МЕТРИКИ', SimpleNamespace(команда=сам.гостевая_команда))
+        контекст.start(); сам.addCleanup(контекст.stop)
+
+    def гостевая_команда(сам, имя, аргументы, *, каталог, среда, предел):
+        результат = subprocess.run(аргументы, cwd=каталог, env=среда, timeout=предел,
+            stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        if результат.returncode != 0: raise ValueError(имя + ': ' + результат.stderr.decode(errors='replace'))
+        return результат.stdout
 
     def команда_репозитория(сам, путь, *аргументы):
         return subprocess.check_output(['git', *аргументы], cwd=путь, env=сам.среда, stderr=subprocess.PIPE, text=True)
