@@ -1,0 +1,18 @@
+[
+  {
+    "роль": "пользователь",
+    "текст": "Vsyo cherez avtomatizaciyu — eto nashe obsjheye pravilo. Glavnyij princip — staratjsya ne delatj odnu i tu zhe rabotu dvazhdyi.\n",
+    "начало": 356452315,
+    "конец": 356452826,
+    "sha256": "3fe7733fea2dc67ec7e6d7fb3ee170666226e32c6957ca4a9bea7da33f21f28b",
+    "время_UTC": "2026-09-11T09:59:15.570Z"
+  },
+  {
+    "роль": "пользователь",
+    "текст": "Ne vyipolnyayem zadachu, a sozdayom avtomatizaciyu, vyipolnyayusjhuyu etu zadachu.\n",
+    "начало": 356537276,
+    "конец": 356537738,
+    "sha256": "17fa6a921ae3f8dd9fab069b5e9619dc79f540fdcc8a5f71ac8e943932007a67",
+    "время_UTC": "2026-09-11T10:02:15.160Z"
+  }
+]
