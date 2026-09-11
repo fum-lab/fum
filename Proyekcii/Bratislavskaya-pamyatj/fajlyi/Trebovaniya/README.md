@@ -147,8 +147,9 @@ Status menyayetsya pereimenovaniyem fajla cherez `git mv`. Emodzi ne zamenyayet 
 - `FUM-REQ-0046` — [🟡 Zapusk FUMA na celevyikh platformakh](🟡-zapusk-FUMA-na-celevyikh-platformakh.md)
 - `FUM-REQ-0047` — [🟡 Graficheskiye interfejsyi FUMA](🟡-graficheskiye-interfejsyi-FUMA.md)
 - `FUM-REQ-0058` — [🟡 Geneticheskoye napravleniye FUMA](🟡-geneticheskoye-napravleniye-FUMA.md)
+- `FUM-REQ-0069` — [🟡 Finansirovaniye i resursyi razvitiya FUM](🟡-finansirovaniye-i-resursyi-razvitiya-FUM.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 08:58:13 MSK -->
-<!-- content-sha256: sha256:47f7c9b85ba2e19672850778e3077a4d3252abf2e4cc3cd196c8134163374f23 -->
+<!-- last-content-edit: 2026-09-11 14:14:40 MSK -->
+<!-- content-sha256: sha256:327e04b2c6768ea43b0cee9b3ef873e23c0d74849acdaca693ed872b9c0441c2 -->
 <!-- FUM-MD-RECENCY:END -->

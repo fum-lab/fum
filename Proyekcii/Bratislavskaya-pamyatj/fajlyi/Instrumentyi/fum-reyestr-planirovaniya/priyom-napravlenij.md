@@ -29,6 +29,8 @@ Podgotovka sokhranyayet polnyiye bajtyi obsjhikh indeksov i tochnyiye pozicii pa
 
 Yesli pervaya fajlovaya stadiya polnostjyu ustanovlena, no nastoyasjhij sborsjhik reyestra otklonil kartochki, odin raz mozhno yavno ispravitj ikh soderzhaniye. Priyom dolzhen ostavatjsya negotovyim, bez zakreplyonnoj postanovki, nablyudeniya i lyuboj vneshnej popyitki. Pervonachaljnyiye resheniye, porucheniye, nomera, puti, kartochki, indeksyi i para Zhurnala sokhranyayutsya. Korrekciya ne menyayet ID, zagolovki i statusyi i ne sozdayot novyikh kartochek.
 
+Yesli v novom trebovanii propusjhena obyazateljnaya stroka statusa, podderzhana toljko yeyo strogaya vstavka: `Статус требования — ` s prezhnim emodzi iz imeni fajla v obratnyikh kavyichkakh i tochkoj, zatem pustaya stroka. Ona stanovitsya pervoj strokoj yedinstvennogo razdela s tochnyim zagolovkom `## Статус и границы` i pustoj strokoj posle zagolovka. Vse prezhniye bajtyi kartochki sokhranyayutsya. Susjhestvuyusjhaya ili povrezhdyonnaya deklaraciya, inoj emodzi, povtor razdela, skryitaya razmetka i izmeneniye granic otklonyayutsya. Etot ogranichennyij putj prednaznachen dlya obyichnogo Markdown bez HTML-razmetki, uglovyikh skobok i ograzhdenij koda; mashinnyij ID i zavershayusjhij blok svezhesti dopustimyi. Otkaz do dolgovechnoj zapisi namereniya ne raskhoduyet korrekciyu; posle zapisi razreshyon toljko yeyo tochnyij povtor.
+
 V privatnom JSON podgotovjte tochnyij kontrakt:
 
 ```json
@@ -62,6 +64,8 @@ Posle preryivaniya povtorite **tu zhe komandu s tem zhe JSON** novyim processom.
 Podderzhana rovno odna korrekciya. Yesli yeyo sobstvennyiye smyislovyiye dannyiye oshibochnyi i reyestr snova otkazyivayet, drugoye ispravleniye avtomaticheski ne prinimayetsya: namereniye i effektyi ostayutsya dostupnyimi dlya otdeljnoj sverki. Ne redaktirujte privatnoye sostoyaniye vruchnuyu i ne vyizyivajte native pri negotovom rezuljtate.
 
 Adresnaya otkryitaya proverka: `python3 -B -m unittest discover -s Инструменты/fum-reyestr-planirovaniya/tests -p test_исправления_приёма.py`. Neboljshoj profilj: `python3 -B Инструменты/fum-reyestr-planirovaniya/tests/профиль_исправления_приёма.py --выход <профиль.json>`. Oba zapuska vyipolnyayutsya cherez otchyotnuyu obyortku svoyej sessii; setj i vneshnyaya zadacha ne nuzhnyi.
+
+Dlya izmereniya vosstanovleniya propusjhennoj stroki peredajte profilyu `--сценарий 'пропущенный статус'`. On ispoljzuyet sokhranyonnoye otkryitoye soderzhaniye pervogo trebovaniya finansirovaniya, nastoyasjhij reyestr i tri nezavisimyiye Git-fiksturyi; vlozhennyiye intervalyi proverok granic, reyestra i ustanovki neljzya summirovatj s obsjhim vremenem korrekcii. Bez parametra sokhranyayetsya prezhnij scenarij obratnogo otnosheniya.
 
 ## Vneshnyaya granica Codex
 
@@ -107,6 +111,6 @@ Fajlovaya stadiya snachala sokhranyayet tochnyij plan iskhodnyikh i budusjhikh b
 - [Podtverzhdyonnyij pervyij matematicheskij zapusk](../../Zhurnal/2026-09-11_05-03-47_MSK_podtverditj-matematicheskij-zapusk/otchyot.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 10:25:02 MSK -->
-<!-- content-sha256: sha256:909327d327f6b96665d73badc74ba7e277805b9bc9cd58fe5a134ec8af473d49 -->
+<!-- last-content-edit: 2026-09-11 14:14:40 MSK -->
+<!-- content-sha256: sha256:a36db9d00134d72a763ba89023ed7c7b4282124b7d4ec65fa427f706a9adeb71 -->
 <!-- FUM-MD-RECENCY:END -->

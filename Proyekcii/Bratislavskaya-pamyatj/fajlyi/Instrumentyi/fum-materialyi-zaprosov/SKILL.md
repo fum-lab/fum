@@ -47,6 +47,12 @@ Peremennyiye `FUM_SOURCE_ARCHIVE_TEST_FIXTURE_DIR` i `FUM_SOURCE_ARCHIVE_TEST_FA
 
 Pervyij snimok ustanavlivayetsya atomarnyim pereimenovaniyem kataloga. Povtornyij snimok zamenyayet susjhestvuyusjhij katalog odnim obmenom direktorij: `RENAME_SWAP` na macOS ili `RENAME_EXCHANGE` na Linux. Yesli sistemnyij vyizov ili fajlovaya sistema ne podderzhivayet atomarnyij obmen, povtor zakryivayetsya s oshibkoj do izmeneniya kanonicheskogo snimka; dvukhshagovaya zamena cherez vremenno otsutstvuyusjhij kanonicheskij putj ne dopuskayetsya.
 
+Susjhestvuyusjhij snimok proveryayetsya do obmena. Samostoyateljnyiye vlozhennyiye URL s sobstvennyimi `source-url.txt` i manifestom imeyut otdeljnyij inventarj; pri zamene roditelya oni proveryayutsya i kopiruyutsya v staging bez izmeneniya bajtov. Povrezhdyonnyij vlozhennyij snimok ili konflikt naznacheniya zakryivayet povtor otkazom. PDF opredelyayetsya po signature i Content-Type, dazhe yesli rasshireniya v adrese net: HTML-vkhod otkazyivayet, nuzhen otdeljnyij zakhvat PDF i postranichnoye izvlecheniye.
+
+Do izvlecheniya HTML redaktiruyutsya izvestnyiye CSRF/XSRF-polya, nonce i diagnosticheskiye znacheniya zaprosa. `timestamp` ochisjhayetsya toljko v raspoznannom kontejnere CAPTCHA s formoj po kornevomu web-puti `checkcaptcha`, markerom `CheckboxCaptcha` i parnyim `unique-key`. Netronutyiye syiryiye bajtyi, v tom chisle ne-UTF-8, sokhranyayutsya obratimyim `surrogateescape`; tekstovoye predstavleniye po-prezhnemu mozhet soderzhatj zamenu nepodderzhannogo simvola. Spisok izvestnyikh zagolovkov i redakcij vyivoditsya v otchyote kazhdogo novogo HTML-snimka. Eto ogranichennaya ochistka, smyislovoj audit pered publikaciyej ostayotsya obyazateljnyim.
+
+Adresnyij [nabor regressij istochnikov podderzhki](tests/test_ochistka_istochnikov_podderzhki.py) ispoljzuyet toljko sinteticheskiye sluzhebnyiye znacheniya. [Profilj ochistki](tests/profilj_ochistki_podderzhki.py) s `--выход <путь.json>` povtoryayet obrabotku sokhranyonnogo nabora bez seti; PDF yavno isklyuchayutsya iz granicyi HTML.
+
 Posle uspeshnogo obmena novyij kanonicheskij katalog uzhe yavlyayetsya zafiksirovannyim celyim snimkom. Ssyilka dobavlyayetsya v fajl zaprosa cherez vremennyij sibling i atomarnyij `os.replace`, poetomu I/O-sboj ne dolzhen usekatj prezhnij tekst zaprosa. Nevozmozhnostj dobavitj ssyilku vyivoditsya kak otdeljnoye preduprezhdeniye `request_file_linked error` i ne vyidayotsya za neuspeshnoye arkhivirovaniye uzhe ustanovlennogo snimka. Ochistka prezhnego snimka iz staging vyipolnyayetsya best-effort; yesli skryityij sosednij `.staging-*` ostalsya posle commit, skript yavno preduprezhdayet ob etom. Takoj katalog ne vkhodit v novyij manifest, ne schitayetsya kanonicheskim istochnikom i dolzhen byitj otdeljno proveren kak lokaljnyij vremennyij ostatok pered kommitom.
 
 ## Proverki
@@ -114,6 +120,6 @@ Yesli material nevozmozhno poluchitj iz-za dostupa, istecheniya share-ssyilki il
 - [iskhodnyij zapros 2026-07-21 10:36:18 MSK - Zavershitj skvoznuyu priyomku arkhivatora istochnikov](../../Zhurnal/2026-07-21_10-36-18_MSK_zavershitj-skvoznuyu-priyomku-arkhivatora-istochnikov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-02 15:15:05 MSK -->
-<!-- content-sha256: sha256:6080cb09d46550126a00ccd1ae176ab1dbd0bcd6d1d2695d8bf7da6e22d1059b -->
+<!-- last-content-edit: 2026-09-11 16:45:56 MSK -->
+<!-- content-sha256: sha256:ef74a99e02cde0634d2fbda33833c3172f640c8f041971b4103d30ac25ce78f1 -->
 <!-- FUM-MD-RECENCY:END -->

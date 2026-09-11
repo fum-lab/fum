@@ -16,6 +16,9 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-11 16:12:17 MSK — Zavershitj priyomku reyestra podderzhki FUM](2026-09-11_16-12-17_MSK_zavershitj-priyomku-reyestra-podderzhki-FUM/otchyot.md)
+- [2026-09-11 14:52:06 MSK — Sozdatj reyestr organizacij podderzhki FUM](2026-09-11_14-52-06_MSK_sozdatj-reyestr-organizacij-podderzhki-FUM/otchyot.md)
+- [2026-09-11 13:39:59 MSK — Prinyatj napravleniye finansirovaniya FUM](2026-09-11_13-39-59_MSK_prinyatj-napravleniye-finansirovaniya-FUM/otchyot.md)
 - [2026-09-11 10:00:32 MSK — Zavershitj priyom napravlenij FUMA](2026-09-11_10-00-32_MSK_zavershitj-priyom-napravlenij-FUMA/otchyot.md)
 - [2026-09-11 09:36:55 MSK — Sokhranitj ostavshuyusya diagnostiku priyoma](2026-09-11_09-36-55_MSK_sokhranitj-ostavshuyusya-diagnostiku-priyoma/otchyot.md)
 - [2026-09-11 09:29:11 MSK — Prinyatj vyibor Swift System](2026-09-11_09-29-11_MSK_prinyatj-vyibor-Swift-System/otchyot.md)
@@ -523,6 +526,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 10:07:35 MSK -->
-<!-- content-sha256: sha256:2cc82fa4dbbfb052a0bca668450ef2992eae30013820ca1fa825769c5164849a -->
+<!-- last-content-edit: 2026-09-11 16:22:35 MSK -->
+<!-- content-sha256: sha256:5321f7fa1f9990cc541a3964fe8bfbff0dfcfc19c72c783942ec68055f83311a -->
 <!-- FUM-MD-RECENCY:END -->

@@ -367,7 +367,7 @@ def очистить_диагностику_CAPTCHA(текст: str) -> str:
                 if "Container" in классы:
                     self.активные.append({"начало": self.позиция(), "глубина": self.глубина, "форма": False, "captcha": False, "ключ": False})
             for контейнер in self.активные:
-                if tag == "form" and атрибуты.get("id") == "checkbox-captcha-form" and (атрибуты.get("method") or "").upper() == "POST" and атрибуты.get("action") == "/checkcaptcha":
+                if tag == "form" and атрибуты.get("id") == "checkbox-captcha-form" and (атрибуты.get("method") or "").upper() == "POST" and атрибуты.get("action") == urlsplit("https://example.org/checkcaptcha").path:
                     контейнер["форма"] = True
                 if tag == "div" and атрибуты.get("data-testid") == "checkbox-captcha" and "CheckboxCaptcha" in классы:
                     контейнер["captcha"] = True

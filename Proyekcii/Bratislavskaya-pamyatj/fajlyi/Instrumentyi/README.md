@@ -25,7 +25,7 @@ Dejstvuyusjhij marshrut rabotyi — ruchnaya posledovateljnostj: poljzovatelj za
 - [fum-svezhestj-markdown](fum-svezhestj-markdown/SKILL.md) - obnovlyayet sluzhebnyiye metki poslednego soderzhateljnogo redaktirovaniya vo vsekh Markdown-fajlakh i sobirayet indeks `.md`-fajlov ot svezhikh k staryim.
 - [fum-ocheredj-zadach-git-vetki](fum-ocheredj-zadach-git-vetki/SKILL.md) - khranit istoricheskiye FIFO/pool/CAS-protokolyi, kvitancii i regressionnyiye testyi; obyichnaya ruchnaya sessiya ikh ne vyizyivayet. Yedinstvennaya uzhe sozdannaya bridge-zadacha perekhodnogo kommita mozhet vyipolnitj `ack-head` i `finish-clean`.
 - [fum-svezhestj-grafa-obsidian](fum-svezhestj-grafa-obsidian/SKILL.md) - obnovlyayet gruppyi cveta grafa Obsidian kak teplovuyu kartu Markdown-uzlov po vremeni poslednego soderzhateljnogo redaktirovaniya.
-- [fum-reyestr-planirovaniya](fum-reyestr-planirovaniya/SKILL.md) - sobirayet i proveryayet mashinno chitayemyij JSON-reyestr i bezopasno pereimenovyivayet kartochki shagov s obnovleniyem zhivyikh tekstovyikh putej.
+- [fum-reyestr-planirovaniya](fum-reyestr-planirovaniya/SKILL.md) - sobirayet i proveryayet mashinno chitayemyij JSON-reyestr, bezopasno pereimenovyivayet kartochki shagov s obnovleniyem zhivyikh tekstovyikh putej i vedyot [reyestr organizacij podderzhki](../Planirovaniye/finansirovaniye-i-resursyi/README.md) s istoriyej istochnikov i proveryayemyimi srokami.
 - [fum-proyektnyiye-fajlyi](fum-proyektnyiye-fajlyi/SKILL.md) - zadayot obsjhij vosproizvodimyij inventarj proyektnyikh Markdown-fajlov i bezopasnyiye granicyi vyikhodnyikh putej sluzhebnyikh avtomatizacij.
 - [fum-bratislavskaya-proyekciya-pamyati](fum-bratislavskaya-proyekciya-pamyati/SKILL.md) - stroit polnyij determinirovannyij sukhoj plan bratislavskoj proyekcii kanonicheskoj pamyati i validiruyet proiskhozhdeniye gotovogo proizvodnogo pokoleniya.
 - [fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok](fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/SKILL.md) - planiruyet i primenyayet Git-pereimenovaniye obyichnogo fajla s razresheniyem i pereschyotom vkhodyasjhikh i iskhodyasjhikh lokaljnyikh Markdown-ssyilok bez globaljnoj zamenyi imeni.
@@ -130,6 +130,6 @@ Dejstvuyusjhij marshrut rabotyi — ruchnaya posledovateljnostj: poljzovatelj za
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](../Zhurnal/2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 00:22:39 MSK -->
-<!-- content-sha256: sha256:65ee63ec23801a1b5de97f7c0317f50954e705fe53f425641523cd0c06dffe54 -->
+<!-- last-content-edit: 2026-09-11 15:53:44 MSK -->
+<!-- content-sha256: sha256:b999917d0cd701e8c0982b206a718a04913d95f80629397ed3703f1f8658cd0f -->
 <!-- FUM-MD-RECENCY:END -->

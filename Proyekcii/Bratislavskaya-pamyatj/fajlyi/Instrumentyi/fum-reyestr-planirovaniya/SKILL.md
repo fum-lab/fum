@@ -5,6 +5,8 @@ description: Sobiratj i proveryatj mashinno chitayemyij reyestr trebovanij, stad
 
 # FUM Planning Registry
 
+[Reyestr organizacij podderzhki FUM](../../Planirovaniye/finansirovaniye-i-resursyi/README.md) ispoljzuyet etot paket dlya importa sokhranyonnyikh issledovanij, istorii adresnyikh nablyudenij, proverki srokov i vyipuska otdeljnogo chitayemogo spiska. Komanda `scripts/реестр-организаций-поддержки.py` opisana vmeste s dannyimi; ona ne otpravlyayet obrasjheniya i ne podtverzhdayet registraciyu zayavitelya.
+
 Konechnyij [paket diagnostiki](paket-diagnostiki.md) mekhanicheski vyipuskayet yavno podgotovlennyiye SBOJ i STEP s uzhe naznachennyimi nomerami, dvumya indeksami i tochnoj zasjhitoj iskhodnyikh bajtov.
 
 V FUM-STEP-0201 razrabatyivayetsya [priyom napravlenij FUMA](priyom-napravlenij.md): rukovodstvo opisyivayet proverennyiye primitivyi i yesjhyo nezavershyonnyij yedinyij vkhod. Promezhutochnyij status ne razreshayet vneshneye sozdaniye zadachi cherez nizkourovnevuyu operaciyu.
@@ -141,6 +143,6 @@ Avtomatizaciya ne vyivodit novyiye trebovaniya ili shagi iz smyisla dokumentov, 
 - [iskhodnyij zapros 2026-07-22 11:48:49 MSK — Oformitj kartochki shagov opisateljnyimi imenami i emodzi statusami](../../Zhurnal/2026-07-22_11-48-49_MSK_oformitj-kartochki-shagov-opisateljnyimi-imenami-i-emodzi-statusami/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 09:04:46 MSK -->
-<!-- content-sha256: sha256:677ff223ea4eb625047dd72ab287bc6ffe5af6b8450797f0ff583d77fae9c429 -->
+<!-- last-content-edit: 2026-09-11 15:53:44 MSK -->
+<!-- content-sha256: sha256:a06e451119688786762ea54695df3ea08c0d79f42177929e3ca22769a84b67b2 -->
 <!-- FUM-MD-RECENCY:END -->
