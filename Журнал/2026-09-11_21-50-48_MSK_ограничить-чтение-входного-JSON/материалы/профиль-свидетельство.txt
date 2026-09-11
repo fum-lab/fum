@@ -1,0 +1,8 @@
+Выборка терминальных тестовых строк; runtime-консоль и локальные пути вне Git.
+Test Case '-[ПроверкиМашины.ПроверкиЧтенияВходногоФайла test_ПрофильТрёхОдинаковыхЧтенийОткрытойФикстуры]' passed (0.017 seconds).
+Test Suite 'ПроверкиЧтенияВходногоФайла' passed at 2026-09-11 23:55:23.577.
+	 Executed 1 test, with 0 failures (0 unexpected) in 0.017 (0.017) seconds
+Test Suite 'ПроверкиМашины.xctest' passed at 2026-09-11 23:55:23.578.
+	 Executed 1 test, with 0 failures (0 unexpected) in 0.017 (0.017) seconds
+Test Suite 'Selected tests' passed at 2026-09-11 23:55:23.578.
+	 Executed 1 test, with 0 failures (0 unexpected) in 0.017 (0.018) seconds

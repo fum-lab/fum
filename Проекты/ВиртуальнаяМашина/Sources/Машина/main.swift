@@ -5,12 +5,6 @@ import ЯдроМашины
 umask(0o077)
 
 func вывести<Значение: Encodable>(_ значение: Значение) throws { FileHandle.standardOutput.write(try кодировать(значение)) }
-func прочитать<Значение: Decodable>(_ тип: Значение.Type, _ путь: String) throws -> Значение {
-    let адрес = URL(fileURLWithPath: NSString(string: путь).expandingTildeInPath)
-    let свойства = try FileManager.default.attributesOfItem(atPath: адрес.path)
-    guard (свойства[.size] as? NSNumber)?.intValue ?? Int.max <= 4 * 1024 * 1024 else { throw ОшибкаМашины("Входной JSON превышает 4 MiB.") }
-    return try JSONDecoder().decode(тип, from: Data(contentsOf: адрес))
-}
 
 do {
     let аргументы = Array(CommandLine.arguments.dropFirst())
@@ -46,13 +40,13 @@ do {
     case "профиль": try вывести(Профиль())
     case "проверить": try вывести(Хост.снимок(каталог))
     case "план":
-        let профиль = try параметры["--профиль"].map { try прочитать(Профиль.self, $0) } ?? Профиль()
+        let профиль = try параметры["--профиль"].map { try ЧтениеВходногоФайла.прочитать(Профиль.self, $0) } ?? Профиль()
         try вывести(ПланМашины.создать(профиль: профиль, каталог: каталог, ресурсы: Хост.ресурсы(каталог)))
     case "подготовить":
         guard let вход = параметры["--план"], let граница = параметры["--до"], ["зависимости", "образ", "диск", "всё"].contains(граница) else {
             throw ОшибкаМашины("Нужны --план JSON и --до зависимости|образ|диск|всё.")
         }
-        let план = try прочитать(ПланМашины.self, вход)
+        let план = try ЧтениеВходногоФайла.прочитать(ПланМашины.self, вход)
         try план.проверить()
         try Хост.ресурсы(план.каталог).проверить(план.профиль)
         let хранилище = try Хранилище(план: план, создать: true)
