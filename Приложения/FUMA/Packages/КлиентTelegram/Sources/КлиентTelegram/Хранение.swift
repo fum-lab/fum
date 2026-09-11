@@ -49,19 +49,18 @@ private struct ЗашифрованнаяЗапись: Codable {
 final class ЛокальныйЖурнал {
     private let контейнер: Сегмент
     private let ключ: SymmetricKey
+    let идентичностьКорня: ИдентичностьКаталога
     private var отказ = false
     init(корень: URL, ключ: Data, операции: ФайловыеОперации = .системные) throws {
         guard ключ.count == 32 else { throw ОшибкаКлиента.неверныеДанные("256-битный ключ локального журнала") }
-        let свойства = try FileManager.default.attributesOfItem(atPath: корень.path)
-        guard корень.isFileURL, корень.standardizedFileURL == корень.resolvingSymlinksInPath().standardizedFileURL,
-              свойства[.type] as? FileAttributeType == .typeDirectory,
-              (свойства[.posixPermissions] as? NSNumber)?.intValue == 0o700,
-              (свойства[.ownerAccountID] as? NSNumber)?.uint32Value == getuid() else {
-            throw ОшибкаКлиента.доступЗапрещён("Журнал требует собственный приватный каталог 0700 без ссылок")
-        }
         self.ключ = SymmetricKey(data: ключ)
-        контейнер = try Сегмент(кореньДанных: корень, запись: true, операции: операции)
-        if контейнер.естьХвост { контейнер.закрыть(); throw ОшибкаКлиента.требуетсяРазбор }
+        let открытый = try Сегмент(кореньДанных: корень, запись: true, операции: операции, приватныйДоступ: true)
+        do {
+            guard !открытый.естьХвост else { throw ОшибкаКлиента.требуетсяРазбор }
+            let идентичность = try открытый.идентичностьКорня()
+            идентичностьКорня = ИдентичностьКаталога(устройство: идентичность.устройство, файл: идентичность.файл)
+            контейнер = открытый
+        } catch { открытый.закрыть(); throw error }
     }
     func восстановить() throws -> [ЛокальнаяЗапись] {
         guard !отказ else { throw ОшибкаКлиента.требуетсяРазбор }

@@ -86,6 +86,40 @@ private final class ТранспортПримера: ТранспортБибл
     #expect(цикл.незавершённые.isEmpty)
     #expect(транспорт.вызовов < 40)
     try await проверитьАктивнуюОтменуИПовторноеВладение()
+    try await проверитьОтменуСЧтениемСостояния()
+    try await проверитьСредуКлиента()
+}
+
+private final class НаблюдательОтмены: @unchecked Sendable {
+    private let замок = NSLock()
+    private var цикл: ЦиклПриёма?
+    private var вызовы = 0
+    func связать(_ цикл: ЦиклПриёма) { замок.withLock { self.цикл = цикл } }
+    func отменить() {
+        let текущий = замок.withLock { вызовы += 1; return цикл }
+        _ = текущий?.причинаОстановки
+    }
+    var количество: Int { замок.withLock { вызовы } }
+}
+
+private func проверитьОтменуСЧтениемСостояния() async throws {
+    let барьер = БарьерОбработчика()
+    let наблюдатель = НаблюдательОтмены()
+    let цикл = try ЦиклПриёма(транспорт: ТранспортПримера(), ёмкость: 2, пределБайтов: 256) { данные in
+        try await withTaskCancellationHandler {
+            try await барьер.принять(данные)
+        } onCancel: { наблюдатель.отменить() }
+    }
+    наблюдатель.связать(цикл)
+    try цикл.запустить()
+    for _ in 0..<100 {
+        if await барьер.начат { break }
+        try await Task.sleep(for: .milliseconds(5))
+    }
+    #expect(await барьер.начат)
+    await цикл.остановить(отменитьОбработку: true)
+    #expect(наблюдатель.количество == 1)
+    #expect(try цикл.незавершённые.first.map { try ЗначениеДанных.прочитать($0)["@extra"]?.строка } == "0")
 }
 
 private actor БарьерОбработчика {

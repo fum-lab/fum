@@ -2,6 +2,63 @@ import Foundation
 import Testing
 @testable import КлиентTelegram
 
+@Test func ошибкаВБуфереСохраняетТекущийИПоследующиеКадры() async throws {
+    let каталог = try создатьПриватныйКаталог(); defer { try? FileManager.default.removeItem(at: каталог) }
+    let ключ = Data(repeating: 7, count: 32)
+    let транспорт = ЗаписывающийТранспорт()
+    let ядро = try ЯдроКлиента(транспорт: транспорт, корень: каталог, ключ: ключ)
+    let клиент = try await ядро.добавитьКлиента(аккаунт: 17)
+    try await доставить(.типа("updateAuthorizationState", ["authorization_state": .типа("authorizationStateReady")]), клиент: клиент, ядро: ядро)
+    let запрос = транспорт.отправленные.last!.1
+    for номер: Int64 in [200, 0, 201] {
+        try await доставить(.типа("updateNewMessage", ["message": сообщениеПримера(номер, тип: "messageText")]), клиент: клиент, ядро: ядро)
+    }
+    await #expect(throws: ОшибкаКлиента.self) {
+        try await доставить(.типа("user", ["id": .число(17)]), клиент: клиент, ядро: ядро, запрос: запрос)
+    }
+    #expect(await ядро.доПодтверждения[клиент]?.count == 2)
+    #expect(await ядро.разрывВхода)
+    let применённые = await ядро.получитьМодельСообщений()
+    #expect(применённые.история.count == 1)
+    _ = try await ядро.завершитьПриём(хвост: [], причина: .требуетсяРазбор)
+    let журнал = try ЛокальныйЖурнал(корень: каталог, ключ: ключ); defer { журнал.закрыть() }
+    let кадры = try журнал.восстановить().flatMap { запись -> [Data] in
+        if case .неприменённые(let данные) = запись { return данные }; return []
+    }
+    #expect(try кадры.map { try ЗначениеДанных.прочитать($0)["message"]?["id"]?.целое } == [0, 201])
+}
+
+@Test func ответClosedНеЗаменяетКонечноеОбновление() async throws {
+    let каталог = try создатьПриватныйКаталог(); defer { try? FileManager.default.removeItem(at: каталог) }
+    let транспорт = ЗаписывающийТранспорт()
+    let ядро = try ЯдроКлиента(транспорт: транспорт, корень: каталог, ключ: Data(repeating: 9, count: 32))
+    let клиент = try await ядро.добавитьКлиента()
+    let начальный = транспорт.отправленные[0].1
+    try await доставить(.типа("authorizationStateClosed"), клиент: клиент, ядро: ядро, запрос: начальный)
+    #expect(await ядро.всеЗакрыты == false)
+    try await ядро.начатьЗакрытие()
+    #expect(транспорт.отправленные.last?.1.тип == "close")
+    try await доставить(.типа("updateAuthorizationState", ["authorization_state": .типа("authorizationStateClosed")]), клиент: клиент, ядро: ядро)
+    #expect(await ядро.всеЗакрыты)
+    await ядро.закрытьЖурнал()
+}
+
+@Test func закрытиеСохраняетОбновленияБезДоказанногоАккаунта() async throws {
+    let каталог = try создатьПриватныйКаталог(); defer { try? FileManager.default.removeItem(at: каталог) }
+    let ключ = Data(repeating: 8, count: 32)
+    let ядро = try ЯдроКлиента(транспорт: ЗаписывающийТранспорт(), корень: каталог, ключ: ключ)
+    let клиент = try await ядро.добавитьКлиента(аккаунт: 17)
+    let событие = ЗначениеДанных.типа("updateNewMessage", ["message": .типа("message", ["id": .число(1), "chat_id": .число(-100001)])])
+    try await доставить(событие, клиент: клиент, ядро: ядро)
+    try await ядро.начатьЗакрытие()
+    try await доставить(.типа("updateAuthorizationState", ["authorization_state": .типа("authorizationStateClosed")]), клиент: клиент, ядро: ядро)
+    await ядро.закрытьЖурнал()
+    let журнал = try ЛокальныйЖурнал(корень: каталог, ключ: ключ); defer { журнал.закрыть() }
+    let записи = try журнал.восстановить()
+    #expect(записи.contains { if case .разрыв = $0 { true } else { false } })
+    #expect(записи.contains { if case .неприменённые(let кадры) = $0 { кадры.count == 1 } else { false } })
+}
+
 @Test func сообщенияДоПодтвержденияНеПолучаютЧужойАккаунт() async throws {
     let каталог = try создатьПриватныйКаталог(); defer { try? FileManager.default.removeItem(at: каталог) }
     let транспорт = ЗаписывающийТранспорт()

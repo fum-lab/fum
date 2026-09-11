@@ -2,6 +2,15 @@ import Foundation
 import Testing
 @testable import КлиентTelegram
 
+@Test func параметрыПовторноПроверяютПриватностьПередОтправкой() throws {
+    let база = try создатьПриватныйКаталог(); defer { try? FileManager.default.removeItem(at: база) }
+    let файлы = try создатьПриватныйКаталог(); defer { try? FileManager.default.removeItem(at: файлы) }
+    let приложение = try ДанныеПриложения(идентификатор: 1, хэш: String(repeating: "a", count: 32))
+    let параметры = try ПараметрыБиблиотеки(приложение: приложение, каталогБазы: база, каталогФайлов: файлы, ключБазы: Data(repeating: 1, count: 32))
+    try FileManager.default.setAttributes([.posixPermissions: 0o755], ofItemAtPath: база.path)
+    #expect(throws: ОшибкаКлиента.self) { try Авторизация.запрос(.параметры(параметры), состояние: .параметры) }
+}
+
 @Test func всеСостоянияЗакреплённойАвторизацииИНеизвестное() throws {
     let соответствия: [(String, СостояниеАвторизации)] = [
         ("WaitTdlibParameters", .параметры), ("WaitPhoneNumber", .телефон),
