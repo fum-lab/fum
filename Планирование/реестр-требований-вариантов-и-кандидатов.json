@@ -76,7 +76,7 @@
     },
     {
       "path": "Вопросы/2026-09-11_05-09-33_MSK_границы-математического-направления-FUM.md",
-      "content_sha256_without_recency": "sha256:2ff2882661f27cf76367e9c2b7d37d54ad063b6109181a2f6a1695f4d7cbd03e"
+      "content_sha256_without_recency": "sha256:688823d5bc986a415dd33bbc620c101e331075cd20e5939e6ddf85763916e005"
     },
     {
       "path": "Вопросы/2026-09-11_09-36-55_MSK_граница-пропуска-служебных-путей-в-запросе.md",
@@ -88,7 +88,7 @@
     },
     {
       "path": "Вопросы/README.md",
-      "content_sha256_without_recency": "sha256:4c1d01307d41f4484958c37715aa91ac5b265ab0c282d42f643432ec5d3d3cfa"
+      "content_sha256_without_recency": "sha256:26f209c53e120a08d436d38d57024e900952cbe137c0a4ff0efe4c8b2556b35b"
     },
     {
       "path": "Планирование/MVP-кандидаты/01-память-рабочей-сессии/README.md",
@@ -584,7 +584,7 @@
     },
     {
       "path": "Планирование/карточки-шагов/✅-FUM-STEP-0202-составить-план-математического-направления.md",
-      "content_sha256_without_recency": "sha256:c68918a3564747c169fe4e4af42341bf7d817b0138d6e204f38044dda57bf52e"
+      "content_sha256_without_recency": "sha256:ff4ee8414ae6fba215692af80a865d7c27ab3b0ed197b489f1f4cdc36282641c"
     },
     {
       "path": "Планирование/карточки-шагов/✅-FUM-STEP-0203-отвязать-связность-от-локального-графа-Obsidian.md",
@@ -1008,11 +1008,11 @@
     },
     {
       "path": "Планирование/направления-проектирования-и-развития/09-математика.md",
-      "content_sha256_without_recency": "sha256:3de0448b0da4818341285207860ed56995b0d985c6ca9c7bf6da60f8271eeabb"
+      "content_sha256_without_recency": "sha256:a68e62883d266ab1675f85a75ef1584eea00cda3b6a6cb106400b1fa33a5f0e1"
     },
     {
       "path": "Планирование/направления-проектирования-и-развития/README.md",
-      "content_sha256_without_recency": "sha256:0f85a1eb7359ad19712f9ed574b0e88ad5af1025b0d25ee660411ff47608e4e8"
+      "content_sha256_without_recency": "sha256:418c85e8dce07cffc733880e6f23ee7c3aa6362279fc7643170fffdab6f368d5"
     },
     {
       "path": "Планирование/предложения-о-следующих-шагах.md",
@@ -21953,6 +21953,10 @@
         {
           "title": "Граница GUI из внутренних механизмов FUM",
           "file": "Вопросы/2026-07-24_10-44-28_MSK_граница-GUI-из-внутренних-механизмов-FUM.md"
+        },
+        {
+          "title": "Границы математического направления FUM",
+          "file": "Вопросы/2026-09-11_05-09-33_MSK_границы-математического-направления-FUM.md"
         }
       ],
       "partially_clarified": [
@@ -22178,6 +22182,11 @@
         "covered_by_planning_view_ids": [
           "PLAN-LAYER-NODE-INTERFACE"
         ]
+      },
+      {
+        "title": "Границы математического направления FUM",
+        "file": "Вопросы/2026-09-11_05-09-33_MSK_границы-математического-направления-FUM.md",
+        "covered_by_planning_view_ids": []
       }
     ]
   }
