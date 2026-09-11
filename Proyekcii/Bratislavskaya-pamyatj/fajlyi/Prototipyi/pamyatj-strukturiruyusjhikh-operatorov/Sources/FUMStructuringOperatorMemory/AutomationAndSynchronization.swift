@@ -1,6 +1,6 @@
 import Foundation
 
-enum AutomationExecutor {
+public enum AutomationExecutor {
   private struct TracePayload: Encodable {
     let operatorID: String
     let input: String
@@ -14,43 +14,45 @@ enum AutomationExecutor {
     guard fixture.steps.count <= 32 else {
       throw OperatorMemoryError.automationFailed("step limit exceeded")
     }
-    var current = fixture.input
-    var traces: [AutomationStepTrace] = []
-    traces.reserveCapacity(fixture.steps.count)
-
-    for step in fixture.steps {
-      let inputHash = sha256Digest(Data(current.utf8))
-      switch step.kind {
-      case .trim:
-        current = current.trimmingCharacters(in: .whitespacesAndNewlines)
-      case .lowercase:
-        current = current.lowercased()
-      case .collapseWhitespace:
-        current = current.split(whereSeparator: \.isWhitespace).joined(separator: " ")
-      case .replace:
-        guard let argument = step.argument,
-          let separator = argument.range(of: "=>")
-        else {
-          throw OperatorMemoryError.automationFailed("replace requires old=>new")
+    let определение = ОпределениеОператора(
+      идентификатор: fixture.operatorId, версия: 1,
+      шаги: try fixture.steps.enumerated().map { номер, шаг in
+        let действие: ДействиеОператора
+        switch шаг.kind {
+        case .trim:
+          действие = .обрезать
+        case .lowercase:
+          действие = .нижнийРегистр
+        case .collapseWhitespace:
+          действие = .сжатьПробелы
+        case .replace:
+          guard let аргумент = шаг.argument,
+            let разделитель = аргумент.range(of: "=>")
+          else {
+            throw OperatorMemoryError.automationFailed("replace requires old=>new")
+          }
+          let старое = String(аргумент[..<разделитель.lowerBound])
+          действие =
+            старое.isEmpty
+            ? .префикс("")
+            : .заменить(
+              старое, String(аргумент[разделитель.upperBound...]))
+        case .prefix:
+          guard let аргумент = шаг.argument else {
+            throw OperatorMemoryError.automationFailed("prefix requires argument")
+          }
+          действие = .префикс(аргумент)
         }
-        current = current.replacingOccurrences(
-          of: String(argument[..<separator.lowerBound]),
-          with: String(argument[separator.upperBound...])
-        )
-      case .prefix:
-        guard let argument = step.argument else {
-          throw OperatorMemoryError.automationFailed("prefix requires argument")
-        }
-        current = argument + current
-      }
-      traces.append(
-        AutomationStepTrace(
-          stepID: step.id,
-          kind: step.kind,
-          inputHash: inputHash,
-          outputHash: sha256Digest(Data(current.utf8))
-        )
-      )
+        return ШагОператора(идентификатор: "шаг-\(номер)", действие: действие)
+      })
+    let наблюдение = try выполнить(определение, вход: .текст(fixture.input))
+    guard case .текст(let current) = наблюдение.результат else {
+      throw OperatorMemoryError.automationFailed("Ожидался текст адаптера")
+    }
+    let traces = zip(fixture.steps, наблюдение.шаги).map { шаг, след in
+      AutomationStepTrace(
+        stepID: шаг.id, kind: шаг.kind,
+        inputHash: след.хэшВхода, outputHash: след.хэшВыхода)
     }
 
     let effects = fixture.effects.sorted()

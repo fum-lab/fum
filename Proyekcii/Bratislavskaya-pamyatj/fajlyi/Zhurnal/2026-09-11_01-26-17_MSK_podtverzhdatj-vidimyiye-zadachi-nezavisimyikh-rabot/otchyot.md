@@ -134,16 +134,17 @@ Granica profilya: ot sozdaniya papki do iskhoda predfinaljnogo dokumentacionnogo
 | [Pisatelj vetki fuma] Sborka reyestra posle utochneniya kriteriyev0196          | 0,402 s      | uspeshno   |
 | [Pisatelj vetki fuma] Svyaznostj etapa podtverzhdeniya vidimyikh zadach           | 38,811 s     | neuspeshno |
 | [Pisatelj vetki fuma] Svyaznostj posle sokhraneniya iskhodnogo lokaljnogo grafa | 39,641 s     | neuspeshno |
+| [Pisatelj vetki fuma] Finaljnyij dokumentacionnyij smoke etapa vidimyikh zadach  | 824,503 s    | neuspeshno |
 
-Obsjheye vremya pryamyikh zapuskov proverok: 81,951 s.
+Obsjheye vremya pryamyikh zapuskov proverok: 906,454 s.
 
 Priyomochnyiye raundyi: ne gotov.
-Kontekst Git-snimka: sha256:cd5b3da12ecd2db7aba4a7f76a1c3835e6b321ba65d89c20f5dd81ccdb098c44.
-Kontekst soderzhimogo: sha256:1fc5f65c1aeb9f08a9d6c311e39f5d0167eee7d3a9e1ec0c26752ec2c72742ac.
-Polnyikh popyitok: 0; uspeshnyikh: 0.
+Kontekst Git-snimka: sha256:c65179f70af922209e7e853dc0407969368ac61de71ed5002bc7112df2fab8b9.
+Kontekst soderzhimogo: sha256:723edc3c5530028593b37262637d57900db8c96705b50139c11183f1d5214ac2.
+Polnyikh popyitok: 1; uspeshnyikh: 0.
 Usloviye «perekhod ne zamenyayet izmeneniye soderzhimogo»: vyipolneno.
 Usloviye «net aktivnyikh»: vyipolneno.
-Usloviye «finaljnaya polnaya poslednyaya»: ne vyipolneno.
+Usloviye «finaljnaya polnaya poslednyaya»: vyipolneno.
 Usloviye «finaljnaya polnaya uspeshna»: ne vyipolneno.
 Usloviye «snimok sovpadayet»: ne vyipolneno.
 Usloviye «soderzhimoye sovpadayet»: ne vyipolneno.
@@ -163,6 +164,12 @@ Pervyij zapros obyortke na inicializaciyu zavisimosti otkazal do sozdaniya zapis
 
 Adresnaya svyaznostj vyiyavila otsutstvuyusjhij lokaljnyij graph.json: istoricheskiye ssyilki tekusjhego validatora trebuyut yego fizicheskogo nalichiya. Iz prezhnego ostanovlennogo dereva etoj zhe vetki v otsutstvovavshij putj sobstvennogo dereva pobajtovo pereneseno sokhranyonnoye sostoyaniye (574 bajta). Iskhodnik ne izmenyon, susjhestvuyusjheye sostoyaniye ne zamenyalosj; fajl ignoriruyetsya Git. Eto vosstanovleniye lokaljnoj sredyi, a ne dokazateljstvo prokhozhdeniya svyaznosti v chistom klone bez sostoyaniya Obsidian. Defekt nezavisimosti validatora ot etogo fajla peredan koordinatoru; ispolnyayemyij kod zdesj ne izmenyon. Povtornaya adresnaya svyaznostj proshla prezhniye ssyilki i otkazala na recency obnovlyonnogo poyasneniya; metadannyiye i indeks zatem pereschitanyi shtatnoj avtomatizaciyej pered finaljnyim progonom.
 
+[Tochnyij zapusk7](materialyi/zapuski-proverok/7_01f4fb5e-1ec0-4a1f-beca-ce3b66030bef.json) standartnogo dokumentacionnogo smoke-check zanyal824,420s vnutri processa i824,503s po vneshnej obyortke. Pervyiye23shaga proshli; poslednij nabor vyipolnil234testa s odnim otkazom test_povtornoye_osnovaniye_chitayetsya_odin_raz_za_vyizov. Sopostavleniye iskhodnikov ustanovilo nesovpadeniye nablyudayemoj granicyi: test podmenyayet Path.read_text, a proveritj_osnovaniye chitayet read_bytes. Ispolnyayemyij kod v etom etape ne menyalsya; otkaz i ogranicheniye finaljnoj priyomki peredanyi koordinatoru. Ispravleniye zakrepleno za vladeljcem0177, posle publikacii kotorogo trebuyetsya soglasovannyij minimaljnyij perenos. Eto otdeljnyij mekhanizm ot sboya0052/STEP-0203 ob otsutstvii graph.json; novaya kartochka bez obsjhej sverki ne sozdavalasj. Polnyij progon na prezhnem soderzhimom ne povtoryayetsya.
+
+Pervyij zaklyuchiteljnyij dopusk kontroljnoj tochki otklonil predprosmotr posle izmeneniya kanonicheskikh recency-metadannyikh. Pered povtorom snachala zavershenyi recency i staging, zatem zanovo sformirovan tochnyij predprosmotr; dopusk ne zapisyivayet rekursivnyij zapusk po pravilu000188.
+
+Etap sokhranyayetsya razreshyonnyim kontroljnyim kommitom, otchyot ostayotsya otkryityim s terminaljnyimi zapuskami. Proverennoye na shagakh4–5 pokoleniye soderzhit6504iskhodnyikh fajla, khyesh plana sha256:8bd921c46d72f24a9b99f34ddb3c7c846c74f1b172629d31b7e32a108af811fb i vkhodnoj inventarj sha256:754cf0b12bc45484c7d9d9d71a910e71375aa0f2d8fc78af5e3a9c628ab57dcd. Posle terminalizacii zapuska i etogo poyasneniya ono otstayot ot kanonicheskogo sloya. Zakryityij snimok i novaya polnaya priyomka ne zayavlyayutsya; finaljnaya peresborka ozhidayet ustraneniya otkaza proverochnogo kontura.
+
 ## Resheniya i ogranicheniya
 
 Vosstanovleniye dvukh vidimyikh zadach podtverzhdeno [adresnyimi nablyudeniyami](materialyi/podtverzhdeniye-vidimyikh-zadach.md). Read-only-recenzent sopostavil granicyi0018/0026/0027 i rekomendoval otdeljnyij sboj primeneniya uzhe sokhranyonnogo ukazaniya. Podtverzhdyonnyij epizod zaregistrirovan kak0049/PROYAVLENIYE-0001; chislo proyavlenij ne vyivoditsya iz slova «sistematicheski». ID0049/0196 soglasovanyi iskhodnoj zadachej posle mezhvetochnoj sverki.
@@ -179,6 +186,6 @@ Sleduyusjhij soglasovannyij etap sokhranyayet khudozhestvennoye, muzyikaljnoye i
 - [Sboj0049](../../Sboi/FUM-SBOJ-0049-propusk-vidimoj-zadachi-pishusjhej-rabotyi.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 01:44:59 MSK -->
-<!-- content-sha256: sha256:594668546e2ce9ea3b221cc5399f1bdbda35f4b8999d76f04c60865f358402b9 -->
+<!-- last-content-edit: 2026-09-11 02:02:03 MSK -->
+<!-- content-sha256: sha256:3cd977793c7dc63315989386a6960571e3695868b40c4968e6893c9186672ee5 -->
 <!-- FUM-MD-RECENCY:END -->

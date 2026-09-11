@@ -30,12 +30,17 @@ Normativnaya chastj podgotovlena v [otdeljnom etape](../../Zhurnal/2026-09-10_13
 - Podtverzhdyon rannij otkaz do dorogogo shaga na dvukh obnaruzhennyikh klassakh narushenij; istoricheskij ostatok ne vyidayotsya za novoye narusheniye.
 - Nevyipolnennoye nablyudeniye nakhoditsya po sokhranyonnoj zapisi nezavisimo ot pamyati modeli; zayavlennaya granica dolgovechnosti sootvetstvuyet fakticheskomu khraneniyu.
 
+## Utochneniye po povtoru obyazateljnyikh polej paryi
+
+`FUM-СБОЙ-0071/ПРОЯВЛЕНИЕ-0002` dopolnyayet rannyuyu proveryayemuyu granicu obyazateljnyim zapolneniyem kanonicheskoj paryi: tochnaya nepustaya metka «Granica profilya:», tochnyiye zagolovki tablicyi i pryamyiye ssyilki na sobstvennyiye zapros i otchyot. Skhodnaya podpisj i `./` ne zamenyayut mashinnyij kontrakt. Nuzhnyi dokumentirovannyiye usloviya i rannij otkaz do dorogogo shaga; ispravlennyij vruchnuyu dokument ne schitayetsya realizaciyej obsjhej profilaktiki. Iskhodnyiye kriterii dvukh prezhnikh klassov sokhranyayutsya.
+
 ## Istochniki
 
+- [Povtor nepolnoj paryi Zhurnala](../../Sboi/FUM-SBOJ-0071-nepolnaya-para-zhurnala-pered-kontroljnoj-tochkoj.md) — tochnoye osnovaniye `FUM-СБОЙ-0071/ПРОЯВЛЕНИЕ-0002`; [pervichnaya proverka](../../Zhurnal/2026-09-11_10-00-32_MSK_zavershitj-priyom-napravlenij-FUMA/otchyot.md).
 - [Komandyi, otvetyi i obnaruzhennyiye problemyi](../../Zhurnal/2026-09-10_11-51-55_MSK_sokhranyatj-ostatok-obyazateljstv/zapros.md).
 - [Plan i proiskhozhdeniye nablyudenij](../../Zhurnal/2026-09-10_11-51-55_MSK_sokhranyatj-ostatok-obyazateljstv/materialyi/plan-opisaniya-avtomatizacij.json).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 13:49:34 MSK -->
-<!-- content-sha256: sha256:34fef648e079e29ad7f4d8f8bae79a0bb3ebd0e31db6351dfa50e03ab30a2400 -->
+<!-- last-content-edit: 2026-09-11 10:32:01 MSK -->
+<!-- content-sha256: sha256:86e6b1c38ac1b202cb164e68f28ef74533b59d6afbab26598f98850a5d0b6005 -->
 <!-- FUM-MD-RECENCY:END -->

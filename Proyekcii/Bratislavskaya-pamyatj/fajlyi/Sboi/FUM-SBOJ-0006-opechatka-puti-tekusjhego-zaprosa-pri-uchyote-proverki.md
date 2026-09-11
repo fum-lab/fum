@@ -22,12 +22,15 @@ Syuda ne otnosyatsya yavnaya proverka drugoj istoricheskoj sessii, nevernyij put
 | Lokaljnyij nomer                 | Istochnik i dokazateljstvo                                                                                                                                                                                                                       | Effekt                                                                                                                                                | Vosstanovleniye                                                                                                                                                                                                                 |
 | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `FUM-СБОЙ-0006/ПРОЯВЛЕНИЕ-0001` | [Otchyot tekusjhej rabochej sessii](../Zhurnal/2026-08-06_22-29-49_MSK_vvesti-kartochki-sboyev-dlya-porozhdeniya-shagov/otchyot.md) sokhranyayet tochnyiye razlichayusjhiyesya komponentyi puti, otkaz do dochernego zapuska i otsutstviye mashinnoj zapisi iskhodnoj popyitki. | Generator grafa ne zapusjhen, predfinaljnyij kontur prervan, a iskhodnaya neuspeshnaya popyitka ne voshla v mashinnuyu summu iz-za nevernoj identichnosti sessii. | Kanonicheskij putj povtorno sveryayetsya s susjhestvuyusjhim `запрос.md`, a posleduyusjhiye vyizovyi ispoljzuyut tochnuyu stroku. Eto vosstanavlivayet tekusjhij khod, no ne ustranyayet ruchnoye dublirovaniye; sistemnaya mera vyinesena v FUM-STEP-0134. |
+| `FUM-СБОЙ-0006/ПРОЯВЛЕНИЕ-0002` | [Otchyot perekhoda k Windows](../Zhurnal/2026-09-11_00-58-07_MSK_zaplanirovatj-podgotovku-Windows/otchyot.md) i terminaljnyiye zapisi 4–6 predyidusjhego etapa podtverzhdayut vyibor ustarevshej privyazki.                                                     | Posle otkaza podgotovki tri proverki zapisanyi v prezhnij otkryityij otchyot vmesto novogo etapa.                                                           | Zapisi sokhranenyi; novyij etap sozdan otdeljno, zavisimyij zapusk trebuyet yavnogo uspekha podgotovki. Sistemnoye predotvrasjheniye — FUM-STEP-0134.                                                                                     |
 
 ## Ozhidaniye i klassifikaciya
 
 Eto oshibka ispolneniya, a ne defekt dejstvuyusjhego kontrakta obyortki: parametr `--запрос` yavlyayetsya mashinno proveryayemoj privyazkoj vladeljca, i otkaz otsutstvuyusjhego fajla srabotal praviljno. Ruchnaya opechatka razoshlasj s namereniyem zapustitj i uchestj proverku dlya ustanovlennoj sessii i prervala rabochij khod. Povtoreniye dlinnogo puti v kazhdom shtatnom vyizove sokhranyayetsya kak nablyudayemaya neudobnaya granica i vyibrannaya oblastj sistemnogo predotvrasjheniya, a ne kak raneye obesjhannaya, no otsutstvuyusjhaya funkciya.
 
 ## Mekhanizm i sistemnoye ustraneniye
+
+Vo vtorom proyavlenii prichinoj vyibora sosednego vladeljca stala ustarevshaya privatnaya privyazka posle otkaza podgotovki sleduyusjhego etapa. Obsjhaya granica s pervyim proyavleniyem — nesovpadeniye peredannogo vladeljca s fakticheski nachatyim etapom. Sessionnyij interfejs dolzhen proveryatj i UUID, i granicu etapa/iskhodnogo HEAD; odin susjhestvuyusjhij putj ne dokazyivayet aktualjnosti.
 
 Podtverzhdyon neposredstvennyij mekhanizm proyavleniya: odin komponent kanonicheskogo puti byil povtorno nabran s lishnej bukvoj, a obyortka korrektno ostanovila vyizov. Otdeljnyij shtatnyij sessionnyij marshrut rassmatrivayetsya kak mera predotvrasjheniya povtornogo ruchnogo vvoda; yego otsutstviye samo po sebe ne obyyavlyayetsya narusheniyem dejstvuyusjhego kontrakta.
 
@@ -42,6 +45,8 @@ Vremennoye sderzhivaniye — kopirovatj uzhe proverennyij putj bez ruchnoj pravk
 
 ## Kriterii zakryitiya
 
+- Regressiya vtorogo proyavleniya otklonyayet ustarevshuyu privyazku posle kommita ili otkaza nachala sleduyusjhego etapa do dochernego processa i zapisi v prezhnij otchyot.
+
 - Krasnaya fikstura vosproizvodit odnobukvennoye raskhozhdeniye dlinnogo kirillicheskogo puti i nyineshnyuyu nevozmozhnostj svyazatj iskhodnuyu popyitku s mashinnyim zhurnalom nastoyasjhej sessii.
 - Shtatnyij zapusk proverki prinimayet tochnyij kornevoj `CODEX_THREAD_ID` libo raneye proverennyij neprozrachnyij identifikator i odnoznachno vyivodit susjhestvuyusjhij kanonicheskij `Журнал/<папка>/запрос.md` bez povtornogo svobodnogo puti.
 - Otsutstvuyusjhaya i mnozhestvennaya privyazka identifikatora zakryito otklonyayutsya do dochernego zapuska i ne vyibirayut blizhajshuyu po imeni papku.
@@ -51,11 +56,13 @@ Vremennoye sderzhivaniye — kopirovatj uzhe proverennyij putj bez ruchnoj pravk
 
 ## Istochniki
 
+- [Povtor v postoyannoj zadache planirovaniya](../Zhurnal/2026-09-11_00-58-07_MSK_zaplanirovatj-podgotovku-Windows/zapros.md) — `FUM-СБОЙ-0006/ПРОЯВЛЕНИЕ-0002`.
+
 - [iskhodnyij zapros o kartochkakh sboyev](../Zhurnal/2026-08-06_22-29-49_MSK_vvesti-kartochki-sboyev-dlya-porozhdeniya-shagov/zapros.md)
 - [otchyot tekusjhej rabochej sessii](../Zhurnal/2026-08-06_22-29-49_MSK_vvesti-kartochki-sboyev-dlya-porozhdeniya-shagov/otchyot.md)
 - [avtomatizaciya uchyota proverok](../Instrumentyi/fum-otchyotyi-o-zapuskakh-proverok/SKILL.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-06 23:38:54 MSK -->
-<!-- content-sha256: sha256:9aebc8cd236b1b5af43728366261ea2376a49c04226514fec34d7eca8911acfe -->
+<!-- last-content-edit: 2026-09-11 00:59:28 MSK -->
+<!-- content-sha256: sha256:5bd4760c529dd887aa00f649cba4bb3992b699bf0980b1bfc24eb3a05ef64fa3 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -23,6 +23,8 @@ Ispoljzuyetsya minimaljnyij rasshiryayemyij slovarj otnoshenij:
 
 Novyij tip dobavlyayetsya toljko vmeste s pervyim soderzhateljnyim primerom, opredeleniyem oblasti primeneniya i obratnyim tipom. V kartochke odna stroka opisyivayet odnu svyazj: zhirnaya metka otnosheniya, lokaljnaya ssyilka na trebovaniye i kratkoye osnovaniye posle tire. Inline-ssyilki v formulirovke i kriteriyakh mogut poyasnyatj tekst, no ne zamenyayut tipizirovannuyu zapisj.
 
+Yesli pryamyiye semanticheskiye svyazi ne ustanovlenyi, obyazateljnyij razdel soderzhit yedinstvennuyu otdeljnuyu stroku `Прямые семантические связи пока не установлены.` bez spiska, kavyichek ili kodovogo oformleniya v samoj kartochke. Reyestr predstavlyayet eto kak pustoj massiv `semantic_relations`. Pustoj ili otsutstvuyusjhij razdel, povtor markera i sochetaniye markera so svyazjyu libo poyasneniyem nedopustimyi. Pri poyavlenii soderzhateljno obosnovannoj svyazi marker zamenyayetsya obyichnyimi tipizirovannyimi strokami s soglasovannyimi obratnyimi zapisyami; poyasneniya ob ogranicheniyakh razmesjhayutsya v razdele `Статус и границы`.
+
 Pervyij emodzi imeni fajla pokazyivayet [status trebovaniya FUM](../Glossarij/status-trebovaniya-FUM.md):
 
 - `⚪` — chernovik: formulirovka yesjhyo trebuyet resheniya;
@@ -103,6 +105,25 @@ Status menyayetsya pereimenovaniyem fajla cherez `git mv`. Emodzi ne zamenyayet 
 - `FUM-REQ-0040` — [🚧 Vetochnyiye cepochki shagov i zaversheniye smoke-check kommitom](🚧-vetochnyiye-cepochki-shagov-i-zaversheniye-smoke-check-kommitom.md)
 - `FUM-REQ-0041` — [✅ Podtverzhdayemyij ruchnoj sbros FIFO k tekusjhemu HEAD](✅-podtverzhdayemyij-ruchnoj-sbros-FIFO-k-tekusjhemu-HEAD.md)
 - `FUM-REQ-0042` — [✅ Obyazateljnoye prodolzheniye Git-vetki posle kommita](✅-obyazateljnoye-prodolzheniye-Git-vetki-posle-kommita.md)
+- `FUM-REQ-0046` — [🟡 Zapusk FUMA na celevyikh platformakh](🟡-zapusk-FUMA-na-celevyikh-platformakh.md)
+- `FUM-REQ-0047` — [🟡 Graficheskiye interfejsyi FUMA](🟡-graficheskiye-interfejsyi-FUMA.md)
+- `FUM-REQ-0048` — [🟡 Rabota FUMA s decentralizovannyimi setyami](🟡-rabota-FUMA-s-decentralizovannyimi-setyami.md)
+- `FUM-REQ-0049` — [🟡 Integracii FUMA s messendzherami](🟡-integracii-FUMA-s-messendzherami.md)
+- `FUM-REQ-0050` — [🟡 Nastrojka interneta i VPN v FUMA](🟡-nastrojka-interneta-i-VPN-v-FUMA.md)
+- `FUM-REQ-0051` — [🟡 Nastrojka i ispoljzovaniye printerov i skanerov](🟡-nastrojka-i-ispoljzovaniye-printerov-i-skanerov.md)
+- `FUM-REQ-0052` — [🟡 Decentralizovannyij protokol taksi](🟡-decentralizovannyij-protokol-taksi.md)
+- `FUM-REQ-0053` — [🟡 Decentralizovannyij protokol dostavki gruzov](🟡-decentralizovannyij-protokol-dostavki-gruzov.md)
+- `FUM-REQ-0054` — [🟡 Stroiteljnoye napravleniye s prioritetom glubinnyikh sooruzhenij](🟡-stroiteljnoye-napravleniye-s-prioritetom-glubinnyikh-sooruzhenij.md)
+- `FUM-REQ-0055` — [🟡 Seljskoye khozyajstvo i proizvodstvo yedyi](🟡-seljskoye-khozyajstvo-i-proizvodstvo-yedyi.md)
+- `FUM-REQ-0056` — [🟡 Robototekhnicheskoye napravleniye FUMA](🟡-robototekhnicheskoye-napravleniye-FUMA.md)
+- `FUM-REQ-0057` — [🟡 Biotekhnologicheskoye napravleniye FUMA](🟡-biotekhnologicheskoye-napravleniye-FUMA.md)
+- `FUM-REQ-0058` — [🟡 Geneticheskoye napravleniye FUMA](🟡-geneticheskoye-napravleniye-FUMA.md)
+- `FUM-REQ-0059` — [🟡 Khimicheskoye napravleniye FUMA](🟡-khimicheskoye-napravleniye-FUMA.md)
+- `FUM-REQ-0060` — [🟡 Fizicheskoye issledovateljskoye napravleniye FUMA](🟡-fizicheskoye-issledovateljskoye-napravleniye-FUMA.md)
+- `FUM-REQ-0061` — [🟡 Setevoj sloj Swift-chasti FUMA na SwiftNIO](🟡-setevoj-sloj-Swift-chasti-FUMA-na-SwiftNIO.md)
+- `FUM-REQ-0062` — [🟡 Khudozhestvennoye napravleniye FUM](🟡-khudozhestvennoye-napravleniye-FUM.md)
+- `FUM-REQ-0063` — [🟡 Muzyikaljnoye napravleniye FUM](🟡-muzyikaljnoye-napravleniye-FUM.md)
+- `FUM-REQ-0064` — [🟡 Igrovoye napravleniye na osnove simulyacii fizicheskogo mira](🟡-igrovoye-napravleniye-na-osnove-simulyacii-fizicheskogo-mira.md)
 
 ## Istochniki trebovanij
 
@@ -138,8 +159,14 @@ Status menyayetsya pereimenovaniyem fajla cherez `git mv`. Emodzi ne zamenyayet 
 - [iskhodnyij zapros 2026-07-24 10:44:28 MSK — Nachatj bezokonnyij Swift-prototip vosproizvodimogo popolneniya pamyati FUM](../Zhurnal/2026-07-24_10-44-28_MSK_nachatj-bezokonnyij-Swift-prototip-vosproizvodimogo-popolneniya-pamyati-FUM/zapros.md)
 - [arkhivirovannyij dialog «Zapusk kastomnogo interfejsa»](../Istochniki/URL/https/chatgpt.com/share/6a5664cd-4838-83eb-9da3-60f7f5d22566/zapusk-kastomnogo-interfejsa.md)
 
+## Prinyatyiye napravleniya
+
+- `FUM-REQ-0065` — [🟡 Proveryayemyij plan matematicheskogo napravleniya](🟡-proveryayemyij-plan-matematicheskogo-napravleniya.md)
+- `FUM-REQ-0066` — [🟡 Vozobnovlyayemyij perenos rabochikh derevjyev](🟡-vozobnovlyayemyij-perenos-rabochikh-derevjyev.md)
+- `FUM-REQ-0067` — [🟡 Chistoye ispolneniye operatorov i UTF-32](🟡-chistoye-ispolneniye-operatorov-i-UTF-32.md)
+- `FUM-REQ-0068` — [🟡 Svyazj napravlenij razvitiya s Git-vetkami](🟡-svyazj-napravlenij-razvitiya-s-Git-vetkami.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 15:20:29 MSK -->
-<!-- content-sha256: sha256:12efd7915b8e73106c346c2426d5963a2d8a07e599f5e1064331b821650ff7c5 -->
+<!-- last-content-edit: 2026-09-11 11:59:08 MSK -->
+<!-- content-sha256: sha256:999798d5cd43879209a8d2637932f70e6e9577ae0f3454be565a3fd6bf93a857 -->
 <!-- FUM-MD-RECENCY:END -->

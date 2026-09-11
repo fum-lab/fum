@@ -42,13 +42,13 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover \
   -p 'test_*.py'
 ```
 
-Validator toljko chitayet strukturu. Pole inventarya `продолжение_задачи` soglasuyet yedinstvennyij marker `explicit-worklist-v1` v korne s susjhestvuyusjhim tochnyim lokaljnyim scenariyem proverki resheniya; otsutstviye, dublirovaniye, neizvestnaya versiya i nebezopasnyij putj zakryivayut dopusk. On sveryayet registraciyu kazhdogo fakticheskogo yakorya v obe storonyi, zapresjhayet dejstvuyusjhuyu normu v teme bez polnomochij i pri politike izolirovannyikh worktree trebuyet yedinstvennyij sovmestimyij marker zapreta starogo avtokonvejyera. On zakryito otklonyayet otsutstvuyusjhij putj, nevernyij registr, lyuboj symlink-komponent, vyikhod za checkout, podmenu soderzhaniya, povtor identifikatora ili aktivnoj semantiki, nepolnoye iskhodnoye pokryitiye, nekompaktnyij korenj, nesoglasovannyij marshrut i vklyucheniye istoricheskikh polnomochij v obyichnyij marshrut.
+Validator toljko chitayet strukturu. Granica `продолжение_задачи` trebuyet tochnyiye `обязательные_параметры: ["--перед-завершением", "--исходник"]` i `остаток_сообщений` s polyami `сценарий`, `команда: "остаток"`, `без_записи: true`. Proveryayutsya oba kanonicheskikh lokaljnyikh scenariya i parametryi v sobstvennyikh blokakh pravil 000062 i NOVOYE-000017. Prezhnyaya dvukhpolevaya deklaraciya ne podtverzhdayet obyazateljnuyu proverku soobsjhenij i otklonyayetsya. Pole inventarya `продолжение_задачи` soglasuyet yedinstvennyij marker `explicit-worklist-v1` v korne s susjhestvuyusjhim tochnyim lokaljnyim scenariyem proverki resheniya; otsutstviye, dublirovaniye, neizvestnaya versiya i nebezopasnyij putj zakryivayut dopusk. On sveryayet registraciyu kazhdogo fakticheskogo yakorya v obe storonyi, zapresjhayet dejstvuyusjhuyu normu v teme bez polnomochij i pri politike izolirovannyikh worktree trebuyet yedinstvennyij sovmestimyij marker zapreta starogo avtokonvejyera. On zakryito otklonyayet otsutstvuyusjhij putj, nevernyij registr, lyuboj symlink-komponent, vyikhod za checkout, podmenu soderzhaniya, povtor identifikatora ili aktivnoj semantiki, nepolnoye iskhodnoye pokryitiye, nekompaktnyij korenj, nesoglasovannyij marshrut i vklyucheniye istoricheskikh polnomochij v obyichnyij marshrut.
 
 ## Istochnik trebovanij
 
 - [iskhodnyij zapros 2026-08-24 15:31:12 MSK — Dekompozirovatj AGENTS MD](../../Zhurnal/2026-08-24_15-31-12_MSK_dekompozirovatj-AGENTS-md/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 19:21:41 MSK -->
-<!-- content-sha256: sha256:012287a471e7e62eed54d7b402f9d5f85312dd406b584a29978addc661657438 -->
+<!-- last-content-edit: 2026-09-11 02:33:08 MSK -->
+<!-- content-sha256: sha256:954641dfc624cd3e018051d3c218edbe7563d0d61cfd14d0b3a49e088d71cde4 -->
 <!-- FUM-MD-RECENCY:END -->

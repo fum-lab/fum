@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-11 00:59:45 MSK - Zakrepitj posledovateljnuyu istoriyu dialoga fuma](../2026-09-11_00-59-45_MSK_zakrepitj-posledovateljnuyu-istoriyu-dialoga-fuma/zapros.md)
-- Sleduyusjhij zapros: net
+- Predyidusjhij zapros: [2026-09-11 01:25:54 MSK - Vklyuchitj ostatok soobsjhenij v dopusk](../2026-09-11_01-25-54_MSK_vklyuchitj-ostatok-soobsjhenij-v-dopusk/zapros.md)
+- Sleduyusjhij zapros: [2026-09-11 01:27:07 MSK - Zaplanirovatj stroiteljnoye napravleniye](../2026-09-11_01-27-07_MSK_zaplanirovatj-stroiteljnoye-napravleniye/zapros.md)
 
 ## Tekst zaprosa
 
@@ -38,7 +38,7 @@ Codex-Thread-ID: 01a08d69-b088-7820-838e-dd4e97033753
 
 ## Proverki
 
-Adresnyiye proverki cherez otchyotnuyu obyortku podtverzhdayut zavisimostj, dekompoziciyu, planovyij reyestr i svyaznostj. Finaljnyij standartnyij dokumentacionnyij smoke-check vyipolnyayetsya posle staging kanonicheskikh fajlov; zakryitiye i odna peresborka proyekcii sleduyut yego uspeshnomu rezuljtatu. Ispolnyayemyij kod ne izmenyayetsya, poetomu novyiye zerkaljnyiye testyi formulirovok ne dobavlyayutsya. Fakticheskiye iskhodyi sokhranenyi v otchyote.
+Adresnyiye proverki cherez otchyotnuyu obyortku podtverzhdayut zavisimostj, dekompoziciyu, planovyij reyestr i svyaznostj. Standartnyij dokumentacionnyij smoke-check posle staging zavershilsya otkazom na odnom teste poslednego nabora; polnaya priyomka ne dostignuta. Etap sokhranyayetsya kak razreshyonnaya kontroljnaya tochka postoyannoj zadachi po pravilu000188: otkryityij terminaljnyij zhurnal, tochnyij predprosmotr i zaklyuchiteljnaya svyaznostj bez povtornogo polnogo zapuska. Ispolnyayemyij kod ne izmenyayetsya, poetomu novyiye zerkaljnyiye testyi formulirovok ne dobavlyayutsya. Fakticheskiye iskhodyi sokhranenyi v otchyote.
 
 ## Povliyal na fajlyi
 
@@ -66,6 +66,6 @@ Pervonachaljnoye postoyannoye ukazaniye vidimosti sokhraneno [9 sentyabrya](../2
 Posle fiksirovannoj granicyi postupili khudozhestvennoye, muzyikaljnoye i igrovoye napravleniya, a takzhe zapros avtomatizacii vsego perechislennogo cikla. Iskhodnaya zadacha poruchila sokhranitj ikh novyim etapom posle tekusjhego kommita. Kartochki napravlenij, kod0177 i perenos0176 prinadlezhat drugim vidimyim zadacham; zdesj oni ne dubliruyutsya.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 01:44:59 MSK -->
-<!-- content-sha256: sha256:55e4d4ea3246bb38cafb77b5cff950287118503cd8427515770030c64a12617a -->
+<!-- last-content-edit: 2026-09-11 11:47:30 MSK -->
+<!-- content-sha256: sha256:460c8f4585df0ff64517226c04ff49ce4a6b90097b8ce83452980f73b18afd4b -->
 <!-- FUM-MD-RECENCY:END -->

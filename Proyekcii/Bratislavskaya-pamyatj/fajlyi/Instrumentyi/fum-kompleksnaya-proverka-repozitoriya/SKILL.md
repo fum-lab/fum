@@ -74,7 +74,7 @@ python3 Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/ru
 
 ## Chto zapuskayetsya
 
-Standartnyij profilj vyipolnyayet dve fazyi. Snachala idut odinnadcatj live-proverok v tochnom poryadke: struktura papok zaprosov; otdeljnyiye sborka i proverka planovogo reyestra; primeneniye i nezavisimaya proverka bratislavskoj proyekcii; mashinno-lokaljnyiye puti; dekompoziciya pravil agentov; dvunapravlennostj voprosov; tematicheskij indeks README; Markdown-recency; svyaznostj sessii. Zatem po kanonicheskomu POSIX-klyuchu sleduyut trinadcatj yavno razreshyonnyikh naborov:
+Standartnyij profilj vyipolnyayet dve fazyi. Snachala idut odinnadcatj live-proverok v tochnom poryadke: struktura papok zaprosov; otdeljnyiye sborka i proverka planovogo reyestra; dvunapravlennostj voprosov; primeneniye i nezavisimaya proverka bratislavskoj proyekcii; mashinno-lokaljnyiye puti; dekompoziciya pravil agentov; tematicheskij indeks README; Markdown-recency; svyaznostj sessii. Proverka obyazateljnogo razdela «Zatronutaya dokumentaciya» i obratnyikh ssyilok predshestvuyet dorogoj proyekcii v oboikh profilyakh. Zatem po kanonicheskomu POSIX-klyuchu sleduyut trinadcatj yavno razreshyonnyikh naborov:
 
 - `fum-bratislavskaya-proyekciya-pamyati`;
 - `fum-indeks-readme`;
@@ -403,6 +403,6 @@ Tekusjhij Swift-kontur prednaznachen dlya macOS: vse paketyi trebuyut macOS 14 i
 Tekusjhij `--допуск-слияния` prinimayet toljko zakryityij v3 s podtverzhdeniyem ispolneniya iz master. Sokhranyonnaya vozmozhnostj v4 otnositsya k otdeljnomu rezhimu i sama po sebe ne rasshiryayet etot dopusk.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 20:36:12 MSK -->
-<!-- content-sha256: sha256:5efad8f894bb23aedc3a02767ea91a85e0e1435697a1037be94eb251b57c7ecb -->
+<!-- last-content-edit: 2026-09-11 10:59:59 MSK -->
+<!-- content-sha256: sha256:a248658fcc0ee1d61598ce49c0da4b79e771a9d2f826ce69df3eb25b0643e95e -->
 <!-- FUM-MD-RECENCY:END -->

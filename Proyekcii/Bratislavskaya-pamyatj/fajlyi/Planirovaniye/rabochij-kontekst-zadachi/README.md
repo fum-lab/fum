@@ -10,6 +10,22 @@ Pervaya postavka — lokaljnaya komanda, kotoraya toljko chitayet yavno vyibrann
 
 Obyazateljnoye yadro instrukcij i polnyiye tematicheskiye fajlyi, trebuyemyiye dejstvuyusjhim marshrutom, zagruzhayutsya po svoim pravilam. Srez khranit ukazateli na nikh i rezuljtatyi sverki versij; on ne zamenyayet obyazateljnyij tekst sokrasjhyonnyim pereskazom.
 
+## Pervyij chitayusjhij srez nablyudayemosti
+
+Pervyij ogranichennyij rezuljtat 0165 — lokaljnaya komanda dlya odnoj yavno vyibrannoj zadachi. Ona prinimayet manifest svideteljstv i moment ocenki, sokhranyayet posledneye podtverzhdyonnoye sostoyaniye kazhdogo kanala i yavno pokazyivayet neizvestnostj tekusjhego sostoyaniya. Snachala realizuyutsya susjhestvuyusjhij DETEKTOR-07 poteri nablyudayemosti i zavisimoye ustarevaniye DETEKTOR-02. Signal trebuyet nedostatochnogo okhvata neobkhodimoj oblasti: sam tajm-aut ili token_limit_reached yego ne zamenyayet.
+
+Pyatj nablyudyonnyikh situacij stanovyatsya konkretnyimi variantami [susjhestvuyusjhikh scenariyev](scenarii-priyomki.json):
+
+1. Dva epizoda szhatiya — KONTEKST-09. Pryamoj token_limit_reached=true, znacheniya auto_compact_scope_tokens 256258 i 249772, zadacha i vremya sokhranyayutsya kak faktyi runtime. Eto vnutrennij porog sootvetstvuyusjhego sobyitiya, ne kvota akkaunta, sobstvennaya kalibrovka detektora ili tekusjheye zapolneniye posle szhatiya. Posleduyusjhiye transportnyiye otkazyi sokhranyayutsya otdeljno; obsjhaya pervoprichina ne ustanovlena.
+2. Chastichnyij otvet API — KONTEKST-02/03/04. Sostoyaniye active zadachi i staryij latestTurn: interrupted otnosyatsya k svoim oblastyam i ne obyazateljno protivorechat drug drugu. Ni otsutstviye otveta, ni boleye pozdneye polucheniye starogo znacheniya ne podtverzhdayut tekusjheye sostoyaniye processa.
+3. Povtornaya dostavka — KONTEKST-05. Te zhe iskhodnyiye sobyitiya ne uvelichivayut chislo nablyudenij; dva tajm-auta s odinakovyim tekstom sokhranyayutsya razdeljno. Dopisj menyayet granicu snimka, sokhranyaya prezhniye identichnosti i ssyilki.
+4. Chastichnoye vosstanovleniye — KONTEKST-04/13. Novaya aktivnostj podtverzhdayet toljko sobstvennuyu zadachu i kanal; vosstanovleniye kornya ne snimayet neizvestnosti rebyonka. Novyij snimok ne obyyavlyayet ustranyonnoj prichinu starogo otkaza.
+5. Izobrazheniye raskhoditsya s istoriyej — KONTEKST-07/03. Vidimyiye repliki ostayutsya svideteljstvom izobrazheniya bez vyidumannyikh JSONL-pozicij, vremeni otpravki i otmetok obrabotki. Ikh boleye ranneye otsutstviye i pozdniye tajm-autyi prichinno ne svyazanyi imeyusjhimisya dannyimi. Aktualjnostj utochnyayetsya otdeljno.
+
+Eto utochneniye prioriteta susjhestvuyusjhej kartochki, ne novyij nabor detektorov ili skhem. Pervyij srez ne zakryivayet vse kriterii 0165. Posle RED/GREEN nuzhen neboljshoj profilj na odinakovyikh vkhodakh s uchyotom stoimosti samogo sborsjhika i sokhrannosti obyazateljstv; porog poleznosti zaraneye ne naznachayetsya.
+
+[Staticheski proverennaya karta interfejsov](../../Zhurnal/2026-09-11_04-16-49_MSK_sokhranitj-nablyudeniya-i-utochnitj-plan-konteksta/materialyi/karta-interfejsov.md) ogranichivayet povtornoye ispoljzovaniye. Python-reader 0177 predostavlyayet chelovecheskoye proiskhozhdeniye i konechnyij snimok; API/runtime trebuyut otdeljnyikh svideteljstv. Swift-reduktor prigoden dlya podderzhannyikh polej v pamyati novoj epokhi, s sokhraneniyem prezhnej istorii, no yego logicheskiye taktyi ne podmenyayut realjnyiye vremena. Statistika boljshogo iskhodnogo JSONL poka nepolna iz-za predela 268435456 bajt; vyirezaniye i perenumeraciya khvosta ne snimayut etot predel korrektno. Minimaljnoye soyedineniye etikh interfejsov yesjhyo trebuyet proverki koda adaptera i sovmestnogo ispolneniya; zdesj ono ne realizovano.
+
 ## Vkhod i proiskhozhdeniye
 
 Vkhod zadayotsya tochnyim identifikatorom zadachi, manifestom istochnikov i momentom ocenki. Dlya Git fiksiruyetsya polnyij commit i otnositeljnyij putj; dlya JSONL — zavershyonnaya bajtovaya granica, SHA prefiksa, nomera iskhodnyikh strok i otdeljnaya granica nezavershyonnogo khvosta. Dlya otveta API sokhranyayutsya identifikator nablyudeniya, vremya polucheniya i obyyavlennaya oblastj okhvata. Neizvestnaya versiya ili polnota ostayotsya neizvestnoj.
@@ -32,6 +48,32 @@ Vyikhod vklyuchayet identichnostj zadachi i sborki sreza, vyibrannyiye istochnik
 Podrobnosti raskryivayutsya po identifikatoru svideteljstva, a ne po pribliziteljnomu pereskazu ili sovpadeniyu imeni fajla. Skryityiye rassuzhdeniya i instrukcii drugikh urovnej ne eksportiruyutsya kak chelovecheskij dialog. Chastnyiye pervichnyiye zapisi i lokaljnyiye adresa ne popadayut v publichnuyu svodku.
 
 Pri ogranichenii razmera v pervuyu ocheredj sokhranyayutsya dejstvuyusjhiye ogranicheniya, otmenyi, otkryityiye obyazateljstva, blokirovki i ssyilki na neobkhodimyiye dokazateljstva. Yesli obyazateljnaya chastj ne pomesjhayetsya, rezuljtat yavno soobsjhayet o nepolnote i trebuyet umenjshitj vyibrannyij obyyom rabotyi libo rasshiritj razreshyonnyij vkhod; molchalivoye usecheniye zapresjheno.
+
+## Plan vspominaniya po kommitam
+
+Vspominaniye — vyichislyayemyij povod vernutjsya k razboru zadachi. Preimusjhestvenno algoritmicheski formiruyemoye JSON-sostoyaniye organov chuvstv khranit nablyudeniya istorii, schyot, signalyi i ikh proiskhozhdeniye. Soderzhateljnyij otvet trebuyet rassmotreniya celi i obyazateljstv; chislo kommitov ne izmeryayet kachestvo ili progress samo po sebe. «Vsyo li idyot khorosho» — primer voprosa dlya vnimaniya, a 10 — primer nastraivayemogo intervala.
+
+Budusjhij lokaljnyij srez poluchayet yavno vyibrannyiye identifikatoryi zadachi i repozitoriya, polnyij ref vetki, podtverzhdyonnyij bazovyij commit, nablyudyonnyij HEAD, zavershyonnyij manifest dostupnyikh istochnikov i versiyu konfiguracii. Vyibor ne vyivoditsya iz tekusjhego kataloga, poslednego otkryitogo okna, nazvaniya zadachi ili odnogo Git trailer. Podtverzhdeniye bazyi khranit istochnik, dejstvuyusjheye porucheniye i oblastj; neizvestnyiye baza libo privyazka zadachi k vetke zapresjhayut vyidavatj opredelyonnyij schyot. Rabocheye derevo i vremya polucheniya — nablyudeniya, a ne identichnostj komandyi.
+
+### Pervyij eksperimentaljnyij rezhim
+
+Dlya pervogo sinteticheskogo eksperimenta vyibran rezhim «pervyij roditelj posle bazyi». Yego osnovaniye — proveritj aktivnostj yavno vyibrannoj linii vetki i integracionnyiye sobyitiya bez povtornogo schyota bokovoj istorii. Eto proyektnyij vyibor dannogo plana, ne doslovnoye trebovaniye poljzovatelya i ne vklyuchyonnaya rabochaya politika.
+
+- Baza isklyuchayetsya, HEAD vklyuchayetsya. Schyot raven chislu raznyikh kommitov na nepreryivnom puti pervyikh roditelej ot HEAD do bazyi. Baza dolzhna lezhatj imenno na etom puti; obsjhej dostizhimosti cherez drugogo roditelya nedostatochno.
+- Merge-kommit schitayetsya odin raz; yego bokovyiye predki otdeljno ne pribavlyayutsya. Pri fast-forward schitayutsya novyiye kommityi nablyudyonnoj linii pervyikh roditelej. Avtor i trailer ne filjtruyut schyot: on pokazyivayet aktivnostj vyibrannoj vetki v oblasti zadachi, a ne lichnuyu produktivnostj ispolnitelya.
+- Interval — yavno zadannoye polozhiteljnoye celoye chislo kommitov. Nolj, otricateljnoye, drobnoye, logicheskoye znacheniye i otsutstviye znacheniya neprigodnyi. Rabocheye znacheniye po umolchaniyu ne naznacheno.
+- Pri schyote 0 signala net. Dlya kazhdogo dostignutogo polozhiteljnogo kratnogo intervala voznikayet odin ustojchivo identificiruyemyij povod; pri 9, 10, 11 i intervale 10 eto sootvetstvenno 0, 1, 1 povod. Pri skachke k 25 vidnyi granicyi 10 i 20. Kompaktnoye predstavleniye mozhet gruppirovatj ikh, sokhranyaya obe identichnosti i sostoyaniye rassmotreniya kazhdoj.
+- Povtor chteniya tekh zhe vkhodov vosproizvodit te zhe povodyi. Novoye vremya polucheniya ne delayet dublikat novyim signalom. Schyot vosstanavlivayetsya po istorii, a rassmotreniye — po otdeljnyim svideteljstvam; odno ne zamenyayet drugoye.
+
+Izmeneniye intervala v etom eksperimente nachinayet novuyu epokhu ot yavno podtverzhdyonnogo commit primeneniya novoj konfiguracii. V novoj epokhe baza isklyuchayetsya, schyot nachinayetsya s nulya; raneye voznikshiye nerassmotrennyiye signalyi sokhranyayutsya s prezhnej konfiguraciyej. Pozdno dostavlennoye izmeneniye ne ugadyivayet bazu po vremeni polucheniya: prezhnij zavisimyij srez stanovitsya istoricheskim do sverki commit primeneniya i granicyi dostavki. Vozvrat prezhnego chislennogo znacheniya s novoj epokhoj ne vozvrasjhayet staryiye identichnosti.
+
+Smena polnogo ref, repozitoriya ili zadachi trebuyet novogo yavnogo vyibora. Ischeznoveniye bazyi, perepisannaya liniya, otkat HEAD otnositeljno poslednego podtverzhdyonnogo nablyudeniya, nedostupnyiye obyyektyi i nepolnaya istoriya dayut neizvestnyij tekusjhij schyot s prichinoj. Poslednij izvestnyij rezuljtat sokhranyayetsya kak istoricheskij; on ne stanovitsya nulyom ili svideteljstvom blagopoluchiya. Novaya podtverzhdyonnaya epokha — otdeljnoye resheniye, ne avtomaticheskij sposob skryitj razryiv.
+
+### Granicyi i otkryityiye proyektnyiye resheniya
+
+Pered rabochim podklyucheniyem nuzhno vyibratj i obosnovatj politiku schyota: pervyij roditelj libo inoj yavno opredelyonnyij okhvat. Schyot vsekh dostizhimyikh kommitov dal byi drugoye povedeniye pri sliyanii i trebuyet samostoyateljnyikh etalonov. Otkryityi rabocheye znacheniye intervala, polnomochiye vyibora novoj bazyi, politika izmeneniya intervala dlya realjnoj istorii, yomkostj i gruppirovka signalov, adresat vnimaniya i kriterii soderzhateljnogo obzora. Eti resheniya ne meshayut podgotovitj matricu zadannogo eksperimentaljnogo rezhima, no ne schitayutsya soglasovannyimi dlya proizvodstva.
+
+[Modelj vnimaniya](modelj-vnimaniya.md) opredelyayet sostoyaniye i proiskhozhdeniye signala; [deklarativnyij katalog](detektoryi.json) khranit shablon JSON-sostoyaniya s neizvestnyimi znacheniyami. Eto opisaniye budusjhikh dannyikh, ne dejstvuyusjhij runtime API. Sborsjhik, khranilisjhe sostoyaniya, ispolnitelj scenariyev, izmeritelj i podklyucheniye k rabochemu ciklu ostayutsya posleduyusjhim obyyomom. Signal ne sozdayot raspisaniye, hook, heartbeat, fonovyij opros, vyizov modeli ili novyiye vneshniye polnomochiya.
 
 ## Ustarevaniye, protivorechiya i neizvestnostj
 
@@ -77,6 +119,26 @@ Petlya imeyet chetyire shaga: poluchitj pokazaniya, sopostavitj ikh s rezuljtato
 
 Osnova sleduyusjhej avtomatizacii — vosproizvodimaya zapisj «pokazaniye → resheniye → dejstviye → rezuljtat» s neizvestnyimi polyami tam, gde svyazj ne dokazana. Poleznostj ocenivayetsya s uchyotom stoimosti nablyudatelya i kachestva resheniya. Tochnyij porog reakcii vyibirayetsya posle iskhodnogo izmereniya; avtomaticheskaya reakciya po odnomu sluchajnomu pokazaniyu ne schitayetsya realizovannoj politikoj.
 
+## Fakticheskaya dostupnostj zavisimostej
+
+V iskhodnoj vetke etogo utochneniya, commit `5c9806560fb9b52112ff8a7bc11888a1bb71f7aa`, kartochki 0160 i 0177 aktivnyi; ikh otdeljnyiye realizacii syuda ne integrirovanyi. Nablyudeniya nizhe poluchenyi chteniyem dostupnyikh lokaljnyikh Git-obyyektov i materialov postavok, bez zapuska chuzhikh proverok i bez svezhego podtverzhdeniya servernyikh refs.
+
+**0177.** Otdeljnaya realizaciya chitatelya i istorii obrabotki sokhranena v FUM-kommite `6b1860591deb1d669f5f5ae1bd03336170fb8fce`; pozdnyaya kvalifikaciya — `9fcdde84938762aebb1df773c41b98f8c1833734`, vetka `refs/heads/codex/необработанные-сообщения-01a07d3d`. Dokumentyi postavki: `Инструменты/fum-svyaznostj-rabochej-sessii/сообщения-задачи.md` i `обработка-сообщений.md`. Eto dostupnyij otdeljno kontrakt, a ne uzhe dejstvuyusjhij adapter 0165.
+
+Budusjhij adapter dolzhen sokhranyatj identichnostj zadachi i istochnika, zavershyonnuyu granicu i khyesh konteksta, ekzemplyaryi soobsjhenij i ikh bajtovyiye pozicii, proiskhozhdeniye, khyesh istorii obrabotki, ostatok, polnotu istochnika, neproverennyij khvost i granicu zaklyuchiteljnoj sverki. Izmenivshijsya prefiks libo nedostupnyij ekzemplyar delayet zavisimyij vyivod neproveryayemyim. Indeks 0177 okhvatyivayet poljzovateljskiye soobsjheniya; otvetyi assistenta i smyisl obyazateljstv raskryivayutsya otdeljno cherez Zhurnal i svideteljstva. Pustoj ostatok sam po sebe ne dokazyivayet ispolneniye obyazateljstv; obrabotka ne podtverzhdayetsya chteniyem, signalom ili yego rassmotreniyem. Kyesh i otdeljnyiye izmereniya 0177 ne dokazyivayut stoimostj kholodnogo, dopisyivayemogo libo boleye krupnogo vkhoda 0165.
+
+**0160.** Iskhodniki uzhe dostavlenyi obyichnyimi otslezhivayemyimi fajlami monorepozitoriya v otdeljnoj postavke 0176: commit `6599fe4837ef54efc7f871d2bfe6f8d9d07b4d95`, vetka `refs/heads/codex/перенести-исходники-FUMA-0176`. Proverenyi `Приложения/FUMA/Packages/СтатистикаВызовов/Package.swift`, README, Sources i Tests; ryadom opublikovan paket `СнимокАгентскойЗадачи`. Postavka soderzhit komandyi vosproizvedeniya iz chistogo klona; yeyo priyomku podtverdil koordinator. Dlya planovogo utochneniya sborki ne povtoryalisj. Eti paketyi yesjhyo ne integrirovanyi v tekusjhiye master/planirovaniye i ne podklyuchenyi k srezu 0165; novyij perenos iskhodnikov ne trebuyetsya.
+
+Predyidusjhiye FUM-manifest `37ef3e5121169ec75a29f2dc3b34eab0594933d2` i otdeljnaya Swift-narabotka `85dccce282821a890e5e65539b4f22b895b52887` sokhranyayut proiskhozhdeniye, no ne opisyivayut nyineshnyuyu granicu dostavki. V aktualjnom Package.swift ukazanyi macOS 14+, Swift 6 i sosednij `КонтейнерНаблюдений`. Polnyij 0160 i podklyucheniye metrik k konkretnoj zadache ne zakryivayutsya odnim perenosom.
+
+Kontrakt `fum.codex-jsonl-вызовы.1` sokhranyayet identichnostj zadachi, prefiks i pozicii s khyeshami, identichnostj i semejstvo vyizova, kachestvo vremeni. On ne yavlyayetsya istochnikom komand, polnyikh argumentov, otvetov ili reshenij. Mezhzapisnaya zaderzhka ne schitayetsya vremenem ispolneniya, a vseobsjhaya vlozhennostj vyizovov ne dokazana. Izvestnyi ogranicheniya narabotki: 256 MiB vkhoda, 4 MiB stroki, 100000 strok i 8192 sobyitij vyizova/otveta vmeste s dublyami. Prevyisheniye limita i otsutstviye adaptera oznachayut yavnuyu nedostupnostj, a ne nulevoj raskhod.
+
+Dlya pervogo budusjhego opyita dostatochno otkryityikh sinteticheskikh vkhodov s obyyavlennyimi kontraktami. Podklyucheniye realjnyikh istochnikov trebuyet prinyatoj versii adaptera i dopustimogo nositelya. V [pasporte](pasport-eksperimenta.json) versii, dostupnostj, ogranicheniya i privyazka metrik k zadache ostayutsya nezapolnennyimi do konkretnogo opyita.
+
+## Gotovnostj planovogo utochneniya
+
+Planovyij rezuljtat prinimayetsya po soglasovannosti pyati materialov i kartochki 0165: yestj vyibrannaya oblastj budusjhego vkhoda, opredelyonnyij eksperimentaljnyij schyot, modelj JSON, proiskhozhdeniye reshenij, deklarativnyiye granichnyiye sluchai, nezavisimyij etalon i pasport budusjhego profilya. Strukturnaya proverka JSON i ssyilok podtverzhdayet toljko eti artefaktyi. Ona ne ispolnyayet opisannyiye scenarii i ne zakryivayet 0165.
+
 ## Poryadok rabot
 
 1. Soglasovatj podderzhannyij vkhod i formaljnyij vyikhod, sokhraniv otkryityiye resheniya o srokakh godnosti, limite sreza i dostupnyikh schyotchikakh.
@@ -88,6 +150,12 @@ Osnova sleduyusjhej avtomatizacii — vosproizvodimaya zapisj «pokazaniye → r
 
 ## Istochniki
 
+- [Nablyudeniya i adresnoye utochneniye pervogo sreza](../../Zhurnal/2026-09-11_04-16-49_MSK_sokhranitj-nablyudeniya-i-utochnitj-plan-konteksta/zapros.md).
+
+- [Pozdneye utochneniye o dostavke 0160](../../Zhurnal/2026-09-11_08-14-52_MSK_utochnitj-plan-vspominaniya-rabochego-konteksta/materialyi/utochneniye-postavki-0160.json) i [proverennyiye Git-obyyektyi paketov](../../Zhurnal/2026-09-11_08-14-52_MSK_utochnitj-plan-vspominaniya-rabochego-konteksta/materialyi/postavka-paketov-0176.json).
+
+- [Pervichnyiye komandyi, otvetyi i prinyataya postanovka utochneniya](../../Zhurnal/2026-09-11_08-14-52_MSK_utochnitj-plan-vspominaniya-rabochego-konteksta/zapros.md).
+
 - [Zadacha 0165](../kartochki-shagov/🟡-FUM-STEP-0165-sobiratj-rabochij-kontekst-zadachi.md).
 - [Pryamoye porucheniye zaplanirovatj zadachu i osnovu budusjhikh proverok](../../Zhurnal/2026-09-09_14-35-59_MSK_podgotovitj-nativnoye-prodolzheniye-zadachi/zapros.md).
 - [Nablyudeniya o zatratakh i ispoljzovanii konteksta](../../Zhurnal/2026-09-09_14-35-59_MSK_podgotovitj-nativnoye-prodolzheniye-zadachi/otchyot.md).
@@ -95,6 +163,6 @@ Osnova sleduyusjhej avtomatizacii — vosproizvodimaya zapisj «pokazaniye → r
 - [Snimok sostoyaniya](../kartochki-shagov/🟡-FUM-STEP-0159-sobratj-snimok-agentskogo-runtime-i-interfejsa.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 17:24:00 MSK -->
-<!-- content-sha256: sha256:065afa97586d9450452d712e92e66ad979e32e89147496a87f8a49d0acda9660 -->
+<!-- last-content-edit: 2026-09-11 11:47:30 MSK -->
+<!-- content-sha256: sha256:8dee83491424ced7352f6148ec6371573c8c9617be413ede357ef7aef2759a0f -->
 <!-- FUM-MD-RECENCY:END -->

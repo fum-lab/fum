@@ -1,0 +1,1060 @@
+{
+  "база": "3fdcb39ce8822102fe8823ee8bf483be2d6581c3",
+  "граница": "Только изменённые Swift/Python пакета, без изменения общего снимка. Перемещения строк не равны новым именам. Классификацию новых записей выполняет корень.",
+  "схема": "fum.сверка-объявлений-0208.1",
+  "файлы": [
+    {
+      "sha256": "bee2a8d6f068d8b8f20130dc34c0439ef02fd944c970bc5fa427950313bf5704",
+      "добавлено": [],
+      "объявлений_до": 1,
+      "объявлений_после": 1,
+      "путь": "Прототипы/память-структурирующих-операторов/Package.swift",
+      "текущие": [
+        {
+          "вид": "свойство",
+          "имя": "package",
+          "путь": "Прототипы/память-структурирующих-операторов/Package.swift",
+          "столбец": 5,
+          "строка": 5,
+          "язык": "swift"
+        }
+      ]
+    },
+    {
+      "sha256": "604edda0ccd689310b1bbab98655dfd04fcf0c5015325583ab04fc7b59b8c936",
+      "добавлено": [],
+      "объявлений_до": 93,
+      "объявлений_после": 89,
+      "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+      "текущие": [
+        {
+          "вид": "тип",
+          "имя": "AutomationExecutor",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 13,
+          "строка": 3,
+          "язык": "swift"
+        },
+        {
+          "вид": "тип",
+          "имя": "TracePayload",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 18,
+          "строка": 4,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "operatorID",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 9,
+          "строка": 5,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "input",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 9,
+          "строка": 6,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "output",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 9,
+          "строка": 7,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "effects",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 9,
+          "строка": 8,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "steps",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 9,
+          "строка": 9,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "passed",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 9,
+          "строка": 10,
+          "язык": "swift"
+        },
+        {
+          "вид": "функция",
+          "имя": "run",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 15,
+          "строка": 13,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "fixture",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 21,
+          "строка": 13,
+          "язык": "swift"
+        },
+        {
+          "вид": "вариант",
+          "имя": "trim",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 15,
+          "строка": 22,
+          "язык": "swift"
+        },
+        {
+          "вид": "вариант",
+          "имя": "lowercase",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 15,
+          "строка": 24,
+          "язык": "swift"
+        },
+        {
+          "вид": "вариант",
+          "имя": "collapseWhitespace",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 15,
+          "строка": 26,
+          "язык": "swift"
+        },
+        {
+          "вид": "вариант",
+          "имя": "replace",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 15,
+          "строка": 28,
+          "язык": "swift"
+        },
+        {
+          "вид": "вариант",
+          "имя": "prefix",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 15,
+          "строка": 40,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "current",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 27,
+          "строка": 49,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "traces",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 9,
+          "строка": 52,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "effects",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 9,
+          "строка": 58,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "passed",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 9,
+          "строка": 59,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "traceHash",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 9,
+          "строка": 60,
+          "язык": "swift"
+        },
+        {
+          "вид": "тип",
+          "имя": "SynchronizationReducer",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 6,
+          "строка": 85,
+          "язык": "swift"
+        },
+        {
+          "вид": "тип",
+          "имя": "NodeState",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 18,
+          "строка": 86,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "id",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 9,
+          "строка": 87,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "kind",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 9,
+          "строка": 88,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "facts",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 9,
+          "строка": 89,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "factHistory",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 9,
+          "строка": 90,
+          "язык": "swift"
+        },
+        {
+          "вид": "тип",
+          "имя": "ConfirmationEvidence",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 18,
+          "строка": 93,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "factKey",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 9,
+          "строка": 94,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "factValue",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 9,
+          "строка": 95,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "factTime",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 9,
+          "строка": 96,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "participantIDs",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 9,
+          "строка": 97,
+          "язык": "swift"
+        },
+        {
+          "вид": "функция",
+          "имя": "run",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 15,
+          "строка": 100,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "fixture",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 21,
+          "строка": 100,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "nodeIDs",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 9,
+          "строка": 104,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "states",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 9,
+          "строка": 108,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "node",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 49,
+          "строка": 109,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "divergences",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 9,
+          "строка": 121,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "confirmations",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 9,
+          "строка": 122,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "actionExecuted",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 9,
+          "строка": 123,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "allBindings",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 9,
+          "строка": 124,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "acts",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 9,
+          "строка": 126,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "left",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 38,
+          "строка": 126,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "right",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 44,
+          "строка": 126,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "participatingNodeIDs",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 9,
+          "строка": 133,
+          "язык": "swift"
+        },
+        {
+          "вид": "вариант",
+          "имя": "question",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 13,
+          "строка": 144,
+          "язык": "swift"
+        },
+        {
+          "вид": "вариант",
+          "имя": "divergence",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 13,
+          "строка": 146,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "value",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 13,
+          "строка": 147,
+          "язык": "swift"
+        },
+        {
+          "вид": "вариант",
+          "имя": "confirmation",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 13,
+          "строка": 149,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "participantIDs",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 13,
+          "строка": 150,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "fact",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 16,
+          "строка": 151,
+          "язык": "swift"
+        },
+        {
+          "вид": "вариант",
+          "имя": "jointAction",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 13,
+          "строка": 171,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "participantIDs",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 13,
+          "строка": 172,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "hasRelevantConfirmation",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 13,
+          "строка": 173,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "confirmation",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 64,
+          "строка": 173,
+          "язык": "swift"
+        },
+        {
+          "вид": "вариант",
+          "имя": "statement",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 13,
+          "строка": 187,
+          "язык": "swift"
+        },
+        {
+          "вид": "вариант",
+          "имя": "clarification",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 25,
+          "строка": 187,
+          "язык": "swift"
+        },
+        {
+          "вид": "вариант",
+          "имя": "correction",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 41,
+          "строка": 187,
+          "язык": "swift"
+        },
+        {
+          "вид": "вариант",
+          "имя": "paraphrase",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 54,
+          "строка": 187,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "fact",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 16,
+          "строка": 188,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "snapshots",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 9,
+          "строка": 194,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "state",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 41,
+          "строка": 194,
+          "язык": "swift"
+        },
+        {
+          "вид": "функция",
+          "имя": "update",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 23,
+          "строка": 217,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "fact",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 5,
+          "строка": 218,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "for",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 5,
+          "строка": 219,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "nodeIDs",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 9,
+          "строка": 219,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "states",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 5,
+          "строка": 220,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "state",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 17,
+          "строка": 223,
+          "язык": "swift"
+        },
+        {
+          "вид": "функция",
+          "имя": "hasCompatibleFacts",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 23,
+          "строка": 230,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "requiredKeys",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 7,
+          "строка": 231,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "participantIDs",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 5,
+          "строка": 232,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "states",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 5,
+          "строка": 233,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "facts",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 11,
+          "строка": 236,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "reference",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 17,
+          "строка": 237,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "fact",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 28,
+          "строка": 239,
+          "язык": "swift"
+        },
+        {
+          "вид": "функция",
+          "имя": "hasConsistent",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 23,
+          "строка": 247,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "fact",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 5,
+          "строка": 248,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "participantIDs",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 5,
+          "строка": 249,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "states",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 5,
+          "строка": 250,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "nodeID",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 33,
+          "строка": 252,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "current",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 17,
+          "строка": 253,
+          "язык": "swift"
+        },
+        {
+          "вид": "функция",
+          "имя": "statesAreConsistent",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 23,
+          "строка": 258,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "with",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 5,
+          "строка": 259,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "confirmation",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 10,
+          "строка": 259,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "states",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 5,
+          "строка": 260,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "nodeID",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 46,
+          "строка": 262,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "current",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 17,
+          "строка": 263,
+          "язык": "swift"
+        },
+        {
+          "вид": "функция",
+          "имя": "factOrder",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 23,
+          "строка": 268,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "left",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 35,
+          "строка": 268,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "right",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+          "столбец": 58,
+          "строка": 268,
+          "язык": "swift"
+        }
+      ]
+    },
+    {
+      "sha256": "762bf7d606aa52a273b6f63406a70f1a71f4a23dbeeac923c6edb91dd2444e91",
+      "добавлено": [
+        {
+          "вид": "вариант",
+          "имя": "Set",
+          "количество": 1,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "to",
+          "количество": 1,
+          "язык": "swift"
+        },
+        {
+          "вид": "функция",
+          "имя": "encode",
+          "количество": 1,
+          "язык": "swift"
+        }
+      ],
+      "объявлений_до": 0,
+      "объявлений_после": 3,
+      "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ЗакрытыйРазбор.swift",
+      "текущие": [
+        {
+          "вид": "функция",
+          "имя": "encode",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ЗакрытыйРазбор.swift",
+          "столбец": 8,
+          "строка": 11,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "to",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ЗакрытыйРазбор.swift",
+          "столбец": 15,
+          "строка": 11,
+          "язык": "swift"
+        },
+        {
+          "вид": "вариант",
+          "имя": "Set",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ЗакрытыйРазбор.swift",
+          "столбец": 42,
+          "строка": 22,
+          "язык": "swift"
+        }
+      ]
+    },
+    {
+      "sha256": "531d77839e38d17afbf7ba6bab8f6ff653e0feff75a1e0943a443f25601f5ed4",
+      "добавлено": [
+        {
+          "вид": "параметр",
+          "имя": "in",
+          "количество": 1,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "to",
+          "количество": 1,
+          "язык": "swift"
+        },
+        {
+          "вид": "функция",
+          "имя": "encode",
+          "количество": 1,
+          "язык": "swift"
+        }
+      ],
+      "объявлений_до": 0,
+      "объявлений_после": 3,
+      "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ИсполнениеОператоров.swift",
+      "текущие": [
+        {
+          "вид": "функция",
+          "имя": "encode",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ИсполнениеОператоров.swift",
+          "столбец": 15,
+          "строка": 60,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "to",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ИсполнениеОператоров.swift",
+          "столбец": 22,
+          "строка": 60,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "in",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ИсполнениеОператоров.swift",
+          "столбец": 44,
+          "строка": 360,
+          "язык": "swift"
+        }
+      ]
+    },
+    {
+      "sha256": "e9715b020c31d86cce8536c2b61ad8dd0c5e97140397bc3e73e729b3e994f339",
+      "добавлено": [
+        {
+          "вид": "вариант",
+          "имя": "return",
+          "количество": 1,
+          "язык": "swift"
+        }
+      ],
+      "объявлений_до": 0,
+      "объявлений_после": 1,
+      "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/КонечныйВвод.swift",
+      "текущие": [
+        {
+          "вид": "вариант",
+          "имя": "return",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/КонечныйВвод.swift",
+          "столбец": 19,
+          "строка": 57,
+          "язык": "swift"
+        }
+      ]
+    },
+    {
+      "sha256": "f0edc5c0a7fbd83b01875f25f94a69e17727d84f9c4c202264c2975af3731f07",
+      "добавлено": [
+        {
+          "вид": "параметр",
+          "имя": "contains",
+          "количество": 2,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "count",
+          "количество": 2,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "for",
+          "количество": 1,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "try",
+          "количество": 1,
+          "язык": "swift"
+        }
+      ],
+      "объявлений_до": 0,
+      "объявлений_после": 6,
+      "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ОпределениеОператора.swift",
+      "текущие": [
+        {
+          "вид": "параметр",
+          "имя": "try",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ОпределениеОператора.swift",
+          "столбец": 7,
+          "строка": 200,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "contains",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ОпределениеОператора.swift",
+          "столбец": 47,
+          "строка": 201,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "count",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ОпределениеОператора.swift",
+          "столбец": 70,
+          "строка": 201,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "contains",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ОпределениеОператора.swift",
+          "столбец": 22,
+          "строка": 202,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "count",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ОпределениеОператора.swift",
+          "столбец": 44,
+          "строка": 202,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "for",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ОпределениеОператора.swift",
+          "столбец": 7,
+          "строка": 203,
+          "язык": "swift"
+        }
+      ]
+    },
+    {
+      "sha256": "85bb88106cec1fbb12b6799f23d8998cbf7f7c2c5afa1d4fadfcac45debbc268",
+      "добавлено": [],
+      "объявлений_до": 10,
+      "объявлений_после": 10,
+      "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemoryProbe/main.swift",
+      "текущие": [
+        {
+          "вид": "тип",
+          "имя": "FUMStructuringOperatorMemoryProbe",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemoryProbe/main.swift",
+          "столбец": 8,
+          "строка": 5,
+          "язык": "swift"
+        },
+        {
+          "вид": "функция",
+          "имя": "main",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemoryProbe/main.swift",
+          "столбец": 15,
+          "строка": 6,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "arguments",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemoryProbe/main.swift",
+          "столбец": 11,
+          "строка": 8,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "suite",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemoryProbe/main.swift",
+          "столбец": 11,
+          "строка": 13,
+          "язык": "swift"
+        },
+        {
+          "вид": "вариант",
+          "имя": "nil",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemoryProbe/main.swift",
+          "столбец": 12,
+          "строка": 15,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "reports",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemoryProbe/main.swift",
+          "столбец": 13,
+          "строка": 16,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "report",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemoryProbe/main.swift",
+          "столбец": 13,
+          "строка": 27,
+          "язык": "swift"
+        },
+        {
+          "вид": "функция",
+          "имя": "printCanonical",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemoryProbe/main.swift",
+          "столбец": 23,
+          "строка": 97,
+          "язык": "swift"
+        },
+        {
+          "вид": "параметр",
+          "имя": "value",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemoryProbe/main.swift",
+          "столбец": 54,
+          "строка": 97,
+          "язык": "swift"
+        },
+        {
+          "вид": "свойство",
+          "имя": "data",
+          "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemoryProbe/main.swift",
+          "столбец": 9,
+          "строка": 98,
+          "язык": "swift"
+        }
+      ]
+    },
+    {
+      "sha256": "731465486a835395a651805810fc845120a11d34bfe8c6f4a688dcc9a9a2ff91",
+      "добавлено": [],
+      "объявлений_до": 0,
+      "объявлений_после": 0,
+      "путь": "Прототипы/память-структурирующих-операторов/Tests/FUMStructuringOperatorMemoryTests/ПроверкиЧистогоИсполнения.swift",
+      "текущие": []
+    },
+    {
+      "sha256": "6f86db032065a28edf596bfb0bfd8ce2df397ff67eae514eedbf18e0d58f9097",
+      "добавлено": [],
+      "объявлений_до": 0,
+      "объявлений_после": 0,
+      "путь": "Прототипы/память-структурирующих-операторов/Проверки/проверить-и-измерить.py",
+      "текущие": []
+    }
+  ]
+}

@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-11 00:56:27 MSK - Sokhranitj dialog o nauchnyikh napravleniyakh](../2026-09-11_00-56-27_MSK_sokhranitj-dialog-o-nauchnyikh-napravleniyakh/zapros.md)
-- Sleduyusjhij zapros: [2026-09-11 01:26:17 MSK - Podtverzhdatj vidimyiye zadachi nezavisimyikh rabot](../2026-09-11_01-26-17_MSK_podtverzhdatj-vidimyiye-zadachi-nezavisimyikh-rabot/zapros.md)
+- Predyidusjhij zapros: [2026-09-11 00:58:07 MSK - Zaplanirovatj podgotovku Windows](../2026-09-11_00-58-07_MSK_zaplanirovatj-podgotovku-Windows/zapros.md)
+- Sleduyusjhij zapros: [2026-09-11 01:03:38 MSK - Zaplanirovatj platformyi i grafiku FUMA](../2026-09-11_01-03-38_MSK_zaplanirovatj-platformyi-i-grafiku-FUMA/zapros.md)
 
 ## Tekst zaprosa
 
@@ -59,6 +59,6 @@ Komanda 2: 2026-09-10T21:45:27.836Z; SHA-256 iskhodnoj stroki `cc8b6418e04a1692a
 Obe komandyi i obsjhij otvet prochitanyi iz zavershyonnogo prefiksa JSONL kornevoj zadachi: 263334866 bajtov, SHA-256 `bd97307947c76d4d0753bcbc5b4a17bfe7a8fb2411a2beb01f64eba91e5e3145`; povtornoye chteniye podtverdilo te zhe bajtyi. U komand tochnaya iskhodnaya annotaciya `content_item_kinds=["user.text"]`. Privatnyij kursor i polnyij JSONL ne publikuyutsya. [Obsjhij realjnyij otvet](../2026-09-11_00-56-27_MSK_sokhranitj-dialog-o-nauchnyikh-napravleniyakh/otchyot.md) sokhranyon polnostjyu, yego svyazj s dvumya komandami ukazana yavno.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 01:40:19 MSK -->
-<!-- content-sha256: sha256:f7e76c71af721cb6c3a02cd9b1f53de31a58320f89fcaa2ca905fdd9919c0b89 -->
+<!-- last-content-edit: 2026-09-11 11:47:30 MSK -->
+<!-- content-sha256: sha256:2a720fc52f80f1c46de0b21f6485762a8262079ff9f2d6f2d2b4c848a71c9ee9 -->
 <!-- FUM-MD-RECENCY:END -->

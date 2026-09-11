@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-10 20:23:26 MSK - Proveritj sliyaniye posle dopuska](../2026-09-10_20-23-26_MSK_proveritj-sliyaniye-posle-dopuska/zapros.md)
-- Sleduyusjhij zapros: [2026-09-11 00:56:27 MSK - Sokhranitj dialog o nauchnyikh napravleniyakh](../2026-09-11_00-56-27_MSK_sokhranitj-dialog-o-nauchnyikh-napravleniyakh/zapros.md)
+- Predyidusjhij zapros: [2026-09-11 00:37:07 MSK - Zaplanirovatj nastrojku GitHub Actions](../2026-09-11_00-37-07_MSK_zaplanirovatj-nastrojku-GitHub-Actions/zapros.md)
+- Sleduyusjhij zapros: [2026-09-11 00:51:29 MSK - Zaplanirovatj podgotovku macOS](../2026-09-11_00-51-29_MSK_zaplanirovatj-podgotovku-macOS/zapros.md)
 
 ## Tekst zaprosa
 
@@ -43,6 +43,6 @@ Prodolzheniye postoyannoj zadachi FUMA: eto perenos raneye poluchennoj realjnoj 
 Iskhodnik — JSONL kornevoj zadachi. Prochitan i povtorno sveryon zavershyonnyij prefiks 263334866 bajtov, SHA-256 `bd97307947c76d4d0753bcbc5b4a17bfe7a8fb2411a2beb01f64eba91e5e3145`. Poljzovateljskoye proiskhozhdeniye podtverzhdeno iskhodnyim payload s `content_item_kinds=["user.text"]`. Syiryiye dannyiye i privatnyij kursor ostayutsya vne checkout.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 00:58:15 MSK -->
-<!-- content-sha256: sha256:7d247dfbbc93d3debfe6709e7731aab0bff24c106b96450cbb3996bdb8eb15f8 -->
+<!-- last-content-edit: 2026-09-11 11:47:30 MSK -->
+<!-- content-sha256: sha256:bdc62f46efd48b0eb9e423802bd19bfb3ecde2719b81441cd8136625cfbefb68 -->
 <!-- FUM-MD-RECENCY:END -->

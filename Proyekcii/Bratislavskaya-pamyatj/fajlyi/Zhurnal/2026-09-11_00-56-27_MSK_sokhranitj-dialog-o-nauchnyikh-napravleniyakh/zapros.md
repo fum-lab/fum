@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-11 00:50:16 MSK - Sokhranitj dialog o robototekhnike](../2026-09-11_00-50-16_MSK_sokhranitj-dialog-o-robototekhnike/zapros.md)
-- Sleduyusjhij zapros: [2026-09-11 00:59:45 MSK - Zakrepitj posledovateljnuyu istoriyu dialoga fuma](../2026-09-11_00-59-45_MSK_zakrepitj-posledovateljnuyu-istoriyu-dialoga-fuma/zapros.md)
+- Predyidusjhij zapros: [2026-09-11 00:53:41 MSK - Zaplanirovatj podgotovku Linux](../2026-09-11_00-53-41_MSK_zaplanirovatj-podgotovku-Linux/zapros.md)
+- Sleduyusjhij zapros: [2026-09-11 00:58:07 MSK - Zaplanirovatj podgotovku Windows](../2026-09-11_00-58-07_MSK_zaplanirovatj-podgotovku-Windows/zapros.md)
 
 ## Tekst zaprosa
 
@@ -66,6 +66,6 @@ Komanda 4: 2026-09-10T21:45:27.831Z, SHA-256 iskhodnoj stroki `23dd6c4fce5bdc011
 Fizicheskij korenj, HEAD i `refs/heads/fuma` povtorno sverenyi pered zapisjyu. Pishet toljko naznachennyij ispolnitelj; kartochki napravlenij ostayutsya u otdeljnoj zadachi vetki `planirovaniye`.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 01:08:05 MSK -->
-<!-- content-sha256: sha256:bb4db7f292c73ecbfabdbbacbb4772b4e93471ea314d7a6481f56064c5615b4c -->
+<!-- last-content-edit: 2026-09-11 11:47:30 MSK -->
+<!-- content-sha256: sha256:0f600567244ab8209e517ba472f20d86101bf3d00275c70382381200000f952d -->
 <!-- FUM-MD-RECENCY:END -->

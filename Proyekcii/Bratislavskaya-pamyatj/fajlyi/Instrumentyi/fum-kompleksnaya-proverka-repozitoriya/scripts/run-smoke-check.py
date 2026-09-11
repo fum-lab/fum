@@ -2396,6 +2396,15 @@ def build_steps(
         )
     )
 
+    скрипт_вопросов = проверочный_файл(QUESTION_BACKLINKS_SCRIPT)
+    steps.append(
+        SmokeStep(
+            name="Проверка двунаправленности вопросов",
+            command=(python_cmd, скрипт_вопросов),
+            ранняя_проверка=True,
+        )
+    )
+
     скрипт_проекции = проверочный_файл(СКРИПТ_БРАТИСЛАВСКОЙ_ПРОЕКЦИИ)
     контракт_проекции = проверочный_файл(КОНТРАКТ_БРАТИСЛАВСКОЙ_ПРОЕКЦИИ)
     steps.append(
@@ -2531,15 +2540,6 @@ def build_steps(
                 ранняя_проверка=True,
             )
         )
-
-    question_backlinks_script = проверочный_файл(QUESTION_BACKLINKS_SCRIPT)
-    steps.append(
-        SmokeStep(
-            name="Проверка двунаправленности вопросов",
-            command=(python_cmd, question_backlinks_script),
-            ранняя_проверка=True,
-        )
-    )
 
     readme_index_script = проверочный_файл(README_INDEX_CHECK_SCRIPT)
     steps.append(

@@ -28,6 +28,15 @@ Poryadok, povtornyiye soobsjheniya, tochnyiye komandyi i realjnyiye otvetyi voss
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-НОВОЕ-000014 -->
 - Tekusjhij dialog vosstanavlivayetsya iz JSONL imenno kornevoj zadachi po yeyo `Codex-Thread-ID`: pered prodolzheniyem posle szhatiya ili razryiva chitayutsya pervichnyiye poljzovateljskiye soobsjheniya i vidimyiye soderzhateljnyiye otvetyi, zatem sveryayutsya s Zhurnalom i dejstvuyusjhimi pravilami. Chitayetsya toljko zavershyonnyij prefiks strok; poryadok i povtornyiye soobsjheniya sokhranyayutsya, a kursor s granicej bajtov i khyeshem prefiksa predotvrasjhayet propusk i povtornyij import. Izmenivshijsya prefiks trebuyet sverki, a nedostupnyij iskhodnik yavno otmechayetsya i ne zamenyayetsya vyidumannoj rekonstrukciyej. Do obyyedineniya content i obrabotki tekstovyikh obolochek proiskhozhdeniye opredelyayetsya po syiromu payload i soglasovannyim annotaciyam; odna rolj user nedostatochna. Sluzhebnyij hook, sluzhebnyij kontekst i neodnoznachnyij vvod otdelyayutsya ot podtverzhdyonnogo poljzovateljskogo vvoda, sokhranyayut iskhodnuyu zapisj i ne stanovyatsya komandami cheloveka. Polnaya annotaciya poljzovateljskogo vvoda imeyet prioritet nad pokhozhim na sluzhebnyij XML bukvaljnyim tekstom. Klassifikaciya formyi hook sama po sebe ne dokazyivayet nativnyij zapusk ili polnomochiye. Sistemnyiye i developer-instrukcii, skryityiye rassuzhdeniya, soobsjheniya subagentov i syiroj vyivod instrumentov ne eksportiruyutsya kak poljzovateljskij dialog. Polnyij lokaljnyij JSONL i kursor ostayutsya vne publichnogo checkout; v Zhurnal perenosyatsya publikacionno dopustimyiye komandyi i soderzhateljnyiye otvetyi. Svodka pomogayet navigacii, no ne zamenyayet pervichnyiye tekstyi; otklyucheniye avtomaticheskogo szhatiya sredyi ne obesjhayetsya.
 
+
+Pri vosstanovlenii i kazhdoj sverke dogovoryonnostej obyazateljnaya komanda iz svoyego fizicheskogo checkout:
+
+```text
+python3 -B Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обработать-сообщения-задачи.py --корень-репозитория . --codex-thread-id <корневой-UUID> --исходник <явный-JSONL-корневой-задачи> остаток --без-записи
+```
+
+Kyesh neobyazatelen i ostayotsya vne Git; vyivod s originalami tozhe sokhranyayetsya privatno. Razbirayutsya vse ekzemplyaryi ostatka vmeste s pozdnim chelovecheskim kontekstom i vidimyimi otvetami. Otsutstviye istochnika ili kod 2 ne zamenyayutsya pustyim rezuljtatom; kod 3 trebuyet daljnejshego razbora libo novogo chteniya nezavershyonnogo khvosta. Nulevoj ostatok podtverzhdayet uchyot soobsjhenij, no ne vyipolneniye poruchenij. Pered final otdeljnyij sostavnoj dopusk proveryayet i soobsjheniya, i obyazateljstva; yavnaya podtverzhdyonnaya ostanovka poljzovatelya sokhranyayet prioritet.
+
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000192 -->
 - V kazhdom `запрос.md` podderzhivayetsya razdel `## Навигация по запросам` so ssyilkami na predyidusjhij i sleduyusjhij zaprosyi v khronologicheskom poryadke imyon soderzhasjhikh ikh papok.
 
@@ -46,6 +55,6 @@ Poryadok, povtornyiye soobsjheniya, tochnyiye komandyi i realjnyiye otvetyi voss
 - [iskhodnyij zapros 2026-08-24 15:31:12 MSK — Dekompozirovatj AGENTS MD](../../Zhurnal/2026-08-24_15-31-12_MSK_dekompozirovatj-AGENTS-md/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 01:08:05 MSK -->
-<!-- content-sha256: sha256:dcacd5899d7cce8dcdb5932efa4947221179b37a51372100661d27a70e98e589 -->
+<!-- last-content-edit: 2026-09-11 11:30:49 MSK -->
+<!-- content-sha256: sha256:2ba5513f08087451a16043ec46c5c843d776b9daf5830cf65c8e8ff32acf1942 -->
 <!-- FUM-MD-RECENCY:END -->

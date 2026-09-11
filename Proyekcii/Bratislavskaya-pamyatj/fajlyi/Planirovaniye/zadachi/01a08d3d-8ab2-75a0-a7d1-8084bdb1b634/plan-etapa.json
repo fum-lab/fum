@@ -1,0 +1,278 @@
+{
+  "схема": "fum.продолжение-задачи.1",
+  "задача": "01a08d3d-8ab2-75a0-a7d1-8084bdb1b634",
+  "режим": "постоянная",
+  "остановка": null,
+  "работы": [
+    {
+      "идентификатор": "план-01",
+      "действие": "Сохранить и доставить: GitHub Actions",
+      "состояние": "завершена",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": "Коммит 63d7400c989375080803970a1644a58199256435; удалённый OID подтверждён 63d7400c989375080803970a1644a58199256435"
+    },
+    {
+      "идентификатор": "план-02",
+      "действие": "Сохранить и доставить: macOS",
+      "состояние": "завершена",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": "Коммит b39fd52ac7a7e9aae93820082db96689631ffdbd; удалённый OID подтверждён b39fd52ac7a7e9aae93820082db96689631ffdbd"
+    },
+    {
+      "идентификатор": "план-03",
+      "действие": "Сохранить и доставить: Linux",
+      "состояние": "завершена",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": "Коммит 1650b663914bd884f8f8ed85b1d66d1533ecb5f3; удалённый OID подтверждён 1650b663914bd884f8f8ed85b1d66d1533ecb5f3"
+    },
+    {
+      "идентификатор": "план-04",
+      "действие": "Сохранить и доставить: Windows",
+      "состояние": "завершена",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": "Коммит e621206b87d9bb67948790e25e1c79a3a0ad87cb; удалённый OID подтверждён e621206b87d9bb67948790e25e1c79a3a0ad87cb"
+    },
+    {
+      "идентификатор": "план-05",
+      "действие": "Сохранить и доставить: Платформы и графика FUMA",
+      "состояние": "завершена",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": "Коммит 5cd2e653de6c3a0749534f07d72ebf1f66c7048f; удалённый OID подтверждён 5cd2e653de6c3a0749534f07d72ebf1f66c7048f"
+    },
+    {
+      "идентификатор": "план-06",
+      "действие": "Сохранить и доставить: Децентрализованные сети",
+      "состояние": "завершена",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": "Коммит 0246844fe15ba51e48327005b33bc78b668f813a; удалённый OID подтверждён 0246844fe15ba51e48327005b33bc78b668f813a"
+    },
+    {
+      "идентификатор": "план-07",
+      "действие": "Сохранить и доставить: Мессенджеры",
+      "состояние": "завершена",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": "Коммит a8e0be8a14753ae08105662cc94110191f0f866a; удалённый OID подтверждён a8e0be8a14753ae08105662cc94110191f0f866a"
+    },
+    {
+      "идентификатор": "план-08",
+      "действие": "Сохранить и доставить: Интернет и VPN",
+      "состояние": "завершена",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": "Коммит b827cb82e145c2ca3a10e23812a36f4c69fdacf6; удалённый OID подтверждён b827cb82e145c2ca3a10e23812a36f4c69fdacf6"
+    },
+    {
+      "идентификатор": "план-09",
+      "действие": "Сохранить и доставить: Принтеры и сканеры",
+      "состояние": "завершена",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": "Коммит 38de1019ba3896a2d57c41ec8cc109d8e93aa319; удалённый OID подтверждён 38de1019ba3896a2d57c41ec8cc109d8e93aa319"
+    },
+    {
+      "идентификатор": "план-10",
+      "действие": "Сохранить и доставить: Такси и грузовая доставка",
+      "состояние": "завершена",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": "Коммит c1adc4d1595b2e7be8c65f1764c98956d00845ad; удалённый OID подтверждён c1adc4d1595b2e7be8c65f1764c98956d00845ad"
+    },
+    {
+      "идентификатор": "план-11",
+      "действие": "Сохранить и доставить: Строительное направление",
+      "состояние": "завершена",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": "Коммит 11bcb785e4ca88cecc96ea07ecbcb6559b9f621c; удалённый OID подтверждён 11bcb785e4ca88cecc96ea07ecbcb6559b9f621c"
+    },
+    {
+      "идентификатор": "план-12",
+      "действие": "Сохранить и доставить: Сельское хозяйство и еда",
+      "состояние": "завершена",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": "Коммит 715060f02bf5d4a69f2e3561da35013efb1e8226; удалённый OID подтверждён 715060f02bf5d4a69f2e3561da35013efb1e8226"
+    },
+    {
+      "идентификатор": "план-13",
+      "действие": "Сохранить и доставить: Роботы",
+      "состояние": "завершена",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": "Коммит 2a5fd9ee870ccf7fd04502392f8c86f8b7717aa5; удалённый OID подтверждён 2a5fd9ee870ccf7fd04502392f8c86f8b7717aa5"
+    },
+    {
+      "идентификатор": "план-14",
+      "действие": "Сохранить и доставить: Биотехнологии",
+      "состояние": "завершена",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": "Коммит b0d05838b233fc0c64f12a7e431a98ffa0657768; удалённый OID подтверждён b0d05838b233fc0c64f12a7e431a98ffa0657768"
+    },
+    {
+      "идентификатор": "план-15",
+      "действие": "Сохранить и доставить: Генетика",
+      "состояние": "завершена",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": "Коммит 404744089461f8878badeadef18586370bbb032e; удалённый OID подтверждён 404744089461f8878badeadef18586370bbb032e"
+    },
+    {
+      "идентификатор": "план-16",
+      "действие": "Сохранить и доставить: Химия",
+      "состояние": "завершена",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": "Коммит a167fdee347d4582bf08e563bb0d590e6a5c3fbe; удалённый OID подтверждён a167fdee347d4582bf08e563bb0d590e6a5c3fbe"
+    },
+    {
+      "идентификатор": "план-17",
+      "действие": "Сохранить и доставить: Физика",
+      "состояние": "завершена",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": "Коммит 34ef1d123c4a9a97747d0c4c46f5b50348f11e33; удалённый OID подтверждён 34ef1d123c4a9a97747d0c4c46f5b50348f11e33"
+    },
+    {
+      "идентификатор": "план-18",
+      "действие": "Сохранить и доставить: Правило постоянной ветки",
+      "состояние": "завершена",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": "Коммит 537f784ec3bcff3458f2b5e811f4c21e5935c3a9; удалённый OID подтверждён 537f784ec3bcff3458f2b5e811f4c21e5935c3a9"
+    },
+    {
+      "идентификатор": "план-19",
+      "действие": "Сохранить и доставить: SwiftNIO",
+      "состояние": "завершена",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_01-27-07_MSK_запланировать-строительное-направление/запрос.md",
+        "цитата": "Dumayu budem ispoljzovatj SwiftNIO dlya interneta."
+      },
+      "свидетельство": "Коммит 38e7d165bdeaad8ffb116badb4c8f1f49645dc9c; удалённый OID подтверждён 38e7d165bdeaad8ffb116badb4c8f1f49645dc9c"
+    },
+    {
+      "идентификатор": "план-20",
+      "действие": "Сохранить и доставить: Художественное направление",
+      "состояние": "завершена",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_01-34-46_MSK_запланировать-сельское-хозяйство-и-еду/запрос.md",
+        "цитата": "Khudozhestvennoye napravleniye"
+      },
+      "свидетельство": "Коммит cdfbaab3d8b69531871d2077501e2c16ece64457; удалённый OID подтверждён cdfbaab3d8b69531871d2077501e2c16ece64457"
+    },
+    {
+      "идентификатор": "план-21",
+      "действие": "Сохранить и доставить: Музыкальное направление",
+      "состояние": "завершена",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_01-34-46_MSK_запланировать-сельское-хозяйство-и-еду/запрос.md",
+        "цитата": "Muzyikaljnoye napravleniye"
+      },
+      "свидетельство": "Коммит 897eeec38907608f2508b973e85373ea5f7888ec; удалённый OID подтверждён 897eeec38907608f2508b973e85373ea5f7888ec"
+    },
+    {
+      "идентификатор": "план-22",
+      "действие": "Сохранить и доставить: Разрешение коллизии ID и межветочная сверка",
+      "состояние": "завершена",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": "Коммит 983756cf3773312bd282086fb351e147e15fa3c8; удалённый OID подтверждён 983756cf3773312bd282086fb351e147e15fa3c8"
+    },
+    {
+      "идентификатор": "план-23",
+      "действие": "Сохранить и доставить: Игровое направление",
+      "состояние": "завершена",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_01-34-46_MSK_запланировать-сельское-хозяйство-и-еду/запрос.md",
+        "цитата": "Igrovoye napravleniye, zavyazannoye na simulyaciyu fizicheskogo mira."
+      },
+      "свидетельство": "Коммит 6e81561c3f507ccaed71bf11f2bae614cb719b9a; удалённый OID подтверждён 6e81561c3f507ccaed71bf11f2bae614cb719b9a"
+    },
+    {
+      "идентификатор": "поправка-происхождения",
+      "действие": "Восстановить контекст двух решений и исправить живые ссылки по замечанию приёмки",
+      "состояние": "завершена",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_02-34-29_MSK_восстановить-контекст-платформенного-решения-и-SwiftNIO/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": "Пять исходных сообщений и два представления сверены; ссылки исправлены; плановый реестр и публикационная проверка прошли. Отчёт: Журнал/2026-09-11_02-34-29_MSK_восстановить-контекст-платформенного-решения-и-SwiftNIO/отчёт.md"
+    },
+    {
+      "идентификатор": "зарегистрировать-потерю-контекста",
+      "действие": "Зарегистрировать одну карточку потери контекстного ответа с двумя проявлениями и ограниченный следующий шаг после получения номеров общего распределителя",
+      "состояние": "ожидает-ответа",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_02-34-29_MSK_восстановить-контекст-платформенного-решения-и-SwiftNIO/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": "Координатор подтвердил классификацию и передал запрос распределителю 0201. Номера ещё не получены; ручное локальное назначение исключено. Точное уточнение: Журнал/2026-09-11_02-34-29_MSK_восстановить-контекст-платформенного-решения-и-SwiftNIO/материалы/уточнение-координатора.json"
+    },
+    {
+      "идентификатор": "план-вспоминания-0165",
+      "действие": "Уточнить пять плановых материалов и карточку 0165: вспоминание, JSON-состояние, декларативная приёмка, паспорт и зависимости",
+      "состояние": "завершена",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_08-14-52_MSK_уточнить-план-вспоминания-рабочего-контекста/запрос.md",
+        "цитата": "Togda nuzhno zaplanirovatj zadachu автоматически собирать компактный рабочий контекст с происхождением и признаками устаревания, i zalozhitj osnovyi dlya buduyusjhikh avtomatizacij takikh proverok."
+      },
+      "свидетельство": "Пять плановых материалов и карточка 0165 уточнены; структурная проверка, реестр и публикационные пути прошли; независимые замечания устранены. Исполняемый 0165 не реализован. Отчёт: Журнал/2026-09-11_08-14-52_MSK_уточнить-план-вспоминания-рабочего-контекста/отчёт.md"
+    },
+    {
+      "идентификатор": "приёмка-и-интеграция-серии",
+      "действие": "Провести отложенную приёмку и интеграцию серии в master после отдельного запроса пользователя",
+      "состояние": "ожидает-ответа",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+        "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
+      },
+      "свидетельство": "Пользователь отложил слияние: «Potom podmyordzhim». Интеграция требует отдельного явного запроса; проекция сохраняется от базового поколения 406c6ba1."
+    }
+  ]
+}

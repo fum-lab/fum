@@ -3771,24 +3771,6 @@
       "count": 1,
       "category": "allow.path-validation-definition",
       "reason": "Регулярное выражение распознаёт ограду Markdown из обратных кавычек либо тильд; тильда здесь не является домашним путём."
-    },
-    {
-      "id": "message-processing-profile-disable-fixture-hooks",
-      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/измерить-остаток-сообщений.py",
-      "kind": "posix-absolute",
-      "line_sha256": "sha256:c44be47730d70eea33b010bc018a34dd99191d74eb9f5cb21aebda2d0e43f33b",
-      "count": 1,
-      "category": "allow.test-fixture",
-      "reason": "Отключает Git hooks только в создаваемом временном синтетическом репозитории профиля; пользовательский репозиторий и его настройки не изменяются."
-    },
-    {
-      "id": "message-processing-test-disable-fixture-hooks",
-      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обработка_сообщений.py",
-      "kind": "posix-absolute",
-      "line_sha256": "sha256:51bdedafadf8278ce027b7c5fddd0d679907d2ba61c782a80249cb59c3dda85b",
-      "count": 1,
-      "category": "allow.test-fixture",
-      "reason": "Отключает Git hooks только при командах автономной фикстуры во временном репозитории; не задаёт runtime-путь продукта."
     }
   ]
 }
