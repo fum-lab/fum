@@ -33,12 +33,13 @@ Tekusjhaya ocheredj ogranichena khvostom posle iskhodnogo kursora i obyyomom 64 
 
 ## Istochniki
 
+- [FUM-SBOJ-0066-ustarevshaya-podstanovka-metoda-chteniya](../../Sboi/FUM-SBOJ-0066-ustarevshaya-podstanovka-metoda-chteniya.md) — tochnoye osnovaniye aktualizacii `FUM-СБОЙ-0066/ПРОЯВЛЕНИЕ-0002`; [registraciya i nezavisimoye revjyu](../../Zhurnal/2026-09-11_09-36-55_MSK_sokhranitj-ostavshuyusya-diagnostiku-priyoma/otchyot.md). Utochnyayetsya proiskhozhdeniye uzhe pokazannogo ogranichennogo vosstanovleniya, novoye vyipolneniye shaga ne zayavlyayetsya.
 - [Pryamyiye soobsjheniya i soderzhateljnyiye otvetyi](../../Zhurnal/2026-09-10_17-33-36_MSK_zakrepitj-dopusk-sliyaniya-iz-master/zapros.md).
 - [Sokhranyonnyiye planyi i fakticheskij ostatok](../../Zhurnal/2026-09-10_17-33-36_MSK_zakrepitj-dopusk-sliyaniya-iz-master/otchyot.md).
 - [Pravilo vosstanovleniya po iskhodnyim soobsjheniyam](../../AGENTS.md).
 - [Sleduyusjhij perenos sobstvennoj realizacii](🟡-FUM-STEP-0176-sobratj-sobstvennuyu-realizaciyu-v-FUM.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 19:46:01 MSK -->
-<!-- content-sha256: sha256:45e0ce28332a8473b2fcf0eda0a60dd91a8947be5b1efb51cc65edda0c611097 -->
+<!-- last-content-edit: 2026-09-11 09:58:11 MSK -->
+<!-- content-sha256: sha256:cb10ab479ac7ec7a5dcebdfee6f7540539e6658d6f53654ebeb7824ab52901a8 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -11,6 +11,10 @@ Obsjhij indeks i mashinnyij planovyij reyestr stroyatsya iz kanonicheskikh karto
 - **trebuyetsya dlya:** [vyibora sleduyusjhego shaga vetki iz kartochek shagov](✅-vyibor-sleduyusjhego-shaga-vetki-iz-kartochek-shagov.md) — vetochnyij vyibor mozhet ssyilatjsya na shag toljko posle poyavleniya kanonicheskoj kartochki s proveryayemoj identichnostjyu.
 - **trebuyetsya dlya:** [kontekstno posiljnyikh ispolnyayemyikh shagov](🚧-kontekstno-posiljnyiye-ispolnyayemyiye-shagi.md) — ocenka pomesjhayemosti opirayetsya na odnu kanonicheskuyu kartochku i yeyo proveryayemyij rezuljtat.
 
+- **trebuyetsya dlya:** [proveryayemogo plana matematicheskogo napravleniya](🟡-proveryayemyij-plan-matematicheskogo-napravleniya.md) — soglasovannyiye prodolzheniya napravleniya oformlyayutsya atomarnyimi kartochkami s ustojchivoj identichnostjyu i proveryayemyim rezuljtatom.
+
+- **trebuyetsya dlya:** [svyazi napravlenij razvitiya s Git-vetkami](🟡-svyazj-napravlenij-razvitiya-s-Git-vetkami.md) — chastj trebovaniya ob otobrazhenii na planovyiye shagi ispoljzuyet kanonicheskiye kartochki, ikh identichnosti i istochniki; ponyatiye napravleniya etim mekhanizmom ne ogranichivayetsya.
+
 ## Kriterii proverki
 
 - kazhdoye aktualjnoye i istoricheskoye predlozheniye o sleduyusjhem shage predstavleno rovno odnoj kanonicheskoj kartochkoj;
@@ -37,6 +41,6 @@ Kartochka ne delayet planovyij shag novyim trebovaniyem i ne obesjhayet yego isp
 - [iskhodnyij zapros 2026-07-22 11:48:49 MSK — Oformitj kartochki shagov opisateljnyimi imenami i emodzi statusami](../Zhurnal/2026-07-22_11-48-49_MSK_oformitj-kartochki-shagov-opisateljnyimi-imenami-i-emodzi-statusami/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-03 14:54:04 MSK -->
-<!-- content-sha256: sha256:83721ce2edfca8156cb0e2009477f2077e2de2696e15a0025ea586dcb0d34cbc -->
+<!-- last-content-edit: 2026-09-11 08:37:36 MSK -->
+<!-- content-sha256: sha256:a2b9ff36cab43ce0edd27a2d41ac0e21f281be9f6ad881be2a2bba77eb6eeb0a -->
 <!-- FUM-MD-RECENCY:END -->

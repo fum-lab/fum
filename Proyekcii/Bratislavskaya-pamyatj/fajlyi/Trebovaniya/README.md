@@ -138,8 +138,17 @@ Status menyayetsya pereimenovaniyem fajla cherez `git mv`. Emodzi ne zamenyayet 
 - [iskhodnyij zapros 2026-07-24 10:44:28 MSK — Nachatj bezokonnyij Swift-prototip vosproizvodimogo popolneniya pamyati FUM](../Zhurnal/2026-07-24_10-44-28_MSK_nachatj-bezokonnyij-Swift-prototip-vosproizvodimogo-popolneniya-pamyati-FUM/zapros.md)
 - [arkhivirovannyij dialog «Zapusk kastomnogo interfejsa»](../Istochniki/URL/https/chatgpt.com/share/6a5664cd-4838-83eb-9da3-60f7f5d22566/zapusk-kastomnogo-interfejsa.md)
 
+## Prinyatyiye napravleniya
+
+- `FUM-REQ-0065` — [🟡 Proveryayemyij plan matematicheskogo napravleniya](🟡-proveryayemyij-plan-matematicheskogo-napravleniya.md)
+- `FUM-REQ-0066` — [🟡 Vozobnovlyayemyij perenos rabochikh derevjyev](🟡-vozobnovlyayemyij-perenos-rabochikh-derevjyev.md)
+- `FUM-REQ-0067` — [🟡 Chistoye ispolneniye operatorov i UTF-32](🟡-chistoye-ispolneniye-operatorov-i-UTF-32.md)
+- `FUM-REQ-0068` — [🟡 Svyazj napravlenij razvitiya s Git-vetkami](🟡-svyazj-napravlenij-razvitiya-s-Git-vetkami.md)
+- `FUM-REQ-0046` — [🟡 Zapusk FUMA na celevyikh platformakh](🟡-zapusk-FUMA-na-celevyikh-platformakh.md)
+- `FUM-REQ-0047` — [🟡 Graficheskiye interfejsyi FUMA](🟡-graficheskiye-interfejsyi-FUMA.md)
+- `FUM-REQ-0058` — [🟡 Geneticheskoye napravleniye FUMA](🟡-geneticheskoye-napravleniye-FUMA.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 15:20:29 MSK -->
-<!-- content-sha256: sha256:12efd7915b8e73106c346c2426d5963a2d8a07e599f5e1064331b821650ff7c5 -->
+<!-- last-content-edit: 2026-09-11 08:58:13 MSK -->
+<!-- content-sha256: sha256:47f7c9b85ba2e19672850778e3077a4d3252abf2e4cc3cd196c8134163374f23 -->
 <!-- FUM-MD-RECENCY:END -->

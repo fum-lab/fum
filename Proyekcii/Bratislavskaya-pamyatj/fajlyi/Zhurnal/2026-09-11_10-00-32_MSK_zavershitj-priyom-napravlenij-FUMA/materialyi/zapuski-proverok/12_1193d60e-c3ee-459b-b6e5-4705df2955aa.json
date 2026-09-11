@@ -1,0 +1,171 @@
+{
+  "вызов": "Полный допуск после исправления вопросов и обязательных полей пары",
+  "длительность_наносекунды": 987423887000,
+  "идентификатор": "1193d60e-c3ee-459b-b6e5-4705df2955aa",
+  "исполнитель": "Корень 0201",
+  "код_завершения": 0,
+  "наблюдения": [
+    {
+      "длительность_наносекунды": 121309271166,
+      "ключ_проверки": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/tests",
+      "название": "Тесты fum-bratislavskaya-proyekciya-pamyati",
+      "статус": "успешно"
+    },
+    {
+      "длительность_наносекунды": 616957667,
+      "ключ_проверки": "Инструменты/fum-indeks-readme/tests",
+      "название": "Тесты fum-indeks-readme",
+      "статус": "успешно"
+    },
+    {
+      "длительность_наносекунды": 51052207750,
+      "ключ_проверки": "Инструменты/fum-kompleksnaya-proverka-repozitoriya/tests",
+      "название": "Тесты fum-kompleksnaya-proverka-repozitoriya",
+      "статус": "успешно"
+    },
+    {
+      "длительность_наносекунды": 923545500,
+      "ключ_проверки": "Инструменты/fum-materialyi-zaprosov/tests",
+      "название": "Тесты fum-materialyi-zaprosov",
+      "статус": "успешно"
+    },
+    {
+      "длительность_наносекунды": 247491000,
+      "ключ_проверки": "Инструменты/fum-moskovskoye-vremya-rabochej-sessii/tests",
+      "название": "Тесты fum-moskovskoye-vremya-rabochej-sessii",
+      "статус": "успешно"
+    },
+    {
+      "длительность_наносекунды": 207071208,
+      "ключ_проверки": "Инструменты/fum-obratnyiye-ssyilki-voprosov/tests",
+      "название": "Тесты fum-obratnyiye-ssyilki-voprosov",
+      "статус": "успешно"
+    },
+    {
+      "длительность_наносекунды": 100215913458,
+      "ключ_проверки": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/tests",
+      "название": "Тесты fum-otchyotyi-o-zapuskakh-proverok",
+      "статус": "успешно"
+    },
+    {
+      "длительность_наносекунды": 2305316750,
+      "ключ_проверки": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests",
+      "название": "Тесты fum-proverka-mashinno-lokaljnyikh-putej",
+      "статус": "успешно"
+    },
+    {
+      "длительность_наносекунды": 415392084,
+      "ключ_проверки": "Инструменты/fum-proyektnyiye-fajlyi/tests",
+      "название": "Тесты fum-proyektnyiye-fajlyi",
+      "статус": "успешно"
+    },
+    {
+      "длительность_наносекунды": 204463564041,
+      "ключ_проверки": "Инструменты/fum-reyestr-planirovaniya/tests",
+      "название": "Тесты fum-reyestr-planirovaniya",
+      "статус": "успешно"
+    },
+    {
+      "длительность_наносекунды": 8824531792,
+      "ключ_проверки": "Инструменты/fum-struktura-papok-zaprosov/tests",
+      "название": "Тесты fum-struktura-papok-zaprosov",
+      "статус": "успешно"
+    },
+    {
+      "длительность_наносекунды": 196142625,
+      "ключ_проверки": "Инструменты/fum-svezhestj-markdown/tests",
+      "название": "Тесты fum-svezhestj-markdown",
+      "статус": "успешно"
+    },
+    {
+      "длительность_наносекунды": 117901731542,
+      "ключ_проверки": "Инструменты/fum-svyaznostj-rabochej-sessii/tests",
+      "название": "Тесты fum-svyaznostj-rabochej-sessii",
+      "статус": "успешно"
+    }
+  ],
+  "отпечаток_содержимого": "sha256:3c4102b8d58e2a0b28656db3f5b3ec411e37922b32ddfd62854acb639fb56d92",
+  "переход_схемы": null,
+  "план": [
+    {
+      "ключ_проверки": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/tests",
+      "название": "Тесты fum-bratislavskaya-proyekciya-pamyati"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-indeks-readme/tests",
+      "название": "Тесты fum-indeks-readme"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-kompleksnaya-proverka-repozitoriya/tests",
+      "название": "Тесты fum-kompleksnaya-proverka-repozitoriya"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-materialyi-zaprosov/tests",
+      "название": "Тесты fum-materialyi-zaprosov"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-moskovskoye-vremya-rabochej-sessii/tests",
+      "название": "Тесты fum-moskovskoye-vremya-rabochej-sessii"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-obratnyiye-ssyilki-voprosov/tests",
+      "название": "Тесты fum-obratnyiye-ssyilki-voprosov"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/tests",
+      "название": "Тесты fum-otchyotyi-o-zapuskakh-proverok"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests",
+      "название": "Тесты fum-proverka-mashinno-lokaljnyikh-putej"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-proyektnyiye-fajlyi/tests",
+      "название": "Тесты fum-proyektnyiye-fajlyi"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-reyestr-planirovaniya/tests",
+      "название": "Тесты fum-reyestr-planirovaniya"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-struktura-papok-zaprosov/tests",
+      "название": "Тесты fum-struktura-papok-zaprosov"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-svezhestj-markdown/tests",
+      "название": "Тесты fum-svezhestj-markdown"
+    },
+    {
+      "ключ_проверки": "Инструменты/fum-svyaznostj-rabochej-sessii/tests",
+      "название": "Тесты fum-svyaznostj-rabochej-sessii"
+    }
+  ],
+  "порядок": 12,
+  "пояснение": null,
+  "профиль_проверки": {
+    "идентификатор_отказа": null,
+    "класс": "полная",
+    "ожидаемое_свидетельство": null,
+    "основание": null,
+    "отпечаток_снимка": "sha256:2f097041440f33908cbbd25196f8a9a4d088199c9fb3065936eb6bda7beeec3a",
+    "полные_наборы": [
+      "Инструменты/fum-bratislavskaya-proyekciya-pamyati/tests",
+      "Инструменты/fum-indeks-readme/tests",
+      "Инструменты/fum-kompleksnaya-proverka-repozitoriya/tests",
+      "Инструменты/fum-materialyi-zaprosov/tests",
+      "Инструменты/fum-moskovskoye-vremya-rabochej-sessii/tests",
+      "Инструменты/fum-obratnyiye-ssyilki-voprosov/tests",
+      "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/tests",
+      "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests",
+      "Инструменты/fum-proyektnyiye-fajlyi/tests",
+      "Инструменты/fum-reyestr-planirovaniya/tests",
+      "Инструменты/fum-struktura-papok-zaprosov/tests",
+      "Инструменты/fum-svezhestj-markdown/tests",
+      "Инструменты/fum-svyaznostj-rabochej-sessii/tests"
+    ]
+  },
+  "сессия": "Журнал/2026-09-11_10-00-32_MSK_завершить-приём-направлений-FUMA/запрос.md",
+  "состояние": "завершён",
+  "статус": "успешно",
+  "схема": "fum.test-run.v4"
+}

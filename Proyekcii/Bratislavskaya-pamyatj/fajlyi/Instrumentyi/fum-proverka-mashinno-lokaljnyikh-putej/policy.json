@@ -3150,6 +3150,60 @@
       "count": 1,
       "category": "report.historical",
       "reason": "Точное свидетельство дочернего RED на стандартной символической ссылке macOS; не содержит имени пользователя, частного каталога или разрешения произвольных путей."
+    },
+    {
+      "id": "direction-intake-journal-request-pattern",
+      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/вход_направления.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:4fbd5fa83648104748a49434cd2122b78913b5689719c42d208080dc12c8f4cb",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Регулярное выражение ограничивает вход относительным каноническим путём запроса Журнала; слэши и класс символов задают синтаксис проверки."
+    },
+    {
+      "id": "direction-intake-card-name-suffix",
+      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/вход_направления.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:62673b3494b8e383950031e1cfe3689ba99d840be5108cb59b57065a0d3afdd4",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Суффикс имени карточки присоединяется к выбранному каноническому относительному каталогу и не является самостоятельным абсолютным путём."
+    },
+    {
+      "id": "direction-intake-readme-suffix",
+      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/вход_направления.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:5f42ce50205c1c73b239623aab2916ab847c1a45741e8eaba34228de43dd2ff4",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Суффикс README присоединяется к каноническому относительному каталогу карточек; абсолютный путь машины не задаётся."
+    },
+    {
+      "id": "direction-intake-markdown-fence-pattern",
+      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:e76271029b180c47bb865135b0334e6c3a4454ad73542efd3608c685cf7ad17a",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Регулярное выражение распознаёт ограду Markdown из обратных кавычек либо тильд; тильда здесь не является домашним путём."
+    },
+    {
+      "id": "message-processing-profile-disable-fixture-hooks",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/измерить-остаток-сообщений.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c44be47730d70eea33b010bc018a34dd99191d74eb9f5cb21aebda2d0e43f33b",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Отключает Git hooks только в создаваемом временном синтетическом репозитории профиля; пользовательский репозиторий и его настройки не изменяются."
+    },
+    {
+      "id": "message-processing-test-disable-fixture-hooks",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обработка_сообщений.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:51bdedafadf8278ce027b7c5fddd0d679907d2ba61c782a80249cb59c3dda85b",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Отключает Git hooks только при командах автономной фикстуры во временном репозитории; не задаёт runtime-путь продукта."
     }
   ]
 }

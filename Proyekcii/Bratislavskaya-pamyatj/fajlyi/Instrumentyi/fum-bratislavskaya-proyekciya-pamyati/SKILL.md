@@ -53,9 +53,15 @@ Khyesh strukturnogo rezuljtata ne samozaveryayetsya manifestom: validator nezavi
 
 Obyichnyij Markdown poluchayet dejstviye preobrazovatj_strukturno: lokaljnyiye ssyilki perenapravlyayutsya v to zhe pokoleniye, yakorya preobrazuyutsya i proveryayutsya, URI lyuboj raspoznannoj skhemyi sokhranyayutsya, a FUM-MD-RECENCY pereschityivayetsya determinirovanno. Sovpadeniye iskhodnogo teksta s zarezervirovannyim vnutrennim markerom zakryivayet preobrazovaniye do globaljnoj zamenyi.
 
+Komandyi `применить` i `проверить-манифест` sokhranyayut adres tochnogo lokaljnogo `.obsidian/graph.json`, dazhe kogda poljzovateljskij fajl otsutstvuyet v chistom klone. Fajl i yego katalog ne sozdayutsya; susjhestvuyusjhij graf sokhranyayetsya. Kazhdaya iskhodnaya ssyilka prokhodit neizmennyij predikat `отсутствует_необязательный_граф` instrumenta svyaznosti, kotoryij isklyuchayet nesovpadeniye registra, simvolicheskiye ssyilki i vyikhod iz checkout. Dopolniteljno graf dolzhen fakticheski ignorirovatjsya Git: rezuljtat ispoljzuyetsya toljko vnutri odnogo formirovaniya vyikhodov i povtorno proveryayetsya pered vozvratom. Sleduyusjhij vyizov chitayet pravilo ignorirovaniya zanovo. Otnositeljnyij adres v proizvodnom Markdown pereschityivayetsya do kanonicheskogo grafa; graf ne vkhodit v pokoleniye. Ostaljnyiye otsutstvuyusjhiye celi po-prezhnemu zakryivayut dejstviye. Dlya vosproizvedeniya etoj granicyi nuzhen lokaljnyij `fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py` s predikatom FUM-STEP-0203.
+
 V Zhurnal/*/zapros.md doslovno sokhranyayetsya toljko soderzhimoye zasjhisjhyonnogo razdela ## Tekst zaprosa; ostaljnaya Markdown-obolochka otnositsya k strukturnomu preobrazovaniyu. Fajlyi Istochniki/**, sobstvennyij kod, mashinnyiye dannyiye, zaregistrirovannyiye tochnyiye formatyi, dvoichnyiye i ne-UTF-8 dannyiye sokhranyayut tochnyiye bajtyi po yavnoj politike versii 2. Putj .obsidian/fum-recency-reference-date yavlyayetsya otdeljno zaregistrirovannyim extensionless-mashinnyim fajlom, a kornevoj `ЛИЦЕНЗИЯ` — tochnyim spravochnyim yuridicheskim tekstom bez rasshireniya.
 
 Neizvestnyij tekstovyij format zakryivayet plan. Latinskoye rasshireniye iz zakreplyonnogo spiska sokhranyayetsya otdeljno ot preobrazuyemoj osnovyi imeni. Suffiks .md.shablon ne obyyavlyayetsya tekhnicheskim latinskim rasshireniyem: yego kirillicheskaya chastj ostayotsya chastjyu preobrazuyemogo imeni puti, a soderzhimoye sokhranyayetsya kak mashinnyij shablon.
+
+Tochnyij putj `Инструменты/fum-reyestr-planirovaniya/scripts/адаптер-codex.js` zaregistrirovan otdeljno. Do klassifikacii netekstovyikh dannyikh yego polnyiye UTF-8-bajtyi proveryayutsya konechnyim shablonom `объявления_адаптера` iz lokaljnogo inventarya obyyavlenij. Stroki, kommentarii, vneshniye importyi i inoj sintaksis ne dopuskayutsya. Imena i bajtyi adaptera sokhranyayutsya po obsjhej politike sobstvennogo koda; proverka yazyika obyyavlenij ostayotsya otdeljnoj obyazannostjyu inventarya. Tekhnicheskij suffiks `.js` sokhranyayetsya v puti, no obsjhij format JavaScript ne otkryivayetsya: pokhozhij putj libo drugoye tekstovoye rasshireniye ostayotsya neizvestnyim.
+
+Dlya smenyi podtverzhdyonnogo prezhnego pokoleniya versii 2 proverka vladeniya pereispoljzuyet polnyij zakreplyonnyij kontrakt `совместимость/контракт-v2-до-форматов-приложения.json` s khyeshem `sha256:9f262153c9de986270cec76ad3c37da34c99ace0c187474ba8a1bc736222220a`. Neizvestnaya politika, podmena snimka, metadannyikh ili dereva zakryivayut perekhod. Itogovaya nezavisimaya proverka prinimayet toljko tekusjhuyu politiku i zanovo vyivedennoye pokoleniye; staryij manifest sam po sebe yej ne sootvetstvuyet.
 
 ## Preobrazovaniye putej
 
@@ -166,6 +172,8 @@ Kanonicheskiye avtodiskaveri-konturyi isklyuchayut toljko kornevuyu oblastj `Pro
 
 ## Istochniki trebovanij
 
+- [etap neobyazateljnogo grafa v proyekcii](https://github.com/fum-lab/fum/blob/7acc2de8ca1dcbefd82c16faecd1c31bdfa6e648/Журнал/2026-09-11_05-35-51_MSK_сохранить-ссылку-на-необязательный-граф-в-проекции/запрос.md)
+
 - [iskhodnyij zapros ob uskorenii povtornoj podgotovki](../../Zhurnal/2026-09-09_09-50-11_MSK_ustranitj-gonku-podgotovki-kyesha-preobrazovatelya/zapros.md)
 
 - [FUM-STEP-0128 — kontrakt paralleljnoj bratislavskoj proyekcii](../../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0128-zakrepitj-kontrakt-paralleljnoj-bratislavskoj-proyekcii-pamyati.md)
@@ -179,6 +187,6 @@ Kanonicheskiye avtodiskaveri-konturyi isklyuchayut toljko kornevuyu oblastj `Pro
 Odnoparametricheskij vyizov `подготовить_изолированный_преобразователь(корень)` sokhranyayet prezhnij kontrakt: izoliruyet zakreplyonnyiye iskhodniki i vozvrasjhayet nastoyasjhuyu komandu Swift s proverkoj granicyi; sborku zapuskayet vyizyivayusjhij. Yavnyij keyword-only parametr `использовать_кэш=True` vyibirayet predvariteljnuyu sborku, proverennyij kyesh i chastnuyu kopiyu produkta. Rabochiye CLI-komandyi generatora vsegda vyibirayut etot rezhim. Proverki zakreplyonnogo dereva i izolyacii obsjhiye dlya oboikh rezhimov.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 22:02:46 MSK -->
-<!-- content-sha256: sha256:b5c63c3fef363e8e8a4e63f65acea0f1f1d8ffd89d3e4615d7acfd63b01a6210 -->
+<!-- last-content-edit: 2026-09-11 07:09:21 MSK -->
+<!-- content-sha256: sha256:ac3884f19f0d68f4354fd40c4830f1943478633c0c787620aa8d1c6fd41a7600 -->
 <!-- FUM-MD-RECENCY:END -->

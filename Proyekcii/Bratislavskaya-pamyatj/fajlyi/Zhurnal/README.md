@@ -16,6 +16,20 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-11 10:00:32 MSK — Zavershitj priyom napravlenij FUMA](2026-09-11_10-00-32_MSK_zavershitj-priyom-napravlenij-FUMA/otchyot.md)
+- [2026-09-11 09:36:55 MSK — Sokhranitj ostavshuyusya diagnostiku priyoma](2026-09-11_09-36-55_MSK_sokhranitj-ostavshuyusya-diagnostiku-priyoma/otchyot.md)
+- [2026-09-11 09:29:11 MSK — Prinyatj vyibor Swift System](2026-09-11_09-29-11_MSK_prinyatj-vyibor-Swift-System/otchyot.md)
+- [2026-09-11 09:20:07 MSK — Zavershitj priyom primera DNK](2026-09-11_09-20-07_MSK_zavershitj-priyom-primera-DNK/otchyot.md)
+- [2026-09-11 08:49:30 MSK — Prinyatj perekodirovaniye DNK v belki](2026-09-11_08-49-30_MSK_prinyatj-perekodirovaniye-DNK-v-belki/otchyot.md)
+- [2026-09-11 08:30:29 MSK — Prinyatj svyazj napravleniya i vetki](2026-09-11_08-30-29_MSK_prinyatj-svyazj-napravleniya-i-vetki/otchyot.md)
+- [2026-09-11 08:21:44 MSK — Prinyatj napravleniye byitovoj tekhniki](2026-09-11_08-21-44_MSK_prinyatj-napravleniye-byitovoj-tekhniki/otchyot.md)
+- [2026-09-11 08:10:57 MSK — Utochnitj proverku zaversheniya](2026-09-11_08-10-57_MSK_utochnitj-proverku-zaversheniya/otchyot.md)
+- [2026-09-11 07:44:52 MSK — Prinyatj matematiku i rabochij kontekst](2026-09-11_07-44-52_MSK_prinyatj-matematiku-i-rabochij-kontekst/otchyot.md)
+- [2026-09-11 07:19:51 MSK — Prinyatj postanovku interpretatora](2026-09-11_07-19-51_MSK_prinyatj-postanovku-interpretatora/otchyot.md)
+- [2026-09-11 05:42:33 MSK — Podgotovitj sleduyusjhiye napravleniya](2026-09-11_05-42-33_MSK_podgotovitj-sleduyusjhiye-napravleniya/otchyot.md)
+- [2026-09-11 05:03:47 MSK — Podtverditj matematicheskij zapusk](2026-09-11_05-03-47_MSK_podtverditj-matematicheskij-zapusk/otchyot.md)
+- [2026-09-11 03:32:33 MSK — Svyazatj priyom s kommitom postanovki](2026-09-11_03-32-33_MSK_svyazatj-priyom-s-kommitom-postanovki/otchyot.md)
+- [2026-09-11 01:40:19 MSK — Avtomatizirovatj priyom napravlenij FUMA](2026-09-11_01-40-19_MSK_avtomatizirovatj-priyom-napravlenij-FUMA/otchyot.md)
 - [2026-09-10 20:23:26 MSK — Proveritj sliyaniye posle dopuska](2026-09-10_20-23-26_MSK_proveritj-sliyaniye-posle-dopuska/otchyot.md)
 - [2026-09-10 17:33:36 MSK — Zakrepitj dopusk sliyaniya iz master](2026-09-10_17-33-36_MSK_zakrepitj-dopusk-sliyaniya-iz-master/otchyot.md)
 - [2026-09-10 15:09:56 MSK — Vlitj master v vedusjhuyu vetku](2026-09-10_15-09-56_MSK_vlitj-master-v-vedusjhuyu-vetku/otchyot.md)
@@ -509,6 +523,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 20:36:12 MSK -->
-<!-- content-sha256: sha256:3372b3ee5e449eb4ed16e70e29e39f73b0cfb8e1c6728cf74544ff1484475a74 -->
+<!-- last-content-edit: 2026-09-11 10:07:35 MSK -->
+<!-- content-sha256: sha256:2cc82fa4dbbfb052a0bca668450ef2992eae30013820ca1fa825769c5164849a -->
 <!-- FUM-MD-RECENCY:END -->
