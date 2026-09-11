@@ -3672,6 +3672,69 @@
       "count": 1,
       "category": "allow.path-validation-definition",
       "reason": "Точное определение распознаваемой исторической формы в преобразователе путей; удаляет привязку и не исполняет её."
+    },
+    {
+      "id": "0176-projection-history-worktree",
+      "path": "Журнал/2026-09-11_02-44-12_MSK_обновить-поколение-по-прежней-политике/запрос.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:36ebfc4a864f510c73275e5dd41618a620bd3686e1707d193d2f89e178a99551",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Точное происхождение уже сохранённого изолированного этапа по 000060; путь не является параметром публичной сборки."
+    },
+    {
+      "id": "0176-projection-history-profile",
+      "path": "Журнал/2026-09-11_02-44-12_MSK_обновить-поколение-по-прежней-политике/отчёт.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:48b702872b91eff48d281b9fb2b23d69ba4bccdf14d3eeab1825102561ab8232",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Историческая команда синтетического профиля с временным выходом; неизменяемое свидетельство дочернего этапа."
+    },
+    {
+      "id": "0176-projection-history-fixture",
+      "path": "Журнал/2026-09-11_02-44-12_MSK_обновить-поколение-по-прежней-политике/отчёт.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d2d7e45a5a50e27ac780698fae7f031fe4ee6cff115aa98eff8e4ef867a57872",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Историческая команда воспроизведения старой фикстуры с временным выходом; не связь продукта с прежним checkout."
+    },
+    {
+      "id": "0176-projection-recovery-worktree",
+      "path": "Журнал/2026-09-11_03-32-48_MSK_восстановить-передачу-форматов-после-перезапуска/запрос.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:d3c958166c8395765cdc8d22b983aa040b37194ccd1dd0bfac02079c69bc7882",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Фактическая граница отдельного этапа восстановления; исходный запрос предыдущего этапа сохранён также обратимым Base64 и просмотрен корнем."
+    },
+    {
+      "id": "0176-projection-foreign-fixture",
+      "path": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/tests/test_братиславская_проекция_памяти.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:8a44eb8332f019828050ae36fe14d57da424b5f6306b38919c6ff08aeaa9c2ea",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Регрессионная фикстура чужого файла: суффикс конкатенируется с относительной целевой областью, абсолютный файловый ввод не используется."
+    },
+    {
+      "id": "0176-guard-prior-evidence-location",
+      "path": "Журнал/2026-09-11_02-51-49_MSK_проверить-поставку-FUMA-из-клона/запрос.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:2fa025301223bcde82417b82aae5c4bcf163f5aa04159281c1c4e56a9506217d",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Дословное управляющее сообщение координатора указывает место прежнего свидетельства в другом worktree; путь не используется кодом или публичной сборкой."
+    },
+    {
+      "id": "0176-coordinator-approximate-source-size",
+      "path": "Журнал/2026-09-11_02-51-49_MSK_проверить-поставку-FUMA-из-клона/запрос.md",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:8f2255601990bbf3628013003b7175ff1f65875bcfd84c5f101f87ee5b9c1498",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Дословное сообщение координатора содержит приблизительный размер JSONL с тильдой перед числом; это историческая цитата, не путь или параметр файлового ввода."
     }
   ]
 }

@@ -16,6 +16,16 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-11 03:32:48 MSK - Vosstanovitj peredachu formatov posle perezapuska](2026-09-11_03-32-48_MSK_vosstanovitj-peredachu-formatov-posle-perezapuska/otchyot.md)
+- [2026-09-11 02:51:49 MSK — Proveritj postavku FUMA iz klona](2026-09-11_02-51-49_MSK_proveritj-postavku-FUMA-iz-klona/otchyot.md)
+- [2026-09-11 02:44:12 MSK - Obnovitj pokoleniye po prezhnej politike](2026-09-11_02-44-12_MSK_obnovitj-pokoleniye-po-prezhnej-politike/otchyot.md)
+- [2026-09-11 02:30:48 MSK - Soglasovatj skhemu formatov prilozheniya](2026-09-11_02-30-48_MSK_soglasovatj-skhemu-formatov-prilozheniya/otchyot.md)
+- [2026-09-11 02:19:55 MSK - Dopustitj otsutstviye lokaljnogo grafa](2026-09-11_02-19-55_MSK_dopustitj-otsutstviye-lokaljnogo-grafa/otchyot.md)
+- [2026-09-11 02:13:44 MSK — Integrirovatj postavku FUMA](2026-09-11_02-13-44_MSK_integrirovatj-postavku-FUMA/otchyot.md)
+- [2026-09-11 02:06:54 MSK - Podderzhatj formatyi prilozheniya v proyekcii](2026-09-11_02-06-54_MSK_podderzhatj-formatyi-prilozheniya-v-proyekcii/otchyot.md)
+- [2026-09-11 01:56:50 MSK — Proveritj paketyi FUMA iz klona](2026-09-11_01-56-50_MSK_proveritj-paketyi-FUMA-iz-klona/otchyot.md)
+- [2026-09-11 01:45:23 MSK - Adaptirovatj prilozheniye FUM dlya monorepozitoriya](2026-09-11_01-45-23_MSK_adaptirovatj-prilozheniye-FUM-dlya-monorepozitoriya/otchyot.md)
+- [2026-09-11 01:28:44 MSK — Perenesti iskhodniki FUMA](2026-09-11_01-28-44_MSK_perenesti-iskhodniki-FUMA/otchyot.md)
 - [2026-09-10 20:23:26 MSK — Proveritj sliyaniye posle dopuska](2026-09-10_20-23-26_MSK_proveritj-sliyaniye-posle-dopuska/otchyot.md)
 - [2026-09-10 17:33:36 MSK — Zakrepitj dopusk sliyaniya iz master](2026-09-10_17-33-36_MSK_zakrepitj-dopusk-sliyaniya-iz-master/otchyot.md)
 - [2026-09-10 15:09:56 MSK — Vlitj master v vedusjhuyu vetku](2026-09-10_15-09-56_MSK_vlitj-master-v-vedusjhuyu-vetku/otchyot.md)
@@ -509,6 +519,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 20:36:12 MSK -->
-<!-- content-sha256: sha256:3372b3ee5e449eb4ed16e70e29e39f73b0cfb8e1c6728cf74544ff1484475a74 -->
+<!-- last-content-edit: 2026-09-11 03:52:50 MSK -->
+<!-- content-sha256: sha256:010dc8947f8e36afe34258162e6b66858d00442152b6e01cbfc922fa143dea77 -->
 <!-- FUM-MD-RECENCY:END -->

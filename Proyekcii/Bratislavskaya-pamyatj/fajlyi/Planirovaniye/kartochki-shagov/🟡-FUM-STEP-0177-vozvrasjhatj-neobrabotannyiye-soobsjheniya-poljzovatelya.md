@@ -36,9 +36,9 @@ Tekusjhaya ocheredj ogranichena khvostom posle iskhodnogo kursora i obyyomom 64 
 - [Pryamyiye soobsjheniya i soderzhateljnyiye otvetyi](../../Zhurnal/2026-09-10_17-33-36_MSK_zakrepitj-dopusk-sliyaniya-iz-master/zapros.md).
 - [Sokhranyonnyiye planyi i fakticheskij ostatok](../../Zhurnal/2026-09-10_17-33-36_MSK_zakrepitj-dopusk-sliyaniya-iz-master/otchyot.md).
 - [Pravilo vosstanovleniya po iskhodnyim soobsjheniyam](../../AGENTS.md).
-- [Sleduyusjhij perenos sobstvennoj realizacii](🟡-FUM-STEP-0176-sobratj-sobstvennuyu-realizaciyu-v-FUM.md).
+- [Sleduyusjhij perenos sobstvennoj realizacii](✅-FUM-STEP-0176-sobratj-sobstvennuyu-realizaciyu-v-FUM.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 19:46:01 MSK -->
-<!-- content-sha256: sha256:45e0ce28332a8473b2fcf0eda0a60dd91a8947be5b1efb51cc65edda0c611097 -->
+<!-- last-content-edit: 2026-09-11 03:52:50 MSK -->
+<!-- content-sha256: sha256:510e20e9ca66984cced360b6e13a3e603512177a499965dc8f7a6e806c94fc96 -->
 <!-- FUM-MD-RECENCY:END -->

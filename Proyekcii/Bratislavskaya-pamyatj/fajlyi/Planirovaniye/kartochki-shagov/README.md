@@ -214,8 +214,9 @@ Dlya odnovremennogo utochneniya imeni dobavj `--description новое-крат�
 | FUM-STEP-0173 | 🟡 Aktualjno | [Razobratj drejf snimka obyyavlenij](🟡-FUM-STEP-0173-razobratj-drejf-snimka-obyyavlenij.md)                                                                                                                                                                                                                                   |
 | FUM-STEP-0174 | 🟡 Aktualjno | [Opisyivatj primeneniye avtomatizacij bez chteniya koda](🟡-FUM-STEP-0174-opisyivatj-primeneniye-avtomatizacij-bez-chteniya-koda.md)                                                                                                                                                                                                 |
 | FUM-STEP-0175 | 🟡 Aktualjno | [Podgotovitj smenu golovnoj vetki razrabotki](🟡-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md)                                                                                                                                                                                                               |
-| FUM-STEP-0176 | 🟡 Aktualjno | [Sobratj sobstvennuyu realizaciyu v FUM](🟡-FUM-STEP-0176-sobratj-sobstvennuyu-realizaciyu-v-FUM.md)                                                                                                                                                                                                                             |
+| FUM-STEP-0176 | ✅ Vyipolneno | [Sobratj sobstvennuyu realizaciyu v FUM](✅-FUM-STEP-0176-sobratj-sobstvennuyu-realizaciyu-v-FUM.md)                                                                                                                                                                                                                             |
 | FUM-STEP-0177 | 🟡 Aktualjno | [Vozvrasjhatj neobrabotannyiye soobsjheniya poljzovatelya](🟡-FUM-STEP-0177-vozvrasjhatj-neobrabotannyiye-soobsjheniya-poljzovatelya.md)                                                                                                                                                                                                     |
+| FUM-STEP-0203 | ✅ Vyipolneno | [Otvyazatj svyaznostj ot lokaljnogo grafa Obsidian](✅-FUM-STEP-0203-otvyazatj-svyaznostj-ot-lokaljnogo-grafa-Obsidian.md)                                                                                                                                                                                                       |
 
 ## Istochniki trebovanij
 
@@ -250,6 +251,6 @@ Dlya odnovremennogo utochneniya imeni dobavj `--description новое-крат�
 - [iskhodnyij zapros 2026-07-24 10:44:28 MSK — Nachatj bezokonnyij Swift-prototip vosproizvodimogo popolneniya pamyati FUM](../../Zhurnal/2026-07-24_10-44-28_MSK_nachatj-bezokonnyij-Swift-prototip-vosproizvodimogo-popolneniya-pamyati-FUM/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 20:36:12 MSK -->
-<!-- content-sha256: sha256:8ddf99352969d445473f51a45fcdff182e8d5cb90e48188da8d8b9c6f0a7fa4e -->
+<!-- last-content-edit: 2026-09-11 03:52:50 MSK -->
+<!-- content-sha256: sha256:d217a208de3df60d8a49e7951a7a182e1cac133566f727e4994e341c6634857c -->
 <!-- FUM-MD-RECENCY:END -->

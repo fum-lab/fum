@@ -1,0 +1,86 @@
+{
+  "граница": "Новый воспроизводящий запуск после ошибки отчётной части; исходный неуспех не заменяется.",
+  "изменения": [
+    {
+      "до": "a30a4f851b4c0742d823fcba485879d916d697fa37cf6544aa24d88131805e98",
+      "после": "8b2ad0e158355cabb975248aba6182af9764e1a18ebe0d0e65c3da7100e93a34",
+      "путь": "Приложения/FUMA/macOS/Sources/FUMApp/AXVisionRuntimeWriter.swift"
+    },
+    {
+      "до": "e5bc19da14f99012045d37ff95f3434f26996204544a262802d3436691a23ad8",
+      "после": "5174b66f9ee9782675a3ebd4a3d0a70c82512f1d52c9668f2e9b7b5435037b09",
+      "путь": "Приложения/FUMA/macOS/Sources/FUMApp/AXVisionSnapshot.swift"
+    },
+    {
+      "до": "d95d709e2e37e7b0943309e3e48648ee58a5b2a81dbf2429042ff92acc9b245b",
+      "после": "0a46100836fd0cac1819a2acb92b55b5942ca19525d5c901853594f5570a2cf7",
+      "путь": "Приложения/FUMA/macOS/Sources/FUMApp/CameraVisionModel.swift"
+    },
+    {
+      "до": "d0019337453da0d76e50c0f78bc65db9eeb5d6368daab67e7402a89a238fb1ac",
+      "после": "ee6af8df3685778e5e5b3397fcc65d8fbefbee85dc44e015b18ccc2a7b895027",
+      "путь": "Приложения/FUMA/macOS/Sources/FUMApp/InputEventMonitor.swift"
+    },
+    {
+      "до": "0278c77e528d0bd77f018afb5b68670070911f39fc07025d7feb77ba6f050669",
+      "после": "afb018fef4e3d2234fbdcec4069835090733ccacf8a109cf335eb86984a22ea7",
+      "путь": "Приложения/FUMA/macOS/Sources/FUMApp/KnowledgeView.swift"
+    },
+    {
+      "до": "9238be5eef134e7c474fd72e9990b5e8ff5a6f8539d92c097d4ddc7b035f0c08",
+      "после": "fe282e998e04116e81f314bddee7eb1201462600257debe069a963d04e1b72c4",
+      "путь": "Приложения/FUMA/macOS/Sources/FUMApp/MCPBridge.swift"
+    },
+    {
+      "до": "0836027e405045b00cd0ec69f62020a0b8fecfd06fec2fb2b0b5a09533333441",
+      "после": "9c055e750da3b92db8e6c7b693c1c77a4ed84cfe01bdf5a49de7befadcec51b9",
+      "путь": "Приложения/FUMA/macOS/Sources/FUMApp/OrgansView.swift"
+    },
+    {
+      "до": "dfda3d07562dbe2e3e9c7eee2d160eec97e8ff46bb4e670967d74a3542779033",
+      "после": "7cf6638fae372922e67f04fa809ecb2f397a60cb5886ca114e94111a5296ebbd",
+      "путь": "Приложения/FUMA/macOS/Sources/FUMApp/PermissionCLI.swift"
+    },
+    {
+      "до": "98d470fb64b1879f0d095c5501669db86f9bb865a38dee28d4baa74550b53d7d",
+      "после": "df0e2e8dab37d0a514eaac0794c9ec3e570bda77a825def55328b802da60265d",
+      "путь": "Приложения/FUMA/macOS/Sources/FUMApp/VideoMemory.swift"
+    },
+    {
+      "до": "0604c69268242b7588b75e49e846f158295e26fb08e1eab890010c75f0f088b2",
+      "после": "1a9c4c5259140357bd627fa2aa2194decf96202beb7ce07da373aca300c63729",
+      "путь": "Приложения/FUMA/macOS/launchd/fum.app.plist"
+    },
+    {
+      "до": "e68ba7fe16c14ea84ea2a327e5198c2c9486698f6194be0125bcfdb01e7b0311",
+      "после": "fb423e074585533ea4b191a65e706964d1e5700eb61f29b99a4744617c468adf",
+      "путь": "Приложения/FUMA/macOS/launchd/fum.attention-loop.plist"
+    },
+    {
+      "до": "84a546894631283c6b1c74a682d2630296d9814131a2f5f9a5a244421149e578",
+      "после": "c207024d5759a1d9e3983da71ff2c7899ed044d8a5ed1a22f0066f7ed7f13c49",
+      "путь": "Приложения/FUMA/macOS/launchd/fum.sense.ax-vision.plist"
+    },
+    {
+      "до": "94513d809cfabf6312b283bbb8d36b9668d9c22a685e37342588d87b9ae31ad3",
+      "после": "4acbdb65cf41ba80bc4d8637715fb32a3fe97cd5bc763c551f0efc873dc6f0e1",
+      "путь": "Приложения/FUMA/macOS/script/install_attention_loop.sh"
+    },
+    {
+      "до": "83985c74ae945311644312ad22cdf964fd96175ca1aa00654ab45c97e2e31377",
+      "после": "d2ec9d029890be96c0b1d8fb28f7a532d6e03ee8e6509e00694f9d2624afdade",
+      "путь": "Приложения/FUMA/macOS/script/install_ax_vision_sense.sh"
+    },
+    {
+      "до": "c10e1aecba371f0ce63d6f6aac72bc00b5407481bf21030e5c6fe464c06f9248",
+      "после": "a2f5a99c7db74890ed911d8335be44406b767d70db5f6e9294b75c81e0675dc8",
+      "путь": "Приложения/FUMA/macOS/script/install_fum_app.sh"
+    }
+  ],
+  "назначение_сверено": true,
+  "профиль": {
+    "подготовка_нс": 4389500,
+    "применение_нс": 1965917
+  },
+  "схема": "fum.адаптация-путей-приложения.1"
+}

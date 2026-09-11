@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-10 17:33:36 MSK - Zakrepitj dopusk sliyaniya iz master](../2026-09-10_17-33-36_MSK_zakrepitj-dopusk-sliyaniya-iz-master/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-11 01:28:44 MSK - Perenesti iskhodniki FUMA](../2026-09-11_01-28-44_MSK_perenesti-iskhodniki-FUMA/zapros.md)
 
 ## Tekst zaprosa
 
@@ -97,6 +97,6 @@ Vse pryamyiye proverochnyiye zapuski i ikh iskhodyi sokhranyayutsya v [otchyote]
 - [Otchyot ob izvlechenii](../../Istochniki/URL/https/github.com/git/git/blob/v2.54.0/builtin/update-ref.c/extraction-report.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 21:37:35 MSK -->
-<!-- content-sha256: sha256:c2a5279239d1a3a8e431d1800e826858e5995b8ae016e48aca2efb6865a4cf87 -->
+<!-- last-content-edit: 2026-09-11 01:36:01 MSK -->
+<!-- content-sha256: sha256:1094e761e4f72f4636f5ac81765f191d02ecc53dae44a517828b476854bbc291 -->
 <!-- FUM-MD-RECENCY:END -->

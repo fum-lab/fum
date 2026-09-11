@@ -1372,6 +1372,46 @@ def проверить_незаполненный_маркер_шаблона(
     return ошибки
 
 
+def отсутствует_необязательный_граф(
+    ссылка: MarkdownLink, цель: Path, корень: Path,
+) -> bool:
+    """Только локальный граф; пропущенные предки и символьные обходы не допускаются."""
+    корень = корень.resolve()
+    граф = корень / ".obsidian" / "graph.json"
+    if цель != граф:
+        return False
+    try:
+        основа = ссылка.source.absolute().parent.relative_to(корень).parts
+    except ValueError:
+        return False
+    адрес = unquote(ссылка.target.strip()).split("#", 1)[0].split("?", 1)[0]
+    части = (*основа, *Path(адрес).parts)
+    путь = корень
+    for номер, часть in enumerate(части):
+        if часть == "..":
+            if путь == корень:
+                return False
+            путь = путь.parent
+            continue
+        try:
+            имена = {дочерний.name for дочерний in путь.iterdir()}
+        except OSError:
+            return False
+        if часть not in имена and any(имя.casefold() == часть.casefold() for имя in имена):
+            return False
+        путь = путь / часть
+        if путь.is_symlink():
+            return False
+        if not путь.exists():
+            return (
+                путь == граф and номер == len(части) - 1
+                or путь == граф.parent and части[номер:] == (".obsidian", "graph.json")
+            )
+        if номер < len(части) - 1 and not путь.is_dir():
+            return False
+    return False
+
+
 def validate_markdown_links(paths: set[Path], repo_root: Path) -> list[str]:
     errors: list[str] = []
     for path in sorted(paths):
@@ -1419,6 +1459,8 @@ def validate_markdown_links(paths: set[Path], repo_root: Path) -> list[str]:
             if not is_structurally_excluded_path(target, repo_root):
                 actual_target = actual_case_path(target, repo_root)
             if actual_target is None:
+                if отсутствует_необязательный_граф(link, target, repo_root):
+                    continue
                 errors.append(
                     f"broken Markdown link in {source_rel}:{link.line}: {link.target}"
                 )

@@ -258,7 +258,11 @@
                 ".html",
                 ".base64",
                 ".mlir",
-                ".css"
+                ".css",
+                ".modulemap",
+                ".pbxproj",
+                ".plist",
+                ".entitlements"
               ]
             },
             "точные_пути": {
@@ -268,7 +272,8 @@
                 ".obsidian/fum-recency-reference-date",
                 "LICENSE",
                 "fum",
-                "ЛИЦЕНЗИЯ"
+                "ЛИЦЕНЗИЯ",
+                "Приложения/FUMA/macOS/.gitignore"
               ]
             },
             "действие": {
@@ -338,7 +343,9 @@
           "const": [
             ".py",
             ".swift",
-            ".sh"
+            ".sh",
+            ".c",
+            ".h"
           ]
         },
         "действие": {
