@@ -1,0 +1,14 @@
+HTTP/2 200
+server: ddos-guard
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+date: Fri, 11 Sep 2026 11:57:25 GMT
+content-type: text/html; charset=UTF-8
+last-modified: Thu, 28 May 2026 16:19:03 GMT
+etag: W/"11073e-652e3162a8a99-gzip"
+x-frame-options: SAMEORIGIN
+x-host: opensource.itmo.ru
+x-tilda-server: 26
+x-tilda-imprint: 147a7268-d564-4ba6-af3f-5e083b6a6a7f

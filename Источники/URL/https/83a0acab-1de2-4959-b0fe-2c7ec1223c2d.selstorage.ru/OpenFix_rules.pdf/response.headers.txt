@@ -1,0 +1,12 @@
+HTTP/2 200 
+accept-ranges: bytes
+content-length: 575603
+content-type: application/pdf
+etag: "5a22e058bcf7478b671edef6676cf1c2"
+last-modified: Tue, 18 Nov 2025 11:59:09 GMT
+vary: Origin, Access-Control-Request-Headers, Access-Control-Request-Method, Accept-Encoding
+x-container-storage-policy-index: 0
+x-container-storage-policy-name: Policy-0
+date: Fri, 11 Sep 2026 12:29:41 GMT
+age: 0
+
