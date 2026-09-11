@@ -1,0 +1,61 @@
+{
+  "схема": "fum.исследование-постановки.1",
+  "дата_проверки": "2026-09-11",
+  "предмет": "Автоматизация macOS VM на Apple Silicon",
+  "автор_анализа": "audit_integration_readiness",
+  "исходная_команда": "cf5e06346f4a50ce5d092ba7e0f229d72778c16e28431fd6f4812510ac96a9b5",
+  "решение": "Отдельный профиль macOS общего Swift-инструмента VM. Первый пилот — одна совместимая VM с закреплённым образом macOS 27. Конкретный IPSW ещё не проверен и не скачан.",
+  "общее_с_Linux": [
+    "проверка ресурсов и план без записи",
+    "каталог и секреты вне Git",
+    "один писатель и состояния",
+    "ограниченные ожидания и SSH",
+    "готовность гостя, остановка и повтор",
+    "профиль и происхождение"
+  ],
+  "отличия": [
+    "VZMacOSRestoreImage: URL, версия, build, хэш байтов; latestSupported только для обнаружения кандидата. mostFeaturefulSupportedConfiguration задаёт совместимость и минимальные CPU/RAM, nil означает отказ.",
+    "VZMacOSBootLoader и прежние hardwareModel, machineIdentifier, auxiliaryStorage и диск сохраняются при повторе. Отдельной машине нужны собственные identifier и auxiliaryStorage; Linux EFI не переносится.",
+    "VZMacOSInstaller работает с локальным restore image и остановленной VM. Отмена через installer; обычные pause/stop во время установки имеют неопределённое поведение. Восстановление прерванной установки ещё не доказано.",
+    "VZMacGuestProvisioningOptions: host и guest macOS 27+, Beta, создание пользователя и включение SSH только при первом запуске после restore. Повтор не переинициализирует пользователя.",
+    "NAT и SSH после provisioning. macOSGuestAutomountTag для явно выбранного общего каталога, предпочтительно только чтение. Linux NoCloud/VSOCK не считаются доказанным macOS-каналом."
+  ],
+  "критерии": [
+    "Сборка подписанного инструмента из чистого клона; происхождение host/SDK/Swift/образа/конфигурации; проверка совместимости до создания.",
+    "Автоматическая установка, первый запуск и provisioning; SSH-команда подтверждает идентичность, архитектуру и build нужного гостя.",
+    "Гостевой клон точного OID FUM, существующий профиль подготовки macOS/STEP0179, один явно названный сценарий сборки и запуска компонента FUMA.",
+    "Штатная остановка и повтор сохраняют данные и идентичность; неизвестные диски не пересоздаются при отказе.",
+    "Раздельные замеры получения образа, установки, первого запуска, готовности SSH, гостевого сценария и повтора."
+  ],
+  "источники": [
+    {
+      "название": "Apple: VZMacGuestProvisioningOptions",
+      "url": "https://developer.apple.com/documentation/virtualization/vzmacguestprovisioningoptions"
+    },
+    {
+      "название": "Apple: VZMacOSVirtualMachineStartOptions",
+      "url": "https://developer.apple.com/documentation/virtualization/vzmacosvirtualmachinestartoptions"
+    },
+    {
+      "название": "Apple: VZMacOSRestoreImage",
+      "url": "https://developer.apple.com/documentation/virtualization/vzmacosrestoreimage"
+    },
+    {
+      "название": "Apple: VZMacPlatformConfiguration",
+      "url": "https://developer.apple.com/documentation/virtualization/vzmacplatformconfiguration"
+    },
+    {
+      "название": "Apple: Installing macOS on a virtual machine",
+      "url": "https://developer.apple.com/documentation/virtualization/installing-macos-on-a-virtual-machine"
+    },
+    {
+      "название": "Apple: VZNATNetworkDeviceAttachment",
+      "url": "https://developer.apple.com/documentation/virtualization/vznatnetworkdeviceattachment"
+    },
+    {
+      "название": "Apple: macOSGuestAutomountTag",
+      "url": "https://developer.apple.com/documentation/virtualization/vzvirtiofilesystemdeviceconfiguration/macosguestautomounttag"
+    }
+  ],
+  "граница": "Только постановка и первичное исследование; образ не скачан, VM не создана, provisioning не запущен. Готовность текущей Linux-разработки не объявляется. Новое активное дерево не создаётся."
+}

@@ -36,12 +36,13 @@ Matematika prinyata v 7039a3f6e6ac3ea7dad48f825b78303f833e3594; tri novyikh vidi
 
 ## Istochniki
 
+- [FUM-SBOJ-0059/PROYAVLENIYE-0002](../../Sboi/FUM-SBOJ-0059-otsutstviye-korrekcii-negotovogo-chastichnogo-priyoma.md) — povtor nedostupnogo dopustimogo vosstanovleniya finansovogo priyoma. Istochnik aktualizirovan; prezhnij zavershyonnyij obyyom 0201 sokhranyon, samostoyateljnuyu priyomku novogo ogranicheniya vedyot [STEP 0213](🟡-FUM-STEP-0213-proveritj-ogranichennoye-vosstanovleniye-statusa-priyoma.md).
 - [Konechnyij obyyom i fakticheskiye dokazateljstva](../../Zhurnal/2026-09-11_10-00-32_MSK_zavershitj-priyom-napravlenij-FUMA/otchyot.md).
 - [Komandyi, utochneniye sostava i raspredeleniye rabotyi](../../Zhurnal/2026-09-11_01-40-19_MSK_avtomatizirovatj-priyom-napravlenij-FUMA/zapros.md).
 - [Pervyij etap i fakticheskij ostatok](../../Zhurnal/2026-09-11_01-40-19_MSK_avtomatizirovatj-priyom-napravlenij-FUMA/otchyot.md).
 - [Chitatelj iskhodnyikh soobsjhenij](🟡-FUM-STEP-0177-vozvrasjhatj-neobrabotannyiye-soobsjheniya-poljzovatelya.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 10:07:35 MSK -->
-<!-- content-sha256: sha256:8aec53fe8db408994730b6bf7196b2193836cfc7db4ed7139c0d334ff7d9c5e0 -->
+<!-- last-content-edit: 2026-09-11 15:10:58 MSK -->
+<!-- content-sha256: sha256:ebdaed6f4079a2a86ee9f982eb20f296aaf39faf51eb67a01f1fdb7bbec61fa2 -->
 <!-- FUM-MD-RECENCY:END -->

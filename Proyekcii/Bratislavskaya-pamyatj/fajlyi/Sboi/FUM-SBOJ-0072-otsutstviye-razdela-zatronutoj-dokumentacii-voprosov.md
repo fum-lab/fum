@@ -1,7 +1,7 @@
 +++
 "версия_схемы" = 1
 "идентификатор_сбоя" = "FUM-СБОЙ-0072"
-"статус" = "устранена"
+"статус" = "активна"
 +++
 # Otsutstviye obyazateljnogo razdela dokumentacii v dvukh voprosakh
 
@@ -11,13 +11,17 @@ Dva novyikh aktivnyikh voprosa byili sokhranenyi bez tochnogo obyazateljnogo raz
 
 ## Granica povtoreniya
 
-Odin epizod podgotovki dvukh voprosov i odin obnaruzhivshij yego polnyij zapusk. Obratnyiye ssyilki v diagnosticheskom otchyote susjhestvovali; ne byila yavno obyyavlena celj v predusmotrennom razdele voprosov. Eto otlichayetsya ot 0029 s otsutstvuyusjhej obratnoj ssyilkoj v uzhe obyyavlennoj celi, ot drejfa H1 v 0041 i ot obyazateljnyikh polej paryi Zhurnala v 0071.
+Podgotovka aktivnyikh voprosov bez obyazateljnogo razdela, obyyavlyayusjhego zatronutuyu dokumentaciyu. Pervoye nablyudeniye okhvatyivayet dva voprosa i odin polnyij zapusk; vtoroye — vopros integracii i adresnyij zapusk. Odna obsjhaya mera — proveryayemaya podgotovka obyazateljnogo razdela do dopuska. Obratnyiye ssyilki v diagnosticheskom otchyote susjhestvovali; ne byila yavno obyyavlena celj v predusmotrennom razdele voprosov. Eto otlichayetsya ot 0029 s otsutstvuyusjhej obratnoj ssyilkoj v uzhe obyyavlennoj celi, ot drejfa H1 v 0041 i ot obyazateljnyikh polej paryi Zhurnala v 0071.
 
 ## Proyavleniya
 
 ### FUM-SBOJ-0072/PROYAVLENIYE-0001
 
 Kvitanciya `c835e6b5-5b7d-49b4-8c1e-4edfd63257e5`, kod 1, 379,635979209 s: shag 8 potreboval rovno odin razdel `## Затронутая документация` v voprosakh o klassifikacii propuska sluzhebnyikh putej i o nerazlichyonnom uslovii otkaza konteksta 0165. Pered obnaruzheniyem oshibki proyekciya i nezavisimyij manifest uzhe zanyali 334,987 s po pervichnomu smoke-timing. Dva soobsjheniya odnogo zapuska ne schitayutsya dvumya proyavleniyami.
+
+### FUM-SBOJ-0072/PROYAVLENIYE-0002
+
+[Tekusjhij otchyot](../Zhurnal/2026-09-11_16-18-37_MSK_podgotovitj-plan-Gosuslug/otchyot.md): zapisj `60edb449-4086-4779-919a-f428c46de207`, kod 1, 6.459698166 s. Novyij vopros uslovij YESIA imel soderzhateljnyiye ssyilki v «Istochniki», no ne tochnyij razdel «Zatronutaya dokumentaciya». Adresnyij validator praviljno otkazal do tyazhyologo smoke. Razdel dobavlen s dvumya obosnovannyimi celyami — planom i trebovaniyem; obratnyiye ssyilki uzhe imelisj. Povtornyij iskhod khranitsya otdeljno. Predyidusjheye ogranichennoye vosstanovleniye sokhranyayetsya istoricheskim.
 
 ## Ozhidaniye i klassifikaciya
 
@@ -29,22 +33,27 @@ V oba voprosa dobavlen obyazateljnyij razdel s osmyislennoj yedinstvennoj celjyu
 
 ## Svyazannyiye shagi
 
-Novogo STEP net: ogranichennoye vosstanovleniye dvukh dokumentov vyipolneno i provereno v tom zhe otkryitom etape 0201. Vozmozhnaya optimizaciya poryadka proverok ostayotsya otdeljnyim resheniyem koordinatora po izmereniyam.
+Pervoye ogranichennoye vosstanovleniye vyipolneno v etape 0201 bez novogo STEP. Posle povtornogo proyavleniya `FUM-СБОЙ-0072/ПРОЯВЛЕНИЕ-0002` aktualizirovan [FUM-STEP-0114](../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0114-dobavitj-proveryayemyij-kontur-pamyati-i-sistemnogo-ustraneniya-nedorabotok.md): proveritj sokhraneniye povtornogo sluchaya i ustojchivuyu granicu podgotovki obyazateljnoj sekcii. Predmet Gosuslug ne rasshiryayetsya realizaciyej etoj avtomatizacii.
 
 ## Kriterii zakryitiya
 
+Povtornyij epizod sokhranyayetsya i prinimayetsya s proverennyim sposobom formirovaniya obyazateljnoj sekcii do dopuska. Odna ruchnaya vstavka i zelyonyij povtor ne dokazyivayut obsjhego predotvrasjheniya.
+
+
 Oba voprosa soderzhat tochnyij obyazateljnyij razdel, obyyavlennaya celj smyislovo obosnovana i dvunapravlennostj vsego dejstvuyusjhego indeksa uspeshno proverena. Neuspeshnyij polnyij zapusk sokhranyon; uspeshnoye ispravleniye ne podmenyayet povtornyij obsjhij dopusk novogo soderzhimogo.
 
-## Podtverzhdeniye ustraneniya
+## Istoricheskoye podtverzhdeniye ogranichennogo vosstanovleniya
 
 Adresnaya v4 `f592146d-12cd-4ab8-b1a9-82f3e894b245` vernula kod 0 za 6,044425417 s: 19 aktivnyikh voprosov, 106 zayavlennyikh celej. Eto proveryayemoye ogranichennoye vosstanovleniye odnogo epizoda; ne dokazateljstvo obsjhego predotvrasjheniya budusjhikh oshibok.
 
 ## Istochniki
 
+- [Porucheniye tekusjhego etapa](../Zhurnal/2026-09-11_16-18-37_MSK_podgotovitj-plan-Gosuslug/zapros.md).
+
 - [Pervichnyij otkaz, vremennyiye nablyudeniya i ispravleniye](../Zhurnal/2026-09-11_10-00-32_MSK_zavershitj-priyom-napravlenij-FUMA/otchyot.md).
 - [Obyazateljnyij kontrakt dvunapravlennosti](../Instrumentyi/fum-obratnyiye-ssyilki-voprosov/SKILL.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 10:25:02 MSK -->
-<!-- content-sha256: sha256:e78144d6df2a272b2633b1d3e2805f2acfee70629e342649aca68b87e8948285 -->
+<!-- last-content-edit: 2026-09-11 16:40:07 MSK -->
+<!-- content-sha256: sha256:79874ac0a5fe2864138d991c4588db36f786fc1a432caf03939acdfcb9efd946 -->
 <!-- FUM-MD-RECENCY:END -->

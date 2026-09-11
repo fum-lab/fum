@@ -233,6 +233,10 @@ Dlya odnovremennogo utochneniya imeni dobavj `--description новое-крат�
 | FUM-STEP-0192 | 🟡 Aktualjno | [Vosproizvesti modelj nasledovaniya sinteticheskogo lokusa](🟡-FUM-STEP-0192-vosproizvesti-modelj-nasledovaniya-sinteticheskogo-lokusa.md)                                                                                                                                                                                       |
 | FUM-STEP-0210 | 🟡 Aktualjno | [Sostavitj plan perekodirovaniya DNK v belki](🟡-FUM-STEP-0210-sostavitj-plan-perekodirovaniya-DNK-v-belki.md)                                                                                                                                                                                                                 |
 | FUM-STEP-0211 | 🟡 Aktualjno | [Sokhranyatj susjhestvennyiye otvetyi pri perenose dialoga](🟡-FUM-STEP-0211-sokhranyatj-susjhestvennyiye-otvetyi-pri-perenose-dialoga.md)                                                                                                                                                                                                 |
+| FUM-STEP-0212 | 🟡 Aktualjno | [Avtomatizirovatj reyestr organizacij podderzhki FUM](🟡-FUM-STEP-0212-avtomatizirovatj-reyestr-organizacij-podderzhki-FUM.md)                                                                                                                                                                                                   |
+| FUM-STEP-0213 | 🟡 Aktualjno | [Proveritj ogranichennoye vosstanovleniye statusa priyoma](🟡-FUM-STEP-0213-proveritj-ogranichennoye-vosstanovleniye-statusa-priyoma.md)                                                                                                                                                                                             |
+| FUM-STEP-0214 | 🟡 Aktualjno | [Proveritj vosstanovleniye posledovateljnosti zavisimyikh stadij](🟡-FUM-STEP-0214-proveritj-vosstanovleniye-posledovateljnosti-zavisimyikh-stadij.md)                                                                                                                                                                             |
+| FUM-STEP-0215 | ✅ Vyipolneno | [Opredelitj pervyij scenarij i sposob podklyucheniya Gosuslug](✅-FUM-STEP-0215-opredelitj-pervyij-scenarij-i-sposob-podklyucheniya-Gosuslug.md)                                                                                                                                                                                     |
 
 ## Istochniki trebovanij
 
@@ -267,6 +271,6 @@ Dlya odnovremennogo utochneniya imeni dobavj `--description новое-крат�
 - [iskhodnyij zapros 2026-07-24 10:44:28 MSK — Nachatj bezokonnyij Swift-prototip vosproizvodimogo popolneniya pamyati FUM](../../Zhurnal/2026-07-24_10-44-28_MSK_nachatj-bezokonnyij-Swift-prototip-vosproizvodimogo-popolneniya-pamyati-FUM/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 10:07:35 MSK -->
-<!-- content-sha256: sha256:738debbeeb3ffa98dfdb0fc59fb6fb5dad38cd4c80d639c3b0db08b69dbea416 -->
+<!-- last-content-edit: 2026-09-11 18:28:31 MSK -->
+<!-- content-sha256: sha256:d96b004e48a4ef611bf053dc589d2f9374df19946b453e83f6c6d0bb87f34c90 -->
 <!-- FUM-MD-RECENCY:END -->

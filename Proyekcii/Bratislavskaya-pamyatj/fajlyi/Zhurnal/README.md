@@ -16,6 +16,13 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-11 18:23:55 MSK — Zavershitj dopusk plana Gosuslug](2026-09-11_18-23-55_MSK_zavershitj-dopusk-plana-Gosuslug/otchyot.md)
+- [2026-09-11 18:02:51 MSK — Perenesti deljtu tiljdovoj ogradyi](2026-09-11_18-02-51_MSK_perenesti-deljtu-tiljdovoj-ogradyi/otchyot.md)
+- [2026-09-11 17:00:29 MSK — Utochnitj svideteljstvo reglamenta YESIA](2026-09-11_17-00-29_MSK_utochnitj-svideteljstvo-reglamenta-YESIA/otchyot.md)
+- [2026-09-11 16:18:37 MSK — Podgotovitj plan Gosuslug](2026-09-11_16-18-37_MSK_podgotovitj-plan-Gosuslug/otchyot.md)
+- [2026-09-11 15:48:40 MSK — Prinyatj planirovaniye Gosuslug](2026-09-11_15-48-40_MSK_prinyatj-planirovaniye-Gosuslug/otchyot.md)
+- [2026-09-11 14:48:56 MSK — Ispravitj dopusk statusa i prodolzhitj priyom](2026-09-11_14-48-56_MSK_ispravitj-dopusk-statusa-i-prodolzhitj-priyom/otchyot.md)
+- [2026-09-11 13:39:59 MSK — Prinyatj napravleniye finansirovaniya FUM](2026-09-11_13-39-59_MSK_prinyatj-napravleniye-finansirovaniya-FUM/otchyot.md)
 - [2026-09-11 10:00:32 MSK — Zavershitj priyom napravlenij FUMA](2026-09-11_10-00-32_MSK_zavershitj-priyom-napravlenij-FUMA/otchyot.md)
 - [2026-09-11 09:36:55 MSK — Sokhranitj ostavshuyusya diagnostiku priyoma](2026-09-11_09-36-55_MSK_sokhranitj-ostavshuyusya-diagnostiku-priyoma/otchyot.md)
 - [2026-09-11 09:29:11 MSK — Prinyatj vyibor Swift System](2026-09-11_09-29-11_MSK_prinyatj-vyibor-Swift-System/otchyot.md)
@@ -523,6 +530,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 10:07:35 MSK -->
-<!-- content-sha256: sha256:2cc82fa4dbbfb052a0bca668450ef2992eae30013820ca1fa825769c5164849a -->
+<!-- last-content-edit: 2026-09-11 18:28:31 MSK -->
+<!-- content-sha256: sha256:82aec4414f12de05da788fbde6bdb702f50acdb79e8f13f7270f21bac02726b3 -->
 <!-- FUM-MD-RECENCY:END -->

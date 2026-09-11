@@ -6,6 +6,8 @@ Fajl voprosa ne udalyayetsya posle otveta. Yesli vopros poluchayet otvet ili cha
 
 ## [Otkryityiye voprosyi](../Glossarij/otkryityij-vopros.md)
 
+- [Usloviya podklyucheniya FUMA k YESIA](2026-09-11_16-18-37_MSK_usloviya-podklyucheniya-FUMA-k-YESIA.md)
+
 - [Granica propuska sluzhebnyikh putej v zaprose](2026-09-11_09-36-55_MSK_granica-propuska-sluzhebnyikh-putej-v-zaprose.md)
 - [Kakoye usloviye ostanovilo osvezheniye konteksta 0165](2026-09-11_09-36-55_MSK_nerazlichyonnoye-usloviye-otkaza-konteksta-0165.md)
 - [Granicyi matematicheskogo napravleniya FUM](2026-09-11_05-09-33_MSK_granicyi-matematicheskogo-napravleniya-FUM.md)
@@ -69,6 +71,6 @@ Fajl voprosa ne udalyayetsya posle otveta. Yesli vopros poluchayet otvet ili cha
 - [iskhodnyij zapros 2026-07-24 10:44:28 MSK — Nachatj bezokonnyij Swift-prototip vosproizvodimogo popolneniya pamyati FUM](../Zhurnal/2026-07-24_10-44-28_MSK_nachatj-bezokonnyij-Swift-prototip-vosproizvodimogo-popolneniya-pamyati-FUM/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 09:58:11 MSK -->
-<!-- content-sha256: sha256:11432c7c8b283e1ac9b07598b11bc2dd5fab6ced22415884f870e76111bc479b -->
+<!-- last-content-edit: 2026-09-11 16:34:50 MSK -->
+<!-- content-sha256: sha256:e22cd2b9a514234394df4a1796d197038df5eb05f8b52a0d64672b6a6ae018fe -->
 <!-- FUM-MD-RECENCY:END -->

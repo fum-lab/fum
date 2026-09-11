@@ -28,7 +28,20 @@ Soderzhateljnyij otvet na neposredstvennyij vopros o susjhnosti FUM ne byil sokh
 - Sluchaj soderzhateljnogo otveta na pryamoj vopros o FUM proveryayetsya kak regressiya: otsutstviye svyazannoj zapisi v `Вопросы и ответы/` obnaruzhivayetsya, a nalichiye papki zaprosa i voprosno-otvetnogo materiala prokhodit proverku.
 - Kontur vklyuchyon v obsjhij smoke-check, rabotayet lokaljno bez seti i sekretov i ne trebuyet semanticheskogo pereoformleniya istoricheskikh sessij do yavno zafiksirovannoj granicyi vvedeniya pravila.
 
+## Povtornyij sluchaj obyazateljnogo razdela voprosov
+
+`FUM-СБОЙ-0072/ПРОЯВЛЕНИЕ-0002` trebuyet sokhranitj prezhneye ogranichennoye vosstanovleniye i povtor posle nego, proveritj vozvrat kartochki v aktivnyij status i ustojchivuyu granicu formirovaniya tochnogo razdela «Zatronutaya dokumentaciya» do dopuska. Realizaciya etoj meryi ne vkhodit v analiticheskij etap Gosuslug.
+
+## Sokhranyonnoye svideteljstvo vneshnego istochnika
+
+`FUM-СБОЙ-0086/ПРОЯВЛЕНИЕ-0001` dobavlyayet sluchaj, kogda utverzhdeniye metadannyikh ne podtverzhdeno otdeljno sokhranyonnyim fragmentom vneshnego dokumenta. Do proverennoj obsjhej meryi ono yavno pomechayetsya nepodtverzhdyonnyim. Sistemnaya realizaciya ostayotsya za predelami analiticheskogo plana Gosuslug.
+
 ## Istochniki
+
+- [FUM-SBOJ-0086/PROYAVLENIYE-0001](../../Sboi/FUM-SBOJ-0086-nepolnoye-svideteljstvo-utverzhdeniya-o-vneshnem-istochnike.md).
+
+- [FUM-SBOJ-0072/PROYAVLENIYE-0002](../../Sboi/FUM-SBOJ-0072-otsutstviye-razdela-zatronutoj-dokumentacii-voprosov.md).
+- [Pervichnoye svideteljstvo povtornogo sluchaya](../../Zhurnal/2026-09-11_16-18-37_MSK_podgotovitj-plan-Gosuslug/zapros.md).
 
 - [iskhodnyij zapros o kartochkakh sboyev](../../Zhurnal/2026-08-06_22-29-49_MSK_vvesti-kartochki-sboyev-dlya-porozhdeniya-shagov/zapros.md)
 - [FUM-SBOJ-0001 — Propusk voprosno-otvetnogo materiala ob FUM](../../Sboi/FUM-SBOJ-0001-propusk-voprosno-otvetnogo-materiala.md)
@@ -50,6 +63,6 @@ Soderzhateljnyij otvet na neposredstvennyij vopros o susjhnosti FUM ne byil sokh
 - [proverka svyaznosti rabochej sessii](../../Instrumentyi/fum-svyaznostj-rabochej-sessii/SKILL.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-07 01:09:33 MSK -->
-<!-- content-sha256: sha256:03f165ee51faeb2fc83561a824ca0235b9cbeae63b1e58f95b2cae2b95908e53 -->
+<!-- last-content-edit: 2026-09-11 17:07:34 MSK -->
+<!-- content-sha256: sha256:f11f1c143288d482c1215065e2568f883231984dbda13cb62a6a0ae9308ce597 -->
 <!-- FUM-MD-RECENCY:END -->

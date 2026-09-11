@@ -55,7 +55,7 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0057 | `устранена` | [Vlozhennaya pesochnica makrosov SwiftUI blokirovala priyomochnuyu Xcode-sborku](FUM-SBOJ-0057-vlozhennaya-pesochnica-makrosov-blokiruyet-sborku.md)                          | 1          | —                       |
 | FUM-SBOJ-0052 | `устранена` | [Svyaznostj trebuyet lokaljnyij graf Obsidian](FUM-SBOJ-0052-svyaznostj-trebuyet-lokaljnyij-graf-Obsidian.md)                                                             | 3          | FUM-STEP-0203           |
 | FUM-SBOJ-0058 | `устранена` | [Oshibochnaya obratnaya para trebovanij pri priyome](FUM-SBOJ-0058-oshibochnaya-obratnaya-para-trebovanij-pri-priyome.md)                                                     | 1          | —                       |
-| FUM-SBOJ-0059 | `устранена` | [Otsutstviye korrekcii negotovogo chastichnogo priyoma](FUM-SBOJ-0059-otsutstviye-korrekcii-negotovogo-chastichnogo-priyoma.md)                                             | 1          | —                       |
+| FUM-SBOJ-0059 | `активна`   | [Otsutstviye korrekcii negotovogo chastichnogo priyoma](FUM-SBOJ-0059-otsutstviye-korrekcii-negotovogo-chastichnogo-priyoma.md)                                             | 2          | FUM-STEP-0213           |
 | FUM-SBOJ-0060 | `устранена` | [Povtornoye indeksirovaniye uzhe udalyonnyikh staryikh putej](FUM-SBOJ-0060-povtornoye-indeksirovaniye-uzhe-udalyonnyikh-staryikh-putej.md)                                         | 1          | —                       |
 | FUM-SBOJ-0061 | `устранена` | [Ustarevshij predprosmotr posle izmeneniya indeksa](FUM-SBOJ-0061-ustarevshij-predprosmotr-posle-izmeneniya-indeksa.md)                                                 | 1          | —                       |
 | FUM-SBOJ-0062 | `активна`   | [Poterya susjhestvennyikh otvetov pri perenose dialoga](FUM-SBOJ-0062-poterya-susjhestvennyikh-otvetov-pri-perenose-dialoga.md)                                               | 2          | FUM-STEP-0211           |
@@ -68,7 +68,11 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0069 | `устранена` | [Predpolozheniye 0644 vmesto nablyudyonnogo rezhima indeksov 0600](FUM-SBOJ-0069-predpolozheniye-o-fajlovom-rezhime-indeksa.md)                                             | 1          | —                       |
 | FUM-SBOJ-0070 | `устранена` | [Vyivod soderzhimogo media bez otbora tekstovyikh chastej](FUM-SBOJ-0070-neotfiljtrovannoye-media-v-tekstovom-vyivode.md)                                                  | 2          | —                       |
 | FUM-SBOJ-0071 | `активна`   | [Nepolnaya para Zhurnala pered proverkoj svyaznosti](FUM-SBOJ-0071-nepolnaya-para-zhurnala-pered-kontroljnoj-tochkoj.md)                                                  | 2          | FUM-STEP-0174           |
-| FUM-SBOJ-0072 | `устранена` | [Otsutstviye obyazateljnogo razdela dokumentacii v dvukh voprosakh](FUM-SBOJ-0072-otsutstviye-razdela-zatronutoj-dokumentacii-voprosov.md)                               | 1          | —                       |
+| FUM-SBOJ-0072 | `активна`   | [Otsutstviye obyazateljnogo razdela dokumentacii v dvukh voprosakh](FUM-SBOJ-0072-otsutstviye-razdela-zatronutoj-dokumentacii-voprosov.md)                               | 2          | FUM-STEP-0114           |
+| FUM-SBOJ-0075 | `активна`   | [Propusjhennaya deklaraciya statusa trebovaniya](FUM-SBOJ-0075-propusjhennaya-deklaraciya-statusa-trebovaniya.md)                                                             | 1          | FUM-STEP-0213           |
+| FUM-SBOJ-0077 | `активна`   | [Dopusk protivorechivogo statusa cherez Setext pri korrekcii](FUM-SBOJ-0077-protivorechivyij-status-cherez-Setext-pri-korrekcii.md)                                      | 1          | FUM-STEP-0213           |
+| FUM-SBOJ-0078 | `активна`   | [Rannij zapusk potrebitelya do zaversheniya proizvoditelya](FUM-SBOJ-0078-rannij-zapusk-potrebitelya-do-zaversheniya-proizvoditelya.md)                                     | 1          | FUM-STEP-0214           |
+| FUM-SBOJ-0086 | `активна`   | [Nepolnoye svideteljstvo utverzhdeniya o vneshnem istochnike](FUM-SBOJ-0086-nepolnoye-svideteljstvo-utverzhdeniya-o-vneshnem-istochnike.md)                                   | 1          | FUM-STEP-0114           |
 
 ## Pravila vedeniya
 
@@ -101,6 +105,6 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 - [pravila rabochikh sessij](../AGENTS.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 10:32:01 MSK -->
-<!-- content-sha256: sha256:f84f7c8114bde6f5062c57ce60b81e0442eb466028c75601cba1ab600831a8e4 -->
+<!-- last-content-edit: 2026-09-11 17:07:34 MSK -->
+<!-- content-sha256: sha256:e1e93f82ffe64ca595f3d388bcdfe5397c7cbf83768a04d4ed33e9c14bb1737a -->
 <!-- FUM-MD-RECENCY:END -->
