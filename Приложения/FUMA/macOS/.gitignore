@@ -1,0 +1,8 @@
+.build/
+.swiftpm/
+dist/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+/run/
+.DS_Store
+.fum-commit-message

@@ -1,0 +1,523 @@
+{
+  "схема": "fum.адаптированное-приложение.1",
+  "канонический_каталог": "Приложения/FUMA/macOS",
+  "источники": [
+    {
+      "дерево": "c31fc5711fc0e90898ce102eec8cecc5f190d110",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "префикс": "."
+    }
+  ],
+  "файлы": [
+    {
+      "blob": "162ce115fa6fee1cb808c372e306f1c008679a38",
+      "sha256": "4376ac8b2818eace9c7e21ef848575917fd1d46e2a2ce0be0cf27d8e35c44539",
+      "источник": ".gitignore",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": ".gitignore",
+      "размер": 162,
+      "режим": "100644",
+      "конечный_sha256": "9d6927ec95dda0f4ee4095b4b280cbbca4a5ca3b3b7ded0af758d50f543774bb",
+      "конечный_режим": "100644",
+      "конечный_размер": 128
+    },
+    {
+      "blob": "554262c377c4046a91304c4983080517c00dfb81",
+      "sha256": "cf9723134db3c080be5d78b101a6f0876ba58242115ea9d240c19d1a171f9a12",
+      "источник": "FUM.xcodeproj/project.pbxproj",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "FUM.xcodeproj/project.pbxproj",
+      "размер": 25095,
+      "режим": "100644",
+      "конечный_sha256": "6b48a8f262ac9ab1868b34e39a39f79561c355c1fde140cba82e171da5549843",
+      "конечный_режим": "100644",
+      "конечный_размер": 25930
+    },
+    {
+      "blob": "219bb315504a5a48f4aeed95de0d030491df645b",
+      "sha256": "4ac412c69640972d36b7dd6d43722b41afa48d656134084ed340ba24e525e434",
+      "источник": "Package.swift",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "Package.swift",
+      "размер": 1298,
+      "режим": "100644",
+      "конечный_sha256": "b74173ae8d770f0921c39ed13dac70c8ba6c5defd8132cf84a1a241da079d267",
+      "конечный_режим": "100644",
+      "конечный_размер": 1566
+    },
+    {
+      "blob": "fa7cd68e6fa76d59599236425ae93b95d37e28ff",
+      "sha256": "c6679a18a8429da42edfd1a5c6b915141bd79da3bf3fee2a52fa451efc44bd33",
+      "источник": "README.md",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "README.md",
+      "размер": 9844,
+      "режим": "100644",
+      "конечный_sha256": "27aed24feb5712edf2c53dd46c7165196427a3c3e88a333f4a285b37d7cdb4f7",
+      "конечный_режим": "100644",
+      "конечный_размер": 13972
+    },
+    {
+      "blob": "72e91025ae94d352be7ad1d877e2d35814a6b4db",
+      "sha256": "a1383a1b33d9e6695e21226a97d9b46af698946a43f07492c91f5f93e013d6c4",
+      "источник": "Sources/CMpvShim/CMpvShim.c",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "Sources/CMpvShim/CMpvShim.c",
+      "размер": 5408,
+      "режим": "100644",
+      "конечный_sha256": "d6a993bc7aaa56559c045fe8ff124b8f385642b05e0b1935bd82c38dc911ddc3",
+      "конечный_режим": "100644",
+      "конечный_размер": 5510
+    },
+    {
+      "blob": "516cea73da89b4a9b3643a5029110460e5aa167c",
+      "sha256": "dd3fbc24fb86b19522727651af743a746d0bf3b7c62a2621a3136cc047ec3824",
+      "источник": "Sources/CMpvShim/include/CMpvShim.h",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "Sources/CMpvShim/include/CMpvShim.h",
+      "размер": 1978,
+      "режим": "100644",
+      "конечный_sha256": "84f13de41e358afaaac24d0fc90cf2f7975bb68c57cda683fe889798cfee97f4",
+      "конечный_режим": "100644",
+      "конечный_размер": 1934
+    },
+    {
+      "blob": "60b7f335e7b90f32ffcdb22a6586259540138686",
+      "sha256": "06deb52fddcf70ffd2fe64b71bbb6025a56b2379f1d61aaf75aec2281201e74c",
+      "источник": "Sources/CMpvShim/include/module.modulemap",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "Sources/CMpvShim/include/module.modulemap",
+      "размер": 57,
+      "режим": "100644",
+      "конечный_sha256": "06deb52fddcf70ffd2fe64b71bbb6025a56b2379f1d61aaf75aec2281201e74c",
+      "конечный_режим": "100644",
+      "конечный_размер": 57
+    },
+    {
+      "blob": "06cdb7bad6d3da57b4bcb2e16a4bdaf5c8ea5bb6",
+      "sha256": "b5a8b0a111a9a724c8ddfb08fcaa663883fe73ac194149613d9040b85b648547",
+      "источник": "Sources/FUMAXVisionSense/main.swift",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "Sources/FUMAXVisionSense/main.swift",
+      "размер": 32516,
+      "режим": "100644",
+      "конечный_sha256": "ad01ff0bbf50d7fc368b9218c5c4839915f1de123fe98d07ecdc5742e4f1c2d5",
+      "конечный_режим": "100644",
+      "конечный_размер": 32664
+    },
+    {
+      "blob": "8167e9b5dbf71893f7fca0d023b775d8cb887fd2",
+      "sha256": "a30a4f851b4c0742d823fcba485879d916d697fa37cf6544aa24d88131805e98",
+      "источник": "Sources/FUMApp/AXVisionRuntimeWriter.swift",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "Sources/FUMApp/AXVisionRuntimeWriter.swift",
+      "размер": 1695,
+      "режим": "100644",
+      "конечный_sha256": "8b2ad0e158355cabb975248aba6182af9764e1a18ebe0d0e65c3da7100e93a34",
+      "конечный_режим": "100644",
+      "конечный_размер": 1823
+    },
+    {
+      "blob": "846dc4c7016898191cd44a926c6213e0cc55ea24",
+      "sha256": "e5bc19da14f99012045d37ff95f3434f26996204544a262802d3436691a23ad8",
+      "источник": "Sources/FUMApp/AXVisionSnapshot.swift",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "Sources/FUMApp/AXVisionSnapshot.swift",
+      "размер": 8154,
+      "режим": "100644",
+      "конечный_sha256": "5174b66f9ee9782675a3ebd4a3d0a70c82512f1d52c9668f2e9b7b5435037b09",
+      "конечный_режим": "100644",
+      "конечный_размер": 8282
+    },
+    {
+      "blob": "cb3ff40c5604365bc8fc1b874e05a37102c91ad1",
+      "sha256": "1dcbd2ac16e5adf49ce8598148521d8f2a3edf391ba163e2a550b5a1c56da4c1",
+      "источник": "Sources/FUMApp/CameraGaze.swift",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "Sources/FUMApp/CameraGaze.swift",
+      "размер": 14266,
+      "режим": "100644",
+      "конечный_sha256": "1dcbd2ac16e5adf49ce8598148521d8f2a3edf391ba163e2a550b5a1c56da4c1",
+      "конечный_режим": "100644",
+      "конечный_размер": 14266
+    },
+    {
+      "blob": "84eee4f256c003d19290e9b1bdca0723ebfd3a4a",
+      "sha256": "d95d709e2e37e7b0943309e3e48648ee58a5b2a81dbf2429042ff92acc9b245b",
+      "источник": "Sources/FUMApp/CameraVisionModel.swift",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "Sources/FUMApp/CameraVisionModel.swift",
+      "размер": 25528,
+      "режим": "100644",
+      "конечный_sha256": "0a46100836fd0cac1819a2acb92b55b5942ca19525d5c901853594f5570a2cf7",
+      "конечный_режим": "100644",
+      "конечный_размер": 25656
+    },
+    {
+      "blob": "9976bfd171d1aeacf27aa3cd0a6c9e498c0f746f",
+      "sha256": "72e90505689c8aac9e86d0e0e7a8c9f93643ff7efb0c353f96e33dc3d4b2c9c2",
+      "источник": "Sources/FUMApp/CameraVisionViews.swift",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "Sources/FUMApp/CameraVisionViews.swift",
+      "размер": 18589,
+      "режим": "100644",
+      "конечный_sha256": "72e90505689c8aac9e86d0e0e7a8c9f93643ff7efb0c353f96e33dc3d4b2c9c2",
+      "конечный_режим": "100644",
+      "конечный_размер": 18589
+    },
+    {
+      "blob": "469a3903f090234ca63a3abeb0d82fed1e8961a2",
+      "sha256": "848dd80a36c8acf2d6c005064b65275c6da2f8a9c843298cedb9b53b00ebeac2",
+      "источник": "Sources/FUMApp/FUMApp.swift",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "Sources/FUMApp/FUMApp.swift",
+      "размер": 1039,
+      "режим": "100644",
+      "конечный_sha256": "848dd80a36c8acf2d6c005064b65275c6da2f8a9c843298cedb9b53b00ebeac2",
+      "конечный_режим": "100644",
+      "конечный_размер": 1039
+    },
+    {
+      "blob": "ed9bc6c3baba0e20637554d56421420c9ee0307d",
+      "sha256": "7cd8579c77dd95f817f009071ecca7515c859f667810d4556317a9f337db26be",
+      "источник": "Sources/FUMApp/GenerativeSurface.swift",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "Sources/FUMApp/GenerativeSurface.swift",
+      "размер": 4917,
+      "режим": "100644",
+      "конечный_sha256": "7cd8579c77dd95f817f009071ecca7515c859f667810d4556317a9f337db26be",
+      "конечный_режим": "100644",
+      "конечный_размер": 4917
+    },
+    {
+      "blob": "446df660cd6c9c2c6ccf3253261f315615cabbee",
+      "sha256": "d0019337453da0d76e50c0f78bc65db9eeb5d6368daab67e7402a89a238fb1ac",
+      "источник": "Sources/FUMApp/InputEventMonitor.swift",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "Sources/FUMApp/InputEventMonitor.swift",
+      "размер": 14096,
+      "режим": "100644",
+      "конечный_sha256": "ee6af8df3685778e5e5b3397fcc65d8fbefbee85dc44e015b18ccc2a7b895027",
+      "конечный_режим": "100644",
+      "конечный_размер": 14218
+    },
+    {
+      "blob": "72d022ddc4115d657aa9cc39f5b847456d9f3575",
+      "sha256": "8eb1183a9d5b586d5c8809138126fba130f979fd61789f083435972941bd9ad6",
+      "источник": "Sources/FUMApp/Inspector.swift",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "Sources/FUMApp/Inspector.swift",
+      "размер": 8269,
+      "режим": "100644",
+      "конечный_sha256": "8eb1183a9d5b586d5c8809138126fba130f979fd61789f083435972941bd9ad6",
+      "конечный_режим": "100644",
+      "конечный_размер": 8269
+    },
+    {
+      "blob": "798d9dddb45f678355de315323d78f05276bfdc1",
+      "sha256": "29c33a61e9428592154f1d38e24d973e37b7803d82cb94b85c352d3843920b28",
+      "источник": "Sources/FUMApp/InterfaceWorkbench.swift",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "Sources/FUMApp/InterfaceWorkbench.swift",
+      "размер": 5274,
+      "режим": "100644",
+      "конечный_sha256": "29c33a61e9428592154f1d38e24d973e37b7803d82cb94b85c352d3843920b28",
+      "конечный_режим": "100644",
+      "конечный_размер": 5274
+    },
+    {
+      "blob": "5f39735874855328595319a9121072b0ae42a7cb",
+      "sha256": "0278c77e528d0bd77f018afb5b68670070911f39fc07025d7feb77ba6f050669",
+      "источник": "Sources/FUMApp/KnowledgeView.swift",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "Sources/FUMApp/KnowledgeView.swift",
+      "размер": 14260,
+      "режим": "100644",
+      "конечный_sha256": "afb018fef4e3d2234fbdcec4069835090733ccacf8a109cf335eb86984a22ea7",
+      "конечный_режим": "100644",
+      "конечный_размер": 14366
+    },
+    {
+      "blob": "a928670566bf1f93839a58283a9e29c6abd7c961",
+      "sha256": "9238be5eef134e7c474fd72e9990b5e8ff5a6f8539d92c097d4ddc7b035f0c08",
+      "источник": "Sources/FUMApp/MCPBridge.swift",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "Sources/FUMApp/MCPBridge.swift",
+      "размер": 8292,
+      "режим": "100644",
+      "конечный_sha256": "328ddeada535121ee4051ded4eed35d9828142db99c86daea3a28b2ba6870f52",
+      "конечный_режим": "100644",
+      "конечный_размер": 8413
+    },
+    {
+      "blob": "5fa1f36abe390077533c0d5cf052bcde14a5987e",
+      "sha256": "0836027e405045b00cd0ec69f62020a0b8fecfd06fec2fb2b0b5a09533333441",
+      "источник": "Sources/FUMApp/OrgansView.swift",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "Sources/FUMApp/OrgansView.swift",
+      "размер": 33256,
+      "режим": "100644",
+      "конечный_sha256": "9c055e750da3b92db8e6c7b693c1c77a4ed84cfe01bdf5a49de7befadcec51b9",
+      "конечный_режим": "100644",
+      "конечный_размер": 33384
+    },
+    {
+      "blob": "4eb47c70447eaa3be1b3952fc9174cd2781d0c2b",
+      "sha256": "dfda3d07562dbe2e3e9c7eee2d160eec97e8ff46bb4e670967d74a3542779033",
+      "источник": "Sources/FUMApp/PermissionCLI.swift",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "Sources/FUMApp/PermissionCLI.swift",
+      "размер": 4341,
+      "режим": "100644",
+      "конечный_sha256": "7cf6638fae372922e67f04fa809ecb2f397a60cb5886ca114e94111a5296ebbd",
+      "конечный_режим": "100644",
+      "конечный_размер": 4447
+    },
+    {
+      "blob": "94f34ef5f1fd9875d837dff161d1749bcf6a3ab8",
+      "sha256": "94e82f60e95d9a8bfeabda701a075aea6fe04b2cc0dd0edc45599473575c7233",
+      "источник": "Sources/FUMApp/VectorVideoDocument.swift",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "Sources/FUMApp/VectorVideoDocument.swift",
+      "размер": 14526,
+      "режим": "100644",
+      "конечный_sha256": "94e82f60e95d9a8bfeabda701a075aea6fe04b2cc0dd0edc45599473575c7233",
+      "конечный_режим": "100644",
+      "конечный_размер": 14526
+    },
+    {
+      "blob": "1568a5350a94b641bacfe3eec8328ff2904c5d25",
+      "sha256": "98d470fb64b1879f0d095c5501669db86f9bb865a38dee28d4baa74550b53d7d",
+      "источник": "Sources/FUMApp/VideoMemory.swift",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "Sources/FUMApp/VideoMemory.swift",
+      "размер": 84775,
+      "режим": "100644",
+      "конечный_sha256": "dba95fc2fd3d743579ef9916991df5b3889e72286017d94672b88ef554bceb40",
+      "конечный_режим": "100644",
+      "конечный_размер": 84980
+    },
+    {
+      "blob": "52005e4fde409cb0c4a4c8e0404a3e41b7f9d8d9",
+      "sha256": "d31c0508c5e054344825c8884e666833b46ecafe6e4a31306807b645903a14ea",
+      "источник": "Sources/FUMApp/VisionSurface.swift",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "Sources/FUMApp/VisionSurface.swift",
+      "размер": 6323,
+      "режим": "100644",
+      "конечный_sha256": "d31c0508c5e054344825c8884e666833b46ecafe6e4a31306807b645903a14ea",
+      "конечный_режим": "100644",
+      "конечный_размер": 6323
+    },
+    {
+      "blob": "f6bc93bf7821fe4bb4550bcdab0e174559ed9a25",
+      "sha256": "dc06869774b08d68e24d1bcaa2487e078e75dd5df3818f10c498193ca2cdd79c",
+      "источник": "Sources/FUMApp/WorkbenchChrome.swift",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "Sources/FUMApp/WorkbenchChrome.swift",
+      "размер": 6855,
+      "режим": "100644",
+      "конечный_sha256": "dc06869774b08d68e24d1bcaa2487e078e75dd5df3818f10c498193ca2cdd79c",
+      "конечный_режим": "100644",
+      "конечный_размер": 6855
+    },
+    {
+      "blob": "9641b298889bbe3ea53b31138058bd8ff8ba9cf8",
+      "sha256": "1fed43a7c09bed1ec17189c31022b0bdf6cb477763eb723cdbf919f83e93692a",
+      "источник": "Sources/FUMApp/WorkspaceFocus.swift",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "Sources/FUMApp/WorkspaceFocus.swift",
+      "размер": 3291,
+      "режим": "100644",
+      "конечный_sha256": "1fed43a7c09bed1ec17189c31022b0bdf6cb477763eb723cdbf919f83e93692a",
+      "конечный_режим": "100644",
+      "конечный_размер": 3291
+    },
+    {
+      "blob": "19b242c6c4c49b1279030d1f9d631ec9a3b6146d",
+      "sha256": "5779e1d10cb0075efd326d3cc359699026375845658cbbf7b41dd03ecffe301c",
+      "источник": "Sources/FUMAttentionLoop/main.swift",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "Sources/FUMAttentionLoop/main.swift",
+      "размер": 22395,
+      "режим": "100644",
+      "конечный_sha256": "9c91f9603d1e7275d63cdbe76ec7e63d5cc50612b990cc3cad1071477f6afe18",
+      "конечный_режим": "100644",
+      "конечный_размер": 22746
+    },
+    {
+      "blob": "0802a19585f5c53a9b1d268686138890b6ee8beb",
+      "sha256": "afc55eb549a628c343262b0dc3ccd1c7791421d88d9d934ae6898dc23b4be7f8",
+      "источник": "Sources/FUMMCPServer/main.swift",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "Sources/FUMMCPServer/main.swift",
+      "размер": 31950,
+      "режим": "100644",
+      "конечный_sha256": "d584d82a0728bd7a4b377a4d0bfafaacdefd8a3ff6ae50e0f73be4f7768c1d9f",
+      "конечный_режим": "100644",
+      "конечный_размер": 32006
+    },
+    {
+      "blob": "5aa0c3be437b58ef33f426cd1615f5f83eca4ac3",
+      "sha256": "a9d59856a793961d2987a6a87bc4c9d43f02bee69fcd8fc6396aa91a91499904",
+      "источник": "Xcode/FUM-Info.plist",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "Xcode/FUM-Info.plist",
+      "размер": 966,
+      "режим": "100644",
+      "конечный_sha256": "a9d59856a793961d2987a6a87bc4c9d43f02bee69fcd8fc6396aa91a91499904",
+      "конечный_режим": "100644",
+      "конечный_размер": 966
+    },
+    {
+      "blob": "e89b7f323cf06c0f693e45a878b20d54db92e85c",
+      "sha256": "99daef167cdc678891a0b49601b6a34a0fae7240c2aa8bd44a753edc131c7d6d",
+      "источник": "Xcode/FUM.entitlements",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "Xcode/FUM.entitlements",
+      "размер": 241,
+      "режим": "100644",
+      "конечный_sha256": "99daef167cdc678891a0b49601b6a34a0fae7240c2aa8bd44a753edc131c7d6d",
+      "конечный_режим": "100644",
+      "конечный_размер": 241
+    },
+    {
+      "blob": "419d8658dada392d4c9ce28f6ee13ebaaa986885",
+      "sha256": "3ea5ad4b8b61e03bf7e949385aa0984b7171e405904f450dae30fab9be159290",
+      "источник": "docs/vector-video-format.md",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "docs/vector-video-format.md",
+      "размер": 5062,
+      "режим": "100644",
+      "конечный_sha256": "754ff06151632619a755eedf8f65cca190e87e2ac5464cb97a9bf06c74cb753d",
+      "конечный_режим": "100644",
+      "конечный_размер": 5349
+    },
+    {
+      "blob": "f3cddd8cfb74ec96078ef5fee0095bc76fb8fa35",
+      "sha256": "0604c69268242b7588b75e49e846f158295e26fb08e1eab890010c75f0f088b2",
+      "источник": "launchd/fum.app.plist",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "launchd/fum.app.plist",
+      "размер": 826,
+      "режим": "100644",
+      "конечный_sha256": "cda2d3b8920fad0c7897a73cccc876a1e8cde532ee93fed8b3f8c5043d49d7cb",
+      "конечный_режим": "100644",
+      "конечный_размер": 920
+    },
+    {
+      "blob": "cefa973573799edfc77fb78644fced9801b33fad",
+      "sha256": "e68ba7fe16c14ea84ea2a327e5198c2c9486698f6194be0125bcfdb01e7b0311",
+      "источник": "launchd/fum.attention-loop.plist",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "launchd/fum.attention-loop.plist",
+      "размер": 940,
+      "режим": "100644",
+      "конечный_sha256": "95f2e55b4561f1bd34a36917a612d4d8e257f2c36ed7680409e923990019fbc7",
+      "конечный_режим": "100644",
+      "конечный_размер": 1019
+    },
+    {
+      "blob": "282a5c151dec76e485dedabaa2ead8752822d56f",
+      "sha256": "84a546894631283c6b1c74a682d2630296d9814131a2f5f9a5a244421149e578",
+      "источник": "launchd/fum.sense.ax-vision.plist",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "launchd/fum.sense.ax-vision.plist",
+      "размер": 1294,
+      "режим": "100644",
+      "конечный_sha256": "250b79a9b32efa73c29e907f3b571f9ab5d5ddf4ae429540b4372ece1b9e2bad",
+      "конечный_режим": "100644",
+      "конечный_размер": 1334
+    },
+    {
+      "blob": "1543c29ca7a34c95b813af65bbdadf09a7457b17",
+      "sha256": "571d18f9786f1861f27640ca6fbd1e58e5102fd5453c75f3c65558fab2b8bcf8",
+      "источник": "script/fum_mcp.sh",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "script/fum_mcp.sh",
+      "размер": 470,
+      "режим": "100755",
+      "конечный_sha256": "63cca97726ec509b3e74d05f6e23b83c3ec691ec864f6f1c60f46c88caa0dde6",
+      "конечный_режим": "100755",
+      "конечный_размер": 488
+    },
+    {
+      "blob": "3929b0f9fe0cae820abb252009fd28cd1596cef4",
+      "sha256": "94513d809cfabf6312b283bbb8d36b9668d9c22a685e37342588d87b9ae31ad3",
+      "источник": "script/install_attention_loop.sh",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "script/install_attention_loop.sh",
+      "размер": 824,
+      "режим": "100755",
+      "конечный_sha256": "c690c947dcfd459df8783fac28ec11489470b51a13c05ef46f14afd3a9709f7f",
+      "конечный_режим": "100755",
+      "конечный_размер": 1504
+    },
+    {
+      "blob": "151a2ea5301e9c686017b33a0c76e475d1aebe1d",
+      "sha256": "83985c74ae945311644312ad22cdf964fd96175ca1aa00654ab45c97e2e31377",
+      "источник": "script/install_ax_vision_sense.sh",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "script/install_ax_vision_sense.sh",
+      "размер": 1667,
+      "режим": "100755",
+      "конечный_sha256": "89539ac9131890d11a9216367aa6f8aedcf5dbe2c5c0e5587b058264d8dee597",
+      "конечный_режим": "100755",
+      "конечный_размер": 2385
+    },
+    {
+      "blob": "dd22825f79509b6b441762e81ca9ca4b9378e719",
+      "sha256": "c10e1aecba371f0ce63d6f6aac72bc00b5407481bf21030e5c6fe464c06f9248",
+      "источник": "script/install_fum_app.sh",
+      "коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+      "назначение": "script/install_fum_app.sh",
+      "размер": 8280,
+      "режим": "100755",
+      "конечный_sha256": "2d2d6d175d3ea0c1fa750478cad15c82e1032f43a9a4cacb5a1b1ebf5f872a26",
+      "конечный_режим": "100755",
+      "конечный_размер": 10127
+    }
+  ],
+  "новые_файлы": [
+    {
+      "назначение": "Sources/CMpvSystem/module.modulemap",
+      "конечный_sha256": "435fab3ef6aa982c763df81f64dfc7b857802e39fb74c12df0c4a5128bb76f63",
+      "конечный_режим": "100644"
+    },
+    {
+      "назначение": "Sources/CMpvSystem/shim.h",
+      "конечный_sha256": "c47cbbcdae538f015809b2be963bffe1550f6f46e48c46bc7d7d44f13c88cc8e",
+      "конечный_режим": "100644"
+    },
+    {
+      "назначение": "Sources/ПутиИсполнения/ПутиПриложения.swift",
+      "конечный_sha256": "3b9562f45165aa6f79b60bcf2ba9bb4d0f2f927837545cd660d5352675bb532a",
+      "конечный_режим": "100644"
+    },
+    {
+      "назначение": "Tests/ПутиИсполненияTests/ПроверкиПутей.swift",
+      "конечный_sha256": "88f5a95dc2d191c811dbd9cc6add781c3cfc0772102be235937c74ced88f80c5",
+      "конечный_режим": "100644"
+    },
+    {
+      "назначение": "проверки/test_адаптации.py",
+      "конечный_sha256": "dfd98d3bd14102af9ae0be46711f88f2e6bc5ab8a2b07e8108d96ce7da2ae320",
+      "конечный_режим": "100644"
+    },
+    {
+      "назначение": "проверки/проверка-C-адаптера.c",
+      "конечный_sha256": "c060d309ba747cdb648cba86a061a66ca4ad771b65ebd0e3615979a33bac6e23",
+      "конечный_режим": "100644"
+    },
+    {
+      "назначение": "проверки/профиль-путей.swift",
+      "конечный_sha256": "b324bd29351057b0d59a433c3fce2cd1494e01fea30e423e817f5bee68045541",
+      "конечный_режим": "100644"
+    },
+    {
+      "назначение": "сценарии/адаптировать-пути.py",
+      "конечный_sha256": "9e109fca0adabd36061da35763c487f87ccf9fcf2fb6b3e43609d4232e1a06f3",
+      "конечный_режим": "100644"
+    }
+  ]
+}

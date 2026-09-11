@@ -1,0 +1,39 @@
+{
+  "схема": "fum.доведение-шаблонов.1",
+  "профиль": {
+    "подготовка_нс": 1055666,
+    "применение_нс": 697542
+  },
+  "файлы": [
+    {
+      "путь": "Приложения/FUMA/macOS/script/install_attention_loop.sh",
+      "до": "850cc8b37541a5766f9031676ab2b4fd2d3000f2f6daa7ed4a25c7de4dcbe42e",
+      "после": "c690c947dcfd459df8783fac28ec11489470b51a13c05ef46f14afd3a9709f7f"
+    },
+    {
+      "путь": "Приложения/FUMA/macOS/script/install_ax_vision_sense.sh",
+      "до": "0906d6ff67470adf8d4a2311ff59a7b3dffac6800c63239d002be5bbf6f260c8",
+      "после": "89539ac9131890d11a9216367aa6f8aedcf5dbe2c5c0e5587b058264d8dee597"
+    },
+    {
+      "путь": "Приложения/FUMA/macOS/script/install_fum_app.sh",
+      "до": "a015bb0bf83b617881df452c46fd15bfcfd1dede685b406c727caa5c02a19821",
+      "после": "2d2d6d175d3ea0c1fa750478cad15c82e1032f43a9a4cacb5a1b1ebf5f872a26"
+    },
+    {
+      "путь": "Приложения/FUMA/macOS/launchd/fum.app.plist",
+      "до": "3bb32a8e73bb95ea7e98ba55cee19dbdfc2578b361e99991388a86c204fb1b1f",
+      "после": "cda2d3b8920fad0c7897a73cccc876a1e8cde532ee93fed8b3f8c5043d49d7cb"
+    },
+    {
+      "путь": "Приложения/FUMA/macOS/launchd/fum.attention-loop.plist",
+      "до": "fb423e074585533ea4b191a65e706964d1e5700eb61f29b99a4744617c468adf",
+      "после": "95f2e55b4561f1bd34a36917a612d4d8e257f2c36ed7680409e923990019fbc7"
+    },
+    {
+      "путь": "Приложения/FUMA/macOS/launchd/fum.sense.ax-vision.plist",
+      "до": "c207024d5759a1d9e3983da71ff2c7899ed044d8a5ed1a22f0066f7ed7f13c49",
+      "после": "250b79a9b32efa73c29e907f3b571f9ab5d5ddf4ae429540b4372ece1b9e2bad"
+    }
+  ]
+}
