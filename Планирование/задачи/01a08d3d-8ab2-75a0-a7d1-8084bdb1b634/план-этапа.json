@@ -273,6 +273,16 @@
         "цитата": "Zapili pryam seriyu kommitov v otdeljnom dereve, kuda zafigachj vse planiruyemyiye sejchas kartochki posledovateljno. Potom podmyordzhim, i voobsjhe pustj eto budet postoyannaya vetka \"planirovaniye\"."
       },
       "свидетельство": "Пользователь отложил слияние: «Potom podmyordzhim». Интеграция требует отдельного явного запроса; проекция сохраняется от базового поколения 406c6ba1."
+    },
+    {
+      "идентификатор": "постановка-Linux-VM",
+      "действие": "Сохранить и опубликовать конкретную постановку реализации Linux VM на macOS со связью STEP0179/0180",
+      "состояние": "завершена",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_12-40-18_MSK_подготовить-постановку-Linux-VM-на-macOS/запрос.md",
+        "цитата": "Sdelaj avtomatizaciyu nastrojki Linux okruzheniya na macOS.\n"
+      },
+      "свидетельство": "Постановка сохранена; четыре первичные строки сверены, 0179/0180 остаются active, адресные связи, реестр и публикационные пути проверены. Реализация передаётся в отдельную задачу координатора. Отчёт: Журнал/2026-09-11_12-40-18_MSK_подготовить-постановку-Linux-VM-на-macOS/отчёт.md"
     }
   ]
 }
