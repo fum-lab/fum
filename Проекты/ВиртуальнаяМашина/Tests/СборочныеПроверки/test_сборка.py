@@ -1,7 +1,9 @@
 """Упаковка собирается воспроизводимо и не присваивает чужие каталоги."""
 import importlib.util
 import fcntl
+import os
 import shutil
+import json
 from pathlib import Path
 import tempfile
 import unittest
@@ -152,5 +154,59 @@ class ПроверкиСборки(unittest.TestCase):
         сам.assertEqual((сам.поставка / 'данные').read_bytes(), b'preserve')
         сам.assertTrue(list(сам.поставка.parent.glob('.поставка-VM-*')))
 
+    def test_обычная_сборка_передаёт_наблюдателю_свой_удерживаемый_замок(сам):
+        def создать(проект, каталог, замок, *, питон):
+            сам.assertEqual(питон, сам.модуль.описать_python())
+            сам.assertEqual(проект, сам.проект)
+            сам.assertEqual(os.fstat(каталог).st_ino, сам.сборка.stat().st_ino)
+            сам.assertEqual(os.fstat(замок).st_ino, (сам.сборка / 'замок').stat().st_ino)
+            with (сам.сборка / 'замок').open('rb') as иной:
+                with сам.assertRaises(BlockingIOError): fcntl.flock(иной.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+            return сам.выполнить
+        with mock.patch.object(сам.модуль, 'создать_исполнителя', side_effect=создать, create=True) as фабрика:
+            ответ = сам.модуль.собрать(сам.проект, сам.сборка, сам.поставка, Path('/usr/bin/swift'), выполнить=None)
+            сам.assertEqual(ответ['состояние'], 'собрана')
+            сам.assertEqual(фабрика.call_count, 1)
+
+    def test_нет_ресурса_наблюдателя_значит_нет_неподконтрольной_сборки(сам):
+        with сам.assertRaisesRegex(ValueError, 'наблюдател'):
+            сам.модуль.собрать(сам.проект, сам.сборка, сам.поставка, Path('/usr/bin/swift'), выполнить=None)
+        сам.assertFalse(сам.поставка.exists())
+        сам.assertFalse(сам.вызовы)
+
+
+    def test_поставка_сохраняет_точный_python_и_отклоняет_его_замену(сам):
+        сам.собрать()
+        вход = json.loads((сам.поставка / 'поставка.json').read_bytes())['вход']
+        сам.assertIn('python', вход)
+        ожидаемый = сам.модуль.описать_python()
+        сам.assertEqual(вход['python'], ожидаемый)
+        сам.assertEqual(ожидаемый['реализация'], 'cpython')
+        сам.assertEqual(ожидаемый['возможности'], ['waitid', 'WNOWAIT'])
+        изменённый = dict(ожидаемый, sha256='0' * 64)
+        сам.вызовы.clear()
+        with mock.patch.object(сам.модуль, 'описать_python', return_value=изменённый):
+            with сам.assertRaisesRegex(ValueError, 'изменились'): сам.собрать()
+        сам.assertFalse(any('build' in в for в in сам.вызовы))
+
+    def test_неподдерживаемый_python_отвергается_до_создания_кэша(сам):
+        for изменения in [{'version_info': (3, 12, 0)}, {'implementation': type('Среда', (), {'name': 'иная'})()}]:
+            with mock.patch.multiple(сам.модуль.sys, **изменения):
+                with сам.assertRaisesRegex(ValueError, 'CPython'): сам.собрать()
+            сам.assertFalse(сам.сборка.exists())
+            сам.assertFalse(сам.поставка.exists())
+            сам.assertFalse(сам.вызовы)
+
+    def test_замена_python_в_ходе_сборки_не_устанавливает_поставку(сам):
+        путь = сам.корень / 'python'; путь.write_bytes(Path(сам.модуль.sys.executable).resolve().read_bytes()); путь.chmod(0o700)
+        прежний = сам.выполнить
+        def выполнить(аргументы, **параметры):
+            ответ = прежний(аргументы, **параметры)
+            if '--verify' in аргументы: путь.write_bytes(b'changed-runtime')
+            return ответ
+        сам.выполнить = выполнить
+        with mock.patch.object(сам.модуль.sys, 'executable', str(путь)):
+            with сам.assertRaisesRegex(ValueError, 'Python.*изменил'): сам.собрать()
+        сам.assertFalse(сам.поставка.exists())
 
 if __name__ == '__main__': unittest.main()

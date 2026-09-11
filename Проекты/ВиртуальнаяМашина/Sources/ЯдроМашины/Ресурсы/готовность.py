@@ -125,7 +125,7 @@ def установить_каталог(родитель, имя, владеле
 
 
 @contextlib.contextmanager
-def область_гостя(путь, владелец, *, создать=True):
+def область_гостя(путь, владелец, *, создать=True, вернуть_замок=False):
     путь = Path(путь)
     if not путь.is_absolute() or путь == Path('/') or '..' in путь.parts:
         raise ValueError('Нужен абсолютный физический гостевой путь')
@@ -156,7 +156,7 @@ def область_гостя(путь, владелец, *, создать=True
                 or сведения.st_uid != os.getuid() or сведения.st_mode & 0o077):
             raise ValueError('Небезопасный замок гостевого каталога')
         fcntl.flock(замок, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        yield каталог
+        yield (каталог, замок) if вернуть_замок else каталог
     except OSError as ошибка:
         raise ValueError('Гостевой каталог занят или не прошёл безопасное открытие') from ошибка
     finally:

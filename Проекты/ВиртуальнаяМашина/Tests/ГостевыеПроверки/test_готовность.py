@@ -69,6 +69,28 @@ class ПроверкиГостевогоКаталога(unittest.TestCase):
         with сам.assertRaises(ValueError):
             with модуль.область_гостя(сам.корень, {'другой': 'план'}): pass
 
+    def test_дубликат_замка_удерживает_владение_после_выхода_родителя(сам):
+        import os
+        import time
+        import json
+        with модуль.область_гостя(сам.корень, сам.владелец): pass
+        интервалы = []
+        for _ in range(3):
+            начало = time.monotonic_ns(); копия = None
+            try:
+                with модуль.область_гостя(сам.корень, сам.владелец, вернуть_замок=True) as (каталог, замок):
+                    сам.assertEqual(os.fstat(каталог).st_ino, сам.корень.stat().st_ino)
+                    сам.assertEqual(os.fstat(замок).st_ino, (сам.корень / 'замок').stat().st_ino)
+                    копия = os.dup(замок)
+                with сам.assertRaises((ValueError, BlockingIOError)):
+                    with модуль.область_гостя(сам.корень, сам.владелец): pass
+            finally:
+                if копия is not None: os.close(копия)
+            with модуль.область_гостя(сам.корень, сам.владелец): pass
+            интервалы.append(time.monotonic_ns() - начало)
+        print('ПРОФИЛЬ_ГОСТЕВОГО_ЗАМКА ' + json.dumps({'схема': 'fum.профиль-гостевого-замка.1',
+            'интервалы_нс': интервалы, 'медиана_нс': sorted(интервалы)[1], 'предкритерий_нс': 50_000_000}, sort_keys=True))
+
     def test_неизвестный_каталог_и_ссылки_не_присваиваются(сам):
         сам.корень.mkdir()
         with сам.assertRaises(ValueError):
