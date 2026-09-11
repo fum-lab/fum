@@ -110,8 +110,7 @@
         ".obsidian/fum-recency-reference-date",
         "LICENSE",
         "fum",
-        "ЛИЦЕНЗИЯ",
-        "Инструменты/fum-reyestr-planirovaniya/scripts/адаптер-codex.js"
+        "ЛИЦЕНЗИЯ"
       ],
       "действие": "сохранить_байты"
     },
@@ -156,8 +155,7 @@
     ".css",
     ".canvas",
     ".lock",
-    ".bin",
-    ".js"
+    ".bin"
   ],
   "пустые_каталоги": "не_включаются_в_инвентарь_репозитория"
 }
