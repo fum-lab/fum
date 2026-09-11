@@ -1,0 +1,36 @@
+{
+  "схема": "fum.перенос-границ-приёма.1",
+  "исходная_ветка": "refs/heads/codex/приём-направлений-FUMA-0201",
+  "файлы": [
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/вход_направления.py",
+      "sha256": "0acf38e27b7b614ec33640bf60237e253d0e03fc3544dd4db69a99732ea1d8d8",
+      "источник": "рабочие байты замороженного назначения координатора"
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/tests/test_входа_направления.py",
+      "sha256": "cd7079dac89d269d09b5b6072b776db52ef5238a4a237a07c4c033e058b6dfde",
+      "источник": "рабочие байты замороженного назначения координатора"
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обработка_сообщений.py",
+      "sha256": "27747d88c96c20b35261e13bdebad710b9c80f770f7e4ed6905ed80e41f40e87",
+      "источник": "32cac61b3e90023ccfb854b5311fc0e4c37865d4"
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py",
+      "sha256": "666c23552a37510682f247bef35c48de9a0ff0f0d40ef84b540c2ec6757c339b",
+      "источник": "32cac61b3e90023ccfb854b5311fc0e4c37865d4"
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py",
+      "sha256": "e89b2cce1faff9f33076b6648243d94440b7e481f46ae77f5171cca087e664eb",
+      "источник": "32cac61b3e90023ccfb854b5311fc0e4c37865d4"
+    },
+    {
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py",
+      "sha256": "8235644818a6c8be1308627d66b2b034e005a9e0dcc7a740e765de10a4fcb95a",
+      "источник": "32cac61b3e90023ccfb854b5311fc0e4c37865d4"
+    }
+  ]
+}
