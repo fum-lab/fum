@@ -256,15 +256,26 @@ def собрать_под_замком(проект, сборка, постав�
 
 def главная():
     разбор = argparse.ArgumentParser(description=__doc__)
-    разбор.add_argument('--сборка', required=True, type=Path)
-    разбор.add_argument('--поставка', required=True, type=Path)
-    разбор.add_argument('--система', choices=('xcode', 'native'), default='xcode')
+    разбор.add_argument('--описать-python', action='store_true', help='Вывести снимок текущего CPython без сборки')
+    разбор.add_argument('--сборка', type=Path)
+    разбор.add_argument('--поставка', type=Path)
+    разбор.add_argument('--система', choices=('xcode', 'native'))
     аргументы = разбор.parse_args()
+    if аргументы.описать_python:
+        if any(значение is not None for значение in (аргументы.сборка, аргументы.поставка, аргументы.система)):
+            разбор.error('Снимок Python не совмещается с параметрами сборки')
+        try:
+            sys.stdout.buffer.write(кодировать({'схема': 'fum.python-наблюдателя.1', 'python': описать_python()}))
+        except (OSError, ValueError) as ошибка:
+            print('Снимок Python не подтверждён: ' + str(ошибка), file=sys.stderr); return 1
+        return 0
+    if аргументы.сборка is None or аргументы.поставка is None:
+        разбор.error('Для сборки нужны --сборка и --поставка')
     if sys.platform != 'darwin': разбор.error('Первая поставка поддерживает только macOS')
     свифт = shutil.which('swift')
     if not свифт: разбор.error('Swift не найден; выберите установленный Xcode')
     try:
-        ответ = собрать(Path(__file__).resolve().parent, аргументы.сборка, аргументы.поставка, Path(свифт), система=аргументы.система)
+        ответ = собрать(Path(__file__).resolve().parent, аргументы.сборка, аргументы.поставка, Path(свифт), система=аргументы.система or 'xcode')
         sys.stdout.buffer.write(кодировать(ответ))
     except (OSError, ValueError, subprocess.SubprocessError) as ошибка:
         print('Сборка не подтверждена: ' + str(ошибка), file=sys.stderr); return 1

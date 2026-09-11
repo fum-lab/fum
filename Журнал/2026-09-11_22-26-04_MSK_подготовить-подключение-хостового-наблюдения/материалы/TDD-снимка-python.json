@@ -1,0 +1,66 @@
+{
+  "схема": "fum.tdd-снимка-python.1",
+  "граница": "Три RED после уточнения тестовых ограждений, затем GREEN. Первые четыре сценария дополнены проверкой совместимости прежнего CLI; последний RED и GREEN имеют одинаковый тестовый исходник. Выдержки без локальных путей Python; полные логи вне Git.",
+  "запуски": [
+    {
+      "идентификатор": "a5041a93-65e0-4bd0-89e0-a3078b0a965e",
+      "лог_sha256": "e69786944ba777c24f0ad3ecf663d948a29047e81e3581c4beed466d78a677b4",
+      "выдержки": [
+        "test_НепригодныйИнтерпретаторНеДаётСнимок (test_снимок_python.ПроверкиСнимкаPython.test_НепригодныйИнтерпретаторНеДаётСнимок) ... ERROR",
+        "test_РежимыНеСмешиваются (test_снимок_python.ПроверкиСнимкаPython.test_РежимыНеСмешиваются) ... ok",
+        "test_СнимокБезСборкиИЗаписи (test_снимок_python.ПроверкиСнимкаPython.test_СнимокБезСборкиИЗаписи) ... ERROR",
+        "test_ТриПовтораОдногоИнтерпретатора (test_снимок_python.ПроверкиСнимкаPython.test_ТриПовтораОдногоИнтерпретатора) ... ERROR",
+        "argparse.ArgumentError: the following arguments are required: --сборка, --поставка",
+        "argparse.ArgumentError: the following arguments are required: --сборка, --поставка",
+        "argparse.ArgumentError: the following arguments are required: --сборка, --поставка",
+        "Ran 4 tests in 0.006s",
+        "FAILED (errors=3)"
+      ]
+    },
+    {
+      "идентификатор": "878cf5c6-2112-494f-bb27-00feb5b3dab2",
+      "лог_sha256": "1186576c187f96ffe05f7efa82dce981debb4e28cea3df70c216870c5aea1413",
+      "выдержки": [
+        "test_НепригодныйИнтерпретаторНеДаётСнимок (test_снимок_python.ПроверкиСнимкаPython.test_НепригодныйИнтерпретаторНеДаётСнимок) ... ERROR",
+        "test_ПрежнийРежимПередаётСборочныеПараметры (test_снимок_python.ПроверкиСнимкаPython.test_ПрежнийРежимПередаётСборочныеПараметры) ... ok",
+        "test_РежимыНеСмешиваются (test_снимок_python.ПроверкиСнимкаPython.test_РежимыНеСмешиваются) ... ok",
+        "test_СнимокБезСборкиИЗаписи (test_снимок_python.ПроверкиСнимкаPython.test_СнимокБезСборкиИЗаписи) ... ERROR",
+        "test_ТриПовтораОдногоИнтерпретатора (test_снимок_python.ПроверкиСнимкаPython.test_ТриПовтораОдногоИнтерпретатора) ... ERROR",
+        "argparse.ArgumentError: the following arguments are required: --сборка, --поставка",
+        "argparse.ArgumentError: the following arguments are required: --сборка, --поставка",
+        "argparse.ArgumentError: the following arguments are required: --сборка, --поставка",
+        "Ran 5 tests in 0.008s",
+        "FAILED (errors=3)"
+      ]
+    },
+    {
+      "идентификатор": "81dc161a-eac9-4f8c-9da6-4dcc33c3ec9d",
+      "лог_sha256": "2b8cc0e4846e5b436e92deaec3271b787a3928673e44fbd87cb3569f029d0bd9",
+      "выдержки": [
+        "test_НепригодныйИнтерпретаторНеДаётСнимок (test_снимок_python.ПроверкиСнимкаPython.test_НепригодныйИнтерпретаторНеДаётСнимок) ... ERROR",
+        "test_ПрежнийРежимПередаётСборочныеПараметры (test_снимок_python.ПроверкиСнимкаPython.test_ПрежнийРежимПередаётСборочныеПараметры) ... ok",
+        "test_РежимыНеСмешиваются (test_снимок_python.ПроверкиСнимкаPython.test_РежимыНеСмешиваются) ... ok",
+        "test_СнимокБезСборкиИЗаписи (test_снимок_python.ПроверкиСнимкаPython.test_СнимокБезСборкиИЗаписи) ... ERROR",
+        "test_ТриПовтораОдногоИнтерпретатора (test_снимок_python.ПроверкиСнимкаPython.test_ТриПовтораОдногоИнтерпретатора) ... ERROR",
+        "argparse.ArgumentError: the following arguments are required: --сборка, --поставка",
+        "argparse.ArgumentError: the following arguments are required: --сборка, --поставка",
+        "argparse.ArgumentError: the following arguments are required: --сборка, --поставка",
+        "Ran 5 tests in 0.013s",
+        "FAILED (errors=3)"
+      ]
+    },
+    {
+      "идентификатор": "81277227-d2f2-4568-90c5-21b9e0bb38bd",
+      "лог_sha256": "9b0b9bc84ae78a7786a884df5c7142069ff3913c987a8aa07ba07aeab98f3c5a",
+      "выдержки": [
+        "test_НепригодныйИнтерпретаторНеДаётСнимок (test_снимок_python.ПроверкиСнимкаPython.test_НепригодныйИнтерпретаторНеДаётСнимок) ... ok",
+        "test_ПрежнийРежимПередаётСборочныеПараметры (test_снимок_python.ПроверкиСнимкаPython.test_ПрежнийРежимПередаётСборочныеПараметры) ... ok",
+        "test_РежимыНеСмешиваются (test_снимок_python.ПроверкиСнимкаPython.test_РежимыНеСмешиваются) ... ok",
+        "test_СнимокБезСборкиИЗаписи (test_снимок_python.ПроверкиСнимкаPython.test_СнимокБезСборкиИЗаписи) ... ok",
+        "test_ТриПовтораОдногоИнтерпретатора (test_снимок_python.ПроверкиСнимкаPython.test_ТриПовтораОдногоИнтерпретатора) ... ok",
+        "Ran 5 tests in 0.015s",
+        "OK"
+      ]
+    }
+  ]
+}
