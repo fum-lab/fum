@@ -16,6 +16,9 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-11 15:50:49 MSK — Prinyatj sovmestimostj FUMA cherez otchyot v3](2026-09-11_15-50-49_MSK_prinyatj-sovmestimostj-FUMA-cherez-otchyot-v3/otchyot.md)
+- [2026-09-11 15:22:57 MSK — Proveritj paket sovmestimosti master i FUMA](2026-09-11_15-22-57_MSK_proveritj-paket-sovmestimosti-master-i-FUMA/otchyot.md)
+- [2026-09-11 14:47:00 MSK — Podgotovitj sovmestimostj master i FUMA](2026-09-11_14-47-00_MSK_podgotovitj-sovmestimostj-master-i-FUMA/otchyot.md)
 - [2026-09-10 20:23:26 MSK — Proveritj sliyaniye posle dopuska](2026-09-10_20-23-26_MSK_proveritj-sliyaniye-posle-dopuska/otchyot.md)
 - [2026-09-10 17:33:36 MSK — Zakrepitj dopusk sliyaniya iz master](2026-09-10_17-33-36_MSK_zakrepitj-dopusk-sliyaniya-iz-master/otchyot.md)
 - [2026-09-10 15:09:56 MSK — Vlitj master v vedusjhuyu vetku](2026-09-10_15-09-56_MSK_vlitj-master-v-vedusjhuyu-vetku/otchyot.md)
@@ -509,6 +512,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 20:36:12 MSK -->
-<!-- content-sha256: sha256:3372b3ee5e449eb4ed16e70e29e39f73b0cfb8e1c6728cf74544ff1484475a74 -->
+<!-- last-content-edit: 2026-09-11 15:53:25 MSK -->
+<!-- content-sha256: sha256:042c8d9d8b5b464b9fa82194e056c7b13b0c59bc11a421b89a1a72ea7c5c86fe -->
 <!-- FUM-MD-RECENCY:END -->

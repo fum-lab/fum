@@ -164,7 +164,19 @@ Proizvodnuyu oblastj ne obyyedinyayut vruchnuyu. Posle Git-konflikta snachala ra
 
 Kanonicheskiye avtodiskaveri-konturyi isklyuchayut toljko kornevuyu oblastj `Proyekcii` i yeyo potomkov. Blizkiye imena, inoj registr i vlozhennyiye odnoimyonnyiye katalogi ostayutsya kanonicheskimi. Proyeciruyemyiye `AGENTS.md`, `SKILL.md` i lyubyiye drugiye fajlyi pod `Proyekcii/**` nikogda ne stanovyatsya instrukciyami, kornem proyekta ili rabochim katalogom agenta. Lokaljnaya ssyilka na isklyuchyonnuyu iz pokoleniya kanonicheskuyu celj sokhranyayetsya po yavno versionirovannoj politike `сохранить_ссылку_на_канонический_слой`.
 
+## Sovmestimostj prinimayusjhego kontura s FUMA
+
+Kontrakt prinimayet tochnyiye bajtyi `.c`, `.h`, `.modulemap`, `.pbxproj`, `.plist`, `.entitlements` i yedinstvennyij dopolniteljnyij putj `Приложения/FUMA/macOS/.gitignore`. Drugoj putj `.gitignore` prilozheniya ili novyij format trebuyet yavnogo izmeneniya kontrakta. Tekhnicheskiye suffiksyi sokhranyayutsya pri preobrazovanii imyon.
+
+Yedinstvennyij dopusjhennyij JS-putj — `Инструменты/fum-reyestr-planirovaniya/scripts/адаптер-codex.js`. Do klassifikacii dvoichnyikh dannyikh proveryayetsya vesj konechnyij shablon funkciyej `объявления_адаптера` iz prinimayusjhego instrumenta perevoda obyyavlenij. Proizvoljnyiye `.js`, `.mjs` i `.cjs` ne dopuskayutsya. Dlya obyichnoj proverki ispoljzujte privedyonnyiye vyishe komandyi `проверить-контракт`, `применить` i `проверить-манифест`.
+
+Komanda `применить` mozhet zamenitj prezhneye pokoleniye v2 toljko pri dokazannom vladenii po [zakreplyonnomu prezhnemu kontraktu](sovmestimostj/kontrakt-v2-do-formatov-prilozheniya.json). Yego polnyij obyyekt i khyesh fiksirovanyi; tekusjhiye parametryi ne sozdayut novyikh dopustimyikh prezhnikh politik. Podmena manifesta, kontrakta, bajtov, rezhima ili chuzhoj fajl zakryivayut perekhod. Nezavisimaya proverka do perekhoda trebuyet aktualjnuyu politiku. Snachala obyyedinyayut vse izmeneniya kontrakta, zatem sozdayut novoye pokoleniye: promezhutochnoye pokoleniye toljko odnogo rasshireniya ne vkhodit v etot most sovmestimosti.
+
+Ssyilka na otsutstvuyusjhij tochnyij ignored `.obsidian/graph.json` ostayotsya ssyilkoj na kanonicheskij lokaljnyij graf; poljzovateljskij fajl ne sozdayotsya. Yesli fajl susjhestvuyet, sokhranyayutsya yego bajtyi, identichnostj i vremya. Pokhozhiye imena, nevernyij registr, simvolicheskiye ssyilki i otsutstviye Git-ignore sokhranyayut otkaz. Predikat beryotsya iz prinimayusjhej proverki svyaznosti otnositeljno yeyo sobstvennogo koda.
+
 ## Istochniki trebovanij
+
+- [Paket sovmestimosti FUM-STEP-0175](../../Zhurnal/2026-09-11_14-47-00_MSK_podgotovitj-sovmestimostj-master-i-FUMA/zapros.md).
 
 - [iskhodnyij zapros ob uskorenii povtornoj podgotovki](../../Zhurnal/2026-09-09_09-50-11_MSK_ustranitj-gonku-podgotovki-kyesha-preobrazovatelya/zapros.md)
 
@@ -179,6 +191,6 @@ Kanonicheskiye avtodiskaveri-konturyi isklyuchayut toljko kornevuyu oblastj `Pro
 Odnoparametricheskij vyizov `подготовить_изолированный_преобразователь(корень)` sokhranyayet prezhnij kontrakt: izoliruyet zakreplyonnyiye iskhodniki i vozvrasjhayet nastoyasjhuyu komandu Swift s proverkoj granicyi; sborku zapuskayet vyizyivayusjhij. Yavnyij keyword-only parametr `использовать_кэш=True` vyibirayet predvariteljnuyu sborku, proverennyij kyesh i chastnuyu kopiyu produkta. Rabochiye CLI-komandyi generatora vsegda vyibirayut etot rezhim. Proverki zakreplyonnogo dereva i izolyacii obsjhiye dlya oboikh rezhimov.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 22:02:46 MSK -->
-<!-- content-sha256: sha256:b5c63c3fef363e8e8a4e63f65acea0f1f1d8ffd89d3e4615d7acfd63b01a6210 -->
+<!-- last-content-edit: 2026-09-11 15:19:56 MSK -->
+<!-- content-sha256: sha256:dfc381062321a175fe6a7f0d6d2027e8403273dfa4d9ef8e3ede349937ec3887 -->
 <!-- FUM-MD-RECENCY:END -->

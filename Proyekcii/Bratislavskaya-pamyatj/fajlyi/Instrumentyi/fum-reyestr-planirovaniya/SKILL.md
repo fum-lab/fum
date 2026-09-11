@@ -81,6 +81,7 @@ Validator:
 - trebuyet rovno odin unikaljnyij marker `FUM-REQUIREMENT-ID` v kazhdoj kartochke i ne vyivodit ID iz imeni, statusa ili pozicii;
 - sveryayet polnyij nabor kartochek s `Требования/README.md`, dopustimyij status v imeni, indekse i tele, chetyire obyazateljnyikh razdela i nepustyiye formulirovku s kriteriyami;
 - proveryayet dopustimyiye tipyi semanticheskikh svyazej, indeksirovannyiye celi i rovno odnu soglasovannuyu obratnuyu zapisj dlya kazhdogo napravlennogo otnosheniya;
+- prinimayet otsutstviye pryamyikh semanticheskikh svyazej toljko kak yedinstvennuyu stroku `Прямые семантические связи пока не установлены.` v obyazateljnom razdele i vyivodit pustoj massiv `semantic_relations`; pustoj razdel, inoj tekst, povtor markera i smesheniye so svyazyami otklonyayutsya;
 - trebuyet, chtobyi kazhdaya shirokaya stroka imela yavnyij `PLAN-LAYER-*` i byila libo svyazana s kartochkami, libo pomechena kak `Производный слой`;
 - trebuyet u kazhdoj kartochki shaga tochnyij TOML-kontrakt `schema_version`, `card_id`, `status`, unikaljnyij `FUM-STEP-NNNN`, rovno odin zagolovok pervogo urovnya, zadachu i spisochnyiye istochniki so ssyilkami;
 - proveryayet imya `<эмодзи>-FUM-STEP-NNNN-<краткое-название>.md`: `🟡`, `✅`, `🧩` i `🗑️` dolzhnyi sootvetstvovatj mashinnomu statusu, nomer — `card_id`, nepustoye opisaniye — defisnomu formatu iz Unicode-bukv i cifr, a polnoye imya — predelu 255 bajt UTF-8;
@@ -123,6 +124,8 @@ Avtomatizaciya ne vyivodit novyiye trebovaniya ili shagi iz smyisla dokumentov, 
 
 ## Istochniki trebovanij
 
+- [Paket sovmestimosti FUM-STEP-0175](../../Zhurnal/2026-09-11_14-47-00_MSK_podgotovitj-sovmestimostj-master-i-FUMA/zapros.md).
+
 - [Zasjhititj istoricheskiye profili pri pereimenovanii](../../Zhurnal/2026-09-08_20-55-36_MSK_zasjhititj-istoricheskiye-profili-pri-pereimenovanii/zapros.md).
 
 - [iskhodnyij zapros 2026-08-14 18:59:37 MSK — Isklyuchitj dublirovaniye polnoj regressii](../../Zhurnal/2026-08-14_18-59-37_MSK_isklyuchitj-dublirovaniye-polnoj-regressii/zapros.md)
@@ -136,6 +139,6 @@ Avtomatizaciya ne vyivodit novyiye trebovaniya ili shagi iz smyisla dokumentov, 
 - [iskhodnyij zapros 2026-07-22 11:48:49 MSK — Oformitj kartochki shagov opisateljnyimi imenami i emodzi statusami](../../Zhurnal/2026-07-22_11-48-49_MSK_oformitj-kartochki-shagov-opisateljnyimi-imenami-i-emodzi-statusami/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 16:38:28 MSK -->
-<!-- content-sha256: sha256:75b1f955f6d0c4f7792cfe2c61a9aa1771096c706c48b263deba293b89c62b5a -->
+<!-- last-content-edit: 2026-09-11 15:19:56 MSK -->
+<!-- content-sha256: sha256:e63ab482374888c0ce3b08f24bcf7054c74545ccaa40b190cc7182c2dd763e7c -->
 <!-- FUM-MD-RECENCY:END -->

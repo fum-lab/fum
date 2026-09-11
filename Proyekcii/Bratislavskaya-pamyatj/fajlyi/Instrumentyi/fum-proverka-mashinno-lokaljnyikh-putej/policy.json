@@ -3150,6 +3150,15 @@
       "count": 1,
       "category": "report.historical",
       "reason": "Точное свидетельство дочернего RED на стандартной символической ссылке macOS; не содержит имени пользователя, частного каталога или разрешения произвольных путей."
+    },
+    {
+      "id": "0176-projection-foreign-fixture",
+      "path": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/tests/test_братиславская_проекция_памяти.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:8a44eb8332f019828050ae36fe14d57da424b5f6306b38919c6ff08aeaa9c2ea",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Регрессионная фикстура чужого файла: суффикс конкатенируется с относительной целевой областью, абсолютный файловый ввод не используется."
     }
   ]
 }

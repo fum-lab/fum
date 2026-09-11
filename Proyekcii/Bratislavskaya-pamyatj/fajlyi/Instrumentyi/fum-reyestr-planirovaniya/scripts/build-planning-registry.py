@@ -1098,6 +1098,8 @@ def parse_requirement_relations(
     source_path: Path,
     repo_root: Path,
 ) -> list[dict[str, str]]:
+    if section.strip() == "Прямые семантические связи пока не установлены.":
+        return []
     relations: list[dict[str, str]] = []
     for line in section.splitlines():
         stripped = line.strip()

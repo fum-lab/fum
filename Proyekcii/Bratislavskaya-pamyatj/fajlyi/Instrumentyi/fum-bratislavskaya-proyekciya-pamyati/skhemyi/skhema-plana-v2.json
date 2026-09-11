@@ -258,7 +258,11 @@
                 ".html",
                 ".base64",
                 ".mlir",
-                ".css"
+                ".css",
+                ".modulemap",
+                ".pbxproj",
+                ".plist",
+                ".entitlements"
               ]
             },
             "точные_пути": {
@@ -268,7 +272,9 @@
                 ".obsidian/fum-recency-reference-date",
                 "LICENSE",
                 "fum",
-                "ЛИЦЕНЗИЯ"
+                "ЛИЦЕНЗИЯ",
+                "Приложения/FUMA/macOS/.gitignore",
+                "Инструменты/fum-reyestr-planirovaniya/scripts/адаптер-codex.js"
               ]
             },
             "действие": {
@@ -338,7 +344,9 @@
           "const": [
             ".py",
             ".swift",
-            ".sh"
+            ".sh",
+            ".c",
+            ".h"
           ]
         },
         "действие": {

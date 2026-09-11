@@ -22,6 +22,12 @@ python3 Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/p
 
 Kod `0` oznachayet otsutstviye dejstvuyusjhikh narushenij, dazhe yesli otchyot soderzhit tipizirovannyiye `allow.*` i `report.*`. Kod `1` oznachayet narusheniye soderzhimogo, a kod `2` — nedostovernyij Git-inventarj ili oshibku kontrakta politiki. Skaner otklonyayet proizvoljnyiye POSIX-absolyutyi, domashniye katalogi poljzovatelej, Windows drive, obratnosolyeshevyiye i pryamoslyeshevyiye UNC, `file://`, odinochnyij `~`, imennyiye formyi vrode `~user/path`, POSIX-, Windows- i PowerShell-peremennyiye domashnego kataloga i Swift `#filePath`.
 
+## Politika zakreplyonnogo kandidata
+
+`policy-кандидата-слияния.json` prednaznachena dlya proverki dannyikh zakreplyonnoj vedusjhej osnovyi. Ona otdeljno svyazana v `происхождение-политики-слияния.json` s polnyimi OID osnovyi, yeyo dereva i SHA-256 politiki. Tekusjhaya osnova — `a728283474931eda71cd581ca5429121124ba3f6`, derevo `bc258a41133107198602c60d003555898d4cfad2`; 419 isklyuchenij sostavlyayut prezhniye 350 i 69 tochnyikh dobavlenij. Eto vkhod susjhestvuyusjhego kontura sliyaniya, a ne samostoyateljnoye razresheniye sliyaniya. Obyichnaya komanda vyishe prodolzhayet ispoljzovatj `policy.json`, pokryivayusjhuyu toljko realjno prinyatyiye fajlyi; pri perenose novyikh fajlov yeyo izmeneniya sveryayutsya otdeljno.
+
+[Osnovaniye i adresnaya sverka](../../Zhurnal/2026-09-11_14-47-00_MSK_podgotovitj-sovmestimostj-master-i-FUMA/zapros.md).
+
 ## Tochnoye obnovleniye politiki
 
 Povtoryayemyiye pereschyotyi fingerprint-polej vyipolnyayet `scripts/obnovitj-policy.py`. On ne razreshayet vse tekusjhiye oshibki: kazhdaya deklaraciya yavno zadayot `id`, tochnyij repozitornyij `path`, nomer `line`, zakryituyu `category` i soderzhateljnuyu `reason`. Vid formyi, SHA-256 vsej stroki i chislo sovpadenij instrument vyivodit iz tekusjhego Git-inventa i soderzhimogo fajla.
@@ -84,6 +90,6 @@ Testyi bez seti i sekretov proveryayut vse raspoznavayemyiye formyi, Git-inventa
 - [audit absolyutnyikh putej](../../Zhurnal/2026-07-22_12-35-05_MSK_provesti-audit-absolyutnyikh-putej/materialyi/revjyu/2026-07-22_12-35-05_MSK_audit-absolyutnyikh-putej.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-08 23:53:00 MSK -->
-<!-- content-sha256: sha256:4d87f7de629020c52dbe9182d0c294da0d348838e066b92de653e15f303a1f8f -->
+<!-- last-content-edit: 2026-09-11 15:19:56 MSK -->
+<!-- content-sha256: sha256:8ac4cffddda4cb9250fabe166dbdf1cd6cca54f420ff49b8d2bd37947154a544 -->
 <!-- FUM-MD-RECENCY:END -->
