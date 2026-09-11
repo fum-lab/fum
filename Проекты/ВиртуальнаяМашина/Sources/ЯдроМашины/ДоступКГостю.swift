@@ -20,8 +20,11 @@ public enum ДоступКГостю {
         return результат
     }
     public static func сценарий(_ ресурс: String, вызов: String, данные: Data) throws -> Data {
+        сценарий(исходник: try РесурсыГостя.текст(ресурс), вызов: вызов, данные: данные)
+    }
+    static func сценарий(исходник: String, вызов: String, данные: Data) -> Data {
         let шестнадцатеричные = данные.map { String(format: "%02x", $0) }.joined()
-        let программа = try РесурсыГостя.текст(ресурс) + "\nos.umask(0o077)\nprint(json.dumps(" + вызов
+        let программа = исходник + "\nos.umask(0o077)\nprint(json.dumps(" + вызов
             + "(json.loads(bytes.fromhex(\"" + шестнадцатеричные + "\").decode())), ensure_ascii=False, sort_keys=True))\n"
         return Data(программа.utf8)
     }
