@@ -1,0 +1,28 @@
+import XCTest
+import Foundation
+@testable import СтендДекодирования
+
+final class ПроверкиСравненияДекодирования: XCTestCase {
+  func test_корпусИОбеГраницыБезИзмерения() throws {
+    let данные = try СтендДекодирования.выполнить(измерять: false)
+    let отчёт = try XCTUnwrap(JSONSerialization.jsonObject(with: данные) as? [String: Any])
+    XCTAssertEqual((отчёт["положительные"] as? [[String: Any]])?.count, 46)
+    XCTAssertEqual((отчёт["ошибочные"] as? [[String: Any]])?.count, 14)
+    XCTAssertEqual((отчёт["наблюдения"] as? [[String: Any]])?.count, 0)
+  }
+  func test_строгийОтказОтбрасываетПрефикс() {
+    for байты: [UInt8] in [[0x80], [0xC0, 0xAF], [0xED, 0xA0, 0x80], [0xF4, 0x90, 0x80, 0x80], [0x41, 0xE2, 0x82]] {
+      XCTAssertNil(стандартноДекодировать(байты, упаковать: false))
+      XCTAssertNil(стандартноДекодировать(байты, упаковать: true))
+    }
+  }
+
+  func test_скалярыИЯвныеБайтыLE() throws {
+    let байты: [UInt8] = [0, 0xD1, 0x91, 0xEF, 0xBB, 0xBF, 0xF0, 0x9F, 0x99, 0x82]
+    let результат = try XCTUnwrap(стандартноДекодировать(байты, упаковать: true))
+    XCTAssertEqual(результат.скаляры, [0, 0x451, 0xFEFF, 0x1F642])
+    XCTAssertEqual(результат.байты, [0, 0, 0, 0, 0x51, 4, 0, 0, 0xFF, 0xFE, 0, 0, 0x42, 0xF6, 1, 0])
+    XCTAssertNil(стандартноДекодировать(байты, упаковать: false)?.байты)
+    XCTAssertEqual(стандартноДекодировать([], упаковать: true)?.байты, [])
+  }
+}

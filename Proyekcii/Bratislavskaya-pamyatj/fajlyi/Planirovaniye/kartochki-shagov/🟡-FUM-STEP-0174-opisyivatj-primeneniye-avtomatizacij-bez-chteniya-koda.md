@@ -30,12 +30,18 @@ Normativnaya chastj podgotovlena v [otdeljnom etape](../../Zhurnal/2026-09-10_13
 - Podtverzhdyon rannij otkaz do dorogogo shaga na dvukh obnaruzhennyikh klassakh narushenij; istoricheskij ostatok ne vyidayotsya za novoye narusheniye.
 - Nevyipolnennoye nablyudeniye nakhoditsya po sokhranyonnoj zapisi nezavisimo ot pamyati modeli; zayavlennaya granica dolgovechnosti sootvetstvuyet fakticheskomu khraneniyu.
 
+## Utochneniye po povtoru pervonachaljnogo predprosmotra
+
+`FUM-СБОЙ-0064/ПРОЯВЛЕНИЕ-0002` dopolnyayet rannyuyu proveryayemuyu granicu shtatnyim pervonachaljnyim predprosmotrom upravlyayemogo bloka otchyota do recency, svyaznosti i dorogoj priyomki. Otsutstvuyusjhij predprosmotr otlichayetsya ot ustarevshego otpechatka uzhe sformirovannogo bloka i ot propuska obyazateljnyikh polej paryi. Dokumentirovannyij scenarij dolzhen formirovatj blok shtatnoj avtomatizaciyej; otricateljnaya regressiya obnaruzhivayet otsutstviye ili pustoye napolneniye do zavisimyikh dorogikh proverok, polozhiteljnaya sokhranyayet tochnyiye terminaljnyiye zapisi. Lokaljnoye vosstanovleniye tekusjhego otchyota ne schitayetsya realizaciyej obsjhej profilaktiki. Prezhniye kriterii i rabota po drugim obnaruzhennyim klassam sokhranyayutsya.
+
 ## Istochniki
+
+- [Povtor propuska pervonachaljnogo predprosmotra](../../Sboi/FUM-SBOJ-0064-svyaznostj-do-predprosmotra-otchyota.md) — tochnoye osnovaniye `FUM-СБОЙ-0064/ПРОЯВЛЕНИЕ-0002`; [pervichnaya proverka i vosstanovleniye](../../Zhurnal/2026-09-11_13-05-09_MSK_prinyatj-sravneniye-dekodirovaniya/otchyot.md).
 
 - [Komandyi, otvetyi i obnaruzhennyiye problemyi](../../Zhurnal/2026-09-10_11-51-55_MSK_sokhranyatj-ostatok-obyazateljstv/zapros.md).
 - [Plan i proiskhozhdeniye nablyudenij](../../Zhurnal/2026-09-10_11-51-55_MSK_sokhranyatj-ostatok-obyazateljstv/materialyi/plan-opisaniya-avtomatizacij.json).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 13:49:34 MSK -->
-<!-- content-sha256: sha256:34fef648e079e29ad7f4d8f8bae79a0bb3ebd0e31db6351dfa50e03ab30a2400 -->
+<!-- last-content-edit: 2026-09-11 13:39:49 MSK -->
+<!-- content-sha256: sha256:62543b3a10d4b9bc762ad7df578e621dc1b15b4316adf5c166a89ed4803389cf -->
 <!-- FUM-MD-RECENCY:END -->

@@ -54,6 +54,9 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0056 | `активна`   | [Perezapusk ostavlyayet vyipolnyayusjhuyusya zapisj proverki bez ogranichennogo vosstanovleniya](FUM-SBOJ-0056-osirotevshij-zapusk-proverki-posle-perezapuska.md)               | 2          | FUM-STEP-0204           |
 | FUM-SBOJ-0057 | `устранена` | [Vlozhennaya pesochnica makrosov SwiftUI blokirovala priyomochnuyu Xcode-sborku](FUM-SBOJ-0057-vlozhennaya-pesochnica-makrosov-blokiruyet-sborku.md)                          | 1          | —                       |
 | FUM-SBOJ-0052 | `активна`   | [Svyaznostj trebuyet lokaljnyij graf Obsidian](FUM-SBOJ-0052-svyaznostj-trebuyet-lokaljnyij-graf-Obsidian.md)                                                             | 3          | FUM-STEP-0203           |
+| FUM-SBOJ-0073 | `устранена` | [Absolyutnyiye vremennyiye puti v primerakh sravneniya](FUM-SBOJ-0073-perenosimyiye-primeryi-vremennyikh-putej.md)                                                              | 1          | —                       |
+| FUM-SBOJ-0074 | `устранена` | [Nepolnyij inventarj dokazateljstv sravneniya](FUM-SBOJ-0074-polnota-inventarya-dokazateljstv-sravneniya.md)                                                            | 1          | —                       |
+| FUM-SBOJ-0064 | `активна`   | [Vyizov svyaznosti do zapolneniya upravlyayemogo bloka otchyota](FUM-SBOJ-0064-svyaznostj-do-predprosmotra-otchyota.md)                                                       | 2          | FUM-STEP-0174           |
 
 ## Pravila vedeniya
 
@@ -86,6 +89,6 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 - [pravila rabochikh sessij](../AGENTS.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 07:09:21 MSK -->
-<!-- content-sha256: sha256:d4990017804bda017d129484e7ed74bad250495b4ae3d371498692fc0cafaab3 -->
+<!-- last-content-edit: 2026-09-11 13:39:49 MSK -->
+<!-- content-sha256: sha256:82672bdcb652959702dfa0fc389d2384adcc107a11bd77510e3ff3f613c2f2b0 -->
 <!-- FUM-MD-RECENCY:END -->

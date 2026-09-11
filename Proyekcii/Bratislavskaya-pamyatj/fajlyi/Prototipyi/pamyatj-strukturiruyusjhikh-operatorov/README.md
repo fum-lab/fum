@@ -125,6 +125,10 @@ Avtonomnyiye testyi podtverzhdayut determinizm kanonicheskogo otchyota, limityi 
 - `Package.swift` — samostoyateljnyij SwiftPM-paket bez vneshnikh zavisimostej;
 - `запустить.sh` — POSIX-tochka vkhoda, nezavisimaya ot tekusjhego kataloga.
 
+## Sravneniye dekodirovaniya
+
+[Vosproizvodimyij stend UTF-8](sravneniye-dekodirovaniya.md) sravnivayet tekusjhij interpretator so strogim standartnyim Swift na odinakovyikh skalyarakh i UTF-32LE. Rukovodstvo soderzhit komandyi, otkryityij korpus, izmereniya Release i ogranicheniya sravneniya polnogo API.
+
 ## Granica primenimosti
 
 Prototip podtverzhdayet toljko mekhaniku neboljshogo konechnogo nabora vruchnuyu podgotovlennyikh potokov i operatorov. Yego pruning so statusom `obsolete` i sokhraneniyem istorii kandidata ne realizuyet [upravlyayemoye zabyivaniye FUM](../../Glossarij/upravlyayemoye-zabyivaniye-FUM.md): u prototipa net pokonturnogo vesa i poroga prekrasjheniya rabotyi, meta-urovnya obnaruzheniya, razdeleniya khraneniya i rabotosposobnosti, [vspominaniya FUM](../../Glossarij/vspominaniye-FUM.md), bezvozvratnogo zabyivaniya ili otbora ikh tempa. On takzhe ne dokazyivayet kachestvo samotokenizacii na proizvoljnyikh dannyikh, statisticheskuyu kalibrovku veroyatnostej, universaljnostj koefficiyentov poljzyi, polnotu russkogo ili anglijskogo yazyika, korrektnostj proizvoljnogo perevoda, bezopasnostj sintezirovannoj programmyi, dolgovremennuyu konsolidaciyu pamyati ili effektivnostj na boljshom potoke.
@@ -155,6 +159,6 @@ Status: ogranichennyij proverochnyij Swift-prototip s avtonomnyimi fiksturami i 
 - [otkryityij vopros o granicakh yestestvenno-yazyikovoj sinkhronizacii znanij FUM](../../Voprosyi/2026-07-13_20-34-23_MSK_granicyi-yestestvenno-yazyikovoj-sinkhronizacii-znanij-FUM.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 08:27:58 MSK -->
-<!-- content-sha256: sha256:6276f20c5000be6490640e62adc72ea58d91a6b457966e2d90bbae1344f27f69 -->
+<!-- last-content-edit: 2026-09-11 12:26:13 MSK -->
+<!-- content-sha256: sha256:4625f2ed25e1f222ecc1b6a4d212d995b18016be58ddb4001eb1bfbba7071582 -->
 <!-- FUM-MD-RECENCY:END -->

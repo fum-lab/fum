@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-11 07:19:51 MSK - Prinyatj postanovku interpretatora](../2026-09-11_07-19-51_MSK_prinyatj-postanovku-interpretatora/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-11 12:00:09 MSK - Sravnitj dekodirovaniye UTF 8](../2026-09-11_12-00-09_MSK_sravnitj-dekodirovaniye-UTF-8/zapros.md)
 
 ## Tekst zaprosa
 
@@ -103,6 +103,6 @@ Codex-Thread-ID: 01a08ec4-ec37-7603-9f17-ace32262c9c1
 - [Otchyot ob izvlechenii](../../Istochniki/URL/https/www.unicode.org/versions/Unicode17.0.0/core-spec/chapter-3/extraction-report.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 08:27:58 MSK -->
-<!-- content-sha256: sha256:209a495d643c0a68bf94c66b664804e2737ea73bd471bd4ef28176ee89e70460 -->
+<!-- last-content-edit: 2026-09-11 12:26:13 MSK -->
+<!-- content-sha256: sha256:71d623fdeeb003295cc9460493dc676999a00d1a82a87730c46ab9381d6d31cd -->
 <!-- FUM-MD-RECENCY:END -->

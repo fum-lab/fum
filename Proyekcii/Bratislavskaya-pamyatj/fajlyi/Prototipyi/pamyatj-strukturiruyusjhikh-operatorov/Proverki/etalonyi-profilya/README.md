@@ -22,7 +22,11 @@ Dlya proverki okonchateljnogo produkta ispoljzuyetsya tekusjhij skript iz kanoni
 - [Otchyot i adresnaya proverka primeneniya patchej](../../../../Zhurnal/2026-09-11_07-43-37_MSK_realizovatj-interpretator-i-UTF-32/otchyot.md).
 - Tochnyiye iskhodnyiye bajtyi vosstanovlenyi iz sobstvennyikh instrumentaljnyikh zapisej sozdaniya i izmeneniya etikh fajlov i sverenyi s uzhe sokhranyonnyimi khyeshami. Pervichnyij JSONL, skryityiye rassuzhdeniya i sluzhebnoye sostoyaniye v materialyi ne vklyuchenyi.
 
+## Pervonachaljnyij proveryayusjhij sravneniya UTF-8
+
+[Proveryayusjhij do usileniya](proveryayusjhij-do-usileniya.py) sokhranyon toljko kak tochnyij istochnik pervonachaljnogo profilya etapa sravneniya: SHA-256 `16c41fa56645aa73f45dcb765c901e8281a82b4e6ab99d74cd8bcaa0aedd4779`. U nego ne zakryityi pustoj sostav proiskhozhdeniya i povtor itogov. Aktualjnaya proverka ispoljzuyet [usilennyij fajl](../proveritj-sravneniye.py). Chtobyi povtoritj pervonachaljnyij profilj, snachala vosstanovite izmerennyij snimok po [osnovnomu receptu sravneniya](../../sravneniye-dekodirovaniya.md): skopirujte vesj prototip vo vneshnij katalog i obyazateljno vernite [prezhniye bajtyi Swift-testa](test-sravneniya-do-pereimenovaniya.swift.txt) na mesto `Tests/FUMStructuringOperatorMemoryTests/ПроверкиСравненияДекодирования.swift`. Zatem v etoj zhe kopii podstavjte sokhranyonnyij proveryayusjhij na mesto `Проверки/проверить-сравнение.py`; iskhodnaya upakovka dannyikh i runner sokhranyayutsya. Odnoj zamenyi proveryayusjhego nedostatochno: sovremennoye imya testa menyayet yego iskhodnyij khyesh. Etot material ne yavlyayetsya aljternativnyim priyomochnyim proveryayusjhim.
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 08:34:14 MSK -->
-<!-- content-sha256: sha256:64943fe4e8680db8d8f7af43f282c47753bb43e91683819383d58177445df995 -->
+<!-- last-content-edit: 2026-09-11 13:31:04 MSK -->
+<!-- content-sha256: sha256:e5735b5bddfff100fcc67d0e315ae8c1f357b4132ca0210a0349b5b0185e2eef -->
 <!-- FUM-MD-RECENCY:END -->
