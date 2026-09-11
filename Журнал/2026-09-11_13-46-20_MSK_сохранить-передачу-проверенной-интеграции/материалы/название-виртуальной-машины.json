@@ -1,0 +1,10 @@
+{
+  "вход": "настройка виртуальной машины",
+  "результат": "nastrojka virtualjnoj mashinyi",
+  "исходник": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/scripts/братиславская_проекция_памяти.py",
+  "исходник_sha256": "a430c52b383ec1196477a4c721f6931384e5088acf5d37c35a899c01ca807f6a",
+  "исходный_коммит": "9a85841f7d6587d024f490af6d953b1f61ba73c8",
+  "LinguisticKit_OID": "837e2ce107b97ee7b9d3344c9fe99142281fe393",
+  "executable_sha256": "c0a5364d1bc67424f05a47fa05c658fd5121a79f4133207640c711ed9e8ae482",
+  "новая_сборка": "запрещена процессным предохранителем"
+}
