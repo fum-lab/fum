@@ -10,21 +10,22 @@ import subprocess
 import sys
 import tempfile
 from time import perf_counter_ns
-from фикстуры import подготовить, процесс, перенос, КОРЕНЬ
+from фикстуры import подготовить, процесс, перенос, КОРЕНЬ, гит
 
 
 def метки(текст):
     return [json.loads(строка[len('FUM-PROFILE '):]) for строка in текст.splitlines() if строка.startswith('FUM-PROFILE ')]
 
 
-def измерить(число):
+def измерить(число, отсоединённый=False):
     результаты = []
     for номер in range(число):
         for сценарий in ('обычный','возобновляемый'):
             with tempfile.TemporaryDirectory() as временный:
                 буфер = io.StringIO()
                 with redirect_stderr(буфер):
-                    привязки,план,путь_плана,путь_привязок = подготовить(Path(временный).resolve())
+                    привязки,план,путь_плана,путь_привязок = подготовить(Path(временный).resolve(),
+                        (lambda привязки: гит(Path(привязки['источник']), 'checkout', '--detach')) if отсоединённый else None)
                 результаты.append({'повтор':номер+1,'сценарий':сценарий,'действие':'план','метки':метки(буфер.getvalue())})
                 if сценарий=='возобновляемый':
                     ответ = процесс(путь_плана,путь_привязок,'после-перемещения')
@@ -43,8 +44,10 @@ if __name__=='__main__':
     парсер = argparse.ArgumentParser(description=__doc__)
     парсер.add_argument('--выход',required=True,type=Path)
     парсер.add_argument('--повторы',type=int,default=3)
+    парсер.add_argument('--отсоединённый',action='store_true')
     параметры = парсер.parse_args()
     assert 1<=параметры.повторы<=10
-    результат = измерить(параметры.повторы)
+    результат = измерить(параметры.повторы, параметры.отсоединённый)
+    результат['условия']['отсоединённый_корень'] = параметры.отсоединённый
     параметры.выход.write_text(json.dumps(результат,ensure_ascii=False,sort_keys=True,indent=2)+'\n')
     print('Сохранены наблюдения:',len(результат['наблюдения']))

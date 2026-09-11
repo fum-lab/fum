@@ -136,7 +136,7 @@ class ПроверкиГраниц(unittest.TestCase):
                 elif случай=='include':
                     with (Path(привязки['общий'])/'config').open('a') as поток: поток.write('\n[include]\npath = отсутствует\n')
                 elif случай=='split': гит(источник,'update-index','--split-index')
-                elif случай=='worktreeconfig': гит(источник,'config','extensions.worktreeConfig','true')
+                elif случай=='worktreeconfig': гит(источник,'config','extensions.worktreeConfig','false')
                 elif случай=='неинициализированный': (источник/'модуль/.git').unlink()
                 elif случай=='повтор-core':
                     with (модуль/'config').open('a') as поток: поток.write('\n[core]\nworktree = другое\n')
