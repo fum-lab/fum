@@ -79,7 +79,18 @@ status = "active"
 - [Адаптеры мессенджеров](🟡-FUM-STEP-0184-определить-адаптеры-мессенджеров.md).
 - [Настройка интернета и VPN](🟡-FUM-STEP-0185-определить-настройку-интернета-и-VPN.md).
 
+## Две различные строки I2P
+
+Матрица разделяет первый файловый профиль BitTorrent/I2P через libtorrent-rasterbar и будущее расширение сервисов через собственный SAM 3.1 STREAM-клиент на SwiftNIO. Для первого описываются Swift-управление библиотекой, i2p_hostname/i2p_port, allow_i2p_mixed=false, torrent_flags::i2p_torrent, прикладная проверка объекта и фактическая изоляция от нежелательных clearnet/DNS/DHT/трекеров/web seeds/peer-запросов. Выбранный полный OID закреплён в 0183; свойства API и применимость параметров проверяются до реализации, одного имени настройки недостаточно.
+
+Для общего SAM-расширения отдельно связываются NIOCore и выбранный транспорт, конечный протокольный автомат, управляющее соединение, CONNECT/ACCEPT, приватная идентичность и отмена. Эта строка не становится обязательной реализацией первого BitTorrent-сценария. Программа фикстур, профиля и живой проверки отличает поведение библиотеки, собственного адаптера, маршрутизатора и сети.
+
+Первым уточняется точный desktop-профиль; все прежние 15 целей/семейств и Safari, Chrome, Firefox остаются в матрице с прежними критериями и явной неизвестностью. TCP-поддержка не переносится в браузерный runtime, а локальный SAM не даёт удалённого защищённого канала. Установка маршрутизатора и мобильная упаковка — отдельные плановые расширения. Текущее уточнение не добавляет зависимости, код или сетевые эффекты.
+
 ## Источники
+
+- [Проработка I2P и уточнение выбора libtorrent](../../Журнал/2026-09-11_21-56-09_MSK_уточнить-план-подключения-I2P/запрос.md).
+- [Материал координатора о подключении I2P](../../Журнал/2026-09-11_21-56-09_MSK_уточнить-план-подключения-I2P/материалы/подключение-I2P.md).
 
 - [Прямое поручение пользователя и содержательный ответ](../../Журнал/2026-09-11_02-34-29_MSK_восстановить-контекст-платформенного-решения-и-SwiftNIO/материалы/источники/контекст-решений/контекст-выбора-SwiftNIO.md).
 - [SwiftNIO README](https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/README.md), [манифест](https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/Package.swift), [PR CI](https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/.github/workflows/pull_request.yml), [Windows/Linux unit-test workflow](https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/.github/workflows/unit_tests.yml), [Apple workflow](https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/.github/workflows/macos_tests.yml), [Android build script](https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/scripts/swift-build-with-android-sdk.sh) — коммит `8c063f043d94c120d0f8d6303ef4fc7918e3561d`, датирован 2026-09-09; наблюдение 2026-09-11 MSK.
@@ -89,6 +100,6 @@ status = "active"
 - [Swift Wasm: Porting](https://docs.swift.org/latest/documentation/wasmguide/porting/); прочитанный [DocC JSON](https://docs.swift.org/latest/data/documentation/wasmguide/porting.json), SHA256 `b8ca302d72f7543098e912ece5e0b875a8258d3e3959918c81e0a9e992d3716c`, наблюдение 2026-09-11 MSK. URL изменяемый, точный коммит публикации не установлен; ограничения не выдаются за результат проверки конкретного браузера.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 02:37:53 MSK -->
-<!-- content-sha256: sha256:b166f9ac23013ff0124ed1341ad61e3b4fa14f26a934937898ca32b76490933e -->
+<!-- last-content-edit: 2026-09-11 22:18:33 MSK -->
+<!-- content-sha256: sha256:99a88b5b2a240ce04250f509e8e10649a510b8a09b8e600e61338b6af0821ae7 -->
 <!-- FUM-MD-RECENCY:END -->
