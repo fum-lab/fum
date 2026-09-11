@@ -1,0 +1,33 @@
+{
+  "схема": "fum.наличие-XCTest.1",
+  "метод": "RO rg --files --hidden --no-ignore текущего корня CommandLineTools; дополнительное чтение штатных каталогов.",
+  "файлов_в_инвентаре": 70359,
+  "код": 0,
+  "stderr": "",
+  "XCTest_framework": false,
+  "XCTest_модуль_найден": false,
+  "найдены": [
+    "usr/lib/swift-5.0/iphonesimulator/libswiftXCTest.dylib",
+    "usr/lib/swift-5.0/macosx/libswiftXCTest.dylib",
+    "usr/lib/swift-5.0/appletvos/libswiftXCTest.dylib",
+    "usr/lib/swift-5.0/iphoneos/libswiftXCTest.dylib",
+    "usr/lib/swift-5.0/appletvsimulator/libswiftXCTest.dylib",
+    "SDKs/MacOSX27.0.sdk/System/Library/PrivateFrameworks/XCTestSupport.framework/Versions/A/XCTestSupport.tbd",
+    "SDKs/MacOSX26.5.sdk/System/Library/PrivateFrameworks/XCTestSupport.framework/Versions/A/XCTestSupport.tbd"
+  ],
+  "штатные_фреймворки": [
+    "Testing.framework",
+    "_Testing_AppKit.framework",
+    "_Testing_CoreTransferable.framework",
+    "_Testing_CoreImage.framework",
+    "_Testing_Foundation.framework",
+    "_Testing_UIKit.framework",
+    "_Testing_CoreGraphics.framework"
+  ],
+  "штатные_библиотеки": [
+    "lib_TestingInterop.dylib"
+  ],
+  "xctest_в_CLT_usr_bin": false,
+  "xctest_в_usr_bin": false,
+  "вывод": "Старые overlay-библиотеки и XCTestSupport.tbd не дают текущему Swift импортируемый XCTest. ПроверкаTesting другой задачи не доказываетXCTest. Повторная сборка не выполнялась."
+}

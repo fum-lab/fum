@@ -1,0 +1,86 @@
+Building for debugging...
+[Pre-planning 1 / 124]
+[Planning deferred tasks]
+[12 / 84]
+[43 / 85] ЯдроМашины
+[52 / 205]
+[56 / 205]
+[59 / 205]
+[61 / 205]
+[64 / 205]
+[67 / 205]
+[68 / 205]
+[69 / 205]
+[70 / 205]
+[73 / 205]
+[75 / 205]
+[77 / 205]
+[78 / 205]
+[81 / 205]
+[83 / 205]
+[84 / 205]
+[86 / 205]
+[87 / 205]
+[89 / 205]
+[91 / 205]
+[94 / 205]
+[96 / 205]
+[98 / 205]
+[100 / 205]
+[101 / 205]
+[102 / 205]
+[104 / 205]
+[106 / 205]
+[108 / 205]
+[109 / 205]
+[111 / 205]
+[113 / 205]
+[114 / 205]
+[116 / 205]
+[118 / 205] ВиртуальнаяМашина_ЯдроМашины
+[120 / 205]
+[122 / 205]
+[125 / 205]
+[127 / 205]
+[129 / 205]
+[130 / 205]
+[133 / 205]
+[135 / 205]
+[136 / 205]
+[137 / 205]
+[140 / 205]
+[141 / 205]
+[143 / 205]
+[144 / 205]
+[147 / 205]
+[148 / 205]
+[150 / 205]
+[151 / 205]
+[153 / 205]
+[154 / 205]
+[154 / 205] ВиртуальнаяМашина_ЯдроМашины
+[156 / 205]
+[158 / 205]
+[159 / 205]
+[161 / 205] ЯдроМашины
+[162 / 205] ЯдроМашины
+[164 / 205] ЯдроМашины
+[170 / 205] ЯдроМашины
+[171 / 205] машина-product
+[172 / 205] машина-product
+[174 / 205] ЯдроМашины
+[175 / 205] ЯдроМашины
+[176 / 205] ЯдроМашины
+[177 / 205] ЯдроМашины
+[183 / 206] машина-product
+[185 / 208] машина-product
+[186 / 208] машина-product
+КОРЕНЬ_CHECKOUT/Проекты/ВиртуальнаяМашина/Package.swift: ЯдроМашины: ld: warning: search path '/Library/Developer/CommandLineTools/Developer/Library/Frameworks' not found
+КОРЕНЬ_CHECKOUT/Проекты/ВиртуальнаяМашина/Package.swift: машина-product: ld: warning: search path '/Library/Developer/CommandLineTools/Developer/usr/lib' not found
+КОРЕНЬ_CHECKOUT/Проекты/ВиртуальнаяМашина/Package.swift: машина-product: ld: warning: search path '/Library/Developer/CommandLineTools/Developer/Library/Frameworks' not found
+[193 / 208] ПроверкиМашины-product
+error: КОРЕНЬ_CHECKOUT/Проекты/ВиртуальнаяМашина/Tests/ПроверкиМашины/NoCloudTests.swift:1:8 unable to resolve module dependency: 'XCTest'
+error: SwiftDriver ПроверкиМашины normal arm64 com.apple.xcode.tools.swift.compiler failed with a nonzero exit code. Command line:     cd КОРЕНЬ_CHECKOUT/Проекты
+    builtin-SwiftDriver -- /Library/Developer/CommandLineTools/usr/bin/swiftc -parse-as-library -module-name ПроверкиМашины -Onone @ЛИЧНЫЙ_КАТАЛОГ_ЗАДАЧИ/swift-ssh-clt-6.4.0.33.1/out/Intermediates.noindex/ВиртуальнаяМашина.build/Debug/ПроверкиМашины-p.build/Objects-normal/arm64/ПроверкиМашины.SwiftFileList -DSWIFT_PACKAGE -DDEBUG -DXcode -j1 -enable-experimental-feature DebugDescriptionMacro -sdk /Library/Developer/CommandLineTools/SDKs/MacOSX27.0.sdk -target arm64-apple-macos13.0 -g -module-cache-path ЛИЧНЫЙ_КАТАЛОГ_ЗАДАЧИ/swift-ssh-clt-6.4.0.33.1/out/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path ЛИЧНЫЙ_КАТАЛОГ_ЗАДАЧИ/swift-ssh-clt-6.4.0.33.1/out -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I ЛИЧНЫЙ_КАТАЛОГ_ЗАДАЧИ/swift-ssh-clt-6.4.0.33.1/out/Products/Debug -Isystem /Library/Developer/CommandLineTools/Developer/usr/lib -F ЛИЧНЫЙ_КАТАЛОГ_ЗАДАЧИ/swift-ssh-clt-6.4.0.33.1/out/Products/Debug/PackageFrameworks -F ЛИЧНЫЙ_КАТАЛОГ_ЗАДАЧИ/swift-ssh-clt-6.4.0.33.1/out/Products/Debug -F /Library/Developer/CommandLineTools/Library/Developer/Frameworks -F /Library/Developer/CommandLineTools/Developer/Library/Frameworks -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc ЛИЧНЫЙ_КАТАЛОГ_ЗАДАЧИ/swift-ssh-clt-6.4.0.33.1/out/SDKStatCaches.noindex/macosx27.0-26A5419a-a0facfad118c1a7a18f0aad9463f6549ffd68ff603bdaacc80b00cb8898de72d.sdkstatcache -output-file-map ЛИЧНЫЙ_КАТАЛОГ_ЗАДАЧИ/swift-ssh-clt-6.4.0.33.1/out/Intermediates.noindex/ВиртуальнаяМашина.build/Debug/ПроверкиМашины-p.build/Objects-normal/arm64/ПроверкиМашины-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path ЛИЧНЫЙ_КАТАЛОГ_ЗАДАЧИ/swift-ssh-clt-6.4.0.33.1/out/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path ЛИЧНЫЙ_КАТАЛОГ_ЗАДАЧИ/swift-ssh-clt-6.4.0.33.1/out/ModuleCache.noindex -sdk-module-cache-path ЛИЧНЫЙ_КАТАЛОГ_ЗАДАЧИ/swift-ssh-clt-6.4.0.33.1/out/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path ЛИЧНЫЙ_КАТАЛОГ_ЗАДАЧИ/swift-ssh-clt-6.4.0.33.1/out/Intermediates.noindex/ВиртуальнаяМашина.build/Debug/ПроверкиМашины-p.build/Objects-normal/arm64/ПроверкиМашины.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path ЛИЧНЫЙ_КАТАЛОГ_ЗАДАЧИ/swift-ssh-clt-6.4.0.33.1/out/Intermediates.noindex/ВиртуальнаяМашина.build/Debug/ПроверкиМашины-p.build/Objects-normal/arm64/ПроверкиМашины-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file ЛИЧНЫЙ_КАТАЛОГ_ЗАДАЧИ/swift-ssh-clt-6.4.0.33.1/out/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -package-name виртуальнаямашина -emit-const-values -const-gather-protocols-list ЛИЧНЫЙ_КАТАЛОГ_ЗАДАЧИ/swift-ssh-clt-6.4.0.33.1/out/Intermediates.noindex/ВиртуальнаяМашина.build/Debug/ПроверкиМашины-p.build/Objects-normal/arm64/ПроверкиМашины_const_extract_protocols.json -Xcc -IЛИЧНЫЙ_КАТАЛОГ_ЗАДАЧИ/swift-ssh-clt-6.4.0.33.1/out/Products/Debug/include -Xcc -IЛИЧНЫЙ_КАТАЛОГ_ЗАДАЧИ/swift-ssh-clt-6.4.0.33.1/out/Intermediates.noindex/ВиртуальнаяМашина.build/Debug/ПроверкиМашины-p.build/DerivedSources-normal/arm64 -Xcc -IЛИЧНЫЙ_КАТАЛОГ_ЗАДАЧИ/swift-ssh-clt-6.4.0.33.1/out/Intermediates.noindex/ВиртуальнаяМашина.build/Debug/ПроверкиМашины-p.build/DerivedSources/arm64 -Xcc -IЛИЧНЫЙ_КАТАЛОГ_ЗАДАЧИ/swift-ssh-clt-6.4.0.33.1/out/Intermediates.noindex/ВиртуальнаяМашина.build/Debug/ПроверкиМашины-p.build/DerivedSources -Xcc -DSWIFT_PACKAGE -Xcc -DDEBUG\=1 -working-directory КОРЕНЬ_CHECKOUT/Проекты -experimental-emit-module-separately -disable-cmo
+error: Build failed
+error: fatalError
