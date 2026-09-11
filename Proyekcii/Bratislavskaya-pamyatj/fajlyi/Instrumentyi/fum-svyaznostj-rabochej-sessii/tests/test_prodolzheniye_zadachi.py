@@ -104,8 +104,8 @@ class ПродолжениеЗадачи(unittest.TestCase):
         модуль = importlib.util.module_from_spec(описание)
         описание.loader.exec_module(модуль)
         это.план["работы"].append(dict(это.план["работы"][0], идентификатор="вторая"))
-        исходное = Path.read_text
-        with mock.patch.object(Path, "read_text", autospec=True, side_effect=исходное) as чтение:
+        исходное = Path.read_bytes
+        with mock.patch.object(Path, "read_bytes", autospec=True, side_effect=исходное) as чтение:
             ответ = модуль.определить_продолжение(это.корень, это.план, ИДЕНТИФИКАТОР)
             это.assertEqual(ответ["решение"], "продолжить")
             это.assertEqual(чтение.call_count, 1)

@@ -40,7 +40,7 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0032 | `устранена` | [Obsjhiye izmenyayemyiye tablicyi LinguisticKit ne podderzhivayut Swift 6](FUM-SBOJ-0032-obsjhiye-izmenyayemyiye-tablicyi-LinguisticKit.md)                                           | 1          | Ustraneno v etoj rabote |
 | FUM-SBOJ-0033 | `устранена` | [Ekstraktor LinguisticKit trebuyet testovyij import v Release](FUM-SBOJ-0033-testovyij-import-ekstraktora-LinguisticKit.md)                                            | 1          | Ustraneno v etoj rabote |
 | FUM-SBOJ-0034 | `устранена` | [Fajlyi Finder preryivayut ustanovku proyekcii](FUM-SBOJ-0034-fajlyi-Finder-preryivayut-ustanovku-proyekcii.md)                                                             | 1          | —                       |
-| FUM-SBOJ-0035 | `устранена` | [Propusk udalyonnogo puti proyekcii v zaprose](FUM-SBOJ-0035-propusk-udalyonnogo-puti-proyekcii-v-zaprose.md)                                                           | 1          | —                       |
+| FUM-SBOJ-0035 | `активна`   | [Propusk udalyonnogo puti proyekcii v zaprose](FUM-SBOJ-0035-propusk-udalyonnogo-puti-proyekcii-v-zaprose.md)                                                           | 2          | FUM-STEP-0205           |
 | FUM-SBOJ-0036 | `устранена` | [Konkurentnaya podgotovka doveriya kyesha vyizyivayet lozhnyij otkaz](FUM-SBOJ-0036-gonka-inicializacii-doveriya-kyesha.md)                                                     | 1          | Ustraneno v etoj rabote |
 | FUM-SBOJ-0037 | `активна`   | [Nepolnaya integraciya dochernikh fajlov](FUM-SBOJ-0037-nepolnaya-integraciya-dochernikh-fajlov.md)                                                                         | 2          | FUM-STEP-0162           |
 | FUM-SBOJ-0041 | `активна`   | [Drejf mashinnogo zagolovka otchyota](FUM-SBOJ-0041-drejf-mashinnogo-zagolovka-otchyota.md)                                                                               | 1          | FUM-STEP-0168           |
@@ -48,6 +48,12 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0043 | `активна`   | [Izmeneniye proveryayemogo snimka do zaversheniya proverki](FUM-SBOJ-0043-izmeneniye-proveryayemogo-snimka-do-zaversheniya-proverki.md)                                       | 1          | FUM-STEP-0170           |
 | FUM-SBOJ-0044 | `активна`   | [Proverka indeksa propusjhena do zakryitiya otchyota](FUM-SBOJ-0044-proverka-indeksa-propusjhena-do-zakryitiya-otchyota.md)                                                     | 1          | FUM-STEP-0171           |
 | FUM-SBOJ-0045 | `активна`   | [Drejf snimka obyyavlenij koda](FUM-SBOJ-0045-drejf-snimka-obyyavlenij-koda.md)                                                                                       | 1          | FUM-STEP-0173           |
+| FUM-SBOJ-0053 | `устранена` | [Rasshireniye formatov proyekcii ostavilo prezhniye konstantyi JSON Schema](FUM-SBOJ-0053-rassoglasovaniye-skhemyi-formatov-proyekcii.md)                                     | 1          | —                       |
+| FUM-SBOJ-0054 | `устранена` | [Novaya politika proyekcii otklonyala vladeniye prezhnim pokoleniyem versii 2](FUM-SBOJ-0054-otkaz-proyekcii-na-prezhnej-politike-vladeniya.md)                              | 1          | —                       |
+| FUM-SBOJ-0055 | `устранена` | [Pustoj override v pervom teste runner dopustil zapusk ustanovlennogo helper](FUM-SBOJ-0055-neyavnyij-zapusk-ustanovlennogo-helper-v-proverke.md)                     | 1          | —                       |
+| FUM-SBOJ-0056 | `активна`   | [Perezapusk ostavlyayet vyipolnyayusjhuyusya zapisj proverki bez ogranichennogo vosstanovleniya](FUM-SBOJ-0056-osirotevshij-zapusk-proverki-posle-perezapuska.md)               | 2          | FUM-STEP-0204           |
+| FUM-SBOJ-0057 | `устранена` | [Vlozhennaya pesochnica makrosov SwiftUI blokirovala priyomochnuyu Xcode-sborku](FUM-SBOJ-0057-vlozhennaya-pesochnica-makrosov-blokiruyet-sborku.md)                          | 1          | —                       |
+| FUM-SBOJ-0052 | `активна`   | [Svyaznostj trebuyet lokaljnyij graf Obsidian](FUM-SBOJ-0052-svyaznostj-trebuyet-lokaljnyij-graf-Obsidian.md)                                                             | 3          | FUM-STEP-0203           |
 
 ## Pravila vedeniya
 
@@ -80,6 +86,6 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 - [pravila rabochikh sessij](../AGENTS.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 16:38:28 MSK -->
-<!-- content-sha256: sha256:8461f5dc0e14091065df8469d55341d8bc117fcfbcabd9521f41fd043d4ef3fe -->
+<!-- last-content-edit: 2026-09-11 07:09:21 MSK -->
+<!-- content-sha256: sha256:d4990017804bda017d129484e7ed74bad250495b4ae3d371498692fc0cafaab3 -->
 <!-- FUM-MD-RECENCY:END -->

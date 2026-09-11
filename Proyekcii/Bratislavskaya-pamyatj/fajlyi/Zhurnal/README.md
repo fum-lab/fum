@@ -16,6 +16,11 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-11 07:17:34 MSK — Realizovatj perenos rabochikh derevjyev](2026-09-11_07-17-34_MSK_realizovatj-perenos-rabochikh-derevjyev/otchyot.md)
+- [2026-09-11 05:42:33 MSK — Podgotovitj sleduyusjhiye napravleniya](2026-09-11_05-42-33_MSK_podgotovitj-sleduyusjhiye-napravleniya/otchyot.md)
+- [2026-09-11 05:03:47 MSK — Podtverditj matematicheskij zapusk](2026-09-11_05-03-47_MSK_podtverditj-matematicheskij-zapusk/otchyot.md)
+- [2026-09-11 03:32:33 MSK — Svyazatj priyom s kommitom postanovki](2026-09-11_03-32-33_MSK_svyazatj-priyom-s-kommitom-postanovki/otchyot.md)
+- [2026-09-11 01:40:19 MSK — Avtomatizirovatj priyom napravlenij FUMA](2026-09-11_01-40-19_MSK_avtomatizirovatj-priyom-napravlenij-FUMA/otchyot.md)
 - [2026-09-10 20:23:26 MSK — Proveritj sliyaniye posle dopuska](2026-09-10_20-23-26_MSK_proveritj-sliyaniye-posle-dopuska/otchyot.md)
 - [2026-09-10 17:33:36 MSK — Zakrepitj dopusk sliyaniya iz master](2026-09-10_17-33-36_MSK_zakrepitj-dopusk-sliyaniya-iz-master/otchyot.md)
 - [2026-09-10 15:09:56 MSK — Vlitj master v vedusjhuyu vetku](2026-09-10_15-09-56_MSK_vlitj-master-v-vedusjhuyu-vetku/otchyot.md)
@@ -509,6 +514,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 20:36:12 MSK -->
-<!-- content-sha256: sha256:3372b3ee5e449eb4ed16e70e29e39f73b0cfb8e1c6728cf74544ff1484475a74 -->
+<!-- last-content-edit: 2026-09-11 08:03:10 MSK -->
+<!-- content-sha256: sha256:9f3fd5f4981001e257b55a3a43919cd66d90374f738db58a133a7241f9175e33 -->
 <!-- FUM-MD-RECENCY:END -->
