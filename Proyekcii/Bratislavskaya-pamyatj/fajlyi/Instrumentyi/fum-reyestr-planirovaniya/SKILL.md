@@ -128,6 +128,8 @@ Avtomatizaciya ne vyivodit novyiye trebovaniya ili shagi iz smyisla dokumentov, 
 
 ## Istochniki trebovanij
 
+- [Paket sovmestimosti FUM-STEP-0175](../../Zhurnal/2026-09-11_14-47-00_MSK_podgotovitj-sovmestimostj-master-i-FUMA/zapros.md).
+
 - [Zasjhititj istoricheskiye profili pri pereimenovanii](../../Zhurnal/2026-09-08_20-55-36_MSK_zasjhititj-istoricheskiye-profili-pri-pereimenovanii/zapros.md).
 
 - [iskhodnyij zapros 2026-08-14 18:59:37 MSK — Isklyuchitj dublirovaniye polnoj regressii](../../Zhurnal/2026-08-14_18-59-37_MSK_isklyuchitj-dublirovaniye-polnoj-regressii/zapros.md)
@@ -141,6 +143,6 @@ Avtomatizaciya ne vyivodit novyiye trebovaniya ili shagi iz smyisla dokumentov, 
 - [iskhodnyij zapros 2026-07-22 11:48:49 MSK — Oformitj kartochki shagov opisateljnyimi imenami i emodzi statusami](../../Zhurnal/2026-07-22_11-48-49_MSK_oformitj-kartochki-shagov-opisateljnyimi-imenami-i-emodzi-statusami/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 11:59:08 MSK -->
-<!-- content-sha256: sha256:677ff223ea4eb625047dd72ab287bc6ffe5af6b8450797f0ff583d77fae9c429 -->
+<!-- last-content-edit: 2026-09-11 20:36:50 MSK -->
+<!-- content-sha256: sha256:46df7ddb4d7b6885ef8c076c456eec5fecbc3104ffff93ecf66488d9757162ba -->
 <!-- FUM-MD-RECENCY:END -->

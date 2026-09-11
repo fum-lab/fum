@@ -1,0 +1,21 @@
+{
+  "схема": "fum.профиль-порядка-вопросов.1",
+  "исходный_L": "a728283474931eda71cd581ca5429121124ba3f6",
+  "RED": "17bdba2f-0ba1-478e-b26a-a57380d549cd",
+  "GREEN": "bd9acb63-6ebb-4c5a-bccb-4175baa39ced",
+  "тестов": 2,
+  "сумма_секунд": 0.127810739,
+  "вызовов": 120138,
+  "методы": {
+    "build_steps": {
+      "вызовов": 2,
+      "собственное_время_секунды": 9.311700000000001e-05,
+      "накопленное_время_секунды": 0.009834583000000001
+    }
+  },
+  "хэши": {
+    "Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/run-smoke-check.py": "604f3673a61d69adf481c8e20c814abcd80fbac1bcc4437f2a1a7b365b3643ed",
+    "Инструменты/fum-kompleksnaya-proverka-repozitoriya/tests/test_run_smoke_check.py": "eebe31075f143326afb0267ce81d0fd30a4f66232077f9ddf9b0b2904a5f3cea"
+  },
+  "ограничение": "Один прогон двух адресных тестов под cProfile; не benchmark общего smoke. Два вызова build_steps заняли 0,009834583 с; оптимизация не требуется."
+}

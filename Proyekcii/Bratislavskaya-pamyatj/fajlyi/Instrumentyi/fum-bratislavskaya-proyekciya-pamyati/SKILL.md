@@ -178,12 +178,23 @@ Proizvodnuyu oblastj ne obyyedinyayut vruchnuyu. Posle Git-konflikta snachala ra
 
 Kanonicheskiye avtodiskaveri-konturyi isklyuchayut toljko kornevuyu oblastj `Proyekcii` i yeyo potomkov. Blizkiye imena, inoj registr i vlozhennyiye odnoimyonnyiye katalogi ostayutsya kanonicheskimi. Proyeciruyemyiye `AGENTS.md`, `SKILL.md` i lyubyiye drugiye fajlyi pod `Proyekcii/**` nikogda ne stanovyatsya instrukciyami, kornem proyekta ili rabochim katalogom agenta. Lokaljnaya ssyilka na isklyuchyonnuyu iz pokoleniya kanonicheskuyu celj sokhranyayetsya po yavno versionirovannoj politike `сохранить_ссылку_на_канонический_слой`.
 
+## Sovmestimostj prinimayusjhego kontura s FUMA
+
+Kontrakt prinimayet tochnyiye bajtyi `.c`, `.h`, `.modulemap`, `.pbxproj`, `.plist`, `.entitlements` i yedinstvennyij dopolniteljnyij putj `Приложения/FUMA/macOS/.gitignore`. Drugoj putj `.gitignore` prilozheniya ili novyij format trebuyet yavnogo izmeneniya kontrakta. Tekhnicheskiye suffiksyi sokhranyayutsya pri preobrazovanii imyon.
+
+Yedinstvennyij dopusjhennyij JS-putj — `Инструменты/fum-reyestr-planirovaniya/scripts/адаптер-codex.js`. Do klassifikacii dvoichnyikh dannyikh proveryayetsya vesj konechnyij shablon funkciyej `объявления_адаптера` iz prinimayusjhego instrumenta perevoda obyyavlenij. Proizvoljnyiye `.js`, `.mjs` i `.cjs` ne dopuskayutsya. Dlya obyichnoj proverki ispoljzujte privedyonnyiye vyishe komandyi `проверить-контракт`, `применить` i `проверить-манифест`.
+
+Komanda `применить` mozhet zamenitj prezhneye pokoleniye v2 toljko pri dokazannom vladenii po [zakreplyonnomu prezhnemu kontraktu](sovmestimostj/kontrakt-v2-do-formatov-prilozheniya.json). Yego polnyij obyyekt i khyesh fiksirovanyi; tekusjhiye parametryi ne sozdayut novyikh dopustimyikh prezhnikh politik. Podmena manifesta, kontrakta, bajtov, rezhima ili chuzhoj fajl zakryivayut perekhod. Nezavisimaya proverka do perekhoda trebuyet aktualjnuyu politiku. Snachala obyyedinyayut vse izmeneniya kontrakta, zatem sozdayut novoye pokoleniye: promezhutochnoye pokoleniye toljko odnogo rasshireniya ne vkhodit v etot most sovmestimosti.
+
+Ssyilka na otsutstvuyusjhij tochnyij ignored `.obsidian/graph.json` ostayotsya ssyilkoj na kanonicheskij lokaljnyij graf; poljzovateljskij fajl ne sozdayotsya. Yesli fajl susjhestvuyet, sokhranyayutsya yego bajtyi, identichnostj i vremya. Pokhozhiye imena, nevernyij registr, simvolicheskiye ssyilki i otsutstviye Git-ignore sokhranyayut otkaz. Predikat beryotsya iz prinimayusjhej proverki svyaznosti otnositeljno yeyo sobstvennogo koda.
+
 ## Istochniki trebovanij
 
 - [Soglasovatj znacheniya formatov v skheme i vyidache](../../Zhurnal/2026-09-11_02-30-48_MSK_soglasovatj-skhemu-formatov-prilozheniya/zapros.md).
 
 - [Podderzhatj formatyi prilozheniya pri perenose FUMA](../../Zhurnal/2026-09-11_02-06-54_MSK_podderzhatj-formatyi-prilozheniya-v-proyekcii/zapros.md).
 - [etap neobyazateljnogo grafa v proyekcii](https://github.com/fum-lab/fum/blob/7acc2de8ca1dcbefd82c16faecd1c31bdfa6e648/Журнал/2026-09-11_05-35-51_MSK_сохранить-ссылку-на-необязательный-граф-в-проекции/запрос.md)
+- [Paket sovmestimosti FUM-STEP-0175](../../Zhurnal/2026-09-11_14-47-00_MSK_podgotovitj-sovmestimostj-master-i-FUMA/zapros.md).
 
 - [iskhodnyij zapros ob uskorenii povtornoj podgotovki](../../Zhurnal/2026-09-09_09-50-11_MSK_ustranitj-gonku-podgotovki-kyesha-preobrazovatelya/zapros.md)
 
@@ -198,6 +209,6 @@ Kanonicheskiye avtodiskaveri-konturyi isklyuchayut toljko kornevuyu oblastj `Pro
 Odnoparametricheskij vyizov `подготовить_изолированный_преобразователь(корень)` sokhranyayet prezhnij kontrakt: izoliruyet zakreplyonnyiye iskhodniki i vozvrasjhayet nastoyasjhuyu komandu Swift s proverkoj granicyi; sborku zapuskayet vyizyivayusjhij. Yavnyij keyword-only parametr `использовать_кэш=True` vyibirayet predvariteljnuyu sborku, proverennyij kyesh i chastnuyu kopiyu produkta. Rabochiye CLI-komandyi generatora vsegda vyibirayut etot rezhim. Proverki zakreplyonnogo dereva i izolyacii obsjhiye dlya oboikh rezhimov.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 11:59:08 MSK -->
-<!-- content-sha256: sha256:a00faf485601f30074454a5075c6544fa47e1d63094c1afa30f3de539b15639e -->
+<!-- last-content-edit: 2026-09-11 20:36:50 MSK -->
+<!-- content-sha256: sha256:b1360628d9cf41bff1539d102f1767409b09bd7609e572558ac6ed953c3eac49 -->
 <!-- FUM-MD-RECENCY:END -->

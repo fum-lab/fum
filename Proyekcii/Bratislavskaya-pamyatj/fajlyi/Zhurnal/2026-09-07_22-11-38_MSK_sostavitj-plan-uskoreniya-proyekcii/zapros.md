@@ -262,6 +262,6 @@ Promezhutochnyiye kommityi razreshenyi soobsjheniyem 23 v etoj postoyannoj zadac
 - [Otchyot ob izvlechenii](../../Istochniki/URL/https/www.rfc-editor.org/rfc/rfc4648.html/extraction-report.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 16:38:28 MSK -->
+<!-- last-content-edit: 2026-09-12 00:09:03 MSK -->
 <!-- content-sha256: sha256:8c4637547681a2b7648aa30c616288aa1884d0632a7884b018e5a36968220228 -->
 <!-- FUM-MD-RECENCY:END -->
