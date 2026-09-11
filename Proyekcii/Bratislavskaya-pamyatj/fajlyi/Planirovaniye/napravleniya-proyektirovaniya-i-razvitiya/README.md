@@ -30,6 +30,7 @@ Napravleniya ne yavlyayutsya samostoyateljnyim istochnikom trebovanij. Yesli iz 
 | [06. Evolyucionnyiye cepochki i otbor](06-evolyucionnyiye-cepochki-i-otbor.md)               | Ispoljzovatj vetki, proverki, revjyu, peredachu rezuljtatov i reyestr proiskhozhdeniya kak nositelj otbora.                                                        | Minimaljnyij pasport [peredavayemogo rezuljtata FUM](../../Glossarij/peredavayemyij-rezuljtat-FUM.md): istochniki, proverka, stoimostj, uverennostj, adresatyi i status peredachi.                   | Zapolnennyij primer svyazyivayet odin rezuljtat s zaprosom, proverkami, izmenyonnyimi fajlami i kommitom.                                |
 | [07. Issledovaniya i otkryitiya](07-issledovaniya-i-otkryitiya.md)                         | Delatj gipotezyi, eksperimentyi, otricateljnyiye rezuljtatyi i otkryitiya normaljnoj chastjyu proyekta.                                                                | Shablon kartochki [eksperimenta FUM](../../Glossarij/eksperiment-FUM.md): vopros, gipoteza, metod, dannyiye, sreda, rezuljtat, ogranicheniya, status i sleduyusjhij shag.                               | Odin lokaljnyij primer eksperimenta mozhno povtoritj ili prochitatj s yavnoj granicej nevosproizvodimoj chasti.                         |
 | [08. Fizicheskiye i daljniye konturyi](08-fizicheskiye-i-daljniye-konturyi.md)               | Uderzhivatj fizicheskoye dejstviye, apparatnyiye uzlyi i kosmicheskuyu avtonomiyu kak daljnij, ogranichennyij proverkami gorizont.                                       | [Karta ogranichitelej fizicheskogo dejstviya FUM](../../Dokumentaciya/40-karta-ogranichitelej-fizicheskogo-dejstviya-FUM.md): risk, dostup, otvetstvennostj, simulyator, kontrakt i otkryityiye voprosyi. | Karta ssyilayetsya na voprosyi o granicakh avtonomii i yavno zapresjhayet perekhod k realjnomu dejstviyu bez otdeljnogo trebovaniya.           |
+| [09. Matematika](09-matematika.md)                                                   | Proveryatj opredeleniya, predposyilki i matematicheskiye utverzhdeniya o povtoryayemosti i preobrazovaniyakh.                                                           | Predlozhennaya zapiska ob obratimosti kompozicii dvukh konechnyikh determinirovannyikh perekhodov po FUM-STEP-0206.                                                                                    | Dokazateljstvo v obyyavlennoj oblasti, konechnyiye illyustracii i kontrprimer k usileniyu; predmetnaya rabota yesjhyo ne soglasovana.         |
 
 ## Skhema svyazi
 
@@ -60,6 +61,8 @@ flowchart LR
 - [iskhodnyij zapros 2026-07-21 11:32:46 MSK - Aktualizirovatj vkhodnyiye opisaniya FUM](../../Zhurnal/2026-07-21_11-32-46_MSK_aktualizirovatj-vkhodnyiye-opisaniya-FUM/zapros.md)
 - [iskhodnyij zapros 2026-07-22 02:59:22 MSK - Dekompozirovatj predlozheniya na kartochki shagov](../../Zhurnal/2026-07-22_02-59-22_MSK_dekompozirovatj-predlozheniya-na-kartochki-shagov/zapros.md)
 
+- [Pervyij plan matematicheskogo napravleniya](../../Zhurnal/2026-09-11_05-09-33_MSK_sostavitj-plan-matematicheskogo-napravleniya/zapros.md).
+
 ## Opornyiye materialyi
 
 - [Dorozhnaya karta FUM](../dorozhnaya-karta.md)
@@ -69,6 +72,6 @@ flowchart LR
 - [Kartochki shagov FUM](../kartochki-shagov/README.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-03 14:54:04 MSK -->
-<!-- content-sha256: sha256:ba0bc0640c59905c43aac9bf1ce4a0fb4ef2a7ebe26be20e7a128c22bd95716f -->
+<!-- last-content-edit: 2026-09-11 05:21:23 MSK -->
+<!-- content-sha256: sha256:7af321d4ec750b8fc5ca831833e87e4f4ecc8971d58f53c9def6b63e1991fbf5 -->
 <!-- FUM-MD-RECENCY:END -->

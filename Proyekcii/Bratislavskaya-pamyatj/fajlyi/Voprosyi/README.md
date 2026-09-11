@@ -15,6 +15,8 @@ Fajl voprosa ne udalyayetsya posle otveta. Yesli vopros poluchayet otvet ili cha
 - [Granicyi yestestvenno-yazyikovoj sinkhronizacii znanij FUM](2026-07-13_20-34-23_MSK_granicyi-yestestvenno-yazyikovoj-sinkhronizacii-znanij-FUM.md)
 - [Granica GUI iz vnutrennikh mekhanizmov FUM](2026-07-24_10-44-28_MSK_granica-GUI-iz-vnutrennikh-mekhanizmov-FUM.md)
 
+- [Granicyi matematicheskogo napravleniya FUM](2026-09-11_05-09-33_MSK_granicyi-matematicheskogo-napravleniya-FUM.md)
+
 ## Chastichno proyasnyonnyiye voprosyi
 
 - [Granicyi periodicheskoj publikacii vetki](2026-07-27_15-21-35_MSK_granicyi-periodicheskoj-publikacii-vetki.md)
@@ -65,6 +67,6 @@ Fajl voprosa ne udalyayetsya posle otveta. Yesli vopros poluchayet otvet ili cha
 - [iskhodnyij zapros 2026-07-24 10:44:28 MSK — Nachatj bezokonnyij Swift-prototip vosproizvodimogo popolneniya pamyati FUM](../Zhurnal/2026-07-24_10-44-28_MSK_nachatj-bezokonnyij-Swift-prototip-vosproizvodimogo-popolneniya-pamyati-FUM/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-06 18:39:31 MSK -->
-<!-- content-sha256: sha256:53a61bc681ae7d22a543e363ad51ad023e300398fe677363889ee540e0f96ecf -->
+<!-- last-content-edit: 2026-09-11 05:21:23 MSK -->
+<!-- content-sha256: sha256:3715f20017f14e0ed0b0ca3fefe1fe48a5855dc8b84129ea659dbcd13eeb3478 -->
 <!-- FUM-MD-RECENCY:END -->

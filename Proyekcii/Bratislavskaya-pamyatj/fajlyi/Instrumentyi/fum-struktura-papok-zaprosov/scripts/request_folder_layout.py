@@ -19,7 +19,7 @@ import tempfile
 import unicodedata
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
-from typing import Any, Iterable, Iterator, Sequence
+from typing import Any, Callable, Iterable, Iterator, Sequence
 
 
 SCHEMA_VERSION = 1
@@ -1936,6 +1936,8 @@ def start_session(
     title: str,
     thread_id: str,
     messages: Sequence[str],
+    *,
+    установить_файлы: Callable[[Path, Sequence[PreparedFile]], None] | None = None,
 ) -> dict[str, Any]:
     root = repo_root.resolve()
     _validate_stem(stem, "start session stem")
@@ -2056,13 +2058,42 @@ def start_session(
         prepared.append(
             PreparedFile(index_rel, index_updated, stat.S_IMODE(index_path.stat().st_mode))
         )
-    _apply_prepared_transaction(root, prepared)
+    if установить_файлы is None:
+        _apply_prepared_transaction(root, prepared)
+    else:
+        установить_файлы(root, prepared)
     return {
         "schema_version": SCHEMA_VERSION,
         "mode": "start",
         "session_stem": stem,
         "idempotent": False,
     }
+
+
+def подготовить_начало(
+    корень_репозитория: Path,
+    основа: str,
+    метка: str,
+    заголовок: str,
+    идентификатор: str,
+    сообщения: Sequence[str],
+) -> tuple[list[PreparedFile], dict[str, Any]]:
+    """Прочитать стандартный план начала без установки файлов.
+
+    Возвращает новые байты, режимы и прежние метаданные start. Точный повтор
+    возвращает пустой план. Снимок входов, защиту от их изменения и долговечную
+    установку обеспечивает вызывающая транзакция; этот API не захватывает замок.
+    """
+    файлы_плана: list[PreparedFile] = []
+
+    def получить_план(корень_плана: Path, файлы: Sequence[PreparedFile]) -> None:
+        файлы_плана.extend(файлы)
+
+    сведения = start_session(
+        корень_репозитория, основа, метка, заголовок, идентификатор, сообщения,
+        установить_файлы=получить_план,
+    )
+    return файлы_плана, сведения
 
 
 def reindex_journal(repo_root: Path, baseline: str | None) -> dict[str, Any]:

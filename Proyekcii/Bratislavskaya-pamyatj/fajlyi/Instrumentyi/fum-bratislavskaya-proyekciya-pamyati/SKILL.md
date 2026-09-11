@@ -57,6 +57,10 @@ V Zhurnal/*/zapros.md doslovno sokhranyayetsya toljko soderzhimoye zasjhisjhyonn
 
 Neizvestnyij tekstovyij format zakryivayet plan. Latinskoye rasshireniye iz zakreplyonnogo spiska sokhranyayetsya otdeljno ot preobrazuyemoj osnovyi imeni. Suffiks .md.shablon ne obyyavlyayetsya tekhnicheskim latinskim rasshireniyem: yego kirillicheskaya chastj ostayotsya chastjyu preobrazuyemogo imeni puti, a soderzhimoye sokhranyayetsya kak mashinnyij shablon.
 
+Tochnyij putj `Инструменты/fum-reyestr-planirovaniya/scripts/адаптер-codex.js` zaregistrirovan otdeljno. Do klassifikacii netekstovyikh dannyikh yego polnyiye UTF-8-bajtyi proveryayutsya konechnyim shablonom `объявления_адаптера` iz lokaljnogo inventarya obyyavlenij. Stroki, kommentarii, vneshniye importyi i inoj sintaksis ne dopuskayutsya. Imena i bajtyi adaptera sokhranyayutsya po obsjhej politike sobstvennogo koda; proverka yazyika obyyavlenij ostayotsya otdeljnoj obyazannostjyu inventarya. Tekhnicheskij suffiks `.js` sokhranyayetsya v puti, no obsjhij format JavaScript ne otkryivayetsya: pokhozhij putj libo drugoye tekstovoye rasshireniye ostayotsya neizvestnyim.
+
+Dlya smenyi podtverzhdyonnogo prezhnego pokoleniya versii 2 proverka vladeniya pereispoljzuyet polnyij zakreplyonnyij kontrakt `совместимость/контракт-v2-до-форматов-приложения.json` s khyeshem `sha256:9f262153c9de986270cec76ad3c37da34c99ace0c187474ba8a1bc736222220a`. Neizvestnaya politika, podmena snimka, metadannyikh ili dereva zakryivayut perekhod. Itogovaya nezavisimaya proverka prinimayet toljko tekusjhuyu politiku i zanovo vyivedennoye pokoleniye; staryij manifest sam po sebe yej ne sootvetstvuyet.
+
 ## Preobrazovaniye putej
 
 Kazhdyij komponent polnogo puti obrabatyivayetsya otdeljno. Dlya poslednego komponenta snachala otdelyayetsya samoye dlinnoye zaregistrirovannoye tekhnicheskoye rasshireniye, zatem LinguisticKit preobrazuyet osnovu. Neizmenivshiyesya latinskiye komponentyi vsyo ravno vkhodyat v otobrazheniye.
@@ -179,6 +183,6 @@ Kanonicheskiye avtodiskaveri-konturyi isklyuchayut toljko kornevuyu oblastj `Pro
 Odnoparametricheskij vyizov `подготовить_изолированный_преобразователь(корень)` sokhranyayet prezhnij kontrakt: izoliruyet zakreplyonnyiye iskhodniki i vozvrasjhayet nastoyasjhuyu komandu Swift s proverkoj granicyi; sborku zapuskayet vyizyivayusjhij. Yavnyij keyword-only parametr `использовать_кэш=True` vyibirayet predvariteljnuyu sborku, proverennyij kyesh i chastnuyu kopiyu produkta. Rabochiye CLI-komandyi generatora vsegda vyibirayut etot rezhim. Proverki zakreplyonnogo dereva i izolyacii obsjhiye dlya oboikh rezhimov.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 22:02:46 MSK -->
-<!-- content-sha256: sha256:b5c63c3fef363e8e8a4e63f65acea0f1f1d8ffd89d3e4615d7acfd63b01a6210 -->
+<!-- last-content-edit: 2026-09-11 04:45:05 MSK -->
+<!-- content-sha256: sha256:5a852687f4aef32b6be5e343f7905b556ccfcd3c127369a529e4311cb11171a4 -->
 <!-- FUM-MD-RECENCY:END -->

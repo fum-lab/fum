@@ -138,8 +138,11 @@ Status menyayetsya pereimenovaniyem fajla cherez `git mv`. Emodzi ne zamenyayet 
 - [iskhodnyij zapros 2026-07-24 10:44:28 MSK — Nachatj bezokonnyij Swift-prototip vosproizvodimogo popolneniya pamyati FUM](../Zhurnal/2026-07-24_10-44-28_MSK_nachatj-bezokonnyij-Swift-prototip-vosproizvodimogo-popolneniya-pamyati-FUM/zapros.md)
 - [arkhivirovannyij dialog «Zapusk kastomnogo interfejsa»](../Istochniki/URL/https/chatgpt.com/share/6a5664cd-4838-83eb-9da3-60f7f5d22566/zapusk-kastomnogo-interfejsa.md)
 
+## Prinyatyiye napravleniya
+
+- `FUM-REQ-0065` — [🟡 Proveryayemyij plan matematicheskogo napravleniya](🟡-proveryayemyij-plan-matematicheskogo-napravleniya.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 15:20:29 MSK -->
-<!-- content-sha256: sha256:12efd7915b8e73106c346c2426d5963a2d8a07e599f5e1064331b821650ff7c5 -->
+<!-- last-content-edit: 2026-09-11 05:00:59 MSK -->
+<!-- content-sha256: sha256:ebb4ddb48739645882ce67f901e979ee8145872825a3f6167d8ce9b9cdfff2a5 -->
 <!-- FUM-MD-RECENCY:END -->

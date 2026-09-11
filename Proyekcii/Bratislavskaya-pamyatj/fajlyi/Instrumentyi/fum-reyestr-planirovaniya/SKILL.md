@@ -5,6 +5,8 @@ description: Sobiratj i proveryatj mashinno chitayemyij reyestr trebovanij, stad
 
 # FUM Planning Registry
 
+V FUM-STEP-0201 razrabatyivayetsya [priyom napravlenij FUMA](priyom-napravlenij.md): rukovodstvo opisyivayet proverennyiye primitivyi i yesjhyo nezavershyonnyij yedinyij vkhod. Promezhutochnyij status ne razreshayet vneshneye sozdaniye zadachi cherez nizkourovnevuyu operaciyu.
+
 Etot navyik opisyivayet lokaljnuyu [avtomatizaciyu FUM](../../Glossarij/avtomatizaciya-FUM.md), kotoraya sobirayet mashinno chitayemyij JSON-reyestr planovogo sloya proyekta iz tekusjhikh Markdown-istochnikov:
 
 - [kanonicheskikh kartochek trebovanij FUM](../../Trebovaniya/README.md);
@@ -136,6 +138,6 @@ Avtomatizaciya ne vyivodit novyiye trebovaniya ili shagi iz smyisla dokumentov, 
 - [iskhodnyij zapros 2026-07-22 11:48:49 MSK — Oformitj kartochki shagov opisateljnyimi imenami i emodzi statusami](../../Zhurnal/2026-07-22_11-48-49_MSK_oformitj-kartochki-shagov-opisateljnyimi-imenami-i-emodzi-statusami/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 16:38:28 MSK -->
-<!-- content-sha256: sha256:75b1f955f6d0c4f7792cfe2c61a9aa1771096c706c48b263deba293b89c62b5a -->
+<!-- last-content-edit: 2026-09-11 02:07:47 MSK -->
+<!-- content-sha256: sha256:dec90301338d5302a72cb4e4109da28a299c1b9897a63dea6c710bc5ef0976a7 -->
 <!-- FUM-MD-RECENCY:END -->
