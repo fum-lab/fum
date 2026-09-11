@@ -4,8 +4,8 @@ import ЯдроМашины
 
 umask(0o077)
 
-func вывести<T: Encodable>(_ значение: T) throws { FileHandle.standardOutput.write(try кодировать(значение)) }
-func прочитать<T: Decodable>(_ тип: T.Type, _ путь: String) throws -> T {
+func вывести<Значение: Encodable>(_ значение: Значение) throws { FileHandle.standardOutput.write(try кодировать(значение)) }
+func прочитать<Значение: Decodable>(_ тип: Значение.Type, _ путь: String) throws -> Значение {
     let адрес = URL(fileURLWithPath: NSString(string: путь).expandingTildeInPath)
     let свойства = try FileManager.default.attributesOfItem(atPath: адрес.path)
     guard (свойства[.size] as? NSNumber)?.intValue ?? Int.max <= 4 * 1024 * 1024 else { throw ОшибкаМашины("Входной JSON превышает 4 MiB.") }
@@ -56,7 +56,7 @@ do {
         try план.проверить()
         try Хост.ресурсы(план.каталог).проверить(план.профиль)
         let хранилище = try Хранилище(план: план, создать: true)
-        let подготовка = ПодготовкаUbuntu(хранилище)
+        let подготовка = ПодготовкаУбунту(хранилище)
         try подготовка.метрики.измерить("подготовка до этапа «\(граница)»") {
             try хранилище.записать("снимок-хоста.json", байты: кодировать(Хост.снимок(план.каталог)))
             try подготовка.зависимости()
@@ -68,7 +68,7 @@ do {
     case "служить":
         if getpgrp() != getpid() { guard setsid() >= 0 else { throw ОшибкаМашины("Не удалось изолировать службу VM.") } }
         let читатель = try ЧтениеХранилища(каталог)
-        let служба = try СлужбаVZ(читатель.паспорт.план)
+        let служба = try СлужбаВиртуализации(читатель.паспорт.план)
         try служба.запустить()
         withExtendedLifetime(служба) { dispatchMain() }
     case "восстановить":
@@ -76,7 +76,7 @@ do {
         FileHandle.standardOutput.write(try ДоступКГостю.восстановить(КлиентМашины(каталог), адрес: адрес))
     case "запустить", "состояние", "готовность", "остановить", "ssh":
         let клиент = try КлиентМашины(каталог)
-        if команда == "ssh" { try клиент.ssh(параметры["--команда"]) }
+        if команда == "ssh" { try клиент.подключитьсяКГостю(параметры["--команда"]) }
         var результат: ЗапускМашины
         switch команда {
         case "запустить":

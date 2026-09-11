@@ -20,12 +20,24 @@ public struct ЗапускМашины: Codable {
     public var план: String
     public var запуск = UUID().uuidString.lowercased()
     public var токен = UUID().uuidString.lowercased() + UUID().uuidString.lowercased()
-    public var портSSH: UInt16
+    public var портДоступаКГостю: UInt16
     public var портУправления: UInt16
     public var фаза = "запускается"
     public var причина: String?
-    public init(машина: String, план: String, портSSH: UInt16, портУправления: UInt16) {
-        self.машина = машина; self.план = план; self.портSSH = портSSH; self.портУправления = портУправления
+    enum CodingKeys: String, CodingKey {
+        case схема = "схема"
+        case машина = "машина"
+        case план = "план"
+        case запуск = "запуск"
+        case токен = "токен"
+        case портДоступаКГостю = "портSSH"
+        case портУправления = "портУправления"
+        case фаза = "фаза"
+        case причина = "причина"
+    }
+
+    public init(машина: String, план: String, портДоступаКГостю: UInt16, портУправления: UInt16) {
+        self.машина = машина; self.план = план; self.портДоступаКГостю = портДоступаКГостю; self.портУправления = портУправления
     }
     public func проверить(токен: String, запуск: String) throws {
         guard схема == "fum.запуск-машины.1", self.токен == токен, self.запуск == запуск else {

@@ -2,15 +2,15 @@ import Foundation
 import CryptoKit
 import Darwin
 
-public func размерQCOW(_ данные: Data, предел: UInt64) throws -> UInt64 {
+public func виртуальныйРазмерОбраза(_ данные: Data, предел: UInt64) throws -> UInt64 {
     struct Сведения: Decodable {
-        var format: String
+        var форматОбраза: String
         var размер: UInt64
         var основа: String?
-        enum CodingKeys: String, CodingKey { case format, размер = "virtual-size", основа = "backing-filename" }
+        enum CodingKeys: String, CodingKey { case форматОбраза = "format", размер = "virtual-size", основа = "backing-filename" }
     }
     let сведения = try JSONDecoder().decode(Сведения.self, from: данные)
-    guard сведения.format == "qcow2", сведения.основа == nil, сведения.размер > 0, сведения.размер <= предел else {
+    guard сведения.форматОбраза == "qcow2", сведения.основа == nil, сведения.размер > 0, сведения.размер <= предел else {
         throw ОшибкаМашины("Образ имеет неподдержанные формат, размер или внешнюю основу.")
     }
     return сведения.размер
@@ -24,7 +24,7 @@ private struct СвидетельствоПодписи: Codable {
     var файлы: [String: String]
 }
 
-public final class ПодготовкаUbuntu {
+public final class ПодготовкаУбунту {
     public func подписьПодтверждена() throws -> Bool {
         guard try хранилище.есть("подпись-проверена.json"),
               let запись = try? JSONDecoder().decode(СвидетельствоПодписи.self, from: хранилище.прочитать("подпись-проверена.json")),
@@ -168,7 +168,7 @@ public final class ПодготовкаUbuntu {
             guard try хэшФайла("образ.qcow2") == план.хэшОбраза else { throw ОшибкаМашины("Исходный образ не прошёл SHA-256.") }
             let конвертер = try Хост.обязательный("qemu-img")
             let сведения = try метрики.команда("параметры QCOW2", конвертер, ["info", "--output=json", "-f", "qcow2", путь("образ.qcow2")])
-            _ = try размерQCOW(Data(сведения.вывод.utf8), предел: UInt64(план.профиль.дискГиБ) << 30)
+            _ = try виртуальныйРазмерОбраза(Data(сведения.вывод.utf8), предел: UInt64(план.профиль.дискГиБ) << 30)
             let имя = try новыйФайл("конвертация")
             try метрики.команда("конвертация QCOW2 в RAW", конвертер, ["convert", "-f", "qcow2", "-O", "raw", путь("образ.qcow2"), путь(имя)], предел: 600)
             try метрики.команда("сравнение RAW с проверенным QCOW2", конвертер, ["compare", "-f", "qcow2", "-F", "raw", путь("образ.qcow2"), путь(имя)], предел: 300)

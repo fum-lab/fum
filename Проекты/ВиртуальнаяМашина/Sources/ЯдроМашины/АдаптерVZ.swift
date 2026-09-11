@@ -2,12 +2,12 @@ import Foundation
 import Virtualization
 import Darwin
 
-public final class СлужбаVZ: NSObject, VZVirtualMachineDelegate {
+public final class СлужбаВиртуализации: NSObject, VZVirtualMachineDelegate {
     private let хранилище: Хранилище
     private var машина: VZVirtualMachine!
     private var цикл = ЖизненныйЦикл()
     private var запись: ЗапускМашины!
-    private var приёмникSSH: Приёмник!
+    private var приёмникДоступаКГостю: Приёмник!
     private var приёмникКоманд: Приёмник!
     private var сигналы: [DispatchSourceSignal] = []
     private var мосты: [UUID: () -> Void] = [:]
@@ -33,22 +33,22 @@ public final class СлужбаVZ: NSObject, VZVirtualMachineDelegate {
     }
     public func запустить() throws {
         dispatchPrecondition(condition: .onQueue(.main))
-        let подготовка = ПодготовкаUbuntu(хранилище)
+        let подготовка = ПодготовкаУбунту(хранилище)
         guard try хранилище.есть("диск.raw"), FileManager.default.fileExists(atPath: путь("идентичность/seed.iso").path) else {
             throw ОшибкаМашины("Сначала выполните «подготовить --до всё».")
         }
         try подготовка.диск()
         try подготовка.идентичность()
-        приёмникSSH = try Приёмник { [weak self] файл in self?.соединитьSSH(файл) }
+        приёмникДоступаКГостю = try Приёмник { [weak self] файл in self?.соединитьСГостем(файл) }
         приёмникКоманд = try Приёмник { [weak self] файл in self?.принятьКоманду(файл) }
         запись = ЗапускМашины(машина: хранилище.паспорт.идентификатор, план: хранилище.паспорт.план.отпечаток,
-                             портSSH: приёмникSSH.порт, портУправления: приёмникКоманд.порт)
+                             портДоступаКГостю: приёмникДоступаКГостю.порт, портУправления: приёмникКоманд.порт)
         let конфигурация = VZVirtualMachineConfiguration()
         конфигурация.cpuCount = хранилище.паспорт.план.профиль.процессоры
         конфигурация.memorySize = UInt64(хранилище.паспорт.план.профиль.памятьГиБ) << 30
         let платформа = VZGenericPlatformConfiguration()
         guard let идентификатор = VZGenericMachineIdentifier(dataRepresentation: try Data(contentsOf: путь("идентичность/машина.bin"))),
-              let mac = VZMACAddress(string: try String(contentsOf: путь("идентичность/mac.txt"), encoding: .utf8)) else {
+              let канальныйАдрес = VZMACAddress(string: try String(contentsOf: путь("идентичность/mac.txt"), encoding: .utf8)) else {
             throw ОшибкаМашины("Постоянный идентификатор VM или MAC повреждён.")
         }
         платформа.machineIdentifier = идентификатор
@@ -58,7 +58,7 @@ public final class СлужбаVZ: NSObject, VZVirtualMachineDelegate {
         конфигурация.bootLoader = загрузчик
         конфигурация.entropyDevices = [VZVirtioEntropyDeviceConfiguration()]
         let сеть = VZVirtioNetworkDeviceConfiguration()
-        сеть.macAddress = mac; сеть.attachment = VZNATNetworkDeviceAttachment()
+        сеть.macAddress = канальныйАдрес; сеть.attachment = VZNATNetworkDeviceAttachment()
         конфигурация.networkDevices = [сеть]
         конфигурация.socketDevices = [VZVirtioSocketDeviceConfiguration()]
         конфигурация.storageDevices = try [
@@ -162,7 +162,7 @@ public final class СлужбаVZ: NSObject, VZVirtualMachineDelegate {
             }
         }
     }
-    private func соединитьSSH(_ файл: Int32) {
+    private func соединитьСГостем(_ файл: Int32) {
         guard ожидающие + мосты.count < 32, let устройство = машина?.socketDevices.first as? VZVirtioSocketDevice else { close(файл); return }
         ожидающие += 1
         var завершён = false
@@ -201,8 +201,8 @@ public final class СлужбаVZ: NSObject, VZVirtualMachineDelegate {
             }
         }
     }
-    public func guestDidStop(_ virtualMachine: VZVirtualMachine) { завершить(ошибка: nil) }
-    public func virtualMachine(_ virtualMachine: VZVirtualMachine, didStopWithError error: Error) { завершить(ошибка: String(describing: error)) }
+    public func guestDidStop(_ гостеваяМашина: VZVirtualMachine) { завершить(ошибка: nil) }
+    public func virtualMachine(_ гостеваяМашина: VZVirtualMachine, didStopWithError ошибкаОстановки: Error) { завершить(ошибка: String(describing: ошибкаОстановки)) }
     private func завершить(ошибка: String?) {
         for закрыть in мосты.values { закрыть() }
         do {

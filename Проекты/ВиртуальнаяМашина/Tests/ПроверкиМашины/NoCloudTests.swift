@@ -2,7 +2,7 @@ import XCTest
 @testable import ЯдроМашины
 
 final class ПроверкиНастройкиГостя: XCTestCase {
-    func testSSHЗакреплёнИГотовностьНеЗапускаетсяВнутриCloudInit() throws {
+    func test_КлючХостаЗакреплёнИГотовностьНеЗапускаетсяВнутриНачальнойНастройки() throws {
         let текст = try НастройкаГостя.создать(идентификатор: "12345678-1234-4234-8234-123456789abc",
             ключКлиента: "ssh-ed25519 AAAACLIENT", ключХоста: "ssh-ed25519 AAAAHOST", закрытыйКлючХоста: "ОТКРЫТАЯ-ФИКСТУРА\n")
         XCTAssertTrue(текст.contains("#cloud-config"))
@@ -19,7 +19,7 @@ final class ПроверкиНастройкиГостя: XCTestCase {
         XCTAssertFalse(текст.contains("cloud-init status --wait"))
         XCTAssertFalse(текст.contains("After=cloud-init.target"))
     }
-    func testДанныеНеМогутВнедритьДругуюНастройку() {
+    func test_ДанныеНеМогутВнедритьДругуюНастройку() {
         XCTAssertThrowsError(try НастройкаГостя.создать(идентификатор: "x\nruncmd: []", ключКлиента: "x", ключХоста: "x", закрытыйКлючХоста: "x"))
     }
 }

@@ -17,18 +17,18 @@ final class ПроверкиХранилища: XCTestCase {
                               ресурсы: Ресурсы(архитектура: "arm64", виртуализация: true, процессоры: 10,
                                                памятьБайт: 64 << 30, свободноБайт: 100 << 30))
     }
-    func testНеизвестныйКаталогНеПрисваивается() throws {
+    func test_НеизвестныйКаталогНеПрисваивается() throws {
         let план = try план()
         try FileManager.default.createDirectory(atPath: план.каталог, withIntermediateDirectories: false)
         XCTAssertThrowsError(try Хранилище(план: план, создать: true))
         XCTAssertEqual(try FileManager.default.contentsOfDirectory(atPath: план.каталог), [])
     }
-    func testСимволическаяСсылкаНеПринимается() throws {
+    func test_СимволическаяСсылкаНеПринимается() throws {
         let план = try план()
         try FileManager.default.createSymbolicLink(atPath: план.каталог, withDestinationPath: родитель.path)
         XCTAssertThrowsError(try Хранилище(план: план, создать: true))
     }
-    func testОдинПисательИПовторПослеОсвобождения() throws {
+    func test_ОдинПисательИПовторПослеОсвобождения() throws {
         let план = try план()
         var первое: Хранилище? = try Хранилище(план: план, создать: true)
         try первое!.записать("данные", байты: Data("сохранённый результат".utf8))
@@ -37,7 +37,7 @@ final class ПроверкиХранилища: XCTestCase {
         let второе = try Хранилище(план: план, создать: false)
         XCTAssertEqual(try второе.прочитать("данные"), Data("сохранённый результат".utf8))
     }
-    func testИзменённыйПрофильНеПерезаписываетМашину() throws {
+    func test_ИзменённыйПрофильНеПерезаписываетМашину() throws {
         let исходный = try план()
         var первое: Хранилище? = try Хранилище(план: исходный, создать: true)
         try первое!.записать("диск", байты: Data([1,2,3])); первое = nil
@@ -46,7 +46,7 @@ final class ПроверкиХранилища: XCTestCase {
             ресурсы: Ресурсы(архитектура: "arm64", виртуализация: true, процессоры: 10, памятьБайт: 64 << 30, свободноБайт: 100 << 30))
         XCTAssertThrowsError(try Хранилище(план: новый, создать: true))
     }
-    func testВыходИзКаталогаИЖёсткаяСсылкаОтклоняются() throws {
+    func test_ВыходИзКаталогаИЖёсткаяСсылкаОтклоняются() throws {
         let план = try план()
         let хранилище = try Хранилище(план: план, создать: true)
         XCTAssertThrowsError(try хранилище.записать("../чужое", байты: Data([1])))
@@ -57,38 +57,38 @@ final class ПроверкиХранилища: XCTestCase {
             XCTAssertThrowsError(try хранилище.прочитать("ссылка"))
         }
     }
-    func testПостоянныйЗамокНельзяЗаменить() throws {
+    func test_ПостоянныйЗамокНельзяЗаменить() throws {
         let исходный = try план()
         let хранилище = try Хранилище(план: исходный, создать: true)
         XCTAssertThrowsError(try хранилище.записать("замок", байты: Data()))
         XCTAssertThrowsError(try хранилище.записать("паспорт.json", байты: Data()))
         XCTAssertThrowsError(try Хранилище(план: исходный, создать: false))
     }
-    func testРазмерМетаданныхОграничен() throws {
+    func test_РазмерМетаданныхОграничен() throws {
         let исходный = try план()
         let хранилище = try Хранилище(план: исходный, создать: true)
         try хранилище.записать("большой-файл", байты: Data(repeating: 0, count: 4 * 1024 * 1024 + 1))
         XCTAssertThrowsError(try хранилище.прочитать("большой-файл"))
     }
-    func testFIFOОтклоняетсяБезОжидания() throws {
+    func test_ИменованныйКаналОтклоняетсяБезОжидания() throws {
         let исходный = try план()
         let хранилище = try Хранилище(план: исходный, создать: true)
         XCTAssertEqual(mkfifo(исходный.каталог + "/канал", 0o600), 0)
         XCTAssertThrowsError(try хранилище.прочитать("канал"))
     }
-    func testПустоеИЧужоеСвидетельствоПодписиНеПринимается() throws {
+    func test_ПустоеИЧужоеСвидетельствоПодписиНеПринимается() throws {
         let хранилище = try Хранилище(план: план(), создать: true)
-        let подготовка = ПодготовкаUbuntu(хранилище)
+        let подготовка = ПодготовкаУбунту(хранилище)
         XCTAssertFalse(try подготовка.подписьПодтверждена())
         try хранилище.записать("подпись-проверена.json", байты: Data("{}".utf8))
         XCTAssertFalse(try подготовка.подписьПодтверждена())
         try хранилище.записать("подпись-проверена.json", байты: кодировать(["план": "чужой", "образ": хранилище.паспорт.план.хэшОбраза]))
         XCTAssertFalse(try подготовка.подписьПодтверждена())
     }
-    func testУправляющийСимволВПутиОтклоняется() {
+    func test_УправляющийСимволВПутиОтклоняется() {
         XCTAssertThrowsError(try план("машина\nHost чужой"))
     }
-    func testЧтениеНеОсвобождаетЗамокРаботающейМашины() throws {
+    func test_ЧтениеНеОсвобождаетЗамокРаботающейМашины() throws {
         let план = try план()
         let писатель = try Хранилище(план: план, создать: true)
         try писатель.записать("состояние.json", байты: Data("жив".utf8))

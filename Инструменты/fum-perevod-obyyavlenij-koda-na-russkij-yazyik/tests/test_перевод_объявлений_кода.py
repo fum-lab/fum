@@ -556,6 +556,21 @@ class ПроверкаПереводаОбъявленийКода(unittest.Test
                 файл.read_text(encoding="utf-8"),
             )
 
+    def test_внешние_методы_подготовки_не_разрешают_одноимённый_собственный_код(сам) -> None:
+        with tempfile.TemporaryDirectory() as временный:
+            корень = Path(временный)
+            сам.записать(корень, 'код.py', '''import unittest
+class Проверка(unittest.TestCase):
+    def setUp(сам):
+        def setUp(): pass
+    def tearDown(сам): pass
+class Свой:
+    def setUp(сам): pass
+''')
+            результат = сам.запустить('инвентаризировать', '--корень-репозитория', str(корень))
+            сам.assertEqual(результат.returncode, 0, результат.stderr)
+            сам.assertEqual([(запись['имя'], запись['строка']) for запись in json.loads(результат.stdout)['объявления']], [('setUp', 4), ('setUp', 7)])
+
     def test_собственный_питон_код_не_объявляет_латинские_имена(сам) -> None:
         результат = сам.запустить(
             "инвентаризировать",

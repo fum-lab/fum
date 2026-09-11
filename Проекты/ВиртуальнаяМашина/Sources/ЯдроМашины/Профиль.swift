@@ -6,7 +6,7 @@ public struct ОшибкаМашины: Error, CustomStringConvertible {
     public init(_ сообщение: String) { description = сообщение }
 }
 
-public func кодировать<T: Encodable>(_ значение: T) throws -> Data {
+public func кодировать<Значение: Encodable>(_ значение: Значение) throws -> Data {
     let кодировщик = JSONEncoder()
     кодировщик.outputFormatting = [.sortedKeys, .prettyPrinted, .withoutEscapingSlashes]
     var байты = try кодировщик.encode(значение)

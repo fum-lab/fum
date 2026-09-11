@@ -50,10 +50,10 @@ public enum Исполнитель {
         let строкиАргументов = ([программа] + аргументы).map { strdup($0)! }
         let строкиСреды = окружение.sorted { $0.key < $1.key }.map { strdup($0.key + "=" + $0.value)! }
         defer { (строкиАргументов + строкиСреды).forEach { free($0) } }
-        var argv = строкиАргументов.map(Optional.some) + [nil], envp = строкиСреды.map(Optional.some) + [nil]
+        var массивАргументов = строкиАргументов.map(Optional.some) + [nil], массивОкружения = строкиСреды.map(Optional.some) + [nil]
         var процесс: pid_t = 0
-        let кодЗапуска = argv.withUnsafeMutableBufferPointer { a in
-            envp.withUnsafeMutableBufferPointer { e in posix_spawn(&процесс, программа, &действия, &атрибуты, a.baseAddress!, e.baseAddress!) }
+        let кодЗапуска = массивАргументов.withUnsafeMutableBufferPointer { буферАргументов in
+            массивОкружения.withUnsafeMutableBufferPointer { буферОкружения in posix_spawn(&процесс, программа, &действия, &атрибуты, буферАргументов.baseAddress!, буферОкружения.baseAddress!) }
         }
         guard кодЗапуска == 0 else { throw ОшибкаМашины("Не удалось выполнить процесс, код POSIX \(кодЗапуска).") }
         let начало = DispatchTime.now().uptimeNanoseconds
@@ -121,7 +121,7 @@ public final class МетрикиМашины {
     private var родители: [String] = []
     public var текущийРодитель: String? { родители.last }
     public init(_ хранилище: Хранилище) { self.хранилище = хранилище }
-    public func измерить<T>(_ название: String, _ действие: () throws -> T) throws -> T {
+    public func измерить<Значение>(_ название: String, _ действие: () throws -> Значение) throws -> Значение {
         let идентификатор = UUID().uuidString.lowercased()
         var событие = СобытиеМашины(идентификатор: идентификатор, родитель: родители.last, операция: название,
                                     длительностьНс: nil, исход: "выполняется")

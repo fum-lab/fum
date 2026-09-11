@@ -23,7 +23,7 @@ class ПроверкиСчётчиков(unittest.TestCase):
         сам.assertEqual(результат['выполнено'], 1)
         with сам.assertRaises(ValueError): сам.испытать('    pass\n', 1)
 
-    def test_пропуск_не_маскируется_успехом_framework(сам):
+    def test_пропуск_не_маскируется_успехом_набора(сам):
         with сам.assertRaises(ValueError):
             сам.испытать('    @unittest.skip("Открытая фикстура")\n    def test_проверка(сам): pass\n', 1)
 

@@ -4,24 +4,24 @@ import XCTest
 @testable import ЯдроМашины
 
 final class ПроверкиИсполнителя: XCTestCase {
-    func testАргументыНеИнтерпретируютсяОболочкой() throws {
+    func test_АргументыНеИнтерпретируютсяОболочкой() throws {
         let текст = "путь с ё $(не-команда); `не-команда`"
         let результат = try Исполнитель.выполнить("/usr/bin/printf", ["%s", текст])
         XCTAssertEqual(результат.вывод, текст)
         XCTAssertEqual(результат.код, 0)
     }
-    func testНеуспехНеСкрывается() throws {
+    func test_НеуспехНеСкрывается() throws {
         XCTAssertEqual(try Исполнитель.выполнить("/usr/bin/false", []).код, 1)
         XCTAssertThrowsError(try Исполнитель.выполнить("/несуществующая-команда", []))
     }
-    func testОжиданиеОграничено() {
+    func test_ОжиданиеОграничено() {
         XCTAssertThrowsError(try Исполнитель.выполнить("/bin/sleep", ["5"], предел: 0.1))
     }
-    func testВходПередаётсяБуквально() throws {
+    func test_ВходПередаётсяБуквально() throws {
         let вход = Data("данные с ё\nвторая строка".utf8)
         XCTAssertEqual(try Исполнитель.выполнить("/bin/cat", [], вход: вход).вывод, String(decoding: вход, as: UTF8.self))
     }
-    func testТаймАутОстанавливаетПотомка() throws {
+    func test_ТаймАутОстанавливаетПотомка() throws {
         let каталог = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         try FileManager.default.createDirectory(at: каталог, withIntermediateDirectories: false)
         defer { try? FileManager.default.removeItem(at: каталог) }
@@ -31,7 +31,7 @@ final class ПроверкиИсполнителя: XCTestCase {
         usleep(700_000)
         XCTAssertFalse(FileManager.default.fileExists(atPath: файл.path))
     }
-    func testПовторныйИмпортНеУдваиваетСчётчики() throws {
+    func test_ПовторныйИмпортНеУдваиваетСчётчики() throws {
         let корень = СобытиеМашины(идентификатор: UUID().uuidString, родитель: nil, операция: "подготовка", длительностьНс: 100, исход: "успех")
         let ребёнок = СобытиеМашины(идентификатор: UUID().uuidString, родитель: корень.идентификатор, операция: "процесс", длительностьНс: 80, исход: "успех")
         let события = try объединитьСобытия([корень, ребёнок, корень, ребёнок])
