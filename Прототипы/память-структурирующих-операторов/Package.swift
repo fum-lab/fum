@@ -8,6 +8,7 @@ let package = Package(
     .macOS(.v14)
   ],
   products: [
+    .executable(name: "СравнениеДекодирования", targets: ["СравнениеДекодирования"]),
     .library(
       name: "FUMStructuringOperatorMemory",
       targets: ["FUMStructuringOperatorMemory"]
@@ -18,6 +19,8 @@ let package = Package(
     ),
   ],
   targets: [
+    .target(name: "СтендДекодирования", dependencies: ["FUMStructuringOperatorMemory"]),
+    .executableTarget(name: "СравнениеДекодирования", dependencies: ["СтендДекодирования"]),
     .target(
       name: "FUMStructuringOperatorMemory",
       path: "Sources/FUMStructuringOperatorMemory",
@@ -33,7 +36,7 @@ let package = Package(
     ),
     .testTarget(
       name: "FUMStructuringOperatorMemoryTests",
-      dependencies: ["FUMStructuringOperatorMemory"],
+      dependencies: ["FUMStructuringOperatorMemory", "СтендДекодирования"],
       path: "Tests/FUMStructuringOperatorMemoryTests"
     ),
   ]
