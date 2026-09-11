@@ -8,6 +8,8 @@ V granicakh etogo trebovaniya kornevoye yadro — obsjhij `core` FUM s publikaci
 
 ## Semanticheskiye svyazi
 
+- **dopolnyayetsya:** [chistoye ispolneniye operatorov i UTF-32](🟡-chistoye-ispolneniye-operatorov-i-UTF-32.md) — otdeleniye ispolneniya ot proverochnyikh ozhidanij gotovit nablyudayemyij kontrakt dekodirovaniya dlya budusjhego sravneniya realizacij; obsjhij vyichisliteljnyij dvizhok ne schitayetsya nezavisimyim podtverzhdeniyem yadra.
+
 - **dopolnyayet:** [bezokonnyij Swift-kontur pervogo korobochnogo prototipa](✅-bezokonnyij-Swift-kontur-pervogo-korobochnogo-prototipa.md) — pozvolyayet perenositj zakreplyonnyij kontrakt prototipa v test otdeljnoj realizacii yadra, ne prevrasjhaya sam prototip v postavlyayemyij runtime.
 
 ## Kriterii proverki
@@ -28,11 +30,13 @@ Trebovaniye razreshayet ispoljzovatj prototip kak ispolnyayemyij etalon ili diff
 
 ## Istochniki trebovanij
 
+- [Postanovka perenosa i interpretatora](../Zhurnal/2026-09-11_07-19-51_MSK_prinyatj-postanovku-interpretatora/zapros.md)
+
 - [iskhodnyij zapros tekusjhej rabochej sessii](../Zhurnal/2026-08-05_20-01-32_MSK_zakrepitj-prototipyi-kak-testyi-i-sozdatj-kartochku-ozhidaniya-ocheredi/zapros.md)
 - [repozitornyij graf pishusjhikh poduzlov i proyektov FUM](../Dokumentaciya/44-repozitornyij-graf-pishusjhikh-poduzlov-i-proyektov-FUM.md)
 - [pravila prototipov](../Prototipyi/README.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-05 20:15:36 MSK -->
-<!-- content-sha256: sha256:cbec1feaea55ceae978df9d22d1cdf1fde4135ccfe6b5e160ef22a7431ed1d4d -->
+<!-- last-content-edit: 2026-09-11 07:26:18 MSK -->
+<!-- content-sha256: sha256:3d1287aeb832e0ba722525cc82f27cb238d3762f3361162f7f81e0d05b2b26f2 -->
 <!-- FUM-MD-RECENCY:END -->

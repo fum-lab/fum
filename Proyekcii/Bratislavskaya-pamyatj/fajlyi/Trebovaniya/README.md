@@ -138,8 +138,13 @@ Status menyayetsya pereimenovaniyem fajla cherez `git mv`. Emodzi ne zamenyayet 
 - [iskhodnyij zapros 2026-07-24 10:44:28 MSK — Nachatj bezokonnyij Swift-prototip vosproizvodimogo popolneniya pamyati FUM](../Zhurnal/2026-07-24_10-44-28_MSK_nachatj-bezokonnyij-Swift-prototip-vosproizvodimogo-popolneniya-pamyati-FUM/zapros.md)
 - [arkhivirovannyij dialog «Zapusk kastomnogo interfejsa»](../Istochniki/URL/https/chatgpt.com/share/6a5664cd-4838-83eb-9da3-60f7f5d22566/zapusk-kastomnogo-interfejsa.md)
 
+## Prinyatyiye napravleniya
+
+- `FUM-REQ-0065` — [🟡 Proveryayemyij plan matematicheskogo napravleniya](🟡-proveryayemyij-plan-matematicheskogo-napravleniya.md)
+- `FUM-REQ-0066` — [🟡 Vozobnovlyayemyij perenos rabochikh derevjyev](🟡-vozobnovlyayemyij-perenos-rabochikh-derevjyev.md)
+- `FUM-REQ-0067` — [🟡 Chistoye ispolneniye operatorov i UTF-32](🟡-chistoye-ispolneniye-operatorov-i-UTF-32.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 15:20:29 MSK -->
-<!-- content-sha256: sha256:12efd7915b8e73106c346c2426d5963a2d8a07e599f5e1064331b821650ff7c5 -->
+<!-- last-content-edit: 2026-09-11 07:26:18 MSK -->
+<!-- content-sha256: sha256:ffa2b4d0dfd1ba3d7b898f45c0e74a1827ba751f96744e64e7033a81f1fd3382 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -216,6 +216,13 @@ Dlya odnovremennogo utochneniya imeni dobavj `--description новое-крат�
 | FUM-STEP-0175 | 🟡 Aktualjno | [Podgotovitj smenu golovnoj vetki razrabotki](🟡-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md)                                                                                                                                                                                                               |
 | FUM-STEP-0176 | 🟡 Aktualjno | [Sobratj sobstvennuyu realizaciyu v FUM](🟡-FUM-STEP-0176-sobratj-sobstvennuyu-realizaciyu-v-FUM.md)                                                                                                                                                                                                                             |
 | FUM-STEP-0177 | 🟡 Aktualjno | [Vozvrasjhatj neobrabotannyiye soobsjheniya poljzovatelya](🟡-FUM-STEP-0177-vozvrasjhatj-neobrabotannyiye-soobsjheniya-poljzovatelya.md)                                                                                                                                                                                                     |
+| FUM-STEP-0201 | 🟡 Aktualjno | [Avtomatizirovatj priyom napravlenij FUMA](🟡-FUM-STEP-0201-avtomatizirovatj-priyom-napravlenij-FUMA.md)                                                                                                                                                                                                                       |
+| FUM-STEP-0202 | 🟡 Aktualjno | [Sostavitj plan matematicheskogo napravleniya](🟡-FUM-STEP-0202-sostavitj-plan-matematicheskogo-napravleniya.md)                                                                                                                                                                                                                 |
+| FUM-STEP-0204 | 🟡 Aktualjno | [Vosstanavlivatj osirotevshiye zapisi proverok](🟡-FUM-STEP-0204-vosstanavlivatj-osirotevshiye-zapisi-proverok.md)                                                                                                                                                                                                               |
+| FUM-STEP-0205 | 🟡 Aktualjno | [Uchityivatj udaleniya proyekcii do polnoj proverki](🟡-FUM-STEP-0205-uchityivatj-udaleniya-proyekcii-do-polnoj-proverki.md)                                                                                                                                                                                                         |
+| FUM-STEP-0203 | 🟡 Aktualjno | [Otvyazatj svyaznostj ot lokaljnogo grafa Obsidian](🟡-FUM-STEP-0203-otvyazatj-svyaznostj-ot-lokaljnogo-grafa-Obsidian.md)                                                                                                                                                                                                       |
+| FUM-STEP-0207 | 🟡 Aktualjno | [Realizovatj perenos rabochikh derevjyev](🟡-FUM-STEP-0207-realizovatj-perenos-rabochikh-derevjyev.md)                                                                                                                                                                                                                             |
+| FUM-STEP-0208 | ✅ Vyipolneno | [Realizovatj interpretator i UTF-32](✅-FUM-STEP-0208-realizovatj-interpretator-i-UTF-32.md)                                                                                                                                                                                                                                 |
 
 ## Istochniki trebovanij
 
@@ -250,6 +257,6 @@ Dlya odnovremennogo utochneniya imeni dobavj `--description новое-крат�
 - [iskhodnyij zapros 2026-07-24 10:44:28 MSK — Nachatj bezokonnyij Swift-prototip vosproizvodimogo popolneniya pamyati FUM](../../Zhurnal/2026-07-24_10-44-28_MSK_nachatj-bezokonnyij-Swift-prototip-vosproizvodimogo-popolneniya-pamyati-FUM/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 20:36:12 MSK -->
-<!-- content-sha256: sha256:8ddf99352969d445473f51a45fcdff182e8d5cb90e48188da8d8b9c6f0a7fa4e -->
+<!-- last-content-edit: 2026-09-11 08:27:58 MSK -->
+<!-- content-sha256: sha256:82ae895f7ae57b9a4042513ca3ce8d8586112269466c130898778a0affb9c800 -->
 <!-- FUM-MD-RECENCY:END -->

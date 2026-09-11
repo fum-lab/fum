@@ -8,6 +8,8 @@ Zavershyonnyij iskhodnyij srez repozitornoj kompozicii registriruyet dolgovechny
 
 ## Semanticheskiye svyazi
 
+- **dopolnyayetsya:** [vozobnovlyayemyij perenos rabochikh derevjyev](🟡-vozobnovlyayemyij-perenos-rabochikh-derevjyev.md) — perenos sokhranyayet identichnosti, zakreplyonnyiye versii i lokaljnyiye dannyiye vlozhennyikh repozitoriyev; istoricheskij avtokonvejyer kompozicii ne vozobnovlyayetsya.
+
 - **zavisit ot:** [izolirovannogo paralleljnogo ispolneniya i proveryayemoj integracii](✅-izolirovannoye-paralleljnoye-ispolneniye-i-proveryayemaya-integraciya.md) — dochernij repozitorij peredayot vverkh adresuyemyij commit ili proverennoye obnovleniye gitlink cherez obsjhij integracionnyij kontrakt.
 - **trebuyetsya dlya:** [upravlyayemogo ispolneniya cepochek universaljnyimi fork-poduzlami](🟡-upravlyayemoye-ispolneniye-cepochek-universaljnyimi-fork-poduzlami.md) — dolgovechnyij ispolnitelj predstavlen prinyatyim gitlink-snimkom, a yego zhivaya vetka, FIFO i obyazateljnoye prodolzheniye ostayutsya v otdeljnom dochernem klone.
 
@@ -34,6 +36,8 @@ Trebovaniye ne otozhdestvlyayet submodule s zhivoj vetkoj i ne razreshayet ispol
 
 ## Istochniki trebovanij
 
+- [Postanovka perenosa i interpretatora](../Zhurnal/2026-09-11_05-42-33_MSK_podgotovitj-sleduyusjhiye-napravleniya/zapros.md)
+
 - [iskhodnyij zapros 2026-08-23 11:33:38 MSK — Vernutj ruchnuyu posledovateljnuyu skhemu sessij](../Zhurnal/2026-08-23_11-33-38_MSK_vernutj-ruchnuyu-posledovateljnuyu-skhemu-sessij/zapros.md)
 - [iskhodnyij zapros 2026-08-11 23:30:57 MSK — Zamenitj avtozapusk obyazateljnyim prodolzheniyem vetki](../Zhurnal/2026-08-11_23-30-57_MSK_zamenitj-avtozapusk-obyazateljnyim-prodolzheniyem-vetki/zapros.md)
 - [iskhodnyij zapros 2026-08-05 00:37:53 MSK — Provesti avtonomnuyu skvoznuyu priyomku repozitornoj kompozicii](../Zhurnal/2026-08-05_00-37-53_MSK_provesti-avtonomnuyu-skvoznuyu-priyomku-repozitornoj-kompozicii/zapros.md)
@@ -43,6 +47,6 @@ Trebovaniye ne otozhdestvlyayet submodule s zhivoj vetkoj i ne razreshayet ispol
 - [iskhodnyij zapros 2026-07-26 12:59:08 MSK — Sproyektirovatj Git-graf pishusjhikh subagentov i proyektov](../Zhurnal/2026-07-26_12-59-08_MSK_sproyektirovatj-Git-graf-pishusjhikh-subagentov-i-proyektov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-23 16:10:09 MSK -->
-<!-- content-sha256: sha256:980dbac86012d0c0df26065d8d1e80b14623a532235fa5408933fe8032890aa5 -->
+<!-- last-content-edit: 2026-09-11 07:09:21 MSK -->
+<!-- content-sha256: sha256:91f968b2ee6174d92f7a54e9d38958b4888271cd2a76e8ad524cd68ecd93ef7c -->
 <!-- FUM-MD-RECENCY:END -->
