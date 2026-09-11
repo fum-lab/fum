@@ -1,0 +1,11 @@
+HTTP/2 200
+date: Fri, 11 Sep 2026 04:55:09 GMT
+content-type: text/html; charset=UTF-8
+server: cloudflare
+content-security-policy: upgrade-insecure-requests;
+last-modified: Thu, 11 Sep 2025 18:08:47 GMT
+vary: Accept-Encoding
+report-to: [REDACTED: telemetry endpoint]
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+cf-cache-status: DYNAMIC
+cf-ray: [REDACTED: response trace identifier]
