@@ -48,10 +48,11 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0043 | `активна`   | [Izmeneniye proveryayemogo snimka do zaversheniya proverki](FUM-SBOJ-0043-izmeneniye-proveryayemogo-snimka-do-zaversheniya-proverki.md)                                       | 1          | FUM-STEP-0170           |
 | FUM-SBOJ-0044 | `активна`   | [Proverka indeksa propusjhena do zakryitiya otchyota](FUM-SBOJ-0044-proverka-indeksa-propusjhena-do-zakryitiya-otchyota.md)                                                     | 1          | FUM-STEP-0171           |
 | FUM-SBOJ-0045 | `активна`   | [Drejf snimka obyyavlenij koda](FUM-SBOJ-0045-drejf-snimka-obyyavlenij-koda.md)                                                                                       | 1          | FUM-STEP-0173           |
-| FUM-SBOJ-0066 | `активна`   | [Ustarevshaya podstanovka metoda chteniya](FUM-SBOJ-0066-ustarevshaya-podstanovka-metoda-chteniya.md)                                                                     | 3          | FUM-STEP-0175           |
+| FUM-SBOJ-0066 | `активна`   | [Ustarevshaya podstanovka metoda chteniya](FUM-SBOJ-0066-ustarevshaya-podstanovka-metoda-chteniya.md)                                                                       | 3          | FUM-STEP-0175           |
 | FUM-SBOJ-0076 | `активна`   | [Propusk proverki predkov kataloga tipov](FUM-SBOJ-0076-propusk-proverki-predkov-kataloga-tipov.md)                                                                 | 1          | FUM-STEP-0175           |
 | FUM-SBOJ-0079 | `активна`   | [Zavisimyij smoke posle otkaza predprosmotra](FUM-SBOJ-0079-zavisimyij-smoke-posle-otkaza-predprosmotra.md)                                                           | 1          | FUM-STEP-0175           |
 | FUM-SBOJ-0080 | `активна`   | [Git-chitatelj ne prinimayet raundyi](FUM-SBOJ-0080-Git-chitatelj-ne-prinimayet-raundyi.md)                                                                               | 1          | FUM-STEP-0175           |
+| FUM-SBOJ-0090 | `активна`   | [Nesovmestimostj normativnyikh profilej prodolzheniya](FUM-SBOJ-0090-nesovmestimostj-normativnyikh-profilej-prodolzheniya.md)                                               | 1          | FUM-STEP-0175           |
 
 ## Pravila vedeniya
 
@@ -84,6 +85,6 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 - [pravila rabochikh sessij](../AGENTS.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 16:57:51 MSK -->
-<!-- content-sha256: sha256:654762a19de6e07d43c404a89b33811e3c4b0195ad9d26286f0db5b27e546545 -->
+<!-- last-content-edit: 2026-09-11 23:16:44 MSK -->
+<!-- content-sha256: sha256:f3ddb7797a138a8b9a56920b57bd53d6d06df4367a399fb9a6a666978a4b4d9e -->
 <!-- FUM-MD-RECENCY:END -->

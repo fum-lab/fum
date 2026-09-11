@@ -46,6 +46,10 @@ Pri perenose tipov podtverzhdeno `FUM-СБОЙ-0076/ПРОЯВЛЕНИЕ-0001`: 
 
 V obyichnom etape v3 vyiyavleno `FUM-СБОЙ-0066/ПРОЯВЛЕНИЕ-0003`: [ustarevshaya podstanovka metoda chteniya](../../Sboi/FUM-SBOJ-0066-ustarevshaya-podstanovka-metoda-chteniya.md) uzhe iskhodnogo M. Polnyij otkaz, adresnyij RED, GREEN i profilj sokhranenyi v [diagnostike R3](../../Zhurnal/2026-09-11_15-50-49_MSK_prinyatj-sovmestimostj-FUMA-cherez-otchyot-v3/materialyi/diagnostika-chteniya-osnovaniya.md). Koordinator razreshil yedinstvennyij dvukhstrochnyij hunk testa iz iskhodnogo paketa formatov `6599fe4837ef54efc7f871d2bfe6f8d9d07b4d95`; production i utverzhdeniya sokhranyayutsya. Etot povtor trebuyet dovesti uzhe susjhestvuyusjhij shag do priyomki tochnoj deljtyi v master i novogo kandidata; novyij STEP ne sozdayotsya.
 
+## Dopusk dvukh normativnyikh profilej
+
+Shestj paketov sovmestimosti prinyatyi v master na `224dc6cf289e4cc88080b85ad7c99240284a7ced`. Sleduyusjhij C2 vyiyavil `FUM-СБОЙ-0090/ПРОЯВЛЕНИЕ-0001`: [prinimayusjhij validator ne podderzhivayet soglasovannyij JSONL-profilj L](../../Sboi/FUM-SBOJ-0090-nesovmestimostj-normativnyikh-profilej-prodolzheniya.md). [Novyij etap](../../Zhurnal/2026-09-11_22-33-53_MSK_soglasovatj-profili-dopuska-prodolzheniya/zapros.md) gotovit rovno dva zakryityikh profilya, svyazannyiye s dejstviteljnyimi pravilami, i sokhranyayet otkaz pri ponizhenii JSONL-polej. 38 adresnyikh testov i realjnyiye M/L prokhodyat; finaljnaya priyomka predposyilki, yeyo perenos v master i novyij C2 yesjhyo nuzhnyi. Do full dopolniteljno perenositsya uzhe prinyatyij v L strogij poryadok voprosov pered proyekciyej vmeste s tremya tochnyimi sravneniyami v dvukh testakh, bez izmeneniya razreshyonnogo sostava.
+
 ## Kriterii zaversheniya
 
 - Sopostavlenyi podgotovlennaya politika i prinyatyiye izmeneniya master, sokhranenyi proverennyiye v3-svideteljstva i proiskhozhdeniye obeikh linij.
@@ -59,6 +63,8 @@ V obyichnom etape v3 vyiyavleno `FUM-СБОЙ-0066/ПРОЯВЛЕНИЕ-0003`: [
 
 ## Istochniki
 
+- [FUM-SBOJ-0090, proyavleniye 0001](../../Sboi/FUM-SBOJ-0090-nesovmestimostj-normativnyikh-profilej-prodolzheniya.md).
+
 - [FUM-SBOJ-0066, proyavleniye 0003](../../Sboi/FUM-SBOJ-0066-ustarevshaya-podstanovka-metoda-chteniya.md).
 
 - [Pryamyiye komandyi i soderzhateljnyiye otvetyi](../../Zhurnal/2026-09-10_11-51-55_MSK_sokhranyatj-ostatok-obyazateljstv/zapros.md).
@@ -67,6 +73,6 @@ V obyichnom etape v3 vyiyavleno `FUM-СБОЙ-0066/ПРОЯВЛЕНИЕ-0003`: [
 - [Podgotovka proveryayemogo perenosa soderzhimogo vetok](../../Zhurnal/2026-09-10_02-01-28_MSK_proveryatj-zakryityiye-otchyotyi-iz-kommitov/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 16:57:51 MSK -->
-<!-- content-sha256: sha256:f7e6bf938fb1cfbfba962d528e3f9593d15f678c55c1651a4e42fe6dcd2330f6 -->
+<!-- last-content-edit: 2026-09-11 23:16:44 MSK -->
+<!-- content-sha256: sha256:b6b9cb0d13980644dc4361345cc8dec5ee9902c2450eb78b9101637a763e4abb -->
 <!-- FUM-MD-RECENCY:END -->

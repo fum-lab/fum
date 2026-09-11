@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-11 15:22:57 MSK - Proveritj paket sovmestimosti master i FUMA](../2026-09-11_15-22-57_MSK_proveritj-paket-sovmestimosti-master-i-FUMA/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-11 22:33:53 MSK - Soglasovatj profili dopuska prodolzheniya](../2026-09-11_22-33-53_MSK_soglasovatj-profili-dopuska-prodolzheniya/zapros.md)
 
 ## Tekst zaprosa
 
@@ -180,6 +180,6 @@ Povtornaya popyitka full doshla do shaga 24 i zavershilasj kodom 1 za 850,348437
 - [Shag 0175](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md) i [planovyij reyestr](../../Planirovaniye/reyestr-trebovanij-variantov-i-kandidatov.json) — obratnaya svyazj s povtorom i nezavershyonnoj integraciyej.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 17:22:52 MSK -->
-<!-- content-sha256: sha256:100d508833fc05153c0d0f26128567fae89b2c2387588e2733e724c296118b4d -->
+<!-- last-content-edit: 2026-09-11 23:16:44 MSK -->
+<!-- content-sha256: sha256:97337797165291f5e89263680c670545ea4d2426ca852ef1f335f5a64be521a3 -->
 <!-- FUM-MD-RECENCY:END -->
