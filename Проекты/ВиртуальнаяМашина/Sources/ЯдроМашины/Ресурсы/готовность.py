@@ -165,7 +165,6 @@ def область_гостя(путь, владелец, *, создать=True
 
 
 import hashlib
-import subprocess
 import uuid
 
 
@@ -237,15 +236,7 @@ def команда_репозитория(путь, аргументы, сред
         return ТЕКУЩИЕ_МЕТРИКИ.команда('Git: ' + аргументы[0], ['/usr/bin/git', '-c', 'core.hooksPath=/dev/null',
             '-c', 'core.fsmonitor=false', '-c', 'http.sslVerify=true', *аргументы],
             каталог=путь, среда=среда, предел=предел)
-    результат = subprocess.run(['/usr/bin/git', '-c', 'core.hooksPath=/dev/null',
-        '-c', 'core.fsmonitor=false', '-c', 'http.sslVerify=true', *аргументы],
-        cwd=путь, env=среда, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE, timeout=предел)
-    if результат.returncode != 0:
-        raise ValueError('Гостевой Git завершился с кодом ' + str(результат.returncode)
-                         + ': ' + результат.stderr[-2000:].decode('utf-8', errors='replace'))
-    if len(результат.stdout) > 32 * 1024 * 1024: raise ValueError('Ответ Git слишком велик')
-    return результат.stdout
+    raise ValueError('Гостевая Git-команда требует явных активных метрик')
 
 
 def получить_объекты(путь, коммит, среда):
@@ -398,13 +389,30 @@ def проверить_профиль(клон, счётчик, выполнит
             'проверки_индексов': 2, 'наборы': результаты}
 
 
-import signal
-import tempfile
 import time
 
 
+def загрузить_исполнителя(данные):
+    """Получить обязательный адаптер из точных строк единственного stdin."""
+    if not isinstance(данные, dict): raise ValueError('Нужны исходники гостевого наблюдения')
+    for имя in ('наблюдатель', 'родитель_наблюдателя'):
+        исходник = данные.get(имя)
+        if not isinstance(исходник, str) or not 1 <= len(исходник.encode('utf-8')) <= 256 * 1024:
+            raise ValueError('Исходник ' + имя + ' должен занимать от 1 байта до 256 KiB')
+    область = {'__name__': 'fum_родитель_наблюдателя'}
+    try: exec(compile(данные['родитель_наблюдателя'], '<родитель_наблюдателя>', 'exec'), область)
+    except Exception as ошибка: raise ValueError('Не удалось загрузить родителя наблюдателя') from ошибка
+    исполнитель = область.get('исполнить_под_наблюдением')
+    if not callable(исполнитель): raise ValueError('В исходнике нет функции родителя наблюдателя')
+    return исполнитель
+
+
 class ИзмеренияГостя:
-    def __init__(сам, родитель, каталог, запуск, источник):
+    def __init__(сам, родитель, каталог, запуск, источник, *, замок, наблюдатель, исполнитель):
+        if not callable(исполнитель): raise ValueError('Нужна явная функция родителя наблюдателя')
+        if not isinstance(наблюдатель, str) or not 1 <= len(наблюдатель.encode()) <= 256 * 1024:
+            raise ValueError('Нужен ограниченный точный исходник наблюдателя')
+        сам.замок = замок; сам.наблюдатель = наблюдатель; сам.исполнитель = исполнитель
         сам.родители = [родитель]; сам.каталог = каталог; сам.запуск = запуск
         сам.источник = источник; сам.события = []
 
@@ -428,33 +436,27 @@ class ИзмеренияГостя:
 
     def команда(сам, имя, аргументы, *, каталог=None, среда=None, вход=None, предел=60):
         with сам.этап(имя):
-            with tempfile.TemporaryFile() as вывод, tempfile.TemporaryFile() as ошибки, tempfile.TemporaryFile() as ввод:
-                if вход: ввод.write(вход)
-                ввод.seek(0)
-                процесс = subprocess.Popen(аргументы, cwd=каталог, env=среда or среда_репозитория(), stdin=ввод,
-                    stdout=вывод, stderr=ошибки, start_new_session=True)
-                начало = time.monotonic()
-                try:
-                    while процесс.poll() is None:
-                        if time.monotonic() - начало > предел: raise ValueError('Превышено время гостевой команды: ' + имя)
-                        if max(os.fstat(вывод.fileno()).st_size, os.fstat(ошибки.fileno()).st_size) > 32 * 1024**2:
-                            raise ValueError('Гостевая команда превысила предел вывода')
-                        time.sleep(0.05)
-                    if time.monotonic() - начало > предел:
-                        raise ValueError('Превышено время гостевой команды: ' + имя)
-                    try: os.killpg(процесс.pid, 0)
-                    except ProcessLookupError: pass
-                    else: raise ValueError('После завершения гостевой команды остались дочерние процессы: ' + имя)
-                    вывод.seek(0); ошибки.seek(0)
-                    байты = вывод.read(32 * 1024**2 + 1); диагностика = ошибки.read(32 * 1024**2 + 1)
-                    if max(len(байты), len(диагностика)) > 32 * 1024**2: raise ValueError('Слишком большой ответ гостевой команды')
-                    if процесс.returncode != 0:
-                        raise ValueError(имя + ': код ' + str(процесс.returncode) + '; ' + диагностика[-2000:].decode(errors='replace'))
-                    return байты
-                finally:
-                    try: os.killpg(процесс.pid, signal.SIGKILL)
-                    except ProcessLookupError: pass
-                    процесс.wait()
+            if type(предел) not in (int, float) or not math.isfinite(предел) or предел <= 0:
+                raise ValueError('Неверное время гостевой команды')
+            рабочий = str(Path(os.getcwd() if каталог is None else каталог).resolve(strict=True))
+            try:
+                итог = сам.исполнитель(наблюдатель=сам.наблюдатель, каталог=сам.каталог, замок=сам.замок,
+                    аргументы=аргументы, рабочий_каталог=рабочий,
+                    среда=среда_репозитория() if среда is None else среда, вход=b'' if вход is None else вход,
+                    родитель=сам.родители[-1], проверка=сам.запуск, исходник=сам.источник,
+                    тайм_аут_нс=int(предел * 1_000_000_000), предел_вывода=32 * 1024**2)
+            except RuntimeError as ошибка:
+                raise ValueError(имя + ': наблюдатель не подтвердил результат') from ошибка
+            if (not isinstance(итог, dict) or 'код_команды' not in итог
+                    or итог['код_команды'] is not None and type(итог['код_команды']) is not int
+                    or type(итог.get('вывод')) is not bytes or type(итог.get('ошибки')) is not bytes
+                    or not isinstance(итог.get('идентификатор'), str)
+                    or str(uuid.UUID(итог['идентификатор'])) != итог['идентификатор']):
+                raise ValueError(имя + ': родитель вернул неверный результат')
+            if итог.get('исход') != 'успех' or итог['код_команды'] != 0 or итог.get('причина') != 'завершение':
+                raise ValueError(имя + ': причина ' + str(итог.get('причина')) + '; попытка ' + итог['идентификатор']
+                    + '; код ' + str(итог['код_команды']) + '; ' + итог['ошибки'][-2000:].decode(errors='replace'))
+            return итог['вывод']
 
 
 def подтвердить_готовность(данные):
@@ -471,14 +473,16 @@ def подтвердить_готовность(данные):
     система = platform.freedesktop_os_release()
     if platform.system() != 'Linux' or platform.machine() != 'aarch64' or система.get('ID') != 'ubuntu' or система.get('VERSION_ID') != '24.04':
         raise ValueError('Поддерживается только Ubuntu 24.04 aarch64')
+    исполнитель = загрузить_исполнителя(данные)
     гостевой_запуск = Path('/proc/sys/kernel/random/boot_id').read_text().strip()
     корень = Path.home() / '.fum-linux-vm'
     владелец = {'схема': 'fum.область-гостя.1', 'машина': данные['машина'], 'план': данные['план']}
-    with область_гостя(корень, владелец) as каталог:
+    with область_гостя(корень, владелец, вернуть_замок=True) as (каталог, замок):
         ожидаемые_данные = данные.get('ожидаемые_данные', '')
         if ожидаемые_данные and hashlib.sha256(прочитать_личный_файл(каталог, 'данные-повтора.json')).hexdigest() != ожидаемые_данные:
             raise ValueError('Прежние гостевые данные утрачены или изменены; новый эталон не создаётся')
-        метрики = ИзмеренияГостя(данные['родитель'], каталог, данные['проверка'], данные['исходник'])
+        метрики = ИзмеренияГостя(данные['родитель'], каталог, данные['проверка'], данные['исходник'],
+            замок=замок, наблюдатель=данные['наблюдатель'], исполнитель=исполнитель)
         ТЕКУЩИЕ_МЕТРИКИ = метрики
         try:
             with метрики.этап('Готовность Linux'):
