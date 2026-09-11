@@ -1,0 +1,83 @@
+{
+  "схема": "fum.происхождение-команд-этапа.1",
+  "задача": "01a09047-faa1-7370-83f7-cdfc8f9943a6",
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "граница": "Продолжение FUM-STEP-0175 по поручению координатора; новые сообщения человека не создавались.",
+  "команды": [
+    {
+      "экземпляр": "5d0980daf29e26484cd1c39bc68143ec9923e9f0697054b381cb3803e0c4b113",
+      "позиция": {
+        "начало": 67454231,
+        "конец": 67454737,
+        "sha256": "da2d0ac40075703a4cae813eb9d65b6ddd37d930a724499b4c685d5720ad0a7f"
+      },
+      "происхождение": "человек",
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "Nezavisimyiye rabotyi khotelosj byi videtj v interfejse Codex Desktop kak otdeljnyiye, khotj i vneshne upravlyayemyiye sessii.\n"
+        }
+      ]
+    },
+    {
+      "экземпляр": "0cab6b1f6eb019808a190fe4980ccfc7022accebfa0fc0dba10d49af56a92f3e",
+      "позиция": {
+        "начало": 168823314,
+        "конец": 168823912,
+        "sha256": "7ac4af7f4d220a8bd0c5de2bb00c0dd0fba5a77322e13bbbe7eed3e18b6945bf"
+      },
+      "происхождение": "человек",
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "Nu togda vsyo zhe budem myordzhitj v master po pravilam master. Sejchas pokhodu prosto samoye slozhnoye — nastroitj pervuyu rabotayusjhuyu versiyu takogo myordzha, a daljshe yeyo uzhe mozhno budet prosjhe obnovlyatj.\n"
+        }
+      ]
+    },
+    {
+      "экземпляр": "c5e7efa429ab4b208a5c09844dd79805973e4c8dddf03edc2e79217cb20ed24d",
+      "позиция": {
+        "начало": 181494220,
+        "конец": 181494720,
+        "sha256": "0bc7f698905043f637cb923239976a46cfea8000a24b192ef50237d46f8a82ca"
+      },
+      "происхождение": "человек",
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "Po suti rechj o tom, chtobyi smyordzhivatj master v novuyu vedusjhuyu vetku v takikh sluchayakh i stavitj master na neyo.\n"
+        }
+      ]
+    },
+    {
+      "экземпляр": "5682985e18555aee312d71e7ca6d59130915e1181fefba2672ac571f18849c01",
+      "позиция": {
+        "начало": 278797082,
+        "конец": 278797562,
+        "sha256": "e977f9b4808b981d14c6ef779f5fa94bf06bc410b855f73b3ce0560a47db2379"
+      },
+      "происхождение": "человек",
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "Pochemu ne sozdayoshj novyiye rabochiye derevejya ot sootvetstvuyusjhikh kommitov postanovki zadach?\n"
+        }
+      ]
+    },
+    {
+      "экземпляр": "cb612cf0b62ecdcb8e1c12ce066c0bf68220f23f2bb9266be9eddd838cfd9bbd",
+      "позиция": {
+        "начало": 340068653,
+        "конец": 340069615,
+        "sha256": "bbda55d59c6cc8ea2f42b49ca43d5bdc1339c197cc50067fa8f58b4faf62d2d6"
+      },
+      "происхождение": "человек",
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "<send_user_message_question_reply>\n[{\"questionItemId\":\"[\\\"request_user_input_async\\\",\\\"call_C2slnlYK4tapQ9aD2NFLO6DA\\\",0]\",\"question\":\"Куда собираем ближайший интегрированный результат? Указание про слияние в `fuma` сохранилось только на снимке экрана; прежний вопрос о его актуальности пока без ответа.\",\"answer\":\"В fuma, затем проверенный результат в master\"}]\n</send_user_message_question_reply>"
+        }
+      ]
+    }
+  ]
+}
