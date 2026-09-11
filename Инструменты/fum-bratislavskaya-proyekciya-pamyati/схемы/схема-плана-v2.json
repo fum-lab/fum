@@ -273,7 +273,8 @@
                 "LICENSE",
                 "fum",
                 "ЛИЦЕНЗИЯ",
-                "Приложения/FUMA/macOS/.gitignore"
+                "Приложения/FUMA/macOS/.gitignore",
+                "Инструменты/fum-reyestr-planirovaniya/scripts/адаптер-codex.js"
               ]
             },
             "действие": {

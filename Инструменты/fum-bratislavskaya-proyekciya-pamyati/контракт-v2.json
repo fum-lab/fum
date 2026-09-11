@@ -117,7 +117,8 @@
         "LICENSE",
         "fum",
         "ЛИЦЕНЗИЯ",
-        "Приложения/FUMA/macOS/.gitignore"
+        "Приложения/FUMA/macOS/.gitignore",
+        "Инструменты/fum-reyestr-planirovaniya/scripts/адаптер-codex.js"
       ],
       "действие": "сохранить_байты"
     },
@@ -168,7 +169,8 @@
     ".modulemap",
     ".pbxproj",
     ".plist",
-    ".entitlements"
+    ".entitlements",
+    ".js"
   ],
   "пустые_каталоги": "не_включаются_в_инвентарь_репозитория"
 }
