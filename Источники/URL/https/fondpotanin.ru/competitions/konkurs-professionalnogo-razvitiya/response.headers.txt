@@ -1,0 +1,13 @@
+HTTP/2 200
+server: nginx
+date: Fri, 11 Sep 2026 11:57:41 GMT
+content-type: text/html; charset=UTF-8
+content-length: 118768
+vary: HTTPS
+x-powered-cms: Bitrix Site Manager (dab15fa1c21d752aedf0a2f58e94109f)
+set-cookie: [REDACTED: response cookie]
+expires: Thu, 19 Nov 1981 08:52:00 GMT
+cache-control: no-store, no-cache, must-revalidate
+pragma: no-cache
+x-content-type-options: nosniff
+x-frame-options: ALLOWALL

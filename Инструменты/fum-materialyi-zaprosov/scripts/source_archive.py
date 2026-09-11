@@ -5,6 +5,7 @@ from __future__ import annotations
 import ctypes
 import datetime as dt
 import errno
+import gzip
 import hashlib
 import json
 import os
@@ -328,14 +329,87 @@ def redact_headers(raw: str) -> str:
         скрыть_продолжение = bool(разделитель) and имя in {
             "set-cookie", "cf-ray", "x-request-id", "request-context",
             "x-ms-middleware-request-id",
+            "x-xsrf-token", "x-csrf-token", "x-trace-id", "x-correlation-id", "x-sp-crid",
+            "x-tracking-ref", "cdnuuid", "x-yandex-eu-request",
         }
         if скрыть_продолжение and имя == "set-cookie":
             lines.append(COOKIE_REDACTION)
         elif скрыть_продолжение:
             lines.append(f"{имя}: [REDACTED: response trace identifier]\n")
         else:
-            lines.append(line)
+            lines.append(re.sub(r"'nonce-[^']*'", "'nonce-[REDACTED]'", line) if имя in {"content-security-policy", "content-security-policy-report-only"} else line)
     return "".join(lines)
+
+
+def очистить_диагностику_CAPTCHA(текст: str) -> str:
+    """Находит контейнер CAPTCHA по структуре; обычные даты вне него сохраняет."""
+    if "checkbox-captcha-form" not in текст:
+        return текст
+    class Контейнеры(HTMLParser):
+        def __init__(self):
+            super().__init__(convert_charrefs=False)
+            self.глубина = 0
+            self.активные = []
+            self.диапазоны = []
+            self.строки = [0]
+            for строка in текст.splitlines(keepends=True):
+                self.строки.append(self.строки[-1] + len(строка))
+
+        def позиция(self):
+            строка, колонка = self.getpos()
+            return self.строки[строка - 1] + колонка
+
+        def handle_starttag(self, tag, attrs):
+            атрибуты = dict(attrs)
+            классы = (атрибуты.get("class") or "").split()
+            if tag == "div":
+                self.глубина += 1
+                if "Container" in классы:
+                    self.активные.append({"начало": self.позиция(), "глубина": self.глубина, "форма": False, "captcha": False, "ключ": False})
+            for контейнер in self.активные:
+                if tag == "form" and атрибуты.get("id") == "checkbox-captcha-form" and (атрибуты.get("method") or "").upper() == "POST" and атрибуты.get("action") == "/checkcaptcha":
+                    контейнер["форма"] = True
+                if tag == "div" and атрибуты.get("data-testid") == "checkbox-captcha" and "CheckboxCaptcha" in классы:
+                    контейнер["captcha"] = True
+                if tag == "span" and атрибуты.get("data-testid") == "unique-key":
+                    контейнер["ключ"] = True
+
+        def handle_endtag(self, tag):
+            if tag == "div":
+                for контейнер in list(self.активные):
+                    if контейнер["глубина"] == self.глубина:
+                        if all(контейнер[ключ] for ключ in ("форма", "captcha", "ключ")):
+                            self.диапазоны.append((контейнер["начало"], self.позиция() + len("</div>")))
+                        self.активные.remove(контейнер)
+                self.глубина -= 1
+    парсер = Контейнеры()
+    парсер.feed(текст)
+    диапазоны = [п for п in парсер.диапазоны if not any(иной != п and иной[0] <= п[0] and п[1] <= иной[1] for иной in парсер.диапазоны)]
+    for начало, конец in sorted(диапазоны, reverse=True):
+        фрагмент = re.sub(r'(<span\b[^>]*\bdata-testid\s*=\s*[\"\x27](?:unique-key|timestamp)[\"\x27][^>]*>).*?(</span\s*>)', lambda поле: поле[1] + '[REDACTED]' + поле[2], текст[начало:конец], flags=re.I | re.S)
+        текст = текст[:начало] + фрагмент + текст[конец:]
+    return текст
+
+
+def очистить_служебный_html(текст: str) -> str:
+    """Редактирует известные служебные поля, сохраняя остальное содержимое."""
+    имена = r"(?:csrf[-_]?token|xsrf[-_]?token|x-csrf-token)"
+    def очистить_тег(совпадение):
+        тег = совпадение.group(0)
+        if not re.search(r'\b(?:name|id)\s*=\s*[\"\x27]?(?:' + имена + r'|pdata)(?:[\"\x27\s>])', тег, re.I):
+            return тег
+        return re.sub(r'(\b(?:value|content)\s*=\s*)(?:"[^"]*"|\x27[^\x27]*\x27|[^\s>]+)', lambda поле: поле[1] + '"[REDACTED]"', тег, flags=re.I)
+    текст = re.sub(r'<(?:input|meta)\b[^>]*>', очистить_тег, текст, flags=re.I)
+    текст = очистить_диагностику_CAPTCHA(текст)
+    текст = re.sub(r'<[a-z][^>]*>', lambda тег: re.sub(r'(\snonce\s*=\s*)(?:"[^"]*"|\x27[^\x27]*\x27|[^\s>]+)', lambda поле: поле[1] + '"[REDACTED]"', тег[0], flags=re.I), текст, flags=re.I)
+    префиксы = [r'[\"\x27](?:' + имена + r'|wgRequestId)[\"\x27]\s*:\s*', r'[\"\x27]csrf[\"\x27]\s*:\s*\{[^{}]*?[\"\x27]token[\"\x27]\s*:\s*']
+    for префикс in префиксы:
+        текст = re.sub('(' + префикс + r')([\"\x27])(?:\\.|(?!\2).)*\2', lambda поле: поле[1] + поле[2] + '[REDACTED]' + поле[2], текст, flags=re.I)
+    текст = re.sub(r'((?:Ваш IP-адрес|Your IP(?: address)?)\s*:\s*(?:<[^>]*>\s*)*)(?:\d{1,3}\.){3}\d{1,3}', lambda поле: поле[1] + '[REDACTED: request address]', текст, flags=re.I)
+    текст = re.sub(r'(Ваш ID запроса к ресурсу\s*:\s*(?:<[^>]*>\s*)*)(?!\[REDACTED\])[^<\s]+', lambda поле: поле[1] + '[REDACTED]', текст, flags=re.I)
+    if 'Ваш запрос заблокирован системой защиты компании MYRTEX.' in текст:
+        текст = re.sub(r'(указав ID запроса\s*:\s*)(?!\[REDACTED\])[^<\s]+', lambda поле: поле[1] + '[REDACTED]', текст, flags=re.I)
+    return текст
 
 
 def trim_trailing_whitespace(text: str) -> str:
@@ -442,11 +516,18 @@ def link_source_in_request_file(request_file: Path, output_dir: Path, title: str
 
 
 def snapshot_relative_files(directory: Path) -> list[str]:
+    вложенные = вложенные_снимки(directory)
     return sorted(
         path.relative_to(directory).as_posix()
         for path in directory.rglob("*")
-        if path.is_file()
+        if path.is_file() and not any(path.is_relative_to(потомок) for потомок in вложенные)
     )
+
+
+def вложенные_снимки(каталог: Path) -> list[Path]:
+    """Самостоятельный вложенный URL имеет собственные источник и манифест."""
+    return sorted({путь.parent for путь in каталог.rglob(SNAPSHOT_MANIFEST_NAME)
+        if путь.parent != каталог and (путь.parent / "source-url.txt").is_file()}, key=lambda путь: (len(путь.parts), str(путь)))
 
 
 def write_snapshot_manifest(directory: Path, managed_files: list[str]) -> None:
@@ -548,6 +629,20 @@ def install_snapshot(
     if not output_dir.exists():
         os.replace(staging_dir, output_dir)
         return
+    validate_snapshot_manifest(output_dir)
+    вложенные = вложенные_снимки(output_dir)
+    if вложенные:
+        for потомок in вложенные:
+            if потомок.is_symlink() or any(п.is_symlink() for п in потомок.rglob("*")):
+                raise ValueError("symbolic path in nested source snapshot")
+            validate_snapshot_manifest(потомок)
+        корни = [п for п in вложенные if not any(п != иной and п.is_relative_to(иной) for иной in вложенные)]
+        for потомок in корни:
+            цель = staging_dir / потомок.relative_to(output_dir)
+            if os.path.lexists(цель):
+                raise ValueError("new parent snapshot conflicts with a nested URL")
+            shutil.copytree(потомок, цель)
+        validate_snapshot_manifest(staging_dir)
     if exchange(staging_dir, output_dir):
         return
     raise RuntimeError(
@@ -647,9 +742,11 @@ def write_report(
         "",
         "## Редакции перед сохранением",
         "",
+        "- Ответ с сигнатурой gzip распаковывается до определения формата и очистки; HTML-файл содержит распакованное очищенное представление, а HTTP-заголовки описывают исходный ответ.",
         "- Значения `Set-Cookie` в HTTP-заголовках заменены на `[REDACTED: response cookie]`.",
         "- Значения `CF-Ray`, `X-Request-ID`, `Request-Context`, `X-MS-Middleware-Request-ID` заменены на `[REDACTED: response trace identifier]`; продолжения очищаемых заголовков удалены.",
-        "- HTML и извлечённый текст сохранены без перевода и смысловой нормализации.",
+        "- Дополнительно очищены X-XSRF-Token, X-CSRF-Token, X-Trace-Id, X-Correlation-Id, X-SP-CRID, X-Tracking-Ref, CDNUUID, x-yandex-eu-request и nonce директив CSP.",
+        "- До извлечения очищены известные CSRF/XSRF-поля HTML и встроенного JSON, nonce атрибутов, wgRequestId, адрес и ID запроса в диагностическом блоке, поле pdata и диагностические data-testid unique-key/timestamp. Прочее содержимое сохранено без перевода; это ограниченная редакция известных полей, а не гарантия отсутствия всех возможных секретов.",
         "",
         "## Ограничения извлечения",
         "",
@@ -674,7 +771,13 @@ def build_snapshot(
         raw_headers = capture_dir / "response.headers.txt"
         info = transport(url, raw_body, raw_headers)
         body_bytes = raw_body.read_bytes()
-        html_text = body_bytes.decode("utf-8", errors="replace")
+        if body_bytes.startswith(b"\x1f\x8b"):
+            body_bytes = gzip.decompress(body_bytes)
+        if body_bytes.startswith(b"%PDF-") or info.get("content_type", "").split(";", 1)[0].strip().lower() == "application/pdf":
+            raise ValueError("PDF requires separate byte-preserving capture and PDF extraction")
+        исходный_html = body_bytes.decode("utf-8", errors="surrogateescape")
+        сохранённые_байты = очистить_служебный_html(исходный_html).encode("utf-8", errors="surrogateescape")
+        html_text = сохранённые_байты.decode("utf-8", errors="replace")
         headers_text = raw_headers.read_text(encoding="utf-8", errors="replace")
 
     title, structured, structured_errors = extract_html_metadata(html_text)
@@ -686,7 +789,7 @@ def build_snapshot(
         trim_trailing_whitespace(redact_headers(headers_text)),
         encoding="utf-8",
     )
-    (staging_dir / "response.body.html").write_bytes(body_bytes)
+    (staging_dir / "response.body.html").write_bytes(сохранённые_байты)
     write_extracted_text(staging_dir / "extracted-text.md", url, visible_text)
     if structured:
         structured_payload: Any = structured[0] if len(structured) == 1 else structured

@@ -1,0 +1,62 @@
+{
+  "схема": "fum.извлечение-пакета-PDF.1",
+  "pypdf": "6.10.0",
+  "результаты": [
+    {
+      "URL": "https://83a0acab-1de2-4959-b0fe-2c7ec1223c2d.selstorage.ru/OpenFix_rules.pdf",
+      "HTTP": "200",
+      "страниц": 15,
+      "sha256": "1c3f557dc2583c1820a1e7b29157851e60fc0c6f0fd31d1e3195088b0f935775",
+      "исход": "сохранён"
+    },
+    {
+      "URL": "https://files.selectel.ru/docs/ru/promo-rules-grant-cloud.pdf",
+      "HTTP": "200",
+      "страниц": 2,
+      "sha256": "c9042fd92522215cf2e205ebda63e4a2fedd255eb2a69444ce8f1303fdb4eff0",
+      "исход": "сохранён"
+    },
+    {
+      "URL": "https://files.selectel.ru/docs/ru/startups-grant-contitions.pdf",
+      "HTTP": "200",
+      "страниц": 2,
+      "sha256": "b9838426165eba38481d3da6f3b9d7c6d046fd1a7b319765f648b44d22b0356f",
+      "исход": "сохранён"
+    },
+    {
+      "URL": "https://fondpotanin.ru/upload/iblock/8d5/9h1w1u1d45dwt4z516u6tc1tupmodzvf.pdf",
+      "HTTP": "200",
+      "страниц": 66,
+      "sha256": "e3c8a846bced44dd97c21c48d16c575eb4f84b0ce435e92bf21926c917201d78",
+      "исход": "сохранён"
+    },
+    {
+      "URL": "https://ias.rscf.ru/app/ext/user/conf/contests/docs/2026/131.pdf",
+      "HTTP": "200",
+      "страниц": 28,
+      "sha256": "0fc875ef368b9fb2dd795725ca8443e2d463ce5b5d4c83ad62ad7978049592e4",
+      "исход": "сохранён"
+    },
+    {
+      "URL": "https://sk.ru/documents/3202/Положение_об_отборе_Микрогранты_на_компенсацию_расходов.pdf",
+      "HTTP": "200",
+      "страниц": 82,
+      "sha256": "491f706d19682f0bec68dbe4d770739f275b447d1393162862171340da79afa3",
+      "исход": "сохранён"
+    },
+    {
+      "URL": "https://www.rscf.ru/upload/iblock/592/9npmqcrcqyu313w1ke5nwe6rjxy5nle2.pdf",
+      "HTTP": "200",
+      "страниц": 2,
+      "sha256": "a5331cf4172ec488d9661e5543a0daa3aa5e05272a11449d2c02f509b1973d15",
+      "исход": "сохранён"
+    },
+    {
+      "URL": "https://www.rscf.ru/upload/iblock/7ef/roobwviv105zmd68ojee7b07u3wsg0un.pdf",
+      "HTTP": "200",
+      "страниц": 30,
+      "sha256": "cae8d9b15989bc6200841e762421b305fb6d01dec3f4c5dcf565518c35723d2f",
+      "исход": "сохранён"
+    }
+  ]
+}

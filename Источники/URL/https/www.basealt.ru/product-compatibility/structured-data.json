@@ -1,0 +1,30 @@
+{
+  "@context": "http://www.schema.org",
+  "@type": "ProfessionalService",
+  "name": "Российский разработчик операционных систем «Альт»",
+  "url": "https://www.basealt.ru/",
+  "logo": "https://www.basealt.ru/fileadmin/templates/images/logo.png",
+  "image": "https://www.basealt.ru/fileadmin/templates/images/logo.png",
+  "description": "Российский разработчик\nоперационных систем «Альт»",
+  "telephone": "+7 (495) 123-47-99",
+  "email": "org@basealt.ru",
+  "priceRange": "$",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "ул. Бутырская, д. 75",
+    "addressLocality": "Москва",
+    "postalCode": "127015",
+    "addressCountry": "Россия"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "55.803261",
+    "longitude": "37.582466"
+  },
+  "openingHours": "Mo, Tu, We, Th, Fr 10:00-18:00",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+7 (495) 123-47-99",
+    "contactType": "org@basealt.ru"
+  }
+}

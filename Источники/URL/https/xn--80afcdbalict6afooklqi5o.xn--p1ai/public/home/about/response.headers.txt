@@ -1,0 +1,5 @@
+HTTP/2 403
+server: nginx/1.22.1
+date: Fri, 11 Sep 2026 11:57:40 GMT
+content-type: text/html; charset=utf-8
+content-length: 314

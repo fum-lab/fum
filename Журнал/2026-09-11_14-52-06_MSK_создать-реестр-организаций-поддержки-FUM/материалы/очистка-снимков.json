@@ -1,0 +1,168 @@
+{
+  "схема": "fum.очистка-снимков.1",
+  "сеть": false,
+  "снимки": [
+    {
+      "URL": "https://ai.mipt.ru/",
+      "первое_извлечение_UTC": "2026-09-11T11:57:30.178785+00:00",
+      "до_sha256": "a6ce0f5bcc5de01e1910e7994eed7d57ac46dada632376a566186583e4c3baa2",
+      "после_sha256": "a6ce0f5bcc5de01e1910e7994eed7d57ac46dada632376a566186583e4c3baa2"
+    },
+    {
+      "URL": "https://ai.mipt.ru/products",
+      "первое_извлечение_UTC": "2026-09-11T12:06:21.525160+00:00",
+      "до_sha256": "7941002ce14bae7fc1270345864ba83707d0a6df9bbe3c263a8589f44c9c81f4",
+      "после_sha256": "7941002ce14bae7fc1270345864ba83707d0a6df9bbe3c263a8589f44c9c81f4"
+    },
+    {
+      "URL": "https://astra.ru/ready-for-astra/become-tech-partner/docs/affiliate_program/",
+      "первое_извлечение_UTC": "2026-09-11T11:58:05.124211+00:00",
+      "до_sha256": "5764073369a8f40a88c3d0426d7e08e2dcc2a4b37e633e783ace410533874937",
+      "после_sha256": "5764073369a8f40a88c3d0426d7e08e2dcc2a4b37e633e783ace410533874937"
+    },
+    {
+      "URL": "https://astra.ru/ready-for-astra/become-tech-partner/",
+      "первое_извлечение_UTC": "2026-09-11T11:57:56.087934+00:00",
+      "до_sha256": "dda0d332d2aaa14aed326ef5bb3b5e852cd3effbd3759cfc1dfc9c5c519487c5",
+      "после_sha256": "dda0d332d2aaa14aed326ef5bb3b5e852cd3effbd3759cfc1dfc9c5c519487c5"
+    },
+    {
+      "URL": "https://developer.rosa.ru/",
+      "первое_извлечение_UTC": "2026-09-11T12:06:25.666744+00:00",
+      "до_sha256": "c9973776d0019f29eecc3b37497ce7fe29cf10c2ccf01e9b3c381ff8138891ae",
+      "после_sha256": "c9973776d0019f29eecc3b37497ce7fe29cf10c2ccf01e9b3c381ff8138891ae"
+    },
+    {
+      "URL": "https://dobro.mail.ru/about/",
+      "первое_извлечение_UTC": "2026-09-11T11:57:48.156889+00:00",
+      "до_sha256": "8360fddc7099f6c1ae875950e3cfbca8a7f025165a9e043a833abd96d0eb40f5",
+      "после_sha256": "292b1fa9bd8741cfb3c27ade91cc668811616b6f3b26e303c7991a4251484de2"
+    },
+    {
+      "URL": "https://dobro.mail.ru/funds/registration/",
+      "первое_извлечение_UTC": "2026-09-11T11:58:00.435024+00:00",
+      "до_sha256": "ee33c997aff869a642c146f46658f0295e24c8ed953ce59f1ade753bd8cf910e",
+      "после_sha256": "8957288310e9de7506de0274b7eecf39cee0ac660d775c2a440c505b76f4b1c5"
+    },
+    {
+      "URL": "https://fasie.ru/programs/programma-start/",
+      "первое_извлечение_UTC": "2026-09-11T11:57:41.421968+00:00",
+      "до_sha256": "eb8f49719f4816f67840b176d7ef9abf4eb3352dfd2362399e678515c41a4b4b",
+      "после_sha256": "7feb41b523de3fd47ca9c9ee27d1b537ed3edbf39c23b861adadc7da841ef496"
+    },
+    {
+      "URL": "https://fondpotanin.ru/competitions/konkurs-professionalnogo-razvitiya/",
+      "первое_извлечение_UTC": "2026-09-11T11:57:40.729929+00:00",
+      "до_sha256": "8ac7ac1c0072b46ba2cf9b8a4d975c18fbdde3a07d8509dd4abc5123dc7718e7",
+      "после_sha256": "8ac7ac1c0072b46ba2cf9b8a4d975c18fbdde3a07d8509dd4abc5123dc7718e7"
+    },
+    {
+      "URL": "https://help.yandex.ru/business",
+      "первое_извлечение_UTC": "2026-09-11T11:57:58.871800+00:00",
+      "до_sha256": "43f6b162152e33ff195b5dd04826672cd4207a4125873bbaf658256c96b9befd",
+      "после_sha256": "43f6b162152e33ff195b5dd04826672cd4207a4125873bbaf658256c96b9befd"
+    },
+    {
+      "URL": "https://opensource.itmo.ru/",
+      "первое_извлечение_UTC": "2026-09-11T11:57:26.135531+00:00",
+      "до_sha256": "6ecb5a0ce8adbe2c9cf159670493527759ead094f5e7df87b51e5175b6b45e6e",
+      "после_sha256": "6ecb5a0ce8adbe2c9cf159670493527759ead094f5e7df87b51e5175b6b45e6e"
+    },
+    {
+      "URL": "https://promo.selectel.ru/openfix",
+      "первое_извлечение_UTC": "2026-09-11T12:06:30.618583+00:00",
+      "до_sha256": "3693aaf6da7573575c02fdc2752fc26314f01873a852e7d7e1e8e376f7902fc9",
+      "после_sha256": "3693aaf6da7573575c02fdc2752fc26314f01873a852e7d7e1e8e376f7902fc9"
+    },
+    {
+      "URL": "https://rosa.ru/become-partner/",
+      "первое_извлечение_UTC": "2026-09-11T11:58:06.867991+00:00",
+      "до_sha256": "d78d0a040d7b4a089445abfa05b0d2755cb2f0f47d601eb425cfcf7e8a078b72",
+      "после_sha256": "d78d0a040d7b4a089445abfa05b0d2755cb2f0f47d601eb425cfcf7e8a078b72"
+    },
+    {
+      "URL": "https://rosa.ru/tech-partners/",
+      "первое_извлечение_UTC": "2026-09-11T11:57:54.795411+00:00",
+      "до_sha256": "605869659c0cb8ecfce2d7961be1064d18c62ac83c3491e7c0a1221a4278e3b6",
+      "после_sha256": "605869659c0cb8ecfce2d7961be1064d18c62ac83c3491e7c0a1221a4278e3b6"
+    },
+    {
+      "URL": "https://selectel.ru/services/cloud/grant/",
+      "первое_извлечение_UTC": "2026-09-11T11:57:50.141414+00:00",
+      "до_sha256": "79d474f2e71a77ef27b7c19cd3ad704ba6e622ea4129a6e52d11b0373873d078",
+      "после_sha256": "79d474f2e71a77ef27b7c19cd3ad704ba6e622ea4129a6e52d11b0373873d078"
+    },
+    {
+      "URL": "https://selectel.ru/services/startups-grant/",
+      "первое_извлечение_UTC": "2026-09-11T11:58:02.406729+00:00",
+      "до_sha256": "c53a69ecce8076aaf7de09e5b664efeaa5b67cb17a099983f8d38403e610496a",
+      "после_sha256": "c53a69ecce8076aaf7de09e5b664efeaa5b67cb17a099983f8d38403e610496a"
+    },
+    {
+      "URL": "https://sk.ru/applicants-actions/",
+      "первое_извлечение_UTC": "2026-09-11T12:06:28.169606+00:00",
+      "до_sha256": "0f3a99224bf26f94ab593b730de4656697c60b314a4e3070dd0921be5562e230",
+      "после_sha256": "0e36db7b922f79a36456d5e2ca4311e843268089b77736d59e7e15ff37455283"
+    },
+    {
+      "URL": "https://sk.ru/grant-financial-support/microgrants/",
+      "первое_извлечение_UTC": "2026-09-11T11:57:42.985253+00:00",
+      "до_sha256": "0ed5c5c9ebe10aba3b990ba4c85d730f6f2a49a0fed64929a84d6f12f79d5ec0",
+      "после_sha256": "d7add5f9ee85d61b2994cbe8e1279810e57a6cc2eb95738ebcf6c49653e80656"
+    },
+    {
+      "URL": "https://www.altlinux.org/Join",
+      "первое_извлечение_UTC": "2026-09-11T11:57:51.405845+00:00",
+      "до_sha256": "d136aca671f586c7d75b96efe6c1ebc43211d7964822f70b3d61b50bdf9dbab9",
+      "после_sha256": "96990456ac8cd5a0080d6e48dc8f6329f29ca2125ef1625907f9ce269296a1d3"
+    },
+    {
+      "URL": "https://www.basealt.ru/alt-linux",
+      "первое_извлечение_UTC": "2026-09-11T11:58:07.932481+00:00",
+      "до_sha256": "40b90c72cc743b0804070abb147231d34961b34c3e0f376e685e7e1f695feda7",
+      "после_sha256": "40b90c72cc743b0804070abb147231d34961b34c3e0f376e685e7e1f695feda7"
+    },
+    {
+      "URL": "https://www.basealt.ru/product-compatibility",
+      "первое_извлечение_UTC": "2026-09-11T12:06:23.425179+00:00",
+      "до_sha256": "3637d846c9d8a454f35871ec7ac08e51e9d3106d5fddf24571ec9ea5d27e8796",
+      "после_sha256": "3637d846c9d8a454f35871ec7ac08e51e9d3106d5fddf24571ec9ea5d27e8796"
+    },
+    {
+      "URL": "https://www.ispras.ru/",
+      "первое_извлечение_UTC": "2026-09-11T11:57:27.781092+00:00",
+      "до_sha256": "7bcb694b4de26503fc6500d8bf31485ee6635e1dd1b241765d444d6eed883e90",
+      "после_sha256": "7bcb694b4de26503fc6500d8bf31485ee6635e1dd1b241765d444d6eed883e90"
+    },
+    {
+      "URL": "https://www.rscf.ru/contests/",
+      "первое_извлечение_UTC": "2026-09-11T11:57:32.379397+00:00",
+      "до_sha256": "76ab553b7c3c59b5dd51c84d533d94a4372820e765680dcbed9084cfd58307a9",
+      "после_sha256": "76ab553b7c3c59b5dd51c84d533d94a4372820e765680dcbed9084cfd58307a9"
+    },
+    {
+      "URL": "https://www.swift.org/sswg/incubation-process.html",
+      "первое_извлечение_UTC": "2026-09-11T11:57:57.915569+00:00",
+      "до_sha256": "596aaf226c0d3cfb71606804160c37b1686e016c8fd2fd9a46ecd6c2a908b3fa",
+      "после_sha256": "596aaf226c0d3cfb71606804160c37b1686e016c8fd2fd9a46ecd6c2a908b3fa"
+    },
+    {
+      "URL": "https://xn--80afcdbalict6afooklqi5o.xn--p1ai/public/home/about/",
+      "первое_извлечение_UTC": "2026-09-11T11:57:39.042752+00:00",
+      "до_sha256": "dae5b1f4999e78694adb98a606579adc8b3de5d7ea77f6d94fef705789d9d8c0",
+      "после_sha256": "dae5b1f4999e78694adb98a606579adc8b3de5d7ea77f6d94fef705789d9d8c0"
+    },
+    {
+      "URL": "https://xn--p1acnb.xn--p1ai/",
+      "первое_извлечение_UTC": "2026-09-11T11:57:28.959208+00:00",
+      "до_sha256": "93db34230560424ba220ae9a191e0f02398226e4b008c13013e2d15b9f6dbec2",
+      "после_sha256": "93db34230560424ba220ae9a191e0f02398226e4b008c13013e2d15b9f6dbec2"
+    },
+    {
+      "URL": "https://yandex.cloud/ru/all-offers",
+      "первое_извлечение_UTC": "2026-09-11T11:57:45.228785+00:00",
+      "до_sha256": "afe59c66fad7c588824bbde20b512dd12bf69073f10f31cddac4f3533fbd1d54",
+      "после_sha256": "821ca44e72c3979b9d0abf0ab417ed9be81f408191d6168833d4e7bad9351856"
+    }
+  ]
+}
