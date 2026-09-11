@@ -2,6 +2,39 @@ import Foundation
 import Testing
 @testable import КлиентTelegram
 
+@Test(arguments: ["updateNewMessage", "updateMessageContent", "updateMessageEdited", "updateDeleteMessages"])
+func позднееОбновлениеНеВозвращаетЗаменённуюИдентичность(_ тип: String) throws {
+    var модель = МодельСообщений()
+    let успех = ЗначениеДанных.типа("updateMessageSendSucceeded", ["old_message_id": .число(101),
+        "message": сообщениеПримера(10001, тип: "messageText")])
+    let позднее: ЗначениеДанных
+    switch тип {
+    case "updateNewMessage": позднее = .типа(тип, ["message": сообщениеПримера(101, тип: "messageText", ожидает: true)])
+    case "updateMessageContent": позднее = .типа(тип, ["chat_id": .число(-100001), "message_id": .число(101),
+        "new_content": .типа("messageText")])
+    case "updateMessageEdited": позднее = .типа(тип, ["chat_id": .число(-100001), "message_id": .число(101), "edit_date": .число(1)])
+    default: позднее = .типа(тип, ["chat_id": .число(-100001), "message_ids": .массив([.число(101)]),
+        "is_permanent": .флаг(true), "from_cache": .флаг(false)])
+    }
+    try модель.применить(успех, аккаунт: 17)
+    try модель.применить(позднее, аккаунт: 17)
+    let старый = ИдентичностьСообщения(аккаунт: 17, чат: -100001, сообщение: 101)
+    let новый = ИдентичностьСообщения(аккаунт: 17, чат: -100001, сообщение: 10001)
+    #expect(модель.сообщения[старый] == nil)
+    #expect(модель.сообщения[новый]?.данные == сообщениеПримера(10001, тип: "messageText"))
+    #expect(модель.сообщения.count == 1)
+    #expect(модель.история.map(\.событие) == [успех, позднее])
+    var повтор = МодельСообщений()
+    for наблюдение in модель.история { try повтор.применить(наблюдение.событие, аккаунт: наблюдение.аккаунт) }
+    #expect(повтор.сообщения[старый] == nil)
+    #expect(повтор.сообщения == модель.сообщения)
+    if тип == "updateMessageContent" || тип == "updateMessageEdited" {
+        let неверное = ЗначениеДанных.типа(тип, ["chat_id": .число(-100001), "message_id": .число(101), "edit_date": .число(-1)])
+        #expect(throws: ОшибкаКлиента.self) { try модель.применить(неверное, аккаунт: 17) }
+        #expect(модель.история.count == 2)
+    }
+}
+
 @Test func идентичностьПорядокПовторыПравкиИВидыУдаления() throws {
     var модель = МодельСообщений()
     let сообщение = ЗначениеДанных.типа("message", ["chat_id": .число(-100001), "id": .число(1048576),
