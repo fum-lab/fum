@@ -1,0 +1,40 @@
+Происхождение: фактически завершённый составной запуск 25 текущего этапа.
+Плановый реестр прошёл; аудитор путей вернул 1; git diff --check не достигнут.
+SHA-256 полного приватного вывода: d2b3ab0ec24e0968897134b41ca8f0115d77e9c13a9e2afef10a5b0eb493cd37
+Ниже сохранены только 35 строк error; allow/report исключены из этой производной выборки.
+
+Журнал/2026-09-11_19-46-28_MSK_подготовить-реализацию-Telegram-TDLib/запрос.md:74:error.posix-user-home
+Журнал/2026-09-11_23-10-14_MSK_завершить-жизненный-цикл-клиента-Telegram/отчёт.md:85:error.posix-absolute
+Инструменты/fum-reyestr-planirovaniya/scripts/отображение_основания.py:112:error.posix-absolute
+Инструменты/fum-reyestr-planirovaniya/tests/test_отображения_основания.py:173:error.posix-absolute
+Инструменты/fum-reyestr-planirovaniya/tests/test_отображения_основания.py:253:error.posix-absolute
+Планирование/задачи/01a09179-da9e-72e3-a858-af3bfd6f8894/продолжение.json:49:error.posix-absolute
+Приложения/FUMA/Packages/КлиентTelegram/README.md:10:error.posix-absolute
+Приложения/FUMA/Packages/КлиентTelegram/README.md:11:error.posix-absolute
+Приложения/FUMA/Packages/КлиентTelegram/README.md:12:error.posix-absolute
+Приложения/FUMA/Packages/КлиентTelegram/README.md:23:error.posix-absolute
+Приложения/FUMA/Packages/КлиентTelegram/README.md:52:error.posix-absolute
+Приложения/FUMA/Packages/КлиентTelegram/README.md:53:error.posix-absolute
+Приложения/FUMA/Packages/КлиентTelegram/Sources/ПроверкаTelegram/main.swift:98:error.posix-absolute
+Приложения/FUMA/Packages/КлиентTelegram/Sources/ПроверкаTelegram/main.swift:107:error.posix-absolute
+Приложения/FUMA/Packages/КлиентTelegram/Sources/ПроверкаTelegram/main.swift:109:error.posix-absolute
+Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиМоста.swift:20:error.posix-absolute
+Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиПриватности.swift:119:error.system-runtime-hardcode
+Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift:21:error.posix-absolute
+Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift:25:error.posix-absolute
+Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift:27:error.posix-absolute
+Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift:29:error.posix-absolute
+Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift:36:error.posix-absolute
+Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift:39:error.posix-absolute
+Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift:43:error.posix-absolute
+Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_измерение_команды.py:49:error.posix-absolute
+Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_измерение_команды.py:50:error.posix-absolute
+Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_измерение_команды.py:54:error.posix-absolute
+Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_измерение_команды.py:62:error.posix-absolute
+Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_измерение_команды.py:67:error.posix-absolute
+Приложения/FUMA/Packages/КлиентTelegram/Проверки/проверить-команду.py:23:error.posix-absolute
+Приложения/FUMA/Packages/КлиентTelegram/Проверки/проверить-команду.py:26:error.posix-absolute
+Приложения/FUMA/Packages/КлиентTelegram/Проверки/проверить-команду.py:27:error.posix-absolute
+Приложения/FUMA/Packages/КлиентTelegram/Профили/снимки/исполнитель-первого-измерения.py.txt:23:error.posix-absolute
+Приложения/FUMA/Packages/КлиентTelegram/Профили/снимки/исполнитель-первого-измерения.py.txt:26:error.posix-absolute
+Приложения/FUMA/Packages/КлиентTelegram/Профили/снимки/исполнитель-первого-измерения.py.txt:27:error.posix-absolute

@@ -41,7 +41,7 @@ private final class БарьерПрофиля: @unchecked Sendable {
     }
 }
 
-private struct ПамятьПрофиля: Encodable {
+struct ПамятьПрофиля: Encodable {
     let текущая: UInt64
     let пикПроцесса: UInt64
     init() throws {
@@ -58,7 +58,7 @@ private struct ПамятьПрофиля: Encodable {
     }
 }
 
-private func процессорПрофиля() throws -> Double {
+func процессорПрофиля() throws -> Double {
     var сведения = rusage()
     guard getrusage(RUSAGE_SELF, &сведения) == 0 else { throw ОшибкаКлиента.требуетсяРазбор }
     return Double(сведения.ru_utime.tv_sec + сведения.ru_stime.tv_sec)

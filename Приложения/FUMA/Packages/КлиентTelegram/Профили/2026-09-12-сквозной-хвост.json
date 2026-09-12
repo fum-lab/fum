@@ -1,0 +1,122 @@
+{
+  "схема": "fum.сквозная-проверка-хвоста.1",
+  "процессы": [
+    {
+      "фаза": "подготовить",
+      "процессНаносекунд": 285848125,
+      "результат": {
+        "байтыСохранены": true,
+        "закрытие": {
+          "всеЗакрыты": false,
+          "неприменённыхКадров": 1,
+          "пикБайтовОчереди": 112,
+          "пикОчереди": 1,
+          "потокиЗавершены": true,
+          "требуетсяРазбор": true
+        },
+        "повторЗакрытияСовпадает": true,
+        "процесс": 18959,
+        "схема": "fum.сквозной-хвост.1",
+        "фаза": "подготовить",
+        "фикстураШа256": "0fe1e450e218341557853be6acf62d2d76d8b6cd9f19e08a4e41e884dc5b8ed3"
+      }
+    },
+    {
+      "фаза": "восстановить",
+      "процессНаносекунд": 68835667,
+      "результат": {
+        "байтыСохранены": true,
+        "неприменённыхКадров": 1,
+        "отправлено": 0,
+        "приёмов": 0,
+        "процесс": 18963,
+        "разрывВхода": true,
+        "разрывов": 1,
+        "сегментНеИзменён": true,
+        "создано": 0,
+        "сообщений": 0,
+        "схема": "fum.сквозной-хвост.1",
+        "фаза": "восстановить",
+        "фикстураШа256": "0fe1e450e218341557853be6acf62d2d76d8b6cd9f19e08a4e41e884dc5b8ed3",
+        "чужойКлючОтклонён": true
+      }
+    }
+  ],
+  "исполняемыйШа256": "ad1d5fe16b55e68c4022299238ad5b732a742bdb3419a0470fe7e88a6e699750",
+  "граница": "Два содержательных процесса и два отказных запуска; новый процесс не означает холодный дисковый кэш.",
+  "исполнительШа256": "6dac89998e1042491f0ad17df2bc8d03091c67561744af6fb4e5d5f6c9624b79",
+  "происхождение": {
+    "задача": "01a09179-da9e-72e3-a858-af3bfd6f8894",
+    "базовыйКоммит": "e0b1b92aaa20767f34ca7f11c66a6d7cf51d23df",
+    "времяСохраненияUTC": "2026-09-12T01:11:39.107856+00:00",
+    "источникиШа256": {
+      "Приложения/FUMA/Packages/КлиентTelegram/Package.swift": "fa7e4d9007e2ee0cbc0fab23e162391d49f440e3fe1230cd0aef77b235b5c971",
+      "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Авторизация.swift": "514abf82ddd641ac7b50cc17b4a802a3380ab948657c49ee0f69d3ad723a4b01",
+      "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Данные.swift": "1fd3ffc59ad6698a1aa4b2ed25db5b655032fab49259075b315137f9f35d2eae",
+      "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Действия.swift": "4fc8d77f13c9611913cd7eac16adf21a57d1d9085dd7c03ce470b055bb12258d",
+      "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Мост.swift": "f984060db3a5548473a54a3770fe2ded12b2e0a583accec52e338dea2ae6b4cf",
+      "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Очередь.swift": "dc5c752923cb14576aeb34c9e02513aa683160983b6c447d4c477544d4123207",
+      "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/ПриватныеФайлы.swift": "bd102e6bff622bb98f0df8b738730a840582b8289b24ef71d7042f530622f4dc",
+      "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Профиль.swift": "0c88891f5d3b9d2c621eb4a15c96031d9412e151c6adc3d5a74b6e918f911dda",
+      "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/ПрофильВосстановления.swift": "f48e963a1edd2a747fd599981b5908fe57f10db5edec67b8fe57f174e3ba0ff1",
+      "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Сверка.swift": "95f82f52a42362e7d55c963861a9317d130a67a62d12c4c860977e16dd3fbe59",
+      "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Сериализатор.swift": "86ac7ed94706d13147f0db994a72515135a21900232b551ca538d138995263e1",
+      "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/СквознойХвост.swift": "6d627c3f7164ca4fa80ea7cc944705345b745df99d03280d77cc7e9bb8987424",
+      "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Сообщения.swift": "7b3d1a5ef2ba803b591d3ed686a23c56a805c424440c700c53bcb50b85f7850f",
+      "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Среда.swift": "a24ab24f29e169fa3364acd82390b2a6a19eca9de47e127f4df15c330f797a1d",
+      "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Хранение.swift": "fb18d50e3c860b0c60b0c6e4607f115b288b2d7f6c7ed039147c0307823b72cf",
+      "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/ЦиклПриёма.swift": "aa1b8f9df3556a238dbffdda05b7e10c90aee87ff888360682996822cef007b4",
+      "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Ядро.swift": "1cd42d043973bd760f8e4923561b4588199d226864e137aa5ac909e2cdfb70ad",
+      "Приложения/FUMA/Packages/КлиентTelegram/Sources/ПроверкаTelegram/main.swift": "84b296587d4d97d3571a7e788db4663cf7dfb854f7efa5fb2ac6dc1ca3b88798",
+      "Приложения/FUMA/Packages/КонтейнерНаблюдений/Package.swift": "a0f1c303f555ed9d5f795713c81b1ec30e3eeb18609eece85fdb579279ef592d",
+      "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/ВосстановительКонтейнера/main.swift": "7d7f36228aa4ca1d8a20c46dd883464be97c186faf70eda18d3c5bafed1d31bf",
+      "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift": "83c6a08c4be4201fe279adcd0caac4c78298e377b1a92511d1d2a5bc724b5acb",
+      "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160",
+      "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Приватность.swift": "508e90ee77ab69ebde541b6ca76366ccf9d7964328d40a16a3ea35a4ddd89781",
+      "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift": "cac76abf5aa1ac88f2e72e6692f94a1cf0afcadefc07498d0388ee554165238a",
+      "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift": "6a97a004a15aea2e483c1b71de9b2a10141985abc94d037ab148d4b3bc244e2f",
+      "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift": "6d19959226189ce0df9d5c3e4519b4c0e535b79b263dfde2a8201374e77ecc07",
+      "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/ПисательКонтейнера/main.swift": "ea282dae86fea64b7db8572a673c660c112fc2e38fe70bd3479488ca4359f4fe",
+      "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/ПрофильКонтейнера/main.swift": "979e4a33aa8442a86bb68c546c0f997f53a4459912fb45548c78adc501bd1aab",
+      "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/ЧитательКонтейнера/main.swift": "ab9d86ad9a4a61b8f1898076cbda3a78785a43fe4301c7d76467b3d5312c7cdd"
+    },
+    "файлыКомплектаОтDeveloperDirШа256": {
+      "usr/bin/swift-driver": "99dd63cbd1e63322466eed43c9bf0fe43363b386c0769ebb131b24933088e7a8",
+      "usr/bin/swift-frontend": "f6e8be96096fd0bba44bdb2e3bba45d4beba511655086394d32d5270d53fcb77",
+      "usr/bin/clang": "a857315cf27b0e64e1030c8287a4f2a738dd6fa048156f304ff3bd20fd2f41b1",
+      "usr/bin/ld": "3e71ed86f24ae060ef635957254cfb02bb95c93fe6497f62b77e532b9fbcf6d3",
+      "SDKs/MacOSX27.0.sdk/SDKSettings.json": "dc95454ae84e0d194bc755e3e5a352d615237ae6788fbc77e61829afae56ac08",
+      "SDKs/MacOSX27.0.sdk/System/Library/CoreServices/SystemVersion.plist": "9b9fadca482ecf7218397785a5076495fb397a773c21a2560b557d686d3314e3"
+    },
+    "macOS": {
+      "версия": "27.0",
+      "сборка": "26A428"
+    },
+    "комплект": "Command Line Tools for Xcode 27.0 beta 6; название подтверждено InstallHistory.plist и receipts CLTools",
+    "версияSwift": "Apple Swift version 6.4 (swiftlang-6.4.0.33.1 clang-2100.3.33.1)\nTarget: arm64-apple-macosx27.0.0",
+    "версияClang": "Apple clang version 21.0.0 (clang-2100.3.33.1)",
+    "сборкаSDK": "26A5419a",
+    "параметрыСборки": {
+      "конфигурация": "release",
+      "продукт": "проверить-telegram",
+      "архитектура": "arm64",
+      "минимальнаяMacOS": "15.0",
+      "параметрJobs": 1,
+      "фактическоеЧислоРаботников": "отдельно не подтверждено",
+      "MachO": {
+        "LC_BUILD_VERSION_minOS": "15.0",
+        "LC_BUILD_VERSION_sdk": "15.0",
+        "граница": "Фактические поля нового Release-образа прочитаны otool, отдельно от выбранного SDK."
+      },
+      "системаСборки": "swiftbuild"
+    },
+    "границаКомплекта": "Локальное измерение собственного кода. TDLib не загружена. Полный исходный и передаваемый комплект SDK и зависимостей не подтверждён. Нагрузка других процессов и дисковый кэш не изолированы.",
+    "границаИдентификации": "Версии Swift/Clang/macOS и шесть SHA комплекта прочитаны при сохранении этого результата. Название установленного CLT и receipts сохранены предыдущим этапом; отдельная лицензия SDK остаётся неподтверждённой.",
+    "сборкаЗапуск": "1e1802db-a2ea-432a-8b1f-062894909a78",
+    "профильЗапуск": "9b65cfdb-120e-4cfd-8f8b-a690703ce2bc",
+    "параметрыPython": [
+      "-B",
+      "-O"
+    ]
+  }
+}
