@@ -34,6 +34,28 @@ Pervyij vyizov profilya b309d1 byil otklonyon obyortkoj s kodom 1 do dochernego 
 
 Predvariteljnyiye proverki reyestra i indeksa zavershilisj uspeshno. Proverka publikacionnyikh putej ukazala rovno odno opredeleniye regulyarnogo vyirazheniya sobstvennogo Zhurnala, stroka 151 modulya otlozhennyikh naznachenij. Shtatnyij generator politiki dobavil tochnoye tipizirovannoye isklyucheniye allow.path-validation-definition s khyeshem stroki i odnim sovpadeniyem; sosedniye stroki i prochiye puti ne razreshayutsya. Povtornaya proverka posle etoj soderzhateljnoj pravki politiki zavershilasj uspeshno za 24,774 s; yeyo samostoyateljnaya zapisj sokhranena.
 
+## Kontroljnaya tochka pered shestjyu zapuskami
+
+Pervyij standartnyij polnyij zapusk №22 (`f3c332ac-8031-49c7-ad03-9b0c32c7859a`) zavershilsya kodom 1 za 689,634982916 s na shage 14 iz 24. Vnutri obyichnogo Python-nabora unasledovannyij test vyizval nastoyasjhij SwiftPM. AlphaTests sobralsya, no zapusk zavershilsya signalom 5: zagruzchik ne nashyol Testing.framework. Shagi 1–13 proshli; shagi 15–24 ne ispolnyalisj. Etot zapusk ne dayot polnoj priyomki.
+
+Nastoyasjhaya kompoziciya sokhranena otdeljnyim integracionnyim testom polnogo profilya. Standartnyij nabor proveryayet isklyucheniye zhivoj kompozicii, vyibor integracionnogo kataloga toljko polnyim profilem, otkaz simvolicheskikh ssyilok i peredachu pervichnogo otkaza. Dva adresnyikh RED №23/24 i GREEN pyati proverok №25 sokhranenyi; staryij propusk pri otsutstvii Swift ne obyyavlyayetsya uspeshnoj integraciyej. [FUM-SBOJ-0107](../../Sboi/FUM-SBOJ-0107-realjnaya-SwiftPM-kompoziciya-v-standartnom-nabore.md) opisyivayet ogranichennuyu ustranyonnuyu granicu vyibora nabora. Ispravnostj ustanovlennogo Testing.framework ne podtverzhdena.
+
+Pervyij profilj №26 otkazal do poleznyikh zamerov: vremennaya fikstura peredala nerazreshyonnyij fizicheski korenj cherez sistemnuyu simvolicheskuyu ssyilku. Profiljnaya fikstura teperj zaraneye razreshayet svoj korenj; proverka zasjhityi ne oslablena. Profilj №27 proshyol na tryokh nezavisimyikh fiksturakh po 114 naborov: medianyi obnaruzheniya 41,891 ms, postroyeniya standartnogo plana 19,515 ms i polnogo plana 92,159 ms. Swift-processyi ne zapuskalisj. Po etomu izmereniyu sokhranena realizaciya bez algoritmicheskoj optimizacii: stoimostj ogranichennogo obnaruzheniya ne obosnovyivayet snyatiye proverok putej. Uskoreniye ne zayavlyayetsya.
+
+Pri ocherednom vosstanovlenii chitatelj podtverdil prezhnij odin chelovecheskij ekzemplyar svoyej zadachi do granicyi 151785894 bajt (SHA-256 74c04e6ae209e7e630599f8bed1f12c25e5ff492d6c116ead0fae53e28056bdf) i 263 ekzemplyara koordinatora do granicyi 477832785 bajt (SHA-256 ad3f60953230cad0d5ca4382afdfbadd4a23b2cee92004bf649a1ef53d149eb4). Novyikh chelovecheskikh komand v etikh zavershyonnyikh prefiksakh ne obnaruzheno; pozdniye nativnyiye porucheniya o kontroljnoj tochke imeyut otdeljnoye proiskhozhdeniye.
+
+Nativnoye utochneniye koordinatora zadayot blizhajshij rezuljtat: kontroljnaya tochka po pravilam 000176/000188, publikaciya i shestj zapuskov prezhde novoj polnoj priyomki. Korenj prochital funkcii `закрепить`, `проверить_постановку`, `проверить_инструменты` i `проверить_планирование`: oni trebuyut tochnyij sokhranyonnyij paket, sobstvennyiye ref/OID, instrumentyi, planirovaniye i istochniki, no ne zakryityij polnyij otchyot. Proverochnyiye gejtyi ne izmenenyi. V kommit vkhodit vesj sobstvennyij kod, vklyuchaya nezavershyonnuyu dorabotku smoke-nabora.
+
+Nezavisimoye RO-revjyu vyiyavilo, chto GREEN №25 ne izoliroval otkaz ssyilki fajla: nerazreshyonnyij sistemnyij predok fiksturyi mog datj boleye rannyuyu oshibku kataloga. Dve fiksturyi teperj ispoljzuyut fizicheskij korenj, a test fajla trebuyet konkretnyij tekst otkaza fajlovoj proverki. Adresnyij №30 zavershilsya kodom 0: dva testa, 0,700011500 s cherez obyortku. Ispolnyayemyij algoritm posle profilya №27 ne menyalsya; staryij SHA testovogo fajla v profile otnositsya k prezhnej fiksture i ne podmenyayetsya. Pervyij pryamoj kontroljnyij dopusk ostanovlen SIGTERM posle vyiyavleniya etoj neobkhodimoj korrekcii; nablyudyon kod 143, gotovnostj im ne podtverzhdalasj. Kak razreshyonnaya proverka zamyikaniya on ne sozdaval mashinnoj zapisi; tochnaya dliteljnostj celogo intervala otdeljno ne izmerena. Posle popravki vyipolnyayetsya odin kontroljnyij dopusk okonchateljnyikh bajtov. Publikacionnaya proverka №29 pered etoj pravkoj proshla za 95,266952250 s; novyiye dve lokaljnyiye operacii resolve i utochneniye soobsjheniya oshibki ne vvodyat mashinnyikh putej ili sekretov.
+
+Proverka vsego Git-index №31 vernula kod 2 na probelakh i pustyikh konechnyikh strokakh syiryikh HTTP/HTML-arkhivov v avtomaticheski sozdannoj proyekcii. Ruchnaya ochistka etikh bajtov ne primenyayetsya: generaciya i nezavisimaya sverka uzhe podtverdili sootvetstviye svoyemu vkhodu. Otdeljnaya №32 ogranichena kanonicheskim indeksom; ona ne vyidayotsya za ispravleniye libo uspeshnyij povtor №31. Proverennoye pokoleniye proyekcii ostayotsya promezhutochnyim s ukazannyim vyishe otstavaniyem.
+
+Sleduyusjhij pryamoj kontroljnyij dopusk zavershilsya kodom 1: predprosmotr soderzhal prezhnij Git-otpechatok, potomu chto obnovlyonnyij indeks svezhesti byil indeksirovan posle predprosmotra. Eto ne otkaz predmetnogo mekhanizma zapuska. Vosstanovleniye: snachala okonchateljnyij staging kanonicheskikh fajlov, zatem predprosmotr i staging toljko isklyuchyonnyikh tekusjhego otchyota i yego mashinnyikh zapisej. Sluchaj sokhranyon dlya sverki s diagnostikoj ustarevshego predprosmotra 0061; yeyo kanonicheskoye obyyedineniye ostayotsya posleduyusjhej rabotoj.
+
+Polnaya priyomka novogo snimka, samostoyateljnyij polozhiteljnyij sinteticheskij scenarij svyaznoj Swift-kompozicii i proverka realjnoj ustanovlennoj sredyi ostayutsya yavnyim ostatkom. RO-predlozheniye sinteticheskogo testa prinyato kak posleduyusjhaya dorabotka bez novogo proizvodstvennogo povedeniya; do zapuskov ono ne primenyayetsya. Povtornyij full do rannego nablyudeniya vsekh shesti zadach ne vyipolnyayetsya. Tekusjhaya proyekciya sozdana i nezavisimo proverena shagami 4/5 pervogo full: 7334 istochnika, plan `sha256:f5b7f52b437798cceaf917d4c8552d7276806cb9f866b05cfc3e799230fd3368`. Ona otstayot ot posleduyusjhikh kanonicheskikh izmenenij; kontroljnaya tochka ne obyyavlyayet yeyo aktualjnoj finaljnoj proyekciyej. Otchyot otkryit, snimok ne sozdayotsya.
+
+Pri dopolniteljnom chtenii dvazhdyi ispoljzovan otsutstvuyusjhij putj — oshibochnoye mnozhestvennoye imya modulya priyoma i netochnyij suffiks kartochki 0055. Inventarj zatem dal dejstviteljnyiye imena. Eti nablyudeniya sokhranyayutsya dlya obsjhego razbora mekhanizma 0009 vmeste s uzhe uchtyonnyim ostatkom; novyiye globaljnyiye nomera im ne naznachalisj.
+
 ## Profilj vremeni vyipolneniya
 
 | Stadiya                             | Dliteljnostj | Granicyi i sposob izmereniya                                              |
@@ -46,9 +68,9 @@ Predvariteljnyiye proverki reyestra i indeksa zavershilisj uspeshno. Proverka pu
 | Proverennyij perenos devyati fajlov  | 18.584694 s  | Obyortka vyizova podderzhannogo fajlovogo metoda s tochnyim before/after     |
 | Realjnyij predprosmotr shesti strok  | 13.818562 s  | Obyortka na polnom istochnike, bez zapisi sostoyaniya                       |
 | Realjnaya podgotovka shesti strok    | 61.210843 s  | Obyortka polnogo povtornogo dopuska i ustanovki                          |
-| Standartnyij smoke-check            | ne izmereno  | Do zapuska ne obyyavlyayetsya sostoyavshimsya                                  |
+| Standartnyij smoke-check            | 689.634983 s | Pervaya polnaya popyitka zavershilasj otkazom na shage 14/24                  |
 
-Granica profilya: etap nachat 2026-09-12 00:13:57 MSK; tablica okhvatyivayet zavershyonnyiye imenovannyiye processyi do podgotovki paketa. Kalendarnoye vremya vsej soderzhateljnoj rabotyi i ozhidaniya tyazhyologo okna otdeljno ne izmereno. FIFO i handoff ne ispoljzovalisj; vneshnij zapusk shesti zadach i finaljnaya peredacha poka vne granicyi. Vlozhennyiye intervalyi i paralleljnoye chteniye ne summiruyutsya kak nezavisimyiye zatratyi.
+Granica profilya: etap nachat 2026-09-12 00:13:57 MSK; tablica i mashinnyij blok okhvatyivayut zavershyonnyiye imenovannyiye processyi do kontroljnoj tochki, vklyuchaya otkaz pervogo full i adresnoye ispravleniye. Kalendarnoye vremya vsej soderzhateljnoj rabotyi i ozhidaniya tyazhyologo okna otdeljno ne izmereno. FIFO i handoff ne ispoljzovalisj; vneshnij zapusk shesti zadach i finaljnaya peredacha poka vne granicyi. Vlozhennyiye intervalyi i paralleljnoye chteniye ne summiruyutsya kak nezavisimyiye zatratyi.
 
 ### Pryamyiye zapuski proverok
 
@@ -77,13 +99,24 @@ Granica profilya: etap nachat 2026-09-12 00:13:57 MSK; tablica okhvatyivayet zav
 | [korenj] Publikacionnyiye puti podgotovlennogo paketa                       | 24,158 s     | neuspeshno |
 | [korenj] Publikacionnyiye puti posle tochnogo isklyucheniya opredeleniya Zhurnala | 24,774 s     | uspeshno   |
 | [korenj] Predvariteljnaya svyaznostj paketa otlozhennyikh naznachenij           | 42,333 s     | uspeshno   |
+| [korenj] Standartnaya polnaya priyomka otlozhennyikh naznachenij                 | 689,635 s    | neuspeshno |
+| [korenj] Krasnaya granica otdeljnoj integracionnoj proverki SwiftPM        | 0,146 s      | neuspeshno |
+| [korenj] Krasnaya granica avtonomnogo nabora i ssyilki fajla                | 0,301 s      | neuspeshno |
+| [korenj] Zelyonaya granica otdeljnoj integracionnoj proverki SwiftPM        | 1,175 s      | uspeshno   |
+| [korenj] Profilj tryokh fikstur vyibora avtonomnyikh i integracionnyikh naborov  | 0,987 s      | neuspeshno |
+| [korenj] Profilj fizicheski razreshyonnyikh fikstur vyibora naborov             | 2,185 s      | uspeshno   |
+| [korenj] Sborka reyestra posle registracii granicyi SwiftPM                 | 1,821 s      | uspeshno   |
+| [korenj] Publikacionnaya chistota kontroljnoj tochki shesti naznachenij        | 95,267 s     | uspeshno   |
+| [korenj] Razdeljnyiye otkazyi ssyilki kataloga i fajla na fizicheskom korne    | 0,7 s        | uspeshno   |
+| [korenj] Proverka tochnogo indeksa kontroljnoj tochki                       | 3,332 s      | neuspeshno |
+| [korenj] Proverka kanonicheskogo indeksa bez vyivodimoj proyekcii            | 0,035 s      | uspeshno   |
 
-Obsjheye vremya pryamyikh zapuskov proverok: 360,535 s.
+Obsjheye vremya pryamyikh zapuskov proverok: 1156,119 s.
 
 Priyomochnyiye raundyi: ne gotov.
-Kontekst Git-snimka: sha256:a1c2c7bb99930c8a1328eca78ec20c969fe4692354189d83c980c784046d4243.
-Kontekst soderzhimogo: sha256:c6c447784e01c75e6b6c0a0b9c8a321d22a603753dd9426d00edc3849bd7ff45.
-Polnyikh popyitok: 0; uspeshnyikh: 0.
+Kontekst Git-snimka: sha256:8a5b60089dea2305a7cb48b0463254757b66498837a54a42525e3c51096923b3.
+Kontekst soderzhimogo: sha256:5b7c9aa551ffcc86c6f8326e842767588e3987b424cce8e86acac66ff6812ff5.
+Polnyikh popyitok: 1; uspeshnyikh: 0.
 Usloviye «perekhod ne zamenyayet izmeneniye soderzhimogo»: vyipolneno.
 Usloviye «net aktivnyikh»: vyipolneno.
 Usloviye «finaljnaya polnaya poslednyaya»: ne vyipolneno.
@@ -96,6 +129,8 @@ Usloviye «net zapresjhyonnyikh perekryitij»: vyipolneno.
 Usloviye «nepokryityiye diagnostiki uspeshnyi»: vyipolneno.
 Usloviye «istoricheskiye narusheniya otsutstvuyut»: vyipolneno.
 Otdeljnaya diagnostika: 7b512fae-1f27-4716-989b-fc0e6d7d09af; soderzhimoye: sha256:92362885444258f6e3943bd5f89d00e3245e0304d1481ed34526cff242ee0b27; naboryi: profilj-otlozhennyikh-naznachenij; dliteljnostj: 15,587 s; rezuljtat: uspeshno; osnovaniye: ne_pokryivayetsya_finaljnoj_kompleksnoj_proverkoj; lokalizuyemyij otkaz: net; ozhidayemoye svideteljstvo: Tri zamera predprosmotra, pervoj podgotovki i tochnogo povtora s vlozhennyimi granicami chteniya i ustanovki; odinakovyiye shestj rezuljtatov bez vneshnikh popyitok..
+Otdeljnaya diagnostika: 517d4f17-0ef7-4a35-b662-58b1d8828548; soderzhimoye: sha256:46756fdaed95a44f87a4527cc2c9ec13aee4db646443f4841a8bd8bc149a7b88; naboryi: profilj-granicyi-SwiftPM-naborov; dliteljnostj: 0,987 s; rezuljtat: neuspeshno; osnovaniye: ne_pokryivayetsya_finaljnoj_kompleksnoj_proverkoj; lokalizuyemyij otkaz: net; ozhidayemoye svideteljstvo: Tri zamera obnaruzheniya i postroyeniya oboikh planov na 114 naborakh bez Swift-paketov.
+Otdeljnaya diagnostika: 87983a8a-7365-410a-a2d5-8fc82584fb0f; soderzhimoye: sha256:e26d90343db4109c0e4ad01ceaea5ae02ac8669a489a53751714efc4e9c4ee73; naboryi: profilj-granicyi-SwiftPM-naborov; dliteljnostj: 2,185 s; rezuljtat: uspeshno; osnovaniye: ne_pokryivayetsya_finaljnoj_kompleksnoj_proverkoj; lokalizuyemyij otkaz: net; ozhidayemoye svideteljstvo: Tri zamera obnaruzheniya i postroyeniya oboikh planov na 114 naborakh bez Swift-paketov.
 
 <!-- FUM-CHECK-RUNS:END -->
 
@@ -111,7 +146,7 @@ Nezavisimaya itogovaya RO-sverka podtverdila shestj publichnyikh JSON na diske, 
 
 ## Resheniya i ogranicheniya
 
-Uspeshnyij predprosmotr i ustanovka sokhranili shestj postanovok paketa `6ac906c166e5ec9c2a5d0e9791c11b94cd98e0d7c4686d9fac6473367a642830`; tochnyij SHA plana — `f644605dfcf08376237e58e1b48909e3ff4addaf035f2f8bef43cd7de4904433`. Vkhod zapuska vklyuchayet 24 raznyikh predmetnyikh fajla. Granica iskhodnoj zadachi pri podgotovke — 456395717 bajt, SHA-256 1ab6ca141a81fa57f1ab6e32210d57b6dc22ba423a399955658647617115d4c2, 262 chelovecheskikh soobsjheniya; na toj granice posle komandyi udvoyeniya novyikh chelovecheskikh soobsjhenij ne byilo. Posleduyusjheye soobsjheniye 263 svereno vyishe i sokhranyayet prinyatoye naznacheniye. Poryadok zaversheniya etapa: uspeshnaya publikacionnaya proverka, standartnyij polnyij progon etogo snimka, zakryitiye otchyota i finaljnaya proyekciya. Pryamyiye rezuljtatyi proverok fiksiruyet upravlyayemyij blok vyishe. Posle kommita — zakrepleniye obsjhej bazyi, shestj pervyikh vneshnikh popyitok i proverka fakticheskogo nachala kazhdoj zadachi. Obsjhij ref uderzhivayetsya do nablyudeniya vsekh shesti. Neodnoznachnyij rezuljtat ne razreshayet povtor. Kommit etapa i sozdaniye zadach ne zavershayut vesj priyom 0201 ili predmetnyiye napravleniya.
+Uspeshnyij predprosmotr i ustanovka sokhranili shestj postanovok paketa `6ac906c166e5ec9c2a5d0e9791c11b94cd98e0d7c4686d9fac6473367a642830`; tochnyij SHA plana — `f644605dfcf08376237e58e1b48909e3ff4addaf035f2f8bef43cd7de4904433`. Vkhod zapuska vklyuchayet 24 raznyikh predmetnyikh fajla. Granica iskhodnoj zadachi pri podgotovke — 456395717 bajt, SHA-256 1ab6ca141a81fa57f1ab6e32210d57b6dc22ba423a399955658647617115d4c2, 262 chelovecheskikh soobsjheniya; na toj granice posle komandyi udvoyeniya novyikh chelovecheskikh soobsjhenij ne byilo. Posleduyusjheye soobsjheniye 263 svereno vyishe i sokhranyayet prinyatoye naznacheniye. Blizhajshij poryadok: proverka publikacionnoj chistotyi i kontroljnoj tochki, promezhutochnyij kommit s otkryityim otchyotom; novaya polnaya priyomka, zakryitiye i finaljnaya proyekciya ostayutsya posle shesti rannikh nablyudenij. Pryamyiye rezuljtatyi proverok fiksiruyet upravlyayemyij blok vyishe. Posle kommita — zakrepleniye obsjhej bazyi, shestj pervyikh vneshnikh popyitok i proverka fakticheskogo nachala kazhdoj zadachi. Obsjhij ref uderzhivayetsya do nablyudeniya vsekh shesti. Neodnoznachnyij rezuljtat ne razreshayet povtor. Kommit etapa i sozdaniye zadach ne zavershayut vesj priyom 0201 ili predmetnyiye napravleniya.
 
 ## Istochniki
 
@@ -123,6 +158,6 @@ Uspeshnyij predprosmotr i ustanovka sokhranili shestj postanovok paketa `6ac906c
 - [Opisaniye sposoba](../../Instrumentyi/fum-reyestr-planirovaniya/priyom-napravlenij.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-12 02:02:48 MSK -->
-<!-- content-sha256: sha256:456f18962878331bc05bf6ca6108b28ade52515e5cda473f8431f36b9cf367dd -->
+<!-- last-content-edit: 2026-09-12 03:18:58 MSK -->
+<!-- content-sha256: sha256:7101d055a1c28c892d4284f1aec57c3402145858a01ef186ee3c399dc1015f77 -->
 <!-- FUM-MD-RECENCY:END -->

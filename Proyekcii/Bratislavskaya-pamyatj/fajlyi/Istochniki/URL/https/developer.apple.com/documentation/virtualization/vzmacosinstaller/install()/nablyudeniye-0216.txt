@@ -1,0 +1,15 @@
+# Ограничение установки macOS
+
+Адресное чтение официального Markdown 12 сентября 2026 года: установка начинается при stopped на очереди VM; экземпляр installer используется один раз. Пауза и остановка VM во время установки не являются допустимым контрактом отмены. Восстановление с прежнего процента не обещано.
+
+Короткий дословный фрагмент:
+
+> During the installation operation, pausing or stopping the VM results in an undefined behavior.
+
+Прочитан официальный ответ Markdown; полный текст не переиздаётся. SHA-256 полного ответа по независимому чтению исследователя: `660ae94112e7bc3551a653cc55ccb396f74248bc02dff2465388929f90adeb69`. Хэш обозначает наблюдённый ответ, а не его сохранённую полную копию; заголовки и приватное состояние не импортированы.
+
+## Источники
+
+- [Apple install()](https://developer.apple.com/documentation/virtualization/vzmacosinstaller/install()).
+- [Официальный Markdown](https://developer.apple.com/documentation/virtualization/vzmacosinstaller/install().md).
+- [Паспорт пилота](../../../../../../../../Планирование/macOS-VM-паспорт-пилота.md).

@@ -1,0 +1,27 @@
+{
+  "отпечаток_закрытия": "sha256:c9a0a9fc80e158de21e52821f2077a3e449201a744fc5e1c0b2020902ffa53d0",
+  "сессия": "Журнал/2026-09-12_03-28-44_MSK_подготовить-паспорт-macOS-VM/запрос.md",
+  "схема": "fum.test-run-report.v2",
+  "файлы": [
+    {
+      "sha256": "9938258d4b85c80348f333dc53c9af507c3256362c79566495578c8d8ec6af9e",
+      "имя": "1_bd3f8e7e-caba-4f7d-9b55-839bf528045d.json"
+    },
+    {
+      "sha256": "04a0bc7d8dae77994e90507f955f45bdf7aa9f0d59c9ce30203bf5ba47202cdc",
+      "имя": "2_f2ecb388-db41-43c3-b6b1-3224edc82990.json"
+    },
+    {
+      "sha256": "39cb384c3c9fe0a4d62d866534b898f12cba53138d023c4d813bd47365e01ddf",
+      "имя": "3_3d98de04-f108-4b1f-8587-86f68409cac2.json"
+    },
+    {
+      "sha256": "c5268b139e9c23970a694e3fc99b9fc63f4856670484e81aa29d6a36eb9bd4d7",
+      "имя": "4_eafd0e54-ed2b-4fae-945f-c3a0b5ff26ed.json"
+    },
+    {
+      "sha256": "a981ede2b3d0b1e5992caa982afe4fca4b11eefc549d2503a72ab1d440a4ce0c",
+      "имя": "5_b4b50452-3f9f-42c7-b326-81020f967fc9.json"
+    }
+  ]
+}

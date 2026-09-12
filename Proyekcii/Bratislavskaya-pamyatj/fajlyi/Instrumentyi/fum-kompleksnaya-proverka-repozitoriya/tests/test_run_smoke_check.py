@@ -46,6 +46,72 @@ spec.loader.exec_module(run_smoke_check)
 
 
 class RunSmokeCheckTests(unittest.TestCase):
+    def test_автономный_набор_не_содержит_реальную_композицию(сам):
+        имена = unittest.TestLoader().getTestCaseNames(RunSmokeCheckTests)
+        сам.assertNotIn("test_accepts_registered_local_swiftpm_composition", имена)
+
+    def test_интеграционный_набор_выбирается_только_полным_профилем(сам):
+        with tempfile.TemporaryDirectory() as временный:
+            корень = Path(временный)
+            сам.write_script_fixture(корень)
+            сам.создать_фикстуры_документационных_тестов(корень)
+            относительный = Path("Инструменты/fum-kompleksnaya-proverka-repozitoriya/интеграционные-тесты")
+            каталог = корень / относительный
+            каталог.mkdir()
+            (каталог / "test_композиции.py").write_text("import unittest\n")
+            for профиль in (run_smoke_check.ДОКУМЕНТАЦИОННЫЙ_ПРОФИЛЬ, run_smoke_check.ПОЛНЫЙ_ПРОФИЛЬ):
+                with сам.subTest(профиль=профиль):
+                    шаги = run_smoke_check.build_steps(корень, None, include_session=False, профиль=профиль)
+                    выбранные = [шаг for шаг in шаги if шаг.аналитический_ключ == относительный.as_posix()]
+                    сам.assertEqual(len(выбранные), int(профиль == run_smoke_check.ПОЛНЫЙ_ПРОФИЛЬ))
+                    сам.assertEqual(len({шаг.name for шаг in шаги}), len(шаги))
+                    if выбранные:
+                        сам.assertEqual(выбранные[0].command[-3:], (относительный.as_posix(), "-p", "test_*.py"))
+
+    def test_интеграционный_набор_отклоняет_символическую_ссылку(сам):
+        with tempfile.TemporaryDirectory() as временный:
+            область = Path(временный).resolve()
+            корень = область / "репозиторий"
+            каталог = корень / "Инструменты/образец/интеграционные-тесты"
+            каталог.parent.mkdir(parents=True)
+            внешний = область / "внешний"
+            внешний.mkdir()
+            (внешний / "test_образец.py").write_text("import unittest\n")
+            каталог.symlink_to(внешний, target_is_directory=True)
+            with сам.assertRaisesRegex(ValueError, "интеграционный"):
+                run_smoke_check.discover_test_dirs(корень)
+
+    def test_интеграционный_модуль_обнаруживает_одну_проверку(сам):
+        путь = Path(__file__).resolve().parents[1] / "интеграционные-тесты/test_реальной_композиции.py"
+        спецификация = importlib.util.spec_from_file_location("проверка_реальной_композиции", путь)
+        модуль = importlib.util.module_from_spec(спецификация)
+        спецификация.loader.exec_module(модуль)
+        набор = unittest.TestLoader().loadTestsFromModule(модуль)
+        сам.assertEqual(набор.countTestCases(), 1)
+        with mock.patch.object(модуль.исходный_набор.RunSmokeCheckTests, "проверить_реальную_локальную_композицию") as вызов:
+            результат = unittest.TestResult()
+            набор.run(результат)
+        сам.assertTrue(результат.wasSuccessful())
+        вызов.assert_called_once_with()
+        with mock.patch.object(модуль.исходный_набор.RunSmokeCheckTests, "проверить_реальную_локальную_композицию", side_effect=RuntimeError("первичный отказ Swift")):
+            результат = unittest.TestResult()
+            unittest.TestLoader().loadTestsFromModule(модуль).run(результат)
+        сам.assertFalse(результат.wasSuccessful())
+        сам.assertEqual(len(результат.errors), 1)
+        сам.assertIn("первичный отказ Swift", результат.errors[0][1])
+
+    def test_интеграционный_набор_отклоняет_ссылку_файла(сам):
+        with tempfile.TemporaryDirectory() as временный:
+            область = Path(временный).resolve()
+            корень = область / "репозиторий"
+            каталог = корень / "Инструменты/образец/интеграционные-тесты"
+            каталог.mkdir(parents=True)
+            внешний = область / "внешний.py"
+            внешний.write_text("import unittest\n")
+            (каталог / "test_образец.py").symlink_to(внешний)
+            with сам.assertRaisesRegex(ValueError, "требует обычные локальные test_"):
+                run_smoke_check.discover_test_dirs(корень)
+
     def test_контур_слияния_сохраняет_тесты_и_фикстуры_источника(сам):
         with tempfile.TemporaryDirectory() as временный:
             источник = Path(временный).resolve() / "источник"
@@ -559,7 +625,7 @@ let package = Package(
             encoding="utf-8",
         )
 
-    def test_accepts_registered_local_swiftpm_composition(self):
+    def проверить_реальную_локальную_композицию(self):
         swift = shutil.which("swift")
         if swift is None:
             self.skipTest("SwiftPM is required by the repository smoke-check")

@@ -28,8 +28,11 @@ Status trebovaniya — `🟡`.
 
 Tekusjhij rezuljtat — postanovka i plan pilota, a ne realizaciya backend ili zapusk VM. Obraz ne skachan, mashina ne sozdana, provisioning ne vyipolnen. Pered ispoljzovaniyem Apple API trebuyetsya adresnaya sverka oficialjnoj dokumentacii i konkretnogo okruzheniya. Sobstvennyiye iskhodniki posleduyusjhej realizacii ostayutsya v monorepozitorii FUM; obrazyi, diski i sekretyi — vne Git.
 
+Pervyij [pasport pilota](../Planirovaniye/macOS-VM-pasport-pilota.md) fiksiruyet nablyudyonnyij khost, vyibrannuyu macOS 27 Beta, nepodtverzhdyonnyij IPSW, otdeljnyiye installer recovery i provisioning, doverennyij SSH i arkhivnyij scenarij FUMA na tochnom OID. Gotovaya postavka obsjhego Linux lifecycle i profilya 0179 ne podtverzhdena; ikh priyomka ostayotsya zavisimostjyu, a status trebovaniya — planovyim.
+
 ## Istochniki trebovanij
 
+- [Porucheniye i granicyi pervogo sreza](../Zhurnal/2026-09-12_03-28-44_MSK_podgotovitj-pasport-macOS-VM/zapros.md).
 - [Avtonomnyij komplekt i binarnyiye obyyektyi vne Git](../Zhurnal/2026-09-11_19-12-07_MSK_prinyatj-plan-avtonomnogo-komplekta-FUM/zapros.md).
 
 - [Postanovka zerkaljnoj sborki Swift](../Zhurnal/2026-09-11_18-47-36_MSK_prinyatj-plan-zerkaljnoj-sborki-Swift/zapros.md).
@@ -37,6 +40,6 @@ Tekusjhij rezuljtat — postanovka i plan pilota, a ne realizaciya backend ili z
 - [Iskhodnaya komanda](../Zhurnal/2026-09-11_16-19-17_MSK_podtverditj-zapusk-Gosuslug-i-prodolzhitj-priyom/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 19:45:10 MSK -->
-<!-- content-sha256: sha256:2e3d96ecf9e8865817b3429cfbdd937858534917511b2655335420bb155c7921 -->
+<!-- last-content-edit: 2026-09-12 03:43:42 MSK -->
+<!-- content-sha256: sha256:3f063a05fa7698bd98c3fa1afab7664389f24a8e74c9a80de7a4e83770b84ee3 -->
 <!-- FUM-MD-RECENCY:END -->

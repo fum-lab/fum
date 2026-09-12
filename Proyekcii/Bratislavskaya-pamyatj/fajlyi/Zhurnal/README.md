@@ -16,6 +16,7 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-12 03:28:44 MSK — Podgotovitj pasport macOS VM](2026-09-12_03-28-44_MSK_podgotovitj-pasport-macOS-VM/otchyot.md)
 - [2026-09-12 00:13:57 MSK — Dobavitj otlozhennyiye naznacheniya napravlenij](2026-09-12_00-13-57_MSK_dobavitj-otlozhennyiye-naznacheniya-napravlenij/otchyot.md)
 - [2026-09-11 23:32:59 MSK — Prinyatj plan I2P i utochneniya Swift](2026-09-11_23-32-59_MSK_prinyatj-plan-I2P-i-utochneniya-Swift/otchyot.md)
 - [2026-09-11 22:27:25 MSK — Perenesti finansovyij rezuljtat FUM](2026-09-11_22-27-25_MSK_perenesti-finansovyij-rezuljtat-FUM/otchyot.md)
@@ -536,6 +537,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-12 01:09:27 MSK -->
-<!-- content-sha256: sha256:78d12fa3a39696b2ee969a7b1fcdb7f381ebb917512afe0f07c58614d21a36e0 -->
+<!-- last-content-edit: 2026-09-12 03:43:42 MSK -->
+<!-- content-sha256: sha256:dde495ef987ca1e43827367700ae839e6acc73bea1bb8feb262ef98097cd04ce -->
 <!-- FUM-MD-RECENCY:END -->

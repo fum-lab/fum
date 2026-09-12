@@ -77,6 +77,8 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0082 | `устранена` | [Utrata vlozhennogo URL pri povtore roditeljskogo snimka](FUM-SBOJ-0082-utrata-vlozhennogo-URL-pri-povtore-roditelya.md)                                               | 1          | FUM-STEP-0212           |
 | FUM-SBOJ-0083 | `устранена` | [Propusk raspakovki gzip pered izvlecheniyem HTML](FUM-SBOJ-0083-propusk-raspakovki-gzip-pered-izvlecheniyem-HTML.md)                                                   | 1          | FUM-STEP-0212           |
 | FUM-SBOJ-0084 | `устранена` | [Propusk proverki PDF pered izvlecheniyem HTML](FUM-SBOJ-0084-propusk-proverki-PDF-pered-izvlecheniyem-HTML.md)                                                         | 1          | FUM-STEP-0212           |
+| FUM-SBOJ-0107 | `устранена` | [Nastoyasjhaya SwiftPM-kompoziciya popala v standartnyij nabor](FUM-SBOJ-0107-realjnaya-SwiftPM-kompoziciya-v-standartnom-nabore.md)                                        | 1          | —                       |
+| FUM-SBOJ-0110 | `активна`   | [Obrezaniye skobok v adrese ssyilki svyaznostjyu](FUM-SBOJ-0110-obrezaniye-skobok-v-adrese-ssyilki-svyaznostjyu.md)                                                         | 1          | FUM-STEP-0226           |
 
 ## Pravila vedeniya
 
@@ -109,6 +111,6 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 - [pravila rabochikh sessij](../AGENTS.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 23:11:13 MSK -->
-<!-- content-sha256: sha256:8173971c2722f1958379e146d9c14346a253252c07980dde1b6e5c4e961be313 -->
+<!-- last-content-edit: 2026-09-12 04:01:10 MSK -->
+<!-- content-sha256: sha256:826847a72bbb6aff2f7ac63431388714b071bdbbb1b4befb02a3b7ca62e56110 -->
 <!-- FUM-MD-RECENCY:END -->

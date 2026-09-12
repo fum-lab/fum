@@ -25,9 +25,11 @@ Potrebnostj v macOS VM prinyata otdeljnoj komandoj. Linux-instrument dayot sosed
 
 ## Istochniki
 
+- [Pervyij pasport pilota i programma proverki](../macOS-VM-pasport-pilota.md): tochnyij nablyudyonnyij khost, vyibrannaya Beta, vkhodyi IPSW, vosstanovleniye installer, SSH i odin arkhivnyij scenarij FUMA. Eto planovyij srez; prinyatyij obsjhij Linux lifecycle, gostevoj profilj 0179, obraz i nastoyasjhij progon ostayutsya zavisimostyami. Aktivnyij status vsej kartochki sokhranyon.
+- [Porucheniye pervogo sreza](../../Zhurnal/2026-09-12_03-28-44_MSK_podgotovitj-pasport-macOS-VM/zapros.md).
 - [Iskhodnaya komanda](../../Zhurnal/2026-09-11_16-19-17_MSK_podtverditj-zapusk-Gosuslug-i-prodolzhitj-priyom/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 16:39:21 MSK -->
-<!-- content-sha256: sha256:ccea870a34d4ec04aab89bd93b289aa37d6995902786e2345eebafcfd05d2efe -->
+<!-- last-content-edit: 2026-09-12 03:43:42 MSK -->
+<!-- content-sha256: sha256:d3acaf44b033f4866126e4ab13cd8626101da8096ff8cec3fc2ba4fa64f65707 -->
 <!-- FUM-MD-RECENCY:END -->

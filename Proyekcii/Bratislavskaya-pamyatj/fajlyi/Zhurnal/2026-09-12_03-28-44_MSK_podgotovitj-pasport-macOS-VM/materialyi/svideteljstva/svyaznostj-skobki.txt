@@ -1,0 +1,10 @@
+Наблюдение адресного отказа, 12 сентября 2026 года.
+Машинная запись: 2_f2ecb388-db41-43c3-b6b1-3224edc82990.json.
+Граница: один составной вызов; реестр и публикационные пути прошли, связность отказала, git diff --check не был достигнут.
+Сохранённая диагностическая строка из вывода:
+broken Markdown link in Индексы/markdown-файлы-по-времени-редактирования.md:15: ../Источники/URL/https/developer.apple.com/documentation/virtualization/vzmacosinstaller/install(
+Полная ожидаемая цель до обхода:
+Источники/URL/https/developer.apple.com/documentation/virtualization/vzmacosinstaller/install()/наблюдение-0216.md
+Форма генерируемой ссылки: [наблюдение](../Источники/URL/https/developer.apple.com/documentation/virtualization/vzmacosinstaller/install()/наблюдение-0216.md)
+Наблюдение сохраняет строку ошибки и минимальную форму воспроизведения, а не полный сырой журнал Codex.
+Восстановление документа: новое наблюдение сохранено как .txt в той же адресной папке, локальные ссылки используют install%28%29. Проверяющий код не изменён.
