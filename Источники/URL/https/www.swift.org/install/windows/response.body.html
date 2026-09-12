@@ -1,0 +1,3577 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>
+       Install Swift - Windows | Swift.org 
+    </title>
+    
+    <meta name="author" content="Apple Inc." />
+    <meta name="viewport" content="width=device-width initial-scale=1" />
+     
+    <link rel="license" href="/LICENSE.txt" />
+    <link
+      rel="stylesheet"
+      media="all"
+      href="/assets/stylesheets/new-stylesheets/application.css"
+    />
+    <script src="/assets/javascripts/new-javascripts/color-scheme-toggle.js"></script>
+    
+    <link
+      rel="shortcut icon"
+      sizes="16x16 24x24 32x32 48x48 64x64"
+      type="image/vnd.microsoft.icon"
+      href="/favicon.ico"
+    />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link
+      rel="apple-touch-icon"
+      sizes="57x57"
+      href="/apple-touch-icon-57x57.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="72x72"
+      href="/apple-touch-icon-72x72.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="76x76"
+      href="/apple-touch-icon-76x76.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="114x114"
+      href="/apple-touch-icon-114x114.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="120x120"
+      href="/apple-touch-icon-120x120.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="144x144"
+      href="/apple-touch-icon-144x144.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="152x152"
+      href="/apple-touch-icon-152x152.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/apple-touch-icon-180x180.png"
+    />
+    <link
+      rel="mask-icon"
+      href="/assets/images/icon-swift.svg"
+      color="#F05339"
+    />
+    <link
+      rel="alternate"
+      type="application/atom+xml"
+      title="Swift.org (Atom Feed)"
+      href="/atom.xml"
+    />
+
+    
+    <link rel="canonical" href="https://swift.org/install/windows/" />
+    
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@SwiftLang" />
+    
+    <meta name="twitter:title" content="Swift.org" />
+    <meta
+      name="twitter:description"
+      content="Swift is a general-purpose programming language built using a modern approach to safety, performance, and software design patterns."
+    />
+    
+
+    <meta property="og:site_name" content="Swift.org" />
+    <meta
+      property="og:image"
+      content="https://swift.org/apple-touch-icon-180x180.png"
+    />
+     
+    <meta property="og:title" content="Swift.org" />
+    <meta property="og:url" content="https://swift.org" />
+    <meta
+      property="og:description"
+      content="Swift is a general-purpose programming language built using a modern approach to safety, performance, and software design patterns."
+    />
+    
+  </head>
+
+  <body>
+    <script>
+      // Set theme before body content to avoid flash of light styles in dark mode
+      setColorScheme(getStoredScheme())
+    </script>
+    <main>
+      <header class="site-navigation">
+    <div class="wrapper">
+      <h1 class="logo">
+        <a href="/" title="Swift.org"> <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 191.186 59.391"><path fill="#F05138" d="M59.387 16.45a82.463 82.463 0 0 0-.027-1.792c-.035-1.301-.112-2.614-.343-3.9-.234-1.307-.618-2.523-1.222-3.71a12.464 12.464 0 0 0-5.453-5.452C51.156.992 49.941.609 48.635.374c-1.288-.232-2.6-.308-3.902-.343a85.714 85.714 0 0 0-1.792-.027C42.23 0 41.52 0 40.813 0H18.578c-.71 0-1.419 0-2.128.004-.597.004-1.195.01-1.792.027-.325.009-.651.02-.978.036-.978.047-1.959.133-2.924.307-.98.176-1.908.436-2.811.81A12.503 12.503 0 0 0 3.89 3.89a12.46 12.46 0 0 0-2.294 3.158C.992 8.235.61 9.45.374 10.758c-.231 1.286-.308 2.599-.343 3.9a85.767 85.767 0 0 0-.027 1.792C-.001 17.16 0 17.869 0 18.578v22.235c0 .71 0 1.418.004 2.128.004.597.01 1.194.027 1.791.035 1.302.112 2.615.343 3.901.235 1.307.618 2.523 1.222 3.71a12.457 12.457 0 0 0 5.453 5.453c1.186.603 2.401.986 3.707 1.22 1.287.232 2.6.31 3.902.344.597.016 1.195.023 1.793.027.709.005 1.417.004 2.127.004h22.235c.709 0 1.418 0 2.128-.004.597-.004 1.194-.011 1.792-.027 1.302-.035 2.614-.112 3.902-.343 1.306-.235 2.521-.618 3.707-1.222a12.461 12.461 0 0 0 5.453-5.452c.604-1.187.987-2.403 1.222-3.71.231-1.286.308-2.6.343-3.9.016-.598.023-1.194.027-1.792.004-.71.004-1.419.004-2.129V18.578c0-.71 0-1.419-.004-2.128z"/><path fill="#FFF" d="m47.06 36.66-.004-.004c.066-.224.134-.446.191-.675 2.465-9.821-3.55-21.432-13.731-27.546 4.461 6.048 6.434 13.374 4.681 19.78-.156.571-.344 1.12-.552 1.653-.225-.148-.51-.316-.89-.527 0 0-10.127-6.252-21.103-17.312-.288-.29 5.852 8.777 12.822 16.14-3.284-1.843-12.434-8.5-18.227-13.802.712 1.187 1.558 2.33 2.489 3.43C17.573 23.932 23.882 31.5 31.44 37.314c-5.31 3.25-12.814 3.502-20.285.003a30.646 30.646 0 0 1-5.193-3.098c3.162 5.058 8.033 9.423 13.96 11.97 7.07 3.039 14.1 2.833 19.336.05l-.004.007c.024-.016.055-.032.08-.047.214-.116.428-.234.636-.358 2.516-1.306 7.485-2.63 10.152 2.559.654 1.27 2.041-5.46-3.061-11.74z"/><path id="logotype" d="M81.93 38.542c.465 4.12 4.394 6.822 9.852 6.822 5.185 0 8.924-2.701 8.924-6.44 0-3.22-2.265-5.185-7.478-6.495l-5.048-1.282c-7.26-1.801-10.534-5.077-10.534-10.48 0-6.658 5.813-11.27 14.082-11.27 8.022 0 13.726 4.639 13.917 11.325h-5.32c-.41-4.093-3.74-6.604-8.734-6.604-4.94 0-8.378 2.538-8.378 6.249 0 2.892 2.13 4.612 7.369 5.95l4.202 1.09c8.133 1.993 11.462 5.159 11.462 10.863 0 7.259-5.759 11.816-14.928 11.816-8.514 0-14.327-4.53-14.763-11.543h5.376zM140.049 49.43h-5.35l-6.249-21.776h-.109L122.12 49.43h-5.348l-7.914-28.518h5.184l5.513 22.896h.11l6.221-22.896h5.021l6.277 22.896h.11l5.512-22.896h5.13L140.05 49.43zM151.39 13.244c0-1.718 1.419-3.11 3.138-3.11 1.746 0 3.165 1.392 3.165 3.11 0 1.72-1.419 3.139-3.165 3.139a3.157 3.157 0 0 1-3.139-3.139zm.545 7.669h5.213V49.43h-5.213V20.913zM191.186 25.116v-4.204h-5.513v-6.821h-5.185v6.821h-9.964v-2.51c.027-2.538 1.01-3.603 3.357-3.603.764 0 1.528.083 2.156.192v-4.094a18.193 18.193 0 0 0-2.756-.218c-5.568 0-7.915 2.32-7.915 7.642v2.591h-3.983v4.204h3.983V49.43h5.185V25.116H180.488v16.838c0 5.512 2.101 7.64 7.559 7.64 1.174 0 2.51-.082 3.111-.218v-4.257c-.355.055-1.392.137-1.965.137-2.428 0-3.52-1.147-3.52-3.712V25.116h5.513z"/></svg> </a>
+      </h1>
+  
+      <!-- desktop-navigation -->
+      <nav class="desktop-navigation" role="navigation">
+        <ul class="navigation-items">
+  
+  <li class="nav-item ">
+    <a href="https://docs.swift.org/latest/documentation/" data-text="Docs"><span>Docs</span></a>
+  </li>
+  
+  <li class="nav-item ">
+    <a href="/community/" data-text="Community"><span>Community</span></a>
+  </li>
+  
+  <li class="nav-item ">
+    <a href="/packages/" data-text="Packages"><span>Packages</span></a>
+  </li>
+  
+  <li class="nav-item ">
+    <a href="/blog/" data-text="Blog"><span>Blog</span></a>
+  </li>
+  
+  <li class="border">
+    <span />
+  </li>
+  <li class="nav-item active">
+    <a href="/install" data-text="Install"><span>Install <span>(6.3.3)</span></span></a>
+  </li>
+</ul>
+      </nav>
+  
+      <!-- toggle -->
+      <button
+        id="menu-toggle"
+        class="menu-item menu-toggle open"
+        aria-expanded="false"
+        aria-label="Toggle Navigation Menu"
+      />
+    </div>
+  
+    <!-- mobile-navigation -->
+    <nav class="mobile-navigation" role="navigation">
+        <ul class="navigation-items">
+  
+  <li class="nav-item ">
+    <a href="https://docs.swift.org/latest/documentation/" data-text="Docs"><span>Docs</span></a>
+  </li>
+  
+  <li class="nav-item ">
+    <a href="/community/" data-text="Community"><span>Community</span></a>
+  </li>
+  
+  <li class="nav-item ">
+    <a href="/packages/" data-text="Packages"><span>Packages</span></a>
+  </li>
+  
+  <li class="nav-item ">
+    <a href="/blog/" data-text="Blog"><span>Blog</span></a>
+  </li>
+  
+  <li class="border">
+    <span />
+  </li>
+  <li class="nav-item active">
+    <a href="/install" data-text="Install"><span>Install <span>(6.3.3)</span></span></a>
+  </li>
+</ul>
+    </nav>
+  </header>
+   <section id="install" class="section">
+   
+<div class="os-selection-navigation">
+  <h1>Install Swift</h1>
+   <div class="tab-nav os">
+  <div class="tabs">
+      
+    <a
+      href="/install/linux/"
+      class="body-copy"
+      data-tab-nameX="linux"
+      aria-pressed="false"
+    >
+      Linux
+    </a>
+      
+    <a
+      href="/install/macos/"
+      class="body-copy"
+      data-tab-nameX="macos"
+      aria-pressed="false"
+    >
+      macOS
+    </a>
+      
+    <a
+      href="/install/windows/"
+      class="body-copy active"
+      data-tab-nameX="windows"
+      aria-pressed="true"
+    >
+      Windows
+    </a>
+    
+  </div>
+</div>
+
+</div>
+ 
+<div class="content">
+  <h3 id="winget" class="html-header-with-anchor">1. Install Swift via WinGet</h3>
+  <div class="release-box section">
+    <div class="content">
+      <div class="code-box content-wrapper ">
+  <h2></h2>
+  
+  <p class="body-copy">Install Swift via the Windows Package Manager (also known as WinGet).
+</p>
+      
+  <p class="body-copy">First, install Windows platform dependencies:
+<pre><code>winget install --id Microsoft.VisualStudio.2022.Community --exact --force --custom "--add Microsoft.VisualStudio.Component.Windows11SDK.22621 --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 --add Microsoft.VisualStudio.Component.VC.Tools.ARM64" --source winget</code></pre>
+<br />
+Next, install Swift and other dependencies:
+<br /><br />
+<pre><code>winget install --id Swift.Toolchain -e --source winget</code></pre>
+</p>
+  
+  <div class="link-wrapper">
+    
+      
+        <div class="link-single">
+          <a class="body-copy" href="/install/windows/winget/">Additional details included in Instructions</a>
+        </div>
+      
+    
+  </div>
+
+</div>
+
+    </div>
+  </div>
+  <h3 id="editor" class="html-header-with-anchor">2. Select an Editor</h3>
+  <div class="releases-grid">
+    <div class="release-box section">
+      <div class="content">
+        <div class="code-box content-wrapper ">
+  <h2>Visual Studio Code</h2>
+  
+  <p class="body-copy">Visual Studio Code is a cross-platform and extensible editor that supports Swift through the Swift extension, which provides intelligent editor functionality as well as debugging and test support.</p>
+      
+  <div class="link-wrapper">
+    
+      
+        <div class="link-single">
+          <a class="body-copy" href="https://marketplace.visualstudio.com/items?itemName=swiftlang.swift-vscode">Install Swift extension</a>
+        </div>
+      
+    
+      
+        <div class="link-single">
+          <a class="body-copy" href="https://code.visualstudio.com/docs/languages/swift">Documentation</a>
+        </div>
+      
+    
+  </div>
+
+</div>
+
+      </div>
+    </div>
+    <div class="release-box section">
+      <div class="content">
+      <div class="code-box content-wrapper ">
+  <h2>Other editors</h2>
+  
+  <p class="body-copy">Any editor that supports the Language Server Protocol (LSP) can use SourceKit-LSP to provide intelligent editor functionality for Swift.</p>
+      
+  <div class="link-wrapper">
+    
+      
+        <div class="link-single">
+          <a class="body-copy" href="https://www.swift.org/tools/#editors">Learn more</a>
+        </div>
+      
+    
+  </div>
+
+</div>
+
+      </div>
+    </div>
+  </div>
+  <h3 id="build-a-command-line-tool" class="html-header-with-anchor">3. Build a Command-line Tool</h3>
+  <div class="release-box section">
+    <div class="content">
+      <div class="code-box content-wrapper ">
+  <h2></h2>
+  
+  <p class="body-copy">Let’s write a small application with your new Swift development environment.</p>
+      
+  <p class="body-copy">Create a directory:
+<pre><code>mkdir MyCLI</code></pre>
+Change the directory:
+<pre><code>cd MyCLI</code></pre>
+Create a new project:
+<pre><code>swift package init --name MyCLI --type executable</code></pre>
+Run the program with
+<pre><code>swift run MyCLI</code></pre>
+You can continue to expand the program with additional features. Check out the getting started guide for command line tools.
+</p>
+  
+  <div class="link-wrapper">
+    
+      
+        <div class="link-single">
+          <a class="body-copy" href="https://www.swift.org/getting-started/cli-swiftpm/">Build a Command-line Tool Guide</a>
+        </div>
+      
+    
+  </div>
+
+</div>
+
+    </div>
+  </div>
+  <h2 id="alternative-install-options" class="html-header-with-anchor">Alternative install options</h2>
+  <div class="releases-grid">
+    <div class="release-box section">
+      <div class="content">
+        <div class="code-box content-wrapper">
+          <h2>Manual Installation</h2>
+          <p class="body-copy">
+            Download the Swift installer (.exe)
+          </p>
+          <div class="link-wrapper">
+            
+              <div class="link-single">
+                <a href="https://download.swift.org/swift-6.3.3-release/windows10/swift-6.3.3-RELEASE/swift-6.3.3-RELEASE-windows10.exe" class="body-copy">Download (x86_64)</a>
+              </div>
+            
+              <div class="link-single">
+                <a href="https://download.swift.org/swift-6.3.3-release/windows10-arm64/swift-6.3.3-RELEASE/swift-6.3.3-RELEASE-windows10-arm64.exe" class="body-copy">Download (arm64)</a>
+              </div>
+            
+            <div class="link-single">
+              <a href="/install/windows/manual" class="body-copy">Instructions</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="release-box section">
+      <div class="content">
+        <div class="code-box content-wrapper">
+          <h2>Container</h2>
+          <p class="body-copy">
+            Official container images are available for compiling and running Swift on a variety of distributions.
+          </p>
+          <div class="link-wrapper">
+            <div class="link-single">
+              <a href="https://hub.docker.com/_/swift" class="body-copy">6.3.3-windowsservercore-ltsc2022</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <h2 id="previous-releases" class="html-header-with-anchor">Previous Releases</h2>
+  <div>
+    <p class="content-copy">Previous releases of Swift are available for installation on Windows using the manual installer, <a href="/install/windows/archived">as documented here</a>.</p>
+  </div>
+  <div class="release-box section">
+    <div class="content">
+        <details class="download" style="margin-bottom: 0;">
+        <summary>Previous Releases</summary>
+        <table id="osx-builds" class="downloads body-copy">
+    <thead>
+        <tr>
+            <th class="download">Release</th>
+            <th class="download">Date</th>
+            <th class="download">Toolchain</th>
+            <th class="download">Docker</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        
+        
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 6.3.2
+      
+    </td>
+    <td>
+      May 11, 2026
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.3.2-release/windows10/swift-6.3.2-RELEASE/swift-6.3.2-RELEASE-windows10.exe">x86_64</a>
+        
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.3.2-release/windows10-arm64/swift-6.3.2-RELEASE/swift-6.3.2-RELEASE-windows10-arm64.exe">arm64</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        <a href="https://hub.docker.com/_/swift/?tab=tags">6.3.2-windowsservercore-ltsc2022</a>
+    
+    </td>
+    
+</tr>
+
+
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 6.3.1
+      
+    </td>
+    <td>
+      April 16, 2026
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.3.1-release/windows10/swift-6.3.1-RELEASE/swift-6.3.1-RELEASE-windows10.exe">x86_64</a>
+        
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.3.1-release/windows10-arm64/swift-6.3.1-RELEASE/swift-6.3.1-RELEASE-windows10-arm64.exe">arm64</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        <a href="https://hub.docker.com/_/swift/?tab=tags">6.3.1-windowsservercore-ltsc2022</a>
+    
+    </td>
+    
+</tr>
+
+
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 6.3
+      
+    </td>
+    <td>
+      March 24, 2026
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.3-release/windows10/swift-6.3-RELEASE/swift-6.3-RELEASE-windows10.exe">x86_64</a>
+        
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.3-release/windows10-arm64/swift-6.3-RELEASE/swift-6.3-RELEASE-windows10-arm64.exe">arm64</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        <a href="https://hub.docker.com/_/swift/?tab=tags">6.3-windowsservercore-ltsc2022</a>
+    
+    </td>
+    
+</tr>
+
+
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 6.2.4
+      
+    </td>
+    <td>
+      February 26, 2026
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.2.4-release/windows10/swift-6.2.4-RELEASE/swift-6.2.4-RELEASE-windows10.exe">x86_64</a>
+        
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.2.4-release/windows10-arm64/swift-6.2.4-RELEASE/swift-6.2.4-RELEASE-windows10-arm64.exe">arm64</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        <a href="https://hub.docker.com/_/swift/?tab=tags">6.2.4-windowsservercore-ltsc2022</a>
+    
+    </td>
+    
+</tr>
+
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 6.2.3
+      
+    </td>
+    <td>
+      December 12, 2025
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.2.3-release/windows10/swift-6.2.3-RELEASE/swift-6.2.3-RELEASE-windows10.exe">x86_64</a>
+        
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.2.3-release/windows10-arm64/swift-6.2.3-RELEASE/swift-6.2.3-RELEASE-windows10-arm64.exe">arm64</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        <a href="https://hub.docker.com/_/swift/?tab=tags">6.2.3-windowsservercore-ltsc2022</a>
+    
+    </td>
+    
+</tr>
+
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 6.2.2
+      
+    </td>
+    <td>
+      December 8, 2025
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.2.2-release/windows10/swift-6.2.2-RELEASE/swift-6.2.2-RELEASE-windows10.exe">x86_64</a>
+        
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.2.2-release/windows10-arm64/swift-6.2.2-RELEASE/swift-6.2.2-RELEASE-windows10-arm64.exe">arm64</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        <a href="https://hub.docker.com/_/swift/?tab=tags">6.2.2-windowsservercore-ltsc2022</a>
+    
+    </td>
+    
+</tr>
+
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 6.2.1
+      
+    </td>
+    <td>
+      November 3, 2025
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.2.1-release/windows10/swift-6.2.1-RELEASE/swift-6.2.1-RELEASE-windows10.exe">x86_64</a>
+        
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.2.1-release/windows10-arm64/swift-6.2.1-RELEASE/swift-6.2.1-RELEASE-windows10-arm64.exe">arm64</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        <a href="https://hub.docker.com/_/swift/?tab=tags">6.2.1-windowsservercore-ltsc2022</a>
+    
+    </td>
+    
+</tr>
+
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 6.2
+      
+    </td>
+    <td>
+      September 15, 2025
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.2-release/windows10/swift-6.2-RELEASE/swift-6.2-RELEASE-windows10.exe">x86_64</a>
+        
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.2-release/windows10-arm64/swift-6.2-RELEASE/swift-6.2-RELEASE-windows10-arm64.exe">arm64</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        <a href="https://hub.docker.com/_/swift/?tab=tags">6.2-windowsservercore-ltsc2022</a>
+    
+    </td>
+    
+</tr>
+
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 6.1.3
+      
+    </td>
+    <td>
+      September 5, 2025
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.1.3-release/windows10/swift-6.1.3-RELEASE/swift-6.1.3-RELEASE-windows10.exe">x86_64</a>
+        
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.1.3-release/windows10-arm64/swift-6.1.3-RELEASE/swift-6.1.3-RELEASE-windows10-arm64.exe">arm64</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        <a href="https://hub.docker.com/_/swift/?tab=tags">6.1.3-windowsservercore-ltsc2022</a>
+    
+    </td>
+    
+</tr>
+
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 6.1.2
+      
+    </td>
+    <td>
+      May 28, 2025
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.1.2-release/windows10/swift-6.1.2-RELEASE/swift-6.1.2-RELEASE-windows10.exe">x86_64</a>
+        
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.1.2-release/windows10-arm64/swift-6.1.2-RELEASE/swift-6.1.2-RELEASE-windows10-arm64.exe">arm64</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        <a href="https://hub.docker.com/_/swift/?tab=tags">6.1.2-windowsservercore-ltsc2022</a>
+    
+    </td>
+    
+</tr>
+
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 6.1.1
+      
+    </td>
+    <td>
+      May 23, 2025
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.1.1-release/windows10/swift-6.1.1-RELEASE/swift-6.1.1-RELEASE-windows10.exe">x86_64</a>
+        
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.1.1-release/windows10-arm64/swift-6.1.1-RELEASE/swift-6.1.1-RELEASE-windows10-arm64.exe">arm64</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        <a href="https://hub.docker.com/_/swift/?tab=tags">6.1.1-windowsservercore-ltsc2022</a>
+    
+    </td>
+    
+</tr>
+
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 6.1
+      
+    </td>
+    <td>
+      March 31, 2025
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.1-release/windows10/swift-6.1-RELEASE/swift-6.1-RELEASE-windows10.exe">x86_64</a>
+        
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.1-release/windows10-arm64/swift-6.1-RELEASE/swift-6.1-RELEASE-windows10-arm64.exe">arm64</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        <a href="https://hub.docker.com/_/swift/?tab=tags">6.1-windowsservercore-ltsc2022</a>
+    
+    </td>
+    
+</tr>
+
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 6.0.3
+      
+    </td>
+    <td>
+      December 11, 2024
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.0.3-release/windows10/swift-6.0.3-RELEASE/swift-6.0.3-RELEASE-windows10.exe">x86_64</a>
+        
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.0.3-release/windows10-arm64/swift-6.0.3-RELEASE/swift-6.0.3-RELEASE-windows10-arm64.exe">arm64</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        <a href="https://hub.docker.com/_/swift/?tab=tags">6.0.3-windowsservercore-ltsc2022</a>
+    
+    </td>
+    
+</tr>
+
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 6.0.2
+      
+    </td>
+    <td>
+      October 28, 2024
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.0.2-release/windows10/swift-6.0.2-RELEASE/swift-6.0.2-RELEASE-windows10.exe">x86_64</a>
+        
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.0.2-release/windows10-arm64/swift-6.0.2-RELEASE/swift-6.0.2-RELEASE-windows10-arm64.exe">arm64</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        <a href="https://hub.docker.com/_/swift/?tab=tags">6.0.2-windowsservercore-ltsc2022</a>
+    
+    </td>
+    
+</tr>
+
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 6.0.1
+      
+    </td>
+    <td>
+      September 24, 2024
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.0.1-release/windows10/swift-6.0.1-RELEASE/swift-6.0.1-RELEASE-windows10.exe">x86_64</a>
+        
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.0.1-release/windows10-arm64/swift-6.0.1-RELEASE/swift-6.0.1-RELEASE-windows10-arm64.exe">arm64</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        <a href="https://hub.docker.com/_/swift/?tab=tags">6.0.1-windowsservercore-ltsc2022</a>
+    
+    </td>
+    
+</tr>
+
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 6.0
+      
+    </td>
+    <td>
+      September 16, 2024
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.0-release/windows10/swift-6.0-RELEASE/swift-6.0-RELEASE-windows10.exe">x86_64</a>
+        
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-6.0-release/windows10-arm64/swift-6.0-RELEASE/swift-6.0-RELEASE-windows10-arm64.exe">arm64</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        <a href="https://hub.docker.com/_/swift/?tab=tags">6.0-windowsservercore-ltsc2022</a>
+    
+    </td>
+    
+</tr>
+
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 5.10.1
+      
+    </td>
+    <td>
+      June 5, 2024
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-5.10.1-release/windows10/swift-5.10.1-RELEASE/swift-5.10.1-RELEASE-windows10.exe">x86_64</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        <a href="https://hub.docker.com/_/swift/?tab=tags">5.10.1-windowsservercore-ltsc2022</a>
+    
+    </td>
+    
+</tr>
+
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 5.10
+      
+    </td>
+    <td>
+      March 5, 2024
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-5.10-release/windows10/swift-5.10-RELEASE/swift-5.10-RELEASE-windows10.exe">x86_64</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        <a href="https://hub.docker.com/_/swift/?tab=tags">5.10-windowsservercore-ltsc2022</a>
+    
+    </td>
+    
+</tr>
+
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 5.9.2
+      
+    </td>
+    <td>
+      December 11, 2023
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-5.9.2-release/windows10/swift-5.9.2-RELEASE/swift-5.9.2-RELEASE-windows10.exe">x86_64</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        <a href="https://hub.docker.com/_/swift/?tab=tags">5.9.2-windowsservercore-ltsc2022</a>
+    
+    </td>
+    
+</tr>
+
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 5.9.1
+      
+    </td>
+    <td>
+      October 19, 2023
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-5.9.1-release/windows10/swift-5.9.1-RELEASE/swift-5.9.1-RELEASE-windows10.exe">x86_64</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        <a href="https://hub.docker.com/_/swift/?tab=tags">5.9.1-windowsservercore-ltsc2022</a>
+    
+    </td>
+    
+</tr>
+
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 5.9
+      
+        <sup> 1</sup>
+      
+    </td>
+    <td>
+      September 18, 2023
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-5.9-release/windows10/swift-5.9-RELEASE/swift-5.9-RELEASE-windows10.exe">x86_64</a>
+        
+        <a href="https://download.swift.org/swift-5.9-release/windows10/swift-5.9-RELEASE/swift-5.9-RELEASE-windows10.exe.sig" title="PGP Signature" class="signature">Signature (x86_64)</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        Unavailable
+    
+    </td>
+    
+</tr>
+
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 5.8.1
+      
+        <sup> 1</sup>
+      
+    </td>
+    <td>
+      June 1, 2023
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-5.8.1-release/windows10/swift-5.8.1-RELEASE/swift-5.8.1-RELEASE-windows10.exe">x86_64</a>
+        
+        <a href="https://download.swift.org/swift-5.8.1-release/windows10/swift-5.8.1-RELEASE/swift-5.8.1-RELEASE-windows10.exe.sig" title="PGP Signature" class="signature">Signature (x86_64)</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        Unavailable
+    
+    </td>
+    
+</tr>
+
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 5.8
+      
+        <sup> 1</sup>
+      
+    </td>
+    <td>
+      March 30, 2023
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-5.8-release/windows10/swift-5.8-RELEASE/swift-5.8-RELEASE-windows10.exe">x86_64</a>
+        
+        <a href="https://download.swift.org/swift-5.8-release/windows10/swift-5.8-RELEASE/swift-5.8-RELEASE-windows10.exe.sig" title="PGP Signature" class="signature">Signature (x86_64)</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        Unavailable
+    
+    </td>
+    
+</tr>
+
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 5.7.3
+      
+        <sup> 1</sup>
+      
+    </td>
+    <td>
+      January 18, 2023
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-5.7.3-release/windows10/swift-5.7.3-RELEASE/swift-5.7.3-RELEASE-windows10.exe">x86_64</a>
+        
+        <a href="https://download.swift.org/swift-5.7.3-release/windows10/swift-5.7.3-RELEASE/swift-5.7.3-RELEASE-windows10.exe.sig" title="PGP Signature" class="signature">Signature (x86_64)</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        Unavailable
+    
+    </td>
+    
+</tr>
+
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 5.7.2
+      
+        <sup> 1</sup>
+      
+    </td>
+    <td>
+      December 13, 2022
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-5.7.2-release/windows10/swift-5.7.2-RELEASE/swift-5.7.2-RELEASE-windows10.exe">x86_64</a>
+        
+        <a href="https://download.swift.org/swift-5.7.2-release/windows10/swift-5.7.2-RELEASE/swift-5.7.2-RELEASE-windows10.exe.sig" title="PGP Signature" class="signature">Signature (x86_64)</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        Unavailable
+    
+    </td>
+    
+</tr>
+
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 5.7.1
+      
+        <sup> 1</sup>
+      
+    </td>
+    <td>
+      November 1, 2022
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-5.7.1-release/windows10/swift-5.7.1-RELEASE/swift-5.7.1-RELEASE-windows10.exe">x86_64</a>
+        
+        <a href="https://download.swift.org/swift-5.7.1-release/windows10/swift-5.7.1-RELEASE/swift-5.7.1-RELEASE-windows10.exe.sig" title="PGP Signature" class="signature">Signature (x86_64)</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        Unavailable
+    
+    </td>
+    
+</tr>
+
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 5.7
+      
+        <sup> 1</sup>
+      
+    </td>
+    <td>
+      September 12, 2022
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-5.7-release/windows10/swift-5.7-RELEASE/swift-5.7-RELEASE-windows10.exe">x86_64</a>
+        
+        <a href="https://download.swift.org/swift-5.7-release/windows10/swift-5.7-RELEASE/swift-5.7-RELEASE-windows10.exe.sig" title="PGP Signature" class="signature">Signature (x86_64)</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        Unavailable
+    
+    </td>
+    
+</tr>
+
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 5.6.3
+      
+        <sup> 1</sup>
+      
+    </td>
+    <td>
+      September 2, 2022
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-5.6.3-release/windows10/swift-5.6.3-RELEASE/swift-5.6.3-RELEASE-windows10.exe">x86_64</a>
+        
+        <a href="https://download.swift.org/swift-5.6.3-release/windows10/swift-5.6.3-RELEASE/swift-5.6.3-RELEASE-windows10.exe.sig" title="PGP Signature" class="signature">Signature (x86_64)</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        Unavailable
+    
+    </td>
+    
+</tr>
+
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 5.6.2
+      
+        <sup> 1</sup>
+      
+    </td>
+    <td>
+      June 15, 2022
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-5.6.2-release/windows10/swift-5.6.2-RELEASE/swift-5.6.2-RELEASE-windows10.exe">x86_64</a>
+        
+        <a href="https://download.swift.org/swift-5.6.2-release/windows10/swift-5.6.2-RELEASE/swift-5.6.2-RELEASE-windows10.exe.sig" title="PGP Signature" class="signature">Signature (x86_64)</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        Unavailable
+    
+    </td>
+    
+</tr>
+
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 5.6.1
+      
+        <sup> 1</sup>
+      
+    </td>
+    <td>
+      April 8, 2022
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-5.6.1-release/windows10/swift-5.6.1-RELEASE/swift-5.6.1-RELEASE-windows10.exe">x86_64</a>
+        
+        <a href="https://download.swift.org/swift-5.6.1-release/windows10/swift-5.6.1-RELEASE/swift-5.6.1-RELEASE-windows10.exe.sig" title="PGP Signature" class="signature">Signature (x86_64)</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        Unavailable
+    
+    </td>
+    
+</tr>
+
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 5.6
+      
+        <sup> 1</sup>
+      
+    </td>
+    <td>
+      March 14, 2022
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-5.6-release/windows10/swift-5.6-RELEASE/swift-5.6-RELEASE-windows10.exe">x86_64</a>
+        
+        <a href="https://download.swift.org/swift-5.6-release/windows10/swift-5.6-RELEASE/swift-5.6-RELEASE-windows10.exe.sig" title="PGP Signature" class="signature">Signature (x86_64)</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        Unavailable
+    
+    </td>
+    
+</tr>
+
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 5.5.3
+      
+        <sup> 1</sup>
+      
+    </td>
+    <td>
+      February 9, 2022
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-5.5.3-release/windows10/swift-5.5.3-RELEASE/swift-5.5.3-RELEASE-windows10.exe">x86_64</a>
+        
+        <a href="https://download.swift.org/swift-5.5.3-release/windows10/swift-5.5.3-RELEASE/swift-5.5.3-RELEASE-windows10.exe.sig" title="PGP Signature" class="signature">Signature (x86_64)</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        Unavailable
+    
+    </td>
+    
+</tr>
+
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 5.5.2
+      
+        <sup> 1</sup>
+      
+    </td>
+    <td>
+      December 13, 2021
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-5.5.2-release/windows10/swift-5.5.2-RELEASE/swift-5.5.2-RELEASE-windows10.exe">x86_64</a>
+        
+        <a href="https://download.swift.org/swift-5.5.2-release/windows10/swift-5.5.2-RELEASE/swift-5.5.2-RELEASE-windows10.exe.sig" title="PGP Signature" class="signature">Signature (x86_64)</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        Unavailable
+    
+    </td>
+    
+</tr>
+
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 5.5.1
+      
+        <sup> 1</sup>
+      
+    </td>
+    <td>
+      October 25, 2021
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-5.5.1-release/windows10/swift-5.5.1-RELEASE/swift-5.5.1-RELEASE-windows10.exe">x86_64</a>
+        
+        <a href="https://download.swift.org/swift-5.5.1-release/windows10/swift-5.5.1-RELEASE/swift-5.5.1-RELEASE-windows10.exe.sig" title="PGP Signature" class="signature">Signature (x86_64)</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        Unavailable
+    
+    </td>
+    
+</tr>
+
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 5.5
+      
+        <sup> 1</sup>
+      
+    </td>
+    <td>
+      September 20, 2021
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-5.5-release/windows10/swift-5.5-RELEASE/swift-5.5-RELEASE-windows10.exe">x86_64</a>
+        
+        <a href="https://download.swift.org/swift-5.5-release/windows10/swift-5.5-RELEASE/swift-5.5-RELEASE-windows10.exe.sig" title="PGP Signature" class="signature">Signature (x86_64)</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        Unavailable
+    
+    </td>
+    
+</tr>
+
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 5.4.3
+      
+        <sup> 1</sup>
+      
+    </td>
+    <td>
+      September 9, 2021
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-5.4.3-release/windows10/swift-5.4.3-RELEASE/swift-5.4.3-RELEASE-windows10.exe">x86_64</a>
+        
+        <a href="https://download.swift.org/swift-5.4.3-release/windows10/swift-5.4.3-RELEASE/swift-5.4.3-RELEASE-windows10.exe.sig" title="PGP Signature" class="signature">Signature (x86_64)</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        Unavailable
+    
+    </td>
+    
+</tr>
+
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 5.4.2
+      
+        <sup> 1</sup>
+      
+    </td>
+    <td>
+      June 28, 2021
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-5.4.2-release/windows10/swift-5.4.2-RELEASE/swift-5.4.2-RELEASE-windows10.exe">x86_64</a>
+        
+        <a href="https://download.swift.org/swift-5.4.2-release/windows10/swift-5.4.2-RELEASE/swift-5.4.2-RELEASE-windows10.exe.sig" title="PGP Signature" class="signature">Signature (x86_64)</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        Unavailable
+    
+    </td>
+    
+</tr>
+
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 5.4.1
+      
+        <sup> 1</sup>
+      
+    </td>
+    <td>
+      May 25, 2021
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-5.4.1-release/windows10/swift-5.4.1-RELEASE/swift-5.4.1-RELEASE-windows10.exe">x86_64</a>
+        
+        <a href="https://download.swift.org/swift-5.4.1-release/windows10/swift-5.4.1-RELEASE/swift-5.4.1-RELEASE-windows10.exe.sig" title="PGP Signature" class="signature">Signature (x86_64)</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        Unavailable
+    
+    </td>
+    
+</tr>
+
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 5.4
+      
+        <sup> 1</sup>
+      
+    </td>
+    <td>
+      April 26, 2021
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-5.4-release/windows10/swift-5.4-RELEASE/swift-5.4-RELEASE-windows10.exe">x86_64</a>
+        
+        <a href="https://download.swift.org/swift-5.4-release/windows10/swift-5.4-RELEASE/swift-5.4-RELEASE-windows10.exe.sig" title="PGP Signature" class="signature">Signature (x86_64)</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        Unavailable
+    
+    </td>
+    
+</tr>
+
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 5.3.3
+      
+        <sup> 1</sup>
+      
+    </td>
+    <td>
+      December 14, 2020
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-5.3.3-release/windows10/swift-5.3.3-RELEASE/swift-5.3.3-RELEASE-windows10.exe">x86_64</a>
+        
+        <a href="https://download.swift.org/swift-5.3.3-release/windows10/swift-5.3.3-RELEASE/swift-5.3.3-RELEASE-windows10.exe.sig" title="PGP Signature" class="signature">Signature (x86_64)</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        Unavailable
+    
+    </td>
+    
+</tr>
+
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 5.3.2
+      
+        <sup> 1</sup>
+      
+    </td>
+    <td>
+      December 14, 2020
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-5.3.2-release/windows10/swift-5.3.2-RELEASE/swift-5.3.2-RELEASE-windows10.exe">x86_64</a>
+        
+        <a href="https://download.swift.org/swift-5.3.2-release/windows10/swift-5.3.2-RELEASE/swift-5.3.2-RELEASE-windows10.exe.sig" title="PGP Signature" class="signature">Signature (x86_64)</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        Unavailable
+    
+    </td>
+    
+</tr>
+
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 5.3.1
+      
+        <sup> 1</sup>
+      
+    </td>
+    <td>
+      November 12, 2020
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-5.3.1-release/windows10/swift-5.3.1-RELEASE/swift-5.3.1-RELEASE-windows10.exe">x86_64</a>
+        
+        <a href="https://download.swift.org/swift-5.3.1-release/windows10/swift-5.3.1-RELEASE/swift-5.3.1-RELEASE-windows10.exe.sig" title="PGP Signature" class="signature">Signature (x86_64)</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        Unavailable
+    
+    </td>
+    
+</tr>
+
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+<tr>
+    <td>
+      Swift 5.3
+      
+        <sup> 1</sup>
+      
+    </td>
+    <td>
+      September 16, 2020
+    </td>
+    <td class="arch-tag"> 
+    
+        
+        
+        
+        <a href="https://download.swift.org/swift-5.3-release/windows10/swift-5.3-RELEASE/swift-5.3-RELEASE-windows10.exe">x86_64</a>
+        
+        <a href="https://download.swift.org/swift-5.3-release/windows10/swift-5.3-RELEASE/swift-5.3-RELEASE-windows10.exe.sig" title="PGP Signature" class="signature">Signature (x86_64)</a>
+        
+    
+    </td>
+    <td class="docker-tag">
+    
+        Unavailable
+    
+    </td>
+    
+</tr>
+
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+
+        
+
+
+        
+            
+    
+
+    
+
+
+        
+
+
+</tbody>
+
+</table>
+
+<sup>1</sup> Swift   toolchain is provided by <a href="https://github.com/compnerd">Saleem Abdulrasool</a>. Saleem is the platform champion for the Windows port of Swift and this is an official build from the Swift project. <br /><br />
+
+
+        </details>
+    </div>
+  </div>
+  <h2 id="development-snapshots" class="html-header-with-anchor">Development Snapshots</h2>
+  <div>
+    <p class="content-copy">Swift snapshots are prebuilt binaries that are automatically created from the branch. These snapshots are not official releases. They have gone through automated unit testing, but they have not gone through the full testing that is performed for official releases.</p>
+  </div>
+  <div>
+    <p class="content-copy">
+      <a class="content-link" href="/install/windows/manual/">Instructions</a>
+    </p>
+  </div>
+  <div class="releases-grid">
+    <div class="release-box section">
+      <div class="content">
+        <div class="code-box content-wrapper">
+          <h2>main</h2>
+          <p class="body-copy">
+            <small>May 20, 2026</small><br />
+            Package installers (.exe)
+          </p>
+          <div class="link-wrapper">
+            <div class="link-single">
+              <a href="https://download.swift.org/development/windows10/swift-DEVELOPMENT-SNAPSHOT-2026-05-20-a/swift-DEVELOPMENT-SNAPSHOT-2026-05-20-a-windows10.exe" class="body-copy">Download (x86_64)</a>
+            </div>
+            <div class="link-single">
+              <a href="https://download.swift.org/development/windows10-arm64/swift-DEVELOPMENT-SNAPSHOT-2026-05-20-a/swift-DEVELOPMENT-SNAPSHOT-2026-05-20-a-windows10-arm64.exe" class="body-copy">Download (arm64)</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="release-box section">
+      <div class="content">
+        <div class="code-box content-wrapper">
+          <h2>release/6.4.x</h2>
+          <p class="body-copy">
+            <small>September 1, 2026</small><br />
+            Package installers (.exe)
+          </p>
+          <div class="link-wrapper">
+            <div class="link-single">
+              <a href="https://download.swift.org/swift-6.4.x-branch/windows10/swift-6.4.x-DEVELOPMENT-SNAPSHOT-2026-09-01-a/swift-6.4.x-DEVELOPMENT-SNAPSHOT-2026-09-01-a-windows10.exe" class="body-copy">Download (x86_64)</a>
+            </div>
+            <div class="link-single">
+              <a href="https://download.swift.org/swift-6.4.x-branch/windows10-arm64/swift-6.4.x-DEVELOPMENT-SNAPSHOT-2026-09-01-a/swift-6.4.x-DEVELOPMENT-SNAPSHOT-2026-09-01-a-windows10-arm64.exe" class="body-copy">Download (arm64)</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="release-box section">
+    <div class="content">
+        <details class="download">
+        <summary>Previous Snapshots (main)</summary>
+        <table id="linux-builds" class="downloads">
+  <thead>
+    <tr>
+      <th class="download">Download</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+      <tr>
+        <td class="download">
+          <span class="release">
+            <a href="https://download.swift.org/development/windows10/swift-DEVELOPMENT-SNAPSHOT-2026-05-18-a/swift-DEVELOPMENT-SNAPSHOT-2026-05-18-a-windows10.exe" title="Download" download="">May 18, 2026</a>
+            
+            
+          </span>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="download">
+          <span class="release">
+            <a href="https://download.swift.org/development/windows10/swift-DEVELOPMENT-SNAPSHOT-2026-05-12-a/swift-DEVELOPMENT-SNAPSHOT-2026-05-12-a-windows10.exe" title="Download" download="">May 12, 2026</a>
+            
+            
+          </span>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="download">
+          <span class="release">
+            <a href="https://download.swift.org/development/windows10/swift-DEVELOPMENT-SNAPSHOT-2026-05-07-a/swift-DEVELOPMENT-SNAPSHOT-2026-05-07-a-windows10.exe" title="Download" download="">May 7, 2026</a>
+            
+            
+          </span>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="download">
+          <span class="release">
+            <a href="https://download.swift.org/development/windows10/swift-DEVELOPMENT-SNAPSHOT-2026-05-04-a/swift-DEVELOPMENT-SNAPSHOT-2026-05-04-a-windows10.exe" title="Download" download="">May 4, 2026</a>
+            
+            
+          </span>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="download">
+          <span class="release">
+            <a href="https://download.swift.org/development/windows10/swift-DEVELOPMENT-SNAPSHOT-2026-04-30-a/swift-DEVELOPMENT-SNAPSHOT-2026-04-30-a-windows10.exe" title="Download" download="">April 30, 2026</a>
+            
+            
+          </span>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="download">
+          <span class="release">
+            <a href="https://download.swift.org/development/windows10/swift-DEVELOPMENT-SNAPSHOT-2026-04-27-a/swift-DEVELOPMENT-SNAPSHOT-2026-04-27-a-windows10.exe" title="Download" download="">April 27, 2026</a>
+            
+            
+          </span>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="download">
+          <span class="release">
+            <a href="https://download.swift.org/development/windows10/swift-DEVELOPMENT-SNAPSHOT-2026-04-24-a/swift-DEVELOPMENT-SNAPSHOT-2026-04-24-a-windows10.exe" title="Download" download="">April 24, 2026</a>
+            
+            
+          </span>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="download">
+          <span class="release">
+            <a href="https://download.swift.org/development/windows10/swift-DEVELOPMENT-SNAPSHOT-2026-04-22-a/swift-DEVELOPMENT-SNAPSHOT-2026-04-22-a-windows10.exe" title="Download" download="">April 22, 2026</a>
+            
+            
+          </span>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="download">
+          <span class="release">
+            <a href="https://download.swift.org/development/windows10/swift-DEVELOPMENT-SNAPSHOT-2026-04-17-a/swift-DEVELOPMENT-SNAPSHOT-2026-04-17-a-windows10.exe" title="Download" download="">April 17, 2026</a>
+            
+            
+          </span>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="download">
+          <span class="release">
+            <a href="https://download.swift.org/development/windows10/swift-DEVELOPMENT-SNAPSHOT-2026-03-16-a/swift-DEVELOPMENT-SNAPSHOT-2026-03-16-a-windows10.exe" title="Download" download="">March 16, 2026</a>
+            
+            
+          </span>
+        </td>
+      </tr>
+    
+  </tbody>
+</table>
+
+        </details>
+    </div>
+  </div>
+  <div class="release-box section">
+    <div class="content">
+        <details class="download">
+        <summary>Previous Snapshots (release/6.4.x)</summary>
+        <table id="linux-builds" class="downloads">
+  <thead>
+    <tr>
+      <th class="download">Download</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+      <tr>
+        <td class="download">
+          <span class="release">
+            <a href="https://download.swift.org/swift-6.4.x-branch/windows10/swift-6.4.x-DEVELOPMENT-SNAPSHOT-2026-08-28-a/swift-6.4.x-DEVELOPMENT-SNAPSHOT-2026-08-28-a-windows10.exe" title="Download" download="">August 28, 2026</a>
+            
+            
+          </span>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="download">
+          <span class="release">
+            <a href="https://download.swift.org/swift-6.4.x-branch/windows10/swift-6.4.x-DEVELOPMENT-SNAPSHOT-2026-08-26-a/swift-6.4.x-DEVELOPMENT-SNAPSHOT-2026-08-26-a-windows10.exe" title="Download" download="">August 26, 2026</a>
+            
+            
+          </span>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="download">
+          <span class="release">
+            <a href="https://download.swift.org/swift-6.4.x-branch/windows10/swift-6.4.x-DEVELOPMENT-SNAPSHOT-2026-08-25-a/swift-6.4.x-DEVELOPMENT-SNAPSHOT-2026-08-25-a-windows10.exe" title="Download" download="">August 25, 2026</a>
+            
+            
+          </span>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="download">
+          <span class="release">
+            <a href="https://download.swift.org/swift-6.4.x-branch/windows10/swift-6.4.x-DEVELOPMENT-SNAPSHOT-2026-08-14-a/swift-6.4.x-DEVELOPMENT-SNAPSHOT-2026-08-14-a-windows10.exe" title="Download" download="">August 14, 2026</a>
+            
+            
+          </span>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="download">
+          <span class="release">
+            <a href="https://download.swift.org/swift-6.4.x-branch/windows10/swift-6.4.x-DEVELOPMENT-SNAPSHOT-2026-08-01-a/swift-6.4.x-DEVELOPMENT-SNAPSHOT-2026-08-01-a-windows10.exe" title="Download" download="">August 1, 2026</a>
+            
+            
+          </span>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="download">
+          <span class="release">
+            <a href="https://download.swift.org/swift-6.4.x-branch/windows10/swift-6.4.x-DEVELOPMENT-SNAPSHOT-2026-08-01-a/swift-6.4.x-DEVELOPMENT-SNAPSHOT-2026-08-01-a-windows10.exe" title="Download" download="">August 1, 2026</a>
+            
+            
+          </span>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="download">
+          <span class="release">
+            <a href="https://download.swift.org/swift-6.4.x-branch/windows10/swift-6.4.x-DEVELOPMENT-SNAPSHOT-2026-08-01-a/swift-6.4.x-DEVELOPMENT-SNAPSHOT-2026-08-01-a-windows10.exe" title="Download" download="">August 1, 2026</a>
+            
+            
+          </span>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="download">
+          <span class="release">
+            <a href="https://download.swift.org/swift-6.4.x-branch/windows10/swift-6.4.x-DEVELOPMENT-SNAPSHOT-2026-07-23-a/swift-6.4.x-DEVELOPMENT-SNAPSHOT-2026-07-23-a-windows10.exe" title="Download" download="">July 23, 2026</a>
+            
+            
+          </span>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="download">
+          <span class="release">
+            <a href="https://download.swift.org/swift-6.4.x-branch/windows10/swift-6.4.x-DEVELOPMENT-SNAPSHOT-2026-07-23-a/swift-6.4.x-DEVELOPMENT-SNAPSHOT-2026-07-23-a-windows10.exe" title="Download" download="">July 23, 2026</a>
+            
+            
+          </span>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="download">
+          <span class="release">
+            <a href="https://download.swift.org/swift-6.4.x-branch/windows10/swift-6.4.x-DEVELOPMENT-SNAPSHOT-2026-07-23-a/swift-6.4.x-DEVELOPMENT-SNAPSHOT-2026-07-23-a-windows10.exe" title="Download" download="">July 23, 2026</a>
+            
+            
+          </span>
+        </td>
+      </tr>
+    
+  </tbody>
+</table>
+
+        </details>
+    </div>
+  </div>
+</div>
+
+
+  <div class="swoop swoop-1"></div>
+</section>
+ <footer class="global-footer">
+  <div class="container">
+    <div class="footer-navigation-container">
+      <nav aria-label="Main">
+    <a class="logo" href="/" title="Swift.org"> <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 191.186 59.391"><path fill="#F05138" d="M59.387 16.45a82.463 82.463 0 0 0-.027-1.792c-.035-1.301-.112-2.614-.343-3.9-.234-1.307-.618-2.523-1.222-3.71a12.464 12.464 0 0 0-5.453-5.452C51.156.992 49.941.609 48.635.374c-1.288-.232-2.6-.308-3.902-.343a85.714 85.714 0 0 0-1.792-.027C42.23 0 41.52 0 40.813 0H18.578c-.71 0-1.419 0-2.128.004-.597.004-1.195.01-1.792.027-.325.009-.651.02-.978.036-.978.047-1.959.133-2.924.307-.98.176-1.908.436-2.811.81A12.503 12.503 0 0 0 3.89 3.89a12.46 12.46 0 0 0-2.294 3.158C.992 8.235.61 9.45.374 10.758c-.231 1.286-.308 2.599-.343 3.9a85.767 85.767 0 0 0-.027 1.792C-.001 17.16 0 17.869 0 18.578v22.235c0 .71 0 1.418.004 2.128.004.597.01 1.194.027 1.791.035 1.302.112 2.615.343 3.901.235 1.307.618 2.523 1.222 3.71a12.457 12.457 0 0 0 5.453 5.453c1.186.603 2.401.986 3.707 1.22 1.287.232 2.6.31 3.902.344.597.016 1.195.023 1.793.027.709.005 1.417.004 2.127.004h22.235c.709 0 1.418 0 2.128-.004.597-.004 1.194-.011 1.792-.027 1.302-.035 2.614-.112 3.902-.343 1.306-.235 2.521-.618 3.707-1.222a12.461 12.461 0 0 0 5.453-5.452c.604-1.187.987-2.403 1.222-3.71.231-1.286.308-2.6.343-3.9.016-.598.023-1.194.027-1.792.004-.71.004-1.419.004-2.129V18.578c0-.71 0-1.419-.004-2.128z"/><path fill="#FFF" d="m47.06 36.66-.004-.004c.066-.224.134-.446.191-.675 2.465-9.821-3.55-21.432-13.731-27.546 4.461 6.048 6.434 13.374 4.681 19.78-.156.571-.344 1.12-.552 1.653-.225-.148-.51-.316-.89-.527 0 0-10.127-6.252-21.103-17.312-.288-.29 5.852 8.777 12.822 16.14-3.284-1.843-12.434-8.5-18.227-13.802.712 1.187 1.558 2.33 2.489 3.43C17.573 23.932 23.882 31.5 31.44 37.314c-5.31 3.25-12.814 3.502-20.285.003a30.646 30.646 0 0 1-5.193-3.098c3.162 5.058 8.033 9.423 13.96 11.97 7.07 3.039 14.1 2.833 19.336.05l-.004.007c.024-.016.055-.032.08-.047.214-.116.428-.234.636-.358 2.516-1.306 7.485-2.63 10.152 2.559.654 1.27 2.041-5.46-3.061-11.74z"/><path id="logotype" d="M81.93 38.542c.465 4.12 4.394 6.822 9.852 6.822 5.185 0 8.924-2.701 8.924-6.44 0-3.22-2.265-5.185-7.478-6.495l-5.048-1.282c-7.26-1.801-10.534-5.077-10.534-10.48 0-6.658 5.813-11.27 14.082-11.27 8.022 0 13.726 4.639 13.917 11.325h-5.32c-.41-4.093-3.74-6.604-8.734-6.604-4.94 0-8.378 2.538-8.378 6.249 0 2.892 2.13 4.612 7.369 5.95l4.202 1.09c8.133 1.993 11.462 5.159 11.462 10.863 0 7.259-5.759 11.816-14.928 11.816-8.514 0-14.327-4.53-14.763-11.543h5.376zM140.049 49.43h-5.35l-6.249-21.776h-.109L122.12 49.43h-5.348l-7.914-28.518h5.184l5.513 22.896h.11l6.221-22.896h5.021l6.277 22.896h.11l5.512-22.896h5.13L140.05 49.43zM151.39 13.244c0-1.718 1.419-3.11 3.138-3.11 1.746 0 3.165 1.392 3.165 3.11 0 1.72-1.419 3.139-3.165 3.139a3.157 3.157 0 0 1-3.139-3.139zm.545 7.669h5.213V49.43h-5.213V20.913zM191.186 25.116v-4.204h-5.513v-6.821h-5.185v6.821h-9.964v-2.51c.027-2.538 1.01-3.603 3.357-3.603.764 0 1.528.083 2.156.192v-4.094a18.193 18.193 0 0 0-2.756-.218c-5.568 0-7.915 2.32-7.915 7.642v2.591h-3.983v4.204h3.983V49.43h5.185V25.116H180.488v16.838c0 5.512 2.101 7.64 7.559 7.64 1.174 0 2.51-.082 3.111-.218v-4.257c-.355.055-1.392.137-1.965.137-2.428 0-3.52-1.147-3.52-3.712V25.116h5.513z"/></svg> </a>
+
+    <ul>
+        
+        <li class="item ">
+            <a href="/documentation/" data-text="Docs">Docs</a>
+        </li>
+        
+        <li class="item ">
+            <a href="/community/" data-text="Community">Community</a>
+        </li>
+        
+        <li class="item ">
+            <a href="/packages/" data-text="Packages">Packages</a>
+        </li>
+        
+        <li class="item ">
+            <a href="/blog/" data-text="Blog">Blog</a>
+        </li>
+        
+        <li class="item ">
+            <a href="/install/" data-text="Install">Install</a>
+        </li>
+        
+    </ul>
+</nav>
+
+      <nav aria-label="Tools">
+    <h3>Tools</h3>
+    <ul>
+        
+        <li class="item ">
+            <a href="https://developer.apple.com/xcode/" data-text="Xcode">Xcode</a>
+        </li>
+        
+        <li class="item ">
+            <a href="/documentation/articles/getting-started-with-vscode-swift.html" data-text="Visual Studio Code">Visual Studio Code</a>
+        </li>
+        
+        <li class="item ">
+            <a href="/documentation/articles/zero-to-swift-emacs.html" data-text="Emacs">Emacs</a>
+        </li>
+        
+        <li class="item ">
+            <a href="/documentation/articles/zero-to-swift-nvim.html" data-text="Neovim">Neovim</a>
+        </li>
+        
+        <li class="item ">
+            <a href="/documentation/articles/getting-started-with-cursor-swift.html" data-text="Cursor">Cursor</a>
+        </li>
+        
+        <li class="item ">
+            <a href="https://github.com/swiftlang/sourcekit-lsp/tree/main/Documentation/Editor%20Integration.md" data-text="Other Editors">Other Editors</a>
+        </li>
+        
+    </ul>
+</nav>
+
+      <nav aria-label="Community">
+    <h3>Community</h3>
+    <ul>
+        
+        <li class="item ">
+            <a href="/community/" data-text="Overview">Overview</a>
+        </li>
+        
+        <li class="item ">
+            <a href="/swift-evolution/" data-text="Swift Evolution">Swift Evolution</a>
+        </li>
+        
+        <li class="item ">
+            <a href="/diversity/" data-text="Diversity">Diversity</a>
+        </li>
+        
+        <li class="item ">
+            <a href="/mentorship/" data-text="Mentorship">Mentorship</a>
+        </li>
+        
+        <li class="item ">
+            <a href="/contributing/" data-text="Contributing">Contributing</a>
+        </li>
+        
+    </ul>
+</nav>
+
+      <nav class="governance" aria-label="Governance">
+    <h3>Governance</h3>
+    <ul>
+        
+        <li class="item ">
+            <a href="/code-of-conduct/" data-text="Code of Conduct">Code of Conduct</a>
+        </li>
+        
+        <li class="item ">
+            <a href="/legal/license.html" data-text="License">License</a>
+        </li>
+        
+        <li class="item ">
+            <a href="/support/security.html" data-text="Security">Security</a>
+        </li>
+        
+    </ul>
+
+      <form
+  class="color-scheme-toggle"
+  role="radiogroup"
+  tabindex="0"
+  id="color-scheme-toggle"
+>
+  <legend class="visuallyhidden">Color scheme preference</legend>
+  <label class="scheme-light" for="scheme-light">
+    <input
+      id="scheme-light"
+      type="radio"
+      name="color-scheme-preference"
+      value="light"
+    />
+    <span class="color-scheme-toggle-label">Light</span>
+  </label>
+  <label class="scheme-dark" for="scheme-dark">
+    <input
+      id="scheme-dark"
+      type="radio"
+      name="color-scheme-preference"
+      value="dark"
+    />
+    <span class="color-scheme-toggle-label">Dark</span>
+  </label>
+  <label class="scheme-auto-wrapper" for="scheme-auto" id="scheme-auto-wrapper">
+    <input
+      id="scheme-auto"
+      type="radio"
+      name="color-scheme-preference"
+      value="auto"
+    />
+    <span class="color-scheme-toggle-label">Auto</span>
+  </label>
+</form>
+</nav>
+    </div>
+
+    <div class="sub-navigation">
+      <div class="legals">
+        <div class="copyright">
+    
+    <p>
+      Copyright © 2026 Apple Inc. All rights reserved.
+    </p>
+    <p>
+      Swift and the Swift logo are trademarks of Apple Inc.
+    </p>
+    
+</div>
+        <nav aria-label="Legals">
+    <ul>
+        
+            <li class="item ">
+                <a href="//www.apple.com/privacy/privacy-policy/">Privacy Policy</a>
+            </li>
+        
+            <li class="item ">
+                <a href="//www.apple.com/legal/privacy/en-ww/cookies/">Cookies</a>
+            </li>
+        
+            <li class="item ">
+                <a href="/openapi">API</a>
+            </li>
+        
+    </ul>
+</nav>
+      </div>
+
+      <nav class="socials" aria-label="Socials">
+    <ul>
+        
+            <li class="item ">
+                <a href="https://x.com/swiftlang" rel="me" title="Follow @SwiftLang on X"><i class="x"></i></a>
+            </li>
+        
+            <li class="item ">
+                <a href="https://bsky.app/profile/swift.org" rel="me" title="Follow @swift.org on Bluesky"><i class="bluesky"></i></a>
+            </li>
+        
+            <li class="item ">
+                <a href="https://mastodon.social/@swiftlang" rel="me" title="Follow @swiftLang on Mastodon"><i class="mastodon"></i></a>
+            </li>
+        
+            <li class="item ">
+                <a href="/atom.xml" rel="me" title="Subscribe to Site Updates"><i class="feed"></i></a>
+            </li>
+        
+    </ul>
+</nav>
+
+    </div>
+  </div>
+</footer>
+
+    </main>
+
+    <script src="/assets/javascripts/new-javascripts/application.js"></script>
+     
+    <!-- metrics -->
+    <script>
+      /* RSID: */
+      var s_account = 'awdswiftorg'
+    </script>
+    
+    <script src="https://developer.apple.com/assets/metrics/scripts/analytics.js"></script>
+    <script>
+      s.pageName = AC && AC.Tracking && AC.Tracking.pageName()
+
+      /************* DO NOT ALTER ANYTHING BELOW THIS LINE ! **************/
+      var s_code = s.t()
+      if (s_code) document.write(s_code)
+    </script>
+    
+    <!-- /metrics -->
+  </body>
+</html>

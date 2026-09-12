@@ -1,0 +1,77 @@
+{
+  "граница": "Чтение 14 локальных снимков, общая очистка, повторное извлечение изменённого тела, запись отчётов и проверка перечней; сеть исключена",
+  "метод": "time.perf_counter",
+  "длительность_с": 0.693172,
+  "наблюдения": [
+    {
+      "каталог": "Источники/URL/https/docs.getutm.app/scripting/reference",
+      "заголовки_изменены": true,
+      "тело_изменено": false
+    },
+    {
+      "каталог": "Источники/URL/https/docs.python.org/3.14/using/windows.html",
+      "заголовки_изменены": true,
+      "тело_изменено": false
+    },
+    {
+      "каталог": "Источники/URL/https/gitforwindows.org/_root",
+      "заголовки_изменены": true,
+      "тело_изменено": false
+    },
+    {
+      "каталог": "Источники/URL/https/learn.microsoft.com/en-us/lifecycle/products/windows-10-home-and-pro",
+      "заголовки_изменены": false,
+      "тело_изменено": false
+    },
+    {
+      "каталог": "Источники/URL/https/learn.microsoft.com/en-us/powershell/module/secureboot/confirm-securebootuefi",
+      "заголовки_изменены": false,
+      "тело_изменено": false
+    },
+    {
+      "каталог": "Источники/URL/https/learn.microsoft.com/en-us/windows/release-health/windows11-release-information",
+      "заголовки_изменены": false,
+      "тело_изменено": false
+    },
+    {
+      "каталог": "Источники/URL/https/learn.microsoft.com/en-us/windows/win32/secprov/win32-tpm",
+      "заголовки_изменены": false,
+      "тело_изменено": false
+    },
+    {
+      "каталог": "Источники/URL/https/learn.microsoft.com/en-us/windows/wsl/basic-commands",
+      "заголовки_изменены": false,
+      "тело_изменено": false
+    },
+    {
+      "каталог": "Источники/URL/https/learn.microsoft.com/en-us/windows/wsl/filesystems",
+      "заголовки_изменены": false,
+      "тело_изменено": false
+    },
+    {
+      "каталог": "Источники/URL/https/learn.microsoft.com/en-us/windows/wsl/install",
+      "заголовки_изменены": false,
+      "тело_изменено": false
+    },
+    {
+      "каталог": "Источники/URL/https/www.microsoft.com/en-us/software-download/windows11arm64",
+      "заголовки_изменены": false,
+      "тело_изменено": true
+    },
+    {
+      "каталог": "Источники/URL/https/www.python.org/downloads/release/python-3147",
+      "заголовки_изменены": true,
+      "тело_изменено": false
+    },
+    {
+      "каталог": "Источники/URL/https/www.swift.org/install/windows/manual",
+      "заголовки_изменены": false,
+      "тело_изменено": false
+    },
+    {
+      "каталог": "Источники/URL/https/www.swift.org/install/windows",
+      "заголовки_изменены": false,
+      "тело_изменено": false
+    }
+  ]
+}

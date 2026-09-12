@@ -1,0 +1,3759 @@
+ <!DOCTYPE html>
+		<html
+			class="layout layout-holy-grail   show-table-of-contents conceptual show-breadcrumb default-focus"
+			lang="en-us"
+			dir="ltr"
+			data-authenticated="false"
+			data-auth-status-determined="false"
+			data-target="docs"
+			x-ms-format-detection="none"
+		>
+			
+		<head>
+			<title>Windows 11 - release information | Microsoft Learn</title>
+			<meta charset="utf-8" />
+			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+			<meta name="color-scheme" content="light dark" />
+
+			<meta name="description" content="Learn release information for Windows 11 releases" />
+			<link rel="canonical" href="https://learn.microsoft.com/en-us/windows/release-health/windows11-release-information" /> 
+
+			<!-- Non-customizable open graph and sharing-related metadata -->
+			<meta name="twitter:card" content="summary_large_image" />
+			<meta name="twitter:site" content="@MicrosoftLearn" />
+			<meta property="og:type" content="website" />
+			<meta property="og:image:alt" content="Microsoft Learn" />
+			<meta property="og:image" content="https://learn.microsoft.com/en-us/media/open-graph-image.png" />
+			<!-- Page specific open graph and sharing-related metadata -->
+			<meta property="og:title" content="Windows 11 - release information" />
+			<meta property="og:url" content="https://learn.microsoft.com/en-us/windows/release-health/windows11-release-information" />
+			<meta property="og:description" content="Learn release information for Windows 11 releases" />
+			<meta name="platform_id" content="2b55cad1-0f31-efab-6ff1-5d1b717586be" /> <meta name="scope" content="Windows-10,Windows-11" />
+			<meta name="locale" content="en-us" />
+			 
+			<meta name="uhfHeaderId" content="MSDocsHeader-Windows" />
+
+			<meta name="page_type" content="conceptual" />
+
+			<!--page specific meta tags-->
+			
+
+			<!-- custom meta tags -->
+			
+		<meta name="breadcrumb_path" content="/windows/release-health/breadcrumb/toc.json" />
+	
+		<meta name="feedback_system" content="None" />
+	
+		<meta name="adobe-target" content="true" />
+	
+		<meta name="keywords" content="Windows 10" />
+	
+		<meta name="keywords" content="Windows 10 October 2018 Update" />
+	
+		<meta name="ms.service" content="windows-11" />
+	
+		<meta name="ms.topic" content="release-notes" />
+	
+		<meta name="ms.author" content="direek" />
+	
+		<meta name="author" content="WindowsCommunications" />
+	
+		<meta name="ms.date" content="2026-09-08T00:00:00Z" />
+	
+		<meta name="document_id" content="3f5cd300-2fe0-dcb9-4748-518f957c0cbb" />
+	
+		<meta name="document_version_independent_id" content="3f5cd300-2fe0-dcb9-4748-518f957c0cbb" />
+	
+		<meta name="updated_at" content="2026-09-08T19:05:00Z" />
+	
+		<meta name="original_content_git_url" content="https://github.com/MicrosoftDocs/windows-release-pr/blob/live/windows/release-information/windows11-release-information.md" />
+	
+		<meta name="gitcommit" content="https://github.com/MicrosoftDocs/windows-release-pr/blob/bcdff858b1fda893f4c17943c89235bd69a36042/windows/release-information/windows11-release-information.md" />
+	
+		<meta name="git_commit_id" content="bcdff858b1fda893f4c17943c89235bd69a36042" />
+	
+		<meta name="site_name" content="Docs" />
+	
+		<meta name="depot_name" content="TechNet.rel-info" />
+	
+		<meta name="schema" content="Conceptual" />
+	
+		<meta name="toc_rel" content="toc.json" />
+	
+		<meta name="feedback_product_url" content="" />
+	
+		<meta name="feedback_help_link_type" content="" />
+	
+		<meta name="feedback_help_link_url" content="" />
+	
+		<meta name="word_count" content="3607" />
+	
+		<meta name="asset_id" content="windows11-release-information" />
+	
+		<meta name="moniker_range_name" content="" />
+	
+		<meta name="item_type" content="Content" />
+	
+		<meta name="source_path" content="windows/release-information/windows11-release-information.md" />
+	
+		<meta name="previous_tlsh_hash" content="C7CE65D2F3C085E25F713C27EF589B7A9244A2DD855DA806A2A3B61EB4E4F7A4D28DF3B1FEF2F0A042337A47954750562DC04138B2C3B2769004B255AF4FE6A0D737E97DAC" />
+	
+		<meta name="2PlusCloud" content="Azure" />
+	
+		<meta name="2PlusCloud" content="Power" />
+	
+		<meta name="2PlusCloud" content="M365" />
+	
+		<meta name="github_feedback_content_git_url" content="https://github.com/MicrosoftDocs/windows-release-pr/blob/live/windows/release-information/windows11-release-information.md" />
+	
+		<meta name="markdown_url" content="https://learn.microsoft.com/en-us/windows/release-health/windows11-release-information?accept=text/markdown" />
+	 
+		<meta name="cmProducts" content="https://microsoft-devrel.poolparty.biz/DevRelOfferingOntology/19ec6774-09b8-473e-a17e-b17b518bbad7" data-source="generated" />
+	
+		<meta name="spProducts" content="https://microsoft-devrel.poolparty.biz/DevRelOfferingOntology/ade36b61-c646-4bd8-87ee-f3a843461962" data-source="generated" />
+	
+		<meta name="2PlusCloud" content="Azure" data-source="generated" />
+	
+		<meta name="2PlusCloud" content="Power" data-source="generated" />
+	
+		<meta name="2PlusCloud" content="M365" data-source="generated" />
+	
+
+			<!-- Apply persisted/system theme before first paint to prevent wrong-theme flash when scripts are deferred. -->
+			<script id="theme-preference">
+				(function () {
+			try {
+				var stored = localStorage.getItem('theme');
+				var theme = /^(light|dark|high-contrast)$/.test(stored)
+					? stored
+					: matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+				document.documentElement.classList.add('theme-' + theme);
+			} catch (e) {}
+		})();;
+			</script>
+
+			<script id="atlas-layout-preferences">
+				(function () {
+			try {
+				var state = JSON.parse(localStorage.getItem('atlas-layout-preferences') || '{}');
+				var view = state["docs-layout-persistence"] || {};
+				var excludesKey = "";
+				var blocked = {};
+				if (excludesKey) {
+					var exclusions = JSON.parse(localStorage.getItem('atlas-layout-exclusions') || '{}');
+					if (Object.prototype.hasOwnProperty.call(exclusions, excludesKey)) {
+						var scoped = exclusions[excludesKey];
+						if (scoped) {
+							if (typeof scoped === 'object') blocked = scoped;
+						}
+					}
+				}
+				var html = document.documentElement;
+				for (var c in view) {
+					if (Object.prototype.hasOwnProperty.call(blocked, c)) continue;
+					if (view[c]) html.classList.add(c);
+					else html.classList.remove(c);
+				}
+			} catch (e) {}
+		})();;
+			</script>
+
+			<!-- assets and js globals -->
+			
+			<link rel="stylesheet" href="/static/assets/0.4.03539.8233-36f14dd4/styles/site.css" />
+			
+			<script src="https://wcpstatic.microsoft.com/mscc/lib/v2/wcp-consent.js"></script>
+			<!-- Keep this URL in sync with oneDSScriptSelector in instrumentation/one-ds.ts. -->
+			<script async src="https://js.monitor.azure.com/scripts/c/ms.jsll-4.min.js"></script>
+			
+
+			<!-- msdocs global object -->
+			<script id="msdocs-script">
+		var msDocs = {
+  "environment": {
+    "accessLevel": "online",
+    "azurePortalHostname": "portal.azure.com",
+    "reviewFeatures": false,
+    "supportLevel": "production",
+    "systemContent": true,
+    "siteName": "learn",
+    "legacyHosting": false
+  },
+  "data": {
+    "contentLocale": "en-us",
+    "contentDir": "ltr",
+    "userLocale": "en-us",
+    "userDir": "ltr",
+    "pageTemplate": "Conceptual",
+    "layoutStateStorageKey": "docs-layout-persistence",
+    "brand": "",
+    "context": {},
+    "standardFeedback": false,
+    "showFeedbackReport": false,
+    "feedbackHelpLinkType": "",
+    "feedbackHelpLinkUrl": "",
+    "feedbackSystem": "None",
+    "feedbackGitHubRepo": "",
+    "feedbackProductUrl": "",
+    "extendBreadcrumb": true,
+    "isEditDisplayable": false,
+    "isPrivateUnauthorized": false,
+    "hideViewSource": false,
+    "isPermissioned": false,
+    "hasRecommendations": true
+  },
+  "functions": {}
+};;
+	</script>
+
+			<!-- base scripts, msdocs global should be before this -->
+			<script
+				src="/static/assets/0.4.03539.8233-36f14dd4/scripts/en-us/index-docs.js"
+				async
+			></script>
+			
+
+			<!-- json-ld -->
+			
+		</head>
+	
+			<body
+				id="body"
+				data-bi-name="body"
+				class="layout-body "
+				lang="en-us"
+				dir="ltr"
+			>
+				<header class="layout-body-header background-color-body-medium">
+		<div class="header-holder has-default-focus">
+			
+		<a
+			href="#main"
+			
+			style="z-index: 1070"
+			class="outline-color-text visually-hidden-until-focused position-fixed inner-focus focus-visible top-0 left-0 right-0 padding-xs text-align-center background-color-body"
+			
+		>
+			Skip to main content
+		</a>
+	
+		<a
+			href="#"
+			data-skip-to-ask-learn
+			style="z-index: 1070"
+			class="outline-color-text visually-hidden-until-focused position-fixed inner-focus focus-visible top-0 left-0 right-0 padding-xs text-align-center background-color-body"
+			hidden
+		>
+			Skip to Ask Learn chat experience
+		</a>
+	
+
+			<div hidden id="cookie-consent-holder" data-test-id="cookie-consent-container"></div>
+			<!-- Unsupported browser warning -->
+			<div
+				id="unsupported-browser"
+				style="background-color: white; color: black; padding: 16px; border-bottom: 1px solid grey;"
+				hidden
+			>
+				<div style="max-width: 800px; margin: 0 auto;">
+					<p style="font-size: 24px">This browser is no longer supported.</p>
+					<p style="font-size: 16px; margin-top: 16px;">
+						Upgrade to Microsoft Edge to take advantage of the latest features, security updates, and technical support.
+					</p>
+					<div style="margin-top: 12px;">
+						<a
+							href="https://go.microsoft.com/fwlink/p/?LinkID=2092881 "
+							style="background-color: #0078d4; border: 1px solid #0078d4; color: white; padding: 6px 12px; border-radius: 2px; display: inline-block;"
+						>
+							Download Microsoft Edge
+						</a>
+						<a
+							href="https://learn.microsoft.com/en-us/lifecycle/faq/internet-explorer-microsoft-edge"
+							style="background-color: white; padding: 6px 12px; border: 1px solid #505050; color: #171717; border-radius: 2px; display: inline-block;"
+						>
+							More info about Internet Explorer and Microsoft Edge
+						</a>
+					</div>
+				</div>
+			</div>
+			<!-- site header -->
+			<div
+				id="ms--site-header"
+				data-test-id="site-header-wrapper"
+				itemscope="itemscope"
+				itemtype="http://schema.org/Organization"
+			>
+				<div
+					id="ms--mobile-nav"
+					class="site-header display-none-tablet padding-inline-none gap-none"
+					data-bi-name="mobile-header"
+					data-test-id="mobile-header"
+				></div>
+				<div
+					id="ms--primary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L1-header"
+					data-test-id="primary-header"
+				></div>
+				<div
+					id="ms--secondary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L2-header"
+					data-test-id="secondary-header"
+					
+				></div>
+			</div>
+			
+		<!-- banner -->
+		<div data-banner>
+			<div id="disclaimer-holder"></div>
+			
+		</div>
+		<!-- banner end -->
+	
+		</div>
+	</header>
+				 <section
+					id="layout-body-menu"
+					class="layout-body-menu border-right display-flex background-color-body-medium"
+					data-bi-name="menu"
+			  >
+					
+		<div
+			id="left-container"
+			class="left-container display-none padding-none display-block-tablet width-full display-none-until-layout-restored"
+			data-toc-container="true"
+		>
+			<div
+				id="ms--toc-content"
+				class="padding-left-sm padding-right-none padding-bottom-sm height-full"
+			>
+				<nav
+					id="affixed-left-container"
+					class="margin-top-xxs-tablet position-sticky display-flex flex-direction-column width-full"
+					aria-label="Primary"
+					data-bi-name="left-toc"
+					role="navigation"
+				>
+					<div
+						id="ms--collapsible-toc-header"
+						class="display-flex flex-direction-row-reverse justify-content-center align-items-center margin-bottom-xxs margin-right-xxs"
+					>
+						<button
+							type="button"
+							class="button button-clear button-sm inner-focus"
+							data-collapsible-toc-toggle
+							aria-expanded="true"
+							hidden
+							aria-controls="ms--toc-content"
+							aria-label="Table of contents"
+						>
+							<span class="icon icon-mirrored-rtl" aria-hidden="true">
+								<span
+									class="docon docon-panel-left-contract display-none-layout-menu-collapsed"
+								></span>
+								<span
+									class="docon docon-panel-left-expand display-none display-inline-layout-menu-collapsed"
+								></span>
+							</span>
+						</button>
+						<div
+							id="ms--collapsible-toc-moniker-slot"
+							class="flex-grow-1 display-none-layout-menu-collapsed"
+						></div>
+					</div>
+				</nav>
+			</div>
+		</div>
+	
+			  </section>
+
+				<main
+					id="main"
+					role="main"
+					class="layout-body-main "
+					data-bi-name="content"
+					lang="en-us"
+					dir="ltr"
+				>
+					
+			<div
+		id="ms--content-header"
+		class="content-header default-focus border-bottom-none"
+		data-bi-name="content-header"
+	>
+		<div class="content-header-controls margin-xxs margin-inline-sm-tablet">
+			<button
+				type="button"
+				class="contents-button button button-sm margin-right-xxs"
+				data-bi-name="contents-expand"
+				aria-haspopup="true"
+				data-contents-button
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-menu"></span></span>
+				<span class="contents-expand-title"> Table of contents </span>
+			</button>
+			<button
+				type="button"
+				class="ap-collapse-behavior ap-expanded button button-sm"
+				data-bi-name="ap-collapse"
+				aria-controls="action-panel"
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-exit-mode"></span></span>
+				<span>Exit editor mode</span>
+			</button>
+		</div>
+	</div> 
+		<div
+			id="action-panel"
+			role="region"
+			aria-label="Action Panel"
+			class="action-panel"
+			tabindex="-1"
+		></div>
+	
+			<div
+				data-main-column
+				class="reading-width margin-inline-auto layout-padding padding-top-none padding-top-sm-tablet padding-bottom-sm"
+			>
+				<div>
+					
+		<div id="article-header" class="background-color-body margin-bottom-xs display-none-print">
+			<div class="display-flex align-items-center justify-content-space-between">
+				
+		<details
+			id="article-header-breadcrumbs-overflow-popover"
+			class="popover popover-left"
+			data-for="article-header-breadcrumbs"
+		>
+			<summary
+				class="button button-clear button-primary button-sm inner-focus"
+				aria-label="All breadcrumbs"
+			>
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-more"></span>
+				</span>
+			</summary>
+			<div id="article-header-breadcrumbs-overflow" class="popover-content"></div>
+		</details>
+
+		<bread-crumbs
+			id="article-header-breadcrumbs"
+			role="group"
+			aria-label="Breadcrumbs"
+			data-test-id="article-header-breadcrumbs"
+			class="overflow-hidden flex-grow-1 margin-right-sm margin-right-md-tablet margin-right-lg-desktop margin-left-negative-xxs padding-left-xxs"
+		></bread-crumbs>
+	 
+		<div
+			id="article-header-page-actions"
+			class="opacity-none margin-left-auto display-flex flex-wrap-no-wrap align-items-stretch"
+		>
+			
+		<button
+			class="button button-sm border-none inner-focus display-none-tablet flex-shrink-0 "
+			data-bi-name="ask-learn-assistant-entry"
+			data-test-id="ask-learn-assistant-modal-entry-mobile"
+			data-ask-learn-modal-entry
+			
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-label="Ask Learn"
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+		</button>
+		<button
+			class="button button-sm display-none display-inline-flex-tablet display-none-desktop flex-shrink-0 margin-right-xxs border-color-ask-learn "
+			data-bi-name="ask-learn-assistant-entry"
+			
+			data-test-id="ask-learn-assistant-modal-entry-tablet"
+			data-ask-learn-modal-entry
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+		<button
+			class="button button-sm display-none flex-shrink-0 display-inline-flex-desktop margin-right-xxs border-color-ask-learn "
+			data-bi-name="ask-learn-assistant-entry"
+			
+			data-test-id="ask-learn-assistant-flyout-entry"
+			data-ask-learn-flyout-entry
+			data-flyout-button="toggle"
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-controls="ask-learn-flyout"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+	 
+
+			<details class="popover popover-right" id="article-header-page-actions-overflow">
+				<summary
+					class="justify-content-flex-start button button-clear button-sm button-primary inner-focus"
+					aria-label="More actions"
+					title="More actions"
+				>
+					<span class="icon" aria-hidden="true">
+						<span class="docon docon-more-vertical"></span>
+					</span>
+				</summary>
+				<div class="popover-content">
+					
+		<button
+			type="button"
+			id="ms--focus-mode-button"
+			data-focus-mode
+			data-bi-name="focus-mode-entry"
+			data-page-action-item="overflow-all"
+			data-popover-close
+			class="button button-clear button-sm button-block justify-content-flex-start text-align-left inner-focus display-none display-inline-flex-tablet"
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-glasses"></span>
+			</span>
+			<span>Reading mode</span>
+		</button>
+	 
+		<button
+			data-page-action-item="overflow-mobile"
+			type="button"
+			class="display-block-layout-menu-collapsed button-block button-sm inner-focus button button-clear display-none-tablet justify-content-flex-start text-align-left"
+			data-bi-name="contents-expand"
+			data-contents-button
+			data-popover-close
+		>
+			<span class="icon" aria-hidden="true"
+				><span class="docon docon-editor-list-bullet"></span
+			></span>
+			<span class="contents-expand-title">Table of contents</span>
+		</button>
+	 
+		<a
+			id="lang-link-overflow"
+			class="button-sm inner-focus button button-clear button-block justify-content-flex-start text-align-left"
+			data-bi-name="language-toggle"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-read-in-link
+			href="#"
+			hidden
+		>
+			<span class="icon" aria-hidden="true" data-read-in-link-icon>
+				<span class="docon docon-locale-globe"></span>
+			</span>
+			<span data-read-in-link-text>Read in English</span>
+		</a>
+	
+					
+		<button
+			type="button"
+			class="collection button button-clear button-sm button-block justify-content-flex-start text-align-left inner-focus"
+			data-list-type="collection"
+			data-bi-name="collection"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="collection-status">Add</span>
+		</button>
+	 
+		<button
+			type="button"
+			class="collection button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+			data-list-type="plan"
+			data-bi-name="plan"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="plan-status">Add to Plans</span>
+		</button>
+	 
+					
+		<a
+			data-contenteditbtn
+			class="button button-clear button-block button-sm inner-focus justify-content-flex-start text-align-left text-decoration-none"
+			data-bi-name="edit"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			hidden
+			href=""
+			data-original_content_git_url="https://github.com/MicrosoftDocs/windows-release-pr/blob/live/windows/release-information/windows11-release-information.md"
+			data-original_content_git_url_template="{repo}/blob/{branch}/windows/release-information/windows11-release-information.md"
+			data-pr_repo=""
+			data-pr_branch=""
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-edit-outline"></span>
+			</span>
+			<span>Edit</span>
+		</a>
+	  
+		<hr class="margin-block-xxs" />
+		
+				<button
+					class="button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+					type="button"
+					data-bi-name="copy-markdown"
+					data-page-action-item="overflow-all"
+					data-copy-markdown
+					data-copy-state="idle"
+					data-check-hidden="true"
+				>
+					<span class="icon color-primary" aria-hidden="true">
+						<span data-show-when="idle" class="docon docon-code-lang"></span>
+						<span data-show-when="loading" class="loader" hidden></span>
+						<span data-show-when="success" class="docon docon-check-mark" hidden></span>
+					</span>
+					<span>Copy Markdown</span>
+				</button>
+		   
+				<button
+					class="button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+					type="button"
+					data-bi-name="print"
+					data-page-action-item="overflow-all"
+					data-popover-close
+					data-print-page
+					data-check-hidden="true"
+				>
+					<span class="icon color-primary" aria-hidden="true">
+						<span class="docon docon-print"></span>
+					</span>
+					<span>Print</span>
+				</button>
+		  
+	
+				</div>
+			</details>
+		</div>
+	
+			</div>
+		</div>
+	  
+		<!-- privateUnauthorizedTemplate is hidden by default -->
+		<div unauthorized-private-section data-bi-name="permission-content-unauthorized-private" hidden>
+			<hr class="hr margin-top-xs margin-bottom-sm" />
+			<div class="notification notification-info">
+				<div class="notification-content">
+					<p class="margin-top-none notification-title">
+						<span class="icon" aria-hidden="true"
+							><span class="docon docon-exclamation-circle-solid"></span
+						></span>
+						<span>Note</span>
+					</p>
+					<p class="margin-top-none authentication-determined not-authenticated">
+						Access to this page requires authorization. You can try <a class="docs-sign-in" href="#" data-bi-name="permission-content-sign-in">signing in</a> or <a  class="docs-change-directory" data-bi-name="permisson-content-change-directory">changing directories</a>.
+					</p>
+					<p class="margin-top-none authentication-determined authenticated">
+						Access to this page requires authorization. You can try <a class="docs-change-directory" data-bi-name="permisson-content-change-directory">changing directories</a>.
+					</p>
+				</div>
+			</div>
+		</div>
+	
+					<div class="content"><h1 id="windows-11-release-information">Windows 11 release information</h1></div>
+					
+		<div
+			id="article-metadata"
+			data-bi-name="article-metadata"
+			data-test-id="article-metadata"
+			class="page-metadata-container display-flex gap-xxs justify-content-space-between align-items-center flex-wrap-wrap"
+		>
+			 
+				<div
+					id="user-feedback"
+					class="margin-block-xxs display-none display-none-print"
+					hidden
+					data-hide-on-archived
+				>
+					
+		<button
+			id="user-feedback-button"
+			data-test-id="conceptual-feedback-button"
+			class="button button-sm button-clear button-primary display-none"
+			type="button"
+			data-bi-name="user-feedback-button"
+			data-user-feedback-button
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-like"></span>
+			</span>
+			<span>Feedback</span>
+		</button>
+	
+				</div>
+		  
+		</div>
+	 
+		<div data-id="ai-summary" class="display-none-print">
+			<div id="ms--ai-summary-cta" class="margin-top-xs display-flex align-items-center">
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-sparkle-fill gradient-text-vivid"></span>
+				</span>
+				<button
+					id="ms--ai-summary"
+					type="button"
+					class="tag tag-sm tag-suggestion margin-left-xxs"
+					data-test-id="ai-summary-cta"
+					data-bi-name="ai-summary-cta"
+					data-an="ai-summary"
+				>
+					<span class="ai-summary-cta-text">
+						Summarize this article for me
+					</span>
+				</button>
+			</div>
+			<!-- Slot where the client will render the summary card after the user clicks the CTA -->
+			<div id="ms--ai-summary-header" class="margin-top-xs"></div>
+		</div>
+	 
+		<nav
+			id="center-doc-outline"
+			class="doc-outline display-none-desktop display-none-print margin-bottom-sm"
+			data-bi-name="intopic toc"
+			aria-label="In this article"
+		>
+			<h2 id="ms--in-this-article" class="title is-6 margin-block-xs">
+				In this article
+			</h2>
+		</nav>
+	 <div class="content"><p>Windows 11 has an annual feature update cadence. Feature updates are released in the second half of the calendar year and come with 24 months of support for Home, Pro, Pro for Workstations, and Pro Education editions; 36 months of support for Enterprise and Education editions. For more information, see the <a href="https://support.microsoft.com/help/13853" target="_blank" data-linktype="external">Windows lifecycle FAQ</a>.</p>
+<p>Windows 11 also releases <a href="https://techcommunity.microsoft.com/t5/windows-it-pro-blog/windows-monthly-updates-explained/ba-p/3773544" target="_blank" data-linktype="external">monthly security updates</a> on the second Tuesday of each month. These releases are cumulative, containing all previous updates to keep devices protected and productive.</p>
+<p>If you are an IT administrator and want to programmatically get information from this page, use the <a href="/en-us/graph/api/resources/windowsupdates-product?view=graph-rest-beta" target="_blank" data-linktype="absolute-path">Windows Updates API in Microsoft Graph</a>.</p>
+<div class="NOTE">
+<p>Note</p>
+<p><a href="https://aka.ms/26H1-for-IT-pros" data-linktype="external">Windows 11, version 26H1</a> is scoped to support new devices that come to market in early 2026 and is not designed as a feature update for existing devices. This version is not offered as an in-place update from 24H2 or 25H2 on existing devices.</p>
+</div>
+<h2 id="windows-11-current-versions-by-servicing-option">Windows 11 current versions by servicing option</h2>
+<p>(All dates are listed in ISO 8601 format: YYYY-MM-DD)</p><div id="winrelinfo_container">
+<h4 id="servicing-channels">Servicing channels</h4>
+<table><tbody><tr><th>Version</th><th>Servicing option</th><th>Availability date</th><th>End of updates: Home, Pro, Pro Education, and Pro for Workstations</th><th>End of updates: Enterprise, Education, IoT Enterprise, and Enterprise multi-session</th><th>Latest update</th><th>Latest revision date</th><th>Latest build</th></tr>
+<tr class="highlight">
+<td>26H1</td>
+<td align="left">General Availability Channel</td>
+<td nowrap="">2026-02-10</td>
+<td nowrap="">2028-03-14</td>
+<td nowrap="">2029-03-13</td>
+<td nowrap=""><a href="https://support.microsoft.com/help/5124012" target="_blank" data-linktype="external">2026-09 B</a></td>
+<td nowrap="">2026-09-08</td>
+<td nowrap="">28000.2954</td>
+     </tr>
+<tr class="highlight">
+<td>25H2</td>
+<td align="left">General Availability Channel</td>
+<td nowrap="">2025-09-30</td>
+<td nowrap="">2027-10-12</td>
+<td nowrap="">2028-10-10</td>
+<td nowrap=""><a href="https://support.microsoft.com/help/5124008" target="_blank" data-linktype="external">2026-09 B</a></td>
+<td nowrap="">2026-09-08</td>
+<td nowrap="">26200.9445</td>
+     </tr>
+<tr class="highlight">
+<td>24H2</td>
+<td align="left">General Availability Channel</td>
+<td nowrap="">2024-10-01</td>
+<td nowrap="">2026-10-13</td>
+<td nowrap="">2027-10-12</td>
+<td nowrap=""><a href="https://support.microsoft.com/help/5124008" target="_blank" data-linktype="external">2026-09 B</a></td>
+<td nowrap="">2026-09-08</td>
+<td nowrap="">26100.9445</td>
+     </tr>
+<tr class="highlight">
+<td>23H2</td>
+<td align="left">General Availability Channel</td>
+<td nowrap="">2023-10-31</td>
+<td nowrap="">End of updates</td>
+<td nowrap="">2026-11-10</td>
+<td nowrap=""><a href="https://support.microsoft.com/help/5122880" target="_blank" data-linktype="external">2026-09 B</a></td>
+<td nowrap="">2026-09-08</td>
+<td nowrap="">22631.7582</td>
+     </tr>
+</tbody></table>
+<h4 id="enterprise-and-iot-enterprise-ltsc-editions">Enterprise and IoT Enterprise LTSC editions</h4>
+<table class="cells-centered"><tbody><tr><th>Version</th><th>Servicing option</th><th>Availability date</th><th>Mainstream support end date</th><th>Extended support end date</th><th>Latest update</th><th>Latest revision date</th><th>Latest build</th></tr>
+<tr><td>24H2<sup>1</sup></td>
+             <td align="left">Long-Term Servicing Channel (LTSC)</td>
+<td nowrap="">2024-10-01</td>
+<td nowrap="">2029-10-09</td>
+<td nowrap="">2034-10-10</td>
+<td nowrap=""><a href="https://support.microsoft.com/help/5124008" target="_blank" data-linktype="external">2026-09 B</a></td>
+<td nowrap="">2026-09-08</td>
+<td nowrap="">26100.9445</td>
+</tr>
+</tbody></table>
+<div class="NOTE">
+<p>Note</p>
+<p><sup>1</sup> <a href="/en-us/lifecycle/products/windows-11-enterprise-ltsc-2024" target="_blank" data-linktype="absolute-path">Windows 11 Enterprise LTSC 2024</a> edition does not have extended support. It will reach end of updates (also known as end of servicing) on 2029-10-09. Only <a href="/en-us/lifecycle/products/windows-11-iot-enterprise-ltsc-2024" target="_blank" data-linktype="absolute-path">Windows 11 IoT Enterprise LTSC 2024</a> will have extended support until 2034-10-10.</p>
+</div>
+<div class="NOTE">
+<p>Note</p>
+<p>IoT Enterprise edition is not supported on Windows 11, version 26H1.</p>
+</div>
+<h2 id="windows-11-release-history">Windows 11 release history</h2>
+<p>View a history of all monthly security and non-security preview updates released for Windows 11. Note that the Update type column references each monthly update by the year and the month of its release, followed by a letter indicating the week of the month (B is the second week of the month; D is the fourth week of the month). Out-of-band updates are referenced as OOB. This shorthand notation aligns with what you see in Microsoft Intune. For more information, see <a target="_blank" href="/en-us/windows/deployment/update/release-cycle#types-of-update-releases" data-linktype="absolute-path">Type of update releases</a>.<br><br>Visit the <a target="_blank" href="https://aka.ms/Windows11UpdateHistory" data-linktype="external">Windows 11 update history</a> for details on the content of each release.</p>
+<br>
+<strong>Version 25H2 (OS build 26200)</strong>
+<table class="cells-centered" id="historyTable_0">
+<tbody><tr><th>Servicing option</th><th>Update type</th><th>Availability date</th><th>Build</th><th>KB article</th></tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-09 B</td>
+<td>2026-09-08</td>
+<td>26200.9445</td>
+<td><a href="https://support.microsoft.com/help/5124008" target="_blank" data-linktype="external">KB5124008</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-08 D</td>
+<td>2026-08-27</td>
+<td>26200.9278</td>
+<td><a href="https://support.microsoft.com/help/5120998" target="_blank" data-linktype="external">KB5120998</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-08 B</td>
+<td>2026-08-11</td>
+<td>26200.9168</td>
+<td><a href="https://support.microsoft.com/help/5121003" target="_blank" data-linktype="external">KB5121003</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-07 D</td>
+<td>2026-07-28</td>
+<td>26200.8973</td>
+<td><a href="https://support.microsoft.com/help/5101684" target="_blank" data-linktype="external">KB5101684</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-07 OOB</td>
+<td>2026-07-18</td>
+<td>26200.8894</td>
+<td><a href="https://support.microsoft.com/help/5121767" target="_blank" data-linktype="external">KB5121767</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-07 B</td>
+<td>2026-07-14</td>
+<td>26200.8875</td>
+<td><a href="https://support.microsoft.com/help/5101650" target="_blank" data-linktype="external">KB5101650</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-06 D</td>
+<td>2026-06-23</td>
+<td>26200.8737</td>
+<td><a href="https://support.microsoft.com/help/5095093" target="_blank" data-linktype="external">KB5095093</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-06 B</td>
+<td>2026-06-09</td>
+<td>26200.8655</td>
+<td><a href="https://support.microsoft.com/help/5094126" target="_blank" data-linktype="external">KB5094126</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-05 D</td>
+<td>2026-05-26</td>
+<td>26200.8524</td>
+<td><a href="https://support.microsoft.com/help/5089573" target="_blank" data-linktype="external">KB5089573</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-05 B</td>
+<td>2026-05-12</td>
+<td>26200.8457</td>
+<td><a href="https://support.microsoft.com/help/5089549" target="_blank" data-linktype="external">KB5089549</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-04 D</td>
+<td>2026-04-30</td>
+<td>26200.8328</td>
+<td><a href="https://support.microsoft.com/help/5083631" target="_blank" data-linktype="external">KB5083631</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-04 B</td>
+<td>2026-04-14</td>
+<td>26200.8246</td>
+<td><a href="https://support.microsoft.com/help/5083769" target="_blank" data-linktype="external">KB5083769</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-03 OOB</td>
+<td>2026-03-31</td>
+<td>26200.8117</td>
+<td><a href="https://support.microsoft.com/help/5086672" target="_blank" data-linktype="external">KB5086672</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-03 D</td>
+<td>2026-03-26</td>
+<td>26200.8116</td>
+<td><a href="https://support.microsoft.com/help/5079391" target="_blank" data-linktype="external">KB5079391</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-03 OOB</td>
+<td>2026-03-21</td>
+<td>26200.8039</td>
+<td><a href="https://support.microsoft.com/help/5085516" target="_blank" data-linktype="external">KB5085516</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-03 B</td>
+<td>2026-03-10</td>
+<td>26200.8037</td>
+<td><a href="https://support.microsoft.com/help/5079473" target="_blank" data-linktype="external">KB5079473</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-02 D</td>
+<td>2026-02-24</td>
+<td>26200.7922</td>
+<td><a href="https://support.microsoft.com/help/5077241" target="_blank" data-linktype="external">KB5077241</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-02 B</td>
+<td>2026-02-10</td>
+<td>26200.7840</td>
+<td><a href="https://support.microsoft.com/help/5077181" target="_blank" data-linktype="external">KB5077181</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-01 D</td>
+<td>2026-01-29</td>
+<td>26200.7705</td>
+<td><a href="https://support.microsoft.com/help/5074105" target="_blank" data-linktype="external">KB5074105</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-01 OOB</td>
+<td>2026-01-24</td>
+<td>26200.7628</td>
+<td><a href="https://support.microsoft.com/help/5078127" target="_blank" data-linktype="external">KB5078127</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-01 OOB</td>
+<td>2026-01-17</td>
+<td>26200.7627</td>
+<td><a href="https://support.microsoft.com/help/5077744" target="_blank" data-linktype="external">KB5077744</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-01 B</td>
+<td>2026-01-13</td>
+<td>26200.7623</td>
+<td><a href="https://support.microsoft.com/help/5074109" target="_blank" data-linktype="external">KB5074109</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-12 B</td>
+<td>2025-12-09</td>
+<td>26200.7462</td>
+<td><a href="https://support.microsoft.com/help/5072033" target="_blank" data-linktype="external">KB5072033</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-11 D</td>
+<td>2025-12-01</td>
+<td>26200.7309</td>
+<td><a href="https://support.microsoft.com/help/5070311" target="_blank" data-linktype="external">KB5070311</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-11 B</td>
+<td>2025-11-11</td>
+<td>26200.7171</td>
+<td><a href="https://support.microsoft.com/help/5068861" target="_blank" data-linktype="external">KB5068861</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-10 D</td>
+<td>2025-10-28</td>
+<td>26200.7019</td>
+<td><a href="https://support.microsoft.com/help/5067036" target="_blank" data-linktype="external">KB5067036</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-10 OOB</td>
+<td>2025-10-20</td>
+<td>26200.6901</td>
+<td><a href="https://support.microsoft.com/help/5070773" target="_blank" data-linktype="external">KB5070773</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-10 B</td>
+<td>2025-10-14</td>
+<td>26200.6899</td>
+<td><a href="https://support.microsoft.com/help/5066835" target="_blank" data-linktype="external">KB5066835</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td></td>
+<td>2025-09-30</td>
+<td>26200.6584</td>
+<td></td>
+</tr>
+</tbody></table>
+<br>
+<details><summary><strong>Version 26H1 (OS build 28000)</strong>
+</summary>
+<table class="cells-centered" id="historyTable_1">
+<tbody><tr><th>Servicing option</th><th>Update type</th><th>Availability date</th><th>Build</th><th>KB article</th></tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-09 B</td>
+<td>2026-09-08</td>
+<td>28000.2954</td>
+<td><a href="https://support.microsoft.com/help/5124012" target="_blank" data-linktype="external">KB5124012</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-08 D</td>
+<td>2026-08-27</td>
+<td>28000.2804</td>
+<td><a href="https://support.microsoft.com/help/5120996" target="_blank" data-linktype="external">KB5120996</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-08 B</td>
+<td>2026-08-11</td>
+<td>28000.2704</td>
+<td><a href="https://support.microsoft.com/help/5121000" target="_blank" data-linktype="external">KB5121000</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-07 D</td>
+<td>2026-07-28</td>
+<td>28000.2608</td>
+<td><a href="https://support.microsoft.com/help/5101681" target="_blank" data-linktype="external">KB5101681</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-07 B</td>
+<td>2026-07-14</td>
+<td>28000.2525</td>
+<td><a href="https://support.microsoft.com/help/5101649" target="_blank" data-linktype="external">KB5101649</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-06 D</td>
+<td>2026-06-23</td>
+<td>28000.2340</td>
+<td><a href="https://support.microsoft.com/help/5095091" target="_blank" data-linktype="external">KB5095091</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-06 B</td>
+<td>2026-06-09</td>
+<td>28000.2269</td>
+<td><a href="https://support.microsoft.com/help/5095051" target="_blank" data-linktype="external">KB5095051</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-05 D</td>
+<td>2026-05-26</td>
+<td>28000.2179</td>
+<td><a href="https://support.microsoft.com/help/5089570" target="_blank" data-linktype="external">KB5089570</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-05 B</td>
+<td>2026-05-12</td>
+<td>28000.2113</td>
+<td><a href="https://support.microsoft.com/help/5089548" target="_blank" data-linktype="external">KB5089548</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-04 D</td>
+<td>2026-04-30</td>
+<td>28000.1896</td>
+<td><a href="https://support.microsoft.com/help/5083806" target="_blank" data-linktype="external">KB5083806</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-04 B</td>
+<td>2026-04-14</td>
+<td>28000.1836</td>
+<td><a href="https://support.microsoft.com/help/5083768" target="_blank" data-linktype="external">KB5083768</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-03 D</td>
+<td>2026-03-26</td>
+<td>28000.1764</td>
+<td><a href="https://support.microsoft.com/help/5079489" target="_blank" data-linktype="external">KB5079489</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-03 B</td>
+<td>2026-03-10</td>
+<td>28000.1719</td>
+<td><a href="https://support.microsoft.com/help/5079466" target="_blank" data-linktype="external">KB5079466</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-02 D</td>
+<td>2026-02-24</td>
+<td>28000.1643</td>
+<td><a href="https://support.microsoft.com/help/5077239" target="_blank" data-linktype="external">KB5077239</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-02 B</td>
+<td>2026-02-10</td>
+<td>28000.1575</td>
+<td><a href="https://support.microsoft.com/help/5077179" target="_blank" data-linktype="external">KB5077179</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td></td>
+<td>2026-02-10</td>
+<td>28000.1</td>
+<td></td>
+</tr>
+</tbody></table>
+</details>
+<br>
+<details><summary><strong>Version 24H2 (OS build 26100)</strong>
+</summary>
+<table class="cells-centered" id="historyTable_2">
+<tbody><tr><th>Servicing option</th><th>Update type</th><th>Availability date</th><th>Build</th><th>KB article</th></tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2026-09 B</td>
+<td>2026-09-08</td>
+<td>26100.9445</td>
+<td><a href="https://support.microsoft.com/help/5124008" target="_blank" data-linktype="external">KB5124008</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2026-08 D</td>
+<td>2026-08-27</td>
+<td>26100.9278</td>
+<td><a href="https://support.microsoft.com/help/5120998" target="_blank" data-linktype="external">KB5120998</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2026-08 B</td>
+<td>2026-08-11</td>
+<td>26100.9168</td>
+<td><a href="https://support.microsoft.com/help/5121003" target="_blank" data-linktype="external">KB5121003</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2026-07 D</td>
+<td>2026-07-28</td>
+<td>26100.8973</td>
+<td><a href="https://support.microsoft.com/help/5101684" target="_blank" data-linktype="external">KB5101684</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2026-07 OOB</td>
+<td>2026-07-18</td>
+<td>26100.8894</td>
+<td><a href="https://support.microsoft.com/help/5121767" target="_blank" data-linktype="external">KB5121767</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2026-07 B</td>
+<td>2026-07-14</td>
+<td>26100.8875</td>
+<td><a href="https://support.microsoft.com/help/5101650" target="_blank" data-linktype="external">KB5101650</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2026-06 D</td>
+<td>2026-06-23</td>
+<td>26100.8737</td>
+<td><a href="https://support.microsoft.com/help/5095093" target="_blank" data-linktype="external">KB5095093</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2026-06 B</td>
+<td>2026-06-09</td>
+<td>26100.8655</td>
+<td><a href="https://support.microsoft.com/help/5094126" target="_blank" data-linktype="external">KB5094126</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2026-05 D</td>
+<td>2026-05-26</td>
+<td>26100.8524</td>
+<td><a href="https://support.microsoft.com/help/5089573" target="_blank" data-linktype="external">KB5089573</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2026-05 B</td>
+<td>2026-05-12</td>
+<td>26100.8457</td>
+<td><a href="https://support.microsoft.com/help/5089549" target="_blank" data-linktype="external">KB5089549</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2026-04 D</td>
+<td>2026-04-30</td>
+<td>26100.8328</td>
+<td><a href="https://support.microsoft.com/help/5083631" target="_blank" data-linktype="external">KB5083631</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2026-04 B</td>
+<td>2026-04-14</td>
+<td>26100.8246</td>
+<td><a href="https://support.microsoft.com/help/5083769" target="_blank" data-linktype="external">KB5083769</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2026-03 OOB</td>
+<td>2026-03-31</td>
+<td>26100.8117</td>
+<td><a href="https://support.microsoft.com/help/5086672" target="_blank" data-linktype="external">KB5086672</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2026-03 D</td>
+<td>2026-03-26</td>
+<td>26100.8116</td>
+<td><a href="https://support.microsoft.com/help/5079391" target="_blank" data-linktype="external">KB5079391</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2026-03 OOB</td>
+<td>2026-03-21</td>
+<td>26100.8039</td>
+<td><a href="https://support.microsoft.com/help/5085516" target="_blank" data-linktype="external">KB5085516</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2026-03 B</td>
+<td>2026-03-10</td>
+<td>26100.8037</td>
+<td><a href="https://support.microsoft.com/help/5079473" target="_blank" data-linktype="external">KB5079473</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2026-02 D</td>
+<td>2026-02-24</td>
+<td>26100.7922</td>
+<td><a href="https://support.microsoft.com/help/5077241" target="_blank" data-linktype="external">KB5077241</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2026-02 B</td>
+<td>2026-02-10</td>
+<td>26100.7840</td>
+<td><a href="https://support.microsoft.com/help/5077181" target="_blank" data-linktype="external">KB5077181</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2026-01 D</td>
+<td>2026-01-29</td>
+<td>26100.7705</td>
+<td><a href="https://support.microsoft.com/help/5074105" target="_blank" data-linktype="external">KB5074105</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2026-01 OOB</td>
+<td>2026-01-24</td>
+<td>26100.7628</td>
+<td><a href="https://support.microsoft.com/help/5078127" target="_blank" data-linktype="external">KB5078127</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2026-01 OOB</td>
+<td>2026-01-17</td>
+<td>26100.7627</td>
+<td><a href="https://support.microsoft.com/help/5077744" target="_blank" data-linktype="external">KB5077744</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2026-01 B</td>
+<td>2026-01-13</td>
+<td>26100.7623</td>
+<td><a href="https://support.microsoft.com/help/5074109" target="_blank" data-linktype="external">KB5074109</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-12 B</td>
+<td>2025-12-09</td>
+<td>26100.7462</td>
+<td><a href="https://support.microsoft.com/help/5072033" target="_blank" data-linktype="external">KB5072033</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-11 D</td>
+<td>2025-12-01</td>
+<td>26100.7309</td>
+<td><a href="https://support.microsoft.com/help/5070311" target="_blank" data-linktype="external">KB5070311</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-11 OOB</td>
+<td>2025-11-18</td>
+<td>26100.7178</td>
+<td><a href="https://support.microsoft.com/help/5072359" target="_blank" data-linktype="external">KB5072359</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-11 B</td>
+<td>2025-11-11</td>
+<td>26100.7171</td>
+<td><a href="https://support.microsoft.com/help/5068861" target="_blank" data-linktype="external">KB5068861</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-10 D</td>
+<td>2025-10-28</td>
+<td>26100.7019</td>
+<td><a href="https://support.microsoft.com/help/5067036" target="_blank" data-linktype="external">KB5067036</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-10 OOB</td>
+<td>2025-10-23</td>
+<td>26100.6905</td>
+<td><a href="https://support.microsoft.com/help/5070881" target="_blank" data-linktype="external">KB5070881</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-10 OOB</td>
+<td>2025-10-20</td>
+<td>26100.6901</td>
+<td><a href="https://support.microsoft.com/help/5070773" target="_blank" data-linktype="external">KB5070773</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-10 B</td>
+<td>2025-10-14</td>
+<td>26100.6899</td>
+<td><a href="https://support.microsoft.com/help/5066835" target="_blank" data-linktype="external">KB5066835</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-09 D</td>
+<td>2025-09-29</td>
+<td>26100.6725</td>
+<td><a href="https://support.microsoft.com/help/5065789" target="_blank" data-linktype="external">KB5065789</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-09 OOB</td>
+<td>2025-09-22</td>
+<td>26100.6588</td>
+<td><a href="https://support.microsoft.com/help/5068221" target="_blank" data-linktype="external">KB5068221</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-09 B</td>
+<td>2025-09-09</td>
+<td>26100.6584</td>
+<td><a href="https://support.microsoft.com/help/5065426" target="_blank" data-linktype="external">KB5065426</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-08 D</td>
+<td>2025-08-29</td>
+<td>26100.5074</td>
+<td><a href="https://support.microsoft.com/help/5064081" target="_blank" data-linktype="external">KB5064081</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-08 B</td>
+<td>2025-08-12</td>
+<td>26100.4946</td>
+<td><a href="https://support.microsoft.com/help/5063878" target="_blank" data-linktype="external">KB5063878</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-07 D</td>
+<td>2025-07-22</td>
+<td>26100.4770</td>
+<td><a href="https://support.microsoft.com/help/5062660" target="_blank" data-linktype="external">KB5062660</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-07 OOB</td>
+<td>2025-07-13</td>
+<td>26100.4656</td>
+<td><a href="https://support.microsoft.com/help/5064489" target="_blank" data-linktype="external">KB5064489</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-07 B</td>
+<td>2025-07-08</td>
+<td>26100.4652</td>
+<td><a href="https://support.microsoft.com/help/5062553" target="_blank" data-linktype="external">KB5062553</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-06 D</td>
+<td>2025-06-26</td>
+<td>26100.4484</td>
+<td><a href="https://support.microsoft.com/help/5060829" target="_blank" data-linktype="external">KB5060829</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-06 OOB</td>
+<td>2025-06-11</td>
+<td>26100.4351</td>
+<td><a href="https://support.microsoft.com/help/5063060" target="_blank" data-linktype="external">KB5063060</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-06 B</td>
+<td>2025-06-10</td>
+<td>26100.4349</td>
+<td><a href="https://support.microsoft.com/help/5060842" target="_blank" data-linktype="external">KB5060842</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-05 D</td>
+<td>2025-05-28</td>
+<td>26100.4202</td>
+<td><a href="https://support.microsoft.com/help/5058499" target="_blank" data-linktype="external">KB5058499</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-05 OOB</td>
+<td>2025-05-27</td>
+<td>26100.4066</td>
+<td><a href="https://support.microsoft.com/help/5061977" target="_blank" data-linktype="external">KB5061977</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-05 B</td>
+<td>2025-05-13</td>
+<td>26100.4061</td>
+<td><a href="https://support.microsoft.com/help/5058411" target="_blank" data-linktype="external">KB5058411</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-04 D</td>
+<td>2025-04-25</td>
+<td>26100.3915</td>
+<td><a href="https://support.microsoft.com/help/5055627" target="_blank" data-linktype="external">KB5055627</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-04 B</td>
+<td>2025-04-08</td>
+<td>26100.3775</td>
+<td><a href="https://support.microsoft.com/help/5055523" target="_blank" data-linktype="external">KB5055523</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-03 D</td>
+<td>2025-03-27</td>
+<td>26100.3624</td>
+<td><a href="https://support.microsoft.com/help/5053656" target="_blank" data-linktype="external">KB5053656</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-03 B</td>
+<td>2025-03-11</td>
+<td>26100.3476</td>
+<td><a href="https://support.microsoft.com/help/5053598" target="_blank" data-linktype="external">KB5053598</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-02 D</td>
+<td>2025-02-25</td>
+<td>26100.3323</td>
+<td><a href="https://support.microsoft.com/help/5052093" target="_blank" data-linktype="external">KB5052093</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-02 B</td>
+<td>2025-02-11</td>
+<td>26100.3194</td>
+<td><a href="https://support.microsoft.com/help/5051987" target="_blank" data-linktype="external">KB5051987</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-01 D</td>
+<td>2025-01-28</td>
+<td>26100.3037</td>
+<td><a href="https://support.microsoft.com/help/5050094" target="_blank" data-linktype="external">KB5050094</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2025-01 B</td>
+<td>2025-01-14</td>
+<td>26100.2894</td>
+<td><a href="https://support.microsoft.com/help/5050009" target="_blank" data-linktype="external">KB5050009</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2024-12 B</td>
+<td>2024-12-10</td>
+<td>26100.2605</td>
+<td><a href="https://support.microsoft.com/help/5048667" target="_blank" data-linktype="external">KB5048667</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2024-11 D</td>
+<td>2024-11-21</td>
+<td>26100.2454</td>
+<td><a href="https://support.microsoft.com/help/5046740" target="_blank" data-linktype="external">KB5046740</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2024-11 B</td>
+<td>2024-11-12</td>
+<td>26100.2314</td>
+<td><a href="https://support.microsoft.com/help/5046617" target="_blank" data-linktype="external">KB5046617</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2024-10 D</td>
+<td>2024-10-24</td>
+<td>26100.2161</td>
+<td><a href="https://support.microsoft.com/help/5044384" target="_blank" data-linktype="external">KB5044384</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2024-10 B</td>
+<td>2024-10-08</td>
+<td>26100.2033</td>
+<td><a href="https://support.microsoft.com/help/5044284" target="_blank" data-linktype="external">KB5044284</a></td>
+</tr>
+<tr>
+<td>LTSC <span> • </span> General Availability Channel</td>
+<td>2024-10 A</td>
+<td>2024-10-01</td>
+<td>26100.1742</td>
+<td></td>
+</tr>
+</tbody></table>
+</details>
+<br>
+<details><summary><strong>Version 23H2 (OS build 22631)</strong>
+</summary>
+<p>Want to quickly update eligible Windows 11, version 22H2 devices to Windows 11, version 23H2? Use an <a href="https://aka.ms/ekb-w11-23H2" target="_blank" data-linktype="external">enablement package</a>.</p>
+<table class="cells-centered" id="historyTable_3">
+<tbody><tr><th>Servicing option</th><th>Update type</th><th>Availability date</th><th>Build</th><th>KB article</th></tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-09 B</td>
+<td>2026-09-08</td>
+<td>22631.7582</td>
+<td><a href="https://support.microsoft.com/help/5122880" target="_blank" data-linktype="external">KB5122880</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-08 B</td>
+<td>2026-08-11</td>
+<td>22631.7517</td>
+<td><a href="https://support.microsoft.com/help/5120240" target="_blank" data-linktype="external">KB5120240</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-07 B</td>
+<td>2026-07-14</td>
+<td>22631.7376</td>
+<td><a href="https://support.microsoft.com/help/5099414" target="_blank" data-linktype="external">KB5099414</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-06 B</td>
+<td>2026-06-09</td>
+<td>22631.7219</td>
+<td><a href="https://support.microsoft.com/help/5093998" target="_blank" data-linktype="external">KB5093998</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-05 B</td>
+<td>2026-05-12</td>
+<td>22631.7079</td>
+<td><a href="https://support.microsoft.com/help/5087420" target="_blank" data-linktype="external">KB5087420</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-04 B</td>
+<td>2026-04-14</td>
+<td>22631.6936</td>
+<td><a href="https://support.microsoft.com/help/5082052" target="_blank" data-linktype="external">KB5082052</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-03 B</td>
+<td>2026-03-10</td>
+<td>22631.6783</td>
+<td><a href="https://support.microsoft.com/help/5078883" target="_blank" data-linktype="external">KB5078883</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-02 B</td>
+<td>2026-02-10</td>
+<td>22631.6649</td>
+<td><a href="https://support.microsoft.com/help/5075941" target="_blank" data-linktype="external">KB5075941</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-01 OOB</td>
+<td>2026-01-24</td>
+<td>22631.6495</td>
+<td><a href="https://support.microsoft.com/help/5078132" target="_blank" data-linktype="external">KB5078132</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-01 OOB</td>
+<td>2026-01-17</td>
+<td>22631.6494</td>
+<td><a href="https://support.microsoft.com/help/5077797" target="_blank" data-linktype="external">KB5077797</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2026-01 B</td>
+<td>2026-01-13</td>
+<td>22631.6491</td>
+<td><a href="https://support.microsoft.com/help/5073455" target="_blank" data-linktype="external">KB5073455</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-12 B</td>
+<td>2025-12-09</td>
+<td>22631.6345</td>
+<td><a href="https://support.microsoft.com/help/5071417" target="_blank" data-linktype="external">KB5071417</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-11 D</td>
+<td>2025-11-20</td>
+<td>22631.6276</td>
+<td><a href="https://support.microsoft.com/help/5070312" target="_blank" data-linktype="external">KB5070312</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-11 B</td>
+<td>2025-11-11</td>
+<td>22631.6199</td>
+<td><a href="https://support.microsoft.com/help/5068865" target="_blank" data-linktype="external">KB5068865</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-10 D</td>
+<td>2025-10-28</td>
+<td>22631.6133</td>
+<td><a href="https://support.microsoft.com/help/5067112" target="_blank" data-linktype="external">KB5067112</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-10 B</td>
+<td>2025-10-14</td>
+<td>22631.6060</td>
+<td><a href="https://support.microsoft.com/help/5066793" target="_blank" data-linktype="external">KB5066793</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-09 D</td>
+<td>2025-09-23</td>
+<td>22631.5984</td>
+<td><a href="https://support.microsoft.com/help/5065790" target="_blank" data-linktype="external">KB5065790</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-09 B</td>
+<td>2025-09-09</td>
+<td>22631.5909</td>
+<td><a href="https://support.microsoft.com/help/5065431" target="_blank" data-linktype="external">KB5065431</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-08 D</td>
+<td>2025-08-26</td>
+<td>22631.5840</td>
+<td><a href="https://support.microsoft.com/help/5064080" target="_blank" data-linktype="external">KB5064080</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-08 OOB</td>
+<td>2025-08-19</td>
+<td>22631.5771</td>
+<td><a href="https://support.microsoft.com/help/5066189" target="_blank" data-linktype="external">KB5066189</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-08 B</td>
+<td>2025-08-12</td>
+<td>22631.5768</td>
+<td><a href="https://support.microsoft.com/help/5063875" target="_blank" data-linktype="external">KB5063875</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-07 D</td>
+<td>2025-07-22</td>
+<td>22631.5699</td>
+<td><a href="https://support.microsoft.com/help/5062663" target="_blank" data-linktype="external">KB5062663</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-07 B</td>
+<td>2025-07-08</td>
+<td>22631.5624</td>
+<td><a href="https://support.microsoft.com/help/5062552" target="_blank" data-linktype="external">KB5062552</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-06 D</td>
+<td>2025-06-26</td>
+<td>22631.5549</td>
+<td><a href="https://support.microsoft.com/help/5060826" target="_blank" data-linktype="external">KB5060826</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-06 B</td>
+<td>2025-06-10</td>
+<td>22631.5472</td>
+<td><a href="https://support.microsoft.com/help/5060999" target="_blank" data-linktype="external">KB5060999</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-05 OOB</td>
+<td>2025-05-31</td>
+<td>22631.5415</td>
+<td><a href="https://support.microsoft.com/help/5062170" target="_blank" data-linktype="external">KB5062170</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-05 D</td>
+<td>2025-05-27</td>
+<td>22631.5413</td>
+<td><a href="https://support.microsoft.com/help/5058502" target="_blank" data-linktype="external">KB5058502</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-05 B</td>
+<td>2025-05-13</td>
+<td>22631.5335</td>
+<td><a href="https://support.microsoft.com/help/5058405" target="_blank" data-linktype="external">KB5058405</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-04 D</td>
+<td>2025-04-22</td>
+<td>22631.5262</td>
+<td><a href="https://support.microsoft.com/help/5055629" target="_blank" data-linktype="external">KB5055629</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-04 OOB</td>
+<td>2025-04-11</td>
+<td>22631.5192</td>
+<td><a href="https://support.microsoft.com/help/5058919" target="_blank" data-linktype="external">KB5058919</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-04 B</td>
+<td>2025-04-08</td>
+<td>22631.5189</td>
+<td><a href="https://support.microsoft.com/help/5055528" target="_blank" data-linktype="external">KB5055528</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-03 D</td>
+<td>2025-03-25</td>
+<td>22631.5126</td>
+<td><a href="https://support.microsoft.com/help/5053657" target="_blank" data-linktype="external">KB5053657</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-03 B</td>
+<td>2025-03-11</td>
+<td>22631.5039</td>
+<td><a href="https://support.microsoft.com/help/5053602" target="_blank" data-linktype="external">KB5053602</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-02 D</td>
+<td>2025-02-25</td>
+<td>22631.4974</td>
+<td><a href="https://support.microsoft.com/help/5052094" target="_blank" data-linktype="external">KB5052094</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-02 B</td>
+<td>2025-02-11</td>
+<td>22631.4890</td>
+<td><a href="https://support.microsoft.com/help/5051989" target="_blank" data-linktype="external">KB5051989</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-01 D</td>
+<td>2025-01-29</td>
+<td>22631.4830</td>
+<td><a href="https://support.microsoft.com/help/5050092" target="_blank" data-linktype="external">KB5050092</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-01 B</td>
+<td>2025-01-14</td>
+<td>22631.4751</td>
+<td><a href="https://support.microsoft.com/help/5050021" target="_blank" data-linktype="external">KB5050021</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-12 B</td>
+<td>2024-12-10</td>
+<td>22631.4602</td>
+<td><a href="https://support.microsoft.com/help/5048685" target="_blank" data-linktype="external">KB5048685</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-11 D</td>
+<td>2024-11-21</td>
+<td>22631.4541</td>
+<td><a href="https://support.microsoft.com/help/5046732" target="_blank" data-linktype="external">KB5046732</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-11 B</td>
+<td>2024-11-12</td>
+<td>22631.4460</td>
+<td><a href="https://support.microsoft.com/help/5046633" target="_blank" data-linktype="external">KB5046633</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-10 D</td>
+<td>2024-10-22</td>
+<td>22631.4391</td>
+<td><a href="https://support.microsoft.com/help/5044380" target="_blank" data-linktype="external">KB5044380</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-10 B</td>
+<td>2024-10-08</td>
+<td>22631.4317</td>
+<td><a href="https://support.microsoft.com/help/5044285" target="_blank" data-linktype="external">KB5044285</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-09 D</td>
+<td>2024-09-26</td>
+<td>22631.4249</td>
+<td><a href="https://support.microsoft.com/help/5043145" target="_blank" data-linktype="external">KB5043145</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-09 B</td>
+<td>2024-09-10</td>
+<td>22631.4169</td>
+<td><a href="https://support.microsoft.com/help/5043076" target="_blank" data-linktype="external">KB5043076</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-08 D</td>
+<td>2024-08-27</td>
+<td>22631.4112</td>
+<td><a href="https://support.microsoft.com/help/5041587" target="_blank" data-linktype="external">KB5041587</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-08 B</td>
+<td>2024-08-13</td>
+<td>22631.4037</td>
+<td><a href="https://support.microsoft.com/help/5041585" target="_blank" data-linktype="external">KB5041585</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-07 D</td>
+<td>2024-07-25</td>
+<td>22631.3958</td>
+<td><a href="https://support.microsoft.com/help/5040527" target="_blank" data-linktype="external">KB5040527</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-07 B</td>
+<td>2024-07-09</td>
+<td>22631.3880</td>
+<td><a href="https://support.microsoft.com/help/5040442" target="_blank" data-linktype="external">KB5040442</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-06 D</td>
+<td>2024-06-25</td>
+<td>22631.3810</td>
+<td><a href="https://support.microsoft.com/help/5039302" target="_blank" data-linktype="external">KB5039302</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-06 B</td>
+<td>2024-06-11</td>
+<td>22631.3737</td>
+<td><a href="https://support.microsoft.com/help/5039212" target="_blank" data-linktype="external">KB5039212</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-05 D</td>
+<td>2024-05-29</td>
+<td>22631.3672</td>
+<td><a href="https://support.microsoft.com/help/5037853" target="_blank" data-linktype="external">KB5037853</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-05 B</td>
+<td>2024-05-14</td>
+<td>22631.3593</td>
+<td><a href="https://support.microsoft.com/help/5037771" target="_blank" data-linktype="external">KB5037771</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-04 D</td>
+<td>2024-04-23</td>
+<td>22631.3527</td>
+<td><a href="https://support.microsoft.com/help/5036980" target="_blank" data-linktype="external">KB5036980</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-04 B</td>
+<td>2024-04-09</td>
+<td>22631.3447</td>
+<td><a href="https://support.microsoft.com/help/5036893" target="_blank" data-linktype="external">KB5036893</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-03 D</td>
+<td>2024-03-26</td>
+<td>22631.3374</td>
+<td><a href="https://support.microsoft.com/help/5035942" target="_blank" data-linktype="external">KB5035942</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-03 B</td>
+<td>2024-03-12</td>
+<td>22631.3296</td>
+<td><a href="https://support.microsoft.com/help/5035853" target="_blank" data-linktype="external">KB5035853</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-02 D</td>
+<td>2024-02-29</td>
+<td>22631.3235</td>
+<td><a href="https://support.microsoft.com/help/5034848" target="_blank" data-linktype="external">KB5034848</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-02 B</td>
+<td>2024-02-13</td>
+<td>22631.3155</td>
+<td><a href="https://support.microsoft.com/help/5034765" target="_blank" data-linktype="external">KB5034765</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-01 D</td>
+<td>2024-01-23</td>
+<td>22631.3085</td>
+<td><a href="https://support.microsoft.com/help/5034204" target="_blank" data-linktype="external">KB5034204</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-01 B</td>
+<td>2024-01-09</td>
+<td>22631.3007</td>
+<td><a href="https://support.microsoft.com/help/5034123" target="_blank" data-linktype="external">KB5034123</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-12 B</td>
+<td>2023-12-12</td>
+<td>22631.2861</td>
+<td><a href="https://support.microsoft.com/help/5033375" target="_blank" data-linktype="external">KB5033375</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-11 D</td>
+<td>2023-12-04</td>
+<td>22631.2792</td>
+<td><a href="https://support.microsoft.com/help/5032288" target="_blank" data-linktype="external">KB5032288</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-11 B</td>
+<td>2023-11-14</td>
+<td>22631.2715</td>
+<td><a href="https://support.microsoft.com/help/5032190" target="_blank" data-linktype="external">KB5032190</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-10 D</td>
+<td>2023-10-31</td>
+<td>22631.2506</td>
+<td><a href="https://support.microsoft.com/help/5031455" target="_blank" data-linktype="external">KB5031455</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-10 D</td>
+<td>2023-10-31</td>
+<td>22631.2428</td>
+<td></td>
+</tr>
+</tbody></table>
+</details>
+<br>
+<details><summary><strong>Version 22H2 (OS build 22621)</strong>
+ - End of updates</summary>
+<table class="cells-centered" id="historyTable_4">
+<tbody><tr><th>Servicing option</th><th>Update type</th><th>Availability date</th><th>Build</th><th>KB article</th></tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-10 B</td>
+<td>2025-10-14</td>
+<td>22621.6060</td>
+<td><a href="https://support.microsoft.com/help/5066793" target="_blank" data-linktype="external">KB5066793</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-09 B</td>
+<td>2025-09-09</td>
+<td>22621.5909</td>
+<td><a href="https://support.microsoft.com/help/5065431" target="_blank" data-linktype="external">KB5065431</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-08 OOB</td>
+<td>2025-08-19</td>
+<td>22621.5771</td>
+<td><a href="https://support.microsoft.com/help/5066189" target="_blank" data-linktype="external">KB5066189</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-08 B</td>
+<td>2025-08-12</td>
+<td>22621.5768</td>
+<td><a href="https://support.microsoft.com/help/5063875" target="_blank" data-linktype="external">KB5063875</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-07 B</td>
+<td>2025-07-08</td>
+<td>22621.5624</td>
+<td><a href="https://support.microsoft.com/help/5062552" target="_blank" data-linktype="external">KB5062552</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-06 D</td>
+<td>2025-06-26</td>
+<td>22621.5549</td>
+<td><a href="https://support.microsoft.com/help/5060826" target="_blank" data-linktype="external">KB5060826</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-06 B</td>
+<td>2025-06-10</td>
+<td>22621.5472</td>
+<td><a href="https://support.microsoft.com/help/5060999" target="_blank" data-linktype="external">KB5060999</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-05 OOB</td>
+<td>2025-05-31</td>
+<td>22621.5415</td>
+<td><a href="https://support.microsoft.com/help/5062170" target="_blank" data-linktype="external">KB5062170</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-05 D</td>
+<td>2025-05-27</td>
+<td>22621.5413</td>
+<td><a href="https://support.microsoft.com/help/5058502" target="_blank" data-linktype="external">KB5058502</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-05 B</td>
+<td>2025-05-13</td>
+<td>22621.5335</td>
+<td><a href="https://support.microsoft.com/help/5058405" target="_blank" data-linktype="external">KB5058405</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-04 D</td>
+<td>2025-04-22</td>
+<td>22621.5262</td>
+<td><a href="https://support.microsoft.com/help/5055629" target="_blank" data-linktype="external">KB5055629</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-04 OOB</td>
+<td>2025-04-11</td>
+<td>22621.5192</td>
+<td><a href="https://support.microsoft.com/help/5058919" target="_blank" data-linktype="external">KB5058919</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-04 B</td>
+<td>2025-04-08</td>
+<td>22621.5189</td>
+<td><a href="https://support.microsoft.com/help/5055528" target="_blank" data-linktype="external">KB5055528</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-03 D</td>
+<td>2025-03-25</td>
+<td>22621.5126</td>
+<td><a href="https://support.microsoft.com/help/5053657" target="_blank" data-linktype="external">KB5053657</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-03 B</td>
+<td>2025-03-11</td>
+<td>22621.5039</td>
+<td><a href="https://support.microsoft.com/help/5053602" target="_blank" data-linktype="external">KB5053602</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-02 D</td>
+<td>2025-02-25</td>
+<td>22621.4974</td>
+<td><a href="https://support.microsoft.com/help/5052094" target="_blank" data-linktype="external">KB5052094</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-02 B</td>
+<td>2025-02-11</td>
+<td>22621.4890</td>
+<td><a href="https://support.microsoft.com/help/5051989" target="_blank" data-linktype="external">KB5051989</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-01 D</td>
+<td>2025-01-29</td>
+<td>22621.4830</td>
+<td><a href="https://support.microsoft.com/help/5050092" target="_blank" data-linktype="external">KB5050092</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2025-01 B</td>
+<td>2025-01-14</td>
+<td>22621.4751</td>
+<td><a href="https://support.microsoft.com/help/5050021" target="_blank" data-linktype="external">KB5050021</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-12 B</td>
+<td>2024-12-10</td>
+<td>22621.4602</td>
+<td><a href="https://support.microsoft.com/help/5048685" target="_blank" data-linktype="external">KB5048685</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-11 D</td>
+<td>2024-11-21</td>
+<td>22621.4541</td>
+<td><a href="https://support.microsoft.com/help/5046732" target="_blank" data-linktype="external">KB5046732</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-11 B</td>
+<td>2024-11-12</td>
+<td>22621.4460</td>
+<td><a href="https://support.microsoft.com/help/5046633" target="_blank" data-linktype="external">KB5046633</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-10 D</td>
+<td>2024-10-22</td>
+<td>22621.4391</td>
+<td><a href="https://support.microsoft.com/help/5044380" target="_blank" data-linktype="external">KB5044380</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-10 B</td>
+<td>2024-10-08</td>
+<td>22621.4317</td>
+<td><a href="https://support.microsoft.com/help/5044285" target="_blank" data-linktype="external">KB5044285</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-09 D</td>
+<td>2024-09-26</td>
+<td>22621.4249</td>
+<td><a href="https://support.microsoft.com/help/5043145" target="_blank" data-linktype="external">KB5043145</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-09 B</td>
+<td>2024-09-10</td>
+<td>22621.4169</td>
+<td><a href="https://support.microsoft.com/help/5043076" target="_blank" data-linktype="external">KB5043076</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-08 D</td>
+<td>2024-08-27</td>
+<td>22621.4112</td>
+<td><a href="https://support.microsoft.com/help/5041587" target="_blank" data-linktype="external">KB5041587</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-08 B</td>
+<td>2024-08-13</td>
+<td>22621.4037</td>
+<td><a href="https://support.microsoft.com/help/5041585" target="_blank" data-linktype="external">KB5041585</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-07 D</td>
+<td>2024-07-25</td>
+<td>22621.3958</td>
+<td><a href="https://support.microsoft.com/help/5040527" target="_blank" data-linktype="external">KB5040527</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-07 B</td>
+<td>2024-07-09</td>
+<td>22621.3880</td>
+<td><a href="https://support.microsoft.com/help/5040442" target="_blank" data-linktype="external">KB5040442</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-06 D</td>
+<td>2024-06-25</td>
+<td>22621.3810</td>
+<td><a href="https://support.microsoft.com/help/5039302" target="_blank" data-linktype="external">KB5039302</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-06 B</td>
+<td>2024-06-11</td>
+<td>22621.3737</td>
+<td><a href="https://support.microsoft.com/help/5039212" target="_blank" data-linktype="external">KB5039212</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-05 D</td>
+<td>2024-05-29</td>
+<td>22621.3672</td>
+<td><a href="https://support.microsoft.com/help/5037853" target="_blank" data-linktype="external">KB5037853</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-05 B</td>
+<td>2024-05-14</td>
+<td>22621.3593</td>
+<td><a href="https://support.microsoft.com/help/5037771" target="_blank" data-linktype="external">KB5037771</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-04 D</td>
+<td>2024-04-23</td>
+<td>22621.3527</td>
+<td><a href="https://support.microsoft.com/help/5036980" target="_blank" data-linktype="external">KB5036980</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-04 B</td>
+<td>2024-04-09</td>
+<td>22621.3447</td>
+<td><a href="https://support.microsoft.com/help/5036893" target="_blank" data-linktype="external">KB5036893</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-03 D</td>
+<td>2024-03-26</td>
+<td>22621.3374</td>
+<td><a href="https://support.microsoft.com/help/5035942" target="_blank" data-linktype="external">KB5035942</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-03 B</td>
+<td>2024-03-12</td>
+<td>22621.3296</td>
+<td><a href="https://support.microsoft.com/help/5035853" target="_blank" data-linktype="external">KB5035853</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-02 D</td>
+<td>2024-02-29</td>
+<td>22621.3235</td>
+<td><a href="https://support.microsoft.com/help/5034848" target="_blank" data-linktype="external">KB5034848</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-02 B</td>
+<td>2024-02-13</td>
+<td>22621.3155</td>
+<td><a href="https://support.microsoft.com/help/5034765" target="_blank" data-linktype="external">KB5034765</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-01 D</td>
+<td>2024-01-23</td>
+<td>22621.3085</td>
+<td><a href="https://support.microsoft.com/help/5034204" target="_blank" data-linktype="external">KB5034204</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-01 B</td>
+<td>2024-01-09</td>
+<td>22621.3007</td>
+<td><a href="https://support.microsoft.com/help/5034123" target="_blank" data-linktype="external">KB5034123</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-12 B</td>
+<td>2023-12-12</td>
+<td>22621.2861</td>
+<td><a href="https://support.microsoft.com/help/5033375" target="_blank" data-linktype="external">KB5033375</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-11 D</td>
+<td>2023-12-04</td>
+<td>22621.2792</td>
+<td><a href="https://support.microsoft.com/help/5032288" target="_blank" data-linktype="external">KB5032288</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-11 B</td>
+<td>2023-11-14</td>
+<td>22621.2715</td>
+<td><a href="https://support.microsoft.com/help/5032190" target="_blank" data-linktype="external">KB5032190</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-10 D</td>
+<td>2023-10-26</td>
+<td>22621.2506</td>
+<td><a href="https://support.microsoft.com/help/5031455" target="_blank" data-linktype="external">KB5031455</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-10 B</td>
+<td>2023-10-10</td>
+<td>22621.2428</td>
+<td><a href="https://support.microsoft.com/help/5031354" target="_blank" data-linktype="external">KB5031354</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-09 D</td>
+<td>2023-09-26</td>
+<td>22621.2361</td>
+<td><a href="https://support.microsoft.com/help/5030310" target="_blank" data-linktype="external">KB5030310</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-09 B</td>
+<td>2023-09-12</td>
+<td>22621.2283</td>
+<td><a href="https://support.microsoft.com/help/5030219" target="_blank" data-linktype="external">KB5030219</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-08 D</td>
+<td>2023-08-22</td>
+<td>22621.2215</td>
+<td><a href="https://support.microsoft.com/help/5029351" target="_blank" data-linktype="external">KB5029351</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-08 B</td>
+<td>2023-08-08</td>
+<td>22621.2134</td>
+<td><a href="https://support.microsoft.com/help/5029263" target="_blank" data-linktype="external">KB5029263</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-07 D</td>
+<td>2023-07-26</td>
+<td>22621.2070</td>
+<td><a href="https://support.microsoft.com/help/5028254" target="_blank" data-linktype="external">KB5028254</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-07 B</td>
+<td>2023-07-11</td>
+<td>22621.1992</td>
+<td><a href="https://support.microsoft.com/help/5028185" target="_blank" data-linktype="external">KB5028185</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-06 D</td>
+<td>2023-06-27</td>
+<td>22621.1928</td>
+<td><a href="https://support.microsoft.com/help/5027303" target="_blank" data-linktype="external">KB5027303</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-06 B</td>
+<td>2023-06-13</td>
+<td>22621.1848</td>
+<td><a href="https://support.microsoft.com/help/5027231" target="_blank" data-linktype="external">KB5027231</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-05 D</td>
+<td>2023-05-24</td>
+<td>22621.1778</td>
+<td><a href="https://support.microsoft.com/help/5026446" target="_blank" data-linktype="external">KB5026446</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-05 B</td>
+<td>2023-05-09</td>
+<td>22621.1702</td>
+<td><a href="https://support.microsoft.com/help/5026372" target="_blank" data-linktype="external">KB5026372</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-04 D</td>
+<td>2023-04-25</td>
+<td>22621.1635</td>
+<td><a href="https://support.microsoft.com/help/5025305" target="_blank" data-linktype="external">KB5025305</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-04 B</td>
+<td>2023-04-11</td>
+<td>22621.1555</td>
+<td><a href="https://support.microsoft.com/help/5025239" target="_blank" data-linktype="external">KB5025239</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-03 D</td>
+<td>2023-03-28</td>
+<td>22621.1485</td>
+<td><a href="https://support.microsoft.com/help/5023778" target="_blank" data-linktype="external">KB5023778</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-03 B</td>
+<td>2023-03-14</td>
+<td>22621.1413</td>
+<td><a href="https://support.microsoft.com/help/5023706" target="_blank" data-linktype="external">KB5023706</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-02 D</td>
+<td>2023-02-28</td>
+<td>22621.1344</td>
+<td><a href="https://support.microsoft.com/help/5022913" target="_blank" data-linktype="external">KB5022913</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-02 B</td>
+<td>2023-02-14</td>
+<td>22621.1265</td>
+<td><a href="https://support.microsoft.com/help/5022845" target="_blank" data-linktype="external">KB5022845</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-01 D</td>
+<td>2023-01-26</td>
+<td>22621.1194</td>
+<td><a href="https://support.microsoft.com/help/5022360" target="_blank" data-linktype="external">KB5022360</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-01 B</td>
+<td>2023-01-10</td>
+<td>22621.1105</td>
+<td><a href="https://support.microsoft.com/help/5022303" target="_blank" data-linktype="external">KB5022303</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-12 B</td>
+<td>2022-12-13</td>
+<td>22621.963</td>
+<td><a href="https://support.microsoft.com/help/5021255" target="_blank" data-linktype="external">KB5021255</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-11 D</td>
+<td>2022-11-29</td>
+<td>22621.900</td>
+<td><a href="https://support.microsoft.com/help/5020044" target="_blank" data-linktype="external">KB5020044</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-11 B</td>
+<td>2022-11-08</td>
+<td>22621.819</td>
+<td><a href="https://support.microsoft.com/help/5019980" target="_blank" data-linktype="external">KB5019980</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-10 D</td>
+<td>2022-10-25</td>
+<td>22621.755</td>
+<td><a href="https://support.microsoft.com/help/5018496" target="_blank" data-linktype="external">KB5018496</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-10 OOB</td>
+<td>2022-10-18</td>
+<td>22621.675</td>
+<td><a href="https://support.microsoft.com/help/5019509" target="_blank" data-linktype="external">KB5019509</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-10 B</td>
+<td>2022-10-11</td>
+<td>22621.674</td>
+<td><a href="https://support.microsoft.com/help/5018427" target="_blank" data-linktype="external">KB5018427</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-09 D</td>
+<td>2022-09-30</td>
+<td>22621.608</td>
+<td><a href="https://support.microsoft.com/help/5017389" target="_blank" data-linktype="external">KB5017389</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-09 OOB</td>
+<td>2022-09-27</td>
+<td>22621.525</td>
+<td><a href="https://support.microsoft.com/help/5019311" target="_blank" data-linktype="external">KB5019311</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-09 C</td>
+<td>2022-09-20</td>
+<td>22621.521</td>
+<td></td>
+</tr>
+</tbody></table>
+</details>
+<br>
+<details><summary><strong>Version 21H2 (OS build 22000)</strong>
+ - End of updates</summary>
+<p>Windows 11 will be offered as a free upgrade to eligible Windows 10 devices using a phased and measured approach with a focus on quality. Organizations can choose when and how to upgrade the devices they manage. For more details, see the <a href="https://aka.ms/How-To-Get-Windows-11" data-linktype="external">How to get Windows 11</a>.</p>
+<table class="cells-centered" id="historyTable_5">
+<tbody><tr><th>Servicing option</th><th>Update type</th><th>Availability date</th><th>Build</th><th>KB article</th></tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-10 B</td>
+<td>2024-10-08</td>
+<td>22000.3260</td>
+<td><a href="https://support.microsoft.com/help/5044280" target="_blank" data-linktype="external">KB5044280</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-09 B</td>
+<td>2024-09-10</td>
+<td>22000.3197</td>
+<td><a href="https://support.microsoft.com/help/5043067" target="_blank" data-linktype="external">KB5043067</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-08 B</td>
+<td>2024-08-13</td>
+<td>22000.3147</td>
+<td><a href="https://support.microsoft.com/help/5041592" target="_blank" data-linktype="external">KB5041592</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-07 B</td>
+<td>2024-07-09</td>
+<td>22000.3079</td>
+<td><a href="https://support.microsoft.com/help/5040431" target="_blank" data-linktype="external">KB5040431</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-06 B</td>
+<td>2024-06-11</td>
+<td>22000.3019</td>
+<td><a href="https://support.microsoft.com/help/5039213" target="_blank" data-linktype="external">KB5039213</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-05 B</td>
+<td>2024-05-14</td>
+<td>22000.2960</td>
+<td><a href="https://support.microsoft.com/help/5037770" target="_blank" data-linktype="external">KB5037770</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-04 B</td>
+<td>2024-04-09</td>
+<td>22000.2899</td>
+<td><a href="https://support.microsoft.com/help/5036894" target="_blank" data-linktype="external">KB5036894</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-03 B</td>
+<td>2024-03-12</td>
+<td>22000.2836</td>
+<td><a href="https://support.microsoft.com/help/5035854" target="_blank" data-linktype="external">KB5035854</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-02 B</td>
+<td>2024-02-13</td>
+<td>22000.2777</td>
+<td><a href="https://support.microsoft.com/help/5034766" target="_blank" data-linktype="external">KB5034766</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2024-01 B</td>
+<td>2024-01-09</td>
+<td>22000.2713</td>
+<td><a href="https://support.microsoft.com/help/5034121" target="_blank" data-linktype="external">KB5034121</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-12 B</td>
+<td>2023-12-12</td>
+<td>22000.2652</td>
+<td><a href="https://support.microsoft.com/help/5033369" target="_blank" data-linktype="external">KB5033369</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-11 B</td>
+<td>2023-11-14</td>
+<td>22000.2600</td>
+<td><a href="https://support.microsoft.com/help/5032192" target="_blank" data-linktype="external">KB5032192</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-10 B</td>
+<td>2023-10-10</td>
+<td>22000.2538</td>
+<td><a href="https://support.microsoft.com/help/5031358" target="_blank" data-linktype="external">KB5031358</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-09 D</td>
+<td>2023-09-26</td>
+<td>22000.2482</td>
+<td><a href="https://support.microsoft.com/help/5030301" target="_blank" data-linktype="external">KB5030301</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-09 B</td>
+<td>2023-09-12</td>
+<td>22000.2416</td>
+<td><a href="https://support.microsoft.com/help/5030217" target="_blank" data-linktype="external">KB5030217</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-08 D</td>
+<td>2023-08-22</td>
+<td>22000.2360</td>
+<td><a href="https://support.microsoft.com/help/5029332" target="_blank" data-linktype="external">KB5029332</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-08 B</td>
+<td>2023-08-08</td>
+<td>22000.2295</td>
+<td><a href="https://support.microsoft.com/help/5029253" target="_blank" data-linktype="external">KB5029253</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-07 D</td>
+<td>2023-07-25</td>
+<td>22000.2245</td>
+<td><a href="https://support.microsoft.com/help/5028245" target="_blank" data-linktype="external">KB5028245</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-07 B</td>
+<td>2023-07-11</td>
+<td>22000.2176</td>
+<td><a href="https://support.microsoft.com/help/5028182" target="_blank" data-linktype="external">KB5028182</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-06 D</td>
+<td>2023-06-28</td>
+<td>22000.2124</td>
+<td><a href="https://support.microsoft.com/help/5027292" target="_blank" data-linktype="external">KB5027292</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-06 B</td>
+<td>2023-06-13</td>
+<td>22000.2057</td>
+<td><a href="https://support.microsoft.com/help/5027223" target="_blank" data-linktype="external">KB5027223</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-05 D</td>
+<td>2023-05-23</td>
+<td>22000.2003</td>
+<td><a href="https://support.microsoft.com/help/5026436" target="_blank" data-linktype="external">KB5026436</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-05 B</td>
+<td>2023-05-09</td>
+<td>22000.1936</td>
+<td><a href="https://support.microsoft.com/help/5026368" target="_blank" data-linktype="external">KB5026368</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-04 D</td>
+<td>2023-04-25</td>
+<td>22000.1880</td>
+<td><a href="https://support.microsoft.com/help/5025298" target="_blank" data-linktype="external">KB5025298</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-04 B</td>
+<td>2023-04-11</td>
+<td>22000.1817</td>
+<td><a href="https://support.microsoft.com/help/5025224" target="_blank" data-linktype="external">KB5025224</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-03 C</td>
+<td>2023-03-28</td>
+<td>22000.1761</td>
+<td><a href="https://support.microsoft.com/help/5023774" target="_blank" data-linktype="external">KB5023774</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-03 B</td>
+<td>2023-03-14</td>
+<td>22000.1696</td>
+<td><a href="https://support.microsoft.com/help/5023698" target="_blank" data-linktype="external">KB5023698</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-02 C</td>
+<td>2023-02-21</td>
+<td>22000.1641</td>
+<td><a href="https://support.microsoft.com/help/5022905" target="_blank" data-linktype="external">KB5022905</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-02 B</td>
+<td>2023-02-14</td>
+<td>22000.1574</td>
+<td><a href="https://support.microsoft.com/help/5022836" target="_blank" data-linktype="external">KB5022836</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-01 C</td>
+<td>2023-01-19</td>
+<td>22000.1516</td>
+<td><a href="https://support.microsoft.com/help/5019274" target="_blank" data-linktype="external">KB5019274</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2023-01 B</td>
+<td>2023-01-10</td>
+<td>22000.1455</td>
+<td><a href="https://support.microsoft.com/help/5022287" target="_blank" data-linktype="external">KB5022287</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-12 B</td>
+<td>2022-12-13</td>
+<td>22000.1335</td>
+<td><a href="https://support.microsoft.com/help/5021234" target="_blank" data-linktype="external">KB5021234</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-11 C</td>
+<td>2022-11-15</td>
+<td>22000.1281</td>
+<td><a href="https://support.microsoft.com/help/5019157" target="_blank" data-linktype="external">KB5019157</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-11 B</td>
+<td>2022-11-08</td>
+<td>22000.1219</td>
+<td><a href="https://support.microsoft.com/help/5019961" target="_blank" data-linktype="external">KB5019961</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-10 C</td>
+<td>2022-10-25</td>
+<td>22000.1165</td>
+<td><a href="https://support.microsoft.com/help/5018483" target="_blank" data-linktype="external">KB5018483</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-10 OOB</td>
+<td>2022-10-17</td>
+<td>22000.1100</td>
+<td><a href="https://support.microsoft.com/help/5020387" target="_blank" data-linktype="external">KB5020387</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-10 B</td>
+<td>2022-10-11</td>
+<td>22000.1098</td>
+<td><a href="https://support.microsoft.com/help/5018418" target="_blank" data-linktype="external">KB5018418</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-09 C</td>
+<td>2022-09-20</td>
+<td>22000.1042</td>
+<td><a href="https://support.microsoft.com/help/5017383" target="_blank" data-linktype="external">KB5017383</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-09 B</td>
+<td>2022-09-13</td>
+<td>22000.978</td>
+<td><a href="https://support.microsoft.com/help/5017328" target="_blank" data-linktype="external">KB5017328</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-08 C</td>
+<td>2022-08-25</td>
+<td>22000.918</td>
+<td><a href="https://support.microsoft.com/help/5016691" target="_blank" data-linktype="external">KB5016691</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-08 B</td>
+<td>2022-08-09</td>
+<td>22000.856</td>
+<td><a href="https://support.microsoft.com/help/5016629" target="_blank" data-linktype="external">KB5016629</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-07 C</td>
+<td>2022-07-21</td>
+<td>22000.832</td>
+<td><a href="https://support.microsoft.com/help/5015882" target="_blank" data-linktype="external">KB5015882</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-07 B</td>
+<td>2022-07-12</td>
+<td>22000.795</td>
+<td><a href="https://support.microsoft.com/help/5015814" target="_blank" data-linktype="external">KB5015814</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-06 C</td>
+<td>2022-06-23</td>
+<td>22000.778</td>
+<td><a href="https://support.microsoft.com/help/5014668" target="_blank" data-linktype="external">KB5014668</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-06 OOB</td>
+<td>2022-06-20</td>
+<td>22000.740</td>
+<td><a href="https://support.microsoft.com/help/5016138" target="_blank" data-linktype="external">KB5016138</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-06 B</td>
+<td>2022-06-14</td>
+<td>22000.739</td>
+<td><a href="https://support.microsoft.com/help/5014697" target="_blank" data-linktype="external">KB5014697</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-05 C</td>
+<td>2022-05-24</td>
+<td>22000.708</td>
+<td><a href="https://support.microsoft.com/help/5014019" target="_blank" data-linktype="external">KB5014019</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-05 B</td>
+<td>2022-05-10</td>
+<td>22000.675</td>
+<td><a href="https://support.microsoft.com/help/5013943" target="_blank" data-linktype="external">KB5013943</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-04 C</td>
+<td>2022-04-25</td>
+<td>22000.652</td>
+<td><a href="https://support.microsoft.com/help/5012643" target="_blank" data-linktype="external">KB5012643</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-04 B</td>
+<td>2022-04-12</td>
+<td>22000.613</td>
+<td><a href="https://support.microsoft.com/help/5012592" target="_blank" data-linktype="external">KB5012592</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-03 C</td>
+<td>2022-03-28</td>
+<td>22000.593</td>
+<td><a href="https://support.microsoft.com/help/5011563" target="_blank" data-linktype="external">KB5011563</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-03 B</td>
+<td>2022-03-08</td>
+<td>22000.556</td>
+<td><a href="https://support.microsoft.com/help/5011493" target="_blank" data-linktype="external">KB5011493</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-02 C</td>
+<td>2022-02-15</td>
+<td>22000.527</td>
+<td><a href="https://support.microsoft.com/help/5010414" target="_blank" data-linktype="external">KB5010414</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-02 B</td>
+<td>2022-02-08</td>
+<td>22000.493</td>
+<td><a href="https://support.microsoft.com/help/5010386" target="_blank" data-linktype="external">KB5010386</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-01 C</td>
+<td>2022-01-25</td>
+<td>22000.469</td>
+<td><a href="https://support.microsoft.com/help/5008353" target="_blank" data-linktype="external">KB5008353</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-01 OOB</td>
+<td>2022-01-17</td>
+<td>22000.438</td>
+<td><a href="https://support.microsoft.com/help/5010795" target="_blank" data-linktype="external">KB5010795</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2022-01 B</td>
+<td>2022-01-11</td>
+<td>22000.434</td>
+<td><a href="https://support.microsoft.com/help/5009566" target="_blank" data-linktype="external">KB5009566</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2021-12 B</td>
+<td>2021-12-14</td>
+<td>22000.376</td>
+<td><a href="https://support.microsoft.com/help/5008215" target="_blank" data-linktype="external">KB5008215</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2021-11 C</td>
+<td>2021-11-22</td>
+<td>22000.348</td>
+<td><a href="https://support.microsoft.com/help/5007262" target="_blank" data-linktype="external">KB5007262</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2021-11 B</td>
+<td>2021-11-09</td>
+<td>22000.318</td>
+<td><a href="https://support.microsoft.com/help/5007215" target="_blank" data-linktype="external">KB5007215</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2021-10 C</td>
+<td>2021-10-21</td>
+<td>22000.282</td>
+<td><a href="https://support.microsoft.com/help/5006746" target="_blank" data-linktype="external">KB5006746</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2021-10 B</td>
+<td>2021-10-12</td>
+<td>22000.258</td>
+<td><a href="https://support.microsoft.com/help/5006674" target="_blank" data-linktype="external">KB5006674</a></td>
+</tr>
+<tr>
+<td>General Availability Channel</td>
+<td>2021-10 A</td>
+<td>2021-10-04</td>
+<td>22000.194</td>
+<td></td>
+</tr>
+</tbody></table>
+</details>
+<h2 id="windows-11-hotpatch-calendar">Windows 11 hotpatch calendar</h2>
+<p>View a calendar of hotpatch updates for Windows 11. With <a target="_blank" href="/en-us/windows/deployment/windows-autopatch/manage/windows-autopatch-hotpatch-updates" data-linktype="absolute-path">hotpatching</a>, devices receive a baseline cumulative update the first month of each quarter in the calendar year. A restart is required to install that baseline update.  During the next two months, devices receive a hotpatch update, which includes only security updates and can be installed without a restart. For details on what is included in each update, see the Release notes for hotpatch on <a target="_blank" href="https://aka.ms/Hotpatch/Windows11/25H2" data-linktype="external">Windows 11, version 25H2 Enterprise clients</a> and <a target="_blank" href="https://support.microsoft.com/topic/c0906ee6-5e62-498f-bd5a-8f4966349f3c" data-linktype="external">Release notes for hotpatch on Windows 11, version 24H2 Enterprise clients</a>.</p>
+<div class="NOTE">
+<p>Note</p>
+<p>Hotpatching is not available on Windows 11, version 26H1.
+<br>
+<strong>Version 25H2 (OS build 26200)</strong> <br>
+<br>
+<strong>Calendar year 2026</strong></p>
+</div>
+<table class="cells-centered" id="HotpatchCalendar_Version25H2_2026">
+<tbody><tr><th>Month</th><th>Update type</th><th>Type</th><th>Availability date</th><th>Build</th><th>KB article</th></tr>
+     <tr>
+             <td>January</td>
+             <td>2026.01 B</td>
+             <td>Baseline (Restart)</td>
+             <td>2026-01-13</td>
+             <td>26200.7623</td>
+<td><a href="https://support.microsoft.com/topic/january-13-2026-baseline-237710ab-0834-4fdc-a253-9f67c1f069a7" target="_blank" data-linktype="external">KB5074109</a></td>
+     </tr>
+     <tr>
+             <td>February</td>
+             <td>2026.02 B</td>
+             <td>Hotpatch</td>
+             <td>2026-02-10</td>
+             <td>26200.7781</td>
+<td><a href="https://support.microsoft.com/help/5077212" target="_blank" data-linktype="external">KB5077212</a></td>
+     </tr>
+     <tr>
+             <td>March</td>
+             <td>2026.03 B</td>
+             <td>Hotpatch</td>
+             <td>2026-03-10</td>
+             <td>26200.7979</td>
+<td><a href="https://support.microsoft.com/help/5079420" target="_blank" data-linktype="external">KB5079420</a></td>
+     </tr>
+     <tr>
+             <td>April</td>
+             <td>2026.04 B</td>
+             <td>Baseline (Restart)</td>
+             <td>2026-04-14</td>
+             <td>26200.8246</td>
+<td><a href="https://support.microsoft.com/help/5083769" target="_blank" data-linktype="external">KB5083769</a></td>
+     </tr>
+     <tr>
+             <td>May</td>
+             <td>2026.05 B</td>
+             <td>Hotpatch</td>
+             <td>2026-05-12</td>
+             <td>26200.8390</td>
+<td><a href="https://support.microsoft.com/help/5089466" target="_blank" data-linktype="external">KB5089466</a></td>
+     </tr>
+     <tr>
+             <td>June</td>
+             <td>2026.06 B</td>
+             <td>Baseline (Restart)</td>
+             <td>2026-06-09</td>
+             <td>26200.8655</td>
+<td><a href="https://support.microsoft.com/help/5094126" target="_blank" data-linktype="external">KB5094126</a></td>
+     </tr>
+     <tr>
+             <td>July</td>
+             <td>2026.07 B</td>
+             <td>Baseline (Restart)</td>
+             <td>2026-07-14</td>
+             <td>26200.8875</td>
+<td><a href="https://support.microsoft.com/help/5101650" target="_blank" data-linktype="external">KB5101650</a></td>
+     </tr>
+     <tr>
+             <td>August</td>
+             <td>2026.08 B</td>
+             <td>Hotpatch</td>
+             <td>2026-08-11</td>
+             <td>26200.9106</td>
+<td><a href="https://support.microsoft.com/help/5120994" target="_blank" data-linktype="external">KB5120994</a></td>
+     </tr>
+     <tr>
+             <td>September</td>
+             <td>2026.09 B</td>
+             <td>Baseline (Restart)</td>
+             <td>2026-09-08</td>
+             <td>26200.9445</td>
+<td><a href="https://support.microsoft.com/help/5124008" target="_blank" data-linktype="external">KB5124008</a></td>
+     </tr>
+     <tr>
+             <td>October</td>
+             <td>2026.10 B</td>
+             <td>Baseline (Restart)</td>
+             <td></td>
+             <td></td>
+<td></td>
+     </tr>
+     <tr>
+             <td>November</td>
+             <td>2026.11 B</td>
+             <td>Hotpatch</td>
+             <td></td>
+             <td></td>
+<td></td>
+     </tr>
+     <tr>
+             <td>December</td>
+             <td>2026.12 B</td>
+             <td>Hotpatch</td>
+             <td></td>
+             <td></td>
+<td></td>
+     </tr>
+</tbody></table>
+<br>
+<details>
+<summary><strong>Calendar year 2025</strong></summary>
+<table class="cells-centered" id="HotpatchCalendar_Version25H2_2025">
+<tbody><tr><th>Month</th><th>Update type</th><th>Type</th><th>Availability date</th><th>Build</th><th>KB article</th></tr>
+     <tr>
+             <td>October</td>
+             <td>2025.10 B</td>
+             <td>Baseline (Restart)</td>
+             <td>2025-10-14</td>
+             <td>26200.6899</td>
+<td><a href="https://support.microsoft.com/topic/october-14-2025-baseline-0a8c23de-276c-4396-a6e8-beb5c4a2ec26" target="_blank" data-linktype="external">KB5066835</a></td>
+     </tr>
+     <tr>
+             <td>November</td>
+             <td>2025.11 B</td>
+             <td>Hotpatch</td>
+             <td>2025-11-11</td>
+             <td>26200.7092</td>
+<td><a href="https://support.microsoft.com/topic/november-11-2025-hotpatch-kb5068966-os-builds-26200-7092-and-26100-7092-d702b84c-d238-40f4-a0b7-1861e0b056fd" target="_blank" data-linktype="external">KB5068966</a></td>
+     </tr>
+     <tr>
+             <td>December</td>
+             <td>2025.12 B</td>
+             <td>Hotpatch</td>
+             <td>2025-12-09</td>
+             <td>26200.7392</td>
+<td><a href="https://support.microsoft.com/help/5072014" target="_blank" data-linktype="external">KB5072014</a></td>
+     </tr>
+</tbody></table>
+</details>
+<br>
+<details><summary><strong>Version 24H2 (OS build 26100)</strong>
+</summary>
+<br>
+<strong>Calendar year 2026</strong>
+<table class="cells-centered" id="HotpatchCalendar_Version24H2_2026">
+<tbody><tr><th>Month</th><th>Update type</th><th>Type</th><th>Availability date</th><th>Build</th><th>KB article</th></tr>
+     <tr>
+             <td>January</td>
+             <td>2026.01 B</td>
+             <td>Baseline (Restart)</td>
+             <td>2026-01-13</td>
+             <td>26100.7623</td>
+<td><a href="https://support.microsoft.com/topic/january-13-2026-baseline-237710ab-0834-4fdc-a253-9f67c1f069a7" target="_blank" data-linktype="external">KB5074109</a></td>
+     </tr>
+     <tr>
+             <td>February</td>
+             <td>2026.02 B</td>
+             <td>Hotpatch</td>
+             <td>2026-02-10</td>
+             <td>26100.7781</td>
+<td><a href="https://support.microsoft.com/help/5077212" target="_blank" data-linktype="external">KB5077212</a></td>
+     </tr>
+     <tr>
+             <td>March</td>
+             <td>2026.03 B</td>
+             <td>Hotpatch</td>
+             <td>2026-03-10</td>
+             <td>26100.7979</td>
+<td><a href="https://support.microsoft.com/help/5079420" target="_blank" data-linktype="external">KB5079420</a></td>
+     </tr>
+     <tr>
+             <td>April</td>
+             <td>2026.04 B</td>
+             <td>Baseline (Restart)</td>
+             <td>2026-04-14</td>
+             <td>26100.8246</td>
+<td><a href="https://support.microsoft.com/help/5083769" target="_blank" data-linktype="external">KB5083769</a></td>
+     </tr>
+     <tr>
+             <td>May</td>
+             <td>2026.05 B</td>
+             <td>Hotpatch</td>
+             <td>2026-05-12</td>
+             <td>26100.8390</td>
+<td><a href="https://support.microsoft.com/help/5089466" target="_blank" data-linktype="external">KB5089466</a></td>
+     </tr>
+     <tr>
+             <td>June</td>
+             <td>2026.06 B</td>
+             <td>Baseline (Restart)</td>
+             <td>2026-06-09</td>
+             <td>26100.8655</td>
+<td><a href="https://support.microsoft.com/help/5094126" target="_blank" data-linktype="external">KB5094126</a></td>
+     </tr>
+     <tr>
+             <td>July</td>
+             <td>2026.07 B</td>
+             <td>Baseline (Restart)</td>
+             <td>2026-07-14</td>
+             <td>26100.8875</td>
+<td><a href="https://support.microsoft.com/help/5101650" target="_blank" data-linktype="external">KB5101650</a></td>
+     </tr>
+     <tr>
+             <td>August</td>
+             <td>2026.08 B</td>
+             <td>Hotpatch</td>
+             <td>2026-08-11</td>
+             <td>26100.9106</td>
+<td><a href="https://support.microsoft.com/help/5120994" target="_blank" data-linktype="external">KB5120994</a></td>
+     </tr>
+     <tr>
+             <td>September</td>
+             <td>2026.09 B</td>
+             <td>Baseline (Restart)</td>
+             <td>2026-09-08</td>
+             <td>26100.9445</td>
+<td><a href="https://support.microsoft.com/help/5124008" target="_blank" data-linktype="external">KB5124008</a></td>
+     </tr>
+     <tr>
+             <td>October</td>
+             <td>2026.10 B</td>
+             <td>Baseline (Restart)</td>
+             <td></td>
+             <td></td>
+<td></td>
+     </tr>
+     <tr>
+             <td>November</td>
+             <td>2026.11 B</td>
+             <td>Hotpatch</td>
+             <td></td>
+             <td></td>
+<td></td>
+     </tr>
+     <tr>
+             <td>December</td>
+             <td>2026.12 B</td>
+             <td>Hotpatch</td>
+             <td></td>
+             <td></td>
+<td></td>
+     </tr>
+</tbody></table>
+<br>
+<details>
+<summary><strong>Calendar year 2025</strong></summary>
+<table class="cells-centered" id="HotpatchCalendar_Version24H2_2025">
+<tbody><tr><th>Month</th><th>Update type</th><th>Type</th><th>Availability date</th><th>Build</th><th>KB article</th></tr>
+     <tr>
+             <td>January</td>
+             <td>2025.01 B</td>
+             <td>Baseline (Restart)</td>
+             <td>2025-01-14</td>
+             <td>26100.2894</td>
+<td><a href="https://support.microsoft.com/topic/january-14-2025-baseline-public-preview-fc7e83de-f346-4238-9574-806f4ba061de" target="_blank" data-linktype="external">KB5050009</a></td>
+     </tr>
+     <tr>
+             <td>February</td>
+             <td>2025.02 B</td>
+             <td>Hotpatch</td>
+             <td>2025-02-11</td>
+             <td>26100.3107</td>
+<td><a href="https://support.microsoft.com/topic/february-11-2025-hotpatch-public-preview-kb5052105-os-build-26100-3107-5483cd8c-b749-4b5e-a8d0-4f53a8e18f35" target="_blank" data-linktype="external">KB5052105</a></td>
+     </tr>
+     <tr>
+             <td>March</td>
+             <td>2025.03 B</td>
+             <td>Hotpatch</td>
+             <td>2025-03-11</td>
+             <td>26100.3403</td>
+<td><a href="https://support.microsoft.com/topic/march-11-2025-hotpatch-public-preview-kb5053636-os-build-26100-3403-3f967136-f355-4b18-b0de-1b7ea62e948c" target="_blank" data-linktype="external">KB5053636</a></td>
+     </tr>
+     <tr>
+             <td>April</td>
+             <td>2025.04 B</td>
+             <td>Baseline (Restart)</td>
+             <td>2025-04-08</td>
+             <td>26100.3775</td>
+<td><a href="https://support.microsoft.com/topic/april-8-2025-baseline-public-preview-c701cc56-2db1-4fcb-87b6-8a20d5989cba" target="_blank" data-linktype="external">KB5055523</a></td>
+     </tr>
+     <tr>
+             <td>May</td>
+             <td>2025.05 B</td>
+             <td>Hotpatch</td>
+             <td>2025-05-13</td>
+             <td>26100.3981</td>
+<td><a href="https://support.microsoft.com/topic/may-13-2025-hotpatch-kb5058497-os-build-26100-3981-57e0f501-23aa-4418-9b80-2246fb2da428" target="_blank" data-linktype="external">KB5058497</a></td>
+     </tr>
+     <tr>
+             <td>June</td>
+             <td>2025.06 B</td>
+             <td>Hotpatch</td>
+             <td>2025-06-10</td>
+             <td>26100.4270</td>
+<td><a href="https://support.microsoft.com/topic/june-10-2025-hotpatch-kb5060841-os-build-26100-4270-231e0380-8e30-47cf-bb49-83cbd058c937" target="_blank" data-linktype="external">KB5060841</a></td>
+     </tr>
+     <tr>
+             <td>July</td>
+             <td>2025.07 B</td>
+             <td>Baseline (Restart)</td>
+             <td>2025-07-08</td>
+             <td>26100.4652</td>
+<td><a href="https://support.microsoft.com/topic/july-8-2025-baseline-d9c8bd6b-9d8a-48b3-b901-b86a73ff8cdc" target="_blank" data-linktype="external">KB5062553</a></td>
+     </tr>
+     <tr>
+             <td>August</td>
+             <td>2025.08 B</td>
+             <td>Hotpatch</td>
+             <td>2025-08-12</td>
+             <td>26100.4851</td>
+<td><a href="https://support.microsoft.com/en-us/topic/august-12-2025-kb5064010-hotpatch-for-windows-11-enterprise-ltsc-2024-os-build-26100-4851-170357a3-5c69-4402-9014-7b24ea84ac28" target="_blank" data-linktype="external">KB5064010</a></td>
+     </tr>
+     <tr>
+             <td>September</td>
+             <td>2025.09 B</td>
+             <td>Hotpatch</td>
+             <td>2025-09-09</td>
+             <td>26100.6508</td>
+<td><a href="https://support.microsoft.com/topic/september-9-2025-kb5065474-hotpatch-for-windows-11-enterprise-ltsc-2024-os-build-26100-6508-1591ce1b-9c6f-4bc9-8d3d-d65240a738ee" target="_blank" data-linktype="external">KB5065474</a></td>
+     </tr>
+     <tr>
+             <td>October</td>
+             <td>2025.10 B</td>
+             <td>Baseline (Restart)</td>
+             <td>2025-10-14</td>
+             <td>26100.6899</td>
+<td><a href="https://support.microsoft.com/topic/october-14-2025-baseline-0a8c23de-276c-4396-a6e8-beb5c4a2ec26" target="_blank" data-linktype="external">KB5066835</a></td>
+     </tr>
+     <tr>
+             <td>November</td>
+             <td>2025.11 B</td>
+             <td>Hotpatch</td>
+             <td>2025-11-11</td>
+             <td>26100.7092</td>
+<td><a href="https://support.microsoft.com/topic/november-11-2025-hotpatch-kb5068966-os-builds-26200-7092-and-26100-7092-d702b84c-d238-40f4-a0b7-1861e0b056fd" target="_blank" data-linktype="external">KB5068966</a></td>
+     </tr>
+     <tr>
+             <td>December</td>
+             <td>2025.12 B</td>
+             <td>Hotpatch</td>
+             <td>2025-12-09</td>
+             <td>26100.7392</td>
+<td><a href="https://support.microsoft.com/help/5072014" target="_blank" data-linktype="external">KB5072014</a></td>
+     </tr>
+</tbody></table>
+</details>
+<br>
+<details>
+<summary><strong>Calendar year 2024</strong></summary>
+<table class="cells-centered" id="HotpatchCalendar_Version24H2_2024">
+<tbody><tr><th>Month</th><th>Update type</th><th>Type</th><th>Availability date</th><th>Build</th><th>KB article</th></tr>
+     <tr>
+             <td>November</td>
+             <td>2024.11 B</td>
+             <td>Hotpatch</td>
+             <td>2024-11-12</td>
+             <td>26100.2240</td>
+<td><a href="https://support.microsoft.com/topic/november-19-2024-hotpatch-public-preview-kb5046696-os-build-26100-2240-cc356663-f187-4e7f-86f5-548ebe1cc0f9" target="_blank" data-linktype="external">KB5046696</a></td>
+     </tr>
+     <tr>
+             <td>December</td>
+             <td>2024.12 B</td>
+             <td>Hotpatch</td>
+             <td>2024-12-10</td>
+             <td>26100.2528</td>
+<td><a href="https://support.microsoft.com/topic/december-10-2024-hotpatch-public-preview-kb5048794-os-build-26100-2528-c7aa4533-9eda-4686-b743-a84333fc84b2" target="_blank" data-linktype="external">KB5048794</a></td>
+     </tr>
+</tbody></table>
+</details>
+</details>
+</div>
+</div>
+					
+		<div
+			id="ms--inline-notifications"
+			class="margin-block-xs"
+			data-bi-name="inline-notification"
+		></div>
+	 
+		<div
+			id="assertive-live-region"
+			role="alert"
+			aria-live="assertive"
+			class="visually-hidden"
+			aria-relevant="additions"
+			aria-atomic="true"
+		></div>
+		<div
+			id="polite-live-region"
+			role="status"
+			aria-live="polite"
+			class="visually-hidden"
+			aria-relevant="additions"
+			aria-atomic="true"
+		></div>
+	
+					
+				</div>
+				
+		<div id="ms--additional-resources-mobile" class="display-none-print">
+			<hr class="hr" hidden />
+			<h2 id="ms--additional-resources-mobile-heading" class="title is-3" hidden>
+				Additional resources
+			</h2>
+			
+		<section
+			id="right-rail-recommendations-mobile"
+			class=""
+			data-bi-name="recommendations"
+			hidden
+		></section>
+	 
+		<section
+			id="right-rail-training-mobile"
+			class=""
+			data-bi-name="learning-resource-card"
+			hidden
+		></section>
+	 
+		<section
+			id="right-rail-events-mobile"
+			class=""
+			data-bi-name="events-card"
+			hidden
+		></section>
+	
+		</div>
+	 
+		<div
+			id="article-metadata-footer"
+			data-bi-name="article-metadata-footer"
+			data-test-id="article-metadata-footer"
+			class="page-metadata-container"
+		>
+			<hr class="hr" />
+			<ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
+				<li class="visibility-hidden-visual-diff">
+			<span class="badge badge-sm text-wrap-pretty">
+				<span>Last updated on <local-time format="twoDigitNumeric"
+		datetime="2026-09-08T08:00:00.000Z"
+		data-article-date-source="calculated"
+		class="is-invisible"
+	>
+		2026-09-08
+	</local-time></span>
+			</span>
+		</li>
+			</ul>
+		</div>
+	
+			</div>
+		
+				</main>
+				<aside
+					id="layout-body-aside"
+					class="layout-body-aside  "
+					data-bi-name="aside"
+					aria-label="Additional resources"
+			  >
+					
+		<div
+			id="ms--additional-resources"
+			class="right-container padding-sm display-none display-block-desktop height-full"
+			data-bi-name="pageactions"
+		>
+			<div id="affixed-right-container" data-bi-name="right-column">
+				
+		<nav
+			id="side-doc-outline"
+			class="doc-outline border-bottom padding-bottom-xs margin-bottom-xs scrollbar-width-thin"
+			data-bi-name="intopic toc"
+			aria-label="In this article"
+		>
+			<h3>In this article</h3>
+		</nav>
+	
+				<!-- Feedback -->
+				
+			</div>
+		</div>
+	
+			  </aside> <section
+					id="layout-body-flyout"
+					class="layout-body-flyout "
+					data-bi-name="flyout"
+			  >
+					 <div
+	class="height-full border-left background-color-body-medium"
+	id="ask-learn-flyout"
+></div>
+			  </section> <div class="layout-body-footer " data-bi-name="layout-footer">
+		<footer
+			id="footer"
+			data-test-id="footer"
+			data-bi-name="footer"
+			class="footer-layout padding-xs padding-sm-desktop has-default-focus border-top"
+			role="contentinfo"
+		>
+			<div class="display-flex gap-xs flex-wrap-wrap is-full-height padding-right-lg-desktop">
+				
+		<a
+			data-mscc-ic="false"
+			href="#"
+			data-bi-name="select-locale"
+			class="locale-selector-link flex-shrink-0 button button-sm button-clear external-link-indicator"
+			id=""
+			title=""
+			><span class="icon" aria-hidden="true"
+				><span class="docon docon-world"></span></span
+			><span class="local-selector-link-text">en-us</span></a
+		>
+	 <div class="ccpa-privacy-link" data-ccpa-privacy-link hidden>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://aka.ms/yourcaliforniaprivacychoices"
+			data-bi-name="your-privacy-choices"
+			class="button button-sm button-clear flex-shrink-0 external-link-indicator"
+			id=""
+			title=""
+			>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 30 14"
+			xml:space="preserve"
+			height="16"
+			width="43"
+			aria-hidden="true"
+			focusable="false"
+		>
+			<path
+				d="M7.4 12.8h6.8l3.1-11.6H7.4C4.2 1.2 1.6 3.8 1.6 7s2.6 5.8 5.8 5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#fff"
+			></path>
+			<path
+				d="M22.6 0H7.4c-3.9 0-7 3.1-7 7s3.1 7 7 7h15.2c3.9 0 7-3.1 7-7s-3.2-7-7-7zm-21 7c0-3.2 2.6-5.8 5.8-5.8h9.9l-3.1 11.6H7.4c-3.2 0-5.8-2.6-5.8-5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#06f"
+			></path>
+			<path
+				d="M24.6 4c.2.2.2.6 0 .8L22.5 7l2.2 2.2c.2.2.2.6 0 .8-.2.2-.6.2-.8 0l-2.2-2.2-2.2 2.2c-.2.2-.6.2-.8 0-.2-.2-.2-.6 0-.8L20.8 7l-2.2-2.2c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0l2.2 2.2L23.8 4c.2-.2.6-.2.8 0z"
+				style="fill:#fff"
+			></path>
+			<path
+				d="M12.7 4.1c.2.2.3.6.1.8L8.6 9.8c-.1.1-.2.2-.3.2-.2.1-.5.1-.7-.1L5.4 7.7c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0L8 8.6l3.8-4.5c.2-.2.6-.2.9 0z"
+				style="fill:#06f"
+			></path>
+		</svg>
+	
+			<span>Your Privacy Choices</span></a
+		>
+	
+	</div>
+				<div class="flex-shrink-0">
+		<div class="dropdown has-caret-up">
+			<button
+				data-test-id="theme-selector-button"
+				class="dropdown-trigger button button-clear button-sm inner-focus theme-dropdown-trigger"
+				aria-controls="{{ themeMenuId }}"
+				aria-haspopup="true"
+				aria-expanded="false"
+				data-bi-name="theme"
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-sun"></span></span>
+				<span>Theme</span>
+				<span class="icon expanded-indicator" aria-hidden="true">
+					<span class="docon docon-chevron-down-light"></span>
+				</span>
+			</button>
+			<div class="dropdown-menu" id="{{ themeMenuId }}" role="menu">
+				<ul class="theme-selector padding-xxs" data-test-id="theme-dropdown-menu" role="none">
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="light"
+							tabindex="-1"
+						>
+							<span class="theme-light margin-right-xxs">
+								<span
+									class="theme-selector-icon border display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Light </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="dark"
+							tabindex="-1"
+						>
+							<span class="theme-dark margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Dark </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="high-contrast"
+							tabindex="-1"
+						>
+							<span class="theme-high-contrast margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> High contrast </span>
+						</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+			</div>
+			<ul class="links" data-bi-name="footerlinks">
+				<li class="manage-cookies-holder" hidden=""></li>
+				<li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/principles-for-ai-generated-content"
+			data-bi-name="aiDisclaimer"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>AI Disclaimer</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/previous-versions/"
+			data-bi-name="archivelink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Previous Versions</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://techcommunity.microsoft.com/t5/microsoft-learn-blog/bg-p/MicrosoftLearnBlog"
+			data-bi-name="bloglink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Blog</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/contribute"
+			data-bi-name="contributorGuide"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Contribute</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?LinkId=521839"
+			data-bi-name="privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?linkid=2259814"
+			data-bi-name="consumer-health-privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Consumer Health Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/legal/termsofuse"
+			data-bi-name="termsofuse"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Terms of Use</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://www.microsoft.com/legal/intellectualproperty/Trademarks/"
+			data-bi-name="trademarks"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Trademarks</a
+		>
+	
+	</li>
+				<li>&copy; Microsoft 2026</li>
+			</ul>
+		</footer>
+	</footer>
+			</body>
+		</html>

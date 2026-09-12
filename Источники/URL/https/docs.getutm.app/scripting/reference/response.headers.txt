@@ -1,0 +1,21 @@
+HTTP/2 200
+date: Sat, 12 Sep 2026 00:29:55 GMT
+content-type: text/html; charset=utf-8
+server: cloudflare
+last-modified: Fri, 19 Sep 2025 21:25:51 GMT
+access-control-allow-origin: *
+cf-cache-status: DYNAMIC
+expires: Sat, 12 Sep 2026 00:39:55 GMT
+cache-control: max-age=600
+x-proxy-cache: MISS
+x-github-request-id: [REDACTED: response trace identifier]
+x-github-edge-region: [REDACTED: response trace identifier]
+age: 0
+via: 1.1 varnish
+x-served-by: [REDACTED: response trace identifier]
+x-cache: MISS
+x-cache-hits: 0
+x-timer: S1789172995.053451,VS0,VE113
+vary: Accept-Encoding
+x-fastly-request-id: [REDACTED: response trace identifier]
+cf-ray: [REDACTED: response trace identifier]

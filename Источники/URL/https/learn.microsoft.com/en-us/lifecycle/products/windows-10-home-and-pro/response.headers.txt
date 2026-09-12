@@ -1,0 +1,25 @@
+HTTP/2 200
+content-type: text/html
+etag: "vprm9zwFCwPhWCqU9HBrkqEJNIs="
+last-modified: Wed, 19 Aug 2026 09:14:02 GMT
+content-security-policy: default-src *;script-src 'self' 'unsafe-inline' 'unsafe-eval' *.microsoft.com js.monitor.azure.com dc.services.visualstudio.com try-ppe.dot.net aznb-ame-prod.azureedge.net client-api.arkoselabs.com markdowneditor-public-e0gpfpcwcbbze3ag.b01.azurefd.net markdowneditor-PubDev-czdhe4dpdyaee6fj.b01.azurefd.net markdowneditor-external-Public-fmgmfefddycxdmfj.b01.azurefd.net MarkdownEditor-external-PubDev-dfgagughg7fub7h5.b01.azurefd.net h64.online-metrix.net *.clarity.ms;style-src 'self' 'unsafe-inline' *.microsoft.com aznb-ame-prod.azureedge.net try-ppe.dot.net MarkdownEditor-external-PubDev-dfgagughg7fub7h5.b01.azurefd.net markdowneditor-PubDev-czdhe4dpdyaee6fj.b01.azurefd.net markdowneditor-public-e0gpfpcwcbbze3ag.b01.azurefd.net markdowneditor-external-Public-fmgmfefddycxdmfj.b01.azurefd.net;img-src * data: blob:;frame-ancestors docs.microsoft.com *.docs.microsoft.com learn.microsoft.com *.learn.microsoft.com labclient.labondemand.com portal.azure.com *.portal.azure.com portal.azure.us portal.azure.cn ai.azure.com *.ai.azure.com learn-video.azurefd.net docs.azure.cn *.onecloud.azure-test.net *.sharepoint.com localhost:3000 local.learn.microsoft-int.com;worker-src 'self' blob: *.microsoft.com aznb-ame-prod.azureedge.net;form-action 'self' *.microsoft.com *.azure.cn *.pearsonvue.com;media-src 'self' blob: *.microsoft.com *.azure.cn videoencodingpublic-hgeaeyeba8gycee3.b01.azurefd.net videoencodingpubdevwus.blob.core.windows.net videoencodingpublicwus.blob.core.windows.net;base-uri 'self';font-src 'self' https: data:;object-src 'none';script-src-attr 'none';upgrade-insecure-requests
+cross-origin-opener-policy: unsafe-none
+cross-origin-resource-policy: cross-origin
+origin-agent-cluster: ?1
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-dns-prefetch-control: off
+x-download-options: noopen
+x-frame-options: SAMEORIGIN
+x-permitted-cross-domain-policies: none
+x-xss-protection: 0
+x-buildversion: 0.4.03539.8233-36f14dd4
+x-azure-ref: [REDACTED: response trace identifier]
+nel: {"report_to":"network-errors","max_age":604800,"success_fraction":0.01,"failure_fraction":1.0}
+report-to: {"group":"network-errors","max_age":604800,"endpoints":[{"url":"https://mdec.nelreports.net/api/report?cat=mdocs"}]}
+content-length: 31442
+cache-control: public, max-age=600
+expires: Sat, 12 Sep 2026 00:44:34 GMT
+date: Sat, 12 Sep 2026 00:34:34 GMT
+akamai-cache-status: Miss from child, RefreshHit from parent
+strict-transport-security: max-age=31536000; includeSubDomains; preload

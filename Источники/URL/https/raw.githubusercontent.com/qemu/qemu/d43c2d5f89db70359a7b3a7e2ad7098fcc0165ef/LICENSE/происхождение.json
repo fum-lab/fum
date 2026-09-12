@@ -1,0 +1,11 @@
+{
+  "url": "https://raw.githubusercontent.com/qemu/qemu/d43c2d5f89db70359a7b3a7e2ad7098fcc0165ef/LICENSE",
+  "commit": "d43c2d5f89db70359a7b3a7e2ad7098fcc0165ef",
+  "sha256": "139c64b7a9ae62858ff969aae622ecfcf4f1519655bd92d2e70a1a2fb615690e",
+  "байт": 1177,
+  "HTTP": 200,
+  "Content-Type": "text/plain; charset=utf-8",
+  "дата_чтения": "2026-09-12",
+  "редакции": "Нет; полные исходные байты LICENSE. Динамические HTTP-заголовки не сохранялись.",
+  "граница": "Исследовательский upstream, не лицензия квалифицированного бинарного комплекта. NOTICE комплекта ещё не получен."
+}

@@ -1,0 +1,927 @@
+ <!DOCTYPE html>
+		<html
+			class="layout layout-single    lifecycle  default-focus"
+			lang="en-us"
+			dir="ltr"
+			data-authenticated="false"
+			data-auth-status-determined="false"
+			data-target="docs"
+			x-ms-format-detection="none"
+		>
+			
+		<head>
+			<title>Windows 10 Home and Pro - Microsoft Lifecycle | Microsoft Learn</title>
+			<meta charset="utf-8" />
+			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+			<meta name="color-scheme" content="light dark" />
+
+			<meta name="description" content="Windows 10 Home and Pro follows the Modern Lifecycle Policy." />
+			<link rel="canonical" href="https://learn.microsoft.com/en-us/lifecycle/products/windows-10-home-and-pro" /> 
+
+			<!-- Non-customizable open graph and sharing-related metadata -->
+			<meta name="twitter:card" content="summary_large_image" />
+			<meta name="twitter:site" content="@MicrosoftLearn" />
+			<meta property="og:type" content="website" />
+			<meta property="og:image:alt" content="Microsoft Learn" />
+			<meta property="og:image" content="https://learn.microsoft.com/en-us/media/open-graph-image.png" />
+			<!-- Page specific open graph and sharing-related metadata -->
+			<meta property="og:title" content="Windows 10 Home and Pro - Microsoft Lifecycle" />
+			<meta property="og:url" content="https://learn.microsoft.com/en-us/lifecycle/products/windows-10-home-and-pro" />
+			<meta property="og:description" content="Windows 10 Home and Pro follows the Modern Lifecycle Policy." />
+			<meta name="platform_id" content="2721b715-dfb0-70ce-b2de-78e8cb8e387a" /> 
+			<meta name="locale" content="en-us" />
+			 
+			<meta name="uhfHeaderId" content="MSDocsHeader-Lifecycle" />
+
+			<meta name="page_type" content="lifecycle" />
+
+			<!--page specific meta tags-->
+			
+
+			<!-- custom meta tags -->
+			
+		<meta name="schema" content="Lifecycle" />
+	
+		<meta name="feedback_system" content="Standard" />
+	
+		<meta name="ms.service" content="lifecycle" />
+	
+		<meta name="author" content="GitHub-Name" />
+	
+		<meta name="ms.author" content="mslpol" />
+	
+		<meta name="ms.topic" content="lifecycle" />
+	
+		<meta name="ms.date" content="2024-09-17T00:00:00Z" />
+	
+		<meta name="keywords" content="Win10,Home,Pro,Pro Education,Pro for Workstations" />
+	
+		<meta name="document_id" content="131ab24c-a5e5-73f3-0ac9-8c06ce7a5738" />
+	
+		<meta name="document_version_independent_id" content="3a841ff5-4dfb-f51d-daba-55f825974920" />
+	
+		<meta name="updated_at" content="2024-09-17T16:11:00Z" />
+	
+		<meta name="original_content_git_url" content="https://github.com/MicrosoftDocs/lifecycle-data-pr/blob/live/lifecycle-data/products/windows-10-home-and-pro.yml" />
+	
+		<meta name="gitcommit" content="https://github.com/MicrosoftDocs/lifecycle-data-pr/blob/8bc0bd3154d97a23e2d05f27d0a1e8b3da6e1c66/lifecycle-data/products/windows-10-home-and-pro.yml" />
+	
+		<meta name="git_commit_id" content="8bc0bd3154d97a23e2d05f27d0a1e8b3da6e1c66" />
+	
+		<meta name="site_name" content="Docs" />
+	
+		<meta name="depot_name" content="MSDN.lifecycle-data" />
+	
+		<meta name="page_kind" content="lifecycle" />
+	
+		<meta name="feedback_product_url" content="" />
+	
+		<meta name="feedback_help_link_type" content="" />
+	
+		<meta name="feedback_help_link_url" content="" />
+	
+		<meta name="asset_id" content="products/windows-10-home-and-pro" />
+	
+		<meta name="moniker_range_name" content="" />
+	
+		<meta name="item_type" content="Content" />
+	
+		<meta name="source_path" content="lifecycle-data/products/windows-10-home-and-pro.yml" />
+	
+		<meta name="github_feedback_content_git_url" content="https://github.com/MicrosoftDocs/lifecycle-data-pr/blob/live/lifecycle-data/products/windows-10-home-and-pro.yml" />
+	
+		<meta name="markdown_url" content="https://learn.microsoft.com/en-us/lifecycle/products/windows-10-home-and-pro?accept=text/markdown" />
+	 
+
+			<!-- Apply persisted/system theme before first paint to prevent wrong-theme flash when scripts are deferred. -->
+			<script id="theme-preference">
+				(function () {
+			try {
+				var stored = localStorage.getItem('theme');
+				var theme = /^(light|dark|high-contrast)$/.test(stored)
+					? stored
+					: matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+				document.documentElement.classList.add('theme-' + theme);
+			} catch (e) {}
+		})();;
+			</script>
+
+			<script id="atlas-layout-preferences">
+				(function () {
+			try {
+				var state = JSON.parse(localStorage.getItem('atlas-layout-preferences') || '{}');
+				var view = state["docs-layout-persistence"] || {};
+				var excludesKey = "lifecycle-view";
+				var blocked = {};
+				if (excludesKey) {
+					var exclusions = JSON.parse(localStorage.getItem('atlas-layout-exclusions') || '{}');
+					if (Object.prototype.hasOwnProperty.call(exclusions, excludesKey)) {
+						var scoped = exclusions[excludesKey];
+						if (scoped) {
+							if (typeof scoped === 'object') blocked = scoped;
+						}
+					}
+				}
+				var html = document.documentElement;
+				for (var c in view) {
+					if (Object.prototype.hasOwnProperty.call(blocked, c)) continue;
+					if (view[c]) html.classList.add(c);
+					else html.classList.remove(c);
+				}
+			} catch (e) {}
+		})();;
+			</script>
+
+			<!-- assets and js globals -->
+			
+			<link rel="stylesheet" href="/static/assets/0.4.03539.8233-36f14dd4/styles/site.css" />
+			
+			<script src="https://wcpstatic.microsoft.com/mscc/lib/v2/wcp-consent.js"></script>
+			<!-- Keep this URL in sync with oneDSScriptSelector in instrumentation/one-ds.ts. -->
+			<script async src="https://js.monitor.azure.com/scripts/c/ms.jsll-4.min.js"></script>
+			
+
+			<!-- msdocs global object -->
+			<script id="msdocs-script">
+		var msDocs = {
+  "environment": {
+    "accessLevel": "online",
+    "azurePortalHostname": "portal.azure.com",
+    "reviewFeatures": false,
+    "supportLevel": "production",
+    "systemContent": true,
+    "siteName": "learn",
+    "legacyHosting": false
+  },
+  "data": {
+    "contentLocale": "en-us",
+    "contentDir": "ltr",
+    "userLocale": "en-us",
+    "userDir": "ltr",
+    "pageTemplate": "Lifecycle",
+    "layoutStateStorageKey": "docs-layout-persistence",
+    "layoutStateExcludesKey": "lifecycle-view",
+    "layoutStateExcludes": [
+      "layout-flyout-active"
+    ],
+    "brand": "",
+    "context": {},
+    "standardFeedback": false,
+    "showFeedbackReport": false,
+    "feedbackHelpLinkType": "",
+    "feedbackHelpLinkUrl": "",
+    "feedbackSystem": "Standard",
+    "feedbackGitHubRepo": "",
+    "feedbackProductUrl": "",
+    "extendBreadcrumb": false,
+    "isEditDisplayable": false,
+    "isPrivateUnauthorized": false,
+    "hideViewSource": false,
+    "isPermissioned": false,
+    "hasRecommendations": false
+  },
+  "functions": {}
+};;
+	</script>
+
+			<!-- base scripts, msdocs global should be before this -->
+			<script
+				src="/static/assets/0.4.03539.8233-36f14dd4/scripts/en-us/index-docs.js"
+				async
+			></script>
+			
+
+			<!-- json-ld -->
+			
+		</head>
+	
+			<body
+				id="body"
+				data-bi-name="body"
+				class="layout-body "
+				lang="en-us"
+				dir="ltr"
+			>
+				<header class="layout-body-header background-color-body-medium">
+		<div class="header-holder has-default-focus">
+			
+		<a
+			href="#main"
+			
+			style="z-index: 1070"
+			class="outline-color-text visually-hidden-until-focused position-fixed inner-focus focus-visible top-0 left-0 right-0 padding-xs text-align-center background-color-body"
+			
+		>
+			Skip to main content
+		</a>
+	
+
+			<div hidden id="cookie-consent-holder" data-test-id="cookie-consent-container"></div>
+			<!-- Unsupported browser warning -->
+			<div
+				id="unsupported-browser"
+				style="background-color: white; color: black; padding: 16px; border-bottom: 1px solid grey;"
+				hidden
+			>
+				<div style="max-width: 800px; margin: 0 auto;">
+					<p style="font-size: 24px">This browser is no longer supported.</p>
+					<p style="font-size: 16px; margin-top: 16px;">
+						Upgrade to Microsoft Edge to take advantage of the latest features, security updates, and technical support.
+					</p>
+					<div style="margin-top: 12px;">
+						<a
+							href="https://go.microsoft.com/fwlink/p/?LinkID=2092881 "
+							style="background-color: #0078d4; border: 1px solid #0078d4; color: white; padding: 6px 12px; border-radius: 2px; display: inline-block;"
+						>
+							Download Microsoft Edge
+						</a>
+						<a
+							href="https://learn.microsoft.com/en-us/lifecycle/faq/internet-explorer-microsoft-edge"
+							style="background-color: white; padding: 6px 12px; border: 1px solid #505050; color: #171717; border-radius: 2px; display: inline-block;"
+						>
+							More info about Internet Explorer and Microsoft Edge
+						</a>
+					</div>
+				</div>
+			</div>
+			<!-- site header -->
+			<div
+				id="ms--site-header"
+				data-test-id="site-header-wrapper"
+				itemscope="itemscope"
+				itemtype="http://schema.org/Organization"
+			>
+				<div
+					id="ms--mobile-nav"
+					class="site-header display-none-tablet padding-inline-none gap-none"
+					data-bi-name="mobile-header"
+					data-test-id="mobile-header"
+				></div>
+				<div
+					id="ms--primary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L1-header"
+					data-test-id="primary-header"
+				></div>
+				<div
+					id="ms--secondary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L2-header"
+					data-test-id="secondary-header"
+					
+				></div>
+			</div>
+			
+		<!-- banner -->
+		<div data-banner>
+			<div id="disclaimer-holder"></div>
+			
+		</div>
+		<!-- banner end -->
+	
+		</div>
+	</header>
+				 
+
+				<main
+					id="main"
+					role="main"
+					class="layout-body-main "
+					data-bi-name="content"
+					lang="en-us"
+					dir="ltr"
+				>
+					
+			<div
+				data-main-column
+				class="padding-sm padding-top-none padding-top-xxs-desktop"
+			>
+				<div class="modular-content-container">
+					
+		<div id="article-header" class="background-color-body display-none-print">
+			<div class="display-flex align-items-center justify-content-space-between margin-bottom-xxs">
+				
+		<details
+			id="article-header-breadcrumbs-overflow-popover"
+			class="popover popover-left"
+			data-for="article-header-breadcrumbs"
+		>
+			<summary
+				class="button button-clear button-primary button-sm inner-focus"
+				aria-label="All breadcrumbs"
+			>
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-more"></span>
+				</span>
+			</summary>
+			<div id="article-header-breadcrumbs-overflow" class="popover-content"></div>
+		</details>
+
+		<bread-crumbs
+			id="article-header-breadcrumbs"
+			role="group"
+			aria-label="Breadcrumbs"
+			data-test-id="article-header-breadcrumbs"
+			class="overflow-hidden flex-grow-1 margin-right-sm margin-right-md-tablet margin-right-lg-desktop margin-left-negative-xxs padding-left-xxs"
+		></bread-crumbs>
+	 
+		<div
+			id="article-header-page-actions"
+			class="opacity-none margin-left-auto display-flex flex-wrap-no-wrap align-items-stretch"
+		>
+			 
+
+			<details class="popover popover-right" id="article-header-page-actions-overflow">
+				<summary
+					class="justify-content-flex-start button button-clear button-sm button-primary inner-focus"
+					aria-label="More actions"
+					title="More actions"
+				>
+					<span class="icon" aria-hidden="true">
+						<span class="docon docon-more-vertical"></span>
+					</span>
+				</summary>
+				<div class="popover-content">
+					  
+		<a
+			id="lang-link-overflow"
+			class="button-sm inner-focus button button-clear button-block justify-content-flex-start text-align-left"
+			data-bi-name="language-toggle"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-read-in-link
+			href="#"
+			hidden
+		>
+			<span class="icon" aria-hidden="true" data-read-in-link-icon>
+				<span class="docon docon-locale-globe"></span>
+			</span>
+			<span data-read-in-link-text>Read in English</span>
+		</a>
+	
+					
+		<button
+			type="button"
+			class="collection button button-clear button-sm button-block justify-content-flex-start text-align-left inner-focus"
+			data-list-type="collection"
+			data-bi-name="collection"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="collection-status">Add</span>
+		</button>
+	 
+		<button
+			type="button"
+			class="collection button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+			data-list-type="plan"
+			data-bi-name="plan"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="plan-status">Add to Plans</span>
+		</button>
+	 
+					
+		<a
+			data-contenteditbtn
+			class="button button-clear button-block button-sm inner-focus justify-content-flex-start text-align-left text-decoration-none"
+			data-bi-name="edit"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			hidden
+			href=""
+			data-original_content_git_url="https://github.com/MicrosoftDocs/lifecycle-data-pr/blob/live/lifecycle-data/products/windows-10-home-and-pro.yml"
+			data-original_content_git_url_template="{repo}/blob/{branch}/lifecycle-data/products/windows-10-home-and-pro.yml"
+			data-pr_repo=""
+			data-pr_branch=""
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-edit-outline"></span>
+			</span>
+			<span>Edit</span>
+		</a>
+	  
+		<hr class="margin-block-xxs" />
+		 
+				<button
+					class="button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+					type="button"
+					data-bi-name="print"
+					data-page-action-item="overflow-all"
+					data-popover-close
+					data-print-page
+					data-check-hidden="true"
+				>
+					<span class="icon color-primary" aria-hidden="true">
+						<span class="docon docon-print"></span>
+					</span>
+					<span>Print</span>
+				</button>
+		  
+	
+				</div>
+			</details>
+		</div>
+	
+			</div>
+		</div>
+	 
+					<div data-page-content class="content"><div class="modular-content-container">
+	<h1>
+		Windows 10 Home and Pro
+	</h1>
+
+	<p>Windows 10 Home and Pro follows the <a href="/en-us/lifecycle/policies/modern" data-linktype="absolute-path">Modern</a> Lifecycle Policy.</p>
+<p>This applies to the following editions: Home, Pro, Pro Education, Pro for Workstations</p>
+<div class="IMPORTANT">
+<p>Important</p>
+<p>Windows 10 will reach end of support on October 14, 2025. The current version, 22H2, will be the final version of Windows 10, and all editions will remain in support with monthly security update releases through that date. Existing LTSC releases will continue to receive updates beyond that date based on their specific lifecycles.</p>
+</div>
+
+
+	<div class="alert is-info">
+		<p>Support dates are shown in the Pacific Time Zone (PT) - Redmond, WA, USA.</p>
+	</div>
+
+	<section>
+		<h2 id="support-dates">Support Dates</h2>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Listing</th>
+					<th align="right">Start Date</th>
+					<th align="right">Retirement Date</th>
+				</tr>
+			</thead>
+			<tbody>
+					<tr>
+						<td>Windows 10 Home and Pro</td>
+						<td align="right">
+							<local-time timezone="America/Los_Angeles" format="date" datetime="7/29/2015 8:00:00 AM">7/29/2015 8:00:00 AM</local-time>
+						</td>
+						<td align="right">
+								<local-time timezone="America/Los_Angeles" format="date" datetime="10/15/2025 6:59:59 AM">10/15/2025 6:59:59 AM</local-time>
+						</td>
+					</tr>
+			</tbody>
+		</table>
+	</section>
+
+		<section>
+			<h2 id="releases">Releases</h2>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Version</th>
+						<th align="right">Start Date</th>
+						<th align="right">End Date</th>
+					</tr>
+				</thead>
+				<tbody>
+						<tr>
+							<td>Version 22H2</td>
+							<td align="right">
+								<local-time timezone="America/Los_Angeles" format="date" datetime="10/18/2022 8:00:00 AM">10/18/2022 8:00:00 AM</local-time>
+							</td>
+							<td align="right">
+								<local-time timezone="America/Los_Angeles" format="date" datetime="10/15/2025 6:59:59 AM">10/15/2025 6:59:59 AM</local-time>
+							</td>
+						</tr>
+						<tr>
+							<td>Version 21H2</td>
+							<td align="right">
+								<local-time timezone="America/Los_Angeles" format="date" datetime="11/16/2021 8:00:00 AM">11/16/2021 8:00:00 AM</local-time>
+							</td>
+							<td align="right">
+								<local-time timezone="America/Los_Angeles" format="date" datetime="6/14/2023 6:59:59 AM">6/14/2023 6:59:59 AM</local-time>
+							</td>
+						</tr>
+						<tr>
+							<td>Version 21H1</td>
+							<td align="right">
+								<local-time timezone="America/Los_Angeles" format="date" datetime="5/18/2021 8:00:00 AM">5/18/2021 8:00:00 AM</local-time>
+							</td>
+							<td align="right">
+								<local-time timezone="America/Los_Angeles" format="date" datetime="12/14/2022 6:59:59 AM">12/14/2022 6:59:59 AM</local-time>
+							</td>
+						</tr>
+						<tr>
+							<td>Version 20H2</td>
+							<td align="right">
+								<local-time timezone="America/Los_Angeles" format="date" datetime="10/20/2020 8:00:00 AM">10/20/2020 8:00:00 AM</local-time>
+							</td>
+							<td align="right">
+								<local-time timezone="America/Los_Angeles" format="date" datetime="5/11/2022 6:59:59 AM">5/11/2022 6:59:59 AM</local-time>
+							</td>
+						</tr>
+						<tr>
+							<td>Version 2004</td>
+							<td align="right">
+								<local-time timezone="America/Los_Angeles" format="date" datetime="5/27/2020 8:00:00 AM">5/27/2020 8:00:00 AM</local-time>
+							</td>
+							<td align="right">
+								<local-time timezone="America/Los_Angeles" format="date" datetime="12/15/2021 6:59:59 AM">12/15/2021 6:59:59 AM</local-time>
+							</td>
+						</tr>
+						<tr>
+							<td>Version 1909</td>
+							<td align="right">
+								<local-time timezone="America/Los_Angeles" format="date" datetime="11/12/2019 8:00:00 AM">11/12/2019 8:00:00 AM</local-time>
+							</td>
+							<td align="right">
+								<local-time timezone="America/Los_Angeles" format="date" datetime="5/12/2021 6:59:59 AM">5/12/2021 6:59:59 AM</local-time>
+							</td>
+						</tr>
+						<tr>
+							<td>Version 1903</td>
+							<td align="right">
+								<local-time timezone="America/Los_Angeles" format="date" datetime="5/21/2019 8:00:00 AM">5/21/2019 8:00:00 AM</local-time>
+							</td>
+							<td align="right">
+								<local-time timezone="America/Los_Angeles" format="date" datetime="12/9/2020 6:59:59 AM">12/9/2020 6:59:59 AM</local-time>
+							</td>
+						</tr>
+						<tr>
+							<td>Version 1809</td>
+							<td align="right">
+								<local-time timezone="America/Los_Angeles" format="date" datetime="11/13/2018 8:00:00 AM">11/13/2018 8:00:00 AM</local-time>
+							</td>
+							<td align="right">
+								<local-time timezone="America/Los_Angeles" format="date" datetime="11/11/2020 6:59:59 AM">11/11/2020 6:59:59 AM</local-time>
+							</td>
+						</tr>
+						<tr>
+							<td>Version 1803</td>
+							<td align="right">
+								<local-time timezone="America/Los_Angeles" format="date" datetime="4/30/2018 8:00:00 AM">4/30/2018 8:00:00 AM</local-time>
+							</td>
+							<td align="right">
+								<local-time timezone="America/Los_Angeles" format="date" datetime="11/13/2019 6:59:59 AM">11/13/2019 6:59:59 AM</local-time>
+							</td>
+						</tr>
+						<tr>
+							<td>Version 1709</td>
+							<td align="right">
+								<local-time timezone="America/Los_Angeles" format="date" datetime="10/17/2017 8:00:00 AM">10/17/2017 8:00:00 AM</local-time>
+							</td>
+							<td align="right">
+								<local-time timezone="America/Los_Angeles" format="date" datetime="4/10/2019 6:59:59 AM">4/10/2019 6:59:59 AM</local-time>
+							</td>
+						</tr>
+						<tr>
+							<td>Version 1703</td>
+							<td align="right">
+								<local-time timezone="America/Los_Angeles" format="date" datetime="4/11/2017 8:00:00 AM">4/11/2017 8:00:00 AM</local-time>
+							</td>
+							<td align="right">
+								<local-time timezone="America/Los_Angeles" format="date" datetime="10/10/2018 6:59:59 AM">10/10/2018 6:59:59 AM</local-time>
+							</td>
+						</tr>
+						<tr>
+							<td>Version 1607</td>
+							<td align="right">
+								<local-time timezone="America/Los_Angeles" format="date" datetime="8/2/2016 8:00:00 AM">8/2/2016 8:00:00 AM</local-time>
+							</td>
+							<td align="right">
+								<local-time timezone="America/Los_Angeles" format="date" datetime="4/11/2018 6:59:59 AM">4/11/2018 6:59:59 AM</local-time>
+							</td>
+						</tr>
+						<tr>
+							<td>Version 1511</td>
+							<td align="right">
+								<local-time timezone="America/Los_Angeles" format="date" datetime="11/10/2015 8:00:00 AM">11/10/2015 8:00:00 AM</local-time>
+							</td>
+							<td align="right">
+								<local-time timezone="America/Los_Angeles" format="date" datetime="10/11/2017 6:59:59 AM">10/11/2017 6:59:59 AM</local-time>
+							</td>
+						</tr>
+						<tr>
+							<td>Version 1507</td>
+							<td align="right">
+								<local-time timezone="America/Los_Angeles" format="date" datetime="7/29/2015 8:00:00 AM">7/29/2015 8:00:00 AM</local-time>
+							</td>
+							<td align="right">
+								<local-time timezone="America/Los_Angeles" format="date" datetime="5/10/2017 6:59:59 AM">5/10/2017 6:59:59 AM</local-time>
+							</td>
+						</tr>
+				</tbody>
+			</table>
+		</section>
+
+	<h2 id="links">Links</h2>
+<ul>
+<li><a href="/en-us/windows/deployment/update/waas-quick-start" data-linktype="absolute-path">Windows as a Service (WaaS)</a></li>
+<li><a href="/en-us/lifecycle/faq/windows" data-linktype="absolute-path">Lifecycle FAQ - Windows products</a></li>
+<li><a href="/en-us/windows/windows-10/" data-linktype="absolute-path">Product Information</a></li>
+<li><a href="/en-us/lifecycle/products/windows-10-enterprise-and-education" data-linktype="absolute-path">Windows 10 Enterprise and Education</a></li>
+<li><a href="/en-us/lifecycle/products/windows-10-iot-enterprise" data-linktype="absolute-path">Windows 10 IoT Enterprise</a></li>
+<li><a href="/en-us/windows/whats-new/windows-11-plan?context=%2Fwindows%2Fdeployment%2Fcontext%2Fcontext" data-linktype="absolute-path">Migration Guidance</a></li>
+</ul>
+<div class="NOTE">
+<p>Note</p>
+<p>Pro for Workstations first released with Version 1709.</p>
+</div>
+<div class="NOTE">
+<p>Note</p>
+<p>Unless&nbsp;deferred, subsequent Windows 10 feature updates may be installed prior to the listed end of Mainstream Support date.</p>
+</div>
+<h2 id="editions">Editions</h2>
+<ul>
+<li>Home</li>
+<li>Pro</li>
+<li>Pro Education</li>
+<li>Pro for Workstations</li>
+</ul>
+
+</div>
+</div>
+					
+				</div>
+				
+			</div>
+		
+				</main>
+				  <div class="layout-body-footer " data-bi-name="layout-footer">
+		<footer
+			id="footer"
+			data-test-id="footer"
+			data-bi-name="footer"
+			class="footer-layout padding-xs padding-sm-desktop has-default-focus border-top"
+			role="contentinfo"
+		>
+			<div class="display-flex gap-xs flex-wrap-wrap is-full-height padding-right-lg-desktop">
+				
+		<a
+			data-mscc-ic="false"
+			href="#"
+			data-bi-name="select-locale"
+			class="locale-selector-link flex-shrink-0 button button-sm button-clear external-link-indicator"
+			id=""
+			title=""
+			><span class="icon" aria-hidden="true"
+				><span class="docon docon-world"></span></span
+			><span class="local-selector-link-text">en-us</span></a
+		>
+	 <div class="ccpa-privacy-link" data-ccpa-privacy-link hidden>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://aka.ms/yourcaliforniaprivacychoices"
+			data-bi-name="your-privacy-choices"
+			class="button button-sm button-clear flex-shrink-0 external-link-indicator"
+			id=""
+			title=""
+			>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 30 14"
+			xml:space="preserve"
+			height="16"
+			width="43"
+			aria-hidden="true"
+			focusable="false"
+		>
+			<path
+				d="M7.4 12.8h6.8l3.1-11.6H7.4C4.2 1.2 1.6 3.8 1.6 7s2.6 5.8 5.8 5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#fff"
+			></path>
+			<path
+				d="M22.6 0H7.4c-3.9 0-7 3.1-7 7s3.1 7 7 7h15.2c3.9 0 7-3.1 7-7s-3.2-7-7-7zm-21 7c0-3.2 2.6-5.8 5.8-5.8h9.9l-3.1 11.6H7.4c-3.2 0-5.8-2.6-5.8-5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#06f"
+			></path>
+			<path
+				d="M24.6 4c.2.2.2.6 0 .8L22.5 7l2.2 2.2c.2.2.2.6 0 .8-.2.2-.6.2-.8 0l-2.2-2.2-2.2 2.2c-.2.2-.6.2-.8 0-.2-.2-.2-.6 0-.8L20.8 7l-2.2-2.2c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0l2.2 2.2L23.8 4c.2-.2.6-.2.8 0z"
+				style="fill:#fff"
+			></path>
+			<path
+				d="M12.7 4.1c.2.2.3.6.1.8L8.6 9.8c-.1.1-.2.2-.3.2-.2.1-.5.1-.7-.1L5.4 7.7c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0L8 8.6l3.8-4.5c.2-.2.6-.2.9 0z"
+				style="fill:#06f"
+			></path>
+		</svg>
+	
+			<span>Your Privacy Choices</span></a
+		>
+	
+	</div>
+				<div class="flex-shrink-0">
+		<div class="dropdown has-caret-up">
+			<button
+				data-test-id="theme-selector-button"
+				class="dropdown-trigger button button-clear button-sm inner-focus theme-dropdown-trigger"
+				aria-controls="{{ themeMenuId }}"
+				aria-haspopup="true"
+				aria-expanded="false"
+				data-bi-name="theme"
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-sun"></span></span>
+				<span>Theme</span>
+				<span class="icon expanded-indicator" aria-hidden="true">
+					<span class="docon docon-chevron-down-light"></span>
+				</span>
+			</button>
+			<div class="dropdown-menu" id="{{ themeMenuId }}" role="menu">
+				<ul class="theme-selector padding-xxs" data-test-id="theme-dropdown-menu" role="none">
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="light"
+							tabindex="-1"
+						>
+							<span class="theme-light margin-right-xxs">
+								<span
+									class="theme-selector-icon border display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Light </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="dark"
+							tabindex="-1"
+						>
+							<span class="theme-dark margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Dark </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="high-contrast"
+							tabindex="-1"
+						>
+							<span class="theme-high-contrast margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> High contrast </span>
+						</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+			</div>
+			<ul class="links" data-bi-name="footerlinks">
+				<li class="manage-cookies-holder" hidden=""></li>
+				<li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/principles-for-ai-generated-content"
+			data-bi-name="aiDisclaimer"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>AI Disclaimer</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/previous-versions/"
+			data-bi-name="archivelink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Previous Versions</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://techcommunity.microsoft.com/t5/microsoft-learn-blog/bg-p/MicrosoftLearnBlog"
+			data-bi-name="bloglink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Blog</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/contribute"
+			data-bi-name="contributorGuide"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Contribute</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?LinkId=521839"
+			data-bi-name="privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?linkid=2259814"
+			data-bi-name="consumer-health-privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Consumer Health Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/legal/termsofuse"
+			data-bi-name="termsofuse"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Terms of Use</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://www.microsoft.com/legal/intellectualproperty/Trademarks/"
+			data-bi-name="trademarks"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Trademarks</a
+		>
+	
+	</li>
+				<li>&copy; Microsoft 2026</li>
+			</ul>
+		</footer>
+	</footer>
+			</body>
+		</html>

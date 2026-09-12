@@ -1,0 +1,17 @@
+HTTP/2 200
+server: nginx
+content-type: text/html
+last-modified: Fri, 11 Sep 2026 18:18:10 GMT
+etag: "6aa445e2-2fb68"
+x-clacks-overhead: GNU Terry Pratchett
+strict-transport-security: max-age=315360000; includeSubDomains; preload
+via: 1.1 varnish, 1.1 varnish
+accept-ranges: bytes
+age: 0
+date: Sat, 12 Sep 2026 00:29:50 GMT
+x-served-by: [REDACTED: response trace identifier]
+x-cache: MISS, MISS
+x-cache-hits: 0, 0
+x-timer: S1789172990.043459,VS0,VE112
+vary: Accept-Encoding
+content-length: 195432

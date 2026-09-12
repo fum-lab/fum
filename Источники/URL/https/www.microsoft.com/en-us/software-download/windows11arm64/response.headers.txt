@@ -1,0 +1,20 @@
+HTTP/2 200
+content-type: text/html; charset=utf-8
+content-length: 139698
+cache-control: no-store
+x-trace-id: [REDACTED: response trace identifier]
+x-cascade-version: vNext
+ms-commit-id: 36b208c
+accept-ch: Sec-CH-UA-Platform-Version
+strict-transport-security: max-age=31536000; includeSubDomains
+x-azure-ref: [REDACTED: response trace identifier]
+accept-ranges: bytes
+date: Sat, 12 Sep 2026 00:29:53 GMT
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+tls_version: tls1.3
+x-dtag: AEM_Redir_PROD_SA
+ms-cv: [REDACTED: response trace identifier]
+ms-cv-esi: [REDACTED: response trace identifier]
+x-edgescape-location: [REDACTED: response trace identifier]
+x-rtag: AEM_CAS_Foxtrot

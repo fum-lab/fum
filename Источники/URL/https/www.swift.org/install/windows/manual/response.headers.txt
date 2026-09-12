@@ -1,0 +1,18 @@
+HTTP/1.1 200 OK
+Server: Apple
+Date: Sat, 12 Sep 2026 00:34:31 GMT
+Content-Type: text/html; charset=UTF-8
+Content-Length: 27418
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Last-Modified: Fri, 11 Sep 2026 20:10:52 GMT
+ETag: "6b1a-65b3aae5fab00"
+Accept-Ranges: bytes
+X-Frame-Options: SAMEORIGIN
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+Cache-Control: max-age=180, public
+Age: 2
+Via: https/1.1 defra2-xdc-mx-027.ts.apple.com (acdn/331.16659), https/1.1 defra1-edge-fx-021.ts.apple.com (acdn/331.16659)
+X-Cache: hit-stale, miss
+cdnuuid: [REDACTED: response trace identifier]
+Connection: keep-alive

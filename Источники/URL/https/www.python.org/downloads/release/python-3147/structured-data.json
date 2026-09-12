@@ -1,0 +1,10 @@
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "url": "https://www.python.org/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://www.python.org/search/?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}

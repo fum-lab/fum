@@ -28,7 +28,12 @@ class SourceArchiveCoreTests(unittest.TestCase):
         архиватор = importlib.util.module_from_spec(спецификация)
         спецификация.loader.exec_module(архиватор)
         for очистить in (source_archive.redact_headers, архиватор.redact_headers):
-            for имя in ("CF-Ray", "X-Request-ID", "Request-Context", "X-MS-Middleware-Request-ID"):
+            for имя in (
+                "CF-Ray", "X-Request-ID", "Request-Context", "X-MS-Middleware-Request-ID",
+                "X-GitHub-Request-ID", "X-Fastly-Request-ID", "X-Azure-Ref",
+                "MS-CV", "MS-CV-ESI", "X-Edgescape-Location",
+                "X-GitHub-Edge-Region", "X-Served-By",
+            ):
                 with сам.subTest(вход=очистить.__module__, заголовок=имя):
                     сырьё = (
                         "HTTP/2 200\r\n"

@@ -331,6 +331,9 @@ def redact_headers(raw: str) -> str:
             "x-ms-middleware-request-id",
             "x-xsrf-token", "x-csrf-token", "x-trace-id", "x-correlation-id", "x-sp-crid",
             "x-tracking-ref", "cdnuuid", "x-yandex-eu-request",
+            "x-github-request-id", "x-fastly-request-id", "x-azure-ref",
+            "ms-cv", "ms-cv-esi", "x-edgescape-location",
+            "x-github-edge-region", "x-served-by",
         }
         if скрыть_продолжение and имя == "set-cookie":
             lines.append(COOKIE_REDACTION)
@@ -393,6 +396,18 @@ def очистить_диагностику_CAPTCHA(текст: str) -> str:
 
 def очистить_служебный_html(текст: str) -> str:
     """Редактирует известные служебные поля, сохраняя остальное содержимое."""
+    if re.search(r'\bwindow\.traceid\s*=', текст):
+        текст = re.sub(r'(This is the Trace Id:\s*)(?!\[REDACTED\])[^<\s]+', lambda поле: поле[1] + '[REDACTED]', текст)
+    текст = re.sub(r'<!--\s*Start of ADDITIONAL DEBUG INFO\b.*?End of ADDITIONAL DEBUG INFO\s*-->', '<!-- [REDACTED: request diagnostics] -->', текст, flags=re.S)
+    def очистить_скрипт(совпадение):
+        скрипт = совпадение[0]
+        префиксы_скрипта = [r'\bwindow\.traceid\s*=\s*']
+        if re.search(r'\bwindow\.cas\s*=\s*expToken\b', скрипт):
+            префиксы_скрипта.append(r'["\x27]propertyToken["\x27]\s*:\s*')
+        for префикс_скрипта in префиксы_скрипта:
+            скрипт = re.sub('(' + префикс_скрипта + r')(["\x27])(?:\\.|(?!\2).)*\2', lambda поле: поле[1] + поле[2] + '[REDACTED]' + поле[2], скрипт)
+        return скрипт
+    текст = re.sub(r'<script\b[^>]*>.*?</script\s*>', очистить_скрипт, текст, flags=re.I | re.S)
     имена = r"(?:csrf[-_]?token|xsrf[-_]?token|x-csrf-token)"
     def очистить_тег(совпадение):
         тег = совпадение.group(0)
@@ -746,6 +761,8 @@ def write_report(
         "- Значения `Set-Cookie` в HTTP-заголовках заменены на `[REDACTED: response cookie]`.",
         "- Значения `CF-Ray`, `X-Request-ID`, `Request-Context`, `X-MS-Middleware-Request-ID` заменены на `[REDACTED: response trace identifier]`; продолжения очищаемых заголовков удалены.",
         "- Дополнительно очищены X-XSRF-Token, X-CSRF-Token, X-Trace-Id, X-Correlation-Id, X-SP-CRID, X-Tracking-Ref, CDNUUID, x-yandex-eu-request и nonce директив CSP.",
+        "- Удалены значения трассировки X-GitHub-Request-ID, X-Fastly-Request-ID, X-Azure-Ref, MS-CV, MS-CV-ESI и метаданные доставки X-Edgescape-Location, X-GitHub-Edge-Region, X-Served-By; продолжения этих заголовков также удалены.",
+        "- Очищены отладочные комментарии ADDITIONAL DEBUG INFO, window.traceid и связанный видимый Trace Id; propertyToken очищается только внутри скрипта window.cas = expToken. Хэши статических JS-ресурсов сохранены.",
         "- До извлечения очищены известные CSRF/XSRF-поля HTML и встроенного JSON, nonce атрибутов, wgRequestId, адрес и ID запроса в диагностическом блоке, поле pdata и диагностические data-testid unique-key/timestamp. Прочее содержимое сохранено без перевода; это ограниченная редакция известных полей, а не гарантия отсутствия всех возможных секретов.",
         "",
         "## Ограничения извлечения",

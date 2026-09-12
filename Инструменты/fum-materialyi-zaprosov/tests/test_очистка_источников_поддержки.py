@@ -12,6 +12,27 @@ import source_archive as архив
 
 
 class ОчисткаИсточников(unittest.TestCase):
+    def test_диагностика_страницы_загрузки(сам):
+        тело = '''<title>Download</title>
+<!-- Start of ADDITIONAL DEBUG INFO ** cv.html **
+    CVToken: synthetic-private-a
+  End of ADDITIONAL DEBUG INFO -->
+<!-- Start of ADDITIONAL DEBUG INFO ** experimentation.html **
+    CVToken-Experimentation: synthetic-private-b
+    Exp header value: synthetic-private-c
+  End of ADDITIONAL DEBUG INFO -->
+<span>This is the Trace Id: synthetic-private-d
+<script>window.traceid = 'synthetic-private-d'</script></span>
+<script>var expToken = {"exp":{"target":{"propertyToken":"synthetic-private-e","visitorJsHash":"public-asset-hash"}}}; window.cas = expToken;</script>
+<p>Windows 11 ARM64, 2026-09-12</p>'''
+        итог = архив.очистить_служебный_html(тело)
+        сам.assertNotIn('synthetic-private', итог)
+        сам.assertIn('public-asset-hash', итог)
+        сам.assertIn('Windows 11 ARM64, 2026-09-12', итог)
+        сам.assertEqual(итог, архив.очистить_служебный_html(итог))
+        пример = '<p>This is the Trace Id: public-example</p><pre>"propertyToken":"public-example"</pre>'
+        сам.assertEqual(пример, архив.очистить_служебный_html(пример))
+
     def test_сжатый_PDF_отклоняется_после_распаковки(self):
         with tempfile.TemporaryDirectory() as каталог:
             def транспорт(url, body, headers):
