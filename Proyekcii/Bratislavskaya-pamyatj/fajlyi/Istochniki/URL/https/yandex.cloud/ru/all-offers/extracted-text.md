@@ -1,0 +1,225 @@
+# Извлечённый текст
+
+Источник: <https://yandex.cloud/ru/all-offers>
+
+## Содержимое
+
+Скидки, гранты и специальные условия | Yandex Cloud
+Поиск
+Связаться с экспертом Попробовать бесплатно
+Сервисы
+Решения
+Почему Yandex Cloud
+Ресурсы
+Цены
+Кейсы
+Документация
+Блог
+Все сервисы
+Cloud Interconnect
+Cloud Backup
+Cloud Registry
+Yandex AI Studio
+Compute Cloud
+Object Storage
+Managed Service for Kubernetes®
+Yandex BareMetal
+Smart Web Security
+Security Deck
+Managed Service for PostgreSQL
+Managed Service for ClickHouse®
+Monium
+Cloud CDN
+Network Load Balancer
+Virtual Private Cloud
+Cloud DNS
+Application Load Balancer
+Yandex Cloud Video
+Stackland
+Yandex Cloud Router
+Yandex Managed Service for Trino
+Managed Service for MySQL®
+Managed Service for Valkey™
+Managed Service for Apache Spark™
+Yandex StoreDoc
+Managed Service for OpenSearch
+Managed Service for Apache Kafka®
+Data Transfer
+Yandex MPP Analytics Engine for PostgreSQL
+Yandex Managed Service for Apache Airflow®
+Data Processing
+Yandex MetaData Hub
+Managed Service for YDB
+Managed Service for Sharded PostgreSQL
+Managed Service for YTsaurus
+Yandex WebSQL
+DataLens
+Yandex Search API
+SpeechSense
+SpeechKit
+DataSphere
+Vision OCR
+Translate
+Yandex Neurosupport
+Yandex Cloud Detection and Response
+Yandex Identity Hub
+Key Management Service
+Certificate Manager
+Yandex Lockbox
+Audit Trails
+SmartCaptcha
+Cloud Desktop
+GOST Gateway
+Yandex SIEM
+SourceCraft Code Assistant
+Container Registry
+Managed Service for GitLab
+SourceCraft
+Managed Service for Prometheus®
+Cloud Functions
+API Gateway
+Yandex Cloud Postbox
+Message Queue
+Serverless Integrations
+IoT Core
+Data Streams
+Serverless Containers
+Cloud Notification Service
+Yandex Query
+Identity and Access Management
+Yandex Cloud Console
+Resource Manager
+Yandex Cloud Billing
+Yandex Cloud Quota Manager
+Cloud Apps
+Статус работы сервисов
+Marketplace
+Популярные
+Инфраструктура и сеть
+Платформа данных
+Искусственный интеллект
+Безопасность
+Инструменты DevOps
+Бессерверные вычисления
+Управление ресурсами
+Все решения
+По отраслям
+По типу задач
+Экономика платформы
+Yandex Cloud Trust
+Техническая поддержка
+Каталог партнёров
+Обучение и сертификация
+Облако для стартапов
+Облако для крупного бизнеса
+Центр технологий для общества
+Облако для интеграторов
+Поддержка IT-бизнеса
+Облако для фрилансеров
+Обучение и сертификация
+Блог
+Документация
+Контент-программа
+Мероприятия и вебинары
+Контакты, чаты и сообщества
+Идеи
+Калькулятор цен
+Тарифы
+Акции и free tier
+Кейсы
+Документация
+Блог
+Главная /
+Попробуйте облако бесплатно
+Собрали все грантовые программы и скидки в одном месте.
+Новым пользователям начисляем стартовый грант* — 4000 ₽ физическим лицам и 10 000 ₽ юридическим.
+* Размер и валюта отличаются для пользователей из разных стран.
+Условия использования Перейти в консоль
+Мигрируйте в Yandex Cloud — покроем все расходы
+Получите грант на 60 дней без фиксированного лимита, консультацию архитектора и пошаговый план — независимо от того, откуда переезжаете.
+Подробнее
+Free tier
+Выделили объём бесплатных ресурсов, чтобы вы могли познакомиться с платформой.
+Все сервисы Инфраструктура и сеть Платформа данных Инструменты разработчика Бессерверные вычисления Безопасность
+Compute Cloud
+Время выключенной ВМ, использование Instance Groups и ресурсы ВМ на выделенном хосте не тарифицируются.
+Object Storage
+1 ГБ хранения, 10 000 операций PUT, POST, PATCH, LIST и 100 000 операций GET, HEAD, OPTIONS в месяц бесплатно.
+Cloud DNS
+1 000 000 рекурсивных DNS‑запросов в месяц бесплатно.
+Virtual Private Cloud
+100 ГБ исходящего трафика и 100 ГБ исходящего трафика через NAT‑шлюз в месяц бесплатно.
+Managed Service for YDB
+1 000 000 операций, 1 ГБ в месяц хранения данных и автоматические резервные копии в месяц бесплатно.
+Yandex DataLens
+Тариф Cloud на 30 дней бесплатно.
+Data Transfer
+100 000 000 строк, перенесённых трансфером в месяц, бесплатно.
+Data Processing
+Кластеры Apache Hive™ Metastore не тарифицируются.
+Смотреть все 20+ сервисов
+Больше выгоды для тех, кто уже в облаке
+Сократите затраты до 22% зарезервировав сервисы на полгода или один год.
+Узнать подробнее
+Программы для вашего развития
+Развиваем стартапы вместе с Yandex Cloud Boost
+Получите грант до 1 000 000 рублей на IT-инфраструктуру, а так же доступ к сервисам на особых условиях.
+Узнать больше
+Даем бонусы для фрилансеров в сфере IT
+Приглашайте клиентов на нашу платформу и получайте вознаграждение 10 000 рублей за каждого.
+Узнать больше
+Помогаем НКО
+Грант до 1 000 000 рублей поможет вашей НКО работать эффективнее. Автоматизируйте рутину и сосредоточьтесь на изменениях к лучшему.
+Узнать больше
+Открываем возможности для науки
+Доступ к облачным технологиям для университетских проектов. Развивайте науку и образование с помощью Yandex Cloud.
+Узнать больше
+Не нашли подходящее предложение?
+Наши специалисты подберут для вас индивидуальные условия.
+Свяжитесь с нами
+Будьте в курсе новостей платформы и анонсов мероприятий
+Подписаться
+Я соглашаюсь получать рекламные и иные сообщения от ООО «Яндекс.Облако» на условиях Политики конфиденциальности
+Для работы
+Сервисы
+Тарифы
+Документация
+Решения
+Marketplace
+Статус работы сервисов
+Почему Yandex Cloud
+Безопасность
+Облако для крупного бизнеса
+Центр технологий для общества
+Кейсы
+Облако для стартапов
+Облако для интеграторов
+Облако для фрилансеров
+Найти партнёра
+Сообщество
+Мероприятия и вебинары
+Обучение и сертификация
+Контент-программа
+Идеи
+Блог
+Участие в исследованиях
+Компания
+О нас
+Карьера
+Брендбук
+Контакты
+support@yandex.cloud
+Техническая поддержка
+Пригласить на тендер
+Отдел продаж
+Мобильное приложение
+Россия
+Политика конфиденциальности
+Условия использования
+Проект Яндекса
+© 2026 ООО «Яндекс.Облако»
+
+<!-- FUM-MD-RECENCY:BEGIN -->
+<!-- last-content-edit: 2026-09-11 15:53:44 MSK -->
+<!-- content-sha256: sha256:e060c45abecbcd1624d44d91fc83754ac1a55a5503722c065ac9e68351b72321 -->
+<!-- FUM-MD-RECENCY:END -->

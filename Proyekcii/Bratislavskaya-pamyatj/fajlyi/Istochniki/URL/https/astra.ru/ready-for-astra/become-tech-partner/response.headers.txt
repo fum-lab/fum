@@ -1,0 +1,16 @@
+HTTP/2 200
+server: nginx
+date: Fri, 11 Sep 2026 11:57:56 GMT
+content-type: text/html; charset=UTF-8
+content-length: 81655
+vary: HTTPS
+p3p: policyref="/bitrix/p3p.xml", CP="NON DSP COR CUR ADM DEV PSA PSD OUR UNR BUS UNI COM NAV INT DEM STA"
+x-powered-cms: Bitrix Site Manager (1f2d9a01810a45e7ee2ad725cea2c01d)
+set-cookie: [REDACTED: response cookie]
+expires: Thu, 19 Nov 1981 08:52:00 GMT
+cache-control: no-store, no-cache, must-revalidate
+pragma: no-cache
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+access-control-allow-origin: *
+x-frame-options: SAMEORIGIN

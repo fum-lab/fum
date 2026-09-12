@@ -16,6 +16,19 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-12 00:13:57 MSK — Dobavitj otlozhennyiye naznacheniya napravlenij](2026-09-12_00-13-57_MSK_dobavitj-otlozhennyiye-naznacheniya-napravlenij/otchyot.md)
+- [2026-09-11 23:32:59 MSK — Prinyatj plan I2P i utochneniya Swift](2026-09-11_23-32-59_MSK_prinyatj-plan-I2P-i-utochneniya-Swift/otchyot.md)
+- [2026-09-11 22:27:25 MSK — Perenesti finansovyij rezuljtat FUM](2026-09-11_22-27-25_MSK_perenesti-finansovyij-rezuljtat-FUM/otchyot.md)
+- [2026-09-11 21:47:07 MSK — Podtverditj README i utochnitj zerkala](2026-09-11_21-47-07_MSK_podtverditj-README-i-utochnitj-zerkala/otchyot.md)
+- [2026-09-11 20:37:47 MSK — Prinyatj parametricheskoye 3D FUMA](2026-09-11_20-37-47_MSK_prinyatj-parametricheskoye-3D-FUMA/otchyot.md)
+- [2026-09-11 20:18:41 MSK — Podtverditj zapusk Telegram i sokhranitj prodolzheniye](2026-09-11_20-18-41_MSK_podtverditj-zapusk-Telegram-i-sokhranitj-prodolzheniye/otchyot.md)
+- [2026-09-11 19:12:07 MSK — Prinyatj plan avtonomnogo komplekta FUM](2026-09-11_19-12-07_MSK_prinyatj-plan-avtonomnogo-komplekta-FUM/otchyot.md)
+- [2026-09-11 18:47:36 MSK — Prinyatj plan zerkaljnoj sborki Swift](2026-09-11_18-47-36_MSK_prinyatj-plan-zerkaljnoj-sborki-Swift/otchyot.md)
+- [2026-09-11 16:55:35 MSK — Utochnitj operatornoye vnimaniye i prodolzhitj priyom](2026-09-11_16-55-35_MSK_utochnitj-operatornoye-vnimaniye-i-prodolzhitj-priyom/otchyot.md)
+- [2026-09-11 16:19:17 MSK — Podtverditj zapusk Gosuslug i prodolzhitj priyom](2026-09-11_16-19-17_MSK_podtverditj-zapusk-Gosuslug-i-prodolzhitj-priyom/otchyot.md)
+- [2026-09-11 15:48:40 MSK — Prinyatj planirovaniye Gosuslug](2026-09-11_15-48-40_MSK_prinyatj-planirovaniye-Gosuslug/otchyot.md)
+- [2026-09-11 14:48:56 MSK — Ispravitj dopusk statusa i prodolzhitj priyom](2026-09-11_14-48-56_MSK_ispravitj-dopusk-statusa-i-prodolzhitj-priyom/otchyot.md)
+- [2026-09-11 13:39:59 MSK — Prinyatj napravleniye finansirovaniya FUM](2026-09-11_13-39-59_MSK_prinyatj-napravleniye-finansirovaniya-FUM/otchyot.md)
 - [2026-09-11 10:00:32 MSK — Zavershitj priyom napravlenij FUMA](2026-09-11_10-00-32_MSK_zavershitj-priyom-napravlenij-FUMA/otchyot.md)
 - [2026-09-11 09:36:55 MSK — Sokhranitj ostavshuyusya diagnostiku priyoma](2026-09-11_09-36-55_MSK_sokhranitj-ostavshuyusya-diagnostiku-priyoma/otchyot.md)
 - [2026-09-11 09:29:11 MSK — Prinyatj vyibor Swift System](2026-09-11_09-29-11_MSK_prinyatj-vyibor-Swift-System/otchyot.md)
@@ -523,6 +536,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 10:07:35 MSK -->
-<!-- content-sha256: sha256:2cc82fa4dbbfb052a0bca668450ef2992eae30013820ca1fa825769c5164849a -->
+<!-- last-content-edit: 2026-09-12 01:09:27 MSK -->
+<!-- content-sha256: sha256:78d12fa3a39696b2ee969a7b1fcdb7f381ebb917512afe0f07c58614d21a36e0 -->
 <!-- FUM-MD-RECENCY:END -->

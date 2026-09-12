@@ -25,7 +25,7 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0017 | `устранена` | [Blokirovka starta zadachi izmeneniyami v kornevoj `.obsidian/`](FUM-SBOJ-0017-blokirovka-starta-zadachi-izmeneniyami-v-kornevoj-obsidian.md)                           | 1          | —                       |
 | FUM-SBOJ-0018 | `устранена` | [Tekhnicheskoye nazvaniye zadachi Codex posle naznacheniya kartochki](FUM-SBOJ-0018-tekhnicheskoye-nazvaniye-zadachi-Codex-posle-naznacheniya-kartochki.md)                         | 1          | —                       |
 | FUM-SBOJ-0019 | `устранена` | [Zavisimostj repozitornogo testa selektora ot aktivnoj worktree-vetki](FUM-SBOJ-0019-zavisimostj-repozitornogo-testa-selektora-ot-aktivnoj-worktree-vetki.md)       | 1          | —                       |
-| FUM-SBOJ-0020 | `устранена` | [Publikaciya sluzhebnogo `CF-Ray` v snimke istochnika](FUM-SBOJ-0020-publikaciya-sluzhebnogo-CF-Ray-v-snimke-istochnika.md)                                               | 2          | FUM-STEP-0151           |
+| FUM-SBOJ-0020 | `устранена` | [Publikaciya sluzhebnogo CF-Ray v snimke istochnika](FUM-SBOJ-0020-publikaciya-sluzhebnogo-CF-Ray-v-snimke-istochnika.md)                                                 | 3          | FUM-STEP-0212           |
 | FUM-SBOJ-0021 | `устранена` | [Nematerializovannaya Git-zavisimostj avtomaticheski sozdannogo slota](FUM-SBOJ-0021-nematerializovannaya-Git-zavisimostj-avtomaticheski-sozdannogo-slota.md)           | 1          | —                       |
 | FUM-SBOJ-0022 | `устранена` | [Nedostavka izmenenij iz Web ChatGPT](FUM-SBOJ-0022-nedostavka-izmenenij-iz-Web-ChatGPT.md)                                                                         | 1          | —                       |
 | FUM-SBOJ-0023 | `активна`   | [Nekorrektnyij vneshnij paket](FUM-SBOJ-0023-nekorrektnyij-vneshnij-paket.md)                                                                                           | 1          | FUM-STEP-0150           |
@@ -55,7 +55,7 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0057 | `устранена` | [Vlozhennaya pesochnica makrosov SwiftUI blokirovala priyomochnuyu Xcode-sborku](FUM-SBOJ-0057-vlozhennaya-pesochnica-makrosov-blokiruyet-sborku.md)                          | 1          | —                       |
 | FUM-SBOJ-0052 | `устранена` | [Svyaznostj trebuyet lokaljnyij graf Obsidian](FUM-SBOJ-0052-svyaznostj-trebuyet-lokaljnyij-graf-Obsidian.md)                                                             | 3          | FUM-STEP-0203           |
 | FUM-SBOJ-0058 | `устранена` | [Oshibochnaya obratnaya para trebovanij pri priyome](FUM-SBOJ-0058-oshibochnaya-obratnaya-para-trebovanij-pri-priyome.md)                                                     | 1          | —                       |
-| FUM-SBOJ-0059 | `устранена` | [Otsutstviye korrekcii negotovogo chastichnogo priyoma](FUM-SBOJ-0059-otsutstviye-korrekcii-negotovogo-chastichnogo-priyoma.md)                                             | 1          | —                       |
+| FUM-SBOJ-0059 | `активна`   | [Otsutstviye korrekcii negotovogo chastichnogo priyoma](FUM-SBOJ-0059-otsutstviye-korrekcii-negotovogo-chastichnogo-priyoma.md)                                             | 2          | FUM-STEP-0213           |
 | FUM-SBOJ-0060 | `устранена` | [Povtornoye indeksirovaniye uzhe udalyonnyikh staryikh putej](FUM-SBOJ-0060-povtornoye-indeksirovaniye-uzhe-udalyonnyikh-staryikh-putej.md)                                         | 1          | —                       |
 | FUM-SBOJ-0061 | `устранена` | [Ustarevshij predprosmotr posle izmeneniya indeksa](FUM-SBOJ-0061-ustarevshij-predprosmotr-posle-izmeneniya-indeksa.md)                                                 | 1          | —                       |
 | FUM-SBOJ-0062 | `активна`   | [Poterya susjhestvennyikh otvetov pri perenose dialoga](FUM-SBOJ-0062-poterya-susjhestvennyikh-otvetov-pri-perenose-dialoga.md)                                               | 2          | FUM-STEP-0211           |
@@ -69,6 +69,14 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0070 | `устранена` | [Vyivod soderzhimogo media bez otbora tekstovyikh chastej](FUM-SBOJ-0070-neotfiljtrovannoye-media-v-tekstovom-vyivode.md)                                                  | 2          | —                       |
 | FUM-SBOJ-0071 | `активна`   | [Nepolnaya para Zhurnala pered proverkoj svyaznosti](FUM-SBOJ-0071-nepolnaya-para-zhurnala-pered-kontroljnoj-tochkoj.md)                                                  | 2          | FUM-STEP-0174           |
 | FUM-SBOJ-0072 | `устранена` | [Otsutstviye obyazateljnogo razdela dokumentacii v dvukh voprosakh](FUM-SBOJ-0072-otsutstviye-razdela-zatronutoj-dokumentacii-voprosov.md)                               | 1          | —                       |
+| FUM-SBOJ-0075 | `активна`   | [Propusjhennaya deklaraciya statusa trebovaniya](FUM-SBOJ-0075-propusjhennaya-deklaraciya-statusa-trebovaniya.md)                                                             | 1          | FUM-STEP-0213           |
+| FUM-SBOJ-0077 | `активна`   | [Dopusk protivorechivogo statusa cherez Setext pri korrekcii](FUM-SBOJ-0077-protivorechivyij-status-cherez-Setext-pri-korrekcii.md)                                      | 1          | FUM-STEP-0213           |
+| FUM-SBOJ-0078 | `устранена` | [Rannij zapusk potrebitelya do zaversheniya proizvoditelya](FUM-SBOJ-0078-rannij-zapusk-potrebitelya-do-zaversheniya-proizvoditelya.md)                                     | 1          | FUM-STEP-0214           |
+| FUM-SBOJ-0085 | `активна`   | [Podmena puti istoricheskoj kvitancii paketa pri pereimenovanii](FUM-SBOJ-0085-podmena-puti-istoricheskoj-kvitancii-paketa-pri-pereimenovanii.md)                     | 1          | FUM-STEP-0217           |
+| FUM-SBOJ-0081 | `устранена` | [Sokhraneniye sluzhebnyikh dannyikh zaprosa v HTML](FUM-SBOJ-0081-sokhraneniye-sluzhebnyikh-dannyikh-zaprosa-v-HTML.md)                                                           | 1          | FUM-STEP-0212           |
+| FUM-SBOJ-0082 | `устранена` | [Utrata vlozhennogo URL pri povtore roditeljskogo snimka](FUM-SBOJ-0082-utrata-vlozhennogo-URL-pri-povtore-roditelya.md)                                               | 1          | FUM-STEP-0212           |
+| FUM-SBOJ-0083 | `устранена` | [Propusk raspakovki gzip pered izvlecheniyem HTML](FUM-SBOJ-0083-propusk-raspakovki-gzip-pered-izvlecheniyem-HTML.md)                                                   | 1          | FUM-STEP-0212           |
+| FUM-SBOJ-0084 | `устранена` | [Propusk proverki PDF pered izvlecheniyem HTML](FUM-SBOJ-0084-propusk-proverki-PDF-pered-izvlecheniyem-HTML.md)                                                         | 1          | FUM-STEP-0212           |
 
 ## Pravila vedeniya
 
@@ -101,6 +109,6 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 - [pravila rabochikh sessij](../AGENTS.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 10:32:01 MSK -->
-<!-- content-sha256: sha256:f84f7c8114bde6f5062c57ce60b81e0442eb466028c75601cba1ab600831a8e4 -->
+<!-- last-content-edit: 2026-09-11 23:11:13 MSK -->
+<!-- content-sha256: sha256:8173971c2722f1958379e146d9c14346a253252c07980dde1b6e5c4e961be313 -->
 <!-- FUM-MD-RECENCY:END -->

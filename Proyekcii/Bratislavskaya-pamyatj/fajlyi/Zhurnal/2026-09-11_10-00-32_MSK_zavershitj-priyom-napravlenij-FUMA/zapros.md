@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-11 09:36:55 MSK - Sokhranitj ostavshuyusya diagnostiku priyoma](../2026-09-11_09-36-55_MSK_sokhranitj-ostavshuyusya-diagnostiku-priyoma/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-11 13:39:59 MSK - Prinyatj napravleniye finansirovaniya FUM](../2026-09-11_13-39-59_MSK_prinyatj-napravleniye-finansirovaniya-FUM/zapros.md)
 
 ## Tekst zaprosa
 
@@ -42,6 +42,6 @@ Adresnaya sborka i proverka reyestra, zatem odin standartnyij dokumentacionnyij 
 - Udalyonnyij fajl: `Планирование/карточки-шагов/🟡-FUM-STEP-0201-автоматизировать-приём-направлений-FUMA.md`.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 10:27:23 MSK -->
-<!-- content-sha256: sha256:8509e9d9da424771fdf9b047246cf85912754930827c9e78fd0ea648bdd181ad -->
+<!-- last-content-edit: 2026-09-11 14:14:40 MSK -->
+<!-- content-sha256: sha256:fbaa3bb4989044663d41988d36cff794e7f42b55481d61fb91dbfb6ea9d921b2 -->
 <!-- FUM-MD-RECENCY:END -->

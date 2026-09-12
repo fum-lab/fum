@@ -3,7 +3,7 @@
 "идентификатор_сбоя" = "FUM-СБОЙ-0020"
 "статус" = "устранена"
 +++
-# Publikaciya sluzhebnogo `CF-Ray` v snimke istochnika
+# Publikaciya sluzhebnogo CF-Ray v snimke istochnika
 
 Obsjhij HTML-arkhivator udalyal znacheniya `Set-Cookie`, no sokhranyal sluzhebnyij identifikator otveta `CF-Ray`. Importiruyemyij snimok russkogo perevoda CC0 poetomu soderzhal trace-id konkretnogo HTTP-otveta vmeste s PoP-kodom, khotya eti dannyiye ne yavlyayutsya soderzhaniyem istochnika.
 
@@ -17,10 +17,12 @@ Proyavleniye voznikayet pri arkhivirovanii ustojchivogo HTML-URL ili ChatGPT-sha
 
 ## Proyavleniya
 
-| Lokaljnyij nomer                 | Istochnik i dokazateljstvo                                                                                                                                                                                                             | Effekt                                                                  | Vosstanovleniye                                                                |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| `FUM-СБОЙ-0020/ПРОЯВЛЕНИЕ-0001` | [Importirovannyij snimok russkogo perevoda CC0](../Istochniki/URL/https/wiki.creativecommons.org/wiki/Publicdomain/zero/1.0/LegalText_-Russian-35eacbaf5d6489ab/response.headers.txt) do redakcii soderzhal sluzhebnoye znacheniye `CF-Ray`. | V publikacionnuyu pamyatj popadal trace-id otdeljnogo setevogo obrasjheniya. | Redaktirovatj zagolovok obsjhim arkhivatorom i ochistitj importiruyemyij snimok.    |
-| `FUM-СБОЙ-0020/ПРОЯВЛЕНИЕ-0002` | [Otchyot priyoma inzhenernoj modeli](../Zhurnal/2026-09-07_18-16-36_MSK_prinyatj-modelj-betonnyikh-glubinnyikh-sistem/otchyot.md): v novyikh snimkakh obnaruzhenyi neochisjhennyiye CF-Ray, X-Request-ID, Request-Context i X-MS-Middleware-Request-ID.     | Povtor nepolnoj ochistki HTTP-metadannyikh; obnaruzhen do kommita.          | Obsjhaya ochistka dvukh arkhivatorov, adresnyij RED/GREEN i ochistka chetyiryokh snimkov. |
+
+| Lokaljnyij nomer                 | Istochnik i dokazateljstvo                                                                                                                                                                                                                                                                               | Effekt                                                                  | Vosstanovleniye                                                                  |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| `FUM-СБОЙ-0020/ПРОЯВЛЕНИЕ-0001` | [Importirovannyij snimok russkogo perevoda CC0](../Istochniki/URL/https/wiki.creativecommons.org/wiki/Publicdomain/zero/1.0/LegalText_-Russian-35eacbaf5d6489ab/response.headers.txt) do redakcii soderzhal sluzhebnoye znacheniye `CF-Ray`.                                                                   | V publikacionnuyu pamyatj popadal trace-id otdeljnogo setevogo obrasjheniya. | Redaktirovatj zagolovok obsjhim arkhivatorom i ochistitj importiruyemyij snimok.      |
+| `FUM-СБОЙ-0020/ПРОЯВЛЕНИЕ-0002` | [Otchyot priyoma inzhenernoj modeli](../Zhurnal/2026-09-07_18-16-36_MSK_prinyatj-modelj-betonnyikh-glubinnyikh-sistem/otchyot.md): v novyikh snimkakh obnaruzhenyi neochisjhennyiye CF-Ray, X-Request-ID, Request-Context i X-MS-Middleware-Request-ID.                                                                       | Povtor nepolnoj ochistki HTTP-metadannyikh; obnaruzhen do kommita.          | Obsjhaya ochistka dvukh arkhivatorov, adresnyij RED/GREEN i ochistka chetyiryokh snimkov.   |
+| `FUM-СБОЙ-0020/ПРОЯВЛЕНИЕ-0003` | [Adresnyij audit reyestra podderzhki](https://github.com/fum-lab/fum/blob/6c9babdd3663ff0112283b89a361068727825da6/Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/отчёт.md): X-Trace-Id i X-SP-CRID, takzhe drugiye podtverzhdyonnyiye sluzhebnyiye polya otvetov; znacheniya ne publikuyutsya. | Propusk tochnoj ochistki novyikh zagolovkov obnaruzhen do kommita.           | Obsjhaya funkciya rasshirena, sinteticheskij RED/GREEN i ochistka sokhranyonnyikh otvetov. |
 
 ## Ozhidaniye i klassifikaciya
 
@@ -34,6 +36,8 @@ Funkciya ochistki zagolovkov raspoznavala toljko `Set-Cookie`. Teperj ona takzhe
 
 Pervoye proyavleniye ustraneno bez otdeljnogo shaga. Vtoroye proyavleniye `FUM-СБОЙ-0020/ПРОЯВЛЕНИЕ-0002` svyazano s zavershyonnyim [FUM-STEP-0151](../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0151-obyyedinitj-ochistku-sluzhebnyikh-zagolovkov-arkhivatorov.md).
 
+Tretjye proyavleniye aktualiziruyet [FUM-STEP-0212](../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0212-avtomatizirovatj-reyestr-organizacij-podderzhki-FUM.md): ochistka novyikh oficialjnyikh istochnikov i proverka obsjhej funkcii. Novoye podtverzhdeniye nizhe okhvatyivayet tretjye proyavleniye; prezhneye podtverzhdeniye otnositsya toljko k staryim polyam.
+
 ## Kriterii zakryitiya
 
 - Znacheniye `CF-Ray` ne sokhranyayetsya v snimke nezavisimo ot registra imeni zagolovka.
@@ -43,13 +47,23 @@ Pervoye proyavleniye ustraneno bez otdeljnogo shaga. Vtoroye proyavleniye `FUM-�
 
 - Oba arkhivatora ispoljzuyut odnu funkciyu dlya pyati ochisjhayemyikh polej; prodolzheniya ochisjhayemyikh zagolovkov ne raskryivayut znacheniya.
 
-## Podtverzhdeniye ustraneniya
+- Tochnyiye novyiye polya X-Trace-Id, X-SP-CRID i ostaljnyiye klassificirovannyiye sluzhebnyiye zagolovki ochisjhenyi; znacheniya i prodolzheniya ne raskryivayutsya.
+
+## Istoricheskoye podtverzhdeniye ustraneniya
 
 Novyij adresnyij test snachala vosproizvyol utechku: nabor iz 13 testov zavershilsya s odnim ozhidayemyim otkazom. Posle uzkoj pravki tot zhe nabor proshyol vse 13 testov; standartnyij smoke-check tekusjhej sessii povtorno podtverzhdayet polnyij nabor avtomatizacii materialov zaprosov.
 
 Povtornoye proyavleniye vremenno vernulo kartochku v aktivnoye sostoyaniye; posle obsjhej pravki adresnyij test proshyol vosemj sochetanij dvukh vkhodov i chetyiryokh trace-polej, sokhranil soderzhateljnyiye zagolovki i podtverdil idempotentnostj. Predyidusjhij vyivod ostayotsya ogranichennyim obsjhim HTML-vkhodom i odnim polem. Novyiye zagolovki vne tochnogo nabora trebuyut otdeljnoj klassifikacii.
 
+## Podtverzhdeniye ustraneniya
+
+[Povtor 55 testov arkhivatora](https://github.com/fum-lab/fum/blob/6c9babdd3663ff0112283b89a361068727825da6/Журнал/2026-09-11_16-12-17_MSK_завершить-приёмку-реестра-поддержки-FUM/материалы/запуски-проверок/3_17734d3d-691c-4d76-85d3-59018cacf97d.json) zavershilsya kodom 0 posle sokhranyonnyikh sinteticheskikh RED i ispravlenij. Proverenyi tochnyiye nablyudavshiyesya polya, sokhrannostj publichnogo soderzhimogo, otkaz PDF, raspakovka gzip i sokhrannostj vlozhennogo snimka. Istoricheskiye proyavleniya 0001–0002 sokhranenyi; novoye dokazateljstvo rasprostranyayetsya na proyavleniye 0003.
+
+Pri perenose sokhranyayetsya istoricheskoye podtverzhdeniye ukazannogo zapuska: chislo 55 otnositsya k yego naboru, a ne k boleye pozdnim regressiyam. Perenos kartochki ne yavlyayetsya novyim zapuskom proverki v prinimayusjhem dereve i ne rasshiryayet opisannuyu granicu ustraneniya.
+
 ## Istochniki
+
+- [Zapros novogo proyavleniya i soglasovaniye nomera](https://github.com/fum-lab/fum/blob/6c9babdd3663ff0112283b89a361068727825da6/Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/запрос.md).
 
 - [Zapros povtornogo proyavleniya](../Zhurnal/2026-09-07_18-16-36_MSK_prinyatj-modelj-betonnyikh-glubinnyikh-sistem/zapros.md).
 
@@ -60,6 +74,6 @@ Povtornoye proyavleniye vremenno vernulo kartochku v aktivnoye sostoyaniye; posl
 - [regressionnyiye testyi obsjhego arkhivatora](../Instrumentyi/fum-materialyi-zaprosov/tests/test_source_archive_cli.py)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-07 18:43:58 MSK -->
-<!-- content-sha256: sha256:d610b490e41ada2bb8af5c21623f2e49e2a18e7735a15a4a6a7b8b8d181fe18a -->
+<!-- last-content-edit: 2026-09-11 23:11:13 MSK -->
+<!-- content-sha256: sha256:f53db34a8ab38831060295c5c30ce55764dc6af3c5599ba32f6e7e7db4eaa176 -->
 <!-- FUM-MD-RECENCY:END -->

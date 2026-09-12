@@ -140,6 +140,8 @@ Status menyayetsya pereimenovaniyem fajla cherez `git mv`. Emodzi ne zamenyayet 
 
 ## Prinyatyiye napravleniya
 
+- `FUM-REQ-0048` — [🟡 Rabota FUMA s decentralizovannyimi setyami](🟡-rabota-FUMA-s-decentralizovannyimi-setyami.md)
+- `FUM-REQ-0061` — [🟡 Setevoj sloj Swift-chasti FUMA na SwiftNIO](🟡-setevoj-sloj-Swift-chasti-FUMA-na-SwiftNIO.md)
 - `FUM-REQ-0065` — [🟡 Proveryayemyij plan matematicheskogo napravleniya](🟡-proveryayemyij-plan-matematicheskogo-napravleniya.md)
 - `FUM-REQ-0066` — [🟡 Vozobnovlyayemyij perenos rabochikh derevjyev](🟡-vozobnovlyayemyij-perenos-rabochikh-derevjyev.md)
 - `FUM-REQ-0067` — [🟡 Chistoye ispolneniye operatorov i UTF-32](🟡-chistoye-ispolneniye-operatorov-i-UTF-32.md)
@@ -147,8 +149,15 @@ Status menyayetsya pereimenovaniyem fajla cherez `git mv`. Emodzi ne zamenyayet 
 - `FUM-REQ-0046` — [🟡 Zapusk FUMA na celevyikh platformakh](🟡-zapusk-FUMA-na-celevyikh-platformakh.md)
 - `FUM-REQ-0047` — [🟡 Graficheskiye interfejsyi FUMA](🟡-graficheskiye-interfejsyi-FUMA.md)
 - `FUM-REQ-0058` — [🟡 Geneticheskoye napravleniye FUMA](🟡-geneticheskoye-napravleniye-FUMA.md)
+- `FUM-REQ-0069` — [🟡 Finansirovaniye i resursyi razvitiya FUM](🟡-finansirovaniye-i-resursyi-razvitiya-FUM.md)
+- `FUM-REQ-0070` — [🟡 Plan integracii FUMA s Gosuslugami](🟡-plan-integracii-FUMA-s-Gosuslugami.md)
+- `FUM-REQ-0071` — [🟡 Plan vosproizvodimoj macOS VM dlya FUMA](🟡-plan-vosproizvodimoj-macOS-VM-dlya-FUMA.md)
+- `FUM-REQ-0073` — [🟡 Plan razbora shriftov strukturiruyusjhimi operatorami](🟡-plan-razbora-shriftov-strukturiruyusjhimi-operatorami.md)
+- `FUM-REQ-0074` — [🟡 Sborka Swift toolchain iz polnostjyu zerkaljnyikh zavisimostej](🟡-sborka-Swift-toolchain-iz-polnostjyu-zerkaljnyikh-zavisimostej.md)
+- `FUM-REQ-0075` — [🟡 Polnaya perenosimaya oflajn-avtonomnostj FUM](🟡-polnaya-perenosimaya-oflajn-avtonomnostj-FUM.md)
+- `FUM-REQ-0077` — [🟡 Universaljnoye parametricheskoye 3D i vizualizaciya FUMA](🟡-universaljnoye-parametricheskoye-3D-i-vizualizaciya-FUMA.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 08:58:13 MSK -->
-<!-- content-sha256: sha256:47f7c9b85ba2e19672850778e3077a4d3252abf2e4cc3cd196c8134163374f23 -->
+<!-- last-content-edit: 2026-09-11 23:52:33 MSK -->
+<!-- content-sha256: sha256:e4545c35641ec99c69c0ff922dc0785e18662936a1232a4650b79b37f147dc2b -->
 <!-- FUM-MD-RECENCY:END -->

@@ -3204,6 +3204,15 @@
       "count": 1,
       "category": "allow.test-fixture",
       "reason": "Отключает Git hooks только при командах автономной фикстуры во временном репозитории; не задаёт runtime-путь продукта."
+    },
+    {
+      "id": "deferred-assignment-journal-path",
+      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/отложенные_назначения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:212570fcbf29bba4c29f31c8e95b7a6d157bffac016c7b8fed22c3e546b609db",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определение регулярного выражения для проверки точного относительного пути собственного канонического Журнала; не содержит машинно-локального адреса."
     }
   ]
 }

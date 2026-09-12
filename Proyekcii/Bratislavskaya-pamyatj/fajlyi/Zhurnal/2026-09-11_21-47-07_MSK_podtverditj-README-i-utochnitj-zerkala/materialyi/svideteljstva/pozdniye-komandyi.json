@@ -1,0 +1,128 @@
+{
+  "исходная_задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "команды": [
+    {
+      "номер": 245,
+      "экземпляр": "f7d2adfa99ea0e61e68d553946cec1047e7e9ba184235c53064f56413c3d98c0",
+      "позиция": {
+        "начало": 418426453,
+        "конец": 418426863,
+        "sha256": "aa491bcf1500808ac79567737396ec8a976c7032774189eae9cf8a884004a963"
+      },
+      "происхождение": "человек",
+      "команда": "Kak u nas dela prodvigayutsya?\n"
+    },
+    {
+      "номер": 246,
+      "экземпляр": "2ff885bede69931d6dc1cc76f36efa6ba639b28ff2d18f5e0f37a9e0a41f24c4",
+      "позиция": {
+        "начало": 418427351,
+        "конец": 418427810,
+        "sha256": "ba9b0f296a7899709d7e01b5e898c31299375ba2e1ce29d28ea37f5d2d846cb7"
+      },
+      "происхождение": "человек",
+      "команда": "Sdelayem analog LinguisticKit v pamyati FUM na strukturiruyusjhikh operatorakh.\n"
+    },
+    {
+      "номер": 247,
+      "экземпляр": "159b26e21b2605a8f9a66204215b73453fee579791f4be39ce143e630b98d08a",
+      "позиция": {
+        "начало": 419621452,
+        "конец": 419621866,
+        "sha256": "c49ce19d3f0b0515c1be62eca7d170bd20c993d08b546673a123ab199477bdde"
+      },
+      "происхождение": "человек",
+      "команда": "obnovilsya — ne obnovilsya(-lisj)\n"
+    },
+    {
+      "номер": 248,
+      "экземпляр": "046c233b781cda689a7f07623a55f6318698833226580f9bca9a5e7907900d6f",
+      "позиция": {
+        "начало": 419643692,
+        "конец": 421124085,
+        "sha256": "c21f52c0afb29329c329af9ef693ae1b4a7e7f7b2846e26d697c2ad239aeb06b"
+      },
+      "происхождение": "человек",
+      "изображение_sha256": "6e5ade384238e50ee9fba9f5725b5b70e2440b43d2fa8f42bf0b45dbdd8e649e",
+      "наблюдение": "Для одного агента видима форма обновился(-лись); принято согласование обновился, для нескольких обновились. Оригинальное изображение не публикуется."
+    },
+    {
+      "номер": 249,
+      "экземпляр": "04259c73f4a5c8814292ffe2364e8319ee10ebc23ca54910e10859564a1ac21c",
+      "позиция": {
+        "начало": 423205623,
+        "конец": 423206127,
+        "sha256": "c98f2caed21a5901a10553ed1e6112d555afbc133112ce71bc254461a9069b42"
+      },
+      "происхождение": "человек",
+      "команда": "Rasparshennyiye strukturiruyusjhimi operatorami tekst i shriftyi budut renderitjsya strukturiruyusjhimi operatorami v Metal.\n"
+    },
+    {
+      "номер": 250,
+      "экземпляр": "96b66858b7197562954fa9efa2e03175660863a6eb4ba5f48d80a689c050a484",
+      "позиция": {
+        "начало": 423304482,
+        "конец": 423304984,
+        "sha256": "f17e91ce32461e63abba00e6450ebc620fe93f708ea03c3bcdf590e6140b1fad"
+      },
+      "происхождение": "человек",
+      "команда": "Sdelayem tekstovyij render s proizvoljnyim vyiborom napravleniya pisjma: sleva napravo, sprava nalevo, bustrofedon i t. d.\n"
+    },
+    {
+      "номер": 251,
+      "экземпляр": "fd0b4b57bd49570b1e2fcdb9f19ffb8e6424ae8b3a6f11e6abe04101c5d1dbe2",
+      "позиция": {
+        "начало": 423358220,
+        "конец": 423358707,
+        "sha256": "207fb1f8f77e26184cc8acb7e73759e567fcff7a11e9e8d67225c298a880e03b"
+      },
+      "происхождение": "человек",
+      "команда": "Yesli primenyayem sprava nalevo dlya latinicyi, to glifyi tozhe, razumeyetsya, otrazhayem, kak i polozheno.\n"
+    },
+    {
+      "номер": 252,
+      "экземпляр": "883c688adbf35d6fa7397719bd198710b13fc1b321194252fdc0f339684178f7",
+      "позиция": {
+        "начало": 423489073,
+        "конец": 423489544,
+        "sha256": "552bde73bbd46291d46ed0a89f00b6d88aa59d0571396681b4e47318e37f3b76"
+      },
+      "происхождение": "человек",
+      "команда": "Glavnyij princip — polnoye vosproizvedeniye sostoyaniya iz prinyatyikh vkhodnyikh dannyikh.\n"
+    },
+    {
+      "номер": 253,
+      "экземпляр": "b25a34dc0c34204f9ed42718f4ed6fa993e73e0b4266e954a79d39e52c133a80",
+      "позиция": {
+        "начало": 423520520,
+        "конец": 423520998,
+        "sha256": "a378569a60346d5045a13de3e2ddf6d3cc00e710ddc9e120606970526811c0d2"
+      },
+      "происхождение": "человек",
+      "команда": "To zhe samoye sdelayem pri konvertacii v strukturiruyusjhiye operatoryi iz bazyi dannyikh Unicode.\n"
+    },
+    {
+      "номер": 254,
+      "экземпляр": "348d870f0fb8b952a3ea2e24c921bda94a7885f566e80aabe549013e33fd089d",
+      "позиция": {
+        "начало": 423939061,
+        "конец": 423939472,
+        "sha256": "4331524774183a41ba196344448f45304b65f34fc3bea24e3e9167b5fdf62af0"
+      },
+      "происхождение": "человек",
+      "команда": "Ne budem ispoljzovatj CoreText.\n"
+    },
+    {
+      "номер": 255,
+      "экземпляр": "23bc49320a3d0b44390a966518cecc4cf54865924d04f91082b8e1d89459d539",
+      "позиция": {
+        "начало": 423996875,
+        "конец": 423997317,
+        "sha256": "70232c330067d616bf25f8b37b853a021ba97d5fe8f9a53aec71496cd85f5d0d"
+      },
+      "происхождение": "человек",
+      "команда": "Sdelayem polnostjyu vosproizvodimyij render shriftov na Metal.\n"
+    }
+  ],
+  "граница": "Квалифицированное чтение и постановка дальнейшей работы не означают исполнения команд."
+}

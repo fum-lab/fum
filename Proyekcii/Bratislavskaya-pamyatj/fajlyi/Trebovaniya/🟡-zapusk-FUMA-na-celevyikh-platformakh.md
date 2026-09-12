@@ -8,6 +8,10 @@ Eto trebovaniye k postavlyayemomu produktu. Podgotovlennoye okruzheniye razrabot
 
 ## Semanticheskiye svyazi
 
+- **dopolnyayetsya:** [polnoj perenosimoj oflajn-avtonomnostjyu FUM](🟡-polnaya-perenosimaya-oflajn-avtonomnostj-FUM.md) — svyazyivayet obyazateljnyiye realjnyiye bajtyi i instrumentyi s proverkoj polnogo perenosimogo komplekta bez interneta.
+
+- **dopolnyayetsya:** [sborkoj Swift toolchain iz polnostjyu zerkaljnyikh zavisimostej](🟡-sborka-Swift-toolchain-iz-polnostjyu-zerkaljnyikh-zavisimostej.md) — svyazyivayet polnuyu postavku instrumentariya s pervyim vosproizvodimyim profilem.
+
 - **dopolnyayetsya:** [graficheskimi interfejsami FUMA](🟡-graficheskiye-interfejsyi-FUMA.md) — utochnyayut graficheskiye puti prilozheniya.
 
 ## Kriterii proverki
@@ -34,11 +38,15 @@ Microsoft Windows Holographic isklyuchena iz celej podderzhki po posleduyusjhemu
 
 ## Istochniki trebovanij
 
+- [Avtonomnyij komplekt i binarnyiye obyyektyi vne Git](../Zhurnal/2026-09-11_19-12-07_MSK_prinyatj-plan-avtonomnogo-komplekta-FUM/zapros.md).
+
+- [Postanovka zerkaljnoj sborki Swift](../Zhurnal/2026-09-11_18-47-36_MSK_prinyatj-plan-zerkaljnoj-sborki-Swift/zapros.md).
+
 - [Komanda otmenyi Windows Holographic s sosednimi otvetami](https://github.com/fum-lab/fum/blob/5c9806560fb9b52112ff8a7bc11888a1bb71f7aa/%D0%96%D1%83%D1%80%D0%BD%D0%B0%D0%BB/2026-09-11_02-34-29_MSK_%D0%B2%D0%BE%D1%81%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%B8%D1%82%D1%8C-%D0%BA%D0%BE%D0%BD%D1%82%D0%B5%D0%BA%D1%81%D1%82-%D0%BF%D0%BB%D0%B0%D1%82%D1%84%D0%BE%D1%80%D0%BC%D0%B5%D0%BD%D0%BD%D0%BE%D0%B3%D0%BE-%D1%80%D0%B5%D1%88%D0%B5%D0%BD%D0%B8%D1%8F-%D0%B8-SwiftNIO/%D0%BC%D0%B0%D1%82%D0%B5%D1%80%D0%B8%D0%B0%D0%BB%D1%8B/%D0%B8%D1%81%D1%82%D0%BE%D1%87%D0%BD%D0%B8%D0%BA%D0%B8/%D0%BA%D0%BE%D0%BD%D1%82%D0%B5%D0%BA%D1%81%D1%82-%D1%80%D0%B5%D1%88%D0%B5%D0%BD%D0%B8%D0%B9/%D0%BA%D0%BE%D0%BD%D1%82%D0%B5%D0%BA%D1%81%D1%82-%D0%BE%D1%82%D0%BC%D0%B5%D0%BD%D1%8B-Windows-Holographic.md).
 
 - [Perechenj platform i posleduyusjheye dobavleniye PlayStation i Xbox](https://github.com/fum-lab/fum/blob/5c9806560fb9b52112ff8a7bc11888a1bb71f7aa/%D0%96%D1%83%D1%80%D0%BD%D0%B0%D0%BB/2026-09-11_01-03-38_MSK_%D0%B7%D0%B0%D0%BF%D0%BB%D0%B0%D0%BD%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D1%82%D1%8C-%D0%BF%D0%BB%D0%B0%D1%82%D1%84%D0%BE%D1%80%D0%BC%D1%8B-%D0%B8-%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D1%83-FUMA/%D0%B7%D0%B0%D0%BF%D1%80%D0%BE%D1%81.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 08:58:13 MSK -->
-<!-- content-sha256: sha256:58b2d4ce7d56e87ad2f3c89b0d4c6dc425bcfb68429c2620322cc05ce8175598 -->
+<!-- last-content-edit: 2026-09-11 19:45:10 MSK -->
+<!-- content-sha256: sha256:d962cd9fe190bc9c29ee0cf4344f8f753af068d9f43253364857d76cef6e31e9 -->
 <!-- FUM-MD-RECENCY:END -->

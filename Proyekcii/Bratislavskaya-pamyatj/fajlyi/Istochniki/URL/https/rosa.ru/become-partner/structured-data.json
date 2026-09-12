@@ -1,0 +1,104 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://rosa.ru/become-partner/",
+      "url": "https://rosa.ru/become-partner/",
+      "name": "Стать партнёром - НТЦ ИТ РОСА: программа для производителей, интеграторов и ISV",
+      "isPartOf": {
+        "@id": "https://rosa.ru/#website"
+      },
+      "primaryImageOfPage": {
+        "@id": "https://rosa.ru/become-partner/#primaryimage"
+      },
+      "image": {
+        "@id": "https://rosa.ru/become-partner/#primaryimage"
+      },
+      "thumbnailUrl": "https://rosa.ru/wp-content/uploads/2023/05/partners_hands_on_.png",
+      "datePublished": "2022-06-23T09:54:07+00:00",
+      "dateModified": "2025-09-03T09:03:33+00:00",
+      "description": "Присоединяйтесь к партнёрской программе НТЦ ИТ РОСА: для производителей оборудования, системных интеграторов и ISV. Совместные продажи, сертификация совместимости, обучение и маркетинговая поддержка, доступ к демо и ресурсам. Подайте заявку онлайн.",
+      "breadcrumb": {
+        "@id": "https://rosa.ru/become-partner/#breadcrumb"
+      },
+      "inLanguage": "ru-RU",
+      "potentialAction": [
+        {
+          "@type": "ReadAction",
+          "target": [
+            "https://rosa.ru/become-partner/"
+          ]
+        }
+      ]
+    },
+    {
+      "@type": "ImageObject",
+      "inLanguage": "ru-RU",
+      "@id": "https://rosa.ru/become-partner/#primaryimage",
+      "url": "https://rosa.ru/wp-content/uploads/2023/05/partners_hands_on_.png",
+      "contentUrl": "https://rosa.ru/wp-content/uploads/2023/05/partners_hands_on_.png"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://rosa.ru/become-partner/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Главная страница",
+          "item": "https://rosa.ru/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Стать партнером РОСА"
+        }
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://rosa.ru/#website",
+      "url": "https://rosa.ru/",
+      "name": "НТЦ ИТ РОСА",
+      "description": "",
+      "publisher": {
+        "@id": "https://rosa.ru/#organization"
+      },
+      "potentialAction": [
+        {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://rosa.ru/?s={search_term_string}"
+          },
+          "query-input": {
+            "@type": "PropertyValueSpecification",
+            "valueRequired": true,
+            "valueName": "search_term_string"
+          }
+        }
+      ],
+      "inLanguage": "ru-RU"
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://rosa.ru/#organization",
+      "name": "НТЦ ИТ РОСА",
+      "url": "https://rosa.ru/",
+      "logo": {
+        "@type": "ImageObject",
+        "inLanguage": "ru-RU",
+        "@id": "https://rosa.ru/#/schema/logo/image/",
+        "url": "https://rosa.ru/wp-content/uploads/2023/12/top_logo_rosa.svg",
+        "contentUrl": "https://rosa.ru/wp-content/uploads/2023/12/top_logo_rosa.svg",
+        "width": 162,
+        "height": 35,
+        "caption": "НТЦ ИТ РОСА"
+      },
+      "image": {
+        "@id": "https://rosa.ru/#/schema/logo/image/"
+      }
+    }
+  ]
+}

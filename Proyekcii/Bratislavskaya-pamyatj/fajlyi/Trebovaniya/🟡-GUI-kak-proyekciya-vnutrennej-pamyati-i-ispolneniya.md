@@ -10,6 +10,8 @@ Zhiznesposobnyij GUI korobochnogo FUM dolzhen vyivoditj modelj predstavleniya iz
 - **yavlyayetsya chastjyu:** [polnoekrannogo prilozheniya bez sistemnoj obolochki](🟡-polnoekrannoye-prilozheniye-bez-sistemnoj-obolochki.md) — opredelyayet proiskhozhdeniye soderzhimogo i dejstvij budusjhego poljzovateljskogo interfejsa.
 - **dopolnyayet:** [otrisovku interfejsa cherez Metal](🟡-otrisovka-interfejsa-cherez-Metal.md) — zadayot semanticheskij istochnik predstavleniya nezavisimo ot vyibrannogo graficheskogo byekenda.
 
+- **dopolnyayetsya:** [Universaljnoye parametricheskoye 3D i vizualizaciya FUMA](🟡-universaljnoye-parametricheskoye-3D-i-vizualizaciya-FUMA.md) — primenyayet obsjhij kanonicheskij istochnik predstavleniya i obratnyikh dejstvij k parametricheskim prostranstvennyim scenam.
+
 ## Kriterii proverki
 
 - khotya byi odin ekrannyij element vyivoditsya cepochkoj `память/оператор → модель представления → renderer`;
@@ -25,12 +27,14 @@ Zhiznesposobnyij GUI korobochnogo FUM dolzhen vyivoditj modelj predstavleniya iz
 
 ## Istochniki trebovanij
 
+- [Otkryitj parametricheskoye 3D FUMA](../Zhurnal/2026-09-11_20-37-47_MSK_prinyatj-parametricheskoye-3D-FUMA/zapros.md).
+
 - [iskhodnyij zapros 2026-07-25 09:09:06 MSK — Dobavitj vosstanavlivayemyiye pokoleniya pamyati i deklarativnuyu GUI-proyekciyu](../Zhurnal/2026-07-25_09-09-06_MSK_dobavitj-vosstanavlivayemyiye-pokoleniya-pamyati-i-deklarativnuyu-GUI-proyekciyu/zapros.md)
 - [iskhodnyij zapros 2026-07-24 10:44:28 MSK — Nachatj bezokonnyij Swift-prototip vosproizvodimogo popolneniya pamyati FUM](../Zhurnal/2026-07-24_10-44-28_MSK_nachatj-bezokonnyij-Swift-prototip-vosproizvodimogo-popolneniya-pamyati-FUM/zapros.md)
 - [pasport nachaljnogo korobochnogo prototipa FUM](../Dokumentaciya/43-pasport-nachaljnogo-korobochnogo-prototipa-FUM.md)
 
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-03 14:54:04 MSK -->
-<!-- content-sha256: sha256:3f1a6fcff8a12c484383a1672bed1fadd2cdfc6883456da5f85f44a125809384 -->
+<!-- last-content-edit: 2026-09-11 20:52:00 MSK -->
+<!-- content-sha256: sha256:c4d44bc0749e0248c9426e2c13cfa0b83e6a86885873e3dc30b1e6af98e60e06 -->
 <!-- FUM-MD-RECENCY:END -->

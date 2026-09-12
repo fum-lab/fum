@@ -40,7 +40,15 @@ Eto utochneniye ne poruchayet tekusjhemu planovomu etapu sozdavatj sborsjhik, is
 
 [Plan i granicyi](../rabochij-kontekst-zadachi/README.md), [modelj vnimaniya](../rabochij-kontekst-zadachi/modelj-vnimaniya.md), [katalog detektorov](../rabochij-kontekst-zadachi/detektoryi.json), [deklarativnyiye scenarii priyomki](../rabochij-kontekst-zadachi/scenarii-priyomki.json) i [pasport budusjhego eksperimenta](../rabochij-kontekst-zadachi/pasport-eksperimenta.json) podgotovlenyi dlya realizacii. Eto plan, testovaya matrica i format budusjhikh izmerenij; sborsjhik, ispolnitelj scenariyev i avtomaticheskaya obratnaya svyazj poka ne realizovanyi.
 
+## Gotovnostj tekusjhego plana i ostatok
+
+Tekusjheye utochneniye opredelyayet eksperimentaljnyij rezhim pervyikh roditelej i novoj epokhi pri smene intervala, deklarativnyij shablon JSON i scenarii 17–28. Gotovnostj etikh materialov proveryayetsya otdeljno ot polnogo kriteriya zaversheniya kartochki. Rabochaya politika schyota i podklyucheniya ostayotsya proyektnyim resheniyem; chislo 10 ne naznacheno rabochim znacheniyem.
+
+Posle otdeljnogo prinyatiya ispolnyayemogo obyyoma ostayutsya formaljnyij vkhod i vyikhod, otkryityiye fiksturyi i ikh ispolnitelj, chitayusjhij sborsjhik, ustojchivoye vosstanovleniye sostoyanij, adapteryi 0177/0160, nezavisimyij etalon, TDD, vosproizvodimyij profilj i obosnovannoye resheniye ob optimizacii. Istochniki i komandyi vosproizvedeniya budusjhej realizacii dolzhnyi byitj dostupnyi v FUM. Do etikh rezuljtatov status kartochki ostayotsya active.
+
 ## Istochniki
+
+- [Prinyataya postavka pyati planovyikh materialov i kriteriyev 17–28](https://github.com/fum-lab/fum/blob/186b0360a31b97184773757634976257d0f86495/Журнал/2026-09-11_08-14-52_MSK_уточнить-план-вспоминания-рабочего-контекста/запрос.md) — tochnyij kommit `186b0360a31b97184773757634976257d0f86495`; eto gotovnostj plana, a ne zakryitiye polnogo 0165.
 
 - [FUM-SBOJ-0070-neotfiljtrovannoye-media-v-tekstovom-vyivode](../../Sboi/FUM-SBOJ-0070-neotfiljtrovannoye-media-v-tekstovom-vyivode.md) — tochnoye osnovaniye aktualizacii `FUM-СБОЙ-0070/ПРОЯВЛЕНИЕ-0002`; [registraciya i nezavisimoye revjyu](../../Zhurnal/2026-09-11_09-36-55_MSK_sokhranitj-ostavshuyusya-diagnostiku-priyoma/otchyot.md). Utochnyayetsya proiskhozhdeniye uzhe pokazannogo ogranichennogo vosstanovleniya, novoye vyipolneniye shaga ne zayavlyayetsya.
 - [Planovoye utochneniye o vspominanii po kommitam i JSON-sostoyanii](../../Zhurnal/2026-09-11_07-44-52_MSK_prinyatj-matematiku-i-rabochij-kontekst/zapros.md).
@@ -51,6 +59,6 @@ Eto utochneniye ne poruchayet tekusjhemu planovomu etapu sozdavatj sborsjhik, is
 - [Snimok sostoyaniya zadachi](🟡-FUM-STEP-0159-sobratj-snimok-agentskogo-runtime-i-interfejsa.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 09:58:11 MSK -->
-<!-- content-sha256: sha256:184e74cc8194fd856f9bbc9de45d1031a7fed2635df55d299d6eb7dbc8ef7279 -->
+<!-- last-content-edit: 2026-09-12 01:09:27 MSK -->
+<!-- content-sha256: sha256:d7ceca6c8d3fd50e4efa47b0685a9dd66ddb1246d122e324017e742b16d7d5fd -->
 <!-- FUM-MD-RECENCY:END -->

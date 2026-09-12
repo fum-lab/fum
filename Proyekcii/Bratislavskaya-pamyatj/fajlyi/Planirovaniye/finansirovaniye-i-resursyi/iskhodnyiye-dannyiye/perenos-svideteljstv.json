@@ -1,0 +1,199 @@
+{
+  "схема": "fum.перенос-свидетельств.1",
+  "база": "fbf05a051e1e5d24706f7e5c5605dd028559f970",
+  "граница": "32 текста перемещены без изменения байтов. Старые пути исторических JSON обновлений разрешаются в указанном коммите; эта карта связывает их с текущим хранением. SHA, даты, авторы и null наблюдений не менялись.",
+  "переносы": [
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/0f5ff30a7444a9b132fefdbe9a93175cfe07d19dc6fece3776c0f15524bc05f2.txt",
+      "в": "Источники/URL/https/83a0acab-1de2-4959-b0fe-2c7ec1223c2d.selstorage.ru/OpenFix_rules.pdf/свидетельства/0f5ff30a7444a9b132fefdbe9a93175cfe07d19dc6fece3776c0f15524bc05f2/извлечённый-текст.txt",
+      "sha256": "0f5ff30a7444a9b132fefdbe9a93175cfe07d19dc6fece3776c0f15524bc05f2",
+      "URL": "https://83a0acab-1de2-4959-b0fe-2c7ec1223c2d.selstorage.ru/OpenFix_rules.pdf"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/de56501f42d100d8cb8048c632589aef50c4a4f3703e8f4b29b45d053dec0052.txt",
+      "в": "Источники/URL/https/ai.mipt.ru/_root/свидетельства/de56501f42d100d8cb8048c632589aef50c4a4f3703e8f4b29b45d053dec0052/извлечённый-текст.txt",
+      "sha256": "de56501f42d100d8cb8048c632589aef50c4a4f3703e8f4b29b45d053dec0052",
+      "URL": "https://ai.mipt.ru/"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/2aac1a99db8d391b7b79065d2b879e0946413038d1be41989196d314f44c8fe5.txt",
+      "в": "Источники/URL/https/ai.mipt.ru/products/свидетельства/2aac1a99db8d391b7b79065d2b879e0946413038d1be41989196d314f44c8fe5/извлечённый-текст.txt",
+      "sha256": "2aac1a99db8d391b7b79065d2b879e0946413038d1be41989196d314f44c8fe5",
+      "URL": "https://ai.mipt.ru/products"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/dec51611d86595964118b3b615a7e01ab547861f49701710695c4416a473032a.txt",
+      "в": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/свидетельства/dec51611d86595964118b3b615a7e01ab547861f49701710695c4416a473032a/извлечённый-текст.txt",
+      "sha256": "dec51611d86595964118b3b615a7e01ab547861f49701710695c4416a473032a",
+      "URL": "https://astra.ru/ready-for-astra/become-tech-partner/"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/fe78b89b82a227494baa1e1670b496f6bebb9d9f62d7bd4037296fc567e141f7.txt",
+      "в": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/docs/affiliate_program/свидетельства/fe78b89b82a227494baa1e1670b496f6bebb9d9f62d7bd4037296fc567e141f7/извлечённый-текст.txt",
+      "sha256": "fe78b89b82a227494baa1e1670b496f6bebb9d9f62d7bd4037296fc567e141f7",
+      "URL": "https://astra.ru/ready-for-astra/become-tech-partner/docs/affiliate_program/"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/61ae0790bc8a317515220d4dfc652a513af359f543edd0a3d6525c0064e5816a.txt",
+      "в": "Источники/URL/https/developer.rosa.ru/_root/свидетельства/61ae0790bc8a317515220d4dfc652a513af359f543edd0a3d6525c0064e5816a/извлечённый-текст.txt",
+      "sha256": "61ae0790bc8a317515220d4dfc652a513af359f543edd0a3d6525c0064e5816a",
+      "URL": "https://developer.rosa.ru/"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/69f657d5f2496a9b0c1fc38f0657cbd6458f7d294a0bd410f00e2c0fd5fe0ae3.txt",
+      "в": "Источники/URL/https/dobro.mail.ru/about/свидетельства/69f657d5f2496a9b0c1fc38f0657cbd6458f7d294a0bd410f00e2c0fd5fe0ae3/извлечённый-текст.txt",
+      "sha256": "69f657d5f2496a9b0c1fc38f0657cbd6458f7d294a0bd410f00e2c0fd5fe0ae3",
+      "URL": "https://dobro.mail.ru/about/"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/ad6d46c3badda4d4867a6f5886fd9c7227dc3d710ff1b3d7f785792ddd8ffbb7.txt",
+      "в": "Источники/URL/https/dobro.mail.ru/funds/registration/свидетельства/ad6d46c3badda4d4867a6f5886fd9c7227dc3d710ff1b3d7f785792ddd8ffbb7/извлечённый-текст.txt",
+      "sha256": "ad6d46c3badda4d4867a6f5886fd9c7227dc3d710ff1b3d7f785792ddd8ffbb7",
+      "URL": "https://dobro.mail.ru/funds/registration/"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/6cc2bcdadd3b66351baf011a03dd78e84e3aa1f50b4d2a8c5fb0ce5d2e961f7d.txt",
+      "в": "Источники/URL/https/files.selectel.ru/docs/ru/promo-rules-grant-cloud.pdf/свидетельства/6cc2bcdadd3b66351baf011a03dd78e84e3aa1f50b4d2a8c5fb0ce5d2e961f7d/извлечённый-текст.txt",
+      "sha256": "6cc2bcdadd3b66351baf011a03dd78e84e3aa1f50b4d2a8c5fb0ce5d2e961f7d",
+      "URL": "https://files.selectel.ru/docs/ru/promo-rules-grant-cloud.pdf"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/9bc2719802f4d6c7aadda5252261a2d97fc0c927aa8efea35ea77719c3c28583.txt",
+      "в": "Источники/URL/https/files.selectel.ru/docs/ru/startups-grant-contitions.pdf/свидетельства/9bc2719802f4d6c7aadda5252261a2d97fc0c927aa8efea35ea77719c3c28583/извлечённый-текст.txt",
+      "sha256": "9bc2719802f4d6c7aadda5252261a2d97fc0c927aa8efea35ea77719c3c28583",
+      "URL": "https://files.selectel.ru/docs/ru/startups-grant-contitions.pdf"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/b87d5057f0ba0bca6dd0c52c48500029c09ee44fa6440e800432e5051063ec19.txt",
+      "в": "Источники/URL/https/fondpotanin.ru/competitions/konkurs-professionalnogo-razvitiya/свидетельства/b87d5057f0ba0bca6dd0c52c48500029c09ee44fa6440e800432e5051063ec19/извлечённый-текст.txt",
+      "sha256": "b87d5057f0ba0bca6dd0c52c48500029c09ee44fa6440e800432e5051063ec19",
+      "URL": "https://fondpotanin.ru/competitions/konkurs-professionalnogo-razvitiya/"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/2d25cf6e803e9de318284c22442ef4474c97dc884007aff7b06a32a1727bd249.txt",
+      "в": "Источники/URL/https/fondpotanin.ru/upload/iblock/8d5/9h1w1u1d45dwt4z516u6tc1tupmodzvf.pdf/свидетельства/2d25cf6e803e9de318284c22442ef4474c97dc884007aff7b06a32a1727bd249/извлечённый-текст.txt",
+      "sha256": "2d25cf6e803e9de318284c22442ef4474c97dc884007aff7b06a32a1727bd249",
+      "URL": "https://fondpotanin.ru/upload/iblock/8d5/9h1w1u1d45dwt4z516u6tc1tupmodzvf.pdf"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/a7eb8be1c46868fffe43ab0c7a452196d99eaa8b47a0414f1ab05dd6d4c0fa02.txt",
+      "в": "Источники/URL/https/ias.rscf.ru/app/ext/user/conf/contests/docs/2026/131.pdf/свидетельства/a7eb8be1c46868fffe43ab0c7a452196d99eaa8b47a0414f1ab05dd6d4c0fa02/извлечённый-текст.txt",
+      "sha256": "a7eb8be1c46868fffe43ab0c7a452196d99eaa8b47a0414f1ab05dd6d4c0fa02",
+      "URL": "https://ias.rscf.ru/app/ext/user/conf/contests/docs/2026/131.pdf"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/46f35511e40975b857f84e5ca2ff960b84ddd7acc06e0355fdca475731260a29.txt",
+      "в": "Источники/URL/https/opensource.itmo.ru/_root/свидетельства/46f35511e40975b857f84e5ca2ff960b84ddd7acc06e0355fdca475731260a29/извлечённый-текст.txt",
+      "sha256": "46f35511e40975b857f84e5ca2ff960b84ddd7acc06e0355fdca475731260a29",
+      "URL": "https://opensource.itmo.ru/"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/24c17fecafd9a281214dad4de8e0fcb2634743944322c824a89be3c5a558ffc1.txt",
+      "в": "Источники/URL/https/promo.selectel.ru/openfix/свидетельства/24c17fecafd9a281214dad4de8e0fcb2634743944322c824a89be3c5a558ffc1/извлечённый-текст.txt",
+      "sha256": "24c17fecafd9a281214dad4de8e0fcb2634743944322c824a89be3c5a558ffc1",
+      "URL": "https://promo.selectel.ru/openfix"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/a091a42b0e9ca3afacf4337c9501995460f916c8fa2a3f68b1b2eeeff3f7c1db.txt",
+      "в": "Источники/URL/https/rosa.ru/become-partner/свидетельства/a091a42b0e9ca3afacf4337c9501995460f916c8fa2a3f68b1b2eeeff3f7c1db/извлечённый-текст.txt",
+      "sha256": "a091a42b0e9ca3afacf4337c9501995460f916c8fa2a3f68b1b2eeeff3f7c1db",
+      "URL": "https://rosa.ru/become-partner/"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/b31b3391f36cffd375d99906052733912746867a8fd12584a5b2ab161b3bfe4e.txt",
+      "в": "Источники/URL/https/rosa.ru/tech-partners/свидетельства/b31b3391f36cffd375d99906052733912746867a8fd12584a5b2ab161b3bfe4e/извлечённый-текст.txt",
+      "sha256": "b31b3391f36cffd375d99906052733912746867a8fd12584a5b2ab161b3bfe4e",
+      "URL": "https://rosa.ru/tech-partners/"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/75fa3f336368b3402812cf06ac86f46960471ff21f481a6687a0c192a2ec4774.txt",
+      "в": "Источники/URL/https/selectel.ru/services/cloud/grant/свидетельства/75fa3f336368b3402812cf06ac86f46960471ff21f481a6687a0c192a2ec4774/извлечённый-текст.txt",
+      "sha256": "75fa3f336368b3402812cf06ac86f46960471ff21f481a6687a0c192a2ec4774",
+      "URL": "https://selectel.ru/services/cloud/grant/"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/6adbfb2fab69813db06af331623784981aeab625ccc021f9a8cc4e6238eb7f83.txt",
+      "в": "Источники/URL/https/selectel.ru/services/startups-grant/свидетельства/6adbfb2fab69813db06af331623784981aeab625ccc021f9a8cc4e6238eb7f83/извлечённый-текст.txt",
+      "sha256": "6adbfb2fab69813db06af331623784981aeab625ccc021f9a8cc4e6238eb7f83",
+      "URL": "https://selectel.ru/services/startups-grant/"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/7fadb089c1bc930a865c0c3378b756cd561907b7a3787849be75d3665f0b5436.txt",
+      "в": "Источники/URL/https/sk.ru/applicants-actions/свидетельства/7fadb089c1bc930a865c0c3378b756cd561907b7a3787849be75d3665f0b5436/извлечённый-текст.txt",
+      "sha256": "7fadb089c1bc930a865c0c3378b756cd561907b7a3787849be75d3665f0b5436",
+      "URL": "https://sk.ru/applicants-actions/"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/c3e674ec994c60d80efc8d4823d166db79a0cc4be439cca0fe0bbf752a5572b0.txt",
+      "в": "Источники/URL/https/sk.ru/documents/3202/Положение_об_отборе_Микрогранты_на_компенсацию_расходов.pdf/свидетельства/c3e674ec994c60d80efc8d4823d166db79a0cc4be439cca0fe0bbf752a5572b0/извлечённый-текст.txt",
+      "sha256": "c3e674ec994c60d80efc8d4823d166db79a0cc4be439cca0fe0bbf752a5572b0",
+      "URL": "https://sk.ru/documents/3202/Положение_об_отборе_Микрогранты_на_компенсацию_расходов.pdf"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/a4be8561c59d955cb6344643a04253fe4a3e036329f67bf18c03539349d804fa.txt",
+      "в": "Источники/URL/https/sk.ru/grant-financial-support/microgrants/свидетельства/a4be8561c59d955cb6344643a04253fe4a3e036329f67bf18c03539349d804fa/извлечённый-текст.txt",
+      "sha256": "a4be8561c59d955cb6344643a04253fe4a3e036329f67bf18c03539349d804fa",
+      "URL": "https://sk.ru/grant-financial-support/microgrants/"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/514ad3d251f593e09c266384516709b4fa727755c131885c1a106104c0802a5f.txt",
+      "в": "Источники/URL/https/www.altlinux.org/Join/свидетельства/514ad3d251f593e09c266384516709b4fa727755c131885c1a106104c0802a5f/извлечённый-текст.txt",
+      "sha256": "514ad3d251f593e09c266384516709b4fa727755c131885c1a106104c0802a5f",
+      "URL": "https://www.altlinux.org/Join"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/a400d5091dc70da92fb5a89f203c2d2999b5956f08a00db47dd020ed58e1040a.txt",
+      "в": "Источники/URL/https/www.basealt.ru/alt-linux/свидетельства/a400d5091dc70da92fb5a89f203c2d2999b5956f08a00db47dd020ed58e1040a/извлечённый-текст.txt",
+      "sha256": "a400d5091dc70da92fb5a89f203c2d2999b5956f08a00db47dd020ed58e1040a",
+      "URL": "https://www.basealt.ru/alt-linux"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/74dd9945f38e32e4af05f5c0ebe1de6bf6970b24bbab95571d005bca721590d2.txt",
+      "в": "Источники/URL/https/www.basealt.ru/product-compatibility/свидетельства/74dd9945f38e32e4af05f5c0ebe1de6bf6970b24bbab95571d005bca721590d2/извлечённый-текст.txt",
+      "sha256": "74dd9945f38e32e4af05f5c0ebe1de6bf6970b24bbab95571d005bca721590d2",
+      "URL": "https://www.basealt.ru/product-compatibility"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/13b1964f14d5fe97f9e4be9dabaf37f0dde2b38fb218ffe96065c5e2bedabd1a.txt",
+      "в": "Источники/URL/https/www.ispras.ru/_root/свидетельства/13b1964f14d5fe97f9e4be9dabaf37f0dde2b38fb218ffe96065c5e2bedabd1a/извлечённый-текст.txt",
+      "sha256": "13b1964f14d5fe97f9e4be9dabaf37f0dde2b38fb218ffe96065c5e2bedabd1a",
+      "URL": "https://www.ispras.ru/"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/b997cca32dd68f96e0f2ab163ef0e6b641412e662352c6c30a042a4360d13e20.txt",
+      "в": "Источники/URL/https/www.rscf.ru/contests/свидетельства/b997cca32dd68f96e0f2ab163ef0e6b641412e662352c6c30a042a4360d13e20/извлечённый-текст.txt",
+      "sha256": "b997cca32dd68f96e0f2ab163ef0e6b641412e662352c6c30a042a4360d13e20",
+      "URL": "https://www.rscf.ru/contests/"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/445cccbc210487c0c549f7306b8d72d620d0e01b5bdc44b3ab277e09c119d6fc.txt",
+      "в": "Источники/URL/https/www.rscf.ru/upload/iblock/592/9npmqcrcqyu313w1ke5nwe6rjxy5nle2.pdf/свидетельства/445cccbc210487c0c549f7306b8d72d620d0e01b5bdc44b3ab277e09c119d6fc/извлечённый-текст.txt",
+      "sha256": "445cccbc210487c0c549f7306b8d72d620d0e01b5bdc44b3ab277e09c119d6fc",
+      "URL": "https://www.rscf.ru/upload/iblock/592/9npmqcrcqyu313w1ke5nwe6rjxy5nle2.pdf"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/4cb1e871a95aa8fb240ab677a3d37d8a6624387491ad12e0e88f4f01d71fd7e4.txt",
+      "в": "Источники/URL/https/www.rscf.ru/upload/iblock/7ef/roobwviv105zmd68ojee7b07u3wsg0un.pdf/свидетельства/4cb1e871a95aa8fb240ab677a3d37d8a6624387491ad12e0e88f4f01d71fd7e4/извлечённый-текст.txt",
+      "sha256": "4cb1e871a95aa8fb240ab677a3d37d8a6624387491ad12e0e88f4f01d71fd7e4",
+      "URL": "https://www.rscf.ru/upload/iblock/7ef/roobwviv105zmd68ojee7b07u3wsg0un.pdf"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/b29ef68351267342727bbfafd085f7bb9af75e42cd39af3b47419bf26e50eb75.txt",
+      "в": "Источники/URL/https/www.swift.org/sswg/incubation-process.html/свидетельства/b29ef68351267342727bbfafd085f7bb9af75e42cd39af3b47419bf26e50eb75/извлечённый-текст.txt",
+      "sha256": "b29ef68351267342727bbfafd085f7bb9af75e42cd39af3b47419bf26e50eb75",
+      "URL": "https://www.swift.org/sswg/incubation-process.html"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/750f2194b0ad1dce419c2b48366625f38737693dfe705072591f8e459ab924ee.txt",
+      "в": "Источники/URL/https/xn--p1acnb.xn--p1ai/_root/свидетельства/750f2194b0ad1dce419c2b48366625f38737693dfe705072591f8e459ab924ee/извлечённый-текст.txt",
+      "sha256": "750f2194b0ad1dce419c2b48366625f38737693dfe705072591f8e459ab924ee",
+      "URL": "https://xn--p1acnb.xn--p1ai/"
+    },
+    {
+      "из": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/свидетельства/e060c45abecbcd1624d44d91fc83754ac1a55a5503722c065ac9e68351b72321.txt",
+      "в": "Источники/URL/https/yandex.cloud/ru/all-offers/свидетельства/e060c45abecbcd1624d44d91fc83754ac1a55a5503722c065ac9e68351b72321/извлечённый-текст.txt",
+      "sha256": "e060c45abecbcd1624d44d91fc83754ac1a55a5503722c065ac9e68351b72321",
+      "URL": "https://yandex.cloud/ru/all-offers"
+    }
+  ]
+}

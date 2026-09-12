@@ -29,6 +29,10 @@ Podgotovka sokhranyayet polnyiye bajtyi obsjhikh indeksov i tochnyiye pozicii pa
 
 Yesli pervaya fajlovaya stadiya polnostjyu ustanovlena, no nastoyasjhij sborsjhik reyestra otklonil kartochki, odin raz mozhno yavno ispravitj ikh soderzhaniye. Priyom dolzhen ostavatjsya negotovyim, bez zakreplyonnoj postanovki, nablyudeniya i lyuboj vneshnej popyitki. Pervonachaljnyiye resheniye, porucheniye, nomera, puti, kartochki, indeksyi i para Zhurnala sokhranyayutsya. Korrekciya ne menyayet ID, zagolovki i statusyi i ne sozdayot novyikh kartochek.
 
+Yesli v novom trebovanii propusjhena obyazateljnaya stroka statusa, podderzhana toljko yeyo strogaya vstavka: `Статус требования — ` s prezhnim emodzi iz imeni fajla v obratnyikh kavyichkakh i tochkoj, zatem pustaya stroka. Ona stanovitsya pervoj strokoj yedinstvennogo razdela s tochnyim zagolovkom `## Статус и границы` i pustoj strokoj posle zagolovka. Vse prezhniye bajtyi kartochki sokhranyayutsya. Susjhestvuyusjhaya ili povrezhdyonnaya deklaraciya, inoj emodzi, povtor razdela, skryitaya razmetka i izmeneniye granic otklonyayutsya. Etot ogranichennyij putj prednaznachen dlya obyichnogo Markdown bez HTML-razmetki, uglovyikh skobok i ograzhdenij koda; mashinnyij ID i zavershayusjhij blok svezhesti dopustimyi. Otkaz do dolgovechnoj zapisi namereniya ne raskhoduyet korrekciyu; posle zapisi razreshyon toljko yeyo tochnyij povtor.
+
+Dlya etogo puti takzhe otklonyayutsya otdeljnyiye stroki iz defisov ili znakov ravenstva s otstupom do tryokh probelov: oni mogut oformitj yesjhyo odin zagolovok Setext. Ogranicheniye dejstvuyet nezavisimo ot teksta zagolovka i konservativno okhvatyivayet gorizontaljnyiye razdeliteli takogo vida. Obyichnoye ispravleniye s neizmennyim razdelom statusa sokhranyayet prezhnij kontrakt.
+
 V privatnom JSON podgotovjte tochnyij kontrakt:
 
 ```json
@@ -63,11 +67,40 @@ Podderzhana rovno odna korrekciya. Yesli yeyo sobstvennyiye smyislovyiye dannyiy
 
 Adresnaya otkryitaya proverka: `python3 -B -m unittest discover -s Инструменты/fum-reyestr-planirovaniya/tests -p test_исправления_приёма.py`. Neboljshoj profilj: `python3 -B Инструменты/fum-reyestr-planirovaniya/tests/профиль_исправления_приёма.py --выход <профиль.json>`. Oba zapuska vyipolnyayutsya cherez otchyotnuyu obyortku svoyej sessii; setj i vneshnyaya zadacha ne nuzhnyi.
 
-## Vneshnyaya granica Codex
+Dlya izmereniya vosstanovleniya propusjhennoj stroki peredajte profilyu `--сценарий 'пропущенный статус'`. On ispoljzuyet sokhranyonnoye otkryitoye soderzhaniye pervogo trebovaniya finansirovaniya, nastoyasjhij reyestr i tri nezavisimyiye Git-fiksturyi; vlozhennyiye intervalyi proverok granic, reyestra i ustanovki neljzya summirovatj s obsjhim vremenem korrekcii. Bez parametra sokhranyayetsya prezhnij scenarij obratnogo otnosheniya.
+
+## Yavnoye naznacheniye raneye prinyatyikh napravlenij
+
+Odin pozdnij chelovecheskij zapros mozhet naznachitj ot odnogo do shesti raneye sokhranyonnyikh napravlenij. Novyij konechnyij paket ne menyayet prezhneye resheniye s `задача=null`, iskhodnyiye sobyitiya, nomera, kvitancii ili zakryityiye zapisi Zhurnala. Dlya konkretnogo udvoyeniya chisla aktivnyikh derevjyev vyibran rovno nabor 0181, 0216, 0220, 0221, 0165 i 0224. Ispolnitelj ne vyibirayet napravleniya i ne dobirayet novyiye stroki samostoyateljno.
+
+Privatnyij vkhod skhemyi `fum.пакет-отложенных-назначений.1` soderzhit `источник`, `исходная_задача`, obsjheye `решение` prezhnej formyi s `задача=null`, `разрешения`, sobstvennyij `запрос` i massiv `назначения`. Kazhdaya stroka zadayot stabiljnoye `направление`, `исходная_постановка`, `файлы_запуска`, predmetnyiye `объём`, `актуальность`, `поздние`, `ограничения`, soderzhateljnyij `антидубликат` i tochnuyu `задача` s rezhimom `создать`, nablyudyonnyim `projectId`, `title` i polnyim `поручение`. Obsjheye resheniye i razresheniya proveryayutsya po nastoyasjhemu polnomu pervichnomu istochniku; otdeljnyiye stroki yavlyayutsya proizvodnyimi naznacheniyami, a ne dopolniteljnyimi chelovecheskimi soobsjheniyami.
+
+Istoricheskaya postanovka soderzhit tochnyiye `коммит`, `дерево`, `событие`, `сохранённая_запись_sha256` i polnyij slovarj `файлы` s SHA-256. Dlya sokhranyonnogo priyoma trebuyetsya vesj prezhnij manifest i neizmennaya zapisj. Istoricheskij istochnik bez takogo priyoma yavno soderzhit dva `null`; izvestnyij priyom togo zhe kommita neljzya skryitj etim sposobom. Nalichiye zavisimoj kartochki v inoj zadache samo po sebe ne dokazyivayet sovpadeniya predmetnogo naznacheniya. Korenj proveryayet vladeljcev i peresecheniya po dostupnomu polnomu inventaryu i sokhranyayet osnovaniye v `антидубликат`. Vse predmetnyiye iskhodnyiye fajlyi vne istoricheskogo Zhurnala vkhodyat v novyij nabor zapuska; sovremennyiye obsjhiye indeksyi sokhranyayut sobstvennyiye soglasovannyiye versii.
+
+| Operaciya | Parametryi posle obsjhikh `--корень-репозитория` i `--задача` | Rezuljtat |
+| --- | --- | --- |
+| `предпросмотр-назначений` | `--вход` | Proverennyij konechnyij plan i yego SHA-256 bez sozdaniya kataloga sostoyaniya, zamka, rezervov ili fajlov |
+| `подготовить-назначения` | `--вход`, `--ожидаемый-план-sha256` | Neizmenyayemoye namereniye vsego paketa i otdeljnyiye tochnyiye materialyi naznachenij v novom Zhurnale |
+| `закрепить-назначения` | `--пакет`, `--коммит`, `--ветка` | Obsjhij novyij kommit zapuska s materialami, tekusjhimi kartochkami, indeksami, reyestrom i ispolnyayemyimi instrumentami |
+| `допустить-назначение` | `--вход`, `--направление` | Odna dolgovechnaya popyitka i strukturirovannyiye argumentyi oficialjnogo `create_thread` |
+| `сохранить-назначение` | `--пакет`, `--направление`, `--попытка`, `--ответ` | Polnyij neizmenyayemyij otvet MCP; `clientThreadId` ostayotsya ozhidaniyem |
+| `наблюдать-назначение` | `--пакет`, `--направление`, `--корень-задачи`, `--идентификатор-задачи`, `--источник` | Proverka tochnogo pervonachaljnogo porucheniya i rannego podtverzhdeniya bazyi novoj zadachi |
+
+Odin ekzemplyar chelovecheskogo soobsjheniya zadayot odin neizmenyayemyij paket. Sostav ne vkhodit v yego klyuch i posle podgotovki ne menyayetsya. Klyuch stroki svyazyivayet paket, stabiljnyij STEP i istoricheskij kommit; novyij kommit zapuska zakreplyayetsya otdeljno i odnokratno. Zamena iskhodnogo ili novogo kommita posle namereniya libo neizvestnogo vneshnego iskhoda ne sozdayot novoj popyitki. Pered pervyim vneshnim vyizovom proverenyi vse stroki, a pered kazhdyim novyim dopuskom povtorno proveryayutsya vesj paket, aktualjnostj istochnika i uderzhivayemaya vetka. Kod ne vyizyivayet MCP: poluchennyiye argumentyi peredayot oficialjnyij instrument tekusjhego kornya, zatem polnyij otvet sokhranyayetsya otdeljnoj komandoj.
+
+Posle preryivaniya tochnyij povtor prodolzhayet ustanovku toljko ozhidayemyikh bajtov; zakryityij Zhurnal ne vozobnovlyayetsya. Posle sokhraneniya popyitki povtor vozvrasjhayet `разрешён_вызов=false` dazhe pri neizvestnom rezuljtate. Ostaljnyiye yesjhyo ne dopusjhennyiye stroki mogut poluchitj svoi pervyiye popyitki. Vetka obsjhego zapuska uderzhivayetsya do rannego nablyudeniya vsekh sozdannyikh zadach. Susjhestvuyusjhaya operaciya `подтвердить-начало` vnutri kazhdoj novoj zadachi sokhranyayetsya bez izmeneniya. Protivorechivyiye identifikatoryi polnogo otveta ili nesovpadeniye pervonachaljnogo porucheniya ne prinimayutsya za nablyudeniye.
+
+Adresnyiye proverki nakhodyatsya v `tests/test_отложенных_назначений.py`. Malyiye vremennyiye Git/JSONL-fiksturyi proveryayut realjnyiye granicyi khranilisjha i processyi CLI; otdeljnyiye testyi izoliruyut sborsjhik reyestra i istochnik ispolnyayemogo koda, poetomu sami eti podstanovki ne dokazyivayut gotovnostj polnogo rabochego checkout. Ni podgotovka paketa, ni sozdaniye zadach ne zavershayet predmetnyiye obyazateljstva.
+
+Komanda `python3 -B Инструменты/fum-reyestr-planirovaniya/tests/профиль_отложенных_назначений.py --выход <профиль.json>` cherez otchyotnuyu obyortku izmeryayet tri otdeljnyiye podgotovki shesti sinteticheskikh naznachenij. V profilj vkhodyat predprosmotr, pervaya podgotovka, tochnyij povtor i vlozhennyiye granicyi chteniya istochnika, proverki istoricheskikh manifestov i dolgovechnoj ustanovki. Metki vyizyivayut nastoyasjhiye funkcii; proveryayutsya ravenstvo povtora, tochnyiye shestj fajlov i otsutstviye vneshnikh popyitok. Sozdaniye fiksturyi, zakrepleniye kommita i vneshnij MCP ne vkhodyat v izmeryayemuyu oblastj. Stoimostj neboljshogo JSONL neljzya perenositj na boljshoj rabochij istochnik bez otdeljnogo izmereniya.
+
+## Vyizov oficialjnyikh instrumentov
 
 Sokhranyonnyij `адаптер-codex.js` ispolnyayetsya sredoj, imeyusjhej tri yavno predostavlennyiye vozmozhnosti. `подготовить` vyizyivayet odnorazovuyu komandu `допустить`; `исполнить` peredayot yeyo argumentyi oficialjnomu `create_thread` libo `send_message_to_thread` soglasno sokhranyonnoj operacii; `сохранить` sokhranyayet polnyij otvet cherez odnoimyonnuyu CLI-komandu. Do sozdaniya proyekt proveryayetsya oficialjnyim `list_projects`, vklyuchaya `isGitRepository`. Eto interfejs vozmozhnostej sredyi, ne otdeljnyij Node-servis s dostupom k vnutrennej baze Codex.
 
 Modelj i rassuzhdeniye peredayutsya yavno: `gpt-6-astra`, `ultra`. Novaya zadacha ispoljzuyet worktree i `startingState` s zakreplyonnyim ref. Pervoye porucheniye soderzhit putj postanovki, polnyij kommit i komandu rannego podtverzhdeniya. Nachaljnyij kommit beryotsya odnovremenno iz nativnoj metainformacii JSONL i tekusjhego chistogo dereva; posle nachala rabotyi on ne vosstanavlivayetsya po pozdnemu HEAD. Pozdneye chteniye trebuyet uzhe sokhranyonnogo rannego podtverzhdeniya.
+
+Prilozheniye mozhet podgotovitj novyij worktree s detached HEAD na praviljnom kommite. Posle chteniya marshruta ispolnitelj proveryayet tochnyij OID i chistotu fajlov i indeksa, zatem bez dopolniteljnogo razresheniya sozdayot svobodnuyu sobstvennuyu vetku `codex/…` ot togo zhe OID. Susjhestvuyusjhiye vetki ne peremesjhayutsya. Posle povtornoj sverki OID, polnogo ref, fizicheskogo kornya i chistotyi vyipolnyayetsya `подтвердить-начало` s pervonachaljnyim JSONL; toljko posle uspekha sozdayotsya Zhurnal i nachinayutsya soderzhateljnyiye zapisi. Otkaz prezhdevremennogo podtverzhdeniya iz-za otsutstviya symbolic ref sokhranyayetsya, yesli takoj vyizov uzhe proizoshyol. Nesovpadeniye nachaljnogo kommita ili chuzhiye izmeneniya trebuyut otdeljnoj sverki.
 
 Pri preryivanii mezhdu sokhraneniyem popyitki i otvetom povtor vozvrasjhayet prezhnyuyu popyitku s `разрешён_вызов: false`. Ne vyizyivajte instrument snova po otsutstviyu zadachi v kratkom spiske. Sokhranyonnyij `clientThreadId` oznachayet nezavershyonnoye sozdaniye. Svyazyivaniye rezuljtata trebuyet tochnogo pervonachaljnogo nativnogo porucheniya ot svoyego kornya i rannego podtverzhdeniya bazyi, a ne odnogo pokhozhego nazvaniya. Yesli eti svideteljstva nedostupnyi, iskhod ostayotsya neizvestnyim.
 
@@ -107,6 +140,6 @@ Fajlovaya stadiya snachala sokhranyayet tochnyij plan iskhodnyikh i budusjhikh b
 - [Podtverzhdyonnyij pervyij matematicheskij zapusk](../../Zhurnal/2026-09-11_05-03-47_MSK_podtverditj-matematicheskij-zapusk/otchyot.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 10:25:02 MSK -->
-<!-- content-sha256: sha256:909327d327f6b96665d73badc74ba7e277805b9bc9cd58fe5a134ec8af473d49 -->
+<!-- last-content-edit: 2026-09-12 01:09:27 MSK -->
+<!-- content-sha256: sha256:84c1213704f5cb59000f83779e2c8e89ca1d32921ea926c8d65675561328b4d7 -->
 <!-- FUM-MD-RECENCY:END -->

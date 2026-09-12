@@ -1,0 +1,2764 @@
+{
+  "схема": "fum.перенос-предметного-пакета.1",
+  "корневая_задача": "01a08d77-2060-7701-9f44-ff04769d8a6e",
+  "исходный_коммит": "6c9babdd3663ff0112283b89a361068727825da6",
+  "целевая_база": "601d7a84719d86c9f5535f4d80bf543afc6bb6e2",
+  "файлы": [
+    {
+      "источник": "Планирование/финансирование-и-ресурсы/README.md",
+      "назначение": "Планирование/финансирование-и-ресурсы/README.md",
+      "источник_sha256": "254ab4f168e0d025bbf6b0034b9131de2052bf67d836f79bb6469f58350d1404",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Планирование/финансирование-и-ресурсы/карточки.json",
+      "назначение": "Планирование/финансирование-и-ресурсы/карточки.json",
+      "источник_sha256": "9c95a5212dc8702b2931846d3f7a8c49b577c9f48ec0426009fb882b6edf3340",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Планирование/финансирование-и-ресурсы/реестр.json",
+      "назначение": "Планирование/финансирование-и-ресурсы/реестр.json",
+      "источник_sha256": "df634506d886bd079cbc0353541e708447e8f8becf6fd88a37011f88c163c505",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Планирование/финансирование-и-ресурсы/список.md",
+      "назначение": "Планирование/финансирование-и-ресурсы/список.md",
+      "источник_sha256": "2cac6a10d0f6a4a14c7193abb2f2244557b0039d2b844015ab81c5112a85c10b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Инструменты/fum-reyestr-planirovaniya/SKILL.md",
+      "назначение": "Инструменты/fum-reyestr-planirovaniya/SKILL.md",
+      "источник_sha256": "61afa3312f7005122b5e8789670828bed0b3da1a1ec43134ff36c4138d5456cd",
+      "до": "1dbf416ddc35af0b81c354c96a694a0027210eb985f7220f0b6ab73ea47ece74",
+      "операция": "update"
+    },
+    {
+      "источник": "Инструменты/fum-reyestr-planirovaniya/scripts/реестр-организаций-поддержки.py",
+      "назначение": "Инструменты/fum-reyestr-planirovaniya/scripts/реестр-организаций-поддержки.py",
+      "источник_sha256": "34a6e137bc1ea68b34d11f237bfd2e7d3726fd16e0ac9e026c952a8eba5405da",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Инструменты/fum-reyestr-planirovaniya/scripts/реестр_поддержки.py",
+      "назначение": "Инструменты/fum-reyestr-planirovaniya/scripts/реестр_поддержки.py",
+      "источник_sha256": "bc383bfc79cfb056e19bb8b5d434c1b5fd53b8c72a1cba2ab6800cebcdd3c32b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Инструменты/fum-reyestr-planirovaniya/tests/test_реестр_поддержки.py",
+      "назначение": "Инструменты/fum-reyestr-planirovaniya/tests/test_реестр_поддержки.py",
+      "источник_sha256": "1efedb5f7f109be7782bbe5e3ed4b5966b1c52c65c1240a1413b30617d3e96b3",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Инструменты/fum-reyestr-planirovaniya/tests/профиль_реестра_поддержки.py",
+      "назначение": "Инструменты/fum-reyestr-planirovaniya/tests/профиль_реестра_поддержки.py",
+      "источник_sha256": "545a1ccf11380821f56bf6da6733b3552d26b65a71846c0acbb9ebfd73ce3aa1",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Инструменты/fum-reyestr-planirovaniya/шаблоны/список-поддержки.md.шаблон",
+      "назначение": "Инструменты/fum-reyestr-planirovaniya/шаблоны/список-поддержки.md.шаблон",
+      "источник_sha256": "cff703e2442ac4d009be4c7ffedb83d4fab19e09b07516d5f49a6eac82c4c177",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Инструменты/fum-materialyi-zaprosov/SKILL.md",
+      "назначение": "Инструменты/fum-materialyi-zaprosov/SKILL.md",
+      "источник_sha256": "9a72e0312f0e8d1c663e88780014567a359e2cf3c06137c7979afc8f117b060b",
+      "до": "4cfe17e57d607da8876fc5781f03ba41e6ff1d9c889442ba0d0c355f3fe08a37",
+      "операция": "update"
+    },
+    {
+      "источник": "Инструменты/fum-materialyi-zaprosov/scripts/source_archive.py",
+      "назначение": "Инструменты/fum-materialyi-zaprosov/scripts/source_archive.py",
+      "источник_sha256": "52e3581df09a791d8ee9b9eabb685e4511697a17f448ed2745f1bb5f0218763d",
+      "до": "d670dd8ca77ab1367c55394b4ab28721c73079d467a6c76b6565c1906ea36f33",
+      "операция": "update"
+    },
+    {
+      "источник": "Инструменты/fum-materialyi-zaprosov/tests/test_очистка_источников_поддержки.py",
+      "назначение": "Инструменты/fum-materialyi-zaprosov/tests/test_очистка_источников_поддержки.py",
+      "источник_sha256": "0194f8fb7444542347c1c16701cdef5cc87df80a777f6e005b411ff901655769",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Инструменты/fum-materialyi-zaprosov/tests/профиль_очистки_поддержки.py",
+      "назначение": "Инструменты/fum-materialyi-zaprosov/tests/профиль_очистки_поддержки.py",
+      "источник_sha256": "92b458c535565ef4c7ef9f122c81484748f14082d204a94ce858f14dfbb13ac3",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/83a0acab-1de2-4959-b0fe-2c7ec1223c2d.selstorage.ru/OpenFix_rules.pdf/body.pdf",
+      "назначение": "Источники/URL/https/83a0acab-1de2-4959-b0fe-2c7ec1223c2d.selstorage.ru/OpenFix_rules.pdf/body.pdf",
+      "источник_sha256": "1c3f557dc2583c1820a1e7b29157851e60fc0c6f0fd31d1e3195088b0f935775",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/83a0acab-1de2-4959-b0fe-2c7ec1223c2d.selstorage.ru/OpenFix_rules.pdf/extracted-text.md",
+      "назначение": "Источники/URL/https/83a0acab-1de2-4959-b0fe-2c7ec1223c2d.selstorage.ru/OpenFix_rules.pdf/extracted-text.md",
+      "источник_sha256": "e8c84ab996100041ce3cb0d0efaf16fc28e5c10a540510e0dff6526aff5d696f",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/83a0acab-1de2-4959-b0fe-2c7ec1223c2d.selstorage.ru/OpenFix_rules.pdf/extraction-report.md",
+      "назначение": "Источники/URL/https/83a0acab-1de2-4959-b0fe-2c7ec1223c2d.selstorage.ru/OpenFix_rules.pdf/extraction-report.md",
+      "источник_sha256": "0550cc963526cfc6c072358675d536a292d3f6f2add07a33e688a177e6fc368c",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/83a0acab-1de2-4959-b0fe-2c7ec1223c2d.selstorage.ru/OpenFix_rules.pdf/response.headers.txt",
+      "назначение": "Источники/URL/https/83a0acab-1de2-4959-b0fe-2c7ec1223c2d.selstorage.ru/OpenFix_rules.pdf/response.headers.txt",
+      "источник_sha256": "870e16cdb502f0b50796e99ce09c7e10dbeaaeb1fdac0d14db3d20efaf303457",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/83a0acab-1de2-4959-b0fe-2c7ec1223c2d.selstorage.ru/OpenFix_rules.pdf/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/83a0acab-1de2-4959-b0fe-2c7ec1223c2d.selstorage.ru/OpenFix_rules.pdf/snapshot-manifest.json",
+      "источник_sha256": "71e7f90ac34d4f695184581d316101ce77cc5a13fe88e8d997834d81fe354c90",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/83a0acab-1de2-4959-b0fe-2c7ec1223c2d.selstorage.ru/OpenFix_rules.pdf/source-index.md",
+      "назначение": "Источники/URL/https/83a0acab-1de2-4959-b0fe-2c7ec1223c2d.selstorage.ru/OpenFix_rules.pdf/source-index.md",
+      "источник_sha256": "e0981318574ac3718836abd14a9c67eb6730b86c75c2b2fcda6b8f0795141a00",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/83a0acab-1de2-4959-b0fe-2c7ec1223c2d.selstorage.ru/OpenFix_rules.pdf/source-url.txt",
+      "назначение": "Источники/URL/https/83a0acab-1de2-4959-b0fe-2c7ec1223c2d.selstorage.ru/OpenFix_rules.pdf/source-url.txt",
+      "источник_sha256": "9a2699bfc3a6d68e0d2740fcfcb29ba65c0e35ae79fdfc71816ae6ab502d2523",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/83a0acab-1de2-4959-b0fe-2c7ec1223c2d.selstorage.ru/OpenFix_rules.pdf/свидетельства/0f5ff30a7444a9b132fefdbe9a93175cfe07d19dc6fece3776c0f15524bc05f2/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/83a0acab-1de2-4959-b0fe-2c7ec1223c2d.selstorage.ru/OpenFix_rules.pdf/свидетельства/0f5ff30a7444a9b132fefdbe9a93175cfe07d19dc6fece3776c0f15524bc05f2/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/83a0acab-1de2-4959-b0fe-2c7ec1223c2d.selstorage.ru/OpenFix_rules.pdf/свидетельства/0f5ff30a7444a9b132fefdbe9a93175cfe07d19dc6fece3776c0f15524bc05f2/source-url.txt",
+      "назначение": "Источники/URL/https/83a0acab-1de2-4959-b0fe-2c7ec1223c2d.selstorage.ru/OpenFix_rules.pdf/свидетельства/0f5ff30a7444a9b132fefdbe9a93175cfe07d19dc6fece3776c0f15524bc05f2/source-url.txt",
+      "источник_sha256": "9a2699bfc3a6d68e0d2740fcfcb29ba65c0e35ae79fdfc71816ae6ab502d2523",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/83a0acab-1de2-4959-b0fe-2c7ec1223c2d.selstorage.ru/OpenFix_rules.pdf/свидетельства/0f5ff30a7444a9b132fefdbe9a93175cfe07d19dc6fece3776c0f15524bc05f2/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/83a0acab-1de2-4959-b0fe-2c7ec1223c2d.selstorage.ru/OpenFix_rules.pdf/свидетельства/0f5ff30a7444a9b132fefdbe9a93175cfe07d19dc6fece3776c0f15524bc05f2/извлечённый-текст.txt",
+      "источник_sha256": "0f5ff30a7444a9b132fefdbe9a93175cfe07d19dc6fece3776c0f15524bc05f2",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/83a0acab-1de2-4959-b0fe-2c7ec1223c2d.selstorage.ru/OpenFix_rules.pdf/свидетельства/0f5ff30a7444a9b132fefdbe9a93175cfe07d19dc6fece3776c0f15524bc05f2/происхождение.json",
+      "назначение": "Источники/URL/https/83a0acab-1de2-4959-b0fe-2c7ec1223c2d.selstorage.ru/OpenFix_rules.pdf/свидетельства/0f5ff30a7444a9b132fefdbe9a93175cfe07d19dc6fece3776c0f15524bc05f2/происхождение.json",
+      "источник_sha256": "8bf846d5c68d6dadbbdccfd5606da882232b4a066bfc7239a5724e0ea82fbfc2",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ai.mipt.ru/_root/extracted-text.md",
+      "назначение": "Источники/URL/https/ai.mipt.ru/_root/extracted-text.md",
+      "источник_sha256": "50d8e2cc558b5a800eb64cf3d6f30c76742de7a3dbba74d5c9cc1b6dabeace20",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ai.mipt.ru/_root/extraction-report.md",
+      "назначение": "Источники/URL/https/ai.mipt.ru/_root/extraction-report.md",
+      "источник_sha256": "7ae240066c0be36451a134d36964f36d72865ea6ed12e4b6a26298bbf8e8c709",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ai.mipt.ru/_root/response.body.html",
+      "назначение": "Источники/URL/https/ai.mipt.ru/_root/response.body.html",
+      "источник_sha256": "a6ce0f5bcc5de01e1910e7994eed7d57ac46dada632376a566186583e4c3baa2",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ai.mipt.ru/_root/response.headers.txt",
+      "назначение": "Источники/URL/https/ai.mipt.ru/_root/response.headers.txt",
+      "источник_sha256": "8fc43601e64d6b95876dbf12a838eb6b0e25a8711de11d8e76f7c2364dd6dda0",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ai.mipt.ru/_root/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/ai.mipt.ru/_root/snapshot-manifest.json",
+      "источник_sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ai.mipt.ru/_root/source-index.md",
+      "назначение": "Источники/URL/https/ai.mipt.ru/_root/source-index.md",
+      "источник_sha256": "8bd56c589213e5c1794135305282b2f9b4d9b06a7065a447be4aeccb5d3ea837",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ai.mipt.ru/_root/source-url.txt",
+      "назначение": "Источники/URL/https/ai.mipt.ru/_root/source-url.txt",
+      "источник_sha256": "d22f5880b8ceb7f0f50deafdbb414745d846a67079c7842bafd793a008358a1c",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ai.mipt.ru/_root/свидетельства/de56501f42d100d8cb8048c632589aef50c4a4f3703e8f4b29b45d053dec0052/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/ai.mipt.ru/_root/свидетельства/de56501f42d100d8cb8048c632589aef50c4a4f3703e8f4b29b45d053dec0052/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ai.mipt.ru/_root/свидетельства/de56501f42d100d8cb8048c632589aef50c4a4f3703e8f4b29b45d053dec0052/source-url.txt",
+      "назначение": "Источники/URL/https/ai.mipt.ru/_root/свидетельства/de56501f42d100d8cb8048c632589aef50c4a4f3703e8f4b29b45d053dec0052/source-url.txt",
+      "источник_sha256": "d22f5880b8ceb7f0f50deafdbb414745d846a67079c7842bafd793a008358a1c",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ai.mipt.ru/_root/свидетельства/de56501f42d100d8cb8048c632589aef50c4a4f3703e8f4b29b45d053dec0052/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/ai.mipt.ru/_root/свидетельства/de56501f42d100d8cb8048c632589aef50c4a4f3703e8f4b29b45d053dec0052/извлечённый-текст.txt",
+      "источник_sha256": "de56501f42d100d8cb8048c632589aef50c4a4f3703e8f4b29b45d053dec0052",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ai.mipt.ru/_root/свидетельства/de56501f42d100d8cb8048c632589aef50c4a4f3703e8f4b29b45d053dec0052/происхождение.json",
+      "назначение": "Источники/URL/https/ai.mipt.ru/_root/свидетельства/de56501f42d100d8cb8048c632589aef50c4a4f3703e8f4b29b45d053dec0052/происхождение.json",
+      "источник_sha256": "c357ada4f24e2c2bc1f32a0561db977b3d3d62a26342525abf65a601d6024ea0",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ai.mipt.ru/products/extracted-text.md",
+      "назначение": "Источники/URL/https/ai.mipt.ru/products/extracted-text.md",
+      "источник_sha256": "4a0e9c24322a457ab176af6f8231c21895dcd8925e2612bbb361607bb7511ace",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ai.mipt.ru/products/extraction-report.md",
+      "назначение": "Источники/URL/https/ai.mipt.ru/products/extraction-report.md",
+      "источник_sha256": "76c55375ff99c0d81249e2f5345d6eccc5bed6819ed6b566f17706f523b24726",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ai.mipt.ru/products/response.body.html",
+      "назначение": "Источники/URL/https/ai.mipt.ru/products/response.body.html",
+      "источник_sha256": "7941002ce14bae7fc1270345864ba83707d0a6df9bbe3c263a8589f44c9c81f4",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ai.mipt.ru/products/response.headers.txt",
+      "назначение": "Источники/URL/https/ai.mipt.ru/products/response.headers.txt",
+      "источник_sha256": "7e495935ea1f3606f80cc1c24c4a599fce827dfc0b0ab3545c154447123e5f28",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ai.mipt.ru/products/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/ai.mipt.ru/products/snapshot-manifest.json",
+      "источник_sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ai.mipt.ru/products/source-index.md",
+      "назначение": "Источники/URL/https/ai.mipt.ru/products/source-index.md",
+      "источник_sha256": "aa11beb6f637496a60e2f15999c7f327312081b2cae923dd23799f2113f6f97a",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ai.mipt.ru/products/source-url.txt",
+      "назначение": "Источники/URL/https/ai.mipt.ru/products/source-url.txt",
+      "источник_sha256": "f06741b7e848cf3beacd3018058881c05d57883e7cb596b6b32450a7e0b60386",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ai.mipt.ru/products/свидетельства/2aac1a99db8d391b7b79065d2b879e0946413038d1be41989196d314f44c8fe5/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/ai.mipt.ru/products/свидетельства/2aac1a99db8d391b7b79065d2b879e0946413038d1be41989196d314f44c8fe5/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ai.mipt.ru/products/свидетельства/2aac1a99db8d391b7b79065d2b879e0946413038d1be41989196d314f44c8fe5/source-url.txt",
+      "назначение": "Источники/URL/https/ai.mipt.ru/products/свидетельства/2aac1a99db8d391b7b79065d2b879e0946413038d1be41989196d314f44c8fe5/source-url.txt",
+      "источник_sha256": "f06741b7e848cf3beacd3018058881c05d57883e7cb596b6b32450a7e0b60386",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ai.mipt.ru/products/свидетельства/2aac1a99db8d391b7b79065d2b879e0946413038d1be41989196d314f44c8fe5/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/ai.mipt.ru/products/свидетельства/2aac1a99db8d391b7b79065d2b879e0946413038d1be41989196d314f44c8fe5/извлечённый-текст.txt",
+      "источник_sha256": "2aac1a99db8d391b7b79065d2b879e0946413038d1be41989196d314f44c8fe5",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ai.mipt.ru/products/свидетельства/2aac1a99db8d391b7b79065d2b879e0946413038d1be41989196d314f44c8fe5/происхождение.json",
+      "назначение": "Источники/URL/https/ai.mipt.ru/products/свидетельства/2aac1a99db8d391b7b79065d2b879e0946413038d1be41989196d314f44c8fe5/происхождение.json",
+      "источник_sha256": "0927af2a1f9c8567e8c280636b4453fd9814723b7bc62e4d30846ff3055f7e1f",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/docs/affiliate_program/body.pdf",
+      "назначение": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/docs/affiliate_program/body.pdf",
+      "источник_sha256": "5764073369a8f40a88c3d0426d7e08e2dcc2a4b37e633e783ace410533874937",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/docs/affiliate_program/extracted-text.md",
+      "назначение": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/docs/affiliate_program/extracted-text.md",
+      "источник_sha256": "deab14f18f2cb31c296b68fec77e08aba0f82506a3382d552a10e4ed9ecedde9",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/docs/affiliate_program/extraction-report.md",
+      "назначение": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/docs/affiliate_program/extraction-report.md",
+      "источник_sha256": "1b87723b757dcf96475c19b4abbc36400529a0569aa99f2342011fb52979b8e7",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/docs/affiliate_program/response.headers.txt",
+      "назначение": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/docs/affiliate_program/response.headers.txt",
+      "источник_sha256": "3a8705e42142b20e6e8bb8201373cced850d7b0e91f4b465957a4dcb2fde9a72",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/docs/affiliate_program/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/docs/affiliate_program/snapshot-manifest.json",
+      "источник_sha256": "71e7f90ac34d4f695184581d316101ce77cc5a13fe88e8d997834d81fe354c90",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/docs/affiliate_program/source-index.md",
+      "назначение": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/docs/affiliate_program/source-index.md",
+      "источник_sha256": "14db461de62a23b8c7bde8562781286c48e0c508c8f0529330a359379cc287f2",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/docs/affiliate_program/source-url.txt",
+      "назначение": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/docs/affiliate_program/source-url.txt",
+      "источник_sha256": "7b4d6499f01ec914c5cb7914117212fb39c0313d9c470e61185268f0c3d5c641",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/docs/affiliate_program/свидетельства/fe78b89b82a227494baa1e1670b496f6bebb9d9f62d7bd4037296fc567e141f7/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/docs/affiliate_program/свидетельства/fe78b89b82a227494baa1e1670b496f6bebb9d9f62d7bd4037296fc567e141f7/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/docs/affiliate_program/свидетельства/fe78b89b82a227494baa1e1670b496f6bebb9d9f62d7bd4037296fc567e141f7/source-url.txt",
+      "назначение": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/docs/affiliate_program/свидетельства/fe78b89b82a227494baa1e1670b496f6bebb9d9f62d7bd4037296fc567e141f7/source-url.txt",
+      "источник_sha256": "7b4d6499f01ec914c5cb7914117212fb39c0313d9c470e61185268f0c3d5c641",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/docs/affiliate_program/свидетельства/fe78b89b82a227494baa1e1670b496f6bebb9d9f62d7bd4037296fc567e141f7/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/docs/affiliate_program/свидетельства/fe78b89b82a227494baa1e1670b496f6bebb9d9f62d7bd4037296fc567e141f7/извлечённый-текст.txt",
+      "источник_sha256": "fe78b89b82a227494baa1e1670b496f6bebb9d9f62d7bd4037296fc567e141f7",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/docs/affiliate_program/свидетельства/fe78b89b82a227494baa1e1670b496f6bebb9d9f62d7bd4037296fc567e141f7/происхождение.json",
+      "назначение": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/docs/affiliate_program/свидетельства/fe78b89b82a227494baa1e1670b496f6bebb9d9f62d7bd4037296fc567e141f7/происхождение.json",
+      "источник_sha256": "93f16c064007fa836ea4a79b4941509e5b87fe3651047238089feb4af224cef7",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/extracted-text.md",
+      "назначение": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/extracted-text.md",
+      "источник_sha256": "0870120edf8d879c855314d8ba28f33327e07fb30a33bbb506e1672c3b9a0b9a",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/extraction-report.md",
+      "назначение": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/extraction-report.md",
+      "источник_sha256": "5a368f8cd611812e193f8c1f076c85bdee1f5f2fc041e698af2cf746f6068e72",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/response.body.html",
+      "назначение": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/response.body.html",
+      "источник_sha256": "dda0d332d2aaa14aed326ef5bb3b5e852cd3effbd3759cfc1dfc9c5c519487c5",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/response.headers.txt",
+      "назначение": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/response.headers.txt",
+      "источник_sha256": "2c734a12f7f44db281f4a5b81367dc6050e3e6cd763a1fbc46714d6a50079657",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/snapshot-manifest.json",
+      "источник_sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/source-index.md",
+      "назначение": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/source-index.md",
+      "источник_sha256": "ee90ae9d235f364438711cc510ad54c6214cd3f200897e9fdfd132d1e2c41311",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/source-url.txt",
+      "назначение": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/source-url.txt",
+      "источник_sha256": "cc39a7e2f9ce9b3148e584739cdabbec4aed1f571fb35164e25288970b67a498",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/свидетельства/dec51611d86595964118b3b615a7e01ab547861f49701710695c4416a473032a/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/свидетельства/dec51611d86595964118b3b615a7e01ab547861f49701710695c4416a473032a/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/свидетельства/dec51611d86595964118b3b615a7e01ab547861f49701710695c4416a473032a/source-url.txt",
+      "назначение": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/свидетельства/dec51611d86595964118b3b615a7e01ab547861f49701710695c4416a473032a/source-url.txt",
+      "источник_sha256": "cc39a7e2f9ce9b3148e584739cdabbec4aed1f571fb35164e25288970b67a498",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/свидетельства/dec51611d86595964118b3b615a7e01ab547861f49701710695c4416a473032a/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/свидетельства/dec51611d86595964118b3b615a7e01ab547861f49701710695c4416a473032a/извлечённый-текст.txt",
+      "источник_sha256": "dec51611d86595964118b3b615a7e01ab547861f49701710695c4416a473032a",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/свидетельства/dec51611d86595964118b3b615a7e01ab547861f49701710695c4416a473032a/происхождение.json",
+      "назначение": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/свидетельства/dec51611d86595964118b3b615a7e01ab547861f49701710695c4416a473032a/происхождение.json",
+      "источник_sha256": "08090f91ded1e587d8d3819dfe87c82fc3d675950cce620a54ce44447d5782bc",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/developer.rosa.ru/_root/extracted-text.md",
+      "назначение": "Источники/URL/https/developer.rosa.ru/_root/extracted-text.md",
+      "источник_sha256": "97982da43600fdee0dfc07e85403681f11239d2dd5dece48a6db7191e142bb7d",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/developer.rosa.ru/_root/extraction-report.md",
+      "назначение": "Источники/URL/https/developer.rosa.ru/_root/extraction-report.md",
+      "источник_sha256": "0500dc0f697b720f6c5e7de1315249876db9aea7b6e826e046b8ddc8119f7585",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/developer.rosa.ru/_root/response.body.html",
+      "назначение": "Источники/URL/https/developer.rosa.ru/_root/response.body.html",
+      "источник_sha256": "c9973776d0019f29eecc3b37497ce7fe29cf10c2ccf01e9b3c381ff8138891ae",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/developer.rosa.ru/_root/response.headers.txt",
+      "назначение": "Источники/URL/https/developer.rosa.ru/_root/response.headers.txt",
+      "источник_sha256": "628d2fff7ef96ee70509aa2b965da304fe5b472297ddcbae85c341872cd5c1e2",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/developer.rosa.ru/_root/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/developer.rosa.ru/_root/snapshot-manifest.json",
+      "источник_sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/developer.rosa.ru/_root/source-index.md",
+      "назначение": "Источники/URL/https/developer.rosa.ru/_root/source-index.md",
+      "источник_sha256": "74504cadd81d329429f01c5ec5ad0b023f3ca87f274543cf5b6ddd2c665bd740",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/developer.rosa.ru/_root/source-url.txt",
+      "назначение": "Источники/URL/https/developer.rosa.ru/_root/source-url.txt",
+      "источник_sha256": "bc8650856bc9f781e0adb4b8a14421a2db921d716939664673a127db90268ed4",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/developer.rosa.ru/_root/свидетельства/61ae0790bc8a317515220d4dfc652a513af359f543edd0a3d6525c0064e5816a/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/developer.rosa.ru/_root/свидетельства/61ae0790bc8a317515220d4dfc652a513af359f543edd0a3d6525c0064e5816a/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/developer.rosa.ru/_root/свидетельства/61ae0790bc8a317515220d4dfc652a513af359f543edd0a3d6525c0064e5816a/source-url.txt",
+      "назначение": "Источники/URL/https/developer.rosa.ru/_root/свидетельства/61ae0790bc8a317515220d4dfc652a513af359f543edd0a3d6525c0064e5816a/source-url.txt",
+      "источник_sha256": "bc8650856bc9f781e0adb4b8a14421a2db921d716939664673a127db90268ed4",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/developer.rosa.ru/_root/свидетельства/61ae0790bc8a317515220d4dfc652a513af359f543edd0a3d6525c0064e5816a/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/developer.rosa.ru/_root/свидетельства/61ae0790bc8a317515220d4dfc652a513af359f543edd0a3d6525c0064e5816a/извлечённый-текст.txt",
+      "источник_sha256": "61ae0790bc8a317515220d4dfc652a513af359f543edd0a3d6525c0064e5816a",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/developer.rosa.ru/_root/свидетельства/61ae0790bc8a317515220d4dfc652a513af359f543edd0a3d6525c0064e5816a/происхождение.json",
+      "назначение": "Источники/URL/https/developer.rosa.ru/_root/свидетельства/61ae0790bc8a317515220d4dfc652a513af359f543edd0a3d6525c0064e5816a/происхождение.json",
+      "источник_sha256": "6a581b11939aefe5c2ffddefd1bcea4437f75b82b84dbc19b8f3b3303f89c1d4",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/dobro.mail.ru/about/extracted-text.md",
+      "назначение": "Источники/URL/https/dobro.mail.ru/about/extracted-text.md",
+      "источник_sha256": "ab78d517862de5c45929c703dc28a8ec2bf99c8d34a2d0f72f9cd1cabe4cc239",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/dobro.mail.ru/about/extraction-report.md",
+      "назначение": "Источники/URL/https/dobro.mail.ru/about/extraction-report.md",
+      "источник_sha256": "bf9b64514590cf8c1a283745bd9b7db0b3b67f42950cb2bda94c17f61c21db66",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/dobro.mail.ru/about/response.body.html",
+      "назначение": "Источники/URL/https/dobro.mail.ru/about/response.body.html",
+      "источник_sha256": "292b1fa9bd8741cfb3c27ade91cc668811616b6f3b26e303c7991a4251484de2",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/dobro.mail.ru/about/response.headers.txt",
+      "назначение": "Источники/URL/https/dobro.mail.ru/about/response.headers.txt",
+      "источник_sha256": "8df1c27faf4b4036957c39f2005cb7d1e98d556790eb52f089f5bc6315cb546b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/dobro.mail.ru/about/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/dobro.mail.ru/about/snapshot-manifest.json",
+      "источник_sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/dobro.mail.ru/about/source-index.md",
+      "назначение": "Источники/URL/https/dobro.mail.ru/about/source-index.md",
+      "источник_sha256": "d25f1736e50d17ebf8d8bcf52f15fbfae73ea042c2728942e3cc4089f6562919",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/dobro.mail.ru/about/source-url.txt",
+      "назначение": "Источники/URL/https/dobro.mail.ru/about/source-url.txt",
+      "источник_sha256": "b43259acd5ec9114a0dbfee8f96a321b12b34d2254909f5df589702c1c10c386",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/dobro.mail.ru/about/свидетельства/69f657d5f2496a9b0c1fc38f0657cbd6458f7d294a0bd410f00e2c0fd5fe0ae3/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/dobro.mail.ru/about/свидетельства/69f657d5f2496a9b0c1fc38f0657cbd6458f7d294a0bd410f00e2c0fd5fe0ae3/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/dobro.mail.ru/about/свидетельства/69f657d5f2496a9b0c1fc38f0657cbd6458f7d294a0bd410f00e2c0fd5fe0ae3/source-url.txt",
+      "назначение": "Источники/URL/https/dobro.mail.ru/about/свидетельства/69f657d5f2496a9b0c1fc38f0657cbd6458f7d294a0bd410f00e2c0fd5fe0ae3/source-url.txt",
+      "источник_sha256": "b43259acd5ec9114a0dbfee8f96a321b12b34d2254909f5df589702c1c10c386",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/dobro.mail.ru/about/свидетельства/69f657d5f2496a9b0c1fc38f0657cbd6458f7d294a0bd410f00e2c0fd5fe0ae3/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/dobro.mail.ru/about/свидетельства/69f657d5f2496a9b0c1fc38f0657cbd6458f7d294a0bd410f00e2c0fd5fe0ae3/извлечённый-текст.txt",
+      "источник_sha256": "69f657d5f2496a9b0c1fc38f0657cbd6458f7d294a0bd410f00e2c0fd5fe0ae3",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/dobro.mail.ru/about/свидетельства/69f657d5f2496a9b0c1fc38f0657cbd6458f7d294a0bd410f00e2c0fd5fe0ae3/происхождение.json",
+      "назначение": "Источники/URL/https/dobro.mail.ru/about/свидетельства/69f657d5f2496a9b0c1fc38f0657cbd6458f7d294a0bd410f00e2c0fd5fe0ae3/происхождение.json",
+      "источник_sha256": "62f3b70fa86f13f119bc53c54165ea6964e9c7ee6f764ac9e343493cc0fe053a",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/dobro.mail.ru/funds/registration/extracted-text.md",
+      "назначение": "Источники/URL/https/dobro.mail.ru/funds/registration/extracted-text.md",
+      "источник_sha256": "57756e6dd8073231255fc63e15475c7f6bad8c7204bbb1f67f9efd46a1ef266e",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/dobro.mail.ru/funds/registration/extraction-report.md",
+      "назначение": "Источники/URL/https/dobro.mail.ru/funds/registration/extraction-report.md",
+      "источник_sha256": "4ee93ddb06aded20b5bb1d698e2a309eaa10145ecf8e37f9aa77b6bc988581d5",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/dobro.mail.ru/funds/registration/response.body.html",
+      "назначение": "Источники/URL/https/dobro.mail.ru/funds/registration/response.body.html",
+      "источник_sha256": "8957288310e9de7506de0274b7eecf39cee0ac660d775c2a440c505b76f4b1c5",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/dobro.mail.ru/funds/registration/response.headers.txt",
+      "назначение": "Источники/URL/https/dobro.mail.ru/funds/registration/response.headers.txt",
+      "источник_sha256": "346ee67db58446b005336a137ea9b2c15d2a887f44f461f8322eeab798e3fd25",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/dobro.mail.ru/funds/registration/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/dobro.mail.ru/funds/registration/snapshot-manifest.json",
+      "источник_sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/dobro.mail.ru/funds/registration/source-index.md",
+      "назначение": "Источники/URL/https/dobro.mail.ru/funds/registration/source-index.md",
+      "источник_sha256": "9173c6d45e91e87724b94da95cdb2e26519b60938151810e44fb20acde9f9559",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/dobro.mail.ru/funds/registration/source-url.txt",
+      "назначение": "Источники/URL/https/dobro.mail.ru/funds/registration/source-url.txt",
+      "источник_sha256": "6e03cf0408be37af283b77cc50e2de270de41c0e6ab89e7cf46c5ecef138e672",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/dobro.mail.ru/funds/registration/свидетельства/ad6d46c3badda4d4867a6f5886fd9c7227dc3d710ff1b3d7f785792ddd8ffbb7/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/dobro.mail.ru/funds/registration/свидетельства/ad6d46c3badda4d4867a6f5886fd9c7227dc3d710ff1b3d7f785792ddd8ffbb7/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/dobro.mail.ru/funds/registration/свидетельства/ad6d46c3badda4d4867a6f5886fd9c7227dc3d710ff1b3d7f785792ddd8ffbb7/source-url.txt",
+      "назначение": "Источники/URL/https/dobro.mail.ru/funds/registration/свидетельства/ad6d46c3badda4d4867a6f5886fd9c7227dc3d710ff1b3d7f785792ddd8ffbb7/source-url.txt",
+      "источник_sha256": "6e03cf0408be37af283b77cc50e2de270de41c0e6ab89e7cf46c5ecef138e672",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/dobro.mail.ru/funds/registration/свидетельства/ad6d46c3badda4d4867a6f5886fd9c7227dc3d710ff1b3d7f785792ddd8ffbb7/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/dobro.mail.ru/funds/registration/свидетельства/ad6d46c3badda4d4867a6f5886fd9c7227dc3d710ff1b3d7f785792ddd8ffbb7/извлечённый-текст.txt",
+      "источник_sha256": "ad6d46c3badda4d4867a6f5886fd9c7227dc3d710ff1b3d7f785792ddd8ffbb7",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/dobro.mail.ru/funds/registration/свидетельства/ad6d46c3badda4d4867a6f5886fd9c7227dc3d710ff1b3d7f785792ddd8ffbb7/происхождение.json",
+      "назначение": "Источники/URL/https/dobro.mail.ru/funds/registration/свидетельства/ad6d46c3badda4d4867a6f5886fd9c7227dc3d710ff1b3d7f785792ddd8ffbb7/происхождение.json",
+      "источник_sha256": "6cb497f9d698533d9e317b4d5dd51f99d14ff7f1da46b79e7964bc5b9959e2d4",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/fasie.ru/programs/programma-start/extracted-text.md",
+      "назначение": "Источники/URL/https/fasie.ru/programs/programma-start/extracted-text.md",
+      "источник_sha256": "98693f2a67b12f1bad952c650d2c941366a83c378e4301d1a87a5559bfa97bc4",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/fasie.ru/programs/programma-start/extraction-report.md",
+      "назначение": "Источники/URL/https/fasie.ru/programs/programma-start/extraction-report.md",
+      "источник_sha256": "a95f1d73626dbff534abefbd8116fcac5ca9986f8bf3b6753a71afd9f670093e",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/fasie.ru/programs/programma-start/response.body.html",
+      "назначение": "Источники/URL/https/fasie.ru/programs/programma-start/response.body.html",
+      "источник_sha256": "7feb41b523de3fd47ca9c9ee27d1b537ed3edbf39c23b861adadc7da841ef496",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/fasie.ru/programs/programma-start/response.headers.txt",
+      "назначение": "Источники/URL/https/fasie.ru/programs/programma-start/response.headers.txt",
+      "источник_sha256": "cc5e3a92dfcd3f8273b542bac9ab8b5d82f18b28d220ba2e6fdc1de1a27573a3",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/fasie.ru/programs/programma-start/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/fasie.ru/programs/programma-start/snapshot-manifest.json",
+      "источник_sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/fasie.ru/programs/programma-start/source-index.md",
+      "назначение": "Источники/URL/https/fasie.ru/programs/programma-start/source-index.md",
+      "источник_sha256": "1d8329e3b7399487e28c91c0e9a35d7ceb291e38bc8ca454c0e16ced507f508d",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/fasie.ru/programs/programma-start/source-url.txt",
+      "назначение": "Источники/URL/https/fasie.ru/programs/programma-start/source-url.txt",
+      "источник_sha256": "f1af9cda669596ef12743927c8f96c470099d9ec4274b669eb87728e18fae472",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/files.selectel.ru/docs/ru/promo-rules-grant-cloud.pdf/body.pdf",
+      "назначение": "Источники/URL/https/files.selectel.ru/docs/ru/promo-rules-grant-cloud.pdf/body.pdf",
+      "источник_sha256": "c9042fd92522215cf2e205ebda63e4a2fedd255eb2a69444ce8f1303fdb4eff0",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/files.selectel.ru/docs/ru/promo-rules-grant-cloud.pdf/extracted-text.md",
+      "назначение": "Источники/URL/https/files.selectel.ru/docs/ru/promo-rules-grant-cloud.pdf/extracted-text.md",
+      "источник_sha256": "13f5b9cf3c23bb10a9948cc0a0eda7f3624af84de400000b6dcaa40f42086b74",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/files.selectel.ru/docs/ru/promo-rules-grant-cloud.pdf/extraction-report.md",
+      "назначение": "Источники/URL/https/files.selectel.ru/docs/ru/promo-rules-grant-cloud.pdf/extraction-report.md",
+      "источник_sha256": "053db80d0c809d867d692788547a831ed70d067fcc52f83a76808a3f51abe53f",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/files.selectel.ru/docs/ru/promo-rules-grant-cloud.pdf/response.headers.txt",
+      "назначение": "Источники/URL/https/files.selectel.ru/docs/ru/promo-rules-grant-cloud.pdf/response.headers.txt",
+      "источник_sha256": "c4775465145d43cd6b4d0dba1984fad68c54c58e075b58628032e2d313661aa5",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/files.selectel.ru/docs/ru/promo-rules-grant-cloud.pdf/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/files.selectel.ru/docs/ru/promo-rules-grant-cloud.pdf/snapshot-manifest.json",
+      "источник_sha256": "71e7f90ac34d4f695184581d316101ce77cc5a13fe88e8d997834d81fe354c90",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/files.selectel.ru/docs/ru/promo-rules-grant-cloud.pdf/source-index.md",
+      "назначение": "Источники/URL/https/files.selectel.ru/docs/ru/promo-rules-grant-cloud.pdf/source-index.md",
+      "источник_sha256": "e0981318574ac3718836abd14a9c67eb6730b86c75c2b2fcda6b8f0795141a00",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/files.selectel.ru/docs/ru/promo-rules-grant-cloud.pdf/source-url.txt",
+      "назначение": "Источники/URL/https/files.selectel.ru/docs/ru/promo-rules-grant-cloud.pdf/source-url.txt",
+      "источник_sha256": "01e45090a3c34230a403b124cd01ab5e2a734e5ac2fc82bc287504968353353d",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/files.selectel.ru/docs/ru/promo-rules-grant-cloud.pdf/свидетельства/6cc2bcdadd3b66351baf011a03dd78e84e3aa1f50b4d2a8c5fb0ce5d2e961f7d/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/files.selectel.ru/docs/ru/promo-rules-grant-cloud.pdf/свидетельства/6cc2bcdadd3b66351baf011a03dd78e84e3aa1f50b4d2a8c5fb0ce5d2e961f7d/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/files.selectel.ru/docs/ru/promo-rules-grant-cloud.pdf/свидетельства/6cc2bcdadd3b66351baf011a03dd78e84e3aa1f50b4d2a8c5fb0ce5d2e961f7d/source-url.txt",
+      "назначение": "Источники/URL/https/files.selectel.ru/docs/ru/promo-rules-grant-cloud.pdf/свидетельства/6cc2bcdadd3b66351baf011a03dd78e84e3aa1f50b4d2a8c5fb0ce5d2e961f7d/source-url.txt",
+      "источник_sha256": "01e45090a3c34230a403b124cd01ab5e2a734e5ac2fc82bc287504968353353d",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/files.selectel.ru/docs/ru/promo-rules-grant-cloud.pdf/свидетельства/6cc2bcdadd3b66351baf011a03dd78e84e3aa1f50b4d2a8c5fb0ce5d2e961f7d/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/files.selectel.ru/docs/ru/promo-rules-grant-cloud.pdf/свидетельства/6cc2bcdadd3b66351baf011a03dd78e84e3aa1f50b4d2a8c5fb0ce5d2e961f7d/извлечённый-текст.txt",
+      "источник_sha256": "6cc2bcdadd3b66351baf011a03dd78e84e3aa1f50b4d2a8c5fb0ce5d2e961f7d",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/files.selectel.ru/docs/ru/promo-rules-grant-cloud.pdf/свидетельства/6cc2bcdadd3b66351baf011a03dd78e84e3aa1f50b4d2a8c5fb0ce5d2e961f7d/происхождение.json",
+      "назначение": "Источники/URL/https/files.selectel.ru/docs/ru/promo-rules-grant-cloud.pdf/свидетельства/6cc2bcdadd3b66351baf011a03dd78e84e3aa1f50b4d2a8c5fb0ce5d2e961f7d/происхождение.json",
+      "источник_sha256": "04867a0a578f0ce5471cccfc71420fcf76776ddedac7988a2e06a2b089ebd319",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/files.selectel.ru/docs/ru/startups-grant-contitions.pdf/body.pdf",
+      "назначение": "Источники/URL/https/files.selectel.ru/docs/ru/startups-grant-contitions.pdf/body.pdf",
+      "источник_sha256": "b9838426165eba38481d3da6f3b9d7c6d046fd1a7b319765f648b44d22b0356f",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/files.selectel.ru/docs/ru/startups-grant-contitions.pdf/extracted-text.md",
+      "назначение": "Источники/URL/https/files.selectel.ru/docs/ru/startups-grant-contitions.pdf/extracted-text.md",
+      "источник_sha256": "62f5dc81bacf4ae97dfc5b8c79276ca207d74277486ddea9dd950b6432779711",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/files.selectel.ru/docs/ru/startups-grant-contitions.pdf/extraction-report.md",
+      "назначение": "Источники/URL/https/files.selectel.ru/docs/ru/startups-grant-contitions.pdf/extraction-report.md",
+      "источник_sha256": "3d3556be2cc41281c43c2aef5a804e057261617bad29844aa989d7117ac6828f",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/files.selectel.ru/docs/ru/startups-grant-contitions.pdf/response.headers.txt",
+      "назначение": "Источники/URL/https/files.selectel.ru/docs/ru/startups-grant-contitions.pdf/response.headers.txt",
+      "источник_sha256": "42e92df9f720a67ee1669131f6738e54ee6201d56877ff1731b5f340ebff78e3",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/files.selectel.ru/docs/ru/startups-grant-contitions.pdf/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/files.selectel.ru/docs/ru/startups-grant-contitions.pdf/snapshot-manifest.json",
+      "источник_sha256": "71e7f90ac34d4f695184581d316101ce77cc5a13fe88e8d997834d81fe354c90",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/files.selectel.ru/docs/ru/startups-grant-contitions.pdf/source-index.md",
+      "назначение": "Источники/URL/https/files.selectel.ru/docs/ru/startups-grant-contitions.pdf/source-index.md",
+      "источник_sha256": "e0981318574ac3718836abd14a9c67eb6730b86c75c2b2fcda6b8f0795141a00",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/files.selectel.ru/docs/ru/startups-grant-contitions.pdf/source-url.txt",
+      "назначение": "Источники/URL/https/files.selectel.ru/docs/ru/startups-grant-contitions.pdf/source-url.txt",
+      "источник_sha256": "53842ce1121e65e9912aa38810f9e439b0bcd38411d8deb6710a9006ade6efc9",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/files.selectel.ru/docs/ru/startups-grant-contitions.pdf/свидетельства/9bc2719802f4d6c7aadda5252261a2d97fc0c927aa8efea35ea77719c3c28583/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/files.selectel.ru/docs/ru/startups-grant-contitions.pdf/свидетельства/9bc2719802f4d6c7aadda5252261a2d97fc0c927aa8efea35ea77719c3c28583/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/files.selectel.ru/docs/ru/startups-grant-contitions.pdf/свидетельства/9bc2719802f4d6c7aadda5252261a2d97fc0c927aa8efea35ea77719c3c28583/source-url.txt",
+      "назначение": "Источники/URL/https/files.selectel.ru/docs/ru/startups-grant-contitions.pdf/свидетельства/9bc2719802f4d6c7aadda5252261a2d97fc0c927aa8efea35ea77719c3c28583/source-url.txt",
+      "источник_sha256": "53842ce1121e65e9912aa38810f9e439b0bcd38411d8deb6710a9006ade6efc9",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/files.selectel.ru/docs/ru/startups-grant-contitions.pdf/свидетельства/9bc2719802f4d6c7aadda5252261a2d97fc0c927aa8efea35ea77719c3c28583/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/files.selectel.ru/docs/ru/startups-grant-contitions.pdf/свидетельства/9bc2719802f4d6c7aadda5252261a2d97fc0c927aa8efea35ea77719c3c28583/извлечённый-текст.txt",
+      "источник_sha256": "9bc2719802f4d6c7aadda5252261a2d97fc0c927aa8efea35ea77719c3c28583",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/files.selectel.ru/docs/ru/startups-grant-contitions.pdf/свидетельства/9bc2719802f4d6c7aadda5252261a2d97fc0c927aa8efea35ea77719c3c28583/происхождение.json",
+      "назначение": "Источники/URL/https/files.selectel.ru/docs/ru/startups-grant-contitions.pdf/свидетельства/9bc2719802f4d6c7aadda5252261a2d97fc0c927aa8efea35ea77719c3c28583/происхождение.json",
+      "источник_sha256": "fd70949e478090dcb6ab1f17b7928ab4faf9a12ec53c90877a08419ce22f5905",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/fondpotanin.ru/competitions/konkurs-professionalnogo-razvitiya/extracted-text.md",
+      "назначение": "Источники/URL/https/fondpotanin.ru/competitions/konkurs-professionalnogo-razvitiya/extracted-text.md",
+      "источник_sha256": "4fbdb7945ab5381e7ed105653749575d96407d25252dd285494ff06446e0f904",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/fondpotanin.ru/competitions/konkurs-professionalnogo-razvitiya/extraction-report.md",
+      "назначение": "Источники/URL/https/fondpotanin.ru/competitions/konkurs-professionalnogo-razvitiya/extraction-report.md",
+      "источник_sha256": "f2446115ee625c4ccfccd633e1b99c1e8bdf055d0bc790e443291abe4b25b73d",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/fondpotanin.ru/competitions/konkurs-professionalnogo-razvitiya/response.body.html",
+      "назначение": "Источники/URL/https/fondpotanin.ru/competitions/konkurs-professionalnogo-razvitiya/response.body.html",
+      "источник_sha256": "8ac7ac1c0072b46ba2cf9b8a4d975c18fbdde3a07d8509dd4abc5123dc7718e7",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/fondpotanin.ru/competitions/konkurs-professionalnogo-razvitiya/response.headers.txt",
+      "назначение": "Источники/URL/https/fondpotanin.ru/competitions/konkurs-professionalnogo-razvitiya/response.headers.txt",
+      "источник_sha256": "4c0a02cbdbe97175e41cb52e16a606f0dcd350de0ae49bdbe37f9caf99f96995",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/fondpotanin.ru/competitions/konkurs-professionalnogo-razvitiya/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/fondpotanin.ru/competitions/konkurs-professionalnogo-razvitiya/snapshot-manifest.json",
+      "источник_sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/fondpotanin.ru/competitions/konkurs-professionalnogo-razvitiya/source-index.md",
+      "назначение": "Источники/URL/https/fondpotanin.ru/competitions/konkurs-professionalnogo-razvitiya/source-index.md",
+      "источник_sha256": "8db58f8508ebef006759f520464b35651ca1e0fb0db68c64d452687ed8e0dcb5",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/fondpotanin.ru/competitions/konkurs-professionalnogo-razvitiya/source-url.txt",
+      "назначение": "Источники/URL/https/fondpotanin.ru/competitions/konkurs-professionalnogo-razvitiya/source-url.txt",
+      "источник_sha256": "51ad39fdc9a21b1ff30b369d3f1fa06f7ee80356df4b6a6f5b632451d1785d76",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/fondpotanin.ru/competitions/konkurs-professionalnogo-razvitiya/свидетельства/b87d5057f0ba0bca6dd0c52c48500029c09ee44fa6440e800432e5051063ec19/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/fondpotanin.ru/competitions/konkurs-professionalnogo-razvitiya/свидетельства/b87d5057f0ba0bca6dd0c52c48500029c09ee44fa6440e800432e5051063ec19/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/fondpotanin.ru/competitions/konkurs-professionalnogo-razvitiya/свидетельства/b87d5057f0ba0bca6dd0c52c48500029c09ee44fa6440e800432e5051063ec19/source-url.txt",
+      "назначение": "Источники/URL/https/fondpotanin.ru/competitions/konkurs-professionalnogo-razvitiya/свидетельства/b87d5057f0ba0bca6dd0c52c48500029c09ee44fa6440e800432e5051063ec19/source-url.txt",
+      "источник_sha256": "51ad39fdc9a21b1ff30b369d3f1fa06f7ee80356df4b6a6f5b632451d1785d76",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/fondpotanin.ru/competitions/konkurs-professionalnogo-razvitiya/свидетельства/b87d5057f0ba0bca6dd0c52c48500029c09ee44fa6440e800432e5051063ec19/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/fondpotanin.ru/competitions/konkurs-professionalnogo-razvitiya/свидетельства/b87d5057f0ba0bca6dd0c52c48500029c09ee44fa6440e800432e5051063ec19/извлечённый-текст.txt",
+      "источник_sha256": "b87d5057f0ba0bca6dd0c52c48500029c09ee44fa6440e800432e5051063ec19",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/fondpotanin.ru/competitions/konkurs-professionalnogo-razvitiya/свидетельства/b87d5057f0ba0bca6dd0c52c48500029c09ee44fa6440e800432e5051063ec19/происхождение.json",
+      "назначение": "Источники/URL/https/fondpotanin.ru/competitions/konkurs-professionalnogo-razvitiya/свидетельства/b87d5057f0ba0bca6dd0c52c48500029c09ee44fa6440e800432e5051063ec19/происхождение.json",
+      "источник_sha256": "60352a94db26dae67764c681a9948bdc985f17d5c655ad3a2debaf4e0b0cd421",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/fondpotanin.ru/upload/iblock/8d5/9h1w1u1d45dwt4z516u6tc1tupmodzvf.pdf/body.pdf",
+      "назначение": "Источники/URL/https/fondpotanin.ru/upload/iblock/8d5/9h1w1u1d45dwt4z516u6tc1tupmodzvf.pdf/body.pdf",
+      "источник_sha256": "e3c8a846bced44dd97c21c48d16c575eb4f84b0ce435e92bf21926c917201d78",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/fondpotanin.ru/upload/iblock/8d5/9h1w1u1d45dwt4z516u6tc1tupmodzvf.pdf/extracted-text.md",
+      "назначение": "Источники/URL/https/fondpotanin.ru/upload/iblock/8d5/9h1w1u1d45dwt4z516u6tc1tupmodzvf.pdf/extracted-text.md",
+      "источник_sha256": "acd23465681fb50faf222791ded1dd843d79fe8568a4c5d483d76307dc635011",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/fondpotanin.ru/upload/iblock/8d5/9h1w1u1d45dwt4z516u6tc1tupmodzvf.pdf/extraction-report.md",
+      "назначение": "Источники/URL/https/fondpotanin.ru/upload/iblock/8d5/9h1w1u1d45dwt4z516u6tc1tupmodzvf.pdf/extraction-report.md",
+      "источник_sha256": "6b56c4c621927101b4bb48fe1ca1b5f3be0c94753458deeda053f7027ee51dff",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/fondpotanin.ru/upload/iblock/8d5/9h1w1u1d45dwt4z516u6tc1tupmodzvf.pdf/response.headers.txt",
+      "назначение": "Источники/URL/https/fondpotanin.ru/upload/iblock/8d5/9h1w1u1d45dwt4z516u6tc1tupmodzvf.pdf/response.headers.txt",
+      "источник_sha256": "94b8b6a2f6d71e9a70c4d3ad4043d3cabcf87bca6ad1383afed54c727d6041a8",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/fondpotanin.ru/upload/iblock/8d5/9h1w1u1d45dwt4z516u6tc1tupmodzvf.pdf/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/fondpotanin.ru/upload/iblock/8d5/9h1w1u1d45dwt4z516u6tc1tupmodzvf.pdf/snapshot-manifest.json",
+      "источник_sha256": "71e7f90ac34d4f695184581d316101ce77cc5a13fe88e8d997834d81fe354c90",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/fondpotanin.ru/upload/iblock/8d5/9h1w1u1d45dwt4z516u6tc1tupmodzvf.pdf/source-index.md",
+      "назначение": "Источники/URL/https/fondpotanin.ru/upload/iblock/8d5/9h1w1u1d45dwt4z516u6tc1tupmodzvf.pdf/source-index.md",
+      "источник_sha256": "e0981318574ac3718836abd14a9c67eb6730b86c75c2b2fcda6b8f0795141a00",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/fondpotanin.ru/upload/iblock/8d5/9h1w1u1d45dwt4z516u6tc1tupmodzvf.pdf/source-url.txt",
+      "назначение": "Источники/URL/https/fondpotanin.ru/upload/iblock/8d5/9h1w1u1d45dwt4z516u6tc1tupmodzvf.pdf/source-url.txt",
+      "источник_sha256": "67b36c9abed7dd0b86601252845ea9e9c30e99356c5adceca7c2f27f3d223fb2",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/fondpotanin.ru/upload/iblock/8d5/9h1w1u1d45dwt4z516u6tc1tupmodzvf.pdf/свидетельства/2d25cf6e803e9de318284c22442ef4474c97dc884007aff7b06a32a1727bd249/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/fondpotanin.ru/upload/iblock/8d5/9h1w1u1d45dwt4z516u6tc1tupmodzvf.pdf/свидетельства/2d25cf6e803e9de318284c22442ef4474c97dc884007aff7b06a32a1727bd249/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/fondpotanin.ru/upload/iblock/8d5/9h1w1u1d45dwt4z516u6tc1tupmodzvf.pdf/свидетельства/2d25cf6e803e9de318284c22442ef4474c97dc884007aff7b06a32a1727bd249/source-url.txt",
+      "назначение": "Источники/URL/https/fondpotanin.ru/upload/iblock/8d5/9h1w1u1d45dwt4z516u6tc1tupmodzvf.pdf/свидетельства/2d25cf6e803e9de318284c22442ef4474c97dc884007aff7b06a32a1727bd249/source-url.txt",
+      "источник_sha256": "67b36c9abed7dd0b86601252845ea9e9c30e99356c5adceca7c2f27f3d223fb2",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/fondpotanin.ru/upload/iblock/8d5/9h1w1u1d45dwt4z516u6tc1tupmodzvf.pdf/свидетельства/2d25cf6e803e9de318284c22442ef4474c97dc884007aff7b06a32a1727bd249/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/fondpotanin.ru/upload/iblock/8d5/9h1w1u1d45dwt4z516u6tc1tupmodzvf.pdf/свидетельства/2d25cf6e803e9de318284c22442ef4474c97dc884007aff7b06a32a1727bd249/извлечённый-текст.txt",
+      "источник_sha256": "2d25cf6e803e9de318284c22442ef4474c97dc884007aff7b06a32a1727bd249",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/fondpotanin.ru/upload/iblock/8d5/9h1w1u1d45dwt4z516u6tc1tupmodzvf.pdf/свидетельства/2d25cf6e803e9de318284c22442ef4474c97dc884007aff7b06a32a1727bd249/происхождение.json",
+      "назначение": "Источники/URL/https/fondpotanin.ru/upload/iblock/8d5/9h1w1u1d45dwt4z516u6tc1tupmodzvf.pdf/свидетельства/2d25cf6e803e9de318284c22442ef4474c97dc884007aff7b06a32a1727bd249/происхождение.json",
+      "источник_sha256": "87dd9fb1cebeea8f1b9e88396f164df857faafdda5bba86991be4a2ca33c9b3d",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/help.yandex.ru/business/extracted-text.md",
+      "назначение": "Источники/URL/https/help.yandex.ru/business/extracted-text.md",
+      "источник_sha256": "f1eece98e726e1025d9fad9b6d16cac338f5964f0a8c629ad1eef624fb8892f1",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/help.yandex.ru/business/extraction-report.md",
+      "назначение": "Источники/URL/https/help.yandex.ru/business/extraction-report.md",
+      "источник_sha256": "c685cdd244315d3b38c2988419a24f3e2db561141aacf8a4bbb5acad34e95a64",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/help.yandex.ru/business/response.body.html",
+      "назначение": "Источники/URL/https/help.yandex.ru/business/response.body.html",
+      "источник_sha256": "42ce258494bca53993e91268894d09ed4740d7ab5ecb2c5d297cc44fe113c0b1",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/help.yandex.ru/business/response.headers.txt",
+      "назначение": "Источники/URL/https/help.yandex.ru/business/response.headers.txt",
+      "источник_sha256": "da17d583265c31ed3a5a253a6cb43bce9f029a4529c5b92a7b8bc7a5ab4cfa85",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/help.yandex.ru/business/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/help.yandex.ru/business/snapshot-manifest.json",
+      "источник_sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/help.yandex.ru/business/source-index.md",
+      "назначение": "Источники/URL/https/help.yandex.ru/business/source-index.md",
+      "источник_sha256": "ebb8b4429cd4d36b569b411f77b03e07e0a39fdf4221db9596c7d121d5a7a7cf",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/help.yandex.ru/business/source-url.txt",
+      "назначение": "Источники/URL/https/help.yandex.ru/business/source-url.txt",
+      "источник_sha256": "f2d4729e61f595128a5b008a0e8d3ebe75e065e0cccfcc5b38092f8f5b50bd74",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ias.rscf.ru/app/ext/user/conf/contests/docs/2026/131.pdf/body.pdf",
+      "назначение": "Источники/URL/https/ias.rscf.ru/app/ext/user/conf/contests/docs/2026/131.pdf/body.pdf",
+      "источник_sha256": "0fc875ef368b9fb2dd795725ca8443e2d463ce5b5d4c83ad62ad7978049592e4",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ias.rscf.ru/app/ext/user/conf/contests/docs/2026/131.pdf/extracted-text.md",
+      "назначение": "Источники/URL/https/ias.rscf.ru/app/ext/user/conf/contests/docs/2026/131.pdf/extracted-text.md",
+      "источник_sha256": "167905de440c86e441e0d1c53d95dd086685c8a2721215bf4579a615e941df93",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ias.rscf.ru/app/ext/user/conf/contests/docs/2026/131.pdf/extraction-report.md",
+      "назначение": "Источники/URL/https/ias.rscf.ru/app/ext/user/conf/contests/docs/2026/131.pdf/extraction-report.md",
+      "источник_sha256": "3b0464c3f296ca56ddb530abd8fb56115bafcb353bf0c2ba14f26e68acf1cd07",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ias.rscf.ru/app/ext/user/conf/contests/docs/2026/131.pdf/response.headers.txt",
+      "назначение": "Источники/URL/https/ias.rscf.ru/app/ext/user/conf/contests/docs/2026/131.pdf/response.headers.txt",
+      "источник_sha256": "93247bb5360f9feea1997bd112364fa04342698cfefec0ff704477813e26136c",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ias.rscf.ru/app/ext/user/conf/contests/docs/2026/131.pdf/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/ias.rscf.ru/app/ext/user/conf/contests/docs/2026/131.pdf/snapshot-manifest.json",
+      "источник_sha256": "71e7f90ac34d4f695184581d316101ce77cc5a13fe88e8d997834d81fe354c90",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ias.rscf.ru/app/ext/user/conf/contests/docs/2026/131.pdf/source-index.md",
+      "назначение": "Источники/URL/https/ias.rscf.ru/app/ext/user/conf/contests/docs/2026/131.pdf/source-index.md",
+      "источник_sha256": "e0981318574ac3718836abd14a9c67eb6730b86c75c2b2fcda6b8f0795141a00",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ias.rscf.ru/app/ext/user/conf/contests/docs/2026/131.pdf/source-url.txt",
+      "назначение": "Источники/URL/https/ias.rscf.ru/app/ext/user/conf/contests/docs/2026/131.pdf/source-url.txt",
+      "источник_sha256": "deceabbebb291989d30215574bafff2777a0eef5734c1230330e6507b80a5658",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ias.rscf.ru/app/ext/user/conf/contests/docs/2026/131.pdf/свидетельства/a7eb8be1c46868fffe43ab0c7a452196d99eaa8b47a0414f1ab05dd6d4c0fa02/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/ias.rscf.ru/app/ext/user/conf/contests/docs/2026/131.pdf/свидетельства/a7eb8be1c46868fffe43ab0c7a452196d99eaa8b47a0414f1ab05dd6d4c0fa02/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ias.rscf.ru/app/ext/user/conf/contests/docs/2026/131.pdf/свидетельства/a7eb8be1c46868fffe43ab0c7a452196d99eaa8b47a0414f1ab05dd6d4c0fa02/source-url.txt",
+      "назначение": "Источники/URL/https/ias.rscf.ru/app/ext/user/conf/contests/docs/2026/131.pdf/свидетельства/a7eb8be1c46868fffe43ab0c7a452196d99eaa8b47a0414f1ab05dd6d4c0fa02/source-url.txt",
+      "источник_sha256": "deceabbebb291989d30215574bafff2777a0eef5734c1230330e6507b80a5658",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ias.rscf.ru/app/ext/user/conf/contests/docs/2026/131.pdf/свидетельства/a7eb8be1c46868fffe43ab0c7a452196d99eaa8b47a0414f1ab05dd6d4c0fa02/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/ias.rscf.ru/app/ext/user/conf/contests/docs/2026/131.pdf/свидетельства/a7eb8be1c46868fffe43ab0c7a452196d99eaa8b47a0414f1ab05dd6d4c0fa02/извлечённый-текст.txt",
+      "источник_sha256": "a7eb8be1c46868fffe43ab0c7a452196d99eaa8b47a0414f1ab05dd6d4c0fa02",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/ias.rscf.ru/app/ext/user/conf/contests/docs/2026/131.pdf/свидетельства/a7eb8be1c46868fffe43ab0c7a452196d99eaa8b47a0414f1ab05dd6d4c0fa02/происхождение.json",
+      "назначение": "Источники/URL/https/ias.rscf.ru/app/ext/user/conf/contests/docs/2026/131.pdf/свидетельства/a7eb8be1c46868fffe43ab0c7a452196d99eaa8b47a0414f1ab05dd6d4c0fa02/происхождение.json",
+      "источник_sha256": "f764947aa5c75d865575028ed70d510bedb4f18104e38389326f1e50287e68d8",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/opensource.itmo.ru/_root/extracted-text.md",
+      "назначение": "Источники/URL/https/opensource.itmo.ru/_root/extracted-text.md",
+      "источник_sha256": "89d7f80a7f87d454146e688ed4159f9dbb8519b4de341ecfef0e72cc42733606",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/opensource.itmo.ru/_root/extraction-report.md",
+      "назначение": "Источники/URL/https/opensource.itmo.ru/_root/extraction-report.md",
+      "источник_sha256": "168607469f34bf8026f2569bb8e07b309174d112dbc8322d724ae559e4994023",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/opensource.itmo.ru/_root/response.body.html",
+      "назначение": "Источники/URL/https/opensource.itmo.ru/_root/response.body.html",
+      "источник_sha256": "6ecb5a0ce8adbe2c9cf159670493527759ead094f5e7df87b51e5175b6b45e6e",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/opensource.itmo.ru/_root/response.headers.txt",
+      "назначение": "Источники/URL/https/opensource.itmo.ru/_root/response.headers.txt",
+      "источник_sha256": "d5b4173bac0478a16f42e7ffafdefde3778af662c25efae5970da39005745044",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/opensource.itmo.ru/_root/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/opensource.itmo.ru/_root/snapshot-manifest.json",
+      "источник_sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/opensource.itmo.ru/_root/source-index.md",
+      "назначение": "Источники/URL/https/opensource.itmo.ru/_root/source-index.md",
+      "источник_sha256": "d4f4cd41abee5328752bdefaf3523b621286b6863b1febc8a037242190437ada",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/opensource.itmo.ru/_root/source-url.txt",
+      "назначение": "Источники/URL/https/opensource.itmo.ru/_root/source-url.txt",
+      "источник_sha256": "a2245e31f205b5dc9b624b38eff6392b52f7f37312a40159d0aecc1523ae3563",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/opensource.itmo.ru/_root/свидетельства/46f35511e40975b857f84e5ca2ff960b84ddd7acc06e0355fdca475731260a29/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/opensource.itmo.ru/_root/свидетельства/46f35511e40975b857f84e5ca2ff960b84ddd7acc06e0355fdca475731260a29/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/opensource.itmo.ru/_root/свидетельства/46f35511e40975b857f84e5ca2ff960b84ddd7acc06e0355fdca475731260a29/source-url.txt",
+      "назначение": "Источники/URL/https/opensource.itmo.ru/_root/свидетельства/46f35511e40975b857f84e5ca2ff960b84ddd7acc06e0355fdca475731260a29/source-url.txt",
+      "источник_sha256": "a2245e31f205b5dc9b624b38eff6392b52f7f37312a40159d0aecc1523ae3563",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/opensource.itmo.ru/_root/свидетельства/46f35511e40975b857f84e5ca2ff960b84ddd7acc06e0355fdca475731260a29/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/opensource.itmo.ru/_root/свидетельства/46f35511e40975b857f84e5ca2ff960b84ddd7acc06e0355fdca475731260a29/извлечённый-текст.txt",
+      "источник_sha256": "46f35511e40975b857f84e5ca2ff960b84ddd7acc06e0355fdca475731260a29",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/opensource.itmo.ru/_root/свидетельства/46f35511e40975b857f84e5ca2ff960b84ddd7acc06e0355fdca475731260a29/происхождение.json",
+      "назначение": "Источники/URL/https/opensource.itmo.ru/_root/свидетельства/46f35511e40975b857f84e5ca2ff960b84ddd7acc06e0355fdca475731260a29/происхождение.json",
+      "источник_sha256": "436cadb821b5d53584c74ea46323c7f006ccef770e5d205bb84164bc953448ba",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/promo.selectel.ru/openfix/extracted-text.md",
+      "назначение": "Источники/URL/https/promo.selectel.ru/openfix/extracted-text.md",
+      "источник_sha256": "e6066d218b06def5a761b4a8ac15ff599f5fef264feb58e72488e30ea074afee",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/promo.selectel.ru/openfix/extraction-report.md",
+      "назначение": "Источники/URL/https/promo.selectel.ru/openfix/extraction-report.md",
+      "источник_sha256": "aadc072ac1635e75bc28ffa156d4e63feda3d59d330eeccb4c7fd55a0085a2d8",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/promo.selectel.ru/openfix/response.body.html",
+      "назначение": "Источники/URL/https/promo.selectel.ru/openfix/response.body.html",
+      "источник_sha256": "3693aaf6da7573575c02fdc2752fc26314f01873a852e7d7e1e8e376f7902fc9",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/promo.selectel.ru/openfix/response.headers.txt",
+      "назначение": "Источники/URL/https/promo.selectel.ru/openfix/response.headers.txt",
+      "источник_sha256": "638beb9e36210e64070b64c653f9e0dd0b7ce34c2d8358ffa0b7aad56234548d",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/promo.selectel.ru/openfix/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/promo.selectel.ru/openfix/snapshot-manifest.json",
+      "источник_sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/promo.selectel.ru/openfix/source-index.md",
+      "назначение": "Источники/URL/https/promo.selectel.ru/openfix/source-index.md",
+      "источник_sha256": "895960321c278f87189a94e8d3b0c5447a3f617ee456eeeef08885117f24fce6",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/promo.selectel.ru/openfix/source-url.txt",
+      "назначение": "Источники/URL/https/promo.selectel.ru/openfix/source-url.txt",
+      "источник_sha256": "8e9ef6894e896cc191523f6eff993b3a0facd8296207b00f83d2863894434c47",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/promo.selectel.ru/openfix/свидетельства/24c17fecafd9a281214dad4de8e0fcb2634743944322c824a89be3c5a558ffc1/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/promo.selectel.ru/openfix/свидетельства/24c17fecafd9a281214dad4de8e0fcb2634743944322c824a89be3c5a558ffc1/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/promo.selectel.ru/openfix/свидетельства/24c17fecafd9a281214dad4de8e0fcb2634743944322c824a89be3c5a558ffc1/source-url.txt",
+      "назначение": "Источники/URL/https/promo.selectel.ru/openfix/свидетельства/24c17fecafd9a281214dad4de8e0fcb2634743944322c824a89be3c5a558ffc1/source-url.txt",
+      "источник_sha256": "8e9ef6894e896cc191523f6eff993b3a0facd8296207b00f83d2863894434c47",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/promo.selectel.ru/openfix/свидетельства/24c17fecafd9a281214dad4de8e0fcb2634743944322c824a89be3c5a558ffc1/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/promo.selectel.ru/openfix/свидетельства/24c17fecafd9a281214dad4de8e0fcb2634743944322c824a89be3c5a558ffc1/извлечённый-текст.txt",
+      "источник_sha256": "24c17fecafd9a281214dad4de8e0fcb2634743944322c824a89be3c5a558ffc1",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/promo.selectel.ru/openfix/свидетельства/24c17fecafd9a281214dad4de8e0fcb2634743944322c824a89be3c5a558ffc1/происхождение.json",
+      "назначение": "Источники/URL/https/promo.selectel.ru/openfix/свидетельства/24c17fecafd9a281214dad4de8e0fcb2634743944322c824a89be3c5a558ffc1/происхождение.json",
+      "источник_sha256": "cdceec6cb52265fc04569d174adba71c3d67104a45e234574f68f40b7f283328",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/rosa.ru/become-partner/extracted-text.md",
+      "назначение": "Источники/URL/https/rosa.ru/become-partner/extracted-text.md",
+      "источник_sha256": "081c206183ce9517b6f866bc8ccea1dc49d6a7f811dd08847839e6cd6da33943",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/rosa.ru/become-partner/extraction-report.md",
+      "назначение": "Источники/URL/https/rosa.ru/become-partner/extraction-report.md",
+      "источник_sha256": "16aa6fed4aab17e7c44ccb51ab5d3e560b5db068c841ae059233426239d701fa",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/rosa.ru/become-partner/response.body.html",
+      "назначение": "Источники/URL/https/rosa.ru/become-partner/response.body.html",
+      "источник_sha256": "d78d0a040d7b4a089445abfa05b0d2755cb2f0f47d601eb425cfcf7e8a078b72",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/rosa.ru/become-partner/response.headers.txt",
+      "назначение": "Источники/URL/https/rosa.ru/become-partner/response.headers.txt",
+      "источник_sha256": "32efaf9b39b683ec16f37d126a7491f0a5355d9a49d31fd495b5e81feec2c5c0",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/rosa.ru/become-partner/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/rosa.ru/become-partner/snapshot-manifest.json",
+      "источник_sha256": "e437df2f0718cdf7b3869e5814b6e72245939da63b4dddf251628d29f0e0942b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/rosa.ru/become-partner/source-index.md",
+      "назначение": "Источники/URL/https/rosa.ru/become-partner/source-index.md",
+      "источник_sha256": "ac61c36a25bae5a6510222b71c99bfb55bdbbdeee769bd8a4c13c4ad00060d00",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/rosa.ru/become-partner/source-url.txt",
+      "назначение": "Источники/URL/https/rosa.ru/become-partner/source-url.txt",
+      "источник_sha256": "7df78494f78c2172a00df58ad411549e92e3e6a24121a8d2bc21abed17d5a751",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/rosa.ru/become-partner/structured-data.json",
+      "назначение": "Источники/URL/https/rosa.ru/become-partner/structured-data.json",
+      "источник_sha256": "16f2ab4ce8912e48e73386924a828a48ce4559ff35bbd15e2e25b2406d5e2a43",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/rosa.ru/become-partner/свидетельства/a091a42b0e9ca3afacf4337c9501995460f916c8fa2a3f68b1b2eeeff3f7c1db/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/rosa.ru/become-partner/свидетельства/a091a42b0e9ca3afacf4337c9501995460f916c8fa2a3f68b1b2eeeff3f7c1db/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/rosa.ru/become-partner/свидетельства/a091a42b0e9ca3afacf4337c9501995460f916c8fa2a3f68b1b2eeeff3f7c1db/source-url.txt",
+      "назначение": "Источники/URL/https/rosa.ru/become-partner/свидетельства/a091a42b0e9ca3afacf4337c9501995460f916c8fa2a3f68b1b2eeeff3f7c1db/source-url.txt",
+      "источник_sha256": "7df78494f78c2172a00df58ad411549e92e3e6a24121a8d2bc21abed17d5a751",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/rosa.ru/become-partner/свидетельства/a091a42b0e9ca3afacf4337c9501995460f916c8fa2a3f68b1b2eeeff3f7c1db/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/rosa.ru/become-partner/свидетельства/a091a42b0e9ca3afacf4337c9501995460f916c8fa2a3f68b1b2eeeff3f7c1db/извлечённый-текст.txt",
+      "источник_sha256": "a091a42b0e9ca3afacf4337c9501995460f916c8fa2a3f68b1b2eeeff3f7c1db",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/rosa.ru/become-partner/свидетельства/a091a42b0e9ca3afacf4337c9501995460f916c8fa2a3f68b1b2eeeff3f7c1db/происхождение.json",
+      "назначение": "Источники/URL/https/rosa.ru/become-partner/свидетельства/a091a42b0e9ca3afacf4337c9501995460f916c8fa2a3f68b1b2eeeff3f7c1db/происхождение.json",
+      "источник_sha256": "d4546670294758a38f9b8ec92bbec6e16ebfbf969c00179bf4e1831fdec7d810",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/rosa.ru/tech-partners/extracted-text.md",
+      "назначение": "Источники/URL/https/rosa.ru/tech-partners/extracted-text.md",
+      "источник_sha256": "7fa5d365541fe8dacfb3ce5de9dc7109f5cc412ce6ff33d1cefec255e61ebb80",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/rosa.ru/tech-partners/extraction-report.md",
+      "назначение": "Источники/URL/https/rosa.ru/tech-partners/extraction-report.md",
+      "источник_sha256": "42ed7c4d575e97ef89b043c288ac5a9fdc50f8cac998f914b982114e6b862979",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/rosa.ru/tech-partners/response.body.html",
+      "назначение": "Источники/URL/https/rosa.ru/tech-partners/response.body.html",
+      "источник_sha256": "605869659c0cb8ecfce2d7961be1064d18c62ac83c3491e7c0a1221a4278e3b6",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/rosa.ru/tech-partners/response.headers.txt",
+      "назначение": "Источники/URL/https/rosa.ru/tech-partners/response.headers.txt",
+      "источник_sha256": "0f4c43dde29950e212a4943d21a619dd1d89e09b3ba477fc628f13149517546e",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/rosa.ru/tech-partners/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/rosa.ru/tech-partners/snapshot-manifest.json",
+      "источник_sha256": "e437df2f0718cdf7b3869e5814b6e72245939da63b4dddf251628d29f0e0942b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/rosa.ru/tech-partners/source-index.md",
+      "назначение": "Источники/URL/https/rosa.ru/tech-partners/source-index.md",
+      "источник_sha256": "32f89c83bbf8d8ce4371206e1ce643f636a0bb28a72d7c678a45957d549290af",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/rosa.ru/tech-partners/source-url.txt",
+      "назначение": "Источники/URL/https/rosa.ru/tech-partners/source-url.txt",
+      "источник_sha256": "d7c03a7b2ce4e35f817e8ccbd4e472988905f2f4e9d0ba38b555868072030acd",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/rosa.ru/tech-partners/structured-data.json",
+      "назначение": "Источники/URL/https/rosa.ru/tech-partners/structured-data.json",
+      "источник_sha256": "39a338a85b091cbc228ef4702315c90403fac82c43002d521cd930422ef403c5",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/rosa.ru/tech-partners/свидетельства/b31b3391f36cffd375d99906052733912746867a8fd12584a5b2ab161b3bfe4e/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/rosa.ru/tech-partners/свидетельства/b31b3391f36cffd375d99906052733912746867a8fd12584a5b2ab161b3bfe4e/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/rosa.ru/tech-partners/свидетельства/b31b3391f36cffd375d99906052733912746867a8fd12584a5b2ab161b3bfe4e/source-url.txt",
+      "назначение": "Источники/URL/https/rosa.ru/tech-partners/свидетельства/b31b3391f36cffd375d99906052733912746867a8fd12584a5b2ab161b3bfe4e/source-url.txt",
+      "источник_sha256": "d7c03a7b2ce4e35f817e8ccbd4e472988905f2f4e9d0ba38b555868072030acd",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/rosa.ru/tech-partners/свидетельства/b31b3391f36cffd375d99906052733912746867a8fd12584a5b2ab161b3bfe4e/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/rosa.ru/tech-partners/свидетельства/b31b3391f36cffd375d99906052733912746867a8fd12584a5b2ab161b3bfe4e/извлечённый-текст.txt",
+      "источник_sha256": "b31b3391f36cffd375d99906052733912746867a8fd12584a5b2ab161b3bfe4e",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/rosa.ru/tech-partners/свидетельства/b31b3391f36cffd375d99906052733912746867a8fd12584a5b2ab161b3bfe4e/происхождение.json",
+      "назначение": "Источники/URL/https/rosa.ru/tech-partners/свидетельства/b31b3391f36cffd375d99906052733912746867a8fd12584a5b2ab161b3bfe4e/происхождение.json",
+      "источник_sha256": "31e416fd77d29ae86aab37b3becfeba7a9e967b566a1e0e876f1234c9daf8d4d",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/selectel.ru/services/cloud/grant/extracted-text.md",
+      "назначение": "Источники/URL/https/selectel.ru/services/cloud/grant/extracted-text.md",
+      "источник_sha256": "91df864a6e073d955687846d2dc69f78b692708ade0d480f2b1898e62cce0f21",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/selectel.ru/services/cloud/grant/extraction-report.md",
+      "назначение": "Источники/URL/https/selectel.ru/services/cloud/grant/extraction-report.md",
+      "источник_sha256": "1d8079966553e1734fc6aa2759bb70997c5eab458d4a49e6391d86123736d02a",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/selectel.ru/services/cloud/grant/response.body.html",
+      "назначение": "Источники/URL/https/selectel.ru/services/cloud/grant/response.body.html",
+      "источник_sha256": "79d474f2e71a77ef27b7c19cd3ad704ba6e622ea4129a6e52d11b0373873d078",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/selectel.ru/services/cloud/grant/response.headers.txt",
+      "назначение": "Источники/URL/https/selectel.ru/services/cloud/grant/response.headers.txt",
+      "источник_sha256": "3661cb28dd9ce1784d9dd0b2edaf6344bc73ae91dcdd6a34c2622cc1cb56eed1",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/selectel.ru/services/cloud/grant/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/selectel.ru/services/cloud/grant/snapshot-manifest.json",
+      "источник_sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/selectel.ru/services/cloud/grant/source-index.md",
+      "назначение": "Источники/URL/https/selectel.ru/services/cloud/grant/source-index.md",
+      "источник_sha256": "c84226915b751644726b78e16279fba1265cf41dff03533b668ccbdbc6343c71",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/selectel.ru/services/cloud/grant/source-url.txt",
+      "назначение": "Источники/URL/https/selectel.ru/services/cloud/grant/source-url.txt",
+      "источник_sha256": "7a4810b386375649e97935993b601da40a64222c720a9144f2b5a785f28999ef",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/selectel.ru/services/cloud/grant/свидетельства/75fa3f336368b3402812cf06ac86f46960471ff21f481a6687a0c192a2ec4774/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/selectel.ru/services/cloud/grant/свидетельства/75fa3f336368b3402812cf06ac86f46960471ff21f481a6687a0c192a2ec4774/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/selectel.ru/services/cloud/grant/свидетельства/75fa3f336368b3402812cf06ac86f46960471ff21f481a6687a0c192a2ec4774/source-url.txt",
+      "назначение": "Источники/URL/https/selectel.ru/services/cloud/grant/свидетельства/75fa3f336368b3402812cf06ac86f46960471ff21f481a6687a0c192a2ec4774/source-url.txt",
+      "источник_sha256": "7a4810b386375649e97935993b601da40a64222c720a9144f2b5a785f28999ef",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/selectel.ru/services/cloud/grant/свидетельства/75fa3f336368b3402812cf06ac86f46960471ff21f481a6687a0c192a2ec4774/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/selectel.ru/services/cloud/grant/свидетельства/75fa3f336368b3402812cf06ac86f46960471ff21f481a6687a0c192a2ec4774/извлечённый-текст.txt",
+      "источник_sha256": "75fa3f336368b3402812cf06ac86f46960471ff21f481a6687a0c192a2ec4774",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/selectel.ru/services/cloud/grant/свидетельства/75fa3f336368b3402812cf06ac86f46960471ff21f481a6687a0c192a2ec4774/происхождение.json",
+      "назначение": "Источники/URL/https/selectel.ru/services/cloud/grant/свидетельства/75fa3f336368b3402812cf06ac86f46960471ff21f481a6687a0c192a2ec4774/происхождение.json",
+      "источник_sha256": "f5106c1b66ad3f1bfa2e261b31e3d075c7cd66bd0b1e0fc5d72d966628cb5abb",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/selectel.ru/services/startups-grant/extracted-text.md",
+      "назначение": "Источники/URL/https/selectel.ru/services/startups-grant/extracted-text.md",
+      "источник_sha256": "5d4a43f7bdcaa9c5d84c1f33a1111b64db779cdf352bd7ff108729deed53435b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/selectel.ru/services/startups-grant/extraction-report.md",
+      "назначение": "Источники/URL/https/selectel.ru/services/startups-grant/extraction-report.md",
+      "источник_sha256": "233362396ebc913c061066d425c8e8ee969ad95e2deab4ab58d39269abff0fe1",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/selectel.ru/services/startups-grant/response.body.html",
+      "назначение": "Источники/URL/https/selectel.ru/services/startups-grant/response.body.html",
+      "источник_sha256": "c53a69ecce8076aaf7de09e5b664efeaa5b67cb17a099983f8d38403e610496a",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/selectel.ru/services/startups-grant/response.headers.txt",
+      "назначение": "Источники/URL/https/selectel.ru/services/startups-grant/response.headers.txt",
+      "источник_sha256": "40553641b255bd2adfd8d2e4bb83c27b7c52efd0b9feaff79aca0c3ccbde6ec5",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/selectel.ru/services/startups-grant/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/selectel.ru/services/startups-grant/snapshot-manifest.json",
+      "источник_sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/selectel.ru/services/startups-grant/source-index.md",
+      "назначение": "Источники/URL/https/selectel.ru/services/startups-grant/source-index.md",
+      "источник_sha256": "3ce3367727b4cf452c762c33bae6b1c861b2526103318c4df4850eb460c816e3",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/selectel.ru/services/startups-grant/source-url.txt",
+      "назначение": "Источники/URL/https/selectel.ru/services/startups-grant/source-url.txt",
+      "источник_sha256": "ae8c94d2b076f6ff6c5c85b98295d01c0a5c323c753bb1300e09b55ca0f620b3",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/selectel.ru/services/startups-grant/свидетельства/6adbfb2fab69813db06af331623784981aeab625ccc021f9a8cc4e6238eb7f83/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/selectel.ru/services/startups-grant/свидетельства/6adbfb2fab69813db06af331623784981aeab625ccc021f9a8cc4e6238eb7f83/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/selectel.ru/services/startups-grant/свидетельства/6adbfb2fab69813db06af331623784981aeab625ccc021f9a8cc4e6238eb7f83/source-url.txt",
+      "назначение": "Источники/URL/https/selectel.ru/services/startups-grant/свидетельства/6adbfb2fab69813db06af331623784981aeab625ccc021f9a8cc4e6238eb7f83/source-url.txt",
+      "источник_sha256": "ae8c94d2b076f6ff6c5c85b98295d01c0a5c323c753bb1300e09b55ca0f620b3",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/selectel.ru/services/startups-grant/свидетельства/6adbfb2fab69813db06af331623784981aeab625ccc021f9a8cc4e6238eb7f83/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/selectel.ru/services/startups-grant/свидетельства/6adbfb2fab69813db06af331623784981aeab625ccc021f9a8cc4e6238eb7f83/извлечённый-текст.txt",
+      "источник_sha256": "6adbfb2fab69813db06af331623784981aeab625ccc021f9a8cc4e6238eb7f83",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/selectel.ru/services/startups-grant/свидетельства/6adbfb2fab69813db06af331623784981aeab625ccc021f9a8cc4e6238eb7f83/происхождение.json",
+      "назначение": "Источники/URL/https/selectel.ru/services/startups-grant/свидетельства/6adbfb2fab69813db06af331623784981aeab625ccc021f9a8cc4e6238eb7f83/происхождение.json",
+      "источник_sha256": "92476d1e1c950147f6b9e670d2e0f191becee3a7a607ebd0bf82932cae294221",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/applicants-actions/extracted-text.md",
+      "назначение": "Источники/URL/https/sk.ru/applicants-actions/extracted-text.md",
+      "источник_sha256": "6d3e5b6a71ea66db0d129037ff312563302a21b185989d0c4995545aadccca0a",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/applicants-actions/extraction-report.md",
+      "назначение": "Источники/URL/https/sk.ru/applicants-actions/extraction-report.md",
+      "источник_sha256": "20da5018f498cc78d63ec3e0d6e7f5567d819bc3c2387f4236738caf4c1ae634",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/applicants-actions/response.body.html",
+      "назначение": "Источники/URL/https/sk.ru/applicants-actions/response.body.html",
+      "источник_sha256": "0e36db7b922f79a36456d5e2ca4311e843268089b77736d59e7e15ff37455283",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/applicants-actions/response.headers.txt",
+      "назначение": "Источники/URL/https/sk.ru/applicants-actions/response.headers.txt",
+      "источник_sha256": "6f52bdd5c0e937c2a472ce74077a68e8aa68c4682f949ab8090952c43918413f",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/applicants-actions/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/sk.ru/applicants-actions/snapshot-manifest.json",
+      "источник_sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/applicants-actions/source-index.md",
+      "назначение": "Источники/URL/https/sk.ru/applicants-actions/source-index.md",
+      "источник_sha256": "1b10c751c14d2f687b35f116f2caa46c924e30d907a0bd04cceaf748c9257d0d",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/applicants-actions/source-url.txt",
+      "назначение": "Источники/URL/https/sk.ru/applicants-actions/source-url.txt",
+      "источник_sha256": "4f32741b62e9aba77025ba191a6dd12481fea4aee7bfc7129324d35b9a2bb2cc",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/applicants-actions/свидетельства/7fadb089c1bc930a865c0c3378b756cd561907b7a3787849be75d3665f0b5436/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/sk.ru/applicants-actions/свидетельства/7fadb089c1bc930a865c0c3378b756cd561907b7a3787849be75d3665f0b5436/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/applicants-actions/свидетельства/7fadb089c1bc930a865c0c3378b756cd561907b7a3787849be75d3665f0b5436/source-url.txt",
+      "назначение": "Источники/URL/https/sk.ru/applicants-actions/свидетельства/7fadb089c1bc930a865c0c3378b756cd561907b7a3787849be75d3665f0b5436/source-url.txt",
+      "источник_sha256": "4f32741b62e9aba77025ba191a6dd12481fea4aee7bfc7129324d35b9a2bb2cc",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/applicants-actions/свидетельства/7fadb089c1bc930a865c0c3378b756cd561907b7a3787849be75d3665f0b5436/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/sk.ru/applicants-actions/свидетельства/7fadb089c1bc930a865c0c3378b756cd561907b7a3787849be75d3665f0b5436/извлечённый-текст.txt",
+      "источник_sha256": "7fadb089c1bc930a865c0c3378b756cd561907b7a3787849be75d3665f0b5436",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/applicants-actions/свидетельства/7fadb089c1bc930a865c0c3378b756cd561907b7a3787849be75d3665f0b5436/происхождение.json",
+      "назначение": "Источники/URL/https/sk.ru/applicants-actions/свидетельства/7fadb089c1bc930a865c0c3378b756cd561907b7a3787849be75d3665f0b5436/происхождение.json",
+      "источник_sha256": "8715dee02716aed3bff2bc8710432a1f38b3a4f032928d116d8696a9bbd74fd3",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/documents/3202/Положение_об_отборе_Микрогранты_на_компенсацию_расходов.pdf/body.pdf",
+      "назначение": "Источники/URL/https/sk.ru/documents/3202/Положение_об_отборе_Микрогранты_на_компенсацию_расходов.pdf/body.pdf",
+      "источник_sha256": "491f706d19682f0bec68dbe4d770739f275b447d1393162862171340da79afa3",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/documents/3202/Положение_об_отборе_Микрогранты_на_компенсацию_расходов.pdf/extracted-text.md",
+      "назначение": "Источники/URL/https/sk.ru/documents/3202/Положение_об_отборе_Микрогранты_на_компенсацию_расходов.pdf/extracted-text.md",
+      "источник_sha256": "7ffbdf77b62fbfbdecfd443c965853b910b1cb9a445c797a9e0f7ae482d95651",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/documents/3202/Положение_об_отборе_Микрогранты_на_компенсацию_расходов.pdf/extraction-report.md",
+      "назначение": "Источники/URL/https/sk.ru/documents/3202/Положение_об_отборе_Микрогранты_на_компенсацию_расходов.pdf/extraction-report.md",
+      "источник_sha256": "ff5d96f14c4e67d226a3053d05237bfdf8c9e963132fb2929d923ae70f6bae86",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/documents/3202/Положение_об_отборе_Микрогранты_на_компенсацию_расходов.pdf/response.headers.txt",
+      "назначение": "Источники/URL/https/sk.ru/documents/3202/Положение_об_отборе_Микрогранты_на_компенсацию_расходов.pdf/response.headers.txt",
+      "источник_sha256": "9d8eda5e5aa022b1c6f00461c14a5df736a9aded807d9695e5624a55cf0e0fd5",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/documents/3202/Положение_об_отборе_Микрогранты_на_компенсацию_расходов.pdf/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/sk.ru/documents/3202/Положение_об_отборе_Микрогранты_на_компенсацию_расходов.pdf/snapshot-manifest.json",
+      "источник_sha256": "71e7f90ac34d4f695184581d316101ce77cc5a13fe88e8d997834d81fe354c90",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/documents/3202/Положение_об_отборе_Микрогранты_на_компенсацию_расходов.pdf/source-index.md",
+      "назначение": "Источники/URL/https/sk.ru/documents/3202/Положение_об_отборе_Микрогранты_на_компенсацию_расходов.pdf/source-index.md",
+      "источник_sha256": "e0981318574ac3718836abd14a9c67eb6730b86c75c2b2fcda6b8f0795141a00",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/documents/3202/Положение_об_отборе_Микрогранты_на_компенсацию_расходов.pdf/source-url.txt",
+      "назначение": "Источники/URL/https/sk.ru/documents/3202/Положение_об_отборе_Микрогранты_на_компенсацию_расходов.pdf/source-url.txt",
+      "источник_sha256": "52e389c5934974ef10ae70ebb056141cfdf30124e385d8023d686d46ddc5649e",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/documents/3202/Положение_об_отборе_Микрогранты_на_компенсацию_расходов.pdf/свидетельства/c3e674ec994c60d80efc8d4823d166db79a0cc4be439cca0fe0bbf752a5572b0/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/sk.ru/documents/3202/Положение_об_отборе_Микрогранты_на_компенсацию_расходов.pdf/свидетельства/c3e674ec994c60d80efc8d4823d166db79a0cc4be439cca0fe0bbf752a5572b0/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/documents/3202/Положение_об_отборе_Микрогранты_на_компенсацию_расходов.pdf/свидетельства/c3e674ec994c60d80efc8d4823d166db79a0cc4be439cca0fe0bbf752a5572b0/source-url.txt",
+      "назначение": "Источники/URL/https/sk.ru/documents/3202/Положение_об_отборе_Микрогранты_на_компенсацию_расходов.pdf/свидетельства/c3e674ec994c60d80efc8d4823d166db79a0cc4be439cca0fe0bbf752a5572b0/source-url.txt",
+      "источник_sha256": "52e389c5934974ef10ae70ebb056141cfdf30124e385d8023d686d46ddc5649e",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/documents/3202/Положение_об_отборе_Микрогранты_на_компенсацию_расходов.pdf/свидетельства/c3e674ec994c60d80efc8d4823d166db79a0cc4be439cca0fe0bbf752a5572b0/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/sk.ru/documents/3202/Положение_об_отборе_Микрогранты_на_компенсацию_расходов.pdf/свидетельства/c3e674ec994c60d80efc8d4823d166db79a0cc4be439cca0fe0bbf752a5572b0/извлечённый-текст.txt",
+      "источник_sha256": "c3e674ec994c60d80efc8d4823d166db79a0cc4be439cca0fe0bbf752a5572b0",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/documents/3202/Положение_об_отборе_Микрогранты_на_компенсацию_расходов.pdf/свидетельства/c3e674ec994c60d80efc8d4823d166db79a0cc4be439cca0fe0bbf752a5572b0/происхождение.json",
+      "назначение": "Источники/URL/https/sk.ru/documents/3202/Положение_об_отборе_Микрогранты_на_компенсацию_расходов.pdf/свидетельства/c3e674ec994c60d80efc8d4823d166db79a0cc4be439cca0fe0bbf752a5572b0/происхождение.json",
+      "источник_sha256": "596c489115061a12ac8fdd7957e676bbd98d7ea0fde1d55a17c38bda3d677ead",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/grant-financial-support/microgrants/extracted-text.md",
+      "назначение": "Источники/URL/https/sk.ru/grant-financial-support/microgrants/extracted-text.md",
+      "источник_sha256": "5f8a8bc4c5f0616c6e087faef3a82ba1f48ad0853c1dc65a6d5ed7027a27e510",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/grant-financial-support/microgrants/extraction-report.md",
+      "назначение": "Источники/URL/https/sk.ru/grant-financial-support/microgrants/extraction-report.md",
+      "источник_sha256": "0fe7e373a54b896f180c64a5a40e4849c6e8d63a61ca406293b3a12baa7fb56d",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/grant-financial-support/microgrants/response.body.html",
+      "назначение": "Источники/URL/https/sk.ru/grant-financial-support/microgrants/response.body.html",
+      "источник_sha256": "d7add5f9ee85d61b2994cbe8e1279810e57a6cc2eb95738ebcf6c49653e80656",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/grant-financial-support/microgrants/response.headers.txt",
+      "назначение": "Источники/URL/https/sk.ru/grant-financial-support/microgrants/response.headers.txt",
+      "источник_sha256": "68154b505d9d5dc5fa4eb178e46e5c81d4a886e49491f842a2d847605b19f09a",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/grant-financial-support/microgrants/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/sk.ru/grant-financial-support/microgrants/snapshot-manifest.json",
+      "источник_sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/grant-financial-support/microgrants/source-index.md",
+      "назначение": "Источники/URL/https/sk.ru/grant-financial-support/microgrants/source-index.md",
+      "источник_sha256": "8785b4a26f4a3554bbf8a92be4a9e0bdab6680c722ebf26488b3f6e97b209191",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/grant-financial-support/microgrants/source-url.txt",
+      "назначение": "Источники/URL/https/sk.ru/grant-financial-support/microgrants/source-url.txt",
+      "источник_sha256": "374fc1be5a4c5de8b597c82d350c05a3f78c37c7eae951f9883ab2140dfef2e4",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/grant-financial-support/microgrants/свидетельства/a4be8561c59d955cb6344643a04253fe4a3e036329f67bf18c03539349d804fa/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/sk.ru/grant-financial-support/microgrants/свидетельства/a4be8561c59d955cb6344643a04253fe4a3e036329f67bf18c03539349d804fa/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/grant-financial-support/microgrants/свидетельства/a4be8561c59d955cb6344643a04253fe4a3e036329f67bf18c03539349d804fa/source-url.txt",
+      "назначение": "Источники/URL/https/sk.ru/grant-financial-support/microgrants/свидетельства/a4be8561c59d955cb6344643a04253fe4a3e036329f67bf18c03539349d804fa/source-url.txt",
+      "источник_sha256": "374fc1be5a4c5de8b597c82d350c05a3f78c37c7eae951f9883ab2140dfef2e4",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/grant-financial-support/microgrants/свидетельства/a4be8561c59d955cb6344643a04253fe4a3e036329f67bf18c03539349d804fa/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/sk.ru/grant-financial-support/microgrants/свидетельства/a4be8561c59d955cb6344643a04253fe4a3e036329f67bf18c03539349d804fa/извлечённый-текст.txt",
+      "источник_sha256": "a4be8561c59d955cb6344643a04253fe4a3e036329f67bf18c03539349d804fa",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/sk.ru/grant-financial-support/microgrants/свидетельства/a4be8561c59d955cb6344643a04253fe4a3e036329f67bf18c03539349d804fa/происхождение.json",
+      "назначение": "Источники/URL/https/sk.ru/grant-financial-support/microgrants/свидетельства/a4be8561c59d955cb6344643a04253fe4a3e036329f67bf18c03539349d804fa/происхождение.json",
+      "источник_sha256": "45fba7860624fde1dfee2234048292023009cb527b6258c1249ed02e03cf103e",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.altlinux.org/Join/extracted-text.md",
+      "назначение": "Источники/URL/https/www.altlinux.org/Join/extracted-text.md",
+      "источник_sha256": "249f038713cc316f21a3e1a0287a570887bfb6038b0851c61b73abe090e6a5dc",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.altlinux.org/Join/extraction-report.md",
+      "назначение": "Источники/URL/https/www.altlinux.org/Join/extraction-report.md",
+      "источник_sha256": "aef4af4bf05cdbf94d3e9b5788604f19aec714f84c30051cd9e44d1db4751c1f",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.altlinux.org/Join/response.body.html",
+      "назначение": "Источники/URL/https/www.altlinux.org/Join/response.body.html",
+      "источник_sha256": "96990456ac8cd5a0080d6e48dc8f6329f29ca2125ef1625907f9ce269296a1d3",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.altlinux.org/Join/response.headers.txt",
+      "назначение": "Источники/URL/https/www.altlinux.org/Join/response.headers.txt",
+      "источник_sha256": "e94f5039bcedaae2763c4e20d296c7f58f6687e88e299c170dd79481d5c03ba0",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.altlinux.org/Join/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/www.altlinux.org/Join/snapshot-manifest.json",
+      "источник_sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.altlinux.org/Join/source-index.md",
+      "назначение": "Источники/URL/https/www.altlinux.org/Join/source-index.md",
+      "источник_sha256": "f59a78fd4e1380810fa3d5f91e9323b746de8e495576cea034ed709d5405f5e1",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.altlinux.org/Join/source-url.txt",
+      "назначение": "Источники/URL/https/www.altlinux.org/Join/source-url.txt",
+      "источник_sha256": "95a342316687a1b8d3f4533211da9094a73e577e63606c9611464648df53e346",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.altlinux.org/Join/свидетельства/514ad3d251f593e09c266384516709b4fa727755c131885c1a106104c0802a5f/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/www.altlinux.org/Join/свидетельства/514ad3d251f593e09c266384516709b4fa727755c131885c1a106104c0802a5f/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.altlinux.org/Join/свидетельства/514ad3d251f593e09c266384516709b4fa727755c131885c1a106104c0802a5f/source-url.txt",
+      "назначение": "Источники/URL/https/www.altlinux.org/Join/свидетельства/514ad3d251f593e09c266384516709b4fa727755c131885c1a106104c0802a5f/source-url.txt",
+      "источник_sha256": "95a342316687a1b8d3f4533211da9094a73e577e63606c9611464648df53e346",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.altlinux.org/Join/свидетельства/514ad3d251f593e09c266384516709b4fa727755c131885c1a106104c0802a5f/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/www.altlinux.org/Join/свидетельства/514ad3d251f593e09c266384516709b4fa727755c131885c1a106104c0802a5f/извлечённый-текст.txt",
+      "источник_sha256": "514ad3d251f593e09c266384516709b4fa727755c131885c1a106104c0802a5f",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.altlinux.org/Join/свидетельства/514ad3d251f593e09c266384516709b4fa727755c131885c1a106104c0802a5f/происхождение.json",
+      "назначение": "Источники/URL/https/www.altlinux.org/Join/свидетельства/514ad3d251f593e09c266384516709b4fa727755c131885c1a106104c0802a5f/происхождение.json",
+      "источник_sha256": "d65be2a8c0ea0d7b481052dc1c8914bf16067d078808c632056ea4d1213a972d",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.basealt.ru/alt-linux/extracted-text.md",
+      "назначение": "Источники/URL/https/www.basealt.ru/alt-linux/extracted-text.md",
+      "источник_sha256": "6e18e341d6366b3e58461040f5fc4c82b5a473835fdd0bf2c56005fb680d5d56",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.basealt.ru/alt-linux/extraction-report.md",
+      "назначение": "Источники/URL/https/www.basealt.ru/alt-linux/extraction-report.md",
+      "источник_sha256": "6c58281655bc9558560a5f529ab5971fc6a7c370a3317dc6c8c55d527466bb0c",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.basealt.ru/alt-linux/response.body.html",
+      "назначение": "Источники/URL/https/www.basealt.ru/alt-linux/response.body.html",
+      "источник_sha256": "40b90c72cc743b0804070abb147231d34961b34c3e0f376e685e7e1f695feda7",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.basealt.ru/alt-linux/response.headers.txt",
+      "назначение": "Источники/URL/https/www.basealt.ru/alt-linux/response.headers.txt",
+      "источник_sha256": "4f63c84d9673af92bd73d63049f83f46939cf759a897a468c60e6892075eb23c",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.basealt.ru/alt-linux/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/www.basealt.ru/alt-linux/snapshot-manifest.json",
+      "источник_sha256": "e437df2f0718cdf7b3869e5814b6e72245939da63b4dddf251628d29f0e0942b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.basealt.ru/alt-linux/source-index.md",
+      "назначение": "Источники/URL/https/www.basealt.ru/alt-linux/source-index.md",
+      "источник_sha256": "48b7fab7929e90282c1db4ab28771df4dc3fe98bb69f6cdd27664331ca68d5dc",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.basealt.ru/alt-linux/source-url.txt",
+      "назначение": "Источники/URL/https/www.basealt.ru/alt-linux/source-url.txt",
+      "источник_sha256": "d31f6d02991280190c6a13bde5c04b27502888e580fe4263ed40769cf6225e3e",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.basealt.ru/alt-linux/structured-data.json",
+      "назначение": "Источники/URL/https/www.basealt.ru/alt-linux/structured-data.json",
+      "источник_sha256": "2ccb52eda307207084b70f79d00f7c3e5681acc0124b7f78c1da85f650e194de",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.basealt.ru/alt-linux/свидетельства/a400d5091dc70da92fb5a89f203c2d2999b5956f08a00db47dd020ed58e1040a/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/www.basealt.ru/alt-linux/свидетельства/a400d5091dc70da92fb5a89f203c2d2999b5956f08a00db47dd020ed58e1040a/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.basealt.ru/alt-linux/свидетельства/a400d5091dc70da92fb5a89f203c2d2999b5956f08a00db47dd020ed58e1040a/source-url.txt",
+      "назначение": "Источники/URL/https/www.basealt.ru/alt-linux/свидетельства/a400d5091dc70da92fb5a89f203c2d2999b5956f08a00db47dd020ed58e1040a/source-url.txt",
+      "источник_sha256": "d31f6d02991280190c6a13bde5c04b27502888e580fe4263ed40769cf6225e3e",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.basealt.ru/alt-linux/свидетельства/a400d5091dc70da92fb5a89f203c2d2999b5956f08a00db47dd020ed58e1040a/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/www.basealt.ru/alt-linux/свидетельства/a400d5091dc70da92fb5a89f203c2d2999b5956f08a00db47dd020ed58e1040a/извлечённый-текст.txt",
+      "источник_sha256": "a400d5091dc70da92fb5a89f203c2d2999b5956f08a00db47dd020ed58e1040a",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.basealt.ru/alt-linux/свидетельства/a400d5091dc70da92fb5a89f203c2d2999b5956f08a00db47dd020ed58e1040a/происхождение.json",
+      "назначение": "Источники/URL/https/www.basealt.ru/alt-linux/свидетельства/a400d5091dc70da92fb5a89f203c2d2999b5956f08a00db47dd020ed58e1040a/происхождение.json",
+      "источник_sha256": "8c1d08ffac127ebff5f740071d4ee9015fc567c6585c6d75f0c3d6c94eb7ef3b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.basealt.ru/product-compatibility/extracted-text.md",
+      "назначение": "Источники/URL/https/www.basealt.ru/product-compatibility/extracted-text.md",
+      "источник_sha256": "30a5d251807dc5d46019996eae47cebcc503cf321b3ffd2df8791be272551cbe",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.basealt.ru/product-compatibility/extraction-report.md",
+      "назначение": "Источники/URL/https/www.basealt.ru/product-compatibility/extraction-report.md",
+      "источник_sha256": "b4fe3ec4fbc95485888fc944c021ded89c6863694df3ae6808a3f0d92d87f01e",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.basealt.ru/product-compatibility/response.body.html",
+      "назначение": "Источники/URL/https/www.basealt.ru/product-compatibility/response.body.html",
+      "источник_sha256": "3637d846c9d8a454f35871ec7ac08e51e9d3106d5fddf24571ec9ea5d27e8796",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.basealt.ru/product-compatibility/response.headers.txt",
+      "назначение": "Источники/URL/https/www.basealt.ru/product-compatibility/response.headers.txt",
+      "источник_sha256": "59f618f7082ee6288b781aea38705863492bd274d029ad6b495e58a14ed66aaf",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.basealt.ru/product-compatibility/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/www.basealt.ru/product-compatibility/snapshot-manifest.json",
+      "источник_sha256": "e437df2f0718cdf7b3869e5814b6e72245939da63b4dddf251628d29f0e0942b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.basealt.ru/product-compatibility/source-index.md",
+      "назначение": "Источники/URL/https/www.basealt.ru/product-compatibility/source-index.md",
+      "источник_sha256": "9c0a10c75af1f062b6ad2aa712ba38731df8410034e0d7372c8f847b049ffb85",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.basealt.ru/product-compatibility/source-url.txt",
+      "назначение": "Источники/URL/https/www.basealt.ru/product-compatibility/source-url.txt",
+      "источник_sha256": "70aabe95f1d518b7fa749aba9d5ac551aa2367de0f8d4f116b3cb8f31c1f48e1",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.basealt.ru/product-compatibility/structured-data.json",
+      "назначение": "Источники/URL/https/www.basealt.ru/product-compatibility/structured-data.json",
+      "источник_sha256": "2ccb52eda307207084b70f79d00f7c3e5681acc0124b7f78c1da85f650e194de",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.basealt.ru/product-compatibility/свидетельства/74dd9945f38e32e4af05f5c0ebe1de6bf6970b24bbab95571d005bca721590d2/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/www.basealt.ru/product-compatibility/свидетельства/74dd9945f38e32e4af05f5c0ebe1de6bf6970b24bbab95571d005bca721590d2/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.basealt.ru/product-compatibility/свидетельства/74dd9945f38e32e4af05f5c0ebe1de6bf6970b24bbab95571d005bca721590d2/source-url.txt",
+      "назначение": "Источники/URL/https/www.basealt.ru/product-compatibility/свидетельства/74dd9945f38e32e4af05f5c0ebe1de6bf6970b24bbab95571d005bca721590d2/source-url.txt",
+      "источник_sha256": "70aabe95f1d518b7fa749aba9d5ac551aa2367de0f8d4f116b3cb8f31c1f48e1",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.basealt.ru/product-compatibility/свидетельства/74dd9945f38e32e4af05f5c0ebe1de6bf6970b24bbab95571d005bca721590d2/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/www.basealt.ru/product-compatibility/свидетельства/74dd9945f38e32e4af05f5c0ebe1de6bf6970b24bbab95571d005bca721590d2/извлечённый-текст.txt",
+      "источник_sha256": "74dd9945f38e32e4af05f5c0ebe1de6bf6970b24bbab95571d005bca721590d2",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.basealt.ru/product-compatibility/свидетельства/74dd9945f38e32e4af05f5c0ebe1de6bf6970b24bbab95571d005bca721590d2/происхождение.json",
+      "назначение": "Источники/URL/https/www.basealt.ru/product-compatibility/свидетельства/74dd9945f38e32e4af05f5c0ebe1de6bf6970b24bbab95571d005bca721590d2/происхождение.json",
+      "источник_sha256": "34a234dbfbcc5e2311ebbe52de244ac082ef921a0973635440e12c645a94204d",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.ispras.ru/_root/extracted-text.md",
+      "назначение": "Источники/URL/https/www.ispras.ru/_root/extracted-text.md",
+      "источник_sha256": "ff96fd2b1066b4770e96b58f3a6fcf3d12151c8cc623814280620d5c8faa5ece",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.ispras.ru/_root/extraction-report.md",
+      "назначение": "Источники/URL/https/www.ispras.ru/_root/extraction-report.md",
+      "источник_sha256": "fd1cbaf2b5e1fc60fa95599d09c0ff42d11a58613bc089b22d5d8b3057152ec7",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.ispras.ru/_root/response.body.html",
+      "назначение": "Источники/URL/https/www.ispras.ru/_root/response.body.html",
+      "источник_sha256": "7bcb694b4de26503fc6500d8bf31485ee6635e1dd1b241765d444d6eed883e90",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.ispras.ru/_root/response.headers.txt",
+      "назначение": "Источники/URL/https/www.ispras.ru/_root/response.headers.txt",
+      "источник_sha256": "b7ba9928e8e0fff7e09c4ab48f48e21524ffbd7be9f8bdd1a95d1f693a61cc70",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.ispras.ru/_root/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/www.ispras.ru/_root/snapshot-manifest.json",
+      "источник_sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.ispras.ru/_root/source-index.md",
+      "назначение": "Источники/URL/https/www.ispras.ru/_root/source-index.md",
+      "источник_sha256": "24ac5606c98a512a8fb0f93f34f761622b005bc742f5f0c40dd8de86586fa5cf",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.ispras.ru/_root/source-url.txt",
+      "назначение": "Источники/URL/https/www.ispras.ru/_root/source-url.txt",
+      "источник_sha256": "4cb5eac28928c6e1bb08991c0fce2c3fa5d1ea52dac54bdd3c89d9f74549a2bc",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.ispras.ru/_root/свидетельства/13b1964f14d5fe97f9e4be9dabaf37f0dde2b38fb218ffe96065c5e2bedabd1a/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/www.ispras.ru/_root/свидетельства/13b1964f14d5fe97f9e4be9dabaf37f0dde2b38fb218ffe96065c5e2bedabd1a/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.ispras.ru/_root/свидетельства/13b1964f14d5fe97f9e4be9dabaf37f0dde2b38fb218ffe96065c5e2bedabd1a/source-url.txt",
+      "назначение": "Источники/URL/https/www.ispras.ru/_root/свидетельства/13b1964f14d5fe97f9e4be9dabaf37f0dde2b38fb218ffe96065c5e2bedabd1a/source-url.txt",
+      "источник_sha256": "4cb5eac28928c6e1bb08991c0fce2c3fa5d1ea52dac54bdd3c89d9f74549a2bc",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.ispras.ru/_root/свидетельства/13b1964f14d5fe97f9e4be9dabaf37f0dde2b38fb218ffe96065c5e2bedabd1a/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/www.ispras.ru/_root/свидетельства/13b1964f14d5fe97f9e4be9dabaf37f0dde2b38fb218ffe96065c5e2bedabd1a/извлечённый-текст.txt",
+      "источник_sha256": "13b1964f14d5fe97f9e4be9dabaf37f0dde2b38fb218ffe96065c5e2bedabd1a",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.ispras.ru/_root/свидетельства/13b1964f14d5fe97f9e4be9dabaf37f0dde2b38fb218ffe96065c5e2bedabd1a/происхождение.json",
+      "назначение": "Источники/URL/https/www.ispras.ru/_root/свидетельства/13b1964f14d5fe97f9e4be9dabaf37f0dde2b38fb218ffe96065c5e2bedabd1a/происхождение.json",
+      "источник_sha256": "55890b3c55bd5693492d3a2e0363af8715a1f910af9b1ff76b6a244b67fdbe24",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/contests/extracted-text.md",
+      "назначение": "Источники/URL/https/www.rscf.ru/contests/extracted-text.md",
+      "источник_sha256": "b8b7545538ea2f0637e4ef485024ff6bb092585f836ff22df7610502423e2889",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/contests/extraction-report.md",
+      "назначение": "Источники/URL/https/www.rscf.ru/contests/extraction-report.md",
+      "источник_sha256": "74b4793f083b8595792425cdf744ccfc70d016803c63f99dd1f3a77d92235ba5",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/contests/response.body.html",
+      "назначение": "Источники/URL/https/www.rscf.ru/contests/response.body.html",
+      "источник_sha256": "76ab553b7c3c59b5dd51c84d533d94a4372820e765680dcbed9084cfd58307a9",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/contests/response.headers.txt",
+      "назначение": "Источники/URL/https/www.rscf.ru/contests/response.headers.txt",
+      "источник_sha256": "09116a28e53a521d77a19f4df25117862b83a811d922c630da6c805b6b8dd76b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/contests/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/www.rscf.ru/contests/snapshot-manifest.json",
+      "источник_sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/contests/source-index.md",
+      "назначение": "Источники/URL/https/www.rscf.ru/contests/source-index.md",
+      "источник_sha256": "f5ce944a116398fd79182b2d4c37f98f2f21071c53a45088981cb61122f71c94",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/contests/source-url.txt",
+      "назначение": "Источники/URL/https/www.rscf.ru/contests/source-url.txt",
+      "источник_sha256": "53e9babc12e4819e82bbecbb2b5b88339729547289e4913ced6c53805e3ce8dd",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/contests/свидетельства/b997cca32dd68f96e0f2ab163ef0e6b641412e662352c6c30a042a4360d13e20/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/www.rscf.ru/contests/свидетельства/b997cca32dd68f96e0f2ab163ef0e6b641412e662352c6c30a042a4360d13e20/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/contests/свидетельства/b997cca32dd68f96e0f2ab163ef0e6b641412e662352c6c30a042a4360d13e20/source-url.txt",
+      "назначение": "Источники/URL/https/www.rscf.ru/contests/свидетельства/b997cca32dd68f96e0f2ab163ef0e6b641412e662352c6c30a042a4360d13e20/source-url.txt",
+      "источник_sha256": "53e9babc12e4819e82bbecbb2b5b88339729547289e4913ced6c53805e3ce8dd",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/contests/свидетельства/b997cca32dd68f96e0f2ab163ef0e6b641412e662352c6c30a042a4360d13e20/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/www.rscf.ru/contests/свидетельства/b997cca32dd68f96e0f2ab163ef0e6b641412e662352c6c30a042a4360d13e20/извлечённый-текст.txt",
+      "источник_sha256": "b997cca32dd68f96e0f2ab163ef0e6b641412e662352c6c30a042a4360d13e20",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/contests/свидетельства/b997cca32dd68f96e0f2ab163ef0e6b641412e662352c6c30a042a4360d13e20/происхождение.json",
+      "назначение": "Источники/URL/https/www.rscf.ru/contests/свидетельства/b997cca32dd68f96e0f2ab163ef0e6b641412e662352c6c30a042a4360d13e20/происхождение.json",
+      "источник_sha256": "0c8bf2b3b7be976f6f52a251df55775f28284c99f2d7cf962b6bce672ba556eb",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/upload/iblock/592/9npmqcrcqyu313w1ke5nwe6rjxy5nle2.pdf/body.pdf",
+      "назначение": "Источники/URL/https/www.rscf.ru/upload/iblock/592/9npmqcrcqyu313w1ke5nwe6rjxy5nle2.pdf/body.pdf",
+      "источник_sha256": "a5331cf4172ec488d9661e5543a0daa3aa5e05272a11449d2c02f509b1973d15",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/upload/iblock/592/9npmqcrcqyu313w1ke5nwe6rjxy5nle2.pdf/extracted-text.md",
+      "назначение": "Источники/URL/https/www.rscf.ru/upload/iblock/592/9npmqcrcqyu313w1ke5nwe6rjxy5nle2.pdf/extracted-text.md",
+      "источник_sha256": "2eba8e958bdf5a11e256f369e1b2b492055159db2aef18b93fa1dd1553d71c4a",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/upload/iblock/592/9npmqcrcqyu313w1ke5nwe6rjxy5nle2.pdf/extraction-report.md",
+      "назначение": "Источники/URL/https/www.rscf.ru/upload/iblock/592/9npmqcrcqyu313w1ke5nwe6rjxy5nle2.pdf/extraction-report.md",
+      "источник_sha256": "405c5504e0ccdaff07f2f07f758a8206fa6ad1f48c12e69fb816b1326a1ae101",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/upload/iblock/592/9npmqcrcqyu313w1ke5nwe6rjxy5nle2.pdf/response.headers.txt",
+      "назначение": "Источники/URL/https/www.rscf.ru/upload/iblock/592/9npmqcrcqyu313w1ke5nwe6rjxy5nle2.pdf/response.headers.txt",
+      "источник_sha256": "fb16eb981758e23ad389f3594901594888517efe1218dc0a9cc8c10b1ae6cb2b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/upload/iblock/592/9npmqcrcqyu313w1ke5nwe6rjxy5nle2.pdf/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/www.rscf.ru/upload/iblock/592/9npmqcrcqyu313w1ke5nwe6rjxy5nle2.pdf/snapshot-manifest.json",
+      "источник_sha256": "71e7f90ac34d4f695184581d316101ce77cc5a13fe88e8d997834d81fe354c90",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/upload/iblock/592/9npmqcrcqyu313w1ke5nwe6rjxy5nle2.pdf/source-index.md",
+      "назначение": "Источники/URL/https/www.rscf.ru/upload/iblock/592/9npmqcrcqyu313w1ke5nwe6rjxy5nle2.pdf/source-index.md",
+      "источник_sha256": "e0981318574ac3718836abd14a9c67eb6730b86c75c2b2fcda6b8f0795141a00",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/upload/iblock/592/9npmqcrcqyu313w1ke5nwe6rjxy5nle2.pdf/source-url.txt",
+      "назначение": "Источники/URL/https/www.rscf.ru/upload/iblock/592/9npmqcrcqyu313w1ke5nwe6rjxy5nle2.pdf/source-url.txt",
+      "источник_sha256": "68c3a4f97f01210d664b765b2fa468d2ded0cd3c3109ceaffbca06e6601109c7",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/upload/iblock/592/9npmqcrcqyu313w1ke5nwe6rjxy5nle2.pdf/свидетельства/445cccbc210487c0c549f7306b8d72d620d0e01b5bdc44b3ab277e09c119d6fc/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/www.rscf.ru/upload/iblock/592/9npmqcrcqyu313w1ke5nwe6rjxy5nle2.pdf/свидетельства/445cccbc210487c0c549f7306b8d72d620d0e01b5bdc44b3ab277e09c119d6fc/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/upload/iblock/592/9npmqcrcqyu313w1ke5nwe6rjxy5nle2.pdf/свидетельства/445cccbc210487c0c549f7306b8d72d620d0e01b5bdc44b3ab277e09c119d6fc/source-url.txt",
+      "назначение": "Источники/URL/https/www.rscf.ru/upload/iblock/592/9npmqcrcqyu313w1ke5nwe6rjxy5nle2.pdf/свидетельства/445cccbc210487c0c549f7306b8d72d620d0e01b5bdc44b3ab277e09c119d6fc/source-url.txt",
+      "источник_sha256": "68c3a4f97f01210d664b765b2fa468d2ded0cd3c3109ceaffbca06e6601109c7",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/upload/iblock/592/9npmqcrcqyu313w1ke5nwe6rjxy5nle2.pdf/свидетельства/445cccbc210487c0c549f7306b8d72d620d0e01b5bdc44b3ab277e09c119d6fc/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/www.rscf.ru/upload/iblock/592/9npmqcrcqyu313w1ke5nwe6rjxy5nle2.pdf/свидетельства/445cccbc210487c0c549f7306b8d72d620d0e01b5bdc44b3ab277e09c119d6fc/извлечённый-текст.txt",
+      "источник_sha256": "445cccbc210487c0c549f7306b8d72d620d0e01b5bdc44b3ab277e09c119d6fc",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/upload/iblock/592/9npmqcrcqyu313w1ke5nwe6rjxy5nle2.pdf/свидетельства/445cccbc210487c0c549f7306b8d72d620d0e01b5bdc44b3ab277e09c119d6fc/происхождение.json",
+      "назначение": "Источники/URL/https/www.rscf.ru/upload/iblock/592/9npmqcrcqyu313w1ke5nwe6rjxy5nle2.pdf/свидетельства/445cccbc210487c0c549f7306b8d72d620d0e01b5bdc44b3ab277e09c119d6fc/происхождение.json",
+      "источник_sha256": "19b3c03672d76316d9f301c4229dca405263f7a698486f0ed42f4c934c512caa",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/upload/iblock/7ef/roobwviv105zmd68ojee7b07u3wsg0un.pdf/body.pdf",
+      "назначение": "Источники/URL/https/www.rscf.ru/upload/iblock/7ef/roobwviv105zmd68ojee7b07u3wsg0un.pdf/body.pdf",
+      "источник_sha256": "cae8d9b15989bc6200841e762421b305fb6d01dec3f4c5dcf565518c35723d2f",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/upload/iblock/7ef/roobwviv105zmd68ojee7b07u3wsg0un.pdf/extracted-text.md",
+      "назначение": "Источники/URL/https/www.rscf.ru/upload/iblock/7ef/roobwviv105zmd68ojee7b07u3wsg0un.pdf/extracted-text.md",
+      "источник_sha256": "bd93950025a49ffc784beb417ad5832575bbfbae650422d3c834c13eef550c39",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/upload/iblock/7ef/roobwviv105zmd68ojee7b07u3wsg0un.pdf/extraction-report.md",
+      "назначение": "Источники/URL/https/www.rscf.ru/upload/iblock/7ef/roobwviv105zmd68ojee7b07u3wsg0un.pdf/extraction-report.md",
+      "источник_sha256": "23087bfdbec79ebf0810bc5999b0f1b8a58baac87b624ff580ed2ca2066e7381",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/upload/iblock/7ef/roobwviv105zmd68ojee7b07u3wsg0un.pdf/response.headers.txt",
+      "назначение": "Источники/URL/https/www.rscf.ru/upload/iblock/7ef/roobwviv105zmd68ojee7b07u3wsg0un.pdf/response.headers.txt",
+      "источник_sha256": "a64ef0f324302c567ca77f7807e45b9d1a7bc73dea93fa5192656a2907460a44",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/upload/iblock/7ef/roobwviv105zmd68ojee7b07u3wsg0un.pdf/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/www.rscf.ru/upload/iblock/7ef/roobwviv105zmd68ojee7b07u3wsg0un.pdf/snapshot-manifest.json",
+      "источник_sha256": "71e7f90ac34d4f695184581d316101ce77cc5a13fe88e8d997834d81fe354c90",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/upload/iblock/7ef/roobwviv105zmd68ojee7b07u3wsg0un.pdf/source-index.md",
+      "назначение": "Источники/URL/https/www.rscf.ru/upload/iblock/7ef/roobwviv105zmd68ojee7b07u3wsg0un.pdf/source-index.md",
+      "источник_sha256": "e0981318574ac3718836abd14a9c67eb6730b86c75c2b2fcda6b8f0795141a00",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/upload/iblock/7ef/roobwviv105zmd68ojee7b07u3wsg0un.pdf/source-url.txt",
+      "назначение": "Источники/URL/https/www.rscf.ru/upload/iblock/7ef/roobwviv105zmd68ojee7b07u3wsg0un.pdf/source-url.txt",
+      "источник_sha256": "b7e615d98d0e211288085d9f287a1d94702a6685bdd3acfbb3da37ee275d95f6",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/upload/iblock/7ef/roobwviv105zmd68ojee7b07u3wsg0un.pdf/свидетельства/4cb1e871a95aa8fb240ab677a3d37d8a6624387491ad12e0e88f4f01d71fd7e4/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/www.rscf.ru/upload/iblock/7ef/roobwviv105zmd68ojee7b07u3wsg0un.pdf/свидетельства/4cb1e871a95aa8fb240ab677a3d37d8a6624387491ad12e0e88f4f01d71fd7e4/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/upload/iblock/7ef/roobwviv105zmd68ojee7b07u3wsg0un.pdf/свидетельства/4cb1e871a95aa8fb240ab677a3d37d8a6624387491ad12e0e88f4f01d71fd7e4/source-url.txt",
+      "назначение": "Источники/URL/https/www.rscf.ru/upload/iblock/7ef/roobwviv105zmd68ojee7b07u3wsg0un.pdf/свидетельства/4cb1e871a95aa8fb240ab677a3d37d8a6624387491ad12e0e88f4f01d71fd7e4/source-url.txt",
+      "источник_sha256": "b7e615d98d0e211288085d9f287a1d94702a6685bdd3acfbb3da37ee275d95f6",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/upload/iblock/7ef/roobwviv105zmd68ojee7b07u3wsg0un.pdf/свидетельства/4cb1e871a95aa8fb240ab677a3d37d8a6624387491ad12e0e88f4f01d71fd7e4/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/www.rscf.ru/upload/iblock/7ef/roobwviv105zmd68ojee7b07u3wsg0un.pdf/свидетельства/4cb1e871a95aa8fb240ab677a3d37d8a6624387491ad12e0e88f4f01d71fd7e4/извлечённый-текст.txt",
+      "источник_sha256": "4cb1e871a95aa8fb240ab677a3d37d8a6624387491ad12e0e88f4f01d71fd7e4",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.rscf.ru/upload/iblock/7ef/roobwviv105zmd68ojee7b07u3wsg0un.pdf/свидетельства/4cb1e871a95aa8fb240ab677a3d37d8a6624387491ad12e0e88f4f01d71fd7e4/происхождение.json",
+      "назначение": "Источники/URL/https/www.rscf.ru/upload/iblock/7ef/roobwviv105zmd68ojee7b07u3wsg0un.pdf/свидетельства/4cb1e871a95aa8fb240ab677a3d37d8a6624387491ad12e0e88f4f01d71fd7e4/происхождение.json",
+      "источник_sha256": "ecdfa6b5ae8bc396e61ea78a58dd0cf08ad5a7a61f5d1a4d4eae96affcb50346",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.swift.org/sswg/incubation-process.html/extracted-text.md",
+      "назначение": "Источники/URL/https/www.swift.org/sswg/incubation-process.html/extracted-text.md",
+      "источник_sha256": "aff447444292479efc5b53bb3a949428d60ff3b4916ff77cbed06d673d6cb04a",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.swift.org/sswg/incubation-process.html/extraction-report.md",
+      "назначение": "Источники/URL/https/www.swift.org/sswg/incubation-process.html/extraction-report.md",
+      "источник_sha256": "659fadbcf0791cab9a9181d30f5b3bdd5c386809721f6edcc72416f799b2adb5",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.swift.org/sswg/incubation-process.html/response.body.html",
+      "назначение": "Источники/URL/https/www.swift.org/sswg/incubation-process.html/response.body.html",
+      "источник_sha256": "e3c327673d34703ef9f8b7927dbd388f680c2bf3b04c92465d72bf5174daf27c",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.swift.org/sswg/incubation-process.html/response.headers.txt",
+      "назначение": "Источники/URL/https/www.swift.org/sswg/incubation-process.html/response.headers.txt",
+      "источник_sha256": "5ef4f280294a4dc875bb4d322af4cb8bef981cd7fac0bc9065baddf536f0b54f",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.swift.org/sswg/incubation-process.html/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/www.swift.org/sswg/incubation-process.html/snapshot-manifest.json",
+      "источник_sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.swift.org/sswg/incubation-process.html/source-index.md",
+      "назначение": "Источники/URL/https/www.swift.org/sswg/incubation-process.html/source-index.md",
+      "источник_sha256": "bf20b4d728f5285ae2f197a6280c9cdeae238f7be02ad778f64320f3e151529a",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.swift.org/sswg/incubation-process.html/source-url.txt",
+      "назначение": "Источники/URL/https/www.swift.org/sswg/incubation-process.html/source-url.txt",
+      "источник_sha256": "747a8b89dda56906bae5a362a66538167a6db44630c389ffec3d7cc845aa7a0c",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.swift.org/sswg/incubation-process.html/свидетельства/b29ef68351267342727bbfafd085f7bb9af75e42cd39af3b47419bf26e50eb75/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/www.swift.org/sswg/incubation-process.html/свидетельства/b29ef68351267342727bbfafd085f7bb9af75e42cd39af3b47419bf26e50eb75/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.swift.org/sswg/incubation-process.html/свидетельства/b29ef68351267342727bbfafd085f7bb9af75e42cd39af3b47419bf26e50eb75/source-url.txt",
+      "назначение": "Источники/URL/https/www.swift.org/sswg/incubation-process.html/свидетельства/b29ef68351267342727bbfafd085f7bb9af75e42cd39af3b47419bf26e50eb75/source-url.txt",
+      "источник_sha256": "747a8b89dda56906bae5a362a66538167a6db44630c389ffec3d7cc845aa7a0c",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.swift.org/sswg/incubation-process.html/свидетельства/b29ef68351267342727bbfafd085f7bb9af75e42cd39af3b47419bf26e50eb75/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/www.swift.org/sswg/incubation-process.html/свидетельства/b29ef68351267342727bbfafd085f7bb9af75e42cd39af3b47419bf26e50eb75/извлечённый-текст.txt",
+      "источник_sha256": "b29ef68351267342727bbfafd085f7bb9af75e42cd39af3b47419bf26e50eb75",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/www.swift.org/sswg/incubation-process.html/свидетельства/b29ef68351267342727bbfafd085f7bb9af75e42cd39af3b47419bf26e50eb75/происхождение.json",
+      "назначение": "Источники/URL/https/www.swift.org/sswg/incubation-process.html/свидетельства/b29ef68351267342727bbfafd085f7bb9af75e42cd39af3b47419bf26e50eb75/происхождение.json",
+      "источник_sha256": "e10167c0805c4d9da7f36dd389ed9631674bd77f4ebab5eeb4efdbb41744b348",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/xn--80afcdbalict6afooklqi5o.xn--p1ai/public/home/about/extracted-text.md",
+      "назначение": "Источники/URL/https/xn--80afcdbalict6afooklqi5o.xn--p1ai/public/home/about/extracted-text.md",
+      "источник_sha256": "5f8304431db14f894ed3a42407451a098e019c16581f741ad7700c767d84502d",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/xn--80afcdbalict6afooklqi5o.xn--p1ai/public/home/about/extraction-report.md",
+      "назначение": "Источники/URL/https/xn--80afcdbalict6afooklqi5o.xn--p1ai/public/home/about/extraction-report.md",
+      "источник_sha256": "b7d2da56370522e23c61bfa62419398a660bca1089fee8c3097a15353ecda1fc",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/xn--80afcdbalict6afooklqi5o.xn--p1ai/public/home/about/response.body.html",
+      "назначение": "Источники/URL/https/xn--80afcdbalict6afooklqi5o.xn--p1ai/public/home/about/response.body.html",
+      "источник_sha256": "8a16d70f982f3a6e2ccccedb7cb3ce5ef784ca23a0f7e5b5bab031386eb9337d",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/xn--80afcdbalict6afooklqi5o.xn--p1ai/public/home/about/response.headers.txt",
+      "назначение": "Источники/URL/https/xn--80afcdbalict6afooklqi5o.xn--p1ai/public/home/about/response.headers.txt",
+      "источник_sha256": "e3eccc494362b9ab13ddcdb56db067d2aaaf601b2edf91dd1e5838541bbfde41",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/xn--80afcdbalict6afooklqi5o.xn--p1ai/public/home/about/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/xn--80afcdbalict6afooklqi5o.xn--p1ai/public/home/about/snapshot-manifest.json",
+      "источник_sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/xn--80afcdbalict6afooklqi5o.xn--p1ai/public/home/about/source-index.md",
+      "назначение": "Источники/URL/https/xn--80afcdbalict6afooklqi5o.xn--p1ai/public/home/about/source-index.md",
+      "источник_sha256": "9e5b0340c5d3c885237c184dadca89e3b97e8e1b5476da15b2326fe8c2b867b5",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/xn--80afcdbalict6afooklqi5o.xn--p1ai/public/home/about/source-url.txt",
+      "назначение": "Источники/URL/https/xn--80afcdbalict6afooklqi5o.xn--p1ai/public/home/about/source-url.txt",
+      "источник_sha256": "3f2eda049be9aebd545f48873c244739bd5e8f083701ad0614287a5a580531ac",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/xn--p1acnb.xn--p1ai/_root/extracted-text.md",
+      "назначение": "Источники/URL/https/xn--p1acnb.xn--p1ai/_root/extracted-text.md",
+      "источник_sha256": "dce8727cbf2487a2961e2959fdc120978f1b221e8226a4ff34652a36287a5f89",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/xn--p1acnb.xn--p1ai/_root/extraction-report.md",
+      "назначение": "Источники/URL/https/xn--p1acnb.xn--p1ai/_root/extraction-report.md",
+      "источник_sha256": "bb0488241ee9ef34ac2276863fa0e3e03bdda3e6a1e3e77015db5b78c52736ec",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/xn--p1acnb.xn--p1ai/_root/response.body.html",
+      "назначение": "Источники/URL/https/xn--p1acnb.xn--p1ai/_root/response.body.html",
+      "источник_sha256": "93db34230560424ba220ae9a191e0f02398226e4b008c13013e2d15b9f6dbec2",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/xn--p1acnb.xn--p1ai/_root/response.headers.txt",
+      "назначение": "Источники/URL/https/xn--p1acnb.xn--p1ai/_root/response.headers.txt",
+      "источник_sha256": "2d7e2711ee8a5791975cf4b954aebf5557ee217ceaea8b6afe78c560a9b22f70",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/xn--p1acnb.xn--p1ai/_root/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/xn--p1acnb.xn--p1ai/_root/snapshot-manifest.json",
+      "источник_sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/xn--p1acnb.xn--p1ai/_root/source-index.md",
+      "назначение": "Источники/URL/https/xn--p1acnb.xn--p1ai/_root/source-index.md",
+      "источник_sha256": "4ab97a11a32c75c03cd7908d861a89c66c1c2fdb0ae59c416ec90cc55d5f215a",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/xn--p1acnb.xn--p1ai/_root/source-url.txt",
+      "назначение": "Источники/URL/https/xn--p1acnb.xn--p1ai/_root/source-url.txt",
+      "источник_sha256": "bba82c6e6838199e698682eb92273a8cdcd359680e163c38c7caad81a6c81d1c",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/xn--p1acnb.xn--p1ai/_root/свидетельства/750f2194b0ad1dce419c2b48366625f38737693dfe705072591f8e459ab924ee/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/xn--p1acnb.xn--p1ai/_root/свидетельства/750f2194b0ad1dce419c2b48366625f38737693dfe705072591f8e459ab924ee/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/xn--p1acnb.xn--p1ai/_root/свидетельства/750f2194b0ad1dce419c2b48366625f38737693dfe705072591f8e459ab924ee/source-url.txt",
+      "назначение": "Источники/URL/https/xn--p1acnb.xn--p1ai/_root/свидетельства/750f2194b0ad1dce419c2b48366625f38737693dfe705072591f8e459ab924ee/source-url.txt",
+      "источник_sha256": "bba82c6e6838199e698682eb92273a8cdcd359680e163c38c7caad81a6c81d1c",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/xn--p1acnb.xn--p1ai/_root/свидетельства/750f2194b0ad1dce419c2b48366625f38737693dfe705072591f8e459ab924ee/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/xn--p1acnb.xn--p1ai/_root/свидетельства/750f2194b0ad1dce419c2b48366625f38737693dfe705072591f8e459ab924ee/извлечённый-текст.txt",
+      "источник_sha256": "750f2194b0ad1dce419c2b48366625f38737693dfe705072591f8e459ab924ee",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/xn--p1acnb.xn--p1ai/_root/свидетельства/750f2194b0ad1dce419c2b48366625f38737693dfe705072591f8e459ab924ee/происхождение.json",
+      "назначение": "Источники/URL/https/xn--p1acnb.xn--p1ai/_root/свидетельства/750f2194b0ad1dce419c2b48366625f38737693dfe705072591f8e459ab924ee/происхождение.json",
+      "источник_sha256": "d357edcd98e69d8207241146db33d8fd0dd7dc75cd12899e559da62f7761abfa",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/yandex.cloud/ru/all-offers/extracted-text.md",
+      "назначение": "Источники/URL/https/yandex.cloud/ru/all-offers/extracted-text.md",
+      "источник_sha256": "d11bd7e83f2daf9764a591a5b1e12e10f9fb5b973a49b061015335d9c0841daa",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/yandex.cloud/ru/all-offers/extraction-report.md",
+      "назначение": "Источники/URL/https/yandex.cloud/ru/all-offers/extraction-report.md",
+      "источник_sha256": "b65776df3a545655cd2bf11af039cacb8fca774c08787ca04610fee883b562cb",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/yandex.cloud/ru/all-offers/response.body.html",
+      "назначение": "Источники/URL/https/yandex.cloud/ru/all-offers/response.body.html",
+      "источник_sha256": "821ca44e72c3979b9d0abf0ab417ed9be81f408191d6168833d4e7bad9351856",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/yandex.cloud/ru/all-offers/response.headers.txt",
+      "назначение": "Источники/URL/https/yandex.cloud/ru/all-offers/response.headers.txt",
+      "источник_sha256": "912bdd5844205601e702d7917d2e2e53ffc6ae1ca70e4c10f4dc1ca795899883",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/yandex.cloud/ru/all-offers/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/yandex.cloud/ru/all-offers/snapshot-manifest.json",
+      "источник_sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/yandex.cloud/ru/all-offers/source-index.md",
+      "назначение": "Источники/URL/https/yandex.cloud/ru/all-offers/source-index.md",
+      "источник_sha256": "1e4f4fddb4d50530827fb54a18a163645d52638cc24bf34fbbb67e6d36aa99c5",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/yandex.cloud/ru/all-offers/source-url.txt",
+      "назначение": "Источники/URL/https/yandex.cloud/ru/all-offers/source-url.txt",
+      "источник_sha256": "8435ad114d3151c3f04a1d065f31e7af8e234df25798747b9373328ebdf0b294",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/yandex.cloud/ru/all-offers/свидетельства/e060c45abecbcd1624d44d91fc83754ac1a55a5503722c065ac9e68351b72321/snapshot-manifest.json",
+      "назначение": "Источники/URL/https/yandex.cloud/ru/all-offers/свидетельства/e060c45abecbcd1624d44d91fc83754ac1a55a5503722c065ac9e68351b72321/snapshot-manifest.json",
+      "источник_sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/yandex.cloud/ru/all-offers/свидетельства/e060c45abecbcd1624d44d91fc83754ac1a55a5503722c065ac9e68351b72321/source-url.txt",
+      "назначение": "Источники/URL/https/yandex.cloud/ru/all-offers/свидетельства/e060c45abecbcd1624d44d91fc83754ac1a55a5503722c065ac9e68351b72321/source-url.txt",
+      "источник_sha256": "8435ad114d3151c3f04a1d065f31e7af8e234df25798747b9373328ebdf0b294",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/yandex.cloud/ru/all-offers/свидетельства/e060c45abecbcd1624d44d91fc83754ac1a55a5503722c065ac9e68351b72321/извлечённый-текст.txt",
+      "назначение": "Источники/URL/https/yandex.cloud/ru/all-offers/свидетельства/e060c45abecbcd1624d44d91fc83754ac1a55a5503722c065ac9e68351b72321/извлечённый-текст.txt",
+      "источник_sha256": "e060c45abecbcd1624d44d91fc83754ac1a55a5503722c065ac9e68351b72321",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Источники/URL/https/yandex.cloud/ru/all-offers/свидетельства/e060c45abecbcd1624d44d91fc83754ac1a55a5503722c065ac9e68351b72321/происхождение.json",
+      "назначение": "Источники/URL/https/yandex.cloud/ru/all-offers/свидетельства/e060c45abecbcd1624d44d91fc83754ac1a55a5503722c065ac9e68351b72321/происхождение.json",
+      "источник_sha256": "8ce8426dd203b6a851c5ee14ac88c8f2cdcd99fb311f20e9398733ed603510d1",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/материалы/очистка-снимков.json",
+      "назначение": "Планирование/финансирование-и-ресурсы/исходные-данные/очистка-снимков.json",
+      "источник_sha256": "e1e6f7cf521f7fa8f275da631bb7946eca90cb16c9d586a909b97a74b4626cf1",
+      "до": null,
+      "операция": "create"
+    },
+    {
+      "источник": "Журнал/2026-09-11_16-12-17_MSK_завершить-приёмку-реестра-поддержки-FUM/материалы/перенос-свидетельств.json",
+      "назначение": "Планирование/финансирование-и-ресурсы/исходные-данные/перенос-свидетельств.json",
+      "источник_sha256": "a54bc60156bca51bba3cce23e6acaf751af018af6ebda7e7b08fe2cb71381640",
+      "до": null,
+      "операция": "create"
+    }
+  ],
+  "исключено": [
+    "Инструменты/fum-reyestr-planirovaniya/scripts/исполнитель_приёма.py",
+    "Инструменты/fum-reyestr-planirovaniya/tests/test_исправления_приёма.py"
+  ],
+  "статус": "Исходные байты перенесены; адресная адаптация, статус карточки и принимающая проверка ещё не завершены."
+}
