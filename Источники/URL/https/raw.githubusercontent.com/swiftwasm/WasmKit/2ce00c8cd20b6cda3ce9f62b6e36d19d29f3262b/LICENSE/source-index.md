@@ -1,0 +1,27 @@
+# Источник: raw.githubusercontent.com
+
+Исходный URL: <https://raw.githubusercontent.com/swiftwasm/WasmKit/2ce00c8cd20b6cda3ce9f62b6e36d19d29f3262b/LICENSE>
+
+Тип источника: HTML-страница по устойчивому URL.
+
+## Основные файлы
+
+- [Извлечённый текст](extracted-text.md)
+- [Отчёт об извлечении](extraction-report.md)
+- [Очищенные HTTP-заголовки](response.headers.txt)
+- [Сохранённый HTML](response.body.html)
+
+## Все сохранённые файлы
+
+- `extracted-text.md`
+- `extraction-report.md`
+- `response.body.html`
+- `response.headers.txt`
+- `snapshot-manifest.json`
+- `source-index.md`
+- `source-url.txt`
+
+<!-- FUM-MD-RECENCY:BEGIN -->
+<!-- last-content-edit: 2026-09-12 04:23:00 MSK -->
+<!-- content-sha256: sha256:25b51e07eba34c8f570601d488e2155360c2198f366c079fd807b9c2a59901ea -->
+<!-- FUM-MD-RECENCY:END -->

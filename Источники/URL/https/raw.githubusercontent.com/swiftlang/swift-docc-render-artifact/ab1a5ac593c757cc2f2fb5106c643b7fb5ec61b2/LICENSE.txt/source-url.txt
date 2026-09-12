@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/swiftlang/swift-docc-render-artifact/ab1a5ac593c757cc2f2fb5106c643b7fb5ec61b2/LICENSE.txt

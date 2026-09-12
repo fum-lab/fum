@@ -1,0 +1,20 @@
+; Производный профиль FUM. Сначала читается точный upstream build-presets.ini.
+; Полный состав продуктов и тестов upstream сохраняется; выбран нативный host.
+[preset: FUM-macOS-arm64-источники]
+mixin-preset=buildbot_osx_package,macos_only
+host-target=macosx-arm64
+stdlib-deployment-targets=macosx-arm64
+infer-cross-compile-hosts-on-darwin=false
+skip-build-xros
+skip-test-xros
+sccache=false
+distcc=false
+lldb-extra-cmake-args=-DLLDB_ENABLE_SWIG=ON -DLLDB_USE_STATIC_BINDINGS=OFF -DLLDB_ENABLE_PYTHON=ON -DLLDB_ENABLE_LIBEDIT=ON -DLLDB_ENABLE_CURSES=ON -DLLDB_ENABLE_LIBXML2=ON -DLLDB_ENABLE_LZMA=OFF -DLLDB_ENABLE_LUA=OFF -DLLDB_ENABLE_FBSDVMCORE=OFF
+darwin-xcrun-toolchain=default
+cmake=%(native_cmake)s
+; Полностью сохраняются три extra-cmake-options upstream base; добавлен Python.
+extra-cmake-options=
+   -DLLDB_FRAMEWORK_COPY_SWIFT_RESOURCES=0
+   -DCMAKE_C_FLAGS="-gline-tables-only"
+   -DCMAKE_CXX_FLAGS="-gline-tables-only"
+   -DPython3_EXECUTABLE:FILEPATH="%(native_python)s"

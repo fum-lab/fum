@@ -155,6 +155,20 @@ class HtmlMetadataCollector(HTMLParser):
             self.current_json_ld.append(data)
 
 
+def служебное_имя_Git(имя: str) -> bool:
+    """Имена каталогов, отвергаемые Git; ASCII-псевдонимы из Git path.c."""
+    имя = имя.lower().rstrip(" .")
+    if имя in {".git", "git~1", ".gitmodules", ".gitattributes"}:
+        return True
+    префикс, тильда, номер = имя.partition("~")
+    if тильда and префикс in {"gitmod", "gitatt"} and номер in {"1", "2", "3", "4"}:
+        return True
+    return bool(
+        len(имя) == 8 and тильда and re.fullmatch(r"[1-9][0-9]*", номер)
+        and any(образец.startswith(префикс) for образец in ("gi7eba", "gi7d29"))
+    )
+
+
 def source_path_segment(value: str) -> str:
     decoded = unquote(value)
     candidate = decoded.strip()
@@ -164,6 +178,7 @@ def source_path_segment(value: str) -> str:
         and candidate not in {"", ".", ".."}
         and re.fullmatch(safe_pattern, candidate)
         and len(candidate) <= 120
+        and not служебное_имя_Git(candidate)
     ):
         return candidate
 
@@ -679,7 +694,10 @@ def ensure_destination_matches_url(output_dir: Path, url: str) -> None:
         )
 
 
-def write_extracted_text(path: Path, url: str, visible_text: str) -> None:
+def write_extracted_text(path: Path, url: str, visible_text: str, *, дословно: bool = False) -> None:
+    if дословно:
+        ограда = "`" * max(3, 1 + max((len(ряд) for ряд in re.findall(r"`+", visible_text)), default=0))
+        visible_text = ограда + "text\n" + visible_text.rstrip("\n") + "\n" + ограда
     lines = [
         "# Извлечённый текст",
         "",
@@ -776,21 +794,22 @@ def build_snapshot(
         if body_bytes.startswith(b"%PDF-") or info.get("content_type", "").split(";", 1)[0].strip().lower() == "application/pdf":
             raise ValueError("PDF requires separate byte-preserving capture and PDF extraction")
         исходный_html = body_bytes.decode("utf-8", errors="surrogateescape")
-        сохранённые_байты = очистить_служебный_html(исходный_html).encode("utf-8", errors="surrogateescape")
+        текстовый_источник = info.get("content_type", "").split(";", 1)[0].strip().lower() in ("text/plain", "application/json")
+        сохранённые_байты = body_bytes if текстовый_источник else очистить_служебный_html(исходный_html).encode("utf-8", errors="surrogateescape")
         html_text = сохранённые_байты.decode("utf-8", errors="replace")
         headers_text = raw_headers.read_text(encoding="utf-8", errors="replace")
 
-    title, structured, structured_errors = extract_html_metadata(html_text)
+    title, structured, structured_errors = ("", [], []) if текстовый_источник else extract_html_metadata(html_text)
     if not title:
         title = urlsplit(url).hostname or "URL-источник"
-    visible_text = collect_visible_text(html_text)
+    visible_text = html_text if текстовый_источник else collect_visible_text(html_text)
     (staging_dir / "source-url.txt").write_text(url + "\n", encoding="utf-8")
     (staging_dir / "response.headers.txt").write_text(
         trim_trailing_whitespace(redact_headers(headers_text)),
         encoding="utf-8",
     )
     (staging_dir / "response.body.html").write_bytes(сохранённые_байты)
-    write_extracted_text(staging_dir / "extracted-text.md", url, visible_text)
+    write_extracted_text(staging_dir / "extracted-text.md", url, visible_text, дословно=текстовый_источник)
     if structured:
         structured_payload: Any = structured[0] if len(structured) == 1 else structured
         (staging_dir / "structured-data.json").write_text(

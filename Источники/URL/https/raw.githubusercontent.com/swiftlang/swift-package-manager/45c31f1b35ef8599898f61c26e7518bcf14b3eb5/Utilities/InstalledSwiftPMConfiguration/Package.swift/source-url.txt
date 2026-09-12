@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/swiftlang/swift-package-manager/45c31f1b35ef8599898f61c26e7518bcf14b3eb5/Utilities/InstalledSwiftPMConfiguration/Package.swift

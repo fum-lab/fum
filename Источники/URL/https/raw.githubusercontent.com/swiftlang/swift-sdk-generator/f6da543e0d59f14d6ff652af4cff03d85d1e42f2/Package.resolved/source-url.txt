@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/swiftlang/swift-sdk-generator/f6da543e0d59f14d6ff652af4cff03d85d1e42f2/Package.resolved

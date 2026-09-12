@@ -3213,6 +3213,24 @@
       "count": 1,
       "category": "allow.path-validation-definition",
       "reason": "Определение регулярного выражения для проверки точного относительного пути собственного канонического Журнала; не содержит машинно-локального адреса."
+    },
+    {
+      "id": "swift-url-git-alias-separator",
+      "path": "Инструменты/fum-materialyi-zaprosov/scripts/source_archive.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:d6c41687ea47000fdde2a7dad8e18f9ebdab8dc403b4470627b2f93e0ea8d18b",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Литеральный разделитель короткого имени Git в проверяемом распознавателе; не путь и не развёртка домашнего каталога."
+    },
+    {
+      "id": "swift-url-git-alias-fixture",
+      "path": "Инструменты/fum-materialyi-zaprosov/tests/test_служебные_имена_Git.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:425f3af965f5f698d3e492582c5e8ec64de34ed7bd9808beb9acea54e8aa1534",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Точный NTFS-псевдоним служебного имени Git для автономной регрессии генератора URL-каталогов, не пользовательский домашний путь."
     }
   ]
 }

@@ -1,0 +1,55 @@
+# Извлечённый текст
+
+Источник: <https://raw.githubusercontent.com/apple/swift-crypto/629f0b679d0fd0a6ae823d7f750b9ab032c00b80/NOTICE.txt>
+
+## Содержимое
+
+```text
+                            The SwiftCrypto Project
+                            =======================
+
+Please visit the SwiftCrypto web site for more information:
+
+  * https://github.com/apple/swift-crypto
+
+Copyright 2019 The SwiftCrypto Project
+
+The SwiftCrypto Project licenses this file to you under the Apache License,
+version 2.0 (the "License"); you may not use this file except in compliance
+with the License. You may obtain a copy of the License at:
+
+  https://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+
+Also, please refer to each LICENSE.<component>.txt file, which is located in
+the 'license' directory of the distribution file, for the license terms of the
+components that this product depends on.
+
+-------------------------------------------------------------------------------
+
+This product contains test vectors from Google's wycheproof project.
+
+  * LICENSE (Apache License 2.0):
+    * https://github.com/google/wycheproof/blob/master/LICENSE
+  * HOMEPAGE:
+    * https://github.com/google/wycheproof
+
+---
+
+This product contains a derivation of various scripts from SwiftNIO.
+
+  * LICENSE (Apache License 2.0):
+    * https://www.apache.org/licenses/LICENSE-2.0
+  * HOMEPAGE:
+    * https://github.com/apple/swift-nio
+```
+
+<!-- FUM-MD-RECENCY:BEGIN -->
+<!-- last-content-edit: 2026-09-12 04:23:00 MSK -->
+<!-- content-sha256: sha256:1f64fc8cd5a256703535cb8baaf690defca5409bf8fa67f131972897259ebfab -->
+<!-- FUM-MD-RECENCY:END -->

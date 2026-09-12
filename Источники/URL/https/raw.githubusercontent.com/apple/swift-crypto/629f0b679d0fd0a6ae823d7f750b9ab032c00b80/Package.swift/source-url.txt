@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/apple/swift-crypto/629f0b679d0fd0a6ae823d7f750b9ab032c00b80/Package.swift

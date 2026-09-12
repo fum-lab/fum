@@ -1,0 +1,1 @@
+https://pypi.org/pypi/ptyprocess/0.7.0/json

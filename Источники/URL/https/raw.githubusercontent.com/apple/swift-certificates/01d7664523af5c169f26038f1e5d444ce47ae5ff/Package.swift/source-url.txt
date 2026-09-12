@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/apple/swift-certificates/01d7664523af5c169f26038f1e5d444ce47ae5ff/Package.swift

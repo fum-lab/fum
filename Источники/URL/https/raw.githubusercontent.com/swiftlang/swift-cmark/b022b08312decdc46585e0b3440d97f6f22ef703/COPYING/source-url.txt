@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/swiftlang/swift-cmark/b022b08312decdc46585e0b3440d97f6f22ef703/COPYING

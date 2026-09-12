@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/swiftlang/swift-lmdb/c42582487fe84f72a4d417dd2d8493757bd4d072/libraries/liblmdb/COPYRIGHT

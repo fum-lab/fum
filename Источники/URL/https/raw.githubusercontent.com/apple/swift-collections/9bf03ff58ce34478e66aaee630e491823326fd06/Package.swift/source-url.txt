@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/apple/swift-collections/9bf03ff58ce34478e66aaee630e491823326fd06/Package.swift

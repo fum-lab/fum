@@ -1,0 +1,240 @@
+{
+  "схема": "fum.будущие-команды-Swift.1",
+  "состояние": "План после закрытия препятствий; сейчас не исполнять",
+  "рабочий_корень": "<собственный-FUM-checkout>",
+  "подстановки_preset": {
+    "install_destdir": "<новый-каталог-установки>",
+    "install_symroot": "<новый-каталог-символов>",
+    "install_toolchain_dir": "<суффикс-каталога-toolchain>",
+    "installable_package": "<выход>/FUMSwift-6.1.2-arm64.tar.gz",
+    "symbols_package": "<выход>/FUMSwift-6.1.2-arm64-symbols.tar.gz",
+    "darwin_toolchain_bundle_identifier": "org.fum.swift.612",
+    "darwin_toolchain_display_name": "FUM Swift 6.1.2",
+    "darwin_toolchain_display_name_short": "FUM Swift 6.1.2",
+    "darwin_toolchain_xctoolchain_name": "FUMSwift-6.1.2",
+    "darwin_toolchain_version": "6.1.2",
+    "darwin_toolchain_alias": "FUMSwift-6.1.2",
+    "native_cmake": "<принятый-cmake-executable>",
+    "native_python": "<принятый-Python3.9.6-executable>"
+  },
+  "окружение": {
+    "DEVELOPER_DIR": "<принятый-Xcode16.2RC>/Contents/Developer",
+    "SDKROOT": "<принятый-MacOSX15.2.sdk>",
+    "PATH": "<контролируемые-каталоги-принятых-native-tools>",
+    "SWIFTCI_USE_LOCAL_DEPS": "1"
+  },
+  "отсутствующие_переменные": [
+    "SWIFTPM_LLBUILD_FWK",
+    "SWIFT_DRIVER_LLBUILD_FWK",
+    "CMAKE_Swift_COMPILER",
+    "USE_DISTCC",
+    "SWIFT_USE_SCCACHE",
+    "C_COMPILER_LAUNCHER",
+    "CXX_COMPILER_LAUNCHER",
+    "DYLD_LIBRARY_PATH",
+    "DYLD_INSERT_LIBRARIES"
+  ],
+  "изготовление_config": [
+    "Прочитать точный upstream config из манифеста и проверить SHA256.",
+    "Оставить config.repos только для всех49 имён выбранной release/6.1; сохранить каждый metadata entry.",
+    "Создать branch-schemes.fum-swift-6.1.2 с aliases=[fum-swift-6.1.2] и repos mapping каждого имени в принятый полный OID.",
+    "У каждого repos[name].remote.id заменить исходную организацию только на подтверждённый fork; pattern HTTPS сохранить.",
+    "Проверить точное равенство49имён и всех OID, наличие всех каталогов (в том числе CMake), roles origin/upstream/gitlinks и чистоту.",
+    "Сохранить эти JSON байты и SHA256 как вход новой сборки; неизвестные зеркала/байты запрещают изготовление принятого config."
+  ],
+  "команды": [
+    {
+      "назначение": "Проверить точный bootstrap",
+      "argv": [
+        "xcrun",
+        "--toolchain",
+        "default",
+        "--find",
+        "swiftc"
+      ],
+      "ожидание": "realpath и SHA256 равны XcodeDefault из принятого Xcode; затем --version и -print-target-info того же executable"
+    },
+    {
+      "назначение": "Снимок всех49до",
+      "argv": [
+        "<принятый-Python3.9.6-executable>",
+        "<исходники>/swift/utils/update-checkout",
+        "--source-root",
+        "<исходники>",
+        "--config",
+        "<закреплённый-config-49.json>",
+        "--scheme",
+        "fum-swift-6.1.2",
+        "--dump-hashes-config",
+        "fum-before"
+      ],
+      "ожидание": "stdout JSON branch-schemes.fum-before.repos совпадает со всем манифестом; skip/лишние/пропуски запрещены"
+    },
+    {
+      "назначение": "Онлайн подготовка штатным update-checkout",
+      "argv": [
+        "<принятый-Python3.9.6-executable>",
+        "<исходники>/swift/utils/update-checkout",
+        "--source-root",
+        "<исходники>",
+        "--config",
+        "<закреплённый-config-49.json>",
+        "--scheme",
+        "fum-swift-6.1.2"
+      ],
+      "ожидание": "Только после независимого разрешения материализации/чистого состояния; не выполняется в offline фазе. --tag/--clean/--reset-to-remote не применяются"
+    },
+    {
+      "назначение": "Снимок всех49после подготовки",
+      "argv": [
+        "<принятый-Python3.9.6-executable>",
+        "<исходники>/swift/utils/update-checkout",
+        "--source-root",
+        "<исходники>",
+        "--config",
+        "<закреплённый-config-49.json>",
+        "--scheme",
+        "fum-swift-6.1.2",
+        "--dump-hashes-config",
+        "fum-after"
+      ],
+      "ожидание": "Весь словарь равен fum-before и манифесту"
+    },
+    {
+      "назначение": "Вывести эффективный build invocation без сборки",
+      "argv": [
+        "<принятый-Python3.9.6-executable>",
+        "<исходники>/swift/utils/build-script",
+        "--preset-file",
+        "<исходники>/swift/utils/build-presets.ini",
+        "--preset-file",
+        "<FUM>/Планирование/сборка-Swift/профиль-macOS-arm64.txt",
+        "--preset",
+        "FUM-macOS-arm64-источники",
+        "install_destdir=<новый-каталог-установки>",
+        "install_symroot=<новый-каталог-символов>",
+        "install_toolchain_dir=<суффикс-каталога-toolchain>",
+        "installable_package=<выход>/FUMSwift-6.1.2-arm64.tar.gz",
+        "symbols_package=<выход>/FUMSwift-6.1.2-arm64-symbols.tar.gz",
+        "darwin_toolchain_bundle_identifier=org.fum.swift.612",
+        "darwin_toolchain_display_name=FUM Swift 6.1.2",
+        "darwin_toolchain_display_name_short=FUM Swift 6.1.2",
+        "darwin_toolchain_xctoolchain_name=FUMSwift-6.1.2",
+        "darwin_toolchain_version=6.1.2",
+        "darwin_toolchain_alias=FUMSwift-6.1.2",
+        "native_cmake=<принятый-cmake-executable>",
+        "native_python=<принятый-Python3.9.6-executable>",
+        "--expand-invocation"
+      ],
+      "ожидание": "Сравнить все аргументы с полным preset и дополнением; не является native configure/build/test"
+    },
+    {
+      "назначение": "Автономная сборка и штатная приёмка",
+      "argv": [
+        "<принятый-Python3.9.6-executable>",
+        "<исходники>/swift/utils/build-script",
+        "--preset-file",
+        "<исходники>/swift/utils/build-presets.ini",
+        "--preset-file",
+        "<FUM>/Планирование/сборка-Swift/профиль-macOS-arm64.txt",
+        "--preset",
+        "FUM-macOS-arm64-источники",
+        "install_destdir=<новый-каталог-установки>",
+        "install_symroot=<новый-каталог-символов>",
+        "install_toolchain_dir=<суффикс-каталога-toolchain>",
+        "installable_package=<выход>/FUMSwift-6.1.2-arm64.tar.gz",
+        "symbols_package=<выход>/FUMSwift-6.1.2-arm64-symbols.tar.gz",
+        "darwin_toolchain_bundle_identifier=org.fum.swift.612",
+        "darwin_toolchain_display_name=FUM Swift 6.1.2",
+        "darwin_toolchain_display_name_short=FUM Swift 6.1.2",
+        "darwin_toolchain_xctoolchain_name=FUMSwift-6.1.2",
+        "darwin_toolchain_version=6.1.2",
+        "darwin_toolchain_alias=FUMSwift-6.1.2",
+        "native_cmake=<принятый-cmake-executable>",
+        "native_python=<принятый-Python3.9.6-executable>"
+      ],
+      "ожидание": "Только после входного допуска; сеть закрыта, исполненные tools/файлы проверяются; отдельный префикс"
+    },
+    {
+      "назначение": "Снимок49после сборки",
+      "argv": [
+        "<принятый-Python3.9.6-executable>",
+        "<исходники>/swift/utils/update-checkout",
+        "--source-root",
+        "<исходники>",
+        "--config",
+        "<закреплённый-config-49.json>",
+        "--scheme",
+        "fum-swift-6.1.2",
+        "--dump-hashes-config",
+        "fum-built"
+      ],
+      "ожидание": "Все OID равны принятым; dirty/untracked состояние проверяется отдельно"
+    },
+    {
+      "назначение": "Версия результата",
+      "argv": [
+        "<установленный-toolchain>/usr/bin/swift",
+        "--version"
+      ]
+    },
+    {
+      "назначение": "Компилятор результата",
+      "argv": [
+        "<установленный-toolchain>/usr/bin/swiftc",
+        "-print-target-info"
+      ]
+    },
+    {
+      "назначение": "Compile",
+      "argv": [
+        "<установленный-toolchain>/usr/bin/swiftc",
+        "-sdk",
+        "<принятый-MacOSX15.2.sdk>",
+        "<приёмка>/Программа.swift",
+        "-o",
+        "<выход>/Программа"
+      ]
+    },
+    {
+      "назначение": "Run",
+      "argv": [
+        "<выход>/Программа"
+      ]
+    },
+    {
+      "назначение": "SwiftPM build",
+      "argv": [
+        "<установленный-toolchain>/usr/bin/swift",
+        "build",
+        "--package-path",
+        "<приёмка>/Пакет",
+        "--disable-automatic-resolution",
+        "--disable-dependency-cache",
+        "--disable-prefetching",
+        "--disable-netrc",
+        "--disable-keychain",
+        "--manifest-cache",
+        "none"
+      ]
+    },
+    {
+      "назначение": "SwiftPM test",
+      "argv": [
+        "<установленный-toolchain>/usr/bin/swift",
+        "test",
+        "--package-path",
+        "<приёмка>/Пакет",
+        "--disable-automatic-resolution",
+        "--disable-dependency-cache",
+        "--disable-prefetching",
+        "--disable-netrc",
+        "--disable-keychain",
+        "--manifest-cache",
+        "none"
+      ]
+    }
+  ],
+  "граница": "Это данные будущего runner, а не реализованный оркестратор. Дополнительные продуктовые сценарии/фикстуры из README ещё должны быть сохранены и испытаны в отдельном назначении. Git dump штатно печатает словарь, но не валидирует его полноту и не защищает от подмены существующего каталога.",
+  "контракт_суффикса_toolchain": "Значение install_toolchain_dir состоит из разделителя POSIX и имени FUMSwift-6.1.2.xctoolchain. Upstream присоединяет его к install_destdir; все подстановки используют одно значение, а результат обязан оставаться в новом каталоге установки."
+}

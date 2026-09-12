@@ -1,0 +1,53 @@
+{
+  "схема": "fum.перенос-служебных-URL-снимков.1",
+  "переносы": [
+    {
+      "из": "Источники/URL/https/raw.githubusercontent.com/WebAssembly/wasi-libc/9e8c542319242a5e536e14e6046de5968d298038/.gitmodules",
+      "в": "Источники/URL/https/raw.githubusercontent.com/WebAssembly/wasi-libc/9e8c542319242a5e536e14e6046de5968d298038/gitmodules-fe7afb5c9c916e52",
+      "url": "https://raw.githubusercontent.com/WebAssembly/wasi-libc/9e8c542319242a5e536e14e6046de5968d298038/.gitmodules"
+    },
+    {
+      "из": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-corelibs-libdispatch/886ca22f659c53dae66a40ee8266c7aae9bb97cd/.gitmodules",
+      "в": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-corelibs-libdispatch/886ca22f659c53dae66a40ee8266c7aae9bb97cd/gitmodules-fe7afb5c9c916e52",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-corelibs-libdispatch/886ca22f659c53dae66a40ee8266c7aae9bb97cd/.gitmodules"
+    },
+    {
+      "из": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/.gitmodules",
+      "в": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/gitmodules-fe7afb5c9c916e52",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/.gitmodules"
+    }
+  ],
+  "байты_снимков": {
+    "Источники/URL/https/raw.githubusercontent.com/WebAssembly/wasi-libc/9e8c542319242a5e536e14e6046de5968d298038/.gitmodules/extraction-report.md": "940707b889bad790cc2d3fb2ec050067f9337dfed1502d2c18c8a1cf1f725678",
+    "Источники/URL/https/raw.githubusercontent.com/WebAssembly/wasi-libc/9e8c542319242a5e536e14e6046de5968d298038/.gitmodules/response.headers.txt": "2b2c033449d78aa677d70043b026be23fd4d6321f33d062e555b213f70eb8c2a",
+    "Источники/URL/https/raw.githubusercontent.com/WebAssembly/wasi-libc/9e8c542319242a5e536e14e6046de5968d298038/.gitmodules/source-index.md": "206da3a7d497673ccfddb2845a5ee76a56b0618c18ebc66e28e2ceb2ed2d57a2",
+    "Источники/URL/https/raw.githubusercontent.com/WebAssembly/wasi-libc/9e8c542319242a5e536e14e6046de5968d298038/.gitmodules/source-url.txt": "96332f44fc76ddd04b3a3eeefb9b3846aa6b8fe6981fed8733708c7a0c9a02e2",
+    "Источники/URL/https/raw.githubusercontent.com/WebAssembly/wasi-libc/9e8c542319242a5e536e14e6046de5968d298038/.gitmodules/snapshot-manifest.json": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be",
+    "Источники/URL/https/raw.githubusercontent.com/WebAssembly/wasi-libc/9e8c542319242a5e536e14e6046de5968d298038/.gitmodules/response.body.html": "255fbfbab3add8ad890213cb0b4142c911e6d8d81717ad77fc33e62e5d45eac0",
+    "Источники/URL/https/raw.githubusercontent.com/WebAssembly/wasi-libc/9e8c542319242a5e536e14e6046de5968d298038/.gitmodules/extracted-text.md": "01f5987e79e26eb2141860160824e33583970224f3b23698256dba5b26e5c744",
+    "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-corelibs-libdispatch/886ca22f659c53dae66a40ee8266c7aae9bb97cd/.gitmodules/extraction-report.md": "a0ffe87f32a8db91804aadd39c2d8bef327462f6bba201519ad93d9816b5a84c",
+    "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-corelibs-libdispatch/886ca22f659c53dae66a40ee8266c7aae9bb97cd/.gitmodules/response.headers.txt": "2433a91f29d2208423973f2fa6acf50e22f7ddfb7e9ff911d90faaf1b5f69550",
+    "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-corelibs-libdispatch/886ca22f659c53dae66a40ee8266c7aae9bb97cd/.gitmodules/source-index.md": "23378edf0b234e6ec79f167c8ba2eb54426990d60b73d83fe1c78aebbda2f728",
+    "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-corelibs-libdispatch/886ca22f659c53dae66a40ee8266c7aae9bb97cd/.gitmodules/source-url.txt": "c0ef1f6b6a6105457750e41e3331cbe77583707768de7568ab6ff8666ddaa726",
+    "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-corelibs-libdispatch/886ca22f659c53dae66a40ee8266c7aae9bb97cd/.gitmodules/snapshot-manifest.json": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be",
+    "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-corelibs-libdispatch/886ca22f659c53dae66a40ee8266c7aae9bb97cd/.gitmodules/response.body.html": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-corelibs-libdispatch/886ca22f659c53dae66a40ee8266c7aae9bb97cd/.gitmodules/extracted-text.md": "a3fb56b4f3ff5a0bd6b2fd3c1fa1f9a7ea3c3aa3a76caef48c2ac73561185054",
+    "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/.gitmodules/extraction-report.md": "c5ce62414adf75b28281843181ce98165d09470acc4f42d1ded54537b0184cb0",
+    "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/.gitmodules/response.headers.txt": "f6fe57b81ee52651bfcaf4d421ddba433ce48046d1a1923f417b8768edf3cc5f",
+    "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/.gitmodules/source-index.md": "75b5bed3bfd8930d76ae5d7445e948ae0d7d2bc1b0651f56cdf771809e2eb0a5",
+    "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/.gitmodules/source-url.txt": "9ef8cc1e06ddf74a610e667702d29e820ad0f58cbcabea8004cfe086dd6fcfd1",
+    "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/.gitmodules/snapshot-manifest.json": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be",
+    "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/.gitmodules/response.body.html": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/.gitmodules/extracted-text.md": "bd688b0e3845c59ffb3bc3c3f5ba0d58ace1119bc8f98910b57e8ad3271a9b82"
+  },
+  "файлы": {
+    "Журнал/2026-09-12_03-31-15_MSK_подготовить-комплект-Swift/запрос.md": {
+      "до": "af84f1219815e6437c17c5c9497b474fb2ee924b1fd44d371e8e5be8b883eeed",
+      "после": "807951e729a698a8e38811c6f1ddefc8530aa22fcd4430f60540f6216a0c6585"
+    },
+    "Планирование/сборка-Swift/манифест.json": {
+      "до": "5e14c64188ad955e6c961ba919e333082ef01bd040378abf9e8c9ad852bb8acf",
+      "после": "145e751b0ea6cef065c11c071ffd67ccb852a91020ca7cd9a81b14f15c277dad"
+    }
+  }
+}

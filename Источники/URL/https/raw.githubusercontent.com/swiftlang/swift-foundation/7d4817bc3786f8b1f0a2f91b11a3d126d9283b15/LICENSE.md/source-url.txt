@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/swiftlang/swift-foundation/7d4817bc3786f8b1f0a2f91b11a3d126d9283b15/LICENSE.md

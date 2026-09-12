@@ -1,0 +1,25 @@
+HTTP/2 200
+cache-control: max-age=300
+content-security-policy: default-src 'none'; style-src 'unsafe-inline'; sandbox
+content-type: text/plain; charset=utf-8
+etag: "c014992239655b101c6c44e82b33b8563f7c43ef200df203606a2b50b401cc2f"
+strict-transport-security: max-age=31536000
+x-content-type-options: nosniff
+x-frame-options: deny
+x-xss-protection: 1; mode=block
+x-github-request-id: 97F0:19A13D:16FB96:2254BF:6AA49F61
+x-github-edge-region: swedencentral
+accept-ranges: bytes
+date: Sat, 12 Sep 2026 00:49:32 GMT
+via: 1.1 varnish
+x-served-by: cache-bma-essb1270056-BMA
+x-cache: HIT
+x-cache-hits: 0
+x-timer: S1789174173.902561,VS0,VE1
+vary: Authorization,Accept-Encoding
+access-control-allow-origin: *
+cross-origin-resource-policy: cross-origin
+x-fastly-request-id: 748fcb733654bfa81b5f1c9b884ccbfa1b5d688e
+expires: Sat, 12 Sep 2026 00:54:32 GMT
+source-age: 265
+content-length: 244

@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/swiftlang/swift-stress-tester/35cd851fc576f443bba4531e45173f1b8c47267b/LICENSE

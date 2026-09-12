@@ -18,7 +18,7 @@ import tempfile
 from html.parser import HTMLParser
 from pathlib import Path, PurePosixPath
 from typing import Any
-from urllib.parse import unquote, urlsplit
+from urllib.parse import urlsplit
 
 
 REQUEST_LAYOUT_SCRIPTS = (
@@ -34,7 +34,7 @@ from request_folder_layout import session_stem_for_request_path  # noqa: E402
 if str(Path(__file__).resolve().parent) not in sys.path:
     sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from source_archive import redact_headers as очистить_общие_заголовки  # noqa: E402
+from source_archive import redact_headers as очистить_общие_заголовки, source_path_segment  # noqa: E402
 
 
 REDACTION = "[REDACTED: local request metadata]"
@@ -132,26 +132,6 @@ def parse_args() -> argparse.Namespace:
 def source_name_slug(source_name: str) -> str:
     parts = re.findall(r"[0-9A-Za-zА-Яа-яЁё]+", source_name)
     return "-".join(parts) or "источник"
-
-
-def source_path_segment(value: str) -> str:
-    decoded = unquote(value)
-    candidate = decoded.strip()
-    safe_pattern = r"[0-9A-Za-zА-Яа-яЁё._~-]+"
-    if (
-        decoded == candidate
-        and candidate not in {"", ".", ".."}
-        and re.fullmatch(safe_pattern, candidate)
-        and len(candidate) <= 120
-    ):
-        return candidate
-
-    digest = hashlib.sha256(decoded.encode("utf-8")).hexdigest()[:16]
-    parts = re.findall(safe_pattern, candidate)
-    readable = "-".join(parts).strip(".-_")[:96].rstrip(".-_")
-    if readable:
-        return f"{readable}-{digest}"
-    return f"_segment-{digest}"
 
 
 def hashed_url_component(prefix: str, value: str) -> str:

@@ -1,0 +1,376 @@
+{
+  "схема": "fum.swift-тестовые-входы-план.1",
+  "область": "Дополнение к исходному host JSON; плановые зависимости. Установка, clone, сборка, запуск чужого кода и тесты не выполнялись. Шесть небольших опубликованных архивов прочитаны только в памяти для SHA256, метаданных и лицензионных имён; на диск архивы не распаковывались.",
+  "пакеты": [
+    {
+      "имя": "pexpect",
+      "версия": "4.9.0",
+      "upstream": "https://github.com/pexpect/pexpect.git",
+      "tag": "4.9",
+      "tag_object": "32c3e4ada3c8ceecaab1d14d9cb1ce2d52386d99",
+      "commit": "aa989594e1e413f45c18b26ded1783f7d5990fe5",
+      "идентичность_Git": "read-only git ls-remote; архивы отдельно проверены SHA256, эквивалентность дерева Git и опубликованного wheel не доказана",
+      "лицензия": "ISC",
+      "лицензия_url": "https://raw.githubusercontent.com/pexpect/pexpect/aa989594e1e413f45c18b26ded1783f7d5990fe5/LICENSE",
+      "лицензия_sha256": "4a483ae1c4dc738a6c8b73feb49074e1835da02ab5aa686f2675029906fa364d",
+      "PyPI_url": "https://pypi.org/pypi/pexpect/4.9.0/json",
+      "requires_python": "",
+      "requires_dist": [
+        "ptyprocess (>=0.5)"
+      ],
+      "артефакты": [
+        {
+          "файл": "pexpect-4.9.0-py2.py3-none-any.whl",
+          "url": "https://files.pythonhosted.org/packages/9e/c3/059298687310d527a58bb01f3b1965787ee3b40dce76752eda8b44e9a2c5/pexpect-4.9.0-py2.py3-none-any.whl",
+          "тип": "bdist_wheel",
+          "байтов": 63772,
+          "sha256": "7236d1e080e4936be2dc3e326cec0af72acf9212a7e1d060210e70a47e253523",
+          "SHA256_проверен_чтением": true,
+          "лицензионные_файлы_архива": [
+            {
+              "путь": "pexpect-4.9.0.dist-info/LICENSE",
+              "sha256": "4a483ae1c4dc738a6c8b73feb49074e1835da02ab5aa686f2675029906fa364d"
+            }
+          ],
+          "метаданные_wheel": [
+            "Name: pexpect",
+            "Version: 4.9.0",
+            "License: ISC license",
+            "License-File: LICENSE",
+            "Requires-Dist: ptyprocess (>=0.5)",
+            "Root-Is-Purelib: true",
+            "Tag: py2-none-any",
+            "Tag: py3-none-any"
+          ]
+        },
+        {
+          "файл": "pexpect-4.9.0.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/42/92/cc564bf6381ff43ce1f4d06852fc19a2f11d180f23dc32d9588bee2f149d/pexpect-4.9.0.tar.gz",
+          "тип": "sdist",
+          "байтов": 166450,
+          "sha256": "ee7d41123f3c9911050ea2c2dac107568dc43b2d3b0c7557a33212c398ead30f",
+          "SHA256_проверен_чтением": true,
+          "лицензионные_файлы_архива": [
+            {
+              "путь": "pexpect-4.9.0/LICENSE",
+              "sha256": "4a483ae1c4dc738a6c8b73feb49074e1835da02ab5aa686f2675029906fa364d"
+            }
+          ],
+          "метаданные_wheel": []
+        }
+      ]
+    },
+    {
+      "имя": "ptyprocess",
+      "версия": "0.7.0",
+      "upstream": "https://github.com/pexpect/ptyprocess.git",
+      "tag": "0.7.0",
+      "tag_object": null,
+      "commit": "ee54ae2ee6bdd1e9f040dac79d799ae5b178e8fe",
+      "идентичность_Git": "read-only git ls-remote; архивы отдельно проверены SHA256, эквивалентность дерева Git и опубликованного wheel не доказана",
+      "лицензия": "ISC",
+      "лицензия_url": "https://raw.githubusercontent.com/pexpect/ptyprocess/ee54ae2ee6bdd1e9f040dac79d799ae5b178e8fe/LICENSE",
+      "лицензия_sha256": "c822d385b1a73329846241799becf18690b5d44764c1bed69300b536a405030a",
+      "PyPI_url": "https://pypi.org/pypi/ptyprocess/0.7.0/json",
+      "requires_python": "",
+      "requires_dist": null,
+      "артефакты": [
+        {
+          "файл": "ptyprocess-0.7.0-py2.py3-none-any.whl",
+          "url": "https://files.pythonhosted.org/packages/22/a6/858897256d0deac81a172289110f31629fc4cee19b6f01283303e18c8db3/ptyprocess-0.7.0-py2.py3-none-any.whl",
+          "тип": "bdist_wheel",
+          "байтов": 13993,
+          "sha256": "4b41f3967fce3af57cc7e94b888626c18bf37a083e3651ca8feeb66d492fef35",
+          "SHA256_проверен_чтением": true,
+          "лицензионные_файлы_архива": [
+            {
+              "путь": "ptyprocess-0.7.0.dist-info/LICENSE",
+              "sha256": "c822d385b1a73329846241799becf18690b5d44764c1bed69300b536a405030a"
+            }
+          ],
+          "метаданные_wheel": [
+            "Root-Is-Purelib: true",
+            "Tag: py2-none-any",
+            "Tag: py3-none-any",
+            "Name: ptyprocess",
+            "Version: 0.7.0",
+            "License: UNKNOWN"
+          ]
+        },
+        {
+          "файл": "ptyprocess-0.7.0.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/20/e5/16ff212c1e452235a90aeb09066144d0c5a6a8c0834397e03f5224495c4e/ptyprocess-0.7.0.tar.gz",
+          "тип": "sdist",
+          "байтов": 70762,
+          "sha256": "5c5d0a3b48ceee0b48485e0c26037c0acd7d29765ca3fbb5cb3831d347423220",
+          "SHA256_проверен_чтением": true,
+          "лицензионные_файлы_архива": [
+            {
+              "путь": "ptyprocess-0.7.0/LICENSE",
+              "sha256": "c822d385b1a73329846241799becf18690b5d44764c1bed69300b536a405030a"
+            }
+          ],
+          "метаданные_wheel": []
+        }
+      ]
+    },
+    {
+      "имя": "psutil",
+      "версия": "5.9.8",
+      "upstream": "https://github.com/giampaolo/psutil.git",
+      "tag": "v5.9.8",
+      "tag_object": "05e0db3fd623b9bafa8e0c982b9143653685676d",
+      "commit": "27a1432daeacd46b287517c11bfea2af4fd95a88",
+      "идентичность_Git": "read-only git ls-remote; архивы отдельно проверены SHA256, эквивалентность дерева Git и опубликованного wheel не доказана",
+      "лицензия": "BSD-3-Clause",
+      "лицензия_url": "https://raw.githubusercontent.com/giampaolo/psutil/27a1432daeacd46b287517c11bfea2af4fd95a88/LICENSE",
+      "лицензия_sha256": "b89c063b3786e28e0c0a38f1931db61fed35e69dd2a2966fbecffee0f46c8d10",
+      "PyPI_url": "https://pypi.org/pypi/psutil/5.9.8/json",
+      "requires_python": ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*",
+      "requires_dist": [
+        "enum34; python_version <= \"3.4\" and extra == \"test\"",
+        "ipaddress; python_version < \"3.0\" and extra == \"test\"",
+        "mock; python_version < \"3.0\" and extra == \"test\"",
+        "pywin32; sys_platform == \"win32\" and extra == \"test\"",
+        "wmi; sys_platform == \"win32\" and extra == \"test\""
+      ],
+      "артефакты": [
+        {
+          "файл": "psutil-5.9.8-cp38-abi3-macosx_11_0_arm64.whl",
+          "url": "https://files.pythonhosted.org/packages/05/33/2d74d588408caedd065c2497bdb5ef83ce6082db01289a1e1147f6639802/psutil-5.9.8-cp38-abi3-macosx_11_0_arm64.whl",
+          "тип": "bdist_wheel",
+          "байтов": 249898,
+          "sha256": "d16bbddf0693323b8c6123dd804100241da461e41d6e332fb0ba6058f630f8c8",
+          "SHA256_проверен_чтением": true,
+          "лицензионные_файлы_архива": [
+            {
+              "путь": "psutil-5.9.8.dist-info/LICENSE",
+              "sha256": "b89c063b3786e28e0c0a38f1931db61fed35e69dd2a2966fbecffee0f46c8d10"
+            }
+          ],
+          "метаданные_wheel": [
+            "Root-Is-Purelib: false",
+            "Tag: cp38-abi3-macosx_11_0_arm64",
+            "Name: psutil",
+            "Version: 5.9.8",
+            "License: BSD-3-Clause",
+            "Requires-Python: >=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*",
+            "License-File: LICENSE",
+            "Requires-Dist: ipaddress ; (python_version < \"3.0\") and extra == 'test'",
+            "Requires-Dist: mock ; (python_version < \"3.0\") and extra == 'test'",
+            "Requires-Dist: enum34 ; (python_version <= \"3.4\") and extra == 'test'",
+            "Requires-Dist: pywin32 ; (sys_platform == \"win32\") and extra == 'test'",
+            "Requires-Dist: wmi ; (sys_platform == \"win32\") and extra == 'test'"
+          ]
+        },
+        {
+          "файл": "psutil-5.9.8.tar.gz",
+          "url": "https://files.pythonhosted.org/packages/90/c7/6dc0a455d111f68ee43f27793971cf03fe29b6ef972042549db29eec39a2/psutil-5.9.8.tar.gz",
+          "тип": "sdist",
+          "байтов": 503247,
+          "sha256": "6be126e3225486dff286a8fb9a06246a5253f4c7c53b475ea5f5ac934e64194c",
+          "SHA256_проверен_чтением": true,
+          "лицензионные_файлы_архива": [
+            {
+              "путь": "psutil-5.9.8/LICENSE",
+              "sha256": "b89c063b3786e28e0c0a38f1931db61fed35e69dd2a2966fbecffee0f46c8d10"
+            }
+          ],
+          "метаданные_wheel": []
+        }
+      ]
+    }
+  ],
+  "совместимость": {
+    "выбранный_интерпретатор": "Xcode Python3.framework CPython3.9.6 native arm64; фактический экземпляр ещё не принят",
+    "источник_тегов": "https://packaging.python.org/en/latest/specifications/platform-compatibility-tags/",
+    "вывод": "pexpect и ptyprocess имеют py2.py3-none-any. psutil выбран cp38-abi3-macosx_11_0_arm64: stable ABI CPython>=3.8 и macOS>=11 arm64 согласуются с CPython3.9.6/macOS15.2. Это вывод из опубликованных тегов, не результат импорта/исполнения на выбранном host.",
+    "зависимости": "pexpect требует ptyprocess>=0.5; выбран0.7.0. У ptyprocess нет Requires-Dist. Extras test пакета psutil не выбраны; их зависимости не нужны лишь для импорта psutil в LLVM/lit.",
+    "версии_исходников": [
+      "https://raw.githubusercontent.com/pexpect/pexpect/aa989594e1e413f45c18b26ded1783f7d5990fe5/pexpect/__init__.py#L84",
+      "https://raw.githubusercontent.com/pexpect/ptyprocess/ee54ae2ee6bdd1e9f040dac79d799ae5b178e8fe/ptyprocess/__init__.py#L4",
+      "https://raw.githubusercontent.com/giampaolo/psutil/27a1432daeacd46b287517c11bfea2af4fd95a88/setup.py#L509"
+    ]
+  },
+  "источниковая_сборка_Python": {
+    "ptyprocess": "pyproject.toml: flit_core>=2,<4; точный flit_core не выбран",
+    "psutil": "pyproject.toml: setuptools>=43 и wheel; точные версии build backend не выбраны",
+    "pexpect": "setup.py использует setuptools или distutils; точный комплект сборки/упаковки не выбран",
+    "граница": "Наличие SHA256 wheel не доказывает возможность пересборки именно этого wheel; при источниковом пути все build backend/installer/их зависимости и собственные хэши должны войти в closure."
+  },
+  "будущая_приёмка": [
+    "В отдельной рабочей среде до тестов зафиксировать точный Python executable, architecture, sys.path, sys.prefix, версии и __file__ всех трёх импортов; версии и пути должны совпасть с объявленными входами.",
+    "Сохранить SHA256 выбранных архивов и всех установленных файлов; воспроизвести установку без сети и без незадекларированных зависимостей.",
+    "Подтвердить, что конкретные Swift/LLDB REPL тесты распознают pexpect и что lit применяет timeout с psutil; пропуски из-за отсутствия этих модулей считаются отказом допуска.",
+    "Полный LLDB/SWIG/Python и CPython extension smoke на выбранном macOS arm64 остаётся будущим допуском."
+  ],
+  "SWIG": {
+    "версия": "4.1.1",
+    "upstream": "https://github.com/swig/swig.git",
+    "tag": "v4.1.1",
+    "tag_object": "16b6b95dac8179912214ed2c846406db0f8e995f",
+    "commit": "77323a0f07562b7d90d36181697a72a909b9519a",
+    "лицензии": [
+      {
+        "путь": "LICENSE",
+        "url": "https://raw.githubusercontent.com/swig/swig/77323a0f07562b7d90d36181697a72a909b9519a/LICENSE",
+        "sha256": "f53abaeed775018d519a1b9615f0ca17894772bd9ca21c2a156bf340ac41c13e"
+      },
+      {
+        "путь": "LICENSE-GPL",
+        "url": "https://raw.githubusercontent.com/swig/swig/77323a0f07562b7d90d36181697a72a909b9519a/LICENSE-GPL",
+        "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+      },
+      {
+        "путь": "LICENSE-UNIVERSITIES",
+        "url": "https://raw.githubusercontent.com/swig/swig/77323a0f07562b7d90d36181697a72a909b9519a/LICENSE-UNIVERSITIES",
+        "sha256": "7f50d942373a871211c5efee03f3db2f9efd1cff1002b0ef8e3748baa611a5c2"
+      },
+      {
+        "путь": "COPYRIGHT",
+        "url": "https://raw.githubusercontent.com/swig/swig/77323a0f07562b7d90d36181697a72a909b9519a/COPYRIGHT",
+        "sha256": "84f433185a59a96464710decc56112a34d61e8d75e14e29d0154a77ee601b1d7"
+      }
+    ],
+    "лицензионная_граница": "Сам SWIG GPL-3.0-or-later с дополнительными условиями LICENSE-UNIVERSITIES и COPYRIGHT. Lib/Examples имеют отдельное разрешение. Лицензия SWIG не переводит автоматически сгенерированные bindings под GPL; входной код сохраняет свои условия. Если передаётся бинарник SWIG, нужны применимые GPL-условия и corresponding source, а не обозначение CC0.",
+    "юридическое_пояснение_url": "https://swig.org/legal.html",
+    "версия_источник": "https://raw.githubusercontent.com/swig/swig/77323a0f07562b7d90d36181697a72a909b9519a/configure.ac",
+    "версия_строка": 5,
+    "путь_CMake": {
+      "статус": "Кандидат по исполняемым исходникам; не проверен сборкой на arm64. Позволяет не включать Autoconf/Automake в этот выбранный путь.",
+      "источник": "https://raw.githubusercontent.com/swig/swig/77323a0f07562b7d90d36181697a72a909b9519a/CMakeLists.txt",
+      "ограничения": [
+        {
+          "утверждение": "CMake>=3.2; проект C/C++",
+          "строки": [
+            1,
+            7
+          ]
+        },
+        {
+          "утверждение": "WITH_PCRE=ON; PCRE2 REQUIRED",
+          "строки": [
+            79,
+            80,
+            81,
+            82,
+            83
+          ]
+        },
+        {
+          "утверждение": "BISON REQUIRED; parser.y генерируется в parser.c/parser.h",
+          "строки": [
+            93,
+            111,
+            114,
+            115,
+            116
+          ]
+        },
+        {
+          "утверждение": "Устанавливает Lib, сгенерированный swigwarn.swg и swig",
+          "строки": [
+            125,
+            126,
+            127,
+            155
+          ]
+        },
+        {
+          "утверждение": "Проверяет наличие boost/shared_ptr.hpp; неучтённые Boost headers не должны влиять на выбранную конфигурацию",
+          "строки": [
+            71
+          ]
+        }
+      ],
+      "явные_входы": [
+        "WITH_PCRE=ON",
+        "PCRE2_LIBRARY=<принятая статическая libpcre2-8.a>",
+        "PCRE2_INCLUDE_DIR=<принятые заголовки PCRE2>",
+        "BISON_EXECUTABLE=<принятый native Bison>"
+      ],
+      "PCRE2_поиск_источник": "https://raw.githubusercontent.com/swig/swig/77323a0f07562b7d90d36181697a72a909b9519a/Tools/cmake/FindPCRE2.cmake",
+      "PCRE2_поиск_строки": [
+        10,
+        11,
+        13,
+        14
+      ]
+    },
+    "путь_autoconf": {
+      "статус": "Альтернативный источниковый путь; дополнительные native tools не выбраны, не подставляется автоматически вместо CMake.",
+      "источники": [
+        "https://raw.githubusercontent.com/swig/swig/77323a0f07562b7d90d36181697a72a909b9519a/autogen.sh",
+        "https://raw.githubusercontent.com/swig/swig/77323a0f07562b7d90d36181697a72a909b9519a/configure.ac",
+        "https://raw.githubusercontent.com/swig/swig/77323a0f07562b7d90d36181697a72a909b9519a/Source/Makefile.am"
+      ],
+      "ограничения": [
+        "autogen.sh вызывает aclocal, autoheader, automake, autoconf, autoreconf (в том числе CCache).",
+        "configure.ac требует Autoconf>=2.60; Source/Makefile.am требует Automake>=1.7.2.",
+        "configure требует C и C++ compilers, yacc/Bison и PCRE2 через pcre2-config, если не выбран --without-pcre.",
+        "--disable-ccache существует (configure.ac96) и отключает build/install ccache-swig; уже выполненный autogen.sh всё равно обращается к CCache.",
+        "Tools/pcre-build.sh ищет незакреплённый pcre2-*.tar*; его generic latest-инструкция не является воспроизводимым источником."
+      ]
+    },
+    "Bison_препятствие": "Точный native Bison, его исходники/версия/SHA256/лицензии/runtime files (включая skeleton/M4 при необходимости), способ получения и проверка совместимости с parser.y ещё не выбраны. Наличие системного bison или системного yacc не доказывает пригодность. Текущая SWIG Git документация говорит Bison>=3.5.0, но её изменяемый текст не приписывается ретроспективно этому release.",
+    "Bison_документация": "https://swig.org/svn.html"
+  },
+  "PCRE2": {
+    "версия": "10.42",
+    "upstream": "https://github.com/PCRE2Project/pcre2.git",
+    "tag": "pcre2-10.42",
+    "tag_object": null,
+    "commit": "52c08847921a324c804cabf2814549f50bce1265",
+    "статус": "Плановый источниковый кандидат для SWIG4.1.1; не утверждение о версии PCRE2 в историческом CI и не результат native проверки.",
+    "основание": "SWIG4.1.1 configure.ac71–73 допускает любую версию PCRE2; используется8-bit API(--libs8 в строке91). Выбран релиз10.42, который имеет собственный CMake-путь.",
+    "лицензия": "BSD-3-Clause с указанным в LICENCE исключением для цепочки бинарных library-like packages",
+    "лицензия_url": "https://raw.githubusercontent.com/PCRE2Project/pcre2/52c08847921a324c804cabf2814549f50bce1265/LICENCE",
+    "лицензия_sha256": "87d884eceb7fc54611470ce9f74280d28612b0c877adfc767e9676892a638987",
+    "сопроводительный_файл": "https://raw.githubusercontent.com/PCRE2Project/pcre2/52c08847921a324c804cabf2814549f50bce1265/COPYING",
+    "CMake_источник": "https://raw.githubusercontent.com/PCRE2Project/pcre2/52c08847921a324c804cabf2814549f50bce1265/CMakeLists.txt",
+    "CMake_минимум": "3.1 (строка106)",
+    "предложенные_параметры": {
+      "BUILD_SHARED_LIBS": "OFF",
+      "BUILD_STATIC_LIBS": "ON",
+      "PCRE2_BUILD_PCRE2_8": "ON",
+      "PCRE2_BUILD_PCRE2_16": "OFF",
+      "PCRE2_BUILD_PCRE2_32": "OFF",
+      "PCRE2_STATIC_PIC": "ON",
+      "PCRE2_SUPPORT_UNICODE": "ON",
+      "PCRE2_SUPPORT_JIT": "OFF",
+      "PCRE2_BUILD_PCRE2GREP": "OFF",
+      "PCRE2_BUILD_TESTS": "OFF",
+      "PCRE2_SUPPORT_LIBBZ2": "OFF",
+      "PCRE2_SUPPORT_LIBZ": "OFF",
+      "PCRE2_SUPPORT_LIBEDIT": "OFF",
+      "PCRE2_SUPPORT_LIBREADLINE": "OFF",
+      "PCRE2_SUPPORT_VALGRIND": "OFF"
+    },
+    "строки_параметров": [
+      180,
+      195,
+      197,
+      199,
+      201,
+      240,
+      259,
+      268,
+      272,
+      273,
+      295,
+      303,
+      312,
+      329
+    ],
+    "граница_параметров": "Предложение ограничивает библиотеку8-bit; отключение PCRE2_BUILD_TESTS относится к вспомогательному build-комплекту и не заменяет будущую отдельную приёмку PCRE2/SWIG. Фактический CMakeCache, linker inputs, native architecture и отсутствие undeclared paths должны быть проверены.",
+    "PCRE2_config": "CMake генерирует pcre2-config(583) и устанавливает(1082); CMake-путь SWIG ищет заголовки/библиотеку напрямую."
+  },
+  "остаток_до_замыкания": [
+    "Native Python3.9.6/Xcode/SDK exact binaries всё ещё не получены и не проверены; wheel tag compatibility не является host acceptance.",
+    "Точный Python installer/инструмент создания окружения и его зависимости, либо полностью выбранные source build backends, ещё нужны для воспроизводимой установки.",
+    "Точный Bison и его closure, CMake/Ninja bootstrap и реально исполненные compiler/SDK inputs должны быть приняты до сборки SWIG/PCRE2.",
+    "Плановые Git-источники SWIG/PCRE2/Python deps не объявляются подключёнными зависимостями FUM: нет fork, clone, submodule и сборки.",
+    "Исторический SWIG4.1.1 бинарник не связывается с новым SWIG/PCRE2 build по одному номеру версии.",
+    "Native smoke для SWIG -version/-swiglib/-pcreversion, генерации и импорта LLDB Python bindings ещё отсутствует."
+  ]
+}

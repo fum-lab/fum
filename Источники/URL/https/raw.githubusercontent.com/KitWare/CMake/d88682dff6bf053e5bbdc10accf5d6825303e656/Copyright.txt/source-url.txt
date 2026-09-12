@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/KitWare/CMake/d88682dff6bf053e5bbdc10accf5d6825303e656/Copyright.txt

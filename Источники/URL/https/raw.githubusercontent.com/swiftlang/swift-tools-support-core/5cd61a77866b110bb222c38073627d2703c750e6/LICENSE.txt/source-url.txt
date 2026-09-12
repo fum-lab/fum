@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/swiftlang/swift-tools-support-core/5cd61a77866b110bb222c38073627d2703c750e6/LICENSE.txt

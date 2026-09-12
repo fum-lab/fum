@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/curl/curl/83bedbd730d62b83744cc26fa0433d3f6e2e4cd6/COPYING

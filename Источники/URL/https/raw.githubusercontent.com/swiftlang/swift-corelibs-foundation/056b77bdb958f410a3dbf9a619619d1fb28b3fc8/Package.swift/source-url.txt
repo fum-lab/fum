@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/swiftlang/swift-corelibs-foundation/056b77bdb958f410a3dbf9a619619d1fb28b3fc8/Package.swift

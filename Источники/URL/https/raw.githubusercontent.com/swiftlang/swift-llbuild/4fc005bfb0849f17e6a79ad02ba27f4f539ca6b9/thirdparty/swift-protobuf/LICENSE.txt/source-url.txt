@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/thirdparty/swift-protobuf/LICENSE.txt

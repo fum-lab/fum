@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/swiftlang/swift-installer-scripts/406d44bd65a70713fc1864130380045918b144f7/LICENSE.txt

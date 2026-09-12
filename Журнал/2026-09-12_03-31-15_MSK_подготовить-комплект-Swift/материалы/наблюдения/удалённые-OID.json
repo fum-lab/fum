@@ -1,0 +1,798 @@
+{
+  "схема": "fum.наблюдение-удалённых-OID.1",
+  "метод": "git ls-remote; peeled tag предпочитается tag object; только чтение",
+  "репозитории": [
+    {
+      "имя": "llvm-project",
+      "upstream": "https://github.com/swiftlang/llvm-project.git",
+      "tag": "swift-6.1.2-RELEASE",
+      "oid": "bb511dfa7c889bf054eff34192ffc1f97278dd7f",
+      "refs": {
+        "refs/tags/swift-6.1.2-RELEASE": "bb511dfa7c889bf054eff34192ffc1f97278dd7f"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftlang/llvm-project.git",
+        "refs/tags/swift-6.1.2-RELEASE",
+        "refs/tags/swift-6.1.2-RELEASE^{}"
+      ]
+    },
+    {
+      "имя": "swift-llvm-bindings",
+      "upstream": "https://github.com/swiftlang/swift-llvm-bindings.git",
+      "tag": "swift-6.1.2-RELEASE",
+      "oid": "ff46438cbcea2e04f8b751c4f629c962e58a3e52",
+      "refs": {
+        "refs/tags/swift-6.1.2-RELEASE": "ff46438cbcea2e04f8b751c4f629c962e58a3e52"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftlang/swift-llvm-bindings.git",
+        "refs/tags/swift-6.1.2-RELEASE",
+        "refs/tags/swift-6.1.2-RELEASE^{}"
+      ]
+    },
+    {
+      "имя": "swift",
+      "upstream": "https://github.com/swiftlang/swift.git",
+      "tag": "swift-6.1.2-RELEASE",
+      "oid": "cc4f13a96e9600bd6f801368ab51f614ab5ddd5e",
+      "refs": {
+        "refs/tags/swift-6.1.2-RELEASE": "cc4f13a96e9600bd6f801368ab51f614ab5ddd5e"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftlang/swift.git",
+        "refs/tags/swift-6.1.2-RELEASE",
+        "refs/tags/swift-6.1.2-RELEASE^{}"
+      ]
+    },
+    {
+      "имя": "cmark",
+      "upstream": "https://github.com/swiftlang/swift-cmark.git",
+      "tag": "swift-6.1.2-RELEASE",
+      "oid": "b022b08312decdc46585e0b3440d97f6f22ef703",
+      "refs": {
+        "refs/tags/swift-6.1.2-RELEASE": "b022b08312decdc46585e0b3440d97f6f22ef703"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftlang/swift-cmark.git",
+        "refs/tags/swift-6.1.2-RELEASE",
+        "refs/tags/swift-6.1.2-RELEASE^{}"
+      ]
+    },
+    {
+      "имя": "llbuild",
+      "upstream": "https://github.com/swiftlang/swift-llbuild.git",
+      "tag": "swift-6.1.2-RELEASE",
+      "oid": "4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9",
+      "refs": {
+        "refs/tags/swift-6.1.2-RELEASE": "4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftlang/swift-llbuild.git",
+        "refs/tags/swift-6.1.2-RELEASE",
+        "refs/tags/swift-6.1.2-RELEASE^{}"
+      ]
+    },
+    {
+      "имя": "swift-toolchain-sqlite",
+      "upstream": "https://github.com/swiftlang/swift-toolchain-sqlite.git",
+      "tag": "1.0.1",
+      "oid": "a911e64716e2dbf7ebcedfa0299039eee9702e33",
+      "refs": {
+        "refs/tags/1.0.1": "10b12172858b5f53cc87c74991e81b56d5e558c9",
+        "refs/tags/1.0.1^{}": "a911e64716e2dbf7ebcedfa0299039eee9702e33"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftlang/swift-toolchain-sqlite.git",
+        "refs/tags/1.0.1",
+        "refs/tags/1.0.1^{}"
+      ]
+    },
+    {
+      "имя": "swift-tools-support-core",
+      "upstream": "https://github.com/swiftlang/swift-tools-support-core.git",
+      "tag": "swift-6.1.2-RELEASE",
+      "oid": "5cd61a77866b110bb222c38073627d2703c750e6",
+      "refs": {
+        "refs/tags/swift-6.1.2-RELEASE": "5cd61a77866b110bb222c38073627d2703c750e6"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftlang/swift-tools-support-core.git",
+        "refs/tags/swift-6.1.2-RELEASE",
+        "refs/tags/swift-6.1.2-RELEASE^{}"
+      ]
+    },
+    {
+      "имя": "swiftpm",
+      "upstream": "https://github.com/swiftlang/swift-package-manager.git",
+      "tag": "swift-6.1.2-RELEASE",
+      "oid": "45c31f1b35ef8599898f61c26e7518bcf14b3eb5",
+      "refs": {
+        "refs/tags/swift-6.1.2-RELEASE": "45c31f1b35ef8599898f61c26e7518bcf14b3eb5"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftlang/swift-package-manager.git",
+        "refs/tags/swift-6.1.2-RELEASE",
+        "refs/tags/swift-6.1.2-RELEASE^{}"
+      ]
+    },
+    {
+      "имя": "swift-argument-parser",
+      "upstream": "https://github.com/apple/swift-argument-parser.git",
+      "tag": "1.4.0",
+      "oid": "0fbc8848e389af3bb55c182bc19ca9d5dc2f255b",
+      "refs": {
+        "refs/tags/1.4.0": "0fbc8848e389af3bb55c182bc19ca9d5dc2f255b"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/apple/swift-argument-parser.git",
+        "refs/tags/1.4.0",
+        "refs/tags/1.4.0^{}"
+      ]
+    },
+    {
+      "имя": "swift-atomics",
+      "upstream": "https://github.com/apple/swift-atomics.git",
+      "tag": "1.2.0",
+      "oid": "cd142fd2f64be2100422d658e7411e39489da985",
+      "refs": {
+        "refs/tags/1.2.0": "cd142fd2f64be2100422d658e7411e39489da985"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/apple/swift-atomics.git",
+        "refs/tags/1.2.0",
+        "refs/tags/1.2.0^{}"
+      ]
+    },
+    {
+      "имя": "swift-collections",
+      "upstream": "https://github.com/apple/swift-collections.git",
+      "tag": "1.1.3",
+      "oid": "9bf03ff58ce34478e66aaee630e491823326fd06",
+      "refs": {
+        "refs/tags/1.1.3": "9bf03ff58ce34478e66aaee630e491823326fd06"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/apple/swift-collections.git",
+        "refs/tags/1.1.3",
+        "refs/tags/1.1.3^{}"
+      ]
+    },
+    {
+      "имя": "swift-crypto",
+      "upstream": "https://github.com/apple/swift-crypto.git",
+      "tag": "3.0.0",
+      "oid": "629f0b679d0fd0a6ae823d7f750b9ab032c00b80",
+      "refs": {
+        "refs/tags/3.0.0": "629f0b679d0fd0a6ae823d7f750b9ab032c00b80"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/apple/swift-crypto.git",
+        "refs/tags/3.0.0",
+        "refs/tags/3.0.0^{}"
+      ]
+    },
+    {
+      "имя": "swift-certificates",
+      "upstream": "https://github.com/apple/swift-certificates.git",
+      "tag": "1.0.1",
+      "oid": "01d7664523af5c169f26038f1e5d444ce47ae5ff",
+      "refs": {
+        "refs/tags/1.0.1": "01d7664523af5c169f26038f1e5d444ce47ae5ff"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/apple/swift-certificates.git",
+        "refs/tags/1.0.1",
+        "refs/tags/1.0.1^{}"
+      ]
+    },
+    {
+      "имя": "swift-asn1",
+      "upstream": "https://github.com/apple/swift-asn1.git",
+      "tag": "1.0.0",
+      "oid": "12c24ff59d541e5ef15116095445ce72b85cd0c6",
+      "refs": {
+        "refs/tags/1.0.0": "12c24ff59d541e5ef15116095445ce72b85cd0c6"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/apple/swift-asn1.git",
+        "refs/tags/1.0.0",
+        "refs/tags/1.0.0^{}"
+      ]
+    },
+    {
+      "имя": "swift-async-algorithms",
+      "upstream": "https://github.com/apple/swift-async-algorithms.git",
+      "tag": "1.0.1",
+      "oid": "6ae9a051f76b81cc668305ceed5b0e0a7fd93d20",
+      "refs": {
+        "refs/tags/1.0.1": "6ae9a051f76b81cc668305ceed5b0e0a7fd93d20"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/apple/swift-async-algorithms.git",
+        "refs/tags/1.0.1",
+        "refs/tags/1.0.1^{}"
+      ]
+    },
+    {
+      "имя": "swift-driver",
+      "upstream": "https://github.com/swiftlang/swift-driver.git",
+      "tag": "swift-6.1.2-RELEASE",
+      "oid": "20cd624311cb835f7a61c0103404fc191d392a38",
+      "refs": {
+        "refs/tags/swift-6.1.2-RELEASE": "20cd624311cb835f7a61c0103404fc191d392a38"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftlang/swift-driver.git",
+        "refs/tags/swift-6.1.2-RELEASE",
+        "refs/tags/swift-6.1.2-RELEASE^{}"
+      ]
+    },
+    {
+      "имя": "swift-log",
+      "upstream": "https://github.com/apple/swift-log.git",
+      "tag": "1.5.4",
+      "oid": "e97a6fcb1ab07462881ac165fdbb37f067e205d5",
+      "refs": {
+        "refs/tags/1.5.4": "8263b9802c799b19c09f36312f119af89e133e82",
+        "refs/tags/1.5.4^{}": "e97a6fcb1ab07462881ac165fdbb37f067e205d5"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/apple/swift-log.git",
+        "refs/tags/1.5.4",
+        "refs/tags/1.5.4^{}"
+      ]
+    },
+    {
+      "имя": "swift-numerics",
+      "upstream": "https://github.com/apple/swift-numerics.git",
+      "tag": "1.0.2",
+      "oid": "0a5bc04095a675662cf24757cc0640aa2204253b",
+      "refs": {
+        "refs/tags/1.0.2": "0a5bc04095a675662cf24757cc0640aa2204253b"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/apple/swift-numerics.git",
+        "refs/tags/1.0.2",
+        "refs/tags/1.0.2^{}"
+      ]
+    },
+    {
+      "имя": "swift-syntax",
+      "upstream": "https://github.com/swiftlang/swift-syntax.git",
+      "tag": "swift-6.1.2-RELEASE",
+      "oid": "cbd0366a54a9f8fdaa33834652fb2e80f2948573",
+      "refs": {
+        "refs/tags/swift-6.1.2-RELEASE": "cbd0366a54a9f8fdaa33834652fb2e80f2948573"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftlang/swift-syntax.git",
+        "refs/tags/swift-6.1.2-RELEASE",
+        "refs/tags/swift-6.1.2-RELEASE^{}"
+      ]
+    },
+    {
+      "имя": "swift-system",
+      "upstream": "https://github.com/apple/swift-system.git",
+      "tag": "1.3.0",
+      "oid": "f9266c85189c2751589a50ea5aec72799797e471",
+      "refs": {
+        "refs/tags/1.3.0": "f9266c85189c2751589a50ea5aec72799797e471"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/apple/swift-system.git",
+        "refs/tags/1.3.0",
+        "refs/tags/1.3.0^{}"
+      ]
+    },
+    {
+      "имя": "swift-stress-tester",
+      "upstream": "https://github.com/swiftlang/swift-stress-tester.git",
+      "tag": "swift-6.1.2-RELEASE",
+      "oid": "35cd851fc576f443bba4531e45173f1b8c47267b",
+      "refs": {
+        "refs/tags/swift-6.1.2-RELEASE": "35cd851fc576f443bba4531e45173f1b8c47267b"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftlang/swift-stress-tester.git",
+        "refs/tags/swift-6.1.2-RELEASE",
+        "refs/tags/swift-6.1.2-RELEASE^{}"
+      ]
+    },
+    {
+      "имя": "swift-testing",
+      "upstream": "https://github.com/swiftlang/swift-testing.git",
+      "tag": "swift-6.1.2-RELEASE",
+      "oid": "d6b70f9ef9eb207729fb50e0ff32edc6f72ea474",
+      "refs": {
+        "refs/tags/swift-6.1.2-RELEASE": "d6b70f9ef9eb207729fb50e0ff32edc6f72ea474"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftlang/swift-testing.git",
+        "refs/tags/swift-6.1.2-RELEASE",
+        "refs/tags/swift-6.1.2-RELEASE^{}"
+      ]
+    },
+    {
+      "имя": "swift-corelibs-xctest",
+      "upstream": "https://github.com/swiftlang/swift-corelibs-xctest.git",
+      "tag": "swift-6.1.2-RELEASE",
+      "oid": "7f2b2e286c984fb2f25aa36187f963bbdabf1b13",
+      "refs": {
+        "refs/tags/swift-6.1.2-RELEASE": "7f2b2e286c984fb2f25aa36187f963bbdabf1b13"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftlang/swift-corelibs-xctest.git",
+        "refs/tags/swift-6.1.2-RELEASE",
+        "refs/tags/swift-6.1.2-RELEASE^{}"
+      ]
+    },
+    {
+      "имя": "swift-corelibs-foundation",
+      "upstream": "https://github.com/swiftlang/swift-corelibs-foundation.git",
+      "tag": "swift-6.1.2-RELEASE",
+      "oid": "056b77bdb958f410a3dbf9a619619d1fb28b3fc8",
+      "refs": {
+        "refs/tags/swift-6.1.2-RELEASE": "056b77bdb958f410a3dbf9a619619d1fb28b3fc8"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftlang/swift-corelibs-foundation.git",
+        "refs/tags/swift-6.1.2-RELEASE",
+        "refs/tags/swift-6.1.2-RELEASE^{}"
+      ]
+    },
+    {
+      "имя": "swift-foundation-icu",
+      "upstream": "https://github.com/swiftlang/swift-foundation-icu.git",
+      "tag": "swift-6.1.2-RELEASE",
+      "oid": "7e255a994ec26a08214f8fea2fdaf60b296e1f22",
+      "refs": {
+        "refs/tags/swift-6.1.2-RELEASE": "7e255a994ec26a08214f8fea2fdaf60b296e1f22"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftlang/swift-foundation-icu.git",
+        "refs/tags/swift-6.1.2-RELEASE",
+        "refs/tags/swift-6.1.2-RELEASE^{}"
+      ]
+    },
+    {
+      "имя": "swift-foundation",
+      "upstream": "https://github.com/swiftlang/swift-foundation.git",
+      "tag": "swift-6.1.2-RELEASE",
+      "oid": "7d4817bc3786f8b1f0a2f91b11a3d126d9283b15",
+      "refs": {
+        "refs/tags/swift-6.1.2-RELEASE": "7d4817bc3786f8b1f0a2f91b11a3d126d9283b15"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftlang/swift-foundation.git",
+        "refs/tags/swift-6.1.2-RELEASE",
+        "refs/tags/swift-6.1.2-RELEASE^{}"
+      ]
+    },
+    {
+      "имя": "swift-corelibs-libdispatch",
+      "upstream": "https://github.com/swiftlang/swift-corelibs-libdispatch.git",
+      "tag": "swift-6.1.2-RELEASE",
+      "oid": "886ca22f659c53dae66a40ee8266c7aae9bb97cd",
+      "refs": {
+        "refs/tags/swift-6.1.2-RELEASE": "886ca22f659c53dae66a40ee8266c7aae9bb97cd"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftlang/swift-corelibs-libdispatch.git",
+        "refs/tags/swift-6.1.2-RELEASE",
+        "refs/tags/swift-6.1.2-RELEASE^{}"
+      ]
+    },
+    {
+      "имя": "swift-integration-tests",
+      "upstream": "https://github.com/swiftlang/swift-integration-tests.git",
+      "tag": "swift-6.1.2-RELEASE",
+      "oid": "54d66724e83231ce6a9d83d5f64a129121bc249f",
+      "refs": {
+        "refs/tags/swift-6.1.2-RELEASE": "54d66724e83231ce6a9d83d5f64a129121bc249f"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftlang/swift-integration-tests.git",
+        "refs/tags/swift-6.1.2-RELEASE",
+        "refs/tags/swift-6.1.2-RELEASE^{}"
+      ]
+    },
+    {
+      "имя": "swift-xcode-playground-support",
+      "upstream": "https://github.com/apple/swift-xcode-playground-support.git",
+      "tag": "swift-6.1.2-RELEASE",
+      "oid": "bbba1ba704c37d1d0131bb7d6986a80ad8cb6d6c",
+      "refs": {
+        "refs/tags/swift-6.1.2-RELEASE": "bbba1ba704c37d1d0131bb7d6986a80ad8cb6d6c"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/apple/swift-xcode-playground-support.git",
+        "refs/tags/swift-6.1.2-RELEASE",
+        "refs/tags/swift-6.1.2-RELEASE^{}"
+      ]
+    },
+    {
+      "имя": "ninja",
+      "upstream": "https://github.com/ninja-build/ninja.git",
+      "tag": "v1.11.1",
+      "oid": "a524bf3f6bacd1b4ad85d719eed2737d8562f27a",
+      "refs": {
+        "refs/tags/v1.11.1": "a524bf3f6bacd1b4ad85d719eed2737d8562f27a"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/ninja-build/ninja.git",
+        "refs/tags/v1.11.1",
+        "refs/tags/v1.11.1^{}"
+      ]
+    },
+    {
+      "имя": "yams",
+      "upstream": "https://github.com/jpsim/Yams.git",
+      "tag": "5.0.6",
+      "oid": "0d9ee7ea8c4ebd4a489ad7a73d5c6cad55d6fed3",
+      "refs": {
+        "refs/tags/5.0.6": "d6ec9fcf4c293bf5ef63f7c1c107e51e7c781a69",
+        "refs/tags/5.0.6^{}": "0d9ee7ea8c4ebd4a489ad7a73d5c6cad55d6fed3"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/jpsim/Yams.git",
+        "refs/tags/5.0.6",
+        "refs/tags/5.0.6^{}"
+      ]
+    },
+    {
+      "имя": "cmake",
+      "upstream": "https://github.com/KitWare/CMake.git",
+      "tag": "v3.30.2",
+      "oid": "d88682dff6bf053e5bbdc10accf5d6825303e656",
+      "refs": {
+        "refs/tags/v3.30.2": "e98edd174109aa2a5597a0a424385894dbaadd78",
+        "refs/tags/v3.30.2^{}": "d88682dff6bf053e5bbdc10accf5d6825303e656"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/KitWare/CMake.git",
+        "refs/tags/v3.30.2",
+        "refs/tags/v3.30.2^{}"
+      ]
+    },
+    {
+      "имя": "indexstore-db",
+      "upstream": "https://github.com/swiftlang/indexstore-db.git",
+      "tag": "swift-6.1.2-RELEASE",
+      "oid": "54212fce1aecb199070808bdb265e7f17e396015",
+      "refs": {
+        "refs/tags/swift-6.1.2-RELEASE": "54212fce1aecb199070808bdb265e7f17e396015"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftlang/indexstore-db.git",
+        "refs/tags/swift-6.1.2-RELEASE",
+        "refs/tags/swift-6.1.2-RELEASE^{}"
+      ]
+    },
+    {
+      "имя": "sourcekit-lsp",
+      "upstream": "https://github.com/swiftlang/sourcekit-lsp.git",
+      "tag": "swift-6.1.2-RELEASE",
+      "oid": "a1cb7f92e42033e0f2b80de3265c3f74c5965c76",
+      "refs": {
+        "refs/tags/swift-6.1.2-RELEASE": "a1cb7f92e42033e0f2b80de3265c3f74c5965c76"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftlang/sourcekit-lsp.git",
+        "refs/tags/swift-6.1.2-RELEASE",
+        "refs/tags/swift-6.1.2-RELEASE^{}"
+      ]
+    },
+    {
+      "имя": "swift-format",
+      "upstream": "https://github.com/swiftlang/swift-format.git",
+      "tag": "swift-6.1.2-RELEASE",
+      "oid": "4c2421c14ce852fd455c257b4e8b9cae156302f1",
+      "refs": {
+        "refs/tags/swift-6.1.2-RELEASE": "4c2421c14ce852fd455c257b4e8b9cae156302f1"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftlang/swift-format.git",
+        "refs/tags/swift-6.1.2-RELEASE",
+        "refs/tags/swift-6.1.2-RELEASE^{}"
+      ]
+    },
+    {
+      "имя": "swift-installer-scripts",
+      "upstream": "https://github.com/swiftlang/swift-installer-scripts.git",
+      "tag": "swift-6.1.2-RELEASE",
+      "oid": "406d44bd65a70713fc1864130380045918b144f7",
+      "refs": {
+        "refs/tags/swift-6.1.2-RELEASE": "406d44bd65a70713fc1864130380045918b144f7"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftlang/swift-installer-scripts.git",
+        "refs/tags/swift-6.1.2-RELEASE",
+        "refs/tags/swift-6.1.2-RELEASE^{}"
+      ]
+    },
+    {
+      "имя": "swift-docc",
+      "upstream": "https://github.com/swiftlang/swift-docc.git",
+      "tag": "swift-6.1.2-RELEASE",
+      "oid": "f995b9750b0b40d2a4ea2ab608dd4c9cb91d9c2a",
+      "refs": {
+        "refs/tags/swift-6.1.2-RELEASE": "f995b9750b0b40d2a4ea2ab608dd4c9cb91d9c2a"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftlang/swift-docc.git",
+        "refs/tags/swift-6.1.2-RELEASE",
+        "refs/tags/swift-6.1.2-RELEASE^{}"
+      ]
+    },
+    {
+      "имя": "swift-lmdb",
+      "upstream": "https://github.com/swiftlang/swift-lmdb.git",
+      "tag": "swift-6.1.2-RELEASE",
+      "oid": "c42582487fe84f72a4d417dd2d8493757bd4d072",
+      "refs": {
+        "refs/tags/swift-6.1.2-RELEASE": "c42582487fe84f72a4d417dd2d8493757bd4d072"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftlang/swift-lmdb.git",
+        "refs/tags/swift-6.1.2-RELEASE",
+        "refs/tags/swift-6.1.2-RELEASE^{}"
+      ]
+    },
+    {
+      "имя": "swift-docc-render-artifact",
+      "upstream": "https://github.com/swiftlang/swift-docc-render-artifact.git",
+      "tag": "swift-6.1.2-RELEASE",
+      "oid": "ab1a5ac593c757cc2f2fb5106c643b7fb5ec61b2",
+      "refs": {
+        "refs/tags/swift-6.1.2-RELEASE": "ab1a5ac593c757cc2f2fb5106c643b7fb5ec61b2"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftlang/swift-docc-render-artifact.git",
+        "refs/tags/swift-6.1.2-RELEASE",
+        "refs/tags/swift-6.1.2-RELEASE^{}"
+      ]
+    },
+    {
+      "имя": "swift-docc-symbolkit",
+      "upstream": "https://github.com/swiftlang/swift-docc-symbolkit.git",
+      "tag": "swift-6.1.2-RELEASE",
+      "oid": "b7412ac35f1da94254d6b9c889b25e67f2c6b2f3",
+      "refs": {
+        "refs/tags/swift-6.1.2-RELEASE": "b7412ac35f1da94254d6b9c889b25e67f2c6b2f3"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftlang/swift-docc-symbolkit.git",
+        "refs/tags/swift-6.1.2-RELEASE",
+        "refs/tags/swift-6.1.2-RELEASE^{}"
+      ]
+    },
+    {
+      "имя": "swift-markdown",
+      "upstream": "https://github.com/swiftlang/swift-markdown.git",
+      "tag": "swift-6.1.2-RELEASE",
+      "oid": "82f9258ce53b9da7980d1c1aaf80e5bdbbf98c9b",
+      "refs": {
+        "refs/tags/swift-6.1.2-RELEASE": "82f9258ce53b9da7980d1c1aaf80e5bdbbf98c9b"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftlang/swift-markdown.git",
+        "refs/tags/swift-6.1.2-RELEASE",
+        "refs/tags/swift-6.1.2-RELEASE^{}"
+      ]
+    },
+    {
+      "имя": "swift-nio",
+      "upstream": "https://github.com/apple/swift-nio.git",
+      "tag": "2.65.0",
+      "oid": "359c461e5561d22c6334828806cc25d759ca7aa6",
+      "refs": {
+        "refs/tags/2.65.0": "359c461e5561d22c6334828806cc25d759ca7aa6"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/apple/swift-nio.git",
+        "refs/tags/2.65.0",
+        "refs/tags/2.65.0^{}"
+      ]
+    },
+    {
+      "имя": "swift-experimental-string-processing",
+      "upstream": "https://github.com/swiftlang/swift-experimental-string-processing.git",
+      "tag": "swift-6.1.2-RELEASE",
+      "oid": "3a06996805db6dc60c78e1f09738df6f44131805",
+      "refs": {
+        "refs/tags/swift-6.1.2-RELEASE": "3a06996805db6dc60c78e1f09738df6f44131805"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftlang/swift-experimental-string-processing.git",
+        "refs/tags/swift-6.1.2-RELEASE",
+        "refs/tags/swift-6.1.2-RELEASE^{}"
+      ]
+    },
+    {
+      "имя": "swift-sdk-generator",
+      "upstream": "https://github.com/swiftlang/swift-sdk-generator.git",
+      "tag": "swift-6.1.2-RELEASE",
+      "oid": "f6da543e0d59f14d6ff652af4cff03d85d1e42f2",
+      "refs": {
+        "refs/tags/swift-6.1.2-RELEASE": "f6da543e0d59f14d6ff652af4cff03d85d1e42f2"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftlang/swift-sdk-generator.git",
+        "refs/tags/swift-6.1.2-RELEASE",
+        "refs/tags/swift-6.1.2-RELEASE^{}"
+      ]
+    },
+    {
+      "имя": "wasi-libc",
+      "upstream": "https://github.com/WebAssembly/wasi-libc.git",
+      "tag": "wasi-sdk-22",
+      "oid": "9e8c542319242a5e536e14e6046de5968d298038",
+      "refs": {
+        "refs/tags/wasi-sdk-22": "9e8c542319242a5e536e14e6046de5968d298038"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/WebAssembly/wasi-libc.git",
+        "refs/tags/wasi-sdk-22",
+        "refs/tags/wasi-sdk-22^{}"
+      ]
+    },
+    {
+      "имя": "wasmkit",
+      "upstream": "https://github.com/swiftwasm/WasmKit.git",
+      "tag": "0.1.2",
+      "oid": "2ce00c8cd20b6cda3ce9f62b6e36d19d29f3262b",
+      "refs": {
+        "refs/tags/0.1.2": "2ce00c8cd20b6cda3ce9f62b6e36d19d29f3262b"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/swiftwasm/WasmKit.git",
+        "refs/tags/0.1.2",
+        "refs/tags/0.1.2^{}"
+      ]
+    },
+    {
+      "имя": "curl",
+      "upstream": "https://github.com/curl/curl.git",
+      "tag": "curl-8_9_1",
+      "oid": "83bedbd730d62b83744cc26fa0433d3f6e2e4cd6",
+      "refs": {
+        "refs/tags/curl-8_9_1": "541d30346047d973e3e7487d08d24d515a547938",
+        "refs/tags/curl-8_9_1^{}": "83bedbd730d62b83744cc26fa0433d3f6e2e4cd6"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/curl/curl.git",
+        "refs/tags/curl-8_9_1",
+        "refs/tags/curl-8_9_1^{}"
+      ]
+    },
+    {
+      "имя": "libxml2",
+      "upstream": "https://github.com/gnome/libxml2.git",
+      "tag": "v2.11.5",
+      "oid": "2b998a4ffbdfea04fc6a620721abc690a15743af",
+      "refs": {
+        "refs/tags/v2.11.5": "0884fd4019dcca3b57be83ae15272eec10519370",
+        "refs/tags/v2.11.5^{}": "2b998a4ffbdfea04fc6a620721abc690a15743af"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/gnome/libxml2.git",
+        "refs/tags/v2.11.5",
+        "refs/tags/v2.11.5^{}"
+      ]
+    },
+    {
+      "имя": "zlib",
+      "upstream": "https://github.com/madler/zlib.git",
+      "tag": "v1.3.1",
+      "oid": "51b7f2abdade71cd9bb0e7a373ef2610ec6f9daf",
+      "refs": {
+        "refs/tags/v1.3.1": "925af44f3cde53c6b076611c297850091b5dc7bb",
+        "refs/tags/v1.3.1^{}": "51b7f2abdade71cd9bb0e7a373ef2610ec6f9daf"
+      },
+      "команда": [
+        "git",
+        "ls-remote",
+        "https://github.com/madler/zlib.git",
+        "refs/tags/v1.3.1",
+        "refs/tags/v1.3.1^{}"
+      ]
+    }
+  ],
+  "длительность_секунды": 105.13779083300051
+}

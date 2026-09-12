@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/swiftlang/swift-format/4c2421c14ce852fd455c257b4e8b9cae156302f1/LICENSE.txt

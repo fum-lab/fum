@@ -1,0 +1,56 @@
+# Извлечённый текст
+
+Источник: <https://raw.githubusercontent.com/swiftlang/swift-toolchain-sqlite/a911e64716e2dbf7ebcedfa0299039eee9702e33/Package.swift>
+
+## Содержимое
+
+```text
+// swift-tools-version: 5.9
+import PackageDescription
+
+let package = Package(
+    name: "swift-toolchain-sqlite",
+    products: [
+        .executable(
+            name: "sqlite",
+            targets: ["sqlite"]),
+        .library(
+            name: "SwiftToolchainCSQLite",
+            targets: ["SwiftToolchainCSQLite"]),
+    ],
+    targets: [
+        .executableTarget(
+            name: "sqlite",
+            dependencies: ["SwiftToolchainCSQLite"],
+            cSettings: [
+                .define("SQLITE_OMIT_LOAD_EXTENSION"),
+                .define("SQLITE_NOHAVE_SYSTEM", .when(platforms: [.macCatalyst, .iOS, .tvOS, .watchOS, .visionOS, .wasi])),
+                .define("HAVE_READLINE", .when(platforms: [.macOS, .macCatalyst])),
+                .define("_WASI_EMULATED_SIGNAL", .when(platforms: [.wasi])),
+                .define("_WASI_EMULATED_PROCESS_CLOCKS", .when(platforms: [.wasi])),
+                .define("_WASI_EMULATED_GETPID", .when(platforms: [.wasi])),
+                .define("chmod(a,b)=0", .when(platforms: [.wasi])),
+            ],
+            linkerSettings: [
+                .linkedLibrary("wasi-emulated-signal", .when(platforms: [.wasi])),
+                .linkedLibrary("wasi-emulated-process-clocks", .when(platforms: [.wasi])),
+                .linkedLibrary("wasi-emulated-getpid", .when(platforms: [.wasi])),
+            ]
+        ),
+        .target(
+            name: "SwiftToolchainCSQLite",
+            path: "Sources/CSQLite",
+            publicHeadersPath: "include",
+            linkerSettings: [
+                // Needed for swift_addNewDSOImage
+                .linkedLibrary("swiftCore", .when(platforms: [.windows, .wasi]))
+            ]
+        ),
+    ]
+)
+```
+
+<!-- FUM-MD-RECENCY:BEGIN -->
+<!-- last-content-edit: 2026-09-12 04:23:00 MSK -->
+<!-- content-sha256: sha256:425790e7c4a913bd4e6d2c7ee05c718609e88c1ee7681bc2f0aa62c3b09e9a08 -->
+<!-- FUM-MD-RECENCY:END -->

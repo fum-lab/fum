@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/giampaolo/psutil/27a1432daeacd46b287517c11bfea2af4fd95a88/LICENSE

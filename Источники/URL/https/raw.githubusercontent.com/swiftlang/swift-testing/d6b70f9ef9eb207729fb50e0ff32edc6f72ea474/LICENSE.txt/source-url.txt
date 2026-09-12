@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/swiftlang/swift-testing/d6b70f9ef9eb207729fb50e0ff32edc6f72ea474/LICENSE.txt

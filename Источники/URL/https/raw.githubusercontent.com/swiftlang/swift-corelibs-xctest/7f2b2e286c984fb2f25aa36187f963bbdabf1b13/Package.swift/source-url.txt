@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/swiftlang/swift-corelibs-xctest/7f2b2e286c984fb2f25aa36187f963bbdabf1b13/Package.swift

@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/clang-tools-extra/clang-tidy/cert/LICENSE.TXT

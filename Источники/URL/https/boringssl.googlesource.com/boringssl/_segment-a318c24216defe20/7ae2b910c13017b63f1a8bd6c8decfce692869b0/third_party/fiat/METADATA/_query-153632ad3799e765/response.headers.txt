@@ -1,0 +1,13 @@
+HTTP/2 200
+cache-control: private, max-age=7200, stale-while-revalidate=604800
+content-disposition: attachment
+content-security-policy: script-src 'nonce-[REDACTED]' 'unsafe-inline' 'strict-dynamic' https: http: 'unsafe-eval';object-src 'none';base-uri 'self';report-uri https://csp.withgoogle.com/csp/gerritcodereview/1
+content-type: text/plain; charset=utf-8
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+x-content-type-options: nosniff
+x-frame-options: SAMEORIGIN
+x-gitiles-object-type: blob
+x-gitiles-path-mode: 100644
+x-xss-protection: 0
+date: Sat, 12 Sep 2026 00:49:48 GMT
+alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000

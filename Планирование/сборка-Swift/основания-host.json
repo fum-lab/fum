@@ -1,0 +1,287 @@
+{
+  "схема": "fum.swift-host-план.1",
+  "область": "FUM-STEP-0220: план; историческое свидетельство и предложенные входы различаются. Сборка и установка не выполнялись.",
+  "исходники_swift": {
+    "версия": "6.1.2",
+    "commit": "cc4f13a96e9600bd6f801368ab51f614ab5ddd5e"
+  },
+  "историческое_свидетельство": {
+    "url": "https://ci.swift.org/job/oss-swift-6.1-package-macos/180/",
+    "параметры_url": "https://ci.swift.org/job/oss-swift-6.1-package-macos/180/api/json?tree=result,timestamp,actions[parameters[name,value]]",
+    "журнал_url": "https://ci.swift.org/job/oss-swift-6.1-package-macos/180/consoleText",
+    "результат": "SUCCESS",
+    "timestamp_ms": 1748319902395,
+    "прочитанная_граница": {
+      "байтов": 25000000,
+      "sha256": "17fea5f199b720a90ad9e31b8cd206bc19a0d4b7ba8189ae796dfac3e089aaef",
+      "полнота": "только начальный префикс журнала; номера строк относятся к исходному consoleText"
+    },
+    "наблюдения": [
+      {
+        "вход": "preset",
+        "значение": "buildbot_osx_package",
+        "строки": [
+          1153
+        ],
+        "граница": "Исторический полный preset; предлагаемый macos_only с arm64 overrides отдельно принимается."
+      },
+      {
+        "вход": "Xcode",
+        "значение": "16.2",
+        "build": "16C5031c",
+        "статус": "RC; не final release 16C5032a",
+        "строки": [
+          25928,
+          38495
+        ]
+      },
+      {
+        "вход": "macOS SDK",
+        "значение": "15.2",
+        "build": "24C94",
+        "строки": [
+          149188,
+          149192
+        ]
+      },
+      {
+        "вход": "bootstrap Swift",
+        "значение": "Apple Swift version 6.0.3 (swiftlang-6.0.3.1.9 clang-1600.0.30.1)",
+        "поставщик": "XcodeDefault.xctoolchain",
+        "исполняемый_файл": "Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+        "строки": [
+          25858,
+          25859,
+          25860,
+          25866,
+          149312
+        ]
+      },
+      {
+        "вход": "host architecture",
+        "значение": "x86_64",
+        "строки": [
+          149006,
+          149313
+        ],
+        "граница": "Target x86_64-apple-macosx15.0 не устанавливает точный host macOS build."
+      },
+      {
+        "вход": "cross architecture",
+        "значение": "macosx-arm64",
+        "строки": [
+          135347,
+          135409,
+          135477
+        ],
+        "граница": "Историческая перекрёстная сборка/проверки/установка SwiftPM arm64; не свидетельство нативной сборки на arm64."
+      },
+      {
+        "вход": "C/C++ compiler",
+        "значение": "AppleClang 16.0.0.16000026",
+        "строки": [
+          1256,
+          1257,
+          25863,
+          25864
+        ]
+      },
+      {
+        "вход": "Python",
+        "значение": "3.9.6",
+        "поставщик": "Xcode Python3.framework",
+        "компоненты": [
+          "Interpreter",
+          "Development",
+          "Development.Module",
+          "Development.Embed"
+        ],
+        "строки": [
+          1277,
+          37111,
+          37112
+        ]
+      },
+      {
+        "вход": "SWIG",
+        "значение": "4.1.1",
+        "строки": [
+          37104,
+          37105
+        ],
+        "граница": "Бинарник preinstalled; его источник и SHA256 не установлены одним номером версии."
+      },
+      {
+        "вход": "Git",
+        "значение": "2.39.5 (Apple Git-154)",
+        "строки": [
+          35
+        ],
+        "граница": "Git2.32.0 в строке11 относится к более раннему Jenkins checkout и не подменяет Apple Git рабочего host."
+      },
+      {
+        "вход": "CMake source",
+        "значение": "v3.30.2",
+        "свидетельство": "параметр cmake; checkout commit message CMake3.30.2 строка369",
+        "граница": "Исполняемый cmake из PATH использовался, но его версия/хэш не подтверждены параметром исходников."
+      },
+      {
+        "вход": "Ninja source",
+        "значение": "v1.11.1",
+        "свидетельство": "параметр ninja и bootstrap строки1184/1227"
+      },
+      {
+        "вход": "SDK zlib",
+        "значение": "1.2.12",
+        "строки": [
+          1552
+        ]
+      },
+      {
+        "вход": "SDK libxml2",
+        "значение": "2.9.13",
+        "строки": [
+          1555,
+          37114
+        ]
+      },
+      {
+        "вход": "SDK libedit",
+        "значение": "2.11",
+        "строки": [
+          1560,
+          37059
+        ],
+        "граница": "Другой CMake probe строки25875 выдаёт точку вместо версии; эта точка не считается версией."
+      },
+      {
+        "вход": "LLDB optional features",
+        "включено": [
+          "SWIG",
+          "libedit",
+          "curses",
+          "Python",
+          "libxml2"
+        ],
+        "выключено": [
+          "LZMA",
+          "Lua",
+          "libfbsdvmcore"
+        ],
+        "строки": [
+          37105,
+          37106,
+          37108,
+          37109,
+          37110,
+          37113,
+          37115,
+          37116
+        ]
+      }
+    ]
+  },
+  "предложенный_комплект": {
+    "host": {
+      "семейство": "macOS Sequoia",
+      "версия": "15.2",
+      "build": "24C101",
+      "архитектура": "arm64",
+      "статус": "выбранный плановый кандидат; не наблюдение исторического CI host",
+      "источник": "https://developer.apple.com/xcode-cloud/release-notes/",
+      "основание": "Apple явно перечисляет macOS Sequoia15.2(24C101) среди исторических образов; это подтверждает идентичность версии, не сборку Swift и не современную доступность образа."
+    },
+    "Xcode": {
+      "версия": "16.2",
+      "build": "16C5031c",
+      "тип": "RC",
+      "bootstrap": "6.0.3 (swiftlang-6.0.3.1.9 clang-1600.0.30.1)",
+      "SDK": "macOS15.2 build24C94",
+      "статус": "заимствованы точные версии успешного исторического build #180; присутствие и SHA256 нового экземпляра не проверены"
+    },
+    "SWIG_источник": {
+      "upstream": "https://github.com/swig/swig.git",
+      "tag": "v4.1.1",
+      "tag_object": "16b6b95dac8179912214ed2c846406db0f8e995f",
+      "commit": "77323a0f07562b7d90d36181697a72a909b9519a",
+      "свидетельство": "read-only ls-remote дочернего swift_sources",
+      "граница": "Не доказательство соответствия исторического или будущего бинарника этому commit."
+    },
+    "отозванные_предложения": [
+      "Xcode16.4/SDK15.5/отдельный OSS bootstrap6.1.2: не выбранная поставка после обнаружения исторического CI."
+    ],
+    "предлагаемые_изменения_к_CI": [
+      "native arm64 вместо native x86_64/cross arm64",
+      "macos_only с явным отключением прочих SDK по итоговому preset",
+      "отключённый sccache при явном выборе корня; в историческом CI sccache применялся"
+    ]
+  },
+  "исполняемые_ограничения": [
+    {
+      "утверждение": "HOSTTOOLS требует Swift>=5.8 и одного и того же Swift executable в SWIFT_EXEC_FOR_SWIFT_MODULES и CMAKE_Swift_COMPILER.",
+      "источник": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/SwiftCompilerSources/CMakeLists.txt",
+      "строки": [
+        329,
+        330,
+        334,
+        335,
+        338,
+        339,
+        340,
+        341,
+        342
+      ]
+    },
+    {
+      "утверждение": "GettingStarted в этом release отсылает минимум Xcode к изменяемому ci.swift.org; документ требует нативные arm64 зависимости и окружение без Rosetta.",
+      "источник": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/docs/HowToGuides/GettingStarted.md",
+      "строки": [
+        132,
+        133,
+        134,
+        188,
+        189,
+        190,
+        191,
+        192,
+        193,
+        194,
+        195
+      ]
+    },
+    {
+      "утверждение": "SwiftCompilerSources/README.md указывает >=5.5; это слабее исполняемого gate>=5.8 и не используется как допуск.",
+      "источник": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/SwiftCompilerSources/README.md",
+      "строки": [
+        14
+      ]
+    }
+  ],
+  "лицензионная_граница": {
+    "источник": "https://www.apple.com/legal/sla/docs/xcode.pdf",
+    "разделы": [
+      "2.2",
+      "2.5",
+      "2.7"
+    ],
+    "вывод": "Текущий Xcode SLA разрешает ограниченное внутреннее использование Apple Software на Apple-branded Mac и требует сохранения notices. Он не даёт общего права публично размещать Xcode/SDK; предусмотрено отдельное письменное разрешение. Xcode/SDK/bootstrap из Xcode учитываются как внешние предоставляемые входы, а не публичные CC0-зеркала.",
+    "неизвестность": "Точный текст принятой лицензии Xcode16.2RC и вложенные LICENSE/NOTICE выбранного бинарного экземпляра ещё не получены. Текущий публичный SLA не подменяет исторический договор."
+  },
+  "препятствия_до_допуска": [
+    "Нет приёмки native macOS arm64 полного выбранного preset и полного closure; SUCCESS #180 относится к другой host architecture.",
+    "Точный macOS version/build исторического CI host не установлен прочитанным префиксом. Предложенный macOS15.2(24C101) имеет отдельный статус кандидата.",
+    "Не получен и не проверен законный Xcode16.2RC build16C5031c: нужны неизменный архив, SHA256, подпись, receipt, лицензия, SDKSettings и хэши bootstrap/native executable/frameworks.",
+    "CMake source request3.30.2 не доказывает идентичность исторического cmake executable; новый bootstrap CMake должен иметь явный источник/версию/SHA256/лицензии.",
+    "SWIG4.1.1, его native artifact, runtime и LICENSE/NOTICE не замкнуты; source tag/OID является только источниковым кандидатом.",
+    "SDK libc++, Foundation, Dispatch, XCTest, libedit, curses, zlib, libxml2 — части принятого SDK/Xcode/host closure; их нужно привязать к точным хэшам комплектов и выявленным runtime путям.",
+    "Обнаружение дополнительных библиотек через Homebrew/CMake Auto меняет closure; фактически выбранные зависимости и optional flags должны совпасть с манифестом.",
+    "Полная зеркальная переносимость открытых исходников отличается от предоставления проприетарных Xcode/SDK; лицензия Swift не разрешает публикацию Apple bundle."
+  ],
+  "будущая_приёмка": [
+    "До сборки проверить все repository OID/чистоту, resolved sources, точные Xcode/SDK/bootstrap/native inputs и effective preset; после сборки повторить весь список OID.",
+    "Вызвать swift и swiftc по абсолютным путям именно установленного проверяемого .xctoolchain, проверить realpath, arm64, --version и -print-target-info; SDK path/version/build зафиксировать явно.",
+    "Этим swiftc с выбранным SDK выполнить compile/run независимой программы с Foundation и Dispatch.",
+    "Этим swift выполнить swift build и swift test сохранённого пакета, в том числе XCTest и Swift Testing/macros; проверить compiler invocations/пути, чтобы bootstrap или default Xcode compiler не подменил результат.",
+    "Проверить заявленные Clang, LLDB/Swift debugging и Python bindings, SourceKit-LSP, SwiftFormat, DocC, SwiftSyntax и остальные установленные компоненты адресными сценариями; наличия stdlib и номера версии недостаточно."
+  ]
+}

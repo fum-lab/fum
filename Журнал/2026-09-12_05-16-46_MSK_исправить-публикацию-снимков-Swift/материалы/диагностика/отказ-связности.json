@@ -1,0 +1,10 @@
+{
+  "код": 1,
+  "дерево": "ed79c992100b6fb5564f2346065367a561cbeb61",
+  "причины": [
+    "used tools section must include fum-moskovskoye-vremya-rabochej-sessii for canonical MSK time",
+    "unexpected Git status path: унаследованные материалы первого среза не перечислены новым запросом"
+  ],
+  "длительность": null,
+  "изменение": "Только явные ссылки на ранее согласованный полный состав и точное имя инструмента времени."
+}

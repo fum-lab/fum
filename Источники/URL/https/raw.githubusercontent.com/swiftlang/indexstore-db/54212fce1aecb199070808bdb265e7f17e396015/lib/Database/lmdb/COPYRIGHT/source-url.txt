@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/swiftlang/indexstore-db/54212fce1aecb199070808bdb265e7f17e396015/lib/Database/lmdb/COPYRIGHT

@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/swiftlang/swift-docc/f995b9750b0b40d2a4ea2ab608dd4c9cb91d9c2a/NOTICE.txt

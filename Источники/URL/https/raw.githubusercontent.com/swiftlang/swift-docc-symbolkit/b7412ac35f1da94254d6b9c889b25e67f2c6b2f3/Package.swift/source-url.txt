@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/swiftlang/swift-docc-symbolkit/b7412ac35f1da94254d6b9c889b25e67f2c6b2f3/Package.swift

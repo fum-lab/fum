@@ -1,0 +1,37 @@
+# Отчёт об извлечении прикрепляемого материала
+
+- Источник: https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/build_swift/build_swift/argparse.py
+- Время извлечения UTC: 2026-09-12T01:01:49.454094+00:00
+- Транспорт: curl
+- Effective URL: https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/build_swift/build_swift/argparse.py
+- HTTP-код: 404
+- Content-Type: text/plain; charset=utf-8
+- Размер загрузки: 14 байт
+- Извлечено блоков JSON-LD: 0
+
+## Редакции перед сохранением
+
+- Ответ с сигнатурой gzip распаковывается до определения формата и очистки; HTML-файл содержит распакованное очищенное представление, а HTTP-заголовки описывают исходный ответ.
+- Значения `Set-Cookie` в HTTP-заголовках заменены на `[REDACTED: response cookie]`.
+- Значения `CF-Ray`, `X-Request-ID`, `Request-Context`, `X-MS-Middleware-Request-ID` заменены на `[REDACTED: response trace identifier]`; продолжения очищаемых заголовков удалены.
+- Дополнительно очищены X-XSRF-Token, X-CSRF-Token, X-Trace-Id, X-Correlation-Id, X-SP-CRID, X-Tracking-Ref, CDNUUID, x-yandex-eu-request и nonce директив CSP.
+- До извлечения очищены известные CSRF/XSRF-поля HTML и встроенного JSON, nonce атрибутов, wgRequestId, адрес и ID запроса в диагностическом блоке, поле pdata и диагностические data-testid unique-key/timestamp. Прочее содержимое сохранено без перевода; это ограниченная редакция известных полей, а не гарантия отсутствия всех возможных секретов.
+
+## Ограничения извлечения
+
+- Ошибок разбора JSON-LD не обнаружено.
+
+## Сохранённые файлы
+
+- `extracted-text.md`
+- `extraction-report.md`
+- `response.body.html`
+- `response.headers.txt`
+- `snapshot-manifest.json`
+- `source-index.md`
+- `source-url.txt`
+
+<!-- FUM-MD-RECENCY:BEGIN -->
+<!-- last-content-edit: 2026-09-12 04:23:00 MSK -->
+<!-- content-sha256: sha256:12327602de26d2b7ad788d54655b0481bd828c5b4468cef1cad970518a42fe47 -->
+<!-- FUM-MD-RECENCY:END -->

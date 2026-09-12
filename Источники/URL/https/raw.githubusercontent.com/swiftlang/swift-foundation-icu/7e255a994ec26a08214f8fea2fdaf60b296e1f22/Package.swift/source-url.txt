@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/swiftlang/swift-foundation-icu/7e255a994ec26a08214f8fea2fdaf60b296e1f22/Package.swift

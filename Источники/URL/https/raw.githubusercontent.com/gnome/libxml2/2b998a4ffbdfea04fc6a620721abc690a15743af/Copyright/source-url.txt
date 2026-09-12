@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/gnome/libxml2/2b998a4ffbdfea04fc6a620721abc690a15743af/Copyright

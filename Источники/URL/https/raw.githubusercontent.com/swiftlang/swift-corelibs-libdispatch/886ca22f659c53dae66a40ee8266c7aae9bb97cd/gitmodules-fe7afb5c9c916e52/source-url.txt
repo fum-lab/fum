@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/swiftlang/swift-corelibs-libdispatch/886ca22f659c53dae66a40ee8266c7aae9bb97cd/.gitmodules

@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/apple/swift-nio/359c461e5561d22c6334828806cc25d759ca7aa6/LICENSE.txt

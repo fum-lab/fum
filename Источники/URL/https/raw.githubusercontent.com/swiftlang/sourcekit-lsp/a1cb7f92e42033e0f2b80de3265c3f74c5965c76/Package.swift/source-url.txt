@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/swiftlang/sourcekit-lsp/a1cb7f92e42033e0f2b80de3265c3f74c5965c76/Package.swift

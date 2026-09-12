@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/PCRE2Project/pcre2/52c08847921a324c804cabf2814549f50bce1265/COPYING

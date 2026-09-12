@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/apple/swift-xcode-playground-support/bbba1ba704c37d1d0131bb7d6986a80ad8cb6d6c/LICENSE.txt

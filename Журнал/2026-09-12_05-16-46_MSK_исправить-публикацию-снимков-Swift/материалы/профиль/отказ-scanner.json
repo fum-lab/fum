@@ -1,0 +1,41 @@
+{
+  "запуск": "819c41dc-cf1e-4a2d-baa3-b3470c12f946",
+  "находки": [
+    {
+      "путь": "Журнал/2026-09-12_05-16-46_MSK_исправить-публикацию-снимков-Swift/материалы/профиль/архиватор-и-перенос.json",
+      "строка": 13,
+      "класс": "error.home-expansion"
+    },
+    {
+      "путь": "Инструменты/fum-materialyi-zaprosov/scripts/source_archive.py",
+      "строка": 163,
+      "класс": "error.home-expansion"
+    },
+    {
+      "путь": "Инструменты/fum-materialyi-zaprosov/scripts/source_archive.py",
+      "строка": 165,
+      "класс": "error.home-expansion"
+    },
+    {
+      "путь": "Инструменты/fum-materialyi-zaprosov/tests/test_перенос_снимков.py",
+      "строка": 25,
+      "класс": "error.posix-absolute"
+    },
+    {
+      "путь": "Инструменты/fum-materialyi-zaprosov/tests/test_перенос_снимков.py",
+      "строка": 28,
+      "класс": "error.posix-absolute"
+    },
+    {
+      "путь": "Инструменты/fum-materialyi-zaprosov/tests/test_служебные_имена_Git.py",
+      "строка": 18,
+      "класс": "error.home-expansion"
+    },
+    {
+      "путь": "Инструменты/fum-materialyi-zaprosov/tests/test_служебные_имена_Git.py",
+      "строка": 29,
+      "класс": "error.posix-absolute"
+    }
+  ],
+  "граница": "Синтетические имена Git и относительные компоненты URL в новом коде/фикстурах; реальных приватных путей нет. Исправляется однозначное представление без изменения политики."
+}

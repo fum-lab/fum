@@ -1,0 +1,19 @@
+{
+  "schema": "fum.machine-local-path-policy-update.v1",
+  "declarations": [
+    {
+      "id": "swift-url-git-alias-separator",
+      "path": "Инструменты/fum-materialyi-zaprosov/scripts/source_archive.py",
+      "line": 163,
+      "category": "allow.path-validation-definition",
+      "reason": "Литеральный разделитель короткого имени Git в проверяемом распознавателе; не путь и не развёртка домашнего каталога."
+    },
+    {
+      "id": "swift-url-git-alias-fixture",
+      "path": "Инструменты/fum-materialyi-zaprosov/tests/test_служебные_имена_Git.py",
+      "line": 18,
+      "category": "allow.test-fixture",
+      "reason": "Точный NTFS-псевдоним служебного имени Git для автономной регрессии генератора URL-каталогов, не пользовательский домашний путь."
+    }
+  ]
+}

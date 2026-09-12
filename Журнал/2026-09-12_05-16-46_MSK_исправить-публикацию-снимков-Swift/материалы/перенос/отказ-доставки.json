@@ -1,0 +1,15 @@
+{
+  "commit": "1b6d7a669767e5487f71477118dbc6672d4a68fa",
+  "tree": "53712fbd8ee1f1162779c8466a1fb72103179437",
+  "parent": "01b329cb49f4c5a5655fab4c16d7ea3a3ebf55a5",
+  "сохранённый_ref": "refs/heads/codex/комплект-Swift-0220-01a09304",
+  "новый_ref": "refs/heads/codex/комплект-Swift-0220-публикация-01a09304",
+  "удалённый_OID": null,
+  "результат": "Недоставка; GitHub отклонил pack. Повторное ls-remote не вернул исходную ветку.",
+  "диагностика": [
+    "remote: error: object 99a47e298e2af80973309ae4fbf9c36c4b176b7c: gitmodulesBlob: non-blob found at .gitmodules        ",
+    "remote: error: object f37d945452b2ed75040b7dcbbeef4a28a1535802: gitmodulesBlob: non-blob found at .gitmodules        ",
+    "remote: error: object 651c28174c0757b9c5109079a6a76bf232671f9e: gitmodulesBlob: non-blob found at .gitmodules        ",
+    "remote: fatal: fsck error in pack objects        "
+  ]
+}

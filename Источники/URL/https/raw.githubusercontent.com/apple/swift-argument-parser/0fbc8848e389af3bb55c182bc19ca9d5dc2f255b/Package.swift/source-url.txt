@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/apple/swift-argument-parser/0fbc8848e389af3bb55c182bc19ca9d5dc2f255b/Package.swift

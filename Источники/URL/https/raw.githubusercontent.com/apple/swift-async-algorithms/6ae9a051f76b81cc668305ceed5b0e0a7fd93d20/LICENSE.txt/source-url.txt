@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/apple/swift-async-algorithms/6ae9a051f76b81cc668305ceed5b0e0a7fd93d20/LICENSE.txt

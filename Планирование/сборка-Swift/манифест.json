@@ -1,0 +1,3221 @@
+{
+  "схема": "fum.план-комплекта-Swift.1",
+  "шаг": "FUM-STEP-0220",
+  "состояние": "Конечный плановый срез с доказанными препятствиями; не разрешение сборки",
+  "схема_веток": "release/6.1",
+  "конфигурация": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/update_checkout/update-checkout-config.json/response.body.html",
+  "upstream_preset": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/build-presets.ini/response.body.html",
+  "профиль": {
+    "путь": "Планирование/сборка-Swift/профиль-macOS-arm64.txt",
+    "sha256": "f890ff37030bb88381515ed33308f37c18d0182511365e061ec710e8c32af8d4",
+    "имя": "FUM-macOS-arm64-источники"
+  },
+  "закрепление_OID": {
+    "путь": "Журнал/2026-09-12_03-31-15_MSK_подготовить-комплект-Swift/материалы/наблюдения/удалённые-OID.json",
+    "sha256": "7623810f0ac0a9e9c82475c17b41041986d848705d3ae2c3a5295d4f06f4fea2"
+  },
+  "репозитории": [
+    {
+      "имя": "llvm-project",
+      "upstream": "https://github.com/swiftlang/llvm-project.git",
+      "будущий_origin": "https://github.com/fum-lab/llvm-project.git",
+      "будущий_путь": "Зависимости/комплект-Swift/llvm-project",
+      "oid": "bb511dfa7c889bf054eff34192ffc1f97278dd7f",
+      "tag_происхождения": "swift-6.1.2-RELEASE",
+      "веточная_схема": "swift/release/6.1",
+      "ограничение_платформ": [],
+      "роль": "Активный исходный продукт",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/LICENSE.TXT/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/bolt/LICENSE.TXT/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/clang-tools-extra/LICENSE.TXT/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/clang-tools-extra/clang-tidy/cert/LICENSE.TXT/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/clang-tools-extra/clang-tidy/hicpp/LICENSE.TXT/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/clang/LICENSE.TXT/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/clang/tools/clang-format-vs/ClangFormat/license.txt/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/compiler-rt/LICENSE.TXT/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/cross-project-tests/debuginfo-tests/dexter/LICENSE.txt/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/flang/LICENSE.TXT/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/libc/LICENSE.TXT/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/libclc/LICENSE.TXT/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/libcxx/LICENSE.TXT/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/libcxxabi/LICENSE.TXT/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/libunwind/LICENSE.TXT/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/lld/LICENSE.TXT/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/lldb/LICENSE.TXT/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/lldb/tools/lldb-dap/LICENSE.TXT/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/llvm/LICENSE.TXT/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/llvm/include/llvm/Support/LICENSE.TXT/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/llvm/lib/Support/BLAKE3/LICENSE/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/llvm/lib/Support/COPYRIGHT.regex/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/llvm/test/YAMLParser/LICENSE.txt/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/llvm/utils/lit/LICENSE.TXT/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/third-party/benchmark/LICENSE/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/third-party/unittest/googlemock/LICENSE.txt/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/third-party/unittest/googletest/LICENSE.TXT/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-llvm-bindings",
+      "upstream": "https://github.com/swiftlang/swift-llvm-bindings.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-llvm-bindings.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-llvm-bindings",
+      "oid": "ff46438cbcea2e04f8b751c4f629c962e58a3e52",
+      "tag_происхождения": "swift-6.1.2-RELEASE",
+      "веточная_схема": "swift/release/6.1",
+      "ограничение_платформ": [],
+      "роль": "Резерв полной схемы; не активирован выбранным preset/macOS",
+      "применим_к_сборке": false,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llvm-bindings/ff46438cbcea2e04f8b751c4f629c962e58a3e52/LICENSE.txt/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift",
+      "upstream": "https://github.com/swiftlang/swift.git",
+      "будущий_origin": "https://github.com/fum-lab/swift.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift",
+      "oid": "cc4f13a96e9600bd6f801368ab51f614ab5ddd5e",
+      "tag_происхождения": "swift-6.1.2-RELEASE",
+      "веточная_схема": "release/6.1",
+      "ограничение_платформ": [],
+      "роль": "Активный исходный продукт",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/LICENSE.txt/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/UnicodeData/COPYRIGHT.txt/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "cmark",
+      "upstream": "https://github.com/swiftlang/swift-cmark.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-cmark.git",
+      "будущий_путь": "Зависимости/комплект-Swift/cmark",
+      "oid": "b022b08312decdc46585e0b3440d97f6f22ef703",
+      "tag_происхождения": "swift-6.1.2-RELEASE",
+      "веточная_схема": "release/6.1",
+      "ограничение_платформ": [],
+      "роль": "Активный исходный продукт",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-cmark/b022b08312decdc46585e0b3440d97f6f22ef703/COPYING/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "llbuild",
+      "upstream": "https://github.com/swiftlang/swift-llbuild.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-llbuild.git",
+      "будущий_путь": "Зависимости/комплект-Swift/llbuild",
+      "oid": "4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9",
+      "tag_происхождения": "swift-6.1.2-RELEASE",
+      "веточная_схема": "release/6.1",
+      "ограничение_платформ": [],
+      "роль": "Активный исходный продукт",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/LICENSE.txt/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/thirdparty/BLAKE3/LICENSE/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/thirdparty/protobuf/LICENSE/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/thirdparty/protobuf/third_party/abseil-cpp/LICENSE/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/thirdparty/protobuf/third_party/jsoncpp/LICENSE/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/thirdparty/protobuf/third_party/utf8_range/LICENSE/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/thirdparty/swift-protobuf/LICENSE.txt/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/utils/unittest/googlemock/LICENSE.txt/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/utils/unittest/googletest/LICENSE.TXT/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-toolchain-sqlite",
+      "upstream": "https://github.com/swiftlang/swift-toolchain-sqlite.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-toolchain-sqlite.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-toolchain-sqlite",
+      "oid": "a911e64716e2dbf7ebcedfa0299039eee9702e33",
+      "tag_происхождения": "1.0.1",
+      "веточная_схема": "1.0.1",
+      "ограничение_платформ": [],
+      "роль": "Активная транзитивная зависимость пакета",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-toolchain-sqlite/a911e64716e2dbf7ebcedfa0299039eee9702e33/LICENSE/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-tools-support-core",
+      "upstream": "https://github.com/swiftlang/swift-tools-support-core.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-tools-support-core.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-tools-support-core",
+      "oid": "5cd61a77866b110bb222c38073627d2703c750e6",
+      "tag_происхождения": "swift-6.1.2-RELEASE",
+      "веточная_схема": "release/6.1",
+      "ограничение_платформ": [],
+      "роль": "Активная транзитивная зависимость пакета",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-tools-support-core/5cd61a77866b110bb222c38073627d2703c750e6/LICENSE.txt/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swiftpm",
+      "upstream": "https://github.com/swiftlang/swift-package-manager.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-package-manager.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swiftpm",
+      "oid": "45c31f1b35ef8599898f61c26e7518bcf14b3eb5",
+      "tag_происхождения": "swift-6.1.2-RELEASE",
+      "веточная_схема": "release/6.1",
+      "ограничение_платформ": [],
+      "роль": "Активный исходный продукт",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-package-manager/45c31f1b35ef8599898f61c26e7518bcf14b3eb5/LICENSE.txt/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-package-manager/45c31f1b35ef8599898f61c26e7518bcf14b3eb5/NOTICE.txt/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-argument-parser",
+      "upstream": "https://github.com/apple/swift-argument-parser.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-argument-parser.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-argument-parser",
+      "oid": "0fbc8848e389af3bb55c182bc19ca9d5dc2f255b",
+      "tag_происхождения": "1.4.0",
+      "веточная_схема": "1.4.0",
+      "ограничение_платформ": [],
+      "роль": "Активная транзитивная зависимость пакета",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/apple/swift-argument-parser/0fbc8848e389af3bb55c182bc19ca9d5dc2f255b/LICENSE.txt/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-atomics",
+      "upstream": "https://github.com/apple/swift-atomics.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-atomics.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-atomics",
+      "oid": "cd142fd2f64be2100422d658e7411e39489da985",
+      "tag_происхождения": "1.2.0",
+      "веточная_схема": "1.2.0",
+      "ограничение_платформ": [],
+      "роль": "Активная транзитивная зависимость пакета",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/apple/swift-atomics/cd142fd2f64be2100422d658e7411e39489da985/LICENSE.txt/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-collections",
+      "upstream": "https://github.com/apple/swift-collections.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-collections.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-collections",
+      "oid": "9bf03ff58ce34478e66aaee630e491823326fd06",
+      "tag_происхождения": "1.1.3",
+      "веточная_схема": "1.1.3",
+      "ограничение_платформ": [],
+      "роль": "Активная транзитивная зависимость пакета",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/apple/swift-collections/9bf03ff58ce34478e66aaee630e491823326fd06/LICENSE.txt/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-crypto",
+      "upstream": "https://github.com/apple/swift-crypto.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-crypto.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-crypto",
+      "oid": "629f0b679d0fd0a6ae823d7f750b9ab032c00b80",
+      "tag_происхождения": "3.0.0",
+      "веточная_схема": "3.0.0",
+      "ограничение_платформ": [],
+      "роль": "Активная транзитивная зависимость пакета",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/apple/swift-crypto/629f0b679d0fd0a6ae823d7f750b9ab032c00b80/LICENSE.txt/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/apple/swift-crypto/629f0b679d0fd0a6ae823d7f750b9ab032c00b80/NOTICE.txt/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-certificates",
+      "upstream": "https://github.com/apple/swift-certificates.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-certificates.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-certificates",
+      "oid": "01d7664523af5c169f26038f1e5d444ce47ae5ff",
+      "tag_происхождения": "1.0.1",
+      "веточная_схема": "1.0.1",
+      "ограничение_платформ": [],
+      "роль": "Активная транзитивная зависимость пакета",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/apple/swift-certificates/01d7664523af5c169f26038f1e5d444ce47ae5ff/LICENSE.txt/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/apple/swift-certificates/01d7664523af5c169f26038f1e5d444ce47ae5ff/NOTICE.txt/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-asn1",
+      "upstream": "https://github.com/apple/swift-asn1.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-asn1.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-asn1",
+      "oid": "12c24ff59d541e5ef15116095445ce72b85cd0c6",
+      "tag_происхождения": "1.0.0",
+      "веточная_схема": "1.0.0",
+      "ограничение_платформ": [],
+      "роль": "Активная транзитивная зависимость пакета",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/apple/swift-asn1/12c24ff59d541e5ef15116095445ce72b85cd0c6/LICENSE.txt/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/apple/swift-asn1/12c24ff59d541e5ef15116095445ce72b85cd0c6/NOTICE.txt/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-async-algorithms",
+      "upstream": "https://github.com/apple/swift-async-algorithms.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-async-algorithms.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-async-algorithms",
+      "oid": "6ae9a051f76b81cc668305ceed5b0e0a7fd93d20",
+      "tag_происхождения": "1.0.1",
+      "веточная_схема": "1.0.1",
+      "ограничение_платформ": [],
+      "роль": "Резерв полной схемы; не активирован выбранным preset/macOS",
+      "применим_к_сборке": false,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/apple/swift-async-algorithms/6ae9a051f76b81cc668305ceed5b0e0a7fd93d20/LICENSE.txt/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-driver",
+      "upstream": "https://github.com/swiftlang/swift-driver.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-driver.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-driver",
+      "oid": "20cd624311cb835f7a61c0103404fc191d392a38",
+      "tag_происхождения": "swift-6.1.2-RELEASE",
+      "веточная_схема": "release/6.1",
+      "ограничение_платформ": [],
+      "роль": "Активный исходный продукт",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-driver/20cd624311cb835f7a61c0103404fc191d392a38/LICENSE.txt/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-log",
+      "upstream": "https://github.com/apple/swift-log.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-log.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-log",
+      "oid": "e97a6fcb1ab07462881ac165fdbb37f067e205d5",
+      "tag_происхождения": "1.5.4",
+      "веточная_схема": "1.5.4",
+      "ограничение_платформ": [],
+      "роль": "Резерв полной схемы; не активирован выбранным preset/macOS",
+      "применим_к_сборке": false,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/apple/swift-log/e97a6fcb1ab07462881ac165fdbb37f067e205d5/LICENSE.txt/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/apple/swift-log/e97a6fcb1ab07462881ac165fdbb37f067e205d5/NOTICE.txt/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-numerics",
+      "upstream": "https://github.com/apple/swift-numerics.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-numerics.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-numerics",
+      "oid": "0a5bc04095a675662cf24757cc0640aa2204253b",
+      "tag_происхождения": "1.0.2",
+      "веточная_схема": "1.0.2",
+      "ограничение_платформ": [],
+      "роль": "Резерв полной схемы; не активирован выбранным preset/macOS",
+      "применим_к_сборке": false,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/apple/swift-numerics/0a5bc04095a675662cf24757cc0640aa2204253b/LICENSE.txt/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-syntax",
+      "upstream": "https://github.com/swiftlang/swift-syntax.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-syntax.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-syntax",
+      "oid": "cbd0366a54a9f8fdaa33834652fb2e80f2948573",
+      "tag_происхождения": "swift-6.1.2-RELEASE",
+      "веточная_схема": "release/6.1",
+      "ограничение_платформ": [],
+      "роль": "Активный исходный продукт",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-syntax/cbd0366a54a9f8fdaa33834652fb2e80f2948573/LICENSE.txt/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-system",
+      "upstream": "https://github.com/apple/swift-system.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-system.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-system",
+      "oid": "f9266c85189c2751589a50ea5aec72799797e471",
+      "tag_происхождения": "1.3.0",
+      "веточная_схема": "1.3.0",
+      "ограничение_платформ": [],
+      "роль": "Активная транзитивная зависимость пакета",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/apple/swift-system/f9266c85189c2751589a50ea5aec72799797e471/LICENSE.txt/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-stress-tester",
+      "upstream": "https://github.com/swiftlang/swift-stress-tester.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-stress-tester.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-stress-tester",
+      "oid": "35cd851fc576f443bba4531e45173f1b8c47267b",
+      "tag_происхождения": "swift-6.1.2-RELEASE",
+      "веточная_схема": "release/6.1",
+      "ограничение_платформ": [],
+      "роль": "Резерв полной схемы; не активирован выбранным preset/macOS",
+      "применим_к_сборке": false,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-stress-tester/35cd851fc576f443bba4531e45173f1b8c47267b/LICENSE/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-testing",
+      "upstream": "https://github.com/swiftlang/swift-testing.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-testing.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-testing",
+      "oid": "d6b70f9ef9eb207729fb50e0ff32edc6f72ea474",
+      "tag_происхождения": "swift-6.1.2-RELEASE",
+      "веточная_схема": "release/6.1",
+      "ограничение_платформ": [],
+      "роль": "Активный исходный продукт",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-testing/d6b70f9ef9eb207729fb50e0ff32edc6f72ea474/LICENSE.txt/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-testing/d6b70f9ef9eb207729fb50e0ff32edc6f72ea474/NOTICE.txt/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-corelibs-xctest",
+      "upstream": "https://github.com/swiftlang/swift-corelibs-xctest.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-corelibs-xctest.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-corelibs-xctest",
+      "oid": "7f2b2e286c984fb2f25aa36187f963bbdabf1b13",
+      "tag_происхождения": "swift-6.1.2-RELEASE",
+      "веточная_схема": "release/6.1",
+      "ограничение_платформ": [],
+      "роль": "Резерв полной схемы; не активирован выбранным preset/macOS",
+      "применим_к_сборке": false,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-corelibs-xctest/7f2b2e286c984fb2f25aa36187f963bbdabf1b13/LICENSE/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-corelibs-foundation",
+      "upstream": "https://github.com/swiftlang/swift-corelibs-foundation.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-corelibs-foundation.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-corelibs-foundation",
+      "oid": "056b77bdb958f410a3dbf9a619619d1fb28b3fc8",
+      "tag_происхождения": "swift-6.1.2-RELEASE",
+      "веточная_схема": "release/6.1",
+      "ограничение_платформ": [],
+      "роль": "Резерв полной схемы; не активирован выбранным preset/macOS",
+      "применим_к_сборке": false,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-corelibs-foundation/056b77bdb958f410a3dbf9a619619d1fb28b3fc8/LICENSE/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-foundation-icu",
+      "upstream": "https://github.com/swiftlang/swift-foundation-icu.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-foundation-icu.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-foundation-icu",
+      "oid": "7e255a994ec26a08214f8fea2fdaf60b296e1f22",
+      "tag_происхождения": "swift-6.1.2-RELEASE",
+      "веточная_схема": "release/6.1",
+      "ограничение_платформ": [],
+      "роль": "Резерв полной схемы; не активирован выбранным preset/macOS",
+      "применим_к_сборке": false,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-foundation-icu/7e255a994ec26a08214f8fea2fdaf60b296e1f22/LICENSE.md/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-foundation",
+      "upstream": "https://github.com/swiftlang/swift-foundation.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-foundation.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-foundation",
+      "oid": "7d4817bc3786f8b1f0a2f91b11a3d126d9283b15",
+      "tag_происхождения": "swift-6.1.2-RELEASE",
+      "веточная_схема": "release/6.1",
+      "ограничение_платформ": [],
+      "роль": "Резерв полной схемы; не активирован выбранным preset/macOS",
+      "применим_к_сборке": false,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-foundation/7d4817bc3786f8b1f0a2f91b11a3d126d9283b15/LICENSE.md/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-corelibs-libdispatch",
+      "upstream": "https://github.com/swiftlang/swift-corelibs-libdispatch.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-corelibs-libdispatch.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-corelibs-libdispatch",
+      "oid": "886ca22f659c53dae66a40ee8266c7aae9bb97cd",
+      "tag_происхождения": "swift-6.1.2-RELEASE",
+      "веточная_схема": "release/6.1",
+      "ограничение_платформ": [],
+      "роль": "Резерв полной схемы; не активирован выбранным preset/macOS",
+      "применим_к_сборке": false,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-corelibs-libdispatch/886ca22f659c53dae66a40ee8266c7aae9bb97cd/LICENSE/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-integration-tests",
+      "upstream": "https://github.com/swiftlang/swift-integration-tests.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-integration-tests.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-integration-tests",
+      "oid": "54d66724e83231ce6a9d83d5f64a129121bc249f",
+      "tag_происхождения": "swift-6.1.2-RELEASE",
+      "веточная_схема": "release/6.1",
+      "ограничение_платформ": [],
+      "роль": "Приёмка устанавливаемого пакета без have-network",
+      "применим_к_сборке": true,
+      "лицензии": [],
+      "ограничение_лицензии": "В полном дереве swift-integration-tests нет файла LICENSE/NOTICE/COPYING/COPYRIGHT; права зеркалирования и передачи требуют самостоятельного подтверждения",
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-xcode-playground-support",
+      "upstream": "https://github.com/apple/swift-xcode-playground-support.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-xcode-playground-support.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-xcode-playground-support",
+      "oid": "bbba1ba704c37d1d0131bb7d6986a80ad8cb6d6c",
+      "tag_происхождения": "swift-6.1.2-RELEASE",
+      "веточная_схема": "release/6.1",
+      "ограничение_платформ": [],
+      "роль": "Активный исходный продукт",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/apple/swift-xcode-playground-support/bbba1ba704c37d1d0131bb7d6986a80ad8cb6d6c/LICENSE.txt/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "ninja",
+      "upstream": "https://github.com/ninja-build/ninja.git",
+      "будущий_origin": "https://github.com/fum-lab/ninja.git",
+      "будущий_путь": "Зависимости/комплект-Swift/ninja",
+      "oid": "a524bf3f6bacd1b4ad85d719eed2737d8562f27a",
+      "tag_происхождения": "v1.11.1",
+      "веточная_схема": "v1.11.1",
+      "ограничение_платформ": [],
+      "роль": "Сборка Ninja штатным bootstrap",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/ninja-build/ninja/a524bf3f6bacd1b4ad85d719eed2737d8562f27a/COPYING/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "yams",
+      "upstream": "https://github.com/jpsim/Yams.git",
+      "будущий_origin": "https://github.com/fum-lab/Yams.git",
+      "будущий_путь": "Зависимости/комплект-Swift/yams",
+      "oid": "0d9ee7ea8c4ebd4a489ad7a73d5c6cad55d6fed3",
+      "tag_происхождения": "5.0.6",
+      "веточная_схема": "5.0.6",
+      "ограничение_платформ": [],
+      "роль": "Активная транзитивная зависимость пакета",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/jpsim/Yams/0d9ee7ea8c4ebd4a489ad7a73d5c6cad55d6fed3/LICENSE/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "cmake",
+      "upstream": "https://github.com/KitWare/CMake.git",
+      "будущий_origin": "https://github.com/fum-lab/CMake.git",
+      "будущий_путь": "Зависимости/комплект-Swift/cmake",
+      "oid": "d88682dff6bf053e5bbdc10accf5d6825303e656",
+      "tag_происхождения": "v3.30.2",
+      "веточная_схема": "v3.30.2",
+      "ограничение_платформ": [
+        "Linux"
+      ],
+      "роль": "Источник CMake; platforms=Linux пропускает его при Darwin update-checkout. Нативный бинарник отдельный вход",
+      "применим_к_сборке": false,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/KitWare/CMake/d88682dff6bf053e5bbdc10accf5d6825303e656/Copyright.txt/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "indexstore-db",
+      "upstream": "https://github.com/swiftlang/indexstore-db.git",
+      "будущий_origin": "https://github.com/fum-lab/indexstore-db.git",
+      "будущий_путь": "Зависимости/комплект-Swift/indexstore-db",
+      "oid": "54212fce1aecb199070808bdb265e7f17e396015",
+      "tag_происхождения": "swift-6.1.2-RELEASE",
+      "веточная_схема": "release/6.1",
+      "ограничение_платформ": [],
+      "роль": "Активный исходный продукт",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/indexstore-db/54212fce1aecb199070808bdb265e7f17e396015/LICENSE.txt/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/indexstore-db/54212fce1aecb199070808bdb265e7f17e396015/lib/Database/lmdb/COPYRIGHT/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/indexstore-db/54212fce1aecb199070808bdb265e7f17e396015/lib/Database/lmdb/LICENSE/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/indexstore-db/54212fce1aecb199070808bdb265e7f17e396015/lib/LLVMSupport/LICENSE.TXT/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "sourcekit-lsp",
+      "upstream": "https://github.com/swiftlang/sourcekit-lsp.git",
+      "будущий_origin": "https://github.com/fum-lab/sourcekit-lsp.git",
+      "будущий_путь": "Зависимости/комплект-Swift/sourcekit-lsp",
+      "oid": "a1cb7f92e42033e0f2b80de3265c3f74c5965c76",
+      "tag_происхождения": "swift-6.1.2-RELEASE",
+      "веточная_схема": "release/6.1",
+      "ограничение_платформ": [],
+      "роль": "Активный исходный продукт",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/sourcekit-lsp/a1cb7f92e42033e0f2b80de3265c3f74c5965c76/LICENSE.txt/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-format",
+      "upstream": "https://github.com/swiftlang/swift-format.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-format.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-format",
+      "oid": "4c2421c14ce852fd455c257b4e8b9cae156302f1",
+      "tag_происхождения": "swift-6.1.2-RELEASE",
+      "веточная_схема": "release/6.1",
+      "ограничение_платформ": [],
+      "роль": "Активный исходный продукт",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-format/4c2421c14ce852fd455c257b4e8b9cae156302f1/LICENSE.txt/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-installer-scripts",
+      "upstream": "https://github.com/swiftlang/swift-installer-scripts.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-installer-scripts.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-installer-scripts",
+      "oid": "406d44bd65a70713fc1864130380045918b144f7",
+      "tag_происхождения": "swift-6.1.2-RELEASE",
+      "веточная_схема": "release/6.1",
+      "ограничение_платформ": [],
+      "роль": "Резерв полной схемы; не активирован выбранным preset/macOS",
+      "применим_к_сборке": false,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-installer-scripts/406d44bd65a70713fc1864130380045918b144f7/LICENSE.txt/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-installer-scripts/406d44bd65a70713fc1864130380045918b144f7/platforms/Linux/DEB/Shared/copyright/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-docc",
+      "upstream": "https://github.com/swiftlang/swift-docc.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-docc.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-docc",
+      "oid": "f995b9750b0b40d2a4ea2ab608dd4c9cb91d9c2a",
+      "tag_происхождения": "swift-6.1.2-RELEASE",
+      "веточная_схема": "release/6.1",
+      "ограничение_платформ": [],
+      "роль": "Активный исходный продукт",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-docc/f995b9750b0b40d2a4ea2ab608dd4c9cb91d9c2a/LICENSE.txt/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-docc/f995b9750b0b40d2a4ea2ab608dd4c9cb91d9c2a/NOTICE.txt/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-lmdb",
+      "upstream": "https://github.com/swiftlang/swift-lmdb.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-lmdb.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-lmdb",
+      "oid": "c42582487fe84f72a4d417dd2d8493757bd4d072",
+      "tag_происхождения": "swift-6.1.2-RELEASE",
+      "веточная_схема": "release/6.1",
+      "ограничение_платформ": [],
+      "роль": "Активная транзитивная зависимость пакета",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-lmdb/c42582487fe84f72a4d417dd2d8493757bd4d072/libraries/liblmdb/COPYRIGHT/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-lmdb/c42582487fe84f72a4d417dd2d8493757bd4d072/libraries/liblmdb/LICENSE/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-docc-render-artifact",
+      "upstream": "https://github.com/swiftlang/swift-docc-render-artifact.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-docc-render-artifact.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-docc-render-artifact",
+      "oid": "ab1a5ac593c757cc2f2fb5106c643b7fb5ec61b2",
+      "tag_происхождения": "swift-6.1.2-RELEASE",
+      "веточная_схема": "release/6.1",
+      "ограничение_платформ": [],
+      "роль": "Установка готового dist DocC; исходное происхождение не замкнуто",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-docc-render-artifact/ab1a5ac593c757cc2f2fb5106c643b7fb5ec61b2/LICENSE.txt/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-docc-symbolkit",
+      "upstream": "https://github.com/swiftlang/swift-docc-symbolkit.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-docc-symbolkit.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-docc-symbolkit",
+      "oid": "b7412ac35f1da94254d6b9c889b25e67f2c6b2f3",
+      "tag_происхождения": "swift-6.1.2-RELEASE",
+      "веточная_схема": "release/6.1",
+      "ограничение_платформ": [],
+      "роль": "Активная транзитивная зависимость пакета",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-docc-symbolkit/b7412ac35f1da94254d6b9c889b25e67f2c6b2f3/LICENSE.txt/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-markdown",
+      "upstream": "https://github.com/swiftlang/swift-markdown.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-markdown.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-markdown",
+      "oid": "82f9258ce53b9da7980d1c1aaf80e5bdbbf98c9b",
+      "tag_происхождения": "swift-6.1.2-RELEASE",
+      "веточная_схема": "release/6.1",
+      "ограничение_платформ": [],
+      "роль": "Активная транзитивная зависимость пакета",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-markdown/82f9258ce53b9da7980d1c1aaf80e5bdbbf98c9b/LICENSE.txt/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-markdown/82f9258ce53b9da7980d1c1aaf80e5bdbbf98c9b/NOTICE.txt/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-nio",
+      "upstream": "https://github.com/apple/swift-nio.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-nio.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-nio",
+      "oid": "359c461e5561d22c6334828806cc25d759ca7aa6",
+      "tag_происхождения": "2.65.0",
+      "веточная_схема": "2.65.0",
+      "ограничение_платформ": [],
+      "роль": "Активная транзитивная зависимость пакета",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/apple/swift-nio/359c461e5561d22c6334828806cc25d759ca7aa6/LICENSE.txt/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/apple/swift-nio/359c461e5561d22c6334828806cc25d759ca7aa6/NOTICE.txt/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-experimental-string-processing",
+      "upstream": "https://github.com/swiftlang/swift-experimental-string-processing.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-experimental-string-processing.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-experimental-string-processing",
+      "oid": "3a06996805db6dc60c78e1f09738df6f44131805",
+      "tag_происхождения": "swift-6.1.2-RELEASE",
+      "веточная_схема": "swift/release/6.1",
+      "ограничение_платформ": [],
+      "роль": "Активный исходный продукт",
+      "применим_к_сборке": true,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-experimental-string-processing/3a06996805db6dc60c78e1f09738df6f44131805/LICENSE.txt/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "swift-sdk-generator",
+      "upstream": "https://github.com/swiftlang/swift-sdk-generator.git",
+      "будущий_origin": "https://github.com/fum-lab/swift-sdk-generator.git",
+      "будущий_путь": "Зависимости/комплект-Swift/swift-sdk-generator",
+      "oid": "f6da543e0d59f14d6ff652af4cff03d85d1e42f2",
+      "tag_происхождения": "swift-6.1.2-RELEASE",
+      "веточная_схема": "release/6.1",
+      "ограничение_платформ": [],
+      "роль": "Резерв полной схемы; не активирован выбранным preset/macOS",
+      "применим_к_сборке": false,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-sdk-generator/f6da543e0d59f14d6ff652af4cff03d85d1e42f2/LICENSE.txt/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "wasi-libc",
+      "upstream": "https://github.com/WebAssembly/wasi-libc.git",
+      "будущий_origin": "https://github.com/fum-lab/wasi-libc.git",
+      "будущий_путь": "Зависимости/комплект-Swift/wasi-libc",
+      "oid": "9e8c542319242a5e536e14e6046de5968d298038",
+      "tag_происхождения": "wasi-sdk-22",
+      "веточная_схема": "wasi-sdk-22",
+      "ограничение_платформ": [],
+      "роль": "Резерв полной схемы; не активирован выбранным preset/macOS",
+      "применим_к_сборке": false,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/WebAssembly/wasi-libc/9e8c542319242a5e536e14e6046de5968d298038/LICENSE-APACHE-LLVM/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/WebAssembly/wasi-libc/9e8c542319242a5e536e14e6046de5968d298038/LICENSE-APACHE/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/WebAssembly/wasi-libc/9e8c542319242a5e536e14e6046de5968d298038/LICENSE-MIT/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/WebAssembly/wasi-libc/9e8c542319242a5e536e14e6046de5968d298038/LICENSE/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "wasmkit",
+      "upstream": "https://github.com/swiftwasm/WasmKit.git",
+      "будущий_origin": "https://github.com/fum-lab/WasmKit.git",
+      "будущий_путь": "Зависимости/комплект-Swift/wasmkit",
+      "oid": "2ce00c8cd20b6cda3ce9f62b6e36d19d29f3262b",
+      "tag_происхождения": "0.1.2",
+      "веточная_схема": "0.1.2",
+      "ограничение_платформ": [],
+      "роль": "Резерв полной схемы; не активирован выбранным preset/macOS",
+      "применим_к_сборке": false,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/swiftwasm/WasmKit/2ce00c8cd20b6cda3ce9f62b6e36d19d29f3262b/LICENSE/response.body.html",
+        "Источники/URL/https/raw.githubusercontent.com/swiftwasm/WasmKit/2ce00c8cd20b6cda3ce9f62b6e36d19d29f3262b/NOTICE.txt/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "curl",
+      "upstream": "https://github.com/curl/curl.git",
+      "будущий_origin": "https://github.com/fum-lab/curl.git",
+      "будущий_путь": "Зависимости/комплект-Swift/curl",
+      "oid": "83bedbd730d62b83744cc26fa0433d3f6e2e4cd6",
+      "tag_происхождения": "curl-8_9_1",
+      "веточная_схема": "curl-8_9_1",
+      "ограничение_платформ": [],
+      "роль": "Резерв полной схемы; не активирован выбранным preset/macOS",
+      "применим_к_сборке": false,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/curl/curl/83bedbd730d62b83744cc26fa0433d3f6e2e4cd6/COPYING/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "libxml2",
+      "upstream": "https://github.com/gnome/libxml2.git",
+      "будущий_origin": "https://github.com/fum-lab/libxml2.git",
+      "будущий_путь": "Зависимости/комплект-Swift/libxml2",
+      "oid": "2b998a4ffbdfea04fc6a620721abc690a15743af",
+      "tag_происхождения": "v2.11.5",
+      "веточная_схема": "v2.11.5",
+      "ограничение_платформ": [],
+      "роль": "Резерв полной схемы; не активирован выбранным preset/macOS",
+      "применим_к_сборке": false,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/gnome/libxml2/2b998a4ffbdfea04fc6a620721abc690a15743af/Copyright/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    },
+    {
+      "имя": "zlib",
+      "upstream": "https://github.com/madler/zlib.git",
+      "будущий_origin": "https://github.com/fum-lab/zlib.git",
+      "будущий_путь": "Зависимости/комплект-Swift/zlib",
+      "oid": "51b7f2abdade71cd9bb0e7a373ef2610ec6f9daf",
+      "tag_происхождения": "v1.3.1",
+      "веточная_схема": "v1.3.1",
+      "ограничение_платформ": [],
+      "роль": "Резерв полной схемы; не активирован выбранным preset/macOS",
+      "применим_к_сборке": false,
+      "лицензии": [
+        "Источники/URL/https/raw.githubusercontent.com/madler/zlib/51b7f2abdade71cd9bb0e7a373ef2610ec6f9daf/LICENSE/response.body.html"
+      ],
+      "ограничение_лицензии": null,
+      "зеркало": "не материализовано этой задачей; существование/права будущего origin не проверены",
+      "gitlink": null,
+      "полные_байты_доставки": false
+    }
+  ],
+  "входы": [
+    {
+      "имя": "macOS",
+      "sha256": null,
+      "роль": "Гостевая система и её системные библиотеки",
+      "версия": "15.2",
+      "build": "24C101",
+      "архитектура": "arm64"
+    },
+    {
+      "имя": "Xcode",
+      "sha256": null,
+      "роль": "Проприетарный комплект инструментов; законно предоставляемый вход",
+      "версия": "16.2 RC",
+      "build": "16C5031c"
+    },
+    {
+      "имя": "SDK",
+      "sha256": null,
+      "роль": "macOS SDK с frameworks и библиотеками",
+      "версия": "15.2",
+      "build": "24C94"
+    },
+    {
+      "имя": "bootstrap-Swift",
+      "sha256": null,
+      "роль": "Один Swift executable для compiler modules и CMake",
+      "версия": "Apple Swift6.0.3 (swiftlang-6.0.3.1.9 clang-1600.0.30.1)"
+    },
+    {
+      "имя": "Python",
+      "sha256": null,
+      "роль": "Xcode Python3.framework: Interpreter/Development/Embed",
+      "версия": "3.9.6"
+    },
+    {
+      "имя": "CMake",
+      "sha256": null,
+      "роль": "Нативный bootstrap CMake",
+      "версия_кандидат": "3.30.2",
+      "исходный_репозиторий": "cmake"
+    },
+    {
+      "имя": "SWIG",
+      "sha256": null,
+      "роль": "Генератор Python bindings LLDB",
+      "версия": "4.1.1",
+      "oid": "77323a0f07562b7d90d36181697a72a909b9519a",
+      "upstream": "https://github.com/swig/swig.git"
+    },
+    {
+      "имя": "PCRE2",
+      "sha256": null,
+      "роль": "Статическая 8-bit библиотека для SWIG",
+      "версия": "10.42",
+      "oid": "52c08847921a324c804cabf2814549f50bce1265",
+      "upstream": "https://github.com/PCRE2Project/pcre2.git"
+    },
+    {
+      "имя": "Bison",
+      "sha256": null,
+      "роль": "Генератор SWIG parser.y; версия, M4/skeleton/runtime closure ещё не приняты"
+    },
+    {
+      "имя": "упаковка",
+      "sha256": null,
+      "роль": "Shell, файловые/архивные и Apple инструменты; точный исполняемый набор и хэши ещё не приняты",
+      "ожидаемые_утилиты": [
+        "bash",
+        "make",
+        "git",
+        "tar",
+        "gzip",
+        "rsync",
+        "cp",
+        "mv",
+        "mkdir",
+        "rm",
+        "sed",
+        "awk",
+        "grep",
+        "find",
+        "plutil",
+        "xcrun",
+        "xcodebuild",
+        "clang",
+        "clang++",
+        "ld",
+        "ar",
+        "ranlib",
+        "dsymutil",
+        "lipo",
+        "otool",
+        "install_name_tool",
+        "codesign",
+        "debugserver"
+      ]
+    },
+    {
+      "имя": "Python-установка",
+      "sha256": null,
+      "роль": "Точный installer/изолированная среда ещё не выбраны; source build backends также незамкнуты"
+    },
+    {
+      "имя": "SDK-библиотеки",
+      "sha256": null,
+      "роль": "Явные SDK/host Frameworks и системные библиотеки",
+      "компоненты": [
+        "Foundation",
+        "Dispatch",
+        "XCTest",
+        "CryptoKit",
+        "libc++",
+        "libSystem",
+        "sqlite3",
+        "zlib",
+        "libxml2",
+        "libedit",
+        "curses"
+      ]
+    },
+    {
+      "имя": "BoringSSL",
+      "sha256": null,
+      "роль": "Vendored bytes в swift-crypto; регенерация не назначена",
+      "oid": "7ae2b910c13017b63f1a8bd6c8decfce692869b0",
+      "контейнер": "swift-crypto",
+      "путь": "Sources/CCryptoBoringSSL"
+    },
+    {
+      "имя": "fiat-crypto",
+      "sha256": null,
+      "роль": "Vendored generated bytes в BoringSSL/SwiftCrypto; CryptOpt regeneration не замкнута",
+      "oid": "6ccc6638716d4632304baf1adbb5c47c3a12ea6f",
+      "контейнер": "BoringSSL"
+    },
+    {
+      "имя": "установленный-toolchain",
+      "sha256": null,
+      "роль": "Будущий результат: swift/swiftc/swift-build/остальные продукты в отдельном префиксе"
+    },
+    {
+      "имя": "pexpect",
+      "sha256": "7236d1e080e4936be2dc3e326cec0af72acf9212a7e1d060210e70a47e253523",
+      "роль": "Тестовый Python модуль; wheel SHA проверен чтением, импорт на host не выполнялся",
+      "версия": "4.9.0",
+      "oid": "aa989594e1e413f45c18b26ded1783f7d5990fe5",
+      "upstream": "https://github.com/pexpect/pexpect.git",
+      "wheel": {
+        "файл": "pexpect-4.9.0-py2.py3-none-any.whl",
+        "url": "https://files.pythonhosted.org/packages/9e/c3/059298687310d527a58bb01f3b1965787ee3b40dce76752eda8b44e9a2c5/pexpect-4.9.0-py2.py3-none-any.whl",
+        "тип": "bdist_wheel",
+        "байтов": 63772,
+        "sha256": "7236d1e080e4936be2dc3e326cec0af72acf9212a7e1d060210e70a47e253523",
+        "SHA256_проверен_чтением": true,
+        "лицензионные_файлы_архива": [
+          {
+            "путь": "pexpect-4.9.0.dist-info/LICENSE",
+            "sha256": "4a483ae1c4dc738a6c8b73feb49074e1835da02ab5aa686f2675029906fa364d"
+          }
+        ],
+        "метаданные_wheel": [
+          "Name: pexpect",
+          "Version: 4.9.0",
+          "License: ISC license",
+          "License-File: LICENSE",
+          "Requires-Dist: ptyprocess (>=0.5)",
+          "Root-Is-Purelib: true",
+          "Tag: py2-none-any",
+          "Tag: py3-none-any"
+        ]
+      },
+      "sdist": {
+        "файл": "pexpect-4.9.0.tar.gz",
+        "url": "https://files.pythonhosted.org/packages/42/92/cc564bf6381ff43ce1f4d06852fc19a2f11d180f23dc32d9588bee2f149d/pexpect-4.9.0.tar.gz",
+        "тип": "sdist",
+        "байтов": 166450,
+        "sha256": "ee7d41123f3c9911050ea2c2dac107568dc43b2d3b0c7557a33212c398ead30f",
+        "SHA256_проверен_чтением": true,
+        "лицензионные_файлы_архива": [
+          {
+            "путь": "pexpect-4.9.0/LICENSE",
+            "sha256": "4a483ae1c4dc738a6c8b73feb49074e1835da02ab5aa686f2675029906fa364d"
+          }
+        ],
+        "метаданные_wheel": []
+      },
+      "лицензия": "Источники/URL/https/raw.githubusercontent.com/pexpect/pexpect/aa989594e1e413f45c18b26ded1783f7d5990fe5/LICENSE/response.body.html"
+    },
+    {
+      "имя": "ptyprocess",
+      "sha256": "4b41f3967fce3af57cc7e94b888626c18bf37a083e3651ca8feeb66d492fef35",
+      "роль": "Тестовый Python модуль; wheel SHA проверен чтением, импорт на host не выполнялся",
+      "версия": "0.7.0",
+      "oid": "ee54ae2ee6bdd1e9f040dac79d799ae5b178e8fe",
+      "upstream": "https://github.com/pexpect/ptyprocess.git",
+      "wheel": {
+        "файл": "ptyprocess-0.7.0-py2.py3-none-any.whl",
+        "url": "https://files.pythonhosted.org/packages/22/a6/858897256d0deac81a172289110f31629fc4cee19b6f01283303e18c8db3/ptyprocess-0.7.0-py2.py3-none-any.whl",
+        "тип": "bdist_wheel",
+        "байтов": 13993,
+        "sha256": "4b41f3967fce3af57cc7e94b888626c18bf37a083e3651ca8feeb66d492fef35",
+        "SHA256_проверен_чтением": true,
+        "лицензионные_файлы_архива": [
+          {
+            "путь": "ptyprocess-0.7.0.dist-info/LICENSE",
+            "sha256": "c822d385b1a73329846241799becf18690b5d44764c1bed69300b536a405030a"
+          }
+        ],
+        "метаданные_wheel": [
+          "Root-Is-Purelib: true",
+          "Tag: py2-none-any",
+          "Tag: py3-none-any",
+          "Name: ptyprocess",
+          "Version: 0.7.0",
+          "License: UNKNOWN"
+        ]
+      },
+      "sdist": {
+        "файл": "ptyprocess-0.7.0.tar.gz",
+        "url": "https://files.pythonhosted.org/packages/20/e5/16ff212c1e452235a90aeb09066144d0c5a6a8c0834397e03f5224495c4e/ptyprocess-0.7.0.tar.gz",
+        "тип": "sdist",
+        "байтов": 70762,
+        "sha256": "5c5d0a3b48ceee0b48485e0c26037c0acd7d29765ca3fbb5cb3831d347423220",
+        "SHA256_проверен_чтением": true,
+        "лицензионные_файлы_архива": [
+          {
+            "путь": "ptyprocess-0.7.0/LICENSE",
+            "sha256": "c822d385b1a73329846241799becf18690b5d44764c1bed69300b536a405030a"
+          }
+        ],
+        "метаданные_wheel": []
+      },
+      "лицензия": "Источники/URL/https/raw.githubusercontent.com/pexpect/ptyprocess/ee54ae2ee6bdd1e9f040dac79d799ae5b178e8fe/LICENSE/response.body.html"
+    },
+    {
+      "имя": "psutil",
+      "sha256": "d16bbddf0693323b8c6123dd804100241da461e41d6e332fb0ba6058f630f8c8",
+      "роль": "Тестовый Python модуль; wheel SHA проверен чтением, импорт на host не выполнялся",
+      "версия": "5.9.8",
+      "oid": "27a1432daeacd46b287517c11bfea2af4fd95a88",
+      "upstream": "https://github.com/giampaolo/psutil.git",
+      "wheel": {
+        "файл": "psutil-5.9.8-cp38-abi3-macosx_11_0_arm64.whl",
+        "url": "https://files.pythonhosted.org/packages/05/33/2d74d588408caedd065c2497bdb5ef83ce6082db01289a1e1147f6639802/psutil-5.9.8-cp38-abi3-macosx_11_0_arm64.whl",
+        "тип": "bdist_wheel",
+        "байтов": 249898,
+        "sha256": "d16bbddf0693323b8c6123dd804100241da461e41d6e332fb0ba6058f630f8c8",
+        "SHA256_проверен_чтением": true,
+        "лицензионные_файлы_архива": [
+          {
+            "путь": "psutil-5.9.8.dist-info/LICENSE",
+            "sha256": "b89c063b3786e28e0c0a38f1931db61fed35e69dd2a2966fbecffee0f46c8d10"
+          }
+        ],
+        "метаданные_wheel": [
+          "Root-Is-Purelib: false",
+          "Tag: cp38-abi3-macosx_11_0_arm64",
+          "Name: psutil",
+          "Version: 5.9.8",
+          "License: BSD-3-Clause",
+          "Requires-Python: >=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*",
+          "License-File: LICENSE",
+          "Requires-Dist: ipaddress ; (python_version < \"3.0\") and extra == 'test'",
+          "Requires-Dist: mock ; (python_version < \"3.0\") and extra == 'test'",
+          "Requires-Dist: enum34 ; (python_version <= \"3.4\") and extra == 'test'",
+          "Requires-Dist: pywin32 ; (sys_platform == \"win32\") and extra == 'test'",
+          "Requires-Dist: wmi ; (sys_platform == \"win32\") and extra == 'test'"
+        ]
+      },
+      "sdist": {
+        "файл": "psutil-5.9.8.tar.gz",
+        "url": "https://files.pythonhosted.org/packages/90/c7/6dc0a455d111f68ee43f27793971cf03fe29b6ef972042549db29eec39a2/psutil-5.9.8.tar.gz",
+        "тип": "sdist",
+        "байтов": 503247,
+        "sha256": "6be126e3225486dff286a8fb9a06246a5253f4c7c53b475ea5f5ac934e64194c",
+        "SHA256_проверен_чтением": true,
+        "лицензионные_файлы_архива": [
+          {
+            "путь": "psutil-5.9.8/LICENSE",
+            "sha256": "b89c063b3786e28e0c0a38f1931db61fed35e69dd2a2966fbecffee0f46c8d10"
+          }
+        ],
+        "метаданные_wheel": []
+      },
+      "лицензия": "Источники/URL/https/raw.githubusercontent.com/giampaolo/psutil/27a1432daeacd46b287517c11bfea2af4fd95a88/LICENSE/response.body.html"
+    }
+  ],
+  "рёбра": [
+    {
+      "от": "swiftpm",
+      "к": "llbuild",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим; SWIFTPM_LLBUILD_FWK отсутствует",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swiftpm → llbuild"
+    },
+    {
+      "от": "swiftpm",
+      "к": "swift-tools-support-core",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swiftpm → swift-tools-support-core"
+    },
+    {
+      "от": "swiftpm",
+      "к": "swift-argument-parser",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swiftpm → swift-argument-parser"
+    },
+    {
+      "от": "swiftpm",
+      "к": "swift-driver",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swiftpm → swift-driver"
+    },
+    {
+      "от": "swiftpm",
+      "к": "swift-crypto",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swiftpm → swift-crypto"
+    },
+    {
+      "от": "swiftpm",
+      "к": "swift-syntax",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swiftpm → swift-syntax"
+    },
+    {
+      "от": "swiftpm",
+      "к": "swift-system",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swiftpm → swift-system"
+    },
+    {
+      "от": "swiftpm",
+      "к": "swift-collections",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swiftpm → swift-collections"
+    },
+    {
+      "от": "swiftpm",
+      "к": "swift-certificates",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swiftpm → swift-certificates"
+    },
+    {
+      "от": "swiftpm",
+      "к": "swift-toolchain-sqlite",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swiftpm → swift-toolchain-sqlite"
+    },
+    {
+      "от": "llbuild",
+      "к": "swift-toolchain-sqlite",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "llbuild → swift-toolchain-sqlite"
+    },
+    {
+      "от": "swift-driver",
+      "к": "llbuild",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим; SWIFT_DRIVER_LLBUILD_FWK отсутствует",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swift-driver → llbuild"
+    },
+    {
+      "от": "swift-driver",
+      "к": "swift-tools-support-core",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swift-driver → swift-tools-support-core"
+    },
+    {
+      "от": "swift-driver",
+      "к": "yams",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swift-driver → yams"
+    },
+    {
+      "от": "swift-driver",
+      "к": "swift-argument-parser",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swift-driver → swift-argument-parser"
+    },
+    {
+      "от": "swift-certificates",
+      "к": "swift-crypto",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swift-certificates → swift-crypto"
+    },
+    {
+      "от": "swift-certificates",
+      "к": "swift-asn1",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swift-certificates → swift-asn1"
+    },
+    {
+      "от": "swift-docc",
+      "к": "swift-nio",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swift-docc → swift-nio"
+    },
+    {
+      "от": "swift-docc",
+      "к": "swift-markdown",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swift-docc → swift-markdown"
+    },
+    {
+      "от": "swift-docc",
+      "к": "swift-lmdb",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swift-docc → swift-lmdb"
+    },
+    {
+      "от": "swift-docc",
+      "к": "swift-argument-parser",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swift-docc → swift-argument-parser"
+    },
+    {
+      "от": "swift-docc",
+      "к": "swift-docc-symbolkit",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swift-docc → swift-docc-symbolkit"
+    },
+    {
+      "от": "swift-docc",
+      "к": "swift-crypto",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swift-docc → swift-crypto"
+    },
+    {
+      "от": "swift-nio",
+      "к": "swift-atomics",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swift-nio → swift-atomics"
+    },
+    {
+      "от": "swift-nio",
+      "к": "swift-collections",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swift-nio → swift-collections"
+    },
+    {
+      "от": "swift-nio",
+      "к": "swift-system",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swift-nio → swift-system"
+    },
+    {
+      "от": "sourcekit-lsp",
+      "к": "indexstore-db",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "sourcekit-lsp → indexstore-db"
+    },
+    {
+      "от": "sourcekit-lsp",
+      "к": "swift-tools-support-core",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "sourcekit-lsp → swift-tools-support-core"
+    },
+    {
+      "от": "sourcekit-lsp",
+      "к": "swift-argument-parser",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "sourcekit-lsp → swift-argument-parser"
+    },
+    {
+      "от": "sourcekit-lsp",
+      "к": "swift-syntax",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "sourcekit-lsp → swift-syntax"
+    },
+    {
+      "от": "sourcekit-lsp",
+      "к": "swift-crypto",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "sourcekit-lsp → swift-crypto"
+    },
+    {
+      "от": "sourcekit-lsp",
+      "к": "swiftpm",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "sourcekit-lsp → swiftpm"
+    },
+    {
+      "от": "swift-format",
+      "к": "swift-argument-parser",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swift-format → swift-argument-parser"
+    },
+    {
+      "от": "swift-format",
+      "к": "swift-markdown",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swift-format → swift-markdown"
+    },
+    {
+      "от": "swift-format",
+      "к": "swift-syntax",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swift-format → swift-syntax"
+    },
+    {
+      "от": "swift-markdown",
+      "к": "cmark",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swift-markdown → cmark"
+    },
+    {
+      "от": "swift-syntax",
+      "к": "swift-argument-parser",
+      "условие": "SWIFTCI_USE_LOCAL_DEPS=1; обычная toolchain-сборка, не test-only/combined-sourcekit режим",
+      "вид": "локальный пакет SwiftPM",
+      "исходная_цель": "swift-syntax/SwiftSyntaxDevUtils → swift-argument-parser"
+    },
+    {
+      "от": "swift-tools-support-core",
+      "к": "swift-system",
+      "условие": "SwiftPM Utilities/bootstrap вызывает build_dependency(tsc) с SwiftSystem_DIR; root Package.swift TSC не имеет внешних package dependencies",
+      "вид": "зависимость начальной сборки CMake",
+      "исходная_цель": "swift-tools-support-core → swift-system"
+    },
+    {
+      "от": "swift-certificates",
+      "к": "swift-crypto",
+      "условие": "безусловно, включая Darwin",
+      "вид": "продукт зависимости цели",
+      "исходная_цель": "swift-certificates/X509 → swift-crypto/_CryptoExtras"
+    },
+    {
+      "от": "swift-crypto",
+      "к": "BoringSSL",
+      "условие": "безусловно; CCryptoBoringSSL + shims + CryptoBoringWrapper",
+      "вид": "вложенная цель сборки",
+      "исходная_цель": "swift-crypto/_CryptoExtras → BoringSSL"
+    },
+    {
+      "от": "swift-crypto",
+      "к": "SDK-библиотеки",
+      "условие": "Darwin, development=false; перечисленные Linux/Android/Windows/WASI BoringSSL условия для Crypto не исключают _CryptoExtras",
+      "вид": "системная платформа из SDK",
+      "исходная_цель": "swift-crypto/Crypto → CryptoKit"
+    },
+    {
+      "от": "BoringSSL",
+      "к": "fiat-crypto",
+      "условие": "включённые BoringSSL third_party/fiat source bytes; регенерация не назначена",
+      "вид": "вложенные сгенерированные файлы",
+      "исходная_цель": "BoringSSL → fiat-crypto"
+    },
+    {
+      "от": "swiftpm",
+      "к": "SDK-библиотеки",
+      "условие": "Basics→SPMSQLite3 для macOS; SwiftToolchainCSQLite продукт условен Windows/Android, но package dependency всё равно объявлен",
+      "вид": "системная библиотека",
+      "исходная_цель": "swiftpm → SDK/sqlite3"
+    },
+    {
+      "от": "swift-testing",
+      "к": "swift-syntax",
+      "условие": "swift_testing_macros.py задаёт SwiftSyntax_DIR на собранный swift/cmake/modules; Package.swift standalone зависимости 601.0.0-latest не используются",
+      "вид": "модуль набора инструментов CMake",
+      "исходная_цель": "swift-testing → swift-syntax"
+    },
+    {
+      "от": "swift",
+      "к": "установленный-toolchain",
+      "условие": "benchmark Package.swift не объявляет внешних packages",
+      "вид": "компилятор приёмочного сценария",
+      "исходная_цель": "swift/benchmark → installed-toolchain/swift-build"
+    },
+    {
+      "от": "swift",
+      "к": "cmark",
+      "условие": "Выбранный полный preset и его приёмка",
+      "вид": "Сборочный либо устанавливаемый продукт"
+    },
+    {
+      "от": "swift",
+      "к": "indexstore-db",
+      "условие": "Выбранный полный preset и его приёмка",
+      "вид": "Сборочный либо устанавливаемый продукт"
+    },
+    {
+      "от": "swift",
+      "к": "llbuild",
+      "условие": "Выбранный полный preset и его приёмка",
+      "вид": "Сборочный либо устанавливаемый продукт"
+    },
+    {
+      "от": "swift",
+      "к": "llvm-project",
+      "условие": "Выбранный полный preset и его приёмка",
+      "вид": "Сборочный либо устанавливаемый продукт"
+    },
+    {
+      "от": "swift",
+      "к": "ninja",
+      "условие": "Выбранный полный preset и его приёмка",
+      "вид": "Сборочный либо устанавливаемый продукт"
+    },
+    {
+      "от": "swift",
+      "к": "sourcekit-lsp",
+      "условие": "Выбранный полный preset и его приёмка",
+      "вид": "Сборочный либо устанавливаемый продукт"
+    },
+    {
+      "от": "swift",
+      "к": "swift",
+      "условие": "Выбранный полный preset и его приёмка",
+      "вид": "Сборочный либо устанавливаемый продукт"
+    },
+    {
+      "от": "swift",
+      "к": "swift-docc",
+      "условие": "Выбранный полный preset и его приёмка",
+      "вид": "Сборочный либо устанавливаемый продукт"
+    },
+    {
+      "от": "swift",
+      "к": "swift-docc-render-artifact",
+      "условие": "Выбранный полный preset и его приёмка",
+      "вид": "Сборочный либо устанавливаемый продукт"
+    },
+    {
+      "от": "swift",
+      "к": "swift-driver",
+      "условие": "Выбранный полный preset и его приёмка",
+      "вид": "Сборочный либо устанавливаемый продукт"
+    },
+    {
+      "от": "swift",
+      "к": "swift-experimental-string-processing",
+      "условие": "Выбранный полный preset и его приёмка",
+      "вид": "Сборочный либо устанавливаемый продукт"
+    },
+    {
+      "от": "swift",
+      "к": "swift-format",
+      "условие": "Выбранный полный preset и его приёмка",
+      "вид": "Сборочный либо устанавливаемый продукт"
+    },
+    {
+      "от": "swift",
+      "к": "swift-integration-tests",
+      "условие": "Выбранный полный preset и его приёмка",
+      "вид": "Сборочный либо устанавливаемый продукт"
+    },
+    {
+      "от": "swift",
+      "к": "swift-syntax",
+      "условие": "Выбранный полный preset и его приёмка",
+      "вид": "Сборочный либо устанавливаемый продукт"
+    },
+    {
+      "от": "swift",
+      "к": "swift-testing",
+      "условие": "Выбранный полный preset и его приёмка",
+      "вид": "Сборочный либо устанавливаемый продукт"
+    },
+    {
+      "от": "swift",
+      "к": "swift-xcode-playground-support",
+      "условие": "Выбранный полный preset и его приёмка",
+      "вид": "Сборочный либо устанавливаемый продукт"
+    },
+    {
+      "от": "swift",
+      "к": "swiftpm",
+      "условие": "Выбранный полный preset и его приёмка",
+      "вид": "Сборочный либо устанавливаемый продукт"
+    },
+    {
+      "от": "swift",
+      "к": "bootstrap-Swift",
+      "условие": "HOSTTOOLS Swift>=5.8; один executable",
+      "вид": "Внешний вход сборки/приёмки"
+    },
+    {
+      "от": "swift",
+      "к": "Xcode",
+      "условие": "compiler/SDK/debugserver/toolchain packaging",
+      "вид": "Внешний вход сборки/приёмки"
+    },
+    {
+      "от": "Xcode",
+      "к": "SDK",
+      "условие": "Точный комплект16C5031c",
+      "вид": "Внешний вход сборки/приёмки"
+    },
+    {
+      "от": "Xcode",
+      "к": "Python",
+      "условие": "Фреймворк3.9.6 native arm64",
+      "вид": "Внешний вход сборки/приёмки"
+    },
+    {
+      "от": "SDK",
+      "к": "SDK-библиотеки",
+      "условие": "Фреймворки и библиотеки выбранного SDK",
+      "вид": "Внешний вход сборки/приёмки"
+    },
+    {
+      "от": "Xcode",
+      "к": "macOS",
+      "условие": "Host arm64 15.2(24C101), приёмка ещё отсутствует",
+      "вид": "Внешний вход сборки/приёмки"
+    },
+    {
+      "от": "swift",
+      "к": "CMake",
+      "условие": "Конфигурация всех продуктов",
+      "вид": "Внешний вход сборки/приёмки"
+    },
+    {
+      "от": "swift",
+      "к": "упаковка",
+      "условие": "build-script-impl и выпуск .xctoolchain/.tar.gz",
+      "вид": "Внешний вход сборки/приёмки"
+    },
+    {
+      "от": "llvm-project",
+      "к": "SWIG",
+      "условие": "LLDB_ENABLE_SWIG=ON",
+      "вид": "Внешний вход сборки/приёмки"
+    },
+    {
+      "от": "llvm-project",
+      "к": "Python",
+      "условие": "LLDB_ENABLE_PYTHON=ON",
+      "вид": "Внешний вход сборки/приёмки"
+    },
+    {
+      "от": "llvm-project",
+      "к": "SDK-библиотеки",
+      "условие": "CURSES/LIBEDIT/LIBXML2=ON; LZMA/LUA/FBSDVMCORE=OFF",
+      "вид": "Внешний вход сборки/приёмки"
+    },
+    {
+      "от": "SWIG",
+      "к": "PCRE2",
+      "условие": "WITH_PCRE=ON; 8-bit static",
+      "вид": "Внешний вход сборки/приёмки"
+    },
+    {
+      "от": "SWIG",
+      "к": "Bison",
+      "условие": "CMake find_package(BISON REQUIRED)",
+      "вид": "Внешний вход сборки/приёмки"
+    },
+    {
+      "от": "SWIG",
+      "к": "CMake",
+      "условие": "Источниковый путь CMake; Autoconf/Automake не выбран",
+      "вид": "Внешний вход сборки/приёмки"
+    },
+    {
+      "от": "PCRE2",
+      "к": "CMake",
+      "условие": "Статический8-bit CMake build без JIT/grep/test/additional libs",
+      "вид": "Внешний вход сборки/приёмки"
+    },
+    {
+      "от": "swift-integration-tests",
+      "к": "pexpect",
+      "условие": "REPL tests должны исполняться, не пропускаться",
+      "вид": "Внешний вход сборки/приёмки"
+    },
+    {
+      "от": "llvm-project",
+      "к": "psutil",
+      "условие": "lit timeout",
+      "вид": "Внешний вход сборки/приёмки"
+    },
+    {
+      "от": "pexpect",
+      "к": "ptyprocess",
+      "условие": "requires_dist>=0.5; выбран0.7.0",
+      "вид": "Внешний вход сборки/приёмки"
+    },
+    {
+      "от": "Python",
+      "к": "Python-установка",
+      "условие": "Воспроизводимая установка трёх test modules",
+      "вид": "Внешний вход сборки/приёмки"
+    }
+  ],
+  "снимки": [
+    {
+      "путь": "Источники/URL/https/boringssl.googlesource.com/boringssl/_segment-a318c24216defe20/7ae2b910c13017b63f1a8bd6c8decfce692869b0/LICENSE/_query-153632ad3799e765/response.body.html",
+      "sha256": "59fa1300835a9d368e1f23d61cbe0ab9d06985421c06764e3890969496b7ed82",
+      "url": "https://boringssl.googlesource.com/boringssl/+/7ae2b910c13017b63f1a8bd6c8decfce692869b0/LICENSE?format=TEXT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/boringssl.googlesource.com/boringssl/_segment-a318c24216defe20/7ae2b910c13017b63f1a8bd6c8decfce692869b0/LICENSE/_query-153632ad3799e765/раскодировано.txt",
+      "sha256": "a78d37138db9a43843736b2973284b61af19cd5384cf3c752e922171b0d4fc56",
+      "url": "https://boringssl.googlesource.com/boringssl/+/7ae2b910c13017b63f1a8bd6c8decfce692869b0/LICENSE?format=TEXT",
+      "роль": "Декодированный полный лицензионный текст"
+    },
+    {
+      "путь": "Источники/URL/https/boringssl.googlesource.com/boringssl/_segment-a318c24216defe20/7ae2b910c13017b63f1a8bd6c8decfce692869b0/third_party/fiat/LICENSE/_query-153632ad3799e765/response.body.html",
+      "sha256": "360b222bd538bea5cbd25a9d9ab53bf296326114ee423ce9dc6649960407d19e",
+      "url": "https://boringssl.googlesource.com/boringssl/+/7ae2b910c13017b63f1a8bd6c8decfce692869b0/third_party/fiat/LICENSE?format=TEXT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/boringssl.googlesource.com/boringssl/_segment-a318c24216defe20/7ae2b910c13017b63f1a8bd6c8decfce692869b0/third_party/fiat/LICENSE/_query-153632ad3799e765/раскодировано.txt",
+      "sha256": "43e358d7b6eb109d0f51f7b3a090fd82607965767c25fadee39e922475de2061",
+      "url": "https://boringssl.googlesource.com/boringssl/+/7ae2b910c13017b63f1a8bd6c8decfce692869b0/third_party/fiat/LICENSE?format=TEXT",
+      "роль": "Декодированный полный лицензионный текст"
+    },
+    {
+      "путь": "Источники/URL/https/boringssl.googlesource.com/boringssl/_segment-a318c24216defe20/7ae2b910c13017b63f1a8bd6c8decfce692869b0/third_party/fiat/METADATA/_query-153632ad3799e765/response.body.html",
+      "sha256": "d53522728343d8f3742da5dcfc0f65174c2e6b59195527f0a69feb3ddd758f11",
+      "url": "https://boringssl.googlesource.com/boringssl/+/7ae2b910c13017b63f1a8bd6c8decfce692869b0/third_party/fiat/METADATA?format=TEXT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/boringssl.googlesource.com/boringssl/_segment-a318c24216defe20/7ae2b910c13017b63f1a8bd6c8decfce692869b0/third_party/fiat/METADATA/_query-153632ad3799e765/раскодировано.txt",
+      "sha256": "d563e3931e00982741d6bf065385bca046ce5959b2f6a9f98cfd9896f9e9cde2",
+      "url": "https://boringssl.googlesource.com/boringssl/+/7ae2b910c13017b63f1a8bd6c8decfce692869b0/third_party/fiat/METADATA?format=TEXT",
+      "роль": "Декодированный полный лицензионный текст"
+    },
+    {
+      "путь": "Источники/URL/https/boringssl.googlesource.com/boringssl/_segment-a318c24216defe20/7ae2b910c13017b63f1a8bd6c8decfce692869b0/third_party/fiat/README.chromium/_query-153632ad3799e765/response.body.html",
+      "sha256": "51d2fca9ae6325b9cd46727625a49a49bb8c069a878ca25f5419f37dfbfe2402",
+      "url": "https://boringssl.googlesource.com/boringssl/+/7ae2b910c13017b63f1a8bd6c8decfce692869b0/third_party/fiat/README.chromium?format=TEXT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/boringssl.googlesource.com/boringssl/_segment-a318c24216defe20/7ae2b910c13017b63f1a8bd6c8decfce692869b0/third_party/fiat/README.chromium/_query-153632ad3799e765/раскодировано.txt",
+      "sha256": "5f6ca3c09cdcfa6708d5b44cbce113c048a92a1e4a8dc61a756500fa9144ef7d",
+      "url": "https://boringssl.googlesource.com/boringssl/+/7ae2b910c13017b63f1a8bd6c8decfce692869b0/third_party/fiat/README.chromium?format=TEXT",
+      "роль": "Декодированный полный лицензионный текст"
+    },
+    {
+      "путь": "Источники/URL/https/boringssl.googlesource.com/boringssl/_segment-a318c24216defe20/7ae2b910c13017b63f1a8bd6c8decfce692869b0/third_party/fiat/README.md/_query-153632ad3799e765/response.body.html",
+      "sha256": "d945d647544ff748a648f33864a2f438a9a67bbb0127bdc80285e7959e3d28e8",
+      "url": "https://boringssl.googlesource.com/boringssl/+/7ae2b910c13017b63f1a8bd6c8decfce692869b0/third_party/fiat/README.md?format=TEXT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/boringssl.googlesource.com/boringssl/_segment-a318c24216defe20/7ae2b910c13017b63f1a8bd6c8decfce692869b0/third_party/fiat/README.md/_query-153632ad3799e765/раскодировано.txt",
+      "sha256": "9260b73c9df09718c2a5a49f379af57b8311cf11bddff2c7cd5dee5b94dcda82",
+      "url": "https://boringssl.googlesource.com/boringssl/+/7ae2b910c13017b63f1a8bd6c8decfce692869b0/third_party/fiat/README.md?format=TEXT",
+      "роль": "Декодированный полный лицензионный текст"
+    },
+    {
+      "путь": "Источники/URL/https/pypi.org/pypi/pexpect/4.9.0/json/response.body.html",
+      "sha256": "d6e320041db827fce8fe20dd62c807170fd83bd7f2566613c30824e156e16fc8",
+      "url": "https://pypi.org/pypi/pexpect/4.9.0/json",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/pypi.org/pypi/psutil/5.9.8/json/response.body.html",
+      "sha256": "63996f682200c7888be21b7beb593b01c5aaac33a549facdf8c33734824b8e7c",
+      "url": "https://pypi.org/pypi/psutil/5.9.8/json",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/pypi.org/pypi/ptyprocess/0.7.0/json/response.body.html",
+      "sha256": "0c0fc6ffeabfe060db4b7657d629baba51763670b3733671c7472188c9341dd8",
+      "url": "https://pypi.org/pypi/ptyprocess/0.7.0/json",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/KitWare/CMake/d88682dff6bf053e5bbdc10accf5d6825303e656/Copyright.txt/response.body.html",
+      "sha256": "0676e30827684487aa0ea8f72f01e9460a6320fa34a2888df0ad1dd3e8a06eb8",
+      "url": "https://raw.githubusercontent.com/KitWare/CMake/d88682dff6bf053e5bbdc10accf5d6825303e656/Copyright.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/PCRE2Project/pcre2/52c08847921a324c804cabf2814549f50bce1265/CMakeLists.txt/response.body.html",
+      "sha256": "090442e91a1e041babbb5274f1b2938a0134b0ec0841e0180ed550ec2e1b428e",
+      "url": "https://raw.githubusercontent.com/PCRE2Project/pcre2/52c08847921a324c804cabf2814549f50bce1265/CMakeLists.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/PCRE2Project/pcre2/52c08847921a324c804cabf2814549f50bce1265/COPYING/response.body.html",
+      "sha256": "99272c55f3dcfa07a8a7e15a5c1a33096e4727de74241d65fa049fccfdd59507",
+      "url": "https://raw.githubusercontent.com/PCRE2Project/pcre2/52c08847921a324c804cabf2814549f50bce1265/COPYING",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/PCRE2Project/pcre2/52c08847921a324c804cabf2814549f50bce1265/LICENCE/response.body.html",
+      "sha256": "87d884eceb7fc54611470ce9f74280d28612b0c877adfc767e9676892a638987",
+      "url": "https://raw.githubusercontent.com/PCRE2Project/pcre2/52c08847921a324c804cabf2814549f50bce1265/LICENCE",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/WebAssembly/wasi-libc/9e8c542319242a5e536e14e6046de5968d298038/gitmodules-fe7afb5c9c916e52/response.body.html",
+      "sha256": "255fbfbab3add8ad890213cb0b4142c911e6d8d81717ad77fc33e62e5d45eac0",
+      "url": "https://raw.githubusercontent.com/WebAssembly/wasi-libc/9e8c542319242a5e536e14e6046de5968d298038/.gitmodules",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/WebAssembly/wasi-libc/9e8c542319242a5e536e14e6046de5968d298038/LICENSE-APACHE-LLVM/response.body.html",
+      "sha256": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5",
+      "url": "https://raw.githubusercontent.com/WebAssembly/wasi-libc/9e8c542319242a5e536e14e6046de5968d298038/LICENSE-APACHE-LLVM",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/WebAssembly/wasi-libc/9e8c542319242a5e536e14e6046de5968d298038/LICENSE-APACHE/response.body.html",
+      "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+      "url": "https://raw.githubusercontent.com/WebAssembly/wasi-libc/9e8c542319242a5e536e14e6046de5968d298038/LICENSE-APACHE",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/WebAssembly/wasi-libc/9e8c542319242a5e536e14e6046de5968d298038/LICENSE-MIT/response.body.html",
+      "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3",
+      "url": "https://raw.githubusercontent.com/WebAssembly/wasi-libc/9e8c542319242a5e536e14e6046de5968d298038/LICENSE-MIT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/WebAssembly/wasi-libc/9e8c542319242a5e536e14e6046de5968d298038/LICENSE/response.body.html",
+      "sha256": "673f577e363e80e0058bd78214683f045d1d0c63930969a87f01a1d87d7cf1d6",
+      "url": "https://raw.githubusercontent.com/WebAssembly/wasi-libc/9e8c542319242a5e536e14e6046de5968d298038/LICENSE",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-argument-parser/0fbc8848e389af3bb55c182bc19ca9d5dc2f255b/LICENSE.txt/response.body.html",
+      "sha256": "770af8291f708538d8ff885a0bbc4e045cd700531741c4f99528d435c14d7f55",
+      "url": "https://raw.githubusercontent.com/apple/swift-argument-parser/0fbc8848e389af3bb55c182bc19ca9d5dc2f255b/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-argument-parser/0fbc8848e389af3bb55c182bc19ca9d5dc2f255b/Package-swift-5.8.swift-dac50bc4b464d24e/response.body.html",
+      "sha256": "7bb6825ac51434e0b987b446a7a84d277fa45e867e0aae7165ff81d1cf3c0241",
+      "url": "https://raw.githubusercontent.com/apple/swift-argument-parser/0fbc8848e389af3bb55c182bc19ca9d5dc2f255b/Package@swift-5.8.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-argument-parser/0fbc8848e389af3bb55c182bc19ca9d5dc2f255b/Package.swift/response.body.html",
+      "sha256": "5c0ea7f615b82bfb850c64f66224124a7041e1d0004406543cd24c8ab526d84e",
+      "url": "https://raw.githubusercontent.com/apple/swift-argument-parser/0fbc8848e389af3bb55c182bc19ca9d5dc2f255b/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-asn1/12c24ff59d541e5ef15116095445ce72b85cd0c6/LICENSE.txt/response.body.html",
+      "sha256": "8c6db340475136df3c1201d458fa5755698eace76e510471ecc9d857d6083dac",
+      "url": "https://raw.githubusercontent.com/apple/swift-asn1/12c24ff59d541e5ef15116095445ce72b85cd0c6/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-asn1/12c24ff59d541e5ef15116095445ce72b85cd0c6/NOTICE.txt/response.body.html",
+      "sha256": "11dd3b3b783e6ec26098dd38ebc962986ea109b85447e28e62867b83bd0f8c5b",
+      "url": "https://raw.githubusercontent.com/apple/swift-asn1/12c24ff59d541e5ef15116095445ce72b85cd0c6/NOTICE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-asn1/12c24ff59d541e5ef15116095445ce72b85cd0c6/Package.swift/response.body.html",
+      "sha256": "03b828883abdef0fcb1f5e068d799a80eb955c323e59800d2b7880db054a93a1",
+      "url": "https://raw.githubusercontent.com/apple/swift-asn1/12c24ff59d541e5ef15116095445ce72b85cd0c6/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-async-algorithms/6ae9a051f76b81cc668305ceed5b0e0a7fd93d20/LICENSE.txt/response.body.html",
+      "sha256": "770af8291f708538d8ff885a0bbc4e045cd700531741c4f99528d435c14d7f55",
+      "url": "https://raw.githubusercontent.com/apple/swift-async-algorithms/6ae9a051f76b81cc668305ceed5b0e0a7fd93d20/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-async-algorithms/6ae9a051f76b81cc668305ceed5b0e0a7fd93d20/Package.swift/response.body.html",
+      "sha256": "3ff962144c650209b88fe2abcf82844f9096903aad2f635c7fc9c04bbe8d7bcf",
+      "url": "https://raw.githubusercontent.com/apple/swift-async-algorithms/6ae9a051f76b81cc668305ceed5b0e0a7fd93d20/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-atomics/cd142fd2f64be2100422d658e7411e39489da985/LICENSE.txt/response.body.html",
+      "sha256": "770af8291f708538d8ff885a0bbc4e045cd700531741c4f99528d435c14d7f55",
+      "url": "https://raw.githubusercontent.com/apple/swift-atomics/cd142fd2f64be2100422d658e7411e39489da985/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-atomics/cd142fd2f64be2100422d658e7411e39489da985/Package-swift-5.7.swift-9178902d6e5f4921/response.body.html",
+      "sha256": "48c2d77aa66cf79bf5f961896e15d486824703619f1b64a7680780df4abde4b4",
+      "url": "https://raw.githubusercontent.com/apple/swift-atomics/cd142fd2f64be2100422d658e7411e39489da985/Package@swift-5.7.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-atomics/cd142fd2f64be2100422d658e7411e39489da985/Package-swift-5.8.swift-dac50bc4b464d24e/response.body.html",
+      "sha256": "48c2d77aa66cf79bf5f961896e15d486824703619f1b64a7680780df4abde4b4",
+      "url": "https://raw.githubusercontent.com/apple/swift-atomics/cd142fd2f64be2100422d658e7411e39489da985/Package@swift-5.8.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-atomics/cd142fd2f64be2100422d658e7411e39489da985/Package.swift/response.body.html",
+      "sha256": "064addeb60a391ebdc333d2ba0caee796693c5afeb1bb803f96092024baa3ab2",
+      "url": "https://raw.githubusercontent.com/apple/swift-atomics/cd142fd2f64be2100422d658e7411e39489da985/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-certificates/01d7664523af5c169f26038f1e5d444ce47ae5ff/LICENSE.txt/response.body.html",
+      "sha256": "8c6db340475136df3c1201d458fa5755698eace76e510471ecc9d857d6083dac",
+      "url": "https://raw.githubusercontent.com/apple/swift-certificates/01d7664523af5c169f26038f1e5d444ce47ae5ff/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-certificates/01d7664523af5c169f26038f1e5d444ce47ae5ff/NOTICE.txt/response.body.html",
+      "sha256": "57d7797703d906b63c2be50d891cf70bdec307ae6f77a881638c33343f3dd195",
+      "url": "https://raw.githubusercontent.com/apple/swift-certificates/01d7664523af5c169f26038f1e5d444ce47ae5ff/NOTICE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-certificates/01d7664523af5c169f26038f1e5d444ce47ae5ff/Package.swift/response.body.html",
+      "sha256": "e86aee20d0896fd136025fc9c1f4cf89e397acd3df0afcc758fcef6f815a644b",
+      "url": "https://raw.githubusercontent.com/apple/swift-certificates/01d7664523af5c169f26038f1e5d444ce47ae5ff/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-collections/9bf03ff58ce34478e66aaee630e491823326fd06/LICENSE.txt/response.body.html",
+      "sha256": "770af8291f708538d8ff885a0bbc4e045cd700531741c4f99528d435c14d7f55",
+      "url": "https://raw.githubusercontent.com/apple/swift-collections/9bf03ff58ce34478e66aaee630e491823326fd06/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-collections/9bf03ff58ce34478e66aaee630e491823326fd06/Package.swift/response.body.html",
+      "sha256": "3058248053fb7a82944b107eb4140a396adbc4da84a288d32c1112ca1b8abf60",
+      "url": "https://raw.githubusercontent.com/apple/swift-collections/9bf03ff58ce34478e66aaee630e491823326fd06/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-crypto/629f0b679d0fd0a6ae823d7f750b9ab032c00b80/LICENSE.txt/response.body.html",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "url": "https://raw.githubusercontent.com/apple/swift-crypto/629f0b679d0fd0a6ae823d7f750b9ab032c00b80/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-crypto/629f0b679d0fd0a6ae823d7f750b9ab032c00b80/NOTICE.txt/response.body.html",
+      "sha256": "c1e2be544c25da4580c0aa246ddf93887aa4e74e455057500d8792cd0500ab1b",
+      "url": "https://raw.githubusercontent.com/apple/swift-crypto/629f0b679d0fd0a6ae823d7f750b9ab032c00b80/NOTICE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-crypto/629f0b679d0fd0a6ae823d7f750b9ab032c00b80/Package.swift/response.body.html",
+      "sha256": "a4edde5a50bc6ca932f295d1d0d932931d22b6ca35b208da56270d348e6e597e",
+      "url": "https://raw.githubusercontent.com/apple/swift-crypto/629f0b679d0fd0a6ae823d7f750b9ab032c00b80/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-crypto/629f0b679d0fd0a6ae823d7f750b9ab032c00b80/Sources/CCryptoBoringSSL/hash.txt/response.body.html",
+      "sha256": "29b5c39b7732df7cd2ed19da3fcac10e7147b63e061bef91bba2a29303449e29",
+      "url": "https://raw.githubusercontent.com/apple/swift-crypto/629f0b679d0fd0a6ae823d7f750b9ab032c00b80/Sources/CCryptoBoringSSL/hash.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-crypto/629f0b679d0fd0a6ae823d7f750b9ab032c00b80/scripts/vendor-boringssl.sh/response.body.html",
+      "sha256": "8d317a45ae3deacb737f8f09a4d1f606e04999fa85a701eb04dea80f0da0b7f8",
+      "url": "https://raw.githubusercontent.com/apple/swift-crypto/629f0b679d0fd0a6ae823d7f750b9ab032c00b80/scripts/vendor-boringssl.sh",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-log/e97a6fcb1ab07462881ac165fdbb37f067e205d5/LICENSE.txt/response.body.html",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "url": "https://raw.githubusercontent.com/apple/swift-log/e97a6fcb1ab07462881ac165fdbb37f067e205d5/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-log/e97a6fcb1ab07462881ac165fdbb37f067e205d5/NOTICE.txt/response.body.html",
+      "sha256": "848261eb1f7a3ed230e51cc802407ff2741ef41575264e50246a21ccbc625c6b",
+      "url": "https://raw.githubusercontent.com/apple/swift-log/e97a6fcb1ab07462881ac165fdbb37f067e205d5/NOTICE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-log/e97a6fcb1ab07462881ac165fdbb37f067e205d5/Package.swift/response.body.html",
+      "sha256": "a18c39ce3cfec36ff8289dd41b057f9d124ab5422014d9ce4a374988b7537f60",
+      "url": "https://raw.githubusercontent.com/apple/swift-log/e97a6fcb1ab07462881ac165fdbb37f067e205d5/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-nio/359c461e5561d22c6334828806cc25d759ca7aa6/LICENSE.txt/response.body.html",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "url": "https://raw.githubusercontent.com/apple/swift-nio/359c461e5561d22c6334828806cc25d759ca7aa6/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-nio/359c461e5561d22c6334828806cc25d759ca7aa6/NOTICE.txt/response.body.html",
+      "sha256": "5de6a3a6a02f80c8ab622b894ed3433d55b503324d9b35f4a3739e9757558388",
+      "url": "https://raw.githubusercontent.com/apple/swift-nio/359c461e5561d22c6334828806cc25d759ca7aa6/NOTICE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-nio/359c461e5561d22c6334828806cc25d759ca7aa6/Package.swift/response.body.html",
+      "sha256": "ca078c66d88beacecf297937e9c9f0868fa79aadf24abd1f6ce28acf40f7d780",
+      "url": "https://raw.githubusercontent.com/apple/swift-nio/359c461e5561d22c6334828806cc25d759ca7aa6/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-numerics/0a5bc04095a675662cf24757cc0640aa2204253b/LICENSE.txt/response.body.html",
+      "sha256": "770af8291f708538d8ff885a0bbc4e045cd700531741c4f99528d435c14d7f55",
+      "url": "https://raw.githubusercontent.com/apple/swift-numerics/0a5bc04095a675662cf24757cc0640aa2204253b/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-numerics/0a5bc04095a675662cf24757cc0640aa2204253b/Package.swift/response.body.html",
+      "sha256": "f123a719c55d4af5ef43dadcac9c390eaea009c0a2a8fe5ab1743fa5c12b1a70",
+      "url": "https://raw.githubusercontent.com/apple/swift-numerics/0a5bc04095a675662cf24757cc0640aa2204253b/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-system/f9266c85189c2751589a50ea5aec72799797e471/LICENSE.txt/response.body.html",
+      "sha256": "2245a990b635558be210fb3eb4f8a6f7a49aebc0fefbf5859146a65ddc7ddcf3",
+      "url": "https://raw.githubusercontent.com/apple/swift-system/f9266c85189c2751589a50ea5aec72799797e471/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-system/f9266c85189c2751589a50ea5aec72799797e471/Package.swift/response.body.html",
+      "sha256": "e6447a72e4e2dc8c80e6950f849221d3219e9c8e7733c6f32047ee6c671b838f",
+      "url": "https://raw.githubusercontent.com/apple/swift-system/f9266c85189c2751589a50ea5aec72799797e471/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/apple/swift-xcode-playground-support/bbba1ba704c37d1d0131bb7d6986a80ad8cb6d6c/LICENSE.txt/response.body.html",
+      "sha256": "186c5f0192a754714a7e542233ddaaad28745626e0ad32e358d3f5af00afb84a",
+      "url": "https://raw.githubusercontent.com/apple/swift-xcode-playground-support/bbba1ba704c37d1d0131bb7d6986a80ad8cb6d6c/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/curl/curl/83bedbd730d62b83744cc26fa0433d3f6e2e4cd6/COPYING/response.body.html",
+      "sha256": "adb1fc06547fd136244179809f7b7c2d2ae6c4534f160aa513af9b6a12866a32",
+      "url": "https://raw.githubusercontent.com/curl/curl/83bedbd730d62b83744cc26fa0433d3f6e2e4cd6/COPYING",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/giampaolo/psutil/27a1432daeacd46b287517c11bfea2af4fd95a88/LICENSE/response.body.html",
+      "sha256": "b89c063b3786e28e0c0a38f1931db61fed35e69dd2a2966fbecffee0f46c8d10",
+      "url": "https://raw.githubusercontent.com/giampaolo/psutil/27a1432daeacd46b287517c11bfea2af4fd95a88/LICENSE",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/gnome/libxml2/2b998a4ffbdfea04fc6a620721abc690a15743af/Copyright/response.body.html",
+      "sha256": "c5c63674f8a83c4d2e385d96d1c670a03cb871ba2927755467017317878574bd",
+      "url": "https://raw.githubusercontent.com/gnome/libxml2/2b998a4ffbdfea04fc6a620721abc690a15743af/Copyright",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/jpsim/Yams/0d9ee7ea8c4ebd4a489ad7a73d5c6cad55d6fed3/LICENSE/response.body.html",
+      "sha256": "0354b0ea403d2e78059c5ae0510a2cfae9f8eb306fcef094ac9fff5b47e20bed",
+      "url": "https://raw.githubusercontent.com/jpsim/Yams/0d9ee7ea8c4ebd4a489ad7a73d5c6cad55d6fed3/LICENSE",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/jpsim/Yams/0d9ee7ea8c4ebd4a489ad7a73d5c6cad55d6fed3/Package.swift/response.body.html",
+      "sha256": "44900e3c3cb6c4bd7291342e43763a04a5f6902b9e1860a388c1dc9ef6d212ac",
+      "url": "https://raw.githubusercontent.com/jpsim/Yams/0d9ee7ea8c4ebd4a489ad7a73d5c6cad55d6fed3/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/madler/zlib/51b7f2abdade71cd9bb0e7a373ef2610ec6f9daf/LICENSE/response.body.html",
+      "sha256": "845efc77857d485d91fb3e0b884aaa929368c717ae8186b66fe1ed2495753243",
+      "url": "https://raw.githubusercontent.com/madler/zlib/51b7f2abdade71cd9bb0e7a373ef2610ec6f9daf/LICENSE",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/mit-plv/fiat-crypto/6ccc6638716d4632304baf1adbb5c47c3a12ea6f/LICENSE-MIT/response.body.html",
+      "sha256": "0034712d5e97a4f5b900a160a5c19d582b740d8e0638b4e44fd07e7b492dcd13",
+      "url": "https://raw.githubusercontent.com/mit-plv/fiat-crypto/6ccc6638716d4632304baf1adbb5c47c3a12ea6f/LICENSE-MIT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/ninja-build/ninja/a524bf3f6bacd1b4ad85d719eed2737d8562f27a/COPYING/response.body.html",
+      "sha256": "eb7e9ab9690124c5c9f42bdc81383d886a3dede26345b6ed15bbad7caf81f7ea",
+      "url": "https://raw.githubusercontent.com/ninja-build/ninja/a524bf3f6bacd1b4ad85d719eed2737d8562f27a/COPYING",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/pexpect/pexpect/aa989594e1e413f45c18b26ded1783f7d5990fe5/LICENSE/response.body.html",
+      "sha256": "4a483ae1c4dc738a6c8b73feb49074e1835da02ab5aa686f2675029906fa364d",
+      "url": "https://raw.githubusercontent.com/pexpect/pexpect/aa989594e1e413f45c18b26ded1783f7d5990fe5/LICENSE",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/pexpect/ptyprocess/ee54ae2ee6bdd1e9f040dac79d799ae5b178e8fe/LICENSE/response.body.html",
+      "sha256": "c822d385b1a73329846241799becf18690b5d44764c1bed69300b536a405030a",
+      "url": "https://raw.githubusercontent.com/pexpect/ptyprocess/ee54ae2ee6bdd1e9f040dac79d799ae5b178e8fe/LICENSE",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/indexstore-db/54212fce1aecb199070808bdb265e7f17e396015/LICENSE.txt/response.body.html",
+      "sha256": "a73da0cabc9ad5b74dca8a3d50178015c13b5ae2bbf2046df15765c2c661d3a4",
+      "url": "https://raw.githubusercontent.com/swiftlang/indexstore-db/54212fce1aecb199070808bdb265e7f17e396015/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/indexstore-db/54212fce1aecb199070808bdb265e7f17e396015/Package.swift/response.body.html",
+      "sha256": "d13f47a5ae3713506505fc125ca7da2694439f9b110136f7e58ecf73014ada3b",
+      "url": "https://raw.githubusercontent.com/swiftlang/indexstore-db/54212fce1aecb199070808bdb265e7f17e396015/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/indexstore-db/54212fce1aecb199070808bdb265e7f17e396015/lib/Database/lmdb/COPYRIGHT/response.body.html",
+      "sha256": "3c87f63656b6a12fda225b6f798c547fe89e3404f499e890b445761eb310fd4f",
+      "url": "https://raw.githubusercontent.com/swiftlang/indexstore-db/54212fce1aecb199070808bdb265e7f17e396015/lib/Database/lmdb/COPYRIGHT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/indexstore-db/54212fce1aecb199070808bdb265e7f17e396015/lib/Database/lmdb/LICENSE/response.body.html",
+      "sha256": "310fe25c858a9515fc8c8d7d1f24a67c9496f84a91e0a0e41ea9975b1371e569",
+      "url": "https://raw.githubusercontent.com/swiftlang/indexstore-db/54212fce1aecb199070808bdb265e7f17e396015/lib/Database/lmdb/LICENSE",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/indexstore-db/54212fce1aecb199070808bdb265e7f17e396015/lib/LLVMSupport/LICENSE.TXT/response.body.html",
+      "sha256": "8d85c1057d742e597985c7d4e6320b015a9139385cff4cbae06ffc0ebe89afee",
+      "url": "https://raw.githubusercontent.com/swiftlang/indexstore-db/54212fce1aecb199070808bdb265e7f17e396015/lib/LLVMSupport/LICENSE.TXT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/LICENSE.TXT/response.body.html",
+      "sha256": "8d85c1057d742e597985c7d4e6320b015a9139385cff4cbae06ffc0ebe89afee",
+      "url": "https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/LICENSE.TXT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/bolt/LICENSE.TXT/response.body.html",
+      "sha256": "8d85c1057d742e597985c7d4e6320b015a9139385cff4cbae06ffc0ebe89afee",
+      "url": "https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/bolt/LICENSE.TXT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/clang-tools-extra/LICENSE.TXT/response.body.html",
+      "sha256": "ebcd9bbf783a73d05c53ba4d586b8d5813dcdf3bbec50265860ccc885e606f47",
+      "url": "https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/clang-tools-extra/LICENSE.TXT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/clang-tools-extra/clang-tidy/cert/LICENSE.TXT/response.body.html",
+      "sha256": "d8e09a37202601346ed9f3962c843cf60d985570111602399a9b845c44a654ba",
+      "url": "https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/clang-tools-extra/clang-tidy/cert/LICENSE.TXT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/clang-tools-extra/clang-tidy/hicpp/LICENSE.TXT/response.body.html",
+      "sha256": "271b9c47cbf07475b8012f708fe08a348821261d66795daefed400e9238db379",
+      "url": "https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/clang-tools-extra/clang-tidy/hicpp/LICENSE.TXT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/clang/LICENSE.TXT/response.body.html",
+      "sha256": "ebcd9bbf783a73d05c53ba4d586b8d5813dcdf3bbec50265860ccc885e606f47",
+      "url": "https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/clang/LICENSE.TXT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/clang/tools/clang-format-vs/ClangFormat/license.txt/response.body.html",
+      "sha256": "3a39bb490f4e22550ba351ecfe3357f51a6bcd3d2ad20830b7216152bb0fe45a",
+      "url": "https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/clang/tools/clang-format-vs/ClangFormat/license.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/compiler-rt/LICENSE.TXT/response.body.html",
+      "sha256": "1a8f1058753f1ba890de984e48f0242a3a5c29a6a8f2ed9fd813f36985387e8d",
+      "url": "https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/compiler-rt/LICENSE.TXT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/cross-project-tests/debuginfo-tests/dexter/LICENSE.txt/response.body.html",
+      "sha256": "8d85c1057d742e597985c7d4e6320b015a9139385cff4cbae06ffc0ebe89afee",
+      "url": "https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/cross-project-tests/debuginfo-tests/dexter/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/flang/LICENSE.TXT/response.body.html",
+      "sha256": "94b301bb652ae351f5941655bf533f1a136300ad1396be7452c8a04ff2c91374",
+      "url": "https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/flang/LICENSE.TXT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/libc/LICENSE.TXT/response.body.html",
+      "sha256": "ebcd9bbf783a73d05c53ba4d586b8d5813dcdf3bbec50265860ccc885e606f47",
+      "url": "https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/libc/LICENSE.TXT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/libclc/LICENSE.TXT/response.body.html",
+      "sha256": "3c536c052db9afd997809e38785c9f2a9e54e2892330fa7c5b438e18a7413479",
+      "url": "https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/libclc/LICENSE.TXT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/libcxx/LICENSE.TXT/response.body.html",
+      "sha256": "539dd7aed86e8a4f12cbdd0e6c50c189c7d74847e4fecc64ce2c6ee3a01da38b",
+      "url": "https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/libcxx/LICENSE.TXT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/libcxxabi/LICENSE.TXT/response.body.html",
+      "sha256": "e2b35be49f7284a45b7baca8fc7b3ab7440e7902392b2528a457816b5bb2a15c",
+      "url": "https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/libcxxabi/LICENSE.TXT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/libunwind/LICENSE.TXT/response.body.html",
+      "sha256": "b5efebcaca80879234098e52d1725e6d9eb8fb96a19fce625d39184b705f7b6d",
+      "url": "https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/libunwind/LICENSE.TXT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/lld/LICENSE.TXT/response.body.html",
+      "sha256": "f7891568956e34643eb6a0db1462db30820d40d7266e2a78063f2fe233ece5a0",
+      "url": "https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/lld/LICENSE.TXT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/lldb/LICENSE.TXT/response.body.html",
+      "sha256": "76be4deddeef87f6fa9940f4992a9506c7bb222af60eb3b2a47cf65719528bbe",
+      "url": "https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/lldb/LICENSE.TXT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/lldb/cmake/modules/LLDBConfig.cmake/response.body.html",
+      "sha256": "eed5b244612dae1fd4573eea5cc28bcc1e9870dee563e758070549da144016f2",
+      "url": "https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/lldb/cmake/modules/LLDBConfig.cmake",
+      "роль": "Точный контракт дополнительных зависимостей LLDB и имён параметров"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/lldb/tools/lldb-dap/LICENSE.TXT/response.body.html",
+      "sha256": "94b301bb652ae351f5941655bf533f1a136300ad1396be7452c8a04ff2c91374",
+      "url": "https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/lldb/tools/lldb-dap/LICENSE.TXT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/llvm/LICENSE.TXT/response.body.html",
+      "sha256": "8d85c1057d742e597985c7d4e6320b015a9139385cff4cbae06ffc0ebe89afee",
+      "url": "https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/llvm/LICENSE.TXT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/llvm/cmake/config.guess/response.body.html",
+      "sha256": "104dd279a70e8604f42f5ee1c3c2a3054190e839fc8c288792a615e8131d26d8",
+      "url": "https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/llvm/cmake/config.guess",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/llvm/include/llvm/Support/LICENSE.TXT/response.body.html",
+      "sha256": "54cbc326a78b9400065bfc5830a57fdcdaf808286d4ac35d8a9e324aa77b7241",
+      "url": "https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/llvm/include/llvm/Support/LICENSE.TXT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/llvm/lib/Support/BLAKE3/LICENSE/response.body.html",
+      "sha256": "6a94bedb8b707ed97f6e310d0d015ab14e0683ffa0a612b02958581b9cc9fc0e",
+      "url": "https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/llvm/lib/Support/BLAKE3/LICENSE",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/llvm/lib/Support/COPYRIGHT.regex/response.body.html",
+      "sha256": "0424e57d4303164dc59a8509c20dae0518b853692e5c2b0e98b11816fdbc97c7",
+      "url": "https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/llvm/lib/Support/COPYRIGHT.regex",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/llvm/test/YAMLParser/LICENSE.txt/response.body.html",
+      "sha256": "d0d8b09800a45cd982e9568fc7669d9c1a4c330e275a821bbe24d54366d16fe9",
+      "url": "https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/llvm/test/YAMLParser/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/llvm/utils/lit/LICENSE.TXT/response.body.html",
+      "sha256": "8d85c1057d742e597985c7d4e6320b015a9139385cff4cbae06ffc0ebe89afee",
+      "url": "https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/llvm/utils/lit/LICENSE.TXT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/third-party/benchmark/LICENSE/response.body.html",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "url": "https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/third-party/benchmark/LICENSE",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/third-party/unittest/googlemock/LICENSE.txt/response.body.html",
+      "sha256": "9702de7e4117a8e2b20dafab11ffda58c198aede066406496bef670d40a22138",
+      "url": "https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/third-party/unittest/googlemock/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/third-party/unittest/googletest/LICENSE.TXT/response.body.html",
+      "sha256": "9702de7e4117a8e2b20dafab11ffda58c198aede066406496bef670d40a22138",
+      "url": "https://raw.githubusercontent.com/swiftlang/llvm-project/bb511dfa7c889bf054eff34192ffc1f97278dd7f/third-party/unittest/googletest/LICENSE.TXT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/sourcekit-lsp/a1cb7f92e42033e0f2b80de3265c3f74c5965c76/LICENSE.txt/response.body.html",
+      "sha256": "770af8291f708538d8ff885a0bbc4e045cd700531741c4f99528d435c14d7f55",
+      "url": "https://raw.githubusercontent.com/swiftlang/sourcekit-lsp/a1cb7f92e42033e0f2b80de3265c3f74c5965c76/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/sourcekit-lsp/a1cb7f92e42033e0f2b80de3265c3f74c5965c76/Package.swift/response.body.html",
+      "sha256": "ccb675ab5669a4a7c8fd03b801a79b1328d658f774aeb5c3c9695ff536f789e0",
+      "url": "https://raw.githubusercontent.com/swiftlang/sourcekit-lsp/a1cb7f92e42033e0f2b80de3265c3f74c5965c76/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/sourcekit-lsp/a1cb7f92e42033e0f2b80de3265c3f74c5965c76/Utilities/build-script-helper.py/response.body.html",
+      "sha256": "28dd2a69b44414d7d2c92f6252e9807389f48cde7c7bc2da8c8240c0a365390a",
+      "url": "https://raw.githubusercontent.com/swiftlang/sourcekit-lsp/a1cb7f92e42033e0f2b80de3265c3f74c5965c76/Utilities/build-script-helper.py",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-cmark/b022b08312decdc46585e0b3440d97f6f22ef703/COPYING/response.body.html",
+      "sha256": "c22e885f33b821bddb24cf007145e5540655b6c0f403e49e6c76a93c28e6d9a9",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-cmark/b022b08312decdc46585e0b3440d97f6f22ef703/COPYING",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-cmark/b022b08312decdc46585e0b3440d97f6f22ef703/Package.swift/response.body.html",
+      "sha256": "eafc97ee3efac9be8c23ad1d0003cb44d45aa15d7a30373d953d386afefc10c9",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-cmark/b022b08312decdc46585e0b3440d97f6f22ef703/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-corelibs-foundation/056b77bdb958f410a3dbf9a619619d1fb28b3fc8/LICENSE/response.body.html",
+      "sha256": "0ca84095d1de77cad1a866ebbad28f8db98a0826c6055d92b0608c5baa1643e2",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-corelibs-foundation/056b77bdb958f410a3dbf9a619619d1fb28b3fc8/LICENSE",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-corelibs-foundation/056b77bdb958f410a3dbf9a619619d1fb28b3fc8/Package.swift/response.body.html",
+      "sha256": "e1d4dfb9fab3689cc5412741f259a9e00be0cf6e66688079f5e2cba3a6272852",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-corelibs-foundation/056b77bdb958f410a3dbf9a619619d1fb28b3fc8/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-corelibs-libdispatch/886ca22f659c53dae66a40ee8266c7aae9bb97cd/gitmodules-fe7afb5c9c916e52/response.body.html",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-corelibs-libdispatch/886ca22f659c53dae66a40ee8266c7aae9bb97cd/.gitmodules",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-corelibs-libdispatch/886ca22f659c53dae66a40ee8266c7aae9bb97cd/LICENSE/response.body.html",
+      "sha256": "0ca84095d1de77cad1a866ebbad28f8db98a0826c6055d92b0608c5baa1643e2",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-corelibs-libdispatch/886ca22f659c53dae66a40ee8266c7aae9bb97cd/LICENSE",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-corelibs-xctest/7f2b2e286c984fb2f25aa36187f963bbdabf1b13/LICENSE/response.body.html",
+      "sha256": "0ca84095d1de77cad1a866ebbad28f8db98a0826c6055d92b0608c5baa1643e2",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-corelibs-xctest/7f2b2e286c984fb2f25aa36187f963bbdabf1b13/LICENSE",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-corelibs-xctest/7f2b2e286c984fb2f25aa36187f963bbdabf1b13/Package.swift/response.body.html",
+      "sha256": "cc08128ac93128b6a6cb446733c74fb71aa138690d11c8417614c061c9f1cfb1",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-corelibs-xctest/7f2b2e286c984fb2f25aa36187f963bbdabf1b13/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-docc-render-artifact/ab1a5ac593c757cc2f2fb5106c643b7fb5ec61b2/LICENSE.txt/response.body.html",
+      "sha256": "167beb36f181bd163c93c6feb45c68e5f9462fe1af55b278f7bfd1df20e673a3",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-docc-render-artifact/ab1a5ac593c757cc2f2fb5106c643b7fb5ec61b2/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-docc-render-artifact/ab1a5ac593c757cc2f2fb5106c643b7fb5ec61b2/README.md/response.body.html",
+      "sha256": "459a8a9980102bd34af3b667e3a78cd99a141784c118fa767bc910b56688e0b1",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-docc-render-artifact/ab1a5ac593c757cc2f2fb5106c643b7fb5ec61b2/README.md",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-docc-symbolkit/b7412ac35f1da94254d6b9c889b25e67f2c6b2f3/LICENSE.txt/response.body.html",
+      "sha256": "11875c32f8de06e40b25b9e1dc78776baad9810032601c5325db6234c86d71e9",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-docc-symbolkit/b7412ac35f1da94254d6b9c889b25e67f2c6b2f3/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-docc-symbolkit/b7412ac35f1da94254d6b9c889b25e67f2c6b2f3/Package.swift/response.body.html",
+      "sha256": "a33992e15566d42366e4b341908318c2389544dd467374c5f647f90a1f4ba691",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-docc-symbolkit/b7412ac35f1da94254d6b9c889b25e67f2c6b2f3/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-docc/f995b9750b0b40d2a4ea2ab608dd4c9cb91d9c2a/LICENSE.txt/response.body.html",
+      "sha256": "11875c32f8de06e40b25b9e1dc78776baad9810032601c5325db6234c86d71e9",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-docc/f995b9750b0b40d2a4ea2ab608dd4c9cb91d9c2a/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-docc/f995b9750b0b40d2a4ea2ab608dd4c9cb91d9c2a/NOTICE.txt/response.body.html",
+      "sha256": "c7da265a8779d103ebeea9b5e2c25787c71a03f4b2d83bb22a591e87c2ad2d84",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-docc/f995b9750b0b40d2a4ea2ab608dd4c9cb91d9c2a/NOTICE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-docc/f995b9750b0b40d2a4ea2ab608dd4c9cb91d9c2a/Package.resolved/response.body.html",
+      "sha256": "f27dbb922c901dfeabf8388bc534c9b42af57044903e3911b4e05934c3864fd4",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-docc/f995b9750b0b40d2a4ea2ab608dd4c9cb91d9c2a/Package.resolved",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-docc/f995b9750b0b40d2a4ea2ab608dd4c9cb91d9c2a/Package.swift/response.body.html",
+      "sha256": "cd3b1b20e3c3126b726b4971977b68f88ecac64d2ed4ff80242657d4e69db4e1",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-docc/f995b9750b0b40d2a4ea2ab608dd4c9cb91d9c2a/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-docc/f995b9750b0b40d2a4ea2ab608dd4c9cb91d9c2a/build-script-helper.py/response.body.html",
+      "sha256": "f80afc4c43a661338c29ca1187e0b03d8cf7e0760e55780bcaff4ebd6bdb205e",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-docc/f995b9750b0b40d2a4ea2ab608dd4c9cb91d9c2a/build-script-helper.py",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-driver/20cd624311cb835f7a61c0103404fc191d392a38/LICENSE.txt/response.body.html",
+      "sha256": "770af8291f708538d8ff885a0bbc4e045cd700531741c4f99528d435c14d7f55",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-driver/20cd624311cb835f7a61c0103404fc191d392a38/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-driver/20cd624311cb835f7a61c0103404fc191d392a38/Package.resolved/response.body.html",
+      "sha256": "51e6d59f69c99d875ad5cbf62617d34a3e8ab8d87e6b76a94000729969d047e5",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-driver/20cd624311cb835f7a61c0103404fc191d392a38/Package.resolved",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-driver/20cd624311cb835f7a61c0103404fc191d392a38/Package.swift/response.body.html",
+      "sha256": "37e03535bb466dd8cfdffb61bae2f0da8e48b1b518a06600c19e77bac13cb4d1",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-driver/20cd624311cb835f7a61c0103404fc191d392a38/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-driver/20cd624311cb835f7a61c0103404fc191d392a38/Utilities/build-script-helper.py/response.body.html",
+      "sha256": "3ebb96facc5acfba6d0c4f9542cd5296ffcddd15950cbe3c69f2a637c7985cb1",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-driver/20cd624311cb835f7a61c0103404fc191d392a38/Utilities/build-script-helper.py",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-experimental-string-processing/3a06996805db6dc60c78e1f09738df6f44131805/LICENSE.txt/response.body.html",
+      "sha256": "770af8291f708538d8ff885a0bbc4e045cd700531741c4f99528d435c14d7f55",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-experimental-string-processing/3a06996805db6dc60c78e1f09738df6f44131805/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-experimental-string-processing/3a06996805db6dc60c78e1f09738df6f44131805/Package.swift/response.body.html",
+      "sha256": "3dd6c8e219f3140d47eba14731991e7fc1d224ab27e40e282f6352e0431876a2",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-experimental-string-processing/3a06996805db6dc60c78e1f09738df6f44131805/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-format/4c2421c14ce852fd455c257b4e8b9cae156302f1/LICENSE.txt/response.body.html",
+      "sha256": "770af8291f708538d8ff885a0bbc4e045cd700531741c4f99528d435c14d7f55",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-format/4c2421c14ce852fd455c257b4e8b9cae156302f1/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-format/4c2421c14ce852fd455c257b4e8b9cae156302f1/Package.swift/response.body.html",
+      "sha256": "b265fb2e6a88493e6e0d29c2adaab697bfa2624e837b6d8c3acbc870401a8d63",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-format/4c2421c14ce852fd455c257b4e8b9cae156302f1/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-format/4c2421c14ce852fd455c257b4e8b9cae156302f1/build-script-helper.py/response.body.html",
+      "sha256": "c671b9c97af3b2e347f1634f4a5a53896b225afef60b0043455adf61c4b682c7",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-format/4c2421c14ce852fd455c257b4e8b9cae156302f1/build-script-helper.py",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-foundation-icu/7e255a994ec26a08214f8fea2fdaf60b296e1f22/LICENSE.md/response.body.html",
+      "sha256": "2245a990b635558be210fb3eb4f8a6f7a49aebc0fefbf5859146a65ddc7ddcf3",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-foundation-icu/7e255a994ec26a08214f8fea2fdaf60b296e1f22/LICENSE.md",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-foundation-icu/7e255a994ec26a08214f8fea2fdaf60b296e1f22/Package.swift/response.body.html",
+      "sha256": "179a9d96bc0f1728f441b3eacac944806924c6ced02e77c6e1808696d48e8df5",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-foundation-icu/7e255a994ec26a08214f8fea2fdaf60b296e1f22/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-foundation/7d4817bc3786f8b1f0a2f91b11a3d126d9283b15/LICENSE.md/response.body.html",
+      "sha256": "2245a990b635558be210fb3eb4f8a6f7a49aebc0fefbf5859146a65ddc7ddcf3",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-foundation/7d4817bc3786f8b1f0a2f91b11a3d126d9283b15/LICENSE.md",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-foundation/7d4817bc3786f8b1f0a2f91b11a3d126d9283b15/Package.swift/response.body.html",
+      "sha256": "c1905a934c8ab8e7078016061747fd5436b152e2628a8bf6ac87efaf1bf33445",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-foundation/7d4817bc3786f8b1f0a2f91b11a3d126d9283b15/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-installer-scripts/406d44bd65a70713fc1864130380045918b144f7/LICENSE.txt/response.body.html",
+      "sha256": "2245a990b635558be210fb3eb4f8a6f7a49aebc0fefbf5859146a65ddc7ddcf3",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-installer-scripts/406d44bd65a70713fc1864130380045918b144f7/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-installer-scripts/406d44bd65a70713fc1864130380045918b144f7/platforms/Linux/DEB/Shared/copyright/response.body.html",
+      "sha256": "b93c6c836d4006dc9769a2e1885bac33ba0522e2f67af39d1bf05bec4e67bd55",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-installer-scripts/406d44bd65a70713fc1864130380045918b144f7/platforms/Linux/DEB/Shared/copyright",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-integration-tests/54d66724e83231ce6a9d83d5f64a129121bc249f/example-package-dealer.py/response.body.html",
+      "sha256": "0c6bf6ec36e88b6f32936d36ae580c95aa546767a43ca40857db3f1fa4347bde",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-integration-tests/54d66724e83231ce6a9d83d5f64a129121bc249f/example-package-dealer.py",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-integration-tests/54d66724e83231ce6a9d83d5f64a129121bc249f/lit.cfg/response.body.html",
+      "sha256": "f78916a9201ae66f10141ecc146157441f11b000c70800d0332e74f8f72a6e43",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-integration-tests/54d66724e83231ce6a9d83d5f64a129121bc249f/lit.cfg",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-integration-tests/54d66724e83231ce6a9d83d5f64a129121bc249f/swift-build-self-host.py/response.body.html",
+      "sha256": "c9d80406e460a5d4ee56ed9b3df13a9b5647d2c8bc43998138bb8968998b28a9",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-integration-tests/54d66724e83231ce6a9d83d5f64a129121bc249f/swift-build-self-host.py",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-integration-tests/54d66724e83231ce6a9d83d5f64a129121bc249f/test-foundation-package/test-foundation-networking-fetch.swift/response.body.html",
+      "sha256": "514a76300b82f041cd688f5bdead9a6e81f547f70a01b477a001fc4df5a3ba1f",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-integration-tests/54d66724e83231ce6a9d83d5f64a129121bc249f/test-foundation-package/test-foundation-networking-fetch.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-integration-tests/54d66724e83231ce6a9d83d5f64a129121bc249f/test-foundation-package/test-foundation-networking-fetch.txt/response.body.html",
+      "sha256": "73263fd5b39fa754c54038b3843bb34f7d6c8b36bdd06245b0d42fb573e1d325",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-integration-tests/54d66724e83231ce6a9d83d5f64a129121bc249f/test-foundation-package/test-foundation-networking-fetch.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-integration-tests/54d66724e83231ce6a9d83d5f64a129121bc249f/test-foundation-package/test-foundation-networking.txt/response.body.html",
+      "sha256": "c4395506a779e944e60cd0077b7e35e62e824797e970a0c888a02497b193d287",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-integration-tests/54d66724e83231ce6a9d83d5f64a129121bc249f/test-foundation-package/test-foundation-networking.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-integration-tests/54d66724e83231ce6a9d83d5f64a129121bc249f/test-swift-docc/test-swift-docc.txt/response.body.html",
+      "sha256": "2a95a149414a94e04a7f3402193a19be2b6c5e80a55c32b0f1b9830febedd136",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-integration-tests/54d66724e83231ce6a9d83d5f64a129121bc249f/test-swift-docc/test-swift-docc.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-integration-tests/54d66724e83231ce6a9d83d5f64a129121bc249f/test-swift-testing-package/test-swift-testing-package.txt/response.body.html",
+      "sha256": "e84b53e73000c0e900aa1c5fa47a92797fc9d50d00ed7f86d65fba4416f444ee",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-integration-tests/54d66724e83231ce6a9d83d5f64a129121bc249f/test-swift-testing-package/test-swift-testing-package.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/gitmodules-fe7afb5c9c916e52/response.body.html",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/.gitmodules",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/LICENSE.txt/response.body.html",
+      "sha256": "5ea971715fb55ba6d2636665a273b7b0a65f7ec5520fa98ff1046920f31ccc89",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/Package.swift/response.body.html",
+      "sha256": "4596f65f2aeaa5a4ae8dc00e1924006ca4f74bdbc512ff1485bd78f9e2e5ff47",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/lib/CMakeLists.txt/response.body.html",
+      "sha256": "4e587a3d46054a87f3570f015440272199cdc44f3a3ab5ff1207c46f6408d59b",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/lib/CMakeLists.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/products/CMakeLists.txt/response.body.html",
+      "sha256": "af58325ca3f882a18d3ca2acea7ad01f5eded8612d7d31688f46e3b7735e51f1",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/products/CMakeLists.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/products/llbuild-analyze/Package.resolved/response.body.html",
+      "sha256": "00cea96e0eeeef3231aee24a401856af69af506a32c084066354260b0dd3ce27",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/products/llbuild-analyze/Package.resolved",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/products/llbuild-analyze/Package.swift/response.body.html",
+      "sha256": "f6676bd9597cf2848d64002007b91c69ac84e5b7bb5c2663d79b2c02585124c8",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/products/llbuild-analyze/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/thirdparty/BLAKE3/LICENSE/response.body.html",
+      "sha256": "6a94bedb8b707ed97f6e310d0d015ab14e0683ffa0a612b02958581b9cc9fc0e",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/thirdparty/BLAKE3/LICENSE",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/thirdparty/protobuf/LICENSE/response.body.html",
+      "sha256": "6e5e117324afd944dcf67f36cf329843bc1a92229a8cd9bb573d7a83130fea7d",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/thirdparty/protobuf/LICENSE",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/thirdparty/protobuf/third_party/abseil-cpp/LICENSE/response.body.html",
+      "sha256": "c79a7fea0e3cac04cd43f20e7b648e5a0ff8fa5344e644b0ee09ca1162b62747",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/thirdparty/protobuf/third_party/abseil-cpp/LICENSE",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/thirdparty/protobuf/third_party/jsoncpp/LICENSE/response.body.html",
+      "sha256": "95039d77a20e75b428207740d9a8f97b2dce3c89da4b21f1ad862b5997160e0a",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/thirdparty/protobuf/third_party/jsoncpp/LICENSE",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/thirdparty/protobuf/third_party/utf8_range/LICENSE/response.body.html",
+      "sha256": "02de69b64fc36d9e938f418e52723e42f0b2b226d58a9cb3c8dcbdf7059f5074",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/thirdparty/protobuf/third_party/utf8_range/LICENSE",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/thirdparty/swift-protobuf/LICENSE.txt/response.body.html",
+      "sha256": "186c5f0192a754714a7e542233ddaaad28745626e0ad32e358d3f5af00afb84a",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/thirdparty/swift-protobuf/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/unittests/CMakeLists.txt/response.body.html",
+      "sha256": "cec4255c87f60157337bef28c0dda2ad3dffd5e7e1abd08ae0c3b641e5182f8e",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/unittests/CMakeLists.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/utils/unittest/CMakeLists.txt/response.body.html",
+      "sha256": "69b7ab7eb3d6e2e6c86b42f331d5580223cf27a4ec6806ef85a8343da8df0199",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/utils/unittest/CMakeLists.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/utils/unittest/googlemock/LICENSE.txt/response.body.html",
+      "sha256": "9702de7e4117a8e2b20dafab11ffda58c198aede066406496bef670d40a22138",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/utils/unittest/googlemock/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/utils/unittest/googletest/LICENSE.TXT/response.body.html",
+      "sha256": "9702de7e4117a8e2b20dafab11ffda58c198aede066406496bef670d40a22138",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-llbuild/4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9/utils/unittest/googletest/LICENSE.TXT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llvm-bindings/ff46438cbcea2e04f8b751c4f629c962e58a3e52/LICENSE.txt/response.body.html",
+      "sha256": "770af8291f708538d8ff885a0bbc4e045cd700531741c4f99528d435c14d7f55",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-llvm-bindings/ff46438cbcea2e04f8b751c4f629c962e58a3e52/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-llvm-bindings/ff46438cbcea2e04f8b751c4f629c962e58a3e52/Package.swift/response.body.html",
+      "sha256": "5e31a76b9caa2bf44926266c1d1d0afcab185c1d6a3e5e5e1a1e4f00d4bfc1cc",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-llvm-bindings/ff46438cbcea2e04f8b751c4f629c962e58a3e52/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-lmdb/c42582487fe84f72a4d417dd2d8493757bd4d072/Package.swift/response.body.html",
+      "sha256": "d19ed6e368cfa73e723093eac407a41692d33221e8119ad7b36466a8b76d4f0e",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-lmdb/c42582487fe84f72a4d417dd2d8493757bd4d072/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-lmdb/c42582487fe84f72a4d417dd2d8493757bd4d072/libraries/liblmdb/COPYRIGHT/response.body.html",
+      "sha256": "3c87f63656b6a12fda225b6f798c547fe89e3404f499e890b445761eb310fd4f",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-lmdb/c42582487fe84f72a4d417dd2d8493757bd4d072/libraries/liblmdb/COPYRIGHT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-lmdb/c42582487fe84f72a4d417dd2d8493757bd4d072/libraries/liblmdb/LICENSE/response.body.html",
+      "sha256": "310fe25c858a9515fc8c8d7d1f24a67c9496f84a91e0a0e41ea9975b1371e569",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-lmdb/c42582487fe84f72a4d417dd2d8493757bd4d072/libraries/liblmdb/LICENSE",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-markdown/82f9258ce53b9da7980d1c1aaf80e5bdbbf98c9b/LICENSE.txt/response.body.html",
+      "sha256": "167beb36f181bd163c93c6feb45c68e5f9462fe1af55b278f7bfd1df20e673a3",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-markdown/82f9258ce53b9da7980d1c1aaf80e5bdbbf98c9b/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-markdown/82f9258ce53b9da7980d1c1aaf80e5bdbbf98c9b/NOTICE.txt/response.body.html",
+      "sha256": "ee7da43afcac4a52196a2141024573ec2ceb84b14e74dfed38522d94586fbc52",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-markdown/82f9258ce53b9da7980d1c1aaf80e5bdbbf98c9b/NOTICE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-markdown/82f9258ce53b9da7980d1c1aaf80e5bdbbf98c9b/Package.swift/response.body.html",
+      "sha256": "163a5d43e383d3a0bc658d643dcc824900ec8cac85f509a0dd93f632bce297f2",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-markdown/82f9258ce53b9da7980d1c1aaf80e5bdbbf98c9b/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-package-manager/45c31f1b35ef8599898f61c26e7518bcf14b3eb5/IntegrationTests/Package.swift/response.body.html",
+      "sha256": "09041a53a0754a526b67e96a93b6d25d0a5092af07d316080ddded437488c2e9",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-package-manager/45c31f1b35ef8599898f61c26e7518bcf14b3eb5/IntegrationTests/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-package-manager/45c31f1b35ef8599898f61c26e7518bcf14b3eb5/LICENSE.txt/response.body.html",
+      "sha256": "186c5f0192a754714a7e542233ddaaad28745626e0ad32e358d3f5af00afb84a",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-package-manager/45c31f1b35ef8599898f61c26e7518bcf14b3eb5/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-package-manager/45c31f1b35ef8599898f61c26e7518bcf14b3eb5/NOTICE.txt/response.body.html",
+      "sha256": "dd65f677f50928bd6e8c0603464a25d77e4c09291472fba8b4a668de54c5c0b5",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-package-manager/45c31f1b35ef8599898f61c26e7518bcf14b3eb5/NOTICE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-package-manager/45c31f1b35ef8599898f61c26e7518bcf14b3eb5/Package.swift/response.body.html",
+      "sha256": "715cdaac26f29eb787d0b3607e3a7915ec8d881a15c2f88ac2f7aa26eba66fcf",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-package-manager/45c31f1b35ef8599898f61c26e7518bcf14b3eb5/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-package-manager/45c31f1b35ef8599898f61c26e7518bcf14b3eb5/Utilities/InstalledSwiftPMConfiguration/Package.swift/response.body.html",
+      "sha256": "3be0f9268a05f174ab73f40e5959d1d22749f5d108f0f02ef5b065feaf660651",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-package-manager/45c31f1b35ef8599898f61c26e7518bcf14b3eb5/Utilities/InstalledSwiftPMConfiguration/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-package-manager/45c31f1b35ef8599898f61c26e7518bcf14b3eb5/Utilities/bootstrap/response.body.html",
+      "sha256": "cfd3c5f21fa0a0b542aa7d1618e705cafa54db74e8f17ebdb848df71e2976344",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-package-manager/45c31f1b35ef8599898f61c26e7518bcf14b3eb5/Utilities/bootstrap",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-sdk-generator/f6da543e0d59f14d6ff652af4cff03d85d1e42f2/LICENSE.txt/response.body.html",
+      "sha256": "186c5f0192a754714a7e542233ddaaad28745626e0ad32e358d3f5af00afb84a",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-sdk-generator/f6da543e0d59f14d6ff652af4cff03d85d1e42f2/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-sdk-generator/f6da543e0d59f14d6ff652af4cff03d85d1e42f2/Package.resolved/response.body.html",
+      "sha256": "c1496929211ff82ab5153fb564feca7b63b78ec2e736c89f89a6e3a57ba9fa56",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-sdk-generator/f6da543e0d59f14d6ff652af4cff03d85d1e42f2/Package.resolved",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-sdk-generator/f6da543e0d59f14d6ff652af4cff03d85d1e42f2/Package.swift/response.body.html",
+      "sha256": "a8e0bff8b772678f28793258372b7fdde687cf4383dfb2b05c9e561f2744da14",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-sdk-generator/f6da543e0d59f14d6ff652af4cff03d85d1e42f2/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-stress-tester/35cd851fc576f443bba4531e45173f1b8c47267b/LICENSE/response.body.html",
+      "sha256": "cff83587e7fcacad8528d85334c39d922f3e36d42796e4546d138c304e854f9b",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-stress-tester/35cd851fc576f443bba4531e45173f1b8c47267b/LICENSE",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-syntax/cbd0366a54a9f8fdaa33834652fb2e80f2948573/CodeGeneration/Package.swift/response.body.html",
+      "sha256": "5dbea657942726413f7d1ef6c09da00b38380eb071fdfd28ef88169d56d09578",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-syntax/cbd0366a54a9f8fdaa33834652fb2e80f2948573/CodeGeneration/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-syntax/cbd0366a54a9f8fdaa33834652fb2e80f2948573/LICENSE.txt/response.body.html",
+      "sha256": "770af8291f708538d8ff885a0bbc4e045cd700531741c4f99528d435c14d7f55",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-syntax/cbd0366a54a9f8fdaa33834652fb2e80f2948573/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-syntax/cbd0366a54a9f8fdaa33834652fb2e80f2948573/Package.swift/response.body.html",
+      "sha256": "a2a8ebf1f7ec0504564cc7f710cdecf984ca5c4acfce7a3b0b60af3bdc8e47b9",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-syntax/cbd0366a54a9f8fdaa33834652fb2e80f2948573/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-syntax/cbd0366a54a9f8fdaa33834652fb2e80f2948573/SwiftSyntaxDevUtils/Package.swift/response.body.html",
+      "sha256": "bd9d44b808ff96dc499b9b70581dfa9bb6ad957e8a166beb10a30d91b3692795",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-syntax/cbd0366a54a9f8fdaa33834652fb2e80f2948573/SwiftSyntaxDevUtils/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-testing/d6b70f9ef9eb207729fb50e0ff32edc6f72ea474/LICENSE.txt/response.body.html",
+      "sha256": "11875c32f8de06e40b25b9e1dc78776baad9810032601c5325db6234c86d71e9",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-testing/d6b70f9ef9eb207729fb50e0ff32edc6f72ea474/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-testing/d6b70f9ef9eb207729fb50e0ff32edc6f72ea474/NOTICE.txt/response.body.html",
+      "sha256": "154f56b19c3867673364d63615e24c745de869fe54be99852ab2cce9f92c27e6",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-testing/d6b70f9ef9eb207729fb50e0ff32edc6f72ea474/NOTICE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-testing/d6b70f9ef9eb207729fb50e0ff32edc6f72ea474/Package.swift/response.body.html",
+      "sha256": "bf096cdd2f0d4aaa52b3eac39bbe1ddae8df5b216a0419e947de6f36fb48e280",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-testing/d6b70f9ef9eb207729fb50e0ff32edc6f72ea474/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-toolchain-sqlite/a911e64716e2dbf7ebcedfa0299039eee9702e33/LICENSE/response.body.html",
+      "sha256": "5fa05988c61428e0338acedfed0f2f45febf318196d5a357fa2614593917c7d7",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-toolchain-sqlite/a911e64716e2dbf7ebcedfa0299039eee9702e33/LICENSE",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-toolchain-sqlite/a911e64716e2dbf7ebcedfa0299039eee9702e33/Package.swift/response.body.html",
+      "sha256": "1b0d034cbf79588c647a6faee72372feb4f8cdd94f7b30ac96c1692695c61c1a",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-toolchain-sqlite/a911e64716e2dbf7ebcedfa0299039eee9702e33/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-tools-support-core/5cd61a77866b110bb222c38073627d2703c750e6/LICENSE.txt/response.body.html",
+      "sha256": "2052b60f0671052cfec00c5135534961ce249db195d6079a843bd7273b20e88d",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-tools-support-core/5cd61a77866b110bb222c38073627d2703c750e6/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift-tools-support-core/5cd61a77866b110bb222c38073627d2703c750e6/Package.swift/response.body.html",
+      "sha256": "d24638223993125469202e1b9527ef90edbf473860cbaa7a1eb45abada5ee5be",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift-tools-support-core/5cd61a77866b110bb222c38073627d2703c750e6/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/LICENSE.txt/response.body.html",
+      "sha256": "770af8291f708538d8ff885a0bbc4e045cd700531741c4f99528d435c14d7f55",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/LICENSE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/SwiftCompilerSources/CMakeLists.txt/response.body.html",
+      "sha256": "40b4c13be8ac4e5d7b0de551eb45358a85732710b0bec9b7a381beda24224232",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/SwiftCompilerSources/CMakeLists.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/benchmark/Package.swift/response.body.html",
+      "sha256": "b294156ef95670484dad61464dad71a1ce94dd9bd2e1f5ac76a69a786993e689",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/benchmark/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/benchmark/scripts/build_script_helper.py/response.body.html",
+      "sha256": "6bb287f538694402737a9b01a3598335de8dc093d137123886be18d774e09005",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/benchmark/scripts/build_script_helper.py",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/docs/HowToGuides/GettingStarted.md/response.body.html",
+      "sha256": "0d88b50169bba2df745097353178f10f82bb41368e6dc66be057621a1ee372ac",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/docs/HowToGuides/GettingStarted.md",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/UnicodeData/COPYRIGHT.txt/response.body.html",
+      "sha256": "a7dc1de7052d8122e9fa216a563885a8d90d07195610c94e95324838a06cfc6f",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/UnicodeData/COPYRIGHT.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/build-presets.ini/response.body.html",
+      "sha256": "62b04efa8f96e9f8df48c6ba27e13690bd470fc568685557f14757d391de552d",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/build-presets.ini",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/build-script-impl/response.body.html",
+      "sha256": "8e5c36fe570d265292ba2a6c37f8b0452617ad5b33fd7896a6ea353c9f77bcc6",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/build-script-impl",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/build-script/response.body.html",
+      "sha256": "c4b020e34cf2ad32b1ffcecc8c7e5f0d7bef27e9bdd69cd1b883189ad787804d",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/build-script",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/build_swift/build_swift/argparse.py/response.body.html",
+      "sha256": "d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/build_swift/build_swift/argparse.py",
+      "роль": "HTTP404: неуспешное обращение; не доказательство исходников"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/build_swift/build_swift/defaults.py/response.body.html",
+      "sha256": "e724fc33e6049c584bae6638f4f42d04f8356b7130abbd4f2ff843cb69c5cb96",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/build_swift/build_swift/defaults.py",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/build_swift/build_swift/driver_arguments.py/response.body.html",
+      "sha256": "80407144c09875ad414fb17e65f078d75698386e70cfd99c47267d4bba9d86c0",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/build_swift/build_swift/driver_arguments.py",
+      "роль": "Исходные байты HTTP"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/swift_build_support/swift_build_support/cmake.py/response.body.html",
+      "sha256": "f4e2da9d61fedef74e9e593703408f2fe4bb136633978d98855790bfe67a4af2",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/swift_build_support/swift_build_support/cmake.py",
+      "роль": "Исходные байты HTTP"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/swift_build_support/swift_build_support/products/benchmarks.py/response.body.html",
+      "sha256": "7ee1ce5e067f5bd82b891e2e6185605d4ab52c277800a92714218af7ca0b7f8e",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/swift_build_support/swift_build_support/products/benchmarks.py",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/swift_build_support/swift_build_support/products/cmake.py/response.body.html",
+      "sha256": "d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/swift_build_support/swift_build_support/products/cmake.py",
+      "роль": "HTTP404: неуспешное обращение; не доказательство исходников"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/swift_build_support/swift_build_support/products/cmake_product.py/response.body.html",
+      "sha256": "b43a3314af792c76549686eb1bea678ada683269a2a5c8f4acb8d8b7c48b63d6",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/swift_build_support/swift_build_support/products/cmake_product.py",
+      "роль": "Исходные байты HTTP"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/swift_build_support/swift_build_support/products/ninja.py/response.body.html",
+      "sha256": "97583b061b0874cb43af2c250f1819e7cfba7e3855a08b1e15115dc23b611a6a",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/swift_build_support/swift_build_support/products/ninja.py",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/swift_build_support/swift_build_support/products/swift_testing.py/response.body.html",
+      "sha256": "b42f4efb832358886a913b662dde1d3c49419d494b3671103ace8bfa8f9b5656",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/swift_build_support/swift_build_support/products/swift_testing.py",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/swift_build_support/swift_build_support/products/swift_testing_macros.py/response.body.html",
+      "sha256": "b3891042cc97bedc25a4fcb6f6252539639e441d4daacb8a0325a1a1cb9b70d2",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/swift_build_support/swift_build_support/products/swift_testing_macros.py",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/swift_build_support/swift_build_support/products/swiftdocc.py/response.body.html",
+      "sha256": "8a6e8826040c8e8bf6b1e77c09972300741ca18f3cf51db0ca82f20e87ccb202",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/swift_build_support/swift_build_support/products/swiftdocc.py",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/swift_build_support/swift_build_support/products/swiftdoccrender.py/response.body.html",
+      "sha256": "84650b7214c565cc7532aa037a05d0e462d566475acff3bbb79ce8d3506fe6fb",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/swift_build_support/swift_build_support/products/swiftdoccrender.py",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/swift_build_support/swift_build_support/products/swiftpm.py/response.body.html",
+      "sha256": "54e61371e45969b9fbe2a2a772c174cdd0c9ab3e467c2c21e12272b5c5576908",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/swift_build_support/swift_build_support/products/swiftpm.py",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/swift_build_support/swift_build_support/products/swiftsyntax.py/response.body.html",
+      "sha256": "42b9e324ff0d43adf2770d22f12f5bf9df58931b57618cffbef0c716168b801f",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/swift_build_support/swift_build_support/products/swiftsyntax.py",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/swift_build_support/swift_build_support/toolchain.py/response.body.html",
+      "sha256": "0fb1c1a5c85c42cf9a87bc555acff94509f88ab88ada02016116287e6ac663e4",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/swift_build_support/swift_build_support/toolchain.py",
+      "роль": "Исходные байты HTTP"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/update-checkout/response.body.html",
+      "sha256": "4cc18a34d6dee7db89a66dd00d89fbd17359212a2201adf43f929fb2226c1f2e",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/update-checkout",
+      "роль": "Исходные байты HTTP"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/update_checkout/update-checkout-config.json/response.body.html",
+      "sha256": "cb86a0f4d74bb6f7fd25f9234912b9a157912a821a03098e95042cb5fd5565f7",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/update_checkout/update-checkout-config.json",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/update_checkout/update_checkout/cli_arguments.py/response.body.html",
+      "sha256": "d5558cd419c8d46bdc958064cb97f963d1ea793866414c025906ec15033512ed",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/update_checkout/update_checkout/cli_arguments.py",
+      "роль": "HTTP404: неуспешное обращение; не доказательство исходников"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/update_checkout/update_checkout/update_checkout.py/response.body.html",
+      "sha256": "8a2e41fa61a0ddc48ed82de12fdc200017a9587c9b53b36fffeddd4d52ff3721",
+      "url": "https://raw.githubusercontent.com/swiftlang/swift/cc4f13a96e9600bd6f801368ab51f614ab5ddd5e/utils/update_checkout/update_checkout/update_checkout.py",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftwasm/WasmKit/2ce00c8cd20b6cda3ce9f62b6e36d19d29f3262b/LICENSE/response.body.html",
+      "sha256": "bc2e8c69fd4db72feb2b9400eaf095d136bcb82413945d9a95113e6269f282e0",
+      "url": "https://raw.githubusercontent.com/swiftwasm/WasmKit/2ce00c8cd20b6cda3ce9f62b6e36d19d29f3262b/LICENSE",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftwasm/WasmKit/2ce00c8cd20b6cda3ce9f62b6e36d19d29f3262b/NOTICE.txt/response.body.html",
+      "sha256": "7331de9d0f1be54888341895d3fe28a9710defd95b4a7b73f07e21fb907e9bd7",
+      "url": "https://raw.githubusercontent.com/swiftwasm/WasmKit/2ce00c8cd20b6cda3ce9f62b6e36d19d29f3262b/NOTICE.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swiftwasm/WasmKit/2ce00c8cd20b6cda3ce9f62b6e36d19d29f3262b/Package.swift/response.body.html",
+      "sha256": "07498a46c28ef30822564d1be1d21e490e66a2407823972bea5b341915f46c20",
+      "url": "https://raw.githubusercontent.com/swiftwasm/WasmKit/2ce00c8cd20b6cda3ce9f62b6e36d19d29f3262b/Package.swift",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swig/swig/77323a0f07562b7d90d36181697a72a909b9519a/CMakeLists.txt/response.body.html",
+      "sha256": "a2373bb136f843476d926b5fb15e672f5e406361bd568b66161a80954b6bcf5b",
+      "url": "https://raw.githubusercontent.com/swig/swig/77323a0f07562b7d90d36181697a72a909b9519a/CMakeLists.txt",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swig/swig/77323a0f07562b7d90d36181697a72a909b9519a/COPYRIGHT/response.body.html",
+      "sha256": "84f433185a59a96464710decc56112a34d61e8d75e14e29d0154a77ee601b1d7",
+      "url": "https://raw.githubusercontent.com/swig/swig/77323a0f07562b7d90d36181697a72a909b9519a/COPYRIGHT",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swig/swig/77323a0f07562b7d90d36181697a72a909b9519a/LICENSE-GPL/response.body.html",
+      "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903",
+      "url": "https://raw.githubusercontent.com/swig/swig/77323a0f07562b7d90d36181697a72a909b9519a/LICENSE-GPL",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swig/swig/77323a0f07562b7d90d36181697a72a909b9519a/LICENSE-UNIVERSITIES/response.body.html",
+      "sha256": "7f50d942373a871211c5efee03f3db2f9efd1cff1002b0ef8e3748baa611a5c2",
+      "url": "https://raw.githubusercontent.com/swig/swig/77323a0f07562b7d90d36181697a72a909b9519a/LICENSE-UNIVERSITIES",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swig/swig/77323a0f07562b7d90d36181697a72a909b9519a/LICENSE/response.body.html",
+      "sha256": "f53abaeed775018d519a1b9615f0ca17894772bd9ca21c2a156bf340ac41c13e",
+      "url": "https://raw.githubusercontent.com/swig/swig/77323a0f07562b7d90d36181697a72a909b9519a/LICENSE",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swig/swig/77323a0f07562b7d90d36181697a72a909b9519a/Tools/cmake/FindPCRE2.cmake/response.body.html",
+      "sha256": "7d32caed00a4e5a82d830f901dbf59c47729c6977c03a99033d4173abcb948f3",
+      "url": "https://raw.githubusercontent.com/swig/swig/77323a0f07562b7d90d36181697a72a909b9519a/Tools/cmake/FindPCRE2.cmake",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    },
+    {
+      "путь": "Источники/URL/https/raw.githubusercontent.com/swig/swig/77323a0f07562b7d90d36181697a72a909b9519a/configure.ac/response.body.html",
+      "sha256": "568838b44c5614dfce968509ef784da12422080391e56333ee7129caea6310d9",
+      "url": "https://raw.githubusercontent.com/swig/swig/77323a0f07562b7d90d36181697a72a909b9519a/configure.ac",
+      "роль": "Исходные байты HTTP; суффикс .html исторический"
+    }
+  ],
+  "препятствия": [
+    {
+      "номер": "native-arm64",
+      "наблюдение": "SUCCESS CI180 подтверждает x86_64 host+cross arm64, а не native arm64 выбранного профиля",
+      "нужно": "Чистая native arm64 конфигурация/сборка и полный протокол приёмки в согласованной VM0216"
+    },
+    {
+      "номер": "Xcode-байты-и-права",
+      "наблюдение": "Не получены точный законный Xcode16.2RC16C5031c/SDK24C94/bootstrap и их историческая лицензия; текущий SLA не даёт общего права public mirror",
+      "нужно": "SHA256/signature/receipt/SDKSettings/полные LICENSE и законный способ передачи"
+    },
+    {
+      "номер": "native-bootstrap",
+      "наблюдение": "CMake source3.30.2 не идентифицирует исполняемый CMake; SWIG native/Bison/Python installer/backends и конечный shell/runtime closure не приняты",
+      "нужно": "Точные исходники и артефакты с OID либо digest, лицензиями и автономной приёмкой каждого исполняемого входа"
+    },
+    {
+      "номер": "DocC-render-исходники",
+      "наблюдение": "swift-docc-render-artifact устанавливает готовый dist; root tree содержит LICENSE/README/dist, нет исходного provenance commit/npm lock",
+      "нужно": "Связать dist с точными исходниками, Node/npm и полным lock/лицензионным closure либо сохранить запрет источниковой поставки"
+    },
+    {
+      "номер": "integration-tests-лицензия",
+      "наблюдение": "В полном дереве выбранного swift-integration-tests не найдены LICENSE/NOTICE/COPYING/COPYRIGHT",
+      "нужно": "Подтверждение прав, применимые per-file notices/лицензионный источник от правообладателя"
+    },
+    {
+      "номер": "автономное-замыкание",
+      "наблюдение": "Обнаружены декларации активных пакетов и продуктов; native SwiftPM resolve/CMake/exec/linker/package closure не исполнялись",
+      "нужно": "Отказ при любом незаявленном чтении/исполнении/сети и отсутствие подмены системным Swift на переданных байтах"
+    },
+    {
+      "номер": "материализация",
+      "наблюдение": "Fork/clone/gitlink полных49репозиториев не выполнялись; ни один адрес будущего зеркала не является квитанцией доставки",
+      "нужно": "Отдельное назначение после правового и входного допуска"
+    }
+  ],
+  "полнота_исходников": false,
+  "готовность_сборки": false
+}

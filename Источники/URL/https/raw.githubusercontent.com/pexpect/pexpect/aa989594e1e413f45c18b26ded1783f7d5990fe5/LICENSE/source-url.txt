@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/pexpect/pexpect/aa989594e1e413f45c18b26ded1783f7d5990fe5/LICENSE

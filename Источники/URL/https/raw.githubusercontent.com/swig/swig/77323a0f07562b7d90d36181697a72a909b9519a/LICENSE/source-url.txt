@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/swig/swig/77323a0f07562b7d90d36181697a72a909b9519a/LICENSE
