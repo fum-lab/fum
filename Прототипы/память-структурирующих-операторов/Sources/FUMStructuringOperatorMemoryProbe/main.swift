@@ -6,6 +6,10 @@ struct FUMStructuringOperatorMemoryProbe {
   static func main() {
     do {
       let arguments = Array(CommandLine.arguments.dropFirst())
+      if arguments.first == "внимание" {
+        try внимание(Array(arguments.dropFirst()))
+        return
+      }
       if arguments.first == "исполнить" {
         try исполнить(Array(arguments.dropFirst()))
         return
@@ -39,6 +43,7 @@ struct FUMStructuringOperatorMemoryProbe {
             FUMStructuringOperatorMemoryProbe fixture <scenario-id>
             FUMStructuringOperatorMemoryProbe --help
             FUMStructuringOperatorMemoryProbe исполнить --определение <JSON> --вход байты|текст|скаляры [--профиль]
+            FUMStructuringOperatorMemoryProbe внимание --определение <JSON> --параметры <JSON> [--профиль]
 
           The default run is local, deterministic, fixture-only, and performs no external effects.
           Чистое исполнение читает отдельный конечный stdin. Результат JSON — stdout;
@@ -55,6 +60,60 @@ struct FUMStructuringOperatorMemoryProbe {
     } catch {
       FileHandle.standardError.write(Data("error: \(error)\n".utf8))
       exit(EXIT_FAILURE)
+    }
+  }
+
+  private static func внимание(_ аргументы: [String]) throws {
+    var пути = [String: String]()
+    var профиль = false
+    var позиция = 0
+    while позиция < аргументы.count {
+      let ключ = аргументы[позиция]
+      позиция += 1
+      if ключ == "--профиль", !профиль {
+        профиль = true
+        continue
+      }
+      guard ["--определение", "--параметры"].contains(ключ), пути[ключ] == nil,
+        позиция < аргументы.count, !аргументы[позиция].isEmpty
+      else {
+        throw NSError(
+          domain: "Параметры графа", code: 1,
+          userInfo: [NSLocalizedDescriptionKey: "Неизвестный, повторный или неполный параметр"])
+      }
+      пути[ключ] = аргументы[позиция]
+      позиция += 1
+    }
+    guard let путьОпределения = пути["--определение"], let путьПараметров = пути["--параметры"]
+    else {
+      throw NSError(
+        domain: "Параметры графа", code: 1,
+        userInfo: [NSLocalizedDescriptionKey: "Нужны определение и параметры чувствительности"])
+    }
+    let начало = DispatchTime.now().uptimeNanoseconds
+    let байтыОпределения = try КонечныйВвод.определение(путьОпределения)
+    let байтыПараметров = try КонечныйВвод.определение(путьПараметров)
+    let байтыВхода = try КонечныйВвод.прочитать(.standardInput, предел: 65_536)
+    var замеры = [
+      ЗамерИсполнения(
+        стадия: "загрузка", наносекунды: DispatchTime.now().uptimeNanoseconds - начало,
+        исход: "успешно")
+    ]
+    let началоРазбора = DispatchTime.now().uptimeNanoseconds
+    let определение = try ОпределениеГрафа.разобрать(байтыОпределения)
+    let параметры = try ПараметрыЧувствительности.разобрать(байтыПараметров)
+    let вход = try СтруктурированныйВход.разобрать(байтыВхода)
+    замеры.append(
+      ЗамерИсполнения(
+        стадия: "разбор", наносекунды: DispatchTime.now().uptimeNanoseconds - началоРазбора,
+        исход: "успешно"))
+    let результат = try AutomationExecutor.выполнить(определение, вход: вход, параметры: параметры)
+    { замеры.append($0) }
+    FileHandle.standardOutput.write(try каноническиеДанные(результат) + Data("\n".utf8))
+    if профиль {
+      for замер in замеры {
+        FileHandle.standardError.write(try каноническиеДанные(замер) + Data("\n".utf8))
+      }
     }
   }
 

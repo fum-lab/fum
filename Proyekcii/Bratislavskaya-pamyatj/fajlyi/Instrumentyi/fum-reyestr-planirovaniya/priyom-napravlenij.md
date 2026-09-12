@@ -13,6 +13,7 @@ Komanda `Инструменты/fum-reyestr-planirovaniya/scripts/принять
 | Operaciya | Dopolniteljnyiye parametryi | Rezuljtat |
 | --- | --- | --- |
 | `подготовить` | `--вход` | Tochnaya para v Zhurnale, kartochki, indeksyi i mashinnyij reyestr; sokhranyonnoye sobyitiye i svideteljstva |
+| `исправить-отображение-основания` | `--поправка` | Adresnoye udaleniye odnogo konechnogo ASCII-probela proizvodnogo osnovaniya s otdeljnoj kvitanciyej; iskhodnyij priyom sokhranyayetsya |
 | `закрепить` | `--событие`, `--коммит`, `--ветка` | Proverennyij manifest polnogo kommita postanovki |
 | `допустить` | `--вход` | Odna sokhranyayemaya popyitka i tochnyiye argumentyi vneshnego instrumenta libo zapret povtornogo vyizova |
 | `сохранить` | `--событие`, `--попытка`, `--ответ` | Neizmenyayemaya kvitanciya polnogo syirogo MCP-otveta iz privatnogo JSON |
@@ -63,6 +64,43 @@ Podderzhana rovno odna korrekciya. Yesli yeyo sobstvennyiye smyislovyiye dannyiy
 
 Adresnaya otkryitaya proverka: `python3 -B -m unittest discover -s Инструменты/fum-reyestr-planirovaniya/tests -p test_исправления_приёма.py`. Neboljshoj profilj: `python3 -B Инструменты/fum-reyestr-planirovaniya/tests/профиль_исправления_приёма.py --выход <профиль.json>`. Oba zapuska vyipolnyayutsya cherez otchyotnuyu obyortku svoyej sessii; setj i vneshnyaya zadacha ne nuzhnyi.
 
+## Adresnaya popravka otobrazheniya osnovaniya
+
+Uzkaya operaciya `исправить-отображение-основания` ispravlyayet rovno odin konechnyij ASCII-probel sintezirovannogo polya `основание` uzhe podgotovlennogo i zakreplyonnogo priyoma. Ona ne menyayet smyisl, chelovecheskuyu komandu, otvet, iskhodnyij plan ili private-zapisj priyoma. Tekusjhij HEAD i sobstvennyij ref dolzhnyi sovpadatj s iskhodnyim bind; vneshnyaya popyitka yesjhyo ne dolzhna susjhestvovatj. Povtornoye `подготовить` starogo priyoma posle popravki ostayotsya zakryityim otkazom na izmenyonnom otobrazhenii: prezhnyaya para proveryayetsya po iskhodnomu kommitu, yeyo diapazonyi ne vyidayutsya za novyiye.
+
+Privatnyij JSON soderzhit toljko sleduyusjhiye polya:
+
+```json
+{
+  "схема": "fum.поправка-отображения-основания.1",
+  "событие": "<SHA-256 исходного события>",
+  "база": "<полный OID закреплённого коммита>",
+  "ветка": "refs/heads/codex/…",
+  "роль": "основание",
+  "свидетельство": {"путь": "Журнал/<исходный этап>/отчёт.md", "начало": 1, "конец": 2, "sha256": "<исходный SHA-256 диапазона>"},
+  "после_sha256": "<SHA-256 того же основания без единственного конечного ASCII-пробела>",
+  "запрос": "Журнал/<новый этап>/запрос.md",
+  "причина": "Адресное исправление производного отображения с сохранением исходного свидетельства.",
+  "исходный_отказ": {"путь": "Журнал/<исходный этап>/материалы/запуски-проверок/<номер_UUID>.json", "sha256": "<SHA-256 неизменной записи>", "идентификатор": "<UUID запуска>", "код": 2}
+}
+```
+
+Vse oboznachennyiye znacheniya, vklyuchaya pozicii, zamenyayutsya proverennyimi faktami. Soderzhimoye fajla na zamenu vkhod ne prinimayet. Novyiye bajtyi vyichislyayutsya toljko iz obyichnogo Git blob zakreplyonnogo kommita udaleniyem poslednego `0x20` prinyatogo diapazona; vesj ostaljnoj otchyot dolzhen pobajtno sovpadatj. Proveryayutsya rolj, tochnyij diapazon, oba khyesha, iskhodnoye sintezirovannoye pole i polnyij manifest bind.
+
+Komanda zapuskayetsya iz svoyego checkout:
+
+```text
+python3 -B Инструменты/fum-reyestr-planirovaniya/scripts/принять-направление.py --корень-репозитория . --задача <UUID своего корня> исправить-отображение-основания --поправка <приватный JSON>
+```
+
+Novyij etap Zhurnala dolzhen uzhe susjhestvovatj. V nyom sokhranyayetsya kvitanciya `материалы/поправка-основания-<событие>.json` s iskhodnyim sobyitiyem i manifestom, tochnyimi before/after-khyeshami, roljyu, diapazonom, prichinoj i neizmennyim izvestnyim kodom 2. Operaciya ispoljzuyet susjhestvuyusjhij kontrakt otdeljnoj fajlovoj stadii `этапы`; versiya i polya obsjhego khranilisjha ne menyayutsya, staryiye potrebiteli prodolzhayut yego chitatj. Iskhodnyiye E0, yego stadii, postanovka i zapisi proverok sokhranyayutsya. Ni nomera, ni native, ni obrabotka 0177 ne zapuskayutsya.
+
+Otkaz zakryivayet inoj diff, druguyu rolj ili bazu, chelovecheskij tekst, nezavershyonnoye vozobnovleniye otchyota, podgotovlennyij libo zakryityij snimok, aktivnuyu zapisj proverki, izmeneniye sostava prezhnikh proverok, kolliziyu kvitancii, simlink ili hardlink. Pod obsjhim zamkom povtorno proveryayutsya drugiye potrebiteli togo zhe fizicheskogo otchyota. Odinakovyij otnositeljnyij putj v nezavisimom worktree sam po sebe ne yavlyayetsya etim fajlom. Svyazannyiye posledniye zapisi 0177 blokiruyut popravku nezavisimo ot polya aktualjnosti, vklyuchaya `отменено`; povrezhdeniye ili usecheniye istorii takzhe ne dokazyivayet otsutstviye svyazi. Proveryayutsya tekusjhiye istorii i ikh versii v iskhodnom kommite.
+
+Posle preryivaniya povtoryayetsya tot zhe JSON pri tom zhe HEAD. Toljko sobstvennaya sokhranyonnaya stadiya razreshayet before/after; tretji bajtyi, novoye namereniye i sdvig nezavershyonnoj bazyi otklonyayutsya. Zavershyonnaya stadiya prinimayet toljko tochnyij after, bez vosstanovleniya iskhodnogo probela. Obyichnoye posleduyusjheye obnovleniye recency yavlyayetsya otdeljnoj proizvodnoj zapisjyu i ne vyidayotsya za pobajtovyij povtor etoj operacii. Polnyij otchyot ne perestraivayetsya. Priyomka novogo etapa proveryayet nastoyasjhij summarnyij `git diff --check <исходная L> <новый C>`, sokhranyaya prezhnij neuspekh v C0.
+
+Adresnyiye proverki: `python3 -B -m unittest discover -s Инструменты/fum-reyestr-planirovaniya/tests -p test_отображения_основания.py`. Malyij profilj: `python3 -B Инструменты/fum-reyestr-planirovaniya/tests/профиль_отображения_основания.py --выход <профиль.json>`. Oba vyizova vyipolnyayutsya otchyotnoj obyortkoj novogo etapa. Etot putj ne sluzhit obsjhim redaktorom svideteljstv i ne ustranyayet smyislovyiye raskhozhdeniya staroj postanovki.
+
 ## Vneshnyaya granica Codex
 
 Sokhranyonnyij `адаптер-codex.js` ispolnyayetsya sredoj, imeyusjhej tri yavno predostavlennyiye vozmozhnosti. `подготовить` vyizyivayet odnorazovuyu komandu `допустить`; `исполнить` peredayot yeyo argumentyi oficialjnomu `create_thread` libo `send_message_to_thread` soglasno sokhranyonnoj operacii; `сохранить` sokhranyayet polnyij otvet cherez odnoimyonnuyu CLI-komandu. Do sozdaniya proyekt proveryayetsya oficialjnyim `list_projects`, vklyuchaya `isGitRepository`. Eto interfejs vozmozhnostej sredyi, ne otdeljnyij Node-servis s dostupom k vnutrennej baze Codex.
@@ -101,12 +139,14 @@ Fajlovaya stadiya snachala sokhranyayet tochnyij plan iskhodnyikh i budusjhikh b
 
 ## Istochniki
 
+- [Adresnaya popravka proizvodnogo osnovaniya](../../Zhurnal/2026-09-11_18-02-02_MSK_ispravitj-otobrazheniye-osnovaniya-priyoma/zapros.md).
+
 - [Iskhodnyiye komandyi i obyyom](../../Zhurnal/2026-09-11_01-40-19_MSK_avtomatizirovatj-priyom-napravlenij-FUMA/zapros.md).
 - [Kartochka obsjhego ispolnitelya](../../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0201-avtomatizirovatj-priyom-napravlenij-FUMA.md).
 - [Kommit postanovki, rannyaya baza i adapter](../../Zhurnal/2026-09-11_03-32-33_MSK_svyazatj-priyom-s-kommitom-postanovki/zapros.md).
 - [Podtverzhdyonnyij pervyij matematicheskij zapusk](../../Zhurnal/2026-09-11_05-03-47_MSK_podtverditj-matematicheskij-zapusk/otchyot.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 10:25:02 MSK -->
-<!-- content-sha256: sha256:909327d327f6b96665d73badc74ba7e277805b9bc9cd58fe5a134ec8af473d49 -->
+<!-- last-content-edit: 2026-09-11 19:06:10 MSK -->
+<!-- content-sha256: sha256:f0fdd99c98aec55af1a4642ff380a06d9bdfa8270bc6fa2d609c48c27f1a063f -->
 <!-- FUM-MD-RECENCY:END -->

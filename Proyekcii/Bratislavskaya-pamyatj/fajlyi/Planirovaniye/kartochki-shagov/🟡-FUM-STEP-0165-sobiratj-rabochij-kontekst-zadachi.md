@@ -51,7 +51,31 @@ Tekusjheye utochneniye opredelyayet eksperimentaljnyij rezhim pervyikh roditelej
 
 Posle otdeljnogo prinyatiya ispolnyayemogo obyyoma ostayutsya formaljnyij vkhod i vyikhod, otkryityiye fiksturyi i ikh ispolnitelj, chitayusjhij sborsjhik, ustojchivoye vosstanovleniye sostoyanij, adapteryi 0177/0160, nezavisimyij etalon, TDD, vosproizvodimyij profilj i obosnovannoye resheniye ob optimizacii. Istochniki i komandyi vosproizvedeniya budusjhej realizacii dolzhnyi byitj dostupnyi v FUM. Do etikh rezuljtatov status kartochki ostayotsya active.
 
+## Prikladnoj srez: aktualjnostj README
+
+Po novyim pryamyim komandam prinyat otdeljnyij konechnyij obyyom realizacii [proveryayemoj aktualjnosti marshrutov README](../../Trebovaniya/🟡-proveryayemaya-aktualjnostj-marshrutov-README.md). On ispoljzuyet DETEKTOR-02 i podgotovlennuyu modelj vnimaniya: nablyudeniye → znachimostj → vnimaniye → vyibor dejstviya → proverka rezuljtata → izmeneniye sostoyaniya. Potrebnostj obnovitj instrukciyu uderzhivayetsya do podtverzhdyonnogo ustraneniya raskhozhdeniya na tekusjhikh osnovaniyakh; rassmotreniye ne snimayet prichinu i ne rasshiryayet polnomochiya. Nedostupnostj sokhranyayetsya kak neizvestnostj, postoronniye izmeneniya ne vyizyivayut signal.
+
+Pozdneye utochneniye svyazyivayet znachimostj, uderzhaniye vnimaniya i vyibor dejstviya s konechnyim grafom strukturiruyusjhikh operatorov. Dlya pervogo scenariya pryamoj ssyilki README na `Приложения/FUMA/README.md` ogranichenno rasshiryayetsya [obsjhij ispolnitelj 0208](../../Prototipyi/pamyatj-strukturiruyusjhikh-operatorov/konechnoye-ispolneniye.md) s sokhraneniyem v1; sistemnyiye adapteryi peredayut faktyi i ne skryivayut algoritm detektora. Novaya versiya, deklarativnyiye usloviya/proiskhozhdeniye/iskhodyi i test dvukh opredelenij na odnom vkhode otlichayut etot srez ot nezavisimogo ad hoc mekhanizma vnimaniya. Nedostupnostj sokhranyayet unknown i prezhneye sostoyaniye; izmeneniye hash samo ne dokazyivayet smyislovogo ustarevaniya.
+
+Eto pervyij prikladnoj ispolnyayemyij srez odnogo README, s yavnyimi vkhodami, sostoyaniyami, CLI, otkryityimi fiksturami, TDD i profilem. On ne zamenyayet obsjhij chitayusjhij srez i plan vspominaniya po kommitam i ne zakryivayet ostaljnyiye kriterii 0165. Predmetnyij rezuljtat prinimayetsya otdeljno ot podgotovki postanovki; universaljnyij dvizhok emocij i subyyektivnoye perezhivaniye ne zayavlyayutsya.
+
+## Vtoroye prikladnoye opredeleniye: potrebnostj integracii
+
+Pozdnyaya pryamaya komanda dobavlyayet k README vtoroye opredeleniye togo zhe obsjhego operatornogo mekhanizma: potrebnostj integrirovatj podtverzhdyonnuyu postavku v vyibrannoj stadii marshruta cherez fuma k master. [Prikladnoj shag 0218](🟡-FUM-STEP-0218-obnovitj-README-i-realizovatj-srez-aktualjnosti.md) sokhranyayet oba opredeleniya, novuyu yavnuyu versiyu obsjhego ispolnitelya i sovmestimostj v1. Adapteryi izvlekayut faktyi, usloviya i iskhodyi zadayutsya deklarativno.
+
+Ancestry i dokazannaya priyomka razlichayutsya; checkpoint trebuyet razbora nedostayusjhego dopuska. Unknown i considered ne stirayut prezhnyuyu aktivnuyu prichinu; snyatiye trebuyet sovpavshej kvitancii podtverzhdyonnogo vklyucheniya v etoj oblasti libo podtverzhdyonnoj otmenyi. Nablyudyonnyij target HEAD ne sozdayot novuyu identichnostj signala na kazhdom kommite. Revert trebuyet razbora utratyi rezuljtata, a ne povtornogo sliyaniya ancestor. Stadiya master poluchayet rezuljtat fuma bez pereskoka bokovoj vetki. Signal ne razreshayet i ne ispolnyayet Git-mutacii, publikaciyu, zapusk zadach ili obrabotku 0177. Obsjhij 0165 ostayotsya active.
+
+## Chuvstviteljnostj prikladnogo sreza
+
+V susjhestvuyusjhem [FUM-STEP-0218](🟡-FUM-STEP-0218-obnovitj-README-i-realizovatj-srez-aktualjnosti.md) dva opredeleniya obsjhego ispolnitelya poluchayut versionirovannyiye vesa vkhodnyikh signalov, porogi i obyyasnimyiye vkladyi. Odinakovyiye faktyi s raznyimi parametrami proveryayut chuvstviteljnostj; nulevoj ves ne skryivayet obyazateljnoye neizvestnoye osnovaniye. Izmeneniye poroga, considered i unknown ne snimayut prezhnyuyu podtverzhdyonnuyu prichinu. Polnyij obsjhij sborsjhik rabochego konteksta ne obyyavlyayetsya realizovannyim etim prikladnyim srezom; prezhnij planovyij obyyom 0165 sokhranyayetsya.
+
 ## Istochniki
+
+- [Utochneniye chuvstviteljnosti vesami i porogami](../../Zhurnal/2026-09-11_20-28-44_MSK_utochnitj-chuvstviteljnostj-operatornogo-vnimaniya/zapros.md).
+
+- [Pozdneye porucheniye vtorogo prikladnogo opredeleniya](../../Zhurnal/2026-09-11_18-58-16_MSK_obnovitj-postanovku-operatornogo-vnimaniya/zapros.md).
+
+- [Komandyi README i funkcionaljnoj realizacii](../../Zhurnal/2026-09-11_16-25-58_MSK_podgotovitj-postanovku-README/zapros.md).
 
 - [Novyiye nablyudeniya i utochneniye granicyi pervoj realizacii](../../Zhurnal/2026-09-11_04-16-49_MSK_sokhranitj-nablyudeniya-i-utochnitj-plan-konteksta/zapros.md).
 
@@ -66,6 +90,6 @@ Posle otdeljnogo prinyatiya ispolnyayemogo obyyoma ostayutsya formaljnyij vkhod 
 - [Snimok sostoyaniya zadachi](🟡-FUM-STEP-0159-sobratj-snimok-agentskogo-runtime-i-interfejsa.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 11:59:08 MSK -->
-<!-- content-sha256: sha256:2a4dbc73be72c64308066d8978d97c04811b4ea0acc011272dd51c6d413f2467 -->
+<!-- last-content-edit: 2026-09-11 20:36:29 MSK -->
+<!-- content-sha256: sha256:5c1e638abcac14d6b8866eb1aafd2bc050b1486493540c0258a173e01efbce0f -->
 <!-- FUM-MD-RECENCY:END -->

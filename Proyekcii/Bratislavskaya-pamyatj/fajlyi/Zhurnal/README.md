@@ -16,6 +16,13 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-11 21:46:50 MSK — Realizovatj operatornoye vnimaniye](2026-09-11_21-46-50_MSK_realizovatj-operatornoye-vnimaniye/otchyot.md)
+- [2026-09-11 20:28:44 MSK — Utochnitj chuvstviteljnostj operatornogo vnimaniya](2026-09-11_20-28-44_MSK_utochnitj-chuvstviteljnostj-operatornogo-vnimaniya/otchyot.md)
+- [2026-09-11 19:46:28 MSK — Podgotovitj realizaciyu Telegram TDLib](2026-09-11_19-46-28_MSK_podgotovitj-realizaciyu-Telegram-TDLib/otchyot.md)
+- [2026-09-11 18:58:16 MSK — Obnovitj postanovku operatornogo vnimaniya](2026-09-11_18-58-16_MSK_obnovitj-postanovku-operatornogo-vnimaniya/otchyot.md)
+- [2026-09-11 18:02:02 MSK — Ispravitj otobrazheniye osnovaniya priyoma](2026-09-11_18-02-02_MSK_ispravitj-otobrazheniye-osnovaniya-priyoma/otchyot.md)
+- [2026-09-11 16:25:58 MSK — Podgotovitj postanovku README](2026-09-11_16-25-58_MSK_podgotovitj-postanovku-README/otchyot.md)
+- [2026-09-11 14:00:14 MSK — Sokhranitj peredachu integracii i pozdnij dialog](2026-09-11_14-00-14_MSK_sokhranitj-peredachu-integracii-i-pozdnij-dialog/otchyot.md)
 - [2026-09-11 12:35:21 MSK — Prinyatj sovmestnuyu integraciyu vosjmi vkhodov](2026-09-11_12-35-21_MSK_prinyatj-sovmestnuyu-integraciyu-vosjmi-vkhodov/otchyot.md)
 - [2026-09-11 12:17:50 MSK — Vklyuchitj prinyatyij interpretator](2026-09-11_12-17-50_MSK_vklyuchitj-prinyatyij-interpretator/otchyot.md)
 - [2026-09-11 12:09:57 MSK — Vklyuchitj realizaciyu perenosa derevjyev](2026-09-11_12-09-57_MSK_vklyuchitj-realizaciyu-perenosa-derevjyev/otchyot.md)
@@ -596,6 +603,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 12:40:43 MSK -->
-<!-- content-sha256: sha256:37047425f030645d1f3c912392b7febdd36cb149a2e04bc340277800c099765b -->
+<!-- last-content-edit: 2026-09-12 00:16:42 MSK -->
+<!-- content-sha256: sha256:f4bf9cecb9b378bd0b345aff05f6418414e95156b47d65e47001cf91daa7d565 -->
 <!-- FUM-MD-RECENCY:END -->

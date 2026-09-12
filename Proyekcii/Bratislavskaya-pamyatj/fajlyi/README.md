@@ -4,6 +4,8 @@ FUM — [fraktaljnyij uzel myishleniya](Glossarij/fraktaljnyij-uzel-myishleniya.
 
 Sejchas rabotatj s FUM mozhno cherez Codex Desktop i lokaljnuyu kopiyu etogo repozitoriya. Vyi formuliruyete zadachu obyichnyimi slovami, Codex pomogayet razobratjsya, podgotovitj izmeneniya i sokhranitj proverennyij rezuljtat. Fajlyi mozhno chitatj v lyubom redaktore; Obsidian udoben dlya perekhoda po svyazyam. Sobstvennoye otdeljnoye prilozheniye FUM yesjhyo razrabatyivayetsya.
 
+[Iskhodniki FUMA i komandyi vosproizvedeniya](Prilozheniya/FUMA/README.md) uzhe nakhodyatsya v etom monorepozitorii. Proverenyi sborki prilozheniya dlya macOS i chetyiryokh samostoyateljnyikh paketov; eti chetyire paketa poka ne podklyuchenyi k prilozheniyu. Ustanovsjhiki zavershilisj kodom 2 do ustanovki. Ustanovlennyij perenosimyij `.app` i zhivyiye sensoryi ne dokazanyi. Podrobnyiye granicyi privedenyi v [proverke prilozheniya](Prilozheniya/FUMA/proverka-prilozheniya.md) i [proverke paketov](Prilozheniya/FUMA/proverka-paketov.md).
+
 ## Kak ispoljzovatj FUM sejchas
 
 ### 1. Otkrojte proyekt
@@ -41,6 +43,8 @@ U kazhdoj takoj zadachi svoj dialog i rabochaya kopiya. Vyi mozhete otkryitj yey
 ### 4. Posmotrite, chto poluchilosj i gde eto sokhraneno
 
 Otvet zadachi soderzhit ssyilki na izmenyonnyiye dokumentyi ili kod, svedeniya o proverkakh i izvestnyiye ogranicheniya. Dlya podrobnostej otkrojte yeyo papku v [Zhurnale](Zhurnal/README.md): `запрос.md` sokhranyayet iskhodnyiye komandyi, a `отчёт.md` obyyasnyayet rezuljtat i yego proverku.
+
+Otkrojte rezuljtat i sopostavjte yego so svoim zaprosom. Poprosite nazvatj proverennyiye scenarii i nezavershyonnyiye punktyi. Uspeshnaya proverka otnositsya k ukazannomu sostoyaniyu fajlov. Yesli rezuljtat trebuyet izmeneniya, utochnite ozhidayemoye povedeniye v tom zhe dialoge.
 
 Yesli zadacha rabotayet v otdeljnoj kopii, pervonachaljno otkryityij katalog mozhet yesjhyo soderzhatj prezhniye fajlyi. Poprosite: «Pokazhi rabochuyu kopiyu etoj zadachi i otkroj yeyo rezuljtat i Zhurnal». Dlya chteniya v Obsidian otkrojte imenno etu kopiyu. Kogda rezuljtat prinyat, mozhno poprositj obyyedinitj yego s osnovnoj kopiyej; zadacha proverit, chto drugoj ispolnitelj sejchas ne pishet v neyo.
 
@@ -83,6 +87,8 @@ Proyekt publikuyetsya pod [CC0 1.0 Universal](LICENZIYA.md). Kanonicheskij publi
 
 ## Istochniki trebovanij
 
+- [Realizovatj README i dva opredeleniya vnimaniya](Zhurnal/2026-09-11_21-46-50_MSK_realizovatj-operatornoye-vnimaniye/zapros.md).
+
 - [Vidimyiye nezavisimyiye zadachi, vyibor modeli i nablyudayemostj rabotyi](Zhurnal/2026-09-09_11-39-26_MSK_predotvratitj-poteryu-obyazateljstv-postoyannoj-zadachi/zapros.md).
 
 - [Opisatj aktualjnyij sposob rabotyi s uporom na ponyatnostj cheloveku](Zhurnal/2026-09-08_21-16-26_MSK_integrirovatj-paralleljnyiye-rezuljtatyi-i-opisatj-rabotu/zapros.md).
@@ -91,6 +97,6 @@ Proyekt publikuyetsya pod [CC0 1.0 Universal](LICENZIYA.md). Kanonicheskij publi
 - [Razreshitj nachaljnuyu formu FUM bez sobstvennogo GUI cherez Codex](Zhurnal/2026-07-27_20-10-35_MSK_razreshitj-nachaljnuyu-korobochnuyu-FUM-bez-GUI-cherez-Codex/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 16:38:28 MSK -->
-<!-- content-sha256: sha256:9abb9861914de49f31599fd612e0781d6e640ca4a849e17d73edf6b61b633ac4 -->
+<!-- last-content-edit: 2026-09-12 00:16:42 MSK -->
+<!-- content-sha256: sha256:b15a5220c4b98d0be53edd00388b75000f02e0f152c5a0eac2c031fdfd0ab57e -->
 <!-- FUM-MD-RECENCY:END -->

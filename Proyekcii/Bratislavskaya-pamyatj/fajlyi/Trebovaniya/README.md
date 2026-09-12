@@ -165,8 +165,9 @@ Status menyayetsya pereimenovaniyem fajla cherez `git mv`. Emodzi ne zamenyayet 
 - `FUM-REQ-0066` — [🟡 Vozobnovlyayemyij perenos rabochikh derevjyev](🟡-vozobnovlyayemyij-perenos-rabochikh-derevjyev.md)
 - `FUM-REQ-0067` — [🟡 Chistoye ispolneniye operatorov i UTF-32](🟡-chistoye-ispolneniye-operatorov-i-UTF-32.md)
 - `FUM-REQ-0068` — [🟡 Svyazj napravlenij razvitiya s Git-vetkami](🟡-svyazj-napravlenij-razvitiya-s-Git-vetkami.md)
+- `FUM-REQ-0072` — [🟡 Proveryayemaya aktualjnostj poljzovateljskikh marshrutov README](🟡-proveryayemaya-aktualjnostj-marshrutov-README.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 11:59:08 MSK -->
-<!-- content-sha256: sha256:999798d5cd43879209a8d2637932f70e6e9577ae0f3454be565a3fd6bf93a857 -->
+<!-- last-content-edit: 2026-09-11 16:50:25 MSK -->
+<!-- content-sha256: sha256:b1ea12e48871a1a5f29496d9eb610d754c06f91239ac319ddc9564d70a35e22c -->
 <!-- FUM-MD-RECENCY:END -->

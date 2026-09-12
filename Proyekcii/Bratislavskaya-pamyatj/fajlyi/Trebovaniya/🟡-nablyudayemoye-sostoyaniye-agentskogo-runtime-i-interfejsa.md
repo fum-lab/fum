@@ -12,6 +12,8 @@ Obratnaya svyazj svyazyivayet namereniye, vyipolnennoye dejstviye, rezuljtat v p
 
 ## Semanticheskiye svyazi
 
+- **dopolnyayetsya:** [proveryayemoj aktualjnostjyu marshrutov README](🟡-proveryayemaya-aktualjnostj-marshrutov-README.md) — sostoyaniye vyipolneniya, prigodnostj tekusjhej poljzovateljskoj instrukcii i podtverzhdyonnaya potrebnostj integracii samostoyateljnyi; dva prikladnyikh opredeleniya odnogo operatornogo mekhanizma pokazyivayut prichinyi sleduyusjhego rassmotreniya bez avtomaticheskogo razresheniya dejstvij.
+
 - **dopolnyayetsya:** [statistikoj vyizovov dlya razvitiya avtomatizacij](🟡-statistika-vyizovov-dlya-razvitiya-avtomatizacij.md) — dayot istoriyu obrasjhenij i izmereniye povtoryayemoj rabotyi.
 
 - **dopolnyayet:** [poljzovateljskoye perenapravleniye nepreryivnogo agentskogo cikla](🟡-poljzovateljskoye-perenapravleniye-nepreryivnogo-agentskogo-cikla.md) — dayot nablyudayemyij kontekst dlya korrektirovki rabotyi i podtverzhdeniya yeyo effekta.
@@ -33,13 +35,27 @@ Obratnaya svyazj svyazyivayet namereniye, vyipolnennoye dejstviye, rezuljtat v p
 
 Nablyudayemostj ogranichivayetsya dostupnyimi i razreshyonnyimi vneshnimi sostoyaniyami. Skryityiye rassuzhdeniya modeli, sekretyi i postoronneye soderzhimoye ekrana ne stanovyatsya obyazateljnyim soderzhimyim Zhurnala. Lokaljnoye khraneniye i publichnyij eksport razlichayutsya. Otsutstviye dostupa k chasti sredyi pokazyivayetsya yavno i ne obkhoditsya.
 
+## Pozdneye prikladnoye utochneniye
+
+Vtoroye opredeleniye svyazannogo sreza pokazyivayet potrebnostj integracii s proiskhozhdeniyem, razdeljnyimi ancestry i priyomkoj i vyibrannoj stadiyej fuma → master. Rassmotreniye, neizvestnostj i fakt izmeneniya HEAD ne zamenyayut podtverzhdyonnogo vklyucheniya ili otmenyi; u signala net polnomochij samostoyateljno izmenyatj Git libo sozdavatj zadachi. Eto utochneniye svyazannogo prikladnogo shaga, a ne novaya realizaciya vsej nablyudayemosti runtime.
+
+## Nablyudayemaya chuvstviteljnostj prikladnogo sreza
+
+Sostoyaniye dvukh opredelenij [prikladnogo shaga](../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0218-obnovitj-README-i-realizovatj-srez-aktualjnosti.md) razlichayet versiyu i khyesh parametrov, vesa, porogi i obyyasnimyij vklad kazhdogo vkhodnogo signala. Chelovek vidit obyazateljnyiye neizvestnyiye faktyi nezavisimo ot ikh vesa; snizheniye chuvstviteljnosti ne vyidayotsya za ustraneniye raskhozhdeniya ili razresheniye dejstviya. Eto utochneniye susjhestvuyusjhego prikladnogo rezuljtata, a ne novoye porucheniye vsej nablyudayemosti runtime.
+
 ## Istochniki trebovanij
+
+- [Utochneniye chuvstviteljnosti vesami i porogami](../Zhurnal/2026-09-11_20-28-44_MSK_utochnitj-chuvstviteljnostj-operatornogo-vnimaniya/zapros.md).
+
+- [Porucheniye vtorogo opredeleniya operatornogo vnimaniya](../Zhurnal/2026-09-11_18-58-16_MSK_obnovitj-postanovku-operatornogo-vnimaniya/zapros.md).
+
+- [Komandyi README i funkcionaljnoj realizacii](../Zhurnal/2026-09-11_16-25-58_MSK_podgotovitj-postanovku-README/zapros.md).
 
 - [Nablyudeniye o neprozrachnosti runtime i utochneniya obratnoj svyazi](../Zhurnal/2026-09-09_11-39-26_MSK_predotvratitj-poteryu-obyazateljstv-postoyannoj-zadachi/zapros.md).
 - [Dostup k vnutrennim sostoyaniyam](../Dokumentaciya/07-dostup-k-vnutrennim-sostoyaniyam.md).
 - [Interfejs FUM-uzla](../Dokumentaciya/25-interfejs-FUM-uzla.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 15:20:29 MSK -->
-<!-- content-sha256: sha256:f80fc8db3a486968114c9df573f94e81215f02a90f3d9a176346c672ad2ddadb -->
+<!-- last-content-edit: 2026-09-11 20:36:29 MSK -->
+<!-- content-sha256: sha256:177283a77a96ee708c606ba3aee8f13d5aa42e59f69731c5482dede83b746e1d -->
 <!-- FUM-MD-RECENCY:END -->

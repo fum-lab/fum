@@ -66,7 +66,7 @@ Prosjba «Ostanovi daljnejshuyu rabotu i sokhrani tekusjhij status» otnositsya 
 
 Samostoyateljnoye prilozheniye FUM s sobstvennyim GUI i avtonomnyim ispolneniyem yesjhyo razrabatyivayetsya. Tekusjhij process ispoljzuyet Codex i dostupnyiye yemu instrumentyi.
 
-[Obsjhij snimok sostoyaniya agenta i chelovecheskogo interfejsa](../Trebovaniya/🟡-nablyudayemoye-sostoyaniye-agentskogo-runtime-i-interfejsa.md) razrabatyivayetsya otdeljnyimi proveryayemyimi komponentami. [Sinteticheskij snimok](../Zhurnal/2026-09-09_13-39-31_MSK_sobratj-sinteticheskij-snimok-agentskoj-zadachi/materialyi/peredacha.md) uzhe vosproizvodit zapisannyiye nablyudeniya i raskhozhdeniya; [importyor statistiki](../Zhurnal/2026-09-09_14-58-37_MSK_nakaplivatj-statistiku-vyizovov-iz-zhurnala/otchyot.md) sokhranyayet proiskhozhdeniye vyizovov i povtorno chitayet istoriyu bez uvelicheniya schyotchikov. Ikh Swift-iskhodniki zafiksirovanyi v otdeljnom proyekte i yesjhyo ne obrazuyut gotovogo prilozheniya FUM. Polnuyu kartinu interfejsa, tekusjhej rabotyi i ozhidanij poka prikhoditsya sveryatj po neskoljkim istochnikam; otsutstviye novogo sobyitiya ne dokazyivayet ostanovku zadachi.
+[Obsjhij snimok sostoyaniya agenta i chelovecheskogo interfejsa](../Trebovaniya/🟡-nablyudayemoye-sostoyaniye-agentskogo-runtime-i-interfejsa.md) razrabatyivayetsya otdeljnyimi proveryayemyimi komponentami. [Sinteticheskij snimok](../Zhurnal/2026-09-09_13-39-31_MSK_sobratj-sinteticheskij-snimok-agentskoj-zadachi/materialyi/peredacha.md) uzhe vosproizvodit zapisannyiye nablyudeniya i raskhozhdeniya; [importyor statistiki](../Zhurnal/2026-09-09_14-58-37_MSK_nakaplivatj-statistiku-vyizovov-iz-zhurnala/otchyot.md) sokhranyayet proiskhozhdeniye vyizovov i povtorno chitayet istoriyu bez uvelicheniya schyotchikov. Ikh [Swift-iskhodniki i komandyi vosproizvedeniya](../Prilozheniya/FUMA/README.md) sokhranyayutsya v monorepozitorii FUM. Chetyire samostoyateljnyikh paketa yesjhyo ne podklyuchenyi k prilozheniyu; proverennyiye sborki ne dokazyivayut ustanovlennoye perenosimoye prilozheniye i zhivyiye sensoryi. Polnuyu kartinu interfejsa, tekusjhej rabotyi i ozhidanij poka prikhoditsya sveryatj po neskoljkim istochnikam; otsutstviye novogo sobyitiya ne dokazyivayet ostanovku zadachi.
 
 [Konvejyer snimkov Git-indeksa](../Zhurnal/2026-09-08_19-07-59_MSK_utochnitj-kontrakt-snimkov-indeksa/materialyi/planyi/kontrakt-snimkov-indeksa.md) dolzhen pozvolitj proveryatj zakreplyonnyij rezuljtat, prodolzhaya sokhranyatj utochneniya cheloveka. Yego [proveryayusjhij komponent](../Instrumentyi/fum-snimki-indeksa/kontrakt.md) podtverzhdayet bajtyi vkhoda, [materializator](../Instrumentyi/fum-snimki-indeksa/materializaciya.md) vosstanavlivayet ikh iz Git, a [ocheredj](../Instrumentyi/fum-snimki-indeksa/ocheredj.md) dolgovechno uchityivayet pozdniye komandyi, dostavku i resheniya po nim. Ispolnitelj proverok i primeneniye prinyatogo rezuljtata yesjhyo predstoyat; tekusjhiye komponentyi razresheniya na vyipolneniye ili kommit ne vyidayut. Na dliteljnoj priyomke dejstvuyusjhego processa novyiye dannyiye mogut vremenno sokhranyatjsya v izolirovannom chernovike i perenositjsya v sleduyusjhij zhurnaljnyij etap.
 
@@ -100,6 +100,8 @@ Yesli material podgotovlen vo vneshnem dialoge, vospoljzujtesj [poryadkom priyom
 
 ## Istochniki
 
+- [Utochneniye tekusjhikh marshrutov v E2](../Zhurnal/2026-09-11_21-46-50_MSK_realizovatj-operatornoye-vnimaniye/zapros.md).
+
 - [Vidimyiye zadachi, vyibor modeli i vosstanovleniye obyazateljstv](../Zhurnal/2026-09-09_11-39-26_MSK_predotvratitj-poteryu-obyazateljstv-postoyannoj-zadachi/zapros.md).
 
 - [Opisatj aktualjnyij sposob rabotyi s uporom na ponyatnostj cheloveku](../Zhurnal/2026-09-08_21-16-26_MSK_integrirovatj-paralleljnyiye-rezuljtatyi-i-opisatj-rabotu/zapros.md).
@@ -109,6 +111,6 @@ Yesli material podgotovlen vo vneshnem dialoge, vospoljzujtesj [poryadkom priyom
 - [Proyekt kontrakta snimkov indeksa](../Zhurnal/2026-09-08_19-07-59_MSK_utochnitj-kontrakt-snimkov-indeksa/otchyot.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 17:24:00 MSK -->
-<!-- content-sha256: sha256:42914d3e2d9dcbd32172749a840556f94e0ac58b82f1c5f9bf26b3b1b28cf052 -->
+<!-- last-content-edit: 2026-09-12 00:16:42 MSK -->
+<!-- content-sha256: sha256:e3966d52104742d208aeee9092e852558f89a50e9a8991cb5a31a9e14968885e -->
 <!-- FUM-MD-RECENCY:END -->

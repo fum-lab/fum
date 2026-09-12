@@ -4,6 +4,10 @@ Etot Swift-prototip proveryayet minimaljnuyu [pamyatj FUM](../../Glossarij/pamya
 
 Prototip sopostavlyayet rezhim zaraneye sokhranyonnyikh operatorov s rezhimom LLM-popolneniya. Vtoroj rezhim ispoljzuyet toljko determinirovannyij adapter zapisannoj fiksturyi: on vosproizvodit zaraneye sokhranyonnyiye predlozheniya modeli, ne vyizyivayet vneshnyuyu LLM, ne obrasjhayetsya k seti i ne vyidayot zapisannyij otvet za zhivoye modeljnoye ispolneniye. Predlozheniya adaptera prokhodyat proverku vyiigryisha, konfliktov, obratimosti i proiskhozhdeniya; zaraneye sokhranyonnyiye operatoryi obrazuyut obyyavlennyij fiksturoj podtverzhdyonnyij bazovyij nabor, a otchyot razlichayet proiskhozhdeniye oboikh istochnikov.
 
+## Ogranichennoye operatornoye vnimaniye
+
+[Dva opredeleniya vnimaniya](operatornoye-vnimaniye.md) rasshiryayut tot zhe `AutomationExecutor` skhemoj `fum.определение-графа.2`: obyazateljnaya ssyilka README i potrebnostj vklyucheniya postavki cherez fuma k master. Vkhod, predyidusjhaya pamyatj i parametryi chuvstviteljnosti peredayutsya kak JSON. Rezuljtat soderzhit prichinu, tekusjhiye svideteljstva, obyazateljnyiye usloviya, vkladyi, trassu i predlozheniye dejstviya. Proveryayemaya postavka etogo rasshireniya otmechayetsya otdeljno ot prezhnikh rezuljtatov v1.
+
 ## Proveryayemyij kontur
 
 ```mermaid
@@ -155,6 +159,6 @@ Status: ogranichennyij proverochnyij Swift-prototip s avtonomnyimi fiksturami i 
 - [otkryityij vopros o granicakh yestestvenno-yazyikovoj sinkhronizacii znanij FUM](../../Voprosyi/2026-07-13_20-34-23_MSK_granicyi-yestestvenno-yazyikovoj-sinkhronizacii-znanij-FUM.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 08:27:58 MSK -->
-<!-- content-sha256: sha256:6276f20c5000be6490640e62adc72ea58d91a6b457966e2d90bbae1344f27f69 -->
+<!-- last-content-edit: 2026-09-12 00:16:42 MSK -->
+<!-- content-sha256: sha256:317a6b11ebb332dd983ced9695e7cdb842c76da365709c12bc470c9a7b816b17 -->
 <!-- FUM-MD-RECENCY:END -->
