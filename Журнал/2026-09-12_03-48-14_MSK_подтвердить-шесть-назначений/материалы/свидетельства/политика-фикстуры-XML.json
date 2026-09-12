@@ -1,0 +1,12 @@
+{
+  "schema": "fum.machine-local-path-policy-update.v1",
+  "declarations": [
+    {
+      "id": "fixture-native-delegation-xml-text",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_нативного_поручения.py",
+      "line": 15,
+      "category": "allow.test-fixture",
+      "reason": "Литеральный эталон XML text-node escape: экранированный закрывающий тег является данными автономной фикстуры, не машинным путём."
+    }
+  ]
+}

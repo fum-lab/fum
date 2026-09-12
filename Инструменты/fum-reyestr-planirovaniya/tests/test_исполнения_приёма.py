@@ -47,7 +47,8 @@ class ПроверкаИсполнения(unittest.TestCase):
                 исполнение.хранилище.гит(корень, "worktree", "add", "-b", "codex/ребёнок", str(ребёнок), коммит)
                 нативный = корень.parent / "нативный.jsonl"
                 поручение = "Иное поручение" if подмена else допуск["аргументы"]["prompt"]
-                оболочка = "<codex_delegation>\n  <source_thread_id>" + ЗАДАЧА + "</source_thread_id>\n  <input>" + поручение + "</input>\n</codex_delegation>"
+                from xml.sax.saxutils import escape
+                оболочка = "<codex_delegation>\n  <source_thread_id>" + ЗАДАЧА + "</source_thread_id>\n  <input>" + escape(поручение) + "</input>\n</codex_delegation>"
                 нативный.write_bytes(строка({"type": "session_meta", "payload": {"id": задача, "cwd": str(ребёнок), "git": {"commit_hash": коммит}}})
                     + строка({"type": "turn_context", "payload": {"cwd": str(ребёнок), "model": "gpt-6-astra", "effort": "ultra"}})
                     + строка({"type": "response_item", "payload": {"type": "function_call_output", "name": "create_thread", "output": оболочка}}))

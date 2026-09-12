@@ -105,7 +105,8 @@ def ранняя_задача(корень, коммит, допуск, номе
     задача = f"00000000-0000-0000-0000-{номер:012d}"
     хранение.гит(корень, "worktree", "add", "-b", "codex/ребёнок-" + str(номер), str(ребёнок), коммит)
     источник = корень.parent / ("нативный-" + str(номер) + ".jsonl")
-    поручение = "<codex_delegation>\n  <source_thread_id>" + ЗАДАЧА + "</source_thread_id>\n  <input>" + допуск["аргументы"]["prompt"] + "</input>\n</codex_delegation>"
+    from xml.sax.saxutils import escape
+    поручение = "<codex_delegation>\n  <source_thread_id>" + ЗАДАЧА + "</source_thread_id>\n  <input>" + escape(допуск["аргументы"]["prompt"]) + "</input>\n</codex_delegation>"
     источник.write_bytes(строка({"type": "session_meta", "payload": {"id": задача, "cwd": str(ребёнок), "git": {"commit_hash": коммит}}})
         + строка({"type": "turn_context", "payload": {"cwd": str(ребёнок), "model": "gpt-6-astra", "effort": "ultra"}})
         + строка({"type": "response_item", "payload": {"type": "function_call_output", "name": "create_thread", "output": поручение}}))

@@ -71,7 +71,8 @@ def проверить_нативное_поручение(источник, о�
             данные.get("type") == "function_call_output" and данные.get("name") == "create_thread"
             or данные.get("type") == "message" and данные.get("role") == "assistant")
     записи, граница = прочитать_ограниченный_префикс(источник, завершено)
-    ожидаемое = "<codex_delegation>\n  <source_thread_id>" + отправитель + "</source_thread_id>\n  <input>" + поручение + "</input>\n</codex_delegation>"
+    текст_транспорта = поручение.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    ожидаемое = "<codex_delegation>\n  <source_thread_id>" + отправитель + "</source_thread_id>\n  <input>" + текст_транспорта + "</input>\n</codex_delegation>"
     совпадения = [запись for запись in записи if запись.get("type") == "response_item" and type(запись.get("payload")) is dict
                   and запись["payload"].get("type") == "function_call_output" and запись["payload"].get("name") == "create_thread"
                   and запись["payload"].get("output") == ожидаемое]

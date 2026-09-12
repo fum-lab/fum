@@ -3213,6 +3213,15 @@
       "count": 1,
       "category": "allow.path-validation-definition",
       "reason": "Определение регулярного выражения для проверки точного относительного пути собственного канонического Журнала; не содержит машинно-локального адреса."
+    },
+    {
+      "id": "fixture-native-delegation-xml-text",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_нативного_поручения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:73fc7f7fcc653e1b9885ac574be479ebd34f2189236a1590f6d15760823975a9",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Литеральный эталон XML text-node escape: экранированный закрывающий тег является данными автономной фикстуры, не машинным путём."
     }
   ]
 }
