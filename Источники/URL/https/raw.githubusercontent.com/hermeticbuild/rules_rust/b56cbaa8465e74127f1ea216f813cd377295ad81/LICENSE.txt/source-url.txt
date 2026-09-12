@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/hermeticbuild/rules_rust/b56cbaa8465e74127f1ea216f813cd377295ad81/LICENSE.txt

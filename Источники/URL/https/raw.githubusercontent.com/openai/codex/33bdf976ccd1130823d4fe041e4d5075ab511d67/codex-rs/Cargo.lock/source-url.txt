@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/openai/codex/33bdf976ccd1130823d4fe041e4d5075ab511d67/codex-rs/Cargo.lock

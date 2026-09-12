@@ -1,0 +1,66 @@
+# Извлечённый текст
+
+Источник: <https://raw.githubusercontent.com/openai/codex/33bdf976ccd1130823d4fe041e4d5075ab511d67/codex-rs/utils/oss/src/lib.rs>
+
+## Содержимое
+
+//! OSS provider utilities shared between TUI and exec.
+use codex_core::config::Config;
+use codex_model_provider_info::LMSTUDIO_OSS_PROVIDER_ID;
+use codex_model_provider_info::OLLAMA_OSS_PROVIDER_ID;
+/// Returns the default model for a given OSS provider.
+pub fn get_default_model_for_oss_provider(provider_id: &str) -> Option < &'static str> {
+match provider_id {
+LMSTUDIO_OSS_PROVIDER_ID => Some(codex_lmstudio::DEFAULT_OSS_MODEL),
+OLLAMA_OSS_PROVIDER_ID => Some(codex_ollama::DEFAULT_OSS_MODEL),
+_ => None,
+}
+}
+/// Ensures the specified OSS provider is ready (models downloaded, service reachable).
+pub async fn ensure_oss_provider_ready(
+provider_id: &str,
+config: &Config,
+) -> Result < (), std::io::Error> {
+match provider_id {
+LMSTUDIO_OSS_PROVIDER_ID => {
+codex_lmstudio::ensure_oss_ready(config)
+.await
+.map_err(|e| std::io::Error::other(format!("OSS setup failed: {e}")))?;
+}
+OLLAMA_OSS_PROVIDER_ID => {
+let client = codex_ollama::OllamaClient::try_from_oss_provider(config).await?;
+codex_ollama::ensure_responses_supported(&client).await?;
+codex_ollama::ensure_oss_ready(config, &client)
+.await
+.map_err(|e| std::io::Error::other(format!("OSS setup failed: {e}")))?;
+}
+_ => {
+// Unknown provider, skip setup
+}
+}
+Ok(())
+}
+#[cfg(test)]
+mod tests {
+use super::*;
+#[test]
+fn test_get_default_model_for_provider_lmstudio() {
+let result = get_default_model_for_oss_provider(LMSTUDIO_OSS_PROVIDER_ID);
+assert_eq!(result, Some(codex_lmstudio::DEFAULT_OSS_MODEL));
+}
+#[test]
+fn test_get_default_model_for_provider_ollama() {
+let result = get_default_model_for_oss_provider(OLLAMA_OSS_PROVIDER_ID);
+assert_eq!(result, Some(codex_ollama::DEFAULT_OSS_MODEL));
+}
+#[test]
+fn test_get_default_model_for_provider_unknown() {
+let result = get_default_model_for_oss_provider("unknown-provider");
+assert_eq!(result, None);
+}
+}
+
+<!-- FUM-MD-RECENCY:BEGIN -->
+<!-- last-content-edit: 2026-09-12 03:53:11 MSK -->
+<!-- content-sha256: sha256:0072eafea82279cdc03af7bac1ed06521a5d57ba4d6cf4f813fc86cfcdc2961e -->
+<!-- FUM-MD-RECENCY:END -->

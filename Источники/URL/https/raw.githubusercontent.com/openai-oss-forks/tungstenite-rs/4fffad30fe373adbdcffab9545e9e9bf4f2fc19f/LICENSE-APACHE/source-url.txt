@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/openai-oss-forks/tungstenite-rs/4fffad30fe373adbdcffab9545e9e9bf4f2fc19f/LICENSE-APACHE

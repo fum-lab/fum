@@ -1,0 +1,84 @@
+{
+  "источники": [
+    {
+      "URL": "https://raw.githubusercontent.com/Roman-Kerimov/LinguisticKit/837e2ce107b97ee7b9d3344c9fe99142281fe393/LICENSE",
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499",
+      "байтов": 7048,
+      "путь": "Источники/URL/https/raw.githubusercontent.com/Roman-Kerimov/LinguisticKit/837e2ce107b97ee7b9d3344c9fe99142281fe393/LICENSE/response.body.html"
+    },
+    {
+      "URL": "https://raw.githubusercontent.com/arvidn/libtorrent/56ae8caba38bf154ffc210403cb23f91d0ecaa49/LICENSE",
+      "sha256": "77d319baf9b855d3f41e7a8a05ce90d407be1396b16a362bea2351bff7e3ce46",
+      "байтов": 9087,
+      "путь": "Источники/URL/https/raw.githubusercontent.com/arvidn/libtorrent/56ae8caba38bf154ffc210403cb23f91d0ecaa49/LICENSE/response.body.html"
+    },
+    {
+      "URL": "https://raw.githubusercontent.com/helix-editor/nucleo/4253de9faabb4e5c6d81d946a5e35a90f87347ee/LICENSE",
+      "sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+      "байтов": 16725,
+      "путь": "Источники/URL/https/raw.githubusercontent.com/helix-editor/nucleo/4253de9faabb4e5c6d81d946a5e35a90f87347ee/LICENSE/response.body.html"
+    },
+    {
+      "URL": "https://raw.githubusercontent.com/hermeticbuild/rules_rust/b56cbaa8465e74127f1ea216f813cd377295ad81/LICENSE.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "байтов": 11358,
+      "путь": "Источники/URL/https/raw.githubusercontent.com/hermeticbuild/rules_rust/b56cbaa8465e74127f1ea216f813cd377295ad81/LICENSE.txt/response.body.html"
+    },
+    {
+      "URL": "https://raw.githubusercontent.com/microsoft/mxc/6cd3d58f05d3447e67109cfb75e042803b843ca4/LICENSE.md",
+      "sha256": "d9a1b1e30d633d5732ea18e3cba9538d293ebc53e1a9e4e96ab739e0c5c4f1cb",
+      "байтов": 1140,
+      "путь": "Источники/URL/https/raw.githubusercontent.com/microsoft/mxc/6cd3d58f05d3447e67109cfb75e042803b843ca4/LICENSE.md/response.body.html"
+    },
+    {
+      "URL": "https://raw.githubusercontent.com/openai-oss-forks/crossterm/45fecb9508105988f42fe6ff0441783ed3717f92/LICENSE",
+      "sha256": "3fea97e00df9a8e30027f4298d6941b6970c542ffd49de68b4a2bcafedcbfe02",
+      "байтов": 1062,
+      "путь": "Источники/URL/https/raw.githubusercontent.com/openai-oss-forks/crossterm/45fecb9508105988f42fe6ff0441783ed3717f92/LICENSE/response.body.html"
+    },
+    {
+      "URL": "https://raw.githubusercontent.com/openai-oss-forks/tokio-tungstenite/0e5b2d73aa18dd9f0a50ee9ff199d5aef7594186/LICENSE",
+      "sha256": "fdd55e2b2da854b0fbdc1e607df7c2ba1e1ebf91ecb77c515511ebeef972bc8f",
+      "байтов": 1093,
+      "путь": "Источники/URL/https/raw.githubusercontent.com/openai-oss-forks/tokio-tungstenite/0e5b2d73aa18dd9f0a50ee9ff199d5aef7594186/LICENSE/response.body.html"
+    },
+    {
+      "URL": "https://raw.githubusercontent.com/openai-oss-forks/tungstenite-rs/4fffad30fe373adbdcffab9545e9e9bf4f2fc19f/LICENSE-APACHE",
+      "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+      "байтов": 10847,
+      "путь": "Источники/URL/https/raw.githubusercontent.com/openai-oss-forks/tungstenite-rs/4fffad30fe373adbdcffab9545e9e9bf4f2fc19f/LICENSE-APACHE/response.body.html"
+    },
+    {
+      "URL": "https://raw.githubusercontent.com/openai-oss-forks/tungstenite-rs/4fffad30fe373adbdcffab9545e9e9bf4f2fc19f/LICENSE-MIT",
+      "sha256": "7fea0ee51a4ca5d5cea7464135fd55e8b09caf3a61da3d451ac8a22af95c033f",
+      "байтов": 1092,
+      "путь": "Источники/URL/https/raw.githubusercontent.com/openai-oss-forks/tungstenite-rs/4fffad30fe373adbdcffab9545e9e9bf4f2fc19f/LICENSE-MIT/response.body.html"
+    },
+    {
+      "URL": "https://raw.githubusercontent.com/openai/codex/33bdf976ccd1130823d4fe041e4d5075ab511d67/LICENSE",
+      "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+      "байтов": 10926,
+      "путь": "Источники/URL/https/raw.githubusercontent.com/openai/codex/33bdf976ccd1130823d4fe041e4d5075ab511d67/LICENSE/response.body.html"
+    },
+    {
+      "URL": "https://raw.githubusercontent.com/openai/codex/33bdf976ccd1130823d4fe041e4d5075ab511d67/NOTICE",
+      "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+      "байтов": 242,
+      "путь": "Источники/URL/https/raw.githubusercontent.com/openai/codex/33bdf976ccd1130823d4fe041e4d5075ab511d67/NOTICE/response.body.html"
+    },
+    {
+      "URL": "https://raw.githubusercontent.com/openai/codex/33bdf976ccd1130823d4fe041e4d5075ab511d67/codex-rs/Cargo.lock",
+      "sha256": "5591e039ef19dd7e2569efa1060d263e5169af86b6012d3a0e84e7ca54d8d155",
+      "байтов": 408381,
+      "путь": "Источники/URL/https/raw.githubusercontent.com/openai/codex/33bdf976ccd1130823d4fe041e4d5075ab511d67/codex-rs/Cargo.lock/response.body.html"
+    },
+    {
+      "URL": "https://raw.githubusercontent.com/openai/codex/33bdf976ccd1130823d4fe041e4d5075ab511d67/codex-rs/utils/oss/src/lib.rs",
+      "sha256": "521a002ebfdc42cb7b3f26b322b010a60992b44dfdbc92713f22ff7db2cac776",
+      "байтов": 2134,
+      "путь": "Источники/URL/https/raw.githubusercontent.com/openai/codex/33bdf976ccd1130823d4fe041e4d5075ab511d67/codex-rs/utils/oss/src/lib.rs/response.body.html"
+    }
+  ],
+  "ограничение": "Небольшие исходные тексты лицензий, Cargo.lock и OSS adapter; не архивы исходников зависимостей. Техническое расширение response.body.html не меняет text/plain происхождение.",
+  "схема": "fum.источники-офлайн.1"
+}

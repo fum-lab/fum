@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/microsoft/mxc/6cd3d58f05d3447e67109cfb75e042803b843ca4/LICENSE.md

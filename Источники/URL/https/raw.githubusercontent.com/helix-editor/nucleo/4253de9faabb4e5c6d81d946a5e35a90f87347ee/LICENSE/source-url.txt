@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/helix-editor/nucleo/4253de9faabb4e5c6d81d946a5e35a90f87347ee/LICENSE
