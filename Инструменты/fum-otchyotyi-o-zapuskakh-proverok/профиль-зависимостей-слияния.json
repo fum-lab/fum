@@ -1,0 +1,9 @@
+{
+  "схема": "fum.добавление-TDLib.1",
+  "gitmodules_до": "94a22560bbb47eddc00bcf289dc89d006806371d",
+  "gitmodules_после": "c00b0f07c26f920db1c23fdc9096ee02e7f2fcc7",
+  "LinguisticKit": "837e2ce107b97ee7b9d3344c9fe99142281fe393",
+  "TDLib": "d1085f9cebc5a62379991ae1652673954f229c1f",
+  "origin": "https://github.com/fum-lab/TDLib.git",
+  "upstream": "https://github.com/tdlib/td.git"
+}
