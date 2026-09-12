@@ -1,0 +1,10 @@
+{
+  "исходный_коммит": "2f10d879e8f2dba8493ad1cb3a84aa40fc4df8b2",
+  "исходники_sha256": {
+    "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/obnovitj-policy.py": "cd5765f289b484d5b2a800d1916b82c7f8d0b0a7aa0b671461eee1cc0642f4f2",
+    "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py": "288d6ce46ae8e37ec6f24bcc4d3a477be522b365187a5386679399c41042c146",
+    "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py": "22481bce8934b14f1df4173b615c282b04e0c6ce6034fe8cb3b2816416289308",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "375d9e026346b2c3a855382aa323cef224520847f0aa9cc3b0d01c1b26913f56"
+  },
+  "граница": "Четыре исходника из закреплённого коммита; общий модуль фикстуры и первая версия профилировщика находятся в текущей поставке."
+}
