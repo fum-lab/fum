@@ -1,0 +1,80 @@
+{
+  "схема": "fum.источники-паспорта-3D.1",
+  "исходная_задача": "01a0909c-ace7-7911-be9e-1510a55ab4a0",
+  "граница_строк": 2099,
+  "граница_байтов": 14881979,
+  "sha256_префикса": "cc571fd30013ae397d03c2e0f52d68c3d0ebd9f981837ad6bbedc488453ba538",
+  "вопрос": {
+    "строка": 1983,
+    "sha256_строки": "3d0b174f393add4cb90c65c4952da5028c23105ccd9a2441a75a9f771c9268b6",
+    "аргументы": {
+      "questions": [
+        {
+          "title": "Какой первый сценарий нужен для параметрического 3D-моделирования FUMA?",
+          "options": [
+            "Технические детали и сборки",
+            "Архитектура и помещения",
+            "Свободные формы и визуализация"
+          ]
+        }
+      ]
+    }
+  },
+  "сообщения": [
+    {
+      "номер_сообщения": 5,
+      "строка": 1969,
+      "время": "2026-09-11T16:45:04.070Z",
+      "текст": "Otkryivayem napravleniye parametricheskogo 3D-modelirovaniya i vizualizaciyej.\n"
+    },
+    {
+      "номер_сообщения": 6,
+      "строка": 2003,
+      "время": "2026-09-11T16:46:42.723Z",
+      "текст": "<send_user_message_question_reply>\n[{\"questionItemId\":\"[\\\"request_user_input_async\\\",\\\"call_opGzj9fSJCy5cSz2SqVk5xfX\\\",0]\",\"question\":\"Какой первый сценарий нужен для параметрического 3D-моделирования FUMA?\",\"answer\":\"Vse perechislennyiye napravleniya.\"}]\n</send_user_message_question_reply>"
+    },
+    {
+      "номер_сообщения": 7,
+      "строка": 2016,
+      "время": "2026-09-11T16:47:33.572Z",
+      "текст": "Landshaft, eksterjyer, interjyer, lyudi, ikh animaciya, mekhanizmyi — universaljnyij dvizhok dolzhen byitj.\n"
+    },
+    {
+      "номер_сообщения": 8,
+      "строка": 2031,
+      "время": "2026-09-11T16:48:35.879Z",
+      "текст": "Takzhe myi dolzhnyi imetj vozmozhnostj ispoljzovatj eto i v igrakh.\n"
+    },
+    {
+      "номер_сообщения": 9,
+      "строка": 2052,
+      "время": "2026-09-11T16:49:14.626Z",
+      "текст": "I v virtualjnoj realjnosti.\n"
+    },
+    {
+      "номер_сообщения": 10,
+      "строка": 2063,
+      "время": "2026-09-11T16:49:27.455Z",
+      "текст": "I v dopolnennoj realjnosti.\n"
+    },
+    {
+      "номер_сообщения": 11,
+      "строка": 2085,
+      "время": "2026-09-11T16:50:49.769Z",
+      "текст": "Scenyi budut pisatjsya kodom i strukturiruyusjhimi operatorami.\n"
+    },
+    {
+      "номер_сообщения": 12,
+      "строка": 2087,
+      "время": "2026-09-11T16:50:49.773Z",
+      "текст": "Takzhe i s muzyikaljnyim instrumentom, kotoryij vsyo takzhe vklyuchayetsya v FUMA.\n"
+    },
+    {
+      "номер_сообщения": 13,
+      "строка": 2099,
+      "время": "2026-09-11T16:51:24.256Z",
+      "текст": "A gde, kstati, u nas v repozitorii proyekt FUMA na Swift?\n"
+    }
+  ],
+  "граница": "Команды 5–11 задают 3D; 12 сохраняет музыкальное направление отдельно; вопрос 13 не расширяет назначение. Чтение не означает исполнения всех сообщений."
+}
