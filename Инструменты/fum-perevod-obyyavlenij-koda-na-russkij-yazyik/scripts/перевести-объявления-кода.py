@@ -21,6 +21,7 @@ from pathlib import Path, PurePosixPath
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from разбор_сценария import ОшибкаСценария, пути_сценариев, разобрать, токены
+from безопасные_привязки_python import ОбластиПитона, ОтказПеревода, заменить_привязки
 
 
 версия_схемы = 1
@@ -77,6 +78,11 @@ from разбор_сценария import ОшибкаСценария, пути
         "visit_Attribute",
     }
 )
+контекстные_имена_посетителя = frozenset({
+    "visit", "visit_Lambda", "visit_ListComp", "visit_SetComp", "visit_DictComp",
+    "visit_GeneratorExp", "visit_Import", "visit_ImportFrom", "visit_ExceptHandler",
+    "visit_Global", "visit_Nonlocal", "visit_alias",
+})
 ключевые_слова_свифт = frozenset(
     {
         "actor",
@@ -291,11 +297,42 @@ def добавить_объявление(
 class СборщикОбъявленийПитона(ast.NodeVisitor):
     """Собрать объявления Python из синтаксического дерева."""
 
-    def __init__(сам, путь: str) -> None:
+    def __init__(сам, путь: str, дерево: ast.AST) -> None:
         сам.путь = путь
         сам.объявления: list[Объявление] = []
+        сам.области = ОбластиПитона(дерево)
+        сам.импорты = {
+            псевдоним: узел for узел in ast.walk(дерево)
+            if isinstance(узел, (ast.Import, ast.ImportFrom)) for псевдоним in узел.names
+        }
+
+    def внешний_метод(сам, имя: str, узел: ast.AST) -> bool:
+        if имя not in контекстные_имена_посетителя:
+            return False
+        область = сам.области.владельцы.get(узел)
+        if область is None or область.вид != "класс":
+            return False
+        for база in область.узел.bases:
+            имя_импорта = база.value.id if isinstance(база, ast.Attribute) and isinstance(база.value, ast.Name) else база.id if isinstance(база, ast.Name) else None
+            if имя_импорта is None:
+                continue
+            владелец = область.родитель.владелец(имя_импорта)
+            записи = владелец.привязки.get(имя_импорта, []) if владелец else []
+            if len(записи) != 1:
+                continue
+            _, псевдоним = записи[0]
+            импорт = сам.импорты.get(псевдоним)
+            if импорт is None or импорт.lineno >= область.узел.lineno:
+                continue
+            if isinstance(база, ast.Attribute) and база.attr in {"NodeVisitor", "NodeTransformer"} and isinstance(импорт, ast.Import) and псевдоним.name == "ast":
+                return True
+            if isinstance(база, ast.Name) and isinstance(импорт, ast.ImportFrom) and импорт.module == "ast" and импорт.level == 0 and псевдоним.name in {"NodeVisitor", "NodeTransformer"}:
+                return True
+        return False
 
     def добавить(сам, вид: str, имя: str, узел: ast.AST) -> None:
+        if сам.внешний_метод(имя, узел):
+            return
         добавить_объявление(
             сам.объявления,
             сам.путь,
@@ -333,6 +370,19 @@ class СборщикОбъявленийПитона(ast.NodeVisitor):
         сам.добавить_параметры(узел.args)
         сам.generic_visit(узел)
 
+    def visit_Lambda(сам, узел: ast.Lambda) -> None:
+        сам.добавить_параметры(узел.args)
+        сам.generic_visit(узел)
+
+    def visit_ExceptHandler(сам, узел: ast.ExceptHandler) -> None:
+        if узел.name:
+            сам.добавить("привязка_исключения", узел.name, узел)
+        сам.generic_visit(узел)
+
+    def visit_alias(сам, узел: ast.alias) -> None:
+        if узел.asname:
+            сам.добавить("псевдоним_импорта", узел.asname, узел)
+
     def visit_Name(сам, узел: ast.Name) -> None:
         if isinstance(узел.ctx, ast.Store):
             сам.добавить("привязка", узел.id, узел)
@@ -347,7 +397,7 @@ class СборщикОбъявленийПитона(ast.NodeVisitor):
 def объявления_питона(файл: Path, путь: str) -> list[Объявление]:
     текст = файл.read_text(encoding="utf-8")
     дерево = ast.parse(текст, filename=путь)
-    сборщик = СборщикОбъявленийПитона(путь)
+    сборщик = СборщикОбъявленийПитона(путь, дерево)
     сборщик.visit(дерево)
     return сборщик.объявления
 
@@ -1229,27 +1279,10 @@ def замены_питона(
     текст: str,
     переименования: dict[str, str],
 ) -> tuple[str, dict[str, int], set[str]]:
-    смещения = смещения_строк(текст)
-    замены: list[tuple[int, int, str, str]] = []
-    имена: set[str] = set()
-    for токен in tokenize.generate_tokens(io.StringIO(текст).readline):
-        if токен.type != tokenize.NAME:
-            continue
-        имена.add(токен.string)
-        if токен.string not in переименования:
-            continue
-        начало = смещения[токен.start[0] - 1] + токен.start[1]
-        конец = смещения[токен.end[0] - 1] + токен.end[1]
-        замены.append(
-            (начало, конец, переименования[токен.string], токен.string)
-        )
-    количества = {
-        прежнее: sum(
-            1 for _, _, _, исходное in замены if исходное == прежнее
-        )
-        for прежнее in переименования
-    }
-    return применить_замены(текст, замены), количества, имена
+    try:
+        return заменить_привязки(текст, переименования)
+    except ОтказПеревода as ошибка:
+        raise ОшибкаКонтракта(str(ошибка)) from ошибка
 
 
 def замены_свифт(
