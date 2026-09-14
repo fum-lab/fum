@@ -3213,6 +3213,51 @@
       "count": 1,
       "category": "allow.path-validation-definition",
       "reason": "Определение регулярного выражения для проверки точного относительного пути собственного канонического Журнала; не содержит машинно-локального адреса."
+    },
+    {
+      "id": "swift-inventory-historical-fixture-one",
+      "path": "Журнал/2026-09-14_21-11-44_MSK_сверить-общую-границу-приёмки/материалы/классификация-дельты-свифт.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:1e124808b5f06a2bb0e66b99c318be3e7c8b289d6b42fce43477663f927f7929",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Дословная строка исторической Swift-фикстуры проверки абсолютного входа; источник и точные Git-байты сохранены в этой классификации."
+    },
+    {
+      "id": "swift-inventory-historical-fixture-two",
+      "path": "Журнал/2026-09-14_21-11-44_MSK_сверить-общую-границу-приёмки/материалы/классификация-дельты-свифт.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:5e79ee71e0abfef009ce6154a3b368a161f4d414bd8f6c4a652dc34f8a343ecc",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Дословная строка второй исторической Swift-фикстуры проверки абсолютного входа; источник и точные Git-байты сохранены в этой классификации."
+    },
+    {
+      "id": "cjs-lexer-unary-token",
+      "path": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:960ec896dd4f566d41f71d614029390e509f3a8743a9c4392153ddd2094fcaa0",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Конечный перечень лексем CJS: тильда обозначает унарный оператор языка, а не домашний каталог. Это точное определение синтаксического распознавателя."
+    },
+    {
+      "id": "cjs-parser-unary-token",
+      "path": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:d8480f45689f80eae7f70a2b74e0f3dd0eee00c79800a08e89ca2b0bd9db1006",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Разбор унарного оператора CJS: тильда обозначает синтаксис выражения, а не домашний каталог. Это точное определение синтаксического распознавателя."
+    },
+    {
+      "id": "cjs-regex-slash-fixture",
+      "path": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_сценарий_ответа.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:60a2cfd601eea8f9113b395f1d297481cf2aa13f1903f182855b9f53803f85f1",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая тестовая фикстура регулярного выражения CJS содержит экранированный слэш; строка проверяет отсутствие ложных объявлений, а не задаёт путь."
     }
   ]
 }
