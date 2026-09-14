@@ -1,0 +1,1 @@
+Pochemu rabota po optimizacii konteksta ne zapusjhena v otdeljnoj sessii v otdeljnom rabochem dereve?
