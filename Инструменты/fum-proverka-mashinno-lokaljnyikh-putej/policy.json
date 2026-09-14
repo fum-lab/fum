@@ -3258,6 +3258,42 @@
       "count": 1,
       "category": "allow.test-fixture",
       "reason": "Открытая тестовая фикстура регулярного выражения CJS содержит экранированный слэш; строка проверяет отсутствие ложных объявлений, а не задаёт путь."
+    },
+    {
+      "id": "python-0173-url-history",
+      "path": "Журнал/2026-09-14_20-41-53_MSK_перевести-унаследованные-привязки-Python/отчёт.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:3a801603ec6266a856ea5a0cdc32d6d07b2cf67f2c4f85654718ea58cc595050",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Точное историческое описание сегмента публичного URL; это сохранённое свидетельство ложного распознавания, а не локальный адрес машины."
+    },
+    {
+      "id": "python-0173-before-selector-history",
+      "path": "Журнал/2026-09-14_21-49-30_MSK_перевести-живые-измерители-Python/материалы/воспроизведение-классификации.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:467b3b97d2a4503ac0b9d7a1b97bb1bd0365a7736a06ddf64b274e4b859dfd26",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Точная строка выполненного исторического сценария классификации; аргумент endswith задаёт суффикс репозиторного имени защищённого before, а не абсолютный путь."
+    },
+    {
+      "id": "python-0173-selectors-history",
+      "path": "Журнал/2026-09-14_21-49-30_MSK_перевести-живые-измерители-Python/материалы/воспроизведение-классификации.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:566da5fccbb6c16508ad206414f83b69f53f085c467cc774d3c6d62dfabe9661",
+      "count": 2,
+      "category": "report.historical",
+      "reason": "Точная строка выполненного исторического сценария классификации; два аргумента endswith задают суффиксы репозиторных имён, а не локальные пути."
+    },
+    {
+      "id": "python-0173-class-fixture",
+      "path": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_пакет_перевода_python.py",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:cf9486eb9e0d17e893d81d6e94b415b276c8eaa2988cf5b5627d3b85b9cf8bed",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая Python-фикстура: объявление класса и экранированный перевод строки образуют похожую на Windows-путь последовательность. Точная строка проверяет отказ для непрослеживаемого eval и не задаёт адрес машины."
     }
   ]
 }

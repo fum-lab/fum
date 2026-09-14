@@ -102,7 +102,7 @@ Pered postroyeniyem spiska shagov avtomatizaciya razbirayet `.codex/config.toml`
 
 Obyichnyij zapusk pechatayet mashinochitayemyiye stroki `smoke-timing <JSON>`. Zapisi `manifest` poyavlyayutsya toljko v polnom profile i izmeryayut kazhdyij vyizov `swift package dump-package`; `preparation` okhvatyivayet podgotovku spiska, `step` — obyyavlennyij shag, a `total` — polnyij interval. Nevozmozhnostj zapustitj vlozhennyij process stabiljno oboznachayetsya `exit_code: 127`, a oshibka podgotovki zavershayet smoke-check s kodom `2`. Vlozhennyiye dliteljnosti ne skladyivayutsya s `total` kak nezavisimyiye vyizovyi. Rezhim `--list` ne zapuskayet obyyavlennyiye shagi; standartnyij spisok ne vyipolnyayet Swift-podgotovku, polnyij — vyipolnyayet toljko razbor manifestov.
 
-1. Toljko v polnom profile nakhodit vse katalogi `Инструменты/*/tests`, soderzhasjhiye `test_*.py`, i zapuskayet dlya kazhdogo:
+1. Toljko v polnom profile nakhodit vse katalogi `Инструменты/*/tests` i `Инструменты/*/интеграционные-тесты`, soderzhasjhiye `test_*.py`, i zapuskayet dlya kazhdogo:
 
 ```bash
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s <tests-dir> -p 'test_*.py'
@@ -349,6 +349,22 @@ Lokaljnyiye testyi samoj avtomatizacii zapuskayutsya bez seti i sekretov:
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-kompleksnaya-proverka-repozitoriya/tests -p 'test_*.py'
 ```
 
+Nastoyasjhaya lokaljnaya SwiftPM-kompoziciya vyidelena v sosednij `интеграционные-тесты`: polnyij profilj obnaruzhivayet yeyo otdeljnyim shagom, standartnyij polozhiteljnyij perechenj yeyo ne vyibirayet. Obyichnyij nabor proveryayet vyibor kataloga, yedinstvennostj integracionnogo testa i peredachu iskhodnogo otkaza; etim ne zayavlyayetsya uspeshnaya sborka Swift. Pryamoj zapusk realjnoj proverki trebuyet podkhodyasjhej ustanovlennoj sredyi Swift:
+
+```bash
+python3 -m unittest discover -s Инструменты/fum-kompleksnaya-proverka-repozitoriya/интеграционные-тесты -p 'test_*.py'
+```
+
+Otsutstviye Swift mozhet datj unasledovannyij propusk etoj proverki; propusk ne podtverzhdayet integraciyu. Otkaz zagruzki Testing.framework takzhe ne schitayetsya ustranyonnyim izmeneniyem vyibora nabora. Simvolicheskiye ssyilki katalogov i testovyikh fajlov integracionnyikh naborov otklonyayutsya. Ikh analiticheskiye klyuchi — otdeljnyiye repozitorno-otnositeljnyiye puti; prezhnyaya istoriya obyichnyikh naborov ne perepisyivayetsya.
+
+Profilj vyibora naborov bez Swift-paketov vosproizvoditsya komandoj:
+
+```bash
+python3 Инструменты/fum-kompleksnaya-proverka-repozitoriya/tests/профиль_границы_наборов.py --выход результат-профиля.json
+```
+
+Tri nezavisimyiye fiksturyi soderzhat po 114 naborov. Monotonnyiye metki razdeljno izmeryayut obnaruzheniye i postroyeniye standartnogo i polnogo planov; podgotovka fajlov isklyuchena, realjnyiye proverki ne zapuskayutsya.
+
 Testyi snachala fiksiruyut profiljnuyu granicu: po umolchaniyu vyibirayetsya `документационный`, yego sostav i poryadok ravnyi tochnomu polozhiteljnomu perechnyu, vklyuchaya tochnyiye argumentyi posledovateljnyikh `применить` i `проверить-манифест`, lishnij katalog testov ignoriruyetsya, a otsutstvuyusjhij, pustoj ili vyinesennyij simvolicheskoj ssyilkoj razreshyonnyij nabor zakryivayet podgotovku otkazom. Standartnyij `--list` ne vyizyivayet avtopoisk, Swift-kontur i istoriyu; `--профиль полный --list` sokhranyayet prezhnij razbor manifestov i pokazyivayet vse tyazhyolyiye komandyi bez ikh ispolneniya. Polnyij profilj sokhranyayet prezhnij avtopoisk, risk-sortirovku i fiksirovannyij Swift-khvost.
 
 Ostaljnoj nabor fiksiruyet bazovyij kontrakt: smoke-check trebuyet otklyuchyonnuyu peredachu obsjhego kataloga navyikov v proyektnoj konfiguracii, otklonyayet vyikhod lokaljnogo `SKILL.md` za korenj cherez simvolicheskuyu ssyilku, schitayet avarijnyij signal i nezavershivshijsya dostignutyij test oshibkoj, ne schitayet vneshneye preryivaniye oshibkoj, sokhranyayet toljko dostignutyij fail-fast-prefiks i ne peredayot capability-peremennyiye dochernim shagam. Polnoprofiljnyiye testyi sveryayut inventarj SwiftPM-paketov i produktov, `dump-package`, `swift test`, sborku kazhdogo ispolnyayemogo produkta, strogij lint i politiku lokaljnyikh zavisimostej. Obsjhiye testyi zakreplyayut strukturu zaprosov, planovyij reyestr, mashinno-lokaljnyiye puti, kornevuyu instrukciyu, indeks dokumentacii, voprosyi, recency i svyaznostj sessii.
@@ -403,6 +419,6 @@ Tekusjhij Swift-kontur prednaznachen dlya macOS: vse paketyi trebuyut macOS 14 i
 Tekusjhij `--допуск-слияния` prinimayet toljko zakryityij v3 s podtverzhdeniyem ispolneniya iz master. Sokhranyonnaya vozmozhnostj v4 otnositsya k otdeljnomu rezhimu i sama po sebe ne rasshiryayet etot dopusk.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 20:36:12 MSK -->
-<!-- content-sha256: sha256:5efad8f894bb23aedc3a02767ea91a85e0e1435697a1037be94eb251b57c7ecb -->
+<!-- last-content-edit: 2026-09-12 03:02:40 MSK -->
+<!-- content-sha256: sha256:798a266117a12a79fbce39b0062f7b906ed1f031188d3c57b07a10c810cd0ff4 -->
 <!-- FUM-MD-RECENCY:END -->

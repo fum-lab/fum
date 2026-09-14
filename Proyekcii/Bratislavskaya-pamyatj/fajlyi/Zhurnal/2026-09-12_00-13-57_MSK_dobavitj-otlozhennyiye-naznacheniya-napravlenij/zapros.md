@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-11 23:32:59 MSK - Prinyatj plan I2P i utochneniya Swift](../2026-09-11_23-32-59_MSK_prinyatj-plan-I2P-i-utochneniya-Swift/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-12 03:42:08 MSK - Realizovatj sinteticheskij rabochij kontekst](../2026-09-12_03-42-08_MSK_realizovatj-sinteticheskij-rabochij-kontekst/zapros.md)
 
 ## Tekst zaprosa
 
@@ -42,6 +42,8 @@ Codex-Thread-ID: 01a08d77-2060-7701-9f44-ff04769d8a6e
 - [tekusjhij otchyot](otchyot.md)
 - [Materialyi etapa](materialyi/)
 - [Tochnaya politika opredeleniya puti Zhurnala](../../Instrumentyi/fum-proverka-mashinno-lokaljnyikh-putej/policy.json)
+- [Razdeleniye avtonomnoj i integracionnoj proverki SwiftPM](../../Instrumentyi/fum-kompleksnaya-proverka-repozitoriya/)
+- [Kartochki sboyev](../../Sboi/)
 - [Priyom napravlenij](../../Instrumentyi/fum-reyestr-planirovaniya/)
 - [Plan prodolzheniya](materialyi/planyi/prodolzheniye.json)
 - [Obyazateljstva zadachi](../../Planirovaniye/zadachi/01a08d77-2060-7701-9f44-ff04769d8a6e/obyazateljstva.json)
@@ -60,6 +62,6 @@ Codex-Thread-ID: 01a08d77-2060-7701-9f44-ff04769d8a6e
 Eto sleduyusjhij etap tekusjhej zadachi posle c613ccf88926046f951cdcaa5205a8cda2aabe31. Pervoye soobsjheniye prinadlezhit etoj zadache, vtoroye — podlinnoye soobsjheniye 262 zadachi 01a07d3d-d376-7ad2-aafc-67e4c25a67eb. Tretjye — podlinnoye soobsjheniye 263 toj zhe zadachi s ukazaniyem prodolzhitj posle obnovleniya sistemyi. Pervichnyiye tekstyi povtorno sverenyi chitatelem. Povtornoj komandyi poljzovatelya ne sozdayotsya. Utochneniya koordinatora yavlyayutsya nativnyim porucheniyem: odin paket iz shesti napravlenij, otdeljnyij istoricheskij i novyij kommit zapuska, zapret povtora posle neopredelyonnogo iskhoda.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-12 02:00:57 MSK -->
-<!-- content-sha256: sha256:cb0e7da898bf3b942cfcf5fbd41958cadd26a4b9deed8213a35e53d8e24cd1d9 -->
+<!-- last-content-edit: 2026-09-12 04:18:55 MSK -->
+<!-- content-sha256: sha256:5ea0dca123f71e373b15d0c0fe54899ad6df329bf19e6e4d854e57834aedf8c0 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -5,29 +5,57 @@
 +++
 # Drejf snimka obyyavlenij koda
 
-## Proyavleniya i granica povtoreniya
+## Nablyudayemyij sboj
+
+Sokhranyonnyij tochnyij snimok raskhoditsya s nablyudayemyim polnyim inventaryom. V nablyudeniyakh smeshanyi sobstvennyiye novyiye imena, obyazateljnyiye vneshniye imena, lozhnyiye srabatyivaniya i izmeneniya pozicij; odin obsjhij khyesh ne obyyasnyayet ikh proiskhozhdeniye. Tekusjhaya priyomka 0165 obnaruzhila 43800 zapisej protiv sokhranyonnyikh 43163.
+
+## Granica povtoreniya
+
+Kartochka obyyedinyayet povtornyiye nablyudeniya neobyyasnyonnogo drejfa polnogo snimka obyyavlenij. Odin zapusk s mnozhestvom zapisej ostayotsya odnim proyavleniyem. Otkaz na nepodderzhannyij CJS-format otnositsya otdeljno k FUM-SBOJ-0117; posleduyusjhij uspeshnyij razbor formata ne prinimayet vesj chislennyij ostatok.
+
+## Proyavleniya
 
 - `FUM-СБОЙ-0045/ПРОЯВЛЕНИЕ-0001`: dopolniteljnaya proverka polnogo snimka obyyavlenij v [etape adaptacii](../Zhurnal/2026-09-10_00-49-43_MSK_svyazatj-proverki-s-kommitami/otchyot.md) vernula «snimok ne sovpadayet s tekusjhim ostatkom». Sokhraneno 43091 obyyavleniye; nablyudayetsya 43105. Posle udaleniya yedinstvennoj novoj zapisi etogo etapa — obyazateljnogo vneshnego `unittest.TestCase.setUp` — ostayotsya 43104. V ostaljnyikh novyikh Python-fajlakh latinskikh obyyavlenij ne najdeno. Sledovateljno, raskhozhdeniye ne ischerpyivayetsya tekusjhim etapom. Eto odno nablyudeniye sostoyaniya, a ne 14 otdeljnyikh proyavlenij.
 
-## Vosstanovleniye i sistemnaya mera
+- `FUM-СБОЙ-0045/ПРОЯВЛЕНИЕ-0002`: v [realizacii perenosa](https://github.com/fum-lab/fum/blob/e95d7f5d1ef6387454b7825932cfbd737e600473/Журнал/2026-09-11_07-17-34_MSK_реализовать-перенос-рабочих-деревьев/отчёт.md) povtorno otkazala dopolniteljnaya proverka polnogo snimka: sokhraneno 43163, nablyudayetsya 43606 obyyavlenij, raznica 443 otnositsya k Python. Novyij instrument posle ustraneniya oshibochno uchtyonnyikh prisvaivanij vneshnim API dayot nulevoj ostatok. [Adresnaya sverka](https://github.com/fum-lab/fum/blob/e95d7f5d1ef6387454b7825932cfbd737e600473/Журнал/2026-09-11_07-17-34_MSK_реализовать-перенос-рабочих-деревьев/материалы/профиль/дельта-объявлений.json) sravnila obyyavleniya vsekh izmenyonnyikh podderzhannyikh fajlov s tochnyimi Git-obyyektami osnovyi `1aab4c016f726452861f42963b59b6ba66483437`: izmeneniye inventarya ravno nulyu. Obsjhij snimok ne obnovlyalsya. Eto povtor nablyudeniya drejfa, a ne 443 otdeljnyikh proyavleniya.
 
-Iskhodnyij snimok ne obnovlyon bez razbora. Nablyudeniye i ogranichennostj dopolniteljnoj proverki sokhranenyi; adresnyiye testyi adaptera i standartnaya priyomka ostayutsya otdeljnyimi granicami. Tochnyij mekhanizm nakopleniya prezhnikh 13 zapisej i izmenenij pozicij trebuyet sopostavleniya s reviziyej snimka `a3bde39c84528848b13b0b2b415a7e6fd033b9a1`. Obyazateljnyij vneshnij metod dopustim po pravilu yazyika, no nyineshnij inventarizator uchityivayet yego v ostatke.
+- `FUM-СБОЙ-0045/ПРОЯВЛЕНИЕ-0003`: [polnyij inventarj](../Zhurnal/2026-09-14_18-32-12_MSK_prinyatj-generaciyu-i-profilj-konteksta/materialyi/zapuski-proverok/30_e3801048-0916-4775-8965-3803f168219b.json) posle dopuska chetyiryokh CJS postroyen uspeshno i soderzhit 43800 zapisej pri sokhranyonnyikh 43163; [sravneniye imyon](../Zhurnal/2026-09-14_18-32-12_MSK_prinyatj-generaciyu-i-profilj-konteksta/materialyi/zapuski-proverok/32_d4dc19b3-0eed-4c80-af16-e6095a45254c.json) s tochnyimi obyyektami kommita snimka `436909208424595f7151f6febca75f89018c0bcb` vyiyavilo i sobstvennuyu deljtu 0165, i unasledovannyij prirost v instrumentakh prodvizheniya, planirovaniya, ochistki istochnikov i istoricheskikh materialakh. Koordinator vzyal unasledovannuyu chastj na sebya; korenj 0165 prodolzhayet sobstvennuyu. Polnyij snimok ne obnovlyalsya. Primenimostj CLI-profilya obsjhej priyomki utochnyayetsya otdeljno i ne vyivoditsya iz klassa obyortki.
+
+## Ozhidaniye i klassifikaciya
+
+Prinimayemyij snimok dolzhen vosproizvodimo sootvetstvovatj obyyasnyonnomu ostatku; novyiye sobstvennyiye imena ne prinimayutsya toljko po nasledovaniyu. Nablyudeniye drejfa podtverzhdeno. Prichina kazhdoj dopolniteljnoj zapisi yesjhyo ne klassificirovana, poetomu vesj prirost ne obyyavlyayetsya novyim narusheniyem yazyika. V chastnosti, klyuchevyiye slova Swift i imena vneshnikh protokolov trebuyut analiza roli.
+
+## Mekhanizm i sistemnoye ustraneniye
+
+Sokhraneno prezhneye ogranichennoye vosstanovleniye: snimok ne obnovlyon bez razbora, adresnaya funkcionaljnaya priyomka otdelena ot proverki polnogo ostatka. Dlya pervogo proyavleniya ostayotsya istochnik `a3bde39c84528848b13b0b2b415a7e6fd033b9a1`; dlya posleduyusjhikh — tochnaya reviziya sootvetstvuyusjhego snimka. Nuzhnyi klassifikaciya sobstvennyikh i vneshnikh obyyavlenij, obyyasneniye peremesjhenij i regressii inventarizatora. Istoricheskiye iskhodnyiye bajtyi profilya do optimizacii sokhranyayutsya.
+
+Tochnaya diagnostika tekusjhego razbora sokhranena v [sleduyusjhem etape](../Zhurnal/2026-09-14_21-11-44_MSK_sveritj-obsjhuyu-granicu-priyomki/otchyot.md). Ispravleniye Swift-rolej v kontroljnoj tochke 165c9874 oshibochno skryivalo realjnyiye signaturyi; shestj dopustimyikh primerov podtverzhdenyi kompilyatorom, RED i posleduyusjhimi regressiyami. Versiya posle ispravleniya vozvrasjhayet 121 metku i parametr `$source`, isklyuchayet tri lozhnyikh svojstva i povtornuyu zapisj `url`. Vse 557 novyikh pozicij ciklov uzhe prisutstvovali v istoricheskikh iskhodnikakh 4369092: utochnilsya moment obnaruzheniya, a ne vozrast napisaniya. Neodnoznachnaya migraciya imeni, sovpadayusjhego s modifikatorom, zakryita otkazom. Popozicionnyiye roli, kratnostj, Git-bajtyi i granica polnoj priyomki sokhranyayutsya v [klassifikacii](../Zhurnal/2026-09-14_21-11-44_MSK_sveritj-obsjhuyu-granicu-priyomki/materialyi/klassifikaciya-deljtyi-svift.json). Eto diagnostika nezavershyonnogo tretjyego proyavleniya; obsjhij snimok yesjhyo ne prinyat.
+
+[Promezhutochnaya mera 0173](../Zhurnal/2026-09-14_20-41-53_MSK_perevesti-unasledovannyiye-privyazki-Python/otchyot.md) zamenila nebezopasnyij perevod vsekh tokenov ogranichennyim analizom privyazok i tochnoj kartoj potrebitelej. Posle RED/GREEN i avtomatizirovannoj migracii 15 fajlov neobosnovannyij novyij ostatok gruppyi 19 instrumentaljnyikh putej raven nulyu. [Posleduyusjhij etap](../Zhurnal/2026-09-14_21-49-30_MSK_perevesti-zhivyiye-izmeriteli-Python/otchyot.md) ustranil 45 sobstvennyikh zapisej zhivyikh izmeritelej i svyazal kazhdoye iz 312 novyikh nablyudenij Python s istoricheskimi iskhodnyimi strokami; 26 udalenij klassificirovanyi kak vneshniye AST API. Eto chastichnoye ustraneniye proyavleniya 0003: obsjhij snimok yesjhyo ne obnovlyon, trebuyetsya obyyedinyonnaya priyomka s 0165, status sboya ne izmenyon.
 
 ## Svyazannyiye shagi
 
-- [FUM-STEP-0173](../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0173-razobratj-drejf-snimka-obyyavlenij.md); osnovaniye — `FUM-СБОЙ-0045/ПРОЯВЛЕНИЕ-0001`.
+Obyyedinyonnaya [klassifikaciya 0165 i 0173](../Zhurnal/2026-09-14_22-40-28_MSK_obyyedinitj-paketyi-i-proveritj-ostatok/materialyi/sovmestnaya-klassifikaciya.md) vosproizvela tochnyij istoricheskij massiv43163 i obyyasnila perekhod k43091. Vse izmenyonnyiye klyuchi sokhranenyi s kratnostjyu;385Python-perevodov podtverzhdenyi tokenami, AST i khyeshirovannyimi planami,312istoricheskikh obnaruzhenij svyazanyi s iskhodnyimi bajtami. Shtatno obnovlyon snimokSHA46642cc72523484d581d21f756de67d350de2f231d9b77db7612581e6d70b76d. Eto zavershyonnaya klassifikaciya i vosstanovlennaya kontroljnaya granica; polnaya priyomka obyyedineniya yesjhyo trebuyetsya, kartochka ostayotsya aktivnoj.
 
-## Kriterij zakryitiya
+- [FUM-STEP-0173](../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0173-razobratj-drejf-snimka-obyyavlenij.md) — obsjhij razbor drejfa; osnovaniya `FUM-СБОЙ-0045/ПРОЯВЛЕНИЕ-0001`, `FUM-СБОЙ-0045/ПРОЯВЛЕНИЕ-0002` i `FUM-СБОЙ-0045/ПРОЯВЛЕНИЕ-0003`.
+- [FUM-STEP-0165](../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0165-sobiratj-rabochij-kontekst-zadachi.md) — sobstvennaya deljta tekusjhej postavki; osnovaniye `FUM-СБОЙ-0045/ПРОЯВЛЕНИЕ-0003`.
+
+## Kriterii zakryitiya
 
 Proiskhozhdeniye kazhdogo izmeneniya ostatka obyyasneno; sobstvennyiye novyiye latinskiye obyyavleniya ustranenyi libo ustanovlena primenimostj tochnogo vneshnego kontrakta. Soglasovannyij snimok i regressii zapresjhayut neobyyasnyonnoye rasshireniye, ne smeshivaya yego s dopustimyimi vneshnimi tochkami vkhoda. Prostoye obnovleniye obsjhego khyesha ne zakryivayet sboj.
 
 ## Istochniki
 
-- [Zapros, granica i vse pryamyiye proverochnyiye vyizovyi](../Zhurnal/2026-09-10_00-49-43_MSK_svyazatj-proverki-s-kommitami/zapros.md).
+- [Pervoye nablyudeniye](../Zhurnal/2026-09-10_00-49-43_MSK_svyazatj-proverki-s-kommitami/zapros.md).
 - [Sokhranyonnyij snimok](../Instrumentyi/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/ostatok-obyyavlenij-koda.json).
+- [Tekusjhij zapros i naznacheniye tretjyego proyavleniya](../Zhurnal/2026-09-14_18-32-12_MSK_prinyatj-generaciyu-i-profilj-konteksta/zapros.md).
+- [Proiskhozhdeniye tochnyikh vkhodov i prezhnej versii kartochki](../Zhurnal/2026-09-14_18-32-12_MSK_prinyatj-generaciyu-i-profilj-konteksta/materialyi/proiskhozhdeniye-drejfa-obyyavlenij.json).
+
 - [Otkaz polnogo snimka](../Zhurnal/2026-09-10_00-49-43_MSK_svyazatj-proverki-s-kommitami/materialyi/zapuski-proverok/21_67880c85-58b0-4821-b9e6-2abeb42bb7dd.json), [adresnaya diagnostika novyikh fajlov](../Zhurnal/2026-09-10_00-49-43_MSK_svyazatj-proverki-s-kommitami/materialyi/zapuski-proverok/22_06391345-57d8-4636-8549-b2c24f52cc55.json), [sopostavleniye inventarya](../Zhurnal/2026-09-10_00-49-43_MSK_svyazatj-proverki-s-kommitami/materialyi/zapuski-proverok/23_8c5742d4-de56-4d63-a0c1-3f2e4ef288c5.json).
 
+Prezhniye proyavleniya perenesenyi iz proverennogo blob `6a539f645601902085315ba21b7522e5eabbe5e6`; soderzhateljnaya granica kartochki sokhranena i normalizovana v tekusjhiye vosemj razdelov. Istoricheskij tekst vtorogo proyavleniya ne oznachayet priyomku nyineshnego prirosta.
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 01:19:47 MSK -->
-<!-- content-sha256: sha256:e75b80f9ac04b85c7ebb22c69ddc78ac1b87a15172d5f16202654396ef5f483f -->
+<!-- last-content-edit: 2026-09-14 23:14:36 MSK -->
+<!-- content-sha256: sha256:fabeb1277f6666ede2aee237a669c9f3598403a7388df4b870ad82639a126f7a -->
 <!-- FUM-MD-RECENCY:END -->

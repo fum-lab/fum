@@ -46,7 +46,25 @@ Tekusjheye utochneniye opredelyayet eksperimentaljnyij rezhim pervyikh roditelej
 
 Posle otdeljnogo prinyatiya ispolnyayemogo obyyoma ostayutsya formaljnyij vkhod i vyikhod, otkryityiye fiksturyi i ikh ispolnitelj, chitayusjhij sborsjhik, ustojchivoye vosstanovleniye sostoyanij, adapteryi 0177/0160, nezavisimyij etalon, TDD, vosproizvodimyij profilj i obosnovannoye resheniye ob optimizacii. Istochniki i komandyi vosproizvedeniya budusjhej realizacii dolzhnyi byitj dostupnyi v FUM. Do etikh rezuljtatov status kartochki ostayotsya active.
 
+## Konechnyij pervyij ispolnyayemyij srez
+
+[Sinteticheskij sborsjhik](../../Proyektyi/rabochij-kontekst/rukovodstvo.md) chitayet odin zaraneye peredannyij neizmennyij snimok i vozvrasjhayet determinirovannyij kontekst s tochnyim proiskhozhdeniyem, otmenami, konfliktami, neizvestnostjyu, zavisimyim ustarevaniyem i yavnyim prevyisheniyem zhelayemogo byudzheta. V FUM sokhranyayutsya iskhodniki, formaljnyij kontrakt, nezavisimyij etalon, otkryityiye fiksturyi, CLI, RED/GREEN i malyij profilj do/posle. [Svideteljstva i granica priyomki etapa](../../Zhurnal/2026-09-12_03-42-08_MSK_realizovatj-sinteticheskij-rabochij-kontekst/otchyot.md) otnosyatsya toljko k etomu srezu.
+
+Pyatj istoricheskikh planovyikh materialov i vse sluchai 01–28 sokhranyayutsya. Utverzhdeniya vyishe o nepodgotovlennom sborsjhike opisyivayut iskhodnuyu planovuyu osnovu; novaya ogranichennaya postavka ne zakryivayet polnyij 0165. Ostatok vklyuchayet adapteryi 0177/0160, realjnyiye istochniki, ustojchivoye vosstanovleniye, vnimaniye i vspominaniye, izmereniye poleznosti v realjnoj zadache i otdeljnuyu integraciyu. Tochnoye sootvetstviye tekusjhikh testov ogranichennyim sinteticheskim svojstvam privedeno v rukovodstve. Promezhutochnaya kontroljnaya tochka sokhranyayet narabotku; vse finaljnyiye kriterii ostayutsya nepogashennyimi do sovmestnoj priyomki po pravilam master v integracionnom dereve. Status ostayotsya `active`.
+
+## Priyomka formata scenariyev otveta
+
+V priyomke vetki 0165 podtverzhdena nesovmestimostj chetyiryokh sokhranyonnyikh CJS-scenariyev s inventaryom obyyavlenij i proyekciyej. Podgotovlenyi zakryityij podyyazyik, soglasovannyiye puti, regressii i profilj. Sleduyusjhij adresnyij razbor sobstvennyikh 42 iskhodnikov podtverdil 53 vneshniye zapisi i nulevoj neobosnovannyij sobstvennyij ostatok posle perevodov i proverki konechnyikh isklyuchenij. Polnaya proverka vetki ostayotsya zavisimoj ot unasledovannoj migracii 0173; obsjhij snimok ne obnovlyon, etot rezuljtat ne zakryivayet polnyij shag.
+
+## Vkhodnyiye otkazyi priyomki
+
+Sokhranenyi dve otdeljnyiye oshibki podgotovki vkhoda: terminaljnoye svideteljstvo u dostupnyikh rabot i strogij Swift lint bez kanonicheskoj konfiguracii. Ispravleniye dannyikh i uspeshnyij povtor podtverzhdayut vosstanovleniye. Predlozhennyiye meryi podgotovki plana i vosproizvodimoj komandyi proveryayutsya otdeljno po kriteriyam kartochek; ikh realizaciya ne obyyavlyayetsya vyipolnennoj i ne otkryivayet novoye napravleniye tekusjhego etapa.
+
 ## Istochniki
+
+- [FUM-SBOJ-0045/PROYAVLENIYE-0003](../../Sboi/FUM-SBOJ-0045-drejf-snimka-obyyavlenij-koda.md) — povtor v priyomke 0165: 43800 protiv 43163; sobstvennaya deljta i unasledovannyij prirost klassificiruyutsya otdeljno, snimok ne obnovlyon.
+
+- [FUM-SBOJ-0117](../../Sboi/FUM-SBOJ-0117-nepodderzhannyiye-scenarii-otveta.md) — osnovaniye aktualizacii `FUM-СБОЙ-0117/ПРОЯВЛЕНИЕ-0001`; trebuyetsya podtverditj soglasovannostj formata s polnoj priyomkoj.
 
 - [Prinyataya postavka pyati planovyikh materialov i kriteriyev 17–28](https://github.com/fum-lab/fum/blob/186b0360a31b97184773757634976257d0f86495/Журнал/2026-09-11_08-14-52_MSK_уточнить-план-вспоминания-рабочего-контекста/запрос.md) — tochnyij kommit `186b0360a31b97184773757634976257d0f86495`; eto gotovnostj plana, a ne zakryitiye polnogo 0165.
 
@@ -57,8 +75,11 @@ Posle otdeljnogo prinyatiya ispolnyayemogo obyyoma ostayutsya formaljnyij vkhod 
 - [Nablyudeniya i granicyi tekusjhej ocenki](../../Zhurnal/2026-09-09_14-35-59_MSK_podgotovitj-nativnoye-prodolzheniye-zadachi/otchyot.md).
 - [Statistika vyizovov](🟡-FUM-STEP-0160-nakaplivatj-statistiku-vyizovov.md).
 - [Snimok sostoyaniya zadachi](🟡-FUM-STEP-0159-sobratj-snimok-agentskogo-runtime-i-interfejsa.md).
+- [FUM-SBOJ-0118/PROYAVLENIYE-0001](../../Sboi/FUM-SBOJ-0118-terminaljnoye-svideteljstvo-dostupnoj-rabotyi.md) — osnovaniye sokhraneniya konkretnoj meryi i granicyi vosstanovleniya.
+- [FUM-SBOJ-0119/PROYAVLENIYE-0001](../../Sboi/FUM-SBOJ-0119-strogaya-proverka-formata-bez-kanonicheskoj-konfiguracii.md) — osnovaniye sokhraneniya konkretnoj meryi i granicyi vosstanovleniya.
+- [Adresnaya klassifikaciya sobstvennoj postavki i vkhodnyiye otkazyi](../../Zhurnal/2026-09-14_20-03-08_MSK_utochnitj-sobstvennyiye-imena-postavki/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-12 01:09:27 MSK -->
-<!-- content-sha256: sha256:d7ceca6c8d3fd50e4efa47b0685a9dd66ddb1246d122e324017e742b16d7d5fd -->
+<!-- last-content-edit: 2026-09-14 21:05:29 MSK -->
+<!-- content-sha256: sha256:331bfc204fc8e6740c41de49aa4c02b13c92ef9fe87d7ec1d66dc8236a9fdca4 -->
 <!-- FUM-MD-RECENCY:END -->

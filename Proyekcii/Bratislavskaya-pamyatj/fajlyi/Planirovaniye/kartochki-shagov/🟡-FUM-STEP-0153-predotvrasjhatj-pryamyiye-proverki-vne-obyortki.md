@@ -11,14 +11,14 @@ Zakrepitj proveryayemuyu meru, ne pozvolyayusjhuyu pri ruchnom formirovanii koma
 
 ## Pochemu sejchas
 
-Iskhodnyij adresnyij diff proshyol bez mashinnoj zapisi. Povtor 0176 dobavil pryamuyu sborku reyestra s neizvestnyim vremenem, a epizod kornya 0201 — chetyire build vne obyortki, tri otkaza i uspekh. Shtatnyiye pozdniye zapuski podtverdili novoye sostoyaniye, no ne vosstanovili dokazateljstvo iskhodnyikh vyizovov zadnim chislom. FUM-SBOJ-0025 teperj soderzhit tri proyavleniya odnoj granicyi.
+Iskhodnyij adresnyij diff proshyol bez mashinnoj zapisi. Povtor 0176 dobavil pryamuyu sborku reyestra s neizvestnyim vremenem, a epizod kornya 0201 — chetyire build vne obyortki, tri otkaza i uspekh. Shtatnyiye pozdniye zapuski podtverdili novoye sostoyaniye, no ne vosstanovili dokazateljstvo iskhodnyikh vyizovov zadnim chislom. V kartochke FUM-SBOJ-0025 sokhranenyi pyatj proyavlenij odnoj granicyi: 0001–0003, nezavisimoye 0101 napravleniya vselennoj i 0102 priyomki konteksta. V poslednem epizode otdeljnyiye vremya i kod predvariteljnogo diff ne sokhranenyi; pozdnij uchtyonnyij povtor ne podmenyayet pervonachaljnuyu kvitanciyu.
 
 ## Kriterii zaversheniya
 
 - Razlichenyi proverochnyiye vyizovyi, read-only-inventarj i razreshyonnyiye proverki zamyikaniya zakryitogo otchyota.
 - Primer pryamoj proverki vne obyortki obnaruzhivayetsya ili blokiruyetsya do yeyo ispolneniya; obyichnaya proverka poluchayet sobstvennuyu mashinnuyu zapisj.
 - Obkhod ne maskiruyetsya ruchnyim izgotovleniyem zapisi ili vyidachej povtornogo zapuska za iskhodnyij.
-- Ogranicheniya vyibrannoj meryi i proverennyiye primeryi svyazanyi so vsemi tremya proyavleniyami sboya; pryamoj diff, sborka reyestra i neskoljko proverochnyikh processov v odnoj shell-komande razlichenyi.
+- Ogranicheniya vyibrannoj meryi i proverennyiye primeryi svyazanyi so vsemi pyatjyu proyavleniyami sboya; pryamoj diff, sborka reyestra i neskoljko proverochnyikh processov v odnoj shell-komande razlichenyi.
 - Obsjhij kod poslednej shell-komandyi ne podmenyayet otdeljnyiye iskhodyi predshestvuyusjhikh proverochnyikh processov; neizvestnoye vremya ne ocenivayetsya zadnim chislom.
 
 ## Istochniki
@@ -28,8 +28,9 @@ Iskhodnyij adresnyij diff proshyol bez mashinnoj zapisi. Povtor 0176 dobavil pry
 
 - [Otchyot 0176](https://github.com/fum-lab/fum/blob/6599fe4837ef54efc7f871d2bfe6f8d9d07b4d95/Журнал/2026-09-11_01-28-44_MSK_перенести-исходники-FUMA/отчёт.md) i [otchyot kornya 0201](../../Zhurnal/2026-09-11_08-49-30_MSK_prinyatj-perekodirovaniye-DNK-v-belki/otchyot.md).
 - [Novyij zapros diagnostiki](../../Zhurnal/2026-09-11_09-36-55_MSK_sokhranitj-ostavshuyusya-diagnostiku-priyoma/zapros.md) i [otchyot](../../Zhurnal/2026-09-11_09-36-55_MSK_sokhranitj-ostavshuyusya-diagnostiku-priyoma/otchyot.md).
+- [FUM-SBOJ-0025/PROYAVLENIYE-0101 i 0102](../../Sboi/FUM-SBOJ-0025-pryamoj-zapusk-proverki-vne-mashinnogo-uchyota.md#proyavleniya) i [naznacheniye 0102](../../Zhurnal/2026-09-14_20-03-08_MSK_utochnitj-sobstvennyiye-imena-postavki/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 09:58:11 MSK -->
-<!-- content-sha256: sha256:632ced7cfba854241db64fb6cc112dc2d25c43778e7709b1fd25aea4ac040ae0 -->
+<!-- last-content-edit: 2026-09-14 21:05:29 MSK -->
+<!-- content-sha256: sha256:7537970bca3020d978b9f25ba722007c259ba7553f27084f29315bb89176a06a -->
 <!-- FUM-MD-RECENCY:END -->

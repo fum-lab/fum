@@ -245,6 +245,7 @@ Dlya odnovremennogo utochneniya imeni dobavj `--description новое-крат�
 | FUM-STEP-0224 | 🟡 Aktualjno | [Splanirovatj parametricheskoye 3D FUMA i etapyi realizacii](🟡-FUM-STEP-0224-splanirovatj-parametricheskoye-3D-FUMA-i-etapyi-realizacii.md)                                                                                                                                                                                       |
 | FUM-STEP-0183 | 🟡 Aktualjno | [Opredelitj adapteryi decentralizovannyikh setej](🟡-FUM-STEP-0183-opredelitj-adapteryi-decentralizovannyikh-setej.md)                                                                                                                                                                                                             |
 | FUM-STEP-0195 | 🟡 Aktualjno | [Opredelitj matricu SwiftNIO i setevyiye adapteryi FUMA](🟡-FUM-STEP-0195-opredelitj-matricu-SwiftNIO-i-setevyiye-adapteryi-FUMA.md)                                                                                                                                                                                               |
+| FUM-STEP-0225 | 🟡 Aktualjno | [Sveryatj polnyij sostav materialov etapa](🟡-FUM-STEP-0225-sveryatj-polnyij-sostav-materialov-etapa.md)                                                                                                                                                                                                                         |
 
 ## Istochniki trebovanij
 
@@ -279,6 +280,6 @@ Dlya odnovremennogo utochneniya imeni dobavj `--description новое-крат�
 - [iskhodnyij zapros 2026-07-24 10:44:28 MSK — Nachatj bezokonnyij Swift-prototip vosproizvodimogo popolneniya pamyati FUM](../../Zhurnal/2026-07-24_10-44-28_MSK_nachatj-bezokonnyij-Swift-prototip-vosproizvodimogo-popolneniya-pamyati-FUM/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 23:52:33 MSK -->
-<!-- content-sha256: sha256:b0a1553f2a124ab058df40a2c204bb25a7bab9021d7379ced36f70654c705943 -->
+<!-- last-content-edit: 2026-09-14 22:36:53 MSK -->
+<!-- content-sha256: sha256:84b9e8e1e4b2d77b86f13a9671cb1bca2b707c294491aeb8d0fac9d47866a4ae -->
 <!-- FUM-MD-RECENCY:END -->

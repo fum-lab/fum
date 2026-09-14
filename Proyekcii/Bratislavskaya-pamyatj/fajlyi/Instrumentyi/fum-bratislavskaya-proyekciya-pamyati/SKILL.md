@@ -63,6 +63,10 @@ Tochnyij putj `Инструменты/fum-reyestr-planirovaniya/scripts/адап
 
 Dlya smenyi podtverzhdyonnogo prezhnego pokoleniya versii 2 proverka vladeniya pereispoljzuyet polnyij zakreplyonnyij kontrakt `совместимость/контракт-v2-до-форматов-приложения.json` s khyeshem `sha256:9f262153c9de986270cec76ad3c37da34c99ace0c187474ba8a1bc736222220a`. Neizvestnaya politika, podmena snimka, metadannyikh ili dereva zakryivayut perekhod. Itogovaya nezavisimaya proverka prinimayet toljko tekusjhuyu politiku i zanovo vyivedennoye pokoleniye; staryij manifest sam po sebe yej ne sootvetstvuyet.
 
+Dopolniteljno podderzhanyi [chetyire tochnyikh CJS-scenariya otveta](../fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scenarii-otveta.md). Do dvoichnogo isklyucheniya prinimayusjhij inventarizator proveryayet vesj UTF-8-iskhodnik, podderzhannyij sintaksis i sobstvennyiye obyyavleniya; otsutstviye Node.js zakryivayet dejstviye. Soderzhimoye i suffiks `.cjs` sokhranyayutsya, obsjhij format JavaScript ne otkryivayetsya. Kod, kontrakt i skhema plana soderzhat odin i tot zhe konechnyij nabor putej.
+
+Perekhod s pokoleniya do etikh scenariyev prinimayet toljko polnyij sokhranyonnyij obyyekt `совместимость/контракт-v2-до-сценариев-ответа.json`, khyesh `sha256:6f6d399cfb2734a5445eeb52358af3a0d71c74d8b811416d9531b514b210993d`. Fikstura `tests/фикстуры/поколение-до-сценариев-ответа-v2.json` vosproizvoditsya skriptom `tests/фикстуры/создать-прежнее-поколение-v2.py` s `--поколение до-сценариев-ответа` iz tochnogo kommita `2e01e5dc9a130ea0fb2f6c10514d7db56817361b`; pered ispolneniyem istoricheskogo generatora proveryayutsya khyeshi koda i politiki. Novaya politika ne porozhdayet dopustimoye semejstvo staryikh politik. Povrezhdeniye zakreplyonnogo obyyekta zakryivayet ustanovku s sokhraneniyem prezhnego dereva; itogovuyu priyomku dokazyivayet toljko nezavisimaya proverka novogo pokoleniya.
+
 ## Preobrazovaniye putej
 
 Kazhdyij komponent polnogo puti obrabatyivayetsya otdeljno. Dlya poslednego komponenta snachala otdelyayetsya samoye dlinnoye zaregistrirovannoye tekhnicheskoye rasshireniye, zatem LinguisticKit preobrazuyet osnovu. Neizmenivshiyesya latinskiye komponentyi vsyo ravno vkhodyat v otobrazheniye.
@@ -187,6 +191,6 @@ Kanonicheskiye avtodiskaveri-konturyi isklyuchayut toljko kornevuyu oblastj `Pro
 Odnoparametricheskij vyizov `подготовить_изолированный_преобразователь(корень)` sokhranyayet prezhnij kontrakt: izoliruyet zakreplyonnyiye iskhodniki i vozvrasjhayet nastoyasjhuyu komandu Swift s proverkoj granicyi; sborku zapuskayet vyizyivayusjhij. Yavnyij keyword-only parametr `использовать_кэш=True` vyibirayet predvariteljnuyu sborku, proverennyij kyesh i chastnuyu kopiyu produkta. Rabochiye CLI-komandyi generatora vsegda vyibirayut etot rezhim. Proverki zakreplyonnogo dereva i izolyacii obsjhiye dlya oboikh rezhimov.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 07:09:21 MSK -->
-<!-- content-sha256: sha256:ac3884f19f0d68f4354fd40c4830f1943478633c0c787620aa8d1c6fd41a7600 -->
+<!-- last-content-edit: 2026-09-14 19:41:23 MSK -->
+<!-- content-sha256: sha256:bb7aaba4694093f499661751af16f3890e28530455e065a68087b17303037ba5 -->
 <!-- FUM-MD-RECENCY:END -->

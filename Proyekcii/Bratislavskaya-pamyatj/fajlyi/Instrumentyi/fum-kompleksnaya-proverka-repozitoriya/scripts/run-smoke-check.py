@@ -984,6 +984,13 @@ def discover_test_dirs(repo_root: Path) -> list[Path]:
     for tests_path in tools_dir.glob("*/tests"):
         if tests_path.is_dir() and any(tests_path.glob("test_*.py")):
             test_dirs.append(tests_path)
+    for каталог in tools_dir.glob("*/интеграционные-тесты"):
+        if каталог.resolve() != каталог.absolute() or not каталог.is_dir():
+            raise ValueError("интеграционный набор должен быть обычным локальным каталогом")
+        файлы = tuple(каталог.glob("test_*.py"))
+        if not файлы or any(файл.resolve() != файл.absolute() or not файл.is_file() for файл in файлы):
+            raise ValueError("интеграционный набор требует обычные локальные test_*.py")
+        test_dirs.append(каталог)
     return sorted(test_dirs, key=lambda path: repo_relative(path, repo_root))
 
 
@@ -2338,7 +2345,7 @@ def build_steps(
         путь_набора = repo_relative(test_dir, источник)
         steps.append(
             SmokeStep(
-                name=f"Тесты {tool_name}",
+                name=(f"Интеграционные тесты {tool_name}" if test_dir.name == "интеграционные-тесты" else f"Тесты {tool_name}"),
                 command=(
                     python_cmd,
                     *(("-I", "-B") if корень_проверок is not None else ()),

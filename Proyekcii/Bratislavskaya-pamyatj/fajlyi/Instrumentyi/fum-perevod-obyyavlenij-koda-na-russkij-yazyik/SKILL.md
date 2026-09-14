@@ -9,15 +9,27 @@ Avtomatizaciya pomogayet posledovateljno perevesti sobstvennyij kod FUM i zatem 
 
 Instrument ne pridumyivayet russkiye imena i ne obnovlyayet snimok samovoljno. Smyisl kazhdogo imeni opredelyayet chelovek ili agent po kontekstu fajla, a karta pereimenovanij sluzhit yavnyim proveryayemyim resheniyem.
 
+Python-vetvj ispoljzuyet [kontrakt leksicheskikh privyazok i potrebitelej](bezopasnyij-perevod-Python.md). Vneshniye atributyi i klyuchevyiye argumentyi ne zamenyayutsya po sovpadeniyu imeni; neodnoznachnyiye sobstvennyiye upotrebleniya zakryivayut preobrazovaniye otkazom. Inventarj dopolniteljno uchityivayet parametryi lyambd, privyazki isklyuchenij i yavnyiye psevdonimyi importov. Novyiye vneshniye metodyi AST-posetitelya isklyuchayutsya toljko pri podtverzhdyonnoj baze iz `ast`; svobodnaya funkciya `visit` i metod postoronnego klassa isklyucheniya ne poluchayut.
+
 ## Oblastj pravila
 
-Inventarj rassmatrivayet toljko sobstvennyiye fajlyi `.py`, `.swift` i `.md`:
+Inventarj rassmatrivayet sobstvennyiye fajlyi `.py`, `.swift`, `.md`, prezhnij tochnyij JS-adapter i chetyire tochnyikh CJS-scenariya otveta:
 
 - dlya Python sintaksicheskoye derevo dayot klassyi, obyichnyiye i asinkhronnyiye funkcii, parametryi, imena v kontekste zapisi i zapisyivayemyiye atributyi;
 - dlya Swift leksicheskij razbor vne strok i kommentariyev dayot tipyi, funkcii, `let`, `var`, variantyi `case`, parametryi funkcij i yavnyikh signatur zamyikanij;
 - dlya Markdown rassmatrivayutsya identifikatoryi uzlov toljko v sobstvennyikh ograzhdyonnyikh blokakh `mermaid`; podpisi, stroki, kommentarii i tekst vne bloka ne yavlyayutsya kodom dlya pereimenovaniya.
 
+Zakryitaya granica CJS opredelena v [opisanii scenariyev otveta](scenarii-otveta.md). Ona vklyuchayet toljko `scripts/адаптер_ответа.cjs`, `tests/test_адаптер_ответа.cjs`, `tests/test_смешанный_профиль.cjs` i `tests/профиль-смешанных-ответов.cjs` vnutri tochnogo `Инструменты/fum-svyaznostj-rabochej-sessii/`. Kazhdyij fajl prokhodit polnyij ogranichennyij razbor svyazyivanij i polej, zatem nezavisimyij `node --check --input-type=commonjs` bez ispolneniya iskhodnika. Nalichiye Node.js obyazateljno; otsutstviye, tajmaut, oshibka sintaksisa ili neizvestnaya konstrukciya zakryivayut dopusk. Ostaljnyiye `.js`, `.mjs`, `.cjs` ne stanovyatsya podderzhannyimi rasshireniyami.
+
+Karta CJS pereimenovyivayet toljko svyazyivaniya i ikh identifikatornyiye upotrebleniya. Stroki, kommentarii i klyuchi vneshnego kontrakta sokhranyayutsya; sokrasjhyonnoye svyazyivaniye razvorachivayetsya s sokhraneniyem chitayemogo klyucha. Migraciya imyon sobstvennyikh polej i sokrasjhyonnyikh vneshnikh polej zakryita: sovpadeniye imeni ne dokazyivayet prinadlezhnostj polya obyyektu. Dlya neyo potrebuyetsya otdeljnoye rasshireniye s proveryayemyim uchyotom vladeljca. Vo vsekh sluchayakh razbirayutsya te zhe iskhodnyiye UTF-8-bajtyi, chej khyesh proveren kartoj.
+
 Iz ostatka isklyuchenyi vneshniye obyazateljnyiye obyyavleniya Python: specialjnyiye imena s dvumya podchyorkivaniyami, tochnyiye metodyi posetitelya sintaksicheskogo dereva i obyazateljnyij prefiks `test_` pered russkim imenem testa. Eto uzkiye isklyucheniya vneshnego interfejsa, a ne razresheniye vvoditj proizvoljnyiye latinskiye imena.
+
+Vosemj sobstvennyikh JSON-imyon rabochego konteksta sokhranyayutsya po [konechnomu perechnyu](abbreviaturyi-konteksta.json): tochnoye imya, putj, yazyik i vid obyyavleniya svyazanyi s klassom isklyucheniya, prichinoj i iskhodnyimi Git-bajtami. Eto imena s russkoj smyislovoj osnovoj po pravilu 000028, a ne vneshnij API. Filjtr dejstvuyet toljko na gotovyij inventarj; obyyavleniya ostayutsya dostupnyi karte budusjhego perevoda. Sosedniye imena, puti i vidyi isklyucheniye ne nasleduyut. [Rukovodstvo](sobstvennyiye-imena-konteksta.md) opisyivayet takzhe ogranichennuyu sovmestnuyu migraciyu tryokh Swift-imyon, ssyilok i shablona generatora.
+
+Swift-signatura zamyikaniya raspoznayotsya neposredstvenno posle otkryivayusjhej skobki, vklyuchaya `@Sendable`, spisok zakhvata, proyeciruyemyij parametr s `$`, tipyi i tipizirovannyij `throws`; pozdnij `in` v tele ne delayet obrasjheniya parametrami. Modifikatoryi zakhvata opredelyayutsya po pozicii: sobstvennyiye imena `safe` i `unsafe` sokhranyayutsya. Ekranirovannyij parametr sokhranyayet svoyo imya, dazhe yesli bez obratnyikh kavyichek ono mozhet oboznachatj modifikator. Klyuchevoye slovo v pozicii metki parametra uchityivayetsya kak metka; korotkoye svyazyivaniye `let self` ne delayet sleduyusjheye vyirazheniye obyyavleniyem. Variantyi `case` sobirayutsya toljko v neposredstvennom tele `enum`; ciklyi imeyut otdeljnyiye svyazyivaniya, vklyuchaya `for try await`. Eto ogranichennyij leksicheskij inventarj; kompilyaciya i proverka realizuyemyikh vneshnikh protokolov ostayutsya otdeljnyimi svideteljstvami.
+
+Obnaruzheniye Swift-imeni samo po sebe ne dokazyivayet bezopasnuyu migraciyu. Karta metok, zapisannyikh klyuchevyimi slovami `for` i `in`, poka zakryivayetsya otkazom: zamena vsekh odnoimyonnyikh klyuchevyikh slov povredila byi ciklyi. Yesli perevodimoye imya bez ekranirovaniya sovpadayet s podderzhannyim modifikatorom parametra ili zakhvata, avtomatizaciya takzhe otkazyivayet do zapisi; tochnogo razresheniya takikh rolej dlya migracii poka net. Odnoznachnyiye ekranirovannyiye upotrebleniya sokhranyayut obratnyiye kavyichki pri zamene.
 
 Obkhod polnostjyu isklyuchayet `.git`, `.build`, `.swiftpm`, katalogi kyeshej, `Зависимости`, `Источники`, simvolicheskiye ssyilki i kornevoye proizvodnoye prostranstvo istoricheskikh worktree `Подузлы/`. Komponent `Подузлы` nizhe drugogo kanonicheskogo kornya sam po sebe ne isklyuchayetsya: granica privyazana toljko k pervomu komponentu repo-relative-puti. V Markdown ne analiziruyutsya doslovnyij `Текст запроса` v zhurnaljnom `запрос.md`, `Снимок Git` i razdel `Вопрос` v `Вопросы и ответы`. Oshibka sintaksisa, kodirovki ili nezakryitaya ograda zavershayet proverku otkazom.
 
@@ -133,6 +145,6 @@ Testyi proveryayut inventarj tryokh yazyikov, zasjhisjhyonnyiye oblasti, tochnyi
 - [iskhodnyij zapros 2026-08-04 12:51:44 MSK — Perevesti obyyavlyayemyij kod na russkij yazyik](../../Zhurnal/2026-08-04_12-51-44_MSK_perevesti-obyyavlyayemyij-kod-na-russkij-yazyik/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-23 12:13:25 MSK -->
-<!-- content-sha256: sha256:80989375618708d8f5b40ec3ba078fb74524adb88251f35777d10398ca613a3e -->
+<!-- last-content-edit: 2026-09-14 23:14:36 MSK -->
+<!-- content-sha256: sha256:d0d44fad2842844532c8a2a3fc6dab060d92df125abe601338f6a3f267117b4d -->
 <!-- FUM-MD-RECENCY:END -->

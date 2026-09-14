@@ -22,6 +22,8 @@ Yesli vo vremya zaklyuchiteljnogo chteniya zamechenyi yesjhyo ne razobrannyiye b
 
 Otvet soderzhit privatnyij iskhodnyij vvod i ssyilki na vlozheniya. Yego neljzya avtomaticheski perenositj celikom v publichnyij repozitorij. V Zhurnal sokhranyayutsya otdeljno proverennyiye dopustimyiye komandyi i otvetyi; skryityiye rassuzhdeniya ne eksportiruyutsya.
 
+Boljshoj rezuljtat mozhno yavno sokhranitj vne checkout i [chitatj ogranichennyimi stranicami](kompaktnyij-ostatok.md). Predstavleniye sokhranyayet ssyilki na polnyij artefakt i ne zamenyayet obyazateljnyij chitatelj, rassmotreniye vsekh soobsjhenij ili sostavnoj dopusk.
+
 ## Podtverditj obrabotku
 
 Agent snachala sopostavlyayet iskhodnuyu komandu s pozdnimi soobsjheniyami. Otmena, zamena i utochneniye ssyilayutsya na konkretnyij pozdnij chelovecheskij vvod. Sluzhebnyij kontekst ne yavlyayetsya takim osnovaniyem. Yesli smyisl ostayotsya neyasnyim, resheniye sokhranyayet neobkhodimostj razbora.
@@ -69,6 +71,6 @@ Iskhodniki i avtonomnyiye scenarii perenesenyi bez izmenenij iz proverennogo kom
 - [Polnyij obyyom FUM-STEP-0177](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0177-vozvrasjhatj-neobrabotannyiye-soobsjheniya-poljzovatelya.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 02:07:47 MSK -->
-<!-- content-sha256: sha256:99d7f9d797f6af71c4e6ff2fcd6329d79467283a076854b06d65ff5759701ba2 -->
+<!-- last-content-edit: 2026-09-14 14:48:49 MSK -->
+<!-- content-sha256: sha256:b3e1be376a6e5a1fa0d82cb2a6ddfab5725f251847a16e092cd1092a615c3eb1 -->
 <!-- FUM-MD-RECENCY:END -->

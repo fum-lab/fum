@@ -16,6 +16,20 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-14 22:40:28 MSK — Obyyedinitj paketyi i proveritj ostatok](2026-09-14_22-40-28_MSK_obyyedinitj-paketyi-i-proveritj-ostatok/otchyot.md)
+- [2026-09-14 22:22:09 MSK — Podtverditj dostavku Python paketa](2026-09-14_22-22-09_MSK_podtverditj-dostavku-Python-paketa/otchyot.md)
+- [2026-09-14 22:03:16 MSK — Prinyatj sovmestnuyu klassifikaciyu ostatka](2026-09-14_22-03-16_MSK_prinyatj-sovmestnuyu-klassifikaciyu-ostatka/otchyot.md)
+- [2026-09-14 21:49:30 MSK — Perevesti zhivyiye izmeriteli Python](2026-09-14_21-49-30_MSK_perevesti-zhivyiye-izmeriteli-Python/otchyot.md)
+- [2026-09-14 21:11:44 MSK — Sveritj obsjhuyu granicu priyomki](2026-09-14_21-11-44_MSK_sveritj-obsjhuyu-granicu-priyomki/otchyot.md)
+- [2026-09-14 20:41:53 MSK — Perevesti unasledovannyiye privyazki Python](2026-09-14_20-41-53_MSK_perevesti-unasledovannyiye-privyazki-Python/otchyot.md)
+- [2026-09-14 20:07:02 MSK — Obespechitj bezopasnyij perevod Python](2026-09-14_20-07-02_MSK_obespechitj-bezopasnyij-perevod-Python/otchyot.md)
+- [2026-09-14 20:03:08 MSK — Utochnitj sobstvennyiye imena postavki](2026-09-14_20-03-08_MSK_utochnitj-sobstvennyiye-imena-postavki/otchyot.md)
+- [2026-09-14 18:32:12 MSK — Prinyatj generaciyu i profilj konteksta](2026-09-14_18-32-12_MSK_prinyatj-generaciyu-i-profilj-konteksta/otchyot.md)
+- [2026-09-14 17:07:43 MSK — Izmeritj smeshannuyu posledovateljnostj otvetov](2026-09-14_17-07-43_MSK_izmeritj-smeshannuyu-posledovateljnostj-otvetov/otchyot.md)
+- [2026-09-14 15:54:44 MSK — Poroditj modeli otveta operatorami](2026-09-14_15-54-44_MSK_poroditj-modeli-otveta-operatorami/otchyot.md)
+- [2026-09-14 15:01:38 MSK — Sokratitj otvetyi nativnyikh instrumentov](2026-09-14_15-01-38_MSK_sokratitj-otvetyi-nativnyikh-instrumentov/otchyot.md)
+- [2026-09-14 14:36:01 MSK — Prinyatj kompaktnyij ostatok](2026-09-14_14-36-01_MSK_prinyatj-kompaktnyij-ostatok/otchyot.md)
+- [2026-09-12 03:42:08 MSK — Realizovatj sinteticheskij rabochij kontekst](2026-09-12_03-42-08_MSK_realizovatj-sinteticheskij-rabochij-kontekst/otchyot.md)
 - [2026-09-12 00:13:57 MSK — Dobavitj otlozhennyiye naznacheniya napravlenij](2026-09-12_00-13-57_MSK_dobavitj-otlozhennyiye-naznacheniya-napravlenij/otchyot.md)
 - [2026-09-11 23:32:59 MSK — Prinyatj plan I2P i utochneniya Swift](2026-09-11_23-32-59_MSK_prinyatj-plan-I2P-i-utochneniya-Swift/otchyot.md)
 - [2026-09-11 22:27:25 MSK — Perenesti finansovyij rezuljtat FUM](2026-09-11_22-27-25_MSK_perenesti-finansovyij-rezuljtat-FUM/otchyot.md)
@@ -536,6 +550,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-12 01:09:27 MSK -->
-<!-- content-sha256: sha256:78d12fa3a39696b2ee969a7b1fcdb7f381ebb917512afe0f07c58614d21a36e0 -->
+<!-- last-content-edit: 2026-09-14 23:14:36 MSK -->
+<!-- content-sha256: sha256:54efa4ec0dfcf39388ff8381308ad756e588cf980775240794c41ff148586792 -->
 <!-- FUM-MD-RECENCY:END -->

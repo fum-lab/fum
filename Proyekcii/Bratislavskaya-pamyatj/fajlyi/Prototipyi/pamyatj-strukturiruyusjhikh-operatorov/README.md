@@ -148,7 +148,11 @@ Status: ogranichennyij proverochnyij Swift-prototip s avtonomnyimi fiksturami i 
 - [Arkhitektura FUM](../../Dokumentaciya/22-arkhitektura-FUM.md)
 - [otkryityij vopros o granicakh yestestvenno-yazyikovoj sinkhronizacii znanij FUM](../../Voprosyi/2026-07-13_20-34-23_MSK_granicyi-yestestvenno-yazyikovoj-sinkhronizacii-znanij-FUM.md)
 
+## Generaciya nativnyikh modelej
+
+Konechnyij ispolnitelj dopolnen shagami `разобрать-структурный-контракт` i `породить-представление`. Oni ispolnyayutsya cherez tot zhe `AutomationExecutor.выполнить`, sokhranyayut sledyi, stoimostj i SHA vkhoda. [Rabochij kontrakt i komandyi](../../Proyektyi/rabochij-kontekst/operatornyiye-modeli-otveta.md) pokazyivayut generaciyu Swift Codable i Python iz odnogo opisaniya. [Proiskhozhdeniye minimaljnogo perenosa i priyomka](../../Zhurnal/2026-09-14_15-54-44_MSK_poroditj-modeli-otveta-operatorami/otchyot.md) otdelyayut istoricheskiye svideteljstva ot tekusjhikh 45 testov.
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-03 14:54:04 MSK -->
-<!-- content-sha256: sha256:375385dc4a117cf357bb22d9d2fd87b0f6d67b049048ebcc4b480e2f82b86da7 -->
+<!-- last-content-edit: 2026-09-14 17:04:07 MSK -->
+<!-- content-sha256: sha256:cb22b492096689e22b404e25f3b8ee68883963a938bc8dc02332ecfb91b5b355 -->
 <!-- FUM-MD-RECENCY:END -->

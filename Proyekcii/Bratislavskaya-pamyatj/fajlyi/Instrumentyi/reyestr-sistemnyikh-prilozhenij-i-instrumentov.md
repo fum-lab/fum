@@ -165,6 +165,16 @@ Yesli instrument razovyij i ne dolzhen stanovitjsya ustojchivoj chastjyu pamyati
 
 Gotovyij Swift CLI `архивный-снимок` importiruyet odin yavno ukazannyij Codex JSONL s ozhidayemyim UUID i vosstanavlivayet ogranichennyij snimok iz kontejnera. Priyomka zakreplena Swift-kommitom `cffd4c52852da19d3e71c5a2d22e41712b3e734f` i SHA-256 binarnika `2882e1c04319a20ce13001a3b6c0120cc6e17ab44f112780b6d2af8888c532e5`; eto identichnostj proverennoj postavki, a ne versiya Codex ili zayavleniye o zhivom sostoyanii zadachi. [Kontrakt i granicyi](../Dokumentaciya/arkhivnyij-snimok-zadachi-FUMA.md), [povtoryayemaya priyomka](../Zhurnal/2026-09-09_18-43-02_MSK_zavershitj-priyomku-arkhivnogo-snimka/otchyot.md).
 
+## Operatornyiye modeli nativnogo otveta
+
+[Opisaniye, generaciya, obsjhiye fiksturyi i profilj](../Proyektyi/rabochij-kontekst/operatornyiye-modeli-otveta.md) vosproizvodyatsya standartnyim Python i lokaljnyim SwiftPM. Versiya zadayotsya `fum.структурный-контракт.1`, profilem `fum.модели-и-проекция.1` i tochnyimi iskhodnikami susjhestvuyusjhego `AutomationExecutor`. Nablyudenyi Python 3.14.7 i Apple Swift 6.4; predel pervogo chislovogo profilya — `целые64-без-дробей`. Generaciya i CLI ne vyizyivayut API i ne udostoveryayut svezhestj libo zaversheniye zadachi. [Istochnik](../Zhurnal/2026-09-14_15-54-44_MSK_poroditj-modeli-otveta-operatorami/zapros.md).
+
+[Smeshannyij profilj API/cache-obyortki](fum-svyaznostj-rabochej-sessii/kompaktnyij-otvet-zadachi.md) ispoljzuyet nastoyasjhij CLI i fajlovuyu zapisj s otkryitoj zaglushkoj read_thread. Skhema rezuljtata — `fum.смешанный-профиль-ответов.1`; Node.js 26.8.2 i Python 3.14.7. Oblastj izmereniya otdelyayet poleznuyu vyidachu, unikaljnyiye fajlyi, simulirovannyij API i povtornyiye chteniya; zhivyiye API i tokenyi ne izmeryayutsya. [Istochnik](../Zhurnal/2026-09-14_17-07-43_MSK_izmeritj-smeshannuyu-posledovateljnostj-otvetov/zapros.md).
+
+## Sinteticheskij sborsjhik rabochego konteksta
+
+[Odnokratnyij CLI i profilj](../Proyektyi/rabochij-kontekst/rukovodstvo.md) — sobstvennyij komponent pervogo sreza FUM-STEP-0165. Versiya zadayotsya kontraktami `fum.вход-рабочего-контекста.1`, `fum.рабочий-контекст.1` i Git-istoriyej iskhodnikov, fikstur i testov. Trebuyet toljko Python i zaraneye peredannyij otkryityij snimok; ne podklyuchyon k runtime, obrabotke 0177, modeli i vneshnim dejstviyam. [Istochnik naznacheniya](../Zhurnal/2026-09-12_03-42-08_MSK_realizovatj-sinteticheskij-rabochij-kontekst/zapros.md).
+
 ## Istochniki trebovanij
 
 - [iskhodnyij zapros realizacii FUM-STEP-0129](../Zhurnal/2026-09-01_11-19-59_MSK_realizovatj-bratislavskuyu-proyekciyu-pamyati/zapros.md)
@@ -239,6 +249,6 @@ Gotovyij Swift CLI `архивный-снимок` importiruyet odin yavno ukaza
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](../Zhurnal/2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 07:10:06 MSK -->
-<!-- content-sha256: sha256:c13eaed74d05244f84ea0a25fe01abb1d0851789fd59cd31932b1fd1da62f6c8 -->
+<!-- last-content-edit: 2026-09-14 17:17:14 MSK -->
+<!-- content-sha256: sha256:2f7f4c2b1d103d48e9f9ea30ebeecc80d17896e06b9a1962de117f2983d622e7 -->
 <!-- FUM-MD-RECENCY:END -->

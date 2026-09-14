@@ -1,0 +1,366 @@
+{
+  "схема": "fum.повторное-использование-принятых-исходников.1",
+  "C28": "28ae7e3425af487256c49fda858c4b8884349870",
+  "T28": "4ca13ad4c94b0e3de397ece53eca08cf524376ef",
+  "HEAD": "81a646d9576afa3d335db73a841bcbf3c0f0421c",
+  "MERGE_HEAD": "cf64f276837773b7b6eee40f9d5d8bc1c72e1f3e",
+  "источник": "Журнал/2026-09-14_21-11-44_MSK_сверить-общую-границу-приёмки/материалы/классификация-дельты-свифт.json",
+  "источник-blob": "1f6f5df93c12def559998b762486c76b526b2475",
+  "источник-sha256": "3c597f407a2fb85a715190ff45435bfd37e8fb9c539d7f58deeb568fd3e6fc78",
+  "исходников": 43,
+  "неизменённых": 42,
+  "файлы": [
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/аббревиатуры_контекста.py",
+      "blob-C28": "0ab885a39aed2a7aba3454ac41875127b34c9a02",
+      "sha256-C28": "d435dfccb76e4526c1999df6d489efe9a680eee1da427bfb6057fc461db147d2",
+      "blob-индекса": "0ab885a39aed2a7aba3454ac41875127b34c9a02",
+      "sha256-индекса-и-рабочих-байтов": "d435dfccb76e4526c1999df6d489efe9a680eee1da427bfb6057fc461db147d2",
+      "неизменён": true
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести-объявления-кода.py",
+      "blob-C28": "9cc482c3ea32711f60aadb74c7a4a0ab145ecb60",
+      "sha256-C28": "134a3dd01cda5641cbc573c128bf0f9018d8c5e9fca6c0ddb3b5ff940c7ea1ad",
+      "blob-индекса": "68a63a89ec3a9b617a5f9f89bc6a89dd7532f58d",
+      "sha256-индекса-и-рабочих-байтов": "82d0d819158dbf7d28ceecb5ef2c0176ec17bd197dc61e78191065a25a80cf0c",
+      "неизменён": false
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести_имена_контекста.py",
+      "blob-C28": "60e8f5dfd439409d986ca59fc8d26815366badb4",
+      "sha256-C28": "26390c36ebff457ab4007a4808b0e0f02e489b74aa9bcdf1e6936c6ecbf115fd",
+      "blob-индекса": "60e8f5dfd439409d986ca59fc8d26815366badb4",
+      "sha256-индекса-и-рабочих-байтов": "26390c36ebff457ab4007a4808b0e0f02e489b74aa9bcdf1e6936c6ecbf115fd",
+      "неизменён": true
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py",
+      "blob-C28": "064d313e05aa441b97a6427e5aff13221e8bbf7f",
+      "sha256-C28": "63be1138c8461de6c83f259d0e220b1d3d76daa14fd67ae25014fe135d22148c",
+      "blob-индекса": "064d313e05aa441b97a6427e5aff13221e8bbf7f",
+      "sha256-индекса-и-рабочих-байтов": "63be1138c8461de6c83f259d0e220b1d3d76daa14fd67ae25014fe135d22148c",
+      "неизменён": true
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_аббревиатуры_контекста.py",
+      "blob-C28": "0e96d0dc2defd94d356aed139764f90a4ea2375e",
+      "sha256-C28": "ae627688a26bca120b7c7e17dc7d5259109b1e0afe3b21cdefc1da30efda769e",
+      "blob-индекса": "0e96d0dc2defd94d356aed139764f90a4ea2375e",
+      "sha256-индекса-и-рабочих-байтов": "ae627688a26bca120b7c7e17dc7d5259109b1e0afe3b21cdefc1da30efda769e",
+      "неизменён": true
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_миграция_контекста.py",
+      "blob-C28": "399fee7cfbfa6cd11cdb2eddf607f23631724fc4",
+      "sha256-C28": "0be9771cc2f7627b5893a2b8c9aa8f996b74d28ed560b70c9eab944518d502c3",
+      "blob-индекса": "399fee7cfbfa6cd11cdb2eddf607f23631724fc4",
+      "sha256-индекса-и-рабочих-байтов": "0be9771cc2f7627b5893a2b8c9aa8f996b74d28ed560b70c9eab944518d502c3",
+      "неизменён": true
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_перевод_объявлений_кода.py",
+      "blob-C28": "baf5a847d2a600e4e44772a7d9018f4bca681b6a",
+      "sha256-C28": "f93d951ee46a6f3298f038a5517ff7f7bb4f691395cf057a0e553e498fae4784",
+      "blob-индекса": "baf5a847d2a600e4e44772a7d9018f4bca681b6a",
+      "sha256-индекса-и-рабочих-байтов": "f93d951ee46a6f3298f038a5517ff7f7bb4f691395cf057a0e553e498fae4784",
+      "неизменён": true
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_роли_свифт.py",
+      "blob-C28": "8850e8fc9af84ab57754c6118742370e7525b482",
+      "sha256-C28": "d539b6abd736f88f853ec02ec90da37d6030662034f0fdb34133bcc53d3a8c3b",
+      "blob-индекса": "8850e8fc9af84ab57754c6118742370e7525b482",
+      "sha256-индекса-и-рабочих-байтов": "d539b6abd736f88f853ec02ec90da37d6030662034f0fdb34133bcc53d3a8c3b",
+      "неизменён": true
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_сигнатуры_свифт.py",
+      "blob-C28": "0853869a6c441de9e903ae83baf7e4c0d2d656be",
+      "sha256-C28": "84f3837accec3d829f32f2c6840e921e9d80bffbcfdb6982a80099555b929852",
+      "blob-индекса": "0853869a6c441de9e903ae83baf7e4c0d2d656be",
+      "sha256-индекса-и-рабочих-байтов": "84f3837accec3d829f32f2c6840e921e9d80bffbcfdb6982a80099555b929852",
+      "неизменён": true
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_сценарий_ответа.py",
+      "blob-C28": "eb911763ce7ab8e4cc653eef025ffa1fca7c7597",
+      "sha256-C28": "82d58c9df405013492a050d3d522b9b7974176898d6cc9221f3b161673189379",
+      "blob-индекса": "eb911763ce7ab8e4cc653eef025ffa1fca7c7597",
+      "sha256-индекса-и-рабочих-байтов": "82d58c9df405013492a050d3d522b9b7974176898d6cc9221f3b161673189379",
+      "неизменён": true
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_шаблон_адаптера.py",
+      "blob-C28": "88e5c536afe6e1608774835789b340bf27eec924",
+      "sha256-C28": "82868f4f1c074d3b6485c23a2e77dc78b639e1c169b74da3b6d3976fdf714f64",
+      "blob-индекса": "88e5c536afe6e1608774835789b340bf27eec924",
+      "sha256-индекса-и-рабочих-байтов": "82868f4f1c074d3b6485c23a2e77dc78b639e1c169b74da3b6d3976fdf714f64",
+      "неизменён": true
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/измерить_имена_контекста.py",
+      "blob-C28": "b382e9da28e2e0371a647b8baa62f536f18e7b3d",
+      "sha256-C28": "3a115e29a17c718092eabf69a214cd5bf70040f925797732dc180b845ca15be0",
+      "blob-индекса": "b382e9da28e2e0371a647b8baa62f536f18e7b3d",
+      "sha256-индекса-и-рабочих-байтов": "3a115e29a17c718092eabf69a214cd5bf70040f925797732dc180b845ca15be0",
+      "неизменён": true
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/измерить_сценарий_ответа.py",
+      "blob-C28": "bfc57bdb65afd90ee692ba30a9618e3d12e00bad",
+      "sha256-C28": "f21de48436b000d8158d908a7ca2b3857a3094abf9d349721737a720f22ca463",
+      "blob-индекса": "bfc57bdb65afd90ee692ba30a9618e3d12e00bad",
+      "sha256-индекса-и-рабочих-байтов": "f21de48436b000d8158d908a7ca2b3857a3094abf9d349721737a720f22ca463",
+      "неизменён": true
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/измерить_шаблон_адаптера.py",
+      "blob-C28": "e9731f3055b0bc419aa0c35adc8c92bf24a6c750",
+      "sha256-C28": "7b8209725809ee055244ebee62bff95befb3a636589c00a8ad8dd1510f6cd179",
+      "blob-индекса": "e9731f3055b0bc419aa0c35adc8c92bf24a6c750",
+      "sha256-индекса-и-рабочих-байтов": "7b8209725809ee055244ebee62bff95befb3a636589c00a8ad8dd1510f6cd179",
+      "неизменён": true
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/адаптер_ответа.cjs",
+      "blob-C28": "a12cb30bcf14914cfbb9a0128a75270593259d53",
+      "sha256-C28": "835441c41a551e9398ec4cc5875658903db0337d96c0e40d7b8c3415d30e66ff",
+      "blob-индекса": "a12cb30bcf14914cfbb9a0128a75270593259d53",
+      "sha256-индекса-и-рабочих-байтов": "835441c41a551e9398ec4cc5875658903db0337d96c0e40d7b8c3415d30e66ff",
+      "неизменён": true
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_адаптер_ответа.cjs",
+      "blob-C28": "af8346d6ca6a94276ec0e97dd472693064968016",
+      "sha256-C28": "bf3fa3e00a6afd62333ac54efde1851b653844e14ab606bb8f64551959431214",
+      "blob-индекса": "af8346d6ca6a94276ec0e97dd472693064968016",
+      "sha256-индекса-и-рабочих-байтов": "bf3fa3e00a6afd62333ac54efde1851b653844e14ab606bb8f64551959431214",
+      "неизменён": true
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактный_остаток.py",
+      "blob-C28": "da034c474fb4dc0fd85137e411ade59cf824f171",
+      "sha256-C28": "e45b9527c75cab3c2fd1f2d09c531ca8497d2b5ff37c06c973ba01b6ad8e05d1",
+      "blob-индекса": "da034c474fb4dc0fd85137e411ade59cf824f171",
+      "sha256-индекса-и-рабочих-байтов": "e45b9527c75cab3c2fd1f2d09c531ca8497d2b5ff37c06c973ba01b6ad8e05d1",
+      "неизменён": true
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактный_ответ_задачи.py",
+      "blob-C28": "0bc93c890eacc2bb765912ded70c7781c4d82923",
+      "sha256-C28": "5d3fff1e3bcd5e4422a748ff8a3576ad1aa69cbd666f9419ae3fbd17eb30c5ea",
+      "blob-индекса": "0bc93c890eacc2bb765912ded70c7781c4d82923",
+      "sha256-индекса-и-рабочих-байтов": "5d3fff1e3bcd5e4422a748ff8a3576ad1aa69cbd666f9419ae3fbd17eb30c5ea",
+      "неизменён": true
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_смешанный_профиль.cjs",
+      "blob-C28": "bb5fac3b1449f4f9d8a0ab1ceff5bf981c0625ac",
+      "sha256-C28": "61bdad128deabccec49537e0154f64be2d861efd1e8b7f1bd3b48e978898b353",
+      "blob-индекса": "bb5fac3b1449f4f9d8a0ab1ceff5bf981c0625ac",
+      "sha256-индекса-и-рабочих-байтов": "61bdad128deabccec49537e0154f64be2d861efd1e8b7f1bd3b48e978898b353",
+      "неизменён": true
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль-смешанных-ответов.cjs",
+      "blob-C28": "b668c973289f7be37f0dbf62fcd2355a1989e997",
+      "sha256-C28": "9499aba951c1a58e5f324e67b2ab8fe9180bf89fa94ca243f77e590a063e05b4",
+      "blob-индекса": "b668c973289f7be37f0dbf62fcd2355a1989e997",
+      "sha256-индекса-и-рабочих-байтов": "9499aba951c1a58e5f324e67b2ab8fe9180bf89fa94ca243f77e590a063e05b4",
+      "неизменён": true
+    },
+    {
+      "путь": "Проекты/рабочий-контекст/Package.swift",
+      "blob-C28": "83c9775bee63f072559a2292355781d292b4eec9",
+      "sha256-C28": "39e7af005a9b9408553e02f5fe9561eb70de29a7f2e9a9b01471e121b6724700",
+      "blob-индекса": "83c9775bee63f072559a2292355781d292b4eec9",
+      "sha256-индекса-и-рабочих-байтов": "39e7af005a9b9408553e02f5fe9561eb70de29a7f2e9a9b01471e121b6724700",
+      "неизменён": true
+    },
+    {
+      "путь": "Проекты/рабочий-контекст/tests/test_сборщик.py",
+      "blob-C28": "b94816a7fbc135bdcd9ade179e72c1a2ace3cfc8",
+      "sha256-C28": "6f18492bf0b20858553cc35b90cdc4c25b622b0843591d8e0605c00c02c1a6d5",
+      "blob-индекса": "b94816a7fbc135bdcd9ade179e72c1a2ace3cfc8",
+      "sha256-индекса-и-рабочих-байтов": "6f18492bf0b20858553cc35b90cdc4c25b622b0843591d8e0605c00c02c1a6d5",
+      "неизменён": true
+    },
+    {
+      "путь": "Проекты/рабочий-контекст/общие/CLI/main.swift",
+      "blob-C28": "830b6a65ef731e22573f19023b5abf20f2d6b107",
+      "sha256-C28": "64937a8aadc720ff6831e6c56dd1d653a72044eb076a94cfb7320f3218d826d8",
+      "blob-индекса": "830b6a65ef731e22573f19023b5abf20f2d6b107",
+      "sha256-индекса-и-рабочих-байтов": "64937a8aadc720ff6831e6c56dd1d653a72044eb076a94cfb7320f3218d826d8",
+      "неизменён": true
+    },
+    {
+      "путь": "Проекты/рабочий-контекст/общие/Python/поддержка_моделей.py",
+      "blob-C28": "c74cc1fccccf0220142d5b4f75d655bca53d874d",
+      "sha256-C28": "89e88ab88e720ae70a1a957099650887e43dfe32cfd43daee13788595d64152e",
+      "blob-индекса": "c74cc1fccccf0220142d5b4f75d655bca53d874d",
+      "sha256-индекса-и-рабочих-байтов": "89e88ab88e720ae70a1a957099650887e43dfe32cfd43daee13788595d64152e",
+      "неизменён": true
+    },
+    {
+      "путь": "Проекты/рабочий-контекст/общие/Swift/ПоддержкаJSON.swift",
+      "blob-C28": "77fd85f9bf5540256137462e1fd7e7530221c401",
+      "sha256-C28": "65c2bc3389cb9f4b4148ede52a4ad7ed3312d3bef2d91d45ef6821f767871d1d",
+      "blob-индекса": "77fd85f9bf5540256137462e1fd7e7530221c401",
+      "sha256-индекса-и-рабочих-байтов": "65c2bc3389cb9f4b4148ede52a4ad7ed3312d3bef2d91d45ef6821f767871d1d",
+      "неизменён": true
+    },
+    {
+      "путь": "Проекты/рабочий-контекст/общие/Swift/ПоддержкаМоделей.swift",
+      "blob-C28": "a80338c36e99fc577ef876dab8a7a2d6a9627a84",
+      "sha256-C28": "4defd722dfd968de4d2f50ab4331fb68c30178f7c4237fd47c98ff5718773709",
+      "blob-индекса": "a80338c36e99fc577ef876dab8a7a2d6a9627a84",
+      "sha256-индекса-и-рабочих-байтов": "4defd722dfd968de4d2f50ab4331fb68c30178f7c4237fd47c98ff5718773709",
+      "неизменён": true
+    },
+    {
+      "путь": "Проекты/рабочий-контекст/породить-ответ.py",
+      "blob-C28": "9c98c94fa3a18d0b6aa00b018aff2fd73efa0131",
+      "sha256-C28": "5494cb122f002753ae7b725976c9cb26b5eae98becf90c9605f9dddcfbb4e994",
+      "blob-индекса": "9c98c94fa3a18d0b6aa00b018aff2fd73efa0131",
+      "sha256-индекса-и-рабочих-байтов": "5494cb122f002753ae7b725976c9cb26b5eae98becf90c9605f9dddcfbb4e994",
+      "неизменён": true
+    },
+    {
+      "путь": "Проекты/рабочий-контекст/порождённые/МоделиОтвета.swift",
+      "blob-C28": "4e3715c0b3ba2637f7e7a370a01fac1785188311",
+      "sha256-C28": "5cee4372402ee291af50c8291d650d34b36d843d99b72046b59dd15da38a4d43",
+      "blob-индекса": "4e3715c0b3ba2637f7e7a370a01fac1785188311",
+      "sha256-индекса-и-рабочих-байтов": "5cee4372402ee291af50c8291d650d34b36d843d99b72046b59dd15da38a4d43",
+      "неизменён": true
+    },
+    {
+      "путь": "Проекты/рабочий-контекст/порождённые/модели_ответа.py",
+      "blob-C28": "b9e3aee1d88ca6582b412e61ddc7097af2e47e42",
+      "sha256-C28": "9707e3902a06432678dbc3982f2741591bc2b1d540df0a4f497ee17b7152f3e3",
+      "blob-индекса": "b9e3aee1d88ca6582b412e61ddc7097af2e47e42",
+      "sha256-индекса-и-рабочих-байтов": "9707e3902a06432678dbc3982f2741591bc2b1d540df0a4f497ee17b7152f3e3",
+      "неизменён": true
+    },
+    {
+      "путь": "Проекты/рабочий-контекст/проверить-генерацию.py",
+      "blob-C28": "c3fb0b9999a1aaa524674273767f8a553ff1eb80",
+      "sha256-C28": "340963f279847c9bdec1ab389a27096fc5a2edf56bcca2e0df6f5ed01fa2bd03",
+      "blob-индекса": "c3fb0b9999a1aaa524674273767f8a553ff1eb80",
+      "sha256-индекса-и-рабочих-байтов": "340963f279847c9bdec1ab389a27096fc5a2edf56bcca2e0df6f5ed01fa2bd03",
+      "неизменён": true
+    },
+    {
+      "путь": "Проекты/рабочий-контекст/проверить-контракт-ответа.py",
+      "blob-C28": "a89b30042b4f622dd532fc4fcdad77c901124c67",
+      "sha256-C28": "45f3ea1bb2e9fb0e5f6c9a69a3e8215beafbc86c1415846a5310417d31fab64c",
+      "blob-индекса": "a89b30042b4f622dd532fc4fcdad77c901124c67",
+      "sha256-индекса-и-рабочих-байтов": "45f3ea1bb2e9fb0e5f6c9a69a3e8215beafbc86c1415846a5310417d31fab64c",
+      "неизменён": true
+    },
+    {
+      "путь": "Проекты/рабочий-контекст/проверить-контракт.py",
+      "blob-C28": "d4615ea953a434b5a01b5e8258cbfdc4bc2afadd",
+      "sha256-C28": "2c6db6525e9575eebedefd6a8f8739e1c731e9cbba67c7c943b2acab56710b97",
+      "blob-индекса": "d4615ea953a434b5a01b5e8258cbfdc4bc2afadd",
+      "sha256-индекса-и-рабочих-байтов": "2c6db6525e9575eebedefd6a8f8739e1c731e9cbba67c7c943b2acab56710b97",
+      "неизменён": true
+    },
+    {
+      "путь": "Проекты/рабочий-контекст/проверить-операции.py",
+      "blob-C28": "569e3a7fd66e4eee35fe6c9e9793a223851c9dd7",
+      "sha256-C28": "63cdbb02a1feee0ed1e557fd543848ac4af9d8b3c65f4aaf8ab9a2249e9b2668",
+      "blob-индекса": "569e3a7fd66e4eee35fe6c9e9793a223851c9dd7",
+      "sha256-индекса-и-рабочих-байтов": "63cdbb02a1feee0ed1e557fd543848ac4af9d8b3c65f4aaf8ab9a2249e9b2668",
+      "неизменён": true
+    },
+    {
+      "путь": "Проекты/рабочий-контекст/проверить-порождённый-ответ.py",
+      "blob-C28": "4f6f968082740c8397926b224774f79648d50e56",
+      "sha256-C28": "51712d458282d8d49c820ef78f5ed2fbf2a359b2e79ac153966c86208bb7ced2",
+      "blob-индекса": "4f6f968082740c8397926b224774f79648d50e56",
+      "sha256-индекса-и-рабочих-байтов": "51712d458282d8d49c820ef78f5ed2fbf2a359b2e79ac153966c86208bb7ced2",
+      "неизменён": true
+    },
+    {
+      "путь": "Проекты/рабочий-контекст/проверки/ПроверкиОпераций.swift",
+      "blob-C28": "f78679285e597e677736f92e6c692ffb064ecbfa",
+      "sha256-C28": "40e7c89d6d9c4cbcc0a8d64f63aa30174f2b10f97086e868015b4629c43326ab",
+      "blob-индекса": "f78679285e597e677736f92e6c692ffb064ecbfa",
+      "sha256-индекса-и-рабочих-байтов": "40e7c89d6d9c4cbcc0a8d64f63aa30174f2b10f97086e868015b4629c43326ab",
+      "неизменён": true
+    },
+    {
+      "путь": "Проекты/рабочий-контекст/профиль-порождённого-ответа.py",
+      "blob-C28": "275d6e17e351286494e6bb6db4ff9b4b947cbbee",
+      "sha256-C28": "f6548a968c644ea09d786f0fcc856f0560e786b22d4384f22d595f87f83e0cc8",
+      "blob-индекса": "275d6e17e351286494e6bb6db4ff9b4b947cbbee",
+      "sha256-индекса-и-рабочих-байтов": "f6548a968c644ea09d786f0fcc856f0560e786b22d4384f22d595f87f83e0cc8",
+      "неизменён": true
+    },
+    {
+      "путь": "Проекты/рабочий-контекст/профиль.py",
+      "blob-C28": "94f7e63dada1ade58150a9521307e8440fcde19c",
+      "sha256-C28": "0760ea2e6f72b1a4663f97da35b28acf2ba6c38d4839ba47b4049ee60131ac4c",
+      "blob-индекса": "94f7e63dada1ade58150a9521307e8440fcde19c",
+      "sha256-индекса-и-рабочих-байтов": "0760ea2e6f72b1a4663f97da35b28acf2ba6c38d4839ba47b4049ee60131ac4c",
+      "неизменён": true
+    },
+    {
+      "путь": "Проекты/рабочий-контекст/сборщик.py",
+      "blob-C28": "d2d5e6fab6acf105ed34aee34b30ff62b6f49493",
+      "sha256-C28": "b0b28ad17b67bc1b819be7deb5119963727726bbc5b6bd83728494fbe600d294",
+      "blob-индекса": "d2d5e6fab6acf105ed34aee34b30ff62b6f49493",
+      "sha256-индекса-и-рабочих-байтов": "b0b28ad17b67bc1b819be7deb5119963727726bbc5b6bd83728494fbe600d294",
+      "неизменён": true
+    },
+    {
+      "путь": "Проекты/рабочий-контекст/собрать-контекст.py",
+      "blob-C28": "d4c3c872e5fb9e56ee3a728dc45ec2544bde3eb7",
+      "sha256-C28": "70b662b0f9c0ef45c138eca671a3b2f101c30d7a98aed78a1f17795902bcaa89",
+      "blob-индекса": "d4c3c872e5fb9e56ee3a728dc45ec2544bde3eb7",
+      "sha256-индекса-и-рабочих-байтов": "70b662b0f9c0ef45c138eca671a3b2f101c30d7a98aed78a1f17795902bcaa89",
+      "неизменён": true
+    },
+    {
+      "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ЗакрытыйРазбор.swift",
+      "blob-C28": "2280da4f3d7eedc218e33c6bde384fb0d919930f",
+      "sha256-C28": "4bac7e1c2c71ebcb82e2cc13b60c8df0db5338dedb19300a7bfd4cf529887a09",
+      "blob-индекса": "2280da4f3d7eedc218e33c6bde384fb0d919930f",
+      "sha256-индекса-и-рабочих-байтов": "4bac7e1c2c71ebcb82e2cc13b60c8df0db5338dedb19300a7bfd4cf529887a09",
+      "неизменён": true
+    },
+    {
+      "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ИсполнениеОператоров.swift",
+      "blob-C28": "e80d4ce2e6ec17f80256b63f0cfe0d42cf726b7f",
+      "sha256-C28": "8236a59ae627310527bf369ecfb46ec56d2c8216ed926124422c51bfcf01d894",
+      "blob-индекса": "e80d4ce2e6ec17f80256b63f0cfe0d42cf726b7f",
+      "sha256-индекса-и-рабочих-байтов": "8236a59ae627310527bf369ecfb46ec56d2c8216ed926124422c51bfcf01d894",
+      "неизменён": true
+    },
+    {
+      "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ПорождениеМоделей.swift",
+      "blob-C28": "9ef78f28118a35a4d1ab0cac5ae3e66ca3c5b5dd",
+      "sha256-C28": "f1129d7e8776cc4c59af5e10070666daff9333d8796d16d8deada7e28e75af7b",
+      "blob-индекса": "9ef78f28118a35a4d1ab0cac5ae3e66ca3c5b5dd",
+      "sha256-индекса-и-рабочих-байтов": "f1129d7e8776cc4c59af5e10070666daff9333d8796d16d8deada7e28e75af7b",
+      "неизменён": true
+    },
+    {
+      "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/СтруктурныйКонтракт.swift",
+      "blob-C28": "04e445447870a8d71bf577092300d23c202a349b",
+      "sha256-C28": "aa9034a795c55d0b0e81f8cce01f0f2a78499dce85a443a6bd14ed11c99e4afa",
+      "blob-индекса": "04e445447870a8d71bf577092300d23c202a349b",
+      "sha256-индекса-и-рабочих-байтов": "aa9034a795c55d0b0e81f8cce01f0f2a78499dce85a443a6bd14ed11c99e4afa",
+      "неизменён": true
+    }
+  ],
+  "proof385-sha256": "6ade8636fab5249cc48f3c823bb7d7c63c2e0d68b6842f72e7ebee6ea7d01898",
+  "тест-очереди-в-proof385": false,
+  "свидетельства": [
+    "Журнал/2026-09-14_20-03-08_MSK_уточнить-собственные-имена-поставки/отчёт.md",
+    "Журнал/2026-09-14_21-11-44_MSK_сверить-общую-границу-приёмки/отчёт.md"
+  ],
+  "граница": "42 файла сохранены побайтно вместе с ранее проверенным поведением. Для изменённого общего переводчика выполнен отдельный полный набор 120 тестов; остальные изменённые Python-компоненты покрываются стандартным документационным контуром и сохранёнными адресными проверками двух исторических репозиторных тестовых файлов.",
+  "поле-списка": "исходники_адресной_области"
+}

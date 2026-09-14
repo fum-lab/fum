@@ -51,7 +51,7 @@ Microsoft Windows Holographic ne vkhodit v tekusjhuyu matricu po posleduyusjhemu
 - Pervyij proverennyij vertikaljnyij scenarij soprovozhdayetsya RED/GREEN, profilem, resheniyem ob optimizacii i svideteljstvami tochnogo kommita. Ostaljnyiye platformyi poluchayut neperesekayusjhiyesya shagi s kriteriyami priyomki; pervyij uspekh ne obyyavlyayet gotovnostj ostaljnyikh.
 - Chelovek poluchayet ponyatnuyu instrukciyu vyibora platformyi, zapuska i chteniya rezuljtata. Nezavershyonnyiye stroki matricyi, vneshniye zavisimosti i sleduyusjhiye dejstviya vidnyi yavno.
 
-Dlya graficheskikh putej matrica vklyuchayet Metal, DirectX i Vulkan soglasno FUM-REQ-0047; Mantle zamenyon poljzovatelem na Vulkan. Versii i primenimyiye vozmozhnosti vyibirayutsya posle proverki. Brauzernyij putj zadayotsya otdeljno i proveryayetsya v kazhdom celevom brauzere.
+- Dlya graficheskikh putej matrica vklyuchayet Metal, DirectX i Vulkan soglasno FUM-REQ-0047; Mantle zamenyon poljzovatelem na Vulkan. Versii i primenimyiye vozmozhnosti vyibirayutsya posle proverki. Brauzernyij putj zadayotsya otdeljno i proveryayetsya v kazhdom celevom brauzere.
 
 ## Plan primeneniya Swift System
 
@@ -91,6 +91,6 @@ Snachala utochnyayutsya matrica i obsjhij scenarij; zatem platformennyiye rezulj
 - [Iskhodnoye trebovaniye i dva soobsjheniya, dopolnivshiye perechenj](https://github.com/fum-lab/fum/blob/5c9806560fb9b52112ff8a7bc11888a1bb71f7aa/%D0%96%D1%83%D1%80%D0%BD%D0%B0%D0%BB/2026-09-11_01-03-38_MSK_%D0%B7%D0%B0%D0%BF%D0%BB%D0%B0%D0%BD%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D1%82%D1%8C-%D0%BF%D0%BB%D0%B0%D1%82%D1%84%D0%BE%D1%80%D0%BC%D1%8B-%D0%B8-%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D1%83-FUMA/%D0%B7%D0%B0%D0%BF%D1%80%D0%BE%D1%81.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 09:33:52 MSK -->
-<!-- content-sha256: sha256:40ea1b62e550e1c96cceb44eced71584b5fa8c96c4a8bcc084804a6c16a919f5 -->
+<!-- last-content-edit: 2026-09-15 01:05:57 MSK -->
+<!-- content-sha256: sha256:1ed62295e8a70bc465e2463e7f4c07590ef2e4f209dc376377cdd77958c3f583 -->
 <!-- FUM-MD-RECENCY:END -->
