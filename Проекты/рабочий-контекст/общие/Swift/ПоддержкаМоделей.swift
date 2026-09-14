@@ -4,8 +4,8 @@ public struct КонтрактМоделей: Sendable {
   private let описание: [String: ЗначениеJSON]
   private let модели: [String: ЗначениеJSON]
 
-  public init(base64: String) throws {
-    guard let данные = Data(base64Encoded: base64) else { throw ОшибкаПредставления.отказ("Повреждено описание") }
+  public init(кодированноеОписание: String) throws {
+    guard let данные = Data(base64Encoded: кодированноеОписание) else { throw ОшибкаПредставления.отказ("Повреждено описание") }
     let описание = try разобратьJSON(данные).объект()
     try потребовать(описание["схема"] == .строка("fum.структурный-контракт.1") &&
       описание["числа"] == .строка("целые64-без-дробей"), "Неизвестный профиль моделей")

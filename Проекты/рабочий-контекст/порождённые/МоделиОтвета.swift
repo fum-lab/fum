@@ -3,7 +3,7 @@ import Foundation
 import ПоддержкаОтвета
 
 // Каноническое описание: sha256:24ebe16faf06d742c67eedde2c0f6e833365216fe1e791ad43c7c26dfd6bf941
-private let описаниеМоделей = try! КонтрактМоделей(base64: [
+private let описаниеМоделей = try! КонтрактМоделей(кодированноеОписание: [
   "eyLQstC10YDRgdC40Y8iOjEsItCy0YXQvtC0Ijoi0J7QsdC+0LvQvtGH0LrQsNCe0YLQstC10YLQsCIsItCy0YvRhdC+0LQiOiLQodGA0LXQt9Ce0YLQstC1",
   "0YLQsCIsItC40LTQtdC90YLQuNGE0LjQutCw0YLQvtGAIjoiZnVtLtC+0YLQstC10YIt0LfQsNC00LDRh9C4Iiwi0LzQvtC00LXQu9C4IjpbeyLQuNC00LXQ",
   "vdGC0LjRhNC40LrQsNGC0L7RgCI6ImZ1bS7QvtGC0LLQtdGCLdC30LDQtNCw0YfQuC7Qp9Cw0YHRgtGM0J7QsdC+0LvQvtGH0LrQuC4xIiwi0LjQvNGPIjoi",

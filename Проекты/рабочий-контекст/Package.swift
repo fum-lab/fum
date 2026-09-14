@@ -1,7 +1,7 @@
 // swift-tools-version: 6.0
 import PackageDescription
 
-let package = Package(
+let пакет = Package(
   name: "ПредставленияОтвета",
   platforms: [.macOS(.v14)],
   products: [
