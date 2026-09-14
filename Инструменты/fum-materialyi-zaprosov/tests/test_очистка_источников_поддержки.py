@@ -147,15 +147,19 @@ class ОчисткаИсточников(unittest.TestCase):
             self.assertNotIn("private", результат)
             self.assertIn("Content-Type", результат)
 
-    def test_токен_websocket_в_конфигурации_страницы(self):
+    def test_служебный_токен_в_конфигурации_страницы(сам):
         тело = '<script type="text/plain" id="app-config">{"websocket":{"isEnabled":true,"token":"synthetic-private"},"price":3000}</script><p>Public terms</p>'
         итог = архив.очистить_служебный_html(тело)
-        self.assertNotIn('synthetic-private', итог)
-        self.assertIn('"price":3000', итог)
-        self.assertIn('Public terms', итог)
-        self.assertEqual(итог, архив.очистить_служебный_html(итог))
+        сам.assertNotIn('synthetic-private', итог)
+        сам.assertIn('"price":3000', итог)
+        сам.assertIn('Public terms', итог)
+        сам.assertEqual(итог, архив.очистить_служебный_html(итог))
         пример = '<p>{"websocket":{"token":"public-example"}}</p>'
-        self.assertEqual(архив.очистить_служебный_html(пример), пример)
+        сам.assertEqual(архив.очистить_служебный_html(пример), пример)
+        for атрибуты in ('data-id="app-config"', 'id="APP-CONFIG"', "title=' id=\"app-config\"'", 'id="public" data-id="app-config"'):
+            пример = '<script ' + атрибуты + '>{"websocket":{"token":"public-example"}}</script>'
+            with сам.subTest(атрибуты=атрибуты):
+                сам.assertEqual(архив.очистить_служебный_html(пример), пример)
 
     def test_диагностика_nonce_и_незакавыченное_поле(self):
         тело = '''<input name="csrftoken" value=synthetic-private-a><script nonce="synthetic-private-n">{"wgRequestId":"synthetic-private-id"}</script><div>Ваш IP-адрес:<div class=info-value><div id=q>192.0.2.13</div></div></div><div>Ваш ID запроса к ресурсу:<div class=info-value>synthetic-private-request</div></div>'''
