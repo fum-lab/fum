@@ -11,6 +11,27 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 
 
 class ПроверкаПакетаПереводаПитона(unittest.TestCase):
+    def test_локальные_имена_распаковки_не_меняют_вызываемую_сигнатуру(сам):
+        from безопасные_привязки_python import подготовить_замены
+        текст = 'def counted(*args, **kwargs): return args, kwargs\nполучатель.callback = counted\n'
+        итог, _, _ = подготовить_замены(текст, {'args': 'аргументы', 'kwargs': 'ключи'})
+        сам.assertEqual(итог, 'def counted(*аргументы, **ключи): return аргументы, ключи\nполучатель.callback = counted\n')
+
+    def test_пакет_закрепляет_внешний_вызов_и_пространство_модуля(сам):
+        with tempfile.TemporaryDirectory() as каталог:
+            корень = Path(каталог)
+            текст = 'def own(value): return value\noriginal = получатель.callback\noriginal(**параметры)\nexec("pass", модуль.__dict__)\n'
+            запись = сам.файл(корень, 'код.py', текст, {'value': 'значение'})
+            with сам.assertRaises(ValueError):
+                сам.пакет().подготовить(корень, {'схема': 'fum.пакет-перевода-python.1', 'файлы': [запись]})
+            запись['внешние_вызовы'] = [[3, 0]]
+            запись['исполнения'] = [[4, 0]]
+            план = сам.пакет().подготовить(корень, {'схема': 'fum.пакет-перевода-python.1', 'файлы': [запись]})
+            сам.assertEqual(план[0]['текст'], текст.replace('value', 'значение'))
+            запись['внешние_вызовы'] = [[2, 0]]
+            with сам.assertRaises(ValueError):
+                сам.пакет().подготовить(корень, {'схема': 'fum.пакет-перевода-python.1', 'файлы': [запись]})
+
     def test_разные_привязки_не_сливаются_переопределением_области(сам):
         from безопасные_привязки_python import подготовить_замены
         with сам.assertRaises(ValueError):
