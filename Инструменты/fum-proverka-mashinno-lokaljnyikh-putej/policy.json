@@ -3780,6 +3780,69 @@
       "count": 1,
       "category": "report.historical",
       "reason": "Сохраняет дословную историческую реплику помощника: соединённые слешами имена компонентов libc++, libc++abi и llvm-libc ошибочно распознаны как абсолютный путь; машинных данных строка не содержит."
+    },
+    {
+      "id": "compact-residue-json-pointer-definition-1",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_остаток.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:5a540b7137863f643709600ac29f6d87fe81da31d73c719d644f7fe2688f4947",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет точный JSON Pointer в полном сохранённом результате; это адрес элемента JSON, а не путь файловой системы."
+    },
+    {
+      "id": "compact-residue-json-pointer-definition-2",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_остаток.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:05ac5e84352613fd5169d4e289409070d08a78aee68fa30f552c673363844aa2",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет точный JSON Pointer в полном сохранённом результате; это адрес элемента JSON, а не путь файловой системы."
+    },
+    {
+      "id": "compact-residue-json-pointer-definition-3",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_остаток.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:3272c35aa67de4cc0c4aea49d32d5d3917da7b91e26ff7df761b62f239e382b5",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет точный JSON Pointer в полном сохранённом результате; это адрес элемента JSON, а не путь файловой системы."
+    },
+    {
+      "id": "compact-residue-json-pointer-test-1",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактный_остаток.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c36a2d8bb51740b3f3302fff1175b635da0ab68f8933c18b414548a1f7b8460b",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая проверка точного JSON Pointer к элементу синтетического результата; локальный файловый путь не используется."
+    },
+    {
+      "id": "compact-residue-json-pointer-test-2",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактный_остаток.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:881165eb4a2000496fca6d784b77215dc77acdc4f4dd5a33f073a27747159f80",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая проверка точного JSON Pointer к элементу синтетического результата; локальный файловый путь не используется."
+    },
+    {
+      "id": "compact-residue-json-pointer-documentation-1",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/компактный-остаток.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:3b4edf197b51d92aee5c899efbb9565b5550f8dffc83f752afceac5c0448bead",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Документирует формат JSON Pointer к массиву и его элементу в полном результате компактного читателя; это внутренний адрес JSON."
+    },
+    {
+      "id": "compact-residue-json-pointer-documentation-2",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/компактный-остаток.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:bd10be4d445908f1ab05e07dfbf50ef77988354aa60985cc799c7522cd9b3a71",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Документирует формат JSON Pointer к массиву и его элементу в полном результате компактного читателя; это внутренний адрес JSON."
     }
   ]
 }
