@@ -33,23 +33,27 @@ final class ПроверкиГенерацииМоделей: XCTestCase {
       let второй = try AutomationExecutor.выполнить(определение, вход: .текст(описание))
       XCTAssertEqual(первый, второй)
       XCTAssertEqual(первый.шаги.map(\.идентификатор), ["описание", "представление"])
-      guard case .текст(let текст) = первый.результат else { return XCTFail("Нужен исходный текст") }
+      guard case .текст(let текст) = первый.результат else {
+        return XCTFail("Нужен исходный текст")
+      }
       XCTAssertTrue(текст.contains("Ответ"))
       XCTAssertTrue(текст.contains(язык == "Swift" ? "Codable" : "dataclass"))
       XCTAssertTrue(текст.contains("fum.модели-и-проекция.1"))
       let изменённый = описание.replacingOccurrences(of: "\"ответ\"", with: "\"выбранное\"")
-      XCTAssertNotEqual(первый.результат,
+      XCTAssertNotEqual(
+        первый.результат,
         try AutomationExecutor.выполнить(определение, вход: .текст(изменённый)).результат)
     }
   }
 
   func test_НеоднозначноеОписаниеИНеизвестнаяОперацияОтклоняются() throws {
     let определение = try программа("Swift")
-    for вход in [описание.replacingOccurrences(of: "\"строка\"", with: "\"неизвестный\""),
+    for вход in [
+      описание.replacingOccurrences(of: "\"строка\"", with: "\"неизвестный\""),
       описание.replacingOccurrences(of: "\"путь\"", with: "\"исполнить-строку\""),
       описание.replacingOccurrences(of: "\"версия\":1", with: "\"версия\":1,\"версия\":2"),
-      описание.replacingOccurrences(of: "\"text\"]", with: "\"text\",null]")]
-    {
+      описание.replacingOccurrences(of: "\"text\"]", with: "\"text\",null]"),
+    ] {
       XCTAssertThrowsError(try AutomationExecutor.выполнить(определение, вход: .текст(вход)))
     }
     XCTAssertThrowsError(try программа("Ruby"))
@@ -61,8 +65,10 @@ final class ПроверкиГенерацииМоделей: XCTestCase {
       XCTAssertThrowsError(try AutomationExecutor.выполнить(определение, вход: .текст(вход)), имя)
     }
     for вход in [
-      описание.replacingOccurrences(of: "\"результат\":{\"ответ\":", with: "\"результат\":{\"неизвестное\":"),
-      описание.replacingOccurrences(of: "[\"путь\",[\"переменная\",\"вход\"],\"text\"]", with: "[\"первый\",\"абв\"]")
+      описание.replacingOccurrences(
+        of: "\"результат\":{\"ответ\":", with: "\"результат\":{\"неизвестное\":"),
+      описание.replacingOccurrences(
+        of: "[\"путь\",[\"переменная\",\"вход\"],\"text\"]", with: "[\"первый\",\"абв\"]"),
     ] { XCTAssertThrowsError(try AutomationExecutor.выполнить(определение, вход: .текст(вход))) }
   }
 
