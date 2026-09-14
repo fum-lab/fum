@@ -22,7 +22,8 @@ let package = Package(
       name: "FUMStructuringOperatorMemory",
       path: "Sources/FUMStructuringOperatorMemory",
       resources: [
-        .copy("Фикстуры")
+        .copy("Фикстуры"),
+        .copy("Определения"),
       ]
     ),
     .executableTarget(
