@@ -1,0 +1,16 @@
+HTTP/2 200
+server: nginx/1.30.3
+date: Mon, 14 Sep 2026 11:35:39 GMT
+content-type: text/html
+content-length: 54603
+last-modified: Sun, 13 Sep 2026 20:57:10 GMT
+vary: Accept-Encoding
+etag: "6aa70e26-d54b"
+strict-transport-security: max-age=32000000; includeSubDomains
+x-frame-options: sameorigin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+referrer-policy: same-origin
+content-security-policy: default-src 'self' 'unsafe-inline'; frame-src https://nextcloud.nlnet.nl;
+access-control-allow-origin: null
+accept-ranges: bytes

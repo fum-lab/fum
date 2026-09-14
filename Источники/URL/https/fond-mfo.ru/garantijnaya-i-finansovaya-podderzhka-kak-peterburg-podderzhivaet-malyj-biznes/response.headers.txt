@@ -1,0 +1,10 @@
+HTTP/2 200
+server: nginx/1.31.3
+date: Mon, 14 Sep 2026 11:35:41 GMT
+content-type: text/html; charset=UTF-8
+vary: Accept-Encoding
+x-powered-by: PHP/7.4.33
+x-pingback: https://fond-mfo.ru/xmlrpc.php
+link: <https://fond-mfo.ru/wp-json/>; rel="https://api.w.org/"
+link: <https://fond-mfo.ru/wp-json/wp/v2/posts/2622>; rel="alternate"; title="JSON"; type="application/json"
+link: <https://fond-mfo.ru/?p=2622>; rel=shortlink

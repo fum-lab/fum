@@ -1,0 +1,115 @@
+# Извлечённый текст
+
+Источник: <https://www.sovereign.tech/programs/fund>
+
+## Содержимое
+
+Sovereign Tech Fund | Sovereign Tech Agency Jump to content
+Go to homepage
+Menu Close Toggle menu
+Home
+News
+About
+Programs Programs
+Go back
+Sovereign Tech Fund
+Sovereign Tech Resilience
+Sovereign Tech Fellowship
+Sovereign Tech Standards
+Sovereign Tech Challenge
+Auf Deutsch Switch to Dark Mode
+Sovereign Tech Fund
+Strategic investments in the digital infrastructure of our economy and society
+With the Sovereign Tech Fund, we invest globally in the open software components that underpin Germany's and Europe's competitiveness and ability to innovate. By targeting core digital infrastructure, our investments scale across many sectors and benefit a broad range of users. Improving the security, stability, and reusability of open software components directly enhances the productivity, competitive edge, and capacity for innovation of startups and small and medium-sized businesses.
+On this page:
+Introduction
+Requirements
+Criteria
+Application Platform
+What happens after I submit an application?
+Timeline
+Introduction
+The open source ecosystem, while incredibly successful, is also increasingly fragile. Many more people are using the software than contributing to it. It is time to invest in digital commons, volunteer communities and the open source ecosystem to build the digital world we want to see. We are working to strengthen the self-determined use of digital technologies and systems by individuals, industry, and governments.
+To prepare an application, we ask that you review and consider all information regarding the selection criteria and the subsequent process. Applications are accepted exclusively through our application platform.
+Unfortunately, we cannot provide prior advice on whether a project generally falls under our objectives. If you would like to apply for support for a project, please first check thoroughly whether all the criteria listed below apply.
+Requirements
+Submission through our application system: submissions must be completed through the online application portal. No supplemental materials should be sent via email or any other form of communication at this time.
+Completeness: applications must be completed in German or English . The questions must be answered to a degree that allows us to assess and evaluate the applications.
+Proposed activities: the activities listed in the application must be related to developing or maintaining open digital base technologies. Development is our primary focus, although security audits, conference attendance, and other community-based events can be included in the application should they be necessary.
+Estimated costs: The cost of the work described in the application must exceed €50,000 (current minimum).
+Public financing : Projects are not eligible to receive financing or work commissions from the Sovereign Tech Fund if other public entities are already making or have made grants or investments for the same proposed activities.
+FOSS: all code and documentation to be supported must be licensed such that it may be freely reusable, changeable, and redistributable. OSI-approved or FSF Free/Libre licenses are acceptable for code. Creative-Commons-like licenses for documentation may not include non-commercial or “no derivative” clauses.
+Criteria
+The Sovereign Tech Fund invests in open digital base technologies that are vital to the development of other software or enable digital networking. We invest in projects that benefit and strengthen the open source ecosystem. Examples include libraries for programming languages, package managers, open implementations of communication protocols, administration tools for developers, digital encryption technologies, and more. We do not finance the development of prototypes. Our currently funded projects show the range and type of technologies that characterize open digital base technologies.
+We are currently not looking for user-facing applications, such as messaging apps or file storage services. If this changes, we will announce it here.
+These are the criteria we use to review all projects that fulfill the basic requirements:
+Prevalence
+A technology is prevalent when it is widely used for or within other technologies.
+Example Guiding Questions:
+How widely adopted is the technology within the open source ecosystem?
+Are there any notable projects or organizations that rely on this technology, indicating its prevalence?
+Relevance
+A technology is relevant if it is significant for one or more important societal sectors, e.g., education, health care, energy sector, industry.
+Example Guiding Questions:
+In which societal sectors is the technology currently being utilized, and to what extent?
+Can the applicant outline specific use cases in important sectors such as education, health care, energy, journalism, or industry?
+Vulnerability
+A technology is vulnerable if important work – to keep the quality of the project or to enhance it – is not (sufficiently) funded by other actors or cannot be completed for other structural reasons.
+Example Guiding Questions:
+What specific areas of the project are currently underfunded or face structural challenges?
+Are there alternative funding sources, and if not, what risks does the lack of funding pose to the project's sustainability?
+Public Interest
+There are benefits for society or critical sectors of society (e.g., education, health care, energy, industry) by funding the technology.
+Example Guiding Questions:
+How does the project benefit society or critical sectors?
+Are there specific societal challenges that the project aims to address, and how significant are the potential positive impacts?
+Activities
+We evaluate the work that is planned in the proposed project. For example, we examine the feasibility and overall impact of the activities described in the proposal.
+Example Guiding Questions:
+How do these activities contribute to the overall security, enhancement, maintenance or sustainability of the technology?
+Are the planned activities well-defined? Do they seem realistic and reasonable within the proposed timeline and budget? Are they aligned with the project's goals?
+Expertise
+The applicants, their organization, or community demonstrate that they have the necessary knowledge, insight, and technological skills to do the proposed work. They are either a recognized part of the community around the technology, or they have the endorsement of that community or the maintainer.
+Example Guiding Questions:
+Do the applicants demonstrate a deep understanding of the technology and its ecosystem?
+What relevant experience and skills do the applicants or the contributors possess?
+Lastly, the evaluation is guided by our strategy and mission . That is, from start to finish, we look at how the project fits into the Sovereign Tech Agency’s mission and contributes to the goal of sustainably strengthening the open source ecosystem in the public interest.
+Application Platform
+Go to the application platform
+Create an account to submit an application. Please note that you will only receive a submission confirmation from us if you agreed to receive emails or SMS from us when you registered. If you change this in the settings after your registration, it will only affect future messages from us, such as acceptances or rejections.
+Download a preview of the application form (PDF)
+What happens after I submit an application?
+After you submit an application, your submission goes through a multistep review and selection process. First, we check if the submission meets the basic requirements listed above. Those that do, are reviewed by the Sovereign Tech Fund using the criteria. You will hear from us whether your application passes those two stages.
+These steps can take up to 10 weeks.
+Upon positive review, a member of the program team gets in touch with the person or persons who submitted the application to scope the proposal in more detail. During this scoping phase, we work with you to clarify open questions, refine the scope of work, and create a project description, based on the application and conversations between you and the program manager.
+The Sovereign Tech Agency then consults with a pool of external experts and practitioners and includes their perspectives to arrive at the final selection.
+These steps can take up to 8 weeks.
+The last step includes a legal compliance review, the creation of additional supporting documentation, and the creation of a contract.
+This can take up to 8 weeks.
+For technical problems, contact [email protected]
+Timeline
+When you submit an application, we’ll confirm that we have received it. Then, you can expect to hear back from us within 10 weeks. We’ll inform you whether the proposal has passed the review, and whether we’re continuing with you to the scoping phase. For some projects, the response time will be shorter, depending on the overall amount of applications to be reviewed.
+The overall time between submitting an application and a potential start date of the contract is approximately 6 months.
+Table of Contents
+Sovereign Tech Agency
+Go to homepage
+Auf Deutsch Switch to Dark Mode
+Programs
+Sovereign Tech Fund Sovereign Tech Resilience Sovereign Tech Fellowship Sovereign Tech Standards Sovereign Tech Challenge
+Info
+About Technologies News Jobs FAQ Press
+Legal
+Privacy Legal Information Accessibility Statement
+Sign up for our newsletter
+Email address
+I agree to receive newsletters and accept the data privacy statement.
+Sign up now
+We use Brevo as our marketing platform. By clicking to submit this form, you acknowledge that the information you provided will be transferred to Brevo for processing in accordance with their terms of use .
+[email protected]
+Mastodon for STA LinkedIn for STA Bluesky for STA RSS for STA
+on the basis of a decision by the German Bundestag The Federal Agency for Disruptive Innovation
+
+<!-- FUM-MD-RECENCY:BEGIN -->
+<!-- last-content-edit: 2026-09-14 14:47:35 MSK -->
+<!-- content-sha256: sha256:4a355cc0ff9f7cd8fd949484fc891ef4ec020ebf0f80e08237ea072ffeee71c1 -->
+<!-- FUM-MD-RECENCY:END -->

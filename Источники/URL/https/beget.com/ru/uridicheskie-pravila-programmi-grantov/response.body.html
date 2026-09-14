@@ -1,0 +1,787 @@
+<!DOCTYPE html><html  lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Юридические правила программы грантов на облачную инфраструктуру Beget</title><link nonce="[REDACTED]" rel="preconnect" href="https://assets-site.beget.com" crossorigin><link nonce="[REDACTED]" rel="preconnect" href="https://img.beget.com" crossorigin><link nonce="[REDACTED]" rel="preconnect" href="https://api-cp.beget.com" crossorigin><link nonce="[REDACTED]" rel="preconnect" href="https://sgtm.beget.com" crossorigin><style nonce="[REDACTED]" id="vuetify-theme-stylesheet">:root {
+      --v-theme-background: 255,255,255;
+      --v-theme-background-overlay-multiplier: 1;
+      --v-theme-surface: 255,255,255;
+      --v-theme-surface-overlay-multiplier: 1;
+      --v-theme-surface-bright: 255,255,255;
+      --v-theme-surface-bright-overlay-multiplier: 1;
+      --v-theme-surface-light: 238,238,238;
+      --v-theme-surface-light-overlay-multiplier: 1;
+      --v-theme-surface-variant: 66,66,66;
+      --v-theme-surface-variant-overlay-multiplier: 2;
+      --v-theme-on-surface-variant: 238,238,238;
+      --v-theme-primary: 29,78,216;
+      --v-theme-primary-overlay-multiplier: 2;
+      --v-theme-primary-darken-1: 31,85,146;
+      --v-theme-primary-darken-1-overlay-multiplier: 2;
+      --v-theme-secondary: 39,39,42;
+      --v-theme-secondary-overlay-multiplier: 2;
+      --v-theme-secondary-darken-1: 1,135,134;
+      --v-theme-secondary-darken-1-overlay-multiplier: 1;
+      --v-theme-error: 185,28,28;
+      --v-theme-error-overlay-multiplier: 2;
+      --v-theme-info: 2,132,199;
+      --v-theme-info-overlay-multiplier: 1;
+      --v-theme-success: 22,163,74;
+      --v-theme-success-overlay-multiplier: 1;
+      --v-theme-warning: 245,158,11;
+      --v-theme-warning-overlay-multiplier: 1;
+      --v-theme-tertiary: 228,228,231;
+      --v-theme-tertiary-overlay-multiplier: 1;
+      --v-theme-accent: 129,140,248;
+      --v-theme-accent-overlay-multiplier: 1;
+      --v-theme-rich-grey: 51,65,85;
+      --v-theme-rich-grey-overlay-multiplier: 2;
+      --v-theme-on-background: 0,0,0;
+      --v-theme-on-surface: 0,0,0;
+      --v-theme-on-surface-bright: 0,0,0;
+      --v-theme-on-surface-light: 0,0,0;
+      --v-theme-on-primary: 255,255,255;
+      --v-theme-on-primary-darken-1: 255,255,255;
+      --v-theme-on-secondary: 255,255,255;
+      --v-theme-on-secondary-darken-1: 255,255,255;
+      --v-theme-on-error: 255,255,255;
+      --v-theme-on-info: 255,255,255;
+      --v-theme-on-success: 255,255,255;
+      --v-theme-on-warning: 0,0,0;
+      --v-theme-on-tertiary: 0,0,0;
+      --v-theme-on-accent: 255,255,255;
+      --v-theme-on-rich-grey: 255,255,255;
+      --v-border-color: 0, 0, 0;
+      --v-border-opacity: 0.12;
+      --v-high-emphasis-opacity: 0.87;
+      --v-medium-emphasis-opacity: 0.6;
+      --v-disabled-opacity: 0.38;
+      --v-idle-opacity: 0.04;
+      --v-hover-opacity: 0.04;
+      --v-focus-opacity: 0.12;
+      --v-selected-opacity: 0.08;
+      --v-activated-opacity: 0.12;
+      --v-pressed-opacity: 0.12;
+      --v-dragged-opacity: 0.08;
+      --v-theme-kbd: 238, 238, 238;
+      --v-theme-on-kbd: 0, 0, 0;
+      --v-theme-code: 245, 245, 245;
+      --v-theme-on-code: 0, 0, 0;
+    }
+    .v-theme--light {
+      color-scheme: normal;
+      --v-theme-background: 255,255,255;
+      --v-theme-background-overlay-multiplier: 1;
+      --v-theme-surface: 255,255,255;
+      --v-theme-surface-overlay-multiplier: 1;
+      --v-theme-surface-bright: 255,255,255;
+      --v-theme-surface-bright-overlay-multiplier: 1;
+      --v-theme-surface-light: 238,238,238;
+      --v-theme-surface-light-overlay-multiplier: 1;
+      --v-theme-surface-variant: 66,66,66;
+      --v-theme-surface-variant-overlay-multiplier: 2;
+      --v-theme-on-surface-variant: 238,238,238;
+      --v-theme-primary: 29,78,216;
+      --v-theme-primary-overlay-multiplier: 2;
+      --v-theme-primary-darken-1: 31,85,146;
+      --v-theme-primary-darken-1-overlay-multiplier: 2;
+      --v-theme-secondary: 39,39,42;
+      --v-theme-secondary-overlay-multiplier: 2;
+      --v-theme-secondary-darken-1: 1,135,134;
+      --v-theme-secondary-darken-1-overlay-multiplier: 1;
+      --v-theme-error: 185,28,28;
+      --v-theme-error-overlay-multiplier: 2;
+      --v-theme-info: 2,132,199;
+      --v-theme-info-overlay-multiplier: 1;
+      --v-theme-success: 22,163,74;
+      --v-theme-success-overlay-multiplier: 1;
+      --v-theme-warning: 245,158,11;
+      --v-theme-warning-overlay-multiplier: 1;
+      --v-theme-tertiary: 228,228,231;
+      --v-theme-tertiary-overlay-multiplier: 1;
+      --v-theme-accent: 129,140,248;
+      --v-theme-accent-overlay-multiplier: 1;
+      --v-theme-rich-grey: 51,65,85;
+      --v-theme-rich-grey-overlay-multiplier: 2;
+      --v-theme-on-background: 0,0,0;
+      --v-theme-on-surface: 0,0,0;
+      --v-theme-on-surface-bright: 0,0,0;
+      --v-theme-on-surface-light: 0,0,0;
+      --v-theme-on-primary: 255,255,255;
+      --v-theme-on-primary-darken-1: 255,255,255;
+      --v-theme-on-secondary: 255,255,255;
+      --v-theme-on-secondary-darken-1: 255,255,255;
+      --v-theme-on-error: 255,255,255;
+      --v-theme-on-info: 255,255,255;
+      --v-theme-on-success: 255,255,255;
+      --v-theme-on-warning: 0,0,0;
+      --v-theme-on-tertiary: 0,0,0;
+      --v-theme-on-accent: 255,255,255;
+      --v-theme-on-rich-grey: 255,255,255;
+      --v-border-color: 0, 0, 0;
+      --v-border-opacity: 0.12;
+      --v-high-emphasis-opacity: 0.87;
+      --v-medium-emphasis-opacity: 0.6;
+      --v-disabled-opacity: 0.38;
+      --v-idle-opacity: 0.04;
+      --v-hover-opacity: 0.04;
+      --v-focus-opacity: 0.12;
+      --v-selected-opacity: 0.08;
+      --v-activated-opacity: 0.12;
+      --v-pressed-opacity: 0.12;
+      --v-dragged-opacity: 0.08;
+      --v-theme-kbd: 238, 238, 238;
+      --v-theme-on-kbd: 0, 0, 0;
+      --v-theme-code: 245, 245, 245;
+      --v-theme-on-code: 0, 0, 0;
+    }
+    .v-theme--dark {
+      color-scheme: dark;
+      --v-theme-background: 18,18,18;
+      --v-theme-background-overlay-multiplier: 1;
+      --v-theme-surface: 33,33,33;
+      --v-theme-surface-overlay-multiplier: 1;
+      --v-theme-surface-bright: 204,191,214;
+      --v-theme-surface-bright-overlay-multiplier: 2;
+      --v-theme-surface-light: 66,66,66;
+      --v-theme-surface-light-overlay-multiplier: 1;
+      --v-theme-surface-variant: 200,200,200;
+      --v-theme-surface-variant-overlay-multiplier: 2;
+      --v-theme-on-surface-variant: 0,0,0;
+      --v-theme-primary: 33,150,243;
+      --v-theme-primary-overlay-multiplier: 2;
+      --v-theme-primary-darken-1: 39,124,193;
+      --v-theme-primary-darken-1-overlay-multiplier: 2;
+      --v-theme-secondary: 84,182,178;
+      --v-theme-secondary-overlay-multiplier: 2;
+      --v-theme-secondary-darken-1: 72,169,166;
+      --v-theme-secondary-darken-1-overlay-multiplier: 2;
+      --v-theme-error: 207,102,121;
+      --v-theme-error-overlay-multiplier: 2;
+      --v-theme-info: 33,150,243;
+      --v-theme-info-overlay-multiplier: 2;
+      --v-theme-success: 76,175,80;
+      --v-theme-success-overlay-multiplier: 2;
+      --v-theme-warning: 251,140,0;
+      --v-theme-warning-overlay-multiplier: 2;
+      --v-theme-on-background: 255,255,255;
+      --v-theme-on-surface: 255,255,255;
+      --v-theme-on-surface-bright: 0,0,0;
+      --v-theme-on-surface-light: 255,255,255;
+      --v-theme-on-primary: 255,255,255;
+      --v-theme-on-primary-darken-1: 255,255,255;
+      --v-theme-on-secondary: 255,255,255;
+      --v-theme-on-secondary-darken-1: 255,255,255;
+      --v-theme-on-error: 255,255,255;
+      --v-theme-on-info: 255,255,255;
+      --v-theme-on-success: 255,255,255;
+      --v-theme-on-warning: 255,255,255;
+      --v-border-color: 255, 255, 255;
+      --v-border-opacity: 0.12;
+      --v-high-emphasis-opacity: 1;
+      --v-medium-emphasis-opacity: 0.7;
+      --v-disabled-opacity: 0.5;
+      --v-idle-opacity: 0.1;
+      --v-hover-opacity: 0.04;
+      --v-focus-opacity: 0.12;
+      --v-selected-opacity: 0.08;
+      --v-activated-opacity: 0.12;
+      --v-pressed-opacity: 0.16;
+      --v-dragged-opacity: 0.08;
+      --v-theme-kbd: 66, 66, 66;
+      --v-theme-on-kbd: 255, 255, 255;
+      --v-theme-code: 52, 52, 52;
+      --v-theme-on-code: 204, 204, 204;
+    }
+    .bg-background {
+      --v-theme-overlay-multiplier: var(--v-theme-background-overlay-multiplier);
+      background-color: rgb(var(--v-theme-background)) !important;
+      color: rgb(var(--v-theme-on-background)) !important;
+    }
+    .bg-surface {
+      --v-theme-overlay-multiplier: var(--v-theme-surface-overlay-multiplier);
+      background-color: rgb(var(--v-theme-surface)) !important;
+      color: rgb(var(--v-theme-on-surface)) !important;
+    }
+    .bg-surface-bright {
+      --v-theme-overlay-multiplier: var(--v-theme-surface-bright-overlay-multiplier);
+      background-color: rgb(var(--v-theme-surface-bright)) !important;
+      color: rgb(var(--v-theme-on-surface-bright)) !important;
+    }
+    .bg-surface-light {
+      --v-theme-overlay-multiplier: var(--v-theme-surface-light-overlay-multiplier);
+      background-color: rgb(var(--v-theme-surface-light)) !important;
+      color: rgb(var(--v-theme-on-surface-light)) !important;
+    }
+    .bg-surface-variant {
+      --v-theme-overlay-multiplier: var(--v-theme-surface-variant-overlay-multiplier);
+      background-color: rgb(var(--v-theme-surface-variant)) !important;
+      color: rgb(var(--v-theme-on-surface-variant)) !important;
+    }
+    .bg-primary {
+      --v-theme-overlay-multiplier: var(--v-theme-primary-overlay-multiplier);
+      background-color: rgb(var(--v-theme-primary)) !important;
+      color: rgb(var(--v-theme-on-primary)) !important;
+    }
+    .bg-primary-darken-1 {
+      --v-theme-overlay-multiplier: var(--v-theme-primary-darken-1-overlay-multiplier);
+      background-color: rgb(var(--v-theme-primary-darken-1)) !important;
+      color: rgb(var(--v-theme-on-primary-darken-1)) !important;
+    }
+    .bg-secondary {
+      --v-theme-overlay-multiplier: var(--v-theme-secondary-overlay-multiplier);
+      background-color: rgb(var(--v-theme-secondary)) !important;
+      color: rgb(var(--v-theme-on-secondary)) !important;
+    }
+    .bg-secondary-darken-1 {
+      --v-theme-overlay-multiplier: var(--v-theme-secondary-darken-1-overlay-multiplier);
+      background-color: rgb(var(--v-theme-secondary-darken-1)) !important;
+      color: rgb(var(--v-theme-on-secondary-darken-1)) !important;
+    }
+    .bg-error {
+      --v-theme-overlay-multiplier: var(--v-theme-error-overlay-multiplier);
+      background-color: rgb(var(--v-theme-error)) !important;
+      color: rgb(var(--v-theme-on-error)) !important;
+    }
+    .bg-info {
+      --v-theme-overlay-multiplier: var(--v-theme-info-overlay-multiplier);
+      background-color: rgb(var(--v-theme-info)) !important;
+      color: rgb(var(--v-theme-on-info)) !important;
+    }
+    .bg-success {
+      --v-theme-overlay-multiplier: var(--v-theme-success-overlay-multiplier);
+      background-color: rgb(var(--v-theme-success)) !important;
+      color: rgb(var(--v-theme-on-success)) !important;
+    }
+    .bg-warning {
+      --v-theme-overlay-multiplier: var(--v-theme-warning-overlay-multiplier);
+      background-color: rgb(var(--v-theme-warning)) !important;
+      color: rgb(var(--v-theme-on-warning)) !important;
+    }
+    .bg-tertiary {
+      --v-theme-overlay-multiplier: var(--v-theme-tertiary-overlay-multiplier);
+      background-color: rgb(var(--v-theme-tertiary)) !important;
+      color: rgb(var(--v-theme-on-tertiary)) !important;
+    }
+    .bg-accent {
+      --v-theme-overlay-multiplier: var(--v-theme-accent-overlay-multiplier);
+      background-color: rgb(var(--v-theme-accent)) !important;
+      color: rgb(var(--v-theme-on-accent)) !important;
+    }
+    .bg-rich-grey {
+      --v-theme-overlay-multiplier: var(--v-theme-rich-grey-overlay-multiplier);
+      background-color: rgb(var(--v-theme-rich-grey)) !important;
+      color: rgb(var(--v-theme-on-rich-grey)) !important;
+    }
+    .text-background {
+      color: rgb(var(--v-theme-background)) !important;
+    }
+    .border-background {
+      --v-border-color: var(--v-theme-background);
+    }
+    .text-surface {
+      color: rgb(var(--v-theme-surface)) !important;
+    }
+    .border-surface {
+      --v-border-color: var(--v-theme-surface);
+    }
+    .text-surface-bright {
+      color: rgb(var(--v-theme-surface-bright)) !important;
+    }
+    .border-surface-bright {
+      --v-border-color: var(--v-theme-surface-bright);
+    }
+    .text-surface-light {
+      color: rgb(var(--v-theme-surface-light)) !important;
+    }
+    .border-surface-light {
+      --v-border-color: var(--v-theme-surface-light);
+    }
+    .text-surface-variant {
+      color: rgb(var(--v-theme-surface-variant)) !important;
+    }
+    .border-surface-variant {
+      --v-border-color: var(--v-theme-surface-variant);
+    }
+    .on-surface-variant {
+      color: rgb(var(--v-theme-on-surface-variant)) !important;
+    }
+    .text-primary {
+      color: rgb(var(--v-theme-primary)) !important;
+    }
+    .border-primary {
+      --v-border-color: var(--v-theme-primary);
+    }
+    .text-primary-darken-1 {
+      color: rgb(var(--v-theme-primary-darken-1)) !important;
+    }
+    .border-primary-darken-1 {
+      --v-border-color: var(--v-theme-primary-darken-1);
+    }
+    .text-secondary {
+      color: rgb(var(--v-theme-secondary)) !important;
+    }
+    .border-secondary {
+      --v-border-color: var(--v-theme-secondary);
+    }
+    .text-secondary-darken-1 {
+      color: rgb(var(--v-theme-secondary-darken-1)) !important;
+    }
+    .border-secondary-darken-1 {
+      --v-border-color: var(--v-theme-secondary-darken-1);
+    }
+    .text-error {
+      color: rgb(var(--v-theme-error)) !important;
+    }
+    .border-error {
+      --v-border-color: var(--v-theme-error);
+    }
+    .text-info {
+      color: rgb(var(--v-theme-info)) !important;
+    }
+    .border-info {
+      --v-border-color: var(--v-theme-info);
+    }
+    .text-success {
+      color: rgb(var(--v-theme-success)) !important;
+    }
+    .border-success {
+      --v-border-color: var(--v-theme-success);
+    }
+    .text-warning {
+      color: rgb(var(--v-theme-warning)) !important;
+    }
+    .border-warning {
+      --v-border-color: var(--v-theme-warning);
+    }
+    .text-tertiary {
+      color: rgb(var(--v-theme-tertiary)) !important;
+    }
+    .border-tertiary {
+      --v-border-color: var(--v-theme-tertiary);
+    }
+    .text-accent {
+      color: rgb(var(--v-theme-accent)) !important;
+    }
+    .border-accent {
+      --v-border-color: var(--v-theme-accent);
+    }
+    .text-rich-grey {
+      color: rgb(var(--v-theme-rich-grey)) !important;
+    }
+    .border-rich-grey {
+      --v-border-color: var(--v-theme-rich-grey);
+    }
+    .on-background {
+      color: rgb(var(--v-theme-on-background)) !important;
+    }
+    .on-surface {
+      color: rgb(var(--v-theme-on-surface)) !important;
+    }
+    .on-surface-bright {
+      color: rgb(var(--v-theme-on-surface-bright)) !important;
+    }
+    .on-surface-light {
+      color: rgb(var(--v-theme-on-surface-light)) !important;
+    }
+    .on-primary {
+      color: rgb(var(--v-theme-on-primary)) !important;
+    }
+    .on-primary-darken-1 {
+      color: rgb(var(--v-theme-on-primary-darken-1)) !important;
+    }
+    .on-secondary {
+      color: rgb(var(--v-theme-on-secondary)) !important;
+    }
+    .on-secondary-darken-1 {
+      color: rgb(var(--v-theme-on-secondary-darken-1)) !important;
+    }
+    .on-error {
+      color: rgb(var(--v-theme-on-error)) !important;
+    }
+    .on-info {
+      color: rgb(var(--v-theme-on-info)) !important;
+    }
+    .on-success {
+      color: rgb(var(--v-theme-on-success)) !important;
+    }
+    .on-warning {
+      color: rgb(var(--v-theme-on-warning)) !important;
+    }
+    .on-tertiary {
+      color: rgb(var(--v-theme-on-tertiary)) !important;
+    }
+    .on-accent {
+      color: rgb(var(--v-theme-on-accent)) !important;
+    }
+    .on-rich-grey {
+      color: rgb(var(--v-theme-on-rich-grey)) !important;
+    }
+</style><link nonce="[REDACTED]" integrity="sha384-HQUP49avbkB/zwM4XrR42P/r7UlMGndViJiZTpierocFvl+fCHKkkQE1wmNb0Zc6" rel="stylesheet" href="https://assets-site.beget.com/_nuxt/v2/entry.CPVcEoiI.css" crossorigin><link nonce="[REDACTED]" integrity="sha384-+3Y36ls3R9gc7U9jhM31fB6CUPZYM2NZfYTfwEOJrTVWrxY87xFZ9tQHyD4FtzPW" rel="stylesheet" href="https://assets-site.beget.com/_nuxt/v2/vendors-1.BU3-3Ag5.css" crossorigin><link nonce="[REDACTED]" integrity="sha384-3yqgrf77NsTD0Dm9q9w2+5JN4hkr9eErbqXs20hdK4GplYTEVykTxPBHp6MC07DL" rel="stylesheet" href="https://assets-site.beget.com/_nuxt/v2/VAlert.Bzduszjx.css" crossorigin><link nonce="[REDACTED]" integrity="sha384-kniHnGVjjyzoe1TVec/idRrhWEBX6/yCj+BV9/oHBae/v6JtiOpSI+7SJeVx++fH" rel="stylesheet" href="https://assets-site.beget.com/_nuxt/v2/dedicated-server-order-modal.fl0ZvfAg.css" crossorigin><link nonce="[REDACTED]" integrity="sha384-2U9UpZJL/v2rZGIepAnlvNp/13a5T6fqjY9PbGWmTu7S2bkEaluwmtIxhfoY+kMF" rel="stylesheet" href="https://assets-site.beget.com/_nuxt/v2/VTabs.C_fk9Ejg.css" crossorigin><link nonce="[REDACTED]" integrity="sha384-iF8kU0FVuR3eKquqaz9M8zkBlMe+zRdLto8Ifq3G1xcClvlozi6LdqHH+MG9q49n" rel="stylesheet" href="https://assets-site.beget.com/_nuxt/v2/VSlideGroup.BsYIg1rJ.css" crossorigin><link nonce="[REDACTED]" integrity="sha384-C75S0w8FxrGuZDFG8CGioyw2L9zyBt7Am+r/Q96FWwZehRANMaHbbVHYm8vLll8O" rel="stylesheet" href="https://assets-site.beget.com/_nuxt/v2/VCheckboxBtn.acTFrJfw.css" crossorigin><link nonce="[REDACTED]" integrity="sha384-Or+6etlmU2j2Qfq0i3F0JCJRaDrToqg8veBKNiiMoRfawwPiJyfWvl/kHQEMKTSu" rel="stylesheet" href="https://assets-site.beget.com/_nuxt/v2/VSelect.Bu00y5-1.css" crossorigin><link nonce="[REDACTED]" integrity="sha384-ChCHCQraHWk53sSxzTU039rHVEg1rLRlep9q12ekdogXp/mgf3/JEoRIukrD/3Yq" rel="stylesheet" href="https://assets-site.beget.com/_nuxt/v2/VChip.Dka4pykJ.css" crossorigin><link nonce="[REDACTED]" integrity="sha384-OU9iTIkNjazjjR5aeX5N7/ynMo0lL0OtrYr7Hw0Q9q80RbeJ29GerfLmS1VudyTI" rel="stylesheet" href="https://assets-site.beget.com/_nuxt/v2/VCard.CqgPLW1V.css" crossorigin><link nonce="[REDACTED]" integrity="sha384-op4odKN7r+Ktor/JmQ6RKa02seZEti9NZ6h+wwxZEcCjG43RqUTSPFJ3I3uA4v2y" rel="stylesheet" href="https://assets-site.beget.com/_nuxt/v2/VDialog.CqiQc-Wf.css" crossorigin><link nonce="[REDACTED]" integrity="sha384-C6oiMr2nBB9NFlwgZ1Fd7mRJmK7dp7N7GDhptOFloTympb2RccKKKUyHNd7SFsSb" rel="stylesheet" href="https://assets-site.beget.com/_nuxt/v2/page-content.DS4cQPPB.css" crossorigin><link nonce="[REDACTED]" rel="preload" as="fetch" crossorigin="anonymous" href="https://assets-site.beget.com/ru/uridicheskie-pravila-programmi-grantov/_payload.json?b2ccc3f2-1b37-4009-be7b-332702e99862"><link nonce="[REDACTED]" integrity="sha384-kibXK2MsUpkphgsetK526Tx+9WauAO8DYPbqdfxiIwtnAOhSsQ+e06X0N4IWNJwU" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/C_29LfdO.js"><link nonce="[REDACTED]" integrity="sha384-xa11yHqA5llCoW51Neyq/ufvVVU54OOJ2llB7KR6x3A6PRiYELoPAJerU3MuJ0Qg" rel="preload" as="font" type="font/woff2" crossorigin href="https://assets-site.beget.com/_nuxt/v2/Anonymous_Pro-normal-400-cyrillic.BWiMxftN.woff2"><link nonce="[REDACTED]" integrity="sha384-FliXTicORW0GQ9GXmFUPPDHM1mjgaAcdlHIbixvUKJtJGwv8JD4reKi2XLDDQ9h4" rel="preload" as="font" type="font/woff2" crossorigin href="https://assets-site.beget.com/_nuxt/v2/Anonymous_Pro-normal-400-latin-ext.wQkI5Rzd.woff2"><link nonce="[REDACTED]" integrity="sha384-DHsqykp2jkP9dOfd0+VrmMpOH451RqtNthWRc1BpW5f9xsTTE8eGatsL2vEXmBi/" rel="preload" as="font" type="font/woff2" crossorigin href="https://assets-site.beget.com/_nuxt/v2/Anonymous_Pro-normal-400-latin.D6DGvud-.woff2"><link nonce="[REDACTED]" integrity="sha384-e9ePu9OLR4JuJEofEZ7a1WwH83smjGzSSbg2j9KjiTptwYKLuO8Agw9Tc3O+Fiqa" rel="preload" as="font" type="font/woff2" crossorigin href="https://assets-site.beget.com/_nuxt/v2/Golos_Text-normal-500-cyrillic-ext.hICkpzq7.woff2"><link nonce="[REDACTED]" integrity="sha384-6+dONtMW+kUYM5VhOzhSXKHEYdFvc10LJIrwg11w7gD/+2cENzugPPu8rkonD4Et" rel="preload" as="font" type="font/woff2" crossorigin href="https://assets-site.beget.com/_nuxt/v2/Golos_Text-normal-500-cyrillic.mKek_fSS.woff2"><link nonce="[REDACTED]" integrity="sha384-U3lCDS5oaRMp+A1BU3w7bpUlFhYfuYPpM+QndA/dztiXvy2euKIiTE2FUvPALK/6" rel="preload" as="font" type="font/woff2" crossorigin href="https://assets-site.beget.com/_nuxt/v2/Golos_Text-normal-500-latin-ext.B-I5lbAQ.woff2"><link nonce="[REDACTED]" integrity="sha384-1q4MWTi4wmlCE74a04TG9sk7c9Zu92O7RG4xDw4BeGKH0lrDWOdZ9+/Ps7iGdM0e" rel="preload" as="font" type="font/woff2" crossorigin href="https://assets-site.beget.com/_nuxt/v2/Golos_Text-normal-500-latin.BS5oQT7X.woff2"><link nonce="[REDACTED]" integrity="sha384-6WnNmK1eIuW4Ifbm5JEv0KWXVuV5/4YlNXMFxac4zjlDOuhTGtTfQOICfxxQ9WPz" rel="preload" as="font" type="font/woff2" crossorigin href="https://assets-site.beget.com/_nuxt/v2/Source_Sans_3-normal-400-cyrillic-ext.DzyfIafT.woff2"><link nonce="[REDACTED]" integrity="sha384-OM3Z5lQqT8P5t0LLanbLABJBdXB7bV+jSTA8n25ghSQjtnioJuSYCLGAeJ6FdXMc" rel="preload" as="font" type="font/woff2" crossorigin href="https://assets-site.beget.com/_nuxt/v2/Source_Sans_3-normal-400-cyrillic.BMDVbyM7.woff2"><link nonce="[REDACTED]" integrity="sha384-NcYahkLKmgcJ7OVTtq4XrJm+s/oH7bSCNgW2hIxYxdr8a8a9CU4giRo2yj4vBCpA" rel="preload" as="font" type="font/woff2" crossorigin href="https://assets-site.beget.com/_nuxt/v2/Source_Sans_3-normal-400-latin-ext.C8iNium2.woff2"><link nonce="[REDACTED]" integrity="sha384-px/1t3814AGauo+dYVwJeYIj6kxQGPA32dak807VyLhuCAikpw0djsfUEEC1Oom1" rel="preload" as="font" type="font/woff2" crossorigin href="https://assets-site.beget.com/_nuxt/v2/Source_Sans_3-normal-400-latin.BqRLTx4X.woff2"><link nonce="[REDACTED]" integrity="sha384-y25Zfmgb82TbAYSxUvfy9fzJrn9YPWDzaIWk06RXlsWH8IrhYaEqRw2Cw0kbUi92" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/CBUw4fJU.js"><link nonce="[REDACTED]" integrity="sha384-5kzFhAVob1uvRSD5ckBLWidkhjXxxbKxd12RlaF0dD2MgMrgTE6nF3u0ZH2mhhez" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/qOFU8iJe.js"><link nonce="[REDACTED]" integrity="sha384-kN5G1YhDQ4YiRTkD1dNqtZXQNEBm+K27dvbtVvx8iarTkh+c975QwALXaKcFS9Sr" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/ZoOO7BN9.js"><link nonce="[REDACTED]" integrity="sha384-/YzyoOwM0Upr5Ieg+NycXOhQZvt6Kd1QAIF/qY35zQ7B0r81/XcI3jqfVHpnF3YR" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/BZh8V93J.js"><link nonce="[REDACTED]" integrity="sha384-Lf7lyP//xcX6H7MbCYSrIdQW+O5TRcKK0prpe1Y3V6MpXha2JN/+NC7HKcv6bOdB" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/orZ26G7l.js"><link nonce="[REDACTED]" integrity="sha384-l6WPHnDCKUaU6S6QfOaTdm+7wi0yJoytLUSDtWRuc6rCNnZZOYHQppaje4Lvrp10" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/CNfPGV36.js"><link nonce="[REDACTED]" integrity="sha384-CSowqyUwTNOHiKY/cpAFV60oSsYymGub9p8p0YZglUsBHObWzeIK50tozAqhAB1J" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/RyXuKz-t.js"><link nonce="[REDACTED]" integrity="sha384-+zZc72FxLzODh0Q8T2l94kTgYhb+WLohjkQV7mLrNLOV0PbAGua+9Mx9bF6ZQ+YD" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/C4whVQmH.js"><link nonce="[REDACTED]" integrity="sha384-axzIg1qfqWCV8isJNTqPK0PXEl/Uy0zv5hVlquMYa12oX8m4GYbS/JF6sKYhsmgO" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/CCNfUE_w.js"><link nonce="[REDACTED]" integrity="sha384-6HmtqUgNt6IzXWNbqTudq774HYeM8mqUaypyi1MrQmq8xkqq2iOQoYMROzu3IUko" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/BcbfY9_E.js"><link nonce="[REDACTED]" integrity="sha384-yoq9F5fowygq2wNPvD7TIMjJsSjK/Tbxm60M/Gg2SjxGyx9Nn3msgsPjuUqioxjO" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/CJHEt6IU.js"><link nonce="[REDACTED]" integrity="sha384-excRY9o7jmm9wy67QcyFNwp1abGGl/Nq46KHsbgVIfTcfiaFODaOe1LET58VWByB" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/B4yWzgEd.js"><link nonce="[REDACTED]" integrity="sha384-rLtbOinQVfCu7YxeXp3YjHQIojIwvLC20mUUfdRbdTHMoLIgr7u8XwbPZ8I51Mv6" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/BQASKTOl.js"><link nonce="[REDACTED]" integrity="sha384-jVeaMT5Km4N4QZeuAoCa5yCjT040Cs0C7DhxWqpVJD7mF4X//esDDOzndtx3cJ1Z" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/DnafLO3s.js"><link nonce="[REDACTED]" integrity="sha384-2zWpQ2VXgbLOniXc7Azlnirn4yUdxrgWnzmUXdQaXYL03JAr7EAouWErc5lStiJq" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/QqZtmfks.js"><link nonce="[REDACTED]" integrity="sha384-wcImMGQigckDk6YcaxSVinKXHodCJY37ULA9f3kOysKJqSDSjhXXnSyGiDw5lQwQ" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/B7PhgkjU.js"><link nonce="[REDACTED]" integrity="sha384-fS+/qMDm6pYzoarGbMxU+fvkrzChZk9poRuDlob7a6Xv23W2E3SzSGonLBNEg6i+" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/XzoLLtKp.js"><link nonce="[REDACTED]" integrity="sha384-Ca6+wYi49uNHOXtQqwily2X89VnPyFgKFi4K2jow3AriAvXMSW3nwP1K6D7v6pAo" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/BEbzGDh8.js"><link nonce="[REDACTED]" integrity="sha384-7kfqp7W50jOQDb2SZQdiHM++VKHqBL8GoQyFdd+FEPxTfS6jt8dBVfvvkTpPADNP" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/CbDNwhIO.js"><link nonce="[REDACTED]" integrity="sha384-tFhpRP7D5rmhmTqX+urb5TbXDfmZa4z2BPi0G0xbJ5QEcUGW3K0pK4TI95beG/xA" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/CqH2QJpD.js"><link nonce="[REDACTED]" integrity="sha384-89/NU7KjpjXP8wF3YtYW1Qqjt8MZadi7Zid3WlyG7XBRpgx3YJdu3hH4rBITgSjE" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/CzL2mFtf.js"><link nonce="[REDACTED]" integrity="sha384-hiKzJ9A1eSxmf7TfIiRbXASUFIt07aCoo4nBRvhE5euI28dUEKtMtEetllqfuaXu" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/Dqbfi1ZB.js"><link nonce="[REDACTED]" integrity="sha384-T9WZ9AXugF+m2zPn0r7Myx+fxwuZe2OP5aGgFNJYCCB5A/5ScvZrDjk+6bYUAUoc" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/ux88Frwt.js"><link nonce="[REDACTED]" integrity="sha384-cjVSSW4XJTgjiZBG0Y7lEAHxp17Qql/o6Bz4MF8BJG8r3lAuLlnN4mqSXGFuYqDe" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/D56D4CqB.js"><link nonce="[REDACTED]" integrity="sha384-4YGPGbfB96G4xflZ7oq5X7H+7Rn7DotV2l3eJrQjvcZltLKoB4sM/nba9jf0Aweu" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/CFosSl5C.js"><link nonce="[REDACTED]" integrity="sha384-oAvcALH1VaR0PZNfZ2NDWdrKeTM6/VSTpe6di071orIpRbxidPFFoaeYmHN5zdxH" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/D20KsOIl.js"><link nonce="[REDACTED]" integrity="sha384-Cm603gVqZ6boDcPDA6wOv5EjtaxayssoSrxByW7DaR8bd1uTEwDp3cteYJ6HZfn2" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/Cq9davsk.js"><link nonce="[REDACTED]" integrity="sha384-xZOW4TJFNoIP4SMvsO38EeyZ2kbuKiA2C5tbXNbJsz5YQpWkpxCE+OKkQnA4i6U0" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/C_ct2Qz9.js"><link nonce="[REDACTED]" integrity="sha384-+cP32KXfEh4h24+BcSn4VQRegW5xxl4LbVxnn4S0A8PR95V87tH1Lq3lhXz1Fkqq" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/CIKZi9kD.js"><link nonce="[REDACTED]" integrity="sha384-YIvedTH5KCdA7WicxqNm78gDaRbvsx2WZN2grZybQ/EcKyTIjJt0rfccNB52QP1C" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/1Ucjdv6U.js"><link nonce="[REDACTED]" integrity="sha384-MDpiWUDZCGmCaU12XqpMXxy/ZI5xaZtjiRzr7ySPTFyaTO9A+9r1nSQbhTagORos" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/fO8vM8Ne.js"><link nonce="[REDACTED]" integrity="sha384-0UtV6NDezcwPXXLcODBlBDomvVnTyEMY/veQre1/jryMJOp7TNn1WIPSFG2BaR35" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/BlYFoFUm.js"><link nonce="[REDACTED]" integrity="sha384-SCDFt4FgxFE51biWKA9gn5/p73HxH+pPcfx57TVL+GeS79MJ/2DPHnYK2/gArCz0" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/BTXILnvf.js"><link nonce="[REDACTED]" integrity="sha384-N85KVbnGSIrI1ZpBo+zbcotvLURjFLtGaIME+Wkp1X2bqpe3h/Q4O0REqfhDNiKW" rel="modulepreload" as="script" crossorigin href="https://assets-site.beget.com/_nuxt/v2/C0dDhIZV.js"><script nonce="[REDACTED]" integrity="sha384-kibXK2MsUpkphgsetK526Tx+9WauAO8DYPbqdfxiIwtnAOhSsQ+e06X0N4IWNJwU" type="module" src="https://assets-site.beget.com/_nuxt/v2/C_29LfdO.js" crossorigin></script><meta name="yandex-verification" content="8a6d534a50acae0a"><meta name="vk-verification" content="0418703er"><meta name="google-site-verification" content="XI87lSYEAdtIxbzMBjVosUyCbhZHHS2iccmL8Xf8f9Y"><meta name="format-detection" content="telephone=no"><link nonce="[REDACTED]" rel="icon" type="image/x-icon" sizes="16x16" href="/favicon.ico"><link nonce="[REDACTED]" rel="shortcut icon" sizes="16x16" href="/favicon.png"><link nonce="[REDACTED]" rel="icon" type="image/x-icon" sizes="32x32" href="/favicon@2x.ico"><link nonce="[REDACTED]" rel="shortcut icon" sizes="32x32" href="/favicon@2x.png"><link nonce="[REDACTED]" rel="apple-touch-icon-precomposed" href="/apple-touch-icon-57x57-precomposed.png"><link nonce="[REDACTED]" rel="apple-touch-icon-precomposed" sizes="72x72" href="/apple-touch-icon-72x72-precomposed.png"><link nonce="[REDACTED]" rel="apple-touch-icon-precomposed" sizes="76x76" href="/apple-touch-icon-76x76-precomposed.png"><link nonce="[REDACTED]" rel="apple-touch-icon-precomposed" sizes="114x114" href="/apple-touch-icon-114x114-precomposed.png"><link nonce="[REDACTED]" rel="apple-touch-icon-precomposed" sizes="120x120" href="/apple-touch-icon-120x120-precomposed.png"><link nonce="[REDACTED]" rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144x144-precomposed.png"><link nonce="[REDACTED]" rel="apple-touch-icon-precomposed" sizes="152x152" href="/apple-touch-icon-152x152-precomposed.png"><link nonce="[REDACTED]" rel="apple-touch-icon-precomposed" sizes="195x195" href="/apple-touch-icon-195x195-precomposed.png"><link nonce="[REDACTED]" id="i18n-xd" rel="alternate" href="https://beget.com/ru/uridicheskie-pravila-programmi-grantov" hreflang="x-default"><link nonce="[REDACTED]" id="i18n-alt-ru" rel="alternate" href="https://beget.com/ru/uridicheskie-pravila-programmi-grantov" hreflang="ru"><link nonce="[REDACTED]" id="i18n-alt-en" rel="alternate" href="https://beget.com/en/uridicheskie-pravila-programmi-grantov" hreflang="en"><link nonce="[REDACTED]" id="i18n-can" rel="canonical" href="https://beget.com/ru/uridicheskie-pravila-programmi-grantov"><meta property="og:url" content="https://beget.com/ru/uridicheskie-pravila-programmi-grantov"><meta id="i18n-og" property="og:locale" content="ru"><meta id="i18n-og-alt-en" property="og:locale:alternate" content="en"><script nonce="[REDACTED]" type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","url":"https://beget.com"}</script><script nonce="[REDACTED]" type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Beget","url":"https://beget.com","logo":"","alternateName":"Бегет","sameAs":["https://beget.com/ru","https://www.youtube.com/@BegetOfficial","https://linkedin.com/company/ltdbeget","https://www.facebook.com/LTDBeGet","https://github.com/LTD-Beget","https://ru.wikipedia.org/wiki/Бегет","https://x.com/begetru"]}</script><script nonce="[REDACTED]" type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","name":"Beget","image":"https://cp.beget.com/shared/LEX3TOus5TPrFwUm3iIsw_Dm7wg16jU-/beget_logo_normal_3d.jpg","@id":"","url":"https://beget.com","telephone":"8 (800) 700-06-08","address":{"@type":"PostalAddress","streetAddress":"площадь Карла Фаберже","addressLocality":"Санкт-Петербург","postalCode":"195112","addressCountry":"RU","addressRegion":"Ленинградская область"},"geo":{"@type":"GeoCoordinates","latitude":"30.388194","longitude":"59.821127"},"openingHoursSpecification":{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"00:00","closes":"23:59"},"sameAs":["https://beget.com","https://www.youtube.com/@BegetOfficial","https://ru.linkedin.com/company/ltdbeget","https://github.com/LTD-Beget","https://ru.wikipedia.org/wiki/Бегет","https://www.facebook.com/LTDBeGet","https://x.com/begetru"]}</script><meta name="description" content="Подробные правила участия в программе грантов для бизнеса на облачную инфраструктуру Beget"><meta name="keywords" content="Beget, облачная инфраструктура, гранты для бизнеса"><meta property="og:type" content="website"><meta property="og:title" content="Юридические правила программы грантов на облачную инфраструктуру Beget"><meta property="og:description" content="Подробные правила участия в программе грантов для бизнеса на облачную инфраструктуру Beget"><meta property="og:image" content="https://cp.beget.com/shared/LVfu95DYJ2DnpOpoMLMOw1q1NRwMG7pQ/logo.png"><script nonce="[REDACTED]" type="application/ld+json">{"@context":"https://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https://beget.com/ru/uridicheskie-pravila-programmi-grantov"},"headline":"Юридические правила программы грантов на облачную инфраструктуру Beget","description":"Подробные правила участия в программе грантов для бизнеса на облачную инфраструктуру Beget","image":[],"author":{"@type":"Organization","name":"Бегет","url":"https://beget.com"},"publisher":{"@type":"Organization","name":"Beget","logo":{"@type":"ImageObject","url":"https://cp.beget.com/shared/LEX3TOus5TPrFwUm3iIsw_Dm7wg16jU-/beget_logo_normal_3d.jpg"}},"datePublished":"2025-03-14","dateModified":"2026-06-10"}</script><script nonce="[REDACTED]" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Бегет ✔","item":"https://beget.com/ru"},{"@type":"ListItem","position":2,"name":"Правила акции “Грант на проект”","item":"https://beget.com/ru/uridicheskie-pravila-programmi-grantov"}]}</script></head><body><div id="__nuxt"><div><div class="nuxt-loading-indicator" style="position:fixed;top:0;right:0;left:0;pointer-events:none;width:auto;height:2px;opacity:0;background:#1d4ed8;background-size:0% auto;transform:scaleX(0%);transform-origin:left;transition:transform 0.1s, height 0.4s, opacity 0.4s;z-index:999999;" st="nuxt-loading-indicator"></div> <div class="tw-flex tw-flex-col tw-min-h-screen tw-relative default-layout wordpress-layout"><div class="tw-bg-inherit tw-flex-auto tw-flex tw-flex-col tw-max-w-full tw-min-h-screen"><!--[--><div class="tw-flex tw-flex-col"><div class="tw-contents" data-banner-slot-name="news"><!--[--><!--]--></div> <!----></div> <div class="header" st="sticky-header"><!--[--><!----><!----><!--]--> <div class="tw-container md:tw-px-6 tw-px-4"><div class="tw-flex-row tw-justify-between tw-items-center tw-mb-6 lg:tw-flex tw-hidden"><div class="tw-flex tw-flex-row tw-gap-4"><a href="/ru/news" class="tw-font-title tw-text-xs tw-font-normal tw-cursor-pointer tw-text-slate-400 hover:tw-text-slate-500">Новости</a> <a href="/ru/grant" class="tw-font-title tw-text-xs tw-font-normal tw-text-slate-400 tw-cursor-pointer hover:tw-text-slate-500">Гранты для бизнеса</a> <a href="/ru/partnership" class="tw-font-title tw-text-xs tw-font-normal tw-text-slate-400 tw-cursor-pointer hover:tw-text-slate-500">Партнерам</a> <div class="hover:tw-text-slate-500 tw-font-title tw-text-xs tw-font-normal tw-text-slate-400 tw-cursor-pointer tw-relative"><a href="/ru/kb/how-to" class="tw-text-slate-400 tw-cursor-pointer tw-flex tw-flex-row tw-gap-0.5 hover:tw-text-slate-500">База знаний <div class="beget-icon tw-self-center tw-shrink-0" style="width:16px;height:16px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="beget-icon__content">
+  <path fill="currentColor" d="M12.354 6.354 8.5 10.207 4.646 6.354l.708-.708L8.5 8.793l3.146-3.147.707.708Z"/>
+</svg>
+</div></a> <!----></div></div> <div class="tw-flex tw-flex-row tw-gap-4"><div class="tw-mr-0 header__nav-item"><a st="header-nav-item" class="_underline tw-flex tw-items-center tw-gap-0.5 tw-font-title tw-text-sm tw-font-normal"><div class="beget-icon" style="width:20px;height:20px;"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="beget-icon__content">
+  <path fill="currentColor" d="M15.798 4c.56 0 1.1.229 1.508.64.409.41.655.974.69 1.573l.004.144v7.287c0 .6-.215 1.178-.599 1.615-.384.438-.91.7-1.47.737l-.133.004H4.202c-.56 0-1.1-.228-1.508-.64a2.43 2.43 0 0 1-.69-1.573L2 13.643V6.357c0-.6.214-1.178.599-1.615.384-.437.91-.7 1.469-.737l.134-.004L15.798 4Zm1 5.118H3.2v4.526c0 .554.395 1.01.9 1.065l.102.005h11.596a.964.964 0 0 0 .67-.275 1.1 1.1 0 0 0 .326-.686l.004-.11V9.118Zm-1.79 3.004c.152 0 .298.062.41.173a.674.674 0 0 1 .056.875.592.592 0 0 1-.384.231l-.082.006h-2.002a.578.578 0 0 1-.41-.173.674.674 0 0 1-.056-.875.592.592 0 0 1 .384-.231l.082-.006h2.002Zm.79-6.836H4.202a.963.963 0 0 0-.67.275 1.1 1.1 0 0 0-.326.686l-.005.11v1.477h13.597V6.357c0-.265-.091-.521-.257-.718a.979.979 0 0 0-.641-.348l-.102-.005Z"/>
+</svg>
+</div> <span>Оплата</span></a></div> <div class="tw-mr-0 header__nav-item"><a st="header-nav-item" class="_underline tw-flex tw-items-center tw-gap-0.5 tw-font-title tw-text-sm tw-font-normal" href="mailto:sales@beget.com" target="_blank"><div class="beget-icon" style="width:20px;height:20px;"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="beget-icon__content">
+  <path fill="currentColor" d="M15.5 4A2.5 2.5 0 0 1 18 6.5v8a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 2 14.5v-8A2.5 2.5 0 0 1 4.5 4h11ZM17 7.96l-6.75 3.97a.5.5 0 0 1-.42.04l-.08-.04L3 7.96v6.54c0 .83.67 1.5 1.5 1.5h11c.83 0 1.5-.67 1.5-1.5V7.96ZM15.5 5h-11C3.67 5 3 5.67 3 6.5v.3l7 4.12 7-4.12v-.3c0-.83-.67-1.5-1.5-1.5Z"/>
+</svg>
+</div> <span>sales@beget.com</span></a></div> <div class="header__nav-item tw-mr-0 tw-relative"><a class="tw-flex tw-flex-row tw-gap-0.5 tw-items-center tw-cursor-pointer tw-font-title tw-text-sm tw-uppercase"><div class="beget-icon" style="width:20px;height:20px;"><svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" class="beget-icon__content"><path d="M6.98706 2.06583L6.27036 2.28186C4.96684 2.67478 4.00944 3.78795 3.81598 5.13559C3.519 7.20432 4.18323 9.62236 5.78368 12.3944C7.38077 15.1606 9.13867 16.9432 11.0739 17.723C12.3435 18.2346 13.7948 17.9591 14.7886 17.0179L15.3314 16.5039C16.0589 15.8149 16.1643 14.694 15.5781 13.8815L14.2215 12.0013C13.8458 11.4807 13.1805 11.2568 12.5665 11.4445L10.5158 12.0715L10.4628 12.0819C10.2366 12.1149 9.7154 11.6259 9.06527 10.4998C8.38512 9.32175 8.24417 8.63292 8.43194 8.45535L9.47529 7.48242C10.2572 6.75326 10.4882 5.60722 10.0499 4.63206L9.38841 3.16069C8.97652 2.24445 7.94888 1.77591 6.98706 2.06583ZM8.47634 3.57071L9.13779 5.04209C9.40063 5.62676 9.26212 6.31388 8.7933 6.75107L7.74739 7.72639C7.0783 8.35912 7.29992 9.44212 8.19924 10.9998C9.04545 12.4655 9.81744 13.1898 10.6469 13.0642L10.7713 13.0376L12.8589 12.4008C13.0635 12.3383 13.2853 12.4129 13.4105 12.5864L14.7671 14.4666C15.0603 14.8728 15.0076 15.4333 14.6438 15.7778L14.101 16.2918C13.3911 16.9641 12.3545 17.1609 11.4476 16.7955C9.74957 16.1112 8.14475 14.4839 6.64971 11.8944C5.15161 9.29963 4.54531 7.09248 4.80583 5.27769C4.94402 4.31509 5.62787 3.51997 6.55896 3.23931L7.27566 3.02328C7.75657 2.87832 8.27039 3.11259 8.47634 3.57071Z" fill="currentColor"></path></svg>
+</div> <span>8 (800) 700-06-08</span> <div class="beget-icon tw-self-center" style="width:16px;height:16px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="beget-icon__content">
+  <path fill="currentColor" d="M12.354 6.354 8.5 10.207 4.646 6.354l.708-.708L8.5 8.793l3.146-3.147.707.708Z"/>
+</svg>
+</div></a> <!----></div></div></div> <div class="tw-flex tw-flex-row tw-justify-between tw-items-center"><div class="tw-flex tw-flex-row tw-items-center tw-gap-8"><div class="header__nav-item tw-mr-0"><a href="/ru" class="" st="header-nav-item"><div class="beget-icon tw-flex" style="width:97px;height:44px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 87 40" width="97" height="44" fill="none" class="beget-icon__content">
+    <path d="M51.1169 23.7018C55.3726 26.7135 56.0689 32.1073 53.6787 35.9103C51.3031 39.6903 46.5389 41.0618 42.5714 39.1364C38.8582 37.3346 36.2591 32.5326 38.4518 27.3202C38.0955 27.2658 37.7554 27.213 37.4154 27.1603C37.404 27.1174 37.3927 27.0729 37.3813 27.03C38.7011 26.585 40.0209 26.1399 41.4087 25.6701C41.6063 27.1405 41.7958 28.545 41.9836 29.9478C41.948 29.966 41.9107 29.9857 41.8751 30.0039C41.5901 29.5802 41.3035 29.1582 41.0087 28.7214C39.9416 30.6138 40.4047 33.4871 42.0354 35.2509C43.875 37.239 46.7899 37.722 49.1429 36.4263C51.4958 35.1306 52.7055 32.3579 52.0626 29.7286C51.4035 27.0333 49.104 25.1706 46.398 25.1393C41.8443 25.0865 38.2445 21.8176 37.6777 17.2233C37.1546 12.9785 39.94 8.85243 44.1034 7.71004C48.0563 6.6237 52.2294 8.52273 54.0965 12.2582C55.9604 15.9853 55.0066 20.5351 51.8132 23.1529C51.5946 23.3292 51.3711 23.5007 51.1169 23.7018ZM40.4501 16.2359C40.4387 19.5625 43.0427 22.2561 46.2895 22.2775C49.5623 22.299 52.2391 19.6037 52.244 16.2821C52.2472 12.9818 49.6028 10.2767 46.364 10.2685C43.1058 10.2586 40.4614 12.9291 40.4501 16.2359Z" fill="currentColor"/>
+    <path d="M3.99524 12.3437C4.33855 10.931 4.63975 9.61714 4.99116 8.31815C5.03974 8.13682 5.31341 7.96868 5.51907 7.88955C8.61369 6.7109 12.0694 7.71646 14.2637 10.4199C17.8474 14.8312 16.5098 21.8026 11.5998 24.305C7.46232 26.4133 2.48761 24.394 0.711157 19.8063C0.31441 18.7826 0.0553109 17.632 0.0407365 16.5358C-0.0272771 11.1436 0.00834906 5.7482 0.00834906 0.35442C0.00834906 0.243973 0.0196847 0.135174 0.0261622 0C0.954062 0.00164846 1.84472 0.00164846 2.81796 0.00164846C2.81796 0.220894 2.81796 0.44014 2.81796 0.661034C2.81796 5.84546 2.81796 11.0299 2.81796 16.2127C2.81796 17.8166 3.28758 19.2541 4.34017 20.4607C6.47774 22.912 9.90433 22.8823 12.016 20.408C14.1196 17.9452 13.9479 13.9955 11.6419 11.7354C9.64199 9.77705 6.66235 9.77869 4.65919 11.7371C4.47296 11.9184 4.27539 12.0882 3.99524 12.3437Z" fill="currentColor"/>
+    <path d="M35.2406 17.6977C33.0641 17.6977 30.878 17.6977 28.6902 17.6977C26.5025 17.6977 24.3163 17.6977 22.0573 17.6977C22.5933 19.7665 23.6928 21.2617 25.6426 21.9903C27.6587 22.7436 29.4092 22.1403 31.461 20.0369C32.235 20.4984 33.0188 20.965 33.8479 21.4595C32.5006 23.3898 30.7808 24.6542 28.5202 25.0119C24.0297 25.7224 19.8679 22.4667 19.2218 17.7917C18.8056 14.7799 19.5213 12.1028 21.6006 9.89386C25.6458 5.59302 32.4585 7.07994 34.7127 12.7292C35.3588 14.3431 35.5596 16.1811 35.2406 17.6977ZM32.3662 14.8178C32.0585 12.2957 29.6214 10.2137 27.1097 10.2648C24.7309 10.3142 22.3115 12.5182 22.1334 14.8178C25.5357 14.8178 28.9364 14.8178 32.3662 14.8178Z" fill="currentColor"/>
+    <path d="M73.4564 17.693C69.063 17.693 64.7037 17.693 60.2569 17.693C60.7378 19.6464 61.7386 21.1235 63.5394 21.8636C65.9911 22.8725 67.9861 22.0235 69.6363 20.0322C70.4217 20.4987 71.1957 20.957 72.0378 21.4581C71.8678 21.6905 71.7253 21.9032 71.5666 22.101C68.3084 26.1447 62.5726 26.1447 59.3096 22.1043C56.4724 18.5898 56.6522 13.2553 59.7193 9.95512C63.8713 5.48778 70.9221 7.13625 73.0305 13.0674C73.5519 14.5329 73.6961 16.0314 73.4564 17.693ZM70.5512 14.8148C70.331 12.3454 67.7789 10.181 65.2186 10.27C62.8689 10.3524 60.3719 12.6784 60.3459 14.8148C63.7482 14.8148 67.1489 14.8148 70.5512 14.8148Z" fill="currentColor"/>
+    <path d="M85.4075 20.6699C85.7087 21.5914 86.0244 22.5261 86.3078 23.4707C86.3451 23.596 86.256 23.8333 86.1475 23.9207C83.7039 25.8972 79.3413 25.4076 77.3657 22.9448C76.7552 22.1832 76.3989 21.3128 76.3973 20.3221C76.3924 14.8129 76.394 9.30378 76.3957 3.79461C76.3957 3.68416 76.4086 3.57206 76.4183 3.43359C77.3349 3.43359 78.2256 3.43359 79.1842 3.43359C79.1842 4.92381 79.1842 6.41896 79.1842 7.95863C80.891 7.95863 82.5315 7.95863 84.2156 7.95863C84.2156 8.92628 84.2156 9.84612 84.2156 10.8171C82.5671 10.8171 80.9267 10.8171 79.2344 10.8171C79.2215 11.0446 79.2037 11.2275 79.2037 11.4089C79.202 14.2871 79.2134 17.1653 79.1939 20.0435C79.1891 20.7243 79.4676 21.2123 79.9793 21.5931C81.1971 22.503 83.3816 22.508 84.5864 21.5749C84.8925 21.3425 85.1144 20.9996 85.4075 20.6699Z" fill="currentColor"/>
+</svg>
+</div></a></div> <nav itemtype="http://schema.org/SiteNavigationElement" role="navigation" class="lg:tw-flex tw-hidden"><div class="tw-flex tw-flex-row tw-gap-4"><div st="header-nav-item" class="header__nav-item tw-font-title tw-text-sm tw-uppercase tw-relative" data-selected="false"><a href="/ru/cloud" class="_underline _large-click-range after:tw-content-[&#39;&#39;] tw-flex tw-flex-row tw-gap-0.5" itemprop="name">Облако <div class="tw-size-4"><div class="beget-icon tw-self-center tw-shrink-0" style="width:16px;height:16px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="beget-icon__content">
+  <path fill="currentColor" d="M12.354 6.354 8.5 10.207 4.646 6.354l.708-.708L8.5 8.793l3.146-3.147.707.708Z"/>
+</svg>
+</div></div></a> <!----></div> <div st="header-nav-item" class="header__nav-item tw-font-title tw-text-sm tw-uppercase tw-relative" data-selected="false"><a href="/ru/hosting/virtual" class="_underline _large-click-range after:tw-content-[&#39;&#39;] tw-flex tw-flex-row tw-gap-0.5" st="header-hosting-link" itemprop="name">Хостинг <div class="tw-size-4"><div class="beget-icon tw-self-center tw-shrink-0" style="width:16px;height:16px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="beget-icon__content">
+  <path fill="currentColor" d="M12.354 6.354 8.5 10.207 4.646 6.354l.708-.708L8.5 8.793l3.146-3.147.707.708Z"/>
+</svg>
+</div></div></a> <!----></div> <div st="header-nav-item" class="header__nav-item tw-font-title tw-text-sm tw-uppercase tw-relative" data-selected="false"><a href="/ru/domains" class="_underline _large-click-range after:tw-content-[&#39;&#39;] tw-flex tw-flex-row tw-gap-0.5" itemprop="name">Домены <div class="tw-size-4"><div class="beget-icon tw-self-center tw-shrink-0" style="width:16px;height:16px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="beget-icon__content">
+  <path fill="currentColor" d="M12.354 6.354 8.5 10.207 4.646 6.354l.708-.708L8.5 8.793l3.146-3.147.707.708Z"/>
+</svg>
+</div></div></a> <!----></div> <div st="header-nav-item" class="header__nav-item tw-font-title tw-text-sm tw-uppercase tw-relative" data-selected="false"><a href="/ru/dedicated-servers" class="_underline _large-click-range after:tw-content-[&#39;&#39;] tw-flex tw-flex-row tw-gap-0.5" itemprop="name">Серверы <div class="tw-size-4"><div class="beget-icon tw-self-center tw-shrink-0" style="width:16px;height:16px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="beget-icon__content">
+  <path fill="currentColor" d="M12.354 6.354 8.5 10.207 4.646 6.354l.708-.708L8.5 8.793l3.146-3.147.707.708Z"/>
+</svg>
+</div></div></a> <!----></div></div></nav></div> <div><div class="tw-flex-row tw-gap-2 lg:tw-flex tw-hidden"><a href="https://cp.beget.com/login" class="v-btn v-theme--light text-primary v-btn--density-default v-btn--size-default v-btn--variant-outlined" style="min-width:150px;" st="header-button-sign-in"><!--[--><span class="v-btn__overlay"></span><span class="v-btn__underlay"></span><!--]--><!----><span class="v-btn__content" data-no-activator><!--[--><!--[-->Вход<!--]--><!--]--></span><!----><!----></a> <button type="button" class="v-btn v-theme--light bg-primary v-btn--density-default v-btn--size-default v-btn--variant-flat" style="min-width:150px;" st="header-button-register"><!--[--><span class="v-btn__overlay"></span><span class="v-btn__underlay"></span><!--]--><!----><span class="v-btn__content" data-no-activator><!--[--><!--[-->Регистрация<!--]--><!--]--></span><!----><!----></button></div> <div class="tw-flex tw-flex-row tw-items-center"><!----> <div class="tw-relative tw-w-full"><div class="dropdown _blue dropdown-main-menu h-100"><div class="h-100"><!--[--><div class="tw-p-2 lg:tw-hidden"><div class="beget-icon tw-flex tw-cursor-pointer" style="width:24px;height:24px;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="beget-icon__content">
+  <path d="M22.5 20a1.5 1.5 0 0 1 0 3h-21a1.5 1.5 0 0 1 0-3h21ZM22.5 10a1.5 1.5 0 0 1 0 3h-21a1.5 1.5 0 0 1 0-3h21ZM22.5 0a1.5 1.5 0 0 1 0 3h-21a1.5 1.5 0 1 1 0-3h21Z"/>
+</svg>
+</div></div><!--]--></div> <div class="dropdown-menu tw-bg-slate-950/75 tw-backdrop-blur-3xl tw-p-0 show" style="display:none;"><!--[--><div class="tw-container tw-px-4 lg:tw-pb-6 tw-pb-8 tw-pt-4" st="header-authorized-dropdown-menu"><div class="dropdown-animation-static md:tw-hidden tw-w-full tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-12"><img width="97" height="44" data-nuxt-img srcset="https://img.beget.com/b/w:97/h:44/plain/site/assets/img/layout/logo-white.svg 1x, https://img.beget.com/b/w:194/h:88/plain/site/assets/img/layout/logo-white.svg 2x" onerror="this.setAttribute(&#39;data-error&#39;, 1)" alt="logo" loading="lazy" src="https://img.beget.com/b/w:97/h:44/plain/site/assets/img/layout/logo-white.svg"> <div class="beget-icon tw-block tw-px-2 tw-cursor-pointer tw-box-content" style="width:24px;height:24px;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="beget-icon__content">
+  <path fill="currentColor" d="M13.24 12.5 20.64 5.1a1.23 1.23 0 1 0-1.74-1.74l-7.4 7.398-7.397-7.398a1.23 1.23 0 1 0-1.74 1.74L9.758 12.5l-7.398 7.398A1.23 1.23 0 0 0 3.231 22c.316 0 .63-.121.87-.361l7.399-7.398 7.398 7.398a1.227 1.227 0 0 0 1.74 0 1.23 1.23 0 0 0 0-1.74l-7.397-7.4Z"/>
+</svg>
+</div></div> <div class="lg:tw-hidden tw-flex tw-flex-row tw-gap-2 tw-mb-6"><a href="https://cp.beget.com/login" class="v-btn v-theme--light text-surface v-btn--density-default v-btn--size-default v-btn--variant-outlined tw-flex-1" style="min-width:150px;" st="mobile-menu-button-sign-in"><!--[--><span class="v-btn__overlay"></span><span class="v-btn__underlay"></span><!--]--><!----><span class="v-btn__content" data-no-activator><!--[--><!--[-->Вход<!--]--><!--]--></span><!----><!----></a> <button type="button" class="v-btn v-theme--light bg-surface v-btn--density-default v-btn--size-default v-btn--variant-flat tw-flex-1" style="min-width:150px;" st="mobile-menu-button-register"><!--[--><span class="v-btn__overlay"></span><span class="v-btn__underlay"></span><!--]--><!----><span class="v-btn__content" data-no-activator><!--[--><!--[-->Регистрация<!--]--><!--]--></span><!----><!----></button></div> <div class="lg:tw-hidden"><nav itemtype="http://schema.org/SiteNavigationElement" role="navigation"><div class="tw-relative tw-text-white tw-py-2" data-selected="false"><a class="tw-flex tw-flex-row tw-justify-between tw-items-center tw-font-title tw-text-sm tw-uppercase tw-gap-0.5 tw-text-white hover:tw-text-slate-300" itemprop="name">Облако <div class="beget-icon tw-self-center tw-shrink-0 tw-transition-transform" style="width:16px;height:16px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="beget-icon__content">
+  <path fill="currentColor" d="M12.354 6.354 8.5 10.207 4.646 6.354l.708-.708L8.5 8.793l3.146-3.147.707.708Z"/>
+</svg>
+</div></a> <!----></div> <div class="tw-relative tw-text-white hover:tw-text-slate-300 tw-py-2" data-selected="false"><a class="tw-flex tw-flex-row tw-justify-between tw-items-center tw-font-title tw-text-sm tw-uppercase tw-gap-0.5" itemprop="name">Хостинг <div class="beget-icon tw-self-center tw-shrink-0 tw-transition-transform" style="width:16px;height:16px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="beget-icon__content">
+  <path fill="currentColor" d="M12.354 6.354 8.5 10.207 4.646 6.354l.708-.708L8.5 8.793l3.146-3.147.707.708Z"/>
+</svg>
+</div></a> <!----></div> <div class="tw-relative tw-text-white hover:tw-text-slate-300 tw-py-2" data-selected="false"><a class="tw-flex tw-flex-row tw-justify-between tw-items-center tw-font-title tw-text-sm tw-uppercase tw-gap-0.5" itemprop="name">Домены <div class="beget-icon tw-self-center tw-shrink-0 tw-transition-transform" style="width:16px;height:16px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="beget-icon__content">
+  <path fill="currentColor" d="M12.354 6.354 8.5 10.207 4.646 6.354l.708-.708L8.5 8.793l3.146-3.147.707.708Z"/>
+</svg>
+</div></a> <!----></div> <div class="tw-relative tw-text-white hover:tw-text-slate-300 tw-py-2" data-selected="false"><a class="tw-flex tw-flex-row tw-justify-between tw-items-center tw-font-title tw-text-sm tw-uppercase tw-gap-0.5" itemprop="name">Серверы <div class="beget-icon tw-self-center tw-shrink-0 tw-transition-transform" style="width:16px;height:16px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="beget-icon__content">
+  <path fill="currentColor" d="M12.354 6.354 8.5 10.207 4.646 6.354l.708-.708L8.5 8.793l3.146-3.147.707.708Z"/>
+</svg>
+</div></a> <!----></div> <hr class="tw-bg-zinc-400 tw-my-4"> <a href="/ru/news" class="tw-font-title tw-text-sm tw-font-normal tw-mb-2 tw-text-white hover:tw-text-slate-300 tw-w-fit tw-block" data-selected="false" itemprop="name">Новости</a> <a href="/ru/grant" class="tw-font-title tw-text-sm tw-font-normal tw-mb-2 tw-text-white hover:tw-text-slate-300 tw-w-fit tw-block" itemprop="name" data-selected="false">Гранты для бизнеса</a> <a href="/ru/partnership" class="tw-font-title tw-text-sm tw-font-normal tw-mb-2 tw-text-white hover:tw-text-slate-300 tw-block" itemprop="name" data-selected="false">Партнерам</a> <div class="tw-relative tw-text-white hover:tw-text-slate-300" data-selected="false"><a class="tw-flex tw-flex-row tw-justify-between tw-items-center tw-font-title tw-text-sm tw-gap-0.5" itemprop="name">База знаний <div class="beget-icon tw-self-center tw-shrink-0 tw-transition-transform" style="width:16px;height:16px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="beget-icon__content">
+  <path fill="currentColor" d="M12.354 6.354 8.5 10.207 4.646 6.354l.708-.708L8.5 8.793l3.146-3.147.707.708Z"/>
+</svg>
+</div></a> <!----></div></nav> <hr class="tw-bg-zinc-400 tw-my-4"> <ul><li class="tw-mb-2"><a st="mobile-header-nav-item" class="tw-flex tw-items-center tw-gap-0.5 tw-font-body tw-text-sm tw-font-normal hover:tw-text-slate-300"><div class="beget-icon" style="width:20px;height:20px;"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="beget-icon__content">
+  <path fill="currentColor" d="M15.798 4c.56 0 1.1.229 1.508.64.409.41.655.974.69 1.573l.004.144v7.287c0 .6-.215 1.178-.599 1.615-.384.438-.91.7-1.47.737l-.133.004H4.202c-.56 0-1.1-.228-1.508-.64a2.43 2.43 0 0 1-.69-1.573L2 13.643V6.357c0-.6.214-1.178.599-1.615.384-.437.91-.7 1.469-.737l.134-.004L15.798 4Zm1 5.118H3.2v4.526c0 .554.395 1.01.9 1.065l.102.005h11.596a.964.964 0 0 0 .67-.275 1.1 1.1 0 0 0 .326-.686l.004-.11V9.118Zm-1.79 3.004c.152 0 .298.062.41.173a.674.674 0 0 1 .056.875.592.592 0 0 1-.384.231l-.082.006h-2.002a.578.578 0 0 1-.41-.173.674.674 0 0 1-.056-.875.592.592 0 0 1 .384-.231l.082-.006h2.002Zm.79-6.836H4.202a.963.963 0 0 0-.67.275 1.1 1.1 0 0 0-.326.686l-.005.11v1.477h13.597V6.357c0-.265-.091-.521-.257-.718a.979.979 0 0 0-.641-.348l-.102-.005Z"/>
+</svg>
+</div> <span>Оплата</span></a></li> <li class="tw-mb-2"><a st="mobile-header-nav-item" class="tw-flex tw-items-center tw-gap-0.5 tw-font-body tw-text-sm tw-font-normal tw-text-white hover:tw-text-slate-300" href="mailto:sales@beget.com" target="_blank"><div class="beget-icon" style="width:20px;height:20px;"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="beget-icon__content">
+  <path fill="currentColor" d="M15.5 4A2.5 2.5 0 0 1 18 6.5v8a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 2 14.5v-8A2.5 2.5 0 0 1 4.5 4h11ZM17 7.96l-6.75 3.97a.5.5 0 0 1-.42.04l-.08-.04L3 7.96v6.54c0 .83.67 1.5 1.5 1.5h11c.83 0 1.5-.67 1.5-1.5V7.96ZM15.5 5h-11C3.67 5 3 5.67 3 6.5v.3l7 4.12 7-4.12v-.3c0-.83-.67-1.5-1.5-1.5Z"/>
+</svg>
+</div> <span>sales@beget.com</span></a></li> <li class="tw-mb-0"><a class="tw-flex tw-flex-row tw-gap-0.5 tw-items-center tw-cursor-pointer tw-font-body tw-text-sm tw-font-normal tw-text-white hover:tw-text-slate-300" href="tel:8 (800) 700-06-08"><div class="beget-icon" style="width:20px;height:20px;"><svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" class="beget-icon__content"><path d="M6.98706 2.06583L6.27036 2.28186C4.96684 2.67478 4.00944 3.78795 3.81598 5.13559C3.519 7.20432 4.18323 9.62236 5.78368 12.3944C7.38077 15.1606 9.13867 16.9432 11.0739 17.723C12.3435 18.2346 13.7948 17.9591 14.7886 17.0179L15.3314 16.5039C16.0589 15.8149 16.1643 14.694 15.5781 13.8815L14.2215 12.0013C13.8458 11.4807 13.1805 11.2568 12.5665 11.4445L10.5158 12.0715L10.4628 12.0819C10.2366 12.1149 9.7154 11.6259 9.06527 10.4998C8.38512 9.32175 8.24417 8.63292 8.43194 8.45535L9.47529 7.48242C10.2572 6.75326 10.4882 5.60722 10.0499 4.63206L9.38841 3.16069C8.97652 2.24445 7.94888 1.77591 6.98706 2.06583ZM8.47634 3.57071L9.13779 5.04209C9.40063 5.62676 9.26212 6.31388 8.7933 6.75107L7.74739 7.72639C7.0783 8.35912 7.29992 9.44212 8.19924 10.9998C9.04545 12.4655 9.81744 13.1898 10.6469 13.0642L10.7713 13.0376L12.8589 12.4008C13.0635 12.3383 13.2853 12.4129 13.4105 12.5864L14.7671 14.4666C15.0603 14.8728 15.0076 15.4333 14.6438 15.7778L14.101 16.2918C13.3911 16.9641 12.3545 17.1609 11.4476 16.7955C9.74957 16.1112 8.14475 14.4839 6.64971 11.8944C5.15161 9.29963 4.54531 7.09248 4.80583 5.27769C4.94402 4.31509 5.62787 3.51997 6.55896 3.23931L7.27566 3.02328C7.75657 2.87832 8.27039 3.11259 8.47634 3.57071Z" fill="currentColor"></path></svg>
+</div> <span>8 (800) 700-06-08</span></a></li></ul> <!----></div></div><!--]--></div></div></div></div></div></div></div></div> <!--[--><!--]--> <div class="position-relative default-layout__body"><!--[--><!--[--><div><div class="container mt-3"><div class="mt-3"><div class="zero-measure"><i aria-hidden="true" class="b-icon _heart"><i class="__normal"></i> <i class="__normal-hover"></i> <i class="__active"></i> <i class="__active-hover"></i></i></div> <div class="kb-header"><div class="kb-header__breadcrumb"><nav aria-label="breadcrumb"><ol class="breadcrumb d-none d-md-block mb-0"><!--[--><li class="breadcrumb-item d-none d-md-inline-block" aria-current="page"><a href="/ru" class="">Главная</a></li><!--]--> <li class="breadcrumb-item active" aria-current="page">Правила акции “Грант на проект”</li></ol></nav></div> <!----> <div class="kb-header__actions"><!----></div></div> <div class="row align-items-start"><!----> <div class="col-xl-31 col-lg-36 col-md-36 col-sm-36 pb-6"><div><h1>Правила акции “Грант на проект”</h1> <div class="page-content-component page-content">
+<p>1. <strong>Общие положения</strong><br><br>Общество с ограниченной ответственностью «Бегет», ОГРН: 1077847645590 ИНН 7801451618 (далее по тексту - “Организатор”), проводит акцию “Грант на проект” (далее по тексту - “Акция”).<br><br>Правила представляют собой оферту, адресованную Организатором потенциальным участникам Акции, с учетом положений ст. 434, 437, 438 ГК РФ. Совершение участниками Акции действий, предусмотренных разделом 5 настоящих Правил, рассматривается в качестве безоговорочного согласия с условиями Правил<br><br>Данная акция маркетинговое и рекламное мероприятие, направленное на формирование и увеличение лояльности Участников к Организатору и услугам, оказываемым Организатором, в частности, построенное на системе накопления и использования Бонусов на условиях участия юридических и физических лиц в таком мероприятии, проводимое по инициативе Организатора. Акция не является стимулирующей лотереей&nbsp; или иным мероприятием, основанном на риске и проводится в соответствии с настоящими условиями и действующим законодательством Российской Федерации.<br><br>2. <strong>Термины</strong></p>
+
+
+
+<p><em>Организатор</em>: Общество с ограниченной ответственностью «Бегет» (ООО «Бегет»).&nbsp;</p>
+
+
+
+<p><em>Участник</em>: Российское Юридическое лицо или Индивидуальный предприниматель, не зарегистрированное(ый)&nbsp; ранее 01.01.2026 на ресурсах ООО «Бегет» и не являющееся(ийся)&nbsp; Клиентом компании ранее 01.01.2026, подавшее(ий) Заявку на на участие в акции и получившее(ий) одобрение.&nbsp;</p>
+
+
+
+<p><em>Клиент</em>: лицо, в т.ч. его правопреемник после процедуры реорганизации, которое когда-либо было зарегистрировано, приобретало, пользовалось и (или) продолжает пользоваться Сервисами Организатора.</p>
+
+
+
+<p><em>Сервисы</em>: сервисы Организатора, за исключением</p>
+
+
+
+<ul><li>выделенных серверов;</li><li>регистрации доменных имен;&nbsp;</li><li>VPS с GPU;</li><li>платных SSL сертификатов;</li><li>платных лицензий на CMS.</li></ul>
+
+
+
+<p><em>Заявка</em>: запрос на участие в акции, который подается через специальную форму на странице <a href="http://beget.com/ru/grant">beget.com/ru/grant<br></a></p>
+
+
+
+<p><em>Грант</em>: индивидуальная скидка для Участника в виде бонусов на использование Сервисов Организатора, для поддержки и развития проектов Участника. Один бонус равен одному рублю.&nbsp;<br></p>
+
+
+
+<p><em>Срок действия Гранта </em>: период, в течение которого Участник может применить Грант для получения возможности использования Сервисов Организатора.</p>
+
+
+
+<p><em>Правила</em>: действующие правила акции.</p>
+
+
+
+<p><em>Период подачи Заявок</em>: временной промежуток подачи заявок на участие в Акции с 01.04.2025 до 31.10.2026 включительно.<br><br>3. <strong>Условия Акции</strong><br><br>3.1. Участие в акции предоставляет возможность Участнику использовать скидку на&nbsp; использование Сервисов Организатора за счет бонусных баллов (Грант).<br><br>3.2. Участие в Программе осуществляется на основании Заявки Участника и является добровольным.<br><br>3.3. Тестовый период на использование Сервисов Организатора, то есть на период без взимания платы для тестирования услуг, в рамках Акции не предоставляется.<br><br>3.4. Акция проводится на территории России.<br></p>
+
+
+
+<p>3.5. Акция действует с начала периода подачи Заявок до наступления одного из событий: завершения в связи со сроком завершения акции, исчерпания ресурсов Организатора,&nbsp; досрочного прекращения Программы Организатором по своему усмотрению.</p>
+
+
+
+<p>4. <strong>Сроки, размеры и ограничения акции </strong><strong><br></strong></p>
+
+
+
+<p>4.1. Организатор индивидуально, по своему усмотрению, определяет сроки предоставления Гранта для каждого одобренного Участника, в интервале от 1-го до 12-ти месяцев.</p>
+
+
+
+<p>4.2. Количество Бонусов, которые могут быть начислены Участнику в рамках акции &nbsp; от 5 000 до 1 500 000&nbsp;</p>
+
+
+
+<p>4.3.Количество Бонусов для конкретного Участника определяется индивидуально по усмотрению Организатора.</p>
+
+
+
+<p>4.4. Если в течение срока действия Гранта Участник не исчерпал полную стоимость Бонусов на использование Сервисов Организатора, либо совсем не использовал Бонусы, то оставшаяся сумма Бонусов не подлежит дальнейшему использованию, применению или передаче на другой аккаунт Клиента («аннулируется»).</p>
+
+
+
+<p>4.5. Запрещается приобретать на бонусы доменные имена в любой доменной зоне, выделенные сервера и VPS с GPU, Платные SSL сертификаты и лицензии на CMS.<br></p>
+
+
+
+<p>4.6. Бонусы в рамках акции нельзя обменять на рубли или иную валюту.&nbsp;</p>
+
+
+
+<p><br>5. <strong>Порядок участия в акции</strong></p>
+
+
+
+<p>5.1. Перед подачей заявки Участник должен ознакомиться с условиями Лицензионного соглашения https://beget.com/files/license_contract.pdf, оферты&nbsp; <a href="https://beget.com/ru/publichnaya-oferta">https://beget.com/ru/publichnaya-oferta</a>, и настоящими Правилами, которые доступны по адресу: <a href="https://beget.com/ru/grant">https://beget.com/ru/grant</a>&nbsp;</p>
+
+
+
+<p>Дополнительно при подаче заявки Участник должен ознакомиться и принять условия следующих документов:</p>
+
+
+
+<ul><li>Согласие на сбор и обработку персональных данных: <a href="https://beget.com/files/personal-data.pdf">https://beget.com/files/personal-data.pdf</a></li><li>Согласие с условиями предоставления услуг: <a href="https://beget.com/pravila">https://beget.com/pravila</a></li></ul>
+
+
+
+<p>5.2. Участник для участия в Акции должен оставить Заявку на Сайте Организатора, на странице <a href="https://beget.com/ru/grant">https://beget.com/ru/grant</a>&nbsp; в Период подачи Заявок.</p>
+
+
+
+<p>Подача Заявки означает согласие с Лицензионным соглашением, Офертой, Правилами и документами по ссылкам выше.</p>
+
+
+
+<p>5.3 Организатор вправе запросить дополнительную информацию о проекте Участника в том числе но не ограничиваясь: описание проекта и/или количество, объем и состав необходимых для проекта услуг.</p>
+
+
+
+<p>5.4. После подачи Заявки Участник ожидает подтверждение от Организатора о возможности получения бонуса. Срок предоставления подтверждения –&nbsp; от одного до семи рабочих дней с момента подачи заявки.</p>
+
+
+
+<p>5.5. Организатор вправе запросить у Участника, документы для оценки Заявки на участие, перечень которых приведен в разделе 6 настоящих Правил. В случае непредоставления Участником запрошенных документов в течении 14 календарных дней, заявка аннулируется. Срок рассмотрения заявки увеличивается на срок предоставления документов.</p>
+
+
+
+<p>5.6. После получения от Участника всей запрошенной информации и документов и в случае одобрения Заявки, Организатор обеспечивает зачисление Бонусов в личном кабинете Участника в панели управления <a href="https://cp.beget.com">https://cp.beget.com</a>.</p>
+
+
+
+<p>5.7. Участники сами исчисляют и уплачивают налоги и сборы, при наличии такой обязанности.</p>
+
+
+
+<p>6. <strong>Документы Участника</strong></p>
+
+
+
+<p>6.1. В период проведения акции Организатор вправе запросить следующие документы (их скан-копии) для проверки Участника, которые Участник обязан предоставить:&nbsp;</p>
+
+
+
+<p>Индивидуальный предприниматель:</p>
+
+
+
+<ul><li>паспорт;</li></ul>
+
+
+
+<ul><li>свидетельство о государственной регистрации /лист записи о регистрации в качестве индивидуального предпринимателя;</li></ul>
+
+
+
+<ul><li>свидетельство о постановке на учет в налоговом органе.</li></ul>
+
+
+
+<p>Юридическое лицо:</p>
+
+
+
+<ul><li>свидетельство о регистрации /лист записи о создании;</li></ul>
+
+
+
+<ul><li>свидетельство о постановке на налоговый учет в налоговом органе;</li></ul>
+
+
+
+<ul><li>Устав;</li></ul>
+
+
+
+<ul><li>решение об избрании директора (выписка из протокола общего собрания об избрании)</li></ul>
+
+
+
+<ul><li>доверенность на представление интересов организации.</li></ul>
+
+
+
+<p>7. <strong>Отказ в&nbsp; участии в Акции</strong></p>
+
+
+
+<p>7.1. Ресурсы Организатора в рамках Акции ограничены и могут быть исчерпаны. В этом случае Участник не сможет принять участие в акции ввиду отсутствия технической возможности и получит отказ.</p>
+
+
+
+<p>7.2. Если Участник отказывается от предоставления документов или предоставляет неполный комплект документов, то Организатор вправе отказать Участнику в акции.</p>
+
+
+
+<p>7.3. Организатор также может отказать в участии в Акции если:</p>
+
+
+
+<ul><li>Участник нарушает настоящие Правила и/или Правила оказания услуг https://beget.com/ru/pravila и/или законодательство Российской Федерации;</li><li>Участник совершил или очевидно намеревается совершить недобросовестные действия (мошеннические, влекущие или имеющие возможность повлечь за собой материальные, репутационные и прочие отрицательные последствия для Организатора, других Участников, а также любого третьего лица), включая предоставление недостоверной или вводящей в заблуждение информации;</li><li>Участник злоупотребляет какими-либо правами, предоставляемыми Правилами;</li><li>Участник подал более одной Заявки от разных лиц и не сообщил заранее о таком намерении Организатору;</li><li>Организатор получит соответствующее требование от государственных органов;</li><li>Организатор придет к выводу, что проект требует ресурсов, которые превышают допустимые возможности Сервисов Организатора.</li></ul>
+
+
+
+<p>7.4. Организатор также вправе отказать в участии в Акции по своему усмотрению.<br><br><strong>8. Права Организатора </strong><strong><br></strong><br>Организатор на свое усмотрение в одностороннем порядке может досрочно прекратить, изменить или приостановить проведение Акции, предварительно разместив информацию по адресу&nbsp; <a href="https://beget.com/ru/grant">https://beget.com/ru/grant</a>.&nbsp;</p>
+
+
+
+<p>9. <strong>Контактные данные</strong></p>
+
+
+
+<p>9.1. Участник сообщает свои контактные данные при заполнении формы Заявки на Сайте.</p>
+
+
+
+<p>9.2. Контактные данные Организатора указаны по адресам: https://beget.com/ru/grant и https://beget.com/ru/contacts</p>
+
+
+
+<p>Полное наименование в соответствии с Уставом: Общество с ограниченной ответственностью «Бегет»</p>
+
+
+
+<p>Сокращенное наименование в соответствии с Уставом: ООО «Бегет»</p>
+
+
+
+<p>Юридический адрес: 195112, г. Санкт-Петербург, пл. Карла Фаберже, д. 8Б, офис 726А</p>
+
+
+
+<p>Фактический адрес: 195112, г. Санкт-Петербург, пл. Карла Фаберже, д. 8Б, офис 723</p>
+
+
+
+<p>Почтовый адрес: 195027, РФ, г. Санкт-Петербург, а/я 209</p>
+
+
+
+<p>ОГРН: 1077847645590</p>
+
+
+
+<p>ИНН: 7801451618</p>
+
+
+
+<p>КПП: 780601001</p>
+
+
+
+<p>Банковские реквизиты:</p>
+
+
+
+<p>№ счёта: 40702810932130013038</p>
+
+
+
+<p>Наименование банка: Филиал «Санкт-Петербургский» АО «АЛЬФА-БАНК»</p>
+
+
+
+<p>Кор/счет: 30101810600000000786</p>
+
+
+
+<p>БИК банка: 044030786</p>
+
+
+
+<p>Телефоны (пн.-вс.; круглосуточно):</p>
+
+
+
+<p>+7 495 721-80-88 (Москва)</p>
+
+
+
+<p>+7 812 385-41-36 (Санкт-Петербург)</p>
+
+
+
+<p>+7 800 700-06-08 (Вся Россия)</p>
+</div> <!----> <!----> <!----></div></div> <div class="sticky pb-6 offset-xl-0 col-xl-5 offset-lg-11 col-lg-25 offset-md-0 col-md-36 offset-sm-0 col-sm-36 font-size-16"><div class="d-flex align-items-center flex-row flex-xl-column justify-content-xl-center"><!----> <!----></div></div></div></div></div></div><!--]--><!--]--> <!----></div> <div class="footer py-4 tw-bg-zinc-900"><div class="tw-container md:tw-px-6 tw-px-4"><div st="footer"><div class="tw-bg-zinc-900 tw-preflight"><!--[--><div class="tw-flex tw-flex-col md:tw-flex-row tw-text-white md:tw-px-6 tw-px-0"><a href="/ru" class="tw-mr-8 tw-mb-2.5"><div class="beget-icon" style="width:96px;height:40px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 87 40" width="96" height="40" fill="none" class="beget-icon__content">
+    <path d="M51.1169 23.7018C55.3726 26.7135 56.0689 32.1073 53.6787 35.9103C51.3031 39.6903 46.5389 41.0618 42.5714 39.1364C38.8582 37.3346 36.2591 32.5326 38.4518 27.3202C38.0955 27.2658 37.7554 27.213 37.4154 27.1603C37.404 27.1174 37.3927 27.0729 37.3813 27.03C38.7011 26.585 40.0209 26.1399 41.4087 25.6701C41.6063 27.1405 41.7958 28.545 41.9836 29.9478C41.948 29.966 41.9107 29.9857 41.8751 30.0039C41.5901 29.5802 41.3035 29.1582 41.0087 28.7214C39.9416 30.6138 40.4047 33.4871 42.0354 35.2509C43.875 37.239 46.7899 37.722 49.1429 36.4263C51.4958 35.1306 52.7055 32.3579 52.0626 29.7286C51.4035 27.0333 49.104 25.1706 46.398 25.1393C41.8443 25.0865 38.2445 21.8176 37.6777 17.2233C37.1546 12.9785 39.94 8.85243 44.1034 7.71004C48.0563 6.6237 52.2294 8.52273 54.0965 12.2582C55.9604 15.9853 55.0066 20.5351 51.8132 23.1529C51.5946 23.3292 51.3711 23.5007 51.1169 23.7018ZM40.4501 16.2359C40.4387 19.5625 43.0427 22.2561 46.2895 22.2775C49.5623 22.299 52.2391 19.6037 52.244 16.2821C52.2472 12.9818 49.6028 10.2767 46.364 10.2685C43.1058 10.2586 40.4614 12.9291 40.4501 16.2359Z" fill="currentColor"/>
+    <path d="M3.99524 12.3437C4.33855 10.931 4.63975 9.61714 4.99116 8.31815C5.03974 8.13682 5.31341 7.96868 5.51907 7.88955C8.61369 6.7109 12.0694 7.71646 14.2637 10.4199C17.8474 14.8312 16.5098 21.8026 11.5998 24.305C7.46232 26.4133 2.48761 24.394 0.711157 19.8063C0.31441 18.7826 0.0553109 17.632 0.0407365 16.5358C-0.0272771 11.1436 0.00834906 5.7482 0.00834906 0.35442C0.00834906 0.243973 0.0196847 0.135174 0.0261622 0C0.954062 0.00164846 1.84472 0.00164846 2.81796 0.00164846C2.81796 0.220894 2.81796 0.44014 2.81796 0.661034C2.81796 5.84546 2.81796 11.0299 2.81796 16.2127C2.81796 17.8166 3.28758 19.2541 4.34017 20.4607C6.47774 22.912 9.90433 22.8823 12.016 20.408C14.1196 17.9452 13.9479 13.9955 11.6419 11.7354C9.64199 9.77705 6.66235 9.77869 4.65919 11.7371C4.47296 11.9184 4.27539 12.0882 3.99524 12.3437Z" fill="currentColor"/>
+    <path d="M35.2406 17.6977C33.0641 17.6977 30.878 17.6977 28.6902 17.6977C26.5025 17.6977 24.3163 17.6977 22.0573 17.6977C22.5933 19.7665 23.6928 21.2617 25.6426 21.9903C27.6587 22.7436 29.4092 22.1403 31.461 20.0369C32.235 20.4984 33.0188 20.965 33.8479 21.4595C32.5006 23.3898 30.7808 24.6542 28.5202 25.0119C24.0297 25.7224 19.8679 22.4667 19.2218 17.7917C18.8056 14.7799 19.5213 12.1028 21.6006 9.89386C25.6458 5.59302 32.4585 7.07994 34.7127 12.7292C35.3588 14.3431 35.5596 16.1811 35.2406 17.6977ZM32.3662 14.8178C32.0585 12.2957 29.6214 10.2137 27.1097 10.2648C24.7309 10.3142 22.3115 12.5182 22.1334 14.8178C25.5357 14.8178 28.9364 14.8178 32.3662 14.8178Z" fill="currentColor"/>
+    <path d="M73.4564 17.693C69.063 17.693 64.7037 17.693 60.2569 17.693C60.7378 19.6464 61.7386 21.1235 63.5394 21.8636C65.9911 22.8725 67.9861 22.0235 69.6363 20.0322C70.4217 20.4987 71.1957 20.957 72.0378 21.4581C71.8678 21.6905 71.7253 21.9032 71.5666 22.101C68.3084 26.1447 62.5726 26.1447 59.3096 22.1043C56.4724 18.5898 56.6522 13.2553 59.7193 9.95512C63.8713 5.48778 70.9221 7.13625 73.0305 13.0674C73.5519 14.5329 73.6961 16.0314 73.4564 17.693ZM70.5512 14.8148C70.331 12.3454 67.7789 10.181 65.2186 10.27C62.8689 10.3524 60.3719 12.6784 60.3459 14.8148C63.7482 14.8148 67.1489 14.8148 70.5512 14.8148Z" fill="currentColor"/>
+    <path d="M85.4075 20.6699C85.7087 21.5914 86.0244 22.5261 86.3078 23.4707C86.3451 23.596 86.256 23.8333 86.1475 23.9207C83.7039 25.8972 79.3413 25.4076 77.3657 22.9448C76.7552 22.1832 76.3989 21.3128 76.3973 20.3221C76.3924 14.8129 76.394 9.30378 76.3957 3.79461C76.3957 3.68416 76.4086 3.57206 76.4183 3.43359C77.3349 3.43359 78.2256 3.43359 79.1842 3.43359C79.1842 4.92381 79.1842 6.41896 79.1842 7.95863C80.891 7.95863 82.5315 7.95863 84.2156 7.95863C84.2156 8.92628 84.2156 9.84612 84.2156 10.8171C82.5671 10.8171 80.9267 10.8171 79.2344 10.8171C79.2215 11.0446 79.2037 11.2275 79.2037 11.4089C79.202 14.2871 79.2134 17.1653 79.1939 20.0435C79.1891 20.7243 79.4676 21.2123 79.9793 21.5931C81.1971 22.503 83.3816 22.508 84.5864 21.5749C84.8925 21.3425 85.1144 20.9996 85.4075 20.6699Z" fill="currentColor"/>
+</svg>
+</div></a> <div class="tw-flex tw-gap-x-5 tw-gap-y-1 tw-flex-wrap"><div><a href="/ru/cloud" class="tw-font-title tw-text-sm tw-uppercase tw-text-white hover:tw-text-slate-300" st="footer-link">Облако</a></div> <div><a href="/ru/hosting/virtual" class="tw-font-title tw-text-sm tw-uppercase tw-text-white hover:tw-text-slate-300" st="footer-link">Хостинг</a></div> <div><a href="/ru/domains" class="tw-font-title tw-text-sm tw-uppercase tw-text-white hover:tw-text-slate-300" st="footer-link">Домены</a></div> <div><a href="/ru/dedicated-servers" class="tw-font-title tw-text-sm tw-uppercase tw-text-white hover:tw-text-slate-300" st="footer-link">Серверы</a></div> <div><a href="/ru/contacts" class="tw-font-title tw-text-sm tw-uppercase tw-text-white hover:tw-text-slate-300" st="footer-link">Контакты</a></div> <div><a href="/ru/partnership" class="tw-font-title tw-text-sm tw-uppercase tw-text-white hover:tw-text-slate-300" st="footer-link">Партнерская программа</a></div></div></div> <div class="tw-mt-8 tw-grid lg:tw-grid-cols-4 sm:tw-grid-cols-2 tw-grid-cols-1 tw-gap-8 md:tw-px-6 tw-px-0"><div><div class="tw-font-title tw-text-base tw-font-normal tw-text-zinc-500">Услуги</div> <div class="tw-flex tw-flex-col tw-gap-2 tw-mt-4"><div class="tw-flex tw-flex-col tw-gap-2"><a href="/ru/vps" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">Облачные серверы</a> <a href="/ru/cloud/dbaas?db=mysql" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">Облачные MySQL</a> <a href="/ru/cloud/dbaas?db=postgresql" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">Облачные PostgreSQL</a> <a href="/ru/cloud/storage" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">S3-хранилище</a> <a href="/ru/hosting/virtual" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">Хостинг</a> <a href="/ru/hosting/vip" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">VIP-хостинг</a> <a href="/ru/hosting/bitrix" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">Хостинг для 1C-Битрикс</a> <a href="/ru/domains" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">Регистрация доменов</a> <a href="/ru/dedicated-servers" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">Выделенные серверы</a> <a href="/ru/dedicated-servers/gpu" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">Аренда сервера с GPU</a> <a href="/ru/cloud/cdn" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">Система доставки контента (CDN)</a> <a href="/ru/cloud/kubernetes" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">
+                                    Kubernetes
+                                </a></div></div></div> <div><div class="tw-font-title tw-text-base tw-font-normal tw-text-zinc-500">Cервисы и доп. продукты</div> <div class="tw-flex tw-flex-col tw-gap-2 tw-mt-4"><div class="tw-flex tw-flex-col tw-gap-2"><a href="/ru/cloud/marketplace" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">Каталог приложений</a> <a href="/ru/cms/bitrix" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">Продажа CMS</a> <a href="/ru/hosting/free" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">Бесплатный хостинг</a> <a href="/ru/ssl/letsencrypt" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">SSL-сертификаты</a> <a href="/ru/grant" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">Гранты для бизнеса</a> <a href="/ru/cloud/152fz" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">152-ФЗ</a> <a class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link" href="https://sprut.io/ru/" target="_blank">
+                                    Sprut.io
+                                </a> <!----></div></div></div> <div><div class="tw-font-title tw-text-base tw-font-normal tw-text-zinc-500">О компании</div> <div class="tw-flex tw-flex-col tw-gap-2 tw-mt-4"><div class="tw-flex tw-flex-col tw-gap-2"><a href="/ru/details" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">Реквизиты</a> <a href="/ru/pravila-i-liczenzii" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">Правила и лицензии</a> <a href="/ru/zaklyuchenie-dogovora" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">Договоры</a> <a href="/ru/publichnaya-oferta" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">Публичная оферта</a> <a href="/ru/partnership" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">Партнерская программа</a> <a href="/ru/security" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">Bug Bounty программа</a> <a href="/ru/contacts" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">Контактная информация</a> <a href="/ru/sla-vps" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">SLA облачных услуг</a> <a href="/ru/control-panel" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">Панель управления</a></div></div></div> <div><div class="tw-font-title tw-text-base tw-font-normal tw-text-zinc-500">База знаний</div> <div class="tw-flex tw-flex-col tw-gap-2 tw-mt-4"><div class="tw-flex tw-flex-col tw-gap-2"><a href="/ru/kb/manual" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">Руководство по ПУ</a> <a href="/ru/blog" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">Блог</a> <a href="/ru/news" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">Новости</a> <a href="/ru/kb/how-to" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">Полезные статьи</a> <a href="/ru/kb/api/beget-api" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">Beget.API Хостинг</a> <a class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link" href="https://developer.beget.com" target="_blank">Beget.API Облако</a> <a href="/ru/kb/faq" class="tw-font-body tw-text-base tw-font-normal hover:tw-text-white tw-text-slate-300 tw-w-fit" st="footer-link">FAQ</a></div></div></div></div> <div class="tw-flex tw-flex-col sm:tw-flex-row tw-gap-y-5 tw-my-8 tw-justify-between md:tw-px-6 tw-px-0"><div class="tw-flex tw-gap-5 tw-flex-row tw-items-center"><a title="Beget VK" href="https://vk.com/begetru" target="_blank"><div class="beget-icon tw-text-white hover:tw-text-slate-300" style="width:20px;height:20px;"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="beget-icon__content">
+  <path fill="currentColor" fill-rule="evenodd" d="M19.122 4.754c.131-.435 0-.754-.627-.754h-2.073c-.527 0-.77.276-.901.58 0 0-1.054 2.543-2.548 4.194-.482.478-.702.63-.966.63-.131 0-.322-.152-.322-.586V4.754c0-.522-.153-.754-.592-.754H7.836c-.33 0-.528.242-.528.471 0 .495.747.609.824 2v3.02c0 .663-.12.783-.384.783-.703 0-2.412-2.554-3.426-5.476C4.124 4.229 3.924 4 3.395 4H1.322c-.592 0-.71.276-.71.58 0 .543.702 3.238 3.27 6.802 1.714 2.434 4.127 3.753 6.322 3.753 1.318 0 1.481-.293 1.481-.797v-1.84c0-.586.125-.703.542-.703.307 0 .834.152 2.064 1.326 1.405 1.39 1.637 2.014 2.427 2.014h2.073c.592 0 .888-.293.718-.871-.187-.576-.858-1.412-1.749-2.404-.483-.565-1.207-1.173-1.427-1.477-.307-.392-.22-.566 0-.913 0 0 2.525-3.52 2.789-4.716Z" clip-rule="evenodd"/>
+</svg>
+</div></a> <a title="Beget X" href="https://x.com/begetru" target="_blank"><div class="beget-icon tw-text-white hover:tw-text-slate-300" style="width:20px;height:20px;"><svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" class="beget-icon__content">
+<g clip-path="url(#clip0_324_3719)">
+<path d="M11.9027 8.46429L19.3482 0H17.5838L11.119 7.34942L5.95547 0H0L7.8082 11.1136L0 19.9897H1.76443L8.59152 12.2285L14.0445 19.9897H20L11.9023 8.46429H11.9027ZM9.48608 11.2115L8.69495 10.1049L2.40018 1.29901H5.11025L10.1902 8.40562L10.9813 9.51229L17.5847 18.7498H14.8746L9.48608 11.212V11.2115Z" fill="white"/>
+</g>
+<defs>
+<clipPath id="clip0_324_3719">
+<rect width="20" height="20" fill="white"/>
+</clipPath>
+</defs>
+</svg>
+</div></a> <a title="Beget GitHub" href="https://github.com/LTD-Beget" target="_blank"><div class="beget-icon tw-text-white hover:tw-text-slate-300" style="width:20px;height:20px;"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="beget-icon__content">
+  <path fill="currentColor" d="M9.999 0C4.477 0 0 4.361 0 9.74c0 4.304 2.865 7.954 6.84 9.243.5.09.683-.21.683-.47 0-.23-.01-.843-.014-1.656-2.782.588-3.369-1.306-3.369-1.306-.454-1.125-1.11-1.425-1.11-1.425-.909-.604.068-.592.068-.592 1.003.07 1.53 1.004 1.53 1.004.893 1.488 2.342 1.06 2.912.81.09-.63.349-1.06.635-1.303-2.22-.246-4.555-1.082-4.555-4.814 0-1.063.39-1.933 1.03-2.614-.104-.246-.446-1.237.097-2.577 0 0 .84-.262 2.75.998a9.816 9.816 0 0 1 2.504-.328 9.84 9.84 0 0 1 2.504.329c1.909-1.26 2.747-.998 2.747-.998.545 1.341.203 2.33.1 2.577a3.707 3.707 0 0 1 1.028 2.615c0 3.74-2.337 4.564-4.565 4.806.359.3.679.895.679 1.803 0 1.303-.013 2.353-.013 2.672 0 .26.18.564.688.468C17.137 17.692 20 14.042 20 9.74 20 4.36 15.523 0 9.999 0Z"/>
+</svg>
+</div></a> <a title="Beget Telegram" href="https://t.me/beget_official" target="_blank"><div class="beget-icon tw-text-white hover:tw-text-slate-300" style="width:20px;height:20px;"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="beget-icon__content">
+  <path fill="currentColor" fill-rule="evenodd" d="M2.237 8.888C7.07 6.63 10.291 5.14 11.903 4.422c4.603-2.053 5.56-2.41 6.183-2.422.137-.002.444.034.642.207.168.146.214.343.236.481.022.139.05.454.028.7-.25 2.811-1.329 9.633-1.878 12.781-.232 1.333-.69 1.78-1.133 1.823-.962.095-1.693-.682-2.625-1.338-1.459-1.025-2.283-1.664-3.7-2.665-1.636-1.156-.575-1.792.358-2.831.244-.272 4.485-4.41 4.567-4.785.01-.047.02-.222-.077-.314s-.24-.06-.343-.036c-.147.036-2.477 1.688-6.992 4.957-.661.487-1.26.724-1.797.712-.592-.014-1.73-.359-2.577-.654-1.038-.362-1.862-.553-1.79-1.168.037-.32.448-.647 1.232-.982Z" clip-rule="evenodd"/>
+</svg>
+</div></a> <a title="Beget Habr" href="https://habr.com/ru/companies/beget/profile/" rel="nofollow" target="_blank"><div class="beget-icon tw-text-white hover:tw-text-slate-300" style="width:20px;height:20px;"><svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" class="beget-icon__content">
+<g clip-path="url(#clip0_2426_17832)">
+<path d="M0.950078 7.74588L1.09174 7.95672C0.808411 7.94838 0.511745 7.92088 0.455078 7.79922C0.455078 7.79338 0.456745 7.78755 0.458411 7.78172C0.616745 7.74005 0.752578 7.73755 0.950078 7.74588ZM2.45508 8.38755L2.52341 8.59588L2.36341 8.60255L2.40174 8.38922C2.41955 8.38922 2.43735 8.38922 2.45508 8.38755ZM3.00008 9.90838C2.85841 10.0384 2.74924 10.1251 2.66508 10.3226C2.54841 10.2267 2.48758 10.0367 2.45008 9.82422C2.40841 9.59255 2.39508 9.33505 2.36341 9.14255L2.37341 9.04422L2.53758 9.03255L2.95591 9.82422L3.00008 9.90755V9.90838ZM2.78841 7.95672C2.80919 7.8144 2.83058 7.67218 2.85258 7.53005L2.90674 7.52672C2.86674 7.67005 2.82674 7.81338 2.78841 7.95672ZM2.67424 6.02172L3.42424 6.22505C3.42302 6.23615 3.42191 6.24726 3.42091 6.25838C3.07174 6.51672 2.74924 6.63005 2.57591 7.09672L2.64174 6.05838L2.67424 6.02255V6.02172ZM3.37424 4.94672C3.32591 5.43005 3.39424 5.64338 3.47841 5.94338C3.61174 6.03838 3.66508 6.09588 3.62174 6.23672C3.39674 6.12505 3.15841 6.00838 2.81341 6.02672C2.805 6.01706 2.79666 6.00734 2.78841 5.99755C2.88508 5.61672 3.07341 5.38255 3.21924 5.08088L3.37508 4.94588L3.37424 4.94672ZM4.45258 4.30338L4.48508 4.30088C4.38174 4.65755 4.34008 5.48005 4.15924 5.80672C3.73174 5.60422 3.74008 4.72672 4.21841 4.38005L4.45258 4.30338ZM4.05424 6.94505L4.41424 7.33588C4.27258 7.77088 4.00508 8.09838 3.89174 8.60255L3.67924 8.58588C3.49758 8.07838 3.95174 7.25172 4.02924 6.88172L4.36258 6.92005C4.40424 7.02422 4.44424 7.12838 4.48508 7.23338L4.05424 6.94505ZM5.03924 4.30005C5.00258 4.72255 5.09591 4.94172 5.12091 5.26838C4.90924 5.37672 4.69674 5.48338 4.48508 5.59088C4.52439 5.15355 4.62917 4.7246 4.79591 4.31838L5.03924 4.30005ZM5.28591 3.65838L5.33341 3.65505L5.26174 3.86088L5.12091 3.87005L5.22924 3.74255L5.28591 3.65838ZM5.33341 5.62922L4.69674 6.02088C4.71008 5.78422 5.01174 5.46505 5.26424 5.37672L5.32258 5.40838L5.33341 5.62922ZM5.75841 4.14755C5.71924 4.36588 5.68091 4.58338 5.64341 4.80172L5.52424 4.87672L5.46091 4.94588C5.34591 4.78422 5.31674 4.38755 5.34174 4.08588L5.75841 4.14755ZM6.18174 3.65588C6.18174 3.66422 6.18008 3.67088 6.17924 3.67755L6.01674 3.83338C5.90841 3.87505 5.89508 3.87338 5.75841 3.86838C5.77591 3.79755 5.79591 3.72672 5.81508 3.65588H6.18174ZM6.60674 2.79588L6.41674 3.22505L5.75841 3.17755L5.76091 3.14255C6.03174 3.01755 6.26924 2.86922 6.60591 2.79505L6.60674 2.79588ZM6.26341 3.91255L6.33341 3.87088L6.39424 4.08588L6.18174 4.04422L6.26341 3.91172V3.91255ZM6.81841 4.54838C6.56591 4.64672 6.21674 4.61922 6.01424 4.73172C5.9997 4.64558 5.98497 4.55947 5.97008 4.47338L6.10174 4.30088C6.31591 4.38422 6.53008 4.46922 6.74341 4.55338L6.81841 4.54838ZM6.27591 4.93505L5.98758 4.94588C5.98091 4.91588 5.97591 4.88588 5.97008 4.85505C6.17258 4.77255 6.51258 4.76505 6.81841 4.73088L6.49591 4.90838L6.27591 4.93505ZM7.03008 4.93505C6.78758 4.99588 6.55508 5.21005 6.39591 5.37672C6.36508 5.18172 6.73924 4.83838 6.91841 4.73088C6.99758 4.80172 7.00591 4.79422 7.03008 4.93505ZM7.45508 2.36588L7.45174 2.39922L7.19674 2.55338L6.81841 2.58088L6.82174 2.54755L7.45508 2.36588ZM7.11174 3.01088L7.03008 2.89005C7.22174 2.72922 7.64424 2.81755 7.87924 2.84172L7.11174 3.01088ZM9.01008 2.37755C9.36424 2.40672 9.68841 2.49005 9.93508 2.64422L10.0001 2.64005L9.96091 2.69505L9.62174 2.79505C9.41758 2.76672 9.21341 2.73672 9.01008 2.70755L7.66674 2.51672L7.67008 2.48922C8.10862 2.38506 8.56038 2.3477 9.01008 2.37838V2.37755ZM10.4209 2.26422L10.3459 2.36588C10.1426 2.35134 9.94816 2.27648 9.78758 2.15088L10.4242 2.23172L10.4209 2.26422ZM11.5509 3.05922L11.7267 2.99255L11.9092 3.14922C11.8842 3.32838 11.7117 3.47505 11.5792 3.64922L11.4776 3.65588C11.2009 3.19755 10.8517 2.69672 10.2392 2.52005L10.2126 2.46588L10.4601 2.36588C10.8759 2.51088 11.2226 2.73088 11.6084 2.85755C11.6584 2.97838 11.6426 2.93755 11.5501 3.05922H11.5509ZM12.0626 4.07838L12.0142 4.03088L11.9092 4.03838L12.0842 3.87172L12.0626 4.07838ZM12.2501 6.45172C12.5367 6.70005 12.6101 7.06005 12.4909 7.52672C12.3676 7.25005 12.2451 6.97255 12.1209 6.69588C12.1626 6.63422 12.2017 6.57255 12.2426 6.51088C12.2451 6.49088 12.2467 6.47088 12.2501 6.45172ZM12.3334 4.51838L12.3301 4.55838L12.1792 4.73088L12.1209 4.61672C12.2117 4.45422 12.1459 4.54172 12.2651 4.52505L12.3334 4.51838ZM12.5101 4.51588L13.1817 4.76505C13.1807 4.78734 13.1787 4.80958 13.1759 4.83172C13.1192 4.87088 13.0626 4.90838 13.0059 4.94588L12.3334 4.69755L12.3392 4.63005L12.5101 4.51588ZM13.8184 5.37672L13.4459 5.12922L13.3942 5.02922C13.5559 4.92922 13.5326 4.93422 13.7034 4.96755C13.7409 5.10422 13.7801 5.24088 13.8184 5.37672ZM14.0301 5.29505L13.9551 5.37672C13.8651 5.33005 13.8492 5.27088 13.8184 5.16088L14.0126 5.24588L14.0301 5.29505ZM13.8717 4.67922L13.8184 4.68338C13.8767 4.62755 13.9351 4.57172 13.9951 4.51672C13.9534 4.57088 13.9117 4.62505 13.8717 4.67922ZM14.8792 5.76088L14.7751 5.80672C14.5857 5.70065 14.3966 5.59426 14.2076 5.48755C14.1483 5.4071 14.0891 5.32655 14.0301 5.24588C14.3242 5.02922 14.3351 5.28088 14.6126 5.41838L14.8792 5.76088ZM15.0909 5.95088L14.8792 5.87338L15.0067 5.80672L15.0909 5.95088ZM14.8326 6.29755C14.9092 6.45172 14.9092 6.40838 15.0909 6.38505L14.7651 6.66672L14.4542 6.07338L14.4584 6.03672C14.6876 5.98755 14.7609 6.07005 14.9851 6.10338L15.0709 6.24172L14.8326 6.29755ZM14.8792 6.68338L15.3034 6.45172C15.2184 6.64338 15.1076 6.74172 14.9767 6.88172L14.8792 6.68338ZM15.7276 7.50422C15.6126 7.60338 15.5376 7.63505 15.3201 7.65338L15.4951 7.67255L15.4917 7.70338L14.8942 7.95672L14.8792 7.19005L15.2909 6.70255L15.3659 6.66672L15.7276 7.50422ZM15.5151 6.32755C16.6867 6.00088 16.4601 6.62255 15.9376 7.09672C15.7959 6.84088 15.6551 6.58422 15.5151 6.32755ZM16.5759 6.45172C16.1442 8.48005 16.0609 8.59088 14.5342 9.46255C14.5086 9.42158 14.482 9.38129 14.4542 9.34172L14.5084 9.11505C15.5042 8.83172 16.0701 8.31005 16.0109 7.12922L16.5101 6.48755L16.5759 6.45172ZM16.6276 6.45172C16.6109 6.38172 16.5942 6.31172 16.5759 6.24172L16.7342 6.23672L16.6276 6.45172ZM14.0301 8.42422L14.0451 8.20005L14.0584 8.00838L14.2051 7.95922C14.2126 7.95922 14.2192 7.95755 14.2259 7.95672C14.2676 8.21088 14.2259 8.39838 14.1426 8.60255C14.0709 8.55672 14.0567 8.53755 14.0301 8.42422ZM13.1817 10.3059L13.1851 10.2684L13.4634 9.60255L13.5217 9.46255L14.0117 9.49588C14.0192 9.53255 14.0242 9.56838 14.0267 9.60255C14.0484 9.85588 13.9609 10.0584 13.8709 10.3226L13.1817 10.3059ZM13.3942 11.1692L13.4001 10.8359L13.4084 10.7526L13.7667 10.7792L13.8184 10.7751C13.7359 10.9109 13.6542 11.0467 13.5734 11.1834L13.3942 11.1692ZM13.1842 9.77755L13.2059 9.76672L13.3751 9.67922L13.3942 9.67755L13.3692 9.76672L13.2701 10.1076L13.1817 9.80422L13.1842 9.77755ZM12.8534 10.8484L12.7576 10.7526C12.8509 10.8176 12.7901 10.7542 12.8534 10.8484ZM12.3334 10.5926C12.4526 10.5176 12.5817 10.5409 12.7584 10.5426L12.7059 10.7151C12.5601 10.7734 12.5392 10.7517 12.3751 10.7342L12.3334 10.5926ZM12.5934 11.3976L12.7576 11.7859C12.6309 11.8717 12.5034 11.9567 12.3767 12.0434C12.2634 11.8876 12.3867 11.4517 12.5934 11.3976ZM12.1742 10.0476L12.1209 10.0517L12.1909 9.89255L12.1742 10.0476ZM12.7851 10.1076L12.7576 10.0901L12.8509 9.89338L12.8817 9.89255L12.9701 10.0992L12.7851 10.1076ZM14.2542 7.31172L14.2426 7.23922C14.2984 7.17088 14.3342 7.12838 14.4301 7.09755L14.4551 7.22422C14.4134 7.25172 14.3717 7.27838 14.3309 7.30672L14.2542 7.31172ZM14.2426 7.83672C14.2042 7.88755 14.1359 7.91588 14.0876 7.95672L14.0301 6.88172L14.2426 7.83672ZM13.8534 9.27838C13.9934 9.20005 14.0134 9.27255 14.0301 9.46172H13.6059L13.6134 9.39505L13.8534 9.27838ZM13.6451 8.68422L13.7409 8.60255L13.8184 8.74088L13.7826 8.81755L13.6059 8.79672L13.6451 8.68422ZM13.6059 9.25422L13.3851 9.46255L13.2409 9.43838L13.1826 9.44422C13.2159 9.37838 13.2509 9.31255 13.2851 9.24755L13.6059 9.25422ZM12.8059 9.13172C12.7176 9.07005 12.7809 9.07838 12.7642 9.03172L12.8059 9.13172ZM13.4742 8.17172L12.7576 7.80005C12.7909 7.30838 12.8509 6.74338 12.8026 6.23672C13.3551 6.43672 13.8509 7.33588 13.4742 8.17172ZM12.9701 8.17172C13.1459 8.26505 13.1367 8.35005 13.3809 8.42505C13.4234 8.58422 13.3584 8.64755 13.2567 8.81672L12.9967 8.80672C12.9434 8.52338 13.0017 8.36088 12.9701 8.17172ZM13.0184 9.56255C12.9292 9.50088 12.9934 9.50922 12.9767 9.46255L13.0184 9.56255ZM14.4542 7.49255L14.4567 7.45255L14.6484 7.31172C14.6817 7.53172 14.6692 7.89838 14.6192 8.17172C14.5059 8.08338 14.4851 7.71005 14.4542 7.49255ZM14.4542 8.17172C14.4976 8.10005 14.5409 8.02838 14.5826 7.95672L14.5076 8.16838L14.4542 8.17172ZM15.6917 7.52922L15.7276 7.52672C15.7376 8.35088 15.2292 8.50088 14.5609 8.81005L14.4542 8.81755L14.8709 7.95422L15.6917 7.52922ZM14.4334 5.91922C14.4401 5.94088 14.4476 5.96172 14.4534 5.98338L14.4009 6.02172L14.2417 5.80672L14.4334 5.91922ZM14.2417 6.27755L14.2476 6.24005C14.2631 6.23881 14.2787 6.2377 14.2942 6.23672L14.4542 6.45172C14.3309 6.39338 14.3109 6.37922 14.2417 6.27755ZM14.4534 6.82755L14.1676 7.09672L13.5534 6.20505L12.7567 5.51338L12.9317 5.37672C13.3176 5.54338 13.9926 5.86088 14.1284 6.25755C14.1726 6.38672 14.0201 6.49338 14.1234 6.60088C14.2467 6.72922 14.3701 6.63755 14.4542 6.82672L14.4534 6.82755ZM12.6634 8.17172L12.7284 8.19755L12.7567 8.81755L12.6576 8.79422C12.5642 8.72505 12.4992 8.40505 12.5842 8.26588L12.6634 8.17172ZM12.1934 9.25005L12.2617 9.24755L12.3326 9.41588L12.2242 9.45755L12.1201 9.46255C12.1451 9.39172 12.1701 9.32088 12.1934 9.25005ZM12.0001 12.6884L11.9084 12.3742C12.0392 12.3367 12.1692 12.2992 12.3001 12.2601L12.3334 12.2584C12.3317 12.2681 12.3303 12.2778 12.3292 12.2875L12.0001 12.6884ZM11.6959 11.8284C11.7351 11.7017 11.7626 11.6826 11.8334 11.6126L11.8917 11.6359L11.9084 11.6909L11.7776 11.8192L11.6959 11.8275V11.8284ZM11.7959 12.0434L11.6959 11.9334L11.9084 11.8284L11.8534 12.0392L11.7959 12.0434ZM11.5726 13.0184C11.5426 12.9951 11.5142 12.9709 11.4842 12.9459L11.5492 12.9417L11.8767 12.6884L11.9084 12.9467L11.6576 13.1184L11.5726 13.0184ZM11.5892 15.4817C11.0784 15.5034 10.7726 15.3734 10.3559 15.3367L9.87841 14.3925L9.78674 14.2975C10.5884 14.2025 11.0926 13.8159 11.6867 13.5484C11.8967 13.7484 12.3726 14.7667 11.9534 15.2175C11.8534 15.3717 11.7417 15.3875 11.5892 15.4817ZM9.39591 14.4209L9.58758 14.4084C9.87674 14.6026 10.0734 14.95 10.2117 15.2692L9.36258 15.0234C9.42591 14.8084 9.45258 14.59 9.39591 14.4209ZM8.78591 13.6092L9.74258 13.3334L11.2459 13.4801L11.2726 13.5559C10.8251 13.7575 10.3159 13.9275 9.80258 14.1875C9.24674 14.2317 9.11258 14.0242 8.72758 13.8876L8.78591 13.6092ZM8.72674 14.6226L8.74591 14.4359L9.11174 14.4084C9.14174 14.5709 9.17341 14.6617 9.12841 14.8384L8.72674 14.6217V14.6226ZM8.30174 14.9592L8.44424 14.8809C8.61924 14.765 8.75008 14.9192 8.93841 14.98L8.86341 15.0534L8.30174 14.9592ZM8.71424 14.6234C8.66801 14.6028 8.6219 14.582 8.57591 14.5609L8.51424 14.4084L8.72674 14.4217L8.71424 14.6234ZM8.09008 14.6234L8.30258 14.8059C8.30258 14.9184 8.29258 14.9059 8.26674 15.0534L8.09008 14.6234ZM7.54008 13.8175C7.73924 13.7567 8.00424 13.7701 8.30258 13.7634L8.02508 13.9784L7.45424 13.9226L7.54008 13.8175ZM7.03008 3.04005C7.42424 2.66338 8.41258 2.77588 8.66008 3.01505L8.72674 3.00922C8.39758 3.31672 7.88758 3.35172 7.57424 3.65588C7.32841 3.49255 7.12508 3.38755 7.03008 3.04005ZM9.19674 3.65588L9.36341 3.84505C9.21508 3.85338 9.05924 3.86255 8.90341 3.87588C8.55258 3.90588 8.20591 3.95838 7.96341 4.08422L7.93174 4.08588C7.91421 4.0584 7.89671 4.0309 7.87924 4.00338C8.27731 3.79457 8.71677 3.67674 9.16591 3.65838L9.19674 3.65588ZM10.0234 2.58088C10.2976 2.85588 10.7067 3.01922 10.8484 3.44088C10.2734 3.17338 9.38841 3.17755 8.94008 2.75172C9.33508 2.83588 9.67174 2.80422 10.0234 2.58088ZM10.2126 4.08588L10.9992 4.19422L11.0609 4.18922L10.4301 4.73088C10.3301 4.53172 10.3067 4.26172 10.2126 4.08588ZM11.2234 5.00588L11.0609 4.98088L11.2726 4.94588L11.2226 5.00588H11.2234ZM11.0609 4.49172L11.2551 4.30088L11.2726 4.51588L11.1317 4.48505L11.0609 4.49172ZM11.4459 11.6084L11.3526 11.6126L11.2726 11.5376L11.3342 11.4567L11.4842 11.3984L11.4459 11.6084ZM11.2767 12.0017C11.3017 11.9717 11.3284 11.9417 11.3551 11.9117L11.3617 11.8284L11.4851 12.0242L11.2726 12.0434L11.2767 12.0017ZM11.1926 12.6884L11.0609 12.5301L11.4851 12.4734L11.2826 12.6817L11.1926 12.6884ZM11.2726 13.3334L10.8484 13.2826L11.1484 13.1184L11.2726 13.3334ZM10.9751 12.7267L11.0609 12.8084L10.7534 12.8867L10.4242 12.9034L10.8826 12.6884L10.9751 12.7267ZM9.78841 3.44088C10.0359 3.44755 10.2976 3.51005 10.4242 3.65588C10.2534 3.63922 9.94591 3.66672 9.86841 3.53505L9.78841 3.44088ZM10.0034 4.30088C10.1242 4.40672 10.1667 4.53172 10.1451 4.73088C9.95841 4.66672 10.0067 4.46255 10.0034 4.30088ZM10.2117 5.65672L10.2192 5.62005C10.6417 5.52838 10.7326 5.67505 10.5401 5.80672C10.3734 5.78338 10.2976 5.72088 10.2117 5.65672ZM10.7559 11.1826L10.8484 11.2059C10.8472 11.2159 10.8461 11.2259 10.8451 11.2359L10.6367 11.3976L10.7234 11.1851L10.7559 11.1826ZM10.6392 5.93755L10.7976 5.80672L10.8484 6.02172L10.6367 5.97505L10.6384 5.93755H10.6392ZM11.2726 11.6876L10.7601 11.8217L10.6367 11.8275C10.6367 11.8209 10.6384 11.8134 10.6401 11.8067C10.8317 11.7684 10.9551 11.7051 11.0684 11.6126L11.2484 11.6459L11.2726 11.6876ZM10.9067 11.1826L10.8484 11.0634L10.9942 10.9676L11.0609 11.0034L10.9776 11.1767L10.9067 11.1826ZM9.57591 12.6701L9.82841 12.4734L10.6101 12.5401L10.6367 12.5984L10.1084 12.9034C9.91258 12.8709 9.74341 12.7842 9.64174 12.6651L9.57591 12.6701ZM9.18341 12.6884L9.57508 12.9034L8.93924 12.7909C9.02091 12.7576 9.10174 12.7226 9.18341 12.6884ZM9.15174 13.1276C9.15084 13.1448 9.15 13.162 9.14924 13.1792L9.02841 13.2459L8.93924 13.2576L8.94258 13.2059C9.03508 13.0834 9.01924 13.1242 9.15091 13.1276H9.15174ZM8.15174 4.37505C8.13166 4.35348 8.11138 4.33209 8.09091 4.31088C8.30174 4.19588 8.63424 4.14088 8.96091 4.11505C9.23008 4.09255 9.49508 4.09005 9.68508 4.08588L9.78841 4.73088C9.51091 4.70088 9.24674 4.66422 8.96091 4.65172C8.71394 4.63948 8.46636 4.6484 8.22091 4.67838C8.19832 4.57717 8.17526 4.47606 8.15174 4.37505ZM8.46341 13.0042L8.51508 13.0959L8.46508 13.2884L7.87924 13.3334C7.94174 13.1417 8.03508 13.0492 8.13591 12.9034L8.46341 13.0042ZM7.74008 12.2584C7.47341 12.2434 7.10841 12.0484 7.03008 11.8284L7.87924 12.0442L7.74008 12.2584ZM8.03841 12.2467L7.87924 12.2584L7.88424 12.2067L8.06091 12.0434C8.05258 12.1109 8.04591 12.1784 8.03841 12.2467ZM7.45508 4.38255L7.71341 4.30088L7.87924 4.50922L7.70424 4.51588L7.45508 4.38255ZM7.45174 13.6159C7.43758 13.6625 7.42508 13.7101 7.41174 13.7576C7.39112 13.7586 7.37054 13.7606 7.35008 13.7634C7.31436 13.6917 7.27852 13.62 7.24258 13.5484L7.45508 13.5701L7.45174 13.6159ZM7.56924 12.6884L8.06424 12.7884L8.09091 12.8551L7.70674 13.3334L7.24258 13.2651L7.56924 12.6884ZM11.2726 5.94838L11.3684 5.80755L11.4034 5.80672L11.6701 5.87338L11.6967 5.91172L11.3992 6.02172C11.3571 5.99718 11.3149 5.97274 11.2726 5.94838ZM11.8467 5.25338L11.6967 5.16172C11.8492 5.21755 11.7617 5.15422 11.8467 5.25338ZM11.7984 6.23672L11.6967 6.15005L11.9092 6.02172L11.7984 6.23672ZM11.6967 7.74172L12.0267 7.82338C12.1159 7.85838 12.1134 7.86755 12.1209 7.95672C11.9792 7.90255 11.7426 7.86505 11.6967 7.74172ZM11.7301 7.15588L11.7751 7.09755L11.9092 7.31172L11.6967 7.27005L11.7301 7.15588ZM7.43258 14.2317L7.45508 14.2884L7.16924 14.3975L7.03008 14.4084L7.03341 14.3792L7.13091 14.2267C7.26591 14.1642 7.26924 14.205 7.43258 14.2317ZM6.81841 3.44005C7.00341 3.57838 7.05174 3.74838 7.02258 4.30088C6.90091 4.14505 6.82674 3.81422 6.81841 3.44088V3.44005ZM6.94008 3.01088L6.92508 3.16672L6.81924 3.17422L6.94091 3.01088H6.94008ZM6.81841 3.22588C6.81258 3.27755 6.80841 3.32922 6.80174 3.38088L6.60591 3.34505L6.76758 3.22922L6.81758 3.22588H6.81841ZM6.81841 15.6992L6.92341 14.6042L7.66674 14.4084L6.88508 15.6592L6.81841 15.6992ZM6.87091 12.7559L6.98508 12.6884C7.08924 12.8117 6.99591 12.9892 6.89758 13.1184C6.81591 13.0417 6.80674 12.9934 6.82841 12.8192L6.87091 12.7559ZM6.18174 12.6509L6.42591 12.2584L6.81758 12.4884C6.68424 12.6984 6.54841 12.9084 6.41341 13.1184C6.29174 13.01 6.21674 12.8509 6.18174 12.6517V12.6509ZM6.18174 14.335L6.57341 13.9784L6.75758 13.9951L6.81841 14.095C6.80174 14.2 6.78674 14.3042 6.77174 14.4084L6.18174 14.335ZM5.54591 14.0434L6.01258 13.7634L6.36758 13.8192L6.39424 13.8684L6.02008 14.1934C5.83341 14.1742 5.70924 14.1242 5.61174 14.0392L5.54508 14.0434H5.54591ZM5.48341 13.6276L5.65424 13.5484L5.72758 13.5642L5.75758 13.5992L5.26341 13.7634L5.12174 13.7134L5.48341 13.6276ZM4.90924 13.4259L5.03424 13.1234C5.26591 13.0934 5.32091 13.2076 5.49508 13.2801L5.54508 13.3567L5.28591 13.5342L5.07508 13.5484L4.90924 13.4259ZM4.48424 14.3084L4.79341 13.7634C4.99841 13.7634 5.02341 13.7801 5.10758 13.8884C5.14508 13.9517 5.11258 13.9176 5.03091 13.9317L5.01174 14.1192L5.33341 14.1692C5.27008 14.3267 5.26008 14.3059 5.16508 14.4059C4.84841 14.4226 4.70508 14.3625 4.48424 14.3084ZM4.12758 13.5484L4.66674 13.7109L4.69674 13.7751L4.35091 14.1934L3.84841 14.0284L4.12758 13.5484ZM2.05008 12.9667L2.05674 12.9026L2.35758 13.1342L2.38341 13.1959C1.75758 13.6792 2.71508 15.2542 3.80424 14.2334L4.27258 14.4217C4.09258 14.7425 3.78341 14.8692 3.45758 15.0509C2.67841 15.1159 1.58841 13.8434 2.05008 12.9667ZM2.77674 13.1867L2.78841 13.3326C2.73008 13.2884 2.67174 13.2459 2.61508 13.2017L2.57591 13.1176L2.77674 13.1867ZM3.84841 14.1L3.46091 14.4001C2.69758 14.4801 2.38841 13.9517 2.36341 13.3026L2.51258 13.1226L2.57758 13.1176C2.96174 13.4201 3.30174 13.8817 3.82341 14.0342L3.84841 14.1ZM3.10924 10.9667C3.04008 10.9167 3.03591 10.8917 3.00091 10.8067L3.14591 10.2551L3.31508 10.1067L3.42424 10.2667L3.10924 10.9667ZM3.00091 11.1526L3.33508 10.3617L3.40341 10.3217C3.55758 10.5934 3.78091 10.7167 3.84841 11.0859L3.34508 11.6117C3.18857 11.4951 3.06882 11.336 3.00008 11.1534L3.00091 11.1526ZM3.63674 11.8109L4.06174 11.3967L4.27258 11.8275C4.06066 11.8212 3.84871 11.8156 3.63674 11.8109ZM4.69674 7.46505C4.49591 7.89422 4.22841 8.18588 4.06841 8.60172C3.99841 8.22422 4.42008 7.68172 4.55591 7.34838L4.62091 7.31088L4.69674 7.46505ZM4.69674 6.28172C5.01258 6.18422 5.22424 6.00588 5.45008 5.80588L5.54591 6.09255L5.27758 6.45088L4.69674 6.28172ZM5.75758 6.30422L5.64258 6.45088L5.54591 6.43422L5.54758 6.41088L5.74091 6.23588L5.75758 6.30422ZM5.59091 5.37755L5.62424 5.37588L5.75758 5.65672L5.70758 5.80588C5.51341 5.70422 5.52091 5.58338 5.59091 5.37755ZM5.55091 11.6117L5.74674 11.7526L5.54591 11.6642C5.54704 11.6467 5.54871 11.6292 5.55091 11.6117ZM5.54758 11.8275L5.75758 11.9184C5.75633 11.9267 5.75522 11.935 5.75424 11.9434L5.30424 12.2576C5.17508 12.1992 5.15924 12.0834 5.12091 11.9576L5.12508 11.9309L5.54758 11.8275ZM4.92008 11.3967L5.12174 11.4784L5.01341 11.5409L4.90924 11.5526L4.92008 11.3967ZM4.90924 7.09672C5.16424 7.16838 5.08341 7.12005 5.09424 7.31088C4.97758 7.24255 4.96924 7.21088 4.90924 7.09672ZM4.90924 10.9376L4.92674 10.7517C5.02591 10.8209 5.06008 10.8617 5.12174 10.9667C5.05093 10.9568 4.9801 10.9471 4.90924 10.9376ZM5.33424 8.25172C5.25424 8.35422 5.25758 8.32672 5.12174 8.38588L5.21424 8.17088L5.33424 8.25172ZM5.33424 7.38672L5.20091 7.52588C5.06758 7.45088 5.13008 7.48088 5.19008 7.34172L5.26924 7.31088L5.33424 7.38672ZM5.31674 7.02088L5.12174 6.88088C5.27174 6.93838 5.23674 6.90338 5.31674 7.02088ZM4.90924 10.9667L5.12174 11.1359C5.01341 11.1334 4.95508 11.1101 4.90924 10.9667ZM5.54591 10.9584L5.45924 10.9667L5.38508 10.8301L5.33341 10.7634L5.44841 10.7517C5.48091 10.8209 5.51258 10.89 5.54591 10.9584ZM5.42924 6.97672L5.33341 6.88172C5.42674 6.94672 5.36508 6.88338 5.42841 6.97755L5.42924 6.97672ZM5.44174 10.5184L5.33341 10.2934L5.37924 10.1084L5.40591 10.1067L5.54591 10.5367C5.5112 10.5305 5.47648 10.5244 5.44174 10.5184ZM4.88591 13.0209L4.90924 13.0492L4.83341 13.3334C4.74416 13.2963 4.66557 13.2376 4.60474 13.1625C4.54392 13.0874 4.50279 12.9984 4.48508 12.9034L4.88591 13.0217V13.0209ZM4.27258 13.3334L4.48508 13.5217C4.34924 13.4617 4.34091 13.4642 4.27258 13.3334ZM4.63924 11.4267L4.66424 11.6126L4.48508 11.3976L4.63924 11.4267ZM4.42924 12.4326L4.27258 12.0434C4.45841 12.1142 4.60341 12.3267 4.69758 12.4734L4.42924 12.4326ZM4.59591 8.60422L4.64841 8.60255L4.49341 8.81755C4.46841 8.76422 4.49924 8.71338 4.58508 8.65088L4.59591 8.60422ZM4.48508 10.4526L4.44258 10.5376L4.32091 10.4434C4.30478 10.4092 4.28867 10.3751 4.27258 10.3409L4.43924 10.3226L4.48508 10.4526ZM3.00008 12.2584C3.42508 12.5351 4.14758 12.7917 4.27258 13.3334C3.76869 13.0817 3.33236 12.7131 3.00008 12.2584ZM4.10258 12.0501L4.27258 12.2584L3.84841 12.0434L4.10258 12.0501ZM5.65591 12.6884L5.33341 12.3634L5.89758 11.8284L5.97008 12.4176L5.65591 12.6884ZM5.97008 13.0476L6.02591 12.9076L6.10091 12.9034L6.18174 13.1184L5.97008 13.0476ZM6.25591 12.2584L6.18174 12.0434L6.33591 12.0717L6.25591 12.2584ZM5.97008 5.01672L5.97174 4.99755C6.04174 4.98088 6.11174 4.96422 6.18174 4.94588L6.03508 5.16088L5.97008 5.01672ZM3.83091 9.46255L3.63674 9.03255C3.88591 9.08672 3.84508 9.26422 3.83091 9.46255ZM3.31174 9.67755C3.13008 9.55172 3.01424 9.30088 3.00008 9.03255C3.37258 9.12005 3.35174 9.26672 3.42508 9.60672L3.31174 9.67755ZM3.09258 8.55505C2.82174 8.29922 3.21591 7.27588 3.38924 7.04005C3.48091 6.92422 3.59591 6.92672 3.74758 6.88172L3.84841 6.90755C3.59341 7.35922 3.42174 7.97422 3.36091 8.60255L3.09258 8.55505ZM2.69674 12.0434L2.82591 12.2609L2.71008 12.5317L2.64341 12.6026C2.73841 12.6159 2.76008 12.5342 2.90174 12.4184C3.17674 12.8642 3.59674 13.2909 4.06008 13.5334L3.80758 13.9784L3.04091 13.485C2.95341 13.3225 3.07424 13.1359 2.93341 13.0367C2.80591 12.9467 2.64174 13.0767 2.51174 13.0376L2.15174 12.7076C2.25758 12.4709 2.35924 12.2392 2.56841 12.1184L2.69674 12.0434ZM1.96341 9.67172C1.99233 9.45725 2.03379 9.24467 2.08758 9.03505L2.11591 9.03255L2.22674 9.67172L2.28508 10.0051C2.45174 10.47 2.62008 10.9342 2.78841 11.3976C2.38508 11.1776 2.13591 10.6684 2.17174 9.98338C2.07508 10.2042 2.15508 10.5517 2.18674 10.7467C1.93924 10.5367 1.90841 10.1192 1.96341 9.67172ZM1.59508 9.89255C1.55654 9.81119 1.53229 9.7238 1.52341 9.63422C1.51154 9.51361 1.51266 9.39208 1.52674 9.27172L1.56341 9.19505L1.72758 9.03255L1.63508 9.63338L1.59508 9.89172V9.89255ZM16.3634 12.0426L15.9392 11.8792L16.3509 11.8284L16.3634 12.0426ZM5.13841 15.5425L5.24924 15.4842L5.12091 15.6984L5.13758 15.5434L5.13841 15.5425ZM1.93924 8.17255L1.75841 8.15588C1.53341 8.08172 1.32258 7.81922 1.30341 7.52755C1.64758 7.55838 1.76424 7.72172 1.93424 7.92088C1.93591 8.00422 1.93841 8.08838 1.93924 8.17255ZM1.91424 8.15505C1.93924 7.69088 1.58508 7.40088 1.12508 7.41338C1.20341 6.76172 1.77008 6.42838 2.27508 6.20922L2.37258 6.20172C2.28841 7.02005 2.35258 7.72505 2.04674 8.43338C1.82091 8.95505 1.02008 8.94505 1.06341 9.75005L1.06924 9.81672C1.18341 10.8867 2.34674 11.1042 2.50758 12.0451C0.782578 12.9226 2.88508 16.6101 4.24924 14.4442C4.49424 14.4792 4.71174 14.59 5.01591 14.4834C5.15758 14.405 5.18508 14.3417 5.24008 14.1784L5.72758 14.4309L5.75258 14.4925C5.30591 14.8392 4.99091 15.315 4.51091 15.64L4.55674 15.5084L4.43174 15.4859L4.36258 15.5234L4.30008 15.8151C4.57424 16.095 5.40508 15.0825 5.64841 14.8842C5.51091 15.365 5.17091 15.6125 4.98174 16.0525L5.04008 16.1125C5.39841 15.8559 5.83758 15.1292 5.90424 14.5767L6.44091 14.6659C5.76841 15.5751 4.04091 17.5751 3.13258 18.1092C3.27091 17.6751 3.49091 17.3434 3.60258 16.9867L3.53758 16.9917C3.5182 16.9716 3.49876 16.9516 3.47924 16.9317C3.25841 17.3667 2.89424 17.6725 2.82924 18.2592C2.86808 18.3174 2.91722 18.3679 2.97424 18.4084C4.05424 18.2284 5.85758 15.5142 6.71924 14.7725C6.48591 17.1142 5.23091 17.4792 4.14258 18.8975C5.13174 18.4042 5.73174 17.1459 6.57758 16.4475C6.48424 17.425 6.25174 19.6109 5.66674 20L5.76341 19.9925C6.42008 19.5842 6.45841 17.905 6.67758 17.0467L6.77091 16.1442L7.70841 14.8275L7.77674 14.79C7.88174 15.1192 8.35674 15.4767 8.87091 15.3809L9.24008 15.2259L10.1667 15.5725C10.2884 16.9059 10.2417 17.6534 9.39758 18.6684C10.2601 18.2275 10.5767 16.5292 10.2892 15.6275C12.2951 15.86 12.2142 15.1834 11.8342 13.7225L12.1867 13.7284C12.1217 13.6309 11.9459 13.7034 11.8117 13.6284C11.7509 13.5892 11.7626 13.5967 11.7251 13.5384C12.2017 13.0009 13.3501 13.535 13.1084 14.4275C13.4384 13.6875 12.7092 13.0292 12.0067 13.2942C12.3067 12.9384 12.6701 12.6459 12.8601 12.175L12.9284 12.1384L14.5784 13.8717L14.6759 13.8642L14.7509 13.7625C14.2259 13.1409 13.7017 12.5184 13.1784 11.8959L13.3467 11.8192C13.384 11.7808 13.4296 11.7517 13.4802 11.7342C13.5307 11.7167 13.5846 11.7113 13.6376 11.7184C13.6098 11.7046 13.582 11.6907 13.5542 11.6767C14.3967 11.7609 15.4734 12.4634 16.3526 12.2367C16.4334 12.0959 16.4376 12.0201 16.3884 11.8826C17.3251 11.9059 19.0101 11.5926 19.5467 11.1376C18.1051 11.4401 16.4817 11.5426 15.1584 11.3659L13.9859 11.2284L13.9201 11.2334L14.2359 10.6667C15.2026 10.6484 17.7376 10.6242 18.2501 10.0176L18.1367 9.86588L17.6951 9.80255C17.6642 9.85187 17.6469 9.90853 17.6451 9.96672L17.9951 10.0042C17.2351 10.1959 15.1184 10.6001 14.4276 10.3642C14.3551 10.2759 14.4084 9.96922 14.4117 9.74838C14.413 9.70887 14.4113 9.66932 14.4067 9.63005C15.4001 9.33338 16.1376 8.66505 16.4401 7.65672C16.6126 7.07922 16.4984 6.32088 16.8717 5.96088C17.1101 5.98172 17.1584 6.08255 17.3334 6.15088C17.2409 6.02255 17.1084 5.95088 16.9426 5.89255L16.6317 6.10672C16.3476 6.21672 16.0501 5.92922 15.5676 6.15338C15.1759 5.81838 14.9551 5.28922 14.4259 5.08672L14.3717 4.99505L15.0134 4.37088C14.8034 4.54672 14.5892 4.75422 14.3751 4.96255L13.9451 4.77005L13.9201 4.70755C14.4101 4.36088 14.8451 4.23255 15.4026 4.34255C15.4284 4.39422 15.4559 4.44505 15.4826 4.49672C15.4567 4.54088 15.4334 4.55338 15.4109 4.56588L15.2234 4.51588C15.3042 4.56338 15.3884 4.57838 15.4726 4.59338L15.5434 4.52422L15.5542 4.42755C15.4326 4.31922 15.3951 4.24088 15.1559 4.23255L15.2701 4.06422C14.9967 4.25255 14.4417 4.30255 14.1701 4.46588L14.7984 3.97088L14.8734 3.87005L13.7109 4.56338C13.4626 4.54672 13.1984 4.43005 13.0642 4.29088C13.0429 4.29253 13.0215 4.2942 13.0001 4.29588L14.3801 3.36255L14.3576 3.26838C13.8342 3.57338 13.3101 3.87838 12.7876 4.18422L12.2859 4.06088L12.3326 3.61005L15.9301 0.785051L15.9942 0.780051L15.9434 0.655885C15.8101 0.592551 15.2626 1.03672 15.0559 1.16922C14.2592 1.68005 13.5551 2.31588 12.7717 2.77755C13.0951 2.36672 13.6867 1.95755 13.7851 1.35922L13.6267 1.33922L13.3801 1.54922L13.6484 1.43255C13.4751 1.96005 12.6901 2.90172 12.2467 3.20005L12.1951 3.07588C12.4834 2.59088 12.7676 1.93838 12.6342 1.31588L12.3926 1.17422L12.1334 1.19338C12.2992 1.25922 12.4117 1.27505 12.5334 1.35588C12.6109 1.95922 12.3142 2.36755 12.1542 2.85588L12.0859 2.89255C11.9792 2.69505 11.9859 2.60005 11.7667 2.56422L11.7476 2.43755L11.8976 2.23422L12.0009 2.16255C12.0359 2.22922 12.0376 2.20505 12.0484 2.31922C12.0791 2.27016 12.0961 2.21375 12.0976 2.15588L11.9751 2.10088L11.6509 2.44422C11.3801 2.26338 11.0817 2.07338 10.7009 2.00255C10.9167 1.55505 11.5726 0.835885 11.2342 0.268385C10.8209 -0.421615 9.41008 0.373385 8.89341 0.920885C8.83347 0.981933 8.7814 1.05024 8.73841 1.12422C8.78955 1.08355 8.84122 1.04354 8.89341 1.00422C9.40341 0.624218 10.7609 -0.285782 11.0551 0.441718C11.3634 0.847551 10.7726 1.62838 10.6117 1.94588C10.0617 1.89005 9.48674 1.83755 8.89508 1.84922C8.27232 1.85465 7.65396 1.9541 7.06091 2.14422C6.76091 2.24338 5.48091 3.01005 5.43174 3.00005L4.84841 2.43505L3.62841 1.82255L3.62174 1.88672L3.55008 1.95588L5.11341 3.27922L4.87508 3.42505C4.23174 2.93755 3.78841 2.64172 2.83091 2.39255L2.66924 2.40505C3.22841 2.79005 3.79174 3.14255 4.35424 3.49588L4.46674 3.64755C4.06508 3.81672 3.89508 4.16838 3.55591 4.38672C3.02591 4.13338 2.53508 3.90338 1.89258 3.70922L1.84758 3.84088L3.05091 4.61588L3.11591 4.61088L2.90841 4.75422C2.81258 5.07672 2.62508 5.45088 2.46841 5.90588C1.86841 6.39422 1.09091 6.36505 0.970078 7.36005C0.778411 7.41255 0.643411 7.42922 0.468411 7.55755L0.455078 7.68672C0.565078 7.84005 1.53924 8.25255 1.77174 8.29255L1.91508 8.15422L1.91424 8.15505ZM9.03091 1.27505L9.12008 1.29172L9.00091 1.27672C8.98008 1.27672 8.95924 1.27838 8.93924 1.27922C9.03341 1.10422 9.31008 1.06088 9.57591 1.08005L9.55758 1.20672L9.03758 1.23255L9.03091 1.27505ZM9.40258 1.50588L9.65258 1.42422C9.76091 1.24422 9.82258 1.05338 9.76758 0.879218C9.51008 0.828385 9.36174 0.890885 9.12091 0.992551C9.07708 1.06381 9.03347 1.1352 8.99008 1.20672L8.94008 1.29005C8.95548 1.30794 8.97219 1.32465 8.99008 1.34005C9.07174 1.40672 9.17008 1.43005 9.35091 1.41505C9.40091 1.50005 9.34258 1.46255 9.25341 1.48588L9.40341 1.50588H9.40258ZM15.5717 3.44172L15.3034 3.49172L15.4684 3.48005L15.6576 3.56172L15.3709 4.08672C15.5184 3.91255 15.6651 3.78922 15.7276 3.52505L15.5717 3.44172ZM14.0301 11.8292C13.9634 11.7101 13.8909 11.6317 13.8184 11.6134C13.8826 11.6742 13.9567 11.7459 14.0301 11.8292ZM13.1817 14.4092L12.9701 14.5325L13.1326 14.5175L13.1826 14.4092H13.1817ZM14.0301 11.8292C14.2459 12.0725 14.4076 12.5392 14.3609 12.9042C14.6059 12.3751 14.3267 12.0451 14.0301 11.8292Z" fill="white"/>
+</g>
+<defs>
+<clipPath id="clip0_2426_17832">
+<rect width="20" height="20" fill="white"/>
+</clipPath>
+</defs>
+</svg>
+</div></a></div> <div class="tw-invisible tw-flex tw-items-center"><a class="tw-flex tw-flex-row tw-items-center tw-gap-1.5 tw-text-slate-300" st="footer-locale-switch" href="#"><img width="16" height="12" data-nuxt-img srcset="https://img.beget.com/b/w:16/h:12/plain/site/assets/img/icons/flags/usa.svg 1x, https://img.beget.com/b/w:32/h:24/plain/site/assets/img/icons/flags/usa.svg 2x" onerror="this.setAttribute(&#39;data-error&#39;, 1)" class="tw-shrink-0" alt="lang-en" loading="lazy" src="https://img.beget.com/b/w:16/h:12/plain/site/assets/img/icons/flags/usa.svg"> <span>English</span></a></div> <div class="tw-flex tw-gap-2.5"><a title="Доступно в Google Play" href="https://play.google.com/store/apps/details?id=com.beget.mobileapp" target="_blank"><img width="135" height="40" data-nuxt-img srcset="https://img.beget.com/b/w:135/h:40/plain/site/assets/img/icons/universal/googleplay@2x.png@.webp 1x, https://img.beget.com/b/w:270/h:80/plain/site/assets/img/icons/universal/googleplay@2x.png@.webp 2x" onerror="this.setAttribute(&#39;data-error&#39;, 1)" alt="googleplay-ru" loading="lazy" src="https://img.beget.com/b/w:135/h:40/plain/site/assets/img/icons/universal/googleplay@2x.png@.webp"></a></div></div> <div class="tw-mt-8 tw-font-body tw-text-sm tw-font-normal md:tw-px-6 tw-px-0 tw-text-zinc-500">© 2007–2026 ООО «Бегет». <span>Зарегистрированный товарный знак <a href="/ru/pravila-i-liczenzii#licenzii" class="">№530993</a>.</span> <span>Лицензия Роскомнадзор <a href="/ru/pravila-i-liczenzii#licenzii" class="">№171835</a>.</span> <span>Свидетельство о регистрации СМИ BEGET <a href="/ru/pravila-i-liczenzii#licenzii" class="">№ФС77-71934</a>,</span> выданное Федеральной службой по надзору в сфере связи, информационных технологий и массовых коммуникаций (Роскомнадзор). Учредитель СМИ ООО &quot;Бегет&quot;, главный редактор - Клюков Александр Евгеньевич. Сайт может содержать контент, не предназначенный для лиц младше 16 лет. Адрес: 195112, Россия, Санкт-Петербург, площадь Карла Фаберже, д. 8Б, оф. 723. <div>ПО Веб-платформа &quot;БЕГЕТ&quot; включено в Единый реестр российских программ для электронных вычислительных машин и баз данных. <a href="https://reestr.digital.gov.ru/reestr/1334216/" rel="nofollow">Запись в реестре №16697 от 20.02.2023</a>.
+                        <div class="tw-my-2">* по данным статистического сайта Технического центра Интернета statdom.ru по числу доменов .ru/.рф/.su на странице “Хостинг-провайдеры” и по числу доменов в зонах .ru/.рф на странице “Распределение доменов по регистраторам” на июнь 2024 года.</div> <div class="tw-mb-2">** по данным аналитического сайта cnews.ru в рейтинге провайдеров IT-услуг за 2023 год.</div></div> <div><img width="25" height="20" data-nuxt-img srcset="https://img.beget.com/b/w:25/h:20/plain/site/assets/img/layout/16+.svg 1x, https://img.beget.com/b/w:50/h:40/plain/site/assets/img/layout/16+.svg 2x" onerror="this.setAttribute(&#39;data-error&#39;, 1)" alt="16+" loading="lazy" src="https://img.beget.com/b/w:25/h:20/plain/site/assets/img/layout/16+.svg"></div></div><!--]--></div></div></div></div> <!----><!--]--></div></div> <div><!--[--><!----><!----><!--]--></div> <!----></div></div><div id="teleports"></div><script nonce="[REDACTED]">window.__NUXT__={};window.__NUXT__.config={public:{networkDriveEnabled:false,gtag:{enabled:true,initMode:"auto",id:"G-PZJSKZPBP7",initCommands:[],config:{linker:{domains:["beget.com","cp.beget.com"]},custom_map:{dimension1:"clientId"},transport_url:"https://sgtm.beget.com"},tags:[],loadingStrategy:"defer",url:"https://sgtm.beget.com/gtag/js"},nuxtIcon:{ssr:true,ssrStoragePath:"beget-icons",baseClientUrl:"https://img.beget.com/b/plain/icons",baseServerUrl:"https://img-static.beget.com/b/plain/icons"},nuxtVideo:{baseUrl:""},i18n:{baseUrl:"https://beget.com",defaultLocale:"ru",rootRedirect:"",redirectStatusCode:302,skipSettingLocaleOnNavigate:false,locales:[{code:"ru",language:"ru"},{code:"en",language:"en"}],detectBrowserLanguage:false,experimental:{localeDetector:"",typedPages:true,typedOptionsAndMessages:false,alternateLinkCanonicalQueries:true,devCache:false,cacheLifetime:"",stripMessagesPayload:false,preload:false,strictSeo:false,nitroContextDetection:true,httpCacheDuration:10},domainLocales:{ru:{domain:""},en:{domain:""}}}},app:{baseURL:"/",buildId:"b2ccc3f2-1b37-4009-be7b-332702e99862",buildAssetsDir:"/_nuxt/v2/",cdnURL:"https://assets-site.beget.com"}}</script><script nonce="[REDACTED]" type="application/json" data-nuxt-data="nuxt-app" data-ssr="true" id="__NUXT_DATA__" data-src="https://assets-site.beget.com/ru/uridicheskie-pravila-programmi-grantov/_payload.json?b2ccc3f2-1b37-4009-be7b-332702e99862">[{"state":1,"once":13,"_errors":14,"serverRendered":6,"path":16,"pinia":17,"prerenderedAt":-1},["Reactive",2],{"$si18n:cached-locale-configs":3,"$si18n:resolved-locale":10,"$spagesCache":11},{"ru":4,"en":7},{"fallbacks":5,"cacheable":6},[],true,{"fallbacks":8,"cacheable":6},[9],"ru","",{"/en/uridicheskie-pravila-programmi-grantov":12},false,["Set"],["ShallowReactive",15],{"/ru/uridicheskie-pravila-programmi-grantovpageData":-1},"/ru/uridicheskie-pravila-programmi-grantov",["Reactive",18],{"currency":19,"auth":27,"index":32,"banner":42,"kb":49},{"currencyRates":20},["Ref",21],["Reactive",22],["null","UAH",23,"USD",24,"EUR",25,"KZT",26],1.74,84.2569,97.8728,0.1663,{"token":28,"websiteToken":30,"trackId":31},["EmptyRef",29],"\"\"",["EmptyRef",29],["EmptyRef",29],{"isMounted":33,"isLoadingPage":35,"isLoadingContent":36,"ymClientId":37,"vpsUnattendedInstall":38,"isBot":39,"isHeaderSearchVisible":40,"vpsAddPublicIp":41},["EmptyRef",34],"false",["EmptyRef",34],["EmptyRef",34],["EmptyRef",29],["EmptyRef",34],["EmptyRef",34],["EmptyRef",34],["EmptyRef",34],{"banners":43,"bannerViewCounts":46},["Ref",44],["Reactive",45],[],["Ref",47],["Reactive",48],{},{"defaultOrder":50},["Ref",51],["Reactive",52],{"direction":53,"key":54},"DESC","POPULARITY"]</script></body></html>

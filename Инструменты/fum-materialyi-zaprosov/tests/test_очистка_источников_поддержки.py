@@ -142,10 +142,20 @@ class ОчисткаИсточников(unittest.TestCase):
         self.assertIn('2026-09-11', итог)
 
     def test_заголовки_токенов_и_трассировки(self):
-        for имя in ("X-XSRF-Token", "X-CSRF-Token", "X-Trace-Id", "X-Correlation-Id", "X-SP-CRID", "X-Tracking-Ref", "CDNUUID", "x-yandex-eu-request"):
+        for имя in ("X-XSRF-Token", "X-CSRF-Token", "X-Trace-Id", "X-Correlation-Id", "X-SP-CRID", "X-Tracking-Ref", "CDNUUID", "x-yandex-eu-request", "X-Forwarded-For", "Trace-Id"):
             результат = архив.redact_headers(имя + ": synthetic-private\r\n folded-private\r\nContent-Type: text/html\r\n")
             self.assertNotIn("private", результат)
             self.assertIn("Content-Type", результат)
+
+    def test_токен_websocket_в_конфигурации_страницы(self):
+        тело = '<script type="text/plain" id="app-config">{"websocket":{"isEnabled":true,"token":"synthetic-private"},"price":3000}</script><p>Public terms</p>'
+        итог = архив.очистить_служебный_html(тело)
+        self.assertNotIn('synthetic-private', итог)
+        self.assertIn('"price":3000', итог)
+        self.assertIn('Public terms', итог)
+        self.assertEqual(итог, архив.очистить_служебный_html(итог))
+        пример = '<p>{"websocket":{"token":"public-example"}}</p>'
+        self.assertEqual(архив.очистить_служебный_html(пример), пример)
 
     def test_диагностика_nonce_и_незакавыченное_поле(self):
         тело = '''<input name="csrftoken" value=synthetic-private-a><script nonce="synthetic-private-n">{"wgRequestId":"synthetic-private-id"}</script><div>Ваш IP-адрес:<div class=info-value><div id=q>192.0.2.13</div></div></div><div>Ваш ID запроса к ресурсу:<div class=info-value>synthetic-private-request</div></div>'''
