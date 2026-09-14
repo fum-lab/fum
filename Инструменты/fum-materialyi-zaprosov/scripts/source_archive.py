@@ -341,47 +341,47 @@ def redact_headers(raw: str) -> str:
     return "".join(lines)
 
 
-def очистить_диагностику_CAPTCHA(текст: str) -> str:
+def очистить_диагностику_проверки_человека(текст: str) -> str:
     """Находит контейнер CAPTCHA по структуре; обычные даты вне него сохраняет."""
     if "checkbox-captcha-form" not in текст:
         return текст
     class Контейнеры(HTMLParser):
-        def __init__(self):
+        def __init__(сам):
             super().__init__(convert_charrefs=False)
-            self.глубина = 0
-            self.активные = []
-            self.диапазоны = []
-            self.строки = [0]
+            сам.глубина = 0
+            сам.активные = []
+            сам.диапазоны = []
+            сам.строки = [0]
             for строка in текст.splitlines(keepends=True):
-                self.строки.append(self.строки[-1] + len(строка))
+                сам.строки.append(сам.строки[-1] + len(строка))
 
-        def позиция(self):
-            строка, колонка = self.getpos()
-            return self.строки[строка - 1] + колонка
+        def позиция(сам):
+            строка, колонка = сам.getpos()
+            return сам.строки[строка - 1] + колонка
 
-        def handle_starttag(self, tag, attrs):
-            атрибуты = dict(attrs)
+        def handle_starttag(сам, имя_тега, пары_атрибутов):
+            атрибуты = dict(пары_атрибутов)
             классы = (атрибуты.get("class") or "").split()
-            if tag == "div":
-                self.глубина += 1
+            if имя_тега == "div":
+                сам.глубина += 1
                 if "Container" in классы:
-                    self.активные.append({"начало": self.позиция(), "глубина": self.глубина, "форма": False, "captcha": False, "ключ": False})
-            for контейнер in self.активные:
-                if tag == "form" and атрибуты.get("id") == "checkbox-captcha-form" and (атрибуты.get("method") or "").upper() == "POST" and атрибуты.get("action") == urlsplit("https://example.org/checkcaptcha").path:
+                    сам.активные.append({"начало": сам.позиция(), "глубина": сам.глубина, "форма": False, "captcha": False, "ключ": False})
+            for контейнер in сам.активные:
+                if имя_тега == "form" and атрибуты.get("id") == "checkbox-captcha-form" and (атрибуты.get("method") or "").upper() == "POST" and атрибуты.get("action") == urlsplit("https://example.org/checkcaptcha").path:
                     контейнер["форма"] = True
-                if tag == "div" and атрибуты.get("data-testid") == "checkbox-captcha" and "CheckboxCaptcha" in классы:
+                if имя_тега == "div" and атрибуты.get("data-testid") == "checkbox-captcha" and "CheckboxCaptcha" in классы:
                     контейнер["captcha"] = True
-                if tag == "span" and атрибуты.get("data-testid") == "unique-key":
+                if имя_тега == "span" and атрибуты.get("data-testid") == "unique-key":
                     контейнер["ключ"] = True
 
-        def handle_endtag(self, tag):
-            if tag == "div":
-                for контейнер in list(self.активные):
-                    if контейнер["глубина"] == self.глубина:
+        def handle_endtag(сам, имя_тега):
+            if имя_тега == "div":
+                for контейнер in list(сам.активные):
+                    if контейнер["глубина"] == сам.глубина:
                         if all(контейнер[ключ] for ключ in ("форма", "captcha", "ключ")):
-                            self.диапазоны.append((контейнер["начало"], self.позиция() + len("</div>")))
-                        self.активные.remove(контейнер)
-                self.глубина -= 1
+                            сам.диапазоны.append((контейнер["начало"], сам.позиция() + len("</div>")))
+                        сам.активные.remove(контейнер)
+                сам.глубина -= 1
     парсер = Контейнеры()
     парсер.feed(текст)
     диапазоны = [п for п in парсер.диапазоны if not any(иной != п and иной[0] <= п[0] and п[1] <= иной[1] for иной in парсер.диапазоны)]
@@ -391,7 +391,7 @@ def очистить_диагностику_CAPTCHA(текст: str) -> str:
     return текст
 
 
-def очистить_служебный_html(текст: str) -> str:
+def очистить_служебную_разметку(текст: str) -> str:
     """Редактирует известные служебные поля, сохраняя остальное содержимое."""
     имена = r"(?:csrf[-_]?token|xsrf[-_]?token|x-csrf-token)"
     def очистить_тег(совпадение):
@@ -400,7 +400,7 @@ def очистить_служебный_html(текст: str) -> str:
             return тег
         return re.sub(r'(\b(?:value|content)\s*=\s*)(?:"[^"]*"|\x27[^\x27]*\x27|[^\s>]+)', lambda поле: поле[1] + '"[REDACTED]"', тег, flags=re.I)
     текст = re.sub(r'<(?:input|meta)\b[^>]*>', очистить_тег, текст, flags=re.I)
-    текст = очистить_диагностику_CAPTCHA(текст)
+    текст = очистить_диагностику_проверки_человека(текст)
     текст = re.sub(r'<[a-z][^>]*>', lambda тег: re.sub(r'(\snonce\s*=\s*)(?:"[^"]*"|\x27[^\x27]*\x27|[^\s>]+)', lambda поле: поле[1] + '"[REDACTED]"', тег[0], flags=re.I), текст, flags=re.I)
     префиксы = [r'[\"\x27](?:' + имена + r'|wgRequestId)[\"\x27]\s*:\s*', r'[\"\x27]csrf[\"\x27]\s*:\s*\{[^{}]*?[\"\x27]token[\"\x27]\s*:\s*']
     for префикс in префиксы:
@@ -775,8 +775,8 @@ def build_snapshot(
             body_bytes = gzip.decompress(body_bytes)
         if body_bytes.startswith(b"%PDF-") or info.get("content_type", "").split(";", 1)[0].strip().lower() == "application/pdf":
             raise ValueError("PDF requires separate byte-preserving capture and PDF extraction")
-        исходный_html = body_bytes.decode("utf-8", errors="surrogateescape")
-        сохранённые_байты = очистить_служебный_html(исходный_html).encode("utf-8", errors="surrogateescape")
+        исходная_разметка = body_bytes.decode("utf-8", errors="surrogateescape")
+        сохранённые_байты = очистить_служебную_разметку(исходная_разметка).encode("utf-8", errors="surrogateescape")
         html_text = сохранённые_байты.decode("utf-8", errors="replace")
         headers_text = raw_headers.read_text(encoding="utf-8", errors="replace")
 

@@ -157,13 +157,13 @@ class RunSmokeCheckTests(unittest.TestCase):
                 with сам.subTest(параметры=параметры), сам.assertRaisesRegex(ValueError, "слияния"):
                     run_smoke_check.build_steps(временный, None, корень_проверок=Path(временный), **параметры)
 
-    def test_контур_слияния_очищает_перенаправление_python_и_git(сам):
+    def test_контур_слияния_очищает_перенаправление_питона_и_гита(сам):
         with tempfile.TemporaryDirectory() as временный:
             корень = Path(временный).resolve()
             ключи = ("PYTHONPATH", "PYTHONHOME", "GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE")
             шаг = run_smoke_check.SmokeStep(
                 name="Проверить окружение слияния",
-                command=(sys.executable, "-I", "-B", "-c", "import os, sys; assert not any(k in os.environ for k in sys.argv[1:])", *ключи),
+                command=(sys.executable, "-I", "-B", "-c", 'import os, sys; assert not any(имя_переменной in os.environ for имя_переменной in sys.argv[1:])', *ключи),
             )
             with mock.patch.dict(os.environ, {ключ: "подмена" for ключ in ключи}):
                 with contextlib.redirect_stdout(io.StringIO()):
@@ -233,7 +233,7 @@ assert значения['СВЯЗНОСТЬ'] == Path(sys.argv[2]) / 'Инстр
             )
             сам.assertEqual(итог.returncode, 0, "Выбор реализации должен сохранять корень доверенных шаблонов")
 
-    def test_обычный_smoke_не_наследует_корень_реализации(сам):
+    def test_обычная_комплексная_проверка_не_наследует_корень_реализации(сам):
         with mock.patch.dict(os.environ, {"FUM_CHECKED_CODE_ROOT": "случайный-внешний-корень"}):
             сам.assertFalse(
                 "FUM_CHECKED_CODE_ROOT" in run_smoke_check.smoke_env(),

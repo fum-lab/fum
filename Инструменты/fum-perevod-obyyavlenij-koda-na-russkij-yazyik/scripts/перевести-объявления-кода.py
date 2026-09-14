@@ -81,7 +81,7 @@ from безопасные_привязки_python import ОбластиПито�
 контекстные_имена_посетителя = frozenset({
     "visit", "visit_Lambda", "visit_ListComp", "visit_SetComp", "visit_DictComp",
     "visit_GeneratorExp", "visit_Import", "visit_ImportFrom", "visit_ExceptHandler",
-    "visit_Global", "visit_Nonlocal", "visit_alias",
+    "visit_Global", "visit_Nonlocal", "visit_alias", "visit_Assign",
 })
 ключевые_слова_свифт = frozenset(
     {

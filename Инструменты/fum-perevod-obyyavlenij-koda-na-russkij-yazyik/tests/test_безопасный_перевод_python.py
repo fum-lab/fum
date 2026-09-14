@@ -82,7 +82,9 @@ def work(env, name, path, errors):
         текст = 'import math as error\nf = lambda value: value + 1\ntry:\n    pass\nexcept Exception as error:\n    print(error)\nx = [value for value in range(3)]\n'
         with сам.assertRaises(ValueError):
             сам.перевод(текст, {"error": "ошибка"})
-        итог = сам.перевод('f = lambda value: value + 1\nx = [value for value in range(3)]\n', {"value": "значение"})
+        with сам.assertRaises(ValueError):
+            сам.перевод('f = lambda value: value + 1\nescape(f)\n', {"value": "значение"})
+        итог = сам.перевод('f = (lambda value: value + 1)(2)\nx = [value for value in range(3)]\n', {"value": "значение"})
         сам.assertIn('lambda значение: значение + 1', итог)
         сам.assertIn('[значение for значение in range(3)]', итог)
 
@@ -139,13 +141,14 @@ def work(env, name, path, errors):
             сам.перевод(текст, {'name': 'имя'})
 
     def test_внешние_методы_посетителя_требуют_контекста(сам):
-        текст = 'import ast\ndef visit(): pass\nclass Other:\n    def visit(self): pass\nclass Visitor(ast.NodeVisitor):\n    def visit(self, node): pass\n    def visit_Lambda(self, node): pass\n    def visit_fake(self, node): pass\n'
+        текст = 'import ast\ndef visit(): pass\nclass Other:\n    def visit(self): pass\nclass Visitor(ast.NodeVisitor):\n    def visit(self, node): pass\n    def visit_Lambda(self, node): pass\n    def visit_fake(self, node): pass\n    def visit_Assign(self, node): pass\n'
         with tempfile.TemporaryDirectory() as каталог:
             файл = Path(каталог) / 'пример.py'
             файл.write_text(текст)
             найденные = переводчик.объявления_питона(файл, 'пример.py')
         сам.assertEqual([з.строка for з in найденные if з.имя == 'visit'], [2, 4])
         сам.assertFalse(any(з.имя == 'visit_Lambda' for з in найденные))
+        сам.assertFalse(any(з.имя == 'visit_Assign' for з in найденные))
         сам.assertTrue(any(з.имя == 'visit_fake' for з in найденные))
 
     def test_неизвестный_получатель_метода_с_переведённым_параметром(сам):

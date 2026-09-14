@@ -25,346 +25,346 @@ class Отказ(RuntimeError):
 
 
 def среда():
-    env = {k: v for k, v in os.environ.items()
-           if not k.startswith(("GIT_", "PYTHON"))}
-    env.update(GIT_NO_REPLACE_OBJECTS="1", GIT_NO_LAZY_FETCH="1", GIT_ATTR_NOSYSTEM="1",
+    окружение = {имя_поля: значение_поля for имя_поля, значение_поля in os.environ.items()
+           if not имя_поля.startswith(("GIT_", "PYTHON"))}
+    окружение.update(GIT_NO_REPLACE_OBJECTS="1", GIT_NO_LAZY_FETCH="1", GIT_ATTR_NOSYSTEM="1",
                GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL=os.devnull)
-    return env
+    return окружение
 
 
-def команда_git():
+def команда_гита():
     return ["git", "-c", "core.fsmonitor=false", "-c", "core.autocrlf=false",
             "-c", "core.eol=lf", "-c", "core.attributesFile=" + os.devnull,
             "-c", "core.hooksPath=" + os.devnull]
 
 
-def идентичность(root):
+def идентичность(рабочий_корень):
     # Настроенная идентичность читается как данные; глобальные фильтры,
     # hooks и остальные настройки не передаются транзакциям.
-    env = среда()
-    env.pop("GIT_CONFIG_GLOBAL")
-    env.pop("GIT_CONFIG_NOSYSTEM")
-    result = subprocess.run(команда_git() + ["var", "GIT_COMMITTER_IDENT"],
-                            cwd=root, env=env, capture_output=True, timeout=20)
-    match = re.fullmatch(r"(.+) <([^<>]+)> [0-9]+ [+-][0-9]{4}\n", result.stdout.decode())
-    if result.returncode or match is None:
+    окружение = среда()
+    окружение.pop("GIT_CONFIG_GLOBAL")
+    окружение.pop("GIT_CONFIG_NOSYSTEM")
+    результат = subprocess.run(команда_гита() + ["var", "GIT_COMMITTER_IDENT"],
+                            cwd=рабочий_корень, env=окружение, capture_output=True, timeout=20)
+    совпадение = re.fullmatch(r"(.+) <([^<>]+)> [0-9]+ [+-][0-9]{4}\n", результат.stdout.decode())
+    if результат.returncode or совпадение is None:
         raise Отказ("Не удалось подтвердить настроенную Git-идентичность")
-    return {"GIT_COMMITTER_NAME": match[1], "GIT_COMMITTER_EMAIL": match[2]}
+    return {"GIT_COMMITTER_NAME": совпадение[1], "GIT_COMMITTER_EMAIL": совпадение[2]}
 
 
-def git(root, *args):
-    p = subprocess.run(команда_git() + list(args), cwd=root, env=среда(),
+def выполнить_гит(рабочий_корень, *аргументы):
+    результат_гита = subprocess.run(команда_гита() + list(аргументы), cwd=рабочий_корень, env=среда(),
                        capture_output=True, timeout=60)
-    if p.returncode:
-        raise Отказ(p.stderr.decode(errors="replace").strip())
-    return p.stdout
+    if результат_гита.returncode:
+        raise Отказ(результат_гита.stderr.decode(errors="replace").strip())
+    return результат_гита.stdout
 
 
-def oid(root, ref):
-    return git(root, "rev-parse", "--verify", ref).decode().strip()
+def идентификатор_объекта(рабочий_корень, ссылка):
+    return выполнить_гит(рабочий_корень, "rev-parse", "--verify", ссылка).decode().strip()
 
 
-def дерево(root, ref):
-    result = {}
-    directories = []
-    for row in git(root, "ls-tree", "-rtz", ref).split(b"\0"):
-        if row:
-            meta, name = row.split(b"\t", 1)
-            mode, kind, value = meta.decode().split()
-            name = os.fsdecode(name)
-            if kind == "tree":
-                directories.append(name)
+def дерево(рабочий_корень, ссылка):
+    результат = {}
+    каталоги = []
+    for запись in выполнить_гит(рабочий_корень, "ls-tree", "-rtz", ссылка).split(b"\0"):
+        if запись:
+            метаданные, имя = запись.split(b"\t", 1)
+            режим, тип, значение = метаданные.decode().split()
+            имя = os.fsdecode(имя)
+            if тип == "tree":
+                каталоги.append(имя)
             else:
-                result[name] = (mode, value)
-    occupied = {str(p) for name in result for p in Path(name).parents if str(p) != "."}
-    for name in directories:
-        if name not in occupied:
+                результат[имя] = (режим, значение)
+    занятые_каталоги = {str(путь_элемента) for имя in результат for путь_элемента in Path(имя).parents if str(путь_элемента) != "."}
+    for имя in каталоги:
+        if имя not in занятые_каталоги:
             raise Отказ("Пустое поддерево не представимо точным индексом")
-    return result
+    return результат
 
 
-def снимок_объекта(root, ref, cache):
+def снимок_объекта(рабочий_корень, ссылка, кэш):
     # Только неизменяемые объекты полного OID; индекс и рабочие файлы
     # всегда перечитываются. Кэш принадлежит одному вызову перехода.
-    key = (root.resolve(), ref)
-    if key not in cache:
-        cache[key] = (дерево(root, ref), oid(root, ref + "^{tree}"),
-                      git(root, "rev-parse", "--show-object-format").decode().strip())
-    return cache[key]
+    ключ_кэша = (рабочий_корень.resolve(), ссылка)
+    if ключ_кэша not in кэш:
+        кэш[ключ_кэша] = (дерево(рабочий_корень, ссылка), идентификатор_объекта(рабочий_корень, ссылка + "^{tree}"),
+                      выполнить_гит(рабочий_корень, "rev-parse", "--show-object-format").decode().strip())
+    return кэш[ключ_кэша]
 
 
-def проверить_копию(root, ref, cache=None):
-    cache = {} if cache is None else cache
-    expected, tree_oid, algorithm = снимок_объекта(root, ref, cache)
-    actual = {}
-    for row in git(root, "ls-files", "--stage", "-z").split(b"\0"):
-        if not row:
+def проверить_копию(рабочий_корень, ссылка, кэш=None):
+    кэш = {} if кэш is None else кэш
+    ожидаемое, идентификатор_дерева, алгоритм = снимок_объекта(рабочий_корень, ссылка, кэш)
+    фактическое = {}
+    for запись in выполнить_гит(рабочий_корень, "ls-files", "--stage", "-z").split(b"\0"):
+        if not запись:
             continue
-        meta, name = row.split(b"\t", 1)
-        mode, value, stage = meta.decode().split()
-        if stage != "0":
+        метаданные, имя = запись.split(b"\t", 1)
+        режим, значение, стадия = метаданные.decode().split()
+        if стадия != "0":
             raise Отказ("Незакрытые стадии индекса")
-        actual[os.fsdecode(name)] = (mode, value)
-    if actual != expected or git(root, "write-tree").decode().strip() != tree_oid:
+        фактическое[os.fsdecode(имя)] = (режим, значение)
+    if фактическое != ожидаемое or выполнить_гит(рабочий_корень, "write-tree").decode().strip() != идентификатор_дерева:
         raise Отказ("Индекс не равен точному дереву")
-    for row in git(root, "ls-files", "-v", "-z").split(b"\0"):
-        if row and row[:1] != b"H":
+    for запись in выполнить_гит(рабочий_корень, "ls-files", "-v", "-z").split(b"\0"):
+        if запись and запись[:1] != b"H":
             raise Отказ("Скрытые или необычные флаги индекса")
-    for name, (mode, value) in expected.items():
-        path = root / name
-        for parent in path.parents:
-            if parent == root:
+    for имя, (режим, значение) in ожидаемое.items():
+        путь = рабочий_корень / имя
+        for родитель in путь.parents:
+            if родитель == рабочий_корень:
                 break
-            if parent.is_symlink():
+            if родитель.is_symlink():
                 raise Отказ("Символическая ссылка в родительском пути")
-        if mode == "160000":
-            if path.is_symlink() or not path.is_dir() or oid(path, "HEAD") != value:
+        if режим == "160000":
+            if путь.is_symlink() or not путь.is_dir() or идентификатор_объекта(путь, "HEAD") != значение:
                 raise Отказ("Материализация gitlink не совпала")
-            if Path(git(path, "rev-parse", "--show-toplevel").decode().strip()).resolve() != path.resolve():
+            if Path(выполнить_гит(путь, "rev-parse", "--show-toplevel").decode().strip()).resolve() != путь.resolve():
                 raise Отказ("Неверный физический корень gitlink")
-            проверить_копию(path, value, cache)
-            if git(path, "ls-files", "--others", "--ignored", "--exclude-standard", "-z"):
+            проверить_копию(путь, значение, кэш)
+            if выполнить_гит(путь, "ls-files", "--others", "--ignored", "--exclude-standard", "-z"):
                 raise Отказ("Лишние ignored-данные в материализации gitlink")
             continue
-        info = path.lstat()
-        if mode not in ("100644", "100755") or not stat.S_ISREG(info.st_mode):
+        сведения = путь.lstat()
+        if режим not in ("100644", "100755") or not stat.S_ISREG(сведения.st_mode):
             raise Отказ("Необычный тип отслеживаемого файла")
-        executable = bool(info.st_mode & 0o111)
-        if executable != (mode == "100755"):
+        исполняемый = bool(сведения.st_mode & 0o111)
+        if исполняемый != (режим == "100755"):
             raise Отказ("Режим рабочего файла не совпал")
-        data = path.read_bytes()
-        digest = hashlib.new(algorithm, b"blob " + str(len(data)).encode()
-                             + b"\0" + data).hexdigest()
-        if digest != value:
-            raise Отказ("Рабочие байты не равны точному дереву: " + name)
-    if git(root, "ls-files", "--others", "--exclude-standard", "-z"):
+        данные = путь.read_bytes()
+        хэш = hashlib.new(алгоритм, b"blob " + str(len(данные)).encode()
+                             + b"\0" + данные).hexdigest()
+        if хэш != значение:
+            raise Отказ("Рабочие байты не равны точному дереву: " + имя)
+    if выполнить_гит(рабочий_корень, "ls-files", "--others", "--exclude-standard", "-z"):
         raise Отказ("Есть неотслеживаемый пользовательский хвост")
 
 
-def ключ(name):
-    return unicodedata.normalize("NFC", name).casefold()
+def ключ(имя):
+    return unicodedata.normalize("NFC", имя).casefold()
 
 
-def проверить_границу(root, old, new, cache=None):
-    cache = {} if cache is None else cache
-    if git(root, "rev-parse", "--is-shallow-repository").strip() != b"false":
+def проверить_границу(рабочий_корень, прежний_коммит, новый_коммит, кэш=None):
+    кэш = {} if кэш is None else кэш
+    if выполнить_гит(рабочий_корень, "rev-parse", "--is-shallow-repository").strip() != b"false":
         raise Отказ("Shallow-история")
-    common = Path(git(root, "rev-parse", "--git-common-dir").decode().strip())
-    common = (root / common).resolve()
-    for name in ("info/grafts", "info/attributes"):
-        p = common / name
-        if p.exists() and p.stat().st_size:
+    общий_каталог = Path(выполнить_гит(рабочий_корень, "rev-parse", "--git-common-dir").decode().strip())
+    общий_каталог = (рабочий_корень / общий_каталог).resolve()
+    for имя in ("info/grafts", "info/attributes"):
+        путь_элемента = общий_каталог / имя
+        if путь_элемента.exists() and путь_элемента.stat().st_size:
             raise Отказ("Локальное переопределение истории или attributes")
-    before, after = снимок_объекта(root, old, cache)[0], снимок_объекта(root, new, cache)[0]
-    for name in set(before) | set(after):
-        if Path(name).name.casefold() == ".gitattributes":
+    прежнее_дерево, будущее_дерево = снимок_объекта(рабочий_корень, прежний_коммит, кэш)[0], снимок_объекта(рабочий_корень, новый_коммит, кэш)[0]
+    for имя in set(прежнее_дерево) | set(будущее_дерево):
+        if Path(имя).name.casefold() == ".gitattributes":
             raise Отказ("Этот узкий переход не поддерживает attributes")
-    links = lambda x: {k: v for k, v in x.items() if v[0] == "160000"}
-    if links(before) != links(after):
+    ссылки_зависимостей = lambda содержимое_дерева: {имя_поля: значение_поля for имя_поля, значение_поля in содержимое_дерева.items() if значение_поля[0] == "160000"}
+    if ссылки_зависимостей(прежнее_дерево) != ссылки_зависимостей(будущее_дерево):
         raise Отказ("Этот переход не меняет gitlink")
-    target = {ключ(p) for p in after}
-    if len(target) != len(after):
+    цель = {ключ(путь_элемента) for путь_элемента in будущее_дерево}
+    if len(цель) != len(будущее_дерево):
         raise Отказ("Регистровая или Unicode-коллизия цели")
-    parents = {ключ(str(p)) for name in after for p in Path(name).parents
-               if str(p) != "."}
-    if target & parents:
+    родители = {ключ(str(путь_элемента)) for имя in будущее_дерево for путь_элемента in Path(имя).parents
+               if str(путь_элемента) != "."}
+    if цель & родители:
         raise Отказ("Файл цели совпадает с родительским каталогом")
-    ignored = git(root, "ls-files", "--others", "--ignored", "--exclude-standard", "-z")
-    for raw in ignored.split(b"\0"):
-        if not raw:
+    игнорируемые_пути = выполнить_гит(рабочий_корень, "ls-files", "--others", "--ignored", "--exclude-standard", "-z")
+    for сырые_байты in игнорируемые_пути.split(b"\0"):
+        if not сырые_байты:
             continue
-        name = os.fsdecode(raw)
-        if Path(name).name.casefold() == ".gitattributes":
+        имя = os.fsdecode(сырые_байты)
+        if Path(имя).name.casefold() == ".gitattributes":
             raise Отказ("Игнорируемый attributes-файл рабочего дерева")
-        k = ключ(name)
-        if k in target or k in parents or any(ключ(str(p)) in target for p in Path(name).parents):
-            raise Отказ("Игнорируемый путь пересекается с целью: " + name)
+        ключ_пути = ключ(имя)
+        if ключ_пути in цель or ключ_пути in родители or any(ключ(str(путь_элемента)) in цель for путь_элемента in Path(имя).parents):
+            raise Отказ("Игнорируемый путь пересекается с целью: " + имя)
 
 
-def сохранить(path, value):
-    path.parent.mkdir(parents=True, exist_ok=True)
-    data = (json.dumps(value, ensure_ascii=False, sort_keys=True, indent=2) + "\n").encode()
-    fd, temporary = tempfile.mkstemp(prefix=".fum-intent-", dir=path.parent)
+def сохранить(путь, значение):
+    путь.parent.mkdir(parents=True, exist_ok=True)
+    данные = (json.dumps(значение, ensure_ascii=False, sort_keys=True, indent=2) + "\n").encode()
+    дескриптор, временный_путь = tempfile.mkstemp(prefix=".fum-intent-", dir=путь.parent)
     try:
-        with os.fdopen(fd, "wb") as stream:
-            stream.write(data)
-            stream.flush()
-            os.fsync(stream.fileno())
-        os.replace(temporary, path)
-        directory = os.open(path.parent, os.O_RDONLY)
+        with os.fdopen(дескриптор, "wb") as поток:
+            поток.write(данные)
+            поток.flush()
+            os.fsync(поток.fileno())
+        os.replace(временный_путь, путь)
+        дескриптор_каталога = os.open(путь.parent, os.O_RDONLY)
         try:
-            os.fsync(directory)
+            os.fsync(дескриптор_каталога)
         finally:
-            os.close(directory)
+            os.close(дескриптор_каталога)
     finally:
-        if os.path.exists(temporary):
-            os.unlink(temporary)
+        if os.path.exists(временный_путь):
+            os.unlink(временный_путь)
 
 
-def ответ(process, expected):
-    with selectors.DefaultSelector() as selector:
-        selector.register(process.stdout, selectors.EVENT_READ)
-        if not selector.select(20):
+def ответ(процесс, ожидаемое):
+    with selectors.DefaultSelector() as селектор:
+        селектор.register(процесс.stdout, selectors.EVENT_READ)
+        if not селектор.select(20):
             raise Отказ("Неопределённый исход Git-транзакции")
-        line = process.stdout.readline()
-    if line != expected + b": ok\n":
-        raise Отказ("Git не подтвердил фазу " + expected.decode())
+        строка = процесс.stdout.readline()
+    if строка != ожидаемое + b": ok\n":
+        raise Отказ("Git не подтвердил фазу " + ожидаемое.decode())
 
 
-def перейти(root, old, leading, new, intent, transaction_root, *, наблюдатель=lambda phase: None):
-    root, intent, transaction_root = root.resolve(), intent.resolve(), transaction_root.resolve()
-    if any(r == intent or r in intent.parents for r in (root, transaction_root)):
+def перейти(рабочий_корень, прежний_коммит, ведущий_коммит, новый_коммит, путь_намерения, корень_транзакции, *, наблюдатель=lambda фаза: None):
+    рабочий_корень, путь_намерения, корень_транзакции = рабочий_корень.resolve(), путь_намерения.resolve(), корень_транзакции.resolve()
+    if any(проверяемый_корень == путь_намерения or проверяемый_корень in путь_намерения.parents for проверяемый_корень in (рабочий_корень, корень_транзакции)):
         raise Отказ("Intent должен находиться вне checkout")
-    for value in (old, leading, new):
-        if not re.fullmatch(r"[0-9a-f]{40}|[0-9a-f]{64}", value):
+    for значение in (прежний_коммит, ведущий_коммит, новый_коммит):
+        if not re.fullmatch(r"[0-9a-f]{40}|[0-9a-f]{64}", значение):
             raise Отказ("Требуются полные OID")
-    if git(root, "symbolic-ref", "HEAD").strip() != b"refs/heads/master":
+    if выполнить_гит(рабочий_корень, "symbolic-ref", "HEAD").strip() != b"refs/heads/master":
         raise Отказ("HEAD не указывает на master")
-    parents = git(root, "show", "-s", "--format=%P", new).decode().strip().split()
-    if parents != [leading, old]:
+    родители = выполнить_гит(рабочий_корень, "show", "-s", "--format=%P", новый_коммит).decode().strip().split()
+    if родители != [ведущий_коммит, прежний_коммит]:
         raise Отказ("Иной порядок родителей кандидата")
-    current = oid(root, "HEAD")
-    cache = {}
-    state = {"M": old, "L": leading, "C": new, "T": снимок_объекта(root, new, cache)[1],
-             "корень": str(root), "контекст_транзакции": str(transaction_root),
+    текущий = идентификатор_объекта(рабочий_корень, "HEAD")
+    кэш = {}
+    состояние = {"M": прежний_коммит, "L": ведущий_коммит, "C": новый_коммит, "T": снимок_объекта(рабочий_корень, новый_коммит, кэш)[1],
+             "корень": str(рабочий_корень), "контекст_транзакции": str(корень_транзакции),
              "исполнитель_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}
-    previous = json.loads(intent.read_text()) if intent.exists() else None
-    if previous is not None and any(previous.get(k) != v for k, v in state.items()):
+    предыдущее_состояние = json.loads(путь_намерения.read_text()) if путь_намерения.exists() else None
+    if предыдущее_состояние is not None and any(предыдущее_состояние.get(имя_поля) != значение_поля for имя_поля, значение_поля in состояние.items()):
         raise Отказ("Intent относится к другой операции")
-    if current == new:
-        if previous is None:
+    if текущий == новый_коммит:
+        if предыдущее_состояние is None:
             raise Отказ("Повтор требует исходного intent")
-        проверить_копию(root, new, cache)
-        return {"состояние": "уже_достигнуто", "коммит": new}
-    if current != old:
+        проверить_копию(рабочий_корень, новый_коммит, кэш)
+        return {"состояние": "уже_достигнуто", "коммит": новый_коммит}
+    if текущий != прежний_коммит:
         raise Отказ("Master изменился")
-    проверить_границу(root, old, new, cache)
-    проверить_копию(root, old, cache)
-    common = git(root, "rev-parse", "--path-format=absolute", "--git-common-dir").strip()
-    if (common != git(root, "rev-parse", "--absolute-git-dir").strip()
-            or common != git(transaction_root, "rev-parse", "--path-format=absolute", "--git-common-dir").strip()
-            or common == git(transaction_root, "rev-parse", "--absolute-git-dir").strip()
-            or oid(transaction_root, "HEAD") != new):
+    проверить_границу(рабочий_корень, прежний_коммит, новый_коммит, кэш)
+    проверить_копию(рабочий_корень, прежний_коммит, кэш)
+    общий_каталог = выполнить_гит(рабочий_корень, "rev-parse", "--path-format=absolute", "--git-common-dir").strip()
+    if (общий_каталог != выполнить_гит(рабочий_корень, "rev-parse", "--absolute-git-dir").strip()
+            or общий_каталог != выполнить_гит(корень_транзакции, "rev-parse", "--path-format=absolute", "--git-common-dir").strip()
+            or общий_каталог == выполнить_гит(корень_транзакции, "rev-parse", "--absolute-git-dir").strip()
+            or идентификатор_объекта(корень_транзакции, "HEAD") != новый_коммит):
         raise Отказ("Требуются первичный master и его отдельный candidate worktree на C")
-    symbolic = subprocess.run(команда_git() + ["symbolic-ref", "-q", "HEAD"],
-                              cwd=transaction_root, env=среда(), capture_output=True)
-    if symbolic.returncode not in (0, 1) or symbolic.stdout.strip() == b"refs/heads/master":
+    символическая_ссылка = subprocess.run(команда_гита() + ["symbolic-ref", "-q", "HEAD"],
+                              cwd=корень_транзакции, env=среда(), capture_output=True)
+    if символическая_ссылка.returncode not in (0, 1) or символическая_ссылка.stdout.strip() == b"refs/heads/master":
         raise Отказ("Контекст транзакции не должен иметь HEAD master")
-    transaction_env = среда()
-    transaction_env.update(идентичность(root))
-    state["состояние"] = "подготовлено"
-    сохранить(intent, state)
-    process = None
-    head_guard = None
+    окружение_транзакции = среда()
+    окружение_транзакции.update(идентичность(рабочий_корень))
+    состояние["состояние"] = "подготовлено"
+    сохранить(путь_намерения, состояние)
+    процесс = None
+    блокировка_вершины = None
     try:
         наблюдатель("до_транзакции")
         # Проверка HEAD держит отдельный lock: Git запрещает её объединять
         # с update его referent, а main-worktree/HEAD не принимает для записи.
-        head_guard = subprocess.Popen(команда_git() + ["update-ref", "--no-deref", "--stdin"],
-                                      cwd=root, env=transaction_env, stdin=subprocess.PIPE,
+        блокировка_вершины = subprocess.Popen(команда_гита() + ["update-ref", "--no-deref", "--stdin"],
+                                      cwd=рабочий_корень, env=окружение_транзакции, stdin=subprocess.PIPE,
                                       stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=0)
-        head_guard.stdin.write(b"start\n")
-        ответ(head_guard, b"start")
-        head_guard.stdin.write(b"symref-verify HEAD refs/heads/master\nprepare\n")
-        ответ(head_guard, b"prepare")
-        process = subprocess.Popen(команда_git() + ["update-ref", "--no-deref", "--stdin"],
-                                   cwd=transaction_root, env=transaction_env, stdin=subprocess.PIPE,
+        блокировка_вершины.stdin.write(b"start\n")
+        ответ(блокировка_вершины, b"start")
+        блокировка_вершины.stdin.write(b"symref-verify HEAD refs/heads/master\nprepare\n")
+        ответ(блокировка_вершины, b"prepare")
+        процесс = subprocess.Popen(команда_гита() + ["update-ref", "--no-deref", "--stdin"],
+                                   cwd=корень_транзакции, env=окружение_транзакции, stdin=subprocess.PIPE,
                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=0)
-        process.stdin.write(b"start\n")
-        ответ(process, b"start")
-        process.stdin.write(f"update refs/heads/master {new} {old}\nprepare\n".encode())
-        ответ(process, b"prepare")
-        state["состояние"] = "refs_заблокированы"
-        сохранить(intent, state)
+        процесс.stdin.write(b"start\n")
+        ответ(процесс, b"start")
+        процесс.stdin.write(f"update refs/heads/master {новый_коммит} {прежний_коммит}\nprepare\n".encode())
+        ответ(процесс, b"prepare")
+        состояние["состояние"] = "refs_заблокированы"
+        сохранить(путь_намерения, состояние)
         наблюдатель("до_read_tree")
         # Двухдеревный fast-forward сохраняет защиту Git от изменённых файлов.
-        git(root, "read-tree", "-m", "-u", old, new)
+        выполнить_гит(рабочий_корень, "read-tree", "-m", "-u", прежний_коммит, новый_коммит)
         наблюдатель("после_read_tree")
-        проверить_копию(root, new, cache)
-        state["состояние"] = "checkout_подготовлен"
-        сохранить(intent, state)
-        if head_guard.poll() is not None:
+        проверить_копию(рабочий_корень, новый_коммит, кэш)
+        состояние["состояние"] = "checkout_подготовлен"
+        сохранить(путь_намерения, состояние)
+        if блокировка_вершины.poll() is not None:
             raise Отказ("Потерян процесс, удерживающий проверку HEAD")
-        process.stdin.write(b"commit\n")
-        ответ(process, b"commit")
-        process.stdin.close()
-        process.wait(timeout=20)
+        процесс.stdin.write(b"commit\n")
+        ответ(процесс, b"commit")
+        процесс.stdin.close()
+        процесс.wait(timeout=20)
         наблюдатель("после_commit")
-        if process.returncode or oid(root, "HEAD") != new or git(root, "symbolic-ref", "HEAD").strip() != b"refs/heads/master":
+        if процесс.returncode or идентификатор_объекта(рабочий_корень, "HEAD") != новый_коммит or выполнить_гит(рабочий_корень, "symbolic-ref", "HEAD").strip() != b"refs/heads/master":
             raise Отказ("Не подтверждён точный C после транзакции")
-        проверить_копию(root, new, cache)
-        head_guard.stdin.write(b"abort\n")
-        ответ(head_guard, b"abort")
-        head_guard.stdin.close()
-        head_guard.wait(timeout=20)
-        if head_guard.returncode:
+        проверить_копию(рабочий_корень, новый_коммит, кэш)
+        блокировка_вершины.stdin.write(b"abort\n")
+        ответ(блокировка_вершины, b"abort")
+        блокировка_вершины.stdin.close()
+        блокировка_вершины.wait(timeout=20)
+        if блокировка_вершины.returncode:
             raise Отказ("Не подтверждено освобождение проверки HEAD")
-        state["состояние"] = "завершено"
-        сохранить(intent, state)
-        return state
-    except BaseException as error:
-        errors = []
-        for child in (process, head_guard):
-            if child is None:
+        состояние["состояние"] = "завершено"
+        сохранить(путь_намерения, состояние)
+        return состояние
+    except BaseException as ошибка:
+        ошибки = []
+        for дочерний_процесс in (процесс, блокировка_вершины):
+            if дочерний_процесс is None:
                 continue
-            if child.poll() is None:
+            if дочерний_процесс.poll() is None:
                 try:
-                    child.stdin.write(b"abort\n")
-                    child.stdin.close()
-                    child.wait(timeout=5)
+                    дочерний_процесс.stdin.write(b"abort\n")
+                    дочерний_процесс.stdin.close()
+                    дочерний_процесс.wait(timeout=5)
                 except (OSError, ValueError, subprocess.TimeoutExpired):
-                    child.kill()
-                    child.wait(timeout=5)
-            errors.append(child.stderr.read().decode(errors="replace"))
-        state["git_stderr"] = "\n".join(errors)
-        state["состояние"] = "требуется_разбор"
-        state["ошибка"] = str(error)
+                    дочерний_процесс.kill()
+                    дочерний_процесс.wait(timeout=5)
+            ошибки.append(дочерний_процесс.stderr.read().decode(errors="replace"))
+        состояние["git_stderr"] = "\n".join(ошибки)
+        состояние["состояние"] = "требуется_разбор"
+        состояние["ошибка"] = str(ошибка)
         try:
-            state["фактический_HEAD"] = oid(root, "HEAD")
-            state["фактическое_дерево_индекса"] = git(root, "write-tree").decode().strip()
-        except Exception as read_error:
-            state["ошибка_чтения"] = str(read_error)
-        сохранить(intent, state)
+            состояние["фактический_HEAD"] = идентификатор_объекта(рабочий_корень, "HEAD")
+            состояние["фактическое_дерево_индекса"] = выполнить_гит(рабочий_корень, "write-tree").decode().strip()
+        except Exception as ошибка_чтения:
+            состояние["ошибка_чтения"] = str(ошибка_чтения)
+        сохранить(путь_намерения, состояние)
         raise
     finally:
-        for child in (process, head_guard):
-            if child is not None:
-                for stream in (child.stdin, child.stdout, child.stderr):
-                    stream.close()
+        for дочерний_процесс in (процесс, блокировка_вершины):
+            if дочерний_процесс is not None:
+                for поток in (дочерний_процесс.stdin, дочерний_процесс.stdout, дочерний_процесс.stderr):
+                    поток.close()
 
 
-def main():
-    p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("--корень", type=Path, required=True)
-    p.add_argument("--M", required=True)
-    p.add_argument("--L", required=True)
-    p.add_argument("--C", required=True)
-    p.add_argument("--запрос", required=True)
-    p.add_argument("--intent", type=Path, required=True)
-    p.add_argument("--кандидат", type=Path, required=True)
-    a = p.parse_args()
-    root = a.корень.resolve()
-    if oid(root, "HEAD") == a.C:
-        result = перейти(root, a.M, a.L, a.C, a.intent, a.кандидат)
-        print(json.dumps(result, ensure_ascii=False, indent=2))
+def главная():
+    разборщик = argparse.ArgumentParser(description=__doc__)
+    разборщик.add_argument("--корень", type=Path, required=True)
+    разборщик.add_argument("--M", required=True)
+    разборщик.add_argument("--L", required=True)
+    разборщик.add_argument("--C", required=True)
+    разборщик.add_argument("--запрос", required=True)
+    разборщик.add_argument("--intent", type=Path, required=True)
+    разборщик.add_argument("--кандидат", type=Path, required=True)
+    параметры = разборщик.parse_args()
+    рабочий_корень = параметры.корень.resolve()
+    if идентификатор_объекта(рабочий_корень, "HEAD") == параметры.C:
+        результат = перейти(рабочий_корень, параметры.M, параметры.L, параметры.C, параметры.intent, параметры.кандидат)
+        print(json.dumps(результат, ensure_ascii=False, indent=2))
         return
     # Приёмка выполняется до любой записи и до загрузки предлагаемых файлов C.
-    проверить_копию(root, a.M)
-    reader = root / "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py"
-    with tempfile.TemporaryDirectory(prefix="fum-promotion-python-") as cache:
-        command = [sys.executable, "-E", "-B", "-X", "pycache_prefix=" + cache, str(reader),
-                   "--корень-репозитория", str(root), "--коммит", a.C, "--запрос", a.запрос,
-                   "--допуск-слияния", "--база", a.L, "--присоединяемый", a.M,
-                   "--дерево", oid(root, a.C + "^{tree}")]
-        result = subprocess.run(command, env=среда(), capture_output=True, timeout=120)
-        if result.returncode or list(Path(cache).iterdir()):
-            raise Отказ("Доверенный читатель M не принял C: " + result.stderr.decode(errors="replace"))
-    print(json.dumps(перейти(root, a.M, a.L, a.C, a.intent, a.кандидат), ensure_ascii=False, indent=2))
+    проверить_копию(рабочий_корень, параметры.M)
+    читатель = рабочий_корень / "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py"
+    with tempfile.TemporaryDirectory(prefix="fum-promotion-python-") as кэш:
+        команда = [sys.executable, "-E", "-B", "-X", "pycache_prefix=" + кэш, str(читатель),
+                   "--корень-репозитория", str(рабочий_корень), "--коммит", параметры.C, "--запрос", параметры.запрос,
+                   "--допуск-слияния", "--база", параметры.L, "--присоединяемый", параметры.M,
+                   "--дерево", идентификатор_объекта(рабочий_корень, параметры.C + "^{tree}")]
+        результат = subprocess.run(команда, env=среда(), capture_output=True, timeout=120)
+        if результат.returncode or list(Path(кэш).iterdir()):
+            raise Отказ("Доверенный читатель M не принял C: " + результат.stderr.decode(errors="replace"))
+    print(json.dumps(перейти(рабочий_корень, параметры.M, параметры.L, параметры.C, параметры.intent, параметры.кандидат), ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":
     try:
-        main()
-    except Exception as error:
-        print(str(error), file=sys.stderr)
+        главная()
+    except Exception as ошибка:
+        print(str(ошибка), file=sys.stderr)
         raise SystemExit(1)

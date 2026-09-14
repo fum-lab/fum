@@ -26,6 +26,8 @@ def main():
     tests = load("promotion_tests", tool / "tests/test_продвижение_принятого_слияния.py")
     before = load("before", "продвижение-до-оптимизации.py")
     after = load("after", tool / "scripts/продвинуть_принятое_слияние.py")
+    адаптер = load("адаптер_истории", tool / "scripts/адаптер_исторического_продвижения.py")
+    before = адаптер.создать_адаптер_истории(before)
     fixture = tests.Продвижение()
     fixture.setUp()
     rows = []
@@ -38,9 +40,9 @@ def main():
                 variants.reverse()
             results = []
             for name, module in variants:
-                tests.module = module
-                fixture.g("reset", "--hard", fixture.M)
-                fixture.intent.unlink(missing_ok=True)
+                tests.модуль = module
+                fixture.выполнить_команду_гита("reset", "--hard", fixture.исходная_вершина)
+                fixture.путь_намерения.unlink(missing_ok=True)
                 count = [0]
                 original = module.subprocess.Popen
                 def counted(*args, **kwargs):
@@ -52,7 +54,7 @@ def main():
                 start = time.perf_counter_ns()
                 cpu = time.process_time_ns()
                 try:
-                    result = fixture.run_transition()
+                    result = fixture.выполнить_переход()
                 finally:
                     elapsed = time.perf_counter_ns() - start
                     cpu_elapsed = time.process_time_ns() - cpu
