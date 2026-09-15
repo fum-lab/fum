@@ -1,0 +1,1232 @@
+ <!DOCTYPE html>
+		<html
+			class="layout layout-holy-grail   show-table-of-contents conceptual show-breadcrumb default-focus"
+			lang="en-us"
+			dir="ltr"
+			data-authenticated="false"
+			data-auth-status-determined="false"
+			data-target="docs"
+			x-ms-format-detection="none"
+		>
+			
+		<head>
+			<title>Visual Studio 2022 System Requirements | Microsoft Learn</title>
+			<meta charset="utf-8" />
+			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+			<meta name="color-scheme" content="light dark" />
+
+			<meta name="description" content="Find the minimum system requirements, supported hardware, and languages for the Visual Studio 2022 product family." />
+			<link rel="canonical" href="https://learn.microsoft.com/en-us/visualstudio/releases/2022/system-requirements" /> 
+
+			<!-- Non-customizable open graph and sharing-related metadata -->
+			<meta name="twitter:card" content="summary_large_image" />
+			<meta name="twitter:site" content="@MicrosoftLearn" />
+			<meta property="og:type" content="website" />
+			<meta property="og:image:alt" content="Microsoft Learn" />
+			<meta property="og:image" content="https://learn.microsoft.com/en-us/media/open-graph-image.png" />
+			<!-- Page specific open graph and sharing-related metadata -->
+			<meta property="og:title" content="Visual Studio 2022 System Requirements" />
+			<meta property="og:url" content="https://learn.microsoft.com/en-us/visualstudio/releases/2022/system-requirements" />
+			<meta property="og:description" content="Find the minimum system requirements, supported hardware, and languages for the Visual Studio 2022 product family." />
+			<meta name="platform_id" content="4d9432fa-ae53-24c2-6447-a0544348399d" /> <meta name="scope" content="VS IDE" />
+			<meta name="locale" content="en-us" />
+			 
+			<meta name="uhfHeaderId" content="MSDocsHeader-VisualStudio" />
+
+			<meta name="page_type" content="conceptual" />
+
+			<!--page specific meta tags-->
+			
+
+			<!-- custom meta tags -->
+			
+		<meta name="breadcrumb_path" content="/visualstudio/releases/_breadcrumb/toc.json" />
+	
+		<meta name="feedback_system" content="None" />
+	
+		<meta name="author" content="DeDiv-VR" />
+	
+		<meta name="ms.author" content="jamshedd" />
+	
+		<meta name="manager" content="jamshedd" />
+	
+		<meta name="ms.topic" content="release-notes" />
+	
+		<meta name="ms.service" content="visual-studio-windows" />
+	
+		<meta name="ms.date" content="2025-11-11T00:00:00Z" />
+	
+		<meta name="ms.update-cycle" content="1095-days" />
+	
+		<meta name="document_id" content="3e5bef9f-5ad0-8381-2955-6593dd894843" />
+	
+		<meta name="document_version_independent_id" content="f1ea8d3d-6ba8-c089-e091-cfb5b7b2cb40" />
+	
+		<meta name="updated_at" content="2026-04-01T19:13:00Z" />
+	
+		<meta name="original_content_git_url" content="https://devdiv.visualstudio.com/DefaultCollection/DevDiv/_git/RECON?path=/visualstudio-release-docs/releases/2022/system-requirements.md&amp;version=GBlive&amp;_a=contents" />
+	
+		<meta name="gitcommit" content="https://devdiv.visualstudio.com/DefaultCollection/DevDiv/_git/RECON/commit/9d075a7c19d8ec61f83111618adad4f498641140?path=/visualstudio-release-docs/releases/2022/system-requirements.md&amp;_a=contents" />
+	
+		<meta name="git_commit_id" content="9d075a7c19d8ec61f83111618adad4f498641140" />
+	
+		<meta name="site_name" content="Docs" />
+	
+		<meta name="depot_name" content="MSDN.visualstudio-release-docs" />
+	
+		<meta name="schema" content="Conceptual" />
+	
+		<meta name="toc_rel" content="../toc.json" />
+	
+		<meta name="pdf_url_template" content="https://learn.microsoft.com/pdfstore/en-us/MSDN.visualstudio-release-docs/{branchName}{pdfName}" />
+	
+		<meta name="feedback_product_url" content="" />
+	
+		<meta name="feedback_help_link_type" content="" />
+	
+		<meta name="feedback_help_link_url" content="" />
+	
+		<meta name="word_count" content="1462" />
+	
+		<meta name="asset_id" content="releases/2022/system-requirements" />
+	
+		<meta name="moniker_range_name" content="" />
+	
+		<meta name="item_type" content="Content" />
+	
+		<meta name="source_path" content="visualstudio-release-docs/releases/2022/system-requirements.md" />
+	
+		<meta name="previous_tlsh_hash" content="7945D112A60EAD43EE919D1639E6F950A2B0C488F9651DD9513AF46218F52B325DBE5F54D31E036C23B4266241C9B00F0E93DF36833A17F28EB854EE402676D3762E3BF9E2" />
+	
+		<meta name="github_feedback_content_git_url" content="https://devdiv.visualstudio.com/DefaultCollection/DevDiv/_git/RECON?path=/visualstudio-release-docs/releases/2022/system-requirements.md&amp;version=GBlive&amp;_a=contents" />
+	
+		<meta name="markdown_url" content="https://learn.microsoft.com/en-us/visualstudio/releases/2022/system-requirements?accept=text/markdown" />
+	 
+		<meta name="cmProducts" content="https://authoring-docs-microsoft.poolparty.biz/devrel/4628cbd9-6f47-4ae1-b371-d34636609eaf" data-source="generated" />
+	
+		<meta name="spProducts" content="https://authoring-docs-microsoft.poolparty.biz/devrel/be21deb8-8c64-44b0-b71f-2dc56ca7364f" data-source="generated" />
+	
+
+			<!-- Apply persisted/system theme before first paint to prevent wrong-theme flash when scripts are deferred. -->
+			<script id="theme-preference">
+				(function () {
+			try {
+				var stored = localStorage.getItem('theme');
+				var theme = /^(light|dark|high-contrast)$/.test(stored)
+					? stored
+					: matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+				document.documentElement.classList.add('theme-' + theme);
+			} catch (e) {}
+		})();;
+			</script>
+
+			<script id="atlas-layout-preferences">
+				(function () {
+			try {
+				var state = JSON.parse(localStorage.getItem('atlas-layout-preferences') || '{}');
+				var view = state["docs-layout-persistence"] || {};
+				var excludesKey = "";
+				var blocked = {};
+				if (excludesKey) {
+					var exclusions = JSON.parse(localStorage.getItem('atlas-layout-exclusions') || '{}');
+					if (Object.prototype.hasOwnProperty.call(exclusions, excludesKey)) {
+						var scoped = exclusions[excludesKey];
+						if (scoped) {
+							if (typeof scoped === 'object') blocked = scoped;
+						}
+					}
+				}
+				var html = document.documentElement;
+				for (var c in view) {
+					if (Object.prototype.hasOwnProperty.call(blocked, c)) continue;
+					if (view[c]) html.classList.add(c);
+					else html.classList.remove(c);
+				}
+			} catch (e) {}
+		})();;
+			</script>
+
+			<!-- assets and js globals -->
+			
+			<link rel="stylesheet" href="/static/assets/0.4.03539.8233-36f14dd4/styles/site.css" />
+			
+			<script src="https://wcpstatic.microsoft.com/mscc/lib/v2/wcp-consent.js"></script>
+			<!-- Keep this URL in sync with oneDSScriptSelector in instrumentation/one-ds.ts. -->
+			<script async src="https://js.monitor.azure.com/scripts/c/ms.jsll-4.min.js"></script>
+			
+
+			<!-- msdocs global object -->
+			<script id="msdocs-script">
+		var msDocs = {
+  "environment": {
+    "accessLevel": "online",
+    "azurePortalHostname": "portal.azure.com",
+    "reviewFeatures": false,
+    "supportLevel": "production",
+    "systemContent": true,
+    "siteName": "learn",
+    "legacyHosting": false
+  },
+  "data": {
+    "contentLocale": "en-us",
+    "contentDir": "ltr",
+    "userLocale": "en-us",
+    "userDir": "ltr",
+    "pageTemplate": "Conceptual",
+    "layoutStateStorageKey": "docs-layout-persistence",
+    "brand": "",
+    "context": {},
+    "standardFeedback": false,
+    "showFeedbackReport": false,
+    "feedbackHelpLinkType": "",
+    "feedbackHelpLinkUrl": "",
+    "feedbackSystem": "None",
+    "feedbackGitHubRepo": "",
+    "feedbackProductUrl": "",
+    "extendBreadcrumb": true,
+    "isEditDisplayable": false,
+    "isPrivateUnauthorized": false,
+    "hideViewSource": false,
+    "isPermissioned": false,
+    "hasRecommendations": true
+  },
+  "functions": {}
+};;
+	</script>
+
+			<!-- base scripts, msdocs global should be before this -->
+			<script
+				src="/static/assets/0.4.03539.8233-36f14dd4/scripts/en-us/index-docs.js"
+				async
+			></script>
+			
+
+			<!-- json-ld -->
+			
+		</head>
+	
+			<body
+				id="body"
+				data-bi-name="body"
+				class="layout-body "
+				lang="en-us"
+				dir="ltr"
+			>
+				<header class="layout-body-header background-color-body-medium">
+		<div class="header-holder has-default-focus">
+			
+		<a
+			href="#main"
+			
+			style="z-index: 1070"
+			class="outline-color-text visually-hidden-until-focused position-fixed inner-focus focus-visible top-0 left-0 right-0 padding-xs text-align-center background-color-body"
+			
+		>
+			Skip to main content
+		</a>
+	
+		<a
+			href="#"
+			data-skip-to-ask-learn
+			style="z-index: 1070"
+			class="outline-color-text visually-hidden-until-focused position-fixed inner-focus focus-visible top-0 left-0 right-0 padding-xs text-align-center background-color-body"
+			hidden
+		>
+			Skip to Ask Learn chat experience
+		</a>
+	
+
+			<div hidden id="cookie-consent-holder" data-test-id="cookie-consent-container"></div>
+			<!-- Unsupported browser warning -->
+			<div
+				id="unsupported-browser"
+				style="background-color: white; color: black; padding: 16px; border-bottom: 1px solid grey;"
+				hidden
+			>
+				<div style="max-width: 800px; margin: 0 auto;">
+					<p style="font-size: 24px">This browser is no longer supported.</p>
+					<p style="font-size: 16px; margin-top: 16px;">
+						Upgrade to Microsoft Edge to take advantage of the latest features, security updates, and technical support.
+					</p>
+					<div style="margin-top: 12px;">
+						<a
+							href="https://go.microsoft.com/fwlink/p/?LinkID=2092881 "
+							style="background-color: #0078d4; border: 1px solid #0078d4; color: white; padding: 6px 12px; border-radius: 2px; display: inline-block;"
+						>
+							Download Microsoft Edge
+						</a>
+						<a
+							href="https://learn.microsoft.com/en-us/lifecycle/faq/internet-explorer-microsoft-edge"
+							style="background-color: white; padding: 6px 12px; border: 1px solid #505050; color: #171717; border-radius: 2px; display: inline-block;"
+						>
+							More info about Internet Explorer and Microsoft Edge
+						</a>
+					</div>
+				</div>
+			</div>
+			<!-- site header -->
+			<div
+				id="ms--site-header"
+				data-test-id="site-header-wrapper"
+				itemscope="itemscope"
+				itemtype="http://schema.org/Organization"
+			>
+				<div
+					id="ms--mobile-nav"
+					class="site-header display-none-tablet padding-inline-none gap-none"
+					data-bi-name="mobile-header"
+					data-test-id="mobile-header"
+				></div>
+				<div
+					id="ms--primary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L1-header"
+					data-test-id="primary-header"
+				></div>
+				<div
+					id="ms--secondary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L2-header"
+					data-test-id="secondary-header"
+					
+				></div>
+			</div>
+			
+		<!-- banner -->
+		<div data-banner>
+			<div id="disclaimer-holder"></div>
+			
+		</div>
+		<!-- banner end -->
+	
+		</div>
+	</header>
+				 <section
+					id="layout-body-menu"
+					class="layout-body-menu border-right display-flex background-color-body-medium"
+					data-bi-name="menu"
+			  >
+					
+		<div
+			id="left-container"
+			class="left-container display-none padding-none display-block-tablet width-full display-none-until-layout-restored"
+			data-toc-container="true"
+		>
+			<div
+				id="ms--toc-content"
+				class="padding-left-sm padding-right-none padding-bottom-sm height-full"
+			>
+				<nav
+					id="affixed-left-container"
+					class="margin-top-xxs-tablet position-sticky display-flex flex-direction-column width-full"
+					aria-label="Primary"
+					data-bi-name="left-toc"
+					role="navigation"
+				>
+					<div
+						id="ms--collapsible-toc-header"
+						class="display-flex flex-direction-row-reverse justify-content-center align-items-center margin-bottom-xxs margin-right-xxs"
+					>
+						<button
+							type="button"
+							class="button button-clear button-sm inner-focus"
+							data-collapsible-toc-toggle
+							aria-expanded="true"
+							hidden
+							aria-controls="ms--toc-content"
+							aria-label="Table of contents"
+						>
+							<span class="icon icon-mirrored-rtl" aria-hidden="true">
+								<span
+									class="docon docon-panel-left-contract display-none-layout-menu-collapsed"
+								></span>
+								<span
+									class="docon docon-panel-left-expand display-none display-inline-layout-menu-collapsed"
+								></span>
+							</span>
+						</button>
+						<div
+							id="ms--collapsible-toc-moniker-slot"
+							class="flex-grow-1 display-none-layout-menu-collapsed"
+						></div>
+					</div>
+				</nav>
+			</div>
+		</div>
+	
+			  </section>
+
+				<main
+					id="main"
+					role="main"
+					class="layout-body-main "
+					data-bi-name="content"
+					lang="en-us"
+					dir="ltr"
+				>
+					
+			<div
+		id="ms--content-header"
+		class="content-header default-focus border-bottom-none"
+		data-bi-name="content-header"
+	>
+		<div class="content-header-controls margin-xxs margin-inline-sm-tablet">
+			<button
+				type="button"
+				class="contents-button button button-sm margin-right-xxs"
+				data-bi-name="contents-expand"
+				aria-haspopup="true"
+				data-contents-button
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-menu"></span></span>
+				<span class="contents-expand-title"> Table of contents </span>
+			</button>
+			<button
+				type="button"
+				class="ap-collapse-behavior ap-expanded button button-sm"
+				data-bi-name="ap-collapse"
+				aria-controls="action-panel"
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-exit-mode"></span></span>
+				<span>Exit editor mode</span>
+			</button>
+		</div>
+	</div> 
+		<div
+			id="action-panel"
+			role="region"
+			aria-label="Action Panel"
+			class="action-panel"
+			tabindex="-1"
+		></div>
+	
+			<div
+				data-main-column
+				class="reading-width margin-inline-auto layout-padding padding-top-none padding-top-sm-tablet padding-bottom-sm"
+			>
+				<div>
+					
+		<div id="article-header" class="background-color-body margin-bottom-xs display-none-print">
+			<div class="display-flex align-items-center justify-content-space-between">
+				
+		<details
+			id="article-header-breadcrumbs-overflow-popover"
+			class="popover popover-left"
+			data-for="article-header-breadcrumbs"
+		>
+			<summary
+				class="button button-clear button-primary button-sm inner-focus"
+				aria-label="All breadcrumbs"
+			>
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-more"></span>
+				</span>
+			</summary>
+			<div id="article-header-breadcrumbs-overflow" class="popover-content"></div>
+		</details>
+
+		<bread-crumbs
+			id="article-header-breadcrumbs"
+			role="group"
+			aria-label="Breadcrumbs"
+			data-test-id="article-header-breadcrumbs"
+			class="overflow-hidden flex-grow-1 margin-right-sm margin-right-md-tablet margin-right-lg-desktop margin-left-negative-xxs padding-left-xxs"
+		></bread-crumbs>
+	 
+		<div
+			id="article-header-page-actions"
+			class="opacity-none margin-left-auto display-flex flex-wrap-no-wrap align-items-stretch"
+		>
+			
+		<button
+			class="button button-sm border-none inner-focus display-none-tablet flex-shrink-0 "
+			data-bi-name="ask-learn-assistant-entry"
+			data-test-id="ask-learn-assistant-modal-entry-mobile"
+			data-ask-learn-modal-entry
+			
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-label="Ask Learn"
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+		</button>
+		<button
+			class="button button-sm display-none display-inline-flex-tablet display-none-desktop flex-shrink-0 margin-right-xxs border-color-ask-learn "
+			data-bi-name="ask-learn-assistant-entry"
+			
+			data-test-id="ask-learn-assistant-modal-entry-tablet"
+			data-ask-learn-modal-entry
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+		<button
+			class="button button-sm display-none flex-shrink-0 display-inline-flex-desktop margin-right-xxs border-color-ask-learn "
+			data-bi-name="ask-learn-assistant-entry"
+			
+			data-test-id="ask-learn-assistant-flyout-entry"
+			data-ask-learn-flyout-entry
+			data-flyout-button="toggle"
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-controls="ask-learn-flyout"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+	 
+
+			<details class="popover popover-right" id="article-header-page-actions-overflow">
+				<summary
+					class="justify-content-flex-start button button-clear button-sm button-primary inner-focus"
+					aria-label="More actions"
+					title="More actions"
+				>
+					<span class="icon" aria-hidden="true">
+						<span class="docon docon-more-vertical"></span>
+					</span>
+				</summary>
+				<div class="popover-content">
+					
+		<button
+			type="button"
+			id="ms--focus-mode-button"
+			data-focus-mode
+			data-bi-name="focus-mode-entry"
+			data-page-action-item="overflow-all"
+			data-popover-close
+			class="button button-clear button-sm button-block justify-content-flex-start text-align-left inner-focus display-none display-inline-flex-tablet"
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-glasses"></span>
+			</span>
+			<span>Reading mode</span>
+		</button>
+	 
+		<button
+			data-page-action-item="overflow-mobile"
+			type="button"
+			class="display-block-layout-menu-collapsed button-block button-sm inner-focus button button-clear display-none-tablet justify-content-flex-start text-align-left"
+			data-bi-name="contents-expand"
+			data-contents-button
+			data-popover-close
+		>
+			<span class="icon" aria-hidden="true"
+				><span class="docon docon-editor-list-bullet"></span
+			></span>
+			<span class="contents-expand-title">Table of contents</span>
+		</button>
+	 
+		<a
+			id="lang-link-overflow"
+			class="button-sm inner-focus button button-clear button-block justify-content-flex-start text-align-left"
+			data-bi-name="language-toggle"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-read-in-link
+			href="#"
+			hidden
+		>
+			<span class="icon" aria-hidden="true" data-read-in-link-icon>
+				<span class="docon docon-locale-globe"></span>
+			</span>
+			<span data-read-in-link-text>Read in English</span>
+		</a>
+	
+					
+		<button
+			type="button"
+			class="collection button button-clear button-sm button-block justify-content-flex-start text-align-left inner-focus"
+			data-list-type="collection"
+			data-bi-name="collection"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="collection-status">Add</span>
+		</button>
+	 
+		<button
+			type="button"
+			class="collection button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+			data-list-type="plan"
+			data-bi-name="plan"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="plan-status">Add to Plans</span>
+		</button>
+	 
+					  
+		<hr class="margin-block-xxs" />
+		
+				<button
+					class="button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+					type="button"
+					data-bi-name="copy-markdown"
+					data-page-action-item="overflow-all"
+					data-copy-markdown
+					data-copy-state="idle"
+					data-check-hidden="true"
+				>
+					<span class="icon color-primary" aria-hidden="true">
+						<span data-show-when="idle" class="docon docon-code-lang"></span>
+						<span data-show-when="loading" class="loader" hidden></span>
+						<span data-show-when="success" class="docon docon-check-mark" hidden></span>
+					</span>
+					<span>Copy Markdown</span>
+				</button>
+		   
+				<button
+					class="button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+					type="button"
+					data-bi-name="print"
+					data-page-action-item="overflow-all"
+					data-popover-close
+					data-print-page
+					data-check-hidden="true"
+				>
+					<span class="icon color-primary" aria-hidden="true">
+						<span class="docon docon-print"></span>
+					</span>
+					<span>Print</span>
+				</button>
+		  
+	
+				</div>
+			</details>
+		</div>
+	
+			</div>
+		</div>
+	  
+		<!-- privateUnauthorizedTemplate is hidden by default -->
+		<div unauthorized-private-section data-bi-name="permission-content-unauthorized-private" hidden>
+			<hr class="hr margin-top-xs margin-bottom-sm" />
+			<div class="notification notification-info">
+				<div class="notification-content">
+					<p class="margin-top-none notification-title">
+						<span class="icon" aria-hidden="true"
+							><span class="docon docon-exclamation-circle-solid"></span
+						></span>
+						<span>Note</span>
+					</p>
+					<p class="margin-top-none authentication-determined not-authenticated">
+						Access to this page requires authorization. You can try <a class="docs-sign-in" href="#" data-bi-name="permission-content-sign-in">signing in</a> or <a  class="docs-change-directory" data-bi-name="permisson-content-change-directory">changing directories</a>.
+					</p>
+					<p class="margin-top-none authentication-determined authenticated">
+						Access to this page requires authorization. You can try <a class="docs-change-directory" data-bi-name="permisson-content-change-directory">changing directories</a>.
+					</p>
+				</div>
+			</div>
+		</div>
+	
+					<div class="content"><h1 id="logo-visual-studio-2022-product-family-system-requirements"><img src="media/2022_logo.png" alt="Logo" /> Visual Studio 2022 Product Family System Requirements</h1></div>
+					
+		<div
+			id="article-metadata"
+			data-bi-name="article-metadata"
+			data-test-id="article-metadata"
+			class="page-metadata-container display-flex gap-xxs justify-content-space-between align-items-center flex-wrap-wrap"
+		>
+			 
+				<div
+					id="user-feedback"
+					class="margin-block-xxs display-none display-none-print"
+					hidden
+					data-hide-on-archived
+				>
+					
+		<button
+			id="user-feedback-button"
+			data-test-id="conceptual-feedback-button"
+			class="button button-sm button-clear button-primary display-none"
+			type="button"
+			data-bi-name="user-feedback-button"
+			data-user-feedback-button
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-like"></span>
+			</span>
+			<span>Feedback</span>
+		</button>
+	
+				</div>
+		  
+		</div>
+	 
+		<div data-id="ai-summary" class="display-none-print">
+			<div id="ms--ai-summary-cta" class="margin-top-xs display-flex align-items-center">
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-sparkle-fill gradient-text-vivid"></span>
+				</span>
+				<button
+					id="ms--ai-summary"
+					type="button"
+					class="tag tag-sm tag-suggestion margin-left-xxs"
+					data-test-id="ai-summary-cta"
+					data-bi-name="ai-summary-cta"
+					data-an="ai-summary"
+				>
+					<span class="ai-summary-cta-text">
+						Summarize this article for me
+					</span>
+				</button>
+			</div>
+			<!-- Slot where the client will render the summary card after the user clicks the CTA -->
+			<div id="ms--ai-summary-header" class="margin-top-xs"></div>
+		</div>
+	 
+		<nav
+			id="center-doc-outline"
+			class="doc-outline display-none-desktop display-none-print margin-bottom-sm"
+			data-bi-name="intopic toc"
+			aria-label="In this article"
+		>
+			<h2 id="ms--in-this-article" class="title is-6 margin-block-xs">
+				In this article
+			</h2>
+		</nav>
+	 <div class="content"><h2 id="overview">Overview</h2>
+<p>This page contains the minimum system requirements for the Visual Studio 2022 family of products. For information on compatibility, see <a href="compatibility" data-linktype="relative-path">Visual Studio 2022 Platform Targeting and Compatibility</a>. If you need help with improving performance, see <a href="/en-us/visualstudio/ide/visual-studio-performance-tips-and-tricks" data-linktype="absolute-path">Visual Studio performance tips and tricks</a>.</p>
+<p>For additional information, see also <a href="/en-us/visualstudio/ide/whats-new-visual-studio-2022" data-linktype="absolute-path">What's New in Visual Studio 2022</a> or the  <a href="release-notes-preview" data-linktype="relative-path">Visual Studio 2022 release notes</a>.</p>
+<div class="TIP">
+<p>Tip</p>
+<p>For older versions of Visual Studio, see the system requirements for <a href="../2019/system-requirements" data-linktype="relative-path">Visual Studio 2019</a>, <a href="../2017/vs2017-system-requirements-vs" data-linktype="relative-path">Visual Studio 2017</a>, <a href="../2015/vs2015-sysrequirements-vs" data-linktype="relative-path">Visual Studio 2015</a>, or <a href="../2013/vs2013-sysrequirements-vs" data-linktype="relative-path">Visual Studio 2013</a>.</p>
+</div>
+<hr>
+<h3 id="how-are-we-doing">How are we doing?</h3>
+<p>We would love to hear from you! For issues, let us know through the <a href="/en-us/visualstudio/ide/report-a-problem" data-linktype="absolute-path">Report a Problem</a> option in the upper right-hand.
+corner of either the installer or the Visual Studio IDE itself. The <img src="media/feedback_icon.png" alt="Feedback Icon" data-linktype="relative-path"> icon is located in the upper right-hand corner.
+You can track your issues in the <a href="https://developercommunity.visualstudio.com" data-linktype="external">Visual Studio Developer Community</a>, where you can ask questions, find answers and submit product suggestions.
+You can get free installation help through our <a href="https://visualstudio.microsoft.com/vs/support/#talktous" data-linktype="external">Live Chat support</a>.</p>
+<h2 id="visual-studio-2022-system-requirements">Visual Studio 2022 System Requirements</h2>
+<p>The following products support the minimum system requirements below:</p>
+<ul>
+<li>Visual Studio Enterprise 2022</li>
+<li>Visual Studio Professional 2022</li>
+<li>Visual Studio Community 2022</li>
+</ul>
+<h3 id="supported-operating-systems">Supported Operating Systems</h3>
+<p>Visual Studio 2022 is supported on the following 64-bit operating systems:</p>
+<ul>
+<li>Windows 11 supported OS versions: Home, Pro, Pro Education, Pro for Workstations, Enterprise, and Education
+<ul>
+<li>Supported Windows 11 OS versions can be found here: <a href="/en-us/lifecycle/products/windows-11-enterprise-and-education" data-linktype="absolute-path">Windows 11 Enterprise and Education Support</a></li>
+<li>Windows 11 ARM64</li>
+</ul>
+</li>
+<li>Windows Server 2025: Standard, Datacenter: Azure Edition, and Datacenter.</li>
+<li>Windows Server 2022: Standard and Datacenter.</li>
+<li>Windows Server 2019: Standard and Datacenter.</li>
+<li>Windows Server 2016: Standard and Datacenter.</li>
+</ul>
+<p>Each supported operating system has its own lifecycle independent of the Visual Studio support lifecycle. The Visual Studio team applies each of those lifecycle schedules to inform adding and removing support for operating system versions. An operating system may reach end of support before the Visual Studio release, at which point Visual Studio will no longer consider that operating system version supported. If an operating system is in the Extended Security Updates (ESU) phase then it is supported only with ESU patches installed.</p>
+<blockquote>
+<p>The following environments are not supported to run Visual Studio:</p>
+<ul>
+<li>32-bit and ARM32 operating systems. ARM64 Windows 10.</li>
+<li><a href="https://support.microsoft.com/windows/windows-10-and-windows-11-in-s-mode-faq-851057d6-1ee9-b9e5-c30b-93baebeebc85#WindowsVersion=Windows_11" data-linktype="external">Windows 11 Home in S mode</a>, <a href="/en-us/windows/iot/product-family/windows-iot" data-linktype="absolute-path">Windows Enterprise IoT</a>, <a href="/en-us/windows/iot-core/windows-iot" data-linktype="absolute-path">Windows 10 IoT Core</a>, <a href="/en-us/windows/deployment/update/waas-overview" data-linktype="absolute-path">Windows 10 Enterprise LTSC edition</a>, <a href="https://www.microsoft.com/windows/windows-10-s" data-linktype="external">Windows 10 S</a>, and <a href="https://techcommunity.microsoft.com/blog/surfaceitpro/updated-surface-hub-support-ends-for-windows-10%E2%80%94start-your-transition/4426867" data-linktype="external">Windows 10 Team Edition</a>. You may use Visual Studio 2022 to build apps that run on these editions of Windows.</li>
+<li>Server IoT and Minimal Server Interface options for Windows Server.</li>
+<li><a href="https://techcommunity.microsoft.com/blog/windows-itpro-blog/administrator-protection-on-windows-11/4303482" data-linktype="external">Administrator protection mode</a>. The following <a href="/en-us/visualstudio/ide/user-permissions-and-visual-studio" data-linktype="absolute-path">development scenarios</a> require running <a href="https://blogs.windows.com/windowsdeveloper/2025/05/19/enhance-your-application-security-with-administrator-protection/" data-linktype="external">Visual Studio as an administrator</a>.</li>
+<li>Windows containers, except for the Visual Studio Build Tools.</li>
+<li>Virtual machine environments that are not persistent, or do not have a full Windows operating system.</li>
+<li>Application virtualization solutions, such as Microsoft App-V or MSIX for Windows, or third-party app virtualization technologies.</li>
+<li>Multiple simultaneous users using the software on the same machine, including shared virtual desktop infrastructure machines or a pooled Windows Virtual Desktop hostpool.</li>
+<li><a href="/en-us/fslogix/overview-what-is-fslogix" data-linktype="absolute-path">FSLogix</a> roaming profiles.</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>The following <a href="/en-us/visualstudio/install/modify-visual-studio?#change-workloads-or-individual-components" data-linktype="absolute-path">workloads</a> and components are not supported by Visual Studio running on ARM64 operating systems:</p>
+<ul>
+<li>Azure development, with the exception of the Container development tools, which are supported.</li>
+<li>Data storage and processing, with the exception of the SQL Server Data Tools, which are supported.</li>
+<li>Data science and analytical applications.</li>
+<li>Python development.</li>
+<li>Mobile development with C++.</li>
+<li>Office/SharePoint development.</li>
+</ul>
+</blockquote>
+<h3 id="hardware">Hardware</h3>
+<p>For guidance on improving performance, see <a href="/en-us/visualstudio/ide/optimize-visual-studio-performance" data-linktype="absolute-path">Optimize Visual Studio performance</a>.</p>
+<ul>
+<li>ARM64 or x64 processor; Quad-core or better recommended. ARM 32 processors are not supported.</li>
+<li>Minimum of 4 GB of RAM. Many factors impact resources used; we recommend 16 GB RAM for typical professional solutions.</li>
+<li><a href="https://www.microsoft.com/windows-365/all-pricing" data-linktype="external">Windows 365</a>: Minimum 2 vCPU and 8 GB RAM. 4 vCPU and 16 GB of RAM recommended.</li>
+<li>Hard disk space: Minimum of 850 MB up to 210 GB of available space, depending on features installed; typical installations require 20-50 GB of free space. We recommend installing Windows and Visual Studio on a solid-state drive (SSD) to increase performance.</li>
+<li>Video card that supports a minimum display resolution of WXGA (1366 by 768); Visual Studio will work best at a resolution of 1920 by 1080 or higher.
+<ul>
+<li>Minimum resolution assumes zoom, DPI settings, and text scaling are set at 100%. If not set to 100%, minimum resolution should be scaled accordingly. For example, if you set the Windows display ‘Scale and layout’ setting on your Surface Book, which has a 3000x2000 physical display, to 200%, then Visual Studio would see a logical screen resolution of 1500x1000, meeting the minimum 1366x768 requirement.</li>
+</ul>
+</li>
+</ul>
+<h3 id="additional-requirements-and-guidance">Additional Requirements and Guidance</h3>
+<ul>
+<li>Administrator rights are required to install or update Visual Studio.</li>
+<li>Refer to the <a href="/en-us/visualstudio/install/visual-studio-administrator-guide" data-linktype="absolute-path">Visual Studio Administrator Guide</a> for additional considerations and guidance for how to install, deploy, update, and configure Visual Studio across an organization.</li>
+<li>.NET Framework 4.7.2 or above is required to <em>install</em> Visual Studio. (.NET Framework 4.5.2 or above is required to install Visual Studio version 17.8 and earlier.) Visual Studio requires .NET Framework 4.8 to run. If .NET Framework 4.8 isn't already installed, it will be installed during setup.</li>
+<li>Universal Windows app development, including designing, editing, and debugging, requires Windows 10. Windows Server 2019 and Windows Server 2016 can be used to build Universal Windows apps from the command line.</li>
+<li>The <a href="https://developer.microsoft.com/microsoft-edge/webview2/" data-linktype="external">WebView2 runtime</a> is required to install Visual Studio. If it isn't already installed, it will be installed during setup. The Visual Studio installation will fail if WebView2 can't be installed successfully (either because of installation error or Group Policy <a href="/en-us/deployedge/microsoft-edge-update-policies#microsoft-edge-webview-policies" data-linktype="absolute-path">install</a> or <a href="/en-us/deployedge/microsoft-edge-update-policies#updatedefault" data-linktype="absolute-path">update</a> restrictions).</li>
+<li>Team Foundation Server 2019 Office Integration requires Office 2016, Office 2013, or Office 2010.</li>
+<li>Smart App Control, which is a Windows feature, is not recommended to be enabled on development machines. Any setting other than "off" might negatively impact Visual Studio performance.</li>
+<li>The integrated Windows Terminal is supported per the <a href="https://aka.ms/terminal" data-linktype="external">minimum OS requirements for Windows Terminal</a>, currently Windows 10 20H1. Windows Server 2016 is not supported. On OS not supported for the integrated Windows Terminal, use the Terminal that ships with that version of Windows.</li>
+</ul>
+<h3 id="supported-languages">Supported Languages</h3>
+<p>Visual Studio is available in English, Chinese (Simplified), Chinese (Traditional), Czech, French, German, Italian, Japanese, Korean, Polish, Portuguese (Brazil), Russian, Spanish, and Turkish. You can select the language of Visual Studio during installation. The Visual Studio Installer is available in the same fourteen languages, and will match the language of Windows, if available.</p>
+<div class="NOTE">
+<p>Note</p>
+<p>Visual Studio Team Foundation Server Office Integration 2019 is available in the ten languages supported by Visual Studio Team Foundation Server 2019.</p>
+</div>
+<h2 id="remote-tools-and-intellitrace-standalone-collector-for-visual-studio-2022-system-requirements">Remote Tools and IntelliTrace Standalone Collector for Visual Studio 2022 System Requirements</h2>
+<p>The Remote Tools and IntelliTrace Standalone Collector support the same system requirements as Visual Studio with the following changes:</p>
+<ul>
+<li>Also supported on Windows 7, Windows Server 2008 R2 SP1, Windows 8.1, Windows Server 2012, Windows Server 2012 R2, Windows 10 on ARM, and Windows 10 Enterprise LTSC.</li>
+<li>If x86 or AMD64/x64, requires a 1.6 GHz or faster processor.</li>
+<li>Requires 1 GB of RAM (1.5 GB if running on a virtual machine).</li>
+<li>Requires 1 GB of available hard disk space.</li>
+<li>Requires 1024 by 768 or higher display resolution.</li>
+<li>For the best experience, use the most recent update of these diagnostic tools for your version of Visual Studio.</li>
+</ul>
+<h2 id="microsoft-visual-studio-build-tools-2022-system-requirements">Microsoft Visual Studio Build Tools 2022 System Requirements</h2>
+<p>The Build Tools support the same system requirements as Visual Studio with the following changes:</p>
+<ul>
+<li>Also installs on the Server Core option for Windows Server Core 2022, Windows Server 2025, Windows Server 2019, and Windows Server 2016.</li>
+<li>Also <a href="/en-us/visualstudio/install/build-tools-container" data-linktype="absolute-path">installs into a Windows container</a>.</li>
+<li>Requires 2.3 GB to 60 GB of available hard disk space, depending on installed features.</li>
+</ul>
+<h2 id="microsoft-visual-c-2015-2022-redistributable-system-requirements">Microsoft Visual C++ 2015-2022 Redistributable System Requirements</h2>
+<p>To download the Visual C++ 2015-2022 Redistributable, see <a href="https://visualstudio.microsoft.com/downloads/#microsoft-visual-c-redistributable-for-visual-studio-2022" data-linktype="external">visualstudio.microsoft.com/downloads</a>. The Visual C++ 2015-2022 Redistributable supports the same system requirements as Visual Studio with the following changes:</p>
+<ul>
+<li>Also installs on all editions of Windows 11, Windows 10, Windows Server 2025, Windows Server 2022, Windows Server 2019, and Windows Server 2016; Windows Server 2012 R2; Windows Server 2012; Windows Server 2008 R2 SP1, and Arm64 editions of Windows.</li>
+<li>Also installs on Windows 7 SP1 and Windows Server 2008 R2 SP1 to support applications built using the Visual C++ 2017, and Visual C++ 2015 tools.</li>
+<li>Requires 1 GB of RAM (1.5 GB if running on a virtual machine).</li>
+<li>Requires 50 MB of available hard disk space.</li>
+</ul>
+<h2 id="microsoft-visual-studio-test-agent-2022-system-requirements">Microsoft Visual Studio Test Agent 2022 System Requirements</h2>
+<p>Visual Studio Test Agent supports the same system requirements as Visual Studio with the following changes:</p>
+<ul>
+<li>Requires a 2.6 GHz or faster processor; quad-core or better recommended.</li>
+<li>Requires 10 GB of hard disk space.</li>
+</ul>
+<h2 id="microsoft-visual-studio-test-controller-2022-system-requirements">Microsoft Visual Studio Test Controller 2022 System Requirements</h2>
+<p>Visual Studio Test Controller supports the same system requirements as Visual Studio with the following changes:</p>
+<ul>
+<li>Requires a 2.6 GHz or faster processor; quad-core or better recommended.</li>
+<li>Requires 10 GB of hard disk space.</li>
+</ul>
+</div>
+					
+		<div
+			id="ms--inline-notifications"
+			class="margin-block-xs"
+			data-bi-name="inline-notification"
+		></div>
+	 
+		<div
+			id="assertive-live-region"
+			role="alert"
+			aria-live="assertive"
+			class="visually-hidden"
+			aria-relevant="additions"
+			aria-atomic="true"
+		></div>
+		<div
+			id="polite-live-region"
+			role="status"
+			aria-live="polite"
+			class="visually-hidden"
+			aria-relevant="additions"
+			aria-atomic="true"
+		></div>
+	
+					
+				</div>
+				
+		<div id="ms--additional-resources-mobile" class="display-none-print">
+			<hr class="hr" hidden />
+			<h2 id="ms--additional-resources-mobile-heading" class="title is-3" hidden>
+				Additional resources
+			</h2>
+			
+		<section
+			id="right-rail-recommendations-mobile"
+			class=""
+			data-bi-name="recommendations"
+			hidden
+		></section>
+	 
+		<section
+			id="right-rail-training-mobile"
+			class=""
+			data-bi-name="learning-resource-card"
+			hidden
+		></section>
+	 
+		<section
+			id="right-rail-events-mobile"
+			class=""
+			data-bi-name="events-card"
+			hidden
+		></section>
+	
+		</div>
+	 
+		<div
+			id="article-metadata-footer"
+			data-bi-name="article-metadata-footer"
+			data-test-id="article-metadata-footer"
+			class="page-metadata-container"
+		>
+			<hr class="hr" />
+			<ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
+				<li class="visibility-hidden-visual-diff">
+			<span class="badge badge-sm text-wrap-pretty">
+				<span>Last updated on <local-time format="twoDigitNumeric"
+		datetime="2026-04-01T19:13:00.000Z"
+		data-article-date-source="calculated"
+		class="is-invisible"
+	>
+		2026-04-01
+	</local-time></span>
+			</span>
+		</li>
+			</ul>
+		</div>
+	
+			</div>
+		
+				</main>
+				<aside
+					id="layout-body-aside"
+					class="layout-body-aside  "
+					data-bi-name="aside"
+					aria-label="Additional resources"
+			  >
+					
+		<div
+			id="ms--additional-resources"
+			class="right-container padding-sm display-none display-block-desktop height-full"
+			data-bi-name="pageactions"
+		>
+			<div id="affixed-right-container" data-bi-name="right-column">
+				
+		<nav
+			id="side-doc-outline"
+			class="doc-outline border-bottom padding-bottom-xs margin-bottom-xs scrollbar-width-thin"
+			data-bi-name="intopic toc"
+			aria-label="In this article"
+		>
+			<h3>In this article</h3>
+		</nav>
+	
+				<!-- Feedback -->
+				
+			</div>
+		</div>
+	
+			  </aside> <section
+					id="layout-body-flyout"
+					class="layout-body-flyout "
+					data-bi-name="flyout"
+			  >
+					 <div
+	class="height-full border-left background-color-body-medium"
+	id="ask-learn-flyout"
+></div>
+			  </section> <div class="layout-body-footer " data-bi-name="layout-footer">
+		<footer
+			id="footer"
+			data-test-id="footer"
+			data-bi-name="footer"
+			class="footer-layout padding-xs padding-sm-desktop has-default-focus border-top"
+			role="contentinfo"
+		>
+			<div class="display-flex gap-xs flex-wrap-wrap is-full-height padding-right-lg-desktop">
+				
+		<a
+			data-mscc-ic="false"
+			href="#"
+			data-bi-name="select-locale"
+			class="locale-selector-link flex-shrink-0 button button-sm button-clear external-link-indicator"
+			id=""
+			title=""
+			><span class="icon" aria-hidden="true"
+				><span class="docon docon-world"></span></span
+			><span class="local-selector-link-text">en-us</span></a
+		>
+	 <div class="ccpa-privacy-link" data-ccpa-privacy-link hidden>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://aka.ms/yourcaliforniaprivacychoices"
+			data-bi-name="your-privacy-choices"
+			class="button button-sm button-clear flex-shrink-0 external-link-indicator"
+			id=""
+			title=""
+			>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 30 14"
+			xml:space="preserve"
+			height="16"
+			width="43"
+			aria-hidden="true"
+			focusable="false"
+		>
+			<path
+				d="M7.4 12.8h6.8l3.1-11.6H7.4C4.2 1.2 1.6 3.8 1.6 7s2.6 5.8 5.8 5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#fff"
+			></path>
+			<path
+				d="M22.6 0H7.4c-3.9 0-7 3.1-7 7s3.1 7 7 7h15.2c3.9 0 7-3.1 7-7s-3.2-7-7-7zm-21 7c0-3.2 2.6-5.8 5.8-5.8h9.9l-3.1 11.6H7.4c-3.2 0-5.8-2.6-5.8-5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#06f"
+			></path>
+			<path
+				d="M24.6 4c.2.2.2.6 0 .8L22.5 7l2.2 2.2c.2.2.2.6 0 .8-.2.2-.6.2-.8 0l-2.2-2.2-2.2 2.2c-.2.2-.6.2-.8 0-.2-.2-.2-.6 0-.8L20.8 7l-2.2-2.2c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0l2.2 2.2L23.8 4c.2-.2.6-.2.8 0z"
+				style="fill:#fff"
+			></path>
+			<path
+				d="M12.7 4.1c.2.2.3.6.1.8L8.6 9.8c-.1.1-.2.2-.3.2-.2.1-.5.1-.7-.1L5.4 7.7c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0L8 8.6l3.8-4.5c.2-.2.6-.2.9 0z"
+				style="fill:#06f"
+			></path>
+		</svg>
+	
+			<span>Your Privacy Choices</span></a
+		>
+	
+	</div>
+				<div class="flex-shrink-0">
+		<div class="dropdown has-caret-up">
+			<button
+				data-test-id="theme-selector-button"
+				class="dropdown-trigger button button-clear button-sm inner-focus theme-dropdown-trigger"
+				aria-controls="{{ themeMenuId }}"
+				aria-haspopup="true"
+				aria-expanded="false"
+				data-bi-name="theme"
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-sun"></span></span>
+				<span>Theme</span>
+				<span class="icon expanded-indicator" aria-hidden="true">
+					<span class="docon docon-chevron-down-light"></span>
+				</span>
+			</button>
+			<div class="dropdown-menu" id="{{ themeMenuId }}" role="menu">
+				<ul class="theme-selector padding-xxs" data-test-id="theme-dropdown-menu" role="none">
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="light"
+							tabindex="-1"
+						>
+							<span class="theme-light margin-right-xxs">
+								<span
+									class="theme-selector-icon border display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Light </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="dark"
+							tabindex="-1"
+						>
+							<span class="theme-dark margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Dark </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="high-contrast"
+							tabindex="-1"
+						>
+							<span class="theme-high-contrast margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> High contrast </span>
+						</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+			</div>
+			<ul class="links" data-bi-name="footerlinks">
+				<li class="manage-cookies-holder" hidden=""></li>
+				<li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/principles-for-ai-generated-content"
+			data-bi-name="aiDisclaimer"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>AI Disclaimer</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/previous-versions/"
+			data-bi-name="archivelink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Previous Versions</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://techcommunity.microsoft.com/t5/microsoft-learn-blog/bg-p/MicrosoftLearnBlog"
+			data-bi-name="bloglink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Blog</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/contribute"
+			data-bi-name="contributorGuide"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Contribute</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?LinkId=521839"
+			data-bi-name="privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?linkid=2259814"
+			data-bi-name="consumer-health-privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Consumer Health Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/legal/termsofuse"
+			data-bi-name="termsofuse"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Terms of Use</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://www.microsoft.com/legal/intellectualproperty/Trademarks/"
+			data-bi-name="trademarks"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Trademarks</a
+		>
+	
+	</li>
+				<li>&copy; Microsoft 2026</li>
+			</ul>
+		</footer>
+	</footer>
+			</body>
+		</html>

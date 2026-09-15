@@ -1,0 +1,1541 @@
+ <!DOCTYPE html>
+		<html
+			class="layout layout-holy-grail   show-table-of-contents conceptual show-breadcrumb default-focus"
+			lang="en-us"
+			dir="ltr"
+			data-authenticated="false"
+			data-auth-status-determined="false"
+			data-target="docs"
+			x-ms-format-detection="none"
+		>
+			
+		<head>
+			<title>Create an offline installation - Visual Studio (Windows) | Microsoft Learn</title>
+			<meta charset="utf-8" />
+			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+			<meta name="color-scheme" content="light dark" />
+
+			<meta name="description" content="Create an offline installation package to install Visual Studio offline when you have an unreliable internet connection or low bandwidth." />
+			<link rel="canonical" href="https://learn.microsoft.com/en-us/visualstudio/install/create-an-offline-installation-of-visual-studio?view=visualstudio" /> 
+
+			<!-- Non-customizable open graph and sharing-related metadata -->
+			<meta name="twitter:card" content="summary_large_image" />
+			<meta name="twitter:site" content="@MicrosoftLearn" />
+			<meta property="og:type" content="website" />
+			<meta property="og:image:alt" content="Microsoft Learn" />
+			<meta property="og:image" content="https://learn.microsoft.com/en-us/media/open-graph-image.png" />
+			<!-- Page specific open graph and sharing-related metadata -->
+			<meta property="og:title" content="Create an offline installation - Visual Studio (Windows)" />
+			<meta property="og:url" content="https://learn.microsoft.com/en-us/visualstudio/install/create-an-offline-installation-of-visual-studio?view=visualstudio" />
+			<meta property="og:description" content="Create an offline installation package to install Visual Studio offline when you have an unreliable internet connection or low bandwidth." />
+			<meta name="platform_id" content="ce709449-e060-18eb-4577-079c19a853f7" /> <meta name="scope" content="VS IDE" />
+			<meta name="locale" content="en-us" />
+			 
+			<meta name="uhfHeaderId" content="MSDocsHeader-VisualStudio" />
+
+			<meta name="page_type" content="conceptual" />
+
+			<!--page specific meta tags-->
+			
+
+			<!-- custom meta tags -->
+			
+		<meta name="feedback_system" content="Standard" />
+	
+		<meta name="feedback_help_link_url" content="https://developercommunity.microsoft.com/VisualStudio" />
+	
+		<meta name="feedback_help_link_type" content="ask-the-community" />
+	
+		<meta name="feedback_product_url" content="https://developercommunity.visualstudio.com/VisualStudio/suggest" />
+	
+		<meta name="breadcrumb_path" content="/visualstudio/_breadcrumb/toc.json" />
+	
+		<meta name="ms.manager" content="wiwagn" />
+	
+		<meta name="author" content="RoseHJM" />
+	
+		<meta name="ms.author" content="rosemalcolm" />
+	
+		<meta name="audience" content="developer" />
+	
+		<meta name="ms.service" content="visual-studio-windows" />
+	
+		<meta name="toc_preview" content="true" />
+	
+		<meta name="archive_url" content="/previous-versions/visualstudio" />
+	
+		<meta name="recommendations" content="true" />
+	
+		<meta name="exclude_monikers" content="vs-2017" />
+	
+		<meta name="exclude_monikers" content="vs-2019" />
+	
+		<meta name="ms.date" content="2026-03-19T00:00:00Z" />
+	
+		<meta name="ms.topic" content="how-to" />
+	
+		<meta name="ms.subservice" content="installation" />
+	
+		<meta name="document_id" content="228076d1-94bf-c502-c018-08f7c0faf377" />
+	
+		<meta name="document_version_independent_id" content="c64a5cd5-6236-4192-2bfc-923aa20c94da" />
+	
+		<meta name="updated_at" content="2026-04-24T22:06:00Z" />
+	
+		<meta name="original_content_git_url" content="https://github.com/MicrosoftDocs/visualstudio-docs-pr/blob/live/docs/install/create-an-offline-installation-of-visual-studio.md" />
+	
+		<meta name="gitcommit" content="https://github.com/MicrosoftDocs/visualstudio-docs-pr/blob/12e72ec4821de23d6dc3ce8f2219d1ac0fe00968/docs/install/create-an-offline-installation-of-visual-studio.md" />
+	
+		<meta name="git_commit_id" content="12e72ec4821de23d6dc3ce8f2219d1ac0fe00968" />
+	
+		<meta name="monikers" content="vs-2022" />
+	
+		<meta name="monikers" content="visualstudio" />
+	
+		<meta name="default_moniker" content="visualstudio" />
+	
+		<meta name="site_name" content="Docs" />
+	
+		<meta name="depot_name" content="VS.docs" />
+	
+		<meta name="schema" content="Conceptual" />
+	
+		<meta name="toc_rel" content="../toc.json" />
+	
+		<meta name="pdf_url_template" content="https://learn.microsoft.com/pdfstore/en-us/VS.docs/{branchName}{pdfName}" />
+	
+		<meta name="word_count" content="1204" />
+	
+		<meta name="config_moniker_range" content="&gt;= vs-2022" />
+	
+		<meta name="asset_id" content="install/create-an-offline-installation-of-visual-studio" />
+	
+		<meta name="moniker_range_name" content="f22a899ea89b53168e6a2ccb9c507f5c" />
+	
+		<meta name="item_type" content="Content" />
+	
+		<meta name="source_path" content="docs/install/create-an-offline-installation-of-visual-studio.md" />
+	
+		<meta name="previous_tlsh_hash" content="8B7EE7E1230CBA02CEC12F1B18D6AD10E1F4C60F6FF4ABCD4136796294C53DA747BD2D91DA1F93294331290213AEF11F19C1DF649169237209A9A0EF927A2362B28D3BF5D7" />
+	
+		<meta name="github_feedback_content_git_url" content="https://github.com/MicrosoftDocs/visualstudio-docs/blob/main/docs/install/create-an-offline-installation-of-visual-studio.md" />
+	
+		<meta name="markdown_url" content="https://learn.microsoft.com/en-us/visualstudio/install/create-an-offline-installation-of-visual-studio?view=visualstudio&amp;accept=text/markdown" />
+	 
+		<meta name="cmProducts" content="https://authoring-docs-microsoft.poolparty.biz/devrel/4628cbd9-6f47-4ae1-b371-d34636609eaf" data-source="generated" />
+	
+		<meta name="spProducts" content="https://authoring-docs-microsoft.poolparty.biz/devrel/be21deb8-8c64-44b0-b71f-2dc56ca7364f" data-source="generated" />
+	
+
+			<!-- Apply persisted/system theme before first paint to prevent wrong-theme flash when scripts are deferred. -->
+			<script id="theme-preference">
+				(function () {
+			try {
+				var stored = localStorage.getItem('theme');
+				var theme = /^(light|dark|high-contrast)$/.test(stored)
+					? stored
+					: matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+				document.documentElement.classList.add('theme-' + theme);
+			} catch (e) {}
+		})();;
+			</script>
+
+			<script id="atlas-layout-preferences">
+				(function () {
+			try {
+				var state = JSON.parse(localStorage.getItem('atlas-layout-preferences') || '{}');
+				var view = state["docs-layout-persistence"] || {};
+				var excludesKey = "";
+				var blocked = {};
+				if (excludesKey) {
+					var exclusions = JSON.parse(localStorage.getItem('atlas-layout-exclusions') || '{}');
+					if (Object.prototype.hasOwnProperty.call(exclusions, excludesKey)) {
+						var scoped = exclusions[excludesKey];
+						if (scoped) {
+							if (typeof scoped === 'object') blocked = scoped;
+						}
+					}
+				}
+				var html = document.documentElement;
+				for (var c in view) {
+					if (Object.prototype.hasOwnProperty.call(blocked, c)) continue;
+					if (view[c]) html.classList.add(c);
+					else html.classList.remove(c);
+				}
+			} catch (e) {}
+		})();;
+			</script>
+
+			<!-- assets and js globals -->
+			
+			<link rel="stylesheet" href="/static/assets/0.4.03539.8233-36f14dd4/styles/site.css" />
+			
+			<script src="https://wcpstatic.microsoft.com/mscc/lib/v2/wcp-consent.js"></script>
+			<!-- Keep this URL in sync with oneDSScriptSelector in instrumentation/one-ds.ts. -->
+			<script async src="https://js.monitor.azure.com/scripts/c/ms.jsll-4.min.js"></script>
+			
+
+			<!-- msdocs global object -->
+			<script id="msdocs-script">
+		var msDocs = {
+  "environment": {
+    "accessLevel": "online",
+    "azurePortalHostname": "portal.azure.com",
+    "reviewFeatures": false,
+    "supportLevel": "production",
+    "systemContent": true,
+    "siteName": "learn",
+    "legacyHosting": false
+  },
+  "data": {
+    "contentLocale": "en-us",
+    "contentDir": "ltr",
+    "userLocale": "en-us",
+    "userDir": "ltr",
+    "pageTemplate": "Conceptual",
+    "layoutStateStorageKey": "docs-layout-persistence",
+    "brand": "",
+    "context": {},
+    "standardFeedback": true,
+    "showFeedbackReport": false,
+    "feedbackHelpLinkType": "ask-the-community",
+    "feedbackHelpLinkUrl": "https://developercommunity.microsoft.com/VisualStudio",
+    "feedbackSystem": "Standard",
+    "feedbackGitHubRepo": "",
+    "feedbackProductUrl": "https://developercommunity.visualstudio.com/VisualStudio/suggest",
+    "extendBreadcrumb": false,
+    "isEditDisplayable": true,
+    "isPrivateUnauthorized": false,
+    "hideViewSource": false,
+    "isPermissioned": false,
+    "hasRecommendations": true,
+    "defaultDevLang": "csharp"
+  },
+  "functions": {}
+};;
+	</script>
+
+			<!-- base scripts, msdocs global should be before this -->
+			<script
+				src="/static/assets/0.4.03539.8233-36f14dd4/scripts/en-us/index-docs.js"
+				async
+			></script>
+			
+
+			<!-- json-ld -->
+			
+		</head>
+	
+			<body
+				id="body"
+				data-bi-name="body"
+				class="layout-body "
+				lang="en-us"
+				dir="ltr"
+			>
+				<header class="layout-body-header background-color-body-medium">
+		<div class="header-holder has-default-focus">
+			
+		<a
+			href="#main"
+			
+			style="z-index: 1070"
+			class="outline-color-text visually-hidden-until-focused position-fixed inner-focus focus-visible top-0 left-0 right-0 padding-xs text-align-center background-color-body"
+			
+		>
+			Skip to main content
+		</a>
+	
+		<a
+			href="#"
+			data-skip-to-ask-learn
+			style="z-index: 1070"
+			class="outline-color-text visually-hidden-until-focused position-fixed inner-focus focus-visible top-0 left-0 right-0 padding-xs text-align-center background-color-body"
+			hidden
+		>
+			Skip to Ask Learn chat experience
+		</a>
+	
+
+			<div hidden id="cookie-consent-holder" data-test-id="cookie-consent-container"></div>
+			<!-- Unsupported browser warning -->
+			<div
+				id="unsupported-browser"
+				style="background-color: white; color: black; padding: 16px; border-bottom: 1px solid grey;"
+				hidden
+			>
+				<div style="max-width: 800px; margin: 0 auto;">
+					<p style="font-size: 24px">This browser is no longer supported.</p>
+					<p style="font-size: 16px; margin-top: 16px;">
+						Upgrade to Microsoft Edge to take advantage of the latest features, security updates, and technical support.
+					</p>
+					<div style="margin-top: 12px;">
+						<a
+							href="https://go.microsoft.com/fwlink/p/?LinkID=2092881 "
+							style="background-color: #0078d4; border: 1px solid #0078d4; color: white; padding: 6px 12px; border-radius: 2px; display: inline-block;"
+						>
+							Download Microsoft Edge
+						</a>
+						<a
+							href="https://learn.microsoft.com/en-us/lifecycle/faq/internet-explorer-microsoft-edge"
+							style="background-color: white; padding: 6px 12px; border: 1px solid #505050; color: #171717; border-radius: 2px; display: inline-block;"
+						>
+							More info about Internet Explorer and Microsoft Edge
+						</a>
+					</div>
+				</div>
+			</div>
+			<!-- site header -->
+			<div
+				id="ms--site-header"
+				data-test-id="site-header-wrapper"
+				itemscope="itemscope"
+				itemtype="http://schema.org/Organization"
+			>
+				<div
+					id="ms--mobile-nav"
+					class="site-header display-none-tablet padding-inline-none gap-none"
+					data-bi-name="mobile-header"
+					data-test-id="mobile-header"
+				></div>
+				<div
+					id="ms--primary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L1-header"
+					data-test-id="primary-header"
+				></div>
+				<div
+					id="ms--secondary-nav"
+					class="site-header display-none display-flex-tablet"
+					data-bi-name="L2-header"
+					data-test-id="secondary-header"
+					
+				></div>
+			</div>
+			
+		<!-- banner -->
+		<div data-banner>
+			<div id="disclaimer-holder"></div>
+			
+		</div>
+		<!-- banner end -->
+	
+		</div>
+	</header>
+				 <section
+					id="layout-body-menu"
+					class="layout-body-menu border-right display-flex background-color-body-medium"
+					data-bi-name="menu"
+			  >
+					
+		<div
+			id="left-container"
+			class="left-container display-none padding-none display-block-tablet width-full display-none-until-layout-restored"
+			data-toc-container="true"
+		>
+			<div
+				id="ms--toc-content"
+				class="padding-left-sm padding-right-none padding-bottom-sm height-full"
+			>
+				<nav
+					id="affixed-left-container"
+					class="margin-top-xxs-tablet position-sticky display-flex flex-direction-column width-full"
+					aria-label="Primary"
+					data-bi-name="left-toc"
+					role="navigation"
+				>
+					<div
+						id="ms--collapsible-toc-header"
+						class="display-flex flex-direction-row-reverse justify-content-center align-items-center margin-bottom-xxs margin-right-xxs"
+					>
+						<button
+							type="button"
+							class="button button-clear button-sm inner-focus"
+							data-collapsible-toc-toggle
+							aria-expanded="true"
+							hidden
+							aria-controls="ms--toc-content"
+							aria-label="Table of contents"
+						>
+							<span class="icon icon-mirrored-rtl" aria-hidden="true">
+								<span
+									class="docon docon-panel-left-contract display-none-layout-menu-collapsed"
+								></span>
+								<span
+									class="docon docon-panel-left-expand display-none display-inline-layout-menu-collapsed"
+								></span>
+							</span>
+						</button>
+						<div
+							id="ms--collapsible-toc-moniker-slot"
+							class="flex-grow-1 display-none-layout-menu-collapsed"
+						></div>
+					</div>
+				</nav>
+			</div>
+		</div>
+	
+			  </section>
+
+				<main
+					id="main"
+					role="main"
+					class="layout-body-main "
+					data-bi-name="content"
+					lang="en-us"
+					dir="ltr"
+				>
+					
+			<div
+		id="ms--content-header"
+		class="content-header default-focus border-bottom-none"
+		data-bi-name="content-header"
+	>
+		<div class="content-header-controls margin-xxs margin-inline-sm-tablet">
+			<button
+				type="button"
+				class="contents-button button button-sm margin-right-xxs"
+				data-bi-name="contents-expand"
+				aria-haspopup="true"
+				data-contents-button
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-menu"></span></span>
+				<span class="contents-expand-title"> Table of contents </span>
+			</button>
+			<button
+				type="button"
+				class="ap-collapse-behavior ap-expanded button button-sm"
+				data-bi-name="ap-collapse"
+				aria-controls="action-panel"
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-exit-mode"></span></span>
+				<span>Exit editor mode</span>
+			</button>
+		</div>
+	</div> 
+		<div
+			id="action-panel"
+			role="region"
+			aria-label="Action Panel"
+			class="action-panel"
+			tabindex="-1"
+		></div>
+	
+			<div
+				data-main-column
+				class="reading-width margin-inline-auto layout-padding padding-top-none padding-top-sm-tablet padding-bottom-sm"
+			>
+				<div>
+					
+		<div id="article-header" class="background-color-body margin-bottom-xs display-none-print">
+			<div class="display-flex align-items-center justify-content-space-between">
+				
+		<details
+			id="article-header-breadcrumbs-overflow-popover"
+			class="popover popover-left"
+			data-for="article-header-breadcrumbs"
+		>
+			<summary
+				class="button button-clear button-primary button-sm inner-focus"
+				aria-label="All breadcrumbs"
+			>
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-more"></span>
+				</span>
+			</summary>
+			<div id="article-header-breadcrumbs-overflow" class="popover-content"></div>
+		</details>
+
+		<bread-crumbs
+			id="article-header-breadcrumbs"
+			role="group"
+			aria-label="Breadcrumbs"
+			data-test-id="article-header-breadcrumbs"
+			class="overflow-hidden flex-grow-1 margin-right-sm margin-right-md-tablet margin-right-lg-desktop margin-left-negative-xxs padding-left-xxs"
+		></bread-crumbs>
+	 
+		<div
+			id="article-header-page-actions"
+			class="opacity-none margin-left-auto display-flex flex-wrap-no-wrap align-items-stretch"
+		>
+			
+		<button
+			class="button button-sm border-none inner-focus display-none-tablet flex-shrink-0 "
+			data-bi-name="ask-learn-assistant-entry"
+			data-test-id="ask-learn-assistant-modal-entry-mobile"
+			data-ask-learn-modal-entry
+			
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-label="Ask Learn"
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+		</button>
+		<button
+			class="button button-sm display-none display-inline-flex-tablet display-none-desktop flex-shrink-0 margin-right-xxs border-color-ask-learn "
+			data-bi-name="ask-learn-assistant-entry"
+			
+			data-test-id="ask-learn-assistant-modal-entry-tablet"
+			data-ask-learn-modal-entry
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+		<button
+			class="button button-sm display-none flex-shrink-0 display-inline-flex-desktop margin-right-xxs border-color-ask-learn "
+			data-bi-name="ask-learn-assistant-entry"
+			
+			data-test-id="ask-learn-assistant-flyout-entry"
+			data-ask-learn-flyout-entry
+			data-flyout-button="toggle"
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-controls="ask-learn-flyout"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+	 
+
+			<details class="popover popover-right" id="article-header-page-actions-overflow">
+				<summary
+					class="justify-content-flex-start button button-clear button-sm button-primary inner-focus"
+					aria-label="More actions"
+					title="More actions"
+				>
+					<span class="icon" aria-hidden="true">
+						<span class="docon docon-more-vertical"></span>
+					</span>
+				</summary>
+				<div class="popover-content">
+					
+		<button
+			type="button"
+			id="ms--focus-mode-button"
+			data-focus-mode
+			data-bi-name="focus-mode-entry"
+			data-page-action-item="overflow-all"
+			data-popover-close
+			class="button button-clear button-sm button-block justify-content-flex-start text-align-left inner-focus display-none display-inline-flex-tablet"
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-glasses"></span>
+			</span>
+			<span>Reading mode</span>
+		</button>
+	 
+		<button
+			data-page-action-item="overflow-mobile"
+			type="button"
+			class="display-block-layout-menu-collapsed button-block button-sm inner-focus button button-clear display-none-tablet justify-content-flex-start text-align-left"
+			data-bi-name="contents-expand"
+			data-contents-button
+			data-popover-close
+		>
+			<span class="icon" aria-hidden="true"
+				><span class="docon docon-editor-list-bullet"></span
+			></span>
+			<span class="contents-expand-title">Table of contents</span>
+		</button>
+	 
+		<a
+			id="lang-link-overflow"
+			class="button-sm inner-focus button button-clear button-block justify-content-flex-start text-align-left"
+			data-bi-name="language-toggle"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-read-in-link
+			href="#"
+			hidden
+		>
+			<span class="icon" aria-hidden="true" data-read-in-link-icon>
+				<span class="docon docon-locale-globe"></span>
+			</span>
+			<span data-read-in-link-text>Read in English</span>
+		</a>
+	
+					
+		<button
+			type="button"
+			class="collection button button-clear button-sm button-block justify-content-flex-start text-align-left inner-focus"
+			data-list-type="collection"
+			data-bi-name="collection"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="collection-status">Add</span>
+		</button>
+	 
+		<button
+			type="button"
+			class="collection button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+			data-list-type="plan"
+			data-bi-name="plan"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			data-popover-close
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-circle-addition"></span>
+			</span>
+			<span class="plan-status">Add to Plans</span>
+		</button>
+	 
+					
+		<a
+			data-contenteditbtn
+			class="button button-clear button-block button-sm inner-focus justify-content-flex-start text-align-left text-decoration-none"
+			data-bi-name="edit"
+			data-page-action-item="overflow-all"
+			data-check-hidden="true"
+			
+			href="https://github.com/MicrosoftDocs/visualstudio-docs/blob/main/docs/install/create-an-offline-installation-of-visual-studio.md"
+			data-original_content_git_url="https://github.com/MicrosoftDocs/visualstudio-docs-pr/blob/live/docs/install/create-an-offline-installation-of-visual-studio.md"
+			data-original_content_git_url_template="{repo}/blob/{branch}/docs/install/create-an-offline-installation-of-visual-studio.md"
+			data-pr_repo=""
+			data-pr_branch=""
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-edit-outline"></span>
+			</span>
+			<span>Edit</span>
+		</a>
+	  
+		<hr class="margin-block-xxs" />
+		
+				<button
+					class="button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+					type="button"
+					data-bi-name="copy-markdown"
+					data-page-action-item="overflow-all"
+					data-copy-markdown
+					data-copy-state="idle"
+					data-check-hidden="true"
+				>
+					<span class="icon color-primary" aria-hidden="true">
+						<span data-show-when="idle" class="docon docon-code-lang"></span>
+						<span data-show-when="loading" class="loader" hidden></span>
+						<span data-show-when="success" class="docon docon-check-mark" hidden></span>
+					</span>
+					<span>Copy Markdown</span>
+				</button>
+		   
+				<button
+					class="button button-block button-clear button-sm justify-content-flex-start text-align-left inner-focus"
+					type="button"
+					data-bi-name="print"
+					data-page-action-item="overflow-all"
+					data-popover-close
+					data-print-page
+					data-check-hidden="true"
+				>
+					<span class="icon color-primary" aria-hidden="true">
+						<span class="docon docon-print"></span>
+					</span>
+					<span>Print</span>
+				</button>
+		  
+	
+				</div>
+			</details>
+		</div>
+	
+			</div>
+		</div>
+	  
+		<!-- privateUnauthorizedTemplate is hidden by default -->
+		<div unauthorized-private-section data-bi-name="permission-content-unauthorized-private" hidden>
+			<hr class="hr margin-top-xs margin-bottom-sm" />
+			<div class="notification notification-info">
+				<div class="notification-content">
+					<p class="margin-top-none notification-title">
+						<span class="icon" aria-hidden="true"
+							><span class="docon docon-exclamation-circle-solid"></span
+						></span>
+						<span>Note</span>
+					</p>
+					<p class="margin-top-none authentication-determined not-authenticated">
+						Access to this page requires authorization. You can try <a class="docs-sign-in" href="#" data-bi-name="permission-content-sign-in">signing in</a> or <a  class="docs-change-directory" data-bi-name="permisson-content-change-directory">changing directories</a>.
+					</p>
+					<p class="margin-top-none authentication-determined authenticated">
+						Access to this page requires authorization. You can try <a class="docs-change-directory" data-bi-name="permisson-content-change-directory">changing directories</a>.
+					</p>
+				</div>
+			</div>
+		</div>
+	
+					<div class="content"><h1 id="create-an-offline-installation-package-of-visual-studio-for-local-installation">Create an offline installation package of Visual Studio for local installation</h1></div>
+					
+		<div
+			id="article-metadata"
+			data-bi-name="article-metadata"
+			data-test-id="article-metadata"
+			class="page-metadata-container display-flex gap-xxs justify-content-space-between align-items-center flex-wrap-wrap"
+		>
+			 
+				<div
+					id="user-feedback"
+					class="margin-block-xxs display-none display-none-print"
+					hidden
+					data-hide-on-archived
+				>
+					
+		<button
+			id="user-feedback-button"
+			data-test-id="conceptual-feedback-button"
+			class="button button-sm button-clear button-primary display-none"
+			type="button"
+			data-bi-name="user-feedback-button"
+			data-user-feedback-button
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-like"></span>
+			</span>
+			<span>Feedback</span>
+		</button>
+	
+				</div>
+		  
+		</div>
+	 
+		<div data-id="ai-summary" class="display-none-print">
+			<div id="ms--ai-summary-cta" class="margin-top-xs display-flex align-items-center">
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-sparkle-fill gradient-text-vivid"></span>
+				</span>
+				<button
+					id="ms--ai-summary"
+					type="button"
+					class="tag tag-sm tag-suggestion margin-left-xxs"
+					data-test-id="ai-summary-cta"
+					data-bi-name="ai-summary-cta"
+					data-an="ai-summary"
+				>
+					<span class="ai-summary-cta-text">
+						Summarize this article for me
+					</span>
+				</button>
+			</div>
+			<!-- Slot where the client will render the summary card after the user clicks the CTA -->
+			<div id="ms--ai-summary-header" class="margin-top-xs"></div>
+		</div>
+	 
+		<nav
+			id="center-doc-outline"
+			class="doc-outline display-none-desktop display-none-print margin-bottom-sm"
+			data-bi-name="intopic toc"
+			aria-label="In this article"
+		>
+			<h2 id="ms--in-this-article" class="title is-6 margin-block-xs">
+				In this article
+			</h2>
+		</nav>
+	 <div class="content"><blockquote>
+<p>📣 <strong>We'd love to hear your feedback!</strong>
+<em>Please take a moment to complete this <a href="https://aka.ms/learnlayoutfeedback" data-linktype="external">survey</a> and let us know how we can improve the layout experience. Thank you for your support!</em></p>
+</blockquote>
+<p>Visual Studio works well in various computer configurations. In this article, you learn how to create an offline installation package of files for installation on the <strong>local machine</strong>.</p>
+<div class="IMPORTANT">
+<p>Important</p>
+<p>If you're an enterprise IT administrator who wants to perform a deployment of Visual Studio throughout a network of client workstations, or if you need to create an installation package of files to transfer to or install onto <em>another</em> machine, see the <a href="https://aka.ms/vs/admin/guide" data-linktype="external">Visual Studio Administrators Guide</a>, the <a href="create-a-network-installation-of-visual-studio?view=vs-2022" data-linktype="relative-path">create a network-based installation of Visual Studio</a> page, and the <a href="deploy-a-layout-onto-a-client-machine?view=vs-2022" data-linktype="relative-path">deploy a layout onto a client machine</a> documentation.</p>
+</div>
+<h2 id="use-the-download-all-then-install-feature">Use the "Download all, then install" feature</h2>
+<p>Sometimes online access is problematic. For example, you might have an unreliable internet connection or your internet connection might have low bandwidth. For situations like these, you have other methods available for acquiring Visual Studio. You can use the <strong>Download all, then install</strong> feature from the Visual Studio Installer to download an installation package on the local machine <em>before</em> you install it locally, or you can use the command line to create a local installation package to install locally later.</p>
+<p>After you <a href="#step-1---download-the-visual-studio-bootstrapper" data-linktype="self-bookmark">download the bootstrapper</a>, run it to install Visual Studio. It first installs and then launches the latest version of the Visual Studio Installer. You can use the installer to customize and configure your installation, download installation packages, and install the product.</p>
+<p>To complete downloading the product before installation starts, select the <strong>Download all, then install</strong> option in the dropdown at the bottom of the default <strong>Workloads</strong> tab of the Visual Studio Installer. The purpose of this feature is to download the Visual Studio packages in advance on the computer where Visual Studio will eventually be installed. By downloading the packages locally first, you can then safely disconnect from the internet before you install Visual Studio.</p>
+<p><img src="media/visualstudio/download-all-then-install-from-installer.png?view=vs-2022" alt="The &quot;Download all, then install&quot; option" data-linktype="relative-path"></p>
+<div class="NOTE">
+<p>Note</p>
+<p>The <strong>Download all, then install</strong> functionality downloads a Visual Studio installation package that is customized to the local machine. Don't transfer this downloaded installation package to another computer, as it's not designed to work that way.</p>
+<p>If you want to download an installation package, host it on a network share or an intranet website, and transfer it to or install it on another machine, you need to create a network layout as described in the <a href="create-a-network-installation-of-visual-studio?view=vs-2022" data-linktype="relative-path">create a network-based installation of Visual Studio</a> documentation.</p>
+</div>
+<p>You can also configure future updates of Visual Studio to respect the <strong>Download all, then install</strong> behavior. For more information, see the <a href="/en-us/visualstudio/install/update-visual-studio?#installation-and-download-behaviors-1" data-linktype="absolute-path">installation and download behavior</a> documentation.</p>
+<h2 id="use-the-command-line-to-create-a-local-layout">Use the command line to create a local layout</h2>
+<h3 id="step-1---download-the-visual-studio-bootstrapper">Step 1 - Download the Visual Studio bootstrapper</h3>
+<p><a href="create-a-network-installation-of-visual-studio?view=vs-2022#download-the-visual-studio-bootstrapper-to-create-the-layout" data-linktype="relative-path">Download the correct bootstrapper for the version and edition of Visual Studio you want</a> and copy it into the directory you want to use as the source location for your local layout. The bootstrapper is the executable you use to create, update, or modify your local layout. You must have an internet connection to complete this step.</p>
+<h3 id="step-2---create-a-local-layout">Step 2 - Create a local layout</h3>
+<p>Open a command prompt with administrator privileges, go to the directory where you downloaded the bootstrapper, and use the <a href="use-command-line-parameters-to-install-visual-studio?view=vs-2022#layout-command-and-command-line-parameters" data-linktype="relative-path">bootstrapper's parameters</a> to create your local layout. You need an internet connection to finish this step.</p>
+<p>To install a language other than English, change <code>en-US</code> to a locale from the <a href="use-command-line-parameters-to-install-visual-studio?view=vs-2022#list-of-language-locales" data-linktype="relative-path">list of language locales</a>. To further customize your local layout, use the <a href="workload-and-component-ids?view=vs-2022" data-linktype="relative-path">list of components and workloads</a>.</p>
+<p>The following examples show how to create a local layout. For more examples, see <a href="create-a-network-installation-of-visual-studio?view=vs-2022#configure-the-contents-of-a-layout" data-linktype="relative-path">create a network layout of Visual Studio</a> and <a href="command-line-parameter-examples?view=vs-2022#using---layout-to-create-a-network-layout-or-a-local-cache" data-linktype="relative-path">command-line parameter examples</a>.</p>
+<ul>
+<li><p>To create a complete local layout with all features and all languages (this operation takes a long time because there are many features), run:</p>
+<pre><code class="lang-shell">  vs_enterprise.exe --layout c:\localVSlayout
+</code></pre>
+</li>
+</ul>
+<div data-moniker="visualstudio">
+<div class="NOTE">
+<p>Note</p>
+<p>Make sure that your full installation path is less than 80 characters and that your machine has ample storage. A complete local layout of Visual Studio requires at least 45 GB of disk space. For more information, see <a href="/en-us/visualstudio/releases/2026/vs-system-requirements/" data-linktype="absolute-path">System requirements</a>.</p>
+</div>
+</div>
+<div data-moniker="vs-2022">
+<div class="NOTE">
+<p>Note</p>
+<p>Make sure that your full installation path is less than 80 characters and that your machine has ample storage. A complete local layout of Visual Studio requires at least 45 GB of disk space. For more information, see <a href="/en-us/visualstudio/releases/2022/system-requirements/" data-linktype="absolute-path">System requirements</a>.</p>
+</div>
+</div>
+<ul>
+<li><p>For .NET web and .NET desktop development for only one language, run:</p>
+<pre><code class="lang-shell">  vs_enterprise.exe --layout c:\localVSlayout --add Microsoft.VisualStudio.Workload.ManagedDesktop --add Microsoft.VisualStudio.Workload.NetWeb --lang en-US
+</code></pre>
+</li>
+<li><p>For C++ desktop development including all recommended and optional components, for only one language, run:</p>
+<pre><code class="lang-shell">  vs_enterprise.exe --layout c:\localVSlayout --add Microsoft.VisualStudio.Workload.NativeDesktop --includeRecommended --includeOptional --lang en-US 
+</code></pre>
+</li>
+<li><p>You can also <a href="create-a-network-installation-of-visual-studio?view=vs-2022#configure-the-contents-of-a-layout" data-linktype="relative-path">use an exported vsconfig file</a> to customize the layout content, <a href="create-a-network-installation-of-visual-studio?view=vs-2022&amp;#verify-a-layout" data-linktype="relative-path">verify</a> a layout, or <a href="create-a-network-installation-of-visual-studio?view=vs-2022&amp;#fix-a-layout" data-linktype="relative-path">fix</a> a layout.</p>
+</li>
+</ul>
+<h3 id="step-3---install-visual-studio-from-the-local-layout">Step 3 - Install Visual Studio from the local layout</h3>
+<p>When you install Visual Studio from a local layout, the Visual Studio Installer uses the local versions of the files. But if you select components during installation that aren't in the layout, the Visual Studio Installer tries to download them from the internet. To make sure you install only the files you previously downloaded, use the same <a href="use-command-line-parameters-to-install-visual-studio?view=vs-2022" data-linktype="relative-path">command-line options</a> you used to create the local layout. To make sure your installer doesn't try to access the internet when it's installing the product, use the <code>--noweb</code> switch.</p>
+<p>For example, if you created a local installation layout by using the following command:</p>
+<div data-moniker="visualstudio vs-2022">
+<pre><code class="lang-shell">vs_enterprise.exe --layout c:\localVSlayout --add Microsoft.VisualStudio.Workload.ManagedDesktop --add Microsoft.VisualStudio.Workload.NetWeb --includeOptional --lang en-US
+</code></pre>
+<p>Then use the following command to run the installation and prevent the client machine from accessing the internet:</p>
+<pre><code class="lang-shell">c:\localVSlayout\vs_enterprise.exe --noWeb --add Microsoft.VisualStudio.Workload.ManagedDesktop --add Microsoft.VisualStudio.Workload.NetWeb --includeOptional
+</code></pre>
+</div>
+<div class="IMPORTANT">
+<p>Important</p>
+<p>When Visual Studio is installed from a local layout, the installer records the layout path in the <code>C:\ProgramData\Microsoft\VisualStudio\Packages\_Instances\&lt;InstanceID&gt;\state.json</code> file.
+Future Updates or component additions expect the layout to remain at the same path.
+If the local layout is moved to a different location, the installer may not be able to find the required packages.</p>
+</div>
+<div class="IMPORTANT">
+<p>Important</p>
+<p>If you're using Visual Studio Community, you might be prompted to sign in within 30 days of installation, but this prompt doesn't affect your ability to use the product.</p>
+</div>
+<div class="NOTE">
+<p>Note</p>
+<p>If you get an error that a signature is invalid, you must <a href="install-certificates-for-visual-studio-offline?view=vs-2022" data-linktype="relative-path">install updated certificates</a>. Open the Certificates folder in your local layout. Double-click each of the certificate files, and then click through the Certificate Manager wizard. If you're asked for a password, leave it blank.</p>
+</div>
+<h2 id="support-or-troubleshooting">Support or troubleshooting</h2>
+<p>Sometimes, things can go wrong. If your Visual Studio installation fails, see <a href="troubleshooting-installation-issues?view=vs-2022" data-linktype="relative-path">Troubleshoot Visual Studio installation and upgrade issues</a> for step-by-step guidance.</p>
+<p>Here are a few more support options:</p>
+<ul>
+<li>Use the <a href="https://visualstudio.microsoft.com/vs/support/#talktous" data-linktype="external">installation chat</a> (English only) support option for installation-related issues.</li>
+<li>Report product issues to us by using the <a href="../ide/how-to-report-a-problem-with-visual-studio?view=vs-2022" data-linktype="relative-path">Report a Problem</a> tool that appears both in the Visual Studio Installer and in the Visual Studio IDE. If you're an IT Administrator and don't have Visual Studio installed, you can submit <a href="https://aka.ms/vs/admin/feedback" data-linktype="external">IT Admin feedback</a>.</li>
+<li>Suggest a feature, track product issues, and find answers in the <a href="https://aka.ms/feedback/suggest?space=8" data-linktype="external">Visual Studio Developer Community</a>.</li>
+</ul>
+<h2 id="related-content">Related content</h2>
+<ul>
+<li><a href="https://aka.ms/vs/admin/guide" data-linktype="external">Visual Studio Administrators Guide</a></li>
+<li><a href="install-certificates-for-visual-studio-offline?view=vs-2022" data-linktype="relative-path">Install certificates required for Visual Studio offline installation</a></li>
+<li><a href="use-command-line-parameters-to-install-visual-studio?view=vs-2022" data-linktype="relative-path">Use command-line parameters to install Visual Studio</a></li>
+<li><a href="workload-and-component-ids?view=vs-2022" data-linktype="relative-path">Visual Studio workload and component IDs</a></li>
+<li><a href="update-a-network-installation-of-visual-studio?view=vs-2022" data-linktype="relative-path">Update a network-based installation of Visual Studio</a></li>
+<li><a href="../help-viewer/overview?view=vs-2022" data-linktype="relative-path">Install Help Viewer for offline documentation</a></li>
+</ul>
+</div>
+					
+		<div
+			id="ms--inline-notifications"
+			class="margin-block-xs"
+			data-bi-name="inline-notification"
+		></div>
+	 
+		<div
+			id="assertive-live-region"
+			role="alert"
+			aria-live="assertive"
+			class="visually-hidden"
+			aria-relevant="additions"
+			aria-atomic="true"
+		></div>
+		<div
+			id="polite-live-region"
+			role="status"
+			aria-live="polite"
+			class="visually-hidden"
+			aria-relevant="additions"
+			aria-atomic="true"
+		></div>
+	
+					
+		<!-- feedback section -->
+		<section
+			id="site-user-feedback-footer"
+			class="font-size-sm margin-top-md display-none-print display-none-desktop"
+			data-test-id="site-user-feedback-footer"
+			data-bi-name="site-feedback-section"
+		>
+			<hr class="hr" />
+			<h2 id="ms--feedback" class="title is-3">Feedback</h2>
+			<div class="display-flex flex-wrap-wrap align-items-center">
+				<p class="font-weight-semibold margin-xxs margin-left-none">
+					Was this page helpful?
+				</p>
+				<div class="buttons">
+					<button
+						class="thumb-rating-button like button button-primary button-sm"
+						data-test-id="footer-rating-yes"
+						data-binary-rating-response="rating-yes"
+						type="button"
+						title="This article is helpful"
+						data-bi-name="button-rating-yes"
+						aria-pressed="false"
+					>
+						<span class="icon" aria-hidden="true">
+							<span class="docon docon-like"></span>
+						</span>
+						<span>Yes</span>
+					</button>
+					<button
+						class="thumb-rating-button dislike button button-primary button-sm"
+						id="standard-rating-no-button"
+						hidden
+						data-test-id="footer-rating-no"
+						data-binary-rating-response="rating-no"
+						type="button"
+						title="This article is not helpful"
+						data-bi-name="button-rating-no"
+						aria-pressed="false"
+					>
+						<span class="icon" aria-hidden="true">
+							<span class="docon docon-dislike"></span>
+						</span>
+						<span>No</span>
+					</button>
+					<details
+						class="popover popover-top"
+						id="mobile-help-popover"
+						data-test-id="footer-feedback-popover"
+					>
+						<summary
+							class="thumb-rating-button dislike button button-primary button-sm"
+							data-test-id="details-footer-rating-no"
+							data-binary-rating-response="rating-no"
+							title="This article is not helpful"
+							data-bi-name="button-rating-no"
+							aria-pressed="false"
+							data-bi-an="feedback-unhelpful-popover"
+						>
+							<span class="icon" aria-hidden="true">
+								<span class="docon docon-dislike"></span>
+							</span>
+							<span>No</span>
+						</summary>
+						<div
+							class="popover-content width-200 width-300-tablet"
+							role="dialog"
+							aria-labelledby="popover-heading"
+							aria-describedby="popover-description"
+						>
+							<p id="popover-heading" class="font-size-lg margin-bottom-xxs font-weight-semibold">
+								Need help with this topic?
+							</p>
+							<p id="popover-description" class="font-size-sm margin-bottom-xs">
+								Want to try using Ask Learn to clarify or guide you through this topic?
+							</p>
+							
+		<div class="buttons flex-direction-row flex-wrap justify-content-center gap-xxs">
+			<div>
+		<button
+			class="button button-sm border inner-focus display-none margin-right-xxs"
+			data-bi-name="ask-learn-assistant-entry-troubleshoot"
+			data-test-id="ask-learn-assistant-modal-entry-mobile-feedback"
+			data-ask-learn-modal-entry-feedback
+			data-bi-an=feedback-unhelpful-popover
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-label="Ask Learn"
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+		</button>
+		<button
+			class="button button-sm display-inline-flex display-none-desktop flex-shrink-0 margin-right-xxs border-color-ask-learn margin-right-xxs"
+			data-bi-name="ask-learn-assistant-entry-troubleshoot"
+			data-bi-an=feedback-unhelpful-popover
+			data-test-id="ask-learn-assistant-modal-entry-tablet-feedback"
+			data-ask-learn-modal-entry-feedback
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+		<button
+			class="button button-sm display-none flex-shrink-0 display-inline-flex-desktop margin-right-xxs border-color-ask-learn margin-right-xxs"
+			data-bi-name="ask-learn-assistant-entry-troubleshoot"
+			data-bi-an=feedback-unhelpful-popover
+			data-test-id="ask-learn-assistant-flyout-entry-feedback"
+			data-ask-learn-flyout-entry-show-only
+			data-flyout-button="toggle"
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-controls="ask-learn-flyout"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+	</div>
+			<button
+				type="button"
+				class="button button-sm margin-right-xxs"
+				data-help-option="suggest-fix"
+				data-bi-name="feedback-suggest"
+				data-bi-an="feedback-unhelpful-popover"
+				data-test-id="suggest-fix"
+			>
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-feedback"></span>
+				</span>
+				<span> Suggest a fix? </span>
+			</button>
+		</div>
+	
+						</div>
+					</details>
+				</div>
+			</div>
+		</section>
+		<!-- end feedback section -->
+	
+				</div>
+				
+		<div id="ms--additional-resources-mobile" class="display-none-print">
+			<hr class="hr" hidden />
+			<h2 id="ms--additional-resources-mobile-heading" class="title is-3" hidden>
+				Additional resources
+			</h2>
+			
+		<section
+			id="right-rail-recommendations-mobile"
+			class=""
+			data-bi-name="recommendations"
+			hidden
+		></section>
+	 
+		<section
+			id="right-rail-training-mobile"
+			class=""
+			data-bi-name="learning-resource-card"
+			hidden
+		></section>
+	 
+		<section
+			id="right-rail-events-mobile"
+			class=""
+			data-bi-name="events-card"
+			hidden
+		></section>
+	
+		</div>
+	 
+		<div
+			id="article-metadata-footer"
+			data-bi-name="article-metadata-footer"
+			data-test-id="article-metadata-footer"
+			class="page-metadata-container"
+		>
+			<hr class="hr" />
+			<ul class="metadata page-metadata" data-bi-name="page info" lang="en-us" dir="ltr">
+				<li class="visibility-hidden-visual-diff">
+			<span class="badge badge-sm text-wrap-pretty">
+				<span>Last updated on <local-time format="twoDigitNumeric"
+		datetime="2026-03-20T16:07:00.000Z"
+		data-article-date-source="calculated"
+		class="is-invisible"
+	>
+		2026-03-20
+	</local-time></span>
+			</span>
+		</li>
+			</ul>
+		</div>
+	
+			</div>
+		
+				</main>
+				<aside
+					id="layout-body-aside"
+					class="layout-body-aside  "
+					data-bi-name="aside"
+					aria-label="Additional resources"
+			  >
+					
+		<div
+			id="ms--additional-resources"
+			class="right-container padding-sm display-none display-block-desktop height-full"
+			data-bi-name="pageactions"
+		>
+			<div id="affixed-right-container" data-bi-name="right-column">
+				
+		<nav
+			id="side-doc-outline"
+			class="doc-outline border-bottom padding-bottom-xs margin-bottom-xs scrollbar-width-thin"
+			data-bi-name="intopic toc"
+			aria-label="In this article"
+		>
+			<h3>In this article</h3>
+		</nav>
+	
+				<!-- Feedback -->
+				
+		<section
+			id="ms--site-user-feedback-right-rail"
+			class="font-size-sm display-none-print"
+			data-test-id="site-user-feedback-right-rail"
+			data-bi-name="site-feedback-right-rail"
+		>
+			<div class="display-flex flex-wrap-wrap align-items-center">
+				<p class="font-weight-semibold margin-xxs margin-left-none">
+					Was this page helpful?
+				</p>
+				<div class="display-flex flex-wrap-nowrap">
+					<button
+						class="thumb-rating-button like inner-focus"
+						data-test-id="right-rail-rating-yes"
+						data-binary-rating-response="rating-yes"
+						type="button"
+						title="This article is helpful"
+						aria-label="This article is helpful"
+						data-bi-name="button-rating-yes"
+						aria-pressed="false"
+					>
+						<span class="icon" aria-hidden="true">
+							<span class="docon docon-like"></span>
+						</span>
+					</button>
+					<button
+						class="thumb-rating-button dislike inner-focus"
+						id="right-rail-no-button"
+						hidden
+						data-test-id="right-rail-rating-no"
+						data-binary-rating-response="rating-no"
+						type="button"
+						title="This article is not helpful"
+						aria-label="This article is not helpful"
+						data-bi-name="button-rating-no"
+						aria-pressed="false"
+					>
+						<span class="icon" aria-hidden="true">
+							<span class="docon docon-dislike"></span>
+						</span>
+					</button>
+					<details class="popover popover-right" id="help-popover" data-test-id="feedback-popover">
+						<summary
+							tabindex="0"
+							class="thumb-rating-button dislike inner-focus"
+							data-test-id="details-right-rail-rating-no"
+							data-binary-rating-response="rating-no"
+							title="This article is not helpful"
+							aria-label="This article is not helpful"
+							data-bi-name="button-rating-no"
+							aria-pressed="false"
+							data-bi-an="feedback-unhelpful-popover"
+						>
+							<span class="icon" aria-hidden="true">
+								<span class="docon docon-dislike"></span>
+							</span>
+						</summary>
+						<div
+							class="popover-content width-200 width-300-tablet"
+							role="dialog"
+							aria-labelledby="popover-heading-right-rail"
+							aria-describedby="popover-description-right-rail"
+						>
+							<p
+								id="popover-heading-right-rail"
+								class="font-size-lg margin-bottom-xxs font-weight-semibold"
+							>
+								Need help with this topic?
+							</p>
+							<p id="popover-description-right-rail" class="font-size-sm margin-bottom-xs">
+								Want to try using Ask Learn to clarify or guide you through this topic?
+							</p>
+							
+		<div class="buttons flex-direction-row flex-wrap justify-content-center gap-xxs">
+			<div>
+		<button
+			class="button button-sm border inner-focus display-none margin-right-xxs"
+			data-bi-name="ask-learn-assistant-entry-troubleshoot"
+			data-test-id="ask-learn-assistant-modal-entry-mobile-feedback"
+			data-ask-learn-modal-entry-feedback
+			data-bi-an=feedback-unhelpful-popover
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-label="Ask Learn"
+			hidden
+		>
+			<span class="icon" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+		</button>
+		<button
+			class="button button-sm display-inline-flex display-none-desktop flex-shrink-0 margin-right-xxs border-color-ask-learn margin-right-xxs"
+			data-bi-name="ask-learn-assistant-entry-troubleshoot"
+			data-bi-an=feedback-unhelpful-popover
+			data-test-id="ask-learn-assistant-modal-entry-tablet-feedback"
+			data-ask-learn-modal-entry-feedback
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+		<button
+			class="button button-sm display-none flex-shrink-0 display-inline-flex-desktop margin-right-xxs border-color-ask-learn margin-right-xxs"
+			data-bi-name="ask-learn-assistant-entry-troubleshoot"
+			data-bi-an=feedback-unhelpful-popover
+			data-test-id="ask-learn-assistant-flyout-entry-feedback"
+			data-ask-learn-flyout-entry-show-only
+			data-flyout-button="toggle"
+			type="button"
+			style="min-width: max-content;"
+			aria-expanded="false"
+			aria-controls="ask-learn-flyout"
+			hidden
+		>
+			<span class="icon font-size-lg" aria-hidden="true">
+				<span class="docon docon-chat-sparkle-fill gradient-ask-learn-logo"></span>
+			</span>
+			<span>Ask Learn</span>
+		</button>
+	</div>
+			<button
+				type="button"
+				class="button button-sm margin-right-xxs"
+				data-help-option="suggest-fix"
+				data-bi-name="feedback-suggest"
+				data-bi-an="feedback-unhelpful-popover"
+				data-test-id="suggest-fix"
+			>
+				<span class="icon" aria-hidden="true">
+					<span class="docon docon-feedback"></span>
+				</span>
+				<span> Suggest a fix? </span>
+			</button>
+		</div>
+	
+						</div>
+					</details>
+				</div>
+			</div>
+		</section>
+	
+			</div>
+		</div>
+	
+			  </aside> <section
+					id="layout-body-flyout"
+					class="layout-body-flyout "
+					data-bi-name="flyout"
+			  >
+					 <div
+	class="height-full border-left background-color-body-medium"
+	id="ask-learn-flyout"
+></div>
+			  </section> <div class="layout-body-footer " data-bi-name="layout-footer">
+		<footer
+			id="footer"
+			data-test-id="footer"
+			data-bi-name="footer"
+			class="footer-layout padding-xs padding-sm-desktop has-default-focus border-top"
+			role="contentinfo"
+		>
+			<div class="display-flex gap-xs flex-wrap-wrap is-full-height padding-right-lg-desktop">
+				
+		<a
+			data-mscc-ic="false"
+			href="#"
+			data-bi-name="select-locale"
+			class="locale-selector-link flex-shrink-0 button button-sm button-clear external-link-indicator"
+			id=""
+			title=""
+			><span class="icon" aria-hidden="true"
+				><span class="docon docon-world"></span></span
+			><span class="local-selector-link-text">en-us</span></a
+		>
+	 <div class="ccpa-privacy-link" data-ccpa-privacy-link hidden>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://aka.ms/yourcaliforniaprivacychoices"
+			data-bi-name="your-privacy-choices"
+			class="button button-sm button-clear flex-shrink-0 external-link-indicator"
+			id=""
+			title=""
+			>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 30 14"
+			xml:space="preserve"
+			height="16"
+			width="43"
+			aria-hidden="true"
+			focusable="false"
+		>
+			<path
+				d="M7.4 12.8h6.8l3.1-11.6H7.4C4.2 1.2 1.6 3.8 1.6 7s2.6 5.8 5.8 5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#fff"
+			></path>
+			<path
+				d="M22.6 0H7.4c-3.9 0-7 3.1-7 7s3.1 7 7 7h15.2c3.9 0 7-3.1 7-7s-3.2-7-7-7zm-21 7c0-3.2 2.6-5.8 5.8-5.8h9.9l-3.1 11.6H7.4c-3.2 0-5.8-2.6-5.8-5.8z"
+				style="fill-rule:evenodd;clip-rule:evenodd;fill:#06f"
+			></path>
+			<path
+				d="M24.6 4c.2.2.2.6 0 .8L22.5 7l2.2 2.2c.2.2.2.6 0 .8-.2.2-.6.2-.8 0l-2.2-2.2-2.2 2.2c-.2.2-.6.2-.8 0-.2-.2-.2-.6 0-.8L20.8 7l-2.2-2.2c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0l2.2 2.2L23.8 4c.2-.2.6-.2.8 0z"
+				style="fill:#fff"
+			></path>
+			<path
+				d="M12.7 4.1c.2.2.3.6.1.8L8.6 9.8c-.1.1-.2.2-.3.2-.2.1-.5.1-.7-.1L5.4 7.7c-.2-.2-.2-.6 0-.8.2-.2.6-.2.8 0L8 8.6l3.8-4.5c.2-.2.6-.2.9 0z"
+				style="fill:#06f"
+			></path>
+		</svg>
+	
+			<span>Your Privacy Choices</span></a
+		>
+	
+	</div>
+				<div class="flex-shrink-0">
+		<div class="dropdown has-caret-up">
+			<button
+				data-test-id="theme-selector-button"
+				class="dropdown-trigger button button-clear button-sm inner-focus theme-dropdown-trigger"
+				aria-controls="{{ themeMenuId }}"
+				aria-haspopup="true"
+				aria-expanded="false"
+				data-bi-name="theme"
+			>
+				<span class="icon" aria-hidden="true"><span class="docon docon-sun"></span></span>
+				<span>Theme</span>
+				<span class="icon expanded-indicator" aria-hidden="true">
+					<span class="docon docon-chevron-down-light"></span>
+				</span>
+			</button>
+			<div class="dropdown-menu" id="{{ themeMenuId }}" role="menu">
+				<ul class="theme-selector padding-xxs" data-test-id="theme-dropdown-menu" role="none">
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="light"
+							tabindex="-1"
+						>
+							<span class="theme-light margin-right-xxs">
+								<span
+									class="theme-selector-icon border display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Light </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="dark"
+							tabindex="-1"
+						>
+							<span class="theme-dark margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> Dark </span>
+						</button>
+					</li>
+					<li class="theme display-block" role="none">
+						<button
+							class="button button-clear button-sm theme-control button-block justify-content-flex-start text-align-left"
+							role="menuitemradio"
+							aria-checked="false"
+							data-theme-to="high-contrast"
+							tabindex="-1"
+						>
+							<span class="theme-high-contrast margin-right-xxs">
+								<span
+									class="border theme-selector-icon display-inline-block has-body-background"
+									aria-hidden="true"
+								>
+									<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 14">
+										<rect width="22" height="14" class="has-fill-body-background" />
+										<rect x="5" y="5" width="12" height="4" class="has-fill-secondary" />
+										<rect x="5" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="8" y="2" width="2" height="1" class="has-fill-secondary" />
+										<rect x="11" y="2" width="3" height="1" class="has-fill-secondary" />
+										<rect x="1" y="1" width="2" height="2" class="has-fill-secondary" />
+										<rect x="5" y="10" width="7" height="2" rx="0.3" class="has-fill-primary" />
+										<rect x="19" y="1" width="2" height="2" rx="1" class="has-fill-secondary" />
+									</svg>
+								</span>
+							</span>
+							<span> High contrast </span>
+						</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+			</div>
+			<ul class="links" data-bi-name="footerlinks">
+				<li class="manage-cookies-holder" hidden=""></li>
+				<li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/principles-for-ai-generated-content"
+			data-bi-name="aiDisclaimer"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>AI Disclaimer</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/previous-versions/"
+			data-bi-name="archivelink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Previous Versions</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://techcommunity.microsoft.com/t5/microsoft-learn-blog/bg-p/MicrosoftLearnBlog"
+			data-bi-name="bloglink"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Blog</a
+		>
+	
+	</li> <li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/contribute"
+			data-bi-name="contributorGuide"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Contribute</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?LinkId=521839"
+			data-bi-name="privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://go.microsoft.com/fwlink/?linkid=2259814"
+			data-bi-name="consumer-health-privacy"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Consumer Health Privacy</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://learn.microsoft.com/en-us/legal/termsofuse"
+			data-bi-name="termsofuse"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Terms of Use</a
+		>
+	
+	</li><li>
+		
+		<a
+			data-mscc-ic="false"
+			href="https://www.microsoft.com/legal/intellectualproperty/Trademarks/"
+			data-bi-name="trademarks"
+			class=" external-link-indicator"
+			id=""
+			title=""
+			>Trademarks</a
+		>
+	
+	</li>
+				<li>&copy; Microsoft 2026</li>
+			</ul>
+		</footer>
+	</footer>
+			</body>
+		</html>
