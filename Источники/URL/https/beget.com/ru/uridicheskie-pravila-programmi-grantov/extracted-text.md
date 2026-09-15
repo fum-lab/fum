@@ -138,6 +138,6 @@ English
 ** по данным аналитического сайта cnews.ru в рейтинге провайдеров IT-услуг за 2023 год.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-14 14:47:35 MSK -->
+<!-- last-content-edit: 2026-09-15 19:22:27 MSK -->
 <!-- content-sha256: sha256:1803c49380a9837664c4b1213cfe682b71392d933288830d6e826aaebdaedbc7 -->
 <!-- FUM-MD-RECENCY:END -->
