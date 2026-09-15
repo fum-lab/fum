@@ -1,0 +1,527 @@
+{
+  "схема": "fum.сравнение-потокового-восстановления.1",
+  "база": "7dfc5b1f0942d6cd4c207fd7195f37b1aa753729",
+  "источникБазы": {
+    "commit": "7dfc5b1f0942d6cd4c207fd7195f37b1aa753729",
+    "файлы": [
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Package.swift",
+        "gitBlob": "4408417be16e84e70e5b1328b2f739de95cb3447",
+        "sha256": "fa7e4d9007e2ee0cbc0fab23e162391d49f440e3fe1230cd0aef77b235b5c971"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/README.md",
+        "gitBlob": "1eb90007e402cad8c5ab8ad0ecc4526ed75ab9c3",
+        "sha256": "cd3d107c02e521af650aad88c47572d14328b04b9cc412f114b4bd9f7824c18f"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Авторизация.swift",
+        "gitBlob": "feed3e7450b920b45032c9c39ab8ca9c4aad72b7",
+        "sha256": "514abf82ddd641ac7b50cc17b4a802a3380ab948657c49ee0f69d3ad723a4b01"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Данные.swift",
+        "gitBlob": "60cdc57400dd16c6f8a9eadfe17f8df432c979b9",
+        "sha256": "1fd3ffc59ad6698a1aa4b2ed25db5b655032fab49259075b315137f9f35d2eae"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Действия.swift",
+        "gitBlob": "969f0584738360f611150e39db982b3f15d4043a",
+        "sha256": "4fc8d77f13c9611913cd7eac16adf21a57d1d9085dd7c03ce470b055bb12258d"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Мост.swift",
+        "gitBlob": "583b54f9c387d705cccabb28e78061b7aeb9e67c",
+        "sha256": "f984060db3a5548473a54a3770fe2ded12b2e0a583accec52e338dea2ae6b4cf"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Очередь.swift",
+        "gitBlob": "4ae00dbd4be24dfbfa6890f5651cbe04481eaa9b",
+        "sha256": "dc5c752923cb14576aeb34c9e02513aa683160983b6c447d4c477544d4123207"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/ПриватныеФайлы.swift",
+        "gitBlob": "33a467895c62912631498798ffc12af0dca45a47",
+        "sha256": "bd102e6bff622bb98f0df8b738730a840582b8289b24ef71d7042f530622f4dc"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Профиль.swift",
+        "gitBlob": "f33ffc5d0d2fb235bf65a3b25d7f3d0753bc9850",
+        "sha256": "0c88891f5d3b9d2c621eb4a15c96031d9412e151c6adc3d5a74b6e918f911dda"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/ПрофильВосстановления.swift",
+        "gitBlob": "f6b818619e5b0252a85057d0ea53eccfe17f90e4",
+        "sha256": "f48e963a1edd2a747fd599981b5908fe57f10db5edec67b8fe57f174e3ba0ff1"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Сверка.swift",
+        "gitBlob": "7a4f9446666c55ea2b3febb40ad664f1a7e8374b",
+        "sha256": "95f82f52a42362e7d55c963861a9317d130a67a62d12c4c860977e16dd3fbe59"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Сериализатор.swift",
+        "gitBlob": "e81fd7e3a0df24e572f0e587e1926711fa43e7c3",
+        "sha256": "86ac7ed94706d13147f0db994a72515135a21900232b551ca538d138995263e1"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/СквознойХвост.swift",
+        "gitBlob": "f71e1a7962b92f5cbd6d7e9df5fbbf25746b8170",
+        "sha256": "6d627c3f7164ca4fa80ea7cc944705345b745df99d03280d77cc7e9bb8987424"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Сообщения.swift",
+        "gitBlob": "ac2ce3b82ee6a4ac0135d8975b1a508914f82aa5",
+        "sha256": "7b3d1a5ef2ba803b591d3ed686a23c56a805c424440c700c53bcb50b85f7850f"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Среда.swift",
+        "gitBlob": "4b70feb81aaf10a8f87a8a9e6dc159ef19e3738b",
+        "sha256": "a24ab24f29e169fa3364acd82390b2a6a19eca9de47e127f4df15c330f797a1d"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Хранение.swift",
+        "gitBlob": "b0cdc00b75279af2cd2b06444266cc68e35220cc",
+        "sha256": "fb18d50e3c860b0c60b0c6e4607f115b288b2d7f6c7ed039147c0307823b72cf"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/ЦиклПриёма.swift",
+        "gitBlob": "0516fafaeb3f60d95c8677ce3288725d3c365c86",
+        "sha256": "aa1b8f9df3556a238dbffdda05b7e10c90aee87ff888360682996822cef007b4"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Ядро.swift",
+        "gitBlob": "5958cd1ebe38b7dc2c050a68bd724042f9ee6bfe",
+        "sha256": "1cd42d043973bd760f8e4923561b4588199d226864e137aa5ac909e2cdfb70ad"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/ПроверкаTelegram/main.swift",
+        "gitBlob": "1ae8aa1f43d6e71c5d1b41e820674136bda3b0e1",
+        "sha256": "916d1b179ab7efa4ea7c8e0c40fd91af657dcc5df66b14cff482fdb75e02e897"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиАвторизации.swift",
+        "gitBlob": "97a7a6695325a7304ca99caf9e2ae374aa8e6d51",
+        "sha256": "69b198eb49996da09f6e2073c792eead98568af12408ff0c74900076b3ddc9d5"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиГраниц.swift",
+        "gitBlob": "592a257b43f5ea5f7c9225315498425974d0ae69",
+        "sha256": "5f48ccb6a1fabc76d77e95560fb493aead45a2c8e202e1292fd9f34732c5f2e5"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиДействий.swift",
+        "gitBlob": "64f7a985cc1093462fd8ada9354d91057420a22e",
+        "sha256": "829e85cf472076b1976ac524885fc33b023a53548cc6cc8b7130928d641ab7ed"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиДолговечности.swift",
+        "gitBlob": "98d2a946296d681a298e20ce226443c00ea7fd38",
+        "sha256": "75bc380ceabe00a913368e1460c4f5afe89f436b9e6a30db720ed9472093a603"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиМоста.swift",
+        "gitBlob": "32c3e5e36f676fb8f34d5aba419e4ec1f70b8ec5",
+        "sha256": "0c8a20b59fc525c346ae8a3dc9685ee5ca2bb3058d345c0d2dff5807f2e2363e"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиОтказов.swift",
+        "gitBlob": "032c7926965cf5ab4d173fe5ecae96fe96e0f7c1",
+        "sha256": "e39d6d8cdc6330898dae01117f1b996ff306b880d32142111752477b28c4c804"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиПравКанала.swift",
+        "gitBlob": "bd843b052f3cd4243d7fb00455191472d5f6b2d0",
+        "sha256": "10a577aacefc2a9c4608dfce1b481f943919a5d1767d84c2bb6e31c1b3cfa0e3"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиПриватности.swift",
+        "gitBlob": "77827528ecfe360f7eae19fff04d6d048382669f",
+        "sha256": "421b2a3f1a73eaec5bbf652662d836f1660f76f06fb1d429cd92a952d05e61b2"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиПрофиля.swift",
+        "gitBlob": "40f805826a9710ca294c7f820c24eb48bd26659a",
+        "sha256": "a766e3ef5b503e844968e1dd30023a0d63738b5520d1cc0abc483763e2d3736c"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиПрофиляВосстановления.swift",
+        "gitBlob": "b5a062348d58765361cefcdd15895049cc97fead",
+        "sha256": "1ac3e422d57d4857d4f4bd72e6588188e7d65dea73492356715f3bcb1cc8ec52"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСверки.swift",
+        "gitBlob": "36836ed81faeafe7b10ebcedd46d17c211ada13c",
+        "sha256": "356375186bd05c209172ca7437cc8bc325520279d18d64459c487c6fe4e9cb67"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift",
+        "gitBlob": "286ec1dea7da271f6782e419a0a2e4cf0383e39b",
+        "sha256": "e8e811ac3e09ee8b448d7a63af8f5f99b86c0c10aceca431e4c8e1e27f8318fd"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСообщений.swift",
+        "gitBlob": "6c1c8a3c200b81c06016f8f3afadb5ecd71ffc9f",
+        "sha256": "11d48e4612e3c2c459da7397af78087b4f441ba3aac0ca7518c57b1a3638738b"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСреды.swift",
+        "gitBlob": "322e9896564ffc096a201c1d3fdd067c37a33fcb",
+        "sha256": "89864573be625a00145a661938f78e7f7163e949c25ecef3992955f6053a12dc"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиХвостаПриёма.swift",
+        "gitBlob": "52c76efaa0633cb50cba7de9b4524c3ca1084d7b",
+        "sha256": "bc928a73a987ce1824fb62c21ac972170d22c4e1f2abd73b12dcb37212f538d9"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиХранения.swift",
+        "gitBlob": "a82d761c15fe83a00051b21ad90a99cfbc97bdc8",
+        "sha256": "6f04b14e32132d9f29f7954998aae5d0cff5124d0a236e00cbce5babbf7e62ee"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиЧтения.swift",
+        "gitBlob": "206abb0d6a8cc6843c3b1d0181cde4d9dd48abb3",
+        "sha256": "7790934f1045985e626abcd0beed132f13d86e59164cf79a01bdfd99670142de"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиЯдра.swift",
+        "gitBlob": "16ff3e199f74ca534e5d8e2ce44a888c70c6be6c",
+        "sha256": "52fc1aeb9e162c41c4e94540ccb535cd9e8745f758a155075ea3c2ac24059c2e"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_измерение_команды.py",
+        "gitBlob": "c0ade202d00b276699c7092372d128cd5deb3381",
+        "sha256": "028e9c379e4799f0028edcd35c70b3c38745b262b69e7478fba528857c69aeaa"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_исполнитель_восстановления.py",
+        "gitBlob": "4a9975584092a168815a8775d86e5d737474d08f",
+        "sha256": "f9f132ac2e7929d2fc7497b73e45d0f6295053e33f1077f107092b9517611ad8"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_публикация_справки.py",
+        "gitBlob": "ec27f1220d56adb05976bc10476fb7ea9eb288a3",
+        "sha256": "30ba2b7c3de3445a28be2330a1946bce9a32ad1da9cc385373c4321cccecb5dd"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_сохранение_восстановления.py",
+        "gitBlob": "a6db5902a6b5094cf0219682747c700def53c0ef",
+        "sha256": "c7fbde9feca27b47668d19cf7b224bf9b27f54dc4b72d9c3e48fe839339820f2"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_среда_проверок.py",
+        "gitBlob": "d14af14fc82ae7132f226cbb74afcdcf0f9e08b3",
+        "sha256": "e0d660aafade35813e8476c6ab539c7215df8fe330848cc330d5cf24a615c50b"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/измерить-восстановление.py",
+        "gitBlob": "f3585b43b4ec85f5039b45b3e99fbe93a01df084",
+        "sha256": "93461967e6cb9d1cf3031940339064ae9f8e9f5aaf46b3dcea6523bb21e40063"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/проверить-восстановление.py",
+        "gitBlob": "1c6c7423ba6f580d0e8946b031d07e5d837ae126",
+        "sha256": "6dac89998e1042491f0ad17df2bc8d03091c67561744af6fb4e5d5f6c9624b79"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/проверить-команду.py",
+        "gitBlob": "595ad370110a4dd880558fe80020d3a8069a8670",
+        "sha256": "54ed0ce5e7957647f6d643f1a8ab3bc141dc807067d77d4661250982b687ed6b"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/проверить-пакет.py",
+        "gitBlob": "e910673d34b6d1b4dc9aae27679d9755a3136a39",
+        "sha256": "0b511383d9b1bfec489a3b096b37984a1f7f09255c98e021fb1edc889dbc3389"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/проверить-публикацию-справки.py",
+        "gitBlob": "b8d31fcf27b234489134e7bbc20fd0905e2b2a37",
+        "sha256": "aefde6420e00a1bd29c8c14c131e4bb7e0df60194cbb7d54c00ba6aee638047a"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Профили/2026-09-12-восстановление.json",
+        "gitBlob": "4ce8fd1647f15f17608d6fb6dc7a5184bc600893",
+        "sha256": "f31a9c5df6bd9799acea5222035ffdf023d4fbba15830f52920401b43c687e20"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Профили/2026-09-12-поток-и-отмена-повтор.json",
+        "gitBlob": "c8e0d0f007622c3a31fe59b4d2700ca9fa7e4a1a",
+        "sha256": "12afcba662f35ac1afbb15df54f86011f91cc5cad582ba72e99cac90f12449c9"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Профили/2026-09-12-поток-и-отмена.json",
+        "gitBlob": "3a070ce353ef5996a1d75d183ea78f4360f3b1cb",
+        "sha256": "77c77c53aff7a947bfd73b1c8bd53b847e228dae72e3468b10c79ccea87d5af1"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Профили/2026-09-12-сквозной-хвост.json",
+        "gitBlob": "0122237340f049393995dd10d831a515ab1b1697",
+        "sha256": "7143d90a36f28b0f915f67294e401eef53b55560ca07101bb1c226c1e2197597"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Профили/README.md",
+        "gitBlob": "e2db217b0ee0e757175e31e359fc24adf3265b8a",
+        "sha256": "3bcc575b5539927b04b81b8486cee6179439ec4ffe7d3a69e6c61db0aa3cf662"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КлиентTelegram/Профили/снимки/исполнитель-первого-измерения.py.txt",
+        "gitBlob": "b32cfded3ba91619103661242880c94fa2e7598a",
+        "sha256": "05f5f4a99124593e9e67c98034b64e939dd34d8ddfe6c71d52c74e73ceb31e63"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Package.swift",
+        "gitBlob": "42dd1c7d7d14d72e3dbeccdc68e8315a1cad0e09",
+        "sha256": "a0f1c303f555ed9d5f795713c81b1ec30e3eeb18609eece85fdb579279ef592d"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/README.md",
+        "gitBlob": "f031b9de81b6bd063665b1f6156f91f64612ed78",
+        "sha256": "767b54323f55da8090841974ac7f5fde3a0986fd61debfc05dd5e231a4c43026"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/ВосстановительКонтейнера/main.swift",
+        "gitBlob": "9986dec729559c0494be81822cf30564b844c903",
+        "sha256": "7d7f36228aa4ca1d8a20c46dd883464be97c186faf70eda18d3c5bafed1d31bf"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift",
+        "gitBlob": "405975c9b53e05948aeb3dfd0420aa2982f2869c",
+        "sha256": "83c6a08c4be4201fe279adcd0caac4c78298e377b1a92511d1d2a5bc724b5acb"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+        "gitBlob": "a0b737b30ddea917e873ee290571a155ba873f17",
+        "sha256": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Приватность.swift",
+        "gitBlob": "262217d3d5ca1e46766a2d4de748f6a6c3436662",
+        "sha256": "508e90ee77ab69ebde541b6ca76366ccf9d7964328d40a16a3ea35a4ddd89781"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+        "gitBlob": "44d11932a145343914f719b5f26e8ff18630e4e0",
+        "sha256": "cac76abf5aa1ac88f2e72e6692f94a1cf0afcadefc07498d0388ee554165238a"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift",
+        "gitBlob": "2fd3777e03f80d6c9a137bd278ec87c6c7f8ca7c",
+        "sha256": "6a97a004a15aea2e483c1b71de9b2a10141985abc94d037ab148d4b3bc244e2f"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift",
+        "gitBlob": "daedf38e57290c3448ab1a5bb27f5eb782ebff2e",
+        "sha256": "6d19959226189ce0df9d5c3e4519b4c0e535b79b263dfde2a8201374e77ecc07"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/ПисательКонтейнера/main.swift",
+        "gitBlob": "519cd98f4f77cb26e2574755fc18b14c6571e32b",
+        "sha256": "ea282dae86fea64b7db8572a673c660c112fc2e38fe70bd3479488ca4359f4fe"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/ПрофильКонтейнера/main.swift",
+        "gitBlob": "a0efa96d36b58f984f235820d22735a1dcd64476",
+        "sha256": "979e4a33aa8442a86bb68c546c0f997f53a4459912fb45548c78adc501bd1aab"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/ЧитательКонтейнера/main.swift",
+        "gitBlob": "2a6fe4c50574019fc6a692c13f203164597837a9",
+        "sha256": "ab9d86ad9a4a61b8f1898076cbda3a78785a43fe4301c7d76467b3d5312c7cdd"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Tests/КонтейнерНаблюденийTests/ОтказыTests.swift",
+        "gitBlob": "ec116d47481a6cc57b82e5ab2fdfb283ca3fbabf",
+        "sha256": "fbb00b27f1e281685efadb2278d5ed9ea9bb1d4dab65f0c38d52348a530aea8a"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Tests/КонтейнерНаблюденийTests/ПрофильTests.swift",
+        "gitBlob": "d3092ef679398befdd0b5b2b7ecfc9d4349734fd",
+        "sha256": "e57a80d81b989644c43320f6658e9b76cf3c5e1df971213b2406223857a23b1b"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Tests/КонтейнерНаблюденийTests/ПроцессыTests.swift",
+        "gitBlob": "4ee70b396ad9544fee2d6a911464d641b06527e7",
+        "sha256": "b02edd2df2ba769d4f0dad52729caf77fa765f7777e3573c708ccc0aa732292b"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Tests/КонтейнерНаблюденийTests/СегментTests.swift",
+        "gitBlob": "1cdca01b931c91b487c147e95239a6b4567d0236",
+        "sha256": "4a1d424184ab7420b6b302d4e65074a3f20cbaa01d4f0b9f0b28f6d2853f913c"
+      },
+      {
+        "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Tests/КонтейнерНаблюденийTests/ФорматTests.swift",
+        "gitBlob": "1d11e7f597a46d64f2a73b8fef4b651d2270b490",
+        "sha256": "64daaa409de6b2c35480850dc9480db9f50fb053ebde45fbaa677cf3583993dd"
+      }
+    ]
+  },
+  "исходникиПосле": [
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Package.swift",
+      "sha256": "fa7e4d9007e2ee0cbc0fab23e162391d49f440e3fe1230cd0aef77b235b5c971"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Авторизация.swift",
+      "sha256": "514abf82ddd641ac7b50cc17b4a802a3380ab948657c49ee0f69d3ad723a4b01"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Данные.swift",
+      "sha256": "1fd3ffc59ad6698a1aa4b2ed25db5b655032fab49259075b315137f9f35d2eae"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Действия.swift",
+      "sha256": "4fc8d77f13c9611913cd7eac16adf21a57d1d9085dd7c03ce470b055bb12258d"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Мост.swift",
+      "sha256": "f984060db3a5548473a54a3770fe2ded12b2e0a583accec52e338dea2ae6b4cf"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Очередь.swift",
+      "sha256": "dc5c752923cb14576aeb34c9e02513aa683160983b6c447d4c477544d4123207"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/ПриватныеФайлы.swift",
+      "sha256": "bd102e6bff622bb98f0df8b738730a840582b8289b24ef71d7042f530622f4dc"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Профиль.swift",
+      "sha256": "0c88891f5d3b9d2c621eb4a15c96031d9412e151c6adc3d5a74b6e918f911dda"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/ПрофильВосстановления.swift",
+      "sha256": "58ae92567276d78f930160d0642ba0eb5ed43eaeef7046e3aab7c6194fb8e2b6"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Сверка.swift",
+      "sha256": "95f82f52a42362e7d55c963861a9317d130a67a62d12c4c860977e16dd3fbe59"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Сериализатор.swift",
+      "sha256": "86ac7ed94706d13147f0db994a72515135a21900232b551ca538d138995263e1"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/СквознойХвост.swift",
+      "sha256": "deddd7af82ad5128e387d3dbd841d36936888909e47340bbf4a3fdd533d86143"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Сообщения.swift",
+      "sha256": "7b3d1a5ef2ba803b591d3ed686a23c56a805c424440c700c53bcb50b85f7850f"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Среда.swift",
+      "sha256": "a24ab24f29e169fa3364acd82390b2a6a19eca9de47e127f4df15c330f797a1d"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Хранение.swift",
+      "sha256": "eef86eaaca579101f44c9b2e0ef7693dfacfebdda3b6faee5692f6777e82d59f"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/ЦиклПриёма.swift",
+      "sha256": "aa1b8f9df3556a238dbffdda05b7e10c90aee87ff888360682996822cef007b4"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Ядро.swift",
+      "sha256": "cfa3d86a8bfbc868619072cbf13dd3dcfe1e058b4c73bbdc1614ee9e009732a7"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/ПроверкаTelegram/main.swift",
+      "sha256": "916d1b179ab7efa4ea7c8e0c40fd91af657dcc5df66b14cff482fdb75e02e897"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Package.swift",
+      "sha256": "a0f1c303f555ed9d5f795713c81b1ec30e3eeb18609eece85fdb579279ef592d"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/ВосстановительКонтейнера/main.swift",
+      "sha256": "7d7f36228aa4ca1d8a20c46dd883464be97c186faf70eda18d3c5bafed1d31bf"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift",
+      "sha256": "83c6a08c4be4201fe279adcd0caac4c78298e377b1a92511d1d2a5bc724b5acb"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+      "sha256": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Приватность.swift",
+      "sha256": "508e90ee77ab69ebde541b6ca76366ccf9d7964328d40a16a3ea35a4ddd89781"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+      "sha256": "cac76abf5aa1ac88f2e72e6692f94a1cf0afcadefc07498d0388ee554165238a"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift",
+      "sha256": "6a97a004a15aea2e483c1b71de9b2a10141985abc94d037ab148d4b3bc244e2f"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift",
+      "sha256": "6d19959226189ce0df9d5c3e4519b4c0e535b79b263dfde2a8201374e77ecc07"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/ПисательКонтейнера/main.swift",
+      "sha256": "ea282dae86fea64b7db8572a673c660c112fc2e38fe70bd3479488ca4359f4fe"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/ПрофильКонтейнера/main.swift",
+      "sha256": "979e4a33aa8442a86bb68c546c0f997f53a4459912fb45548c78adc501bd1aab"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/ЧитательКонтейнера/main.swift",
+      "sha256": "ab9d86ad9a4a61b8f1898076cbda3a78785a43fe4301c7d76467b3d5312c7cdd"
+    }
+  ],
+  "среда": {
+    "macOS": "27.0 26A428",
+    "Swift": "6.4 swiftlang-6.4.0.34.1 clang-2100.3.34.1",
+    "swiftDriver": "1.168.6",
+    "SDK": "27.0 26A425",
+    "конфигурация": "Release",
+    "jobs": 1,
+    "работники": "не измерены"
+  },
+  "порядок": [
+    [
+      "база",
+      "поток"
+    ],
+    [
+      "поток",
+      "база"
+    ],
+    [
+      "база",
+      "поток"
+    ]
+  ],
+  "сводка": [
+    {
+      "вариант": "база",
+      "попыток": 16,
+      "медианаСекунд": 0.010488917,
+      "медианаRSSПосле": 8896512
+    },
+    {
+      "вариант": "поток",
+      "попыток": 16,
+      "медианаСекунд": 0.010688708,
+      "медианаRSSПосле": 8798208
+    },
+    {
+      "вариант": "база",
+      "попыток": 256,
+      "медианаСекунд": 0.164435458,
+      "медианаRSSПосле": 14123008
+    },
+    {
+      "вариант": "поток",
+      "попыток": 256,
+      "медианаСекунд": 0.165971,
+      "медианаRSSПосле": 12681216
+    }
+  ],
+  "граница": "Одинаковые логические фикстуры и текущий CLT; UUID, ключи и шифротекст меняются. ОС и кэш не изолированы. RSS взят после открытия, не является размером массива или пиком отдельного интервала. Первоначальный профиль-потока-до относится к старому бинарнику Swift 6.4.0.33.1 и исключён из парного сравнения. Метаданные контейнера и итоговые модели не ограничены этим срезом."
+}
