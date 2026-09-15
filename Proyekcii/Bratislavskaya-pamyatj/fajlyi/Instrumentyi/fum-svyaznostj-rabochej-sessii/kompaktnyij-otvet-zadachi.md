@@ -1,5 +1,7 @@
 # Kompaktnyij otvet nativnoj zadachi
 
+[Yavnaya peredacha dvukh povtoryayemyikh poyasnenij](peredacha-poyasnenij.md) dostupna otdeljnoj versiyej `пояснения-1`. Yeyo konechnyij protokol podtverzhdeniya, rezervnaya forma i otricateljnaya ekonomika polnogo obmena opisanyi otdeljno; prezhneye predstavleniye ostayotsya formatom po umolchaniyu.
+
 [Python-etalon](scripts/kompaktnyij_otvet_zadachi.py) prinimayet sokhranyonnuyu obolochku `read_thread`, proveryayet polnyij SHA-256, razbirayet vlozhennuyu stroku JSON i vyibirayet pervyij podkhodyasjhij khod `newest_first`, zatem poslednij nepustoj `agentMessage` v yego massive `items`. Vyibrannyij obyyekt sokhranyayetsya celikom. Srez soderzhit sostoyaniye, oshibku tekusjhego khoda, metadannyiye vyibrannogo khoda, schyotchiki opusjhennyikh elementov i dvukhstupenchatyiye ukazateli na originalyi. Komandyi i rassuzhdeniya ne ispolnyayutsya i ne peredayutsya kak otvet.
 
 [CLI](scripts/pokazatj-otvet-zadachi.py) trebuyet `--снимок`, `--sha256` i `--задача`. Neobyazateljnyij `--путь-в-результате` dobavlyayet absolyutnyij adres privatnogo artefakta. `--максимум-байтов` po umolchaniyu raven 16000 i vklyuchayet adres i zavershayusjhij LF. Prevyisheniye byudzheta oznachayet kod 2 i pustoj stdout; tekst ne usekayetsya. CLI ne pishet i ne obrasjhayetsya k API ili Git. Dopolniteljnyij `--профиль прежний|порождённый` po umolchaniyu vyibirayet `прежний`: vse raneye dopustimyiye vkhodyi sokhranyayut prezhneye povedeniye. `порождённый` yavno podklyuchayet obsjhiye modeli i proyekciyu; avtomaticheskogo otkata pri otkaze net.
@@ -53,6 +55,6 @@ Porozhdyonnyij rezhim imeyet dopolniteljnuyu cenu postroyeniya modelej. Posle us
 [Primeneniye k prinyatomu nativnomu snimku](../../Zhurnal/2026-09-15_02-35-33_MSK_podklyuchitj-porozhdyonnyiye-modeli/materialyi/primeneniye-prinyatogo-snimka.json) podtverdilo polnoye ravenstvo rezuljtata prezhnemu prinyatomu srezu: 885 → 2595 bajtov, odin nastoyasjhij CLI, bez novogo API ili zapisi polnogo fajla. [Otchyot podklyucheniya](../../Zhurnal/2026-09-15_02-35-33_MSK_podklyuchitj-porozhdyonnyiye-modeli/otchyot.md) fiksiruyet proverku i yeyo granicyi.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 03:08:23 MSK -->
-<!-- content-sha256: sha256:37aab33276154931dbfe70d433493751e10c1fb37508d618964ce018eda448db -->
+<!-- last-content-edit: 2026-09-15 12:56:44 MSK -->
+<!-- content-sha256: sha256:f3bdde4739949cad9deb04299e3b6dac5318eb0a16b86e32c41e26174ff8f856 -->
 <!-- FUM-MD-RECENCY:END -->

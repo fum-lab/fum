@@ -23,6 +23,8 @@ Kartochka obyyedinyayet povtornyiye nablyudeniya neobyyasnyonnogo drejfa polnogo
 
 - `FUM-СБОЙ-0045/ПРОЯВЛЕНИЕ-0004`: pri [podklyuchenii yavnogo profilya CLI](../Zhurnal/2026-09-15_02-35-33_MSK_podklyuchitj-porozhdyonnyiye-modeli/zapros.md) adresnaya proverka pyati novyikh versij iskhodnikov vyiyavila sobstvennoye smeshannoye imya polya `семантика_sha256` ([otkaz 20](../Zhurnal/2026-09-15_02-35-33_MSK_podklyuchitj-porozhdyonnyiye-modeli/materialyi/zapuski-proverok/20_5d003902-1288-418f-9293-125ceecdf0c7.json)). Eto novoye napisaniye tekusjhego sreza, a ne povtornoye obnaruzheniye istoricheskogo koda. Predshestvuyusjhij [otkaz 18](../Zhurnal/2026-09-15_02-35-33_MSK_podklyuchitj-porozhdyonnyiye-modeli/materialyi/zapuski-proverok/18_5a9f872c-1c12-4b0c-84c3-bfd72844722c.json) videl dva prisvaivaniya vneshnikh native-polej `error` i `text`; oni klassificirovanyi otdeljno ot sobstvennogo polya. Oshibka fiksturyi teperj zadayotsya parametrom susjhestvuyusjhej fabriki, bez povtornogo razbora i mutacii serializovannoj obolochki. Sobstvennoye pole pereimenovano v `хэш_семантики`. [GREEN 21](../Zhurnal/2026-09-15_02-35-33_MSK_podklyuchitj-porozhdyonnyiye-modeli/materialyi/zapuski-proverok/21_3157ca53-0ce6-4ff0-97fe-28dbd1bbe69e.json) podtverdil nulevuyu deljtu vsekh pyati konechnyikh iskhodnikov i tochnyiye SHA; obsjhij snimok ne menyalsya. [Sverka zamenyi](../Zhurnal/2026-09-15_02-35-33_MSK_podklyuchitj-porozhdyonnyiye-modeli/materialyi/pereimenovaniye-polya-profilya.json) dokazyivayet yedinstvennoye izmeneniye imeni vne izmeryayemogo intervala; vse pervonachaljnyiye izmereniya sokhranenyi. Nomer 0004 zakreplyon koordinatorom posle nezavisimoj sverki refs i rezervov; eto odno proyavleniye s etapami lokalizacii, a ne tri sboya.
 
+- `FUM-СБОЙ-0045/ПРОЯВЛЕНИЕ-0005`: rannyaya adresnaya [proverka 10](../Zhurnal/2026-09-15_06-33-09_MSK_vyinesti-povtoryayemyiye-poyasneniya-otveta/materialyi/zapuski-proverok/10_c776cd7d-f29a-489a-848d-22ec61fa06ef.json) obnaruzhila odno novoye obyyavleniye `sha256` v sinteticheskom ACK-teste. Eto tochnoye pole uzhe susjhestvuyusjhego kontrakta ssyilki, a ne razresheniye novogo sobstvennogo latinskogo imeni. Poluchatelj teperj perenosit uzhe poluchennyij `первый.профиль` celikom; [proverka 12](../Zhurnal/2026-09-15_06-33-09_MSK_vyinesti-povtoryayemyiye-poyasneniya-otveta/materialyi/zapuski-proverok/12_296f8a83-3434-47dd-b588-7ef8d22bf0b8.json) dala nulevoj ostatok vsekh shesti iskhodnikov. Iskhodnaya versiya testa ne menyala iskhodniki izmeryayemogo Python-profilya. Promezhutochnyij nepodderzhannyij computed key otdeljno sokhranyon kak 0117/0002. Obsjhij snimok ne obnovlyalsya; ruchnoye vosstanovleniye ne zakryivayet sistemnuyu granicu.
+
 ## Ozhidaniye i klassifikaciya
 
 Prinimayemyij snimok dolzhen vosproizvodimo sootvetstvovatj obyyasnyonnomu ostatku; novyiye sobstvennyiye imena ne prinimayutsya toljko po nasledovaniyu. Nablyudeniye drejfa podtverzhdeno. Prichina kazhdoj dopolniteljnoj zapisi yesjhyo ne klassificirovana, poetomu vesj prirost ne obyyavlyayetsya novyim narusheniyem yazyika. V chastnosti, klyuchevyiye slova Swift i imena vneshnikh protokolov trebuyut analiza roli.
@@ -38,6 +40,8 @@ Tochnaya diagnostika tekusjhego razbora sokhranena v [sleduyusjhem etape](../Zhu
 Dlya proyavleniya 0004 primenena rannyaya adresnaya proverka sobstvennyikh imyon do standartnoj priyomki. Novyij smeshannyij klyuch ispravlen, vneshniye polya ne pereimenovanyi; fabrika testa uprosjhena, 12 Node-testov proshli povtorno. Mera tekusjhego sreza ne zakryivayet obsjhij aktivnyij sboj i ne dokazyivayet avtomaticheskogo zapreta povtorov na vsekh putyakh.
 
 ## Svyazannyiye shagi
+
+- [FUM-STEP-0165](../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0165-sobiratj-rabochij-kontekst-zadachi.md) — rannyaya proverka novyikh iskhodnikov; novoye osnovaniye FUM-SBOJ-0045/PROYAVLENIYE-0005.
 
 Obyyedinyonnaya [klassifikaciya 0165 i 0173](../Zhurnal/2026-09-14_22-40-28_MSK_obyyedinitj-paketyi-i-proveritj-ostatok/materialyi/sovmestnaya-klassifikaciya.md) vosproizvela tochnyij istoricheskij massiv43163 i obyyasnila perekhod k43091. Vse izmenyonnyiye klyuchi sokhranenyi s kratnostjyu;385Python-perevodov podtverzhdenyi tokenami, AST i khyeshirovannyimi planami,312istoricheskikh obnaruzhenij svyazanyi s iskhodnyimi bajtami. Shtatno obnovlyon snimokSHA46642cc72523484d581d21f756de67d350de2f231d9b77db7612581e6d70b76d. Eto zavershyonnaya klassifikaciya i vosstanovlennaya kontroljnaya granica; polnaya priyomka obyyedineniya yesjhyo trebuyetsya, kartochka ostayotsya aktivnoj.
 
@@ -62,6 +66,6 @@ Proiskhozhdeniye kazhdogo izmeneniya ostatka obyyasneno; sobstvennyiye novyiye l
 Prezhniye proyavleniya perenesenyi iz proverennogo blob `6a539f645601902085315ba21b7522e5eabbe5e6`; soderzhateljnaya granica kartochki sokhranena i normalizovana v tekusjhiye vosemj razdelov. Istoricheskij tekst vtorogo proyavleniya ne oznachayet priyomku nyineshnego prirosta.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 03:14:24 MSK -->
-<!-- content-sha256: sha256:f0a6866d7d83669d2e1da62c70af04c18b7690131294f14a81fa29dc3399bf3d -->
+<!-- last-content-edit: 2026-09-15 12:56:44 MSK -->
+<!-- content-sha256: sha256:6239633b0c65922f916bffc7a14458ce23e6bac419072bfd47f6f504b99746f9 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -64,7 +64,24 @@ Sokhranenyi dve otdeljnyiye oshibki podgotovki vkhoda: terminaljnoye svideteljst
 
 `FUM-СБОЙ-0045/ПРОЯВЛЕНИЕ-0004` vyiyavilo novoye sobstvennoye smeshannoye imya metadannyikh pri podklyuchenii profilya. Proverka do dorogoj priyomki otdelyayet yego ot vneshnikh wire-polej, sokhranyayet pervichnyiye otkazyi i privyazyivayet ispravleniye k tochnyim iskhodnyim SHA. V tekusjhem sreze imya ispravleno i pyatj izmenyonnyikh iskhodnikov vernuli 0 → 0; obsjhij snimok ne obnovlyalsya. Dlya povtoryayemoj meryi nuzhnyi rannyaya proverka sobstvennogo izmenyonnogo nabora i proveryayemaya svyazj pereimenovanij vne vremennoj granicyi s istoricheskimi izmereniyami. Uspekh tekusjhej ruchnoj lokalizacii ne zakryivayet etot obsjhij kriterij.
 
+## Yavnaya peredacha poyasnenij
+
+Novaya vyibirayemaya versiya sokhranyayet prezhnyuyu skhemu po umolchaniyu i vyinosit rovno dva sovpavshikh poyasneniya s yavnyim podtverzhdeniyem dostupnogo opredeleniya. Na odnom vkhode polnyij obmen vyiros vo vsekh tryokh izmerennyikh seriyakh; ekonomiya konteksta ne zayavlyayetsya. Ogranichennoye ustraneniye `FUM-СБОЙ-0137/ПРОЯВЛЕНИЕ-0001` trebuyet strogoj celoj versii ssyilki v podtverzhdenii i vosstanovlenii; obsjhij predikat i adresnyiye regressii proverenyi. Eto ne zakryivayet polnyij 0165.
+
 ## Istochniki
+
+- [FUM-SBOJ-0138/PROYAVLENIYE-0003](../../Sboi/FUM-SBOJ-0138-neklassificirovannyiye-ukazateli-i-fikstura-puti.md) — pozdnyaya komanda posle uspeshnogo skanera izmenila yego vkhod. Trebuyetsya proveryayemaya svyazj zaklyuchiteljnogo skanirovaniya so snimkom posle vsekh istochnikov i sokhraneniye etogo snimka do priyomki; razovoye udaleniye dubliruyusjhego teksta ne zakryivayet meru.
+
+
+- [FUM-SBOJ-0138/PROYAVLENIYE-0001 i FUM-SBOJ-0138/PROYAVLENIYE-0002](../../Sboi/FUM-SBOJ-0138-neklassificirovannyiye-ukazateli-i-fikstura-puti.md) — rannyaya tipizirovannaya proverka novogo opredeleniya i otkryitoj absolyutnoj fiksturyi. Devyatj tochnyikh deklaracij vosstanovili adresnuyu proverku bez izmeneniya skanera; obsjheye raspoznavaniye proizvoljnyikh Pointer ne rasshiryalosj.
+
+
+- [FUM-SBOJ-0045/PROYAVLENIYE-0005](../../Sboi/FUM-SBOJ-0045-drejf-snimka-obyyavlenij-koda.md) i [FUM-SBOJ-0117/PROYAVLENIYE-0002](../../Sboi/FUM-SBOJ-0117-nepodderzhannyiye-scenarii-otveta.md) — ranniye otkazyi novogo ACK-testa. Aktualiziruyut meru proverki imyon i podderzhannogo sintaksisa do profilya i polnoj priyomki; poluchennaya ssyilka perenositsya bez novogo obyyavleniya yeyo vneshnego klyucha. Razovaya korrekciya ne zakryivayet obsjhuyu meru.
+
+
+- [FUM-SBOJ-0137/PROYAVLENIYE-0001](../../Sboi/FUM-SBOJ-0137-nestrogaya-versiya-ssyilki-poyasnenij.md) — strogij tip versii v obeikh tochkakh.
+- [Peredacha i izmerennyiye ogranicheniya](../../Instrumentyi/fum-svyaznostj-rabochej-sessii/peredacha-poyasnenij.md).
+
 
 - [FUM-SBOJ-0045/PROYAVLENIYE-0004](../../Sboi/FUM-SBOJ-0045-drejf-snimka-obyyavlenij-koda.md) — novoye sobstvennoye imya v CLI-profile; [rannyaya proverka i vosstanovleniye](../../Zhurnal/2026-09-15_02-35-33_MSK_podklyuchitj-porozhdyonnyiye-modeli/otchyot.md).
 
@@ -86,6 +103,6 @@ Sokhranenyi dve otdeljnyiye oshibki podgotovki vkhoda: terminaljnoye svideteljst
 - [Adresnaya klassifikaciya sobstvennoj postavki i vkhodnyiye otkazyi](../../Zhurnal/2026-09-14_20-03-08_MSK_utochnitj-sobstvennyiye-imena-postavki/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 03:14:24 MSK -->
-<!-- content-sha256: sha256:b42648775b253f8df548e5bcb892b1da32392361afa54a78ab51af54c1f7971a -->
+<!-- last-content-edit: 2026-09-15 13:19:48 MSK -->
+<!-- content-sha256: sha256:6a57ccf63bfbb3d9cedf1412ee73b00fb004fc2f9d8d25c8f673bef13a055bac -->
 <!-- FUM-MD-RECENCY:END -->

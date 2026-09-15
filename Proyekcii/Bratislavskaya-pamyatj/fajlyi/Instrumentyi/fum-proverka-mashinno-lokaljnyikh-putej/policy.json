@@ -3294,6 +3294,87 @@
       "count": 1,
       "category": "allow.test-fixture",
       "reason": "Открытая синтетическая Python-фикстура: объявление класса и экранированный перевод строки образуют похожую на Windows-путь последовательность. Точная строка проверяет отказ для непрослеживаемого eval и не задаёт адрес машины."
+    },
+    {
+      "id": "explanation-json-pointer-1",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/пояснения_ответа.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d1863b7c0179299f85aaa0fd0630ad2fd67f0058c38f9c3e552822613fe9e7a6",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точный JSON Pointer одного из двух пояснений; это адрес поля JSON, а не путь файловой системы."
+    },
+    {
+      "id": "explanation-json-pointer-2",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/пояснения_ответа.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:236c575b572d6d7a973efdd146447661c50fe1f2640967d84289f190d129d16c",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точный JSON Pointer одного из двух пояснений; это адрес поля JSON, а не путь файловой системы."
+    },
+    {
+      "id": "explanation-json-pointer-3",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/пояснения_ответа.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:85b956c1deec0b454520f8ad38f968888ccc15d137bf28f9a96c329129a9cd0a",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точный JSON Pointer одного из двух пояснений; это адрес поля JSON, а не путь файловой системы."
+    },
+    {
+      "id": "explanation-json-pointer-4",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/пояснения_ответа.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:800e91527874af10fdb461d29168d260881807b07e944d900915e9c7e1c1c19c",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точный JSON Pointer одного из двух пояснений; это адрес поля JSON, а не путь файловой системы."
+    },
+    {
+      "id": "explanation-json-pointer-5",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_адаптер_ответа.cjs",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:0c649bbd9b6e7a10fd3659358af77357eb7f8251a26beb23734cd3d1ffc83fae",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точный JSON Pointer одного из двух пояснений; это адрес поля JSON, а не путь файловой системы."
+    },
+    {
+      "id": "explanation-json-pointer-6",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_адаптер_ответа.cjs",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:4e464f868a832241882c7b5a7e3d5ad51633fd0202efbcd8cc38c86068f7c42f",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет точный JSON Pointer одного из двух пояснений; это адрес поля JSON, а не путь файловой системы."
+    },
+    {
+      "id": "explanation-json-pointer-8",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/профили/пояснения-ответа-1.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:487db4f6aa2be687d286d578087f067bb14a8637967d5143afcf6e74e121debb",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точный JSON Pointer одного из двух пояснений; это адрес поля JSON, а не путь файловой системы."
+    },
+    {
+      "id": "explanation-json-pointer-9",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/профили/пояснения-ответа-1.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:90e3e07c34e614509a922af9af3546564b1d2d6f1e36079f1e1b5b303ffe1f0b",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точный JSON Pointer одного из двух пояснений; это адрес поля JSON, а не путь файловой системы."
+    },
+    {
+      "id": "explanation-fixture-absolute-path",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_пояснения_ответа.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:712ba90e667f66c826c50985459e2de2bcb20ce0421d2cae08be0240dda0de51",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет обезличенный абсолютный путь открытой фикстуры для обратимости и бюджета UTF-8; пользовательского адреса нет."
     }
   ]
 }

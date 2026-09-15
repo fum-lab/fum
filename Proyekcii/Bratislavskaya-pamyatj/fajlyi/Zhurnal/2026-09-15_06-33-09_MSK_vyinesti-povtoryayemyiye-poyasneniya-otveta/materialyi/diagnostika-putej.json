@@ -1,0 +1,18 @@
+{
+  "схема": "fum.наблюдение-путей-пояснений.1",
+  "исходная_запись": "17_5a8c413a-01b9-4bd6-8350-e55f85ef8183.json",
+  "диагностики": [
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/пояснения_ответа.py:84:error.posix-absolute",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/пояснения_ответа.py:85:error.posix-absolute",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/пояснения_ответа.py:108:error.posix-absolute",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/пояснения_ответа.py:109:error.posix-absolute",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_адаптер_ответа.cjs:159:error.posix-absolute",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_адаптер_ответа.cjs:160:error.posix-absolute",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_пояснения_ответа.py:119:error.posix-absolute",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/профили/пояснения-ответа-1.json:5:error.posix-absolute",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/профили/пояснения-ответа-1.json:6:error.posix-absolute"
+  ],
+  "хэш_журнала": "e66ea4ec2b4c9f670dca8eac6a4bd644a3717cdc28e193cf8ef2da5cbecb4ab0",
+  "классификация": "Восемь строк JSON Pointer и одна обезличенная фикстура абсолютного пути; пользовательские пути отсутствуют.",
+  "мера": "Штатные точные исключения allow.path-validation-definition и allow.test-fixture; общий сканер неизменен."
+}

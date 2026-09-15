@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-15 02:26:52 MSK - Podtverditj dostavku sovmestnoj priyomki](../2026-09-15_02-26-52_MSK_podtverditj-dostavku-sovmestnoj-priyomki/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-15 03:49:44 MSK - Podtverditj priyomku profilya otveta](../2026-09-15_03-49-44_MSK_podtverditj-priyomku-profilya-otveta/zapros.md)
 
 ## Tekst zaprosa
 
@@ -176,6 +176,6 @@ Koordinator podtverdil sokhraneniye prezhnego profilya po umolchaniyu. Dopolnite
 Sokhranenyi vse pervonachaljnyiye otkazyi 18/20 i ispravleniye 21, vyidelennoye kak FUM-SBOJ-0045/PROYAVLENIYE-0004. [Kvitanciya registracii](materialyi/kvitanciya-registracii-0045.json) svyazyivayet tochnyij paket, ustanovlennyiye fajlyi i prezhniye tri proyavleniya; status ostayotsya aktivnyim.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 03:22:57 MSK -->
-<!-- content-sha256: sha256:0463a6a4a40e2d8cfde5bd81414d305562b5bf13f197cb58ed2f4afe182adbc5 -->
+<!-- last-content-edit: 2026-09-15 03:52:39 MSK -->
+<!-- content-sha256: sha256:a5301da5a9db886746dfc524e7c0cbdb53d50104f32aa85b3a4b6e6e374925a4 -->
 <!-- FUM-MD-RECENCY:END -->
