@@ -11,7 +11,7 @@ import time
 
 
 def проверить(бинарник: Path, корень: Path) -> dict:
-    определение = корень / "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Определения/нормализация.json"
+    определение = корень / "Приложения/FUMA/Sources/FUMStructuringOperatorMemory/Определения/нормализация.json"
     фикстура = корень / "Приложения/FUMA/macOS/проверки/фикстуры/вход-оператора.txt"
     измерения = []
     путиИсходников = [Path(__file__).resolve(),
@@ -20,8 +20,8 @@ def проверить(бинарник: Path, корень: Path) -> dict:
         корень / "Приложения/FUMA/macOS/Sources/FUMApp/FUMApp.swift"]
     for каталогИсходников in ["Приложения/FUMA/macOS/Sources/ИсполнениеОператора",
             "Приложения/FUMA/macOS/Sources/ПутиИсполнения",
-            "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory",
-            "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений"]:
+            "Приложения/FUMA/Sources/FUMStructuringOperatorMemory",
+            "Приложения/FUMA/Sources/КонтейнерНаблюдений"]:
         путиИсходников.extend(sorted((корень / каталогИсходников).rglob("*.swift")))
     исходники = {str(путь.relative_to(корень)): hashlib.sha256(путь.read_bytes()).hexdigest() for путь in путиИсходников}
     исходные = {str(путь.relative_to(корень)): hashlib.sha256(путь.read_bytes()).hexdigest()

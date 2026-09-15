@@ -30,7 +30,7 @@ def главный():
     парсер.add_argument('--бинарник', required=True, type=Path)
     парсер.add_argument('--выход', required=True, type=Path)
     параметры = парсер.parse_args()
-    пакет = Path(__file__).resolve().parents[1]
+    пакет = Path(__file__).resolve().parents[3] / "Приложения/FUMA"
     определения = пакет / 'Sources/FUMStructuringOperatorMemory/Определения'
     исходное = определения / 'UTF-8-в-UTF-32LE.json'
     нормализация = определения / 'нормализация.json'

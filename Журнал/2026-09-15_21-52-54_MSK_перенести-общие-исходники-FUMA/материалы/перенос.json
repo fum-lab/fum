@@ -1,0 +1,510 @@
+{
+  "база": "5a1c8876f614469f5cbbeedcf0ba71f52b4099f4",
+  "план_sha256": "55b4e512b05d8d66f8810502cf52e20a3e639051f4309255720bb2378dabbd92",
+  "файлы": [
+    {
+      "исходник": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Sources/АварийнаяФикстура/Авария.swift",
+      "назначение": "Приложения/FUMA/Sources/АварийнаяФикстура/Авария.swift",
+      "sha256": "04d27c3b3e609c2f0524ab9bc5e15c65c35dd2777a4e4c16ac0a9de34ab700e9",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Sources/АрхивныйСнимокЗадачи/Архив.swift",
+      "назначение": "Приложения/FUMA/Sources/АрхивныйСнимокЗадачи/Архив.swift",
+      "sha256": "abc2a949211307c12377adb489884b438f5e867dfb5d9a8327e3d982e516e205",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Sources/АрхивныйСнимокЗадачи/Контракт.swift",
+      "назначение": "Приложения/FUMA/Sources/АрхивныйСнимокЗадачи/Контракт.swift",
+      "sha256": "b6ecc4a1aa3f8405288d9ff96827fe4b992314a1ceb3ff4965e2fb11784aac12",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Sources/АрхивныйСнимокЗадачи/Разбор.swift",
+      "назначение": "Приложения/FUMA/Sources/АрхивныйСнимокЗадачи/Разбор.swift",
+      "sha256": "ff330397aae3d6768a9991873f761ed928e7b3189743428a5fc8182445970790",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Sources/АрхивныйСнимокЗадачи/Снимок.swift",
+      "назначение": "Приложения/FUMA/Sources/АрхивныйСнимокЗадачи/Снимок.swift",
+      "sha256": "f9bc1fdab7df3c9d7ce1273edbd87aea59ae2d2c18d7147cf436e1911309b522",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Sources/АрхивныйСнимокЗадачи/Чтение.swift",
+      "назначение": "Приложения/FUMA/Sources/АрхивныйСнимокЗадачи/Чтение.swift",
+      "sha256": "138bfa985f2d4a465a31fa4250adb45028afeda031cb7f876bbfdb63d1bb35cc",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Sources/КомандаАрхива/Команда.swift",
+      "назначение": "Приложения/FUMA/Sources/КомандаАрхива/Команда.swift",
+      "sha256": "9b522e020663a8f5a5ff5fa3f8a9de62346308e321451121c629abe4241ab163",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Sources/ПрофильАрхивногоСнимка/Профиль.swift",
+      "назначение": "Приложения/FUMA/Sources/ПрофильАрхивногоСнимка/Профиль.swift",
+      "sha256": "4763dab502e94d8845acb2f19507c331db5a01eced63ce61920855a0377e1c2d",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Tests/АрхивныйСнимокЗадачиTests/АрхивTests.swift",
+      "назначение": "Приложения/FUMA/Tests/АрхивныйСнимокЗадачиTests/АрхивTests.swift",
+      "sha256": "f0d432703c47e1516d61b4157d459f5127a6f632c4fc2f34f3b70a2f90b3d408",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Tests/АрхивныйСнимокЗадачиTests/ДополнительныеTests.swift",
+      "назначение": "Приложения/FUMA/Tests/АрхивныйСнимокЗадачиTests/ДополнительныеTests.swift",
+      "sha256": "ae58899587f88099aa8ab225134fe57096872db5220c4d0e102baca53aa74848",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Tests/АрхивныйСнимокЗадачиTests/КомандаTests.swift",
+      "назначение": "Приложения/FUMA/Tests/АрхивныйСнимокЗадачиTests/КомандаTests.swift",
+      "sha256": "f8480f56814ab6eea56151dcdce2ff8545b8741e5395162a24748d2e8bdc42be",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Tests/АрхивныйСнимокЗадачиTests/КурсорTests.swift",
+      "назначение": "Приложения/FUMA/Tests/АрхивныйСнимокЗадачиTests/КурсорTests.swift",
+      "sha256": "9abacbd391c2ccfb3e80cf7013ea6f8bade7774ada1b4accaedef14102772f55",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Tests/АрхивныйСнимокЗадачиTests/ОболочкаTests.swift",
+      "назначение": "Приложения/FUMA/Tests/АрхивныйСнимокЗадачиTests/ОболочкаTests.swift",
+      "sha256": "808403a5229bf0fcb9915e83d98b645e6b6687d7235f0e125f4f3c55eb9d6c78",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Tests/АрхивныйСнимокЗадачиTests/ПроисхождениеTests.swift",
+      "назначение": "Приложения/FUMA/Tests/АрхивныйСнимокЗадачиTests/ПроисхождениеTests.swift",
+      "sha256": "885f2859554c1da75773f3de85cfbc30463534f6f1b9d15dc57a965813485bfd",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Tests/АрхивныйСнимокЗадачиTests/РевьюTests.swift",
+      "назначение": "Приложения/FUMA/Tests/АрхивныйСнимокЗадачиTests/РевьюTests.swift",
+      "sha256": "311d6030a6333c8b598876f5ac8097f170ec76a5aa8fbaab9eb02e61c3d10691",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/ВосстановительКонтейнера/main.swift",
+      "назначение": "Приложения/FUMA/Sources/ВосстановительКонтейнера/main.swift",
+      "sha256": "7d7f36228aa4ca1d8a20c46dd883464be97c186faf70eda18d3c5bafed1d31bf",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift",
+      "назначение": "Приложения/FUMA/Sources/КонтейнерНаблюдений/Ввод.swift",
+      "sha256": "162a20e8a2a13605b5c4c295f5a96d76c2f8dbc668991dcda932b4d3a1848a29",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+      "назначение": "Приложения/FUMA/Sources/КонтейнерНаблюдений/Контракт.swift",
+      "sha256": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+      "назначение": "Приложения/FUMA/Sources/КонтейнерНаблюдений/Сегмент.swift",
+      "sha256": "d754c9ecbdb801096dd4d0214b16ae0be5b26391734845c93df9038e5f9d54ef",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift",
+      "назначение": "Приложения/FUMA/Sources/КонтейнерНаблюдений/Файлы.swift",
+      "sha256": "c77265b41bc1bcf94e703eff26c2985df7b9d7ade58e86916b4ce7bc2473d3dd",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift",
+      "назначение": "Приложения/FUMA/Sources/КонтейнерНаблюдений/Формат.swift",
+      "sha256": "b2b9223ede6b57e305dd6952ae68a2dea7ab6195e24f5f5b929dad4aec3b08b2",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/ПисательКонтейнера/main.swift",
+      "назначение": "Приложения/FUMA/Sources/ПисательКонтейнера/main.swift",
+      "sha256": "ea282dae86fea64b7db8572a673c660c112fc2e38fe70bd3479488ca4359f4fe",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/ПрофильКонтейнера/main.swift",
+      "назначение": "Приложения/FUMA/Sources/ПрофильКонтейнера/main.swift",
+      "sha256": "979e4a33aa8442a86bb68c546c0f997f53a4459912fb45548c78adc501bd1aab",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/ЧитательКонтейнера/main.swift",
+      "назначение": "Приложения/FUMA/Sources/ЧитательКонтейнера/main.swift",
+      "sha256": "ab9d86ad9a4a61b8f1898076cbda3a78785a43fe4301c7d76467b3d5312c7cdd",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Tests/КонтейнерНаблюденийTests/ОтказыTests.swift",
+      "назначение": "Приложения/FUMA/Tests/КонтейнерНаблюденийTests/ОтказыTests.swift",
+      "sha256": "fbb00b27f1e281685efadb2278d5ed9ea9bb1d4dab65f0c38d52348a530aea8a",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Tests/КонтейнерНаблюденийTests/ПрофильTests.swift",
+      "назначение": "Приложения/FUMA/Tests/КонтейнерНаблюденийTests/ПрофильTests.swift",
+      "sha256": "e57a80d81b989644c43320f6658e9b76cf3c5e1df971213b2406223857a23b1b",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Tests/КонтейнерНаблюденийTests/ПроцессыTests.swift",
+      "назначение": "Приложения/FUMA/Tests/КонтейнерНаблюденийTests/ПроцессыTests.swift",
+      "sha256": "1f4cb8c1783f792f7803a885f77805e57390f19172cfb8bdf60b6dea847c4e96",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Tests/КонтейнерНаблюденийTests/СегментTests.swift",
+      "назначение": "Приложения/FUMA/Tests/КонтейнерНаблюденийTests/СегментTests.swift",
+      "sha256": "854509d57aabfc96f9b977a5dd3fbac2a39d6c1e12a8318117b5641205b2251d",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Tests/КонтейнерНаблюденийTests/ФорматTests.swift",
+      "назначение": "Приложения/FUMA/Tests/КонтейнерНаблюденийTests/ФорматTests.swift",
+      "sha256": "64daaa409de6b2c35480850dc9480db9f50fb053ebde45fbaa677cf3583993dd",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Sources/КомандаСнимка/Команда.swift",
+      "назначение": "Приложения/FUMA/Sources/КомандаСнимка/Команда.swift",
+      "sha256": "74727a1a06f1027c2d9c182315285999510246ff98c45e6ee74c32e7d4bd2e86",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Sources/СнимокАгентскойЗадачи/Истолкование.swift",
+      "назначение": "Приложения/FUMA/Sources/СнимокАгентскойЗадачи/Истолкование.swift",
+      "sha256": "1bda3a1f55999560d9f577edc7002fa28762fa7142cb486176005e4dc10d24e6",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Sources/СнимокАгентскойЗадачи/Контракт.swift",
+      "назначение": "Приложения/FUMA/Sources/СнимокАгентскойЗадачи/Контракт.swift",
+      "sha256": "ce279309db2c8625d5c770fdfaa325077d23b9b207c5396f1c40a86031794069",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Sources/СнимокАгентскойЗадачи/Представление.swift",
+      "назначение": "Приложения/FUMA/Sources/СнимокАгентскойЗадачи/Представление.swift",
+      "sha256": "703cdc5e3cb0de7573d796916ac6aa9c985b0034f2a171d6be05cb54dcffbcb0",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Sources/СнимокАгентскойЗадачи/Пример.swift",
+      "назначение": "Приложения/FUMA/Sources/СнимокАгентскойЗадачи/Пример.swift",
+      "sha256": "2adf2226806da3c08123a265105980a8d38194a7cfa311db1e79ee232847db32",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Sources/СнимокАгентскойЗадачи/Профиль.swift",
+      "назначение": "Приложения/FUMA/Sources/СнимокАгентскойЗадачи/Профиль.swift",
+      "sha256": "175d56c1063b3e87d29e4df6f1382cb039c6981a551ad96cd358629397e0b366",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Sources/СнимокАгентскойЗадачи/Редуктор.swift",
+      "назначение": "Приложения/FUMA/Sources/СнимокАгентскойЗадачи/Редуктор.swift",
+      "sha256": "823e8e155222942b6d0208f9e8215f2e08883c665ceb4df06a694060e5a8832e",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Sources/СнимокАгентскойЗадачи/Хранилище.swift",
+      "назначение": "Приложения/FUMA/Sources/СнимокАгентскойЗадачи/Хранилище.swift",
+      "sha256": "05d0efb17430146440152ed61798f7c2d1ebb52ca715c0039210462203a06989",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Tests/СнимокАгентскойЗадачиTests/ГраницыTests.swift",
+      "назначение": "Приложения/FUMA/Tests/СнимокАгентскойЗадачиTests/ГраницыTests.swift",
+      "sha256": "05c82d8c5fe67ceb4835d0da5b0b772e653c382a212b49ee9d1ba6934f6f37b6",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Tests/СнимокАгентскойЗадачиTests/ОтказыХраненияTests.swift",
+      "назначение": "Приложения/FUMA/Tests/СнимокАгентскойЗадачиTests/ОтказыХраненияTests.swift",
+      "sha256": "8f3ae6845c289dc8ab1b8a91287452ed7910a097c334a3e39ccbfdd99b6d62ab",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Tests/СнимокАгентскойЗадачиTests/ПрофильИПредставлениеTests.swift",
+      "назначение": "Приложения/FUMA/Tests/СнимокАгентскойЗадачиTests/ПрофильИПредставлениеTests.swift",
+      "sha256": "dcc46594310a993c7bcfc18c4b36192325fae6d10dbfafee9bb881522db101c5",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Tests/СнимокАгентскойЗадачиTests/ПроцессыTests.swift",
+      "назначение": "Приложения/FUMA/Tests/СнимокАгентскойЗадачиTests/ПроцессыTests.swift",
+      "sha256": "e1b2d736144790caeb75d5394e70480ca632b2bbd7d904d18a1d30d85aaf0c2c",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Tests/СнимокАгентскойЗадачиTests/СценарииTests.swift",
+      "назначение": "Приложения/FUMA/Tests/СнимокАгентскойЗадачиTests/СценарииTests.swift",
+      "sha256": "8ee6e363e9786effc8d58a0fb5bb70c9aa81ff5c2bc112684d27462c189610f6",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Tests/СнимокАгентскойЗадачиTests/ХранениеTests.swift",
+      "назначение": "Приложения/FUMA/Tests/СнимокАгентскойЗадачиTests/ХранениеTests.swift",
+      "sha256": "24989c500c9e91ade3f2f60f01637f49f413ef2149ef834b5577a29c15557dd9",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СтатистикаВызовов/Sources/КомандаСтатистики/Команда.swift",
+      "назначение": "Приложения/FUMA/Sources/КомандаСтатистики/Команда.swift",
+      "sha256": "15b65aed4e586b9d5622d1add4fad20523dc5416d491a0291e6a5d4c04b866a8",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СтатистикаВызовов/Sources/СтатистикаВызовов/Контракт.swift",
+      "назначение": "Приложения/FUMA/Sources/СтатистикаВызовов/Контракт.swift",
+      "sha256": "1ba0d4d91e661c38a413651243f4f435918053e325333ed5b4cf0ac5731d50c4",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СтатистикаВызовов/Sources/СтатистикаВызовов/Пакет.swift",
+      "назначение": "Приложения/FUMA/Sources/СтатистикаВызовов/Пакет.swift",
+      "sha256": "aeb5cfe208bb5a92e82e3c9c39cbba3ba557cf5fd5e80664be052e02a3b05dfb",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СтатистикаВызовов/Sources/СтатистикаВызовов/Представление.swift",
+      "назначение": "Приложения/FUMA/Sources/СтатистикаВызовов/Представление.swift",
+      "sha256": "4fbb0cf942ac5a2f36ffee59edcbf77e597e19326b54d17fc420a52d713b93ff",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СтатистикаВызовов/Sources/СтатистикаВызовов/ПроверкаСобытий.swift",
+      "назначение": "Приложения/FUMA/Sources/СтатистикаВызовов/ПроверкаСобытий.swift",
+      "sha256": "ba8a7443023787e2445124bbaff36308c9c8d090664de8e2ccd25a4f435cb5c2",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СтатистикаВызовов/Sources/СтатистикаВызовов/Профиль.swift",
+      "назначение": "Приложения/FUMA/Sources/СтатистикаВызовов/Профиль.swift",
+      "sha256": "9403fb22392e9d4e82d21a6a7af7411f7683080bbaef9220cc72400d0ece8424",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СтатистикаВызовов/Sources/СтатистикаВызовов/Путь.swift",
+      "назначение": "Приложения/FUMA/Sources/СтатистикаВызовов/Путь.swift",
+      "sha256": "b507111cf4ead53d42b2935e9ec8fd250854526c3c81961062e1381e54ba8655",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СтатистикаВызовов/Sources/СтатистикаВызовов/Разбор.swift",
+      "назначение": "Приложения/FUMA/Sources/СтатистикаВызовов/Разбор.swift",
+      "sha256": "8ebd8cc4fa55be5c2dcdd0d6a77d48ab9f596e0dce442eb8c4ed780242c7923a",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СтатистикаВызовов/Sources/СтатистикаВызовов/Учёт.swift",
+      "назначение": "Приложения/FUMA/Sources/СтатистикаВызовов/Учёт.swift",
+      "sha256": "13989c7426a6f42dd91594caa3b2b3e31317b3082d3afacb155d08b7f5856ff1",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СтатистикаВызовов/Sources/СтатистикаВызовов/Хранилище.swift",
+      "назначение": "Приложения/FUMA/Sources/СтатистикаВызовов/Хранилище.swift",
+      "sha256": "de31ded71457f253bb01ebe9fb4e370e846382f3279e4b862cc5bea484e18fad",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СтатистикаВызовов/Sources/СтатистикаВызовов/Чтение.swift",
+      "назначение": "Приложения/FUMA/Sources/СтатистикаВызовов/Чтение.swift",
+      "sha256": "0cbd36b4e6ffdd46331cc784fab62058a7e390b9d033c109faf4039c45326baa",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СтатистикаВызовов/Tests/СтатистикаВызововTests/ТестыГраницыУчёта.swift",
+      "назначение": "Приложения/FUMA/Tests/СтатистикаВызововTests/ТестыГраницыУчёта.swift",
+      "sha256": "9c89544bdd838fab94fa8c89d680b59af77ee81f62b6b98eed2ef425a31bb289",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СтатистикаВызовов/Tests/СтатистикаВызововTests/ТестыКоманды.swift",
+      "назначение": "Приложения/FUMA/Tests/СтатистикаВызововTests/ТестыКоманды.swift",
+      "sha256": "b7bfd56cb7f7ffa28df6244471c4a0cc896473fd8dce00ea8ec16e19f205e12b",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СтатистикаВызовов/Tests/СтатистикаВызововTests/ТестыОтказовХранения.swift",
+      "назначение": "Приложения/FUMA/Tests/СтатистикаВызововTests/ТестыОтказовХранения.swift",
+      "sha256": "7e02839be4ffed6c95d2c8e66bdb5077ba6625f627f9d683683fda741c059bf6",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СтатистикаВызовов/Tests/СтатистикаВызововTests/ТестыПрефикса.swift",
+      "назначение": "Приложения/FUMA/Tests/СтатистикаВызововTests/ТестыПрефикса.swift",
+      "sha256": "541fe1e31a6e220e17566908ce487c5c573e18a47bb6507146719360ea1ee6bf",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СтатистикаВызовов/Tests/СтатистикаВызововTests/ТестыПрофиля.swift",
+      "назначение": "Приложения/FUMA/Tests/СтатистикаВызововTests/ТестыПрофиля.swift",
+      "sha256": "5d8f9f9999bcd1221ef96b8a1205e293d5fff7555f02e7c9c7e035f898894e51",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СтатистикаВызовов/Tests/СтатистикаВызововTests/ТестыХранения.swift",
+      "назначение": "Приложения/FUMA/Tests/СтатистикаВызововTests/ТестыХранения.swift",
+      "sha256": "1b3487e00d5b51d626c44debf3a73fb7bd80a7fe595ce2a5ec6c9d779f2fec89",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СтатистикаВызовов/Tests/СтатистикаВызововTests/Фикстуры.swift",
+      "назначение": "Приложения/FUMA/Tests/СтатистикаВызововTests/Фикстуры.swift",
+      "sha256": "f8fd6466062e6ed65e31146f322332182d1b771b2c102588076dc8e9dbbd5c07",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СценарийRuntime/Sources/КомандаRuntime/main.swift",
+      "назначение": "Приложения/FUMA/Sources/КомандаRuntime/main.swift",
+      "sha256": "a276018ecc609235bf70650cc58e817b03b6501d3b172ce1cfe13d874bb64bc3",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СценарийRuntime/Sources/СценарийRuntime/Сценарий.swift",
+      "назначение": "Приложения/FUMA/Sources/СценарийRuntime/Сценарий.swift",
+      "sha256": "de582bf32c61e6606bb6f1811259ed17effa5073f0b05f6834e23b53664cfa75",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СценарийRuntime/Tests/СценарийRuntimeTests/СценарииTests.swift",
+      "назначение": "Приложения/FUMA/Tests/СценарийRuntimeTests/СценарииTests.swift",
+      "sha256": "39559fda9da2d7a016703abd5137463c9fa07ce7f41402e1d4f511cb6f06e6f8",
+      "совпало": true
+    },
+    {
+      "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift",
+      "sha256": "604edda0ccd689310b1bbab98655dfd04fcf0c5015325583ab04fc7b59b8c936",
+      "совпало": true
+    },
+    {
+      "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ContextAndLattice.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMStructuringOperatorMemory/ContextAndLattice.swift",
+      "sha256": "9349c0b6ece3f807dce9cbd240ff2416d093eb5142970e9fd55b208802531873",
+      "совпало": true
+    },
+    {
+      "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Domain.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMStructuringOperatorMemory/Domain.swift",
+      "sha256": "209547586e0e200b0cd8a7c102ad433fa97649edc9b5ccd2572f06d8997dce41",
+      "совпало": true
+    },
+    {
+      "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Engine.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMStructuringOperatorMemory/Engine.swift",
+      "sha256": "241943a98d2fe3db37b2195c0c6c1a583772f998444dddea441c64099246f627",
+      "совпало": true
+    },
+    {
+      "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Fixtures.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMStructuringOperatorMemory/Fixtures.swift",
+      "sha256": "8c0e9e0d05417b68717c2fb42cbcdbca557e0ceb42296fbd07b1c4f108bd730b",
+      "совпало": true
+    },
+    {
+      "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ЗакрытыйРазбор.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMStructuringOperatorMemory/ЗакрытыйРазбор.swift",
+      "sha256": "4bac7e1c2c71ebcb82e2cc13b60c8df0db5338dedb19300a7bfd4cf529887a09",
+      "совпало": true
+    },
+    {
+      "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ИсполнениеОператоров.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMStructuringOperatorMemory/ИсполнениеОператоров.swift",
+      "sha256": "8236a59ae627310527bf369ecfb46ec56d2c8216ed926124422c51bfcf01d894",
+      "совпало": true
+    },
+    {
+      "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/КонечныйВвод.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMStructuringOperatorMemory/КонечныйВвод.swift",
+      "sha256": "e9715b020c31d86cce8536c2b61ad8dd0c5e97140397bc3e73e729b3e994f339",
+      "совпало": true
+    },
+    {
+      "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ОпределениеОператора.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMStructuringOperatorMemory/ОпределениеОператора.swift",
+      "sha256": "62f6a7e62943ed6ab59235d02e058ff1e6b9a9f93d4c4e41c5b3e49aaca1a8fd",
+      "совпало": true
+    },
+    {
+      "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Определения/UTF-8-в-UTF-32LE.json",
+      "назначение": "Приложения/FUMA/Sources/FUMStructuringOperatorMemory/Определения/UTF-8-в-UTF-32LE.json",
+      "sha256": "d5cdcbb8f1710770d08269e49adae2c2cec8a15000f2887677b7f03f764916de",
+      "совпало": true
+    },
+    {
+      "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Определения/нормализация.json",
+      "назначение": "Приложения/FUMA/Sources/FUMStructuringOperatorMemory/Определения/нормализация.json",
+      "sha256": "2924941deadeb6cfa16b09ee6d2c446fa85ebdacebf5055b6a4e5ff872554588",
+      "совпало": true
+    },
+    {
+      "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ПорождениеМоделей.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMStructuringOperatorMemory/ПорождениеМоделей.swift",
+      "sha256": "f1129d7e8776cc4c59af5e10070666daff9333d8796d16d8deada7e28e75af7b",
+      "совпало": true
+    },
+    {
+      "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/СтруктурныйКонтракт.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMStructuringOperatorMemory/СтруктурныйКонтракт.swift",
+      "sha256": "aa9034a795c55d0b0e81f8cce01f0f2a78499dce85a443a6bd14ed11c99e4afa",
+      "совпало": true
+    },
+    {
+      "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Фикстуры/malformed-llm-envelope.json",
+      "назначение": "Приложения/FUMA/Sources/FUMStructuringOperatorMemory/Фикстуры/malformed-llm-envelope.json",
+      "sha256": "d148204186d61962a62ed123f928c82c58d231e5d342f61238fc7beac486ea0f",
+      "совпало": true
+    },
+    {
+      "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Фикстуры/scenarios.json",
+      "назначение": "Приложения/FUMA/Sources/FUMStructuringOperatorMemory/Фикстуры/scenarios.json",
+      "sha256": "8338a12a837cd463b966a0f32fc9ebe1fe683dcef2c555ee384bb744170f9292",
+      "совпало": true
+    },
+    {
+      "исходник": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemoryProbe/main.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMStructuringOperatorMemoryProbe/main.swift",
+      "sha256": "85bb88106cec1fbb12b6799f23d8998cbf7f7c2c5afa1d4fadfcac45debbc268",
+      "совпало": true
+    },
+    {
+      "исходник": "Прототипы/память-структурирующих-операторов/Tests/FUMStructuringOperatorMemoryTests/StructuringOperatorMemoryTests.swift",
+      "назначение": "Приложения/FUMA/Tests/FUMStructuringOperatorMemoryTests/StructuringOperatorMemoryTests.swift",
+      "sha256": "2e73a158b5bf7a306aca8110a93c90fdf3e8e9e76e1a5683a1d7434ec6f7ffce",
+      "совпало": true
+    },
+    {
+      "исходник": "Прототипы/память-структурирующих-операторов/Tests/FUMStructuringOperatorMemoryTests/ПроверкиГенерацииМоделей.swift",
+      "назначение": "Приложения/FUMA/Tests/FUMStructuringOperatorMemoryTests/ПроверкиГенерацииМоделей.swift",
+      "sha256": "0e55ad7f068a2ad949c1a493afebb104df1da92f0e2fe805b8525a995475708c",
+      "совпало": true
+    },
+    {
+      "исходник": "Прототипы/память-структурирующих-операторов/Tests/FUMStructuringOperatorMemoryTests/ПроверкиЧистогоИсполнения.swift",
+      "назначение": "Приложения/FUMA/Tests/FUMStructuringOperatorMemoryTests/ПроверкиЧистогоИсполнения.swift",
+      "sha256": "731465486a835395a651805810fc845120a11d34bfe8c6f4a688dcc9a9a2ff91",
+      "совпало": true
+    },
+    {
+      "исходник": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Примеры/пять-сценариев.json",
+      "назначение": "Приложения/FUMA/Tests/СнимокАгентскойЗадачиTests/Примеры/пять-сценариев.json",
+      "sha256": "4815286bfef27b42e3f40dd25cbd0cbe7483aed0d2cf442e27059dacfc5e5afc",
+      "совпало": true
+    }
+  ]
+}

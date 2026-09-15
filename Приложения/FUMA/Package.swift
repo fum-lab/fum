@@ -1,11 +1,13 @@
 // swift-tools-version: 6.0
 import PackageDescription
 
-// Переходный общий граф: исходники ещё в прежних каталогах до штатного переноса.
+// Общие компоненты используют единственные исходники Sources и Tests.
 let package = Package(
     name: "FUMA",
     platforms: [.macOS(.v14)],
     products: [
+        .library(name: "FUMStructuringOperatorMemory", targets: ["FUMStructuringOperatorMemory"]),
+        .executable(name: "FUMStructuringOperatorMemoryProbe", targets: ["FUMStructuringOperatorMemoryProbe"]),
 .library(name: "АрхивныйСнимокЗадачи", targets: ["АрхивныйСнимокЗадачи"]),
                .executable(name: "архивный-снимок", targets: ["КомандаАрхива"]),
                .executable(name: "профиль-архивного-снимка", targets: ["ПрофильАрхивногоСнимка"]),
@@ -22,44 +24,46 @@ let package = Package(
         .executable(name: "сценарий-runtime", targets: ["КомандаRuntime"])
     ],
     dependencies: [
-        .package(path: "../../Зависимости/swift-crypto"),
-        .package(path: "../../Прототипы/память-структурирующих-операторов")
+        .package(path: "../../Зависимости/swift-crypto")
     ],
     targets: [
+        .target(name: "FUMStructuringOperatorMemory", dependencies: [.product(name: "Crypto", package: "swift-crypto")], resources: [.copy("Фикстуры"), .copy("Определения")]),
+        .executableTarget(name: "FUMStructuringOperatorMemoryProbe", dependencies: ["FUMStructuringOperatorMemory"]),
+        .testTarget(name: "FUMStructuringOperatorMemoryTests", dependencies: ["FUMStructuringOperatorMemory"]),
 .target(name: "АрхивныйСнимокЗадачи", dependencies: [
             "СнимокАгентскойЗадачи",
-            "КонтейнерНаблюдений"], path: "Packages/АрхивныйСнимокЗадачи/Sources/АрхивныйСнимокЗадачи"),
+            "КонтейнерНаблюдений"], path: "Sources/АрхивныйСнимокЗадачи"),
         .executableTarget(name: "КомандаАрхива", dependencies: ["АрхивныйСнимокЗадачи",
-            "СнимокАгентскойЗадачи"], path: "Packages/АрхивныйСнимокЗадачи/Sources/КомандаАрхива"),
+            "СнимокАгентскойЗадачи"], path: "Sources/КомандаАрхива"),
         .executableTarget(name: "АварийнаяФикстура", dependencies: ["АрхивныйСнимокЗадачи",
-            "КонтейнерНаблюдений"], path: "Packages/АрхивныйСнимокЗадачи/Sources/АварийнаяФикстура"),
+            "КонтейнерНаблюдений"], path: "Sources/АварийнаяФикстура"),
         .executableTarget(name: "ПрофильАрхивногоСнимка", dependencies: ["АрхивныйСнимокЗадачи",
-            "СнимокАгентскойЗадачи"], path: "Packages/АрхивныйСнимокЗадачи/Sources/ПрофильАрхивногоСнимка"),
+            "СнимокАгентскойЗадачи"], path: "Sources/ПрофильАрхивногоСнимка"),
         .testTarget(name: "АрхивныйСнимокЗадачиTests", dependencies: ["АрхивныйСнимокЗадачи", "КомандаАрхива", "АварийнаяФикстура", "ПрофильАрхивногоСнимка",
             "СнимокАгентскойЗадачи",
-            "КонтейнерНаблюдений"], path: "Packages/АрхивныйСнимокЗадачи/Tests/АрхивныйСнимокЗадачиTests"),
-.target(name: "КонтейнерНаблюдений", dependencies: [.product(name: "Crypto", package: "swift-crypto")], path: "Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений"),
-        .executableTarget(name: "ПисательКонтейнера", dependencies: ["КонтейнерНаблюдений"], path: "Packages/КонтейнерНаблюдений/Sources/ПисательКонтейнера"),
-        .executableTarget(name: "ЧитательКонтейнера", dependencies: ["КонтейнерНаблюдений"], path: "Packages/КонтейнерНаблюдений/Sources/ЧитательКонтейнера"),
-        .executableTarget(name: "ВосстановительКонтейнера", dependencies: ["КонтейнерНаблюдений"], path: "Packages/КонтейнерНаблюдений/Sources/ВосстановительКонтейнера"),
-        .executableTarget(name: "ПрофильКонтейнера", dependencies: ["КонтейнерНаблюдений"], path: "Packages/КонтейнерНаблюдений/Sources/ПрофильКонтейнера"),
-        .testTarget(name: "КонтейнерНаблюденийTests", dependencies: ["КонтейнерНаблюдений"], path: "Packages/КонтейнерНаблюдений/Tests/КонтейнерНаблюденийTests"),
+            "КонтейнерНаблюдений"], path: "Tests/АрхивныйСнимокЗадачиTests"),
+.target(name: "КонтейнерНаблюдений", dependencies: [.product(name: "Crypto", package: "swift-crypto")], path: "Sources/КонтейнерНаблюдений"),
+        .executableTarget(name: "ПисательКонтейнера", dependencies: ["КонтейнерНаблюдений"], path: "Sources/ПисательКонтейнера"),
+        .executableTarget(name: "ЧитательКонтейнера", dependencies: ["КонтейнерНаблюдений"], path: "Sources/ЧитательКонтейнера"),
+        .executableTarget(name: "ВосстановительКонтейнера", dependencies: ["КонтейнерНаблюдений"], path: "Sources/ВосстановительКонтейнера"),
+        .executableTarget(name: "ПрофильКонтейнера", dependencies: ["КонтейнерНаблюдений"], path: "Sources/ПрофильКонтейнера"),
+        .testTarget(name: "КонтейнерНаблюденийTests", dependencies: ["КонтейнерНаблюдений"], path: "Tests/КонтейнерНаблюденийTests"),
 .target(name: "СнимокАгентскойЗадачи", dependencies: [
             "КонтейнерНаблюдений"
-        ], path: "Packages/СнимокАгентскойЗадачи/Sources/СнимокАгентскойЗадачи"),
-        .executableTarget(name: "КомандаСнимка", dependencies: ["СнимокАгентскойЗадачи"], path: "Packages/СнимокАгентскойЗадачи/Sources/КомандаСнимка"),
-        .testTarget(name: "СнимокАгентскойЗадачиTests", dependencies: ["СнимокАгентскойЗадачи"], path: "Packages/СнимокАгентскойЗадачи/Tests/СнимокАгентскойЗадачиTests"),
+        ], path: "Sources/СнимокАгентскойЗадачи"),
+        .executableTarget(name: "КомандаСнимка", dependencies: ["СнимокАгентскойЗадачи"], path: "Sources/КомандаСнимка"),
+        .testTarget(name: "СнимокАгентскойЗадачиTests", dependencies: ["СнимокАгентскойЗадачи"], path: "Tests/СнимокАгентскойЗадачиTests", resources: [.copy("Примеры")]),
 .target(name: "СтатистикаВызовов", dependencies: [
             "КонтейнерНаблюдений"
-        ], path: "Packages/СтатистикаВызовов/Sources/СтатистикаВызовов"),
-        .executableTarget(name: "КомандаСтатистики", dependencies: ["СтатистикаВызовов"], path: "Packages/СтатистикаВызовов/Sources/КомандаСтатистики"),
-        .testTarget(name: "СтатистикаВызововTests", dependencies: ["СтатистикаВызовов"], path: "Packages/СтатистикаВызовов/Tests/СтатистикаВызововTests"),
+        ], path: "Sources/СтатистикаВызовов"),
+        .executableTarget(name: "КомандаСтатистики", dependencies: ["СтатистикаВызовов"], path: "Sources/КомандаСтатистики"),
+        .testTarget(name: "СтатистикаВызововTests", dependencies: ["СтатистикаВызовов"], path: "Tests/СтатистикаВызововTests"),
 .target(name: "СценарийRuntime", dependencies: [
-            .product(name: "FUMStructuringOperatorMemory", package: "память-структурирующих-операторов"),
+            "FUMStructuringOperatorMemory",
             "КонтейнерНаблюдений"
-        ], path: "Packages/СценарийRuntime/Sources/СценарийRuntime"),
-        .executableTarget(name: "КомандаRuntime", dependencies: ["СценарийRuntime"], path: "Packages/СценарийRuntime/Sources/КомандаRuntime"),
-        .testTarget(name: "СценарийRuntimeTests", dependencies: ["СценарийRuntime"], path: "Packages/СценарийRuntime/Tests/СценарийRuntimeTests")
+        ], path: "Sources/СценарийRuntime"),
+        .executableTarget(name: "КомандаRuntime", dependencies: ["СценарийRuntime"], path: "Sources/КомандаRuntime"),
+        .testTarget(name: "СценарийRuntimeTests", dependencies: ["СценарийRuntime"], path: "Tests/СценарийRuntimeTests")
     ],
     swiftLanguageModes: [.v6]
 )

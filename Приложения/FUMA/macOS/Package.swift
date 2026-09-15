@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "FUMA",
+    name: "FUMA-macOS",
     platforms: [
         .macOS(.v14)
     ],
@@ -14,8 +14,7 @@ let package = Package(
         .executable(name: "fum-attention-loop", targets: ["FUMAttentionLoop"])
     ],
     dependencies: [
-        .package(name: "FUMStructuringOperatorMemory", path: "../../../Прототипы/память-структурирующих-операторов"),
-        .package(name: "КонтейнерНаблюдений", path: "../Packages/КонтейнерНаблюдений")
+        .package(name: "FUMA", path: "..")
     ],
     targets: [
         .executableTarget(
@@ -39,8 +38,8 @@ let package = Package(
         .target(name: "ПутиИсполнения"),
         .target(name: "ИсполнениеОператора", dependencies: [
             "ПутиИсполнения",
-            .product(name: "FUMStructuringOperatorMemory", package: "FUMStructuringOperatorMemory"),
-            .product(name: "КонтейнерНаблюдений", package: "КонтейнерНаблюдений")
+            .product(name: "FUMStructuringOperatorMemory", package: "FUMA"),
+            .product(name: "КонтейнерНаблюдений", package: "FUMA")
         ]),
         .testTarget(name: "ИсполнениеОператораTests", dependencies: ["ИсполнениеОператора"]),
         .executableTarget(name: "FUMMCPServer", dependencies: ["ПутиИсполнения"]),

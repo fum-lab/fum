@@ -55,9 +55,9 @@ SWIFTCI_USE_LOCAL_DEPS=1 swift test --build-system native --package-path При�
 
 ## Общий пакет
 
-Сценарий собирает продукт `сценарий-runtime` из `Приложения/FUMA/Package.swift`. Исходники временно остаются в прежних каталогах до проверенного пакетного переноса. Успех Android относится только к выбранному CLI-продукту, а не ко всем targets общего манифеста.
+Сценарий собирает продукт `сценарий-runtime` из `Приложения/FUMA/Package.swift`. Исходники перенесены в общие Sources/Tests; операторный модуль также входит в этот пакет. Успех Android относится только к выбранному CLI-продукту, а не ко всем targets общего манифеста.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 21:38:11 MSK -->
-<!-- content-sha256: sha256:a38ecd2e9bce99177ef6f190bf2a06f9e74004f3de00fef91cceb7e2d397c5b4 -->
+<!-- last-content-edit: 2026-09-15 22:04:16 MSK -->
+<!-- content-sha256: sha256:4f51ae91d68b3d54506fe4269f9159bd91aed02d36da1144c352391cbf648293 -->
 <!-- FUM-MD-RECENCY:END -->

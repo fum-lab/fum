@@ -1,5 +1,7 @@
 # Первый сегмент контейнера наблюдений
 
+Компонент теперь входит в [общий пакет FUMA](../../Package.swift). Команды ниже выполняются из `Приложения/FUMA` с `export SWIFTCI_USE_LOCAL_DEPS=1`; прежний самостоятельный манифест сохранён в материалах переноса.
+
 Автономный SwiftPM-пакет для macOS 14+, не подключённый к приложению или датчикам FUM. Один явно переданный каталог содержит один файл сегмент.fumobs. Корень должен существовать, принадлежать текущему пользователю, не разрешать запись группе/остальным и иметь физический абсолютный путь без символических ссылок. Данные по умолчанию ниоткуда не читаются.
 
 ## Подтверждение и восстановление
@@ -39,8 +41,8 @@
 Из корня этого репозитория:
 
 ```sh
-swift test --package-path Packages/КонтейнерНаблюдений --build-system native --jobs 2
-swift build --package-path Packages/КонтейнерНаблюдений --build-system native --jobs 2 -c release
+swift test --package-path . --build-system native --jobs 2
+swift build --package-path . --build-system native --jobs 2 -c release
 ```
 
 Native backend применён из-за отказа codesign у default backend на кириллическом XCTest bundle в использованном Swift 6.4. Native помечен SwiftPM устаревающим; это ограничение проверенной среды, не исправление общего toolchain.
@@ -72,6 +74,6 @@ Writer выдаёт JSON-квитанцию только после подтве
 Происхождение: поручение FUMA 01a07d3d-d376-7ad2-aafc-67e4c25a67eb, Журнал FUM от 2026-09-09 11:48:04 MSK. Проверялись только собственные синтетические каталоги.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 01:36:01 MSK -->
-<!-- content-sha256: sha256:0d877cff8ce73fca197183e31c54e8d09c9b488ed7d9c30b90634ea61d56e13d -->
+<!-- last-content-edit: 2026-09-15 22:04:16 MSK -->
+<!-- content-sha256: sha256:836f9c378d6e341cde27eac5102eaed192ff42c375ac232dcd5f09f6850f1c6b -->
 <!-- FUM-MD-RECENCY:END -->

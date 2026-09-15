@@ -22,9 +22,8 @@ final class ПроцессыTests: XCTestCase {
         let (код, данные) = try командаCLI(["пример"])
         XCTAssertEqual(код, 0)
         XCTAssertEqual(данные, try каноническийJSON(примерСценария()) + Data([10]))
-        let кореньПакета = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
-            .deletingLastPathComponent().deletingLastPathComponent()
-        XCTAssertEqual(данные, try Data(contentsOf: кореньПакета.appendingPathComponent("Примеры/пять-сценариев.json")))
+        let примерURL = try XCTUnwrap(Bundle.module.url(forResource: "пять-сценариев", withExtension: "json", subdirectory: "Примеры"))
+        XCTAssertEqual(данные, try Data(contentsOf: примерURL))
     }
     func testНовыйПроцессЧитаетКонтейнерБезИсходногоВвода() throws {
         let корень = try временныйКорень()

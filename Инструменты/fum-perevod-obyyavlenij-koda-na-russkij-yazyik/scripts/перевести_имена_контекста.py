@@ -11,9 +11,9 @@ import sys
 sys.modules[спецификация.name] = учёт
 спецификация.loader.exec_module(учёт)
 
-путь_контракта = "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/СтруктурныйКонтракт.swift"
+путь_контракта = "Приложения/FUMA/Sources/FUMStructuringOperatorMemory/СтруктурныйКонтракт.swift"
 путь_поддержки = "Проекты/рабочий-контекст/общие/Swift/ПоддержкаМоделей.swift"
-путь_генератора = "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ПорождениеМоделей.swift"
+путь_генератора = "Приложения/FUMA/Sources/FUMStructuringOperatorMemory/ПорождениеМоделей.swift"
 путь_проверки = "Проекты/рабочий-контекст/проверки/ПроверкиОпераций.swift"
 старый_шаблон = '"private let описаниеМоделей = try! КонтрактМоделей(base64: ["'
 новый_шаблон = '"private let описаниеМоделей = try! КонтрактМоделей(кодированноеОписание: ["'

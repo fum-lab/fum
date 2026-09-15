@@ -81,7 +81,7 @@ def выполнить(параметры):
     adb("бинарник", "push", бинарник, удалённый + "/runtime")
     adb("libc++", "push", библиотеки[0], удалённый + "/libc++_shared.so")
     оболочка("исполняемый-файл", "chmod", "700", удалённый + "/runtime")
-    определение = корень / "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Определения/UTF-8-в-UTF-32LE.json"
+    определение = корень / "Приложения/FUMA/Sources/FUMStructuringOperatorMemory/Определения/UTF-8-в-UTF-32LE.json"
     (каталог / "определение.json").write_bytes(определение.read_bytes())
     adb("определение", "push", определение, удалённый + "/definition.json")
     случаи = [b"", bytes.fromhex("0041d191f09f8ebb"),
