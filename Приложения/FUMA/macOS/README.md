@@ -9,6 +9,7 @@
 - `fum-attention-loop` — цикл чтения снимков и записи сжатых событий внимания.
 - `fum-ax-vision-sense` — сохранённый самостоятельный Accessibility-сенсор.
 - [Векторный формат монтажа](docs/vector-video-format.md) — ссылки на медиаматериалы, дорожки и эффекты без обязательного экспорта видео.
+- [Исполнение структурирующего оператора](docs/исполнение-оператора.md) — ранний командный вход основного бинарника, результат и накопительная память с повтором из принятых данных.
 
 Монитор приложения сохраняет также символы клавиатуры и использует настенное время. Цикл внимания удаляет поля символов из собственных агрегатов. Контракт физических переходов клавиш отдельного прототипа FUM этим переносом не реализован.
 
@@ -110,6 +111,6 @@ OpenGL.framework явно линкуется в SwiftPM и Xcode; обычный
 Механизм зависимости описан в [документации SwiftPM](https://github.com/swiftlang/swift-package-manager/blob/main/Sources/PackageManagerDocs/Documentation.docc/Dependencies/AddingSystemLibraryDependency.md). Машинные значения Xcode передаются снаружи; [xcconfig](https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project) самостоятельно shell-команды не исполняет.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 16:48:05 MSK -->
-<!-- content-sha256: sha256:553221afc81a3a72222ddc4243c23ea0aa1331781c919fbb7a0d4296b60c2cbe -->
+<!-- last-content-edit: 2026-09-15 19:33:18 MSK -->
+<!-- content-sha256: sha256:fd372cc4cebb043837f7016a4e09628aa09a82448a005b1f8e76839e09ce7647 -->
 <!-- FUM-MD-RECENCY:END -->
