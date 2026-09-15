@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "FUMMacOSOrgans",
+    name: "FUMA",
     platforms: [
         .macOS(.v14)
     ],

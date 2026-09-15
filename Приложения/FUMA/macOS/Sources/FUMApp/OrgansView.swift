@@ -21,7 +21,7 @@ struct OrgansSurface: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 22) {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("FUM")
+                    Text("FUMA")
                         .font(.system(size: 34, weight: .semibold))
                     Text("Единое macOS-приложение для органов чувств и экранного присутствия.")
                         .font(.system(size: 14))
@@ -53,7 +53,7 @@ struct OrgansSurface: View {
                         videoPlayer.start(preparesPlayback: false)
                     }
 
-                    OrganStatusCard(title: "Screen", status: "FUM.app", detail: "monolithic window active", symbol: "display", color: .blue, isLive: true, action: nil)
+                    OrganStatusCard(title: "Screen", status: "FUMA.app", detail: "monolithic window active", symbol: "display", color: .blue, isLive: true, action: nil)
 
                     OrganStatusCard(title: "MCP Bridge", status: mcpBridge.statusLabel, detail: mcpBridge.detail, symbol: "server.rack", color: .green, isLive: mcpBridge.isLive) {
                         mcpBridge.reloadNow()
@@ -158,7 +158,7 @@ struct OrganPermissionsPanel: View {
 
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 300), spacing: 12)], spacing: 12) {
                 PermissionControlRow(
-                    title: "FUM.app Accessibility",
+                    title: "FUMA.app Accessibility",
                     status: appAccessibilityStatus.label,
                     detail: "Gaze cursor and local UI control",
                     symbol: "cursorarrow.motionlines",
@@ -203,7 +203,7 @@ struct OrganPermissionsPanel: View {
                     PermissionControlRow(
                         title: "Camera",
                         status: cameraVision.statusLabel,
-                        detail: "FUM.app video frames and gaze estimation",
+                        detail: "FUMA.app video frames and gaze estimation",
                         symbol: "camera.viewfinder",
                         color: .indigo,
                         isGranted: cameraVision.authorizationStatus == .authorized,
@@ -454,7 +454,7 @@ struct OrgansDock: View {
                 .foregroundStyle(.blue)
                 .frame(width: 28, height: 28)
             VStack(alignment: .leading, spacing: 2) {
-                Text("FUM organs")
+                Text("FUMA organs")
                     .font(.system(size: 14, weight: .semibold))
                 Text("AX \(visionSnapshot.statusLabel) · Input \(inputSnapshot.statusLabel) · Camera \(cameraVision.statusLabel)")
                     .font(.caption)
