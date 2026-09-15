@@ -6,6 +6,11 @@ let package = Package(
     name: "FUMA",
     platforms: [.macOS(.v14)],
     products: [
+        .executable(name: "fum", targets: ["FUMApp"]),
+        .executable(name: "fum-mcp", targets: ["FUMMCPServer"]),
+        .executable(name: "fum-ax-vision-sense", targets: ["FUMAXVisionSense"]),
+        .executable(name: "fum-attention-loop", targets: ["FUMAttentionLoop"]),
+        .executable(name: "профиль-путей", targets: ["ПрофильПутей"]),
         .library(name: "FUMStructuringOperatorMemory", targets: ["FUMStructuringOperatorMemory"]),
         .executable(name: "FUMStructuringOperatorMemoryProbe", targets: ["FUMStructuringOperatorMemoryProbe"]),
 .library(name: "АрхивныйСнимокЗадачи", targets: ["АрхивныйСнимокЗадачи"]),
@@ -27,6 +32,26 @@ let package = Package(
         .package(path: "../../Зависимости/swift-crypto")
     ],
     targets: [
+        .executableTarget(name: "FUMApp", dependencies: [
+            .target(name: "CMpvShim", condition: .when(platforms: [.macOS])),
+            .target(name: "ПутиИсполнения", condition: .when(platforms: [.macOS])),
+            .target(name: "ИсполнениеОператора", condition: .when(platforms: [.macOS]))
+        ], linkerSettings: [.linkedFramework("OpenGL", .when(platforms: [.macOS])),
+                            .linkedLibrary("mpv", .when(platforms: [.macOS]))]),
+        .target(name: "CMpvShim", dependencies: [
+            .target(name: "CMpvSystem", condition: .when(platforms: [.macOS]))
+        ], publicHeadersPath: "include", linkerSettings: [
+            .linkedFramework("OpenGL", .when(platforms: [.macOS])),
+            .linkedLibrary("mpv", .when(platforms: [.macOS]))]),
+        .systemLibrary(name: "CMpvSystem", pkgConfig: "mpv", providers: [.brew(["mpv"])]),
+        .target(name: "ПутиИсполнения"),
+        .target(name: "ИсполнениеОператора", dependencies: ["ПутиИсполнения", "FUMStructuringOperatorMemory", "КонтейнерНаблюдений"]),
+        .testTarget(name: "ИсполнениеОператораTests", dependencies: ["ИсполнениеОператора"]),
+        .testTarget(name: "ПутиИсполненияTests", dependencies: ["ПутиИсполнения"]),
+        .executableTarget(name: "FUMMCPServer", dependencies: [.target(name: "ПутиИсполнения", condition: .when(platforms: [.macOS]))]),
+        .executableTarget(name: "FUMAXVisionSense", dependencies: [.target(name: "ПутиИсполнения", condition: .when(platforms: [.macOS]))]),
+        .executableTarget(name: "FUMAttentionLoop", dependencies: [.target(name: "ПутиИсполнения", condition: .when(platforms: [.macOS]))]),
+        .executableTarget(name: "ПрофильПутей", dependencies: ["ПутиИсполнения"]),
         .target(name: "FUMStructuringOperatorMemory", dependencies: [.product(name: "Crypto", package: "swift-crypto")], resources: [.copy("Фикстуры"), .copy("Определения")]),
         .executableTarget(name: "FUMStructuringOperatorMemoryProbe", dependencies: ["FUMStructuringOperatorMemory"]),
         .testTarget(name: "FUMStructuringOperatorMemoryTests", dependencies: ["FUMStructuringOperatorMemory"]),

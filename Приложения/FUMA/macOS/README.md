@@ -1,6 +1,6 @@
 # Приложение FUMA для macOS
 
-Канонические исходники приложения находятся в `Приложения/FUMA/macOS` монорепозитория FUM. Здесь сохранены 39 файлов собственной наработки из коммита `39eb66a29c0be6844e73bcb8072e68b914ea7387` с адаптацией путей и сборки. Swift-пакет называется `FUMA`, Xcode собирает `FUMA.app` с исполняемым файлом `FUMA`. Внутренние targets, CLI-продукты и идентификатор `fum.app` сохранены. Исторические исходные и конечные хэши первоначального переноса перечислены в [манифесте переноса](манифест-переноса.json).
+Канонические исходники приложения находятся в общих `Приложения/FUMA/Sources` и `Tests` монорепозитория FUM. Этот каталог сохраняет Xcode-оболочку, ресурсы и документацию. Здесь сохранены 39 файлов собственной наработки из коммита `39eb66a29c0be6844e73bcb8072e68b914ea7387` с адаптацией путей и сборки. Swift-пакет называется `FUMA`, Xcode собирает `FUMA.app` с исполняемым файлом `FUMA`. Внутренние targets, CLI-продукты и идентификатор `fum.app` сохранены. Исторические исходные и конечные хэши первоначального переноса перечислены в [манифесте переноса](манифест-переноса.json).
 
 ## Состав
 
@@ -26,26 +26,25 @@ export PKG_CONFIG_PATH="$(brew --prefix mpv)/lib/pkgconfig${PKG_CONFIG_PATH:+:$P
 
 ```sh
 : "${FUM_BUILD_ROOT:?Задайте абсолютный каталог сборки вне Git}"
-swift test --package-path Приложения/FUMA/macOS --scratch-path "$FUM_BUILD_ROOT" --jobs 2
-swift build --package-path Приложения/FUMA/macOS --scratch-path "$FUM_BUILD_ROOT" --jobs 2 -c release
-PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Приложения/FUMA/macOS/проверки -p 'test_*.py'
+export SWIFTCI_USE_LOCAL_DEPS=1
+swift test --build-system native --package-path Приложения/FUMA --scratch-path "$FUM_BUILD_ROOT" --jobs 2
+swift build --package-path Приложения/FUMA --scratch-path "$FUM_BUILD_ROOT" --jobs 2 -c release
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Приложения/FUMA/сценарии/проверки -p 'test_*.py'
 ```
 
-Swift-тесты используют только временные фикстуры конфигурации путей. Python-проверки подставляют собственный `swift` для проверки runner и не запускают настоящий helper. Артефакты сборки должны находиться вне Git. Сборка не устанавливает и не запускает приложение.
+Swift-тесты проверяют общий пакет, включая конфигурацию путей и исполнение оператора на временных фикстурах. Python-проверки подставляют собственный `swift` для проверки runner и не запускают настоящий helper. Артефакты сборки должны находиться вне Git. Сборка не устанавливает и не запускает приложение.
 
 Профиль общей конфигурации воспроизводится отдельно: пять образцов по 1000 разрешений абсолютных путей, отказов относительного пути и поисков отсутствующей команды в заданном `PATH`, без создания runtime-файлов. Каталог `FUM_BUILD_ROOT` должен быть заранее создан вне Git.
 
 ```sh
-swiftc -O -parse-as-library Приложения/FUMA/macOS/Sources/ПутиИсполнения/ПутиПриложения.swift \
-  Приложения/FUMA/macOS/проверки/профиль-путей.swift -o "$FUM_BUILD_ROOT/профиль-путей"
-"$FUM_BUILD_ROOT/профиль-путей"
+swift run --package-path Приложения/FUMA --scratch-path "$FUM_BUILD_ROOT" -c release профиль-путей
 ```
 
 Проверка и профиль C-адаптера используют подставные `dlsym` и `dlopen`. Системный mpv участвует в линковке, его функции не вызываются:
 
 ```sh
-clang -IПриложения/FUMA/macOS/Sources/CMpvShim/include \
-  -I"$(pkg-config --variable=includedir mpv)" Приложения/FUMA/macOS/проверки/проверка-C-адаптера.c \
+clang -IПриложения/FUMA/Sources/CMpvShim/include \
+  -I"$(pkg-config --variable=includedir mpv)" Приложения/FUMA/Tests/CMpvShimTests/проверка-C-адаптера.c \
   -L"$(pkg-config --variable=libdir mpv)" -lmpv -framework OpenGL -o "$FUM_BUILD_ROOT/проверка-C-адаптера"
 "$FUM_BUILD_ROOT/проверка-C-адаптера"
 ```
@@ -71,8 +70,8 @@ xcodebuild -project Приложения/FUMA/macOS/FUM.xcodeproj -scheme FUM \
 После `swift test` проверить реальный MCP без приложения можно подставным `pgrep`. Проверка вызывает только `status`, использует временные отсутствующие каталоги и проверяет найденный и отсутствующий процесс. Десять образцов измеряют полный запуск helper, запрос и завершение; это не микробенчмарк поиска ОС.
 
 ```sh
-FUMA_TEST_BIN="$(swift build --package-path Приложения/FUMA/macOS --scratch-path "$FUM_BUILD_ROOT" --show-bin-path)"
-PYTHONDONTWRITEBYTECODE=1 python3 Приложения/FUMA/macOS/проверки/проверить-обнаружение-приложения.py \
+FUMA_TEST_BIN="$(swift build --package-path Приложения/FUMA --scratch-path "$FUM_BUILD_ROOT" --show-bin-path)"
+PYTHONDONTWRITEBYTECODE=1 python3 Приложения/FUMA/сценарии/проверить-обнаружение-приложения.py \
   --сервер "$FUMA_TEST_BIN/fum-mcp"
 ```
 
@@ -111,6 +110,6 @@ OpenGL.framework явно линкуется в SwiftPM и Xcode; обычный
 Механизм зависимости описан в [документации SwiftPM](https://github.com/swiftlang/swift-package-manager/blob/main/Sources/PackageManagerDocs/Documentation.docc/Dependencies/AddingSystemLibraryDependency.md). Машинные значения Xcode передаются снаружи; [xcconfig](https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project) самостоятельно shell-команды не исполняет.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 19:33:18 MSK -->
-<!-- content-sha256: sha256:fd372cc4cebb043837f7016a4e09628aa09a82448a005b1f8e76839e09ce7647 -->
+<!-- last-content-edit: 2026-09-15 22:25:32 MSK -->
+<!-- content-sha256: sha256:0a730d05b75a237e5f8f1ab4823924a47b3c6a248d6a837061718a9a8d1e38b7 -->
 <!-- FUM-MD-RECENCY:END -->

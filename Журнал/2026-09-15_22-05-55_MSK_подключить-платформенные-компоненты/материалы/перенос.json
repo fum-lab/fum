@@ -1,0 +1,256 @@
+{
+  "схема": "fum.пакет-переноса.1",
+  "HEAD": "50e5417a399d2666fd0f6c45e234f423b69d7a59",
+  "перемещения": [
+    {
+      "исходник": "Приложения/FUMA/macOS/Sources/CMpvShim/CMpvShim.c",
+      "назначение": "Приложения/FUMA/Sources/CMpvShim/CMpvShim.c",
+      "sha256": "d6a993bc7aaa56559c045fe8ff124b8f385642b05e0b1935bd82c38dc911ddc3"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Sources/CMpvShim/include/CMpvShim.h",
+      "назначение": "Приложения/FUMA/Sources/CMpvShim/include/CMpvShim.h",
+      "sha256": "84f13de41e358afaaac24d0fc90cf2f7975bb68c57cda683fe889798cfee97f4"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Sources/CMpvShim/include/module.modulemap",
+      "назначение": "Приложения/FUMA/Sources/CMpvShim/include/module.modulemap",
+      "sha256": "06deb52fddcf70ffd2fe64b71bbb6025a56b2379f1d61aaf75aec2281201e74c"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Sources/CMpvSystem/module.modulemap",
+      "назначение": "Приложения/FUMA/Sources/CMpvSystem/module.modulemap",
+      "sha256": "435fab3ef6aa982c763df81f64dfc7b857802e39fb74c12df0c4a5128bb76f63"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Sources/CMpvSystem/shim.h",
+      "назначение": "Приложения/FUMA/Sources/CMpvSystem/shim.h",
+      "sha256": "c47cbbcdae538f015809b2be963bffe1550f6f46e48c46bc7d7d44f13c88cc8e"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Sources/FUMAXVisionSense/main.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMAXVisionSense/main.swift",
+      "sha256": "ad01ff0bbf50d7fc368b9218c5c4839915f1de123fe98d07ecdc5742e4f1c2d5"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Sources/FUMApp/AXVisionRuntimeWriter.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMApp/AXVisionRuntimeWriter.swift",
+      "sha256": "d400e4d8760705318c7ba417b4324ba38a0a0157fadc05e844bfa96c772a38e9"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Sources/FUMApp/AXVisionSnapshot.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMApp/AXVisionSnapshot.swift",
+      "sha256": "893e5286dfcde9206b00cb3dfc7b137932204be83b63a39fdb0c9e3171a336ae"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Sources/FUMApp/CameraGaze.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMApp/CameraGaze.swift",
+      "sha256": "1dcbd2ac16e5adf49ce8598148521d8f2a3edf391ba163e2a550b5a1c56da4c1"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Sources/FUMApp/CameraVisionModel.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMApp/CameraVisionModel.swift",
+      "sha256": "0a46100836fd0cac1819a2acb92b55b5942ca19525d5c901853594f5570a2cf7"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Sources/FUMApp/CameraVisionViews.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMApp/CameraVisionViews.swift",
+      "sha256": "0d3541606fbc096d2ae5588ce98c0dd156729a988584aea72e01d8768044f009"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Sources/FUMApp/FUMApp.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMApp/FUMApp.swift",
+      "sha256": "93c26ebee7891521d616b00684ff218b6952f50ac43d4152584d2fc37bbb7246"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Sources/FUMApp/GenerativeSurface.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMApp/GenerativeSurface.swift",
+      "sha256": "7cd8579c77dd95f817f009071ecca7515c859f667810d4556317a9f337db26be"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Sources/FUMApp/InputEventMonitor.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMApp/InputEventMonitor.swift",
+      "sha256": "b3124640fe5448fe29872a5dcda5b30cabc43f7b4fdeb7a6ee156696dcd4efa4"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Sources/FUMApp/Inspector.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMApp/Inspector.swift",
+      "sha256": "8eb1183a9d5b586d5c8809138126fba130f979fd61789f083435972941bd9ad6"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Sources/FUMApp/InterfaceWorkbench.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMApp/InterfaceWorkbench.swift",
+      "sha256": "29c33a61e9428592154f1d38e24d973e37b7803d82cb94b85c352d3843920b28"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Sources/FUMApp/KnowledgeView.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMApp/KnowledgeView.swift",
+      "sha256": "afb018fef4e3d2234fbdcec4069835090733ccacf8a109cf335eb86984a22ea7"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Sources/FUMApp/MCPBridge.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMApp/MCPBridge.swift",
+      "sha256": "6f6dbd4f1915b130ac6a3d6759df45841082e547896c31c516e81fed16d7e57d"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Sources/FUMApp/OrgansView.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMApp/OrgansView.swift",
+      "sha256": "7f9fa21d041c6b3597569e6c019a097b65f876d0b6d34f1d09d103b182f8bff6"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Sources/FUMApp/PermissionCLI.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMApp/PermissionCLI.swift",
+      "sha256": "7cf6638fae372922e67f04fa809ecb2f397a60cb5886ca114e94111a5296ebbd"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Sources/FUMApp/VectorVideoDocument.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMApp/VectorVideoDocument.swift",
+      "sha256": "94e82f60e95d9a8bfeabda701a075aea6fe04b2cc0dd0edc45599473575c7233"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Sources/FUMApp/VideoMemory.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMApp/VideoMemory.swift",
+      "sha256": "8546026dd6d6ec3f1f262b0c4f801eb373850f6ec8a8f4913eb7dad22d883989"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Sources/FUMApp/VisionSurface.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMApp/VisionSurface.swift",
+      "sha256": "d31c0508c5e054344825c8884e666833b46ecafe6e4a31306807b645903a14ea"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Sources/FUMApp/WorkbenchChrome.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMApp/WorkbenchChrome.swift",
+      "sha256": "9380ccb9539ab6a7ff137eb8b474fc77dbc3dddadfff68b02711fbb712f85522"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Sources/FUMApp/WorkspaceFocus.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMApp/WorkspaceFocus.swift",
+      "sha256": "1fed43a7c09bed1ec17189c31022b0bdf6cb477763eb723cdbf919f83e93692a"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Sources/FUMAttentionLoop/main.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMAttentionLoop/main.swift",
+      "sha256": "cca4f3084ba41eae5f82bfd1be5e8eef3688447e865da0d9f00dbb2ef5c53cee"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Sources/FUMMCPServer/main.swift",
+      "назначение": "Приложения/FUMA/Sources/FUMMCPServer/main.swift",
+      "sha256": "5638669c7652a9ea6ef95cc7372dd758d2fc71fb0ccbcb82eddd3ad9a4143ec7"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Sources/ИсполнениеОператора/КомандноеИсполнение.swift",
+      "назначение": "Приложения/FUMA/Sources/ИсполнениеОператора/КомандноеИсполнение.swift",
+      "sha256": "1fbecc12bba3267d90649013eef249bb87f7e8ec18a1b7c97dfdf241cd472cdb"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Sources/ПутиИсполнения/ПутиПриложения.swift",
+      "назначение": "Приложения/FUMA/Sources/ПутиИсполнения/ПутиПриложения.swift",
+      "sha256": "3b9562f45165aa6f79b60bcf2ba9bb4d0f2f927837545cd660d5352675bb532a"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Tests/ИсполнениеОператораTests/ИсполнениеTests.swift",
+      "назначение": "Приложения/FUMA/Tests/ИсполнениеОператораTests/ИсполнениеTests.swift",
+      "sha256": "eb78e15f8d9daad231c452893ddd7fe184c9ee9febef3f524de69869538666a5"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Tests/ПутиИсполненияTests/ПроверкиПутей.swift",
+      "назначение": "Приложения/FUMA/Tests/ПутиИсполненияTests/ПроверкиПутей.swift",
+      "sha256": "88f5a95dc2d191c811dbd9cc6add781c3cfc0772102be235937c74ced88f80c5"
+    },
+    {
+      "исходник": "Приложения/FUMA/Android/проверить-runtime.py",
+      "назначение": "Приложения/FUMA/сценарии/проверить-Android-runtime.py",
+      "sha256": "0f56676d5147a3aac5a5985249106f4763f80ae7facb949c3055ec9f19ae07f7"
+    },
+    {
+      "исходник": "Приложения/FUMA/Android/подготовить-среду.py",
+      "назначение": "Приложения/FUMA/сценарии/подготовить-Android-среду.py",
+      "sha256": "2ae606c58f2332ff9449037140a59789cd9e6eec965cfb2c1a8363408628cd36"
+    },
+    {
+      "исходник": "Приложения/FUMA/Android/версии.json",
+      "назначение": "Приложения/FUMA/сценарии/версии-Android.json",
+      "sha256": "6fa6d77dcd9409816f293d0930168f6d7dae553c7cf7fd8bfa2b5335d1cf9aa5"
+    },
+    {
+      "исходник": "Приложения/FUMA/Android/tests/test_среда.py",
+      "назначение": "Приложения/FUMA/сценарии/проверки/test_Android_среда.py",
+      "sha256": "b4d36e0ccd5f64550d9d1fe66691e827e9cc2947ab774ed63db531e3c0cafeed"
+    },
+    {
+      "исходник": "Приложения/FUMA/Android/tests/test_сценарий.py",
+      "назначение": "Приложения/FUMA/сценарии/проверки/test_Android_сценарий.py",
+      "sha256": "a6ba2ab29e8e9922f9ca9a939d4e3249a7770385d1405f1205a822b679a61924"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/проверки/профиль-путей.swift",
+      "назначение": "Приложения/FUMA/Sources/ПрофильПутей/Профиль.swift",
+      "sha256": "b324bd29351057b0d59a433c3fce2cd1494e01fea30e423e817f5bee68045541"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/проверки/проверка-C-адаптера.c",
+      "назначение": "Приложения/FUMA/Tests/CMpvShimTests/проверка-C-адаптера.c",
+      "sha256": "c060d309ba747cdb648cba86a061a66ca4ad771b65ebd0e3615979a33bac6e23"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/проверки/test_адаптации.py",
+      "назначение": "Приложения/FUMA/сценарии/проверки/test_адаптации.py",
+      "sha256": "5739709d86460c3a570f7f8cf01fb07130e66ce01a488b7baf6630a37d4e1d24"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/проверки/проверить-исполнение-оператора.py",
+      "назначение": "Приложения/FUMA/сценарии/проверить-исполнение-оператора.py",
+      "sha256": "7393b36ba375fe806e814cbf844615b381e89fade34622894106041d263aac9a"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/проверки/проверить-обнаружение-приложения.py",
+      "назначение": "Приложения/FUMA/сценарии/проверить-обнаружение-приложения.py",
+      "sha256": "7c83d82e01bdf856726db5d31d9815de0d76ff80854ffbb120c2fe34b732ed8e"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/проверки/фикстуры/вход-оператора.txt",
+      "назначение": "Приложения/FUMA/сценарии/фикстуры/вход-оператора.txt",
+      "sha256": "445670de798cabdd6563a1afe3db4f3870e31352595ee08be017793a87174eba"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py",
+      "назначение": "Приложения/FUMA/сценарии/адаптировать-прежние-пути.py",
+      "sha256": "9e109fca0adabd36061da35763c487f87ccf9fcf2fb6b3e43609d4232e1a06f3"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/script/install_ax_vision_sense.sh",
+      "назначение": "Приложения/FUMA/сценарии/install_ax_vision_sense.sh",
+      "sha256": "89539ac9131890d11a9216367aa6f8aedcf5dbe2c5c0e5587b058264d8dee597"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/script/fum_mcp.sh",
+      "назначение": "Приложения/FUMA/сценарии/fum_mcp.sh",
+      "sha256": "63cca97726ec509b3e74d05f6e23b83c3ec691ec864f6f1c60f46c88caa0dde6"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/script/install_attention_loop.sh",
+      "назначение": "Приложения/FUMA/сценарии/install_attention_loop.sh",
+      "sha256": "c690c947dcfd459df8783fac28ec11489470b51a13c05ef46f14afd3a9709f7f"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/script/install_fum_app.sh",
+      "назначение": "Приложения/FUMA/сценарии/install_fum_app.sh",
+      "sha256": "41b7c1013cd35cb55ead06e8e63ea49517b4271903bceb0752914e4d1f2d3bc8"
+    },
+    {
+      "исходник": "Прототипы/память-структурирующих-операторов/запустить.sh",
+      "назначение": "Приложения/FUMA/сценарии/запустить-оператор.sh",
+      "sha256": "0608ce3687d854312b99f3667cf5b5d519b93070491d58eaa4bf2bae40d9edb0"
+    },
+    {
+      "исходник": "Прототипы/память-структурирующих-операторов/Проверки/проверить-и-измерить.py",
+      "назначение": "Приложения/FUMA/сценарии/проверить-и-измерить-оператор.py",
+      "sha256": "b64b17611f77ae19f60a1fc4a49ca09504afdddd3d0b7585397e76969659f1d5"
+    },
+    {
+      "исходник": "Приложения/FUMA/macOS/Package.swift",
+      "назначение": "Журнал/2026-09-15_22-05-55_MSK_подключить-платформенные-компоненты/материалы/прежний-манифест-macOS.swift",
+      "sha256": "2748835ae082c664ce69e00d7e22577e863bba67490d0d18d604f6f8121fede6"
+    }
+  ]
+}

@@ -11,10 +11,10 @@
 ```sh
 python3 -B Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py init --repo-root . --path Зависимости/swift-crypto
 python3 -B Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py init --repo-root . --path Зависимости/swift-asn1
-python3 -B Приложения/FUMA/Android/подготовить-среду.py --каталог "$FUMA_ANDROID_CACHE"
+python3 -B Приложения/FUMA/сценарии/подготовить-Android-среду.py --каталог "$FUMA_ANDROID_CACHE"
 ```
 
-`FUMA_ANDROID_CACHE` задаёт отдельный каталог вне checkout. Установщик загружает три официальных архива по [закреплённым версиям и SHA-256](версии.json), проверяет полные байты до распаковки и подпись pkg, размещает toolchain/NDK в кэше, устанавливает Swift SDK штатной командой. Существующие архивы повторно проверяются; повреждённый файл или незавершённая `.part` останавливают операцию. Уже распакованная среда проверяется по версии, но не проходит полный побайтовый аудит файлов. Профиль подготовки остаётся рядом с кэшем. stdout сообщает пути `swift` и `ndk`; используйте их ниже. Глобальный toolchain Xcode не переключается.
+`FUMA_ANDROID_CACHE` задаёт отдельный каталог вне checkout. Установщик загружает три официальных архива по [закреплённым версиям и SHA-256](../сценарии/версии-Android.json), проверяет полные байты до распаковки и подпись pkg, размещает toolchain/NDK в кэше, устанавливает Swift SDK штатной командой. Существующие архивы повторно проверяются; повреждённый файл или незавершённая `.part` останавливают операцию. Уже распакованная среда проверяется по версии, но не проходит полный побайтовый аудит файлов. Профиль подготовки остаётся рядом с кэшем. stdout сообщает пути `swift` и `ndk`; используйте их ниже. Глобальный toolchain Xcode не переключается.
 
 Проверенная пара: открытый Swift 6.4.0 + Swift SDK 6.4.0, NDK r30 `30.0.16248370`. Первоначальная загрузка и распаковка выполнены штатными командами; автоматизированный повтор по готовому кэшу проверен отдельно. Полностью холодный запуск установщика из чистой машины ещё не принят. SDK/NDK остаются под собственными лицензиями; полное зеркало Swift/LLVM не объявляется готовым.
 
@@ -25,7 +25,7 @@ python3 -B Приложения/FUMA/Android/подготовить-среду.p
 Задайте `FUMA_SWIFT`, `FUMA_NDK`, `FUMA_ADB` абсолютными путями подготовленной среды, `FUMA_DEVICE` — точным serial собственного эмулятора, `FUMA_ANDROID_CACHE` — кэшем, `FUMA_ANDROID_RESULT` — новым каталогом результатов вне checkout:
 
 ```sh
-python3 -B Приложения/FUMA/Android/проверить-runtime.py \
+python3 -B Приложения/FUMA/сценарии/проверить-Android-runtime.py \
   --swift "$FUMA_SWIFT" --ndk "$FUMA_NDK" --adb "$FUMA_ADB" \
   --устройство "$FUMA_DEVICE" --кэш "$FUMA_ANDROID_CACHE/build" \
   --выход "$FUMA_ANDROID_RESULT"
@@ -40,8 +40,8 @@ python3 -B Приложения/FUMA/Android/проверить-runtime.py \
 ## Проверки и границы безопасности
 
 ```sh
-python3 -B -m unittest discover -s Приложения/FUMA/Android/tests
-SWIFTCI_USE_LOCAL_DEPS=1 swift test --build-system native --package-path Приложения/FUMA/Packages/СценарийRuntime --scratch-path "$FUMA_ANDROID_CACHE/host-tests" --jobs 4
+python3 -B -m unittest discover -s Приложения/FUMA/сценарии/проверки
+SWIFTCI_USE_LOCAL_DEPS=1 swift test --build-system native --package-path Приложения/FUMA --scratch-path "$FUMA_ANDROID_CACHE/host-tests" --jobs 4
 ```
 
 Контейнер сохраняет проверки владельца, прав, числа ссылок, `O_NOFOLLOW`, блокировку и `fsync`. Только на Android предки открываются через `O_PATH`: это позволяет проходить закрытый для чтения `/data`; конечный каталог открывается через `O_RDONLY`. ACL и sandbox iOS этим срезом не переопределяются. Процесс запускается от shell-пользователя тестового AVD, не от UID Android-приложения; проверка app sandbox остаётся следующей границей.
@@ -58,6 +58,6 @@ SWIFTCI_USE_LOCAL_DEPS=1 swift test --build-system native --package-path При�
 Сценарий собирает продукт `сценарий-runtime` из `Приложения/FUMA/Package.swift`. Исходники перенесены в общие Sources/Tests; операторный модуль также входит в этот пакет. Успех Android относится только к выбранному CLI-продукту, а не ко всем targets общего манифеста.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 22:04:16 MSK -->
-<!-- content-sha256: sha256:4f51ae91d68b3d54506fe4269f9159bd91aed02d36da1144c352391cbf648293 -->
+<!-- last-content-edit: 2026-09-15 22:25:32 MSK -->
+<!-- content-sha256: sha256:1a10ad5d9d975cb44b9d7c687c6d7d5c53311ae040a69c38b4933dc41fe7711e -->
 <!-- FUM-MD-RECENCY:END -->

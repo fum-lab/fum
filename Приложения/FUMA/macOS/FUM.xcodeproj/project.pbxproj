@@ -61,8 +61,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		7C6A00000000000000000024 /* КомандноеИсполнение.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/ИсполнениеОператора/КомандноеИсполнение.swift"; sourceTree = SOURCE_ROOT; };
-		7C6A00000000000000000018 /* ПутиПриложения.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/ПутиИсполнения/ПутиПриложения.swift"; sourceTree = SOURCE_ROOT; };
+		7C6A00000000000000000024 /* КомандноеИсполнение.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "../Sources/ИсполнениеОператора/КомандноеИсполнение.swift"; sourceTree = SOURCE_ROOT; };
+		7C6A00000000000000000018 /* ПутиПриложения.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "../Sources/ПутиИсполнения/ПутиПриложения.swift"; sourceTree = SOURCE_ROOT; };
 		7C6A00000000000000000001 /* AXVisionSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AXVisionSnapshot.swift; sourceTree = "<group>"; };
 		7C6A00000000000000000002 /* CameraGaze.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraGaze.swift; sourceTree = "<group>"; };
 		7C6A00000000000000000003 /* CameraVisionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraVisionModel.swift; sourceTree = "<group>"; };
@@ -130,7 +130,7 @@
 				7C6A00000000000000000305 /* FUMMCPServer */,
 				7C6A00000000000000000306 /* CMpvShim */,
 			);
-			path = Sources;
+			path = ../Sources;
 			sourceTree = "<group>";
 		};
 		7C6A00000000000000000302 /* Products */ = {
@@ -473,7 +473,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					Sources/CMpvShim/include,
+					../Sources/CMpvShim/include,
 					"$(FUM_MPV_INCLUDEDIR)",
 				);
 				INFOPLIST_FILE = "Xcode/FUM-Info.plist";
@@ -497,7 +497,7 @@
 				PRODUCT_NAME = FUMA;
 				SWIFT_INCLUDE_PATHS = (
 					"$(inherited)",
-					Sources/CMpvShim/include,
+					../Sources/CMpvShim/include,
 				);
 				SWIFT_VERSION = 6.0;
 			};
@@ -513,7 +513,7 @@
 				GENERATE_INFOPLIST_FILE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					Sources/CMpvShim/include,
+					../Sources/CMpvShim/include,
 					"$(FUM_MPV_INCLUDEDIR)",
 				);
 				INFOPLIST_FILE = "Xcode/FUM-Info.plist";
@@ -537,7 +537,7 @@
 				PRODUCT_NAME = FUMA;
 				SWIFT_INCLUDE_PATHS = (
 					"$(inherited)",
-					Sources/CMpvShim/include,
+					../Sources/CMpvShim/include,
 				);
 				SWIFT_VERSION = 6.0;
 			};
