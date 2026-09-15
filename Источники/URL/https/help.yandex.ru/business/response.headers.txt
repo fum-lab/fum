@@ -1,0 +1,25 @@
+HTTP/2 302
+location: https://help.yandex.ru/showcaptcha?cc=1&form-fb-hint=2.74&mt=7F8505C881A8F64DE9C18BD949ACDDEE1339CDAF28678C55F9AD6992CB579B115BE12C22F026A0D0743CA86091A9ABE0A408BEEFFFD2B4324809F147946890C4E7E2BBCE121584475ABC7B98155DA7FF1B74F8EFDE6DF80D8F3ADFCA207D7588258C6D10156B41D5094AE97FA4D6F222FBE2737BBB4D3B479A0EA65084076AE5A38A43ADCAFB2012E5AB96FB75B4473DFEC31B547E9A91C92E5A9182A00DFE2CD29DF24B41D94E84C19235AD4FA6734C5BD6661F354CABC997CFC032A4FCF20ED4393994C52C4390A55CBA6CAF87BA7B39050676CD791A477DFE5AE0B14B7EB4F561929EDAC11F38C85DE4B6FD9B4ADA91FF2B02&retpath=aHR0cHM6Ly9oZWxwLnlhbmRleC5ydS9hY3Rpb24vYnVzaW5lc3M%2C_c2970c4c3b7059a83b170e6e38e7a006&t=2%252F1789127879%252Ffa1943b767a4ca0ece88fbdef624f536&u=9385875121313193732&s=64d41b65166933fb10d7e347a0182655
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+x-yandex-captcha: captcha
+x-yandex-eu-request: [REDACTED: response trace identifier]
+cache-control: private, max-age=0, no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+date: Fri, 11 Sep 2026 11:57:59 GMT
+
+HTTP/2 200
+content-length: 14067
+x-yandex-eu-request: [REDACTED: response trace identifier]
+access-control-allow-origin: yastatic.net
+content-type: text/html
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+cache-control: private, max-age=0, no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+x-yandex-captcha: captcha

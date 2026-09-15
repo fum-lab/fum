@@ -1,0 +1,47 @@
+{
+  "schema": "fum.machine-local-path-policy-update.v1",
+  "declarations": [
+    {
+      "id": "direction-intake-journal-request-pattern",
+      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/вход_направления.py",
+      "line": 130,
+      "category": "allow.path-validation-definition",
+      "reason": "Регулярное выражение ограничивает вход относительным каноническим путём запроса Журнала; слэши и класс символов задают синтаксис проверки."
+    },
+    {
+      "id": "direction-intake-card-name-suffix",
+      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/вход_направления.py",
+      "line": 240,
+      "category": "allow.path-validation-definition",
+      "reason": "Суффикс имени карточки присоединяется к выбранному каноническому относительному каталогу и не является самостоятельным абсолютным путём."
+    },
+    {
+      "id": "direction-intake-readme-suffix",
+      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/вход_направления.py",
+      "line": 255,
+      "category": "allow.path-validation-definition",
+      "reason": "Суффикс README присоединяется к каноническому относительному каталогу карточек; абсолютный путь машины не задаётся."
+    },
+    {
+      "id": "direction-intake-markdown-fence-pattern",
+      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py",
+      "line": 208,
+      "category": "allow.path-validation-definition",
+      "reason": "Регулярное выражение распознаёт ограду Markdown из обратных кавычек либо тильд; тильда здесь не является домашним путём."
+    },
+    {
+      "id": "message-processing-profile-disable-fixture-hooks",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/измерить-остаток-сообщений.py",
+      "line": 35,
+      "category": "allow.test-fixture",
+      "reason": "Отключает Git hooks только в создаваемом временном синтетическом репозитории профиля; пользовательский репозиторий и его настройки не изменяются."
+    },
+    {
+      "id": "message-processing-test-disable-fixture-hooks",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обработка_сообщений.py",
+      "line": 51,
+      "category": "allow.test-fixture",
+      "reason": "Отключает Git hooks только при командах автономной фикстуры во временном репозитории; не задаёт runtime-путь продукта."
+    }
+  ]
+}

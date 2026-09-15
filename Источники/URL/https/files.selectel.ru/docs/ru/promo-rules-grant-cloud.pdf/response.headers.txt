@@ -1,0 +1,15 @@
+HTTP/2 200 
+accept-ranges: bytes
+access-control-allow-origin: *
+access-control-expose-headers: Cache-Control, Content-Language, Content-Type, Expires, Last-Modified, Pragma, Etag, X-Timestamp, X-Trans-Id, X-Openstack-Request-Id, Content-Length, Accept-Ranges
+content-length: 203717
+content-type: application/pdf
+etag: "0bf02b08bcdc6cf19d6d8bc147d360c8"
+last-modified: Tue, 23 Dec 2025 09:21:48 GMT
+x-container-storage-policy-index: 0
+x-container-storage-policy-name: Policy-0
+x-timestamp: 1766481707.70632
+x-trans-id: 1883cdc10207a710
+date: Fri, 11 Sep 2026 12:29:44 GMT
+age: 0
+

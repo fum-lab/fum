@@ -1,0 +1,133 @@
+# Извлечённый текст
+
+Источник: <https://nlnet.nl/restack/eligibility/>
+
+## Содержимое
+
+NLnet; Restack Eligibility information
+To main content
+Submit your proposals. Next deadline November 3. 2026
+Menu
+Funding
+Apply for funding
+Theme funds
+NGI Zero
+Support services
+Projects
+All projects
+Currently running
+Topic index
+Stories
+News & events
+News
+Events
+Webinars
+Office Hour
+Podcast
+NGI Zero Tour Schedule
+Speaker Bureau
+Resources
+Best practices
+Presentations
+Hex stickers
+Support NLnet
+Financial contribution
+Join the OIN
+About us
+Foundation
+People
+Press
+In the media
+Contact
+Funding
+Restack
+eligibility
+Restack Eligibility information
+Main page | Guide for Applicants | Organisations involved | Eligibility | FAQ
+Eligibility
+List of different types of activities eligible for financial support
+The following types of activities qualify for financial support, provided they are cost effective and have a clear link to the topics directly relevant to Restack and the objectives set out in the call :
+design and development of free and open source software and open hardware
+validation or constructive inquiry into existing or novel technical solutions
+software engineering aimed at adapting to new usage areas or improving software quality
+formal security proofs, security audits, setup and design of software testing and continuous integration
+documentation for researchers, developers and end users, including educational materials
+standardisation activities, including membership fees of standards bodies
+understanding user requirements and improving usability/inclusive design
+necessary measures in support of (broad)er deployability, e.g. packaging
+scientific research
+participation in technical, developer and community events like hackathons, IETF, W3C, RIPE meetings, FOSDEM, etc. (admission fee, travel and subsistence costs)
+other activities that are relevant to adhering to robust software development and deployment practices
+project management
+out-of-pocket costs for infrastructure essential to achieving the above
+Definition of persons or categories of persons which may receive financial support
+There are no categorical exclusions of persons who may not receive support from Restack.
+Given equal proposals, inhabitants of the EU and countries associated to Horizon Europe are given priority. However if the project is of exceptional quality and the proposer holds unique technical expertise proposals from outside of those geographic areas can be eligible as well — under the condition that there is a clear European dimension.
+Young people that have not yet reached the age of legal consent in their country of origin (typically 18 years old) on the date of the deadline may apply without any constraints; consent from a legal guardian such as a parent does not have to be provided prior to initial submission, but will be required to enter any further negotiations.
+Search
+Search Submit search
+Guide for Applicants
+Who is behind this?
+Eligibility
+FAQ
+About Restack
+Currently open for proposals:
+Restack
+CodeSupply
+Donate today
+And help us support the open internet!
+Events
+2026-10-29 - Webinar: Copyrightability of LLM-generated code by FSFE
+2026-09-30 - Office hour: Ask us Anything
+Event archive
+News
+Apply for funding before November 3rd 2026 2026-09-03
+NLnet is looking for a Rust developer 2026-08-17
+Five new projects strengthen NGI Pilots 2026-08-11
+More news
+Want to help?
+Help us by protecting open source and its users with 5 minutes of your time.
+NLnet
+Foundation
+People
+Press
+In the media
+Contact
+Privacy statement
+News & events
+News
+Events
+Webinars
+Office Hour
+NGI Zero Tour Schedule
+Speaker Bureau
+Connect with us
+Fediverse: NLnet
+Fediverse: NGI Zero
+Our podcast
+Our webinars
+RSS feed
+Site search
+Search Submit search
+Funding
+Open calls
+Theme funds
+NGI Zero
+Support services
+Projects
+All projects
+Currently running
+Topic index
+Stories
+Newsletters
+NLnet newsletter
+NGI Zero newsletter (subscribe)
+NGI Zero newsletter (RSS)
+Support NLnet
+Financial contribution
+Join the Open Invention Network
+
+<!-- FUM-MD-RECENCY:BEGIN -->
+<!-- last-content-edit: 2026-09-14 14:47:35 MSK -->
+<!-- content-sha256: sha256:f2e63d230c40ade35d33ff6443c3dcad64f4ce7fba443a7e4123beab7be3e35b -->
+<!-- FUM-MD-RECENCY:END -->

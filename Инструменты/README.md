@@ -25,7 +25,7 @@
 - [fum-svezhestj-markdown](fum-svezhestj-markdown/SKILL.md) - обновляет служебные метки последнего содержательного редактирования во всех Markdown-файлах и собирает индекс `.md`-файлов от свежих к старым.
 - [fum-ocheredj-zadach-git-vetki](fum-ocheredj-zadach-git-vetki/SKILL.md) - хранит исторические FIFO/pool/CAS-протоколы, квитанции и регрессионные тесты; обычная ручная сессия их не вызывает. Единственная уже созданная bridge-задача переходного коммита может выполнить `ack-head` и `finish-clean`.
 - [fum-svezhestj-grafa-obsidian](fum-svezhestj-grafa-obsidian/SKILL.md) - обновляет группы цвета графа Obsidian как тепловую карту Markdown-узлов по времени последнего содержательного редактирования.
-- [fum-reyestr-planirovaniya](fum-reyestr-planirovaniya/SKILL.md) - собирает и проверяет машинно читаемый JSON-реестр и безопасно переименовывает карточки шагов с обновлением живых текстовых путей.
+- [fum-reyestr-planirovaniya](fum-reyestr-planirovaniya/SKILL.md) - собирает и проверяет машинно читаемый JSON-реестр, безопасно переименовывает карточки шагов с обновлением живых текстовых путей и ведёт [реестр организаций поддержки](../Планирование/финансирование-и-ресурсы/README.md) с историей источников и проверяемыми сроками.
 - [fum-proyektnyiye-fajlyi](fum-proyektnyiye-fajlyi/SKILL.md) - задаёт общий воспроизводимый инвентарь проектных Markdown-файлов и безопасные границы выходных путей служебных автоматизаций.
 - [fum-bratislavskaya-proyekciya-pamyati](fum-bratislavskaya-proyekciya-pamyati/SKILL.md) - строит полный детерминированный сухой план братиславской проекции канонической памяти и валидирует происхождение готового производного поколения.
 - [fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok](fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/SKILL.md) - планирует и применяет Git-переименование обычного файла с разрешением и пересчётом входящих и исходящих локальных Markdown-ссылок без глобальной замены имени.
@@ -130,6 +130,6 @@
 - [исходный запрос 2026-07-22 03:38:35 MSK - Разрешить выполнение доступных карточек шагов](../Журнал/2026-07-22_03-38-35_MSK_разрешить-выполнение-доступных-карточек-шагов/запрос.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 00:22:39 MSK -->
-<!-- content-sha256: sha256:d83878f8549888a5d829a48dd3ef9803f92b267c2758d54c39ef98622fd0e9ec -->
+<!-- last-content-edit: 2026-09-11 15:53:44 MSK -->
+<!-- content-sha256: sha256:046405e6c381fbb0ba2d84ad9f4af0ac64330f6e1cf5e583c1670b424366bfc5 -->
 <!-- FUM-MD-RECENCY:END -->

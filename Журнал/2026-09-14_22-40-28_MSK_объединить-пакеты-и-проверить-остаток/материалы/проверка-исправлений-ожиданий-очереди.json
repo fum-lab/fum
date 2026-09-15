@@ -1,0 +1,4288 @@
+{
+  "схема": "fum.проверка-текстовых-ожиданий.1",
+  "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+  "до-sha256": "45e484f3e2bb932cd2b9644ae15a19bdcd07cd5260f0b3d48cb5330d74b09439",
+  "после-sha256": "7d579ac3fbec6066ce451e86a29cfe69cbb62cc58b6c6b61affe3cfdd1e28310",
+  "строк-изменено": 13,
+  "замены": [
+    {
+      "строка": 5623,
+      "до": "Субагент",
+      "после": "Дети соблюдают те же нормы Журнала, TDD, профиля, коммитов и сохранения незавершённого"
+    },
+    {
+      "строка": 5627,
+      "до": "не вызывает FIFO/pool/CAS",
+      "после": "FIFO/pool/CAS/branch-next-step не активны."
+    },
+    {
+      "строка": 5647,
+      "до": "`push`, remote-публикация",
+      "после": "push, remote-публикация"
+    },
+    {
+      "строка": 5649,
+      "до": "другие внешние эффекты",
+      "после": "иные внешние эффекты требуют отдельного явного запроса"
+    },
+    {
+      "строка": 5653,
+      "до": "не вызывает FIFO/pool/CAS",
+      "после": "FIFO/pool/CAS/branch-next-step не активны."
+    },
+    {
+      "строка": 5654,
+      "до": "read-only-наблюдатели",
+      "после": "Чужие файлы, индексы, refs и Git-конфигурация read-only даже при общих Git-объектах."
+    },
+    {
+      "строка": 5677,
+      "до": "Коммит завершает этап, а не задачу",
+      "после": "Коммит завершает этап, не задачу"
+    },
+    {
+      "строка": 5678,
+      "до": "доступная согласованная работа продолжается",
+      "после": "доступную согласованную работу продолжай в ней без нового запроса"
+    },
+    {
+      "строка": 5680,
+      "до": "локальным `git commit`",
+      "после": "регулярно фиксируя содержательные этапы локальными коммитами"
+    },
+    {
+      "строка": 5681,
+      "до": "Коммит и продолжение работы сами по себе не запускают",
+      "после": "Коммит и продолжение сами не запускают continuation, handoff, heartbeat, dispatcher, autostart или иной автоматический follow-up."
+    },
+    {
+      "строка": 5683,
+      "до": "продолжай доступную работу в том же ходе",
+      "после": "продолжай доступное в том же ходе"
+    },
+    {
+      "строка": 5685,
+      "до": "не дают активного права записи",
+      "после": "Они не разрешают запись и не удаляются автоматически."
+    },
+    {
+      "строка": 5688,
+      "до": "Приёмка этапа с осмысленным diff",
+      "после": "Текущая граница приёмки — один проверенный этап режима, выбранного"
+    }
+  ],
+  "структура-AST-без-литералов": "совпадает",
+  "переводчик-sha256": "82d0d819158dbf7d28ceecb5ef2c0176ec17bd197dc61e78191065a25a80cf0c",
+  "общий-инвентарь-sha256": "46642cc72523484d581d21f756de67d350de2f231d9b77db7612581e6d70b76d",
+  "объявлений": 526,
+  "объявления": [
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 17,
+      "столбец": 1,
+      "вид": "привязка",
+      "имя": "TOOL_ROOT"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 18,
+      "столбец": 1,
+      "вид": "привязка",
+      "имя": "REPO_ROOT"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 19,
+      "столбец": 1,
+      "вид": "привязка",
+      "имя": "SCRIPT_REPO_PATH"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 23,
+      "столбец": 1,
+      "вид": "привязка",
+      "имя": "SCRIPT_PATH"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 33,
+      "столбец": 1,
+      "вид": "привязка",
+      "имя": "HEAD_BOOTSTRAP_CODE"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 45,
+      "столбец": 1,
+      "вид": "привязка",
+      "имя": "PUBLICATION_BOOTSTRAP_CODE"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 58,
+      "столбец": 1,
+      "вид": "привязка",
+      "имя": "COMPATIBILITY_SCRIPT_PATH"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 65,
+      "столбец": 1,
+      "вид": "привязка",
+      "имя": "CONFIG_PATH"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 66,
+      "столбец": 1,
+      "вид": "привязка",
+      "имя": "AGENTS_PATH"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 76,
+      "столбец": 1,
+      "вид": "привязка",
+      "имя": "SKILL_PATH"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 77,
+      "столбец": 1,
+      "вид": "привязка",
+      "имя": "HEARTBEAT_PROMPT_PATH"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 86,
+      "столбец": 1,
+      "вид": "функция",
+      "имя": "load_queue_module"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 87,
+      "столбец": 5,
+      "вид": "привязка",
+      "имя": "module_name"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 88,
+      "столбец": 5,
+      "вид": "привязка",
+      "имя": "spec"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 91,
+      "столбец": 5,
+      "вид": "привязка",
+      "имя": "module"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 97,
+      "столбец": 1,
+      "вид": "класс",
+      "имя": "GitQueueFixture"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 100,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "setUp"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 100,
+      "столбец": 15,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 101,
+      "столбец": 9,
+      "вид": "атрибут",
+      "имя": "temporary_directory"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 103,
+      "столбец": 9,
+      "вид": "атрибут",
+      "имя": "repo"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 106,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "init"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 122,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "git"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 123,
+      "столбец": 9,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 125,
+      "столбец": 9,
+      "вид": "параметр",
+      "имя": "check"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 124,
+      "столбец": 10,
+      "вид": "параметр",
+      "имя": "args"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 134,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "run_queue"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 135,
+      "столбец": 9,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 137,
+      "столбец": 9,
+      "вид": "параметр",
+      "имя": "timeout"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 136,
+      "столбец": 10,
+      "вид": "параметр",
+      "имя": "args"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 153,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 153,
+      "столбец": 17,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 153,
+      "столбец": 23,
+      "вид": "параметр",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 157,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "join"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 157,
+      "столбец": 14,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 157,
+      "столбец": 20,
+      "вид": "параметр",
+      "имя": "task_id"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 158,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 168,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "wait"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 168,
+      "столбец": 14,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 168,
+      "столбец": 20,
+      "вид": "параметр",
+      "имя": "task_id"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 168,
+      "столбец": 34,
+      "вид": "параметр",
+      "имя": "seconds"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 169,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 181,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "ack_head"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 181,
+      "столбец": 18,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 181,
+      "столбец": 24,
+      "вид": "параметр",
+      "имя": "task_id"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 182,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "head"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 183,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 196,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "commit"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 197,
+      "столбец": 9,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 198,
+      "столбец": 9,
+      "вид": "параметр",
+      "имя": "task_id"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 199,
+      "столбец": 9,
+      "вид": "параметр",
+      "имя": "generation"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 200,
+      "столбец": 9,
+      "вид": "параметр",
+      "имя": "message"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 240,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "finish_clean"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 240,
+      "столбец": 22,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 240,
+      "столбец": 28,
+      "вид": "параметр",
+      "имя": "task_id"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 240,
+      "столбец": 42,
+      "вид": "параметр",
+      "имя": "generation"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 252,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "finish_own_clean"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 253,
+      "столбец": 9,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 254,
+      "столбец": 9,
+      "вид": "параметр",
+      "имя": "task_id"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 278,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "heartbeat_status"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 278,
+      "столбец": 26,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 278,
+      "столбец": 32,
+      "вид": "параметр",
+      "имя": "task_id"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 288,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "stage_change"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 288,
+      "столбец": 22,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 288,
+      "столбец": 28,
+      "вид": "параметр",
+      "имя": "value"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 331,
+      "столбец": 1,
+      "вид": "класс",
+      "имя": "QueueContractTests"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 490,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_heartbeat_status_reports_exact_idle_without_opaque_fields"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 490,
+      "столбец": 72,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 491,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 496,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_heartbeat_status_reports_idle_after_completed_manual_session"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 497,
+      "столбец": 9,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 499,
+      "столбец": 12,
+      "вид": "привязка",
+      "имя": "manual"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 501,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "completed"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 504,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "status"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 507,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "stored"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 515,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 520,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_heartbeat_status_distinguishes_own_and_foreign_owner"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 520,
+      "столбец": 67,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 522,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "before"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 526,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "own"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 527,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "foreign"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 528,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "after"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 538,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_heartbeat_status_reports_busy_for_own_or_foreign_waiter"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 538,
+      "столбец": 70,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 539,
+      "столбец": 12,
+      "вид": "привязка",
+      "имя": "owner"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 542,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "finished"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 545,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "own_waiter"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 546,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "foreign_waiter"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 553,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_heartbeat_status_keeps_own_owner_with_waiting_successors"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 553,
+      "столбец": 71,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 557,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 562,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_first_join_is_admitted_and_repeated_join_is_idempotent"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 562,
+      "столбец": 69,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 563,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "first"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 563,
+      "столбец": 16,
+      "вид": "привязка",
+      "имя": "first_payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 564,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "repeated"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 564,
+      "столбец": 19,
+      "вид": "привязка",
+      "имя": "repeated_payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 579,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_waiters_are_ordered_by_atomic_registration_sequence"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 579,
+      "столбец": 66,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 581,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "second"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 581,
+      "столбец": 17,
+      "вид": "привязка",
+      "имя": "second_payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 582,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "third"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 582,
+      "столбец": 16,
+      "вид": "привязка",
+      "имя": "third_payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 583,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "repeated"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 583,
+      "столбец": 19,
+      "вид": "привязка",
+      "имя": "repeated_payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 597,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "status"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 600,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 603,
+      "столбец": 36,
+      "вид": "привязка",
+      "имя": "ticket"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 607,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_commit_releases_owner_but_next_waiter_must_reload_and_ack_head"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 607,
+      "столбец": 77,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 608,
+      "столбец": 12,
+      "вид": "привязка",
+      "имя": "first"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 610,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "old_head"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 613,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "committed"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 620,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "committed_payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 630,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "waiting"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 630,
+      "столбец": 18,
+      "вид": "привязка",
+      "имя": "waiting_payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 636,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "acknowledged"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 638,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "admitted"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 638,
+      "столбец": 19,
+      "вид": "привязка",
+      "имя": "admitted_payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 643,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "replay"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 656,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "stale_replay"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1294,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_later_waiter_cannot_bypass_the_first_live_waiter"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1294,
+      "столбец": 63,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1295,
+      "столбец": 12,
+      "вид": "привязка",
+      "имя": "first"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1299,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "committed"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1303,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "later"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1303,
+      "столбец": 16,
+      "вид": "привязка",
+      "имя": "later_payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1309,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "next_result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1309,
+      "столбец": 22,
+      "вид": "привязка",
+      "имя": "next_payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1312,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "still_waiting"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1312,
+      "столбец": 24,
+      "вид": "привязка",
+      "имя": "still_waiting_payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1316,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_cancel_only_removes_the_callers_waiting_ticket"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1316,
+      "столбец": 61,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1318,
+      "столбец": 12,
+      "вид": "привязка",
+      "имя": "second"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1321,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "owner_cancel"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1332,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "cancelled"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1344,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "status"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1348,
+      "столбец": 36,
+      "вид": "привязка",
+      "имя": "ticket"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1352,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_concurrent_join_assigns_one_owner_and_unique_fifo_sequences"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1352,
+      "столбец": 74,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1353,
+      "столбец": 9,
+      "вид": "функция",
+      "имя": "join_task"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1353,
+      "столбец": 23,
+      "вид": "параметр",
+      "имя": "task_id"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1356,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "task_ids"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1356,
+      "столбец": 41,
+      "вид": "привязка",
+      "имя": "index"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1357,
+      "столбец": 63,
+      "вид": "привязка",
+      "имя": "executor"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1358,
+      "столбец": 13,
+      "вид": "привязка",
+      "имя": "payloads"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1360,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "admitted"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1360,
+      "столбец": 30,
+      "вид": "привязка",
+      "имя": "item"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1362,
+      "столбец": 54,
+      "вид": "привязка",
+      "имя": "item"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1363,
+      "столбец": 53,
+      "вид": "привязка",
+      "имя": "item"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1365,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "status"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1368,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "all_sequences"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1369,
+      "столбец": 36,
+      "вид": "привязка",
+      "имя": "ticket"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1373,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_bounded_wait_does_not_mutate_queue_while_blocked"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1373,
+      "столбец": 63,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1376,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "before"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1380,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1380,
+      "столбец": 17,
+      "вид": "привязка",
+      "имя": "refreshed"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1384,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "after"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1389,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_wait_until_actionable_stays_silent_and_read_only_until_reload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1389,
+      "столбец": 76,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1390,
+      "столбец": 12,
+      "вид": "привязка",
+      "имя": "owner"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1392,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "before"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1396,
+      "столбец": 51,
+      "вид": "привязка",
+      "имя": "executor"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1397,
+      "столбец": 13,
+      "вид": "привязка",
+      "имя": "waiting"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1410,
+      "столбец": 13,
+      "вид": "привязка",
+      "имя": "blocked"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1416,
+      "столбец": 13,
+      "вид": "привязка",
+      "имя": "committed"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1418,
+      "столбец": 13,
+      "вид": "привязка",
+      "имя": "committed_payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1419,
+      "столбец": 13,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1423,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "after"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1428,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_wait_until_actionable_returns_admitted_without_intermediate_waiting"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1428,
+      "столбец": 82,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1429,
+      "столбец": 12,
+      "вид": "привязка",
+      "имя": "owner"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1432,
+      "столбец": 51,
+      "вид": "привязка",
+      "имя": "executor"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1433,
+      "столбец": 13,
+      "вид": "привязка",
+      "имя": "waiting"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1446,
+      "столбец": 13,
+      "вид": "привязка",
+      "имя": "finished"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1448,
+      "столбец": 13,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1454,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_stale_waiter_keeps_its_fifo_position_without_any_ttl"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1454,
+      "столбец": 67,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1455,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "module"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1459,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "status"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1462,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "queue_oid"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1463,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "queue_ref"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1464,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "state"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1467,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "stale_oid"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1476,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "waited"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1476,
+      "столбец": 17,
+      "вид": "привязка",
+      "имя": "payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1480,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "refreshed"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 1484,
+      "столбец": 36,
+      "вид": "привязка",
+      "имя": "ticket"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3676,
+      "столбец": 1,
+      "вид": "класс",
+      "имя": "QueueSafetyTests"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3677,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_head_bootstrap_executes_the_committed_script_and_fences_root"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3677,
+      "столбец": 75,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3678,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "committed_script"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3683,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "safe_head"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3690,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "replacement_head"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3702,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "foreign_repo"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3731,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3768,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "abbreviated"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3774,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_core_ignores_replace_objects_for_queue_state"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3774,
+      "столбец": 59,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3775,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "joined"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3775,
+      "столбец": 17,
+      "вид": "привязка",
+      "имя": "owner"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3777,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "queue_oid"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3778,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "original"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3780,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "replacement"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3789,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "status"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3796,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_join_does_not_refresh_the_git_index_stat_cache"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3796,
+      "столбец": 61,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3797,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "index_path"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3798,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "before"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3799,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "future"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3802,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "joined"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3802,
+      "столбец": 17,
+      "вид": "привязка",
+      "имя": "payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3808,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_persistent_queue_ref_lock_is_reported_as_a_git_error"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3808,
+      "столбец": 67,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3809,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "module"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3810,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "context"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3811,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "lock_path"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3815,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3815,
+      "столбец": 17,
+      "вид": "привязка",
+      "имя": "payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3821,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_persistent_branch_ref_lock_is_reported_as_a_git_error"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3821,
+      "столбец": 68,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3822,
+      "столбец": 12,
+      "вид": "привязка",
+      "имя": "owner"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3823,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "old_head"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3825,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "lock_path"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3828,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3831,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3835,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "status"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3840,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_initial_claim_waits_for_a_clean_tree_outside_root_obsidian"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3840,
+      "столбец": 73,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3844,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "clean_result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3844,
+      "столбец": 23,
+      "вид": "привязка",
+      "имя": "clean_payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3849,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "committed"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3854,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "dirty_result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3854,
+      "столбец": 23,
+      "вид": "привязка",
+      "имя": "dirty_payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3859,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_commit_rejects_unstaged_untracked_and_conflicted_work"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3859,
+      "столбец": 68,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3860,
+      "столбец": 12,
+      "вид": "привязка",
+      "имя": "owner"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3861,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "old_head"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3865,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3868,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 3872,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "status"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4067,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_commit_requires_staged_changes_and_matching_generation"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4067,
+      "столбец": 69,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4068,
+      "столбец": 12,
+      "вид": "привязка",
+      "имя": "owner"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4070,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "empty"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4075,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "wrong"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4079,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_clean_owner_can_finish_without_commit_but_dirty_owner_cannot"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4079,
+      "столбец": 75,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4080,
+      "столбец": 12,
+      "вид": "привязка",
+      "имя": "owner"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4082,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "old_head"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4083,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "obsidian_change"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4087,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "dirty"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4090,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "dirty_payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4095,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "wrong"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4099,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "finished"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4104,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "admitted"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4104,
+      "столбец": 19,
+      "вид": "привязка",
+      "имя": "payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4108,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "replay"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4113,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_finish_own_clean_cli_captures_generation_and_hands_off"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4113,
+      "столбец": 69,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4114,
+      "столбец": 12,
+      "вид": "привязка",
+      "имя": "owner"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4116,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "old_head"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4118,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "finished"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4121,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4127,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "admitted"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4127,
+      "столбец": 19,
+      "вид": "привязка",
+      "имя": "admitted_payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4131,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_finish_own_clean_rejects_foreign_and_missing_owner"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4131,
+      "столбец": 65,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4132,
+      "столбец": 12,
+      "вид": "привязка",
+      "имя": "owner"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4134,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "foreign"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4138,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "active"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4144,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "finished"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4147,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "missing"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4151,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_finish_own_clean_preserves_dirty_staged_and_head_fences"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4151,
+      "столбец": 70,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4152,
+      "столбец": 12,
+      "вид": "привязка",
+      "имя": "owner"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4154,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "untracked_path"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4156,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "untracked"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4159,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "untracked_payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4165,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "unstaged"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4168,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "unstaged_payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4175,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "dirty"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4178,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "dirty_payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4185,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "moved_head"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4186,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "changed"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4189,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "changed_payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4193,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "active"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4199,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_finish_own_clean_fails_closed_if_generation_changes_after_capture"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4199,
+      "столбец": 80,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4200,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "module"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4201,
+      "столбец": 12,
+      "вид": "привязка",
+      "имя": "owner"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4202,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "context"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4203,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "initial_state"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4203,
+      "столбец": 24,
+      "вид": "привязка",
+      "имя": "queue_oid"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4204,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "raced_state"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4215,
+      "столбец": 58,
+      "вид": "привязка",
+      "имя": "raised"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4219,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "active"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4289,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_finish_clean_atomically_verifies_the_branch_head"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4289,
+      "столбец": 63,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4290,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "module"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4291,
+      "столбец": 12,
+      "вид": "привязка",
+      "имя": "owner"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4292,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "context"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4293,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "original_write_state_blob"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4294,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "raced"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4296,
+      "столбец": 9,
+      "вид": "функция",
+      "имя": "write_blob_then_move_head"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4296,
+      "столбец": 39,
+      "вид": "параметр",
+      "имя": "queue_context"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4296,
+      "столбец": 54,
+      "вид": "параметр",
+      "имя": "state"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4298,
+      "столбец": 13,
+      "вид": "привязка",
+      "имя": "oid"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4300,
+      "столбец": 17,
+      "вид": "привязка",
+      "имя": "raced"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4305,
+      "столбец": 58,
+      "вид": "привязка",
+      "имя": "raised"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4313,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "status"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4318,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_admission_atomically_verifies_the_acknowledged_head"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4318,
+      "столбец": 66,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4319,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "module"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4320,
+      "столбец": 12,
+      "вид": "привязка",
+      "имя": "first"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4322,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "finished"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4324,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "context"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4325,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "original_write_state_blob"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4326,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "raced"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4328,
+      "столбец": 9,
+      "вид": "функция",
+      "имя": "write_blob_then_move_head"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4328,
+      "столбец": 39,
+      "вид": "параметр",
+      "имя": "queue_context"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4328,
+      "столбец": 54,
+      "вид": "параметр",
+      "имя": "state"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4330,
+      "столбец": 13,
+      "вид": "привязка",
+      "имя": "oid"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4331,
+      "столбец": 13,
+      "вид": "привязка",
+      "имя": "owner"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4333,
+      "столбец": 17,
+      "вид": "привязка",
+      "имя": "raced"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4338,
+      "столбец": 13,
+      "вид": "привязка",
+      "имя": "code"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4338,
+      "столбец": 19,
+      "вид": "привязка",
+      "имя": "payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4342,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "status"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4348,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_external_head_change_is_fenced_and_preserves_queue_owner"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4348,
+      "столбец": 71,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4349,
+      "столбец": 12,
+      "вид": "привязка",
+      "имя": "owner"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4350,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "base_head"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4352,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "external_head"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4355,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4358,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4362,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "status"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4367,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_branch_switch_and_detached_head_are_rejected"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4367,
+      "столбец": 59,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4368,
+      "столбец": 12,
+      "вид": "привязка",
+      "имя": "owner"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4370,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "switched"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4370,
+      "столбец": 19,
+      "вид": "привязка",
+      "имя": "switched_payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4375,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "commit"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4382,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "detached"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4388,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_ack_requires_current_head_and_an_existing_waiter"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4388,
+      "столбец": 63,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4391,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "wrong"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4404,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "absent"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4417,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_wait_rejects_non_finite_timeouts"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4417,
+      "столбец": 47,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4421,
+      "столбец": 13,
+      "вид": "привязка",
+      "имя": "value"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4423,
+      "столбец": 17,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4436,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_wait_until_actionable_keyboard_interrupt_is_silent"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4436,
+      "столбец": 65,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4437,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "module"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4450,
+      "столбец": 67,
+      "вид": "привязка",
+      "имя": "stdout"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4451,
+      "столбец": 67,
+      "вид": "привязка",
+      "имя": "stderr"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4453,
+      "столбец": 13,
+      "вид": "привязка",
+      "имя": "code"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4459,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_wait_defaults_to_five_minutes"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4459,
+      "столбец": 44,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4460,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "module"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4462,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "args"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4468,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_atomic_commit_supports_a_unicode_branch_ref"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4468,
+      "столбец": 58,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4470,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "joined"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4470,
+      "столбец": 17,
+      "вид": "привязка",
+      "имя": "owner"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4475,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "committed"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4496,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_json_errors_are_safe_with_an_ascii_stdout_encoding"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4496,
+      "столбец": 65,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4497,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4520,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_source_uses_git_cas_without_posix_locking_primitives"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4520,
+      "столбец": 67,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4521,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "source"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4522,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "forbidden"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4523,
+      "столбец": 13,
+      "вид": "привязка",
+      "имя": "fragment"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4530,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_cli_exposes_no_reordering_or_force_takeover_command"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4530,
+      "столбец": 66,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4531,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4538,
+      "столбец": 1,
+      "вид": "класс",
+      "имя": "GitHubPublicationTests"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4539,
+      "столбец": 5,
+      "вид": "привязка",
+      "имя": "push_url"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4540,
+      "столбец": 5,
+      "вид": "привязка",
+      "имя": "branch_ref"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4542,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "setUp"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4542,
+      "столбец": 15,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4544,
+      "столбец": 9,
+      "вид": "атрибут",
+      "имя": "module"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4545,
+      "столбец": 9,
+      "вид": "атрибут",
+      "имя": "remote"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4558,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "publish"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4558,
+      "столбец": 17,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4558,
+      "столбец": 23,
+      "вид": "параметр",
+      "имя": "commit"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4560,
+      "столбец": 13,
+      "вид": "привязка",
+      "имя": "code"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4560,
+      "столбец": 19,
+      "вид": "привязка",
+      "имя": "payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4567,
+      "столбец": 9,
+      "вид": "привязка_исключения",
+      "имя": "error"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4568,
+      "столбец": 13,
+      "вид": "привязка",
+      "имя": "code"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4569,
+      "столбец": 13,
+      "вид": "привязка",
+      "имя": "payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4577,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "make_commit"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4577,
+      "столбец": 21,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4577,
+      "столбец": 27,
+      "вид": "параметр",
+      "имя": "value"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4577,
+      "столбец": 39,
+      "вид": "параметр",
+      "имя": "message"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4583,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "remote_head"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4583,
+      "столбец": 21,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4591,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "remote_refs"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4591,
+      "столбец": 21,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4591,
+      "столбец": 27,
+      "вид": "параметр",
+      "имя": "pattern"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4599,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "local_refs"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4599,
+      "столбец": 20,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4605,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_publish_uses_exact_commit_when_current_head_has_advanced"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4605,
+      "столбец": 71,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4606,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "first"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4607,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "second"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4608,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "refs_before"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4610,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4618,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_older_commit_is_already_published_through_remote_descendant"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4618,
+      "столбец": 74,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4619,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "first"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4620,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "second"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4623,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4632,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_unknown_remote_descendant_is_verified_in_temporary_bare_repo"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4632,
+      "столбец": 75,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4633,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "target"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4635,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "other"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4665,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "remote_descendant"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4670,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "hooks"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4672,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "marker"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4673,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "hook"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4681,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "xdg"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4691,
+      "столбец": 13,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4701,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_divergent_remote_is_not_changed"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4701,
+      "столбец": 46,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4702,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "target"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4703,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "other"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4733,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "divergent"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4735,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4741,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_receive_rejection_is_not_reported_as_success"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4741,
+      "столбец": 59,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4742,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "target"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4743,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "hook"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4749,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "remote_before"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4751,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4757,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_pre_push_hook_is_disabled"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4757,
+      "столбец": 40,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4758,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "target"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4759,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "hooks"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4761,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "marker"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4762,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "hook"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4773,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4779,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_follow_tags_configuration_cannot_expand_publication"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4779,
+      "столбец": 66,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4780,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "target"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4784,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4790,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_ambiguous_push_result_is_verified_against_remote_head"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4790,
+      "столбец": 68,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4791,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "target"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4792,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "timeout"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4798,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "observed"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4809,
+      "столбец": 13,
+      "вид": "привязка",
+      "имя": "code"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4809,
+      "столбец": 19,
+      "вид": "привязка",
+      "имя": "payload"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4821,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_failed_remote_verification_is_unconfirmed"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4821,
+      "столбец": 56,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4822,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "target"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4823,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "failed_push"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4829,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "failed_read"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4840,
+      "столбец": 13,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4845,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_ancestry_git_error_is_unconfirmed"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4845,
+      "столбец": 48,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4846,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "target"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4847,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "remote_before"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4848,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "failed_push"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4854,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "observed"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4869,
+      "столбец": 13,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4875,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_timeout_stops_transport_descendants_before_return"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4875,
+      "столбец": 64,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4876,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "fake_bin"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4878,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "marker"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4879,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "fake_git"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4880,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "child_code"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4895,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "path"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4910,
+      "столбец": 13,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4916,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_publication_bootstrap_ignores_moving_worktree_script"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4916,
+      "столбец": 67,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4917,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "committed_script"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4922,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "target"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4931,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4958,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_cli_rejects_instead_of_and_push_instead_of_rewrites"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4958,
+      "столбец": 66,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4959,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "target"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4960,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "instead_of_key"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4961,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "push_instead_of_key"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4962,
+      "столбец": 13,
+      "вид": "привязка",
+      "имя": "key"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4967,
+      "столбец": 17,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4985,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_invalid_publication_inputs_fail_before_transport"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4985,
+      "столбец": 63,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4986,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "target"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4987,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "invalid_arguments"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4994,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "module"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4995,
+      "столбец": 13,
+      "вид": "привязка",
+      "имя": "option"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4995,
+      "столбец": 21,
+      "вид": "привязка",
+      "имя": "value"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 4997,
+      "столбец": 17,
+      "вид": "привязка",
+      "имя": "arguments"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5011,
+      "столбец": 73,
+      "вид": "привязка",
+      "имя": "transport"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5012,
+      "столбец": 75,
+      "вид": "привязка",
+      "имя": "stdout"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5014,
+      "столбец": 21,
+      "вид": "привязка",
+      "имя": "code"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5078,
+      "столбец": 13,
+      "вид": "функция",
+      "имя": "isatty"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5118,
+      "столбец": 13,
+      "вид": "функция",
+      "имя": "isatty"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5170,
+      "столбец": 13,
+      "вид": "функция",
+      "имя": "isatty"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5245,
+      "столбец": 13,
+      "вид": "функция",
+      "имя": "isatty"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5601,
+      "столбец": 1,
+      "вид": "класс",
+      "имя": "RepositoryIntegrationTests"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5602,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_project_configuration_has_no_hooks"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5602,
+      "столбец": 49,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5603,
+      "столбец": 40,
+      "вид": "привязка",
+      "имя": "stream"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5604,
+      "столбец": 13,
+      "вид": "привязка",
+      "имя": "config"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5608,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_agents_contract_names_the_portable_fifo_protocol"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5608,
+      "столбец": 63,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5609,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "agents"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5612,
+      "столбец": 13,
+      "вид": "привязка",
+      "имя": "command"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5633,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "skill"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5656,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "heartbeat_prompt"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5760,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_old_hook_loader_target_is_a_noop_compatibility_script_only"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5760,
+      "столбец": 73,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5763,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5780,
+      "столбец": 1,
+      "вид": "класс",
+      "имя": "Sha256QueueTests"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5784,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "setUpClass"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5784,
+      "столбец": 20,
+      "вид": "параметр",
+      "имя": "cls"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5785,
+      "столбец": 47,
+      "вид": "привязка",
+      "имя": "directory"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5786,
+      "столбец": 13,
+      "вид": "привязка",
+      "имя": "probe"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5795,
+      "столбец": 5,
+      "вид": "функция",
+      "имя": "test_join_and_atomic_commit_work_with_sha256_object_ids"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5795,
+      "столбец": 65,
+      "вид": "параметр",
+      "имя": "self"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5796,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "result"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5796,
+      "столбец": 17,
+      "вид": "привязка",
+      "имя": "owner"
+    },
+    {
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "язык": "python",
+      "строка": 5801,
+      "столбец": 9,
+      "вид": "привязка",
+      "имя": "committed"
+    }
+  ]
+}

@@ -1,0 +1,581 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7C6A00000000000000000117 /* ПутиПриложения.swift in FUM */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000018 /* ПутиПриложения.swift */; };
+		7C6A00000000000000000118 /* ПутиПриложения.swift in MCP */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000018 /* ПутиПриложения.swift */; };
+		7C6A00000000000000000101 /* AXVisionSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000001 /* AXVisionSnapshot.swift */; };
+		7C6A00000000000000000102 /* CameraGaze.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000002 /* CameraGaze.swift */; };
+		7C6A00000000000000000103 /* CameraVisionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000003 /* CameraVisionModel.swift */; };
+		7C6A00000000000000000104 /* CameraVisionViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000004 /* CameraVisionViews.swift */; };
+		7C6A00000000000000000105 /* FUMApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000005 /* FUMApp.swift */; };
+		7C6A00000000000000000106 /* GenerativeSurface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000006 /* GenerativeSurface.swift */; };
+		7C6A00000000000000000107 /* InputEventMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000007 /* InputEventMonitor.swift */; };
+		7C6A00000000000000000108 /* Inspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000008 /* Inspector.swift */; };
+		7C6A00000000000000000109 /* InterfaceWorkbench.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000009 /* InterfaceWorkbench.swift */; };
+		7C6A0000000000000000010A /* KnowledgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A0000000000000000000A /* KnowledgeView.swift */; };
+		7C6A0000000000000000010B /* OrgansView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A0000000000000000000B /* OrgansView.swift */; };
+		7C6A0000000000000000010C /* PermissionCLI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A0000000000000000000C /* PermissionCLI.swift */; };
+		7C6A0000000000000000010D /* VideoMemory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A0000000000000000000D /* VideoMemory.swift */; };
+		7C6A0000000000000000010E /* VisionSurface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A0000000000000000000E /* VisionSurface.swift */; };
+		7C6A0000000000000000010F /* WorkbenchChrome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A0000000000000000000F /* WorkbenchChrome.swift */; };
+		7C6A00000000000000000110 /* WorkspaceFocus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000010 /* WorkspaceFocus.swift */; };
+		7C6A00000000000000000111 /* MCPBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000011 /* MCPBridge.swift */; };
+		7C6A00000000000000000112 /* AXVisionRuntimeWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000012 /* AXVisionRuntimeWriter.swift */; };
+		7C6A00000000000000000113 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000013 /* main.swift */; };
+		7C6A00000000000000000114 /* fum-mcp in Helpers */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000023 /* fum-mcp */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		7C6A00000000000000000115 /* VectorVideoDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000014 /* VectorVideoDocument.swift */; };
+		7C6A00000000000000000116 /* CMpvShim.c in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000015 /* CMpvShim.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7C6A00000000000000000800 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7C6A00000000000000000500 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7C6A00000000000000000401;
+			remoteInfo = FUMMCPServer;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		7C6A00000000000000000202 /* Helpers */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Helpers;
+			dstSubfolderSpec = 1;
+			files = (
+				7C6A00000000000000000114 /* fum-mcp in Helpers */,
+			);
+			name = Helpers;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		7C6A00000000000000000018 /* ПутиПриложения.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/ПутиИсполнения/ПутиПриложения.swift"; sourceTree = SOURCE_ROOT; };
+		7C6A00000000000000000001 /* AXVisionSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AXVisionSnapshot.swift; sourceTree = "<group>"; };
+		7C6A00000000000000000002 /* CameraGaze.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraGaze.swift; sourceTree = "<group>"; };
+		7C6A00000000000000000003 /* CameraVisionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraVisionModel.swift; sourceTree = "<group>"; };
+		7C6A00000000000000000004 /* CameraVisionViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraVisionViews.swift; sourceTree = "<group>"; };
+		7C6A00000000000000000005 /* FUMApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FUMApp.swift; sourceTree = "<group>"; };
+		7C6A00000000000000000006 /* GenerativeSurface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerativeSurface.swift; sourceTree = "<group>"; };
+		7C6A00000000000000000007 /* InputEventMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputEventMonitor.swift; sourceTree = "<group>"; };
+		7C6A00000000000000000008 /* Inspector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inspector.swift; sourceTree = "<group>"; };
+		7C6A00000000000000000009 /* InterfaceWorkbench.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceWorkbench.swift; sourceTree = "<group>"; };
+		7C6A0000000000000000000A /* KnowledgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnowledgeView.swift; sourceTree = "<group>"; };
+		7C6A0000000000000000000B /* OrgansView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgansView.swift; sourceTree = "<group>"; };
+		7C6A0000000000000000000C /* PermissionCLI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionCLI.swift; sourceTree = "<group>"; };
+		7C6A0000000000000000000D /* VideoMemory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoMemory.swift; sourceTree = "<group>"; };
+		7C6A0000000000000000000E /* VisionSurface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionSurface.swift; sourceTree = "<group>"; };
+		7C6A0000000000000000000F /* WorkbenchChrome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkbenchChrome.swift; sourceTree = "<group>"; };
+		7C6A00000000000000000010 /* WorkspaceFocus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceFocus.swift; sourceTree = "<group>"; };
+		7C6A00000000000000000011 /* MCPBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCPBridge.swift; sourceTree = "<group>"; };
+		7C6A00000000000000000012 /* AXVisionRuntimeWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AXVisionRuntimeWriter.swift; sourceTree = "<group>"; };
+		7C6A00000000000000000013 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		7C6A00000000000000000014 /* VectorVideoDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorVideoDocument.swift; sourceTree = "<group>"; };
+		7C6A00000000000000000015 /* CMpvShim.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = CMpvShim.c; sourceTree = "<group>"; };
+		7C6A00000000000000000016 /* CMpvShim.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMpvShim.h; sourceTree = "<group>"; };
+		7C6A00000000000000000017 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		7C6A00000000000000000020 /* FUM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FUM.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C6A00000000000000000023 /* fum-mcp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "fum-mcp"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C6A00000000000000000021 /* FUM-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FUM-Info.plist"; sourceTree = "<group>"; };
+		7C6A00000000000000000022 /* FUM.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FUM.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7C6A00000000000000000201 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7C6A00000000000000000203 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7C6A00000000000000000300 = {
+			isa = PBXGroup;
+			children = (
+				7C6A00000000000000000018 /* ПутиПриложения.swift */,
+				7C6A00000000000000000301 /* Sources */,
+				7C6A00000000000000000303 /* Xcode */,
+				7C6A00000000000000000302 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7C6A00000000000000000301 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				7C6A00000000000000000304 /* FUMApp */,
+				7C6A00000000000000000305 /* FUMMCPServer */,
+				7C6A00000000000000000306 /* CMpvShim */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		7C6A00000000000000000302 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7C6A00000000000000000020 /* FUM.app */,
+				7C6A00000000000000000023 /* fum-mcp */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7C6A00000000000000000303 /* Xcode */ = {
+			isa = PBXGroup;
+			children = (
+				7C6A00000000000000000021 /* FUM-Info.plist */,
+				7C6A00000000000000000022 /* FUM.entitlements */,
+			);
+			path = Xcode;
+			sourceTree = "<group>";
+		};
+		7C6A00000000000000000304 /* FUMApp */ = {
+			isa = PBXGroup;
+			children = (
+				7C6A00000000000000000001 /* AXVisionSnapshot.swift */,
+				7C6A00000000000000000002 /* CameraGaze.swift */,
+				7C6A00000000000000000003 /* CameraVisionModel.swift */,
+				7C6A00000000000000000004 /* CameraVisionViews.swift */,
+				7C6A00000000000000000005 /* FUMApp.swift */,
+				7C6A00000000000000000006 /* GenerativeSurface.swift */,
+				7C6A00000000000000000007 /* InputEventMonitor.swift */,
+				7C6A00000000000000000008 /* Inspector.swift */,
+				7C6A00000000000000000009 /* InterfaceWorkbench.swift */,
+				7C6A0000000000000000000A /* KnowledgeView.swift */,
+				7C6A0000000000000000000B /* OrgansView.swift */,
+				7C6A0000000000000000000C /* PermissionCLI.swift */,
+				7C6A0000000000000000000D /* VideoMemory.swift */,
+				7C6A0000000000000000000E /* VisionSurface.swift */,
+				7C6A0000000000000000000F /* WorkbenchChrome.swift */,
+				7C6A00000000000000000010 /* WorkspaceFocus.swift */,
+				7C6A00000000000000000011 /* MCPBridge.swift */,
+				7C6A00000000000000000012 /* AXVisionRuntimeWriter.swift */,
+				7C6A00000000000000000014 /* VectorVideoDocument.swift */,
+			);
+			path = FUMApp;
+			sourceTree = "<group>";
+		};
+		7C6A00000000000000000305 /* FUMMCPServer */ = {
+			isa = PBXGroup;
+			children = (
+				7C6A00000000000000000013 /* main.swift */,
+			);
+			path = FUMMCPServer;
+			sourceTree = "<group>";
+		};
+		7C6A00000000000000000306 /* CMpvShim */ = {
+			isa = PBXGroup;
+			children = (
+				7C6A00000000000000000015 /* CMpvShim.c */,
+				7C6A00000000000000000307 /* include */,
+			);
+			path = CMpvShim;
+			sourceTree = "<group>";
+		};
+		7C6A00000000000000000307 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				7C6A00000000000000000016 /* CMpvShim.h */,
+				7C6A00000000000000000017 /* module.modulemap */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7C6A00000000000000000400 /* FUM */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7C6A00000000000000000610 /* Build configuration list for PBXNativeTarget "FUM" */;
+			buildPhases = (
+				7C6A00000000000000000200 /* Sources */,
+				7C6A00000000000000000201 /* Frameworks */,
+				7C6A00000000000000000202 /* Helpers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7C6A00000000000000000801 /* PBXTargetDependency */,
+			);
+			name = FUM;
+			productName = FUM;
+			productReference = 7C6A00000000000000000020 /* FUM.app */;
+			productType = "com.apple.product-type.application";
+		};
+		7C6A00000000000000000401 /* FUMMCPServer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7C6A00000000000000000620 /* Build configuration list for PBXNativeTarget "FUMMCPServer" */;
+			buildPhases = (
+				7C6A00000000000000000204 /* Sources */,
+				7C6A00000000000000000203 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FUMMCPServer;
+			productName = "fum-mcp";
+			productReference = 7C6A00000000000000000023 /* fum-mcp */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7C6A00000000000000000500 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2650;
+				LastUpgradeCheck = 2650;
+				TargetAttributes = {
+					7C6A00000000000000000400 = {
+						CreatedOnToolsVersion = 26.5;
+					};
+					7C6A00000000000000000401 = {
+						CreatedOnToolsVersion = 26.5;
+					};
+				};
+			};
+			buildConfigurationList = 7C6A00000000000000000600 /* Build configuration list for PBXProject "FUM" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 7C6A00000000000000000300;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 7C6A00000000000000000302 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7C6A00000000000000000400 /* FUM */,
+				7C6A00000000000000000401 /* FUMMCPServer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7C6A00000000000000000200 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C6A00000000000000000101 /* AXVisionSnapshot.swift in Sources */,
+				7C6A00000000000000000102 /* CameraGaze.swift in Sources */,
+				7C6A00000000000000000103 /* CameraVisionModel.swift in Sources */,
+				7C6A00000000000000000104 /* CameraVisionViews.swift in Sources */,
+				7C6A00000000000000000105 /* FUMApp.swift in Sources */,
+				7C6A00000000000000000106 /* GenerativeSurface.swift in Sources */,
+				7C6A00000000000000000107 /* InputEventMonitor.swift in Sources */,
+				7C6A00000000000000000108 /* Inspector.swift in Sources */,
+				7C6A00000000000000000109 /* InterfaceWorkbench.swift in Sources */,
+				7C6A0000000000000000010A /* KnowledgeView.swift in Sources */,
+				7C6A0000000000000000010B /* OrgansView.swift in Sources */,
+				7C6A0000000000000000010C /* PermissionCLI.swift in Sources */,
+				7C6A0000000000000000010D /* VideoMemory.swift in Sources */,
+				7C6A0000000000000000010E /* VisionSurface.swift in Sources */,
+				7C6A0000000000000000010F /* WorkbenchChrome.swift in Sources */,
+				7C6A00000000000000000110 /* WorkspaceFocus.swift in Sources */,
+				7C6A00000000000000000111 /* MCPBridge.swift in Sources */,
+				7C6A00000000000000000112 /* AXVisionRuntimeWriter.swift in Sources */,
+				7C6A00000000000000000115 /* VectorVideoDocument.swift in Sources */,
+				7C6A00000000000000000116 /* CMpvShim.c in Sources */,
+				7C6A00000000000000000117 /* ПутиПриложения.swift in FUM */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7C6A00000000000000000204 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C6A00000000000000000113 /* main.swift in Sources */,
+				7C6A00000000000000000118 /* ПутиПриложения.swift in MCP */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7C6A00000000000000000801 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7C6A00000000000000000401 /* FUMMCPServer */;
+			targetProxy = 7C6A00000000000000000800 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		7C6A00000000000000000601 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		7C6A00000000000000000602 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		7C6A00000000000000000611 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_ENTITLEMENTS = "Xcode/FUM.entitlements";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					Sources/CMpvShim/include,
+					"$(FUM_MPV_INCLUDEDIR)",
+				);
+				INFOPLIST_FILE = "Xcode/FUM-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FUM_MPV_LIBDIR)",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.1;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lmpv",
+					"-framework",
+					OpenGL,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = fum.app;
+				PRODUCT_NAME = FUM;
+				SWIFT_INCLUDE_PATHS = (
+					"$(inherited)",
+					Sources/CMpvShim/include,
+				);
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		7C6A00000000000000000612 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_ENTITLEMENTS = "Xcode/FUM.entitlements";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					Sources/CMpvShim/include,
+					"$(FUM_MPV_INCLUDEDIR)",
+				);
+				INFOPLIST_FILE = "Xcode/FUM-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FUM_MPV_LIBDIR)",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.1;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lmpv",
+					"-framework",
+					OpenGL,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = fum.app;
+				PRODUCT_NAME = FUM;
+				SWIFT_INCLUDE_PATHS = (
+					"$(inherited)",
+					Sources/CMpvShim/include,
+				);
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		7C6A00000000000000000621 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = fum.mcp;
+				PRODUCT_NAME = "fum-mcp";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		7C6A00000000000000000622 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = fum.mcp;
+				PRODUCT_NAME = "fum-mcp";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7C6A00000000000000000600 /* Build configuration list for PBXProject "FUM" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7C6A00000000000000000601 /* Debug */,
+				7C6A00000000000000000602 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7C6A00000000000000000610 /* Build configuration list for PBXNativeTarget "FUM" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7C6A00000000000000000611 /* Debug */,
+				7C6A00000000000000000612 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7C6A00000000000000000620 /* Build configuration list for PBXNativeTarget "FUMMCPServer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7C6A00000000000000000621 /* Debug */,
+				7C6A00000000000000000622 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7C6A00000000000000000500 /* Project object */;
+}

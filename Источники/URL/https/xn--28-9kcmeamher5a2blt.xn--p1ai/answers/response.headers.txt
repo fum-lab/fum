@@ -1,0 +1,11 @@
+HTTP/2 200
+server: nginx/1.31.3
+date: Mon, 14 Sep 2026 11:35:43 GMT
+content-type: text/html; charset=utf-8
+content-length: 271792
+vary: Accept-Encoding
+x-powered-by: PHP/8.5.6
+etag: 8b449fb44912535bc513cc0468d2b249
+expires: Fri, 07 Jun 1974 04:00:00 GMT
+last-modified: Thu, 10 Sep 2026 07:13:04 GMT
+x-bitrix-composite: Cache (200)

@@ -7,6 +7,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from исходник_проверки import пустой_диалог
 
 
 СЦЕНАРИЙ = Path(__file__).resolve().parents[1] / "scripts" / "проверить-продолжение-задачи.py"
@@ -16,6 +17,10 @@ import unittest
 class ПродолжениеЗадачи(unittest.TestCase):
     def setUp(это):
         это.корень = Path(это.enterContext(tempfile.TemporaryDirectory())).resolve()
+        это.исходник = пустой_диалог(это, ИДЕНТИФИКАТОР)
+        subprocess.run(["git", "init", "-q", str(это.корень)], check=True)
+        subprocess.run(["git", "-C", str(это.корень), "-c", "user.name=Фикстура", "-c", "user.email=fixture@example.invalid",
+                        "commit", "--allow-empty", "-qm", "Начать фикстуру"], check=True)
         это.запрос = "Журнал/2026-09-08_18-50-08_MSK_устранить-остановку/запрос.md"
         путь = это.корень / это.запрос
         путь.parent.mkdir(parents=True)
@@ -29,7 +34,8 @@ class ПродолжениеЗадачи(unittest.TestCase):
         путь = это.корень / "план.json"
         путь.write_text(json.dumps(это.план, ensure_ascii=False), encoding="utf-8")
         return subprocess.run([sys.executable, str(СЦЕНАРИЙ), "--корень-репозитория", str(это.корень),
-                               "--план", "план.json", "--codex-thread-id", ИДЕНТИФИКАТОР, *аргументы],
+                               "--план", "план.json", "--codex-thread-id", ИДЕНТИФИКАТОР,
+                               "--исходник", str(это.исходник), *аргументы],
                               capture_output=True, text=True)
 
     def test_оба_вида_коммита_не_разрешают_остановку(это):
@@ -39,13 +45,14 @@ class ПродолжениеЗадачи(unittest.TestCase):
                 это.assertEqual(результат.returncode, 3, результат.stderr)
                 ответ = json.loads(результат.stdout)
                 это.assertEqual(ответ["решение"], "продолжить")
-                это.assertEqual(ответ["следующая_работа"], "план")
+                это.assertEqual(ответ["обязательства"]["следующая_работа"], "план")
 
     def test_чтение_следующего_шага_успешно_и_не_пишет(это):
         результат = это.вызвать()
         это.assertEqual(результат.returncode, 0, результат.stderr)
         это.assertEqual(json.loads(результат.stdout)["решение"], "продолжить")
-        это.assertEqual(len(list(это.корень.rglob("*"))), 4)
+        это.assertFalse(list(это.корень.rglob("__pycache__")))
+        это.assertFalse((это.корень / "Планирование").exists())
 
     def test_ожидание_не_скрывает_независимую_работу(это):
         ожидание = dict(это.план["работы"][0], идентификатор="вопрос", состояние="ожидает-ответа", свидетельство="Требуется выбрать формат.")
@@ -104,8 +111,8 @@ class ПродолжениеЗадачи(unittest.TestCase):
         модуль = importlib.util.module_from_spec(описание)
         описание.loader.exec_module(модуль)
         это.план["работы"].append(dict(это.план["работы"][0], идентификатор="вторая"))
-        исходное = Path.read_text
-        with mock.patch.object(Path, "read_text", autospec=True, side_effect=исходное) as чтение:
+        исходное = Path.read_bytes
+        with mock.patch.object(Path, "read_bytes", autospec=True, side_effect=исходное) as чтение:
             ответ = модуль.определить_продолжение(это.корень, это.план, ИДЕНТИФИКАТОР)
             это.assertEqual(ответ["решение"], "продолжить")
             это.assertEqual(чтение.call_count, 1)
@@ -117,7 +124,7 @@ class ПродолжениеЗадачи(unittest.TestCase):
         завершённая = dict(это.план["работы"][0], состояние="завершена", свидетельство="Готово.")
         текст = json.dumps(это.план, ensure_ascii=False)[:-1] + ', "работы": ' + json.dumps([завершённая], ensure_ascii=False) + '}'
         (это.корень / "план.json").write_text(текст)
-        результат = subprocess.run([sys.executable, str(СЦЕНАРИЙ), "--корень-репозитория", str(это.корень), "--план", "план.json", "--codex-thread-id", ИДЕНТИФИКАТОР, "--перед-завершением"], capture_output=True, text=True)
+        результат = subprocess.run([sys.executable, str(СЦЕНАРИЙ), "--корень-репозитория", str(это.корень), "--план", "план.json", "--codex-thread-id", ИДЕНТИФИКАТОР, "--перед-завершением", "--исходник", str(это.исходник)], capture_output=True, text=True)
         это.assertEqual(результат.returncode, 2, результат.stdout)
 
     def test_отказ_профиля_не_меняет_решение(это):
@@ -125,7 +132,7 @@ class ПродолжениеЗадачи(unittest.TestCase):
         описание = importlib.util.spec_from_file_location("продолжение", СЦЕНАРИЙ)
         модуль = importlib.util.module_from_spec(описание)
         описание.loader.exec_module(модуль)
-        аргументы = [str(СЦЕНАРИЙ), "--корень-репозитория", str(это.корень), "--план", "план.json", "--codex-thread-id", ИДЕНТИФИКАТОР, "--перед-завершением", "--профиль"]
+        аргументы = [str(СЦЕНАРИЙ), "--корень-репозитория", str(это.корень), "--план", "план.json", "--codex-thread-id", ИДЕНТИФИКАТОР, "--перед-завершением", "--профиль", "--исходник", str(это.исходник)]
         with mock.patch.object(sys, "argv", аргументы), mock.patch.object(sys, "stdout", io.StringIO()), mock.patch.object(sys, "stderr", mock.Mock(write=mock.Mock(side_effect=OSError("Диагностический канал закрыт")))):
             это.assertEqual(модуль.выполнить(), 3)
 

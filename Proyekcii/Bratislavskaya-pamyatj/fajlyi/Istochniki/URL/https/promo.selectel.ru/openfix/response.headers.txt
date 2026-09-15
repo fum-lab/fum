@@ -1,0 +1,14 @@
+HTTP/2 200
+server: ddos-guard
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+date: Fri, 11 Sep 2026 12:06:30 GMT
+content-type: text/html; charset=UTF-8
+last-modified: Wed, 05 Aug 2026 09:08:45 GMT
+etag: W/"187af5-658491e61e861-gzip"
+x-ws-id: 2
+x-host: promo.selectel.ru
+x-tilda-server: 28
+x-tilda-imprint: 283cd872-343a-487b-bfe8-ec42f16c0a76

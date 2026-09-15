@@ -19,7 +19,7 @@ Read-only-razbor suzil standartnyij kontur do vosjmi izmenyonnyikh susjhestvuyus
 
 ## Utochneniye poljzovatelya o dostavke iskhodnikov
 
-Zafiksirovano novoye porucheniye sleduyusjhim shagom sobratj sobstvennuyu realizaciyu v FUM, sokhraniv sabmoduljnyiye zavisimosti. [FUM-STEP-0176](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0176-sobratj-sobstvennuyu-realizaciyu-v-FUM.md) soderzhit granicyi perenosa i priyomki iz chistogo klona. Dva iskhodnyikh soobsjheniya prochitanyi iz JSONL i sokhranenyi doslovno s vremennyimi metkami i SHA-256 v zaprose. Obzor po ssyilke arkhivirovan shtatnyim instrumentom: HTTP 200, 56 soobsjhenij; inline-paketa vneshnego izmeneniya net.
+Zafiksirovano novoye porucheniye sleduyusjhim shagom sobratj sobstvennuyu realizaciyu v FUM, sokhraniv sabmoduljnyiye zavisimosti. [FUM-STEP-0176](../../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0176-sobratj-sobstvennuyu-realizaciyu-v-FUM.md) soderzhit granicyi perenosa i priyomki iz chistogo klona. Dva iskhodnyikh soobsjheniya prochitanyi iz JSONL i sokhranenyi doslovno s vremennyimi metkami i SHA-256 v zaprose. Obzor po ssyilke arkhivirovan shtatnyim instrumentom: HTTP 200, 56 soobsjhenij; inline-paketa vneshnego izmeneniya net.
 
 Chteniye pervichnyikh zhurnalov i Git podtverdilo neperenesyonnyiye iskhodniki i otdeljnuyu Git-bazu bez remote. Kod prisutstvuyet v tryokh svyazannyikh rabochikh vetkakh kontejnera, statistiki i arkhivnogo snimka; master i sokhranyonnyij C1 soderzhat svideteljstva, no ne eti Swift-paketyi. Inventarizaciya ne ispolnyala chuzhiye programmyi i ne povtoryala prezhniye Swift-proverki. Sborka i proverka obnovlyonnogo reyestra planirovaniya proshli. Proverka mashinno-lokaljnyikh putej posle arkhivirovaniya obzora i zapisi plana takzhe proshla; eto ogranichennaya publikacionnaya proverka tekusjhikh materialov. Perenos iskhodnikov i yego priyomka yesjhyo predstoyat.
 
@@ -183,6 +183,6 @@ Ekonomnyij poryadok proverok: gotov.
 - [Predyidusjhij prinyatyij etap](../2026-09-10_14-26-58_MSK_proveryatj-sliyaniye-master-v-vedusjhuyu-vetku/otchyot.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 20:00:59 MSK -->
-<!-- content-sha256: sha256:ba5cd495756679fa2ee904419e02e0202d275631d514474c14b170cfe8b2eaa2 -->
+<!-- last-content-edit: 2026-09-11 03:52:50 MSK -->
+<!-- content-sha256: sha256:c2aa59d19d5ef3af0371c493ce2f2d7a9f34a43a3ba9a20a4ef830021ea6032c -->
 <!-- FUM-MD-RECENCY:END -->

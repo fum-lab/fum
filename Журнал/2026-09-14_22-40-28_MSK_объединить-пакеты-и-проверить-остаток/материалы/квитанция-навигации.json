@@ -1,0 +1,60 @@
+{
+  "база": "81a646d9576afa3d335db73a841bcbf3c0f0421c",
+  "исполнитель": "request_folder_layout._prepare_repair + _apply_prepared_transaction",
+  "не-применены": [
+    {
+      "after_sha256": "6ae455635db302a9b1d43cd971f15a1f1c26362188e73a4fc879cb757e3519b3",
+      "before_sha256": "4b43f167d96f38a361632d199cd49c9a6445aba1510bf71c625edf33c68f3225",
+      "path": "Журнал/2026-09-07_22-11-38_MSK_составить-план-ускорения-проекции/запрос.md"
+    },
+    {
+      "after_sha256": "f0bd71bc86f715bdfac52003c93389b2946267aae4c565800845cf7fd0492f31",
+      "before_sha256": "59f835c0d0cbdcf76e0605d7680bd464f3eaf594a124439a8ac87eb3eaf676d0",
+      "path": "Журнал/2026-09-11_22-27-25_MSK_перенести-финансовый-результат-FUM/запрос.md"
+    },
+    {
+      "after_sha256": "f8a267fc3b82eb22e303f4f391b76efa36ddaac74ebc6cd1b0b66138c0406342",
+      "before_sha256": "65f859ddba6db6696dab608da5c05295baab74ba3a19dd893073bb4fc610147e",
+      "path": "Инструменты/fum-ocheredj-zadach-git-vetki/SKILL.md"
+    },
+    {
+      "after_sha256": "eb4f3ab458369ac4294c78b3d8e8ca1dbc8f24d591899370193e6ac43fb27d0d",
+      "before_sha256": "9babb5911174d3f67372f81e54d07a4e42dde425af482d22564241515cba4b9f",
+      "path": "Планирование/дорожная-карта.md"
+    }
+  ],
+  "применены": [
+    {
+      "after_sha256": "a9b33afab32b16e3902010deafd141ab7875658bc5c7983a1115a10059456298",
+      "before_sha256": "bb3e9309b81a8ab5a82f9394bd358f2c1c9391c1189d8d3ff96637f8edde55bc",
+      "path": "Журнал/2026-09-14_20-03-08_MSK_уточнить-собственные-имена-поставки/запрос.md"
+    },
+    {
+      "after_sha256": "971105eb4fae0691e1f3bfbc377469b1720ed1eb85c99b2900901c2d9bad35a1",
+      "before_sha256": "37d94e30e9c7eb1e2957ebc701e2c7e74e377d5c253c3dd18a5013b93ac1b566",
+      "path": "Журнал/2026-09-14_20-07-02_MSK_обеспечить-безопасный-перевод-Python/запрос.md"
+    },
+    {
+      "after_sha256": "d3543f7719dd9962121043fcd7bbcc03f5fb183954699a1757100f77e910a71b",
+      "before_sha256": "73499f39de75636b54955cd725ec931ac700164f27370a8b6c502c2d854c5de7",
+      "path": "Журнал/2026-09-14_20-41-53_MSK_перевести-унаследованные-привязки-Python/запрос.md"
+    },
+    {
+      "after_sha256": "41838f0e16fbc83cd659ec26b5a5221c3fea05ed53195816ec0819c3bd92f071",
+      "before_sha256": "afed9a451af859f22484f0e52f7ba0593248c8c2ae94723bf975f3621ab30cf7",
+      "path": "Журнал/2026-09-14_21-11-44_MSK_сверить-общую-границу-приёмки/запрос.md"
+    },
+    {
+      "after_sha256": "67309dc29ae78c20d2ad60e878b909dad0027a51a4bba5170a920739420b939c",
+      "before_sha256": "3faf303397ef08fa7efd57dd6b3efefefff31f582682d6f946789d7d292407ba",
+      "path": "Журнал/2026-09-14_21-49-30_MSK_перевести-живые-измерители-Python/запрос.md"
+    },
+    {
+      "after_sha256": "145bc86ee7cecbdb743584f315393cd72f20dfaea5cb0f1f91056636453ca0fe",
+      "before_sha256": "313bc0d45d9b456918c5f921a4f400e8e7e53867a05e07b3aa2750e9b7a8c07c",
+      "path": "Журнал/2026-09-14_22-03-16_MSK_принять-совместную-классификацию-остатка/запрос.md"
+    }
+  ],
+  "проверенный-план-sha256": "711a5403efab6d4301dce5fe829e38b7f9acd6b96d62a80a7e8b0a9b50d71d63",
+  "схема": "fum.частичное-применение-навигации.1"
+}

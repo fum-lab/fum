@@ -1,0 +1,39 @@
+{
+  "отпечаток_закрытия": "sha256:bd2d757b39850ade7842fb217338225176c1bb1291bbaec8cf0a414351426005",
+  "сессия": "Журнал/2026-09-11_20-18-06_MSK_принять-слияние-fuma-и-master/запрос.md",
+  "схема": "fum.test-run-report.v2",
+  "файлы": [
+    {
+      "sha256": "c47df3dd31484cf2aee056f9ca8a2e8f75e0ded726e0b610d1cbfbd4992d6007",
+      "имя": "1_f402879b-65d5-4fec-b720-21bf0ed266ef.json"
+    },
+    {
+      "sha256": "af50f0448324e74cf3a53e25f7cc972ef5e0260c13d956bda61a5022ae43b5fe",
+      "имя": "2_dbd16139-c2f7-453d-a654-4ffa34234f2c.json"
+    },
+    {
+      "sha256": "dce96f0b985d8113d33ac8605725bd67e8f45677152db07f6616dce1b4bda2f5",
+      "имя": "3_320aceef-a5c7-4d9f-b440-37ce66e2f9ff.json"
+    },
+    {
+      "sha256": "d0c3035b59b099394c5a1cebd3329c70c05aac1e446bc0e623ec4420f445dbba",
+      "имя": "4_57a1f388-e7a9-4e6d-83f6-b6dd66fcd2ae.json"
+    },
+    {
+      "sha256": "e1c0792b6aaf53985c35b0c35f940c0031af7fa3603005806d6fb543a5fb737b",
+      "имя": "5_9f7d2c99-6cae-4dac-8733-e4356fba0e0b.json"
+    },
+    {
+      "sha256": "85b48f61b277ed887f17cb498b792849bbe7d7397cba827ad9f3e57d4b64ddf6",
+      "имя": "6_a4714a79-cece-4e2d-83e4-d3ba75865cbe.json"
+    },
+    {
+      "sha256": "79126f7e6dafeaa5aba372c7990cd5fcf554775373c1cd14648d4e583e404368",
+      "имя": "7_6277d051-8e3c-4023-bc39-7e44705a82cf.json"
+    },
+    {
+      "sha256": "fb5303ff74fd4fb17036493b1136af6fe57ec1f91eb25f24d4a52bc9f33397ef",
+      "имя": "8_e8512ecf-8ff4-4387-a355-1d6d58b7a3d8.json"
+    }
+  ]
+}

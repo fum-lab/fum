@@ -8,6 +8,7 @@ import ast
 import importlib.util
 import os
 import re
+import stat
 import subprocess
 import sys
 from dataclasses import dataclass
@@ -1245,31 +1246,53 @@ def resolve_markdown_target(link: MarkdownLink, repo_root: Path) -> Path | None:
     return (link.source.parent / path_part).resolve()
 
 
-def actual_case_path(path: Path, repo_root: Path) -> Path | None:
+def actual_case_path(
+    path: Path, repo_root: Path, кэш_каталогов: dict | None = None,
+) -> Path | None:
     root = repo_root.resolve()
     try:
         relative = path.relative_to(root)
     except ValueError:
         return path if path.exists() else None
 
+    if кэш_каталогов is None:
+        кэш_каталогов = {}
+
+    def метка(состояние):
+        return (состояние.st_dev, состояние.st_ino,
+                состояние.st_mtime_ns, состояние.st_ctime_ns)
+
     current = root
     for part in relative.parts:
-        if not current.is_dir():
-            return None
-
         try:
-            children = list(current.iterdir())
+            состояние = current.stat()
+            if not stat.S_ISDIR(состояние.st_mode):
+                кэш_каталогов.pop(current, None)
+                return None
+            запись = кэш_каталогов.get(current)
+            if запись is not None and запись[0] == метка(состояние):
+                _, точные, свёрнутые = запись
+            else:
+                точные = {}
+                свёрнутые = {}
+                for ребёнок in current.iterdir():
+                    точные[ребёнок.name] = ребёнок
+                    свёрнутые.setdefault(ребёнок.name.casefold(), []).append(ребёнок)
+                # Изменение во время чтения не закрепляется как свежий снимок.
+                if метка(current.stat()) == метка(состояние):
+                    кэш_каталогов[current] = (метка(состояние), точные, свёрнутые)
+                else:
+                    кэш_каталогов.pop(current, None)
         except OSError:
+            кэш_каталогов.pop(current, None)
             return None
 
-        exact = next((child for child in children if child.name == part), None)
+        exact = точные.get(part)
         if exact is not None:
             current = exact
             continue
 
-        folded = [
-            child for child in children if child.name.casefold() == part.casefold()
-        ]
+        folded = свёрнутые.get(part.casefold(), [])
         if len(folded) == 1:
             current = folded[0]
             continue
@@ -1372,8 +1395,49 @@ def проверить_незаполненный_маркер_шаблона(
     return ошибки
 
 
+def отсутствует_необязательный_граф(
+    ссылка: MarkdownLink, цель: Path, корень: Path,
+) -> bool:
+    """Только локальный граф; пропущенные предки и символьные обходы не допускаются."""
+    корень = корень.resolve()
+    граф = корень / ".obsidian" / "graph.json"
+    if цель != граф:
+        return False
+    try:
+        основа = ссылка.source.absolute().parent.relative_to(корень).parts
+    except ValueError:
+        return False
+    адрес = unquote(ссылка.target.strip()).split("#", 1)[0].split("?", 1)[0]
+    части = (*основа, *Path(адрес).parts)
+    путь = корень
+    for номер, часть in enumerate(части):
+        if часть == "..":
+            if путь == корень:
+                return False
+            путь = путь.parent
+            continue
+        try:
+            имена = {дочерний.name for дочерний in путь.iterdir()}
+        except OSError:
+            return False
+        if часть not in имена and any(имя.casefold() == часть.casefold() for имя in имена):
+            return False
+        путь = путь / часть
+        if путь.is_symlink():
+            return False
+        if not путь.exists():
+            return (
+                путь == граф and номер == len(части) - 1
+                or путь == граф.parent and части[номер:] == (".obsidian", "graph.json")
+            )
+        if номер < len(части) - 1 and not путь.is_dir():
+            return False
+    return False
+
+
 def validate_markdown_links(paths: set[Path], repo_root: Path) -> list[str]:
     errors: list[str] = []
+    кэш_каталогов = {}
     for path in sorted(paths):
         if not path.exists() or path.suffix.lower() != ".md":
             continue
@@ -1417,8 +1481,10 @@ def validate_markdown_links(paths: set[Path], repo_root: Path) -> list[str]:
                 continue
             actual_target = None
             if not is_structurally_excluded_path(target, repo_root):
-                actual_target = actual_case_path(target, repo_root)
+                actual_target = actual_case_path(target, repo_root, кэш_каталогов)
             if actual_target is None:
+                if отсутствует_необязательный_граф(link, target, repo_root):
+                    continue
                 errors.append(
                     f"broken Markdown link in {source_rel}:{link.line}: {link.target}"
                 )

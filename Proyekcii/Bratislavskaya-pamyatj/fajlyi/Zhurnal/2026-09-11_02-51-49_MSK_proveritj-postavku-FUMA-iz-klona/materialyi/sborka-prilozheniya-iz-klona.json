@@ -1,0 +1,106 @@
+{
+  "схема": "fum.чистая-сборка-приложения.1",
+  "коммит_публичного_клона": "9c39c9b3fde83c4ce11ba101897c1298c68d436d",
+  "исходники_пакетов_неизменны_от": "aeae18cb146a34563ff39c84d9bc5ef59fffab91",
+  "исходных_файлов": 110,
+  "клон_чистый_после": true,
+  "graph_json_отсутствует": true,
+  "запуски": [
+    {
+      "запуск": "swift-test",
+      "код_наблюдён_в_обёртке": 0,
+      "real_s": 16.89,
+      "user_s": 23.13,
+      "sys_s": 4.48,
+      "maximum_rss_bytes": 661618688,
+      "сырой_локальный_вывод_sha256": "a8db9d86c0436e7a7ff1e9ec2e634c7ca9a009eabac333321e3f0de87038d486"
+    },
+    {
+      "запуск": "swift-release",
+      "код_наблюдён_в_обёртке": 0,
+      "real_s": 20.43,
+      "user_s": 30.0,
+      "sys_s": 2.02,
+      "maximum_rss_bytes": 919781376,
+      "сырой_локальный_вывод_sha256": "6815bb2af4d7854a690d31230dae547fa2595f6d357788bfa84148dd5f75478f"
+    },
+    {
+      "запуск": "xcode",
+      "код_наблюдён_в_обёртке": 65,
+      "real_s": 11.02,
+      "user_s": 12.5,
+      "sys_s": 5.43,
+      "maximum_rss_bytes": 461619200,
+      "сырой_локальный_вывод_sha256": "10e1e6c02822e3420f9ec05a8c54fafb95d906871c268cde858ff7b5319c0f66"
+    },
+    {
+      "запуск": "xcode-sandbox",
+      "код_наблюдён_в_обёртке": 0,
+      "real_s": 16.84,
+      "user_s": 23.87,
+      "sys_s": 6.43,
+      "maximum_rss_bytes": 574701568,
+      "сырой_локальный_вывод_sha256": "2b4a3e0e210290b395000c79c26efd1580f0e1f174d8c30f1e7989600d4cfd16"
+    },
+    {
+      "запуск": "profiles",
+      "код_наблюдён_в_обёртке": 0,
+      "real_s": 4.34,
+      "user_s": 2.73,
+      "sys_s": 0.82,
+      "maximum_rss_bytes": 299253760,
+      "сырой_локальный_вывод_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "артефакты": [
+    {
+      "путь_от_каталога_сборки": "release/fum",
+      "sha256": "7fc7c803ffdb64ec68c9c5158efdee364fb87cc3d596cac84808801d30c95528",
+      "байт": 3150064,
+      "формат": "Mach-O 64-bit executable arm64"
+    },
+    {
+      "путь_от_каталога_сборки": "release/fum-mcp",
+      "sha256": "7f8e0cc15a5d2d932e34cc4c862f493dd76f96d2628b85993fb796b2e3e765ea",
+      "байт": 216088,
+      "формат": "Mach-O 64-bit executable arm64"
+    },
+    {
+      "путь_от_каталога_сборки": "release/fum-attention-loop",
+      "sha256": "373cd93beb76b0032b1c7051d8a2f3ae0d127c87dd8f8cb228a63c6f8eae4035",
+      "байт": 181376,
+      "формат": "Mach-O 64-bit executable arm64"
+    },
+    {
+      "путь_от_каталога_сборки": "release/fum-ax-vision-sense",
+      "sha256": "40192837f85ce5eca581dcdf0322bfe6847dd37b7f76a3cfa6b7d1e7bd482df3",
+      "байт": 256656,
+      "формат": "Mach-O 64-bit executable arm64"
+    },
+    {
+      "путь_от_каталога_сборки": "xcode-sandbox/Build/Products/Debug/FUM.app/Contents/MacOS/FUM",
+      "sha256": "9e64ac5d30d9f91b322f26cc014ec9351925b4f6938a701daf9db1a9097cb6b1",
+      "байт": 40208,
+      "формат": "Mach-O 64-bit executable arm64"
+    },
+    {
+      "путь_от_каталога_сборки": "xcode-sandbox/Build/Products/Debug/FUM.app/Contents/MacOS/FUM.debug.dylib",
+      "sha256": "987706a8e699a152f6c81a72b0e156f27c87f7def085ef71c8195267f3ab211f",
+      "байт": 5703152,
+      "формат": "Mach-O 64-bit dynamically linked shared library arm64"
+    },
+    {
+      "путь_от_каталога_сборки": "xcode-sandbox/Build/Products/Debug/FUM.app/Contents/Helpers/fum-mcp",
+      "sha256": "baaa1bcf22a1f5b5268902ecc9b736f9bd6f53deda4de6eb7b907ceb9decf85d",
+      "байт": 312616,
+      "формат": "Mach-O 64-bit executable arm64"
+    },
+    {
+      "путь_от_каталога_сборки": "xcode-sandbox/Build/Products/Debug/fum-mcp",
+      "sha256": "baaa1bcf22a1f5b5268902ecc9b736f9bd6f53deda4de6eb7b907ceb9decf85d",
+      "байт": 312616,
+      "формат": "Mach-O 64-bit executable arm64"
+    }
+  ],
+  "граница": "Исходники публичного клона; внешняя песочница запрещает чтение прежних каталогов, не служит общим запретом системных эффектов. Артефакты прочитаны без запуска. Xcode зарегистрировал bundle в LaunchServices. Время процессов с компиляцией и ожиданием включает конкуренцию разрешённой параллельной проверки; синтетические профили выполнены после освобождения окна."
+}

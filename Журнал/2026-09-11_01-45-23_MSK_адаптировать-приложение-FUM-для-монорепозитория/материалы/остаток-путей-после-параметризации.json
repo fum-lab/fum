@@ -1,0 +1,30 @@
+{
+  "код": 1,
+  "строки": [
+    "Приложения/FUMA/macOS/проверки/test_адаптации.py:42:error.system-runtime-hardcode",
+    "Приложения/FUMA/macOS/проверки/test_адаптации.py:56:error.system-runtime-hardcode",
+    "Приложения/FUMA/macOS/проверки/test_адаптации.py:57:error.system-runtime-hardcode",
+    "Приложения/FUMA/macOS/проверки/test_адаптации.py:63:error.home-expansion",
+    "Приложения/FUMA/macOS/проверки/test_адаптации.py:63:error.system-runtime-hardcode",
+    "Приложения/FUMA/macOS/проверки/test_адаптации.py:65:error.system-runtime-hardcode",
+    "Приложения/FUMA/macOS/проверки/test_адаптации.py:91:error.system-runtime-hardcode",
+    "Приложения/FUMA/macOS/проверки/test_адаптации.py:101:error.system-runtime-hardcode",
+    "Приложения/FUMA/macOS/проверки/test_адаптации.py:144:error.posix-absolute",
+    "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py:14:error.home-expansion",
+    "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py:15:error.home-expansion",
+    "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py:16:error.posix-absolute",
+    "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py:17:error.posix-absolute",
+    "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py:18:error.system-runtime-hardcode",
+    "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py:19:error.system-runtime-hardcode",
+    "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py:20:error.system-runtime-hardcode",
+    "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py:21:error.system-runtime-hardcode",
+    "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py:22:error.posix-absolute",
+    "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py:39:error.posix-absolute",
+    "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py:41:error.posix-absolute",
+    "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py:46:error.home-expansion",
+    "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py:60:error.posix-absolute",
+    "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py:61:error.posix-absolute",
+    "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py:62:error.posix-absolute"
+  ],
+  "ошибка_инструмента": ""
+}

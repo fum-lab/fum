@@ -1,0 +1,216 @@
+{
+  "схема": "fum.сверка-приложения.1",
+  "исходный_коммит": "39eb66a29c0be6844e73bcb8072e68b914ea7387",
+  "исходные_blob_сверены": true,
+  "изменены": [
+    {
+      "путь": ".gitignore",
+      "добавлено_строк": 1,
+      "удалено_строк": 3,
+      "исходный_sha256": "4376ac8b2818eace9c7e21ef848575917fd1d46e2a2ce0be0cf27d8e35c44539",
+      "конечный_sha256": "9d6927ec95dda0f4ee4095b4b280cbbca4a5ca3b3b7ded0af758d50f543774bb"
+    },
+    {
+      "путь": "FUM.xcodeproj/project.pbxproj",
+      "добавлено_строк": 10,
+      "удалено_строк": 4,
+      "исходный_sha256": "cf9723134db3c080be5d78b101a6f0876ba58242115ea9d240c19d1a171f9a12",
+      "конечный_sha256": "6b48a8f262ac9ab1868b34e39a39f79561c355c1fde140cba82e171da5549843"
+    },
+    {
+      "путь": "Package.swift",
+      "добавлено_строк": 10,
+      "удалено_строк": 11,
+      "исходный_sha256": "4ac412c69640972d36b7dd6d43722b41afa48d656134084ed340ba24e525e434",
+      "конечный_sha256": "b74173ae8d770f0921c39ed13dac70c8ba6c5defd8132cf84a1a241da079d267"
+    },
+    {
+      "путь": "README.md",
+      "добавлено_строк": 59,
+      "удалено_строк": 135,
+      "исходный_sha256": "c6679a18a8429da42edfd1a5c6b915141bd79da3bf3fee2a52fa451efc44bd33",
+      "конечный_sha256": "27aed24feb5712edf2c53dd46c7165196427a3c3e88a333f4a285b37d7cdb4f7"
+    },
+    {
+      "путь": "Sources/CMpvShim/CMpvShim.c",
+      "добавлено_строк": 5,
+      "удалено_строк": 1,
+      "исходный_sha256": "a1383a1b33d9e6695e21226a97d9b46af698946a43f07492c91f5f93e013d6c4",
+      "конечный_sha256": "d6a993bc7aaa56559c045fe8ff124b8f385642b05e0b1935bd82c38dc911ddc3"
+    },
+    {
+      "путь": "Sources/CMpvShim/include/CMpvShim.h",
+      "добавлено_строк": 2,
+      "удалено_строк": 2,
+      "исходный_sha256": "dd3fbc24fb86b19522727651af743a746d0bf3b7c62a2621a3136cc047ec3824",
+      "конечный_sha256": "84f13de41e358afaaac24d0fc90cf2f7975bb68c57cda683fe889798cfee97f4"
+    },
+    {
+      "путь": "Sources/FUMAXVisionSense/main.swift",
+      "добавлено_строк": 11,
+      "удалено_строк": 10,
+      "исходный_sha256": "b5a8b0a111a9a724c8ddfb08fcaa663883fe73ac194149613d9040b85b648547",
+      "конечный_sha256": "ad01ff0bbf50d7fc368b9218c5c4839915f1de123fe98d07ecdc5742e4f1c2d5"
+    },
+    {
+      "путь": "Sources/FUMApp/AXVisionRuntimeWriter.swift",
+      "добавлено_строк": 4,
+      "удалено_строк": 1,
+      "исходный_sha256": "a30a4f851b4c0742d823fcba485879d916d697fa37cf6544aa24d88131805e98",
+      "конечный_sha256": "8b2ad0e158355cabb975248aba6182af9764e1a18ebe0d0e65c3da7100e93a34"
+    },
+    {
+      "путь": "Sources/FUMApp/AXVisionSnapshot.swift",
+      "добавлено_строк": 4,
+      "удалено_строк": 1,
+      "исходный_sha256": "e5bc19da14f99012045d37ff95f3434f26996204544a262802d3436691a23ad8",
+      "конечный_sha256": "5174b66f9ee9782675a3ebd4a3d0a70c82512f1d52c9668f2e9b7b5435037b09"
+    },
+    {
+      "путь": "Sources/FUMApp/CameraVisionModel.swift",
+      "добавлено_строк": 4,
+      "удалено_строк": 1,
+      "исходный_sha256": "d95d709e2e37e7b0943309e3e48648ee58a5b2a81dbf2429042ff92acc9b245b",
+      "конечный_sha256": "0a46100836fd0cac1819a2acb92b55b5942ca19525d5c901853594f5570a2cf7"
+    },
+    {
+      "путь": "Sources/FUMApp/InputEventMonitor.swift",
+      "добавлено_строк": 5,
+      "удалено_строк": 3,
+      "исходный_sha256": "d0019337453da0d76e50c0f78bc65db9eeb5d6368daab67e7402a89a238fb1ac",
+      "конечный_sha256": "ee6af8df3685778e5e5b3397fcc65d8fbefbee85dc44e015b18ccc2a7b895027"
+    },
+    {
+      "путь": "Sources/FUMApp/KnowledgeView.swift",
+      "добавлено_строк": 4,
+      "удалено_строк": 1,
+      "исходный_sha256": "0278c77e528d0bd77f018afb5b68670070911f39fc07025d7feb77ba6f050669",
+      "конечный_sha256": "afb018fef4e3d2234fbdcec4069835090733ccacf8a109cf335eb86984a22ea7"
+    },
+    {
+      "путь": "Sources/FUMApp/MCPBridge.swift",
+      "добавлено_строк": 5,
+      "удалено_строк": 2,
+      "исходный_sha256": "9238be5eef134e7c474fd72e9990b5e8ff5a6f8539d92c097d4ddc7b035f0c08",
+      "конечный_sha256": "328ddeada535121ee4051ded4eed35d9828142db99c86daea3a28b2ba6870f52"
+    },
+    {
+      "путь": "Sources/FUMApp/OrgansView.swift",
+      "добавлено_строк": 4,
+      "удалено_строк": 1,
+      "исходный_sha256": "0836027e405045b00cd0ec69f62020a0b8fecfd06fec2fb2b0b5a09533333441",
+      "конечный_sha256": "9c055e750da3b92db8e6c7b693c1c77a4ed84cfe01bdf5a49de7befadcec51b9"
+    },
+    {
+      "путь": "Sources/FUMApp/PermissionCLI.swift",
+      "добавлено_строк": 4,
+      "удалено_строк": 1,
+      "исходный_sha256": "dfda3d07562dbe2e3e9c7eee2d160eec97e8ff46bb4e670967d74a3542779033",
+      "конечный_sha256": "7cf6638fae372922e67f04fa809ecb2f397a60cb5886ca114e94111a5296ebbd"
+    },
+    {
+      "путь": "Sources/FUMApp/VideoMemory.swift",
+      "добавлено_строк": 8,
+      "удалено_строк": 5,
+      "исходный_sha256": "98d470fb64b1879f0d095c5501669db86f9bb865a38dee28d4baa74550b53d7d",
+      "конечный_sha256": "dba95fc2fd3d743579ef9916991df5b3889e72286017d94672b88ef554bceb40"
+    },
+    {
+      "путь": "Sources/FUMAttentionLoop/main.swift",
+      "добавлено_строк": 15,
+      "удалено_строк": 9,
+      "исходный_sha256": "5779e1d10cb0075efd326d3cc359699026375845658cbbf7b41dd03ecffe301c",
+      "конечный_sha256": "9c91f9603d1e7275d63cdbe76ec7e63d5cc50612b990cc3cad1071477f6afe18"
+    },
+    {
+      "путь": "Sources/FUMMCPServer/main.swift",
+      "добавлено_строк": 13,
+      "удалено_строк": 12,
+      "исходный_sha256": "afc55eb549a628c343262b0dc3ccd1c7791421d88d9d934ae6898dc23b4be7f8",
+      "конечный_sha256": "d584d82a0728bd7a4b377a4d0bfafaacdefd8a3ff6ae50e0f73be4f7768c1d9f"
+    },
+    {
+      "путь": "docs/vector-video-format.md",
+      "добавлено_строк": 10,
+      "удалено_строк": 5,
+      "исходный_sha256": "3ea5ad4b8b61e03bf7e949385aa0984b7171e405904f450dae30fab9be159290",
+      "конечный_sha256": "754ff06151632619a755eedf8f65cca190e87e2ac5464cb97a9bf06c74cb753d"
+    },
+    {
+      "путь": "launchd/fum.app.plist",
+      "добавлено_строк": 27,
+      "удалено_строк": 28,
+      "исходный_sha256": "0604c69268242b7588b75e49e846f158295e26fb08e1eab890010c75f0f088b2",
+      "конечный_sha256": "cda2d3b8920fad0c7897a73cccc876a1e8cde532ee93fed8b3f8c5043d49d7cb"
+    },
+    {
+      "путь": "launchd/fum.attention-loop.plist",
+      "добавлено_строк": 30,
+      "удалено_строк": 24,
+      "исходный_sha256": "e68ba7fe16c14ea84ea2a327e5198c2c9486698f6194be0125bcfdb01e7b0311",
+      "конечный_sha256": "95f2e55b4561f1bd34a36917a612d4d8e257f2c36ed7680409e923990019fbc7"
+    },
+    {
+      "путь": "launchd/fum.sense.ax-vision.plist",
+      "добавлено_строк": 35,
+      "удалено_строк": 28,
+      "исходный_sha256": "84a546894631283c6b1c74a682d2630296d9814131a2f5f9a5a244421149e578",
+      "конечный_sha256": "250b79a9b32efa73c29e907f3b571f9ab5d5ddf4ae429540b4372ece1b9e2bad"
+    },
+    {
+      "путь": "script/fum_mcp.sh",
+      "добавлено_строк": 4,
+      "удалено_строк": 8,
+      "исходный_sha256": "571d18f9786f1861f27640ca6fbd1e58e5102fd5453c75f3c65558fab2b8bcf8",
+      "конечный_sha256": "63cca97726ec509b3e74d05f6e23b83c3ec691ec864f6f1c60f46c88caa0dde6"
+    },
+    {
+      "путь": "script/install_attention_loop.sh",
+      "добавлено_строк": 10,
+      "удалено_строк": 8,
+      "исходный_sha256": "94513d809cfabf6312b283bbb8d36b9668d9c22a685e37342588d87b9ae31ad3",
+      "конечный_sha256": "c690c947dcfd459df8783fac28ec11489470b51a13c05ef46f14afd3a9709f7f"
+    },
+    {
+      "путь": "script/install_ax_vision_sense.sh",
+      "добавлено_строк": 18,
+      "удалено_строк": 16,
+      "исходный_sha256": "83985c74ae945311644312ad22cdf964fd96175ca1aa00654ab45c97e2e31377",
+      "конечный_sha256": "89539ac9131890d11a9216367aa6f8aedcf5dbe2c5c0e5587b058264d8dee597"
+    },
+    {
+      "путь": "script/install_fum_app.sh",
+      "добавлено_строк": 42,
+      "удалено_строк": 40,
+      "исходный_sha256": "c10e1aecba371f0ce63d6f6aac72bc00b5407481bf21030e5c6fe464c06f9248",
+      "конечный_sha256": "2d2d6d175d3ea0c1fa750478cad15c82e1032f43a9a4cacb5a1b1ebf5f872a26"
+    }
+  ],
+  "побайтно_сохранены": [
+    "Sources/CMpvShim/include/module.modulemap",
+    "Sources/FUMApp/CameraGaze.swift",
+    "Sources/FUMApp/CameraVisionViews.swift",
+    "Sources/FUMApp/FUMApp.swift",
+    "Sources/FUMApp/GenerativeSurface.swift",
+    "Sources/FUMApp/Inspector.swift",
+    "Sources/FUMApp/InterfaceWorkbench.swift",
+    "Sources/FUMApp/VectorVideoDocument.swift",
+    "Sources/FUMApp/VisionSurface.swift",
+    "Sources/FUMApp/WorkbenchChrome.swift",
+    "Sources/FUMApp/WorkspaceFocus.swift",
+    "Xcode/FUM-Info.plist",
+    "Xcode/FUM.entitlements"
+  ],
+  "новые_файлы": [
+    "Sources/CMpvSystem/module.modulemap",
+    "Sources/CMpvSystem/shim.h",
+    "Sources/ПутиИсполнения/ПутиПриложения.swift",
+    "Tests/ПутиИсполненияTests/ПроверкиПутей.swift",
+    "проверки/test_адаптации.py",
+    "проверки/проверка-C-адаптера.c",
+    "проверки/профиль-путей.swift",
+    "сценарии/адаптировать-пути.py",
+    "манифест-переноса.json"
+  ],
+  "манифест_sha256": "8e573b42a82c6214e63ba2167e59e601f545221ba933789d1008f4b6b4b1570e"
+}

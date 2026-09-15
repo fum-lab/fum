@@ -79,7 +79,7 @@ Ekonomnyij poryadok proverok: gotov.
 
 [Kartochka 0174](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0174-opisyivatj-primeneniye-avtomatizacij-bez-chteniya-koda.md) sokhranyayet prosjbu zakrepitj ponyatnoye primeneniye avtomatizacij, ranneye obnaruzheniye narushenij pravil i vosstanovleniye vkhodyasjhikh nablyudenij. [Pervonachaljnyij chernovik](materialyi/plan-opisaniya-avtomatizacij.json) perenesyon v Zhurnal posle ostanovki neuspeshnoj priyomki; eti trebovaniya yesjhyo ne realizovanyi tekusjhim etapom. Normyi opisaniya sleduyut otdeljnyim izmeneniyem posle yego prinyatiya.
 
-[Kartochka 0175](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md) sokhranyayet predlozhennuyu poljzovatelem golovnuyu liniyu razrabotki i najdennuyu uzhe podgotovlennuyu politiku. V tekusjhem etape nikakikh novyikh vetok ili pishusjhikh zadach ne zapuskalosj.
+[Kartochka 0175](../../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md) sokhranyayet predlozhennuyu poljzovatelem golovnuyu liniyu razrabotki i najdennuyu uzhe podgotovlennuyu politiku. V tekusjhem etape nikakikh novyikh vetok ili pishusjhikh zadach ne zapuskalosj.
 
 ## Resheniya i ogranicheniya
 
@@ -96,6 +96,6 @@ Obsuzhdeniye byurokratii zafiksirovano v zaprose: trebovaniya k dannyim i vospro
 - [Kartochka 0172](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0172-proveryatj-ostatok-obyazateljstv-zadachi.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 13:12:46 MSK -->
-<!-- content-sha256: sha256:45a1d9b9c3bf932d0a36c30092fc3960b3d333bf3cadc4e5d0cfbe6f5114de55 -->
+<!-- last-content-edit: 2026-09-12 01:19:38 MSK -->
+<!-- content-sha256: sha256:e279620d718c32fbd861df5b7e8210afc97771f3856c70cb54350ce7567a90f4 -->
 <!-- FUM-MD-RECENCY:END -->

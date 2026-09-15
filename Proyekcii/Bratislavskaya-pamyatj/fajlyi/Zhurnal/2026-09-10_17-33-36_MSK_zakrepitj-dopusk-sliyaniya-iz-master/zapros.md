@@ -158,7 +158,7 @@ Soderzhateljnyij otvet: utverzhdeniye o neperenesyonnyikh iskhodnikakh podtverzh
 
 Dialog [«Obzor GitHub repozitoriya»](../../Istochniki/URL/https/chatgpt.com/share/6aa2c5c7-fe90-83ed-bd10-d7b03db8b334/obzor-github-repozitoriya.md) sokhranyon shtatnyim arkhivatorom: HTTP 200, 56 strukturnyikh soobsjhenij. Veb-prosmotr raneye vernul lishj zagolovok; lokaljnyij arkhivator izvlyok soderzhimoye. Obzor rassmatrivayetsya kak vneshnij analiz, yego utverzhdeniya sveryayutsya s pervichnyimi materialami. Inline-paket `fum-внешний-вклад-v1` otsutstvuyet; dostavlennoye izmeneniye koda i kvitanciya priyomki iz obzora ne vyivodyatsya.
 
-Sleduyusjhij rezuljtat zakreplyon v [FUM-STEP-0176](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0176-sobratj-sobstvennuyu-realizaciyu-v-FUM.md). Pervyij perenos okhvatyivayet svyazannuyu semjyu Swift-paketov; inventarj dolzhen takzhe vyiyavitj ostavshiyesya sobstvennyiye komponentyi vne FUM. Kriterij — vosproizvedeniye iz chistogo klona s yavnyimi zavisimostyami i bez staryikh lokaljnyikh katalogov. Perenos iskhodnikov, sborka perenesyonnoj versii i yeyo publikaciya poka ne vyipolnenyi. Tekusjhij etap dopuska sliyaniya prodolzhayetsya; novaya postavka sleduyet za nim, bez poteri iskhodnogo obyazateljstva.
+Sleduyusjhij rezuljtat zakreplyon v [FUM-STEP-0176](../../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0176-sobratj-sobstvennuyu-realizaciyu-v-FUM.md). Pervyij perenos okhvatyivayet svyazannuyu semjyu Swift-paketov; inventarj dolzhen takzhe vyiyavitj ostavshiyesya sobstvennyiye komponentyi vne FUM. Kriterij — vosproizvedeniye iz chistogo klona s yavnyimi zavisimostyami i bez staryikh lokaljnyikh katalogov. Perenos iskhodnikov, sborka perenesyonnoj versii i yeyo publikaciya poka ne vyipolnenyi. Tekusjhij etap dopuska sliyaniya prodolzhayetsya; novaya postavka sleduyet za nim, bez poteri iskhodnogo obyazateljstva.
 
 Ispoljzovanyi takzhe `web.run` (kontrakt sredyi, versiya ne raskryita), lokaljnyiye navyiki `fum-materialyi-zaprosov`, `fum-priyom-vneshnego-vklada` dlya opredeleniya granicyi obzora i `fum-reyestr-planirovaniya` dlya sokhraneniya sleduyusjhego shaga. Iskhodnyij URL i otchyot izvlecheniya svyazanyi nizhe shtatnyim arkhivatorom.
 
@@ -194,7 +194,7 @@ Rabota vozobnovlena predmetno: sokhranyonnyij test nastoyasjhego merge snachala 
 
 Poljzovatelj utochnil sleduyusjhij etap: obyazateljnaya avtomatizaciya vozvrasjhayet vse soobsjheniya poljzovatelya, kotoryiye yesjhyo ne otmechenyi v istorii kak obrabotannyiye. Pervichnaya zapisj JSONL: `2026-09-10T15:22:07.900Z`, SHA-256 `c69eb042e2da28fd6568e2600eb4424af54969dd6cb1b4a82de8f59616288028`. Eto utochneniye zamenyayet postoyannuyu ruchnuyu pereproverku avtomatizirovannyim polucheniyem polnogo ostatka.
 
-Soderzhateljnyij otvet: sleduyusjhij etap posle tekusjhego dopuska — [FUM-STEP-0177](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0177-vozvrasjhatj-neobrabotannyiye-soobsjheniya-poljzovatelya.md). On predshestvuyet perenosu iskhodnikov FUM-STEP-0176 i ne otmenyayet yego. Chteniye soobsjheniya samo po sebe ne otmechayet obrabotku; otmetka svyazyivayetsya s sokhranyonnyim otvetom i resheniyem po soobsjheniyu. Vyipolneniye postavlennoj zadachi uchityivayetsya otdeljno. Staryiye propuski i odinakovyiye povtornyiye komandyi dolzhnyi ostavatjsya razlichimyimi. Do priyomki avtomatizacii sokhranyayetsya yavnaya sverka JSONL; susjhestvovaniye obyazateljnogo mashinnogo vyizova ne zayavlyayetsya. Pravilo NEW000017 utochneno etoj granicej.
+Soderzhateljnyij otvet: sleduyusjhij etap posle tekusjhego dopuska — [FUM-STEP-0177](../../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0177-vozvrasjhatj-neobrabotannyiye-soobsjheniya-poljzovatelya.md). On predshestvuyet perenosu iskhodnikov FUM-STEP-0176 i ne otmenyayet yego. Chteniye soobsjheniya samo po sebe ne otmechayet obrabotku; otmetka svyazyivayetsya s sokhranyonnyim otvetom i resheniyem po soobsjheniyu. Vyipolneniye postavlennoj zadachi uchityivayetsya otdeljno. Staryiye propuski i odinakovyiye povtornyiye komandyi dolzhnyi ostavatjsya razlichimyimi. Do priyomki avtomatizacii sokhranyayetsya yavnaya sverka JSONL; susjhestvovaniye obyazateljnogo mashinnogo vyizova ne zayavlyayetsya. Pravilo NEW000017 utochneno etoj granicej.
 
 ## Aktualjnostj starogo neobrabotannogo soobsjheniya
 
@@ -238,6 +238,6 @@ Plan i fakticheskiye iskhodyi nakhodyatsya v [otchyote](otchyot.md). Dlya izmene
 - [Otchyot ob izvlechenii](../../Istochniki/URL/https/chatgpt.com/share/6aa2c5c7-fe90-83ed-bd10-d7b03db8b334/extraction-report.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 20:36:12 MSK -->
-<!-- content-sha256: sha256:49de0180f2f45c428ada22ec08d86ce202cd397fa43371c6b6a0d23a5d335598 -->
+<!-- last-content-edit: 2026-09-11 11:30:49 MSK -->
+<!-- content-sha256: sha256:f8c07706f04796901ec42970a8f32ba8d7e13de871a7d37ac2403bf5d7fcc011 -->
 <!-- FUM-MD-RECENCY:END -->

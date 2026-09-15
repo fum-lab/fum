@@ -5,6 +5,12 @@ description: Sobiratj i proveryatj mashinno chitayemyij reyestr trebovanij, stad
 
 # FUM Planning Registry
 
+[Reyestr organizacij podderzhki FUM](../../Planirovaniye/finansirovaniye-i-resursyi/README.md) ispoljzuyet etot paket dlya importa sokhranyonnyikh issledovanij, istorii adresnyikh nablyudenij, proverki srokov i vyipuska otdeljnogo chitayemogo spiska. Komanda `scripts/реестр-организаций-поддержки.py` opisana vmeste s dannyimi; ona ne otpravlyayet obrasjheniya i ne podtverzhdayet registraciyu zayavitelya.
+
+Konechnyij [paket diagnostiki](paket-diagnostiki.md) mekhanicheski vyipuskayet yavno podgotovlennyiye SBOJ i STEP s uzhe naznachennyimi nomerami, dvumya indeksami i tochnoj zasjhitoj iskhodnyikh bajtov.
+
+V FUM-STEP-0201 razrabatyivayetsya [priyom napravlenij FUMA](priyom-napravlenij.md): rukovodstvo opisyivayet proverennyiye primitivyi i yesjhyo nezavershyonnyij yedinyij vkhod. Promezhutochnyij status ne razreshayet vneshneye sozdaniye zadachi cherez nizkourovnevuyu operaciyu.
+
 Etot navyik opisyivayet lokaljnuyu [avtomatizaciyu FUM](../../Glossarij/avtomatizaciya-FUM.md), kotoraya sobirayet mashinno chitayemyij JSON-reyestr planovogo sloya proyekta iz tekusjhikh Markdown-istochnikov:
 
 - [kanonicheskikh kartochek trebovanij FUM](../../Trebovaniya/README.md);
@@ -81,6 +87,7 @@ Validator:
 - trebuyet rovno odin unikaljnyij marker `FUM-REQUIREMENT-ID` v kazhdoj kartochke i ne vyivodit ID iz imeni, statusa ili pozicii;
 - sveryayet polnyij nabor kartochek s `Требования/README.md`, dopustimyij status v imeni, indekse i tele, chetyire obyazateljnyikh razdela i nepustyiye formulirovku s kriteriyami;
 - proveryayet dopustimyiye tipyi semanticheskikh svyazej, indeksirovannyiye celi i rovno odnu soglasovannuyu obratnuyu zapisj dlya kazhdogo napravlennogo otnosheniya;
+- prinimayet otsutstviye pryamyikh semanticheskikh svyazej toljko kak yedinstvennuyu stroku `Прямые семантические связи пока не установлены.` v obyazateljnom razdele i vyivodit pustoj massiv `semantic_relations`; pustoj razdel, inoj tekst, povtor markera i smesheniye so svyazyami otklonyayutsya;
 - trebuyet, chtobyi kazhdaya shirokaya stroka imela yavnyij `PLAN-LAYER-*` i byila libo svyazana s kartochkami, libo pomechena kak `Производный слой`;
 - trebuyet u kazhdoj kartochki shaga tochnyij TOML-kontrakt `schema_version`, `card_id`, `status`, unikaljnyij `FUM-STEP-NNNN`, rovno odin zagolovok pervogo urovnya, zadachu i spisochnyiye istochniki so ssyilkami;
 - proveryayet imya `<эмодзи>-FUM-STEP-NNNN-<краткое-название>.md`: `🟡`, `✅`, `🧩` i `🗑️` dolzhnyi sootvetstvovatj mashinnomu statusu, nomer — `card_id`, nepustoye opisaniye — defisnomu formatu iz Unicode-bukv i cifr, a polnoye imya — predelu 255 bajt UTF-8;
@@ -123,6 +130,8 @@ Avtomatizaciya ne vyivodit novyiye trebovaniya ili shagi iz smyisla dokumentov, 
 
 ## Istochniki trebovanij
 
+- [Paket sovmestimosti FUM-STEP-0175](../../Zhurnal/2026-09-11_14-47-00_MSK_podgotovitj-sovmestimostj-master-i-FUMA/zapros.md).
+
 - [Zasjhititj istoricheskiye profili pri pereimenovanii](../../Zhurnal/2026-09-08_20-55-36_MSK_zasjhititj-istoricheskiye-profili-pri-pereimenovanii/zapros.md).
 
 - [iskhodnyij zapros 2026-08-14 18:59:37 MSK — Isklyuchitj dublirovaniye polnoj regressii](../../Zhurnal/2026-08-14_18-59-37_MSK_isklyuchitj-dublirovaniye-polnoj-regressii/zapros.md)
@@ -136,6 +145,6 @@ Avtomatizaciya ne vyivodit novyiye trebovaniya ili shagi iz smyisla dokumentov, 
 - [iskhodnyij zapros 2026-07-22 11:48:49 MSK — Oformitj kartochki shagov opisateljnyimi imenami i emodzi statusami](../../Zhurnal/2026-07-22_11-48-49_MSK_oformitj-kartochki-shagov-opisateljnyimi-imenami-i-emodzi-statusami/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 16:38:28 MSK -->
-<!-- content-sha256: sha256:75b1f955f6d0c4f7792cfe2c61a9aa1771096c706c48b263deba293b89c62b5a -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:980a780e1d19e88142466856504f7832824caaa131af132b71d976e3c98e91f6 -->
 <!-- FUM-MD-RECENCY:END -->

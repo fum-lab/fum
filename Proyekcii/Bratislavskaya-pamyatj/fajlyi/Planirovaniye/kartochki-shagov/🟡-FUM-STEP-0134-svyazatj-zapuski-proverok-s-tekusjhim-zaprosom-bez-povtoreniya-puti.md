@@ -17,6 +17,8 @@ Predfinaljnoye obnovleniye grafa ne nachalosj iz-za odnoj lishnej bukvyi v vruch
 
 ## Kriterii zaversheniya
 
+- Otdeljnaya RED-fikstura FUM-SBOJ-0006/PROYAVLENIYE-0002 vosproizvodit otkaz nachala sleduyusjhego etapa i ustarevshij susjhestvuyusjhij putj. Privyazka vklyuchayet granicu etapa i iskhodnyij HEAD; posle kommita ili neuspeshnoj podgotovki zavisimyij zapusk ne pishet v predyidusjhij otchyot.
+
 - Krasnaya avtonomnaya fikstura vosproizvodit tochnoye odnobukvennoye raskhozhdeniye FUM-SBOJ-0006 i podtverzhdayet otkaz do dochernego zapuska vmeste s otsutstviyem zapisi v zhurnale nastoyasjhej sessii.
 - Novyij shtatnyij interfejs prinimayet kornevoj `CODEX_THREAD_ID` neposredstvenno iz sredyi libo raneye vyidannyij posle tochnoj proverki neprozrachnyij identifikator; svobodnyij putj tekusjhego zaprosa v obyichnom marshrute ne trebuyetsya.
 - Privyazka skaniruyet toljko dopustimyij proyektnyij inventarj zaprosov, trebuyet rovno odin obyichnyij `Журнал/<папка>/запрос.md` s tochnyim identifikatorom i sokhranyayet yego kanonicheskij repozitorno-otnositeljnyij putj.
@@ -28,6 +30,8 @@ Predfinaljnoye obnovleniye grafa ne nachalosj iz-za odnoj lishnej bukvyi v vruch
 
 ## Istochniki
 
+- [Povtor pri perekhode k Windows](../../Zhurnal/2026-09-11_00-58-07_MSK_zaplanirovatj-podgotovku-Windows/otchyot.md) — osnovaniye `FUM-СБОЙ-0006/ПРОЯВЛЕНИЕ-0002`.
+
 - [FUM-SBOJ-0006 — Opechatka puti tekusjhego zaprosa pri uchyote proverki](../../Sboi/FUM-SBOJ-0006-opechatka-puti-tekusjhego-zaprosa-pri-uchyote-proverki.md) — osnovaniye `FUM-СБОЙ-0006/ПРОЯВЛЕНИЕ-0001`
 - [iskhodnyij zapros tekusjhej rabochej sessii](../../Zhurnal/2026-08-06_22-29-49_MSK_vvesti-kartochki-sboyev-dlya-porozhdeniya-shagov/zapros.md)
 - [otchyot tekusjhej rabochej sessii](../../Zhurnal/2026-08-06_22-29-49_MSK_vvesti-kartochki-sboyev-dlya-porozhdeniya-shagov/otchyot.md)
@@ -35,6 +39,6 @@ Predfinaljnoye obnovleniye grafa ne nachalosj iz-za odnoj lishnej bukvyi v vruch
 
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-06 23:38:54 MSK -->
-<!-- content-sha256: sha256:aaf91ad63ccb10b7edc76d920f40406846718a129c308f0f2fa8dc2bfd177c62 -->
+<!-- last-content-edit: 2026-09-11 00:59:28 MSK -->
+<!-- content-sha256: sha256:abe7244390df1cd6beb602ca4b05250cf1f32c033fdfbafb8980cf7dbfd1d53f -->
 <!-- FUM-MD-RECENCY:END -->

@@ -1,0 +1,83 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": [
+        "Person",
+        "Organization"
+      ],
+      "@id": "https://softlinevp.ru/#person",
+      "name": "Softline Venture Partners",
+      "sameAs": [
+        "https://twitter.com/Editor"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://softlinevp.ru/#website",
+      "url": "https://softlinevp.ru",
+      "name": "Softline Venture Partners",
+      "alternateName": "Корпоративный венчурный фонд Softline Venture Partners",
+      "publisher": {
+        "@id": "https://softlinevp.ru/#person"
+      },
+      "inLanguage": "ru-RU",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://softlinevp.ru/?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://softlinevp.ru/#webpage",
+      "url": "https://softlinevp.ru/",
+      "name": "Softline Venture Partners - Корпоративный венчурный фонд",
+      "datePublished": "2023-02-11T10:48:43+03:00",
+      "dateModified": "2026-04-27T18:25:41+03:00",
+      "about": {
+        "@id": "https://softlinevp.ru/#person"
+      },
+      "isPartOf": {
+        "@id": "https://softlinevp.ru/#website"
+      },
+      "inLanguage": "ru-RU"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://softlinevp.ru/author/editorsvp/",
+      "name": "Daria Glebovskaya",
+      "url": "https://softlinevp.ru/author/editorsvp/",
+      "image": {
+        "@type": "ImageObject",
+        "@id": "https://secure.gravatar.com/avatar/644fc93b86d251453c8a6d356af142c67711f737628df81f52980e9b198c3651?s=96&amp;d=mm&amp;r=g",
+        "url": "https://secure.gravatar.com/avatar/644fc93b86d251453c8a6d356af142c67711f737628df81f52980e9b198c3651?s=96&amp;d=mm&amp;r=g",
+        "caption": "Daria Glebovskaya",
+        "inLanguage": "ru-RU"
+      }
+    },
+    {
+      "@type": "Article",
+      "headline": "Softline Venture Partners - Корпоративный венчурный фонд",
+      "datePublished": "2023-02-11T10:48:43+03:00",
+      "dateModified": "2026-04-27T18:25:41+03:00",
+      "author": {
+        "@id": "https://softlinevp.ru/author/editorsvp/",
+        "name": "Daria Glebovskaya"
+      },
+      "publisher": {
+        "@id": "https://softlinevp.ru/#person"
+      },
+      "description": "Корпоративный венчурный фонд Softline Venture Partners существует с 2008 года. Основной фокус — технологические ИТ-компании, основанные выходцами из России и активно стремящиеся завоевать зарубежные рынки.",
+      "name": "Softline Venture Partners - Корпоративный венчурный фонд",
+      "@id": "https://softlinevp.ru/#richSnippet",
+      "isPartOf": {
+        "@id": "https://softlinevp.ru/#webpage"
+      },
+      "inLanguage": "ru-RU",
+      "mainEntityOfPage": {
+        "@id": "https://softlinevp.ru/#webpage"
+      }
+    }
+  ]
+}

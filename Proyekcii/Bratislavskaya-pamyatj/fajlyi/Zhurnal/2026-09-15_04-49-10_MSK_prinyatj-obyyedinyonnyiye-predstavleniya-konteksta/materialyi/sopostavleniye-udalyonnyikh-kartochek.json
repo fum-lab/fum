@@ -1,0 +1,50 @@
+{
+  "схема": "fum.свидетельство-удалений-проекции.1",
+  "основа": "1a99a73f5d4faa4618838ba1bbbed01493844bae",
+  "прежний_манифест_sha256": "b4539de9c94b952841e64cb697ab649ce09bc7fc56a8c12b76aa38e499895fe2",
+  "проверенный_манифест_sha256": "ead8a095b5a831d278757f4fd5c466023387ae71ba21fbb8976e77b8628a08c1",
+  "неуспешный_запуск": "8874b8ce-549d-4d61-a039-3fc70257619a",
+  "основание": "Проекция и независимая проверка прошли; связность отклонила только пять неуказанных удалений. Сопоставлены прежние и текущие записи карточек.",
+  "сопоставления": [
+    {
+      "карточка": "FUM-STEP-0175",
+      "удалённый_путь": "Proyekcii/Bratislavskaya-pamyatj/fajlyi/Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md",
+      "прежний_источник": "Планирование/карточки-шагов/🟡-FUM-STEP-0175-подготовить-смену-головной-ветки-разработки.md",
+      "текущий_источник": "Планирование/карточки-шагов/✅-FUM-STEP-0175-подготовить-смену-головной-ветки-разработки.md",
+      "текущий_путь": "Proyekcii/Bratislavskaya-pamyatj/fajlyi/Planirovaniye/kartochki-shagov/✅-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md",
+      "хэш_источника": "sha256:762187f5675da6b507b6a9b257a9c3ba4786abb3fe48de5956c1a7652423f585"
+    },
+    {
+      "карточка": "FUM-STEP-0176",
+      "удалённый_путь": "Proyekcii/Bratislavskaya-pamyatj/fajlyi/Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0176-sobratj-sobstvennuyu-realizaciyu-v-FUM.md",
+      "прежний_источник": "Планирование/карточки-шагов/🟡-FUM-STEP-0176-собрать-собственную-реализацию-в-FUM.md",
+      "текущий_источник": "Планирование/карточки-шагов/✅-FUM-STEP-0176-собрать-собственную-реализацию-в-FUM.md",
+      "текущий_путь": "Proyekcii/Bratislavskaya-pamyatj/fajlyi/Planirovaniye/kartochki-shagov/✅-FUM-STEP-0176-sobratj-sobstvennuyu-realizaciyu-v-FUM.md",
+      "хэш_источника": "sha256:0920c488c19bbdab0d2c9b518d98bef6cb58f91bad287b46520d5a0368654202"
+    },
+    {
+      "карточка": "FUM-STEP-0177",
+      "удалённый_путь": "Proyekcii/Bratislavskaya-pamyatj/fajlyi/Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0177-vozvrasjhatj-neobrabotannyiye-soobsjheniya-poljzovatelya.md",
+      "прежний_источник": "Планирование/карточки-шагов/🟡-FUM-STEP-0177-возвращать-необработанные-сообщения-пользователя.md",
+      "текущий_источник": "Планирование/карточки-шагов/✅-FUM-STEP-0177-возвращать-необработанные-сообщения-пользователя.md",
+      "текущий_путь": "Proyekcii/Bratislavskaya-pamyatj/fajlyi/Planirovaniye/kartochki-shagov/✅-FUM-STEP-0177-vozvrasjhatj-neobrabotannyiye-soobsjheniya-poljzovatelya.md",
+      "хэш_источника": "sha256:1b0fa6b468504dfac6de5619e8c19a63d35964d7cb369ed427cb493dcce8834d"
+    },
+    {
+      "карточка": "FUM-STEP-0207",
+      "удалённый_путь": "Proyekcii/Bratislavskaya-pamyatj/fajlyi/Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0207-realizovatj-perenos-rabochikh-derevjyev.md",
+      "прежний_источник": "Планирование/карточки-шагов/🟡-FUM-STEP-0207-реализовать-перенос-рабочих-деревьев.md",
+      "текущий_источник": "Планирование/карточки-шагов/✅-FUM-STEP-0207-реализовать-перенос-рабочих-деревьев.md",
+      "текущий_путь": "Proyekcii/Bratislavskaya-pamyatj/fajlyi/Planirovaniye/kartochki-shagov/✅-FUM-STEP-0207-realizovatj-perenos-rabochikh-derevjyev.md",
+      "хэш_источника": "sha256:8bdb46154a3cab984db4e06ab89c0406b2f43a292560af839278720c0aeade08"
+    },
+    {
+      "карточка": "FUM-STEP-0208",
+      "удалённый_путь": "Proyekcii/Bratislavskaya-pamyatj/fajlyi/Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0208-realizovatj-interpretator-i-UTF-32.md",
+      "прежний_источник": "Планирование/карточки-шагов/🟡-FUM-STEP-0208-реализовать-интерпретатор-и-UTF-32.md",
+      "текущий_источник": "Планирование/карточки-шагов/✅-FUM-STEP-0208-реализовать-интерпретатор-и-UTF-32.md",
+      "текущий_путь": "Proyekcii/Bratislavskaya-pamyatj/fajlyi/Planirovaniye/kartochki-shagov/✅-FUM-STEP-0208-realizovatj-interpretator-i-UTF-32.md",
+      "хэш_источника": "sha256:d62aa8aabed9369ec77c2a6b64642f1059a937584216e6d17982b24558fb71ae"
+    }
+  ]
+}

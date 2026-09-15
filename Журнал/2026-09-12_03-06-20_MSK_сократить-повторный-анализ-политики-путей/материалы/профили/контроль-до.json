@@ -1,0 +1,495 @@
+{
+  "схема": "fum.профиль-пакетного-анализа-политики.1",
+  "python": "3.14.7",
+  "система": "Darwin",
+  "архитектура": "arm64",
+  "реализация": {
+    "obnovitj-policy.py": "cd5765f289b484d5b2a800d1916b82c7f8d0b0a7aa0b671461eee1cc0642f4f2",
+    "path_forms.py": "22481bce8934b14f1df4173b615c282b04e0c6ce6034fe8cb3b2816416289308",
+    "proveritj-mashinno-lokaljnyiye-puti.py": "288d6ce46ae8e37ec6f24bcc4d3a477be522b365187a5386679399c41042c146"
+  },
+  "профилировщик_sha256": "19505d9d6f98a173e085348a80e063840c583ace6a034751b512e884d1185f8e",
+  "граница": "Подготовка Git-фикстуры исключена; чтение и запись входят в обновление. Интервалы вложены и не суммируются с общим временем. Точный повтор измерен отдельно без вложенных меток.",
+  "замеры": [
+    {
+      "вход_sha256": "8c7b71118d0d43a7c02add2698523d401ac21e6a4ce74acaebc91f95be716593",
+      "вход_байт": 1049866,
+      "деклараций": 12,
+      "обновление_нс": 9543551667,
+      "повтор_нс": 9001322625,
+      "изменений": 12,
+      "интервалы_нс": {
+        "чтение": [
+          2146917
+        ],
+        "полный_разбор": [
+          721913958,
+          892065750,
+          799049333,
+          805066958,
+          782645917,
+          773732917,
+          829670125,
+          736423625,
+          729751375,
+          770573209,
+          762464834,
+          746579667
+        ],
+        "вывод_исключения": [
+          728122292,
+          896963667,
+          802573208,
+          809817125,
+          786690458,
+          779454666,
+          834217125,
+          740349167,
+          734530834,
+          774046208,
+          765918125,
+          750337875
+        ],
+        "атомарная_запись": [
+          4657000
+        ]
+      },
+      "политика_sha256": "88f32ca24d52a44313b96906dc4a330db65640a23e566a80dfb002f6656cecba",
+      "политика": {
+        "schema": "fum.machine-local-path-policy.v2",
+        "exceptions": [
+          {
+            "id": "profile-0",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:f45fee452936d6fb9d8a35aaec10bf4f86689b5b7c8b28b64b49b2ee7e753e94",
+            "count": 2,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-1",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:1334c5d25a41b46ce08140c2bcfd8f0b98716f26856eb42690330a2318309888",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-2",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:0df5c406dc2e37a70b6a6aa409cb6d1cc31a02c72f58be88b4a351ef282a214d",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-3",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:262328a7ccc60e790ef7c10e04e6986eef7f1f24c2cb5e0b202ae2c73c4dcd2e",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-4",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:1b2fd8e8b3ccb778492e642eb92b953e35f489d61d9b296524b92d848b6433e7",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-5",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:01386e0d98d76b1bcb28082f56d7dc3c8ca9dfdcb02424f5c2fda9ebe22d1cca",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-6",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:6ed47ddf3e81d84d48f27cc31f48c7c8a9e5a2dd6410ee34a4786a272df3b4da",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-7",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:5a769de21fdda26b96879e28d95109a24e606054804f72464b8fa1d22c166c44",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-8",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:feaa5dc8b79a3181d5ecdb7fa6e69b23563a9e24d96b4b00adf5738edde3efe3",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-9",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:0c44e2e39e91ef7afa7a46ccb7a0af0332681e0cb9397d676d97bd0ce9eb4c02",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-10",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:36f2f91da4aed0417d2097d92c9362d9afc5a0dbe6a1807981b2aa1a9e81699a",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-11",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:2df17b089600bd7c4646e63739686d5afc85ba80282e1fecf76d62ceb875f570",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          }
+        ]
+      },
+      "точный_повтор": true,
+      "исходник_неизменён": true
+    },
+    {
+      "вход_sha256": "8c7b71118d0d43a7c02add2698523d401ac21e6a4ce74acaebc91f95be716593",
+      "вход_байт": 1049866,
+      "деклараций": 12,
+      "обновление_нс": 8462567250,
+      "повтор_нс": 8848138292,
+      "изменений": 12,
+      "интервалы_нс": {
+        "чтение": [
+          2696459
+        ],
+        "полный_разбор": [
+          625277625,
+          602360459,
+          631213084,
+          861745250,
+          749960708,
+          725788583,
+          749250834,
+          680638042,
+          575712250,
+          584716125,
+          775064541,
+          767886750
+        ],
+        "вывод_исключения": [
+          631080125,
+          605202333,
+          634374750,
+          864850417,
+          754649834,
+          730059500,
+          752627125,
+          684109334,
+          579035167,
+          587426459,
+          778779708,
+          771291542
+        ],
+        "атомарная_запись": [
+          4524791
+        ]
+      },
+      "политика_sha256": "88f32ca24d52a44313b96906dc4a330db65640a23e566a80dfb002f6656cecba",
+      "политика": {
+        "schema": "fum.machine-local-path-policy.v2",
+        "exceptions": [
+          {
+            "id": "profile-0",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:f45fee452936d6fb9d8a35aaec10bf4f86689b5b7c8b28b64b49b2ee7e753e94",
+            "count": 2,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-1",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:1334c5d25a41b46ce08140c2bcfd8f0b98716f26856eb42690330a2318309888",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-2",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:0df5c406dc2e37a70b6a6aa409cb6d1cc31a02c72f58be88b4a351ef282a214d",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-3",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:262328a7ccc60e790ef7c10e04e6986eef7f1f24c2cb5e0b202ae2c73c4dcd2e",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-4",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:1b2fd8e8b3ccb778492e642eb92b953e35f489d61d9b296524b92d848b6433e7",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-5",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:01386e0d98d76b1bcb28082f56d7dc3c8ca9dfdcb02424f5c2fda9ebe22d1cca",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-6",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:6ed47ddf3e81d84d48f27cc31f48c7c8a9e5a2dd6410ee34a4786a272df3b4da",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-7",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:5a769de21fdda26b96879e28d95109a24e606054804f72464b8fa1d22c166c44",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-8",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:feaa5dc8b79a3181d5ecdb7fa6e69b23563a9e24d96b4b00adf5738edde3efe3",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-9",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:0c44e2e39e91ef7afa7a46ccb7a0af0332681e0cb9397d676d97bd0ce9eb4c02",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-10",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:36f2f91da4aed0417d2097d92c9362d9afc5a0dbe6a1807981b2aa1a9e81699a",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-11",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:2df17b089600bd7c4646e63739686d5afc85ba80282e1fecf76d62ceb875f570",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          }
+        ]
+      },
+      "точный_повтор": true,
+      "исходник_неизменён": true
+    },
+    {
+      "вход_sha256": "8c7b71118d0d43a7c02add2698523d401ac21e6a4ce74acaebc91f95be716593",
+      "вход_байт": 1049866,
+      "деклараций": 12,
+      "обновление_нс": 11303097583,
+      "повтор_нс": 8460340666,
+      "изменений": 12,
+      "интервалы_нс": {
+        "чтение": [
+          2302333
+        ],
+        "полный_разбор": [
+          901722584,
+          862314750,
+          833664292,
+          781658250,
+          775931958,
+          810485292,
+          800833583,
+          867518959,
+          1441158291,
+          781768875,
+          1158865791,
+          1009496833
+        ],
+        "вывод_исключения": [
+          909223458,
+          866720500,
+          837419792,
+          785159625,
+          780436042,
+          814099417,
+          805767167,
+          880207250,
+          1445615041,
+          790414125,
+          1161458666,
+          1013882291
+        ],
+        "атомарная_запись": [
+          13173041
+        ]
+      },
+      "политика_sha256": "88f32ca24d52a44313b96906dc4a330db65640a23e566a80dfb002f6656cecba",
+      "политика": {
+        "schema": "fum.machine-local-path-policy.v2",
+        "exceptions": [
+          {
+            "id": "profile-0",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:f45fee452936d6fb9d8a35aaec10bf4f86689b5b7c8b28b64b49b2ee7e753e94",
+            "count": 2,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-1",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:1334c5d25a41b46ce08140c2bcfd8f0b98716f26856eb42690330a2318309888",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-2",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:0df5c406dc2e37a70b6a6aa409cb6d1cc31a02c72f58be88b4a351ef282a214d",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-3",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:262328a7ccc60e790ef7c10e04e6986eef7f1f24c2cb5e0b202ae2c73c4dcd2e",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-4",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:1b2fd8e8b3ccb778492e642eb92b953e35f489d61d9b296524b92d848b6433e7",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-5",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:01386e0d98d76b1bcb28082f56d7dc3c8ca9dfdcb02424f5c2fda9ebe22d1cca",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-6",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:6ed47ddf3e81d84d48f27cc31f48c7c8a9e5a2dd6410ee34a4786a272df3b4da",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-7",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:5a769de21fdda26b96879e28d95109a24e606054804f72464b8fa1d22c166c44",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-8",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:feaa5dc8b79a3181d5ecdb7fa6e69b23563a9e24d96b4b00adf5738edde3efe3",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-9",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:0c44e2e39e91ef7afa7a46ccb7a0af0332681e0cb9397d676d97bd0ce9eb4c02",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-10",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:36f2f91da4aed0417d2097d92c9362d9afc5a0dbe6a1807981b2aa1a9e81699a",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          },
+          {
+            "id": "profile-11",
+            "path": "tests/большой.py",
+            "kind": "posix-absolute",
+            "line_sha256": "sha256:2df17b089600bd7c4646e63739686d5afc85ba80282e1fecf76d62ceb875f570",
+            "count": 1,
+            "category": "allow.test-fixture",
+            "reason": "Закрепляет одну явно выбранную автономную тестовую строку без расширения области."
+          }
+        ]
+      },
+      "точный_повтор": true,
+      "исходник_неизменён": true
+    }
+  ]
+}

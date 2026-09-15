@@ -1,0 +1,15 @@
+HTTP/1.1 200 OK
+Server: kittenx
+Date: Fri, 11 Sep 2026 11:58:01 GMT
+Content-Type: text/html; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Cache-Control: private, no-cache, no-store, max-age=0, must-revalidate
+Vary: User-Agent
+X-Content-Type-Options: nosniff
+X-Frame-Options: ALLOW-FROM dobro.mail.ru metrika.yandex.ru metrika.yandex.by metrica.yandex.com metrcia.yandex.com.tr *.webvisor.com
+X-Xss-Protection: 1; mode=block; report=https://cspreport.mail.ru/xxssprotection
+Strict-Transport-Security: max-age=16070400; preload
+X-Distribution-Part: 0
+x-request-id: [REDACTED: response trace identifier]
+x-trace-id: [REDACTED: response trace identifier]

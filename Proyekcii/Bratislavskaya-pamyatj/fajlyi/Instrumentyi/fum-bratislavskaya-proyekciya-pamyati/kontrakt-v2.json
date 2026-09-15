@@ -80,7 +80,9 @@
       "расширения": [
         ".py",
         ".swift",
-        ".sh"
+        ".sh",
+        ".c",
+        ".h"
       ],
       "действие": "сохранить_байты"
     },
@@ -102,7 +104,11 @@
         ".html",
         ".base64",
         ".mlir",
-        ".css"
+        ".css",
+        ".modulemap",
+        ".pbxproj",
+        ".plist",
+        ".entitlements"
       ],
       "точные_пути": [
         ".gitignore",
@@ -110,7 +116,13 @@
         ".obsidian/fum-recency-reference-date",
         "LICENSE",
         "fum",
-        "ЛИЦЕНЗИЯ"
+        "ЛИЦЕНЗИЯ",
+        "Приложения/FUMA/macOS/.gitignore",
+        "Инструменты/fum-reyestr-planirovaniya/scripts/адаптер-codex.js",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/адаптер_ответа.cjs",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_адаптер_ответа.cjs",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_смешанный_профиль.cjs",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль-смешанных-ответов.cjs"
       ],
       "действие": "сохранить_байты"
     },
@@ -155,7 +167,15 @@
     ".css",
     ".canvas",
     ".lock",
-    ".bin"
+    ".bin",
+    ".c",
+    ".h",
+    ".modulemap",
+    ".pbxproj",
+    ".plist",
+    ".entitlements",
+    ".js",
+    ".cjs"
   ],
   "пустые_каталоги": "не_включаются_в_инвентарь_репозитория"
 }

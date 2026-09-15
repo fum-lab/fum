@@ -258,7 +258,11 @@
                 ".html",
                 ".base64",
                 ".mlir",
-                ".css"
+                ".css",
+                ".modulemap",
+                ".pbxproj",
+                ".plist",
+                ".entitlements"
               ]
             },
             "точные_пути": {
@@ -268,7 +272,13 @@
                 ".obsidian/fum-recency-reference-date",
                 "LICENSE",
                 "fum",
-                "ЛИЦЕНЗИЯ"
+                "ЛИЦЕНЗИЯ",
+                "Приложения/FUMA/macOS/.gitignore",
+                "Инструменты/fum-reyestr-planirovaniya/scripts/адаптер-codex.js",
+                "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/адаптер_ответа.cjs",
+                "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_адаптер_ответа.cjs",
+                "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_смешанный_профиль.cjs",
+                "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль-смешанных-ответов.cjs"
               ]
             },
             "действие": {
@@ -338,7 +348,9 @@
           "const": [
             ".py",
             ".swift",
-            ".sh"
+            ".sh",
+            ".c",
+            ".h"
           ]
         },
         "действие": {

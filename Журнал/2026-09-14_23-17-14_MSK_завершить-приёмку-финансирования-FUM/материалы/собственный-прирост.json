@@ -1,0 +1,256 @@
+{
+  "основа": "73c52866e565061b48ee67e164d5d178c5c8d8cd",
+  "базовый_инвентарь_совпал": false,
+  "до": {
+    "версия_схемы": 1,
+    "отпечаток_инвентаря": "sha256:775d9995b06177acf2848eb99c83c11c63ef7662e2908a5a6b16dcfe852bb4e7",
+    "объявлений": 43606,
+    "по_языкам": {
+      "mermaid": 460,
+      "python": 16553,
+      "swift": 26593
+    }
+  },
+  "после": {
+    "версия_схемы": 1,
+    "отпечаток_инвентаря": "sha256:073e3cc4ef1840bbe7dafa720bc83f3e0fcc94eae22db20fc2a2f7d0b583a2e2",
+    "объявлений": 43674,
+    "по_языкам": {
+      "mermaid": 460,
+      "python": 16621,
+      "swift": 26593
+    }
+  },
+  "добавлены": [
+    {
+      "объявление": [
+        "Инструменты/fum-materialyi-zaprosov/scripts/source_archive.py",
+        "python",
+        "параметр",
+        "attrs"
+      ],
+      "число": 1
+    },
+    {
+      "объявление": [
+        "Инструменты/fum-materialyi-zaprosov/scripts/source_archive.py",
+        "python",
+        "параметр",
+        "self"
+      ],
+      "число": 4
+    },
+    {
+      "объявление": [
+        "Инструменты/fum-materialyi-zaprosov/scripts/source_archive.py",
+        "python",
+        "параметр",
+        "tag"
+      ],
+      "число": 2
+    },
+    {
+      "объявление": [
+        "Инструменты/fum-materialyi-zaprosov/scripts/source_archive.py",
+        "python",
+        "привязка",
+        "body_bytes"
+      ],
+      "число": 1
+    },
+    {
+      "объявление": [
+        "Инструменты/fum-materialyi-zaprosov/scripts/source_archive.py",
+        "python",
+        "привязка",
+        "исходный_html"
+      ],
+      "число": 1
+    },
+    {
+      "объявление": [
+        "Инструменты/fum-materialyi-zaprosov/scripts/source_archive.py",
+        "python",
+        "функция",
+        "handle_endtag"
+      ],
+      "число": 1
+    },
+    {
+      "объявление": [
+        "Инструменты/fum-materialyi-zaprosov/scripts/source_archive.py",
+        "python",
+        "функция",
+        "handle_starttag"
+      ],
+      "число": 1
+    },
+    {
+      "объявление": [
+        "Инструменты/fum-materialyi-zaprosov/scripts/source_archive.py",
+        "python",
+        "функция",
+        "очистить_диагностику_CAPTCHA"
+      ],
+      "число": 1
+    },
+    {
+      "объявление": [
+        "Инструменты/fum-materialyi-zaprosov/scripts/source_archive.py",
+        "python",
+        "функция",
+        "очистить_служебный_html"
+      ],
+      "число": 1
+    },
+    {
+      "объявление": [
+        "Инструменты/fum-materialyi-zaprosov/tests/test_очистка_источников_поддержки.py",
+        "python",
+        "параметр",
+        "body"
+      ],
+      "число": 6
+    },
+    {
+      "объявление": [
+        "Инструменты/fum-materialyi-zaprosov/tests/test_очистка_источников_поддержки.py",
+        "python",
+        "параметр",
+        "headers"
+      ],
+      "число": 6
+    },
+    {
+      "объявление": [
+        "Инструменты/fum-materialyi-zaprosov/tests/test_очистка_источников_поддержки.py",
+        "python",
+        "параметр",
+        "self"
+      ],
+      "число": 12
+    },
+    {
+      "объявление": [
+        "Инструменты/fum-materialyi-zaprosov/tests/test_очистка_источников_поддержки.py",
+        "python",
+        "параметр",
+        "url"
+      ],
+      "число": 6
+    },
+    {
+      "объявление": [
+        "Инструменты/fum-materialyi-zaprosov/tests/test_очистка_источников_поддержки.py",
+        "python",
+        "привязка",
+        "url"
+      ],
+      "число": 1
+    },
+    {
+      "объявление": [
+        "Инструменты/fum-materialyi-zaprosov/tests/test_очистка_источников_поддержки.py",
+        "python",
+        "функция",
+        "test_PDF_не_сохраняется_как_HTML"
+      ],
+      "число": 1
+    },
+    {
+      "объявление": [
+        "Инструменты/fum-materialyi-zaprosov/tests/test_очистка_источников_поддержки.py",
+        "python",
+        "функция",
+        "test_gzip_распаковывается_перед_очисткой"
+      ],
+      "число": 1
+    },
+    {
+      "объявление": [
+        "Инструменты/fum-materialyi-zaprosov/tests/test_очистка_источников_поддержки.py",
+        "python",
+        "функция",
+        "test_диагностика_nonce_и_незакавыченное_поле"
+      ],
+      "число": 1
+    },
+    {
+      "объявление": [
+        "Инструменты/fum-materialyi-zaprosov/tests/test_очистка_источников_поддержки.py",
+        "python",
+        "функция",
+        "test_диагностический_ID_страницы_блокировки"
+      ],
+      "число": 1
+    },
+    {
+      "объявление": [
+        "Инструменты/fum-materialyi-zaprosov/tests/test_очистка_источников_поддержки.py",
+        "python",
+        "функция",
+        "test_новое_чтение_сохраняет_исторические_байты_того_же_URL"
+      ],
+      "число": 1
+    },
+    {
+      "объявление": [
+        "Инструменты/fum-materialyi-zaprosov/tests/test_очистка_источников_поддержки.py",
+        "python",
+        "функция",
+        "test_переархивация_родителя_сохраняет_вложенный_URL"
+      ],
+      "число": 1
+    },
+    {
+      "объявление": [
+        "Инструменты/fum-materialyi-zaprosov/tests/test_очистка_источников_поддержки.py",
+        "python",
+        "функция",
+        "test_сжатый_PDF_отклоняется_после_распаковки"
+      ],
+      "число": 1
+    },
+    {
+      "объявление": [
+        "Инструменты/fum-reyestr-planirovaniya/tests/test_реестр_поддержки.py",
+        "python",
+        "параметр",
+        "self"
+      ],
+      "число": 16
+    },
+    {
+      "объявление": [
+        "Инструменты/fum-reyestr-planirovaniya/tests/test_реестр_поддержки.py",
+        "python",
+        "функция",
+        "test_неверный_путь_CLI_возвращает_диагностику_без_записи"
+      ],
+      "число": 1
+    }
+  ],
+  "сняты": [],
+  "проверенные_изменённые_файлы": [
+    "Инструменты/fum-materialyi-zaprosov/scripts/source_archive.py",
+    "Инструменты/fum-materialyi-zaprosov/tests/test_очистка_источников_поддержки.py",
+    "Инструменты/fum-materialyi-zaprosov/tests/профиль_очистки_поддержки.py",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/исполнитель_приёма.py",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/реестр-организаций-поддержки.py",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/реестр_поддержки.py",
+    "Инструменты/fum-reyestr-planirovaniya/tests/test_исправления_приёма.py",
+    "Инструменты/fum-reyestr-planirovaniya/tests/test_реестр_поддержки.py",
+    "Инструменты/fum-reyestr-planirovaniya/tests/профиль_реестра_поддержки.py"
+  ],
+  "граница": "Позиционный инвентарь исходной основы восстановлен из Git; сравнение мультимножеств исключает только строку и столбец, сохраняя путь, язык, вид и имя.",
+  "исторический_снимок": {
+    "версия_схемы": 1,
+    "объявлений": 43163,
+    "отпечаток_инвентаря": "sha256:546e604159370f81e9c0a5e68f572d68cf245852b7a1de7d3cc4e76e1b6a746b",
+    "по_языкам": {
+      "mermaid": 460,
+      "python": 16110,
+      "swift": 26593
+    }
+  }
+}

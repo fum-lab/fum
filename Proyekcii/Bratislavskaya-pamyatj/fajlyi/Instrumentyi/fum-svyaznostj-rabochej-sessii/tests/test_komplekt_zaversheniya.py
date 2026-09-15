@@ -24,6 +24,8 @@ from unittest import mock
 ПУТИ += [ПРЕФИКС + имя for имя in ("обязательства_задачи_v2.py", "история_пути_гита.py")]
 ПУТИ += ["Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/" + имя for имя in (
     "закрытый_отчёт_из_гита.py", "связь_отпечатка_с_коммитом.py")]
+ПУТИ += [ПРЕФИКС + имя for имя in ("обработка_сообщений.py", "сообщения_задачи.py")]
+ПУТИ += ["Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py"]
 ЗАДАЧА = "01a07d3d-d376-7ad2-aafc-67e4c25a67eb"
 
 
@@ -50,6 +52,7 @@ class КомплектЗавершения(unittest.TestCase):
             'assert sys.flags.isolated and sys.flags.no_site and sys.flags.dont_write_bytecode\n'
             'assert "PYTHONPATH" not in os.environ and "ПОСТОРОННЕЕ" not in os.environ\n'
             'assert os.environ["PATH"] == "/usr/bin:/bin"\n'
+            'assert "--исходник" in sys.argv\n'
             'print(json.dumps(json.load(sys.stdin), ensure_ascii=False))\n')
         это.коммит = это.сохранить()
 
@@ -74,6 +77,7 @@ class КомплектЗавершения(unittest.TestCase):
                 "--хранилище", str(это.хранилище), "--интерпретатор", sys.executable,
                 "--корень-репозитория", str(это.данные), "--ожидаемый-cwd", str(это.данные),
                 "--codex-thread-id", ЗАДАЧА, "--каталог-состояния", str(это.каталог / "состояние"),
+                "--исходник", str(это.каталог / "диалог.jsonl"),
                 "--файл-прогресса", "результат.py", *добавка]
 
     def подготовить(это, *добавка):
@@ -102,8 +106,8 @@ class КомплектЗавершения(unittest.TestCase):
         манифест = (цель / "манифест.json").read_bytes()
         это.assertEqual(hashlib.sha256(манифест).hexdigest(), результат["sha256"])
         это.assertEqual(цель.name, "stop-" + результат["sha256"])
-        это.assertEqual(len(результат["манифест"]["файлы"]), 8)
-        это.assertEqual(результат["манифест"]["схема"], "fum.комплект-Stop.2")
+        это.assertEqual(len(результат["манифест"]["файлы"]), 11)
+        это.assertEqual(результат["манифест"]["схема"], "fum.комплект-Stop.3")
         for имя in ПУТИ:
             это.assertEqual((цель / имя).read_bytes(), (это.репозиторий / имя).read_bytes())
             это.assertEqual((цель / имя).stat().st_mode & 0o777, 0o400)
@@ -295,7 +299,7 @@ class КомплектЗавершения(unittest.TestCase):
             хранилище=str(это.хранилище), интерпретатор=sys.executable,
             корень_репозитория=str(это.данные), ожидаемый_cwd=str(это.данные),
             codex_thread_id=ЗАДАЧА, каталог_состояния=str(это.каталог / "состояние"),
-            файл_прогресса=["результат.py"], план=None)
+            файл_прогресса=["результат.py"], план=None, исходник=str(это.каталог / "диалог.jsonl"), кэш=None)
         исходный = Path.mkdir
         барьер = threading.Barrier(2)
         def создать(путь, *позиционные, **именованные):

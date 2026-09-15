@@ -1,0 +1,112 @@
+{
+  "схема": "fum.профиль-очистки-поддержки.1",
+  "Python": "3.14.7",
+  "повторы": 7,
+  "снимков": 26,
+  "входы_sha256": {
+    "Источники/URL/https/ai.mipt.ru/_root/response.body.html": "a6ce0f5bcc5de01e1910e7994eed7d57ac46dada632376a566186583e4c3baa2",
+    "Источники/URL/https/ai.mipt.ru/_root/response.headers.txt": "8fc43601e64d6b95876dbf12a838eb6b0e25a8711de11d8e76f7c2364dd6dda0",
+    "Источники/URL/https/ai.mipt.ru/products/response.body.html": "7941002ce14bae7fc1270345864ba83707d0a6df9bbe3c263a8589f44c9c81f4",
+    "Источники/URL/https/ai.mipt.ru/products/response.headers.txt": "7e495935ea1f3606f80cc1c24c4a599fce827dfc0b0ab3545c154447123e5f28",
+    "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/response.body.html": "dda0d332d2aaa14aed326ef5bb3b5e852cd3effbd3759cfc1dfc9c5c519487c5",
+    "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/response.headers.txt": "2c734a12f7f44db281f4a5b81367dc6050e3e6cd763a1fbc46714d6a50079657",
+    "Источники/URL/https/developer.rosa.ru/_root/response.body.html": "c9973776d0019f29eecc3b37497ce7fe29cf10c2ccf01e9b3c381ff8138891ae",
+    "Источники/URL/https/developer.rosa.ru/_root/response.headers.txt": "628d2fff7ef96ee70509aa2b965da304fe5b472297ddcbae85c341872cd5c1e2",
+    "Источники/URL/https/dobro.mail.ru/about/response.body.html": "292b1fa9bd8741cfb3c27ade91cc668811616b6f3b26e303c7991a4251484de2",
+    "Источники/URL/https/dobro.mail.ru/about/response.headers.txt": "8df1c27faf4b4036957c39f2005cb7d1e98d556790eb52f089f5bc6315cb546b",
+    "Источники/URL/https/dobro.mail.ru/funds/registration/response.body.html": "8957288310e9de7506de0274b7eecf39cee0ac660d775c2a440c505b76f4b1c5",
+    "Источники/URL/https/dobro.mail.ru/funds/registration/response.headers.txt": "346ee67db58446b005336a137ea9b2c15d2a887f44f461f8322eeab798e3fd25",
+    "Источники/URL/https/fasie.ru/programs/programma-start/response.body.html": "7feb41b523de3fd47ca9c9ee27d1b537ed3edbf39c23b861adadc7da841ef496",
+    "Источники/URL/https/fasie.ru/programs/programma-start/response.headers.txt": "cc5e3a92dfcd3f8273b542bac9ab8b5d82f18b28d220ba2e6fdc1de1a27573a3",
+    "Источники/URL/https/fondpotanin.ru/competitions/konkurs-professionalnogo-razvitiya/response.body.html": "8ac7ac1c0072b46ba2cf9b8a4d975c18fbdde3a07d8509dd4abc5123dc7718e7",
+    "Источники/URL/https/fondpotanin.ru/competitions/konkurs-professionalnogo-razvitiya/response.headers.txt": "4c0a02cbdbe97175e41cb52e16a606f0dcd350de0ae49bdbe37f9caf99f96995",
+    "Источники/URL/https/help.yandex.ru/business/response.body.html": "42ce258494bca53993e91268894d09ed4740d7ab5ecb2c5d297cc44fe113c0b1",
+    "Источники/URL/https/help.yandex.ru/business/response.headers.txt": "da17d583265c31ed3a5a253a6cb43bce9f029a4529c5b92a7b8bc7a5ab4cfa85",
+    "Источники/URL/https/opensource.itmo.ru/_root/response.body.html": "6ecb5a0ce8adbe2c9cf159670493527759ead094f5e7df87b51e5175b6b45e6e",
+    "Источники/URL/https/opensource.itmo.ru/_root/response.headers.txt": "d5b4173bac0478a16f42e7ffafdefde3778af662c25efae5970da39005745044",
+    "Источники/URL/https/promo.selectel.ru/openfix/response.body.html": "3693aaf6da7573575c02fdc2752fc26314f01873a852e7d7e1e8e376f7902fc9",
+    "Источники/URL/https/promo.selectel.ru/openfix/response.headers.txt": "638beb9e36210e64070b64c653f9e0dd0b7ce34c2d8358ffa0b7aad56234548d",
+    "Источники/URL/https/rosa.ru/become-partner/response.body.html": "d78d0a040d7b4a089445abfa05b0d2755cb2f0f47d601eb425cfcf7e8a078b72",
+    "Источники/URL/https/rosa.ru/become-partner/response.headers.txt": "32efaf9b39b683ec16f37d126a7491f0a5355d9a49d31fd495b5e81feec2c5c0",
+    "Источники/URL/https/rosa.ru/tech-partners/response.body.html": "605869659c0cb8ecfce2d7961be1064d18c62ac83c3491e7c0a1221a4278e3b6",
+    "Источники/URL/https/rosa.ru/tech-partners/response.headers.txt": "0f4c43dde29950e212a4943d21a619dd1d89e09b3ba477fc628f13149517546e",
+    "Источники/URL/https/selectel.ru/services/cloud/grant/response.body.html": "79d474f2e71a77ef27b7c19cd3ad704ba6e622ea4129a6e52d11b0373873d078",
+    "Источники/URL/https/selectel.ru/services/cloud/grant/response.headers.txt": "3661cb28dd9ce1784d9dd0b2edaf6344bc73ae91dcdd6a34c2622cc1cb56eed1",
+    "Источники/URL/https/selectel.ru/services/startups-grant/response.body.html": "c53a69ecce8076aaf7de09e5b664efeaa5b67cb17a099983f8d38403e610496a",
+    "Источники/URL/https/selectel.ru/services/startups-grant/response.headers.txt": "40553641b255bd2adfd8d2e4bb83c27b7c52efd0b9feaff79aca0c3ccbde6ec5",
+    "Источники/URL/https/sk.ru/applicants-actions/response.body.html": "0e36db7b922f79a36456d5e2ca4311e843268089b77736d59e7e15ff37455283",
+    "Источники/URL/https/sk.ru/applicants-actions/response.headers.txt": "6f52bdd5c0e937c2a472ce74077a68e8aa68c4682f949ab8090952c43918413f",
+    "Источники/URL/https/sk.ru/grant-financial-support/microgrants/response.body.html": "d7add5f9ee85d61b2994cbe8e1279810e57a6cc2eb95738ebcf6c49653e80656",
+    "Источники/URL/https/sk.ru/grant-financial-support/microgrants/response.headers.txt": "68154b505d9d5dc5fa4eb178e46e5c81d4a886e49491f842a2d847605b19f09a",
+    "Источники/URL/https/www.altlinux.org/Join/response.body.html": "96990456ac8cd5a0080d6e48dc8f6329f29ca2125ef1625907f9ce269296a1d3",
+    "Источники/URL/https/www.altlinux.org/Join/response.headers.txt": "e94f5039bcedaae2763c4e20d296c7f58f6687e88e299c170dd79481d5c03ba0",
+    "Источники/URL/https/www.basealt.ru/alt-linux/response.body.html": "40b90c72cc743b0804070abb147231d34961b34c3e0f376e685e7e1f695feda7",
+    "Источники/URL/https/www.basealt.ru/alt-linux/response.headers.txt": "4f63c84d9673af92bd73d63049f83f46939cf759a897a468c60e6892075eb23c",
+    "Источники/URL/https/www.basealt.ru/product-compatibility/response.body.html": "3637d846c9d8a454f35871ec7ac08e51e9d3106d5fddf24571ec9ea5d27e8796",
+    "Источники/URL/https/www.basealt.ru/product-compatibility/response.headers.txt": "59f618f7082ee6288b781aea38705863492bd274d029ad6b495e58a14ed66aaf",
+    "Источники/URL/https/www.ispras.ru/_root/response.body.html": "7bcb694b4de26503fc6500d8bf31485ee6635e1dd1b241765d444d6eed883e90",
+    "Источники/URL/https/www.ispras.ru/_root/response.headers.txt": "b7ba9928e8e0fff7e09c4ab48f48e21524ffbd7be9f8bdd1a95d1f693a61cc70",
+    "Источники/URL/https/www.rscf.ru/contests/response.body.html": "76ab553b7c3c59b5dd51c84d533d94a4372820e765680dcbed9084cfd58307a9",
+    "Источники/URL/https/www.rscf.ru/contests/response.headers.txt": "09116a28e53a521d77a19f4df25117862b83a811d922c630da6c805b6b8dd76b",
+    "Источники/URL/https/www.swift.org/sswg/incubation-process.html/response.body.html": "e3c327673d34703ef9f8b7927dbd388f680c2bf3b04c92465d72bf5174daf27c",
+    "Источники/URL/https/www.swift.org/sswg/incubation-process.html/response.headers.txt": "5ef4f280294a4dc875bb4d322af4cb8bef981cd7fac0bc9065baddf536f0b54f",
+    "Источники/URL/https/xn--80afcdbalict6afooklqi5o.xn--p1ai/public/home/about/response.body.html": "8a16d70f982f3a6e2ccccedb7cb3ce5ef784ca23a0f7e5b5bab031386eb9337d",
+    "Источники/URL/https/xn--80afcdbalict6afooklqi5o.xn--p1ai/public/home/about/response.headers.txt": "e3eccc494362b9ab13ddcdb56db067d2aaaf601b2edf91dd1e5838541bbfde41",
+    "Источники/URL/https/xn--p1acnb.xn--p1ai/_root/response.body.html": "93db34230560424ba220ae9a191e0f02398226e4b008c13013e2d15b9f6dbec2",
+    "Источники/URL/https/xn--p1acnb.xn--p1ai/_root/response.headers.txt": "2d7e2711ee8a5791975cf4b954aebf5557ee217ceaea8b6afe78c560a9b22f70",
+    "Источники/URL/https/yandex.cloud/ru/all-offers/response.body.html": "821ca44e72c3979b9d0abf0ab417ed9be81f408191d6168833d4e7bad9351856",
+    "Источники/URL/https/yandex.cloud/ru/all-offers/response.headers.txt": "912bdd5844205601e702d7917d2e2e53ffc6ae1ca70e4c10f4dc1ca795899883"
+  },
+  "отдельные_PDF_вне_профиля_HTML": [
+    "https://astra.ru/ready-for-astra/become-tech-partner/docs/affiliate_program/"
+  ],
+  "код_sha256": {
+    "Инструменты/fum-materialyi-zaprosov/tests/профиль_очистки_поддержки.py": "0d8d10903499bcfc37c976ae8ddbc47f40e7bfdbd5b18f48f9dafa133691765f",
+    "Инструменты/fum-materialyi-zaprosov/scripts/source_archive.py": "52e3581df09a791d8ee9b9eabb685e4511697a17f448ed2745f1bb5f0218763d"
+  },
+  "измерения": [
+    {
+      "стадия": "Очистка сохранённого набора",
+      "глубина": 0,
+      "длительность_наносекунды": 328763583,
+      "исход": "успех"
+    },
+    {
+      "стадия": "Очистка сохранённого набора",
+      "глубина": 0,
+      "длительность_наносекунды": 324510375,
+      "исход": "успех"
+    },
+    {
+      "стадия": "Очистка сохранённого набора",
+      "глубина": 0,
+      "длительность_наносекунды": 323684208,
+      "исход": "успех"
+    },
+    {
+      "стадия": "Очистка сохранённого набора",
+      "глубина": 0,
+      "длительность_наносекунды": 324911250,
+      "исход": "успех"
+    },
+    {
+      "стадия": "Очистка сохранённого набора",
+      "глубина": 0,
+      "длительность_наносекунды": 325320417,
+      "исход": "успех"
+    },
+    {
+      "стадия": "Очистка сохранённого набора",
+      "глубина": 0,
+      "длительность_наносекунды": 324118959,
+      "исход": "успех"
+    },
+    {
+      "стадия": "Очистка сохранённого набора",
+      "глубина": 0,
+      "длительность_наносекунды": 325121708,
+      "исход": "успех"
+    }
+  ],
+  "границы": "Только очистка уже загруженных в память HTML и заголовков. Сеть, извлечение текста, старт Python и запись файлов не измеряются. Проверка идемпотентности не заменяет смысловой аудит секретов."
+}

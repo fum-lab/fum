@@ -23,14 +23,17 @@ def выполнить():
     навык = корень / "Инструменты/fum-svyaznostj-rabochej-sessii"
     сценарий = навык / "scripts/проверить-продолжение-задачи.py"
     фикстуры = навык / "tests/test_обязательства_задачи_v2.py"
-    исходники = [сценарий, фикстуры] + [навык / "scripts" / имя for имя in (
-        "обязательства_задачи.py", "обязательства_задачи_v2.py", "история_пути_гита.py")]
+    исходники = [сценарий, фикстуры, навык / "tests/исходник_проверки.py"] + [навык / "scripts" / имя for имя in (
+        "обязательства_задачи.py", "обязательства_задачи_v2.py", "история_пути_гита.py", "обработка_сообщений.py", "сообщения_задачи.py")]
+    исходники += [корень / "Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py"]
     исходники += [корень / "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts" / имя for имя in (
         "отчёты_о_запусках_проверок.py", "закрытый_отчёт_из_гита.py", "связь_отпечатка_с_коммитом.py")]
     def отпечатки():
         return {str(путь.relative_to(корень)): hashlib.sha256(путь.read_bytes()).hexdigest() for путь in исходники}
     до = отпечатки()
+    адаптер_до = hashlib.sha256(АДАПТЕР.read_bytes()).hexdigest()
     sys.dont_write_bytecode = True
+    sys.path.insert(0, str(фикстуры.parent))
     описание = importlib.util.spec_from_file_location("синтетические_обязательства", фикстуры)
     модуль = importlib.util.module_from_spec(описание)
     описание.loader.exec_module(модуль)
@@ -56,7 +59,8 @@ def выполнить():
                 (пример.корень / пример.путь_реестра).write_text("{")
             проверка = subprocess.run([sys.executable, "-B", str(сценарий),
                                       "--корень-репозитория", str(пример.корень),
-                                      "--codex-thread-id", модуль.ИДЕНТИФИКАТОР, "--перед-завершением"],
+                                      "--codex-thread-id", модуль.ИДЕНТИФИКАТОР, "--перед-завершением",
+                                      "--исходник", str(пример.исходник)],
                                      capture_output=True, timeout=15,
                                      env=dict(os.environ, PYTHONDONTWRITEBYTECODE="1"))
             if режим in ("ошибка", "незакоммиченная-граница"):
@@ -74,7 +78,7 @@ def выполнить():
                 команда = [sys.executable, "-B", str(АДАПТЕР), "--корень-репозитория", str(пример.корень),
                            "--codex-thread-id", модуль.ИДЕНТИФИКАТОР, "--ожидаемый-cwd", str(пример.корень),
                            "--guard", str(сценарий), "--каталог-состояния", str(состояние),
-                           "--файл-прогресса", "код.py", "--тайм-аут-backend", "10"]
+                           "--файл-прогресса", "код.py", "--исходник", str(пример.исходник)]
                 событие = {"session_id": модуль.ИДЕНТИФИКАТОР, "cwd": str(пример.корень),
                            "hook_event_name": "Stop", "turn_id": "синтетический-ход", "stop_hook_active": False}
                 процесс = subprocess.run(команда, input=json.dumps(событие).encode(),
@@ -97,15 +101,15 @@ def выполнить():
                                     "guard_код": проверка.returncode, "успешно": True})
         finally:
             пример.doCleanups()
-    if до != отпечатки():
-        raise RuntimeError("guard изменился во время интеграционного прогона")
+    if до != отпечатки() or адаптер_до != hashlib.sha256(АДАПТЕР.read_bytes()).hexdigest():
+        raise RuntimeError("код изменился во время интеграционного прогона")
     версия = subprocess.run(["git", "-C", str(корень), "rev-parse", "HEAD"], capture_output=True, check=True).stdout.decode().strip()
     состояние = subprocess.run(["git", "-C", str(корень), "status", "--porcelain", "--",
                                 *(str(путь.relative_to(корень)) for путь in исходники)],
                                capture_output=True, check=True).stdout
     print(json.dumps({"схема": "fum.интеграция-Stop.1", "guard_HEAD": версия,
                       "guard_чистый": not bool(состояние), "guard_sha256": до,
-                      "адаптер_sha256": hashlib.sha256(АДАПТЕР.read_bytes()).hexdigest(),
+                      "адаптер_sha256": адаптер_до,
                       "сценарии": результаты}, ensure_ascii=False, sort_keys=True, indent=2))
     return 0
 

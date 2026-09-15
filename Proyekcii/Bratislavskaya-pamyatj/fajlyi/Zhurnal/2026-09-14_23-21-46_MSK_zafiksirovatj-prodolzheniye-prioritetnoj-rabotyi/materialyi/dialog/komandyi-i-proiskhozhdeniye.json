@@ -1,0 +1,69 @@
+{
+  "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "назначение": "Семь реальных команд, повторно приведённых как основание продолжения; не новые сообщения и не свидетельство завершения",
+  "команды": [
+    {
+      "экземпляр": "6bddeb87a8d211b7639ca0955e120930186509d42825060d55d8f78165f096d9",
+      "позиция": {
+        "начало": 531425964,
+        "конец": 531426432,
+        "sha256": "bc9d34d616b320ffaf6c33b840399d20d8e70db346ee049d806346dd4fc2d1d8"
+      },
+      "содержимое": "Vsyu rabotu stavim na pauzu i aktivnyij upor delayem na optimizaciyu raskhoda konteksta.\n"
+    },
+    {
+      "экземпляр": "ec3e8a9b273b6ee718f5f02fe26ab38840a2eb109a8b731f803fec6a00f9752e",
+      "позиция": {
+        "начало": 531548995,
+        "конец": 531549440,
+        "sha256": "8cf75a35954427c47ca44814bdf5d6bade2beff7c7cc0d458950389380ed4666"
+      },
+      "содержимое": "Ostavlyayem aktivnyimi toljko vetki s uzhe nachatoj integraciyej.\n"
+    },
+    {
+      "экземпляр": "919cb59e03cb2d9d51eba8de5702021e7f00b64f43d3806489563714ea5e571a",
+      "позиция": {
+        "начало": 532933199,
+        "конец": 532933686,
+        "sha256": "ac54486468d65e8cfa0f808bca4a01555a412c47478c1af46f612dd82471daec"
+      },
+      "содержимое": "Vtoroj prioritetnoj zadachej paralleljno zapusti poisk dopolniteljnogo finansirovaniya dlya tvoyej rabotyi.\n"
+    },
+    {
+      "экземпляр": "bb957cebf678be7b48c7663fa6d6aff017672d3e4ebe41a593abc29c9a79e713",
+      "позиция": {
+        "начало": 534125112,
+        "конец": 534125593,
+        "sha256": "9a0ccc9d3e6f7fc55cee71b4f72c2f0af88c049546ad39bcddd2cb1b0120d2f2"
+      },
+      "содержимое": "Pochemu rabota po optimizacii konteksta ne zapusjhena v otdeljnoj sessii v otdeljnom rabochem dereve?\n"
+    },
+    {
+      "экземпляр": "e38bd0ef3d8d074caaab90e71a931ebe0d45b0bf959734fdca6cfb1d97e778be",
+      "позиция": {
+        "начало": 534381536,
+        "конец": 534382001,
+        "sha256": "80c8154c95ef03eda3f7ea99eada3ada674c371f98357e59f369e11bfb8b9209"
+      },
+      "содержимое": "Budut pryam skhemyi mapinga s mapingom v kompaktnyiye JSON-strukturyi cherez Codable?\n"
+    },
+    {
+      "экземпляр": "c18f6e0712334627708471d8fa1dd46282d47f02a266a03a16ae4a083f52aca5",
+      "позиция": {
+        "начало": 534480129,
+        "конец": 534480650,
+        "sha256": "78aa4b0551ccb73fab5d11d8a06b2cba863458f5c48de78df3ce4d0e3417dffe"
+      },
+      "содержимое": "Nam nuzhno byi avtomaticheski generirovatj predstavleniya na Swift i Python iz obsjhego opisaniya mekhanizmom strukturiruyusjhikh operatorov.\n"
+    },
+    {
+      "экземпляр": "4d0fd2cb545dc29f7700377c54ddf182d46f951780f192d80560122ac4d60f66",
+      "позиция": {
+        "начало": 543361378,
+        "конец": 543361787,
+        "sha256": "57d89afe476836a183b05e5973efbb052bc34b5b3e1290a008d6b3d87694f80f"
+      },
+      "содержимое": "Pochemu proizoshla ostanovka?\n"
+    }
+  ]
+}

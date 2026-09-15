@@ -1,0 +1,113 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "https://beget.com"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Beget",
+    "url": "https://beget.com",
+    "logo": "",
+    "alternateName": "Бегет",
+    "sameAs": [
+      "https://beget.com/ru",
+      "https://www.youtube.com/@BegetOfficial",
+      "https://linkedin.com/company/ltdbeget",
+      "https://www.facebook.com/LTDBeGet",
+      "https://github.com/LTD-Beget",
+      "https://ru.wikipedia.org/wiki/Бегет",
+      "https://x.com/begetru"
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Beget",
+    "image": "https://cp.beget.com/shared/LEX3TOus5TPrFwUm3iIsw_Dm7wg16jU-/beget_logo_normal_3d.jpg",
+    "@id": "",
+    "url": "https://beget.com",
+    "telephone": "8 (800) 700-06-08",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "площадь Карла Фаберже",
+      "addressLocality": "Санкт-Петербург",
+      "postalCode": "195112",
+      "addressCountry": "RU",
+      "addressRegion": "Ленинградская область"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "30.388194",
+      "longitude": "59.821127"
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      "opens": "00:00",
+      "closes": "23:59"
+    },
+    "sameAs": [
+      "https://beget.com",
+      "https://www.youtube.com/@BegetOfficial",
+      "https://ru.linkedin.com/company/ltdbeget",
+      "https://github.com/LTD-Beget",
+      "https://ru.wikipedia.org/wiki/Бегет",
+      "https://www.facebook.com/LTDBeGet",
+      "https://x.com/begetru"
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://beget.com/ru/uridicheskie-pravila-programmi-grantov"
+    },
+    "headline": "Юридические правила программы грантов на облачную инфраструктуру Beget",
+    "description": "Подробные правила участия в программе грантов для бизнеса на облачную инфраструктуру Beget",
+    "image": [],
+    "author": {
+      "@type": "Organization",
+      "name": "Бегет",
+      "url": "https://beget.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Beget",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://cp.beget.com/shared/LEX3TOus5TPrFwUm3iIsw_Dm7wg16jU-/beget_logo_normal_3d.jpg"
+      }
+    },
+    "datePublished": "2025-03-14",
+    "dateModified": "2026-06-10"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Бегет ✔",
+        "item": "https://beget.com/ru"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Правила акции “Грант на проект”",
+        "item": "https://beget.com/ru/uridicheskie-pravila-programmi-grantov"
+      }
+    ]
+  }
+]

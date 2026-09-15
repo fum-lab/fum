@@ -1,0 +1,47 @@
+{
+  "схема": "fum.артефакты-Xcode.1",
+  "сборка": {
+    "вызов": "Xcode: подтвердить последние изменения общих путей, MCP и C-адаптера, jobs 2",
+    "код_выхода": 0,
+    "configuration": "Debug",
+    "scheme": "FUM",
+    "CODE_SIGNING_ALLOWED": "NO",
+    "предупреждения": 46,
+    "диагностика_exit0_без_вывода": 2
+  },
+  "продукты": [
+    {
+      "продукт": "FUM.app/Contents/MacOS/FUM",
+      "тип": "Mach-O 64-bit executable arm64",
+      "архитектура": "arm64",
+      "sha256": "9e64ac5d30d9f91b322f26cc014ec9351925b4f6938a701daf9db1a9097cb6b1",
+      "байты": 40208,
+      "mtime_ns": 1789082943597642458
+    },
+    {
+      "продукт": "FUM.app/Contents/MacOS/FUM.debug.dylib",
+      "тип": "Mach-O 64-bit dynamically linked shared library arm64",
+      "архитектура": "arm64",
+      "sha256": "74b5f785ac89dcfab46c777a3904064d4f0658e3591d63db6548d1624f27278b",
+      "байты": 5703920,
+      "mtime_ns": 1789082943551879249
+    },
+    {
+      "продукт": "FUM.app/Contents/Helpers/fum-mcp",
+      "тип": "Mach-O 64-bit executable arm64",
+      "архитектура": "arm64",
+      "sha256": "fbed6021db98d4086cecc29462f28ea9427e4dbcfb73536cb69df8aa278ecbbc",
+      "байты": 312664,
+      "mtime_ns": 1789082943602216291
+    },
+    {
+      "продукт": "fum-mcp",
+      "тип": "Mach-O 64-bit executable arm64",
+      "архитектура": "arm64",
+      "sha256": "fbed6021db98d4086cecc29462f28ea9427e4dbcfb73536cb69df8aa278ecbbc",
+      "байты": 312664,
+      "mtime_ns": 1789082939201197541
+    }
+  ],
+  "граница": "Чтение существующих результатов последнего xcodebuild; бинарники не запускались. Точная фактическая argv передана корню отдельным сообщением; этот материал использует относительные имена продуктов."
+}
