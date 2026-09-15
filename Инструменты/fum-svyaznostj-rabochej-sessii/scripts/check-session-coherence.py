@@ -238,8 +238,32 @@ class AffectedPaths(set[Path]):
         self.локально_сохранённые_снятые_с_учёта_файлы: set[Path] = set()
 
 
+def проверить_имя_автора(корень: Path, ожидаемое: str) -> list[str]:
+    """Проверить роль и буквальный GIT_AUTHOR_NAME без изменения identity."""
+    if not isinstance(ожидаемое, str) or not re.fullmatch(
+        r"FUM [А-ЯЁ][А-Яа-яЁё]*(?:[ -][А-Яа-яЁё]+)*", ожидаемое
+    ):
+        return ["имя автора должно иметь формат FUM <Роль> с обычным одиночным пробелом"]
+    try:
+        subprocess.run(
+            ["git", "-C", str(корень), "rev-parse", "--show-toplevel"],
+            check=True, capture_output=True,
+        )
+        результат = subprocess.run(
+            ["git", "-C", str(корень), "var", "GIT_AUTHOR_IDENT"],
+            check=True, capture_output=True, text=True,
+        )
+        фактическое = результат.stdout.split(" <", 1)[0]
+        if фактическое != ожидаемое:
+            return ["фактическое имя автора не совпадает с назначенной ролью"]
+    except (OSError, subprocess.CalledProcessError):
+        return ["не удалось прочитать GIT_AUTHOR_IDENT"]
+    return []
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--имя-автора", help="Точное ожидаемое имя автора, например FUM Интегратор.")
     parser.add_argument(
         "--request",
         required=True,
@@ -2112,6 +2136,11 @@ def validate_session(
 
 def main() -> int:
     args = parse_args()
+    if args.имя_автора is not None:
+        ошибки_автора = проверить_имя_автора(args.repo_root, args.имя_автора)
+        if ошибки_автора:
+            print("\n".join(ошибки_автора), file=sys.stderr)
+            return 1
     commit_message = None
     if args.commit_message_file is not None:
         try:
