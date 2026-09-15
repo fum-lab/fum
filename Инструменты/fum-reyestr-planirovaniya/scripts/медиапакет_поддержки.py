@@ -30,13 +30,25 @@ def _проверить(корень, d):
     fields={"период","получатель","начальный_остаток","поступления","комиссии","возвраты","расходы","источник"}
     if set(o)!=fields: raise ValueError("отчёт")
     money=["начальный_остаток","поступления","комиссии","возвраты","расходы"]
+    if o["период"] is not None and (type(o["период"]) is not str or not re.fullmatch(r"\d{4}-\d{2}",o["период"])): raise ValueError("период")
+    if o["получатель"] is not None and not _текст(o["получатель"]): raise ValueError("получатель")
     for k in money:
-        if o[k] is not None and (type(o[k]) is not int or o[k]<=0 or o[k]>10**12): raise ValueError("сумма")
+        if o[k] is not None and (type(o[k]) is not int or o[k]<0 or o[k]>10**12): raise ValueError("сумма")
     if any(o[k] is not None for k in money) and o["источник"] is None: raise ValueError("сумма без источника")
     if o["источник"] is not None:
         if any(o["источник"].get(k) != r[k] for k in ("коммит","путь","sha256")): raise ValueError("источник отчёта")
         quote=o["источник"].get("цитата", "")
-        if any(o[k] is not None and f"{o[k]/100:.2f}".replace(".", ",") not in quote for k in money): raise ValueError("сумма без свидетельства")
+        if quote not in actual or not quote.startswith("ФИНАНСОВЫЙ-ФАКТ; "): raise ValueError("неподтверждённый финансовый факт")
+        expected={"валюта":"RUB","период":o["период"],"получатель":o["получатель"],**{k:o[k] for k in money}}
+        parts={}
+        for item in quote.removeprefix("ФИНАНСОВЫЙ-ФАКТ; ").rstrip(".").split("; "):
+            if "=" not in item: raise ValueError("финансовая запись")
+            k,v=item.split("=",1)
+            if k in parts: raise ValueError("повтор финансового поля")
+            parts[k]=v
+        if set(parts)!=set(expected): raise ValueError("поля финансового факта")
+        for k,v in expected.items():
+            if v is not None and parts[k] != str(v): raise ValueError("финансовый факт не совпадает")
     return src
 
 def собрать(корень, данные):
