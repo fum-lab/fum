@@ -2,7 +2,7 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-14 14:12:52 MSK - Sokratitj vyivod ostatka soobsjhenij](../2026-09-14_14-12-52_MSK_sokratitj-vyivod-ostatka-soobsjhenij/zapros.md)
+- Predyidusjhij zapros: [2026-09-14 14:19:35 MSK - Najti dopolniteljnoye finansirovaniye rabotyi FUM](../2026-09-14_14-19-35_MSK_najti-dopolniteljnoye-finansirovaniye-rabotyi-FUM/zapros.md)
 - Sleduyusjhij zapros: [2026-09-14 15:01:38 MSK - Sokratitj otvetyi nativnyikh instrumentov](../2026-09-14_15-01-38_MSK_sokratitj-otvetyi-nativnyikh-instrumentov/zapros.md)
 
 ## Tekst zaprosa
@@ -88,6 +88,6 @@ Rabota prodolzhayetsya posle pervoj kontroljnoj tochki: [perechenj ostavshikhsya
 Utochneniye koordinatora o chrezmernom otvete API sokhraneno poslednim blokom: zavershyonnaya stroka sobstvennogo JSONL, nachalo 11535329, dlina 2930, SHA-256 `028fbb89e89e4c48c91c6a20aed9568afd63bf989c340154f85669581500f28e`. Eto utochneniye istochnika dlya sleduyusjhego sreza, a ne novyij obyyom rabot.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
-<!-- content-sha256: sha256:cae4a8ef5a8d36a68bdebe9bb66d805ab8d31c997b47710086800b290c012911 -->
+<!-- last-content-edit: 2026-09-15 06:23:18 MSK -->
+<!-- content-sha256: sha256:16817ce138a6378f3300b5fbd0d89fde275f4df0e82059b12b8148585ba8a651 -->
 <!-- FUM-MD-RECENCY:END -->

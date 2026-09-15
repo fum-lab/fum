@@ -98,7 +98,7 @@ Komanda `python3 -B Инструменты/fum-reyestr-planirovaniya/tests/пр�
 
 Sokhranyonnyij `адаптер-codex.js` ispolnyayetsya sredoj, imeyusjhej tri yavno predostavlennyiye vozmozhnosti. `подготовить` vyizyivayet odnorazovuyu komandu `допустить`; `исполнить` peredayot yeyo argumentyi oficialjnomu `create_thread` libo `send_message_to_thread` soglasno sokhranyonnoj operacii; `сохранить` sokhranyayet polnyij otvet cherez odnoimyonnuyu CLI-komandu. Do sozdaniya proyekt proveryayetsya oficialjnyim `list_projects`, vklyuchaya `isGitRepository`. Eto interfejs vozmozhnostej sredyi, ne otdeljnyij Node-servis s dostupom k vnutrennej baze Codex.
 
-Modelj i rassuzhdeniye peredayutsya yavno: `gpt-6-astra`, `ultra`. Novaya zadacha ispoljzuyet worktree i `startingState` s zakreplyonnyim ref. Pervoye porucheniye soderzhit putj postanovki, polnyij kommit i komandu rannego podtverzhdeniya. Nachaljnyij kommit beryotsya odnovremenno iz nativnoj metainformacii JSONL i tekusjhego chistogo dereva; posle nachala rabotyi on ne vosstanavlivayetsya po pozdnemu HEAD. Pozdneye chteniye trebuyet uzhe sokhranyonnogo rannego podtverzhdeniya.
+Modelj i rassuzhdeniye peredayutsya yavno: `gpt-6-astra`, `low`. Novaya zadacha ispoljzuyet worktree i `startingState` s zakreplyonnyim ref. Pervoye porucheniye soderzhit putj postanovki, polnyij kommit i komandu rannego podtverzhdeniya. Nachaljnyij kommit beryotsya odnovremenno iz nativnoj metainformacii JSONL i tekusjhego chistogo dereva; posle nachala rabotyi on ne vosstanavlivayetsya po pozdnemu HEAD. Pozdneye chteniye trebuyet uzhe sokhranyonnogo rannego podtverzhdeniya.
 
 Prilozheniye mozhet podgotovitj novyij worktree s detached HEAD na praviljnom kommite. Posle chteniya marshruta ispolnitelj proveryayet tochnyij OID i chistotu fajlov i indeksa, zatem bez dopolniteljnogo razresheniya sozdayot svobodnuyu sobstvennuyu vetku `codex/…` ot togo zhe OID. Susjhestvuyusjhiye vetki ne peremesjhayutsya. Posle povtornoj sverki OID, polnogo ref, fizicheskogo kornya i chistotyi vyipolnyayetsya `подтвердить-начало` s pervonachaljnyim JSONL; toljko posle uspekha sozdayotsya Zhurnal i nachinayutsya soderzhateljnyiye zapisi. Otkaz prezhdevremennogo podtverzhdeniya iz-za otsutstviya symbolic ref sokhranyayetsya, yesli takoj vyizov uzhe proizoshyol. Nesovpadeniye nachaljnogo kommita ili chuzhiye izmeneniya trebuyut otdeljnoj sverki.
 
@@ -140,6 +140,6 @@ Fajlovaya stadiya snachala sokhranyayet tochnyij plan iskhodnyikh i budusjhikh b
 - [Podtverzhdyonnyij pervyij matematicheskij zapusk](../../Zhurnal/2026-09-11_05-03-47_MSK_podtverditj-matematicheskij-zapusk/otchyot.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-12 01:09:27 MSK -->
-<!-- content-sha256: sha256:84c1213704f5cb59000f83779e2c8e89ca1d32921ea926c8d65675561328b4d7 -->
+<!-- last-content-edit: 2026-09-15 13:36:29 MSK -->
+<!-- content-sha256: sha256:4bd4c8e1242ac3a9a0f288e0fd1169d364d6e4a8f6e4502bb6dc3ab4e282a40d -->
 <!-- FUM-MD-RECENCY:END -->

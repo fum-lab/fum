@@ -49,7 +49,7 @@ Proverka manifesta dopuskayet susjhestvuyusjhuyu celj toljko kak upravlyayemoye 
 - fajla manifest-proiskhozhdeniya-v2.json;
 - putej pod fajlyi/, perechislennyikh manifestom.
 
-Obyichnyij fajl s tochnyim imenem `.DS_Store` na lyubom urovne fizicheskoj proyekcii yavlyayetsya lokaljnyimi metadannyimi Finder i ne vkhodit v upravlyayemyij nabor, yego khyesh ili manifest. Proverka toljko chitayet i sokhranyayet eti metadannyiye; izmeneniye ikh bajtov ne menyayet pokoleniye. Ssyilka, katalog libo specialjnyij obyyekt s etim imenem zakryivayut proverku. Blizkiye imena ostayutsya obyichnyimi neizvestnyimi obyyektami. Pri udalenii dokazanno prinadlezhasjhikh tranzakcii vremennyikh i rezervnyikh katalogov metadannyiye udalyayutsya lishj posle polnogo predvariteljnogo obkhoda; tip i identichnostj povtorno proveryayutsya bez perekhoda po ssyilkam. Pozdnyaya podmena ili novyij neizvestnyij obyyekt zakryivayut ochistku. V zhivoj celi i sokhranyayemom proizvodnom prostranstve metadannyiye ostayutsya.
+Obyichnyij fajl s tochnyim imenem `.DS_Store` na lyubom urovne fizicheskoj proyekcii yavlyayetsya lokaljnyimi metadannyimi Finder i ne vkhodit v upravlyayemyij nabor, yego khyesh ili manifest. Proverka toljko chitayet i sokhranyayet eti metadannyiye; izmeneniye ikh bajtov ne menyayet pokoleniye. Ssyilka, katalog libo specialjnyij obyyekt s etim imenem zakryivayut proverku. Blizkiye imena ostayutsya obyichnyimi neizvestnyimi obyyektami. Pri udalenii dokazanno prinadlezhasjhikh tranzakcii vremennyikh i rezervnyikh katalogov metadannyiye udalyayutsya lishj posle polnogo predvariteljnogo obkhoda; tip i identichnostj povtorno proveryayutsya bez perekhoda po ssyilkam. Yesli obyichnyij ignoriruyemyij `.DS_Store` poyavlyayetsya uzhe posle rekursivnoj ochistki i meshayet `rmdir`, katalog povtorno otkryivayetsya bez perekhoda po ssyilkam, metadannyiye sokhranyayutsya tem zhe privatnyim arkhivom i udaleniye povtoryayetsya odin raz. Pozdnyaya podmena ili novyij neizvestnyij obyyekt zakryivayut ochistku. V zhivoj celi i sokhranyayemom proizvodnom prostranstve metadannyiye ostayutsya.
 
 Otsutstvuyusjhij rezuljtat, lishnij upravlyayemyij fajl, inoj rezhim, nesovpavshij khyesh, simvolicheskaya ssyilka, specialjnyij obyyekt ili izmenivshijsya posle predvariteljnoj proverki istochnik zakryivayut proverku. Celevoye derevo chitayetsya pokomponentno ot deskriptora kornya bez perekhoda po simvolicheskim ssyilkam i snimayetsya povtorno pered uspekhom. Manifest vkhodit v upravlyayemyij nabor, no ne soderzhit sobstvennogo rekursivnogo khyesha.
 
@@ -213,6 +213,6 @@ Ssyilka na otsutstvuyusjhij tochnyij ignored `.obsidian/graph.json` ostayotsya s
 Odnoparametricheskij vyizov `подготовить_изолированный_преобразователь(корень)` sokhranyayet prezhnij kontrakt: izoliruyet zakreplyonnyiye iskhodniki i vozvrasjhayet nastoyasjhuyu komandu Swift s proverkoj granicyi; sborku zapuskayet vyizyivayusjhij. Yavnyij keyword-only parametr `использовать_кэш=True` vyibirayet predvariteljnuyu sborku, proverennyij kyesh i chastnuyu kopiyu produkta. Rabochiye CLI-komandyi generatora vsegda vyibirayut etot rezhim. Proverki zakreplyonnogo dereva i izolyacii obsjhiye dlya oboikh rezhimov.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
-<!-- content-sha256: sha256:7cd948617ede92b6aa032c8cdf4bc2e1e8595a19f51937d0841068f5c78b9b39 -->
+<!-- last-content-edit: 2026-09-15 13:12:42 MSK -->
+<!-- content-sha256: sha256:00e4d792dcfafaf831b8b31f44bbc891d2ae993077b52a6fbe3804fbe192e9b2 -->
 <!-- FUM-MD-RECENCY:END -->

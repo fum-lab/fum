@@ -1,0 +1,51 @@
+{
+  "отпечаток_закрытия": "sha256:8699ddd7bd3c8baecc20422e16b1d1dff48b3b58950785b4fbdd0444b7f70362",
+  "сессия": "Журнал/2026-09-15_05-59-05_MSK_перенести-финансовую-поставку-на-общую-базу/запрос.md",
+  "схема": "fum.test-run-report.v2",
+  "файлы": [
+    {
+      "sha256": "3a2292f70254cee371d9f84c6c1f72306253ec44a3762432595e1e90e9aa5239",
+      "имя": "1_e1ebd99b-c055-4f2f-bd60-e96752c1fe6c.json"
+    },
+    {
+      "sha256": "138a38a31a794dfa293df0f213a8a6af140011e6100fb659a493fd4ce08601ed",
+      "имя": "2_7c6d4c1e-6f17-4374-aedc-e3214562cc39.json"
+    },
+    {
+      "sha256": "dc13a1f14e6b18cbd94d4ff2464cb0d44c7b085e4799df17a292e6f9a9e828aa",
+      "имя": "3_c9d892d0-c41a-4964-a1e1-701abac4149f.json"
+    },
+    {
+      "sha256": "a2aab7723a9e55403d6a6795503b60d2985661fc2890ded919b3c4f22ef8e346",
+      "имя": "4_2ca832d7-f7f7-4399-86b9-59380cbbfbd6.json"
+    },
+    {
+      "sha256": "c9d975721ca305a5dace5012336eb7e08386fe157aea89512f61410b4d792179",
+      "имя": "5_920b443d-cafa-4625-b16d-b925b60e4d95.json"
+    },
+    {
+      "sha256": "2297d0824f9f0388f7cf6847fe8d88a9ddbc44906eb7368184833918264df6b0",
+      "имя": "6_f599b63f-ec82-49fa-932c-49a01d0be45b.json"
+    },
+    {
+      "sha256": "b04b19a3b1a5c4e80d8d9ad69dcea50a60b73cf8a668a8886c7e30df0d49fd3f",
+      "имя": "7_95f3991b-a19f-4e2f-b30d-02436b67e419.json"
+    },
+    {
+      "sha256": "0f9dae487a7c27d8d13aa20579610fb3f85c7b5cf5f9494b3ebbe2a8a033c89c",
+      "имя": "8_6269d322-b8bf-4edd-8119-05f11c6ce243.json"
+    },
+    {
+      "sha256": "6a3b2f8175ac2f8e2454d3916102c769b2d452d3993e9d4751a3d11c386dce5e",
+      "имя": "9_e01f3d6b-09bc-45a8-a09c-3b4053e5b70e.json"
+    },
+    {
+      "sha256": "47db9f002833d9a31940931893b6f79070b0e9a6a6e6c1ff29dabd823cac369d",
+      "имя": "10_cadc8b25-42f6-4fb1-a0ab-951e8649eec1.json"
+    },
+    {
+      "sha256": "ae30764f2e5fb4eaf3f0f16b1e29c9adc218d7eda03c8b40cee6eb93eab1efa6",
+      "имя": "11_7e1fc28b-c237-42ac-8e3d-c53142450bdc.json"
+    }
+  ]
+}

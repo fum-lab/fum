@@ -1,6 +1,6 @@
-# Organizacii podderzhki FUM — 2026-09-11
+# Organizacii podderzhki FUM — 2026-09-14
 
-Proveryayemyij spisok 16 iskhodnyikh organizacij dlya proyekta iz Rossii s nekommercheskoj oriyentaciyej. Registraciya NKO i yuridicheskaya forma FUM ne podtverzhdenyi. Sredstva i resursyi ne poluchenyi; zainteresovannostj partnyorov ne ustanovlena.
+Proveryayemyij spisok 30 iskhodnyikh organizacij dlya proyekta iz Rossii s nekommercheskoj oriyentaciyej. Registraciya NKO i yuridicheskaya forma FUM ne podtverzhdenyi. Sredstva i resursyi ne poluchenyi; zainteresovannostj partnyorov ne ustanovlena.
 
 «Podkhodit dlya sleduyusjhego shaga» otnositsya toljko k yavno ukazannoj podgotovke. Dostupnostj programmyi otdeljno vyichislyayetsya v [mashinnom reyestre](reyestr.json). Obsjhij iskhod vyibirayet samyij prodvinutyij variant organizacii, poetomu neobkhodimo chitatj otdeljnyiye predlozheniya nizhe.
 
@@ -24,6 +24,20 @@ Ustarevaniye: 30 dnej dlya programm; 90 dnej dlya podgotovki sotrudnichestva. V 
 | NTC IT ROSA                                                        | tekhnologicheskiye partnyoryi                                           | trebuyet utochneniya            |
 | «Gruppa Astra» / Ready for Astra                                   | tekhnologicheskiye partnyoryi; vyichisliteljnyiye i materialjnyiye resursyi    | uslovnyij                     |
 | Swift.org / Swift Server Work Group                                | tekhnologicheskiye partnyoryi                                           | podkhodit dlya sleduyusjhego shaga |
+| Rosmolodyozhj                                                        | fondyi i grantodateli                                               | uslovnyij                     |
+| MWS                                                                | vyichisliteljnyiye i materialjnyiye resursyi                              | uslovnyij                     |
+| Boosty                                                             | pozhertvovaniya i sponsorstvo                                        | uslovnyij                     |
+| Sponsr                                                             | pozhertvovaniya i sponsorstvo                                        | uslovnyij                     |
+| Cloud.ru                                                           | vyichisliteljnyiye i materialjnyiye resursyi                              | uslovnyij                     |
+| Beget                                                              | vyichisliteljnyiye i materialjnyiye resursyi                              | uslovnyij                     |
+| Timeweb Cloud                                                      | vyichisliteljnyiye i materialjnyiye resursyi                              | trebuyet utochneniya            |
+| Fond mikrofinansirovaniya Sankt-Peterburga                          | fondyi i grantodateli                                               | trebuyet utochneniya            |
+| CKPP Amurskoj oblasti                                              | fondyi i grantodateli                                               | trebuyet utochneniya            |
+| FRII Invest                                                        | fondyi i grantodateli                                               | trebuyet utochneniya            |
+| CloudTips                                                          | pozhertvovaniya i sponsorstvo                                        | uslovnyij                     |
+| NLnet Restack                                                      | fondyi i grantodateli                                               | nedostupnyij                  |
+| Sovereign Tech Fund                                                | fondyi i grantodateli                                               | nedostupnyij                  |
+| Softline Venture Partners                                          | fondyi i grantodateli                                               | trebuyet utochneniya            |
 
 ## Universitet ITMO / ITMO Open Source
 
@@ -645,6 +659,407 @@ Sleduyusjhij minimaljnyij shag: **Sostavitj tablicu trebovanij inkubacii i sokhr
 
 - [Istochnik](https://www.swift.org/sswg/incubation-process.html) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-11; Pitch otkryit lyubomu; Proposal trebuyet dvukh sponsorov SSWG; inkubaciya trebuyet publichnyij kod, SwiftPM, Linux CI, vyipusk i Apache 2/MIT/BSD, CC0 ne perechislena; prezhnyaya privyazka nechitabeljnogo predstavleniya snyata do priyomki.
 
+## Rosmolodyozhj
+
+Identifikator: `FUM-ORG-97703298287f`.
+
+Poljza FUM: Denezhnoye finansirovaniye socialjno znachimogo etapa FUM. Poljza organizacii: Publichnyij rezuljtat primeneniya podderzhki i obratnaya svyazj pri otdeljnom soglasovanii. Eto analiticheskoye predlozheniye.
+
+Iskhodnoye issledovaniye: Korenj po pryamyim chteniyam i RO-issledovaniyam grant_options, compute_options, donation_options, 2026-09-14. Polnaya iskhodnaya zapisj sokhranena v reyestr.json.
+
+### Rosmolodyozhj.Grantyi: vtoroj sezon 2026, do 1 mln ₽ — uslovnyij
+
+Ostayutsya neizvestnyiye usloviya ili dopusk zayavitelya.
+
+Forma: **denjgi**. Priyom: otkryit; dopusk FUM: neizvestno; Rossiya: da.
+
+Proverka: 2026-09-14, Korenj; proverennyiye materialyi dochernikh issledovatelej tekusjhej zadachi. Svezhestj: v predelakh politiki.
+
+Sroki i usloviya: S 01.08.2026 12:00 do 15.09.2026 12:00 MSK; pisjmennyiye razyyasneniya prinimalisj do 10 sentyabrya.
+
+Trebovaniya: Fizlico 14–35 let, grazhdanstvo RF ili Abkhazii; Socialjno znachimyij proyekt, obosnovannaya smeta i pokazateli; sofinansirovaniye ne trebuyetsya.
+
+Ogranicheniya: CC0 sokhranyayetsya po usloviyu FUM; sovmestimostj individualjnogo dogovora s otkryitoj publikaciyej vsekh rezuljtatov trebuyetsya podtverditj.; Raskhodyi na razrabotku, oblako, API i celevoj Mac ne podtverzhdenyi.
+
+Neizvestno: Vozrast, grazhdanstvo i ostaljnyiye trebovaniya k zayavitelyu; Socialjnaya auditoriya i dopustimostj kazhdoj stroki smetyi.
+
+Sleduyusjhij minimaljnyij shag: **Snachala sveritj zayavitelya; podgotovitj socialjnyij rezuljtat i tri stroki smetyi dlya utochneniya uslovij do dedlajna**.
+
+- [Istochnik](https://fadm.gov.ru/upload/iblock/6f0/dkmrcjrma9j8x26hokv7ws4wqdskyrkq/Объявление%20о%20проведении%20Всероссийского%20конкурса%20молодежных%20проектов%20среди%20физических%20лиц%20«Росмолодёжь.Гранты%202%20сезон».pdf) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Pervichnyij PDF: shifr 26-091-65377-1-0120; s. 5 — tochnyij srok. Issledovatelj prochital PDF, povtornoye adresnoye chteniye byudzhetnyikh stranic zavershilosj tajm-autom.
+
+## MWS
+
+Identifikator: `FUM-ORG-71ac07b3863a`.
+
+Poljza FUM: Neboljshoj eksperiment s modeljnyim API i infrastrukturoj. Poljza organizacii: Publichnyij rezuljtat primeneniya podderzhki i obratnaya svyazj pri otdeljnom soglasovanii. Eto analiticheskoye predlozheniye.
+
+Iskhodnoye issledovaniye: Korenj po pryamyim chteniyam i RO-issledovaniyam grant_options, compute_options, donation_options, 2026-09-14. Polnaya iskhodnaya zapisj sokhranena v reyestr.json.
+
+### Privetstvennyij grant: do 3 000 bonusnyikh ₽ fizlicu, do 10 000 ₽ IP/yurlicu — uslovnyij
+
+Ostayutsya neizvestnyiye usloviya ili dopusk zayavitelya.
+
+Forma: **oblachnyiye bonusyi**. Priyom: otkryit; dopusk FUM: neizvestno; Rossiya: da.
+
+Proverka: 2026-09-14, Korenj; proverennyiye materialyi dochernikh issledovatelej tekusjhej zadachi. Svezhestj: v predelakh politiki.
+
+Sroki i usloviya: Akciya 01.08–30.09.2026; grant dejstvuyet tri kalendarnyikh mesyaca s vyidachi.
+
+Trebovaniya: Rossijskij kliyent: fizlico, IP ili yurlico; pervyij vznos ot 500 ₽; Odnokratnostj, vklyuchaya svyazannyiye akkauntyi i beneficiarov.
+
+Ogranicheniya: Dejstvuyet tri kalendarnyikh mesyaca posle vyidachi, zatem ostatok sgorayet; Isklyuchyon CDN; prevyisheniye oplachivayetsya po tarifu; Pokryitiye GPT Model Hub — vyivod iz sovmestnogo chteniya uslovij, trebuyetsya sveritj perechenj konkretnogo granta; kachestvo zamenyi Codex ne provereno; CC0 sokhranyayetsya po usloviyu FUM; sovmestimostj individualjnogo dogovora s otkryitoj publikaciyej vsekh rezuljtatov trebuyetsya podtverditj..
+
+Neizvestno: Poluchalsya li grant prezhde; Kakiye servisyi fakticheski razreshenyi grantom v kabinete.
+
+Sleduyusjhij minimaljnyij shag: **Podgotovitj ogranichennyij byudzhet eksperimenta i perechenj zadach; oplatu i aktivaciyu ne vyipolnyatj**.
+
+- [Istochnik](https://mws.ru/docs/docum/a0.html) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Razmer, rossijskaya territoriya, odnokratnostj, vznos, sroki i isklyucheniye CDN.
+- [Istochnik](https://mws.ru/docs/docum/2.html) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Opredeleniye kliyenta dopuskayet fizlico.
+- [Istochnik](https://mws.ru/docs/docum/cloud_terms_mws_gpt_model_hub.html) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Usloviya GPT Model Hub svyazyivayut servis s oblachnyim dogovorom.
+- [Istochnik](https://mws.ru/docs/cloud-platform/gpt/general/pricing.html) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Tarifikaciya modeljnogo API po potrebleniyu.
+
+## Boosty
+
+Identifikator: `FUM-ORG-5a491b4c2eae`.
+
+Poljza FUM: Sbor regulyarnoj podderzhki so svoyej auditorii. Poljza organizacii: Publichnyij rezuljtat primeneniya podderzhki i obratnaya svyazj pri otdeljnom soglasovanii. Eto analiticheskoye predlozheniye.
+
+Iskhodnoye issledovaniye: Korenj po pryamyim chteniyam i RO-issledovaniyam grant_options, compute_options, donation_options, 2026-09-14. Polnaya iskhodnaya zapisj sokhranena v reyestr.json.
+
+### Avtorskiye podpiski i donatyi; garantirovannoj summyi net — uslovnyij
+
+Ostayutsya neizvestnyiye usloviya ili dopusk zayavitelya.
+
+Forma: **pozhertvovaniya**. Priyom: ne programma; dopusk FUM: neizvestno; Rossiya: da.
+
+Proverka: 2026-09-14, Korenj; proverennyiye materialyi dochernikh issledovatelej tekusjhej zadachi. Svezhestj: v predelakh politiki.
+
+Sroki i usloviya: Kanal sbora s sobstvennoj auditorii; konkursnogo dedlajna i garantirovannoj summyi net.
+
+Trebovaniya: Avtor s dostatochnyimi pravami na materialyi, KYC i dopustimyim metodom vyiplat; nalogi nesyot avtor.
+
+Ogranicheniya: Vkhodyasjhaya komissiya 11,7%; vyivod: karta 2,2% + 20 ₽, bankovskij schyot 45 ₽, YUMoney 2,8%; Proverki mogut zaderzhatj vyiplatu do 90 dnej; Neaktivnostj: boleye tryokh mesyacev bez ispoljzovaniya akkaunta libo otsutstviye sposoba perechisleniya po umolchaniyu, narusheniye ili prekrasjheniye dogovora; predusmotrenyi 100 ₽ za denj i obnuleniye vyiplat pri prekrasjhenii; Mozhno publikovatj besplatno; licenziya plosjhadke neisklyuchiteljnaya. Specialjnoye odobreniye CC0 ne ustanovleno.
+
+Neizvestno: Bank i KYC konkretnogo poluchatelya; Podkhodit li naznacheniye sbora na vyichisleniya i oborudovaniye.
+
+Sleduyusjhij minimaljnyij shag: **Podgotovitj otkryituyu stranicu razvitiya FUM i mesyachnyij byudzhet, zatem sveritj dostupnostj vyiplatyi**.
+
+- [Istochnik](https://boosty.to/app/offer/user) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Dochernij issledovatelj prochital vesj otrisovannyij dogovor cherez CUA: §§1.1,2.3,4.2,5.2.1,5.5,6.1,10.1,10.3; obyichnaya HTML-zagruzka dayot obolochku.
+- [Istochnik](https://boosty.to/app/offer/payment-terms-cis) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Dochernij issledovatelj prochital vesj otrisovannyij dogovor cherez CUA; komissii, zaderzhki i neaktivnostj §§1.1–1.8. Sokhranyon pereskaz, ne polnyij tekst.
+
+## Sponsr
+
+Identifikator: `FUM-ORG-e55c6179e5c7`.
+
+Poljza FUM: Rublyovyiye podpiski i razovaya podderzhka so svoyej auditorii. Poljza organizacii: Publichnyij rezuljtat primeneniya podderzhki i obratnaya svyazj pri otdeljnom soglasovanii. Eto analiticheskoye predlozheniye.
+
+Iskhodnoye issledovaniye: Korenj po pryamyim chteniyam i RO-issledovaniyam grant_options, compute_options, donation_options, 2026-09-14. Polnaya iskhodnaya zapisj sokhranena v reyestr.json.
+
+### Podpiski i pozhertvovaniya; garantirovannoj summyi net — uslovnyij
+
+Ostayutsya neizvestnyiye usloviya ili dopusk zayavitelya.
+
+Forma: **pozhertvovaniya**. Priyom: ne programma; dopusk FUM: neizvestno; Rossiya: da.
+
+Proverka: 2026-09-14, Korenj; proverennyiye materialyi dochernikh issledovatelej tekusjhej zadachi. Svezhestj: v predelakh politiki.
+
+Sroki i usloviya: Platforma sbora s sobstvennoj auditorii; fiksirovannogo konkursnogo dedlajna net.
+
+Trebovaniya: Fizlico, samozanyatyij, IP ili organizaciya; deyesposobnostj, INN i identifikaciya dlya vyiplat.
+
+Ogranicheniya: 10% platforme plyus primenimyij NDS, otdeljno SBP 0,7% (do 1 500 ₽) ili rossijskaya karta obyichno 3,172%; Vyivod ot 1 000 ₽; do 10 000 ₽ vklyuchiteljno dopolniteljno 500 ₽ plyus primenimyij NDS; vyishe — bez etoj komissii; Zakryitiye proyekta mozhet poglotitj ostatok meneye 10 000 ₽; Podpiska s vstrechnyim predostavleniyem otlichayetsya ot bezvozmezdnogo platezha; CC0 sokhranyayetsya po usloviyu FUM; sovmestimostj individualjnogo dogovora s otkryitoj publikaciyej vsekh rezuljtatov trebuyetsya podtverditj..
+
+Neizvestno: Itogovyiye uderzhaniya vyibrannogo sposoba; Poluchatelj i format platezhej FUM.
+
+Sleduyusjhij minimaljnyij shag: **Podgotovitj opisaniye i smetu, vyibratj dejstviteljnyij format podderzhki bez ogranicheniya dostupa k CC0**.
+
+- [Istochnik](https://sponsr.ru/conditions/) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Oferta dopuskayet raznyiye kategorii avtorov, rublyovyiye vyiplatyi, komissii i proverki.
+
+## Cloud.ru
+
+Identifikator: `FUM-ORG-cccfbd98d0b6`.
+
+Poljza FUM: Malyij kontejnernyij prototip i obyyektnoye khranilisjhe. Poljza organizacii: Publichnyij rezuljtat primeneniya podderzhki i obratnaya svyazj pri otdeljnom soglasovanii. Eto analiticheskoye predlozheniye.
+
+Iskhodnoye issledovaniye: Korenj po pryamyim chteniyam i RO-issledovaniyam grant_options, compute_options, donation_options, 2026-09-14. Polnaya iskhodnaya zapisj sokhranena v reyestr.json.
+
+### Evolution Free Tier: do 25 vCPU·ch i 15 GB S3 v mesyac — uslovnyij
+
+Ostayutsya neizvestnyiye usloviya ili dopusk zayavitelya.
+
+Forma: **vyichisliteljnaya infrastruktura**. Priyom: otkryit; dopusk FUM: neizvestno; Rossiya: da.
+
+Proverka: 2026-09-14, Korenj; proverennyiye materialyi dochernikh issledovatelej tekusjhej zadachi. Svezhestj: v predelakh politiki.
+
+Sroki i usloviya: Akciya po 31.12.2026 vklyuchiteljno; daljnejsheye ispoljzovaniye zavisit ot izmenyayemyikh pravil i kvot.
+
+Trebovaniya: Fizlico, IP ili yurlico, zaregistrirovannoye v RF; dogovor; Balans ne meneye 100 ₽ ili 100 bonusov.
+
+Ogranicheniya: Kvotyi menyayutsya; neaktivnyiye resursyi mogut prekrasjhatjsya; GPU ne pokryivayetsya; oplata vneshnego Codex ne predusmotrena; Privyazka kartyi pozvolyayet spisaniya posle ischerpaniya granta; CC0 sokhranyayetsya po usloviyu FUM; sovmestimostj individualjnogo dogovora s otkryitoj publikaciyej vsekh rezuljtatov trebuyetsya podtverditj..
+
+Neizvestno: Status akkaunta, otsutstviye zadolzhennosti i aktualjnyiye kvotyi.
+
+Sleduyusjhij minimaljnyij shag: **Vyibratj odin kontejnernyij scenarij FUM i ocenitj potrebleniye v predelakh kvotyi**.
+
+- [Istochnik](https://cloud.ru/documents/promotions/active/evolution-free-tier) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Pravila, pp. 2–5: RF, balans, srok i standartnyiye kvotyi; veb-chteniye uspeshno, zagruzka arkhivatorom prervana po tajm-autu.
+
+## Beget
+
+Identifikator: `FUM-ORG-da78e40e2c17`.
+
+Poljza FUM: Serveryi, khranilisjhe i infrastruktura FUM. Poljza organizacii: Publichnyij rezuljtat primeneniya podderzhki i obratnaya svyazj pri otdeljnom soglasovanii. Eto analiticheskoye predlozheniye.
+
+Iskhodnoye issledovaniye: Korenj po pryamyim chteniyam i RO-issledovaniyam grant_options, compute_options, donation_options, 2026-09-14. Polnaya iskhodnaya zapisj sokhranena v reyestr.json.
+
+### Grant 5 000–1 500 000 bonusnyikh ₽, na 1–12 mesyacev — uslovnyij
+
+Yuridicheskaya forma i registraciya FUM ne podtverzhdenyi.
+
+Forma: **oblachnyiye bonusyi**. Priyom: otkryit; dopusk FUM: neizvestno; Rossiya: da.
+
+Proverka: 2026-09-14, Korenj; proverennyiye materialyi dochernikh issledovatelej tekusjhej zadachi. Svezhestj: v predelakh politiki.
+
+Sroki i usloviya: Priyom do 31.10.2026; resurs na 1–12 mesyacev po resheniyu operatora.
+
+Trebovaniya: IP ili yurlico RF; ne byilo registracii/kliyentskikh otnoshenij do 01.01.2026; Individualjnoye rassmotreniye zayavki i resursnogo plana.
+
+Ogranicheniya: Isklyuchenyi vyidelennyiye serveryi, GPU VPS, domenyi, platnyiye SSL i CMS; Ne oplachivayet vneshnij Codex i ne peredayot kompjyuter; CC0 sokhranyayetsya po usloviyu FUM; sovmestimostj individualjnogo dogovora s otkryitoj publikaciyej vsekh rezuljtatov trebuyetsya podtverditj..
+
+Neizvestno: Status i istoriya akkaunta FUM; Odobrennyij razmer i razreshyonnaya konfiguraciya.
+
+Sleduyusjhij minimaljnyij shag: **Podgotovitj perechenj CPU, pamyati, BD i khraneniya posle sverki zayavitelya**.
+
+- [Istochnik](https://beget.com/ru/uridicheskie-pravila-programmi-grantov) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Pravila granta: diapazon, srok, rossijskiye IP/yurlica, istoriya registracii i isklyucheniya.
+
+## Timeweb Cloud
+
+Identifikator: `FUM-ORG-7ea146b75b58`.
+
+Poljza FUM: Oblachnaya infrastruktura otkryitogo proyekta. Poljza organizacii: Publichnyij rezuljtat primeneniya podderzhki i obratnaya svyazj pri otdeljnom soglasovanii. Eto analiticheskoye predlozheniye.
+
+Iskhodnoye issledovaniye: Korenj po pryamyim chteniyam i RO-issledovaniyam grant_options, compute_options, donation_options, 2026-09-14. Polnaya iskhodnaya zapisj sokhranena v reyestr.json.
+
+### Grant 5 000–1 000 000 bonusnyikh ₽, na 1–6 mesyacev — trebuyet utochneniya
+
+Ne ustanovlen srok dejstviya programmyi.
+
+Forma: **oblachnyiye bonusyi**. Priyom: otkryit; dopusk FUM: neizvestno; Rossiya: da.
+
+Proverka: 2026-09-14, Korenj po nezavisimomu revjyu compute_options: utochneniye p. 1.7 Timeweb. Svezhestj: v predelakh politiki.
+
+Sroki i usloviya: Individualjnaya vyidacha na 1–6 mesyacev; konechnaya data priyoma ne ustanovlena.
+
+Trebovaniya: IP ili yurlico RF; prezhde ne poljzovalosj Timeweb Cloud i Timeweb; Zayavka s opisaniyem i ocenkoj resursov.
+
+Ogranicheniya: Isklyuchenyi vyidelennyiye serveryi, serveryi s GPU i II-agentyi; proyektyi, svyazannyiye s igrovyimi khostingami, ne dopuskayutsya; Srok zavisit ot resursa programmyi; publichnogo konechnogo dedlajna net; CC0 sokhranyayetsya po usloviyu FUM; sovmestimostj individualjnogo dogovora s otkryitoj publikaciyej vsekh rezuljtatov trebuyetsya podtverditj..
+
+Neizvestno: Yurstatus i prezhniye akkauntyi; Dostupnyij obyyom i dopustimostj konkretnogo servisa.
+
+Sleduyusjhij minimaljnyij shag: **Sostavitj byudzhet CPU, BD i khranilisjha; agentnyiye raskhodyi vyidelitj otdeljno**.
+
+- [Istochnik](https://timeweb.cloud/grant) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Publichnyiye usloviya programmyi i isklyucheniya.
+
+## Fond mikrofinansirovaniya Sankt-Peterburga
+
+Identifikator: `FUM-ORG-4c6c755f393d`.
+
+Poljza FUM: Vozvratnoye finansirovaniye oborudovaniya pri dokhode i obespechenii. Poljza organizacii: Publichnyij rezuljtat primeneniya podderzhki i obratnaya svyazj pri otdeljnom soglasovanii. Eto analiticheskoye predlozheniye.
+
+Iskhodnoye issledovaniye: Korenj po pryamyim chteniyam i RO-issledovaniyam grant_options, compute_options, donation_options, 2026-09-14. Polnaya iskhodnaya zapisj sokhranena v reyestr.json.
+
+### Mikrozayom: 50 tyis.–5 mln ₽, 3–36 mesyacev — trebuyet utochneniya
+
+Ne ustanovlen srok dejstviya programmyi.
+
+Forma: **kredit**. Priyom: otkryit; dopusk FUM: neizvestno; Rossiya: da.
+
+Proverka: 2026-09-14, Korenj; proverennyiye materialyi dochernikh issledovatelej tekusjhej zadachi. Svezhestj: v predelakh politiki.
+
+Sroki i usloviya: Zayom 3–36 mesyacev; konechnyij srok tekusjhego priyoma ne ustanovlen.
+
+Trebovaniya: IP Peterburga libo mestnoye yurlico — subyyekt MSP; Dlya informacii i svyazi, OKVYED 58–63, 5% godovyikh; dlya prochikh MSP 12%; Poruchiteljstva, imusjhestvennoye obespecheniye vyishe summyi zajma i dokhod dlya pogasheniya.
+
+Ogranicheniya: Annuitet; svyishe goda vozmozhna otsrochka osnovnogo dolga do shesti mesyacev; Nominaljnaya stavka ne ravna polnoj stoimosti; ocenka, obespecheniye i soputstvuyusjhiye raskhodyi ne ustanovlenyi; CC0 sokhranyayetsya po usloviyu FUM; sovmestimostj individualjnogo dogovora s otkryitoj publikaciyej vsekh rezuljtatov trebuyetsya podtverditj..
+
+Neizvestno: Region, MSP, dokhod, obespecheniye; Dopustimostj konkretnogo Mac i strok razrabotki/API.
+
+Sleduyusjhij minimaljnyij shag: **Podgotovitj pasport zayavitelya, istochnik yezhemesyachnogo pogasheniya i predlozheniye postavsjhika**.
+
+- [Istochnik](https://fond-mfo.ru/wp-content/uploads/2026/01/programma-predostavleniya-mikrozajmov-subektam-msp.pdf) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Pervichnaya programma: celi osnovnyikh/oborotnyikh sredstv, stavki i obespecheniye; docherneye pryamoye chteniye.
+- [Istochnik](https://fond-mfo.ru/garantijnaya-i-finansovaya-podderzhka-kak-peterburg-podderzhivaet-malyj-biznes/) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Oficialjnaya publikaciya podtverzhdayet rabotu fonda v sentyabre 2026.
+
+## CKPP Amurskoj oblasti
+
+Identifikator: `FUM-ORG-4feb48650405`.
+
+Poljza FUM: Vozvratnoye finansirovaniye kompjyutera ili rabot po razrabotke. Poljza organizacii: Publichnyij rezuljtat primeneniya podderzhki i obratnaya svyazj pri otdeljnom soglasovanii. Eto analiticheskoye predlozheniye.
+
+Iskhodnoye issledovaniye: Korenj po pryamyim chteniyam i RO-issledovaniyam grant_options, compute_options, donation_options, 2026-09-14. Polnaya iskhodnaya zapisj sokhranena v reyestr.json.
+
+### Prioritet: 50 tyis.–5 mln ₽, do 36 mesyacev — trebuyet utochneniya
+
+Ne ustanovlen srok dejstviya programmyi.
+
+Forma: **kredit**. Priyom: otkryit; dopusk FUM: neizvestno; Rossiya: da.
+
+Proverka: 2026-09-14, Korenj; proverennyiye materialyi dochernikh issledovatelej tekusjhej zadachi. Svezhestj: v predelakh politiki.
+
+Sroki i usloviya: Zayom do 36 mesyacev; konechnyij dedlajn priyoma ne ustanovlen.
+
+Trebovaniya: IP/yurlico — MSP, registraciya i deyateljnostj v Amurskoj oblasti, obyichno boleye shesti mesyacev; 7,5% s zalogom/garantiyej fonda; 11% bez nikh; do 200 tyis. ₽ vozmozhno bez obespecheniya; Pri pokupke imusjhestva sobstvennyiye sredstva ne meneye 10% summyi zajma na etu celj.
+
+Ogranicheniya: Dlya boljshikh summ nuzhnyi poruchiteli/zalog/garantiya; svyishe 3 mln ₽ zalog obyazatelen; Vozvrat yezhemesyachnyij; polnaya stoimostj s soputstvuyusjhimi raskhodami neizvestna; CC0 sokhranyayetsya po usloviyu FUM; sovmestimostj individualjnogo dogovora s otkryitoj publikaciyej vsekh rezuljtatov trebuyetsya podtverditj..
+
+Neizvestno: Region, status, srok rabotyi, dokhod i obespecheniye; Dopustimostj CC0-razrabotki kak nematerialjnogo aktiva, inostrannogo API i konkretnogo kompjyutera.
+
+Sleduyusjhij minimaljnyij shag: **Sveritj region i zayomsjhika; podgotovitj smetu kompjyutera/rabot i istochnik vozvrata**.
+
+- [Istochnik](https://xn--28-9kcmeamher5a2blt.xn--p1ai/programs/prioritet/) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Oficialjnyiye usloviya dopuskayut kompjyuteryi, rabotyi, uslugi i razrabotku nematerialjnyikh aktivov.
+- [Istochnik](https://xn--28-9kcmeamher5a2blt.xn--p1ai/answers/) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Geografiya, obespecheniye, trebovaniya k deyateljnosti i kontaktyi.
+
+## FRII Invest
+
+Identifikator: `FUM-ORG-2d82d3bf3a0e`.
+
+Poljza FUM: Dolevoye denezhnoye finansirovaniye pri podkhodyasjhem poluchatele i vyiruchke. Poljza organizacii: Publichnyij rezuljtat primeneniya podderzhki i obratnaya svyazj pri otdeljnom soglasovanii. Eto analiticheskoye predlozheniye.
+
+Iskhodnoye issledovaniye: Korenj po pryamyim chteniyam i RO-issledovaniyam grant_options, compute_options, donation_options, 2026-09-14. Polnaya iskhodnaya zapisj sokhranena v reyestr.json.
+
+### Rannyaya stadiya: 3–35 mln ₽ za 5–25% doli — trebuyet utochneniya
+
+Ne ustanovlen srok dejstviya programmyi.
+
+Forma: **denjgi**. Priyom: otkryit; dopusk FUM: neizvestno; Rossiya: da.
+
+Proverka: 2026-09-14, Korenj; proverennyiye materialyi dochernikh issledovatelej tekusjhej zadachi. Svezhestj: v predelakh politiki.
+
+Sroki i usloviya: Forma dostupna; konechnyij dedlajn i srok sdelki ne opublikovanyi.
+
+Trebovaniya: Kompaniya v RF, ne meneye 25% u grazhdan RF; Gotovyij IT-produkt, poljzovateli i pervaya kliyentskaya vyiruchka.
+
+Ogranicheniya: Bez vyiruchki tekusjhaya programma predusmatrivayet otkaz; Korporativnyij dogovor; vozvrat investoru cherez dolyu. Dlya zrelyikh kompanij do 200 mln ₽ za dolyu do 49%; CC0 sokhranyayetsya po usloviyu FUM; sovmestimostj individualjnogo dogovora s otkryitoj publikaciyej vsekh rezuljtatov trebuyetsya podtverditj..
+
+Neizvestno: Susjhestvovaniye podkhodyasjhej kompanii i vyiruchki FUM; Usloviya isklyuchiteljnyikh prav, garantii vladeniya IP i veto na daljnejshuyu publikaciyu CC0.
+
+Sleduyusjhij minimaljnyij shag: **Podgotovitj pasport susjhestvuyusjhego poluchatelya i perechenj CC0-rezuljtatov; sformulirovatj obyazateljnoye sokhraneniye otkryitoj publikacii**.
+
+- [Istochnik](https://invest.iidf.ru/) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Tekusjhaya investicionnaya stranica: summyi, doli, RF, produkt i obyazateljnaya vyiruchka; konechnyij dedlajn ne opublikovan.
+
+## CloudTips
+
+Identifikator: `FUM-ORG-5d118e094b03`.
+
+Poljza FUM: Lichnaya bezvozmezdnaya podderzhka avtora so svoyej auditorii. Poljza organizacii: Publichnyij rezuljtat primeneniya podderzhki i obratnaya svyazj pri otdeljnom soglasovanii. Eto analiticheskoye predlozheniye.
+
+Iskhodnoye issledovaniye: Korenj po pryamyim chteniyam i RO-issledovaniyam grant_options, compute_options, donation_options, 2026-09-14. Polnaya iskhodnaya zapisj sokhranena v reyestr.json.
+
+### Perevodyi avtoru, bez garantirovannoj summyi — uslovnyij
+
+Ostayutsya neizvestnyiye usloviya ili dopusk zayavitelya.
+
+Forma: **pozhertvovaniya**. Priyom: ne programma; dopusk FUM: neizvestno; Rossiya: da.
+
+Proverka: 2026-09-14, Korenj; proverennyiye materialyi dochernikh issledovatelej tekusjhej zadachi. Svezhestj: v predelakh politiki.
+
+Sroki i usloviya: Platforma lichnyikh perevodov; konkursnogo dedlajna net.
+
+Trebovaniya: Deyesposobnoye fizlico, lichnoye bezvozmezdnoye naznacheniye platezha.
+
+Ogranicheniya: Ne podkhodit dlya oplatyi uslug razrabotki ili dostupa; Publichno 5% na kartu T-Banka, 7% drugogo banka; dogovornyiye diapazonyi i primenimyiye uderzhaniya trebuyut sverki; Kanal ne dayot donora; CC0-dostup ne obuslovlivayetsya platezhom.
+
+Neizvestno: Priznaniye raskhodov FUM lichnoj podderzhkoj; Itogovyij tarif i dostupnostj rekurrentov.
+
+Sleduyusjhij minimaljnyij shag: **Podgotovitj tekst dobrovoljnoj podderzhki avtora bez vstrechnoj uslugi i vopros o naznachenii sbora**.
+
+- [Istochnik](https://static.cloudpayments.ru/docs/cloudtips_oferta.pdf) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Oferta: dareniye mezhdu fizlicami i lichnyiye celi; docherneye pryamoye chteniye.
+- [Istochnik](https://cloudtips.ru/bloggers) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Publichnyij tarif dlya avtorov.
+
+## NLnet Restack
+
+Identifikator: `FUM-ORG-84cbecbd1008`.
+
+Poljza FUM: Proverennyij otricateljnyij rezuljtat po zarubezhnomu konkursu. Poljza organizacii: Publichnyij rezuljtat primeneniya podderzhki i obratnaya svyazj pri otdeljnom soglasovanii. Eto analiticheskoye predlozheniye.
+
+Iskhodnoye issledovaniye: Korenj po pryamyim chteniyam i RO-issledovaniyam grant_options, compute_options, donation_options, 2026-09-14. Polnaya iskhodnaya zapisj sokhranena v reyestr.json.
+
+### Pervyij grant €5–50 tyis. — nedostupnyij
+
+Ustanovleno prepyatstviye vkhoda.
+
+Forma: **denjgi**. Priyom: otkryit; dopusk FUM: net; Rossiya: neizvestno.
+
+Proverka: 2026-09-14, Korenj; proverennyiye materialyi dochernikh issledovatelej tekusjhej zadachi. Svezhestj: v predelakh politiki.
+
+Sroki i usloviya: 03.09–03.11.2026, okonchaniye 12:00 CET po usloviyam konkursa.
+
+Trebovaniya: Otkryitoye PO, yevropejskaya sostavlyayusjhaya.
+
+Ogranicheniya: II-razrabotka, primeneniye i integraciya isklyuchenyi, krome znachimoj infrastrukturyi s boleye chem millionom aktivnyikh poljzovatelej; Vyiplata posle etapov; rassmotreniye obyichno 3–5 mesyacev.
+
+Neizvestno: Dostupnostj rossijskomu poluchatelyu i perevod deneg; Podtverzhdyonnaya dopustimostj konkretnogo rezuljtata FUM.
+
+Sleduyusjhij minimaljnyij shag: **Sokhranitj otricateljnyij otbor; vozvrasjhatjsya lishj pri dokazannom otdeljnom podkhodyasjhem infrastrukturnom rezuljtate**.
+
+- [Istochnik](https://nlnet.nl/restack/eligibility/) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Pervichnyiye kriterii isklyuchayut boljshinstvo II-proyektov.
+- [Istochnik](https://nlnet.nl/restack/) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Summa i konkursnoye okno.
+- [Istochnik](https://nlnet.nl/restack/faq/) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Zayavitelj, yevropejskaya sostavlyayusjhaya i poryadok vyiplat.
+
+## Sovereign Tech Fund
+
+Identifikator: `FUM-ORG-4475e249102d`.
+
+Poljza FUM: Proverennyij otricateljnyij rezuljtat dlya obsjhej razrabotki FUM. Poljza organizacii: Publichnyij rezuljtat primeneniya podderzhki i obratnaya svyazj pri otdeljnom soglasovanii. Eto analiticheskoye predlozheniye.
+
+Iskhodnoye issledovaniye: Korenj po pryamyim chteniyam i RO-issledovaniyam grant_options, compute_options, donation_options, 2026-09-14. Polnaya iskhodnaya zapisj sokhranena v reyestr.json.
+
+### Rabotyi stoimostjyu svyishe €50 tyis. — nedostupnyij
+
+Ustanovleno prepyatstviye vkhoda.
+
+Forma: **denjgi**. Priyom: otkryit; dopusk FUM: net; Rossiya: neizvestno.
+
+Proverka: 2026-09-14, Korenj; proverennyiye materialyi dochernikh issledovatelej tekusjhej zadachi. Svezhestj: v predelakh politiki.
+
+Sroki i usloviya: Fiksirovannyij dedlajn ne ustanovlen; oriyentir do dogovora okolo shesti mesyacev.
+
+Trebovaniya: Uzhe znachimyij bazovyij komponent otkryitogo PO.
+
+Ogranicheniya: Prototipyi i poljzovateljskiye prilozheniya isklyuchenyi; Okolo shesti mesyacev do dogovora.
+
+Neizvestno: Dopusk rossijskogo poluchatelya i oplata API.
+
+Sleduyusjhij minimaljnyij shag: **Sokhranitj otricateljnyij rezuljtat dlya nyineshnej obsjhej razrabotki FUM**.
+
+- [Istochnik](https://www.sovereign.tech/programs/fund) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Dejstvuyusjhiye kriterii, isklyucheniya i nizhnyaya granica byudzheta.
+
+## Softline Venture Partners
+
+Identifikator: `FUM-ORG-43467307186f`.
+
+Poljza FUM: Proverka investicionnogo mekhanizma s neyasnyimi porogami. Poljza organizacii: Publichnyij rezuljtat primeneniya podderzhki i obratnaya svyazj pri otdeljnom soglasovanii. Eto analiticheskoye predlozheniye.
+
+Iskhodnoye issledovaniye: Korenj po pryamyim chteniyam i RO-issledovaniyam grant_options, compute_options, donation_options, 2026-09-14. Polnaya iskhodnaya zapisj sokhranena v reyestr.json.
+
+### Minoritarnaya dolya; summa ne podtverzhdena — trebuyet utochneniya
+
+Ne ustanovlen srok dejstviya programmyi.
+
+Forma: **denjgi**. Priyom: otkryit; dopusk FUM: neizvestno; Rossiya: neizvestno.
+
+Proverka: 2026-09-14, Korenj; proverennyiye materialyi dochernikh issledovatelej tekusjhej zadachi. Svezhestj: v predelakh politiki.
+
+Sroki i usloviya: Konechnyij dedlajn ne ustanovlen.
+
+Trebovaniya: Gotovyij produkt i vyiruchka.
+
+Ogranicheniya: V forme vyiruchka ot 5 mln ₽ v god; v investicionnom opisanii ot $100 tyis. v mesyac; Chek 300 000–10 000 000 ukazan bez ustanovlennoj tekstovyim chteniyem valyutyi; CC0 sokhranyayetsya po usloviyu FUM; sovmestimostj individualjnogo dogovora s otkryitoj publikaciyej vsekh rezuljtatov trebuyetsya podtverditj..
+
+Neizvestno: Tochnyij porog vyiruchki, valyuta, dolya i yurisdikciya poluchatelya; Usloviya CC0 i dedlajn.
+
+Sleduyusjhij minimaljnyij shag: **Sokhranitj kak rezerv s protivorechivyimi usloviyami; ne podmenyatj ikh dogadkoj**.
+
+- [Istochnik](https://softlinevp.ru/) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Pryamoye chteniye formyi i investicionnogo fokusa obnaruzhilo raznyiye porogi vyiruchki.
+
 ## Sleduyusjheye resheniye cheloveka
 
 Vyibratj odin lokaljnyij material: pasport zayavitelya, resursnuyu smetu libo tekhnicheskij eksperiment. Privedyonnyiye predlozheniya ne razreshayut otpravku pisem, vstupleniye, podachu zayavki, platyozh ili izmeneniye licenzii.
@@ -654,10 +1069,10 @@ Kategorii materialjnogo oborudovaniya i sponsorstva predusmotrenyi formatom. V i
 ## Istochniki i vosproizvedeniye
 
 - [Instrukciya i vkhodnyiye dannyiye](README.md).
-- [Iskhodnyiye issledovaniya](../../Zhurnal/2026-09-11_13-39-59_MSK_prinyatj-napravleniye-finansirovaniya-FUM/materialyi/issledovaniya/organizacii-podderzhki-FUM.json).
+- [Polnyij korpus iskhodnyikh issledovanij](issledovaniya.json).
 - [Trebovaniye napravleniya](../../Trebovaniya/🟡-finansirovaniye-i-resursyi-razvitiya-FUM.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 16:45:56 MSK -->
-<!-- content-sha256: sha256:0c4ccc97bc4c8f7192e681a5d5e7c4942661b5b3fd4173c87a38b6cd80e60845 -->
+<!-- last-content-edit: 2026-09-15 06:23:18 MSK -->
+<!-- content-sha256: sha256:a19f15f5ad74d2f25cdbc04bff39fdc53f0dd00e22e6efae8e18fff644443765 -->
 <!-- FUM-MD-RECENCY:END -->

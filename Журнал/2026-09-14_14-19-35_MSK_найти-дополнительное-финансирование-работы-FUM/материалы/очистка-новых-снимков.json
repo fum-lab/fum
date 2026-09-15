@@ -1,0 +1,20 @@
+{
+  "способ": "Штатные build_snapshot и install_snapshot на сохранённых ответах; значения не публикуются",
+  "снимки": [
+    {
+      "URL": "https://boosty.to/app/offer/payment-terms-cis",
+      "очищены_заголовки": false,
+      "очищено_тело": true
+    },
+    {
+      "URL": "https://boosty.to/app/offer/user",
+      "очищены_заголовки": false,
+      "очищено_тело": true
+    },
+    {
+      "URL": "https://sponsr.ru/conditions/",
+      "очищены_заголовки": true,
+      "очищено_тело": false
+    }
+  ]
+}

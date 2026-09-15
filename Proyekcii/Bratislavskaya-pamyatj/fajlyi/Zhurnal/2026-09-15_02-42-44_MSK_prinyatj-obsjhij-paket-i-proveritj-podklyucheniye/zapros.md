@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-15 02:35:33 MSK - Podklyuchitj porozhdyonnyiye modeli](../2026-09-15_02-35-33_MSK_podklyuchitj-porozhdyonnyiye-modeli/zapros.md)
-- Sleduyusjhij zapros: [2026-09-15 03:35:30 MSK - Podgotovitj obyyedineniye konteksta i finansirovaniya](../2026-09-15_03-35-30_MSK_podgotovitj-obyyedineniye-konteksta-i-finansirovaniya/zapros.md)
+- Predyidusjhij zapros: [2026-09-15 02:40:16 MSK - Podklyuchitj perevodchik i prinyatj finansirovaniye](../2026-09-15_02-40-16_MSK_podklyuchitj-perevodchik-i-prinyatj-finansirovaniye/zapros.md)
+- Sleduyusjhij zapros: [2026-09-15 03:07:04 MSK - Podgotovitj manifest finansovoj postavki](../2026-09-15_03-07-04_MSK_podgotovitj-manifest-finansovoj-postavki/zapros.md)
 
 ## Tekst zaprosa
 
@@ -58,6 +58,6 @@ Chetyire komandyi vzyatyi doslovno, v iskhodnom poryadke, iz [proverennogo uchyo
 [Arkhiv15 vidimyikh otvetov kornya](materialyi/otvetyi-kornya.jsonl) sokhranyayet iskhodnyiye chasti teksta i tochnyiye pozicii. [Proiskhozhdeniye](materialyi/proiskhozhdeniye-otvetov.json) zadayot zakryituyu granicu; pozdniye otvetyi budut sokhranenyi sleduyusjhim etapom.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 04:47:16 MSK -->
-<!-- content-sha256: sha256:4895bc7d7a877a506b32e06611a03b640b2d5fd28c81fd10404f67d6cab65bba -->
+<!-- last-content-edit: 2026-09-15 06:23:18 MSK -->
+<!-- content-sha256: sha256:78276d074d55924fa2c1a5ad5b2141b789548355665d72fa359d4b33630a83a3 -->
 <!-- FUM-MD-RECENCY:END -->

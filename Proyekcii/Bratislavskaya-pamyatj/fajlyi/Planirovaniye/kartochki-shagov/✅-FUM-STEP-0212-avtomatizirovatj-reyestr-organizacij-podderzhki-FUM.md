@@ -37,6 +37,8 @@ Sozdanyi [16 organizacij i 24 varianta](../finansirovaniye-i-resursyi/README.md)
 
 Itogovaya priyomka iskhodnogo izmeneniya ustanovlena [mashinnyim otchyotom posleduyusjhego etapa](https://github.com/fum-lab/fum/blob/6c9babdd3663ff0112283b89a361068727825da6/Журнал/2026-09-11_16-12-17_MSK_завершить-приёмку-реестра-поддержки-FUM/отчёт.md). [Perenos v vetku priyoma](../../Zhurnal/2026-09-11_22-27-25_MSK_perenesti-finansovyij-rezuljtat-FUM/otchyot.md) sokhranyayet eto istoricheskoye dokazateljstvo i trebuyet sobstvennoj proverki. Status kartochki ne dokazyivayet polnuyu priyomku novogo snimka. Polucheniye finansirovaniya, registraciya NKO i integraciya v master ne zayavlyayutsya.
 
+Dopolneniye k podgotovke istochnikov 14.09.2026: povtorno aktualizirovanyi ochistka dvukh HTTP-zagolovkov i sluzhebnogo tokena konfiguracii; otdeljno ispravleno chrezmernoye raspoznavaniye pokhozhikh atributov. [Sokhranyonnyiye RED/GREEN i profilj](../../Zhurnal/2026-09-14_23-17-14_MSK_zavershitj-priyomku-finansirovaniya-FUM/otchyot.md) podtverzhdayut konechnyiye granicyi. [Registraciya vyidelennyikh nomerov](../../Zhurnal/2026-09-14_23-44-58_MSK_zaregistrirovatj-sboi-istochnikov-podderzhki/zapros.md) sokhranyayet proiskhozhdeniye; na 14 sentyabrya polnyij dopusk rasshirennogo reyestra ozhidal obsjhej zavisimosti 0165/0173. Zavisimostj prinyata v obsjhem kontekstnom pakete 15 sentyabrya; tekusjhij finansovyij perenos prokhodit sobstvennuyu priyomku, kotoraya ne vyivoditsya iz statusa etogo istoricheskogo shaga.
+
 ## Istochniki
 
 - [FUM-SBOJ-0083/PROYAVLENIYE-0001](../../Sboi/FUM-SBOJ-0083-propusk-raspakovki-gzip-pered-izvlecheniyem-HTML.md) — samostoyateljnaya granica podgotovki predstavleniya.
@@ -49,7 +51,11 @@ Itogovaya priyomka iskhodnogo izmeneniya ustanovlena [mashinnyim otchyotom posle
 
 - [Iskhodnaya komanda](https://github.com/fum-lab/fum/blob/6c9babdd3663ff0112283b89a361068727825da6/Журнал/2026-09-11_13-39-59_MSK_принять-направление-финансирования-FUM/запрос.md)
 
+- [FUM-SBOJ-0020/PROYAVLENIYE-0004](../../Sboi/FUM-SBOJ-0020-publikaciya-sluzhebnogo-CF-Ray-v-snimke-istochnika.md) — povtor propuska dvukh sluzhebnyikh HTTP-zagolovkov.
+- [FUM-SBOJ-0081/PROYAVLENIYE-0002](../../Sboi/FUM-SBOJ-0081-sokhraneniye-sluzhebnyikh-dannyikh-zaprosa-v-HTML.md) — povtor propuska strokovogo tokena konfiguracii.
+- [FUM-SBOJ-0120/PROYAVLENIYE-0001](../../Sboi/FUM-SBOJ-0120-chrezmernaya-ochistka-konfiguracii-stranicyi.md) — samostoyateljnaya regressionnaya granica chrezmernoj ochistki.
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 23:11:13 MSK -->
-<!-- content-sha256: sha256:274092d52f9ccae539ec2b23bb6e986be29c161b79a57a713bb58de3c5d69553 -->
+<!-- last-content-edit: 2026-09-15 06:23:18 MSK -->
+<!-- content-sha256: sha256:2375f0f82450ac896370489487d217fa302c3c633a6d899864969ca320cfcba4 -->
 <!-- FUM-MD-RECENCY:END -->

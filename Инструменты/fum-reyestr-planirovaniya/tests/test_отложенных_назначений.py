@@ -107,7 +107,7 @@ def ранняя_задача(корень, коммит, допуск, номе
     источник = корень.parent / ("нативный-" + str(номер) + ".jsonl")
     поручение = "<codex_delegation>\n  <source_thread_id>" + ЗАДАЧА + "</source_thread_id>\n  <input>" + допуск["аргументы"]["prompt"] + "</input>\n</codex_delegation>"
     источник.write_bytes(строка({"type": "session_meta", "payload": {"id": задача, "cwd": str(ребёнок), "git": {"commit_hash": коммит}}})
-        + строка({"type": "turn_context", "payload": {"cwd": str(ребёнок), "model": "gpt-6-astra", "effort": "ultra"}})
+        + строка({"type": "turn_context", "payload": {"cwd": str(ребёнок), "model": "gpt-6-astra", "effort": "low"}})
         + строка({"type": "response_item", "payload": {"type": "function_call_output", "name": "create_thread", "output": поручение}}))
     прежний.база.подтвердить_начало(ребёнок, задача, коммит, источник)
     return ребёнок, задача, источник
@@ -172,6 +172,7 @@ class ПроверкаНазначений(unittest.TestCase):
                 исполнитель.закрепить(план["пакет"], коммит, ветка)
                 первый = исполнитель.допустить(пакет, "FUM-STEP-0001")
                 проверка.assertTrue(первый["разрешён_вызов"])
+                проверка.assertEqual("low", первый["аргументы"]["thinking"])
                 второй = проверка.исполнитель(корень).допустить(пакет, "FUM-STEP-0001")
                 проверка.assertFalse(второй["разрешён_вызов"])
                 проверка.assertEqual(первый["попытка"], второй["попытка"])

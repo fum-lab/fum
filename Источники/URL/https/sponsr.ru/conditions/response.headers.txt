@@ -1,0 +1,10 @@
+HTTP/2 200
+server: QRATOR
+date: Mon, 14 Sep 2026 11:31:59 GMT
+content-type: text/html; charset=UTF-8
+vary: Accept-Encoding
+set-cookie: [REDACTED: response cookie]
+trace-id: [REDACTED: response trace identifier]
+x-robots-tag: all
+strict-transport-security: max-age=31536000; includeSubDomains
+x-forwarded-for: [REDACTED: response trace identifier]

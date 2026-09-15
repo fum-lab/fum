@@ -2,7 +2,7 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-11 14:48:56 MSK - Ispravitj dopusk statusa i prodolzhitj priyom](../2026-09-11_14-48-56_MSK_ispravitj-dopusk-statusa-i-prodolzhitj-priyom/zapros.md)
+- Predyidusjhij zapros: [2026-09-11 14:52:06 MSK - Sozdatj reyestr organizacij podderzhki FUM](../2026-09-11_14-52-06_MSK_sozdatj-reyestr-organizacij-podderzhki-FUM/zapros.md)
 - Sleduyusjhij zapros: [2026-09-11 15:48:40 MSK - Prinyatj planirovaniye Gosuslug](../2026-09-11_15-48-40_MSK_prinyatj-planirovaniye-Gosuslug/zapros.md)
 
 ## Tekst zaprosa
@@ -84,6 +84,6 @@ Vse sobstvennyiye tyazhyolyiye processyi zavershenyi, okno yavno osvobozhdeno. Y
 - [Proizvodnaya oblastj](../../../../) — toljko shtatnaya avtomatizaciya.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
-<!-- content-sha256: sha256:3d38009ad95ba94c3c71222089ea23b51d08453d4d77e4a014aac4779d3c8bdf -->
+<!-- last-content-edit: 2026-09-15 06:23:18 MSK -->
+<!-- content-sha256: sha256:8bac041cadd91c8c4e620ed69d8c4b225ba72e645197276a458c45794c304ee6 -->
 <!-- FUM-MD-RECENCY:END -->

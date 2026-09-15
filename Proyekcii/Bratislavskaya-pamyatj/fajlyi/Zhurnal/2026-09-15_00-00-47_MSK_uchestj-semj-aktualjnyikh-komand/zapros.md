@@ -2,7 +2,7 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-14 23:21:46 MSK - Zafiksirovatj prodolzheniye prioritetnoj rabotyi](../2026-09-14_23-21-46_MSK_zafiksirovatj-prodolzheniye-prioritetnoj-rabotyi/zapros.md)
+- Predyidusjhij zapros: [2026-09-14 23:44:58 MSK - Zaregistrirovatj sboi istochnikov podderzhki](../2026-09-14_23-44-58_MSK_zaregistrirovatj-sboi-istochnikov-podderzhki/zapros.md)
 - Sleduyusjhij zapros: [2026-09-15 00:46:36 MSK - Proveryatj polya zhurnala do polnoj svyaznosti](../2026-09-15_00-46-36_MSK_proveryatj-polya-zhurnala-do-polnoj-svyaznosti/zapros.md)
 
 ## Tekst zaprosa
@@ -98,6 +98,6 @@ Rezuljtatyi, otkazyi i ogranicheniya sokhranenyi v [otchyote](otchyot.md). Stary
 - [Mashinnyiye zapisi tekusjhego etapa](materialyi/zapuski-proverok/)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 01:14:49 MSK -->
-<!-- content-sha256: sha256:618e3ee2e50c5adc546c4c5568419b9e90e83e974137a745d2327cf188a37912 -->
+<!-- last-content-edit: 2026-09-15 06:23:18 MSK -->
+<!-- content-sha256: sha256:6105e3e4dfe37993c251e41d035743168e7c2e33ae77dd10fb734b5c06bc8a86 -->
 <!-- FUM-MD-RECENCY:END -->

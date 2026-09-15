@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-14 22:40:28 MSK - Obyyedinitj paketyi i proveritj ostatok](../2026-09-14_22-40-28_MSK_obyyedinitj-paketyi-i-proveritj-ostatok/zapros.md)
-- Sleduyusjhij zapros: [2026-09-15 00:00:47 MSK - Uchestj semj aktualjnyikh komand](../2026-09-15_00-00-47_MSK_uchestj-semj-aktualjnyikh-komand/zapros.md)
+- Predyidusjhij zapros: [2026-09-14 23:17:14 MSK - Zavershitj priyomku finansirovaniya FUM](../2026-09-14_23-17-14_MSK_zavershitj-priyomku-finansirovaniya-FUM/zapros.md)
+- Sleduyusjhij zapros: [2026-09-14 23:44:58 MSK - Zaregistrirovatj sboi istochnikov podderzhki](../2026-09-14_23-44-58_MSK_zaregistrirovatj-sboi-istochnikov-podderzhki/zapros.md)
 
 ## Tekst zaprosa
 
@@ -110,6 +110,6 @@ Publikacionnyiye narusheniya semi JSON Pointer ispravlenyi tochnyimi deklaraciya
 - [Mashinnyiye zapisi tekusjhego etapa](materialyi/zapuski-proverok/)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
-<!-- content-sha256: sha256:0f88ba877a2bccc0e517475fd442504d15c21d73f1b36ab1c22c06dc26c7ea08 -->
+<!-- last-content-edit: 2026-09-15 06:23:18 MSK -->
+<!-- content-sha256: sha256:dcb9a6cc74cf8b6182dada38118bc09be90b9090e0fb492108ebedb768a37395 -->
 <!-- FUM-MD-RECENCY:END -->

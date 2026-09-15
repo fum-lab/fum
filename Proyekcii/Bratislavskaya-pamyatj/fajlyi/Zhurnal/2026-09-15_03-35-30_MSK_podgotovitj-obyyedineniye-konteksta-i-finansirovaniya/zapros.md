@@ -2,7 +2,7 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-15 02:42:44 MSK - Prinyatj obsjhij paket i proveritj podklyucheniye](../2026-09-15_02-42-44_MSK_prinyatj-obsjhij-paket-i-proveritj-podklyucheniye/zapros.md)
+- Predyidusjhij zapros: [2026-09-15 03:07:04 MSK - Podgotovitj manifest finansovoj postavki](../2026-09-15_03-07-04_MSK_podgotovitj-manifest-finansovoj-postavki/zapros.md)
 - Sleduyusjhij zapros: [2026-09-15 03:49:44 MSK - Podtverditj priyomku profilya otveta](../2026-09-15_03-49-44_MSK_podtverditj-priyomku-profilya-otveta/zapros.md)
 
 ## Tekst zaprosa
@@ -172,6 +172,6 @@ Chetyire iskhodnyikh soobsjheniya doslovno perenesenyi iz [predyidusjhego etapa]
 [Arkhiv vidimyikh otvetov](materialyi/otvetyi-kornya.jsonl) i [yego proiskhozhdeniye](materialyi/proiskhozhdeniye-otvetov.json) sokhranyayut prodolzheniye dialoga posle predyidusjhej kontroljnoj tochki.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 04:47:16 MSK -->
-<!-- content-sha256: sha256:710a09bb49d4896ef64446d77c1fcd8ea48665e3be1d477e976a20a940c88332 -->
+<!-- last-content-edit: 2026-09-15 06:23:18 MSK -->
+<!-- content-sha256: sha256:d3471c7cdaf5e748be7ec92fb9d53a4bca27b4ec60faa7ba19f8acad2a1e4d78 -->
 <!-- FUM-MD-RECENCY:END -->

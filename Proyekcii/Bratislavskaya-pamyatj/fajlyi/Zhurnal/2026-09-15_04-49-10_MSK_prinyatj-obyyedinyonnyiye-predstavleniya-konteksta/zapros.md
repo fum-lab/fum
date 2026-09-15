@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-15 04:37:20 MSK - Podklyuchitj profilj konteksta k obyyedineniyu](../2026-09-15_04-37-20_MSK_podklyuchitj-profilj-konteksta-k-obyyedineniyu/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-15 05:48:06 MSK - Svyazatj priyomku konteksta s obyazateljstvom](../2026-09-15_05-48-06_MSK_svyazatj-priyomku-konteksta-s-obyazateljstvom/zapros.md)
 
 ## Tekst zaprosa
 
@@ -67,6 +67,6 @@ Do zapisi povtorno prochitanyi HEAD, ref, fizicheskij korenj i polnyij neizmenny
 - [Podklyucheniye CLI](../2026-09-15_04-37-20_MSK_podklyuchitj-profilj-konteksta-k-obyyedineniyu/otchyot.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 05:16:15 MSK -->
-<!-- content-sha256: sha256:73cefa8e8883dfa10885d0d7c08bd4801f3381f3847942ee6e8e3bb114fcbc63 -->
+<!-- last-content-edit: 2026-09-15 05:54:54 MSK -->
+<!-- content-sha256: sha256:b3be945a7dee54a1a339f40f74b2727479addbf38e40cff166fde510b8d13565 -->
 <!-- FUM-MD-RECENCY:END -->

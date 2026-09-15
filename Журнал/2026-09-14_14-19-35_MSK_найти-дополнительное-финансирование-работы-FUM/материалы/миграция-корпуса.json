@@ -1,0 +1,206 @@
+{
+  "новые_ид": [
+    "FUM-ORG-97703298287f",
+    "FUM-ORG-71ac07b3863a",
+    "FUM-ORG-5a491b4c2eae",
+    "FUM-ORG-e55c6179e5c7",
+    "FUM-ORG-cccfbd98d0b6",
+    "FUM-ORG-da78e40e2c17",
+    "FUM-ORG-7ea146b75b58",
+    "FUM-ORG-4c6c755f393d",
+    "FUM-ORG-4feb48650405",
+    "FUM-ORG-2d82d3bf3a0e",
+    "FUM-ORG-5d118e094b03",
+    "FUM-ORG-84cbecbd1008",
+    "FUM-ORG-4475e249102d",
+    "FUM-ORG-43467307186f"
+  ],
+  "новый_sha256": "7ef9acf01db50e4d0d68e83b30a1e9dcd1956d38519b5fd3466bbed954baa80f",
+  "основание": "Журнал/2026-09-14_14-19-35_MSK_найти-дополнительное-финансирование-работы-FUM/запрос.md",
+  "разделение_свидетельств_по_ревью": [
+    {
+      "URL": "https://boosty.to/app/offer/user",
+      "прежнее_сводное": {
+        "sha256": "ca347a410a35e71338708ba9c0aab3fec786a5779c4d49ed10440100d61d44b6",
+        "путь": "Источники/URL/https/boosty.to/app/offer/user/свидетельства/ca347a410a35e71338708ba9c0aab3fec786a5779c4d49ed10440100d61d44b6/извлечённый-текст.txt"
+      },
+      "раздельное": {
+        "sha256": "08b851be431ca307ae68d179ce92560113eb5ed29265aa8ac99a9179fb0678b3",
+        "путь": "Источники/URL/https/boosty.to/app/offer/user/свидетельства/08b851be431ca307ae68d179ce92560113eb5ed29265aa8ac99a9179fb0678b3/извлечённый-текст.txt"
+      }
+    },
+    {
+      "URL": "https://boosty.to/app/offer/payment-terms-cis",
+      "прежнее_сводное": {
+        "sha256": "5ce991e7e2f22ad6c1f9a058a132acd3a00f3075b1a0e9b9de975238eaf638a5",
+        "путь": "Источники/URL/https/boosty.to/app/offer/payment-terms-cis/свидетельства/5ce991e7e2f22ad6c1f9a058a132acd3a00f3075b1a0e9b9de975238eaf638a5/извлечённый-текст.txt"
+      },
+      "раздельное": {
+        "sha256": "9b9331882b25523fa402cb4731a93b43d165ad423c91b6980d5bcbdc3fbc4db5",
+        "путь": "Источники/URL/https/boosty.to/app/offer/payment-terms-cis/свидетельства/9b9331882b25523fa402cb4731a93b43d165ad423c91b6980d5bcbdc3fbc4db5/извлечённый-текст.txt"
+      }
+    }
+  ],
+  "редакционная_очистка": "Сокращения денежных периодов развёрнуты словами в третьем исследовании и новых карточках без изменения условий; первоначальные свидетельства сохранены",
+  "свидетельства": [
+    {
+      "URL": "https://fadm.gov.ru/upload/iblock/6f0/dkmrcjrma9j8x26hokv7ws4wqdskyrkq/Объявление%20о%20проведении%20Всероссийского%20конкурса%20молодежных%20проектов%20среди%20физических%20лиц%20«Росмолодёжь.Гранты%202%20сезон».pdf",
+      "sha256": "5b8a63728a6cfaa3d293115e13dc9b30b2ad01eff6a0d449ad503378fdcaed5d",
+      "метод": "Пересказ прямого веб-чтения; полный исходный текст этого чтения не сохранён",
+      "путь": "Источники/URL/https/fadm.gov.ru/upload/iblock/6f0/dkmrcjrma9j8x26hokv7ws4wqdskyrkq/Объявление-о-проведении-Всероссийского-конкурса-молодежных-проектов-среди-физических-лиц-Росмоло-52d218968606ccde/свидетельства/5b8a63728a6cfaa3d293115e13dc9b30b2ad01eff6a0d449ad503378fdcaed5d/извлечённый-текст.txt"
+    },
+    {
+      "URL": "https://mws.ru/docs/docum/a0.html",
+      "sha256": "3e611098bca022b52bed36e897aaba5664a809f68d91dede83da0b2a0a07b465",
+      "метод": "Байты извлечённого текста сохранённого источника",
+      "путь": "Источники/URL/https/mws.ru/docs/docum/a0.html/свидетельства/3e611098bca022b52bed36e897aaba5664a809f68d91dede83da0b2a0a07b465/извлечённый-текст.txt"
+    },
+    {
+      "URL": "https://mws.ru/docs/docum/2.html",
+      "sha256": "35b3bbbc2a4d66cd6ff4134146741e7b095544908fb25a60772846ebc4695275",
+      "метод": "Байты извлечённого текста сохранённого источника",
+      "путь": "Источники/URL/https/mws.ru/docs/docum/2.html/свидетельства/35b3bbbc2a4d66cd6ff4134146741e7b095544908fb25a60772846ebc4695275/извлечённый-текст.txt"
+    },
+    {
+      "URL": "https://mws.ru/docs/docum/cloud_terms_mws_gpt_model_hub.html",
+      "sha256": "15ccb10a2f7eb18e8de117094652e91fbdc4a507c93f6f7a097f04e737df1709",
+      "метод": "Байты извлечённого текста сохранённого источника",
+      "путь": "Источники/URL/https/mws.ru/docs/docum/cloud_terms_mws_gpt_model_hub.html/свидетельства/15ccb10a2f7eb18e8de117094652e91fbdc4a507c93f6f7a097f04e737df1709/извлечённый-текст.txt"
+    },
+    {
+      "URL": "https://mws.ru/docs/cloud-platform/gpt/general/pricing.html",
+      "sha256": "d01b8b9c673732fbca206e3e748f8201d95420f9c83fc05c3c30855fa5cab3c4",
+      "метод": "Байты извлечённого текста сохранённого источника",
+      "путь": "Источники/URL/https/mws.ru/docs/cloud-platform/gpt/general/pricing.html/свидетельства/d01b8b9c673732fbca206e3e748f8201d95420f9c83fc05c3c30855fa5cab3c4/извлечённый-текст.txt"
+    },
+    {
+      "URL": "https://boosty.to/app/offer/user",
+      "sha256": "ca347a410a35e71338708ba9c0aab3fec786a5779c4d49ed10440100d61d44b6",
+      "метод": "Пересказ прямого веб-чтения; полный исходный текст этого чтения не сохранён",
+      "путь": "Источники/URL/https/boosty.to/app/offer/user/свидетельства/ca347a410a35e71338708ba9c0aab3fec786a5779c4d49ed10440100d61d44b6/извлечённый-текст.txt"
+    },
+    {
+      "URL": "https://boosty.to/app/offer/payment-terms-cis",
+      "sha256": "5ce991e7e2f22ad6c1f9a058a132acd3a00f3075b1a0e9b9de975238eaf638a5",
+      "метод": "Пересказ прямого веб-чтения; полный исходный текст этого чтения не сохранён",
+      "путь": "Источники/URL/https/boosty.to/app/offer/payment-terms-cis/свидетельства/5ce991e7e2f22ad6c1f9a058a132acd3a00f3075b1a0e9b9de975238eaf638a5/извлечённый-текст.txt"
+    },
+    {
+      "URL": "https://sponsr.ru/conditions/",
+      "sha256": "dc53dc20b3eacee9dde8028627790646c66a031c6899eec2efc6c5fe5df84d43",
+      "метод": "Байты извлечённого текста сохранённого источника",
+      "путь": "Источники/URL/https/sponsr.ru/conditions/свидетельства/dc53dc20b3eacee9dde8028627790646c66a031c6899eec2efc6c5fe5df84d43/извлечённый-текст.txt"
+    },
+    {
+      "URL": "https://cloud.ru/documents/promotions/active/evolution-free-tier",
+      "sha256": "a049dd82e6529258bfa7bdd19351040387f1692ce0caaac394c8cfce442409a2",
+      "метод": "Пересказ прямого веб-чтения; полный исходный текст этого чтения не сохранён",
+      "путь": "Источники/URL/https/cloud.ru/documents/promotions/active/evolution-free-tier/свидетельства/a049dd82e6529258bfa7bdd19351040387f1692ce0caaac394c8cfce442409a2/извлечённый-текст.txt"
+    },
+    {
+      "URL": "https://beget.com/ru/uridicheskie-pravila-programmi-grantov",
+      "sha256": "1803c49380a9837664c4b1213cfe682b71392d933288830d6e826aaebdaedbc7",
+      "метод": "Байты извлечённого текста сохранённого источника",
+      "путь": "Источники/URL/https/beget.com/ru/uridicheskie-pravila-programmi-grantov/свидетельства/1803c49380a9837664c4b1213cfe682b71392d933288830d6e826aaebdaedbc7/извлечённый-текст.txt"
+    },
+    {
+      "URL": "https://timeweb.cloud/grant",
+      "sha256": "aa4ef09b8bb87737fed74be6f23360c2d029092b3b214627a44606d91a70fa7a",
+      "метод": "Байты извлечённого текста сохранённого источника",
+      "путь": "Источники/URL/https/timeweb.cloud/grant/свидетельства/aa4ef09b8bb87737fed74be6f23360c2d029092b3b214627a44606d91a70fa7a/извлечённый-текст.txt"
+    },
+    {
+      "URL": "https://fond-mfo.ru/wp-content/uploads/2026/01/programma-predostavleniya-mikrozajmov-subektam-msp.pdf",
+      "sha256": "6e09417e778be374f52396fa6cb2a1609b2bd1060d99d51725554bf3baf96161",
+      "метод": "Байты извлечённого текста сохранённого источника",
+      "путь": "Источники/URL/https/fond-mfo.ru/wp-content/uploads/2026/01/programma-predostavleniya-mikrozajmov-subektam-msp.pdf/свидетельства/6e09417e778be374f52396fa6cb2a1609b2bd1060d99d51725554bf3baf96161/извлечённый-текст.txt"
+    },
+    {
+      "URL": "https://fond-mfo.ru/garantijnaya-i-finansovaya-podderzhka-kak-peterburg-podderzhivaet-malyj-biznes/",
+      "sha256": "0463f42ae44241d48713e0ba96916c408b9affe8aa47c6f47dbe9e571c86df76",
+      "метод": "Байты извлечённого текста сохранённого источника",
+      "путь": "Источники/URL/https/fond-mfo.ru/garantijnaya-i-finansovaya-podderzhka-kak-peterburg-podderzhivaet-malyj-biznes/свидетельства/0463f42ae44241d48713e0ba96916c408b9affe8aa47c6f47dbe9e571c86df76/извлечённый-текст.txt"
+    },
+    {
+      "URL": "https://xn--28-9kcmeamher5a2blt.xn--p1ai/programs/prioritet/",
+      "sha256": "04a302347d36e1c06cdc2819c2ecbc4b6bb0008f40025df990ae0133d8632210",
+      "метод": "Байты извлечённого текста сохранённого источника",
+      "путь": "Источники/URL/https/xn--28-9kcmeamher5a2blt.xn--p1ai/programs/prioritet/свидетельства/04a302347d36e1c06cdc2819c2ecbc4b6bb0008f40025df990ae0133d8632210/извлечённый-текст.txt"
+    },
+    {
+      "URL": "https://xn--28-9kcmeamher5a2blt.xn--p1ai/answers/",
+      "sha256": "5827fa7115dbe89c5428166afb35e65116f8499f0453164ddb430027e5793b6b",
+      "метод": "Байты извлечённого текста сохранённого источника",
+      "путь": "Источники/URL/https/xn--28-9kcmeamher5a2blt.xn--p1ai/answers/свидетельства/5827fa7115dbe89c5428166afb35e65116f8499f0453164ddb430027e5793b6b/извлечённый-текст.txt"
+    },
+    {
+      "URL": "https://invest.iidf.ru/",
+      "sha256": "c2b0db1c7ea2321ebbee7257576bf4d1d57c23b626c47d2f6092f423ed5a5739",
+      "метод": "Байты извлечённого текста сохранённого источника",
+      "путь": "Источники/URL/https/invest.iidf.ru/_root/свидетельства/c2b0db1c7ea2321ebbee7257576bf4d1d57c23b626c47d2f6092f423ed5a5739/извлечённый-текст.txt"
+    },
+    {
+      "URL": "https://static.cloudpayments.ru/docs/cloudtips_oferta.pdf",
+      "sha256": "6c692402941cee37d2e3134a00a09a48783f4f00d4b8e679a75f3f6eefc194d1",
+      "метод": "Байты извлечённого текста сохранённого источника",
+      "путь": "Источники/URL/https/static.cloudpayments.ru/docs/cloudtips_oferta.pdf/свидетельства/6c692402941cee37d2e3134a00a09a48783f4f00d4b8e679a75f3f6eefc194d1/извлечённый-текст.txt"
+    },
+    {
+      "URL": "https://cloudtips.ru/bloggers",
+      "sha256": "f25ecf4232aebc15bdc167c69f950931dfcece62a29e9ad8da5bd192a86793f6",
+      "метод": "Байты извлечённого текста сохранённого источника",
+      "путь": "Источники/URL/https/cloudtips.ru/bloggers/свидетельства/f25ecf4232aebc15bdc167c69f950931dfcece62a29e9ad8da5bd192a86793f6/извлечённый-текст.txt"
+    },
+    {
+      "URL": "https://nlnet.nl/restack/eligibility/",
+      "sha256": "f2e63d230c40ade35d33ff6443c3dcad64f4ce7fba443a7e4123beab7be3e35b",
+      "метод": "Байты извлечённого текста сохранённого источника",
+      "путь": "Источники/URL/https/nlnet.nl/restack/eligibility/свидетельства/f2e63d230c40ade35d33ff6443c3dcad64f4ce7fba443a7e4123beab7be3e35b/извлечённый-текст.txt"
+    },
+    {
+      "URL": "https://nlnet.nl/restack/",
+      "sha256": "4a272cf3f0eb75cfe208c6e47ffd189a3cc3ae273a8f1be64a97487f0c547c2f",
+      "метод": "Пересказ прямого веб-чтения; полный исходный текст этого чтения не сохранён",
+      "путь": "Источники/URL/https/nlnet.nl/restack/свидетельства/4a272cf3f0eb75cfe208c6e47ffd189a3cc3ae273a8f1be64a97487f0c547c2f/извлечённый-текст.txt"
+    },
+    {
+      "URL": "https://nlnet.nl/restack/faq/",
+      "sha256": "3a9e3b7e475b049cb98a11bd59ee4c39a8476922263571fa36fe1d7d276715d7",
+      "метод": "Байты извлечённого текста сохранённого источника",
+      "путь": "Источники/URL/https/nlnet.nl/restack/faq/свидетельства/3a9e3b7e475b049cb98a11bd59ee4c39a8476922263571fa36fe1d7d276715d7/извлечённый-текст.txt"
+    },
+    {
+      "URL": "https://www.sovereign.tech/programs/fund",
+      "sha256": "4a355cc0ff9f7cd8fd949484fc891ef4ec020ebf0f80e08237ea072ffeee71c1",
+      "метод": "Байты извлечённого текста сохранённого источника",
+      "путь": "Источники/URL/https/www.sovereign.tech/programs/fund/свидетельства/4a355cc0ff9f7cd8fd949484fc891ef4ec020ebf0f80e08237ea072ffeee71c1/извлечённый-текст.txt"
+    },
+    {
+      "URL": "https://softlinevp.ru/",
+      "sha256": "c8abd5eb534439a67da6713a0e01c693602f986afb2b94efd008673846b1bac0",
+      "метод": "Байты извлечённого текста сохранённого источника",
+      "путь": "Источники/URL/https/softlinevp.ru/_root/свидетельства/c8abd5eb534439a67da6713a0e01c693602f986afb2b94efd008673846b1bac0/извлечённый-текст.txt"
+    }
+  ],
+  "сохранённые_ид": [
+    "FUM-ORG-8b2ee5390d69",
+    "FUM-ORG-cc69f0a70cb7",
+    "FUM-ORG-f20c3c66a9ee",
+    "FUM-ORG-17c20ac5648c",
+    "FUM-ORG-ed4e50e96a1f",
+    "FUM-ORG-9b3eeb3dcda2",
+    "FUM-ORG-b7486f8d4f81",
+    "FUM-ORG-41dcc9aa4e34",
+    "FUM-ORG-ea1a410dd84a",
+    "FUM-ORG-42a7a44ac5d8",
+    "FUM-ORG-fde1d319ac72",
+    "FUM-ORG-ff4f0d2dd76e",
+    "FUM-ORG-5eaf185d8279",
+    "FUM-ORG-ae405bc3ffee",
+    "FUM-ORG-965ba6a37f89",
+    "FUM-ORG-78129eed9e47"
+  ],
+  "старый_sha256": "99f9b04815b8cb1513fa02f7ade3cffaf5fd263ad408366188011d6e6f93969d",
+  "старый_корпус": "Журнал/2026-09-11_13-39-59_MSK_принять-направление-финансирования-FUM/материалы/исследования/организации-поддержки-FUM.json",
+  "юридический_профиль": "Не изменён"
+}

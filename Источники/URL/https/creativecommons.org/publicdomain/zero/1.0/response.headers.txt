@@ -1,0 +1,10 @@
+HTTP/2 200
+date: Mon, 14 Sep 2026 11:35:39 GMT
+content-type: text/html
+server: cloudflare
+last-modified: Tue, 09 Jun 2026 14:26:12 GMT
+age: 269
+vary: Accept-Encoding
+cf-cache-status: HIT
+access-control-allow-origin: *
+cf-ray: [REDACTED: response trace identifier]

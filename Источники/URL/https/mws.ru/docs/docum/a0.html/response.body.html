@@ -1,0 +1,338 @@
+<!DOCTYPE html><html lang="ru" dir="ltr" data-theme="dark" data-has-sidebar class="astro-bguv2lll"> <head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta http-equiv="Content-Security-Policy" content="default-src 'self' localhost:*; connect-src 'self' *.mts.ru *.cloud.mts.ru http://localhost:5173 https://static.s3.cloud.mts.ru https://storage.mwsapis.ru https://mc.yandex.ru wss://mc.yandex.ru https://www.googletagmanager.com *.cloud.mts.ru/search/multi_search https://tag.a.mts.ru; font-src 'self' https://static.s3.cloud.mts.ru; img-src 'self' blob: data: https://mc.yandex.ru https://www.googletagmanager.com https://cloud.mts.ru https://hub.cloud.mts.ru https://static.s3.cloud.mts.ru https://storage.mwsapis.ru https://*.mwsapis.ru https://mws.ru https://tag.a.mts.ru; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://mc.yandex.ru https://www.googletagmanager.com https://static.s3.cloud.mts.ru https://storage.mwsapis.ru https://tag.a.mts.ru; style-src 'self' 'unsafe-inline'; frame-src https://mc.yandex.ru https://www.googletagmanager.com https://tag.a.mts.ru https://workspace.teamstream.mts-corp.ru;"/><link rel="canonical" href="https://mws.ru/docs/docum/a0.html"/><link rel="sitemap" href="/docs/sitemap-index.xml"/><link rel="modulepreload" href="https://storage.mwsapis.ru/mws-site-docs/js/typesense-docsearch.js"/><script type="module">(() => {
+            const INDEX_NAMES = {"dev":"docusaurus-2","staging":"docusaurus-2","production":"docusaurus-2"};
+            const translations = {
+              modal: {
+                startScreen: {
+                  noRecentSearchesText: 'Недавних запросов нет',
+                  resetButtonText: 'Сбросить'
+                }
+              }
+            };
+
+            const resolveEnv = () => {
+              const host = window.location.hostname;
+              if (host.includes('stage') || host.includes('preprod')) return 'staging';
+              if (host.includes('dev')) return 'dev';
+              return 'production';
+            };
+            const env = resolveEnv();
+            const indexName = INDEX_NAMES?.[env] || 'docusaurus-2';
+            const METRIKA_ID = 87687414;
+            const IS_SEARCH_METRIKA_ENABLED = env === 'production';
+            const SEARCH_TRACK_DEBOUNCE_MS = 800;
+            const MIN_QUERY_LENGTH = 2;
+
+            let searchTrackTimer = null;
+            let pendingSearchTrack = null;
+
+            const sendSearchToMetrika = (query, resultsCount) => {
+              if (!IS_SEARCH_METRIKA_ENABLED) return;
+              const q = String(query || '').trim().slice(0, 200);
+              if (q.length < MIN_QUERY_LENGTH) return;
+              if (typeof window.ym !== 'function') return;
+              const params = {
+                docs_search_query: q,
+                docs_search_results: resultsCount
+              };
+
+              try {
+                const goal = resultsCount > 0 ? 'docs_search' : 'docs_search_no_results';
+                window.ym(METRIKA_ID, 'reachGoal', goal, params);
+                window.ym(METRIKA_ID, 'params', params);
+              } catch (e) {
+                console.warn('[typesense-search] metrika track failed', e);
+              }
+            };
+
+            const scheduleSearchTrack = (query, resultsCount) => {
+              pendingSearchTrack = { query, resultsCount };
+              clearTimeout(searchTrackTimer);
+              searchTrackTimer = setTimeout(() => {
+                if (!pendingSearchTrack) return;
+                sendSearchToMetrika(
+                  pendingSearchTrack.query,
+                  pendingSearchTrack.resultsCount
+                );
+                pendingSearchTrack = null;
+              }, SEARCH_TRACK_DEBOUNCE_MS);
+            };
+
+            const init = async () => {
+              if (window.__mwsTypesenseSearchInit) return;
+              const container = document.querySelector('#docsearch');
+              if (!container) return;
+              window.__mwsTypesenseSearchInit = true;
+
+              try {
+                await import('https://storage.mwsapis.ru/mws-site-docs/js/typesense-docsearch.js');
+                if (typeof window.docsearch !== 'function') {
+                  throw new Error('docsearch not available');
+                }
+
+                window.docsearch({
+                  container: '#docsearch',
+                  environment: window,
+                  typesenseCollectionName: indexName,
+                  typesenseServerConfig: {
+                    nodes: [{
+                      host: window.location.hostname,
+                      port: window.location.port,
+                      path: '/docs/search',
+                      protocol: window.location.protocol.replace(':', '')
+                    }],
+                    apiKey: 'proxy-managed'
+                  },
+                  transformSearchClient: (searchClient) => ({
+                    ...searchClient,
+                    search(requests) {
+                      return searchClient.search(requests).then((response) => {
+                        try {
+                          const firstResult = response?.results?.[0];
+                          const query =
+                            firstResult?.query ??
+                            requests?.[0]?.params?.query ??
+                            '';
+                          const resultsCount =
+                            firstResult?.nbHits ??
+                            firstResult?.hits?.length ??
+                            0;
+                          scheduleSearchTrack(query, resultsCount);
+                        } catch (e) {
+                          console.warn('[typesense-search] metrika parse failed', e);
+                        }
+                        return response;
+                      });
+                    }
+                  }),
+                  translations: {
+                    modal: {
+                      startScreen: {
+                        noRecentSearchesText: 'Недавних запросов нет',
+                        resetButtonText: 'Сбросить'
+                      },
+                      noResultsScreen: {
+                        noResultsText: 'Ничего не найдено по запросу',
+                        suggestedQueryText: 'Попробуйте поискать'
+                      },
+                      searchBox: {
+                        resetButtonTitle: 'Очистить запрос',
+                        resetButtonAriaLabel: 'Очистить запрос',
+                        cancelButtonText: 'Отмена',
+                        cancelButtonAriaLabel: 'Отмена'
+                      }
+                    }
+                  }
+                });
+              } catch (e) {
+                console.error('[typesense-search] init failed', e);
+              }
+            };
+
+            if (document.readyState === 'loading') {
+              document.addEventListener('DOMContentLoaded', () => {
+                init();
+                setTimeout(init, 500);
+              }, { once: true });
+            } else {
+              init();
+              setTimeout(init, 500);
+            }
+          })();</script><script>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+              m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+              (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+        
+              ym(87687414, "init", {
+                clickmap:true,
+                trackLinks:true,
+                accurateTrackBounce:true,
+                webvisor:true
+              });</script><script>(function (dl, id) {
+                window[dl] = window[dl] || [];
+                const script = document.createElement('script'),
+                      params = dl !== 'dataLayer' ? '?l=' + dl : '';
+                script.async = true;
+                script.src = 'https://tag.a.mts.ru/container/' + id + '/tag.js' + params;
+                document.head.appendChild(script);
+              })('dataLayer', '7688b7d6-38a3-49e0-9665-cef39bdc4892');</script><script>(function (w, d, s, l, i) {
+                w[l] = w[l] || [];
+                w[l].push({
+                    'gtm.start':
+                      new Date().getTime(), event: 'gtm.js'
+                });
+                var f = d.getElementsByTagName(s)[0],
+                  j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+                j.async = true;
+                j.src =
+                  'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+                f.parentNode.insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', 'GTM-M26HMDD');</script><link rel="shortcut icon" href="https://mws.ru/favicon-32x32.png" type="image/png"/><meta property="og:title" content/><meta property="og:type" content="article"/><meta property="og:url" content="https://mws.ru/docs/docum/a0.html"/><meta property="og:locale" content="ru"/><meta property="og:site_name" content="MWS Docs"/><meta name="twitter:card" content="summary_large_image"/><title>Специальные условия Акции MWS «Приветственный грант на сервисы MWS Cloud Platform» | MWS Docs</title><meta name="description" content="Документация MWS Cloud Platform - Специальные условия Акции MWS «Приветственный грант на сервисы MWS Cloud Platform»"><meta property="og:description" content="Документация MWS Cloud Platform - Специальные условия Акции MWS «Приветственный грант на сервисы MWS Cloud Platform»"><link rel="canonical" href="https://mws.ru//docs/docum/a0.html"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"MWS Docs","item":"https://mws.ru/docs/"}]}</script><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		const resolved = theme === 'light' ? 'light' : 'dark';
+		document.documentElement.dataset.theme = resolved;
+		document.documentElement.dataset.mtsTheme = resolved;
+		return {
+			updatePickers: (theme = storedTheme || 'auto') => {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/docs/_astro/print.DNXP8c50.css" media="print"><link rel="stylesheet" href="/docs/_astro/_operationId_.xWyAjN1x.css">
+<link rel="stylesheet" href="/docs/_astro/_operationId_.f2-e6rps.css"><script type="module" src="/docs/_astro/page.B1D-nYk3.js"></script></head> <body class="astro-bguv2lll"> <a href="#_top" class="astro-7q3lir66">Перейти к содержимому</a>  <div class="page sl-flex astro-vrdttmbt"> <header class="header astro-vrdttmbt"><div class="header astro-kmkmnagf"> <div class="title-wrapper sl-flex astro-kmkmnagf"> <a href="/docs/" class="site-title sl-flex astro-ck7e5vei"> <img class="logo astro-ck7e5vei" src="https://storage.mwsapis.ru/mws-site-docs/site/mws_logo.svg" alt="MWS Docs"> </a>  </div> <div class="sl-flex print:hidden astro-kmkmnagf"> <div class="typesense-docsearch-root astro-4qobrs4h" id="docsearch"></div>  </div> <div class="sl-hidden md:sl-flex print:hidden right-group astro-kmkmnagf"> <div class="sl-flex social-icons astro-kmkmnagf">  </div> <starlight-theme-select> <label style="--sl-select-width: 6.25em" class="astro-4yphtoen"> <span class="sr-only astro-4yphtoen">Выберите тему</span> <svg aria-hidden="true" class="icon label-icon astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg> <select autocomplete="off" class="astro-4yphtoen"> <option value="dark" class="astro-4yphtoen">Тёмная</option><option value="light" class="astro-4yphtoen">Светлая</option><option value="auto" selected class="astro-4yphtoen">Авто</option> </select> <svg aria-hidden="true" class="icon caret astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg> </label>  </starlight-theme-select> <script>
+	StarlightThemeProvider.updatePickers();
+</script> <script type="module">const o="starlight-theme",r=e=>e==="auto"||e==="dark"||e==="light"?e:"auto",c=()=>r(typeof localStorage<"u"&&localStorage.getItem(o)),s=e=>{typeof localStorage<"u"&&localStorage.setItem(o,e==="light"||e==="dark"?e:"")},n=()=>matchMedia("(prefers-color-scheme: light)").matches?"light":"dark",a=e=>{StarlightThemeProvider.updatePickers(e);const t=e==="auto"?n():e;document.documentElement.dataset.theme=t,document.documentElement.dataset.mtsTheme=t,s(e)};matchMedia("(prefers-color-scheme: light)").addEventListener("change",()=>{c()==="auto"&&a("auto")});class l extends HTMLElement{constructor(){super(),a(c()),this.querySelector("select")?.addEventListener("change",t=>{t.currentTarget instanceof HTMLSelectElement&&a(r(t.currentTarget.value))})}}customElements.define("starlight-theme-select",l);</script> <script type="module">class s extends HTMLElement{constructor(){super();const e=this.querySelector("select");e&&(e.addEventListener("change",t=>{t.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=t.currentTarget.value)}),window.addEventListener("pageshow",t=>{if(!t.persisted)return;const n=e.querySelector("option[selected]")?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}}customElements.define("starlight-lang-select",s);</script> </div> </div> </header> <nav class="sidebar print:hidden astro-vrdttmbt" aria-label="Основное"> <starlight-menu-button class="print:hidden astro-jif73yzw"> <button aria-expanded="false" aria-label="Меню" aria-controls="starlight__sidebar" class="sl-flex md:sl-hidden astro-jif73yzw"> <svg aria-hidden="true" class="open-menu astro-jif73yzw astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg> <svg aria-hidden="true" class="close-menu astro-jif73yzw astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg> </button> </starlight-menu-button> <script type="module">class s extends HTMLElement{constructor(){super(),this.btn=this.querySelector("button"),this.btn.addEventListener("click",()=>this.toggleExpanded());const t=this.closest("nav");t&&t.addEventListener("keyup",e=>this.closeOnEscape(e))}setExpanded(t){this.setAttribute("aria-expanded",String(t)),document.body.toggleAttribute("data-mobile-menu-expanded",t)}toggleExpanded(){this.setExpanded(this.getAttribute("aria-expanded")!=="true")}closeOnEscape(t){t.code==="Escape"&&(this.setExpanded(!1),this.btn.focus())}}customElements.define("starlight-menu-button",s);</script>   <div id="starlight__sidebar" class="sidebar-pane astro-vrdttmbt"> <div class="sidebar-content sl-flex astro-vrdttmbt"> <div id="mws-docs-sidebar" class="astro-lzcjmvsu"> <sl-sidebar-state-persist data-hash="1166bog" class="astro-kku4brbg"> <script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script>  <ul class="top-level astro-3ii7xxms"> <li class="astro-3ii7xxms"> <details open class="astro-3ii7xxms"> <summary class="astro-3ii7xxms"> <span class="group-label astro-3ii7xxms"> <span class="large astro-3ii7xxms">MWS Cloud Platform</span>  </span> <svg aria-hidden="true" class="caret astro-3ii7xxms astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="0"></sl-sidebar-restore> <ul class="astro-3ii7xxms"> <li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/about/quickstart.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">О платформе</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/billing/general/whatis-billing.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Биллинг</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/org-rm/general/resource-model.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Управление организациями и ресурсами</span>  </a> </li><li class="astro-3ii7xxms"> <details open class="astro-3ii7xxms"> <summary class="astro-3ii7xxms"> <span class="group-label astro-3ii7xxms"> <span class="large astro-3ii7xxms">Инфраструктура и сеть</span>  </span> <svg aria-hidden="true" class="caret astro-3ii7xxms astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="1"></sl-sidebar-restore> <ul class="astro-3ii7xxms"> <li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/compute/general/whatis-compute.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Compute</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/vpc/general/whatis-vpc.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Virtual Private Cloud</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/nlb/general/whatis-nlb.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Network Load Balancer</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/cdn/general/whatis-cdn.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Content Delivery Network</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/storage/general/whatis-object-storage.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Object Storage</span>  </a> </li> </ul>  </details> </li><li class="astro-3ii7xxms"> <details open class="astro-3ii7xxms"> <summary class="astro-3ii7xxms"> <span class="group-label astro-3ii7xxms"> <span class="large astro-3ii7xxms">Контейнеры</span>  </span> <svg aria-hidden="true" class="caret astro-3ii7xxms astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="2"></sl-sidebar-restore> <ul class="astro-3ii7xxms"> <li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/registry/general/whatis-registry.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Artifact Registry</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/mk8s/general/whatis-mk8s.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Managed Kubernetes</span>  </a> </li> </ul>  </details> </li><li class="astro-3ii7xxms"> <details open class="astro-3ii7xxms"> <summary class="astro-3ii7xxms"> <span class="group-label astro-3ii7xxms"> <span class="large astro-3ii7xxms">Безопасность</span>  </span> <svg aria-hidden="true" class="caret astro-3ii7xxms astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="3"></sl-sidebar-restore> <ul class="astro-3ii7xxms"> <li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/iam/general/whatis-iam.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Identity and Access Management</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/certmanager/general/whatis-cert-manager.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Certificate Manager</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/kms/general/whatis-kms.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Key Management Service</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/secret-manager/general/whatis-secret-manager.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Secret Manager</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/audit-logs/general/whatis-audit-logs.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Audit Logs</span>  </a> </li> </ul>  </details> </li><li class="astro-3ii7xxms"> <details open class="astro-3ii7xxms"> <summary class="astro-3ii7xxms"> <span class="group-label astro-3ii7xxms"> <span class="large astro-3ii7xxms">Платформа данных</span>  </span> <svg aria-hidden="true" class="caret astro-3ii7xxms astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="4"></sl-sidebar-restore> <ul class="astro-3ii7xxms"> <li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/mpostgres/general/whatis-mpostgres.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Managed PostgreSQL</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/mclickhouse/general/whatis-mclickhouse.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Managed ClickHouse</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/mkafka/general/whatis-mkafka.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Managed Kafka</span>  </a> </li> </ul>  </details> </li><li class="astro-3ii7xxms"> <details open class="astro-3ii7xxms"> <summary class="astro-3ii7xxms"> <span class="group-label astro-3ii7xxms"> <span class="large astro-3ii7xxms">AI-платформа</span>  </span> <svg aria-hidden="true" class="caret astro-3ii7xxms astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="5"></sl-sidebar-restore> <ul class="astro-3ii7xxms"> <li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/gpt/general/whatis-gpt.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">GPT Model Hub</span>  </a> </li> </ul>  </details> </li><li class="astro-3ii7xxms"> <details open class="astro-3ii7xxms"> <summary class="astro-3ii7xxms"> <span class="group-label astro-3ii7xxms"> <span class="large astro-3ii7xxms">Инструменты</span>  </span> <svg aria-hidden="true" class="caret astro-3ii7xxms astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="6"></sl-sidebar-restore> <ul class="astro-3ii7xxms"> <li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/api/general/whatis-api.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">API</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/mws-cli/general/whatis-mws-cli.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">MWS CLI</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/terraform/general/whatis-terraform.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Terraform</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/sdk/general/whatis-sdk.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">SDK</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/monitoring/general/whatis-monitoring.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Мониторинг</span>  </a> </li> </ul>  </details> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/mrkt/general/whatis-mrkt.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Marketplace</span>  </a> </li> </ul>  </details> </li><li class="astro-3ii7xxms"> <details class="astro-3ii7xxms"> <summary class="astro-3ii7xxms"> <span class="group-label astro-3ii7xxms"> <span class="large astro-3ii7xxms">Облако на базе VMware</span>  </span> <svg aria-hidden="true" class="caret astro-3ii7xxms astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="7"></sl-sidebar-restore> <ul class="astro-3ii7xxms"> <li class="astro-3ii7xxms"> <a href="/docs/vmwarecloud/vi/general/whatis-vmw-vi.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Virtual Infrastructure</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/vmwarecloud/veeam.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Veeam Backup</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/vmwarecloud/cyber.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Киберпротект Backup</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/vmwarecloud/commvault.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Commvault</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/vmwarecloud/dr.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Disaster Recovery</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/vmwarecloud/vdi.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">VDI Desktops</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/vmwarecloud/gpu_ws.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">GPU Workspaces</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/vmwarecloud/office-lite/general/whatis-office-lite.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Офис Лайт</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/vmwarecloud/disk-nextcloud.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Диск NextCloud</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/vmwarecloud/sdwan.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Cloud SD-WAN</span>  </a> </li> </ul>  </details> </li><li class="astro-3ii7xxms"> <details class="astro-3ii7xxms"> <summary class="astro-3ii7xxms"> <span class="group-label astro-3ii7xxms"> <span class="large astro-3ii7xxms">Сервисы Cloud Hub</span>  </span> <svg aria-hidden="true" class="caret astro-3ii7xxms astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="8"></sl-sidebar-restore> <ul class="astro-3ii7xxms"> <li class="astro-3ii7xxms"> <a href="/docs/s3.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Объектное хранилище</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cdn.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">CDN &amp; Медиасервисы</span>  </a> </li> </ul>  </details> </li><li class="astro-3ii7xxms"> <details open class="astro-3ii7xxms"> <summary class="astro-3ii7xxms"> <span class="group-label astro-3ii7xxms"> <span class="large astro-3ii7xxms">Общая информация</span>  </span> <svg aria-hidden="true" class="caret astro-3ii7xxms astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="9"></sl-sidebar-restore> <ul class="astro-3ii7xxms"> <li class="astro-3ii7xxms"> <a href="/docs/support/about.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Техподдержка</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/docum.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Юридическая информация</span>  </a> </li> </ul>  </details> </li> </ul>   <script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script> </sl-sidebar-state-persist>  </div>  <div class="md:sl-hidden astro-lzcjmvsu"> <div class="mobile-preferences sl-flex astro-wu23bvmt"> <div class="social-icons astro-wu23bvmt">  </div> <starlight-theme-select> <label style="--sl-select-width: 6.25em" class="astro-4yphtoen"> <span class="sr-only astro-4yphtoen">Выберите тему</span> <svg aria-hidden="true" class="icon label-icon astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg> <select autocomplete="off" class="astro-4yphtoen"> <option value="dark" class="astro-4yphtoen">Тёмная</option><option value="light" class="astro-4yphtoen">Светлая</option><option value="auto" selected class="astro-4yphtoen">Авто</option> </select> <svg aria-hidden="true" class="icon caret astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg> </label>  </starlight-theme-select> <script>
+	StarlightThemeProvider.updatePickers();
+</script>   </div>  </div> </div> </div> </nav> <div class="main-frame astro-vrdttmbt">  <script type="module">const a=document.getElementById("starlight__sidebar"),n=a?.querySelector("sl-sidebar-state-persist"),o="sl-sidebar-state",i=()=>{let t=[];const e=n?.dataset.hash||"";try{const s=sessionStorage.getItem(o),r=JSON.parse(s||"{}");Array.isArray(r.open)&&r.hash===e&&(t=r.open)}catch{}return{hash:e,open:t,scroll:a?.scrollTop||0}},c=t=>{try{sessionStorage.setItem(o,JSON.stringify(t))}catch{}},d=()=>c(i()),l=(t,e)=>{const s=i();s.open[e]=t,c(s)};n?.addEventListener("click",t=>{if(!(t.target instanceof Element))return;const e=t.target.closest("summary")?.closest("details");if(!e)return;const s=e.querySelector("sl-sidebar-restore"),r=parseInt(s?.dataset.index||"");isNaN(r)||l(!e.open,r)});addEventListener("visibilitychange",()=>{document.visibilityState==="hidden"&&d()});addEventListener("pageHide",d);</script> <div class="lg:sl-flex astro-67yu43on">  <div class="main-pane astro-67yu43on">  <main data-pagefind-body class="astro-bguv2lll" lang="ru" dir="ltr">   <style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).load=e;window.dispatchEvent(new Event("astro:load"));})();</script><script>(()=>{var A=Object.defineProperty;var g=(i,o,a)=>o in i?A(i,o,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[o]=a;var d=(i,o,a)=>g(i,typeof o!="symbol"?o+"":o,a);{let i={0:t=>m(t),1:t=>a(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(a(t)),5:t=>new Set(a(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>1/0*t},o=t=>{let[l,e]=t;return l in i?i[l](e):void 0},a=t=>t.map(o),m=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([l,e])=>[l,o(e)]));class y extends HTMLElement{constructor(){super(...arguments);d(this,"Component");d(this,"hydrator");d(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let c=this.querySelectorAll("astro-slot"),n={},h=this.querySelectorAll("template[data-astro-template]");for(let r of h){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of c){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("name")||"default"]=r.innerHTML)}let p;try{p=this.hasAttribute("props")?m(JSON.parse(this.getAttribute("props"))):{}}catch(r){let s=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(s+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${s}`,this.getAttribute("props"),r),r}let u;await this.hydrator(this)(this.Component,p,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});d(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),c.disconnect(),this.childrenConnectedCallback()},c=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});c.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}async start(){let e=JSON.parse(this.getAttribute("opts")),c=this.getAttribute("client");if(Astro[c]===void 0){window.addEventListener(`astro:${c}`,()=>this.start(),{once:!0});return}try{await Astro[c](async()=>{let n=this.getAttribute("renderer-url"),[h,{default:p}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),u=this.getAttribute("component-export")||"default";if(!u.includes("."))this.Component=h[u];else{this.Component=h;for(let f of u.split("."))this.Component=this.Component[f]}return this.hydrator=p,this.hydrate},e,this)}catch(n){console.error(`[astro-island] Error hydrating ${this.getAttribute("component-url")}`,n)}}attributeChangedCallback(){this.hydrate()}}d(y,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",y)}})();</script> <div class="content-panel astro-7nkwcw3z"> <div class="sl-container astro-7nkwcw3z"> <h1 id="_top" class="astro-6mlbj5hd">Специальные условия Акции MWS «Приветственный грант на сервисы MWS Cloud Platform»</h1>  </div> </div>  <div class="content-panel astro-7nkwcw3z"> <div class="sl-container astro-7nkwcw3z"> <div class="sl-markdown-content">  <p style="text-align: right; font-weight: bold;">Дата размещения текущей редакции: 10.08.2026</p>
+<p style="text-align: right; font-weight: bold;">Утв. Приказом МВС ОР/00146П</p>
+<!-- Приказ МВС ОР/00146П от 10.08.2026 -->
+<p style="text-align: right; font-weight: bold;">Дата размещения первой редакции: 30.10.2025</p>
+<p style="text-align: right; font-weight: bold;">г. Москва, Российская Федерация</p>
+<p>Настоящие Специальные условия Акции действуют в соответствии с <strong>Правилами участия в акциях MWS</strong> (далее — «Правила»).</p>
+<p>Клиент подтверждает, что ознакомлен со всеми условиями Правил и принимает Правила на момент действия настоящих Специальных условий Акции, а также ознакомлен со всеми условиями настоящих Специальных условий и принимает Специальные условия Акции «Приветственный грант на сервисы MWS Cloud Platform» для клиентов "МВС Облачные решения".</p>
+<ol>
+<li><div class="li-content">
+<p>Название Акции: <strong>«Приветственный грант на сервисы MWS Cloud Platform»</strong> для клиентов ООО «МВС Облачные решения».</p>
+</div></li>
+<li><div class="li-content">
+<p>Размер и применение Гранта:</p>
+<ul>
+<li><div class="li-content"><strong>до 3 000 ₽</strong> на доступные в рамках Акции Облачные сервисы MWS <strong>для физических лиц</strong>;</div></li>
+<li><div class="li-content"><strong>до 10 000 ₽</strong> на доступные в рамках Акции Облачные сервисы MWS <strong>для юридических лиц и индивидуальных предпринимателей</strong>;</div></li>
+<li><div class="li-content">Грант можно применить для снижения стоимости одной или нескольких Услуг в пределах Размера Гранта, предоставленного Клиенту.</div></li>
+<li><div class="li-content">Применить Грант можно для следующей Услуги: на любой Облачный сервис, доступный в рамках облачной платформы MWS Cloud Platform</div></li>
+<li><div class="li-content">Принять участие в Акции «Приветственный грант на сервисы MWS Cloud Platform» можно однократно.</div></li>
+</ul>
+</div></li>
+<li><div class="li-content">
+<p>Срок действия Гранта: <strong>однократно в течение 3 (трех) календарных месяцев с даты предоставления</strong>. Дата предоставления указывается в аккаунте Клиента в консоли облачной платформы MWS Cloud Platform.</p>
+</div></li>
+<li><div class="li-content">
+<p>Сроки проведения Акции: <strong>с 01 августа2026 г. по 30 сентября 2026 г</strong>.</p>
+</div></li>
+<li><div class="li-content">
+<p><strong>Услуги МВС, доступные в рамках Гранта</strong>: любой Облачный сервис, доступный в рамках облачной платформы MWS Cloud Platform за исключением Облачного сервиса «MWS Cloud Platform Content Delivery Network (CDN)».</p>
+</div></li>
+<li><div class="li-content">
+<p><strong>Требования к Клиенту для участия в Акции и получения Гранта</strong>:</p>
+<ul>
+<li><div class="li-content">Клиент — юридическое лицо или индивидуальный предприниматель, а также физическое лицо;</div></li>
+<li><div class="li-content">Клиент — как новый, так и действующий Клиент MWS (то есть уже потребляющий Облачные сервисы MWS, в том числе, из доступных в рамках Акции).</div></li>
+</ul>
+</div></li>
+<li><div class="li-content">
+<p><strong>Как Клиенту получить Грант</strong>:</p>
+<ul>
+<li><div class="li-content"><a href="https://mws.ru/docs/cloud-platform/billing/general/ba-create.html">Создать биллинг-аккаунт</a> в Облачной платформе MWS Cloud Platform (<a href="https://console.mws.ru">https://console.mws.ru</a>), выбрав тип плательщика «Физическое лицо» или «Юридическое лицо» или «Индивидуальный предприниматель».</div></li>
+<li><div class="li-content"><a href="https://mws.ru/docs/cloud-platform/billing/general/ba-operations.html#pay">Пополнить баланс биллинг-аккаунта</a> на сумму не менее 500 (пятьсот) рублей (ИНН плательщика должен совпадать с ИНН владельца бизнес биллинг-аккаунта).</div></li>
+<li><div class="li-content">Выбрать в консоли управления MWS Cloud Platform Облачные сервисы, доступные в рамках Акции (Услуги);</div></li>
+<li><div class="li-content">Начать использование Облачных сервисов MWS в течение срока действия Гранта;</div></li>
+<li><div class="li-content">Сумма Гранта учитывается и фиксируется в аккаунте Клиента в консоли облачной платформы MWS Cloud Platform.</div></li>
+</ul>
+</div></li>
+<li><div class="li-content">
+<p><strong>Размер Гранта</strong>:</p>
+<ul>
+<li><div class="li-content"><strong>до 3 000 ₽</strong> для на доступные в рамках Акции Облачные сервисы MWS для физических лиц;</div></li>
+<li><div class="li-content"><strong>до 10 000 ₽</strong> для на доступные в рамках Акции Облачные сервисы MWS для юридических лиц и индивидуальных предпринимателей;</div></li>
+<li><div class="li-content">1 бонусный рубль Гранта равен 1 рублю Российской Федерации.</div></li>
+</ul>
+</div></li>
+<li><div class="li-content">
+<p><strong>Ограничения</strong>:</p>
+<ul>
+<li><div class="li-content">
+<p>Грант предоставляется Клиенту однократно и не может быть получен повторно, в том числе при создании новых учетных записей, биллинг-аккаунтов или изменении организационно-правовой формы. При создании дополнительного биллинг-аккаунта Грант повторно не выдается;</p>
+</div></li>
+<li><div class="li-content">
+<p>Грант не подлежит предоставлению в частности в следующих случаях (в том числе, но не исключительно):</p>
+<ul>
+<li><div class="li-content">
+<p>Клиент (физическое лицо) ранее уже получал Грант как индивидуальный предприниматель, учредитель или руководитель юридического лица;</p>
+</div></li>
+<li><div class="li-content">
+<p>Клиентом создано несколько организаций или зарегистрировано несколько биллинг-аккаунтов с разными ИНН, если конечным бенефициаром (выгодоприобретателем) деятельности всех этих лиц является одно и то же физическое лицо или группа лиц, действующих совместно;</p>
+</div></li>
+<li><div class="li-content">
+<p>Клиент (юридическое лицо) ранее получал Грант при регистрации под другим наименованием или с использованием иного ИНН, но фактически осуществляет ту же хозяйственную деятельность.</p>
+</div></li>
+</ul>
+</div></li>
+</ul>
+<p>МВС проводит проверку наличия оснований для отказа в предоставлении Гранта на основании анализа доступных данных, включая, но не ограничиваясь: совпадение контактных данных (телефон, адрес электронной почты, IP-адрес, платёжные реквизиты), сведений об учредителях и руководителях, а также данных из открытых источников.</p>
+</div></li>
+<li><div class="li-content">
+<p>После исчерпания суммы Гранта, использование Облачных сервисов осуществляется по действующим тарифам. Действующие тарифы — стоимость Облачных сервисов в соответствии с выбранной схемой тарификации, предусмотренной <a href="https://mws.ru/docs/docum/hub_oferta.html">Соглашением на предоставление Облачных сервисов</a> и доступной в соответствии с Специальными условиями Облачного сервиса, и тарифами конкретного Облачного сервиса.</p>
+</div></li>
+<li><div class="li-content">
+<p>Если в течение срока действия Гранта Клиент не применил Грант либо не полностью израсходовал сумму Гранта), то оставшаяся сумма Гранта после истечения срока действия Гранта не подлежит дальнейшему использованию и применению («сгорает»).</p>
+</div></li>
+<li><div class="li-content">
+<p>В случае несоответствия условиям Акции или нарушения Соглашения на предоставление облачных сервисов, Правил участия в акциях MWS, Специальных условий Гранта «Приветственный грант на сервисы MWS Cloud Platform», ООО «МВС Облачные решения» вправе в любое время лишить пользователя статуса участника Акции.</p>
+</div></li>
+<li><div class="li-content">
+<p>В рамках Акции тестовый период (тестирование облачных сервисов без взимания платы) не предоставляется.</p>
+</div></li>
+<li><div class="li-content">
+<p>Акция ограничена количеством выделенных для ее проведения ресурсов. В случае, ли ресурсы в рамках данной Акции будут исчерпаны, ООО «МВС Облачные решения» вправе отказать Клиенту в предоставлении Гранта по причине отсутствия технической возможности.</p>
+</div></li>
+<li><div class="li-content">
+<p>МВС вправе в любой момент по своему усмотрению принять решение о досрочном завершении (прекращении) Акции.</p>
+</div></li>
+<li><div class="li-content">
+<p>МВС вправе отказать в выдаче Гранта по результатам проведенной МВС внутренней проверки Клиента, если он по какому-либо критерию не соответствует условиям Акции, либо аннулировать ранее выданный Грант в случае, если указанные обстоятельства выявлены позднее.</p>
+</div></li>
+<li><div class="li-content">
+<p>Государственные (муниципальные) учреждения, государственные (муниципальные) унитарные предприятия, бюджетные организации также могут принять участие в Акции.</p>
+</div></li>
+</ol>
+<hr>
+<p id="ftn1"><sup>1</sup> — Правила участия в акциях MWS, URL: <a href="https://mws.ru/docs/docum/promo-terms.html">https://mws.ru/docs/docum/promo-terms.html</a></p>  </div> <script>(function(){const frontmatter = {"title":"","editUrl":true,"head":[],"template":"doc","lastUpdated":false,"sidebar":{"label":"","hidden":false},"pagefind":true,"draft":false};
+
+  window.__STARLIGHT_PAGE_FRONTMATTER__ = typeof frontmatter !== 'undefined' ? frontmatter : {};
+})();</script> <astro-island uid="hIjNJ" prefix="s0" component-url="/docs/_astro/MdxComponentMount.CJAm-6zM.js" component-export="default" renderer-url="/docs/_astro/client.CUMz_0U6.js" props="{}" ssr client="load" opts="{&quot;name&quot;:&quot;MdxComponentMount&quot;,&quot;value&quot;:true}" await-children><div style="display:contents;" aria-hidden="true"></div><!--astro:end--></astro-island> <footer class="sl-flex astro-3yyafb3n"> <div class="meta sl-flex astro-3yyafb3n">   </div> <div class="pagination-links print:hidden astro-nvnvt5qu" dir="ltr">   </div>   </footer>  </div> </div>   </main> </div> </div>  </div> </div>  </body></html>

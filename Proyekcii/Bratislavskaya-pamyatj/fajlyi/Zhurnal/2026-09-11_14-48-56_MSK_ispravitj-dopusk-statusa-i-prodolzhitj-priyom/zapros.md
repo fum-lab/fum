@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-11 14:47:00 MSK - Podgotovitj sovmestimostj master i FUMA](../2026-09-11_14-47-00_MSK_podgotovitj-sovmestimostj-master-i-FUMA/zapros.md)
-- Sleduyusjhij zapros: [2026-09-11 15:22:57 MSK - Proveritj paket sovmestimosti master i FUMA](../2026-09-11_15-22-57_MSK_proveritj-paket-sovmestimosti-master-i-FUMA/zapros.md)
+- Sleduyusjhij zapros: [2026-09-11 14:52:06 MSK - Sozdatj reyestr organizacij podderzhki FUM](../2026-09-11_14-52-06_MSK_sozdatj-reyestr-organizacij-podderzhki-FUM/zapros.md)
 
 ## Tekst zaprosa
 
@@ -115,6 +115,6 @@ Koordinator yavno razreshil odnu vneshnyuyu finansovuyu popyitku neizmennoj post
 - [predyidusjhij zapros](../2026-09-11_13-39-59_MSK_prinyatj-napravleniye-finansirovaniya-FUM/zapros.md), [indeks Zhurnala](../README.md) i [indeks svezhesti Markdown](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md) — shtatnaya navigaciya i proizvodnyiye metki.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
-<!-- content-sha256: sha256:2407bc9ee05c66cf9bb65f00c96f9b325d3d1660d72a004fa790edac8e9106be -->
+<!-- last-content-edit: 2026-09-15 06:23:18 MSK -->
+<!-- content-sha256: sha256:4b8a4bb8af54d62b156ff87bb8461f2a9d48df16de59aa6556f80e3ffef3056a -->
 <!-- FUM-MD-RECENCY:END -->

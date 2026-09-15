@@ -331,6 +331,7 @@ def redact_headers(raw: str) -> str:
             "x-ms-middleware-request-id",
             "x-xsrf-token", "x-csrf-token", "x-trace-id", "x-correlation-id", "x-sp-crid",
             "x-tracking-ref", "cdnuuid", "x-yandex-eu-request",
+            "x-forwarded-for", "trace-id",
         }
         if скрыть_продолжение and имя == "set-cookie":
             lines.append(COOKIE_REDACTION)
@@ -393,6 +394,11 @@ def очистить_диагностику_проверки_человека(т
 
 def очистить_служебную_разметку(текст: str) -> str:
     """Редактирует известные служебные поля, сохраняя остальное содержимое."""
+    def очистить_конфигурацию(совпадение):
+        тело = re.sub(r'("websocket"\s*:\s*\{[^{}]*?"token"\s*:\s*)"(?:\\.|[^"\\])*"', lambda поле: поле[1] + '"[REDACTED]"', совпадение[2])
+        return совпадение[1] + тело + совпадение[3]
+    атрибут = r'\s+[^\s=/>"\x27]+(?:\s*=\s*(?:"[^"]*"|\x27[^\x27]*\x27|[^\s"\x27=<>`]+))?'
+    текст = re.sub(r'(<(?i:script)(?:' + атрибут + r')*?\s+(?i:id)\s*=\s*(?:"app-config"|\x27app-config\x27)(?:' + атрибут + r')*\s*>)(.*?)(</(?i:script)\s*>)', очистить_конфигурацию, текст, flags=re.S)
     имена = r"(?:csrf[-_]?token|xsrf[-_]?token|x-csrf-token)"
     def очистить_тег(совпадение):
         тег = совпадение.group(0)
@@ -745,7 +751,8 @@ def write_report(
         "- Ответ с сигнатурой gzip распаковывается до определения формата и очистки; HTML-файл содержит распакованное очищенное представление, а HTTP-заголовки описывают исходный ответ.",
         "- Значения `Set-Cookie` в HTTP-заголовках заменены на `[REDACTED: response cookie]`.",
         "- Значения `CF-Ray`, `X-Request-ID`, `Request-Context`, `X-MS-Middleware-Request-ID` заменены на `[REDACTED: response trace identifier]`; продолжения очищаемых заголовков удалены.",
-        "- Дополнительно очищены X-XSRF-Token, X-CSRF-Token, X-Trace-Id, X-Correlation-Id, X-SP-CRID, X-Tracking-Ref, CDNUUID, x-yandex-eu-request и nonce директив CSP.",
+        "- Дополнительно очищены X-XSRF-Token, X-CSRF-Token, X-Trace-Id, Trace-Id, X-Forwarded-For, X-Correlation-Id, X-SP-CRID, X-Tracking-Ref, CDNUUID, x-yandex-eu-request и nonce директив CSP.",
+        "- В блоке script с id app-config очищен служебный websocket.token; видимый текст документа сохраняется.",
         "- До извлечения очищены известные CSRF/XSRF-поля HTML и встроенного JSON, nonce атрибутов, wgRequestId, адрес и ID запроса в диагностическом блоке, поле pdata и диагностические data-testid unique-key/timestamp. Прочее содержимое сохранено без перевода; это ограниченная редакция известных полей, а не гарантия отсутствия всех возможных секретов.",
         "",
         "## Ограничения извлечения",

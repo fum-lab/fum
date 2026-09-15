@@ -38,7 +38,7 @@ Nablyudayemyij lokaljnyij snimok na 2026-09-02 08:00 MSK:
 
 Nastrojka proyekta obnovlena 2026-09-08 po [iskhodnomu zaprosu](../Zhurnal/2026-09-08_21-16-26_MSK_integrirovatj-paralleljnyiye-rezuljtatyi-i-opisatj-rabotu/zapros.md).
 
-- `.codex/config.toml` zadayot modelj po umolchaniyu `gpt-6-astra` (GPT-6 Astra), rassuzhdeniye `ultra` i `service_tier = "default"`. Dostupnyij katalog modelej Codex podtverzhdayet sochetaniye `gpt-6-astra` i `ultra`. `fast_mode = true` sokhranyayet dostupnostj pereklyuchatelya Fast, a `skills.include_instructions = false` isklyuchayet vneshnij katalog navyikov. Lokaljnyiye navyiki podklyuchayutsya po yavnyim putyam; dejstvuyusjhiye pravila izolyacii, paralleljnoj rabotyi i prodolzheniya nakhodyatsya v `AGENTS.md`.
+- `.codex/config.toml` zadayot modelj po umolchaniyu `gpt-6-astra` (GPT-6 Astra), rassuzhdeniye `low` i `service_tier = "default"`. Dostupnyij katalog modelej Codex podtverzhdayet sochetaniye `gpt-6-astra` i `low` dlya novyikh zapuskov. `fast_mode = true` sokhranyayet dostupnostj pereklyuchatelya Fast, a `skills.include_instructions = false` isklyuchayet vneshnij katalog navyikov. Lokaljnyiye navyiki podklyuchayutsya po yavnyim putyam; dejstvuyusjhiye pravila izolyacii, paralleljnoj rabotyi i prodolzheniya nakhodyatsya v `AGENTS.md`.
 - Proyektnaya nastrojka ne dokazyivayet aktivnuyu modelj uzhe otkryitoj zadachi. Sistemnyij profilj macOS iz istoricheskogo snimka etim izmeneniyem ne obnovlyalsya; yego prioritet nad proyektom i yavnyiye nastrojki zadachi sleduyet uchityivatj pri zapuske.
 
 Nablyudeniye 2026-09-09 v [tekusjhej zadache](../Zhurnal/2026-09-09_11-39-26_MSK_predotvratitj-poteryu-obyazateljstv-postoyannoj-zadachi/zapros.md): tri sozdannyiye zadachi snachala ispoljzovali gpt-5.6-sol/ultra. Adresnyiye prodolzheniya s yavno peredannyimi gpt-6-astra/ultra prinyatyi; novyiye zapisi turn_context podtverdili fakticheskiye znacheniya. list_threads v eto vremya otstaval ot interfejsa i adresnogo wait_threads. Peredannyij komandnoj obolochke workdir ne peremesjhayet sam runtime Codex v drugoye derevo i ne dokazyivayet zagruzku konfiguracii iz nego.
@@ -261,6 +261,6 @@ Gotovyij Swift CLI `архивный-снимок` importiruyet odin yavno ukaza
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](../Zhurnal/2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
-<!-- content-sha256: sha256:1e8d848c1c598fe6ca4d3914c5c4a45e61923b887b6b6e3fb8fb0a45a37c32d5 -->
+<!-- last-content-edit: 2026-09-15 13:36:29 MSK -->
+<!-- content-sha256: sha256:b17dfec74eab8ca0dd2ecdddfa64d4b78c733c67d7f2c782d590083c2b729401 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -397,9 +397,9 @@ class ИсполнительПриёма:
                 + постановка["коммит"] + ". При несовпадении останови запись и сообщи фактические значения. "
                 "После раннего подтверждения выполни поручение в своём worktree, проверь результат и сохрани полезный коммит. "
                 "Планирование направления само по себе не разрешает предметную реализацию.\n")
-            return {"model": "gpt-6-astra", "thinking": "ultra", "title": задача["title"], "prompt": поручение,
+            return {"model": "gpt-6-astra", "thinking": "low", "title": задача["title"], "prompt": поручение,
                     "target": {"type": "project", "projectId": задача["projectId"], "environment": {"type": "worktree", "startingState": {"type": "branch", "branchName": постановка["ветка"]}}}}
-        return {"model": "gpt-6-astra", "thinking": "ultra", "threadId": задача["threadId"], "prompt": поручение}
+        return {"model": "gpt-6-astra", "thinking": "low", "threadId": задача["threadId"], "prompt": поручение}
 
     def допустить_вызов(сам, источник, исходная_задача, решение):
         событие = событие_источника(исходная_задача, решение["экземпляр"])

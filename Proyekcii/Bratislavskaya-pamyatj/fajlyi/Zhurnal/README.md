@@ -16,17 +16,24 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-15 13:00:53 MSK — Ispravitj sboj finaljnoj proyekcii](2026-09-15_13-00-53_MSK_ispravitj-sboj-finaljnoj-proyekcii/otchyot.md)
+- [2026-09-15 05:59:05 MSK — Perenesti finansovuyu postavku na obsjhuyu bazu](2026-09-15_05-59-05_MSK_perenesti-finansovuyu-postavku-na-obsjhuyu-bazu/otchyot.md)
+- [2026-09-15 05:48:06 MSK — Svyazatj priyomku konteksta s obyazateljstvom](2026-09-15_05-48-06_MSK_svyazatj-priyomku-konteksta-s-obyazateljstvom/otchyot.md)
 - [2026-09-15 04:49:10 MSK — Prinyatj obyyedinyonnyiye predstavleniya konteksta](2026-09-15_04-49-10_MSK_prinyatj-obyyedinyonnyiye-predstavleniya-konteksta/otchyot.md)
 - [2026-09-15 04:37:20 MSK - Podklyuchitj profilj konteksta k obyyedineniyu](2026-09-15_04-37-20_MSK_podklyuchitj-profilj-konteksta-k-obyyedineniyu/otchyot.md)
 - [2026-09-15 03:49:44 MSK - Podtverditj priyomku profilya otveta](2026-09-15_03-49-44_MSK_podtverditj-priyomku-profilya-otveta/otchyot.md)
 - [2026-09-15 03:35:30 MSK - Podgotovitj obyyedineniye konteksta i finansirovaniya](2026-09-15_03-35-30_MSK_podgotovitj-obyyedineniye-konteksta-i-finansirovaniya/otchyot.md)
+- [2026-09-15 03:07:04 MSK - Podgotovitj manifest finansovoj postavki](2026-09-15_03-07-04_MSK_podgotovitj-manifest-finansovoj-postavki/otchyot.md)
 - [2026-09-15 02:42:44 MSK - Prinyatj obsjhij paket i proveritj podklyucheniye](2026-09-15_02-42-44_MSK_prinyatj-obsjhij-paket-i-proveritj-podklyucheniye/otchyot.md)
+- [2026-09-15 02:40:16 MSK - Podklyuchitj perevodchik i prinyatj finansirovaniye](2026-09-15_02-40-16_MSK_podklyuchitj-perevodchik-i-prinyatj-finansirovaniye/otchyot.md)
 - [2026-09-15 02:35:33 MSK - Podklyuchitj porozhdyonnyiye modeli](2026-09-15_02-35-33_MSK_podklyuchitj-porozhdyonnyiye-modeli/otchyot.md)
 - [2026-09-15 02:26:52 MSK - Podtverditj dostavku sovmestnoj priyomki](2026-09-15_02-26-52_MSK_podtverditj-dostavku-sovmestnoj-priyomki/otchyot.md)
 - [2026-09-15 01:49:18 MSK - Sokhranitj granicyi priyomki i prodolzheniya konteksta](2026-09-15_01-49-18_MSK_sokhranitj-granicyi-priyomki-i-prodolzheniya-konteksta/otchyot.md)
 - [2026-09-15 00:46:36 MSK - Proveryatj polya zhurnala do polnoj svyaznosti](2026-09-15_00-46-36_MSK_proveryatj-polya-zhurnala-do-polnoj-svyaznosti/otchyot.md)
 - [2026-09-15 00:00:47 MSK - Uchestj semj aktualjnyikh komand](2026-09-15_00-00-47_MSK_uchestj-semj-aktualjnyikh-komand/otchyot.md)
+- [2026-09-14 23:44:58 MSK - Zaregistrirovatj sboi istochnikov podderzhki](2026-09-14_23-44-58_MSK_zaregistrirovatj-sboi-istochnikov-podderzhki/otchyot.md)
 - [2026-09-14 23:21:46 MSK - Zafiksirovatj prodolzheniye prioritetnoj rabotyi](2026-09-14_23-21-46_MSK_zafiksirovatj-prodolzheniye-prioritetnoj-rabotyi/otchyot.md)
+- [2026-09-14 23:17:14 MSK - Zavershitj priyomku finansirovaniya FUM](2026-09-14_23-17-14_MSK_zavershitj-priyomku-finansirovaniya-FUM/otchyot.md)
 - [2026-09-14 22:40:28 MSK — Obyyedinitj paketyi i proveritj ostatok](2026-09-14_22-40-28_MSK_obyyedinitj-paketyi-i-proveritj-ostatok/otchyot.md)
 - [2026-09-14 22:22:09 MSK — Podtverditj dostavku Python paketa](2026-09-14_22-22-09_MSK_podtverditj-dostavku-Python-paketa/otchyot.md)
 - [2026-09-14 22:03:16 MSK — Prinyatj sovmestnuyu klassifikaciyu ostatka](2026-09-14_22-03-16_MSK_prinyatj-sovmestnuyu-klassifikaciyu-ostatka/otchyot.md)
@@ -40,6 +47,7 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [2026-09-14 15:54:44 MSK — Poroditj modeli otveta operatorami](2026-09-14_15-54-44_MSK_poroditj-modeli-otveta-operatorami/otchyot.md)
 - [2026-09-14 15:01:38 MSK — Sokratitj otvetyi nativnyikh instrumentov](2026-09-14_15-01-38_MSK_sokratitj-otvetyi-nativnyikh-instrumentov/otchyot.md)
 - [2026-09-14 14:36:01 MSK — Prinyatj kompaktnyij ostatok](2026-09-14_14-36-01_MSK_prinyatj-kompaktnyij-ostatok/otchyot.md)
+- [2026-09-14 14:19:35 MSK - Najti dopolniteljnoye finansirovaniye rabotyi FUM](2026-09-14_14-19-35_MSK_najti-dopolniteljnoye-finansirovaniye-rabotyi-FUM/otchyot.md)
 - [2026-09-14 14:12:52 MSK - Sokratitj vyivod ostatka soobsjhenij](2026-09-14_14-12-52_MSK_sokratitj-vyivod-ostatka-soobsjhenij/otchyot.md)
 - [2026-09-12 05:27:53 MSK - Obyyedinitj arkhiv fuma s kornevoj rabotoj](2026-09-12_05-27-53_MSK_obyyedinitj-arkhiv-fuma-s-kornevoj-rabotoj/otchyot.md)
 - [2026-09-12 04:48:00 MSK - Podgotovitj sostav sleduyusjhej integracii](2026-09-12_04-48-00_MSK_podgotovitj-sostav-sleduyusjhej-integracii/otchyot.md)
@@ -64,9 +72,11 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [2026-09-11 18:47:36 MSK — Prinyatj plan zerkaljnoj sborki Swift](2026-09-11_18-47-36_MSK_prinyatj-plan-zerkaljnoj-sborki-Swift/otchyot.md)
 - [2026-09-11 16:55:35 MSK — Utochnitj operatornoye vnimaniye i prodolzhitj priyom](2026-09-11_16-55-35_MSK_utochnitj-operatornoye-vnimaniye-i-prodolzhitj-priyom/otchyot.md)
 - [2026-09-11 16:19:17 MSK — Podtverditj zapusk Gosuslug i prodolzhitj priyom](2026-09-11_16-19-17_MSK_podtverditj-zapusk-Gosuslug-i-prodolzhitj-priyom/otchyot.md)
+- [2026-09-11 16:12:17 MSK - Zavershitj priyomku reyestra podderzhki FUM](2026-09-11_16-12-17_MSK_zavershitj-priyomku-reyestra-podderzhki-FUM/otchyot.md)
 - [2026-09-11 15:50:49 MSK - Prinyatj sovmestimostj FUMA cherez otchyot v3](2026-09-11_15-50-49_MSK_prinyatj-sovmestimostj-FUMA-cherez-otchyot-v3/otchyot.md)
 - [2026-09-11 15:48:40 MSK — Prinyatj planirovaniye Gosuslug](2026-09-11_15-48-40_MSK_prinyatj-planirovaniye-Gosuslug/otchyot.md)
 - [2026-09-11 15:22:57 MSK - Proveritj paket sovmestimosti master i FUMA](2026-09-11_15-22-57_MSK_proveritj-paket-sovmestimosti-master-i-FUMA/otchyot.md)
+- [2026-09-11 14:52:06 MSK - Sozdatj reyestr organizacij podderzhki FUM](2026-09-11_14-52-06_MSK_sozdatj-reyestr-organizacij-podderzhki-FUM/otchyot.md)
 - [2026-09-11 14:48:56 MSK — Ispravitj dopusk statusa i prodolzhitj priyom](2026-09-11_14-48-56_MSK_ispravitj-dopusk-statusa-i-prodolzhitj-priyom/otchyot.md)
 - [2026-09-11 14:47:00 MSK - Podgotovitj sovmestimostj master i FUMA](2026-09-11_14-47-00_MSK_podgotovitj-sovmestimostj-master-i-FUMA/otchyot.md)
 - [2026-09-11 14:00:14 MSK - Sokhranitj peredachu integracii i pozdnij dialog](2026-09-11_14-00-14_MSK_sokhranitj-peredachu-integracii-i-pozdnij-dialog/otchyot.md)
@@ -651,6 +661,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 04:54:28 MSK -->
-<!-- content-sha256: sha256:7d3e6517051fc0ee465770d1241f19230871909dd43097610ca5add881bd253f -->
+<!-- last-content-edit: 2026-09-15 13:12:42 MSK -->
+<!-- content-sha256: sha256:4cd872e3cfbcd417b975b7b37fbaf16c66548127748a27786f927763bb0da9c1 -->
 <!-- FUM-MD-RECENCY:END -->

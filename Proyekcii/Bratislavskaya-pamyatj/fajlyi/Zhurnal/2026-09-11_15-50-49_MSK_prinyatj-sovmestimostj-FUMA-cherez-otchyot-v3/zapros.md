@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-11 15:48:40 MSK - Prinyatj planirovaniye Gosuslug](../2026-09-11_15-48-40_MSK_prinyatj-planirovaniye-Gosuslug/zapros.md)
-- Sleduyusjhij zapros: [2026-09-11 16:19:17 MSK - Podtverditj zapusk Gosuslug i prodolzhitj priyom](../2026-09-11_16-19-17_MSK_podtverditj-zapusk-Gosuslug-i-prodolzhitj-priyom/zapros.md)
+- Sleduyusjhij zapros: [2026-09-11 16:12:17 MSK - Zavershitj priyomku reyestra podderzhki FUM](../2026-09-11_16-12-17_MSK_zavershitj-priyomku-reyestra-podderzhki-FUM/zapros.md)
 
 ## Tekst zaprosa
 
@@ -180,6 +180,6 @@ Povtornaya popyitka full doshla do shaga 24 i zavershilasj kodom 1 za 850,348437
 - [Shag 0175](../../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md) i [planovyij reyestr](../../Planirovaniye/reyestr-trebovanij-variantov-i-kandidatov.json) — obratnaya svyazj s povtorom i nezavershyonnoj integraciyej.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
-<!-- content-sha256: sha256:81c0d076b064a9c09ed5e3dbc7fd3f8eeb63c59abdf0f162c4770a6cffa50d68 -->
+<!-- last-content-edit: 2026-09-15 06:23:18 MSK -->
+<!-- content-sha256: sha256:e6fb52616330a428b52d43c09b21ff6b75d46011f97ac6dd51eb62cc4de7cf6b -->
 <!-- FUM-MD-RECENCY:END -->

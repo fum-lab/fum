@@ -21,7 +21,7 @@ def манифест(корень):
 
 
 def нативный_источник(корень, источник, коммит):
-    источник.write_bytes(строка({"type": "session_meta", "payload": {"id": ЗАДАЧА, "cwd": str(корень), "git": {"commit_hash": коммит}}}) + строка({"type": "turn_context", "payload": {"cwd": str(корень), "model": "gpt-6-astra", "effort": "ultra"}}))
+    источник.write_bytes(строка({"type": "session_meta", "payload": {"id": ЗАДАЧА, "cwd": str(корень), "git": {"commit_hash": коммит}}}) + строка({"type": "turn_context", "payload": {"cwd": str(корень), "model": "gpt-6-astra", "effort": "low"}}))
 
 
 class ПроверкаПостановки(unittest.TestCase):
@@ -74,7 +74,7 @@ class ПроверкаПостановки(unittest.TestCase):
             with проверка.assertRaises(постановка.ОшибкаПриёма):
                 постановка.подтвердить_начало(корень, ЗАДАЧА, запись["коммит"], источник)
             нативный_источник(корень, источник, запись["коммит"])
-            источник.write_bytes(источник.read_bytes().replace(b'ultra', b'medium'))
+            источник.write_bytes(источник.read_bytes().replace(b'low', b'medium'))
             with проверка.assertRaises(постановка.ОшибкаПриёма):
                 постановка.подтвердить_начало(корень, ЗАДАЧА, запись["коммит"], источник)
 

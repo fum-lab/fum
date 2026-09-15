@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-12 05:27:53 MSK - Obyyedinitj arkhiv fuma s kornevoj rabotoj](../2026-09-12_05-27-53_MSK_obyyedinitj-arkhiv-fuma-s-kornevoj-rabotoj/zapros.md)
-- Sleduyusjhij zapros: [2026-09-14 14:36:01 MSK - Prinyatj kompaktnyij ostatok](../2026-09-14_14-36-01_MSK_prinyatj-kompaktnyij-ostatok/zapros.md)
+- Sleduyusjhij zapros: [2026-09-14 14:19:35 MSK - Najti dopolniteljnoye finansirovaniye rabotyi FUM](../2026-09-14_14-19-35_MSK_najti-dopolniteljnoye-finansirovaniye-rabotyi-FUM/zapros.md)
 
 ## Tekst zaprosa
 
@@ -64,6 +64,6 @@ Prodolzheniye postoyannoj zadachi posle opublikovannogo kommita `775128491a1b9f9
 Prioritet 1 — optimizaciya rabochego konteksta v tekusjhej zadache. Prioritet 2 — vozobnovlyonnaya otdeljnaya zadacha poiska finansirovaniya; drugiye napravleniya ostayutsya na pauze. Istochnikom smyisla sluzhat otnosyasjhiyesya k voprosu Zhurnal i kartochka tekusjhego checkout; Git chitayetsya adresno dlya tochnoj versii, proiskhozhdeniya, otsutstvuyusjhego materiala i proverok integracii. Eto rabocheye resheniye; kanonicheskiye pravila poka ne izmenenyi.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
-<!-- content-sha256: sha256:bfcdefa33da3761c39812390a5731f89d61a76563ad6fb6bd11dc27ccf171b72 -->
+<!-- last-content-edit: 2026-09-15 06:23:18 MSK -->
+<!-- content-sha256: sha256:4cf24c9eab1ba78ae3b6deaa5bf2ba855d588f5de4b4c81e992deacdf4626836 -->
 <!-- FUM-MD-RECENCY:END -->

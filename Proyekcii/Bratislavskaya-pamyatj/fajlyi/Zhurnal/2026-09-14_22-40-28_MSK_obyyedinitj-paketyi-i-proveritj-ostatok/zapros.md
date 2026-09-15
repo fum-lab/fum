@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-14 22:22:09 MSK - Podtverditj dostavku Python paketa](../2026-09-14_22-22-09_MSK_podtverditj-dostavku-Python-paketa/zapros.md)
-- Sleduyusjhij zapros: [2026-09-14 23:21:46 MSK - Zafiksirovatj prodolzheniye prioritetnoj rabotyi](../2026-09-14_23-21-46_MSK_zafiksirovatj-prodolzheniye-prioritetnoj-rabotyi/zapros.md)
+- Sleduyusjhij zapros: [2026-09-14 23:17:14 MSK - Zavershitj priyomku finansirovaniya FUM](../2026-09-14_23-17-14_MSK_zavershitj-priyomku-finansirovaniya-FUM/zapros.md)
 
 ## Tekst zaprosa
 
@@ -171,6 +171,6 @@ Eto sleduyusjhij etap toj zhe zadachi posle opublikovannogo `81a646d9576afa3d335
 Obyichnoye sliyaniye `cf64f276837773b7b6eee40f9d5d8bc1c72e1f3e` nachato posle fiksacii [tochnoj granicyi](materialyi/granica-sliyaniya.json). Oba soderzhateljnyikh importa sokhranenyi; obsjhij SKILL i kartochka0045 obyyedinenyi, navigaciya i indeksyi vosstanavlivayutsya shtatno. Kornevyiye pravila i refs master/fuma ne izmenyayutsya. Chastnyiye JSONL/kursor i lokaljnyiye puti ostayutsya vne publikuyemogo checkout.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
-<!-- content-sha256: sha256:a303331911eebc26181f8dbbb7cb43b0d0ed1c4a8e740442cce86fa2c89e92c6 -->
+<!-- last-content-edit: 2026-09-15 06:23:18 MSK -->
+<!-- content-sha256: sha256:94d2ca09a2b7a2c3268d80fada7806afa40fe9eb9b89dc63f3d1834c938fe66d -->
 <!-- FUM-MD-RECENCY:END -->

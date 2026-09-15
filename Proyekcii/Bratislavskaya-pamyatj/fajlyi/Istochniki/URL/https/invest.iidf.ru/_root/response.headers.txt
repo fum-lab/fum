@@ -1,0 +1,14 @@
+HTTP/2 200
+server: ddos-guard
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+date: Mon, 14 Sep 2026 11:32:00 GMT
+content-type: text/html; charset=UTF-8
+last-modified: Wed, 19 Aug 2026 07:39:24 GMT
+etag: W/"7e4a3-6596180994d8f-gzip"
+x-frame-options: SAMEORIGIN
+x-host: invest.iidf.ru
+x-tilda-server: 26
+x-tilda-imprint: fa9fb986-231f-4be7-b762-863523d4f520

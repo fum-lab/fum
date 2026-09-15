@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-15 02:26:52 MSK - Podtverditj dostavku sovmestnoj priyomki](../2026-09-15_02-26-52_MSK_podtverditj-dostavku-sovmestnoj-priyomki/zapros.md)
-- Sleduyusjhij zapros: [2026-09-15 02:42:44 MSK - Prinyatj obsjhij paket i proveritj podklyucheniye](../2026-09-15_02-42-44_MSK_prinyatj-obsjhij-paket-i-proveritj-podklyucheniye/zapros.md)
+- Sleduyusjhij zapros: [2026-09-15 02:40:16 MSK - Podklyuchitj perevodchik i prinyatj finansirovaniye](../2026-09-15_02-40-16_MSK_podklyuchitj-perevodchik-i-prinyatj-finansirovaniye/zapros.md)
 
 ## Tekst zaprosa
 
@@ -176,6 +176,6 @@ Koordinator podtverdil sokhraneniye prezhnego profilya po umolchaniyu. Dopolnite
 Sokhranenyi vse pervonachaljnyiye otkazyi 18/20 i ispravleniye 21, vyidelennoye kak FUM-SBOJ-0045/PROYAVLENIYE-0004. [Kvitanciya registracii](materialyi/kvitanciya-registracii-0045.json) svyazyivayet tochnyij paket, ustanovlennyiye fajlyi i prezhniye tri proyavleniya; status ostayotsya aktivnyim.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 04:47:16 MSK -->
-<!-- content-sha256: sha256:11a06ef71e5de2d9ab93c91eeaf896cc2a98aa578e31afd4f2aba19868d431e1 -->
+<!-- last-content-edit: 2026-09-15 06:23:18 MSK -->
+<!-- content-sha256: sha256:50ceb0adbeccd048907436aacf472b73c792dcd841c64611e3e585781855fc57 -->
 <!-- FUM-MD-RECENCY:END -->

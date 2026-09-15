@@ -1,0 +1,80 @@
+[
+  {
+    "@context": "http://schema.org",
+    "@id": "https://www.apple.com/#organization",
+    "@type": "Organization",
+    "name": "Apple",
+    "url": "https://www.apple.com/",
+    "logo": "https://www.apple.com/ac/structured-data/images/knowledge_graph_logo.png?Thursday, 27-Aug-2026 13:59:43 UTC",
+    "subOrganization": {
+      "@type": "Organization",
+      "name": "Apple Support",
+      "url": "https://support.apple.com",
+      "@id": "https://support.apple.com/#organization"
+    },
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "telephone": "+1-800-692-7753",
+        "contactType": "sales",
+        "areaServed": "US"
+      },
+      {
+        "@type": "ContactPoint",
+        "telephone": "+1-800-275-2273",
+        "contactType": "technical support",
+        "areaServed": "US",
+        "availableLanguage": [
+          "EN",
+          "ES"
+        ]
+      },
+      {
+        "@type": "ContactPoint",
+        "telephone": "+1-800-275-2273",
+        "contactType": "customer support",
+        "areaServed": "US",
+        "availableLanguage": [
+          "EN",
+          "ES"
+        ]
+      }
+    ],
+    "sameAs": [
+      "http://www.wikidata.org/entity/Q312",
+      "https://www.youtube.com/user/Apple",
+      "https://www.linkedin.com/company/apple",
+      "https://www.facebook.com/Apple",
+      "https://www.twitter.com/Apple"
+    ]
+  },
+  {
+    "@context": "http://schema.org",
+    "@type": "NewsArticle",
+    "mainEntityOfPage": "https://www.apple.com/newsroom/2026/08/apple-introduces-new-mac-studio-with-m5-max-and-m5-ultra/",
+    "headline": "Apple introduces new Mac Studio with M5 Max and M5 Ultra — the ultimate desktop for on‑device AI and the most extreme pro workflows",
+    "image": [
+      {
+        "@type": "ImageObject",
+        "width": 1312,
+        "url": "https://www.apple.com/newsroom/images/2026/08/apple-introduces-new-mac-studio-with-m5-max-and-m5-ultra/tile/Apple-Mac-Studio-hero-260825-lp.jpg.landing-big_2x.jpg",
+        "height": 738
+      },
+      {
+        "@type": "ImageObject",
+        "width": 900,
+        "url": "https://www.apple.com/newsroom/images/2026/08/apple-introduces-new-mac-studio-with-m5-max-and-m5-ultra/tile/Apple-Mac-Studio-hero-260825-lp.jpg.news_app_ed.jpg",
+        "height": 900
+      }
+    ],
+    "datePublished": "2026-08-25Z",
+    "dateModified": "2026-08-27T13:59:43Z",
+    "author": {
+      "@id": "https://www.apple.com/#organization"
+    },
+    "publisher": {
+      "@id": "https://www.apple.com/#organization"
+    },
+    "description": "Apple announced the new Mac Studio, featuring M5 Max and the all-new M5 Ultra, delivering a monumental leap in AI performance and even faster graphics."
+  }
+]

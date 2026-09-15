@@ -142,10 +142,25 @@ class ОчисткаИсточников(unittest.TestCase):
         сам.assertIn('2026-09-11', итог)
 
     def test_заголовки_токенов_и_трассировки(сам):
-        for имя in ("X-XSRF-Token", "X-CSRF-Token", "X-Trace-Id", "X-Correlation-Id", "X-SP-CRID", "X-Tracking-Ref", "CDNUUID", "x-yandex-eu-request"):
+        for имя in ("X-XSRF-Token", "X-CSRF-Token", "X-Trace-Id", "X-Correlation-Id", "X-SP-CRID", "X-Tracking-Ref", "CDNUUID", "x-yandex-eu-request", "X-Forwarded-For", "Trace-Id"):
             результат = архив.redact_headers(имя + ": synthetic-private\r\n folded-private\r\nContent-Type: text/html\r\n")
             сам.assertNotIn("private", результат)
             сам.assertIn("Content-Type", результат)
+
+    def test_служебный_токен_в_конфигурации_страницы(сам):
+        тело = '<script type="text/plain" id="app-config">{"websocket":{"isEnabled":true,"token":"synthetic-private"},"price":3000}</script><p>Public terms</p>'
+        итог = архив.очистить_служебную_разметку(тело)
+        сам.assertNotIn('synthetic-private', итог)
+        сам.assertIn('"price":3000', итог)
+        сам.assertIn('Public terms', итог)
+        сам.assertEqual(итог, архив.очистить_служебную_разметку(итог))
+        пример = '<p>{"websocket":{"token":"public-example"}}</p>'
+        сам.assertEqual(архив.очистить_служебную_разметку(пример), пример)
+        for атрибуты in ('data-id="app-config"', 'id="APP-CONFIG"', "title=' id=\"app-config\"'", 'id="public" data-id="app-config"'):
+            пример = '<script ' + атрибуты + '>{"websocket":{"token":"public-example"}}</script>'
+            with сам.subTest(атрибуты=атрибуты):
+                сам.assertEqual(архив.очистить_служебную_разметку(пример), пример)
+
 
     def test_диагностика_одноразового_значения_и_незакавыченное_поле(сам):
         тело = '''<input name="csrftoken" value=synthetic-private-a><script nonce="synthetic-private-n">{"wgRequestId":"synthetic-private-id"}</script><div>Ваш IP-адрес:<div class=info-value><div id=q>192.0.2.13</div></div></div><div>Ваш ID запроса к ресурсу:<div class=info-value>synthetic-private-request</div></div>'''
