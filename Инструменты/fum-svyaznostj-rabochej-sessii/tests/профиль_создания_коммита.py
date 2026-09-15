@@ -3,10 +3,11 @@ import argparse
 import cProfile
 import hashlib
 import json
+import os
 from pathlib import Path
 import time
 
-from test_создание_коммита import СозданиеКоммита
+from test_создание_коммита import СозданиеКоммита, коммит
 
 
 def измерить(выход, подробный):
@@ -25,6 +26,20 @@ def измерить(выход, подробный):
                 "стадии": квитанция["профиль"], "результат": квитанция["состояние"], "процесс": квитанция["процесс"]})
         finally:
             случай.doCleanups()
+    случай = СозданиеКоммита()
+    try:
+        случай.setUp()
+        os.environ.pop("CODEX_THREAD_ID", None)
+        try:
+            профиль.runcall(коммит.подготовить, случай.параметры)
+        except коммит.ОшибкаКоммита as отказ:
+            assert отказ.профиль and отказ.длительность_наносекунды > 0
+            наблюдения.append({"сценарий": "ранний отказ без native UUID", "длительность_наносекунды": отказ.длительность_наносекунды,
+                "стадии": отказ.профиль, "результат": "отказ допуска", "процесс": None})
+        else:
+            raise AssertionError("отсутствующий UUID не должен получать допуск")
+    finally:
+        случай.doCleanups()
     if подробный is not None:
         профиль.dump_stats(str(подробный))
     инструмент = Path(__file__).parents[1] / "scripts/создание_коммита.py"

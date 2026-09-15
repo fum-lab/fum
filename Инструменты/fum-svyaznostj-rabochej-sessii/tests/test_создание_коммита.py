@@ -3,6 +3,7 @@ import contextlib
 import io
 import json
 import os
+import signal
 from pathlib import Path
 import subprocess
 import sys
@@ -271,3 +272,153 @@ class СозданиеКоммита(unittest.TestCase):
                 коммит.гит(сам.корень, "commit", "--allow-empty", "-m", "Проверка тайм-аута")
         time.sleep(0.7)
         сам.assertFalse((сам.корень / ".git/поздняя-запись").exists())
+
+    def test_штатная_метка_приёма_связана_с_первичным_экземпляром(сам):
+        экземпляр = сам.параметры["источники"][0]["экземпляры"][0]
+        исходное = сам.запрос.read_text()
+        изменённое = исходное.replace("````text\n", "<!-- FUM-INTAKE: " + экземпляр + " -->\n\n````text\n")
+        сам.assertNotEqual(исходное, изменённое)
+        сам.запрос.write_text(изменённое)
+        сам.готовить()
+        сам.assertEqual([сам.начало], сам.создать()["родители"])
+
+    def test_чужая_или_повторённая_метка_приёма_отказывает(сам):
+        исходное = сам.запрос.read_text()
+        правильная = "<!-- FUM-INTAKE: " + сам.параметры["источники"][0]["экземпляры"][0] + " -->"
+        for метка in ("<!-- FUM-INTAKE: " + "f"*64 + " -->", "<!-- FUM-INTAKE: неверно -->", правильная + "\n\n" + правильная):
+            сам.запрос.write_text(исходное.replace("````text\n", метка + "\n\n````text\n"))
+            сам.отказ_без_коммита(lambda: коммит.подготовить(сам.параметры))
+
+    def test_отсутствующий_нативный_идентификатор_закрывает_допуск(сам):
+        with mock.patch.dict(os.environ):
+            os.environ.pop("CODEX_THREAD_ID", None)
+            сам.отказ_без_коммита(lambda: коммит.подготовить(сам.параметры))
+
+    def проверить_прерывание_создания(сам, сигнал):
+        сам.готовить()
+        крючок = сам.корень / ".git/hooks/pre-commit"
+        крючок.write_text("#!/bin/sh\ntouch .git/ожидание-сигнала\nsleep 0.6\ntouch .git/поздняя-запись\n")
+        крючок.chmod(0o755)
+        процесс = subprocess.Popen([sys.executable, "-B", str(СКРИПТЫ / "создание_коммита.py"), "создать", "--подготовка", сам.параметры["подготовка"], "--проверка", ЗАПУСК],
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, start_new_session=True)
+        предел = time.monotonic() + 12
+        try:
+            while not (сам.корень / ".git/ожидание-сигнала").exists() and time.monotonic() < предел and процесс.poll() is None:
+                time.sleep(0.01)
+            сам.assertTrue((сам.корень / ".git/ожидание-сигнала").exists())
+            os.kill(процесс.pid, сигнал)
+            процесс.communicate(timeout=5)
+        finally:
+            if процесс.poll() is None:
+                os.killpg(процесс.pid, signal.SIGKILL)
+                процесс.communicate()
+        time.sleep(0.7)
+        сам.assertNotEqual(0, процесс.returncode)
+        сам.assertFalse((сам.корень / ".git/поздняя-запись").exists())
+        сам.assertEqual(сам.начало, сам.гит("rev-parse", "HEAD").strip())
+        квитанция = json.loads(Path(сам.параметры["квитанция"]).read_text())
+        сам.assertEqual("коммит-не-наблюдается", квитанция["состояние"])
+        сам.assertTrue(квитанция["процесс"]["исполнение_завершено"])
+        сам.assertIsNotNone(квитанция["процесс"]["прерывание"])
+
+    def test_прерывание_интерактивным_сигналом_останавливает_всю_группу(сам):
+        сам.проверить_прерывание_создания(signal.SIGINT)
+
+    def test_прерывание_сигналом_завершения_останавливает_всю_группу(сам):
+        сам.проверить_прерывание_создания(signal.SIGTERM)
+
+    def test_сигналы_при_очистке_после_тайм_аута_не_оставляют_писателя(сам):
+        крючок = сам.корень / ".git/hooks/pre-commit"
+        крючок.write_text("#!/bin/sh\nsleep 0.6\ntouch .git/поздняя-запись\n")
+        крючок.chmod(0o755)
+        исходный_запуск = subprocess.Popen
+        исходная_маска = signal.pthread_sigmask
+        запущенные = []
+        def запустить(*аргументы, **параметры):
+            процесс = исходный_запуск(*аргументы, **параметры)
+            запущенные.append(процесс)
+            return процесс
+        def прервать_перед_маской(как, номера):
+            if как == signal.SIG_BLOCK:
+                os.kill(os.getpid(), signal.SIGINT)
+                os.kill(os.getpid(), signal.SIGTERM)
+            return исходная_маска(как, номера)
+        try:
+            with mock.patch.object(коммит, "ПРЕДЕЛ_ГИТА", 0.1), \
+                    mock.patch.object(коммит.subprocess, "Popen", запустить), \
+                    mock.patch.object(коммит.signal, "pthread_sigmask", прервать_перед_маской):
+                with сам.assertRaises(коммит.ОшибкаКоммита) as отказ:
+                    коммит.гит(сам.корень, "commit", "--allow-empty", "-m", "Проверка сигналов при очистке")
+            сам.assertTrue(отказ.exception.процесс["исполнение_завершено"])
+            сам.assertTrue(отказ.exception.процесс["тайм_аут"])
+            сам.assertEqual("SIGINT", отказ.exception.процесс["прерывание"])
+            time.sleep(0.7)
+            сам.assertFalse((сам.корень / ".git/поздняя-запись").exists())
+            сам.assertEqual(сам.начало, сам.гит("rev-parse", "HEAD").strip())
+        finally:
+            for процесс in запущенные:
+                try:
+                    os.killpg(процесс.pid, signal.SIGKILL)
+                except ProcessLookupError:
+                    pass
+                процесс.communicate(timeout=3)
+
+    def test_отказ_до_гита_возвращает_измеренный_профиль(сам):
+        сам.готовить()
+        сам.запрос.write_text(сам.запрос.read_text().replace(КОМАНДА, "Подмена.\n"))
+        with сам.assertRaises(коммит.ОшибкаКоммита) as исход:
+            сам.создать()
+        сам.assertTrue(исход.exception.профиль)
+        сам.assertEqual("отказ", исход.exception.профиль[-1]["исход"])
+        сам.assertGreater(исход.exception.длительность_наносекунды, 0)
+
+    def test_неполная_квитанция_не_объявляет_завершение_процесса(сам):
+        сам.готовить()
+        сам.создать()
+        путь = Path(сам.параметры["квитанция"])
+        квитанция = json.loads(путь.read_text())
+        квитанция.pop("процесс")
+        квитанция["состояние"] = "намерение"
+        путь.write_text(json.dumps(квитанция, ensure_ascii=False))
+        with сам.assertRaises(коммит.ОшибкаКоммита):
+            сам.создать()
+        сам.assertEqual("исход-процесса-неизвестен", json.loads(путь.read_text())["состояние"])
+
+    def test_ошибка_чтения_входа_имеет_типизированный_профиль(сам):
+        повреждённый = сам.каталог / "повреждённый.json"
+        повреждённый.write_text("{")
+        for вход in (сам.каталог / "отсутствующий.json", повреждённый):
+            процесс = subprocess.run([sys.executable, "-B", str(СКРИПТЫ / "создание_коммита.py"), "подготовить", "--вход", str(вход)], capture_output=True, text=True)
+            сам.assertEqual(2, процесс.returncode)
+            отказ = json.loads(процесс.stderr)
+            сам.assertEqual("fum.отказ-создания-коммита.1", отказ["схема"])
+            сам.assertTrue(отказ["профиль"])
+            сам.assertGreater(отказ["длительность_наносекунды"], 0)
+
+    def test_сигнал_до_возврата_конструктора_не_оставляет_писателя(сам):
+        крючок = сам.корень / ".git/hooks/pre-commit"
+        крючок.write_text("#!/bin/sh\ntouch .git/ожидание-сигнала\nsleep 0.5\ntouch .git/поздняя-запись\n")
+        крючок.chmod(0o755)
+        исходный = subprocess.Popen
+        запущенные = []
+        def запустить_и_прервать(*аргументы, **параметры):
+            процесс = исходный(*аргументы, **параметры)
+            запущенные.append(процесс)
+            предел = time.monotonic() + 3
+            while not (сам.корень / ".git/ожидание-сигнала").exists() and time.monotonic() < предел:
+                time.sleep(0.01)
+            сам.assertTrue((сам.корень / ".git/ожидание-сигнала").exists())
+            os.kill(os.getpid(), signal.SIGTERM)
+            return процесс
+        try:
+            with mock.patch.object(коммит.subprocess, "Popen", запустить_и_прервать):
+                with сам.assertRaises(коммит.ОшибкаКоммита):
+                    коммит.гит(сам.корень, "commit", "--allow-empty", "-m", "Проверка границы запуска")
+            time.sleep(0.7)
+            сам.assertFalse((сам.корень / ".git/поздняя-запись").exists())
+            сам.assertEqual(сам.начало, сам.гит("rev-parse", "HEAD").strip())
+        finally:
+            for процесс in запущенные:
+                if процесс.poll() is None:
+                    os.killpg(процесс.pid, signal.SIGKILL)
+                процесс.communicate(timeout=3)
