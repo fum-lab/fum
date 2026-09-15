@@ -1,0 +1,22 @@
+HTTP/2 200
+date: Tue, 15 Sep 2026 19:06:35 GMT
+content-type: text/html; charset=utf-8
+cf-ray: [REDACTED: response trace identifier]
+cf-cache-status: HIT
+access-control-allow-origin: *
+cache-control: public, max-age=14400
+expires: Tue, 15 Sep 2026 23:06:35 GMT
+last-modified: Tue, 15 Sep 2026 01:08:41 GMT
+server: cloudflare
+vary: Accept-Encoding
+via: 1.1 varnish
+x-cache: MISS
+x-cache-hits: 0
+x-fastly-request-id: 6c63e4e838c52a7f4d5b7cc5c92da2684fe18e78
+x-github-edge-region: fra
+x-github-request-id: 34C4:29C0B8:769956:7731B2:6AA99599
+x-origin-cache: HIT
+x-proxy-cache: MISS
+x-served-by: cache-fra-eddf8230183-FRA
+x-timer: S1789498778.845626,VS0,VE128
+set-cookie: [REDACTED: response cookie]
