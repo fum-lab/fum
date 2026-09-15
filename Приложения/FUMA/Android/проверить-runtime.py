@@ -61,7 +61,7 @@ def выполнить(параметры):
     if "30.0.16248370" not in (параметры.ndk / "source.properties").read_text():
         raise ValueError("Нужен NDK r30 30.0.16248370")
     среда = dict(os.environ, ANDROID_NDK_HOME=str(параметры.ndk), SWIFTCI_USE_LOCAL_DEPS="1")
-    команда_сборки = [параметры.swift, "build", "--package-path", "Приложения/FUMA/Packages/СценарийRuntime",
+    команда_сборки = [параметры.swift, "build", "--package-path", "Приложения/FUMA",
                       "--scratch-path", параметры.кэш, "--swift-sdk", "swift-6.4.0-RELEASE_android",
                       "--triple", "aarch64-unknown-linux-android23", "--static-swift-stdlib",
                       "--product", "сценарий-runtime", "-c", "release", "--jobs", "4"]

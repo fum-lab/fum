@@ -53,7 +53,11 @@ SWIFTCI_USE_LOCAL_DEPS=1 swift test --build-system native --package-path При�
 - [Проверенный прогон и ограничения](../../../Журнал/2026-09-15_20-57-04_MSK_подготовить-Android-runtime-FUMA/отчёт.md).
 - [Официальная инструкция Swift](../../../Источники/URL/https/www.swift.org/documentation/articles/swift-sdk-for-android-getting-started.html/source-index.md).
 
+## Общий пакет
+
+Сценарий собирает продукт `сценарий-runtime` из `Приложения/FUMA/Package.swift`. Исходники временно остаются в прежних каталогах до проверенного пакетного переноса. Успех Android относится только к выбранному CLI-продукту, а не ко всем targets общего манифеста.
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 21:21:48 MSK -->
-<!-- content-sha256: sha256:1903521774d311ba208733aaa57331509e99d3bcf12f4ccc5915f3d5ffaf4ad9 -->
+<!-- last-content-edit: 2026-09-15 21:38:11 MSK -->
+<!-- content-sha256: sha256:a38ecd2e9bce99177ef6f190bf2a06f9e74004f3de00fef91cceb7e2d397c5b4 -->
 <!-- FUM-MD-RECENCY:END -->

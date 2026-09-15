@@ -3,10 +3,11 @@ import Darwin
 import Testing
 @testable import КонтейнерНаблюдений
 
+final class МаркерПакетаПроверок: NSObject {}
+
 struct ПроцессыTests {
     func команда(_ имя: String, _ аргументы: [String]) -> Process {
-        let каталог = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
-            .deletingLastPathComponent().deletingLastPathComponent().appendingPathComponent(".build/debug")
+        let каталог = Bundle(for: МаркерПакетаПроверок.self).bundleURL.deletingLastPathComponent()
         let процесс = Process()
         процесс.executableURL = каталог.appendingPathComponent(имя)
         процесс.arguments = аргументы

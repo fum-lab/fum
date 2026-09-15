@@ -7,11 +7,11 @@ import КонтейнерНаблюдений
 
 final class ДополнительныеTests: XCTestCase, @unchecked Sendable {
     func testАварияДоИПослеДолговечногоПодтверждения() async throws {
-        let пакет = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
+        let пакет = Bundle(for: ДополнительныеTests.self).bundleURL.deletingLastPathComponent()
         for режим in ["середина-записи", "после-fsync"] {
             let пример = try Фикстура(); defer { пример.убрать() }
             let процесс = Process()
-            процесс.executableURL = пакет.appendingPathComponent(".build/debug/АварийнаяФикстура")
+            процесс.executableURL = пакет.appendingPathComponent("АварийнаяФикстура")
             процесс.arguments = [пример.корень.path, режим]
             try процесс.run(); процесс.waitUntilExit()
             XCTAssertEqual(процесс.terminationReason, .uncaughtSignal)

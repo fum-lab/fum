@@ -4,9 +4,9 @@ import АрхивныйСнимокЗадачи
 
 final class КомандаTests: XCTestCase {
     func запустить(_ имя: String, _ аргументы: [String]) throws -> (Int32, Data, Data) {
-        let пакет = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
+        let пакет = Bundle(for: КомандаTests.self).bundleURL.deletingLastPathComponent()
         let процесс = Process(); let выход = Pipe(); let ошибки = Pipe()
-        процесс.executableURL = пакет.appendingPathComponent(".build/debug/" + имя)
+        процесс.executableURL = пакет.appendingPathComponent(имя)
         процесс.arguments = аргументы; процесс.standardOutput = выход; процесс.standardError = ошибки
         try процесс.run()
         let данные = выход.fileHandleForReading.readDataToEndOfFile()

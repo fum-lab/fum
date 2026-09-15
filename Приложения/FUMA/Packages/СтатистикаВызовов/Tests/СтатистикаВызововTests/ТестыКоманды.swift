@@ -5,9 +5,8 @@ import XCTest
 final class ТестыКоманды: XCTestCase {
     func выполнить(_ аргументы: [String]) throws -> (Int32, Data, Data) {
         let процесс = Process()
-        процесс.executableURL = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
-            .deletingLastPathComponent().deletingLastPathComponent()
-            .appendingPathComponent(".build/debug/статистика-вызовов")
+        процесс.executableURL = Bundle(for: ТестыКоманды.self).bundleURL.deletingLastPathComponent()
+            .appendingPathComponent("статистика-вызовов")
         процесс.arguments = аргументы
         let вывод = Pipe(); let ошибки = Pipe()
         процесс.standardOutput = вывод; процесс.standardError = ошибки
