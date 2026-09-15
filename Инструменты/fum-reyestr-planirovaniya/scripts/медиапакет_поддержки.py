@@ -21,6 +21,7 @@ def _проверить(корень, d):
     if _sha(actual) != r["sha256"]: raise ValueError("источник изменён")
     try: blob=subprocess.check_output(["git","cat-file","-e",r["коммит"]+":"+r["путь"]],cwd=корень,stderr=subprocess.DEVNULL)
     except subprocess.CalledProcessError as e: raise ValueError("нет Git-источника") from e
+    if subprocess.check_output(["git","cat-file","-t",r["коммит"]],cwd=корень).decode().strip() != "commit": raise ValueError("OID не commit")
     mode=subprocess.check_output(["git","ls-tree",r["коммит"],"--",r["путь"]],cwd=корень).decode()
     if mode.startswith("120000 "): raise ValueError("символьный Git-источник")
     if r["цитата"] not in actual: raise ValueError("цитата")
@@ -28,20 +29,23 @@ def _проверить(корень, d):
     o=d["отчёт"]
     fields={"период","получатель","начальный_остаток","поступления","комиссии","возвраты","расходы","источник"}
     if set(o)!=fields: raise ValueError("отчёт")
-    for k in ["начальный_остаток","поступления","комиссии","возвраты","расходы"]:
+    money=["начальный_остаток","поступления","комиссии","возвраты","расходы"]
+    for k in money:
         if o[k] is not None and (type(o[k]) is not int or o[k]<=0 or o[k]>10**12): raise ValueError("сумма")
-    if o["источник"] is not None and any(o["источник"].get(k) != r[k] for k in ("коммит","путь","sha256")): raise ValueError("источник отчёта")
+    if any(o[k] is not None for k in money) and o["источник"] is None: raise ValueError("сумма без источника")
     if o["источник"] is not None:
-        for k in ["начальный_остаток","поступления","комиссии","возвраты","расходы"]:
-            if o[k] is not None and f"{o[k]/100:.2f}".replace(".", ",") not in o["источник"].get("цитата", ""): raise ValueError("сумма без свидетельства")
+        if any(o["источник"].get(k) != r[k] for k in ("коммит","путь","sha256")): raise ValueError("источник отчёта")
+        quote=o["источник"].get("цитата", "")
+        if any(o[k] is not None and f"{o[k]/100:.2f}".replace(".", ",") not in quote for k in money): raise ValueError("сумма без свидетельства")
     return src
 
 def собрать(корень, данные):
     корень=Path(корень); src=_проверить(корень,данные)
     canonical=json.dumps(данные,ensure_ascii=False,sort_keys=True,separators=(",",":"))
-    unknown=lambda x: "неизвестно" if x is None else f"{x/100:.2f} ₽"
+    money={"начальный_остаток","поступления","комиссии","возвраты","расходы"}
+    unknown=lambda key,x: "неизвестно" if x is None else (f"{x/100:.2f} ₽" if key in money else str(x))
     o=данные["отчёт"]; total=None
     if all(o[k] is not None for k in ["начальный_остаток","поступления","комиссии","возвраты","расходы"]): total=o["начальный_остаток"]+o["поступления"]-o["комиссии"]-o["возвраты"]-o["расходы"]
     base=f"Проверенный результат: {данные['результат']['цитата']}\nЛицензия: CC0. Ограничения: {'; '.join(данные['ограничения'])}\nЦель поддержки: {данные['цель']}\nСледующий шаг: {данные['следующий_шаг']}\nСтатус: черновик; публикация и получение средств не подтверждены."
-    report="Отчёт о поддержке (черновик)\n"+"\n".join(f"{k.capitalize()}: {unknown(o[k])}" for k in ["период","получатель","начальный_остаток","поступления","комиссии","возвраты","расходы"])+f"\nКонечный остаток: {'неизвестно' if total is None else f'{total/100:.2f} ₽'}\nИсточник: {данные['результат']['коммит']}:{данные['результат']['путь']}"
+    report="Отчёт о поддержке (черновик)\n"+"\n".join(f"{k.capitalize()}: {unknown(k,o[k])}" for k in ["период","получатель","начальный_остаток","поступления","комиссии","возвраты","расходы"])+f"\nКонечный остаток: {'неизвестно' if total is None else f'{total/100:.2f} ₽'}\nИсточник: {данные['результат']['коммит']}:{данные['результат']['путь']}"
     return {"схема":"fum.выход-медиапакета.1","вход_sha256":_sha(canonical),"источник":данные["результат"],"черновики":{"Telegram":"Черновик Telegram\n\n"+base,"MAX":"Черновик MAX\n\n"+base,"отчёт":report},"конечный_остаток_копейки":total}
