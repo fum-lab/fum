@@ -1,0 +1,45 @@
+{
+  "схема": "fum.происхождение-цитат.1",
+  "записи": [
+    {
+      "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "строка": 75757,
+      "байтовое_смещение": 810668652,
+      "байты_строки": 434,
+      "sha256_строки": "a9d5cff6dd601a743c1d6a12e5b7cfce59e9a07535e106ef587e269e5947709c",
+      "время": "2026-09-15T17:34:21.930Z",
+      "тип": "response_item.message.user",
+      "оригинальная_текстовая_часть": "Beryom v rabotu podgotovku rantajma FUMA dlya Android.\n"
+    },
+    {
+      "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "строка": 76500,
+      "байтовое_смещение": 819939675,
+      "байты_строки": 527,
+      "sha256_строки": "a204965efb4280f55da01398981191383d876843482663b086516c1b8df3ba87",
+      "время": "2026-09-15T18:24:11.210Z",
+      "тип": "response_item.message.user",
+      "оригинальная_текстовая_часть": "Davaj ne otdeljnyiye papki s kodom pod kazhduyu platformu sozdavatj, a vsyo budem khranitj v obsjhem pakete FUMA s proverkoj platformam cherez #if.\n"
+    },
+    {
+      "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "строка": 77222,
+      "байтовое_смещение": 830010493,
+      "байты_строки": 492,
+      "sha256_строки": "90f8c58ec11be4e8853f92b1c849fae195eb901465c87f3644147e624dfe7b40",
+      "время": "2026-09-15T19:08:36.913Z",
+      "тип": "response_item.message.user",
+      "оригинальная_текстовая_часть": "A tyi sozdayoshj avtomatizaciyu takogo perenosa, kotoryij sejchas vyipolnyayetsya v rabochem dereve po Androidu?\n"
+    },
+    {
+      "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "строка": 77247,
+      "байтовое_смещение": 830067019,
+      "байты_строки": 579,
+      "sha256_строки": "eac1c89e67d3f4d7f95e206f1d50dc071ed8d506989a7b9695e4bd79f1ab9ece",
+      "время": "2026-09-15T19:10:00.072Z",
+      "тип": "response_item.message.user",
+      "оригинальная_текстовая_часть": "A yesli predpolozhim drugiye lyudi paralleljno rabotali i tozhe takikh otdeljnyikh paketov ponasozdavali, vot dlya etogo v tom chisle eto nuzhno, chtobyi oni prosto primenili gotovuyu avtomatizaciyu.\n"
+    }
+  ]
+}

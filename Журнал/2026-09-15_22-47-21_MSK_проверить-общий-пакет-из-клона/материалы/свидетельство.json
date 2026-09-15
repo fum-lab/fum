@@ -1,0 +1,26 @@
+{
+  "схема": "fum.проверка-общего-пакета-из-клона.1",
+  "commit": "e7bdf6595e057961a480d28d8de016b882ddbaba",
+  "дерево": "f3d97258f6c74ea79826e52c968712c9c4e75100",
+  "origin": "https://github.com/fum-lab/fum.git",
+  "shallow": "false",
+  "чистый_после_проверок": true,
+  "зависимости": {
+    "swift-crypto": "da9d28d69ebe3894b18376c8f2395c2f37b8448f",
+    "swift-asn1": "9f542610331815e29cc3821d3b6f488db8715517"
+  },
+  "проверки": {
+    "XCTest": 156,
+    "Swift_Testing": 33,
+    "Python": 34,
+    "Xcode": "успешно",
+    "macOS_оператор": "успешно",
+    "Android": 7
+  },
+  "бинарники_sha256": {
+    "macOS_SwiftPM": "a0d55f0030ff520449101f6252c67961d91ea4c9074c8f387e7cce910d1279b5",
+    "macOS_Xcode": "cca50841f056e7827c9a5715ef8f9a8b7c0d80811340ca3fdf82205fee9f940d",
+    "Android": "12d7c0cf1209c7f3fab89e3bf196ddcff973f24347445186df0864c64427da04"
+  },
+  "граница": "Новый сетевой клон, отдельные зависимости и кэши сборок; системные SDK/toolchain/mpv ранее установлены, кэш ОС не очищен."
+}
