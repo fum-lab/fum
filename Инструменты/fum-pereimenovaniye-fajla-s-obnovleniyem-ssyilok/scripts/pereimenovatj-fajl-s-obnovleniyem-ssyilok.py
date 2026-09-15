@@ -6,6 +6,8 @@ from __future__ import annotations
 import argparse
 import contextlib
 import json
+import hashlib
+import difflib
 import os
 import re
 import stat
@@ -14,7 +16,7 @@ import sys
 import tempfile
 import unicodedata
 from collections.abc import Iterator
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path, PurePosixPath, PureWindowsPath
 from urllib.parse import unquote_to_bytes
 
@@ -145,6 +147,7 @@ class RenamePlan:
     git_status: bytes
     git_index: bytes
     head: str
+    перемещения: tuple[tuple[PurePosixPath, PurePosixPath, tuple[DirectorySnapshot, ...]], ...] = ()
 
 
 @dataclass(frozen=True)
@@ -156,9 +159,11 @@ class PreparedWrite:
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = CliParser(description=__doc__)
-    parser.add_argument("mode", choices=("plan", "apply"))
-    parser.add_argument("--source", required=True)
-    parser.add_argument("--destination", required=True)
+    parser.add_argument("mode", choices=("plan", "apply", "план-пакета", "применить-пакет"))
+    parser.add_argument("--source")
+    parser.add_argument("--destination")
+    parser.add_argument("--пакет", type=Path)
+    parser.add_argument("--план-sha256")
     parser.add_argument("--repo-root", type=Path, default=Path.cwd())
     return parser.parse_args(argv)
 
@@ -306,6 +311,11 @@ def snapshot_destination_directories(
 
 
 def verify_destination_fence(plan: RenamePlan) -> None:
+    if plan.перемещения:
+        for a, b, directories in plan.перемещения:
+            verify_destination_fence(replace(plan, source=a, destination=b,
+                destination_directories=directories, перемещения=()))
+        return
     ensure_portable_destination(plan.root, plan.source, plan.destination)
     destination_path = plan.root.joinpath(*plan.destination.parts)
     if path_uses_symlink_component(destination_path, plan.root):
@@ -334,6 +344,7 @@ def validate_paths(
     root: Path,
     raw_source: str,
     raw_destination: str,
+    *, индекс: bytes | None = None,
 ) -> tuple[PurePosixPath, PurePosixPath]:
     try:
         source_value = normalized_project_relative_path(
@@ -402,12 +413,8 @@ def validate_paths(
             "source must be clean in both the Git index and working tree before rename"
         )
 
-    indexed = run_git(
-        root,
-        "ls-files",
-        "--cached",
-        "-z",
-        "--",
+    indexed = индекс if индекс is not None else run_git(
+        root, "ls-files", "--cached", "-z", "--",
     ).stdout
     destination_key = tuple(
         portable_name_key(part)
@@ -1263,14 +1270,19 @@ def build_plan(
     root: Path,
     source: PurePosixPath,
     destination: PurePosixPath,
+    *, перемещения: tuple[tuple[PurePosixPath, PurePosixPath], ...] = (),
 ) -> RenamePlan:
     source_path = root.joinpath(*source.parts)
     destination_path = root.joinpath(*destination.parts)
     ensure_portable_destination(root, source, destination)
     destination_directories = snapshot_destination_directories(root, destination)
     inventory, snapshots = markdown_inventory(root)
-    if source not in snapshots:
-        snapshots[source] = snapshot_file(source_path, root)
+    пары = перемещения or ((source, destination),)
+    цели = {root.joinpath(*a.parts): root.joinpath(*b.parts) for a, b in пары}
+    каталоги = tuple((a, b, snapshot_destination_directories(root, b)) for a, b in пары)
+    for a, _ in пары:
+        if a not in snapshots:
+            snapshots[a] = snapshot_file(root.joinpath(*a.parts), root)
 
     mutations: list[Mutation] = []
     updated_links = 0
@@ -1293,12 +1305,7 @@ def build_plan(
             protected = request_text_spans(text, hidden, relative)
 
         for wikilink in visible_wikilinks(text, hidden):
-            if not wikilink_targets_source(
-                wikilink,
-                relative,
-                source,
-                root,
-            ):
+            if not any(wikilink_targets_source(wikilink, relative, a, root) for a, _ in пары):
                 continue
             if position_in_spans(wikilink.start, protected):
                 raise RenameError(
@@ -1351,25 +1358,19 @@ def build_plan(
                     )
                 continue
 
-            if resolved.target != source_path:
+            if resolved.target not in цели:
                 if path_uses_symlink_component(resolved.target, root):
                     try:
-                        resolved_through_symlink = resolved.target.resolve(strict=True)
-                        source_resolved = source_path.resolve(strict=True)
+                        actual_symlink = resolved.target.resolve(strict=True)
                     except OSError:
-                        resolved_through_symlink = None
-                        source_resolved = None
-                    if (
-                        resolved_through_symlink is not None
-                        and resolved_through_symlink == source_resolved
-                    ):
+                        actual_symlink = None
+                    if actual_symlink in цели:
                         raise RenameError(
                             f"incoming Markdown link resolves through a symbolic link "
-                            f"to the source in {relative}:{token.line}: "
-                            f"{token.raw_destination}"
+                            f"to the source in {relative}:{token.line}: {token.raw_destination}"
                         )
                 actual, mismatch = exact_existing_path(resolved.target, root)
-                if mismatch and actual == source_path:
+                if mismatch and actual in цели:
                     raise RenameError(
                         f"incoming Markdown link has a case or Unicode mismatch in "
                         f"{relative}:{token.line}: {token.raw_destination}"
@@ -1382,7 +1383,7 @@ def build_plan(
                 )
             replacement = rewritten_destination(
                 referrer_after,
-                destination_path,
+                цели[resolved.target],
                 resolved,
                 token,
             )
@@ -1428,6 +1429,7 @@ def build_plan(
         git_status=git_status,
         git_index=git_index,
         head=head,
+        перемещения=каталоги if перемещения else (),
     )
 
 
@@ -1462,6 +1464,11 @@ def snapshot_content_and_mode_matches(snapshot: FileSnapshot) -> bool:
 
 
 def verify_snapshot_fence(plan: RenamePlan, *, include_status: bool) -> None:
+    for a, b, _ in plan.перемещения:
+        old = plan.root.joinpath(*a.parts)
+        new = plan.root.joinpath(*b.parts)
+        if path_uses_symlink_component(old, plan.root) or not old.is_file() or new.exists() or new.is_symlink():
+            raise RenameError("snapshot fence changed batch paths")
     source_path = plan.root.joinpath(*plan.source.parts)
     destination_path = plan.root.joinpath(*plan.destination.parts)
     verify_destination_fence(plan)
@@ -1494,6 +1501,11 @@ def verify_snapshot_fence(plan: RenamePlan, *, include_status: bool) -> None:
 
 
 def verify_rollback_state(plan: RenamePlan) -> None:
+    for a, b, _ in plan.перемещения:
+        old = plan.root.joinpath(*a.parts)
+        new = plan.root.joinpath(*b.parts)
+        if path_uses_symlink_component(old, plan.root) or not old.is_file() or new.exists() or new.is_symlink():
+            raise RenameError("snapshot fence changed batch paths")
     source_path = plan.root.joinpath(*plan.source.parts)
     destination_path = plan.root.joinpath(*plan.destination.parts)
     verify_destination_fence(plan)
@@ -1622,23 +1634,27 @@ def apply_plan(plan: RenamePlan) -> None:
 
     source = str(plan.source)
     destination = str(plan.destination)
-    moved = False
+    moved: list[tuple[str, str]] = []
     installed: list[PreparedWrite] = []
     try:
-        verify_destination_fence(plan)
-        result = run_git(
-            plan.root,
-            "mv",
-            "--",
-            source,
-            destination,
-            check=False,
-        )
-        if result.returncode != 0:
-            detail = os.fsdecode(result.stderr).strip() or "unknown Git error"
-            raise RenameError(f"git mv failed: {detail}")
-        moved = True
+        pairs = plan.перемещения or ((plan.source, plan.destination, plan.destination_directories),)
+        for old, new, directories in pairs:
+            verify_destination_fence(replace(plan, source=old, destination=new,
+                destination_directories=directories, перемещения=()))
+            snapshot = next(item for item in plan.snapshots if item.relative == old)
+            if path_uses_symlink_component(snapshot.absolute, plan.root) or not snapshot_matches(snapshot):
+                raise RenameError("source changed before git mv")
+            result = run_git(plan.root, "mv", "--", str(old), str(new), check=False)
+            if result.returncode != 0:
+                detail = os.fsdecode(result.stderr).strip() or "unknown Git error"
+                raise RenameError(f"git mv failed: {detail}")
+            moved.append((str(old), str(new)))
         for item in prepared:
+            mutation = next(value for value in plan.mutations if plan.root.joinpath(*value.output.parts) == item.output)
+            original = next(snapshot for snapshot in plan.snapshots if snapshot.relative == mutation.original)
+            current = replace(original, absolute=item.output)
+            if path_uses_symlink_component(item.output, plan.root) or not snapshot_matches(current):
+                raise RenameError("Markdown changed after git mv; external edit preserved")
             installed.append(item)
             os.replace(item.replacement, item.output)
     except BaseException as error:
@@ -1653,7 +1669,7 @@ def apply_plan(plan: RenamePlan) -> None:
                     f"restore {item.output}: {rollback_error}; "
                     f"backup preserved at {item.backup}"
                 )
-        if moved:
+        for source, destination in reversed(moved):
             reverse = run_git(
                 plan.root,
                 "mv",
@@ -1708,9 +1724,115 @@ def public_payload(plan: RenamePlan, mode: str) -> dict[str, object]:
     }
 
 
+def план_пакета(root: Path, вход: object) -> RenamePlan:
+    if not isinstance(вход, dict) or set(вход) != {"схема", "HEAD", "перемещения"}:
+        raise RenameError("неверные поля пакета")
+    if вход["схема"] != "fum.пакет-переноса.1":
+        raise RenameError("неизвестная схема пакета")
+    head = os.fsdecode(run_git(root, "rev-parse", "--verify", "HEAD").stdout).strip()
+    if вход["HEAD"] != head:
+        raise RenameError("HEAD пакета изменился")
+    строки = вход["перемещения"]
+    if not isinstance(строки, list) or not 1 <= len(строки) <= 1000:
+        raise RenameError("пакет требует от 1 до 1000 перемещений")
+    исходный_индекс = git_index_state(root)
+    индекс = run_git(root, "ls-files", "--cached", "-z", "--").stdout
+    ранние_снимки = []
+    пары = []
+    исходники = set()
+    назначения = set()
+    for строка in строки:
+        if not isinstance(строка, dict) or set(строка) != {"исходник", "назначение", "sha256"}:
+            raise RenameError("неверные поля перемещения")
+        if not all(isinstance(value, str) for value in строка.values()):
+            raise RenameError("поля перемещения должны быть строками")
+        a, b = validate_paths(root, строка["исходник"], строка["назначение"], индекс=индекс)
+        if a.suffix.casefold() == ".md" or b.suffix.casefold() == ".md":
+            raise RenameError("пакетный контракт не переносит Markdown")
+        ключ_a = tuple(portable_name_key(part) for part in a.parts)
+        ключ_b = tuple(portable_name_key(part) for part in b.parts)
+        if ключ_a in исходники or ключ_b in назначения:
+            raise RenameError("дубли либо переносимая коллизия пакета")
+        исходники.add(ключ_a)
+        назначения.add(ключ_b)
+        ранний = snapshot_file(root.joinpath(*a.parts), root)
+        ранние_снимки.append(ранний)
+        данные = ранний.data
+        if hashlib.sha256(данные).hexdigest() != строка["sha256"]:
+            raise RenameError(f"SHA256 исходника изменился: {a}")
+        пары.append((a, b))
+    if исходники & назначения:
+        raise RenameError("цепочки и циклы перемещений запрещены")
+    план = build_plan(root, *пары[0], перемещения=tuple(пары))
+    # Validate hashes again against the actual common snapshot, not earlier reads.
+    if план.git_index != исходный_индекс or any(not snapshot_matches(item) for item in ранние_снимки):
+        raise RenameError("индекс либо исходники изменились во время планирования")
+    снимки = {item.relative: item for item in план.snapshots}
+    for (a, _), строка in zip(пары, строки):
+        if hashlib.sha256(снимки[a].data).hexdigest() != строка["sha256"]:
+            raise RenameError(f"исходник изменился во время планирования: {a}")
+    if план.head != head:
+        raise RenameError("HEAD изменился во время планирования")
+    return план
+
+
+def описание_пакета(план: RenamePlan) -> dict[str, object]:
+    снимки = {item.relative: item for item in план.snapshots}
+    значение = {
+        "схема": "fum.план-пакетного-переноса.1",
+        "HEAD": план.head,
+        "индекс_sha256": hashlib.sha256(план.git_index).hexdigest(),
+        "перемещения": [{"исходник": str(a), "назначение": str(b),
+            "sha256": hashlib.sha256(снимки[a].data).hexdigest(), "режим": снимки[a].mode}
+            for a, b, _ in план.перемещения],
+        "ссылки": план.updated_links,
+        "изменения": [{"путь": str(item.output),
+            "до_sha256": hashlib.sha256(снимки[item.original].data).hexdigest(),
+            "после_sha256": hashlib.sha256(item.data).hexdigest(),
+            "diff": "".join(difflib.unified_diff(
+                снимки[item.original].data.decode("utf-8").splitlines(keepends=True),
+                item.data.decode("utf-8").splitlines(keepends=True),
+                fromfile=str(item.original), tofile=str(item.output)))} for item in план.mutations],
+        "снимок": [{"путь": str(item.relative), "sha256": hashlib.sha256(item.data).hexdigest(), "режим": item.mode}
+            for item in план.snapshots],
+    }
+    данные = json.dumps(значение, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    return dict(значение, sha256=hashlib.sha256(данные).hexdigest())
+
+
+def применить_пакет(план: RenamePlan, ожидаемый: str) -> None:
+    if not isinstance(ожидаемый, str) or описание_пакета(план)["sha256"] != ожидаемый:
+        raise RenameError("хэш просмотренного плана не совпал")
+    apply_plan(план)
+
+
+def уникальные_поля(пары):
+    результат = {}
+    for key, value in пары:
+        if key in результат:
+            raise RenameError(f"повторное поле JSON: {key}")
+        результат[key] = value
+    return результат
+
+
 def execute(args: argparse.Namespace) -> dict[str, object]:
     with without_inherited_git_environment():
         root = repository_root(args.repo_root)
+        if args.mode in ("план-пакета", "применить-пакет"):
+            if args.пакет is None or args.source is not None or args.destination is not None:
+                raise RenameError("пакетному режиму нужен только --пакет")
+            if args.mode == "план-пакета" and args.план_sha256 is not None:
+                raise RenameError("планирование не принимает хэш применения")
+            if args.пакет.stat().st_size > 1024 * 1024:
+                raise RenameError("JSON пакета превышает 1 МиБ")
+            вход = json.loads(args.пакет.read_text(encoding="utf-8"), object_pairs_hook=уникальные_поля)
+            план = план_пакета(root, вход)
+            результат = описание_пакета(план)
+            if args.mode == "применить-пакет":
+                применить_пакет(план, args.план_sha256)
+            return результат
+        if args.source is None or args.destination is None or args.пакет is not None or args.план_sha256 is not None:
+            raise RenameError("одиночному режиму нужны --source и --destination")
         source, destination = validate_paths(root, args.source, args.destination)
         plan = build_plan(root, source, destination)
         if args.mode == "apply":
@@ -1722,7 +1844,7 @@ def main(argv: list[str] | None = None) -> int:
     try:
         args = parse_args(argv)
         payload = execute(args)
-    except (OSError, ProjectFilesError, RenameError, UnicodeError, subprocess.SubprocessError) as error:
+    except (OSError, ProjectFilesError, RenameError, UnicodeError, ValueError, subprocess.SubprocessError) as error:
         print(f"error: {error}", file=sys.stderr)
         return 1
     print(
