@@ -1,5 +1,5 @@
 import Foundation
-import CryptoKit
+import Crypto
 
 let сигнатура = Data("FUMOBS01".utf8)
 

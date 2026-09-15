@@ -1,6 +1,12 @@
 import Foundation
+#if canImport(Darwin)
 import Darwin
-import CryptoKit
+#elseif canImport(Android)
+import Android
+#else
+import Glibc
+#endif
+import Crypto
 
 /// Один синхронный владелец. Не Sendable: вызовы одного экземпляра не перекрываются.
 /// Межпроцессный advisory flock удерживается до закрытия этого экземпляра.
@@ -69,7 +75,7 @@ public final class Сегмент {
         func освободить(_ fd: Int32) {
             guard fd >= 0 else { return }
             while flock(fd, LOCK_UN) != 0 && errno == EINTR {}
-            _ = Darwin.close(fd)
+            _ = close(fd)
         }
         освободить(дескриптор); дескриптор = -1
         освободить(каталог); каталог = -1

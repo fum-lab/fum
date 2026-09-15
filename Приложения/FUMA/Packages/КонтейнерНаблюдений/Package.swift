@@ -11,8 +11,9 @@ let package = Package(
         .executable(name: "восстановитель-контейнера", targets: ["ВосстановительКонтейнера"]),
         .executable(name: "профиль-контейнера", targets: ["ПрофильКонтейнера"])
     ],
+    dependencies: [.package(path: "../../../../Зависимости/swift-crypto")],
     targets: [
-        .target(name: "КонтейнерНаблюдений"),
+        .target(name: "КонтейнерНаблюдений", dependencies: [.product(name: "Crypto", package: "swift-crypto")]),
         .executableTarget(name: "ПисательКонтейнера", dependencies: ["КонтейнерНаблюдений"]),
         .executableTarget(name: "ЧитательКонтейнера", dependencies: ["КонтейнерНаблюдений"]),
         .executableTarget(name: "ВосстановительКонтейнера", dependencies: ["КонтейнерНаблюдений"]),

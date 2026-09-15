@@ -1,0 +1,24 @@
+{
+  "схема": "fum.среда-android.1",
+  "swift": "6.4.0",
+  "NDK": "30.0.16248370",
+  "ABI": "arm64-v8a",
+  "API": 23,
+  "архивы": [
+    {
+      "имя": "swift-6.4.0.pkg",
+      "URL": "https://download.swift.org/swift-6.4.0-release/xcode/swift-6.4.0-RELEASE/swift-6.4.0-RELEASE-osx.pkg",
+      "sha256": "8fd03185b98fe27f54a54631c2449decf75d5b466ce8e34abbd414141063c6aa"
+    },
+    {
+      "имя": "android-sdk.tar.gz",
+      "URL": "https://download.swift.org/swift-6.4.0-release/android-sdk/swift-6.4.0-RELEASE/swift-6.4.0-RELEASE_android.artifactbundle.tar.gz",
+      "sha256": "21fb555122a3d801ad943d48df7ebffdd8824de61c25c180bb792d3edaee0b43"
+    },
+    {
+      "имя": "ndk.zip",
+      "URL": "https://dl.google.com/android/repository/android-ndk-r30-darwin.zip",
+      "sha256": "d125634de97b26deb1e1bb1a562f9d839aa5803d1784a1e414485f5ccbe6739f"
+    }
+  ]
+}

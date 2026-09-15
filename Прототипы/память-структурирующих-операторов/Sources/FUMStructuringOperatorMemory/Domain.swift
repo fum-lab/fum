@@ -1,4 +1,4 @@
-import CryptoKit
+import Crypto
 import Foundation
 
 public enum OperatorMemoryError: Error, Equatable, Sendable {

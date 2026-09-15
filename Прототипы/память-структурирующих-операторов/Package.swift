@@ -17,9 +17,11 @@ let package = Package(
       targets: ["FUMStructuringOperatorMemoryProbe"]
     ),
   ],
+  dependencies: [.package(path: "../../Зависимости/swift-crypto")],
   targets: [
     .target(
       name: "FUMStructuringOperatorMemory",
+      dependencies: [.product(name: "Crypto", package: "swift-crypto")],
       path: "Sources/FUMStructuringOperatorMemory",
       resources: [
         .copy("Фикстуры"),

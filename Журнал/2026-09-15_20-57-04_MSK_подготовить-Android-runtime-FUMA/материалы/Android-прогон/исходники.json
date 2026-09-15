@@ -1,0 +1,137 @@
+{
+  "база": "1e6676b97ae992c22ea7112f68d05fff2d38fb09",
+  "исходники": [
+    {
+      "sha256": "b4d36e0ccd5f64550d9d1fe66691e827e9cc2947ab774ed63db531e3c0cafeed",
+      "путь": "Приложения/FUMA/Android/tests/test_среда.py"
+    },
+    {
+      "sha256": "a6ba2ab29e8e9922f9ca9a939d4e3249a7770385d1405f1205a822b679a61924",
+      "путь": "Приложения/FUMA/Android/tests/test_сценарий.py"
+    },
+    {
+      "sha256": "6fa6d77dcd9409816f293d0930168f6d7dae553c7cf7fd8bfa2b5335d1cf9aa5",
+      "путь": "Приложения/FUMA/Android/версии.json"
+    },
+    {
+      "sha256": "2ae606c58f2332ff9449037140a59789cd9e6eec965cfb2c1a8363408628cd36",
+      "путь": "Приложения/FUMA/Android/подготовить-среду.py"
+    },
+    {
+      "sha256": "5d0cecfc22781115dd0d7eb06fe61f803772f1fe978861d3aef3fdb4bf434ac7",
+      "путь": "Приложения/FUMA/Android/проверить-runtime.py"
+    },
+    {
+      "sha256": "0c1554f8b9dd3d3fd15d8e4ffdaed7763cd66052babef7ebd784e66e7fdef747",
+      "путь": "Приложения/FUMA/Packages/СценарийRuntime/Package.swift"
+    },
+    {
+      "sha256": "a276018ecc609235bf70650cc58e817b03b6501d3b172ce1cfe13d874bb64bc3",
+      "путь": "Приложения/FUMA/Packages/СценарийRuntime/Sources/КомандаRuntime/main.swift"
+    },
+    {
+      "sha256": "de582bf32c61e6606bb6f1811259ed17effa5073f0b05f6834e23b53664cfa75",
+      "путь": "Приложения/FUMA/Packages/СценарийRuntime/Sources/СценарийRuntime/Сценарий.swift"
+    },
+    {
+      "sha256": "39559fda9da2d7a016703abd5137463c9fa07ce7f41402e1d4f511cb6f06e6f8",
+      "путь": "Приложения/FUMA/Packages/СценарийRuntime/Tests/СценарийRuntimeTests/СценарииTests.swift"
+    },
+    {
+      "sha256": "7d7f36228aa4ca1d8a20c46dd883464be97c186faf70eda18d3c5bafed1d31bf",
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/ВосстановительКонтейнера/main.swift"
+    },
+    {
+      "sha256": "162a20e8a2a13605b5c4c295f5a96d76c2f8dbc668991dcda932b4d3a1848a29",
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift"
+    },
+    {
+      "sha256": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160",
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift"
+    },
+    {
+      "sha256": "d754c9ecbdb801096dd4d0214b16ae0be5b26391734845c93df9038e5f9d54ef",
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift"
+    },
+    {
+      "sha256": "c77265b41bc1bcf94e703eff26c2985df7b9d7ade58e86916b4ce7bc2473d3dd",
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift"
+    },
+    {
+      "sha256": "b2b9223ede6b57e305dd6952ae68a2dea7ab6195e24f5f5b929dad4aec3b08b2",
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift"
+    },
+    {
+      "sha256": "ea282dae86fea64b7db8572a673c660c112fc2e38fe70bd3479488ca4359f4fe",
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/ПисательКонтейнера/main.swift"
+    },
+    {
+      "sha256": "979e4a33aa8442a86bb68c546c0f997f53a4459912fb45548c78adc501bd1aab",
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/ПрофильКонтейнера/main.swift"
+    },
+    {
+      "sha256": "ab9d86ad9a4a61b8f1898076cbda3a78785a43fe4301c7d76467b3d5312c7cdd",
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/ЧитательКонтейнера/main.swift"
+    },
+    {
+      "sha256": "604edda0ccd689310b1bbab98655dfd04fcf0c5015325583ab04fc7b59b8c936",
+      "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift"
+    },
+    {
+      "sha256": "9349c0b6ece3f807dce9cbd240ff2416d093eb5142970e9fd55b208802531873",
+      "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ContextAndLattice.swift"
+    },
+    {
+      "sha256": "209547586e0e200b0cd8a7c102ad433fa97649edc9b5ccd2572f06d8997dce41",
+      "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Domain.swift"
+    },
+    {
+      "sha256": "241943a98d2fe3db37b2195c0c6c1a583772f998444dddea441c64099246f627",
+      "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Engine.swift"
+    },
+    {
+      "sha256": "8c0e9e0d05417b68717c2fb42cbcdbca557e0ceb42296fbd07b1c4f108bd730b",
+      "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Fixtures.swift"
+    },
+    {
+      "sha256": "4bac7e1c2c71ebcb82e2cc13b60c8df0db5338dedb19300a7bfd4cf529887a09",
+      "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ЗакрытыйРазбор.swift"
+    },
+    {
+      "sha256": "8236a59ae627310527bf369ecfb46ec56d2c8216ed926124422c51bfcf01d894",
+      "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ИсполнениеОператоров.swift"
+    },
+    {
+      "sha256": "e9715b020c31d86cce8536c2b61ad8dd0c5e97140397bc3e73e729b3e994f339",
+      "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/КонечныйВвод.swift"
+    },
+    {
+      "sha256": "62f6a7e62943ed6ab59235d02e058ff1e6b9a9f93d4c4e41c5b3e49aaca1a8fd",
+      "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ОпределениеОператора.swift"
+    },
+    {
+      "sha256": "d5cdcbb8f1710770d08269e49adae2c2cec8a15000f2887677b7f03f764916de",
+      "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Определения/UTF-8-в-UTF-32LE.json"
+    },
+    {
+      "sha256": "2924941deadeb6cfa16b09ee6d2c446fa85ebdacebf5055b6a4e5ff872554588",
+      "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Определения/нормализация.json"
+    },
+    {
+      "sha256": "f1129d7e8776cc4c59af5e10070666daff9333d8796d16d8deada7e28e75af7b",
+      "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ПорождениеМоделей.swift"
+    },
+    {
+      "sha256": "aa9034a795c55d0b0e81f8cce01f0f2a78499dce85a443a6bd14ed11c99e4afa",
+      "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/СтруктурныйКонтракт.swift"
+    },
+    {
+      "sha256": "d148204186d61962a62ed123f928c82c58d231e5d342f61238fc7beac486ea0f",
+      "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Фикстуры/malformed-llm-envelope.json"
+    },
+    {
+      "sha256": "8338a12a837cd463b966a0f32fc9ebe1fe683dcef2c555ee384bb744170f9292",
+      "путь": "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/Фикстуры/scenarios.json"
+    }
+  ]
+}

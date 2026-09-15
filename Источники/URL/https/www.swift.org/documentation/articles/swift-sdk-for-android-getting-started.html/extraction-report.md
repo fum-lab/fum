@@ -1,7 +1,7 @@
 # Отчёт об извлечении прикрепляемого материала
 
 - Источник: https://www.swift.org/documentation/articles/swift-sdk-for-android-getting-started.html
-- Время извлечения UTC: 2026-09-15T17:35:20.223832+00:00
+- Время извлечения UTC: 2026-09-15T18:14:15.185432+00:00
 - Транспорт: curl
 - Effective URL: https://www.swift.org/documentation/articles/swift-sdk-for-android-getting-started.html
 - HTTP-код: 200
@@ -33,6 +33,6 @@
 - `source-url.txt`
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 20:44:05 MSK -->
-<!-- content-sha256: sha256:ee0aaaa648ddba306fe2a103ec7f5d618a1a42bdf0a4a0f8b2cbee9a7b58436e -->
+<!-- last-content-edit: 2026-09-15 21:21:48 MSK -->
+<!-- content-sha256: sha256:ce9dec6cfbc256b2cda91035898b49472859293889bf342ccdb290f9dbeaf35e -->
 <!-- FUM-MD-RECENCY:END -->

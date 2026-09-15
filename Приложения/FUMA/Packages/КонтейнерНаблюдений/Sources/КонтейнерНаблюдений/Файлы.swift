@@ -1,9 +1,15 @@
 import Foundation
+#if canImport(Darwin)
 import Darwin
+#elseif canImport(Android)
+import Android
+#else
+import Glibc
+#endif
 
 extension ФайловыеОперации {
     public static let системные = ФайловыеОперации(запись: { дескриптор, буфер in
-        let число = Darwin.write(дескриптор, буфер.baseAddress, буфер.count)
+        let число = write(дескриптор, буфер.baseAddress, буфер.count)
         if число < 0 { throw ОшибкаКонтейнера.система(errno) }
         return число
     }, синхронизация: { дескриптор in
@@ -24,14 +30,23 @@ func открытьКорень(_ путь: URL) throws -> Int32 {
           !путь.pathComponents.contains("..") else {
         throw ОшибкаКонтейнера.небезопасныйПуть
     }
-    var дескриптор = Darwin.open("/", O_RDONLY | O_DIRECTORY | O_CLOEXEC)
+    // Android разрешает проход через /data, но не чтение списка его файлов.
+    // O_PATH нужен только предкам; конечный каталог читается и синхронизируется.
+    #if os(Android)
+    let доступПредка = O_PATH
+    #else
+    let доступПредка = O_RDONLY
+    #endif
+    var дескриптор = open("/", доступПредка | O_DIRECTORY | O_CLOEXEC)
     guard дескриптор >= 0 else { throw ОшибкаКонтейнера.система(errno) }
     do {
-        for компонент in путь.pathComponents.dropFirst() {
+        let компоненты = Array(путь.pathComponents.dropFirst())
+        for (номер, компонент) in компоненты.enumerated() {
             guard компонент != ".", !компонент.isEmpty else { throw ОшибкаКонтейнера.небезопасныйПуть }
-            let следующий = openat(дескриптор, компонент, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+            let доступ = номер == компоненты.count - 1 ? O_RDONLY : доступПредка
+            let следующий = openat(дескриптор, компонент, доступ | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
             guard следующий >= 0 else { throw ОшибкаКонтейнера.система(errno) }
-            Darwin.close(дескриптор); дескриптор = следующий
+            close(дескриптор); дескриптор = следующий
         }
         var сведения = stat()
         guard fstat(дескриптор, &сведения) == 0,
@@ -39,7 +54,7 @@ func открытьКорень(_ путь: URL) throws -> Int32 {
             throw ОшибкаКонтейнера.небезопасныйПуть
         }
         return дескриптор
-    } catch { Darwin.close(дескриптор); throw error }
+    } catch { close(дескриптор); throw error }
 }
 
 func размерФайла(_ дескриптор: Int32) throws -> Int {
