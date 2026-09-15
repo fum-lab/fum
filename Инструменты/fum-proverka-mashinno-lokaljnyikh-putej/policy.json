@@ -3204,6 +3204,42 @@
       "count": 1,
       "category": "allow.test-fixture",
       "reason": "Отключает Git hooks только при командах автономной фикстуры во временном репозитории; не задаёт runtime-путь продукта."
+    },
+    {
+      "id": "cjs-lexer-unary-token",
+      "path": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:960ec896dd4f566d41f71d614029390e509f3a8743a9c4392153ddd2094fcaa0",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Конечный перечень лексем CJS: тильда обозначает унарный оператор языка, а не домашний каталог. Это точное определение синтаксического распознавателя."
+    },
+    {
+      "id": "cjs-parser-unary-token",
+      "path": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:d8480f45689f80eae7f70a2b74e0f3dd0eee00c79800a08e89ca2b0bd9db1006",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Разбор унарного оператора CJS: тильда обозначает синтаксис выражения, а не домашний каталог. Это точное определение синтаксического распознавателя."
+    },
+    {
+      "id": "cjs-regex-slash-fixture",
+      "path": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_сценарий_ответа.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:60a2cfd601eea8f9113b395f1d297481cf2aa13f1903f182855b9f53803f85f1",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая тестовая фикстура регулярного выражения CJS содержит экранированный слэш; строка проверяет отсутствие ложных объявлений, а не задаёт путь."
+    },
+    {
+      "id": "python-0173-class-fixture",
+      "path": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_пакет_перевода_python.py",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:cf9486eb9e0d17e893d81d6e94b415b276c8eaa2988cf5b5627d3b85b9cf8bed",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая Python-фикстура: объявление класса и экранированный перевод строки образуют похожую на Windows-путь последовательность. Точная строка проверяет отказ для непрослеживаемого eval и не задаёт адрес машины."
     }
   ]
 }
