@@ -16,6 +16,17 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-15 19:20:02 MSK — Proveritj postavku istorii modeli](2026-09-15_19-20-02_MSK_proveritj-postavku-istorii-modeli/otchyot.md)
+- [2026-09-15 19:05:01 MSK — Sokhranyatj nablyudayemuyu istoriyu modeli](2026-09-15_19-05-01_MSK_sokhranyatj-nablyudayemuyu-istoriyu-modeli/otchyot.md)
+- [2026-09-15 18:29:25 MSK — Zakrepitj vosemj reshenij obrabotki](2026-09-15_18-29-25_MSK_zakrepitj-vosemj-reshenij-obrabotki/otchyot.md)
+- [2026-09-15 18:15:25 MSK — Prinyatj obratnuyu dostavku integracij](2026-09-15_18-15-25_MSK_prinyatj-obratnuyu-dostavku-integracij/otchyot.md)
+- [2026-09-15 17:55:33 MSK — Vernutj dostavku v postoyannuyu vetku](2026-09-15_17-55-33_MSK_vernutj-dostavku-v-postoyannuyu-vetku/otchyot.md)
+- [2026-09-15 17:27:51 MSK — Prinyatj ustojchivyiye svideteljstva i dostavku](2026-09-15_17-27-51_MSK_prinyatj-ustojchivyiye-svideteljstva-i-dostavku/otchyot.md)
+- [2026-09-15 16:58:55 MSK — Zapustitj prioritetnyiye paralleljnyiye rabotyi](2026-09-15_16-58-55_MSK_zapustitj-prioritetnyiye-paralleljnyiye-rabotyi/otchyot.md)
+- [2026-09-15 16:35:20 MSK — Prinyatj zakhvat vyivoda i imya FUMA](2026-09-15_16-35-20_MSK_prinyatj-zakhvat-vyivoda-i-imya-FUMA/otchyot.md)
+- [2026-09-15 16:17:32 MSK — Sokhranitj sboi peredachi konteksta](2026-09-15_16-17-32_MSK_sokhranitj-sboi-peredachi-konteksta/otchyot.md)
+- [2026-09-15 15:57:32 MSK — Utochnitj granicyi Swift obolochki](2026-09-15_15-57-32_MSK_utochnitj-granicyi-Swift-obolochki/otchyot.md)
+- [2026-09-15 15:13:26 MSK — Zakrepitj reakciyu na pereraskhod konteksta](2026-09-15_15-13-26_MSK_zakrepitj-reakciyu-na-pereraskhod-konteksta/otchyot.md)
 - [2026-09-15 13:00:53 MSK — Ispravitj sboj finaljnoj proyekcii](2026-09-15_13-00-53_MSK_ispravitj-sboj-finaljnoj-proyekcii/otchyot.md)
 - [2026-09-15 05:59:05 MSK — Perenesti finansovuyu postavku na obsjhuyu bazu](2026-09-15_05-59-05_MSK_perenesti-finansovuyu-postavku-na-obsjhuyu-bazu/otchyot.md)
 - [2026-09-15 05:48:06 MSK — Svyazatj priyomku konteksta s obyazateljstvom](2026-09-15_05-48-06_MSK_svyazatj-priyomku-konteksta-s-obyazateljstvom/otchyot.md)
@@ -661,6 +672,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 13:12:42 MSK -->
-<!-- content-sha256: sha256:4cd872e3cfbcd417b975b7b37fbaf16c66548127748a27786f927763bb0da9c1 -->
+<!-- last-content-edit: 2026-09-15 19:26:11 MSK -->
+<!-- content-sha256: sha256:8a7d5800c4d6ae7786006d2d6251365a9ffda688e87f624d6775e0a619746174 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -40,6 +40,7 @@ Dlya prakticheskoj rabotyi nachnite s dokumenta [«Kak sejchas rabotatj s FUM»]
 
 ### Sredyi, interfejsyi i prilozheniye
 
+- [Nablyudeniya macOS i interpretator operatorov](nablyudeniya-macOS-i-interpretator.md) — prinyatyij kontrakt sloya Swift i dolgovechnoj pamyati obrasjhenij.
 - [Arkhivnyij snimok odnoj zadachi FUMA](arkhivnyij-snimok-zadachi-FUMA.md)
 
 - [11 — Sreda dlya vnutrennikh FUM](11-sreda-dlya-vnutrennikh-FUM.md)
@@ -93,6 +94,6 @@ Dlya prakticheskoj rabotyi nachnite s dokumenta [«Kak sejchas rabotatj s FUM»]
 - [iskhodnyij zapros 2026-07-21 11:32:46 MSK — Aktualizirovatj vkhodnyiye opisaniya FUM](../Zhurnal/2026-07-21_11-32-46_MSK_aktualizirovatj-vkhodnyiye-opisaniya-FUM/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 16:38:28 MSK -->
-<!-- content-sha256: sha256:2e131c79e535e93074eefa0670638f68bf4819d549a2e9c8e47ed787c68aaa88 -->
+<!-- last-content-edit: 2026-09-15 15:22:34 MSK -->
+<!-- content-sha256: sha256:4a32a344bf0f3b2758a4e87684837e1c87fb54c466836fa454ccda6cdc91dd93 -->
 <!-- FUM-MD-RECENCY:END -->

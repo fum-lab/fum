@@ -5,6 +5,8 @@ description: Sobiratj i proveryatj mashinno chitayemyij reyestr trebovanij, stad
 
 # FUM Planning Registry
 
+[Obratnaya dostavka prinyatogo sreza](obratnaya-dostavka.md) stroit adresnyiye porucheniya susjhestvuyusjhim vladeljcam feature-vetok, primenyayet lokaljnyij merge po yavnomu planu i sokhranyayet otdeljnyiye stadii kvitancii. Rukovodstvo zadayot uzkuyu sovmestimostj so shtatnyim otchyotom FUM, yavnuyu podgotovku indeksa vladeljcem i granicyi podtverzhdeniya.
+
 [Reyestr organizacij podderzhki FUM](../../Planirovaniye/finansirovaniye-i-resursyi/README.md) ispoljzuyet etot paket dlya importa sokhranyonnyikh issledovanij, istorii adresnyikh nablyudenij, proverki srokov i vyipuska otdeljnogo chitayemogo spiska. Komanda `scripts/реестр-организаций-поддержки.py` opisana vmeste s dannyimi; ona ne otpravlyayet obrasjheniya i ne podtverzhdayet registraciyu zayavitelya.
 
 Konechnyij [paket diagnostiki](paket-diagnostiki.md) mekhanicheski vyipuskayet yavno podgotovlennyiye SBOJ i STEP s uzhe naznachennyimi nomerami, dvumya indeksami i tochnoj zasjhitoj iskhodnyikh bajtov.
@@ -145,6 +147,6 @@ Avtomatizaciya ne vyivodit novyiye trebovaniya ili shagi iz smyisla dokumentov, 
 - [iskhodnyij zapros 2026-07-22 11:48:49 MSK — Oformitj kartochki shagov opisateljnyimi imenami i emodzi statusami](../../Zhurnal/2026-07-22_11-48-49_MSK_oformitj-kartochki-shagov-opisateljnyimi-imenami-i-emodzi-statusami/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
-<!-- content-sha256: sha256:980a780e1d19e88142466856504f7832824caaa131af132b71d976e3c98e91f6 -->
+<!-- last-content-edit: 2026-09-15 18:24:06 MSK -->
+<!-- content-sha256: sha256:e996bcf785d81cadad65fa9cde9963f9323a7351fd7d9687de05363940384da9 -->
 <!-- FUM-MD-RECENCY:END -->

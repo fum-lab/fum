@@ -1,0 +1,81 @@
+{
+  "схема": "fum.состав-принимаемого-среза.1",
+  "источник": "2f55f909d5d73fbca17b93497b587090414f0ed7",
+  "основание": "87c3b63ba80e8aa2b806e0028b0ed96b10f3a8fe",
+  "приёмка": "принят ограниченный исполняемый срез по 44 регрессиям и независимому обзору",
+  "файлы": [
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_гит.py",
+      "режим": "100644",
+      "sha256_источника": "eee5b7e42de7a01867ecd3416a94d46fddc22c663ec8dcf378c69622b324da6e",
+      "sha256_приёмника": "eee5b7e42de7a01867ecd3416a94d46fddc22c663ec8dcf378c69622b324da6e"
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_отчёта.py",
+      "режим": "100644",
+      "sha256_источника": "7b011eacc08c94b60359770fbb3c4d185d3a972e7b9bd5ada50ee6839f58c502",
+      "sha256_приёмника": "7b011eacc08c94b60359770fbb3c4d185d3a972e7b9bd5ada50ee6839f58c502"
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_план.py",
+      "режим": "100644",
+      "sha256_источника": "168a84e842a4e1c11ad725b8eca0a649abbaf07654cdb574d32cd2fd04b028c5",
+      "sha256_приёмника": "168a84e842a4e1c11ad725b8eca0a649abbaf07654cdb574d32cd2fd04b028c5"
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_состояние.py",
+      "режим": "100644",
+      "sha256_источника": "8d09331933db417a0b9341ba0af955ed841aea516ef0d428c5f54440daf03e87",
+      "sha256_приёмника": "8d09331933db417a0b9341ba0af955ed841aea516ef0d428c5f54440daf03e87"
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/обратная-доставка.py",
+      "режим": "100644",
+      "sha256_источника": "fc39aa70c2b1d6b9d8144a69e87ed09573738744f83ce16c716c08daa12f3f42",
+      "sha256_приёмника": "fc39aa70c2b1d6b9d8144a69e87ed09573738744f83ce16c716c08daa12f3f42"
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/обратная_доставка.py",
+      "режим": "100644",
+      "sha256_источника": "0f9b152d573a2dcc831abe17445f2ee6d7aa5296e7770751ed928aa45a45482d",
+      "sha256_приёмника": "0f9b152d573a2dcc831abe17445f2ee6d7aa5296e7770751ed928aa45a45482d"
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/tests/test_доставка_отчёта.py",
+      "режим": "100644",
+      "sha256_источника": "10b91d8806b6f6797672faccfad010f76edf43d0dcbfc1bc95255c7610619dae",
+      "sha256_приёмника": "10b91d8806b6f6797672faccfad010f76edf43d0dcbfc1bc95255c7610619dae"
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/tests/test_обратная_доставка.py",
+      "режим": "100644",
+      "sha256_источника": "c083f53c243437dbaf8fddc92340fb7a9ccc472340557da33c63517ffbb54bb4",
+      "sha256_приёмника": "c083f53c243437dbaf8fddc92340fb7a9ccc472340557da33c63517ffbb54bb4"
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/tests/профиль_обратной_доставки.py",
+      "режим": "100644",
+      "sha256_источника": "2f92c182b98c3daaf2e6e7f7507f7efeaa19b376ba443aef36cd7dc11ab77747",
+      "sha256_приёмника": "2f92c182b98c3daaf2e6e7f7507f7efeaa19b376ba443aef36cd7dc11ab77747"
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/tests/профиль_отчётной_доставки.py",
+      "режим": "100644",
+      "sha256_источника": "cb6a39d7811afbac9d89e3f81f9752d2ddb8b4df2b191658a5677f97264a3962",
+      "sha256_приёмника": "cb6a39d7811afbac9d89e3f81f9752d2ddb8b4df2b191658a5677f97264a3962"
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/обратная-доставка.md",
+      "режим": "100644",
+      "sha256_источника": "3fc32ff9c18ddc8c8dc558def707e734391b9551b32a7d6a45395c770f781f50",
+      "sha256_приёмника": "eba5eeb1504f118a455cd3c3bd6450f4cdb9b3675293c53bb5e9c411b05c6d05"
+    }
+  ],
+  "совпавшие_зависимости": [
+    "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py",
+    "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py"
+  ],
+  "документационная_адаптация": "Ссылки на отчёты исполнителя адресованы точному опубликованному коммиту; общий SKILL дополнен одной ссылкой.",
+  "полная_приёмка_FUM": false
+}

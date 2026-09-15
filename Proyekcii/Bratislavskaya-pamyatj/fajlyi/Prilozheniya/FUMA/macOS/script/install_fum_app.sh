@@ -6,7 +6,7 @@ set -euo pipefail
 LABEL="fum.app"
 PRODUCT_NAME="fum"
 MCP_PRODUCT_NAME="fum-mcp"
-APP_NAME="FUM"
+APP_NAME="FUMA"
 BUNDLE_ID="fum.app"
 MIN_SYSTEM_VERSION="14.0"
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -37,7 +37,7 @@ for argument in "$@"; do
       cat <<'EOF'
 Usage: script/install_fum_app.sh [--skip-permissions]
 
-Builds and signs FUM.app with its fum-mcp helper, installs it into
+Builds and signs FUMA.app with its fum-mcp helper, installs it into
 FUM_APPLICATIONS_DIR, starts it, then runs the mandatory permission onboarding stage
 unless --skip-permissions is passed.
 
@@ -60,7 +60,7 @@ run_permission_onboarding() {
   echo "FUM permission onboarding"
   echo "App bundle: $APP_BUNDLE"
   echo
-  echo "The next step runs FUM.app itself with --request-permissions."
+  echo "The next step runs FUMA.app itself with --request-permissions."
   echo "macOS may require Touch ID, password, or manual toggles in System Settings."
   echo
 
@@ -68,7 +68,7 @@ run_permission_onboarding() {
 
   while true; do
     echo
-    echo "Current FUM.app permission status:"
+    echo "Current FUMA.app permission status:"
     request_permission_status "$status_file" --permission-status
     cat "$status_file"
     echo
@@ -98,7 +98,7 @@ ok = (
 sys.exit(0 if ok else 1)
 PY
     then
-      echo "FUM.app permissions are ready."
+      echo "FUMA.app permissions are ready."
       break
     fi
   done
@@ -118,7 +118,7 @@ request_permission_status() {
     sleep 0.5
   done
 
-  echo "FUM.app did not write permission status for $mode." >&2
+  echo "FUMA.app did not write permission status for $mode." >&2
   exit 1
 }
 
@@ -241,7 +241,7 @@ plutil -create xml1 "$INFO_PLIST"
 plutil -insert CFBundleExecutable -string "$APP_NAME" "$INFO_PLIST"
 plutil -insert CFBundleIdentifier -string "$BUNDLE_ID" "$INFO_PLIST"
 plutil -insert CFBundleName -string "$APP_NAME" "$INFO_PLIST"
-plutil -insert CFBundleDisplayName -string "FUM" "$INFO_PLIST"
+plutil -insert CFBundleDisplayName -string "$APP_NAME" "$INFO_PLIST"
 plutil -insert CFBundleVersion -string "1" "$INFO_PLIST"
 plutil -insert CFBundleShortVersionString -string "0.1" "$INFO_PLIST"
 plutil -insert CFBundlePackageType -string "APPL" "$INFO_PLIST"
