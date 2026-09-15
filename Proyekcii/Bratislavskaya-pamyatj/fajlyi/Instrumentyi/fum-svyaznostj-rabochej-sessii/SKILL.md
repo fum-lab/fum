@@ -29,6 +29,20 @@ Istoricheskaya skhema `fum.продолжение-задачи.1` ostayotsya chi
 
 V2 proveryayet monotonnostj vsego sokhranyonnogo reyestra po polnomu Git DAG, nastoyasjhiye kartochki HEAD, zakryityiye v4-dokazateljstva i tochnyiye bajtyi zayavlennyikh rezuljtatov. Yego prezhnyaya realizaciya sokhranena otdeljno v `scripts/обязательства_задачи_v2.py`. Chitatelj v3 v `scripts/обязательства_задачи.py` sokhranyayet stroguyu priyomku v3 i dopuskayet istoricheskij v2 toljko cherez zakreplyonnyij arkhiv i kartu importa; proveryayutsya vse versii i roditeljskiye ryobra, ponizheniye versii zapresjheno. Nomer reyestra, nomer zapisi zapuska i wire-skhema resheniya — raznyiye kontraktyi. Chastichnyij rezuljtat reyestra v3 sokhranyayetsya vnutri polya `обязательства` v wire-skheme `fum.решение-продолжения.2` s nepustyim ostatkom i resheniyem `продолжить`. Zavershyonnyij punkt plana i svobodnoye svideteljstvo ne pogashayut obyazateljstvo. Polnotu pervonachaljnogo reyestra, semantiku realizacii, dostatochnostj testov i nezavisimuyu podlinnostj ikh zapuska proveryayet korenj. Komanda ne perekhvatyivayet final na urovne Codex, ne sozdayot raspisaniye i ne vozobnovlyayet runtime; yeyo integraciya so Stop proveryayetsya otdeljno.
 
+## Ogranichitj vyivod ostatka soobsjhenij
+
+Polnyij stdout komandyi `обработать-сообщения-задачи.py ... остаток --без-записи` sokhranyayetsya v privatnyij fajl vne checkout; v kontekst peredayotsya ogranichennaya stranica cherez [susjhestvuyusjhij kompaktnyij chitatelj](kompaktnyij-ostatok.md). Pered stranicej otdeljno proveryayutsya kod proizvoditelya (0 ili 3) i SHA-256 tochnyikh bajtov. Kod 2 proizvoditelya ne zamenyayetsya staryim rezuljtatom. Komanda `scripts/показать-остаток.py` sokhranyayet vyibrannyiye originalyi, schyotchiki i ukazateli na polnyij artefakt; polnyij massiv pozdnikh svyazej napryamuyu v kontekst ne vyivoditsya.
+
+Pri obnaruzhenii izbyitochnogo vyivoda agent srazu primenyayet etot sposob v soglasovannoj oblasti bez povtornogo porucheniya. Snachala proveryayetsya uzhe susjhestvuyusjhaya realizaciya; pri nedostatochnom kontrakte fiksiruyetsya i ispravlyayetsya konkretnyij probel po dejstvuyusjhim pravilam instrumentov. Eto obyazateljnyij sposob dejstvij agenta, a ne uzhe podklyuchyonnyij avtomaticheskij perekhvat stdout ili realizovannoye chuvstvo FUMA. Vse nepokazannyiye soobsjheniya i pozdniye osnovaniya sokhranyayut obyazannostj rassmotreniya. Konec stranicyi ne oznachayet prosmotr ostaljnyikh stranic, obrabotku soobsjhenij, aktualjnostj zhivogo istochnika ili zaversheniye zadachi.
+
+Osnovaniye: [komandyi i nablyudeniye kornya](../../Zhurnal/2026-09-15_13-00-53_MSK_ispravitj-sboj-finaljnoj-proyekcii/zapros.md). Tochnyij marshrut iz postavki `70cec1ca7852d64c003baa22ef79bc4a395336c7` adaptirovan k tekusjhemu navyiku bez zamenyi yego ostaljnyikh kontraktov.
+
+## Polnyij zakhvat pered ogranichennyim predstavleniyem
+
+Dlya razreshyonnyikh lokaljnyikh CLI s potencialjno boljshim stdout ili stderr primenyaj [obsjhij zakhvat](polnyij-zakhvat-vyivoda.md). On sokhranyayet oba iskhodnyikh kanala do vyidachi yedinoj ogranichennoj kvitancii; podrobnosti raskryivayutsya po diapazonu i SHA. Pri izvestnoj skheme ostatka posle sokhraneniya mozhno yavno vyibratj [detektor byudzheta](detektor-byudzheta-vyivoda.md). Eto ne avtomaticheskij perekhvat vsekh MCP-vyizovov i ne podtverzhdeniye prochteniya vsekh sokhranyonnyikh bajtov.
+
+Do zapuska vyiberi novyij privatnyij fizicheskij katalog vne lyubogo Git-predka; domashnij katalog sam mozhet byitj repozitoriyem. Dejstvuyet kooperativnaya granica doverennogo processa i yedinstvennogo pisatelya, opisannaya v rukovodstve. Pri otkaze posle vozmozhnogo effekta vyiyasni sokhranyonnoye sostoyaniye, a ne povtoryaj komandu avtomaticheski. Byudzhet vsego otveta i kod vyizyivayemogo processa proveryayutsya otdeljno ot koda predstavleniya.
+
 ## Obyazateljnyij razbor dialoga
 
 Pri vosstanovlenii i sverke dogovoryonnostej vyizyivayetsya [ostatok soobsjhenij](obrabotka-soobsjhenij.md) s yavnyimi kornem, kornevyim UUID i iskhodnyim JSONL:
@@ -91,6 +105,10 @@ V shablone dopolniteljno zamenyayetsya otnositeljnyij putj plana etapa; reyestr,
 [Podgotovitelj i kontrakt](privatnyij-komplekt.md) vosproizvodimo izvlekayut odinnadcatj tochnyikh iskhodnikov iz odnogo commit, proveryayut cepochku Git-derevjyev i sokhranyayut privatnyij komplekt s manifestom. Komanda kandidata zakreplyayet inline-zagruzchik, khyesh manifesta i izolirovannyij Python; chuzhiye fajlyi, nevernyiye prava i povrezhdyonnyij komplekt otklonyayutsya. Nastrojki, Trust i nastoyasjheye sostoyaniye podgotovka ne sozdayot. Shablon `Stop.hooks.шаблон.json` ostayotsya toljko poyasnyayusjhim primerom.
 
 Pered primeneniyem koordinator chitayet kontrakt, sveryayet konkretnyij kandidat i dejstvuyusjhij sloj runtime. Sluzhebnyij HookPrompt ne pripisyivayetsya cheloveku po odnoj roli user; yego proiskhozhdeniye i fakticheskoye prodolzheniye modeli proveryayutsya otdeljno. Nativnoye podklyucheniye ne vyivoditsya iz uspeshnyikh sinteticheskikh testov ili nalichiya privatnogo kataloga.
+
+## Nablyudayemaya modelj i usiliye
+
+[Yavnyij inkrementaljnyij import](istoriya-modeli.md) sokhranyayet pervoye nablyudeniye i smenyi paryi iz native `turn_context`, proiskhozhdeniye i propuski. Tot zhe rezuljtat podgotavlivayet otdeljnyiye polya `model` i `effort` soobsjheniya kommita pered shtatnoj proverkoj; kornevoj trejler sokhranyayetsya. Avtozapuski ne podklyuchayutsya.
 
 ## Proiskhozhdeniye soobsjhenij
 
@@ -196,7 +214,11 @@ Proverka Git-sostoyaniya sravnivayet toljko puti. Ona ne reshayet, nuzhno li vkl
 - [iskhodnyij zapros 2026-07-17 10:25:41 MSK - Predotvrasjhatj smesjheniye vremeni sessij](../../Zhurnal/2026-07-17_10-25-41_MSK_predotvrasjhatj-smesjheniye-vremeni-sessij/zapros.md)
 - [iskhodnyij zapros 2026-07-21 05:39:00 MSK - Sdelatj sluzhebnyiye generatoryi vosproizvodimyimi](../../Zhurnal/2026-07-21_05-39-00_MSK_sdelatj-sluzhebnyiye-generatoryi-vosproizvodimyimi/zapros.md)
 
+## Ustojchivyiye materialyi obrabotki
+
+[Plan i primeneniye ustojchivyikh svideteljstv](ustojchivyiye-svideteljstva.md) pereispoljzuyut shtatnoye sokhraneniye obrabotki. Yavnoye opisaniye vyibirayet ekzemplyaryi i resheniya; plan bez zapisi pokazyivayet polnyiye materialyi i posledovateljnostj, primeneniye vozvrasjhayet fakticheskij prefiks i dopuskayet proveryayemyij povtor. Podklyucheniye k obsjhemu yazyiku operatorov ostayotsya otdeljnyim styikom.
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-12 04:31:31 MSK -->
-<!-- content-sha256: sha256:1b492e48bb04715457860ace907293d8a2d482c9b81449beb52da885f2264a06 -->
+<!-- last-content-edit: 2026-09-15 19:16:22 MSK -->
+<!-- content-sha256: sha256:627f5d83dcaee45742255424e5878fc086b6d171f156afea32e7704f81bab9b8 -->
 <!-- FUM-MD-RECENCY:END -->
