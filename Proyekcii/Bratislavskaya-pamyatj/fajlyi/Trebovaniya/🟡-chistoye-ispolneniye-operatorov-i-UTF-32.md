@@ -8,6 +8,8 @@ Pervyij predmetnyij kontrakt — strogoye dekodirovaniye iskhodnyikh bajtov UTF-
 
 ## Semanticheskiye svyazi
 
+- **dopolnyayetsya:** [planom razbora shriftov strukturiruyusjhimi operatorami](🟡-plan-razbora-shriftov-strukturiruyusjhimi-operatorami.md) — otdeljnyij formatnyij profilj ispoljzuyet to zhe razdeleniye opredeleniya, bajtovogo vkhoda i nezavisimyikh ozhidanij.
+
 - **dopolnyayet:** [prototipyi kak testyi realizacii kornevogo yadra FUM](🟡-prototipyi-kak-testyi-realizacii-kornevogo-yadra-FUM.md) — otdelyonnoye ispolneniye i nezavisimyiye ozhidaniya dayut nablyudayemyij kontrakt dlya budusjhego sravneniya realizacij; povtornyij vyizov odnogo dvizhka ne obyyavlyayetsya nezavisimyim podtverzhdeniyem yadra.
 
 ## Kriterii proverki
@@ -21,15 +23,15 @@ Pervyij predmetnyij kontrakt — strogoye dekodirovaniye iskhodnyikh bajtov UTF-
 
 ## Status i granicyi
 
-Status trebovaniya — `🟡`: konechnyij kontrakt realizovan v [prototipe](../Prototipyi/pamyatj-strukturiruyusjhikh-operatorov/konechnoye-ispolneniye.md) po FUM-STEP-0208; [otchyot realizacii](../Zhurnal/2026-09-11_07-43-37_MSK_realizovatj-interpretator-i-UTF-32/otchyot.md) sokhranyayet adresnyiye RED/GREEN, nezavisimyiye ozhidaniya i profilj. Eto rezuljtat sobstvennoj vetki; integraciya v osnovnuyu pamyatj proveryayetsya otdeljno. On ne podtverzhdayet universaljnyij yazyik, nezavisimuyu realizaciyu yadra, potokovuyu obrabotku porciyami ili bezopasnostj proizvoljnogo vneshnego koda.
+Status trebovaniya — `🟡`: interpretator s predmetnyim primerom UTF-8 → UTF-32 prinyat k realizacii. Pervyij ogranichennyij rezuljtat zadayot FUM-STEP-0208. On ne podtverzhdayet universaljnyij yazyik, nezavisimuyu realizaciyu yadra, potokovuyu obrabotku porciyami ili bezopasnostj proizvoljnogo vneshnego koda.
 
 ## Istochniki trebovanij
 
-- [Zapros realizacii](../Zhurnal/2026-09-11_07-43-37_MSK_realizovatj-interpretator-i-UTF-32/zapros.md).
+- [Postanovka shriftovogo profilya](../Zhurnal/2026-09-11_16-55-35_MSK_utochnitj-operatornoye-vnimaniye-i-prodolzhitj-priyom/zapros.md).
 
 - [Iskhodnaya komanda](../Zhurnal/2026-09-11_07-19-51_MSK_prinyatj-postanovku-interpretatora/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 08:27:58 MSK -->
-<!-- content-sha256: sha256:cf49feb2146bc4b10187c83f06e473231f83b9be86f6747c07f4b8f45af294ae -->
+<!-- last-content-edit: 2026-09-11 17:16:54 MSK -->
+<!-- content-sha256: sha256:e46f8e775383475f884e05225bcbe390860f6c99002c680f92d36794f75388a9 -->
 <!-- FUM-MD-RECENCY:END -->

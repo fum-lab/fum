@@ -61,8 +61,6 @@ flowchart LR
 - [iskhodnyij zapros 2026-07-21 11:32:46 MSK - Aktualizirovatj vkhodnyiye opisaniya FUM](../../Zhurnal/2026-07-21_11-32-46_MSK_aktualizirovatj-vkhodnyiye-opisaniya-FUM/zapros.md)
 - [iskhodnyij zapros 2026-07-22 02:59:22 MSK - Dekompozirovatj predlozheniya na kartochki shagov](../../Zhurnal/2026-07-22_02-59-22_MSK_dekompozirovatj-predlozheniya-na-kartochki-shagov/zapros.md)
 
-- [Pervyij plan matematicheskogo napravleniya](../../Zhurnal/2026-09-11_05-09-33_MSK_sostavitj-plan-matematicheskogo-napravleniya/zapros.md).
-
 ## Opornyiye materialyi
 
 - [Dorozhnaya karta FUM](../dorozhnaya-karta.md)
@@ -72,6 +70,6 @@ flowchart LR
 - [Kartochki shagov FUM](../kartochki-shagov/README.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 12:05:42 MSK -->
-<!-- content-sha256: sha256:46e502271afc89cbc6061e55ef3a9334cdb910c631b8c28c940b4948b75add4c -->
+<!-- last-content-edit: 2026-09-11 07:57:14 MSK -->
+<!-- content-sha256: sha256:75b78b96d9b65ae9d62140fe968c0a53c7a506c827ae09adf71fdda264329cbd -->
 <!-- FUM-MD-RECENCY:END -->

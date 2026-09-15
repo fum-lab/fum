@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-11 07:44:52 MSK - Prinyatj matematiku i rabochij kontekst](../2026-09-11_07-44-52_MSK_prinyatj-matematiku-i-rabochij-kontekst/zapros.md)
-- Sleduyusjhij zapros: [2026-09-11 08:14:52 MSK - Utochnitj plan vspominaniya rabochego konteksta](../2026-09-11_08-14-52_MSK_utochnitj-plan-vspominaniya-rabochego-konteksta/zapros.md)
+- Sleduyusjhij zapros: [2026-09-11 08:21:44 MSK - Prinyatj napravleniye byitovoj tekhniki](../2026-09-11_08-21-44_MSK_prinyatj-napravleniye-byitovoj-tekhniki/zapros.md)
 
 ## Tekst zaprosa
 
@@ -98,6 +98,6 @@ Susjhestvuyusjhaya zadacha «Podklyuchitj obyazateljnuyu proverku soobsjhenij» 
 - [indeks svezhesti](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 11:59:08 MSK -->
-<!-- content-sha256: sha256:782209c801ee30a72f28e7f29942aa5fc9329db0ac5c148a6541692cb991ec9c -->
+<!-- last-content-edit: 2026-09-11 08:27:04 MSK -->
+<!-- content-sha256: sha256:06ce1541e8de1fe52d6a33be611f7f85b42b8f366b18e095058179c07757cbd4 -->
 <!-- FUM-MD-RECENCY:END -->

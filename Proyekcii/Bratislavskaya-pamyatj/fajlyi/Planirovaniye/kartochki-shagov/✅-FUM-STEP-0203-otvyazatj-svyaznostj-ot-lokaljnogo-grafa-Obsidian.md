@@ -7,37 +7,34 @@ status = "completed"
 
 ## Zadacha
 
-Ustranitj zavisimostj ssyilochnogo dopuska FUM ot neobyazateljnogo ignoriruyemogo `.obsidian/graph.json`. Sokhranitj stroguyu proverku ostaljnyikh ssyilok i zapret izmeneniya poljzovateljskogo sostoyaniya radi dopuska.
+Zavershitj ustraneniye zavisimosti primenimogo dokumentacionnogo dopuska ot neobyazateljnogo ignoriruyemogo .obsidian/graph.json. Pereispoljzovatj prinyatoye isklyucheniye svyaznosti v obrabotke ssyilok proyekcii i sokhranitj strogiye otkazyi drugikh celej.
 
 ## Pochemu sejchas
 
-Dva nezavisimyikh novyikh worktree poluchili sotni oshibok po istoricheskim ssyilkam. Lokaljnoye kopirovaniye grafa vosstanovilo sredu, no ne sdelalo obsjhij dokumentacionnyij kontur vosproizvodimyim iz klona. Povtor zakreplyon kak `FUM-СБОЙ-0052/ПРОЯВЛЕНИЕ-0002`.
-
-## Naznacheniye
-
-Koordinator naznachil realizaciyu otdeljnomu svobodnomu ispolnitelyu zadachi 0201. On proveryayet otsutstviye neobyazateljnogo grafa bez sozdaniya ili izmeneniya poljzovateljskogo fajla i sokhranyayet strogiye otkazyi ostaljnyikh ssyilok. Do prinyatogo kommita eta zapisj oboznachayet naznacheniye, a ne vyipolnennoye ispravleniye.
+FUM-SBOJ-0052/PROYAVLENIYE-0003 obnaruzhilo nepokryituyu vetku: matematicheskoye derevo soderzhit prinyatoye ispravleniye svyaznosti, no shag 4 proyekcii po-prezhnemu trebuyet poljzovateljskij fajl. Nomer shaga sokhranyayetsya; prezhneye zaversheniye otnosilosj k dokazannoj granice proverki Markdown-ssyilok.
 
 ## Kriterii zaversheniya
 
-- Zafiksirovan tochnyij kontrakt neobyazateljnoj lokaljnoj celi; on ne razreshayet proizvoljnyiye otsutstvuyusjhiye puti ili ssyilki vne checkout.
-- TDD podtverzhdayet svezhij klon bez grafa, neizmennostj susjhestvuyusjhego grafa, otkaz na obyichnoj bitoj i registronevernoj ssyilke.
-- Izmenyonnaya proverka prokhodit profilj i obosnovannyij etap optimizacii, zatem primenimyij obsjhij dopusk na chistom klone.
-- Sboj 0052 zakryivayetsya toljko po vosproizvodimomu svideteljstvu; vremennoye kopirovaniye grafa ne vyidano za ispravleniye.
+- Adresnyij RED vosproizvodit otsutstvuyusjhij graf pri formirovanii vyikhodov i polnom sinteticheskom primenenii proyekcii, vklyuchaya otsutstviye samoj .obsidian.
+- Perepisyivatelj ispoljzuyet tot zhe tochnyij predikat, proveryayet Git-ignore i sokhranyayet adres kanonicheskogo grafa iz proizvodnogo fajla; analizator obyichnyikh pereimenovanij ne oslablen.
+- Proverenyi neizmennostj susjhestvuyusjhego grafa, obyichnaya otsutstvuyusjhaya celj, pokhozhiye imena, registr predka, symlink, vyikhod iz checkout i otsutstviye ignore.
+- Profilj podtverzhdayet stoimostj neskoljkikh ssyilok; optimizaciya, yesli opravdana zamerom, sokhranyayet proverki kazhdoj ssyilki i obnovleniye vneshnego usloviya mezhdu vyizovami.
+- Proverennyij commit peredan vladeljcu matematiki; primenimyij dokumentacionnyij dopusk bez grafa podtverzhdayet ustraneniye novogo puti otkaza. Vremennaya kopiya ili pustoj graf ne ispoljzuyutsya kak dokazateljstvo.
+
+## Prezhnij rezuljtat
+
+28f51c58fa8df4d20d33ef2f05dab758cb7a6f83 ustranil zavisimostj proverki svyaznosti. Proverka 1598 fajlov publichnogo klona iz 0176 sokhranyayetsya kak ogranichennoye svideteljstvo. Tri fajla etogo rezuljtata pobajtno prisutstvuyut v 8609003; povtornyij perenos ne trebuyetsya. [Prezhnyaya kartochka rezuljtata](https://github.com/fum-lab/fum/blob/6599fe4837ef54efc7f871d2bfe6f8d9d07b4d95/Планирование/карточки-шагов/✅-FUM-STEP-0203-отвязать-связность-от-локального-графа-Obsidian.md).
 
 ## Rezuljtat
 
-Prinyat kommit `28f51c58fa8df4d20d33ef2f05dab758cb7a6f83`: uzkoye isklyucheniye tochnogo otsutstvuyusjhego `.obsidian/graph.json`, adresnyiye RED/GREEN i profilj. Chetyire gruppyi regressij povtorenyi kornem posle integracii. V publichnom neizmennom klone `9c39c9b3fde83c4ce11ba101897c1298c68d436d` materializovana obyyavlennaya zavisimostj LinguisticKit; prinyatyim proveryayusjhim kodom proverenyi vse 1598 kanonicheskikh Markdown-fajlov bez grafa, oshibok net. Do i posle derevo chisto i graf otsutstvuyet. Proverka ssyilok — primenimyij obsjhij dopusk etogo ispravleniya; polnyij dopusk integracii otnositsya k 0176 i proveryayetsya otdeljno.
-
-[Tochnoye svideteljstvo klona](../../Zhurnal/2026-09-11_02-51-49_MSK_proveritj-postavku-FUMA-iz-klona/materialyi/ssyilki-chistogo-klona.json) razlichayet kommit vkhoda i kommit proveryayusjhego koda. [Iskhodnyij otchyot ispolnitelya](../../Zhurnal/2026-09-11_02-19-55_MSK_dopustitj-otsutstviye-lokaljnogo-grafa/otchyot.md) sokhranyayet pervyiye otkazyi, profilj i ogranichennuyu priyomku.
+Ogranichennoye ispravleniye proyekcii prinyato v 1aab4c016f726452861f42963b59b6ba66483437. Iskhodnyij RED, 7 adresnyikh GREEN, proverka neizmennosti grafa i profilj pokryivayut otsutstviye celi v perepisyivatele; ostaljnyiye otsutstvuyusjhiye ili nebezopasnyiye celi po-prezhnemu otklonyayutsya. [Finaljnaya priyomka matematicheskogo dereva](https://github.com/fum-lab/fum/blob/b762bd0cb77fdbcc418141a1f33800a7bdb630a6/Журнал/2026-09-11_06-05-48_MSK_принять-план-математического-направления/отчёт.md) podtverdila primeneniye i nezavisimyij manifest bez grafa: zapusk f3d82b5e-8dea-45db-900d-79ecec5941f7, 841,984153042 s, kod 0. Dokazateljstva i granica zakryitiya sokhranenyi v 0052; prezhniye proyavleniya ne udalenyi.
 
 ## Istochniki
 
-- [Naznacheniye ispolnitelya](../../Zhurnal/2026-09-11_02-13-44_MSK_integrirovatj-postavku-FUMA/zapros.md).
-
-- [Sboj 0052 i povtor 0002](../../Sboi/FUM-SBOJ-0052-svyaznostj-trebuyet-lokaljnyij-graf-Obsidian.md).
-- [Zapros perenosa](../../Zhurnal/2026-09-11_01-28-44_MSK_perenesti-iskhodniki-FUMA/zapros.md).
+- [FUM-SBOJ-0052](../../Sboi/FUM-SBOJ-0052-svyaznostj-trebuyet-lokaljnyij-graf-Obsidian.md): osnovaniye povtornoj rabotyi FUM-SBOJ-0052/PROYAVLENIYE-0003.
+- [Zapros tekusjhego etapa](../../Zhurnal/2026-09-11_05-42-33_MSK_podgotovitj-sleduyusjhiye-napravleniya/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 03:52:50 MSK -->
-<!-- content-sha256: sha256:9cdde2f909de55793f21362b280ed6fb92cda376d1007164139d2ffa0800f611 -->
+<!-- last-content-edit: 2026-09-11 07:57:14 MSK -->
+<!-- content-sha256: sha256:5d591ad90a375b1c67e62ac9fcaf0e4c00ed25f10e4397bb729492f612590b0b -->
 <!-- FUM-MD-RECENCY:END -->

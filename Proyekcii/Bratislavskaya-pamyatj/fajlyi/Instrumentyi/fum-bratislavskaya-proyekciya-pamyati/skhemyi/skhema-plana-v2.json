@@ -258,11 +258,7 @@
                 ".html",
                 ".base64",
                 ".mlir",
-                ".css",
-                ".modulemap",
-                ".pbxproj",
-                ".plist",
-                ".entitlements"
+                ".css"
               ]
             },
             "точные_пути": {
@@ -273,8 +269,11 @@
                 "LICENSE",
                 "fum",
                 "ЛИЦЕНЗИЯ",
-                "Приложения/FUMA/macOS/.gitignore",
-                "Инструменты/fum-reyestr-planirovaniya/scripts/адаптер-codex.js"
+                "Инструменты/fum-reyestr-planirovaniya/scripts/адаптер-codex.js",
+                "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/адаптер_ответа.cjs",
+                "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_адаптер_ответа.cjs",
+                "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_смешанный_профиль.cjs",
+                "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль-смешанных-ответов.cjs"
               ]
             },
             "действие": {
@@ -344,9 +343,7 @@
           "const": [
             ".py",
             ".swift",
-            ".sh",
-            ".c",
-            ".h"
+            ".sh"
           ]
         },
         "действие": {

@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Институт системного программирования им. В.П. Иванникова РАН</title>
+<meta name="description" content="Институт системного программирования им. В.П. Иванникова Российской академии наук – научно-исследовательская организация, специализирующаяся в области системного программирования." />
+<link rel="shortcut icon" href="/favicon.png" type="image/x-icon">
+<link rel="icon" href="/favicon.png" type="image/x-icon" />
+<!-- Bootstrap Core CSS -->
+<link href="/bitrix/templates/ispran/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="/bitrix/templates/ispran/css/bootstrap-theme.min.css" rel="stylesheet" />
+<link href="/bitrix/templates/ispran/css/font-awesome.min.css" rel="stylesheet" />
+<!-- Custom CSS -->
+<link href="/bitrix/templates/ispran/css/magnific-popup.css" rel="stylesheet" />
+<link href="/bitrix/templates/ispran/css/style.css" rel="stylesheet" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="robots" content="index, follow" />
+<meta name="description" content="Институт системного программирования им. В.П. Иванникова Российской академии наук – научно-исследовательская организация, специализирующаяся в области системного программирования." />
+<link href="/bitrix/cache/css/s1/ispran/page_1c7b6b2c534e93473a076350bd39b209/page_1c7b6b2c534e93473a076350bd39b209_v1.css?1788953768303" type="text/css" rel="stylesheet"/>
+<link href="/bitrix/cache/css/s1/ispran/template_156d7b2c9f3a266c52c42334eeb10a28/template_156d7b2c9f3a266c52c42334eeb10a28_v1.css?17889537684958" type="text/css" rel="stylesheet" data-template-style="true"/>
+<script>(window.BX||top.BX).message({"pull_server_enabled":"N","pull_config_timestamp":0,"shared_worker_allowed":"Y","pull_guest_mode":"N","pull_guest_user_id":0,"pull_worker_mtime":1744806301});(window.BX||top.BX).message({"PULL_OLD_REVISION":"Для продолжения корректной работы с сайтом необходимо перезагрузить страницу."});</script>
+
+<script src="/bitrix/js/pull/protobuf/protobuf.js?1637146788274055"></script>
+<script src="/bitrix/js/pull/protobuf/model.min.js?163714678814190"></script>
+<script src="/bitrix/js/main/core/core_promise.min.js?17688171282494"></script>
+<script src="/bitrix/js/rest/client/rest.client.min.js?16371468289240"></script>
+<script src="/bitrix/js/pull/client/pull.client.min.js?174759753149849"></script>
+
+
+<script  src="/bitrix/cache/js/s1/ispran/template_ba9944cc79fc978b3aee1b9d786a96e6/template_ba9944cc79fc978b3aee1b9d786a96e6_v1.js?1788953768809"></script>
+
+<style>
+.tablebodytext{
+display:none
+}
+</style>
+<link rel="stylesheet" href="/bitrix/templates/ispran/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
+<style>
+.thumb img {
+filter: none; /* IE6-9 */
+-webkit-filter: grayscale(0);
+border-radius:5px;
+background-color: #fff;
+border: 1px solid #ddd;
+padding:5px;
+} 
+.thumb img:hover { 
+filter: gray; /* IE6-9 */ 
+-webkit-filter: grayscale(1); 
+} 
+.thumb { 
+padding:5px; 
+} 
+</style> 
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="/bitrix/templates/ispran/js/html5shiv.js"></script>
+<script src="/bitrix/templates/ispran/js/respond.js"></script>
+<![endif]-->
+</head>
+<body>
+<div class="main-wrapper">
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+(w[c] = w[c] || []).push(function() {
+try {
+w.yaCounter26788230 = new Ya.Metrika({id:26788230,
+clickmap:true,
+trackLinks:true,
+accurateTrackBounce:true});
+} catch(e) { }
+});
+var n = d.getElementsByTagName("script")[0],
+s = d.createElement("script"),
+f = function () { n.parentNode.insertBefore(s, n); };
+s.type = "text/javascript";
+s.async = true;
+s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+if (w.opera == "[object Opera]") {
+d.addEventListener("DOMContentLoaded", f, false);
+} else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/26788230" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<div id="panel"></div>
+<div class="navbar">
+<div class="navbar-inner">
+<div class="container navbar-container custnav">
+<div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="glyphicon glyphicon-align-justify"></span><br>
+</button>
+<div class="navbar-header">
+<a href="/" class="navbar-brand">
+<img src="/bitrix/templates/ispran/images/logo.png" alt="brand">
+</a>
+</div>
+</div>
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav">
+                                                <li class="dropdown"><a href="/" class="white drpdwn">Об институте<span class="caret icon-drp"></span></a>
+                    <ul class="dropdown-menu">
+            
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/proceedings/ivannikov.php">Иванников В.П.</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/projects/">Проекты</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/technologies/">Инновации</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/publications/">Публикации</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/intellectual-property.php">Интеллектуальная собственность</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/price/">Стоимость работ и услуг</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/accreditation/">IT аккредитация</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/anti-corruption.php">Противодействие коррупции</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/courses/">Курсы</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/seminars/">Семинары</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/events/">Мероприятия</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/partners.php">Партнёры</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/documents.php">Официальные документы</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/smi/">СМИ об ИСП РАН</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/vacancy.php">Вакансии</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/style.php">Фирменный стиль</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a last-link-dd" href="/contacts.php">Контакты</a></li>
+                </ul>
+                
+                                                                
+                        					<li class="link"><a href="/technologies/" class=" white drpdwn" title="">Инновации</a></li>
+                                                                    <li class="dropdown"><a href="/divisions/" class="white drpdwn">Структура<span class="caret icon-drp"></span></a>
+                    <ul class="dropdown-menu">
+            
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/groups/csa/">Отдел "Архитектуры вычислительных систем"</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/groups/modis/">Отдел "Информационных систем"</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/groups/ctt/">Отдел "Компиляторных технологий"</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/groups/sp/">Отдел "Системного программирования"</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/groups/ppk/">Отдел "Системной интеграции и прикладных программных комплексов"</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/groups/dma/">Отдел "Теоретической информатики"</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/groups/se/">Отдел "Технологий программирования"</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/academic-council/">Ученый совет</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/dcouncil/">Диссертационный совет</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="http://www.linuxtesting.ru/">Центр верификации ОС Linux</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="https://portal.linuxtesting.ru/">Центр исследований безопасности системного ПО</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/ai-center/">Исследовательский центр доверенного искусственного интеллекта</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/hpc-center/">Центр компетенции по параллельным и распределенным вычислениям</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/cert/">Орган по сертификации</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a last-link-dd" href="/cc/">Центр коллективного пользования ИСП РАН</a></li>
+                </ul>
+                
+                                                                                <li class="dropdown"><a href="/education/" class="white drpdwn">Образование <span class="caret icon-drp"></span></a>
+                    <ul class="dropdown-menu">
+            
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/education/pgstudy/">Аспирантура ИСП РАН</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/education/mipt/">Кафедра СП МФТИ</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/education/cmc/">Кафедра СП ВМК МГУ</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/education/hse/">Кафедра СП НИУ ВШЭ</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a last-link-dd" href="/education/library/">Библиотека</a></li>
+                </ul>
+                
+                                                                                <li class="dropdown"><a href="/editions/" class="white drpdwn">Издания<span class="caret icon-drp"></span></a>
+                    <ul class="dropdown-menu">
+            
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/publications/">Публикации ИСП РАН</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/proceedings/">Журнал "Труды ИСП РАН"</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/programming/">Журнал РАН "Программирование"</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/preprints/">Препринты ИСП РАН</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/mathbib/">Библиография Лаврова И.А.</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a" href="/lipaev/">Книги Липаева В.В.</a></li>
+                
+                                                                
+            
+                                                    
+                                    <li class="dd-li"><a class="dd-a last-link-dd" href="/lavrishcheva/">Книги Лаврищевой Е.М.</a></li>
+                </ul>
+                
+                                                                
+                        					<li class="link"><a href="/news/" class=" white drpdwn" title="">Новости</a></li>
+                                                    
+                        					<li class="link"><a href="/sdl/" class=" white drpdwn" title="">Лицензии</a></li>
+                        </ul>
+<ul class="nav navbar-nav navbar-right search-ul">
+<li class="search">
+
+<form action="/search/index.php">
+    <input
+        onfocus="
+                                $(this).addClass('searchinp-a');
+                                $(this).animate({width:'200px'} ,200).css('color', 'black').css('height', '30px').css('padding-top', '7px').css('padding-left', '30px').css('border', '1px #fff solid').css('border-radius','5px').css('background-color','#fff');
+                                "
+        onblur="if($(this).val()=='')
+                                {
+                                    $(this).removeClass('searchinp-a');
+                                    $(this).animate({width:'1px'},200).css('border', 'none').css('background-color','transparent');
+                                }"
+        class="searchinput"
+        name="q"
+        type="text"
+        value=""/>
+</form>
+
+
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div> <!-- /.navbar -->
+<section class="container">
+<div class="row">
+<div class="col-md-10 ">
+<h1 class="main-title">Институт системного программирования им. В.П. Иванникова РАН</h1>
+</div>
+
+<div class="col-md-2 language-fl">
+
+
+			<span class="active">
+                            <img class="ing-ru" src="/bitrix/templates/ispran/images/ru_flag.png" alt="">
+            		</span>
+	
+
+	                            
+		<a href="/en/" title="ispran_en">
+                            <img src="/bitrix/templates/ispran/images/en_flag.png" alt="">
+                    </a>
+	
+</div>
+</div>
+<hr class="under_title">
+
+</section>
+<div class="container main-container">
+<div class="row">
+
+
+
+    <div class="row index-row">
+        <div class="col-md-6 col-lg-6">
+            <img class="main-logo img-responsive" src="/bitrix/templates/ispran/images/logo_content.png" alt="">
+            <!--<p align="center"><br /><a href="https://education.at.ispras.ru/"><img src="/images/education-ispras.jpg" alt="Информация для студентов" /></a></p>-->
+            <p align="center"><br /><a href="/targeted-training/"><img src="/images/targeted-training.jpg" alt="Целевое обучение" /></a> <a href="/anti-corruption/"><img src="/images/anti-corruption.jpg" alt="Противодействие коррупции" /></a></p>
+            <br />
+            <div class="row_baner double_banner">
+                <h4>Наши реквизиты</h4>
+                <p>Федеральное государственное бюджетное учреждение науки Институт системного программирования им. В.П. Иванникова Российской академии наук (ИСП РАН)
+                <br />Адрес: 109004, г. Москва, ул. Александра Солженицына, д. 25. Тел.: +7(495) 912-44-25. E-mail: info@ispras.ru.
+                <br />ИНН: 7709006125
+                <br />КПП: 770901001
+                <br />ОГРН 1037700067327
+		<br />ОКВЭД: 62.01 Разработка компьютерного программного обеспечения 
+                <div class="bl-link">
+                    <a class="link-bl" href="https://education.at.ispras.ru/"></a>
+                    <img src="/images/student.png" class="link-img" alt="students"/>
+                    <h4 class="link-text"><b>Студентам</b></h4>
+                    <p class="link-text-descr">Темы исследований, научные руководители, правила приема на кафедры.</p>
+                </div>
+                <div class="bl-link">
+                    <a class="link-bl" href="/accreditation/"></a>
+                    <img src="/images/student.png" class="link-img" alt="students"/>
+                    <h4 class="link-text"><b>IT аккредитация</b></h4>
+                    <p class="link-text-descr">ИСП РАН зарегистрирован в реестре аккредитованных ИТ-компаний Минцифры.</p>
+                </div>
+                <div class="bl-link">
+                    <a class="link-bl" href="https://t.me/ispras"></a>
+                    <img src="/images/telegram.svg" class="link-img" alt="telegram" width="75" />
+                    <h4 class="link-text"><b>Telegram</b></h4>
+                    <p class="link-text-descr">Подписывайтесь на наш Telegram-канал.</p>
+                </div>
+                <div class="bl-link">
+                    <a class="link-bl" href="/sdl/"></a>
+                    <img src="/images/tehnology.png" class="link-img" alt="tehnology"/>
+                    <h4 class="link-text"><b>Лицензии</b></h4>
+                    <p class="link-text-descr">Оформление лицензий на продукты ИСП РАН.</p>
+                </div>
+                <div class="bl-link">
+                    <a class="link-bl" href="/price/"></a>
+                    <img src="/images/tehnology.png" class="link-img" alt="tehnology"/>
+                    <h4 class="link-text"><b>Стоимость</b></h4>
+                    <p class="link-text-descr">Стоимость реализуемых работ, услуг и прав использования ПО.</p>
+                </div>
+                <div class="bl-link">
+                    <a class="link-bl" href="/isphelp/"></a>
+                    <img src="/images/feedback.svg" class="link-img" alt="feedback" width="75"/>
+                    <h4 class="link-text"><b>Форма обратной связи</b></h4>
+                </div>
+<!--                <p align="center">Подписывайтесь на наш <a href="https://t.me/ispras">Telegram-канал</a></p>
+                <p align="center"><a href="/isphelp/">Форма обратной связи</a></p>-->
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-6 text-description font-fam-ar">
+        <p>Федеральное государственное бюджетное учреждение науки <b>Институт системного программирования им. В.П. Иванникова Российской академии наук (ИСП РАН)</b> – научно-исследовательская организация, осуществляющая деятельность в сфере информационных технологий. Директор − академик РАН, доктор физико-математических наук, профессор РАН <a href="/persons/avetisyan.php">А.И. Аветисян</a>.</p>
+<p><b>ИСП РАН:</b></p>
+<ul>
+<li><b>входит в реестр аккредитованных организаций</b> Министерства цифрового развития, связи и массовых коммуникаций Российской Федерации, осуществляющих деятельность в области информационных технологий;</li>
+<li><b>разрабатывает технологии мирового уровня</b> в таких областях, как операционные системы, компиляторные технологии, анализ и обработка больших данных, искусственный интеллект и др.
+<br />Ряд технологий ИСП РАН уже включен в Реестр российского программного обеспечения:
+<ul>
+<li><a href="https://sharpchecker.ispras.ru">Статический анализатор языка C# SharpChecker</a> №2910</li>
+<li><a href="https://www.ispras.ru/technologies/svace/">Статический анализатор Svace</a> №4047</li>
+<li><a href="https://texterra.ispras.ru/">Система интеллектуального анализа текстов Texterra</a> №4048</li>
+<li><a href="https://www.ispras.ru/projects/digitef/">Цифровой испытательный стенд DigiTEF</a> №5377</li>
+<li><a href="https://www.ispras.ru/technologies/asperitas/">Облачная среда «Асперитас»</a> №5921</li>
+<li><a href="https://www.ispras.ru/technologies/talisman/">Платформа для построения интеллектуальных информационно-аналитических систем Talisman</a> №20408</li>
+<!--<li><a href="http://talisman.ispras.ru/talisman-se-биография/">Talisman.Биография</a> №5547</li>
+<li><a href="http://talisman.ispras.ru/talisman-se-поток/">Talisman.Поток</a> №6045</li>-->
+<li><a href="https://www.ispras.ru/technologies/asperitas/">Программная платформа организации проблемно-ориентированных Web-лабораторий FANLIGHT</a> №6066</li>
+<li><a href="https://www.ispras.ru/technologies/natch/">Инструмент определения поверхности атаки «Natch»</a> №13673</li>
+<li><a href="https://www.ispras.ru/technologies/crusher/">Комплекс анализа Crusher</a> №10468</li>
+<li><a href="https://www.ispras.ru/technologies/blesna/">Инструмент динамического анализа помеченных данных «Блесна»</a> №13095</li>
+<li><a href="https://www.ispras.ru/technologies/docmarking/">Система предотвращения анонимных утечек текстовых документов «Docmarking»</a> №23882</li>
+<li><a href="https://www.ispras.ru/technologies/ecglib/">Система интеллектуального анализа ЭКГ на базе нейросетевой модели машинного обучения</a> №19392</li>
+</ul>
+</li>
+<li><b>готовит кадры высшей квалификации</b> в сфере информационных технологий (сотрудники ИСП РАН преподают на кафедрах системного программирования в МГУ, МФТИ и ВШЭ; на базе института функционирует собственная аспирантура);</li>
+</ul>
+<p><b>Наши партнеры</b></p>
+<p>«Лаборатория Касперского», Samsung, Huawei, Postgres Professional, ГосНИИАС, ЕС-Лизинг, «Код безопасности» и др.</p>
+<p><b>Наши конференции</b></p>
+<p><a href="https://www.isprasopen.ru/">Международная Открытая конференция ИСП РАН им. В.П. Иванникова</a></p>
+<p><a href="https://www.osday.ru/">Научно-практическая конференция OS DAY</a> (совместно с другими организаторами)</p>
+<p><a href="https://www.ivannikov-ws.org/">Международная конференция «Иванниковские чтения»</a></p>
+<p><a href="https://digital-med.ru/">Международная научно-практическая конференция «Анализ данных в медицине»</a></p>
+<p><a href="http://syrcose.ispras.ru/">Весенняя конференция молодых учёных в области программной инженерии</a></p>        </div><!-- /.text-description -->
+    </div>
+<div class="row">
+    <a rel="nofollow" href="https://www.gosuslugi.ru/vuzonline" target="_blank"><img src="/images/vuz-online.jpg" width="100%"></a>
+    <br /><br /><a rel="nofollow" href="https://национальныепроекты.рф/" target="_blank"><img src="/images/minobrnauki-2025.jpg" width="100%"></a>
+    <div class="col-md-4 col-lg-4 lincdiv">
+    
+        <h3 class="title-container">
+        Новости    </h3>
+            
+        <div class="news">
+
+            
+                <span class="title-news"><span class="circle">03</span> Августа, 2026</span>
+                                        <a href="/news/zashchita-dissertatsiy-12.11.26/" class="text_new">Защита диссертаций</a>
+            
+        </div>
+        
+        <div class="news">
+
+            
+                <span class="title-news"><span class="circle">11</span> Июля, 2026</span>
+                                        <a href="/news/zashchita-dissertatsiy-17.09.26/" class="text_new">Защита диссертаций</a>
+            
+        </div>
+        
+        <div class="news">
+
+            
+                <span class="title-news"><span class="circle">09</span> Июня, 2026</span>
+                                        <a href="/news/kruglyy-stol-metodiki-otsenki-stepeni-zashchishchennosti-operatsionnykh-sistem/" class="text_new">Информационное сообщение о проведении круглого стола на тему «Методики оценки степени защищенности операционных систем»</a>
+            
+        </div>
+        
+        <div class="news">
+
+            
+                <span class="title-news"><span class="circle">08</span> Июня, 2026</span>
+                                        <a href="/news/ivannikov-ws-2026/" class="text_new">IX Международная конференция ИСП РАН «Иванниковские чтения»</a>
+            
+        </div>
+        
+        <div class="news">
+
+            
+                <span class="title-news"><span class="circle">20</span> Мая, 2026</span>
+                                        <a href="/news/itogi-konkursa-na-zameshchenie-vakantnykh-dolzhnostey-20.05.2026/" class="text_new">Итоги конкурса на замещение вакантных должностей</a>
+            
+        </div>
+        
+        <div class="news">
+
+            
+                <span class="title-news"><span class="circle">29</span> Апреля, 2026</span>
+                                        <a href="/news/konkurs-na-zameshchenie-dolzhnosti-29.04.2026/" class="text_new">Итоги конкурса на замещение вакантных должностей</a>
+            
+        </div>
+
+    </div>
+
+    <div class="col-md-8 col-lg-8 m-cont">
+    <div class="row links-right">
+    <div class="col-xc-12 col-sm-6 col-md-6 col-lg-6 for-sm-p for-sm-p">
+    <h3 class="title-container">Отделы</h3>
+    <ul class="ulInTitleCont">
+        <li class="none-dot"><a href="/groups/csa" class="text_new">Архитектура вычислительных систем</a></li>
+        <li class="none-dot"><a href="/groups/modis" class="text_new">Информационные системы</a></li>
+        <li class="none-dot"><a href="/groups/ctt" class="text_new">Компиляторные технологии</a></li>
+        <li class="none-dot"><a href="/groups/sp" class="text_new">Системное программирование</a></li>
+        <li class="none-dot"><a href="/groups/dma" class="text_new">Теоретическая информатика</a></li>
+        <li class="none-dot"><a href="/groups/se" class="text_new">Технологии программирования</a></li>
+        <li class="none-dot"><a href="/groups/ppk" class="text_new">Системная интеграция и прикладные программные комплексы</a></li>
+        </ul>
+    </div>
+    <div class="col-md-6 col-lg-6 r-links for-sm-p">
+    <h3 class="title-container">Образование</h3>
+    <ul class="ulInTitleCont">
+    <li class="none-dot"><a href="/education/pgstudy/" class="text_new">Аспирантура ИСП РАН</a></li>
+    <li class="none-dot"><a href="/education/mipt/" class="text_new">Кафедра СП ФУПМ МФТИ</a></li>
+    <li class="none-dot"><a href="/education/cmc/" class="text_new">Кафедра СП ВМК МГУ</a></li>
+    <li class="none-dot"><a href="/education/hse/" class="text_new">Кафедра СП НИУ ВШЭ</a></li>
+    </ul>
+    <h3 class="title-container">Советы</h3>
+    <ul class="ulInTitleCont">
+    <li class="none-dot"><a href="/academic-council/" class="text_new">Ученый совет</a></li>
+    <li class="none-dot"><a href="/dcouncil/" class="text_new">Диссертационный совет</a></li>
+    </ul>
+    </div>
+    </div>
+    <div class="row links-right for-small">
+    <div class="row row_baner">
+    <div class="col-sm-6 col-md-6 col-lg-6 bl-link ">
+    <a class="link-bl" href="/education/mipt/students.php"></a>
+    <img src="/images/student.png" class="link-img" alt=""/>
+    <h4 class="link-text"><b>Студентам МФТИ</b></h4>
+    <p class="link-text-descr">Списки студентов, учебные курсы, лекторы, темы дипломных работ.</p>
+    </div>
+    <div class="col-sm-6 col-md-6 col-lg-6 bl-link right-l">
+    <a class="link-bl" href="/technologies/"></a>
+    <img src="/images/tehnology.png" class="link-img" alt=""/>
+    <h4 class="link-text"><b>Инновации</b></h4>
+    <p class="link-text-descr">Список технологий, разработанных и применяемых в ИСП РАН.</p>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col-sm-6 col-md-6 col-lg-6 bl-link">
+    <a class="link-bl" href="/education/pgstudy/"></a>
+    <img src="/images/asp.png" class="link-img" alt=""/>
+    <h4 class="link-text"><b>Аспирантам</b></h4>
+    <p class="link-text-descr">Списки поступающих и зачисленных в аспирантуру, важные документы.</p>
+    </div>
+    <div class="col-sm-6 col-md-6 col-lg-6 bl-link right-l">
+    <a class="link-bl" href="/projects/"></a>
+    <img src="/images/project.png" class="link-img" alt=""/>
+    <h4 class="link-text"><b>Проекты</b></h4>
+    <p class="link-text-descr">Список текущих и завершённых проектов ИСП РАН.</p>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col-sm-6 col-md-6 col-lg-6 bl-link">
+    <a class="link-bl" href="/publications/"></a>
+    <img src="/images/publications.png" class="link-img" alt=""/>
+    <h4 class="link-text"><b>Публикации</b></h4>
+    <p class="link-text-descr">Список всех публикаций сотрудников ИСП РАН.</p>
+    </div>
+    <div class="col-sm-6 col-md-6 col-lg-6 bl-link right-l">
+    <a class="link-bl" href="/editions/"></a>
+    <img src="/images/publishers.png" class="link-img" alt=""/>
+    <h4 class="link-text"><b>Издания</b></h4>
+    <p class="link-text-descr">Сборники трудов ИСП РАН, журнал «Программирование», книги сотрудников.</p>
+    </div>
+    </div>
+    </div><!--end baners-->
+    </div><!--/.m-cont-->
+</div>
+
+    </div>
+</div>
+</div>
+<footer class="footer">
+<div class="container">
+<div class="row rowfoot">
+<div class="col-md-12 col-lg-12 white copyright">
+<p>Copyright © 1994-2026 ИСП РАН. 109004, г. Москва, ул. А. Солженицына, дом 25. <a href="/anti-corruption/">Противодействие коррупции</a>. <a href="https://secure-software.ru/">Разработка безопасного программного обеспечения (РБПО)</a>
+<br />Продолжая использовать наш сайт, вы даете согласие на обработку файлов cookies и других пользовательских данных, в соответствии с <a href="/privacy-policy/">Политикой конфиденциальности</a></p></div>
+</div>
+</div><!--/.container-->
+</footer>
+<!--<div class="mfp-hide">
+<div id="popup" class="popup_new clearfix">
+<h3>Открытая конференция ИСП РАН 2016</h3>
+<p>1-2 декабря Институт системного программирования Российской академии наук проведет первую научно-практическую Открытую конференцию, посвященную фундаментальным исследованиям ИСП РАН, технологиям и практическим разработкам, которые ранее были закрыты по соглашениям с заказчиками проектов. Участникам представят последние проекты по внедрению новых технологий в промышленность, реализованные совместно с зарубежными и российскими индустриальными партнерами.</p>
+<a target="_blank" href="http://www.isprasopen.ru" class="more">Подробнее</a>
+<img src="/bitrix/templates/ispran/images/logo.png" alt="brand">
+</div>
+</div>-->
+<!-- jQuery Version 1.11.0 -->
+<script src="/bitrix/templates/ispran/js/jquery-1.11.0.js"></script>
+<script src="/bitrix/templates/ispran/js/jquery.mask.min.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="/bitrix/templates/ispran/js/bootstrap.js"></script>
+<!-- Custom JavaScript -->
+<!--<script src="/bitrix/templates/ispran/js/jquery.magnific-popup.min.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js" integrity="sha512-HGOnQO9+SP1V92SrtZfjqxxtLmVzqZpjFFekvzZVWoiASSQgSr4cw9Kqd2+l8Llp4Gm0G8GIFJ4ddwZilcdb8A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css" integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css" integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="/bitrix/templates/ispran/js/main.js"></script>
+<script type="text/javascript" src="/bitrix/templates/ispran/fancybox/jquery.fancybox.pack.js"></script> 
+<script type="text/javascript"> 
+$(document).ready(function() { 
+$("a.fancyimage").fancybox(); 
+}); 
+</script>
+<style type="text/css">
+    .cookie_container {
+        width:100%;
+        clear:both;
+        background: #efefef;
+        position: fixed;
+        bottom: 0;
+        z-index: 2;
+        left: 0;
+        right: 0;
+        
+        visibility: visible;
+        opacity: 1;
+        transition: opacity 2s linear;
+    }
+    .cookie_container.hidden {
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s 2s, opacity 2s linear;
+    }
+    .cookie_block{
+        width:100%;
+        max-width:1170px;
+        margin:0 auto;
+        padding:20px;
+        display:flex;
+        align-items: center;
+        gap:15px;
+    }
+    @media (max-width: 600px){
+        .cookie_block{
+            flex-direction: column;
+        }
+    }
+    .cookie_text {
+        font-size: 14px;
+    }
+    .cookie_btn {
+        display: inline-block;
+        padding: 10px 12px 7px 12px;
+        background: #29619b;
+        color: #fff;
+        font-weight: 600;
+        border-radius: 4px;
+        line-height: 16px;
+        font-size: 14px;
+        transition: 0.3s all;
+        border:solid 1px #29619b;
+    }
+    .cookie_btn:hover {
+        background: #ebebeb;
+        color: #000;
+        text-decoration: none;
+    }
+</style>
+<script type="text/javascript">
+    function setCookieAcceptation(){
+        let name = 'COOKIE_ACCEPTED', value = 'Y', options;
+        
+        options = options || {path: "/"};
+
+        var expires = options.expires;
+
+        if (typeof expires === "number" && expires) {
+            var d = new Date();
+            d.setTime(d.getTime() + expires * 1000);
+            expires = options.expires = d;
+        }
+        if (expires && expires.toUTCString) {
+            options.expires = expires.toUTCString();
+        }
+
+        value = encodeURIComponent(value);
+
+        var updatedCookie = name + "=" + value;
+
+        for (var propName in options) {
+            updatedCookie += "; " + propName;
+            var propValue = options[propName];
+            if (propValue !== true) {
+                updatedCookie += "=" + propValue;
+            }
+        }
+
+        document.cookie = updatedCookie;
+        
+        document.getElementById('cookie_container').classList.add("hidden");
+    }
+</script>
+
+<div class="cookie_container" id="cookie_container">
+    <div class="cookie_block">
+        <div class="cookie_text">На нашем сайте мы используем cookie файлы, содержащие информацию о предыдущих посещениях веб-сайта. Данные обрабатываются для улучшения качества работы нашего веб-сайта. Если вы не хотите использовать cookie файлы, измените настройки браузера.</div>
+        <a href="#" onclick="setCookieAcceptation();return false;" class="cookie_btn">Понятно</a>
+    </div>
+</div></body>
+</html>

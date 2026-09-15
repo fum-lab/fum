@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-11 09:29:11 MSK - Prinyatj vyibor Swift System](../2026-09-11_09-29-11_MSK_prinyatj-vyibor-Swift-System/zapros.md)
-- Sleduyusjhij zapros: [2026-09-11 09:40:24 MSK - Sokhranitj i obrabotatj vopros o progresse](../2026-09-11_09-40-24_MSK_sokhranitj-i-obrabotatj-vopros-o-progresse/zapros.md)
+- Sleduyusjhij zapros: [2026-09-11 10:00:32 MSK - Zavershitj priyom napravlenij FUMA](../2026-09-11_10-00-32_MSK_zavershitj-priyom-napravlenij-FUMA/zapros.md)
 
 ## Tekst zaprosa
 
@@ -44,6 +44,6 @@ Doslovnyiye komandyi, proverennyiye granicyi i fakticheskiye rezuljtatyi sokhran
 - [Indeks svezhesti Markdown](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 11:59:08 MSK -->
-<!-- content-sha256: sha256:c93fa072179ea826e5da779c07bc2f8051177ac404e57bae2a6701ff82e241a6 -->
+<!-- last-content-edit: 2026-09-11 10:07:35 MSK -->
+<!-- content-sha256: sha256:1babbcbe52c92e4028d385389edc0f0736d51d46dadb0b91175a0c13f32ce43c -->
 <!-- FUM-MD-RECENCY:END -->

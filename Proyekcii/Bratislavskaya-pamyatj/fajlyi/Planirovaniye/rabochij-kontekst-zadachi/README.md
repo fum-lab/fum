@@ -1,5 +1,7 @@
 # Kompaktnyij rabochij kontekst zadachi
 
+Sokhranyonnyij planovyij material zadachi «Planirovaniye FUMA» prinyat iz kommita `186b0360a31b97184773757634976257d0f86495`. Opisaniye dostupnosti 0177 i 0160 nizhe fiksiruyet sostoyaniye iskhodnoj vetki na baze `5c9806560fb9b52112ff8a7bc11888a1bb71f7aa`; eto istoricheskoye nablyudeniye, a ne inventarj nyineshnego checkout. Perenos sokhranyayet plan i yego proiskhozhdeniye. Pervoye otdeljnoye naznacheniye 0165 ogranicheno chitayusjhim sborsjhikom na sinteticheskikh vkhodakh; katalog vnimaniya i sluchai vspominaniya ostayutsya sokhranyonnoj planovoj oblastjyu i ne rasshiryayut ispolneniye README ili dvukh dejstvuyusjhikh detektorov vnimaniya.
+
 Rabochij kontekst — vosproizvodimyij srez dolgovechnoj pamyati dlya sleduyusjhego resheniya agenta. On pokazyivayet celj, dejstvuyusjhiye ogranicheniya, nezavershyonnyiye obyazateljstva, prinyatyiye resheniya, zavisimosti i blizhajshiye dejstviya. Podrobnyiye svideteljstva ostayutsya v pervichnyikh istochnikakh i raskryivayutsya po tochnyim ssyilkam.
 
 Etot dokument planiruyet realizaciyu shaga 0165 i zadayot osnovu budusjhikh avtomaticheskikh proverok. Sborsjhik, izmeritelj kachestva i avtomaticheskoye podklyucheniye poka ne realizovanyi. Novyikh fonovyikh zapuskov, perekhvatov i polnomochij na chteniye zdesj ne poyavlyayetsya.
@@ -9,22 +11,6 @@ Etot dokument planiruyet realizaciyu shaga 0165 i zadayot osnovu budusjhikh avto
 Pervaya postavka — lokaljnaya komanda, kotoraya toljko chitayet yavno vyibrannyiye istochniki odnoj zadachi i formiruyet versionirovannyij srez, kartu proiskhozhdeniya i otchyot o granicakh. Ona rabotayet na otkryityikh sinteticheskikh primerakh i na otdeljno razreshyonnom istochnike; interfejs prilozheniya i chuzhiye dialogi avtomaticheski ne obsleduyet.
 
 Obyazateljnoye yadro instrukcij i polnyiye tematicheskiye fajlyi, trebuyemyiye dejstvuyusjhim marshrutom, zagruzhayutsya po svoim pravilam. Srez khranit ukazateli na nikh i rezuljtatyi sverki versij; on ne zamenyayet obyazateljnyij tekst sokrasjhyonnyim pereskazom.
-
-## Pervyij chitayusjhij srez nablyudayemosti
-
-Pervyij ogranichennyij rezuljtat 0165 — lokaljnaya komanda dlya odnoj yavno vyibrannoj zadachi. Ona prinimayet manifest svideteljstv i moment ocenki, sokhranyayet posledneye podtverzhdyonnoye sostoyaniye kazhdogo kanala i yavno pokazyivayet neizvestnostj tekusjhego sostoyaniya. Snachala realizuyutsya susjhestvuyusjhij DETEKTOR-07 poteri nablyudayemosti i zavisimoye ustarevaniye DETEKTOR-02. Signal trebuyet nedostatochnogo okhvata neobkhodimoj oblasti: sam tajm-aut ili token_limit_reached yego ne zamenyayet.
-
-Pyatj nablyudyonnyikh situacij stanovyatsya konkretnyimi variantami [susjhestvuyusjhikh scenariyev](scenarii-priyomki.json):
-
-1. Dva epizoda szhatiya — KONTEKST-09. Pryamoj token_limit_reached=true, znacheniya auto_compact_scope_tokens 256258 i 249772, zadacha i vremya sokhranyayutsya kak faktyi runtime. Eto vnutrennij porog sootvetstvuyusjhego sobyitiya, ne kvota akkaunta, sobstvennaya kalibrovka detektora ili tekusjheye zapolneniye posle szhatiya. Posleduyusjhiye transportnyiye otkazyi sokhranyayutsya otdeljno; obsjhaya pervoprichina ne ustanovlena.
-2. Chastichnyij otvet API — KONTEKST-02/03/04. Sostoyaniye active zadachi i staryij latestTurn: interrupted otnosyatsya k svoim oblastyam i ne obyazateljno protivorechat drug drugu. Ni otsutstviye otveta, ni boleye pozdneye polucheniye starogo znacheniya ne podtverzhdayut tekusjheye sostoyaniye processa.
-3. Povtornaya dostavka — KONTEKST-05. Te zhe iskhodnyiye sobyitiya ne uvelichivayut chislo nablyudenij; dva tajm-auta s odinakovyim tekstom sokhranyayutsya razdeljno. Dopisj menyayet granicu snimka, sokhranyaya prezhniye identichnosti i ssyilki.
-4. Chastichnoye vosstanovleniye — KONTEKST-04/13. Novaya aktivnostj podtverzhdayet toljko sobstvennuyu zadachu i kanal; vosstanovleniye kornya ne snimayet neizvestnosti rebyonka. Novyij snimok ne obyyavlyayet ustranyonnoj prichinu starogo otkaza.
-5. Izobrazheniye raskhoditsya s istoriyej — KONTEKST-07/03. Vidimyiye repliki ostayutsya svideteljstvom izobrazheniya bez vyidumannyikh JSONL-pozicij, vremeni otpravki i otmetok obrabotki. Ikh boleye ranneye otsutstviye i pozdniye tajm-autyi prichinno ne svyazanyi imeyusjhimisya dannyimi. Aktualjnostj utochnyayetsya otdeljno.
-
-Eto utochneniye prioriteta susjhestvuyusjhej kartochki, ne novyij nabor detektorov ili skhem. Pervyij srez ne zakryivayet vse kriterii 0165. Posle RED/GREEN nuzhen neboljshoj profilj na odinakovyikh vkhodakh s uchyotom stoimosti samogo sborsjhika i sokhrannosti obyazateljstv; porog poleznosti zaraneye ne naznachayetsya.
-
-[Staticheski proverennaya karta interfejsov](../../Zhurnal/2026-09-11_04-16-49_MSK_sokhranitj-nablyudeniya-i-utochnitj-plan-konteksta/materialyi/karta-interfejsov.md) ogranichivayet povtornoye ispoljzovaniye. Python-reader 0177 predostavlyayet chelovecheskoye proiskhozhdeniye i konechnyij snimok; API/runtime trebuyut otdeljnyikh svideteljstv. Swift-reduktor prigoden dlya podderzhannyikh polej v pamyati novoj epokhi, s sokhraneniyem prezhnej istorii, no yego logicheskiye taktyi ne podmenyayut realjnyiye vremena. Statistika boljshogo iskhodnogo JSONL poka nepolna iz-za predela 268435456 bajt; vyirezaniye i perenumeraciya khvosta ne snimayut etot predel korrektno. Minimaljnoye soyedineniye etikh interfejsov yesjhyo trebuyet proverki koda adaptera i sovmestnogo ispolneniya; zdesj ono ne realizovano.
 
 ## Vkhod i proiskhozhdeniye
 
@@ -150,19 +136,17 @@ Planovyij rezuljtat prinimayetsya po soglasovannosti pyati materialov i kartochk
 
 ## Istochniki
 
-- [Nablyudeniya i adresnoye utochneniye pervogo sreza](../../Zhurnal/2026-09-11_04-16-49_MSK_sokhranitj-nablyudeniya-i-utochnitj-plan-konteksta/zapros.md).
+- [Pozdneye utochneniye o dostavke 0160](https://github.com/fum-lab/fum/blob/186b0360a31b97184773757634976257d0f86495/Журнал/2026-09-11_08-14-52_MSK_уточнить-план-вспоминания-рабочего-контекста/материалы/уточнение-поставки-0160.json) i [proverennyiye Git-obyyektyi paketov](https://github.com/fum-lab/fum/blob/186b0360a31b97184773757634976257d0f86495/Журнал/2026-09-11_08-14-52_MSK_уточнить-план-вспоминания-рабочего-контекста/материалы/поставка-пакетов-0176.json).
 
-- [Pozdneye utochneniye o dostavke 0160](../../Zhurnal/2026-09-11_08-14-52_MSK_utochnitj-plan-vspominaniya-rabochego-konteksta/materialyi/utochneniye-postavki-0160.json) i [proverennyiye Git-obyyektyi paketov](../../Zhurnal/2026-09-11_08-14-52_MSK_utochnitj-plan-vspominaniya-rabochego-konteksta/materialyi/postavka-paketov-0176.json).
-
-- [Pervichnyiye komandyi, otvetyi i prinyataya postanovka utochneniya](../../Zhurnal/2026-09-11_08-14-52_MSK_utochnitj-plan-vspominaniya-rabochego-konteksta/zapros.md).
+- [Pervichnyiye komandyi, otvetyi i prinyataya postanovka utochneniya](https://github.com/fum-lab/fum/blob/186b0360a31b97184773757634976257d0f86495/Журнал/2026-09-11_08-14-52_MSK_уточнить-план-вспоминания-рабочего-контекста/запрос.md).
 
 - [Zadacha 0165](../kartochki-shagov/🟡-FUM-STEP-0165-sobiratj-rabochij-kontekst-zadachi.md).
-- [Pryamoye porucheniye zaplanirovatj zadachu i osnovu budusjhikh proverok](../../Zhurnal/2026-09-09_14-35-59_MSK_podgotovitj-nativnoye-prodolzheniye-zadachi/zapros.md).
-- [Nablyudeniya o zatratakh i ispoljzovanii konteksta](../../Zhurnal/2026-09-09_14-35-59_MSK_podgotovitj-nativnoye-prodolzheniye-zadachi/otchyot.md).
+- [Pryamoye porucheniye zaplanirovatj zadachu i osnovu budusjhikh proverok](https://github.com/fum-lab/fum/blob/186b0360a31b97184773757634976257d0f86495/Журнал/2026-09-09_14-35-59_MSK_подготовить-нативное-продолжение-задачи/запрос.md).
+- [Nablyudeniya o zatratakh i ispoljzovanii konteksta](https://github.com/fum-lab/fum/blob/186b0360a31b97184773757634976257d0f86495/Журнал/2026-09-09_14-35-59_MSK_подготовить-нативное-продолжение-задачи/отчёт.md).
 - [Statistika vyizovov](../kartochki-shagov/🟡-FUM-STEP-0160-nakaplivatj-statistiku-vyizovov.md).
 - [Snimok sostoyaniya](../kartochki-shagov/🟡-FUM-STEP-0159-sobratj-snimok-agentskogo-runtime-i-interfejsa.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 11:47:30 MSK -->
-<!-- content-sha256: sha256:8dee83491424ced7352f6148ec6371573c8c9617be413ede357ef7aef2759a0f -->
+<!-- last-content-edit: 2026-09-12 01:09:27 MSK -->
+<!-- content-sha256: sha256:badf532088db370f98aa0f2e0b10fc9966f697e854b83cbfd19eecf2f4c0aa19 -->
 <!-- FUM-MD-RECENCY:END -->

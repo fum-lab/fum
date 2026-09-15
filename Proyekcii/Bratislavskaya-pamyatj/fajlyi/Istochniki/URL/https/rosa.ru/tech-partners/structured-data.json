@@ -1,0 +1,106 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://rosa.ru/tech-partners/",
+      "url": "https://rosa.ru/tech-partners/",
+      "name": "Технологические партнеры РОСА - совместимость ПО и оборудования",
+      "isPartOf": {
+        "@id": "https://rosa.ru/#website"
+      },
+      "primaryImageOfPage": {
+        "@id": "https://rosa.ru/tech-partners/#primaryimage"
+      },
+      "image": {
+        "@id": "https://rosa.ru/tech-partners/#primaryimage"
+      },
+      "thumbnailUrl": "https://rosa.ru/wp-content/uploads/2026/09/logo-radiofid.png",
+      "datePublished": "2022-06-23T12:39:41+00:00",
+      "dateModified": "2026-09-10T09:41:08+00:00",
+      "description": "Технологические партнёры РОСА - совместимость ПО и оборудования. Экосистема производителей, интеграторов и ISV, подтверждённые сценарии работы и совместные решения. Найдите проверенные связки для вашего проекта и отрасли.",
+      "breadcrumb": {
+        "@id": "https://rosa.ru/tech-partners/#breadcrumb"
+      },
+      "inLanguage": "ru-RU",
+      "potentialAction": [
+        {
+          "@type": "ReadAction",
+          "target": [
+            "https://rosa.ru/tech-partners/"
+          ]
+        }
+      ]
+    },
+    {
+      "@type": "ImageObject",
+      "inLanguage": "ru-RU",
+      "@id": "https://rosa.ru/tech-partners/#primaryimage",
+      "url": "https://rosa.ru/wp-content/uploads/2026/09/logo-radiofid.png",
+      "contentUrl": "https://rosa.ru/wp-content/uploads/2026/09/logo-radiofid.png",
+      "width": 500,
+      "height": 500
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://rosa.ru/tech-partners/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Главная страница",
+          "item": "https://rosa.ru/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Технологические партнеры"
+        }
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://rosa.ru/#website",
+      "url": "https://rosa.ru/",
+      "name": "НТЦ ИТ РОСА",
+      "description": "",
+      "publisher": {
+        "@id": "https://rosa.ru/#organization"
+      },
+      "potentialAction": [
+        {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://rosa.ru/?s={search_term_string}"
+          },
+          "query-input": {
+            "@type": "PropertyValueSpecification",
+            "valueRequired": true,
+            "valueName": "search_term_string"
+          }
+        }
+      ],
+      "inLanguage": "ru-RU"
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://rosa.ru/#organization",
+      "name": "НТЦ ИТ РОСА",
+      "url": "https://rosa.ru/",
+      "logo": {
+        "@type": "ImageObject",
+        "inLanguage": "ru-RU",
+        "@id": "https://rosa.ru/#/schema/logo/image/",
+        "url": "https://rosa.ru/wp-content/uploads/2023/12/top_logo_rosa.svg",
+        "contentUrl": "https://rosa.ru/wp-content/uploads/2023/12/top_logo_rosa.svg",
+        "width": 162,
+        "height": 35,
+        "caption": "НТЦ ИТ РОСА"
+      },
+      "image": {
+        "@id": "https://rosa.ru/#/schema/logo/image/"
+      }
+    }
+  ]
+}

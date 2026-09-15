@@ -76,12 +76,23 @@ Oficialjnaya [dokumentaciya perenosa Swift v Wasm](https://docs.swift.org/latest
 - [Setevoj sloj Swift-chasti FUMA na SwiftNIO](../../Trebovaniya/🟡-setevoj-sloj-Swift-chasti-FUMA-na-SwiftNIO.md).
 - [Platformennyiye sborki i pervyij scenarij FUMA](🟡-FUM-STEP-0182-opredelitj-platformennyiye-sborki-i-pervyij-scenarij-FUMA.md).
 - [Adapteryi decentralizovannyikh setej](🟡-FUM-STEP-0183-opredelitj-adapteryi-decentralizovannyikh-setej.md).
-- [Adapteryi messendzherov](🟡-FUM-STEP-0184-opredelitj-adapteryi-messendzherov.md).
-- [Nastrojka interneta i VPN](🟡-FUM-STEP-0185-opredelitj-nastrojku-interneta-i-VPN.md).
+- [Adapteryi messendzherov](https://github.com/fum-lab/fum/blob/6049110117aa2d46380422ff51e2e996f087ee90/Планирование/карточки-шагов/🟡-FUM-STEP-0184-определить-адаптеры-мессенджеров.md).
+- [Nastrojka interneta i VPN](https://github.com/fum-lab/fum/blob/6049110117aa2d46380422ff51e2e996f087ee90/Планирование/карточки-шагов/🟡-FUM-STEP-0185-определить-настройку-интернета-и-VPN.md).
+
+## Dve razlichnyiye stroki I2P
+
+Matrica razdelyayet pervyij fajlovyij profilj BitTorrent/I2P cherez libtorrent-rasterbar i budusjheye rasshireniye servisov cherez sobstvennyij SAM 3.1 STREAM-kliyent na SwiftNIO. Dlya pervogo opisyivayutsya Swift-upravleniye bibliotekoj, i2p_hostname/i2p_port, allow_i2p_mixed=false, torrent_flags::i2p_torrent, prikladnaya proverka obyyekta i fakticheskaya izolyaciya ot nezhelateljnyikh clearnet/DNS/DHT/trekerov/web seeds/peer-zaprosov. Vyibrannyij polnyij OID zakreplyon v 0183; svojstva API i primenimostj parametrov proveryayutsya do realizacii, odnogo imeni nastrojki nedostatochno.
+
+Dlya obsjhego SAM-rasshireniya otdeljno svyazyivayutsya NIOCore i vyibrannyij transport, konechnyij protokoljnyij avtomat, upravlyayusjheye soyedineniye, CONNECT/ACCEPT, privatnaya identichnostj i otmena. Eta stroka ne stanovitsya obyazateljnoj realizaciyej pervogo BitTorrent-scenariya. Programma fikstur, profilya i zhivoj proverki otlichayet povedeniye biblioteki, sobstvennogo adaptera, marshrutizatora i seti.
+
+Pervyim utochnyayetsya tochnyij desktop-profilj; vse prezhniye 15 celej/semejstv i Safari, Chrome, Firefox ostayutsya v matrice s prezhnimi kriteriyami i yavnoj neizvestnostjyu. TCP-podderzhka ne perenositsya v brauzernyij runtime, a lokaljnyij SAM ne dayot udalyonnogo zasjhisjhyonnogo kanala. Ustanovka marshrutizatora i mobiljnaya upakovka — otdeljnyiye planovyiye rasshireniya. Tekusjheye utochneniye ne dobavlyayet zavisimosti, kod ili setevyiye effektyi.
 
 ## Istochniki
 
-- [Pryamoye porucheniye poljzovatelya i soderzhateljnyij otvet](../../Zhurnal/2026-09-11_02-34-29_MSK_vosstanovitj-kontekst-platformennogo-resheniya-i-SwiftNIO/materialyi/istochniki/kontekst-reshenij/kontekst-vyibora-SwiftNIO.md).
+- [Prorabotka I2P i utochneniye vyibora libtorrent](https://github.com/fum-lab/fum/blob/6049110117aa2d46380422ff51e2e996f087ee90/Журнал/2026-09-11_21-56-09_MSK_уточнить-план-подключения-I2P/запрос.md).
+- [Material koordinatora o podklyuchenii I2P](../integracii/I2P/podklyucheniye-I2P.md).
+
+- [Pryamoye porucheniye poljzovatelya i soderzhateljnyij otvet](https://github.com/fum-lab/fum/blob/6049110117aa2d46380422ff51e2e996f087ee90/Журнал/2026-09-11_02-34-29_MSK_восстановить-контекст-платформенного-решения-и-SwiftNIO/материалы/источники/контекст-решений/контекст-выбора-SwiftNIO.md).
 - [SwiftNIO README](https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/README.md), [manifest](https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/Package.swift), [PR CI](https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/.github/workflows/pull_request.yml), [Windows/Linux unit-test workflow](https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/.github/workflows/unit_tests.yml), [Apple workflow](https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/.github/workflows/macos_tests.yml), [Android build script](https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/scripts/swift-build-with-android-sdk.sh) — kommit `8c063f043d94c120d0f8d6303ef4fc7918e3561d`, datirovan 2026-09-09; nablyudeniye 2026-09-11 MSK.
 - [Swift platform support](https://github.com/swiftlang/swift-org-website/blob/ee5a7123ce9ddb631f3c45a9efc94787c0c72de0/platform-support/_platform-support.md), [Swift SDK for Android](https://github.com/swiftlang/swift-org-website/blob/ee5a7123ce9ddb631f3c45a9efc94787c0c72de0/documentation/articles/swift-sdk-for-android-getting-started.md), [Swift SDKs for Wasm](https://github.com/swiftlang/swift-org-website/blob/ee5a7123ce9ddb631f3c45a9efc94787c0c72de0/documentation/articles/wasm-getting-started.md) — kommit sajta `ee5a7123ce9ddb631f3c45a9efc94787c0c72de0`, datirovan 2026-09-08; nablyudeniye 2026-09-11 MSK. Stranicyi podtverzhdayut vozmozhnosti Swift, a ne NIO na kazhdom ustrojstve.
 - [NIOSSL README](https://github.com/apple/swift-nio-ssl/blob/322f3c2a4a21df31c84ca416bf65ee5e9059e440/README.md) — `322f3c2a4a21df31c84ca416bf65ee5e9059e440`; [NIOHTTP2 DocC](https://github.com/apple/swift-nio-http2/blob/c702a62e279b520712837887ea7f28d456189bc9/Sources/NIOHTTP2/Docs.docc/index.md) — `c702a62e279b520712837887ea7f28d456189bc9`; [NIOTS README](https://github.com/apple/swift-nio-transport-services/blob/f5b11d7931f92e3b6fcbf590de446fd48e9deec5/README.md) — `f5b11d7931f92e3b6fcbf590de446fd48e9deec5`; [NIOSOCKS DocC](https://github.com/apple/swift-nio-extras/blob/9b2b225177296c405b63afa4849bbb7af51a75d9/Sources/NIOSOCKS/Docs.docc/index.md) — `9b2b225177296c405b63afa4849bbb7af51a75d9`. OID poluchenyi 2026-09-11 01:28:27 MSK; eto svideteljstva naznacheniya komponentov, a ne mezhplatformennoj priyomki FUMA.
@@ -89,6 +100,6 @@ Oficialjnaya [dokumentaciya perenosa Swift v Wasm](https://docs.swift.org/latest
 - [Swift Wasm: Porting](https://docs.swift.org/latest/documentation/wasmguide/porting/); prochitannyij [DocC JSON](https://docs.swift.org/latest/data/documentation/wasmguide/porting.json), SHA256 `b8ca302d72f7543098e912ece5e0b875a8258d3e3959918c81e0a9e992d3716c`, nablyudeniye 2026-09-11 MSK. URL izmenyayemyij, tochnyij kommit publikacii ne ustanovlen; ogranicheniya ne vyidayutsya za rezuljtat proverki konkretnogo brauzera.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 02:37:53 MSK -->
-<!-- content-sha256: sha256:0e3bdc416091852f123cd632148e75d570e9d4134d2e1c05d72e444f9a680375 -->
+<!-- last-content-edit: 2026-09-11 23:52:33 MSK -->
+<!-- content-sha256: sha256:7abc26213a5635ca3097ecb10516f0218d9b293da3923bcf3c04d0f3cb13de46 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -7781,7 +7781,7 @@ class BranchNextStepTests(unittest.TestCase):
             сам.payload(показанное),
             {
                 "state": "done",
-                "reason": "manual-sequential-v2",
+                "reason": "manual-sequential-v1",
             },
         )
 

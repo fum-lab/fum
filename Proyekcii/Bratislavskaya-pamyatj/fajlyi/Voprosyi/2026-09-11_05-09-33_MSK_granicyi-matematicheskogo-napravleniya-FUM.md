@@ -16,7 +16,7 @@ Eti voprosyi ne prepyatstvuyut sokhraneniyu ogranichennogo plana. Oni ogranichiv
 
 ## Istochniki
 
-- [Iskhodnaya komanda](../Zhurnal/2026-09-11_03-32-33_MSK_svyazatj-priyom-s-kommitom-postanovki/zapros.md) i [tekusjhij zapros](../Zhurnal/2026-09-11_05-09-33_MSK_sostavitj-plan-matematicheskogo-napravleniya/zapros.md).
+- [Iskhodnaya komanda](../Zhurnal/2026-09-11_03-32-33_MSK_svyazatj-priyom-s-kommitom-postanovki/zapros.md) i [tekusjhij zapros](https://github.com/fum-lab/fum/blob/b762bd0cb77fdbcc418141a1f33800a7bdb630a6/Журнал/2026-09-11_05-09-33_MSK_составить-план-математического-направления/запрос.md).
 - [Povtoryayusjhiyesya posledovateljnosti](../Dokumentaciya/08-obobsjhyonnyij-poisk-povtoryayusjhikhsya-posledovateljnostej.md), [nablyudateljskaya otnositeljnostj](../Dokumentaciya/26-nablyudateljskaya-otnositeljnostj-informacionnyikh-sistem.md), [odin perekhod](../Dokumentaciya/38-minimaljnyij-format-preobrazovaniya-mezhdu-nablyudatelyami-FUM.md).
 - [Susjhestvuyusjhij vopros o sinkhronizacii znanij](2026-07-13_20-34-23_MSK_granicyi-yestestvenno-yazyikovoj-sinkhronizacii-znanij-FUM.md) i [vopros ob abstrakcii urovnej](2026-06-26_12-19-03_MSK_abstrakciya-urovnej-nablyudayemoj-vselennoj-FUM.md) sokhranyayut svoi predmetnyiye granicyi.
 
@@ -26,6 +26,6 @@ Eti voprosyi ne prepyatstvuyut sokhraneniyu ogranichennogo plana. Oni ogranichiv
 - [Predlozheniye o kompozicii](../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0206-proveritj-usloviya-obratimosti-kompozicii-preobrazovanij.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 12:05:42 MSK -->
-<!-- content-sha256: sha256:46fece0ca4c8ae55f5681104b8b6671802a6c6eb784565cb2aba637853f5ed4b -->
+<!-- last-content-edit: 2026-09-11 07:57:14 MSK -->
+<!-- content-sha256: sha256:0b3416c04ead1442240e8d1a2c6188d4c4a3ec7863b67018f05d2090c4cc9a46 -->
 <!-- FUM-MD-RECENCY:END -->

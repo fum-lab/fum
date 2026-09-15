@@ -1,6 +1,6 @@
 # Chitatj vse iskhodnyiye soobsjheniya zadachi
 
-Etot segment FUM-STEP-0177 vozvrasjhayet polnyij indeks poljzovateljskikh soobsjhenij JSONL, vklyuchaya soobsjheniya do prezhnego kursora. On pomogayet vosstanovitj iskhodnyij kontekst posle szhatiya i uvidetj mnogochastnyij vvod. Dlya sopostavleniya s sokhranyonnyimi otvetami dostupen [sleduyusjhij segment obrabotki](obrabotka-soobsjhenij.md). [Obyazateljnyij sostavnoj dopusk](SKILL.md#resheniye-o-prodolzhenii-zadachi) proveryayet obrabotku soobsjhenij i porucheniya otdeljno; uspeshnoye chteniye ne oznachayet ikh vyipolneniya.
+Etot segment FUM-STEP-0177 vozvrasjhayet polnyij indeks poljzovateljskikh soobsjhenij JSONL, vklyuchaya soobsjheniya do prezhnego kursora. On pomogayet vosstanovitj iskhodnyij kontekst posle szhatiya i uvidetj mnogochastnyij vvod. Dlya sopostavleniya s sokhranyonnyimi otvetami dostupen [sleduyusjhij segment obrabotki](obrabotka-soobsjhenij.md). Obyazateljnoye vklyucheniye v dopusk yesjhyo gotovitsya; uspeshnoye chteniye ne oznachayet, chto komandyi obrabotanyi ili vyipolnenyi.
 
 ## Zapusk
 
@@ -48,12 +48,12 @@ Scenarij `scripts/измерить-сообщения-задачи.py --повт
 
 ## Istochniki
 
-- [Iskhodnyiye komandyi i otchyot tekusjhego segmenta](../../Zhurnal/2026-09-10_22-36-51_MSK_vernutj-neobrabotannyiye-soobsjheniya/zapros.md).
-- [Polnyij obyyom FUM-STEP-0177](../../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0177-vozvrasjhatj-neobrabotannyiye-soobsjheniya-poljzovatelya.md).
+Iskhodniki i avtonomnyiye scenarii perenesenyi bez izmenenij iz proverennogo kommita `68996460643a50d47cfc6e121b34cc0911639f26`; ssyilki proiskhozhdeniya adaptirovanyi k tekusjhej postavke.
 
-- [Ispoljzovaniye raneye prinyatogo segmenta pri razrabotke priyoma napravlenij FUMA](../../Zhurnal/2026-09-11_01-40-19_MSK_avtomatizirovatj-priyom-napravlenij-FUMA/zapros.md): postavka 0201 sokhranyala proiskhozhdeniye iz `68996460643a50d47cfc6e121b34cc0911639f26`; tekusjhij obyazateljnyij dopusk prinyat posleduyusjhej postavkoj 0177.
+- [Iskhodnyiye komandyi i otchyot tekusjhego segmenta](../../Zhurnal/2026-09-11_01-40-19_MSK_avtomatizirovatj-priyom-napravlenij-FUMA/zapros.md).
+- [Polnyij obyyom FUM-STEP-0177](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0177-vozvrasjhatj-neobrabotannyiye-soobsjheniya-poljzovatelya.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 11:59:08 MSK -->
-<!-- content-sha256: sha256:305b0533c54daee83600caf158d56b26385ba059abd7b834307a62b17e00655b -->
+<!-- last-content-edit: 2026-09-11 02:07:47 MSK -->
+<!-- content-sha256: sha256:ebd11ba904b219ce8f4564ad5b7cdfd729d2a461c293ab769c4953539da02cf0 -->
 <!-- FUM-MD-RECENCY:END -->

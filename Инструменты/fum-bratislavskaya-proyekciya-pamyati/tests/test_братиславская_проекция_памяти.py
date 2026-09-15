@@ -250,6 +250,10 @@ class ПроверкаКонтрактаБратиславскойПроекци
                         "ЛИЦЕНЗИЯ",
                         "Приложения/FUMA/macOS/.gitignore",
                         "Инструменты/fum-reyestr-planirovaniya/scripts/адаптер-codex.js",
+                        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/адаптер_ответа.cjs",
+                        "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_адаптер_ответа.cjs",
+                        "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_смешанный_профиль.cjs",
+                        "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль-смешанных-ответов.cjs",
                     ],
                     "действие": "сохранить_байты",
                 },
@@ -298,6 +302,7 @@ class ПроверкаКонтрактаБратиславскойПроекци
                 ".plist",
                 ".entitlements",
                 ".js",
+                ".cjs",
             ],
             "пустые_каталоги": "не_включаются_в_инвентарь_репозитория",
         }

@@ -2,7 +2,6 @@
 import argparse
 import hashlib
 import json
-import os
 import platform
 import resource
 import statistics
@@ -33,7 +32,7 @@ def измерить(повторов, выход, без_кэша_границ=
         корень = временный / "проект"
         корень.mkdir()
         def гит(*аргументы):
-            subprocess.run(["git", "-c", f"core.hooksPath={os.devnull}", "-c", "user.name=Открытая фикстура", "-c", "user.email=fixture@example.invalid", *аргументы], cwd=корень, check=True, capture_output=True)
+            subprocess.run(["git", "-c", "core.hooksPath=/dev/null", "-c", "user.name=Открытая фикстура", "-c", "user.email=fixture@example.invalid", *аргументы], cwd=корень, check=True, capture_output=True)
         гит("init", "-q")
         (корень / "Журнал/пример").mkdir(parents=True)
         запрос = "Журнал/пример/запрос.md"

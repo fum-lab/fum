@@ -2,7 +2,7 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-11 08:23:55 MSK - Kvalificirovatj dopisj dlya perekhvata](../2026-09-11_08-23-55_MSK_kvalificirovatj-dopisj-dlya-perekhvata/zapros.md)
+- Predyidusjhij zapros: [2026-09-11 08:21:44 MSK - Prinyatj napravleniye byitovoj tekhniki](../2026-09-11_08-21-44_MSK_prinyatj-napravleniye-byitovoj-tekhniki/zapros.md)
 - Sleduyusjhij zapros: [2026-09-11 08:49:30 MSK - Prinyatj perekodirovaniye DNK v belki](../2026-09-11_08-49-30_MSK_prinyatj-perekodirovaniye-DNK-v-belki/zapros.md)
 
 ## Tekst zaprosa
@@ -62,6 +62,6 @@ Komanda zadayot predmetnoye tolkovaniye Git-vetki kak napravleniya razvitiya. Ob
 - [indeks svezhesti](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 11:59:08 MSK -->
-<!-- content-sha256: sha256:4e6c0ebbd0afe29faf47d4edf99424ae6f2a0e7a67cb8df9e842aef1a9e6c8d7 -->
+<!-- last-content-edit: 2026-09-11 08:58:13 MSK -->
+<!-- content-sha256: sha256:56b5cb7b0efec62403e9fbe53aa0332fb3616ef047dd3f03fa81020a2aa9d2c2 -->
 <!-- FUM-MD-RECENCY:END -->

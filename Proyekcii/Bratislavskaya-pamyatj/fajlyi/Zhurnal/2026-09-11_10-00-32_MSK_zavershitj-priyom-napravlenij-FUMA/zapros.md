@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-11 09:40:24 MSK - Sokhranitj i obrabotatj vopros o progresse](../2026-09-11_09-40-24_MSK_sokhranitj-i-obrabotatj-vopros-o-progresse/zapros.md)
-- Sleduyusjhij zapros: [2026-09-11 10:20:32 MSK - Sokhranitj postanovku integracii i nablyudeniya](../2026-09-11_10-20-32_MSK_sokhranitj-postanovku-integracii-i-nablyudeniya/zapros.md)
+- Predyidusjhij zapros: [2026-09-11 09:36:55 MSK - Sokhranitj ostavshuyusya diagnostiku priyoma](../2026-09-11_09-36-55_MSK_sokhranitj-ostavshuyusya-diagnostiku-priyoma/zapros.md)
+- Sleduyusjhij zapros: [2026-09-11 13:39:59 MSK - Prinyatj napravleniye finansirovaniya FUM](../2026-09-11_13-39-59_MSK_prinyatj-napravleniye-finansirovaniya-FUM/zapros.md)
 
 ## Tekst zaprosa
 
@@ -42,6 +42,6 @@ Adresnaya sborka i proverka reyestra, zatem odin standartnyij dokumentacionnyij 
 - Udalyonnyij fajl: `Планирование/карточки-шагов/🟡-FUM-STEP-0201-автоматизировать-приём-направлений-FUMA.md`.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 11:59:08 MSK -->
-<!-- content-sha256: sha256:59272aa7a25f37781039806893846fe9c2da581004d8547b77b25de5a056e955 -->
+<!-- last-content-edit: 2026-09-11 14:14:40 MSK -->
+<!-- content-sha256: sha256:fbaa3bb4989044663d41988d36cff794e7f42b55481d61fb91dbfb6ea9d921b2 -->
 <!-- FUM-MD-RECENCY:END -->

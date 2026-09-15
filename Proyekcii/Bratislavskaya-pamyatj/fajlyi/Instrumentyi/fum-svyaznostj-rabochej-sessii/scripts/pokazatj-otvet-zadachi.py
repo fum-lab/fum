@@ -1,0 +1,36 @@
+"""Выдать срез явно сохранённого нативного ответа по полному SHA."""
+import argparse
+import sys
+from pathlib import Path
+
+from компактный_ответ_задачи import представить_ответ
+from компактный_остаток import закодировать, требовать
+
+
+def выполнить():
+    разбор = argparse.ArgumentParser(description=__doc__)
+    разбор.add_argument("--снимок", type=Path, required=True)
+    разбор.add_argument("--sha256", required=True)
+    разбор.add_argument("--задача", required=True)
+    разбор.add_argument("--максимум-байтов", type=int, default=16000)
+    разбор.add_argument("--путь-в-результате", action="store_true")
+    параметры = разбор.parse_args()
+    try:
+        with параметры.снимок.open("rb") as поток:
+            данные = поток.read(128 * 1024 * 1024 + 1)
+        результат = представить_ответ(данные, параметры.sha256, параметры.задача,
+            максимум_байтов=параметры.максимум_байтов)
+        if параметры.путь_в_результате:
+            результат["полный_снимок"]["путь"] = str(параметры.снимок.absolute())
+        выход = закодировать(результат)
+        требовать(len(выход) <= параметры.максимум_байтов, "Срез с адресом превышает бюджет")
+        sys.stdout.buffer.write(выход)
+        return 0
+    except (OSError, ValueError) as ошибка:
+        print("Не удалось представить ответ задачи: " + (str(ошибка) if isinstance(ошибка, ValueError)
+            else "файл недоступен"), file=sys.stderr)
+        return 2
+
+
+if __name__ == "__main__":
+    sys.exit(выполнить())

@@ -77,10 +77,6 @@ Kanonicheskij otchyot svyazyivayet kazhdyij vyivod s identifikatorami vkhodnyikh
 
 Probnik ne zapisyivayet poljzovateljskiye fajlyi, ne obrasjhayetsya k seti, ne zapuskayet vneshnij kod i ne sobirayet hostname, poljzovateljskiye katalogi ili drugiye mashinno-lokaljnyiye identifikatoryi. Vyivod yavlyayetsya determinirovannyim JSON-otchyotom, prigodnyim dlya tochnogo sravneniya v avtonomnyikh testakh.
 
-## Otdeljnoye konechnoye ispolneniye
-
-[Kontrakt konechnogo ispolneniya](konechnoye-ispolneniye.md) opisyivayet otdeljnyij tipizirovannyij vkhod, zakryityiye opredeleniya, obsjhij ispolnitelj, strogij UTF-8 → Unicode-skalyaryi → UTF-32LE/BE, predelyi, nablyudeniya i vosproizvodimyij profilj. Prezhniye fiksturyi vyizyivayut tot zhe ispolnitelj cherez proverochnyij adapter.
-
 ## Kak zapustitj
 
 Bez argumentov tochka vkhoda vyipolnyayet vesj bezopasnyij nabor determinirovannyikh fikstur:
@@ -131,13 +127,11 @@ Prototip podtverzhdayet toljko mekhaniku neboljshogo konechnogo nabora vruchnuyu
 
 Zapisannyij LLM-adapter ne ispolnyayet modelj, ne izmeryayet yeyo variativnostj i ne podtverzhdayet kachestvo zhivyikh predlozhenij. Scenarii sinkhronizacii rabotayut posledovateljno v odnom processe i ne dokazyivayut raspredelyonnuyu soglasovannostj, konkurentnostj, razgranicheniye dostupa ili ustojchivostj k nedoverennomu uzlu. Vnutrenniye poduzlyi predstavlenyi tem zhe lokaljnyim protokolom, no prototip ne utverzhdayet ikh otdeljnoye soznaniye, samostoyateljnyij runtime ili gotovyij [agentskij cikl](../../Glossarij/agentskij-cikl.md).
 
-Svyazj s yazyikom avtomatizacij vklyuchayet prezhnyuyu ispolnyayemuyu proyekciyu i konechnyiye opredeleniya nad zakryityim naborom obsjhikh operatorov. Ona ne yavlyayetsya gotovoj grammatikoj yazyika, kompilyatorom ili razresheniyem na vneshniye effektyi. Vse chislennyiye metriki i porogi prinadlezhat proverochnoj fiksture i ne schitayutsya universaljnyimi parametrami FUM.
+Svyazj s yazyikom avtomatizacij ogranichena odnoj zaraneye zadannoj ispolnyayemoj proyekciyej operatornoj sistemyi. Ona ne yavlyayetsya gotovoj grammatikoj yazyika, kompilyatorom ili razresheniyem na vneshniye effektyi. Vse chislennyiye metriki i porogi prinadlezhat proverochnoj fiksture i ne schitayutsya universaljnyimi parametrami FUM.
 
 Status: ogranichennyij proverochnyij Swift-prototip s avtonomnyimi fiksturami i chestnoj granicej zapisannogo LLM-adaptera.
 
 ## Istochniki trebovanij
-
-- [Realizaciya konechnogo ispolneniya i UTF-32](../../Zhurnal/2026-09-11_07-43-37_MSK_realizovatj-interpretator-i-UTF-32/zapros.md).
 
 - [iskhodnyij zapros 2026-07-31 12:20:47 MSK - Utochnitj vspominaniye i bezvozvratnoye zabyivaniye](../../Zhurnal/2026-07-31_12-20-47_MSK_utochnitj-vspominaniye-i-bezvozvratnoye-zabyivaniye/zapros.md)
 - [iskhodnyij zapros 2026-07-31 11:57:37 MSK - Zakrepitj upravlyayemoye zabyivaniye FUM](../../Zhurnal/2026-07-31_11-57-37_MSK_zakrepitj-upravlyayemoye-zabyivaniye-FUM/zapros.md)
@@ -154,7 +148,11 @@ Status: ogranichennyij proverochnyij Swift-prototip s avtonomnyimi fiksturami i 
 - [Arkhitektura FUM](../../Dokumentaciya/22-arkhitektura-FUM.md)
 - [otkryityij vopros o granicakh yestestvenno-yazyikovoj sinkhronizacii znanij FUM](../../Voprosyi/2026-07-13_20-34-23_MSK_granicyi-yestestvenno-yazyikovoj-sinkhronizacii-znanij-FUM.md)
 
+## Generaciya nativnyikh modelej
+
+Konechnyij ispolnitelj dopolnen shagami `разобрать-структурный-контракт` i `породить-представление`. Oni ispolnyayutsya cherez tot zhe `AutomationExecutor.выполнить`, sokhranyayut sledyi, stoimostj i SHA vkhoda. [Rabochij kontrakt i komandyi](../../Proyektyi/rabochij-kontekst/operatornyiye-modeli-otveta.md) pokazyivayut generaciyu Swift Codable i Python iz odnogo opisaniya. [Proiskhozhdeniye minimaljnogo perenosa i priyomka](../../Zhurnal/2026-09-14_15-54-44_MSK_poroditj-modeli-otveta-operatorami/otchyot.md) otdelyayut istoricheskiye svideteljstva ot tekusjhikh 45 testov.
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 08:27:58 MSK -->
-<!-- content-sha256: sha256:6276f20c5000be6490640e62adc72ea58d91a6b457966e2d90bbae1344f27f69 -->
+<!-- last-content-edit: 2026-09-14 17:04:07 MSK -->
+<!-- content-sha256: sha256:cb22b492096689e22b404e25f3b8ee68883963a938bc8dc02332ecfb91b5b355 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -2,25 +2,27 @@
 
 Avtomatizaciya pokazyivayet, kakiye soobsjheniya yesjhyo trebuyut otveta ili peresmotra. Ona uchityivayet vesj dialog, poetomu staryij propusk ne ischezayet posle novogo soobsjheniya ili szhatiya konteksta. Snachala agent rassmatrivayet original vmeste s utochneniyami, sokhranyayet otvet i osnovaniye v Zhurnale, zatem podtverzhdayet obrabotku.
 
-Komandnyij vkhod obyazatelen pri vosstanovlenii i sverke dogovoryonnostej; [sostavnoj dopusk](SKILL.md#resheniye-o-prodolzhenii-zadachi) vyizyivayet yego pered zaversheniyem bez zapisi. Pustoj ostatok soobsjhenij ne oznachayet vyipolneniya vsekh poruchenij: reyestr obyazateljstv proveryayetsya otdeljno.
+Eto vtoroj segment FUM-STEP-0177. Komandnyij vkhod rabotayet; obyazateljnoye vklyucheniye v proyektnyij vkhod i dopusk yesjhyo gotovitsya. Pustoj ostatok soobsjhenij ne oznachayet vyipolneniya vsekh poruchenij: reyestr obyazateljstv proveryayetsya otdeljno.
 
 ## Poluchitj ostatok
 
-Pri vosstanovlenii i sverke iz svoyego rabochego dereva zadajte iskhodnyij JSONL kornevoj zadachi i yeyo UUID:
+Iz svoyego rabochego dereva zadajte iskhodnyij JSONL tekusjhej zadachi, yeyo UUID i chastnyij kyesh vne lyubogo Git checkout:
 
 ```text
-python3 -B Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обработать-сообщения-задачи.py --корень-репозитория . --исходник <JSONL> --codex-thread-id <UUID> остаток --без-записи
+python3 -B Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обработать-сообщения-задачи.py --корень-репозитория . --исходник <JSONL> --codex-thread-id <UUID> --кэш <частный-кэш> остаток
 ```
 
 Pole `сообщения` soderzhit vse originalyi po poryadku. Pole `остаток` ssyilayetsya na trebuyusjhiye razbora ekzemplyaryi i obyyasnyayet prichinu: net obrabotki, utracheno svideteljstvo, poyavilsya pozdnij vvod ili aktualjnostj neyasna. Pozdniye soobsjheniya vyidayutsya i togda, kogda sami uzhe obrabotanyi. Polnyij indeks khranitsya v otvete odin raz; zapisi ostatka ssyilayutsya na yego identifikatoryi.
 
 Kod 3 oznachayet, chto ostalsya razbor ili nepolnyij vvod. Kod 2 oznachayet oshibku istochnika, istorii ili yeyo proverki: pustoj uspeshnyij rezuljtat ne vyidayotsya. Kod 0 podtverzhdayet toljko aktualjnyij uchyot soobsjhenij. Ni odin kod etoj komandyi samostoyateljno ne razreshayet zaversheniye zadachi.
 
-Rezhim `остаток --без-записи` obyazatelen dlya vosstanovleniya i sverki. Putj `--кэш` neobyazatelen; susjhestvuyusjhij kyesh mozhno ispoljzovatj bez izmeneniya. Komanda ne sozdayot kyeshi, katalogi, fajlyi blokirovok i zapisi obrabotki. Zapusk s `python3 -B` isklyuchayet sozdaniye bajtkoda interpretatorom. Otdeljnaya komanda `сохранить` ostayotsya pishusjhej.
+Dlya proverki v rezhime chteniya dobavjte `--без-записи` posle `остаток`. Putj `--кэш` togda neobyazatelen; susjhestvuyusjhij kyesh mozhno ispoljzovatj bez izmeneniya. Komanda ne sozdayot kyeshi, katalogi, fajlyi blokirovok i zapisi obrabotki. Zapusk s `python3 -B` isklyuchayet sozdaniye bajtkoda interpretatorom. Otdeljnaya komanda `сохранить` ostayotsya pishusjhej.
 
 Yesli vo vremya zaklyuchiteljnogo chteniya zamechenyi yesjhyo ne razobrannyiye bajtyi, `непроверенный_хвост` pokazyivayet ikh kolichestvo, `полнота_источника` i `разбор_сообщений_завершён` ostayutsya lozhnyimi. `граница_заключительной_сверки` pokazyivayet proverennuyu LF-granicu. Eto poleznyij ogranichennyij rezuljtat, trebuyusjhij sleduyusjhego chteniya; novoye podtverzhdeniye obrabotki pri takom khvoste otklonyayetsya.
 
 Otvet soderzhit privatnyij iskhodnyij vvod i ssyilki na vlozheniya. Yego neljzya avtomaticheski perenositj celikom v publichnyij repozitorij. V Zhurnal sokhranyayutsya otdeljno proverennyiye dopustimyiye komandyi i otvetyi; skryityiye rassuzhdeniya ne eksportiruyutsya.
+
+Boljshoj rezuljtat mozhno yavno sokhranitj vne checkout i [chitatj ogranichennyimi stranicami](kompaktnyij-ostatok.md). Predstavleniye sokhranyayet ssyilki na polnyij artefakt i ne zamenyayet obyazateljnyij chitatelj, rassmotreniye vsekh soobsjhenij ili sostavnoj dopusk.
 
 ## Podtverditj obrabotku
 
@@ -58,17 +60,17 @@ Dva chteniya odnogo raschyota ispoljzuyut obsjhij proverennyij indeks toljko v p
 
 Scenarij `scripts/измерить-остаток-сообщений.py --повторов 3 --выход <профиль>` vosproizvodit 70 MiB JSONL so staryim propuskom, povtorom komandyi, pozdnim utochneniyem i odnoj obrabotkoj v Git. Dlya sravneniya togo zhe koda bez kyesha granic dobavjte `--без-кэша-границ`; `--без-записи` izmeryayet otsutstviye diskovogo kyesha na kazhdoj stadii. Profilj vklyuchayet chteniye, istoriyu Git i svideteljstva; podgotovka fiksturyi isklyuchena. V rabochej sessii proverki vyipolnyayutsya cherez otchyotnuyu obyortku.
 
-Dopisyivaniye zhivogo JSONL ne udlinyayet chteniye za vyibrannyij nachaljnyij razmer. Sokhranyonnyiye granicyi proveryayutsya nezavisimo ot novogo khvosta; povrezhdyonnyij staryij prefiks otklonyayetsya. Novyij chelovecheskij vvod, obnaruzhennyij zaklyuchiteljnoj sverkoj, trebuyet povtornogo raschyota. Bezzapisnyij raschyot vklyuchyon v obyazateljnyij sostavnoj dopusk. Eto ne dokazyivayet nativnuyu ustanovku Stop v konkretnom runtime.
+Dopisyivaniye zhivogo JSONL ne udlinyayet chteniye za vyibrannyij nachaljnyij razmer. Sokhranyonnyiye granicyi proveryayutsya nezavisimo ot novogo khvosta; povrezhdyonnyij staryij prefiks otklonyayetsya. Novyij chelovecheskij vvod, obnaruzhennyij zaklyuchiteljnoj sverkoj, trebuyet povtornogo raschyota. Sam bezzapisnyij raschyot ne oznachayet podklyucheniya k obyazateljnomu zavershayusjhemu dopusku: eta integraciya yesjhyo gotovitsya.
 
 ## Istochniki
 
-- [Komandyi, otvetyi i otchyot vtorogo segmenta](../../Zhurnal/2026-09-10_23-24-41_MSK_svyazatj-obrabotku-soobsjhenij-s-istoriyej/zapros.md).
-- [Pervyij segment chteniya JSONL](soobsjheniya-zadachi.md).
-- [Polnyij obyyom FUM-STEP-0177](../../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0177-vozvrasjhatj-neobrabotannyiye-soobsjheniya-poljzovatelya.md).
+Iskhodniki i avtonomnyiye scenarii perenesenyi bez izmenenij iz proverennogo kommita `68996460643a50d47cfc6e121b34cc0911639f26`; ssyilki proiskhozhdeniya adaptirovanyi k tekusjhej postavke.
 
-- [Ispoljzovaniye raneye prinyatogo segmenta pri razrabotke priyoma napravlenij FUMA](../../Zhurnal/2026-09-11_01-40-19_MSK_avtomatizirovatj-priyom-napravlenij-FUMA/zapros.md): postavka 0201 sokhranyala proiskhozhdeniye iz `68996460643a50d47cfc6e121b34cc0911639f26`; tekusjhij obyazateljnyij dopusk prinyat posleduyusjhej postavkoj 0177.
+- [Komandyi, otvetyi i otchyot vtorogo segmenta](../../Zhurnal/2026-09-11_01-40-19_MSK_avtomatizirovatj-priyom-napravlenij-FUMA/zapros.md).
+- [Pervyij segment chteniya JSONL](soobsjheniya-zadachi.md).
+- [Polnyij obyyom FUM-STEP-0177](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0177-vozvrasjhatj-neobrabotannyiye-soobsjheniya-poljzovatelya.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 11:59:08 MSK -->
-<!-- content-sha256: sha256:62d3247d342b949ea5865c5655fa40bfd4c188dd4e0cfdc98784924f84b91ad0 -->
+<!-- last-content-edit: 2026-09-14 14:48:49 MSK -->
+<!-- content-sha256: sha256:b3e1be376a6e5a1fa0d82cb2a6ddfab5725f251847a16e092cd1092a615c3eb1 -->
 <!-- FUM-MD-RECENCY:END -->

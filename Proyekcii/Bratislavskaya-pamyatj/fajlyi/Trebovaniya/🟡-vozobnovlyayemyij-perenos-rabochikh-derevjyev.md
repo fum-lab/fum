@@ -19,15 +19,13 @@ FUM dolzhen podderzhivatj sokhranyayemyij i vozobnovlyayemyij perenos rabochikh 
 
 ## Status i granicyi
 
-Status trebovaniya — `🟡`: pervyij ogranichennyij rezuljtat FUM-STEP-0207 realizovan v [tematicheskom instrumente](../Instrumentyi/fum-perenos-rabochikh-derevjyev/SKILL.md). [Otchyot i vosproizvodimyiye fiksturyi](../Zhurnal/2026-09-11_07-17-34_MSK_realizovatj-perenos-rabochikh-derevjyev/otchyot.md) podtverzhdayut odin linked worktree na odnom tome i rekursivnyiye submodule v macOS arm64. Vozobnovleniye dejstvuyet posle dolgovechnoj ustanovki pervichnogo namereniya; boleye rannij nezavershyonnyij fajl sokhranyayetsya bez peremesjheniya i dayot yavnyij otkaz.
-
-Perenos zhivyikh derevjyev i dopolniteljnyiye platformyi prinimayutsya otdeljnyimi proveryayemyimi srezami. Dlya realjnogo dereva yesjhyo nuzhnyi svezhaya topologiya, podtverzhdyonnyij yedinstvennyij pisatelj, fakticheskij tom, adres naznacheniya, vneshniye privyazki Codex/Obsidian/sborok i proverka otnositeljnyikh payload symlink. Uspeshnaya Git-fikstura ne zakryivayet etot ostatok.
+Status trebovaniya — `🟡`: perenos soglasovan k realizacii. Pervyij ogranichennyij rezuljtat zadayot FUM-STEP-0207: odin linked worktree v predelakh odnogo toma, rekursivnyiye submodule i avtonomnyiye fiksturyi. Perenos zhivyikh derevjyev i dopolniteljnyiye platformyi prinimayutsya otdeljnyimi proveryayemyimi srezami.
 
 ## Istochniki trebovanij
 
 - [Iskhodnaya komanda](../Zhurnal/2026-09-11_05-42-33_MSK_podgotovitj-sleduyusjhiye-napravleniya/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 08:03:10 MSK -->
-<!-- content-sha256: sha256:deb8db58fb5adfbe089b6941e604b86c04581c7e089e2e9c400e34a1dadbd459 -->
+<!-- last-content-edit: 2026-09-11 07:09:21 MSK -->
+<!-- content-sha256: sha256:577fb1f9dd80d9f5b7f1f78afbbe487261fd72dee7437dd7d225480a95672ae3 -->
 <!-- FUM-MD-RECENCY:END -->

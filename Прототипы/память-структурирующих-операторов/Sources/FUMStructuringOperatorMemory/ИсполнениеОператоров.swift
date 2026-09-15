@@ -21,12 +21,14 @@ public enum ЗначениеОператора: Equatable, Encodable, Sendable {
   case текст(String)
   case байты([UInt8])
   case скаляры([UInt32])
+  case структура(СтруктурныйКонтракт)
 
   var вид: String {
     switch self {
     case .текст: return "текст"
     case .байты: return "байты"
     case .скаляры: return "скаляры"
+    case .структура: return "структурный-контракт"
     }
   }
 
@@ -35,6 +37,7 @@ public enum ЗначениеОператора: Equatable, Encodable, Sendable {
     case .текст(let текст): return текст.utf8.count
     case .байты(let байты): return байты.count
     case .скаляры(let скаляры): return скаляры.count * 4
+    case .структура(let контракт): return контракт.данные.count
     }
   }
 
@@ -42,6 +45,7 @@ public enum ЗначениеОператора: Equatable, Encodable, Sendable {
     switch self {
     case .текст(let текст): return Data(текст.utf8)
     case .байты(let байты): return Data(байты)
+    case .структура(let контракт): return контракт.данные
     case .скаляры(let скаляры):
       var данные = Data(count: скаляры.count * 4)
       данные.withUnsafeMutableBytes { (буфер: UnsafeMutableRawBufferPointer) in
@@ -64,6 +68,7 @@ public enum ЗначениеОператора: Equatable, Encodable, Sendable {
     case .текст(let текст): try контейнер.encode(текст, forKey: .значение)
     case .байты(let байты): try контейнер.encode(байты, forKey: .значение)
     case .скаляры(let скаляры): try контейнер.encode(скаляры, forKey: .значение)
+    case .структура(let контракт): try контейнер.encode(контракт.узел, forKey: .значение)
     }
   }
 }
@@ -194,6 +199,21 @@ extension AutomationExecutor {
         let хэшВхода = sha256Digest(текущий.исходныеБайты)
         счётчик.времяТрассы += DispatchTime.now().uptimeNanoseconds - началоХэша
         switch шаг.действие {
+        case .разобратьСтруктурныйКонтракт:
+          guard case .текст(let текст) = текущий else {
+            throw ОшибкаИсполнения(
+              "тип-входа", "Разбор структурного контракта принимает текст JSON")
+          }
+          let контракт = try СтруктурныйКонтракт(Data(текст.utf8))
+          for _ in 0..<контракт.стоимость { try счётчик.операция() }
+          текущий = .структура(контракт)
+        case .породитьПредставление(let язык, let профиль):
+          guard case .структура(let контракт) = текущий else {
+            throw ОшибкаИсполнения(
+              "тип-входа", "Генерация принимает проверенный структурный контракт")
+          }
+          for _ in 0..<контракт.стоимость { try счётчик.операция() }
+          текущий = .текст(try контракт.породить(язык: язык, профиль: профиль))
         case .повторитьПравила(let имена):
           guard case .байты(let байты) = текущий else {
             throw ОшибкаИсполнения("тип-входа", "Повтор правил принимает исходные байты")
@@ -389,7 +409,7 @@ extension AutomationExecutor {
     case .префикс(let префикс):
       try добавить(префикс)
       try добавить(текст)
-    case .повторитьПравила, .упаковатьСлова:
+    case .повторитьПравила, .упаковатьСлова, .разобратьСтруктурныйКонтракт, .породитьПредставление:
       throw ОшибкаИсполнения("тип-входа", "Нет текстового оператора")
     }
     return результат

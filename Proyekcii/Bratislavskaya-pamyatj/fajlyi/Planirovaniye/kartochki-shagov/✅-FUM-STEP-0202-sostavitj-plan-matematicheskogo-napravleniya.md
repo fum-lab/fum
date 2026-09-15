@@ -28,17 +28,17 @@ Plan realizuyet [trebovaniye proveryayemogo matematicheskogo napravleniya](../..
 
 ## Rezuljtat
 
-Dokumentyi sokhranenyi kontroljnoj tochkoj `1a51647b7339aad3760ed09857063ccae791659a`. Itogovyij status svyazan s [priyomkoj novogo etapa](../../Zhurnal/2026-09-11_06-05-48_MSK_prinyatj-plan-matematicheskogo-napravleniya/otchyot.md) posle perenosa ogranichennogo ispravleniya proyekcii; kontroljnaya tochka sama po sebe ne prinimalasj za zaversheniye.
+Dokumentyi sokhranenyi kontroljnoj tochkoj `1a51647b7339aad3760ed09857063ccae791659a`. Itogovyij status svyazan s [priyomkoj novogo etapa](https://github.com/fum-lab/fum/blob/b762bd0cb77fdbcc418141a1f33800a7bdb630a6/Журнал/2026-09-11_06-05-48_MSK_принять-план-математического-направления/отчёт.md) posle perenosa ogranichennogo ispravleniya proyekcii; kontroljnaya tochka sama po sebe ne prinimalasj za zaversheniye.
 
 Sozdana [karta matematicheskogo napravleniya](../napravleniya-proyektirovaniya-i-razvitiya/09-matematika.md) i svyazana s indeksom. Vosemj strok razlichayut opredeleniya, trebovaniya, gipotezyi, opisannyiye svideteljstva i neizvestnoye; yavno oboznachenyi polnoye chteniye tryokh opornyikh dokumentov i granica ostaljnogo korpusa. Sopostavlenyi susjhestvuyusjhiye 0004, 0014, 0015, 0018, 0022 i 0025.
 
-Blizhajshej predlozhena [FUM-STEP-0206](🟡-FUM-STEP-0206-proveritj-usloviya-obratimosti-kompozicii-preobrazovanij.md): matematicheskaya zapiska ob obratimosti kompozicii dvukh konechnyikh determinirovannyikh perekhodov. Obsjhij raspredelitelj vyidal yeyo nomer. [Otkryityiye voprosyi](../../Voprosyi/2026-09-11_05-09-33_MSK_granicyi-matematicheskogo-napravleniya-FUM.md) sokhranyayut vyibor prioriteta i daljnejshej oblasti. Predmetnaya realizaciya ne nachata. Podgotovka i pervonachaljnyij otkaz sokhranenyi v [predyidusjhem otchyote](../../Zhurnal/2026-09-11_05-09-33_MSK_sostavitj-plan-matematicheskogo-napravleniya/otchyot.md).
+Blizhajshej predlozhena [FUM-STEP-0206](🟡-FUM-STEP-0206-proveritj-usloviya-obratimosti-kompozicii-preobrazovanij.md): matematicheskaya zapiska ob obratimosti kompozicii dvukh konechnyikh determinirovannyikh perekhodov. Obsjhij raspredelitelj vyidal yeyo nomer. [Otkryityiye voprosyi](../../Voprosyi/2026-09-11_05-09-33_MSK_granicyi-matematicheskogo-napravleniya-FUM.md) sokhranyayut vyibor prioriteta i daljnejshej oblasti. Predmetnaya realizaciya ne nachata. Podgotovka i pervonachaljnyij otkaz sokhranenyi v [predyidusjhem otchyote](https://github.com/fum-lab/fum/blob/b762bd0cb77fdbcc418141a1f33800a7bdb630a6/Журнал/2026-09-11_05-09-33_MSK_составить-план-математического-направления/отчёт.md).
 
 ## Istochniki
 
 - [Iskhodnaya komanda](../../Zhurnal/2026-09-11_03-32-33_MSK_svyazatj-priyom-s-kommitom-postanovki/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 12:05:42 MSK -->
-<!-- content-sha256: sha256:04ce4ab80eff6e08799059fab4748c2f45622c73bf19b341f8886f72fca7e94f -->
+<!-- last-content-edit: 2026-09-11 07:57:14 MSK -->
+<!-- content-sha256: sha256:c4b0245621d3a389725988ec7b873d1cd3c08e302b81d5fc2a915490a7fdd175 -->
 <!-- FUM-MD-RECENCY:END -->

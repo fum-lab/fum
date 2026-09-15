@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-11 07:17:34 MSK - Realizovatj perenos rabochikh derevjyev](../2026-09-11_07-17-34_MSK_realizovatj-perenos-rabochikh-derevjyev/zapros.md)
-- Sleduyusjhij zapros: [2026-09-11 07:43:37 MSK - Realizovatj interpretator i UTF 32](../2026-09-11_07-43-37_MSK_realizovatj-interpretator-i-UTF-32/zapros.md)
+- Predyidusjhij zapros: [2026-09-11 05:42:33 MSK - Podgotovitj sleduyusjhiye napravleniya](../2026-09-11_05-42-33_MSK_podgotovitj-sleduyusjhiye-napravleniya/zapros.md)
+- Sleduyusjhij zapros: [2026-09-11 07:44:52 MSK - Prinyatj matematiku i rabochij kontekst](../2026-09-11_07-44-52_MSK_prinyatj-matematiku-i-rabochij-kontekst/zapros.md)
 
 ## Tekst zaprosa
 
@@ -85,6 +85,6 @@ Vosemj originalov povtorno prochitanyi shtatnyim chitatelem 0177 bez zapisi iz p
 - [indeks svezhesti Markdown](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 12:20:23 MSK -->
-<!-- content-sha256: sha256:06783a6e1c7416097ec0aeaf7c9ea76448d66355bd0e71fd4d075883b25e9c6a -->
+<!-- last-content-edit: 2026-09-11 07:57:14 MSK -->
+<!-- content-sha256: sha256:d3c44416047f089392f86432a652945a1638080d9488395c7d460b4a8df421de -->
 <!-- FUM-MD-RECENCY:END -->

@@ -1,0 +1,84 @@
+{
+  "записи": [
+    {
+      "end": 47642037,
+      "sha": "d65e7706f894072bf6f9629d183173f450750d2155a0a5780708d0308b33b4ac",
+      "source": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "start": 47640351
+    },
+    {
+      "end": 50349536,
+      "sha": "4b55da47eeea52051739e13ee1432f13e76a219557f2d61353510c73493cb190",
+      "source": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "start": 50347697
+    },
+    {
+      "end": 50385761,
+      "sha": "dc8ccda3fdc479243e812cad54826b6a64a2cc30ca5acd3400b6d73b42a9af29",
+      "source": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "start": 50384465
+    },
+    {
+      "source": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "start": 53388789,
+      "end": 53391741,
+      "sha256": "e1808059be7a8696fe5affc8296d69588c7b79218974150537e7814608b5aad9"
+    },
+    {
+      "source": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "start": 54051204,
+      "end": 54052449,
+      "sha256": "6d601167fa37908b310460cf035bd766053a34a6f0a7096f04cb4425e8318325"
+    },
+    {
+      "source": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "start": 55119116,
+      "end": 55120891,
+      "sha256": "ddf943f1c3cc953f92d816ea61ba9ca4a62b4f015e1b07d2922eb9c9aa31daa8"
+    },
+    {
+      "source": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "start": 56016083,
+      "end": 56017210,
+      "sha256": "49daddc9f932a4315187eb6ebea0996587f49e0aabdf602cde91a89c0f1900d2"
+    },
+    {
+      "source": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "start": 57971686,
+      "end": 57973247,
+      "sha256": "4dc13636a580eda2778979393436ba6f17fda9c01c8914345d196f6daac15c0d"
+    },
+    {
+      "source": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "start": 58323126,
+      "end": 58324519,
+      "sha256": "d36564e92992b8cc5f9b3debe35ccc9315d74e6c5536d8930ecd91a9e7d4b221"
+    },
+    {
+      "source": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "start": 59900144,
+      "end": 59902537,
+      "sha256": "e40e516d55d15d6c3e0f1786e260c5bda38aad61dedc87d05c75e2627993e1c8"
+    },
+    {
+      "source": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "start": 59923818,
+      "end": 59925425,
+      "sha256": "05024d1ac7d1937bf0c91d1618f10f232c806c87de12930ec68d62d4d36f61a7"
+    },
+    {
+      "source": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "start": 60126237,
+      "end": 60128438,
+      "sha256": "8ded3b503695f9ec7ce5cc433119297d2b987eb98c841bbd0d21b730a7ea573a"
+    },
+    {
+      "source": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "start": 62745794,
+      "end": 62747206,
+      "sha256": "9d7c9dc345f9dbf3e09e4be1b96410dbe9cb4bbe632bd237ab892cc034aaefd1"
+    }
+  ],
+  "корневая-задача": "01a0930d-fb6a-7013-b600-5da1a75b79bd",
+  "схема": "fum.происхождение-уточнений.1"
+}

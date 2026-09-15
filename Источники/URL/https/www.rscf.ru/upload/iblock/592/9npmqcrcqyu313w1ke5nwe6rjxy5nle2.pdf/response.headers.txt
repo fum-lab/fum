@@ -1,0 +1,18 @@
+HTTP/1.1 200 OK
+x-tracking-ref: [REDACTED: response trace identifier]
+X-Execution-Time: 135281
+Connection: keep-alive
+Keep-Alive: timeout=3, max=5
+access-control-allow-origin: *
+Server: nginx
+Date: Fri, 11 Sep 2026 12:30:10 GMT
+Content-Type: application/pdf
+Content-Length: 207005
+Last-Modified: Fri, 26 Dec 2025 09:44:50 GMT
+Etag: "694e5912-3289d"
+Expires: Sun, 11 Oct 2026 12:30:10 GMT
+Cache-Control: max-age=2592000
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Accept-Ranges: bytes
+

@@ -10,289 +10,289 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-SOURCE_ROOT = Path(__file__).resolve().parents[3]
-ROOT = Path(os.environ.get("FUM_CHECKED_CODE_ROOT", str(SOURCE_ROOT)))
-spec = importlib.util.spec_from_file_location("promotion", ROOT / "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/продвинуть_принятое_слияние.py")
-module = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(module)
+КОРЕНЬ_ИСХОДНИКОВ = Path(__file__).resolve().parents[3]
+КОРЕНЬ_РЕАЛИЗАЦИИ = Path(os.environ.get("FUM_CHECKED_CODE_ROOT", str(КОРЕНЬ_ИСХОДНИКОВ)))
+спецификация = importlib.util.spec_from_file_location("promotion", КОРЕНЬ_РЕАЛИЗАЦИИ / "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/продвинуть_принятое_слияние.py")
+модуль = importlib.util.module_from_spec(спецификация)
+спецификация.loader.exec_module(модуль)
 
 
 class Продвижение(unittest.TestCase):
-    def setUp(self):
-        self.tmp = tempfile.TemporaryDirectory(prefix="fum-promotion-test-")
-        self.addCleanup(self.tmp.cleanup)
-        self.base = Path(self.tmp.name)
-        self.root = self.base / "repo"
-        self.root.mkdir()
-        self.g("init", "-b", "master")
-        self.g("config", "user.name", "FUM Test")
-        self.g("config", "user.email", "test@example.invalid")
-        self.g("config", "commit.gpgsign", "false")
-        (self.root / ".gitignore").write_text("*.tmp\n.DS_Store\n")
-        (self.root / "a.txt").write_text("base\n")
-        self.g("add", ".")
-        self.g("commit", "-m", "base")
-        self.base_commit = self.head()
-        self.g("checkout", "-b", "leading")
-        (self.root / "b.txt").write_text("leading\n")
-        self.g("add", ".")
-        self.g("commit", "-m", "leading")
-        self.L = self.head()
-        self.g("checkout", "master")
-        (self.root / "a.txt").write_text("master\n")
-        self.g("add", ".")
-        self.g("commit", "-m", "master")
-        self.M = self.head()
-        self.g("checkout", "leading")
-        self.g("merge", "--no-ff", "master", "-m", "candidate")
-        self.C = self.head()
-        self.g("checkout", "master")
-        self.transaction_root = self.base / "candidate"
-        self.g("worktree", "add", "--detach", str(self.transaction_root), self.C)
-        self.intent = self.base / "intent.json"
+    def setUp(сам):
+        сам.временный_каталог = tempfile.TemporaryDirectory(prefix="fum-promotion-test-")
+        сам.addCleanup(сам.временный_каталог.cleanup)
+        сам.базовый_каталог = Path(сам.временный_каталог.name)
+        сам.корень = сам.базовый_каталог / "repo"
+        сам.корень.mkdir()
+        сам.выполнить_команду_гита("init", "-b", "master")
+        сам.выполнить_команду_гита("config", "user.name", "FUM Test")
+        сам.выполнить_команду_гита("config", "user.email", "test@example.invalid")
+        сам.выполнить_команду_гита("config", "commit.gpgsign", "false")
+        (сам.корень / ".gitignore").write_text("*.tmp\n.DS_Store\n")
+        (сам.корень / "a.txt").write_text("base\n")
+        сам.выполнить_команду_гита("add", ".")
+        сам.выполнить_команду_гита("commit", "-m", "base")
+        сам.базовый_коммит = сам.вершина()
+        сам.выполнить_команду_гита("checkout", "-b", "leading")
+        (сам.корень / "b.txt").write_text("leading\n")
+        сам.выполнить_команду_гита("add", ".")
+        сам.выполнить_команду_гита("commit", "-m", "leading")
+        сам.ведущая_вершина = сам.вершина()
+        сам.выполнить_команду_гита("checkout", "master")
+        (сам.корень / "a.txt").write_text("master\n")
+        сам.выполнить_команду_гита("add", ".")
+        сам.выполнить_команду_гита("commit", "-m", "master")
+        сам.исходная_вершина = сам.вершина()
+        сам.выполнить_команду_гита("checkout", "leading")
+        сам.выполнить_команду_гита("merge", "--no-ff", "master", "-m", "candidate")
+        сам.принятый_кандидат = сам.вершина()
+        сам.выполнить_команду_гита("checkout", "master")
+        сам.корень_транзакции = сам.базовый_каталог / "candidate"
+        сам.выполнить_команду_гита("worktree", "add", "--detach", str(сам.корень_транзакции), сам.принятый_кандидат)
+        сам.путь_намерения = сам.базовый_каталог / "intent.json"
 
-    def g(self, *args, data=None):
-        if data is None:
-            return module.git(self.root, *args)
-        return subprocess.run(module.команда_git() + list(args), cwd=self.root,
-                              env=module.среда(), input=data, capture_output=True,
+    def выполнить_команду_гита(сам, *аргументы, данные=None):
+        if данные is None:
+            return модуль.выполнить_гит(сам.корень, *аргументы)
+        return subprocess.run(модуль.команда_гита() + list(аргументы), cwd=сам.корень,
+                              env=модуль.среда(), input=данные, capture_output=True,
                               check=True).stdout
 
-    def head(self):
-        return module.oid(self.root, "HEAD")
+    def вершина(сам):
+        return модуль.идентификатор_объекта(сам.корень, "HEAD")
 
-    def run_transition(self, observer=lambda phase: None):
+    def выполнить_переход(сам, обратный_вызов=lambda фаза: None):
         try:
-            return module.перейти(self.root, self.M, self.L, self.C, self.intent, self.transaction_root,
-                                 наблюдатель=observer)
-        except module.Отказ as error:
-            if self.intent.exists():
-                error.add_note(json.loads(self.intent.read_text()).get("git_stderr", ""))
+            return модуль.перейти(сам.корень, сам.исходная_вершина, сам.ведущая_вершина, сам.принятый_кандидат, сам.путь_намерения, сам.корень_транзакции,
+                                 наблюдатель=обратный_вызов)
+        except модуль.Отказ as ошибка:
+            if сам.путь_намерения.exists():
+                ошибка.add_note(json.loads(сам.путь_намерения.read_text()).get("git_stderr", ""))
             raise
 
-    def test_success_and_read_only_repeat(self):
-        (self.root / ".DS_Store").write_bytes(b"local")
-        self.assertEqual(self.run_transition()["состояние"], "завершено")
-        before = self.intent.read_bytes()
-        self.assertEqual(self.head(), self.C)
-        module.проверить_копию(self.root, self.C)
-        self.assertEqual(self.run_transition()["состояние"], "уже_достигнуто")
-        self.assertEqual(self.intent.read_bytes(), before)
-        self.assertEqual((self.root / ".DS_Store").read_bytes(), b"local")
+    def test_успех_и_повтор_без_записи(сам):
+        (сам.корень / ".DS_Store").write_bytes(b"local")
+        сам.assertEqual(сам.выполнить_переход()["состояние"], "завершено")
+        прежние_байты = сам.путь_намерения.read_bytes()
+        сам.assertEqual(сам.вершина(), сам.принятый_кандидат)
+        модуль.проверить_копию(сам.корень, сам.принятый_кандидат)
+        сам.assertEqual(сам.выполнить_переход()["состояние"], "уже_достигнуто")
+        сам.assertEqual(сам.путь_намерения.read_bytes(), прежние_байты)
+        сам.assertEqual((сам.корень / ".DS_Store").read_bytes(), b"local")
 
-    def test_tracked_and_untracked_tail_prevent_writes(self):
-        (self.root / "a.txt").write_text("human")
-        with self.assertRaises(module.Отказ):
-            self.run_transition()
-        self.assertFalse(self.intent.exists())
-        self.assertEqual(self.head(), self.M)
-        self.assertEqual((self.root / "a.txt").read_text(), "human")
-        (self.root / "a.txt").write_text("master\n")
-        (self.root / "human.txt").write_text("new")
-        with self.assertRaises(module.Отказ):
-            self.run_transition()
-        self.assertFalse(self.intent.exists())
+    def test_отслеживаемый_и_неотслеживаемый_хвост_запрещают_запись(сам):
+        (сам.корень / "a.txt").write_text("human")
+        with сам.assertRaises(модуль.Отказ):
+            сам.выполнить_переход()
+        сам.assertFalse(сам.путь_намерения.exists())
+        сам.assertEqual(сам.вершина(), сам.исходная_вершина)
+        сам.assertEqual((сам.корень / "a.txt").read_text(), "human")
+        (сам.корень / "a.txt").write_text("master\n")
+        (сам.корень / "human.txt").write_text("new")
+        with сам.assertRaises(модуль.Отказ):
+            сам.выполнить_переход()
+        сам.assertFalse(сам.путь_намерения.exists())
 
-    def test_hidden_index_flags(self):
-        for flag, inverse in [("--assume-unchanged", "--no-assume-unchanged"),
+    def test_скрытые_флаги_индекса(сам):
+        for флаг, обратный_флаг in [("--assume-unchanged", "--no-assume-unchanged"),
                               ("--skip-worktree", "--no-skip-worktree")]:
-            self.g("update-index", flag, "a.txt")
-            with self.assertRaises(module.Отказ):
-                self.run_transition()
-            self.g("update-index", inverse, "a.txt")
-        self.assertEqual(self.head(), self.M)
+            сам.выполнить_команду_гита("update-index", флаг, "a.txt")
+            with сам.assertRaises(модуль.Отказ):
+                сам.выполнить_переход()
+            сам.выполнить_команду_гита("update-index", обратный_флаг, "a.txt")
+        сам.assertEqual(сам.вершина(), сам.исходная_вершина)
 
-    def test_changed_master_before_transaction(self):
-        def race(phase):
-            if phase == "до_транзакции":
-                self.g("update-ref", "refs/heads/master", self.base_commit, self.M)
-        with self.assertRaises(module.Отказ):
-            self.run_transition(race)
-        self.assertEqual(self.head(), self.base_commit)
-        self.assertEqual((self.root / "a.txt").read_text(), "master\n")
+    def test_смена_основной_ветки_до_транзакции(сам):
+        def внести_гонку(фаза):
+            if фаза == "до_транзакции":
+                сам.выполнить_команду_гита("update-ref", "refs/heads/master", сам.базовый_коммит, сам.исходная_вершина)
+        with сам.assertRaises(модуль.Отказ):
+            сам.выполнить_переход(внести_гонку)
+        сам.assertEqual(сам.вершина(), сам.базовый_коммит)
+        сам.assertEqual((сам.корень / "a.txt").read_text(), "master\n")
 
-    def test_changed_symbolic_head_before_transaction(self):
-        self.g("branch", "other", self.M)
-        def race(phase):
-            if phase == "до_транзакции":
-                self.g("symbolic-ref", "HEAD", "refs/heads/other")
-        with self.assertRaises(module.Отказ):
-            self.run_transition(race)
-        self.assertEqual(self.g("symbolic-ref", "HEAD").strip(), b"refs/heads/other")
-        self.assertEqual(module.oid(self.root, "master"), self.M)
+    def test_смена_символической_вершины_до_транзакции(сам):
+        сам.выполнить_команду_гита("branch", "other", сам.исходная_вершина)
+        def внести_гонку(фаза):
+            if фаза == "до_транзакции":
+                сам.выполнить_команду_гита("symbolic-ref", "HEAD", "refs/heads/other")
+        with сам.assertRaises(модуль.Отказ):
+            сам.выполнить_переход(внести_гонку)
+        сам.assertEqual(сам.выполнить_команду_гита("symbolic-ref", "HEAD").strip(), b"refs/heads/other")
+        сам.assertEqual(модуль.идентификатор_объекта(сам.корень, "master"), сам.исходная_вершина)
 
-    def test_changed_target_after_preflight_is_not_overwritten(self):
-        def race(phase):
-            if phase == "до_read_tree":
-                (self.root / "b.txt").write_text("human")
-        with self.assertRaises(module.Отказ):
-            self.run_transition(race)
-        self.assertEqual(self.head(), self.M)
-        self.assertEqual((self.root / "b.txt").read_text(), "human")
+    def test_изменённая_после_предпроверки_цель_не_перезаписывается(сам):
+        def внести_гонку(фаза):
+            if фаза == "до_read_tree":
+                (сам.корень / "b.txt").write_text("human")
+        with сам.assertRaises(модуль.Отказ):
+            сам.выполнить_переход(внести_гонку)
+        сам.assertEqual(сам.вершина(), сам.исходная_вершина)
+        сам.assertEqual((сам.корень / "b.txt").read_text(), "human")
 
-    def test_partial_checkout_failure_keeps_ref_and_data(self):
-        original = module.git
-        def failing(root, *args):
-            if args[:1] == ("read-tree",):
-                (root / "a.txt").write_text("partial")
-                raise module.Отказ("injected read-tree failure")
-            return original(root, *args)
-        with patch.object(module, "git", failing), self.assertRaises(module.Отказ):
-            self.run_transition()
-        self.assertEqual(self.head(), self.M)
-        self.assertEqual((self.root / "a.txt").read_text(), "partial")
-        self.assertEqual(json.loads(self.intent.read_text())["состояние"], "требуется_разбор")
+    def test_частичный_отказ_обновления_дерева_сохраняет_ссылку_и_данные(сам):
+        исходная_функция = модуль.выполнить_гит
+        def вызов_с_отказом(корень, *аргументы):
+            if аргументы[:1] == ("read-tree",):
+                (корень / "a.txt").write_text("partial")
+                raise модуль.Отказ("injected read-tree failure")
+            return исходная_функция(корень, *аргументы)
+        with patch.object(модуль, "выполнить_гит", вызов_с_отказом), сам.assertRaises(модуль.Отказ):
+            сам.выполнить_переход()
+        сам.assertEqual(сам.вершина(), сам.исходная_вершина)
+        сам.assertEqual((сам.корень / "a.txt").read_text(), "partial")
+        сам.assertEqual(json.loads(сам.путь_намерения.read_text())["состояние"], "требуется_разбор")
 
-    def test_new_tail_after_commit_keeps_committed_ref(self):
-        def race(phase):
-            if phase == "после_commit":
-                (self.root / "a.txt").write_text("human after commit")
-        with self.assertRaises(module.Отказ):
-            self.run_transition(race)
-        self.assertEqual(self.head(), self.C)
-        self.assertEqual((self.root / "a.txt").read_text(), "human after commit")
+    def test_новый_хвост_после_фиксации_сохраняет_зафиксированную_ссылку(сам):
+        def внести_гонку(фаза):
+            if фаза == "после_commit":
+                (сам.корень / "a.txt").write_text("human after commit")
+        with сам.assertRaises(модуль.Отказ):
+            сам.выполнить_переход(внести_гонку)
+        сам.assertEqual(сам.вершина(), сам.принятый_кандидат)
+        сам.assertEqual((сам.корень / "a.txt").read_text(), "human after commit")
 
-    def test_uncertain_committed_transaction_is_not_rolled_back(self):
-        original = module.ответ
-        def uncertain(process, phase):
-            original(process, phase)
-            if phase == b"commit":
+    def test_неопределённая_зафиксированная_транзакция_не_откатывается(сам):
+        исходная_функция = модуль.ответ
+        def неопределённый_ответ(процесс, фаза):
+            исходная_функция(процесс, фаза)
+            if фаза == b"commit":
                 raise TimeoutError("injected lost acknowledgement")
-        with patch.object(module, "ответ", uncertain), self.assertRaises(TimeoutError):
-            self.run_transition()
-        self.assertEqual(self.head(), self.C)
-        module.проверить_копию(self.root, self.C)
-        self.assertEqual(self.run_transition()["состояние"], "уже_достигнуто")
+        with patch.object(модуль, "ответ", неопределённый_ответ), сам.assertRaises(TimeoutError):
+            сам.выполнить_переход()
+        сам.assertEqual(сам.вершина(), сам.принятый_кандидат)
+        модуль.проверить_копию(сам.корень, сам.принятый_кандидат)
+        сам.assertEqual(сам.выполнить_переход()["состояние"], "уже_достигнуто")
 
-    def test_target_attributes_refused(self):
-        original = module.дерево
-        def changed(root, ref):
-            d = original(root, ref)
-            if ref == self.C:
-                d[".gitattributes"] = ("100644", "0" * 40)
-            return d
-        with patch.object(module, "дерево", changed), self.assertRaises(module.Отказ):
-            self.run_transition()
-        self.assertEqual(self.head(), self.M)
+    def test_атрибуты_цели_отклоняются(сам):
+        исходная_функция = модуль.дерево
+        def подменить_дерево(корень, ссылка):
+            изменённое_дерево = исходная_функция(корень, ссылка)
+            if ссылка == сам.принятый_кандидат:
+                изменённое_дерево[".gitattributes"] = ("100644", "0" * 40)
+            return изменённое_дерево
+        with patch.object(модуль, "дерево", подменить_дерево), сам.assertRaises(модуль.Отказ):
+            сам.выполнить_переход()
+        сам.assertEqual(сам.вершина(), сам.исходная_вершина)
 
-    def test_casefolded_ignored_collision(self):
-        (self.root / ".git/info/exclude").write_text("B.TXT\n")
-        (self.root / "B.TXT").write_text("human ignored")
-        with self.assertRaises(module.Отказ):
-            self.run_transition()
-        self.assertFalse(self.intent.exists())
-        self.assertEqual((self.root / "B.TXT").read_text(), "human ignored")
+    def test_регистровая_коллизия_игнорируемого_пути(сам):
+        (сам.корень / ".git/info/exclude").write_text("B.TXT\n")
+        (сам.корень / "B.TXT").write_text("human ignored")
+        with сам.assertRaises(модуль.Отказ):
+            сам.выполнить_переход()
+        сам.assertFalse(сам.путь_намерения.exists())
+        сам.assertEqual((сам.корень / "B.TXT").read_text(), "human ignored")
 
-    def test_repeat_requires_original_intent(self):
-        self.run_transition()
-        self.intent.unlink()
-        with self.assertRaises(module.Отказ):
-            self.run_transition()
+    def test_повтор_требует_исходного_намерения(сам):
+        сам.выполнить_переход()
+        сам.путь_намерения.unlink()
+        with сам.assertRaises(модуль.Отказ):
+            сам.выполнить_переход()
 
-    def test_ignored_attributes_refused_before_filter(self):
-        (self.root / ".git/info/exclude").write_text(".gitattributes\n")
-        (self.root / ".gitattributes").write_text("b.txt filter=danger\n")
-        self.g("config", "filter.danger.smudge", "touch invoked; cat")
-        self.g("config", "filter.danger.clean", "cat")
-        with self.assertRaises(module.Отказ):
-            self.run_transition()
-        self.assertFalse(self.intent.exists())
-        self.assertFalse((self.root / "invoked").exists())
-        (self.root / ".gitattributes").unlink()
-        (self.root / ".git/info/exclude").write_text(".GITATTRIBUTES\n")
-        (self.root / ".GITATTRIBUTES").write_text("b.txt filter=danger\n")
-        with self.assertRaises(module.Отказ):
-            self.run_transition()
-        self.assertFalse(self.intent.exists())
-        self.assertFalse((self.root / "invoked").exists())
+    def test_игнорируемые_атрибуты_отклоняются_до_фильтра(сам):
+        (сам.корень / ".git/info/exclude").write_text(".gitattributes\n")
+        (сам.корень / ".gitattributes").write_text("b.txt filter=danger\n")
+        сам.выполнить_команду_гита("config", "filter.danger.smudge", "touch invoked; cat")
+        сам.выполнить_команду_гита("config", "filter.danger.clean", "cat")
+        with сам.assertRaises(модуль.Отказ):
+            сам.выполнить_переход()
+        сам.assertFalse(сам.путь_намерения.exists())
+        сам.assertFalse((сам.корень / "invoked").exists())
+        (сам.корень / ".gitattributes").unlink()
+        (сам.корень / ".git/info/exclude").write_text(".GITATTRIBUTES\n")
+        (сам.корень / ".GITATTRIBUTES").write_text("b.txt filter=danger\n")
+        with сам.assertRaises(модуль.Отказ):
+            сам.выполнить_переход()
+        сам.assertFalse(сам.путь_намерения.exists())
+        сам.assertFalse((сам.корень / "invoked").exists())
 
-    def add_dependency(self):
-        dep = self.root / "dep"
-        dep.mkdir()
-        module.git(dep, "init", "-b", "master")
-        module.git(dep, "config", "user.name", "FUM Test")
-        module.git(dep, "config", "user.email", "test@example.invalid")
-        module.git(dep, "config", "commit.gpgsign", "false")
-        (dep / "source.txt").write_text("source")
-        module.git(dep, "add", ".")
-        module.git(dep, "commit", "-m", "dependency")
-        value = module.oid(dep, "HEAD")
-        self.g("update-index", "--add", "--cacheinfo", "160000", value, "dep")
-        tree_m = self.g("write-tree").decode().strip()
-        self.M = self.g("commit-tree", tree_m, "-p", self.M, "-m", "dependency").decode().strip()
-        self.g("update-ref", "refs/heads/master", self.M)
-        self.g("read-tree", self.C)
-        self.g("update-index", "--add", "--cacheinfo", "160000", value, "dep")
-        tree_c = self.g("write-tree").decode().strip()
-        self.C = self.g("commit-tree", tree_c, "-p", self.L, "-p", self.M, "-m", "merge dependency").decode().strip()
-        self.g("reset", "--hard", self.M)
-        return dep
+    def добавить_зависимость(сам):
+        зависимость = сам.корень / "dep"
+        зависимость.mkdir()
+        модуль.выполнить_гит(зависимость, "init", "-b", "master")
+        модуль.выполнить_гит(зависимость, "config", "user.name", "FUM Test")
+        модуль.выполнить_гит(зависимость, "config", "user.email", "test@example.invalid")
+        модуль.выполнить_гит(зависимость, "config", "commit.gpgsign", "false")
+        (зависимость / "source.txt").write_text("source")
+        модуль.выполнить_гит(зависимость, "add", ".")
+        модуль.выполнить_гит(зависимость, "commit", "-m", "dependency")
+        идентификатор_зависимости = модуль.идентификатор_объекта(зависимость, "HEAD")
+        сам.выполнить_команду_гита("update-index", "--add", "--cacheinfo", "160000", идентификатор_зависимости, "dep")
+        дерево_исходной_ветки = сам.выполнить_команду_гита("write-tree").decode().strip()
+        сам.исходная_вершина = сам.выполнить_команду_гита("commit-tree", дерево_исходной_ветки, "-p", сам.исходная_вершина, "-m", "dependency").decode().strip()
+        сам.выполнить_команду_гита("update-ref", "refs/heads/master", сам.исходная_вершина)
+        сам.выполнить_команду_гита("read-tree", сам.принятый_кандидат)
+        сам.выполнить_команду_гита("update-index", "--add", "--cacheinfo", "160000", идентификатор_зависимости, "dep")
+        дерево_кандидата = сам.выполнить_команду_гита("write-tree").decode().strip()
+        сам.принятый_кандидат = сам.выполнить_команду_гита("commit-tree", дерево_кандидата, "-p", сам.ведущая_вершина, "-p", сам.исходная_вершина, "-m", "merge dependency").decode().strip()
+        сам.выполнить_команду_гита("reset", "--hard", сам.исходная_вершина)
+        return зависимость
 
-    def test_dirty_dependency_refused(self):
-        dep = self.add_dependency()
-        (dep / "source.txt").write_text("changed")
-        with self.assertRaises(module.Отказ):
-            self.run_transition()
-        self.assertFalse(self.intent.exists())
-        self.assertEqual((dep / "source.txt").read_text(), "changed")
+    def test_изменённая_зависимость_отклоняется(сам):
+        зависимость = сам.добавить_зависимость()
+        (зависимость / "source.txt").write_text("changed")
+        with сам.assertRaises(модуль.Отказ):
+            сам.выполнить_переход()
+        сам.assertFalse(сам.путь_намерения.exists())
+        сам.assertEqual((зависимость / "source.txt").read_text(), "changed")
 
-    def test_symlink_dependency_refused(self):
-        dep = self.add_dependency()
-        outside = self.base / "materialized"
-        dep.rename(outside)
-        dep.symlink_to(outside, target_is_directory=True)
-        with self.assertRaises(module.Отказ):
-            self.run_transition()
-        self.assertFalse(self.intent.exists())
-        self.assertTrue(dep.is_symlink())
+    def test_символическая_ссылка_зависимости_отклоняется(сам):
+        зависимость = сам.добавить_зависимость()
+        внешний_каталог = сам.базовый_каталог / "materialized"
+        зависимость.rename(внешний_каталог)
+        зависимость.symlink_to(внешний_каталог, target_is_directory=True)
+        with сам.assertRaises(модуль.Отказ):
+            сам.выполнить_переход()
+        сам.assertFalse(сам.путь_намерения.exists())
+        сам.assertTrue(зависимость.is_symlink())
 
-    def test_empty_subtree_refused(self):
-        empty = self.g("mktree", data=b"").decode().strip()
-        listing = self.g("ls-tree", self.C) + ("040000 tree " + empty + "\tempty\n").encode()
-        tree = self.g("mktree", data=listing).decode().strip()
-        self.C = self.g("commit-tree", tree, "-p", self.L, "-p", self.M, "-m", "empty tree").decode().strip()
-        with self.assertRaises(module.Отказ):
-            self.run_transition()
-        self.assertEqual(self.head(), self.M)
-        self.assertFalse(self.intent.exists())
+    def test_пустое_поддерево_отклоняется(сам):
+        пустое_дерево = сам.выполнить_команду_гита("mktree", данные=b"").decode().strip()
+        перечень = сам.выполнить_команду_гита("ls-tree", сам.принятый_кандидат) + ("040000 tree " + пустое_дерево + "\tempty\n").encode()
+        новое_дерево = сам.выполнить_команду_гита("mktree", данные=перечень).decode().strip()
+        сам.принятый_кандидат = сам.выполнить_команду_гита("commit-tree", новое_дерево, "-p", сам.ведущая_вершина, "-p", сам.исходная_вершина, "-m", "empty tree").decode().strip()
+        with сам.assertRaises(модуль.Отказ):
+            сам.выполнить_переход()
+        сам.assertEqual(сам.вершина(), сам.исходная_вершина)
+        сам.assertFalse(сам.путь_намерения.exists())
 
-    def cli(self):
-        return ["продвинуть-master.py", "--корень", str(self.root), "--M", self.M,
-                "--L", self.L, "--C", self.C, "--intent", str(self.intent),
-                "--кандидат", str(self.transaction_root), "--запрос", "Журнал/test/запрос.md"]
+    def аргументы_команды(сам):
+        return ["продвинуть-master.py", "--корень", str(сам.корень), "--M", сам.исходная_вершина,
+                "--L", сам.ведущая_вершина, "--C", сам.принятый_кандидат, "--intent", str(сам.путь_намерения),
+                "--кандидат", str(сам.корень_транзакции), "--запрос", "Журнал/test/запрос.md"]
 
-    def test_cli_refuses_missing_trusted_reader(self):
-        with patch.object(module.sys, "argv", self.cli()), self.assertRaises(module.Отказ):
-            module.main()
-        self.assertFalse(self.intent.exists())
-        self.assertEqual(self.head(), self.M)
+    def test_команда_отклоняет_отсутствие_доверенного_читателя(сам):
+        with patch.object(модуль.sys, "argv", сам.аргументы_команды()), сам.assertRaises(модуль.Отказ):
+            модуль.главная()
+        сам.assertFalse(сам.путь_намерения.exists())
+        сам.assertEqual(сам.вершина(), сам.исходная_вершина)
 
-    def test_cli_repeat_does_not_reload_candidate_reader(self):
-        self.run_transition()
-        before = self.intent.read_bytes()
-        output = io.StringIO()
-        with patch.object(module.sys, "argv", self.cli()), contextlib.redirect_stdout(output):
-            module.main()
-        self.assertEqual(json.loads(output.getvalue())["состояние"], "уже_достигнуто")
-        self.assertEqual(self.intent.read_bytes(), before)
+    def test_повтор_команды_не_перезагружает_читателя_кандидата(сам):
+        сам.выполнить_переход()
+        прежние_байты = сам.путь_намерения.read_bytes()
+        вывод = io.StringIO()
+        with patch.object(модуль.sys, "argv", сам.аргументы_команды()), contextlib.redirect_stdout(вывод):
+            модуль.главная()
+        сам.assertEqual(json.loads(вывод.getvalue())["состояние"], "уже_достигнуто")
+        сам.assertEqual(сам.путь_намерения.read_bytes(), прежние_байты)
 
-    def test_head_is_locked_during_checkout(self):
-        self.g("branch", "other", self.M)
-        def check(phase):
-            if phase == "до_read_tree":
-                with self.assertRaises(module.Отказ):
-                    self.g("symbolic-ref", "HEAD", "refs/heads/other")
-        self.assertEqual(self.run_transition(check)["состояние"], "завершено")
-        self.assertEqual(self.g("symbolic-ref", "HEAD").strip(), b"refs/heads/master")
+    def test_вершина_заблокирована_во_время_обновления_дерева(сам):
+        сам.выполнить_команду_гита("branch", "other", сам.исходная_вершина)
+        def проверить_блокировку(фаза):
+            if фаза == "до_read_tree":
+                with сам.assertRaises(модуль.Отказ):
+                    сам.выполнить_команду_гита("symbolic-ref", "HEAD", "refs/heads/other")
+        сам.assertEqual(сам.выполнить_переход(проверить_блокировку)["состояние"], "завершено")
+        сам.assertEqual(сам.выполнить_команду_гита("symbolic-ref", "HEAD").strip(), b"refs/heads/master")
 
-    def test_reflog_preserves_configured_global_identity(self):
-        self.g("config", "--unset", "user.name")
-        self.g("config", "--unset", "user.email")
-        (self.base / ".gitconfig").write_text("[user]\n name = FUM Global Test\n email = global@example.invalid\n")
-        with patch.dict(os.environ, {"HOME": str(self.base), "XDG_CONFIG_HOME": str(self.base / "xdg")}):
-            self.assertEqual(self.run_transition()["состояние"], "завершено")
-        line = (self.root / ".git/logs/refs/heads/master").read_text().splitlines()[-1]
-        self.assertTrue("FUM Global Test <global@example.invalid>" in line)
+    def test_журнал_ссылок_сохраняет_настроенную_глобальную_идентичность(сам):
+        сам.выполнить_команду_гита("config", "--unset", "user.name")
+        сам.выполнить_команду_гита("config", "--unset", "user.email")
+        (сам.базовый_каталог / ".gitconfig").write_text("[user]\n name = FUM Global Test\n email = global@example.invalid\n")
+        with patch.dict(os.environ, {"HOME": str(сам.базовый_каталог), "XDG_CONFIG_HOME": str(сам.базовый_каталог / "xdg")}):
+            сам.assertEqual(сам.выполнить_переход()["состояние"], "завершено")
+        строка = (сам.корень / ".git/logs/refs/heads/master").read_text().splitlines()[-1]
+        сам.assertTrue("FUM Global Test <global@example.invalid>" in строка)
 
 
 if __name__ == "__main__":

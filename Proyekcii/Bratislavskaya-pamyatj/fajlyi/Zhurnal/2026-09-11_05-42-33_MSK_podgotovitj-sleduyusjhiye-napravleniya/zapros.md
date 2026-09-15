@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-11 05:29:54 MSK - Zaregistrirovatj shestj istoricheskikh otvetov](../2026-09-11_05-29-54_MSK_zaregistrirovatj-shestj-istoricheskikh-otvetov/zapros.md)
-- Sleduyusjhij zapros: [2026-09-11 06:02:48 MSK - Zaregistrirovatj ispolneniye dvukh poruchenij](../2026-09-11_06-02-48_MSK_zaregistrirovatj-ispolneniye-dvukh-poruchenij/zapros.md)
+- Predyidusjhij zapros: [2026-09-11 05:03:47 MSK - Podtverditj matematicheskij zapusk](../2026-09-11_05-03-47_MSK_podtverditj-matematicheskij-zapusk/zapros.md)
+- Sleduyusjhij zapros: [2026-09-11 07:19:51 MSK - Prinyatj postanovku interpretatora](../2026-09-11_07-19-51_MSK_prinyatj-postanovku-interpretatora/zapros.md)
 
 ## Tekst zaprosa
 
@@ -94,6 +94,6 @@ Shtatnyij chitatelj 0177 bez zapisi povtorno prochital pervichnyij JSONL koordin
 - [reyestr sistemnyikh prilozhenij i instrumentov](../../Instrumentyi/reyestr-sistemnyikh-prilozhenij-i-instrumentov.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 11:59:08 MSK -->
-<!-- content-sha256: sha256:ded2167289fe19ab4bcc109868658219be6fd0ee60d0214c6a380a5f15b12b7d -->
+<!-- last-content-edit: 2026-09-11 07:26:18 MSK -->
+<!-- content-sha256: sha256:7d5e73a7ba585aa02151e0a38b659c97024a7ca375f10a3007dfca9d41a0c427 -->
 <!-- FUM-MD-RECENCY:END -->

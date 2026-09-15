@@ -24,11 +24,24 @@ Pryamyiye semanticheskiye svyazi poka ne ustanovlenyi.
 
 Status — `🟡`: prinyato i zaplanirovano. Pervoye dejstviye — [opredelitj adapteryi i scenarii](../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0183-opredelitj-adapteryi-decentralizovannyikh-setej.md). Rabota integracij poka ne podtverzhdena. Dlya Bitcoin obyyom operacij zadayotsya yavno; finansovyiye dejstviya ne vyivodyatsya iz obsjhego trebovaniya sovmestimosti.
 
+## Pervyij planiruyemyij fajlovyij profilj I2P
+
+Pervyij profilj — polucheniye otkryitogo obyyekta FUM po BitTorrent cherez vstroyennuyu podderzhku SAM v libtorrent-rasterbar. Sobstvennyij Swift-adapter zadayot parametryi, upravlyayet operaciyej i otobrazhayet sostoyaniye; transport I2P vyipolnyayet biblioteka. Metadannyiye torrent, ozhidayemyij khyesh obyyekta, predel razmera i mesto sokhraneniya zadayutsya yavno. Budusjhij rezuljtat — proverennyij lokaljnyij fajl libo razlichimyij otkaz, s otmenoj i dopustimyim vosstanovleniyem. Eto plan, a ne uzhe realizovannaya integraciya.
+
+I2P-profilj ispoljzuyet yavno zadannyij lokaljnyij endpoint SAM cherez i2p_hostname/i2p_port. allow_i2p_mixed=false i torrent_flags::i2p_torrent zadayutsya i proveryayutsya po tochnomu kontraktu vyibrannoj revizii. Odnikh parametrov nedostatochno: budusjhaya priyomka nablyudayet fakticheskoye otsutstviye nezhelateljnyikh soyedinenij clearnet, DNS, DHT, trekerov, web seeds i peer-soyedinenij vne prinyatoj I2P-oblasti. Oshibochnyiye ili smeshannyiye metadannyiye ne dayut nezametnogo pereklyucheniya v obyichnyij Internet. Otkaz marshrutizatora ne blokiruyet ostaljnyiye lokaljnyiye funkcii FUMA.
+
+Publichnyij Destination, privatnyiye klyuchi, prikladnaya identichnostj FUM i sostoyaniye vozobnovleniya razlichayutsya. Do realizacii proveryayetsya, kak vyibrannyij pin biblioteki podderzhivayet trebuyemyij rezhim identichnosti i yeyo vosstanovleniye; otsutstvuyusjhij API ne vyidumyivayetsya. Poterya klyucha ne razreshayet molcha sozdavatj novuyu postoyannuyu identichnostj. Diagnostika ne publikuyet klyuchi i privatnoye sostoyaniye, uspeshnaya zapisj v soket ne dokazyivayet priyom obyyekta.
+
+Sobstvennyij SAM 3.1 STREAM-kliyent poverkh SwiftNIO ostayotsya otdeljnyim rasshireniyem dlya servisov vne BitTorrent; pervyij fajlovyij scenarij ne dubliruyet vstroyennyij transport libtorrent. Ustanovka i upravleniye marshrutizatorom, HTTP/outproxy, SOCKS, I2CP, datagrammyi, mobiljnaya upakovka i obsluzhivaniye chuzhogo trafika ne vkhodyat avtomaticheski. Vse prezhniye kriterii i ostaljnyiye seti sokhranyayutsya.
+
 ## Istochniki trebovanij
 
-- [Porucheniye predusmotretj decentralizovannyiye seti](../Zhurnal/2026-09-11_01-07-38_MSK_zaplanirovatj-decentralizovannyiye-seti/zapros.md).
+- [Prorabotka I2P i utochneniye vyibora libtorrent](https://github.com/fum-lab/fum/blob/6049110117aa2d46380422ff51e2e996f087ee90/Журнал/2026-09-11_21-56-09_MSK_уточнить-план-подключения-I2P/запрос.md).
+- [Material koordinatora o podklyuchenii I2P](../Planirovaniye/integracii/I2P/podklyucheniye-I2P.md).
+
+- [Porucheniye predusmotretj decentralizovannyiye seti](https://github.com/fum-lab/fum/blob/6049110117aa2d46380422ff51e2e996f087ee90/Журнал/2026-09-11_01-07-38_MSK_запланировать-децентрализованные-сети/запрос.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 01:14:07 MSK -->
-<!-- content-sha256: sha256:007940abc8193e3811c76bf91eb30060fd7e27d479c74fd4097e0a4011531b02 -->
+<!-- last-content-edit: 2026-09-11 23:52:33 MSK -->
+<!-- content-sha256: sha256:33741b41ee65c83593abd2f76953bd62f2a534983861c74fe744d182077e36fb -->
 <!-- FUM-MD-RECENCY:END -->

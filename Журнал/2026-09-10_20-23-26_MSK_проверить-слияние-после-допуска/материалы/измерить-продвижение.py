@@ -7,77 +7,79 @@ import statistics
 import time
 
 
-def load(name, filename):
-    path = Path(filename)
-    if not path.is_absolute():
-        path = Path(__file__).parent / path
-    spec = importlib.util.spec_from_file_location(name, path)
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return module
+def загрузить(имя, имя_файла):
+    путь = Path(имя_файла)
+    if not путь.is_absolute():
+        путь = Path(__file__).parent / путь
+    спецификация = importlib.util.spec_from_file_location(имя, путь)
+    исполняемый_модуль = importlib.util.module_from_spec(спецификация)
+    спецификация.loader.exec_module(исполняемый_модуль)
+    return исполняемый_модуль
 
 
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--только-до", action="store_true")
-    args = parser.parse_args()
-    root = Path(__file__).resolve().parents[3]
-    tool = root / "Инструменты/fum-otchyotyi-o-zapuskakh-proverok"
-    tests = load("promotion_tests", tool / "tests/test_продвижение_принятого_слияния.py")
-    before = load("before", "продвижение-до-оптимизации.py")
-    after = load("after", tool / "scripts/продвинуть_принятое_слияние.py")
-    fixture = tests.Продвижение()
-    fixture.setUp()
-    rows = []
+def выполнить():
+    разборщик = argparse.ArgumentParser(description=__doc__)
+    разборщик.add_argument("--только-до", action="store_true")
+    аргументы = разборщик.parse_args()
+    корень = Path(__file__).resolve().parents[3]
+    инструмент = корень / "Инструменты/fum-otchyotyi-o-zapuskakh-proverok"
+    тесты = загрузить("promotion_tests", инструмент / "tests/test_продвижение_принятого_слияния.py")
+    исходная_версия = загрузить("before", "продвижение-до-оптимизации.py")
+    текущая_версия = загрузить("after", инструмент / "scripts/продвинуть_принятое_слияние.py")
+    адаптер = загрузить("адаптер_истории", инструмент / "scripts/адаптер_исторического_продвижения.py")
+    исходная_версия = адаптер.создать_адаптер_истории(исходная_версия)
+    фикстура = тесты.Продвижение()
+    фикстура.setUp()
+    измерения = []
     try:
-        for pair in range(7):
-            variants = [("до", before), ("после", after)]
-            if args.только_до:
-                variants = variants[:1]
-            if pair % 2:
-                variants.reverse()
-            results = []
-            for name, module in variants:
-                tests.module = module
-                fixture.g("reset", "--hard", fixture.M)
-                fixture.intent.unlink(missing_ok=True)
-                count = [0]
-                original = module.subprocess.Popen
-                def counted(*args, **kwargs):
-                    command = args[0] if args else kwargs.get("args", [])
-                    if command and command[0] == "git":
-                        count[0] += 1
-                    return original(*args, **kwargs)
-                module.subprocess.Popen = counted
-                start = time.perf_counter_ns()
-                cpu = time.process_time_ns()
+        for пара in range(7):
+            варианты = [("до", исходная_версия), ("после", текущая_версия)]
+            if аргументы.только_до:
+                варианты = варианты[:1]
+            if пара % 2:
+                варианты.reverse()
+            результаты = []
+            for имя, исполняемый_модуль in варианты:
+                тесты.модуль = исполняемый_модуль
+                фикстура.выполнить_команду_гита("reset", "--hard", фикстура.исходная_вершина)
+                фикстура.путь_намерения.unlink(missing_ok=True)
+                счётчик_процессов = [0]
+                исходный_запуск = исполняемый_модуль.subprocess.Popen
+                def подсчитать_процесс(*аргументы, **именованные_аргументы):
+                    команда = аргументы[0] if аргументы else именованные_аргументы.get("args", [])
+                    if команда and команда[0] == "git":
+                        счётчик_процессов[0] += 1
+                    return исходный_запуск(*аргументы, **именованные_аргументы)
+                исполняемый_модуль.subprocess.Popen = подсчитать_процесс
+                начало = time.perf_counter_ns()
+                начало_процессорного_времени = time.process_time_ns()
                 try:
-                    result = fixture.run_transition()
+                    результат = фикстура.выполнить_переход()
                 finally:
-                    elapsed = time.perf_counter_ns() - start
-                    cpu_elapsed = time.process_time_ns() - cpu
-                    module.subprocess.Popen = original
-                rows.append({"пара": pair, "вариант": name, "wall_ns": elapsed,
-                             "cpu_родителя_ns": cpu_elapsed, "процессов_git": count[0]})
-                result.pop("исполнитель_sha256")
-                results.append(result)
-            if len(results) == 2:
-                assert results[0] == results[1]
+                    длительность = time.perf_counter_ns() - начало
+                    процессорное_время = time.process_time_ns() - начало_процессорного_времени
+                    исполняемый_модуль.subprocess.Popen = исходный_запуск
+                измерения.append({"пара": пара, "вариант": имя, "wall_ns": длительность,
+                             "cpu_родителя_ns": процессорное_время, "процессов_git": счётчик_процессов[0]})
+                результат.pop("исполнитель_sha256")
+                результаты.append(результат)
+            if len(результаты) == 2:
+                assert результаты[0] == результаты[1]
     finally:
-        fixture.doCleanups()
-    summary = {}
-    for name in ("до", "после"):
-        selected = [r for r in rows if r["вариант"] == name]
-        if not selected:
+        фикстура.doCleanups()
+    сводка = {}
+    for имя in ("до", "после"):
+        выбранные = [запись for запись in измерения if запись["вариант"] == имя]
+        if not выбранные:
             continue
-        summary[name] = {"медиана_wall_ns": int(statistics.median(r["wall_ns"] for r in selected)),
-                         "процессов_git": sorted({r["процессов_git"] for r in selected})}
+        сводка[имя] = {"медиана_wall_ns": int(statistics.median(запись["wall_ns"] for запись in выбранные)),
+                         "процессов_git": sorted({запись["процессов_git"] for запись in выбранные})}
     print(json.dumps({"схема": "fum.профиль-перехода.1", "граница":
                       "Семь чередующихся пар на одной синтетической фикстуре; подготовка и reset исключены. "
                       "CPU дочерних процессов и память не измерены. Семантические результаты совпали; "
                       "различающийся хэш версии исполнителя исключён из сравнения. Это не профиль всего FUM.",
-                      "измерения": rows, "итог": summary}, ensure_ascii=False, indent=2))
+                      "измерения": измерения, "итог": сводка}, ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":
-    main()
+    выполнить()
