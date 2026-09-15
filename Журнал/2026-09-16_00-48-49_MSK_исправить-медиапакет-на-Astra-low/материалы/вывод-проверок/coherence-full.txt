@@ -1,0 +1,11 @@
+request folder layout is invalid: local Markdown link escapes repository in Журнал/2026-09-15_23-28-08_MSK_создать-локальный-медиапакет-поддержки/запрос.md:36
+broken Markdown link in Журнал/2026-08-02_03-48-05_MSK_добавить-полный-GitHub-совместимый-файл-LICENSE/отчёт.md:62: ../../Зависимости/LinguisticKit/LICENSE
+broken Markdown link in Журнал/2026-09-11_21-58-48_MSK_принять-слияние-после-исправления-путей/материалы/языковые-операторы.md:37: ../../../Зависимости/LinguisticKit/Extracted/ScriptTables/ru.json
+broken Markdown link in Журнал/2026-09-11_21-58-48_MSK_принять-слияние-после-исправления-путей/материалы/языковые-операторы.md:37: ../../../Зависимости/LinguisticKit/Sources/LinguisticKit/StringProtocol.swift
+broken Markdown link in Журнал/2026-09-11_21-58-48_MSK_принять-слияние-после-исправления-путей/материалы/языковые-операторы.md:39: ../../../Зависимости/LinguisticKit/LICENSE
+local Markdown link escapes the repository in Журнал/2026-09-15_23-28-08_MSK_создать-локальный-медиапакет-поддержки/запрос.md:36
+local Markdown link escapes the repository in Журнал/2026-09-15_23-28-08_MSK_создать-локальный-медиапакет-поддержки/запрос.md:36
+local Markdown link escapes the repository in Журнал/2026-09-15_23-28-08_MSK_создать-локальный-медиапакет-поддержки/запрос.md:36
+local Markdown link escapes the repository in Журнал/2026-09-15_23-39-42_MSK_исправить-медиапакет-поддержки/запрос.md:36
+local Markdown link escapes the repository in Журнал/2026-09-15_23-39-42_MSK_исправить-медиапакет-поддержки/запрос.md:36
+local Markdown link escapes the repository in Журнал/2026-09-15_23-39-42_MSK_исправить-медиапакет-поддержки/запрос.md:36

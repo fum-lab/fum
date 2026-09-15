@@ -1,51 +1,136 @@
-"""Локальная детерминированная подготовка черновиков поддержки."""
-import hashlib, json, re
+"""Локальная подготовка цитат и строго подтверждённых финансовых полей."""
+import hashlib
+import json
+import re
+import subprocess
 from pathlib import Path
 
-СХЕМА = "fum.вход-медиапакета.1"
+СХЕМА = 'fum.вход-медиапакета.1'
+ДЕНЬГИ = ('начальный_остаток', 'поступления', 'комиссии', 'возвраты', 'расходы')
 
-def _текст(x): return isinstance(x, str) and bool(x.strip())
-def _sha(x): return hashlib.sha256(x.encode()).hexdigest()
-def _проверить(корень, d):
-    if set(d) != {"схема","лицензия","результат","ограничения","цель","следующий_шаг","отчёт"} or d["схема"] != СХЕМА: raise ValueError("неверная схема")
-    if d["лицензия"] != "CC0-1.0" or not isinstance(d["ограничения"],list) or not d["ограничения"] or not all(_текст(x) for x in d["ограничения"]) or any("полностью готов" in x.lower() for x in d["ограничения"]): raise ValueError("границы CC0")
-    r=d["результат"]
-    if set(r)!={"коммит","путь","sha256","цитата"} or not re.fullmatch(r"[0-9a-f]{40}",r["коммит"]): raise ValueError("OID")
-    p=Path(r["путь"])
-    if p.is_absolute() or ".." in p.parts or not _текст(r["путь"]) or not re.fullmatch(r"[0-9a-f]{64}",r["sha256"]) or not _текст(r["цитата"]): raise ValueError("источник")
-    src=корень/p
-    if not src.exists() or src.is_symlink() or not src.is_file(): raise ValueError("путь источника")
-    import subprocess
-    try: actual=subprocess.check_output(["git","show",r["коммит"]+":"+r["путь"]],cwd=корень,stderr=subprocess.DEVNULL).decode()
-    except Exception as e: raise ValueError("нет Git-источника") from e
-    if _sha(actual) != r["sha256"]: raise ValueError("источник изменён")
-    try: blob=subprocess.check_output(["git","cat-file","-e",r["коммит"]+":"+r["путь"]],cwd=корень,stderr=subprocess.DEVNULL)
-    except subprocess.CalledProcessError as e: raise ValueError("нет Git-источника") from e
-    if subprocess.check_output(["git","cat-file","-t",r["коммит"]],cwd=корень).decode().strip() != "commit": raise ValueError("OID не commit")
-    mode=subprocess.check_output(["git","ls-tree",r["коммит"],"--",r["путь"]],cwd=корень).decode()
-    if mode.startswith("120000 "): raise ValueError("символьный Git-источник")
-    if r["цитата"] not in actual: raise ValueError("цитата")
-    if not _текст(d["цель"]) or not _текст(d["следующий_шаг"]): raise ValueError("текст")
-    o=d["отчёт"]
-    fields={"период","получатель","начальный_остаток","поступления","комиссии","возвраты","расходы","источник"}
-    if set(o)!=fields: raise ValueError("отчёт")
-    money=["начальный_остаток","поступления","комиссии","возвраты","расходы"]
-    for k in money:
-        if o[k] is not None and (type(o[k]) is not int or o[k]<=0 or o[k]>10**12): raise ValueError("сумма")
-    if any(o[k] is not None for k in money) and o["источник"] is None: raise ValueError("сумма без источника")
-    if o["источник"] is not None:
-        if any(o["источник"].get(k) != r[k] for k in ("коммит","путь","sha256")): raise ValueError("источник отчёта")
-        quote=o["источник"].get("цитата", "")
-        if any(o[k] is not None and f"{o[k]/100:.2f}".replace(".", ",") not in quote for k in money): raise ValueError("сумма без свидетельства")
-    return src
+
+def _текст(значение):
+    return isinstance(значение, str) and bool(значение.strip())
+
+
+def _sha(текст):
+    return hashlib.sha256(текст.encode()).hexdigest()
+
+
+def пары(элементы):
+    результат = {}
+    for ключ, значение in элементы:
+        if ключ in результат:
+            raise ValueError('повтор ключа JSON')
+        результат[ключ] = значение
+    return результат
+
+
+def _объект(значение, поля):
+    if type(значение) is not dict or set(значение) != set(поля):
+        raise ValueError('неверные поля объекта')
+
+
+def _источник(корень, источник):
+    _объект(источник, ('коммит', 'путь', 'sha256', 'цитата'))
+    if not all(_текст(источник[поле]) for поле in источник):
+        raise ValueError('тип источника')
+    if not re.fullmatch('[0-9a-f]{40}', источник['коммит']) or not re.fullmatch('[0-9a-f]{64}', источник['sha256']):
+        raise ValueError('идентификатор источника')
+    путь = источник['путь']
+    if путь.startswith('/') or any(часть in ('', '.', '..') for часть in путь.split('/')) or '\\' in путь:
+        raise ValueError('путь источника')
+    def прочитать(*аргументы):
+        try:
+            return subprocess.check_output(['git', *аргументы], cwd=корень, stderr=subprocess.DEVNULL)
+        except subprocess.CalledProcessError as ошибка:
+            raise ValueError('нет Git-источника') from ошибка
+    if прочитать('cat-file', '-t', источник['коммит']).strip() != b'commit':
+        raise ValueError('OID не commit')
+    дерево = источник['коммит']
+    части = путь.split('/')
+    for номер, часть in enumerate(части):
+        записи = прочитать('ls-tree', '-z', дерево).split(b'\0')
+        совпадения = [запись.split(b'\t', 1)[0] for запись in записи if b'\t' in запись and запись.split(b'\t', 1)[1] == часть.encode()]
+        if len(совпадения) != 1:
+            raise ValueError('нет точного Git-пути')
+        режим, тип, идентификатор = совпадения[0].split()
+        if номер < len(части)-1:
+            if режим != b'040000' or тип != b'tree': raise ValueError('не каталог Git')
+        elif режим not in (b'100644', b'100755') or тип != b'blob':
+            raise ValueError('не обычный Git-файл')
+        дерево = идентификатор.decode()
+    байты = прочитать('cat-file', 'blob', дерево)
+    if hashlib.sha256(байты).hexdigest() != источник['sha256']:
+        raise ValueError('источник изменён')
+    текст = байты.decode('utf-8')
+    if источник['цитата'] not in текст:
+        raise ValueError('цитата отсутствует в Git blob')
+    return текст
+
+
+def _сумма(текст):
+    if not isinstance(текст, str) or not re.fullmatch(r'(0|[1-9][0-9]{0,10}),[0-9]{2}', текст):
+        raise ValueError('неверная денежная строка')
+    рубли, копейки = текст.split(',')
+    сумма = int(рубли)*100 + int(копейки)
+    if сумма > 10**12: raise ValueError('слишком большая сумма')
+    return сумма
+
+
+def _проверить(корень, данные):
+    _объект(данные, ('схема', 'лицензия', 'результат', 'ограничения', 'цель', 'следующий_шаг', 'отчёт'))
+    if данные['схема'] != СХЕМА: raise ValueError('неверная схема')
+    if данные['лицензия'] != 'CC0-1.0' or not isinstance(данные['ограничения'], list) or not данные['ограничения'] or not all(_текст(строка) for строка in данные['ограничения']):
+        raise ValueError('границы CC0')
+    if any('полностью готов' in строка.lower() for строка in данные['ограничения']): raise ValueError('границы готовности')
+    _источник(корень, данные['результат'])
+    if not _текст(данные['цель']) or not _текст(данные['следующий_шаг']): raise ValueError('текст')
+    отчёт = данные['отчёт']
+    _объект(отчёт, (*ДЕНЬГИ, 'период', 'получатель', 'источник'))
+    for поле in ('период', 'получатель'):
+        if отчёт[поле] is not None and not _текст(отчёт[поле]): raise ValueError('тип периода или получателя')
+    for поле in ДЕНЬГИ:
+        if отчёт[поле] is not None and (type(отчёт[поле]) is not int or not 0 <= отчёт[поле] <= 10**12): raise ValueError('сумма')
+    if отчёт['источник'] is None:
+        if any(отчёт[поле] is not None for поле in ДЕНЬГИ): raise ValueError('сумма без источника')
+        return
+    текст = _источник(корень, отчёт['источник'])
+    # Финансовый документ целиком является свидетельством, вложенная цитата не выбирает удобный фрагмент.
+    if отчёт['источник']['цитата'] != текст: raise ValueError('требуется весь финансовый документ')
+    свидетельство = json.loads(текст, object_pairs_hook=пары)
+    _объект(свидетельство, ('схема', 'валюта', 'период', 'получатель', 'операции'))
+    if свидетельство['схема'] != 'fum.свидетельство-поддержки.1' or свидетельство['валюта'] != 'RUB': raise ValueError('схема или валюта свидетельства')
+    for поле in ('период', 'получатель'):
+        if not _текст(свидетельство[поле]) or свидетельство[поле] != отчёт[поле]: raise ValueError('период или получатель не совпадает')
+    операции = свидетельство['операции']
+    if type(операции) is not dict or not set(операции) <= set(ДЕНЬГИ): raise ValueError('операции')
+    for поле, операция in операции.items():
+        _объект(операция, ('сумма', 'факт', 'тип'))
+        if операция['факт'] is not True or операция['тип'] != поле: raise ValueError('не фактическая операция')
+        сумма = _сумма(операция['сумма'])
+        if отчёт[поле] is not None and отчёт[поле] != сумма: raise ValueError('сумма не соответствует полю')
+    if any(отчёт[поле] is not None and поле not in операции for поле in ДЕНЬГИ): raise ValueError('поле без операции')
+
+
+def _деньги(сумма):
+    знак = '-' if сумма < 0 else ''
+    return f'{знак}{abs(сумма)//100}.{abs(сумма)%100:02d} ₽'
+
 
 def собрать(корень, данные):
-    корень=Path(корень); src=_проверить(корень,данные)
-    canonical=json.dumps(данные,ensure_ascii=False,sort_keys=True,separators=(",",":"))
-    money={"начальный_остаток","поступления","комиссии","возвраты","расходы"}
-    unknown=lambda key,x: "неизвестно" if x is None else (f"{x/100:.2f} ₽" if key in money else str(x))
-    o=данные["отчёт"]; total=None
-    if all(o[k] is not None for k in ["начальный_остаток","поступления","комиссии","возвраты","расходы"]): total=o["начальный_остаток"]+o["поступления"]-o["комиссии"]-o["возвраты"]-o["расходы"]
-    base=f"Проверенный результат: {данные['результат']['цитата']}\nЛицензия: CC0. Ограничения: {'; '.join(данные['ограничения'])}\nЦель поддержки: {данные['цель']}\nСледующий шаг: {данные['следующий_шаг']}\nСтатус: черновик; публикация и получение средств не подтверждены."
-    report="Отчёт о поддержке (черновик)\n"+"\n".join(f"{k.capitalize()}: {unknown(k,o[k])}" for k in ["период","получатель","начальный_остаток","поступления","комиссии","возвраты","расходы"])+f"\nКонечный остаток: {'неизвестно' if total is None else f'{total/100:.2f} ₽'}\nИсточник: {данные['результат']['коммит']}:{данные['результат']['путь']}"
-    return {"схема":"fum.выход-медиапакета.1","вход_sha256":_sha(canonical),"источник":данные["результат"],"черновики":{"Telegram":"Черновик Telegram\n\n"+base,"MAX":"Черновик MAX\n\n"+base,"отчёт":report},"конечный_остаток_копейки":total}
+    _проверить(Path(корень), данные)
+    канон = json.dumps(данные, ensure_ascii=False, sort_keys=True, separators=(',', ':'))
+    отчёт = данные['отчёт']
+    остаток = None
+    if all(отчёт[поле] is not None for поле in ДЕНЬГИ):
+        остаток = отчёт['начальный_остаток'] + отчёт['поступления'] - отчёт['комиссии'] - отчёт['возвраты'] - отчёт['расходы']
+    основа = f"Цитата источника: {данные['результат']['цитата']}\nПроверено совпадение цитаты с Git-источником; выполнение описанных действий этим не удостоверяется.\nЛицензия: CC0. Ограничения: {'; '.join(данные['ограничения'])}\nЦель поддержки: {данные['цель']}\nСледующий шаг: {данные['следующий_шаг']}\nСтатус: черновик; публикация и получение средств независимо не подтверждены."
+    строки = ['Отчёт о поддержке (черновик)']
+    for поле in ('период', 'получатель', *ДЕНЬГИ):
+        значение = 'неизвестно' if отчёт[поле] is None else (_деньги(отчёт[поле]) if поле in ДЕНЬГИ else отчёт[поле])
+        строки.append(f'{поле.capitalize()}: {значение}')
+    строки.append('Конечный остаток: ' + ('неизвестно' if остаток is None else _деньги(остаток)))
+    источник = отчёт['источник']
+    строки.append('Источник финансов: ' + ('неизвестно' if источник is None else источник['коммит']+':'+источник['путь']))
+    return {'схема': 'fum.выход-медиапакета.2', 'вход_sha256': _sha(канон), 'источник': данные['результат'], 'черновики': {'Telegram': 'Черновик Telegram\n\n'+основа, 'MAX': 'Черновик MAX\n\n'+основа, 'отчёт': '\n'.join(строки)}, 'конечный_остаток_копейки': остаток}
