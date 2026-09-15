@@ -1,17 +1,29 @@
 #!/usr/bin/env python3
-import argparse,json,sys
+"""Подготовить черновики в stdout; файловые и внешние эффекты не выполняются."""
+import sys
+sys.dont_write_bytecode = True
+
+import argparse
 from pathlib import Path
-sys.path.insert(0,str(Path(__file__).parent))
-from медиапакет_поддержки import собрать
-p=argparse.ArgumentParser();p.add_argument('--корень-репозитория',required=True);p.add_argument('--вход',required=True);a=p.parse_args()
-try:
-    def пары(x):
-        d={}
-        for k,v in x:
-            if k in d: raise ValueError("повтор ключа JSON")
-            d[k]=v
-        return d
-    with open(a.вход,encoding='utf-8') as f: d=json.load(f,object_pairs_hook=пары)
-    print(json.dumps(собрать(Path(a.корень_репозитория),d),ensure_ascii=False,indent=2))
-except Exception as e:
-    print(str(e),file=sys.stderr);sys.exit(2)
+
+sys.path.insert(0, str(Path(__file__).parent))
+from медиапакет_поддержки import собрать, прочитать_вход
+from реестр_поддержки import байты
+
+
+def выполнить():
+    разбор = argparse.ArgumentParser(description=__doc__)
+    разбор.add_argument("--корень-репозитория", required=True)
+    разбор.add_argument("--вход", required=True)
+    аргументы = разбор.parse_args()
+    try:
+        результат = собрать(Path(аргументы.корень_репозитория), прочитать_вход(аргументы.вход))
+    except (OSError, ValueError) as ошибка:
+        print("Медиапакет отклонён: " + str(ошибка), file=sys.stderr)
+        return 2
+    sys.stdout.buffer.write(байты(результат))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(выполнить())
