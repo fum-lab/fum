@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-11 03:32:33 MSK - Svyazatj priyom s kommitom postanovki](../2026-09-11_03-32-33_MSK_svyazatj-priyom-s-kommitom-postanovki/zapros.md)
-- Sleduyusjhij zapros: [2026-09-11 05:42:33 MSK - Podgotovitj sleduyusjhiye napravleniya](../2026-09-11_05-42-33_MSK_podgotovitj-sleduyusjhiye-napravleniya/zapros.md)
+- Predyidusjhij zapros: [2026-09-11 04:47:36 MSK - Kvalificirovatj privatnyij kyesh dopuska](../2026-09-11_04-47-36_MSK_kvalificirovatj-privatnyij-kyesh-dopuska/zapros.md)
+- Sleduyusjhij zapros: [2026-09-11 05:09:33 MSK - Sostavitj plan matematicheskogo napravleniya](../2026-09-11_05-09-33_MSK_sostavitj-plan-matematicheskogo-napravleniya/zapros.md)
 
 ## Tekst zaprosa
 
@@ -56,6 +56,6 @@ Pervichnyij istochnik koordinatora prochitan do zavershyonnogo stabiljnogo prefi
 - [indeks svezhesti Markdown](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 07:09:21 MSK -->
-<!-- content-sha256: sha256:e7019f1b7de4f46f4b6c5bfa88d78bd5eac5dd9b2a5780c2d68231fc321401be -->
+<!-- last-content-edit: 2026-09-11 12:05:42 MSK -->
+<!-- content-sha256: sha256:28a37ea651391981bfc34041d8822bffdc1f29b3fd6903e7cef8b7e3711df78a -->
 <!-- FUM-MD-RECENCY:END -->

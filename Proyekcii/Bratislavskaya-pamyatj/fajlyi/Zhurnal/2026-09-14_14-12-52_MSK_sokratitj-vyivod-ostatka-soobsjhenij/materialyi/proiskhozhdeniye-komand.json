@@ -1,0 +1,76 @@
+{
+  "схема": "fum.происхождение-команд-контекста.1",
+  "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "сообщения": [
+    {
+      "экземпляр": "6bddeb87a8d211b7639ca0955e120930186509d42825060d55d8f78165f096d9",
+      "позиция": {
+        "начало": 531425964,
+        "конец": 531426432,
+        "sha256": "bc9d34d616b320ffaf6c33b840399d20d8e70db346ee049d806346dd4fc2d1d8"
+      },
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "Vsyu rabotu stavim na pauzu i aktivnyij upor delayem na optimizaciyu raskhoda konteksta.\n"
+        }
+      ]
+    },
+    {
+      "экземпляр": "ec3e8a9b273b6ee718f5f02fe26ab38840a2eb109a8b731f803fec6a00f9752e",
+      "позиция": {
+        "начало": 531548995,
+        "конец": 531549440,
+        "sha256": "8cf75a35954427c47ca44814bdf5d6bade2beff7c7cc0d458950389380ed4666"
+      },
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "Ostavlyayem aktivnyimi toljko vetki s uzhe nachatoj integraciyej.\n"
+        }
+      ]
+    },
+    {
+      "экземпляр": "e67c8d70ef48918f4e16354fe3589e437d6aef3688816409b8759e92faf23aa1",
+      "позиция": {
+        "начало": 532066057,
+        "конец": 532066553,
+        "sha256": "aa7f3ba28ff285862219f5320a70af553addf8f8f2a4f649042918aca0d407f6"
+      },
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "Nam kak budto byi prosjhe ne chitatj istoriyu kommitov slizhkom uzh aktivno, tak kak zhurnal i tak yestj v chekaute.\n"
+        }
+      ]
+    },
+    {
+      "экземпляр": "c098e8ba02f777af143f14a87f0d2a908eb21f2e8aba4d72de0cac0e1b5b3c21",
+      "позиция": {
+        "начало": 532316557,
+        "конец": 532317025,
+        "sha256": "6082df297bfdaee8c802e21e1b8f665f2b5173304fa0e469af48005ed444e934"
+      },
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "Pochemu ostanovilasj vyisokoprioritetnaya rabota po optimizacii trat rabochego konteksta?\n"
+        }
+      ]
+    },
+    {
+      "экземпляр": null,
+      "позиция": {
+        "начало": 532933199,
+        "конец": 532933686,
+        "sha256": "ac54486468d65e8cfa0f808bca4a01555a412c47478c1af46f612dd82471daec"
+      },
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "Vtoroj prioritetnoj zadachej paralleljno zapusti poisk dopolniteljnogo finansirovaniya dlya tvoyej rabotyi.\n"
+        }
+      ]
+    }
+  ]
+}

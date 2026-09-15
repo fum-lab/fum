@@ -167,7 +167,7 @@ RED/GREEN vosproizvodit utratu obyazateljstv v istorii, nevernyiye osnovaniya i 
 ## Povliyal na fajlyi
 
 - [Kartochka prodolzheniya 0174](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0174-opisyivatj-primeneniye-avtomatizacij-bez-chteniya-koda.md).
-- [Kartochka golovnoj linii 0175](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md).
+- [Kartochka golovnoj linii 0175](../../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md).
 - [Indeks kartochek](../../Planirovaniye/kartochki-shagov/README.md).
 - [Tekusjhij zapros](zapros.md), [otchyot](otchyot.md), [materialyi](materialyi).
 - [Avtomatizaciya svyaznosti](../../Instrumentyi/fum-svyaznostj-rabochej-sessii).
@@ -177,6 +177,6 @@ RED/GREEN vosproizvodit utratu obyazateljstv v istorii, nevernyiye osnovaniya i 
 - [Indeks Markdown](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md), [proyekciya](../../../..).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 13:49:34 MSK -->
-<!-- content-sha256: sha256:dccb2c809077f44bac24e0d92af4b2ed83046ac0f124f50bc8031a8a270252ab -->
+<!-- last-content-edit: 2026-09-12 01:19:38 MSK -->
+<!-- content-sha256: sha256:9a4c0863dc5e11812145e4008b78ffb23c37416f6e4d1d57cbc8bffca5c5b3f5 -->
 <!-- FUM-MD-RECENCY:END -->

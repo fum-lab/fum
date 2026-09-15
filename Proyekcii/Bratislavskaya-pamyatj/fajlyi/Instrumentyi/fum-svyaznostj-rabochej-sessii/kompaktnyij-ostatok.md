@@ -37,11 +37,13 @@ Otkryityij profilj sravnivayet polnuyu serializaciyu i stranicu poslednikh 10 iz
 
 ## Istochniki
 
+- [Iskhodnaya razrabotka](../../Zhurnal/2026-09-14_14-12-52_MSK_sokratitj-vyivod-ostatka-soobsjhenij/zapros.md) i [yeyo otkryityij profilj](../../Zhurnal/2026-09-14_14-12-52_MSK_sokratitj-vyivod-ostatka-soobsjhenij/materialyi/profili/kompaktnyij-ostatok.json).
+
 - [Postanovka i granica etapa](../../Zhurnal/2026-09-14_14-36-01_MSK_prinyatj-kompaktnyij-ostatok/zapros.md).
 - [Profilj na otkryitom vkhode](../../Zhurnal/2026-09-14_14-36-01_MSK_prinyatj-kompaktnyij-ostatok/materialyi/iskhodnaya-peredacha.json).
 - [Osnovnoj format i obrabotka soobsjhenij](obrabotka-soobsjhenij.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-14 14:48:49 MSK -->
-<!-- content-sha256: sha256:3595e3ac6cfdae6c2e50d7fd35f72d2e00e92f400062bf6780f8a7f9f40dccbc -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:64ec020d5f1a2e883aeaf539c4dcfdb5ad38e45fd88936be32c77b005dc4fc8a -->
 <!-- FUM-MD-RECENCY:END -->

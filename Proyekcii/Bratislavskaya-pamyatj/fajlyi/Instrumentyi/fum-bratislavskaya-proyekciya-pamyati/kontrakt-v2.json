@@ -80,7 +80,9 @@
       "расширения": [
         ".py",
         ".swift",
-        ".sh"
+        ".sh",
+        ".c",
+        ".h"
       ],
       "действие": "сохранить_байты"
     },
@@ -102,7 +104,11 @@
         ".html",
         ".base64",
         ".mlir",
-        ".css"
+        ".css",
+        ".modulemap",
+        ".pbxproj",
+        ".plist",
+        ".entitlements"
       ],
       "точные_пути": [
         ".gitignore",
@@ -111,6 +117,7 @@
         "LICENSE",
         "fum",
         "ЛИЦЕНЗИЯ",
+        "Приложения/FUMA/macOS/.gitignore",
         "Инструменты/fum-reyestr-planirovaniya/scripts/адаптер-codex.js",
         "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/адаптер_ответа.cjs",
         "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_адаптер_ответа.cjs",
@@ -161,6 +168,12 @@
     ".canvas",
     ".lock",
     ".bin",
+    ".c",
+    ".h",
+    ".modulemap",
+    ".pbxproj",
+    ".plist",
+    ".entitlements",
     ".js",
     ".cjs"
   ],

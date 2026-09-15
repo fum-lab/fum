@@ -34,6 +34,14 @@ Normativnaya chastj podgotovlena v [otdeljnom etape](../../Zhurnal/2026-09-10_13
 
 `FUM-СБОЙ-0071/ПРОЯВЛЕНИЕ-0002` dopolnyayet rannyuyu proveryayemuyu granicu obyazateljnyim zapolneniyem kanonicheskoj paryi: tochnaya nepustaya metka «Granica profilya:», tochnyiye zagolovki tablicyi i pryamyiye ssyilki na sobstvennyiye zapros i otchyot. Skhodnaya podpisj i `./` ne zamenyayut mashinnyij kontrakt. Nuzhnyi dokumentirovannyiye usloviya i rannij otkaz do dorogogo shaga; ispravlennyij vruchnuyu dokument ne schitayetsya realizaciyej obsjhej profilaktiki. Iskhodnyiye kriterii dvukh prezhnikh klassov sokhranyayutsya.
 
+## Povtor pri uchyote komand
+
+`FUM-СБОЙ-0071/ПРОЯВЛЕНИЕ-0005`: v tekusjhem otchyote posledovateljno propusjhenyi tochnyij zagolovok tretjyej kolonki i stroka granicyi profilya. Raneye opisannyij rannij kontrolj ostayotsya neobkhodimyim; kriterii i oblastj shaga ne rasshiryayutsya.
+
+## Podgotovlennyij rannij vkhod
+
+V [etape proverki polej](../../Zhurnal/2026-09-15_00-46-36_MSK_proveryatj-polya-zhurnala-do-polnoj-svyaznosti/otchyot.md) realizovan [otdeljnyij komandnyij vkhod](../../Instrumentyi/fum-svyaznostj-rabochej-sessii/rannyaya-proverka-paryi.md), ispoljzuyusjhij proverki dvukh dokumentov bez globaljnogo obkhoda. Posle RED i nezavisimogo obzora proshli 11 regressij, vyipolnen otkryityij profilj. Eto adresno proverennaya narabotka; polnaya priyomka i avtomaticheskoye vklyucheniye pered dorogimi etapami yesjhyo predstoyat. Iskhodnyiye kriterii shaga sokhranyayutsya, status ostayotsya aktivnyim.
+
 ## Rannyaya publikacionnaya proverka materialov
 
 Povtor FUM-SBOJ-0091/PROYAVLENIYE-0002 trebuyet do proyekcii proveryatj polnotu skhemyi i domena novogo veb-adresa, sokhranyaya otdeljnyij tochnyij dopusk istoricheskogo svideteljstva. Iskhodnoye proyavleniye0001 i yego kriterij ostayutsya v kartochke0091. Tri novyiye granicyi uchityivayutsya otdeljno:0121 — perenos strok fiksturyi v novoye dokazateljstvo za predelyi iskhodnogo dopuska;0122 — suffiksyi i ekranirovaniye novyikh Python-primerov;0123 — konkretnyij vremennyij absolyut v novoj instrukcii. Nuzhnyi adresnyiye regressii rannego otkaza i uspeshnogo dopustimogo predstavleniya bez oslableniya obsjhego skanera. Tekusjhiye SHA-dokazateljstvo, tochnyiye deklaracii i parametrizovannaya instrukciya vosstanovili dannyij vkhod; obsjhaya rannyaya mera ne realizovana i ne schitayetsya porucheniyem novogo napravleniya v etoj priyomke.
@@ -68,6 +76,7 @@ Povtor FUM-SBOJ-0091/PROYAVLENIYE-0002 trebuyet do proyekcii proveryatj polnotu 
 
 ## Istochniki
 
+- [Tretij sokhranyonnyij epizod nepolnoj paryi](../../Sboi/FUM-SBOJ-0071-nepolnaya-para-zhurnala-pered-kontroljnoj-tochkoj.md) — `FUM-СБОЙ-0071/ПРОЯВЛЕНИЕ-0005`; [iskhodnyij otchyot](../../Zhurnal/2026-09-15_00-00-47_MSK_uchestj-semj-aktualjnyikh-komand/otchyot.md).
 - [FUM-SBOJ-0134/PROYAVLENIYE-0001](../../Sboi/FUM-SBOJ-0134-kontroljnaya-tochka-vnutri-obyortki.md) — [vyibor rezhima i vosstanovleniye](../../Zhurnal/2026-09-15_02-35-33_MSK_podklyuchitj-porozhdyonnyiye-modeli/otchyot.md).
 
 - [Povtor nepolnoj paryi Zhurnala](../../Sboi/FUM-SBOJ-0071-nepolnaya-para-zhurnala-pered-kontroljnoj-tochkoj.md) — tochnoye osnovaniye `FUM-СБОЙ-0071/ПРОЯВЛЕНИЕ-0002`; [pervichnaya proverka](../../Zhurnal/2026-09-11_10-00-32_MSK_zavershitj-priyom-napravlenij-FUMA/otchyot.md).
@@ -84,7 +93,11 @@ Povtor FUM-SBOJ-0091/PROYAVLENIYE-0002 trebuyet do proyekcii proveryatj polnotu 
 - [FUM-SBOJ-0130/PROYAVLENIYE-0001](../../Sboi/FUM-SBOJ-0130-ustarevshiye-tekstovyiye-kontraktyi-ocheredi.md) — osnovaniye rannej sverki tekstovyikh ozhidanij.
 - [FUM-SBOJ-0131/PROYAVLENIYE-0001](../../Sboi/FUM-SBOJ-0131-nevernyij-tip-rezuljtata-formattera.md) — osnovaniye proverki formyi rezuljtata chastnogo vyizova.
 
+## Povtor, obnaruzhennyij rannim vkhodom
+
+Osnovaniye aktualizacii — `FUM-СБОЙ-0071/ПРОЯВЛЕНИЕ-0006`: [ranniye otkazyi podgotovki obyyedineniya](../../Zhurnal/2026-09-15_03-35-30_MSK_podgotovitj-obyyedineniye-konteksta-i-finansirovaniya/materialyi/ranniye-otkazyi-polej.json). Proverka otrabotala do polnogo obkhoda i dorogoj proyekcii. Nuzhno sokhranitj yeyo ranneye polozheniye i vosproizvodimuyu podgotovku obyazateljnyikh polej; chastnoye ispravleniye paryi ne zakryivayet vesj 0174.
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 03:22:57 MSK -->
-<!-- content-sha256: sha256:7f507b85050529e9671c46e9740731d95ffc95a24d6cce696ce60cf104a1f7eb -->
+<!-- last-content-edit: 2026-09-15 04:47:16 MSK -->
+<!-- content-sha256: sha256:f3b0cc06f59cd639d77fc6608bb12fc98bd41b027d78c1784dacb7efa6c72f91 -->
 <!-- FUM-MD-RECENCY:END -->

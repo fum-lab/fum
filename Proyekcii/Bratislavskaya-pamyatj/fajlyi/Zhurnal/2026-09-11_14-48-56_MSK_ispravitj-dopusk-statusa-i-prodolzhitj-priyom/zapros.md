@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-11 13:39:59 MSK - Prinyatj napravleniye finansirovaniya FUM](../2026-09-11_13-39-59_MSK_prinyatj-napravleniye-finansirovaniya-FUM/zapros.md)
-- Sleduyusjhij zapros: [2026-09-11 15:48:40 MSK - Prinyatj planirovaniye Gosuslug](../2026-09-11_15-48-40_MSK_prinyatj-planirovaniye-Gosuslug/zapros.md)
+- Predyidusjhij zapros: [2026-09-11 14:47:00 MSK - Podgotovitj sovmestimostj master i FUMA](../2026-09-11_14-47-00_MSK_podgotovitj-sovmestimostj-master-i-FUMA/zapros.md)
+- Sleduyusjhij zapros: [2026-09-11 15:22:57 MSK - Proveritj paket sovmestimosti master i FUMA](../2026-09-11_15-22-57_MSK_proveritj-paket-sovmestimosti-master-i-FUMA/zapros.md)
 
 ## Tekst zaprosa
 
@@ -115,6 +115,6 @@ Koordinator yavno razreshil odnu vneshnyuyu finansovuyu popyitku neizmennoj post
 - [predyidusjhij zapros](../2026-09-11_13-39-59_MSK_prinyatj-napravleniye-finansirovaniya-FUM/zapros.md), [indeks Zhurnala](../README.md) i [indeks svezhesti Markdown](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md) — shtatnaya navigaciya i proizvodnyiye metki.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 15:58:22 MSK -->
-<!-- content-sha256: sha256:8577f1a388e6699a80fd04029aee702485e0830bdedbd93e3272a8ea6494133c -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:2407bc9ee05c66cf9bb65f00c96f9b325d3d1660d72a004fa790edac8e9106be -->
 <!-- FUM-MD-RECENCY:END -->

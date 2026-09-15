@@ -39,9 +39,9 @@ Sobstvennyij SAM 3.1 STREAM-kliyent poverkh SwiftNIO ostayotsya otdeljnyim rassh
 - [Prorabotka I2P i utochneniye vyibora libtorrent](https://github.com/fum-lab/fum/blob/6049110117aa2d46380422ff51e2e996f087ee90/Журнал/2026-09-11_21-56-09_MSK_уточнить-план-подключения-I2P/запрос.md).
 - [Material koordinatora o podklyuchenii I2P](../Planirovaniye/integracii/I2P/podklyucheniye-I2P.md).
 
-- [Porucheniye predusmotretj decentralizovannyiye seti](https://github.com/fum-lab/fum/blob/6049110117aa2d46380422ff51e2e996f087ee90/Журнал/2026-09-11_01-07-38_MSK_запланировать-децентрализованные-сети/запрос.md).
+- [Porucheniye predusmotretj decentralizovannyiye seti](../Zhurnal/2026-09-11_01-07-38_MSK_zaplanirovatj-decentralizovannyiye-seti/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 23:52:33 MSK -->
-<!-- content-sha256: sha256:33741b41ee65c83593abd2f76953bd62f2a534983861c74fe744d182077e36fb -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:4a705dc828ba105b7179b65bc363952c0859aa0baaebd7ad03880ab1f5b27920 -->
 <!-- FUM-MD-RECENCY:END -->

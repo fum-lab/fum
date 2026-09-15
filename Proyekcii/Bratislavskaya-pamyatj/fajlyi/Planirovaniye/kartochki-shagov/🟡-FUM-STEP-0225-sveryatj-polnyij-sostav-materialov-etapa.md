@@ -39,7 +39,7 @@ Avtomatizirovatj podgotovku i adresnuyu sverku perechnya zatronutyikh materialov
 
 ## Istochniki
 
-- [FUM-SBOJ-0051/PROYAVLENIYE-0005 i vosstanovleniye tekusjhej paryi](https://github.com/fum-lab/fum/blob/775128491a1b9f9b130bd6946ad2d33fd04dbe51/Журнал/2026-09-12_05-27-53_MSK_объединить-архив-fuma-с-корневой-работой/запрос.md).
+- [FUM-SBOJ-0051/PROYAVLENIYE-0005 i vosstanovleniye tekusjhej paryi](../../Zhurnal/2026-09-12_05-27-53_MSK_obyyedinitj-arkhiv-fuma-s-kornevoj-rabotoj/zapros.md).
 
 - [FUM-SBOJ-0051/PROYAVLENIYE-0004](../../Sboi/FUM-SBOJ-0051-nepolnyij-perechenj-zatronutyikh-fajlov-zaprosa.md); [registraciya i vosstanovleniye](https://github.com/fum-lab/fum/blob/f5716675472a9807d004e95144b98c621855bfc2/Журнал/2026-09-12_00-44-07_MSK_зарегистрировать-диагностику-продолжения/запрос.md).
 
@@ -54,6 +54,6 @@ Avtomatizirovatj podgotovku i adresnuyu sverku perechnya zatronutyikh materialov
 - [FUM-SBOJ-0051/PROYAVLENIYE-0008](../../Sboi/FUM-SBOJ-0051-nepolnyij-perechenj-zatronutyikh-fajlov-zaprosa.md) — [naznacheniye i nablyudeniye tekusjhego etapa](../../Zhurnal/2026-09-14_22-40-28_MSK_obyyedinitj-paketyi-i-proveritj-ostatok/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-14 23:57:54 MSK -->
-<!-- content-sha256: sha256:5d0fd3219fe11a1efe1e8c82604c8c3c71f452499deddffd0e421a32fd481878 -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:2410d81a4f5c51715e1c2e5dfff2968a36fc9f2af3ae159fde3797c3bcdda537 -->
 <!-- FUM-MD-RECENCY:END -->

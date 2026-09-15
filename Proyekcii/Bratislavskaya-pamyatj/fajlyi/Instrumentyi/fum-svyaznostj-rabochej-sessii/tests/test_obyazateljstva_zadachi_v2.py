@@ -10,6 +10,7 @@ import sys
 import tempfile
 import unittest
 from unittest import mock
+from исходник_проверки import пустой_диалог
 
 КОРЕНЬ = Path(__file__).resolve().parents[3]
 СЦЕНАРИЙ = КОРЕНЬ / 'Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-продолжение-задачи.py'
@@ -33,6 +34,7 @@ class ОбязательстваЗадачи(unittest.TestCase):
 
     def подготовить(это):
         это.корень = Path(это.enterContext(tempfile.TemporaryDirectory())).resolve()
+        это.исходник = пустой_диалог(это, ИДЕНТИФИКАТОР)
         это.запрос = 'Журнал/2026-09-09_10-00-00_MSK_реализовать-наблюдение/запрос.md'
         это.путь_плана = str(Path(это.запрос).parent / 'материалы/продолжение.json')
         это.путь_реестра = f'Планирование/задачи/{ИДЕНТИФИКАТОР}/обязательства.json'
@@ -58,7 +60,9 @@ class ОбязательстваЗадачи(unittest.TestCase):
         это.начало = это.коммит()
 
     def гит(это, *аргументы):
-        результат = subprocess.run(['git', '-C', str(это.корень), *аргументы], capture_output=True, check=True)
+        среда = {имя: значение for имя, значение in os.environ.items() if not имя.startswith('GIT_')}
+        среда.update(GIT_CONFIG_NOSYSTEM='1', GIT_CONFIG_GLOBAL=os.devnull)
+        результат = subprocess.run(['git', '-C', str(это.корень), *аргументы], capture_output=True, check=True, env=среда)
         return результат.stdout.decode().strip()
 
     def коммит(это):
@@ -85,13 +89,13 @@ class ОбязательстваЗадачи(unittest.TestCase):
     def вызвать(это, *дополнение):
         это.сохранить()
         return subprocess.run([sys.executable, str(СЦЕНАРИЙ), '--корень-репозитория', str(это.корень),
-            '--codex-thread-id', ИДЕНТИФИКАТОР, '--перед-завершением', *дополнение], capture_output=True, text=True,
+            '--codex-thread-id', ИДЕНТИФИКАТОР, '--исходник', str(это.исходник), '--перед-завершением', *дополнение], capture_output=True, text=True,
             env=dict(os.environ, PYTHONDONTWRITEBYTECODE='1'))
 
     def ожидать(это, код):
         ответ = это.вызвать()
         это.assertEqual(ответ.returncode, код, ответ.stderr + ответ.stdout)
-        return json.loads(ответ.stdout) if ответ.stdout else None
+        return json.loads(ответ.stdout)['обязательства'] if ответ.stdout else None
 
     def test_активная_карточка_не_завершается_готовым_контрактом(это):
         ответ = это.ожидать(3)
@@ -302,7 +306,7 @@ class ОбязательстваЗадачи(unittest.TestCase):
         путь.unlink()
         путь.symlink_to(это.корень / 'подмена.json')
         ответ = subprocess.run([sys.executable, str(СЦЕНАРИЙ), '--корень-репозитория', str(это.корень),
-            '--codex-thread-id', ИДЕНТИФИКАТОР, '--перед-завершением'], capture_output=True)
+            '--codex-thread-id', ИДЕНТИФИКАТОР, '--исходник', str(это.исходник), '--перед-завершением'], capture_output=True)
         это.assertEqual(ответ.returncode, 2)
 
     def test_удаление_реестра_не_позволяет_откат_к_разовой_схеме(это):
@@ -312,7 +316,7 @@ class ОбязательстваЗадачи(unittest.TestCase):
         del это.план['работы'][0]['обязательство']
         это.записать(это.путь_плана, json.dumps(это.план, ensure_ascii=False))
         ответ = subprocess.run([sys.executable, str(СЦЕНАРИЙ), '--корень-репозитория', str(это.корень),
-            '--план', это.путь_плана, '--codex-thread-id', ИДЕНТИФИКАТОР, '--перед-завершением'], capture_output=True)
+            '--план', это.путь_плана, '--codex-thread-id', ИДЕНТИФИКАТОР, '--исходник', str(это.исходник), '--перед-завершением'], capture_output=True)
         это.assertEqual(ответ.returncode, 2)
 
     def test_новая_приёмка_заменяет_актуальность_старой_сохраняя_историю(это):
@@ -355,7 +359,7 @@ class ОбязательстваЗадачи(unittest.TestCase):
         путь.unlink()
         путь.write_text(исходное.rstrip()[:-1] + ', "обязательства": []}')
         ответ = subprocess.run([sys.executable, str(СЦЕНАРИЙ), '--корень-репозитория', str(это.корень),
-            '--codex-thread-id', ИДЕНТИФИКАТОР, '--перед-завершением'], capture_output=True)
+            '--codex-thread-id', ИДЕНТИФИКАТОР, '--исходник', str(это.исходник), '--перед-завершением'], capture_output=True)
         это.assertEqual(ответ.returncode, 2)
 
     def test_пример_команды_внутри_текста_не_останавливает(это):
@@ -400,7 +404,7 @@ class ОбязательстваЗадачи(unittest.TestCase):
                     это.сохранить()
                     это.записать(имя, json.dumps(значение))
                     ответ = subprocess.run([sys.executable, str(СЦЕНАРИЙ), '--корень-репозитория', str(это.корень),
-                        '--codex-thread-id', ИДЕНТИФИКАТОР, '--перед-завершением'], capture_output=True, text=True)
+                        '--codex-thread-id', ИДЕНТИФИКАТОР, '--исходник', str(это.исходник), '--перед-завершением'], capture_output=True, text=True)
                     это.assertEqual(ответ.returncode, 2, ответ.stderr)
                     это.assertNotIn('Traceback', ответ.stderr)
 

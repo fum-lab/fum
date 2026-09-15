@@ -77,7 +77,7 @@ Snachala utochnyayutsya matrica i obsjhij scenarij; zatem platformennyiye rezulj
 
 - [Graficheskiye interfejsyi FUMA](../../Trebovaniya/🟡-graficheskiye-interfejsyi-FUMA.md).
 - [Trebovaniye zapuska FUMA](../../Trebovaniya/🟡-zapusk-FUMA-na-celevyikh-platformakh.md).
-- [Sobratj sobstvennuyu realizaciyu v FUM](🟡-FUM-STEP-0176-sobratj-sobstvennuyu-realizaciyu-v-FUM.md).
+- [Sobratj sobstvennuyu realizaciyu v FUM](✅-FUM-STEP-0176-sobratj-sobstvennuyu-realizaciyu-v-FUM.md).
 - [Nastrojka GitHub Actions](🟡-FUM-STEP-0178-avtomatizirovatj-nastrojku-GitHub-Actions.md).
 - [Podgotovka macOS](🟡-FUM-STEP-0179-avtomatizirovatj-podgotovku-repozitoriya-na-macOS.md).
 - [Podgotovka Linux](🟡-FUM-STEP-0180-avtomatizirovatj-podgotovku-repozitoriya-na-Linux.md).
@@ -85,12 +85,9 @@ Snachala utochnyayutsya matrica i obsjhij scenarij; zatem platformennyiye rezulj
 
 ## Istochniki
 
-- [Komanda vyibora Swift System](../../Zhurnal/2026-09-11_09-29-11_MSK_prinyatj-vyibor-Swift-System/zapros.md).
-- [Issledovannaya versiya Swift System 1.8.1](https://github.com/apple/swift-system/releases/tag/1.8.1).
-
-- [Iskhodnoye trebovaniye i dva soobsjheniya, dopolnivshiye perechenj](https://github.com/fum-lab/fum/blob/5c9806560fb9b52112ff8a7bc11888a1bb71f7aa/%D0%96%D1%83%D1%80%D0%BD%D0%B0%D0%BB/2026-09-11_01-03-38_MSK_%D0%B7%D0%B0%D0%BF%D0%BB%D0%B0%D0%BD%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D1%82%D1%8C-%D0%BF%D0%BB%D0%B0%D1%82%D1%84%D0%BE%D1%80%D0%BC%D1%8B-%D0%B8-%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D1%83-FUMA/%D0%B7%D0%B0%D0%BF%D1%80%D0%BE%D1%81.md).
+- [Iskhodnoye trebovaniye i dva soobsjheniya, dopolnivshiye perechenj](../../Zhurnal/2026-09-11_01-03-38_MSK_zaplanirovatj-platformyi-i-grafiku-FUMA/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 01:05:57 MSK -->
-<!-- content-sha256: sha256:1ed62295e8a70bc465e2463e7f4c07590ef2e4f209dc376377cdd77958c3f583 -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:b804242ba5a88970e2a81212ff64fd1a28a71d1dd35b2f202d6c54dd5d5dd66d -->
 <!-- FUM-MD-RECENCY:END -->

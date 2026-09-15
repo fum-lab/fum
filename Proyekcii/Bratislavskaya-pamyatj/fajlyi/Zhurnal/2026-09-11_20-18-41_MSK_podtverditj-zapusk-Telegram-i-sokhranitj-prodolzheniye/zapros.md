@@ -4,7 +4,7 @@ Eto sleduyusjhij etap toj zhe kornevoj zadachi posle kommita `d3b1a2d6d1804af028
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-11 19:12:07 MSK - Prinyatj plan avtonomnogo komplekta FUM](../2026-09-11_19-12-07_MSK_prinyatj-plan-avtonomnogo-komplekta-FUM/zapros.md)
+- Predyidusjhij zapros: [2026-09-11 20:18:06 MSK - Prinyatj sliyaniye fuma i master](../2026-09-11_20-18-06_MSK_prinyatj-sliyaniye-fuma-i-master/zapros.md)
 - Sleduyusjhij zapros: [2026-09-11 20:37:47 MSK - Prinyatj parametricheskoye 3D FUMA](../2026-09-11_20-37-47_MSK_prinyatj-parametricheskoye-3D-FUMA/zapros.md)
 
 ## Tekst zaprosa
@@ -151,6 +151,6 @@ Proverka publikacionnoj chistotyi zavershilasj uspeshno i sokhranena shtatnoj ob
 - [Indeks svezhesti](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 20:52:00 MSK -->
-<!-- content-sha256: sha256:9dfa23d8f873490c930276e3ff7f546aebc778b54c2549a5e6dc0fc9e8730f37 -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:bbe05f86de7d8ac30f56e35bf3503d2f351fdd7e037e79b1e0aca81efc7b9d1d -->
 <!-- FUM-MD-RECENCY:END -->

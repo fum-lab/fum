@@ -13,6 +13,8 @@ Zakrepitj proveryayemuyu meru, ne pozvolyayusjhuyu pri ruchnom formirovanii koma
 
 Iskhodnyij adresnyij diff proshyol bez mashinnoj zapisi. Povtor 0176 dobavil pryamuyu sborku reyestra s neizvestnyim vremenem, a epizod kornya 0201 — chetyire build vne obyortki, tri otkaza i uspekh. Shtatnyiye pozdniye zapuski podtverdili novoye sostoyaniye, no ne vosstanovili dokazateljstvo iskhodnyikh vyizovov zadnim chislom. V kartochke FUM-SBOJ-0025 sokhranenyi pyatj proyavlenij odnoj granicyi: 0001–0003, nezavisimoye 0101 napravleniya vselennoj i 0102 priyomki konteksta. V poslednem epizode otdeljnyiye vremya i kod predvariteljnogo diff ne sokhranenyi; pozdnij uchtyonnyij povtor ne podmenyayet pervonachaljnuyu kvitanciyu.
 
+Vtoroye podtverzhdyonnoye proyavleniye `FUM-СБОЙ-0025/ПРОЯВЛЕНИЕ-0002` vozniklo pri zapuske planovogo generatora v perenose 0176. Mera dolzhna okhvatyivatj takzhe proverochnyiye generatoryi vnutri sostavnyikh komand.
+
 ## Kriterii zaversheniya
 
 - Razlichenyi proverochnyiye vyizovyi, read-only-inventarj i razreshyonnyiye proverki zamyikaniya zakryitogo otchyota.
@@ -23,6 +25,8 @@ Iskhodnyij adresnyij diff proshyol bez mashinnoj zapisi. Povtor 0176 dobavil pry
 
 ## Istochniki
 
+- [FUM-SBOJ-0025/PROYAVLENIYE-0002](../../Sboi/FUM-SBOJ-0025-pryamoj-zapusk-proverki-vne-mashinnogo-uchyota.md#proyavleniya).
+
 - [Iskhodnyij zapros](../../Zhurnal/2026-09-07_18-16-36_MSK_prinyatj-modelj-betonnyikh-glubinnyikh-sistem/zapros.md).
 - [FUM-SBOJ-0025/PROYAVLENIYE-0001–0003](../../Sboi/FUM-SBOJ-0025-pryamoj-zapusk-proverki-vne-mashinnogo-uchyota.md#proyavleniya).
 
@@ -31,6 +35,6 @@ Iskhodnyij adresnyij diff proshyol bez mashinnoj zapisi. Povtor 0176 dobavil pry
 - [FUM-SBOJ-0025/PROYAVLENIYE-0101 i 0102](../../Sboi/FUM-SBOJ-0025-pryamoj-zapusk-proverki-vne-mashinnogo-uchyota.md#proyavleniya) i [naznacheniye 0102](../../Zhurnal/2026-09-14_20-03-08_MSK_utochnitj-sobstvennyiye-imena-postavki/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-14 21:05:29 MSK -->
-<!-- content-sha256: sha256:7537970bca3020d978b9f25ba722007c259ba7553f27084f29315bb89176a06a -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:46a59b7160b3cebeb4a9f4fd6534e6b154310bcab2b9ec4dca4a6919e00691c4 -->
 <!-- FUM-MD-RECENCY:END -->

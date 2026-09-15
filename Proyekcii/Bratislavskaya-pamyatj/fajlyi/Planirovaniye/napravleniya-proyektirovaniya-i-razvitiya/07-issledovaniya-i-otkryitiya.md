@@ -23,6 +23,34 @@ Daljshe napravleniye dolzhno svyazatjsya s agentskim ciklom: FUM ne toljko vyipo
 
 Zapolnennyij lokaljnyij primer sravnivayet determinirovannuyu JSON-serializaciyu dvukh poryadkov vstavki i povtoryayetsya odnoj komandoj Python bez seti, sekretov i zapisi. On podderzhivayet uzkuyu gipotezu v zafiksirovannoj srede, no pryamo ne zayavlyayet universaljnuyu kanonichnostj JSON, nezavisimoye vosproizvedeniye ili otkryitiye.
 
+## Biotekhnologii
+
+Podgotovlenyi trebovaniye FUM-REQ-0057 i aktivnyij shag FUM-STEP-0191 dlya biotekhnologicheskogo napravleniya. Plan predusmatrivayet vyipolnennoye sravneniye dvukh opublikovannyikh variantov obrabotki rastiteljnogo pisjhevogo syirjya s raschyotami, sravniteljnoj tablicej i ogranichennyim vyivodom; pasport vkhodit v tot zhe budusjhij shag. Issledovateljskij kandidat predlozhen analizom, sravneniye poka ne vyipolneno.
+
+- [Sravnitj pervyiye biotekhnologicheskiye scenarii obrabotki pisjhevogo syirjya](../kartochki-shagov/🟡-FUM-STEP-0191-sravnitj-pervyiye-biotekhnologicheskiye-scenarii-obrabotki-pisjhevogo-syirjya.md)
+- [Biotekhnologicheskoye napravleniye FUMA](../../Trebovaniya/🟡-biotekhnologicheskoye-napravleniye-FUMA.md)
+
+## Genetika
+
+Podgotovlenyi trebovaniye FUM-REQ-0058 i aktivnyij shag FUM-STEP-0192 dlya geneticheskogo napravleniya. Plan predusmatrivayet vyipolnennoye vosproizvedeniye sinteticheskogo nasledovaniya pryamyim raschyotom i modeljnyimi povtorami s otchyotom o sravnenii; pasport vkhodit v tot zhe budusjhij shag. Sinteticheskij lokus ostayotsya predlozhennyim kandidatom, vyichisliteljnyij eksperiment poka ne vyipolnen.
+
+- [Vosproizvesti modelj nasledovaniya sinteticheskogo lokusa](../kartochki-shagov/🟡-FUM-STEP-0192-vosproizvesti-modelj-nasledovaniya-sinteticheskogo-lokusa.md)
+- [Geneticheskoye napravleniye FUMA](../../Trebovaniya/🟡-geneticheskoye-napravleniye-FUMA.md)
+
+## Khimiya
+
+Podgotovlenyi trebovaniye FUM-REQ-0059 i aktivnyij shag FUM-STEP-0193 dlya khimicheskogo napravleniya. Plan predusmatrivayet izvlecheniye tablicyi rastvorimosti, raschyot ili interpolyaciyu i sopostavleniye istochnikov s kolichestvennyim vyivodom; zaversheniye shaga trebuyet vyipolnennogo vyichisliteljnogo issledovaniya, pasport vkhodit v tot zhe rezuljtat. Khlorid natriya ostayotsya predlozhennyim kandidatom, vyichisleniya poka ne vyipolnenyi.
+
+- [Vosproizvesti zavisimostj rastvorimosti soli po otkryityim dannyim](../kartochki-shagov/🟡-FUM-STEP-0193-vosproizvesti-zavisimostj-rastvorimosti-soli-po-otkryityim-dannyim.md)
+- [Khimicheskoye napravleniye FUMA](../../Trebovaniya/🟡-khimicheskoye-napravleniye-FUMA.md)
+
+## Fizika
+
+Podgotovlenyi trebovaniye FUM-REQ-0060 i aktivnyij shag FUM-STEP-0194 dlya fizicheskikh issledovanij. Plan predusmatrivayet vyipolnennyiye analiticheskij i chislennyij raschyotyi zatukhayusjhego oscillyatora s izmereniyem oshibki i skhodimosti i ogranichennyim vyivodom; pasport vkhodit v tot zhe budusjhij shag. Oscillyator ostayotsya predlozhennyim kandidatom, vyichisleniya poka ne vyipolnenyi.
+
+- [Vosproizvesti modelj zatukhayusjhego oscillyatora](../kartochki-shagov/🟡-FUM-STEP-0194-vosproizvesti-modelj-zatukhayusjhego-oscillyatora.md)
+- [Fizicheskoye issledovateljskoye napravleniye FUMA](../../Trebovaniya/🟡-fizicheskoye-issledovateljskoye-napravleniye-FUMA.md)
+
 ## Proveryayemyiye rezuljtatyi
 
 - Issledovateljskaya gipoteza imeyet yavnyij istochnik i kriterij proverki.
@@ -36,6 +64,14 @@ Issledovateljskij tekst ne dolzhen podmenyatj dokazateljstvo ritorikoj. Yesli re
 
 ## Istochniki trebovanij
 
+- [Porucheniye o napravlenii](../../Zhurnal/2026-09-11_01-44-21_MSK_zaplanirovatj-fizicheskoye-issledovateljskoye-napravleniye/zapros.md)
+
+- [Porucheniye o napravlenii](../../Zhurnal/2026-09-11_01-42-42_MSK_zaplanirovatj-khimicheskoye-napravleniye/zapros.md)
+
+- [Porucheniye o napravlenii](../../Zhurnal/2026-09-11_01-41-15_MSK_zaplanirovatj-geneticheskoye-napravleniye/zapros.md)
+
+- [Porucheniye o napravlenii](../../Zhurnal/2026-09-11_01-39-04_MSK_zaplanirovatj-biotekhnologicheskoye-napravleniye/zapros.md)
+
 - [iskhodnyij zapros 2026-07-23 16:11:30 MSK — Opisatj shablon kartochki eksperimenta FUM](../../Zhurnal/2026-07-23_16-11-30_MSK_opisatj-shablon-kartochki-eksperimenta-FUM/zapros.md)
 - [iskhodnyij zapros 2026-06-25 17:59:02 MSK](../../Zhurnal/2026-06-25_17-59-02_MSK/zapros.md)
 - [iskhodnyij zapros 2026-06-25 18:17:22 MSK](../../Zhurnal/2026-06-25_18-17-22_MSK/zapros.md)
@@ -47,6 +83,6 @@ Issledovateljskij tekst ne dolzhen podmenyatj dokazateljstvo ritorikoj. Yesli re
 - [Voprosyi](../../Voprosyi/README.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-08-03 14:54:04 MSK -->
-<!-- content-sha256: sha256:77d6c262797ff619938e0c1ee48c6b9494d506558f3396c668282c4cd7903fec -->
+<!-- last-content-edit: 2026-09-11 01:44:45 MSK -->
+<!-- content-sha256: sha256:41f10d67b43b3abeed1c60cfcf5c0820b4196d6644cac8bcba3a7c41927385b5 -->
 <!-- FUM-MD-RECENCY:END -->

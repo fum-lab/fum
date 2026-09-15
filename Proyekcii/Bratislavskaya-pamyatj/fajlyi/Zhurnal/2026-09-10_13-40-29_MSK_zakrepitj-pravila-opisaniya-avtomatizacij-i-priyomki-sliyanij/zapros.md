@@ -80,10 +80,10 @@ Pryamyiye proverki i ikh iskhodyi sokhranyayutsya v [otchyote](otchyot.md). Ispo
 - [Mashinnyiye svideteljstva tekusjhego etapa](materialyi/zapuski-proverok).
 - [Obyazateljnoye yadro](../../AGENTS.md), [normyi avtomatizacij](../../Pravila/agentov/lokaljnyiye-navyiki-i-instrumentyi.md), [normyi planirovaniya](../../Pravila/agentov/planirovaniye-trebovaniya-voprosyi-i-sboi.md), [inventarj pravil](../../Pravila/agentov/inventarj-pravil.json).
 - [Reyestr obyazateljstv](../../Planirovaniye/zadachi/01a07d3d-d376-7ad2-aafc-67e4c25a67eb/obyazateljstva.json).
-- [Kartochka 0174](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0174-opisyivatj-primeneniye-avtomatizacij-bez-chteniya-koda.md), [kartochka 0175](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md), [planovyij reyestr](../../Planirovaniye/reyestr-trebovanij-variantov-i-kandidatov.json).
+- [Kartochka 0174](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0174-opisyivatj-primeneniye-avtomatizacij-bez-chteniya-koda.md), [kartochka 0175](../../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md), [planovyij reyestr](../../Planirovaniye/reyestr-trebovanij-variantov-i-kandidatov.json).
 - [Etot zapros](zapros.md), [otchyot](otchyot.md), [predyidusjhij zapros: navigaciya](../2026-09-10_11-51-55_MSK_sokhranyatj-ostatok-obyazateljstv/zapros.md), [indeks Zhurnala](../README.md), [indeks Markdown](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md), [proyekciya](../../../..).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 14:37:13 MSK -->
-<!-- content-sha256: sha256:ea3c617a4a66719cf3d44966c8b5b4a532395df3f797289f997b25bb59c471b7 -->
+<!-- last-content-edit: 2026-09-12 01:19:38 MSK -->
+<!-- content-sha256: sha256:1534bfaf2181ae191bb1c186a664fc8811816c8c56c9fb2d526e5cad94698289 -->
 <!-- FUM-MD-RECENCY:END -->

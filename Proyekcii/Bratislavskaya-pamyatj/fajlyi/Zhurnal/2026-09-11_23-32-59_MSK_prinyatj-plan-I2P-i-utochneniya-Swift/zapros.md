@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-11 22:27:25 MSK - Perenesti finansovyij rezuljtat FUM](../2026-09-11_22-27-25_MSK_perenesti-finansovyij-rezuljtat-FUM/zapros.md)
-- Sleduyusjhij zapros: [2026-09-12 00:13:57 MSK - Dobavitj otlozhennyiye naznacheniya napravlenij](../2026-09-12_00-13-57_MSK_dobavitj-otlozhennyiye-naznacheniya-napravlenij/zapros.md)
+- Predyidusjhij zapros: [2026-09-11 22:33:53 MSK - Soglasovatj profili dopuska prodolzheniya](../2026-09-11_22-33-53_MSK_soglasovatj-profili-dopuska-prodolzheniya/zapros.md)
+- Sleduyusjhij zapros: [2026-09-11 23:55:50 MSK - Prinyatj sliyaniye s profilyami prodolzheniya](../2026-09-11_23-55-50_MSK_prinyatj-sliyaniye-s-profilyami-prodolzheniya/zapros.md)
 
 ## Tekst zaprosa
 
@@ -113,6 +113,6 @@ Pozdnyaya komanda 262 poluchena cherez povtornoye kvalificirovannoye chteniye: 2
 Koordinator utverdil naznacheniya 0181, 0216, 0220, 0221, 0165 i 0224 i poruchil tekusjhej 0201 prioritetno podgotovitj proveryayemyij marshrut pozdnego zapuska: samostoyateljnyij klyuch komandyi, napravleniya i iskhodnogo kommita, dry-run, primeneniye, neizmennostj proshlyikh reshenij i odnokratnyiye popyitki. Eto koordinaciya ispolneniya komandyi 262, a ne novyiye chelovecheskiye soobsjheniya.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-12 01:09:27 MSK -->
-<!-- content-sha256: sha256:a5384e4baf64b0643709efcbac9b965ad7a6c262776433c20c4f39d35a30d499 -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:9b554f701aae1caaa20636077f298700150cbb9f2690d5691a3859af51d97496 -->
 <!-- FUM-MD-RECENCY:END -->

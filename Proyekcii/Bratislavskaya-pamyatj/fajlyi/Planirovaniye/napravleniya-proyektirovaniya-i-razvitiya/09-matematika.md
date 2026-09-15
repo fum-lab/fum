@@ -52,13 +52,13 @@ Predmetnyiye realizacii, JSON Schema, soderzhimoye JSON-fikstur, istoricheskiye 
 ## Istochniki
 
 - [Iskhodnaya komanda i kommit postanovki](../../Zhurnal/2026-09-11_03-32-33_MSK_svyazatj-priyom-s-kommitom-postanovki/zapros.md).
-- [Zapros tekusjhego etapa](https://github.com/fum-lab/fum/blob/b762bd0cb77fdbcc418141a1f33800a7bdb630a6/Журнал/2026-09-11_05-09-33_MSK_составить-план-математического-направления/запрос.md) i [otchyot](https://github.com/fum-lab/fum/blob/b762bd0cb77fdbcc418141a1f33800a7bdb630a6/Журнал/2026-09-11_05-09-33_MSK_составить-план-математического-направления/отчёт.md).
+- [Zapros tekusjhego etapa](../../Zhurnal/2026-09-11_05-09-33_MSK_sostavitj-plan-matematicheskogo-napravleniya/zapros.md) i [otchyot](../../Zhurnal/2026-09-11_05-09-33_MSK_sostavitj-plan-matematicheskogo-napravleniya/otchyot.md).
 - [Trebovaniye proveryayemogo plana](../../Trebovaniya/🟡-proveryayemyij-plan-matematicheskogo-napravleniya.md) i [kartochka rezuljtata planirovaniya](../kartochki-shagov/✅-FUM-STEP-0202-sostavitj-plan-matematicheskogo-napravleniya.md).
 - Opredeleniya: [nablyudatelj](../../Glossarij/nablyudatelj-FUM.md), [nablyudateljskaya otnositeljnostj](../../Glossarij/nablyudateljskaya-otnositeljnostj-FUM.md), [preobrazovaniye](../../Glossarij/preobrazovaniye-mezhdu-nablyudatelyami-FUM.md), [obobsjhyonnyij poisk povtorov](../../Glossarij/obobsjhyonnyij-poisk-povtoryayusjhikhsya-posledovateljnostej.md), [suffiksno-prediktivnaya pamyatj](../../Glossarij/suffiksno-prediktivnaya-pamyatj-FUM.md), [obsjhaya skhema](../../Glossarij/obsjhaya-skhema-FUM.md), [gipoteza](../../Glossarij/gipoteza-FUM.md).
 - [Granicyi yestestvenno-yazyikovoj sinkhronizacii](../../Voprosyi/2026-07-13_20-34-23_MSK_granicyi-yestestvenno-yazyikovoj-sinkhronizacii-znanij-FUM.md) i [abstrakciya urovnej](../../Voprosyi/2026-06-26_12-19-03_MSK_abstrakciya-urovnej-nablyudayemoj-vselennoj-FUM.md) — svyazannyiye otkryityiye voprosyi za granicej pervogo rezuljtata.
 - [Mashinnyij format kartochek sootvetstviya — 0014](../kartochki-shagov/🟡-FUM-STEP-0014-podgotovitj-mashinno-chitayemyij-format-i-proverku-kartochek-sootvetstviya-FUM.md) i [vizualizaciya povtoryayemosti — 0015](../kartochki-shagov/🟡-FUM-STEP-0015-opisatj-pasport-grafovoj-vizualizacii-indeksa-obobsjhyonnogo-poiska-povtoryayusjhikhsya-posledovateljnostej-FUM.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 07:57:14 MSK -->
-<!-- content-sha256: sha256:99005b2189818f8096a8c9c4a226e3c9ee3dad76740be60cdc67b2587499534f -->
+<!-- last-content-edit: 2026-09-11 12:05:42 MSK -->
+<!-- content-sha256: sha256:cd2013e6871babf08c485ea5a79849a683edc8c5a6af707cdacb69689f7aa23e -->
 <!-- FUM-MD-RECENCY:END -->

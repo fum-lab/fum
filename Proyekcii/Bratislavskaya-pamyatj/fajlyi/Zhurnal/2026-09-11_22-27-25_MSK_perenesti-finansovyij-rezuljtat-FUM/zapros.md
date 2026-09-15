@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-11 21:47:07 MSK - Podtverditj README i utochnitj zerkala](../2026-09-11_21-47-07_MSK_podtverditj-README-i-utochnitj-zerkala/zapros.md)
-- Sleduyusjhij zapros: [2026-09-11 23:32:59 MSK - Prinyatj plan I2P i utochneniya Swift](../2026-09-11_23-32-59_MSK_prinyatj-plan-I2P-i-utochneniya-Swift/zapros.md)
+- Predyidusjhij zapros: [2026-09-11 21:58:48 MSK - Prinyatj sliyaniye posle ispravleniya putej](../2026-09-11_21-58-48_MSK_prinyatj-sliyaniye-posle-ispravleniya-putej/zapros.md)
+- Sleduyusjhij zapros: [2026-09-11 22:33:53 MSK - Soglasovatj profili dopuska prodolzheniya](../2026-09-11_22-33-53_MSK_soglasovatj-profili-dopuska-prodolzheniya/zapros.md)
 
 ## Tekst zaprosa
 
@@ -75,6 +75,6 @@ Eto sleduyusjhij etap toj zhe kornevoj zadachi, a ne novoye soobsjheniye poljzov
 Sluzhebnoye porucheniye koordinatora o yedinstvennom rezerve FUM-SBOJ-0090 sokhranyayetsya otdeljno ot chelovecheskikh komand: [kvitanciya rezerva](materialyi/rezerv-normativnyikh-profilej.json). Rezuljtat i granica ispolnitelya opisanyi v otchyote.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 23:52:33 MSK -->
-<!-- content-sha256: sha256:b465711c9845d8d8d7712bd7e538ea206ad9f56d01505a7a98858b82f1b9a4a4 -->
+<!-- last-content-edit: 2026-09-15 04:47:16 MSK -->
+<!-- content-sha256: sha256:d713ed6cfb6b234875bff8b6ed0b092942dbbb9a570150c65ea199e65e98fb0e -->
 <!-- FUM-MD-RECENCY:END -->

@@ -90,6 +90,12 @@ PYTHONDONTWRITEBYTECODE=1 python3 Инструменты/fum-perevod-obyyavlenij
 
 `проверить` zanovo stroit polnyij inventarj i trebuyet tochnogo sovpadeniya yego otpechatka i svodnyikh chisel so snimkom. Lyuboye dobavleniye, udaleniye, peremesjheniye ili izmeneniye pozicii nablyudayemogo obyyavleniya dayot nenulevoj kod zaversheniya.
 
+## Konechnyij adapter Codex
+
+Inventarizaciya dopolniteljno prinimayet toljko tochnyij `Инструменты/fum-reyestr-planirovaniya/scripts/адаптер-codex.js`. Dopusjhen konechnyij shablon asinkhronnoj funkcii s dvumya parametrami, podgotovkoj dopuska, uslovnyim ispolneniyem i sokhraneniyem otveta. Chetyire sobstvennyiye privyazki poluchayut tochnyiye pozicii v inventare; vneshniye klyuchevyiye slova JavaScript sokhranyayutsya. Probelyi i razreshyonnyiye perevodyi strok ne menyayut kontrakt, kommentarii, stroki, dopolniteljnyiye instrukcii, nedopustimyiye imena i izmeneniye svyazej shablona zakryivayut yego.
+
+Ispoljzujte obyichnuyu komandu `инвентаризировать --корень-репозитория .`; pri otkaze vosstanovite polnyij shablon. Etot podtip dopuska ne razreshayet samostoyateljnyij perevod proizvoljnogo JS: drugiye puti i rasshireniya `.js`, `.mjs`, `.cjs`, samostoyateljnyiye JS-ogradyi Markdown, simvolicheskiye ssyilki i nevernyij registr ne sootvetstvuyut yego konechnomu shablonu. Chetyire [CJS-scenariya otveta](scenarii-otveta.md) imeyut otdeljnyij konechnyij dopusk. Doslovnyiye iskhodnyiye zaprosyi i tochnaya proizvodnaya oblastj sokhranyayut prezhniye granicyi. Proyektor ispoljzuyet tu zhe funkciyu proverki iz svoyej prinimayusjhej versii instrumenta.
+
 ## Karta pereimenovanij
 
 Karta skhemyi `1` perechislyayet toljko vyibrannyiye fajlyi. Dlya kazhdogo fajla zakreplyayutsya otnositeljnyij putj, khyesh tochnyikh iskhodnyikh bajtov i nepustoye sootvetstviye staryikh imyon novyim:
@@ -141,10 +147,12 @@ Testyi proveryayut inventarj tryokh yazyikov, zasjhisjhyonnyiye oblasti, tochnyi
 
 ## Istochnik trebovaniya
 
+- [Paket sovmestimosti FUM-STEP-0175](../../Zhurnal/2026-09-11_14-47-00_MSK_podgotovitj-sovmestimostj-master-i-FUMA/zapros.md).
+
 - [iskhodnyij zapros 2026-08-23 11:33:38 MSK — Vernutj ruchnuyu posledovateljnuyu skhemu sessij](../../Zhurnal/2026-08-23_11-33-38_MSK_vernutj-ruchnuyu-posledovateljnuyu-skhemu-sessij/zapros.md)
 - [iskhodnyij zapros 2026-08-04 12:51:44 MSK — Perevesti obyyavlyayemyij kod na russkij yazyik](../../Zhurnal/2026-08-04_12-51-44_MSK_perevesti-obyyavlyayemyij-kod-na-russkij-yazyik/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-14 23:14:36 MSK -->
-<!-- content-sha256: sha256:d0d44fad2842844532c8a2a3fc6dab060d92df125abe601338f6a3f267117b4d -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:66d3aece69c2ac2d36ae692dc9e6bf0d859c1554535c212dcbd2ee404068a155 -->
 <!-- FUM-MD-RECENCY:END -->

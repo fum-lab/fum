@@ -1,0 +1,28 @@
+{
+  "схема": "fum.продолжение-задачи.1",
+  "задача": "01a08d6a-4df0-7cb3-9bc4-ebd730a44882",
+  "режим": "разовая",
+  "остановка": null,
+  "работы": [
+    {
+      "идентификатор": "реализация",
+      "действие": "Связать исходный JSONL с общим допуском и адаптером",
+      "состояние": "завершена",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_01-25-54_MSK_включить-остаток-сообщений-в-допуск/запрос.md",
+        "цитата": "Davaj luchshe vmesto etogo sledom sdelayem obyazateljno vyizyivayemuyu avtomatizaciyu, kotoraya vozvrasjhayet vse nepopavzhiye v istoriyu kak obrabotannyiye soobsjheniya ot poljzovatelya."
+      },
+      "свидетельство": "Составной допуск, строгий ответ версии 3 и адресные проверки сохранены в текущем отчёте."
+    },
+    {
+      "идентификатор": "правила-и-приёмка",
+      "действие": "Принять полный комплект, обновить правила и руководства, завершить проверку и проекцию, передать коммит координатору",
+      "состояние": "доступна",
+      "основание": {
+        "запрос": "Журнал/2026-09-11_01-25-54_MSK_включить-остаток-сообщений-в-допуск/запрос.md",
+        "цитата": "Davaj luchshe vmesto etogo sledom sdelayem obyazateljno vyizyivayemuyu avtomatizaciyu, kotoraya vozvrasjhayet vse nepopavzhiye v istoriyu kak obrabotannyiye soobsjheniya ot poljzovatelya."
+      },
+      "свидетельство": null
+    }
+  ]
+}

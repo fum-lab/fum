@@ -8,7 +8,7 @@ Pri chastnoj podgotovke planovogo vkhoda 0165 skript zavershilsya `AssertionErro
 
 - [Pravilo razlichatj fakt i neopredelyonnuyu klassifikaciyu](../Pravila/agentov/planirovaniye-trebovaniya-voprosyi-i-sboi.md), FUM-PRAVILO-000126.
 - [Dejstvuyusjheye vosstanovleniye konteksta](../AGENTS.md), FUM-PRAVILO-NOVOYE-000017: polnyij istochnik i pozdniye utochneniya proveryayutsya otdeljno ot fakta chteniya ili obrabotki.
-- [Kontrakt chitatelya](../Instrumentyi/fum-svyaznostj-rabochej-sessii/soobsjheniya-zadachi.md) i [susjhestvuyusjhij STEP-0177](../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0177-vozvrasjhatj-neobrabotannyiye-soobsjheniya-poljzovatelya.md). Ikh defekt ne dokazan.
+- [Kontrakt chitatelya](../Instrumentyi/fum-svyaznostj-rabochej-sessii/soobsjheniya-zadachi.md) i [susjhestvuyusjhij STEP-0177](../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0177-vozvrasjhatj-neobrabotannyiye-soobsjheniya-poljzovatelya.md). Ikh defekt ne dokazan.
 - [Tekusjhij zapros](../Zhurnal/2026-09-11_09-36-55_MSK_sokhranitj-ostavshuyusya-diagnostiku-priyoma/zapros.md) i [otchyot diagnostiki](../Zhurnal/2026-09-11_09-36-55_MSK_sokhranitj-ostavshuyusya-diagnostiku-priyoma/otchyot.md).
 
 ## Nablyudeniye i chastichnoye proyasneniye
@@ -37,6 +37,6 @@ Vopros sokhranyayet neopredelyonnostj i ne poruchayet novuyu avtomatizaciyu, rea
 - [Adresnyiye pervichnyiye svideteljstva tekusjhej diagnostiki](../Zhurnal/2026-09-11_09-36-55_MSK_sokhranitj-ostavshuyusya-diagnostiku-priyoma/otchyot.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 10:25:02 MSK -->
-<!-- content-sha256: sha256:d370e24b37cd4cf91a8a9aff67ddbc12e92ee5f34b6d37a37fe734b4982e503c -->
+<!-- last-content-edit: 2026-09-11 11:59:08 MSK -->
+<!-- content-sha256: sha256:3ea0a23468cfdf54aa56f6d5ed1e213928314089bf76697d1270141b7816ad61 -->
 <!-- FUM-MD-RECENCY:END -->

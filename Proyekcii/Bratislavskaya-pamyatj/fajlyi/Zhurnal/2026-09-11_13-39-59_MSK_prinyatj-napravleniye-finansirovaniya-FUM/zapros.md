@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-11 10:00:32 MSK - Zavershitj priyom napravlenij FUMA](../2026-09-11_10-00-32_MSK_zavershitj-priyom-napravlenij-FUMA/zapros.md)
-- Sleduyusjhij zapros: [2026-09-11 14:48:56 MSK - Ispravitj dopusk statusa i prodolzhitj priyom](../2026-09-11_14-48-56_MSK_ispravitj-dopusk-statusa-i-prodolzhitj-priyom/zapros.md)
+- Predyidusjhij zapros: [2026-09-11 12:35:21 MSK - Prinyatj sovmestnuyu integraciyu vosjmi vkhodov](../2026-09-11_12-35-21_MSK_prinyatj-sovmestnuyu-integraciyu-vosjmi-vkhodov/zapros.md)
+- Sleduyusjhij zapros: [2026-09-11 14:00:14 MSK - Sokhranitj peredachu integracii i pozdnij dialog](../2026-09-11_14-00-14_MSK_sokhranitj-peredachu-integracii-i-pozdnij-dialog/zapros.md)
 
 ## Tekst zaprosa
 
@@ -92,6 +92,6 @@ Pozdnim upravlyayusjhim utochneniyem chetvyortyim dobavleno planirovaniye mnogos
 Obnaruzhennyij otkaz vosstanovleniya otdeljno razreshyon k ogranichennomu TDD-ispravleniyu v tekusjhem sobstvennom etape. Sozdaniye yesjhyo odnoj papki do korrekcii izmenilo byi zakhvachennyiye bajtyi navigacii, poetomu iskhodnaya para ostavalasj neizmennoj do `готов: true`. Posle uspekha otchyot dopolnen vsled za paroj. Zapisannyiye rezuljtatyi, novyiye napravleniya i diagnosticheskij ostatok ne pereotkryivayut zakryituyu priyomku 0201.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 15:10:58 MSK -->
-<!-- content-sha256: sha256:d4c61e70bce4f1bd28c2932fcedfa79a8844e3a947117bc4c534c8bda9671a02 -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:cd1591233a503f075e490048da0aca1fe06ee10a337fa5ab8e9304c138bb8967 -->
 <!-- FUM-MD-RECENCY:END -->

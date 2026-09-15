@@ -2,7 +2,7 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-11 15:48:40 MSK - Prinyatj planirovaniye Gosuslug](../2026-09-11_15-48-40_MSK_prinyatj-planirovaniye-Gosuslug/zapros.md)
+- Predyidusjhij zapros: [2026-09-11 15:50:49 MSK - Prinyatj sovmestimostj FUMA cherez otchyot v3](../2026-09-11_15-50-49_MSK_prinyatj-sovmestimostj-FUMA-cherez-otchyot-v3/zapros.md)
 - Sleduyusjhij zapros: [2026-09-11 16:55:35 MSK - Utochnitj operatornoye vnimaniye i prodolzhitj priyom](../2026-09-11_16-55-35_MSK_utochnitj-operatornoye-vnimaniye-i-prodolzhitj-priyom/zapros.md)
 
 ## Tekst zaprosa
@@ -140,6 +140,6 @@ Prodolzhayetsya sobstvennaya zadacha posle kommita 0219773d4a6c695739f8a2c53d4e5
 - Udalyonnyij fajl: `Планирование/карточки-шагов/🟡-FUM-STEP-0214-проверить-восстановление-последовательности-зависимых-стадий.md`
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 17:16:54 MSK -->
-<!-- content-sha256: sha256:1ef3fb904cb2b6bdf754079f62c063670fafb79ce1311390f295e50e3c3f6432 -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:82ec976bf430e4c838509d4516bac1477c604fe947a292b5ce7f8b4e04020129 -->
 <!-- FUM-MD-RECENCY:END -->

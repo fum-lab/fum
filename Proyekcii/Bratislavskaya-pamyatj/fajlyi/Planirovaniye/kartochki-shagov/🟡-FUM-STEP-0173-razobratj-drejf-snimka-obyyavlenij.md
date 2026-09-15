@@ -50,10 +50,10 @@ Polnyij snimok obnovlyayetsya toljko posle sovmestnogo dokazannogo razbora obeik
 - [Iskhodnaya komanda postanovki](../../Zhurnal/2026-09-14_18-32-12_MSK_prinyatj-generaciyu-i-profilj-konteksta/zapros.md) — prezhneye utochneniye 0002 sokhraneno iz tochnogo `775128491a1b9f9b130bd6946ad2d33fd04dbe51`.
 
 - [FUM-SBOJ-0045/PROYAVLENIYE-0001](../../Sboi/FUM-SBOJ-0045-drejf-snimka-obyyavlenij-koda.md).
-- [FUM-SBOJ-0045/PROYAVLENIYE-0002](../../Sboi/FUM-SBOJ-0045-drejf-snimka-obyyavlenij-koda.md) i [sverka s osnovoj](https://github.com/fum-lab/fum/blob/775128491a1b9f9b130bd6946ad2d33fd04dbe51/Журнал/2026-09-11_07-17-34_MSK_реализовать-перенос-рабочих-деревьев/материалы/профиль/дельта-объявлений.json).
+- [FUM-SBOJ-0045/PROYAVLENIYE-0002](../../Sboi/FUM-SBOJ-0045-drejf-snimka-obyyavlenij-koda.md) i [sverka s osnovoj](../../Zhurnal/2026-09-11_07-17-34_MSK_realizovatj-perenos-rabochikh-derevjyev/materialyi/profilj/deljta-obyyavlenij.json).
 - [Nablyudeniye v etape adaptacii](../../Zhurnal/2026-09-10_00-49-43_MSK_svyazatj-proverki-s-kommitami/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 03:14:24 MSK -->
-<!-- content-sha256: sha256:fa49683eb4bb63e0b975c2048275ef9594642e20a1b1ebabe3fceb6a2cb77237 -->
+<!-- last-content-edit: 2026-09-15 04:47:16 MSK -->
+<!-- content-sha256: sha256:3475b131d6bc11dd80c47b35964cb4e3ea68ae087a60eeae9ca827d5120f39ad -->
 <!-- FUM-MD-RECENCY:END -->

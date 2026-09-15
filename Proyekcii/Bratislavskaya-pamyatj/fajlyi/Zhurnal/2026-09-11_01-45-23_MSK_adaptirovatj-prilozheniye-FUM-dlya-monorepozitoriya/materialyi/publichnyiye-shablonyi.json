@@ -1,0 +1,24 @@
+{
+  "схема": "fum.публичные-шаблоны.1",
+  "профиль": {
+    "подготовка_нс": 423458,
+    "применение_нс": 387292
+  },
+  "файлы": [
+    {
+      "путь": "Приложения/FUMA/macOS/script/install_attention_loop.sh",
+      "до": "79b9408e5f1c237a0edb97e08de14e4d6fcd1c7e99a5052ec72f1e54e4a6baeb",
+      "после": "850cc8b37541a5766f9031676ab2b4fd2d3000f2f6daa7ed4a25c7de4dcbe42e"
+    },
+    {
+      "путь": "Приложения/FUMA/macOS/script/install_ax_vision_sense.sh",
+      "до": "d2ec9d029890be96c0b1d8fb28f7a532d6e03ee8e6509e00694f9d2624afdade",
+      "после": "0906d6ff67470adf8d4a2311ff59a7b3dffac6800c63239d002be5bbf6f260c8"
+    },
+    {
+      "путь": "Приложения/FUMA/macOS/script/install_fum_app.sh",
+      "до": "a2f5a99c7db74890ed911d8335be44406b767d70db5f6e9294b75c81e0675dc8",
+      "после": "a015bb0bf83b617881df452c46fd15bfcfd1dede685b406c727caa5c02a19821"
+    }
+  ]
+}

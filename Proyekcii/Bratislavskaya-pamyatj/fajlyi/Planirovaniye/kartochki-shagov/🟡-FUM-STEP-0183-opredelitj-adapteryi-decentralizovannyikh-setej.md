@@ -27,7 +27,7 @@ Poljzovatelj potreboval rabotu s nazvannyimi setyami i vozmozhnostj dobavlyatj d
 - [Trebovaniye setevyikh integracij](../../Trebovaniya/🟡-rabota-FUMA-s-decentralizovannyimi-setyami.md).
 - [Platformennyiye sborki FUMA](🟡-FUM-STEP-0182-opredelitj-platformennyiye-sborki-i-pervyij-scenarij-FUMA.md).
 - [Podgotovka GitHub Actions](🟡-FUM-STEP-0178-avtomatizirovatj-nastrojku-GitHub-Actions.md).
-- [Sobstvennyiye iskhodniki v monorepozitorii](🟡-FUM-STEP-0176-sobratj-sobstvennuyu-realizaciyu-v-FUM.md).
+- [Sobstvennyiye iskhodniki v monorepozitorii](✅-FUM-STEP-0176-sobratj-sobstvennuyu-realizaciyu-v-FUM.md).
 
 ## Prinyatyij plan fajlovogo scenariya I2P cherez libtorrent
 
@@ -60,9 +60,9 @@ Budusjhaya vosproizvodimaya sborka sokhranyayet realjnyiye LICENSE/NOTICE vsekh 
 - [Prorabotka I2P i utochneniye vyibora libtorrent](https://github.com/fum-lab/fum/blob/6049110117aa2d46380422ff51e2e996f087ee90/Журнал/2026-09-11_21-56-09_MSK_уточнить-план-подключения-I2P/запрос.md).
 - [Material koordinatora o podklyuchenii I2P](../integracii/I2P/podklyucheniye-I2P.md).
 
-- [Iskhodnaya komanda i soderzhateljnyij otvet](https://github.com/fum-lab/fum/blob/6049110117aa2d46380422ff51e2e996f087ee90/Журнал/2026-09-11_01-07-38_MSK_запланировать-децентрализованные-сети/запрос.md).
+- [Iskhodnaya komanda i soderzhateljnyij otvet](../../Zhurnal/2026-09-11_01-07-38_MSK_zaplanirovatj-decentralizovannyiye-seti/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 23:52:33 MSK -->
-<!-- content-sha256: sha256:9c961033714b4bcacc58ebf7a46ac7a6cc076c04ece72995c2fdb02c23a0de5d -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:3892debe9c657a1a92653462226aba4a5876c608e7bc7e261d0ac0adddd880d8 -->
 <!-- FUM-MD-RECENCY:END -->

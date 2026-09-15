@@ -317,17 +317,22 @@ def _derive_exception(
     root: Path,
     declaration: Declaration,
     inventory: dict[str, object],
-    text_cache: dict[str, str],
+    text_cache: dict[str, tuple[int, tuple[object, ...]]],
 ) -> object:
-    text = text_cache.get(declaration.path)
-    if text is None:
+    анализ = text_cache.get(declaration.path)
+    if анализ is None:
         text = _read_target_text(root, declaration, inventory)
-        text_cache[declaration.path] = text
-    lines = text.splitlines()
-    if declaration.line > len(lines):
+        число_строк = len(text.splitlines())
+    else:
+        число_строк = анализ[0]
+    if declaration.line > число_строк:
         raise UpdateError("declaration line is outside the file")
 
-    candidates = scanner.scan_text(declaration.path, text)
+    if анализ is None:
+        candidates = tuple(scanner.scan_text(declaration.path, text))
+        text_cache[declaration.path] = (число_строк, candidates)
+    else:
+        candidates = анализ[1]
     selected = [
         candidate
         for candidate in candidates
@@ -457,7 +462,7 @@ def update_policy(
         exception.identifier: index
         for index, exception in enumerate(updated_exceptions)
     }
-    text_cache: dict[str, str] = {}
+    text_cache: dict[str, tuple[int, tuple[object, ...]]] = {}
     for declaration in parsed_declarations:
         derived = _derive_exception(
             root,

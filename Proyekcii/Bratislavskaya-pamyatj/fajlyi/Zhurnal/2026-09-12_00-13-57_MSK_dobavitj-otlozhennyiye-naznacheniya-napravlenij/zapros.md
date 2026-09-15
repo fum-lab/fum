@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-11 23:32:59 MSK - Prinyatj plan I2P i utochneniya Swift](../2026-09-11_23-32-59_MSK_prinyatj-plan-I2P-i-utochneniya-Swift/zapros.md)
-- Sleduyusjhij zapros: [2026-09-12 03:42:08 MSK - Realizovatj sinteticheskij rabochij kontekst](../2026-09-12_03-42-08_MSK_realizovatj-sinteticheskij-rabochij-kontekst/zapros.md)
+- Predyidusjhij zapros: [2026-09-11 23:55:50 MSK - Prinyatj sliyaniye s profilyami prodolzheniya](../2026-09-11_23-55-50_MSK_prinyatj-sliyaniye-s-profilyami-prodolzheniya/zapros.md)
+- Sleduyusjhij zapros: [2026-09-12 01:02:01 MSK - Sokhranitj pozdnij dialog i prodvizheniye master](../2026-09-12_01-02-01_MSK_sokhranitj-pozdnij-dialog-i-prodvizheniye-master/zapros.md)
 
 ## Tekst zaprosa
 
@@ -62,6 +62,6 @@ Codex-Thread-ID: 01a08d77-2060-7701-9f44-ff04769d8a6e
 Eto sleduyusjhij etap tekusjhej zadachi posle c613ccf88926046f951cdcaa5205a8cda2aabe31. Pervoye soobsjheniye prinadlezhit etoj zadache, vtoroye — podlinnoye soobsjheniye 262 zadachi 01a07d3d-d376-7ad2-aafc-67e4c25a67eb. Tretjye — podlinnoye soobsjheniye 263 toj zhe zadachi s ukazaniyem prodolzhitj posle obnovleniya sistemyi. Pervichnyiye tekstyi povtorno sverenyi chitatelem. Povtornoj komandyi poljzovatelya ne sozdayotsya. Utochneniya koordinatora yavlyayutsya nativnyim porucheniyem: odin paket iz shesti napravlenij, otdeljnyij istoricheskij i novyij kommit zapuska, zapret povtora posle neopredelyonnogo iskhoda.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-12 04:18:55 MSK -->
-<!-- content-sha256: sha256:5ea0dca123f71e373b15d0c0fe54899ad6df329bf19e6e4d854e57834aedf8c0 -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:cceea96d06b1872504b220fcd74ae96882302ffffe72103a5e72abf62d50a629 -->
 <!-- FUM-MD-RECENCY:END -->

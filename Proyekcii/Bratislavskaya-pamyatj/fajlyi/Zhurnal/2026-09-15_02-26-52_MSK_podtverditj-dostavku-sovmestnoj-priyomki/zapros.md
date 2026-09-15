@@ -2,7 +2,7 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-14 22:40:28 MSK - Obyyedinitj paketyi i proveritj ostatok](../2026-09-14_22-40-28_MSK_obyyedinitj-paketyi-i-proveritj-ostatok/zapros.md)
+- Predyidusjhij zapros: [2026-09-15 01:49:18 MSK - Sokhranitj granicyi priyomki i prodolzheniya konteksta](../2026-09-15_01-49-18_MSK_sokhranitj-granicyi-priyomki-i-prodolzheniya-konteksta/zapros.md)
 - Sleduyusjhij zapros: [2026-09-15 02:35:33 MSK - Podklyuchitj porozhdyonnyiye modeli](../2026-09-15_02-35-33_MSK_podklyuchitj-porozhdyonnyiye-modeli/zapros.md)
 
 ## Tekst zaprosa
@@ -125,6 +125,6 @@ Eto novyij etap toj zhe zadachi posle opublikovannogo `f80bdf424350a6c07fb5e5acf
 Sleduyusjhij srez nachinayetsya posle prinyatoj sovmestnoj postavki v tom zhe worktree: podklyucheniye porozhdyonnyikh modelej k CLI/cache. Kvitanciya snachala sokhranyayetsya kontroljnoj tochkoj, zatem rabota prodolzhayetsya po [planu](materialyi/plan-etapa.json). Ona ne razreshayet shirokuyu integraciyu v master/fuma.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 03:08:23 MSK -->
-<!-- content-sha256: sha256:cb007e15a953b28dfd4bb6abe06ec49d26477a9f46f10fa3dc1815053f9663a9 -->
+<!-- last-content-edit: 2026-09-15 04:47:16 MSK -->
+<!-- content-sha256: sha256:7171c96ccf5000c1c0e0a48863467a21139708b9777af501af74bd065914b3a2 -->
 <!-- FUM-MD-RECENCY:END -->

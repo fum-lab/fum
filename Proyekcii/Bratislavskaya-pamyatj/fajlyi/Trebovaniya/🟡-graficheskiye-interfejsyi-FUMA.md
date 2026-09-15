@@ -28,9 +28,9 @@ Susjhestvuyusjheye [trebovaniye Metal dlya interfejsa Apple silicon](🟡-otriso
 
 ## Istochniki trebovanij
 
-- [Komanda o graficheskikh API, zamena Mantle na Vulkan i dobavleniye Web](https://github.com/fum-lab/fum/blob/5c9806560fb9b52112ff8a7bc11888a1bb71f7aa/%D0%96%D1%83%D1%80%D0%BD%D0%B0%D0%BB/2026-09-11_01-03-38_MSK_%D0%B7%D0%B0%D0%BF%D0%BB%D0%B0%D0%BD%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D1%82%D1%8C-%D0%BF%D0%BB%D0%B0%D1%82%D1%84%D0%BE%D1%80%D0%BC%D1%8B-%D0%B8-%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D0%BA%D1%83-FUMA/%D0%B7%D0%B0%D0%BF%D1%80%D0%BE%D1%81.md).
+- [Komanda o graficheskikh API, zamena Mantle na Vulkan i dobavleniye Web](../Zhurnal/2026-09-11_01-03-38_MSK_zaplanirovatj-platformyi-i-grafiku-FUMA/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 08:58:13 MSK -->
-<!-- content-sha256: sha256:fc5d74549157f163d4288a98d7293b9eee54fc7344c1e2650aedc326eeb7da29 -->
+<!-- last-content-edit: 2026-09-11 01:06:16 MSK -->
+<!-- content-sha256: sha256:92555554d405dac418047c53c4f224da3a5ba180ea3595cdee656c5c2d28b902 -->
 <!-- FUM-MD-RECENCY:END -->

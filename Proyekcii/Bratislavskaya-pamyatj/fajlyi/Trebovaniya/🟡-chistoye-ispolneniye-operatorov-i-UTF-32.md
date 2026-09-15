@@ -23,15 +23,16 @@ Pervyij predmetnyij kontrakt — strogoye dekodirovaniye iskhodnyikh bajtov UTF-
 
 ## Status i granicyi
 
-Status trebovaniya — `🟡`: interpretator s predmetnyim primerom UTF-8 → UTF-32 prinyat k realizacii. Pervyij ogranichennyij rezuljtat zadayot FUM-STEP-0208. On ne podtverzhdayet universaljnyij yazyik, nezavisimuyu realizaciyu yadra, potokovuyu obrabotku porciyami ili bezopasnostj proizvoljnogo vneshnego koda.
+Status trebovaniya — `🟡`: konechnyij kontrakt realizovan v [prototipe](../Prototipyi/pamyatj-strukturiruyusjhikh-operatorov/konechnoye-ispolneniye.md) po FUM-STEP-0208; [otchyot realizacii](../Zhurnal/2026-09-11_07-43-37_MSK_realizovatj-interpretator-i-UTF-32/otchyot.md) sokhranyayet adresnyiye RED/GREEN, nezavisimyiye ozhidaniya i profilj. Eto rezuljtat sobstvennoj vetki; integraciya v osnovnuyu pamyatj proveryayetsya otdeljno. On ne podtverzhdayet universaljnyij yazyik, nezavisimuyu realizaciyu yadra, potokovuyu obrabotku porciyami ili bezopasnostj proizvoljnogo vneshnego koda.
 
 ## Istochniki trebovanij
 
+- [Zapros realizacii](../Zhurnal/2026-09-11_07-43-37_MSK_realizovatj-interpretator-i-UTF-32/zapros.md).
 - [Postanovka shriftovogo profilya](../Zhurnal/2026-09-11_16-55-35_MSK_utochnitj-operatornoye-vnimaniye-i-prodolzhitj-priyom/zapros.md).
 
 - [Iskhodnaya komanda](../Zhurnal/2026-09-11_07-19-51_MSK_prinyatj-postanovku-interpretatora/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 17:16:54 MSK -->
-<!-- content-sha256: sha256:e46f8e775383475f884e05225bcbe390860f6c99002c680f92d36794f75388a9 -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:0d5e8138903c270edaf65919dffee1c4972ed7e6f93f5a67a159a85fad11bd5d -->
 <!-- FUM-MD-RECENCY:END -->

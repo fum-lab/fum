@@ -73,13 +73,13 @@ Pravilo, vyivedennoye iz udachnoj reakcii, sokhranyayet oblastj primeneniya, svi
 
 ## Istochniki
 
-- [Utochneniye o vspominanii i vyichislyayemom JSON-sostoyanii](https://github.com/fum-lab/fum/blob/186b0360a31b97184773757634976257d0f86495/Журнал/2026-09-11_08-14-52_MSK_уточнить-план-вспоминания-рабочего-контекста/запрос.md).
+- [Utochneniye o vspominanii i vyichislyayemom JSON-sostoyanii](../../Zhurnal/2026-09-11_08-14-52_MSK_utochnitj-plan-vspominaniya-rabochego-konteksta/zapros.md).
 
 - [Plan kompaktnogo rabochego konteksta](README.md).
 - [Shag 0165](../kartochki-shagov/🟡-FUM-STEP-0165-sobiratj-rabochij-kontekst-zadachi.md).
 - [Ukazaniya o vnutrennej obratnoj svyazi, avtomaticheskikh detektorakh i chelovecheskoj modeli](https://github.com/fum-lab/fum/blob/186b0360a31b97184773757634976257d0f86495/Журнал/2026-09-09_14-35-59_MSK_подготовить-нативное-продолжение-задачи/запрос.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-12 01:09:27 MSK -->
-<!-- content-sha256: sha256:bc399e829501eea17c3eb0b14c18c8aee0828730160d32e2931c1fd20ad5f665 -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:b78ffe342c560109cb8e454f795730308a11e22d5aa8c6a655c77d69a4b4052e -->
 <!-- FUM-MD-RECENCY:END -->

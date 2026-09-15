@@ -24,7 +24,12 @@ Razbor tekusjhego cikla pokazal povtornoye chteniye pravil i rezuljtatov, dlinny
 - TDD, profilj i sravneniye na odinakovom nabore zadach izmeryayut obyyom peredannyikh dannyikh, povtornyiye chteniya, chislo ruchnyikh vyizovov i vremya vosstanovleniya pri odinakovoj polnote obyazateljstv. Porog poleznosti obosnovan izmereniyami; procent effektivnosti zaraneye ne naznachayetsya.
 - Nezavisimyij etalon korrektnosti predshestvuyet ocenke ekonomii; obsjhij limit akkaunta, zatratyi processa i zadacha ne smeshivayutsya. Resursnyiye pokazaniya imeyut istochnik, vremya i oblastj, a nedostupnyiye schyotchiki ostayutsya neizvestnyimi. Proveryayetsya stoimostj samogo nablyudeniya i effekt razreshyonnoj korrekcii.
 
+## Prioritet pervoj realizacii
+
+Nachatj s [chitayusjhego sreza nablyudayemosti](../rabochij-kontekst-zadachi/README.md): odna zadacha, yavno vyibrannyiye istochniki i moment ocenki, posledniye podtverzhdyonnyiye sostoyaniya kanalov i neizvestnostj. Pyatj nablyudyonnyikh situacij ispoljzuyut susjhestvuyusjhiye scenarii; pervyimi rassmatrivayutsya DETEKTOR-07 i zavisimoye ustarevaniye DETEKTOR-02. Interfejsyi snimka, statistiki i chitatelya 0177 staticheski prosmotrenyi s ogranicheniyami; sovmestnoye ispolneniye i adapter poka ne realizovanyi. Uspekh etogo ogranichennogo sreza ne zakryivayet ostaljnyiye kriterii kartochki.
+
 ## Planovoye utochneniye: vspominaniye po kommitam
+
 
 Mekhanizm vspominaniya vkhodit v preimusjhestvenno algoritmicheski vyichislyayemoye JSON-sostoyaniye organov chuvstv FUMA. V kompaktnom rabochem kontekste on dolzhen predstavlyatj povod vernutjsya k razboru khoda zadachi. Interval zadayotsya konfiguraciyej v kommitakh; 10 — primer iz iskhodnoj komandyi. Vopros «Vsyo li idyot khorosho» illyustriruyet povod dlya vnimaniya i ne yavlyayetsya dostatochnyim kriteriyem kachestva.
 
@@ -66,6 +71,10 @@ Sokhranenyi dve otdeljnyiye oshibki podgotovki vkhoda: terminaljnoye svideteljst
 
 ## Istochniki
 
+- [Novyiye nablyudeniya i utochneniye granicyi pervoj realizacii](../../Zhurnal/2026-09-11_04-16-49_MSK_sokhranitj-nablyudeniya-i-utochnitj-plan-konteksta/zapros.md).
+
+- [Komandyi, otvetyi i proiskhozhdeniye prinyatogo planovogo utochneniya](../../Zhurnal/2026-09-11_08-14-52_MSK_utochnitj-plan-vspominaniya-rabochego-konteksta/zapros.md).
+- [Neobrabotannyiye soobsjheniya i pozdniye utochneniya](✅-FUM-STEP-0177-vozvrasjhatj-neobrabotannyiye-soobsjheniya-poljzovatelya.md).
 - [FUM-SBOJ-0045/PROYAVLENIYE-0004](../../Sboi/FUM-SBOJ-0045-drejf-snimka-obyyavlenij-koda.md) — novoye sobstvennoye imya v CLI-profile; [rannyaya proverka i vosstanovleniye](../../Zhurnal/2026-09-15_02-35-33_MSK_podklyuchitj-porozhdyonnyiye-modeli/otchyot.md).
 
 - [FUM-SBOJ-0045/PROYAVLENIYE-0003](../../Sboi/FUM-SBOJ-0045-drejf-snimka-obyyavlenij-koda.md) — povtor v priyomke 0165: 43800 protiv 43163; sobstvennaya deljta i unasledovannyij prirost klassificiruyutsya otdeljno, snimok ne obnovlyon.
@@ -76,7 +85,6 @@ Sokhranenyi dve otdeljnyiye oshibki podgotovki vkhoda: terminaljnoye svideteljst
 
 - [FUM-SBOJ-0070-neotfiljtrovannoye-media-v-tekstovom-vyivode](../../Sboi/FUM-SBOJ-0070-neotfiljtrovannoye-media-v-tekstovom-vyivode.md) — tochnoye osnovaniye aktualizacii `FUM-СБОЙ-0070/ПРОЯВЛЕНИЕ-0002`; [registraciya i nezavisimoye revjyu](../../Zhurnal/2026-09-11_09-36-55_MSK_sokhranitj-ostavshuyusya-diagnostiku-priyoma/otchyot.md). Utochnyayetsya proiskhozhdeniye uzhe pokazannogo ogranichennogo vosstanovleniya, novoye vyipolneniye shaga ne zayavlyayetsya.
 - [Planovoye utochneniye o vspominanii po kommitam i JSON-sostoyanii](../../Zhurnal/2026-09-11_07-44-52_MSK_prinyatj-matematiku-i-rabochij-kontekst/zapros.md).
-- [Neobrabotannyiye soobsjheniya i pozdniye utochneniya](🟡-FUM-STEP-0177-vozvrasjhatj-neobrabotannyiye-soobsjheniya-poljzovatelya.md).
 - [Vopros ob ispoljzovanii kontekstnogo okna i iskhodnyij prioritet avtomatizacii](../../Zhurnal/2026-09-09_14-35-59_MSK_podgotovitj-nativnoye-prodolzheniye-zadachi/zapros.md).
 - [Nablyudeniya i granicyi tekusjhej ocenki](../../Zhurnal/2026-09-09_14-35-59_MSK_podgotovitj-nativnoye-prodolzheniye-zadachi/otchyot.md).
 - [Statistika vyizovov](🟡-FUM-STEP-0160-nakaplivatj-statistiku-vyizovov.md).
@@ -86,6 +94,6 @@ Sokhranenyi dve otdeljnyiye oshibki podgotovki vkhoda: terminaljnoye svideteljst
 - [Adresnaya klassifikaciya sobstvennoj postavki i vkhodnyiye otkazyi](../../Zhurnal/2026-09-14_20-03-08_MSK_utochnitj-sobstvennyiye-imena-postavki/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 03:14:24 MSK -->
-<!-- content-sha256: sha256:b42648775b253f8df548e5bcb892b1da32392361afa54a78ab51af54c1f7971a -->
+<!-- last-content-edit: 2026-09-15 04:47:16 MSK -->
+<!-- content-sha256: sha256:f659be60373d43f647e4c87de57920baa33bb6cc5d0076304476362ea6945eba -->
 <!-- FUM-MD-RECENCY:END -->

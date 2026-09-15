@@ -69,6 +69,6 @@ Fajl voprosa ne udalyayetsya posle otveta. Yesli vopros poluchayet otvet ili cha
 - [iskhodnyij zapros 2026-07-24 10:44:28 MSK — Nachatj bezokonnyij Swift-prototip vosproizvodimogo popolneniya pamyati FUM](../Zhurnal/2026-07-24_10-44-28_MSK_nachatj-bezokonnyij-Swift-prototip-vosproizvodimogo-popolneniya-pamyati-FUM/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 09:58:11 MSK -->
+<!-- last-content-edit: 2026-09-11 12:44:14 MSK -->
 <!-- content-sha256: sha256:11432c7c8b283e1ac9b07598b11bc2dd5fab6ced22415884f870e76111bc479b -->
 <!-- FUM-MD-RECENCY:END -->

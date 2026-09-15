@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-11 08:10:57 MSK - Utochnitj proverku zaversheniya](../2026-09-11_08-10-57_MSK_utochnitj-proverku-zaversheniya/zapros.md)
-- Sleduyusjhij zapros: [2026-09-11 08:30:29 MSK - Prinyatj svyazj napravleniya i vetki](../2026-09-11_08-30-29_MSK_prinyatj-svyazj-napravleniya-i-vetki/zapros.md)
+- Predyidusjhij zapros: [2026-09-11 08:14:52 MSK - Utochnitj plan vspominaniya rabochego konteksta](../2026-09-11_08-14-52_MSK_utochnitj-plan-vspominaniya-rabochego-konteksta/zapros.md)
+- Sleduyusjhij zapros: [2026-09-11 08:23:55 MSK - Kvalificirovatj dopisj dlya perekhvata](../2026-09-11_08-23-55_MSK_kvalificirovatj-dopisj-dlya-perekhvata/zapros.md)
 
 ## Tekst zaprosa
 
@@ -61,6 +61,6 @@ V iskhodnom napravlenii ne vyibranyi ustrojstva i protokolyi. Prinimayetsya odna
 - [indeks svezhesti](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 08:37:36 MSK -->
-<!-- content-sha256: sha256:347e66e1ab70222ae2d6950df8cba8dd41c4917aa5b79154a760768c6028d3d0 -->
+<!-- last-content-edit: 2026-09-11 11:59:08 MSK -->
+<!-- content-sha256: sha256:3718df68369b7da4a68d5366b287fe81dc6eb0d5337eb910a03c39228f3d0142 -->
 <!-- FUM-MD-RECENCY:END -->

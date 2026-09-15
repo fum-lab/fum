@@ -2,7 +2,7 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-11 07:19:51 MSK - Prinyatj postanovku interpretatora](../2026-09-11_07-19-51_MSK_prinyatj-postanovku-interpretatora/zapros.md)
+- Predyidusjhij zapros: [2026-09-11 07:43:37 MSK - Realizovatj interpretator i UTF 32](../2026-09-11_07-43-37_MSK_realizovatj-interpretator-i-UTF-32/zapros.md)
 - Sleduyusjhij zapros: [2026-09-11 08:10:57 MSK - Utochnitj proverku zaversheniya](../2026-09-11_08-10-57_MSK_utochnitj-proverku-zaversheniya/zapros.md)
 
 ## Tekst zaprosa
@@ -96,6 +96,6 @@ Proiskhozhdeniye obsjhego obyyoma: [pervonachaljnaya postanovka 0201](../2026-09
 - [indeks svezhesti](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 08:17:29 MSK -->
-<!-- content-sha256: sha256:d9a1404214812f7be72bcfe5d3e652aedb45b13e05a3fc9c2aa581cbf72af3b4 -->
+<!-- last-content-edit: 2026-09-11 12:20:23 MSK -->
+<!-- content-sha256: sha256:26f96a70b29df3216ee9e0ba967c9319682ca533327bf9cb03b23630c5a51c94 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -40,9 +40,9 @@ Matematika prinyata v 7039a3f6e6ac3ea7dad48f825b78303f833e3594; tri novyikh vidi
 - [Konechnyij obyyom i fakticheskiye dokazateljstva](../../Zhurnal/2026-09-11_10-00-32_MSK_zavershitj-priyom-napravlenij-FUMA/otchyot.md).
 - [Komandyi, utochneniye sostava i raspredeleniye rabotyi](../../Zhurnal/2026-09-11_01-40-19_MSK_avtomatizirovatj-priyom-napravlenij-FUMA/zapros.md).
 - [Pervyij etap i fakticheskij ostatok](../../Zhurnal/2026-09-11_01-40-19_MSK_avtomatizirovatj-priyom-napravlenij-FUMA/otchyot.md).
-- [Chitatelj iskhodnyikh soobsjhenij](🟡-FUM-STEP-0177-vozvrasjhatj-neobrabotannyiye-soobsjheniya-poljzovatelya.md).
+- [Chitatelj iskhodnyikh soobsjhenij](✅-FUM-STEP-0177-vozvrasjhatj-neobrabotannyiye-soobsjheniya-poljzovatelya.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 15:10:58 MSK -->
-<!-- content-sha256: sha256:ebdaed6f4079a2a86ee9f982eb20f296aaf39faf51eb67a01f1fdb7bbec61fa2 -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:39ba05d0457a6151687d13c21a8eceb2786bc6469bb64a03cb40a3f7fc47b40b -->
 <!-- FUM-MD-RECENCY:END -->

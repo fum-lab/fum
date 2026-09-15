@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>fum.app</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>${FUM_APP_BUNDLE}/Contents/MacOS/FUM</string>
+	</array>
+	<key>WorkingDirectory</key>
+	<string>${FUM_RUNTIME_ROOT}</string>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>KeepAlive</key>
+	<true/>
+	<key>ProcessType</key>
+	<string>Interactive</string>
+	<key>ThrottleInterval</key>
+	<integer>5</integer>
+	<key>StandardOutPath</key>
+	<string>${FUM_RUNTIME_ROOT}/fum.stdout.log</string>
+	<key>StandardErrorPath</key>
+	<string>${FUM_RUNTIME_ROOT}/fum.stderr.log</string>
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>FUM_RUNTIME_ROOT</key>
+		<string>${FUM_RUNTIME_ROOT}</string>
+		<key>FUM_MEMORY_ROOT</key>
+		<string>${FUM_MEMORY_ROOT}</string>
+	</dict>
+</dict>
+</plist>

@@ -48,7 +48,7 @@ class ПроверкаОбработки(unittest.TestCase):
         проверка.добавить("Сделай.\n", 1)
 
     def гит(проверка, *аргументы):
-        return subprocess.check_output(["git", "-c", "core.hooksPath=/dev/null", *аргументы], cwd=проверка.корень, stderr=subprocess.PIPE)
+        return subprocess.check_output(["git", "-c", f"core.hooksPath={os.devnull}", *аргументы], cwd=проверка.корень, stderr=subprocess.PIPE)
 
     def коммит(проверка):
         проверка.гит("add", ".")

@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-11 18:47:36 MSK - Prinyatj plan zerkaljnoj sborki Swift](../2026-09-11_18-47-36_MSK_prinyatj-plan-zerkaljnoj-sborki-Swift/zapros.md)
-- Sleduyusjhij zapros: [2026-09-11 20:18:41 MSK - Podtverditj zapusk Telegram i sokhranitj prodolzheniye](../2026-09-11_20-18-41_MSK_podtverditj-zapusk-Telegram-i-sokhranitj-prodolzheniye/zapros.md)
+- Sleduyusjhij zapros: [2026-09-11 20:18:06 MSK - Prinyatj sliyaniye fuma i master](../2026-09-11_20-18-06_MSK_prinyatj-sliyaniye-fuma-i-master/zapros.md)
 
 ## Tekst zaprosa
 
@@ -254,6 +254,6 @@ Codex-Thread-ID: 01a08d77-2060-7701-9f44-ff04769d8a6e
 - [Mashinnyij reyestr](../../Planirovaniye/reyestr-trebovanij-variantov-i-kandidatov.json), [obyazateljstva zadachi](../../Planirovaniye/zadachi/01a08d77-2060-7701-9f44-ff04769d8a6e/obyazateljstva.json) i [indeks svezhesti](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 20:26:37 MSK -->
-<!-- content-sha256: sha256:e92f0df6a36a32947152009c6e421e484245bee70f15b47a53558929b0209407 -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:3775fb381344a5a931f80076e8f7d71e55437c4312712245850da20fba60aa24 -->
 <!-- FUM-MD-RECENCY:END -->

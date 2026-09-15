@@ -33,17 +33,17 @@ Planirovaniye vyipolneno po pryamomu porucheniyu; realizaciya etim dokumentom ne
 - [Avtomatizirovatj nastrojku GitHub Actions](🟡-FUM-STEP-0178-avtomatizirovatj-nastrojku-GitHub-Actions.md).
 - [Avtomatizirovatj podgotovku repozitoriya na macOS](🟡-FUM-STEP-0179-avtomatizirovatj-podgotovku-repozitoriya-na-macOS.md).
 - [Avtomatizirovatj podgotovku repozitoriya na Linux](🟡-FUM-STEP-0180-avtomatizirovatj-podgotovku-repozitoriya-na-Linux.md).
-- [Dostavka sobstvennoj realizacii v monorepozitorij](🟡-FUM-STEP-0176-sobratj-sobstvennuyu-realizaciyu-v-FUM.md).
+- [Dostavka sobstvennoj realizacii v monorepozitorij](✅-FUM-STEP-0176-sobratj-sobstvennuyu-realizaciyu-v-FUM.md).
 
 ## Istochniki
 
 - [Prinyataya planovaya postanovka Windows VM](https://github.com/fum-lab/fum/blob/8d89a695d6f099091a13d3ce60c924c7098105f2/Планирование/Windows-на-macOS.md) — kommit `8d89a695d6f099091a13d3ce60c924c7098105f2`; novaya matrica native/WSL ne podmenyayet yeyo shirokoj gotovnostjyu ili razresheniyem ustanovki.
 
-- [Pryamoye porucheniye poljzovatelya i soderzhateljnyiye otvetyi](https://github.com/fum-lab/fum/blob/5c9806560fb9b52112ff8a7bc11888a1bb71f7aa/%D0%96%D1%83%D1%80%D0%BD%D0%B0%D0%BB/2026-09-11_00-58-07_MSK_%D0%B7%D0%B0%D0%BF%D0%BB%D0%B0%D0%BD%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D1%82%D1%8C-%D0%BF%D0%BE%D0%B4%D0%B3%D0%BE%D1%82%D0%BE%D0%B2%D0%BA%D1%83-Windows/%D0%B7%D0%B0%D0%BF%D1%80%D0%BE%D1%81.md).
+- [Pryamoye porucheniye poljzovatelya i soderzhateljnyiye otvetyi](../../Zhurnal/2026-09-11_00-58-07_MSK_zaplanirovatj-podgotovku-Windows/zapros.md).
 - [Dejstvuyusjhij reyestr instrumentov](../../Instrumentyi/reyestr-sistemnyikh-prilozhenij-i-instrumentov.md).
 - [Susjhestvuyusjhij kontrakt kompleksnoj proverki](../../Instrumentyi/fum-kompleksnaya-proverka-repozitoriya/SKILL.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-12 01:09:27 MSK -->
-<!-- content-sha256: sha256:0d8de2058633f7a0c195787f9738515faa537d62492ce38e473997ac457110c8 -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:9fa274cf471e8f8b66cd31ccbaaea592394cbcd460188d82af521f94bb8a7456 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -70,10 +70,10 @@ Pervyiye dve komandyi doslovno perenesenyi iz [predyidusjhego zaprosa](../2026-0
 
 - [Tekusjhij zapros](zapros.md), [otchyot](otchyot.md), [mashinnyiye svideteljstva](materialyi/zapuski-proverok) i [karta obyyedineniya](materialyi/karta-obyyedineniya.md).
 - [AGENTS.md](../../AGENTS.md) i [inventarj pravil](../../Pravila/agentov/inventarj-pravil.json).
-- [Kartochka 0175](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md) i [planovyij reyestr](../../Planirovaniye/reyestr-trebovanij-variantov-i-kandidatov.json).
+- [Kartochka 0175](../../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md) i [planovyij reyestr](../../Planirovaniye/reyestr-trebovanij-variantov-i-kandidatov.json).
 - [Navigaciya predyidusjhego zaprosa](../2026-09-10_13-40-29_MSK_zakrepitj-pravila-opisaniya-avtomatizacij-i-priyomki-sliyanij/zapros.md), [indeks Zhurnala](../README.md), [indeks svezhesti](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md) i avtomaticheski poluchennaya [proyekciya](../../../..).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 20:36:12 MSK -->
-<!-- content-sha256: sha256:f8ad6afe57359d64ba6160af0f865b34d6e69677205ff3fe430124bef71cf02a -->
+<!-- last-content-edit: 2026-09-12 01:19:38 MSK -->
+<!-- content-sha256: sha256:e0b9d0f11519ea8ae398fbbcbf73a0ef750b1ae3afd51b91c85ebe4998b5976d -->
 <!-- FUM-MD-RECENCY:END -->

@@ -38,14 +38,14 @@ Sobstvennyij SAM 3.1 STREAM-kliyent poverkh vyibrannogo SwiftNIO ostayotsya otde
 - [Prorabotka I2P i utochneniye vyibora libtorrent](https://github.com/fum-lab/fum/blob/6049110117aa2d46380422ff51e2e996f087ee90/Журнал/2026-09-11_21-56-09_MSK_уточнить-план-подключения-I2P/запрос.md).
 - [Material koordinatora o podklyuchenii I2P](../Planirovaniye/integracii/I2P/podklyucheniye-I2P.md).
 
-- [Pryamoye porucheniye o SwiftNIO i soderzhateljnyij otvet](https://github.com/fum-lab/fum/blob/6049110117aa2d46380422ff51e2e996f087ee90/Журнал/2026-09-11_02-34-29_MSK_восстановить-контекст-платформенного-решения-и-SwiftNIO/материалы/источники/контекст-решений/контекст-выбора-SwiftNIO.md).
+- [Pryamoye porucheniye o SwiftNIO i soderzhateljnyij otvet](../Zhurnal/2026-09-11_02-34-29_MSK_vosstanovitj-kontekst-platformennogo-resheniya-i-SwiftNIO/materialyi/istochniki/kontekst-reshenij/kontekst-vyibora-SwiftNIO.md).
 - [SwiftNIO: naznacheniye, produktyi i zayavlennaya podderzhka](https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/README.md) — kommit `8c063f043d94c120d0f8d6303ef4fc7918e3561d`, nablyudeniye 2026-09-11 MSK.
 - [Celevyiye platformyi FUMA](🟡-zapusk-FUMA-na-celevyikh-platformakh.md).
 - [Decentralizovannyiye seti](🟡-rabota-FUMA-s-decentralizovannyimi-setyami.md).
-- [Integracii s messendzherami](https://github.com/fum-lab/fum/blob/6049110117aa2d46380422ff51e2e996f087ee90/Требования/🟡-интеграции-FUMA-с-мессенджерами.md).
-- [Nastrojka interneta i VPN](https://github.com/fum-lab/fum/blob/6049110117aa2d46380422ff51e2e996f087ee90/Требования/🟡-настройка-интернета-и-VPN-в-FUMA.md).
+- [Integracii s messendzherami](🟡-integracii-FUMA-s-messendzherami.md).
+- [Nastrojka interneta i VPN](🟡-nastrojka-interneta-i-VPN-v-FUMA.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 23:52:33 MSK -->
-<!-- content-sha256: sha256:e3219742abec298547b602220c7c33a0f52060d33406f19c2ef657de995d4bb2 -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:0af64267b11b0aa8f79cfe5e04df5dc9335d95cb9b3bfd15178e6ce07c391f2e -->
 <!-- FUM-MD-RECENCY:END -->

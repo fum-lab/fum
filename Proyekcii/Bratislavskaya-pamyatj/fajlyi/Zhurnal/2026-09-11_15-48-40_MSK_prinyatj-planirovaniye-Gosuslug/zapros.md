@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-11 14:48:56 MSK - Ispravitj dopusk statusa i prodolzhitj priyom](../2026-09-11_14-48-56_MSK_ispravitj-dopusk-statusa-i-prodolzhitj-priyom/zapros.md)
-- Sleduyusjhij zapros: [2026-09-11 16:19:17 MSK - Podtverditj zapusk Gosuslug i prodolzhitj priyom](../2026-09-11_16-19-17_MSK_podtverditj-zapusk-Gosuslug-i-prodolzhitj-priyom/zapros.md)
+- Predyidusjhij zapros: [2026-09-11 15:22:57 MSK - Proveritj paket sovmestimosti master i FUMA](../2026-09-11_15-22-57_MSK_proveritj-paket-sovmestimosti-master-i-FUMA/zapros.md)
+- Sleduyusjhij zapros: [2026-09-11 15:50:49 MSK - Prinyatj sovmestimostj FUMA cherez otchyot v3](../2026-09-11_15-50-49_MSK_prinyatj-sovmestimostj-FUMA-cherez-otchyot-v3/zapros.md)
 
 ## Tekst zaprosa
 
@@ -124,6 +124,6 @@ Dlya Gosuslug podtverzhdeno odno svobodnoye mesto posle zavershyonnogo Windows-p
 - [Diagnostika rannego potrebitelya 0078](../../Sboi/FUM-SBOJ-0078-rannij-zapusk-potrebitelya-do-zaversheniya-proizvoditelya.md), [proverka vosstanovleniya 0214](../../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0214-proveritj-vosstanovleniye-posledovateljnosti-zavisimyikh-stadij.md), [indeks sboyev](../../Sboi/README.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 16:39:21 MSK -->
-<!-- content-sha256: sha256:6d9c31627b0fd5b9a9d8c2cbee0281b63863d9b9b781ae6846e780e5bd5b4f88 -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:70e0fc5c025251c706ea0fdd80e14af18936e04d5c1edbb666f2df3ec88c1625 -->
 <!-- FUM-MD-RECENCY:END -->

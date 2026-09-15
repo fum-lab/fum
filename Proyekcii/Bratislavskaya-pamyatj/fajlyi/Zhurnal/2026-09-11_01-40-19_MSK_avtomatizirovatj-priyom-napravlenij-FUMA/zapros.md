@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-10 20:23:26 MSK - Proveritj sliyaniye posle dopuska](../2026-09-10_20-23-26_MSK_proveritj-sliyaniye-posle-dopuska/zapros.md)
-- Sleduyusjhij zapros: [2026-09-11 03:32:33 MSK - Svyazatj priyom s kommitom postanovki](../2026-09-11_03-32-33_MSK_svyazatj-priyom-s-kommitom-postanovki/zapros.md)
+- Predyidusjhij zapros: [2026-09-11 01:39:04 MSK - Zaplanirovatj biotekhnologicheskoye napravleniye](../2026-09-11_01-39-04_MSK_zaplanirovatj-biotekhnologicheskoye-napravleniye/zapros.md)
+- Sleduyusjhij zapros: [2026-09-11 01:41:15 MSK - Zaplanirovatj geneticheskoye napravleniye](../2026-09-11_01-41-15_MSK_zaplanirovatj-geneticheskoye-napravleniye/zapros.md)
 
 ## Tekst zaprosa
 
@@ -88,6 +88,6 @@ Koordinator peredal opublikovannyij kontrakt 0198 iz `983756cf3773312bd282086fb3
 - [indeks svezhesti](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 05:00:59 MSK -->
-<!-- content-sha256: sha256:936f360bb761883e9b60173383bd65bd81086e9885e3f66d3bc006cd6a000ff7 -->
+<!-- last-content-edit: 2026-09-11 11:59:08 MSK -->
+<!-- content-sha256: sha256:2cd2ac495fcce86022991e331e5887c7a7df9a4a6b155a7a800952febfd5814f -->
 <!-- FUM-MD-RECENCY:END -->

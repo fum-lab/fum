@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-11 01:40:19 MSK - Avtomatizirovatj priyom napravlenij FUMA](../2026-09-11_01-40-19_MSK_avtomatizirovatj-priyom-napravlenij-FUMA/zapros.md)
-- Sleduyusjhij zapros: [2026-09-11 05:03:47 MSK - Podtverditj matematicheskij zapusk](../2026-09-11_05-03-47_MSK_podtverditj-matematicheskij-zapusk/zapros.md)
+- Predyidusjhij zapros: [2026-09-11 03:27:54 MSK - Sokhranitj vosstanovleniye dialoga posle perezapuska](../2026-09-11_03-27-54_MSK_sokhranitj-vosstanovleniye-dialoga-posle-perezapuska/zapros.md)
+- Sleduyusjhij zapros: [2026-09-11 03:32:48 MSK - Vosstanovitj peredachu formatov posle perezapuska](../2026-09-11_03-32-48_MSK_vosstanovitj-peredachu-formatov-posle-perezapuska/zapros.md)
 
 ## Tekst zaprosa
 
@@ -66,6 +66,6 @@ Rezerv matematiki zapisan proverennyim yadrom iz `32cac61b`: sobyitiye `89d80743
 - [indeks svezhesti Markdown](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 05:37:29 MSK -->
-<!-- content-sha256: sha256:5fa6450daa1ab6d78efcd81fdd37e7edb2dab426f6a12be14f8282375362327c -->
+<!-- last-content-edit: 2026-09-11 11:59:08 MSK -->
+<!-- content-sha256: sha256:76137ea281f34638b01c18dd6efae24d112e0f741b39cc706e0d327bff4f93da -->
 <!-- FUM-MD-RECENCY:END -->

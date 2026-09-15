@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-10 17:33:36 MSK - Zakrepitj dopusk sliyaniya iz master](../2026-09-10_17-33-36_MSK_zakrepitj-dopusk-sliyaniya-iz-master/zapros.md)
-- Sleduyusjhij zapros: [2026-09-11 01:40:19 MSK - Avtomatizirovatj priyom napravlenij FUMA](../2026-09-11_01-40-19_MSK_avtomatizirovatj-priyom-napravlenij-FUMA/zapros.md)
+- Sleduyusjhij zapros: [2026-09-10 22:36:51 MSK - Vernutj neobrabotannyiye soobsjheniya](../2026-09-10_22-36-51_MSK_vernutj-neobrabotannyiye-soobsjheniya/zapros.md)
 
 ## Tekst zaprosa
 
@@ -97,6 +97,6 @@ Vse pryamyiye proverochnyiye zapuski i ikh iskhodyi sokhranyayutsya v [otchyote]
 - [Otchyot ob izvlechenii](../../Istochniki/URL/https/github.com/git/git/blob/v2.54.0/builtin/update-ref.c/extraction-report.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 02:07:47 MSK -->
-<!-- content-sha256: sha256:f6a369a42242f3e7cb568285ac03cb33df37fe3ef6ac62ec04244c36377c9d32 -->
+<!-- last-content-edit: 2026-09-11 11:30:49 MSK -->
+<!-- content-sha256: sha256:7c495db85cc5d8b6f4ba4f900baca913821d201a8dad387af03452ff1674f6ba -->
 <!-- FUM-MD-RECENCY:END -->

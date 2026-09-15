@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-11 20:37:47 MSK - Prinyatj parametricheskoye 3D FUMA](../2026-09-11_20-37-47_MSK_prinyatj-parametricheskoye-3D-FUMA/zapros.md)
-- Sleduyusjhij zapros: [2026-09-11 22:27:25 MSK - Perenesti finansovyij rezuljtat FUM](../2026-09-11_22-27-25_MSK_perenesti-finansovyij-rezuljtat-FUM/zapros.md)
+- Sleduyusjhij zapros: [2026-09-11 21:58:48 MSK - Prinyatj sliyaniye posle ispravleniya putej](../2026-09-11_21-58-48_MSK_prinyatj-sliyaniye-posle-ispravleniya-putej/zapros.md)
 
 ## Tekst zaprosa
 
@@ -129,6 +129,6 @@ Codex-Thread-ID: 01a08d77-2060-7701-9f44-ff04769d8a6e
 - [Vse mashinnyiye zapisi etogo etapa](materialyi/zapuski-proverok/).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 23:11:13 MSK -->
-<!-- content-sha256: sha256:6c8b74b46f8bdff1b4339a7872ec135cb84029e0c63cc45bb570be2df25df0eb -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:0c42d4252a0ccea4ac320730bd91b9179de9644fa353785f9a3589275be65f78 -->
 <!-- FUM-MD-RECENCY:END -->
