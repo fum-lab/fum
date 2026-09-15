@@ -9,7 +9,7 @@ struct FocusRail: View {
                 Image(systemName: "scribble.variable")
                     .font(.system(size: 22, weight: .semibold))
                     .foregroundStyle(.blue)
-                Text("FUM")
+                Text("FUMA")
                     .font(.system(size: 18, weight: .semibold))
             }
             .padding(.top, 20)
@@ -115,7 +115,7 @@ struct PromptDock: View {
                 .foregroundStyle(focus.color)
                 .frame(width: 28, height: 28)
 
-            TextField("Ask FUM to make the next action clearer", text: $prompt)
+            TextField("Ask FUMA to make the next action clearer", text: $prompt)
                 .textFieldStyle(.plain)
                 .font(.system(size: 15))
 

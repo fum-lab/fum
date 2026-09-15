@@ -130,9 +130,9 @@ final class FUMMCPServer {
                 "name": "fum-mcp",
                 "title": "FUM Local MCP Gateway",
                 "version": "0.1.0",
-                "description": "Local gateway for FUM.app screen, input, AX vision, and memory."
+                "description": "Local gateway for FUMA.app screen, input, AX vision, and memory."
             ],
-            "instructions": "Use this server as the local FUM body bridge. Read status before assuming organs are live. Use screen_present for short visible messages in FUM.app. Use ax_snapshot and input_recent_events for summarized local state; do not request raw high-frequency input streams."
+            "instructions": "Use this server as the local FUM body bridge. Read status before assuming organs are live. Use screen_present for short visible messages in FUMA.app. Use ax_snapshot and input_recent_events for summarized local state; do not request raw high-frequency input streams."
         ]
     }
 
@@ -141,17 +141,17 @@ final class FUMMCPServer {
             [
                 "name": "status",
                 "title": "FUM Status",
-                "description": "Return FUM.app process, bridge files, and latest organ snapshot status.",
+                "description": "Return FUMA.app process, bridge files, and latest organ snapshot status.",
                 "inputSchema": objectSchema()
             ],
             [
                 "name": "screen_present",
                 "title": "Present On FUM Screen",
-                "description": "Show a short plaintext or markdown message in the FUM.app screen bridge.",
+                "description": "Show a short plaintext or markdown message in the FUMA.app screen bridge.",
                 "inputSchema": objectSchema(
                     properties: [
                         "title": ["type": "string", "description": "Short optional title."],
-                        "text": ["type": "string", "description": "Message to present in FUM.app."],
+                        "text": ["type": "string", "description": "Message to present in FUMA.app."],
                         "format": ["type": "string", "enum": ["plain", "markdown"], "description": "Message format. Default: markdown."],
                         "source": ["type": "string", "description": "Human-readable source label. Default: Codex MCP."],
                         "ttlSeconds": ["type": "number", "minimum": 1, "maximum": 86_400, "description": "Optional expiry interval."]
@@ -162,13 +162,13 @@ final class FUMMCPServer {
             [
                 "name": "screen_clear",
                 "title": "Clear FUM Screen",
-                "description": "Clear the current MCP-provided screen presentation in FUM.app.",
+                "description": "Clear the current MCP-provided screen presentation in FUMA.app.",
                 "inputSchema": objectSchema()
             ],
             [
                 "name": "ax_snapshot",
                 "title": "AX Vision Snapshot",
-                "description": "Read the latest Accessibility window snapshot written by FUM.app.",
+                "description": "Read the latest Accessibility window snapshot written by FUMA.app.",
                 "inputSchema": objectSchema(
                     properties: [
                         "maxBytes": ["type": "integer", "minimum": 1024, "maximum": 262_144, "description": "Maximum returned raw JSON bytes. Default: 65536."]
@@ -178,7 +178,7 @@ final class FUMMCPServer {
             [
                 "name": "input_recent_events",
                 "title": "Recent Input Events",
-                "description": "Return the latest listen-only keyboard, mouse, and trackpad events summarized by FUM.app.",
+                "description": "Return the latest listen-only keyboard, mouse, and trackpad events summarized by FUMA.app.",
                 "inputSchema": objectSchema(
                     properties: [
                         "limit": ["type": "integer", "minimum": 1, "maximum": 32, "description": "Maximum number of recent events. Default: 12."],
@@ -354,7 +354,7 @@ final class FUMMCPServer {
         var payload: JSONObject = [
             "timestamp": isoFormatter.string(from: now),
             "status": "presenting",
-            "title": stringArgument(arguments, "title", defaultValue: "FUM"),
+            "title": stringArgument(arguments, "title", defaultValue: "FUMA"),
             "text": text,
             "format": stringArgument(arguments, "format", defaultValue: "markdown"),
             "source": stringArgument(arguments, "source", defaultValue: "Codex MCP")
@@ -524,7 +524,7 @@ final class FUMMCPServer {
     }
 
     private func statusPayload() -> JSONObject {
-        let pids = processOutput(ProcessInfo.processInfo.environment["FUM_PGREP_EXECUTABLE"] ?? "pgrep", arguments: ["-x", "FUM"])?
+        let pids = processOutput(ProcessInfo.processInfo.environment["FUM_PGREP_EXECUTABLE"] ?? "pgrep", arguments: ["-x", "FUMA"])?
             .split(separator: "\n")
             .map { String($0) } ?? []
 
@@ -533,7 +533,7 @@ final class FUMMCPServer {
             "root": rootURL.path,
             "app": [
                 "bundlePath": ProcessInfo.processInfo.environment["FUM_APP_BUNDLE"] as Any? ?? NSNull(),
-                "processName": "FUM",
+                "processName": "FUMA",
                 "isRunning": !pids.isEmpty,
                 "pids": pids
             ],

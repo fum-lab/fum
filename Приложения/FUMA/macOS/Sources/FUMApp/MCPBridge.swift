@@ -110,7 +110,7 @@ final class MCPBridgeModel: NSObject, ObservableObject {
                 title: "",
                 text: error.localizedDescription,
                 format: "plain",
-                source: "FUM.app",
+                source: "FUMA.app",
                 expiresAt: nil
             )
         }
@@ -123,7 +123,7 @@ final class MCPBridgeModel: NSObject, ObservableObject {
             "title": "",
             "text": "",
             "format": "plain",
-            "source": "FUM.app"
+            "source": "FUMA.app"
         ]
 
         do {
@@ -139,7 +139,7 @@ final class MCPBridgeModel: NSObject, ObservableObject {
                 title: "",
                 text: error.localizedDescription,
                 format: "plain",
-                source: "FUM.app",
+                source: "FUMA.app",
                 expiresAt: nil
             )
         }
@@ -192,7 +192,7 @@ struct MCPScreenBanner: View {
 
             VStack(alignment: .leading, spacing: 6) {
                 HStack(spacing: 8) {
-                    Text(presentation.title.isEmpty ? "FUM" : presentation.title)
+                    Text(presentation.title.isEmpty ? "FUMA" : presentation.title)
                         .font(.system(size: 14, weight: .semibold))
                     Text(presentation.source)
                         .font(.caption)
@@ -212,7 +212,7 @@ struct MCPScreenBanner: View {
                     .frame(width: 28, height: 28)
             }
             .buttonStyle(.borderless)
-            .help("Clear FUM screen")
+            .help("Clear FUMA screen")
         }
         .padding(16)
         .frame(maxWidth: 760, alignment: .topLeading)
@@ -238,7 +238,7 @@ struct MCPScreenPanel: View {
 
             if bridge.screenPresentation.isVisible {
                 VStack(alignment: .leading, spacing: 6) {
-                    Text(bridge.screenPresentation.title.isEmpty ? "FUM" : bridge.screenPresentation.title)
+                    Text(bridge.screenPresentation.title.isEmpty ? "FUMA" : bridge.screenPresentation.title)
                         .font(.system(size: 15, weight: .semibold))
                     Text(bridge.screenPresentation.text)
                         .font(.system(size: 13))

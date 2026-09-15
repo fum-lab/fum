@@ -359,7 +359,7 @@ struct CameraPermissionSurface: View {
             Text(cameraVision.statusLabel)
                 .font(.system(size: 21, weight: .semibold))
 
-            Text(FUMFeatureFlags.cameraEnabled ? "Camera sight needs macOS camera permission for this local FUM interface." : "Camera is disabled in this FUM.app build.")
+            Text(FUMFeatureFlags.cameraEnabled ? "Camera sight needs macOS camera permission for this local FUMA interface." : "Camera is disabled in this FUMA.app build.")
                 .font(.system(size: 13))
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
