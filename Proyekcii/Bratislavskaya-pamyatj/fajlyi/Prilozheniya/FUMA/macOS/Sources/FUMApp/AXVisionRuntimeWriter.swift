@@ -11,7 +11,7 @@ enum AXVisionRuntimeWriter {
             "timestamp": snapshot.timestamp,
             "status": snapshot.status,
             "message": snapshot.message ?? "",
-            "source": "FUM.app",
+            "source": "FUMA.app",
             "applications": snapshot.applications.map(applicationPayload)
         ]
 

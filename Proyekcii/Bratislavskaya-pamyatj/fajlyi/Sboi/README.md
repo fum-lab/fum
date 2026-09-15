@@ -110,6 +110,9 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0135 | `устранена` | [Nepodderzhannyij flag peredan komande predprosmotra](FUM-SBOJ-0135-nepodderzhannyij-flag-predprosmotra.md)                                                             | 1          | —                                                                                                                                |
 | FUM-SBOJ-0136 | `устранена` | [Propusjhennyij argument manifesta](FUM-SBOJ-0136-propusjhennyij-argument-manifesta.md)                                                                                   | 1          | ogranichennoye vosstanovleniye vyizova                                                                                               |
 | FUM-SBOJ-0120 | `устранена` | [Chrezmernaya ochistka konfiguracii stranicyi](FUM-SBOJ-0120-chrezmernaya-ochistka-konfiguracii-stranicyi.md)                                                               | 1          | FUM-STEP-0212                                                                                                                    |
+| FUM-SBOJ-0140 | `активна`   | [Privatnyiye ukazateli v soobsjhenii kommita](FUM-SBOJ-0140-privatnyiye-ukazateli-v-soobsjhenii-kommita.md)                                                                 | 1          | FUM-STEP-0165                                                                                                                    |
+| FUM-SBOJ-0141 | `активна`   | [Neogranichennaya peredacha vyivoda v kontekst](FUM-SBOJ-0141-neogranichennaya-peredacha-vyivoda-v-kontekst.md)                                                             | 2          | FUM-STEP-0165                                                                                                                    |
+| FUM-SBOJ-0144 | `активна`   | [FUM-SBOJ-0144 — Zaderzhka dostavki v postoyannuyu vetku](FUM-SBOJ-0144-zaderzhka-dostavki-v-postoyannuyu-vetku.md)                                                       | 1          | FUM-STEP-0228                                                                                                                    |
 
 ## Pravila vedeniya
 
@@ -142,6 +145,6 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 - [pravila rabochikh sessij](../AGENTS.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 13:12:42 MSK -->
-<!-- content-sha256: sha256:166f5d8079a7eb78a7da45fa826dab4c955465a50b469fafd3179a7a4e291159 -->
+<!-- last-content-edit: 2026-09-15 18:06:12 MSK -->
+<!-- content-sha256: sha256:faea58929fc19a9797109a2e8cf5f079882b2b28b5bce82b4b7d45e65a707586 -->
 <!-- FUM-MD-RECENCY:END -->

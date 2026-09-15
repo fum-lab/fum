@@ -446,7 +446,7 @@ final class VideoPlayerModel: ObservableObject {
             isPreparingVideo = false
             isBuffering = false
             isPlaying = request.autoplay
-            externalPlayerStatusText = "Playing VP9 inside FUM with libmpv"
+            externalPlayerStatusText = "Playing VP9 inside FUMA with libmpv"
             statusText = externalPlayerStatusText
             logger.append(type: "external_player_started", video: request.video, payload: externalPlayerPayload(videoTrack: request.videoTrack, audioTrack: request.audioTrack, subtitleTrack: request.subtitleTrack, extra: [
                 "autoplay": request.autoplay,
@@ -1397,7 +1397,7 @@ struct VideoLibrarySidebar: View {
                 Image(systemName: "play.rectangle.on.rectangle")
                     .font(.system(size: 21, weight: .semibold))
                     .foregroundStyle(.red)
-                Text("FUM Player")
+                Text("FUMA Player")
                     .font(.system(size: 17, weight: .semibold))
             }
             .padding(.top, 18)
@@ -1678,7 +1678,7 @@ struct PlayerTopBar: View {
     var body: some View {
         HStack(spacing: 12) {
             VStack(alignment: .leading, spacing: 2) {
-                Text(model.selectedVideo?.title ?? "FUM Player")
+                Text(model.selectedVideo?.title ?? "FUMA Player")
                     .font(.system(size: 17, weight: .semibold))
                     .lineLimit(1)
                 Text(model.selectedVideoTrack?.url.path ?? model.selectedAudioTrack?.url.path ?? model.selectedSubtitleTrack?.url.path ?? model.selectedVideo?.url.path ?? ПутиПриложения.текущие.память.appendingPathComponent("video-player/events.jsonl").path)

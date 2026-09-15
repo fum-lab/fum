@@ -78,7 +78,7 @@ struct AttentionConfig {
     static let helpText = """
     Usage: fum-attention-loop [options]
 
-    Watches FUM.app runtime snapshots and writes compact realtime attention events.
+    Watches FUMA.app runtime snapshots and writes compact realtime attention events.
 
     Options:
       --root PATH          Runtime directory outside Git. Default: FUM_RUNTIME_ROOT or user Application Support/FUM/run

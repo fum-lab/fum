@@ -69,7 +69,14 @@ Sokhranenyi dve otdeljnyiye oshibki podgotovki vkhoda: terminaljnoye svideteljst
 
 `FUM-СБОЙ-0045/ПРОЯВЛЕНИЕ-0004` vyiyavilo novoye sobstvennoye smeshannoye imya metadannyikh pri podklyuchenii profilya. Proverka do dorogoj priyomki otdelyayet yego ot vneshnikh wire-polej, sokhranyayet pervichnyiye otkazyi i privyazyivayet ispravleniye k tochnyim iskhodnyim SHA. V tekusjhem sreze imya ispravleno i pyatj izmenyonnyikh iskhodnikov vernuli 0 → 0; obsjhij snimok ne obnovlyalsya. Dlya povtoryayemoj meryi nuzhnyi rannyaya proverka sobstvennogo izmenyonnogo nabora i proveryayemaya svyazj pereimenovanij vne vremennoj granicyi s istoricheskimi izmereniyami. Uspekh tekusjhej ruchnoj lokalizacii ne zakryivayet etot obsjhij kriterij.
 
+## Ustojchivyiye svideteljstva i yazyik operatorov
+
+[Ogranichennaya realizaciya](https://github.com/fum-lab/fum/blob/b74e49b2b1a7a2a424e1d3445eb5a87ff57d9905/Журнал/2026-09-15_17-14-42_MSK_создать-устойчивые-свидетельства/запрос.md) gotovit Python-plan polnyikh materialov i posledovateljnoye primeneniye cherez shtatnuyu obrabotku. Eto otdeljnaya kontroljnaya tochka, ne zaversheniye kartochki. Sleduyusjhaya granica — podklyuchitj dejstviye k susjhestvuyusjhemu yazyiku strukturiruyusjhikh operatorov: LLM vidit opisaniye avtomaticheskikh operacij, menyayet podderzhannyiye parametryi i poluchayet fakticheskiye rezuljtatyi, vklyuchaya chastichnyij otkaz i povtor. Nalichiye polya «operator» v JSON ne dokazyivayet takogo podklyucheniya. Polnaya priyomka i integraciya ostayutsya otdeljnyimi.
+
 ## Istochniki
+
+- [FUM-SBOJ-0140/PROYAVLENIYE-0001](../../Sboi/FUM-SBOJ-0140-privatnyiye-ukazateli-v-soobsjhenii-kommita.md) — granica bezopasnogo sokhraneniya koordinacii i publichnogo soobsjheniya Git.
+- [FUM-SBOJ-0141/PROYAVLENIYE-0001 i PROYAVLENIYE-0002](../../Sboi/FUM-SBOJ-0141-neogranichennaya-peredacha-vyivoda-v-kontekst.md) — polnyij rezuljtat sokhranyayetsya do ogranichennogo predstavleniya nezavisimo ot formata.
 
 - [Novyiye nablyudeniya i utochneniye granicyi pervoj realizacii](../../Zhurnal/2026-09-11_04-16-49_MSK_sokhranitj-nablyudeniya-i-utochnitj-plan-konteksta/zapros.md).
 
@@ -94,6 +101,6 @@ Sokhranenyi dve otdeljnyiye oshibki podgotovki vkhoda: terminaljnoye svideteljst
 - [Adresnaya klassifikaciya sobstvennoj postavki i vkhodnyiye otkazyi](../../Zhurnal/2026-09-14_20-03-08_MSK_utochnitj-sobstvennyiye-imena-postavki/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 04:47:16 MSK -->
-<!-- content-sha256: sha256:f659be60373d43f647e4c87de57920baa33bb6cc5d0076304476362ea6945eba -->
+<!-- last-content-edit: 2026-09-15 17:49:52 MSK -->
+<!-- content-sha256: sha256:28dadf90daf830c74d4b51aca5458de860cd6d752195c0a5cdcfde227528d7c8 -->
 <!-- FUM-MD-RECENCY:END -->
