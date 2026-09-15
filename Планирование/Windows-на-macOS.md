@@ -66,13 +66,13 @@ Parallels остаётся значимой альтернативой при в
 
 ## Источники и связь с планом
 
-- [Три команды, ответы и происхождение](https://github.com/fum-lab/fum/blob/8d89a695d6f099091a13d3ce60c924c7098105f2/Журнал/2026-09-11_13-30-58_MSK_подготовить-постановку-Windows-VM-на-macOS/запрос.md); [исследование и границы поручения координатора](https://github.com/fum-lab/fum/blob/8d89a695d6f099091a13d3ce60c924c7098105f2/Журнал/2026-09-11_13-30-58_MSK_подготовить-постановку-Windows-VM-на-macOS/материалы/поручение-координатора.json). Большое исследование получено от координатора; здесь адресно прочитаны UTM scripting, указанный исходник UTM, Microsoft ARM64 ISO, Windows Setup и материал Microsoft о Parallels.
+- [Три команды, ответы и происхождение](../Журнал/2026-09-11_13-30-58_MSK_подготовить-постановку-Windows-VM-на-macOS/запрос.md); [исследование и границы поручения координатора](../Журнал/2026-09-11_13-30-58_MSK_подготовить-постановку-Windows-VM-на-macOS/материалы/поручение-координатора.json). Большое исследование получено от координатора; здесь адресно прочитаны UTM scripting, указанный исходник UTM, Microsoft ARM64 ISO, Windows Setup и материал Microsoft о Parallels.
 - [Общий цикл Linux VM](Linux-на-macOS.md), [подготовка хоста STEP0179](карточки-шагов/🟡-FUM-STEP-0179-автоматизировать-подготовку-репозитория-на-macOS.md), [гостевой Windows STEP0181](карточки-шагов/🟡-FUM-STEP-0181-автоматизировать-подготовку-репозитория-на-Windows.md).
 - [Автоматизация Windows Setup](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/automate-windows-setup?view=windows-11), [добавление драйверов](https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/add-device-drivers-to-windows-during-windows-setup?view=windows-11), [гостевая поддержка UTM](https://docs.getutm.app/guest-support/windows/).
 - [UTM Apple Boot](https://docs.getutm.app/settings-apple/boot/), [QEMU ARM virt](https://www.qemu.org/docs/master/system/arm/virt.html), [документация CLI Parallels](https://docs.parallels.com/landing/parallels-desktop-developers-guide/command-line-interface-utility/manage-virtual-machines-from-cli/general-virtual-machine-management/create-a-virtual-machine) — адресные опоры исследования координатора для последующей реализации.
 
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-12 01:09:27 MSK -->
-<!-- content-sha256: sha256:2edd708ecf814b3de9a00707dbe64d5e7595b53363424cc038c7f4812bafdea9 -->
+<!-- last-content-edit: 2026-09-15 19:46:43 MSK -->
+<!-- content-sha256: sha256:0f1ca9bf63815ecece5ea1748cf540897f211dab605277f55dd172558970c7c3 -->
 <!-- FUM-MD-RECENCY:END -->

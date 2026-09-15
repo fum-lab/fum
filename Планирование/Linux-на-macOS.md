@@ -56,14 +56,14 @@ Intel/amd64, другие дистрибутивы и выпуски, конте
 
 ## Источники
 
-- [Команда, выбор пользователя и происхождение](https://github.com/fum-lab/fum/blob/8d89a695d6f099091a13d3ce60c924c7098105f2/Журнал/2026-09-11_12-40-18_MSK_подготовить-постановку-Linux-VM-на-macOS/запрос.md).
-- [Исследование и границы поручения координатора](https://github.com/fum-lab/fum/blob/8d89a695d6f099091a13d3ce60c924c7098105f2/Журнал/2026-09-11_12-40-18_MSK_подготовить-постановку-Linux-VM-на-macOS/материалы/поручения-координатора.json). Apple-механизмы и наблюдение хоста взяты из этого исследования; реальные испытания не заявлены.
+- [Команда, выбор пользователя и происхождение](../Журнал/2026-09-11_12-40-18_MSK_подготовить-постановку-Linux-VM-на-macOS/запрос.md).
+- [Исследование и границы поручения координатора](../Журнал/2026-09-11_12-40-18_MSK_подготовить-постановку-Linux-VM-на-macOS/материалы/поручения-координатора.json). Apple-механизмы и наблюдение хоста взяты из этого исследования; реальные испытания не заявлены.
 - Apple: [запуск Linux](https://developer.apple.com/documentation/virtualization/running-linux-in-a-virtual-machine), [дисковый образ](https://developer.apple.com/documentation/virtualization/vzdiskimagestoragedeviceattachment), [NAT](https://developer.apple.com/documentation/virtualization/vznatnetworkdeviceattachment), [VSOCK](https://developer.apple.com/documentation/virtualization/vzvirtiosocketdevice).
 - [NoCloud](https://docs.cloud-init.io/en/latest/reference/datasources/nocloud.html): подтверждает локальные user-data и meta-data, instance-id и носитель CIDATA; совместимость версии cloud-init выбранного образа проверяется при реализации.
 - [socat в Ubuntu Noble](https://manpages.ubuntu.com/manpages/noble/man1/socat.1.html), [Swift на Linux](https://www.swift.org/install/linux/).
 - [Реестр инструментов FUM](../Инструменты/реестр-системных-приложений-и-инструментов.md), [текущий runner smoke](../Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/run-smoke-check.py).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-12 01:09:27 MSK -->
-<!-- content-sha256: sha256:a8855a3ced459389886b5d959d2afb936240badfc1151f47df7b2379a9960667 -->
+<!-- last-content-edit: 2026-09-15 19:46:43 MSK -->
+<!-- content-sha256: sha256:56ce60b3d6379fd2ff2465833e5039766bef541c6e77090b0bfbdf3aeaf7d4c7 -->
 <!-- FUM-MD-RECENCY:END -->

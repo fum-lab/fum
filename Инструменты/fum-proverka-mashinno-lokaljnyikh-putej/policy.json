@@ -3870,6 +3870,24 @@
       "count": 1,
       "category": "report.historical",
       "reason": "Сохраняет дословную историческую реплику помощника: соединённые слешами имена компонентов libc++, libc++abi и llvm-libc ошибочно распознаны как абсолютный путь; машинных данных строка не содержит."
+    },
+    {
+      "id": "durable-receipts-command-suffix-late-source",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_устойчивые_свидетельства.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:42d09b14d9a0b9ecd49866467143aad3701db56587bc6a58b66db08c3ac0c9f6",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Проверка выбирает относительные файлы команды по конечному суффиксу имени; строка не содержит машинного абсолютного пути."
+    },
+    {
+      "id": "durable-receipts-command-suffix-unselected-source",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_устойчивые_свидетельства.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:618cc0b9ffb47ee35b3dcd8af209ad85c1750ab4103186df51368dd83a73ccb2",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Проверка считает относительные файлы команды по конечному суффиксу имени; строка не содержит машинного абсолютного пути."
     }
   ]
 }

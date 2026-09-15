@@ -44,6 +44,6 @@ status = "active"
 - [Существующий контракт комплексной проверки](../../Инструменты/fum-kompleksnaya-proverka-repozitoriya/SKILL.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- last-content-edit: 2026-09-15 19:46:43 MSK -->
 <!-- content-sha256: sha256:ed77979c1f0fd40e7731c2dfe99abea526750324ab071beaff2ff607ed8a994c -->
 <!-- FUM-MD-RECENCY:END -->
