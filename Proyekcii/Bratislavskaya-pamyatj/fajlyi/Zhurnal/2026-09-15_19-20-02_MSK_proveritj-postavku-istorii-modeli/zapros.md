@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-15 19:05:01 MSK - Sokhranyatj nablyudayemuyu istoriyu modeli](../2026-09-15_19-05-01_MSK_sokhranyatj-nablyudayemuyu-istoriyu-modeli/zapros.md)
-- Sleduyusjhij zapros: net
+- Predyidusjhij zapros: [2026-09-15 19:12:12 MSK - Podgotovitj marshrutyi finansirovaniya i lizinga](../2026-09-15_19-12-12_MSK_podgotovitj-marshrutyi-finansirovaniya-i-lizinga/zapros.md)
+- Sleduyusjhij zapros: [2026-09-15 19:27:18 MSK - Perenesti finansovuyu deljtu na bazu fuma](../2026-09-15_19-27-18_MSK_perenesti-finansovuyu-deljtu-na-bazu-fuma/zapros.md)
 
 ## Tekst zaprosa
 
@@ -25,6 +25,10 @@
 
 ````text
 Новое указание пользователя: «Davaj vsegda budem sozdavatj kommit-sliyaniye.» Приёмка готовой ветки в fuma теперь настоящим --no-ff merge с двумя родителями. Твои обычные рабочие checkpoints разрешены, исходную историю не переписывай. До готовности исправления маркеров/прав файлы не принимаются корнем. В конечной поставке нужен полный delta ветки от f93d35b6 и явный непринятый остаток, если есть; все изменения согласованного объёма ветки будем интегрировать с сохранением родительства. Каноническое закрепление общего правила сделаю отдельно в назначенной ветке правил, твой объём метаданных не расширяй.
+````
+
+````text
+Уточняю границу ближайшей поставки: корень принимает весь твой согласованный ограниченный delta через merge-коммит, но не требует отдельную полную приёмку всего FUM и свежую общую проекцию в feature-ветке. Сохрани проверенную контрольную точку после исправлений/11тестов/профиля/связности и передай exact OID; финальный совместный контур будет у корня. Не начинай новые тяжёлые полные перестроения только ради передачи. Уже начатый запуск не терять и не повторять; его статус и результат сохрани, но он не должен разрастаться в несколько кругов. Это сужение порученного объёма доставки, не разрешение ослаблять валидатор или объявлять полный FUM принятым.
 ````
 
 ## Identifikator seansa Codex
@@ -58,6 +62,6 @@ Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb
 Prodolzheniye pervonachaljnogo porucheniya posle kontroljnogo kommita `5398b7a7d0d2beedc6b827b99bdc1f30fe24cf08`, a ne novoye pervichnoye soobsjheniye cheloveka. Sokhranenyi iskhodnoye porucheniye i pozdniye soobsjheniya kornevoj zadachi. Baza vetki `f93d35b62710953a4db275cf125a1af25cbf4c20`, ref `refs/heads/codex/история-модели-01a0a5cd`.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 19:26:11 MSK -->
-<!-- content-sha256: sha256:e2d14ecbf3bb03a55b83b15791c38a0e0bcb08b5cdbd0907c5a2174ea66b7b34 -->
+<!-- last-content-edit: 2026-09-15 20:17:15 MSK -->
+<!-- content-sha256: sha256:9676b4f1799202ac7ce8591a004dd34538209f187815bcee50f423f146f665b2 -->
 <!-- FUM-MD-RECENCY:END -->

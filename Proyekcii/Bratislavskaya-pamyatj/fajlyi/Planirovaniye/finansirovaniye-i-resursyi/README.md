@@ -1,8 +1,20 @@
 # Finansirovaniye i resursyi razvitiya FUM
 
+[Plan medijnogo soprovozhdeniya pozhertvovanij](medijnoye-soprovozhdeniye-pozhertvovanij.md) zadayot kanalyi Telegram i MAX, podgotovku videostrimov, otchyotnostj i izmereniye zatrat; zapusk kanalov i sbor sredstv ne vyipolnenyi.
+
+[Prakticheskij marshrut i byudzhet etapov](prakticheskij-marshrut.md), [lizing i kredityi](lizing-i-kredityi.md) podgotovlenyi 15 sentyabrya 2026 goda. Tri nablyudeniya obnovlenyi, reyestr vyipusjhen na etu datu; istoriya sokhranena. Novyiye lizingovyiye organizacii poka predstavlenyi otdeljnyim sravneniyem.
+
 [Korotkij spisok desyati prioritetov](prioritetyi.md) i [proyekt predlozheniya podderzhki so smetoj](proyekt-predlozheniya-podderzhki.md) podgotovlenyi na 14 sentyabrya 2026 goda. [Polnyij avtomaticheski sformirovannyij spisok](spisok.md) soderzhit 30 organizacij i 38 variantov. [Mashinnyij reyestr](reyestr.json) vosproizvoditsya iz [kartochek s istoriyej](kartochki.json) i [polnogo korpusa issledovanij](issledovaniya.json). Pervyiye 16 organizacij, ikh ID i istoriya sokhranenyi; dobavlenyi 14 novyikh kandidatov i otricateljnyikh rezuljtatov.
 
 Eto rezuljtat [FUM-STEP-0212](../kartochki-shagov/✅-FUM-STEP-0212-avtomatizirovatj-reyestr-organizacij-podderzhki-FUM.md) po [trebovaniyu finansirovaniya i resursov](../../Trebovaniya/🟡-finansirovaniye-i-resursyi-razvitiya-FUM.md). Reyestr ne podtverzhdayet polucheniye finansirovaniya ili registraciyu FUM kak NKO. Rossiya i nekommercheskaya oriyentaciya zadanyi; yuridicheskaya forma i registraciya ostayutsya neizvestnyimi.
+
+## Prodolzheniye podgotovki
+
+Prodolzheniye susjhestvuyusjhej finansovoj zadachi vklyuchayet adresnuyu proverku prakticheskikh variantov po aktualjnyim pervichnyim usloviyam, podgotovku byudzheta i materialov s yavnyimi neizvestnyimi dannyimi zayavitelya. Donatyi i drugiye formyi bezvozvratnoj podderzhki sokhranyayutsya ryadom s lizingom, kreditami i regionaljnyimi zajmami; dolgovyiye obyazateljstva i stoimostj oborudovaniya pokazyivayutsya otdeljno.
+
+Sravneniye okhvatyivayet polnuyu stoimostj, platezhi, obespecheniye, trebovaniya k poluchatelyu, sovmestimostj konkretnyikh uslovij s CC0 i blizhajsheye dejstviye. Kanalyi sbora sredstv ne schitayutsya najdennyimi donorami. Reyestr i datirovannyiye issledovaniya sokhranyayutsya; novaya data postanovki ne obnovlyayet datu proverki programmyi.
+
+Naznacheniye otrazheno v [postoyannom plane](../README.md#blizhajshiye-soglasovannyiye-postavki), osnovaniye — [komandyi i pozdniye utochneniya](../../Zhurnal/2026-09-15_19-02-24_MSK_podklyuchitj-dopusk-postoyannoj-vetki/zapros.md). Podgotovka ne vklyuchayet vneshnyuyu podachu, perepisku, registraciyu, zaklyucheniye dogovorov i platezhi i ne podtverzhdayet polucheniye finansirovaniya.
 
 ## Kak chitatj rezuljtat
 
@@ -25,7 +37,7 @@ python3 -B Инструменты/fum-reyestr-planirovaniya/scripts/реестр
   --корень-репозитория . \
   --исследования Планирование/финансирование-и-ресурсы/исследования.json \
   --вход Планирование/финансирование-и-ресурсы/карточки.json \
-  --дата 2026-09-14 --выход Планирование/финансирование-и-ресурсы
+  --дата 2026-09-15 --выход Планирование/финансирование-и-ресурсы
 ```
 
 Zamenitj `сформировать` na `проверить`, chtobyi sveritj sokhranyonnyiye rezuljtatyi bez zapisi. Data obyazateljna i ne podstavlyayetsya iz chasov kompjyutera. Pri drugoj date generator ispoljzuyet posledneye nablyudeniye ne pozdneye neyo; on ne delayet novogo veb-chteniya. Sluzhebnyij konechnyij blok Markdown-recency isklyuchyon iz sravneniya teksta, no ne iz proverki yego sobstvennyim instrumentom.
@@ -82,6 +94,6 @@ Profilj izmeryayet chteniye sokhranyonnyikh dannyikh, proverku svideteljstv, oce
 - [Otchyot realizacii i ogranicheniya proverki](https://github.com/fum-lab/fum/blob/6c9babdd3663ff0112283b89a361068727825da6/Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/отчёт.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 06:23:18 MSK -->
-<!-- content-sha256: sha256:513469c97a3f16a35c676ef3a160049c57752928e2f125d9816349dc0d7ff391 -->
+<!-- last-content-edit: 2026-09-15 21:15:43 MSK -->
+<!-- content-sha256: sha256:2911ba51e20b8325aea9efeefdf1cc639d25a01c212000b965257bef91e05a1a -->
 <!-- FUM-MD-RECENCY:END -->

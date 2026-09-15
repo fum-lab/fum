@@ -85,7 +85,8 @@ Korenj `AGENTS.md` i tematicheskiye fajlyi `Правила/агентов/` — 
 <!-- FUM-SESSION-CONTINUATION: explicit-worklist-v1 -->
 `manual-sequential-v1` sokhranyayet zapret starogo avtokonvejyera i ogranicheniye odnim pisatelem na derevo; `isolated-per-task-v1` izoliruyet nezavisimyiye zadachi.
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000058 -->
-- Obyichnuyu pishusjhuyu kornevuyu zadachu Codex vruchnuyu zapuskayet poljzovatelj. Nezavisimaya zadacha rabotayet paralleljno v otdeljnom Git worktree so svoyej vetkoj `refs/heads/codex/...`. V dereve — ne boleye odnoj pishusjhej kornevoj zadachi. Checkout drugoj aktivnoj zadachi, vklyuchaya yeyo Zhurnal i proizvodnyiye fajlyi, dostupen toljko dlya chteniya. Isklyucheniya: `000121` dlya FUMA i `FUM-ПРАВИЛО-НОВОЕ-000018` dlya imeni vetki `planirovaniye`.
+- Pishusjhuyu kornevuyu zadachu Codex zapuskayet poljzovatelj vruchnuyu. Nezavisimyim zadacham — otdeljnyiye Git worktree i vetki `refs/heads/codex/...`, po odnomu pisatelyu dereva; chuzhiye checkout celikom read-only. Isklyucheniya: `000121` dlya FUMA i `НОВОЕ-000018` dlya `planirovaniye`.
+
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000059 -->
 - Zadacha posledovateljno vyipolnyayet soglasovannyij obyyom s utochneniyami, regulyarno fiksiruya soderzhateljnyiye etapyi lokaljnyimi kommitami. Kommit zavershayet etap, ne zadachu: dostupnuyu soglasovannuyu rabotu prodolzhaj v nej bez novogo zaprosa. Zaversheniye dopustimo po vyipolnenii vsego obyyoma, yavnoj ostanovke poljzovatelem libo konkretnomu prepyatstviyu bez nezavisimoj dostupnoj rabotyi. Kommit ne rasshiryayet obyyom; pustyiye kommityi radi periodichnosti zapresjhenyi. Otdeljnaya poljzovateljskaya zadacha sozdayotsya po yavnomu zaprosu, dochernyaya rabota — po `FUM-ПРАВИЛО-000061`. Kommit i prodolzheniye sami ne zapuskayut continuation, handoff, heartbeat, dispatcher, autostart ili inoj avtomaticheskij follow-up.
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000060 -->
@@ -96,7 +97,8 @@ Korenj `AGENTS.md` i tematicheskiye fajlyi `Правила/агентов/` — 
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000062 -->
 - Etap kommititsya v svoyej vetke posle proverki exact diff, indeksa, otdeljnogo otchyota, recency i primenimogo smoke-check. Kontroljnaya tochka po `FUM-ПРАВИЛО-000188` sokhranyayet nezavershyonnoye bez finaljnoj priyomki. Posle kommita proverj rezuljtat chteniyem, soobsjhi v commentary, sverj ostatok s komandami i prinyatyimi rezuljtatami i prodolzhaj dostupnoye v tom zhe khode. Pered final vyizovi read-only `Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-продолжение-задачи.py --перед-завершением --исходник <JSONL>` s kornevyim UUID: kod 3 zapresjhayet final, kod 2 ne razreshayet. Polnotu reyestra i smyisl priyomki proveryayet korenj; kontrakt — v lokaljnom navyike svyaznosti. Novomu etapu nuzhna novaya papka Zhurnala s tem zhe Codex-Thread-ID i istoriyej po `FUM-ПРАВИЛО-НОВОЕ-000006`; zakryityij snimok ne vozobnovlyayetsya. Plan, otvet rebyonka, kommit, chistoye derevo i priyomka etapa ne dokazyivayut zaversheniya vsego obyyoma; kommit vetki ne oznachayet integracii v `master`.
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000064 -->
-- Kazhdyij kommit svoyej vetki, krome tochnoj `refs/heads/master`, otpravlyayetsya obyichnyim push v proverennyij publikacionnyij `origin` bez povtornogo razresheniya. Do push sverj polnyij ref, commit OID, yedinstvennyij adres naznacheniya i publikacionnuyu chistotu. Otpravlyaj toljko etot OID v odnoimyonnuyu vetku, bez force, udaleniya, massovogo push i chuzhikh refs; uspekh podtverdi udalyonnyim OID. Pri otkaze ili neopredelyonnosti proverj remote, sokhrani nedostavku i prodolzhaj nezavisimuyu rabotu. Lokaljnyij kommit ne dokazyivayet dostavki. `master`, PR, vneshniye soobsjheniya i inyiye vneshniye effektyi trebuyut otdeljnogo yavnogo zaprosa. Eto poryadok dejstvij, ne utverzhdeniye o globaljnom Git hook.
+- Integriruj vetki merge-kommitom s oboimi roditelyami dazhe pri vozmozhnom fast-forward, bez squash i linejnoj zamenyi. Chastichnyij prinyatyij obyyom snachala vyidelyaj otdeljnoj vetkoj. Opublikovannuyu istoriyu ne perepisyivaj; `НОВОЕ-000011` sokhranyayet prodvizheniye `master` do prinyatogo C bez vtorogo merge. Kazhdyij svoj kommit vne `refs/heads/master` otpravlyaj bez povtornogo razresheniya obyichnyim push tochnogo OID v odnoimyonnuyu vetku proverennogo `origin`. Do push sverj polnyij ref, OID, yedinstvennyij adres i publikacionnuyu chistotu; dostavku podtverdi udalyonnyim OID. Force, udaleniye, massovyij push i chuzhiye refs zapresjhenyi. Pri otkaze ili neizvestnom iskhode proverj remote, sokhrani nedostavku i prodolzhaj nezavisimoye. `master`, PR i inyiye vneshniye effektyi — po yavnomu zaprosu. Eto poryadok, ne globaljnyij hook.
+
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000066 -->
 - Istoricheskiye queue/pool/worktree/review/integration/candidate/CAS/branch-next-step instrumentyi, refs, kvitancii, kartochki i vetki sokhranyayutsya kak proiskhozhdeniye i narabotka. Oni ne razreshayut zapisj i ne udalyayutsya avtomaticheski. Ikh vozvrat trebuyet otdeljnogo zaprosa poljzovatelya i novogo proverennogo perekhoda pravil.
 
@@ -120,6 +122,6 @@ Korenj `AGENTS.md` i tematicheskiye fajlyi `Правила/агентов/` — 
 - Pered kommitom sverj `git status --short`; vklyuchaj toljko osmyislennyiye izmeneniya sessii.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 11:47:30 MSK -->
-<!-- content-sha256: sha256:4c1183943f32155b4277ccbbd9969cfc65829dc81c33fbb4040c5b901a116220 -->
+<!-- last-content-edit: 2026-09-15 20:10:53 MSK -->
+<!-- content-sha256: sha256:0df45198621ad26f02e4e2cf8927bd00ee20d45edb801ab28ca65d58d37b5e99 -->
 <!-- FUM-MD-RECENCY:END -->

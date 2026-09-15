@@ -56,14 +56,14 @@ Kommit postanovki yavlyayetsya potomkom 186b0360a31b97184773757634976257d0f86495
 
 ## Istochniki
 
-- [Komanda, vyibor poljzovatelya i proiskhozhdeniye](https://github.com/fum-lab/fum/blob/8d89a695d6f099091a13d3ce60c924c7098105f2/Журнал/2026-09-11_12-40-18_MSK_подготовить-постановку-Linux-VM-на-macOS/запрос.md).
-- [Issledovaniye i granicyi porucheniya koordinatora](https://github.com/fum-lab/fum/blob/8d89a695d6f099091a13d3ce60c924c7098105f2/Журнал/2026-09-11_12-40-18_MSK_подготовить-постановку-Linux-VM-на-macOS/материалы/поручения-координатора.json). Apple-mekhanizmyi i nablyudeniye khosta vzyatyi iz etogo issledovaniya; realjnyiye ispyitaniya ne zayavlenyi.
+- [Komanda, vyibor poljzovatelya i proiskhozhdeniye](../Zhurnal/2026-09-11_12-40-18_MSK_podgotovitj-postanovku-Linux-VM-na-macOS/zapros.md).
+- [Issledovaniye i granicyi porucheniya koordinatora](../Zhurnal/2026-09-11_12-40-18_MSK_podgotovitj-postanovku-Linux-VM-na-macOS/materialyi/porucheniya-koordinatora.json). Apple-mekhanizmyi i nablyudeniye khosta vzyatyi iz etogo issledovaniya; realjnyiye ispyitaniya ne zayavlenyi.
 - Apple: [zapusk Linux](https://developer.apple.com/documentation/virtualization/running-linux-in-a-virtual-machine), [diskovyij obraz](https://developer.apple.com/documentation/virtualization/vzdiskimagestoragedeviceattachment), [NAT](https://developer.apple.com/documentation/virtualization/vznatnetworkdeviceattachment), [VSOCK](https://developer.apple.com/documentation/virtualization/vzvirtiosocketdevice).
 - [NoCloud](https://docs.cloud-init.io/en/latest/reference/datasources/nocloud.html): podtverzhdayet lokaljnyiye user-data i meta-data, instance-id i nositelj CIDATA; sovmestimostj versii cloud-init vyibrannogo obraza proveryayetsya pri realizacii.
 - [socat v Ubuntu Noble](https://manpages.ubuntu.com/manpages/noble/man1/socat.1.html), [Swift na Linux](https://www.swift.org/install/linux/).
 - [Reyestr instrumentov FUM](../Instrumentyi/reyestr-sistemnyikh-prilozhenij-i-instrumentov.md), [tekusjhij runner smoke](../Instrumentyi/fum-kompleksnaya-proverka-repozitoriya/scripts/run-smoke-check.py).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-12 01:09:27 MSK -->
-<!-- content-sha256: sha256:de30fb60fef712dcecb2be1e830d28f5e51ed7bde311f8e4e4a2f7f6e6964965 -->
+<!-- last-content-edit: 2026-09-15 19:46:43 MSK -->
+<!-- content-sha256: sha256:43502a9a0923f8b7963afbadd7f52c45b75b2420607bd065b1af0527c65550b6 -->
 <!-- FUM-MD-RECENCY:END -->

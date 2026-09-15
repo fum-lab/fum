@@ -1,0 +1,15 @@
+HTTP/1.1 200 OK
+Content-Type: text/html
+Content-Length: 1414793
+Connection: keep-alive
+Last-Modified: Thu, 03 Sep 2026 17:54:17 GMT
+X-Amz-Server-Side-Encryption: AES256
+Accept-Ranges: bytes
+Server: AmazonS3
+Date: Tue, 15 Sep 2026 19:06:34 GMT
+Etag: "85948c3c5a784802bcb49b61f809c978"
+Via: 1.1 61fc49e1e80578044a885d20767ef3da.cloudfront.net (CloudFront)
+Age: 36517
+X-Cache: Hit from cloudfront
+X-Amz-Cf-Pop: ARN53-P3
+X-Amz-Cf-Id: rihuEQPBDn9bzQzfphXwZMXZ0JntUR52uOITlURm8uIG5SS6lxw5eA==

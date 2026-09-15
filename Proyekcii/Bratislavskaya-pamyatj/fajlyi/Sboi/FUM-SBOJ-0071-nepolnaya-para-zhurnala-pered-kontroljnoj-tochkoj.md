@@ -11,7 +11,7 @@ Para Zhurnala etapa 08:49 ne soderzhala tryokh obyazateljnyikh elementov: tochno
 
 ## Granica povtoreniya
 
-Chetyire sokhranyonnyikh v etoj kartochke epizoda nepolnoj kanonicheskoj paryi: etapyi 08:49 i 10:00, uchyot semi komand 15 sentyabrya i podgotovka obyyedineniya 03:35. Nomera 0003 i 0004 uzhe zanyatyi v drugikh rabochikh derevjyakh; ikh svideteljstva zdesj ne vosproizvodyatsya. Otricateljnyiye kontroli odnoj paryi lokalizuyut odno proyavleniye; raznyiye propusjhennyiye polya ne stanovyatsya otdeljnyimi kartochkami. Rannij vyizov svyaznosti 0176 do pervonachaljnogo predprosmotra — drugoj podgotoviteljnyij mekhanizm i uzhe sokhranyon otdeljno.
+Pyatj sokhranyonnyikh v etoj kartochke epizodov nepolnoj kanonicheskoj paryi: etapyi 08:49 i 10:00, uchyot semi komand 15 sentyabrya podgotovka obyyedineniya 03:35 i predposyilka master 23:33. Nomera 0003 i 0004 uzhe zanyatyi v drugikh rabochikh derevjyakh; ikh svideteljstva zdesj ne vosproizvodyatsya. Otricateljnyiye kontroli odnoj paryi lokalizuyut odno proyavleniye; raznyiye propusjhennyiye polya ne stanovyatsya otdeljnyimi kartochkami. Rannij vyizov svyaznosti 0176 do pervonachaljnogo predprosmotra — drugoj podgotoviteljnyij mekhanizm i uzhe sokhranyon otdeljno.
 
 ## Proyavleniya
 
@@ -31,6 +31,10 @@ Pri uchyote semi komand dve posledovateljnyiye proverki kontroljnoj tochki otklo
 
 Pri podgotovke obyyedineniya rannij vkhod obnaruzhil sokrasjhyonnyij zagolovok kolonki profilya i otsutstviye tochnogo imeni navyika vremeni; posle ikh ispravleniya — otsutstviye prefiksa «Granica profilya:». Eto povtor toj zhe granicyi odnoj paryi. [Mashinnyiye zapisi](../Zhurnal/2026-09-15_03-35-30_MSK_podgotovitj-obyyedineniye-konteksta-i-finansirovaniya/materialyi/ranniye-otkazyi-polej.json) sokhranyayut oba otkaza i sleduyusjhij kod0. Korenj vyizval rannyuyu proverku do polnoj priyomki; novyikh testov ili izmeneniya proveryayusjhego koda ne potrebovalosj. Obsjhaya avtomaticheskaya podgotovka korrektnoj paryi etim ne zavershena.
 
+### FUM-SBOJ-0071/PROYAVLENIYE-0007
+
+[Pervichnyij otkaz predposyilki master](../Zhurnal/2026-09-15_22-40-08_MSK_sokhranitj-i-udalitj-rolevyiye-forki/materialyi/pervyij-otkaz-svyaznosti-predposyilki.json) — process 9434, kod 1: posle tablicyi otsutstvovala bukvaljnaya nepustaya stroka «Granica profilya:». Tochnyij istochnik i SHA privedenyi v [registracii](../Zhurnal/2026-09-15_22-40-08_MSK_sokhranitj-i-udalitj-rolevyiye-forki/materialyi/povtoryi-oformleniya.json). Vladelec ispravil pole pered povtornoj svyaznostjyu; eto povtor podgotovki paryi, a ne defekt samoj proverki. Prezhniye zakryityiye etapyi ne perepisanyi.
+
 ## Ozhidaniye i klassifikaciya
 
 Svyaznostj poluchayet zavershyonnuyu kanonicheskuyu paru s obyazateljnyimi polyami i nablyudyonnyim vremennyim intervalom. Zasjhita praviljno otklonila nepolnoye oformleniye. Oshibki vyichisleniya moskovskogo vremeni ili samikh izmerenij ne ustanovlenyi.
@@ -44,6 +48,8 @@ Vosstanovlenyi tochnyij zagolovok tablicyi, imya instrumenta i stroka «Granica 
 Tochnoye osnovaniye aktualizacii susjhestvuyusjhego [FUM-STEP-0174](../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0174-opisyivatj-primeneniye-avtomatizacij-bez-chteniya-koda.md) — `FUM-СБОЙ-0071/ПРОЯВЛЕНИЕ-0002`: rannyaya proverka obyazateljnyikh polej paryi do dorogoj priyomki. Vtoroj epizod vozvrasjhayet kartochku v aktivnoye sostoyaniye; pervoye ogranichennoye vosstanovleniye sokhranyayetsya istoricheski. Novogo STEP net. Povtor `FUM-СБОЙ-0071/ПРОЯВЛЕНИЕ-0005` podtverzhdayet prezhnyuyu granicu rannej proverki; chastnoye ispravleniye tekusjhego otchyota ne zakryivayet obsjhuyu meru.
 
 Povtor `FUM-СБОЙ-0071/ПРОЯВЛЕНИЕ-0006` dobavlen k tomu zhe aktivnomu 0174: rannij vkhod obnaruzhil nesootvetstviye do dorogogo obkhoda, a vosproizvodimaya podgotovka samoj paryi ostayotsya neobkhodimoj.
+
+Povtor `FUM-СБОЙ-0071/ПРОЯВЛЕНИЕ-0007` dopolnyayet tot zhe STEP0174: obyazateljnyiye polya dolzhnyi formirovatjsya do zaklyuchiteljnogo obkhoda; lokaljnoye zapolneniye ne zavershayet avtomatizaciyu.
 
 ## Kriterii zakryitiya
 
@@ -60,6 +66,6 @@ Pervichnyij rezuljtat chunk 892d4b: session coherence check passed, kod 0, 37,53
 [Tekusjhaya registraciya i pervichnyiye svideteljstva](../Zhurnal/2026-09-11_09-36-55_MSK_sokhranitj-ostavshuyusya-diagnostiku-priyoma/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
-<!-- content-sha256: sha256:b5f3241046e851d54049df3225c73a495db93f57b1c407a9f307c32f3d15e944 -->
+<!-- last-content-edit: 2026-09-16 00:05:56 MSK -->
+<!-- content-sha256: sha256:f102c0124b0ecbc9b290b139dba819e52cd11f42cc1094039e6fc24c7ec2b8ce -->
 <!-- FUM-MD-RECENCY:END -->

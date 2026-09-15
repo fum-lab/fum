@@ -1,0 +1,23 @@
+{
+  "схема": "fum.публикация-комментария-PR.1",
+  "комментарий": {
+    "id": 5689061287,
+    "url": "https://github.com/fum-lab/fum/pull/3#issuecomment-5689061287",
+    "author": "Roman-Kerimov",
+    "created_at": "2026-09-15T22:41:01Z",
+    "body_sha256": "78afe83d075d3e19c73e801371277242a62dd7124caa0184d9c75306cdc9968e",
+    "текст": "комментарий-PR-3.txt",
+    "подготовленный_файл_sha256": "78afe83d075d3e19c73e801371277242a62dd7124caa0184d9c75306cdc9968e"
+  },
+  "PR_при_наблюдении": {
+    "baseRefOid": "e95d7f5d1ef6387454b7825932cfbd737e600473",
+    "headRefOid": "d2692cf8d627fd87ed1bd9b3dc5fd2b60216f612",
+    "isDraft": false,
+    "mergeCommit": null,
+    "number": 3,
+    "state": "OPEN",
+    "url": "https://github.com/fum-lab/fum/pull/3"
+  },
+  "локальный_merge": "9d01af6de4fc2f1c9265ee8805cda4998322e004",
+  "граница": "Публикация комментария и снятие draft подтверждены чтением. Продвижение master ожидает отдельного исхода."
+}

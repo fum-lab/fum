@@ -1,0 +1,47 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Action completed."
+    }
+  ],
+  "structuredContent": {
+    "url": "https://github.com/fum-lab/fum/pull/2",
+    "number": 2,
+    "state": "open",
+    "merged": false,
+    "mergeable": false,
+    "draft": true,
+    "body": "FUMA развивается в ведущей ветке, а master остаётся на прежней проверенной основе. Этот черновой PR фиксирует ограниченную поставку для совместного ревью и подготовки приёмки.\n\nИсходный master: `e95d7f5d1ef6387454b7825932cfbd737e600473`.\nВершина поставки: `01ca988635628b48024ae64c290d3c4912aff060`.\nДерево поставки: `fd0a746227a2d015d7cf9cb185eb7957dca0e0b8`.\n\nСопровождение: #1.\n\nДо слияния остаются обновление предпосылки политики в master, общий проверочный контур и проверка точного коммита-кандидата. GitHub Actions пока не настроен. Локальные адресные проверки последнего среза: 39 тестов допуска направлений, структура, публикационная чистота и связность контрольной точки — успешны. Это не приёмка всего диапазона PR.\n\nТекущий согласованный маршрут принимает коммит C с родителями [L,M] и продвигает master до того же C. Обычная кнопка Merge создаёт другой коммит и сама не исполняет этот маршрут. Способ завершения будет явно связан с результатом приёмки; сейчас PR остаётся черновиком.\n\nТочные отправленные материалы и ответы GitHub дублируются в памяти FUM.",
+    "title": "Подготовить ограниченную интеграцию FUMA 01ca9886 в master",
+    "base": "master",
+    "base_sha": "e95d7f5d1ef6387454b7825932cfbd737e600473",
+    "head": "codex/integraciya-fuma-01ca9886",
+    "head_sha": "01ca988635628b48024ae64c290d3c4912aff060",
+    "head_repo_id": 1285958028,
+    "head_repo_full_name": "fum-lab/fum",
+    "merge_commit_sha": null,
+    "user": {
+      "login": "Roman-Kerimov",
+      "name": "Roman-Kerimov",
+      "email": null,
+      "avatar_url": "https://avatars.githubusercontent.com/u/22149544?v=4",
+      "id": 22149544
+    },
+    "requested_reviewers": null,
+    "requested_team_reviewers": null,
+    "diff": null,
+    "comments": null,
+    "created_at": "2026-09-15T19:56:47Z",
+    "updated_at": "2026-09-15T19:56:47Z",
+    "closed_at": null,
+    "merged_at": null,
+    "commits": 81,
+    "changed_files": 5084,
+    "additions": 1273112,
+    "deletions": 5932,
+    "display_url": "https://github.com/fum-lab/fum/pull/2",
+    "display_title": "Подготовить ограниченную интеграцию FUMA 01ca9886 в master"
+  },
+  "isError": false
+}

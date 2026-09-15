@@ -16,8 +16,29 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-16 00:15:17 MSK — Proveritj postavki kommita i integracii](2026-09-16_00-15-17_MSK_proveritj-postavki-kommita-i-integracii/otchyot.md)
+- [2026-09-15 22:40:08 MSK — Sokhranitj i udalitj rolevyiye forki](2026-09-15_22-40-08_MSK_sokhranitj-i-udalitj-rolevyiye-forki/otchyot.md)
+- [2026-09-15 22:18:05 MSK — Prinyatj dopusk postoyannyikh vetok](2026-09-15_22-18-05_MSK_prinyatj-dopusk-postoyannyikh-vetok/otchyot.md)
+- [2026-09-15 21:58:20 MSK — Zaplanirovatj medijnyiye adapteryi i arkhiv](2026-09-15_21-58-20_MSK_zaplanirovatj-medijnyiye-adapteryi-i-arkhiv/otchyot.md)
+- [2026-09-15 21:35:28 MSK — Zakrepitj modelj tekstovogo interfejsa FUMA](2026-09-15_21-35-28_MSK_zakrepitj-modelj-tekstovogo-interfejsa-FUMA/otchyot.md)
+- [2026-09-15 21:17:53 MSK - Svyazyivatj susjhestvuyusjhiye zadachi napravlenij](2026-09-15_21-17-53_MSK_svyazyivatj-susjhestvuyusjhiye-zadachi-napravlenij/otchyot.md)
+- [2026-09-15 20:56:49 MSK - Obnovitj naznacheniya platform i kanalov](2026-09-15_20-56-49_MSK_obnovitj-naznacheniya-platform-i-kanalov/otchyot.md)
+- [2026-09-15 20:55:24 MSK — Sokhranitj medijnyij plan i zapuski platform](2026-09-15_20-55-24_MSK_sokhranitj-medijnyij-plan-i-zapuski-platform/otchyot.md)
+- [2026-09-15 20:33:17 MSK — Prinyatj obnovlyonnoye postoyannoye planirovaniye](2026-09-15_20-33-17_MSK_prinyatj-obnovlyonnoye-postoyannoye-planirovaniye/otchyot.md)
+- [2026-09-15 20:29:58 MSK — Splanirovatj medijnoye soprovozhdeniye pozhertvovanij](2026-09-15_20-29-58_MSK_splanirovatj-medijnoye-soprovozhdeniye-pozhertvovanij/otchyot.md)
+- [2026-09-15 20:11:32 MSK — Prinyatj novuyu finansovuyu postavku](2026-09-15_20-11-32_MSK_prinyatj-novuyu-finansovuyu-postavku/otchyot.md)
+- [2026-09-15 20:06:33 MSK — Zakrepitj sliyaniya i prioritetyi planirovaniya](2026-09-15_20-06-33_MSK_zakrepitj-sliyaniya-i-prioritetyi-planirovaniya/otchyot.md)
+- [2026-09-15 20:01:22 MSK — Podklyuchitj operatoryi k prilozheniyu FUMA](2026-09-15_20-01-22_MSK_podklyuchitj-operatoryi-k-prilozheniyu-FUMA/otchyot.md)
+- [2026-09-15 19:57:21 MSK — Obnovitj blizhajshiye postavki planirovaniya](2026-09-15_19-57-21_MSK_obnovitj-blizhajshiye-postavki-planirovaniya/otchyot.md)
+- [2026-09-15 19:50:16 MSK — Proveritj povtor bajtovogo operatora](2026-09-15_19-50-16_MSK_proveritj-povtor-bajtovogo-operatora/otchyot.md)
+- [2026-09-15 19:45:05 MSK — Slitj istoriyu modeli v fuma](2026-09-15_19-45-05_MSK_slitj-istoriyu-modeli-v-fuma/otchyot.md)
+- [2026-09-15 19:33:04 MSK — Vlitj prinyatuyu FUMA v planirovaniye](2026-09-15_19-33-04_MSK_vlitj-prinyatuyu-FUMA-v-planirovaniye/otchyot.md)
+- [2026-09-15 19:27:18 MSK — Perenesti finansovuyu deljtu na bazu fuma](2026-09-15_19-27-18_MSK_perenesti-finansovuyu-deljtu-na-bazu-fuma/otchyot.md)
 - [2026-09-15 19:20:02 MSK — Proveritj postavku istorii modeli](2026-09-15_19-20-02_MSK_proveritj-postavku-istorii-modeli/otchyot.md)
+- [2026-09-15 19:12:12 MSK - Podgotovitj marshrutyi finansirovaniya i lizinga](2026-09-15_19-12-12_MSK_podgotovitj-marshrutyi-finansirovaniya-i-lizinga/otchyot.md)
 - [2026-09-15 19:05:01 MSK — Sokhranyatj nablyudayemuyu istoriyu modeli](2026-09-15_19-05-01_MSK_sokhranyatj-nablyudayemuyu-istoriyu-modeli/otchyot.md)
+- [2026-09-15 19:04:26 MSK — Integrirovatj ispolneniye operatora FUMA](2026-09-15_19-04-26_MSK_integrirovatj-ispolneniye-operatora-FUMA/otchyot.md)
+- [2026-09-15 19:02:24 MSK — Podklyuchitj dopusk postoyannoj vetki](2026-09-15_19-02-24_MSK_podklyuchitj-dopusk-postoyannoj-vetki/otchyot.md)
 - [2026-09-15 18:29:25 MSK — Zakrepitj vosemj reshenij obrabotki](2026-09-15_18-29-25_MSK_zakrepitj-vosemj-reshenij-obrabotki/otchyot.md)
 - [2026-09-15 18:15:25 MSK — Prinyatj obratnuyu dostavku integracij](2026-09-15_18-15-25_MSK_prinyatj-obratnuyu-dostavku-integracij/otchyot.md)
 - [2026-09-15 17:55:33 MSK — Vernutj dostavku v postoyannuyu vetku](2026-09-15_17-55-33_MSK_vernutj-dostavku-v-postoyannuyu-vetku/otchyot.md)
@@ -25,7 +46,9 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [2026-09-15 16:58:55 MSK — Zapustitj prioritetnyiye paralleljnyiye rabotyi](2026-09-15_16-58-55_MSK_zapustitj-prioritetnyiye-paralleljnyiye-rabotyi/otchyot.md)
 - [2026-09-15 16:35:20 MSK — Prinyatj zakhvat vyivoda i imya FUMA](2026-09-15_16-35-20_MSK_prinyatj-zakhvat-vyivoda-i-imya-FUMA/otchyot.md)
 - [2026-09-15 16:17:32 MSK — Sokhranitj sboi peredachi konteksta](2026-09-15_16-17-32_MSK_sokhranitj-sboi-peredachi-konteksta/otchyot.md)
+- [2026-09-15 16:09:02 MSK - Utochnitj obolochku API i stoimostj IPC](2026-09-15_16-09-02_MSK_utochnitj-obolochku-API-i-stoimostj-IPC/otchyot.md)
 - [2026-09-15 15:57:32 MSK — Utochnitj granicyi Swift obolochki](2026-09-15_15-57-32_MSK_utochnitj-granicyi-Swift-obolochki/otchyot.md)
+- [2026-09-15 15:40:41 MSK - Utochnitj operatornyij interfejs FUMA](2026-09-15_15-40-41_MSK_utochnitj-operatornyij-interfejs-FUMA/otchyot.md)
 - [2026-09-15 15:13:26 MSK — Zakrepitj reakciyu na pereraskhod konteksta](2026-09-15_15-13-26_MSK_zakrepitj-reakciyu-na-pereraskhod-konteksta/otchyot.md)
 - [2026-09-15 13:00:53 MSK — Ispravitj sboj finaljnoj proyekcii](2026-09-15_13-00-53_MSK_ispravitj-sboj-finaljnoj-proyekcii/otchyot.md)
 - [2026-09-15 05:59:05 MSK — Perenesti finansovuyu postavku na obsjhuyu bazu](2026-09-15_05-59-05_MSK_perenesti-finansovuyu-postavku-na-obsjhuyu-bazu/otchyot.md)
@@ -92,6 +115,8 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [2026-09-11 14:47:00 MSK - Podgotovitj sovmestimostj master i FUMA](2026-09-11_14-47-00_MSK_podgotovitj-sovmestimostj-master-i-FUMA/otchyot.md)
 - [2026-09-11 14:00:14 MSK - Sokhranitj peredachu integracii i pozdnij dialog](2026-09-11_14-00-14_MSK_sokhranitj-peredachu-integracii-i-pozdnij-dialog/otchyot.md)
 - [2026-09-11 13:39:59 MSK — Prinyatj napravleniye finansirovaniya FUM](2026-09-11_13-39-59_MSK_prinyatj-napravleniye-finansirovaniya-FUM/otchyot.md)
+- [2026-09-11 13:30:58 MSK - Podgotovitj postanovku Windows VM na macOS](2026-09-11_13-30-58_MSK_podgotovitj-postanovku-Windows-VM-na-macOS/otchyot.md)
+- [2026-09-11 12:40:18 MSK - Podgotovitj postanovku Linux VM na macOS](2026-09-11_12-40-18_MSK_podgotovitj-postanovku-Linux-VM-na-macOS/otchyot.md)
 - [2026-09-11 12:35:21 MSK - Prinyatj sovmestnuyu integraciyu vosjmi vkhodov](2026-09-11_12-35-21_MSK_prinyatj-sovmestnuyu-integraciyu-vosjmi-vkhodov/otchyot.md)
 - [2026-09-11 12:17:50 MSK - Vklyuchitj prinyatyij interpretator](2026-09-11_12-17-50_MSK_vklyuchitj-prinyatyij-interpretator/otchyot.md)
 - [2026-09-11 12:09:57 MSK - Vklyuchitj realizaciyu perenosa derevjyev](2026-09-11_12-09-57_MSK_vklyuchitj-realizaciyu-perenosa-derevjyev/otchyot.md)
@@ -672,6 +697,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 19:26:11 MSK -->
-<!-- content-sha256: sha256:8a7d5800c4d6ae7786006d2d6251365a9ffda688e87f624d6775e0a619746174 -->
+<!-- last-content-edit: 2026-09-16 00:46:06 MSK -->
+<!-- content-sha256: sha256:fdbeb9cb0bbd6692b05d5ced00b32fd08dc09b8cfd455a7d9d683a9a7bc3619c -->
 <!-- FUM-MD-RECENCY:END -->

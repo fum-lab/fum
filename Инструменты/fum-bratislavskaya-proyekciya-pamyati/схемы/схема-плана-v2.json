@@ -269,6 +269,7 @@
               "const": [
                 ".gitignore",
                 ".gitmodules",
+                ".mailmap",
                 ".obsidian/fum-recency-reference-date",
                 "LICENSE",
                 "fum",

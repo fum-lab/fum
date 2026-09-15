@@ -2,7 +2,7 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-15 15:57:32 MSK - Utochnitj granicyi Swift obolochki](../2026-09-15_15-57-32_MSK_utochnitj-granicyi-Swift-obolochki/zapros.md)
+- Predyidusjhij zapros: [2026-09-15 16:09:02 MSK - Utochnitj obolochku API i stoimostj IPC](../2026-09-15_16-09-02_MSK_utochnitj-obolochku-API-i-stoimostj-IPC/zapros.md)
 - Sleduyusjhij zapros: [2026-09-15 16:35:20 MSK - Prinyatj zakhvat vyivoda i imya FUMA](../2026-09-15_16-35-20_MSK_prinyatj-zakhvat-vyivoda-i-imya-FUMA/zapros.md)
 
 ## Tekst zaprosa
@@ -55,6 +55,6 @@ Primeneniye paketa zavershilosj uspeshno s kvitanciyej khyeshej pyati celevyikh 
 - [Zapisj proverki 2_9c250d3a-2516-4179-831d-008e856457b4](materialyi/zapuski-proverok/2_9c250d3a-2516-4179-831d-008e856457b4.json)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 16:48:05 MSK -->
-<!-- content-sha256: sha256:359c01eb7175fa695bca4d264494ce147977565019a4ec11a380d355eefbe395 -->
+<!-- last-content-edit: 2026-09-15 19:46:43 MSK -->
+<!-- content-sha256: sha256:77a4e3abc4905baaae1eb6de4e212a37c7906104bca1ef2ebe5df1ec6352874e -->
 <!-- FUM-MD-RECENCY:END -->

@@ -71,6 +71,8 @@ Razlichayutsya prinyatoye sozdaniye, podgotovka i podtverzhdyonnyij zapusk. Do z
 
 - Pri priyome novogo napravleniya FUMA libo utochnenii uzhe uchtyonnogo napravleniya agent obyazan primenyatj sokhranyayemyij [priyom napravlenij](../../Instrumentyi/fum-reyestr-planirovaniya/priyom-napravlenij.md): podtverzhdyonnyij iskhodnyij ekzemplyar, smyislovoye resheniye, paru Zhurnala, raspredeleniye libo sokhraneniye identifikatorov, kartochki i primenimyij vneshnij rezuljtat. Smyisl, aktualjnostj, pozdniye utochneniya, soglasovannyij obyyom i polnomochiya opredelyayet korenj po pervichnyim komandam; avtomatizaciya proveryayet i ispolnyayet prinyatoye resheniye. Pryamaya ruchnaya vyidacha nomerov ili otdeljnyij vneshnij vyizov v obkhod etogo priyoma ne zamenyayut yego ispolneniya. Yesli trebuyemaya operaciya yesjhyo ne podderzhana, sokhranyayutsya konkretnyij ostatok i proveryayemaya dorabotka sposoba; nezavershyonnyij libo neodnoznachnyij vneshnij iskhod ne razreshayet povtornoye sozdaniye. Ukazaniye dejstvuyet pri kazhdom takom sluchaye i posle vosstanovleniya konteksta, poka poljzovatelj ne izmenit yego oblastj. [Istochnik postoyannogo sposoba priyoma](../../Zhurnal/2026-09-11_01-40-19_MSK_avtomatizirovatj-priyom-napravlenij-FUMA/zapros.md).
 
+Posle gotovnosti sootvetstvuyusjhej infrastrukturyi osnovnoj prioritet realizacii povedeniya FUM/FUMA i kompozicii avtomatizacij — kod v vide strukturiruyusjhikh operatorov. Swift sluzhit ispolneniyu, sistemnyim adapteram i neobkhodimyim primitivam. Pri vyibore sleduyusjhego soglasovannogo sreza pereispoljzuj gotovyij operatornyij mekhanizm; nedostayusjhuyu infrastrukturu oboznachaj yavno. Eto napravleniye posleduyusjhego razvitiya ne trebuyet nemedlenno perepisyivatj susjhestvuyusjhuyu realizaciyu.
+
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000172 -->
 - Vnovj vyiyavlennyij v rabochej sessii obobsjhayemyij princip, sposobnyij vliyatj na posleduyusjhiye zadachi, ne ostayotsya toljko v otvete ili doslovnom zhurnale. Sessiya svyazyivayet yego s tochnyim iskhodnyim svideteljstvom i libo zakreplyayet v kanonicheskom istochnike pravil ili trebovanij s primenimoj proverkoj, libo ukazyivayet uzhe susjhestvuyusjhij ne boleye slabyij ekvivalent, libo sozdayot aktualjnuyu kartochku daljnejshej realizacii s yavno zafiksirovannoj granicej. Kartochka ne podmenyayet nemedlenno primenimuyu fiksaciyu, a vremennaya celj ne prevrasjhayetsya bez otdeljnogo osnovaniya v bessrochnoye pravilo.
   Postoyannoye upravlyayusjheye ukazaniye poljzovatelya zakreplyayetsya v dejstvuyusjhikh pravilakh povedeniya s oblastjyu dejstviya i proiskhozhdeniyem libo svyazyivayetsya s uzhe susjhestvuyusjhej ravnosiljnoj normoj. V takikh postoyannyikh ukazaniyakh formulirovki «dolzhen», «obyazan» i «nuzhno» oboznachayut obyazateljnoye povedeniye v ukazannoj oblasti i primenyayutsya v posleduyusjhikh zadachakh; imi neljzya podmenyatj predpolozheniye, rekomendaciyu ili yesjhyo ne vyipolnennoye namereniye. Pravilo o povedenii agenta otnositsya k kanonicheskomu naboru pravil, trebovaniye k produktu — k trebovaniyam FUM. Otvet «zapomnil» dopustim toljko posle fakticheskoj zapisi s ukazaniyem yeyo mesta i statusa; chernovik ili nepodklyuchyonnaya vetka ne obyyavlyayutsya uzhe dejstvuyusjhim pravilom osnovnoj vetki. Yesli nemedlennomu zakrepleniyu meshayet konkretnaya granica zapisi, sokhranyayutsya iskhodnaya komanda, otvet, prichina i nezavershyonnyij perenos, a obyazateljstvo ne obyyavlyayetsya ispolnennyim.
@@ -101,7 +103,11 @@ Razlichayutsya prinyatoye sozdaniye, podgotovka i podtverzhdyonnyij zapusk. Do z
 
 - [iskhodnyij zapros 2026-08-24 15:31:12 MSK — Dekompozirovatj AGENTS MD](../../Zhurnal/2026-08-24_15-31-12_MSK_dekompozirovatj-AGENTS-md/zapros.md)
 
+## Istochnik utochneniya planirovaniya i integracii
+
+- [Postoyannyiye ukazaniya o sliyanii, plane i operatornom prioritete](../../Zhurnal/2026-09-15_20-06-33_MSK_zakrepitj-sliyaniya-i-prioritetyi-planirovaniya/zapros.md).
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 13:12:42 MSK -->
-<!-- content-sha256: sha256:e6415a6ab6bed92d593c1e4ede9d98ddd8f972902d417c25ae3de70d0d6a8988 -->
+<!-- last-content-edit: 2026-09-15 20:10:53 MSK -->
+<!-- content-sha256: sha256:8d60bfa6ca7fc50b09ea901970d6dfb2b4c57486ca3c7daaee68348374fff2ad -->
 <!-- FUM-MD-RECENCY:END -->

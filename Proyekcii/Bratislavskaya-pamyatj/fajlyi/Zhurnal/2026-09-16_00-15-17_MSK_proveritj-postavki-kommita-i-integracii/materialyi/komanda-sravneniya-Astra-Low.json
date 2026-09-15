@@ -1,0 +1,14 @@
+{
+  "позиция": {
+    "начало": 862941671,
+    "конец": 862942112,
+    "sha256": "ef3d48c0c179b3cb2d08fa017320ca4e7a36c59018fdf5f655440270e50f830d"
+  },
+  "содержимое": [
+    {
+      "type": "input_text",
+      "text": "Zapusti etu zhe zadachu i s Astra Low — sravnim realizacii.\n"
+    }
+  ],
+  "происхождение": "человек"
+}

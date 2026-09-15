@@ -14,7 +14,7 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0006 | `активна`   | [Opechatka puti tekusjhego zaprosa pri uchyote proverki](FUM-SBOJ-0006-opechatka-puti-tekusjhego-zaprosa-pri-uchyote-proverki.md)                                             | 1          | FUM-STEP-0134                                                                                                                    |
 | FUM-SBOJ-0007 | `активна`   | [Propusk opornoj datyi grafa posle perekhoda cherez polnochj MSK](FUM-SBOJ-0007-propusk-opornoj-datyi-grafa-posle-perekhoda-cherez-polnochj-MSK.md)                         | 1          | FUM-STEP-0135                                                                                                                    |
 | FUM-SBOJ-0008 | `активна`   | [Pustoj scenarij orkestracii proverki bez dochernego vyizova](FUM-SBOJ-0008-pustoj-scenarij-orkestracii-proverki-bez-dochernego-vyizova.md)                             | 1          | FUM-STEP-0136                                                                                                                    |
-| FUM-SBOJ-0009 | `активна`   | [Ruchnoye ugadyivaniye lokaljnyikh putej pered vyizovom](FUM-SBOJ-0009-ruchnoye-ugadyivaniye-lokaljnyikh-putej-pered-vyizovom.md)                                                 | 15         | FUM-STEP-0137                                                                                                                    |
+| FUM-SBOJ-0009 | `активна`   | [Ruchnoye ugadyivaniye lokaljnyikh putej pered vyizovom](FUM-SBOJ-0009-ruchnoye-ugadyivaniye-lokaljnyikh-putej-pered-vyizovom.md)                                                 | 17         | FUM-STEP-0137                                                                                                                    |
 | FUM-SBOJ-0010 | `активна`   | [Maskirovka rannego otkaza sostavnoj shell-diagnostiki](FUM-SBOJ-0010-maskirovka-rannego-otkaza-sostavnoj-shell-diagnostiki.md)                                     | 3          | FUM-STEP-0138                                                                                                                    |
 | FUM-SBOJ-0011 | `активна`   | [Kopirovaniye kriteriyev shagov v kartochki sboyev](FUM-SBOJ-0011-kopirovaniye-kriteriyev-shagov-v-kartochki-sboyev.md)                                                       | 3          | FUM-STEP-0139                                                                                                                    |
 | FUM-SBOJ-0012 | `активна`   | [Pereobesjhannoye adresuyemoye dokazateljstvo proyavleniya](FUM-SBOJ-0012-pereobesjhannoye-adresuyemoye-dokazateljstvo-proyavleniya.md)                                           | 6          | FUM-STEP-0140                                                                                                                    |
@@ -145,6 +145,6 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 - [pravila rabochikh sessij](../AGENTS.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 18:06:12 MSK -->
-<!-- content-sha256: sha256:faea58929fc19a9797109a2e8cf5f079882b2b28b5bce82b4b7d45e65a707586 -->
+<!-- last-content-edit: 2026-09-15 19:46:43 MSK -->
+<!-- content-sha256: sha256:87006b493bbc84afa93ceaa3533132b9da52604014d0f00fc31e46aa2a047a20 -->
 <!-- FUM-MD-RECENCY:END -->

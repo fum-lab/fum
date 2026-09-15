@@ -26,6 +26,8 @@ Poljzovatelj poruchil zaplanirovatj nastrojku repozitoriya i ustanovku neobkhodi
 
 ## Svyazannyiye rabotyi i poryadok
 
+[Konkretnaya postanovka Linux VM na macOS](../Linux-na-macOS.md) utochnyayet otdeljnyij scenarij: podgotovka macOS-khosta dlya sobstvennogo Swift-instrumenta sozdaniya i zapuska Linux VM. Uspekh etogo scenariya ne zakryivayet shirokij shag; status active i prezhniye kriterii sokhranyayutsya.
+
 Planirovaniye vyipolneno po pryamomu porucheniyu; realizaciya etim dokumentom ne obyyavlyayetsya nachatoj. Obsjhij pervyij etap novyikh avtomatizacij — opisaniye profilej sredyi i trebovanij proverok; platformennyiye adapteryi mozhno realizovyivatj nezavisimo posle soglasovaniya obsjhej chasti.
 
 - [Avtomatizirovatj nastrojku GitHub Actions](🟡-FUM-STEP-0178-avtomatizirovatj-nastrojku-GitHub-Actions.md).
@@ -40,6 +42,6 @@ Planirovaniye vyipolneno po pryamomu porucheniyu; realizaciya etim dokumentom ne
 - [Susjhestvuyusjhij kontrakt kompleksnoj proverki](../../Instrumentyi/fum-kompleksnaya-proverka-repozitoriya/SKILL.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 11:47:30 MSK -->
-<!-- content-sha256: sha256:1ae0b532215c184036cf71845205eacabb2498569242f33f34c63f1b5232be1e -->
+<!-- last-content-edit: 2026-09-15 19:46:43 MSK -->
+<!-- content-sha256: sha256:f82ddcd1c14fb16a47a7349dd13cb59ea6f34282a42dffcef5b2ce64fb37c5d7 -->
 <!-- FUM-MD-RECENCY:END -->

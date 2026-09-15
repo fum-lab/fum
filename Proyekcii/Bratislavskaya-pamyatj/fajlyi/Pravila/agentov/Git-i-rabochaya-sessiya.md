@@ -5,6 +5,8 @@ Eti pravila polnostjyu chitayutsya do izmeneniya Git-sostoyaniya, podgotovki kom
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-НОВОЕ-000018 -->
 - Postoyannaya vetka `refs/heads/planirovaniye` prednaznachena dlya soglasovannyikh poljzovatelem planov FUM/FUMA i neobkhodimyikh soprovoditeljnyikh materialov. Yeyo tochnoye imya vyibrano poljzovatelem kak isklyucheniye iz obyichnogo prefiksa `codex/`. Rabota vedyotsya v otdeljnom izolirovannom Git worktree s odnim pisatelem dereva i ref. Soglasovannyiye etapyi fiksiruyutsya posledovateljnyimi proveryayemyimi kommitami po `FUM-ПРАВИЛО-000062`, kazhdyij kommit publikuyetsya po `FUM-ПРАВИЛО-000064`. Priyomka dlya posleduyusjhego sliyaniya i integraciya v `master` vyipolnyayutsya pozdneye po otdeljnomu yavnomu zaprosu poljzovatelya i pravilam prinimayusjhego `master`. Do prinyatoj integracii nastoyasjhaya norma dejstvuyet toljko v `refs/heads/planirovaniye` i ne schitayetsya dejstvuyusjhej v `master`.
 
+Svoyevremennoye obnovleniye postoyannyikh postanovok vyipolnyayetsya po `FUM-ПРАВИЛО-000149`, integraciya vetok — po `FUM-ПРАВИЛО-000064`.
+
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000063 -->
 - Dlya agentskogo kommita `Author Name` imeyet tochnyij format `FUM <Название роли с большой буквы>` i otrazhayet fakticheskuyu rolj tekusjhej sessii, naprimer `FUM Писатель`, `FUM Запросы`, `FUM Ревью` ili `FUM Интегратор`. Eto pravilo ne menyayet email i dannyiye committer; rolj neljzya pridumyivatj vmesto fakticheski naznachennoj ili yavno prinyatoj v ruchnoj skheme.
 
@@ -32,7 +34,11 @@ Dlya vyibora roli menyaj toljko `GIT_AUTHOR_NAME`; pered kommitom sravnivaj `git
 
 - [Porucheniye o posledovateljnoj serii i postoyannoj vetke](../../Zhurnal/2026-09-11_01-49-43_MSK_zakrepitj-postoyannuyu-vetku-planirovaniya/zapros.md).
 
+## Istochnik utochneniya planirovaniya i integracii
+
+- [Postoyannyiye ukazaniya o sliyanii, plane i operatornom prioritete](../../Zhurnal/2026-09-15_20-06-33_MSK_zakrepitj-sliyaniya-i-prioritetyi-planirovaniya/zapros.md).
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 11:47:30 MSK -->
-<!-- content-sha256: sha256:ee132fcc41f03b7fdec4539d5145de15b68120e8c266b3ec3613c009dd0781b0 -->
+<!-- last-content-edit: 2026-09-15 20:10:53 MSK -->
+<!-- content-sha256: sha256:5b0a3e3e122fbcf914806cb571d0fa878a3ec81c5a9acd4a1c04e4bb41246a05 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -1,0 +1,17 @@
+HTTP/1.1 200 OK
+Server: AppleHttpServer/7b3d349ae60c243cdd677edbde3e93e460f75820
+Date: Tue, 15 Sep 2026 18:39:20 GMT
+Content-Type: text/html
+Content-Length: 18644
+Last-Modified: Mon, 14 Sep 2026 13:31:47 GMT
+ETag: "48d4-65b7174ae0019"
+Accept-Ranges: bytes
+X-B3-TraceId: 10e98401fc78dbf6
+Strict-Transport-Security: max-age=31536000
+Cache-Control: max-age=300, public
+Vary: Accept-Encoding
+Age: 2
+Via: https/1.1 defra2-xdc-mx-005.ts.apple.com (acdn/331.16659), https/1.1 defra1-edge-fx-045.ts.apple.com (acdn/331.16659)
+X-Cache: hit-stale, miss
+cdnuuid: [REDACTED: response trace identifier]
+Connection: keep-alive

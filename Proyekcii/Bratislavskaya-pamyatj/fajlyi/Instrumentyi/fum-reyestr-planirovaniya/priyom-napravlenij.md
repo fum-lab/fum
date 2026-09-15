@@ -4,7 +4,7 @@ Priyom svyazyivayet podtverzhdyonnoye soobsjheniye, smyislovoye resheniye, sobst
 
 ## Obyichnyij zapusk
 
-Rabotajte v svoyom worktree, v sobstvennoj vetke `codex/…` i otkryitoj rabochej sessii Zhurnala. Dlya nachala sleduyusjhej sessii ispoljzuyetsya obyichnyij `start` avtomatizacii strukturyi papok zaprosov. Zakryityij otchyot ne vozobnovlyayetsya.
+Rabotajte v svoyom worktree, v sobstvennoj vetke `codex/…` libo v yavno razreshyonnoj postoyannoj vetke `fuma` ili `planirovaniye` i otkryitoj rabochej sessii Zhurnala. Dlya nachala sleduyusjhej sessii ispoljzuyetsya obyichnyij `start` avtomatizacii strukturyi papok zaprosov. Zakryityij otchyot ne vozobnovlyayetsya.
 
 Podgotovjte privatnyij JSON vkhoda vne publikuyemogo checkout. On soderzhit putj pervichnogo JSONL, UUID iskhodnoj zadachi, resheniye, otnositeljnyij putj sobstvennogo zaprosa, spisok sozdavayemyikh ili obnovlyayemyikh kartochek i raneye soglasovannyiye nomera libo `null`. Resheniye skhemyi `fum.решение-приёма.1` ssyilayetsya na konkretnyij ekzemplyar soobsjheniya i polnyij rassmotrennyij kontekst 0177. Agent otdeljno opredelyayet aktualjnostj, pozdniye utochneniya, smyisl otveta, predmetnyij obyyom i yavnoye razresheniye novoj zadachi. Avtomatizaciya ne vyivodit eti resheniya iz klyuchevyikh slov.
 
@@ -139,7 +139,19 @@ Fajlovaya stadiya snachala sokhranyayet tochnyij plan iskhodnyikh i budusjhikh b
 - [Kommit postanovki, rannyaya baza i adapter](../../Zhurnal/2026-09-11_03-32-33_MSK_svyazatj-priyom-s-kommitom-postanovki/zapros.md).
 - [Podtverzhdyonnyij pervyij matematicheskij zapusk](../../Zhurnal/2026-09-11_05-03-47_MSK_podtverditj-matematicheskij-zapusk/otchyot.md).
 
+## Dopusk postoyannyikh vetok
+
+Sokhranyayemyij priyom prinimayet tochnyiye polnyiye refs `refs/heads/fuma` i `refs/heads/planirovaniye` naryadu s `refs/heads/codex/…`. Po-prezhnemu trebuyutsya polnyij HEAD, yedinstvennoye derevo vetki i sovpadeniye sokhranyonnogo vladeljca s native UUID tekusjhej zadachi. `master`, pokhozhiye imena i vtoroye derevo togo zhe ref otklonyayutsya. Povtor s tem zhe vladeljcem sokhranyayet bajtyi sostoyaniya; smena vladeljca trebuyet otdeljnogo resheniya i avtomaticheski ne vyipolnyayetsya.
+
+Posle zapisi postoyannogo ref vse chitateli obsjhego privatnogo sostoyaniya dolzhnyi ispoljzovatj obnovlyonnyij modulj priyoma: prezhnyaya versiya otklonyayet takoj ref. Format sostoyaniya ne menyayetsya. Etot dopusk ne sozdayot zadachu, ne svyazyivayet uzhe susjhestvuyusjhuyu zadachu s napravleniyem i ne menyayet otdeljnyij kontrakt Git-dostavki.
+
+Profilj adresnogo scenariya (vklyuchaya sozdaniye otkryityikh Git-fikstur):
+
+```bash
+python3 -B -m cProfile -s cumulative -m unittest discover -s Инструменты/fum-reyestr-planirovaniya/tests -p test_приём_направления.py -k постоянн
+```
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 13:36:29 MSK -->
-<!-- content-sha256: sha256:4bd4c8e1242ac3a9a0f288e0fd1169d364d6e4a8f6e4502bb6dc3ab4e282a40d -->
+<!-- last-content-edit: 2026-09-15 21:39:46 MSK -->
+<!-- content-sha256: sha256:0153a27b8540730024ecbd0102d63a83630256229a955108d1171ef52ad0fba2 -->
 <!-- FUM-MD-RECENCY:END -->

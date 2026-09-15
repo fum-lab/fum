@@ -9,6 +9,8 @@
 
 Pri paralleljnom planirovanii nomer kartochki byil vyibran iz sostoyaniya sobstvennogo checkout bez podtverzhdeniya zanyatosti v drugikh aktivnyikh vetkakh. Dva razlichnyikh sboya poluchili FUM-SBOJ-0046. Zatem lokaljnaya ocenka svobodnogo 0047 ne uchla opublikovannuyu kartochku zadachi fuma. Koordinator obnaruzhil oba raskhozhdeniya do obsjhej integracii.
 
+Pri podgotovke Windows-postanovki tot zhe mekhanizm povtorilsya dlya sostavnogo identifikatora proyavleniya: mestnyij maksimum0004 byil prinyat za osnovaniye vyibratj0009/0005, khotya soglasovannaya vetka uzhe soderzhala0001–0016. Eto otdeljnyij konkretnyij epizod0050/0003, vyiyavlennyij do kommita novogo nablyudeniya.
+
 ## Proyavleniya
 
 | Lokaljnyij nomer               | Istochnik i dokazateljstvo                                                                                                                                                                                                                                                                                     | Effekt                                                                                                  | Vosstanovleniye                                                                                                     |
@@ -45,6 +47,8 @@ Proverennyij sposob chteniya polnoj obyyavlennoj mezhvetochnoj oblasti i soglaso
 
 ## Istochniki
 
+- [Kolliziya sostavnogo identifikatora pri Windows-postanovke](../Zhurnal/2026-09-11_13-30-58_MSK_podgotovitj-postanovku-Windows-VM-na-macOS/zapros.md), [koordinaciya](../Zhurnal/2026-09-11_13-30-58_MSK_podgotovitj-postanovku-Windows-VM-na-macOS/materialyi/koordinaciya-nomera-proyavleniya.json) — FUM-SBOJ-0050/PROYAVLENIYE-0003.
+
 - [Oshibka lokaljnogo vyibora 0091 i vosstanovleniye cherez obsjhij rezerv](../Zhurnal/2026-09-12_01-55-13_MSK_sokhranitj-prodolzheniye-posle-obnovleniya-sistemyi/otchyot.md) — FUM-SBOJ-0050/PROYAVLENIYE-0004.
 
 - [Porucheniye i koordinaciya](../Zhurnal/2026-09-11_01-59-54_MSK_razreshitj-kolliziyu-identifikatorov-kartochek/zapros.md).
@@ -52,6 +56,6 @@ Proverennyij sposob chteniya polnoj obyyavlennoj mezhvetochnoj oblasti i soglaso
 - [Indeks sboyev](README.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-12 02:51:59 MSK -->
-<!-- content-sha256: sha256:8579e4649c8b3be31ba636617e6291537639936d7e918dd813d645e92e230d1d -->
+<!-- last-content-edit: 2026-09-15 19:46:43 MSK -->
+<!-- content-sha256: sha256:eb12d042795c03673b985c476d74ff350417f8f33935d52f875b33f8697c0814 -->
 <!-- FUM-MD-RECENCY:END -->

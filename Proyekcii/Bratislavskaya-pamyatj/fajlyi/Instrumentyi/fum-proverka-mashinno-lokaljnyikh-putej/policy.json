@@ -3870,6 +3870,159 @@
       "count": 1,
       "category": "report.historical",
       "reason": "Сохраняет дословную историческую реплику помощника: соединённые слешами имена компонентов libc++, libc++abi и llvm-libc ошибочно распознаны как абсолютный путь; машинных данных строка не содержит."
+    },
+    {
+      "id": "durable-receipts-command-suffix-late-source",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_устойчивые_свидетельства.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:42d09b14d9a0b9ecd49866467143aad3701db56587bc6a58b66db08c3ac0c9f6",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Проверка выбирает относительные файлы команды по конечному суффиксу имени; строка не содержит машинного абсолютного пути."
+    },
+    {
+      "id": "durable-receipts-command-suffix-unselected-source",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_устойчивые_свидетельства.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:618cc0b9ffb47ee35b3dcd8af209ad85c1750ab4103186df51368dd83a73ccb2",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Проверка считает относительные файлы команды по конечному суффиксу имени; строка не содержит машинного абсолютного пути."
+    },
+    {
+      "id": "role-fork-resource-issues",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/удаление-форков/архив_форков.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:e6820bce257ca310d916cd0f02b4a29189a72914c5f623421024575369045491",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Точная строка определения проверяемых HTTP-ресурсов GitHub: суффикс присоединяется к имени репозитория для gh api и проверки сохранности ресурсов; путь файловой системы не задаётся."
+    },
+    {
+      "id": "role-fork-resource-pulls",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/удаление-форков/архив_форков.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:1cae00cd7100d0d57ba6707f632f2308cfa316807665e1bbce17ba43e36241e3",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Точная строка определения проверяемых HTTP-ресурсов GitHub: суффикс присоединяется к имени репозитория для gh api и проверки сохранности ресурсов; путь файловой системы не задаётся."
+    },
+    {
+      "id": "role-fork-resource-comments",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/удаление-форков/архив_форков.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:7389fab52c6c57a76afae6c366c9dcf70a5b6ae150bb3baab419f431f6605718",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Точная строка определения проверяемых HTTP-ресурсов GitHub: суффикс присоединяется к имени репозитория для gh api и проверки сохранности ресурсов; путь файловой системы не задаётся."
+    },
+    {
+      "id": "role-fork-resource-review-comments",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/удаление-форков/архив_форков.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ca50abd28682cbf27072f93c2b6952086c1340d0f91ea9d0981261286261c37b",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Точная строка определения проверяемых HTTP-ресурсов GitHub: суффикс присоединяется к имени репозитория для gh api и проверки сохранности ресурсов; путь файловой системы не задаётся."
+    },
+    {
+      "id": "role-fork-resource-releases",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/удаление-форков/архив_форков.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:e76edcd3afc50051ba337c25dcdc53d23c73ed2ffe923282cab2202dfe171878",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Точная строка определения проверяемых HTTP-ресурсов GitHub: суффикс присоединяется к имени репозитория для gh api и проверки сохранности ресурсов; путь файловой системы не задаётся."
+    },
+    {
+      "id": "role-fork-resource-deployments",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/удаление-форков/архив_форков.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:60fccf845de6b70c80caaee267ab564da2b1bf50f1c2b97a453e0834693241e6",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Точная строка определения проверяемых HTTP-ресурсов GitHub: суффикс присоединяется к имени репозитория для gh api и проверки сохранности ресурсов; путь файловой системы не задаётся."
+    },
+    {
+      "id": "role-fork-resource-labels",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/удаление-форков/архив_форков.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:e32678c64da5b6a7fb8536c32c3208235c5b6048aea3edc5bf75362f30077be9",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Точная строка определения проверяемых HTTP-ресурсов GitHub: суффикс присоединяется к имени репозитория для gh api и проверки сохранности ресурсов; путь файловой системы не задаётся."
+    },
+    {
+      "id": "role-fork-resource-milestones",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/удаление-форков/архив_форков.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:a36ba96cc9c95c17b5999a946fe33fd04319267830992ea566a12d78f2d0060a",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Точная строка определения проверяемых HTTP-ресурсов GitHub: суффикс присоединяется к имени репозитория для gh api и проверки сохранности ресурсов; путь файловой системы не задаётся."
+    },
+    {
+      "id": "role-fork-resource-actions",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/удаление-форков/архив_форков.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d701b1e45086ecf3568a519411e4aa93930f9fb04227c99de5d5932da58b886c",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Точная строка определения проверяемых HTTP-ресурсов GitHub: суффикс присоединяется к имени репозитория для gh api и проверки сохранности ресурсов; путь файловой системы не задаётся."
+    },
+    {
+      "id": "role-fork-resource-artifacts",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/удаление-форков/архив_форков.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:6337bdd71c039691c34141d6a21c57b39dbfcd1c646aee73e2249dc830e23eac",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Точная строка определения проверяемых HTTP-ресурсов GitHub: суффикс присоединяется к имени репозитория для gh api и проверки сохранности ресурсов; путь файловой системы не задаётся."
+    },
+    {
+      "id": "role-fork-resource-actions-recheck",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/удаление-форков/архив_форков.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b4727550923a5467ecee6ef884a5214732e46c1683fee90a4b5bb0c3468c842d",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Точная строка определения проверяемых HTTP-ресурсов GitHub: суффикс присоединяется к имени репозитория для gh api и проверки сохранности ресурсов; путь файловой системы не задаётся."
+    },
+    {
+      "id": "role-fork-actions-fixture",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/удаление-форков/test_архив_форков.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:6e0eb97a3ab99e1124c8789e3d4abe9a86ed141add95282f4f3705773bf82e8a",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая автономная подстановка ответа GitHub Actions различает точный HTTP-суффикс ресурса Actions; адрес машины не используется."
+    },
+    {
+      "id": "role-fork-issue-one-response",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/GitHub/issue-1-ответ.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:e9ba268f79ee553599d6d33a7b81257d5069ef0e618e57b03e8ae5a62b3405ce",
+      "count": 6,
+      "category": "report.historical",
+      "reason": "Дословный сохранённый ответ GitHub issue 1 содержит шесть сегментов шаблонных URL в labels_url и полях URL пользователя; это параметры HTTP-адресов, не локальные пути."
+    },
+    {
+      "id": "github-issue-one-comment-readback",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/GitHub/Issue-1-комментарий-проверка.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2cdd13826d52fa5c6ce373d8b4517822dd12c3964e6cd2ada8ba4f33fa2fb295",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Дословный ответ повторного чтения комментария GitHub содержит относительные HTTP-ссылки в body_html; это адреса сайта, а не пути машины."
+    },
+    {
+      "id": "github-pr-two-comment-readback",
+      "path": "Журнал/2026-09-15_22-40-08_MSK_сохранить-и-удалить-ролевые-форки/материалы/GitHub/PR-2-комментарий-проверка.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d9f93ea582ffe8a648b5b338819089fcab6bbf52366ee65e9755eb7cfd47b51d",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Дословный ответ повторного чтения комментария GitHub содержит относительные HTTP-ссылки в body_html; это адреса сайта, а не пути машины."
     }
   ]
 }

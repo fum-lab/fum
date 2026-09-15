@@ -113,6 +113,7 @@
       "точные_пути": [
         ".gitignore",
         ".gitmodules",
+        ".mailmap",
         ".obsidian/fum-recency-reference-date",
         "LICENSE",
         "fum",

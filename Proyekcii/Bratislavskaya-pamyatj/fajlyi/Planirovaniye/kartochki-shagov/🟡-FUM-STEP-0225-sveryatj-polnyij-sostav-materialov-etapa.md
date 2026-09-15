@@ -37,6 +37,10 @@ Avtomatizirovatj podgotovku i adresnuyu sverku perechnya zatronutyikh materialov
 
 `FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ-0008` povtoryayet propusk indeksa svezhesti uzhe v sleduyusjhej papke togo zhe kornya. Predvariteljnaya svyaznostj vyiyavila yego do vtoroj polnoj priyomki; tochnaya ssyilka vosstanovlena. Rannyaya avtomatizirovannaya podgotovka dolzhna vklyuchatj proizvodnyiye fajlyi fakticheskogo Git-sostoyaniya kazhdogo etapa, sokhranyaya prezhniye otricateljnyiye granicyi. Ona yesjhyo ne realizovana.
 
+## Povtor pri podgotovke predposyilki i arkhiva
+
+Osnovaniya `FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ-0009` i `FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ-0010` dopolnyayut rannyuyu podgotovku: uchityivatj navigaciyu proshlogo etapa i perenositj tochnyiye katalogi snimkov v dejstvuyusjhij razdel «Povliyal na fajlyi». Ssyilki v «Prikreplyayemyiye materialyi» sami po sebe okhvat ne dayut. Nuzhnyi otricateljnyiye kontroli nepolnogo razdela i polozhiteljnyij tochnyij povtor. [Pervichnyiye svideteljstva i naznacheniye nomerov](../../Zhurnal/2026-09-15_22-40-08_MSK_sokhranitj-i-udalitj-rolevyiye-forki/materialyi/povtoryi-oformleniya.json); [iskhodnyij etap](../../Zhurnal/2026-09-15_22-40-08_MSK_sokhranitj-i-udalitj-rolevyiye-forki/zapros.md).
+
 ## Istochniki
 
 - [FUM-SBOJ-0051/PROYAVLENIYE-0005 i vosstanovleniye tekusjhej paryi](../../Zhurnal/2026-09-12_05-27-53_MSK_obyyedinitj-arkhiv-fuma-s-kornevoj-rabotoj/zapros.md).
@@ -54,6 +58,6 @@ Avtomatizirovatj podgotovku i adresnuyu sverku perechnya zatronutyikh materialov
 - [FUM-SBOJ-0051/PROYAVLENIYE-0008](../../Sboi/FUM-SBOJ-0051-nepolnyij-perechenj-zatronutyikh-fajlov-zaprosa.md) — [naznacheniye i nablyudeniye tekusjhego etapa](../../Zhurnal/2026-09-14_22-40-28_MSK_obyyedinitj-paketyi-i-proveritj-ostatok/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
-<!-- content-sha256: sha256:2410d81a4f5c51715e1c2e5dfff2968a36fc9f2af3ae159fde3797c3bcdda537 -->
+<!-- last-content-edit: 2026-09-16 00:05:56 MSK -->
+<!-- content-sha256: sha256:b047add96e68713cdaada6f938d45ba53ddf28c204432d5ce7e29b42230c6462 -->
 <!-- FUM-MD-RECENCY:END -->

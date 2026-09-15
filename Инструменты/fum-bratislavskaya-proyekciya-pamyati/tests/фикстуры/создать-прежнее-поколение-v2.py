@@ -13,6 +13,7 @@ import types
 КОММИТ = "aeae18cb146a34563ff39c84d9bc5ef59fffab91"
 КАТАЛОГ = "Инструменты/fum-bratislavskaya-proyekciya-pamyati"
 поколения = {
+    "до-карты-авторов": ("9a410dea90c09e24954fab7e4c28f613b8bda06f", "5bd38619b548a70b05c3172dcd6eba8e6dd1151391b79d9d8a77ba68b8396ac7", "sha256:5ecd1d393cb59ab5ccfaeebc9d43a6c93476125547698c47283e6a348af6fb21"),
     "до-объединения-форматов": ("f80bdf424350a6c07fb5e5acf25e5b252cfd03be", "bbdbb100da672deb22ed58380a7a0158a2b03b014c2bd0b03ed85f0f6dcd1d7f", "sha256:9f9c4a040b592396ccca722c33f0895342901dfba1ffd5a63bc9bb45c2604ac2"),
     "до-форматов-приложения": (КОММИТ, "74b320d2201e4203a1f506985063eb97d4be93cd0476f5f8fa68386b82635c88", "sha256:9f262153c9de986270cec76ad3c37da34c99ace0c187474ba8a1bc736222220a"),
     "до-сценариев-ответа": ("2e01e5dc9a130ea0fb2f6c10514d7db56817361b", "f5a87027cab531c99811fafc3d7917b0131d5697faf9608b2d019b7374e9c377", "sha256:6f6d399cfb2734a5445eeb52358af3a0d71c74d8b811416d9531b514b210993d"),

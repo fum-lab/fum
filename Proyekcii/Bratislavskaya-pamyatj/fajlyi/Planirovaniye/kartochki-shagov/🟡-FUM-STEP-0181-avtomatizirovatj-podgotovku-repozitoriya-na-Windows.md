@@ -44,6 +44,6 @@ Planirovaniye vyipolneno po pryamomu porucheniyu; realizaciya etim dokumentom ne
 - [Susjhestvuyusjhij kontrakt kompleksnoj proverki](../../Instrumentyi/fum-kompleksnaya-proverka-repozitoriya/SKILL.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- last-content-edit: 2026-09-15 19:46:43 MSK -->
 <!-- content-sha256: sha256:9fa274cf471e8f8b66cd31ccbaaea592394cbcd460188d82af521f94bb8a7456 -->
 <!-- FUM-MD-RECENCY:END -->

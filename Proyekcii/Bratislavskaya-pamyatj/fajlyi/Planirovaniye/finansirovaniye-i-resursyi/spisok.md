@@ -1,4 +1,4 @@
-# Organizacii podderzhki FUM — 2026-09-14
+# Organizacii podderzhki FUM — 2026-09-15
 
 Proveryayemyij spisok 30 iskhodnyikh organizacij dlya proyekta iz Rossii s nekommercheskoj oriyentaciyej. Registraciya NKO i yuridicheskaya forma FUM ne podtverzhdenyi. Sredstva i resursyi ne poluchenyi; zainteresovannostj partnyorov ne ustanovlena.
 
@@ -24,9 +24,9 @@ Ustarevaniye: 30 dnej dlya programm; 90 dnej dlya podgotovki sotrudnichestva. V 
 | NTC IT ROSA                                                        | tekhnologicheskiye partnyoryi                                           | trebuyet utochneniya            |
 | «Gruppa Astra» / Ready for Astra                                   | tekhnologicheskiye partnyoryi; vyichisliteljnyiye i materialjnyiye resursyi    | uslovnyij                     |
 | Swift.org / Swift Server Work Group                                | tekhnologicheskiye partnyoryi                                           | podkhodit dlya sleduyusjhego shaga |
-| Rosmolodyozhj                                                        | fondyi i grantodateli                                               | uslovnyij                     |
+| Rosmolodyozhj                                                        | fondyi i grantodateli                                               | trebuyet utochneniya            |
 | MWS                                                                | vyichisliteljnyiye i materialjnyiye resursyi                              | uslovnyij                     |
-| Boosty                                                             | pozhertvovaniya i sponsorstvo                                        | uslovnyij                     |
+| Boosty                                                             | pozhertvovaniya i sponsorstvo                                        | trebuyet utochneniya            |
 | Sponsr                                                             | pozhertvovaniya i sponsorstvo                                        | uslovnyij                     |
 | Cloud.ru                                                           | vyichisliteljnyiye i materialjnyiye resursyi                              | uslovnyij                     |
 | Beget                                                              | vyichisliteljnyiye i materialjnyiye resursyi                              | uslovnyij                     |
@@ -667,9 +667,9 @@ Poljza FUM: Denezhnoye finansirovaniye socialjno znachimogo etapa FUM. Poljza or
 
 Iskhodnoye issledovaniye: Korenj po pryamyim chteniyam i RO-issledovaniyam grant_options, compute_options, donation_options, 2026-09-14. Polnaya iskhodnaya zapisj sokhranena v reyestr.json.
 
-### Rosmolodyozhj.Grantyi: vtoroj sezon 2026, do 1 mln ₽ — uslovnyij
+### Rosmolodyozhj.Grantyi: vtoroj sezon 2026, do 1 mln ₽ — trebuyet utochneniya
 
-Ostayutsya neizvestnyiye usloviya ili dopusk zayavitelya.
+Nuzhna proverka tochnogo momenta sroka.
 
 Forma: **denjgi**. Priyom: otkryit; dopusk FUM: neizvestno; Rossiya: da.
 
@@ -701,22 +701,19 @@ Ostayutsya neizvestnyiye usloviya ili dopusk zayavitelya.
 
 Forma: **oblachnyiye bonusyi**. Priyom: otkryit; dopusk FUM: neizvestno; Rossiya: da.
 
-Proverka: 2026-09-14, Korenj; proverennyiye materialyi dochernikh issledovatelej tekusjhej zadachi. Svezhestj: v predelakh politiki.
+Proverka: 2026-09-15, Korenj 01a0904a: pryamoye chteniye pervichnyikh stranic i sverka issledovaniya bez zapisi dochernego ispolnitelya. Svezhestj: v predelakh politiki.
 
 Sroki i usloviya: Akciya 01.08–30.09.2026; grant dejstvuyet tri kalendarnyikh mesyaca s vyidachi.
 
 Trebovaniya: Rossijskij kliyent: fizlico, IP ili yurlico; pervyij vznos ot 500 ₽; Odnokratnostj, vklyuchaya svyazannyiye akkauntyi i beneficiarov.
 
-Ogranicheniya: Dejstvuyet tri kalendarnyikh mesyaca posle vyidachi, zatem ostatok sgorayet; Isklyuchyon CDN; prevyisheniye oplachivayetsya po tarifu; Pokryitiye GPT Model Hub — vyivod iz sovmestnogo chteniya uslovij, trebuyetsya sveritj perechenj konkretnogo granta; kachestvo zamenyi Codex ne provereno; CC0 sokhranyayetsya po usloviyu FUM; sovmestimostj individualjnogo dogovora s otkryitoj publikaciyej vsekh rezuljtatov trebuyetsya podtverditj..
+Ogranicheniya: Dejstvuyet tri kalendarnyikh mesyaca posle vyidachi, zatem ostatok sgorayet; Isklyuchyon CDN; prevyisheniye oplachivayetsya po tarifu; Pokryitiye GPT Model Hub — vyivod iz sovmestnogo chteniya uslovij, trebuyetsya sveritj perechenj konkretnogo granta; kachestvo zamenyi Codex ne provereno; CC0 sokhranyayetsya po usloviyu FUM; sovmestimostj individualjnogo dogovora s otkryitoj publikaciyej vsekh rezuljtatov trebuyetsya podtverditj.; Prochitanyi specialjnyiye usloviya; sovmestimostj obsjhikh dogovorov i okonchateljnoye odobreniye ne podtverzhdenyi. Vozmozhen otkaz pri ischerpanii resursov..
 
 Neizvestno: Poluchalsya li grant prezhde; Kakiye servisyi fakticheski razreshenyi grantom v kabinete.
 
 Sleduyusjhij minimaljnyij shag: **Podgotovitj ogranichennyij byudzhet eksperimenta i perechenj zadach; oplatu i aktivaciyu ne vyipolnyatj**.
 
-- [Istochnik](https://mws.ru/docs/docum/a0.html) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Razmer, rossijskaya territoriya, odnokratnostj, vznos, sroki i isklyucheniye CDN.
-- [Istochnik](https://mws.ru/docs/docum/2.html) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Opredeleniye kliyenta dopuskayet fizlico.
-- [Istochnik](https://mws.ru/docs/docum/cloud_terms_mws_gpt_model_hub.html) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Usloviya GPT Model Hub svyazyivayut servis s oblachnyim dogovorom.
-- [Istochnik](https://mws.ru/docs/cloud-platform/gpt/general/pricing.html) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Tarifikaciya modeljnogo API po potrebleniyu.
+- [Istochnik](https://mws.ru/docs/docum/a0.html) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-15; Razmer, rossijskaya territoriya, odnokratnostj, vznos, sroki i isklyucheniye CDN.
 
 ## Boosty
 
@@ -726,26 +723,27 @@ Poljza FUM: Sbor regulyarnoj podderzhki so svoyej auditorii. Poljza organizacii:
 
 Iskhodnoye issledovaniye: Korenj po pryamyim chteniyam i RO-issledovaniyam grant_options, compute_options, donation_options, 2026-09-14. Polnaya iskhodnaya zapisj sokhranena v reyestr.json.
 
-### Avtorskiye podpiski i donatyi; garantirovannoj summyi net — uslovnyij
+### Avtorskiye podpiski i donatyi; garantirovannoj summyi net — trebuyet utochneniya
 
-Ostayutsya neizvestnyiye usloviya ili dopusk zayavitelya.
+Nuzhno novoye pryamoye chteniye vsekh uslovij.
 
 Forma: **pozhertvovaniya**. Priyom: ne programma; dopusk FUM: neizvestno; Rossiya: da.
 
-Proverka: 2026-09-14, Korenj; proverennyiye materialyi dochernikh issledovatelej tekusjhej zadachi. Svezhestj: v predelakh politiki.
+Proverka: 2026-09-15, Korenj 01a0904a: pryamoye chteniye pervichnyikh stranic i sverka issledovaniya bez zapisi dochernego ispolnitelya. Svezhestj: v predelakh politiki.
 
 Sroki i usloviya: Kanal sbora s sobstvennoj auditorii; konkursnogo dedlajna i garantirovannoj summyi net.
 
 Trebovaniya: Avtor s dostatochnyimi pravami na materialyi, KYC i dopustimyim metodom vyiplat; nalogi nesyot avtor.
 
-Ogranicheniya: Vkhodyasjhaya komissiya 11,7%; vyivod: karta 2,2% + 20 ₽, bankovskij schyot 45 ₽, YUMoney 2,8%; Proverki mogut zaderzhatj vyiplatu do 90 dnej; Neaktivnostj: boleye tryokh mesyacev bez ispoljzovaniya akkaunta libo otsutstviye sposoba perechisleniya po umolchaniyu, narusheniye ili prekrasjheniye dogovora; predusmotrenyi 100 ₽ za denj i obnuleniye vyiplat pri prekrasjhenii; Mozhno publikovatj besplatno; licenziya plosjhadke neisklyuchiteljnaya. Specialjnoye odobreniye CC0 ne ustanovleno.
+Ogranicheniya: Kanal sbora s sobstvennoj auditorii, ne najdennyij donor i ne garantirovannaya summa; Donat bez vstrechnogo predostavleniya i platnaya podpiska razlichayutsya; otkryityiye CC0-rezuljtatyi ne zakryivayutsya za oplatoj; Prezhniye komissii i usloviya neaktivnosti 14.09 sokhranenyi v istorii, no v novom chtenii ne podtverzhdenyi.
 
-Neizvestno: Bank i KYC konkretnogo poluchatelya; Podkhodit li naznacheniye sbora na vyichisleniya i oborudovaniye.
+Neizvestno: Poluchatelj, nalogovyij status, bank i KYC; Aktualjnyiye komissii priyoma i vyivoda dlya rossijskogo poluchatelya; Dogovornyiye usloviya publikacii CC0 i celevogo sbora.
 
 Sleduyusjhij minimaljnyij shag: **Podgotovitj otkryituyu stranicu razvitiya FUM i mesyachnyij byudzhet, zatem sveritj dostupnostj vyiplatyi**.
 
-- [Istochnik](https://boosty.to/app/offer/user) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Dochernij issledovatelj prochital vesj otrisovannyij dogovor cherez CUA: §§1.1,2.3,4.2,5.2.1,5.5,6.1,10.1,10.3; obyichnaya HTML-zagruzka dayot obolochku.
-- [Istochnik](https://boosty.to/app/offer/payment-terms-cis) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Dochernij issledovatelj prochital vesj otrisovannyij dogovor cherez CUA; komissii, zaderzhki i neaktivnostj §§1.1–1.8. Sokhranyon pereskaz, ne polnyij tekst.
+- [Istochnik](https://boosty.to/) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-15; Glavnaya podtverzhdayet donatyi, podpiski i vyiplatyi; ne zamenyayet rossijskiye platyozhnyiye usloviya.
+- [Istochnik](https://boosty.to/app/offer/user) — oficialjnostj: podtverzhdena; nedostupno, chteniye: ne sostoyalosj; Povtornoye chteniye 15.09.2026 vernulo obolochku bez teksta uslovij; prezhneye chteniye ostayotsya v istorii.
+- [Istochnik](https://boosty.to/app/offer/payment-terms-cis) — oficialjnostj: podtverzhdena; nedostupno, chteniye: ne sostoyalosj; Povtornoye chteniye 15.09.2026 vernulo obolochku bez teksta uslovij; prezhneye chteniye ostayotsya v istorii.
 
 ## Sponsr
 
@@ -817,19 +815,19 @@ Yuridicheskaya forma i registraciya FUM ne podtverzhdenyi.
 
 Forma: **oblachnyiye bonusyi**. Priyom: otkryit; dopusk FUM: neizvestno; Rossiya: da.
 
-Proverka: 2026-09-14, Korenj; proverennyiye materialyi dochernikh issledovatelej tekusjhej zadachi. Svezhestj: v predelakh politiki.
+Proverka: 2026-09-15, Korenj 01a0904a: pryamoye chteniye pervichnyikh stranic i sverka issledovaniya bez zapisi dochernego ispolnitelya. Svezhestj: v predelakh politiki.
 
 Sroki i usloviya: Priyom do 31.10.2026; resurs na 1–12 mesyacev po resheniyu operatora.
 
 Trebovaniya: IP ili yurlico RF; ne byilo registracii/kliyentskikh otnoshenij do 01.01.2026; Individualjnoye rassmotreniye zayavki i resursnogo plana.
 
-Ogranicheniya: Isklyuchenyi vyidelennyiye serveryi, GPU VPS, domenyi, platnyiye SSL i CMS; Ne oplachivayet vneshnij Codex i ne peredayot kompjyuter; CC0 sokhranyayetsya po usloviyu FUM; sovmestimostj individualjnogo dogovora s otkryitoj publikaciyej vsekh rezuljtatov trebuyetsya podtverditj..
+Ogranicheniya: Isklyuchenyi vyidelennyiye serveryi, GPU VPS, domenyi, platnyiye SSL i CMS; Ne oplachivayet vneshnij Codex i ne peredayot kompjyuter; CC0 sokhranyayetsya po usloviyu FUM; sovmestimostj individualjnogo dogovora s otkryitoj publikaciyej vsekh rezuljtatov trebuyetsya podtverditj.; Prochitanyi specialjnyiye usloviya; sovmestimostj obsjhikh dogovorov i okonchateljnoye odobreniye ne podtverzhdenyi. Vozmozhen otkaz pri ischerpanii resursov..
 
 Neizvestno: Status i istoriya akkaunta FUM; Odobrennyij razmer i razreshyonnaya konfiguraciya.
 
 Sleduyusjhij minimaljnyij shag: **Podgotovitj perechenj CPU, pamyati, BD i khraneniya posle sverki zayavitelya**.
 
-- [Istochnik](https://beget.com/ru/uridicheskie-pravila-programmi-grantov) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-14; Pravila granta: diapazon, srok, rossijskiye IP/yurlica, istoriya registracii i isklyucheniya.
+- [Istochnik](https://beget.com/ru/uridicheskie-pravila-programmi-grantov) — oficialjnostj: podtverzhdena; pryamoye chteniye, chteniye: 2026-09-15; Pravila granta: diapazon, srok, rossijskiye IP/yurlica, istoriya registracii i isklyucheniya.
 
 ## Timeweb Cloud
 
@@ -1073,6 +1071,6 @@ Kategorii materialjnogo oborudovaniya i sponsorstva predusmotrenyi formatom. V i
 - [Trebovaniye napravleniya](../../Trebovaniya/🟡-finansirovaniye-i-resursyi-razvitiya-FUM.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 06:23:18 MSK -->
-<!-- content-sha256: sha256:a19f15f5ad74d2f25cdbc04bff39fdc53f0dd00e22e6efae8e18fff644443765 -->
+<!-- last-content-edit: 2026-09-15 19:37:40 MSK -->
+<!-- content-sha256: sha256:45bc37bcdf5dafcf024e25b2a3d46b289ee3ef38991d6c9080a2b0612d7c7129 -->
 <!-- FUM-MD-RECENCY:END -->

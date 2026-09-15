@@ -23,11 +23,19 @@ Shablon stroiteljnogo etapa dobavil soderzhateljnoye izmeneniye napravleniya 08,
 
 [Pervichnyij read-only-otkaz kontroljnoj tochki](../Zhurnal/2026-09-14_22-03-16_MSK_prinyatj-sovmestnuyu-klassifikaciyu-ostatka/materialyi/nablyudeniye-nepolnogo-okhvata.json) imeyet kod 1: razdel «Povliyal na fajlyi» ne perechislyal dva JSON tekusjhikh proverok i indeks svezhesti Markdown. Dliteljnostj ne izmerena; vyimyishlennaya pozdnyaya zapisj ne sozdayotsya. Dobavlenyi tochnyiye ssyilki na materialyi etapa i indeks; povtornyij dopusk vyipolnyayetsya posle polnogo oformleniya. Soderzhateljnyiye Python/Swift-testyi radi etogo ne povtoryalisj.
 
-V etoj versii vklyuchenyi semj proyavlenij: 0001–0005,0007i0008. Nomer 0006 zanyat otdeljnoj nezavershyonnoj rabotoj i ne pereispoljzuyetsya; yeyo dannyiye ne importirovanyi i priyomka ne zayavlyayetsya. Nomer 0007 naznachen koordinatorom posle sverki dostupnyikh refs i rabochikh fajlov.
+V etoj versii vklyuchenyi devyatj proyavlenij: 0001–0005 i 0007–0010. Nomer 0006 zanyat otdeljnoj nezavershyonnoj rabotoj i ne pereispoljzuyetsya; yeyo dannyiye ne importirovanyi i priyomka ne zayavlyayetsya. Nomer 0007 naznachen koordinatorom posle sverki dostupnyikh refs i rabochikh fajlov.
 
 ### FUM-SBOJ-0051/PROYAVLENIYE-0008
 
 [Predvariteljnaya svyaznostj7a916e50](../Zhurnal/2026-09-14_22-40-28_MSK_obyyedinitj-paketyi-i-proveritj-ostatok/materialyi/zapuski-proverok/18_7a916e50-a509-40ce-af4d-1607372dcd07.json) do povtornogo polnogo progona obnaruzhila odin propusjhennyij putj: izmenyonnyij proizvodnyij indeks svezhesti Markdown. Kod1 i43.194442792s sokhranenyi; [nablyudeniye](../Zhurnal/2026-09-14_22-40-28_MSK_obyyedinitj-paketyi-i-proveritj-ostatok/materialyi/nablyudeniye-povtornogo-propuska-okhvata.json) svyazyivayet tochnyij SHA zapisi i vyivoda. V zapros dobavlena tochnaya ssyilka na indeks. Polnyij povtor yesjhyo ne zapuskalsya, poetomu otkaz ne povlyok novuyu doroguyu proyekciyu. Koordinator vyidelil0008 posle chteniya16versij v dostupnyikh zaregistrirovannyikh worktrees; odin worktree i chastnyiye chuzhiye rezervyi ne okhvachenyi.0006i0007 sokhranenyi za prezhnimi granicami.
+
+### FUM-SBOJ-0051/PROYAVLENIYE-0009
+
+[Otkaz predposyilki master](../Zhurnal/2026-09-15_22-40-08_MSK_sokhranitj-i-udalitj-rolevyiye-forki/materialyi/pervyij-otkaz-svyaznosti-predposyilki.json) v processe 9434 vernul kod 1: ne perechislen predyidusjhij zapros s izmenyonnoj navigaciyej. Svideteljstvo prochitano iz `5b64d4a6bff7d555fe4219ac42357a9ee66a9e83`, yego SHA zakreplyon v [registracii](../Zhurnal/2026-09-15_22-40-08_MSK_sokhranitj-i-udalitj-rolevyiye-forki/materialyi/povtoryi-oformleniya.json). Lokaljnoye ispravleniye ssyilki ne zakryivayet rannyuyu avtomatizirovannuyu podgotovku polnogo sostava.
+
+### FUM-SBOJ-0051/PROYAVLENIYE-0010
+
+[Otkaz tekusjhego arkhiva](../Zhurnal/2026-09-15_22-40-08_MSK_sokhranitj-i-udalitj-rolevyiye-forki/materialyi/otkaz-okhvata-istochnikov.txt) otklonil 49 fajlov semi HTML-snimkov. Arkhivator dobavil ssyilki v «Prikreplyayemyiye materialyi», no dejstvuyusjhij okhvat proveryayetsya v «Povliyal na fajlyi». Korenj dobavil tochnyiye ssyilki na semj katalogov v trebuyemyij razdel, sokhraniv syiryiye materialyi. Proverka korrektno ostanovila kommit; izmenyatj validator ili rasshiryatj razresheniye do vsego checkout ne trebuyetsya.
 
 ## Granica povtoreniya
 
@@ -64,6 +72,8 @@ Dopolniteljnoye osnovaniye FUM-STEP-0225 — `FUM-СБОЙ-0051/ПРОЯВЛЕН
 
 Povtornoye osnovaniye FUM-STEP-0225 — `FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ-0008`: proizvodnyij indeks vkhodit v polnyij fakticheskij sostav kazhdogo novogo etapa, dazhe yesli predyidusjhaya papka uzhe ispravlyalasj. Uspekh tekusjhej svyaznosti ne dokazyivayet avtomaticheskoye predotvrasjheniye.
 
+Dopolniteljnyiye osnovaniya STEP0225 — `FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ-0009` i `FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ-0010`: navigacionnyij fajl prezhnego etapa i tochnyiye katalogi novyikh snimkov dolzhnyi popastj v dejstvuyusjhij razdel okhvata do zaklyuchiteljnoj svyaznosti.
+
 ## Kriterii zakryitiya
 
 Avtomatizirovannaya podgotovka vyiyavlyayet polnyij sostav materialov do zaklyuchiteljnoj svyaznosti, sokhranyayet otkaz dlya postoronnego puti i trebuyet otdeljnyiye ssyilki tekusjhej paryi. Prezhniye kriterii vsekh vklyuchyonnyikh proyavlenij sokhranenyi; lokaljnoye ispravleniye spiska ikh ne zakryivayet.
@@ -84,6 +94,6 @@ Avtomatizirovannaya podgotovka vyiyavlyayet polnyij sostav materialov do zaklyuc
 - [Naznacheniye0008 i tekusjhij zapros](../Zhurnal/2026-09-14_22-40-28_MSK_obyyedinitj-paketyi-i-proveritj-ostatok/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
-<!-- content-sha256: sha256:7d358fa7164a158fef6cc9acebd85d59fb4edeafc386f09d61e85c1fe9f25f3e -->
+<!-- last-content-edit: 2026-09-16 00:05:56 MSK -->
+<!-- content-sha256: sha256:4c7b4d95d7b2fb2a0c9d7c0fcf075e4edc41b25b08aa7ef184aafb59b088cada -->
 <!-- FUM-MD-RECENCY:END -->

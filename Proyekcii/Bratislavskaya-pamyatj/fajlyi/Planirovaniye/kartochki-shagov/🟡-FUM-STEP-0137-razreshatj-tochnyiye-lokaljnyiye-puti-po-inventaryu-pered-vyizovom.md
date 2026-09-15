@@ -40,7 +40,12 @@ Novyiye podtverzhdyonnyiye proyavleniya 0005–0016 sokhranyayut tu zhe obsjhuyu
 
 Susjhestvuyusjhij plan ostayotsya aktivnyim: obnovleniye kartochek, uspeshnyij razovyij poisk i chteniye ne yavlyayutsya realizaciyej razreshitelya ili dokazateljstvom sistemnogo ustraneniya. Budusjhiye izmeneniya ispolnyayemogo koda prokhodyat TDD i vosproizvodimyij profilj s obosnovannyim resheniyem ob optimizacii po dejstvuyusjhim pravilam.
 
+Proyavleniye FUM-SBOJ-0009/PROYAVLENIYE-0017 dobavlyayet susjhestvuyusjhuyu tochku vkhoda, chej vruchnuyu povtoryonnyij putj soderzhit vizualjno pokhozhuyu bukvu drugogo alfavita: m U+006D zamenena na m U+043C. Regressiya dolzhna podtverzhdatj peredachu tochnogo rezuljtata razreshitelya bez povtornogo nabora; nechyotkaya korrekciya puti ne vyibirayet fajl avtomaticheski.
+
 ## Istochniki
+
+- [Windows-postanovka i pervichnoye nablyudeniye](../../Zhurnal/2026-09-11_13-30-58_MSK_podgotovitj-postanovku-Windows-VM-na-macOS/materialyi/nablyudeniye-povtora-0009.json) — FUM-SBOJ-0009/PROYAVLENIYE-0017.
+
 
 - [Razresheniye tekusjhego plana po inventaryu](../../Zhurnal/2026-09-11_09-36-55_MSK_sokhranitj-ostavshuyusya-diagnostiku-priyoma/otchyot.md) — tochnoye osnovaniye `FUM-СБОЙ-0009/ПРОЯВЛЕНИЕ-0016`; yavnoye razmesjheniye plana v materialakh vklyuchayetsya v tu zhe regressionnuyu granicu.
 - [Sverka pervichnyikh instrumentaljnyikh sobyitij](../../Zhurnal/2026-09-11_09-36-55_MSK_sokhranitj-ostavshuyusya-diagnostiku-priyoma/otchyot.md) — `FUM-СБОЙ-0009/ПРОЯВЛЕНИЕ-0005`, `FUM-СБОЙ-0009/ПРОЯВЛЕНИЕ-0006`, `FUM-СБОЙ-0009/ПРОЯВЛЕНИЕ-0007`, `FUM-СБОЙ-0009/ПРОЯВЛЕНИЕ-0008`, `FUM-СБОЙ-0009/ПРОЯВЛЕНИЕ-0009`, `FUM-СБОЙ-0009/ПРОЯВЛЕНИЕ-0010`, `FUM-СБОЙ-0009/ПРОЯВЛЕНИЕ-0011`, `FUM-СБОЙ-0009/ПРОЯВЛЕНИЕ-0012`, `FUM-СБОЙ-0009/ПРОЯВЛЕНИЕ-0013`, `FUM-СБОЙ-0009/ПРОЯВЛЕНИЕ-0014`, `FUM-СБОЙ-0009/ПРОЯВЛЕНИЕ-0015`.
@@ -56,6 +61,6 @@ Susjhestvuyusjhij plan ostayotsya aktivnyim: obnovleniye kartochek, uspeshnyij r
 - [proverka svyaznosti rabochej sessii](../../Instrumentyi/fum-svyaznostj-rabochej-sessii/SKILL.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 09:58:11 MSK -->
-<!-- content-sha256: sha256:365594e7f340c7600b1a626b37e13ad31c6fbb90a7ce61cd72febcf1141a0289 -->
+<!-- last-content-edit: 2026-09-15 19:46:43 MSK -->
+<!-- content-sha256: sha256:d68f3d78f2cf005081ac1ab96c2aabb2dcbedcaf398bffaeecb46666a5010c57 -->
 <!-- FUM-MD-RECENCY:END -->

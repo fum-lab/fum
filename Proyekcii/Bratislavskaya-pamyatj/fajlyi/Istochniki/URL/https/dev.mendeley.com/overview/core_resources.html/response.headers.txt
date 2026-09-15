@@ -1,0 +1,16 @@
+HTTP/2 200
+date: Tue, 15 Sep 2026 20:53:08 GMT
+content-type: text/html
+last-modified: Mon, 20 Feb 2023 15:54:06 GMT
+server: cloudflare
+x-amz-server-side-encryption: AES256
+set-cookie: [REDACTED: response cookie]
+etag: W/"c056cbc9c93d93f31c3bfdb195ff5b8d"
+vary: Accept-Encoding
+x-cache: Hit from cloudfront
+via: 1.1 d27d3f4230954794eccdc551e04ec846.cloudfront.net (CloudFront)
+x-amz-cf-pop: ARN53-P3
+x-amz-cf-id: XO3n_r_WwUmBzL_WTcI7BNySIUMCc1W8xh52VIj9LwzQKA2IccOJMg==
+age: 5196
+cf-cache-status: DYNAMIC
+cf-ray: [REDACTED: response trace identifier]

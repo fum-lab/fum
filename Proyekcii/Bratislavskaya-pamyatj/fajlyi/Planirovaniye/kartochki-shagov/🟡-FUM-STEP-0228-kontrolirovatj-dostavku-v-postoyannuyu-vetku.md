@@ -15,12 +15,14 @@ Realizovatj nablyudayemyij kontrolj svoyevremennoj dostavki prinyatogo rezuljtat
 
 ## Plan realizacii
 
-1. Pereispoljzovatj tochnyij plan, sostoyaniya i kvitancii podgotovlennoj obratnoj dostavki `c7292d1e49dbd1dc3ab2628ed5aea6ef2740fa5b`; snachala dovesti yeyo sovmestimostj so shtatnoj otchyotnoj obyortkoj. Pole publichnogo checkpoint ne zamenyayet prinyatoj granicyi istochnika.
-2. Dobavitj naznacheniye postoyannoj vetki i peredachu yedinstvennogo pisatelya. Podderzhatj yavno razreshyonnoye imya fuma i kornevoj UUID bez obsjhego razresheniya chuzhikh vetok ili snizheniya zasjhityi priyoma napravlenij.
+1. Pereispoljzovatj prinyatyij ogranichennyij mekhanizm obratnoj dostavki: tochnyij plan, sostoyaniya, kvitancii i sovmestimostj so shtatnoj otchyotnoj obyortkoj. Prinyatyij srez svyazyivatj s iskhodnyim OID i granicej proverki; publichnyij checkpoint ne zamenyayet priyomku istochnika.
+2. Ispoljzovatj prinyatoye tochnoye naznacheniye fuma s kornevyim UUID, polnyim ref, fizicheskim derevom i vladeljcem. Sokhranyatj proverku dejstviteljnogo naznacheniya i otkaz prezhnemu otsoyedinyonnomu derevu; dopusk inyikh postoyannyikh vetok ne vyivoditj iz podderzhki fuma.
 3. Vyichislyatj kompaktnyij signal: nedostavlennyij prinyatyij srez, yego vozrast v kommitakh/nablyudyonnom vremeni, otvetstvennyij, prichina ozhidaniya i svezhestj vkhodov. Chislovoj porog nastraivayetsya; granicyi vyivodyatsya iz istochnika i ne schitayutsya universaljnyimi.
 4. Vklyuchitj signal v vyibor sleduyusjhej razreshyonnoj rabotyi: gotovaya dostavka prioritetneye neobyazateljnogo rasshireniya infrastrukturyi. Nedostupnostj pisatelya libo priyomki sokhranyayetsya kak yavnoye prepyatstviye s nezavisimoj dostupnoj rabotoj.
 5. Primenyatj dostavku vladeljcem i sokhranyatj tochnuyu kvitanciyu lokaljnogo i udalyonnogo rezuljtata. Proveritj realjnyiye vyizovyi koordinatora/poluchatelya; prostoj JSON-plan ne obyyavlyatj podklyuchyonnyim runtime.
 6. Posle gotovnosti infrastrukturyi vyirazhatj politiku vyibora i kompoziciyu dejstvij cherez strukturiruyusjhiye operatoryi; Swift i Git-adapteryi ispolnyayut neobkhodimyiye primitivyi. Ne perepisyivatj gotovyij mekhanizm bez neobkhodimosti.
+
+Ogranichennyiye postavki mekhanizma i naznacheniya prinyatyi v fuma i vkhodyat v `d76d9d87faedf2cfe8de5bf4c5b2ae4ed724ff7b`. Kompaktnoye nablyudeniye pokazyivayet Git-sostoyaniye, nedostavku i svezhestj, no ne podtverzhdayet polucheniye, nachalo ozhidaniya ili dostupnostj pisatelya. Podklyucheniye signala k realjnomu vyiboru rabotyi, svoyevremennostj i polnyij kriterij FUM-STEP-0228 ostayutsya nezavershyonnyimi. Dopusk planirovaniye susjhestvuyusjhim ispolnitelem ne podtverzhdyon.
 
 ## Kriterii zaversheniya
 
@@ -32,11 +34,13 @@ Realizovatj nablyudayemyij kontrolj svoyevremennoj dostavki prinyatogo rezuljtat
 
 ## Istochniki
 
+- [Prinyatyiye ogranichennyiye rezuljtatyi i naznacheniya](../../Zhurnal/2026-09-15_19-02-24_MSK_podklyuchitj-dopusk-postoyannoj-vetki/otchyot.md).
+
 - [FUM-SBOJ-0144/PROYAVLENIYE-0001](../../Sboi/FUM-SBOJ-0144-zaderzhka-dostavki-v-postoyannuyu-vetku.md) — osnovaniye i granica sistemnoj meryi.
 - [Komandyi i registraciya](../../Zhurnal/2026-09-15_17-55-33_MSK_vernutj-dostavku-v-postoyannuyu-vetku/zapros.md).
 - [Iskhodnaya postanovka dostavki](../../Zhurnal/2026-09-15_16-58-55_MSK_zapustitj-prioritetnyiye-paralleljnyiye-rabotyi/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 18:06:12 MSK -->
-<!-- content-sha256: sha256:0ab40098c3f69b370660c1ea3239b1e71431362a0c15f49ead64ab7ad3033316 -->
+<!-- last-content-edit: 2026-09-15 20:02:40 MSK -->
+<!-- content-sha256: sha256:3f8ebae6e3a897183c795cb4d3715fbc7ffe635fdbff9dc70e291d1e9b80e8ef -->
 <!-- FUM-MD-RECENCY:END -->

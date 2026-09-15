@@ -1,0 +1,14 @@
+{
+  "схема": "fum.профиль-допуска.1",
+  "команда": "python3 -B -m cProfile -s cumulative -m unittest discover -s Инструменты/fum-reyestr-planirovaniya/tests -p test_приём_направления.py -k постоянн",
+  "python": "3.14.7",
+  "git": "2.54.0 (Apple Git-157)",
+  "секунды": 6.737,
+  "включены_фикстуры": true,
+  "параллельная_регрессия": true,
+  "stdout_sha256": "49f15bcc5da4a736994b66c111f78d2a04a061b7ad726819bc061c62f5e36f23",
+  "исходники": {
+    "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py": "8437de1c1d9c2bdb47f0327deedbf71d112c0e58458ec1b54e3c268e46bd09f5",
+    "Инструменты/fum-reyestr-planirovaniya/tests/test_приём_направления.py": "22fa1ad2c404febfd3acfb0dbefab35f30a871d7e6c4fc27652b48f25f99fa1f"
+  }
+}

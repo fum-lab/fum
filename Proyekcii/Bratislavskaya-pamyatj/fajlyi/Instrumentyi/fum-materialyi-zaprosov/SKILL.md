@@ -104,6 +104,10 @@ Yesli skript ne smog izvlechj soobsjheniya, ostavj syiroj HTML, zagolovki, potok
 
 Yesli dialog dolzhen peredatj izmeneniye repozitoriya ot vneshnego agenta, arkhivirovaniye ostayotsya pervyim shagom i ne schitayetsya priyomkoj izmeneniya. Posle nego ispoljzuj [navyik priyoma vneshnego vklada](../fum-priyom-vneshnego-vklada/SKILL.md): on isjhet v strukturnom sloye rovno odin inline-paket, proveryayet tochnuyu Git-bazu, manifest i khyesh i materializuyet nedoverennyij patch toljko v yavno ukazannoye mesto. Vlozheniya `sandbox:/...`, ustnyiye utverzhdeniya o kommite i vneshniye samootchyotyi etim konturom ne vosstanavlivayutsya.
 
+## Nauchnyiye statji, Mendeley i arXiv
+
+Pri sokhranenii nauchnoj statji, preprinta, bibliograficheskogo eksporta Mendeley ili yego annotacij prochitaj [protokol nauchnyikh istochnikov](nauchnyiye-istochniki.md). Sokhranyaj tochnuyu versiyu i proiskhozhdeniye; razlichaj metadannyiye, iskhodnyiye fajlyi, zametki i izvlechyonnyij tekst. Protokol ne rasshiryayet dejstvuyusjhij HTML CLI do gotovogo PDF- ili Mendeley-importera. Dopolniteljnyiye sloi ne dopisyivayutsya proizvoljno v upravlyayemyij HTML-snimok.
+
 ## Drugiye materialyi
 
 Dlya neraspoznannogo formata sokhranyaj naiboleye blizkij k syiromu sloj, kotoryij realjno poluchen:
@@ -120,6 +124,6 @@ Yesli material nevozmozhno poluchitj iz-za dostupa, istecheniya share-ssyilki il
 - [iskhodnyij zapros 2026-07-21 10:36:18 MSK - Zavershitj skvoznuyu priyomku arkhivatora istochnikov](../../Zhurnal/2026-07-21_10-36-18_MSK_zavershitj-skvoznuyu-priyomku-arkhivatora-istochnikov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-14 23:32:32 MSK -->
-<!-- content-sha256: sha256:64fe1171a5bd048132c0054ad8a454896c897e7daafe8c87cfad9135f2d4d855 -->
+<!-- last-content-edit: 2026-09-15 23:34:45 MSK -->
+<!-- content-sha256: sha256:18fcbb5f389e7844a3d519ad25a0e9e8850d45fd5fa2818be31409e76f1690e2 -->
 <!-- FUM-MD-RECENCY:END -->

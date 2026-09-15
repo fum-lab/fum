@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-15 18:15:25 MSK - Prinyatj obratnuyu dostavku integracij](../2026-09-15_18-15-25_MSK_prinyatj-obratnuyu-dostavku-integracij/zapros.md)
-- Sleduyusjhij zapros: [2026-09-15 19:05:01 MSK - Sokhranyatj nablyudayemuyu istoriyu modeli](../2026-09-15_19-05-01_MSK_sokhranyatj-nablyudayemuyu-istoriyu-modeli/zapros.md)
+- Sleduyusjhij zapros: [2026-09-15 19:02:24 MSK - Podklyuchitj dopusk postoyannoj vetki](../2026-09-15_19-02-24_MSK_podklyuchitj-dopusk-postoyannoj-vetki/zapros.md)
 
 ## Tekst zaprosa
 
@@ -125,6 +125,6 @@ Do primeneniya sveryayetsya vesj chelovecheskij kontekst, raneye sokhranyonnaya 
 Poljzovatelj poruchil nachatj vklyucheniye narabotok v osnovnoj rantajm FUMA. Pervyij ogranichennyij rezuljtat: podklyuchitj susjhestvuyusjhij Swift-interpretator iz Prototipyi/pamyatj-strukturiruyusjhikh-operatorov k Prilozheniya/FUMA/macOS bez kopii ispolnyayusjhej logiki; provesti skvoznoj vkhod FUMA → tipizirovannoye vyipolneniye operatora → rezuljtat i dolgovechnoye nablyudeniye. Kontrakt oshibok, predelyi, vosproizvodimostj i proiskhozhdeniye sokhranyayutsya. Realizovatj v otdeljnom dereve i vidimoj zadache ot kommita etoj postanovki, s TDD, profilem i adresnoj sborkoj. Podklyucheniye ne obyyavlyayetsya vyipolnennyim po dobavleniyu odnoj zavisimosti. Sleduyusjhiye narabotki podklyuchatj proverennyimi etapami.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 19:16:22 MSK -->
-<!-- content-sha256: sha256:dc2edd85dc3bf6e3a098c9b7a6dab7f6887529b95b40599f4262c70efbc216cf -->
+<!-- last-content-edit: 2026-09-15 19:14:37 MSK -->
+<!-- content-sha256: sha256:dac3523686bc2d0d049a76b07b1cd120c694fbeff629aada3171db70873f1a30 -->
 <!-- FUM-MD-RECENCY:END -->

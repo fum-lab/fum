@@ -4,11 +4,31 @@ Konechnyij [ispolnitelj](scripts/obratnaya-dostavka.py) stroit adresnyij plan dl
 
 Ispolnitelj proveren na otkryityikh vremennyikh Git-repozitoriyakh, vklyuchaya realjnuyu shtatnuyu otchyotnuyu obyortku. Neizmennyiye gitlink dopuskayutsya bez rekursivnogo obnovleniya; izmenyayemyiye gitlink otklonyayutsya. Uzkaya otchyotnaya proverka sokhranyayet otdeljno derevo sliyaniya i itogovoye derevo so sluzhebnyimi zapisyami. Nativnaya aktivaciya vladeljca, polnaya proverka konkretnoj vetki i yeyo integraciya ostayutsya otdeljnyimi dejstviyami koordinatora i vladeljca.
 
+## Tochnoye naznacheniye postoyannoj vetki
+
+Dopuskayetsya toljko tochnaya `refs/heads/fuma` dlya postoyannoj kornevoj zadachi `01a07d3d-d376-7ad2-aafc-67e4c25a67eb`. Vo vkhod `наблюдать` dobavlyayetsya obyyekt `назначение` s rovno chetyirjmya polyami: `корень` — fizicheskij absolyutnyij checkout, `ref: refs/heads/fuma`, `владелец` — native UUID naznachennogo pisatelya, `корневая_задача` — ukazannyij UUID. V reyestre vladeljcev dlya togo zhe kornya nuzhnyi `задача`, `ref` i `корневая_задача` s tochno sovpadayusjhimi znacheniyami. Takoye naznacheniye trebuyetsya i dlya istochnika, i dlya poluchatelya fuma. Kornevoj UUID ne zamenyayet native UUID pisatelya.
+
+Plan s naznacheniyem imeyet skhemu `fum.план-обратной-доставки.2`; naznacheniye vkhodit v yego khyesh. Staryij plan pervoj skhemyi ostayotsya prigodnyim dlya vetok `refs/heads/codex/...` i ne poluchayet dopuska postoyannoj vetki. `master`, `planirovaniye` i drugiye postoyannyiye refs etot kontrakt ne razreshayet. Istochnik i poluchatelj sveryayut symbolic HEAD, tochnyij OID i yedinstvennuyu zapisj `worktree list`, svyazyivayusjhuyu ref s ukazannyim fizicheskim kornem. Detached-katalog s imenem fuma ne vladeyet odnoimyonnoj vetkoj drugogo dereva.
+
+Pered dejstviyem i vosstanovleniyem proveryayutsya native UUID sredyi, tekusjheye derevo i tochnyij reyestr. Khyesh plana svyazyivayet naznacheniye s kvitanciyej; smena naznacheniya ne peredayot nezavershyonnuyu kvitanciyu drugomu pisatelyu avtomaticheski. Otchyotnaya proverka plana vtoroj skhemyi takzhe trebuyet togo zhe kornevogo UUID. Naznacheniye zayavlyayet otvetstvennostj, no ne dokazyivayet dostupnostj processa ili prekrasjheniye prezhnego pisatelya: eto po-prezhnemu proveryayet koordinator.
+
+### Kompaktnoye nablyudeniye
+
+```text
+python3 -B Инструменты/fum-reyestr-planirovaniya/scripts/обратная-доставка.py назначение --план <приватный-план.json> --владельцы <приватный-реестр.json> --порог-коммитов 10
+```
+
+Komanda povtorno chitayet naznacheniye, prinyatyij istochnik i tekusjhij HEAD poluchatelya. Ona vyivodit OID sreza i priyomki, otvetstvennogo, otnosheniye istorii, chislo otsutstvuyusjhikh kommitov, prichinu ozhidaniya i svezhestj plana. Porog zadayot vyizyivayusjhij: universaljnogo sroka ili chisla net. Chislo otsutstvuyusjhikh kommitov ne nazyivayetsya vozrastom. Vremya nachala ozhidaniya ne sokhranyayetsya, poetomu `ожидание_секунд` ostayotsya `unknown`; vremya nablyudeniya oboznachayet toljko etot snimok.
+
+Sdvig poluchatelya dopuskayet novoye nablyudeniye otnosheniya istorii, no delayet prezhnij plan neaktualjnyim. Smena istochnika, naznacheniya ili privyazki dereva dayot neizvestnostj s prichinoj. Proverka rabochego dereva predvariteljno otklonyayet nepodderzhannyiye nastrojki, vklyuchaya vneshniye filjtryi i zavisimosti. Nablyudeniye ne otkryivayet katalog kvitancij, ne zapisyivayet stadiyu, ne posyilayet porucheniye i ne primenyayet Git-izmeneniye. `квитанция: не наблюдалась` i `получатель: unknown` ne dokazyivayut ni otsutstviye prezhnego effekta, ni polucheniye. Ekvivalentnyiye patchi i ravnoye derevo sokhranyayut otdeljnuyu neobkhodimostj resheniya vladeljca. Uspeshnyij kod CLI podtverzhdayet vyipolnennoye nablyudeniye; pole `план_актуален` i prichinyi chitayutsya otdeljno.
+
+Runtime vyibora sleduyusjhej rabotyi, dolgovremennoye izmereniye zaderzhki i vesj FUM-STEP-0228 poka ostayutsya za granicej realizacii.
+
 ## Vkhod koordinatora
 
 Nuzhnyi Python 3.11+ na POSIX, Git s `merge-tree --write-tree` i dostupnyiye lokaljnyiye Git-obyyektyi. Provereno na Python 3.14.7 i Git 2.54.0. Zagruzka otsutstvuyusjhikh obyyektov vyipolnyayetsya otdeljno vladeljcem; avtomaticheskogo fetch net. Polnyiye OID imeyut dlinu formata sootvetstvuyusjhego repozitoriya. Ssyilki na iskhodniki FUM razreshayutsya iz tekusjhego monorepozitoriya; ustanovka storonnikh paketov ne trebuyetsya.
 
-Privatnyij JSON vkhoda soderzhit rovno `источник`, `получатели`, `владельцы`. Posledneye pole — fizicheskij putj JSON-reyestra: klyuchom sluzhit fizicheskij korenj poluchatelya, znacheniyem — obyyekt `задача` s native UUID i `ref` s polnoj vetkoj `refs/heads/codex/...`. Vetka i korenj prinadlezhat odnomu naznachennomu pisatelyu. Eto kooperativnoye naznacheniye, ne mekhanizm autentifikacii protiv subyyekta s temi zhe pravami OS.
+Privatnyij JSON vkhoda bez naznacheniya soderzhit rovno `источник`, `получатели`, `владельцы`. Posledneye pole — fizicheskij putj JSON-reyestra: klyuchom sluzhit fizicheskij korenj poluchatelya, znacheniyem — obyyekt `задача` s native UUID i `ref` s polnoj vetkoj `refs/heads/codex/...`. Vetka i korenj prinadlezhat odnomu naznachennomu pisatelyu. Eto kooperativnoye naznacheniye, ne mekhanizm autentifikacii protiv subyyekta s temi zhe pravami OS.
 
 `получатели` — yavnyij nepustoj spisok obyyektov `корень`, `причина`, `зависимость`. V poslednem pole sokhranyayetsya `unknown`, kogda predmetnaya zavisimostj ne dokazana. Sovmestimaya stroka-korenj oznachayet yavnyij interes koordinatora i zavisimostj `unknown`. Instrument ne vyivodit zainteresovannostj iz tematicheskogo skhodstva i ne rassyilayet kazhdyij novyij zhurnaljnyij kommit.
 
@@ -102,6 +122,8 @@ python3 -B Инструменты/fum-reyestr-planirovaniya/tests/профиль
 
 Pervonachaljnyij profilj razlichayet nablyudeniye, postroyeniye plana i primeneniye; podgotovka isklyuchena, vlozhennyiye intervalyi ne summiruyutsya povtorno. On ne izmeryayet nativnuyu aktivaciyu, svoyevremennostj dostavki, setj ili rabotu na polnom FUM.
 
+[Scenarii naznacheniya](tests/test_naznacheniye_dostavki.py) i [profilj nablyudeniya](tests/profilj_naznacheniya_dostavki.py) otdeljno proveryayut postoyannuyu vetku, detached-prezhneye derevo, svezhestj i otsutstviye zapisi.
+
 ## Istochniki
 
 - [Postanovka prioritetnoj rabotyi](../../Zhurnal/2026-09-15_16-58-55_MSK_zapustitj-prioritetnyiye-paralleljnyiye-rabotyi/zapros.md).
@@ -110,6 +132,6 @@ Pervonachaljnyij profilj razlichayet nablyudeniye, postroyeniye plana i primenen
 - Pereispoljzovanyi kanonicheskij JSON, proverka putej i ustojchivaya zapisj [priyoma napravlenij](scripts/priyom_napravleniya.py), a takzhe [polnyij zakhvat](../fum-svyaznostj-rabochej-sessii/polnyij-zakhvat-vyivoda.md). Yego staroye khranilisjhe vnutri git-common-dir ne ispoljzuyetsya.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 18:24:06 MSK -->
-<!-- content-sha256: sha256:301e601dca589e387eb4014d215a78c190706fe66ee484ae337ad49283d3cde0 -->
+<!-- last-content-edit: 2026-09-15 19:14:37 MSK -->
+<!-- content-sha256: sha256:f3b47d67244be23377a69724eee48cacefc723fb8be6f8513cd1a8875e1da783 -->
 <!-- FUM-MD-RECENCY:END -->

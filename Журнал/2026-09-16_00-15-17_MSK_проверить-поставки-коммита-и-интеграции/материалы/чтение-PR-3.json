@@ -1,0 +1,13 @@
+{
+  "источник_sha256": "f3e616579552522e0aab44abc806c1bfcfe9f3a19060e93b7f76e6ef00d8e152",
+  "поля": {
+    "url": "https://github.com/fum-lab/fum/pull/3",
+    "state": "OPEN",
+    "isDraft": true,
+    "baseRefName": "master",
+    "baseRefOid": "e95d7f5d1ef6387454b7825932cfbd737e600473",
+    "headRefName": "codex/политика-интеграции-01ca9886-01a09047",
+    "headRefOid": "5b64d4a6bff7d555fe4219ac42357a9ee66a9e83"
+  },
+  "граница": "Снимок GitHub, прочитанный корнем после создания. Не подтверждает завершения приёмки и не разрешает продвижение master."
+}

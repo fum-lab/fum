@@ -9,6 +9,7 @@ Kanonicheskiye iskhodniki prilozheniya nakhodyatsya v `Приложения/FUMA
 - `fum-attention-loop` — cikl chteniya snimkov i zapisi szhatyikh sobyitij vnimaniya.
 - `fum-ax-vision-sense` — sokhranyonnyij samostoyateljnyij Accessibility-sensor.
 - [Vektornyij format montazha](docs/vector-video-format.md) — ssyilki na mediamaterialyi, dorozhki i effektyi bez obyazateljnogo eksporta video.
+- [Ispolneniye strukturiruyusjhego operatora](docs/ispolneniye-operatora.md) — rannij komandnyij vkhod osnovnogo binarnika, rezuljtat i nakopiteljnaya pamyatj s povtorom iz prinyatyikh dannyikh.
 
 Monitor prilozheniya sokhranyayet takzhe simvolyi klaviaturyi i ispoljzuyet nastennoye vremya. Cikl vnimaniya udalyayet polya simvolov iz sobstvennyikh agregatov. Kontrakt fizicheskikh perekhodov klavish otdeljnogo prototipa FUM etim perenosom ne realizovan.
 
@@ -110,6 +111,6 @@ V iskhodnoj narabotke otdeljnogo LICENSE ne byilo. Sobstvennyij kod sokhranyayet
 Mekhanizm zavisimosti opisan v [dokumentacii SwiftPM](https://github.com/swiftlang/swift-package-manager/blob/main/Sources/PackageManagerDocs/Documentation.docc/Dependencies/AddingSystemLibraryDependency.md). Mashinnyiye znacheniya Xcode peredayutsya snaruzhi; [xcconfig](https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project) samostoyateljno shell-komandyi ne ispolnyayet.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 16:48:05 MSK -->
-<!-- content-sha256: sha256:6620211e6cb0485cdb32042c61e217cd8b247204855d5c33b5c2ac3b29e29d33 -->
+<!-- last-content-edit: 2026-09-15 19:33:18 MSK -->
+<!-- content-sha256: sha256:d5c1ba174f6f3f762cb267152198c9080f782a03efc4e0571a5e272460f2e326 -->
 <!-- FUM-MD-RECENCY:END -->

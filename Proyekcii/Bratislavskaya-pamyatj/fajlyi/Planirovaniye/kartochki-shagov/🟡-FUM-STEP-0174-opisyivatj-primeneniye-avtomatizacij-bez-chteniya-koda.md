@@ -74,6 +74,14 @@ Povtor FUM-SBOJ-0091/PROYAVLENIYE-0002 trebuyet do proyekcii proveryatj polnotu 
 
 `FUM-СБОЙ-0134/ПРОЯВЛЕНИЕ-0001` trebuyet zaraneye razlichatj obyichnuyu svyaznostj vnutri aktivnoj otchyotnoj obyortki i otdeljnuyu zaklyuchiteljnuyu checkpoint-proverku. Nuzhnyi ponyatnyij vyibor po sostoyaniyu otchyota i rannij otkaz pri nesovmestimom flage, s sokhraneniyem zapreta aktivnyikh zapisej dlya kontroljnoj tochki. Ispravlennyij vyizov na tom zhe otpechatke podtverzhdayet ogranichennoye vosstanovleniye, ne gotovnostj obsjhej meryi.
 
+## Povtor pri podgotovke predposyilki i arkhiva
+
+Osnovaniye `FUM-СБОЙ-0071/ПРОЯВЛЕНИЕ-0007` povtoryayet otsutstviye tochnoj nepustoj stroki «Granica profilya:». Generaciya korrektnoj paryi i yeyo rannij kontrolj ostayutsya neobkhodimyimi; uspeshnoye mestnoye zapolneniye ne zavershayet shag. [Pervichnyiye svideteljstva i naznacheniye nomerov](../../Zhurnal/2026-09-15_22-40-08_MSK_sokhranitj-i-udalitj-rolevyiye-forki/materialyi/povtoryi-oformleniya.json); [iskhodnyij etap](../../Zhurnal/2026-09-15_22-40-08_MSK_sokhranitj-i-udalitj-rolevyiye-forki/zapros.md).
+
+## Poryadok pervogo zapuska i predprosmotra
+
+[FUM-SBOJ-0133/PROYAVLENIYE-0002](../../Sboi/FUM-SBOJ-0133-predprosmotr-do-pervogo-zapuska.md) povtoryayet vyizov predprosmotra do poyavleniya nastoyasjhego zapuska novogo etapa. Podgotovka dolzhna sokhranyatj poryadok predusmotrennyij adresnyij zapusk → terminaljnaya kvitanciya → predprosmotr; pustoj katalog ili iskusstvennaya uspeshnaya zapisj ne zamenyayut vyipolneniye. [Iskhodnoye svideteljstvo](../../Zhurnal/2026-09-16_00-15-17_MSK_proveritj-postavki-kommita-i-integracii/materialyi/povtor-rannego-predprosmotra.json). Lokaljnoye vosstanovleniye vyipolneno; obsjhaya profilaktika yesjhyo ne realizovana.
+
 ## Istochniki
 
 - [Tretij sokhranyonnyij epizod nepolnoj paryi](../../Sboi/FUM-SBOJ-0071-nepolnaya-para-zhurnala-pered-kontroljnoj-tochkoj.md) — `FUM-СБОЙ-0071/ПРОЯВЛЕНИЕ-0005`; [iskhodnyij otchyot](../../Zhurnal/2026-09-15_00-00-47_MSK_uchestj-semj-aktualjnyikh-komand/otchyot.md).
@@ -98,6 +106,6 @@ Povtor FUM-SBOJ-0091/PROYAVLENIYE-0002 trebuyet do proyekcii proveryatj polnotu 
 Osnovaniye aktualizacii — `FUM-СБОЙ-0071/ПРОЯВЛЕНИЕ-0006`: [ranniye otkazyi podgotovki obyyedineniya](../../Zhurnal/2026-09-15_03-35-30_MSK_podgotovitj-obyyedineniye-konteksta-i-finansirovaniya/materialyi/ranniye-otkazyi-polej.json). Proverka otrabotala do polnogo obkhoda i dorogoj proyekcii. Nuzhno sokhranitj yeyo ranneye polozheniye i vosproizvodimuyu podgotovku obyazateljnyikh polej; chastnoye ispravleniye paryi ne zakryivayet vesj 0174.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 04:47:16 MSK -->
-<!-- content-sha256: sha256:f3b0cc06f59cd639d77fc6608bb12fc98bd41b027d78c1784dacb7efa6c72f91 -->
+<!-- last-content-edit: 2026-09-16 00:46:06 MSK -->
+<!-- content-sha256: sha256:53a6deafbb602ef811c63c952be8130da35f3e7e6a93917cea9fd653f803282c -->
 <!-- FUM-MD-RECENCY:END -->

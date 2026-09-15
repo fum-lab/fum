@@ -26,6 +26,8 @@ Poljzovatelj otdeljno poruchil zaplanirovatj podgotovku Linux. Nuzhna obsjhaya s
 
 ## Svyazannyiye rabotyi i poryadok
 
+[Konkretnaya postanovka Linux VM na macOS](../Linux-na-macOS.md) utochnyayet otdeljnyij scenarij: podgotovka vyibrannogo Linux-gostya po obsjhej modeli instrumentov i profilej FUM. Uspekh etogo scenariya ne zakryivayet shirokij shag; status active i prezhniye kriterii sokhranyayutsya.
+
 Planirovaniye vyipolneno po pryamomu porucheniyu; realizaciya etim dokumentom ne obyyavlyayetsya nachatoj. Obsjhij pervyij etap novyikh avtomatizacij — opisaniye profilej sredyi i trebovanij proverok; platformennyiye adapteryi mozhno realizovyivatj nezavisimo posle soglasovaniya obsjhej chasti.
 
 - [Avtomatizirovatj nastrojku GitHub Actions](🟡-FUM-STEP-0178-avtomatizirovatj-nastrojku-GitHub-Actions.md).
@@ -40,6 +42,6 @@ Planirovaniye vyipolneno po pryamomu porucheniyu; realizaciya etim dokumentom ne
 - [Susjhestvuyusjhij kontrakt kompleksnoj proverki](../../Instrumentyi/fum-kompleksnaya-proverka-repozitoriya/SKILL.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 11:47:30 MSK -->
-<!-- content-sha256: sha256:07c86cdf3dd1a42ba1ca28454a3683a2f44f15457cc1ad3d30391e1458e35d44 -->
+<!-- last-content-edit: 2026-09-15 19:46:43 MSK -->
+<!-- content-sha256: sha256:eaf1fe178634407910f1696e14e98ce77cbc783bb1ce9a292db51fb399794de8 -->
 <!-- FUM-MD-RECENCY:END -->

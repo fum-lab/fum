@@ -71,7 +71,15 @@ Blizhajshij rezuljtat utochneniya — matrica: nuzhnaya operaciya → tochnoye o
 
 Samostoyateljnyij setevoj obyyom FUM-STEP-0195 sokhranyayetsya. Dlya sleduyusjhego ogranichennogo scenariya mozhno predlozhitj chteniye otkryitoj fajlovoj fiksturyi cherez FilePath/FileDescriptor s yavnyim rezuljtatom i Errno; eto kandidat plana. Do realizacii zadayutsya fikstura, nezavisimyij ozhidayemyij rezuljtat, RED/GREEN i profilj. Tekusjhij priyom sokhranyayet utochneniye postanovki; paket ne podklyuchyon, sistemnyiye operacii ne vyipolnyalisj, vsya FUM-STEP-0182 ne obyyavlena zavershyonnoj.
 
+## Pervyij integracionnyij srez macOS
+
+V ramkakh pervogo scenariya vyideleno podklyucheniye gotovogo Swift-interpretatora k osnovnomu rantajmu FUMA: vkhod prilozheniya → tipizirovannoye vyipolneniye operatora v tom zhe processe → rezuljtat → dolgovechnoye nablyudeniye. Ispolnyayusjhaya logika i kontejner nablyudenij pereispoljzuyutsya iz susjhestvuyusjhikh sobstvennyikh realizacij.
+
+Ogranichennyij rezuljtat trebuyet skvoznoj proverki, sokhraneniya oshibok i predelov, vosproizvedeniya podtverzhdyonnoj zapisi, sborok SwiftPM i prilozheniya i profilya tochnogo snimka. Odna zavisimostj ne dokazyivayet podklyucheniya. Podrobnyiye granicyi — v [operatornom plane](../operatornyij-interfejs-FUMA.md), istochnik — [postanovka rantajma](../../Zhurnal/2026-09-15_18-29-25_MSK_zakrepitj-vosemj-reshenij-obrabotki/zapros.md). Pervyij uspekh macOS ne zakryivayet ostaljnyiye platformyi i polnuyu kartochku.
+
 ## Svyazannyiye rabotyi i poryadok
+
+Dlya pervogo diagnosticheskogo scenariya macOS prinyata [postanovka operatornogo interfejsa FUMA](../operatornyij-interfejs-FUMA.md): Swift zapuskayet Codex CLI, sokhranyayet nablyudayemyij potok v pamyati, a strukturiruyusjhiye operatoryi preobrazuyut sostoyaniye v komandyi Metal. Yazyik operatorov i GUI imeyut obsjhuyu semanticheskuyu osnovu. Prioritet realizacii ostayotsya u obrabotki konteksta; utochneniye ne zakryivayet etu kartochku i ne podtverzhdayet rabotayusjhij ekran.
 
 Snachala utochnyayutsya matrica i obsjhij scenarij; zatem platformennyiye rezuljtatyi mogut vyipolnyatjsya paralleljno v otdeljnyikh rabochikh derevjyakh. Polnaya realizaciya vsekh platform ostayotsya obyyomom trebovaniya i ne podmenyayetsya zaversheniyem etoj kartochki.
 
@@ -85,9 +93,11 @@ Snachala utochnyayutsya matrica i obsjhij scenarij; zatem platformennyiye rezulj
 
 ## Istochniki
 
+- [Utochneniye yazyika operatorov, diagnosticheskogo GUI i pamyati macOS](../../Zhurnal/2026-09-15_15-40-41_MSK_utochnitj-operatornyij-interfejs-FUMA/zapros.md).
+
 - [Iskhodnoye trebovaniye i dva soobsjheniya, dopolnivshiye perechenj](../../Zhurnal/2026-09-11_01-03-38_MSK_zaplanirovatj-platformyi-i-grafiku-FUMA/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
-<!-- content-sha256: sha256:b804242ba5a88970e2a81212ff64fd1a28a71d1dd35b2f202d6c54dd5d5dd66d -->
+<!-- last-content-edit: 2026-09-15 20:02:40 MSK -->
+<!-- content-sha256: sha256:bdaf09baf3f04438f846d3c3ffe86f38c6798d010b35563b22b2226193e00160 -->
 <!-- FUM-MD-RECENCY:END -->

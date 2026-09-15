@@ -1,0 +1,48 @@
+{
+  "получение": {
+    "URL": "https://developer.apple.com/tutorials/data/documentation/metal.json",
+    "итоговый_URL": "https://developer.apple.com/tutorials/data/documentation/metal.json",
+    "HTTP": 200,
+    "дата_UTC": "2026-09-15T18:07:42.984957+00:00",
+    "sha256": "adc3100ab4f091fe049df7b3bb565ce4c2c5dd7857bcfd2982e5ec90a47e5c3b",
+    "байты": 58251,
+    "заголовки": {
+      "Content-Type": "application/json",
+      "Content-Length": "58251",
+      "Last-Modified": "Fri, 11 Sep 2026 20:55:10 GMT",
+      "Etag": "\"e38b-65b3b4cdb77b0\""
+    },
+    "редакции": "Сохранены только заголовки типа, длины и версии содержимого; служебные и сессионные заголовки не сохранялись."
+  },
+  "платформы": [
+    {
+      "beta": false,
+      "introducedAt": "8.0",
+      "name": "iOS"
+    },
+    {
+      "beta": false,
+      "name": "iPadOS"
+    },
+    {
+      "beta": false,
+      "introducedAt": "13.0",
+      "name": "Mac Catalyst"
+    },
+    {
+      "beta": false,
+      "introducedAt": "10.11",
+      "name": "macOS"
+    },
+    {
+      "beta": false,
+      "introducedAt": "9.0",
+      "name": "tvOS"
+    },
+    {
+      "beta": false,
+      "introducedAt": "1.0",
+      "name": "visionOS"
+    }
+  ]
+}
