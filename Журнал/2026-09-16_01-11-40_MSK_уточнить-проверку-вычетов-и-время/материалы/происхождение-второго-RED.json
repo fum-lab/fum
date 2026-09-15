@@ -1,0 +1,52 @@
+{
+  "native_строка": 187,
+  "смещение_байтов": 2688300,
+  "длина_строки_байтов": 4748,
+  "строка_sha256": "34d2d831bf046f47f906e84818d112ba1ded114d32f3fc0aa9fc8806012e3314",
+  "input_sha256": "781a9f8bdc534676fa43910052d0b4ff2d8663a212f7f6a0724d499a93f16a7c",
+  "команда_обёртки_argv": [
+    "python3",
+    "-B",
+    "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py",
+    "запустить",
+    "--корень-репозитория",
+    ".",
+    "--запрос",
+    "Журнал/2026-09-16_00-48-49_MSK_исправить-медиапакет-на-Astra-low/запрос.md",
+    "--название",
+    "RED семантические подмены на исходном Git blob",
+    "--исполнитель",
+    "Астра",
+    "--класс-проверки",
+    "адресная",
+    "--",
+    "python3",
+    "-B",
+    "-c",
+    "import types,sys,subprocess,unittest; sys.path.insert(0,\"Инструменты/fum-reyestr-planirovaniya/tests\"); m=types.ModuleType(\"медиапакет_поддержки\"); exec(subprocess.check_output([\"git\",\"show\",\"193279364854a6081491e02c26dd8c6f66dce0ca:Инструменты/fum-reyestr-planirovaniya/scripts/медиапакет_поддержки.py\"]),m.__dict__); sys.modules[m.__name__]=m; import test_медиапакет_поддержки as t; r=unittest.TextTestRunner().run(unittest.TestSuite([t.ПроверкаМедиапакета(\"test_семантические_подмены_полного_источника\")])); sys.exit(not r.wasSuccessful())"
+  ],
+  "команда_исполнителя_argv": [
+    "python3",
+    "-B",
+    "-c",
+    "import types,sys,subprocess,unittest; sys.path.insert(0,\"Инструменты/fum-reyestr-planirovaniya/tests\"); m=types.ModuleType(\"медиапакет_поддержки\"); exec(subprocess.check_output([\"git\",\"show\",\"193279364854a6081491e02c26dd8c6f66dce0ca:Инструменты/fum-reyestr-planirovaniya/scripts/медиапакет_поддержки.py\"]),m.__dict__); sys.modules[m.__name__]=m; import test_медиапакет_поддержки as t; r=unittest.TextTestRunner().run(unittest.TestSuite([t.ПроверкаМедиапакета(\"test_семантические_подмены_полного_источника\")])); sys.exit(not r.wasSuccessful())"
+  ],
+  "база": "193279364854a6081491e02c26dd8c6f66dce0ca",
+  "путь_исполнявшегося_blob": "Инструменты/fum-reyestr-planirovaniya/scripts/медиапакет_поддержки.py",
+  "Git_blob_OID": "bee79eb1e130f6cb63e9ddcef5050447990d6eab",
+  "blob_sha256": "d914ef63472807c424e02a87c3bf0252c4108457b7662bdbbbe637278db1e8f2",
+  "blob_байты": 5854,
+  "основание": "Команда exec загружает байты через git show точного commit:path и исполняет их в модуле. SHA вычислен при сверке теперь; отдельного SHA-измерения в момент исторического запуска не было.",
+  "запись_запуска": {
+    "коммит": "15a727caec9aff32564ea14e9730fe59354ce7b7",
+    "путь": "Журнал/2026-09-16_00-48-49_MSK_исправить-медиапакет-на-Astra-low/материалы/запуски-проверок/3_7eb9a952-b66d-44c8-80a8-d3e046a028de.json",
+    "sha256": "5237272ec766b685361921a90c08b49462d9503c3359797c0ff3482e90751d6d",
+    "байты": 1041
+  },
+  "вывод": {
+    "коммит": "15a727caec9aff32564ea14e9730fe59354ce7b7",
+    "путь": "Журнал/2026-09-16_00-48-49_MSK_исправить-медиапакет-на-Astra-low/материалы/вывод-проверок/red2.stderr.txt",
+    "sha256": "040b852cbdc2d6faf7971a560b8cc8594bb0fe54bee7419b1b1fb779a384177a",
+    "байты": 7636
+  }
+}

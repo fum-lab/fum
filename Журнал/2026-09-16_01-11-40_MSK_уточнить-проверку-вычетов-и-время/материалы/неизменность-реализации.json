@@ -1,0 +1,17 @@
+[
+  {
+    "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/медиапакет_поддержки.py",
+    "sha256": "9dd4939cd60abffc8c175271df7696a171ee666c0447ffa46d407e4ea9178b48",
+    "совпадает_с_15a727ca": true
+  },
+  {
+    "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/медиапакет-поддержки.py",
+    "sha256": "d4cefa7fb172a0fc626c377c130b7931ad94699b3bfe334d9b9a4eb578f24a27",
+    "совпадает_с_15a727ca": true
+  },
+  {
+    "путь": "Инструменты/fum-reyestr-planirovaniya/tests/профиль_медиапакета.py",
+    "sha256": "17d646783295e3c97ead5254891d7c6defce3ac73162f6ea6cdf7e066ee38285",
+    "совпадает_с_15a727ca": true
+  }
+]
