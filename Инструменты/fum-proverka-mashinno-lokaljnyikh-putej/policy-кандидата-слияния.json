@@ -3152,6 +3152,132 @@
       "reason": "Точное свидетельство дочернего RED на стандартной символической ссылке macOS; не содержит имени пользователя, частного каталога или разрешения произвольных путей."
     },
     {
+      "id": "direction-intake-journal-request-pattern",
+      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/вход_направления.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:4fbd5fa83648104748a49434cd2122b78913b5689719c42d208080dc12c8f4cb",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Регулярное выражение ограничивает вход относительным каноническим путём запроса Журнала; слэши и класс символов задают синтаксис проверки."
+    },
+    {
+      "id": "direction-intake-card-name-suffix",
+      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/вход_направления.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:62673b3494b8e383950031e1cfe3689ba99d840be5108cb59b57065a0d3afdd4",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Суффикс имени карточки присоединяется к выбранному каноническому относительному каталогу и не является самостоятельным абсолютным путём."
+    },
+    {
+      "id": "direction-intake-readme-suffix",
+      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/вход_направления.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:5f42ce50205c1c73b239623aab2916ab847c1a45741e8eaba34228de43dd2ff4",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Суффикс README присоединяется к каноническому относительному каталогу карточек; абсолютный путь машины не задаётся."
+    },
+    {
+      "id": "direction-intake-markdown-fence-pattern",
+      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:e76271029b180c47bb865135b0334e6c3a4454ad73542efd3608c685cf7ad17a",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Регулярное выражение распознаёт ограду Markdown из обратных кавычек либо тильд; тильда здесь не является домашним путём."
+    },
+    {
+      "id": "deferred-assignment-journal-path",
+      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/отложенные_назначения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:212570fcbf29bba4c29f31c8e95b7a6d157bffac016c7b8fed22c3e546b609db",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определение регулярного выражения для проверки точного относительного пути собственного канонического Журнала; не содержит машинно-локального адреса."
+    },
+    {
+      "id": "swift-inventory-historical-fixture-one",
+      "path": "Журнал/2026-09-14_21-11-44_MSK_сверить-общую-границу-приёмки/материалы/классификация-дельты-свифт.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:1e124808b5f06a2bb0e66b99c318be3e7c8b289d6b42fce43477663f927f7929",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Дословная строка исторической Swift-фикстуры проверки абсолютного входа; источник и точные Git-байты сохранены в этой классификации."
+    },
+    {
+      "id": "swift-inventory-historical-fixture-two",
+      "path": "Журнал/2026-09-14_21-11-44_MSK_сверить-общую-границу-приёмки/материалы/классификация-дельты-свифт.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:5e79ee71e0abfef009ce6154a3b368a161f4d414bd8f6c4a652dc34f8a343ecc",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Дословная строка второй исторической Swift-фикстуры проверки абсолютного входа; источник и точные Git-байты сохранены в этой классификации."
+    },
+    {
+      "id": "cjs-lexer-unary-token",
+      "path": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:960ec896dd4f566d41f71d614029390e509f3a8743a9c4392153ddd2094fcaa0",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Конечный перечень лексем CJS: тильда обозначает унарный оператор языка, а не домашний каталог. Это точное определение синтаксического распознавателя."
+    },
+    {
+      "id": "cjs-parser-unary-token",
+      "path": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:d8480f45689f80eae7f70a2b74e0f3dd0eee00c79800a08e89ca2b0bd9db1006",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Разбор унарного оператора CJS: тильда обозначает синтаксис выражения, а не домашний каталог. Это точное определение синтаксического распознавателя."
+    },
+    {
+      "id": "cjs-regex-slash-fixture",
+      "path": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_сценарий_ответа.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:60a2cfd601eea8f9113b395f1d297481cf2aa13f1903f182855b9f53803f85f1",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая тестовая фикстура регулярного выражения CJS содержит экранированный слэш; строка проверяет отсутствие ложных объявлений, а не задаёт путь."
+    },
+    {
+      "id": "python-0173-url-history",
+      "path": "Журнал/2026-09-14_20-41-53_MSK_перевести-унаследованные-привязки-Python/отчёт.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:3a801603ec6266a856ea5a0cdc32d6d07b2cf67f2c4f85654718ea58cc595050",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Точное историческое описание сегмента публичного URL; это сохранённое свидетельство ложного распознавания, а не локальный адрес машины."
+    },
+    {
+      "id": "python-0173-before-selector-history",
+      "path": "Журнал/2026-09-14_21-49-30_MSK_перевести-живые-измерители-Python/материалы/воспроизведение-классификации.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:467b3b97d2a4503ac0b9d7a1b97bb1bd0365a7736a06ddf64b274e4b859dfd26",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Точная строка выполненного исторического сценария классификации; аргумент endswith задаёт суффикс репозиторного имени защищённого before, а не абсолютный путь."
+    },
+    {
+      "id": "python-0173-selectors-history",
+      "path": "Журнал/2026-09-14_21-49-30_MSK_перевести-живые-измерители-Python/материалы/воспроизведение-классификации.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:566da5fccbb6c16508ad206414f83b69f53f085c467cc774d3c6d62dfabe9661",
+      "count": 2,
+      "category": "report.historical",
+      "reason": "Точная строка выполненного исторического сценария классификации; два аргумента endswith задают суффиксы репозиторных имён, а не локальные пути."
+    },
+    {
+      "id": "python-0173-class-fixture",
+      "path": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_пакет_перевода_python.py",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:cf9486eb9e0d17e893d81d6e94b415b276c8eaa2988cf5b5627d3b85b9cf8bed",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая Python-фикстура: объявление класса и экранированный перевод строки образуют похожую на Windows-путь последовательность. Точная строка проверяет отказ для непрослеживаемого eval и не задаёт адрес машины."
+    },
+    {
       "id": "fum-0176-import-001",
       "path": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Sources/АварийнаяФикстура/Авария.swift",
       "kind": "posix-absolute",
@@ -3737,40 +3863,31 @@
       "reason": "Дословное сообщение координатора содержит приблизительный размер JSONL с тильдой перед числом; это историческая цитата, не путь или параметр файлового ввода."
     },
     {
-      "id": "direction-intake-journal-request-pattern",
-      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/вход_направления.py",
+      "id": "historical-libc-list-archive-fuma",
+      "path": "Журнал/2026-09-12_01-02-01_MSK_сохранить-поздний-диалог-и-продвижение-master/материалы/источники/диалог/диалог.jsonl",
       "kind": "posix-absolute",
-      "line_sha256": "sha256:4fbd5fa83648104748a49434cd2122b78913b5689719c42d208080dc12c8f4cb",
+      "line_sha256": "sha256:fc79e5cf78cf8ab7d7b804045472fa91f28455cf68545a156cc039f2764343dc",
       "count": 1,
-      "category": "allow.path-validation-definition",
-      "reason": "Регулярное выражение ограничивает вход относительным каноническим путём запроса Журнала; слэши и класс символов задают синтаксис проверки."
+      "category": "report.historical",
+      "reason": "Сохраняет дословную историческую реплику помощника: соединённые слешами имена компонентов libc++, libc++abi и llvm-libc ошибочно распознаны как абсолютный путь; машинных данных строка не содержит."
     },
     {
-      "id": "direction-intake-card-name-suffix",
-      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/вход_направления.py",
+      "id": "durable-receipts-command-suffix-late-source",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_устойчивые_свидетельства.py",
       "kind": "posix-absolute",
-      "line_sha256": "sha256:62673b3494b8e383950031e1cfe3689ba99d840be5108cb59b57065a0d3afdd4",
+      "line_sha256": "sha256:42d09b14d9a0b9ecd49866467143aad3701db56587bc6a58b66db08c3ac0c9f6",
       "count": 1,
       "category": "allow.path-validation-definition",
-      "reason": "Суффикс имени карточки присоединяется к выбранному каноническому относительному каталогу и не является самостоятельным абсолютным путём."
+      "reason": "Проверка выбирает относительные файлы команды по конечному суффиксу имени; строка не содержит машинного абсолютного пути."
     },
     {
-      "id": "direction-intake-readme-suffix",
-      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/вход_направления.py",
+      "id": "durable-receipts-command-suffix-unselected-source",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_устойчивые_свидетельства.py",
       "kind": "posix-absolute",
-      "line_sha256": "sha256:5f42ce50205c1c73b239623aab2916ab847c1a45741e8eaba34228de43dd2ff4",
+      "line_sha256": "sha256:618cc0b9ffb47ee35b3dcd8af209ad85c1750ab4103186df51368dd83a73ccb2",
       "count": 1,
       "category": "allow.path-validation-definition",
-      "reason": "Суффикс README присоединяется к каноническому относительному каталогу карточек; абсолютный путь машины не задаётся."
-    },
-    {
-      "id": "direction-intake-markdown-fence-pattern",
-      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py",
-      "kind": "home-expansion",
-      "line_sha256": "sha256:e76271029b180c47bb865135b0334e6c3a4454ad73542efd3608c685cf7ad17a",
-      "count": 1,
-      "category": "allow.path-validation-definition",
-      "reason": "Регулярное выражение распознаёт ограду Markdown из обратных кавычек либо тильд; тильда здесь не является домашним путём."
+      "reason": "Проверка считает относительные файлы команды по конечному суффиксу имени; строка не содержит машинного абсолютного пути."
     }
   ]
 }
