@@ -24,9 +24,11 @@ Kod `0` oznachayet otsutstviye dejstvuyusjhikh narushenij, dazhe yesli otchyot s
 
 ## Politika zakreplyonnogo kandidata
 
-`policy-кандидата-слияния.json` prednaznachena dlya proverki dannyikh zakreplyonnoj vedusjhej osnovyi. Ona otdeljno svyazana v `происхождение-политики-слияния.json` s polnyimi OID osnovyi, yeyo dereva i SHA-256 politiki. Tekusjhaya osnova — `a728283474931eda71cd581ca5429121124ba3f6`, derevo `bc258a41133107198602c60d003555898d4cfad2`; 419 isklyuchenij sostavlyayut prezhniye 350 i 69 tochnyikh dobavlenij. Eto vkhod susjhestvuyusjhego kontura sliyaniya, a ne samostoyateljnoye razresheniye sliyaniya. Obyichnaya komanda vyishe prodolzhayet ispoljzovatj `policy.json`, pokryivayusjhuyu toljko realjno prinyatyiye fajlyi; pri perenose novyikh fajlov yeyo izmeneniya sveryayutsya otdeljno.
+`policy-кандидата-слияния.json` prednaznachena dlya proverki dannyikh zakreplyonnoj vedusjhej osnovyi. Ona otdeljno svyazana v `происхождение-политики-слияния.json` s polnyimi OID osnovyi, yeyo dereva i SHA-256 politiki. Tekusjhaya osnova — `01ca988635628b48024ae64c290d3c4912aff060`, derevo `fd0a746227a2d015d7cf9cb185eb7957dca0e0b8`; 432 isklyucheniya sostavlyayut prezhniye 419 i 13 tochnyikh dobavlenij otnositeljno prinyatogo master `e95d7f5d1ef6387454b7825932cfbd737e600473`. Eto vkhod susjhestvuyusjhego kontura sliyaniya, a ne samostoyateljnoye razresheniye sliyaniya. Obyichnaya komanda vyishe prodolzhayet ispoljzovatj `policy.json`, pokryivayusjhuyu toljko realjno prinyatyiye fajlyi; pri perenose novyikh fajlov yeyo izmeneniya sveryayutsya otdeljno.
 
-[Osnovaniye i adresnaya sverka](../../Zhurnal/2026-09-11_14-47-00_MSK_podgotovitj-sovmestimostj-master-i-FUMA/zapros.md).
+[Tekusjheye zakrepleniye novoj osnovyi](../../Zhurnal/2026-09-15_23-33-01_MSK_zakrepitj-politiku-novoj-osnovyi/zapros.md).
+
+[Pervonachaljnoye osnovaniye i adresnaya sverka prezhnej osnovyi](../../Zhurnal/2026-09-11_14-47-00_MSK_podgotovitj-sovmestimostj-master-i-FUMA/zapros.md).
 
 ## Tochnoye obnovleniye politiki
 
@@ -90,6 +92,6 @@ Testyi bez seti i sekretov proveryayut vse raspoznavayemyiye formyi, Git-inventa
 - [audit absolyutnyikh putej](../../Zhurnal/2026-07-22_12-35-05_MSK_provesti-audit-absolyutnyikh-putej/materialyi/revjyu/2026-07-22_12-35-05_MSK_audit-absolyutnyikh-putej.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 15:19:56 MSK -->
-<!-- content-sha256: sha256:8ac4cffddda4cb9250fabe166dbdf1cd6cca54f420ff49b8d2bd37947154a544 -->
+<!-- last-content-edit: 2026-09-15 23:40:07 MSK -->
+<!-- content-sha256: sha256:4c363f9a3a6f2c6a478eb1ffa6d0a7a08d8251cc1f16c1b9de74c5d2efd5cac3 -->
 <!-- FUM-MD-RECENCY:END -->
