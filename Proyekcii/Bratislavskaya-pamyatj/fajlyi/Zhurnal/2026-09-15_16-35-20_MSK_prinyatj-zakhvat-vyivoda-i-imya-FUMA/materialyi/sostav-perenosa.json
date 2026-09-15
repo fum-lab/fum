@@ -1,0 +1,195 @@
+{
+  "схема": "fum.состав-адресного-переноса.1",
+  "база": "38a0a8bcf60e9213f7fff8fad5a791808f6916d1",
+  "файлы": [
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/детектор_вывода.py",
+      "источник": "cb3adea7267ecb6a66c0d2399e6f1fd21afc181e",
+      "исходный_sha256": "179a91599126be9e58d88a04b66804992054ddaa87129e81246761fc862baa62",
+      "принятый_sha256": "179a91599126be9e58d88a04b66804992054ddaa87129e81246761fc862baa62",
+      "режим": "100644"
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/потребить-остаток.py",
+      "источник": "cb3adea7267ecb6a66c0d2399e6f1fd21afc181e",
+      "исходный_sha256": "c7b13278b1f4edd811f845ec3295e4fb60f45aac6b3ddc20664a4853c95e2e10",
+      "принятый_sha256": "c7b13278b1f4edd811f845ec3295e4fb60f45aac6b3ddc20664a4853c95e2e10",
+      "режим": "100644"
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/захват_вывода.py",
+      "источник": "cb3adea7267ecb6a66c0d2399e6f1fd21afc181e",
+      "исходный_sha256": "6585cfb71c342e99f14ac2145a77efbc9c231126b1683f6e10d7989dd70a1a34",
+      "принятый_sha256": "6585cfb71c342e99f14ac2145a77efbc9c231126b1683f6e10d7989dd70a1a34",
+      "режим": "100644"
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/захватить-вывод.py",
+      "источник": "cb3adea7267ecb6a66c0d2399e6f1fd21afc181e",
+      "исходный_sha256": "65f25617b8f41fa3c4f0b52d32f208f1bb65a832d0a856091bdfd0f0e3acf4fa",
+      "принятый_sha256": "65f25617b8f41fa3c4f0b52d32f208f1bb65a832d0a856091bdfd0f0e3acf4fa",
+      "режим": "100644"
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_детектор_вывода.py",
+      "источник": "cb3adea7267ecb6a66c0d2399e6f1fd21afc181e",
+      "исходный_sha256": "7f61db5e808ec951ab8646d6c0e52901230b9f788b656eb6a8f91f9244fb8cbf",
+      "принятый_sha256": "7f61db5e808ec951ab8646d6c0e52901230b9f788b656eb6a8f91f9244fb8cbf",
+      "режим": "100644"
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_захват_вывода.py",
+      "источник": "cb3adea7267ecb6a66c0d2399e6f1fd21afc181e",
+      "исходный_sha256": "4af02b7b6876687a6d9018778ed0f53baedd8c8a25e8ab886f11240ac0bf1535",
+      "принятый_sha256": "4af02b7b6876687a6d9018778ed0f53baedd8c8a25e8ab886f11240ac0bf1535",
+      "режим": "100644"
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_детектора_вывода.py",
+      "источник": "cb3adea7267ecb6a66c0d2399e6f1fd21afc181e",
+      "исходный_sha256": "adf8c4507e8957cb75ca72feade8ed68641eec0bc13a7ed6ba2c1c1c35c19ffe",
+      "принятый_sha256": "adf8c4507e8957cb75ca72feade8ed68641eec0bc13a7ed6ba2c1c1c35c19ffe",
+      "режим": "100644"
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_захвата_вывода.py",
+      "источник": "cb3adea7267ecb6a66c0d2399e6f1fd21afc181e",
+      "исходный_sha256": "db393b069801965451caf64826fa0680fd953ac04f21d72af751908dbdd11759",
+      "принятый_sha256": "db393b069801965451caf64826fa0680fd953ac04f21d72af751908dbdd11759",
+      "режим": "100644"
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/детектор-бюджета-вывода.md",
+      "источник": "cb3adea7267ecb6a66c0d2399e6f1fd21afc181e",
+      "исходный_sha256": "6ed8f4f6d8e6b080cb3e32935d4aa80c2c8c10f163805558db32cf9200ee312b",
+      "принятый_sha256": "40c812454e9dbb7a97b95bdb161eee8747bccc90e1635cbc32690651d4060c9f",
+      "режим": "100644"
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/полный-захват-вывода.md",
+      "источник": "cb3adea7267ecb6a66c0d2399e6f1fd21afc181e",
+      "исходный_sha256": "2a638379b2a76df4fd76e5ba74b2472fabca99c9b729cbda6209976e6a763514",
+      "принятый_sha256": "170c2b39d62d883541ea0482b6a5021e284b73c1b9e99f385eb72090e778c8e6",
+      "режим": "100644"
+    },
+    {
+      "путь": "Приложения/FUMA/macOS/FUM.xcodeproj/project.pbxproj",
+      "источник": "7c6731eb6ec4977f8aa0a52334ba97ad44d0aabb",
+      "исходный_sha256": "ac10148b37436b4494dea3e5b35cc06409af4512123587572c3df6a4f84858b5",
+      "принятый_sha256": "ac10148b37436b4494dea3e5b35cc06409af4512123587572c3df6a4f84858b5",
+      "режим": "100644"
+    },
+    {
+      "путь": "Приложения/FUMA/macOS/Package.swift",
+      "источник": "7c6731eb6ec4977f8aa0a52334ba97ad44d0aabb",
+      "исходный_sha256": "a70e078f6e7a5ce35e6ea5a426296c44f0537d15c02d137bd62ba4fdb3391547",
+      "принятый_sha256": "a70e078f6e7a5ce35e6ea5a426296c44f0537d15c02d137bd62ba4fdb3391547",
+      "режим": "100644"
+    },
+    {
+      "путь": "Приложения/FUMA/macOS/README.md",
+      "источник": "7c6731eb6ec4977f8aa0a52334ba97ad44d0aabb",
+      "исходный_sha256": "481693c1d51713da5d07c74868b3cb4aa30da64152aa6f77a3a8ef26c1c90bc8",
+      "принятый_sha256": "4f34a425244f8d14084bde5a1c292c979327f8c503581079f3bf61149e44aa09",
+      "режим": "100644"
+    },
+    {
+      "путь": "Приложения/FUMA/macOS/Sources/FUMApp/AXVisionRuntimeWriter.swift",
+      "источник": "7c6731eb6ec4977f8aa0a52334ba97ad44d0aabb",
+      "исходный_sha256": "d400e4d8760705318c7ba417b4324ba38a0a0157fadc05e844bfa96c772a38e9",
+      "принятый_sha256": "d400e4d8760705318c7ba417b4324ba38a0a0157fadc05e844bfa96c772a38e9",
+      "режим": "100644"
+    },
+    {
+      "путь": "Приложения/FUMA/macOS/Sources/FUMApp/AXVisionSnapshot.swift",
+      "источник": "7c6731eb6ec4977f8aa0a52334ba97ad44d0aabb",
+      "исходный_sha256": "893e5286dfcde9206b00cb3dfc7b137932204be83b63a39fdb0c9e3171a336ae",
+      "принятый_sha256": "893e5286dfcde9206b00cb3dfc7b137932204be83b63a39fdb0c9e3171a336ae",
+      "режим": "100644"
+    },
+    {
+      "путь": "Приложения/FUMA/macOS/Sources/FUMApp/CameraVisionViews.swift",
+      "источник": "7c6731eb6ec4977f8aa0a52334ba97ad44d0aabb",
+      "исходный_sha256": "0d3541606fbc096d2ae5588ce98c0dd156729a988584aea72e01d8768044f009",
+      "принятый_sha256": "0d3541606fbc096d2ae5588ce98c0dd156729a988584aea72e01d8768044f009",
+      "режим": "100644"
+    },
+    {
+      "путь": "Приложения/FUMA/macOS/Sources/FUMApp/InputEventMonitor.swift",
+      "источник": "7c6731eb6ec4977f8aa0a52334ba97ad44d0aabb",
+      "исходный_sha256": "b3124640fe5448fe29872a5dcda5b30cabc43f7b4fdeb7a6ee156696dcd4efa4",
+      "принятый_sha256": "b3124640fe5448fe29872a5dcda5b30cabc43f7b4fdeb7a6ee156696dcd4efa4",
+      "режим": "100644"
+    },
+    {
+      "путь": "Приложения/FUMA/macOS/Sources/FUMApp/MCPBridge.swift",
+      "источник": "7c6731eb6ec4977f8aa0a52334ba97ad44d0aabb",
+      "исходный_sha256": "6f6dbd4f1915b130ac6a3d6759df45841082e547896c31c516e81fed16d7e57d",
+      "принятый_sha256": "6f6dbd4f1915b130ac6a3d6759df45841082e547896c31c516e81fed16d7e57d",
+      "режим": "100644"
+    },
+    {
+      "путь": "Приложения/FUMA/macOS/Sources/FUMApp/OrgansView.swift",
+      "источник": "7c6731eb6ec4977f8aa0a52334ba97ad44d0aabb",
+      "исходный_sha256": "7f9fa21d041c6b3597569e6c019a097b65f876d0b6d34f1d09d103b182f8bff6",
+      "принятый_sha256": "7f9fa21d041c6b3597569e6c019a097b65f876d0b6d34f1d09d103b182f8bff6",
+      "режим": "100644"
+    },
+    {
+      "путь": "Приложения/FUMA/macOS/Sources/FUMApp/VideoMemory.swift",
+      "источник": "7c6731eb6ec4977f8aa0a52334ba97ad44d0aabb",
+      "исходный_sha256": "8546026dd6d6ec3f1f262b0c4f801eb373850f6ec8a8f4913eb7dad22d883989",
+      "принятый_sha256": "8546026dd6d6ec3f1f262b0c4f801eb373850f6ec8a8f4913eb7dad22d883989",
+      "режим": "100644"
+    },
+    {
+      "путь": "Приложения/FUMA/macOS/Sources/FUMApp/WorkbenchChrome.swift",
+      "источник": "7c6731eb6ec4977f8aa0a52334ba97ad44d0aabb",
+      "исходный_sha256": "9380ccb9539ab6a7ff137eb8b474fc77dbc3dddadfff68b02711fbb712f85522",
+      "принятый_sha256": "9380ccb9539ab6a7ff137eb8b474fc77dbc3dddadfff68b02711fbb712f85522",
+      "режим": "100644"
+    },
+    {
+      "путь": "Приложения/FUMA/macOS/Sources/FUMAttentionLoop/main.swift",
+      "источник": "7c6731eb6ec4977f8aa0a52334ba97ad44d0aabb",
+      "исходный_sha256": "cca4f3084ba41eae5f82bfd1be5e8eef3688447e865da0d9f00dbb2ef5c53cee",
+      "принятый_sha256": "cca4f3084ba41eae5f82bfd1be5e8eef3688447e865da0d9f00dbb2ef5c53cee",
+      "режим": "100644"
+    },
+    {
+      "путь": "Приложения/FUMA/macOS/Sources/FUMMCPServer/main.swift",
+      "источник": "7c6731eb6ec4977f8aa0a52334ba97ad44d0aabb",
+      "исходный_sha256": "5638669c7652a9ea6ef95cc7372dd758d2fc71fb0ccbcb82eddd3ad9a4143ec7",
+      "принятый_sha256": "5638669c7652a9ea6ef95cc7372dd758d2fc71fb0ccbcb82eddd3ad9a4143ec7",
+      "режим": "100644"
+    },
+    {
+      "путь": "Приложения/FUMA/macOS/launchd/fum.app.plist",
+      "источник": "7c6731eb6ec4977f8aa0a52334ba97ad44d0aabb",
+      "исходный_sha256": "cc99314e0dbe8c616e6d0ff179427dd2b47d9926c8db48c9110b7940e510fad0",
+      "принятый_sha256": "cc99314e0dbe8c616e6d0ff179427dd2b47d9926c8db48c9110b7940e510fad0",
+      "режим": "100644"
+    },
+    {
+      "путь": "Приложения/FUMA/macOS/script/install_fum_app.sh",
+      "источник": "7c6731eb6ec4977f8aa0a52334ba97ad44d0aabb",
+      "исходный_sha256": "41b7c1013cd35cb55ead06e8e63ea49517b4271903bceb0752914e4d1f2d3bc8",
+      "принятый_sha256": "41b7c1013cd35cb55ead06e8e63ea49517b4271903bceb0752914e4d1f2d3bc8",
+      "режим": "100755"
+    },
+    {
+      "путь": "Приложения/FUMA/macOS/проверки/test_адаптации.py",
+      "источник": "7c6731eb6ec4977f8aa0a52334ba97ad44d0aabb",
+      "исходный_sha256": "5739709d86460c3a570f7f8cf01fb07130e66ce01a488b7baf6630a37d4e1d24",
+      "принятый_sha256": "5739709d86460c3a570f7f8cf01fb07130e66ce01a488b7baf6630a37d4e1d24",
+      "режим": "100644"
+    },
+    {
+      "путь": "Приложения/FUMA/macOS/проверки/проверить-обнаружение-приложения.py",
+      "источник": "7c6731eb6ec4977f8aa0a52334ba97ad44d0aabb",
+      "исходный_sha256": "7c83d82e01bdf856726db5d31d9815de0d76ff80854ffbb120c2fe34b732ed8e",
+      "принятый_sha256": "7c83d82e01bdf856726db5d31d9815de0d76ff80854ffbb120c2fe34b732ed8e",
+      "режим": "100644"
+    }
+  ]
+}

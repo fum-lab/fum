@@ -261,6 +261,7 @@ Dlya odnovremennogo utochneniya imeni dobavj `--description новое-крат�
 | FUM-STEP-0221 | 🟡 Aktualjno | [Splanirovatj oflajn-komplekt FUM i priyomku v macOS VM](🟡-FUM-STEP-0221-splanirovatj-oflajn-komplekt-FUM-i-priyomku-v-macOS-VM.md)                                                                                                                                                                                           |
 | FUM-STEP-0224 | 🟡 Aktualjno | [Splanirovatj parametricheskoye 3D FUMA i etapyi realizacii](🟡-FUM-STEP-0224-splanirovatj-parametricheskoye-3D-FUMA-i-etapyi-realizacii.md)                                                                                                                                                                                       |
 | FUM-STEP-0225 | 🟡 Aktualjno | [Sveryatj polnyij sostav materialov etapa](🟡-FUM-STEP-0225-sveryatj-polnyij-sostav-materialov-etapa.md)                                                                                                                                                                                                                         |
+| FUM-STEP-0228 | 🟡 Aktualjno | [Kontrolirovatj dostavku v postoyannuyu vetku](🟡-FUM-STEP-0228-kontrolirovatj-dostavku-v-postoyannuyu-vetku.md)                                                                                                                                                                                                                 |
 
 ## Istochniki trebovanij
 
@@ -295,6 +296,6 @@ Dlya odnovremennogo utochneniya imeni dobavj `--description новое-крат�
 - [iskhodnyij zapros 2026-07-24 10:44:28 MSK — Nachatj bezokonnyij Swift-prototip vosproizvodimogo popolneniya pamyati FUM](../../Zhurnal/2026-07-24_10-44-28_MSK_nachatj-bezokonnyij-Swift-prototip-vosproizvodimogo-popolneniya-pamyati-FUM/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
-<!-- content-sha256: sha256:9e2b8f70a7d087cbeefbaaa14e5dc1ac4b6edc8baf4adda5503d2eaee9761169 -->
+<!-- last-content-edit: 2026-09-15 18:06:12 MSK -->
+<!-- content-sha256: sha256:6837f47d0194933f868f559bc6fa2c94411a28e6d8ff9c2988084819b31cac52 -->
 <!-- FUM-MD-RECENCY:END -->

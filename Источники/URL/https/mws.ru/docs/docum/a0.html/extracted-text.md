@@ -104,6 +104,6 @@ CDN & Медиасервисы
 1 — Правила участия в акциях MWS, URL: https://mws.ru/docs/docum/promo-terms.html
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-14 14:47:35 MSK -->
+<!-- last-content-edit: 2026-09-15 19:22:27 MSK -->
 <!-- content-sha256: sha256:3e611098bca022b52bed36e897aaba5664a809f68d91dede83da0b2a0a07b465 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -1216,7 +1216,7 @@
     },
     {
       "path": "Требования/🟡-графические-интерфейсы-FUMA.md",
-      "content_sha256_without_recency": "sha256:1c772e55abedf923018a83d6f5cc53ecc15c03efb9251947d1993e39d0158b79"
+      "content_sha256_without_recency": "sha256:b215158fb645a694d4eb3aef5125c13bccf3dcd03c97edeec1b8c6fa93222b8b"
     },
     {
       "path": "Требования/🟡-дерево-ветвевых-fork-и-родительская-модерация.md",
@@ -1232,7 +1232,7 @@
     },
     {
       "path": "Требования/🟡-запуск-FUMA-на-целевых-платформах.md",
-      "content_sha256_without_recency": "sha256:3d44675f0aa86d3366da5a49e6f4bdad0085e42e363ef6773499f36484b4af1c"
+      "content_sha256_without_recency": "sha256:e19bead393ec42780f0f78d2a56c6da1941b260d21fe28f025d4a510c1d51f4f"
     },
     {
       "path": "Требования/🟡-защищённый-сбор-чувствительного-ввода.md",

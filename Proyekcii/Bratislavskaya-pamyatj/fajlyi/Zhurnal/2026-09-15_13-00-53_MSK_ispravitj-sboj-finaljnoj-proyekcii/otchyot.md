@@ -19,20 +19,34 @@ Granica profilya: nachata posle vosstanovleniya szhatogo konteksta 2026-09-15; t
 
 <!-- FUM-CHECK-RUNS:BEGIN состояние=открыт; каталог=материалы/запуски-проверок -->
 
-| Vyizov                                                                      | Dliteljnostj | Rezuljtat |
-| -------------------------------------------------------------------------- | ------------ | --------- |
-| [korenj] RED pozdniye metadannyiye Finder pered rmdir                         | 0,27 s       | neuspeshno |
-| [korenj] GREEN pozdniye metadannyiye Finder pered rmdir                       | 0,294 s      | uspeshno   |
-| [korenj] Adresnyiye regressii Finder v proyekcii                              | 0,149 s      | neuspeshno |
-| [korenj] Avtonomnyiye testyi bratislavskoj proyekcii                           | 105,403 s    | uspeshno   |
-| [korenj] Profilj udaleniya pri pozdnikh metadannyikh Finder                    | 1,874 s      | uspeshno   |
-| [korenj] Adresnoye primeneniye proyekcii posle ispravleniya pozdnego Finder    | 52,33 s      | neuspeshno |
-| [korenj] Povtornoye adresnoye primeneniye proyekcii posle recency              | 299,058 s    | uspeshno   |
-| [korenj] Proverka dekompozicii pravil posle smenyi rezhima modeli            | 0,062 s      | neuspeshno |
-| [korenj] Povtornaya proverka dekompozicii pravil posle obnovleniya inventarya | 0,059 s      | neuspeshno |
-| [korenj] Tretjya proverka dekompozicii pravil posle tochnogo SHA             | 0,11 s       | uspeshno   |
+| Vyizov                                                                                   | Dliteljnostj | Rezuljtat         |
+| --------------------------------------------------------------------------------------- | ------------ | ----------------- |
+| [korenj] RED pozdniye metadannyiye Finder pered rmdir                                      | 0,27 s       | neuspeshno         |
+| [korenj] GREEN pozdniye metadannyiye Finder pered rmdir                                    | 0,294 s      | uspeshno           |
+| [korenj] Adresnyiye regressii Finder v proyekcii                                           | 0,149 s      | neuspeshno         |
+| [korenj] Avtonomnyiye testyi bratislavskoj proyekcii                                        | 105,403 s    | uspeshno           |
+| [korenj] Profilj udaleniya pri pozdnikh metadannyikh Finder                                 | 1,874 s      | uspeshno           |
+| [korenj] Adresnoye primeneniye proyekcii posle ispravleniya pozdnego Finder                 | 52,33 s      | neuspeshno         |
+| [korenj] Povtornoye adresnoye primeneniye proyekcii posle recency                           | 299,058 s    | uspeshno           |
+| [korenj] Proverka dekompozicii pravil posle smenyi rezhima modeli                         | 0,062 s      | neuspeshno         |
+| [korenj] Povtornaya proverka dekompozicii pravil posle obnovleniya inventarya              | 0,059 s      | neuspeshno         |
+| [korenj] Tretjya proverka dekompozicii pravil posle tochnogo SHA                          | 0,11 s       | uspeshno           |
+| [korenj] RED rezhim low dlya avtomatizacii priyoma napravlenij                             | 0,095 s      | neuspeshno         |
+| [korenj] RED rezhim low dlya avtomatizacii priyoma napravlenij discover                    | 211,852 s    | prervano — SIGINT |
+| [korenj] RED adresnyij rezhim low dlya aktiviruyemyikh zadach                                  | 68,377 s     | prervano — SIGINT |
+| [korenj] GREEN adresnyij rezhim low dlya aktiviruyemyikh zadach                                | 10,768 s     | uspeshno           |
+| [korenj] Proverka diff bez probeljnyikh oshibok posle rezhima low                           | 0,276 s      | uspeshno           |
+| [korenj] Finaljnaya standartnaya priyomka ispravleniya pozdnego Finder i rezhima low         | 499,419 s    | neuspeshno         |
+| [korenj] GREEN mashinno-lokaljnyiye puti posle otchyota bez domashnego puti                   | 31,991 s     | uspeshno           |
+| [korenj] Povtornaya finaljnaya standartnaya priyomka posle ochistki otchyota ot domashnego puti | 528,538 s    | neuspeshno         |
+| [korenj] GREEN svyaznostj posle deklaracii massovyikh oblastej                             | 34,331 s     | neuspeshno         |
+| [korenj] Povtornaya svyaznostj posle normalizacii ssyilok katalogov                        | 33,583 s     | neuspeshno         |
+| [korenj] GREEN svyaznostj posle pokryitiya Proyekcii roditeljskim katalogom                | 32,179 s     | uspeshno           |
+| [korenj] Finaljnaya standartnaya priyomka posle zakryitiya svyaznosti                         | 1282,94 s    | uspeshno           |
+| [korenj] Proveritj probeljnyiye oshibki posle vosstanovleniya dialoga                       | 0,285 s      | uspeshno           |
+| [korenj] Proveritj probeljnyiye oshibki marshruta kompaktnogo chteniya                        | 0,273 s      | uspeshno           |
 
-Obsjheye vremya pryamyikh zapuskov proverok: 459,609 s.
+Obsjheye vremya pryamyikh zapuskov proverok: 3194,516 s.
 
 Ekonomnyij poryadok proverok: ne gotov.
 
@@ -77,7 +91,17 @@ Ekonomnyij poryadok proverok: ne gotov.
 - Poljzovatelj: `Kak rabotayetsya na lyugkoj Astra po sravneniyu s uljtrovoj?`
 - Otvet: Po pervyim shagam GPT-6 Astra Lyogkij trebuyet zhyostche vyinositj sostoyaniye v fajlyi i proverki: menjshe shirokikh dampov, boljshe tochechnyikh svodok, obyazateljnaya privyazka k Zhurnalu i JSONL. Dlya tekusjhego kontura eto priyemlemo, potomu chto rabota uzhe stroitsya kak proveryayemyij cikl uzkij shag -> artefakt -> proverka -> zapisj.
 
+## Vozobnovleniye posle prezhdevremennogo zaversheniya
+
+Plan dostavki ne zavershal soglasovannuyu rabotu. Posle voprosa poljzovatelya o povtornoj ostanovke rabota vozobnovlena: proverenyi fizicheskoye derevo, polnyij ref i prezhnij HEAD; nezavisimyij chitatelj podtverdil otsutstviye aktivnyikh proverok. Shtatnyij predprosmotr obnovlyon po vsem 22 terminaljnyim zapisyam. Poslednij uspeshnyij standartnyij zapusk zanyal 1282,940 s; prezhniye obesjhaniya budusjhego zapuska vyishe opisyivayut sostoyaniye do yego zaversheniya.
+
+Pozdniye utochneniya poljzovatelya zadayut obyichnyim zadacham nachaljnoye usiliye low, integraciyam ultra, a daljnejsheye regulirovaniye — po nablyudayemyim oshibkam, poteryam konteksta i ustojchivosti rezuljtata. Pereklyucheniya trebuyetsya sokhranyatj v Zhurnale s osnovaniyem i razlicheniyem zaproshennogo i podtverzhdyonnogo rezhima. Tekusjhaya realizaciya s fiksirovannyim low yesjhyo ne ispolnyayet eti utochneniya; prezhnij uspeshnyij progon ne dokazyivayet gotovnostj budusjhego adaptivnogo mekhanizma.
+
+Obnaruzhen pereraskhod pri pryamom vyivode polnogo ostatka JSONL. Novyij privatnyij snimok soderzhit 285 soobsjhenij, 39 837 pozdnikh svyazej i 11 855 511 bajtov; iskhodnyij chitatelj zavershilsya kodom 3. Polnyij fajl sokhranyon vne checkout. V susjhestvuyusjhej vetke optimizacii uzhe yestj kompaktnyij chitatelj s ogranichennyimi stranicami i ukazatelyami na originalyi. Zadacha optimizacii vozobnovlena s zaprosom proveritj etot mekhanizm na realjnom snimke i ustranitj probel podklyucheniya; povtornaya realizaciya ne nuzhna. Otdeljno sokhranyayetsya obyazateljstvo avtomaticheskogo obnaruzheniya i ispravleniya takogo pereraskhoda.
+
+Pozdniye 10 komand perenesenyi iz proverennogo privatnogo snimka v kanonicheskij zapros. Kompaktnyij sposob primenyon k realjnomu vkhodu: 8 881 bajt dlya poslednikh 10 iz 285 soobsjhenij za 91 422 500 ns; ostaljnyiye 275 ne obyyavlyayutsya rassmotrennyimi. Oba ispolnyayemyikh fajla uzhe prisutstvovali v etom dereve i pobajtovo sovpali s postavkoj. V lokaljnom navyike svyaznosti dobavlen pryamoj marshrut primeneniya bez povtornogo porucheniya. Ostatok: zakrepitj i realizovatj adaptivnoye usiliye; sokhranitj kontroljnuyu tochku s tochnyim diff; zatem prodolzhitj priyomku i integraciyu v fuma, posle neyo v master. Ni obnovleniye predprosmotra, ni publikaciya otdeljnoj vetki ne oznachayut prinyatoj integracii.
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 14:18:35 MSK -->
-<!-- content-sha256: sha256:4839661e7717126c28961f5f28f70997e18b814891f0deea3a27eafa46cdb50f -->
+<!-- last-content-edit: 2026-09-15 15:04:08 MSK -->
+<!-- content-sha256: sha256:d55b305503d99aa6a1f6e5a230c0553d36e4aa893d9e055a9299eb9873f89c01 -->
 <!-- FUM-MD-RECENCY:END -->

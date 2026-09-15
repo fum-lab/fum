@@ -39,7 +39,7 @@ final class InputEventMonitor: ObservableObject {
             requestInputMonitoringAccessIfDue()
             updateSnapshot(
                 status: "waiting_for_input_monitoring_permission",
-                message: "Input Monitoring access is not enabled for the running FUM.app LaunchAgent process."
+                message: "Input Monitoring access is not enabled for the running FUMA.app LaunchAgent process."
             )
             return
         }
@@ -81,7 +81,7 @@ final class InputEventMonitor: ObservableObject {
         ) else {
             updateSnapshot(
                 status: "event_tap_unavailable",
-                message: "Could not create a listen-only input event tap for FUM.app."
+                message: "Could not create a listen-only input event tap for FUMA.app."
             )
             return
         }
@@ -154,7 +154,7 @@ final class InputEventMonitor: ObservableObject {
             "recentEventCount": recentEventCount,
             "recentEvents": recentEvents,
             "recordsKeyCharacters": true,
-            "source": "FUM.app"
+            "source": "FUMA.app"
         ]
         writeJSON(fileSnapshot, to: latestURL)
 

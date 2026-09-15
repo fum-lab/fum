@@ -1,6 +1,6 @@
-# Prilozheniye FUM dlya macOS
+# Prilozheniye FUMA dlya macOS
 
-Kanonicheskiye iskhodniki prilozheniya nakhodyatsya v `Приложения/FUMA/macOS` monorepozitoriya FUM. Zdesj sokhranenyi 39 fajlov sobstvennoj narabotki iz kommita `39eb66a29c0be6844e73bcb8072e68b914ea7387` s adaptaciyej putej i sborki. Istoricheskiye imena produktov sokhranenyi. Iskhodnyiye i konechnyiye khyeshi perechislenyi v [manifeste perenosa](manifest-perenosa.json).
+Kanonicheskiye iskhodniki prilozheniya nakhodyatsya v `Приложения/FUMA/macOS` monorepozitoriya FUM. Zdesj sokhranenyi 39 fajlov sobstvennoj narabotki iz kommita `39eb66a29c0be6844e73bcb8072e68b914ea7387` s adaptaciyej putej i sborki. Swift-paket nazyivayetsya `FUMA`, Xcode sobirayet `FUMA.app` s ispolnyayemyim fajlom `FUMA`. Vnutrenniye targets, CLI-produktyi i identifikator `fum.app` sokhranenyi. Istoricheskiye iskhodnyiye i konechnyiye khyeshi pervonachaljnogo perenosa perechislenyi v [manifeste perenosa](manifest-perenosa.json).
 
 ## Sostav
 
@@ -61,6 +61,22 @@ xcodebuild -project Приложения/FUMA/macOS/FUM.xcodeproj -scheme FUM \
   CODE_SIGNING_ALLOWED=NO build
 ```
 
+Skhema `FUM` i imya proyekta sokhranenyi; rezuljtat komandyi — `xcode/Build/Products/Debug/FUMA.app` vnutri vneshnego kataloga sborki.
+
+## Proverka imeni prilozheniya
+
+Proverka istoricheskogo manifesta chitayet iskhodnuyu postavku `6599fe4837ef54efc7f871d2bfe6f8d9d07b4d95` cherez Git, poetomu trebuyet istoriyu s etim kommitom. Yego otsutstviye v shallow clone — nedostatochnaya istoriya dlya proverki proiskhozhdeniya; manifest ne pereschityivayetsya po tekusjhemu kodu.
+
+Posle `swift test` proveritj realjnyij MCP bez prilozheniya mozhno podstavnyim `pgrep`. Proverka vyizyivayet toljko `status`, ispoljzuyet vremennyiye otsutstvuyusjhiye katalogi i proveryayet najdennyij i otsutstvuyusjhij process. Desyatj obrazcov izmeryayut polnyij zapusk helper, zapros i zaversheniye; eto ne mikrobenchmark poiska OS.
+
+```sh
+FUMA_TEST_BIN="$(swift build --package-path Приложения/FUMA/macOS --scratch-path "$FUM_BUILD_ROOT" --show-bin-path)"
+PYTHONDONTWRITEBYTECODE=1 python3 Приложения/FUMA/macOS/проверки/проверить-обнаружение-приложения.py \
+  --сервер "$FUMA_TEST_BIN/fum-mcp"
+```
+
+[Proverka pereimenovaniya](https://github.com/fum-lab/fum/blob/7c6731eb6ec4977f8aa0a52334ba97ad44d0aabb/Журнал/2026-09-15_16-20-33_MSK_переименовать-приложение-FUMA/отчёт.md) soderzhit rezuljtatyi sborok, nastrojki Debug/Release i profilj obnaruzheniya. Shablonyi ustanovki ostayutsya otklyuchyonnyimi.
+
 ## Konfiguraciya dannyikh
 
 Vse processyi ispoljzuyut obsjhuyu konfiguraciyu `ПутиИсполнения`. Peremennyiye zadayut absolyutnyiye katalogi; otsutstvuyusjhiye znacheniya poluchayut sleduyusjhiye znacheniya po umolchaniyu. Pustoye znacheniye otklonyayetsya.
@@ -94,6 +110,6 @@ V iskhodnoj narabotke otdeljnogo LICENSE ne byilo. Sobstvennyij kod sokhranyayet
 Mekhanizm zavisimosti opisan v [dokumentacii SwiftPM](https://github.com/swiftlang/swift-package-manager/blob/main/Sources/PackageManagerDocs/Documentation.docc/Dependencies/AddingSystemLibraryDependency.md). Mashinnyiye znacheniya Xcode peredayutsya snaruzhi; [xcconfig](https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project) samostoyateljno shell-komandyi ne ispolnyayet.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 02:32:08 MSK -->
-<!-- content-sha256: sha256:bc7380ba3ea263f383d6f3276f948987b5568d85bfce385f3ec5ba5df89a1e08 -->
+<!-- last-content-edit: 2026-09-15 16:48:05 MSK -->
+<!-- content-sha256: sha256:6620211e6cb0485cdb32042c61e217cd8b247204855d5c33b5c2ac3b29e29d33 -->
 <!-- FUM-MD-RECENCY:END -->
