@@ -16,6 +16,8 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-16 00:04:12 MSK — Proveritj predposyilku integracii cherez PR](2026-09-16_00-04-12_MSK_proveritj-predposyilku-integracii-cherez-PR/otchyot.md)
+- [2026-09-15 23:33:01 MSK — Zakrepitj politiku novoj osnovyi](2026-09-15_23-33-01_MSK_zakrepitj-politiku-novoj-osnovyi/otchyot.md)
 - [2026-09-11 23:55:50 MSK — Prinyatj sliyaniye s profilyami prodolzheniya](2026-09-11_23-55-50_MSK_prinyatj-sliyaniye-s-profilyami-prodolzheniya/otchyot.md)
 - [2026-09-11 22:33:53 MSK - Soglasovatj profili dopuska prodolzheniya](2026-09-11_22-33-53_MSK_soglasovatj-profili-dopuska-prodolzheniya/otchyot.md)
 - [2026-09-11 21:58:48 MSK — Prinyatj sliyaniye posle ispravleniya putej](2026-09-11_21-58-48_MSK_prinyatj-sliyaniye-posle-ispravleniya-putej/otchyot.md)
@@ -604,6 +606,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-12 00:09:03 MSK -->
-<!-- content-sha256: sha256:2ca5586355082c7925d0d54f123345c6dd119e889eebb877aa9b84713c53b116 -->
+<!-- last-content-edit: 2026-09-16 00:12:37 MSK -->
+<!-- content-sha256: sha256:d44ea41eeb266dbab4a58d94ef4414566816cb333484b0b26c78c47a5813cb6a -->
 <!-- FUM-MD-RECENCY:END -->
