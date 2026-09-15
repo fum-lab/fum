@@ -140,8 +140,63 @@ class ПроверкаОтветаЗадачи(unittest.TestCase):
             адресованный = subprocess.run(команда + ["--путь-в-результате"], capture_output=True)
             проверка.assertEqual(адресованный.returncode, 0, адресованный.stderr)
             проверка.assertEqual(json.loads(адресованный.stdout)["полный_снимок"]["путь"], str(путь))
+            проверка.assertTrue(адресованный.stdout.endswith(b"\n"))
+            размер = len(адресованный.stdout)
+            for профиль in ("прежний", "порождённый"):
+                for бюджет in (размер, размер - 1):
+                    with проверка.subTest(профиль=профиль, бюджет=бюджет):
+                        точный = subprocess.run(команда + ["--путь-в-результате", "--профиль", профиль,
+                            "--максимум-байтов", str(бюджет)], capture_output=True)
+                        проверка.assertEqual(точный.returncode, 0 if бюджет == размер else 2, точный.stderr)
+                        проверка.assertEqual(точный.stdout, адресованный.stdout if бюджет == размер else b"")
             тесный = subprocess.run(команда + ["--путь-в-результате", "--максимум-байтов", str(len(успех.stdout))], capture_output=True)
             проверка.assertEqual(тесный.returncode, 2); проверка.assertEqual(тесный.stdout, b"")
             отказ = subprocess.run(команда + ["--максимум-байтов", "100"], capture_output=True)
             проверка.assertEqual(отказ.returncode, 2); проверка.assertEqual(отказ.stdout, b"")
             проверка.assertEqual(путь.read_bytes(), данные); проверка.assertEqual(list(Path(временный).iterdir()), [путь])
+
+    def test_явный_профиль_сохраняет_совместимость_и_строгие_границы(проверка):
+        варианты = []
+        for поле in ("ошибка", "опущенный-элемент"):
+            for значение in (-(2**63), 2**63 - 1, -(2**63) - 1, 2**63, 1.5):
+                вход = снимок_ответа()
+                if поле == "ошибка": вход["turns"][0]["error"] = значение
+                else: вход["turns"][0]["items"][1]["output"] = значение
+                причина = "Дробные" if type(значение) is float else "Int64" if not -(2**63) <= значение < 2**63 else None
+                варианты.append((f"{поле}-{значение}", закодировать(оболочка(вход)), ЗАДАЧА, причина))
+        for глубина in (64, 65):
+            вход = снимок_ответа(); вложенное = None
+            # Корень → turns → ход → items → элемент → output: пять уровней.
+            for _ in range(глубина - 5): вложенное = [вложенное]
+            вход["turns"][0]["items"][1]["output"] = вложенное
+            варианты.append((f"глубина-{глубина}", закодировать(оболочка(вход)), ЗАДАЧА,
+                "глубина" if глубина == 65 else None))
+        вход = снимок_ответа(); вход["turns"][0]["error"] = {"é": 1, "e\u0301": 2}
+        варианты.append(("совпадающие-ключи", закодировать(оболочка(вход)), ЗАДАЧА, "совпадающие ключи"))
+        for задача in ("aaaaaaaa-0000-0000-0000-000000000165", "AAAAAAAA-0000-0000-0000-000000000165", "старая-задача"):
+            вход = снимок_ответа(); вход["thread"]["id"] = задача
+            варианты.append(("идентичность-" + задача, закодировать(оболочка(вход)), задача,
+                None if задача.startswith("aaaaaaaa") else "UUID"))
+        текст = закодировать(оболочка(снимок_ответа())).decode("utf8")
+        for кодировка in ("utf-8-sig", "utf-16", "utf-32"):
+            варианты.append((кодировка, текст.encode(кодировка), ЗАДАЧА,
+                "UTF-8 BOM" if кодировка == "utf-8-sig" else "Повреждённый JSON"))
+        with tempfile.TemporaryDirectory() as временный:
+            путь = Path(временный) / "снимок.json"
+            for имя, данные, задача, причина in варианты:
+                with проверка.subTest(пример=имя):
+                    путь.write_bytes(данные)
+                    команда = [sys.executable, "-B", str(Path(__file__).resolve().parents[1] / "scripts/показать-ответ-задачи.py"),
+                        "--снимок", str(путь), "--sha256", hashlib.sha256(данные).hexdigest(), "--задача", задача]
+                    прежний = subprocess.run(команда, capture_output=True)
+                    проверка.assertEqual(прежний.returncode, 0, прежний.stderr)
+                    проверка.assertEqual(прежний.stdout,
+                        закодировать(представить_ответ(данные, hashlib.sha256(данные).hexdigest(), задача)))
+                    строгий = subprocess.run(команда + ["--профиль", "порождённый"], capture_output=True)
+                    проверка.assertEqual(строгий.returncode, 2 if причина else 0, строгий.stderr)
+                    if причина:
+                        проверка.assertEqual(строгий.stdout, b"")
+                        проверка.assertIn(причина, строгий.stderr.decode("utf8"))
+                    else: проверка.assertEqual(строгий.stdout, прежний.stdout)
+                    проверка.assertEqual(путь.read_bytes(), данные)
+            проверка.assertEqual(list(Path(временный).iterdir()), [путь])

@@ -62,7 +62,13 @@ Povtor FUM-SBOJ-0091/PROYAVLENIYE-0002 trebuyet do proyekcii proveryatj polnotu 
 
 `FUM-СБОЙ-0131/ПРОЯВЛЕНИЕ-0001` trebuyet proverennogo primera formyi rezuljtata susjhestvuyusjhego API: formatter vozvrasjhayet spisok strok, kotoryij obyyedinyayetsya LF pered obrabotkoj kak teksta. Oshibka chastnogo vyizova dolzhna obnaruzhivatjsya do zapisi dokumentov; import 0128 i tip rezuljtata 0131 ostayutsya otdeljnyimi granicami.
 
+## Vyibor rezhima proverki svyaznosti
+
+`FUM-СБОЙ-0134/ПРОЯВЛЕНИЕ-0001` trebuyet zaraneye razlichatj obyichnuyu svyaznostj vnutri aktivnoj otchyotnoj obyortki i otdeljnuyu zaklyuchiteljnuyu checkpoint-proverku. Nuzhnyi ponyatnyij vyibor po sostoyaniyu otchyota i rannij otkaz pri nesovmestimom flage, s sokhraneniyem zapreta aktivnyikh zapisej dlya kontroljnoj tochki. Ispravlennyij vyizov na tom zhe otpechatke podtverzhdayet ogranichennoye vosstanovleniye, ne gotovnostj obsjhej meryi.
+
 ## Istochniki
+
+- [FUM-SBOJ-0134/PROYAVLENIYE-0001](../../Sboi/FUM-SBOJ-0134-kontroljnaya-tochka-vnutri-obyortki.md) — [vyibor rezhima i vosstanovleniye](../../Zhurnal/2026-09-15_02-35-33_MSK_podklyuchitj-porozhdyonnyiye-modeli/otchyot.md).
 
 - [Povtor nepolnoj paryi Zhurnala](../../Sboi/FUM-SBOJ-0071-nepolnaya-para-zhurnala-pered-kontroljnoj-tochkoj.md) — tochnoye osnovaniye `FUM-СБОЙ-0071/ПРОЯВЛЕНИЕ-0002`; [pervichnaya proverka](../../Zhurnal/2026-09-11_10-00-32_MSK_zavershitj-priyom-napravlenij-FUMA/otchyot.md).
 - [Komandyi, otvetyi i obnaruzhennyiye problemyi](../../Zhurnal/2026-09-10_11-51-55_MSK_sokhranyatj-ostatok-obyazateljstv/zapros.md).
@@ -79,6 +85,6 @@ Povtor FUM-SBOJ-0091/PROYAVLENIYE-0002 trebuyet do proyekcii proveryatj polnotu 
 - [FUM-SBOJ-0131/PROYAVLENIYE-0001](../../Sboi/FUM-SBOJ-0131-nevernyij-tip-rezuljtata-formattera.md) — osnovaniye proverki formyi rezuljtata chastnogo vyizova.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 01:54:57 MSK -->
-<!-- content-sha256: sha256:353d316140ebdb807587cd8395fa93ec5b6ee339195f2ae9566e77b86ec11c40 -->
+<!-- last-content-edit: 2026-09-15 03:22:57 MSK -->
+<!-- content-sha256: sha256:7f507b85050529e9671c46e9740731d95ffc95a24d6cce696ce60cf104a1f7eb -->
 <!-- FUM-MD-RECENCY:END -->

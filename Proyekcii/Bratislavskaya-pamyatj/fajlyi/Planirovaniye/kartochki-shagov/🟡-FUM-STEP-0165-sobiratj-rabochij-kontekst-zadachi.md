@@ -60,7 +60,13 @@ V priyomke vetki 0165 podtverzhdena nesovmestimostj chetyiryokh sokhranyonnyikh 
 
 Sokhranenyi dve otdeljnyiye oshibki podgotovki vkhoda: terminaljnoye svideteljstvo u dostupnyikh rabot i strogij Swift lint bez kanonicheskoj konfiguracii. Ispravleniye dannyikh i uspeshnyij povtor podtverzhdayut vosstanovleniye. Predlozhennyiye meryi podgotovki plana i vosproizvodimoj komandyi proveryayutsya otdeljno po kriteriyam kartochek; ikh realizaciya ne obyyavlyayetsya vyipolnennoj i ne otkryivayet novoye napravleniye tekusjhego etapa.
 
+## Rannyaya granica imyon yavnogo CLI-profilya
+
+`FUM-СБОЙ-0045/ПРОЯВЛЕНИЕ-0004` vyiyavilo novoye sobstvennoye smeshannoye imya metadannyikh pri podklyuchenii profilya. Proverka do dorogoj priyomki otdelyayet yego ot vneshnikh wire-polej, sokhranyayet pervichnyiye otkazyi i privyazyivayet ispravleniye k tochnyim iskhodnyim SHA. V tekusjhem sreze imya ispravleno i pyatj izmenyonnyikh iskhodnikov vernuli 0 → 0; obsjhij snimok ne obnovlyalsya. Dlya povtoryayemoj meryi nuzhnyi rannyaya proverka sobstvennogo izmenyonnogo nabora i proveryayemaya svyazj pereimenovanij vne vremennoj granicyi s istoricheskimi izmereniyami. Uspekh tekusjhej ruchnoj lokalizacii ne zakryivayet etot obsjhij kriterij.
+
 ## Istochniki
+
+- [FUM-SBOJ-0045/PROYAVLENIYE-0004](../../Sboi/FUM-SBOJ-0045-drejf-snimka-obyyavlenij-koda.md) — novoye sobstvennoye imya v CLI-profile; [rannyaya proverka i vosstanovleniye](../../Zhurnal/2026-09-15_02-35-33_MSK_podklyuchitj-porozhdyonnyiye-modeli/otchyot.md).
 
 - [FUM-SBOJ-0045/PROYAVLENIYE-0003](../../Sboi/FUM-SBOJ-0045-drejf-snimka-obyyavlenij-koda.md) — povtor v priyomke 0165: 43800 protiv 43163; sobstvennaya deljta i unasledovannyij prirost klassificiruyutsya otdeljno, snimok ne obnovlyon.
 
@@ -80,6 +86,6 @@ Sokhranenyi dve otdeljnyiye oshibki podgotovki vkhoda: terminaljnoye svideteljst
 - [Adresnaya klassifikaciya sobstvennoj postavki i vkhodnyiye otkazyi](../../Zhurnal/2026-09-14_20-03-08_MSK_utochnitj-sobstvennyiye-imena-postavki/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-14 21:05:29 MSK -->
-<!-- content-sha256: sha256:331bfc204fc8e6740c41de49aa4c02b13c92ef9fe87d7ec1d66dc8236a9fdca4 -->
+<!-- last-content-edit: 2026-09-15 03:14:24 MSK -->
+<!-- content-sha256: sha256:b42648775b253f8df548e5bcb892b1da32392361afa54a78ab51af54c1f7971a -->
 <!-- FUM-MD-RECENCY:END -->
