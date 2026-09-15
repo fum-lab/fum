@@ -1,0 +1,174 @@
+{
+  "схема": "fum.профиль-пределов-восстановления.1",
+  "базовыйКоммит": "a9951ddcb0edc167a4928d69c99d49c5fb30bafb",
+  "базовыйБинарник": "852b094fb6acd5f6b9f10b5b3430b473e36f38c803805353bca72aca5e4d393b",
+  "новыйБинарник": "83cb80bf43bdce896e1dc3eb977defa01fa04e8d2bcea11bbef768d0599524ba",
+  "исходникиПосле": [
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Package.swift",
+      "sha256": "fa7e4d9007e2ee0cbc0fab23e162391d49f440e3fe1230cd0aef77b235b5c971"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Авторизация.swift",
+      "sha256": "514abf82ddd641ac7b50cc17b4a802a3380ab948657c49ee0f69d3ad723a4b01"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Данные.swift",
+      "sha256": "1fd3ffc59ad6698a1aa4b2ed25db5b655032fab49259075b315137f9f35d2eae"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Действия.swift",
+      "sha256": "4fc8d77f13c9611913cd7eac16adf21a57d1d9085dd7c03ce470b055bb12258d"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Мост.swift",
+      "sha256": "f984060db3a5548473a54a3770fe2ded12b2e0a583accec52e338dea2ae6b4cf"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Очередь.swift",
+      "sha256": "dc5c752923cb14576aeb34c9e02513aa683160983b6c447d4c477544d4123207"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/ПриватныеФайлы.swift",
+      "sha256": "bd102e6bff622bb98f0df8b738730a840582b8289b24ef71d7042f530622f4dc"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Профиль.swift",
+      "sha256": "0c88891f5d3b9d2c621eb4a15c96031d9412e151c6adc3d5a74b6e918f911dda"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/ПрофильВосстановления.swift",
+      "sha256": "58ae92567276d78f930160d0642ba0eb5ed43eaeef7046e3aab7c6194fb8e2b6"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Сверка.swift",
+      "sha256": "95f82f52a42362e7d55c963861a9317d130a67a62d12c4c860977e16dd3fbe59"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Сериализатор.swift",
+      "sha256": "86ac7ed94706d13147f0db994a72515135a21900232b551ca538d138995263e1"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/СквознойХвост.swift",
+      "sha256": "deddd7af82ad5128e387d3dbd841d36936888909e47340bbf4a3fdd533d86143"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Сообщения.swift",
+      "sha256": "7b3d1a5ef2ba803b591d3ed686a23c56a805c424440c700c53bcb50b85f7850f"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Среда.swift",
+      "sha256": "a24ab24f29e169fa3364acd82390b2a6a19eca9de47e127f4df15c330f797a1d"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Хранение.swift",
+      "sha256": "eef86eaaca579101f44c9b2e0ef7693dfacfebdda3b6faee5692f6777e82d59f"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/ЦиклПриёма.swift",
+      "sha256": "aa1b8f9df3556a238dbffdda05b7e10c90aee87ff888360682996822cef007b4"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Ядро.swift",
+      "sha256": "faae65fdad5e9421818ec450fd00c88c6489d601ecb010feec70f7673cca6073"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КлиентTelegram/Sources/ПроверкаTelegram/main.swift",
+      "sha256": "916d1b179ab7efa4ea7c8e0c40fd91af657dcc5df66b14cff482fdb75e02e897"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Package.swift",
+      "sha256": "a0f1c303f555ed9d5f795713c81b1ec30e3eeb18609eece85fdb579279ef592d"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/ВосстановительКонтейнера/main.swift",
+      "sha256": "7d7f36228aa4ca1d8a20c46dd883464be97c186faf70eda18d3c5bafed1d31bf"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Ввод.swift",
+      "sha256": "83c6a08c4be4201fe279adcd0caac4c78298e377b1a92511d1d2a5bc724b5acb"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Контракт.swift",
+      "sha256": "b3e1495434c885378c8bc8a6fa10150695e04da2f243c768ef71e5806d05b160"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Приватность.swift",
+      "sha256": "508e90ee77ab69ebde541b6ca76366ccf9d7964328d40a16a3ea35a4ddd89781"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Сегмент.swift",
+      "sha256": "cac76abf5aa1ac88f2e72e6692f94a1cf0afcadefc07498d0388ee554165238a"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Файлы.swift",
+      "sha256": "6a97a004a15aea2e483c1b71de9b2a10141985abc94d037ab148d4b3bc244e2f"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/КонтейнерНаблюдений/Формат.swift",
+      "sha256": "6d19959226189ce0df9d5c3e4519b4c0e535b79b263dfde2a8201374e77ecc07"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/ПисательКонтейнера/main.swift",
+      "sha256": "ea282dae86fea64b7db8572a673c660c112fc2e38fe70bd3479488ca4359f4fe"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/ПрофильКонтейнера/main.swift",
+      "sha256": "979e4a33aa8442a86bb68c546c0f997f53a4459912fb45548c78adc501bd1aab"
+    },
+    {
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Sources/ЧитательКонтейнера/main.swift",
+      "sha256": "ab9d86ad9a4a61b8f1898076cbda3a78785a43fe4301c7d76467b3d5312c7cdd"
+    }
+  ],
+  "среда": {
+    "macOS": "27.0 26A428",
+    "Swift": "6.4 swiftlang-6.4.0.34.1 clang-2100.3.34.1",
+    "swiftDriver": "1.168.6",
+    "SDK": "27.0 26A425",
+    "конфигурация": "Release",
+    "jobs": 1,
+    "работники": "не измерены"
+  },
+  "порядок": [
+    [
+      "база",
+      "предел"
+    ],
+    [
+      "предел",
+      "база"
+    ],
+    [
+      "база",
+      "предел"
+    ]
+  ],
+  "сводка": [
+    {
+      "вариант": "база",
+      "попыток": 16,
+      "медианаСекунд": 0.011304625,
+      "медианаRSSПосле": 8847360
+    },
+    {
+      "вариант": "база",
+      "попыток": 256,
+      "медианаСекунд": 0.176352208,
+      "медианаRSSПосле": 12894208
+    },
+    {
+      "вариант": "предел",
+      "попыток": 16,
+      "медианаСекунд": 0.011463708,
+      "медианаRSSПосле": 8896512
+    },
+    {
+      "вариант": "предел",
+      "попыток": 256,
+      "медианаСекунд": 0.175120292,
+      "медианаRSSПосле": 12910592
+    }
+  ],
+  "граница": "Три пары, одинаковые логические фикстуры, UUID и шифротекст различаются. Кэш и нагрузка ОС не изолированы. RSS до/после не измеряет пик отдельного интервала. Не доказан общий предел памяти клиента. Решение: сохранить проверки словарей без усложнения; ускорение не заявляется."
+}
