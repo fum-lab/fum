@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-11 22:33:53 MSK - Soglasovatj profili dopuska prodolzheniya](../2026-09-11_22-33-53_MSK_soglasovatj-profili-dopuska-prodolzheniya/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-15 23:33:01 MSK - Zakrepitj politiku novoj osnovyi](../2026-09-15_23-33-01_MSK_zakrepitj-politiku-novoj-osnovyi/zapros.md)
 
 ## Tekst zaprosa
 
@@ -139,6 +139,6 @@ Pryamyiye vyizovyi registriruyet obyortka M1 v [otchyote](otchyot.md). Snachala 
 Istochnik proverok M1 — `5670e469f0cd271c80484e3ebcac0ca40971cba2`; iskhodnaya vedusjhaya osnova L — `a728283474931eda71cd581ca5429121124ba3f6`. Neprinyataya kontroljnaya tochka `de9f81fec9e2bad840c6e37b049f5734f544d07b` sokhranena i opublikovana otdeljno. Yeyo proverennyiye resheniya perenesenyi sravneniyem tochnyikh Git-obyyektov s prezhnim master; novyij kommit budet imetj roditelej [L, M1]. Korenj — yedinstvennyij pisatelj kandidata. Soobsjheniya250–262 vosstanovlenyi iz kvalificirovannogo JSONL i perenesenyi iz dolgovechnogo chernovika; zapisj proiskhozhdeniya ne oznachayet vyipolneniya trebovanij.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-12 00:09:03 MSK -->
-<!-- content-sha256: sha256:056a651b41f5d23cc07b0fa52a3e3c13fba1d6c57dd0873e71fe403649e7dcef -->
+<!-- last-content-edit: 2026-09-15 23:40:07 MSK -->
+<!-- content-sha256: sha256:0c347ba0102528c19929af094b53db6802a6bdf2edcbd80ef29cf52b45eca38c -->
 <!-- FUM-MD-RECENCY:END -->
