@@ -24,6 +24,6 @@
 - `structured-data.json`
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-14 14:47:35 MSK -->
+<!-- last-content-edit: 2026-09-15 19:22:27 MSK -->
 <!-- content-sha256: sha256:c4af0f1d3c6a93bcd4e7cb31ca1e54bcc6a1971c1d0c66129c2aae8f1b6d7d9b -->
 <!-- FUM-MD-RECENCY:END -->
