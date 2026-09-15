@@ -1,0 +1,33 @@
+{
+  "база": "08b81e1b23fd6541d9dc5fce0ec800a1148b3daf",
+  "выводШа256": "72bbddf53b110af5027f0779d1a55549f11d66c9f483c2ffa96328f0bdef2809",
+  "длительностьНаносекунд": 21149371542,
+  "запрошеноJobs": 1,
+  "исходникиНеИзменились": true,
+  "исходникиШа256": {
+    "Приложения/FUMA/Packages/КлиентTelegram/Package.swift": "fa7e4d9007e2ee0cbc0fab23e162391d49f440e3fe1230cd0aef77b235b5c971",
+    "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Авторизация.swift": "514abf82ddd641ac7b50cc17b4a802a3380ab948657c49ee0f69d3ad723a4b01",
+    "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Данные.swift": "1fd3ffc59ad6698a1aa4b2ed25db5b655032fab49259075b315137f9f35d2eae",
+    "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Действия.swift": "4fc8d77f13c9611913cd7eac16adf21a57d1d9085dd7c03ce470b055bb12258d",
+    "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Мост.swift": "f984060db3a5548473a54a3770fe2ded12b2e0a583accec52e338dea2ae6b4cf",
+    "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Очередь.swift": "dc5c752923cb14576aeb34c9e02513aa683160983b6c447d4c477544d4123207",
+    "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/ПриватныеФайлы.swift": "bd102e6bff622bb98f0df8b738730a840582b8289b24ef71d7042f530622f4dc",
+    "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Профиль.swift": "0c88891f5d3b9d2c621eb4a15c96031d9412e151c6adc3d5a74b6e918f911dda",
+    "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/ПрофильВосстановления.swift": "f48e963a1edd2a747fd599981b5908fe57f10db5edec67b8fe57f174e3ba0ff1",
+    "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Сверка.swift": "95f82f52a42362e7d55c963861a9317d130a67a62d12c4c860977e16dd3fbe59",
+    "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Сериализатор.swift": "86ac7ed94706d13147f0db994a72515135a21900232b551ca538d138995263e1",
+    "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/СквознойХвост.swift": "6d627c3f7164ca4fa80ea7cc944705345b745df99d03280d77cc7e9bb8987424",
+    "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Сообщения.swift": "7b3d1a5ef2ba803b591d3ed686a23c56a805c424440c700c53bcb50b85f7850f",
+    "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Среда.swift": "a24ab24f29e169fa3364acd82390b2a6a19eca9de47e127f4df15c330f797a1d",
+    "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Хранение.swift": "fb18d50e3c860b0c60b0c6e4607f115b288b2d7f6c7ed039147c0307823b72cf",
+    "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/ЦиклПриёма.swift": "aa1b8f9df3556a238dbffdda05b7e10c90aee87ff888360682996822cef007b4",
+    "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Ядро.swift": "1cd42d043973bd760f8e4923561b4588199d226864e137aa5ac909e2cdfb70ad",
+    "Приложения/FUMA/Packages/КлиентTelegram/Sources/ПроверкаTelegram/main.swift": "916d1b179ab7efa4ea7c8e0c40fd91af657dcc5df66b14cff482fdb75e02e897"
+  },
+  "код": 0,
+  "командаШа256": "cb4781d13c2e3ed336850946a1c6afb124f68534c996de6abec9a7f4ec402119",
+  "конфигурация": "Release",
+  "система": "swiftbuild",
+  "схема": "fum.сборка-справки-телеграма.1",
+  "фактическиеРаботники": "не установлено"
+}

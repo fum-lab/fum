@@ -21,6 +21,14 @@ from path_forms import detect_path_forms
 
 
 class PathFormsTests(unittest.TestCase):
+    def test_относительный_компонент_плюс_плюс_не_скрывает_абсолюты(сам):
+        for строка in ("C++/TDLib", "сборка C++/TDLib и CPU/RSS"):
+            with сам.subTest(строка=строка):
+                сам.assertEqual(detect_path_forms(строка), ())
+        for строка in ("+/tmp/файл", "C++ /tmp/файл", ">/tmp/файл", "C++/TDLib /tmp/файл"):
+            with сам.subTest(строка=строка):
+                сам.assertEqual(tuple(форма.value for форма in detect_path_forms(строка)), ("/tmp/файл",))
+
     def assert_kinds(self, text: str, *expected: str) -> None:
         self.assertEqual(
             tuple(form.kind for form in detect_path_forms(text)),

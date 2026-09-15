@@ -1,0 +1,49 @@
+"""Проверить реальные байты справки и измерить пять отдельных запусков CLI."""
+
+import hashlib
+import json
+from pathlib import Path
+import statistics
+import subprocess
+import sys
+import time
+
+
+def проверить(команда: Path) -> int:
+    корень = Path(__file__).resolve().parents[5]
+    sys.path.insert(0, str(корень / "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts"))
+    from path_forms import detect_path_forms
+
+    отпечаток = hashlib.sha256(команда.read_bytes()).hexdigest()
+    измерения = []
+    справка = None
+    for _ in range(5):
+        начало = time.perf_counter_ns()
+        процесс = subprocess.run([str(команда), "--help"], capture_output=True, timeout=5)
+        измерения.append(time.perf_counter_ns() - начало)
+        if процесс.returncode != 0 or процесс.stderr:
+            raise ValueError("Справка должна завершиться успешно без stderr")
+        if справка is not None and справка != процесс.stdout:
+            raise ValueError("Справка изменилась между запусками")
+        справка = процесс.stdout
+    текст = справка.decode("utf-8", errors="strict")
+    формы = detect_path_forms(текст)
+    результат = {
+        "схема": "fum.публикация-справки-телеграма.1",
+        "командаШа256": отпечаток,
+        "справкаШа256": hashlib.sha256(справка).hexdigest(),
+        "запусков": len(измерения),
+        "длительностиНаносекунд": измерения,
+        "медианаНаносекунд": statistics.median(измерения),
+        "машинныхПутей": len(формы),
+    }
+    if hashlib.sha256(команда.read_bytes()).hexdigest() != отпечаток:
+        raise ValueError("Команда изменилась во время измерения")
+    print(json.dumps(результат, ensure_ascii=False, sort_keys=True))
+    return 1 if формы else 0
+
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2 or not Path(sys.argv[1]).is_absolute():
+        raise SystemExit("Нужен абсолютный путь собранной команды")
+    raise SystemExit(проверить(Path(sys.argv[1])))

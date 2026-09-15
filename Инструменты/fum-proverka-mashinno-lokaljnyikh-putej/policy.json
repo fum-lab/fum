@@ -3771,6 +3771,231 @@
       "count": 1,
       "category": "allow.path-validation-definition",
       "reason": "Регулярное выражение распознаёт ограду Markdown из обратных кавычек либо тильд; тильда здесь не является домашним путём."
+    },
+    {
+      "id": "telegram-0222-bridge-fixture-20",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиМоста.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c3fc871b976ed187d02030077cb9031211628e88a0f55947721113c7038df3fc",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая отрицательная фикстура отсутствующей библиотеки в тесте продукционного моста STEP0222; исходные байты сохранены в 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-private-acl-fixture-119",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиПриватности.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:68132f7c3845336cadb9771c21c0a9f8dcb9fab00061589022f2ad783aea45bf",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Штатный системный chmod macOS устанавливает настоящий ACL отрицательной фикстуры приватного доступа STEP0222. Это создание тестового состояния, а не обезличенный пример runtime-пути; точный абсолют исключает случайный GNU chmod из PATH."
+    },
+    {
+      "id": "telegram-0222-serializer-fixture-21",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:00d7a74d79fb5a0583abb7b39d245f4591a3abf7536a43ea3556a30e567d00be",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая таблица сериализатора STEP0222: вымышленные пути вложений проверяют точные допустимые запросы и отказ неверных данных без чтения пользовательских файлов; база 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-serializer-fixture-25",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:5f6e419f9695df8c3395ea26ac799a73b8338ab47a0e7e09a2221444c6faaf6e",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая таблица сериализатора STEP0222: вымышленные пути вложений проверяют точные допустимые запросы и отказ неверных данных без чтения пользовательских файлов; база 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-serializer-fixture-27",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:86629e528dafd8d050d290d6c9db1b173d9f3fefbe2436542a32cda03149ea3d",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая таблица сериализатора STEP0222: вымышленные пути вложений проверяют точные допустимые запросы и отказ неверных данных без чтения пользовательских файлов; база 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-serializer-fixture-29",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:5ed3fca7d91e056a905e2435fbae4d820994d440867cc1a868a293e7780bc9c7",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая таблица сериализатора STEP0222: вымышленные пути вложений проверяют точные допустимые запросы и отказ неверных данных без чтения пользовательских файлов; база 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-serializer-fixture-36",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c13895f4cfbbfd490e2bbcefa35b73218ea2edbe0401c51c85130405e42c9e83",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая таблица сериализатора STEP0222: вымышленные пути вложений проверяют точные допустимые запросы и отказ неверных данных без чтения пользовательских файлов; база 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-serializer-fixture-39",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:08b9fb0d2476daf7b1a226e3bc4c80c2855c5f15a94683ca8d894a46c2f11e27",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая таблица сериализатора STEP0222: вымышленные пути вложений проверяют точные допустимые запросы и отказ неверных данных без чтения пользовательских файлов; база 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-serializer-fixture-43",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:a85de8fca551f8335122876afcafd450030614128f055e4a6c27622e6e2df920",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая таблица сериализатора STEP0222: вымышленные пути вложений проверяют точные допустимые запросы и отказ неверных данных без чтения пользовательских файлов; база 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-profile-error-fixture-49",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_измерение_команды.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:fbc56726b96eeea635cd032e482f37f75fe99d52183ee9fe5715b5b28ae6d2c7",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Вымышленный приватный хвост в автономной фикстуре отказа исполнителя профиля STEP0222: проверяются сохранение stderr и отсутствие пути в публичном JSON; база 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-profile-error-fixture-50",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_измерение_команды.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:7f1bff6b92a3d79e5ee63f2d738d17e9f013e3b479a90ddce0e647fe7dd00630",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Вымышленный приватный хвост в автономной фикстуре отказа исполнителя профиля STEP0222: проверяются сохранение stderr и отсутствие пути в публичном JSON; база 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-profile-error-fixture-54",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_измерение_команды.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:3ca6e05531cc9e91ef79c4aa2cf51d00c95d90954abdbc2b487c5d45d62aeac0",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Вымышленный приватный хвост в автономной фикстуре отказа исполнителя профиля STEP0222: проверяются сохранение stderr и отсутствие пути в публичном JSON; база 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-profile-error-fixture-67",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_измерение_команды.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:9c939f7796d2fe28ca2dadec330829c63dc9d75ca6aff00695feedae083c4518",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Вымышленный приватный хвост в автономной фикстуре отказа исполнителя профиля STEP0222: проверяются сохранение stderr и отсутствие пути в публичном JSON; база 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-cli-fixture-23",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/проверить-команду.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:7c2dac1e62faf128ef2b62a8bcb23fae34c753feff2a798eff8d92110a4af864",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Отрицательный вход автономной CLI-проверки STEP0222: несовместимые флаги или заведомо отсутствующая библиотека. Фикстура не загружает настоящую TDLib и не содержит пути пользователя; база 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-cli-fixture-26",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/проверить-команду.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:41dbb8b02d123399f07582583e10f0b4b31bb04aee445e23563d7122fed25f6a",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Отрицательный вход автономной CLI-проверки STEP0222: несовместимые флаги или заведомо отсутствующая библиотека. Фикстура не загружает настоящую TDLib и не содержит пути пользователя; база 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-cli-fixture-27",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/проверить-команду.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:8e4bfe11249fc13b8af4699f8abf284c3e3c912f946aa6488b698b41b8f36830",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Отрицательный вход автономной CLI-проверки STEP0222: несовместимые флаги или заведомо отсутствующая библиотека. Фикстура не загружает настоящую TDLib и не содержит пути пользователя; база 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-profile-snapshot-23",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Профили/снимки/исполнитель-первого-измерения.py.txt",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:7c2dac1e62faf128ef2b62a8bcb23fae34c753feff2a798eff8d92110a4af864",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Неисполняемый исторический снимок исполнителя первого измерения STEP0222: e0b1b92aaa20767f34ca7f11c66a6d7cf51d23df, SHA-256 05f5f4a99124593e9e67c98034b64e939dd34d8ddfe6c71d52c74e73ceb31e63, происхождение связано в Профили/README.md и исходном JSON измерения. Поздние исправления ему не приписываются."
+    },
+    {
+      "id": "telegram-0222-profile-snapshot-26",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Профили/снимки/исполнитель-первого-измерения.py.txt",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:41dbb8b02d123399f07582583e10f0b4b31bb04aee445e23563d7122fed25f6a",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Неисполняемый исторический снимок исполнителя первого измерения STEP0222: e0b1b92aaa20767f34ca7f11c66a6d7cf51d23df, SHA-256 05f5f4a99124593e9e67c98034b64e939dd34d8ddfe6c71d52c74e73ceb31e63, происхождение связано в Профили/README.md и исходном JSON измерения. Поздние исправления ему не приписываются."
+    },
+    {
+      "id": "telegram-0222-profile-snapshot-27",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Профили/снимки/исполнитель-первого-измерения.py.txt",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:8e4bfe11249fc13b8af4699f8abf284c3e3c912f946aa6488b698b41b8f36830",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Неисполняемый исторический снимок исполнителя первого измерения STEP0222: e0b1b92aaa20767f34ca7f11c66a6d7cf51d23df, SHA-256 05f5f4a99124593e9e67c98034b64e939dd34d8ddfe6c71d52c74e73ceb31e63, происхождение связано в Профили/README.md и исходном JSON измерения. Поздние исправления ему не приписываются."
+    },
+    {
+      "id": "telegram-0222-history-suffix-112",
+      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/отображение_основания.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:99574973c89396ea504e769b7b37b1d289ff21f4ebc18bd2a7b14968fe13528d",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Точный суффикс имени при проверке набора репозиторных путей истории сообщений. Строка endswith не открывает абсолютный путь и не задаёт runtime-корень; исходное определение сохранено в 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-history-fixture-173",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_отображения_основания.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2c40de1301fd93de2ae556b616f2e3d908966bde7925f2ad62909437db055eb7",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Автономная фикстура проверки основания отчёта и сохранности истории сообщений: только временный репозиторий теста и искусственные имена; исходные строки в 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-history-fixture-253",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_отображения_основания.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:791069ab6c949c437699c22ef665baec9dd715863da83c8105aecd8ac2891708",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Автономная фикстура проверки основания отчёта и сохранности истории сообщений: только временный репозиторий теста и искусственные имена; исходные строки в 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-historical-worktree-74",
+      "path": "Журнал/2026-09-11_19-46-28_MSK_подготовить-реализацию-Telegram-TDLib/запрос.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:8b5b1aeb9c1c66492e0b653a0b42fcf57598c6060754bf2a04bcbcbe1344ffc5",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Реальный унаследованный путь назначенного worktree в историческом свидетельстве постановки 5044b730a77c89d87a23aaec9e02ce7b05960e7f. Это не обезличенный пример; байты сохраняются по уточнению координатора 16 текущего этапа. Льгота относится только к этой строке и не разрешает новые машинные пути."
+    },
+    {
+      "id": "telegram-0222-plus-boundary-fixture-28",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:3741844796c091f4c1ed968edd0c1599ff24d9d113c3e213c83f9a584a87874c",
+      "count": 4,
+      "category": "allow.test-fixture",
+      "reason": "Открытые отрицательные фикстуры текущего исправления C++: соседние абсолюты и одиночный плюс должны продолжать распознаваться. RED текущего этапа подтвердил ошибочную дополнительную форму, GREEN сохраняет обнаружение действительных форм."
+    },
+    {
+      "id": "telegram-0222-plus-boundary-fixture-30",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b0c4bb87cad44af9bae62c9b85e18a0fe9a761616fca58b3be18d189fdb79d24",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытые отрицательные фикстуры текущего исправления C++: соседние абсолюты и одиночный плюс должны продолжать распознаваться. RED текущего этапа подтвердил ошибочную дополнительную форму, GREEN сохраняет обнаружение действительных форм."
     }
   ]
 }

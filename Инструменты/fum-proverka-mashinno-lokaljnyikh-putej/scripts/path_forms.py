@@ -91,6 +91,10 @@ def _follows_closing_inline_code_delimiter(text: str, start: int) -> bool:
 def _is_posix_candidate(text: str, start: int, value: str) -> bool:
     if value == "/hooks":
         return False
+    # В относительном сочетании C++/TDLib косая черта продолжает имя компонента.
+    # Одиночный плюс и отделённый пробелом абсолютный путь остаются кандидатами.
+    if start >= 3 and text[start - 2:start] == "++" and (text[start - 3].isalnum() or text[start - 3] == "_"):
+        return False
     if _follows_closing_inline_code_delimiter(text, start):
         return False
     if start > 0 and text[start - 1] == ">" and re.search(

@@ -1,0 +1,180 @@
+{
+  "schema": "fum.machine-local-path-policy-update.v1",
+  "declarations": [
+    {
+      "id": "telegram-0222-bridge-fixture-20",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиМоста.swift",
+      "line": 20,
+      "category": "allow.test-fixture",
+      "reason": "Открытая отрицательная фикстура отсутствующей библиотеки в тесте продукционного моста STEP0222; исходные байты сохранены в 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-private-acl-fixture-119",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиПриватности.swift",
+      "line": 119,
+      "category": "allow.test-fixture",
+      "reason": "Штатный системный chmod macOS устанавливает настоящий ACL отрицательной фикстуры приватного доступа STEP0222. Это создание тестового состояния, а не обезличенный пример runtime-пути; точный абсолют исключает случайный GNU chmod из PATH."
+    },
+    {
+      "id": "telegram-0222-serializer-fixture-21",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift",
+      "line": 21,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая таблица сериализатора STEP0222: вымышленные пути вложений проверяют точные допустимые запросы и отказ неверных данных без чтения пользовательских файлов; база 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-serializer-fixture-25",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift",
+      "line": 25,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая таблица сериализатора STEP0222: вымышленные пути вложений проверяют точные допустимые запросы и отказ неверных данных без чтения пользовательских файлов; база 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-serializer-fixture-27",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift",
+      "line": 27,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая таблица сериализатора STEP0222: вымышленные пути вложений проверяют точные допустимые запросы и отказ неверных данных без чтения пользовательских файлов; база 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-serializer-fixture-29",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift",
+      "line": 29,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая таблица сериализатора STEP0222: вымышленные пути вложений проверяют точные допустимые запросы и отказ неверных данных без чтения пользовательских файлов; база 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-serializer-fixture-36",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift",
+      "line": 36,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая таблица сериализатора STEP0222: вымышленные пути вложений проверяют точные допустимые запросы и отказ неверных данных без чтения пользовательских файлов; база 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-serializer-fixture-39",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift",
+      "line": 39,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая таблица сериализатора STEP0222: вымышленные пути вложений проверяют точные допустимые запросы и отказ неверных данных без чтения пользовательских файлов; база 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-serializer-fixture-43",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиСериализатора.swift",
+      "line": 43,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая таблица сериализатора STEP0222: вымышленные пути вложений проверяют точные допустимые запросы и отказ неверных данных без чтения пользовательских файлов; база 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-profile-error-fixture-49",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_измерение_команды.py",
+      "line": 49,
+      "category": "allow.test-fixture",
+      "reason": "Вымышленный приватный хвост в автономной фикстуре отказа исполнителя профиля STEP0222: проверяются сохранение stderr и отсутствие пути в публичном JSON; база 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-profile-error-fixture-50",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_измерение_команды.py",
+      "line": 50,
+      "category": "allow.test-fixture",
+      "reason": "Вымышленный приватный хвост в автономной фикстуре отказа исполнителя профиля STEP0222: проверяются сохранение stderr и отсутствие пути в публичном JSON; база 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-profile-error-fixture-54",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_измерение_команды.py",
+      "line": 54,
+      "category": "allow.test-fixture",
+      "reason": "Вымышленный приватный хвост в автономной фикстуре отказа исполнителя профиля STEP0222: проверяются сохранение stderr и отсутствие пути в публичном JSON; база 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-profile-error-fixture-67",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/test_измерение_команды.py",
+      "line": 67,
+      "category": "allow.test-fixture",
+      "reason": "Вымышленный приватный хвост в автономной фикстуре отказа исполнителя профиля STEP0222: проверяются сохранение stderr и отсутствие пути в публичном JSON; база 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-cli-fixture-23",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/проверить-команду.py",
+      "line": 23,
+      "category": "allow.test-fixture",
+      "reason": "Отрицательный вход автономной CLI-проверки STEP0222: несовместимые флаги или заведомо отсутствующая библиотека. Фикстура не загружает настоящую TDLib и не содержит пути пользователя; база 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-cli-fixture-26",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/проверить-команду.py",
+      "line": 26,
+      "category": "allow.test-fixture",
+      "reason": "Отрицательный вход автономной CLI-проверки STEP0222: несовместимые флаги или заведомо отсутствующая библиотека. Фикстура не загружает настоящую TDLib и не содержит пути пользователя; база 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-cli-fixture-27",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Проверки/проверить-команду.py",
+      "line": 27,
+      "category": "allow.test-fixture",
+      "reason": "Отрицательный вход автономной CLI-проверки STEP0222: несовместимые флаги или заведомо отсутствующая библиотека. Фикстура не загружает настоящую TDLib и не содержит пути пользователя; база 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-profile-snapshot-23",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Профили/снимки/исполнитель-первого-измерения.py.txt",
+      "line": 23,
+      "category": "report.historical",
+      "reason": "Неисполняемый исторический снимок исполнителя первого измерения STEP0222: e0b1b92aaa20767f34ca7f11c66a6d7cf51d23df, SHA-256 05f5f4a99124593e9e67c98034b64e939dd34d8ddfe6c71d52c74e73ceb31e63, происхождение связано в Профили/README.md и исходном JSON измерения. Поздние исправления ему не приписываются."
+    },
+    {
+      "id": "telegram-0222-profile-snapshot-26",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Профили/снимки/исполнитель-первого-измерения.py.txt",
+      "line": 26,
+      "category": "report.historical",
+      "reason": "Неисполняемый исторический снимок исполнителя первого измерения STEP0222: e0b1b92aaa20767f34ca7f11c66a6d7cf51d23df, SHA-256 05f5f4a99124593e9e67c98034b64e939dd34d8ddfe6c71d52c74e73ceb31e63, происхождение связано в Профили/README.md и исходном JSON измерения. Поздние исправления ему не приписываются."
+    },
+    {
+      "id": "telegram-0222-profile-snapshot-27",
+      "path": "Приложения/FUMA/Packages/КлиентTelegram/Профили/снимки/исполнитель-первого-измерения.py.txt",
+      "line": 27,
+      "category": "report.historical",
+      "reason": "Неисполняемый исторический снимок исполнителя первого измерения STEP0222: e0b1b92aaa20767f34ca7f11c66a6d7cf51d23df, SHA-256 05f5f4a99124593e9e67c98034b64e939dd34d8ddfe6c71d52c74e73ceb31e63, происхождение связано в Профили/README.md и исходном JSON измерения. Поздние исправления ему не приписываются."
+    },
+    {
+      "id": "telegram-0222-history-suffix-112",
+      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/отображение_основания.py",
+      "line": 112,
+      "category": "allow.path-validation-definition",
+      "reason": "Точный суффикс имени при проверке набора репозиторных путей истории сообщений. Строка endswith не открывает абсолютный путь и не задаёт runtime-корень; исходное определение сохранено в 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-history-fixture-173",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_отображения_основания.py",
+      "line": 173,
+      "category": "allow.test-fixture",
+      "reason": "Автономная фикстура проверки основания отчёта и сохранности истории сообщений: только временный репозиторий теста и искусственные имена; исходные строки в 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-history-fixture-253",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_отображения_основания.py",
+      "line": 253,
+      "category": "allow.test-fixture",
+      "reason": "Автономная фикстура проверки основания отчёта и сохранности истории сообщений: только временный репозиторий теста и искусственные имена; исходные строки в 08b81e1b23fd6541d9dc5fce0ec800a1148b3daf."
+    },
+    {
+      "id": "telegram-0222-historical-worktree-74",
+      "path": "Журнал/2026-09-11_19-46-28_MSK_подготовить-реализацию-Telegram-TDLib/запрос.md",
+      "line": 74,
+      "category": "report.historical",
+      "reason": "Реальный унаследованный путь назначенного worktree в историческом свидетельстве постановки 5044b730a77c89d87a23aaec9e02ce7b05960e7f. Это не обезличенный пример; байты сохраняются по уточнению координатора 16 текущего этапа. Льгота относится только к этой строке и не разрешает новые машинные пути."
+    },
+    {
+      "id": "telegram-0222-plus-boundary-fixture-28",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "line": 28,
+      "category": "allow.test-fixture",
+      "reason": "Открытые отрицательные фикстуры текущего исправления C++: соседние абсолюты и одиночный плюс должны продолжать распознаваться. RED текущего этапа подтвердил ошибочную дополнительную форму, GREEN сохраняет обнаружение действительных форм."
+    },
+    {
+      "id": "telegram-0222-plus-boundary-fixture-30",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "line": 30,
+      "category": "allow.test-fixture",
+      "reason": "Открытые отрицательные фикстуры текущего исправления C++: соседние абсолюты и одиночный плюс должны продолжать распознаваться. RED текущего этапа подтвердил ошибочную дополнительную форму, GREEN сохраняет обнаружение действительных форм."
+    }
+  ]
+}
