@@ -27,7 +27,16 @@ Status — `🟡`: osnova vyibrana i zaplanirovana. [Pervyij shag](../Planirovan
 
 Vyibor SwiftNIO ne isklyuchayet ni odnu celj iz [platformennogo trebovaniya](🟡-zapusk-FUMA-na-celevyikh-platformakh.md). Yesli pryamoj transport NIO dlya tochnogo profilya ne podtverzhdyon, plan sokhranyayet neizvestnoye i rassmatrivayet otdeljnyij adapter ili sposob vzaimodejstviya, ne obyyavlyaya yego uzhe realizovannyim. Vozmozhnosti dostupa k seti i vozmozhnosti menyatj yeyo nastrojki imeyut raznuyu oblastj.
 
+## Razdeleniye I2P-profilej
+
+Fajlovyij BitTorrent-scenarij I2P planiruyetsya cherez vstroyennyij SAM libtorrent-rasterbar. Sobstvennyij Swift-sloj upravlyayet bibliotekoj, parametrami, sostoyaniyem i prikladnoj proverkoj obyyekta; on ne vyidayotsya za uzhe gotovyij SAM-kliyent na SwiftNIO. Nuzhnyiye tochnyiye API i granicyi resursa podtverzhdayutsya na vyibrannom pin do realizacii.
+
+Sobstvennyij SAM 3.1 STREAM-kliyent poverkh vyibrannogo SwiftNIO ostayotsya otdeljnyim budusjhim profilem servisov vne BitTorrent. V nyom NIO obsluzhivayet transport, sobyitiya i obratnoye davleniye, a SAM-sessiya, Destination, razresheniye I2P-imyon i prikladnoj rezuljtat prinadlezhat protokoljnomu adapteru. Eto razdeleniye sokhranyayet SwiftNIO kak vyibrannuyu osnovu Swift-chasti i ne trebuyet dublirovatj chuzhoj vstroyennyij transport. Prezhniye kriterii, vse platformyi i brauzeryi sokhranyayutsya; ni odin iz profilej sejchas ne obyyavlyayetsya realizovannyim.
+
 ## Istochniki trebovanij
+
+- [Prorabotka I2P i utochneniye vyibora libtorrent](https://github.com/fum-lab/fum/blob/6049110117aa2d46380422ff51e2e996f087ee90/Журнал/2026-09-11_21-56-09_MSK_уточнить-план-подключения-I2P/запрос.md).
+- [Material koordinatora o podklyuchenii I2P](../Planirovaniye/integracii/I2P/podklyucheniye-I2P.md).
 
 - [Pryamoye porucheniye o SwiftNIO i soderzhateljnyij otvet](../Zhurnal/2026-09-11_02-34-29_MSK_vosstanovitj-kontekst-platformennogo-resheniya-i-SwiftNIO/materialyi/istochniki/kontekst-reshenij/kontekst-vyibora-SwiftNIO.md).
 - [SwiftNIO: naznacheniye, produktyi i zayavlennaya podderzhka](https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/README.md) — kommit `8c063f043d94c120d0f8d6303ef4fc7918e3561d`, nablyudeniye 2026-09-11 MSK.
@@ -37,6 +46,6 @@ Vyibor SwiftNIO ne isklyuchayet ni odnu celj iz [platformennogo trebovaniya](�
 - [Nastrojka interneta i VPN](🟡-nastrojka-interneta-i-VPN-v-FUMA.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 02:37:53 MSK -->
-<!-- content-sha256: sha256:7d729cb8f3f837dd4362e03f3b79bc7f4e24696b89430d46dad6992b95aa7acd -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:0af64267b11b0aa8f79cfe5e04df5dc9335d95cb9b3bfd15178e6ce07c391f2e -->
 <!-- FUM-MD-RECENCY:END -->

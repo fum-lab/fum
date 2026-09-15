@@ -79,7 +79,18 @@ Oficialjnaya [dokumentaciya perenosa Swift v Wasm](https://docs.swift.org/latest
 - [Adapteryi messendzherov](🟡-FUM-STEP-0184-opredelitj-adapteryi-messendzherov.md).
 - [Nastrojka interneta i VPN](🟡-FUM-STEP-0185-opredelitj-nastrojku-interneta-i-VPN.md).
 
+## Dve razlichnyiye stroki I2P
+
+Matrica razdelyayet pervyij fajlovyij profilj BitTorrent/I2P cherez libtorrent-rasterbar i budusjheye rasshireniye servisov cherez sobstvennyij SAM 3.1 STREAM-kliyent na SwiftNIO. Dlya pervogo opisyivayutsya Swift-upravleniye bibliotekoj, i2p_hostname/i2p_port, allow_i2p_mixed=false, torrent_flags::i2p_torrent, prikladnaya proverka obyyekta i fakticheskaya izolyaciya ot nezhelateljnyikh clearnet/DNS/DHT/trekerov/web seeds/peer-zaprosov. Vyibrannyij polnyij OID zakreplyon v 0183; svojstva API i primenimostj parametrov proveryayutsya do realizacii, odnogo imeni nastrojki nedostatochno.
+
+Dlya obsjhego SAM-rasshireniya otdeljno svyazyivayutsya NIOCore i vyibrannyij transport, konechnyij protokoljnyij avtomat, upravlyayusjheye soyedineniye, CONNECT/ACCEPT, privatnaya identichnostj i otmena. Eta stroka ne stanovitsya obyazateljnoj realizaciyej pervogo BitTorrent-scenariya. Programma fikstur, profilya i zhivoj proverki otlichayet povedeniye biblioteki, sobstvennogo adaptera, marshrutizatora i seti.
+
+Pervyim utochnyayetsya tochnyij desktop-profilj; vse prezhniye 15 celej/semejstv i Safari, Chrome, Firefox ostayutsya v matrice s prezhnimi kriteriyami i yavnoj neizvestnostjyu. TCP-podderzhka ne perenositsya v brauzernyij runtime, a lokaljnyij SAM ne dayot udalyonnogo zasjhisjhyonnogo kanala. Ustanovka marshrutizatora i mobiljnaya upakovka — otdeljnyiye planovyiye rasshireniya. Tekusjheye utochneniye ne dobavlyayet zavisimosti, kod ili setevyiye effektyi.
+
 ## Istochniki
+
+- [Prorabotka I2P i utochneniye vyibora libtorrent](https://github.com/fum-lab/fum/blob/6049110117aa2d46380422ff51e2e996f087ee90/Журнал/2026-09-11_21-56-09_MSK_уточнить-план-подключения-I2P/запрос.md).
+- [Material koordinatora o podklyuchenii I2P](../integracii/I2P/podklyucheniye-I2P.md).
 
 - [Pryamoye porucheniye poljzovatelya i soderzhateljnyij otvet](../../Zhurnal/2026-09-11_02-34-29_MSK_vosstanovitj-kontekst-platformennogo-resheniya-i-SwiftNIO/materialyi/istochniki/kontekst-reshenij/kontekst-vyibora-SwiftNIO.md).
 - [SwiftNIO README](https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/README.md), [manifest](https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/Package.swift), [PR CI](https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/.github/workflows/pull_request.yml), [Windows/Linux unit-test workflow](https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/.github/workflows/unit_tests.yml), [Apple workflow](https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/.github/workflows/macos_tests.yml), [Android build script](https://github.com/apple/swift-nio/blob/8c063f043d94c120d0f8d6303ef4fc7918e3561d/scripts/swift-build-with-android-sdk.sh) — kommit `8c063f043d94c120d0f8d6303ef4fc7918e3561d`, datirovan 2026-09-09; nablyudeniye 2026-09-11 MSK.
@@ -89,6 +100,6 @@ Oficialjnaya [dokumentaciya perenosa Swift v Wasm](https://docs.swift.org/latest
 - [Swift Wasm: Porting](https://docs.swift.org/latest/documentation/wasmguide/porting/); prochitannyij [DocC JSON](https://docs.swift.org/latest/data/documentation/wasmguide/porting.json), SHA256 `b8ca302d72f7543098e912ece5e0b875a8258d3e3959918c81e0a9e992d3716c`, nablyudeniye 2026-09-11 MSK. URL izmenyayemyij, tochnyij kommit publikacii ne ustanovlen; ogranicheniya ne vyidayutsya za rezuljtat proverki konkretnogo brauzera.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 02:37:53 MSK -->
-<!-- content-sha256: sha256:0e3bdc416091852f123cd632148e75d570e9d4134d2e1c05d72e444f9a680375 -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:b71d67cc3f383a3247461a475880f0e94c09bb0fbb98e8979520e5a6731f347c -->
 <!-- FUM-MD-RECENCY:END -->

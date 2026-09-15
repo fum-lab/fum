@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-11 21:58:48 MSK - Prinyatj sliyaniye posle ispravleniya putej](../2026-09-11_21-58-48_MSK_prinyatj-sliyaniye-posle-ispravleniya-putej/zapros.md)
-- Sleduyusjhij zapros: [2026-09-11 23:55:50 MSK - Prinyatj sliyaniye s profilyami prodolzheniya](../2026-09-11_23-55-50_MSK_prinyatj-sliyaniye-s-profilyami-prodolzheniya/zapros.md)
+- Predyidusjhij zapros: [2026-09-11 22:27:25 MSK - Perenesti finansovyij rezuljtat FUM](../2026-09-11_22-27-25_MSK_perenesti-finansovyij-rezuljtat-FUM/zapros.md)
+- Sleduyusjhij zapros: [2026-09-11 23:32:59 MSK - Prinyatj plan I2P i utochneniya Swift](../2026-09-11_23-32-59_MSK_prinyatj-plan-I2P-i-utochneniya-Swift/zapros.md)
 
 ## Tekst zaprosa
 
@@ -72,10 +72,10 @@ Posle obnaruzheniya tochnoj nesovmestimosti poryadka smoke v dvukh prinimayusjhi
 - [Predyidusjhij zapros: toljko navigaciya](../2026-09-11_15-50-49_MSK_prinyatj-sovmestimostj-FUMA-cherez-otchyot-v3/zapros.md), [indeks Zhurnala](../README.md).
 - [Validator, testyi, fikstura i interfejs navyika](../../Instrumentyi/fum-dekompoziciya-pravil-agentov/).
 - [Kartochka FUM-SBOJ-0090](../../Sboi/FUM-SBOJ-0090-nesovmestimostj-normativnyikh-profilej-prodolzheniya.md), [indeks sboyev](../../Sboi/README.md).
-- [FUM-STEP-0175](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md), [planovyij reyestr](../../Planirovaniye/reyestr-trebovanij-variantov-i-kandidatov.json).
+- [FUM-STEP-0175](../../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md), [planovyij reyestr](../../Planirovaniye/reyestr-trebovanij-variantov-i-kandidatov.json).
 - [Indeks svezhesti Markdown](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md), [proizvodnaya proyekciya](../../../../).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-12 00:09:03 MSK -->
-<!-- content-sha256: sha256:b308965e1001b99a6af895abcd309bb35a38fb8ca713ddcdf60c011cee9c636b -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:c84e63048da3711642d3070a1409525e64e9018c233bc5d6bf2e10aa9003d532 -->
 <!-- FUM-MD-RECENCY:END -->

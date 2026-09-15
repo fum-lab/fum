@@ -1,0 +1,1232 @@
+{
+  "$defs": {
+    "вход": {
+      "additionalProperties": false,
+      "properties": {
+        "бюджет_байт": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "версии": {
+          "additionalProperties": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "object"
+        },
+        "время_оценки": {
+          "pattern": "^[0-9]{4}-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]Z$",
+          "type": "string"
+        },
+        "доставка": {
+          "$ref": "#/$defs/доставка"
+        },
+        "задача": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "источники": {
+          "items": {
+            "$ref": "#/$defs/источник-вход"
+          },
+          "maxItems": 32,
+          "minItems": 1,
+          "type": "array"
+        },
+        "схема": {
+          "const": "fum.вход-рабочего-контекста.1"
+        }
+      },
+      "required": [
+        "схема",
+        "задача",
+        "доставка",
+        "время_оценки",
+        "бюджет_байт",
+        "версии",
+        "источники"
+      ],
+      "type": "object"
+    },
+    "выход": {
+      "additionalProperties": false,
+      "properties": {
+        "ближайшие_действия": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "бюджет_байт": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "версии": {
+          "additionalProperties": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "object"
+        },
+        "время_оценки": {
+          "pattern": "^[0-9]{4}-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]Z$",
+          "type": "string"
+        },
+        "граница": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "доставка": {
+          "$ref": "#/$defs/доставка"
+        },
+        "задача": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "записи": {
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/$defs/запись-утверждение"
+              },
+              {
+                "$ref": "#/$defs/запись-отмена"
+              },
+              {
+                "$ref": "#/$defs/запись-приёмка"
+              },
+              {
+                "$ref": "#/$defs/запись-сообщение"
+              }
+            ]
+          },
+          "maxItems": 4096,
+          "type": "array"
+        },
+        "источники": {
+          "items": {
+            "$ref": "#/$defs/источник-выход"
+          },
+          "type": "array"
+        },
+        "конфликты": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "ид": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "участники": {
+                "items": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "type": "array",
+                "uniqueItems": true
+              }
+            },
+            "required": [
+              "ид",
+              "участники"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "незавершённые_обязательства": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "неполнота": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "подробности": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "ид": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "текст": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "ид",
+              "текст"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "подробности_полны": {
+          "type": "boolean"
+        },
+        "полнота_источников": {
+          "type": "boolean"
+        },
+        "превышен_бюджет": {
+          "enum": [
+            0,
+            1
+          ]
+        },
+        "размер_байт": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "сборщик": {
+          "const": "fum.сборщик-рабочего-контекста.1"
+        },
+        "схема": {
+          "const": "fum.рабочий-контекст.1"
+        },
+        "хэш_снимка": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "схема",
+        "задача",
+        "доставка",
+        "время_оценки",
+        "бюджет_байт",
+        "версии",
+        "сборщик",
+        "хэш_снимка",
+        "размер_байт",
+        "превышен_бюджет",
+        "подробности_полны",
+        "полнота_источников",
+        "неполнота",
+        "граница",
+        "источники",
+        "записи",
+        "конфликты",
+        "незавершённые_обязательства",
+        "ближайшие_действия",
+        "подробности"
+      ],
+      "type": "object"
+    },
+    "годность": {
+      "additionalProperties": false,
+      "properties": {
+        "до": {
+          "pattern": "^[0-9]{4}-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]Z$",
+          "type": "string"
+        },
+        "основание": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "политика": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "до",
+        "политика",
+        "основание"
+      ],
+      "type": "object"
+    },
+    "доставка": {
+      "additionalProperties": false,
+      "properties": {
+        "ид": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "подтверждена": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "ид",
+        "подтверждена"
+      ],
+      "type": "object"
+    },
+    "запись-отмена": {
+      "additionalProperties": false,
+      "properties": {
+        "вид": {
+          "const": "отмена"
+        },
+        "ид": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "конфликт": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "отмены": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "отменяет": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "порядок": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "причины": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "приёмки": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "происхождение": {
+          "enum": [
+            "человек",
+            "делегирование",
+            "агент",
+            "служебное",
+            "инструмент",
+            "цитата"
+          ]
+        },
+        "состояние": {
+          "enum": [
+            "актуально",
+            "отменено",
+            "противоречие",
+            "устарело",
+            "неизвестно",
+            "сообщение"
+          ]
+        },
+        "тезис": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "указатель": {
+          "$ref": "#/$defs/указатель"
+        }
+      },
+      "required": [
+        "ид",
+        "порядок",
+        "происхождение",
+        "тезис",
+        "вид",
+        "отменяет",
+        "состояние",
+        "причины",
+        "отмены",
+        "конфликт",
+        "приёмки",
+        "указатель"
+      ],
+      "type": "object"
+    },
+    "запись-приёмка": {
+      "additionalProperties": false,
+      "properties": {
+        "вид": {
+          "const": "приёмка"
+        },
+        "доказательства": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "ид": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "конфликт": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "отмены": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "порядок": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "принимает": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "причины": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "приёмки": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "происхождение": {
+          "enum": [
+            "человек",
+            "делегирование",
+            "агент",
+            "служебное",
+            "инструмент",
+            "цитата"
+          ]
+        },
+        "состояние": {
+          "enum": [
+            "актуально",
+            "отменено",
+            "противоречие",
+            "устарело",
+            "неизвестно",
+            "сообщение"
+          ]
+        },
+        "тезис": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "указатель": {
+          "$ref": "#/$defs/указатель"
+        }
+      },
+      "required": [
+        "ид",
+        "порядок",
+        "происхождение",
+        "тезис",
+        "вид",
+        "принимает",
+        "доказательства",
+        "состояние",
+        "причины",
+        "отмены",
+        "конфликт",
+        "приёмки",
+        "указатель"
+      ],
+      "type": "object"
+    },
+    "запись-сообщение": {
+      "additionalProperties": false,
+      "properties": {
+        "вид": {
+          "const": "сообщение"
+        },
+        "ид": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "конфликт": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "отмены": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "порядок": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "причины": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "приёмки": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "происхождение": {
+          "enum": [
+            "человек",
+            "делегирование",
+            "агент",
+            "служебное",
+            "инструмент",
+            "цитата"
+          ]
+        },
+        "состояние": {
+          "enum": [
+            "актуально",
+            "отменено",
+            "противоречие",
+            "устарело",
+            "неизвестно",
+            "сообщение"
+          ]
+        },
+        "тезис": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "указатель": {
+          "$ref": "#/$defs/указатель"
+        }
+      },
+      "required": [
+        "ид",
+        "порядок",
+        "происхождение",
+        "тезис",
+        "вид",
+        "состояние",
+        "причины",
+        "отмены",
+        "конфликт",
+        "приёмки",
+        "указатель"
+      ],
+      "type": "object"
+    },
+    "запись-утверждение": {
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "else": {
+            "not": {
+              "required": [
+                "обязательство"
+              ]
+            }
+          },
+          "if": {
+            "properties": {
+              "категория": {
+                "const": "обязательство"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "обязательство"
+            ]
+          }
+        }
+      ],
+      "properties": {
+        "вид": {
+          "const": "утверждение"
+        },
+        "годность": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/годность"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "зависит_от": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "ид": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "категория": {
+          "enum": [
+            "цель",
+            "ограничение",
+            "решение",
+            "обязательство",
+            "зависимость",
+            "ближайшее-действие"
+          ]
+        },
+        "конфликт": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "область": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/область"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "обязательство": {
+          "enum": [
+            "открыто",
+            "отменено",
+            "завершено"
+          ]
+        },
+        "отмены": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "порядок": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "предмет": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "причины": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "приёмки": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "происхождение": {
+          "enum": [
+            "человек",
+            "делегирование",
+            "агент",
+            "служебное",
+            "инструмент",
+            "цитата"
+          ]
+        },
+        "состояние": {
+          "enum": [
+            "актуально",
+            "отменено",
+            "противоречие",
+            "устарело",
+            "неизвестно",
+            "сообщение"
+          ]
+        },
+        "тезис": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "указатель": {
+          "$ref": "#/$defs/указатель"
+        }
+      },
+      "required": [
+        "ид",
+        "порядок",
+        "происхождение",
+        "тезис",
+        "вид",
+        "категория",
+        "предмет",
+        "зависит_от",
+        "область",
+        "годность",
+        "состояние",
+        "причины",
+        "отмены",
+        "конфликт",
+        "приёмки",
+        "указатель"
+      ],
+      "type": "object"
+    },
+    "источник-вход": {
+      "additionalProperties": false,
+      "else": {
+        "properties": {
+          "байты": {
+            "type": "integer"
+          },
+          "версия": {
+            "type": "string"
+          },
+          "контракт": {
+            "const": "fum.синтетические-события.1"
+          },
+          "хэш": {
+            "type": "string"
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "данные": {
+            "type": "null"
+          }
+        }
+      },
+      "properties": {
+        "байты": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "версия": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "данные": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "доступность": {
+          "enum": [
+            "доступен",
+            "недоступен"
+          ]
+        },
+        "задача": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "ид": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "контракт": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "полнота": {
+          "type": "boolean"
+        },
+        "хэш": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "ид",
+        "версия",
+        "контракт",
+        "задача",
+        "доступность",
+        "полнота",
+        "байты",
+        "хэш",
+        "данные"
+      ],
+      "then": {
+        "properties": {
+          "байты": {
+            "type": "null"
+          },
+          "доступность": {
+            "const": "недоступен"
+          },
+          "полнота": {
+            "const": false
+          },
+          "хэш": {
+            "type": "null"
+          }
+        }
+      },
+      "type": "object"
+    },
+    "источник-выход": {
+      "additionalProperties": false,
+      "properties": {
+        "байты": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "версия": {
+          "anyOf": [
+            {
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "доступность": {
+          "enum": [
+            "доступен",
+            "недоступен"
+          ]
+        },
+        "задача": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "ид": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "контракт": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "полнота": {
+          "type": "boolean"
+        },
+        "хэш": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "ид",
+        "версия",
+        "контракт",
+        "задача",
+        "доступность",
+        "полнота",
+        "байты",
+        "хэш"
+      ],
+      "type": "object"
+    },
+    "область": {
+      "additionalProperties": false,
+      "properties": {
+        "версия": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "ид": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "ид",
+        "версия"
+      ],
+      "type": "object"
+    },
+    "событие-отмена": {
+      "additionalProperties": false,
+      "properties": {
+        "вид": {
+          "const": "отмена"
+        },
+        "ид": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "отменяет": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "порядок": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "происхождение": {
+          "enum": [
+            "человек",
+            "делегирование",
+            "агент",
+            "служебное",
+            "инструмент",
+            "цитата"
+          ]
+        },
+        "тезис": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "ид",
+        "порядок",
+        "происхождение",
+        "тезис",
+        "вид",
+        "отменяет"
+      ],
+      "type": "object"
+    },
+    "событие-приёмка": {
+      "additionalProperties": false,
+      "properties": {
+        "вид": {
+          "const": "приёмка"
+        },
+        "доказательства": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "ид": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "порядок": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "принимает": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "происхождение": {
+          "enum": [
+            "человек",
+            "делегирование",
+            "агент",
+            "служебное",
+            "инструмент",
+            "цитата"
+          ]
+        },
+        "тезис": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "ид",
+        "порядок",
+        "происхождение",
+        "тезис",
+        "вид",
+        "принимает",
+        "доказательства"
+      ],
+      "type": "object"
+    },
+    "событие-сообщение": {
+      "additionalProperties": false,
+      "properties": {
+        "вид": {
+          "const": "сообщение"
+        },
+        "ид": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "порядок": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "происхождение": {
+          "enum": [
+            "человек",
+            "делегирование",
+            "агент",
+            "служебное",
+            "инструмент",
+            "цитата"
+          ]
+        },
+        "тезис": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "ид",
+        "порядок",
+        "происхождение",
+        "тезис",
+        "вид"
+      ],
+      "type": "object"
+    },
+    "событие-утверждение": {
+      "additionalProperties": false,
+      "properties": {
+        "вид": {
+          "const": "утверждение"
+        },
+        "годность": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/годность"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "зависит_от": {
+          "items": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "ид": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "категория": {
+          "enum": [
+            "цель",
+            "ограничение",
+            "решение",
+            "обязательство",
+            "зависимость",
+            "ближайшее-действие"
+          ]
+        },
+        "область": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/область"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "подробности": {
+          "type": "string"
+        },
+        "порядок": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "предмет": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "происхождение": {
+          "enum": [
+            "человек",
+            "делегирование",
+            "агент",
+            "служебное",
+            "инструмент",
+            "цитата"
+          ]
+        },
+        "тезис": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "ид",
+        "порядок",
+        "происхождение",
+        "тезис",
+        "вид",
+        "категория",
+        "предмет",
+        "зависит_от",
+        "область",
+        "годность",
+        "подробности"
+      ],
+      "type": "object"
+    },
+    "указатель": {
+      "additionalProperties": false,
+      "properties": {
+        "версия": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "источник": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "конец": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "начало": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "строка": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "хэш": {
+          "pattern": "^[a-f0-9]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "источник",
+        "версия",
+        "строка",
+        "начало",
+        "конец",
+        "хэш"
+      ],
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Форма входа и выхода. Хэши, UTF-8-границы, уникальность ID/порядка, причинность, календарное время, бюджет и внутренние JSONL проверяются исполняемым контрактом. Происхождение и смысл аннотаций — принятые данные синтетики, не автоматически удостоверенные факты.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/вход"
+    },
+    {
+      "$ref": "#/$defs/выход"
+    }
+  ],
+  "title": "Форматы синтетического рабочего контекста, версия 1"
+}

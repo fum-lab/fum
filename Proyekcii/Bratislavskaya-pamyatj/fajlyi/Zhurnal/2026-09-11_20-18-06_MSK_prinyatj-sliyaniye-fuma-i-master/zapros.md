@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-11 15:50:49 MSK - Prinyatj sovmestimostj FUMA cherez otchyot v3](../2026-09-11_15-50-49_MSK_prinyatj-sovmestimostj-FUMA-cherez-otchyot-v3/zapros.md)
-- Sleduyusjhij zapros: [2026-09-11 21:58:48 MSK - Prinyatj sliyaniye posle ispravleniya putej](../2026-09-11_21-58-48_MSK_prinyatj-sliyaniye-posle-ispravleniya-putej/zapros.md)
+- Predyidusjhij zapros: [2026-09-11 19:12:07 MSK - Prinyatj plan avtonomnogo komplekta FUM](../2026-09-11_19-12-07_MSK_prinyatj-plan-avtonomnogo-komplekta-FUM/zapros.md)
+- Sleduyusjhij zapros: [2026-09-11 20:18:41 MSK - Podtverditj zapusk Telegram i sokhranitj prodolzheniye](../2026-09-11_20-18-41_MSK_podtverditj-zapusk-Telegram-i-sokhranitj-prodolzheniye/zapros.md)
 
 ## Tekst zaprosa
 
@@ -222,6 +222,6 @@ Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb
 Eto sleduyusjhij etap postoyannoj zadachi, a ne novyiye soobsjheniya o sliyanii. Predyidusjhij etap prinyat v master kommitom `224dc6cf289e4cc88080b85ad7c99240284a7ced`: [zapros sovmestimosti](../2026-09-11_15-50-49_MSK_prinyatj-sovmestimostj-FUMA-cherez-otchyot-v3/zapros.md). Vedusjhaya osnova L — `a728283474931eda71cd581ca5429121124ba3f6`. Sokhranenyi originalyi pozdnikh soobsjhenij i soderzhateljnyiye otvetyi; ikh chteniye i registraciya ne obyyavlyayutsya vyipolneniyem vsekh napravlenij. Syiryiye JSONL, privatnyiye puti i runtime-dannyiye ostayutsya vne publichnogo checkout.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 22:03:48 MSK -->
-<!-- content-sha256: sha256:d4bbc4b6e0033ee6047a68a789fce3e11da993c564824ced9e5110b882654f92 -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:c84754bf37811e3299c3eaddb06afa5f2dcf3786336472352a4734e38af18775 -->
 <!-- FUM-MD-RECENCY:END -->

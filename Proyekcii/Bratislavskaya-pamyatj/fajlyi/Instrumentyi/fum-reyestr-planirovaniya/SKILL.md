@@ -5,6 +5,10 @@ description: Sobiratj i proveryatj mashinno chitayemyij reyestr trebovanij, stad
 
 # FUM Planning Registry
 
+[Obratnaya dostavka prinyatogo sreza](obratnaya-dostavka.md) stroit adresnyiye porucheniya susjhestvuyusjhim vladeljcam feature-vetok, primenyayet lokaljnyij merge po yavnomu planu i sokhranyayet otdeljnyiye stadii kvitancii. Rukovodstvo zadayot uzkuyu sovmestimostj so shtatnyim otchyotom FUM, yavnuyu podgotovku indeksa vladeljcem i granicyi podtverzhdeniya.
+
+[Reyestr organizacij podderzhki FUM](../../Planirovaniye/finansirovaniye-i-resursyi/README.md) ispoljzuyet etot paket dlya importa sokhranyonnyikh issledovanij, istorii adresnyikh nablyudenij, proverki srokov i vyipuska otdeljnogo chitayemogo spiska. Komanda `scripts/реестр-организаций-поддержки.py` opisana vmeste s dannyimi; ona ne otpravlyayet obrasjheniya i ne podtverzhdayet registraciyu zayavitelya.
+
 Konechnyij [paket diagnostiki](paket-diagnostiki.md) mekhanicheski vyipuskayet yavno podgotovlennyiye SBOJ i STEP s uzhe naznachennyimi nomerami, dvumya indeksami i tochnoj zasjhitoj iskhodnyikh bajtov.
 
 V FUM-STEP-0201 razrabatyivayetsya [priyom napravlenij FUMA](priyom-napravlenij.md): rukovodstvo opisyivayet proverennyiye primitivyi i yesjhyo nezavershyonnyij yedinyij vkhod. Promezhutochnyij status ne razreshayet vneshneye sozdaniye zadachi cherez nizkourovnevuyu operaciyu.
@@ -143,6 +147,6 @@ Avtomatizaciya ne vyivodit novyiye trebovaniya ili shagi iz smyisla dokumentov, 
 - [iskhodnyij zapros 2026-07-22 11:48:49 MSK — Oformitj kartochki shagov opisateljnyimi imenami i emodzi statusami](../../Zhurnal/2026-07-22_11-48-49_MSK_oformitj-kartochki-shagov-opisateljnyimi-imenami-i-emodzi-statusami/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 20:36:50 MSK -->
-<!-- content-sha256: sha256:46df7ddb4d7b6885ef8c076c456eec5fecbc3104ffff93ecf66488d9757162ba -->
+<!-- last-content-edit: 2026-09-15 18:24:06 MSK -->
+<!-- content-sha256: sha256:e996bcf785d81cadad65fa9cde9963f9323a7351fd7d9687de05363940384da9 -->
 <!-- FUM-MD-RECENCY:END -->

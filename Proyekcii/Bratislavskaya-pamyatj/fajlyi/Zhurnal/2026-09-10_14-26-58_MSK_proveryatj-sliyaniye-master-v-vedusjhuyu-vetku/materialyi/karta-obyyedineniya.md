@@ -41,9 +41,9 @@ Snachala podgotavlivayetsya odin konkretnyij kandidat na osnove L i soglasuyutsy
 ## Istochnik
 
 - [Komandyi poljzovatelya i soderzhateljnyiye otvetyi](../zapros.md).
-- [Kartochka perekhoda k vedusjhej vetke](../../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md).
+- [Kartochka perekhoda k vedusjhej vetke](../../../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 14:37:13 MSK -->
-<!-- content-sha256: sha256:b842095cb96c24546657947653c88e5af322a530422df14d67b12601a39799ef -->
+<!-- last-content-edit: 2026-09-12 01:19:38 MSK -->
+<!-- content-sha256: sha256:eba747aca9d9021b415c61e4adbb8bcacb5fb676f15890fc1e784fe28d20c4a6 -->
 <!-- FUM-MD-RECENCY:END -->

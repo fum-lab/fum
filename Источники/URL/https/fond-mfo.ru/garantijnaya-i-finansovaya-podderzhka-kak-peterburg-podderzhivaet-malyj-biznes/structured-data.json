@@ -1,0 +1,143 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": "https://fond-mfo.ru/garantijnaya-i-finansovaya-podderzhka-kak-peterburg-podderzhivaet-malyj-biznes/#blogposting",
+      "name": "Гарантийная и финансовая поддержка: как Петербург поддерживает малый бизнес - НКО «ФМСМСП МКК СПб» - Некоммерческая организация «Фонд микрофинансирования субъектов малого и среднего предпринимательства, микрокредитная компания Санкт-Петербурга»",
+      "headline": "Гарантийная и финансовая поддержка: как Петербург поддерживает малый бизнес",
+      "author": {
+        "@id": "https://fond-mfo.ru/author/redaktor/#author"
+      },
+      "publisher": {
+        "@id": "https://fond-mfo.ru/#organization"
+      },
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://fond-mfo.ru/wp-content/uploads/2026/09/belv039_2-1-scaled.jpg",
+        "width": 2560,
+        "height": 1707
+      },
+      "datePublished": "2026-09-03T12:00:11+03:00",
+      "dateModified": "2026-09-03T12:05:45+03:00",
+      "inLanguage": "ru-RU",
+      "mainEntityOfPage": {
+        "@id": "https://fond-mfo.ru/garantijnaya-i-finansovaya-podderzhka-kak-peterburg-podderzhivaet-malyj-biznes/#webpage"
+      },
+      "isPartOf": {
+        "@id": "https://fond-mfo.ru/garantijnaya-i-finansovaya-podderzhka-kak-peterburg-podderzhivaet-malyj-biznes/#webpage"
+      },
+      "articleSection": "Новости"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://fond-mfo.ru/garantijnaya-i-finansovaya-podderzhka-kak-peterburg-podderzhivaet-malyj-biznes/#breadcrumblist",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "@id": "https://fond-mfo.ru#listItem",
+          "position": 1,
+          "name": "Главная страница",
+          "item": "https://fond-mfo.ru",
+          "nextItem": {
+            "@type": "ListItem",
+            "@id": "https://fond-mfo.ru/category/news/#listItem",
+            "name": "Новости"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "@id": "https://fond-mfo.ru/category/news/#listItem",
+          "position": 2,
+          "name": "Новости",
+          "item": "https://fond-mfo.ru/category/news/",
+          "nextItem": {
+            "@type": "ListItem",
+            "@id": "https://fond-mfo.ru/garantijnaya-i-finansovaya-podderzhka-kak-peterburg-podderzhivaet-malyj-biznes/#listItem",
+            "name": "Гарантийная и финансовая поддержка: как Петербург поддерживает малый бизнес"
+          },
+          "previousItem": {
+            "@type": "ListItem",
+            "@id": "https://fond-mfo.ru#listItem",
+            "name": "Главная страница"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "@id": "https://fond-mfo.ru/garantijnaya-i-finansovaya-podderzhka-kak-peterburg-podderzhivaet-malyj-biznes/#listItem",
+          "position": 3,
+          "name": "Гарантийная и финансовая поддержка: как Петербург поддерживает малый бизнес",
+          "previousItem": {
+            "@type": "ListItem",
+            "@id": "https://fond-mfo.ru/category/news/#listItem",
+            "name": "Новости"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://fond-mfo.ru/#organization",
+      "name": "НКО «ФМСМСП МКК» - Некоммерческая организация «Фонд микрофинансирования субъектов малого и среднего предпринимательства, микрокредитная компания»",
+      "description": "Финансовая поддержка бизнеса и самозанятых Санкт-Петербурга",
+      "url": "https://fond-mfo.ru/"
+    },
+    {
+      "@type": "Person",
+      "@id": "https://fond-mfo.ru/author/redaktor/#author",
+      "url": "https://fond-mfo.ru/author/redaktor/",
+      "name": "Редактор",
+      "image": {
+        "@type": "ImageObject",
+        "@id": "https://fond-mfo.ru/garantijnaya-i-finansovaya-podderzhka-kak-peterburg-podderzhivaet-malyj-biznes/#authorImage",
+        "url": "https://secure.gravatar.com/avatar/53a62810692b6edd66cbf23c27dfd1e2a638346704f51cf4d68f3407d9c421a6?s=96&d=wavatar&r=g",
+        "width": 96,
+        "height": 96,
+        "caption": "Редактор"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://fond-mfo.ru/garantijnaya-i-finansovaya-podderzhka-kak-peterburg-podderzhivaet-malyj-biznes/#webpage",
+      "url": "https://fond-mfo.ru/garantijnaya-i-finansovaya-podderzhka-kak-peterburg-podderzhivaet-malyj-biznes/",
+      "name": "Гарантийная и финансовая поддержка: как Петербург поддерживает малый бизнес - НКО «ФМСМСП МКК СПб» - Некоммерческая организация «Фонд микрофинансирования субъектов малого и среднего предпринимательства, микрокредитная компания Санкт-Петербурга»",
+      "description": "Важно понимать, что государственные Фонды поддержки МСБ создавались не как конкуренты коммерческим банкам, а как их дополнение: мы идем в те сегменты, где банковское финансирование, как правило, недоступно.",
+      "inLanguage": "ru-RU",
+      "isPartOf": {
+        "@id": "https://fond-mfo.ru/#website"
+      },
+      "breadcrumb": {
+        "@id": "https://fond-mfo.ru/garantijnaya-i-finansovaya-podderzhka-kak-peterburg-podderzhivaet-malyj-biznes/#breadcrumblist"
+      },
+      "author": {
+        "@id": "https://fond-mfo.ru/author/redaktor/#author"
+      },
+      "creator": {
+        "@id": "https://fond-mfo.ru/author/redaktor/#author"
+      },
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://fond-mfo.ru/wp-content/uploads/2026/09/belv039_2-1-scaled.jpg",
+        "@id": "https://fond-mfo.ru/garantijnaya-i-finansovaya-podderzhka-kak-peterburg-podderzhivaet-malyj-biznes/#mainImage",
+        "width": 2560,
+        "height": 1707
+      },
+      "primaryImageOfPage": {
+        "@id": "https://fond-mfo.ru/garantijnaya-i-finansovaya-podderzhka-kak-peterburg-podderzhivaet-malyj-biznes/#mainImage"
+      },
+      "datePublished": "2026-09-03T12:00:11+03:00",
+      "dateModified": "2026-09-03T12:05:45+03:00"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://fond-mfo.ru/#website",
+      "url": "https://fond-mfo.ru/",
+      "name": "НКО «ФМСМСП МКК» - Некоммерческая организация «Фонд микрофинансирования субъектов малого и среднего предпринимательства, микрокредитная компания»",
+      "description": "Финансовая поддержка бизнеса и самозанятых Санкт-Петербурга",
+      "inLanguage": "ru-RU",
+      "publisher": {
+        "@id": "https://fond-mfo.ru/#organization"
+      }
+    }
+  ]
+}

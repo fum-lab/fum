@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-11 20:18:06 MSK - Prinyatj sliyaniye fuma i master](../2026-09-11_20-18-06_MSK_prinyatj-sliyaniye-fuma-i-master/zapros.md)
-- Sleduyusjhij zapros: [2026-09-11 22:33:53 MSK - Soglasovatj profili dopuska prodolzheniya](../2026-09-11_22-33-53_MSK_soglasovatj-profili-dopuska-prodolzheniya/zapros.md)
+- Predyidusjhij zapros: [2026-09-11 21:47:07 MSK - Podtverditj README i utochnitj zerkala](../2026-09-11_21-47-07_MSK_podtverditj-README-i-utochnitj-zerkala/zapros.md)
+- Sleduyusjhij zapros: [2026-09-11 22:27:25 MSK - Perenesti finansovyij rezuljtat FUM](../2026-09-11_22-27-25_MSK_perenesti-finansovyij-rezuljtat-FUM/zapros.md)
 
 ## Tekst zaprosa
 
@@ -71,6 +71,6 @@ Pryamyiye processyi zapisyivayutsya obyortkoj iskhodnogo master v [otchyot](otch
 Te zhe M `224dc6cf289e4cc88080b85ad7c99240284a7ced` i L `a728283474931eda71cd581ca5429121124ba3f6`. Predyidusjhiye vosemj terminaljnyikh zapisej zakryityi s sostoyaniyem «ne gotov», ikh svideteljstvo ne perepisyivayetsya. Eto prodolzheniye iskhodnyikh komand o sliyanii, a ne novoye razresheniye ili povtornyij kommit. Korenj ostayotsya yedinstvennyim pisatelem kandidata, HEAD ostayotsya L. Originalyi soobsjhenij 212–244 i otvetyi sokhranenyi v predyidusjhej popyitke. Soobsjheniya 245–249 prochitanyi iz kvalificirovannogo JSONL; chteniye i postanovka ne obyyavlyayutsya vyipolneniyem vsego obyyoma.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-12 00:09:03 MSK -->
-<!-- content-sha256: sha256:dd70f27634c4e9a437718692b9fca77a86b99853f821e96881f2c00e99f5c90f -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:57b39f3c41ce135e993cc39d6c5ca63008f3011a3102ce881bc0e4de1fe9e8b7 -->
 <!-- FUM-MD-RECENCY:END -->

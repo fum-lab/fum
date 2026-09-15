@@ -1,5 +1,7 @@
 # Kompaktnyij rabochij kontekst zadachi
 
+Sokhranyonnyij planovyij material zadachi «Planirovaniye FUMA» prinyat iz kommita `186b0360a31b97184773757634976257d0f86495`. Opisaniye dostupnosti 0177 i 0160 nizhe fiksiruyet sostoyaniye iskhodnoj vetki na baze `5c9806560fb9b52112ff8a7bc11888a1bb71f7aa`; eto istoricheskoye nablyudeniye, a ne inventarj nyineshnego checkout. Perenos sokhranyayet plan i yego proiskhozhdeniye. Pervoye otdeljnoye naznacheniye 0165 ogranicheno chitayusjhim sborsjhikom na sinteticheskikh vkhodakh; katalog vnimaniya i sluchai vspominaniya ostayutsya sokhranyonnoj planovoj oblastjyu i ne rasshiryayut ispolneniye README ili dvukh dejstvuyusjhikh detektorov vnimaniya.
+
 Rabochij kontekst — vosproizvodimyij srez dolgovechnoj pamyati dlya sleduyusjhego resheniya agenta. On pokazyivayet celj, dejstvuyusjhiye ogranicheniya, nezavershyonnyiye obyazateljstva, prinyatyiye resheniya, zavisimosti i blizhajshiye dejstviya. Podrobnyiye svideteljstva ostayutsya v pervichnyikh istochnikakh i raskryivayutsya po tochnyim ssyilkam.
 
 Etot dokument planiruyet realizaciyu shaga 0165 i zadayot osnovu budusjhikh avtomaticheskikh proverok. Sborsjhik, izmeritelj kachestva i avtomaticheskoye podklyucheniye poka ne realizovanyi. Novyikh fonovyikh zapuskov, perekhvatov i polnomochij na chteniye zdesj ne poyavlyayetsya.
@@ -157,12 +159,12 @@ Planovyij rezuljtat prinimayetsya po soglasovannosti pyati materialov i kartochk
 - [Pervichnyiye komandyi, otvetyi i prinyataya postanovka utochneniya](../../Zhurnal/2026-09-11_08-14-52_MSK_utochnitj-plan-vspominaniya-rabochego-konteksta/zapros.md).
 
 - [Zadacha 0165](../kartochki-shagov/🟡-FUM-STEP-0165-sobiratj-rabochij-kontekst-zadachi.md).
-- [Pryamoye porucheniye zaplanirovatj zadachu i osnovu budusjhikh proverok](../../Zhurnal/2026-09-09_14-35-59_MSK_podgotovitj-nativnoye-prodolzheniye-zadachi/zapros.md).
-- [Nablyudeniya o zatratakh i ispoljzovanii konteksta](../../Zhurnal/2026-09-09_14-35-59_MSK_podgotovitj-nativnoye-prodolzheniye-zadachi/otchyot.md).
+- [Pryamoye porucheniye zaplanirovatj zadachu i osnovu budusjhikh proverok](https://github.com/fum-lab/fum/blob/186b0360a31b97184773757634976257d0f86495/Журнал/2026-09-09_14-35-59_MSK_подготовить-нативное-продолжение-задачи/запрос.md).
+- [Nablyudeniya o zatratakh i ispoljzovanii konteksta](https://github.com/fum-lab/fum/blob/186b0360a31b97184773757634976257d0f86495/Журнал/2026-09-09_14-35-59_MSK_подготовить-нативное-продолжение-задачи/отчёт.md).
 - [Statistika vyizovov](../kartochki-shagov/🟡-FUM-STEP-0160-nakaplivatj-statistiku-vyizovov.md).
 - [Snimok sostoyaniya](../kartochki-shagov/🟡-FUM-STEP-0159-sobratj-snimok-agentskogo-runtime-i-interfejsa.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 11:47:30 MSK -->
-<!-- content-sha256: sha256:8dee83491424ced7352f6148ec6371573c8c9617be413ede357ef7aef2759a0f -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:b720b01a1c3671c7d40c130114f2f7941f9ce114a21df46f9b128f4d4edbaab9 -->
 <!-- FUM-MD-RECENCY:END -->

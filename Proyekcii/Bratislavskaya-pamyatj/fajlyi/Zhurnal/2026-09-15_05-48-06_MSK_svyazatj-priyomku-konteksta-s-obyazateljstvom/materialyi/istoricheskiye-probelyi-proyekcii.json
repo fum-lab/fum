@@ -1,0 +1,121 @@
+[
+  {
+    "производный_путь": "Proyekcii/Bratislavskaya-pamyatj/fajlyi/Istochniki/URL/https/www.unicode.org/versions/Unicode17.0.0/core-spec/chapter-3/response.body.html",
+    "канонический_источник": "Источники/URL/https/www.unicode.org/versions/Unicode17.0.0/core-spec/chapter-3/response.body.html",
+    "диагностик": 8,
+    "источник_совпадает_с_HEAD": true,
+    "хэш": "sha256:69fef5215c021368a1880d91bc59d7935d13a5455f1373eda17b8818d41b7b41"
+  },
+  {
+    "производный_путь": "Proyekcii/Bratislavskaya-pamyatj/fajlyi/Prototipyi/pamyatj-strukturiruyusjhikh-operatorov/Proverki/etalonyi-profilya/profilj-do.patch.txt",
+    "канонический_источник": "Прототипы/память-структурирующих-операторов/Проверки/эталоны-профиля/профиль-до.patch.txt",
+    "диагностик": 21,
+    "источник_совпадает_с_HEAD": true,
+    "хэш": "sha256:a489b73fa145947c276a41c2231dc4f7f0a5b8e22c0509fc9b5d692a8a080008"
+  },
+  {
+    "производный_путь": "Proyekcii/Bratislavskaya-pamyatj/fajlyi/Prototipyi/pamyatj-strukturiruyusjhikh-operatorov/Proverki/etalonyi-profilya/profilj-posle.patch.txt",
+    "канонический_источник": "Прототипы/память-структурирующих-операторов/Проверки/эталоны-профиля/профиль-после.patch.txt",
+    "диагностик": 19,
+    "источник_совпадает_с_HEAD": true,
+    "хэш": "sha256:38fb2633f16b9cf5893cf683ead4ff0b1feae8d849d4c854ac282f2b1de75309"
+  },
+  {
+    "производный_путь": "Proyekcii/Bratislavskaya-pamyatj/fajlyi/Zhurnal/2026-09-10_23-24-41_MSK_svyazatj-obrabotku-soobsjhenij-s-istoriyej/zapros.md",
+    "канонический_источник": "Журнал/2026-09-10_23-24-41_MSK_связать-обработку-сообщений-с-историей/запрос.md",
+    "диагностик": 1,
+    "источник_совпадает_с_HEAD": true,
+    "хэш": "sha256:38bd5fd38e9e3fd49cbc12bfc467f68474f805217ca42a9ec7dd7dcae1951cdd"
+  },
+  {
+    "производный_путь": "Proyekcii/Bratislavskaya-pamyatj/fajlyi/Zhurnal/2026-09-11_00-37-07_MSK_zaplanirovatj-nastrojku-GitHub-Actions/zapros.md",
+    "канонический_источник": "Журнал/2026-09-11_00-37-07_MSK_запланировать-настройку-GitHub-Actions/запрос.md",
+    "диагностик": 1,
+    "источник_совпадает_с_HEAD": true,
+    "хэш": "sha256:69a21fb0a8b09876df2f616feff89c5542c0273f86113cfacb000a343c453d05"
+  },
+  {
+    "производный_путь": "Proyekcii/Bratislavskaya-pamyatj/fajlyi/Zhurnal/2026-09-11_01-03-38_MSK_zaplanirovatj-platformyi-i-grafiku-FUMA/zapros.md",
+    "канонический_источник": "Журнал/2026-09-11_01-03-38_MSK_запланировать-платформы-и-графику-FUMA/запрос.md",
+    "диагностик": 1,
+    "источник_совпадает_с_HEAD": true,
+    "хэш": "sha256:3b86a1dc4eb5f6cbf0dc36873f8fae9703e611774b994c37bb55c702fbf2c449"
+  },
+  {
+    "производный_путь": "Proyekcii/Bratislavskaya-pamyatj/fajlyi/Zhurnal/2026-09-11_01-28-44_MSK_perenesti-iskhodniki-FUMA/zapros.md",
+    "канонический_источник": "Журнал/2026-09-11_01-28-44_MSK_перенести-исходники-FUMA/запрос.md",
+    "диагностик": 1,
+    "источник_совпадает_с_HEAD": true,
+    "хэш": "sha256:1e71921b2ac3e3962442dc24a220962430665b494cbad341352250db10ca7594"
+  },
+  {
+    "производный_путь": "Proyekcii/Bratislavskaya-pamyatj/fajlyi/Zhurnal/2026-09-11_01-45-23_MSK_adaptirovatj-prilozheniye-FUM-dlya-monorepozitoriya/zapros.md",
+    "канонический_источник": "Журнал/2026-09-11_01-45-23_MSK_адаптировать-приложение-FUM-для-монорепозитория/запрос.md",
+    "диагностик": 1,
+    "источник_совпадает_с_HEAD": true,
+    "хэш": "sha256:11311f5136f9b6f239276c9b927683b3b26b55cba01c097f8372abcff7f06aae"
+  },
+  {
+    "производный_путь": "Proyekcii/Bratislavskaya-pamyatj/fajlyi/Zhurnal/2026-09-11_01-56-50_MSK_proveritj-paketyi-FUMA-iz-klona/zapros.md",
+    "канонический_источник": "Журнал/2026-09-11_01-56-50_MSK_проверить-пакеты-FUMA-из-клона/запрос.md",
+    "диагностик": 1,
+    "источник_совпадает_с_HEAD": true,
+    "хэш": "sha256:b1dabfc1e9ad74aa1acbbafc69f90dc6ecbea70a493e757d92c1e7c89d760125"
+  },
+  {
+    "производный_путь": "Proyekcii/Bratislavskaya-pamyatj/fajlyi/Zhurnal/2026-09-11_02-06-54_MSK_podderzhatj-formatyi-prilozheniya-v-proyekcii/zapros.md",
+    "канонический_источник": "Журнал/2026-09-11_02-06-54_MSK_поддержать-форматы-приложения-в-проекции/запрос.md",
+    "диагностик": 1,
+    "источник_совпадает_с_HEAD": true,
+    "хэш": "sha256:f49b4624f39f060f29ebc2e879247b23318591a6ff6f5de844a8d0ab93fffcdd"
+  },
+  {
+    "производный_путь": "Proyekcii/Bratislavskaya-pamyatj/fajlyi/Zhurnal/2026-09-11_02-13-44_MSK_integrirovatj-postavku-FUMA/zapros.md",
+    "канонический_источник": "Журнал/2026-09-11_02-13-44_MSK_интегрировать-поставку-FUMA/запрос.md",
+    "диагностик": 1,
+    "источник_совпадает_с_HEAD": true,
+    "хэш": "sha256:717b4da47c1b06a52c7b4fb7300477c6d6181acc7955dbc366117725c1915393"
+  },
+  {
+    "производный_путь": "Proyekcii/Bratislavskaya-pamyatj/fajlyi/Zhurnal/2026-09-11_02-30-48_MSK_soglasovatj-skhemu-formatov-prilozheniya/zapros.md",
+    "канонический_источник": "Журнал/2026-09-11_02-30-48_MSK_согласовать-схему-форматов-приложения/запрос.md",
+    "диагностик": 1,
+    "источник_совпадает_с_HEAD": true,
+    "хэш": "sha256:5472c032edbed67579804deb7f492e30cc7d004431d1e8d4b24934b6ba243010"
+  },
+  {
+    "производный_путь": "Proyekcii/Bratislavskaya-pamyatj/fajlyi/Zhurnal/2026-09-11_02-44-12_MSK_obnovitj-pokoleniye-po-prezhnej-politike/zapros.md",
+    "канонический_источник": "Журнал/2026-09-11_02-44-12_MSK_обновить-поколение-по-прежней-политике/запрос.md",
+    "диагностик": 1,
+    "источник_совпадает_с_HEAD": true,
+    "хэш": "sha256:9d116915b9d4fe71e01b5e0b2721065fd263b381fadd16ba8b9dd6f937829067"
+  },
+  {
+    "производный_путь": "Proyekcii/Bratislavskaya-pamyatj/fajlyi/Zhurnal/2026-09-11_02-51-49_MSK_proveritj-postavku-FUMA-iz-klona/zapros.md",
+    "канонический_источник": "Журнал/2026-09-11_02-51-49_MSK_проверить-поставку-FUMA-из-клона/запрос.md",
+    "диагностик": 1,
+    "источник_совпадает_с_HEAD": true,
+    "хэш": "sha256:8ab64935e44fbd2b05be8940121fb143d722fa290129aafe3965948bd9921f17"
+  },
+  {
+    "производный_путь": "Proyekcii/Bratislavskaya-pamyatj/fajlyi/Zhurnal/2026-09-11_03-32-48_MSK_vosstanovitj-peredachu-formatov-posle-perezapuska/zapros.md",
+    "канонический_источник": "Журнал/2026-09-11_03-32-48_MSK_восстановить-передачу-форматов-после-перезапуска/запрос.md",
+    "диагностик": 1,
+    "источник_совпадает_с_HEAD": true,
+    "хэш": "sha256:aa6dbe044e528f0f934b0c148fc4c828c780cf1e7b3711e94d511e25c6d51c57"
+  },
+  {
+    "производный_путь": "Proyekcii/Bratislavskaya-pamyatj/fajlyi/Zhurnal/2026-09-11_10-20-32_MSK_sokhranitj-postanovku-integracii-i-nablyudeniya/zapros.md",
+    "канонический_источник": "Журнал/2026-09-11_10-20-32_MSK_сохранить-постановку-интеграции-и-наблюдения/запрос.md",
+    "диагностик": 1,
+    "источник_совпадает_с_HEAD": true,
+    "хэш": "sha256:9d86ece8f92715ea5045b1cf3d6225bff9dbba129bf159a310dc3271de69784c"
+  },
+  {
+    "производный_путь": "Proyekcii/Bratislavskaya-pamyatj/fajlyi/Zhurnal/2026-09-11_14-00-14_MSK_sokhranitj-peredachu-integracii-i-pozdnij-dialog/zapros.md",
+    "канонический_источник": "Журнал/2026-09-11_14-00-14_MSK_сохранить-передачу-интеграции-и-поздний-диалог/запрос.md",
+    "диагностик": 1,
+    "источник_совпадает_с_HEAD": true,
+    "хэш": "sha256:b9e93068f0e0283ade8badcd1050780efd696ade4965f7dbf3c0b78d8b1668f6"
+  }
+]

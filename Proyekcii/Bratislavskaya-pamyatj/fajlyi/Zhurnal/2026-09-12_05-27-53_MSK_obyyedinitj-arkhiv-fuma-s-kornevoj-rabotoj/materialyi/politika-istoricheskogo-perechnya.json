@@ -1,0 +1,12 @@
+{
+  "schema": "fum.machine-local-path-policy-update.v1",
+  "declarations": [
+    {
+      "id": "historical-libc-list-archive-fuma",
+      "path": "Журнал/2026-09-12_01-02-01_MSK_сохранить-поздний-диалог-и-продвижение-master/материалы/источники/диалог/диалог.jsonl",
+      "line": 145,
+      "category": "report.historical",
+      "reason": "Сохраняет дословную историческую реплику помощника: соединённые слешами имена компонентов libc++, libc++abi и llvm-libc ошибочно распознаны как абсолютный путь; машинных данных строка не содержит."
+    }
+  ]
+}

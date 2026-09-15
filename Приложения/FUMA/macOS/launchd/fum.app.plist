@@ -6,7 +6,7 @@
 	<string>fum.app</string>
 	<key>ProgramArguments</key>
 	<array>
-		<string>${FUM_APP_BUNDLE}/Contents/MacOS/FUM</string>
+		<string>${FUM_APP_BUNDLE}/Contents/MacOS/FUMA</string>
 	</array>
 	<key>WorkingDirectory</key>
 	<string>${FUM_RUNTIME_ROOT}</string>

@@ -23,7 +23,7 @@ Predlozhennyij budusjhij kontrakt yavno sokhranyayet dostatochnyiye atributyi vk
 
 ## Svyazannyiye shagi
 
-- [FUM-STEP-0175](../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md); osnovaniye — `FUM-СБОЙ-0080/ПРОЯВЛЕНИЕ-0001`. Blizhajshaya rabota ispoljzuyet podderzhannyij format; posleduyusjheye issledovaniye sovmestimosti sokhranyayetsya otdeljno ot neobkhodimogo paketa.
+- [FUM-STEP-0175](../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md); osnovaniye — `FUM-СБОЙ-0080/ПРОЯВЛЕНИЕ-0001`. Blizhajshaya rabota ispoljzuyet podderzhannyij format; posleduyusjheye issledovaniye sovmestimosti sokhranyayetsya otdeljno ot neobkhodimogo paketa.
 
 ## Kriterij zakryitiya
 
@@ -35,6 +35,6 @@ Novyiye priyomki imeyut yavnyij dostatochnyij kontrakt istoricheskogo svideteljs
 - Obsjhij raspredelitelj vyidelil nomer dlya zadachi `01a09047-faa1-7370-83f7-cdfc8f9943a6`; sobyitiye `1f37f53b0ffe6c4f7e7f6f25a27dfa8b32088e20eba68d3e50fbad6af8093b76`. Chastnaya kvitanciya prochitana; yeyo pervonachaljnaya gipoteza obyazateljnogo prerequisite utochnena pozdnim resheniyem koordinatora.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 15:47:51 MSK -->
-<!-- content-sha256: sha256:e435d59f2d3665ead27ad8b4e6ccc3f7cab8e9ae4592f215ecb358ef0be37fb4 -->
+<!-- last-content-edit: 2026-09-12 01:19:38 MSK -->
+<!-- content-sha256: sha256:52cbf2bdcd2995f90695ef98ad9bb40af7f43f359cb380f6f95240bd2538432b -->
 <!-- FUM-MD-RECENCY:END -->

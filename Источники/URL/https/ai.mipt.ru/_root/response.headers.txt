@@ -1,0 +1,14 @@
+HTTP/2 200
+server: ddos-guard
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+date: Fri, 11 Sep 2026 11:57:30 GMT
+content-type: text/html; charset=UTF-8
+last-modified: Mon, 30 Mar 2026 08:10:51 GMT
+etag: W/"38820-64e39639e94df-gzip"
+x-frame-options: SAMEORIGIN
+x-host: ai.mipt.ru
+x-tilda-server: 27
+x-tilda-imprint: 863939fb-2b59-4108-9fdf-6fd0874e008b

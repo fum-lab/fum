@@ -2,7 +2,7 @@ import Foundation
 
 // Собственный закрытый JSON: целые числа, строки, массивы и объекты.
 // Значения true/false/null и дроби не входят в схему определения.
-indirect enum УзелОпределения: Encodable {
+indirect enum УзелОпределения: Encodable, Equatable, Sendable {
   case объект([String: УзелОпределения])
   case массив([УзелОпределения])
   case строка(String)

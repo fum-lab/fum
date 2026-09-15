@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-11 14:47:00 MSK - Podgotovitj sovmestimostj master i FUMA](../2026-09-11_14-47-00_MSK_podgotovitj-sovmestimostj-master-i-FUMA/zapros.md)
-- Sleduyusjhij zapros: [2026-09-11 15:50:49 MSK - Prinyatj sovmestimostj FUMA cherez otchyot v3](../2026-09-11_15-50-49_MSK_prinyatj-sovmestimostj-FUMA-cherez-otchyot-v3/zapros.md)
+- Predyidusjhij zapros: [2026-09-11 14:52:06 MSK - Sozdatj reyestr organizacij podderzhki FUM](../2026-09-11_14-52-06_MSK_sozdatj-reyestr-organizacij-podderzhki-FUM/zapros.md)
+- Sleduyusjhij zapros: [2026-09-11 15:48:40 MSK - Prinyatj planirovaniye Gosuslug](../2026-09-11_15-48-40_MSK_prinyatj-planirovaniye-Gosuslug/zapros.md)
 
 ## Tekst zaprosa
 
@@ -80,10 +80,10 @@ Vse sobstvennyiye tyazhyolyiye processyi zavershenyi, okno yavno osvobozhdeno. Y
 - [Indeks Zhurnala](../README.md).
 - [Indeks svezhesti](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md).
 - [FUM-SBOJ-0079](../../Sboi/FUM-SBOJ-0079-zavisimyij-smoke-posle-otkaza-predprosmotra.md), [FUM-SBOJ-0080](../../Sboi/FUM-SBOJ-0080-Git-chitatelj-ne-prinimayet-raundyi.md), [indeks sboyev](../../Sboi/README.md).
-- [FUM-STEP-0175](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md), [proizvodnyij planovyij reyestr](../../Planirovaniye/reyestr-trebovanij-variantov-i-kandidatov.json).
+- [FUM-STEP-0175](../../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md), [proizvodnyij planovyij reyestr](../../Planirovaniye/reyestr-trebovanij-variantov-i-kandidatov.json).
 - [Proizvodnaya oblastj](../../../../) — toljko shtatnaya avtomatizaciya.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 15:53:25 MSK -->
-<!-- content-sha256: sha256:aa177978167980ce868285794a34baa53c80d4b2a8f0888173b407e64455aef8 -->
+<!-- last-content-edit: 2026-09-15 06:23:18 MSK -->
+<!-- content-sha256: sha256:8bac041cadd91c8c4e620ed69d8c4b225ba72e645197276a458c45794c304ee6 -->
 <!-- FUM-MD-RECENCY:END -->

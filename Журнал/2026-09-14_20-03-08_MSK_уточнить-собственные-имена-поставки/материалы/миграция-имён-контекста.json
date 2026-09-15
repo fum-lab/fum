@@ -1,0 +1,9 @@
+{
+  "схема": "fum.миграция-имён-контекста.1",
+  "файлы": {
+    "Проекты/рабочий-контекст/общие/Swift/ПоддержкаМоделей.swift": "sha256:5193c9b7dfbfe772bb5bcd09acab1f23c5fe53f9344a337fe79703682e81d392",
+    "Проекты/рабочий-контекст/проверки/ПроверкиОпераций.swift": "sha256:b6ff543a2e345689804cb5551b30be1e4d0246067173962044eb710ba15bdfd9",
+    "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/ПорождениеМоделей.swift": "sha256:09f83d64b561aae495eb890609ba234babe9f615ea922c7dd0862acafabdb6da",
+    "Прототипы/память-структурирующих-операторов/Sources/FUMStructuringOperatorMemory/СтруктурныйКонтракт.swift": "sha256:215dec9181d91ce288a43ea55b981b5e9d47ffb5fb800fdc3be5627d230a1afe"
+  }
+}

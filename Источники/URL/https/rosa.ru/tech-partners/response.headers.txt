@@ -1,0 +1,10 @@
+HTTP/1.1 200 OK
+Date: Fri, 11 Sep 2026 11:57:53 GMT
+Server: Apache/2.4.58 (Ubuntu)
+X-UA-Compatible: IE=edge
+Link: <https://rosa.ru/wp-json/>; rel="https://api.w.org/", <https://rosa.ru/wp-json/wp/v2/pages/66725>; rel="alternate"; title="JSON"; type="application/json", <https://rosa.ru/?p=66725>; rel=shortlink
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+Last-Modified: Thu, 10 Sep 2026 09:41:08 GMT
+Vary: Accept-Encoding
+Transfer-Encoding: chunked
+Content-Type: text/html; charset=UTF-8

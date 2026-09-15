@@ -64,7 +64,7 @@ struct AXVisionUISnapshot {
             return AXVisionUISnapshot(
                 timestamp: ISO8601DateFormatter().string(from: Date()),
                 status: "waiting_for_accessibility_permission",
-                message: "Accessibility access is not enabled for FUM.app.",
+                message: "Accessibility access is not enabled for FUMA.app.",
                 applications: []
             )
         }

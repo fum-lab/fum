@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "FUMMacOSOrgans",
+    name: "FUMA",
     platforms: [
         .macOS(.v14)
     ],
@@ -13,10 +13,14 @@ let package = Package(
         .executable(name: "fum-ax-vision-sense", targets: ["FUMAXVisionSense"]),
         .executable(name: "fum-attention-loop", targets: ["FUMAttentionLoop"])
     ],
+    dependencies: [
+        .package(name: "FUMStructuringOperatorMemory", path: "../../../Прототипы/память-структурирующих-операторов"),
+        .package(name: "КонтейнерНаблюдений", path: "../Packages/КонтейнерНаблюдений")
+    ],
     targets: [
         .executableTarget(
             name: "FUMApp",
-            dependencies: ["CMpvShim", "ПутиИсполнения"],
+            dependencies: ["CMpvShim", "ПутиИсполнения", "ИсполнениеОператора"],
             linkerSettings: [
                 .linkedFramework("OpenGL"),
                 .linkedLibrary("mpv")
@@ -33,6 +37,12 @@ let package = Package(
         ),
         .systemLibrary(name: "CMpvSystem", pkgConfig: "mpv", providers: [.brew(["mpv"])]),
         .target(name: "ПутиИсполнения"),
+        .target(name: "ИсполнениеОператора", dependencies: [
+            "ПутиИсполнения",
+            .product(name: "FUMStructuringOperatorMemory", package: "FUMStructuringOperatorMemory"),
+            .product(name: "КонтейнерНаблюдений", package: "КонтейнерНаблюдений")
+        ]),
+        .testTarget(name: "ИсполнениеОператораTests", dependencies: ["ИсполнениеОператора"]),
         .executableTarget(name: "FUMMCPServer", dependencies: ["ПутиИсполнения"]),
         .executableTarget(name: "FUMAXVisionSense", dependencies: ["ПутиИсполнения"]),
         .executableTarget(name: "FUMAttentionLoop", dependencies: ["ПутиИсполнения"]),

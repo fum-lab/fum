@@ -1,0 +1,264 @@
+# Извлечённый текст
+
+Источник: <https://nlnet.nl/restack/faq/>
+
+## Содержимое
+
+NLnet; Frequently Asked (and/or Anticipated) Questions
+To main content
+Submit your proposals. Next deadline November 3. 2026
+Menu
+Funding
+Apply for funding
+Theme funds
+NGI Zero
+Support services
+Projects
+All projects
+Currently running
+Topic index
+Stories
+News & events
+News
+Events
+Webinars
+Office Hour
+Podcast
+NGI Zero Tour Schedule
+Speaker Bureau
+Resources
+Best practices
+Presentations
+Hex stickers
+Support NLnet
+Financial contribution
+Join the OIN
+About us
+Foundation
+People
+Press
+In the media
+Contact
+Funding
+Restack
+faq
+Frequently Asked (and/or Anticipated) Questions
+Main page | Guide for Applicants | Organisations involved | Eligibility | FAQ
+What kind of projects are you looking for?
+Do you have examples of granted projects?
+Can we send you a proposal upfront to check its eligibility?
+Do I need to work for an university or research institute to apply?
+Do I need to have a legal entity like a company to apply?
+Will the grant be disbursed up front?
+How long does the application process take?
+Can I remain anonymous?
+Can young people apply?
+Is there a special programme for under-represented social groups?
+Can you sponsor our event, which is about X which falls within the scope of the call?
+Are you going to spend the whole budget on small projects?
+I'm developing a proprietary application, and want to open source only a small part. Is that allowed in a proposal?
+Am I allowed to offer additional, non-open licenses?
+Can I apply with multiple projects in one single round
+I'm a current grantee. Can I help others with their project?
+I want to work on a larger effort that is already receiving funding. What are my options?
+I have patents assigned or pending on my idea. Can I meanwhile propose a project involving those patents? Should I disclose this in my application?
+I only heard about this call recently, can you postpone the deadline?
+I made a mistake in my application. What do I do?
+I have submitted my project proposal already, but I want to change it. Can I?
+I submitted to the wrong fund, now what?
+Can anyone in the whole world submit?
+How sustainable is all this? Does all of it stop when project funding goes away?
+What services do you offer to projects besides money?
+I want to make a future living out of my project. What are your thoughts on this?
+Can I ask my users for a subscription fee to sustain my income?
+What about accessibility? Is this mandatory?
+The topic of this call doesn't really fit, are there other topics I could apply to?
+My project is completed, but my work is not done!
+The project plan needs to be adjusted
+When I receive donations, what happens?
+When does my project need to be finished?
+Are F&A costs considered eligible expenses?
+Can I use generative AI to write parts of my proposal
+Can I start working already while the proposal is being reviewed?
+My question is not here
+What kind of projects are you looking for?
+This is really an open call. If you have an idea that contributes to the establishment of an Open Internet Stack , we invite you to propose .
+Make a proposal
+Do you have examples of granted projects?
+Restack is a new programme, so there are no projects yet. But there is an overview of projects that have been selected in adjacent funds such as NGI Commons Fund and earlier programmes like NGI0 PET , NGI0 Discovery , NGI0 Entrust and NGI0 Core , with background information on all the projects and links to their websites. Or simply browse through all our recent and current projects for inspiration.
+Can we send you a proposal upfront to check its eligibility?
+Unfortunately, you can't. This would move the whole structured procedure to a flood of unstructured and intransparent private dialogues, which would be unfair to other participants (and very inefficient as well). Luckily there is no need for this: the application procedure is very light-weight, and so you can just put in your proposal. If the project is not selected, you can iterate with the proposal as the cycle is quite fast (every two months a new call).
+Do I need to work for an university or research institute to apply?
+No, you don't. Application is open to all. The thing that counts is a good project proposal.
+Do I need to have a legal entity like a company to apply?
+No, you don't. You can apply as an individual, or as a formal or informal organisation of any type. Or even a collaboration of the two. It is not an issue if you have not yet established the entity when you apply.
+Each of the persons and legal entities which are part of the grant can be paid directly by us. The internal allocation of payment is decided upon by the project lead, and can be done after the work is completed.
+Will the grant be disbursed up front?
+No, the grant is not paid out up front. Instead you divide your project into milestones and allocate an amount to each of these. Once you reach a milestone you send in an request for payment. So for instance: You divide your project in milestones A, B, C and D. And you allocate amount € X to milestone A. Once you have finished milestone A, you request the payment for it and move on to milestone B.
+How long does the application process take?
+We do our best to assess all applications as quickly as possible. However, our funds are popular and we receive a large amount of applications. You can expect the process to take between three and five months. This is counted from the date of the deadline of the open call, not from the date you have submitted a proposal.
+Can I remain anonymous?
+You don't need to reveal your real name to us, prior to the project being granted. After that, we need to have this for compliance reasons — but we do not need to make it public. We can use an alias in all outgoing communication, should this be desirable or necessary at your end.
+Can young people apply?
+Yes, you can. Note that you do not have to reveal your real identity to us prior to the project being selected, so we have no way of even knowing anyway. And we very much welcome upcoming talent to the programme. Young people that have not yet reached the age of legal consent in their country of origin (typically 18 years old) on the date of the deadline may apply without any constraints; consent from a legal guardian such as a parent does not have to be provided prior to initial submission, but will be required to enter any further negotiations. Use of a pseudonym also after that is recommended.
+Is there a special programme for under-represented social groups?
+Inclusiveness is important to us. Projects are reviewed on a number of criteria , one of which is the strategic dimensions of the project. Creating strong role models for under-represented groups can help expand the relevance and impact of our work and thus is considered a strategic dimension, and as such is taken into account during the review — alongside other strategic dimensions such as the effect of the project on the technology landscape, standardisation efforts which are under way, human rights aspects, contribution to European and national legislative understanding and societal dialogue, etc. If you represent an unrepresented group, consider yourself invited to pay attention to this in your application. Of course this is not mandatory in any way, if you feel it is too much effort or distracts from the project contents itself.
+Can you sponsor our event, which is about X which falls within the scope of the call?
+No we cannot, unfortunately, and to our regret. At current we can only financially contribute to events that meaningfully contribute in a direct way to an actual R&D project within this programme. E.g. a code sprint or hackathon. Please check the information on eligible costs . Of course you can still mention good opportunities in your application, and we encourage you to do so: this will increase our understanding, and perhaps we can think of others that might be interested.
+Are you going to spend the whole budget on small projects?
+Depending on what you call small projects, yes. Your first proposal can only be between 5.000 en 50.000 euro. You can follow up with other project proposals, up to 500.000 euro over the lifetime of the programme. Of course that only makes sense if the idea turns out to be exceptionally good, and you prove the feasibility of your approach — and your ability to execute. But 500.000 euro is the absolute hard limit for any applicant for the programme.
+I'm developing a proprietary application, and want to open source only a small part. Is that allowed in a proposal?
+If the part you want to develop and release as free and open source is relevant and is not itself dependent on your (or other) proprietary technology, sure. We look at what you research and develop inside the project you propose, not to anything else. Our programmes are open to worthwhile contributions from all types of organisations, including companies that want to keep part of their business model away from free and open source software.
+Your proposal will be reviewed on its expected contribution towards the establishment of an Open Internet Stack. Technology that can only be used with an individual closed source application will not adequately scale to the global internet, certainly not in the long run. If the fate of a certain technology depends on leadership decisions and the internal economy of a single commercial entity this should probably not be considered 'sustainably open'. Spending public funding for building private monopolies isn't in the public interest.
+So in short: you can submit a proposal that fits snugly within a closed commercial environment, as long as that project itself is open source and doesn't depend on that closed environment — which would get in the way of permissionfree innovation and fair opportunities for all.
+Am I allowed to offer additional, non-open licenses?
+All projects are supposed to be released under a suitable free/libre/open source license. This allows for incremental innovation on top of your results, and as we explained is non-negotiable. We recommend you set up good governance processes for handling rights attached to your work, to make sure you and the users of your research retain agency in the future.
+This condition however does not in any way exclude the legitimate holders of copyrights and other associated rights of dealing with your project results under additional licenses, even proprietary ones: there may be legitimate reasons (such as license incompatibility with third party complementary FLOSS efforts) for alternative licenses beyond the license you use for the project.
+Can I apply with multiple projects in one single round
+Yes, theoretically you probably could — but there are some drawbacks and conditions to that. Although we've done our best to streamline the application process, each proposal still costs time to write and submit — and we cannot give that time back to you.
+You should know that for your first project with us, we want you to focus on making that project a success — meaning that if you submit multiple proposals (and supposing we would identify several of those as eligible), ultimately you would have to choose or find a realistic and plausible way to combine them (of course the total amount should stay below the maximum eligible amount). Since the world moves fast and therefore plans age quickly, why not choose before you put in effort to write different proposals?
+For subsequent proposals, in some cases it might make sense to parallelise effort — especially if you have enough capacity. But again, we cannot give you the time back you invest in writing proposals. So we recommend you talk to us before investing a lot of your precious time.
+Note that if you do submit multiple proposals in a single round, these typically have to be independent from each other. You cannot bypass the size conditions of the call by submitting a string of proposals that are tightly coupled to each other. If project B and C can only happen if project A is successful, you should probably be well under way finishing project A first before you block money for two more projects.
+Please note that there is a limit with regards to the maximum amount you can receive during the lifetime of the fund. This total cumulative maximum is the same for every person or entity — whatever your role in whatever projects.
+I'm a current grantee. Can I help others with their project?
+Assuming your own project doesn't suffer too much from it, we very much encourage helping out other worthwhile efforts and creating synergy with them. It is often easiest if you don't expect to be paid for it. It can be very helpful already to provide some advice in an issue, help new people write a grant proposal, have the occasional chat with them, or just hang out in their IRC channel.
+Sometimes more effort is required than would be feasible to deliver without some form of compensation. It is therefore possible for you to join the Memorandum of Understanding of others while you are executing your own project, as long as the work you'll do is budgeted in those projects. Of course this involvement has to be proportional.
+I want to work on a larger effort that is already receiving funding. What are my options?
+There are two options:
+Approach the people currently involved in the ongoing project(s) and see if they are interested in your contributions as part of their project — they would share some of the existing budget, and you have to fit within their timelines.
+Submit your own proposal for delivering complementary work in an independent project. You obtain your own grant and have your own timelines.
+Obviously, in the latter case it is important that your work is appreciated by upstream , and your work is well coordinated with the work done in the other project(s).
+Let's say that you are part of the Whitewhale Moonshot Example community, and the project lead Ahab is still on his first grant to deliver some major new features to Whitewhalte Moonshot Example. Because you feel it is taking a lifetime to get to the modest orthogonal WME features you need after that, you submit a small new grant proposal — with the blessing of Ahab, who agrees that these features are worth while but just never gets round to work on them. With your own grant, you are able to work on the WME features you need independent from Ahab (to the extent possible).
+Of course option 2 only works if your project does not strongly depend on the outcomes of the ongoing project(s), which obviously (as everything in life) may still fail. So you'll need to make sure your results are worthwhile, even if that happens. Otherwise it would make sense to wait.
+I have patents assigned or pending on my idea. Can I meanwhile propose a project involving those patents? Should I disclose this in my application?
+Yes, you must certainly disclose this. Patents can hinder other people and organisations from freely working and innovating with the technologies you may be creating, in different and sometimes unpredictable ways. Free and open source software licensing is based on copyright law, and may or may not have provisions with regards to patents. The interaction with patent law can be complex. We would prefer to understand potential patent situations at the application stage, given that we are talking about technologies which are to be created inside publicly funded research and development.
+The final selection of projects is competitive, and your application will be reviewed on its expected contribution towards the establishment of an Open Internet Stack. If the patents involved do not interfere with that contribution, and the technology you develop becomes available under suitable open source licenses, your project may still be eligible.
+I only heard about this call recently, can you postpone the deadline?
+We get this question surprisingly regular. We are sympathetic to your need. Unfortunately, the deadline of such a large concerted effort really is a deadline and there is nothing we can do about this. That means when you submit after the deadline, you will submit to the next call. The deadline of which, fortunately, is just a mere two months away since we have a bimonthly cycle. Meanwhile, of course, you can just submit a preliminary proposal — unlike most procedures you should be able to complete a proposal in less than an hour.
+I made a mistake in my application. What do I do?
+I have submitted my project proposal already, but found out I made a mistake.
+Is the call you submitted to still open?
+Just resubmit the correct proposal. Please mention this in your resubmission, this helps speed up processing. There is no need for concern or to send us emails, this happens all the time.
+Is the call you submitted to already closed?
+We suggest you still resubmit, clearly marking the necessary changes in your resubmission. We have no interest in causing unnecessary delay, but of course we have to be fair and a deadline is a deadline. Clerical errors can always be fixed, contact us via email as soon as possible to arrange for a manual alteration — and please include the assigned number of the original application and your resubmission to ease processing.
+I have submitted my project proposal already, but I want to change it. Can I?
+I forgot to mention/include something important/there is progressive insight. What do I do?
+Is the call you submitted to still open?
+Just resubmit the correct proposal. Please mention this in your resubmission, this helps speed up processing. There is no need for concern or to send us emails, this happens all the time.
+Is the call you submitted to already closed?
+We suggest you still resubmit, clearly marking the changes. You've done the hard work already, so this should be a limited effort. Please send us a short notification via email as well — please include the assigned number of the original application and your resubmission in your message to ease processing. We have to be fair and a deadline is a deadline, but the sooner we have the right proposal, the better. Note that if the original flawed submission gets rejected (which would not be strange because, well, it is flawed), the fixed resubmission might stand a better chance — and this limits the delay caused to a minimum. Note that clerical errors can always be fixed .
+I submitted to the wrong fund, now what?
+I apparently did not look well enough when I submitted my project, but when looking at the mail copy of the application I got from you, I submitted to the wrong fund. Can you fix this for me?
+By far the quickest variant is to resubmit to the right call. Just copy and paste your application details from the confirmation email. At your request, we can just discard the earlier submission. If the call you wanted to submit to is already closed, resubmission would of course not possible without unnecessary delay. In that case, please contact us as soon as possible to arrange for a manual alteration — and please include the assigned number in your mail to ease processing.
+Can anyone in the whole world submit?
+If the project you are are considering would be a significant advance towards establishing an Open Internet Stack, we invite you to submit — even if you live outside of Europe. Of course, it remains competitive — but you would expect that from money you get for doing what you love to do.
+The grant from the European Commission that allows us to run this programme is funded by European tax payers. It is a knock-out criterion for each project to have a "European dimension". Having people inside the proposed project from Europe or associated countries is an obvious and logical way to fulfil that requirement. You have a unique and worthwhile idea, but you are from elsewhere? Don't despair: a significantly unique contribution towards establishing a robust and competitive Open Internet Stack potentially also qualifies - but in that case do try to involve people or organisations from Europe where possible. Or put differently: we are open to talent from far and wide, but make sure you also help our upstream funders be content. Smaller tasks have been undertaken than delivering a new and better internet, and we need buy in and talent from far and wide to contribute to that global mission.
+How sustainable is all this? Does all of it stop when project funding goes away?
+We certainly hope not! One of the huge benefits of the design decision that all projects release their results under free/libre/open source licenses, means that we allow for incremental permissionless innovation. We invest in ideas and technology commons, not in individual businesses or particular business models.
+Free software allow literally anyone to use whatever they want in whatever way fits their needs. As long as there is someone interested in developing or using the software, they can do so without asking anyone. Obviously, under those rather unique conditions, evolutionary sustainability is much improved over the situation where the 'owner' restricts development and may pull the plug at any time.
+Furthermore, we spend a lot of effort in working with the technical and operational internet community as well as with other relevant stakeholders — preferably as early in the process of each project. This means not only that they get relevant feedback, but also that they are more likely to adhere to quality standards and operational practises that make it more likely that results are actually deployed.
+What services do you offer to projects besides money?
+One of our key objectives (which we inherited from NGI0 is to set a new global standard for supporting R&D projects. We've set up a best-of-breed "greenhouse environment" (analogous to what an "accelerator" does for for-profit initiatives) for the projects and teams that we funded. We offer support services such as accessibility and security audits, licensing advice, mentoring, packaging and more.
+Researchers and developers are mere humans, and the grasp of all relevant best practises they bring along initially is by definition limited. No matter how brilliant a researcher is: the demands on technology that should actually run at scale on the modern internet today are huge, and continuously changing. Having a crazy idea that might just work to fix the broken internet, does not automatically mean that you know how to make your solution accessible to blind people, how to set up continuous integration and reproducible builds, how to orchestrate a responsible disclosure procedure, how to make sure that your application can be used with different languages and be properly localised to be compatible with different cultures, how to engineer secure software and what state of the art attack vectors you'd better deal with, how to engage with standards setting organisations, how to nurture and grow a developer community, how to write end user documentation, which software license best fits the goals of the project, how to deal with software patent trolling, how to support diversity with regards to gender and social identity, what considerations to take into account for software to be packaged by distributions, etcetera.
+Adding these requirements post-development is many times more expensive, and in some cases can be impossible. We aim to complement the knowledge and skill set of the project proposers with leading domain experts in the respective fields . We can't do all the work for you, but we can provide guidance and mentoring to tackle each of these topics.
+I want to make a future living out of my project. What are your thoughts on this?
+The results of some projects are self-sustainable and take a life of their own, while others may involve setting up some sort of business or not-for-profit structure around them. We are happy to brainstorm with you about this.
+It is our belief that society should invest in digital commons. Technology is too important for society, and (short term) profit is not the best driver for our higher level goals such as resilience, trustworthiness and sustainability.
+Can I ask my users for a subscription fee to sustain my income?
+Sure, as long as you also make the results of your project available under a free and open source license for other researchers and developers to work with. Such a license allows people to reuse it for any purpose they see fit. That in turn allows for incremental innovation and reuse. Free and open source software makes what you develop a technology commons , meaning complete strangers will spontaneously care about making what you have created go far and wide — something they would never do for a proprietary product restricted to a single commercial entity ...
+Of course most ordinary people don't directly work with code themselves — they tend to leave that to experts like hosting companies and app stores. Very few people might be more qualified than you (as the creator of your technology) to provide services around your 'brain child' — and you might actually do some of your target user base a large favour by providing a hosted service they can pay for. It is therefore perfectly okay to (for instance) provide a hosted version with a monthly subscription fee attached.
+Running software is not R&D but a service and comes at a cost in terms of operational expenditure (e.g. electrical power, hardware, etc) and human labour. Part of the user community is interested to outsource that work and pay for convenience and not having to worry. Others want or need to run the software you create themselves, for good reasons such as privacy or confidentiality. Some of the users would contribute back in code, some of which you can use for your customers. And of course others will just download the software and use it. However, every single user is proof that your project provides something worthwhile. You do not have customer lock-in, but as long as you provide enough value (innovation, operational excellence, etc) — people are likely to come to you again and again. You are after all the brains behind the software they depend on. And of course you can apply for follow up funding to continue 'working for the internet', based on the utility of your software and the relevance of your new plans.
+Hosted services are not the only way to make a future living. Another type of users may want you to provide paid consultancy to add features they need, or to have you help out set up their own instance. The best model for sustainability depends really on the nature of your project, and will be specific to the problem you are solving and the target group(s) you address with your work. You can in fact make money from what you build in any way, as long as the result of the work funded by us is at least available under a free and open source license. There are many examples of free and open source projects that result in a sustainable income for their creators in very different ways, and also many that don't. This is no different from any other enterprise you may undertake. The grant we provide typically pays your entire income (and those of people you may involve) during the development of the project itself. So consider that you work for the internet, and that is its own reward. If the project is picked up by a wider community, that will give you an excellent position going forward. You could do worse than having a revolutionary internet technology on your resume...
+What about accessibility? Is this mandatory?
+The Open Internet Stack needs to be inclusive. This is why we put significant attention to have the results of granted projects to be accessible to people with disabilities. We understand that not everyone is an expert in this area — yet. But taking care of accessibility (or a11y for short) is, as far as we are concerned, the 'new normal'. From our end, we are willing to invest in this as well. Experts from our team will help you understand what that means to your project, and will mentor you how you can comply with the technical requirements. We have excellent support to evaluate the current state of accessibility and projects can request an accessibility audit performed by the HAN University of Applied Sciences, dept. Inclusive Design & Engineering — one of the core competence building centres of accessibility in the Netherlands.
+The topic of this call doesn't really fit, are there other topics I could apply to?
+Feel free to check our other themes as well as our overview of other grantmakers .
+My project is completed, but my work is not done!
+If the fund is still active, you can propose a continuation of the project. If this is rather limited in size (see the official policy on that), you can discuss this with your contact person at NLnet. If it is quite substantial, you would need to submit a new proposal . When in doubt, contact NLnet staff — they will be able to tell you what is the best path forward.
+The project plan needs to be adjusted
+Of course, while you are executing your plan the world doesn't come to a standstill. This means that there can be progressive insight and new opportunities, while also sometimes identified opportunities don't materialize or time out. You should discuss these kinds of issues with your contact person at NLnet. You can propose adjustments within the boundaries of what is possible (see the official policy on that). When in doubt, contact NLnet staff — they will be able to tell you what is the best path forward.
+When I receive donations, what happens?
+Your grants take the form of a donation from NLnet Foundation . NLnet is a recognised public benefit organisation according to the Netherlands tax office, a status which translates in full or to some degree to many other parts of the planet — which may or many not include your country of residence and/or work. Taxation in a global context is a pleasantly complex, dynamic and inspiring issue that has intellectually challenged many great minds. It has damaged some of those (and many others too). There are unfortunately significant differences across countries, and even across regions within a single tax system you may find notable variations in treatment.
+If you are from Europe, you might benefit from an initiative by Philantropy Europe Association (Philea) called Legal Environment for Philanthropy in Europe . With the help of a network of local experts, they have crafted a very overview per country of key legal provisions that apply. This should help get you started. Obviously, your local tax authority is the authoritative answer to all matters concerning taxation, and if you are in doubt you are advised to contact them for guidance.
+Go to: Legal Environment for Philanthropy in Europe ( warning: trackers present , unfortunately.)
+When does my project need to be finished?
+First and foremost: it is your project. You determine the timelines. However, our offer to financially support your work is time-constrained by necessity.
+If you already have an ongoing project : there is a validity date mentioned inside the Memorandum of Understanding. By default, we expect projects to be completed within 12 months — but qualified exceptions can be made. Are you nearing the end date and still working diligently on the project, and it looks like it won't be finished in time? Contact us, and we may very well be able to grant you extra time. Please also contact us if you are not going to be finishing at all, so we can find new worthwhile projects to benefit from the available budget.
+If you don't have an ongoing project and you think you'll need less than a year for a proposal you are considering: no problem. You think you need more than a year? The first thing to check is to what extent the project idea you have fits within the lifetime of the whole programme. Obviously, that is a hard external constraint pretty much beyond our control ߞ as much as we want to help make anything worthwhile possible, some things are out of reach. (Note that for Restack, the programme is scheduled to end in May 2030). If it fits, you can just put the planned timeline in your proposal.
+If it doesn't immediately fit: of course, your plans and longer term roadmap may (need to) extend well beyond the more or less arbitrary boundaries of our programme. We suggest you cut your plans up in multiple stages. Our grants are 'human size', which has the advantage of being very agile but the disadvantage of some overhead for long term efforts. We know that is a bit awkward, but it is just how things are. We need to take it one step at a time.
+Are F&A costs considered eligible expenses?
+Facilities and Administrative costs are generally not considered eligible expenses, unless in the presence of exceptional circumstances. When they are allowed, the maximum permissible amount is capped at 25%.
+Can I use generative AI to write parts of my proposal
+The short answer is: no. Grant applications are short and we spend a lot of effort evaluating proposals. Please grant us the courtesy of writing the proposal yourself. If you do use generative AI to write (part of your) proposal, please put this in the text and explain why this was necessary. Failure to do so is likely to result in the proposal being rejected, and tarnishing your reputation.
+Can I start working already while the proposal is being reviewed?
+No, and yes. A grant can only cover the period between the proposal being officially selected and the agreed end of the Memorandum of Understanding. We cannot make donations for any effort completed prior to the grant. The review process obviously takes time, and as a result you (or someone else) may have in the meanwhile completed part of the proposed work. Should we select your project, we can discuss replacing those parts with other tasks (rather than reducing the budget).
+The best thing to do is just to continue working on the project to the extent possible, as if our foundation and the entire grant application didn't exist. In particular we can suggest to make sure that both prospective users and co-developers can join in. In that case, should the grant proposal not make it (it is very competitive) you will not have lost time and your project has a higher overall chance of succeeding — with or without a grant. And part of our review process is actually looking at how the project is presented to target audiences.
+My question is not here
+Well, if you've read all this and still have a burning question: let us know . We are happy to help!
+Search
+Search Submit search
+Guide for Applicants
+Who is behind this?
+Eligibility
+FAQ
+About Restack
+Currently open for proposals:
+Restack
+CodeSupply
+Donate today
+And help us support the open internet!
+Events
+2026-10-29 - Webinar: Copyrightability of LLM-generated code by FSFE
+2026-09-30 - Office hour: Ask us Anything
+Event archive
+News
+Apply for funding before November 3rd 2026 2026-09-03
+NLnet is looking for a Rust developer 2026-08-17
+Five new projects strengthen NGI Pilots 2026-08-11
+More news
+Want to help?
+Help us by protecting open source and its users with 5 minutes of your time.
+NLnet
+Foundation
+People
+Press
+In the media
+Contact
+Privacy statement
+News & events
+News
+Events
+Webinars
+Office Hour
+NGI Zero Tour Schedule
+Speaker Bureau
+Connect with us
+Fediverse: NLnet
+Fediverse: NGI Zero
+Our podcast
+Our webinars
+RSS feed
+Site search
+Search Submit search
+Funding
+Open calls
+Theme funds
+NGI Zero
+Support services
+Projects
+All projects
+Currently running
+Topic index
+Stories
+Newsletters
+NLnet newsletter
+NGI Zero newsletter (subscribe)
+NGI Zero newsletter (RSS)
+Support NLnet
+Financial contribution
+Join the Open Invention Network
+
+<!-- FUM-MD-RECENCY:BEGIN -->
+<!-- last-content-edit: 2026-09-14 14:47:35 MSK -->
+<!-- content-sha256: sha256:3a9e3b7e475b049cb98a11bd59ee4c39a8476922263571fa36fe1d7d276715d7 -->
+<!-- FUM-MD-RECENCY:END -->

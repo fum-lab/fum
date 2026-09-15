@@ -32,7 +32,7 @@ Eti pravila polnostjyu chitayutsya do vyibora, sozdaniya, izmeneniya ili povtory
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000162 -->
 - Identifikator aktivnoj modeli i rezhim rassuzhdeniya zapisyivayutsya toljko togda, kogda oni pryamo pokazanyi tekusjhej sessiyej, interfejsom ili komandoj statusa. Znacheniye po umolchaniyu iz konfiguracii pomechayetsya kak skonfigurirovannoye i ne vyidayotsya za dokazannyij snimok aktivnoj modeli. Formulirovka «versiya ne raskryivayetsya sredoj» primenyayetsya k konkretnomu sloyu posle proverki dostupnogo sposoba nablyudeniya, a ne ko vsej srede ChatGPT ili Codex celikom.
 
-Pri sozdanii otdeljnoj zadachi i peredache yej sleduyusjhego soobsjheniya yavno ukazyivayutsya vyibrannyiye poljzovatelem modelj i rezhim rassuzhdeniya, yesli sootvetstvuyusjhij instrument prinimayet eti parametryi. Dlya soglasovannoj postoyannoj rabotyi FUMA poljzovatelj vyibral `gpt-6-astra` i `ultra`; eti znacheniya peredayutsya v `model` i `thinking`, poka poljzovatelj ne izmenit vyibor. Propusk parametrov ne schitayetsya nasledovaniyem vyibora kornya: instrument mozhet primenitj nastrojku prilozheniya po umolchaniyu. Zaproshennaya modelj i fakticheski nablyudyonnaya razlichayutsya v otchyote. Yesli modelj nedostupna, sokhranyayetsya nezavershyonnoye pereklyucheniye bez zayavleniya uspekha. [Istochnik utochneniya o modeli novyikh zadach](../../Zhurnal/2026-09-09_11-39-26_MSK_predotvratitj-poteryu-obyazateljstv-postoyannoj-zadachi/zapros.md).
+Pri sozdanii otdeljnoj zadachi i peredache yej sleduyusjhego soobsjheniya yavno ukazyivayutsya vyibrannyiye poljzovatelem modelj i rezhim rassuzhdeniya, yesli sootvetstvuyusjhij instrument prinimayet eti parametryi. Dlya soglasovannoj postoyannoj rabotyi FUMA poljzovatelj vyibral `gpt-6-astra` i `low` kak GPT-6 Astra Lyogkij; eti znacheniya peredayutsya v `model` i `thinking`, poka poljzovatelj ne izmenit vyibor. Propusk parametrov ne schitayetsya nasledovaniyem vyibora kornya: instrument mozhet primenitj nastrojku prilozheniya po umolchaniyu. Zaproshennaya modelj i fakticheski nablyudyonnaya razlichayutsya v otchyote. Yesli modelj nedostupna, sokhranyayetsya nezavershyonnoye pereklyucheniye bez zayavleniya uspekha. [Istochnik utochneniya o modeli novyikh zadach](../../Zhurnal/2026-09-09_11-39-26_MSK_predotvratitj-poteryu-obyazateljstv-postoyannoj-zadachi/zapros.md). [Istochnik smenyi rezhima na GPT-6 Astra Lyogkij](../../Zhurnal/2026-09-15_13-00-53_MSK_ispravitj-sboj-finaljnoj-proyekcii/zapros.md).
 
 Sokhranyonnyij poljzovateljskij zapros otdeljnyikh vidimyikh zadach primenyayetsya pri kazhdom sleduyusjhem nezavisimom pishusjhem naznachenii, poka poljzovatelj ne izmenit yego oblastj. Vnutrennij subagent i otdeljnyij worktree sami po sebe etot zapros ne vyipolnyayut. Read-only-analiz mozhet ostavatjsya dochernej rabotoj obsjhej zadachi. Poryadok primenyayetsya i posle vosstanovleniya konteksta; prezhneye uspeshnoye sozdaniye ne pogashayet postoyannoye ukazaniye.
 
@@ -102,6 +102,6 @@ Razlichayutsya prinyatoye sozdaniye, podgotovka i podtverzhdyonnyij zapusk. Do z
 - [iskhodnyij zapros 2026-08-24 15:31:12 MSK — Dekompozirovatj AGENTS MD](../../Zhurnal/2026-08-24_15-31-12_MSK_dekompozirovatj-AGENTS-md/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 11:59:08 MSK -->
-<!-- content-sha256: sha256:0090c97981ca8f0f78634203e96eb28f4f572801ad354508bab8c87e1f74072b -->
+<!-- last-content-edit: 2026-09-15 13:12:42 MSK -->
+<!-- content-sha256: sha256:e6415a6ab6bed92d593c1e4ede9d98ddd8f972902d417c25ae3de70d0d6a8988 -->
 <!-- FUM-MD-RECENCY:END -->

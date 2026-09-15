@@ -8,6 +8,7 @@ import ast
 import importlib.util
 import os
 import re
+import stat
 import subprocess
 import sys
 from dataclasses import dataclass
@@ -1245,31 +1246,53 @@ def resolve_markdown_target(link: MarkdownLink, repo_root: Path) -> Path | None:
     return (link.source.parent / path_part).resolve()
 
 
-def actual_case_path(path: Path, repo_root: Path) -> Path | None:
+def actual_case_path(
+    path: Path, repo_root: Path, кэш_каталогов: dict | None = None,
+) -> Path | None:
     root = repo_root.resolve()
     try:
         relative = path.relative_to(root)
     except ValueError:
         return path if path.exists() else None
 
+    if кэш_каталогов is None:
+        кэш_каталогов = {}
+
+    def метка(состояние):
+        return (состояние.st_dev, состояние.st_ino,
+                состояние.st_mtime_ns, состояние.st_ctime_ns)
+
     current = root
     for part in relative.parts:
-        if not current.is_dir():
-            return None
-
         try:
-            children = list(current.iterdir())
+            состояние = current.stat()
+            if not stat.S_ISDIR(состояние.st_mode):
+                кэш_каталогов.pop(current, None)
+                return None
+            запись = кэш_каталогов.get(current)
+            if запись is not None and запись[0] == метка(состояние):
+                _, точные, свёрнутые = запись
+            else:
+                точные = {}
+                свёрнутые = {}
+                for ребёнок in current.iterdir():
+                    точные[ребёнок.name] = ребёнок
+                    свёрнутые.setdefault(ребёнок.name.casefold(), []).append(ребёнок)
+                # Изменение во время чтения не закрепляется как свежий снимок.
+                if метка(current.stat()) == метка(состояние):
+                    кэш_каталогов[current] = (метка(состояние), точные, свёрнутые)
+                else:
+                    кэш_каталогов.pop(current, None)
         except OSError:
+            кэш_каталогов.pop(current, None)
             return None
 
-        exact = next((child for child in children if child.name == part), None)
+        exact = точные.get(part)
         if exact is not None:
             current = exact
             continue
 
-        folded = [
-            child for child in children if child.name.casefold() == part.casefold()
-        ]
+        folded = свёрнутые.get(part.casefold(), [])
         if len(folded) == 1:
             current = folded[0]
             continue
@@ -1414,6 +1437,7 @@ def отсутствует_необязательный_граф(
 
 def validate_markdown_links(paths: set[Path], repo_root: Path) -> list[str]:
     errors: list[str] = []
+    кэш_каталогов = {}
     for path in sorted(paths):
         if not path.exists() or path.suffix.lower() != ".md":
             continue
@@ -1457,7 +1481,7 @@ def validate_markdown_links(paths: set[Path], repo_root: Path) -> list[str]:
                 continue
             actual_target = None
             if not is_structurally_excluded_path(target, repo_root):
-                actual_target = actual_case_path(target, repo_root)
+                actual_target = actual_case_path(target, repo_root, кэш_каталогов)
             if actual_target is None:
                 if отсутствует_необязательный_граф(link, target, repo_root):
                     continue

@@ -1,0 +1,10 @@
+HTTP/2 200
+cache-control: private, max-age=3600
+cache-control: no-cache, private
+content-type: text/html; charset=UTF-8
+date: Fri, 11 Sep 2026 12:06:25 GMT
+expires: Fri, 11 Sep 2026 13:06:25 GMT
+last-modified: Thu, 29 Jan 2026 14:37:54 GMT
+server: openresty/1.27.1.1
+set-cookie: [REDACTED: response cookie]
+x-powered-by: PHP/8.3.17

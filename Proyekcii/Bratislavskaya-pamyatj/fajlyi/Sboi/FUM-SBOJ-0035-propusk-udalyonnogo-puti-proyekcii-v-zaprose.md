@@ -20,6 +20,7 @@ Podgotovka oblasti zaprosa ne uchityivayet ozhidayemyiye udaleniya starogo pokol
 | FUM-SBOJ-0035/PROYAVLENIYE-0001 | [Polnyij zapusk № 10 a76dc5e1](../Zhurnal/2026-09-08_21-16-26_MSK_integrirovatj-paralleljnyiye-rezuljtatyi-i-opisatj-rabotu/materialyi/zapuski-proverok/10_a76dc5e1-8872-404e-b604-990af4a7de95.json) | Shag 11 otkazal posle primeneniya i proverki proyekcii; 377,427256542 s. | Sverenyi pokoleniya i yedinstvennoye udaleniye; v zapros dobavlen tochnyij marker. |
 | FUM-SBOJ-0035/PROYAVLENIYE-0002 | [Polnyij zapusk № 18 5c5b135b](https://github.com/fum-lab/fum/blob/6599fe4837ef54efc7f871d2bfe6f8d9d07b4d95/Журнал/2026-09-11_02-51-49_MSK_проверить-поставку-FUMA-из-клона/материалы/запуски-проверок/18_5c5b135b-f0cb-44f4-a33e-7b8275025695.json) | Shag 11 otklonil udaleniye prezhnej proizvodnoj kartochki 0176. | Dobavlen shtatnyij tochnyij marker udalyonnogo fajla; adresnyij kontrolj i povtor polnogo dopuska prinyali dopolnennyij vkhod. |
 | FUM-SBOJ-0035/PROYAVLENIYE-0003 | [Polnyij zapusk № 19 e9f92a65](https://github.com/fum-lab/fum/blob/6b1860591deb1d669f5f5ae1bd03336170fb8fce/Журнал/2026-09-11_02-02-21_MSK_закрепить-допуск-остатка-сообщений/материалы/запуски-проверок/19_e9f92a65-105d-4a42-b74c-3cfa8e718a6b.json) i [otchyot 0177](https://github.com/fum-lab/fum/blob/6b1860591deb1d669f5f5ae1bd03336170fb8fce/Журнал/2026-09-11_02-02-21_MSK_закрепить-допуск-остатка-сообщений/отчёт.md) | Shag 11 posle desyati uspeshnyikh shagov otklonil udaleniye prezhnej proizvodnoj kartochki 0177. Vneshnyaya obyortka sokhranila kod 1 i 385,607158167 s; v otchyote otdeljno ukazan vnutrennij interval 385,523 s. | V zapros dobavlen tochnyij marker udalyonnogo fajla. [Adresnyij zapusk № 20 6d01bd93](https://github.com/fum-lab/fum/blob/6b1860591deb1d669f5f5ae1bd03336170fb8fce/Журнал/2026-09-11_02-02-21_MSK_закрепить-допуск-остатка-сообщений/материалы/запуски-проверок/20_6d01bd93-bd39-44a2-b106-eb413e6e71f7.json) zavershyon kodom 0 za 39,465681084 s; realizaciya ne menyalasj. |
+| FUM-SBOJ-0035/PROYAVLENIYE-0004 | [Polnyij zapusk № 4 8874b8ce](../Zhurnal/2026-09-15_04-49-10_MSK_prinyatj-obyyedinyonnyiye-predstavleniya-konteksta/materialyi/zapuski-proverok/4_8874b8ce-549d-4d61-a039-3fc70257619a.json) i [sopostavleniye pokolenij](../Zhurnal/2026-09-15_04-49-10_MSK_prinyatj-obyyedinyonnyiye-predstavleniya-konteksta/materialyi/sopostavleniye-udalyonnyikh-kartochek.json) | Shag 11 posle desyati uspeshnyikh shagov otklonil pyatj prezhnikh proizvodnyikh kartochek 0175, 0176, 0177, 0207 i 0208; obyortka sokhranila kod 1 i 530,615099166 s. | Dobavlenyi pyatj tochnyikh markerov; posleduyusjhiye adresnyij i polnyij iskhodyi sokhranyayutsya v [otchyote](../Zhurnal/2026-09-15_04-49-10_MSK_prinyatj-obyyedinyonnyiye-predstavleniya-konteksta/otchyot.md). |
 
 ## Ozhidaniye i klassifikaciya
 
@@ -31,11 +32,11 @@ V pervom sluchaye HEAD 7b692126b6b1c96e162554f71a96a6ef8857924a uzhe soderzhal n
 
 ## Svyazannyiye shagi
 
-- [FUM-STEP-0205](../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0205-uchityivatj-udaleniya-proyekcii-do-polnoj-proverki.md). Osnovaniya aktualizacii — FUM-SBOJ-0035/PROYAVLENIYE-0002 i FUM-SBOJ-0035/PROYAVLENIYE-0003.
+- [FUM-STEP-0205](../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0205-uchityivatj-udaleniya-proyekcii-do-polnoj-proverki.md). Osnovaniya aktualizacii — FUM-SBOJ-0035/PROYAVLENIYE-0002, FUM-SBOJ-0035/PROYAVLENIYE-0003 i FUM-SBOJ-0035/PROYAVLENIYE-0004.
 
 ## Kriterii zakryitiya
 
-Proveryayemaya podgotovka oblasti do polnogo dopuska vyiyavlyayet tochnoye ozhidayemoye udaleniye; soglasovannyij marker pokryivayet toljko podtverzhdyonnyij putj. Neobyyasnyonnyiye udaleniya i sosedniye imena ostayutsya zapresjhenyi. Svideteljstvo okhvatyivayet vse tri nablyudyonnyikh scenariya, a ne toljko uspeshnoye povtoreniye komandyi.
+Proveryayemaya podgotovka oblasti do polnogo dopuska vyiyavlyayet tochnoye ozhidayemoye udaleniye; soglasovannyij marker pokryivayet toljko podtverzhdyonnyij putj. Neobyyasnyonnyiye udaleniya i sosedniye imena ostayutsya zapresjhenyi. Svideteljstvo okhvatyivayet vse chetyire nablyudyonnyikh scenariya, a ne toljko uspeshnoye povtoreniye komandyi.
 
 ## Istoricheski ogranichennoye ustraneniye
 
@@ -51,6 +52,6 @@ Proveryayemaya podgotovka oblasti do polnogo dopuska vyiyavlyayet tochnoye ozhid
 - [Novyij zapros diagnostiki](../Zhurnal/2026-09-11_09-36-55_MSK_sokhranitj-ostavshuyusya-diagnostiku-priyoma/zapros.md) i [otchyot](../Zhurnal/2026-09-11_09-36-55_MSK_sokhranitj-ostavshuyusya-diagnostiku-priyoma/otchyot.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 09:58:11 MSK -->
-<!-- content-sha256: sha256:3e2f7f72546014ed2940cac6516a87011749d1ccfe09083a1e50ed9b59e03cb5 -->
+<!-- last-content-edit: 2026-09-15 05:16:15 MSK -->
+<!-- content-sha256: sha256:3e8a0621978cc8fd793047272e8bc1d1437df29a74501f50c851a25c3b3807f3 -->
 <!-- FUM-MD-RECENCY:END -->

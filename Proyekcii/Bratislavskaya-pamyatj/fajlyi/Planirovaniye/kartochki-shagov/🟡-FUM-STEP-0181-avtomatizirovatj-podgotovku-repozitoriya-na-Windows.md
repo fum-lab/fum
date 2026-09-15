@@ -26,6 +26,8 @@ Poljzovatelj poruchil zaplanirovatj podgotovku Windows. Susjhestvuyusjhiye lokal
 
 ## Svyazannyiye rabotyi i poryadok
 
+[Postanovka Windows VM na macOS](../Windows-na-macOS.md) konkretiziruyet nativnyij Windows ARM64 vnutri VM kak ispyitaniye povtorno vyizyivayemoj avtomatizacii. Ona ispoljzuyet obsjhij cikl Linux-postanovki i otdeljnyij Windows-adapter. Status active, shirokiye kriterii i razlicheniye nativnogo Windows/WSL sokhranyayutsya.
+
 Planirovaniye vyipolneno po pryamomu porucheniyu; realizaciya etim dokumentom ne obyyavlyayetsya nachatoj. Obsjhij pervyij etap novyikh avtomatizacij — opisaniye profilej sredyi i trebovanij proverok; platformennyiye adapteryi mozhno realizovyivatj nezavisimo posle soglasovaniya obsjhej chasti.
 
 - [Avtomatizirovatj nastrojku GitHub Actions](🟡-FUM-STEP-0178-avtomatizirovatj-nastrojku-GitHub-Actions.md).
@@ -35,11 +37,13 @@ Planirovaniye vyipolneno po pryamomu porucheniyu; realizaciya etim dokumentom ne
 
 ## Istochniki
 
+- [Prinyataya planovaya postanovka Windows VM](https://github.com/fum-lab/fum/blob/8d89a695d6f099091a13d3ce60c924c7098105f2/Планирование/Windows-на-macOS.md) — kommit `8d89a695d6f099091a13d3ce60c924c7098105f2`; novaya matrica native/WSL ne podmenyayet yeyo shirokoj gotovnostjyu ili razresheniyem ustanovki.
+
 - [Pryamoye porucheniye poljzovatelya i soderzhateljnyiye otvetyi](../../Zhurnal/2026-09-11_00-58-07_MSK_zaplanirovatj-podgotovku-Windows/zapros.md).
 - [Dejstvuyusjhij reyestr instrumentov](../../Instrumentyi/reyestr-sistemnyikh-prilozhenij-i-instrumentov.md).
 - [Susjhestvuyusjhij kontrakt kompleksnoj proverki](../../Instrumentyi/fum-kompleksnaya-proverka-repozitoriya/SKILL.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 11:47:30 MSK -->
-<!-- content-sha256: sha256:05a533f550428bbf47a03715ef93419e3c0becc17815571c02774b95920da5a7 -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:9fa274cf471e8f8b66cd31ccbaaea592394cbcd460188d82af521f94bb8a7456 -->
 <!-- FUM-MD-RECENCY:END -->

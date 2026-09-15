@@ -66,9 +66,9 @@ Tyazhyoloye okno pervonachaljnoj popyitki byilo peredano posle zaversheniya usta
 - [Iskhodnyiye komandyi i granica prodolzheniya](zapros.md).
 - [Proiskhozhdeniye pervichnyikh komand](../2026-09-11_14-47-00_MSK_podgotovitj-sovmestimostj-master-i-FUMA/materialyi/proiskhozhdeniye-komand.json).
 - [Sverka politiki](../2026-09-11_14-47-00_MSK_podgotovitj-sovmestimostj-master-i-FUMA/materialyi/sverka-politiki.json).
-- [FUM-STEP-0175](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md).
+- [FUM-STEP-0175](../../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 15:47:51 MSK -->
-<!-- content-sha256: sha256:7a1663eaa6ac64c5414e40acaf8022eb918b4044448a81864c915b5aa21165b6 -->
+<!-- last-content-edit: 2026-09-12 01:19:38 MSK -->
+<!-- content-sha256: sha256:fccc130327d021b96068639dd9f0e6a0e3f9f2a3d135b97cfbcf91f09e7a51ec -->
 <!-- FUM-MD-RECENCY:END -->

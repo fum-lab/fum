@@ -1,0 +1,76 @@
+{
+  "схема": "fum.минимальная-зависимость.1",
+  "коммит": "f80bdf424350a6c07fb5e5acf25e5b252cfd03be",
+  "дерево": "722aa17fa7ea975d40d9936094df2c169b08a2a2",
+  "исходники": [
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/аббревиатуры_контекста.py",
+      "sha256": "d435dfccb76e4526c1999df6d489efe9a680eee1da427bfb6057fc461db147d2"
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/безопасные_привязки_python.py",
+      "sha256": "bea73934b403a103ce05162a0865b37796f85c9da6e592c12bf503f6b6bf73af"
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/пакет_перевода_python.py",
+      "sha256": "576aa83b7947932527983e7482869f6cebbd0839d4ef02ade6d420dc17114600"
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести-объявления-кода.py",
+      "sha256": "82d0d819158dbf7d28ceecb5ef2c0176ec17bd197dc61e78191065a25a80cf0c"
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py",
+      "sha256": "63be1138c8461de6c83f259d0e220b1d3d76daa14fd67ae25014fe135d22148c"
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_аббревиатуры_контекста.py",
+      "sha256": "ae627688a26bca120b7c7e17dc7d5259109b1e0afe3b21cdefc1da30efda769e"
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_безопасный_перевод_python.py",
+      "sha256": "35952240ce4154b815981d9a75fa8506133d0652b868def7cb4ddd43042ae99d"
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_контрпримеры_ревью_python.py",
+      "sha256": "47832fab75883f3e876f6573c3fcb8de2adf5c1ce8c7b50a0059f1a08940ea39"
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_пакет_перевода_python.py",
+      "sha256": "93fdc9ae62c2cf102f0f156b2d681ae26ab3fff04d2b8bffa2083223db6f0fe8"
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_перевод_объявлений_кода.py",
+      "sha256": "f93d951ee46a6f3298f038a5517ff7f7bb4f691395cf057a0e553e498fae4784"
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_роли_свифт.py",
+      "sha256": "d539b6abd736f88f853ec02ec90da37d6030662034f0fdb34133bcc53d3a8c3b"
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_сигнатуры_свифт.py",
+      "sha256": "84f3837accec3d829f32f2c6840e921e9d80bffbcfdb6982a80099555b929852"
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_сценарий_ответа.py",
+      "sha256": "82d58c9df405013492a050d3d522b9b7974176898d6cc9221f3b161673189379"
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_шаблон_адаптера.py",
+      "sha256": "82868f4f1c074d3b6485c23a2e77dc78b639e1c169b74da3b6d3976fdf714f64"
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/измерить_безопасный_перевод_python.py",
+      "sha256": "ceafc786e891b309eaf00de69af38ba212d05b16b5e2ce2a5edcdb102090adad"
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/измерить_шаблон_адаптера.py",
+      "sha256": "7b8209725809ee055244ebee62bff95befb3a636589c00a8ad8dd1510f6cd179"
+    },
+    {
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/аббревиатуры-контекста.json",
+      "sha256": "2113fbfbbb071d248bc2c686f9a85b904086788fdde68ffa3d92ab73a1a34349"
+    }
+  ],
+  "граница": "Пять исполняемых модулей, обязательный перечень, девять автономных тестовых файлов и два профиля, включая прежние неизменные тест и профиль адаптера; документы адаптированы к своей поставке. Чужой снимок остатка, утилиты миграции контекста и продукт CJS не перенесены."
+}

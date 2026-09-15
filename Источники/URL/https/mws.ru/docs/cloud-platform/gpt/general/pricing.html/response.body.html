@@ -1,0 +1,383 @@
+<!DOCTYPE html><html lang="ru" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-bguv2lll"> <head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta http-equiv="Content-Security-Policy" content="default-src 'self' localhost:*; connect-src 'self' *.mts.ru *.cloud.mts.ru http://localhost:5173 https://static.s3.cloud.mts.ru https://storage.mwsapis.ru https://mc.yandex.ru wss://mc.yandex.ru https://www.googletagmanager.com *.cloud.mts.ru/search/multi_search https://tag.a.mts.ru; font-src 'self' https://static.s3.cloud.mts.ru; img-src 'self' blob: data: https://mc.yandex.ru https://www.googletagmanager.com https://cloud.mts.ru https://hub.cloud.mts.ru https://static.s3.cloud.mts.ru https://storage.mwsapis.ru https://*.mwsapis.ru https://mws.ru https://tag.a.mts.ru; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://mc.yandex.ru https://www.googletagmanager.com https://static.s3.cloud.mts.ru https://storage.mwsapis.ru https://tag.a.mts.ru; style-src 'self' 'unsafe-inline'; frame-src https://mc.yandex.ru https://www.googletagmanager.com https://tag.a.mts.ru https://workspace.teamstream.mts-corp.ru;"/><link rel="canonical" href="https://mws.ru/docs/cloud-platform/gpt/general/pricing.html"/><link rel="sitemap" href="/docs/sitemap-index.xml"/><link rel="modulepreload" href="https://storage.mwsapis.ru/mws-site-docs/js/typesense-docsearch.js"/><script type="module">(() => {
+            const INDEX_NAMES = {"dev":"docusaurus-2","staging":"docusaurus-2","production":"docusaurus-2"};
+            const translations = {
+              modal: {
+                startScreen: {
+                  noRecentSearchesText: 'Недавних запросов нет',
+                  resetButtonText: 'Сбросить'
+                }
+              }
+            };
+
+            const resolveEnv = () => {
+              const host = window.location.hostname;
+              if (host.includes('stage') || host.includes('preprod')) return 'staging';
+              if (host.includes('dev')) return 'dev';
+              return 'production';
+            };
+            const env = resolveEnv();
+            const indexName = INDEX_NAMES?.[env] || 'docusaurus-2';
+            const METRIKA_ID = 87687414;
+            const IS_SEARCH_METRIKA_ENABLED = env === 'production';
+            const SEARCH_TRACK_DEBOUNCE_MS = 800;
+            const MIN_QUERY_LENGTH = 2;
+
+            let searchTrackTimer = null;
+            let pendingSearchTrack = null;
+
+            const sendSearchToMetrika = (query, resultsCount) => {
+              if (!IS_SEARCH_METRIKA_ENABLED) return;
+              const q = String(query || '').trim().slice(0, 200);
+              if (q.length < MIN_QUERY_LENGTH) return;
+              if (typeof window.ym !== 'function') return;
+              const params = {
+                docs_search_query: q,
+                docs_search_results: resultsCount
+              };
+
+              try {
+                const goal = resultsCount > 0 ? 'docs_search' : 'docs_search_no_results';
+                window.ym(METRIKA_ID, 'reachGoal', goal, params);
+                window.ym(METRIKA_ID, 'params', params);
+              } catch (e) {
+                console.warn('[typesense-search] metrika track failed', e);
+              }
+            };
+
+            const scheduleSearchTrack = (query, resultsCount) => {
+              pendingSearchTrack = { query, resultsCount };
+              clearTimeout(searchTrackTimer);
+              searchTrackTimer = setTimeout(() => {
+                if (!pendingSearchTrack) return;
+                sendSearchToMetrika(
+                  pendingSearchTrack.query,
+                  pendingSearchTrack.resultsCount
+                );
+                pendingSearchTrack = null;
+              }, SEARCH_TRACK_DEBOUNCE_MS);
+            };
+
+            const init = async () => {
+              if (window.__mwsTypesenseSearchInit) return;
+              const container = document.querySelector('#docsearch');
+              if (!container) return;
+              window.__mwsTypesenseSearchInit = true;
+
+              try {
+                await import('https://storage.mwsapis.ru/mws-site-docs/js/typesense-docsearch.js');
+                if (typeof window.docsearch !== 'function') {
+                  throw new Error('docsearch not available');
+                }
+
+                window.docsearch({
+                  container: '#docsearch',
+                  environment: window,
+                  typesenseCollectionName: indexName,
+                  typesenseServerConfig: {
+                    nodes: [{
+                      host: window.location.hostname,
+                      port: window.location.port,
+                      path: '/docs/search',
+                      protocol: window.location.protocol.replace(':', '')
+                    }],
+                    apiKey: 'proxy-managed'
+                  },
+                  transformSearchClient: (searchClient) => ({
+                    ...searchClient,
+                    search(requests) {
+                      return searchClient.search(requests).then((response) => {
+                        try {
+                          const firstResult = response?.results?.[0];
+                          const query =
+                            firstResult?.query ??
+                            requests?.[0]?.params?.query ??
+                            '';
+                          const resultsCount =
+                            firstResult?.nbHits ??
+                            firstResult?.hits?.length ??
+                            0;
+                          scheduleSearchTrack(query, resultsCount);
+                        } catch (e) {
+                          console.warn('[typesense-search] metrika parse failed', e);
+                        }
+                        return response;
+                      });
+                    }
+                  }),
+                  translations: {
+                    modal: {
+                      startScreen: {
+                        noRecentSearchesText: 'Недавних запросов нет',
+                        resetButtonText: 'Сбросить'
+                      },
+                      noResultsScreen: {
+                        noResultsText: 'Ничего не найдено по запросу',
+                        suggestedQueryText: 'Попробуйте поискать'
+                      },
+                      searchBox: {
+                        resetButtonTitle: 'Очистить запрос',
+                        resetButtonAriaLabel: 'Очистить запрос',
+                        cancelButtonText: 'Отмена',
+                        cancelButtonAriaLabel: 'Отмена'
+                      }
+                    }
+                  }
+                });
+              } catch (e) {
+                console.error('[typesense-search] init failed', e);
+              }
+            };
+
+            if (document.readyState === 'loading') {
+              document.addEventListener('DOMContentLoaded', () => {
+                init();
+                setTimeout(init, 500);
+              }, { once: true });
+            } else {
+              init();
+              setTimeout(init, 500);
+            }
+          })();</script><script>(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+              m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+              (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+        
+              ym(87687414, "init", {
+                clickmap:true,
+                trackLinks:true,
+                accurateTrackBounce:true,
+                webvisor:true
+              });</script><script>(function (dl, id) {
+                window[dl] = window[dl] || [];
+                const script = document.createElement('script'),
+                      params = dl !== 'dataLayer' ? '?l=' + dl : '';
+                script.async = true;
+                script.src = 'https://tag.a.mts.ru/container/' + id + '/tag.js' + params;
+                document.head.appendChild(script);
+              })('dataLayer', '7688b7d6-38a3-49e0-9665-cef39bdc4892');</script><script>(function (w, d, s, l, i) {
+                w[l] = w[l] || [];
+                w[l].push({
+                    'gtm.start':
+                      new Date().getTime(), event: 'gtm.js'
+                });
+                var f = d.getElementsByTagName(s)[0],
+                  j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+                j.async = true;
+                j.src =
+                  'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+                f.parentNode.insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', 'GTM-M26HMDD');</script><link rel="shortcut icon" href="https://mws.ru/favicon-32x32.png" type="image/png"/><meta property="og:title" content="Тарификация"/><meta property="og:type" content="article"/><meta property="og:url" content="https://mws.ru/docs/cloud-platform/gpt/general/pricing.html"/><meta property="og:locale" content="ru"/><meta property="og:site_name" content="MWS Docs"/><meta name="twitter:card" content="summary_large_image"/><title>Тарификация | MWS Docs</title><meta name="description" content="Документация MWS Cloud Platform - GPT Model Hub | О сервисе | Тарификация"><meta property="og:description" content="Документация MWS Cloud Platform - GPT Model Hub | О сервисе | Тарификация"><link rel="canonical" href="https://mws.ru//docs/cloud-platform/gpt/general/pricing.html"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"MWS Docs","item":"https://mws.ru/docs/"},{"@type":"ListItem","position":2,"name":"GPT Model Hub","item":"https://mws.ru//docs/cloud-platform/gpt/general/pricing.html"},{"@type":"ListItem","position":3,"name":"О сервисе","item":"https://mws.ru//docs/cloud-platform/gpt/general/pricing.html"},{"@type":"ListItem","position":4,"name":"Тарификация","item":"https://mws.ru/docs/cloud-platform/gpt/general/pricing.html"}]}</script><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		const resolved = theme === 'light' ? 'light' : 'dark';
+		document.documentElement.dataset.theme = resolved;
+		document.documentElement.dataset.mtsTheme = resolved;
+		return {
+			updatePickers: (theme = storedTheme || 'auto') => {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/docs/_astro/print.DNXP8c50.css" media="print"><link rel="stylesheet" href="/docs/_astro/_operationId_.xWyAjN1x.css">
+<link rel="stylesheet" href="/docs/_astro/_operationId_.f2-e6rps.css"><script type="module" src="/docs/_astro/page.B1D-nYk3.js"></script></head> <body class="astro-bguv2lll"> <a href="#_top" class="astro-7q3lir66">Перейти к содержимому</a>  <div class="page sl-flex astro-vrdttmbt"> <header class="header astro-vrdttmbt"><div class="header astro-kmkmnagf"> <div class="title-wrapper sl-flex astro-kmkmnagf"> <a href="/docs/" class="site-title sl-flex astro-ck7e5vei"> <img class="logo astro-ck7e5vei" src="https://storage.mwsapis.ru/mws-site-docs/site/mws_logo.svg" alt="MWS Docs"> </a>  </div> <div class="sl-flex print:hidden astro-kmkmnagf"> <div class="typesense-docsearch-root astro-4qobrs4h" id="docsearch"></div>  </div> <div class="sl-hidden md:sl-flex print:hidden right-group astro-kmkmnagf"> <div class="sl-flex social-icons astro-kmkmnagf">  </div> <starlight-theme-select> <label style="--sl-select-width: 6.25em" class="astro-4yphtoen"> <span class="sr-only astro-4yphtoen">Выберите тему</span> <svg aria-hidden="true" class="icon label-icon astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg> <select autocomplete="off" class="astro-4yphtoen"> <option value="dark" class="astro-4yphtoen">Тёмная</option><option value="light" class="astro-4yphtoen">Светлая</option><option value="auto" selected class="astro-4yphtoen">Авто</option> </select> <svg aria-hidden="true" class="icon caret astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg> </label>  </starlight-theme-select> <script>
+	StarlightThemeProvider.updatePickers();
+</script> <script type="module">const o="starlight-theme",r=e=>e==="auto"||e==="dark"||e==="light"?e:"auto",c=()=>r(typeof localStorage<"u"&&localStorage.getItem(o)),s=e=>{typeof localStorage<"u"&&localStorage.setItem(o,e==="light"||e==="dark"?e:"")},n=()=>matchMedia("(prefers-color-scheme: light)").matches?"light":"dark",a=e=>{StarlightThemeProvider.updatePickers(e);const t=e==="auto"?n():e;document.documentElement.dataset.theme=t,document.documentElement.dataset.mtsTheme=t,s(e)};matchMedia("(prefers-color-scheme: light)").addEventListener("change",()=>{c()==="auto"&&a("auto")});class l extends HTMLElement{constructor(){super(),a(c()),this.querySelector("select")?.addEventListener("change",t=>{t.currentTarget instanceof HTMLSelectElement&&a(r(t.currentTarget.value))})}}customElements.define("starlight-theme-select",l);</script> <script type="module">class s extends HTMLElement{constructor(){super();const e=this.querySelector("select");e&&(e.addEventListener("change",t=>{t.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=t.currentTarget.value)}),window.addEventListener("pageshow",t=>{if(!t.persisted)return;const n=e.querySelector("option[selected]")?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}}customElements.define("starlight-lang-select",s);</script> </div> </div> </header> <nav class="sidebar print:hidden astro-vrdttmbt" aria-label="Основное"> <starlight-menu-button class="print:hidden astro-jif73yzw"> <button aria-expanded="false" aria-label="Меню" aria-controls="starlight__sidebar" class="sl-flex md:sl-hidden astro-jif73yzw"> <svg aria-hidden="true" class="open-menu astro-jif73yzw astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg> <svg aria-hidden="true" class="close-menu astro-jif73yzw astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg> </button> </starlight-menu-button> <script type="module">class s extends HTMLElement{constructor(){super(),this.btn=this.querySelector("button"),this.btn.addEventListener("click",()=>this.toggleExpanded());const t=this.closest("nav");t&&t.addEventListener("keyup",e=>this.closeOnEscape(e))}setExpanded(t){this.setAttribute("aria-expanded",String(t)),document.body.toggleAttribute("data-mobile-menu-expanded",t)}toggleExpanded(){this.setExpanded(this.getAttribute("aria-expanded")!=="true")}closeOnEscape(t){t.code==="Escape"&&(this.setExpanded(!1),this.btn.focus())}}customElements.define("starlight-menu-button",s);</script>   <div id="starlight__sidebar" class="sidebar-pane astro-vrdttmbt"> <div class="sidebar-content sl-flex astro-vrdttmbt"> <p class="sidebar-section-title astro-lzcjmvsu" aria-hidden="true">GPT Model Hub</p><div id="mws-docs-sidebar" class="astro-lzcjmvsu"> <sl-sidebar-state-persist data-hash="1166bog" class="astro-kku4brbg"> <script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script>  <ul class="top-level astro-3ii7xxms"> <li class="astro-3ii7xxms"> <details open class="astro-3ii7xxms"> <summary class="astro-3ii7xxms"> <span class="group-label astro-3ii7xxms"> <span class="large astro-3ii7xxms">О сервисе</span>  </span> <svg aria-hidden="true" class="caret astro-3ii7xxms astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="0"></sl-sidebar-restore> <ul class="astro-3ii7xxms"> <li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/gpt/general/whatis-gpt.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Обзор</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/gpt/general/quickstart-gpt.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Быстрый старт</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/gpt/general/gpt-models.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Доступные модели</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/gpt/general/quotas-limits.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Квоты и лимиты</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/gpt/general/pricing.html" aria-current="page" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Тарификация</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/gpt/general/gpt-sla.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Соглашение об уровне доступности</span>  </a> </li> </ul>  </details> </li><li class="astro-3ii7xxms"> <details open class="astro-3ii7xxms"> <summary class="astro-3ii7xxms"> <span class="group-label astro-3ii7xxms"> <span class="large astro-3ii7xxms">Функциональность</span>  </span> <svg aria-hidden="true" class="caret astro-3ii7xxms astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="1"></sl-sidebar-restore> <ul class="astro-3ii7xxms"> <li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/gpt/general/model.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Модель</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/gpt/general/deployment.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Деплоймент</span>  </a> </li> </ul>  </details> </li><li class="astro-3ii7xxms"> <details open class="astro-3ii7xxms"> <summary class="astro-3ii7xxms"> <span class="group-label astro-3ii7xxms"> <span class="large astro-3ii7xxms">Работа с моделями</span>  </span> <svg aria-hidden="true" class="caret astro-3ii7xxms astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="2"></sl-sidebar-restore> <ul class="astro-3ii7xxms"> <li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/gpt/general/inference-text.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Текстовые модели</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/gpt/general/inference-responses.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Responses API</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/gpt/general/inference-audio.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Аудио-модели (ASR/TTS)</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/gpt/general/inference-rerank.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Reranker-модели</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/gpt/general/reasoning.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Рассуждения</span>  </a> </li> </ul>  </details> </li><li class="astro-3ii7xxms"> <details open class="astro-3ii7xxms"> <summary class="astro-3ii7xxms"> <span class="group-label astro-3ii7xxms"> <span class="large astro-3ii7xxms">Практические руководства</span>  </span> <svg aria-hidden="true" class="caret astro-3ii7xxms astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="3"></sl-sidebar-restore> <ul class="astro-3ii7xxms"> <li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/gpt/general/cline.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Использование ИИ-ассистента в средах разработки</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/gpt/general/librechat.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Развертывание LibreChat</span>  </a> </li><li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/gpt/general/langflow.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Развертывание Langflow</span>  </a> </li> </ul>  </details> </li><li class="astro-3ii7xxms"> <details open class="astro-3ii7xxms"> <summary class="astro-3ii7xxms"> <span class="group-label astro-3ii7xxms"> <span class="large astro-3ii7xxms">Управление доступом</span>  </span> <svg aria-hidden="true" class="caret astro-3ii7xxms astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="4"></sl-sidebar-restore> <ul class="astro-3ii7xxms"> <li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/gpt/general/access-iam-roles.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">IAM-роли</span>  </a> </li> </ul>  </details> </li><li class="astro-3ii7xxms"> <details open class="astro-3ii7xxms"> <summary class="astro-3ii7xxms"> <span class="group-label astro-3ii7xxms"> <span class="large astro-3ii7xxms">Диагностика ошибок</span>  </span> <svg aria-hidden="true" class="caret astro-3ii7xxms astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg> </summary> <sl-sidebar-restore data-index="5"></sl-sidebar-restore> <ul class="astro-3ii7xxms"> <li class="astro-3ii7xxms"> <a href="/docs/cloud-platform/gpt/general/error-codes.html" class="astro-3ii7xxms"> <span class="astro-3ii7xxms">Коды обработки запроса</span>  </a> </li> </ul>  </details> </li> </ul>   <script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script> </sl-sidebar-state-persist>  </div>  <div class="md:sl-hidden astro-lzcjmvsu"> <div class="mobile-preferences sl-flex astro-wu23bvmt"> <div class="social-icons astro-wu23bvmt">  </div> <starlight-theme-select> <label style="--sl-select-width: 6.25em" class="astro-4yphtoen"> <span class="sr-only astro-4yphtoen">Выберите тему</span> <svg aria-hidden="true" class="icon label-icon astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg> <select autocomplete="off" class="astro-4yphtoen"> <option value="dark" class="astro-4yphtoen">Тёмная</option><option value="light" class="astro-4yphtoen">Светлая</option><option value="auto" selected class="astro-4yphtoen">Авто</option> </select> <svg aria-hidden="true" class="icon caret astro-4yphtoen astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg> </label>  </starlight-theme-select> <script>
+	StarlightThemeProvider.updatePickers();
+</script>   </div>  </div> </div> </div> </nav> <div class="main-frame astro-vrdttmbt">  <script type="module">const a=document.getElementById("starlight__sidebar"),n=a?.querySelector("sl-sidebar-state-persist"),o="sl-sidebar-state",i=()=>{let t=[];const e=n?.dataset.hash||"";try{const s=sessionStorage.getItem(o),r=JSON.parse(s||"{}");Array.isArray(r.open)&&r.hash===e&&(t=r.open)}catch{}return{hash:e,open:t,scroll:a?.scrollTop||0}},c=t=>{try{sessionStorage.setItem(o,JSON.stringify(t))}catch{}},d=()=>c(i()),l=(t,e)=>{const s=i();s.open[e]=t,c(s)};n?.addEventListener("click",t=>{if(!(t.target instanceof Element))return;const e=t.target.closest("summary")?.closest("details");if(!e)return;const s=e.querySelector("sl-sidebar-restore"),r=parseInt(s?.dataset.index||"");isNaN(r)||l(!e.open,r)});addEventListener("visibilitychange",()=>{document.visibilityState==="hidden"&&d()});addEventListener("pageHide",d);</script> <div class="lg:sl-flex astro-67yu43on"> <aside class="right-sidebar-container print:hidden astro-67yu43on"> <div class="right-sidebar astro-67yu43on"> <script type="module" src="/docs/_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.hwBsy0Mo.js"></script><script type="module" src="/docs/_astro/TableOfContents.astro_astro_type_script_index_0_lang.FuRcXuRY.js"></script><div class="lg:sl-hidden astro-pb3aqygn"><mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-doynk5tl"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-doynk5tl"><details id="starlight__mobile-toc" class="astro-doynk5tl"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-doynk5tl"><span class="toggle sl-flex astro-doynk5tl">На этой странице<svg aria-hidden="true" class="caret astro-doynk5tl astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-doynk5tl"></span></summary><div class="dropdown astro-doynk5tl"><ul class="isMobile astro-g2bywc46" style="--depth: 0;"> <li class="astro-g2bywc46" style="--depth: 0;"> <a href="#правила-тарификации" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">Правила тарификации</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#стоимость" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">Стоимость</span> </a>  </li> </ul> </div></details></nav></mobile-starlight-toc></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-pb3aqygn"><div class="sl-container astro-pb3aqygn"><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">На этой странице</h2><ul class="astro-g2bywc46" style="--depth: 0;"> <li class="astro-g2bywc46" style="--depth: 0;"> <a href="#правила-тарификации" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">Правила тарификации</span> </a>  </li><li class="astro-g2bywc46" style="--depth: 0;"> <a href="#стоимость" class="astro-g2bywc46" style="--depth: 0;"> <span class="astro-g2bywc46" style="--depth: 0;">Стоимость</span> </a>  </li> </ul> </nav></starlight-toc></div></div> </div> </aside> <div class="main-pane astro-67yu43on">  <main data-pagefind-body class="astro-bguv2lll" lang="ru" dir="ltr">   <style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).load=e;window.dispatchEvent(new Event("astro:load"));})();</script><script>(()=>{var A=Object.defineProperty;var g=(i,o,a)=>o in i?A(i,o,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[o]=a;var d=(i,o,a)=>g(i,typeof o!="symbol"?o+"":o,a);{let i={0:t=>m(t),1:t=>a(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(a(t)),5:t=>new Set(a(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>1/0*t},o=t=>{let[l,e]=t;return l in i?i[l](e):void 0},a=t=>t.map(o),m=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([l,e])=>[l,o(e)]));class y extends HTMLElement{constructor(){super(...arguments);d(this,"Component");d(this,"hydrator");d(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let c=this.querySelectorAll("astro-slot"),n={},h=this.querySelectorAll("template[data-astro-template]");for(let r of h){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of c){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("name")||"default"]=r.innerHTML)}let p;try{p=this.hasAttribute("props")?m(JSON.parse(this.getAttribute("props"))):{}}catch(r){let s=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(s+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${s}`,this.getAttribute("props"),r),r}let u;await this.hydrator(this)(this.Component,p,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});d(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),c.disconnect(),this.childrenConnectedCallback()},c=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});c.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}async start(){let e=JSON.parse(this.getAttribute("opts")),c=this.getAttribute("client");if(Astro[c]===void 0){window.addEventListener(`astro:${c}`,()=>this.start(),{once:!0});return}try{await Astro[c](async()=>{let n=this.getAttribute("renderer-url"),[h,{default:p}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),u=this.getAttribute("component-export")||"default";if(!u.includes("."))this.Component=h[u];else{this.Component=h;for(let f of u.split("."))this.Component=this.Component[f]}return this.hydrator=p,this.hydrate},e,this)}catch(n){console.error(`[astro-island] Error hydrating ${this.getAttribute("component-url")}`,n)}}attributeChangedCallback(){this.hydrate()}}d(y,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",y)}})();</script> <div class="content-panel astro-7nkwcw3z"> <div class="sl-container astro-7nkwcw3z"> <!-- nav class="breadcrumbs" aria-label="Breadcrumb">
+      <ol>
+        {breadcrumbs.map((item, index) => {
+          const isLast = index === breadcrumbs.length - 1
+          return (
+            <li>
+              {item.href && !isLast ? (
+                <a href={item.href}>{item.label}</a>
+              ) : (
+                <span aria-current={isLast ? 'page' : undefined}>{item.label}</span>
+              )}
+            </li>
+          )
+        })}
+      </ol>
+    </nav --><h1 id="_top" class="astro-6mlbj5hd">Тарификация</h1>  </div> </div>  <div class="content-panel astro-7nkwcw3z"> <div class="sl-container astro-7nkwcw3z"> <div class="sl-markdown-content">  <div class="sl-heading-wrapper level-h2"><h2 id="правила-тарификации">Правила тарификации</h2><a class="sl-anchor-link" href="#правила-тарификации"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Заголовок раздела «Правила тарификации»</span></a></div>
+<p>В расчете стоимости использования сервиса GPT Model Hub учитываются:</p>
+<ul>
+<li><div class="li-content">Входящие токены — количество токенов, полученных при токенизации входящего от модели текста.</div></li>
+<li><div class="li-content">Исходящие токены — количество токенов, полученных при токенизации исходящего от модели текста.</div></li>
+<li><div class="li-content">Отпускная единица — минимальный объем потребления, подлежащий тарификации за один запрос к модели.</div></li>
+</ul>
+<p>Тарификация происходит по факту потребления, средства списываются по мере накопления одной отпускной единицы. Остаток токенов, не кратный одной отпускной единице, хранится в течение 24 часов. Если за это время отпускная единица накоплена не будет, то остаток сгорает и не тарифицируется.</p>
+<div class="mws-details-ssr"><div class="mws-details-wrapper"><button type="button" class="mws-spoiler-trigger mws-spoiler-trigger_appearance-bold" tabindex="0" data-v-b4b8fe08=""><div class="mws-spoiler-trigger__title" data-v-b4b8fe08=""><!--[-->Пример расчета<!--]--></div><!----><svg width="24px" height="24px" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="mws-spoiler-trigger__chevron" data-v-b4b8fe08=""><path fill="currentColor" fill-rule="evenodd" d="M12 13.683 5.65 8.24l-1.3 1.518 7 6a1 1 0 0 0 1.3 0l7-6-1.3-1.518z" clip-rule="evenodd"></path></svg></button><div data-trigger="mws-details-ssr-234" tabindex="-1" class="mws-expandable-content" data-v-31ebe275=""><div class="mws-expandable-content__wrapper" data-v-31ebe275=""><div class="mws-expandable-content__expanded" data-v-31ebe275=""><div class="mws-expandable-content__content" data-v-31ebe275=""><!--[--><div class="mws-details-content">
+<p>Пользователь потратил 120 токенов, т.е. больше одной отпускной единицы.<br>
+Списание: 100.<br>
+Остаток: 120 - 100 = 20.<br></p>
+<p>Пользователь потратил еще 10 токенов.<br>
+Списание: не происходит.<br>
+Остаток: 20 + 10 = 30.<br></p>
+<p>Пользователь потратил еще 195 токенов. С учетом остатка списаны средства за 200 токенов, новый остаток — 25 токенов.<br>
+Списание: 200.<br>
+Остаток: 30 + 195 - 200 = 25.<br></p>
+<p>Информация об остатке хранится 24 часа с момента его расчета. Если пользователь не применяет сервис 24 часа, остаток сгорит и не будет тарифицироваться.</p>
+</div><!--]--></div></div><div class="mws-expandable-content__collapsed" data-v-31ebe275=""><div class="mws-expandable-content__content" data-v-31ebe275=""><!--[--><!--]--></div></div></div></div></div></div>
+<div class="mws-aside-ssr"><div class="mws-bg_banner-info mws-banner mws-banner_type-info mws-banner_appearance-base mws-banner_with-title mws-banner_with-icon" data-v-0bc34247=""><figure class="mws-banner__icon" data-v-0bc34247=""><svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" data-v-0bc34247=""><path fill="currentColor" fill-rule="evenodd" d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18m1 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-2 8v-5h2v5z" clip-rule="evenodd"></path></svg></figure><div data-v-0bc34247=""><div class="mws-banner__title" data-v-0bc34247=""><!--[--><span>Примечание</span><!--]--></div><div class="mws-banner__description" data-v-0bc34247=""><!--[--><div class="mws-aside-ssr__html"><p>Каждая модель имеет свой токенизатор текста, поэтому один и тот же текст в разных моделях может представлять собой разный объем токенов.</p></div><!--]--></div><!----></div><!----></div></div>
+<div class="sl-heading-wrapper level-h2"><h2 id="стоимость">Стоимость</h2><a class="sl-anchor-link" href="#стоимость"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentcolor" d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 0 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 1 0-1.42-1.42Zm8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 0 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 1 0 1.42 1.42l3.88-3.89a4.49 4.49 0 0 0 0-6.33ZM8.83 15.17a1 1 0 0 0 1.1.22 1 1 0 0 0 .32-.22l4.92-4.92a1 1 0 0 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42Z"></path></svg></span><span class="sr-only" data-pagefind-ignore="">Заголовок раздела «Стоимость»</span></a></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Модель</th><th>Стадия готовности</th><th>Цена за 1 млн входящих токенов, с НДС 22%</th><th>Цена за 1 млн исходящих токенов, с НДС 22%</th><th>Отпускная единица</th></tr></thead><tbody><tr><td>qwen3.6-35b-a3b</td><td>General Availability</td><td>70,76 ₽</td><td>283,04 ₽</td><td>100 токенов</td></tr><tr><td>glm-5.3</td><td>General Availability</td><td>178,12 ₽</td><td>746,64 ₽</td><td>100 токенов</td></tr><tr><td>glm-5.2</td><td>Deprecated 08.10.2026</td><td>178,12 ₽</td><td>746,64 ₽</td><td>100 токенов</td></tr><tr><td>kimi-k2.6</td><td>General Availability</td><td>157,38 ₽</td><td>652,70 ₽</td><td>100 токенов</td></tr><tr><td>gemma-4-31b-it</td><td>General Availability</td><td>56,12 ₽</td><td>224,48 ₽</td><td>100 токенов</td></tr><tr><td>gpt-oss-120b</td><td>General Availability</td><td>13,42 ₽</td><td>54,90 ₽</td><td>100 токенов</td></tr><tr><td>bge-multilingual-gemma2</td><td>General Availability</td><td>1,83 ₽</td><td>–</td><td>1000 токенов</td></tr><tr><td>bge-m3</td><td>General Availability</td><td>0,61 ₽</td><td>–</td><td>1000 токенов</td></tr><tr><td>bge-reranker-v2-gemma</td><td>Preview</td><td>–</td><td>–</td><td>1000 токенов</td></tr><tr><td>bge-reranker-v2-m3</td><td>Preview</td><td>–</td><td>–</td><td>1000 токенов</td></tr><tr><td>whisper-large-v3</td><td>Preview</td><td>–</td><td>–</td><td>1 секунда</td></tr><tr><td>qwen3-asr-1.7b</td><td>Preview</td><td>–</td><td>–</td><td>1 секунда</td></tr><tr><td>gigaam-v3</td><td>Preview</td><td>–</td><td>–</td><td>1 секунда</td></tr><tr><td>qwen3-tts-12hz-1.7b-custom-voice</td><td>Preview</td><td>–</td><td>–</td><td>10 символов</td></tr></tbody></table>
+<p>Модели в <a href="../../about/general/launch-stages.html#preview">стадии Preview</a> не тарифицируются и на них не распространяется <a href="../../gpt/general/gpt-sla.html">соглашение об уровне доступности (SLA)</a>.</p>  </div> <script>(function(){const frontmatter = {"title":"Тарификация","editUrl":true,"head":[],"template":"doc","sidebar":{"label":"","hidden":false},"pagefind":true,"draft":false};
+
+  window.__STARLIGHT_PAGE_FRONTMATTER__ = typeof frontmatter !== 'undefined' ? frontmatter : {};
+})();</script> <astro-island uid="hIjNJ" prefix="s0" component-url="/docs/_astro/MdxComponentMount.CJAm-6zM.js" component-export="default" renderer-url="/docs/_astro/client.CUMz_0U6.js" props="{}" ssr client="load" opts="{&quot;name&quot;:&quot;MdxComponentMount&quot;,&quot;value&quot;:true}" await-children><div style="display:contents;" aria-hidden="true"></div><!--astro:end--></astro-island> <footer class="sl-flex astro-3yyafb3n"> <div class="meta sl-flex astro-3yyafb3n">  <p>
+Последнее обновление: <time datetime="2026-09-07T16:21:42.000Z">07.09.2026, 16:21</time></p> </div> <div class="pagination-links print:hidden astro-nvnvt5qu" dir="ltr"> <a href="/docs/cloud-platform/gpt/general/quotas-limits.html" rel="prev" class="astro-nvnvt5qu"> <svg aria-hidden="true" class="astro-nvnvt5qu astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/></svg> <span class="astro-nvnvt5qu"> Предыдущая <br class="astro-nvnvt5qu"> <span class="link-title  astro-nvnvt5qu">  <span class="link-title__text astro-nvnvt5qu">Квоты и лимиты</span> </span> </span> </a> <a href="/docs/cloud-platform/gpt/general/gpt-sla.html" rel="next" class="astro-nvnvt5qu"> <svg aria-hidden="true" class="astro-nvnvt5qu astro-c6vsoqas" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg> <span class="astro-nvnvt5qu"> Следующая <br class="astro-nvnvt5qu"> <span class="link-title  astro-nvnvt5qu">  <span class="link-title__text astro-nvnvt5qu">Соглашение об уровне доступности</span> </span> </span> </a> </div>   </footer>  </div> </div>   </main> </div> </div>  </div> </div>  </body></html>

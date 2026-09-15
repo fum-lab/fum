@@ -8,6 +8,10 @@ Eto trebovaniye k postavlyayemomu produktu. Podgotovlennoye okruzheniye razrabot
 
 ## Semanticheskiye svyazi
 
+- **dopolnyayetsya:** [polnoj perenosimoj oflajn-avtonomnostjyu FUM](🟡-polnaya-perenosimaya-oflajn-avtonomnostj-FUM.md) — svyazyivayet obyazateljnyiye realjnyiye bajtyi i instrumentyi s proverkoj polnogo perenosimogo komplekta bez interneta.
+
+- **dopolnyayetsya:** [sborkoj Swift toolchain iz polnostjyu zerkaljnyikh zavisimostej](🟡-sborka-Swift-toolchain-iz-polnostjyu-zerkaljnyikh-zavisimostej.md) — svyazyivayet polnuyu postavku instrumentariya s pervyim vosproizvodimyim profilem.
+
 - **dopolnyayetsya:** [graficheskimi interfejsami FUMA](🟡-graficheskiye-interfejsyi-FUMA.md) — utochnyayut graficheskiye puti prilozheniya.
 
 ## Kriterii proverki
@@ -34,11 +38,15 @@ Microsoft Windows Holographic isklyuchena iz celej podderzhki po posleduyusjhemu
 
 ## Istochniki trebovanij
 
+- [Avtonomnyij komplekt i binarnyiye obyyektyi vne Git](../Zhurnal/2026-09-11_19-12-07_MSK_prinyatj-plan-avtonomnogo-komplekta-FUM/zapros.md).
+
+- [Postanovka zerkaljnoj sborki Swift](../Zhurnal/2026-09-11_18-47-36_MSK_prinyatj-plan-zerkaljnoj-sborki-Swift/zapros.md).
+
 - [Komanda otmenyi Windows Holographic s sosednimi otvetami](../Zhurnal/2026-09-11_02-34-29_MSK_vosstanovitj-kontekst-platformennogo-resheniya-i-SwiftNIO/materialyi/istochniki/kontekst-reshenij/kontekst-otmenyi-Windows-Holographic.md).
 
 - [Perechenj platform i posleduyusjheye dobavleniye PlayStation i Xbox](../Zhurnal/2026-09-11_01-03-38_MSK_zaplanirovatj-platformyi-i-grafiku-FUMA/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 02:37:53 MSK -->
-<!-- content-sha256: sha256:7f71d74574a83810eef0785b9bc0fb703d4e92164c702db7b8dec2aa394cc9a2 -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:34295a34f1f41b375b488f4dd76bb91866123fe93d399eba01cf24271371000a -->
 <!-- FUM-MD-RECENCY:END -->

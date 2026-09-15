@@ -21,7 +21,7 @@ Lokaljnoye vosstanovleniye ne dokazyivayet sistemnoye predotvrasjheniye povtoren
 
 ## Svyazannyiye shagi
 
-- [FUM-STEP-0175](../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md); osnovaniye — `FUM-СБОЙ-0079/ПРОЯВЛЕНИЕ-0001`.
+- [FUM-STEP-0175](../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md); osnovaniye — `FUM-СБОЙ-0079/ПРОЯВЛЕНИЕ-0001`.
 
 ## Kriterij zakryitiya
 
@@ -33,6 +33,6 @@ Proveryayemyij sposob podgotovki sokhranyayet rannij otricateljnyij iskhod i gar
 - Obsjhij raspredelitelj vyidelil nomer dlya zadachi `01a09047-faa1-7370-83f7-cdfc8f9943a6`; sobyitiye `63ddc204734e9912f640efa36c953f3da3b9261d6cf31893218e4342d738d6fb`. Chastnaya kvitanciya prochitana; nomer ne vyichislen po maksimumu checkout.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 15:47:51 MSK -->
-<!-- content-sha256: sha256:b84cb5ceabe1dc1ba13c40873f4eaeabf97e91ab360297df6845a57927e68f03 -->
+<!-- last-content-edit: 2026-09-12 01:19:38 MSK -->
+<!-- content-sha256: sha256:8969a1d9250bc5664cce70f899953c58b9d9208d38bd8f54664acae690cddec7 -->
 <!-- FUM-MD-RECENCY:END -->

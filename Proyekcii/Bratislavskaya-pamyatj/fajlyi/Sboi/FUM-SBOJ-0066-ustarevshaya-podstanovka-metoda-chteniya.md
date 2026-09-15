@@ -47,7 +47,7 @@ Tochnoye osnovaniye aktualizacii susjhestvuyusjhego [FUM-STEP-0177](https://gith
 
 Novogo STEP net. Realizaciya 0177 ostayotsya samostoyateljnyim prinyatyim rezuljtatom; novoye porucheniye na yeyo peredelku etim diagnozom ne sozdayotsya.
 
-Dlya tekusjhego `FUM-СБОЙ-0066/ПРОЯВЛЕНИЕ-0003` aktualizirovan [FUM-STEP-0175](../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md): prinyatj tochnuyu deljtu v M i proveritj sleduyusjhij kandidat. Obratnaya ssyilka sokhranyayet tot zhe nomer. Eto prodolzheniye susjhestvuyusjhej integracii, novyij STEP ne sozdayotsya.
+Dlya tekusjhego `FUM-СБОЙ-0066/ПРОЯВЛЕНИЕ-0003` aktualizirovan [FUM-STEP-0175](../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md): prinyatj tochnuyu deljtu v M i proveritj sleduyusjhij kandidat. Obratnaya ssyilka sokhranyayet tot zhe nomer. Eto prodolzheniye susjhestvuyusjhej integracii, novyij STEP ne sozdayotsya.
 
 ## Kriterii zakryitiya
 
@@ -64,6 +64,6 @@ Tot zhe test nablyudayet read_bytes, proveryayet schyotchik 1 i izmeneniye istoc
 [Istoricheskaya registraciya i proiskhozhdeniye](https://github.com/fum-lab/fum/blob/a728283474931eda71cd581ca5429121124ba3f6/Журнал/2026-09-11_09-36-55_MSK_сохранить-оставшуюся-диагностику-приёма/запрос.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 16:57:51 MSK -->
-<!-- content-sha256: sha256:c48989e0e93776c8706c486542e10dbb0ee39f3666c7d43b5ebd31765285422e -->
+<!-- last-content-edit: 2026-09-12 01:19:38 MSK -->
+<!-- content-sha256: sha256:32ae3b754bcd02c530092b7ba3c1fc2b78358cf1cd30ab54e71980c058acfc09 -->
 <!-- FUM-MD-RECENCY:END -->

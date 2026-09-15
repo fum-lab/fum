@@ -2,7 +2,7 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-11 12:35:21 MSK - Prinyatj sovmestnuyu integraciyu vosjmi vkhodov](../2026-09-11_12-35-21_MSK_prinyatj-sovmestnuyu-integraciyu-vosjmi-vkhodov/zapros.md)
+- Predyidusjhij zapros: [2026-09-11 13:39:59 MSK - Prinyatj napravleniye finansirovaniya FUM](../2026-09-11_13-39-59_MSK_prinyatj-napravleniye-finansirovaniya-FUM/zapros.md)
 - Sleduyusjhij zapros: [2026-09-11 14:47:00 MSK - Podgotovitj sovmestimostj master i FUMA](../2026-09-11_14-47-00_MSK_podgotovitj-sovmestimostj-master-i-FUMA/zapros.md)
 
 ## Tekst zaprosa
@@ -140,6 +140,6 @@ Ostayutsya obsjhij razbor soobsjhenij i ispolneniye nezavisimyikh napravlenij u 
 Obsjhij dialog osnovnoj FUMA chitayetsya s UUID 01a07d3d-d376-7ad2-aafc-67e4c25a67eb i yego iskhodnikom. Dopusk zaversheniya imenno etoj naznachennoj zadachi ispoljzuyet yeyo native UUID 01a08d69-b088-7820-838e-dd4e97033753, sobstvennyij JSONL i plan. Vo vtorom istochnike net podtverzhdyonnyikh chelovecheskikh soobsjhenij: delegacii sokhranyayutsya kak soobsjheniya instrumenta. Eto razlichiye ne obnulyayet obsjhij ostatok FUMA.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 20:36:50 MSK -->
-<!-- content-sha256: sha256:16e3bcf9c8e029d2689e1a026ae7e5811252812ec2e3a144c6b577adf87e1dc1 -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:12f50da36419ba6d89f8e294afd4c154ba405ad1a4a2f136bb3260a80556059d -->
 <!-- FUM-MD-RECENCY:END -->

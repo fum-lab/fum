@@ -250,6 +250,10 @@ class ПроверкаКонтрактаБратиславскойПроекци
                         "ЛИЦЕНЗИЯ",
                         "Приложения/FUMA/macOS/.gitignore",
                         "Инструменты/fum-reyestr-planirovaniya/scripts/адаптер-codex.js",
+                        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/адаптер_ответа.cjs",
+                        "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_адаптер_ответа.cjs",
+                        "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_смешанный_профиль.cjs",
+                        "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль-смешанных-ответов.cjs",
                     ],
                     "действие": "сохранить_байты",
                 },
@@ -298,6 +302,7 @@ class ПроверкаКонтрактаБратиславскойПроекци
                 ".plist",
                 ".entitlements",
                 ".js",
+                ".cjs",
             ],
             "пустые_каталоги": "не_включаются_в_инвентарь_репозитория",
         }
@@ -2487,6 +2492,58 @@ class ПроверкаКонтрактаБратиславскойПроекци
         сам.assertFalse(дерево.exists())
         архивы = list((сам.корень / ".git").glob("fum-finder-*/.DS_Store"))
         сам.assertEqual([путь.read_bytes() for путь in архивы], [b"Finder"])
+
+    def test_ds_store_появившийся_перед_rmdir_дочернего_каталога_сохраняется(сам):
+        сам._записать(".gitignore", ".DS_Store\n")
+        дерево = сам.корень / "Proyekcii" / "резерв"
+        дочерний = дерево / "fajlyi"
+        дочерний.mkdir(parents=True)
+        (дочерний / "a.txt").write_bytes(b"keep")
+        снимок = {"каталоги": ["fajlyi"], "файлы": {"fajlyi/a.txt": {
+            "хэш": модуль.хэш_байтов(b"keep"), "размер": 4, "режим": "100644",
+        }}}
+        исходный_rmdir = модуль.os.rmdir
+        вмешательства = []
+
+        def поздний_Finder(имя, *аргументы, **именованные):
+            if имя == "fajlyi" and not вмешательства:
+                вмешательства.append("перед rmdir")
+                (дочерний / ".DS_Store").write_bytes(b"late Finder")
+            return исходный_rmdir(имя, *аргументы, **именованные)
+
+        with mock.patch.object(модуль.os, "rmdir", side_effect=поздний_Finder):
+            модуль.удалить_безопасное_дерево(дерево, снимок, корень=сам.корень)
+
+        сам.assertFalse(дерево.exists())
+        архивы = list((сам.корень / ".git").glob("fum-finder-*/.DS_Store"))
+        сам.assertEqual([путь.read_bytes() for путь in архивы], [b"late Finder"])
+        сам.assertEqual(вмешательства, ["перед rmdir"])
+
+    def test_поздний_неизвестный_файл_перед_rmdir_сохраняет_отказ(сам):
+        сам._записать(".gitignore", ".DS_Store\n")
+        дерево = сам.корень / "Proyekcii" / "резерв"
+        дочерний = дерево / "fajlyi"
+        дочерний.mkdir(parents=True)
+        (дочерний / "a.txt").write_bytes(b"keep")
+        снимок = {"каталоги": ["fajlyi"], "файлы": {"fajlyi/a.txt": {
+            "хэш": модуль.хэш_байтов(b"keep"), "размер": 4, "режим": "100644",
+        }}}
+        исходный_rmdir = модуль.os.rmdir
+        вмешательства = []
+
+        def поздний_неизвестный(имя, *аргументы, **именованные):
+            if имя == "fajlyi" and not вмешательства:
+                вмешательства.append("перед rmdir")
+                (дочерний / "unknown.tmp").write_bytes(b"unknown")
+            return исходный_rmdir(имя, *аргументы, **именованные)
+
+        with mock.patch.object(модуль.os, "rmdir", side_effect=поздний_неизвестный):
+            with сам.assertRaises(модуль.ОшибкаКонтракта):
+                модуль.удалить_безопасное_дерево(дерево, снимок, корень=сам.корень)
+
+        сам.assertEqual((дочерний / "unknown.tmp").read_bytes(), b"unknown")
+        сам.assertFalse(list((сам.корень / ".git").glob("fum-finder-*/.DS_Store")))
+        сам.assertEqual(вмешательства, ["перед rmdir"])
 
     def test_ds_store_восстановление_всех_границ_и_частичной_записи(сам):
         сам._записать(".gitignore", ".DS_Store\n")

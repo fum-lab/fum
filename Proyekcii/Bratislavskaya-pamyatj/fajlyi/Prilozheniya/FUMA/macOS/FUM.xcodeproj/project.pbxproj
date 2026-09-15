@@ -82,7 +82,7 @@
 		7C6A00000000000000000015 /* CMpvShim.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = CMpvShim.c; sourceTree = "<group>"; };
 		7C6A00000000000000000016 /* CMpvShim.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMpvShim.h; sourceTree = "<group>"; };
 		7C6A00000000000000000017 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
-		7C6A00000000000000000020 /* FUM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FUM.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C6A00000000000000000020 /* FUMA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FUMA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C6A00000000000000000023 /* fum-mcp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "fum-mcp"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C6A00000000000000000021 /* FUM-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FUM-Info.plist"; sourceTree = "<group>"; };
 		7C6A00000000000000000022 /* FUM.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FUM.entitlements; sourceTree = "<group>"; };
@@ -129,7 +129,7 @@
 		7C6A00000000000000000302 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				7C6A00000000000000000020 /* FUM.app */,
+				7C6A00000000000000000020 /* FUMA.app */,
 				7C6A00000000000000000023 /* fum-mcp */,
 			);
 			name = Products;
@@ -213,8 +213,8 @@
 				7C6A00000000000000000801 /* PBXTargetDependency */,
 			);
 			name = FUM;
-			productName = FUM;
-			productReference = 7C6A00000000000000000020 /* FUM.app */;
+			productName = FUMA;
+			productReference = 7C6A00000000000000000020 /* FUMA.app */;
 			productType = "com.apple.product-type.application";
 		};
 		7C6A00000000000000000401 /* FUMMCPServer */ = {
@@ -470,7 +470,7 @@
 					OpenGL,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = fum.app;
-				PRODUCT_NAME = FUM;
+				PRODUCT_NAME = FUMA;
 				SWIFT_INCLUDE_PATHS = (
 					"$(inherited)",
 					Sources/CMpvShim/include,
@@ -510,7 +510,7 @@
 					OpenGL,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = fum.app;
-				PRODUCT_NAME = FUM;
+				PRODUCT_NAME = FUMA;
 				SWIFT_INCLUDE_PATHS = (
 					"$(inherited)",
 					Sources/CMpvShim/include,

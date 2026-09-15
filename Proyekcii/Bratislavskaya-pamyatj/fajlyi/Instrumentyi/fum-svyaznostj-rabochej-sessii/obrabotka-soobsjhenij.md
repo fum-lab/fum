@@ -22,6 +22,8 @@ Yesli vo vremya zaklyuchiteljnogo chteniya zamechenyi yesjhyo ne razobrannyiye b
 
 Otvet soderzhit privatnyij iskhodnyij vvod i ssyilki na vlozheniya. Yego neljzya avtomaticheski perenositj celikom v publichnyij repozitorij. V Zhurnal sokhranyayutsya otdeljno proverennyiye dopustimyiye komandyi i otvetyi; skryityiye rassuzhdeniya ne eksportiruyutsya.
 
+Boljshoj rezuljtat mozhno yavno sokhranitj vne checkout i [chitatj ogranichennyimi stranicami](kompaktnyij-ostatok.md). Predstavleniye sokhranyayet ssyilki na polnyij artefakt i ne zamenyayet obyazateljnyij chitatelj, rassmotreniye vsekh soobsjhenij ili sostavnoj dopusk.
+
 ## Podtverditj obrabotku
 
 Agent snachala sopostavlyayet iskhodnuyu komandu s pozdnimi soobsjheniyami. Otmena, zamena i utochneniye ssyilayutsya na konkretnyij pozdnij chelovecheskij vvod. Sluzhebnyij kontekst ne yavlyayetsya takim osnovaniyem. Yesli smyisl ostayotsya neyasnyim, resheniye sokhranyayet neobkhodimostj razbora.
@@ -69,6 +71,6 @@ Dopisyivaniye zhivogo JSONL ne udlinyayet chteniye za vyibrannyij nachaljnyij ra
 - [Ispoljzovaniye raneye prinyatogo segmenta pri razrabotke priyoma napravlenij FUMA](../../Zhurnal/2026-09-11_01-40-19_MSK_avtomatizirovatj-priyom-napravlenij-FUMA/zapros.md): postavka 0201 sokhranyala proiskhozhdeniye iz `68996460643a50d47cfc6e121b34cc0911639f26`; tekusjhij obyazateljnyij dopusk prinyat posleduyusjhej postavkoj 0177.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 11:59:08 MSK -->
-<!-- content-sha256: sha256:62d3247d342b949ea5865c5655fa40bfd4c188dd4e0cfdc98784924f84b91ad0 -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:c76fb78c08e57def46c3a352911db0c77203a19e9749b6c91f06b7be19f9da01 -->
 <!-- FUM-MD-RECENCY:END -->

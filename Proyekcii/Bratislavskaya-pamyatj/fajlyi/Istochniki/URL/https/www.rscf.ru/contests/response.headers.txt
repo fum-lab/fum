@@ -1,0 +1,21 @@
+HTTP/1.1 200 OK
+x-tracking-ref: [REDACTED: response trace identifier]
+X-Execution-Time: 243186
+Connection: keep-alive
+Keep-Alive: timeout=3, max=5
+access-control-allow-origin: *
+Vary: Accept-Encoding, HTTPS
+Server: nginx
+Date: Fri, 11 Sep 2026 11:57:39 GMT
+Content-Type: text/html; charset=UTF-8
+Content-Length: 220414
+set-cookie: [REDACTED: response cookie]
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+X-Powered-CMS: Bitrix Site Manager (3258c7ec6dd671563ba8193634ecf849)
+set-cookie: [REDACTED: response cookie]
+X-Frame-Options: SAMEORIGIN
+Content-Security-Policy: frame-ancestors 'self';
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN

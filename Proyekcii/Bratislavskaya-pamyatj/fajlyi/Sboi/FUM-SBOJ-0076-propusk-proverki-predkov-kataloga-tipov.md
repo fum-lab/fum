@@ -19,7 +19,7 @@ V sobstvennoj vetke sovmestimosti `validate_layout` vyizyivayet proverku bez pre
 
 ## Svyazannyiye shagi
 
-- [FUM-STEP-0175](../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md); osnovaniye — `FUM-СБОЙ-0076/ПРОЯВЛЕНИЕ-0001`.
+- [FUM-STEP-0175](../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md); osnovaniye — `FUM-СБОЙ-0076/ПРОЯВЛЕНИЕ-0001`.
 
 ## Kriterij zakryitiya
 
@@ -31,6 +31,6 @@ Prinimayusjhij kontur s ispravleniyem prinyat v master i proveren na zakreplyonn
 - Nomer vyidelen obsjhim raspredelitelem po porucheniyu koordinatora dlya zadachi `01a09047-faa1-7370-83f7-cdfc8f9943a6`; sobyitiye rezerva `2bf38b849aaadc751ac8cdbe02a47bd872463549a0e11c9278d098e43f036a3f`. Nomer ne vyichislen po lokaljnomu maksimumu; polnaya kvitanciya sokhranyayetsya chastno.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 15:19:56 MSK -->
-<!-- content-sha256: sha256:d83be9c609f4dcbaafc610e7dc5c1b4c7d4cabb158e14adb606eff27f4239c0f -->
+<!-- last-content-edit: 2026-09-12 01:19:38 MSK -->
+<!-- content-sha256: sha256:d2240c4cf071f563d0c25c74ac8a2b3e94464ef4fd993d7508314381d4b43a04 -->
 <!-- FUM-MD-RECENCY:END -->

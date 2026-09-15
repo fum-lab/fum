@@ -1,0 +1,97 @@
+{
+  "граница": "Семь точных деклараций без изменения старых исключений и четырёх исходников передачи. Полная приёмка прототипа не заявлена.",
+  "ошибки_до": [
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_остаток.py:81:error.posix-absolute",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_остаток.py:82:error.posix-absolute",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_остаток.py:98:error.posix-absolute",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактный_остаток.py:110:error.posix-absolute",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактный_остаток.py:111:error.posix-absolute",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/компактный-остаток.md:21:error.posix-absolute",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/компактный-остаток.md:23:error.posix-absolute"
+  ],
+  "добавленные_декларации": [
+    {
+      "id": "compact-residue-json-pointer-definition-1",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_остаток.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:5a540b7137863f643709600ac29f6d87fe81da31d73c719d644f7fe2688f4947",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет точный JSON Pointer в полном сохранённом результате; это адрес элемента JSON, а не путь файловой системы."
+    },
+    {
+      "id": "compact-residue-json-pointer-definition-2",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_остаток.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:05ac5e84352613fd5169d4e289409070d08a78aee68fa30f552c673363844aa2",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет точный JSON Pointer в полном сохранённом результате; это адрес элемента JSON, а не путь файловой системы."
+    },
+    {
+      "id": "compact-residue-json-pointer-definition-3",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_остаток.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:3272c35aa67de4cc0c4aea49d32d5d3917da7b91e26ff7df761b62f239e382b5",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет точный JSON Pointer в полном сохранённом результате; это адрес элемента JSON, а не путь файловой системы."
+    },
+    {
+      "id": "compact-residue-json-pointer-test-1",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактный_остаток.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c36a2d8bb51740b3f3302fff1175b635da0ab68f8933c18b414548a1f7b8460b",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая проверка точного JSON Pointer к элементу синтетического результата; локальный файловый путь не используется."
+    },
+    {
+      "id": "compact-residue-json-pointer-test-2",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактный_остаток.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:881165eb4a2000496fca6d784b77215dc77acdc4f4dd5a33f073a27747159f80",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая проверка точного JSON Pointer к элементу синтетического результата; локальный файловый путь не используется."
+    },
+    {
+      "id": "compact-residue-json-pointer-documentation-1",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/компактный-остаток.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:3b4edf197b51d92aee5c899efbb9565b5550f8dffc83f752afceac5c0448bead",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Документирует формат JSON Pointer к массиву и его элементу в полном результате компактного читателя; это внутренний адрес JSON."
+    },
+    {
+      "id": "compact-residue-json-pointer-documentation-2",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/компактный-остаток.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:bd10be4d445908f1ab05e07dfbf50ef77988354aa60985cc799c7522cd9b3a71",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Документирует формат JSON Pointer к массиву и его элементу в полном результате компактного читателя; это внутренний адрес JSON."
+    }
+  ],
+  "неизменные_исходники": [
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_остаток.py",
+      "sha256": "2c45dac090ba892d2f3eab1cf162d58dfba570a8fa7afd1ace31a084427401c0"
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/показать-остаток.py",
+      "sha256": "2f3483caf5b923e9118ee90552c4094ecd38040a382898174d8e6bc0b6d20f8b"
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_компактный_остаток.py",
+      "sha256": "d90ff2706223160c30f4dccaba27f562fcddfda5bd72a5a10968266fcd46e75a"
+    },
+    {
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_компактного_остатка.py",
+      "sha256": "eb400cded4f255902389b7b3236530847fff4e5ca5c60fe1f51ba4986467dfe2"
+    }
+  ],
+  "policy_sha256": "117ee8c9dd4b474c8ffd62653036c2b73df44efcd03d4c22df81e59526e0e53f",
+  "публикационных_ошибок_после": 0
+}

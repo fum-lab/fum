@@ -1,0 +1,13 @@
+HTTP/2 200
+server: ddos-guard
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+date: Mon, 14 Sep 2026 11:32:00 GMT
+content-type: text/html; charset=UTF-8
+last-modified: Wed, 08 Apr 2026 13:34:01 GMT
+etag: W/"5de4b-64ef2f3e4c526-gzip"
+x-host: cloudtips.ru
+x-tilda-server: 27
+x-tilda-imprint: 11e58ece-4058-4f2a-a33e-cad8c2185251

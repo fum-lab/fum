@@ -1,0 +1,28 @@
+HTTP/1.1 200 OK
+Server: QRATOR
+Date: Tue, 15 Sep 2026 16:17:04 GMT
+Content-Type: text/html;charset=utf-8
+Content-Length: 132447
+Connection: keep-alive
+Keep-Alive: timeout=15
+Vary: Accept-Encoding
+Vary: Accept-Encoding
+cache-control: s-maxage=600, stale-while-revalidate
+Referrer-Policy: strict-origin-when-cross-origin
+Strict-Transport-Security: max-age=15552000; includeSubDomains
+X-Content-Type-Options: nosniff
+X-Download-Options: noopen
+X-Frame-Options: SAMEORIGIN
+X-Permitted-Cross-Domain-Policies: none
+X-XSS-Protection: 0
+access-control-allow-origin: *
+last-modified: Tue, 15 Sep 2026 16:14:43 GMT
+etag: W/"MWmXvzz9Xm"
+set-cookie: [REDACTED: response cookie]
+Cross-Origin-Resource-Policy: same-origin
+Cross-Origin-Opener-Policy: unsafe-none
+Content-Security-Policy: base-uri 'none'; font-src 'self' https: data:; frame-ancestors 'self'; object-src 'none'; script-src-attr 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://assets-site.beget.com https://hcaptcha.com https://*.hcaptcha.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'strict-dynamic' 'nonce-[REDACTED]' https://assets-site.beget.com https://hcaptcha.com https://*.hcaptcha.com;
+Origin-Agent-Cluster: ?1
+X-DNS-Prefetch-Control: off
+Permissions-Policy: camera=(), display-capture=(), geolocation=(), microphone=()
+X-Frame-Options: SAMEORIGIN

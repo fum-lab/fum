@@ -26,7 +26,17 @@ Dve vetki nezavisimo zakrepili FUM-SBOJ-0046 za raznyimi mekhanizmami. Pozdnyaya
 - Kontrakt i scenarii peredanyi vladeljcu obsjhego cikla FUM-STEP-0201 s proveryayemyim proiskhozhdeniyem i granicej integracii. Dlya budusjhej realizacii predusmotrenyi TDD, profilj i vosproizvodimyiye komandyi po pravilam zadachi. Naznachennyij vladelec realizacii — zadacha Codex 01a08d77-2060-7701-9f44-ff04769d8a6e; chuzhaya kartochka ne sozdayotsya v etoj vetke, yeyo kanonicheskaya ssyilka dobavlyayetsya posle dostupnoj integracii.
 - Itog fiksiruyet polnotu podgotovlennogo kontrakta i peredannyikh scenariyev, vladeljca realizacii i yeyo otdeljnuyu priyomku. Zaversheniye etoj podgotovki ne zakryivayet FUM-SBOJ-0050. Nalichiye rezerva ne dokazyivayet sozdaniye kartochki, kommit, publikaciyu ili integraciyu.
 
+## Sokhranyonnoye predshestvuyusjheye proyavleniye
+
+FUM-SBOJ-0050/PROYAVLENIYE-0003 iz tochnogo kommita 8d89a695d6f099091a13d3ce60c924c7098105f2 rasshiryayet oblastj na paru «ID kartochki sboya, lokaljnyij nomer». Dlya sostavnoj identichnosti tozhe nuzhna mezhvetochnaya sverka pered naznacheniyem. [Gotovyij fragment i iskhodnyiye svideteljstva](../../Zhurnal/2026-09-12_01-55-13_MSK_sokhranitj-prodolzheniye-posle-obnovleniya-sistemyi/materialyi/proiskhozhdeniye-proyavleniya-0050-0003.json) sokhranenyi bez povtornoj klassifikacii.
+
+## Utochneniye posle poyavleniya obsjhego raspredelitelya
+
+FUM-SBOJ-0050/PROYAVLENIYE-0004 vosproizvodit ruchnoj vyibor uzhe zarezervirovannogo 0091 pri nalichii shtatnogo Khranilisjhe.vyidelitj. Kontrakt dolzhen yavno razlichatj vyidachu etim mekhanizmom i nepodtverzhdyonnoye imya chernovika; nalichiye rabotayusjhego raspredelitelya ne yavlyayetsya dokazateljstvom okhvata obkhodyasjhikh yego ruchnyikh zapisej. Novyij ispolnitelj ili aljternativnyij raspredelitelj etim utochneniyem ne predlagayetsya. Susjhestvuyusjhij mekhanizm vosstanovil konkretnoye nablyudeniye vyidachej 0106; sistemnaya granica obkhoda ostayotsya otkryitoj.
+
 ## Istochniki
+
+- [Fakticheskij povtor lokaljnogo vyibora i vosstanovleniye](../../Zhurnal/2026-09-12_01-55-13_MSK_sokhranitj-prodolzheniye-posle-obnovleniya-sistemyi/otchyot.md) — FUM-SBOJ-0050/PROYAVLENIYE-0004, [kartochka i tochnoye proyavleniye](../../Sboi/FUM-SBOJ-0050-vyideleniye-globaljnogo-identifikatora-iz-lokaljnogo-maksimuma.md).
 
 - [Nablyudeniye i soglasovaniye perekhoda](../../Zhurnal/2026-09-11_01-59-54_MSK_razreshitj-kolliziyu-identifikatorov-kartochek/zapros.md).
 - [FUM-SBOJ-0050](../../Sboi/FUM-SBOJ-0050-vyideleniye-globaljnogo-identifikatora-iz-lokaljnogo-maksimuma.md).
@@ -34,6 +44,6 @@ Dve vetki nezavisimo zakrepili FUM-SBOJ-0046 za raznyimi mekhanizmami. Pozdnyaya
 - [Kartochki sboyev i ikh proiskhozhdeniye](../../Sboi/README.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 02:02:09 MSK -->
-<!-- content-sha256: sha256:f7615f5f9866a2620cdc7687b26a1bf4ffa7e27ee69b1664a26d18238e1813df -->
+<!-- last-content-edit: 2026-09-12 02:15:39 MSK -->
+<!-- content-sha256: sha256:f784c087bc880a722b4ba44176d7c969a29b2ce19d2bfebbc0f5b1ed8a4318d7 -->
 <!-- FUM-MD-RECENCY:END -->

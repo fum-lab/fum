@@ -165,8 +165,15 @@ Status menyayetsya pereimenovaniyem fajla cherez `git mv`. Emodzi ne zamenyayet 
 - `FUM-REQ-0066` — [🟡 Vozobnovlyayemyij perenos rabochikh derevjyev](🟡-vozobnovlyayemyij-perenos-rabochikh-derevjyev.md)
 - `FUM-REQ-0067` — [🟡 Chistoye ispolneniye operatorov i UTF-32](🟡-chistoye-ispolneniye-operatorov-i-UTF-32.md)
 - `FUM-REQ-0068` — [🟡 Svyazj napravlenij razvitiya s Git-vetkami](🟡-svyazj-napravlenij-razvitiya-s-Git-vetkami.md)
+- `FUM-REQ-0069` — [🟡 Finansirovaniye i resursyi razvitiya FUM](🟡-finansirovaniye-i-resursyi-razvitiya-FUM.md)
+- `FUM-REQ-0070` — [🟡 Plan integracii FUMA s Gosuslugami](🟡-plan-integracii-FUMA-s-Gosuslugami.md)
+- `FUM-REQ-0071` — [🟡 Plan vosproizvodimoj macOS VM dlya FUMA](🟡-plan-vosproizvodimoj-macOS-VM-dlya-FUMA.md)
+- `FUM-REQ-0073` — [🟡 Plan razbora shriftov strukturiruyusjhimi operatorami](🟡-plan-razbora-shriftov-strukturiruyusjhimi-operatorami.md)
+- `FUM-REQ-0074` — [🟡 Sborka Swift toolchain iz polnostjyu zerkaljnyikh zavisimostej](🟡-sborka-Swift-toolchain-iz-polnostjyu-zerkaljnyikh-zavisimostej.md)
+- `FUM-REQ-0075` — [🟡 Polnaya perenosimaya oflajn-avtonomnostj FUM](🟡-polnaya-perenosimaya-oflajn-avtonomnostj-FUM.md)
+- `FUM-REQ-0077` — [🟡 Universaljnoye parametricheskoye 3D i vizualizaciya FUMA](🟡-universaljnoye-parametricheskoye-3D-i-vizualizaciya-FUMA.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 11:59:08 MSK -->
-<!-- content-sha256: sha256:999798d5cd43879209a8d2637932f70e6e9577ae0f3454be565a3fd6bf93a857 -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:d53102c88c68376ba4e48c3a67a84baa96c2d364bf6b0128c7a97a76e504e923 -->
 <!-- FUM-MD-RECENCY:END -->

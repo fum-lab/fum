@@ -1,0 +1,400 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Компактный срез ответа задачи версии 1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "схема",
+    "полный_снимок",
+    "задача",
+    "адрес_задачи",
+    "страница",
+    "адрес_страницы",
+    "текущий_ход",
+    "адрес_текущего_хода",
+    "ответ",
+    "ответ_из_первого_хода",
+    "причина_отсутствия_ответа",
+    "элементов_всего",
+    "элементов_опущено",
+    "опущено_по_типам",
+    "ходов_с_ошибкой",
+    "адрес_всех_ходов",
+    "полнота_истории",
+    "живой_источник_перепроверен",
+    "завершение_задачи_доказано",
+    "граница"
+  ],
+  "properties": {
+    "схема": {
+      "const": "fum.срез-ответа-задачи.1"
+    },
+    "полный_снимок": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sha256",
+        "байты",
+        "формат"
+      ],
+      "properties": {
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "байты": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "формат": {
+          "type": "string"
+        },
+        "путь": {
+          "type": "string",
+          "description": "Явный абсолютный адрес приватного сохранённого снимка; включается в полный бюджет выдачи."
+        }
+      }
+    },
+    "задача": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "status"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "const": "codex"
+        },
+        "status": {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "type": "string"
+            },
+            "activeFlags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "адрес_задачи": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "внешний_указатель",
+        "декодирование",
+        "внутренний_указатель"
+      ],
+      "properties": {
+        "внешний_указатель": {
+          "type": "string"
+        },
+        "декодирование": {
+          "const": "JSON"
+        },
+        "внутренний_указатель": {
+          "type": "string"
+        }
+      }
+    },
+    "страница": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "order",
+        "limit",
+        "nextCursor",
+        "hasMore"
+      ],
+      "properties": {
+        "order": {
+          "const": "newest_first"
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "nextCursor": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "hasMore": {
+          "type": "boolean"
+        }
+      }
+    },
+    "адрес_страницы": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "внешний_указатель",
+        "декодирование",
+        "внутренний_указатель"
+      ],
+      "properties": {
+        "внешний_указатель": {
+          "type": "string"
+        },
+        "декодирование": {
+          "const": "JSON"
+        },
+        "внутренний_указатель": {
+          "type": "string"
+        }
+      }
+    },
+    "текущий_ход": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "status",
+            "error",
+            "startedAt",
+            "completedAt",
+            "durationMs"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string"
+            },
+            "error": {},
+            "startedAt": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "completedAt": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "durationMs": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "адрес_текущего_хода": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "внешний_указатель",
+            "декодирование",
+            "внутренний_указатель"
+          ],
+          "properties": {
+            "внешний_указатель": {
+              "type": "string"
+            },
+            "декодирование": {
+              "const": "JSON"
+            },
+            "внутренний_указатель": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "ответ": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "оригинал",
+            "ход",
+            "адрес"
+          ],
+          "properties": {
+            "оригинал": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "type",
+                "id",
+                "text",
+                "phase"
+              ],
+              "properties": {
+                "type": {
+                  "const": "agentMessage"
+                },
+                "id": {
+                  "type": "string"
+                },
+                "text": {
+                  "type": "string"
+                },
+                "phase": {
+                  "enum": [
+                    "commentary",
+                    "final"
+                  ]
+                }
+              }
+            },
+            "ход": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "id",
+                "status",
+                "error",
+                "startedAt",
+                "completedAt",
+                "durationMs"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "error": {},
+                "startedAt": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "completedAt": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "durationMs": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                }
+              }
+            },
+            "адрес": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "внешний_указатель",
+                "декодирование",
+                "внутренний_указатель"
+              ],
+              "properties": {
+                "внешний_указатель": {
+                  "type": "string"
+                },
+                "декодирование": {
+                  "const": "JSON"
+                },
+                "внутренний_указатель": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "ответ_из_первого_хода": {
+      "type": "boolean"
+    },
+    "причина_отсутствия_ответа": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "элементов_всего": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "элементов_опущено": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "опущено_по_типам": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    "ходов_с_ошибкой": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "адрес_всех_ходов": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "внешний_указатель",
+        "декодирование",
+        "внутренний_указатель"
+      ],
+      "properties": {
+        "внешний_указатель": {
+          "type": "string"
+        },
+        "декодирование": {
+          "const": "JSON"
+        },
+        "внутренний_указатель": {
+          "type": "string"
+        }
+      }
+    },
+    "полнота_истории": {
+      "const": "не доказана"
+    },
+    "живой_источник_перепроверен": {
+      "const": false
+    },
+    "завершение_задачи_доказано": {
+      "const": false
+    },
+    "граница": {
+      "type": "string"
+    }
+  }
+}

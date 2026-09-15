@@ -41,9 +41,9 @@ Tekusjhij etap dopolniteljno prinimayet formatyi proyekcii i otsutstviye neobyaz
 - [Vneshnij obzor repozitoriya](../../Istochniki/URL/https/chatgpt.com/share/6aa2c5c7-fe90-83ed-bd10-d7b03db8b334/obzor-github-repozitoriya.md).
 - [Ogranichennaya priyomka arkhivnogo snimka](../../Zhurnal/2026-09-09_18-43-02_MSK_zavershitj-priyomku-arkhivnogo-snimka/otchyot.md).
 - [Opisaniye arkhivnogo komponenta](../../Dokumentaciya/arkhivnyij-snimok-zadachi-FUMA.md).
-- [Tekusjhaya integraciya vetok](🟡-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md).
+- [Tekusjhaya integraciya vetok](✅-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 03:52:50 MSK -->
-<!-- content-sha256: sha256:5d8fc22121f4e65a927cc186d5839ad5b1dd167f3bcd80dc81dff9168b1c9c78 -->
+<!-- last-content-edit: 2026-09-12 01:19:38 MSK -->
+<!-- content-sha256: sha256:9831befe2a47aaffdb5cecdb65578543898dc8bcab44331a293f5df0f74b2213 -->
 <!-- FUM-MD-RECENCY:END -->

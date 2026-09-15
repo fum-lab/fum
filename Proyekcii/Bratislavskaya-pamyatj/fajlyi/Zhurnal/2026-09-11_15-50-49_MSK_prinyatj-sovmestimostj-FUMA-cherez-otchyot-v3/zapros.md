@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-11 15:22:57 MSK - Proveritj paket sovmestimosti master i FUMA](../2026-09-11_15-22-57_MSK_proveritj-paket-sovmestimosti-master-i-FUMA/zapros.md)
-- Sleduyusjhij zapros: [2026-09-11 20:18:06 MSK - Prinyatj sliyaniye fuma i master](../2026-09-11_20-18-06_MSK_prinyatj-sliyaniye-fuma-i-master/zapros.md)
+- Predyidusjhij zapros: [2026-09-11 15:48:40 MSK - Prinyatj planirovaniye Gosuslug](../2026-09-11_15-48-40_MSK_prinyatj-planirovaniye-Gosuslug/zapros.md)
+- Sleduyusjhij zapros: [2026-09-11 16:12:17 MSK - Zavershitj priyomku reyestra podderzhki FUM](../2026-09-11_16-12-17_MSK_zavershitj-priyomku-reyestra-podderzhki-FUM/zapros.md)
 
 ## Tekst zaprosa
 
@@ -177,9 +177,9 @@ Povtornaya popyitka full doshla do shaga 24 i zavershilasj kodom 1 za 850,348437
 - [Arkhivnaya koordinaciya predyidusjhego etapa](../2026-09-11_15-22-57_MSK_proveritj-paket-sovmestimosti-master-i-FUMA/materialyi/koordinacionnyiye-utochneniya.md) — oboznachennaya redakcionnaya vyiderzhka i tochnaya ssyilka na iskhodnyiye bajtyi Q.
 - [Test prodolzheniya zadachi](../../Instrumentyi/fum-svyaznostj-rabochej-sessii/tests/test_prodolzheniye_zadachi.py) — dve soglasovannyiye zamenyi nablyudayemogo metoda chteniya iz uzhe susjhestvuyusjhej deljtyi L.
 - [Kartochka sboya 0066](../../Sboi/FUM-SBOJ-0066-ustarevshaya-podstanovka-metoda-chteniya.md) i [indeks sboyev](../../Sboi/README.md) — perenesyonnaya istoriya i soglasovannoye proyavleniye 0003.
-- [Shag 0175](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md) i [planovyij reyestr](../../Planirovaniye/reyestr-trebovanij-variantov-i-kandidatov.json) — obratnaya svyazj s povtorom i nezavershyonnoj integraciyej.
+- [Shag 0175](../../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md) i [planovyij reyestr](../../Planirovaniye/reyestr-trebovanij-variantov-i-kandidatov.json) — obratnaya svyazj s povtorom i nezavershyonnoj integraciyej.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 20:36:50 MSK -->
-<!-- content-sha256: sha256:f008b23606ebbdc1a55f5cf296b4732c57e9b8c4b2fd7510d6dce4ec9f9f330f -->
+<!-- last-content-edit: 2026-09-15 06:23:18 MSK -->
+<!-- content-sha256: sha256:e6fb52616330a428b52d43c09b21ff6b75d46011f97ac6dd51eb62cc4de7cf6b -->
 <!-- FUM-MD-RECENCY:END -->

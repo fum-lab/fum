@@ -49,7 +49,7 @@ class ПроверкаИсполнения(unittest.TestCase):
                 поручение = "Иное поручение" if подмена else допуск["аргументы"]["prompt"]
                 оболочка = "<codex_delegation>\n  <source_thread_id>" + ЗАДАЧА + "</source_thread_id>\n  <input>" + поручение + "</input>\n</codex_delegation>"
                 нативный.write_bytes(строка({"type": "session_meta", "payload": {"id": задача, "cwd": str(ребёнок), "git": {"commit_hash": коммит}}})
-                    + строка({"type": "turn_context", "payload": {"cwd": str(ребёнок), "model": "gpt-6-astra", "effort": "ultra"}})
+                    + строка({"type": "turn_context", "payload": {"cwd": str(ребёнок), "model": "gpt-6-astra", "effort": "low"}})
                     + строка({"type": "response_item", "payload": {"type": "function_call_output", "name": "create_thread", "output": оболочка}}))
                 исполнение.база.подтвердить_начало(ребёнок, задача, коммит, нативный)
                 if подмена:
@@ -119,7 +119,7 @@ class ПроверкаИсполнения(unittest.TestCase):
             проверка.assertFalse(второй["разрешён_вызов"])
             проверка.assertEqual(первый["попытка"], второй["попытка"])
             аргументы = первый["аргументы"]
-            проверка.assertEqual(("gpt-6-astra", "ultra"), (аргументы["model"], аргументы["thinking"]))
+            проверка.assertEqual(("gpt-6-astra", "low"), (аргументы["model"], аргументы["thinking"]))
             проверка.assertEqual({"type": "branch", "branchName": ветка}, аргументы["target"]["environment"]["startingState"])
             проверка.assertIn(коммит, аргументы["prompt"])
             проверка.assertIn("До первой записи", аргументы["prompt"])

@@ -1,0 +1,22 @@
+HTTP/2 200
+server: QRATOR
+date: Mon, 14 Sep 2026 11:31:01 GMT
+content-type: text/html
+content-length: 54024
+last-modified: Fri, 11 Sep 2026 20:11:41 GMT
+etag: "6aa4607d-d308"
+x-frame-options: SAMEORIGIN
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+access-control-allow-origin: *.mts.ru, storage.mwsapis.ru,*
+x-frame-options: SAMEORIGIN
+x-xss-protection: 1; mode=block
+content-security-policy: default-src 'self' localhost; frame-src 'self' https://*; object-src 'none'; manifest-src 'self'; worker-src 'none'; base-uri 'self'; connect-src 'self' https://*.mts.ru:10463 https://*.it-grad.ru https://it-grad.ru https://s3mts.ru https://*.s3mts.ru https://ru-msk-dr3-1.store.cloud.mts.ru https://*.s3-test.mts-corp.ru https://obj-storage.com https://storage.mwsapis.ru https://stats.g.doubleclick.net https://mc.yandex.ru wss://mc.yandex.ru https://www.googletagmanager.com https://google.com https://*.dadata.ru https://*.mts.ru ws://*.cloud.mts.ru wss://*.cloud.mts.ru; font-src 'self' https://*.mts.ru https://*.s3mts.ru https://ru-msk-dr3-1.store.cloud.mts.ru https://storage.mwsapis.ru; img-src 'self' blob: data: https://www.googletagmanager.com https://*.mts.ru https://*.s3mts.ru https://ru-msk-dr3-1.store.cloud.mts.ru https://storage.mwsapis.ru https://mws.ru; script-src 'self' 'unsafe-eval' 'unsafe-inline' 'report-sample' https://mc.yandex.ru wss://mc.yandex.ru https://cdn.jsdelivr.net https://www.google.com https://www.googletagmanager.com https://www.gstatic.com https://www.google-analytics.com https://storage.mwsapis.ru https://*.mts.ru; style-src 'self' 'unsafe-inline' https://*.mts.ru;
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+referrer-policy: strict-origin-when-cross-origin
+feature-policy: accelerometer 'none'; ambient-light-sensor 'none'; battery 'none'; camera 'none'; display-capture 'none'; document-domain 'none'; encrypted-media 'none'; execution-while-not-rendered 'none'; execution-while-out-of-viewport 'none'; gamepad 'none'; geolocation 'none'; gyroscope 'none'; hid 'none'; identity-credentials-get 'none'; idle-detection 'none'; local-fonts 'none'; magnetometer 'none'; microphone 'none'; midi 'none'; publickey-credentials-create 'none'; publickey-credentials-get 'none'; screen-wake-lock 'none'; serial 'none'; speaker-selection 'none'; storage-access 'none'; usb 'none'; web-share 'self'; xr-spatial-tracking 'none'; payment 'none'; fullscreen 'self' https://workspace.teamstream.mts-corp.ru; autoplay 'self' https://workspace.teamstream.mts-corp.ru; picture-in-picture 'self' https://workspace.teamstream.mts-corp.ru;
+permissions-policy: accelerometer=(), ambient-light-sensor=(), battery=(), camera=(), display-capture=(), document-domain=(), encrypted-media=(), execution-while-not-rendered=(), execution-while-out-of-viewport=(), gamepad=(), geolocation=(), gyroscope=(), hid=(), identity-credentials-get=(), idle-detection=(), local-fonts=(), magnetometer=(), microphone=(), midi=(), publickey-credentials-create=(), publickey-credentials-get=(), screen-wake-lock=(), serial=(), speaker-selection=(), storage-access=(), usb=(), web-share=(self), xr-spatial-tracking=(), payment=(), fullscreen=(self "https://workspace.teamstream.mts-corp.ru"), autoplay=(self "https://workspace.teamstream.mts-corp.ru"), picture-in-picture=(self "https://workspace.teamstream.mts-corp.ru")
+accept-ranges: bytes
+x-request-id: [REDACTED: response trace identifier]
+x-new-infra: 1
+x-envoy-upstream-service-time: 31

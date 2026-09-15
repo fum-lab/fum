@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-11 14:00:14 MSK - Sokhranitj peredachu integracii i pozdnij dialog](../2026-09-11_14-00-14_MSK_sokhranitj-peredachu-integracii-i-pozdnij-dialog/zapros.md)
-- Sleduyusjhij zapros: [2026-09-11 15:22:57 MSK - Proveritj paket sovmestimosti master i FUMA](../2026-09-11_15-22-57_MSK_proveritj-paket-sovmestimosti-master-i-FUMA/zapros.md)
+- Sleduyusjhij zapros: [2026-09-11 14:48:56 MSK - Ispravitj dopusk statusa i prodolzhitj priyom](../2026-09-11_14-48-56_MSK_ispravitj-dopusk-statusa-i-prodolzhitj-priyom/zapros.md)
 
 ## Tekst zaprosa
 
@@ -77,12 +77,12 @@ Posle szhatiya prochitan zavershyonnyij prefiks sobstvennogo nativnogo JSONL, pe
 - [Reyestr planirovaniya i razbor svyazej](../../Instrumentyi/fum-reyestr-planirovaniya/).
 - [Struktura papok zaprosov i proverka tipov](../../Instrumentyi/fum-struktura-papok-zaprosov/).
 - [Svyaznostj i neobyazateljnyij graf](../../Instrumentyi/fum-svyaznostj-rabochej-sessii/).
-- [FUM-STEP-0175](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md).
+- [FUM-STEP-0175](../../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md).
 - [Mashinnyij reyestr planirovaniya](../../Planirovaniye/reyestr-trebovanij-variantov-i-kandidatov.json).
 - [Kartochka FUM-SBOJ-0076](../../Sboi/FUM-SBOJ-0076-propusk-proverki-predkov-kataloga-tipov.md), [indeks sboyev](../../Sboi/README.md).
 - [Proizvodnaya oblastj](../../../../) — obnovlyayetsya toljko shtatnoj avtomatizaciyej posle finaljnogo smoke.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 20:36:50 MSK -->
-<!-- content-sha256: sha256:7cf6374e793ebca37c66ebf4d8dc5a981a463ca571d3027e4be8e2b0851d87b6 -->
+<!-- last-content-edit: 2026-09-15 04:26:02 MSK -->
+<!-- content-sha256: sha256:df2bef4595c1eaef8a0b085e8b1527c724e7f8ef0e29a3d2f3cfab0bacbaf10b -->
 <!-- FUM-MD-RECENCY:END -->

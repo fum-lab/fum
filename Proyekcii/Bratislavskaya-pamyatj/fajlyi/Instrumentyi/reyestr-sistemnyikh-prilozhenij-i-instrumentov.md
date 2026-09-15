@@ -38,7 +38,7 @@ Nablyudayemyij lokaljnyij snimok na 2026-09-02 08:00 MSK:
 
 Nastrojka proyekta obnovlena 2026-09-08 po [iskhodnomu zaprosu](../Zhurnal/2026-09-08_21-16-26_MSK_integrirovatj-paralleljnyiye-rezuljtatyi-i-opisatj-rabotu/zapros.md).
 
-- `.codex/config.toml` zadayot modelj po umolchaniyu `gpt-6-astra` (GPT-6 Astra), rassuzhdeniye `ultra` i `service_tier = "default"`. Dostupnyij katalog modelej Codex podtverzhdayet sochetaniye `gpt-6-astra` i `ultra`. `fast_mode = true` sokhranyayet dostupnostj pereklyuchatelya Fast, a `skills.include_instructions = false` isklyuchayet vneshnij katalog navyikov. Lokaljnyiye navyiki podklyuchayutsya po yavnyim putyam; dejstvuyusjhiye pravila izolyacii, paralleljnoj rabotyi i prodolzheniya nakhodyatsya v `AGENTS.md`.
+- `.codex/config.toml` zadayot modelj po umolchaniyu `gpt-6-astra` (GPT-6 Astra), rassuzhdeniye `low` i `service_tier = "default"`. Dostupnyij katalog modelej Codex podtverzhdayet sochetaniye `gpt-6-astra` i `low` dlya novyikh zapuskov. `fast_mode = true` sokhranyayet dostupnostj pereklyuchatelya Fast, a `skills.include_instructions = false` isklyuchayet vneshnij katalog navyikov. Lokaljnyiye navyiki podklyuchayutsya po yavnyim putyam; dejstvuyusjhiye pravila izolyacii, paralleljnoj rabotyi i prodolzheniya nakhodyatsya v `AGENTS.md`.
 - Proyektnaya nastrojka ne dokazyivayet aktivnuyu modelj uzhe otkryitoj zadachi. Sistemnyij profilj macOS iz istoricheskogo snimka etim izmeneniyem ne obnovlyalsya; yego prioritet nad proyektom i yavnyiye nastrojki zadachi sleduyet uchityivatj pri zapuske.
 
 Nablyudeniye 2026-09-09 v [tekusjhej zadache](../Zhurnal/2026-09-09_11-39-26_MSK_predotvratitj-poteryu-obyazateljstv-postoyannoj-zadachi/zapros.md): tri sozdannyiye zadachi snachala ispoljzovali gpt-5.6-sol/ultra. Adresnyiye prodolzheniya s yavno peredannyimi gpt-6-astra/ultra prinyatyi; novyiye zapisi turn_context podtverdili fakticheskiye znacheniya. list_threads v eto vremya otstaval ot interfejsa i adresnogo wait_threads. Peredannyij komandnoj obolochke workdir ne peremesjhayet sam runtime Codex v drugoye derevo i ne dokazyivayet zagruzku konfiguracii iz nego.
@@ -177,6 +177,16 @@ Sistemnyiye komandyi macOS `sandbox-exec` i `time` ispoljzuyutsya pri [priyomke 
 
 Gotovyij Swift CLI `архивный-снимок` importiruyet odin yavno ukazannyij Codex JSONL s ozhidayemyim UUID i vosstanavlivayet ogranichennyij snimok iz kontejnera. Priyomka zakreplena Swift-kommitom `cffd4c52852da19d3e71c5a2d22e41712b3e734f` i SHA-256 binarnika `2882e1c04319a20ce13001a3b6c0120cc6e17ab44f112780b6d2af8888c532e5`; eto identichnostj proverennoj postavki, a ne versiya Codex ili zayavleniye o zhivom sostoyanii zadachi. [Kontrakt i granicyi](../Dokumentaciya/arkhivnyij-snimok-zadachi-FUMA.md), [povtoryayemaya priyomka](../Zhurnal/2026-09-09_18-43-02_MSK_zavershitj-priyomku-arkhivnogo-snimka/otchyot.md).
 
+## Operatornyiye modeli nativnogo otveta
+
+[Opisaniye, generaciya, obsjhiye fiksturyi i profilj](../Proyektyi/rabochij-kontekst/operatornyiye-modeli-otveta.md) vosproizvodyatsya standartnyim Python i lokaljnyim SwiftPM. Versiya zadayotsya `fum.структурный-контракт.1`, profilem `fum.модели-и-проекция.1` i tochnyimi iskhodnikami susjhestvuyusjhego `AutomationExecutor`. Nablyudenyi Python 3.14.7 i Apple Swift 6.4; predel pervogo chislovogo profilya — `целые64-без-дробей`. Generaciya i CLI ne vyizyivayut API i ne udostoveryayut svezhestj libo zaversheniye zadachi. [Istochnik](../Zhurnal/2026-09-14_15-54-44_MSK_poroditj-modeli-otveta-operatorami/zapros.md).
+
+[Smeshannyij profilj API/cache-obyortki](fum-svyaznostj-rabochej-sessii/kompaktnyij-otvet-zadachi.md) ispoljzuyet nastoyasjhij CLI i fajlovuyu zapisj s otkryitoj zaglushkoj read_thread. Skhema rezuljtata — `fum.смешанный-профиль-ответов.1`; Node.js 26.8.2 i Python 3.14.7. Oblastj izmereniya otdelyayet poleznuyu vyidachu, unikaljnyiye fajlyi, simulirovannyij API i povtornyiye chteniya; zhivyiye API i tokenyi ne izmeryayutsya. [Istochnik](../Zhurnal/2026-09-14_17-07-43_MSK_izmeritj-smeshannuyu-posledovateljnostj-otvetov/zapros.md).
+
+## Sinteticheskij sborsjhik rabochego konteksta
+
+[Odnokratnyij CLI i profilj](../Proyektyi/rabochij-kontekst/rukovodstvo.md) — sobstvennyij komponent pervogo sreza FUM-STEP-0165. Versiya zadayotsya kontraktami `fum.вход-рабочего-контекста.1`, `fum.рабочий-контекст.1` i Git-istoriyej iskhodnikov, fikstur i testov. Trebuyet toljko Python i zaraneye peredannyij otkryityij snimok; ne podklyuchyon k runtime, obrabotke 0177, modeli i vneshnim dejstviyam. [Istochnik naznacheniya](../Zhurnal/2026-09-12_03-42-08_MSK_realizovatj-sinteticheskij-rabochij-kontekst/zapros.md).
+
 ## Istochniki trebovanij
 
 - [iskhodnyij zapros realizacii FUM-STEP-0129](../Zhurnal/2026-09-01_11-19-59_MSK_realizovatj-bratislavskuyu-proyekciyu-pamyati/zapros.md)
@@ -251,6 +261,6 @@ Gotovyij Swift CLI `архивный-снимок` importiruyet odin yavno ukaza
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](../Zhurnal/2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 12:13:12 MSK -->
-<!-- content-sha256: sha256:a584e5f241a45cd8e95b311b41eb0816d47fe8a1513610cce122496a14e1548c -->
+<!-- last-content-edit: 2026-09-15 13:36:29 MSK -->
+<!-- content-sha256: sha256:b17dfec74eab8ca0dd2ecdddfa64d4b78c733c67d7f2c782d590083c2b729401 -->
 <!-- FUM-MD-RECENCY:END -->

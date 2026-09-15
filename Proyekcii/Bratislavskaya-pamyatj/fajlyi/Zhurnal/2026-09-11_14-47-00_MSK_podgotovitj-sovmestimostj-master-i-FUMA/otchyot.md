@@ -89,9 +89,9 @@ Ostatok kontroljnoj tochki: zavershitj adresnuyu sverku politiki, standartnuyu f
 ## Istochniki
 
 - [Iskhodnyiye komandyi i granica koordinacii](zapros.md).
-- [FUM-STEP-0175](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md).
+- [FUM-STEP-0175](../../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 15:19:56 MSK -->
-<!-- content-sha256: sha256:30ff85bf26696f4226ce1be0e0275b1644b8487f7f8397a4c05545bdae96a0a4 -->
+<!-- last-content-edit: 2026-09-12 01:19:38 MSK -->
+<!-- content-sha256: sha256:3c34023c79d00e2afa60ee06af631cc0365b0b101b4bafa561cc99ba49c50253 -->
 <!-- FUM-MD-RECENCY:END -->

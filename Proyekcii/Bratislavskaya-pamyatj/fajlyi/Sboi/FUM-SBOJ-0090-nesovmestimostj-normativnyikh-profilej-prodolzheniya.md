@@ -1,7 +1,7 @@
 +++
 "версия_схемы" = 1
 "идентификатор_сбоя" = "FUM-СБОЙ-0090"
-"статус" = "активна"
+"статус" = "устранена"
 +++
 # Nesovmestimostj normativnyikh profilej prodolzheniya
 
@@ -17,9 +17,13 @@ Soglasovannaya integraciya trebuyet prinimatj novyij kandidat po pravilam iskhod
 
 Podgotovlen validator rovno dvukh zakryityikh profilej, vyibrannyikh po tochnoj pare dejstvuyusjhikh normativnyikh tel. Deklaraciya, parametryi, tipyi, puti i aktivnostj dolzhnyi sootvetstvovatj vyibrannomu profilyu. RED/GREEN38 i proverka realjnyikh M/L podtverzhdayut etu granicu. Obsjhaya priyomka paketa, perenos v master, fiksaciya novogo M i povtornaya proverka C2 ostayutsya otdeljnyimi posledovateljnyimi dejstviyami; uspeshnyiye adresnyiye testyi ne zakryivayut kartochku.
 
+## Podtverzhdyonnoye zakryitiye
+
+Prinimayusjhij paket prinyat kak M1 `5670e469f0cd271c80484e3ebcac0ca40971cba2`. Novyij kandidat proshyol rannyuyu dekompoziciyu i polnyij zapusk `75f5e68e-4b63-4ccb-9311-5710b75b63b3` sredstvami M1: vse 24 etapa zavershilisj uspeshno. Zakryityij report-v2, finaljnaya proyekciya i vyisokij chitatelj Git podtverdili kommit `e95d7f5d1ef6387454b7825932cfbd737e600473` s roditelyami `[L, M1]`. Fuma i lokaljnyij master prodvinutyi do etogo zhe C, ikh indeksyi i rabochiye fajlyi proverenyi. [Fakticheskaya priyomka i dostavka](../Zhurnal/2026-09-12_01-02-03_MSK_sokhranitj-integraciyu-i-rasshiritj-rabotu/materialyi/prinyataya-integraciya.md) sokhranyayet tochnyiye obyyektyi, rezuljtatyi i granicyi vremeni. Iskhodnyij otkaz i negativnyiye testyi sokhranenyi; sobstvennyij kriterij kartochki vyipolnen.
+
 ## Svyazannyiye shagi
 
-- [FUM-STEP-0175](../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md); osnovaniye svyazi — `FUM-СБОЙ-0090/ПРОЯВЛЕНИЕ-0001`. Novogo shaga i dubliruyusjhej kartochki v C2 net.
+- [FUM-STEP-0175](../Planirovaniye/kartochki-shagov/✅-FUM-STEP-0175-podgotovitj-smenu-golovnoj-vetki-razrabotki.md); osnovaniye svyazi — `FUM-СБОЙ-0090/ПРОЯВЛЕНИЕ-0001`. Novogo shaga i dubliruyusjhej kartochki v C2 net.
 
 ## Kriterij zakryitiya
 
@@ -31,6 +35,6 @@ Prinimayusjhij paket proveren i prinyat v master, novyij M zafiksirovan, yego va
 - Obsjhij raspredelitelj vyidelil ID dlya zadachi `01a09047-faa1-7370-83f7-cdfc8f9943a6`; sobyitiye `2574ad635afe12e291f196b0af34bc992451c0dcd53fb09bf9f2e0d9f3d01450`. Privatnaya kvitanciya prochitana. Nezavisimyij audit koordinatora ne nashyol susjhestvuyusjhej kartochki s etoj regressionnoj granicej.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 23:16:44 MSK -->
-<!-- content-sha256: sha256:57de4640c16216357ef5f49b7b016c474fa09a9fb682f032e5f1dc4d26596eca -->
+<!-- last-content-edit: 2026-09-12 01:19:38 MSK -->
+<!-- content-sha256: sha256:b08dfa9adf428ed00a3429dcc2c381f896b5867423eb665627857076faf5f718 -->
 <!-- FUM-MD-RECENCY:END -->

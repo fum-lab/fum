@@ -61,6 +61,10 @@ Yesli oshibochnaya migraciya sozdala vtoroj `id` dlya togo zhe smyislovogo fence
 
 Obnovleniye otklonyayet neodnoznachnuyu stroku, neaktivnuyu ili netipizirovannuyu stroku, vyikhod iz repozitoriya, wildcard, symlink, neizvestnuyu kategoriyu, dubliruyusjhijsya selektor ili fingerprint, nekanonicheskij JSON, ne-NFC-putj i smenu politiki vo vremya zapisi. Novaya politika snachala prokhodit obsjhij kontrakt, a zatem atomarno zamesjhayet prezhnij fajl.
 
+Neskoljko deklaracij odnogo fajla ispoljzuyut odin polnyij analiz etogo fajla v predelakh vyizova. Sokhranyayutsya chislo strok i neizmennyiye kandidatyi; kontekst i chislo odinakovyikh fingerprint po vsemu fajlu proveryayutsya polnostjyu. Sleduyusjhij vyizov zanovo chitayet i razbirayet vkhod, poetomu izmeneniye fajla ne skryivayetsya prezhnim kyeshem. Otdeljnyij itogovyij scanner po-prezhnemu proveryayet vesj repozitorij.
+
+Dlya sravneniya stoimosti ispoljzujte `tests/профиль_пакетного_анализа.py --выход <профиль.json>` cherez otchyotnuyu obyortku. Po umolchaniyu on sozdayot tri otkryityiye fiksturyi primerno po 4 MiB s 12 deklaraciyami, izmeryayet obnovleniye i tochnyij povtor, sokhranyayet khyeshi vkhoda i rezuljtata, schyotchik i vlozhennyiye intervalyi nastoyasjhego polnogo razbora. Podgotovka vremennogo Git-repozitoriya isklyuchena iz izmeryayemogo obnovleniya. Do i posle serii sveryayutsya SHA-256 izmeryayemyikh iskhodnikov, profilirovsjhika i ispoljzuyemyikh modulej fiksturyi; izmenivshijsya ili ischeznuvshij istochnik ne dopuskayet zapisj rezuljtata. Parametryi `--мегабайт`, `--деклараций` i `--повторов` zadayut razmer scenariya. Dlya istoricheskoj realizacii peremennaya `FUM_CHECKED_CODE_ROOT` ukazyivayet na otdeljnyij proverennyij checkout togo zhe monorepozitoriya; profilirovsjhik zapuskayetsya iz tekusjhego dereva. Istoricheskaya kopiya dolzhna soderzhatj zavisimosti skanera, vklyuchaya modulj strukturyi papok zaprosov. Ravenstvo rezuljtatov, sostav vkhodov i usloviya nagruzki sveryayutsya otdeljno; vlozhennyiye intervalyi ne summiruyutsya s obsjhim vremenem.
+
 ## Tipizirovannaya granica
 
 Doslovnoye soderzhimoye toljko razdela `## Текст запроса` v tochnyikh fajlakh `Журнал/<имя-с-обязательным-временным-префиксом>/запрос.md` i fajlyi pod `Источники/` ostayutsya proiskhozhdeniyem v rezhime `report.*`. Obyichnyiye URL maskiruyutsya do raspoznavaniya lokaljnyikh putej. Sistemnyiye runtime-puti, shebang, yakorya `.gitignore` i dokumentirovannyiye obezlichennyiye primeryi poluchayut otdeljnyiye kontekstnyiye kategorii; proizvoljnyij sistemnyij putj v first-party-kode ne razreshayetsya. Samo nakhozhdeniye stroki v kataloge skanera, v fajle drugoj proverki ili v `tests` nichego ne razreshayet.
@@ -90,6 +94,6 @@ Testyi bez seti i sekretov proveryayut vse raspoznavayemyiye formyi, Git-inventa
 - [audit absolyutnyikh putej](../../Zhurnal/2026-07-22_12-35-05_MSK_provesti-audit-absolyutnyikh-putej/materialyi/revjyu/2026-07-22_12-35-05_MSK_audit-absolyutnyikh-putej.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 15:19:56 MSK -->
-<!-- content-sha256: sha256:8ac4cffddda4cb9250fabe166dbdf1cd6cca54f420ff49b8d2bd37947154a544 -->
+<!-- last-content-edit: 2026-09-12 03:47:27 MSK -->
+<!-- content-sha256: sha256:e44632343d6c712f138b69b67efd103bfd515426a0fe5cfbe84a413f33c4c0fe -->
 <!-- FUM-MD-RECENCY:END -->

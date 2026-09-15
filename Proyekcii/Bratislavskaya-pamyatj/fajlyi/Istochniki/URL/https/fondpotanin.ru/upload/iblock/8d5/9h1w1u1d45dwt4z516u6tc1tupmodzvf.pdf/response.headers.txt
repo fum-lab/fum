@@ -1,0 +1,13 @@
+HTTP/2 200 
+server: nginx
+date: Fri, 11 Sep 2026 12:29:47 GMT
+content-type: application/pdf
+content-length: 1299149
+last-modified: Thu, 09 Apr 2026 14:15:58 GMT
+etag: "69d7b49e-13d2cd"
+expires: Sun, 11 Oct 2026 12:29:47 GMT
+cache-control: max-age=2592000
+x-content-type-options: nosniff
+x-frame-options: ALLOWALL
+accept-ranges: bytes
+

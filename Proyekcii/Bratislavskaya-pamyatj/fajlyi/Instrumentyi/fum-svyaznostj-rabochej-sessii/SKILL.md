@@ -29,6 +29,20 @@ Istoricheskaya skhema `fum.продолжение-задачи.1` ostayotsya chi
 
 V2 proveryayet monotonnostj vsego sokhranyonnogo reyestra po polnomu Git DAG, nastoyasjhiye kartochki HEAD, zakryityiye v4-dokazateljstva i tochnyiye bajtyi zayavlennyikh rezuljtatov. Yego prezhnyaya realizaciya sokhranena otdeljno v `scripts/обязательства_задачи_v2.py`. Chitatelj v3 v `scripts/обязательства_задачи.py` sokhranyayet stroguyu priyomku v3 i dopuskayet istoricheskij v2 toljko cherez zakreplyonnyij arkhiv i kartu importa; proveryayutsya vse versii i roditeljskiye ryobra, ponizheniye versii zapresjheno. Nomer reyestra, nomer zapisi zapuska i wire-skhema resheniya — raznyiye kontraktyi. Chastichnyij rezuljtat reyestra v3 sokhranyayetsya vnutri polya `обязательства` v wire-skheme `fum.решение-продолжения.2` s nepustyim ostatkom i resheniyem `продолжить`. Zavershyonnyij punkt plana i svobodnoye svideteljstvo ne pogashayut obyazateljstvo. Polnotu pervonachaljnogo reyestra, semantiku realizacii, dostatochnostj testov i nezavisimuyu podlinnostj ikh zapuska proveryayet korenj. Komanda ne perekhvatyivayet final na urovne Codex, ne sozdayot raspisaniye i ne vozobnovlyayet runtime; yeyo integraciya so Stop proveryayetsya otdeljno.
 
+## Ogranichitj vyivod ostatka soobsjhenij
+
+Polnyij stdout komandyi `обработать-сообщения-задачи.py ... остаток --без-записи` sokhranyayetsya v privatnyij fajl vne checkout; v kontekst peredayotsya ogranichennaya stranica cherez [susjhestvuyusjhij kompaktnyij chitatelj](kompaktnyij-ostatok.md). Pered stranicej otdeljno proveryayutsya kod proizvoditelya (0 ili 3) i SHA-256 tochnyikh bajtov. Kod 2 proizvoditelya ne zamenyayetsya staryim rezuljtatom. Komanda `scripts/показать-остаток.py` sokhranyayet vyibrannyiye originalyi, schyotchiki i ukazateli na polnyij artefakt; polnyij massiv pozdnikh svyazej napryamuyu v kontekst ne vyivoditsya.
+
+Pri obnaruzhenii izbyitochnogo vyivoda agent srazu primenyayet etot sposob v soglasovannoj oblasti bez povtornogo porucheniya. Snachala proveryayetsya uzhe susjhestvuyusjhaya realizaciya; pri nedostatochnom kontrakte fiksiruyetsya i ispravlyayetsya konkretnyij probel po dejstvuyusjhim pravilam instrumentov. Eto obyazateljnyij sposob dejstvij agenta, a ne uzhe podklyuchyonnyij avtomaticheskij perekhvat stdout ili realizovannoye chuvstvo FUMA. Vse nepokazannyiye soobsjheniya i pozdniye osnovaniya sokhranyayut obyazannostj rassmotreniya. Konec stranicyi ne oznachayet prosmotr ostaljnyikh stranic, obrabotku soobsjhenij, aktualjnostj zhivogo istochnika ili zaversheniye zadachi.
+
+Osnovaniye: [komandyi i nablyudeniye kornya](../../Zhurnal/2026-09-15_13-00-53_MSK_ispravitj-sboj-finaljnoj-proyekcii/zapros.md). Tochnyij marshrut iz postavki `70cec1ca7852d64c003baa22ef79bc4a395336c7` adaptirovan k tekusjhemu navyiku bez zamenyi yego ostaljnyikh kontraktov.
+
+## Polnyij zakhvat pered ogranichennyim predstavleniyem
+
+Dlya razreshyonnyikh lokaljnyikh CLI s potencialjno boljshim stdout ili stderr primenyaj [obsjhij zakhvat](polnyij-zakhvat-vyivoda.md). On sokhranyayet oba iskhodnyikh kanala do vyidachi yedinoj ogranichennoj kvitancii; podrobnosti raskryivayutsya po diapazonu i SHA. Pri izvestnoj skheme ostatka posle sokhraneniya mozhno yavno vyibratj [detektor byudzheta](detektor-byudzheta-vyivoda.md). Eto ne avtomaticheskij perekhvat vsekh MCP-vyizovov i ne podtverzhdeniye prochteniya vsekh sokhranyonnyikh bajtov.
+
+Do zapuska vyiberi novyij privatnyij fizicheskij katalog vne lyubogo Git-predka; domashnij katalog sam mozhet byitj repozitoriyem. Dejstvuyet kooperativnaya granica doverennogo processa i yedinstvennogo pisatelya, opisannaya v rukovodstve. Pri otkaze posle vozmozhnogo effekta vyiyasni sokhranyonnoye sostoyaniye, a ne povtoryaj komandu avtomaticheski. Byudzhet vsego otveta i kod vyizyivayemogo processa proveryayutsya otdeljno ot koda predstavleniya.
+
 ## Obyazateljnyij razbor dialoga
 
 Pri vosstanovlenii i sverke dogovoryonnostej vyizyivayetsya [ostatok soobsjhenij](obrabotka-soobsjhenij.md) s yavnyimi kornem, kornevyim UUID i iskhodnyim JSONL:
@@ -92,6 +106,10 @@ V shablone dopolniteljno zamenyayetsya otnositeljnyij putj plana etapa; reyestr,
 
 Pered primeneniyem koordinator chitayet kontrakt, sveryayet konkretnyij kandidat i dejstvuyusjhij sloj runtime. Sluzhebnyij HookPrompt ne pripisyivayetsya cheloveku po odnoj roli user; yego proiskhozhdeniye i fakticheskoye prodolzheniye modeli proveryayutsya otdeljno. Nativnoye podklyucheniye ne vyivoditsya iz uspeshnyikh sinteticheskikh testov ili nalichiya privatnogo kataloga.
 
+## Nablyudayemaya modelj i usiliye
+
+[Yavnyij inkrementaljnyij import](istoriya-modeli.md) sokhranyayet pervoye nablyudeniye i smenyi paryi iz native `turn_context`, proiskhozhdeniye i propuski. Tot zhe rezuljtat podgotavlivayet otdeljnyiye polya `model` i `effort` soobsjheniya kommita pered shtatnoj proverkoj; kornevoj trejler sokhranyayetsya. Avtozapuski ne podklyuchayutsya.
+
 ## Proiskhozhdeniye soobsjhenij
 
 Chistaya funkciya `scripts/происхождение_сообщений.py`, `классифицировать_сообщение(сообщение)`, prinimayet syiroj payload `response_item/message` do obyyedineniya fragmentov i normalizacii metadata. Vozvrasjhayet rovno `человек`, `служебный hook`, `служебный контекст` ili `неоднозначный`. Polnaya soglasovannaya annotaciya poljzovateljskogo vvoda imeyet prioritet nad bukvaljnyim XML; chastichnaya ili neizvestnaya annotaciya ne vklyuchayet XML-fallback. Otsutstvuyusjhiye svideteljstva ne udostoveryayut lichnostj i ne dokazyivayut zapusk hook. Funkciya ne chitayet JSONL, ne sokhranyayet arkhiv i ne izmenyayet payload. Vyizyivayusjhij sloj sokhranyayet pervichnyiye zapisi, otdeljnyiye povtoreniya i yavnuyu neodnoznachnostj.
@@ -143,6 +161,10 @@ Tochnaya ssyilka na otsutstvuyusjhij lokaljnyij `.obsidian/graph.json` dopustima
 
 ## Proverki avtomatizacii
 
+Sostav kazhdogo kataloga kyeshiruyetsya v predelakh odnogo vyizova proverki ssyilok. Pri povtornom obrasjhenii zanovo chitayutsya ustrojstvo, inode, mtime i ctime; izmeneniye etikh metadannyikh sbrasyivayet zapisj. Metadannyiye sveryayutsya takzhe do i posle perechisleniya, chtobyi ne sokhranitj staryij sostav pod novoj metkoj. Oshibka chteniya ne razreshayet ispoljzovatj prezhnij polozhiteljnyij rezuljtat. Tochnoye imya imeyet prioritet; neodnoznachnyij variant bez uchyota registra ne prinimayetsya. Eto nablyudeniye dostupnyikh metadannyikh, a ne atomarnyij snimok fajlovoj sistemyi.
+
+[Otkryityij profilj](tests/profilj_proverki_ssyilok.py) vyizyivayetsya cherez obyichnuyu otchyotnuyu obyortku komandoj `python3 -B Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_проверки_ссылок.py --выход <профиль.json>`. Po umolchaniyu on trizhdyi proveryayet 1000 ssyilok s 1000 dopolniteljnyimi zapisyami v kazhdom iz dvukh katalogov. Podgotovka isklyuchena iz vnutrennikh zamerov; rezuljtatyi vklyuchayut izmeriteljnyiye metki i ne predstavlyayut chistoye vremya sistemnyikh vyizovov. SHA zadejstvovannyikh proyektnyikh iskhodnikov sveryayutsya do i posle serii. [Parnyiye rezuljtatyi i ogranicheniya](../../Zhurnal/2026-09-12_04-06-47_MSK_izmeritj-i-uskoritj-proverku-ssyilok/otchyot.md) ne yavlyayutsya koefficiyentom uskoreniya vsego smoke-check.
+
 Lokaljnyiye testyi zapuskayutsya bez seti i sekretov:
 
 ```bash
@@ -192,7 +214,11 @@ Proverka Git-sostoyaniya sravnivayet toljko puti. Ona ne reshayet, nuzhno li vkl
 - [iskhodnyij zapros 2026-07-17 10:25:41 MSK - Predotvrasjhatj smesjheniye vremeni sessij](../../Zhurnal/2026-07-17_10-25-41_MSK_predotvrasjhatj-smesjheniye-vremeni-sessij/zapros.md)
 - [iskhodnyij zapros 2026-07-21 05:39:00 MSK - Sdelatj sluzhebnyiye generatoryi vosproizvodimyimi](../../Zhurnal/2026-07-21_05-39-00_MSK_sdelatj-sluzhebnyiye-generatoryi-vosproizvodimyimi/zapros.md)
 
+## Ustojchivyiye materialyi obrabotki
+
+[Plan i primeneniye ustojchivyikh svideteljstv](ustojchivyiye-svideteljstva.md) pereispoljzuyut shtatnoye sokhraneniye obrabotki. Yavnoye opisaniye vyibirayet ekzemplyaryi i resheniya; plan bez zapisi pokazyivayet polnyiye materialyi i posledovateljnostj, primeneniye vozvrasjhayet fakticheskij prefiks i dopuskayet proveryayemyij povtor. Podklyucheniye k obsjhemu yazyiku operatorov ostayotsya otdeljnyim styikom.
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 20:36:50 MSK -->
-<!-- content-sha256: sha256:140d6b5742054b532678da85d2a827fdf154c1ee8db6c234ecbf17fe052daad5 -->
+<!-- last-content-edit: 2026-09-15 19:16:22 MSK -->
+<!-- content-sha256: sha256:627f5d83dcaee45742255424e5878fc086b6d171f156afea32e7704f81bab9b8 -->
 <!-- FUM-MD-RECENCY:END -->

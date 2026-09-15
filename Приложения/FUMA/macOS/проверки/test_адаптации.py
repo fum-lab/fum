@@ -19,6 +19,8 @@ class ПроверкиАдаптации(unittest.TestCase):
         манифест = json.loads((ПРИЛОЖЕНИЕ / 'манифест-переноса.json').read_text())
         self.assertEqual(39, len(манифест['файлы']))
         self.assertEqual(39, len({запись['источник'] for запись in манифест['файлы']}))
+        # Манифест описывает первоначальную поставку, а не будущие правки приложения.
+        поставка = '6599fe4837ef54efc7f871d2bfe6f8d9d07b4d95'
         назначения = set()
         for запись in манифест['файлы'] + манифест['новые_файлы']:
             имя = запись['назначение']
@@ -28,11 +30,14 @@ class ПроверкиАдаптации(unittest.TestCase):
             self.assertNotIn('..', Path(имя).parts)
             путь = ПРИЛОЖЕНИЕ / имя
             self.assertFalse(путь.is_symlink())
-            self.assertEqual(запись['конечный_sha256'], hashlib.sha256(путь.read_bytes()).hexdigest(), имя)
-            self.assertEqual(запись['конечный_режим'], '100755' if путь.stat().st_mode & 0o111 else '100644', имя)
+            исторический_путь = 'Приложения/FUMA/macOS/' + имя
+            байты = subprocess.check_output(['git', 'show', поставка + ':' + исторический_путь], cwd=ПРИЛОЖЕНИЕ)
+            режим = subprocess.check_output(['git', 'ls-tree', '--full-tree', поставка, '--', исторический_путь], cwd=ПРИЛОЖЕНИЕ).split()[0].decode()
+            self.assertEqual(запись['конечный_sha256'], hashlib.sha256(байты).hexdigest(), имя)
+            self.assertEqual(запись['конечный_режим'], режим, имя)
         фактические = {str(путь.relative_to(ПРИЛОЖЕНИЕ)) for путь in ПРИЛОЖЕНИЕ.rglob('*')
                       if путь.is_file() and путь.name != 'манифест-переноса.json' and '__pycache__' not in путь.parts}
-        self.assertEqual(назначения, фактические)
+        self.assertTrue(назначения <= фактические, назначения - фактические)
 
     def test_исходники_не_зависят_от_машинного_checkout(self):
         нарушения = []
