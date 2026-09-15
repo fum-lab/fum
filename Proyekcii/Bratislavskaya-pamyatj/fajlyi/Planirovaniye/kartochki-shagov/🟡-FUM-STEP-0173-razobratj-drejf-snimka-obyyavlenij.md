@@ -36,7 +36,13 @@ Polnyij snimok obnovlyayetsya toljko posle sovmestnogo dokazannogo razbora obeik
 
 [Sleduyusjhij etap](../../Zhurnal/2026-09-14_21-49-30_MSK_perevesti-zhivyiye-izmeriteli-Python/otchyot.md) perevyol 45 sobstvennyikh zapisej dvukh razreshyonnyikh zhivyikh izmeritelej i obyyasnil globaljnyij effekt Python-skanera: 312 dobavlenij imeyut tochnoye istoricheskoye proiskhozhdeniye, 26 udalenij prinadlezhat vneshnim AST API. V soglasovannoj Python-gruppe neobosnovannyij novyij ostatok raven nulyu. Do zakryitiya ostayutsya obyyedineniye s klassifikaciyej 0165 i obsjhij snimok s polnoj priyomkoj. Istoricheskij before sokhranyayetsya po tochnomu khyeshu. Kartochka ostayotsya aktivnoj; kontroljnaya tochka ne zavershayet shag i ne yavlyayetsya integraciyej.
 
+## Rannyaya granica imyon yavnogo CLI-profilya
+
+`FUM-СБОЙ-0045/ПРОЯВЛЕНИЕ-0004` vyiyavilo novoye sobstvennoye smeshannoye imya metadannyikh pri podklyuchenii profilya. Proverka do dorogoj priyomki otdelyayet yego ot vneshnikh wire-polej, sokhranyayet pervichnyiye otkazyi i privyazyivayet ispravleniye k tochnyim iskhodnyim SHA. V tekusjhem sreze imya ispravleno i pyatj izmenyonnyikh iskhodnikov vernuli 0 → 0; obsjhij snimok ne obnovlyalsya. Dlya povtoryayemoj meryi nuzhnyi rannyaya proverka sobstvennogo izmenyonnogo nabora i proveryayemaya svyazj pereimenovanij vne vremennoj granicyi s istoricheskimi izmereniyami. Uspekh tekusjhej ruchnoj lokalizacii ne zakryivayet etot obsjhij kriterij.
+
 ## Istochniki
+
+- [FUM-SBOJ-0045/PROYAVLENIYE-0004](../../Sboi/FUM-SBOJ-0045-drejf-snimka-obyyavlenij-koda.md) — novoye sobstvennoye imya v CLI-profile; [rannyaya proverka i vosstanovleniye](../../Zhurnal/2026-09-15_02-35-33_MSK_podklyuchitj-porozhdyonnyiye-modeli/otchyot.md).
 
 - [Sovmestnaya klassifikaciya i vosstanovleniye istoricheskogo massiva](../../Zhurnal/2026-09-14_22-40-28_MSK_obyyedinitj-paketyi-i-proveritj-ostatok/materialyi/sovmestnaya-klassifikaciya.md) — poelementno obyyasnenyi43163→43800→43164→43091; novyij neobosnovannyij ostatok soglasovannogo obyyoma ravennulyu. Snimok obnovlyon shtatno; okonchateljnaya polnaya priyomka ostayotsya obyazateljnoj granicej zakryitiya.
 
@@ -48,6 +54,6 @@ Polnyij snimok obnovlyayetsya toljko posle sovmestnogo dokazannogo razbora obeik
 - [Nablyudeniye v etape adaptacii](../../Zhurnal/2026-09-10_00-49-43_MSK_svyazatj-proverki-s-kommitami/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-14 23:14:36 MSK -->
-<!-- content-sha256: sha256:05f96e1c2a2d8f6ba6aedf62bb31ef69e5850b08ba9ceafb5cef454c4d6fe0d3 -->
+<!-- last-content-edit: 2026-09-15 03:14:24 MSK -->
+<!-- content-sha256: sha256:fa49683eb4bb63e0b975c2048275ef9594642e20a1b1ebabe3fceb6a2cb77237 -->
 <!-- FUM-MD-RECENCY:END -->

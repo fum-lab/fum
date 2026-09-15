@@ -47,7 +47,7 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0042 | `устранена` | [Sluzhebnyiye fajlyi Finder blokiruyut pereustanovku proyekcii](FUM-SBOJ-0042-sluzhebnyiye-fajlyi-Finder-blokiruyut-pereustanovku-proyekcii.md)                                 | 2          | FUM-STEP-0169           |
 | FUM-SBOJ-0043 | `активна`   | [Izmeneniye proveryayemogo snimka do zaversheniya proverki](FUM-SBOJ-0043-izmeneniye-proveryayemogo-snimka-do-zaversheniya-proverki.md)                                       | 1          | FUM-STEP-0170           |
 | FUM-SBOJ-0044 | `активна`   | [Proverka indeksa propusjhena do zakryitiya otchyota](FUM-SBOJ-0044-proverka-indeksa-propusjhena-do-zakryitiya-otchyota.md)                                                     | 1          | FUM-STEP-0171           |
-| FUM-SBOJ-0045 | `активна`   | [Drejf snimka obyyavlenij koda](FUM-SBOJ-0045-drejf-snimka-obyyavlenij-koda.md)                                                                                       | 3          | FUM-STEP-0173           |
+| FUM-SBOJ-0045 | `активна`   | [Drejf snimka obyyavlenij koda](FUM-SBOJ-0045-drejf-snimka-obyyavlenij-koda.md)                                                                                       | 4          | FUM-STEP-0173           |
 | FUM-SBOJ-0053 | `устранена` | [Rasshireniye formatov proyekcii ostavilo prezhniye konstantyi JSON Schema](FUM-SBOJ-0053-rassoglasovaniye-skhemyi-formatov-proyekcii.md)                                     | 1          | —                       |
 | FUM-SBOJ-0054 | `устранена` | [Novaya politika proyekcii otklonyala vladeniye prezhnim pokoleniyem versii 2](FUM-SBOJ-0054-otkaz-proyekcii-na-prezhnej-politike-vladeniya.md)                              | 1          | —                       |
 | FUM-SBOJ-0055 | `устранена` | [Pustoj override v pervom teste runner dopustil zapusk ustanovlennogo helper](FUM-SBOJ-0055-neyavnyij-zapusk-ustanovlennogo-helper-v-proverke.md)                     | 1          | —                       |
@@ -92,6 +92,7 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0128 | `активна`   | [Chastnyij import ne zaregistriroval modulj do dataclass](FUM-SBOJ-0128-chastnyij-import-bez-registracii-modulya.md)                                                     | 1          | FUM-STEP-0174           |
 | FUM-SBOJ-0130 | `активна`   | [Ustarevshiye tekstovyiye kontraktyi repozitornyikh testov ocheredi](FUM-SBOJ-0130-ustarevshiye-tekstovyiye-kontraktyi-ocheredi.md)                                               | 1          | FUM-STEP-0174           |
 | FUM-SBOJ-0131 | `активна`   | [Nevernyij tip rezuljtata formattera v chastnom vyizove](FUM-SBOJ-0131-nevernyij-tip-rezuljtata-formattera.md)                                                          | 1          | FUM-STEP-0174           |
+| FUM-SBOJ-0134 | `активна`   | [Proverka kontroljnoj tochki vnutri aktivnoj obyortki](FUM-SBOJ-0134-kontroljnaya-tochka-vnutri-obyortki.md)                                                             | 1          | FUM-STEP-0174           |
 
 ## Pravila vedeniya
 
@@ -124,6 +125,6 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 - [pravila rabochikh sessij](../AGENTS.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 01:54:57 MSK -->
-<!-- content-sha256: sha256:24cbfb0ab0a7154e98ed0dbc8eab5fe32b6c7a482614f2b70076bf95aa2e8c3e -->
+<!-- last-content-edit: 2026-09-15 03:22:57 MSK -->
+<!-- content-sha256: sha256:1b2fdfac345414fbeb4f071c9d6ec92e3292b4602dc5005007bc2a25ffb81210 -->
 <!-- FUM-MD-RECENCY:END -->

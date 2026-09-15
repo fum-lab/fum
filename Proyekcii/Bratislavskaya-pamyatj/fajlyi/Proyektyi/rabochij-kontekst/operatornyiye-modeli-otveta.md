@@ -2,7 +2,7 @@
 
 Odno [opisaniye dannyikh i proyekcii](kontraktyi/opisaniye-otveta.json) porozhdayet [Swift Codable-modeli](porozhdyonnyiye/ModeliOtveta.swift) i [Python dataclass-modeli](porozhdyonnyiye/modeli_otveta.py). Cherez tot zhe opisannyij graf vyichislyayutsya proverki, vyibor otveta, pereimenovaniye polej, schyotchiki i ssyilki na polnyij snimok. Ruchnyiye obsjhiye funkcii nakhodyatsya v [podderzhke yazyikov](obsjhiye/); predmetnogo sootvetstviya polej v nikh net.
 
-Eto pervyij konechnyij profilj `fum.модели-и-проекция.1`, chislovaya oblastj — `целые64-без-дробей`. Rabochij [prezhnij Python-srez](../../Instrumentyi/fum-svyaznostj-rabochej-sessii/kompaktnyij-otvet-zadachi.md) i yego skhemyi sokhranenyi. Sovpadeniye dvukh novyikh realizacij vnutri profilya provereno; sovmestimostj so vsej chislovoj oblastjyu prezhnego kontrakta ne zayavlena. Obsjhaya API/cache-obyortka poka ispoljzuyet prezhnij srez.
+Eto pervyij konechnyij profilj `fum.модели-и-проекция.1`, chislovaya oblastj — `целые64-без-дробей`. Rabochij [prezhnij Python-srez](../../Instrumentyi/fum-svyaznostj-rabochej-sessii/kompaktnyij-otvet-zadachi.md) i yego skhemyi sokhranenyi. Sovpadeniye dvukh novyikh realizacij vnutri profilya provereno; sovmestimostj so vsej chislovoj oblastjyu prezhnego kontrakta ne zayavlena. Obsjhaya API/cache-obyortka sokhranyayet prezhnij srez po umolchaniyu; parametr `профиль_представления: "порождённый"` i flag CLI `--профиль порождённый` yavno podklyuchayut eti modeli k novomu i sokhranyonnomu chteniyu. Smena profilya uzhe prinyatogo snimka sokhranyayet proverku SHA i okonchateljnogo byudzheta s putyom i LF; skryitogo otkata net.
 
 ## Otkuda beryotsya generaciya
 
@@ -63,7 +63,7 @@ Bez `FUM_СВИФТ_ОТВЕТ` nativnaya Python-proverka ne zayavlyayet zapuska
 
 [Profilj](../../Zhurnal/2026-09-14_15-54-44_MSK_poroditj-modeli-otveta-operatorami/materialyi/profilj-generacii-i-primeneniya-okonchateljnyij.json) soderzhit semj povtorov. Mediana generacii — 54,69 ms bez sborki. Malyij vkhod 493 bajta dayot 2133 bajta Python ili 2145 Swift; krupnyij 4021534 bajta dayot 2870 ili 2897 bajtov. Primeneniye Python izmereno vnutri zagruzhennogo processa, Swift — vmeste s novyim CLI-processom; eto raznyiye granicyi, ne rejting yazyikov. Tokenyi, RSS, setj i ekonomiya na realjnoj smeshannoj posledovateljnosti zdesj ne izmerenyi. Istoricheskij zhivoj malyij vkhod prezhnego sreza tozhe uvelichivalsya: 885 → 2595 bajtov.
 
-Optimizaciya etogo etapa ne rasshiryayet yazyik i ne menyayet format radi menjshego rezuljtata. [Sleduyusjhij profilj sokhranyonnoj API-obyortki](../../Instrumentyi/fum-svyaznostj-rabochej-sessii/kompaktnyij-otvet-zadachi.md) izmeril smeshannuyu posledovateljnostj boljshikh i malyikh otvetov s povtornyim ispoljzovaniyem. On ispoljzuyet prezhnij Python-etalon i otdeljno ukazyivayet stoimostj fajlov, vyizovov i poleznoj vyidachi.
+Optimizaciya etogo etapa ne rasshiryayet yazyik i ne menyayet format radi menjshego rezuljtata. [Sleduyusjhij profilj sokhranyonnoj API-obyortki](../../Instrumentyi/fum-svyaznostj-rabochej-sessii/kompaktnyij-otvet-zadachi.md) izmeril smeshannuyu posledovateljnostj boljshikh i malyikh otvetov s povtornyim ispoljzovaniyem. Istoricheskaya seriya ispoljzovala prezhnij Python-etalon i otdeljno uchityivala stoimostj fajlov, vyizovov i poleznoj vyidachi. [Podklyucheniye yavnogo profilya](../../Zhurnal/2026-09-15_02-35-33_MSK_podklyuchitj-porozhdyonnyiye-modeli/otchyot.md) proverilo realjnyij CLI/cache i ravenstvo 42 rezuljtatov v obsjhej oblasti. Porozhdyonnyij putj dorozhe prezhnego; uskoreniye i obsjhaya ekvivalentnostj prezhnemu kontraktu ne zayavlyayutsya. Granicyi Int64, glubinyi 64, UUID, Unicode-klyuchej i UTF-8 bez BOM perechislenyi v rukovodstve CLI; prezhnij rezhim po umolchaniyu ne suzhen.
 
 ## Istochniki
 
@@ -71,6 +71,6 @@ Optimizaciya etogo etapa ne rasshiryayet yazyik i ne menyayet format radi menjsh
 - [Prezhnyaya priyomka nativnogo Python-sreza](../../Zhurnal/2026-09-14_15-01-38_MSK_sokratitj-otvetyi-nativnyikh-instrumentov/otchyot.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-14 21:05:29 MSK -->
-<!-- content-sha256: sha256:4fd62d09024c0be260d06dca4db07afaa9e67ea0f16b2345ca36d3cf4399a284 -->
+<!-- last-content-edit: 2026-09-15 03:08:23 MSK -->
+<!-- content-sha256: sha256:d8990ab374366d89941b4ffcb8433b6521c0faaaeb1d509923d51cfb3f382893 -->
 <!-- FUM-MD-RECENCY:END -->
