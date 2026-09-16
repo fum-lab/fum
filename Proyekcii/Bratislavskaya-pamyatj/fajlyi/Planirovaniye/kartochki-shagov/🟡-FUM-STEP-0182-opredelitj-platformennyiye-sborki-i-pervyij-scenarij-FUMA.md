@@ -51,7 +51,7 @@ Microsoft Windows Holographic ne vkhodit v tekusjhuyu matricu po posleduyusjhemu
 - Pervyij proverennyij vertikaljnyij scenarij soprovozhdayetsya RED/GREEN, profilem, resheniyem ob optimizacii i svideteljstvami tochnogo kommita. Ostaljnyiye platformyi poluchayut neperesekayusjhiyesya shagi s kriteriyami priyomki; pervyij uspekh ne obyyavlyayet gotovnostj ostaljnyikh.
 - Chelovek poluchayet ponyatnuyu instrukciyu vyibora platformyi, zapuska i chteniya rezuljtata. Nezavershyonnyiye stroki matricyi, vneshniye zavisimosti i sleduyusjhiye dejstviya vidnyi yavno.
 
-Dlya graficheskikh putej matrica vklyuchayet Metal, DirectX i Vulkan soglasno FUM-REQ-0047; Mantle zamenyon poljzovatelem na Vulkan. Versii i primenimyiye vozmozhnosti vyibirayutsya posle proverki. Brauzernyij putj zadayotsya otdeljno i proveryayetsya v kazhdom celevom brauzere.
+- Dlya graficheskikh putej matrica vklyuchayet Metal, DirectX i Vulkan soglasno FUM-REQ-0047; Mantle zamenyon poljzovatelem na Vulkan. Versii i primenimyiye vozmozhnosti vyibirayutsya posle proverki. Brauzernyij putj zadayotsya otdeljno i proveryayetsya v kazhdom celevom brauzere.
 
 ## Plan primeneniya Swift System
 
@@ -88,6 +88,6 @@ Snachala utochnyayutsya matrica i obsjhij scenarij; zatem platformennyiye rezulj
 - [Iskhodnoye trebovaniye i dva soobsjheniya, dopolnivshiye perechenj](../../Zhurnal/2026-09-11_01-03-38_MSK_zaplanirovatj-platformyi-i-grafiku-FUMA/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 11:59:08 MSK -->
-<!-- content-sha256: sha256:8e400aecb64ab29fde2bb9c40efb886d89ea918dcfb8bad159cffcd0a877ebb2 -->
+<!-- last-content-edit: 2026-09-16 12:46:53 MSK -->
+<!-- content-sha256: sha256:b804242ba5a88970e2a81212ff64fd1a28a71d1dd35b2f202d6c54dd5d5dd66d -->
 <!-- FUM-MD-RECENCY:END -->

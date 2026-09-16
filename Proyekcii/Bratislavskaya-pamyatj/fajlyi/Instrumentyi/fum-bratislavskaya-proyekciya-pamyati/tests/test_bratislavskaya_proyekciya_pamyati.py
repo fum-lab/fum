@@ -244,12 +244,14 @@ class ПроверкаКонтрактаБратиславскойПроекци
                     "точные_пути": [
                         ".gitignore",
                         ".gitmodules",
+                        ".mailmap",
                         ".obsidian/fum-recency-reference-date",
                         "LICENSE",
                         "fum",
                         "ЛИЦЕНЗИЯ",
                         "Приложения/FUMA/macOS/.gitignore",
                         "Инструменты/fum-reyestr-planirovaniya/scripts/адаптер-codex.js",
+                        *модуль.пути_сценариев_ответа,
                     ],
                     "действие": "сохранить_байты",
                 },
@@ -298,6 +300,7 @@ class ПроверкаКонтрактаБратиславскойПроекци
                 ".plist",
                 ".entitlements",
                 ".js",
+                ".cjs",
             ],
             "пустые_каталоги": "не_включаются_в_инвентарь_репозитория",
         }

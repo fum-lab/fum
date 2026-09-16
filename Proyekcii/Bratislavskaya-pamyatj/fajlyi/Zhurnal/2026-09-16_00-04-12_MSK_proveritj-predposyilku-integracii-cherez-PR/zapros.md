@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-15 23:33:01 MSK - Zakrepitj politiku novoj osnovyi](../2026-09-15_23-33-01_MSK_zakrepitj-politiku-novoj-osnovyi/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-16 02:10:09 MSK - Podgotovitj predposyilku formatov proyekcii](../2026-09-16_02-10-09_MSK_podgotovitj-predposyilku-formatov-proyekcii/zapros.md)
 
 ## Tekst zaprosa
 
@@ -43,6 +43,6 @@ Nachaljnyij HEAD etogo etapa `5b64d4a6bff7d555fe4219ac42357a9ee66a9e83`, polnyij
 [Doslovnoye opisaniye PR](materialyi/opisaniye-PR.txt) podgotovleno do vneshnego vyizova. [Normalizovannyij otvet sozdaniya](materialyi/otvet-sozdaniya-PR.json) sokhranyayet URL [draft PR №3](https://github.com/fum-lab/fum/pull/3), tochnyiye base/head i opisaniye. Fakticheskoye sostoyaniye dopolniteljno prochitano cherez gh; telo sovpalo s podgotovlennyimi bajtami. Izmeneniye ispolniteljnogo kontura, obyichnoj politiki419, `.gitmodules` i gitlink ne vkhodit v etap.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 00:12:37 MSK -->
-<!-- content-sha256: sha256:02395e6bca8b92460250ee5f1a4cae587ba19fa45a80e0b74bfb29b36efe3cb8 -->
+<!-- last-content-edit: 2026-09-16 02:38:43 MSK -->
+<!-- content-sha256: sha256:2a8b59b1073ddf0315f27d0e77f28c1317feac5cb52c8bf2755018b9f6753c84 -->
 <!-- FUM-MD-RECENCY:END -->

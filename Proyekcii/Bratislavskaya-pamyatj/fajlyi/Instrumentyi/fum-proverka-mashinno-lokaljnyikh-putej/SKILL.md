@@ -24,9 +24,11 @@ Kod `0` oznachayet otsutstviye dejstvuyusjhikh narushenij, dazhe yesli otchyot s
 
 ## Politika zakreplyonnogo kandidata
 
-`policy-кандидата-слияния.json` prednaznachena dlya proverki dannyikh zakreplyonnoj vedusjhej osnovyi. Ona otdeljno svyazana v `происхождение-политики-слияния.json` s polnyimi OID osnovyi, yeyo dereva i SHA-256 politiki. Tekusjhaya osnova — `01ca988635628b48024ae64c290d3c4912aff060`, derevo `fd0a746227a2d015d7cf9cb185eb7957dca0e0b8`; 432 isklyucheniya sostavlyayut prezhniye 419 i 13 tochnyikh dobavlenij otnositeljno prinyatogo master `e95d7f5d1ef6387454b7825932cfbd737e600473`. Eto vkhod susjhestvuyusjhego kontura sliyaniya, a ne samostoyateljnoye razresheniye sliyaniya. Obyichnaya komanda vyishe prodolzhayet ispoljzovatj `policy.json`, pokryivayusjhuyu toljko realjno prinyatyiye fajlyi; pri perenose novyikh fajlov yeyo izmeneniya sveryayutsya otdeljno.
+`policy-кандидата-слияния.json` prednaznachena dlya proverki dannyikh zakreplyonnoj vedusjhej osnovyi. Ona otdeljno svyazana v `происхождение-политики-слияния.json` s polnyimi OID osnovyi, yeyo dereva i SHA-256 politiki. Tekusjhaya osnova — `14044dfd994cf16b5061fb245b18a8e5abf0ac7d`, derevo `d9af1d9e69f288c602a78e5e3edab5337b41ef58`; 447 isklyuchenij sostavlyayut prezhniye 419 i 28 tochnyikh dobavlenij otnositeljno prinyatogo master `9d01af6de4fc2f1c9265ee8805cda4998322e004`. Eto vkhod susjhestvuyusjhego kontura sliyaniya, a ne samostoyateljnoye razresheniye sliyaniya. Obyichnaya komanda vyishe prodolzhayet ispoljzovatj `policy.json`, pokryivayusjhuyu toljko realjno prinyatyiye fajlyi; pri perenose novyikh fajlov yeyo izmeneniya sveryayutsya otdeljno.
 
-[Tekusjheye zakrepleniye novoj osnovyi](../../Zhurnal/2026-09-15_23-33-01_MSK_zakrepitj-politiku-novoj-osnovyi/zapros.md).
+Obyichnaya politika predposyilki sokhranyayet vse 419 zapisej prinyatogo M i dobavlyayet toljko tri tochnyikh isklyucheniya perenesyonnogo CJS-raspoznavatelya i yego otkryitoj regex-fiksturyi, vsego 422. Eti tri zapisi uzhe prisutstvuyut v tochnom obyyekte L; ostavshiyesya isklyucheniya kandidata ne perenosyatsya v obyichnuyu politiku.
+
+[Tekusjheye zakrepleniye novoj osnovyi](../../Zhurnal/2026-09-16_02-10-09_MSK_podgotovitj-predposyilku-formatov-proyekcii/zapros.md).
 
 [Pervonachaljnoye osnovaniye i adresnaya sverka prezhnej osnovyi](../../Zhurnal/2026-09-11_14-47-00_MSK_podgotovitj-sovmestimostj-master-i-FUMA/zapros.md).
 
@@ -92,6 +94,6 @@ Testyi bez seti i sekretov proveryayut vse raspoznavayemyiye formyi, Git-inventa
 - [audit absolyutnyikh putej](../../Zhurnal/2026-07-22_12-35-05_MSK_provesti-audit-absolyutnyikh-putej/materialyi/revjyu/2026-07-22_12-35-05_MSK_audit-absolyutnyikh-putej.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 23:40:07 MSK -->
-<!-- content-sha256: sha256:4c363f9a3a6f2c6a478eb1ffa6d0a7a08d8251cc1f16c1b9de74c5d2efd5cac3 -->
+<!-- last-content-edit: 2026-09-16 02:38:43 MSK -->
+<!-- content-sha256: sha256:a1d6f610fb6575ef93e1dc1316e67ae36f1774f6f67f323ff9b7ea69e8510de3 -->
 <!-- FUM-MD-RECENCY:END -->

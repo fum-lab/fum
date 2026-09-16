@@ -11,7 +11,7 @@ Instrument ne pridumyivayet russkiye imena i ne obnovlyayet snimok samovoljno. S
 
 ## Oblastj pravila
 
-Inventarj rassmatrivayet toljko sobstvennyiye fajlyi `.py`, `.swift` i `.md`:
+Osnovnoj inventarj rassmatrivayet sobstvennyiye fajlyi `.py`, `.swift` i `.md`; tochnyiye dopolniteljnyiye JavaScript-vkhodyi opisanyi nizhe:
 
 - dlya Python sintaksicheskoye derevo dayot klassyi, obyichnyiye i asinkhronnyiye funkcii, parametryi, imena v kontekste zapisi i zapisyivayemyiye atributyi;
 - dlya Swift leksicheskij razbor vne strok i kommentariyev dayot tipyi, funkcii, `let`, `var`, variantyi `case`, parametryi funkcij i yavnyikh signatur zamyikanij;
@@ -80,9 +80,15 @@ PYTHONDONTWRITEBYTECODE=1 python3 Инструменты/fum-perevod-obyyavlenij
 
 ## Konechnyij adapter Codex
 
-Inventarizaciya dopolniteljno prinimayet toljko tochnyij `Инструменты/fum-reyestr-planirovaniya/scripts/адаптер-codex.js`. Dopusjhen konechnyij shablon asinkhronnoj funkcii s dvumya parametrami, podgotovkoj dopuska, uslovnyim ispolneniyem i sokhraneniyem otveta. Chetyire sobstvennyiye privyazki poluchayut tochnyiye pozicii v inventare; vneshniye klyuchevyiye slova JavaScript sokhranyayutsya. Probelyi i razreshyonnyiye perevodyi strok ne menyayut kontrakt, kommentarii, stroki, dopolniteljnyiye instrukcii, nedopustimyiye imena i izmeneniye svyazej shablona zakryivayut yego.
+Dlya konechnogo shablona inventarizaciya prinimayet tochnyij `Инструменты/fum-reyestr-planirovaniya/scripts/адаптер-codex.js`. Dopusjhen konechnyij shablon asinkhronnoj funkcii s dvumya parametrami, podgotovkoj dopuska, uslovnyim ispolneniyem i sokhraneniyem otveta. Chetyire sobstvennyiye privyazki poluchayut tochnyiye pozicii v inventare; vneshniye klyuchevyiye slova JavaScript sokhranyayutsya. Probelyi i razreshyonnyiye perevodyi strok ne menyayut kontrakt, kommentarii, stroki, dopolniteljnyiye instrukcii, nedopustimyiye imena i izmeneniye svyazej shablona zakryivayut yego.
 
-Ispoljzujte obyichnuyu komandu `инвентаризировать --корень-репозитория .`; pri otkaze vosstanovite polnyij shablon. Etot dopusk ne razreshayet samostoyateljnyij perevod proizvoljnogo JS. Drugiye puti i rasshireniya `.js`, `.mjs`, `.cjs`, samostoyateljnyiye JS-ogradyi Markdown, simvolicheskiye ssyilki i nevernyij registr otklonyayutsya. Doslovnyiye iskhodnyiye zaprosyi i tochnaya proizvodnaya oblastj sokhranyayut prezhniye granicyi. Proyektor ispoljzuyet tu zhe funkciyu proverki iz svoyej prinimayusjhej versii instrumenta.
+Ispoljzujte obyichnuyu komandu `инвентаризировать --корень-репозитория .`; pri otkaze vosstanovite polnyij shablon. Etot dopusk ne razreshayet samostoyateljnyij perevod proizvoljnogo JS. Puti vne etogo adaptera i chetyiryokh CJS-scenariyev sleduyusjhego razdela, samostoyateljnyiye JS-ogradyi Markdown, simvolicheskiye ssyilki i nevernyij registr otklonyayutsya. Doslovnyiye iskhodnyiye zaprosyi i tochnaya proizvodnaya oblastj sokhranyayut prezhniye granicyi. Proyektor ispoljzuyet tu zhe funkciyu proverki iz svoyej prinimayusjhej versii instrumenta.
+
+## Scenarii otveta
+
+Inventarj dopolniteljno chitayet chetyire tochnyikh CJS-puti iz `пути_сценариев` modulya `scripts/разбор_сценария.py`. Obkhod proveryayet kazhdyij komponent razreshyonnyikh putej na simvolicheskiye ssyilki. Ogranichennyij CommonJS-razbor uchityivayet privyazki, parametryi i zapisyivayemyiye polya; vneshniye klyuchi priznayutsya toljko v zakreplyonnyikh polnyikh formakh obyyektov. Nepodderzhannyij sintaksis zakryivayet inventarj. Dlya nezavisimoj sintaksicheskoj proverki trebuyetsya Node.js: `--check --input-type=commonjs` poluchayet bajtyi cherez stdin v ochisjhennoj srede s predelom 10 sekund, bez ispolneniya scenariya. Razmer ogranichen 262144 bajtami, glubina skobok — 64 urovnyami.
+
+Scenarnyij vkhod dobavlyayet toljko chteniye obyyavlenij. `план` i `применить` ne podderzhivayut pereimenovaniye CJS. Proyekciya pereispoljzuyet etot razbor i otklonyayet sobstvennyij latinskij ostatok do sokhraneniya tochnyikh bajtov. Proizvoljnyij JavaScript i sosedniye CJS-puti ne razreshayutsya.
 
 ## Karta pereimenovanij
 
@@ -135,12 +141,14 @@ Testyi proveryayut inventarj tryokh yazyikov, zasjhisjhyonnyiye oblasti, tochnyi
 
 ## Istochnik trebovaniya
 
+- [Predposyilka formatov proyekcii](../../Zhurnal/2026-09-16_02-10-09_MSK_podgotovitj-predposyilku-formatov-proyekcii/zapros.md).
+
 - [Paket sovmestimosti FUM-STEP-0175](../../Zhurnal/2026-09-11_14-47-00_MSK_podgotovitj-sovmestimostj-master-i-FUMA/zapros.md).
 
 - [iskhodnyij zapros 2026-08-23 11:33:38 MSK — Vernutj ruchnuyu posledovateljnuyu skhemu sessij](../../Zhurnal/2026-08-23_11-33-38_MSK_vernutj-ruchnuyu-posledovateljnuyu-skhemu-sessij/zapros.md)
 - [iskhodnyij zapros 2026-08-04 12:51:44 MSK — Perevesti obyyavlyayemyij kod na russkij yazyik](../../Zhurnal/2026-08-04_12-51-44_MSK_perevesti-obyyavlyayemyij-kod-na-russkij-yazyik/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 15:19:56 MSK -->
-<!-- content-sha256: sha256:ab0c46eb79157acd9c1c33e21eafdb2daa3934c90cd1e11f0e2b7a41553d98d7 -->
+<!-- last-content-edit: 2026-09-16 02:38:43 MSK -->
+<!-- content-sha256: sha256:be374282a5a34874bbb741fd6b10cff29d7c49eedf6f9a84e5463cb8b2124aca -->
 <!-- FUM-MD-RECENCY:END -->
