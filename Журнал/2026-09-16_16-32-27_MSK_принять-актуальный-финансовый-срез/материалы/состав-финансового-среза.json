@@ -1,0 +1,860 @@
+{
+  "схема": "fum.состав-финансового-среза.1",
+  "основа": "79c8703d2dd439f72d058133340e439261bcd17e",
+  "финансовое_дерево": "a6825031d94ac4b8ffe33253e769862892e8b1a7",
+  "на_дату": "2026-09-15",
+  "организаций": 30,
+  "вариантов": 38,
+  "финансовых_файлов": 12,
+  "прямых_свидетельств": 49,
+  "файлы": [
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/реестр-организаций-поддержки.py",
+      "режим": "100644",
+      "объект": "3854a30eed46748c674bb97de405b0b24be8f344",
+      "байтов": 7063,
+      "sha256": "34a6e137bc1ea68b34d11f237bfd2e7d3726fd16e0ac9e026c952a8eba5405da"
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/реестр_поддержки.py",
+      "режим": "100644",
+      "объект": "77a0ad32d8cb91357813417b22dc7764ff3fc3de",
+      "байтов": 28749,
+      "sha256": "bc383bfc79cfb056e19bb8b5d434c1b5fd53b8c72a1cba2ab6800cebcdd3c32b"
+    },
+    {
+      "путь": "Источники/URL/https/83a0acab-1de2-4959-b0fe-2c7ec1223c2d.selstorage.ru/OpenFix_rules.pdf/свидетельства/0f5ff30a7444a9b132fefdbe9a93175cfe07d19dc6fece3776c0f15524bc05f2/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "cf5c977731dcba4bc17545948ce40e099b084e08",
+      "байтов": 41399,
+      "sha256": "0f5ff30a7444a9b132fefdbe9a93175cfe07d19dc6fece3776c0f15524bc05f2"
+    },
+    {
+      "путь": "Источники/URL/https/ai.mipt.ru/products/свидетельства/2aac1a99db8d391b7b79065d2b879e0946413038d1be41989196d314f44c8fe5/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "866323dccf6975b272e00a0b31ea251c9757affe",
+      "байтов": 4306,
+      "sha256": "2aac1a99db8d391b7b79065d2b879e0946413038d1be41989196d314f44c8fe5"
+    },
+    {
+      "путь": "Источники/URL/https/astra.ru/ready-for-astra/become-tech-partner/docs/affiliate_program/свидетельства/fe78b89b82a227494baa1e1670b496f6bebb9d9f62d7bd4037296fc567e141f7/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "6910edadfc92f46f98a569b904075b18e0be79a5",
+      "байтов": 26224,
+      "sha256": "fe78b89b82a227494baa1e1670b496f6bebb9d9f62d7bd4037296fc567e141f7"
+    },
+    {
+      "путь": "Источники/URL/https/baltlease.ru/lizing/equipment/it-oborudovanie/extracted-text.md",
+      "режим": "100644",
+      "объект": "4fd3fa2f661ea82335a89357648d268b998aa831",
+      "байтов": 29422,
+      "sha256": "fb48295491df28373d1a7c6b68fcc16b17edc72895055e92504da228a7fc4ddf"
+    },
+    {
+      "путь": "Источники/URL/https/baltlease.ru/lizing/equipment/it-oborudovanie/extraction-report.md",
+      "режим": "100644",
+      "объект": "38ddbd5328e75aabdaacfac2ca439bfb06be417a",
+      "байтов": 2672,
+      "sha256": "d6d914475a5e002e16906a63b5e357913c61b6e43b5598fa8fd8b7c4fd2f7c66"
+    },
+    {
+      "путь": "Источники/URL/https/baltlease.ru/lizing/equipment/it-oborudovanie/response.body.html",
+      "режим": "100644",
+      "объект": "864e51e1faad0dd9ed92c140ee1501bb74a60649",
+      "байтов": 229135,
+      "sha256": "8507b15e61fb91e6bb3ce24fccf3d70a756fc2edd26e0914e512f5230e005c52"
+    },
+    {
+      "путь": "Источники/URL/https/baltlease.ru/lizing/equipment/it-oborudovanie/response.headers.txt",
+      "режим": "100644",
+      "объект": "b7d0be7de63ef84dcf00da57079f3000f255139b",
+      "байтов": 578,
+      "sha256": "dbadceda46d490e9394e07aadaab180300ed53912752c1be9999d34a5e86e7bc"
+    },
+    {
+      "путь": "Источники/URL/https/baltlease.ru/lizing/equipment/it-oborudovanie/snapshot-manifest.json",
+      "режим": "100644",
+      "объект": "791da8a251981336bccdc2ce87891df0739b9fe6",
+      "байтов": 268,
+      "sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be"
+    },
+    {
+      "путь": "Источники/URL/https/baltlease.ru/lizing/equipment/it-oborudovanie/source-index.md",
+      "режим": "100644",
+      "объект": "b12af73914a87d76b0b205576b48b8b8e95ef70d",
+      "байтов": 976,
+      "sha256": "692fd3adfaa44185e3b32af60f6240fbd8b25ea459ed2f17d1875b28b427f4aa"
+    },
+    {
+      "путь": "Источники/URL/https/baltlease.ru/lizing/equipment/it-oborudovanie/source-url.txt",
+      "режим": "100644",
+      "объект": "952a4df9d3c34527801ce5d544810d6412df8ffa",
+      "байтов": 55,
+      "sha256": "c2e6d4b0b32d5b00f45a97d86f8ed6240e0e723bd718dadadaa3b64d6bf52d63"
+    },
+    {
+      "путь": "Источники/URL/https/beget.com/ru/uridicheskie-pravila-programmi-grantov/extracted-text.md",
+      "режим": "100644",
+      "объект": "9322ce547c89ccfe8bfd1466ef3befa060f68290",
+      "байтов": 19905,
+      "sha256": "ab3fcc4dfa08da32a108cb922634dbcdfa9d58a28d0c4ca5f5895f73cbe27e1e"
+    },
+    {
+      "путь": "Источники/URL/https/beget.com/ru/uridicheskie-pravila-programmi-grantov/extraction-report.md",
+      "режим": "100644",
+      "объект": "e4b4dad77ae9448d61b5caac4303ac1bf1ace397",
+      "байтов": 2706,
+      "sha256": "c1d28efbef4e1bbe569fac607a8a88c5d39d7b897fa237660c82f9432410d93e"
+    },
+    {
+      "путь": "Источники/URL/https/beget.com/ru/uridicheskie-pravila-programmi-grantov/response.body.html",
+      "режим": "100644",
+      "объект": "924459926890d84d9b098fd2132d7d72d08942b9",
+      "байтов": 131215,
+      "sha256": "1cf0be0a61b77030a7f4e6a1dd34e630075a9dcedd720fbb16114a560d292f15"
+    },
+    {
+      "путь": "Источники/URL/https/beget.com/ru/uridicheskie-pravila-programmi-grantov/response.headers.txt",
+      "режим": "100644",
+      "объект": "ab01b46eff31a4c2f7579f7d64ec6899cca78a3e",
+      "байтов": 1325,
+      "sha256": "2f724dd8a3e0bc38570a10f83ce19cc039df4fe656d64aa4c122e7c86364fdaa"
+    },
+    {
+      "путь": "Источники/URL/https/beget.com/ru/uridicheskie-pravila-programmi-grantov/snapshot-manifest.json",
+      "режим": "100644",
+      "объект": "7581ad925d66409da786435284bcb8b9c884db60",
+      "байтов": 296,
+      "sha256": "e437df2f0718cdf7b3869e5814b6e72245939da63b4dddf251628d29f0e0942b"
+    },
+    {
+      "путь": "Источники/URL/https/beget.com/ru/uridicheskie-pravila-programmi-grantov/source-index.md",
+      "режим": "100644",
+      "объект": "1638312cdd12d39d76034ba71bc7a4dfcff1dcf0",
+      "байтов": 1105,
+      "sha256": "1600c2b16d47a092c02a59ce8c26caa33620b4dbf5f17f0b368e95a0684e054c"
+    },
+    {
+      "путь": "Источники/URL/https/beget.com/ru/uridicheskie-pravila-programmi-grantov/source-url.txt",
+      "режим": "100644",
+      "объект": "92db7ba7e0bb9abcd4a1d2448db4a5e633e700e2",
+      "байтов": 60,
+      "sha256": "ddd59c7672437dd9a05910adc69924b2017d93a0a30fd39fc45ac3674956dfbd"
+    },
+    {
+      "путь": "Источники/URL/https/beget.com/ru/uridicheskie-pravila-programmi-grantov/structured-data.json",
+      "режим": "100644",
+      "объект": "1661aefc7fb59d5cebcdf85af0f9016807d151c5",
+      "байтов": 3362,
+      "sha256": "a765db18bed85a44bca2b56752e2e08b0ec1a1c30811c10c14526ffde50d1bde"
+    },
+    {
+      "путь": "Источники/URL/https/beget.com/ru/uridicheskie-pravila-programmi-grantov/свидетельства/1803c49380a9837664c4b1213cfe682b71392d933288830d6e826aaebdaedbc7/snapshot-manifest.json",
+      "режим": "100644",
+      "объект": "3c2c5f606ef96b265f93b3393a7b17f7ff1538dc",
+      "байтов": 222,
+      "sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b"
+    },
+    {
+      "путь": "Источники/URL/https/beget.com/ru/uridicheskie-pravila-programmi-grantov/свидетельства/1803c49380a9837664c4b1213cfe682b71392d933288830d6e826aaebdaedbc7/source-url.txt",
+      "режим": "100644",
+      "объект": "92db7ba7e0bb9abcd4a1d2448db4a5e633e700e2",
+      "байтов": 60,
+      "sha256": "ddd59c7672437dd9a05910adc69924b2017d93a0a30fd39fc45ac3674956dfbd"
+    },
+    {
+      "путь": "Источники/URL/https/beget.com/ru/uridicheskie-pravila-programmi-grantov/свидетельства/1803c49380a9837664c4b1213cfe682b71392d933288830d6e826aaebdaedbc7/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "a58cf5f1f3e621f2f9a97756eac36e0c3364a5a2",
+      "байтов": 19697,
+      "sha256": "1803c49380a9837664c4b1213cfe682b71392d933288830d6e826aaebdaedbc7"
+    },
+    {
+      "путь": "Источники/URL/https/beget.com/ru/uridicheskie-pravila-programmi-grantov/свидетельства/1803c49380a9837664c4b1213cfe682b71392d933288830d6e826aaebdaedbc7/происхождение.json",
+      "режим": "100644",
+      "объект": "b35bab264efeb34f4fdcbd24ed2f9925d5b8e720",
+      "байтов": 281,
+      "sha256": "a60bd1f3f1071529c68a9b1678daf92bb80e008d8c12a73fbb2384e739a27558"
+    },
+    {
+      "путь": "Источники/URL/https/boosty.to/_root/extracted-text.md",
+      "режим": "100644",
+      "объект": "8f7d0396b85a31447e6992c1e68896396e75cf5b",
+      "байтов": 3073,
+      "sha256": "69a29ddd13c5bdfa11e8f554e91692713b999694e010132139991470780212f6"
+    },
+    {
+      "путь": "Источники/URL/https/boosty.to/_root/extraction-report.md",
+      "режим": "100644",
+      "объект": "ebe8088869a071b93a614638aff31afb8e2d14ac",
+      "байтов": 2600,
+      "sha256": "70c68c7973f823a8e350384c938fdf1640ff726cd704e939423e419803829e6a"
+    },
+    {
+      "путь": "Источники/URL/https/boosty.to/_root/response.body.html",
+      "режим": "100644",
+      "объект": "346c1c9c32b84c08e89046ccb134a10226b9968e",
+      "байтов": 628282,
+      "sha256": "f9d94f9a9a6f9e495ead6d14085fcff6b09bcdb5425efcdd0548cc5b0230b66c"
+    },
+    {
+      "путь": "Источники/URL/https/boosty.to/_root/response.headers.txt",
+      "режим": "100644",
+      "объект": "2478aed1dbde5bd656d62a0f1bb08088b213d93f",
+      "байтов": 453,
+      "sha256": "d1a0ff09985efdb4dd568fc2bacc9b183ba937f056861b574a1b90cca2baea6f"
+    },
+    {
+      "путь": "Источники/URL/https/boosty.to/_root/snapshot-manifest.json",
+      "режим": "100644",
+      "объект": "791da8a251981336bccdc2ce87891df0739b9fe6",
+      "байтов": 268,
+      "sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be"
+    },
+    {
+      "путь": "Источники/URL/https/boosty.to/_root/source-index.md",
+      "режим": "100644",
+      "объект": "1c2c5029a7ee2810bd9dc15813b552a4c1671ff9",
+      "байтов": 897,
+      "sha256": "57995a730416d1f16e1e6a47c36c897abc37be3fbeecb252c719b36ea6092921"
+    },
+    {
+      "путь": "Источники/URL/https/boosty.to/_root/source-url.txt",
+      "режим": "100644",
+      "объект": "4627819732f91ba906ecab5daa32a1eb09e8f0b7",
+      "байтов": 19,
+      "sha256": "100349e74c3613a39b9b4e506c9d9bbbe28e6e22749c41a98328b9bf82b271f9"
+    },
+    {
+      "путь": "Источники/URL/https/boosty.to/app/offer/payment-terms-cis/свидетельства/9b9331882b25523fa402cb4731a93b43d165ad423c91b6980d5bcbdc3fbc4db5/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "ea5ca8a7617a628fefe0371ba6ef9ea6e7afe789",
+      "байтов": 1654,
+      "sha256": "9b9331882b25523fa402cb4731a93b43d165ad423c91b6980d5bcbdc3fbc4db5"
+    },
+    {
+      "путь": "Источники/URL/https/boosty.to/app/offer/user/свидетельства/08b851be431ca307ae68d179ce92560113eb5ed29265aa8ac99a9179fb0678b3/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "951ed9fa2da91d95266aa2fc50ab96e1e4de3786",
+      "байтов": 1524,
+      "sha256": "08b851be431ca307ae68d179ce92560113eb5ed29265aa8ac99a9179fb0678b3"
+    },
+    {
+      "путь": "Источники/URL/https/cloud.ru/documents/promotions/active/evolution-free-tier/свидетельства/a049dd82e6529258bfa7bdd19351040387f1692ce0caaac394c8cfce442409a2/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "a2e0540ada4c4d827d91a2bd0d43cb1b64d75a33",
+      "байтов": 2085,
+      "sha256": "a049dd82e6529258bfa7bdd19351040387f1692ce0caaac394c8cfce442409a2"
+    },
+    {
+      "путь": "Источники/URL/https/cloudtips.ru/bloggers/свидетельства/f25ecf4232aebc15bdc167c69f950931dfcece62a29e9ad8da5bd192a86793f6/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "6739c6d168aa18f735d477ac0b391306566bcea1",
+      "байтов": 4575,
+      "sha256": "f25ecf4232aebc15bdc167c69f950931dfcece62a29e9ad8da5bd192a86793f6"
+    },
+    {
+      "путь": "Источники/URL/https/developer.rosa.ru/_root/свидетельства/61ae0790bc8a317515220d4dfc652a513af359f543edd0a3d6525c0064e5816a/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "387f52b1052ce0018ad5a22796f152cf52ced633",
+      "байтов": 3058,
+      "sha256": "61ae0790bc8a317515220d4dfc652a513af359f543edd0a3d6525c0064e5816a"
+    },
+    {
+      "путь": "Источники/URL/https/dobro.mail.ru/about/свидетельства/69f657d5f2496a9b0c1fc38f0657cbd6458f7d294a0bd410f00e2c0fd5fe0ae3/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "64f67f03c95f1d8a95cd0719374c2860bad38b32",
+      "байтов": 13078,
+      "sha256": "69f657d5f2496a9b0c1fc38f0657cbd6458f7d294a0bd410f00e2c0fd5fe0ae3"
+    },
+    {
+      "путь": "Источники/URL/https/dobro.mail.ru/funds/registration/свидетельства/ad6d46c3badda4d4867a6f5886fd9c7227dc3d710ff1b3d7f785792ddd8ffbb7/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "407746c0f8c79a41a975da7f8f567cefe16be0cc",
+      "байтов": 6898,
+      "sha256": "ad6d46c3badda4d4867a6f5886fd9c7227dc3d710ff1b3d7f785792ddd8ffbb7"
+    },
+    {
+      "путь": "Источники/URL/https/fadm.gov.ru/upload/iblock/6f0/dkmrcjrma9j8x26hokv7ws4wqdskyrkq/Объявление-о-проведении-Всероссийского-конкурса-молодежных-проектов-среди-физических-лиц-Росмоло-52d218968606ccde/свидетельства/5b8a63728a6cfaa3d293115e13dc9b30b2ad01eff6a0d449ad503378fdcaed5d/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "562523a5f5b8d23a9ab6a0e2a825f240b8e8a8bf",
+      "байтов": 2370,
+      "sha256": "5b8a63728a6cfaa3d293115e13dc9b30b2ad01eff6a0d449ad503378fdcaed5d"
+    },
+    {
+      "путь": "Источники/URL/https/files.selectel.ru/docs/ru/promo-rules-grant-cloud.pdf/свидетельства/6cc2bcdadd3b66351baf011a03dd78e84e3aa1f50b4d2a8c5fb0ce5d2e961f7d/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "f55994a04b119fb13feb2f53883382ea3dedcffe",
+      "байтов": 8065,
+      "sha256": "6cc2bcdadd3b66351baf011a03dd78e84e3aa1f50b4d2a8c5fb0ce5d2e961f7d"
+    },
+    {
+      "путь": "Источники/URL/https/files.selectel.ru/docs/ru/startups-grant-contitions.pdf/свидетельства/9bc2719802f4d6c7aadda5252261a2d97fc0c927aa8efea35ea77719c3c28583/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "e4fe5b852001d51f28980c7f1b65b3d7be0d7219",
+      "байтов": 9585,
+      "sha256": "9bc2719802f4d6c7aadda5252261a2d97fc0c927aa8efea35ea77719c3c28583"
+    },
+    {
+      "путь": "Источники/URL/https/fond-mfo.ru/garantijnaya-i-finansovaya-podderzhka-kak-peterburg-podderzhivaet-malyj-biznes/свидетельства/0463f42ae44241d48713e0ba96916c408b9affe8aa47c6f47dbe9e571c86df76/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "d1bac7a44c36c28547dfb37a73a1e375d11c4c86",
+      "байтов": 13648,
+      "sha256": "0463f42ae44241d48713e0ba96916c408b9affe8aa47c6f47dbe9e571c86df76"
+    },
+    {
+      "путь": "Источники/URL/https/fond-mfo.ru/wp-content/uploads/2026/01/programma-predostavleniya-mikrozajmov-subektam-msp.pdf/свидетельства/6e09417e778be374f52396fa6cb2a1609b2bd1060d99d51725554bf3baf96161/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "fcb3e5fd8af0ba55ef89a208ffc3b089c3a34286",
+      "байтов": 11900,
+      "sha256": "6e09417e778be374f52396fa6cb2a1609b2bd1060d99d51725554bf3baf96161"
+    },
+    {
+      "путь": "Источники/URL/https/fondpotanin.ru/competitions/konkurs-professionalnogo-razvitiya/свидетельства/b87d5057f0ba0bca6dd0c52c48500029c09ee44fa6440e800432e5051063ec19/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "7152064a38c3a87c8560660248664c19be895c24",
+      "байтов": 29692,
+      "sha256": "b87d5057f0ba0bca6dd0c52c48500029c09ee44fa6440e800432e5051063ec19"
+    },
+    {
+      "путь": "Источники/URL/https/fondpotanin.ru/upload/iblock/8d5/9h1w1u1d45dwt4z516u6tc1tupmodzvf.pdf/свидетельства/2d25cf6e803e9de318284c22442ef4474c97dc884007aff7b06a32a1727bd249/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "3103342eae8303b44e659cbd6497a91e39527571",
+      "байтов": 240312,
+      "sha256": "2d25cf6e803e9de318284c22442ef4474c97dc884007aff7b06a32a1727bd249"
+    },
+    {
+      "путь": "Источники/URL/https/ias.rscf.ru/app/ext/user/conf/contests/docs/2026/131.pdf/свидетельства/a7eb8be1c46868fffe43ab0c7a452196d99eaa8b47a0414f1ab05dd6d4c0fa02/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "b5f4c5961c77b2214737032cec5f2e6cc4c3883a",
+      "байтов": 159654,
+      "sha256": "a7eb8be1c46868fffe43ab0c7a452196d99eaa8b47a0414f1ab05dd6d4c0fa02"
+    },
+    {
+      "путь": "Источники/URL/https/invest.iidf.ru/_root/свидетельства/c2b0db1c7ea2321ebbee7257576bf4d1d57c23b626c47d2f6092f423ed5a5739/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "d9e4143b3421661058d7c186b74dca3ef15133e4",
+      "байтов": 9242,
+      "sha256": "c2b0db1c7ea2321ebbee7257576bf4d1d57c23b626c47d2f6092f423ed5a5739"
+    },
+    {
+      "путь": "Источники/URL/https/ltl-spb.ru/oborudovanie-i-stanki-v-lizing/kompyuternoe/extracted-text.md",
+      "режим": "100644",
+      "объект": "4712d930fb1dcffaa33fe26ce88c9b4884f836f2",
+      "байтов": 11515,
+      "sha256": "6cd4efab6869eed65d3a8dab3e0f30ad190e5172074b31895031fe8021797b12"
+    },
+    {
+      "путь": "Источники/URL/https/ltl-spb.ru/oborudovanie-i-stanki-v-lizing/kompyuternoe/extraction-report.md",
+      "режим": "100644",
+      "объект": "0af66d48f16f5c49f44249ad83a60a2cd62ab144",
+      "байтов": 2689,
+      "sha256": "acfff681ace9ef49fe80b528c7b65a2290533d17d3d1a88f0cae82d5d22b3f33"
+    },
+    {
+      "путь": "Источники/URL/https/ltl-spb.ru/oborudovanie-i-stanki-v-lizing/kompyuternoe/response.body.html",
+      "режим": "100644",
+      "объект": "da516068ed8192ebbb82d2c28793f97e897a05b8",
+      "байтов": 59705,
+      "sha256": "345b6d5153abe465de14e4bc2efcd0824df0b24b25ed6ab6833a52c440279502"
+    },
+    {
+      "путь": "Источники/URL/https/ltl-spb.ru/oborudovanie-i-stanki-v-lizing/kompyuternoe/response.headers.txt",
+      "режим": "100644",
+      "объект": "d894c86b1836aa09829b96300b37f38b3be27cc9",
+      "байтов": 426,
+      "sha256": "79e3ef8b25f6e5693d7058b45fa90bf37d21891cec42fc9354464028163064fd"
+    },
+    {
+      "путь": "Источники/URL/https/ltl-spb.ru/oborudovanie-i-stanki-v-lizing/kompyuternoe/snapshot-manifest.json",
+      "режим": "100644",
+      "объект": "791da8a251981336bccdc2ce87891df0739b9fe6",
+      "байтов": 268,
+      "sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be"
+    },
+    {
+      "путь": "Источники/URL/https/ltl-spb.ru/oborudovanie-i-stanki-v-lizing/kompyuternoe/source-index.md",
+      "режим": "100644",
+      "объект": "8aa8640d82afe9b54e0e4f0bbb58ebacf26f2b72",
+      "байтов": 1027,
+      "sha256": "726f3348423a8f4b4f33b5a26ddd84096fa1d3b4a04692b32069c3dbf7c0f196"
+    },
+    {
+      "путь": "Источники/URL/https/ltl-spb.ru/oborudovanie-i-stanki-v-lizing/kompyuternoe/source-url.txt",
+      "режим": "100644",
+      "объект": "240b6fdfa196618f25cbd87586ce12918108602a",
+      "байтов": 64,
+      "sha256": "52669744142b7c6dd30c63e698d2297fc3c51ba799b9747b465b79ff1692ca86"
+    },
+    {
+      "путь": "Источники/URL/https/mws.ru/docs/cloud-platform/gpt/general/pricing.html/свидетельства/d01b8b9c673732fbca206e3e748f8201d95420f9c83fc05c3c30855fa5cab3c4/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "62a670c33de57220ed52494bfd9e98ab40415af4",
+      "байтов": 5364,
+      "sha256": "d01b8b9c673732fbca206e3e748f8201d95420f9c83fc05c3c30855fa5cab3c4"
+    },
+    {
+      "путь": "Источники/URL/https/mws.ru/docs/docum/2.html/свидетельства/35b3bbbc2a4d66cd6ff4134146741e7b095544908fb25a60772846ebc4695275/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "9200c8f07f40697fc7f27d35fa901dbd2407fc85",
+      "байтов": 172606,
+      "sha256": "35b3bbbc2a4d66cd6ff4134146741e7b095544908fb25a60772846ebc4695275"
+    },
+    {
+      "путь": "Источники/URL/https/mws.ru/docs/docum/a0.html/extracted-text.md",
+      "режим": "100644",
+      "объект": "8d13be26f318ad897b02698bacfc83425a37fad5",
+      "байтов": 12745,
+      "sha256": "55cb100eff509e4fee48dc5ed73010f6c36c6226acf165bf2b0fc9b173693add"
+    },
+    {
+      "путь": "Источники/URL/https/mws.ru/docs/docum/a0.html/extraction-report.md",
+      "режим": "100644",
+      "объект": "4e45fde76ca732bf05701375134005d56d40ec25",
+      "байтов": 2639,
+      "sha256": "fb44e5af5a05dd7b15efd9e6b1cb19a7e95cb342651237217b59ecf28ebe8ab3"
+    },
+    {
+      "путь": "Источники/URL/https/mws.ru/docs/docum/a0.html/response.body.html",
+      "режим": "100644",
+      "объект": "0ff6fde3695d3ef0d1f226910c7ee67b4691b0a5",
+      "байтов": 54024,
+      "sha256": "940b1c372c0d8e4100f4805928fe15cf896c84e19822a6a695b9098de0a97000"
+    },
+    {
+      "путь": "Источники/URL/https/mws.ru/docs/docum/a0.html/response.headers.txt",
+      "режим": "100644",
+      "объект": "e724f75ac2317846fdd200db7388d9cd2ebed786",
+      "байтов": 3488,
+      "sha256": "d06fb207e796959d31126b5d3237ae88ba00f6ed4cd7c72b0a3f2357a023fc2c"
+    },
+    {
+      "путь": "Источники/URL/https/mws.ru/docs/docum/a0.html/snapshot-manifest.json",
+      "режим": "100644",
+      "объект": "7581ad925d66409da786435284bcb8b9c884db60",
+      "байтов": 296,
+      "sha256": "e437df2f0718cdf7b3869e5814b6e72245939da63b4dddf251628d29f0e0942b"
+    },
+    {
+      "путь": "Источники/URL/https/mws.ru/docs/docum/a0.html/source-index.md",
+      "режим": "100644",
+      "объект": "e3a51568f4bd15c222c1b5b6b217c63ac6efe0ef",
+      "байтов": 1097,
+      "sha256": "53225e395979531cbb59ae51eb7830f581798abfcf74fa1d6abd204271379e4a"
+    },
+    {
+      "путь": "Источники/URL/https/mws.ru/docs/docum/a0.html/source-url.txt",
+      "режим": "100644",
+      "объект": "ce103cd59f27a06aaa3bf567881e3c2086c0989d",
+      "байтов": 34,
+      "sha256": "1c93874059afabf18b69db102dc40cf6d6cd8f4ee4954bfb176c3fba522ecb26"
+    },
+    {
+      "путь": "Источники/URL/https/mws.ru/docs/docum/a0.html/structured-data.json",
+      "режим": "100644",
+      "объект": "204983e4c86794cc16e39b22496a2066874f56f1",
+      "байтов": 219,
+      "sha256": "8f32c80dfd326a6921be2799f08cc00182d775b43d69cfd89126a6f01667a185"
+    },
+    {
+      "путь": "Источники/URL/https/mws.ru/docs/docum/a0.html/свидетельства/3e611098bca022b52bed36e897aaba5664a809f68d91dede83da0b2a0a07b465/snapshot-manifest.json",
+      "режим": "100644",
+      "объект": "3c2c5f606ef96b265f93b3393a7b17f7ff1538dc",
+      "байтов": 222,
+      "sha256": "903d963c736a58efea20a6f5a487a9fcce5c4d33d0bce826d25e20f54472aa7b"
+    },
+    {
+      "путь": "Источники/URL/https/mws.ru/docs/docum/a0.html/свидетельства/3e611098bca022b52bed36e897aaba5664a809f68d91dede83da0b2a0a07b465/source-url.txt",
+      "режим": "100644",
+      "объект": "ce103cd59f27a06aaa3bf567881e3c2086c0989d",
+      "байтов": 34,
+      "sha256": "1c93874059afabf18b69db102dc40cf6d6cd8f4ee4954bfb176c3fba522ecb26"
+    },
+    {
+      "путь": "Источники/URL/https/mws.ru/docs/docum/a0.html/свидетельства/3e611098bca022b52bed36e897aaba5664a809f68d91dede83da0b2a0a07b465/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "8cd9220ad7c1c9346feca6f92eaf459267c71e1b",
+      "байтов": 12537,
+      "sha256": "3e611098bca022b52bed36e897aaba5664a809f68d91dede83da0b2a0a07b465"
+    },
+    {
+      "путь": "Источники/URL/https/mws.ru/docs/docum/a0.html/свидетельства/3e611098bca022b52bed36e897aaba5664a809f68d91dede83da0b2a0a07b465/происхождение.json",
+      "режим": "100644",
+      "объект": "07720799ed0188af35e54b372dc3dd02747cb78e",
+      "байтов": 281,
+      "sha256": "79c2521b3e3cbb74f36d496b3c27565e777dda2c56c8b20090fc8d954b262c69"
+    },
+    {
+      "путь": "Источники/URL/https/mws.ru/docs/docum/cloud_terms_mws_gpt_model_hub.html/свидетельства/15ccb10a2f7eb18e8de117094652e91fbdc4a507c93f6f7a097f04e737df1709/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "aa3ca01a1df0f82d7bdbb970a1bd6feaffd58b86",
+      "байтов": 33545,
+      "sha256": "15ccb10a2f7eb18e8de117094652e91fbdc4a507c93f6f7a097f04e737df1709"
+    },
+    {
+      "путь": "Источники/URL/https/nlnet.nl/restack/eligibility/свидетельства/f2e63d230c40ade35d33ff6443c3dcad64f4ce7fba443a7e4123beab7be3e35b/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "e97e707ed7660589ffd8313db31ad31946f69fd9",
+      "байтов": 4058,
+      "sha256": "f2e63d230c40ade35d33ff6443c3dcad64f4ce7fba443a7e4123beab7be3e35b"
+    },
+    {
+      "путь": "Источники/URL/https/nlnet.nl/restack/faq/свидетельства/3a9e3b7e475b049cb98a11bd59ee4c39a8476922263571fa36fe1d7d276715d7/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "f58556bd87fed20ef6b4410c0eda236f187481c4",
+      "байтов": 35717,
+      "sha256": "3a9e3b7e475b049cb98a11bd59ee4c39a8476922263571fa36fe1d7d276715d7"
+    },
+    {
+      "путь": "Источники/URL/https/nlnet.nl/restack/свидетельства/4a272cf3f0eb75cfe208c6e47ffd189a3cc3ae273a8f1be64a97487f0c547c2f/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "2846a67694e7400ecfbab2c8fa1d35b102470b9a",
+      "байтов": 1523,
+      "sha256": "4a272cf3f0eb75cfe208c6e47ffd189a3cc3ae273a8f1be64a97487f0c547c2f"
+    },
+    {
+      "путь": "Источники/URL/https/opensource.itmo.ru/_root/свидетельства/46f35511e40975b857f84e5ca2ff960b84ddd7acc06e0355fdca475731260a29/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "3b352434782bc0a8b83e8ac7225ac16d717dad7c",
+      "байтов": 15541,
+      "sha256": "46f35511e40975b857f84e5ca2ff960b84ddd7acc06e0355fdca475731260a29"
+    },
+    {
+      "путь": "Источники/URL/https/rosa.ru/become-partner/свидетельства/a091a42b0e9ca3afacf4337c9501995460f916c8fa2a3f68b1b2eeeff3f7c1db/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "05dbd70998f637f2533e3ffbbb78ede3516eb70f",
+      "байтов": 5585,
+      "sha256": "a091a42b0e9ca3afacf4337c9501995460f916c8fa2a3f68b1b2eeeff3f7c1db"
+    },
+    {
+      "путь": "Источники/URL/https/selectel.ru/services/cloud/grant/свидетельства/75fa3f336368b3402812cf06ac86f46960471ff21f481a6687a0c192a2ec4774/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "084dc15b7713ba0df330d9010d1cfa9246acfb37",
+      "байтов": 61332,
+      "sha256": "75fa3f336368b3402812cf06ac86f46960471ff21f481a6687a0c192a2ec4774"
+    },
+    {
+      "путь": "Источники/URL/https/selectel.ru/services/startups-grant/свидетельства/6adbfb2fab69813db06af331623784981aeab625ccc021f9a8cc4e6238eb7f83/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "08b59a59fcd7417f03cfb08cfa2d48e4a96eb094",
+      "байтов": 62584,
+      "sha256": "6adbfb2fab69813db06af331623784981aeab625ccc021f9a8cc4e6238eb7f83"
+    },
+    {
+      "путь": "Источники/URL/https/sk.ru/documents/3202/Положение_об_отборе_Микрогранты_на_компенсацию_расходов.pdf/свидетельства/c3e674ec994c60d80efc8d4823d166db79a0cc4be439cca0fe0bbf752a5572b0/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "2cb5472e596db0a1476a9a137077aba1a3cf024a",
+      "байтов": 343085,
+      "sha256": "c3e674ec994c60d80efc8d4823d166db79a0cc4be439cca0fe0bbf752a5572b0"
+    },
+    {
+      "путь": "Источники/URL/https/sk.ru/grant-financial-support/microgrants/свидетельства/a4be8561c59d955cb6344643a04253fe4a3e036329f67bf18c03539349d804fa/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "98b98e23106c8a4c31a6fc058d2672f10a743f74",
+      "байтов": 7803,
+      "sha256": "a4be8561c59d955cb6344643a04253fe4a3e036329f67bf18c03539349d804fa"
+    },
+    {
+      "путь": "Источники/URL/https/softline.ru/finance/extracted-text.md",
+      "режим": "100644",
+      "объект": "c9b09a1de00b002e2aee9afd74e0fe6f6b8fbd97",
+      "байтов": 15688,
+      "sha256": "5cf87453a8474ce9c45a282f84c1231f49ffa10e1f33c49a0feca1b55c775a20"
+    },
+    {
+      "путь": "Источники/URL/https/softline.ru/finance/extraction-report.md",
+      "режим": "100644",
+      "объект": "ae5ed9288cfb2ebadf77af39509929aef6ee878c",
+      "байтов": 2619,
+      "sha256": "c0348b394e2fed5475fc362eb0a2c5b6c5de8d3c769a187c44ebeea28d6409ab"
+    },
+    {
+      "путь": "Источники/URL/https/softline.ru/finance/response.body.html",
+      "режим": "100644",
+      "объект": "9886d9520cedf48798972381acde5a52e7188299",
+      "байтов": 1221839,
+      "sha256": "db966b730ead1675ee3de563069c045746a9e64a1c15dabcc6e521ddc36f2768"
+    },
+    {
+      "путь": "Источники/URL/https/softline.ru/finance/response.headers.txt",
+      "режим": "100644",
+      "объект": "7a1f99bb09554c588db411edfe67ac02fb85563f",
+      "байтов": 640,
+      "sha256": "4d82baa701738a61d0bb8d2132e7ad72e8c96a4e965f94b541c062337af15e46"
+    },
+    {
+      "путь": "Источники/URL/https/softline.ru/finance/snapshot-manifest.json",
+      "режим": "100644",
+      "объект": "791da8a251981336bccdc2ce87891df0739b9fe6",
+      "байтов": 268,
+      "sha256": "30da798bf5b37f283901b3c23f7aa0f9785aa7d1ab7f167dc2c18a546bdcf6be"
+    },
+    {
+      "путь": "Источники/URL/https/softline.ru/finance/source-index.md",
+      "режим": "100644",
+      "объект": "980ff605f05a7f29325f72d8d0d3f461b069cd00",
+      "байтов": 862,
+      "sha256": "c1ec18265d8af07959a95cc1e25de739428c83d5182d55e5fb9aa91e464bb904"
+    },
+    {
+      "путь": "Источники/URL/https/softline.ru/finance/source-url.txt",
+      "режим": "100644",
+      "объект": "d806ce24fd54517a8e417576f2b3b64a7d683c71",
+      "байтов": 28,
+      "sha256": "83b84436346e9812864fa290ee31a3ab0afd7b0a227fd29b86887440d3f3e77c"
+    },
+    {
+      "путь": "Источники/URL/https/softlinevp.ru/_root/свидетельства/c8abd5eb534439a67da6713a0e01c693602f986afb2b94efd008673846b1bac0/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "8284406b4e4181693542f43d5f456a087075977c",
+      "байтов": 4671,
+      "sha256": "c8abd5eb534439a67da6713a0e01c693602f986afb2b94efd008673846b1bac0"
+    },
+    {
+      "путь": "Источники/URL/https/sponsr.ru/conditions/свидетельства/dc53dc20b3eacee9dde8028627790646c66a031c6899eec2efc6c5fe5df84d43/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "babaa0ac0d63d34943fcae253d3c333f64b345d0",
+      "байтов": 143309,
+      "sha256": "dc53dc20b3eacee9dde8028627790646c66a031c6899eec2efc6c5fe5df84d43"
+    },
+    {
+      "путь": "Источники/URL/https/static.cloudpayments.ru/docs/cloudtips_oferta.pdf/свидетельства/6c692402941cee37d2e3134a00a09a48783f4f00d4b8e679a75f3f6eefc194d1/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "efcac03941c10d283a1df7c067ef9efc2733d42e",
+      "байтов": 67347,
+      "sha256": "6c692402941cee37d2e3134a00a09a48783f4f00d4b8e679a75f3f6eefc194d1"
+    },
+    {
+      "путь": "Источники/URL/https/timeweb.cloud/grant/свидетельства/aa4ef09b8bb87737fed74be6f23360c2d029092b3b214627a44606d91a70fa7a/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "2a15a3b9b4c23c8ae988d6f2466f2832ada3539d",
+      "байтов": 28837,
+      "sha256": "aa4ef09b8bb87737fed74be6f23360c2d029092b3b214627a44606d91a70fa7a"
+    },
+    {
+      "путь": "Источники/URL/https/www.altlinux.org/Join/свидетельства/514ad3d251f593e09c266384516709b4fa727755c131885c1a106104c0802a5f/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "c06a8276ede013b29f54f3c3d60165bd3f43c489",
+      "байтов": 15829,
+      "sha256": "514ad3d251f593e09c266384516709b4fa727755c131885c1a106104c0802a5f"
+    },
+    {
+      "путь": "Источники/URL/https/www.apple.com/mac-studio/specs/extracted-text.md",
+      "режим": "100644",
+      "объект": "86de8fc0df64cd47e35c9a91353724d4dfb93bc4",
+      "байтов": 15795,
+      "sha256": "7460ad90f1bbdf9b557525715a9f61711a08d5ae65298af142347f32004551e2"
+    },
+    {
+      "путь": "Источники/URL/https/www.apple.com/mac-studio/specs/extraction-report.md",
+      "режим": "100644",
+      "объект": "870fd2839d2733594b99cd6a85a70ccffac8fadf",
+      "байтов": 2667,
+      "sha256": "abe1d18a64257cf332bb1f30e4ebd50f0c0d3fb788791d792f0d6669e32ae419"
+    },
+    {
+      "путь": "Источники/URL/https/www.apple.com/mac-studio/specs/response.body.html",
+      "режим": "100644",
+      "объект": "1431c2ff6f18875e03b25c688d09098c4bcdee7d",
+      "байтов": 215392,
+      "sha256": "30358c53dc69af1d99b3ebd63d686cbe8e8e5362536a9376bc93a3aff28608f4"
+    },
+    {
+      "путь": "Источники/URL/https/www.apple.com/mac-studio/specs/response.headers.txt",
+      "режим": "100644",
+      "объект": "4e35fb26641e2db0ee331159825617f433284233",
+      "байтов": 1079,
+      "sha256": "7be6e554335338f6eb873b0bb64a16e6061dffee9b4a91a4699c45ab9077ec95"
+    },
+    {
+      "путь": "Источники/URL/https/www.apple.com/mac-studio/specs/snapshot-manifest.json",
+      "режим": "100644",
+      "объект": "7581ad925d66409da786435284bcb8b9c884db60",
+      "байтов": 296,
+      "sha256": "e437df2f0718cdf7b3869e5814b6e72245939da63b4dddf251628d29f0e0942b"
+    },
+    {
+      "путь": "Источники/URL/https/www.apple.com/mac-studio/specs/source-index.md",
+      "режим": "100644",
+      "объект": "d8821afb793f57d8c3b7d43cb269b16d6028c91c",
+      "байтов": 1002,
+      "sha256": "3f9b38d286209eea2e990031a9b09616c2d6020067ec8cc9c1a4f348e6ca0a67"
+    },
+    {
+      "путь": "Источники/URL/https/www.apple.com/mac-studio/specs/source-url.txt",
+      "режим": "100644",
+      "объект": "0ced3a20e5f4d072207ee719466faa38a6f7c02f",
+      "байтов": 40,
+      "sha256": "bb6f923199784a89f84d78667dcf8ef509c5dde478058e9d1bb4cddba5e4cc35"
+    },
+    {
+      "путь": "Источники/URL/https/www.apple.com/mac-studio/specs/structured-data.json",
+      "режим": "100644",
+      "объект": "d7e83f8183ee4854dde2f467fa5b725297c0b16d",
+      "байтов": 2220,
+      "sha256": "055046aa73a8a9cb5acd86a281eaaeb664909b2f1fd4ab2810faa82b6e9fba66"
+    },
+    {
+      "путь": "Источники/URL/https/www.basealt.ru/alt-linux/свидетельства/a400d5091dc70da92fb5a89f203c2d2999b5956f08a00db47dd020ed58e1040a/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "b5bc3015e899d50167606f23640fe9a7c8ee903a",
+      "байтов": 7521,
+      "sha256": "a400d5091dc70da92fb5a89f203c2d2999b5956f08a00db47dd020ed58e1040a"
+    },
+    {
+      "путь": "Источники/URL/https/www.basealt.ru/product-compatibility/свидетельства/74dd9945f38e32e4af05f5c0ebe1de6bf6970b24bbab95571d005bca721590d2/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "7b60f50d7195310de520f5fc821852e91f06d14c",
+      "байтов": 39426,
+      "sha256": "74dd9945f38e32e4af05f5c0ebe1de6bf6970b24bbab95571d005bca721590d2"
+    },
+    {
+      "путь": "Источники/URL/https/www.ispras.ru/_root/свидетельства/13b1964f14d5fe97f9e4be9dabaf37f0dde2b38fb218ffe96065c5e2bedabd1a/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "45d9cebdebbe4f402a60691eef459dc245f45d87",
+      "байтов": 10850,
+      "sha256": "13b1964f14d5fe97f9e4be9dabaf37f0dde2b38fb218ffe96065c5e2bedabd1a"
+    },
+    {
+      "путь": "Источники/URL/https/www.rscf.ru/upload/iblock/592/9npmqcrcqyu313w1ke5nwe6rjxy5nle2.pdf/свидетельства/445cccbc210487c0c549f7306b8d72d620d0e01b5bdc44b3ab277e09c119d6fc/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "ba3af17eaa211c89b467e1a9df64fe7fee3e91bd",
+      "байтов": 9182,
+      "sha256": "445cccbc210487c0c549f7306b8d72d620d0e01b5bdc44b3ab277e09c119d6fc"
+    },
+    {
+      "путь": "Источники/URL/https/www.rscf.ru/upload/iblock/7ef/roobwviv105zmd68ojee7b07u3wsg0un.pdf/свидетельства/4cb1e871a95aa8fb240ab677a3d37d8a6624387491ad12e0e88f4f01d71fd7e4/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "c6f90e2ca441d275ed9a51022be8bfcd1875b6bb",
+      "байтов": 166878,
+      "sha256": "4cb1e871a95aa8fb240ab677a3d37d8a6624387491ad12e0e88f4f01d71fd7e4"
+    },
+    {
+      "путь": "Источники/URL/https/www.sovereign.tech/programs/fund/свидетельства/4a355cc0ff9f7cd8fd949484fc891ef4ec020ebf0f80e08237ea072ffeee71c1/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "7582226463afb24cc9be79c05493f40a94d0d2bb",
+      "байтов": 9957,
+      "sha256": "4a355cc0ff9f7cd8fd949484fc891ef4ec020ebf0f80e08237ea072ffeee71c1"
+    },
+    {
+      "путь": "Источники/URL/https/www.swift.org/sswg/incubation-process.html/свидетельства/b29ef68351267342727bbfafd085f7bb9af75e42cd39af3b47419bf26e50eb75/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "39adf3a0cfd073343fb0a2f06f387d1036305dca",
+      "байтов": 12925,
+      "sha256": "b29ef68351267342727bbfafd085f7bb9af75e42cd39af3b47419bf26e50eb75"
+    },
+    {
+      "путь": "Источники/URL/https/xn--28-9kcmeamher5a2blt.xn--p1ai/answers/свидетельства/5827fa7115dbe89c5428166afb35e65116f8499f0453164ddb430027e5793b6b/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "db2577f5c79729433828480b718dca4eef2fa477",
+      "байтов": 70803,
+      "sha256": "5827fa7115dbe89c5428166afb35e65116f8499f0453164ddb430027e5793b6b"
+    },
+    {
+      "путь": "Источники/URL/https/xn--28-9kcmeamher5a2blt.xn--p1ai/programs/prioritet/свидетельства/04a302347d36e1c06cdc2819c2ecbc4b6bb0008f40025df990ae0133d8632210/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "66183398f8d951b5b8d89c843e023fab6a2bade9",
+      "байтов": 44411,
+      "sha256": "04a302347d36e1c06cdc2819c2ecbc4b6bb0008f40025df990ae0133d8632210"
+    },
+    {
+      "путь": "Источники/URL/https/xn--p1acnb.xn--p1ai/_root/свидетельства/750f2194b0ad1dce419c2b48366625f38737693dfe705072591f8e459ab924ee/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "f0fb367bb23c56ba75c9045acfda4fe889388fdb",
+      "байтов": 6940,
+      "sha256": "750f2194b0ad1dce419c2b48366625f38737693dfe705072591f8e459ab924ee"
+    },
+    {
+      "путь": "Источники/URL/https/yandex.cloud/ru/all-offers/свидетельства/e060c45abecbcd1624d44d91fc83754ac1a55a5503722c065ac9e68351b72321/извлечённый-текст.txt",
+      "режим": "100644",
+      "объект": "6d6517aad4558376eaedf41822a70e967e3250e9",
+      "байтов": 8713,
+      "sha256": "e060c45abecbcd1624d44d91fc83754ac1a55a5503722c065ac9e68351b72321"
+    },
+    {
+      "путь": "Планирование/финансирование-и-ресурсы/README.md",
+      "режим": "100644",
+      "объект": "4c3fa50c33d0734de26a8c19aa73aafef5122c73",
+      "байтов": 20862,
+      "sha256": "b03d4c21423d7762ba60105fa3faf556775d073b291bfd3ecedcae4882b7609a"
+    },
+    {
+      "путь": "Планирование/финансирование-и-ресурсы/исследования.json",
+      "режим": "100644",
+      "объект": "f0cb4fb698d886c8762437f1d48b92123013545a",
+      "байтов": 97419,
+      "sha256": "7ef9acf01db50e4d0d68e83b30a1e9dcd1956d38519b5fd3466bbed954baa80f"
+    },
+    {
+      "путь": "Планирование/финансирование-и-ресурсы/исходные-данные/очистка-снимков.json",
+      "режим": "100644",
+      "объект": "e93bff47c1981c7243e5cc7a4c45f4c99b8611ea",
+      "байтов": 9129,
+      "sha256": "e1e6f7cf521f7fa8f275da631bb7946eca90cb16c9d586a909b97a74b4626cf1"
+    },
+    {
+      "путь": "Планирование/финансирование-и-ресурсы/исходные-данные/перенос-свидетельств.json",
+      "режим": "100644",
+      "объект": "8ea5d953e59236e2dc0f317e319112b83914b2bb",
+      "байтов": 20345,
+      "sha256": "a54bc60156bca51bba3cce23e6acaf751af018af6ebda7e7b08fe2cb71381640"
+    },
+    {
+      "путь": "Планирование/финансирование-и-ресурсы/карточки.json",
+      "режим": "100644",
+      "объект": "935899d658b1dd72821549348ba3eb08c8bd87ff",
+      "байтов": 280251,
+      "sha256": "042df79a852954eda2aa097db510248b9cdb4d98bdda2ac64ec38c43683bc11d"
+    },
+    {
+      "путь": "Планирование/финансирование-и-ресурсы/лизинг-и-кредиты.md",
+      "режим": "100644",
+      "объект": "3edd76d819e4a132dfbbb85201611423fa8787c0",
+      "байтов": 11477,
+      "sha256": "21c31ea20a12cdaba8dfda0ffa4a68fcdf7d3bea3a5a1b8a4fc180a23acc7aa1"
+    },
+    {
+      "путь": "Планирование/финансирование-и-ресурсы/медийное-сопровождение-пожертвований.md",
+      "режим": "100644",
+      "объект": "a9d33390cd53628d08422130c728b5dbe9e3fb90",
+      "байтов": 16487,
+      "sha256": "d4786607614cdb53adea32b1049b6072714392ec72f5fedca7823b6d703406bd"
+    },
+    {
+      "путь": "Планирование/финансирование-и-ресурсы/практический-маршрут.md",
+      "режим": "100644",
+      "объект": "879a56d14175602a4dce048eb51fbdd169dece46",
+      "байтов": 13072,
+      "sha256": "bc51bd3ce40202cb0391917c379dfc8ef5360c237d6e6f908bb68f6213937992"
+    },
+    {
+      "путь": "Планирование/финансирование-и-ресурсы/приоритеты.md",
+      "режим": "100644",
+      "объект": "abeaa1ac18fcfb5d82d146431c61f23bc452983a",
+      "байтов": 12156,
+      "sha256": "f5e6ae1f5d387437f584b38cf34f2cc173acd72a68a47f144b111323f65d6846"
+    },
+    {
+      "путь": "Планирование/финансирование-и-ресурсы/проект-предложения-поддержки.md",
+      "режим": "100644",
+      "объект": "a181f3477b221f1c26c5a73179b7c0bba46d76d2",
+      "байтов": 10287,
+      "sha256": "80886b76daec44fd93324183cd74ce64517ad4c7df48b807ed0abf9a5bdfe7b7"
+    },
+    {
+      "путь": "Планирование/финансирование-и-ресурсы/реестр.json",
+      "режим": "100644",
+      "объект": "3c3883baf40cbdf78123296c16ce2a31d0fe298c",
+      "байтов": 277995,
+      "sha256": "f242cdce6ce512b7c02220e6d4382aac6b8e4786c7a240cd2e94d419020b531e"
+    },
+    {
+      "путь": "Планирование/финансирование-и-ресурсы/список.md",
+      "режим": "100644",
+      "объект": "7e5ddf16222fd89d3184a3ea7f98daa7f9465ca0",
+      "байтов": 121683,
+      "sha256": "22a97a321e6fdf7fcb4bbdf86acaec58bbdf9fe4f1c64b0490e01fdcee28b0f1"
+    }
+  ],
+  "граница": "Проверенные байты уже сохранённого выпуска, двух предметных скриптов, прямых свидетельств карточек и семи поздних архивов; полный исходный код зависимостей закреплён коммитом основы. Новое веб-чтение и получение средств не выполнены."
+}

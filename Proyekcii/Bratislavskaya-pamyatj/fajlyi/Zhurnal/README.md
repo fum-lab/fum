@@ -16,6 +16,13 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-16 16:32:27 MSK — Prinyatj aktualjnyij finansovyij srez](2026-09-16_16-32-27_MSK_prinyatj-aktualjnyij-finansovyij-srez/otchyot.md)
+- [2026-09-16 16:08:52 MSK — Zakrepitj proiskhozhdeniye delegirovannogo obyyoma](2026-09-16_16-08-52_MSK_zakrepitj-proiskhozhdeniye-delegirovannogo-obyyoma/otchyot.md)
+- [2026-09-16 15:31:31 MSK — Zakrepitj obrabotku semi soobsjhenij](2026-09-16_15-31-31_MSK_zakrepitj-obrabotku-semi-soobsjhenij/otchyot.md)
+- [2026-09-16 15:06:43 MSK — Sokhranitj proverennyiye postavki](2026-09-16_15-06-43_MSK_sokhranitj-proverennyiye-postavki/otchyot.md)
+- [2026-09-16 14:22:48 MSK — Zakrepitj celj lokaljnyikh modelej](2026-09-16_14-22-48_MSK_zakrepitj-celj-lokaljnyikh-modelej/otchyot.md)
+- [2026-09-16 13:46:12 MSK — Sokhranitj resheniya o vetkakh i usilii](2026-09-16_13-46-12_MSK_sokhranitj-resheniya-o-vetkakh-i-usilii/otchyot.md)
+- [2026-09-16 02:09:16 MSK — Svyazatj sravneniye modelej s istoriyej obrabotki](2026-09-16_02-09-16_MSK_svyazatj-sravneniye-modelej-s-istoriyej-obrabotki/otchyot.md)
 - [2026-09-16 00:15:17 MSK — Proveritj postavki kommita i integracii](2026-09-16_00-15-17_MSK_proveritj-postavki-kommita-i-integracii/otchyot.md)
 - [2026-09-15 22:40:08 MSK — Sokhranitj i udalitj rolevyiye forki](2026-09-15_22-40-08_MSK_sokhranitj-i-udalitj-rolevyiye-forki/otchyot.md)
 - [2026-09-15 22:18:05 MSK — Prinyatj dopusk postoyannyikh vetok](2026-09-15_22-18-05_MSK_prinyatj-dopusk-postoyannyikh-vetok/otchyot.md)
@@ -697,6 +704,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 00:46:06 MSK -->
-<!-- content-sha256: sha256:fdbeb9cb0bbd6692b05d5ced00b32fd08dc09b8cfd455a7d9d683a9a7bc3619c -->
+<!-- last-content-edit: 2026-09-16 16:47:42 MSK -->
+<!-- content-sha256: sha256:70670fc00cbd5c83ae828403a0f855adabc2e837918dda67063a9e9442ef3d8a -->
 <!-- FUM-MD-RECENCY:END -->
