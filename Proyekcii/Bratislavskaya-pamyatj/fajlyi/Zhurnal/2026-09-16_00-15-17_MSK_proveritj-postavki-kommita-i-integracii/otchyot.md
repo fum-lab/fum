@@ -6,7 +6,7 @@ Predyidusjhaya kontroljnaya tochka `9a410dea90c09e24954fab7e4c28f613b8bda06f` op
 
 Postavku avtomatizacii kommitov `edff49de48decdef897ebd4fb300f1e92f5a86b4` sokhranyayet vetka `planirovaniye`. Nezavisimyij obzor podtverdil fakticheskoye sozdaniye etogo kommita novyim CLI, privatnuyu kvitanciyu, 20 iskhodnyikh komand i nativnuyu Astra Ultra po adresnyim diapazonam JSONL. Najdenyi blokeryi: podstanovka zayavlennogo UUID pri otsutstvii nativnogo `CODEX_THREAD_ID`, nepolnaya ostanovka gruppyi Git/hook pri preryivanii i otsutstviye profilya rannego otkaza. Ispravleniya opublikovanyi kontroljnyim kommitom `a40c23a84f84d037ce3e621a622e76573929ce70`; tochnyij remote OID podtverzhdyon kornem. Iskhodnyij obzor otnositsya k edff, novoye samoprimeneniye i adresnyiye proverki vladelec peredal otdeljno. Integraciya i okonchateljnaya gotovnostj instrumenta ne obyyavlyayutsya.
 
-Predposyilka master `5b64d4a6bff7d555fe4219ac42357a9ee66a9e83` opublikovana otdeljnyim [PR №3](https://github.com/fum-lab/fum/pull/3). Vladelec zavershil standartnuyu dokumentacionnuyu priyomku i opublikoval `d2692cf8d627fd87ed1bd9b3dc5fd2b60216f612`, derevo `15929cc289ea5bb4ef0f4018d1e60bd75a1f5f09`. Nezavisimyij obzor svyazal zakryityiye zapisi s exact diff; pervichnyiye vyivodyi vladeljca podtverzhdayut24/24 shaga,1166 testov i zaklyuchiteljnuyu paru apply/verify s kodami0. Live remote OID podtverzhdyon kornem. Sliyaniye yesjhyo ne vyipolneno. [PR №2](https://github.com/fum-lab/fum/pull/2) sokhranyayet osnovnuyu postavku L=`01ca988635628b48024ae64c290d3c4912aff060`. GitHub na prochitannoj granice ne treboval revjyu ili checks dlya master; eto otsutstviye ogranicheniya servera, a ne polozhiteljnyij rezuljtat proverki. Prodvizheniye ostayotsya svyazano s tochnyim prinyatyim kommitom i PR.
+Predposyilka master `5b64d4a6bff7d555fe4219ac42357a9ee66a9e83` opublikovana otdeljnyim [PR №3](https://github.com/fum-lab/fum/pull/3). Vladelec zavershil standartnuyu dokumentacionnuyu priyomku i opublikoval `d2692cf8d627fd87ed1bd9b3dc5fd2b60216f612`, derevo `15929cc289ea5bb4ef0f4018d1e60bd75a1f5f09`. Nezavisimyij obzor svyazal zakryityiye zapisi s exact diff; pervichnyiye vyivodyi vladeljca podtverzhdayut24/24 shaga,1166 testov i zaklyuchiteljnuyu paru apply/verify s kodami0. Live remote OID podtverzhdyon kornem. PR №3 vposledstvii prinyat tochnyim merge J; yego nablyudyonnaya granica privedena nizhe. [PR №2](https://github.com/fum-lab/fum/pull/2) sokhranyayet osnovnuyu postavku L=`01ca988635628b48024ae64c290d3c4912aff060`. GitHub na prochitannoj granice ne treboval revjyu ili checks dlya master; eto otsutstviye ogranicheniya servera, a ne polozhiteljnyij rezuljtat proverki. Prodvizheniye ostayotsya svyazano s tochnyim prinyatyim kommitom i PR.
 
 Finansovyiye postavki Luna low, Luna high i Sol high ne prinyatyi soderzhateljno; sokhranyonnyij razbor nakhoditsya v predyidusjhem otchyote. Ispravleniye Astra Ultra opublikovano `a6d0e8f837978b836ac8708fc71e6cd3b7f52347`; nativnyij kontekst i39 GREEN vladelec predyyavil otdeljno. Tochnyij remote OID prochitan kornem; eto yesjhyo ne integraciya. Faktyi postupleniya deneg i vneshnij finansovyij rezuljtat ne obyyavlyayutsya. Sravniteljnyiye vetki trebuyetsya sveryatj s zhivyim remote, a ne toljko s lokaljnyim kyeshem.
 
@@ -38,7 +38,7 @@ Povtornaya zadacha UUID `01a0a708-079c-7a70-b1b8-b7c04f714f76` poluchila native 
 
 Nezavisimoye chteniye podtverdilo odinakovoye pokoleniye v cf7e92eb6f914eae2bf16d7dbf50df9487464dff,01ca i9a: derevo `48586ac0a31a924df1ac03cb830bc8fdd2864b16`, blob manifesta `bc6f019747868d4355aef173b1c4e0d8cd6b9efe`, SHA-256 `7bb832cb4bf99cbfe598867ed05051a6c7bc923e07a16b5e582ad7509a3bab47`. Zayavlennyij vkhod-inventarj `6515d4f4743cff97119d390d273b78d6527a18bc1df9a6a74098153204d2dda2`, politika `5ecd1d393cb59ab5ccfaeebc9d43a6c93476125547698c47283e6a348af6fb21`. [Iskhodnyij otchyot](../2026-09-15_19-20-02_MSK_proveritj-postavku-istorii-modeli/otchyot.md) fiksiruyet preryivaniye nezavisimoj proverki: dochernij process-2, obyortka130. Pozdnyaya uspeshnaya proverka etogo pokoleniya ne najdena.
 
-Sledovateljno, eto ustanovlennoye proiskhozhdeniye, no ne dokazannyij proverennyij vkhod po000188. Sleduyusjhaya kontroljnaya tochka dolzhna opiratjsya na vosstanovlennoye pokoleniye i otdeljnyij uspeshnyij validator; okno master osvobozhdeno posle yego uspeshnogo dokumentacionnogo smoke i zaklyuchiteljnoj paryi generacii/validacii. Zaplanirovana odna okhvachennaya obyortkoj para primenitj → proveritj-manifest pri neizmennom kanone. Posleduyusjhaya zapisj fakticheskogo iskhoda v tekusjhij otchyot budet yavno nazvana otstavaniyem ot proverennogo vkhoda; polnoj priyomki etapa eto ne obyyavlyayet.
+Sledovateljno, eto ustanovlennoye proiskhozhdeniye, no ne dokazannyij proverennyij vkhod po pravilu 000188. Sleduyusjhaya kontroljnaya tochka dolzhna opiratjsya na vosstanovlennoye pokoleniye i otdeljnyij uspeshnyij validator; okno master osvobozhdeno posle yego uspeshnogo dokumentacionnogo smoke i zaklyuchiteljnoj paryi generacii/validacii. Zaplanirovana odna okhvachennaya obyortkoj para primenitj → proveritj-manifest pri neizmennom kanone. Posleduyusjhaya zapisj fakticheskogo iskhoda v tekusjhij otchyot budet yavno nazvana otstavaniyem ot proverennogo vkhoda; polnoj priyomki etapa eto ne obyyavlyayet.
 
 ## Vosstanovleniye generacii i profilj kartyi avtorov
 
@@ -49,6 +49,32 @@ Pyatj adresnyikh testov proshli posle RED, zatem vse200 testov proyekcii zaversh
 Nezavisimyij obzor obnaruzhil oshibku novogo profilya: FUM_CHECKED_CODE_ROOT mog podstavitj druguyu realizaciyu i vkhodyi pri lokaljnyikh khyeshakh. Pervyij vosproizvodyasjhij test imel nepolnuyu fiksturu; polnyij vtoroj RED podtverdil lozhnyij uspeshnyij profilj. Zatem otdeljnyij RED vosproizvyol ssyilku na sobstvennyij skript pri chuzhom kataloge kontrakta. Proveryayutsya oba razreshyonnyikh puti — skript i katalog vkhodov; dve regressii proshli. Proizvodstvennyij kod posle200 GREEN ne menyalsya. Prezhniye izmereniya sokhranenyi otdeljno i ne obyyavlyayutsya profilem okonchateljnogo skripta.
 
 Profilj okhvatyivayet perekhod, nezavisimuyu proverku i povtor na neboljshoj otkryitoj fiksture; isklyuchayet Swift, podgotovku i ochistku, chteniye promezhutochnogo manifesta i zapisj rezuljtata. Uskoreniye polnoj peresborki etim opyitom ne izmeryalosj. Polnaya generaciya i nezavisimaya proverka repozitoriya sleduyut posle oformleniya kanona, yedinoj posledovateljnoj paroj bez izmeneniya vkhodov mezhdu nimi. [Itogovyij profilj](materialyi/profilj-kartyi-avtorov-itog.json): medianyi tryokh povtorov — perekhod 0.858373542s, proverka 0.338813125s, povtor 0.612028334s. Khyeshi izmerennyikh fajlov sverenyi s tekusjhimi bajtami.
+
+## Granica kontroljnoj tochki
+
+[Proverennoye pokoleniye](materialyi/proverennoye-pokoleniye-kartyi-avtorov.json) ustanovleno i nezavisimo provereno: 10693 iskhodnika, plan60098f286e7d86760ecd5b9ec5fbbd3bb585880b6b32c87d2ed8339178759492, manifest SHA-256 a1ce5b1952818b52c9f849d4f4f72b97dee70fba49f5bae0d7efe77239aa602e. Izmereno 321.908295625 s primeneniya i 138.140143834 s nezavisimoj proverki. Obe komandyi vyipolnilisj v odnom posledovateljnom processe pri neizmennom kanone, obsjhij terminaljnyij kod0. Operacionnaya podgotovka vne etikh dvukh intervalov uchityivayetsya vo vneshnej zapisi.
+
+Posleduyusjhaya terminaljnaya zapisj, svedeniya o rezuljtate, [nablyudeniya raskhoda sravneniya](materialyi/nablyudeniya-raskhoda-sravneniya.json), otchyot i indeks svezhesti uzhe otlichayutsya ot proverennogo vkhoda. Kontroljnaya tochka po pravilu 000188 sokhranyayet tochnoye proverennoye pokoleniye i yavno oboznachennoye otstavaniye; finaljnaya priyomka tekusjhego kanona i integraciya v master ne obyyavlyayutsya. Povtornaya peresborka radi opisaniya etoj granicyi ne vyipolnyayetsya.
+
+Adresnaya korrekciya Astra Low a827179 prinyata posle nezavisimogo obzora:17GREEN, neizmennyij generator i sokhranyonnaya istoriya, vosstanovlennoye proiskhozhdeniye vtorogo RED. SHA istoricheskogo ispolnyayemogo blob vyichislen pri vosstanovlenii, a ne obyyavlen staryim izmereniyem. Variant15a727 sokhranyon otdeljno. Polnoj sopostavimoj stoimosti Sol/Astra net.
+
+Adresnyij obzor a40c23a avtomatizacii kommitov takzhe ne nashyol ostavshikhsya blokerov rassmotrennyikh ispravlenij. Kvitanciya sootvetstvuyet realjnomu Git-obyyektu i uspeshnoj terminaljnoj zapisi; pervichnyij native-vyizov novogo samoprimeneniya yesjhyo ne proveren kornem. Obsjhaya priyomka i perenos etoj postavki ostayutsya otdeljnyimi dejstviyami.
+
+## Podgotovlennyij merge predposyilki
+
+Root sveril raw merge-kommit `9d01af6de4fc2f1c9265ee8805cda4998322e004`: rovno roditeli M i D, neizmennoye proverennoye derevo T, avtor FUM Pisatelj, committer FUM, vsyo podgotovlennoye soobsjheniye i poslednij UUID. Vse55 putej pokryivayutsya dvumya postanovkami; ogranichennyij vkhod svyaznosti dopolnyayetsya pryamoj proverkoj Git-granicyi. Specialjnaya priyomka C[L,M] k etomu obyichnomu merge ne pripisyivayetsya.
+
+[Kommentarij PR №3](materialyi/kommentarij-PR-3.txt) opublikovan i sveren chteniyem; [kvitanciya](materialyi/publikaciya-kommentariya-PR-3.json) soderzhit yego identifikator i nablyudyonnoye snyatiye draft. [Vklyucheniye predposyilki](materialyi/vklyucheniye-predposyilki-master.json) podtverzhdeno root: remote master raven J, GitHub pokazyivayet merged=true i tot zhe merge_commit_sha. Pervichnyij checkout sinkhronizirovan fast-forward do togo zhe J; root nezavisimo podtverdil polnyij ref, HEAD, derevo T i chistotu. Vtoroj merge-kommit ne sozdavalsya.
+
+[Otkaz predstavleniya vyivoda obnovleniya svezhesti](materialyi/otkaz-predstavleniya-obnovleniya-svezhesti.json) otdelyon ot uspeshnogo proizvoditelya; povtor toljko radi vyivoda ne zapuskalsya. Dva read-only promakha vyizovov takzhe ne imeli vneshnej mutacii: limit100 otklonyon API spiska zadach s predelom50; nekavyichennyij kirillicheskij klyuch otklonyon jq. Ispravlennyiye adresnyiye chteniya vyipolnenyi uspeshno. Oni ne obyyavlyayutsya testovyimi RED.
+
+Obsjhij `git diff --cached --check` vernul kod2 na sokhranyonnyiye probelyi v 16 fajlakh proizvodnoj oblasti: vneshniye HTML i istoricheskiye doslovnyiye soobsjheniya. Vse sootvetstvuyusjhiye iskhodnyiye i celevyiye khyeshi sovpali s proverennyim manifestom, a bajtyi indeksa — s ustanovlennyimi fajlami. Kanonicheskaya deljta proshla otdeljnyij `diff --check` s kodom0. Originalyi i vyivod generatora ne perepisyivalisj radi ustraneniya etikh preduprezhdenij.
+
+Obyichnaya zaklyuchiteljnaya svyaznostj zavershilasj kodom1: vse 578 soobsjhenij imeyut yedinstvennuyu formu «unexpected Git status path» i otnosyatsya toljko k tochnoj proizvodnoj oblasti. Perechenj pobajtovo sveryon po imenam s proizvodnoj deljtoj indeksa. Protivorechiye mezhdu ssyilochnyim perechnem zatronutyikh fajlov i zapretom ssyilok na isklyuchyonnuyu oblastj oformleno v zaprose kak ogranicheniye primenimosti; povtor proveryayet vse prochiye usloviya s yavnyim `--skip-git-status`. Eto ne uspeshnyij obyichnyij dopusk i ne izmeneniye validatora.
+
+## Sleduyusjhij dostupnyij shag
+
+Podgotovitj odnim paketom sleduyusjhuyu adresnuyu predposyilku v master: podderzhku chetyiryokh sokhranyonnyikh `.cjs`-scenariyev i neobkhodimogo analizatora obyyavlenij, tochnogo kornevogo `.mailmap`, a takzhe polnyiye zakreplyonnyiye kontraktyi perekhoda mezhdu proverennyimi pokoleniyami M i vyibrannogo L. Read-only sravneniye J s prezhnim L=01ca i tekusjhej fuma obnaruzhilo eti nesovmestimosti po kodu; tyazhyolaya neuspeshnaya popyitka ne zapuskalasj. Izmeneniye priyomochnogo kontura prinimayetsya otdeljnyim PR do osnovnogo sliyaniya, po pravilu NOVOYE-000011. Posle publikacii tekusjhego kornevogo kommita fiksiruyetsya tochnyij novyij L, chtobyi ne ispoljzovatj nezakommichennyij istochnik.
 
 ## Profilj vremeni vyipolneniya
 
@@ -86,8 +112,10 @@ Granica profilya: etap nachat 2026-09-16 00:15:17 MSK; konechnaya granica yesjhy
 | [korenj] Proveritj proiskhozhdeniye koda i vkhodov profilya                                  | 0,375 s      | uspeshno   |
 | [korenj] Izmeritj okonchateljnyij profilj kartyi avtorov                                   | 5,916 s      | uspeshno   |
 | [korenj] Proveritj publikacionnuyu chistotu kartyi avtorov i sravneniya                     | 33,497 s     | uspeshno   |
+| [korenj] Postroitj i nezavisimo proveritj pokoleniye s kartoj avtorov                    | 462,898 s    | uspeshno   |
+| [korenj] Proveritj publikacionnuyu chistotu zavershyonnogo sravneniya i prinyatoj predposyilki | 34,226 s     | uspeshno   |
 
-Obsjheye vremya pryamyikh zapuskov proverok: 318,852 s.
+Obsjheye vremya pryamyikh zapuskov proverok: 815,976 s.
 
 Ekonomnyij poryadok proverok: ne gotov.
 
@@ -107,6 +135,6 @@ Posle predyidusjhego kommita obyazateljnyij guard vernul kod 3: dostupnaya rabot
 - [Predyidusjhij otchyot](../2026-09-15_22-40-08_MSK_sokhranitj-i-udalitj-rolevyiye-forki/otchyot.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 01:24:03 MSK -->
-<!-- content-sha256: sha256:5858acf69300a6282a7dfecaae8fdfa16ac97f1357b2508acc768b92ccfa4f4e -->
+<!-- last-content-edit: 2026-09-16 02:04:23 MSK -->
+<!-- content-sha256: sha256:69f12cb69b8956a9c74ff46b113dca8d6a15e593d0e6f5308208fb99d9bc378e -->
 <!-- FUM-MD-RECENCY:END -->

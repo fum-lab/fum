@@ -2,10 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-15 22:40:08 MSK - Sokhranitj i udalitj rolevyiye forki](../2026-09-15_22-40-08_MSK_sokhranitj-i-udalitj-rolevyiye-forki/zapros.md)
-- Sleduyusjhij zapros: net
-
-Prodolzheniye postoyannoj zadachi posle `9a410dea90c09e24954fab7e4c28f613b8bda06f`; nizhe povtorenyi realjnyiye komandyi iz predyidusjhego etapa. Eto ne novyij vvod cheloveka. [Tochnyiye iskhodnyiye ekzemplyaryi](materialyi/proiskhozhdeniye-komand.json) sokhranyayut koordinatyi i khyeshi JSONL. Tekusjhij obyyom — nezavisimyij obzor postavok, vosstanovleniye proveryayemogo pokoleniya proyekcii i podgotovka priyomki; pravila poka ne izmenyayutsya.
+- Predyidusjhij zapros: [2026-09-16 00:04:12 MSK - Proveritj predposyilku integracii cherez PR](../2026-09-16_00-04-12_MSK_proveritj-predposyilku-integracii-cherez-PR/zapros.md)
+- Sleduyusjhij zapros: [2026-09-16 02:09:16 MSK - Svyazatj sravneniye modelej s istoriyej obrabotki](../2026-09-16_02-09-16_MSK_svyazatj-sravneniye-modelej-s-istoriyej-obrabotki/zapros.md)
 
 ## Tekst zaprosa
 
@@ -85,6 +83,8 @@ Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb
 
 Rezuljtatyi obzora, tochnyiye proveryayemyiye granicyi i zapuski perechislyayutsya v [otchyote](otchyot.md). Polozhiteljnoye soobsjheniye vladeljca ne zamenyayet kvitanciyu ili proverku iskhodnika.
 
+Zaklyuchiteljnaya proverka svyaznosti primenyayetsya s `--контрольная-точка --skip-git-status` po ogovorke pravila 000178: obyichnyij rezhim vernul toljko 578 oshibok uchyota putej `Proyekcii/**`, togda kak aktivnyiye Markdown-ssyilki na etu strukturno isklyuchyonnuyu oblastj tot zhe validator zapresjhayet. Korenj otdeljno podtverdil polnoye ravenstvo etogo perechnya izmenyonnyim proizvodnyim putyam indeksa, otsutstviye chuzhikh kanonicheskikh putej i lokaljnogo musora, sootvetstviye manifestu i neizmennostj indeksa. Ostaljnyiye proverki svyaznosti ne otklyuchayutsya; instrument i pravila ne izmenyayutsya.
+
 ## Povliyal na fajlyi
 
 - [Zapros](zapros.md), [otchyot](otchyot.md), [materialyi](materialyi/).
@@ -107,6 +107,6 @@ Rezuljtatyi obzora, tochnyiye proveryayemyiye granicyi i zapuski perechislyayuts
 - [Proyekciya: tests/fiksturyi/pokoleniye-do-kartyi-avtorov-v2.json](../../Instrumentyi/fum-bratislavskaya-proyekciya-pamyati/tests/fiksturyi/pokoleniye-do-kartyi-avtorov-v2.json).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 01:24:03 MSK -->
-<!-- content-sha256: sha256:e50503dfbe01c71733b274156039bbf0673e89d5168fd650ed96c0f2af719c17 -->
+<!-- last-content-edit: 2026-09-16 17:25:07 MSK -->
+<!-- content-sha256: sha256:0a6cae341398f2357e86ba55d4276791f9f364093ee6de240b6c1fb57d4cf930 -->
 <!-- FUM-MD-RECENCY:END -->

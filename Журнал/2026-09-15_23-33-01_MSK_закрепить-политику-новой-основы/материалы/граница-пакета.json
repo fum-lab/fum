@@ -1,0 +1,1151 @@
+{
+  "схема": "fum.частный-проект-предпосылки.1",
+  "M": "e95d7f5d1ef6387454b7825932cfbd737e600473",
+  "L": "01ca988635628b48024ae64c290d3c4912aff060",
+  "дерево_L": "fd0a746227a2d015d7cf9cb185eb7957dca0e0b8",
+  "родители_L": [
+    "e46ad3834ec8cd565e8f91663ec040000b33c533",
+    "74252ec580be30e2781b158d3a248d5c01c5f98e"
+  ],
+  "проверяющие_исходники_M": [
+    {
+      "ревизия": "e95d7f5d1ef6387454b7825932cfbd737e600473",
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py",
+      "режим": "100644",
+      "blob": "3709df3d8fd9b7dd84cb78ca1833c32502aeee03",
+      "sha256": "sha256:375d9e026346b2c3a855382aa323cef224520847f0aa9cc3b0d01c1b26913f56"
+    },
+    {
+      "ревизия": "e95d7f5d1ef6387454b7825932cfbd737e600473",
+      "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py",
+      "режим": "100644",
+      "blob": "46b1464075eeef3c67816048514ca491ef5642f1",
+      "sha256": "sha256:22481bce8934b14f1df4173b615c282b04e0c6ce6034fe8cb3b2816416289308"
+    },
+    {
+      "ревизия": "e95d7f5d1ef6387454b7825932cfbd737e600473",
+      "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py",
+      "режим": "100644",
+      "blob": "a83da2e21a66d9f7357daf5b0bdbedb4b9df3ec9",
+      "sha256": "sha256:288d6ce46ae8e37ec6f24bcc4d3a477be522b365187a5386679399c41042c146"
+    },
+    {
+      "ревизия": "e95d7f5d1ef6387454b7825932cfbd737e600473",
+      "путь": "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py",
+      "режим": "100644",
+      "blob": "3072812ec248cd87ce45f3aa61bdac4de218a840",
+      "sha256": "sha256:e4777302d8a5eec9090bfd19510c1f06f5c939e0082d7dadd67fdaa525393756"
+    },
+    {
+      "ревизия": "e95d7f5d1ef6387454b7825932cfbd737e600473",
+      "путь": "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py",
+      "режим": "100644",
+      "blob": "c0428c1ab5e136b686f27b8d2cec8579f078728d",
+      "sha256": "sha256:71f0cc45232f7b6474a01acb1a48b3e9da609661611823773de1fee6a02c7c52"
+    }
+  ],
+  "входы": [
+    {
+      "ревизия": "e95d7f5d1ef6387454b7825932cfbd737e600473",
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py",
+      "режим": "100644",
+      "blob": "3709df3d8fd9b7dd84cb78ca1833c32502aeee03",
+      "sha256": "sha256:375d9e026346b2c3a855382aa323cef224520847f0aa9cc3b0d01c1b26913f56"
+    },
+    {
+      "ревизия": "e95d7f5d1ef6387454b7825932cfbd737e600473",
+      "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py",
+      "режим": "100644",
+      "blob": "46b1464075eeef3c67816048514ca491ef5642f1",
+      "sha256": "sha256:22481bce8934b14f1df4173b615c282b04e0c6ce6034fe8cb3b2816416289308"
+    },
+    {
+      "ревизия": "e95d7f5d1ef6387454b7825932cfbd737e600473",
+      "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py",
+      "режим": "100644",
+      "blob": "a83da2e21a66d9f7357daf5b0bdbedb4b9df3ec9",
+      "sha256": "sha256:288d6ce46ae8e37ec6f24bcc4d3a477be522b365187a5386679399c41042c146"
+    },
+    {
+      "ревизия": "e95d7f5d1ef6387454b7825932cfbd737e600473",
+      "путь": "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py",
+      "режим": "100644",
+      "blob": "3072812ec248cd87ce45f3aa61bdac4de218a840",
+      "sha256": "sha256:e4777302d8a5eec9090bfd19510c1f06f5c939e0082d7dadd67fdaa525393756"
+    },
+    {
+      "ревизия": "e95d7f5d1ef6387454b7825932cfbd737e600473",
+      "путь": "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py",
+      "режим": "100644",
+      "blob": "c0428c1ab5e136b686f27b8d2cec8579f078728d",
+      "sha256": "sha256:71f0cc45232f7b6474a01acb1a48b3e9da609661611823773de1fee6a02c7c52"
+    },
+    {
+      "ревизия": "e95d7f5d1ef6387454b7825932cfbd737e600473",
+      "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/policy-кандидата-слияния.json",
+      "режим": "100644",
+      "blob": "9c80181eb90b3ad294294578151e59aa372e7763",
+      "sha256": "sha256:4a73ad60ca3c8eee704aecff2a33481c642a4633ea3a9622adb23a5fb4ef8cb0"
+    },
+    {
+      "ревизия": "e95d7f5d1ef6387454b7825932cfbd737e600473",
+      "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/происхождение-политики-слияния.json",
+      "режим": "100644",
+      "blob": "0b3892faad88bc970ec710e5aa680cef521fde3e",
+      "sha256": "sha256:d85c567e2296387aa8dce6ddf426d55c7612b1ceecd31bdebb74b39dcbd6b2b5"
+    },
+    {
+      "ревизия": "e95d7f5d1ef6387454b7825932cfbd737e600473",
+      "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/SKILL.md",
+      "режим": "100644",
+      "blob": "8b6b6014d55980c6515cf5bd7929b10aca070748",
+      "sha256": "sha256:7e04ddd64886f94952f0365ab410dddadb6c406960a728674b6afdcfbbd7e25f"
+    },
+    {
+      "ревизия": "e95d7f5d1ef6387454b7825932cfbd737e600473",
+      "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/policy.json",
+      "режим": "100644",
+      "blob": "9c80181eb90b3ad294294578151e59aa372e7763",
+      "sha256": "sha256:4a73ad60ca3c8eee704aecff2a33481c642a4633ea3a9622adb23a5fb4ef8cb0"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/policy.json",
+      "режим": "100644",
+      "blob": "c3df4567b39edebb92d8038b71a8fd8c8988aa66",
+      "sha256": "sha256:cd08ee237ffffb81a243db9bf3f9840e0e6e3f32b5c06ae2eab6821007b5d508"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Журнал/2026-07-10_05-03-09_MSK_сравнить-варианты-реализации/отчёт.md",
+      "режим": "100644",
+      "blob": "a9a4239b4033a673e63fa232c865a0214718e747",
+      "sha256": "sha256:9b367fdf563fcac4033ec6d269fa62098175d82b3d4141f9fde2436707fdf858"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Журнал/2026-07-17_12-20-17_MSK_создать-скрипты-запуска-прототипов/отчёт.md",
+      "режим": "100644",
+      "blob": "10f26e089410dc68f9d91628cee4188bf70c76b9",
+      "sha256": "sha256:839b1ba961ee70f3172d344705d35511c262d37ab890e007b9d2fe1107d56439"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Журнал/2026-07-17_12-33-01_MSK_добавить-панель-запуска-прототипов/отчёт.md",
+      "режим": "100644",
+      "blob": "6b25700d107ac38a5740b8ff99c7b8cf0d5b5ce1",
+      "sha256": "sha256:8049f3dcc6eda16d1c565b207add14730525caf43e9c7f1faabd9afd1aa25e59"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Журнал/2026-07-17_12-45-07_MSK_закрепить-модель-Codex-по-умолчанию/отчёт.md",
+      "режим": "100644",
+      "blob": "44ef36f224ea209b9549d34c5e3d2bd6326e3da2",
+      "sha256": "sha256:9fa08b54973a08d033b6566bf2cc30b6d0c2c15c610b553d227de6fb302fd860"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/отчёт.md",
+      "режим": "100644",
+      "blob": "d495fb39354547fa916be3130f977c97744bf32e",
+      "sha256": "sha256:3fdb992ca5f873687d76da49e1caabb2518469098f3ebe895b432368974fef4c"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Журнал/2026-07-10_05-03-09_MSK_сравнить-варианты-реализации/запрос.md",
+      "режим": "100644",
+      "blob": "8f1d85b0156e59163fe81c33892bffd81d11ffe8",
+      "sha256": "sha256:a26fd7fd3a6a6ba3354a89fc285c06fc9382b238480fda1330c9e0ec362f3852"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Журнал/2026-07-13_15-20-42_MSK_ограничить-вопросы-и-ответы-сущностью-FUM/запрос.md",
+      "режим": "100644",
+      "blob": "e2cb0dc4fb49f30c07f4fd412232dd2b07effba7",
+      "sha256": "sha256:3a40e1f43796021fcdeca9de1d154e33758f2313427274fbff345d90f2dbd16b"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Журнал/2026-07-13_20-34-23_MSK_закрепить-ролевую-семантику-взаимодействия-ИИ-агентов/запрос.md",
+      "режим": "100644",
+      "blob": "374fe5838a3792d74073e20cf2b0d1bf7a908425",
+      "sha256": "sha256:9795b8a88e5de0954fac08d9a90fd3fadf2fc85bc5fe5bc36b9794d851263dd3"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Журнал/2026-07-17_12-20-17_MSK_создать-скрипты-запуска-прототипов/запрос.md",
+      "режим": "100644",
+      "blob": "d333b70f848adba5e5ff05697514f73652477fa9",
+      "sha256": "sha256:e496234b664fdaa7330870fac6767660acbe529a2315e130a3196258e45a0163"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Журнал/2026-07-17_12-33-01_MSK_добавить-панель-запуска-прототипов/запрос.md",
+      "режим": "100644",
+      "blob": "ea1dca4c6b1f784ba9c9968cec705aec6370c1dd",
+      "sha256": "sha256:047d5d47bc1e61fe49aa17b258aadf249a90a7c8f77f0267aec969de947dbcd7"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Журнал/2026-07-21_10-36-18_MSK_завершить-сквозную-приёмку-архиватора-источников/запрос.md",
+      "режим": "100644",
+      "blob": "b7197d7eb0ddf10948982778c85df48061245684",
+      "sha256": "sha256:1bafe1503d9c40734bd4c5c5e5a37635e4babf944f17f12d10884eea9199caa5"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Журнал/2026-07-22_03-38-35_MSK_разрешить-выполнение-доступных-карточек-шагов/запрос.md",
+      "режим": "100644",
+      "blob": "1892d45adaaff52788317a283241f2f46318d20d",
+      "sha256": "sha256:e06bbc95e75b81a69b897133898bb5a169b74c1f64f80a8b75906f69fad1b7eb"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/запрос.md",
+      "режим": "100644",
+      "blob": "2be013f6b4e7cc88d9e858ad03fb79d5d632f53a",
+      "sha256": "sha256:4a1a63393a75decbb8a251478da665b6738ce08f0135b1417e7ccf3c82155c02"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-audit-pokryitiya-voprosov-i-otvetov/scripts/audit-question-answer-coverage.py",
+      "режим": "100755",
+      "blob": "e7857c85b9ccc81b5fbfab729fe36001188f7c18",
+      "sha256": "sha256:9ff98742408be13b1b9c520482dfcf4c8aac1563e9bf9de546af8f24c23eccd0"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-indeks-readme/scripts/check-readme-index.py",
+      "режим": "100644",
+      "blob": "c48d40911a6b7b4cd09464df59209d1dd937f7e4",
+      "sha256": "sha256:e6b286a3f572be678b6fac5c6f24f6c02df19efd4353a0640d91054c3e8788b8"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-kompleksnaya-proverka-repozitoriya/tests/test_run_smoke_check.py",
+      "режим": "100644",
+      "blob": "1ce4fd78e3576805de3ca249448c3a7d63a27628",
+      "sha256": "sha256:21fd5165965eee8149fb10e8e7045dc58b8e5d25747f77ff24ec72247c1b5ae7"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-materialyi-zaprosov/tests/test_archive_chatgpt_share.py",
+      "режим": "100644",
+      "blob": "4e5d223269066e7cea22396dfee2caa74a869330",
+      "sha256": "sha256:17ba8bda0c6856d68fcfc7a9d03b1b580ac26568a30a1ca4c509881039b8910d"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-materialyi-zaprosov/tests/test_source_archive_cli.py",
+      "режим": "100644",
+      "blob": "cd89ebcb749386638186ddc44dcab0c16175043a",
+      "sha256": "sha256:c82e71d42f524db6ba34133180bb9ba3a97edd005da861551eb7ea8a8e76e6a7"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-obratnyiye-ssyilki-voprosov/scripts/check-question-backlinks.py",
+      "режим": "100644",
+      "blob": "70a4584e9ed7f0bc5c443a15e15551086dd19f32",
+      "sha256": "sha256:ee26082227da2d8a291f050d716cfe66622a71ff433f8727d9e06efa89b4cbec"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-obratnyiye-ssyilki-voprosov/tests/test_check_question_backlinks.py",
+      "режим": "100644",
+      "blob": "d92222b3ef0f939252f67ebdb67016642f957f93",
+      "sha256": "sha256:6fa70d6f3ed92548f3b894ec82bb63ebfa3764fb1f59c28a571f09de808f6d8c"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-ocenki/tests/test_build_estimate.py",
+      "режим": "100644",
+      "blob": "c15cfcd23a4aa928dfec03bf5c238633b8381811",
+      "sha256": "sha256:0cf5041c9fc54d180507d90cc0918a2cb87c70d3bf448b9811b425dced273586"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-proverka-git-zavisimostej/tests/test_proveritj_git_zavisimostj.py",
+      "режим": "100644",
+      "blob": "ddd8b5f98ac7d782217dc0ec2778fcfd44e42394",
+      "sha256": "sha256:61d3c6c28f197f8d4cc8b9bdfcfbe9f4a09a54448496e63f3751ade56b08a9cd"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/SKILL.md",
+      "режим": "100644",
+      "blob": "1623e57ba922a3d5ed11861939cd74cd0344f599",
+      "sha256": "sha256:8d01512b3e81cfd325e019973543e46fda8bdfa833c39900ec42dbb943989545"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py",
+      "режим": "100644",
+      "blob": "46b1464075eeef3c67816048514ca491ef5642f1",
+      "sha256": "sha256:22481bce8934b14f1df4173b615c282b04e0c6ce6034fe8cb3b2816416289308"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py",
+      "режим": "100644",
+      "blob": "a83da2e21a66d9f7357daf5b0bdbedb4b9df3ec9",
+      "sha256": "sha256:288d6ce46ae8e37ec6f24bcc4d3a477be522b365187a5386679399c41042c146"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_path_forms.py",
+      "режим": "100644",
+      "blob": "6905ee1a624b7810b4cafb828b0c0da614776dea",
+      "sha256": "sha256:4e58c0fc1854ebefb07e27efe823f40a9fdddd20f45c16d3717d225ad11a9aee"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "режим": "100644",
+      "blob": "04e073d02b0a888700a31ae44a2222c5bdea0356",
+      "sha256": "sha256:cf365e6d4aca48e50b3e8de1c696cf4ab9987bbcae60c6af9b65714998e7b538"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py",
+      "режим": "100644",
+      "blob": "3072812ec248cd87ce45f3aa61bdac4de218a840",
+      "sha256": "sha256:e4777302d8a5eec9090bfd19510c1f06f5c939e0082d7dadd67fdaa525393756"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-proyektnyiye-fajlyi/tests/test_project_files.py",
+      "режим": "100644",
+      "blob": "3e3d1d6349d3d809619665627cc92247f4d52f61",
+      "sha256": "sha256:cd7228cfdaf5b8a86a4b34c173382598af44c14b7a2a4279f3a1cb7a4ac77bf8"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-revjyu-prodelannoj-rabotyi/tests/test_build_work_review.py",
+      "режим": "100644",
+      "blob": "f3e5fded1fcc6425ad67946b76a9e8d0e083a307",
+      "sha256": "sha256:79d4264bc4ee8036dca489cf834a5ad80ece0a8c0f4ab5380551f09a2b1bbfc0"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-sborka-svodnoj-dokumentacii/tests/test_build_doc_aggregation.py",
+      "режим": "100644",
+      "blob": "4f63805b58b33bd15ac1f3f7e2f2a003dda72e82",
+      "sha256": "sha256:6321fdaaa30da814c183752dae39fba3f626663138084432642c7be81310606b"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-sleduyusjhij-shag-vetki/scripts/branch-next-step.py",
+      "режим": "100755",
+      "blob": "1157c39fd5831c554a28dfa0a7f273b7a92bd4b1",
+      "sha256": "sha256:58a81fa54d1f04f196c462af355768a5f838bbde0c60e9b9f17d049f5e2b7861"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-sleduyusjhij-shag-vetki/tests/test_branch_next_step.py",
+      "режим": "100644",
+      "blob": "231f6de237981f90d0dfd6b91fe92b91e66dba4f",
+      "sha256": "sha256:43f26823166b19cdc05c625513f09f2feee3f4dd08fbb022db1d3694f1b92586"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/SKILL.md",
+      "режим": "100644",
+      "blob": "04f3ca41a7a640b1b442a390f518317d4e49abb1",
+      "sha256": "sha256:bf2b7f611d3672f9deb187f6600cd79b5036f35be96b85db9a98d5e8f337fb8b"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_check_session_coherence.py",
+      "режим": "100644",
+      "blob": "674236559cd8252914fc7e7374fb17d7083206f8",
+      "sha256": "sha256:e1a008037567f11830494152397aa4bf539d0e606f40b6604ac025b89ac0d991"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-zapusk-prototipov/tests/test_check_prototype_launchers.py",
+      "режим": "100644",
+      "blob": "0bef7d6e470f7b9677fad0cb2b9699924495bf00",
+      "sha256": "sha256:a13ffef2d360005ef58edfd276ab1d68e9ae6be07d130ab658870f08263a5d3a"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Планирование/реестр-требований-вариантов-и-кандидатов.json",
+      "режим": "100644",
+      "blob": "516e296fbfc604f21aca5ae329443b66338f4a5c",
+      "sha256": "sha256:56a0d7cd0d2f75a40ed66bdb9e6a4a49fd0449482b8a959c458119a37be58a59"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Прототипы/теневой-редактор-продолжений/Tests/FUMShadowCoreTests/LocalRuntimePolicyTests.swift",
+      "режим": "100644",
+      "blob": "ed69ed43bdb9c7c63d9e4d80344a29f2b86f82de",
+      "sha256": "sha256:b71000aeabc560616e01a5ed8bbb9075cb61468276827ad2ec179763987ef474"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.md",
+      "режим": "100644",
+      "blob": "df42365757c05ed53e7bfb276eac0dcde0d73eee",
+      "sha256": "sha256:307a57fecb64d5a1d49c6356c36ac07ed17d90e2eec63f8f3afaac19980a18df"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Журнал/2026-07-22_12-35-05_MSK_провести-аудит-абсолютных-путей/материалы/ревью/2026-07-22_12-35-05_MSK_аудит-абсолютных-путей.json",
+      "режим": "100644",
+      "blob": "1be8710caf351767c9c1513bdf45ce0bd7168f9d",
+      "sha256": "sha256:4c997dabba01ee0687c35a0e7df00d7f5728677c2ea1c0eea87c5044e8808e12"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Документация/39-минимальный-паспорт-передаваемого-результата-FUM/проверить-паспорт-v1.py",
+      "режим": "100644",
+      "blob": "7333a61fd5e72cff98f502831493ee0a42ebc030",
+      "sha256": "sha256:1e9dcc4d918d82fe6fd9d8b48a79b95f99c93da34e51e209257bddb460decb6a"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Документация/39-минимальный-паспорт-передаваемого-результата-FUM/тест-проверить-паспорт-v1.py",
+      "режим": "100644",
+      "blob": "3b006f829143582f74e5b79a738f55a9f5160c87",
+      "sha256": "sha256:0fd92c1829315feb4c69b23afc731c2ff8868f358663018a650ecf92e2c85bee"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/run-smoke-check.py",
+      "режим": "100644",
+      "blob": "f3040ab584e8e2bf7efef40a5631f73d84f501cd",
+      "sha256": "sha256:dc8e0beb899eb565b70df38f8dcae86dcb01a40b6670ed3bbf4f08826d6fbe0a"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Прототипы/живой-одноагентный-эпизод/Sources/FUMLiveEpisodeCore/LiveGitCandidateContract.swift",
+      "режим": "100644",
+      "blob": "d924d4cd0e71ece13400bf5daee891adce2ab184",
+      "sha256": "sha256:5ee7554d5701422d89e45581a59b5574827c579b34f3e5bec0eabe7d1be04298"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Прототипы/живой-одноагентный-эпизод/Sources/FUMLiveEpisodeRuntime/IsolatedGitCandidateAdapter.swift",
+      "режим": "100644",
+      "blob": "8561d667bfd5181ee3aaeab4fffdb1638c7eb984",
+      "sha256": "sha256:474cd50832c718dfcb6f80151fa3b67e96cd3ee99a08d509450b4fd6d85a53d5"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Прототипы/живой-одноагентный-эпизод/Tests/FUMLiveEpisodeCoreTests/LiveGitCandidateContractTests.swift",
+      "режим": "100644",
+      "blob": "4a31334c457140b8a1e07f93772d7ebaeb824bf2",
+      "sha256": "sha256:c0ff1b9bc6d2508de3d835e2f46135653146fb2a708930d4e5e79a05f5533d48"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Прототипы/живой-одноагентный-эпизод/Tests/FUMLiveEpisodeRuntimeTests/LiveGitCandidateAcceptanceTests.swift",
+      "режим": "100644",
+      "blob": "dbde11d4d42a2585e70c5334ab9ad5af662ef260",
+      "sha256": "sha256:48c69d8342ed9dbceca82b274b125f49d60551add661552669687ca5bd358072"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Прототипы/живой-одноагентный-эпизод/Tests/FUMLiveEpisodeRuntimeTests/LiveGitCandidateRuntimeTests.swift",
+      "режим": "100644",
+      "blob": "57e7ce62877f9aef20b8313093fe1a4f5046536a",
+      "sha256": "sha256:fdf14cf74ea9dcaf20c1740afce8160ebb1285948117d02bf45741af8b315800"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/RepositoryCompositionContract.swift",
+      "режим": "100644",
+      "blob": "63d84f1376e37af6916bc7bddf22a985f36e2987",
+      "sha256": "sha256:76934e3caa1f25b2bd61be6993608398384407d84af98b0c75f557e31b182672"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/Фикстуры/РепозиторнаяКомпозиция/repository-composition-v1.schema.json",
+      "режим": "100644",
+      "blob": "52e6881a6600b436d0472dc04ae0ec422617e5ff",
+      "sha256": "sha256:b733235460bac8a677703d1be0018f30d47576577b36fb558381c36b9f71d5b7"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py",
+      "режим": "100644",
+      "blob": "3709df3d8fd9b7dd84cb78ca1833c32502aeee03",
+      "sha256": "sha256:375d9e026346b2c3a855382aa323cef224520847f0aa9cc3b0d01c1b26913f56"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/tests/test_request_folder_layout.py",
+      "режим": "100644",
+      "blob": "9d7b36eaeb3b4015709f9ebfeb15f9389d56c5e8",
+      "sha256": "sha256:9fdc76f6e71ea48b3a82343ddce9ba7310b32b5ccb2cdde8f299df76c74486fb"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+      "режим": "100644",
+      "blob": "0568ebf98c2260193f1b25ae1681a2b1d5d28629",
+      "sha256": "sha256:9707f0fec79fb6895cc6842bf9e82c0c34cce227f3811e27362788bc617ac377"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_obnovitj_policy.py",
+      "режим": "100644",
+      "blob": "e8475e5359c7786cd060f367210f6209f336e966",
+      "sha256": "sha256:4f2234b6caf60b1f920010c0a1369847be0e412588ed791e95e0fdf46b33cea9"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/WritingSubnodeExecutor.swift",
+      "режим": "100644",
+      "blob": "0539af2fcc3689c1979e1f4e029fcd76de1b100b",
+      "sha256": "sha256:224aef07b9ef3195e3e993bb1164ea19552c30e81fb01f4a2bce620373fbb952"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/WritingSubnodeExecutorTests.swift",
+      "режим": "100644",
+      "blob": "7af4fc8d610d99eb9cd981b21ff857a072b34392",
+      "sha256": "sha256:0096d0a27299715cf0b37f3d00f899483811d7452e40eee6332ef140ed74c958"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/CandidateCommitIntegrator.swift",
+      "режим": "100644",
+      "blob": "5763d044528db4e9d7eda5a70029707553bbd545",
+      "sha256": "sha256:109d5fbdfd0a06c5d3069b395cfb64b4e5da83a957481e87e7662c661cc39f81"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/CandidateCommitIntegratorTests.swift",
+      "режим": "100644",
+      "blob": "42be3e35f6b771d04c5fbec3c81a2c54d4a1cbdc",
+      "sha256": "sha256:ec472e0e4616502b1fe230d2d4a25371e83aa0de2b63d79dc011c630723ae180"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/СквознаяПриёмкаРепозиторнойКомпозиции.swift",
+      "режим": "100644",
+      "blob": "cf94af0ba4c2718a3e41cc8c4c6228e240f926ed",
+      "sha256": "sha256:196a1674179c064db93217d3b756e7ecaa0d008c224ec04b81c725e2bbef6420"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-dispetcher-avtomatizacij-fum/scripts/диспетчер-автоматизаций.py",
+      "режим": "100644",
+      "blob": "53244b7639888f5621a5c013d962f8031cc411a7",
+      "sha256": "sha256:dd02380a12d2d59d4a18dd2b90a424315fc7067af0fbf986006db220cc0e8fd6"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/build-planning-registry.py",
+      "режим": "100644",
+      "blob": "ee72562fc3cdad073a89d5891122ed997661f1cb",
+      "sha256": "sha256:2e5a29790163353c101f3427304c4538197c6b4b85e29bc4978d1011152f7fb4"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-ocheredj-zadach-git-vetki/tests/test_ocheredj_zadach_git_vetki.py",
+      "режим": "100644",
+      "blob": "e4e12fdeb8dd0eb00db18e15996e545dd2842b5e",
+      "sha256": "sha256:7d579ac3fbec6066ce451e86a29cfe69cbb62cc58b6c6b61affe3cfdd1e28310"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/КонтрактДелегированияКонечнойЦепочки.swift",
+      "режим": "100644",
+      "blob": "5dc2f171ec87ba0e1b36fe0f86a113657c0e93c6",
+      "sha256": "sha256:77b78dbc00f3576e0efb1ece8941630ef7c57a46f37b733c66dfbf4b384500c0"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/ПроверкаЗакрытойСхемы.swift",
+      "режим": "100644",
+      "blob": "fd5dcf7dd8d74643bb5ad19402828ff975b85fb6",
+      "sha256": "sha256:853b9aca5bae5a0f9a7342e115a8ca6b776796f955dbb18d06631a911c3349dd"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/Фикстуры/ДелегированиеКонечнойЦепочки/схема-назначения-конечной-линейной-цепочки-v1.json",
+      "режим": "100644",
+      "blob": "068ff6ceb99c5df5b49013d29e77321e1adc61cf",
+      "sha256": "sha256:a106cbcfcc224c724ff0231fb4828769db9a05274609fd5b47f92c8726c4a896"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/Фикстуры/ДелегированиеКонечнойЦепочки/схема-состояния-конечной-линейной-цепочки-v1.json",
+      "режим": "100644",
+      "blob": "c1dcf4d947e9b7a6def60de554488592d76a4fa4",
+      "sha256": "sha256:4b05b90e66fbd2eda3bf12dbf48e4e8c909524f707a3739a3e307782a016cd44"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыДелегированияКонечнойЦепочки.swift",
+      "режим": "100644",
+      "blob": "24b0fc5016c219ba6e5bb98ccd957091cb04a16d",
+      "sha256": "sha256:310b277f601884c976e37b7cb04bd8aa1bdd1c7a1fa01e7e5c38f1ea7258ea9a"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыДереваВетвевыхФорков.swift",
+      "режим": "100644",
+      "blob": "99f8086f7c63cbe7e51e039adce2e7b1a7ce5151",
+      "sha256": "sha256:6ae99089b3b2086febb4d21a6c8c51f45f0ab66597539d62e6360208c0ca1f9e"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/РесурсноеРаспределениеЦепочек.swift",
+      "режим": "100644",
+      "blob": "0b8620e8a95c06121642019c1acd65cdc063e6b6",
+      "sha256": "sha256:cffd34832b344957454cf5e9178f4e56570ca0dc994b23ac5ea5a81033565213"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыРесурсногоРаспределенияЦепочек.swift",
+      "режим": "100644",
+      "blob": "483de5af0efaf2596e059cedcc6c18f052fe2cf2",
+      "sha256": "sha256:763e74dfe47ff3d4e537618ad6c718e052fa0dc7204a319b58f068e676f4885c"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/СхемыКорневогоРевьюЦепочки.swift",
+      "режим": "100644",
+      "blob": "8ec04d2f565ffb168e4444840ddbec7d2bc9ff05",
+      "sha256": "sha256:44d1d8c05cd12ee2ed239f7bc0fd48151971b88beed8293126debe5e6fb339e0"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/КорневоеРевьюИИнтеграцияЦепочки.swift",
+      "режим": "100644",
+      "blob": "348c6e2cfef588b6df24411ed3d2075d311708d4",
+      "sha256": "sha256:0766170d50c8c5a426f454d5dfc62d7e821323b851c96e53a92660d8bf5a8314"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Прототипы/проверяемый-многоагентный-контур/Sources/FUMVerifiableMultiAgentContour/Фикстуры/КорневоеРевьюЦепочки/схема-паспорта-корневого-ревью-цепочки-v1.json",
+      "режим": "100644",
+      "blob": "500c56e66ba21b0c45fac3f3d092f0859610e384",
+      "sha256": "sha256:f7f70479b92ba23452d20789286fbbf3c1137f835f766ec7ecff1b884c6643fc"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыКорневогоРевьюИИнтеграцииЦепочки.swift",
+      "режим": "100644",
+      "blob": "5a6bbe7cebfeaf82e8859ef1e0c9c9d169c9f052",
+      "sha256": "sha256:708ae2d8e4195c54ecd3e1ac8bc1a1f00f443f1a39c2a2ce30de368a3b2f63ba"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Прототипы/проверяемый-многоагентный-контур/Tests/FUMVerifiableMultiAgentContourTests/ТестыСхемКорневогоРевьюЦепочки.swift",
+      "режим": "100644",
+      "blob": "e5b492a375b1b8d2e4716616c812d078388405d7",
+      "sha256": "sha256:a4c68dc62c311fb6e3a0546bd7e1daa1b20676c43e0ab66b7774e7696b287bdd"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-priyom-vneshnego-vklada/scripts/proveritj-paket-vneshnego-vklada.py",
+      "режим": "100644",
+      "blob": "31b6a96e213d9283bf5de43ac6a177eeeadb0614",
+      "sha256": "sha256:d32320acff024f7ab6f15151f2e2879f0d137076cb74ee504df32f89f52a82af"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-priyom-vneshnego-vklada/tests/test_proveritj_paket_vneshnego_vklada.py",
+      "режим": "100644",
+      "blob": "4121620d34b48ba6164cc19e8f898a2f96ad9d40",
+      "sha256": "sha256:1da0ef3b34f408c65273a721f1010b79e0c674dd4b53ccd09846ffd8e1dee1fa"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-продолжение-задачи.py",
+      "режим": "100644",
+      "blob": "633416cead990725f715317f80fd22c63eb79086",
+      "sha256": "sha256:c1b2cd1f202a33c031b125af0dfc4e238762abdb73a2f14390b3dff66a5dcbd5"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/tests/test_кэш_преобразователя.py",
+      "режим": "100644",
+      "blob": "893ae387590135cb2d5c385ba919ac46e89b9bcb",
+      "sha256": "sha256:e402288a6b73a3b5b6515dcbd9cf7688dedec88006a5009037ad613341a013c8"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи_v2.py",
+      "режим": "100644",
+      "blob": "9fc9773f3226798af0940867eb11f62c4f7aaa88",
+      "sha256": "sha256:64cd5c44beab447d98a571662b8b17fca2d7fd967d324b7fb07301a9c46b5f03"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обязательства_задачи_v2.py",
+      "режим": "100644",
+      "blob": "78b15698d5bd3fe4720c4c71ae83f5ce67567009",
+      "sha256": "sha256:aaab687f9debbaec06f232f585190dea21853d30b07a744bbe9c1d6a16a0a0a3"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_перехват_завершения.py",
+      "режим": "100644",
+      "blob": "8975220ee6e8372735fb9428596ab82784633c00",
+      "sha256": "sha256:47db6cc1a013bff0b056d2e7dd4af6eeffdb99c732c88dd330072541a9ed7de2"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-snimki-indeksa/tests/test_git.py",
+      "режим": "100644",
+      "blob": "d34ab3f10819be861ab241b7cd29fb7fa06dbf44",
+      "sha256": "sha256:bc36bed5515f460349b154ccd205687dfa023f36f877fdef8d9ca05cbc21c9cd"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовить-комплект-завершения.py",
+      "режим": "100644",
+      "blob": "a5e025f246de529b1e868dc951c8ceecc3c119cc",
+      "sha256": "sha256:4c83a3e796b25dc12a0a5b5d36b19390986ac8a6dc550388517014c6b7b78d2f"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-комплект-завершения.py",
+      "режим": "100644",
+      "blob": "1292517e9c46d4347de9d9f853325a92bd8a36d1",
+      "sha256": "sha256:38a9cc6a27a7726445ac02fa1971222a49e3ab7038561d5c12598a6e46d3b9c4"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+      "режим": "100644",
+      "blob": "141081b03ac4a12aab96f310cfc24f1c3ced9188",
+      "sha256": "sha256:ab7c28847324f244be482082c5820adcc313a5367d37e51a553d61d62ffa6071"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Журнал/2026-09-09_13-39-31_MSK_собрать-синтетический-снимок-агентской-задачи/материалы/пример-снимка.json",
+      "режим": "100644",
+      "blob": "b63db3e71af3c86b941a5ffe323a77a634779e55",
+      "sha256": "sha256:843ebd04fe72b358e951ca9f5685bdb157c9c6fd621e3d42ec9de932f31c09a4"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Журнал/2026-09-09_13-39-31_MSK_собрать-синтетический-снимок-агентской-задачи/материалы/пример-снимка.md",
+      "режим": "100644",
+      "blob": "ce8ce37ace643098320cfe486511237b6dfcf487",
+      "sha256": "sha256:c1f3f39073894f4fca97861f06cf61476434ec592af76dd0d5bf142c3bdcb962"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Журнал/2026-09-09_15-19-16_MSK_сохранить-очередь-поздних-команд/отчёт.md",
+      "режим": "100644",
+      "blob": "dad2f820ef8d42ab152082705a52bb4105d765e8",
+      "sha256": "sha256:846c5bef3a66cb466352dfb74a87081db1b0cd2df0383041d6b03e4f7a4d9742"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/вход_направления.py",
+      "режим": "100644",
+      "blob": "b780f59a8390bac5ac332b8dfb808b3625232d57",
+      "sha256": "sha256:1650b5a587bfa20559f4b708584b2f7897b7d7e11ae22f234e6fcf8f60beecd1"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py",
+      "режим": "100644",
+      "blob": "b0bd94b4569cf12438b73daad5f605c39d82ebf8",
+      "sha256": "sha256:8437de1c1d9c2bdb47f0327deedbf71d112c0e58458ec1b54e3c268e46bd09f5"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/отложенные_назначения.py",
+      "режим": "100644",
+      "blob": "fa19fababdf84561c6891fa5a1d8dfc212a4f0e1",
+      "sha256": "sha256:6c41093c3f972b8c1d469177ebc7ae767203bdf60dec8af12f9216137a820801"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Журнал/2026-09-14_21-11-44_MSK_сверить-общую-границу-приёмки/материалы/классификация-дельты-свифт.json",
+      "режим": "100644",
+      "blob": "1f6f5df93c12def559998b762486c76b526b2475",
+      "sha256": "sha256:3c597f407a2fb85a715190ff45435bfd37e8fb9c539d7f58deeb568fd3e6fc78"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py",
+      "режим": "100644",
+      "blob": "064d313e05aa441b97a6427e5aff13221e8bbf7f",
+      "sha256": "sha256:63be1138c8461de6c83f259d0e220b1d3d76daa14fd67ae25014fe135d22148c"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_сценарий_ответа.py",
+      "режим": "100644",
+      "blob": "eb911763ce7ab8e4cc653eef025ffa1fca7c7597",
+      "sha256": "sha256:82d58c9df405013492a050d3d522b9b7974176898d6cc9221f3b161673189379"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Журнал/2026-09-14_20-41-53_MSK_перевести-унаследованные-привязки-Python/отчёт.md",
+      "режим": "100644",
+      "blob": "060afe49a2d3e385b870a2575623feac2e5ddfd1",
+      "sha256": "sha256:e98862abe3b8302f6a189b5e937d23b952faafe6e65855f2a53a049e870efe94"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Журнал/2026-09-14_21-49-30_MSK_перевести-живые-измерители-Python/материалы/воспроизведение-классификации.md",
+      "режим": "100644",
+      "blob": "3851770bffc63beebbc5453f3d8ca3009606f2f9",
+      "sha256": "sha256:7ebcd6682fddbd6332ede893234a6c4ffb0303b55acf0c6a4c61abace35da2de"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_пакет_перевода_python.py",
+      "режим": "100644",
+      "blob": "3e88ad8f2e19ffcbed11114ea6732bb4bcb271f0",
+      "sha256": "sha256:93fdc9ae62c2cf102f0f156b2d681ae26ab3fff04d2b8bffa2083223db6f0fe8"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Sources/АварийнаяФикстура/Авария.swift",
+      "режим": "100644",
+      "blob": "5f901749c24434d8e2f3bfd65e3d61f2795e3eb1",
+      "sha256": "sha256:04d27c3b3e609c2f0524ab9bc5e15c65c35dd2777a4e4c16ac0a9de34ab700e9"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Sources/ПрофильАрхивногоСнимка/Профиль.swift",
+      "режим": "100644",
+      "blob": "967276411ee6745e440e6a7fb6e1c917b058405d",
+      "sha256": "sha256:4763dab502e94d8845acb2f19507c331db5a01eced63ce61920855a0377e1c2d"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Tests/АрхивныйСнимокЗадачиTests/АрхивTests.swift",
+      "режим": "100644",
+      "blob": "66d8b633b7211743996d9c4357ae6b39c5d96694",
+      "sha256": "sha256:f0d432703c47e1516d61b4157d459f5127a6f632c4fc2f34f3b70a2f90b3d408"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Tests/АрхивныйСнимокЗадачиTests/ДополнительныеTests.swift",
+      "режим": "100644",
+      "blob": "72831bfc79075eff1d775db06fab2b52ddedf1a7",
+      "sha256": "sha256:42cbf0166aed75196ee47b5bc8eb002c5832635604929abdda2f2402d131ccdd"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Tests/АрхивныйСнимокЗадачиTests/КомандаTests.swift",
+      "режим": "100644",
+      "blob": "37b828a1f4cc7c237e0bd999a5ef3d7e44858c2a",
+      "sha256": "sha256:1c0c58cae1ada2c04223164415dca668e3f9c5aca61a45f49d67dc1993d55343"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Tests/АрхивныйСнимокЗадачиTests/КурсорTests.swift",
+      "режим": "100644",
+      "blob": "87fc0fe90ba24ff45b1201fb52f25c662b47ceee",
+      "sha256": "sha256:9abacbd391c2ccfb3e80cf7013ea6f8bade7774ada1b4accaedef14102772f55"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Tests/АрхивныйСнимокЗадачиTests/ОболочкаTests.swift",
+      "режим": "100644",
+      "blob": "96b8363bf9ac7410f0e363fd8cd338d36f4faf89",
+      "sha256": "sha256:808403a5229bf0fcb9915e83d98b645e6b6687d7235f0e125f4f3c55eb9d6c78"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Приложения/FUMA/Packages/АрхивныйСнимокЗадачи/Примеры/записанный-префикс.jsonl",
+      "режим": "100644",
+      "blob": "b0027cbbaf91da0909f286b1384e4367988f454e",
+      "sha256": "sha256:72ee2e79981f0524c0fb9874ff7d7f64c4e57344999e23dd31b5129dae2abb16"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Tests/КонтейнерНаблюденийTests/ПроцессыTests.swift",
+      "режим": "100644",
+      "blob": "4ee70b396ad9544fee2d6a911464d641b06527e7",
+      "sha256": "sha256:b02edd2df2ba769d4f0dad52729caf77fa765f7777e3573c708ccc0aa732292b"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Приложения/FUMA/Packages/КонтейнерНаблюдений/Tests/КонтейнерНаблюденийTests/СегментTests.swift",
+      "режим": "100644",
+      "blob": "1cdca01b931c91b487c147e95239a6b4567d0236",
+      "sha256": "sha256:4a1d424184ab7420b6b302d4e65074a3f20cbaa01d4f0b9f0b28f6d2853f913c"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/README.md",
+      "режим": "100644",
+      "blob": "3a3855fa4e62b85f958f564877fb63eaed1d64f0",
+      "sha256": "sha256:31e2b97aeebfc279f690e9786a94dc0aa7c7df83252127544b1cd6bb0a08f94a"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Sources/СнимокАгентскойЗадачи/Пример.swift",
+      "режим": "100644",
+      "blob": "d48027c94cb31f52138d9065ec998f5cebce1957",
+      "sha256": "sha256:2adf2226806da3c08123a265105980a8d38194a7cfa311db1e79ee232847db32"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Tests/СнимокАгентскойЗадачиTests/ПроцессыTests.swift",
+      "режим": "100644",
+      "blob": "d37cb9ac566167c3a8f8ae552c9e55cfcf460e33",
+      "sha256": "sha256:e1b2d736144790caeb75d5394e70480ca632b2bbd7d904d18a1d30d85aaf0c2c"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Tests/СнимокАгентскойЗадачиTests/СценарииTests.swift",
+      "режим": "100644",
+      "blob": "9eea26376beac2b261d7bedfaa799c8087409b5a",
+      "sha256": "sha256:8ee6e363e9786effc8d58a0fb5bb70c9aa81ff5c2bc112684d27462c189610f6"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Примеры/пять-сценариев.json",
+      "режим": "100644",
+      "blob": "dbdc26f465f276ae2f3d274c1291ca5b5280b83b",
+      "sha256": "sha256:4815286bfef27b42e3f40dd25cbd0cbe7483aed0d2cf442e27059dacfc5e5afc"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Приложения/FUMA/Packages/СтатистикаВызовов/README.md",
+      "режим": "100644",
+      "blob": "ae4d2167ebc986ee4cf50f45e1abb138e3bc6cfc",
+      "sha256": "sha256:a3a753ed87fdbdd0ae31d683bd1ec70ec01f434377c6d43d0997d86b476a66a7"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Приложения/FUMA/Packages/СтатистикаВызовов/Tests/СтатистикаВызововTests/ТестыКоманды.swift",
+      "режим": "100644",
+      "blob": "e771439a64c3733112ddef974bcd2cc371ac8f6f",
+      "sha256": "sha256:6393b7178d4d60cd746ae887b1199b2fcdc410712d333ff8b73cbff04207aec3"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Приложения/FUMA/сценарии/tests/test_перенос.py",
+      "режим": "100644",
+      "blob": "007a0f9c25488ee7713b429192fb5ab3d406934c",
+      "sha256": "sha256:2671c48235b353537f9a88ad5e9b9569d8aa97458b9655ed81366c8a7bfda08e"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Приложения/FUMA/macOS/проверки/test_адаптации.py",
+      "режим": "100644",
+      "blob": "fd5fd2b7edfd7a1b63f2645034b5804e49eeb983",
+      "sha256": "sha256:5739709d86460c3a570f7f8cf01fb07130e66ce01a488b7baf6630a37d4e1d24"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Приложения/FUMA/macOS/сценарии/адаптировать-пути.py",
+      "режим": "100644",
+      "blob": "ba366efd38d2add14d2f50e51bf59851dc855a66",
+      "sha256": "sha256:9e109fca0adabd36061da35763c487f87ccf9fcf2fb6b3e43609d4232e1a06f3"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Журнал/2026-09-11_02-44-12_MSK_обновить-поколение-по-прежней-политике/запрос.md",
+      "режим": "100644",
+      "blob": "3843b5d7c756cc9e4c367842ebc8afab4f1af7ba",
+      "sha256": "sha256:9d116915b9d4fe71e01b5e0b2721065fd263b381fadd16ba8b9dd6f937829067"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Журнал/2026-09-11_02-44-12_MSK_обновить-поколение-по-прежней-политике/отчёт.md",
+      "режим": "100644",
+      "blob": "f75beaaf73ff114cf34483f5324a989b35946da2",
+      "sha256": "sha256:92904a8006b09e4fb8033eebd7740c78426ce55f2e7094983aa18b1d71ea7110"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Журнал/2026-09-11_03-32-48_MSK_восстановить-передачу-форматов-после-перезапуска/запрос.md",
+      "режим": "100644",
+      "blob": "56b30fb7f9bdfa6c34771fc5bdbbdd688c9b7f8d",
+      "sha256": "sha256:aa6dbe044e528f0f934b0c148fc4c828c780cf1e7b3711e94d511e25c6d51c57"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/tests/test_братиславская_проекция_памяти.py",
+      "режим": "100644",
+      "blob": "e9f6277c1dfdb3d9e29104d07fb8be7ca2c8933e",
+      "sha256": "sha256:72d820b4a6562ff3b22fac9fa8c634dab129f910ef3ccc761535202c9153db7d"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Журнал/2026-09-11_02-51-49_MSK_проверить-поставку-FUMA-из-клона/запрос.md",
+      "режим": "100644",
+      "blob": "0d8ac8807814117208a409382139f8b8f310e392",
+      "sha256": "sha256:8ab64935e44fbd2b05be8940121fb143d722fa290129aafe3965948bd9921f17"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Журнал/2026-09-12_01-02-01_MSK_сохранить-поздний-диалог-и-продвижение-master/материалы/источники/диалог/диалог.jsonl",
+      "режим": "100644",
+      "blob": "1351264419e03981e4f32bfe8ee3a4f7b7df319b",
+      "sha256": "sha256:5d1b34781ecc90a3ac020819266bb262364f807aa4d2dd77fe73fcacef4362b0"
+    },
+    {
+      "ревизия": "01ca988635628b48024ae64c290d3c4912aff060",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_устойчивые_свидетельства.py",
+      "режим": "100644",
+      "blob": "cdc7cde219f8a750f37db61c588e27f61c7fc851",
+      "sha256": "sha256:99e3efa046d296a464a1c6207b72b2e80818b78d4fb6699d3a59812a6178ee6b"
+    }
+  ],
+  "выходы": [
+    {
+      "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/policy-кандидата-слияния.json",
+      "режим": "100644",
+      "blob_до": "9c80181eb90b3ad294294578151e59aa372e7763",
+      "sha256_до": "sha256:4a73ad60ca3c8eee704aecff2a33481c642a4633ea3a9622adb23a5fb4ef8cb0",
+      "blob_после": "c3df4567b39edebb92d8038b71a8fd8c8988aa66",
+      "sha256_после": "sha256:cd08ee237ffffb81a243db9bf3f9840e0e6e3f32b5c06ae2eab6821007b5d508"
+    },
+    {
+      "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/происхождение-политики-слияния.json",
+      "режим": "100644",
+      "blob_до": "0b3892faad88bc970ec710e5aa680cef521fde3e",
+      "sha256_до": "sha256:d85c567e2296387aa8dce6ddf426d55c7612b1ceecd31bdebb74b39dcbd6b2b5",
+      "blob_после": "bd588db10e1a0892889c0d7788736bcd70313c78",
+      "sha256_после": "sha256:ae387851a4d5444cd66526ae42ddc93560fec889606237c984723ceae9f1a779"
+    },
+    {
+      "путь": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/SKILL.md",
+      "режим": "100644",
+      "blob_до": "8b6b6014d55980c6515cf5bd7929b10aca070748",
+      "sha256_до": "sha256:7e04ddd64886f94952f0365ab410dddadb6c406960a728674b6afdcfbbd7e25f",
+      "blob_после": "1855a94e5d982402b02e0e718a2a0cd1b6b02e07",
+      "sha256_после": "sha256:57b1540a7be0a8df3af3c8a38cba0c5d617a7473a1806c89e6ba5d843908dd0a"
+    }
+  ],
+  "sha256_патча": "sha256:34f6d1b39a8bb209b974a59fe4372ae6e761853dc322368923a0ceb7633c2a0a",
+  "обычная_политика_M": {
+    "исключений": 419,
+    "sha256": "sha256:4a73ad60ca3c8eee704aecff2a33481c642a4633ea3a9622adb23a5fb4ef8cb0",
+    "изменяется": false
+  },
+  "прежних": 419,
+  "всего": 432,
+  "добавлено": 13,
+  "снятые_id": [],
+  "изменённые_id": [],
+  "новые_записи": [
+    {
+      "id": "deferred-assignment-journal-path",
+      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/отложенные_назначения.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:212570fcbf29bba4c29f31c8e95b7a6d157bffac016c7b8fed22c3e546b609db",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определение регулярного выражения для проверки точного относительного пути собственного канонического Журнала; не содержит машинно-локального адреса."
+    },
+    {
+      "id": "swift-inventory-historical-fixture-one",
+      "path": "Журнал/2026-09-14_21-11-44_MSK_сверить-общую-границу-приёмки/материалы/классификация-дельты-свифт.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:1e124808b5f06a2bb0e66b99c318be3e7c8b289d6b42fce43477663f927f7929",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Дословная строка исторической Swift-фикстуры проверки абсолютного входа; источник и точные Git-байты сохранены в этой классификации."
+    },
+    {
+      "id": "swift-inventory-historical-fixture-two",
+      "path": "Журнал/2026-09-14_21-11-44_MSK_сверить-общую-границу-приёмки/материалы/классификация-дельты-свифт.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:5e79ee71e0abfef009ce6154a3b368a161f4d414bd8f6c4a652dc34f8a343ecc",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Дословная строка второй исторической Swift-фикстуры проверки абсолютного входа; источник и точные Git-байты сохранены в этой классификации."
+    },
+    {
+      "id": "cjs-lexer-unary-token",
+      "path": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:960ec896dd4f566d41f71d614029390e509f3a8743a9c4392153ddd2094fcaa0",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Конечный перечень лексем CJS: тильда обозначает унарный оператор языка, а не домашний каталог. Это точное определение синтаксического распознавателя."
+    },
+    {
+      "id": "cjs-parser-unary-token",
+      "path": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:d8480f45689f80eae7f70a2b74e0f3dd0eee00c79800a08e89ca2b0bd9db1006",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Разбор унарного оператора CJS: тильда обозначает синтаксис выражения, а не домашний каталог. Это точное определение синтаксического распознавателя."
+    },
+    {
+      "id": "cjs-regex-slash-fixture",
+      "path": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_сценарий_ответа.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:60a2cfd601eea8f9113b395f1d297481cf2aa13f1903f182855b9f53803f85f1",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая тестовая фикстура регулярного выражения CJS содержит экранированный слэш; строка проверяет отсутствие ложных объявлений, а не задаёт путь."
+    },
+    {
+      "id": "python-0173-url-history",
+      "path": "Журнал/2026-09-14_20-41-53_MSK_перевести-унаследованные-привязки-Python/отчёт.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:3a801603ec6266a856ea5a0cdc32d6d07b2cf67f2c4f85654718ea58cc595050",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Точное историческое описание сегмента публичного URL; это сохранённое свидетельство ложного распознавания, а не локальный адрес машины."
+    },
+    {
+      "id": "python-0173-before-selector-history",
+      "path": "Журнал/2026-09-14_21-49-30_MSK_перевести-живые-измерители-Python/материалы/воспроизведение-классификации.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:467b3b97d2a4503ac0b9d7a1b97bb1bd0365a7736a06ddf64b274e4b859dfd26",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Точная строка выполненного исторического сценария классификации; аргумент endswith задаёт суффикс репозиторного имени защищённого before, а не абсолютный путь."
+    },
+    {
+      "id": "python-0173-selectors-history",
+      "path": "Журнал/2026-09-14_21-49-30_MSK_перевести-живые-измерители-Python/материалы/воспроизведение-классификации.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:566da5fccbb6c16508ad206414f83b69f53f085c467cc774d3c6d62dfabe9661",
+      "count": 2,
+      "category": "report.historical",
+      "reason": "Точная строка выполненного исторического сценария классификации; два аргумента endswith задают суффиксы репозиторных имён, а не локальные пути."
+    },
+    {
+      "id": "python-0173-class-fixture",
+      "path": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_пакет_перевода_python.py",
+      "kind": "windows-drive",
+      "line_sha256": "sha256:cf9486eb9e0d17e893d81d6e94b415b276c8eaa2988cf5b5627d3b85b9cf8bed",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая синтетическая Python-фикстура: объявление класса и экранированный перевод строки образуют похожую на Windows-путь последовательность. Точная строка проверяет отказ для непрослеживаемого eval и не задаёт адрес машины."
+    },
+    {
+      "id": "historical-libc-list-archive-fuma",
+      "path": "Журнал/2026-09-12_01-02-01_MSK_сохранить-поздний-диалог-и-продвижение-master/материалы/источники/диалог/диалог.jsonl",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:fc79e5cf78cf8ab7d7b804045472fa91f28455cf68545a156cc039f2764343dc",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохраняет дословную историческую реплику помощника: соединённые слешами имена компонентов libc++, libc++abi и llvm-libc ошибочно распознаны как абсолютный путь; машинных данных строка не содержит."
+    },
+    {
+      "id": "durable-receipts-command-suffix-late-source",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_устойчивые_свидетельства.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:42d09b14d9a0b9ecd49866467143aad3701db56587bc6a58b66db08c3ac0c9f6",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Проверка выбирает относительные файлы команды по конечному суффиксу имени; строка не содержит машинного абсолютного пути."
+    },
+    {
+      "id": "durable-receipts-command-suffix-unselected-source",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_устойчивые_свидетельства.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:618cc0b9ffb47ee35b3dcd8af209ad85c1750ab4103186df51368dd83a73ccb2",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Проверка считает относительные файлы команды по конечному суффиксу имени; строка не содержит машинного абсолютного пути."
+    }
+  ],
+  "состояние": "Применён исходный проект; SKILL дополнен ссылкой на настоящий этап и получает актуальную recency. Адресные результаты хранятся отдельно."
+}

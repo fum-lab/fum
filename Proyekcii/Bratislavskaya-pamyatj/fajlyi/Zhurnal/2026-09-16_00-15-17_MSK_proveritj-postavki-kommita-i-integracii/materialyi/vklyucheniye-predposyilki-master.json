@@ -1,0 +1,24 @@
+{
+  "схема": "fum.включение-предпосылки-master.1",
+  "коммит": "9d01af6de4fc2f1c9265ee8805cda4998322e004",
+  "remote_master": "9d01af6de4fc2f1c9265ee8805cda4998322e004",
+  "PR": {
+    "url": "https://github.com/fum-lab/fum/pull/3",
+    "state": "closed",
+    "merged": true,
+    "merged_at": "2026-09-15T22:43:27Z",
+    "merge_commit_sha": "9d01af6de4fc2f1c9265ee8805cda4998322e004",
+    "head": "d2692cf8d627fd87ed1bd9b3dc5fd2b60216f612",
+    "сохранённая_база_PR": "e95d7f5d1ef6387454b7825932cfbd737e600473"
+  },
+  "сырой_коммит_sha256": "891e425ad071dfe797bfa81030597be988cfd10f5f6b6df03c840c51b23838ba",
+  "способ": "Локально подготовленный merge с сохранением автора, обычный push и наблюдённое признание GitHub как indirect merge.",
+  "локальный_primary": {
+    "ref": "refs/heads/master",
+    "HEAD": "9d01af6de4fc2f1c9265ee8805cda4998322e004",
+    "дерево": "15929cc289ea5bb4ef0f4018d1e60bd75a1f5f09",
+    "состояние": "чистое",
+    "способ": "git merge --ff-only, без второго коммита",
+    "проверка": "Владелец передал исход, root независимо прочитал ref/HEAD/tree/status."
+  }
+}
