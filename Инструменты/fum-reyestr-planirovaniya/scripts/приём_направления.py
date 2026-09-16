@@ -98,7 +98,10 @@ def абсолютный_корень(значение):
 
 
 def ветка_писателя(значение):
-    return текст(значение) and значение.startswith("refs/heads/codex/") and len(значение) > len("refs/heads/codex/")
+    return текст(значение) and (
+        значение in {"refs/heads/fuma", "refs/heads/planirovaniye"}
+        or (значение.startswith("refs/heads/codex/") and len(значение) > len("refs/heads/codex/"))
+    )
 
 
 def путь_результата(имя):
@@ -433,7 +436,7 @@ class Хранилище:
         требовать(Path(гит(сам.корень, "rev-parse", "--show-toplevel").strip()).resolve() == сам.корень, "Изменился физический checkout")
         ветка = гит(сам.корень, "symbolic-ref", "HEAD").strip()
         коммит = гит(сам.корень, "rev-parse", "HEAD").strip()
-        требовать(ветка_писателя(ветка) and шестнадцатеричный(коммит, 40), "Писателю нужна собственная ветка codex/ и полный HEAD")
+        требовать(ветка_писателя(ветка) and шестнадцатеричный(коммит, 40), "Писателю нужна собственная ветка codex/, fuma или planirovaniye и полный HEAD")
         деревья = гит(сам.корень, "worktree", "list", "--porcelain", "-z")
         требовать(деревья.split("\0").count("branch " + ветка) == 1, "Ветка открыта в нескольких деревьях")
         требовать(ветка == гит(сам.корень, "symbolic-ref", "HEAD").strip() and коммит == гит(сам.корень, "rev-parse", "HEAD").strip(), "Ветка или HEAD сдвинулись при наблюдении")
