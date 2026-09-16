@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-16 14:22:48 MSK - Zakrepitj celj lokaljnyikh modelej](../2026-09-16_14-22-48_MSK_zakrepitj-celj-lokaljnyikh-modelej/zapros.md)
-- Sleduyusjhij zapros: [2026-09-16 15:31:31 MSK - Zakrepitj obrabotku semi soobsjhenij](../2026-09-16_15-31-31_MSK_zakrepitj-obrabotku-semi-soobsjhenij/zapros.md)
+- Predyidusjhij zapros: [2026-09-16 14:57:36 MSK - Podgotovitj sliyaniye prinyatoj osnovyi i FUMA](../2026-09-16_14-57-36_MSK_podgotovitj-sliyaniye-prinyatoj-osnovyi-i-FUMA/zapros.md)
+- Sleduyusjhij zapros: [2026-09-16 15:11:45 MSK - Vosstanovitj rabocheye mesto proverki](../2026-09-16_15-11-45_MSK_vosstanovitj-rabocheye-mesto-proverki/zapros.md)
 
 ## Tekst zaprosa
 
@@ -37,6 +37,6 @@ Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb
 - [Indeks Zhurnala](../README.md) i [indeks svezhesti](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 15:58:56 MSK -->
-<!-- content-sha256: sha256:c860b34e7099eb93858f6cbb8643d99fb6b43e46088e4e9dcc5b6645665fdd2b -->
+<!-- last-content-edit: 2026-09-16 20:30:40 MSK -->
+<!-- content-sha256: sha256:2873de3d1ae3d1537918d8d470ce0193c18877cd0ade751f9963936b42636436 -->
 <!-- FUM-MD-RECENCY:END -->

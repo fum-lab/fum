@@ -16,14 +16,29 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-16 20:37:11 MSK — Prinyatj uchyot delegirovannogo obyyoma](2026-09-16_20-37-11_MSK_prinyatj-uchyot-delegirovannogo-obyyoma/otchyot.md)
+- [2026-09-16 20:04:17 MSK — Vernutj prinyatuyu integraciyu v fuma](2026-09-16_20-04-17_MSK_vernutj-prinyatuyu-integraciyu-v-fuma/otchyot.md)
+- [2026-09-16 19:24:25 MSK — Prisoyedinitj uchyot prinyatogo porucheniya](2026-09-16_19-24-25_MSK_prisoyedinitj-uchyot-prinyatogo-porucheniya/otchyot.md)
+- [2026-09-16 19:00:50 MSK — Zaregistrirovatj finansovuyu priyomku i ocenku cikla](2026-09-16_19-00-50_MSK_zaregistrirovatj-finansovuyu-priyomku-i-ocenku-cikla/otchyot.md)
+- [2026-09-16 17:17:13 MSK - Prinyatj sliyaniye s ispravlennyim udaleniyem proyekcii](2026-09-16_17-17-13_MSK_prinyatj-sliyaniye-s-ispravlennyim-udaleniyem-proyekcii/otchyot.md)
 - [2026-09-16 16:32:27 MSK — Prinyatj aktualjnyij finansovyij srez](2026-09-16_16-32-27_MSK_prinyatj-aktualjnyij-finansovyij-srez/otchyot.md)
+- [2026-09-16 16:25:45 MSK - Svyazatj prinyatiye delegacii s rabotoj](2026-09-16_16-25-45_MSK_svyazatj-prinyatiye-delegacii-s-rabotoj/otchyot.md)
 - [2026-09-16 16:08:52 MSK — Zakrepitj proiskhozhdeniye delegirovannogo obyyoma](2026-09-16_16-08-52_MSK_zakrepitj-proiskhozhdeniye-delegirovannogo-obyyoma/otchyot.md)
+- [2026-09-16 16:04:30 MSK - Zakrepitj priyom sluzhebnoj delegacii](2026-09-16_16-04-30_MSK_zakrepitj-priyom-sluzhebnoj-delegacii/otchyot.md)
+- [2026-09-16 16:04:00 MSK - Ispravitj proverku shtatnogo udaleniya proyekcii](2026-09-16_16-04-00_MSK_ispravitj-proverku-shtatnogo-udaleniya-proyekcii/otchyot.md)
 - [2026-09-16 15:31:31 MSK — Zakrepitj obrabotku semi soobsjhenij](2026-09-16_15-31-31_MSK_zakrepitj-obrabotku-semi-soobsjhenij/otchyot.md)
+- [2026-09-16 15:30:36 MSK - Utochnitj pokryitiye sluzhebnogo porucheniya](2026-09-16_15-30-36_MSK_utochnitj-pokryitiye-sluzhebnogo-porucheniya/otchyot.md)
+- [2026-09-16 15:11:45 MSK - Vosstanovitj rabocheye mesto proverki](2026-09-16_15-11-45_MSK_vosstanovitj-rabocheye-mesto-proverki/otchyot.md)
 - [2026-09-16 15:06:43 MSK — Sokhranitj proverennyiye postavki](2026-09-16_15-06-43_MSK_sokhranitj-proverennyiye-postavki/otchyot.md)
+- [2026-09-16 14:57:36 MSK - Podgotovitj sliyaniye prinyatoj osnovyi i FUMA](2026-09-16_14-57-36_MSK_podgotovitj-sliyaniye-prinyatoj-osnovyi-i-FUMA/otchyot.md)
 - [2026-09-16 14:22:48 MSK — Zakrepitj celj lokaljnyikh modelej](2026-09-16_14-22-48_MSK_zakrepitj-celj-lokaljnyikh-modelej/otchyot.md)
 - [2026-09-16 13:46:12 MSK — Sokhranitj resheniya o vetkakh i usilii](2026-09-16_13-46-12_MSK_sokhranitj-resheniya-o-vetkakh-i-usilii/otchyot.md)
+- [2026-09-16 02:50:47 MSK - Splanirovatj vosstanovleniye kontrolya ostatka](2026-09-16_02-50-47_MSK_splanirovatj-vosstanovleniye-kontrolya-ostatka/otchyot.md)
+- [2026-09-16 02:10:09 MSK - Podgotovitj predposyilku formatov proyekcii](2026-09-16_02-10-09_MSK_podgotovitj-predposyilku-formatov-proyekcii/otchyot.md)
 - [2026-09-16 02:09:16 MSK — Svyazatj sravneniye modelej s istoriyej obrabotki](2026-09-16_02-09-16_MSK_svyazatj-sravneniye-modelej-s-istoriyej-obrabotki/otchyot.md)
 - [2026-09-16 00:15:17 MSK — Proveritj postavki kommita i integracii](2026-09-16_00-15-17_MSK_proveritj-postavki-kommita-i-integracii/otchyot.md)
+- [2026-09-16 00:04:12 MSK - Proveritj predposyilku integracii cherez PR](2026-09-16_00-04-12_MSK_proveritj-predposyilku-integracii-cherez-PR/otchyot.md)
+- [2026-09-15 23:33:01 MSK - Zakrepitj politiku novoj osnovyi](2026-09-15_23-33-01_MSK_zakrepitj-politiku-novoj-osnovyi/otchyot.md)
 - [2026-09-15 22:40:08 MSK — Sokhranitj i udalitj rolevyiye forki](2026-09-15_22-40-08_MSK_sokhranitj-i-udalitj-rolevyiye-forki/otchyot.md)
 - [2026-09-15 22:18:05 MSK — Prinyatj dopusk postoyannyikh vetok](2026-09-15_22-18-05_MSK_prinyatj-dopusk-postoyannyikh-vetok/otchyot.md)
 - [2026-09-15 21:58:20 MSK — Zaplanirovatj medijnyiye adapteryi i arkhiv](2026-09-15_21-58-20_MSK_zaplanirovatj-medijnyiye-adapteryi-i-arkhiv/otchyot.md)
@@ -704,6 +719,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 16:47:42 MSK -->
-<!-- content-sha256: sha256:70670fc00cbd5c83ae828403a0f855adabc2e837918dda67063a9e9442ef3d8a -->
+<!-- last-content-edit: 2026-09-16 20:47:35 MSK -->
+<!-- content-sha256: sha256:2cb397fde09aa4b70661f9e3fe95c950d5de509e27ff9664e949b814dc78554d -->
 <!-- FUM-MD-RECENCY:END -->

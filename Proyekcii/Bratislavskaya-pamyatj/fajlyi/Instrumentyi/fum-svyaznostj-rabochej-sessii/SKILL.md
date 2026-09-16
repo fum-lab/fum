@@ -45,6 +45,8 @@ Do zapuska vyiberi novyij privatnyij fizicheskij katalog vne lyubogo Git-predka;
 
 ## Obyazateljnyij razbor dialoga
 
+Otdeljnoye [prinyatiye delegacii](prinyatiye-delegacii.md) svyazyivayet nezavisimo vyibrannoye porucheniye koordinatora s rabotoj ispolnitelya. Guard proveryayet fiksirovannyij putj prinyatiya i yego istoriyu: prinyatiye bez rabotyi zakryivayet dopusk dazhe pri nulevom chelovecheskom ostatke. Sostoyaniye vyipolneniya ostayotsya v susjhestvuyusjhem plane; kornevaya priyomka vyipolnyayetsya otdeljno.
+
 Pri vosstanovlenii i sverke dogovoryonnostej vyizyivayetsya [ostatok soobsjhenij](obrabotka-soobsjhenij.md) s yavnyimi kornem, kornevyim UUID i iskhodnyim JSONL:
 
 ```text
@@ -102,7 +104,7 @@ V shablone dopolniteljno zamenyayetsya otnositeljnyij putj plana etapa; reyestr,
 
 ## Privatnyij komplekt Stop
 
-[Podgotovitelj i kontrakt](privatnyij-komplekt.md) vosproizvodimo izvlekayut odinnadcatj tochnyikh iskhodnikov iz odnogo commit, proveryayut cepochku Git-derevjyev i sokhranyayut privatnyij komplekt s manifestom. Komanda kandidata zakreplyayet inline-zagruzchik, khyesh manifesta i izolirovannyij Python; chuzhiye fajlyi, nevernyiye prava i povrezhdyonnyij komplekt otklonyayutsya. Nastrojki, Trust i nastoyasjheye sostoyaniye podgotovka ne sozdayot. Shablon `Stop.hooks.шаблон.json` ostayotsya toljko poyasnyayusjhim primerom.
+[Podgotovitelj i kontrakt](privatnyij-komplekt.md) vosproizvodimo izvlekayut dvenadcatj tochnyikh iskhodnikov iz odnogo commit, proveryayut cepochku Git-derevjyev i sokhranyayut privatnyij komplekt s manifestom. Dobavlen chitatelj prinyatiya delegacii; sokhranyonnyiye prezhniye komplektyi ne obnovlyayutsya. Komanda kandidata zakreplyayet inline-zagruzchik, khyesh manifesta i izolirovannyij Python; chuzhiye fajlyi, nevernyiye prava i povrezhdyonnyij komplekt otklonyayutsya. Nastrojki, Trust i nastoyasjheye sostoyaniye podgotovka ne sozdayot. Shablon `Stop.hooks.шаблон.json` ostayotsya toljko poyasnyayusjhim primerom.
 
 Pered primeneniyem koordinator chitayet kontrakt, sveryayet konkretnyij kandidat i dejstvuyusjhij sloj runtime. Sluzhebnyij HookPrompt ne pripisyivayetsya cheloveku po odnoj roli user; yego proiskhozhdeniye i fakticheskoye prodolzheniye modeli proveryayutsya otdeljno. Nativnoye podklyucheniye ne vyivoditsya iz uspeshnyikh sinteticheskikh testov ili nalichiya privatnogo kataloga.
 
@@ -219,6 +221,6 @@ Proverka Git-sostoyaniya sravnivayet toljko puti. Ona ne reshayet, nuzhno li vkl
 [Plan i primeneniye ustojchivyikh svideteljstv](ustojchivyiye-svideteljstva.md) pereispoljzuyut shtatnoye sokhraneniye obrabotki. Yavnoye opisaniye vyibirayet ekzemplyaryi i resheniya; plan bez zapisi pokazyivayet polnyiye materialyi i posledovateljnostj, primeneniye vozvrasjhayet fakticheskij prefiks i dopuskayet proveryayemyij povtor. Podklyucheniye k obsjhemu yazyiku operatorov ostayotsya otdeljnyim styikom.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 19:16:22 MSK -->
-<!-- content-sha256: sha256:627f5d83dcaee45742255424e5878fc086b6d171f156afea32e7704f81bab9b8 -->
+<!-- last-content-edit: 2026-09-16 19:47:11 MSK -->
+<!-- content-sha256: sha256:6609fdb8a92c99cc8580f429ef68ba25481585d2885d9ff818f59b265cb8db7c -->
 <!-- FUM-MD-RECENCY:END -->

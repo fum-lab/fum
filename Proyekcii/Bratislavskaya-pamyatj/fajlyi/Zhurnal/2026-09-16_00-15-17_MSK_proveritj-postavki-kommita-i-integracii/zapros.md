@@ -2,7 +2,7 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-15 22:40:08 MSK - Sokhranitj i udalitj rolevyiye forki](../2026-09-15_22-40-08_MSK_sokhranitj-i-udalitj-rolevyiye-forki/zapros.md)
+- Predyidusjhij zapros: [2026-09-16 00:04:12 MSK - Proveritj predposyilku integracii cherez PR](../2026-09-16_00-04-12_MSK_proveritj-predposyilku-integracii-cherez-PR/zapros.md)
 - Sleduyusjhij zapros: [2026-09-16 02:09:16 MSK - Svyazatj sravneniye modelej s istoriyej obrabotki](../2026-09-16_02-09-16_MSK_svyazatj-sravneniye-modelej-s-istoriyej-obrabotki/zapros.md)
 
 ## Tekst zaprosa
@@ -107,6 +107,6 @@ Zaklyuchiteljnaya proverka svyaznosti primenyayetsya s `--контрольная
 - [Proyekciya: tests/fiksturyi/pokoleniye-do-kartyi-avtorov-v2.json](../../Instrumentyi/fum-bratislavskaya-proyekciya-pamyati/tests/fiksturyi/pokoleniye-do-kartyi-avtorov-v2.json).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 02:18:29 MSK -->
-<!-- content-sha256: sha256:c34647c70bc58108379714db7e7b1ecc9de6368e8ee71bb9b9be97650e4a2546 -->
+<!-- last-content-edit: 2026-09-16 17:25:07 MSK -->
+<!-- content-sha256: sha256:0a6cae341398f2357e86ba55d4276791f9f364093ee6de240b6c1fb57d4cf930 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -24,9 +24,13 @@ Kod `0` oznachayet otsutstviye dejstvuyusjhikh narushenij, dazhe yesli otchyot s
 
 ## Politika zakreplyonnogo kandidata
 
-`policy-кандидата-слияния.json` prednaznachena dlya proverki dannyikh zakreplyonnoj vedusjhej osnovyi. Ona otdeljno svyazana v `происхождение-политики-слияния.json` s polnyimi OID osnovyi, yeyo dereva i SHA-256 politiki. Tekusjhaya osnova — `a728283474931eda71cd581ca5429121124ba3f6`, derevo `bc258a41133107198602c60d003555898d4cfad2`; 419 isklyuchenij sostavlyayut prezhniye 350 i 69 tochnyikh dobavlenij. Eto vkhod susjhestvuyusjhego kontura sliyaniya, a ne samostoyateljnoye razresheniye sliyaniya. Obyichnaya komanda vyishe prodolzhayet ispoljzovatj `policy.json`, pokryivayusjhuyu toljko realjno prinyatyiye fajlyi; pri perenose novyikh fajlov yeyo izmeneniya sveryayutsya otdeljno.
+`policy-кандидата-слияния.json` prednaznachena dlya proverki dannyikh zakreplyonnoj vedusjhej osnovyi. Ona otdeljno svyazana v `происхождение-политики-слияния.json` s polnyimi OID osnovyi, yeyo dereva i SHA-256 politiki. Tekusjhaya osnova — `14044dfd994cf16b5061fb245b18a8e5abf0ac7d`, derevo `d9af1d9e69f288c602a78e5e3edab5337b41ef58`; 447 isklyuchenij sostavlyayut prezhniye 419 i 28 tochnyikh dobavlenij otnositeljno prinyatogo master `9d01af6de4fc2f1c9265ee8805cda4998322e004`. Eto vkhod susjhestvuyusjhego kontura sliyaniya, a ne samostoyateljnoye razresheniye sliyaniya. Obyichnaya komanda vyishe prodolzhayet ispoljzovatj `policy.json`, pokryivayusjhuyu toljko realjno prinyatyiye fajlyi; pri perenose novyikh fajlov yeyo izmeneniya sveryayutsya otdeljno.
 
-[Osnovaniye i adresnaya sverka](../../Zhurnal/2026-09-11_14-47-00_MSK_podgotovitj-sovmestimostj-master-i-FUMA/zapros.md).
+V prinyatoj predposyilke M obyichnaya politika sokhranyala 419 iskhodnyikh zapisej i dobavlyala toljko tri tochnyikh isklyucheniya perenesyonnogo CJS-raspoznavatelya i yego otkryitoj regex-fiksturyi, vsego 422. Eti tri zapisi uzhe prisutstvovali v tochnom obyyekte L. V podgotovlennom sliyanii obyichnaya policy.json sokhranyayetsya iz L celikom: 447 zapisej, pobajtno ravnyikh zakreplyonnoj v M politike kandidata. Eto izmeneniye dannyikh kandidata; prinimayusjhaya politika i yeyo proiskhozhdeniye v M ostayutsya neizmennyimi.
+
+[Tekusjheye zakrepleniye novoj osnovyi](../../Zhurnal/2026-09-16_02-10-09_MSK_podgotovitj-predposyilku-formatov-proyekcii/zapros.md).
+
+[Pervonachaljnoye osnovaniye i adresnaya sverka prezhnej osnovyi](../../Zhurnal/2026-09-11_14-47-00_MSK_podgotovitj-sovmestimostj-master-i-FUMA/zapros.md).
 
 ## Tochnoye obnovleniye politiki
 
@@ -94,6 +98,6 @@ Testyi bez seti i sekretov proveryayut vse raspoznavayemyiye formyi, Git-inventa
 - [audit absolyutnyikh putej](../../Zhurnal/2026-07-22_12-35-05_MSK_provesti-audit-absolyutnyikh-putej/materialyi/revjyu/2026-07-22_12-35-05_MSK_audit-absolyutnyikh-putej.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-12 03:47:27 MSK -->
-<!-- content-sha256: sha256:e44632343d6c712f138b69b67efd103bfd515426a0fe5cfbe84a413f33c4c0fe -->
+<!-- last-content-edit: 2026-09-16 15:53:10 MSK -->
+<!-- content-sha256: sha256:764ee974b2c1e8270236c3631473e5e55d94bec7651279287f163bdb2e341c96 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -117,6 +117,6 @@ Pozdneye poljzovatelj utochnil: integracii vyipolnyayutsya s ultra, obyichnaya r
 - Otvet: Po pervyim shagam GPT-6 Astra Lyogkij trebuyet zhyostche vyinositj sostoyaniye v fajlyi i proverki: menjshe shirokikh dampov, boljshe tochechnyikh svodok, obyazateljnaya privyazka k Zhurnalu i JSONL. Dlya tekusjhego kontura eto priyemlemo, potomu chto rabota uzhe stroitsya kak proveryayemyij cikl uzkij shag -> artefakt -> proverka -> zapisj.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 15:22:34 MSK -->
+<!-- last-content-edit: 2026-09-16 19:47:11 MSK -->
 <!-- content-sha256: sha256:fc4b2676de287690dae425e342bd0e2cff4d81d67c1cd9559146da221f64dd0a -->
 <!-- FUM-MD-RECENCY:END -->

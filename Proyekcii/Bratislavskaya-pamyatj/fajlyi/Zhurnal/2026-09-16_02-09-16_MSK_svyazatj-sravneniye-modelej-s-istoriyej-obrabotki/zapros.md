@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-16 00:15:17 MSK - Proveritj postavki kommita i integracii](../2026-09-16_00-15-17_MSK_proveritj-postavki-kommita-i-integracii/zapros.md)
-- Sleduyusjhij zapros: [2026-09-16 13:46:12 MSK - Sokhranitj resheniya o vetkakh i usilii](../2026-09-16_13-46-12_MSK_sokhranitj-resheniya-o-vetkakh-i-usilii/zapros.md)
+- Sleduyusjhij zapros: [2026-09-16 02:10:09 MSK - Podgotovitj predposyilku formatov proyekcii](../2026-09-16_02-10-09_MSK_podgotovitj-predposyilku-formatov-proyekcii/zapros.md)
 
 ## Tekst zaprosa
 
@@ -47,6 +47,6 @@ Primeneniye plana zavershilosj kodom0; nezavisimo sverenyi devyatj sokhranyonnyi
 - [Indeks svezhesti](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 13:55:56 MSK -->
-<!-- content-sha256: sha256:ab24967b2768a102d64814ec40349c1bbc17d956cb14b52ffef02b2ddf8d859c -->
+<!-- last-content-edit: 2026-09-16 20:30:40 MSK -->
+<!-- content-sha256: sha256:87c250d30c77e8d933b05352b0242d69f48efde14f71e39907bcd710a1153c44 -->
 <!-- FUM-MD-RECENCY:END -->

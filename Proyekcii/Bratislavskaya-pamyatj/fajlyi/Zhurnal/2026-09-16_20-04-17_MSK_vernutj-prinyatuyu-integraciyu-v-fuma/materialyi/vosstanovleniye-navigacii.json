@@ -1,0 +1,83 @@
+{
+  "base_revision": "8e7a3d494954971f9119a2ea3a435d5cefc8da38",
+  "files": [
+    {
+      "after_sha256": "7c1a737001a1b52b522fbf6f98e6e1d3b07d7d52042474ea61c65ab20eb60aea",
+      "before_sha256": "1fdff834a23806b5a368bcfd566acc5d3b99245ef6d1a2018a35d22a6385adf6",
+      "path": "Журнал/2026-09-16_02-50-47_MSK_спланировать-восстановление-контроля-остатка/запрос.md"
+    },
+    {
+      "after_sha256": "c553fda45c5d56536728331352bd166c142bf637aeeede1b7c62fed03745a03a",
+      "before_sha256": "592cfe24069acaeae87e7a376f4ef044953af0bb0a2dd6981ff51fad925870c4",
+      "path": "Журнал/2026-09-16_13-46-12_MSK_сохранить-решения-о-ветках-и-усилии/запрос.md"
+    },
+    {
+      "after_sha256": "3e815da68436ec19fd14a091bd607e6d0569b92b96088968138723eea57d2555",
+      "before_sha256": "584287f53916b5110b82f157fe134029da3276312e842b655ad9e7e98765a2e2",
+      "path": "Журнал/2026-09-16_14-22-48_MSK_закрепить-цель-локальных-моделей/запрос.md"
+    },
+    {
+      "after_sha256": "463644c8bfe15689d9f315df2d0749883bdd30975a85a364b22a2e273777f6f1",
+      "before_sha256": "daf8c0f5c346011f2c322fa7d324f6835fcd88d61a3e66e7095752f8f4fe469a",
+      "path": "Журнал/2026-09-16_14-57-36_MSK_подготовить-слияние-принятой-основы-и-FUMA/запрос.md"
+    },
+    {
+      "after_sha256": "adbe9334fb929167e1076cd9436004a60714acf4fbf66d0e5332a278f8ffa857",
+      "before_sha256": "94c324402c6c421f018fe954148126ffa59b19b47ea541171c23db37e69ed66f",
+      "path": "Журнал/2026-09-16_15-06-43_MSK_сохранить-проверенные-поставки/запрос.md"
+    },
+    {
+      "after_sha256": "41e7e45066444f5d0cb919c85f31f6d17b430aece3755483c7133d60fc0c28f1",
+      "before_sha256": "1920627670edc1e9dbe200ac6a946157cb8303ce57e05e3f807e2f8264641597",
+      "path": "Журнал/2026-09-16_15-31-31_MSK_закрепить-обработку-семи-сообщений/запрос.md"
+    },
+    {
+      "after_sha256": "fb4a598a1957c5df9d643efa2e9e6f1b1fb270642b5ed23d814af99184813da7",
+      "before_sha256": "f84ad79ee5b7f46eedf9b1fccfe2cd1a5f37f3682c0ce1a3803fd28af64897a5",
+      "path": "Журнал/2026-09-16_16-04-00_MSK_исправить-проверку-штатного-удаления-проекции/запрос.md"
+    },
+    {
+      "after_sha256": "d16f0f9f4118a8241a146c95174679587ba269656d75822eb360f76cb1767f8b",
+      "before_sha256": "3b54888229edd7b411056c3fa26ae8f860834cb9f0e3338d3072d41288a5ec03",
+      "path": "Журнал/2026-09-16_16-04-30_MSK_закрепить-приём-служебной-делегации/запрос.md"
+    },
+    {
+      "after_sha256": "b42467968a656cbf8cf395628220b93325497dd0114a92d14303bdaade64a564",
+      "before_sha256": "28680226f9fc264765b31fc48368059c7bfe72c150d473e514cae1a7c1daaee0",
+      "path": "Журнал/2026-09-16_16-32-27_MSK_принять-актуальный-финансовый-срез/запрос.md"
+    },
+    {
+      "after_sha256": "74108dff07306189d96795aafb917de6c5dbad2a39a216bb9c250a0eaee3fc82",
+      "before_sha256": "ded1f720c76631aa61e3b82264a48162e2c251202af5bca3e9b0da5d698fe632",
+      "path": "Журнал/2026-09-16_17-17-13_MSK_принять-слияние-с-исправленным-удалением-проекции/запрос.md"
+    },
+    {
+      "after_sha256": "5a8681ea50930c91fff0fd93cf0d87a64b886b7b4d2cd54113c57ff67f344e44",
+      "before_sha256": "2d225eeae96336d2d6a04bcb79cbbcfd497b640cc48cc1e0aac0d0cee3ffb48e",
+      "path": "Журнал/2026-09-16_19-00-50_MSK_зарегистрировать-финансовую-приёмку-и-оценку-цикла/запрос.md"
+    },
+    {
+      "after_sha256": "f8a267fc3b82eb22e303f4f391b76efa36ddaac74ebc6cd1b0b66138c0406342",
+      "before_sha256": "65f859ddba6db6696dab608da5c05295baab74ba3a19dd893073bb4fc610147e",
+      "path": "Инструменты/fum-ocheredj-zadach-git-vetki/SKILL.md"
+    },
+    {
+      "after_sha256": "eb4f3ab458369ac4294c78b3d8e8ca1dbc8f24d591899370193e6ac43fb27d0d",
+      "before_sha256": "9babb5911174d3f67372f81e54d07a4e42dde425af482d22564241515cba4b9f",
+      "path": "Планирование/дорожная-карта.md"
+    }
+  ],
+  "idempotent": false,
+  "migration_moves": 0,
+  "mode": "repair",
+  "navigation_files": 11,
+  "schema_version": 1,
+  "semantic_files": 2,
+  "semantic_links": 25,
+  "written_files": 13,
+  "исключены_после_применения": [
+    "Инструменты/fum-ocheredj-zadach-git-vetki/SKILL.md",
+    "Планирование/дорожная-карта.md"
+  ],
+  "оставшиеся_изменения": "Только одиннадцать навигационных файлов; два посторонних файла восстановлены из HEAD с проверкой точных before/after SHA."
+}

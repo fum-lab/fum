@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-16 13:46:12 MSK - Sokhranitj resheniya o vetkakh i usilii](../2026-09-16_13-46-12_MSK_sokhranitj-resheniya-o-vetkakh-i-usilii/zapros.md)
-- Sleduyusjhij zapros: [2026-09-16 15:06:43 MSK - Sokhranitj proverennyiye postavki](../2026-09-16_15-06-43_MSK_sokhranitj-proverennyiye-postavki/zapros.md)
+- Sleduyusjhij zapros: [2026-09-16 14:57:36 MSK - Podgotovitj sliyaniye prinyatoj osnovyi i FUMA](../2026-09-16_14-57-36_MSK_podgotovitj-sliyaniye-prinyatoj-osnovyi-i-FUMA/zapros.md)
 
 ## Tekst zaprosa
 
@@ -68,6 +68,6 @@ Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb
 - [Indeks svezhesti](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 15:15:29 MSK -->
-<!-- content-sha256: sha256:4ba2f50151838d68ae20ba2bdfd3a752ee0f8d117110f139e891f5d170ba4e89 -->
+<!-- last-content-edit: 2026-09-16 20:30:40 MSK -->
+<!-- content-sha256: sha256:058b9a8d0a0cdb7d1247b90fbe847b46e20bf6ba1b8ce92868661c1201a6395c -->
 <!-- FUM-MD-RECENCY:END -->

@@ -2,7 +2,7 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-16 02:09:16 MSK - Svyazatj sravneniye modelej s istoriyej obrabotki](../2026-09-16_02-09-16_MSK_svyazatj-sravneniye-modelej-s-istoriyej-obrabotki/zapros.md)
+- Predyidusjhij zapros: [2026-09-16 02:50:47 MSK - Splanirovatj vosstanovleniye kontrolya ostatka](../2026-09-16_02-50-47_MSK_splanirovatj-vosstanovleniye-kontrolya-ostatka/zapros.md)
 - Sleduyusjhij zapros: [2026-09-16 14:22:48 MSK - Zakrepitj celj lokaljnyikh modelej](../2026-09-16_14-22-48_MSK_zakrepitj-celj-lokaljnyikh-modelej/zapros.md)
 
 ## Tekst zaprosa
@@ -126,6 +126,6 @@ Publikacionnaya granica: v soobsjhenii 419 udaleno toljko sluzhebnoye pole ident
 - [Indeks svezhesti Markdown](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 14:30:06 MSK -->
-<!-- content-sha256: sha256:f8b2fcc2b4747d274b7cac52751397ca1a59d876825b4b8b4baac7ce828c8629 -->
+<!-- last-content-edit: 2026-09-16 20:30:40 MSK -->
+<!-- content-sha256: sha256:baa73eb0590d75d05e574d33659a1405bf91f687f99415d8792d916cfb3b328a -->
 <!-- FUM-MD-RECENCY:END -->

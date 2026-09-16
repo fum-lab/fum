@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-16 16:08:52 MSK - Zakrepitj proiskhozhdeniye delegirovannogo obyyoma](../2026-09-16_16-08-52_MSK_zakrepitj-proiskhozhdeniye-delegirovannogo-obyyoma/zapros.md)
-- Sleduyusjhij zapros: net
+- Predyidusjhij zapros: [2026-09-16 16:25:45 MSK - Svyazatj prinyatiye delegacii s rabotoj](../2026-09-16_16-25-45_MSK_svyazatj-prinyatiye-delegacii-s-rabotoj/zapros.md)
+- Sleduyusjhij zapros: [2026-09-16 17:17:13 MSK - Prinyatj sliyaniye s ispravlennyim udaleniyem proyekcii](../2026-09-16_17-17-13_MSK_prinyatj-sliyaniye-s-ispravlennyim-udaleniyem-proyekcii/zapros.md)
 
 ## Tekst zaprosa
 
@@ -37,6 +37,6 @@ Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb
 - [Indeks Zhurnala](../README.md), [indeks svezhesti](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md), [reyestr planirovaniya](../../Planirovaniye/reyestr-trebovanij-variantov-i-kandidatov.json) i [katalog proyekcii](../../../../) — shtatnyiye proizvodnyiye dannyiye priyomki.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 17:18:00 MSK -->
-<!-- content-sha256: sha256:d4b54d785fd4e4342a1318538ae63440fee763deda7d06e9dfb421bd0d9932a4 -->
+<!-- last-content-edit: 2026-09-16 20:30:40 MSK -->
+<!-- content-sha256: sha256:c3886481607453971bf6c91319cf28163989671f083a61eced685b129684487d -->
 <!-- FUM-MD-RECENCY:END -->

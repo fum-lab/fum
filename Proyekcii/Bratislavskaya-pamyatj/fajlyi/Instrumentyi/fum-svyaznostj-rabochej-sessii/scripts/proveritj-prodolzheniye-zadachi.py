@@ -3,6 +3,7 @@
 import argparse
 import importlib.util
 import json
+import os
 from pathlib import Path
 import re
 import sys
@@ -218,6 +219,7 @@ def выполнить():
     параметры.add_argument("--вид-коммита", choices=("контрольный", "итоговый-этапа"))
     параметры.add_argument("--перед-завершением", action="store_true")
     параметры.add_argument("--профиль", action="store_true")
+    параметры.add_argument("--доверенное-поручение", default=os.environ.get("FUM_DELEGATION_TRUST"), help="JSON независимо выбранного поручения")
     аргументы = параметры.parse_args()
     начало = time.perf_counter_ns()
     исход = "ошибка"
@@ -278,6 +280,13 @@ def выполнить():
             # Изолированный Python не добавляет scripts в sys.path.
             sys.path.insert(0, str(Path(__file__).resolve().parent))
             import обработка_сообщений as обработка
+            import приём_делегации
+            выбор = json.loads(аргументы.доверенное_поручение, object_pairs_hook=без_повторных_ключей) if аргументы.доверенное_поручение else None
+            приём_делегации.проверить(корень, аргументы.codex_thread_id, выбор, аргументы.план,
+                                    проверить_основание, повторные_сверки)
+            метки.append({"метка": "связь принятия с работой", "исход": "успешно",
+                          "длительность_нс": time.perf_counter_ns() - начало_сообщений})
+            начало_сообщений = time.perf_counter_ns()
             остаток = обработка.получить_остаток(аргументы.исходник, аргументы.codex_thread_id,
                 корень_репозитория=корень, кэш=аргументы.кэш, без_записи=True)
             вершина_конца = обработка.гит.выполнить_чтение_репозитория(корень, "rev-parse", "HEAD").decode().strip()
@@ -298,7 +307,7 @@ def выполнить():
         print(json.dumps(результат, ensure_ascii=False, sort_keys=True))
         исход = результат["решение"]
         return 3 if аргументы.перед_завершением and исход == "продолжить" else 0
-    except (OSError, ValueError, TypeError, KeyError, IndexError, ImportError, subprocess.SubprocessError) as ошибка:
+    except (OSError, ValueError, RuntimeError, TypeError, KeyError, IndexError, ImportError, subprocess.SubprocessError) as ошибка:
         print("ошибка: " + str(ошибка), file=sys.stderr)
         return 2
     finally:

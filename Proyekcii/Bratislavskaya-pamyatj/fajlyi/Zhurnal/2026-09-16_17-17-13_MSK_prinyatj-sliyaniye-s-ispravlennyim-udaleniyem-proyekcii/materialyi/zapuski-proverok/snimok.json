@@ -1,0 +1,59 @@
+{
+  "отпечаток_закрытия": "sha256:6896b1459e1143c584b5bdaf9ca3d974710403e9008139c7f0afb2c0b837a6da",
+  "сессия": "Журнал/2026-09-16_17-17-13_MSK_принять-слияние-с-исправленным-удалением-проекции/запрос.md",
+  "схема": "fum.test-run-report.v2",
+  "файлы": [
+    {
+      "sha256": "d577cc4d61457ee6f29d577922f4bd6fc0a205b4f515c856924e41b5a27dc3c6",
+      "имя": "1_c8ef01c6-2d99-4ca6-a818-be0e75bed713.json"
+    },
+    {
+      "sha256": "8b81f57ad8cd2619d43a08b2b94f7a92d07e1ebf135738eeb1a0f8eb736fedc6",
+      "имя": "2_19fc1241-2620-4d39-b908-3f798475432d.json"
+    },
+    {
+      "sha256": "d017b8541979632a1d7754f5ba8249c61282006d80fbcff298d616ac39630fc2",
+      "имя": "3_ce055058-bf25-4219-ad77-050356bdd1e7.json"
+    },
+    {
+      "sha256": "0f90ac4c649de01052825cafdfd91a7cdb6c8013aee1c572fc97f9b0d8df586f",
+      "имя": "4_d94c66e2-58ef-4cb7-bdf5-b40308b44030.json"
+    },
+    {
+      "sha256": "d22963be246af81368b304e10ff1a64fa53178e34ddbe482acc85ae4071af4b6",
+      "имя": "5_9e3f343d-e741-477e-ad6c-625e671d171b.json"
+    },
+    {
+      "sha256": "e48ac28f4f724ee836679a759e8ec51ec6389073f9483e3acaf8ad5d3faee412",
+      "имя": "6_ea78f3a8-458c-47dd-bcde-f5c50a72e254.json"
+    },
+    {
+      "sha256": "06a3d4d3ce76398fa86a4b223af4fec537dac36f8458427d42816e333b97ccac",
+      "имя": "7_2fb903b7-345a-47b4-8755-3fcaa565fbc7.json"
+    },
+    {
+      "sha256": "90d03e9dc1e13036593007c1dd7286b7ca9b090a5529aaea6460a1928cdd5560",
+      "имя": "8_1be07a77-f678-4e86-9837-a6d9f7a9c145.json"
+    },
+    {
+      "sha256": "f62aea4df3d80597dde25c0c5e2af5a405b6ecc5bd9b883a9af73b55e3c5e9b3",
+      "имя": "9_b0ccb846-6567-4834-8fec-04514e0a7679.json"
+    },
+    {
+      "sha256": "9fd90c5fe9d757bf9c14d1330bfdbe74b9d91652464e74f16b9dc36cb9bd6f66",
+      "имя": "10_adb356c7-0ca2-4854-b4a2-cb5e4ed676f2.json"
+    },
+    {
+      "sha256": "2607c08f0e95279464e060959ef72a2690fda20e5f99bc43004b2371831a94b1",
+      "имя": "11_2937fc79-da18-4977-952a-caae642b0f34.json"
+    },
+    {
+      "sha256": "39520e4b8965c279681f2ad0cd434bd8d10c6905cdc7a7e99624f31412931c31",
+      "имя": "12_0bf3e557-4155-43c1-8483-523ecef7ce13.json"
+    },
+    {
+      "sha256": "5b26c3d1f69bbeafc5a63d649d8e9ba1b9f6c726b7f34358cbdc06fa8e75dc1b",
+      "имя": "13_09010b9a-8727-4694-8bec-b6cccf923322.json"
+    }
+  ]
+}

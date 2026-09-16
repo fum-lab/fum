@@ -20,6 +20,7 @@ from pathlib import Path
 ВЛОЖЕННЫЕ_ИНСТРУМЕНТЫ = ("Инструменты/fum-svezhestj-markdown", "Инструменты/fum-proyektnyiye-fajlyi")
 ПОЛНЫЙ_ИДЕНТИФИКАТОР_ОБЪЕКТА = re.compile(r"(?:[0-9a-f]{40}|[0-9a-f]{64})\Z")
 СКРИПТ_КОМПЛЕКСНОЙ_ПРОВЕРКИ = Path("Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/run-smoke-check.py")
+СКРИПТ_SMOKE = СКРИПТ_КОМПЛЕКСНОЙ_ПРОВЕРКИ
 
 
 def окружение_контура() -> dict[str, str]:
