@@ -1,0 +1,31 @@
+{
+  "схема": "fum.наблюдаемость-0154.1",
+  "код": "e0068a2dc8135bbe4d858e46dfd13d0e0c862ad5",
+  "задача": "01a08d6a-4df0-7cb3-9bc4-ebd730a44882",
+  "приложение": {
+    "CFBundleName": "ChatGPT",
+    "CFBundleShortVersionString": "26.908.70816",
+    "CFBundleVersion": "9275"
+  },
+  "контекст": {
+    "timestamp": "2026-09-16T12:29:57.736Z",
+    "turn_id": "01a0aa31-fc52-7b33-8285-f5b06b789e21",
+    "model": "gpt-6-astra",
+    "effort": "medium"
+  },
+  "цепочка": "исполнитель → встроенный codex → ChatGPT",
+  "официальное_чтение_задачи": {
+    "статус": "active",
+    "свой_cwd_подтверждён": true,
+    "состояние_hooks_не_возвращается": true
+  },
+  "hooks_list": {
+    "статус": "unknown",
+    "совпадений_в_доступных_метаданных_инструментов": 0,
+    "инструментов_codex_app": 31,
+    "документирован": "https://learn.chatgpt.com/docs/app-server",
+    "вызов_в_текущий_runtime_не_выполнен": true
+  },
+  "отдельный_app_server_не_запускался": true,
+  "конфигурация_и_Trust_не_изменялись": true
+}

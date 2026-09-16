@@ -1,0 +1,57 @@
+[
+  {
+    "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/измерить-допуск-сообщений.py",
+    "sha256": "87de78ff6dee2ca035cd0374739a6bdcd4c61a801284e29faea53e4a7f2b8d58",
+    "совпадает_с_поставкой": true
+  },
+  {
+    "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_пути_гита.py",
+    "sha256": "eca0aa5972412ba30a965e044589f481e74714407cba26aed089c57fa97939fc",
+    "совпадает_с_поставкой": true
+  },
+  {
+    "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+    "sha256": "1a8995c97a06024c99f355c587c602e114a1054ab1dd0d232c059d0a3398c81a",
+    "совпадает_с_поставкой": true
+  },
+  {
+    "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовить-комплект-завершения.py",
+    "sha256": "d59220b4c830a1e0340f219bc54a4c324077150bb1f389e73434e3437f50312f",
+    "совпадает_с_поставкой": true
+  },
+  {
+    "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_делегации.py",
+    "sha256": "5b49000095118be5625b01edefe08ffa5dd5113f792795de9ff22110001f78c7",
+    "совпадает_с_поставкой": true
+  },
+  {
+    "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-интеграцию-перехвата.py",
+    "sha256": "89bb4e7f4dde7a41ac44f16fc5ddde918026030510f60ab6a01200c2c6046a7a",
+    "совпадает_с_поставкой": true
+  },
+  {
+    "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-продолжение-задачи.py",
+    "sha256": "ab02e6fd34e5dd25bb7eb851c865f64e80bdc1c0355dc622772c203f29929054",
+    "совпадает_с_поставкой": true
+  },
+  {
+    "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_комплект_завершения.py",
+    "sha256": "2a076dcaa1fa8a0f969bcf7b36a68925d7129a15fbf7aca3ed9eedac8eca12a1",
+    "совпадает_с_поставкой": true
+  },
+  {
+    "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_приём_делегации.py",
+    "sha256": "4953445685732eb039f45ab06ff5e972d3c5d6ecbb5b1b20a88c838c8f105dd9",
+    "совпадает_с_поставкой": true
+  },
+  {
+    "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_смешанная_история_обязательств.py",
+    "sha256": "095961db42e7a44eea7b0b489fbd1d2c16e61e45968b7ea7cc49ac57c25e65c8",
+    "совпадает_с_поставкой": true
+  },
+  {
+    "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_обязательств.py",
+    "sha256": "bd72844bf204390c040801716b09a1ce4d5a34d663ad371c3d7c748c983bb32a",
+    "совпадает_с_поставкой": true
+  }
+]

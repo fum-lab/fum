@@ -1,0 +1,73 @@
+{
+  "base_revision": "435a332d8f13ca1e85b84de54b25d78461763355",
+  "files": [
+    {
+      "after_sha256": "c16867f415fa2fda326b7f48f7dcc7e186594d4c20e17611fc2cea4ba47ba7c5",
+      "before_sha256": "971932d847970ea64225d1d34e0ce541ac528d848b60adb15f0758dc4f365467",
+      "path": "Журнал/2026-09-15_13-00-53_MSK_исправить-сбой-финальной-проекции/запрос.md"
+    },
+    {
+      "after_sha256": "0e0d898612086b5ca00385affc3fbb12cdb12456fe312eff15960c212a503eba",
+      "before_sha256": "9dc940fe4080ac73f9aee919a69c6f9b43962466b8d8d2fbbdb8d5bdc0667d10",
+      "path": "Журнал/2026-09-15_19-33-04_MSK_влить-принятую-FUMA-в-планирование/запрос.md"
+    },
+    {
+      "after_sha256": "9b28161b93d98eeb4aa6c25d8eb6d311c0dc11711e9709a29828f30f76e063ce",
+      "before_sha256": "0afc1a61a07228fb13e9914f3f69e07130dd4e78237e3cc512b516feb08a440b",
+      "path": "Журнал/2026-09-16_15-06-43_MSK_сохранить-проверенные-поставки/запрос.md"
+    },
+    {
+      "after_sha256": "2db3c61ba8430abdc03126190c4c37940262a89e0051631994d852edbae4255d",
+      "before_sha256": "02a6d8c1c22dd4f81040df5801cd2967c6b6b6ba4d54ac065c1debfc753e25da",
+      "path": "Журнал/2026-09-16_15-11-45_MSK_восстановить-рабочее-место-проверки/запрос.md"
+    },
+    {
+      "after_sha256": "4a46a5af45afff8c75210d6585d1b5ba2a73713afc40dc2ff15a704ce9219a69",
+      "before_sha256": "cfa859b79cdc272208c209d9ab39d6423e04011fcd1ba805543b5e66351e525e",
+      "path": "Журнал/2026-09-16_15-30-36_MSK_уточнить-покрытие-служебного-поручения/запрос.md"
+    },
+    {
+      "after_sha256": "2504657add615056e3bd4639891a8d69f2cf3979fc6da4b9ba1e0373e6e4d445",
+      "before_sha256": "e69de25a573d905babaf5fccc3bd7fca3bc40cbdf30472df13002ebffec065cd",
+      "path": "Журнал/2026-09-16_15-31-31_MSK_закрепить-обработку-семи-сообщений/запрос.md"
+    },
+    {
+      "after_sha256": "dda25361569d0a83821c4eea80f2f05f5751bb2980d6945679ce01516fba2fe1",
+      "before_sha256": "58e6b51b3b94a6c22136b107b191ddf8ee6c20f44cfcbd032d56a75991444b6c",
+      "path": "Журнал/2026-09-16_16-04-30_MSK_закрепить-приём-служебной-делегации/запрос.md"
+    },
+    {
+      "after_sha256": "1c295b97930578f010e80f8eed27d8b0a41b2a47e03b09392b018125c924beaf",
+      "before_sha256": "f1b2bd78a8498c25a1be6140383f2d2119b44d85b5c78fa163f13b040ffa4a4e",
+      "path": "Журнал/2026-09-16_16-08-52_MSK_закрепить-происхождение-делегированного-объёма/запрос.md"
+    },
+    {
+      "after_sha256": "58222d550ba0e93bce560766130671fb3f77f7e92c479b630069dea51221279e",
+      "before_sha256": "7ad168442e55c9384cb8c5c2ba7c3763c7edcbe8c5d7b6fc2dae4439ad914a5b",
+      "path": "Журнал/2026-09-16_16-25-45_MSK_связать-принятие-делегации-с-работой/запрос.md"
+    },
+    {
+      "after_sha256": "51a61caa9b0bb6bed8f647b5514ffd8bd9f22f1a2c6b9c3dccdc92a49dc72228",
+      "before_sha256": "6f98ebba28031f481a014cbc7f462353499b9970f0b68b8aba2d99e72a09abb0",
+      "path": "Журнал/2026-09-16_16-32-27_MSK_принять-актуальный-финансовый-срез/запрос.md"
+    },
+    {
+      "after_sha256": "f8a267fc3b82eb22e303f4f391b76efa36ddaac74ebc6cd1b0b66138c0406342",
+      "before_sha256": "65f859ddba6db6696dab608da5c05295baab74ba3a19dd893073bb4fc610147e",
+      "path": "Инструменты/fum-ocheredj-zadach-git-vetki/SKILL.md"
+    },
+    {
+      "after_sha256": "eb4f3ab458369ac4294c78b3d8e8ca1dbc8f24d591899370193e6ac43fb27d0d",
+      "before_sha256": "9babb5911174d3f67372f81e54d07a4e42dde425af482d22564241515cba4b9f",
+      "path": "Планирование/дорожная-карта.md"
+    }
+  ],
+  "idempotent": false,
+  "migration_moves": 0,
+  "mode": "repair",
+  "navigation_files": 8,
+  "schema_version": 1,
+  "semantic_files": 4,
+  "semantic_links": 27,
+  "written_files": 12
+}
