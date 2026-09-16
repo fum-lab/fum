@@ -103,7 +103,7 @@ def главный(аргументы=None):
     try:
         результат = выполнить(параметры)
     except (ValueError, OSError, UnicodeError) as ошибка:
-        print(json.dumps({"схема": "fum.отказ-приёма.1", "ошибка": str(ошибка)}, ensure_ascii=False), file=sys.stderr)
+        print(json.dumps(хранение.описание_отказа(ошибка), ensure_ascii=False), file=sys.stderr)
         return 2
     print(json.dumps(результат, ensure_ascii=False, sort_keys=True))
     return 0
