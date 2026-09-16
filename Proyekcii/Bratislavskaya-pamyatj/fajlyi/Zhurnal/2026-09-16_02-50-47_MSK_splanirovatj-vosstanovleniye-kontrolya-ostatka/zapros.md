@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-16 02:10:09 MSK - Podgotovitj predposyilku formatov proyekcii](../2026-09-16_02-10-09_MSK_podgotovitj-predposyilku-formatov-proyekcii/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-16 16:04:00 MSK - Ispravitj proverku shtatnogo udaleniya proyekcii](../2026-09-16_16-04-00_MSK_ispravitj-proverku-shtatnogo-udaleniya-proyekcii/zapros.md)
 
 ## Tekst zaprosa
 
@@ -107,6 +107,6 @@ Koordinator posle adresnyikh GREEN zakrepil `FUM-СБОЙ-0130/ПРОЯВЛЕН�
 [Povtornaya sverka sostava](materialyi/sverka-povtornogo-polnogo-profilya.json) podtverzhdayet doslovnoye sovpadeniye vsekh 87 komand i poryadka; razlichayutsya toljko izmerennyiye dliteljnosti polucheniya plana. Snimok posle chetyiryokh sdvigov obnovlyon shtatno i tochno proveren; planovyij reyestr shtatno peresobran i proveren. Okonchateljnyij iskhod polnoj popyitki fiksiruyetsya v mashinnom zhurnale otchyota, a ne predpolagayetsya iz etikh preduslovij.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 12:46:53 MSK -->
-<!-- content-sha256: sha256:fe684ab144c266e136f83eff0dbf7809222bb81815f04fc999aee069b9b7b1e2 -->
+<!-- last-content-edit: 2026-09-16 16:15:38 MSK -->
+<!-- content-sha256: sha256:39511891baf96856d22276043a6bbd97c873eb19a780241421627355bcfb256c -->
 <!-- FUM-MD-RECENCY:END -->
