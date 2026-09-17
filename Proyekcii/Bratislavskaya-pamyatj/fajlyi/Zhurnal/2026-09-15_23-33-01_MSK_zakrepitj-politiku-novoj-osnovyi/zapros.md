@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-15 22:54:33 MSK - Oformitj napravleniye proyektirovaniya chipov](../2026-09-15_22-54-33_MSK_oformitj-napravleniye-proyektirovaniya-chipov/zapros.md)
-- Sleduyusjhij zapros: [2026-09-16 00:04:12 MSK - Proveritj predposyilku integracii cherez PR](../2026-09-16_00-04-12_MSK_proveritj-predposyilku-integracii-cherez-PR/zapros.md)
+- Predyidusjhij zapros: [2026-09-15 23:28:08 MSK - Sozdatj lokaljnyij mediapaket podderzhki](../2026-09-15_23-28-08_MSK_sozdatj-lokaljnyij-mediapaket-podderzhki/zapros.md)
+- Sleduyusjhij zapros: [2026-09-15 23:39:42 MSK - Ispravitj mediapaket podderzhki](../2026-09-15_23-39-42_MSK_ispravitj-mediapaket-podderzhki/zapros.md)
 
 ## Tekst zaprosa
 
@@ -46,6 +46,6 @@ M=`e95d7f5d1ef6387454b7825932cfbd737e600473`; L=`01ca988635628b48024ae64c290d3c4
 Iskhodnyij proyekt patch imeyet SHA-256 `34f6d1b39a8bb209b974a59fe4372ae6e761853dc322368923a0ceb7633c2a0a`. [Manifest](materialyi/granica-paketa.json) svyazyivayet vkhodnyiye blob i khyeshi. Obyichnaya politika M ostayotsya pobajtno prezhnej419; novyij kandidat soderzhit432, iz nikh13 novyikh. Ispolnyayemyij mekhanizm, pravila, zavisimosti i materialyi0227 ne perenosyatsya. Predyidusjhaya kontroljnaya tochka paused-vetki `d05d9c3d4e19db097e6d2eca117708c50a807d2d` ne yavlyayetsya bazoj etogo izmeneniya.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-17 22:16:46 MSK -->
-<!-- content-sha256: sha256:83aa3e37783ab5dd73cb2731e2625c6015d0532f6be97aaf8e1ecc553b029fda -->
+<!-- last-content-edit: 2026-09-17 23:58:15 MSK -->
+<!-- content-sha256: sha256:ac0971d807a185e79432c188ed41369f6fd3969958ed8a3c124ec38629366903 -->
 <!-- FUM-MD-RECENCY:END -->

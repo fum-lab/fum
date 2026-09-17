@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-16 14:20:17 MSK - Sokhranitj prichinu otkaza priyoma](../2026-09-16_14-20-17_MSK_sokhranitj-prichinu-otkaza-priyoma/zapros.md)
-- Sleduyusjhij zapros: [2026-09-16 14:54:36 MSK - Zakrepitj strategiyu snizheniya usilij modeli](../2026-09-16_14-54-36_MSK_zakrepitj-strategiyu-snizheniya-usilij-modeli/zapros.md)
+- Predyidusjhij zapros: [2026-09-16 14:20:37 MSK - Podgotovitj tri paketa podderzhki](../2026-09-16_14-20-37_MSK_podgotovitj-tri-paketa-podderzhki/zapros.md)
+- Sleduyusjhij zapros: [2026-09-16 14:45:52 MSK - Utochnitj publikacionnuyu redakciyu paketov](../2026-09-16_14-45-52_MSK_utochnitj-publikacionnuyu-redakciyu-paketov/zapros.md)
 
 ## Tekst zaprosa
 
@@ -68,6 +68,6 @@ Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb
 - [Indeks svezhesti](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-17 22:16:46 MSK -->
-<!-- content-sha256: sha256:a38736aaabb10742cdc589325c207ae83a1421883d6ee4cb27a37842dfa102c3 -->
+<!-- last-content-edit: 2026-09-17 23:58:15 MSK -->
+<!-- content-sha256: sha256:18b4bcc8079acb1236bbd4404fafce8345ceb4e8fd04337986c9c6df2720bd50 -->
 <!-- FUM-MD-RECENCY:END -->

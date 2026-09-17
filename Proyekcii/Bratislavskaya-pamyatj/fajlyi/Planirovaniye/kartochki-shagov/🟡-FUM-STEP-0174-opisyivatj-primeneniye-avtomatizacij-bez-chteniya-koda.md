@@ -90,6 +90,8 @@ Osnovaniye `FUM-СБОЙ-0071/ПРОЯВЛЕНИЕ-0007` povtoryayet otsutstviye
 
 ## Istochniki
 
+- Povtoryi [FUM-SBOJ-0071/PROYAVLENIYE-0008, 0009 i 0010](../../Sboi/FUM-SBOJ-0071-nepolnaya-para-zhurnala-pered-kontroljnoj-tochkoj.md) sokhranyayut tri nepolnyiye paryi mediapaketa. Rannij vkhod dolzhen proveryatj tochnyiye zagolovki, zapolneniye profilya i ssyilok do dorogoj svyaznosti; pervonachaljnyiye zaprosyi i otkazyi ne zamenyayutsya posleduyusjhim uspekhom. [Korrektiruyusjhij etap](../../Zhurnal/2026-09-16_00-09-04_MSK_razdelitj-svideteljstva-i-planyi-mediapaketa/materialyi/korrekciya-istorii.md) vosstanavlivayet nablyudeniye; obsjhaya profilaktika i prezhniye kriterii 0174 ostayutsya nezavershyonnyimi.
+
 - [Tretij sokhranyonnyij epizod nepolnoj paryi](../../Sboi/FUM-SBOJ-0071-nepolnaya-para-zhurnala-pered-kontroljnoj-tochkoj.md) — `FUM-СБОЙ-0071/ПРОЯВЛЕНИЕ-0005`; [iskhodnyij otchyot](../../Zhurnal/2026-09-15_00-00-47_MSK_uchestj-semj-aktualjnyikh-komand/otchyot.md).
 - [FUM-SBOJ-0134/PROYAVLENIYE-0001](../../Sboi/FUM-SBOJ-0134-kontroljnaya-tochka-vnutri-obyortki.md) — [vyibor rezhima i vosstanovleniye](../../Zhurnal/2026-09-15_02-35-33_MSK_podklyuchitj-porozhdyonnyiye-modeli/otchyot.md).
 
@@ -115,6 +117,6 @@ Osnovaniye aktualizacii — `FUM-СБОЙ-0071/ПРОЯВЛЕНИЕ-0006`: [rann
 - [FUM-SBOJ-0151/PROYAVLENIYE-0001](../../Sboi/FUM-SBOJ-0151-prevyisheniye-predela-tajm-auta-zakhvata.md) — [pervichnoye svideteljstvo](../../Zhurnal/2026-09-16_17-24-57_MSK_zaregistrirovatj-otkazyi-finansovoj-priyomki/materialyi/nablyudeniye-rannego-otkaza-zakhvata.json).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-17 22:16:46 MSK -->
-<!-- content-sha256: sha256:349881cffbc1a075ecbe8277f795e62677b260afb773f4a57abbae3bd0f4e166 -->
+<!-- last-content-edit: 2026-09-17 23:58:15 MSK -->
+<!-- content-sha256: sha256:18202a181b957bd7079afb2444a7c49b2921fb8108ca740e2159955d7544d63d -->
 <!-- FUM-MD-RECENCY:END -->

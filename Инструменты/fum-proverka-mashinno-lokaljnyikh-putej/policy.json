@@ -4176,6 +4176,24 @@
       "count": 1,
       "category": "allow.test-fixture",
       "reason": "Shebang временного Git hook автономной фикстуры отказа, мутации или прерывания; системная оболочка служит тестовому сценарию, не локальному пути пользователя."
+    },
+    {
+      "id": "media-package-absolute-path-negative-fixture",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_медиапакет_поддержки.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:229ade3324da4ec6fd5577c223884cb5b2416b17730311789d0982544f8efb0d",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Отрицательные относительные и абсолютные адреса Git-источника; изолированная фикстура проверяет отказ до чтения."
+    },
+    {
+      "id": "fuma-j16-original-answer-null-device",
+      "path": "Журнал/2026-09-18_00-01-17_MSK_принять-финансовые-пакеты-и-реестр/материалы/видимые-ответы.json",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:9679402eec032abbec6d5a4a1a953c5b593cef67affd122def1d8128e01cf1ec",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Дословный видимый ответ ассистента о ранее обнаруженном и исправленном системном литерале; строка хранит исходное свидетельство, а не исполняемую настройку."
     }
   ]
 }

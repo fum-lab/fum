@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-17 22:09:56 MSK - Integrirovatj vetku planirovaniya](../2026-09-17_22-09-56_MSK_integrirovatj-vetku-planirovaniya/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-17 23:32:48 MSK - Zaregistrirovatj obyyedinyonnuyu priyomku CLI](../2026-09-17_23-32-48_MSK_zaregistrirovatj-obyyedinyonnuyu-priyomku-CLI/zapros.md)
 
 ## Tekst zaprosa
 
@@ -52,6 +52,6 @@ Iskhodnyij tekst doslovno vosproizvedyon iz zakreplyonnogo osnovaniya rabotyi `6
 - [Materialyi predyidusjhej diagnostiki](../2026-09-16_21-47-47_MSK_zaregistrirovatj-priyomku-delegacij/materialyi).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-17 22:50:06 MSK -->
-<!-- content-sha256: sha256:1d50d7ef1123151043ec5804eed27988b535254c74d96008b0c1b6dd50479d54 -->
+<!-- last-content-edit: 2026-09-17 23:46:35 MSK -->
+<!-- content-sha256: sha256:b84ac974252e5effcd05ab3f9e64024bdccb991c1950c910372c7f7654b45d09 -->
 <!-- FUM-MD-RECENCY:END -->

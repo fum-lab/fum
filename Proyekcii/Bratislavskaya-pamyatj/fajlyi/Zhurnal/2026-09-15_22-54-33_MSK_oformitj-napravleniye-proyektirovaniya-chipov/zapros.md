@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-15 22:43:25 MSK - Prinyatj bazu planirovaniya chipov i platform](../2026-09-15_22-43-25_MSK_prinyatj-bazu-planirovaniya-chipov-i-platform/zapros.md)
-- Sleduyusjhij zapros: [2026-09-15 23:33:01 MSK - Zakrepitj politiku novoj osnovyi](../2026-09-15_23-33-01_MSK_zakrepitj-politiku-novoj-osnovyi/zapros.md)
+- Sleduyusjhij zapros: [2026-09-15 23:28:08 MSK - Sozdatj lokaljnyij mediapaket podderzhki](../2026-09-15_23-28-08_MSK_sozdatj-lokaljnyij-mediapaket-podderzhki/zapros.md)
 
 ## Tekst zaprosa
 
@@ -159,6 +159,6 @@ Tochnyij istochnik, gotovnostj kartochek i reyestr proveryayutsya shtatnyim priy
 - [Svyaznostj i sozdaniye kommita](../../Instrumentyi/fum-svyaznostj-rabochej-sessii/), [kanonicheskiye pravila](../../Pravila/agentov/), [kartochki sboyev](../../Sboi/).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-17 22:16:46 MSK -->
-<!-- content-sha256: sha256:5297176270c5b0eb90d9b394781c7f812f698470e5b16ff9b9db6015b1b63fcb -->
+<!-- last-content-edit: 2026-09-17 23:58:15 MSK -->
+<!-- content-sha256: sha256:bcf001a2b9bf3b329c0c065e041ab744ad4e29d4402ee123515951e55f79f1d4 -->
 <!-- FUM-MD-RECENCY:END -->

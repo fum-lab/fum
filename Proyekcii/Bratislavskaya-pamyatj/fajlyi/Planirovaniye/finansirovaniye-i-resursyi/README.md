@@ -1,5 +1,7 @@
 # Finansirovaniye i resursyi razvitiya FUM
 
+[Tri paketa podderzhki](paketyi-podderzhki.md), podgotovlennyiye 16 sentyabrya 2026 goda: denjgi na otkryityij etap, infrastruktura Beget i eksperiment MWS. V kazhdom sokhranenyi usloviya, raschyot potrebnosti, nedostayusjhiye dannyiye i sleduyusjhij shag. Eto lokaljnaya podgotovka; zayavitelj, summyi i odobreniye ne podtverzhdenyi. Reyestr nizhe ostayotsya istoricheskim vyipuskom na 15 sentyabrya.
+
 [Plan medijnogo soprovozhdeniya pozhertvovanij](medijnoye-soprovozhdeniye-pozhertvovanij.md) zadayot kanalyi Telegram i MAX, podgotovku videostrimov, otchyotnostj i izmereniye zatrat; zapusk kanalov i sbor sredstv ne vyipolnenyi.
 
 [Prakticheskij marshrut i byudzhet etapov](prakticheskij-marshrut.md), [lizing i kredityi](lizing-i-kredityi.md) podgotovlenyi 15 sentyabrya 2026 goda. Tri nablyudeniya obnovlenyi, reyestr vyipusjhen na etu datu; istoriya sokhranena. Novyiye lizingovyiye organizacii poka predstavlenyi otdeljnyim sravneniyem.
@@ -94,6 +96,6 @@ Profilj izmeryayet chteniye sokhranyonnyikh dannyikh, proverku svideteljstv, oce
 - [Otchyot realizacii i ogranicheniya proverki](https://github.com/fum-lab/fum/blob/6c9babdd3663ff0112283b89a361068727825da6/Журнал/2026-09-11_14-52-06_MSK_создать-реестр-организаций-поддержки-FUM/отчёт.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 21:15:43 MSK -->
-<!-- content-sha256: sha256:2911ba51e20b8325aea9efeefdf1cc639d25a01c212000b965257bef91e05a1a -->
+<!-- last-content-edit: 2026-09-17 23:58:15 MSK -->
+<!-- content-sha256: sha256:b15ccf8ee896037e669868ddc22cde5a26f83ce2bd2574b953d94d4085da36f2 -->
 <!-- FUM-MD-RECENCY:END -->

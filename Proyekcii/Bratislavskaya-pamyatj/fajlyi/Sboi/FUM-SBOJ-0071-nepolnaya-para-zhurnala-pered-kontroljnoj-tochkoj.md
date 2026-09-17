@@ -11,7 +11,7 @@ Para Zhurnala etapa 08:49 ne soderzhala tryokh obyazateljnyikh elementov: tochno
 
 ## Granica povtoreniya
 
-Pyatj sokhranyonnyikh v etoj kartochke epizodov nepolnoj kanonicheskoj paryi: etapyi 08:49 i 10:00, uchyot semi komand 15 sentyabrya podgotovka obyyedineniya 03:35 i predposyilka master 23:33. Nomera 0003 i 0004 uzhe zanyatyi v drugikh rabochikh derevjyakh; ikh svideteljstva zdesj ne vosproizvodyatsya. Otricateljnyiye kontroli odnoj paryi lokalizuyut odno proyavleniye; raznyiye propusjhennyiye polya ne stanovyatsya otdeljnyimi kartochkami. Rannij vyizov svyaznosti 0176 do pervonachaljnogo predprosmotra — drugoj podgotoviteljnyij mekhanizm i uzhe sokhranyon otdeljno.
+Vosemj sokhranyonnyikh v etoj kartochke epizodov nepolnoj kanonicheskoj paryi: etapyi 08:49 i 10:00, uchyot semi komand 15 sentyabrya, podgotovka obyyedineniya 03:35 predposyilka master 23:33 i tri paryi mediapaketa 0008–0010. Nomera 0003 i 0004 uzhe zanyatyi v drugikh rabochikh derevjyakh; ikh svideteljstva zdesj ne vosproizvodyatsya. Otricateljnyiye kontroli odnoj paryi lokalizuyut odno proyavleniye; raznyiye propusjhennyiye polya ne stanovyatsya otdeljnyimi kartochkami. Rannij vyizov svyaznosti 0176 do pervonachaljnogo predprosmotra — drugoj podgotoviteljnyij mekhanizm i uzhe sokhranyon otdeljno.
 
 ## Proyavleniya
 
@@ -35,6 +35,20 @@ Pri podgotovke obyyedineniya rannij vkhod obnaruzhil sokrasjhyonnyij zagolovok k
 
 [Pervichnyij otkaz predposyilki master](../Zhurnal/2026-09-15_22-40-08_MSK_sokhranitj-i-udalitj-rolevyiye-forki/materialyi/pervyij-otkaz-svyaznosti-predposyilki.json) — process 9434, kod 1: posle tablicyi otsutstvovala bukvaljnaya nepustaya stroka «Granica profilya:». Tochnyij istochnik i SHA privedenyi v [registracii](../Zhurnal/2026-09-15_22-40-08_MSK_sokhranitj-i-udalitj-rolevyiye-forki/materialyi/povtoryi-oformleniya.json). Vladelec ispravil pole pered povtornoj svyaznostjyu; eto povtor podgotovki paryi, a ne defekt samoj proverki. Prezhniye zakryityiye etapyi ne perepisanyi.
 
+### FUM-SBOJ-0071/PROYAVLENIYE-0008
+
+Para Luna low kommita `b2df928066fa84d3bf7ab8100baf519e934e4233` soderzhit dva zagolovka instrumentov i nezapolnennyiye elementyi otchyota. Vse chetyire zapisi proverok imeyut kod 1, v tom chisle nazvannaya GREEN. Polozhiteljnyij samootchyot ne podtverzhdayet dopusk etoj paryi.
+
+### FUM-SBOJ-0071/PROYAVLENIYE-0009
+
+Para Luna high kommita `193279364854a6081491e02c26dd8c6f66dce0ca` soderzhit povtornyij zagolovok instrumentov, shablonnyiye tablicu i granicu profilya. V zapros skopirovana prezhnyaya postanovka vmesto fakticheskogo porucheniya ispravleniya; yego original vosstanovlen v novom etape, ne podmenyon v starom.
+
+### FUM-SBOJ-0071/PROYAVLENIYE-0010
+
+Para Sol high kommita `abc217c2760c6cbeb778833116a619ba8df644ad` snova soderzhit dva zagolovka instrumentov, instrukcii zapolneniya i shablon profilya. Ssyilki vyivodili za checkout. Publikaciya kommita ne byila priyomkoj oformleniya; rannij zapusk kommita otdeljno uchityivayetsya v 0078/0002.
+
+[Pobajtnyiye svideteljstva tryokh par](../Zhurnal/2026-09-16_00-09-04_MSK_razdelitj-svideteljstva-i-planyi-mediapaketa/materialyi/svideteljstva-prezhnikh-par.json) sokhranyayut puti, polnyiye OID, SHA i nomera strok. [Novaya korrekciya](../Zhurnal/2026-09-16_00-09-04_MSK_razdelitj-svideteljstva-i-planyi-mediapaketa/materialyi/korrekciya-istorii.md) ne perepisyivayet prezhniye otchyotyi; ogranichenno ispravlenyi desyatj destination. V iskhodnom finansovom nabore nomera 0003, 0004 i 0007 byili zanyatyi vne yego; obyyedineniye sokhranyayet 0007 vyishe, a 0003 i 0004 ostayutsya vne etoj kartochki. Povtoryi 0008–0010 aktualiziruyut prezhnij aktivnyij STEP0174; ruchnoye zapolneniye novoj paryi ne zakryivayet sistemnuyu meru.
+
 ## Ozhidaniye i klassifikaciya
 
 Svyaznostj poluchayet zavershyonnuyu kanonicheskuyu paru s obyazateljnyimi polyami i nablyudyonnyim vremennyim intervalom. Zasjhita praviljno otklonila nepolnoye oformleniye. Oshibki vyichisleniya moskovskogo vremeni ili samikh izmerenij ne ustanovlenyi.
@@ -53,7 +67,7 @@ Povtor `FUM-СБОЙ-0071/ПРОЯВЛЕНИЕ-0007` dopolnyayet tot zhe STEP017
 
 ## Kriterii zakryitiya
 
-Vse sokhranyonnyiye paryi imeyut obyazateljnyiye polya i uspeshnyiye lokaljnyiye proverki; do dorogoj priyomki proveryayemaya rannyaya granica 0174 obnaruzhivayet otsutstviye tochnyikh metok profilya i pryamyikh ssyilok na fajlyi paryi. Lokaljnoye vosstanovleniye vtorogo epizoda ne obyyavlyayetsya ispolneniyem etoj budusjhej obsjhej meryi.
+Dlya istoricheski neprinyatyikh par 0008–0010 sokhranyayutsya iskhodnyiye bajtyi, otricateljnyiye iskhodyi i otdeljnaya novaya korrekciya; ikh perepisyivaniye zadnim chislom ne trebuyetsya i ne dokazyivayet ustraneniye. Aktualjnaya podgotovlennaya para imeyet obyazateljnyiye polya i dejstviteljnyij uspeshnyij dopusk. Do dorogoj priyomki proveryayemaya rannyaya granica 0174 obnaruzhivayet otsutstviye tochnyikh metok profilya i pryamyikh ssyilok na fajlyi paryi. Prezhniye ogranichennyiye vosstanovleniya 0001 i 0002 sokhranyayutsya; lokaljnoye zapolneniye odnoj novoj paryi ne obyyavlyayetsya ispolneniyem etoj budusjhej obsjhej meryi.
 
 ## Istoricheskoye podtverzhdeniye ogranichennogo ustraneniya
 
@@ -66,6 +80,6 @@ Pervichnyij rezuljtat chunk 892d4b: session coherence check passed, kod 0, 37,53
 [Tekusjhaya registraciya i pervichnyiye svideteljstva](../Zhurnal/2026-09-11_09-36-55_MSK_sokhranitj-ostavshuyusya-diagnostiku-priyoma/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 00:05:56 MSK -->
-<!-- content-sha256: sha256:f102c0124b0ecbc9b290b139dba819e52cd11f42cc1094039e6fc24c7ec2b8ce -->
+<!-- last-content-edit: 2026-09-17 23:58:15 MSK -->
+<!-- content-sha256: sha256:b2296195b867ce6fdd3c257d6b92bf2feb2c279d1adf6fbf47ca4fc996cc8c41 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -16,6 +16,9 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-18 00:01:17 MSK — Prinyatj finansovyiye paketyi i reyestr](2026-09-18_00-01-17_MSK_prinyatj-finansovyiye-paketyi-i-reyestr/otchyot.md)
+- [2026-09-17 23:51:33 MSK - Integrirovatj finansovyiye paketyi](2026-09-17_23-51-33_MSK_integrirovatj-finansovyiye-paketyi/otchyot.md)
+- [2026-09-17 23:32:48 MSK — Zaregistrirovatj obyyedinyonnuyu priyomku CLI](2026-09-17_23-32-48_MSK_zaregistrirovatj-obyyedinyonnuyu-priyomku-CLI/otchyot.md)
 - [2026-09-17 22:26:23 MSK — Prinyatj obyyedinyonnyij uchyot delegacij](2026-09-17_22-26-23_MSK_prinyatj-obyyedinyonnyij-uchyot-delegacij/otchyot.md)
 - [2026-09-17 22:09:56 MSK - Integrirovatj vetku planirovaniya](2026-09-17_22-09-56_MSK_integrirovatj-vetku-planirovaniya/otchyot.md)
 - [2026-09-16 21:47:47 MSK — Zaregistrirovatj priyomku delegacij](2026-09-16_21-47-47_MSK_zaregistrirovatj-priyomku-delegacij/otchyot.md)
@@ -39,7 +42,9 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [2026-09-16 15:06:43 MSK — Sokhranitj proverennyiye postavki](2026-09-16_15-06-43_MSK_sokhranitj-proverennyiye-postavki/otchyot.md)
 - [2026-09-16 14:57:36 MSK - Podgotovitj sliyaniye prinyatoj osnovyi i FUMA](2026-09-16_14-57-36_MSK_podgotovitj-sliyaniye-prinyatoj-osnovyi-i-FUMA/otchyot.md)
 - [2026-09-16 14:54:36 MSK - Zakrepitj strategiyu snizheniya usilij modeli](2026-09-16_14-54-36_MSK_zakrepitj-strategiyu-snizheniya-usilij-modeli/otchyot.md)
+- [2026-09-16 14:45:52 MSK - Utochnitj publikacionnuyu redakciyu paketov](2026-09-16_14-45-52_MSK_utochnitj-publikacionnuyu-redakciyu-paketov/otchyot.md)
 - [2026-09-16 14:22:48 MSK — Zakrepitj celj lokaljnyikh modelej](2026-09-16_14-22-48_MSK_zakrepitj-celj-lokaljnyikh-modelej/otchyot.md)
+- [2026-09-16 14:20:37 MSK - Podgotovitj tri paketa podderzhki](2026-09-16_14-20-37_MSK_podgotovitj-tri-paketa-podderzhki/otchyot.md)
 - [2026-09-16 14:20:17 MSK - Sokhranitj prichinu otkaza priyoma](2026-09-16_14-20-17_MSK_sokhranitj-prichinu-otkaza-priyoma/otchyot.md)
 - [2026-09-16 13:52:17 MSK - Zakrepitj roli vetok i granicu paralleljnoj proverki](2026-09-16_13-52-17_MSK_zakrepitj-roli-vetok-i-granicu-paralleljnoj-proverki/otchyot.md)
 - [2026-09-16 13:46:12 MSK — Sokhranitj resheniya o vetkakh i usilii](2026-09-16_13-46-12_MSK_sokhranitj-resheniya-o-vetkakh-i-usilii/otchyot.md)
@@ -52,8 +57,12 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [2026-09-16 00:55:04 MSK - Prinyatj postanovku chipovogo napravleniya](2026-09-16_00-55-04_MSK_prinyatj-postanovku-chipovogo-napravleniya/otchyot.md)
 - [2026-09-16 00:15:17 MSK — Proveritj postavki kommita i integracii](2026-09-16_00-15-17_MSK_proveritj-postavki-kommita-i-integracii/otchyot.md)
 - [2026-09-16 00:10:13 MSK - Sokhranitj postanovku chipovogo napravleniya](2026-09-16_00-10-13_MSK_sokhranitj-postanovku-chipovogo-napravleniya/otchyot.md)
+- [2026-09-16 00:09:04 MSK - Razdelitj svideteljstva i planyi mediapaketa](2026-09-16_00-09-04_MSK_razdelitj-svideteljstva-i-planyi-mediapaketa/otchyot.md)
 - [2026-09-16 00:04:12 MSK - Proveritj predposyilku integracii cherez PR](2026-09-16_00-04-12_MSK_proveritj-predposyilku-integracii-cherez-PR/otchyot.md)
+- [2026-09-15 23:54:09 MSK - Ispravitj finansovoye svideteljstvo mediapaketa](2026-09-15_23-54-09_MSK_ispravitj-finansovoye-svideteljstvo-mediapaketa/otchyot.md)
+- [2026-09-15 23:39:42 MSK - Ispravitj mediapaket podderzhki](2026-09-15_23-39-42_MSK_ispravitj-mediapaket-podderzhki/otchyot.md)
 - [2026-09-15 23:33:01 MSK - Zakrepitj politiku novoj osnovyi](2026-09-15_23-33-01_MSK_zakrepitj-politiku-novoj-osnovyi/otchyot.md)
+- [2026-09-15 23:28:08 MSK - Sozdatj lokaljnyij mediapaket podderzhki](2026-09-15_23-28-08_MSK_sozdatj-lokaljnyij-mediapaket-podderzhki/otchyot.md)
 - [2026-09-15 22:54:33 MSK - Oformitj napravleniye proyektirovaniya chipov](2026-09-15_22-54-33_MSK_oformitj-napravleniye-proyektirovaniya-chipov/otchyot.md)
 - [2026-09-15 22:43:25 MSK - Prinyatj bazu planirovaniya chipov i platform](2026-09-15_22-43-25_MSK_prinyatj-bazu-planirovaniya-chipov-i-platform/otchyot.md)
 - [2026-09-15 22:40:08 MSK — Sokhranitj i udalitj rolevyiye forki](2026-09-15_22-40-08_MSK_sokhranitj-i-udalitj-rolevyiye-forki/otchyot.md)
@@ -736,6 +745,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-17 22:30:04 MSK -->
-<!-- content-sha256: sha256:6f8cd52cdf7ada59be06ab47bd9b6140af064a0f326ff21d3048a75d9c4e23bd -->
+<!-- last-content-edit: 2026-09-18 00:10:24 MSK -->
+<!-- content-sha256: sha256:af5303055ae688878a1e9e536467442e3a31704e9c07e5955366c93ef363bc7a -->
 <!-- FUM-MD-RECENCY:END -->

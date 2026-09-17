@@ -1,0 +1,37 @@
+{
+  "родители": [
+    "762253489549980e20dd3efc3333c9dedcdc2515",
+    "7cdc8747fd7f656d1bb9e5d920dae2fbbdc78e9a"
+  ],
+  "общий_предок": "c99cbd813ca81057d6efe49d9dab2ed4ec52ca83",
+  "исходные_пути": 162,
+  "исходники": [
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/коррекция_ссылок_медиапакета.py",
+      "sha256": "6670bd9573f7fad934153e559395d0d610467da8e92de5a4b271d604446dcafc"
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/медиапакет-поддержки.py",
+      "sha256": "3b01e6008b857c3e071c9c21d934efeaeb1cefdc6c0b5afb1831a25a816fc2e0"
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/медиапакет_поддержки.py",
+      "sha256": "229edb723328a7ec581e8d168d50f3e0195f6418a95488ec2c12ef22434e92bf"
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/tests/test_медиапакет_поддержки.py",
+      "sha256": "1e1c6275c6f50f779830d3a5485ce185581df4f1654ffca066dfdf0dfaddf2ee"
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/tests/запустить_проверки_медиапакета.py",
+      "sha256": "83793e2475c33fed4e6523504c73484a6172f518314fc3730b3247faa77d2a70"
+    },
+    {
+      "путь": "Инструменты/fum-reyestr-planirovaniya/tests/профиль_медиапакета_поддержки.py",
+      "sha256": "802a042a2a17b25fea50f52d36b276edef9996bb714a18db9374bccfcf574784"
+    }
+  ],
+  "источники_побайтно_сохранены": 44,
+  "полная_приёмка": false,
+  "финансирование_получено": "не подтверждено"
+}

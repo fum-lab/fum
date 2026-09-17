@@ -2,7 +2,7 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-16 00:04:12 MSK - Proveritj predposyilku integracii cherez PR](../2026-09-16_00-04-12_MSK_proveritj-predposyilku-integracii-cherez-PR/zapros.md)
+- Predyidusjhij zapros: [2026-09-16 00:09:04 MSK - Razdelitj svideteljstva i planyi mediapaketa](../2026-09-16_00-09-04_MSK_razdelitj-svideteljstva-i-planyi-mediapaketa/zapros.md)
 - Sleduyusjhij zapros: [2026-09-16 00:15:17 MSK - Proveritj postavki kommita i integracii](../2026-09-16_00-15-17_MSK_proveritj-postavki-kommita-i-integracii/zapros.md)
 
 ## Tekst zaprosa
@@ -73,6 +73,6 @@ Sokhranena [tochnaya granica starogo pokoleniya proyekcii](materialyi/granica-so
 - [Sozdaniye kommita](../../Instrumentyi/fum-svyaznostj-rabochej-sessii/).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-17 22:16:46 MSK -->
-<!-- content-sha256: sha256:ba669fd51a774758a84d77aafbfd4e5e6f8654e8ca0675c69f8ae9a8c28876cd -->
+<!-- last-content-edit: 2026-09-17 23:58:15 MSK -->
+<!-- content-sha256: sha256:51463e59229792b19115d45cfd15bec63ed4c96fe2fd10cb9a8e463682e74a63 -->
 <!-- FUM-MD-RECENCY:END -->

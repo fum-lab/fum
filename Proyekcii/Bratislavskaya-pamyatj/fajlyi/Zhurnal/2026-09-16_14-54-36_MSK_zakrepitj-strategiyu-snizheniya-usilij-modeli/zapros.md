@@ -2,7 +2,7 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-16 14:22:48 MSK - Zakrepitj celj lokaljnyikh modelej](../2026-09-16_14-22-48_MSK_zakrepitj-celj-lokaljnyikh-modelej/zapros.md)
+- Predyidusjhij zapros: [2026-09-16 14:45:52 MSK - Utochnitj publikacionnuyu redakciyu paketov](../2026-09-16_14-45-52_MSK_utochnitj-publikacionnuyu-redakciyu-paketov/zapros.md)
 - Sleduyusjhij zapros: [2026-09-16 14:57:36 MSK - Podgotovitj sliyaniye prinyatoj osnovyi i FUMA](../2026-09-16_14-57-36_MSK_podgotovitj-sliyaniye-prinyatoj-osnovyi-i-FUMA/zapros.md)
 
 ## Tekst zaprosa
@@ -57,6 +57,6 @@ Pryamyiye adresnyiye zapuski sokhranyayutsya shtatnoj avtomatizaciyej v [otchyot
 - [planovyij reyestr](../../Planirovaniye/reyestr-trebovanij-variantov-i-kandidatov.json).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-17 22:16:46 MSK -->
-<!-- content-sha256: sha256:45ec437d19b82b38558073aecb731316c0a6d5b84d9e7b72e80c469c1fc3a933 -->
+<!-- last-content-edit: 2026-09-17 23:58:15 MSK -->
+<!-- content-sha256: sha256:24f9f5e541829cc41fe1f2442f1d3bde5b4e6f1a30538aea1b409a8cdd384fcb -->
 <!-- FUM-MD-RECENCY:END -->

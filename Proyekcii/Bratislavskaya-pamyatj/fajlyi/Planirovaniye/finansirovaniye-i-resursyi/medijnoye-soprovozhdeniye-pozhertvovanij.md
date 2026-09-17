@@ -30,7 +30,9 @@ Plan avtomatizacii nachinayetsya s odnogo lokaljnogo nabora: ssyilka na iskhodny
 
 Pered vyidachej komplekta avtomatizaciya dolzhna proveryatj nalichiye proiskhozhdeniya, soglasovannostj summ i statusov, otsutstviye nepodtverzhdyonnyikh obesjhanij i sokhraneniye CC0. Novaya versiya iskhodnogo rezuljtata dolzhna yavno pokazyivatj, kakiye chernoviki trebuyut obnovleniya. Povtornaya podgotovka togo zhe vkhoda ne dolzhna sozdavatj povtornuyu publikaciyu ili povtorno uchityivatj pozhertvovaniye.
 
-Etot medijnyij etap sokhranyayet plan i ne realizuyet ispolnyayemyij generator ili adapteryi publikacii. Po pozdnejshim komandam uzhe aktivirovanyi otdeljnyiye zadachi Telegram i MAX Bot API; ikh zapusk ne podtverzhdayet podklyucheniye kanalov. Blizhajshij tekhnicheskij rezuljtat — lokaljnyij generator chernovikov i otchyota na otkryityikh fiksturakh s proverkoj povtornogo zapuska i izmeneniya iskhodnika. Dostup k setevyim API ne nuzhen dlya etogo pervogo rezuljtata. Podklyucheniye akkauntov, razresheniye otpravki, podtverzhdeniye dostavki i povedeniye pri neodnoznachnom iskhode otnosyatsya k otdeljnomu soglasovannomu zapusku.
+Iskhodnyij medijnyij etap sokhranyal plan i ne realizovyival generator ili adapteryi publikacii. Po pozdnejshim komandam uzhe aktivirovanyi otdeljnyiye zadachi Telegram i MAX Bot API; ikh zapusk ne podtverzhdayet podklyucheniye kanalov.
+
+Podgotovlen [lokaljnyij generator versii 2](../../Instrumentyi/fum-reyestr-planirovaniya/mediapaket-podderzhki.md): on sozdayot chernoviki Telegram, MAX i otchyota, razlichayet plan, material i rezuljtat po otdeljnomu svideteljstvu vyibrannogo avtora. [Primer paketa](../../Zhurnal/2026-09-16_00-09-04_MSK_razdelitj-svideteljstva-i-planyi-mediapaketa/materialyi/mediapaket.json) opisyivayet plan i sokhranyayet neizvestnyiye finansovyiye znacheniya. Sintaksicheskaya proverka svideteljstva ne udostoveryayet bankovskuyu operaciyu ili vyipolneniye opisannoj avtorom proverki. Generator rabotayet lokaljno bez dostupa k setevyim API. Scenarij efira, adapteryi publikacii i statistika ostayutsya otdeljnoj rabotoj za predelami etogo generatora. Podklyucheniye akkauntov, razresheniye otpravki, podtverzhdeniye dostavki i povedeniye pri neodnoznachnom iskhode otnosyatsya k otdeljno soglasovannyim zapuskam; etot generator ikh ne vyipolnyayet.
 
 ## Nablyudeniye poleznosti i zatrat
 
@@ -61,6 +63,6 @@ Tekhnicheskaya zavisimostj ot messendzherov uzhe opisana v [FUM-STEP-0184](../ka
 - [Proyekt predlozheniya podderzhki](proyekt-predlozheniya-podderzhki.md), [finansovoye rukovodstvo](README.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 21:15:43 MSK -->
-<!-- content-sha256: sha256:4ee69ccf53dac325bce49289c8bdfa585381efdb4e8ca551a09f48041840278e -->
+<!-- last-content-edit: 2026-09-17 23:58:15 MSK -->
+<!-- content-sha256: sha256:caf8f7229f9ab93eec00e37ddeb97806c40c6620fb3e970ecba732eaba362499 -->
 <!-- FUM-MD-RECENCY:END -->

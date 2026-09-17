@@ -1,12 +1,12 @@
 # Отчёт об извлечении прикрепляемого материала
 
 - Источник: https://boosty.to/app/offer/payment-terms-cis
-- Время извлечения UTC: 2026-09-14T11:55:15.836600+00:00
-- Транспорт: Повторная очистка ранее сохранённого HTTP-ответа без сети
-- Effective URL:
+- Время извлечения UTC: 2026-09-16T11:22:23.173300+00:00
+- Транспорт: curl
+- Effective URL: https://boosty.to/app/offer/payment-terms-cis
 - HTTP-код: 200
-- Content-Type: text/html
-- Размер загрузки:  байт
+- Content-Type: text/html; charset=utf-8
+- Размер загрузки: 591312 байт
 - Извлечено блоков JSON-LD: 0
 
 ## Редакции перед сохранением
@@ -33,6 +33,6 @@
 - `source-url.txt`
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-14 14:58:26 MSK -->
-<!-- content-sha256: sha256:3d82c29a5b742690c83c106c8e5563b9becf22ea87f84aae995a09c26a91d62a -->
+<!-- last-content-edit: 2026-09-16 14:30:55 MSK -->
+<!-- content-sha256: sha256:bc4b2bfadd792ec0ce60b798234222dba48861bd58c60f80b4e7ef188c589f8a -->
 <!-- FUM-MD-RECENCY:END -->

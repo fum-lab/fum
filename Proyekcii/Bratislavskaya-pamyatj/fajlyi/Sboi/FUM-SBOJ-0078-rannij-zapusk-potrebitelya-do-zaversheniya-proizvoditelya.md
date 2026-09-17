@@ -1,7 +1,7 @@
 +++
 "версия_схемы" = 1
 "идентификатор_сбоя" = "FUM-СБОЙ-0078"
-"статус" = "устранена"
+"статус" = "активна"
 +++
 # Rannij zapusk potrebitelya do zaversheniya proizvoditelya
 
@@ -16,6 +16,10 @@ Zavisimyij potrebitelj zapuskayetsya do nablyudeniya terminaljnogo iskhoda proiz
 ## Proyavleniya
 
 - `FUM-СБОЙ-0078/ПРОЯВЛЕНИЕ-0001`: [sborka 2b9a0059](../Zhurnal/2026-09-11_14-48-56_MSK_ispravitj-dopusk-statusa-i-prodolzhitj-priyom/materialyi/zapuski-proverok/4_2b9a0059-1ddc-42f1-9e5c-e6ae6ba74dcf.json) vernula 0 za 0,424805416 s i sokhranila prezhnij reyestr; [validaciya 71d6ca0f](../Zhurnal/2026-09-11_14-48-56_MSK_ispravitj-dopusk-statusa-i-prodolzhitj-priyom/materialyi/zapuski-proverok/5_71d6ca0f-b76a-4ee7-9e37-74650fe34160.json) posle terminaljnogo uspekha proizvoditelya vernula 1 za 0,483123959 s s `registry is stale`. Vosstanovleniye: posledovateljno [sborka 57def88c](../Zhurnal/2026-09-11_14-48-56_MSK_ispravitj-dopusk-statusa-i-prodolzhitj-priyom/materialyi/zapuski-proverok/6_57def88c-28fe-4815-90c9-3c2632e4d4fe.json) i [validaciya 6852657d](../Zhurnal/2026-09-11_14-48-56_MSK_ispravitj-dopusk-statusa-i-prodolzhitj-priyom/materialyi/zapuski-proverok/7_6852657d-4a30-4451-803c-dffc38aa1b71.json) dali kod 0; tekusjhij reyestr vklyuchayet STEP 0213. Vse iskhodyi sokhranenyi, neuspekh ne zamenyon uspeshnyim povtorom.
+
+`FUM-СБОЙ-0078/ПРОЯВЛЕНИЕ-0002`: Sol high sozdal `abc217c2760c6cbeb778833116a619ba8df644ad` do terminaljnogo iskhoda svyaznosti. Rannij otvet 20:57:35.034 UTC soderzhal toljko pustoj vyivod; commit podtverzhdyon v 20:57:42.777, a proverka zavershilasj v 20:57:56.176 s kodom 1. Prezhnij vyizov vyivodil toljko `r.output` i teryal status processa. [Tochnyiye native stroki, bajtovyiye intervalyi i SHA](../Zhurnal/2026-09-16_00-09-04_MSK_razdelitj-svideteljstva-i-planyi-mediapaketa/materialyi/granicyi-pervichnyikh-sobyitij.json) i [korrekciya utverzhdeniya](../Zhurnal/2026-09-16_00-09-04_MSK_razdelitj-svideteljstva-i-planyi-mediapaketa/materialyi/korrekciya-istorii.md) sokhranyayut osnovaniye. Effekt: opublikovan kommit bez uspeshnogo dopuska. Eto povtor zapuska zavisimogo dejstviya do izvestnogo iskhoda proizvoditelya; kod 1 stal izvesten pozdneye, poetomu epizod ne zamenyayetsya klassifikaciyej dejstviya posle uzhe izvestnogo otkaza.
+
+Novoye proyavleniye vozvrasjhayet kartochku v aktivnoye sostoyaniye. Prezhnyaya ogranichennaya priyomka 0001 ostayotsya istoricheski dejstviteljnoj dlya svoyego cikla. Dlya tekusjhego epizoda sokhranyayutsya vse otkazyi, novaya svyaznostj dolzhna terminaljno zavershitjsya s kodom 0 do novogo kommita; obsjhij zapret yesjhyo ne realizovan.
 
 ## Ozhidaniye i klassifikaciya
 
@@ -33,6 +37,8 @@ Ogranichennaya priyomka podtverzhdena nezavisimyim chteniyem pervichnyikh vyizov
 
 ## Kriterii zakryitiya
 
+Povtor `FUM-СБОЙ-0078/ПРОЯВЛЕНИЕ-0002` dvustoronne svyazan s aktivnyim [FUM-STEP-0170](../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0170-sokhranyatj-neizmennostj-vkhoda-do-zaversheniya-proverki.md): otdeljnaya regressiya dolzhna zapresjhatj zavisimyij kommit do terminaljnogo uspekha dopuska. Etot kriterij dopolnyayet iskhodnuyu zasjhitu neizmennosti vkhoda; razovyij praviljnyij poryadok tekusjhego kommita ne obyyavlyayet zaversheniye obsjhej meryi.
+
 Pervichnyiye vyizovyi podtverzhdayut rannij start do terminaljnogo rezuljtata proizvoditelya. Sokhranenyi vse chetyire iskhoda, a zavershyonnyij proizvoditelj predshestvuyet uspeshnoj peresborke i validacii s nuzhnoj kartochkoj. Proveryayemyij ogranichennyij sposob vosstanovleniya opisan bez obesjhaniya universaljnogo predotvrasjheniya; STEP 0214 prinyal etu tochnuyu granicu. Polnaya priyomka obsjhego instrumenta ne podmenyayetsya razovyim uspeshnyim povtorom.
 
 ## Istochniki
@@ -42,6 +48,6 @@ Pervichnyiye vyizovyi podtverzhdayut rannij start do terminaljnogo rezuljtata pr
 - [Prinyatj ogranichennoye vosstanovleniye](../Zhurnal/2026-09-11_16-19-17_MSK_podtverditj-zapusk-Gosuslug-i-prodolzhitj-priyom/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 16:39:21 MSK -->
-<!-- content-sha256: sha256:a92ce29480de7d54834212a49bf31eb8726c5b3d4f2d65c6d447576e1893888c -->
+<!-- last-content-edit: 2026-09-16 01:01:16 MSK -->
+<!-- content-sha256: sha256:53daac011ec632cdfa567c874f59a7b429058e54a2427a21bbe93e4506febe38 -->
 <!-- FUM-MD-RECENCY:END -->

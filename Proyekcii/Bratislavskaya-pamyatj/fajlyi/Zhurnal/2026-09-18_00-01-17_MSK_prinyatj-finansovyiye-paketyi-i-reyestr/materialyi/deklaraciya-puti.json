@@ -1,0 +1,12 @@
+{
+  "schema": "fum.machine-local-path-policy-update.v1",
+  "declarations": [
+    {
+      "id": "media-package-absolute-path-negative-fixture",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_медиапакет_поддержки.py",
+      "line": 173,
+      "category": "allow.test-fixture",
+      "reason": "Отрицательные относительные и абсолютные адреса Git-источника; изолированная фикстура проверяет отказ до чтения."
+    }
+  ]
+}

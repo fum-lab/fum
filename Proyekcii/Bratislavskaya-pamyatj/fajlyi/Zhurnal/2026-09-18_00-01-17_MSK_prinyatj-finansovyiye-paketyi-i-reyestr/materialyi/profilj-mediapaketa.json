@@ -1,0 +1,28 @@
+{
+  "git": "git version 2.54.0 (Apple Git-157)",
+  "python": "3.14.7",
+  "архитектура": "arm64",
+  "вход_sha256": "da02c0d0eef545b59730cf6298b2fd6f32b00d67ad8d6184e3d1194161c834ba",
+  "длительности_наносекунды": [
+    56006042,
+    54074500,
+    53259584
+  ],
+  "измеряемая_граница": "собрать: Git-чтение, проверка, шаблоны",
+  "исходники": {
+    "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py": "e4777302d8a5eec9090bfd19510c1f06f5c939e0082d7dadd67fdaa525393756",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/медиапакет_поддержки.py": "92a4026efc97385615939c375ff9bf65514f6f2a234e4e754f3a0474d86e2ed7",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/реестр_поддержки.py": "bc383bfc79cfb056e19bb8b5d434c1b5fd53b8c72a1cba2ab6800cebcdd3c32b",
+    "Инструменты/fum-reyestr-planirovaniya/tests/профиль_медиапакета_поддержки.py": "802a042a2a17b25fea50f52d36b276edef9996bb714a18db9374bccfcf574784",
+    "Инструменты/fum-reyestr-planirovaniya/шаблоны/отчёт-поддержки.txt.шаблон": "dc9d3cffffe9850ebcc42608672369977a4d8b64a41ac71d518d52f78918e3b7",
+    "Инструменты/fum-reyestr-planirovaniya/шаблоны/сообщение-поддержки.txt.шаблон": "436cd96b9a97eedfa3c87d141b63c2566a5c1d9a1acfabed5b5bbbc378971d6b",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "375d9e026346b2c3a855382aa323cef224520847f0aa9cc3b0d01c1b26913f56"
+  },
+  "критерий_оптимизации": "медиана более 500 мс требует исследования",
+  "кэш_ОС": "не очищался",
+  "платформа": "Darwin",
+  "повторы": 3,
+  "подготовка_и_запись_исключены": true,
+  "результат_sha256": "82d423402331e6c18120b0423a63c0284e0c82e1fbb74457e126837171ab412c",
+  "схема": "fum.профиль-медиапакета.2"
+}
