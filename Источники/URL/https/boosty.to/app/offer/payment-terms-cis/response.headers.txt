@@ -1,7 +1,7 @@
 HTTP/2 200
-date: Mon, 14 Sep 2026 11:35:38 GMT
+date: Wed, 16 Sep 2026 11:22:23 GMT
 content-type: text/html; charset=utf-8
-content-length: 590900
+content-length: 591312
 set-cookie: [REDACTED: response cookie]
 strict-transport-security: max-age=15768000; includeSubDomains; preload
 content-security-policy: frame-ancestors 'self' widgets.boosty.to live.vkvideo.ru widgets.live.vkvideo.ru hipolink.net;

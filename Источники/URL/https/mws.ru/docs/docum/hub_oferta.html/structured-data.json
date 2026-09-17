@@ -1,0 +1,30 @@
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "MWS Docs",
+      "item": "https://mws.ru/docs/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Общие условия использования",
+      "item": "https://mws.ru//docs/docum/hub_oferta.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Общие условия использования",
+      "item": "https://mws.ru//docs/docum/hub_oferta.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "Соглашение на предоставление Облачных сервисов",
+      "item": "https://mws.ru/docs/docum/hub_oferta.html"
+    }
+  ]
+}
