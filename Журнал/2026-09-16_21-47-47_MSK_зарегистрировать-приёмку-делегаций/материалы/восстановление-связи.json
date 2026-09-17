@@ -1,0 +1,31 @@
+{
+  "текст": "Svyazj vosstanovlena.\n",
+  "позиция": {
+    "начало": 965604549,
+    "конец": 965604950,
+    "sha256": "65845702f97fefd34b048d45bf81ad903d029f2122e1f2954a856004a1e34ddd"
+  },
+  "сырой_объект": {
+    "timestamp": "2026-09-16T19:09:04.773Z",
+    "ordinal": 90200,
+    "type": "response_item",
+    "payload": {
+      "type": "message",
+      "id": "msg_01a0ab9f-6385-7363-82ea-003a7cedcd4e",
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "Svyazj vosstanovlena.\n"
+        }
+      ],
+      "internal_chat_message_metadata_passthrough": {
+        "turn_id": "01a0ab9f-62b0-7e72-92f4-e4907933a46b",
+        "create_time": 1789585744.773611,
+        "content_item_kinds": [
+          "user.text"
+        ]
+      }
+    }
+  }
+}
