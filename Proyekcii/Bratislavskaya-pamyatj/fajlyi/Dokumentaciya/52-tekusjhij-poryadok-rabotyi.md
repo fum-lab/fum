@@ -44,9 +44,11 @@ Proverka obyazateljstv vtoroj versii sokhranyayet iskhodnyiye porucheniya v otde
 
 Proverka i adapter ostanovki realizovanyi i sovmestno proverenyi na sinteticheskikh scenariyakh. Na nastoyasjhem reyestre etoj zadachi proverka obnaruzhila pyatj nezavershyonnyikh obyazateljstv. Nativnoye podklyucheniye k Codex yesjhyo ne podtverzhdeno: proverennyij zapusk adaptera iz komandnoj stroki sam po sebe ne vklyuchayet zasjhitu rabotayusjhej zadachi. Status, izmereniya i ogranicheniya sokhranenyi v [otchyote](../Zhurnal/2026-09-09_11-39-26_MSK_predotvratitj-poteryu-obyazateljstv-postoyannoj-zadachi/otchyot.md). [Podgotovitelj privatnogo komplekta](../Instrumentyi/fum-svyaznostj-rabochej-sessii/privatnyij-komplekt.md) uzhe sozdayot proveryayemoye opredeleniye iz fiksirovannogo kommita. Dlya podklyucheniya ostayutsya klassifikaciya proiskhozhdeniya sluzhebnyikh soobsjhenij, shtatnyij Trust tochnogo opredeleniya i proverka fakticheskogo prodolzheniya.
 
-Proveryaya rezuljtat, smotrite na nazvannyiye rabochuyu vetku i kommit. Oni identificiruyut sokhranyonnyij etap; osnovnaya vetka menyayetsya toljko posle sootvetstvuyusjhego obyyedineniya. Posle kommita svoyej rabochej vetki agent sam otpravlyayet yeyo v proverennyij `origin` i podtverzhdayet udalyonnyij kommit. Tochnaya vetka `master` iz avtomaticheskoj otpravki isklyuchena. Obyyedineniye s osnovnoj vetkoj, yeyo publikaciya i sozdaniye PR trebuyut otdeljnogo zaprosa; neuspeshnaya otpravka yavno otmechayetsya.
+Proveryaya rezuljtat, smotrite na nazvannyiye rabochuyu vetku i kommit. Oni identificiruyut sokhranyonnyij etap. Osnovnaya razrabotka i integraciya prinyatyikh rezuljtatov idut v postoyannoj `fuma`; `master` sluzhit dlya boleye redkikh proverennyikh postavok. Zadacha nachinayet rabotu ot tochnogo prinyatogo kommita postanovki. Publikaciya rabochej vetki sama po sebe ne oznachayet integracii v `fuma` ili postavki v `master`. Posle kommita svoyej rabochej vetki agent sam otpravlyayet yeyo v proverennyij `origin` i podtverzhdayet udalyonnyij kommit. Tochnaya vetka `master` iz avtomaticheskoj otpravki isklyuchena. Postavka v `master`, yego publikaciya i sozdaniye PR trebuyut otdeljnogo yavnogo zaprosa; neuspeshnaya otpravka yavno otmechayetsya.
 
 Rezuljtat otdeljnogo rabochego dereva snachala nakhoditsya v yego kataloge. Poprosite: «Pokazhi rabochuyu kopiyu etoj zadachi i otkroj yeyo Zhurnal». V pervonachaljnoj kopii i otkryitom iz neyo Obsidian izmeneniya mogut yesjhyo otsutstvovatj. Dlya perenosa prinyatogo rezuljtata v osnovnuyu kopiyu poprosite obyyedinitj izmeneniya; zapisj nachnyotsya posle proverki, chto eta kopiya svobodna ot drugogo pisatelya.
+
+Celevoj sleduyusjhij variant — checkout `fuma` v osnovnoj papke i otdeljnoye rabocheye derevo `master` dlya stabiljnyikh vyipuskov. Dlya perekhoda yesjhyo nuzhnyi zaversheniye tekusjhej integracii, adaptaciya dopuska vyipuska, kotoryij sejchas trebuyet `master` v osnovnoj papke, i sokhrannyij perenos vladeniya, nezakommichennyikh izmenenij i privyazok zadach. Eto budusjhij perekhod; prostoye pereklyucheniye vetki yego ne vyipolnyayet.
 
 ## Kak ocenivatj proverki i proizvoditeljnostj
 
@@ -109,6 +111,6 @@ Yesli material podgotovlen vo vneshnem dialoge, vospoljzujtesj [poryadkom priyom
 - [Proyekt kontrakta snimkov indeksa](../Zhurnal/2026-09-08_19-07-59_MSK_utochnitj-kontrakt-snimkov-indeksa/otchyot.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 17:24:00 MSK -->
-<!-- content-sha256: sha256:42914d3e2d9dcbd32172749a840556f94e0ac58b82f1c5f9bf26b3b1b28cf052 -->
+<!-- last-content-edit: 2026-09-16 14:03:05 MSK -->
+<!-- content-sha256: sha256:2fb9f5760676ae7fcdc3c85c1108e913a4aa1eecb656de24b20a2158b1aa86eb -->
 <!-- FUM-MD-RECENCY:END -->

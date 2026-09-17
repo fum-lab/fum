@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-16 16:04:30 MSK - Zakrepitj priyom sluzhebnoj delegacii](../2026-09-16_16-04-30_MSK_zakrepitj-priyom-sluzhebnoj-delegacii/zapros.md)
-- Sleduyusjhij zapros: [2026-09-16 16:25:45 MSK - Svyazatj prinyatiye delegacii s rabotoj](../2026-09-16_16-25-45_MSK_svyazatj-prinyatiye-delegacii-s-rabotoj/zapros.md)
+- Sleduyusjhij zapros: [2026-09-16 16:24:37 MSK - Sokhranitj kandidat pereispoljzovaniya istorii modeli](../2026-09-16_16-24-37_MSK_sokhranitj-kandidat-pereispoljzovaniya-istorii-modeli/zapros.md)
 
 ## Tekst zaprosa
 
@@ -40,6 +40,6 @@ Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb
 - [Indeks Zhurnala](../README.md) i [indeks svezhesti](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 19:47:11 MSK -->
-<!-- content-sha256: sha256:8d9bf19760f7a5e4e4921b357b0b41b496572c8a0a343db5fe61136785cc028a -->
+<!-- last-content-edit: 2026-09-17 22:16:46 MSK -->
+<!-- content-sha256: sha256:ba2e25a130c15a79592565f300e56b48836bfc1804492949972b062936ba02d5 -->
 <!-- FUM-MD-RECENCY:END -->

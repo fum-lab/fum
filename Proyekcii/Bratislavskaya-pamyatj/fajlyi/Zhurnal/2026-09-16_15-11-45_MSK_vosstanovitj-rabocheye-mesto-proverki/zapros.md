@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-16 15:06:43 MSK - Sokhranitj proverennyiye postavki](../2026-09-16_15-06-43_MSK_sokhranitj-proverennyiye-postavki/zapros.md)
-- Sleduyusjhij zapros: [2026-09-16 15:30:36 MSK - Utochnitj pokryitiye sluzhebnogo porucheniya](../2026-09-16_15-30-36_MSK_utochnitj-pokryitiye-sluzhebnogo-porucheniya/zapros.md)
+- Sleduyusjhij zapros: [2026-09-16 15:24:26 MSK - Dovesti priyom predlozheniya Max](../2026-09-16_15-24-26_MSK_dovesti-priyom-predlozheniya-Max/zapros.md)
 
 ## Tekst zaprosa
 
@@ -110,6 +110,6 @@ Prinyat konkretnyij sluchaj poteri sluzhebnogo porucheniya posle vosstanovleniya
 Posle otkaza svyaznosti koordinator razreshil podgotovitj toljko nedostayusjheye lokaljnoye okruzheniye svoyego vosstanovlennogo dereva, povtoritj otkazavshuyu svyaznostj i sokhranitj checkpoint/push. Razreshenyi kopirovaniye realjnogo poljzovateljskogo grafa toljko v otsutstvuyusjhuyu ignoriruyemuyu celj s proverkoj neizmennosti i podgotovka LinguisticKit kanonicheskim `fum-proverka-git-zavisimostej init` po gitlink sobstvennogo HEAD. Obsjhiye nastrojki i chuzhiye derevjya ne razreshenyi k izmeneniyu. Soderzhimoye grafa ne publikuyetsya, proiskhozhdeniye i SHA ostayutsya privatno. Vse 13 sokhranyonnyikh fajlov do prodolzheniya sverenyi s privatnoj kvitanciyej i sovpali. Novyij kod, obsjhij bootstrap, polnyij progon, hooks i Trust isklyuchenyi.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 19:47:11 MSK -->
-<!-- content-sha256: sha256:2a33162a283fa8e39decf05e8561cd3bd634336a2e1d7c60d7aa3bd2778727e1 -->
+<!-- last-content-edit: 2026-09-17 22:16:46 MSK -->
+<!-- content-sha256: sha256:7335939cad42670f491e6a8f622d709cdf0fb457ef20f4bad6ec75683408c9c2 -->
 <!-- FUM-MD-RECENCY:END -->

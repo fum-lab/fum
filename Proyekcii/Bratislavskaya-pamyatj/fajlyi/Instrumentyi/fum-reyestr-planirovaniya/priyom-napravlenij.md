@@ -21,9 +21,28 @@ Komanda `Инструменты/fum-reyestr-planirovaniya/scripts/принять
 
 Kazhdaya komanda ispolnyayetsya otdeljnyim processom Python 3. Uspekh vyivodit odin JSON v stdout; otkaz vozvrasjhayet kod 2 s poyasneniyem v stderr. Sam CLI ne otpravlyayet zaprosov Desktop i ne zapuskayet fonovuyu sluzhbu.
 
+Otkazyi chteniya i proverki pervichnogo svideteljstva ispoljzuyut `fum.отказ-приёма.2`: obyazateljnyiye polya `схема`, `ошибка`, `диагностика`. Diagnostika soderzhit `этап`, razreshyonnyij `тип` i bezopasnyij `код`; izvestnyiye vnutrenniye obyortki mogut soderzhatj vlozhennuyu `причина` s `тип`, `код` i sleduyusjhej `причина`. Cepochka ogranichena 16 izvestnyimi obyortkami, povtornoye isklyucheniye ne obkhoditsya. Proizvoljnyij tekst vlozhennogo isklyucheniya, putj i soderzhimoye iskhodnika ne vyivodyatsya. Neizvestnaya raznovidnostj oshibki sokhranyayet obsjhij kod; diagnostika ne vosstanavlivayet prichinyi istoricheskikh agregirovannyikh otkazov. Ostaljnyiye prezhniye otkazyi sokhranyayut skhemu `fum.отказ-приёма.1`.
+
+V predelakh odnoj podgotovki ispoljzuyetsya prezhnij shtatnyij seans chteniya, teperj s proveryayemoj privyazkoj k istochniku, UUID, kornyu, kyeshu i rezhimam. Nesovpadeniye zakryito otkazyivayet. Pereispoljzuyetsya indeks, a ne vyichislennyij ostatok: istoriya, HEAD, svideteljstva i pozdnij vvod sveryayutsya pri kazhdom vyichislenii. Obe proverki resheniya i zaklyuchiteljnyiye chteniya sokhranyayutsya. Posle izmeneniya fajla shtatnyij chitatelj snova proveryayet prezhnij prefiks i razbirayet khvost. `перепроверить=True` sokhranyayet trebovaniye polnogo razbora; seans s drugim rezhimom ne prinimayetsya.
+
+Otkryityij profilj vosproizvoditsya cherez otchyotnuyu obyortku komandoj `python3 -B Инструменты/fum-reyestr-planirovaniya/tests/профиль_чтения_приёма.py --выход <профиль.json>`. On sravnivayet otdeljnyiye seansyi i obsjhij seans na shesti nezavisimyikh fiksturakh; schyotchiki bajtov okhvatyivayut chteniya snimkov, a obsjhaya dliteljnostj — vsyu podgotovku. Otdeljnyiye chteniya sverki granic ne vkhodyat v schyotchik bajtov. Zhivoj dopisyivayemyij JSONL i vneshnyaya zadacha etim profilem ne proveryayutsya.
+
+
 Posle `подготовить` proverjte tochnyij rezuljtat, zapolnite otchyot, obnovite recency i sokhranite proverennyij kommit svoyej vetki obyichnyim poryadkom. V etot kommit dolzhnyi vkhoditj ispolnyayemyiye instrumentyi, para Zhurnala, kartochki, indeksyi i mashinnyij reyestr. Peredajte polnyij OID i polnyij susjhestvuyusjhij ref v `закрепить`; pered vyizovom oni proveryayutsya povtorno. Sokhraneniye kartochki toljko v prompt ili vyibor default-vetki ne dayut dopuska. Do nablyudeniya novoj nachaljnoj bazyi ne dvigajte ref postanovki.
 
 Podgotovka sokhranyayet polnyiye bajtyi obsjhikh indeksov i tochnyiye pozicii paryi v Zhurnale. Poetomu zavershajte zakrepleniye i vneshnyuyu popyitku odnogo napravleniya do podgotovki sleduyusjhego v tom zhe dereve. Posle podgotovki sokhranyajte tekst pered vstavlennoj paroj neizmennyim; dopolneniya otchyota pomesjhajte posle neyo. Novyij etap poluchayet novuyu papku Zhurnala. Predvariteljnoye vyideleniye nomerov samo po sebe ne izmenyayet indeksyi.
+
+## Ustojchivaya privyazka posle shtatnoj navigacii
+
+Yesli sozdaniye sleduyusjhego Zhurnala sdvinulo uzhe prinyatuyu komandu, gotovyij priyom ne povtoryayetsya i yego iskhodnyiye svideteljstva ne redaktiruyutsya. Do zakrepleniya i vneshnej popyitki komanda `сохранить-устойчивую-пару --событие <идентификатор>` sokhranyayet otdeljnyiye neizmenyayemyiye materialyi cherez susjhestvuyusjhij ustanovsjhik ustojchivyikh svideteljstv. Ona ne prinimayet novyiye offsets na vkhod i ne vozobnovlyayet zakryityij Zhurnal.
+
+Dopuskayetsya toljko tochnoye izmeneniye prefiksa zaprosa shtatnyim generatorom navigacii po dejstviteljnyim sosednim zaprosam i ikh zagolovkam. Pervonachaljnyiye ranges i SHA proveryayutsya na sokhranyonnyikh iskhodnyikh bajtakh. Tekusjhaya komanda dolzhna prinadlezhatj yedinstvennomu prezhnemu polnomu `FUM-INTAKE`-bloku, prezhnemu vladeljcu, puti i razreshyonnomu razdelu; skryityij, povtornyij, chuzhoj ili izmenyonnyij blok otklonyayetsya. Otvet i osnovaniye ostayutsya na prezhnikh proverennyikh diapazonakh. Odinakovogo teksta v proizvoljnom meste nedostatochno.
+
+Materialyi `команда.txt` i `соответствие.json` razmesjhayutsya v otdeljnom pokolenii `материалы/устойчивая-пара/` iskhodnogo zaprosa. Sootvetstviye svyazyivayet sobyitiye, vladeljca, istochnik, ekzemplyar, bazu, khyeshi iskhodnogo plana i resheniya, prezhniye i vyichislennyiye svideteljstva i proverennoye izmeneniye navigacii. Povtor sokhranyayet te zhe bajtyi; posle preryivaniya chastichnaya ustanovka zavershayetsya tem zhe vyizovom. Zanyatyiye nesovpadayusjhiye materialyi ne perezapisyivayutsya. Iskhodnaya zapisj priyoma, nomera, kartochki i mashinnaya istoriya ostayutsya prezhnimi.
+
+Vklyuchite materialyi v obyichnyij proverennyij kommit. Mestnaya sverka i zakrepleniye ispoljzuyut obsjhuyu chistuyu proverku sokhranyonnoj paryi. Zakrepleniye vosproizvodit sootvetstviye iz fajlov prinimayemogo kommita, trebuyet tochnogo prisutstviya oboikh materialov i vklyuchayet ikh realjnyiye khyeshi v manifest postanovki. Otsutstvuyusjhij, povrezhdyonnyij ili ustarevshij material ne razreshayet zakrepleniya. Iskhodnyiye proverki istochnika, kartochek, reyestra, koda, Git i vneshnikh polnomochij sokhranyayutsya.
+
+Eto ogranichennoye vosstanovleniye navigacii; proizvoljnaya redaktura prefiksa, perenos otveta ili osnovaniya i izmeneniye soderzhaniya paryi ne podderzhanyi. Otdeljnyij adresnyij nabor — `tests/test_устойчивой_пары_приёма.py`; profilj tryokh otkryityikh fikstur — `tests/профиль_устойчивой_пары.py --выход <профиль.json>`, oba zapuskayutsya cherez otchyotnuyu obyortku. Gotovnostj polnogo napravleniya i zakryitiye inyikh sboyev etim rezuljtatom ne utverzhdayutsya.
 
 ## Ispravleniye negotovogo mestnogo priyoma
 
@@ -152,6 +171,6 @@ python3 -B -m cProfile -s cumulative -m unittest discover -s Инструмен�
 ```
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 21:39:46 MSK -->
-<!-- content-sha256: sha256:0153a27b8540730024ecbd0102d63a83630256229a955108d1171ef52ad0fba2 -->
+<!-- last-content-edit: 2026-09-16 16:18:20 MSK -->
+<!-- content-sha256: sha256:127d74caf474a4b9596924eac96cabd5c45804e31007c98758d2b9b92ac32f61 -->
 <!-- FUM-MD-RECENCY:END -->

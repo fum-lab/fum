@@ -82,6 +82,12 @@ Osnovaniye `FUM-СБОЙ-0071/ПРОЯВЛЕНИЕ-0007` povtoryayet otsutstviye
 
 [FUM-SBOJ-0133/PROYAVLENIYE-0002](../../Sboi/FUM-SBOJ-0133-predprosmotr-do-pervogo-zapuska.md) povtoryayet vyizov predprosmotra do poyavleniya nastoyasjhego zapuska novogo etapa. Podgotovka dolzhna sokhranyatj poryadok predusmotrennyij adresnyij zapusk → terminaljnaya kvitanciya → predprosmotr; pustoj katalog ili iskusstvennaya uspeshnaya zapisj ne zamenyayut vyipolneniye. [Iskhodnoye svideteljstvo](../../Zhurnal/2026-09-16_00-15-17_MSK_proveritj-postavki-kommita-i-integracii/materialyi/povtor-rannego-predprosmotra.json). Lokaljnoye vosstanovleniye vyipolneno; obsjhaya profilaktika yesjhyo ne realizovana.
 
+## Povtor vyibora rezhima i otdeljnyij predel zakhvata
+
+`FUM-СБОЙ-0134/ПРОЯВЛЕНИЕ-0002` povtoryayet nesovmestimyij kontroljnyij rezhim vnutri aktivnoj obyortki: trebuyetsya prezhnyaya rannyaya proverka sostoyaniya otchyota do dliteljnogo obkhoda. Uspekh obyichnogo rezhima sokhranyayetsya kak ogranichennoye vosstanovleniye togo zhe snimka.
+
+`FUM-СБОЙ-0151/ПРОЯВЛЕНИЕ-0001` zadayot otdeljnuyu granicu podgotovki vyizova zakhvata: vneshnij predel3700s prevyishal razreshyonnyiye3600s i byil otklonyon do kataloga i smoke. Primenimyij diapazon i otnosheniye vneshnego i vnutrennego predelov dolzhnyi byitj ponyatnyi iz opisaniya i proveryayemogo primera. Ne schitatj predvariteljnyij otkaz vyipolnennyim povtorom polnogo progona; iskhodnyij otkaz i posleduyusjhuyu popyitku razlichatj. Eto minimaljnoye dopolneniye plana, bez novoj realizacii.
+
 ## Istochniki
 
 - [Tretij sokhranyonnyij epizod nepolnoj paryi](../../Sboi/FUM-SBOJ-0071-nepolnaya-para-zhurnala-pered-kontroljnoj-tochkoj.md) — `FUM-СБОЙ-0071/ПРОЯВЛЕНИЕ-0005`; [iskhodnyij otchyot](../../Zhurnal/2026-09-15_00-00-47_MSK_uchestj-semj-aktualjnyikh-komand/otchyot.md).
@@ -105,7 +111,10 @@ Osnovaniye `FUM-СБОЙ-0071/ПРОЯВЛЕНИЕ-0007` povtoryayet otsutstviye
 
 Osnovaniye aktualizacii — `FUM-СБОЙ-0071/ПРОЯВЛЕНИЕ-0006`: [ranniye otkazyi podgotovki obyyedineniya](../../Zhurnal/2026-09-15_03-35-30_MSK_podgotovitj-obyyedineniye-konteksta-i-finansirovaniya/materialyi/ranniye-otkazyi-polej.json). Proverka otrabotala do polnogo obkhoda i dorogoj proyekcii. Nuzhno sokhranitj yeyo ranneye polozheniye i vosproizvodimuyu podgotovku obyazateljnyikh polej; chastnoye ispravleniye paryi ne zakryivayet vesj 0174.
 
+- [FUM-SBOJ-0134/PROYAVLENIYE-0002](../../Sboi/FUM-SBOJ-0134-kontroljnaya-tochka-vnutri-obyortki.md) — [nablyudeniye](../../Zhurnal/2026-09-16_17-24-57_MSK_zaregistrirovatj-otkazyi-finansovoj-priyomki/materialyi/nablyudeniye-otkaza-5.json).
+- [FUM-SBOJ-0151/PROYAVLENIYE-0001](../../Sboi/FUM-SBOJ-0151-prevyisheniye-predela-tajm-auta-zakhvata.md) — [pervichnoye svideteljstvo](../../Zhurnal/2026-09-16_17-24-57_MSK_zaregistrirovatj-otkazyi-finansovoj-priyomki/materialyi/nablyudeniye-rannego-otkaza-zakhvata.json).
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 00:46:06 MSK -->
-<!-- content-sha256: sha256:53a6deafbb602ef811c63c952be8130da35f3e7e6a93917cea9fd653f803282c -->
+<!-- last-content-edit: 2026-09-17 22:16:46 MSK -->
+<!-- content-sha256: sha256:349881cffbc1a075ecbe8277f795e62677b260afb773f4a57abbae3bd0f4e166 -->
 <!-- FUM-MD-RECENCY:END -->

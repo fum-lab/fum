@@ -17,6 +17,8 @@ Avtomatizaciya osobenno polezna, kogda sessiya menyayet neskoljko oblastej pamya
 
 ## Promezhutochnyij kommit postoyannoj zadachi
 
+Dlya povtorno primenimogo sozdaniya kontroljnoj tochki ispoljzuj [podgotovku i sozdaniye kommita](sozdaniye-kommita.md): pervichnyiye komandyi, nablyudayemaya modelj, rolj avtora, tochnyij indeks, obyazateljnyiye proverki, sozdaniye i chteniye fakticheskogo Git-obyyekta. Obyichnyij i merge-kommit podderzhanyi; itogovoye zamyikaniye proyekcii poka zakryito otkazyivayet.
+
 Yavnyij flag --kontroljnaya-tochka primenyayetsya toljko k promezhutochnomu kommitu, razreshyonnomu poljzovatelem. Vse proverki zaprosa, soobsjheniya kommita, identifikatora, ssyilok, recency i Git-sostoyaniya sokhranyayutsya. Mashinnyij zhurnal dolzhen byitj otkryityim, soderzhatj toljko terminaljnyiye zapisi i tochnyij aktualjnyij predprosmotr; aktivnaya zapisj, snimok, zhurnal vozobnovleniya ili podmena bloka zapresjhayut dopusk. Rezhim po umolchaniyu ne menyayetsya. Proverka ne zakryivayet otchyot i ne zayavlyayet gotovnostj proyekcii ili finaljnogo rezuljtata.
 
 ## Resheniye o prodolzhenii zadachi
@@ -221,6 +223,6 @@ Proverka Git-sostoyaniya sravnivayet toljko puti. Ona ne reshayet, nuzhno li vkl
 [Plan i primeneniye ustojchivyikh svideteljstv](ustojchivyiye-svideteljstva.md) pereispoljzuyut shtatnoye sokhraneniye obrabotki. Yavnoye opisaniye vyibirayet ekzemplyaryi i resheniya; plan bez zapisi pokazyivayet polnyiye materialyi i posledovateljnostj, primeneniye vozvrasjhayet fakticheskij prefiks i dopuskayet proveryayemyij povtor. Podklyucheniye k obsjhemu yazyiku operatorov ostayotsya otdeljnyim styikom.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 19:47:11 MSK -->
-<!-- content-sha256: sha256:6609fdb8a92c99cc8580f429ef68ba25481585d2885d9ff818f59b265cb8db7c -->
+<!-- last-content-edit: 2026-09-17 22:16:46 MSK -->
+<!-- content-sha256: sha256:3c3e7149a841442886e699fe046399b875d642c75eccc7129d2e9c28c7d52ae5 -->
 <!-- FUM-MD-RECENCY:END -->

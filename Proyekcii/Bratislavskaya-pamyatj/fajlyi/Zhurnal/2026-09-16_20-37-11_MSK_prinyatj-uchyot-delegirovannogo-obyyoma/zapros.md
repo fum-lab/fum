@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-16 20:04:17 MSK - Vernutj prinyatuyu integraciyu v fuma](../2026-09-16_20-04-17_MSK_vernutj-prinyatuyu-integraciyu-v-fuma/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-16 21:47:47 MSK - Zaregistrirovatj priyomku delegacij](../2026-09-16_21-47-47_MSK_zaregistrirovatj-priyomku-delegacij/zapros.md)
 
 ## Tekst zaprosa
 
@@ -39,6 +39,6 @@ Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb
 - [Proyekciya celikom](../../../..).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 20:49:30 MSK -->
-<!-- content-sha256: sha256:1ca5a4af38516f806b2fa26c2280bc83253eb65ed7a26f4a2722988b31592fb0 -->
+<!-- last-content-edit: 2026-09-16 22:18:19 MSK -->
+<!-- content-sha256: sha256:51dc4cf92039eda836d344a5898cb55064d2d8356e0ec4372b1b5b17462118ee -->
 <!-- FUM-MD-RECENCY:END -->

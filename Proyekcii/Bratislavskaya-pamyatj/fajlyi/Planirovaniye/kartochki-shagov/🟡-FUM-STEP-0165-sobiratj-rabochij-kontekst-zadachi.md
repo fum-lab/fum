@@ -73,7 +73,63 @@ Sokhranenyi dve otdeljnyiye oshibki podgotovki vkhoda: terminaljnoye svideteljst
 
 [Ogranichennaya realizaciya](https://github.com/fum-lab/fum/blob/b74e49b2b1a7a2a424e1d3445eb5a87ff57d9905/Журнал/2026-09-15_17-14-42_MSK_создать-устойчивые-свидетельства/запрос.md) gotovit Python-plan polnyikh materialov i posledovateljnoye primeneniye cherez shtatnuyu obrabotku. Eto otdeljnaya kontroljnaya tochka, ne zaversheniye kartochki. Sleduyusjhaya granica — podklyuchitj dejstviye k susjhestvuyusjhemu yazyiku strukturiruyusjhikh operatorov: LLM vidit opisaniye avtomaticheskikh operacij, menyayet podderzhannyiye parametryi i poluchayet fakticheskiye rezuljtatyi, vklyuchaya chastichnyij otkaz i povtor. Nalichiye polya «operator» v JSON ne dokazyivayet takogo podklyucheniya. Polnaya priyomka i integraciya ostayutsya otdeljnyimi.
 
+## Dinamicheskij vyibor usiliya Astra
+
+Nachaljnaya politika — Astra Low dlya obyichnoj rabotyi i Ultra dlya integracij. Diapazon Medium–High yavlyayetsya primerom sravneniya, a ne uzhe vyibrannoj zamenoj. Podderzhannyiye usiliya predstavlyayutsya diskretnyim perechnem vozmozhnostej sredyi; linejnaya svyazj cenyi i kachestva ne predpolagayetsya. Yavnyiye poljzovateljskiye ogranicheniya sokhranyayut prioritet. Dlya uzhe nachatogo proveryayemogo integracionnogo etapa Ultra sokhranyayetsya do yego zaversheniya; verkhnyaya granica sleduyusjhikh etapov takzhe dopuskayet eksperimentaljnyij peresmotr.
+
+Vyibor usiliya otdeljnogo etapa vnutri dejstvuyusjhikh granic po slozhnosti, risku i podtverzhdyonnyim oshibkam otdelyayetsya ot peresmotra samikh granic po serii sopostavimyikh rezuljtatov. Pri podtverzhdyonnoj serjyoznoj oshibke dopuskayetsya operativnoye povyisheniye usiliya etapa v dostupnyikh predelakh bez obyyavleniya novogo postoyannogo diapazona. Yedinstvennyij udachnyij ili neudachnyij iskhod ne opredelyayet novyiye granicyi. Nekhvatka sopostavimyikh dannyikh sokhranyayet tekusjhuyu politiku i neizvestnostj, a ne vyibirayet pobeditelya po umolchaniyu.
+
+Sravneniye ispoljzuyet odin nezavisimyij nabor kriteriyev kachestva na sopostavimyikh postanovkakh. Chislo sobstvennyikh testov ne yavlyayetsya sravniteljnoj ocenkoj kachestva. Uchityivayutsya oshibki posle nezavisimogo revjyu, propusjhennyiye obyazateljstva, povtornyiye popyitki, vremya i resursyi do prinyatogo rezuljtata, vklyuchaya proverki, ispravleniya i stoimostj samogo nablyudeniya. Neuspekhi sokhranyayutsya. Oshibki modeli, okruzheniya i poterya aktivnoj postanovki posle szhatiya konteksta razlichayutsya; sovpadeniye po vremeni ne dokazyivayet prichinu. Nedostupnyiye pokazateli raskhoda i stoimosti ostayutsya neizvestnyimi; obsjhij raskhod akkaunta ne pripisyivayetsya otdeljnoj zadache.
+
+Pervyij budusjhij ispolnyayemyij srez — determinirovannyij rekomendatelj na otkryityikh posledovateljnostyakh nablyudenij. Vkhod zadayot zadachu, versiyu politiki, dostupnyiye urovni i dejstvuyusjhiye granicyi, predyidusjhiye resheniya, uporyadochennyiye svideteljstva i nezavisimyiye ocenki. Vyikhod soderzhit rekomendaciyu libo sokhraneniye politiki s neizvestnostjyu, prichinyi i ispoljzovannyiye istochniki. Budusjhiye sobyitiya ne ispoljzuyutsya v proshlom reshenii; povtor i vosstanovleniye na odinakovyikh vkhodakh dayut odinakovyij rezuljtat.
+
+Peresmotr sokhranyayet prezhniye i novyiye granicyi, osnovaniya i istochniki. Zasjhita ot chastyikh pereklyuchenij razlichayet usloviya povyisheniya, snizheniya i peresmotra diapazona. Razmer sopostavimoj serii, periodyi uderzhaniya i porogi zadayutsya yavno, kalibruyutsya i proveryayutsya v budusjhem sreze; proizvoljnyiye rabochiye chisla sejchas ne naznachayutsya. Nastrojki ne skryivayut novoye narusheniye obyazateljnogo ogranicheniya.
+
+Priyomka rekomendatelya vklyuchayet nezavisimyij etalon, RED/GREEN i otkryityiye posledovateljnosti oshibok posle revjyu, povtorov, propuskov, zaderzhannoj obratnoj svyazi, neizvestnosti, protivorechij, otmen, izmeneniya diapazona i vosstanovleniya. Profilj izmeryayet chteniye, vyichisleniye i sokhraneniye; resheniye ob optimizacii proveryayetsya na sopostavimyikh vkhodakh. Vosproizvedeniye fikstur dokazyivayet svojstva politiki, no ne kachestvo libo ekonomiyu realjnoj Astra na nenablyudyonnyikh rezhimakh.
+
+Sleduyusjhij otdeljnyij srez — adapter realjnogo pereklyucheniya v razreshyonnoj zadache. On razlichayet zaproshennyiye modelj i effort i fakticheski nablyudyonnoye sostoyaniye, sokhranyayet otkaz libo nepodtverzhdyonnyij iskhod i predotvrasjhayet povtornoye primeneniye resheniya. Do realizacii adaptera rekomendatelj nichego ne pereklyuchayet.
+
+Zadannyiye vesa i porogi operatornogo vnimaniya STEP0218 vyichislyayut prioritet README i integracionnyikh opredelenij. Oni ne podbirayut effort i ne yavlyayutsya gotovyim regulyatorom. Ikh predstavleniye signalov mozhet byitj pereispoljzovano po proverennomu kontraktu. Eto utochneniye sokhranyayet prezhnij tekst i `active` polnogo STEP0165; novyiye nomera i zadachi ne sozdayutsya.
+
+## Pozdneye utochneniye Max i kriteriyev adaptacii
+
+Komanda ot 2026-09-16 10:15:15.334 UTC sokhranyayet eksperimentaljnyij zapros Astra Max vmesto Astra Ultra i utochnyayet prezhneye sokhraneniye Ultra v oblasti etogo porucheniya. Ona ne ustanavlivayet postoyannuyu optimaljnuyu verkhnyuyu granicu. Zaproshennoye izmeneniye, fakticheski nablyudyonnoye primeneniye i izmeneniye uslovij sravneniya fiksiruyutsya razdeljno; primeneniye Max etoj dokumentacionnoj zapisjyu ne podtverzhdayetsya.
+
+Dlya adaptacii zadayutsya kriterii povyisheniya, snizheniya i sokhraneniya otdeljno dlya usiliya etapa i granic diapazona:
+
+| Resheniye | Povyisitj | Ponizitj | Sokhranitj |
+| --- | --- | --- | --- |
+| Usiliye etapa | Podtverzhdyonnyiye oshibki rassuzhdeniya ili propuski trebovanij obosnovyivayut povyisheniye v dostupnyikh predelakh. | Sopostavimaya seriya nezavisimo prinyatyikh rezuljtatov podtverzhdayet kachestvo pri menjshikh polnyikh zatratakh. | Dannyikh nedostatochno; neizvestnaya prichina ili oshibka instrumenta libo okruzheniya sami po sebe ne obosnovyivayut smenu. |
+| Nizhnyaya granica | Seriya podtverzhdayet sistematicheskoye neprokhozhdeniye menjshim urovnem obsjhego kriteriya libo boljshiye polnyiye zatratyi iz-za peredelok. Uspekh Medium otdeljno nedostatochen. | Boleye nizkij kandidat sopostavimo sokhranyayet kachestvo pri menjshikh polnyikh zatratakh. | Net sopostavimogo podtverzhdeniya izmeneniya. |
+| Verkhnyaya granica | Podtverzhdenyi nedostatochnostj tekusjhego urovnya dlya trebuyemogo kachestva i riska i poljza boleye vyisokogo dostupnogo kandidata. | Menjshij kandidat sokhranyayet kachestvo i priyemlemyij risk pri vyigode polnyikh zatrat; High — primer. | Net sopostavimyikh dannyikh o kachestve, riske i vyigode izmeneniya. |
+
+Polnyiye zatratyi uchityivayutsya po prinyatoj strategii, vklyuchaya uchastiye cheloveka. Operativnoye resheniye etapa otdelyayetsya ot peresmotra granic po serii nablyudenij. Chislennyiye porogi i zasjhita ot kolebanij trebuyut budusjhej kalibrovki. Eto utochneniye plana: nastrojki ne menyayutsya, realizaciya ne zayavlyayetsya, status polnogo STEP0165 ostayotsya `active`. [Pervichnyiye komandyi i priyom](../../Zhurnal/2026-09-16_15-24-26_MSK_dovesti-priyom-predlozheniya-Max/zapros.md).
+
+## Strategiya snizheniya neobkhodimyikh usilij modeli
+
+Strategicheskaya celj — posledovateljno snizhatj neobkhodimyiye usiliya modeli, perenosya povtoryayemuyu rabotu v proveryayemyiye avtomatizacii, strukturiruyusjhiye operatoryi i dostupnuyu pamyatj. Eto dolzhno rasshiryatj krug zadach, posiljnyikh boleye prostyim lokaljnyim LLM. Snizheniye slozhnosti ostavshejsya rabotyi otdelyayetsya ot vyibora urovnya effort i smenyi modeli. Prigodnostj podtverzhdayetsya dlya opredelyonnogo klassa sopostavimyikh zadach s yavnyim predelom dopuska; universaljnaya zamena Astra ne predpolagayetsya. Snizheniye usiliya ostayotsya celevyim napravleniyem, a povyisheniye v dejstvuyusjhikh predelakh sluzhit vosstanovleniyu kachestva pri podtverzhdyonnom sboye. Iskusstvennoye uderzhaniye Low i oslableniye proverok ne dopuskayutsya.
+
+Uspekh ocenivayetsya po polnyim zatratam na prinyatyij rezuljtat pri sokhranenii nezavisimyikh kriteriyev kachestva, vklyuchaya povtoryi, proverki, ispravleniya i uchastiye cheloveka. Uchityivayetsya stoimostj podgotovki i ekspluatacii avtomatizacii i samikh nablyudenij. Dopolniteljnyij pokazatelj vvoditsya dlya konkretnogo resheniya i s sorazmernoj stoimostjyu sbora. Dlya chteniya konteksta primenimyi chislo chtenij i povtornyikh vyichislenij, realjno prochitannyiye bajtyi, vremya razbora i sverki, rabota kyesha. Dlya sravneniya modelej dopolniteljno nuzhnyi kachestvo prinyatogo rezuljtata, oshibki posle revjyu, povtoryi i vmeshateljstva cheloveka, vkhodnyiye, vyikhodnyiye i kyeshirovannyiye tokenyi, raskhod konteksta, vremya lokaljnogo vyipolneniya i pikovaya pamyatj. Znacheniya soprovozhdayutsya istochnikom, dostupnostjyu, oblastjyu, yedinicej i usloviyami izmereniya; nedostupnyiye dannyiye ostayutsya neizvestnyimi. Obsjhij limit akkaunta ne pripisyivayetsya zadache ili modeli, a denezhnaya cena ne vyivoditsya iz tokenov bez podtverzhdyonnogo tarifa. Sbor ne dolzhen neopravdanno raskhodovatj kontekst.
+
+Plan nablyudeniya svyazyivayet vopros i zavisyasjheye ot otveta resheniye s pokazatelyami, sposobom i usloviyami sbora, otvetstvennyim ispolnitelem, usloviyem dostatochnosti dannyikh i srokom sleduyusjhego rassmotreniya. Predusmatrivayetsya avtomaticheskij signal vozvrata voprosa vo vnimaniye pri dostizhenii dostatochnosti libo nastuplenii sroka. Zatem sokhranyayetsya vyivod so svideteljstvami ili prichina nedostatochnosti dannyikh, posle chego otdeljno prinimayetsya resheniye v dejstvuyusjhikh polnomochiyakh. Srok rassmotreniya ne obesjhayet gotovogo otveta; polucheniye signala i rassmotreniye voprosa ne oznachayut yego razresheniya. Primer budusjhego voprosa — dopusk boleye prostoj lokaljnoj modeli k opredelyonnomu klassu povtoryayemyikh zadach.
+
+Eto planovoye utochneniye. Obsjhij mekhanizm nablyudenij, avtomaticheskij signal gotovnosti i ispyitaniya lokaljnyikh modelej zdesj ne realizovanyi. Ono sokhranyayet dejstvuyusjhiye ogranicheniya, samostoyateljnuyu priyomku budusjhikh srezov i status `active` polnogo STEP0165. [Pervichnyiye komandyi i otvetyi](../../Zhurnal/2026-09-16_14-54-36_MSK_zakrepitj-strategiyu-snizheniya-usilij-modeli/zapros.md) otdelenyi ot budusjhikh rezuljtatov.
+
+## Kandidat pereispoljzovaniya istorii modeli mezhdu etapami
+
+Posle novogo etapa Zhurnala novyij kursor sejchas zanovo razbirayet istoriyu modeli. Rassmotretj otdeljnuyu yavnuyu operaciyu sozdaniya novoj paryi «istoriya i kursor» iz raneye proverennoj paryi s sokhraneniyem prezhnikh fajlov bez izmenenij. Eto kandidat v susjhestvuyusjhem shage, a ne realizovannaya vozmozhnostj ili novoye porucheniye ispolnitelyu.
+
+Dopusk budusjhej operacii dolzhen svyazyivatj SHA obeikh iskhodnyikh chastej, UUID zadachi, identichnostj istochnika, versiyu realizacii i polnyij proverennyij prefiks JSONL s novyim naznacheniyem. Novyiye naznacheniya dolzhnyi byitj svobodnyi; ustanovka soglasovannoj paryi — atomarnoj libo vozobnovlyayemoj s proveryayemyim sostoyaniyem posle preryivaniya. Povtor, chuzhoj kursor, povrezhdeniye, podmena istochnika i nesovpadayusjhaya istoriya trebuyut yavnyikh proverok. Staraya para i zakryityij Zhurnal ne perepisyivayutsya.
+
+Khyeshirovaniye rastusjhego prefiksa sokhranyayetsya: predpolagayemaya poljza otnositsya prezhde vsego k isklyucheniyu povtornogo razbora JSON, a ne k ustraneniyu vsekh chtenij. Smena realizacii chitatelya otmenyayet perenos prezhnego kursora bez otdeljnogo dokazateljstva; nuzhnyi odnokratnyij polnyij import libo proverennaya migraciya. Neizvestnyiye pereklyucheniya modeli ne vosstanavlivayutsya dogadkoj.
+
+Do resheniya o realizacii sravnitj nyineshnij novyij import i budusjhij perenos na odinakovyikh vkhodakh i kriteriyakh: bajtyi chteniya, chislo razobrannyikh strok, vremya, dopisyivaniye istochnika, sokhrannostj staroj paryi i polnyij raskhod do prinyatogo rezuljtata. Koordinator nablyudal 920488206 bajtov, 85408 strok i 7,793475250 s; zdesj eto izmereniye ne povtoryalosj i uskoreniye ne dokazano. Nablyudeniye ne menyayet planovyij status Max i fakticheskuyu modelj tekusjhej zadachi.
+
+Istochnik: [sokhranyonnyij kandidat i pervichnyiye osnovaniya](../../Zhurnal/2026-09-16_16-24-37_MSK_sokhranitj-kandidat-pereispoljzovaniya-istorii-modeli/zapros.md).
+
 ## Istochniki
+
+- [Dinamicheskiye granicyi usiliya: pervichnyiye komandyi i utochneniya](../../Zhurnal/2026-09-16_13-03-58_MSK_utochnitj-dinamicheskiye-granicyi-usiliya-Astra/zapros.md).
 
 - [FUM-SBOJ-0140/PROYAVLENIYE-0001](../../Sboi/FUM-SBOJ-0140-privatnyiye-ukazateli-v-soobsjhenii-kommita.md) — granica bezopasnogo sokhraneniya koordinacii i publichnogo soobsjheniya Git.
 - [FUM-SBOJ-0141/PROYAVLENIYE-0001 i PROYAVLENIYE-0002](../../Sboi/FUM-SBOJ-0141-neogranichennaya-peredacha-vyivoda-v-kontekst.md) — polnyij rezuljtat sokhranyayetsya do ogranichennogo predstavleniya nezavisimo ot formata.
@@ -101,6 +157,6 @@ Sokhranenyi dve otdeljnyiye oshibki podgotovki vkhoda: terminaljnoye svideteljst
 - [Adresnaya klassifikaciya sobstvennoj postavki i vkhodnyiye otkazyi](../../Zhurnal/2026-09-14_20-03-08_MSK_utochnitj-sobstvennyiye-imena-postavki/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 17:49:52 MSK -->
-<!-- content-sha256: sha256:28dadf90daf830c74d4b51aca5458de860cd6d752195c0a5cdcfde227528d7c8 -->
+<!-- last-content-edit: 2026-09-16 16:28:37 MSK -->
+<!-- content-sha256: sha256:08bf0d0d61e6a56a187561f00a0d3eb3c65de387b02c96a166292d25974ea86c -->
 <!-- FUM-MD-RECENCY:END -->

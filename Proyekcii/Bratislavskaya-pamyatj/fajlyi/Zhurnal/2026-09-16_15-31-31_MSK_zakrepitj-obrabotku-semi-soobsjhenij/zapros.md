@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-16 15:30:36 MSK - Utochnitj pokryitiye sluzhebnogo porucheniya](../2026-09-16_15-30-36_MSK_utochnitj-pokryitiye-sluzhebnogo-porucheniya/zapros.md)
-- Sleduyusjhij zapros: [2026-09-16 16:04:00 MSK - Ispravitj proverku shtatnogo udaleniya proyekcii](../2026-09-16_16-04-00_MSK_ispravitj-proverku-shtatnogo-udaleniya-proyekcii/zapros.md)
+- Sleduyusjhij zapros: [2026-09-16 15:39:14 MSK - Sokhranitj oformleniye priyoma Max](../2026-09-16_15-39-14_MSK_sokhranitj-oformleniye-priyoma-Max/zapros.md)
 
 ## Tekst zaprosa
 
@@ -66,6 +66,6 @@ Codex-Thread-ID: 01a07d3d-d376-7ad2-aafc-67e4c25a67eb
 - [Indeks Zhurnala](../README.md) i [indeks svezhesti](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 20:30:40 MSK -->
-<!-- content-sha256: sha256:732582622b78c0f8ba6476d12ad9c8a4da6e76ea4e5b8d7b5568424fa2bf21f0 -->
+<!-- last-content-edit: 2026-09-17 22:16:46 MSK -->
+<!-- content-sha256: sha256:ec659368c0ebf41776f8720e6b65e31f593035cc4c77e23f36a868c965e814b3 -->
 <!-- FUM-MD-RECENCY:END -->

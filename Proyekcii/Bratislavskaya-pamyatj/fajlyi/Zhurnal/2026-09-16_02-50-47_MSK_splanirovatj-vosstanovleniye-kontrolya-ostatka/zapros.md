@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-16 02:10:09 MSK - Podgotovitj predposyilku formatov proyekcii](../2026-09-16_02-10-09_MSK_podgotovitj-predposyilku-formatov-proyekcii/zapros.md)
-- Sleduyusjhij zapros: [2026-09-16 13:46:12 MSK - Sokhranitj resheniya o vetkakh i usilii](../2026-09-16_13-46-12_MSK_sokhranitj-resheniya-o-vetkakh-i-usilii/zapros.md)
+- Sleduyusjhij zapros: [2026-09-16 13:03:58 MSK - Utochnitj dinamicheskiye granicyi usiliya Astra](../2026-09-16_13-03-58_MSK_utochnitj-dinamicheskiye-granicyi-usiliya-Astra/zapros.md)
 
 ## Tekst zaprosa
 
@@ -107,6 +107,6 @@ Koordinator posle adresnyikh GREEN zakrepil `FUM-СБОЙ-0130/ПРОЯВЛЕН�
 [Povtornaya sverka sostava](materialyi/sverka-povtornogo-polnogo-profilya.json) podtverzhdayet doslovnoye sovpadeniye vsekh 87 komand i poryadka; razlichayutsya toljko izmerennyiye dliteljnosti polucheniya plana. Snimok posle chetyiryokh sdvigov obnovlyon shtatno i tochno proveren; planovyij reyestr shtatno peresobran i proveren. Okonchateljnyij iskhod polnoj popyitki fiksiruyetsya v mashinnom zhurnale otchyota, a ne predpolagayetsya iz etikh preduslovij.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 20:30:40 MSK -->
-<!-- content-sha256: sha256:1abfda572eb755617832aed48dbb787999ac9e96c00c2d575e783c430c8249df -->
+<!-- last-content-edit: 2026-09-17 22:16:46 MSK -->
+<!-- content-sha256: sha256:80522f1e80204eb0d1f6b9b23ff59ef8ec752a17dffa60fb8422e689cb0329a0 -->
 <!-- FUM-MD-RECENCY:END -->

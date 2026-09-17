@@ -2,7 +2,7 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-16 15:31:31 MSK - Zakrepitj obrabotku semi soobsjhenij](../2026-09-16_15-31-31_MSK_zakrepitj-obrabotku-semi-soobsjhenij/zapros.md)
+- Predyidusjhij zapros: [2026-09-16 15:39:14 MSK - Sokhranitj oformleniye priyoma Max](../2026-09-16_15-39-14_MSK_sokhranitj-oformleniye-priyoma-Max/zapros.md)
 - Sleduyusjhij zapros: [2026-09-16 16:04:30 MSK - Zakrepitj priyom sluzhebnoj delegacii](../2026-09-16_16-04-30_MSK_zakrepitj-priyom-sluzhebnoj-delegacii/zapros.md)
 
 ## Tekst zaprosa
@@ -69,6 +69,6 @@ Dlya dostavki uzhe razreshyon vremennyij prezhnij sposob: proverennyij lokaljnyi
 - [Otvetyi na pozdniye soobsjheniya](materialyi/pozdnij-dialog.md). Perenesenyi bajtovo iz sokhranyonnogo podgotoviteljnogo etapa etoj zhe kornevoj zadachi; etot perenos ne utverzhdayet priyomki osnovnogo kandidata.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 20:30:40 MSK -->
-<!-- content-sha256: sha256:e6423971187b843bf7c84817fd8ff3451e124aff40c6c8a89dbb283990628f8b -->
+<!-- last-content-edit: 2026-09-17 22:16:46 MSK -->
+<!-- content-sha256: sha256:1c053c83783490806e88ca9615401b62e1b0e06e16ca8e184aebde760cb2b877 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -2,7 +2,7 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-16 14:22:48 MSK - Zakrepitj celj lokaljnyikh modelej](../2026-09-16_14-22-48_MSK_zakrepitj-celj-lokaljnyikh-modelej/zapros.md)
+- Predyidusjhij zapros: [2026-09-16 14:54:36 MSK - Zakrepitj strategiyu snizheniya usilij modeli](../2026-09-16_14-54-36_MSK_zakrepitj-strategiyu-snizheniya-usilij-modeli/zapros.md)
 - Sleduyusjhij zapros: [2026-09-16 15:06:43 MSK - Sokhranitj proverennyiye postavki](../2026-09-16_15-06-43_MSK_sokhranitj-proverennyiye-postavki/zapros.md)
 
 ## Tekst zaprosa
@@ -72,6 +72,6 @@ Koordinator soglasoval odno otdeljnoye sliyaniye: M=9efd84ded4e0f47b47aaac4a7464
 - [Pozdnij dialog](materialyi/pozdnij-dialog.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 20:30:40 MSK -->
-<!-- content-sha256: sha256:a91b5e2b58268568499fd968bf7675f53dea41ee67d38422cc72d6d90b804cfb -->
+<!-- last-content-edit: 2026-09-17 22:16:46 MSK -->
+<!-- content-sha256: sha256:7047012dbcfc8c674dc78cdc7e97a48eafc191f6c0908360aff06f16fbd148bd -->
 <!-- FUM-MD-RECENCY:END -->

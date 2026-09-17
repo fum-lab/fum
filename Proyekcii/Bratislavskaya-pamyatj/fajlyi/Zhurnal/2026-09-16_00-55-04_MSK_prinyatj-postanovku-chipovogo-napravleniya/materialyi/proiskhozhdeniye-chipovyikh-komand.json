@@ -1,0 +1,35 @@
+{
+  "схема": "fum.происхождение-чиповых-команд.1",
+  "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "граница": 863315448,
+  "sha256": "eb1e1220cfab547d1e01c04a479cae0266e9863fb0c882f5cfe5cdb9d4940923",
+  "команды": [
+    {
+      "экземпляр": "05789fafcacfef8721f915d1544cdd2b9b4c343e7f8beb99437db5aae4471766",
+      "позиция": {
+        "начало": 773773019,
+        "конец": 773773567,
+        "sha256": "148a4ac58a49742f95c6f8106d7724bfcd1f48590cadd65378c9ca0008616b85"
+      },
+      "текст": "Sobstvennoye proizvodstvo chipov pozvolit v tom chisle vyipuskatj apparatnyiye realizacii dlya ustojchivyikh i chasto trebuyemyikh skhem strukturiruyusjhikh operatorov.\n"
+    },
+    {
+      "экземпляр": "365ae6f92f9c328023a7b0a0831910729285c98a68cfcc2214d8aaab7ea35c7c",
+      "позиция": {
+        "начало": 838663464,
+        "конец": 838663901,
+        "sha256": "70e615e2ca8420308d9b3a334c423590bc6a81f2a170c524427e74880798d9c5"
+      },
+      "текст": "U nas uzhe otkryito napravleniye proyektirovaniya chipov?\n"
+    },
+    {
+      "экземпляр": "8843ab847c0dcb697349f535bd5d242d5e35782d07d408224a6dea39ec949ff8",
+      "позиция": {
+        "начало": 838764188,
+        "конец": 838764581,
+        "sha256": "2a65c9ed18689eed7d852461176ef97a6fb8989317c736b8bd8e2ee8211c86de"
+      },
+      "текст": "Zajmisj etim.\n"
+    }
+  ]
+}

@@ -4023,6 +4023,159 @@
       "count": 1,
       "category": "report.historical",
       "reason": "Дословный ответ повторного чтения комментария GitHub содержит относительные HTTP-ссылки в body_html; это адреса сайта, а не пути машины."
+    },
+    {
+      "id": "planner-integration-j13-1-36",
+      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/устойчивая_пара_приёма.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:778b2f09fd30374d412ef345cbc5f94b2376c701dc84e3ae9bc9006f6d406ce4",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Точный суффикс относительного пути проверяемого журнального свидетельства; соединяется с вычисленным каталогом, не задаёт абсолютный путь машины."
+    },
+    {
+      "id": "planner-integration-j13-1-71",
+      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/устойчивая_пара_приёма.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ccaa13e98c796eb60a1e745039ab5eaf774f7648650df5cbde59c18aa12215cb",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Точный суффикс относительного пути проверяемого журнального свидетельства; соединяется с вычисленным каталогом, не задаёт абсолютный путь машины."
+    },
+    {
+      "id": "planner-integration-j13-1-76",
+      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/устойчивая_пара_приёма.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:15cc042f8ac0392ecf5952c9a68e547bb0219afd59ef915ca29c875e3a544048",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Точный суффикс относительного пути проверяемого журнального свидетельства; соединяется с вычисленным каталогом, не задаёт абсолютный путь машины."
+    },
+    {
+      "id": "planner-integration-j13-2-220",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:5d891b281d662b783e6c471e3d4f0924b61d7f1dc6628a5adce194cbe3ff08f9",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Регулярное выражение проверяет допустимую Markdown-ограду из тильд; это синтаксис документа, не раскрытие домашнего каталога."
+    },
+    {
+      "id": "planner-integration-j13-3-82",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_входа_направления.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:057bd37329cceb0f8bb5b6d73ab5dfdccd8a36740e038ee3f1376e2d594ace12",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический закрытый путь в фикстуре исключения или проверке его отсутствия в публичной диагностике; реальное состояние машины не используется."
+    },
+    {
+      "id": "planner-integration-j13-3-107",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_входа_направления.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:e4014dd956985895cbb456b96588eae97b18e49244dec4080d89d6aa9b41820f",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический закрытый путь в фикстуре исключения или проверке его отсутствия в публичной диагностике; реальное состояние машины не используется."
+    },
+    {
+      "id": "planner-integration-j13-3-120",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_входа_направления.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:1eca3418c7fa1684dd270cec7d4b0ba1fb3b5859aef8eeb088ce34a86c0fd4f5",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический закрытый путь в фикстуре исключения или проверке его отсутствия в публичной диагностике; реальное состояние машины не используется."
+    },
+    {
+      "id": "planner-integration-j13-3-131",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_входа_направления.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:863d79edcbc12d261515bf718fcf8ce9f153dfa13251c660553b7f56840a3f62",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический закрытый путь в фикстуре исключения или проверке его отсутствия в публичной диагностике; реальное состояние машины не используется."
+    },
+    {
+      "id": "planner-integration-j13-3-135",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_входа_направления.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2d0105cf2103f1fc5a4bbd6af732e13b2f5fa35fd2fb3599f7843569c858c252",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический закрытый путь в фикстуре исключения или проверке его отсутствия в публичной диагностике; реальное состояние машины не используется."
+    },
+    {
+      "id": "planner-integration-j13-3-154",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_входа_направления.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2a27ad2cd52644b0624c7e5e833390d6084c84704ce4347cc9453f4804773d1d",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический закрытый путь в фикстуре исключения или проверке его отсутствия в публичной диагностике; реальное состояние машины не используется."
+    },
+    {
+      "id": "planner-integration-j13-4-24",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_устойчивой_пары_приёма.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:f1e1307178d8330ab68dc617c6422193683f5ffce21500ca3c2a1bd7bcb99c8f",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Суффикс относительного пути запроса синтетического журнала в автономной фикстуре."
+    },
+    {
+      "id": "planner-integration-j13-5-200",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:24e606bdac55a6f79af624dc2256d9c5d0776c8e1f4b016e6a909e6d433c7340",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Shebang временного Git hook автономной фикстуры отказа, мутации или прерывания; системная оболочка служит тестовому сценарию, не локальному пути пользователя."
+    },
+    {
+      "id": "planner-integration-j13-5-214",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ceec274c1d4a2cf51fca48e07c617fa2dd9e54f2eb0f96f356589599d8399a4a",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Shebang временного Git hook автономной фикстуры отказа, мутации или прерывания; системная оболочка служит тестовому сценарию, не локальному пути пользователя."
+    },
+    {
+      "id": "planner-integration-j13-5-268",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:73d8813ed185a53131619b8ca19fdd8763eb6d5f783c5b8211ea3563bfe7b2e1",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Shebang временного Git hook автономной фикстуры отказа, мутации или прерывания; системная оболочка служит тестовому сценарию, не локальному пути пользователя."
+    },
+    {
+      "id": "planner-integration-j13-5-300",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:3dede1e78dcd016e1b99bcdb887fd9df3701b07a63356d02b1e9a7a269fed3bb",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Shebang временного Git hook автономной фикстуры отказа, мутации или прерывания; системная оболочка служит тестовому сценарию, не локальному пути пользователя."
+    },
+    {
+      "id": "planner-integration-j13-5-332",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:6d4cbc57b0020bb0eb5a6de9ca256995d1c4e90cfb5f64845a6a4eec348f9087",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Shebang временного Git hook автономной фикстуры отказа, мутации или прерывания; системная оболочка служит тестовому сценарию, не локальному пути пользователя."
+    },
+    {
+      "id": "planner-integration-j13-5-400",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:a2c3b39acef30978e4c217faf02206616e70022306f1bd5e8a9f633da8839833",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Shebang временного Git hook автономной фикстуры отказа, мутации или прерывания; системная оболочка служит тестовому сценарию, не локальному пути пользователя."
     }
   ]
 }

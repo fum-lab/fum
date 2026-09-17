@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-15 22:18:05 MSK - Prinyatj dopusk postoyannyikh vetok](../2026-09-15_22-18-05_MSK_prinyatj-dopusk-postoyannyikh-vetok/zapros.md)
-- Sleduyusjhij zapros: [2026-09-15 23:33:01 MSK - Zakrepitj politiku novoj osnovyi](../2026-09-15_23-33-01_MSK_zakrepitj-politiku-novoj-osnovyi/zapros.md)
+- Sleduyusjhij zapros: [2026-09-15 22:43:25 MSK - Prinyatj bazu planirovaniya chipov i platform](../2026-09-15_22-43-25_MSK_prinyatj-bazu-planirovaniya-chipov-i-platform/zapros.md)
 
 ## Tekst zaprosa
 
@@ -205,6 +205,6 @@ Zapuski i granicyi privedenyi v [otchyote](otchyot.md). Kontroljnaya tochka ne o
 - [Otchyot ob izvlechenii](../../Istochniki/URL/https/dev.mendeley.com/overview/core_resources.html/extraction-report.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 17:25:07 MSK -->
-<!-- content-sha256: sha256:2a5050cf35196b1fec1972e82da6386745075b33aa1d24b2ef5b408b69882e71 -->
+<!-- last-content-edit: 2026-09-17 22:16:46 MSK -->
+<!-- content-sha256: sha256:5984bb17736d24fd2fab1db6e969ac8801f7fb0196d6195cc45b516d688ed29f -->
 <!-- FUM-MD-RECENCY:END -->

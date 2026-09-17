@@ -1,0 +1,124 @@
+{
+  "schema": "fum.machine-local-path-policy-update.v1",
+  "declarations": [
+    {
+      "id": "planner-integration-j13-1-36",
+      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/устойчивая_пара_приёма.py",
+      "line": 36,
+      "category": "allow.path-validation-definition",
+      "reason": "Точный суффикс относительного пути проверяемого журнального свидетельства; соединяется с вычисленным каталогом, не задаёт абсолютный путь машины."
+    },
+    {
+      "id": "planner-integration-j13-1-71",
+      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/устойчивая_пара_приёма.py",
+      "line": 71,
+      "category": "allow.path-validation-definition",
+      "reason": "Точный суффикс относительного пути проверяемого журнального свидетельства; соединяется с вычисленным каталогом, не задаёт абсолютный путь машины."
+    },
+    {
+      "id": "planner-integration-j13-1-76",
+      "path": "Инструменты/fum-reyestr-planirovaniya/scripts/устойчивая_пара_приёма.py",
+      "line": 76,
+      "category": "allow.path-validation-definition",
+      "reason": "Точный суффикс относительного пути проверяемого журнального свидетельства; соединяется с вычисленным каталогом, не задаёт абсолютный путь машины."
+    },
+    {
+      "id": "planner-integration-j13-2-220",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py",
+      "line": 220,
+      "category": "allow.path-validation-definition",
+      "reason": "Регулярное выражение проверяет допустимую Markdown-ограду из тильд; это синтаксис документа, не раскрытие домашнего каталога."
+    },
+    {
+      "id": "planner-integration-j13-3-82",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_входа_направления.py",
+      "line": 82,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический закрытый путь в фикстуре исключения или проверке его отсутствия в публичной диагностике; реальное состояние машины не используется."
+    },
+    {
+      "id": "planner-integration-j13-3-107",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_входа_направления.py",
+      "line": 107,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический закрытый путь в фикстуре исключения или проверке его отсутствия в публичной диагностике; реальное состояние машины не используется."
+    },
+    {
+      "id": "planner-integration-j13-3-120",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_входа_направления.py",
+      "line": 120,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический закрытый путь в фикстуре исключения или проверке его отсутствия в публичной диагностике; реальное состояние машины не используется."
+    },
+    {
+      "id": "planner-integration-j13-3-131",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_входа_направления.py",
+      "line": 131,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический закрытый путь в фикстуре исключения или проверке его отсутствия в публичной диагностике; реальное состояние машины не используется."
+    },
+    {
+      "id": "planner-integration-j13-3-135",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_входа_направления.py",
+      "line": 135,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический закрытый путь в фикстуре исключения или проверке его отсутствия в публичной диагностике; реальное состояние машины не используется."
+    },
+    {
+      "id": "planner-integration-j13-3-154",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_входа_направления.py",
+      "line": 154,
+      "category": "allow.test-fixture",
+      "reason": "Синтетический закрытый путь в фикстуре исключения или проверке его отсутствия в публичной диагностике; реальное состояние машины не используется."
+    },
+    {
+      "id": "planner-integration-j13-4-24",
+      "path": "Инструменты/fum-reyestr-planirovaniya/tests/test_устойчивой_пары_приёма.py",
+      "line": 24,
+      "category": "allow.test-fixture",
+      "reason": "Суффикс относительного пути запроса синтетического журнала в автономной фикстуре."
+    },
+    {
+      "id": "planner-integration-j13-5-200",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py",
+      "line": 200,
+      "category": "allow.test-fixture",
+      "reason": "Shebang временного Git hook автономной фикстуры отказа, мутации или прерывания; системная оболочка служит тестовому сценарию, не локальному пути пользователя."
+    },
+    {
+      "id": "planner-integration-j13-5-214",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py",
+      "line": 214,
+      "category": "allow.test-fixture",
+      "reason": "Shebang временного Git hook автономной фикстуры отказа, мутации или прерывания; системная оболочка служит тестовому сценарию, не локальному пути пользователя."
+    },
+    {
+      "id": "planner-integration-j13-5-268",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py",
+      "line": 268,
+      "category": "allow.test-fixture",
+      "reason": "Shebang временного Git hook автономной фикстуры отказа, мутации или прерывания; системная оболочка служит тестовому сценарию, не локальному пути пользователя."
+    },
+    {
+      "id": "planner-integration-j13-5-300",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py",
+      "line": 300,
+      "category": "allow.test-fixture",
+      "reason": "Shebang временного Git hook автономной фикстуры отказа, мутации или прерывания; системная оболочка служит тестовому сценарию, не локальному пути пользователя."
+    },
+    {
+      "id": "planner-integration-j13-5-332",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py",
+      "line": 332,
+      "category": "allow.test-fixture",
+      "reason": "Shebang временного Git hook автономной фикстуры отказа, мутации или прерывания; системная оболочка служит тестовому сценарию, не локальному пути пользователя."
+    },
+    {
+      "id": "planner-integration-j13-5-400",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py",
+      "line": 400,
+      "category": "allow.test-fixture",
+      "reason": "Shebang временного Git hook автономной фикстуры отказа, мутации или прерывания; системная оболочка служит тестовому сценарию, не локальному пути пользователя."
+    }
+  ]
+}

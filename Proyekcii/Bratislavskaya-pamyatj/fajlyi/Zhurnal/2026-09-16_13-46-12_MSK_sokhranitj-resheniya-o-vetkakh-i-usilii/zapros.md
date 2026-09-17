@@ -2,8 +2,8 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-16 02:50:47 MSK - Splanirovatj vosstanovleniye kontrolya ostatka](../2026-09-16_02-50-47_MSK_splanirovatj-vosstanovleniye-kontrolya-ostatka/zapros.md)
-- Sleduyusjhij zapros: [2026-09-16 14:22:48 MSK - Zakrepitj celj lokaljnyikh modelej](../2026-09-16_14-22-48_MSK_zakrepitj-celj-lokaljnyikh-modelej/zapros.md)
+- Predyidusjhij zapros: [2026-09-16 13:25:42 MSK - Zakrepitj utochneniya Max i poteryu porucheniya](../2026-09-16_13-25-42_MSK_zakrepitj-utochneniya-Max-i-poteryu-porucheniya/zapros.md)
+- Sleduyusjhij zapros: [2026-09-16 13:52:17 MSK - Zakrepitj roli vetok i granicu paralleljnoj proverki](../2026-09-16_13-52-17_MSK_zakrepitj-roli-vetok-i-granicu-paralleljnoj-proverki/zapros.md)
 
 ## Tekst zaprosa
 
@@ -126,6 +126,6 @@ Publikacionnaya granica: v soobsjhenii 419 udaleno toljko sluzhebnoye pole ident
 - [Indeks svezhesti Markdown](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 20:30:40 MSK -->
-<!-- content-sha256: sha256:baa73eb0590d75d05e574d33659a1405bf91f687f99415d8792d916cfb3b328a -->
+<!-- last-content-edit: 2026-09-17 22:16:46 MSK -->
+<!-- content-sha256: sha256:2ba458eb654e1dcc96d4b9f187b1a7ab488c5954fcf09f179ed68d635798dac5 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -1,0 +1,42 @@
+{
+  "схема": "fum.адресные-источники-планирования.1",
+  "задача-источника": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "сообщения": [
+    {
+      "начало": 773773019,
+      "конец": 773773567,
+      "sha256": "148a4ac58a49742f95c6f8106d7724bfcd1f48590cadd65378c9ca0008616b85",
+      "текст": "Sobstvennoye proizvodstvo chipov pozvolit v tom chisle vyipuskatj apparatnyiye realizacii dlya ustojchivyikh i chasto trebuyemyikh skhem strukturiruyusjhikh operatorov.\n"
+    },
+    {
+      "начало": 838663464,
+      "конец": 838663901,
+      "sha256": "70e615e2ca8420308d9b3a334c423590bc6a81f2a170c524427e74880798d9c5",
+      "текст": "U nas uzhe otkryito napravleniye proyektirovaniya chipov?\n"
+    },
+    {
+      "начало": 838764188,
+      "конец": 838764581,
+      "sha256": "2a65c9ed18689eed7d852461176ef97a6fb8989317c736b8bd8e2ee8211c86de",
+      "текст": "Zajmisj etim.\n"
+    },
+    {
+      "начало": 838801879,
+      "конец": 838802306,
+      "sha256": "4c16705b9d47d3d3eca755a5e00935fb319459084cc57df5121ee266f966fa64",
+      "текст": "Takzhe zapuskayem napravleniye tvOS i visionOS.\n"
+    },
+    {
+      "начало": 838850277,
+      "конец": 838850681,
+      "sha256": "b268e8c393a8b29f757d0f3117e8848638aeae5580589043b40a5ef678d357ac",
+      "текст": "Android TV, XR, Wear OS.\n"
+    },
+    {
+      "начало": 838857449,
+      "конец": 838857836,
+      "sha256": "3ed180883ace5561207bfdd7ee3d6939282682615449ca61cee83a9f1821d91a",
+      "текст": "watchOS\n"
+    }
+  ]
+}

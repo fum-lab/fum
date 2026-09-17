@@ -2,7 +2,7 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-16 15:11:45 MSK - Vosstanovitj rabocheye mesto proverki](../2026-09-16_15-11-45_MSK_vosstanovitj-rabocheye-mesto-proverki/zapros.md)
+- Predyidusjhij zapros: [2026-09-16 15:24:26 MSK - Dovesti priyom predlozheniya Max](../2026-09-16_15-24-26_MSK_dovesti-priyom-predlozheniya-Max/zapros.md)
 - Sleduyusjhij zapros: [2026-09-16 15:31:31 MSK - Zakrepitj obrabotku semi soobsjhenij](../2026-09-16_15-31-31_MSK_zakrepitj-obrabotku-semi-soobsjhenij/zapros.md)
 
 ## Tekst zaprosa
@@ -99,6 +99,6 @@ Koordinator 01a07d3d-d376-7ad2-aafc-67e4c25a67eb prinyal e0068a2d i poruchil sle
 Tochnyij kodovyij snimok — e0068a2dc8135bbe4d858e46dfd13d0e0c862ad5. Ne poruchenyi novyij kod, podklyucheniye hook, izmeneniye Trust/config, zapusk otdeljnogo app-server, povtor polnogo nabora i sozdaniye poljzovateljskikh zadach. Nuzhen kompaktnyij proveryayemyij plan realizacii/kvalifikacii s istochnikami. Neizvestnyij status hooks sokhranyayetsya kak unknown; tekusjhij byudzhet Stop i prichina Low ne vyivodyatsya iz istoricheskikh izmerenij ili sovpadeniya sobyitij.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 19:47:11 MSK -->
-<!-- content-sha256: sha256:f2554bd83d7d45a0ae8edd2610cc52911199154c313eff4534128ef98d56383d -->
+<!-- last-content-edit: 2026-09-17 22:16:46 MSK -->
+<!-- content-sha256: sha256:9d7c6ef276c02152cac4174ddd5e6e6c8f9cf5b9f51668ef5dea66229dab9020 -->
 <!-- FUM-MD-RECENCY:END -->

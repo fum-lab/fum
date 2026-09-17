@@ -262,6 +262,9 @@ Dlya odnovremennogo utochneniya imeni dobavj `--description новое-крат�
 | FUM-STEP-0224 | 🟡 Aktualjno | [Splanirovatj parametricheskoye 3D FUMA i etapyi realizacii](🟡-FUM-STEP-0224-splanirovatj-parametricheskoye-3D-FUMA-i-etapyi-realizacii.md)                                                                                                                                                                                       |
 | FUM-STEP-0225 | 🟡 Aktualjno | [Sveryatj polnyij sostav materialov etapa](🟡-FUM-STEP-0225-sveryatj-polnyij-sostav-materialov-etapa.md)                                                                                                                                                                                                                         |
 | FUM-STEP-0228 | 🟡 Aktualjno | [Kontrolirovatj dostavku v postoyannuyu vetku](🟡-FUM-STEP-0228-kontrolirovatj-dostavku-v-postoyannuyu-vetku.md)                                                                                                                                                                                                                 |
+| FUM-STEP-0230 | 🟡 Aktualjno | [Sozdavatj kommityi cherez proveryayemyij putj](🟡-FUM-STEP-0230-sozdavatj-kommityi-cherez-proveryayemyij-putj.md)                                                                                                                                                                                                                     |
+| FUM-STEP-0229 | 🟡 Aktualjno | [Vyibratj operatornuyu skhemu dlya apparatnoj proverki](🟡-FUM-STEP-0229-vyibratj-operatornuyu-skhemu-dlya-apparatnoj-proverki.md)                                                                                                                                                                                                   |
+| FUM-STEP-0231 | 🟡 Aktualjno | [Proveryatj ssyilki otnositeljno vklyuchyonnogo pokoleniya](🟡-FUM-STEP-0231-proveryatj-ssyilki-otnositeljno-pokoleniya.md)                                                                                                                                                                                                           |
 
 ## Istochniki trebovanij
 
@@ -296,6 +299,6 @@ Dlya odnovremennogo utochneniya imeni dobavj `--description новое-крат�
 - [iskhodnyij zapros 2026-07-24 10:44:28 MSK — Nachatj bezokonnyij Swift-prototip vosproizvodimogo popolneniya pamyati FUM](../../Zhurnal/2026-07-24_10-44-28_MSK_nachatj-bezokonnyij-Swift-prototip-vosproizvodimogo-popolneniya-pamyati-FUM/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 18:06:12 MSK -->
-<!-- content-sha256: sha256:6837f47d0194933f868f559bc6fa2c94411a28e6d8ff9c2988084819b31cac52 -->
+<!-- last-content-edit: 2026-09-16 17:48:33 MSK -->
+<!-- content-sha256: sha256:d7a9fa7dd921a9d92062cacb3fd5547d41b5b9ab407b5561973ef8281f6577a1 -->
 <!-- FUM-MD-RECENCY:END -->

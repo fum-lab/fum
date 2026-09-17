@@ -1,0 +1,41 @@
+{
+  "схема": "fum.происхождение-уточнения.1",
+  "команды": [
+    {
+      "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "позиция": {
+        "начало": 839387616,
+        "конец": 839388077,
+        "sha256": "360868992a9c126f3c6aec34353f3e9b31748dfd41454d059d06cd1cfc45940c"
+      },
+      "текст": "U nas kakaya-to beda s prabelami u FUM Integrator sluchilasj v avtorakh kommitov.\n"
+    },
+    {
+      "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "позиция": {
+        "начало": 839503175,
+        "конец": 839503606,
+        "sha256": "7a361271ed73ca7a1cda956522efa377f40d2c7e0e47363f2d43000109110f78"
+      },
+      "текст": "Voobsjhe nam byi sdelatj avtomatizaciyu dlya etogo.\n"
+    },
+    {
+      "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "позиция": {
+        "начало": 839619055,
+        "конец": 839619870,
+        "sha256": "42ee670828b615511a8ccc80ba4ae355944d8d08aa7418eadf0526c2d14d21d1"
+      },
+      "текст": "<send_user_message_question_reply>\n[{\"questionItemId\":\"[\\\"request_user_input_async\\\",\\\"call_muBMgla7PcsiwKVQwe74JWrS\\\",0]\",\"question\":\"Какую операцию вы сейчас хотите автоматизировать?\",\"answer\":\"Создание коммитов с проверкой имени автора и остальных обязательных полей\"}]\n</send_user_message_question_reply>"
+    },
+    {
+      "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+      "позиция": {
+        "начало": 839638083,
+        "конец": 839638557,
+        "sha256": "ae2e3e6b40300803683e206c8fbe33d04ccccd28cd24290df6fa72bfe1d2cf44"
+      },
+      "текст": "Neobkhodimyim etapom integracii nuzhno dobavitj obnovleniye svyazannoj dokumentacii ya dumayu.\n"
+    }
+  ]
+}

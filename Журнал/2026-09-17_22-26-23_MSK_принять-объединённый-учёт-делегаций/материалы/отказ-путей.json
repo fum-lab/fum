@@ -1,0 +1,66 @@
+{
+  "схема": "fum.отказ-полного-допуска.1",
+  "запуск": "5ad2c074-f712-4b02-87e2-8d68025fa523",
+  "шаг": 7,
+  "ошибки": [
+    "Журнал/2026-09-16_14-20-17_MSK_сохранить-причину-отказа-приёма/запрос.md:25:error.posix-user-home",
+    "Журнал/2026-09-16_21-47-47_MSK_зарегистрировать-приёмку-делегаций/материалы/видимые-ответы.json:308:error.posix-user-home",
+    "Журнал/2026-09-16_21-47-47_MSK_зарегистрировать-приёмку-делегаций/материалы/замыкание-J10.json:11:error.system-runtime-hardcode",
+    "Журнал/2026-09-16_21-47-47_MSK_зарегистрировать-приёмку-делегаций/материалы/замыкание-J10.json:31:error.system-runtime-hardcode",
+    "Журнал/2026-09-16_21-47-47_MSK_зарегистрировать-приёмку-делегаций/материалы/замыкание-J10.json:51:error.system-runtime-hardcode",
+    "Журнал/2026-09-16_21-47-47_MSK_зарегистрировать-приёмку-делегаций/материалы/замыкание-J10.json:71:error.system-runtime-hardcode",
+    "Журнал/2026-09-17_22-09-56_MSK_интегрировать-ветку-планирования/материалы/план-интеграции.json:4:error.posix-user-home",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/устойчивая_пара_приёма.py:36:error.posix-absolute",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/устойчивая_пара_приёма.py:71:error.posix-absolute",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/устойчивая_пара_приёма.py:76:error.posix-absolute",
+    "Инструменты/fum-reyestr-planirovaniya/tests/test_входа_направления.py:82:error.posix-absolute",
+    "Инструменты/fum-reyestr-planirovaniya/tests/test_входа_направления.py:107:error.posix-absolute",
+    "Инструменты/fum-reyestr-planirovaniya/tests/test_входа_направления.py:120:error.posix-absolute",
+    "Инструменты/fum-reyestr-planirovaniya/tests/test_входа_направления.py:131:error.posix-absolute",
+    "Инструменты/fum-reyestr-planirovaniya/tests/test_входа_направления.py:135:error.posix-absolute",
+    "Инструменты/fum-reyestr-planirovaniya/tests/test_входа_направления.py:154:error.posix-absolute",
+    "Инструменты/fum-reyestr-planirovaniya/tests/test_устойчивой_пары_приёма.py:24:error.posix-absolute",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py:220:error.home-expansion",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py:200:error.system-runtime-hardcode",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py:214:error.system-runtime-hardcode",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py:268:error.system-runtime-hardcode",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py:300:error.system-runtime-hardcode",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py:332:error.system-runtime-hardcode",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py:400:error.system-runtime-hardcode"
+  ],
+  "манифест": {
+    "автоматический_повтор": false,
+    "всего_произведено_байтов": 1480833,
+    "вызов_sha256": "79963233bddb4a95506ed543d6b2b787f06072394ed9bdf3b2bda128028566b2",
+    "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+    "каналы": {
+      "stderr": {
+        "sha256": "c1deca2410932347d8bd6e7ace1d76d62b17033208fe04c6b0ee939e8865b075",
+        "байты": 92,
+        "конец": true
+      },
+      "stdout": {
+        "sha256": "e83682e9678fa6f26af57e27398d025a92ed968aa8d89cd9c4668cc4ab3e0feb",
+        "байты": 1480741,
+        "конец": true
+      }
+    },
+    "код_процесса": 1,
+    "наблюдения": {
+      "sha256": "2b26b454399903357e0937aba4666322d96e843a2f0a5af1ac3b0aec3136150b",
+      "порядок": "порядок-чтения-не-порядок-записи-двух-каналов",
+      "пропущено": 0,
+      "сохранено": 37,
+      "число": 37
+    },
+    "обработчик": {
+      "имя": "общий",
+      "состояние": "не-требуется"
+    },
+    "полнота": true,
+    "причина": null,
+    "схема": "fum.захват-вывода.1",
+    "токены": null
+  },
+  "граница": "Построение и независимая проверка проекции прошли, но весь допуск не принят; после исправления входа требуется новый полный запуск."
+}

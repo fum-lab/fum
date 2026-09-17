@@ -66,7 +66,7 @@ Ostanovka daljnejshej rabotyi ne otmenyayet uzhe sokhranyonnyiye izmeneniya. Yes
 
 Posle kommita svoyej rabochej vetki agent avtomaticheski otpravlyayet yeyo v repozitorij `origin`; vetka `master` isklyuchena. Vetka mozhet soderzhatj proverennuyu kontroljnuyu tochku s yesjhyo nezavershyonnoj rabotoj. Poprosite pokazatj ssyilku na dostavlennyij kommit i ostavshiyesya etapyi.
 
-Obyyedineniye s osnovnoj vetkoj, yeyo publikaciya i sozdaniye PR vyipolnyayutsya po otdeljnomu zaprosu. Yesli otpravka ne udalasj, zadacha soobsjhayet ob etom: lokaljno sokhranyonnyij rezuljtat ostayotsya dostupen, no yesjhyo ne dostavlen.
+Osnovnaya razrabotka i obyyedineniye proverennyikh rezuljtatov idut v postoyannoj vetke `fuma`. V `master` postupayut boleye redkiye proverennyiye postavki po otdeljnomu zaprosu. Otdeljnaya zadacha nachinayet rabotu ot tochnogo prinyatogo kommita postanovki; publikaciya yeyo vetki sama po sebe ne oznachayet integracii v `fuma` ili postavki v `master`. Obyyedineniye vetok i sozdaniye PR sokhranyayut sootvetstvuyusjheye yavnoye naznacheniye. Yesli otpravka ne udalasj, zadacha soobsjhayet ob etom: lokaljno sokhranyonnyij rezuljtat ostayotsya dostupen, no yesjhyo ne dostavlen.
 
 ## Gde chitatj daljshe
 
@@ -91,6 +91,6 @@ Proyekt publikuyetsya pod [CC0 1.0 Universal](LICENZIYA.md). Kanonicheskij publi
 - [Razreshitj nachaljnuyu formu FUM bez sobstvennogo GUI cherez Codex](Zhurnal/2026-07-27_20-10-35_MSK_razreshitj-nachaljnuyu-korobochnuyu-FUM-bez-GUI-cherez-Codex/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 16:38:28 MSK -->
-<!-- content-sha256: sha256:9abb9861914de49f31599fd612e0781d6e640ca4a849e17d73edf6b61b633ac4 -->
+<!-- last-content-edit: 2026-09-16 13:57:40 MSK -->
+<!-- content-sha256: sha256:36ff70019820e7a3726ee2dabb2b280efe09f4dd6cbc8c75b3ed9cb3dd2572d2 -->
 <!-- FUM-MD-RECENCY:END -->

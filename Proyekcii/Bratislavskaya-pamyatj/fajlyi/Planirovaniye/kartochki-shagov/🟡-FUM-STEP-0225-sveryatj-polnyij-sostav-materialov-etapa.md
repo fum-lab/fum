@@ -41,6 +41,10 @@ Avtomatizirovatj podgotovku i adresnuyu sverku perechnya zatronutyikh materialov
 
 Osnovaniya `FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ-0009` i `FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ-0010` dopolnyayut rannyuyu podgotovku: uchityivatj navigaciyu proshlogo etapa i perenositj tochnyiye katalogi snimkov v dejstvuyusjhij razdel «Povliyal na fajlyi». Ssyilki v «Prikreplyayemyiye materialyi» sami po sebe okhvat ne dayut. Nuzhnyi otricateljnyiye kontroli nepolnogo razdela i polozhiteljnyij tochnyij povtor. [Pervichnyiye svideteljstva i naznacheniye nomerov](../../Zhurnal/2026-09-15_22-40-08_MSK_sokhranitj-i-udalitj-rolevyiye-forki/materialyi/povtoryi-oformleniya.json); [iskhodnyij etap](../../Zhurnal/2026-09-15_22-40-08_MSK_sokhranitj-i-udalitj-rolevyiye-forki/zapros.md).
 
+## Utochneniye po proizvodnomu sostavu finansovogo dopuska
+
+`FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ-0011` dobavlyayet 96 susjhestvuyusjhikh putej proyekcii i proizvodnyij planovyij reyestr. Rannyaya sverka dolzhna uchityivatj vesj razreshyonnyij fakticheskij Git-perechenj posle generacii, a do dorogogo dopuska — dostupnyij obyyavlennyij sostav i granicyi budusjhego pokoleniya. Obsjhij tekst bez razreshyonnoj Markdown-celi ne dayot pokryitiya. Eto prodolzheniye0004; otsutstvuyusjhaya udalyonnaya celj i aktivnaya ssyilka vne vklyuchyonnogo pokoleniya imeyut otdeljnyiye granicyi. Dopolneniye spiska ne yavlyayetsya sistemnyim ustraneniyem; prezhniye otricateljnyiye scenarii sokhranyayutsya.
+
 ## Istochniki
 
 - [FUM-SBOJ-0051/PROYAVLENIYE-0005 i vosstanovleniye tekusjhej paryi](../../Zhurnal/2026-09-12_05-27-53_MSK_obyyedinitj-arkhiv-fuma-s-kornevoj-rabotoj/zapros.md).
@@ -57,7 +61,9 @@ Osnovaniya `FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ-0009` i `FUM-СБОЙ-0051/П
 - Istochnik perenosa `775128491a1b9f9b130bd6946ad2d33fd04dbe51`, SHA-256 `7e98f350cf46ac2cc3239b03ae42edb0b0dfc0b4532096271f3c5057dc0796c2`; prezhniye kriterii i osnovaniya sokhranenyi.
 - [FUM-SBOJ-0051/PROYAVLENIYE-0008](../../Sboi/FUM-SBOJ-0051-nepolnyij-perechenj-zatronutyikh-fajlov-zaprosa.md) — [naznacheniye i nablyudeniye tekusjhego etapa](../../Zhurnal/2026-09-14_22-40-28_MSK_obyyedinitj-paketyi-i-proveritj-ostatok/zapros.md).
 
+- [FUM-SBOJ-0051/PROYAVLENIYE-0011](../../Sboi/FUM-SBOJ-0051-nepolnyij-perechenj-zatronutyikh-fajlov-zaprosa.md) — [proverennoye nablyudeniye](../../Zhurnal/2026-09-16_17-24-57_MSK_zaregistrirovatj-otkazyi-finansovoj-priyomki/materialyi/nablyudeniye-otkaza-4.json).
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 00:05:56 MSK -->
-<!-- content-sha256: sha256:b047add96e68713cdaada6f938d45ba53ddf28c204432d5ce7e29b42230c6462 -->
+<!-- last-content-edit: 2026-09-17 22:16:46 MSK -->
+<!-- content-sha256: sha256:fde73f871d2b7179f24198432c85b8a0b8deaedc5cb19e2a6d5ab99e3052b307 -->
 <!-- FUM-MD-RECENCY:END -->

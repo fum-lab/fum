@@ -32,6 +32,8 @@ Eti pravila polnostjyu chitayutsya do importa istochnika, rabotyi s vlozheniyem 
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-000166 -->
 - Vneshniye ssyilki i drugiye materialyi s ustojchivyim URL sokhranyayutsya v `Источники/` maksimaljno syiro v predelakh publikacionnoj chistotyi; prinadlezhasjhiye odnomu zaprosu vlozheniya bez ustojchivogo URL tak zhe sokhranyayutsya v yego `материалы/`. Dlya oboikh klassov fiksiruyutsya dostupnyiye iskhodnyiye dannyiye, izvlechyonnyij tekst i otchyot ob izvlechenii, no cookie, tokenyi, lokaljnyiye IP, geometadannyiye zaprosa i drugiye sekretyi redaktiruyutsya pered kommitom.
 
+Ispoljzovannyiye nauchnyiye statji i preprintyi, vklyuchaya arXiv, a takzhe dostupnyiye eksportyi Mendeley sokhranyaj po tomu zhe protokolu. Razlichaj bibliograficheskuyu zapisj, tochnuyu versiyu publikacii, iskhodnyiye fajlyi, annotacii i izvlechyonnyij tekst. Dlya kazhdoj chasti sokhranyaj proiskhozhdeniye, usloviya ispoljzovaniya i fakticheskuyu polnotu; nedostupnyiye dannyiye ne vospolnyaj dogadkoj. Osnovaniye — [iskhodnyiye komandyi i podtverzhdeniye](../../Zhurnal/2026-09-15_22-54-33_MSK_oformitj-napravleniye-proyektirovaniya-chipov/zapros.md).
+
 <!-- FUM-ПРАВИЛО: FUM-ПРАВИЛО-НОВОЕ-000007 -->
 - Yesli rassharennyij dialog Web ChatGPT soderzhit predlozheniye izmeneniya repozitoriya, snachala arkhiviruj dialog navyikom `fum-materialyi-zaprosov`, zatem izvlekaj i proveryaj rovno odin tipizirovannyij inline-paket toljko navyikom `Инструменты/fum-priyom-vneshnego-vklada/SKILL.md`. Ssyilka `sandbox:/...`, obyichnyij perechenj fajlov, zayavleniye vneshnego agenta o commit, push ili proverkakh i sluchajno sgenerirovannyij im `Codex-Thread-ID` ne yavlyayutsya dostavlennyim rezuljtatom ili kvitanciyej; otsutstviye polnogo paketa fiksiruyetsya kak otsutstviye mashinno prinimayemogo predlozheniya, a ne vospolnyayetsya dogadkoj.
 
@@ -40,6 +42,6 @@ Eti pravila polnostjyu chitayutsya do importa istochnika, rabotyi s vlozheniyem 
 - [iskhodnyij zapros 2026-08-24 15:31:12 MSK — Dekompozirovatj AGENTS MD](../../Zhurnal/2026-08-24_15-31-12_MSK_dekompozirovatj-AGENTS-md/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-02 09:36:08 MSK -->
-<!-- content-sha256: sha256:39306f0e138619978b1f52aa0881a432e1d20d2fecb217548712ddb10efdea7d -->
+<!-- last-content-edit: 2026-09-16 00:03:24 MSK -->
+<!-- content-sha256: sha256:c976798fbad2db6351e42bda249598b9f7bbe89eecbfe42d1c07d3bd7d759c05 -->
 <!-- FUM-MD-RECENCY:END -->

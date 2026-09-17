@@ -2,7 +2,7 @@
 
 ## Navigaciya po zaprosam
 
-- Predyidusjhij zapros: [2026-09-16 16:08:52 MSK - Zakrepitj proiskhozhdeniye delegirovannogo obyyoma](../2026-09-16_16-08-52_MSK_zakrepitj-proiskhozhdeniye-delegirovannogo-obyyoma/zapros.md)
+- Predyidusjhij zapros: [2026-09-16 16:24:37 MSK - Sokhranitj kandidat pereispoljzovaniya istorii modeli](../2026-09-16_16-24-37_MSK_sokhranitj-kandidat-pereispoljzovaniya-istorii-modeli/zapros.md)
 - Sleduyusjhij zapros: [2026-09-16 16:32:27 MSK - Prinyatj aktualjnyij finansovyij srez](../2026-09-16_16-32-27_MSK_prinyatj-aktualjnyij-finansovyij-srez/zapros.md)
 
 ## Tekst zaprosa
@@ -107,6 +107,6 @@ Posledneye sluzhebnoye utochneniye koordinatora:
 > Promezhutochnyiye svideteljstva poluchil: nemaskiruyusjhij RED, realjnyiye perekhodyi 2→3 i granica Stop-byudzheta zafiksirovanyi kak nezavershyonnyiye do vashego checkpoint. Prodolzhajte uzhe naznachennyiye regressiyu, profilj, dokumentaciyu i checkpoint; novyikh zadach ne dobavlyayu. Tryokhsekundnyij byudzhet i hooks/Trust ne obyyavlyayem podtverzhdyonnyimi. Kornevuyu priyomku provedu po tochnomu opublikovannomu kommitu otdeljno.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 19:47:11 MSK -->
-<!-- content-sha256: sha256:6cb3a18e211e38258329781a266d3cda74fceee351ae749d254de8bf7a325208 -->
+<!-- last-content-edit: 2026-09-17 22:16:46 MSK -->
+<!-- content-sha256: sha256:ae092872c053d93818b65d4dbf65b893dc5cdbba62377106e8efd51ca169e6a9 -->
 <!-- FUM-MD-RECENCY:END -->
