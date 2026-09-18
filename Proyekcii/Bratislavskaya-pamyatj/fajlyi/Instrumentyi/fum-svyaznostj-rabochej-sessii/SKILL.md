@@ -13,6 +13,8 @@ Dlya adresnogo obyyasneniya neaktualjnyikh priyomok dostupen yavnyij rezhim `о�
 
 ## Kogda ispoljzovatj
 
+Do dorogogo dopuska dostupna [rannyaya sverka materialov](rannyaya-sverka-materialov.md): polnyij fakticheskij Git-perechenj, obyazateljnaya tekusjhaya para, nezavisimyiye tochnyiye razresheniya i povtornaya proverka snimka bez globaljnogo obkhoda Markdown.
+
 Ispoljzuj etu avtomatizaciyu pered kommitom rabochej sessii, vliyayusjhej na proyekt, posle zapuska `fum-svezhestj-markdown` i posle togo kak fajl zaprosa uzhe soderzhit razdelyi `## Идентификатор сеанса Codex`, `## Использованные инструменты`, `## Повлиял на файлы` i `## Проверки`. Polnuyu predkommitnuyu proverku zapuskaj s tem zhe fajlom soobsjheniya, kotoryij zatem budet peredan `git commit -F`. Dlya novyikh zaprosov nachinaya s zakreplyonnoj vremennoj granicyi parametryi `--commit-message-file` i `--codex-thread-id` obyazateljnyi; istoricheskiye zaprosyi sokhranyayut prezhnij kontrakt.
 
 Avtomatizaciya osobenno polezna, kogda sessiya menyayet neskoljko oblastej pamyati: `Документация/`, `Глоссарий/`, `Инструменты/`, `Планирование/` i `Журнал/`.
@@ -225,6 +227,6 @@ Proverka Git-sostoyaniya sravnivayet toljko puti. Ona ne reshayet, nuzhno li vkl
 [Plan i primeneniye ustojchivyikh svideteljstv](ustojchivyiye-svideteljstva.md) pereispoljzuyut shtatnoye sokhraneniye obrabotki. Yavnoye opisaniye vyibirayet ekzemplyaryi i resheniya; plan bez zapisi pokazyivayet polnyiye materialyi i posledovateljnostj, primeneniye vozvrasjhayet fakticheskij prefiks i dopuskayet proveryayemyij povtor. Podklyucheniye k obsjhemu yazyiku operatorov ostayotsya otdeljnyim styikom.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-18 01:51:12 MSK -->
-<!-- content-sha256: sha256:d2b4ddd4200f4dfc947624da457047b0a0a7cfbe4bfe24d85520595bea3333c7 -->
+<!-- last-content-edit: 2026-09-18 12:11:26 MSK -->
+<!-- content-sha256: sha256:a96b7b739a31397b59899c98be38fa9bdc0f751d6bf990c34112989e42a2ae11 -->
 <!-- FUM-MD-RECENCY:END -->

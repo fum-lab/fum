@@ -73,7 +73,7 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0068 | `устранена` | [Peredacha khyesha istochnika v parametr fajlovogo puti](FUM-SBOJ-0068-khyesh-rezuljtata-vmesto-puti-istochnika.md)                                                          | 1          | —                                                                                                                                |
 | FUM-SBOJ-0069 | `устранена` | [Predpolozheniye 0644 vmesto nablyudyonnogo rezhima indeksov 0600](FUM-SBOJ-0069-predpolozheniye-o-fajlovom-rezhime-indeksa.md)                                             | 1          | —                                                                                                                                |
 | FUM-SBOJ-0070 | `устранена` | [Vyivod soderzhimogo media bez otbora tekstovyikh chastej](FUM-SBOJ-0070-neotfiljtrovannoye-media-v-tekstovom-vyivode.md)                                                  | 2          | —                                                                                                                                |
-| FUM-SBOJ-0071 | `активна`   | [Nepolnaya para Zhurnala pered proverkoj svyaznosti](FUM-SBOJ-0071-nepolnaya-para-zhurnala-pered-kontroljnoj-tochkoj.md)                                                  | 7          | FUM-STEP-0174                                                                                                                    |
+| FUM-SBOJ-0071 | `активна`   | [Nepolnaya para Zhurnala pered proverkoj svyaznosti](FUM-SBOJ-0071-nepolnaya-para-zhurnala-pered-kontroljnoj-tochkoj.md)                                                  | 9          | FUM-STEP-0174                                                                                                                    |
 | FUM-SBOJ-0072 | `устранена` | [Otsutstviye obyazateljnogo razdela dokumentacii v dvukh voprosakh](FUM-SBOJ-0072-otsutstviye-razdela-zatronutoj-dokumentacii-voprosov.md)                               | 1          | —                                                                                                                                |
 | FUM-SBOJ-0075 | `активна`   | [Propusjhennaya deklaraciya statusa trebovaniya](FUM-SBOJ-0075-propusjhennaya-deklaraciya-statusa-trebovaniya.md)                                                             | 1          | FUM-STEP-0213                                                                                                                    |
 | FUM-SBOJ-0076 | `активна`   | [Propusk proverki predkov kataloga tipov](FUM-SBOJ-0076-propusk-proverki-predkov-kataloga-tipov.md)                                                                 | 1          | FUM-STEP-0175                                                                                                                    |
@@ -154,6 +154,6 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 - [pravila rabochikh sessij](../AGENTS.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-18 02:09:10 MSK -->
-<!-- content-sha256: sha256:9f054fdd734d2a17a610c1686c9224ed8d4bc0559097f12738e29790e395f84f -->
+<!-- last-content-edit: 2026-09-18 12:45:54 MSK -->
+<!-- content-sha256: sha256:405044267fc6c367b1921aa00f330cae69ab848a1b31765a33a153f1ab061d26 -->
 <!-- FUM-MD-RECENCY:END -->

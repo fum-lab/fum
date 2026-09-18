@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-18 01:33:08 MSK - Zaregistrirovatj finansovuyu priyomku](../2026-09-18_01-33-08_MSK_zaregistrirovatj-finansovuyu-priyomku/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-18 11:44:25 MSK - Zaregistrirovatj diagnostiku priyomok](../2026-09-18_11-44-25_MSK_zaregistrirovatj-diagnostiku-priyomok/zapros.md)
 
 ## Tekst zaprosa
 
@@ -41,6 +41,6 @@ Doslovnoye osnovaniye rabotyi FUM-OSTATOK-REYESTR iz zakreplyonnogo genezisa; pr
 - [Predyidusjhij zapros](../2026-09-18_01-33-08_MSK_zaregistrirovatj-finansovuyu-priyomku/zapros.md), [Zhurnal](../README.md), [indeks](../../Indeksyi/markdown-fajlyi-po-vremeni-redaktirovaniya.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-18 02:09:10 MSK -->
-<!-- content-sha256: sha256:2f79d303b348f1e0a56185fbdc758e91f0d1273c4c5b8463aa4b7aa81f6df0a7 -->
+<!-- last-content-edit: 2026-09-18 11:51:22 MSK -->
+<!-- content-sha256: sha256:0e76effc61af6607b08ed74211c96406845ff034819c97bb7949c3b8ecfeee48 -->
 <!-- FUM-MD-RECENCY:END -->

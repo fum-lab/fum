@@ -49,6 +49,10 @@ Osnovaniya `FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ-0009` i `FUM-СБОЙ-0051/П
 
 `FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ-0012` povtoryayet propusk 33 susjhestvuyusjhikh putej proyekcii posle desyati uspeshnyikh shagov polnogo dopuska. Rannyaya podgotovka dolzhna proveryatj polnyij razreshyonnyij Git-perechenj posle poslednej zapisi; drejf snimka trebuyet novoj sverki. Mestnyij rezuljtat 33 → 0 ne zakryivayet sistemnoye predotvrasjheniye i ne oslablyayet prezhniye otricateljnyiye granicyi.
 
+## Ogranichennyij ispolniteljskij srez
+
+[Rannyaya sverka](../../Instrumentyi/fum-svyaznostj-rabochej-sessii/rannyaya-sverka-materialov.md) sopostavlyayet polnyij fakticheskij Git-sostav s prezhnimi validatorami i nezavisimyimi tochnyimi razresheniyami do globaljnogo obkhoda. Pryamyiye ssyilki tekusjhej paryi, zapret kornya, iskhodnyiye komponentyi symlink i drejf snimka proveryayutsya adresnyimi regressiyami. [Etap realizacii](../../Zhurnal/2026-09-18_11-55-00_MSK_sveryatj-materialyi-etapa-do-priyomki/otchyot.md) sokhranyayet RED/GREEN i parnyij profilj. Prinyatiye dochernego manifesta, avtomaticheskoye obosnovannoye dopolneniye razdela i dopusk budusjhego pokoleniya ostayutsya otdeljnyim ostatkom; kartochka i sistemnyij sboj ne zakryivayutsya. Po pozdnemu resheniyu koordinatora ispolnitelj peredayot proverennuyu kontroljnuyu tochku bez otdeljnoj polnoj priyomki; koordinator provodit obsjhij dokumentacionnyij dopusk posle integracii v fuma.
+
 ## Istochniki
 
 - [Proyavleniye 0012](../../Zhurnal/2026-09-18_01-41-53_MSK_obyyasnyatj-neaktualjnostj-priyomok/materialyi/vosstanovleniye-okhvata.json).
@@ -71,6 +75,6 @@ Osnovaniya `FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ-0009` i `FUM-СБОЙ-0051/П
 - [FUM-SBOJ-0051/PROYAVLENIYE-0011](../../Sboi/FUM-SBOJ-0051-nepolnyij-perechenj-zatronutyikh-fajlov-zaprosa.md) — [proverennoye nablyudeniye](../../Zhurnal/2026-09-16_17-24-57_MSK_zaregistrirovatj-otkazyi-finansovoj-priyomki/materialyi/nablyudeniye-otkaza-4.json).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-18 02:09:10 MSK -->
-<!-- content-sha256: sha256:704fbf96b8bc155743352c46254505c03c58c692bff77c38c7cb33f6fd655315 -->
+<!-- last-content-edit: 2026-09-18 12:20:28 MSK -->
+<!-- content-sha256: sha256:f128a3d4fde7b79fd4ea0706de1d2114346684ffa9cd72bdc4336f48381e48c1 -->
 <!-- FUM-MD-RECENCY:END -->

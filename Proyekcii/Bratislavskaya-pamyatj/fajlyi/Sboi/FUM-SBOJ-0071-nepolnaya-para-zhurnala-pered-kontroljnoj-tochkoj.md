@@ -11,7 +11,7 @@ Para Zhurnala etapa 08:49 ne soderzhala tryokh obyazateljnyikh elementov: tochno
 
 ## Granica povtoreniya
 
-Vosemj sokhranyonnyikh v etoj kartochke epizodov nepolnoj kanonicheskoj paryi: etapyi 08:49 i 10:00, uchyot semi komand 15 sentyabrya, podgotovka obyyedineniya 03:35 predposyilka master 23:33 i tri paryi mediapaketa 0008–0010. Nomera 0003 i 0004 uzhe zanyatyi v drugikh rabochikh derevjyakh; ikh svideteljstva zdesj ne vosproizvodyatsya. Otricateljnyiye kontroli odnoj paryi lokalizuyut odno proyavleniye; raznyiye propusjhennyiye polya ne stanovyatsya otdeljnyimi kartochkami. Rannij vyizov svyaznosti 0176 do pervonachaljnogo predprosmotra — drugoj podgotoviteljnyij mekhanizm i uzhe sokhranyon otdeljno.
+Devyatj sokhranyonnyikh v etoj kartochke epizodov nepolnoj kanonicheskoj paryi: etapyi 08:49 i 10:00, uchyot semi komand 15 sentyabrya, podgotovka obyyedineniya 03:35 predposyilka master 23:33 tri paryi mediapaketa 0008–0010 i integraciya rannej sverki 0011. Nomera 0003 i 0004 uzhe zanyatyi v drugikh rabochikh derevjyakh; ikh svideteljstva zdesj ne vosproizvodyatsya. Otricateljnyiye kontroli odnoj paryi lokalizuyut odno proyavleniye; raznyiye propusjhennyiye polya ne stanovyatsya otdeljnyimi kartochkami. Rannij vyizov svyaznosti 0176 do pervonachaljnogo predprosmotra — drugoj podgotoviteljnyij mekhanizm i uzhe sokhranyon otdeljno.
 
 ## Proyavleniya
 
@@ -49,6 +49,10 @@ Para Sol high kommita `abc217c2760c6cbeb778833116a619ba8df644ad` snova soderzhit
 
 [Pobajtnyiye svideteljstva tryokh par](../Zhurnal/2026-09-16_00-09-04_MSK_razdelitj-svideteljstva-i-planyi-mediapaketa/materialyi/svideteljstva-prezhnikh-par.json) sokhranyayut puti, polnyiye OID, SHA i nomera strok. [Novaya korrekciya](../Zhurnal/2026-09-16_00-09-04_MSK_razdelitj-svideteljstva-i-planyi-mediapaketa/materialyi/korrekciya-istorii.md) ne perepisyivayet prezhniye otchyotyi; ogranichenno ispravlenyi desyatj destination. V iskhodnom finansovom nabore nomera 0003, 0004 i 0007 byili zanyatyi vne yego; obyyedineniye sokhranyayet 0007 vyishe, a 0003 i 0004 ostayutsya vne etoj kartochki. Povtoryi 0008–0010 aktualiziruyut prezhnij aktivnyij STEP0174; ruchnoye zapolneniye novoj paryi ne zakryivayet sistemnuyu meru.
 
+### FUM-SBOJ-0071/PROYAVLENIYE-0011
+
+Pri integracii rannej sverki STEP-0225 otchyot snova ne soderzhal bukvaljnoj nepustoj stroki «Granica profilya:». Standartnyij progon `907ffee2-59b0-4d52-bbd3-d62d7cdfda94` proshyol 10 shagov i ostanovilsya na svyaznosti za 613,865 s. Stroka vosstanovlena; otdeljnaya adresnaya svyaznostj zavershilasj kodom 0. [Pervichnyij otkaz i ispravleniye](../Zhurnal/2026-09-18_12-24-43_MSK_integrirovatj-rannyuyu-sverku-materialov/otchyot.md) ne zakryivayut sistemnuyu meru. Rannyaya sverka sostava fajlov ne proveryayet formu vremennogo profilya; sleduyusjhij srez susjhestvuyusjhego STEP0174 dolzhen proveryatj etu formu do proyekcii, ne dubliruya uzhe prinyatyij razbor fajlov.
+
 ## Ozhidaniye i klassifikaciya
 
 Svyaznostj poluchayet zavershyonnuyu kanonicheskuyu paru s obyazateljnyimi polyami i nablyudyonnyim vremennyim intervalom. Zasjhita praviljno otklonila nepolnoye oformleniye. Oshibki vyichisleniya moskovskogo vremeni ili samikh izmerenij ne ustanovlenyi.
@@ -80,6 +84,6 @@ Pervichnyij rezuljtat chunk 892d4b: session coherence check passed, kod 0, 37,53
 [Tekusjhaya registraciya i pervichnyiye svideteljstva](../Zhurnal/2026-09-11_09-36-55_MSK_sokhranitj-ostavshuyusya-diagnostiku-priyoma/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-17 23:58:15 MSK -->
-<!-- content-sha256: sha256:b2296195b867ce6fdd3c257d6b92bf2feb2c279d1adf6fbf47ca4fc996cc8c41 -->
+<!-- last-content-edit: 2026-09-18 12:45:54 MSK -->
+<!-- content-sha256: sha256:dff7c1b2e4f118cbb1e7f7dd13dfc3e2710bbbf4c067f23033afb164558eec00 -->
 <!-- FUM-MD-RECENCY:END -->
