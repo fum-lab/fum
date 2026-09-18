@@ -33,6 +33,20 @@ python3 -B Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обя�
 
 Sostoyaniye `есть-доступная-работа` oznachayet nalichiye sleduyusjhego dejstviya. `ожидание` vozvrasjhayetsya toljko kogda ostavshiyesya izvestnyiye rabotyi imeyut podtverzhdyonnyiye prichinyi ozhidaniya i net napravleniya bez sleduyusjhego etapa. Inache vozvrasjhayetsya `требуется-план`. Ozhidaniye odnoj rabotyi ne skryivayet nezavisimuyu dostupnuyu rabotu.
 
+## Pochemu priyomka ustarela
+
+Chtobyi poluchitj tochnyiye razlichiya bez ruchnogo poiska po istorii Git, vyizovite:
+
+```bash
+python3 -B Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py --диагностика-неактуальности
+```
+
+Rezhim vozvrasjhayet otdeljnuyu skhemu `fum.диагностика-приёмок.1`. Shtatnaya skhema `fum.остаток-обязательств.1` i reyestr ne izmenyayutsya. Diagnostika sokhranyayet UUID, vershinu Git, istochnik i SHA reyestra, identichnostj proverennyikh priyomok i ikh priznaki aktualjnosti. Dlya kazhdogo raskhodyasjhegosya obyyavlennogo puti vyivodyatsya prinyatyiye i tekusjhiye SHA-256 i rezhim; `текущее: null` oznachayet otsutstviye fajla. Soderzhimoye fajlov ne vyivoditsya. Poryadok priyomok i rezuljtatov sootvetstvuyet proverennomu reyestru.
+
+Pustoj spisok `изменённые_результаты` ne dokazyivayet aktualjnostj: mogla ustaretj predposyilka. Dlya etogo ostayutsya otdeljnyiye polya `актуальны_собственные_результаты`, `актуальны_предпосылки` i obsjhij priznak `актуальна`. Podmena prinyatogo svideteljstva privodit k obyichnomu otkazu; diagnosticheskij rezhim ne oslablyayet proverku.
+
+Flag sovmestim s `--кандидат-из-ввода` i nesovmestim s `--создать-основу`. Polnaya proverka ostatka vyipolnyayetsya odin raz, zatem diagnostika stroitsya iz uzhe prochitannyikh obyyektov bez novyikh processov Git. Nesokhranyonnyij checkout ne stanovitsya tekusjhim rezuljtatom: sravneniye zakrepleno polem `граница_актуальности`.
+
 ## Sokhranyayemyiye dannyiye
 
 V [reyestre etoj zadachi](../../Planirovaniye/zadachi/01a07d3d-d376-7ad2-aafc-67e4c25a67eb/obyazateljstva.json) kazhdoye obyazateljstvo soderzhit identifikator, roditelya, vid rezuljtata i celuyu doslovnuyu komandu s putyom zaprosa i polnyim kommitom. Istoricheskoye proiskhozhdeniye sokhranyayetsya otdeljno ot prinyatogo perenosa v pervichnyij checkout. Nezavisimaya granica importa zakreplena v iskhodnike: proveryayemyij JSON ne mozhet sam naznachitj sebe novyij genezis.
@@ -52,6 +66,6 @@ V pervoj zapisi splanirovan etap samogo reyestra; ostaljnyiye shestj napravlenij
 Iskhodnoye osnovaniye i obsuzhdeniye sorazmernosti processa: [zapros tekusjhego etapa](../../Zhurnal/2026-09-10_11-51-55_MSK_sokhranyatj-ostatok-obyazateljstv/zapros.md). Scenarii otkazov zakreplenyi adresnyimi testami; [parnyij profilj](../../Zhurnal/2026-09-10_11-51-55_MSK_sokhranyatj-ostatok-obyazateljstv/materialyi/profilj-sravneniya.json) sokhranyayet granicyi izmereniya i sravneniye rezuljtata do i posle optimizacii.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 13:03:44 MSK -->
-<!-- content-sha256: sha256:80d2a6a1cf16cadb9b702dd3b578a442c0c312325a27637969d3f1aee78a24e5 -->
+<!-- last-content-edit: 2026-09-18 01:51:12 MSK -->
+<!-- content-sha256: sha256:67115591e916429115089763072c434484016119b79e042763be02c2ac918829 -->
 <!-- FUM-MD-RECENCY:END -->

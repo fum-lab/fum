@@ -23,7 +23,7 @@ Shablon stroiteljnogo etapa dobavil soderzhateljnoye izmeneniye napravleniya 08,
 
 [Pervichnyij read-only-otkaz kontroljnoj tochki](../Zhurnal/2026-09-14_22-03-16_MSK_prinyatj-sovmestnuyu-klassifikaciyu-ostatka/materialyi/nablyudeniye-nepolnogo-okhvata.json) imeyet kod 1: razdel «Povliyal na fajlyi» ne perechislyal dva JSON tekusjhikh proverok i indeks svezhesti Markdown. Dliteljnostj ne izmerena; vyimyishlennaya pozdnyaya zapisj ne sozdayotsya. Dobavlenyi tochnyiye ssyilki na materialyi etapa i indeks; povtornyij dopusk vyipolnyayetsya posle polnogo oformleniya. Soderzhateljnyiye Python/Swift-testyi radi etogo ne povtoryalisj.
 
-V etoj versii vklyuchenyi desyatj proyavlenij: 0001–0005 i 0007–0011. Nomer 0006 zanyat otdeljnoj nezavershyonnoj rabotoj i ne pereispoljzuyetsya; yeyo dannyiye ne importirovanyi i priyomka ne zayavlyayetsya. Nomer 0007 naznachen koordinatorom posle sverki dostupnyikh refs i rabochikh fajlov.
+V etoj versii vklyuchenyi odinnadcatj proyavlenij: 0001–0005 i 0007–0012. Nomer 0006 zanyat otdeljnoj nezavershyonnoj rabotoj i ne pereispoljzuyetsya; yeyo dannyiye ne importirovanyi i priyomka ne zayavlyayetsya. Nomer 0007 naznachen koordinatorom posle sverki dostupnyikh refs i rabochikh fajlov.
 
 ### FUM-SBOJ-0051/PROYAVLENIYE-0008
 
@@ -46,6 +46,10 @@ Razdel zaprosa dopolnen integratorom razreshyonnyimi katalogom proyekcii i reyes
 ## Granica povtoreniya
 
 Iskhodnaya prichina — nepolnyij perechenj oblasti v shablone zaprosa pri perekhode ot otdeljnyikh kartochek k svodnomu napravleniyu. Posleduyusjhiye proyavleniya podtverzhdayut tu zhe granicu susjhestvuyusjhikh razreshyonnyikh fajlov: perechisleniye chasti obyyektov ili tekstovoye imya kataloga ne dayot polnogo pokryitiya. Obsjhaya mera — sverka vsego fakticheskogo Git-perechnya i razreshyonnyikh celej ssyilok, s sokhraneniyem otkaza dlya postoronnikh putej. Oshibka svyaznosti ili vyikhod izmeneniya za soglasovannyij obyyom ne ustanovlenyi. Eta granica otlichayetsya ot FUM-SBOJ-0035: tam otsutstvuyusjhij udalyonnyij putj treboval specialjnogo markera; zdesj propusjhen susjhestvuyusjhij izmenyonnyij dokument.
+
+### FUM-SBOJ-0051/PROYAVLENIYE-0012
+
+Polnyij dopusk J18 otkazal na shage 11 posle desyati uspeshnyikh shagov: 33 susjhestvuyusjhikh puti Proyekcii ne pokryityi zaprosom. Vneshnyaya dliteljnostj 601,605821458 s. [Adresnoye vosstanovleniye](../Zhurnal/2026-09-18_01-41-53_MSK_obyyasnyatj-neaktualjnostj-priyomok/materialyi/vosstanovleniye-okhvata.json) vosproizvelo 33 otkaza iskhodnogo spiska i nolj posle ssyilki na razreshyonnuyu oblastj. Eto mestnoye vosstanovleniye; sistemnoye predotvrasjheniye ostayotsya otkryityim v FUM-STEP-0225. [Granica naznacheniya nomera](../Zhurnal/2026-09-18_01-41-53_MSK_obyyasnyatj-neaktualjnostj-priyomok/materialyi/naznacheniye-0051-0012.json) sokhranyayet nedostupnyiye rezervyi neizvestnyimi i zanyatyij 0006.
 
 ## Ozhidaniye i klassifikaciya
 
@@ -82,6 +86,8 @@ Dopolniteljnyiye osnovaniya STEP0225 — `FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ
 
 Osnovaniye novogo utochneniya STEP0225 — `FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ-0011`: polnyij fakticheskij sostav proizvodnoj proyekcii i reyestra proveryayetsya do dorogogo dopuska.
 
+Osnovaniye utochneniya FUM-STEP-0225 — `FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ-0012`.
+
 ## Kriterii zakryitiya
 
 Avtomatizirovannaya podgotovka vyiyavlyayet polnyij sostav materialov do zaklyuchiteljnoj svyaznosti, sokhranyayet otkaz dlya postoronnego puti i trebuyet otdeljnyiye ssyilki tekusjhej paryi. Prezhniye kriterii vsekh vklyuchyonnyikh proyavlenij sokhranenyi; lokaljnoye ispravleniye spiska ikh ne zakryivayet.
@@ -104,6 +110,6 @@ Avtomatizirovannaya podgotovka vyiyavlyayet polnyij sostav materialov do zaklyuc
 - [Registraciya0011 i granicyi perenosa](../Zhurnal/2026-09-16_17-24-57_MSK_zaregistrirovatj-otkazyi-finansovoj-priyomki/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-17 22:16:46 MSK -->
-<!-- content-sha256: sha256:f6444b192047c1792e586eacf000c7307b090423011812e33551e73b0aada0df -->
+<!-- last-content-edit: 2026-09-18 02:09:10 MSK -->
+<!-- content-sha256: sha256:1ea59831cbc01f1b67db5fb101c2e9404f430e6c4fb1a3a36ffe33aba7292d85 -->
 <!-- FUM-MD-RECENCY:END -->

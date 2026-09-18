@@ -45,7 +45,14 @@ Osnovaniya `FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ-0009` i `FUM-СБОЙ-0051/П
 
 `FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ-0011` dobavlyayet 96 susjhestvuyusjhikh putej proyekcii i proizvodnyij planovyij reyestr. Rannyaya sverka dolzhna uchityivatj vesj razreshyonnyij fakticheskij Git-perechenj posle generacii, a do dorogogo dopuska — dostupnyij obyyavlennyij sostav i granicyi budusjhego pokoleniya. Obsjhij tekst bez razreshyonnoj Markdown-celi ne dayot pokryitiya. Eto prodolzheniye0004; otsutstvuyusjhaya udalyonnaya celj i aktivnaya ssyilka vne vklyuchyonnogo pokoleniya imeyut otdeljnyiye granicyi. Dopolneniye spiska ne yavlyayetsya sistemnyim ustraneniyem; prezhniye otricateljnyiye scenarii sokhranyayutsya.
 
+## Povtor pri diagnostike priyomok
+
+`FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ-0012` povtoryayet propusk 33 susjhestvuyusjhikh putej proyekcii posle desyati uspeshnyikh shagov polnogo dopuska. Rannyaya podgotovka dolzhna proveryatj polnyij razreshyonnyij Git-perechenj posle poslednej zapisi; drejf snimka trebuyet novoj sverki. Mestnyij rezuljtat 33 → 0 ne zakryivayet sistemnoye predotvrasjheniye i ne oslablyayet prezhniye otricateljnyiye granicyi.
+
 ## Istochniki
+
+- [Proyavleniye 0012](../../Zhurnal/2026-09-18_01-41-53_MSK_obyyasnyatj-neaktualjnostj-priyomok/materialyi/vosstanovleniye-okhvata.json).
+
 
 - [FUM-SBOJ-0051/PROYAVLENIYE-0005 i vosstanovleniye tekusjhej paryi](../../Zhurnal/2026-09-12_05-27-53_MSK_obyyedinitj-arkhiv-fuma-s-kornevoj-rabotoj/zapros.md).
 
@@ -64,6 +71,6 @@ Osnovaniya `FUM-СБОЙ-0051/ПРОЯВЛЕНИЕ-0009` i `FUM-СБОЙ-0051/П
 - [FUM-SBOJ-0051/PROYAVLENIYE-0011](../../Sboi/FUM-SBOJ-0051-nepolnyij-perechenj-zatronutyikh-fajlov-zaprosa.md) — [proverennoye nablyudeniye](../../Zhurnal/2026-09-16_17-24-57_MSK_zaregistrirovatj-otkazyi-finansovoj-priyomki/materialyi/nablyudeniye-otkaza-4.json).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-17 22:16:46 MSK -->
-<!-- content-sha256: sha256:fde73f871d2b7179f24198432c85b8a0b8deaedc5cb19e2a6d5ab99e3052b307 -->
+<!-- last-content-edit: 2026-09-18 02:09:10 MSK -->
+<!-- content-sha256: sha256:704fbf96b8bc155743352c46254505c03c58c692bff77c38c7cb33f6fd655315 -->
 <!-- FUM-MD-RECENCY:END -->

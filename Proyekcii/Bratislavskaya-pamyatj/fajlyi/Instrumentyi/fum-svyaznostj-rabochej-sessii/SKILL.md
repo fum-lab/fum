@@ -9,6 +9,8 @@ Etot navyik opisyivayet lokaljnuyu [avtomatizaciyu FUM](../../Glossarij/avtomati
 
 papka zaprosa -> iskhodnyij zapros i sosednij otchyot -> zatronutyiye fajlyi -> proverki -> kommit.
 
+Dlya adresnogo obyyasneniya neaktualjnyikh priyomok dostupen yavnyij rezhim `обязательства_задачи.py --диагностика-неактуальности`: [otdeljnaya versionirovannaya vyidacha](ostatok-obyazateljstv.md#pochemu-priyomka-ustarela) pokazyivayet puti i razlichiya khyeshej/rezhimov iz proverennogo Git-snimka. On ne menyayet shtatnyij ostatok i ne zamenyayet finaljnyij dopusk.
+
 ## Kogda ispoljzovatj
 
 Ispoljzuj etu avtomatizaciyu pered kommitom rabochej sessii, vliyayusjhej na proyekt, posle zapuska `fum-svezhestj-markdown` i posle togo kak fajl zaprosa uzhe soderzhit razdelyi `## Идентификатор сеанса Codex`, `## Использованные инструменты`, `## Повлиял на файлы` i `## Проверки`. Polnuyu predkommitnuyu proverku zapuskaj s tem zhe fajlom soobsjheniya, kotoryij zatem budet peredan `git commit -F`. Dlya novyikh zaprosov nachinaya s zakreplyonnoj vremennoj granicyi parametryi `--commit-message-file` i `--codex-thread-id` obyazateljnyi; istoricheskiye zaprosyi sokhranyayut prezhnij kontrakt.
@@ -223,6 +225,6 @@ Proverka Git-sostoyaniya sravnivayet toljko puti. Ona ne reshayet, nuzhno li vkl
 [Plan i primeneniye ustojchivyikh svideteljstv](ustojchivyiye-svideteljstva.md) pereispoljzuyut shtatnoye sokhraneniye obrabotki. Yavnoye opisaniye vyibirayet ekzemplyaryi i resheniya; plan bez zapisi pokazyivayet polnyiye materialyi i posledovateljnostj, primeneniye vozvrasjhayet fakticheskij prefiks i dopuskayet proveryayemyij povtor. Podklyucheniye k obsjhemu yazyiku operatorov ostayotsya otdeljnyim styikom.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-17 22:16:46 MSK -->
-<!-- content-sha256: sha256:3c3e7149a841442886e699fe046399b875d642c75eccc7129d2e9c28c7d52ae5 -->
+<!-- last-content-edit: 2026-09-18 01:51:12 MSK -->
+<!-- content-sha256: sha256:d2b4ddd4200f4dfc947624da457047b0a0a7cfbe4bfe24d85520595bea3333c7 -->
 <!-- FUM-MD-RECENCY:END -->

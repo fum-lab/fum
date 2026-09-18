@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-17 23:51:33 MSK - Integrirovatj finansovyiye paketyi](../2026-09-17_23-51-33_MSK_integrirovatj-finansovyiye-paketyi/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-18 01:33:08 MSK - Zaregistrirovatj finansovuyu priyomku](../2026-09-18_01-33-08_MSK_zaregistrirovatj-finansovuyu-priyomku/zapros.md)
 
 ## Tekst zaprosa
 
@@ -55,6 +55,6 @@ Pervonachaljno namechalisj finansovaya priyomka i povtornaya priyomka chitatelya
 - [Proverki i profilj mediapaketa](../../Instrumentyi/fum-reyestr-planirovaniya/tests/).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-18 00:48:40 MSK -->
-<!-- content-sha256: sha256:3831cb1340d888a7566202b504ce67b644dbf6a3997396e203b560aece5af457 -->
+<!-- last-content-edit: 2026-09-18 01:38:11 MSK -->
+<!-- content-sha256: sha256:0c8110c4d4a7a4b4b4f6a12f03d6a122dbcbf50a73e524d9f94a2ab2e1e55b8d -->
 <!-- FUM-MD-RECENCY:END -->

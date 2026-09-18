@@ -16,6 +16,8 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-18 01:41:53 MSK — Obyyasnyatj neaktualjnostj priyomok](2026-09-18_01-41-53_MSK_obyyasnyatj-neaktualjnostj-priyomok/otchyot.md)
+- [2026-09-18 01:33:08 MSK — Zaregistrirovatj finansovuyu priyomku](2026-09-18_01-33-08_MSK_zaregistrirovatj-finansovuyu-priyomku/otchyot.md)
 - [2026-09-18 00:01:17 MSK — Prinyatj finansovyiye paketyi i reyestr](2026-09-18_00-01-17_MSK_prinyatj-finansovyiye-paketyi-i-reyestr/otchyot.md)
 - [2026-09-17 23:51:33 MSK - Integrirovatj finansovyiye paketyi](2026-09-17_23-51-33_MSK_integrirovatj-finansovyiye-paketyi/otchyot.md)
 - [2026-09-17 23:32:48 MSK — Zaregistrirovatj obyyedinyonnuyu priyomku CLI](2026-09-17_23-32-48_MSK_zaregistrirovatj-obyyedinyonnuyu-priyomku-CLI/otchyot.md)
@@ -745,6 +747,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-18 00:10:24 MSK -->
-<!-- content-sha256: sha256:af5303055ae688878a1e9e536467442e3a31704e9c07e5955366c93ef363bc7a -->
+<!-- last-content-edit: 2026-09-18 01:51:12 MSK -->
+<!-- content-sha256: sha256:f9fd96fb3d9023e3138b96f9de5345ca533b70479d5b2393df594efe2723ab92 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -1,0 +1,47 @@
+{
+  "отпечаток_закрытия": "sha256:e48a2b4916b0245c16d65c68f0038613ebdc8c5b49fc8b41a8b0ad2d2406cd1e",
+  "сессия": "Журнал/2026-09-18_01-41-53_MSK_объяснять-неактуальность-приёмок/запрос.md",
+  "схема": "fum.test-run-report.v2",
+  "файлы": [
+    {
+      "sha256": "9e76c3970391d287e70661a125b89886e123939e72f02e86c808b996b23572d2",
+      "имя": "1_e7155f1a-4a15-430c-a826-d2e0fdba76ea.json"
+    },
+    {
+      "sha256": "3e200209293491b5c7626d5fb8f2fcfe4f40bb8a59d63e54b396005bc7286976",
+      "имя": "2_dc575e6f-f485-4194-ab6b-fcf508c47c9a.json"
+    },
+    {
+      "sha256": "cff891e5908e2d4c2d4b0545299f65379f513fd645766565d0b4c39def2e3352",
+      "имя": "3_603d0073-01fc-4a16-b28d-4e0737f5ffa7.json"
+    },
+    {
+      "sha256": "0dd12f94313293c7eb9cbaadaf76c16defdb7bfcc418050442964956d9171797",
+      "имя": "4_c5cb579e-336b-4e6a-8ba6-d79668a60b3d.json"
+    },
+    {
+      "sha256": "3acee29fe9ae04b51487130958b7094b848c3042ebefa8bea4dcad5d00cede67",
+      "имя": "5_41ad681a-6478-4244-b2e9-f63211767df2.json"
+    },
+    {
+      "sha256": "f7b81577ad607f72a76e56b6e6f36cfbc8008f83214cd2802fc3ba566bcae31b",
+      "имя": "6_23cd7dd9-d2cb-4b4f-b699-0c38a031150c.json"
+    },
+    {
+      "sha256": "aa0d6f7c3b6e31c96687fcc654e56e2a1f6e4c5a8f9a7a3f60cd0c53f72ecc62",
+      "имя": "7_918be137-ca69-48fd-9732-fcb243bde574.json"
+    },
+    {
+      "sha256": "7622a6038daff734a7cf7a2bedb57dd1fa9ae223ff621cc452a6e4ae2f81c090",
+      "имя": "8_345dc82b-d7c9-44a1-9cf7-4e6714a8f9f9.json"
+    },
+    {
+      "sha256": "2e81fe4a0feb8df4f3319a4495570fabadc13833e712cb5a1691bc0ba3319241",
+      "имя": "9_26ee16e1-f899-40ab-9fc3-7bf772102b0a.json"
+    },
+    {
+      "sha256": "85edc1b63f351a6eec4b795ed26fa03dfb6b19c0fd418b484f3214470f3109f1",
+      "имя": "10_54114080-5b34-4c8b-aad2-20f5308bb8f4.json"
+    }
+  ]
+}

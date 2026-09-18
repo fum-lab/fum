@@ -53,7 +53,7 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0048 | `устранена` | [Nevozmozhnostj vyirazitj trebovaniye bez semanticheskikh svyazej](FUM-SBOJ-0048-nevozmozhnostj-vyirazitj-trebovaniye-bez-semanticheskikh-svyazej.md)                           | 1          | Ne trebuyetsya: ustraneno v sessii                                                                                                 |
 | FUM-SBOJ-0049 | `активна`   | [Propusk vidimoj zadachi pishusjhej rabotyi](FUM-SBOJ-0049-propusk-vidimoj-zadachi-pishusjhej-rabotyi.md)                                                                     | 1          | FUM-STEP-0196                                                                                                                    |
 | FUM-SBOJ-0050 | `активна`   | [Vyideleniye globaljnogo identifikatora iz lokaljnogo maksimuma](FUM-SBOJ-0050-vyideleniye-globaljnogo-identifikatora-iz-lokaljnogo-maksimuma.md)                       | 4          | [FUM-STEP-0198](../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0198-proveritj-i-soglasovatj-mezhvetochnoye-vyideleniye-identifikatorov.md) |
-| FUM-SBOJ-0051 | `активна`   | [Nepolnyij perechenj zatronutyikh fajlov zaprosa](FUM-SBOJ-0051-nepolnyij-perechenj-zatronutyikh-fajlov-zaprosa.md)                                                         | 8          | FUM-STEP-0225                                                                                                                    |
+| FUM-SBOJ-0051 | `активна`   | [Nepolnyij perechenj zatronutyikh fajlov zaprosa](FUM-SBOJ-0051-nepolnyij-perechenj-zatronutyikh-fajlov-zaprosa.md)                                                         | 11         | FUM-STEP-0225                                                                                                                    |
 | FUM-SBOJ-0052 | `устранена` | [Svyaznostj trebuyet lokaljnyij graf Obsidian](FUM-SBOJ-0052-svyaznostj-trebuyet-lokaljnyij-graf-Obsidian.md)                                                             | 3          | FUM-STEP-0203                                                                                                                    |
 | FUM-SBOJ-0053 | `устранена` | [Rasshireniye formatov proyekcii ostavilo prezhniye konstantyi JSON Schema](FUM-SBOJ-0053-rassoglasovaniye-skhemyi-formatov-proyekcii.md)                                     | 1          | —                                                                                                                                |
 | FUM-SBOJ-0054 | `устранена` | [Novaya politika proyekcii otklonyala vladeniye prezhnim pokoleniyem versii 2](FUM-SBOJ-0054-otkaz-proyekcii-na-prezhnej-politike-vladeniya.md)                              | 1          | —                                                                                                                                |
@@ -154,6 +154,6 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 - [pravila rabochikh sessij](../AGENTS.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-18 00:48:40 MSK -->
-<!-- content-sha256: sha256:858b73842f2b6ecb27534efaf0002feb52d8507a0efe87780d92afad66371860 -->
+<!-- last-content-edit: 2026-09-18 02:09:10 MSK -->
+<!-- content-sha256: sha256:9f054fdd734d2a17a610c1686c9224ed8d4bc0559097f12738e29790e395f84f -->
 <!-- FUM-MD-RECENCY:END -->
