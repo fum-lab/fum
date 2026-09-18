@@ -47,6 +47,18 @@ def проверить(корень: Path, запрос: Path) -> dict:
     ошибки.extend(связность.validate_journal_direct_check_runs(тексты[отчёт]))
     ошибки.extend(связность.validate_used_tools_section(тексты[запрос], запрос))
     ошибки.extend(связность.codex_thread_id_from_request(тексты[запрос])[1])
+    структура = связность.markdown_structural_text(тексты[запрос])
+    _, ошибки_состава = связность.affected_files_from_request(структура, запрос, корень)
+    ошибки.extend(ошибки_состава)
+    раздел = связность.section_body(структура, "Повлиял на файлы") or ""
+    прямые_цели = {
+        связность.resolve_markdown_target(связность.MarkdownLink(
+            запрос, 1, связность.strip_link_title(совпадение.group(2))), корень)
+        for совпадение in связность.MARKDOWN_LINK_RE.finditer(раздел)
+    }
+    for документ in документы:
+        if документ not in прямые_цели:
+            ошибки.append("Раздел «Повлиял на файлы» должен прямо включать " + документ.name)
     for документ, имя_соседа in ((запрос, "отчёт.md"), (отчёт, "запрос.md")):
         дословное = связность.request_text_line_span(тексты[документ]) if документ == запрос else None
         ссылки = [

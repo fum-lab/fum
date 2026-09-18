@@ -1,0 +1,77 @@
+{
+  "схема": "fum.исходные-команды.1",
+  "команды": [
+    {
+      "текст": "Kak prodvigayetsya rabota? Kakovyi rezuljtatyi? Kak vsyo idyot v celom?\n",
+      "позиция": {
+        "начало": 1015805164,
+        "конец": 1015805615,
+        "sha256": "d5f143eec643c48955033c804073efa7abb9f690823ed43d0b806510bcacfe52"
+      }
+    },
+    {
+      "текст": "Kakovyi daljnejshiye planyi na segodnya?\n",
+      "позиция": {
+        "начало": 1015830407,
+        "конец": 1015830827,
+        "sha256": "56be6e2846fa7b4d5ef0c8274e3c5e2f801c2d3071a92a18023daf852fdca742"
+      }
+    },
+    {
+      "текст": "Na kakoj stadii sejchas nakhodyatsya rabotyi po portirovaniyu Android 8 na D22?\n",
+      "позиция": {
+        "начало": 1015858294,
+        "конец": 1015858752,
+        "sha256": "8ced04b7d573513ef38e9a8b85e7bb7dca0ce27026545f22d7c24595c08d17a3"
+      }
+    },
+    {
+      "текст": "Davaj paralleljno prodolzhim i etu rabotu.\n",
+      "позиция": {
+        "начало": 1016640570,
+        "конец": 1016640992,
+        "sha256": "b3299e60a5f971d607c12e1b854d7aed1da0cf944cd44287b5b422488f5169b1"
+      }
+    },
+    {
+      "текст": "Prodolzhaj.\n",
+      "позиция": {
+        "начало": 1023282354,
+        "конец": 1023282745,
+        "sha256": "55ef3ec23cf17a8221749332f599b225e012fb0c006c18988d7ef587a59e3714"
+      }
+    },
+    {
+      "текст": "Razreshayu.\n",
+      "позиция": {
+        "начало": 1023616353,
+        "конец": 1023616744,
+        "sha256": "c88d75211aa5c7ff8c5d01bbf75d5d2640bfbd14a95dee82e69f4fe2221ffdb9"
+      }
+    },
+    {
+      "текст": "D22 ne delayem. \n",
+      "позиция": {
+        "начало": 1023661348,
+        "конец": 1023661744,
+        "sha256": "f69edda3ddbce374c7fd4551711801193db67862db6b2ccc52e60ff924d90363"
+      }
+    },
+    {
+      "текст": "Stavim na pauzu.\n",
+      "позиция": {
+        "начало": 1023691383,
+        "конец": 1023691779,
+        "sha256": "a810bba54ab271e19902e11bd0d303c8767a87a5d82a404beb5334c8000dc82d"
+      }
+    },
+    {
+      "текст": "Prodolzhaj drugiye rabotyi.\n",
+      "позиция": {
+        "начало": 1023723825,
+        "конец": 1023724232,
+        "sha256": "7e6d434feb0a03985cac0166a43b1f9a415ae3228deca97b1b5e4b5c22e29fab"
+      }
+    }
+  ]
+}

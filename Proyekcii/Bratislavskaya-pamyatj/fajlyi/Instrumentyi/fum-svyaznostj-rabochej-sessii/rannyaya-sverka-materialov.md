@@ -28,12 +28,18 @@ Avtomaticheskoye izvlecheniye prinyatogo dochernego sostava iz proverennogo mani
 
 Adresnyiye regressii: `python3 -B -m unittest discover -s Инструменты/fum-svyaznostj-rabochej-sessii/tests -p test_ранний_охват.py`. Profilj: `python3 -B Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_раннего_охвата.py`. Oba zapuska vyipolnyayutsya cherez otchyotnuyu obyortku sobstvennoj sessii. Profilj sozdayot 1002 fajla, isklyuchayet podgotovku i trizhdyi izmeryayet CLI s odinakovyimi vkhodami; kyesh OS ne ochisjhayetsya. Sokrasjheniye povtornyikh polnyikh obkhodov i uskoreniye smoke-check etim scenariyem ne izmeryayutsya.
 
+## Polya paryi pered dorogim zapuskom
+
+Obsjhij smoke-check s proverkoj sessii teperj pervyim ispolnyayemyim shagom vyizyivayet susjhestvuyusjhij `проверить-поля-журнала.py`. Rannij vkhod proveryayet obyazateljnyiye polya, profilj i pryamyiye ssyilki na obe roli imenno v «Povliyal na fajlyi»; ssyilka na katalog, kommentarij, primer koda ili drugoj razdel ikh ne zamenyayet. Eto drugaya granica, chem perechisleniye vsekh izmenyonnyikh fajlov: komandyi dopolnyayut drug druga.
+
+Otdeljnyij vyizov: `python3 -B Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-поля-журнала.py --корень . --запрос Журнал/<stem>/запрос.md`. Ispoljzujte otchyotnuyu obyortku svoyej sessii. Kod 0 podtverzhdayet toljko polya, 1 oznachayet najdennyiye oshibki, 2 — nekorrektnyij vkhod. Ispravjte perechislennyiye polya i obnovite predprosmotr. Zakryityij otchyot ne otkryivayetsya etim instrumentom.
+
 ## Istochniki
 
 - [Porucheniye i utochneniya](../../Zhurnal/2026-09-18_11-55-00_MSK_sveryatj-materialyi-etapa-do-priyomki/zapros.md).
 - [Soglasovannaya kartochka](../../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0225-sveryatj-polnyij-sostav-materialov-etapa.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-18 12:11:26 MSK -->
-<!-- content-sha256: sha256:5aefde55b738169395f0177b655f4113d66c307607cb28276b153d911744ca16 -->
+<!-- last-content-edit: 2026-09-19 01:06:21 MSK -->
+<!-- content-sha256: sha256:a302e9601daebf33efff87b9a967aa693bdc3b0ad1c169ca27da65111272cfcb -->
 <!-- FUM-MD-RECENCY:END -->

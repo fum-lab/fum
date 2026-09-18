@@ -122,6 +122,7 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0153 | `устранена` | [Nevernaya podkomanda proverki strukturyi Zhurnala](FUM-SBOJ-0153-nevernaya-podkomanda-proverki-strukturyi.md)                                                           | 1          | —                                                                                                                                |
 | FUM-SBOJ-0154 | `устранена` | [Nesovmestimyiye s proyekciyej imena shablonov mediapaketa](FUM-SBOJ-0154-format-shablonov-mediapaketa.md)                                                                | 1          | —                                                                                                                                |
 | FUM-SBOJ-0155 | `устранена` | [Iskhodnyij otvet ne byil obyyavlen istoricheskim svideteljstvom](FUM-SBOJ-0155-neuchtyonnaya-istoricheskaya-stroka-otveta.md)                                                | 1          | —                                                                                                                                |
+| FUM-SBOJ-0156 | `активна`   | [Propusjhennaya podkomanda sborki planovogo reyestra](FUM-SBOJ-0156-propusjhennaya-podkomanda-sborki-reyestra.md)                                                           | 1          | FUM-STEP-0174                                                                                                                    |
 
 ## Pravila vedeniya
 
@@ -154,6 +155,6 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 - [pravila rabochikh sessij](../AGENTS.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-18 12:45:54 MSK -->
-<!-- content-sha256: sha256:405044267fc6c367b1921aa00f330cae69ab848a1b31765a33a153f1ab061d26 -->
+<!-- last-content-edit: 2026-09-19 01:10:33 MSK -->
+<!-- content-sha256: sha256:0d355b483d20397ee629ec6397635a330ca397e9b2fc61ae855a96af53e3309f -->
 <!-- FUM-MD-RECENCY:END -->

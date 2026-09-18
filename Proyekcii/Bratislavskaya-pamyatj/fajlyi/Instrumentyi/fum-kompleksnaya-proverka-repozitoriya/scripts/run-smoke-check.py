@@ -2335,6 +2335,15 @@ def build_steps(
     swift_cmd = swift or "swift"
     steps: list[SmokeStep] = []
 
+    if include_session:
+        steps.append(SmokeStep(
+            name="Ранняя проверка полей Журнала",
+            command=(python_cmd, проверочный_файл(Path(
+                "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-поля-журнала.py"
+            )), "--корень", ".", "--запрос", str(request)),
+            ранняя_проверка=True,
+        ))
+
     каталоги_тестов = (
         discover_test_dirs(источник)
         if профиль == ПОЛНЫЙ_ПРОФИЛЬ

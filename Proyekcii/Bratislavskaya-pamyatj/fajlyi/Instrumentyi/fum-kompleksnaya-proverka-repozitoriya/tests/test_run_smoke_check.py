@@ -46,6 +46,28 @@ spec.loader.exec_module(run_smoke_check)
 
 
 class RunSmokeCheckTests(unittest.TestCase):
+    def test_поля_журнала_первыми_останавливают_реальный_план(сам):
+        with tempfile.TemporaryDirectory() as временный:
+            корень = Path(временный).resolve()
+            сам.write_script_fixture(корень)
+            сам.создать_фикстуры_документационных_тестов(корень)
+            запрос = Path("Журнал/2026-07-01_14-12-17_MSK/запрос.md")
+            шаги = run_smoke_check.build_steps(корень, запрос, python="python3")
+            упорядоченные = run_smoke_check.упорядочить_тестовые_шаги(шаги, {})
+            сам.assertEqual(шаги[0].name, "Ранняя проверка полей Журнала")
+            сам.assertEqual(упорядоченные[0], шаги[0])
+            сам.assertEqual(шаги[0].command, (
+                "python3",
+                "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-поля-журнала.py",
+                "--корень", ".", "--запрос", запрос.as_posix(),
+            ))
+            with mock.patch.object(run_smoke_check.subprocess, "run", return_value=
+                                   subprocess.CompletedProcess(шаги[0].command, 1, "", "")) as запуск:
+                with contextlib.redirect_stdout(io.StringIO()):
+                    код = run_smoke_check.run_steps(упорядоченные, корень)
+            сам.assertEqual(код, 1)
+            сам.assertEqual([вызов.args[0] for вызов in запуск.call_args_list], [шаги[0].command])
+
     def test_автономный_набор_не_содержит_реальную_композицию(сам):
         имена = unittest.TestLoader().getTestCaseNames(RunSmokeCheckTests)
         сам.assertNotIn("test_accepts_registered_local_swiftpm_composition", имена)
@@ -136,6 +158,10 @@ class RunSmokeCheckTests(unittest.TestCase):
                 кандидат, Path("Журнал/2026-01-01_00-00-00_MSK/запрос.md"),
                 корень_проверок=источник,
             )
+            сам.assertEqual(шаги[0].command[1], str(источник /
+                "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-поля-журнала.py"))
+            сам.assertEqual(шаги[0].command[2:], (
+                "--корень", ".", "--запрос", "Журнал/2026-01-01_00-00-00_MSK/запрос.md"))
             тесты = [шаг for шаг in шаги if шаг.аналитический_ключ is not None]
             сам.assertEqual(len(тесты), 13)
             сам.assertEqual(тесты[0].аналитический_ключ, относительный.as_posix())
@@ -331,6 +357,7 @@ assert значения['СВЯЗНОСТЬ'] == Path(sys.argv[2]) / 'Инстр
             root / "Инструменты" / "fum-svezhestj-markdown" / "scripts" / "update-md-recency.py",
             root / "Инструменты" / "fum-svezhestj-grafa-obsidian" / "scripts" / "build-obsidian-graph-recency.py",
             root / "Инструменты" / "fum-svyaznostj-rabochej-sessii" / "scripts" / "check-session-coherence.py",
+            root / "Инструменты" / "fum-svyaznostj-rabochej-sessii" / "scripts" / "проверить-поля-журнала.py",
             root / "Инструменты" / "fum-struktura-papok-zaprosov" / "scripts" / "struktura-papok-zaprosov.py",
             root / "Инструменты" / "fum-bratislavskaya-proyekciya-pamyati" / "scripts" / "братиславская_проекция_памяти.py",
         ]:
@@ -1250,6 +1277,7 @@ let package = Package(
             сам.assertEqual(
                 [шаг.name for шаг in упорядоченные],
                 [
+                    "Ранняя проверка полей Журнала",
                     "Проверка структуры папок запросов",
                     "Сборка планового реестра",
                     "Проверка планового реестра",
@@ -1277,12 +1305,12 @@ let package = Package(
                 ],
             )
             сам.assertTrue(
-                all(шаг.ранняя_проверка for шаг in упорядоченные[:11])
+                all(шаг.ранняя_проверка for шаг in упорядоченные[:12])
             )
             сам.assertTrue(
                 all(
                     шаг.аналитический_ключ is not None
-                    for шаг in упорядоченные[11:]
+                    for шаг in упорядоченные[12:]
                 )
             )
             по_именам = {шаг.name: шаг for шаг in упорядоченные}
@@ -1529,6 +1557,7 @@ let package = Package(
             self.assertEqual(
                 names,
                 [
+                    "Ранняя проверка полей Журнала",
                     "Тесты fum-alpha",
                     "Тесты fum-beta",
                     "Проверка структуры папок запросов",
@@ -1549,6 +1578,7 @@ let package = Package(
                 ],
             )
             ранние_имена = {
+                "Ранняя проверка полей Журнала",
                 "Проверка структуры папок запросов",
                 "Сборка планового реестра",
                 "Проверка планового реестра",
@@ -1569,13 +1599,15 @@ let package = Package(
                 {шаг.name for шаг in steps if шаг.ранняя_проверка},
                 ранние_имена,
             )
-            self.assertFalse(steps[0].ранняя_проверка)
+            self.assertTrue(steps[0].ранняя_проверка)
             self.assertFalse(steps[1].ранняя_проверка)
+            self.assertFalse(steps[2].ранняя_проверка)
             упорядоченные = run_smoke_check.упорядочить_тестовые_шаги(
                 steps,
                 {},
             )
             сам_ранний_префикс = [
+                "Ранняя проверка полей Журнала",
                 "Проверка структуры папок запросов",
                 "Сборка планового реестра",
                 "Проверка планового реестра",
@@ -1593,17 +1625,17 @@ let package = Package(
                 "Проверка связности рабочей сессии",
             ]
             self.assertEqual(
-                [шаг.name for шаг in упорядоченные[:15]],
+                [шаг.name for шаг in упорядоченные[:16]],
                 сам_ранний_префикс,
             )
             self.assertTrue(
-                all(шаг.ранняя_проверка for шаг in упорядоченные[:15])
+                all(шаг.ранняя_проверка for шаг in упорядоченные[:16])
             )
             self.assertEqual(
-                [шаг.name for шаг in упорядоченные[15:]],
+                [шаг.name for шаг in упорядоченные[16:]],
                 ["Тесты fum-alpha", "Тесты fum-beta"],
             )
-            self.assertIn("Инструменты/fum-alpha/tests", steps[0].command)
+            self.assertIn("Инструменты/fum-alpha/tests", steps[1].command)
             self.assertEqual(
                 next(
                     step

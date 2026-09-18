@@ -69,6 +69,10 @@ Povtor `FUM-СБОЙ-0071/ПРОЯВЛЕНИЕ-0006` dobavlen k tomu zhe aktivno
 
 Povtor `FUM-СБОЙ-0071/ПРОЯВЛЕНИЕ-0007` dopolnyayet tot zhe STEP0174: obyazateljnyiye polya dolzhnyi formirovatjsya do zaklyuchiteljnogo obkhoda; lokaljnoye zapolneniye ne zavershayet avtomatizaciyu.
 
+## Proveryayemaya mera rannego otkaza
+
+[Etap podklyucheniya](../Zhurnal/2026-09-19_00-58-49_MSK_podklyuchitj-rannyuyu-proverku-polej-zhurnala/otchyot.md) ispoljzuyet gotovuyu proverku polej pervyim ispolnyayemyim shagom smoke. Krasnyij test podtverdil otsutstviye takogo poryadka i prinyatiye ssyilok vne nuzhnogo razdela; zelyonyiye regressii proveryayut ostanovku posle yedinstvennogo vyizova i obe pryamyiye roli. Granica priyomki meryi podtverzhdayetsya zakryityim otchyotom etapa; kartochka ostayotsya aktivnoj.
+
 ## Kriterii zakryitiya
 
 Dlya istoricheski neprinyatyikh par 0008–0010 sokhranyayutsya iskhodnyiye bajtyi, otricateljnyiye iskhodyi i otdeljnaya novaya korrekciya; ikh perepisyivaniye zadnim chislom ne trebuyetsya i ne dokazyivayet ustraneniye. Aktualjnaya podgotovlennaya para imeyet obyazateljnyiye polya i dejstviteljnyij uspeshnyij dopusk. Do dorogoj priyomki proveryayemaya rannyaya granica 0174 obnaruzhivayet otsutstviye tochnyikh metok profilya i pryamyikh ssyilok na fajlyi paryi. Prezhniye ogranichennyiye vosstanovleniya 0001 i 0002 sokhranyayutsya; lokaljnoye zapolneniye odnoj novoj paryi ne obyyavlyayetsya ispolneniyem etoj budusjhej obsjhej meryi.
@@ -84,6 +88,6 @@ Pervichnyij rezuljtat chunk 892d4b: session coherence check passed, kod 0, 37,53
 [Tekusjhaya registraciya i pervichnyiye svideteljstva](../Zhurnal/2026-09-11_09-36-55_MSK_sokhranitj-ostavshuyusya-diagnostiku-priyoma/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-18 12:45:54 MSK -->
-<!-- content-sha256: sha256:dff7c1b2e4f118cbb1e7f7dd13dfc3e2710bbbf4c067f23033afb164558eec00 -->
+<!-- last-content-edit: 2026-09-19 01:10:33 MSK -->
+<!-- content-sha256: sha256:19a310c8b1d20aadd02e70e46123c6392d6added1c07b709c4c06decdc3992d2 -->
 <!-- FUM-MD-RECENCY:END -->
