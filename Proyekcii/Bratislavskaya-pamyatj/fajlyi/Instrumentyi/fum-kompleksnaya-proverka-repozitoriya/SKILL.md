@@ -74,7 +74,7 @@ python3 Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/ru
 
 ## Chto zapuskayetsya
 
-Standartnyij profilj vyipolnyayet dve fazyi. Snachala idut dvenadcatj live-proverok v tochnom poryadke: obyazateljnyiye polya tekusjhej paryi Zhurnala; struktura papok zaprosov; otdeljnyiye sborka i proverka planovogo reyestra; dvunapravlennostj voprosov; primeneniye i nezavisimaya proverka bratislavskoj proyekcii; mashinno-lokaljnyiye puti; dekompoziciya pravil agentov; tematicheskij indeks README; Markdown-recency; svyaznostj sessii. Proverka obyazateljnogo razdela «Zatronutaya dokumentaciya» i obratnyikh ssyilok predshestvuyet dorogoj proyekcii v oboikh profilyakh. Zatem po kanonicheskomu POSIX-klyuchu sleduyut trinadcatj yavno razreshyonnyikh naborov:
+Standartnyij profilj vyipolnyayet dve fazyi. Snachala idut trinadcatj live-proverok v tochnom poryadke: obyazateljnyiye polya tekusjhej paryi Zhurnala; struktura papok zaprosov; otdeljnyiye sborka i proverka planovogo reyestra; rannij okhvat fakticheskikh izmenenij tekusjhim zaprosom; dvunapravlennostj voprosov; primeneniye i nezavisimaya proverka bratislavskoj proyekcii; mashinno-lokaljnyiye puti; dekompoziciya pravil agentov; tematicheskij indeks README; Markdown-recency; svyaznostj sessii. Proverka obyazateljnogo razdela «Zatronutaya dokumentaciya» i obratnyikh ssyilok predshestvuyet dorogoj proyekcii v oboikh profilyakh. Zatem po kanonicheskomu POSIX-klyuchu sleduyut trinadcatj yavno razreshyonnyikh naborov:
 
 - `fum-bratislavskaya-proyekciya-pamyati`;
 - `fum-indeks-readme`;
@@ -420,7 +420,9 @@ Tekusjhij Swift-kontur prednaznachen dlya macOS: vse paketyi trebuyut macOS 14 i
 
 Tekusjhij `--допуск-слияния` prinimayet toljko zakryityij v3 s podtverzhdeniyem ispolneniya iz master. Sokhranyonnaya vozmozhnostj v4 otnositsya k otdeljnomu rezhimu i sama po sebe ne rasshiryayet etot dopusk.
 
+Rannyaya proverka okhvata vyipolnyayet `Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-охват-запроса.py --корень . --запрос <текущий запрос>` posle sborki reyestra. Ona obnaruzhivayet neperechislennyiye proizvodnyiye fajlyi do proyekcii, ispoljzuyet obsjhij strogij razbor ssyilok i Git-status, uchityivayet iskhodnuyu celj pereimenovaniya. Bez proverki sessii shag otsutstvuyet. Pri otdeljnom prinimayusjhem konture CLI i sosedniye zavisimosti berutsya iz yego kornya. Rezuljtat dokazyivayet pokryitiye putej, a ne stabiljnostj bajtov vsekh dirty-fajlov ili indeksa; itogovaya svyaznostj i nezavisimyij razreshyonnyij sostav kommita ostayutsya obyazateljnyimi.
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-19 01:06:21 MSK -->
-<!-- content-sha256: sha256:904d2cbea79267630305a602d2f43418d7f75b02aef3c4aecd01b28e851d6ba6 -->
+<!-- last-content-edit: 2026-09-19 07:28:58 MSK -->
+<!-- content-sha256: sha256:f82a285bcc1863b90edc787510ecc0f63b28e04ad2c24ac109d5df4df1439de2 -->
 <!-- FUM-MD-RECENCY:END -->

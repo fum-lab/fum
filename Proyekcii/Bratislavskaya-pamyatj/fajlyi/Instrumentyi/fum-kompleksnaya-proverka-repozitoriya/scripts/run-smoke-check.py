@@ -2412,6 +2412,15 @@ def build_steps(
         )
     )
 
+    if include_session:
+        steps.append(SmokeStep(
+            name="Ранняя проверка охвата запроса",
+            command=(python_cmd, проверочный_файл(Path(
+                "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-охват-запроса.py"
+            )), "--корень", ".", "--запрос", str(request)),
+            ранняя_проверка=True,
+        ))
+
     скрипт_вопросов = проверочный_файл(QUESTION_BACKLINKS_SCRIPT)
     steps.append(
         SmokeStep(
