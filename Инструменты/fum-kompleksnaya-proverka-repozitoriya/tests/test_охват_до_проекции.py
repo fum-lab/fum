@@ -25,6 +25,7 @@ class РаннийОхватПлана(unittest.TestCase):
             self.assertLess(имена.index(имя),имена.index('Применение братиславской проекции памяти'))
             цель=шаги[имена.index(имя)]
             self.assertTrue(цель.ранняя_проверка)
+            self.assertIn("--форматы", цель.command)
             def запустить(команда, **kwargs):
                 return subprocess.CompletedProcess(команда,1 if команда==цель.command else 0)
             with mock.patch.object(МОДУЛЬ.subprocess,'run',side_effect=запустить) as вызовы, contextlib.redirect_stdout(io.StringIO()):
@@ -49,7 +50,7 @@ class РаннийОхватПлана(unittest.TestCase):
             (корень/запрос).write_text('# Запрос\n\n## Повлиял на файлы\n[Запрос](запрос.md)\n[Отчёт](отчёт.md)\n[Инструменты](../../Инструменты)\n')
             (корень/запрос).with_name('отчёт.md').write_text('Отчёт')
             каталог=корень/'Инструменты/fum-svyaznostj-rabochej-sessii/scripts';каталог.mkdir(parents=True)
-            for имя in ('проверить-охват-запроса.py','сверить-материалы-этапа.py','check-session-coherence.py'):
+            for имя in ('проверить-охват-запроса.py','сверить-материалы-этапа.py','check-session-coherence.py','форматы_изменений.py'):
                 (каталог/имя).write_text('raise RuntimeError("Подмена кандидатом")')
             (корень/'.codex').mkdir()
             (корень/'.codex/config.toml').write_text('[skills]\ninclude_instructions = false\n')

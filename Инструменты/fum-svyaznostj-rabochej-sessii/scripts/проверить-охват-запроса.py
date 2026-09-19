@@ -12,7 +12,7 @@ import subprocess
 ОПИСАНИЕ.loader.exec_module(ОХВАТ)
 
 
-def проверить(корень, запрос):
+def проверить(корень, запрос, форматы=False):
     корень = Path(корень).resolve()
     if Path(ОХВАТ.выполнить_git(корень, 'rev-parse', '--show-toplevel').decode().strip()).resolve() != корень:
         raise ValueError('Нужен физический корень checkout')
@@ -23,21 +23,32 @@ def проверить(корень, запрос):
     def точный(имя):
         return ОХВАТ.точный_путь(корень, имя, кэш)
     путь, отчёт, исходные, цели, ошибки = ОХВАТ.прочитать_охват(корень, запрос, строки, точный)
+    сведения_форматов = None
+    if форматы and not ошибки:
+        описание = importlib.util.spec_from_file_location('форматы_охвата', Path(__file__).with_name('форматы_изменений.py'))
+        модуль = importlib.util.module_from_spec(описание)
+        описание.loader.exec_module(модуль)
+        сведения_форматов = модуль.проверить(корень, ОХВАТ)
+        ошибки.extend(сведения_форматов['ошибки'])
     if (путь.read_bytes() != исходные
             or ОХВАТ.прочитать_статус(корень)[0] != статус
             or ОХВАТ.выполнить_git(корень, 'symbolic-ref', 'HEAD') != ссылка
             or ОХВАТ.выполнить_git(корень, 'rev-parse', 'HEAD') != вершина):
         ошибки.append('Вход изменился во время проверки охвата')
-    return {'схема': 'fum.покрытие-запроса.1', 'готов': not ошибки, 'ошибки': ошибки, 'путей': len(пути)}
+    результат = {'схема': 'fum.покрытие-запроса.1', 'готов': not ошибки, 'ошибки': ошибки, 'путей': len(пути)}
+    if форматы:
+        результат['форматы'] = сведения_форматов
+    return результат
 
 
 def выполнить():
     парсер = argparse.ArgumentParser(description=__doc__)
     парсер.add_argument('--корень', type=Path, required=True)
     парсер.add_argument('--запрос', required=True)
+    парсер.add_argument('--форматы', action='store_true')
     аргументы = парсер.parse_args()
     try:
-        результат = проверить(аргументы.корень, аргументы.запрос)
+        результат = проверить(аргументы.корень, аргументы.запрос, аргументы.форматы)
     except (OSError, ValueError, subprocess.CalledProcessError, StopIteration) as ошибка:
         результат = {'схема': 'fum.покрытие-запроса.1', 'готов': False, 'ошибки': [str(ошибка)]}
     print(json.dumps(результат, ensure_ascii=False, sort_keys=True))
