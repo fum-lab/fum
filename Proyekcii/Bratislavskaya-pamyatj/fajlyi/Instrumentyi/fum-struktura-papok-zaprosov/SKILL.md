@@ -73,6 +73,14 @@ V `## Текст запроса` bajtyi ne menyayutsya. Syiryiye URL-snimki i ne
 
 Plan dayot perenosimuyu osnovu dlya budusjhego vyiravnivaniya vetok i forkov, no sam navyik ne vyipolnyayet fetch, merge, rebase, commit ili push.
 
+## Stoimostj proverki strukturyi
+
+`validate` odin raz vyichislyayet mnozhestvo predkov publikuyemyikh putej. Pri proverke zapisi Zhurnala uchityivayetsya tochnoye sovpadeniye s fajlom inventarya libo s odnim iz yego predkov. Eto ustranyayet povtornyij polnyij obkhod dlya kazhdoj papki; strokovyiye prefiksyi ne primenyayutsya. Ignoriruyemyij fajl ne delayet papku publikuyemoj, a otslezhivayemyij ostayotsya v inventare dazhe pri sovpadenii s `.gitignore`. Proverki simvolicheskikh ssyilok i posleduyusjhiye nezavisimyiye chteniya sokhranyayutsya.
+
+Adresnaya regressiya stoimosti i granic: `tests/test_стоимость_инвентаря.py`. Ona proveryayet chislo obrasjhenij k predkam, a ne nestabiljnyij predel sekund; vremennoj effekt izmeryayetsya otdeljno na konkretnom dereve.
+
+Dlya parnogo izmereniya dvukh zakreplyonnyikh kommitov sluzhit `tests/профиль_валидации_структуры.py --до <полный OID> --после <полный OID> --выход <новый JSON>`. Zapuskajte yego cherez otchyotnuyu obyortku. On ispolnyayet iskhodniki etikh kommitov s obsjhimi zavisimostyami tekusjhego checkout; ispoljzujte toljko doverennyiye revizii. Vremennaya fikstura i rezuljtat dolzhnyi sovpastj vo vsekh tryokh chereduyusjhikhsya povtorakh. Podgotovka i kontrolj neizmennosti nakhodyatsya vne tajmera. JSON sokhranyayet granicu, vse izmereniya i khyeshi; susjhestvuyusjhij fajl vyivoda ne perezapisyivayetsya.
+
 ## Proverki avtomatizacii
 
 ```bash
@@ -87,6 +95,6 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты
 - [iskhodnyij zapros 2026-08-04 15:48:19 MSK - Shablonizirovatj fajlyi zaprosov i otchyotov](../../Zhurnal/2026-08-04_15-48-19_MSK_shablonizirovatj-fajlyi-zaprosov-i-otchyotov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 20:36:50 MSK -->
-<!-- content-sha256: sha256:edc362c47ec180618fbd42c219c3a262ce02361b8d485284cc285e43bde5023e -->
+<!-- last-content-edit: 2026-09-19 04:57:10 MSK -->
+<!-- content-sha256: sha256:e4e45a60f0b04bda2bb3d12659658432f39161c8c0212d8ac58084b543d382aa -->
 <!-- FUM-MD-RECENCY:END -->

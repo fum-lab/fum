@@ -16,6 +16,9 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-19 04:54:15 MSK — Prinyatj optimizaciyu chteniya i strukturyi](2026-09-19_04-54-15_MSK_prinyatj-optimizaciyu-chteniya-i-strukturyi/otchyot.md)
+- [2026-09-19 04:29:36 MSK — Izmeritj sostav proverki svyaznosti](2026-09-19_04-29-36_MSK_izmeritj-sostav-proverki-svyaznosti/otchyot.md)
+- [2026-09-19 04:14:40 MSK — Uskoritj podgotovku kommita proveryayemyim kyeshem](2026-09-19_04-14-40_MSK_uskoritj-podgotovku-kommita-proveryayemyim-kyeshem/otchyot.md)
 - [2026-09-19 03:26:05 MSK — Sokratitj zapuski Git pri sravnenii derevjyev](2026-09-19_03-26-05_MSK_sokratitj-zapuski-Git-pri-sravnenii-derevjyev/otchyot.md)
 - [2026-09-19 03:08:13 MSK — Podklyuchitj rannij sostav k sozdaniyu kommita](2026-09-19_03-08-13_MSK_podklyuchitj-rannij-sostav-k-sozdaniyu-kommita/otchyot.md)
 - [2026-09-19 02:44:26 MSK — Izmeritj polnyij nabor proverok reyestra](2026-09-19_02-44-26_MSK_izmeritj-polnyij-nabor-proverok-reyestra/otchyot.md)
@@ -757,6 +760,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-19 03:31:43 MSK -->
-<!-- content-sha256: sha256:94623ec5e864d826af31eccc7ac99aa990826be7c4ac80676cd8c76e59748598 -->
+<!-- last-content-edit: 2026-09-19 04:57:10 MSK -->
+<!-- content-sha256: sha256:55639e4c8781cff30d44974f97e06942342d9a7ad1264a4b58317e8ac2c8d690 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -46,6 +46,10 @@ Budusjhim proverkam zaraneye naznachjte UUID cherez `--идентификато�
 
 Dlya sliyaniya snachala razreshite yego v svoyom dereve obyichnyim soglasovannyim sposobom. V `родители` ukazhite rovno `[L, M]`: tekusjhij HEAD i tochnyij vtoroj OID iz `MERGE_HEAD`. Komanda sama sliyaniye ne nachinayet i konfliktyi ne razreshayet.
 
+V kazhdom elemente `источники` mozhno dopolniteljno ukazatj `кэш` — tochnyij putj susjhestvuyusjhego privatnogo indeksa `fum.индекс-сообщений.1`, sozdannogo shtatnyim chitatelem. Eto ne `кэш_модели`. Bez polya sokhranyayetsya polnyij razbor. Kyesh proveryayetsya chitatelem, ne obnovlyayetsya podgotovkoj i ne zamenyayet pervichnyij JSONL: pri roste vesj prezhnij prefiks khyeshiruyetsya, razbirayetsya khvost; pozdniye bajtyi, povrezhdeniye i nesovpadeniye vyibrannyikh komand po-prezhnemu dayut otkaz. Neizmennostj metadannyikh FS ostayotsya prezhnej granicej doveriya chitatelya.
+
+Do dorogogo chteniya istochnika podgotovka proveryayet nepustuyu istoriyu zapuskov: trebuyetsya v4. Otsutstvuyusjhij katalog oznachayet novuyu sessiyu; susjhestvuyusjhij katalog chitayetsya strogo, vklyuchaya otkaz pri povrezhdenii ili ssyilke. Pustaya istoriya dopuskayet podgotovku soobsjheniya, no yeyo pervyij zapusk neobkhodimo yavno nachatj s `--приёмочные-раунды`; sozdaniye bez v4 vsyo ravno zapresjheno. Avtomaticheskoj migracii v3 net.
+
 Identichnosti `экземпляры` berutsya iz [shtatnogo chitatelya soobsjhenij](obrabotka-soobsjhenij.md), a ne iz teksta ili pozicii v spiske. Sokhranyayutsya poryadok i realjnyiye povtoryi; odin ekzemplyar neljzya vyibratj dvazhdyi. Kazhdyij istochnik dolzhen imetj podtverzhdyonnyij zavershyonnyij snimok. Pri izmenyayusjhemsya zhivom JSONL soglasujte tikhoye okno libo nezavisimo proverennyij neizmenyayemyij zavershyonnyij prefiks; avtomaticheskogo povtoreniya do sluchajnogo uspekha net. Oblastj, aktualjnostj pozdnikh ukazanij i dostatochnostj vyibrannyikh komand proveryayet korenj.
 
 Razdel `Текст запроса` soderzhit otdeljnyiye ograzhdyonnyiye bloki `text` s vyibrannyimi komandami v tom zhe poryadke. Pered blokom dopuskayetsya yedinstvennaya tochnaya sluzhebnaya metka `<!-- FUM-INTAKE: <идентичность экземпляра> -->` shtatnogo sokhranyayemogo priyoma: yeyo identichnostj obyazana sovpadatj s sootvetstvuyusjhim pervichnyim ekzemplyarom. Chuzhaya, povrezhdyonnaya ili povtoryonnaya metka otklonyayetsya. Posle tochnogo iskhodnogo teksta pered zakryivayusjhej ogradoj dobavlyayetsya odin strukturnyij LF; sobstvennyij konechnyij LF originala sokhranyayetsya otdeljno. Neodnoznachnyij vvod, vlozheniye ili nepodderzhannyij karkas dayut otkaz. V soobsjheniye kommita vklyuchayetsya sam tekst kazhdoj komandyi, zatem nablyudayemyiye `model` i `effort` i yedinstvennyij poslednij kornevoj `Codex-Thread-ID`.
@@ -111,6 +115,10 @@ python3 -B Инструменты/fum-svyaznostj-rabochej-sessii/tests/проф�
 
 Publichnyij JSON soderzhit stadii i khyesh instrumenta. Podrobnyij profilj s lokaljnyimi putyami ostayotsya vne Git. Podgotovka vremennogo repozitoriya isklyuchena; podgotovka soobsjheniya, proverki, sozdaniye i chteniye rezuljtata vklyuchenyi.
 
+## Profilj kyesha pervichnyikh komand
+
+[Otkryityij izmeritelj](tests/profilj_kyesha_komand.py) sozdayot odinakovyij sinteticheskij JSONL i sravnivayet tri chteniya. Parametr `--с-кэшем` vklyuchayet indeks, `--с-хвостом` dopisyivayet stroku posle yego podgotovki. Vyikhod `--выход <профиль.json>` soderzhit SHA vkhoda, rezuljtata i iskhodnikov. Vse variantyi vyizyivayutsya cherez otchyotnuyu obyortku. Podgotovka indeksa isklyuchena; vremya polnogo sozdaniya kommita i raskhod tokenov etim ne izmeryayutsya.
+
 ## Istochnik
 
 - [Ispravleniya dopuska, signalov, metki priyoma i profilya otkazov](../../Zhurnal/2026-09-16_00-10-13_MSK_sokhranitj-postanovku-chipovogo-napravleniya/otchyot.md).
@@ -118,6 +126,6 @@ Publichnyij JSON soderzhit stadii i khyesh instrumenta. Podrobnyij profilj s lok
 - [Iskhodnyiye komandyi, proyavleniya oshibki avtora i granica tekusjhego rezuljtata](../../Zhurnal/2026-09-15_22-54-33_MSK_oformitj-napravleniye-proyektirovaniya-chipov/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-19 03:20:58 MSK -->
-<!-- content-sha256: sha256:bb4c5566ba278a552794809bc6c2c58e2f05fc86608e86954e6ef8c9f4b0c4b7 -->
+<!-- last-content-edit: 2026-09-19 04:25:46 MSK -->
+<!-- content-sha256: sha256:a2f79e9671ae10dd01c57af7edad3141749a8456e30432c33925344797a45685 -->
 <!-- FUM-MD-RECENCY:END -->

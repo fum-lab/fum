@@ -1677,6 +1677,7 @@ def validate_layout(repo_root: Path | str) -> dict[str, Any]:
         raise LayoutError(f"несовместимый установленный шаблон: {ошибка}") from ошибка
     _assert_no_symlinks(root, ("Запросы", "Журнал", "Ревью", "Оценки", "Источники"))
     publishable = set(_project_relative_files(root))
+    предки_публикуемых = {предок for путь in publishable for предок in путь.parents}
     legacy = root / str(REQUESTS)
     if any(relative.parts and relative.parts[0] == str(REQUESTS) for relative in publishable):
         raise LayoutError("legacy Запросы directory still exists")
@@ -1689,8 +1690,8 @@ def validate_layout(repo_root: Path | str) -> dict[str, Any]:
     reports: set[str] = set()
     for entry in sorted(journal.iterdir(), key=lambda item: item.name):
         entry_relative = _relative(root, entry)
-        entry_is_publishable = entry_relative in publishable or any(
-            entry_relative in relative.parents for relative in publishable
+        entry_is_publishable = (
+            entry_relative in publishable or entry_relative in предки_публикуемых
         )
         if not entry_is_publishable:
             continue
@@ -1713,8 +1714,8 @@ def validate_layout(repo_root: Path | str) -> dict[str, Any]:
             for child in entry.iterdir()
             if child.name not in allowed
             and (
-                _relative(root, child) in publishable
-                or any(_relative(root, child) in relative.parents for relative in publishable)
+                (относительный := _relative(root, child)) in publishable
+                or относительный in предки_публикуемых
             )
         )
         if unexpected:
