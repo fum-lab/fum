@@ -1,6 +1,6 @@
 """Ограниченный CommonJS: связывания, поля и независимый Node syntax-check.
 
-Исходный сценарий никогда не исполняется. Это закрытый подъязык четырёх
+Исходный сценарий никогда не исполняется. Это закрытый подъязык пяти
 сценариев ответа, а не универсальный инвентаризатор JavaScript.
 """
 
@@ -17,6 +17,7 @@ import subprocess
     "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/адаптер_ответа.cjs",
     "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_адаптер_ответа.cjs",
     "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль-смешанных-ответов.cjs",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль-краткой-выдачи.cjs",
     "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_смешанный_профиль.cjs",
 })
 источники_внешних_ключей = {

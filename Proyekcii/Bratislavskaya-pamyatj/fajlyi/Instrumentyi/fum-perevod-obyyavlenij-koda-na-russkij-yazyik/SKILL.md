@@ -13,7 +13,7 @@ Python-vetvj ispoljzuyet [kontrakt leksicheskikh privyazok i potrebitelej](bezop
 
 ## Oblastj pravila
 
-Inventarj rassmatrivayet sobstvennyiye fajlyi `.py`, `.swift`, `.md`, prezhnij tochnyij JS-adapter i chetyire tochnyikh CJS-scenariya otveta:
+Inventarj rassmatrivayet sobstvennyiye fajlyi `.py`, `.swift`, `.md`, prezhnij tochnyij JS-adapter i pyatj tochnyikh CJS-scenariya otveta:
 
 - dlya Python sintaksicheskoye derevo dayot klassyi, obyichnyiye i asinkhronnyiye funkcii, parametryi, imena v kontekste zapisi i zapisyivayemyiye atributyi;
 - dlya Swift leksicheskij razbor vne strok i kommentariyev dayot tipyi, funkcii, `let`, `var`, variantyi `case`, parametryi funkcij i yavnyikh signatur zamyikanij;
@@ -155,6 +155,6 @@ Testyi proveryayut inventarj tryokh yazyikov, zasjhisjhyonnyiye oblasti, tochnyi
 - [Predposyilka formatov proyekcii](../../Zhurnal/2026-09-16_02-10-09_MSK_podgotovitj-predposyilku-formatov-proyekcii/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 15:33:31 MSK -->
-<!-- content-sha256: sha256:99c619b666257b9a406413b7f233c6a6257a2fc815933fe3be4bb8dffbdbfe42 -->
+<!-- last-content-edit: 2026-09-19 08:45:44 MSK -->
+<!-- content-sha256: sha256:2eec1da45b8af891f17f375199267a46e703db34a3fba18d4be1ce729dcff14f -->
 <!-- FUM-MD-RECENCY:END -->
