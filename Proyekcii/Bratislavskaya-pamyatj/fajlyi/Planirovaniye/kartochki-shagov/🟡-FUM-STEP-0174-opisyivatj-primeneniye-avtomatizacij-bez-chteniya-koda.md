@@ -126,7 +126,9 @@ Osnovaniye aktualizacii — `FUM-СБОЙ-0071/ПРОЯВЛЕНИЕ-0006`: [rann
 - [FUM-SBOJ-0134/PROYAVLENIYE-0002](../../Sboi/FUM-SBOJ-0134-kontroljnaya-tochka-vnutri-obyortki.md) — [nablyudeniye](../../Zhurnal/2026-09-16_17-24-57_MSK_zaregistrirovatj-otkazyi-finansovoj-priyomki/materialyi/nablyudeniye-otkaza-5.json).
 - [FUM-SBOJ-0151/PROYAVLENIYE-0001](../../Sboi/FUM-SBOJ-0151-prevyisheniye-predela-tajm-auta-zakhvata.md) — [pervichnoye svideteljstvo](../../Zhurnal/2026-09-16_17-24-57_MSK_zaregistrirovatj-otkazyi-finansovoj-priyomki/materialyi/nablyudeniye-rannego-otkaza-zakhvata.json).
 
+- [FUM-SBOJ-0133/PROYAVLENIYE-0003](../../Sboi/FUM-SBOJ-0133-predprosmotr-do-pervogo-zapuska.md) — [kompoziciya pervoj proverki polej](../../Zhurnal/2026-09-19_05-52-59_MSK_podgotovitj-pervuyu-proverku-polej/otchyot.md) podgotovlena s shestjyu regressiyami; polnaya priyomka i obsjheye zakryitiye shaga ostayutsya vperedi.
+
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-19 02:30:45 MSK -->
-<!-- content-sha256: sha256:21a0e625b68cf6a3057b85737925c695c0818d1b2a9151e91273e6544ba3eb45 -->
+<!-- last-content-edit: 2026-09-19 06:00:21 MSK -->
+<!-- content-sha256: sha256:e6f2f556069bb1de16113d3234701ea50f01f3f8f47263785822792c0dfdd99d -->
 <!-- FUM-MD-RECENCY:END -->

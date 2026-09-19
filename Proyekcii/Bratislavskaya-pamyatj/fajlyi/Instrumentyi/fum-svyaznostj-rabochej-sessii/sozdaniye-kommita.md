@@ -62,6 +62,20 @@ python3 -B Инструменты/fum-svyaznostj-rabochej-sessii/scripts/соз�
 
 Vyikhod podtverzhdayet toljko podgotovku. Privatnyiye fajlyi sozdayutsya s rezhimom `0600`; susjhestvuyusjhiye soobsjheniye, podgotovka ili kvitanciya ne perezapisyivayutsya. Istoriya modeli mozhet sokhranitjsya do posleduyusjhego otkaza formirovaniya soobsjheniya: otsutstviye kommita ne oznachayet otsutstviye podgotoviteljnyikh zapisej. Pri neizvestnyikh obyazateljnyikh metadannyikh komanda otkazyivayet i ne zapolnyayet ikh dogadkoj.
 
+## Povtoritj podgotovku bez izmeneniya istorii modeli
+
+Yesli nuzhno utochnitj konechnyij sostav razreshyonnyikh fajlov ili podgotovitj novoye soobsjheniye, a novyiye nablyudeniya modeli ne poyavilisj, dostupen yavnyij rezhim:
+
+```text
+python3 -B Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py подготовить-повтор --вход <новый-приватный-вход.json>
+```
+
+Vkhod ostayotsya v2; soobsjheniye, podgotovka i kvitanciya dolzhnyi imetj novyiye privatnyiye puti. Istoriya i yeyo prezhnij kursor dolzhnyi susjhestvovatj i sovpadatj; ikh avtomaticheskogo vosstanovleniya net. Svezhij JSONL chitayetsya shtatnyim importyorom bez zapisi. Obyichnyij korrektnyij khvost bez novyikh turn_context dopustim. Novoye nablyudeniye dazhe s prezhnimi model/effort, propusk, nepolnyij khvost, izmeneniye starogo prefiksa ili rassoglasovannyij kursor dayut otkaz. Togda otdeljno sveryayut istochnik i vyipolnyayut obyichnuyu podgotovku do staging i proverok.
+
+Podgotovka sokhranyayet SHA neizmennyikh kanonicheskikh bajtov istorii. Dopolniteljnoye pole rezuljtata CLI `сверка_истории` soderzhit svezhuyu chitayusjhuyu sverku: yeyo `история_sha256` otnositsya k rasschitannomu obyyektu istorii, a ne k sokhranyonnomu fajlu i ne k samomu JSONL. Sokhranite etot rezuljtat privatno kak svideteljstvo proverki khvosta. Staryiye podgotovka, soobsjheniye, istoriya i kursor ne perezapisyivayutsya; obyichnyij import sokhranyayet prezhnyuyu semantiku.
+
+Rezhim predotvrasjhayet invalidirovaniye proverok toljko iz-za perepisyivaniya istorii pri roste sluzhebnogo JSONL. On ne razreshayet ispoljzovatj proverki drugogo canonical diff ili indeksa, ne sozdayot kommit i ne povtoryayet otkaz avtomaticheski. [Parnyij profilj](tests/profilj_povtornoj_podgotovki.py) s `--выход <новый JSON>` sravnivayet obe podgotovki na khvoste 1 MiB cherez shtatnuyu otchyotnuyu obyortku.
+
 ## Sovmestimostj podgotovki
 
 Novaya komanda podgotavlivayet `fum.подготовленный-коммит.2`. Spisok razreshyonnyikh celej vkhodit v neizmenyayemyiye bajtyi podgotovki i svyazyivayetsya s kvitanciyej ikh SHA. Staroye predstavleniye v1 dopuskayetsya toljko dlya vosstanovleniya uzhe susjhestvuyusjhej kvitancii, posle proverki yeyo svyazi s iskhodnoj podgotovkoj. Bez kvitancii sozdaniye po v1 zakryito otkazyivayet: trebuyetsya novaya podgotovka v2. Ne dopolnyajte staryiye fajlyi na meste. Skhema kvitancii ostayotsya v1; eta sovmestimostj ne razreshayet povtor neizvestnogo Git-vyizova.
@@ -126,6 +140,6 @@ Publichnyij JSON soderzhit stadii i khyesh instrumenta. Podrobnyij profilj s lok
 - [Iskhodnyiye komandyi, proyavleniya oshibki avtora i granica tekusjhego rezuljtata](../../Zhurnal/2026-09-15_22-54-33_MSK_oformitj-napravleniye-proyektirovaniya-chipov/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-19 04:25:46 MSK -->
-<!-- content-sha256: sha256:a2f79e9671ae10dd01c57af7edad3141749a8456e30432c33925344797a45685 -->
+<!-- last-content-edit: 2026-09-19 06:16:45 MSK -->
+<!-- content-sha256: sha256:49c13354c9d3786662ee6b6551c36902106bef407f6daab5602f169488a9e660 -->
 <!-- FUM-MD-RECENCY:END -->

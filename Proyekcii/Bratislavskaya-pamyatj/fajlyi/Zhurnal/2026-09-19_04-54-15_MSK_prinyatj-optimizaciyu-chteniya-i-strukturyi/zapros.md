@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-19 04:29:36 MSK - Izmeritj sostav proverki svyaznosti](../2026-09-19_04-29-36_MSK_izmeritj-sostav-proverki-svyaznosti/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-19 05:35:37 MSK - Nablyudatj kompaktnyij otvet zadachi](../2026-09-19_05-35-37_MSK_nablyudatj-kompaktnyij-otvet-zadachi/zapros.md)
 
 ## Tekst zaprosa
 
@@ -35,6 +35,6 @@ Parnoye sravneniye do obsjhej priyomki: tri chereduyusjhikhsya povtora na odnoj 
 - [vyivodimaya proyekciya](../../../../).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-19 04:57:10 MSK -->
-<!-- content-sha256: sha256:c759b9298fb993a264a045f140199c76db4827f7e0c537e48e1b1d0d70dd3556 -->
+<!-- last-content-edit: 2026-09-19 05:41:35 MSK -->
+<!-- content-sha256: sha256:4b8b6bd54747c95e2a6b5b92cc1c2416d38d6628da42260905165860ccde2fa3 -->
 <!-- FUM-MD-RECENCY:END -->

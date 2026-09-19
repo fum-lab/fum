@@ -51,6 +51,24 @@ python3 Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отч
 
 Dlya yavno razreshyonnogo sliyaniya dostupen [kontur iz zakreplyonnogo master](proverka-sliyaniya-iz-master.md). Klass `полная` raspoznayotsya toljko po polnoj yavnoj komande M-smoke. Istochnik i zaraneye indeksirovannoye svideteljstvo sveryayutsya do i posle ispolneniya i svyazyivayutsya s `--идентификатор-запуска`; skhema ostayotsya `fum.test-run.v3`. Otdeljnoye svideteljstvo `материалы/контур-слияния.json` vkhodit v otpechatok i posle finaljnogo zapuska ne menyayetsya. Toljko posle uspeshnyikh proverok istochnika do i posle ispolneniya i okonchateljnogo uspeshnogo iskhoda obyortka zapolnyayet pole polnoj zapisi `ожидаемое_свидетельство` tochnoj metkoj `fum.контур-проверки-слияния.1:sha256:<64 lowercase hex>` ot kanonicheskikh bajtov etogo svideteljstva. Nazvaniye polya istoricheskoye: v dannom rezhime ono podtverzhdayet ispolneniye, a ne opisyivayet budusjhuyu diagnostiku. Peredacha nenulevogo znacheniya etogo polya cherez CLI/API polnoj proverki zapresjhena. Staryiye polnyiye v3 s `null` sokhranyayut prezhnij dopusk, no ne podtverzhdayut proiskhozhdeniye iz M.
 
+## Pervaya proverka polej novoj paryi
+
+Kogda soderzhateljnyiye polya zaprosa i otchyota zapolnenyi, a mashinnoj istorii yesjhyo net, ispoljzujte [pomosjhnik podgotovki polej](../fum-svyaznostj-rabochej-sessii/scripts/podgotovitj-i-proveritj-polya-zhurnala.py) kak dochernyuyu komandu `запустить`:
+
+```bash
+python3 -B Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py запустить \
+  --корень-репозитория . --запрос Журнал/<stem>/запрос.md \
+  --название 'Подготовить и проверить поля' --исполнитель корень --класс-проверки адресная \
+  -- python3 -B Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовить-и-проверить-поля-журнала.py \
+  --корень . --запрос Журнал/<stem>/запрос.md
+```
+
+Dlya razreshyonnoj postoyannoj zadachi pervaya obyortka mozhet yavno poluchitj `--приёмочные-раунды` po prezhnemu kontraktu. Snachala roditelj sozdayot aktivnuyu zapisj; zatem pomosjhnik vyizyivayet shtatnyij predprosmotr i toljko pri yego uspekhe proveryayet polya. Pomosjhnik sam ne sozdayot katalog istorii ili zapisj, ne otkryivayet zakryityij otchyot i ne snimayet otkaz po povrezhdyonnomu vkhodu. On obnovlyayet sluzhebnyij blok, poetomu eto pishusjhaya komanda svoyego dereva. Obyichnyij chitayusjhij `проверить-поля-журнала.py` sokhranyayet prezhneye povedeniye.
+
+Kodyi pomosjhnika: 0 — polya korrektnyi, 1 — oshibki polej, 2 — otkaz podgotovki ili vkhoda; stdout sokhranyayet skhemu `fum.поля-журнала.1`. Eto ne finaljnaya priyomka. Posle zaversheniya roditelya obyichnyij `предпросмотр` otrazhayet terminaljnyij iskhod: snimok vnutri dochernego processa yesjhyo soderzhit aktivnuyu zapisj. Svyazj s sobstvennoj obyortkoj ne proveryayetsya kak otdeljnaya capability; samostoyateljnyij vyizov na susjhestvuyusjhej otkryitoj istorii tekhnicheski vozmozhen.
+
+[Parnyij profilj](../fum-svyaznostj-rabochej-sessii/tests/profilj_podgotovki_polej.py) zapuskayetsya cherez tu zhe obyortku s argumentom `--выход <новый JSON>`. On sravnivayet posledovateljnyiye CLI s obsjhim processom na odinakovoj otkryitoj fiksture, trizhdyi s cheredovaniyem poryadka. Novyij vyikhod ne perezapisyivayetsya.
+
 ## Razmesjheniye i skhema zapisi zapuska
 
 Mashinnyiye zapisi zapuskov, snimok i zhurnal vozobnovleniya prinadlezhat odnomu zaprosu i razmesjhayutsya v kataloge:
@@ -236,6 +254,6 @@ Tekusjhij `--допуск-слияния` prinimayet toljko zakryityij v3 s podt
 [Uzkij ispolnitelj](prodvizheniye-prinyatogo-sliyaniya.md) soglasuyet primary master, indeks i rabochiye fajlyi s tem zhe prinyatyim C. Do mutacii CLI povtoryayet vyisokij dopusk sredstvami M. Dve podgotovlennyiye Git-tranzakcii uderzhivayut proverku HEAD i ozhidayemyij prezhnij master; FIFO i publikaciya ne zapuskayutsya. Otdeljnyiye adresnyiye regressii i profilj obyazateljnyi dlya etogo pervogo perekhoda; standartnyij katalog iskhodnogo M ikh yesjhyo ne soderzhit. Pri oshibke sokhranyayutsya intent i fakticheskoye sostoyaniye, avtomaticheskogo rollback net.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-10 21:26:37 MSK -->
-<!-- content-sha256: sha256:5da26b553d5779bda2de4a61a5018273d3286e67b3471b12d95d122ec38d88dd -->
+<!-- last-content-edit: 2026-09-19 06:00:21 MSK -->
+<!-- content-sha256: sha256:bab0d161d407f1b9d64c95a178c00dea53572297ccc914e286eb3ebd09894ae2 -->
 <!-- FUM-MD-RECENCY:END -->
