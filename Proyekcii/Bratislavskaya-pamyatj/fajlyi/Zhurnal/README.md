@@ -16,6 +16,11 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-19 03:26:05 MSK — Sokratitj zapuski Git pri sravnenii derevjyev](2026-09-19_03-26-05_MSK_sokratitj-zapuski-Git-pri-sravnenii-derevjyev/otchyot.md)
+- [2026-09-19 03:08:13 MSK — Podklyuchitj rannij sostav k sozdaniyu kommita](2026-09-19_03-08-13_MSK_podklyuchitj-rannij-sostav-k-sozdaniyu-kommita/otchyot.md)
+- [2026-09-19 02:44:26 MSK — Izmeritj polnyij nabor proverok reyestra](2026-09-19_02-44-26_MSK_izmeritj-polnyij-nabor-proverok-reyestra/otchyot.md)
+- [2026-09-19 02:10:23 MSK — Izmeritj podgotovku Git fikstur](2026-09-19_02-10-23_MSK_izmeritj-podgotovku-Git-fikstur/otchyot.md)
+- [2026-09-19 01:54:18 MSK — Aktualizirovatj uchyot pozdnikh komand](2026-09-19_01-54-18_MSK_aktualizirovatj-uchyot-pozdnikh-komand/otchyot.md)
 - [2026-09-19 00:58:49 MSK — Podklyuchitj rannyuyu proverku polej zhurnala](2026-09-19_00-58-49_MSK_podklyuchitj-rannyuyu-proverku-polej-zhurnala/otchyot.md)
 - [2026-09-18 12:24:43 MSK — Integrirovatj rannyuyu sverku materialov](2026-09-18_12-24-43_MSK_integrirovatj-rannyuyu-sverku-materialov/otchyot.md)
 - [2026-09-18 11:58:10 MSK — Podtverditj vosstanovleniye dochernej zadachi](2026-09-18_11-58-10_MSK_podtverditj-vosstanovleniye-dochernej-zadachi/otchyot.md)
@@ -752,6 +757,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-19 01:06:21 MSK -->
-<!-- content-sha256: sha256:0999c9946f231249970efa8af30458d863a7fed1a9f5be2b95283999f1f338ae -->
+<!-- last-content-edit: 2026-09-19 03:31:43 MSK -->
+<!-- content-sha256: sha256:94623ec5e864d826af31eccc7ac99aa990826be7c4ac80676cd8c76e59748598 -->
 <!-- FUM-MD-RECENCY:END -->

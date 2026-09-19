@@ -123,6 +123,9 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0154 | `устранена` | [Nesovmestimyiye s proyekciyej imena shablonov mediapaketa](FUM-SBOJ-0154-format-shablonov-mediapaketa.md)                                                                | 1          | —                                                                                                                                |
 | FUM-SBOJ-0155 | `устранена` | [Iskhodnyij otvet ne byil obyyavlen istoricheskim svideteljstvom](FUM-SBOJ-0155-neuchtyonnaya-istoricheskaya-stroka-otveta.md)                                                | 1          | —                                                                                                                                |
 | FUM-SBOJ-0156 | `активна`   | [Propusjhennaya podkomanda sborki planovogo reyestra](FUM-SBOJ-0156-propusjhennaya-podkomanda-sborki-reyestra.md)                                                           | 1          | FUM-STEP-0174                                                                                                                    |
+| FUM-SBOJ-0157 | `активна`   | [Nekanonicheskij zagolovok novogo Zhurnala](FUM-SBOJ-0157-nekanonicheskij-zagolovok-novogo-zhurnala.md)                                                                 | 1          | FUM-STEP-0174                                                                                                                    |
+| FUM-SBOJ-0158 | `активна`   | [Maskirovaniye oshibki podgotovki oshibkoj ochistki](FUM-SBOJ-0158-maskirovaniye-oshibki-podgotovki-ochistkoj.md)                                                          | 1          | FUM-STEP-0232                                                                                                                    |
+| FUM-SBOJ-0159 | `активна`   | [Podmena importa narushayet nastrojku regressii](FUM-SBOJ-0159-podmena-importa-narushayet-nastrojku-regressii.md)                                                       | 1          | FUM-STEP-0232                                                                                                                    |
 
 ## Pravila vedeniya
 
@@ -155,6 +158,6 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 - [pravila rabochikh sessij](../AGENTS.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-19 01:10:33 MSK -->
-<!-- content-sha256: sha256:0d355b483d20397ee629ec6397635a330ca397e9b2fc61ae855a96af53e3309f -->
+<!-- last-content-edit: 2026-09-19 02:30:45 MSK -->
+<!-- content-sha256: sha256:0f67cac886f666b39fbd54b24fd32764e30ab8865b46331c53b25c805c8e6210 -->
 <!-- FUM-MD-RECENCY:END -->

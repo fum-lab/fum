@@ -124,6 +124,10 @@ Pervonachaljnyij profilj razlichayet nablyudeniye, postroyeniye plana i primenen
 
 [Scenarii naznacheniya](tests/test_naznacheniye_dostavki.py) i [profilj nablyudeniya](tests/profilj_naznacheniya_dostavki.py) otdeljno proveryayut postoyannuyu vetku, detached-prezhneye derevo, svezhestj i otsutstviye zapisi.
 
+Sravneniye derevjyev dvukh polnyikh OID vyipolnyayetsya odnim Git-vyizovom s proverkoj dvukh polnyikh strok otveta. Predok po-prezhnemu vozvrasjhayetsya ranjshe; sravneniye patchej, snimki vladeljcev i zaklyuchiteljnyiye proverki sokhranyayutsya. Vnutrennyaya funkciya dopolniteljno otvergayet sokrasjhyonnuyu celj, ref i opcii; tip commit podtverzhdayetsya susjhestvuyusjhim snimkom vyizyivayusjhego puti.
+
+[Regressii sravneniya](tests/test_sravneniye_derevjyev.py) proveryayut ravnyiye i raznyiye derevjya, rannij vozvrat predka i zakryityij otkaz povrezhdyonnogo otveta. Profilj takzhe vozvrasjhayet chislo chtenij derevjyev cherez modulj plana dlya kazhdogo povtora: eto schyotchik vyizovov, a ne samostoyateljnoye dokazateljstvo uskoreniya vsego cikla.
+
 ## Istochniki
 
 - [Postanovka prioritetnoj rabotyi](../../Zhurnal/2026-09-15_16-58-55_MSK_zapustitj-prioritetnyiye-paralleljnyiye-rabotyi/zapros.md).
@@ -132,6 +136,6 @@ Pervonachaljnyij profilj razlichayet nablyudeniye, postroyeniye plana i primenen
 - Pereispoljzovanyi kanonicheskij JSON, proverka putej i ustojchivaya zapisj [priyoma napravlenij](scripts/priyom_napravleniya.py), a takzhe [polnyij zakhvat](../fum-svyaznostj-rabochej-sessii/polnyij-zakhvat-vyivoda.md). Yego staroye khranilisjhe vnutri git-common-dir ne ispoljzuyetsya.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 19:14:37 MSK -->
-<!-- content-sha256: sha256:f3b47d67244be23377a69724eee48cacefc723fb8be6f8513cd1a8875e1da783 -->
+<!-- last-content-edit: 2026-09-19 03:31:43 MSK -->
+<!-- content-sha256: sha256:42cace038ed34d3d3230dc47748fe4e0fc677610671e2c2e843be02cfbdabcd1 -->
 <!-- FUM-MD-RECENCY:END -->

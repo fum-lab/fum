@@ -265,6 +265,7 @@ Dlya odnovremennogo utochneniya imeni dobavj `--description новое-крат�
 | FUM-STEP-0230 | 🟡 Aktualjno | [Sozdavatj kommityi cherez proveryayemyij putj](🟡-FUM-STEP-0230-sozdavatj-kommityi-cherez-proveryayemyij-putj.md)                                                                                                                                                                                                                     |
 | FUM-STEP-0229 | 🟡 Aktualjno | [Vyibratj operatornuyu skhemu dlya apparatnoj proverki](🟡-FUM-STEP-0229-vyibratj-operatornuyu-skhemu-dlya-apparatnoj-proverki.md)                                                                                                                                                                                                   |
 | FUM-STEP-0231 | 🟡 Aktualjno | [Proveryatj ssyilki otnositeljno vklyuchyonnogo pokoleniya](🟡-FUM-STEP-0231-proveryatj-ssyilki-otnositeljno-pokoleniya.md)                                                                                                                                                                                                           |
+| FUM-STEP-0232 | 🟡 Aktualjno | [Izmeritj stoimostj podgotovki proverok](🟡-FUM-STEP-0232-izmeritj-stoimostj-podgotovki-proverok.md)                                                                                                                                                                                                                         |
 
 ## Istochniki trebovanij
 
@@ -299,6 +300,6 @@ Dlya odnovremennogo utochneniya imeni dobavj `--description новое-крат�
 - [iskhodnyij zapros 2026-07-24 10:44:28 MSK — Nachatj bezokonnyij Swift-prototip vosproizvodimogo popolneniya pamyati FUM](../../Zhurnal/2026-07-24_10-44-28_MSK_nachatj-bezokonnyij-Swift-prototip-vosproizvodimogo-popolneniya-pamyati-FUM/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 17:48:33 MSK -->
-<!-- content-sha256: sha256:d7a9fa7dd921a9d92062cacb3fd5547d41b5b9ab407b5561973ef8281f6577a1 -->
+<!-- last-content-edit: 2026-09-19 02:30:45 MSK -->
+<!-- content-sha256: sha256:3f10e7aae70233b1151ea7c8a69ea5f5f122095f244ffc69d93fa7f9adcb145b -->
 <!-- FUM-MD-RECENCY:END -->

@@ -12,7 +12,7 @@ Sokhranite JSON vne Git. Vse polya obyazateljnyi; znacheniya v uglovyikh skobkak
 
 ```json
 {
-  "схема": "fum.создание-коммита.1",
+  "схема": "fum.создание-коммита.2",
   "корень": "<абсолютный физический корень>",
   "ветка": "refs/heads/codex/<своя ветка>",
   "исходный_коммит": "<полный HEAD>",
@@ -35,9 +35,14 @@ Sokhranite JSON vne Git. Vse polya obyazateljnyi; znacheniya v uglovyikh skobkak
   "сообщение": "<новый приватный файл сообщения вне Git>",
   "подготовка": "<новый приватный файл подготовки вне Git>",
   "квитанция": "<новый приватный файл результата вне Git>",
-  "режим": "контрольная-точка"
+  "режим": "контрольная-точка",
+  "разрешённые_цели": ["<точный относительный путь каждого разрешённого файла>"]
 }
 ```
+
+`разрешённые_цели` — nezavisimyij konechnyij spisok tochnyikh otnositeljnyikh putej. Perechislite iskhodniki, dokumentyi, navigaciyu, indeksyi, istoriyu modeli i vse zapisi proverok svoyego etapa. Katalogi, povtoreniya, absolyutnyiye puti, vyikhod za korenj, symlink i nevernyij registr ne dopuskayutsya. Yesjhyo ne sozdannyij fajl dopustim kak budusjhaya celj. Ne kopirujte vesj Git-status kak razresheniye: sostav zadayotsya prinyatyim obyyomom rabotyi.
+
+Budusjhim proverkam zaraneye naznachjte UUID cherez `--идентификатор-запуска` otchyotnoj obyortki. Imya zapisi imeyet vid `<следующий-порядок>_<UUID>.json`; pri odnom posledovateljnom pisatele ono izvestno do podgotovki. Eto ne rezervirovaniye. Nepredvidennyij dopolniteljnyij zapusk menyayet poryadok i trebuyet sverennogo novogo vkhoda i novyikh privatnyikh fajlov podgotovki. Prezhnyaya podgotovka ne perepisyivayetsya.
 
 Dlya sliyaniya snachala razreshite yego v svoyom dereve obyichnyim soglasovannyim sposobom. V `родители` ukazhite rovno `[L, M]`: tekusjhij HEAD i tochnyij vtoroj OID iz `MERGE_HEAD`. Komanda sama sliyaniye ne nachinayet i konfliktyi ne razreshayet.
 
@@ -53,6 +58,10 @@ python3 -B Инструменты/fum-svyaznostj-rabochej-sessii/scripts/соз�
 
 Vyikhod podtverzhdayet toljko podgotovku. Privatnyiye fajlyi sozdayutsya s rezhimom `0600`; susjhestvuyusjhiye soobsjheniye, podgotovka ili kvitanciya ne perezapisyivayutsya. Istoriya modeli mozhet sokhranitjsya do posleduyusjhego otkaza formirovaniya soobsjheniya: otsutstviye kommita ne oznachayet otsutstviye podgotoviteljnyikh zapisej. Pri neizvestnyikh obyazateljnyikh metadannyikh komanda otkazyivayet i ne zapolnyayet ikh dogadkoj.
 
+## Sovmestimostj podgotovki
+
+Novaya komanda podgotavlivayet `fum.подготовленный-коммит.2`. Spisok razreshyonnyikh celej vkhodit v neizmenyayemyiye bajtyi podgotovki i svyazyivayetsya s kvitanciyej ikh SHA. Staroye predstavleniye v1 dopuskayetsya toljko dlya vosstanovleniya uzhe susjhestvuyusjhej kvitancii, posle proverki yeyo svyazi s iskhodnoj podgotovkoj. Bez kvitancii sozdaniye po v1 zakryito otkazyivayet: trebuyetsya novaya podgotovka v2. Ne dopolnyajte staryiye fajlyi na meste. Skhema kvitancii ostayotsya v1; eta sovmestimostj ne razreshayet povtor neizvestnogo Git-vyizova.
+
 ## Proveritj i sozdatj
 
 Zavershite soderzhateljnyiye fajlyi i recency, prosmotrite tochnyij diff, zatem indeksirujte kanonicheskij vkhod. Posle etogo zapustite primenimyiye proverki cherez [otchyotnuyu obyortku](../fum-otchyotyi-o-zapuskakh-proverok/SKILL.md) v istorii v4. Obnovite predprosmotr i indeksirujte toljko isklyuchyonnyiye iz otpechatka tekusjhiye otchyot i zapisi zapuskov. Eto sokhranyayet svyazj proverok s tem zhe Git-otpechatkom i fakticheskim soderzhimyim.
@@ -62,6 +71,8 @@ Peredajte UUID kazhdogo obyazateljnogo uspeshnogo zapuska:
 ```text
 python3 -B Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py создать --подготовка <приватная-подготовка.json> --проверка <UUID-запуска> --проверка <UUID-другого-запуска>
 ```
+
+Pered chteniyem pervichnyikh JSONL vyipolnyayetsya gotovaya rannyaya sverka materialov: ona sopostavlyayet razdel «Povliyal na fajlyi», polnyij Git-status i nezavisimyij razreshyonnyij spisok. Posle chteniya istochnikov i metadannyikh snimok sveryayetsya povtorno do dorogoj proverki indeksa. Nepolnyij sostav, lishnij fajl ili drejf ostanavlivayut sozdaniye do zapisi namereniya Git. Polnaya svyaznostj, obyazateljnyiye proverki i zaklyuchiteljnaya sverka indeksa sokhranyayutsya.
 
 Spisok ne mozhet byitj pustyim; vse vyibrannyiye zapisi dolzhnyi otnositjsya k tekusjhim dvum otpechatkam. Istoricheskiye RED-zapuski ostayutsya v zhurnale, no ne zamenyayut obyazateljnyiye uspeshnyiye rezuljtatyi. Opredeleniye primenimyikh proverok i ocenka ikh dostatochnosti ostayutsya obyazannostjyu kornya; odin UUID ne dokazyivayet polnotyi vyibrannogo kontura. Otkryityij zhurnal trebuyet tochnogo predprosmotra, bez aktivnyikh, perekhodnyikh i zakryityikh sostoyanij.
 
@@ -86,11 +97,13 @@ Adresnyiye testyi ispoljzuyut realjnyij vremennyij Git, sinteticheskij pervichny
 ```text
 python3 -B -m unittest discover -s Инструменты/fum-svyaznostj-rabochej-sessii/tests -p test_создание_коммита.py
 python3 -B -m unittest discover -s Инструменты/fum-svyaznostj-rabochej-sessii/tests -p test_допуск_автора.py
+python3 -B -m unittest discover -s Инструменты/fum-svyaznostj-rabochej-sessii/tests -p test_ранний_состав_коммита.py
+python3 -B -m unittest discover -s Инструменты/fum-svyaznostj-rabochej-sessii/tests -p test_ранний_охват.py
 ```
 
 Eti pryamyiye testovyiye processyi v rabochej sessii takzhe zapuskayutsya cherez otchyotnuyu obyortku. Fiksturyi ne dokazyivayut polnogo smoke-check FUM ili gotovnosti itogovogo rezhima.
 
-Vosproizvodimyij profilj dvukh polozhiteljnyikh scenariyev i rannego otkaza bez native UUID, takzhe cherez otchyotnuyu obyortku:
+Vosproizvodimyij profilj dvukh polozhiteljnyikh scenariyev i dvukh rannikh otkazov: bez native UUID i pri nepolnom sostave do chteniya pervichnogo JSONL, takzhe cherez otchyotnuyu obyortku:
 
 ```text
 python3 -B Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_создания_коммита.py --выход <профиль.json> --подробный-профиль <приватный-файл-cProfile>
@@ -105,6 +118,6 @@ Publichnyij JSON soderzhit stadii i khyesh instrumenta. Podrobnyij profilj s lok
 - [Iskhodnyiye komandyi, proyavleniya oshibki avtora i granica tekusjhego rezuljtata](../../Zhurnal/2026-09-15_22-54-33_MSK_oformitj-napravleniye-proyektirovaniya-chipov/zapros.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 00:40:41 MSK -->
-<!-- content-sha256: sha256:e8415f3612a41fa2d3a027d21a8d36a3a1b5217e3ad27764b7507202f2f69861 -->
+<!-- last-content-edit: 2026-09-19 03:20:58 MSK -->
+<!-- content-sha256: sha256:bb4c5566ba278a552794809bc6c2c58e2f05fc86608e86954e6ef8c9f4b0c4b7 -->
 <!-- FUM-MD-RECENCY:END -->
