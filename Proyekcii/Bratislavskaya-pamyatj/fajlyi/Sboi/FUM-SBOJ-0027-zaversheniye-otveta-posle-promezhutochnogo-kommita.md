@@ -22,6 +22,7 @@ Promezhutochnyij libo itogovyij kommit otdeljnogo etapa oshibochno prinimayetsya
 | FUM-SBOJ-0027/PROYAVLENIYE-0001 | [Soobsjheniya 23 i 25](../Zhurnal/2026-09-07_22-11-38_MSK_sostavitj-plan-uskoreniya-proyekcii/zapros.md), [otvet 25 i posledovateljnostj dejstvij](../Zhurnal/2026-09-07_22-11-38_MSK_sostavitj-plan-uskoreniya-proyekcii/otchyot.md); pervichnyij JSONL, stroka 2340                                                               | Dlya prodolzheniya uzhe razreshyonnoj rabotyi potrebovalosj novoye soobsjheniye poljzovatelya.                    | Vosstanovitj kontekst iz JSONL i prodolzhitj v tom zhe dereve i vetke.                              |
 | FUM-SBOJ-0027/PROYAVLENIYE-0002 | [Soobsjheniye o povtornoj ostanovke](../Zhurnal/2026-09-08_18-50-08_MSK_ustranitj-ostanovku-postoyannoj-zadachi/zapros.md), [razbor i dokazateljstva](../Zhurnal/2026-09-08_18-50-08_MSK_ustranitj-ostanovku-postoyannoj-zadachi/otchyot.md); final v JSONL na stroke 8244 posle kommita ab3a9d24, novoye soobsjheniye na stroke 8251 | Priyomka etapa uskoreniya oshibochno zavershila postoyannuyu zadachu pri ostavshemsya razreshyonnom planirovanii. | Vozobnovitj tu zhe zadachu, ispravitj granicu etapa i proveritj fakticheskoye dejstviye posle kommita. |
 | FUM-SBOJ-0027/PROYAVLENIYE-0003 | [Povtornyij vopros i sistemnoye ispravleniye](../Zhurnal/2026-09-09_11-39-26_MSK_predotvratitj-poteryu-obyazateljstv-postoyannoj-zadachi/zapros.md), [razbor](../Zhurnal/2026-09-09_11-39-26_MSK_predotvratitj-poteryu-obyazateljstv-postoyannoj-zadachi/otchyot.md); final na stroke 12511 JSONL posle ba6f1c79, novoye soobsjheniye na stroke 12518 | Vse stroki etapa obyyavlenyi zavershyonnyimi, no roditeljskiye obyazateljstva realizacii poteryanyi; guard vernul 0 | Vosstanovitj otdeljnyij kornevoj reyestr i podklyuchitj proverennoye prodolzheniye runtime |
+| FUM-SBOJ-0027/PROYAVLENIYE-0004 | [Tekusjhij vopros](../Zhurnal/2026-09-21_23-50-58_MSK_obyyasnitj-prichinu-ostanovki-i-prodolzhitj-etap/zapros.md), [otchyot i svideteljstvo](../Zhurnal/2026-09-21_23-50-58_MSK_obyyasnitj-prichinu-ostanovki-i-prodolzhitj-etap/otchyot.md); posle kommita 19b8dcc7 proverka prodolzheniya vernula kod 3 i devyatj nezavershyonnyikh obyazateljstv, odnako byil otpravlen final; poljzovatelj srazu soobsjhil ob ostanovke | Dlya prodolzheniya snova potrebovalosj novoye soobsjheniye poljzovatelya; Git, push i proverka dereva ne byili prichinoj | Perechitatj JSONL, zafiksirovatj povtor i prodolzhitj v tom zhe worktree i ref; nativnyij Stop yesjhyo ne dokazan |
 
 ## Mekhanizm i sistemnoye ustraneniye
 
@@ -52,6 +53,6 @@ Dlya novoj granicyi trebuyutsya sokhraneniye iskhodnyikh obyazateljstv mezhdu et
 - [Shag issledovaniya](../Planirovaniye/kartochki-shagov/🟡-FUM-STEP-0154-proveryatj-granicu-zaversheniya-postoyannoj-zadachi.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-09 12:20:01 MSK -->
-<!-- content-sha256: sha256:ce618745760227cdefecd0c34b96716a06b45eb76a3c43405e2f75a4117e78fd -->
+<!-- last-content-edit: 2026-09-21 23:55:16 MSK -->
+<!-- content-sha256: sha256:44f94d581b8b875773704f9bd4c0726d36c6a18715afb6cc2e0ee3277ff6b342 -->
 <!-- FUM-MD-RECENCY:END -->

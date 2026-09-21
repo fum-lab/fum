@@ -16,6 +16,13 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-22 00:49:32 MSK — Vyipolnitj polnuyu proverku priyomki](2026-09-22_00-49-32_MSK_vyipolnitj-polnuyu-proverku-priyomki/otchyot.md)
+- [2026-09-22 00:47:58 MSK — Zaregistrirovatj priyomku plana](2026-09-22_00-47-58_MSK_zaregistrirovatj-priyomku-plana/otchyot.md)
+- [2026-09-22 00:43:17 MSK — Podgotovitj zakryituyu priyomku plana](2026-09-22_00-43-17_MSK_podgotovitj-zakryituyu-priyomku-plana/otchyot.md)
+- [2026-09-22 00:30:36 MSK — Prinyatj plan nezavershyonnyikh obyazateljstv](2026-09-22_00-30-36_MSK_prinyatj-plan-nezavershyonnyikh-obyazateljstv/otchyot.md)
+- [2026-09-22 00:19:00 MSK — Vyipolnitj plan nezavershyonnyikh obyazateljstv](2026-09-22_00-19-00_MSK_vyipolnitj-plan-nezavershyonnyikh-obyazateljstv/otchyot.md)
+- [2026-09-22 00:05:16 MSK — Ispravitj pustoj sleduyusjhij shag](2026-09-22_00-05-16_MSK_ispravitj-pustoj-sleduyusjhij-shag/otchyot.md)
+- [2026-09-21 23:50:58 MSK — Obyyasnitj prichinu ostanovki i prodolzhitj etap](2026-09-21_23-50-58_MSK_obyyasnitj-prichinu-ostanovki-i-prodolzhitj-etap/otchyot.md)
 - [2026-09-21 20:58:30 MSK — Prinyatj iyerarkhicheskuyu ocheredj prioritetov](2026-09-21_20-58-30_MSK_prinyatj-iyerarkhicheskuyu-ocheredj-prioritetov/otchyot.md)
 - [2026-09-21 19:19:21 MSK — Vvesti iyerarkhicheskuyu ocheredj prioritetov](2026-09-21_19-19-21_MSK_vvesti-iyerarkhicheskuyu-ocheredj-prioritetov/otchyot.md)
 - [2026-09-19 09:43:01 MSK — Prinyatj ranniye formatyi](2026-09-19_09-43-01_MSK_prinyatj-ranniye-formatyi/otchyot.md)
@@ -772,6 +779,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-21 21:01:34 MSK -->
-<!-- content-sha256: sha256:1e1462ee656a0412a2c3a396bd93aee52600bf32850c802290a2085ea401cc57 -->
+<!-- last-content-edit: 2026-09-22 00:52:03 MSK -->
+<!-- content-sha256: sha256:8cd31bc01f1c774c752277de42880fcca836d12ff9d9cfa398449b375dfd5e66 -->
 <!-- FUM-MD-RECENCY:END -->
