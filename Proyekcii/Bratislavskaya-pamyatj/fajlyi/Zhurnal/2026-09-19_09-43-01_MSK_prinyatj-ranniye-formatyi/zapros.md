@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-19 09:23:00 MSK - Proveryatj formatyi do proyekcii](../2026-09-19_09-23-00_MSK_proveryatj-formatyi-do-proyekcii/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-21 19:19:21 MSK - Vvesti iyerarkhicheskuyu ocheredj prioritetov](../2026-09-21_19-19-21_MSK_vvesti-iyerarkhicheskuyu-ocheredj-prioritetov/zapros.md)
 
 ## Tekst zaprosa
 
@@ -33,6 +33,6 @@ Pervaya proverka polej, standartnyij kontur iz 26 shagov s rannej proverkoj form
 - [Proyekciya](../../../../), [reyestr planirovaniya](../../Planirovaniye/reyestr-trebovanij-variantov-i-kandidatov.json), yesli obnaruzhitsya neobkhodimoye izmeneniye.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-19 09:44:04 MSK -->
-<!-- content-sha256: sha256:2a856208e953ee0c73ea4e31f48537e32642e1df001e6a3f6d36084af1798045 -->
+<!-- last-content-edit: 2026-09-21 19:37:48 MSK -->
+<!-- content-sha256: sha256:a9ee7fa9dc12ce0f6e967389ef896f28d83b87bbf383f4947eb8750fdb9c8d9a -->
 <!-- FUM-MD-RECENCY:END -->

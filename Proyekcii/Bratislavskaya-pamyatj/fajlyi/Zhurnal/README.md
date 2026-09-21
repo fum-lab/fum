@@ -16,6 +16,8 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-21 20:58:30 MSK — Prinyatj iyerarkhicheskuyu ocheredj prioritetov](2026-09-21_20-58-30_MSK_prinyatj-iyerarkhicheskuyu-ocheredj-prioritetov/otchyot.md)
+- [2026-09-21 19:19:21 MSK — Vvesti iyerarkhicheskuyu ocheredj prioritetov](2026-09-21_19-19-21_MSK_vvesti-iyerarkhicheskuyu-ocheredj-prioritetov/otchyot.md)
 - [2026-09-19 09:43:01 MSK — Prinyatj ranniye formatyi](2026-09-19_09-43-01_MSK_prinyatj-ranniye-formatyi/otchyot.md)
 - [2026-09-19 09:23:00 MSK — Proveryatj formatyi do proyekcii](2026-09-19_09-23-00_MSK_proveryatj-formatyi-do-proyekcii/otchyot.md)
 - [2026-09-19 08:21:58 MSK — Prinyatj kratkuyu vyidachu zadachi](2026-09-19_08-21-58_MSK_prinyatj-kratkuyu-vyidachu-zadachi/otchyot.md)
@@ -770,6 +772,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-19 09:44:04 MSK -->
-<!-- content-sha256: sha256:4be025d764a6713ad56b881aa000a17e0781cbd51bf154be02bb8194bf108a8a -->
+<!-- last-content-edit: 2026-09-21 21:01:34 MSK -->
+<!-- content-sha256: sha256:1e1462ee656a0412a2c3a396bd93aee52600bf32850c802290a2085ea401cc57 -->
 <!-- FUM-MD-RECENCY:END -->
