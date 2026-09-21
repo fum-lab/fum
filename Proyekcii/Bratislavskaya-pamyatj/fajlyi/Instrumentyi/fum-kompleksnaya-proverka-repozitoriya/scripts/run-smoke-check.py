@@ -2417,7 +2417,7 @@ def build_steps(
             name="Ранняя проверка охвата запроса",
             command=(python_cmd, проверочный_файл(Path(
                 "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-охват-запроса.py"
-            )), "--корень", ".", "--запрос", str(request)),
+            )), "--корень", ".", "--запрос", str(request), "--форматы"),
             ранняя_проверка=True,
         ))
 

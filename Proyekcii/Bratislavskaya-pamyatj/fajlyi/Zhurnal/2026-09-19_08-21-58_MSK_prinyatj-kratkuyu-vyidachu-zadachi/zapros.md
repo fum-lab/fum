@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-19 08:11:40 MSK - Sokratitj vyidachu malogo otveta](../2026-09-19_08-11-40_MSK_sokratitj-vyidachu-malogo-otveta/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-19 09:23:00 MSK - Proveryatj formatyi do proyekcii](../2026-09-19_09-23-00_MSK_proveryatj-formatyi-do-proyekcii/zapros.md)
 
 ## Tekst zaprosa
 
@@ -38,6 +38,6 @@ Nablyudeniye nastoyasjhego bounded API cherez sokhranyonnyij adapter, pervaya pr
 - [Proyekciya](../../../../), [planovyij reyestr](../../Planirovaniye/reyestr-trebovanij-variantov-i-kandidatov.json), yesli sborka podtverdit neobkhodimoye izmeneniye.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-19 08:45:44 MSK -->
-<!-- content-sha256: sha256:758b03f8737cdc69d8a6ec464085b52b70501350860107e06825e823310493c3 -->
+<!-- last-content-edit: 2026-09-19 09:34:13 MSK -->
+<!-- content-sha256: sha256:de0ac026fe76764f9436b4804e6ff0b6ab310bd855c50b74731908b32293f6d4 -->
 <!-- FUM-MD-RECENCY:END -->

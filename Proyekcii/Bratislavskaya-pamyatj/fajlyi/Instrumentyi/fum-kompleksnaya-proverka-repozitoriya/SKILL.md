@@ -420,9 +420,13 @@ Tekusjhij Swift-kontur prednaznachen dlya macOS: vse paketyi trebuyut macOS 14 i
 
 Tekusjhij `--допуск-слияния` prinimayet toljko zakryityij v3 s podtverzhdeniyem ispolneniya iz master. Sokhranyonnaya vozmozhnostj v4 otnositsya k otdeljnomu rezhimu i sama po sebe ne rasshiryayet etot dopusk.
 
-Rannyaya proverka okhvata vyipolnyayet `Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-охват-запроса.py --корень . --запрос <текущий запрос>` posle sborki reyestra. Ona obnaruzhivayet neperechislennyiye proizvodnyiye fajlyi do proyekcii, ispoljzuyet obsjhij strogij razbor ssyilok i Git-status, uchityivayet iskhodnuyu celj pereimenovaniya. Bez proverki sessii shag otsutstvuyet. Pri otdeljnom prinimayusjhem konture CLI i sosedniye zavisimosti berutsya iz yego kornya. Rezuljtat dokazyivayet pokryitiye putej, a ne stabiljnostj bajtov vsekh dirty-fajlov ili indeksa; itogovaya svyaznostj i nezavisimyij razreshyonnyij sostav kommita ostayutsya obyazateljnyimi.
+Rannyaya proverka okhvata vyipolnyayet `Инструменты/fum-svyaznostj-rabochej-sessii/scripts/проверить-охват-запроса.py --корень . --запрос <текущий запрос> --форматы` posle sborki reyestra. Ona obnaruzhivayet neperechislennyiye fajlyi i neizvestnyiye formatyi do proyekcii, ispoljzuyet obsjhij strogij razbor ssyilok i Git-status, uchityivayet iskhodnuyu celj pereimenovaniya. Bez proverki sessii shag otsutstvuyet. Pri otdeljnom prinimayusjhem konture CLI, klassifikator, politika i zavisimosti berutsya iz yego kornya. Samostoyateljnyij CLI bez `--форматы` sokhranyayet prezhnij kontrakt pokryitiya putej.
+
+Rezhim formatov cherez `форматы_изменений.py` pereispoljzuyet klassifikator proyekcii dlya tekusjhikh bajtov izmenyonnyikh obyichnyikh fajlov. On proveryayet staged-, unstaged- i untracked-sostav, udaleniya i pereimenovaniya; otklonyayet konfliktnyiye stadii, ssyilki i nepodderzhannyiye obyyektyi. Gitlink dopuskayetsya toljko po zakreplyonnyim v proyekcii puti i OID; yego soderzhimoye zdesj ne proveryayetsya. Dejstvuyut susjhestvuyusjhiye isklyucheniya proyekcii. Prochitannyiye bajtyi i rezhimyi, otsutstviye udalyonnyikh fajlov, status i indeks sveryayutsya povtorno. Proverka CJS ispoljzuyet susjhestvuyusjhij strogij razbor sobstvennyikh obyyavlenij; eto ne universaljnaya proverka imyon vsekh yazyikov. Polnyij inventarj, itogovaya svyaznostj, sovpadeniye rabochego dereva s indeksom i nezavisimyij razreshyonnyij sostav kommita ostayutsya obyazateljnyimi. Pri paralleljnoj vrazhdebnoj zapisi absolyutnaya atomarnostj ne zayavlyayetsya.
+
+[Otkryityij profilj](../fum-svyaznostj-rabochej-sessii/tests/profilj_formatov_izmenenij.py) sravnivayet shestj CLI-vyizovov na odnoj Git-fiksture: prezhnij okhvat propuskayet neizvestnyij format, novyij otkazyivayet do proyekcii. Vyikhod zadayotsya `--выход <новый JSON>`; profilj ne zamenyayet izmereniye polnogo cikla ili tokenov.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-19 07:28:58 MSK -->
-<!-- content-sha256: sha256:f82a285bcc1863b90edc787510ecc0f63b28e04ad2c24ac109d5df4df1439de2 -->
+<!-- last-content-edit: 2026-09-19 09:34:13 MSK -->
+<!-- content-sha256: sha256:e634ace14764f8c47a4e7dba734581c01390015c4b1dc3be0b2846c8e155edeb -->
 <!-- FUM-MD-RECENCY:END -->
