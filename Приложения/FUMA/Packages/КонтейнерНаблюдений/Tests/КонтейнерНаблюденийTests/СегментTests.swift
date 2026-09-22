@@ -117,8 +117,13 @@ struct СегментTests {
         let вход = путь.appendingPathComponent("вход.bin")
         let данные = Data((0...255).map(UInt8.init))
         try данные.write(to: вход)
-        let каталог = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
-            .deletingLastPathComponent().deletingLastPathComponent().appendingPathComponent(".build/debug")
+        let каталог: URL
+        if let путь = ProcessInfo.processInfo.environment["FUM_TEST_BIN_DIR"], !путь.isEmpty {
+            каталог = URL(fileURLWithPath: путь, isDirectory: true)
+        } else {
+            каталог = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
+                .deletingLastPathComponent().deletingLastPathComponent().appendingPathComponent(".build/debug")
+        }
         func запустить(_ имя: String, _ аргументы: [String]) throws -> Data {
             let процесс = Process(); let канал = Pipe()
             процесс.executableURL = каталог.appendingPathComponent(имя)
