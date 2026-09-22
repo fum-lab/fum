@@ -16,6 +16,7 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 
 ## Papki zaprosov
 
+- [2026-09-22 05:12:27 MSK — Prioritizirovatj optimizaciyu proverok](2026-09-22_05-12-27_MSK_prioritizirovatj-optimizaciyu-proverok/otchyot.md)
 - [2026-09-22 02:25:51 MSK — Zafiksirovatj postkommitnuyu ostanovku i ispravitj priyomku](2026-09-22_02-25-51_MSK_zafiksirovatj-postkommitnuyu-ostanovku-i-ispravitj-priyomku/otchyot.md)
 - [2026-09-22 00:49:32 MSK — Vyipolnitj polnuyu proverku priyomki](2026-09-22_00-49-32_MSK_vyipolnitj-polnuyu-proverku-priyomki/otchyot.md)
 - [2026-09-22 00:47:58 MSK — Zaregistrirovatj priyomku plana](2026-09-22_00-47-58_MSK_zaregistrirovatj-priyomku-plana/otchyot.md)
@@ -780,6 +781,6 @@ Kazhdaya papka zaprosa razmesjhayetsya neposredstvenno v `Журнал/`; v korn
 - [iskhodnyij zapros 2026-07-22 03:38:35 MSK - Razreshitj vyipolneniye dostupnyikh kartochek shagov](2026-07-22_03-38-35_MSK_razreshitj-vyipolneniye-dostupnyikh-kartochek-shagov/zapros.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-22 02:44:42 MSK -->
-<!-- content-sha256: sha256:f899727824510844ffc9a80e368822a16176946e37defa6bb37996d67b0e07ed -->
+<!-- last-content-edit: 2026-09-22 05:29:46 MSK -->
+<!-- content-sha256: sha256:9e9720462db8eef4831817caa9731ee6fa99800f810512ab62cfec5ac4ef0461 -->
 <!-- FUM-MD-RECENCY:END -->

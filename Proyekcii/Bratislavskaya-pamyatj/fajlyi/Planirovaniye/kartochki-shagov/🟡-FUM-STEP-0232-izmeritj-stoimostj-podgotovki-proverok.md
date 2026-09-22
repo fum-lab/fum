@@ -22,7 +22,9 @@ V prinyatom J22 nabor reyestra zanyal 490,878 s. Pervyij profilj obsjhej fikstur
 
 ## Tekusjhij rezuljtat
 
-Adresno proverennyij profilj odnoj susjhestvuyusjhej fiksturyi, shestj regressij, dva otkryityikh izmereniya. Polnaya priyomka novogo koda yesjhyo ne vyipolnena. [Izmereniye vsego nabora](../../Zhurnal/2026-09-19_02-44-26_MSK_izmeritj-polnyij-nabor-proverok-reyestra/otchyot.md) zaversheno: 355 testov OK, discovery17,705 s, vyipolneniye463,382 s. Osnovnoj nablyudayemyij raskhod — vyizovyi subprocess.run; konkretnaya bezopasnaya optimizaciya yesjhyo vyibirayetsya. Nakladnyiye raskhodyi cProfile otdeljno ne izmerenyi, sravneniye uskoreniya ne zayavlyayetsya.
+Adresno proverennyij profilj odnoj susjhestvuyusjhej fiksturyi, shestj regressij, dva otkryityikh izmereniya. Polnaya priyomka novogo koda yesjhyo ne vyipolnena. [Izmereniye vsego nabora](../../Zhurnal/2026-09-19_02-44-26_MSK_izmeritj-polnyij-nabor-proverok-reyestra/otchyot.md) zaversheno: 355 testov OK, discovery17,705 s, vyipolneniye463,382 s. Osnovnoj nablyudayemyij raskhod — vyizovyi `subprocess.run`; nakladnyiye raskhodyi cProfile otdeljno ne izmerenyi.
+
+Pervyij ispolnyayemyij srez optimizacii dobavil profilj `--профиль адресный` v `run-smoke-check.py`. On prinimayet povtoryayemyiye `--изменения` libo read-only `--изменения-из-git`, vyibirayet toljko dokazuyemo zatronutyiye dokumentacionnyiye naboryi i zakryivayet rezhim s trebovaniyem polnogo profilya dlya neizvestnyikh, globaljnyikh, Swift- i nepodderzhannyikh putej. Regressii pokryivayut vyibor instrumenta, svyazannyij vyibor Zhurnala, neizvestnyij diff i granicyi kontura sliyaniya. Sokrasjheniye obsjhego vremeni yesjhyo ne zayavlyayetsya: tekusjhij etap sokhranyayet doroguyu proyekciyu i ne zamenyayet yedinstvennyij polnyij smoke-check.
 
 ## Istochniki
 
@@ -30,6 +32,6 @@ Adresno proverennyij profilj odnoj susjhestvuyusjhej fiksturyi, shestj regressij
 - [Instrukciya izmereniya](../../Instrumentyi/fum-reyestr-planirovaniya/profilj-podgotovki-fikstur.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-19 02:58:35 MSK -->
-<!-- content-sha256: sha256:69c351a6c45e0acf41edc0efcf3c1a606597250b9d3042fb7217bcc4365b5464 -->
+<!-- last-content-edit: 2026-09-22 05:29:46 MSK -->
+<!-- content-sha256: sha256:d5909d690f94928b7af12d5aa86433038ccd4c4147c6311e991af3053406e043 -->
 <!-- FUM-MD-RECENCY:END -->

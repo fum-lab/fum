@@ -3,7 +3,7 @@
 ## Navigaciya po zaprosam
 
 - Predyidusjhij zapros: [2026-09-22 00:49:32 MSK - Vyipolnitj polnuyu proverku priyomki](../2026-09-22_00-49-32_MSK_vyipolnitj-polnuyu-proverku-priyomki/zapros.md)
-- Sleduyusjhij zapros: net
+- Sleduyusjhij zapros: [2026-09-22 05:12:27 MSK - Prioritizirovatj optimizaciyu proverok](../2026-09-22_05-12-27_MSK_prioritizirovatj-optimizaciyu-proverok/zapros.md)
 
 ## Tekst zaprosa
 
@@ -84,6 +84,6 @@ Otvet: zavershyonnyij FUM-STEP-0147 uzhe zapresjhayet dublirovatj polnyij regres
 Poljzovatelj ustanovil poryadok: vse chetyire sloya optimizacii imeyut prioritet, a scenarij rabotyi s vetkoj `planirovaniye` aktiviruyetsya toljko posle ikh realizacii i priyomki. Adresnoye profilirovaniye polnoj proyekcii posle etogo resheniya pokazalo okolo 378,301 s polnoj materializacii, okolo 60,142 s podgotovki Markdown i ssyilok, okolo 60,541 s zapuska Swift-preobrazovatelya i okolo 163,826 s nezavisimoj proverki manifesta. Eti nablyudeniya podtverzhdayut prioritet propuska neizmennoj proyekcii i ustraneniya povtornyikh prokhodov; uskoreniye poka ne zayavlyayetsya.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-22 04:55:02 MSK -->
-<!-- content-sha256: sha256:fbef6dc2c7c589d352e05cd34de01978b3dda807c81c446c59ce40831cda6276 -->
+<!-- last-content-edit: 2026-09-22 05:29:46 MSK -->
+<!-- content-sha256: sha256:a76b2f95e0cf9b8cb500ec998e1e1e75478ffd0521444fc66c8f8f7723529b2d -->
 <!-- FUM-MD-RECENCY:END -->

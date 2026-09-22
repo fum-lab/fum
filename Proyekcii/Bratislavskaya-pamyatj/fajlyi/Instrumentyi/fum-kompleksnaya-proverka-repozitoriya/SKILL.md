@@ -7,9 +7,9 @@ description: Zapuskatj standartnyij lokaljnyij smoke-check dokumentacionnogo pro
 
 Tekusjhaya granica priyomki — odin proverennyij etap rezhima, vyibrannogo `AGENTS.md`; posle yego kommita zadacha prodolzhayet soglasovannuyu rabotu po `AGENTS.md`.
 
-Eta lokaljnaya [avtomatizaciya FUM](../../Glossarij/avtomatizaciya-FUM.md) razdelyayet dve raznyiye priyomochnyiye zadachi. Standartnyij profilj `документационный`, vyibrannyij po umolchaniyu, byistro podtverzhdayet rabotosposobnostj nablyudayemogo dokumentacionnogo prototipa pered obyichnyim kommitom. Yavnyij profilj `полный` sokhranyayet prezhnij shirokij repozitornyij kontur dlya celevoj regressii avtomatizacij, Git-zavisimosti i korobochnyikh SwiftPM-prototipov, no nikogda ne zapuskayetsya avtomaticheski vmesto standartnogo.
+Eta lokaljnaya [avtomatizaciya FUM](../../Glossarij/avtomatizaciya-FUM.md) razdelyayet raznyiye priyomochnyiye zadachi. Standartnyij profilj `документационный`, vyibrannyij po umolchaniyu, podtverzhdayet rabotosposobnostj nablyudayemogo dokumentacionnogo prototipa pered obyichnyim kommitom. Adresnyij profilj `адресный` prednaznachen toljko dlya RED/GREEN-proverki: on poluchayet yavnyij spisok izmenyonnyikh putej ili read-only diff iz Git i vyibirayet toljko dokazuyemo zatronutyiye dokumentacionnyiye naboryi. Neizvestnaya, globaljnaya, Swift- ili nepodderzhannaya oblastj zakryivayet adresnyij rezhim s trebovaniyem vyibratj polnyij profilj. Yavnyij profilj `полный` sokhranyayet shirokij repozitornyij kontur dlya celevoj regressii avtomatizacij, Git-zavisimosti i korobochnyikh SwiftPM-prototipov, no nikogda ne zapuskayetsya avtomaticheski vmesto standartnogo.
 
-Oba profilya rabotayut lokaljno, ne trebuyut sekretov, setevyikh zaprosov i vneshnikh servisov i izmeryayut monotonnoye wall-clock-vremya podgotovki, kazhdogo obyyavlennogo shaga i polnogo processa. Standartnyij profilj stroitsya neposredstvenno iz polozhiteljnogo perechnya: dvenadcatj live-proverok i trinadcatj avtonomnyikh naborov yadra — 25 shagov s proverkoj sessii i 23 s `--skip-session-coherence`. Lyogkij live-shag dekompozicii pravil neobkhodim dokumentacionnomu prototipu, potomu chto proveryayet vsegda zagruzhayemyij korenj i obyazateljnostj tematicheskikh marshrutov; avtonomnyiye testyi etoj avtomatizacii ostayutsya toljko v polnom profile. Standart ne vyipolnyayet obsjhij avtopoisk `Инструменты/*/tests`, shirokij `dump-package`, SwiftPM-testyi, sborki i lint prototipov i ne zagruzhayet istoriyu riska. Primeneniye proyekcii pri etom trebuyet lokaljnyiye Swift 5.9+ i materializovannyij tochnyij LinguisticKit i zapuskayet izolirovannuyu sluzhebnuyu Swift-obyortku. Novyij nabor testov ne popadayet v standart sam soboj: izmeneniye perechnya trebuyet osmyislennoj pravki i regressionnogo testa sostava.
+Vse profili rabotayut lokaljno, ne trebuyut sekretov, setevyikh zaprosov i vneshnikh servisov i izmeryayut monotonnoye wall-clock-vremya podgotovki, kazhdogo obyyavlennogo shaga i polnogo processa. Standartnyij profilj stroitsya neposredstvenno iz polozhiteljnogo perechnya: dvenadcatj live-proverok i trinadcatj avtonomnyikh naborov yadra — 25 shagov s proverkoj sessii i 23 s `--skip-session-coherence`. Adresnyij profilj sokhranyayet te zhe fiksirovannyiye proverki, no sokrasjhayet toljko analiticheskiye naboryi po yavnomu diff. Lyogkij live-shag dekompozicii pravil neobkhodim dokumentacionnomu prototipu, potomu chto proveryayet vsegda zagruzhayemyij korenj i obyazateljnostj tematicheskikh marshrutov; avtonomnyiye testyi etoj avtomatizacii ostayutsya toljko v polnom profile. Standartnyij i adresnyij profili ne vyipolnyayut obsjhij avtopoisk `Инструменты/*/tests`, shirokij `dump-package`, SwiftPM-testyi, sborki i lint prototipov i ne zagruzhayut istoriyu riska. Primeneniye proyekcii pri etom trebuyet lokaljnyiye Swift 5.9+ i materializovannyij tochnyij LinguisticKit i zapuskayet izolirovannuyu sluzhebnuyu Swift-obyortku. Novyij nabor testov ne popadayet v standartnyij ili adresnyij profilj sam soboj: izmeneniye perechnya trebuyet osmyislennoj pravki i regressionnogo testa sostava.
 
 Nulevoj kod vnutrennego proverochnogo processa oznachayet toljko, chto obyyavlennyij proverochnyij plan projden. Sam `run-smoke-check.py` ne vyipolnyayet Git-kommit: posle yego vyikhoda obyazateljnaya otchyotnaya obyortka yesjhyo sokhranyayet terminaljnuyu zapisj zapuska i zakryivayet khyeshirovannyij snimok. Zatem vyipolnyayutsya rovno odna finaljnaya peresborka `Proyekcii/**`, odin pryamoj nezavisimyij validator, tochnaya postanovka pokoleniya v indeks i ogranichennyiye proverki zamyikaniya. Obyichnyij proverennyij etap s osmyislennyim diff fiksiruyetsya lokaljnyim kommitom na `refs/heads/master`; razreshyonnoye sliyaniye sokhranyayetsya i proveryayetsya po otdeljnoj granice `AGENTS.md`. Smoke-check ne sozdayot continuation, FIFO-handoff ili publikaciyu.
 
@@ -60,6 +60,17 @@ python3 Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/ru
 ```
 
 Dlya prosmotra polnogo plana dobavlyayetsya `--list`. Toljko v etom sochetanii `Package.swift` ocenivayutsya lokaljnyim `swift package dump-package` s offline-flagami; testyi, sborka i lint pri prosmotre ne zapuskayutsya.
+
+Adresnyij profilj trebuyet granicyi diff i ne ispoljzuyetsya dlya priyomki sliyaniya:
+
+```bash
+python3 Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/run-smoke-check.py \
+  --профиль адресный \
+  --изменения-из-git \
+  --skip-session-coherence
+```
+
+Dlya vosproizvodimogo RED/GREEN-povtora puti mozhno peredatj yavno i povtoritj parametr `--изменения`. Git-rezhim chitayet staged, unstaged i neotslezhivayemyiye puti bez zapisi; on ne dokazyivayet finaljnuyu priyomku i ne zamenyayet yedinstvennyij polnyij smoke-check.
 
 Chastichnyij lokaljnyij zapusk bez proverki konkretnoj rabochej sessii:
 
@@ -427,6 +438,6 @@ Rezhim formatov cherez `форматы_изменений.py` pereispoljzuyet kl
 [Otkryityij profilj](../fum-svyaznostj-rabochej-sessii/tests/profilj_formatov_izmenenij.py) sravnivayet shestj CLI-vyizovov na odnoj Git-fiksture: prezhnij okhvat propuskayet neizvestnyij format, novyij otkazyivayet do proyekcii. Vyikhod zadayotsya `--выход <новый JSON>`; profilj ne zamenyayet izmereniye polnogo cikla ili tokenov.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-19 09:34:13 MSK -->
-<!-- content-sha256: sha256:e634ace14764f8c47a4e7dba734581c01390015c4b1dc3be0b2846c8e155edeb -->
+<!-- last-content-edit: 2026-09-22 05:29:46 MSK -->
+<!-- content-sha256: sha256:44ba6f796c50366ded66e0b90372fed3c163aef2413426157173945fe89b02ef -->
 <!-- FUM-MD-RECENCY:END -->
