@@ -1,0 +1,46 @@
+{
+  "attention" : {
+    "isIdle" : false,
+    "lastActivityAt" : "2026-09-22T11:31:30Z",
+    "lastMemoryEventAt" : "2026-09-22T11:31:30Z",
+    "totalInputEventsObserved" : 0,
+    "totalMemoryEventsWritten" : 5
+  },
+  "ax" : {
+    "activeApplication" : {
+      "bundleIdentifier" : "",
+      "name" : "loginwindow"
+    },
+    "message" : "",
+    "snapshotTimestamp" : "2026-09-22T11:08:24Z",
+    "status" : "ok",
+    "window" : {
+      "frame" : {
+        "height" : 1117,
+        "width" : 1728,
+        "x" : 0,
+        "y" : 0
+      },
+      "role" : "AXWindow",
+      "title" : "Войти"
+    }
+  },
+  "idleSeconds" : 90,
+  "input" : {
+    "message" : "Input snapshot is missing.",
+    "recentEventCount" : 0,
+    "snapshotTimestamp" : "",
+    "status" : "missing_snapshot"
+  },
+  "intervalSeconds" : 1,
+  "mode" : "once",
+  "paths" : {
+    "axSnapshot" : "\/tmp\/fum-attention-replay-20260922-143032\/runtime\/senses\/ax-vision\/latest.json",
+    "events" : "\/tmp\/fum-attention-replay-20260922-143032\/memory\/realtime\/attention-loop\/events.jsonl",
+    "inputSnapshot" : "\/tmp\/fum-attention-replay-20260922-143032\/runtime\/senses\/input\/latest.json"
+  },
+  "pid" : 76061,
+  "source" : "fum-attention-loop",
+  "status" : "ok",
+  "timestamp" : "2026-09-22T11:31:30Z"
+}
