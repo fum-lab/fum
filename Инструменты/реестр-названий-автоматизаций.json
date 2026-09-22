@@ -209,6 +209,11 @@
       "source": "иерархическая очередь приоритетов",
       "transliteration": "iyerarkhicheskaya ocheredj prioritetov",
       "slug": "fum-iyerarkhicheskaya-ocheredj-prioritetov"
+    },
+    {
+      "source": "конвейер производных веток",
+      "transliteration": "konvejyer proizvodnyikh vetok",
+      "slug": "fum-konvejyer-proizvodnyikh-vetok"
     }
   ],
   "display": [
