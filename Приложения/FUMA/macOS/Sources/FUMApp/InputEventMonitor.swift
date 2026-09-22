@@ -1,5 +1,6 @@
 #if SWIFT_PACKAGE
 import ПутиИсполнения
+import FUMObservationJournal
 #endif
 import AppKit
 import CoreGraphics
@@ -168,6 +169,13 @@ final class InputEventMonitor: ObservableObject {
     }
 
     private func appendJSONLine(_ payload: [String: Any], to url: URL) {
+#if SWIFT_PACKAGE
+        do {
+            try ЖурналНаблюдений().добавитьJSONСтроку(payload, в: url)
+        } catch {
+            NSLog("Failed to append input event: \(error.localizedDescription)")
+        }
+#else
         do {
             try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
             if !FileManager.default.fileExists(atPath: url.path) {
@@ -182,6 +190,7 @@ final class InputEventMonitor: ObservableObject {
         } catch {
             NSLog("Failed to append input event: \(error.localizedDescription)")
         }
+#endif
     }
 
     private func loadRecentEventsFromDiskIfNeeded() {

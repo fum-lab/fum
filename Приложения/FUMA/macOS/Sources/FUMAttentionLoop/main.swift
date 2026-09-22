@@ -1,4 +1,5 @@
 import Foundation
+import FUMObservationJournal
 import ПутиИсполнения
 
 typealias JSONObject = [String: Any]
@@ -567,16 +568,7 @@ final class AttentionLoop {
     }
 
     private func appendJSONLine(_ payload: JSONObject, to url: URL) throws {
-        try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-        if !FileManager.default.fileExists(atPath: url.path) {
-            FileManager.default.createFile(atPath: url.path, contents: nil)
-        }
-        let handle = try FileHandle(forWritingTo: url)
-        try handle.seekToEnd()
-        let data = try JSONSerialization.data(withJSONObject: payload, options: [.sortedKeys])
-        try handle.write(contentsOf: data)
-        try handle.write(contentsOf: Data("\n".utf8))
-        try handle.close()
+        try ЖурналНаблюдений().добавитьJSONСтроку(payload, в: url)
     }
 
     private func latestDate(in events: [JSONObject]) -> Date? {

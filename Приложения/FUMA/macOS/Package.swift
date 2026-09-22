@@ -20,7 +20,7 @@ let package = Package(
     targets: [
         .executableTarget(
             name: "FUMApp",
-            dependencies: ["CMpvShim", "ПутиИсполнения", "ИсполнениеОператора"],
+            dependencies: ["CMpvShim", "ПутиИсполнения", "ИсполнениеОператора", "FUMObservationJournal"],
             linkerSettings: [
                 .linkedFramework("OpenGL"),
                 .linkedLibrary("mpv")
@@ -42,10 +42,12 @@ let package = Package(
             .product(name: "FUMStructuringOperatorMemory", package: "FUMStructuringOperatorMemory"),
             .product(name: "КонтейнерНаблюдений", package: "КонтейнерНаблюдений")
         ]),
+        .target(name: "FUMObservationJournal"),
         .testTarget(name: "ИсполнениеОператораTests", dependencies: ["ИсполнениеОператора"]),
+        .testTarget(name: "FUMObservationJournalTests", dependencies: ["FUMObservationJournal"]),
         .executableTarget(name: "FUMMCPServer", dependencies: ["ПутиИсполнения"]),
         .executableTarget(name: "FUMAXVisionSense", dependencies: ["ПутиИсполнения"]),
-        .executableTarget(name: "FUMAttentionLoop", dependencies: ["ПутиИсполнения"]),
+        .executableTarget(name: "FUMAttentionLoop", dependencies: ["ПутиИсполнения", "FUMObservationJournal"]),
         .testTarget(name: "ПутиИсполненияTests", dependencies: ["ПутиИсполнения"])
     ]
 )
