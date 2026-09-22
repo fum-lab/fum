@@ -42,6 +42,7 @@ from project_files import (
 try:
     from request_folder_layout import (
         LayoutError,
+        _request_heading_label,
         МАРКЕР_НЕЗАПОЛНЕННОГО_ШАБЛОНА,
         validate_layout,
     )
@@ -51,6 +52,7 @@ except ModuleNotFoundError as exc:  # Keep isolated checker fixtures testable.
     LayoutError = RuntimeError
     МАРКЕР_НЕЗАПОЛНЕННОГО_ШАБЛОНА = "<!-- ШАБЛОН:НЕЗАПОЛНЕНО -->"
     validate_layout = None
+    _request_heading_label = None
 
 
 REQUEST_STEM_RE = re.compile(
@@ -476,6 +478,20 @@ def contains_request_link(
     return False
 
 
+def подпись_навигации(path: Path) -> str:
+    """Тот же заголовок соседа, который сохраняет генератор папок запросов."""
+    if _request_heading_label is not None:
+        with path.open(encoding="utf-8") as source:
+            heading = source.readline()
+        try:
+            return _request_heading_label(heading, path.parent.name)
+        except LayoutError:
+            # Исторические каркасы проверяются прежним способом; проверка
+            # заголовка текущего запроса остаётся независимой и строгой.
+            pass
+    return request_label(path)
+
+
 def validate_navigation(
     repo_root: Path,
     request_path: Path,
@@ -504,7 +520,7 @@ def validate_navigation(
             errors.append("request navigation must state previous request: нет")
     elif not contains_request_link(
         navigation,
-        request_label(previous_file),
+        подпись_навигации(previous_file),
         previous_file,
         request_path,
         repo_root,
@@ -519,7 +535,7 @@ def validate_navigation(
             errors.append("request navigation must state next request: нет")
     elif not contains_request_link(
         navigation,
-        request_label(next_file),
+        подпись_навигации(next_file),
         next_file,
         request_path,
         repo_root,
@@ -534,7 +550,7 @@ def validate_navigation(
         previous_navigation = section_body(previous_text, "Навигация по запросам") or ""
         if not contains_request_link(
             previous_navigation,
-            request_label(request_path),
+            подпись_навигации(request_path),
             request_path,
             previous_file,
             repo_root,
@@ -549,7 +565,7 @@ def validate_navigation(
         next_navigation = section_body(next_text, "Навигация по запросам") or ""
         if not contains_request_link(
             next_navigation,
-            request_label(request_path),
+            подпись_навигации(request_path),
             request_path,
             next_file,
             repo_root,

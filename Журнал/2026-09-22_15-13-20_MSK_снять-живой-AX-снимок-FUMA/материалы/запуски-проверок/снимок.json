@@ -1,0 +1,27 @@
+{
+  "отпечаток_закрытия": "sha256:f6d594af82455a7eb8bf19e7b0da9506bd2f0d16e142cd855437132b26d96af7",
+  "сессия": "Журнал/2026-09-22_15-13-20_MSK_снять-живой-AX-снимок-FUMA/запрос.md",
+  "схема": "fum.test-run-report.v2",
+  "файлы": [
+    {
+      "sha256": "b0477940489df7581d16cbfee3c4bca2c6015cd5a1d40891debe864f6270c2fd",
+      "имя": "1_79546c3c-dcc7-4b31-af3b-f70f4a22203e.json"
+    },
+    {
+      "sha256": "f67c157ed62a41ac8b12cb8bb9b31645a6d603bc28636c60a9306f33869dcefb",
+      "имя": "2_172c4fc0-8fe3-4585-95c6-f0259212a8a8.json"
+    },
+    {
+      "sha256": "385a6d3933a22900437ef91e9d04ceded99eb9cd2ef2953ff865390a3604b5bd",
+      "имя": "3_73f2c0a8-d8e2-4ae6-811c-39f821e224ae.json"
+    },
+    {
+      "sha256": "db7ab11705ba0636c6c6ef9eead048c9ab2225bc14bef7ea576d3ab8cdb15271",
+      "имя": "4_731ad96f-cc0c-497b-93a0-3e82927ab3c8.json"
+    },
+    {
+      "sha256": "2169efae47a4edaa772d79705912edb638634416b237e523e43478a26a67517b",
+      "имя": "5_90c6f49e-46d6-4187-b1ee-04ada16f20be.json"
+    }
+  ]
+}

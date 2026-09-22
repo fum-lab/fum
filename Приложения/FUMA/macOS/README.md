@@ -11,6 +11,7 @@
 - `FUMObservationJournal` — общий Swift-модуль долговечной записи JSONL, используемый `fum-attention-loop`, AX-сенсором, MCP-памятью и SwiftPM-сборкой input-сенсора.
 - [Векторный формат монтажа](docs/vector-video-format.md) — ссылки на медиаматериалы, дорожки и эффекты без обязательного экспорта видео.
 - [Исполнение структурирующего оператора](docs/исполнение-оператора.md) — ранний командный вход основного бинарника, результат и накопительная память с повтором из принятых данных.
+- [Дистилляция GPT и общий рантайм](../../../Документация/дистилляция-GPT-в-операторы-FUMA.md) — байтовая память, операторный граф, общий пакет и дальнейшая трансляция в программные и аппаратные реализации.
 
 Монитор приложения сохраняет также символы клавиатуры и использует настенное время. Цикл внимания удаляет поля символов из собственных агрегатов. Контракт физических переходов клавиш отдельного прототипа FUM этим переносом не реализован.
 
@@ -112,6 +113,6 @@ OpenGL.framework явно линкуется в SwiftPM и Xcode; обычный
 Механизм зависимости описан в [документации SwiftPM](https://github.com/swiftlang/swift-package-manager/blob/main/Sources/PackageManagerDocs/Documentation.docc/Dependencies/AddingSystemLibraryDependency.md). Машинные значения Xcode передаются снаружи; [xcconfig](https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project) самостоятельно shell-команды не исполняет.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-22 14:46:45 MSK -->
-<!-- content-sha256: sha256:a302fe7ab73db5a65d5658e7651ee93eb132e2033ac230c9b5c2250a0e8beb73 -->
+<!-- last-content-edit: 2026-09-23 01:24:29 MSK -->
+<!-- content-sha256: sha256:805d80d157f5e438f5bb3be109462b9e95529bc6e72b983aed7b2ab6a0dfed68 -->
 <!-- FUM-MD-RECENCY:END -->
