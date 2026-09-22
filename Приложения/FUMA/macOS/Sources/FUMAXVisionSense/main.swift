@@ -1,5 +1,6 @@
 import AppKit
 import ApplicationServices
+import FUMObservationJournal
 import Foundation
 import ПутиИсполнения
 
@@ -446,19 +447,10 @@ struct AXVisionStateRecorder {
         let url = URL(fileURLWithPath: expandedPath)
 
         do {
-            try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-            if !FileManager.default.fileExists(atPath: expandedPath) {
-                FileManager.default.createFile(atPath: expandedPath, contents: nil)
-            }
-
-            let handle = try FileHandle(forWritingTo: url)
-            try handle.seekToEnd()
+            let журнал = ЖурналНаблюдений()
             for event in events {
-                let data = try JSONSerialization.data(withJSONObject: event, options: [.sortedKeys])
-                try handle.write(contentsOf: data)
-                try handle.write(contentsOf: Data("\n".utf8))
+                try журнал.добавитьJSONСтроку(event, в: url)
             }
-            try handle.close()
         } catch {
             fputs("Failed to append AX vision state changes to \(expandedPath): \(error)\n", stderr)
         }

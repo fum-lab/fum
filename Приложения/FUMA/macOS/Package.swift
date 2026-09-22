@@ -45,8 +45,8 @@ let package = Package(
         .target(name: "FUMObservationJournal"),
         .testTarget(name: "ИсполнениеОператораTests", dependencies: ["ИсполнениеОператора"]),
         .testTarget(name: "FUMObservationJournalTests", dependencies: ["FUMObservationJournal"]),
-        .executableTarget(name: "FUMMCPServer", dependencies: ["ПутиИсполнения"]),
-        .executableTarget(name: "FUMAXVisionSense", dependencies: ["ПутиИсполнения"]),
+        .executableTarget(name: "FUMMCPServer", dependencies: ["ПутиИсполнения", "FUMObservationJournal"]),
+        .executableTarget(name: "FUMAXVisionSense", dependencies: ["ПутиИсполнения", "FUMObservationJournal"]),
         .executableTarget(name: "FUMAttentionLoop", dependencies: ["ПутиИсполнения", "FUMObservationJournal"]),
         .testTarget(name: "ПутиИсполненияTests", dependencies: ["ПутиИсполнения"])
     ]
