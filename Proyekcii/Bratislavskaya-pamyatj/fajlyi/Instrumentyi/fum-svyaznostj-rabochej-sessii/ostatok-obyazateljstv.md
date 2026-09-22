@@ -55,6 +55,8 @@ Rabota soderzhit `идентификатор`, `обязательство`, `д
 
 Priyomka etapa soderzhit `работа`, `коммит`, `запрос`, `финальный_запуск` i `результаты`. Kazhdyij rezuljtat zadayot `путь`, `sha256` i Git-rezhim `100644` libo `100755`. Opredeleniye rabotyi uzhe prisutstvuyet v kommite priyomki; khotya byi odin zayavlennyij rezuljtat izmenyon etim kommitom. Priyomka zapisyivayetsya pozdneye, kogda izvesten kommit, i proveryayetsya [chitatelem zakryitogo otchyota](../fum-otchyotyi-o-zapuskakh-proverok/svyazj-s-kommitom.md). Proveryayutsya v3-svideteljstva, iskhodnaya komanda, UUID zadachi, poslednij trailer kommita i tochnyiye bajtyi rezuljtata. Vsya cepochka predposyilok proveryayetsya kak na moment priyomki, tak i na tekusjhuyu granicu.
 
+Adresnyij ili diagnosticheskij zapusk mozhet byitj sokhranyon kak promezhutochnaya podgotovka. Yesli zapisj priyomki soderzhit toljko zavershyonnyiye uspeshnyiye zapuski klassa `адресная`, chitatelj soobsjhayet `состояние_проверки=адресная-подготовка`, sokhranyayet prichinu `адресные проверки не являются финальной приёмкой` i ne vklyuchayet etap v podtverzhdyonnyiye. Dlya finaljnoj priyomki nuzhen zakryityij polnyij otchyot, svyazannyij s tem zhe kommitom; iskhodnyiye adresnyiye zapisi ostayutsya neizmennyimi.
+
 Udaleniye ili izmeneniye opredeleniya, poterya priyomki i udaleniye reyestra obnaruzhivayutsya na kazhdom rebre vsej dostizhimoj istorii, vklyuchaya oboikh roditelej sliyaniya. Ischeznoveniye s posleduyusjhim vosstanovleniyem ne schitayetsya nepreryivnyim sokhraneniyem. Paketnoye chteniye unikaljnyikh derevjyev sokrasjhayet chislo processov Git, sokhranyaya vse versii i ryobra. Shallow-istoriya, grafts, simvolicheskiye ssyilki vmesto obyichnogo fajla i smena `HEAD` vo vremya chteniya otklonyayutsya.
 
 ## Granica postavki
@@ -66,6 +68,6 @@ V pervoj zapisi splanirovan etap samogo reyestra; ostaljnyiye shestj napravlenij
 Iskhodnoye osnovaniye i obsuzhdeniye sorazmernosti processa: [zapros tekusjhego etapa](../../Zhurnal/2026-09-10_11-51-55_MSK_sokhranyatj-ostatok-obyazateljstv/zapros.md). Scenarii otkazov zakreplenyi adresnyimi testami; [parnyij profilj](../../Zhurnal/2026-09-10_11-51-55_MSK_sokhranyatj-ostatok-obyazateljstv/materialyi/profilj-sravneniya.json) sokhranyayet granicyi izmereniya i sravneniye rezuljtata do i posle optimizacii.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-18 01:51:12 MSK -->
-<!-- content-sha256: sha256:67115591e916429115089763072c434484016119b79e042763be02c2ac918829 -->
+<!-- last-content-edit: 2026-09-22 02:44:42 MSK -->
+<!-- content-sha256: sha256:d23994de297bc6bfe53680975413edf7ca8705dbcba75ae35e4d6c8441624039 -->
 <!-- FUM-MD-RECENCY:END -->

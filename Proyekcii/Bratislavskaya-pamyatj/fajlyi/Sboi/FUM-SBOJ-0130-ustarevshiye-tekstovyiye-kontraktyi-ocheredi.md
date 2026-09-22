@@ -7,7 +7,7 @@
 
 ## Nablyudayemyij sboj
 
-Dva repozitornyikh testa istoricheskoj ocheredi trebovali prezhniye doslovnyiye formulirovki. Tretij shirokij priyomochnyij zapusk ostanovilsya na shage 17: vyipolneno 244 testa, dva zavershilisj otkazom. Predshestvuyusjhiye 16 shagov proshli; shagi 18–87 ne vyipolnyalisj.
+Dva repozitornyikh testa istoricheskoj ocheredi trebovali prezhniye doslovnyiye formulirovki. Tretij shirokij priyomochnyij zapusk ostanovilsya na shage 17: vyipolneno 244 testa, dva zavershilisj otkazom. Predshestvuyusjhiye 16 shagov proshli; shagi 18–87 ne vyipolnyalisj. Povtornoye proyavleniye v polnom smoke-check 2026-09-22 ostanovilosj na shage 16 posle 244 testov ocheredi: odin test ozhidal prezhnyuyu formulirovku granicyi vneshnikh effektov; adresnoye vosstanovleniye istochnika proshlo.
 
 ## Granica povtoreniya
 
@@ -25,7 +25,7 @@ Test realjnogo repozitoriya proveryayet dejstvuyusjhij smyisl i formulirovki yeg
 
 ## Mekhanizm i sistemnoye ustraneniye
 
-Ispravlenyi rovno 13 strokovyikh konstant dvukh susjhestvuyusjhikh metodov. [Proverka izmeneniya](../Zhurnal/2026-09-14_22-40-28_MSK_obyyedinitj-paketyi-i-proveritj-ostatok/materialyi/proverka-ispravlenij-ozhidanij-ocheredi.json) svyazyivayet iskhodnyiye i konechnyiye SHA, sootvetstviye AST s tochnyimi zamenami i vse 526 obyyavlenij bez deljtyi obsjhego inventarya. Ni odno usloviye ne udaleno. Pervyiye 12 novyikh ozhidanij vzyatyi iz tekusjhego AGENTS, posledneye — iz opisaniya kompleksnoj proverki. Obsjhaya rannyaya sverka smyislovyikh kontraktov poka ne podklyuchena; yeyo granica sokhranena v STEP0174.
+Ispravlenyi rovno 13 strokovyikh konstant dvukh susjhestvuyusjhikh metodov. [Proverka izmeneniya](../Zhurnal/2026-09-14_22-40-28_MSK_obyyedinitj-paketyi-i-proveritj-ostatok/materialyi/proverka-ispravlenij-ozhidanij-ocheredi.json) svyazyivayet iskhodnyiye i konechnyiye SHA, sootvetstviye AST s tochnyimi zamenami i vse 526 obyyavlenij bez deljtyi obsjhego inventarya. Ni odno usloviye ne udaleno. Pervyiye 12 novyikh ozhidanij vzyatyi iz tekusjhego AGENTS, posledneye — iz opisaniya kompleksnoj proverki. V novom proyavlenii ispravlen istochnik kontrakta: pravilo FUM-PRAVILO-000064 snova soderzhit tochnuyu formulirovku `иные внешние эффекты требуют отдельного явного запроса`; test ne oslablyalsya. Obsjhaya rannyaya sverka smyislovyikh kontraktov poka ne podklyuchena; yeyo granica sokhranena v STEP0174.
 
 ## Svyazannyiye shagi
 
@@ -38,6 +38,7 @@ Rannyaya adresnaya proverka obnaruzhivayet rassinkhronizaciyu repozitornyikh ozh
 ## Nablyudayemoye vosstanovleniye
 
 [Zapusk 34](../Zhurnal/2026-09-14_22-40-28_MSK_obyyedinitj-paketyi-i-proveritj-ostatok/materialyi/zapuski-proverok/34_92a43671-e0bf-442d-8d2e-34503547595e.json) proshyol oba susjhestvuyusjhikh testa. [Profilj](../Zhurnal/2026-09-14_22-40-28_MSK_obyyedinitj-paketyi-i-proveritj-ostatok/materialyi/profilj-tekstovyikh-ozhidanij-ocheredi.json) soderzhit semj chereduyusjhikhsya par na odinakovyikh vkhodakh so vsemi 121 usloviyami: medianyi do 4427916 ns, posle 4312083 ns; kazhdyij konechnyij zamer menjshe zaraneye prinyatogo predela 100 ms. Algoritm i resursyi sokhranenyi, uskoreniye ne zayavlyayetsya. Adresnyij uspekh ne podmenyayet povtor vsego nabora iz 244 testov.
+[Povtornyij polnyij zapusk 2026-09-22](../Zhurnal/2026-09-22_02-25-51_MSK_zafiksirovatj-postkommitnuyu-ostanovku-i-ispravitj-priyomku/materialyi/zapuski-proverok/2_3355c11b-73d0-4c09-90fe-00df8fc0a212.json) podtverdil novoye proyavleniye: otkaz na odnom ozhidanii posle 244 testov; adresnyij test posle vosstanovleniya formulirovki proshyol. Polnaya povtornaya priyomka yesjhyo ne vyipolnena.
 
 ## Istochniki
 
@@ -45,6 +46,6 @@ Rannyaya adresnaya proverka obnaruzhivayet rassinkhronizaciyu repozitornyikh ozh
 - [Otchyot](../Zhurnal/2026-09-14_22-40-28_MSK_obyyedinitj-paketyi-i-proveritj-ostatok/otchyot.md).
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-15 01:54:57 MSK -->
-<!-- content-sha256: sha256:a6ad53cb456cf189db95e1918c7de2207e8d18d7e3292b2b296522aef1c6498f -->
+<!-- last-content-edit: 2026-09-22 03:24:51 MSK -->
+<!-- content-sha256: sha256:6336a5df27b84016cb57709e529119081ae247b285da969abc010d89d6c765a4 -->
 <!-- FUM-MD-RECENCY:END -->

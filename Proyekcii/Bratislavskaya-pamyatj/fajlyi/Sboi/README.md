@@ -126,6 +126,7 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 | FUM-SBOJ-0157 | `активна`   | [Nekanonicheskij zagolovok novogo Zhurnala](FUM-SBOJ-0157-nekanonicheskij-zagolovok-novogo-zhurnala.md)                                                                 | 1          | FUM-STEP-0174                                                                                                                    |
 | FUM-SBOJ-0158 | `активна`   | [Maskirovaniye oshibki podgotovki oshibkoj ochistki](FUM-SBOJ-0158-maskirovaniye-oshibki-podgotovki-ochistkoj.md)                                                          | 1          | FUM-STEP-0232                                                                                                                    |
 | FUM-SBOJ-0159 | `активна`   | [Podmena importa narushayet nastrojku regressii](FUM-SBOJ-0159-podmena-importa-narushayet-nastrojku-regressii.md)                                                       | 1          | FUM-STEP-0232                                                                                                                    |
+| FUM-SBOJ-0160 | `активна`   | [Adresnaya podgotovka prinyata za finaljnuyu priyomku](FUM-SBOJ-0160-adresnaya-podgotovka-prinyata-za-finaljnuyu-priyomku.md) | 1 | FUM-STEP-0172 |
 
 ## Pravila vedeniya
 
@@ -158,6 +159,6 @@ Etot katalog khranit kanonicheskiye [kartochki sboyev](../Glossarij/kartochka-sb
 - [pravila rabochikh sessij](../AGENTS.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-19 02:30:45 MSK -->
-<!-- content-sha256: sha256:0f67cac886f666b39fbd54b24fd32764e30ab8865b46331c53b25c805c8e6210 -->
+<!-- last-content-edit: 2026-09-22 02:44:42 MSK -->
+<!-- content-sha256: sha256:dae73d71cd2f320d5391d52550cf6bfd46fbdee95b030b04ea3126b12910123a -->
 <!-- FUM-MD-RECENCY:END -->
