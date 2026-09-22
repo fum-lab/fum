@@ -91,7 +91,7 @@ PYTHONDONTWRITEBYTECODE=1 python3 Приложения/FUMA/macOS/проверк
 
 Runtime и память отклоняются внутри Git checkout, включая его символические псевдонимы. Конфигурация сама не создаёт каталоги. Путь документов служит выбранной пользователем библиотекой. Прежние `FUM_MCP_ROOT`, `FUM_ATTENTION_ROOT` и привязка к конфигурации Codex больше не определяют пути: для переноса существующих данных явно задайте новые переменные. Автоматического перемещения старых данных нет. `FUM_RUNTIME_ROOT` указывает непосредственно на каталог снимков, дополнительный `run` к нему не добавляется.
 
-В runtime находятся `mcp/screen.json`, `senses/ax-vision/latest.json`, `senses/input/latest.json`, `realtime/attention/latest.json` и `camera/known-people.json`. В памяти сохраняются JSONL под `senses/input`, `senses/ax-vision`, `video-player`, `mcp` и `realtime/attention-loop`. Цикл внимания, AX-сенсор, MCP-память и SwiftPM input-сенсор дописывают строки через `FUMObservationJournal`: после каждой строки синхронизируются файл и каталог. События используют схемы `fum.observation-event.1`, `fum.attention-event.1` и `fum.memory-note.1` вместе с полем `source`; происхождение не восстанавливается по имени файла. Это повышает долговечность записи, но не превращает наблюдение в доказательство запуска с выданными macOS-разрешениями. Эти данные не являются исходниками.
+В runtime находятся `mcp/screen.json`, `senses/ax-vision/latest.json`, `senses/input/latest.json`, `realtime/attention/latest.json` и `camera/known-people.json`. Сохраняемые снимки явно маркируются схемами `fum.ax-snapshot.1`, `fum.input-state.1` и `fum.attention-state.1`; поле `source` указывает породивший их процесс. В памяти сохраняются JSONL под `senses/input`, `senses/ax-vision`, `video-player`, `mcp` и `realtime/attention-loop`. Цикл внимания, AX-сенсор, MCP-память и SwiftPM input-сенсор дописывают строки через `FUMObservationJournal`: после каждой строки синхронизируются файл и каталог. События используют схемы `fum.observation-event.1`, `fum.attention-event.1` и `fum.memory-note.1` вместе с полем `source`; происхождение не восстанавливается по имени файла. Это повышает долговечность записи, но не превращает наблюдение в доказательство запуска с выданными macOS-разрешениями. Эти данные не являются исходниками.
 
 `script/fum_mcp.sh` разрешает пакет относительно собственного файла и перед запуском проверяет актуальность release helper через SwiftPM во внешнем `FUM_BUILD_ROOT`. Для явно выбранного уже установленного helper можно задать `FUM_MCP_APP_HELPER`; автоматического выбора прежней установки нет. Запуск runner начинает живой MCP-процесс и выполняется отдельно от проверок переноса.
 
@@ -112,6 +112,6 @@ OpenGL.framework явно линкуется в SwiftPM и Xcode; обычный
 Механизм зависимости описан в [документации SwiftPM](https://github.com/swiftlang/swift-package-manager/blob/main/Sources/PackageManagerDocs/Documentation.docc/Dependencies/AddingSystemLibraryDependency.md). Машинные значения Xcode передаются снаружи; [xcconfig](https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project) самостоятельно shell-команды не исполняет.
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-22 14:02:28 MSK -->
-<!-- content-sha256: sha256:98b4745ce09b4f77bdb7179ccaa835a528667ea07684100936c3d0280760321f -->
+<!-- last-content-edit: 2026-09-22 14:46:45 MSK -->
+<!-- content-sha256: sha256:a302fe7ab73db5a65d5658e7651ee93eb132e2033ac230c9b5c2250a0e8beb73 -->
 <!-- FUM-MD-RECENCY:END -->

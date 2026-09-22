@@ -153,6 +153,7 @@ final class InputEventMonitor: ObservableObject {
         let fileSnapshot: [String: Any] = [
             "timestamp": timestamp,
             "status": status,
+            "schema": "fum.input-state.1",
             "message": message ?? "",
             "recentEventCount": recentEventCount,
             "recentEvents": recentEvents,

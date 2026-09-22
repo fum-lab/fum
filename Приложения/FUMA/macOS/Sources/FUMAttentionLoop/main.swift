@@ -502,6 +502,7 @@ final class AttentionLoop {
         let payload: JSONObject = [
             "timestamp": isoFormatter.string(from: now),
             "status": "ok",
+            "schema": "fum.attention-state.1",
             "source": "fum-attention-loop",
             "pid": ProcessInfo.processInfo.processIdentifier,
             "mode": config.once ? "once" : "loop",

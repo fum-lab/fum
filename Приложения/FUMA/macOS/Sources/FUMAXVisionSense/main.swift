@@ -99,6 +99,8 @@ struct AXVision {
             .map(readApplication)
 
         return [
+            "schema": "fum.ax-snapshot.1",
+            "source": "fum-ax-vision-sense",
             "timestamp": ISO8601DateFormatter().string(from: Date()),
             "status": "ok",
             "interval": options.interval,
@@ -108,6 +110,8 @@ struct AXVision {
 
     private func permissionSnapshot(message: String) -> [String: Any] {
         [
+            "schema": "fum.ax-snapshot.1",
+            "source": "fum-ax-vision-sense",
             "timestamp": ISO8601DateFormatter().string(from: Date()),
             "status": "waiting_for_accessibility_permission",
             "message": message,
@@ -117,6 +121,8 @@ struct AXVision {
 
     private func accessRequestSnapshot(trusted: Bool) -> [String: Any] {
         [
+            "schema": "fum.ax-snapshot.1",
+            "source": "fum-ax-vision-sense",
             "timestamp": ISO8601DateFormatter().string(from: Date()),
             "status": trusted ? "accessibility_trusted" : "accessibility_prompted",
             "trusted": trusted,
