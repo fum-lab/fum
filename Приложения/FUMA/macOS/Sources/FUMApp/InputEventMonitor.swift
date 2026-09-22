@@ -118,6 +118,8 @@ final class InputEventMonitor: ObservableObject {
     private func record(event payload: [String: Any]) {
         var event = payload
         event["timestamp"] = isoFormatter.string(from: Date())
+        event["schema"] = "fum.observation-event.1"
+        event["source"] = "FUMA.app"
         event["activeApplication"] = activeApplicationPayload()
 
         recentEvents.insert(event, at: 0)

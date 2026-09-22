@@ -578,6 +578,8 @@ struct AXVisionCompactState {
         [
             "timestamp": timestamp,
             "type": type,
+            "schema": "fum.observation-event.1",
+            "source": "fum-ax-vision-sense",
             "status": status,
             "applicationCount": apps.count,
             "windowCount": windows.count

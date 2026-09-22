@@ -25,4 +25,24 @@ final class ЖурналНаблюденийTests: XCTestCase {
             XCTAssertEqual(error as? ОшибкаЖурналаНаблюдений, .небезопасныйПуть)
         }
     }
+
+    func testСохраняетСхемуИИсточникВОднойПолнойСтроке() throws {
+        let root = FileManager.default.temporaryDirectory
+            .appendingPathComponent("fum-observation-provenance-\(UUID().uuidString)", isDirectory: true)
+        try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: root) }
+
+        let путь = root.appendingPathComponent("events.jsonl")
+        try ЖурналНаблюдений().добавитьJSONСтроку([
+            "schema": "fum.observation-event.1",
+            "source": "fum-ax-vision-sense",
+            "type": "state_initialized"
+        ], в: путь)
+
+        let строка = try String(contentsOf: путь, encoding: .utf8)
+        XCTAssertEqual(
+            строка,
+            "{\"schema\":\"fum.observation-event.1\",\"source\":\"fum-ax-vision-sense\",\"type\":\"state_initialized\"}\n"
+        )
+    }
 }

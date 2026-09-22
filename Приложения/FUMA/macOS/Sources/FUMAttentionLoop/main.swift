@@ -524,6 +524,7 @@ final class AttentionLoop {
         let payload: JSONObject = [
             "timestamp": timestamp,
             "type": type,
+            "schema": "fum.attention-event.1",
             "source": "fum-attention-loop",
             "details": details
         ]

@@ -467,6 +467,7 @@ final class FUMMCPServer {
         let tags = (arguments["tags"] as? [Any])?.compactMap { $0 as? String } ?? []
         let note: JSONObject = [
             "timestamp": isoFormatter.string(from: Date()),
+            "schema": "fum.memory-note.1",
             "title": stringArgument(arguments, "title", defaultValue: ""),
             "text": text,
             "tags": tags,
