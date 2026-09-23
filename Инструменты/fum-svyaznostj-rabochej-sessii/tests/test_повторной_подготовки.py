@@ -14,6 +14,7 @@ class ПовторнаяПодготовка(unittest.TestCase):
     setUp = основа.СозданиеКоммита.setUp
     гит = основа.СозданиеКоммита.гит
     записать_источник = основа.СозданиеКоммита.записать_источник
+    команда_CLI = основа.СозданиеКоммита.команда_CLI
 
     def подготовить_первый(сам):
         основа.коммит.подготовить(сам.параметры)
@@ -75,8 +76,8 @@ class ПовторнаяПодготовка(unittest.TestCase):
         прежние = {п: п.read_bytes() for п in сам.каталог.iterdir() if п.is_file()}
         вход = сам.каталог / 'вход-повтора.json'
         вход.write_text(json.dumps(сам.параметры, ensure_ascii=False))
-        результат = subprocess.run([sys.executable, '-B', str(основа.СКРИПТЫ / 'создание_коммита.py'),
-            'подготовить-повтор', '--вход', str(вход)], capture_output=True, text=True, timeout=15)
+        результат = subprocess.run(сам.команда_CLI('подготовить-повтор', '--вход', str(вход)),
+            capture_output=True, text=True, timeout=15)
         сам.assertEqual(результат.returncode, 0, результат.stderr)
         сам.assertIn('сверка_истории', json.loads(результат.stdout))
         for п, байты in прежние.items():
