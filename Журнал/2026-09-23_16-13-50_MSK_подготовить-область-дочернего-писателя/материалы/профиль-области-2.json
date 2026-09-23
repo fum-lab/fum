@@ -1,0 +1,38 @@
+{
+  "схема": "fum.профиль-области-писателя.1",
+  "фазы": [
+    {
+      "стадия": "первое чтение",
+      "наносекунды": 911803500,
+      "исход": "успех"
+    },
+    {
+      "стадия": "повторное чтение",
+      "наносекунды": 907895500,
+      "исход": "успех"
+    },
+    {
+      "стадия": "отказ чужого пути",
+      "наносекунды": 522034792,
+      "исход": "ожидаемый отказ"
+    }
+  ],
+  "граница": "Открытая Git-фикстура. Подготовка Git исключена; допуск происхождения checkout подменён фикстурой. Desktop и сеть не вызываются.",
+  "исходники": {
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/запуск_слоёв.py": "3994fa9c8b8bca44a095a257711ef5f320ba28d2c2728dff6dd2ba8e99191ae4",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/область_писателя.py": "06d06ced2ed473108043579cd5783e43d599a1b2145a5b235612ee8953d5ccdb",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/паспорт_конвейера.py": "ca3eb67983d7ca2ed5980b801f34c3570ff757234e9959d230c58133678cef2c",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/план_запуска_слоёв.py": "35368bb272fb8ecf2ef3ec3429aa8cef46c0c9064857f28df6d36aadbc13cb6b",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/scripts/снимок_области.py": "ab9be4b8b66ebc1f8c6699e09c711a8a22dd149c4303e41a1dab291e383eecab",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_запуска_слоёв.py": "6631733e34858715e0f7747e05c196dde2e7a44936163b6010644b541e3866b2",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/test_области_писателя.py": "9fe8df585b9c6b896341b9e3852f2bd410e2c14e7d5eaf171b0682318a3c77fd",
+    "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/профиль_области_писателя.py": "fc41bf80a5e72f86b5f1969529007ee8cad85542d6774782a732d8b292bc1634",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/вход_направления.py": "f5e2f865606aba2b630b18ae6b9b9fc404b4c6ee8e5f95475ccc4de727cd31b5",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/исполнитель_приёма.py": "655fb865be23bad3e6c421f1cf97d744b0e2e6c0668f8731fa83b66b11bea16a",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/отложенные_назначения.py": "6c41093c3f972b8c1d469177ebc7ae767203bdf60dec8af12f9216137a820801",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/постановка_задачи.py": "c7405fac8380171696bdc4f4c0afd42e851c871f764e060afb78fb8baee8103d",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py": "ac81ada684b483d109b8ebff21e96252341b92704655faf739646f8d647b4f84",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py": "6c5464e60d5f383eddf2cb1d0e12e9b5229878480dcfcef3a0e62cb7490d2842",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0"
+  }
+}
