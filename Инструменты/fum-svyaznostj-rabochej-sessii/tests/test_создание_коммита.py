@@ -130,13 +130,35 @@ class СозданиеКоммита(unittest.TestCase):
         итог = сам.создать()
         сам.assertEqual(итог["коммит"], сам.гит("rev-parse", "HEAD").strip())
         сырой = сам.гит("cat-file", "commit", итог["коммит"])
-        сам.assertIn("author FUM Интегратор <fixture@example.invalid>", сырой)
+        сам.assertIn("author FUM Интегратор [gpt-6-astra; effort=ultra] <fixture@example.invalid>", сырой)
         сам.assertIn("committer FUM <fixture@example.invalid>", сырой)
         сам.assertIn(КОМАНДА, сырой)
         сам.assertIn("model: gpt-6-astra\neffort: ultra", сырой)
         сам.assertTrue(сырой.endswith("Codex-Thread-ID: " + ЗАДАЧА + "\n"))
         сам.assertEqual([сам.начало], итог["родители"])
         сам.assertEqual(итог["коммит"], сам.создать()["коммит"])
+
+    def test_подготовка_сохраняет_подтверждённое_имя_автора(сам):
+        сам.готовить()
+        подготовка = json.loads(Path(сам.параметры["подготовка"]).read_bytes())
+        сам.assertEqual("fum.подготовленный-коммит.3", подготовка["схема"])
+        сам.assertEqual("FUM Интегратор", подготовка["параметры"]["имя_автора"])
+        сам.assertEqual("FUM Интегратор [gpt-6-astra; effort=ultra]", подготовка["имя_автора"])
+
+    def test_подмена_сохранённого_имени_отказывает_до_git(сам):
+        сам.готовить()
+        путь = Path(сам.параметры["подготовка"])
+        подготовка = json.loads(путь.read_bytes())
+        подготовка["имя_автора"] = "FUM Интегратор [gpt-6-astra; effort=low]"
+        путь.write_bytes(коммит.байты(подготовка))
+        сам.отказ_без_коммита(сам.создать)
+        сам.assertFalse(Path(сам.параметры["квитанция"]).exists())
+
+    def test_небезопасная_модель_не_попадает_в_подготовку(сам):
+        сам.события[1]["payload"]["model"] = "gpt-6-astra] <injected>"
+        сам.записать_источник()
+        сам.отказ_без_коммита(lambda: коммит.подготовить(сам.параметры))
+        сам.assertFalse(Path(сам.параметры["сообщение"]).exists())
 
     def test_настоящее_слияние_сохраняет_порядок_обоих_родителей(сам):
         сам.гит("checkout", "-qb", "codex/источник")
@@ -260,7 +282,7 @@ class СозданиеКоммита(unittest.TestCase):
                 "GIT_COMMITTER_EMAIL": "committer@example.invalid", "GIT_AUTHOR_DATE": "2026-09-14T12:00:00+03:00", "GIT_COMMITTER_DATE": "2026-09-15T12:00:00+03:00"}):
             сам.готовить()
             итог = сам.создать()
-            сам.assertEqual("FUM Интегратор <author@example.invalid> 1789376400 +0300", итог["автор"])
+            сам.assertEqual("FUM Интегратор [gpt-6-astra; effort=ultra] <author@example.invalid> 1789376400 +0300", итог["автор"])
             сам.assertEqual("Исходный коммиттер <committer@example.invalid> 1789462800 +0300", итог["коммиттер"])
 
     def test_изменение_явной_даты_после_подготовки_отказывает(сам):
