@@ -12,7 +12,7 @@ import снимок_области
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'fum-svezhestj-markdown/scripts'))
 свежесть = importlib.import_module('update-md-recency')
 КОД = {Path(имя).resolve(): hashlib.sha256(Path(имя).read_bytes()).hexdigest()
-       for имя in (__file__, свежесть.__file__)}
+       for имя in (__file__, свежесть.__file__, свежесть.ограды_цитат.__file__, свежесть.маска_архива.__file__)}
 
 
 def проверить_код():
@@ -45,7 +45,7 @@ def подготовить(корень, задача, источник):
             continue
         хранение.безопасный_путь(путь)
         текст = свежесть.read_text(путь)
-        _, метка, _ = свежесть.split_recency_block(текст)
+        _, метка, _ = свежесть.split_recency_block(текст, путь=путь, корень=корень)
         if метка is not None:
             хранение.требовать(свежесть.DISPLAY_TIME_RE.fullmatch(метка.timestamp) is not None,
                                'Неверный формат времени свежести: ' + имя)
@@ -55,7 +55,7 @@ def подготовить(корень, задача, источник):
         хранение.требовать(not (set(ошибки) - допустимые), '; '.join(ошибки))
         хранение.требовать(снимок_области.охват.состояние_пути(путь) == до, 'Markdown сдвинулся при чтении')
         if изменён:
-            содержание, _, _ = свежесть.split_recency_block(текст)
+            содержание, _, _ = свежесть.split_recency_block(текст, путь=путь, корень=корень)
             новое = свежесть.attach_recency_block(свежесть.canonical_content(содержание), запись.timestamp, запись.digest)
             файлы.append(запись_слоя.каркас.PreparedFile(PurePosixPath(имя), новое.encode('utf-8'), до['режим']))
             прежние[имя] = до
