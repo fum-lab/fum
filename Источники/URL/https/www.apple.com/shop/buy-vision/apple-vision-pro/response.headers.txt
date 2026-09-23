@@ -1,0 +1,30 @@
+HTTP/2 200
+server: Apple
+content-type: text/html;charset=utf-8
+x-frame-options: DENY
+x-content-type-options: nosniff
+content-security-policy: frame-ancestors 'none'
+x-xss-protection: 1; mode=block
+content-language: en-GB
+etag: "45fb24288f53c551f3bf71dd156b18a9"
+last-modified: Wed, 23 Sep 2026 00:13:28 GMT
+x-request-id: [REDACTED: response trace identifier]
+x-nxid: b8520911b5e9fe49db6a9d5245fe2cb6
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+reporting-endpoints: aos-csp-error="https://www.apple.com/shop/mdp/api/csp-error"
+x-shred: bb34a262ee81d60c1cb090e233bd60d5
+access-control-allow-origin: https://www.apple.com
+cache-control: public, max-age=120, s-maxage=120
+expires: Wed, 23 Sep 2026 00:28:20 GMT
+date: Wed, 23 Sep 2026 00:26:20 GMT
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+server-timing: cdn-cache; desc=REVALIDATE
+server-timing: edge; dur=6
+server-timing: origin; dur=131
+server-timing: app;dur=0.012843, dc;desc=ucp3
+server-timing: ak_p; desc="1790123179949_399883206_980444688_13684_848_56_59_15";dur=1

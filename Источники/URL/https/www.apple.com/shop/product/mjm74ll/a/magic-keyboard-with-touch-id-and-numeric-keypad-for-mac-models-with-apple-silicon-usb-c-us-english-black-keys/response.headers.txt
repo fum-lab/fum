@@ -1,0 +1,29 @@
+HTTP/2 200
+server: Apple
+content-type: text/html;charset=utf-8
+x-frame-options: DENY
+x-content-type-options: nosniff
+content-security-policy: script-src 'self' blob: https://apple.tt.omtrdc.net https://mdt.apple.com https://www.apple.com https://*.ls.apple.com https://*.apple-mapkit.com securemetrics.apple.com https://store.storeimages.cdn-apple.com https://wwwucp4.apple.com https://store.storeimages.cdn-apple.com https://www.apple.com https://secure.store.apple.com https://securemetrics.apple.com https://store.storevideos.cdn-apple.com https://store.storevideos.cdn-apple.com https://applepay.cdn-apple.com  'sha256-BWa0Ajm1Fz4AJ+Y1ZIQi1+HiMWLlCmQJjbppJnBetFI=' 'sha256-vBzG3nxzPGsLfwvkvayFC0xBBFQEKQBHSIUuHG1OCW0=' 'sha256-8pfSj0csDL/ytepaUXgO66ie0PoTJP/s5TnL+S6wp+g=' 'sha256-BK8MObHbo2Bl2YInMijIrmJipFyAVFNPhk7EIw2A2tc=' 'sha256-k+8CpMox9Qz5BCvXrfhquufOC4AiuBGHev4OUbFEz6o=' 'sha256-d3z5ZdhLyg2610lGxCcZkcmtIP4xrSsjkB6y9kdhxfI=' 'sha256-DOZbSJvbZ6/Nuj10vL4Cmco1ArxjSPI8dgp1Lgu1t1U=' 'sha256-FbQZq+uIvDh2A8fE0e2+rq541vKLBq3XDeY+/iDMZmM=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-oO8JCDNETcmLPFTeCEeXsD82zHzm1HvC4oHzlIu/mR4=' 'sha256-3qOpNp4sm04t96sY0y5j06BUy33RP3ESBoAc0hEa8XQ=' 'sha256-8OYi1oSzbIl6cLwmEKFFSw3+Mr9eBYydJsHcRItDb0I=' 'sha256-c81fApvuGWzGsOc4qLXHOkND7DHgPrTK/C5Fl/+bfCU=' 'sha256-ElYt3WpUpHocJt0GVsUtt7tJQsfyEVfzTdmO1Nv9D7M=' 'sha256-KgPM5CxJl4CqFeA4p+wSzMJyCt7KHIRdpSZYmLtLKeU=' 'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=' 'sha256-SqZFUs3fGY6wXps431PSDRpjuQyOYWYJY/t4wgV+Gn4=' 'sha256-ElYt3WpUpHocJt0GVsUtt7tJQsfyEVfzTdmO1Nv9D7M=' 'sha256-KLB3BiQuqDzcRynwbqkhRZd75zKtC7oaBwnvm/JVumM=' 'sha256-QgYjkr/K+Uj2u+eHWQrGI+6dGhU0Ut7EjzFQWh52mUk=' 'sha256-EtNojpn/Zwn8+hiqHHFjcoRAjKQgpBR3OgzDW46wwJs=' 'sha256-ZKx08VFS+jLAR+OyZBSE9A0QIPTgUBVyyDmXs10s4Vk=' 'sha256-DlTwMcV7/fweU7/6K9CM96fJc244pDMALv8eZlWEdoM=' 'sha256-6zpeJt354kjTewp81qNAauLwij+DHSEr4kiAr2SLDAk=' 'sha256-pYLV0z3GyQIkfVXQKZtiXz4isxVyjuTru7QYOg9SRjc=' 'sha256-kYgcavETNhG9aQPQ4VD9kC1vEYMEOTEu9leu4MeY7qA=' 'sha256-cSwswllukoBrm5GeiUmBIJirJp6QCMhFGJo4Z0IzE8s=' 'sha256-34JBFFy8EmYhDGf3z5muS4Er13+yhQKsCB5Fwp8Nr8I='; connect-src  'self' https://apple.tt.omtrdc.net https://mdt.apple.com https://www.apple.com https://*.ls.apple.com https://*.apple-mapkit.com securemetrics.apple.com securemetrics.apple.com.cn https://store.storeimages.cdn-apple.com https://wwwucp4.apple.com https://store.storeimages.cdn-apple.com https://www.apple.com https://secure.store.apple.com https://securemetrics.apple.com https://store.storevideos.cdn-apple.com https://store.storevideos.cdn-apple.com https://applepay.cdn-apple.com  https://securemvt.apple.com null; report-uri https://www.apple.com/shop/mdp/api/csp-error; report-to aos-csp-error;
+x-xss-protection: 1; mode=block
+content-language: en-US
+etag: "461c6dfc8acf766365269d629a3799d6"
+last-modified: Wed, 23 Sep 2026 00:10:17 GMT
+x-request-id: [REDACTED: response trace identifier]
+x-nxid: 4fc06d6aac8c64a047a9f9d8233c3ef1
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+reporting-endpoints: aos-csp-error="https://www.apple.com/shop/mdp/api/csp-error"
+x-shred: f8cab5d6b7af7e75536d276f7664f2ae
+access-control-allow-origin: https://www.apple.com
+cache-control: public, max-age=120, s-maxage=120
+expires: Wed, 23 Sep 2026 00:28:27 GMT
+date: Wed, 23 Sep 2026 00:26:27 GMT
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+server-timing: cdn-cache; desc=REVALIDATE
+server-timing: edge; dur=7
+server-timing: origin; dur=184
+server-timing: app;dur=0.013593, dc;desc=ucp4
+server-timing: ak_p; desc="1790123187707_399883235_132504284_19078_949_57_63_15";dur=1

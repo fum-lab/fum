@@ -424,14 +424,19 @@ def expected_journal_heading(path: Path) -> str:
 
 
 def section_body(text: str, heading: str) -> str | None:
-    pattern = re.compile(rf"^## {re.escape(heading)}\s*$", re.MULTILINE)
-    match = pattern.search(text)
-    if not match:
-        return None
-    start = match.end()
-    next_heading = HEADING_RE.search(text, start)
-    end = next_heading.start() if next_heading else len(text)
-    return text[start:end]
+    pattern = re.compile(rf"## {re.escape(heading)}[ \t]*")
+    start = None
+    offset = 0
+    # Видимый Markdown определяет границы, исходный текст сохраняет все байты.
+    structural_lines = markdown_structural_text(text).split("\n")
+    for raw, visible in zip(text.splitlines(keepends=True), structural_lines):
+        if HEADING_RE.fullmatch(visible):
+            if start is not None:
+                return text[start:offset]
+            if pattern.fullmatch(visible):
+                start = offset + len(raw.rstrip("\r\n"))
+        offset += len(raw)
+    return text[start:] if start is not None else None
 
 
 def request_files(

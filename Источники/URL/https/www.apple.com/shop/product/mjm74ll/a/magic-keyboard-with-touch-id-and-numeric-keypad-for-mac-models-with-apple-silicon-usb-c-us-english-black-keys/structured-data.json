@@ -1,0 +1,387 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Magic Keyboard with Touch ID and Numeric Keypad for Mac models with Apple silicon (USB–C) - US English - Black Keys",
+    "url": "https://www.apple.com/shop/product/mjm74ll/a/magic-keyboard-with-touch-id-and-numeric-keypad-for-mac-models-with-apple-silicon-usb-c-us-english-black-keys",
+    "mainEntityOfPage": "https://www.apple.com/shop/product/mjm74ll/a/magic-keyboard-with-touch-id-and-numeric-keypad-for-mac-models-with-apple-silicon-usb-c-us-english-black-keys",
+    "brand": {
+      "@type": "Organization",
+      "name": "Apple"
+    },
+    "offers": [
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 199.0,
+        "availability": "http://schema.org/InStock",
+        "sku": "MJM74LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      }
+    ],
+    "image": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MJM74?wid=4000&hei=4000&fmt=jpeg&qlt=90&.v=1785993099004",
+    "isAccessoryOrSparePartFor": [
+      {
+        "@type": "Product",
+        "name": "iPhone 13 Pro Max"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Air 11-inch (M2)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPhone Air"
+      },
+      {
+        "@type": "Product",
+        "name": "iPhone 16 Plus"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Air (13-inch, M2)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPhone 16 Pro Max"
+      },
+      {
+        "@type": "Product",
+        "name": "iPhone 14 Plus"
+      },
+      {
+        "@type": "Product",
+        "name": "Studio Display (2026)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Air (13-inch, M3)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Air 13-inch (M2)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Pro 12.9-inch (6th generation)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPhone 13"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Air (13‑inch, M4)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Air (M1)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Pro (13‑inch, M2, 2022)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Air (5th generation)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPhone 17 Pro Max"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Pro 13-inch (M4)"
+      },
+      {
+        "@type": "Product",
+        "name": "Mac mini (M6 or M5 Pro)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPhone 15 Pro"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Neo"
+      },
+      {
+        "@type": "Product",
+        "name": "Mac Pro (2023)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad (10th generation)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Pro (14-inch, M5)"
+      },
+      {
+        "@type": "Product",
+        "name": "iMac (24-inch, M1, 2021)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Pro (13-inch, M1, 2020)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Pro 11-inch (4th generation)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Pro (14-inch, M5 Pro or M5 Max)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Pro (14‑inch, 2024)"
+      },
+      {
+        "@type": "Product",
+        "name": "Mac Studio (2023)"
+      },
+      {
+        "@type": "Product",
+        "name": "Studio Display XDR"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Pro (16‑inch, 2023)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Air (15‑inch, M4)"
+      },
+      {
+        "@type": "Product",
+        "name": "Mac Studio (M5 Max or M5 Ultra)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPhone 15"
+      },
+      {
+        "@type": "Product",
+        "name": "iPhone 13 Pro"
+      },
+      {
+        "@type": "Product",
+        "name": "iPhone 17 Pro"
+      },
+      {
+        "@type": "Product",
+        "name": "iMac (24-inch, M3, 2023)"
+      },
+      {
+        "@type": "Product",
+        "name": "iMac (24‑inch, M4, 2024)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Pro (16-inch, M5 Pro or M5 Max)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPhone 15 Plus"
+      },
+      {
+        "@type": "Product",
+        "name": "iPhone 17"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Pro (14‑inch, 2023)"
+      },
+      {
+        "@type": "Product",
+        "name": "Mac Studio (2025)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Pro (16-inch, 2021)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Air (15-inch, M5)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPhone 17e"
+      },
+      {
+        "@type": "Product",
+        "name": "iPhone 14 Pro Max"
+      },
+      {
+        "@type": "Product",
+        "name": "iPhone 15 Pro Max"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Pro (16‑inch, 2024)"
+      },
+      {
+        "@type": "Product",
+        "name": "Mac mini (2024)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPhone Duo"
+      },
+      {
+        "@type": "Product",
+        "name": "Mac mini (M1, 2020)"
+      },
+      {
+        "@type": "Product",
+        "name": "Mac mini (2023)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Pro 12.9-inch (5th generation)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPhone 14 Pro"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Air (13-inch, M5)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPhone 18 Pro Max"
+      },
+      {
+        "@type": "Product",
+        "name": "Mac Studio (2022)  "
+      },
+      {
+        "@type": "Product",
+        "name": "iPhone 16"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Pro 11-inch (M4)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPhone 13 mini"
+      },
+      {
+        "@type": "Product",
+        "name": "iPhone 16 Pro"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Air (15-inch, M2)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Pro (14‑inch, 2021)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Air 13-inch (M3)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPhone 18 Pro"
+      },
+      {
+        "@type": "Product",
+        "name": "iPhone 14"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Pro 12.9-inch (4th generation)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Air 11-inch (M3)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Air (15-inch, M3)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad (A16)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad mini (A17 Pro)"
+      }
+    ],
+    "description": "Magic Keyboard with Touch ID and Numeric Keypad features a sleek design and a long lasting rechargeable battery and pairs automatically with your Mac. Buy now.",
+    "color": "Black Keys"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": "1",
+        "item": {
+          "@id": "https://www.apple.com/shop/accessories/all",
+          "url": "https://www.apple.com/shop/accessories/all",
+          "name": "All Accessories"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": "2",
+        "item": {
+          "@id": "https://www.apple.com/shop/accessories/all/mice-keyboards",
+          "url": "https://www.apple.com/shop/accessories/all/mice-keyboards",
+          "name": "Mice & Keyboards"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": "3",
+        "name": "Magic Keyboard with Touch ID and Numeric Keypad for Mac models with Apple silicon (USB–C) - US English - Black Keys"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ImageGallery",
+    "url": "https://www.apple.com/shop/product/mjm74ll/a/magic-keyboard-with-touch-id-and-numeric-keypad-for-mac-models-with-apple-silicon-usb-c-us-english-black-keys",
+    "associatedMedia": [
+      {
+        "contentUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MJM74?wid=1000&hei=1000&fmt=jpeg&qlt=95&.v=1785993099004",
+        "thumbnailUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MJM74?wid=38&hei=38&fmt=jpeg&qlt=95&.v=1785993099004"
+      },
+      {
+        "contentUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MJM74_AV3?wid=1000&hei=1000&fmt=jpeg&qlt=95&.v=1785993075380",
+        "thumbnailUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MJM74_AV3?wid=38&hei=38&fmt=jpeg&qlt=95&.v=1785993075380"
+      },
+      {
+        "contentUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MJM74_AV2?wid=1000&hei=1000&fmt=jpeg&qlt=95&.v=1785993069982",
+        "thumbnailUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MJM74_AV2?wid=38&hei=38&fmt=jpeg&qlt=95&.v=1785993069982"
+      },
+      {
+        "contentUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MJM74_AV1?wid=1000&hei=1000&fmt=jpeg&qlt=95&.v=1785993068322",
+        "thumbnailUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MJM74_AV1?wid=38&hei=38&fmt=jpeg&qlt=95&.v=1785993068322"
+      }
+    ]
+  }
+]

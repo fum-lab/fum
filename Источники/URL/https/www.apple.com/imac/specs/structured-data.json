@@ -1,0 +1,76 @@
+[
+  {
+    "@context": "http://schema.org",
+    "@id": "https://www.apple.com/#organization",
+    "@type": "Organization",
+    "name": "Apple",
+    "url": "https://www.apple.com/",
+    "logo": "https://www.apple.com/ac/structured-data/images/knowledge_graph_logo.png?202609021131",
+    "subOrganization": {
+      "@type": "Organization",
+      "name": "Apple Support",
+      "url": "https://support.apple.com",
+      "@id": "https://support.apple.com/#organization"
+    },
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "telephone": "+1-800-692-7753",
+        "contactType": "sales",
+        "areaServed": "US"
+      },
+      {
+        "@type": "ContactPoint",
+        "telephone": "+1-800-275-2273",
+        "contactType": "technical support",
+        "areaServed": "US",
+        "availableLanguage": [
+          "EN",
+          "ES"
+        ]
+      },
+      {
+        "@type": "ContactPoint",
+        "telephone": "+1-800-275-2273",
+        "contactType": "customer support",
+        "areaServed": "US",
+        "availableLanguage": [
+          "EN",
+          "ES"
+        ]
+      }
+    ],
+    "sameAs": [
+      "http://www.wikidata.org/entity/Q312",
+      "https://www.youtube.com/user/Apple",
+      "https://www.linkedin.com/company/apple",
+      "https://www.facebook.com/Apple",
+      "https://www.twitter.com/Apple"
+    ]
+  },
+  {
+    "@context": "http://schema.org",
+    "@type": "Product",
+    "@id": "https://www.apple.com/imac/specs/#product",
+    "manufacturer": {
+      "@id": "https://www.apple.com/#organization"
+    },
+    "brand": {
+      "@id": "https://www.apple.com/mac/#brand"
+    },
+    "name": "iMac",
+    "description": "See all the technical specifications for iMac with the M4 chip and 24-inch display.",
+    "url": "https://www.apple.com/imac/",
+    "mainEntityOfPage": "https://www.apple.com/imac/",
+    "image": "https://www.apple.com/v/imac/specs/b/images/meta/imac__gck12ae29uqi_og.png",
+    "potentialAction": {
+      "@type": "BuyAction",
+      "seller": {
+        "@id": "https://www.apple.com/#organization"
+      },
+      "url": [
+        "https://www.apple.com/us/shop/goto/buy_mac/imac"
+      ]
+    }
+  }
+]

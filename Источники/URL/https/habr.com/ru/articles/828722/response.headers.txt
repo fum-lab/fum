@@ -1,0 +1,23 @@
+HTTP/2 200
+server: QRATOR
+date: Wed, 23 Sep 2026 00:26:17 GMT
+content-type: text/html; charset=utf-8
+content-length: 140827
+vary: Accept-Encoding
+vary: Accept-Encoding
+x-dns-prefetch-control: off
+x-frame-options: SAMEORIGIN
+x-download-options: noopen
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+etag: W/"2261b-GJgo9f9ZiVX7H4EH+vPCebNOHC0"
+strict-transport-security: max-age=31536000; includeSubDomains
+x-request-id: [REDACTED: response trace identifier]
+x-request-geoip-country-code: LT
+x-request-detected-device: desktop
+x-feature-sc: enabled
+x-feature-sc-split: spliton
+cache-control: no-cache, no-store, must-revalidate
+pragma: no-cache
+expires: 0
+set-cookie: [REDACTED: response cookie]

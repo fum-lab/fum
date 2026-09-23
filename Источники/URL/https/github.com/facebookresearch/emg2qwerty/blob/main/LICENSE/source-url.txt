@@ -1,0 +1,1 @@
+https://github.com/facebookresearch/emg2qwerty/blob/main/LICENSE

@@ -1,12 +1,12 @@
 # Отчёт об извлечении прикрепляемого материала
 
 - Источник: https://www.apple.com/mac-studio/specs/
-- Время извлечения UTC: 2026-09-16T11:22:23.767052+00:00
+- Время извлечения UTC: 2026-09-22T23:01:40.931297+00:00
 - Транспорт: curl
 - Effective URL: https://www.apple.com/mac-studio/specs/
 - HTTP-код: 200
 - Content-Type: text/html; charset=utf-8
-- Размер загрузки: 215392 байт
+- Размер загрузки: 215733 байт
 - Извлечено блоков JSON-LD: 2
 
 ## Редакции перед сохранением
@@ -34,6 +34,6 @@
 - `structured-data.json`
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 14:30:55 MSK -->
-<!-- content-sha256: sha256:84e9877934fecca9301ab88f9dd892fb4c1d9a59f829504a75472fdde5a94797 -->
+<!-- last-content-edit: 2026-09-23 03:56:03 MSK -->
+<!-- content-sha256: sha256:83f3c9d943985982803ff18685c307eb20f69749f92f3bbd1ea6e6614bb47969 -->
 <!-- FUM-MD-RECENCY:END -->

@@ -5,7 +5,7 @@
     "@type": "Organization",
     "name": "Apple",
     "url": "https://www.apple.com/",
-    "logo": "https://www.apple.com/ac/structured-data/images/knowledge_graph_logo.png?202609021131",
+    "logo": "https://www.apple.com/ac/structured-data/images/knowledge_graph_logo.png?202609211742",
     "subOrganization": {
       "@type": "Organization",
       "name": "Apple Support",

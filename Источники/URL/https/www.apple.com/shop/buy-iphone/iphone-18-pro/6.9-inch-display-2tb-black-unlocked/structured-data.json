@@ -1,0 +1,183 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "iPhone 18 Pro Max 2TB Black",
+    "url": "https://www.apple.com/shop/buy-iphone/iphone-18-pro/6.9-inch-display-2tb-black-unlocked",
+    "mainEntityOfPage": "https://www.apple.com/shop/buy-iphone/iphone-18-pro/6.9-inch-display-2tb-black-unlocked",
+    "offers": [
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 2499.0,
+        "sku": "MJWH4LL/A+unlocked",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      }
+    ],
+    "image": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-18-pro-finish-select-202609-6-9inch-black?wid=5120&hei=2880&fmt=jpeg&qlt=90&.v=1786041806689",
+    "description": "Get $35–$885 off a new iPhone 18 Pro or iPhone 18 Pro Max when you trade in an iPhone 8 Plus or newer. 0% financing available. Buy or lease now with free shipping.",
+    "color": "Black"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": "1",
+        "item": {
+          "@id": "https://www.apple.com/iphone",
+          "url": "https://www.apple.com/iphone",
+          "name": "iPhone"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": "2",
+        "item": {
+          "@id": "https://www.apple.com/iphone-18-pro",
+          "url": "https://www.apple.com/iphone-18-pro",
+          "name": "iPhone 18 Pro"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": "3",
+        "name": "Shop iPhone 18 Pro and iPhone 18 Pro Max"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is eSIM?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "An eSIM is a digital SIM that eliminates the need for a physical SIM card. With eSIM, you can quickly and easily transfer an existing cellular plan or get a new cellular plan, all digitally. You can even store multiple eSIMs on the same device and use two phone numbers at the same time. And it’s more secure — someone can’t remove the physical SIM card if your iPhone is lost or stolen. In just a few simple steps, you are ready to make calls, send messages, and browse the web. Learn more about eSIM (Opens in a new window) . \nUse of eSIM requires a wireless service plan. Not all carriers support eSIM. Use of eSIM in iPhone may be disabled when purchased from some carriers. Check with your carrier for details and restrictions. Learn more about eSIM and carriers (Opens in a new window) ."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I activate an iPhone 18 Pro outside of the United States?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "iPhone 16, iPhone 17e, iPhone 17, iPhone Air, iPhone 18 Pro, and iPhone Duo models purchased in the U.S. or Puerto Rico don’t have a physical SIM tray and activate only using eSIM. You can activate your iPhone outside the country if your carrier supports eSIM. Learn more about using eSIM while traveling (Opens in a new window).    While traveling internationally, your carrier may offer convenient and affordable international roaming options. Additionally, if your iPhone is unlocked, you can use a travel eSIM at your destination. Learn more about using eSIM while traveling (Opens in a new window)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Will my new iPhone be unlocked?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "In most cases, yes. An iPhone purchased from Apple is unlocked. Once your new iPhone is activated, it remains unlocked, which means you can use it with any carrier that provides service for iPhone. However, if you choose to finance an iPhone through the AT&T Installment Plan, T-Mobile Equipment Installment Plan, or Verizon Device Payment Program, your iPhone will be locked to the carrier until paid in full."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "When I buy from apple.com, does my iPhone come ready to use?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Carrier-connected iPhone 16, iPhone 17e, iPhone 17, iPhone Air, iPhone 18 Pro, and iPhone Duo models will arrive ready to activate with eSIM and can connect to your cellular voice and data service without a physical SIM card.  If you completed the steps to authorize activation with AT&T, T-Mobile, or Verizon when you purchased your new iPhone online, it will arrive ready to use. Just turn it on and follow the onscreen instructions to set it up and activate with the carrier. To activate with eSIM, you will need Wi-Fi for setup.  If you choose “Connect to a carrier later” when you buy your iPhone, you can activate your service when you receive your device. If you’re asked to transfer your SIM, follow the onscreen instructions to transfer service from your previous iPhone. Learn how to set up eSIM on iPhone (Opens in a new window) ."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Will my iPhone work worldwide?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "All iPhone models are world phones, so you can use them almost anywhere. Whether you are a GSM or CDMA network customer, you can roam internationally on GSM networks in over 200 countries or regions around the world. If you financed your iPhone with your wireless carrier, contact them to verify that you can roam internationally. \nAvailability of 5G and LTE data varies in some countries or regions and depends on carrier support for certain 5G and LTE radio frequencies. Contact your wireless carrier for more information regarding international roaming policies and rates. Information on iPhone support for 5G and LTE (Opens in a new window) "
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I return my iPhone?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. If you change your mind and no longer wish to keep your iPhone, you have the option to return it to us. The returned iPhone must be in good condition and in the original packaging, which contains all accessories, manuals, and instructions. Returns are subject to Apple’s Sales and Refunds Policy. Learn more about returns, refunds, and exchanges (Opens in a new window)"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "I’m buying an iPhone as a gift. Can it be activated at a later date?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "In most cases, an iPhone purchased from apple.com can be activated later. However, certain special deals or discounts may require preparation with the carrier at the time of purchase so that the phone arrives ready to use."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What resources are available to me to quickly get set up, transfer existing files, and make the most of my new iPhone?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "When you buy directly from Apple, you’ll get access to Personal Setup — free online, one‑on‑one sessions with a Specialist who can help you set up your new iPhone and start your data transfer. A Specialist can also help you customize your settings, discover navigation tips, and dive deeper into Apple apps and tools. Best of all, you can join whenever works for you, from wherever you are. Learn more about Personal Setup(Opens in a new window)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are there differences between an iPhone for AT&T, T-Mobile, or Verizon?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The iPhone models for AT&T, T-Mobile, and Verizon are the same. However, if you choose to finance an iPhone through the AT&T Installment Plan, T-Mobile Equipment Installment Plan, or Verizon Device Payment Program, your iPhone will be locked to the carrier until paid in full."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I easily switch my carrier when I purchase an iPhone?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. You can switch carriers when you purchase an iPhone directly from Apple and choose carrier financing as your payment option. You’ll also be able to keep your existing number and data. And your new iPhone will arrive ready to use, without you having to contact your former carrier."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does Apple Upgrade work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Apple Upgrade is a leasing program offered in partnership with Klarna. Lease an iPhone or Apple Watch for 12 or 24 months, or an iPad or Mac for 24 or 36 months. Then easily upgrade to something new at the end of your term. You can even upgrade early by paying the full amount of your remaining lease payments plus applicable taxes. In either case, you must return your original device in good working condition. Footnote ◊ \nEnroll in Apple Upgrade by selecting which Apple product you want, choosing Apple Upgrade as your payment option, selecting the term that works best for you, and filling out your application during checkout."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are connectivity discounts?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Connectivity discounts are reflected in the advertised price of select iPhone models, and are available to customers who connect with select carriers at the time of purchase. The discount is not available for customers who choose to connect to a carrier later, or who have a prepaid carrier plan."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which network providers offer 5G service?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "AT&T, T-Mobile, and Verizon are the national wireless carriers for iPhone in the United States, and they all offer 5G service. iPhone 16, iPhone 17e, iPhone 17, iPhone Air, iPhone 18 Pro, and iPhone Duo models are 5G capable. The Apple Store and apple.com (Opens in a new window)  sell these models for use on these networks.  View the AT&T 5G coverage map (Opens in a new window)   View the T‑Mobile 5G coverage map (Opens in a new window)   View the Verizon 5G coverage map (Opens in a new window) "
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What products can be covered by AppleCare One?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "AppleCare One coverage extends to products that were purchased recently or are currently covered by AppleCare+. Other eligible devices are those currently associated with your Apple Account, Apple audio or headphones less than 1 year old, and other Apple devices that are less than 4 years old and in good condition. Learn more about AppleCare (Opens in a new window)."
+        }
+      }
+    ]
+  }
+]
