@@ -2,6 +2,7 @@
 import copy
 from contextlib import contextmanager
 import hashlib
+import html
 import importlib
 import json
 from pathlib import Path
@@ -68,20 +69,25 @@ def подготовить(корень, пакет):
     return объект, план
 
 
-def ребёнок(корень, пакет, слой, допуск, номер):
+def ребёнок(корень, пакет, слой, допуск, номер, *, экранировать=None):
     дерево = корень.parent / ("дерево-" + str(номер))
     задача = f"00000000-0000-0000-0000-{номер:012d}"
     коммит = пакет["постановка"]["коммит"]
     хранение.гит(корень, "worktree", "add", "-b", слой["ветка"].removeprefix("refs/heads/"), str(дерево), коммит)
     источник = корень.parent / ("задача-" + str(номер) + ".jsonl")
-    поручение = "<codex_delegation>\n  <source_thread_id>" + ЗАДАЧА + "</source_thread_id>\n  <input>" + допуск["аргументы"]["prompt"] + "</input>\n</codex_delegation>"
+    текст = допуск["аргументы"]["prompt"]
+    if экранировать is None:
+        экранировать = пакет["схема"] == "fum.запуск-двух-слоёв.2"
+    if экранировать:
+        текст = html.escape(текст, quote=False)
+    поручение = "<codex_delegation>\n  <source_thread_id>" + ЗАДАЧА + "</source_thread_id>\n  <input>" + текст + "</input>\n</codex_delegation>"
     источник.write_bytes(
         строка({"type": "session_meta", "payload": {"id": задача, "cwd": str(дерево), "git": {"commit_hash": коммит}}})
         + строка({"type": "turn_context", "payload": {"cwd": str(дерево), "model": "gpt-6-astra", "effort": "low"}})
         + строка({"type": "response_item", "payload": {"type": "function_call_output", "name": "create_thread", "output": поручение}})
     )
     постановка.подтвердить_начало(дерево, задача, коммит, источник,
-                               с_поручением=пакет["схема"] == "fum.запуск-двух-слоёв.2")
+                               с_поручением=пакет["схема"] in {"fum.запуск-двух-слоёв.2", "fum.запуск-двух-слоёв.3"})
     return дерево, задача, источник
 
 
