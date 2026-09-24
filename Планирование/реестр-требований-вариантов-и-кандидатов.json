@@ -832,7 +832,7 @@
     },
     {
       "path": "Планирование/карточки-шагов/🟡-FUM-STEP-0165-собирать-рабочий-контекст-задачи.md",
-      "content_sha256_without_recency": "sha256:82988b061bccb6b04d96604892143840cd2a8d41c4381c2b9f6eb1f14d724da3"
+      "content_sha256_without_recency": "sha256:3d5cdc5c95cae24aebd8e56446e7686a51a64a327a43e8fba12e0d1b62941607"
     },
     {
       "path": "Планирование/карточки-шагов/🟡-FUM-STEP-0168-сохранять-машинный-заголовок-при-заполнении-отчёта.md",
@@ -876,7 +876,7 @@
     },
     {
       "path": "Планирование/карточки-шагов/🟡-FUM-STEP-0182-определить-платформенные-сборки-и-первый-сценарий-FUMA.md",
-      "content_sha256_without_recency": "sha256:e9827b4e3aee432fa1c53110de73ea8bd5180acb3daa42836779657994510674"
+      "content_sha256_without_recency": "sha256:8c95f2f1e8870c2010a5d323732266564601e262b885fb2b47265a3deff08039"
     },
     {
       "path": "Планирование/карточки-шагов/🟡-FUM-STEP-0183-определить-адаптеры-децентрализованных-сетей.md",
@@ -1028,11 +1028,11 @@
     },
     {
       "path": "Планирование/карточки-шагов/🟡-FUM-STEP-0232-измерить-стоимость-подготовки-проверок.md",
-      "content_sha256_without_recency": "sha256:9058af79c426bcd400222de6c819c22600148f8626c79312cc1450fb4dfdc92b"
+      "content_sha256_without_recency": "sha256:abbbef6c14c9bf086131adbe70361925cbf752efaa636b0e463fca31f4099066"
     },
     {
       "path": "Планирование/карточки-шагов/🟡-FUM-STEP-0233-реализовать-конвейер-производных-веток.md",
-      "content_sha256_without_recency": "sha256:c7e51fd934cbe5b4ff750b0f06930e4a798cb9e20bd32b1d978539fddf778e4c"
+      "content_sha256_without_recency": "sha256:5d11d121157ca3ed5fb8c3c14bfc469cbce98db0dbb562e5d5548b727bef6cce"
     },
     {
       "path": "Планирование/карточки-шагов/🧩-FUM-STEP-0042-провести-первый-полный-локальный-прогон-архиватора-материалов.md",
