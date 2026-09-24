@@ -35,6 +35,7 @@ class ПроверкаЭпизодаПриёма(unittest.TestCase):
 
     def test_чтение_отсутствующего_не_создаёт_каталог(self):
         self.assertIsNone(эпизод.прочитать(self.основание))
+        self.assertIsNone(эпизод.найти(self.задача, self.блок['назначение_sha256']))
         self.assertFalse(эпизод.КОРЕНЬ_СОСТОЯНИЯ.exists())
 
     def test_повтор_возвращает_точные_байты_без_нового_допуска(self):
@@ -46,6 +47,7 @@ class ПроверкаЭпизодаПриёма(unittest.TestCase):
         self.assertEqual(до, путь.read_bytes())
         self.assertEqual(0o600, путь.stat().st_mode & 0o777)
         self.assertEqual(первый, эпизод.прочитать(self.основание))
+        self.assertEqual(первый, эпизод.найти(self.задача, self.блок['назначение_sha256']))
         self.assertFalse(первый['разрешение_записи'])
 
     def test_новый_срез_или_журнал_не_открывает_другой_эпизод(self):
@@ -72,6 +74,8 @@ class ПроверкаЭпизодаПриёма(unittest.TestCase):
             эпизод.начать(self.основание, lambda: self.основание)
         with self.assertRaisesRegex(ValueError, 'Потерян|потерян|прерван'):
             эпизод.начать(self.основание, lambda: self.основание)
+        with self.assertRaisesRegex(ValueError, 'Потерян|потерян|прерван'):
+            эпизод.найти(self.задача, self.блок['назначение_sha256'])
 
     def test_удаление_метки_и_повреждение_данных_не_обходятся(self):
         эпизод.начать(self.основание, lambda: self.основание)
