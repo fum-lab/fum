@@ -1,0 +1,36 @@
+"""Профиль целых процессов конечной передачи на открытом временном Git."""
+import argparse
+import hashlib
+import json
+from pathlib import Path
+import platform
+import sys
+
+from сценарий_холодной_передачи import выполнить
+
+
+def главная():
+    разбор = argparse.ArgumentParser(description=__doc__)
+    разбор.add_argument('--выход', required=True, type=Path)
+    параметры = разбор.parse_args()
+    корень = Path(__file__).resolve().parents[3]
+    файлы = set(корень.glob('Инструменты/*/scripts/**/*.py'))
+    файлы.update(Path(__file__).parent / имя for имя in (
+        'сценарий_холодной_передачи.py', 'фикстура_дочернего_коммита.py',
+        'test_области_писателя.py', 'test_запуска_слоёв.py', Path(__file__).name))
+    исходники = {п.relative_to(корень).as_posix(): hashlib.sha256(п.read_bytes()).hexdigest() for п in sorted(файлы)}
+    результат = выполнить()
+    if any(hashlib.sha256((корень / п).read_bytes()).hexdigest() != х for п, х in исходники.items()):
+        raise RuntimeError('Измеряемый код изменился')
+    результат.update({'схема': 'fum.профиль-холодной-передачи.1', 'исходники': исходники,
+        'Python': platform.python_version(), 'платформа': sys.platform,
+        'граница': 'Один проход открытого временного Git. Четыре CLI (подготовить, готово, создать, восстановить) работают в отдельных процессах из C; в этих процессах подменён только адрес приватной готовности. Промежуточная свежесть, адресная проверка и индекс выполняются в родительской фикстуре из основного checkout с подменой проверки расположения инструментов. Создание фикстуры вне замеров, кэш ОС не очищен. Нет Desktop, сети, push или общей приёмки.'})
+    with параметры.выход.open('x') as поток:
+        json.dump(результат, поток, ensure_ascii=False, indent=2)
+        поток.write('\n')
+    print(json.dumps({к: результат[к] for к in ('код', 'фазы', 'повтор_совпал')}, ensure_ascii=False))
+    return результат['код']
+
+
+if __name__ == '__main__':
+    raise SystemExit(главная())
