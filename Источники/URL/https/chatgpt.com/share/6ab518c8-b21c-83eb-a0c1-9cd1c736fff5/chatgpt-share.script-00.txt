@@ -1,0 +1,60 @@
+
+(() => {
+  const key = "oai-epic-native-launch";
+  let launch = null;
+  try { launch = JSON.parse(sessionStorage.getItem(key) || "null"); } catch {}
+  function save() {
+    try {
+      if (launch) sessionStorage.setItem(key, JSON.stringify(launch));
+      else sessionStorage.removeItem(key);
+    } catch { launch = null; }
+  }
+  function capture() {
+    const fragment = window.location.hash;
+    if (!fragment) return;
+    window.history.replaceState(window.history.state, "", "/epic/launch");
+    const params = new URLSearchParams(fragment.slice(1));
+    const snapshot = params.get("snapshot");
+    const workspace = params.get("workspace_id");
+    launch = Array.from(params).length === (workspace ? 2 : 1) && (!workspace || /^[A-Za-z0-9_-]{1,128}$/.test(workspace)) && snapshot &&
+      /^[A-Za-z0-9_-]{80,16384}={0,2}$/.test(snapshot)
+      ? { snapshot, workspace, id: crypto.randomUUID(), messageId: null, draftId: null } : null;
+    save();
+  }
+  if (window.location.pathname === "/epic/launch") capture();
+  function pending() {
+    return launch && !launch.draftId && new URLSearchParams(window.location.search).get("epic_launch") === launch.id
+      ? launch.snapshot : null;
+  }
+  window.__oaiEpicNativeLaunch = {
+    get: () => launch?.snapshot ?? null,
+    workspace: () => launch?.workspace ?? null,
+    destination: () => launch ? "/?surface=work&epic_launch=" + launch.id : "/epic/launch",
+    pending,
+    ownsMessage: (messageId) => launch?.messageId === messageId,
+    metadata: (messageId, draftId) => {
+      if (!launch) return;
+      if (draftId != null) {
+        if (launch.draftId ? launch.draftId !== draftId : !pending()) return;
+        launch.draftId = draftId;
+      } else if (launch.messageId !== messageId) return;
+      const changed = launch.messageId !== messageId;
+      launch.messageId = messageId;
+      save();
+      if (changed) window.dispatchEvent(new Event("oai-epic-launch-changed"));
+      return launch ? { epic_launch_snapshot: launch.snapshot } : undefined;
+    },
+    clear: (expected) => {
+      if (launch?.snapshot === expected || launch?.messageId === expected) {
+        launch = null;
+        save();
+        window.dispatchEvent(new Event("oai-epic-launch-changed"));
+      }
+    }
+  };
+  window.addEventListener("hashchange", () => {
+    if (window.location.pathname !== "/epic/launch" || !window.location.hash) return;
+    capture();
+    window.dispatchEvent(new Event("oai-epic-launch-changed"));
+  });
+})();
