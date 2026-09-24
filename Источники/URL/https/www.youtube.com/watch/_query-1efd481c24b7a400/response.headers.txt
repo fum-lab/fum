@@ -1,0 +1,32 @@
+HTTP/2 200
+content-type: text/html; charset=utf-8
+x-content-type-options: nosniff
+cache-control: no-cache, no-store, max-age=0, must-revalidate
+pragma: no-cache
+expires: Mon, 01 Jan 1990 00:00:00 GMT
+date: Thu, 24 Sep 2026 11:51:18 GMT
+p3p: CP="This is not a P3P policy! See http://support.google.com/accounts/answer/151657?hl=ru for more info."
+strict-transport-security: max-age=31536000
+x-frame-options: SAMEORIGIN
+cross-origin-opener-policy: same-origin-allow-popups; report-to="youtube_main"
+content-security-policy: base-uri 'self';object-src 'none';script-src 'nonce-[REDACTED]' 'unsafe-inline' 'strict-dynamic' https: http: 'unsafe-eval';report-uri https://csp.withgoogle.com/csp/youtube_main/strict
+content-security-policy: require-trusted-types-for 'script'
+origin-trial: AmhMBR6zCLzDDxpW+HfpP67BqwIknWnyMOXOQGfzYswFmJe+fgaI6XZgAzcxOrzNtP7hEDsOo1jdjFnVr2IdxQ4AAAB4eyJvcmlnaW4iOiJodHRwczovL3lvdXR1YmUuY29tOjQ0MyIsImZlYXR1cmUiOiJXZWJWaWV3WFJlcXVlc3RlZFdpdGhEZXByZWNhdGlvbiIsImV4cGlyeSI6MTc1ODA2NzE5OSwiaXNTdWJkb21haW4iOnRydWV9
+origin-trial: AiDEBptUfVeO93q48VdVMe/ubupazdAl8AaHP+NBzdnW8quUcHdzJUyGSfrmtpKJu7EOvwRp9ug2rEo3XU+WMAMAAAB2eyJvcmlnaW4iOiJodHRwczovL3lvdXR1YmUuY29tOjQ0MyIsImZlYXR1cmUiOiJEZXZpY2VCb3VuZFNlc3Npb25DcmVkZW50aWFsczIiLCJleHBpcnkiOjE3NzQzMTA0MDAsImlzU3ViZG9tYWluIjp0cnVlfQ==
+permissions-policy: ch-ua-arch=*, ch-ua-bitness=*, ch-ua-full-version=*, ch-ua-full-version-list=*, ch-ua-model=*, ch-ua-wow64=*, ch-ua-form-factors=*, ch-ua-platform=*, ch-ua-platform-version=*
+accept-ch: Sec-CH-Viewport-Width, Sec-CH-DPR, Device-Memory
+report-to: {"group":"youtube_main","max_age":2592000,"endpoints":[{"url":"https://csp.withgoogle.com/csp/report-to/youtube_main"}]}
+reporting-endpoints: crash-reporting="/web-reports?context=eJwNzXtM1XUYx3EO7yLiIJwf5_K7fL9shuSlBiGlzIWTkVnQ5FIrmdS4dSo37jscQQkpWcGGTJvN0CCWiY4YWTQagtHISStYhRpE2oUo5kJKBSKR6vvHa8_zx-fzPCGdd0U_XmwrCymxPbum3Na4zWdbaPfZ0i5V2GZW-m3ZUX5b4U-VtlZHVmDVnyFk32_nQqqdmTQ7PSft9H1k58q0nQ0VoZxtXsGp3jAyhsI4pMwuh-H3hmP3h3O0IRz9y3DqJ8M5G-1g9JiDy387eCVOo2mDxttPa1zJ0dj-okZ1tUadktykMdChIbo0sno15FWNyUWN_1Ij2J4dwXJjBImjahdOFtOd_FbrpL_bybZxJ0HXnBy-4eT2kpPSUBcZuot8n4uaZhddbS5mhlwUD7somnBRMu1i6l8XLQFutnrcrDLcpFe6sb3p5ozmYZXTw9IDHvLWewhO83CwwMNwoYdTr3roHPLQfNXDXKCOf4XOZ-t0ulJ0Onfq_FOpM9ug8-MBnfhDag7qzH-vU3RZZ_SGzvJNnQOLOrZbOo-EGGQYBsO5BpNNBrmtBkmDBpkjBuPfGWT9avDVosHaCJM7HjI5-rDJB4kmE8kmc0-Z1O00GcozmS422V9msq_G5Afl-j6TBaX9mMkfJ0wK3zcJ_tikvs_Efd4k-huTb8dN3pkwKZox2b1k8vqySbew4F6LT-6z-Hy9xddpFvXPWATsUHItLuZZzHktPi2yuFVukdRoUa280WKxucNii3JkzKJZmb2mMop0CB7TBE8oKbogKUrwV7TgptK6TnBa6VZ6lH6lMEbwu3J3rOD2JsG5fMGAV7ClVLCnTPCuT-CsEbhrBceVtxoFGw8KBg8LAt8TBCvDHwr29gmmBgQJ5wSZXwjSh1VmVPWmBD9PC8ZnBMnzgrnVEiNWcs9myZ1JkidTJKGpElemJOw5ycs5knS_5MEqiW-vpFY5XSNJ2C-ZqpO0NUhqmiRlbZLk45I9JyQn2yVjHZL2bsmRXsl5ZU2_JGhE_RpT92YlO5SXlJF5SeKC5IIjkmotEq87ktdWRrL10UhsqwOCfGsDgiJCg3taLl4KctT_cv0MUTFVJRW-inxv7G5vfswL5SXFvhhv8fMxBeW7fLsK8gpz4uPiN8Ztio-PjUvIKY37H6s1JOs"
+document-policy: include-js-call-stacks-in-crash-reports
+server: ESF
+x-xss-protection: 0
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+accept-ranges: none
+vary: Sec-CH-Viewport-Width, Sec-CH-DPR, Device-Memory,Accept-Encoding
