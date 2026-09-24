@@ -63,6 +63,11 @@ class ПроверкаДочернегоНазначения(unittest.TestCase):
             self.assertEqual({э.path.as_posix() for э in файлы}, {назначение["журналы"]["события"] + имя for имя in ("запрос.md", "отчёт.md")})
             текст = next(э.data.decode() for э in файлы if э.path.name == "запрос.md")
             self.assertIn("Codex-Thread-ID: " + ЗАДАЧА, текст)
+            инструменты = текст.split('## Использованные инструменты', 1)[1].split('## Проверки', 1)[0]
+            self.assertIn('C=' + хранение.гит(дерево, 'rev-parse', 'HEAD').strip(), инструменты)
+            self.assertIn('Планирование/пилот/области.json', инструменты)
+            self.assertIn('без получения нового времени', инструменты)
+            self.assertNotIn('зафиксировать получение', инструменты)
             self.assertNotIn("Codex-Thread-ID: " + задача, текст)
             self.assertFalse(сведения["разрешение_установки"])
             self.assertEqual(до, хранение.гит(дерево, "status", "--porcelain=v1", "--untracked-files=all"))

@@ -1974,9 +1974,17 @@ def _каркас_начала(repo_root, stem, label, title, thread_id, message
 
 def подготовить_собственную_пару(
     repo_root: Path, stem: str, label: str, title: str, thread_id: str, messages: Sequence[str],
+    *, происхождение_времени: str | None = None,
 ) -> tuple[list[PreparedFile], dict[str, Any]]:
     """Только план пары с явно отложенной навигацией; не даёт права установки."""
     root, запрос, отчёт = _каркас_начала(repo_root, stem, label, title, thread_id, messages)
+    if происхождение_времени is not None:
+        подсказка = "зафиксировать получение канонической пары времени рабочей сессии."
+        if (not isinstance(происхождение_времени, str) or not происхождение_времени.strip()
+                or "\n" in происхождение_времени or "\r" in происхождение_времени
+                or запрос.count(подсказка) != 1):
+            raise LayoutError("Некорректное происхождение времени собственной пары")
+        запрос = запрос.replace(подсказка, происхождение_времени)
     request_text = _request_document(stem, title, None, None, messages, thread_id, {}, запрос,
                                      навигация_отложена=True)
     report_text = _report_document(title, stem, отчёт)
