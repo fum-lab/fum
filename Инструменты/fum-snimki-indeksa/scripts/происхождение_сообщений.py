@@ -7,7 +7,11 @@
 чтения истории, склейки фрагментов, выполнения команд или загрузки медиа.
 Вход — обычные JSON-значения, до нормализующего декодера runtime.
 """
+import hashlib
+from pathlib import Path
 from xml.parsers import expat
+
+КОД_ПРИ_ЗАГРУЗКЕ = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 
 
 МАКСИМУМ_ФРАГМЕНТОВ = 256

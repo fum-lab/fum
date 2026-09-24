@@ -21,6 +21,8 @@ from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Any, Callable, Iterable, Iterator, Sequence
 
+КОД_ПРИ_ЗАГРУЗКЕ = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+
 
 SCHEMA_VERSION = 1
 REQUESTS = PurePosixPath("Запросы")

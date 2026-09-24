@@ -12,6 +12,8 @@ import subprocess
 import time
 import uuid
 
+КОД_ПРИ_ЗАГРУЗКЕ = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+
 
 def закодировать(значение):
     return (json.dumps(значение, ensure_ascii=False, sort_keys=True,

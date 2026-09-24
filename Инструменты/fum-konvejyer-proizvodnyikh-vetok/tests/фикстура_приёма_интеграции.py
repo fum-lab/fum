@@ -32,6 +32,8 @@ def фикстура():
         файлы = set(приём.КОД)
         # Частные importlib-модули могут отсутствовать в sys.modules.
         файлы.update(исходный_корень.glob('Инструменты/*/scripts/**/*.py'))
+        файлы.update(исходный_корень / 'Инструменты/fum-struktura-papok-zaprosov/шаблоны' / имя
+            for имя in ('запрос.md.шаблон', 'отчёт.md.шаблон'))
         файлы.update(Path(м.__file__).resolve() for м in tuple(sys.modules.values())
             if getattr(м, '__file__', None) and Path(м.__file__).suffix == '.py'
             and Path(м.__file__).resolve().is_relative_to(исходный_корень / 'Инструменты'))

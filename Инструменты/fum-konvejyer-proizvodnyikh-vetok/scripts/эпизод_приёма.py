@@ -1,8 +1,11 @@
 """Неизменяемое намерение приёма; хранение не разрешает Git-эффект или повтор."""
+import hashlib
 import os
 from pathlib import Path
 import stat
 import sys
+
+КОД_ПРИ_ЗАГРУЗКЕ = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 
 ИНСТРУМЕНТЫ = Path(__file__).resolve().parents[2]
 for КАТАЛОГ in ('fum-reyestr-planirovaniya', 'fum-svyaznostj-rabochej-sessii'):

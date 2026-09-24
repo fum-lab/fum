@@ -24,6 +24,8 @@ import uuid
 from pathlib import Path, PurePosixPath
 from typing import Iterator, Sequence
 
+КОД_ПРИ_ЗАГРУЗКЕ = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+
 
 СХЕМА_ЗАПУСКА = "fum.test-run.v1"
 СХЕМА_ЗАПУСКА_С_НАБЛЮДЕНИЯМИ = "fum.test-run.v2"

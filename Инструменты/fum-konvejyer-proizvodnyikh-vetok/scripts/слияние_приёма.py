@@ -1,7 +1,10 @@
 """Внутренняя связь проверенного намерения с одним Git-эффектом; без CLI."""
 from contextlib import contextmanager
+import hashlib
 from pathlib import Path
 import time
+
+КОД_ПРИ_ЗАГРУЗКЕ = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 
 import эпизод_приёма as эпизод
 import доставка_гит as гит
