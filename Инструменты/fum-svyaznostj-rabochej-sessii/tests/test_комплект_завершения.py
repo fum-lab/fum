@@ -54,7 +54,8 @@ class КомплектЗавершения(unittest.TestCase):
             'assert "PYTHONPATH" not in os.environ and "ПОСТОРОННЕЕ" not in os.environ\n'
             'assert os.environ["PATH"] == "/usr/bin:/bin"\n'
             'assert "--исходник" in sys.argv\n'
-            'print(json.dumps(json.load(sys.stdin), ensure_ascii=False))\n')
+            'значение=json.load(sys.stdin)\n'
+            'print(json.dumps({"test":значение["test"],"argv":sys.argv}, ensure_ascii=False))\n')
         это.коммит = это.сохранить()
 
     def убрать(это):
@@ -109,6 +110,7 @@ class КомплектЗавершения(unittest.TestCase):
         это.assertEqual(цель.name, "stop-" + результат["sha256"])
         это.assertEqual(len(результат["манифест"]["файлы"]), 12)
         это.assertEqual(результат["манифест"]["схема"], "fum.комплект-Stop.3")
+        это.assertEqual(результат["кандидат"]["hooks"]["Stop"][0]["hooks"][0]["timeout"], 60)
         for имя in ПУТИ:
             это.assertEqual((цель / имя).read_bytes(), (это.репозиторий / имя).read_bytes())
             это.assertEqual((цель / имя).stat().st_mode & 0o777, 0o400)
@@ -116,6 +118,24 @@ class КомплектЗавершения(unittest.TestCase):
         это.assertEqual(процесс.returncode, 0, процесс.stderr)
         это.assertEqual(json.loads(процесс.stdout)["test"], "ё ' $ `")
         это.assertFalse((это.каталог / "состояние").exists())
+
+    def test_шаблон_имеет_согласованный_срок_guard(это):
+        шаблон = Path(__file__).resolve().parents[1] / "шаблоны/Stop.hooks.шаблон.json"
+        настройка = json.loads(шаблон.read_text(encoding="utf-8"))
+        команда = настройка["hooks"]["Stop"][0]["hooks"][0]["command"]
+        это.assertIn("--тайм-аут-backend 30", команда)
+        это.assertIn('--кэш "<ПРИВАТНЫЙ-КЭШ-СООБЩЕНИЙ>"', команда)
+        это.assertEqual(настройка["hooks"]["Stop"][0]["hooks"][0]["timeout"], 60)
+
+    def test_сгенерированный_комплект_передаёт_путь_приватного_кэша(это):
+        кэш = это.хранилище / "сообщения.json"
+        результат = это.подготовить("--кэш", str(кэш))
+        это.assertEqual(результат["манифест"]["выполнение"]["кэш"], str(кэш))
+        процесс = это.вызвать(результат["кандидат"])
+        это.assertEqual(процесс.returncode, 0, процесс.stderr)
+        части = json.loads(процесс.stdout)["argv"]
+        позиция = части.index("--кэш")
+        это.assertEqual(части[позиция + 1], str(кэш))
 
     def test_четвёртый_исходник_обязателен(это):
         (это.репозиторий / ПУТИ[3]).unlink()

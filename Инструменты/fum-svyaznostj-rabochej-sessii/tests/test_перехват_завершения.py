@@ -39,6 +39,11 @@ if режим == "ранний-сигнал":
     time.sleep(20)
 if режим == "тайм-аут":
     time.sleep(20)
+if режим.startswith("медленный-"):
+    time.sleep(float(режим.removeprefix("медленный-")))
+    ответ = json.loads((корень / "ответ.json").read_text())
+    print(json.dumps(ответ, ensure_ascii=False))
+    raise SystemExit(3 if ответ["решение"] == "продолжить" else 0)
 if режим == "поток":
     while True:
         sys.stdout.write("x" * 8192)
@@ -90,6 +95,12 @@ class ПерехватЗавершения(unittest.TestCase):
                 "--файл-прогресса", "результат.py", "--предел-повторов", "2",
                 "--тайм-аут-backend", "0.5", *добавка]
 
+    def команда_с_обычным_таймаутом(это):
+        команда = это.команда()
+        позиция = команда.index("--тайм-аут-backend")
+        del команда[позиция:позиция + 2]
+        return команда
+
     def вызвать(это, вход=None, *добавка):
         if вход is None:
             вход = json.dumps(это.событие).encode()
@@ -111,6 +122,14 @@ class ПерехватЗавершения(unittest.TestCase):
         это.assertIn("код", первый["reason"])
         это.событие.update(turn_id="ход-2", stop_hook_active=True)
         это.assertEqual(это.вызвать(), первый)
+
+    def test_обычный_таймаут_вмещает_длинную_проверку(это):
+        (это.корень / "режим").write_text("медленный-4")
+        результат = subprocess.run(это.команда_с_обычным_таймаутом(),
+                                   input=json.dumps(это.событие).encode(), capture_output=True, timeout=10)
+        это.assertEqual(результат.returncode, 0, результат.stderr.decode())
+        это.assertEqual(json.loads(результат.stdout)["decision"], "block")
+        это.assertNotIn("тайм-аут", json.loads(результат.stdout)["reason"])
 
     def test_дочерняя_проверка_не_исполняет_сторонний_код(это):
         окружение = это.каталог / "изолированный-python"

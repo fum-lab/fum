@@ -96,7 +96,7 @@ def аргументы():
     парсер.add_argument("--файл-прогресса", action="append", required=True)
     парсер.add_argument("--предел-повторов", type=предел, default=3)
     парсер.add_argument("--предел-продолжений", type=предел, default=64)
-    парсер.add_argument("--тайм-аут-backend", type=число_секунд, default=3.0)
+    парсер.add_argument("--тайм-аут-backend", type=число_секунд, default=30.0)
     парсер.add_argument("--тайм-аут-ввода", type=число_секунд, default=1.0)
     парсер.add_argument("--профиль", action="store_true")
     return парсер.parse_args()
