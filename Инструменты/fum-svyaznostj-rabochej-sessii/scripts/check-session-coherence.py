@@ -16,6 +16,11 @@ from decimal import Decimal, localcontext
 from pathlib import Path, PurePosixPath, PureWindowsPath
 from urllib.parse import unquote
 
+КАТАЛОГ_СЦЕНАРИЕВ = Path(__file__).resolve().parent
+if str(КАТАЛОГ_СЦЕНАРИЕВ) not in sys.path:
+    sys.path.insert(0, str(КАТАЛОГ_СЦЕНАРИЕВ))
+from автор_коммита import проверить_формат
+
 
 PROJECT_FILES_SCRIPTS = (
     Path(__file__).resolve().parents[2]
@@ -42,6 +47,7 @@ from project_files import (
 try:
     from request_folder_layout import (
         LayoutError,
+        _request_heading_label,
         МАРКЕР_НЕЗАПОЛНЕННОГО_ШАБЛОНА,
         validate_layout,
     )
@@ -51,6 +57,7 @@ except ModuleNotFoundError as exc:  # Keep isolated checker fixtures testable.
     LayoutError = RuntimeError
     МАРКЕР_НЕЗАПОЛНЕННОГО_ШАБЛОНА = "<!-- ШАБЛОН:НЕЗАПОЛНЕНО -->"
     validate_layout = None
+    _request_heading_label = None
 
 
 REQUEST_STEM_RE = re.compile(
@@ -240,10 +247,8 @@ class AffectedPaths(set[Path]):
 
 def проверить_имя_автора(корень: Path, ожидаемое: str) -> list[str]:
     """Проверить роль и буквальный GIT_AUTHOR_NAME без изменения identity."""
-    if not isinstance(ожидаемое, str) or not re.fullmatch(
-        r"FUM [А-ЯЁ][А-Яа-яЁё]*(?:[ -][А-Яа-яЁё]+)*", ожидаемое
-    ):
-        return ["имя автора должно иметь формат FUM <Роль> с обычным одиночным пробелом"]
+    if not проверить_формат(ожидаемое):
+        return ["имя автора должно иметь точный формат FUM <Роль> или FUM <Роль> [<model>; effort=<effort>]"]
     try:
         subprocess.run(
             ["git", "-C", str(корень), "rev-parse", "--show-toplevel"],
@@ -255,7 +260,7 @@ def проверить_имя_автора(корень: Path, ожидаемо�
         )
         фактическое = результат.stdout.split(" <", 1)[0]
         if фактическое != ожидаемое:
-            return ["фактическое имя автора не совпадает с назначенной ролью"]
+            return ["фактическое имя автора не совпадает с полным ожидаемым именем"]
     except (OSError, subprocess.CalledProcessError):
         return ["не удалось прочитать GIT_AUTHOR_IDENT"]
     return []
@@ -263,7 +268,7 @@ def проверить_имя_автора(корень: Path, ожидаемо�
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--имя-автора", help="Точное ожидаемое имя автора, например FUM Интегратор.")
+    parser.add_argument("--имя-автора", help="Точное ожидаемое имя автора, например FUM Писатель [gpt-6-astra; effort=max].")
     parser.add_argument(
         "--request",
         required=True,
@@ -422,14 +427,19 @@ def expected_journal_heading(path: Path) -> str:
 
 
 def section_body(text: str, heading: str) -> str | None:
-    pattern = re.compile(rf"^## {re.escape(heading)}\s*$", re.MULTILINE)
-    match = pattern.search(text)
-    if not match:
-        return None
-    start = match.end()
-    next_heading = HEADING_RE.search(text, start)
-    end = next_heading.start() if next_heading else len(text)
-    return text[start:end]
+    pattern = re.compile(rf"## {re.escape(heading)}[ \t]*")
+    start = None
+    offset = 0
+    # Видимый Markdown определяет границы, исходный текст сохраняет все байты.
+    structural_lines = markdown_structural_text(text).split("\n")
+    for raw, visible in zip(text.splitlines(keepends=True), structural_lines):
+        if HEADING_RE.fullmatch(visible):
+            if start is not None:
+                return text[start:offset]
+            if pattern.fullmatch(visible):
+                start = offset + len(raw.rstrip("\r\n"))
+        offset += len(raw)
+    return text[start:] if start is not None else None
 
 
 def request_files(
@@ -476,6 +486,20 @@ def contains_request_link(
     return False
 
 
+def подпись_навигации(path: Path) -> str:
+    """Тот же заголовок соседа, который сохраняет генератор папок запросов."""
+    if _request_heading_label is not None:
+        with path.open(encoding="utf-8") as source:
+            heading = source.readline()
+        try:
+            return _request_heading_label(heading, path.parent.name)
+        except LayoutError:
+            # Исторические каркасы проверяются прежним способом; проверка
+            # заголовка текущего запроса остаётся независимой и строгой.
+            pass
+    return request_label(path)
+
+
 def validate_navigation(
     repo_root: Path,
     request_path: Path,
@@ -504,7 +528,7 @@ def validate_navigation(
             errors.append("request navigation must state previous request: нет")
     elif not contains_request_link(
         navigation,
-        request_label(previous_file),
+        подпись_навигации(previous_file),
         previous_file,
         request_path,
         repo_root,
@@ -519,7 +543,7 @@ def validate_navigation(
             errors.append("request navigation must state next request: нет")
     elif not contains_request_link(
         navigation,
-        request_label(next_file),
+        подпись_навигации(next_file),
         next_file,
         request_path,
         repo_root,
@@ -534,7 +558,7 @@ def validate_navigation(
         previous_navigation = section_body(previous_text, "Навигация по запросам") or ""
         if not contains_request_link(
             previous_navigation,
-            request_label(request_path),
+            подпись_навигации(request_path),
             request_path,
             previous_file,
             repo_root,
@@ -549,7 +573,7 @@ def validate_navigation(
         next_navigation = section_body(next_text, "Навигация по запросам") or ""
         if not contains_request_link(
             next_navigation,
-            request_label(request_path),
+            подпись_навигации(request_path),
             request_path,
             next_file,
             repo_root,

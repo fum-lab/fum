@@ -1,0 +1,95 @@
+HTTP/2 303
+strict-transport-security: max-age=31536000;preload
+via: 1.1 google, 1.1 varnish
+location: https://idp.nature.com/authorize?response_type=cookie&client_id=grover&redirect_uri=https%3A%2F%2Fwww.nature.com%2Farticles%2Fs41586-025-09255-w
+content-type: text/html
+server: Oscar Platform 0.2445.0
+x-vcap-request-id: [REDACTED: response trace identifier]
+accept-ranges: bytes
+date: Wed, 23 Sep 2026 00:27:57 GMT
+x-served-by: cache-bma-essb1270034-BMA, cache-bma-essb1270062-BMA
+x-cache: MISS, MISS
+x-cache-hits: 0, 0
+x-timer: [REDACTED: response trace identifier]
+vary: x-forwarded-host, upgrade-insecure-requests
+alt-svc: h3=":443";ma=86400,h3-29=":443";ma=86400,h3-27=":443";ma=86400
+content-length: 150
+
+HTTP/2 302
+x-content-type-options: nosniff
+server-timing: [REDACTED: response trace identifier]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+pragma: no-cache
+traceparent: [REDACTED: response trace identifier]
+strict-transport-security: max-age=31536000 ; includeSubDomains
+content-security-policy: frame-ancestors 'none';
+x-xss-protection: 1; mode=block
+x-frame-options: DENY
+via: 1.1 google, 1.1 varnish
+cache-control: no-cache, no-store, max-age=0, must-revalidate
+access-control-expose-headers: Server-Timing
+expires: 0
+x-vcap-request-id: [REDACTED: response trace identifier]
+location: https://idp.nature.com/transit?redirect_uri=https%3A%2F%2Fwww.nature.com%2Farticles%2Fs41586-025-09255-w&code=[REDACTED]
+accept-ranges: bytes
+date: Wed, 23 Sep 2026 00:27:58 GMT
+x-served-by: cache-bma-essb1270079-BMA, cache-bma-essb1270046-BMA
+x-cache: MISS, MISS
+x-cache-hits: 0, 0
+x-timer: [REDACTED: response trace identifier]
+vary: x-forwarded-proto
+alt-svc: h3=":443";ma=86400,h3-29=":443";ma=86400,h3-27=":443";ma=86400
+content-length: 0
+
+HTTP/2 302
+x-content-type-options: nosniff
+server-timing: [REDACTED: response trace identifier]
+content-language: en-US
+pragma: no-cache
+strict-transport-security: max-age=31536000 ; includeSubDomains
+traceparent: [REDACTED: response trace identifier]
+content-security-policy: frame-ancestors 'none';
+x-xss-protection: 1; mode=block
+x-frame-options: DENY
+via: 1.1 google, 1.1 varnish
+cache-control: no-cache, no-store, max-age=0, must-revalidate
+access-control-expose-headers: Server-Timing
+expires: 0
+x-vcap-request-id: [REDACTED: response trace identifier]
+location: https://www.nature.com/articles/s41586-025-09255-w?error=cookies_not_supported&code=[REDACTED]
+accept-ranges: bytes
+date: Wed, 23 Sep 2026 00:27:58 GMT
+x-served-by: cache-bma-essb1270042-BMA, cache-bma-essb1270046-BMA
+x-cache: MISS, MISS
+x-cache-hits: 0, 0
+x-timer: [REDACTED: response trace identifier]
+vary: x-forwarded-proto
+alt-svc: h3=":443";ma=86400,h3-29=":443";ma=86400,h3-27=":443";ma=86400
+content-length: 0
+
+HTTP/2 200
+traceparent: [REDACTED: response trace identifier]
+x-vcap-request-id: [REDACTED: response trace identifier]
+strict-transport-security: max-age=31536000;preload
+age: 0
+tracestate: [REDACTED: response trace identifier]
+via: 1.1 google, 1.1 varnish
+cache-control: private, must-revalidate
+x-robots-tag: nocache
+x-content-type-options: nosniff
+server: Oscar Platform 0.2445.0
+x-frame-options: DENY
+content-type: text/html; charset=utf-8
+accept-ranges: bytes
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+set-cookie: [REDACTED: response cookie]
+date: Wed, 23 Sep 2026 00:27:58 GMT
+x-served-by: cache-82405b8c-internal, cache-bma-essb1270069-BMA, cache-bma-essb1270062-BMA
+x-cache: MISS, MISS, MISS
+x-cache-hits: 0, 0
+x-timer: [REDACTED: response trace identifier]
+vary: X-Oscar-Cache-Mode,x-frame-options, Accept-Encoding
+alt-svc: h3=":443";ma=86400,h3-29=":443";ma=86400,h3-27=":443";ma=86400

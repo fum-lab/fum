@@ -1,0 +1,97 @@
+{
+  "схема": "fum.очистка-кэшей-своего-дерева.1",
+  "последних_кэшей": 8,
+  "файлы": [
+    {
+      "имя": "fum-list-СнимокАгентскойЗадачи.Y9FOJZ",
+      "debug_sha256": "f3014fcd05dce135c7e3514ba24237bd071d3d053a78b632e2c976fd00f3fe3a",
+      "tag_sha256": "61833598201b8d9bb6a18003b6be9fd00ae014cfbd583253c1f23b746bf035d1",
+      "source_packages": [
+        "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Package.swift"
+      ],
+      "no_open_files": true,
+      "dependency_directories_empty": true,
+      "removed": true
+    },
+    {
+      "имя": "fum-list-count.rzXQWj",
+      "debug_sha256": "578dcad666646b2de03ce1009668c20dff0f7dd42e7eebb8182458ae4436920c",
+      "tag_sha256": "61833598201b8d9bb6a18003b6be9fd00ae014cfbd583253c1f23b746bf035d1",
+      "source_packages": [
+        "Приложения/FUMA/Packages/СнимокАгентскойЗадачи/Package.swift"
+      ],
+      "no_open_files": true,
+      "dependency_directories_empty": true,
+      "removed": true
+    },
+    {
+      "имя": "fum-list-СтатистикаВызовов.2X84ne",
+      "debug_sha256": "136d128359652245d7e6df34a129e66184fe5420cd39e44227f45f17e169e4a8",
+      "tag_sha256": "61833598201b8d9bb6a18003b6be9fd00ae014cfbd583253c1f23b746bf035d1",
+      "source_packages": [
+        "Приложения/FUMA/Packages/СтатистикаВызовов/Package.swift"
+      ],
+      "no_open_files": true,
+      "dependency_directories_empty": true,
+      "removed": true
+    },
+    {
+      "имя": "fum-list-count.Dzlidn",
+      "debug_sha256": "41d0a1f9e86cdb9cd7cd2aff27c1f04e654f12211102400eb34a6876ea131830",
+      "tag_sha256": "61833598201b8d9bb6a18003b6be9fd00ae014cfbd583253c1f23b746bf035d1",
+      "source_packages": [
+        "Приложения/FUMA/Packages/СтатистикаВызовов/Package.swift"
+      ],
+      "no_open_files": true,
+      "dependency_directories_empty": true,
+      "removed": true
+    },
+    {
+      "имя": "fum-container-fixed.jLkPkg",
+      "debug_sha256": "a3b1a266bd31bd4c25b3da08748572ec183227ba063c72527146dd4f59ca68f7",
+      "tag_sha256": "61833598201b8d9bb6a18003b6be9fd00ae014cfbd583253c1f23b746bf035d1",
+      "source_packages": [
+        "Приложения/FUMA/Packages/КонтейнерНаблюдений/Package.swift"
+      ],
+      "no_open_files": true,
+      "dependency_directories_empty": true,
+      "removed": true
+    },
+    {
+      "имя": "fum-observation-debug.YcBwyn",
+      "debug_sha256": "85a61b77d00971dbf598ba547c08dc35a748070026b08d0cf7ed645263d4d0de",
+      "tag_sha256": "61833598201b8d9bb6a18003b6be9fd00ae014cfbd583253c1f23b746bf035d1",
+      "source_packages": [
+        "Приложения/FUMA/Packages/КонтейнерНаблюдений/Package.swift"
+      ],
+      "no_open_files": true,
+      "dependency_directories_empty": true,
+      "removed": true
+    },
+    {
+      "имя": "fum-list-tests.P3XVu1",
+      "debug_sha256": "72d061ca1649c01781daed063fdef82d9384e02ea5f144bf98cc3fa5795bc634",
+      "tag_sha256": "61833598201b8d9bb6a18003b6be9fd00ae014cfbd583253c1f23b746bf035d1",
+      "source_packages": [
+        "Приложения/FUMA/Packages/КонтейнерНаблюдений/Package.swift"
+      ],
+      "no_open_files": true,
+      "dependency_directories_empty": true,
+      "removed": true
+    },
+    {
+      "имя": "fum-list2.CVTxbA",
+      "debug_sha256": "22e335f9314b01ec6bdb1badb5f0ddd5a9a42a70ed09bb0b5cfa0a5a3af74bb3",
+      "tag_sha256": "61833598201b8d9bb6a18003b6be9fd00ae014cfbd583253c1f23b746bf035d1",
+      "source_packages": [
+        "Приложения/FUMA/Packages/КонтейнерНаблюдений/Package.swift"
+      ],
+      "no_open_files": true,
+      "dependency_directories_empty": true,
+      "removed": true
+    }
+  ],
+  "свободно_после": 1335353344,
+  "раньше_удалено_кэшей": 12,
+  "ограничение": "Причина повторного заполнения диска не установлена. Системные и чужие кэши, исходники и сырые снимки не изменялись."
+}

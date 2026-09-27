@@ -1,0 +1,13 @@
+{
+  "схема": "fum.наблюдение-workspace.1",
+  "исходная_ветка": "refs/heads/master",
+  "исходный_коммит": "ac78d0b410395358797663dcc028150938839f06",
+  "путь": "Приложения/FUMA/macOS/FUM.xcodeproj/project.xcworkspace/contents.xcworkspacedata",
+  "байты": 135,
+  "sha256": "7f3b00b5c3fdb45242d7b87e1e5c4e25d1fa8129a16c94295ecc4e8ea2235c5f",
+  "элементы": {
+    "Workspace.version": "1.0",
+    "FileRef.location": "self:"
+  },
+  "исходное_дерево_изменялось": false
+}

@@ -316,9 +316,26 @@ def fixture_transport(fixture_dir: Path) -> Transport:
     return capture
 
 
+def очистить_код_переадресации(адрес: str) -> str:
+    """Сохраняет адрес перехода, скрывая одноразовый параметр code."""
+    return re.sub(r"(?i)([?&#]code=)[^&#\s]+", lambda поле: поле[1] + "[REDACTED]", адрес)
+
+
 def redact_headers(raw: str) -> str:
     lines = []
     скрыть_продолжение = False
+    геометаданные = {"x-request-geoip-country-code", "x-request-detected-device"}
+    идентификаторы = {
+        "set-cookie", "cf-ray", "x-request-id", "request-context",
+        "x-ms-middleware-request-id", "x-xsrf-token", "x-csrf-token",
+        "x-trace-id", "x-correlation-id", "x-sp-crid", "x-tracking-ref",
+        "cdnuuid", "x-yandex-eu-request", "x-forwarded-for", "trace-id",
+        "x-b3-traceid", "x-github-request-id", "x-vcap-request-id",
+        "traceparent", "tracestate", "x-nxid", "x-amz-cf-id",
+        "x-amzn-requestid", "x-amzn-trace-id", "x-fastly-request-id",
+        "x-guploader-uploadid", "x-trans-id", "x-cloud-trace-context",
+        "x-timer", "x-shred", "server-timing", "report-to", "reporting-endpoints",
+    }
     for line in raw.splitlines(keepends=True):
         if line.startswith((" ", "\t")):
             if not скрыть_продолжение:
@@ -326,15 +343,13 @@ def redact_headers(raw: str) -> str:
             continue
         имя, разделитель, _ = line.partition(":")
         имя = имя.lower()
-        скрыть_продолжение = bool(разделитель) and имя in {
-            "set-cookie", "cf-ray", "x-request-id", "request-context",
-            "x-ms-middleware-request-id",
-            "x-xsrf-token", "x-csrf-token", "x-trace-id", "x-correlation-id", "x-sp-crid",
-            "x-tracking-ref", "cdnuuid", "x-yandex-eu-request",
-            "x-forwarded-for", "trace-id",
-        }
+        скрыть_продолжение = bool(разделитель) and имя in (идентификаторы | геометаданные | {"location"})
         if скрыть_продолжение and имя == "set-cookie":
             lines.append(COOKIE_REDACTION)
+        elif скрыть_продолжение and имя in геометаданные:
+            lines.append(f"{имя}: [REDACTED: request metadata]\n")
+        elif имя == "location":
+            lines.append(очистить_код_переадресации(line))
         elif скрыть_продолжение:
             lines.append(f"{имя}: [REDACTED: response trace identifier]\n")
         else:
@@ -392,6 +407,27 @@ def очистить_диагностику_проверки_человека(т
     return текст
 
 
+def очистить_поля_скрипта(тело: str) -> str:
+    """Очищает известные служебные JSON-поля без переписывания соседнего кода."""
+    начало = 0
+    части = []
+    for поле in re.finditer(r'"csrf_tokens"\s*:\s*', тело):
+        части.append(тело[начало:поле.end()])
+        try:
+            значение, длина = json.JSONDecoder().raw_decode(тело[поле.end():])
+        except json.JSONDecodeError as ошибка:
+            raise ValueError('csrf_tokens cannot be redacted safely') from ошибка
+        if not isinstance(значение, (dict, str)):
+            raise ValueError('csrf_tokens has an unsupported value')
+        части.append('"[REDACTED: request metadata]"')
+        начало = поле.end() + длина
+    части.append(тело[начало:])
+    тело = ''.join(части)
+    шаблон = r'("(?:visitorData|VISITOR_DATA|EVENT_ID|remoteHost|requestId|countryCode|device|cspNonce|cspScriptNonce|uploadToken|traceId|traceTime|clickTrackingParams|trackingParams|trackingParam|rolloutToken|deviceExperimentId|auth_hydro_click_hmac)"\s*:\s*")(?:\\.|[^"\\])*(")'
+    тело = re.sub(шаблон, lambda поле: поле[1] + '[REDACTED: request metadata]' + поле[2], тело)
+    return re.sub(r'("continuationCommand"\s*:\s*\{[^{}]*?"token"\s*:\s*")(?:\\.|[^"\\])*(")', lambda поле: поле[1] + '[REDACTED: request metadata]' + поле[2], тело)
+
+
 def очистить_служебную_разметку(текст: str) -> str:
     """Редактирует известные служебные поля, сохраняя остальное содержимое."""
     def очистить_конфигурацию(совпадение):
@@ -402,15 +438,21 @@ def очистить_служебную_разметку(текст: str) -> str
     имена = r"(?:csrf[-_]?token|xsrf[-_]?token|x-csrf-token)"
     def очистить_тег(совпадение):
         тег = совпадение.group(0)
-        if not re.search(r'\b(?:name|id)\s*=\s*[\"\x27]?(?:' + имена + r'|pdata)(?:[\"\x27\s>])', тег, re.I):
+        if not re.search(r'\b(?:name|id)\s*=\s*[\"\x27]?(?:' + имена + r'|pdata|fetch-nonce|html-safe-nonce|request-id|visitor-hmac|visitor-payload|dd-trace-id|dd-trace-time)(?:[\"\x27\s>])', тег, re.I):
             return тег
         return re.sub(r'(\b(?:value|content)\s*=\s*)(?:"[^"]*"|\x27[^\x27]*\x27|[^\s>]+)', lambda поле: поле[1] + '"[REDACTED]"', тег, flags=re.I)
     текст = re.sub(r'<(?:input|meta)\b[^>]*>', очистить_тег, текст, flags=re.I)
     текст = очистить_диагностику_проверки_человека(текст)
-    текст = re.sub(r'<[a-z][^>]*>', lambda тег: re.sub(r'(\snonce\s*=\s*)(?:"[^"]*"|\x27[^\x27]*\x27|[^\s>]+)', lambda поле: поле[1] + '"[REDACTED]"', тег[0], flags=re.I), текст, flags=re.I)
+    def очистить_атрибуты(совпадение):
+        тег = re.sub(r'(\s(?:nonce|data-hydro-click-hmac)\s*=\s*)(?:"[^"]*"|\x27[^\x27]*\x27|[^\s>]+)', lambda поле: поле[1] + '"[REDACTED]"', совпадение[0], flags=re.I)
+        return re.sub(r'([?&]_csrf=)[^&#\s"\x27>]+', lambda поле: поле[1] + '[REDACTED]', тег, flags=re.I)
+    текст = re.sub(r'<[a-z][^>]*>', очистить_атрибуты, текст, flags=re.I)
     префиксы = [r'[\"\x27](?:' + имена + r'|wgRequestId)[\"\x27]\s*:\s*', r'[\"\x27]csrf[\"\x27]\s*:\s*\{[^{}]*?[\"\x27]token[\"\x27]\s*:\s*']
     for префикс in префиксы:
         текст = re.sub('(' + префикс + r')([\"\x27])(?:\\.|(?!\2).)*\2', lambda поле: поле[1] + поле[2] + '[REDACTED]' + поле[2], текст, flags=re.I)
+    def очистить_поля_посетителя(совпадение):
+        return совпадение[1] + очистить_поля_скрипта(совпадение[2]) + совпадение[3]
+    текст = re.sub(r'(<script\b[^>]*>)(.*?)(</script\s*>)', очистить_поля_посетителя, текст, flags=re.I | re.S)
     текст = re.sub(r'((?:Ваш IP-адрес|Your IP(?: address)?)\s*:\s*(?:<[^>]*>\s*)*)(?:\d{1,3}\.){3}\d{1,3}', lambda поле: поле[1] + '[REDACTED: request address]', текст, flags=re.I)
     текст = re.sub(r'(Ваш ID запроса к ресурсу\s*:\s*(?:<[^>]*>\s*)*)(?!\[REDACTED\])[^<\s]+', lambda поле: поле[1] + '[REDACTED]', текст, flags=re.I)
     if 'Ваш запрос заблокирован системой защиты компании MYRTEX.' in текст:
@@ -740,7 +782,7 @@ def write_report(
         f"- Источник: {url}",
         f"- Время извлечения UTC: {dt.datetime.now(dt.timezone.utc).isoformat()}",
         f"- Транспорт: {info.get('transport', '')}",
-        f"- Effective URL: {info.get('url_effective', '')}",
+        f"- Effective URL: {очистить_код_переадресации(info.get('url_effective', ''))}",
         f"- HTTP-код: {info.get('http_code', '')}",
         f"- Content-Type: {info.get('content_type', '')}",
         f"- Размер загрузки: {info.get('size_download', '')} байт",
@@ -752,8 +794,12 @@ def write_report(
         "- Значения `Set-Cookie` в HTTP-заголовках заменены на `[REDACTED: response cookie]`.",
         "- Значения `CF-Ray`, `X-Request-ID`, `Request-Context`, `X-MS-Middleware-Request-ID` заменены на `[REDACTED: response trace identifier]`; продолжения очищаемых заголовков удалены.",
         "- Дополнительно очищены X-XSRF-Token, X-CSRF-Token, X-Trace-Id, Trace-Id, X-Forwarded-For, X-Correlation-Id, X-SP-CRID, X-Tracking-Ref, CDNUUID, x-yandex-eu-request и nonce директив CSP.",
+        "- Из HTTP-заголовков удалены дополнительные идентификаторы трассировки и метаданные страны и устройства запроса; продолжения этих заголовков удалены.",
+        "- Значения Server-Timing, Report-To и Reporting-Endpoints удалены; одноразовый параметр code скрыт в Location и Effective URL без изменения других параметров адреса.",
         "- В блоке script с id app-config очищен служебный websocket.token; видимый текст документа сохраняется.",
         "- До извлечения очищены известные CSRF/XSRF-поля HTML и встроенного JSON, nonce атрибутов, wgRequestId, адрес и ID запроса в диагностическом блоке, поле pdata и диагностические data-testid unique-key/timestamp. Прочее содержимое сохранено без перевода; это ограниченная редакция известных полей, а не гарантия отсутствия всех возможных секретов.",
+        "- В блоках script очищены известные JSON-поля идентификаторов посетителя, nonce, запроса и токенов загрузки; в meta очищены точные служебные nonce, request-id и visitor-поля. Содержательный текст сохранён.",
+        "- Телеметрия YouTube и токен continuationCommand очищены в script; подписи GitHub очищены в HTML-атрибуте и script, _csrf — в адресе HTML-атрибута. Снимок не предназначен для повторения сеансового запроса продолжения.",
         "",
         "## Ограничения извлечения",
         "",

@@ -1,0 +1,23 @@
+{
+  "схема": "fum.свидетельство-терминала-пилота.1",
+  "запуск": "7c1165fe8a9235d62eea748eaa777df9e1a4211584574f4e41d3fa86f2c9ca01",
+  "sha256": "f3d78098a19cda3764a9cd5a98fd9beb7a3e6d59b2d321e444c9c34be11b9cb2",
+  "D": "22961e1db31c3ca5107872ea9c010d26efbaede6",
+  "слои": {
+    "события": {
+      "задача": "01a0d3e7-4782-71f3-9aaa-12c81e79e43f",
+      "C": "4004efbdc44253111aafc6a884672c6eb802df85",
+      "ref": "refs/heads/codex/dir/pamyatj--konvejyer--sobyitiya--g-e5d7acc9a78e21cd0a67847c51b646e69827d3c4773b7da62011ac8ee646cb3b",
+      "пакет_sha256": "918f5fc06239c3300c7c6b2b14913096a3ab888443afdf2ac3c30e74aaa0106e",
+      "снимок_sha256": "72790eff10c159591ceed7b8517d4fd8d74ba18d12520d29083e041d9ba6e712"
+    },
+    "сообщения": {
+      "задача": "01a0d3eb-3924-7921-94c3-d65c91e4bf3e",
+      "C": "4004efbdc44253111aafc6a884672c6eb802df85",
+      "ref": "refs/heads/codex/dir/pamyatj--konvejyer--soobsjheniya--g-e5d7acc9a78e21cd0a67847c51b646e69827d3c4773b7da62011ac8ee646cb3b",
+      "пакет_sha256": "07b4270a1159e9a3c46a2daa3f2fde03a55a3573d97dd9574fa1e4ec8e30d870",
+      "снимок_sha256": "a2fa6861705893cc17564c35487ffad092aa09bfa77ebc6cdb4c078fc857c3e3"
+    }
+  },
+  "граница": "Проверен и сохранён терминал с пакетами; прежние деревья не изменены. Новое поколение ещё не запущено."
+}

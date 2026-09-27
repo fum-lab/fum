@@ -24,7 +24,7 @@ Overview
 Tech Specs
 Compare
 Switch from PC to Mac
-Pre-order Mac Studio
+Buy Mac Studio
 Mac Studio - Technical Specifications
 Mac Studio, Model1
 Mac Studio, Model2
@@ -66,12 +66,11 @@ Memory
 36GB
 36GB unified memory
 Configurable to:
-48GB, 64GB, or 128GB (M5 Max with 18-core CPU and 40-core GPU)
+48GB, 64GB, or 128GB (M5 Max with 18‑core CPU and 40‑core GPU)
 96GB
 96GB unified memory
 Configurable to:
-256GB
-or 512GB (M5 Ultra with 36-core CPU and 80-core GPU)
+256GB or 512GB (M5 Ultra with 36‑core CPU and 80‑core GPU)
 Storage 1
 512GB
 512GB SSD
@@ -114,6 +113,7 @@ Thunderbolt 5 (up to 120Gb/s)
 USB 4 (up to 120Gb/s)
 USB 3 (up to 10Gb/s)
 DisplayPort 2.1
+Genlock 2
 Two USB 3 (USB‑A) ports (up to 5Gb/s)
 HDMI 2.1 port
 10Gb Ethernet
@@ -121,13 +121,13 @@ HDMI 2.1 port
 On front (M5 Max):
 Two USB-C ports (up to 10Gb/s)
 SDXC card slot (UHS-II)
-On front (M5 Ultra):
+On front (M5 Ultra):
 Two Thunderbolt 5 ports (up to 120Gb/s)
 SDXC card slot (UHS-II)
 Communications
 Wireless
 Apple N1 wireless networking chip
-Wi‑Fi 7 (802.11be) 2
+Wi‑Fi 7 (802.11be) 3
 Bluetooth 6
 Thread networking technology
 Ethernet
@@ -136,8 +136,8 @@ Size and Weight
 Height: 3.7 inches (9.5 cm)
 Width: 7.7 inches (19.7 cm)
 Depth: 7.7 inches (19.7 cm)
-Weight (M5 Max): 6.0 pounds (2.7 kg) 3
-Weight (M5 Ultra): 8.0 pounds (3.6 kg) 3
+Weight (M5 Max): 6.0 pounds (2.7 kg) 4
+Weight (M5 Ultra): 8.0 pounds (3.6 kg) 4
 Width: 7.7 inches (19.7 cm)
 Depth: 7.7 inches (19.7 cm)
 Height: 3.7 inches (9.5 cm)
@@ -154,8 +154,8 @@ Mac Studio
 Power cord
 Operating System
 macOS
-macOS is the most advanced desktop operating system in the world. Siri AI 4 is a powerful and capable assistant with personal context understanding, broad world knowledge, and onscreen awareness. Express yourself through photos and images, save time with Safari, and get more done with Apple Intelligence 4 seamlessly integrated into your everyday apps and experiences. And iPhone Mirroring, 5 window tiling, Sidecar, and more help you stay productive.
-Apple Intelligence and Siri AI 4
+macOS is the most advanced desktop operating system in the world. Siri AI 5 is a powerful and capable assistant with personal context understanding, broad world knowledge, and onscreen awareness. Express yourself through photos and images, save time with Safari, and get more done with Apple Intelligence 5 seamlessly integrated into your everyday apps and experiences. And iPhone Mirroring, 6 window tiling, Sidecar, and more help you stay productive.
+Apple Intelligence and Siri AI 5
 The next generation of Apple Intelligence is centered around you, integrated into your apps, and built with privacy. Apple Intelligence powers Siri AI — an entirely new version of Siri that’s more personal, conversational, and powerful, along with helpful features across apps.
 Learn more
 Accessibility
@@ -171,7 +171,7 @@ Switch Control
 Closed Captions
 Live Captions
 Personal Voice and Live Speech
-Built-in Apps 6
+Built-in Apps 7
 App Store Books Calendar Contacts FaceTime Find My Freeform GarageBand Home iMovie iPhone Mirroring Keynote Mail Maps Messages Music News Notes Numbers Pages Passwords Photo Booth Photos Podcasts Preview QuickTime Player Reminders Safari Shortcuts Stocks Time Machine Tips TV Voice Memos Weather
 Configure to Order
 Configure your Mac Studio with these options at apple.com :
@@ -188,16 +188,16 @@ Progress toward Apple 2030
 Apple 2030 is our goal to be carbon neutral across our value chain. We design our products to be less carbon intensive by prioritizing the use of recycled and renewable content and low-carbon materials while focusing on the energy efficiency of our software and hardware.
 See Apple’s commitment
 Materials
-Mac Studio is made with 35% recycled content, 7 including:
+Mac Studio is made with 35% recycled content, 8 including:
 100% recycled aluminum in the enclosure and thermal module sheet, chassis, and brackets
 100% recycled copper in the thermal module pedestal and multiple printed circuit boards
 100% recycled gold plating and tin solder in all Apple‑designed printed circuit boards
 90% recycled steel in multiple thermal module components
 Packaging
-100% fiber-based packaging 8
+100% fiber-based packaging 9
 Energy
-ENERGY STAR® certified 9
-Smarter chemistry 10
+ENERGY STAR® certified 10
+Smarter chemistry 11
 All of the materials used in Apple products, accessories, and packaging are covered by the requirements of our Regulated Substances Specification , which was one of the first in industry to restrict the use of key substances of concern. See the latest Environmental Progress Report to understand Apple’s recent efforts in phasing out these chemistries.
 Apple Footer
 Pay monthly at 0% APR
@@ -210,12 +210,13 @@ Get help buying
 Have a question? Call a Specialist or chat online.
 Contact us
 1GB = 1 billion bytes and 1TB = 1 trillion bytes; actual formatted capacity less.
+Enabled by compatible third-party hardware and software.
 Wi‑Fi 7 availability varies by country. For more information, visit support.apple.com/148165 .
 Weight varies by configuration and manufacturing process.
 Apple Intelligence is available with Siri and device language set to Chinese (Simplified), Chinese (Traditional), Danish, Dutch, English, French, German, Italian, Japanese, Korean, Norwegian, Portuguese, Spanish, Swedish, Turkish, or Vietnamese. Some features may not be available in all regions or languages. Some devices may not be available in all regions. Siri AI is available in beta in macOS 27 and requires an Apple Intelligence–enabled device set to a supported language. Available in English to start. Siri AI will not be initially available in the EU on iOS, iPadOS, and watchOS. Certain Apple Intelligence features that rely on server-side models are subject to daily usage limits, including but not limited to Siri AI, Intelligent Photo Editing Tools, Image Playground, and AFM 3 Cloud models in Shortcuts. Daily limits may vary by feature, request complexity, system demand, system policies, and other factors. Expanded access to such features will be available for a fee in the future. Use of these features is subject to the Apple Intelligence Terms and Conditions. Learn more at apple.com/apple-intelligence .
 iPhone Mirroring is not available in all countries and regions. Some iPhone features (e.g., camera and microphone) are not compatible with iPhone Mirroring.
 iMovie, GarageBand, Pages, Numbers, and Keynote are available on the Mac App Store. Downloading apps requires an Apple Account and a device that is compatible with the OS version required for each app.
-Product recycled or renewable content is the mass of certified recycled material relative to the overall mass of the device, not including packaging or in-box accessories. Less than 3.5% claimed recycled and renewable content uses mass balance allocation.
+Product recycled or renewable content is the mass of certified recycled material relative to the overall mass of the device, not including packaging or in-box accessories.
 Breakdown of U.S. retail packaging by weight. Adhesives, inks, and coatings are excluded from our calculations.
 ENERGY STAR and the ENERGY STAR mark are registered trademarks owned by the U.S. Environmental Protection Agency.
 Apple’s Regulated Substances Specification describes Apple’s restrictions on the use of certain chemical substances in materials in Apple products, accessories, manufacturing processes, and packaging used for shipping products to Apple’s end-customers. Restrictions are derived from international laws or directives, regulatory agencies, eco-label requirements, environmental standards, and Apple policies. Every Apple product is free of PVC and phthalates except for AC power cords in India, Thailand (for two-prong AC power cords), and South Korea, where we continue to seek government approval for our PVC and phthalates replacement. Apple products comply with the European Union Directive 2011/65/EU and its amendments, including exemptions for the use of lead such as high-temperature solder. Apple is working to phase out the use of these exempted substances for new products where technically possible.
@@ -316,6 +317,6 @@ Site Map
 United States
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-16 14:30:55 MSK -->
-<!-- content-sha256: sha256:de02b51c9b6834da42facd2613b96b1dc1911342667b54dc79d621bbed245159 -->
+<!-- last-content-edit: 2026-09-23 03:56:03 MSK -->
+<!-- content-sha256: sha256:5a2fc5a09562d35193d6b36763bb23b29a284703e213fa1839c32d5debf4b7b3 -->
 <!-- FUM-MD-RECENCY:END -->

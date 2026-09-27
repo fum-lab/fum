@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import argparse
+import base64
+import binascii
 import hashlib
 import json
 import os
@@ -39,6 +41,7 @@ MAX_EXCEPTION_COUNT = 16
 POLICY_CATEGORY_BASES = frozenset(
     {
         "allow.path-validation-definition",
+        "allow.nonpath-syntax",
         "allow.test-fixture",
         "report.historical",
     }
@@ -86,6 +89,15 @@ H2_RE = re.compile(r"^ {0,3}##(?!#)[ \t]+(.+?)(?:[ \t]+#+[ \t]*)?$")
     + ФОРМА_ИМЕНИ_ЗАДАЧИ_СУБАГЕНТА
     + r"\Z"
 )
+ШАБЛОН_ПОЛЯ_УКАЗАТЕЛЯ = re.compile(
+    r'"(?P<имя>указатель_обработки|указатель_оригинала)"\s*:\s*'
+    r'"(?P<значение>/[^"\\]*)"'
+)
+ШАБЛОН_ПОЛЯ_ИЗОБРАЖЕНИЯ = re.compile(
+    r'"image_url"\s*:\s*"'
+    r'(?P<значение>data:image/png;base64,[A-Za-z0-9+/]+={0,2})"'
+)
+ШАБЛОН_НОМЕРА_УКАЗАТЕЛЯ = re.compile(r"(?:0|[1-9][0-9]*)\Z")
 ПОЛЯ_ЗАПИСИ_ЗАПУСКА = frozenset(
     {
         "схема",
@@ -568,6 +580,61 @@ def _line_digest(line: str) -> str:
     return "sha256:" + hashlib.sha256(line.encode("utf-8")).hexdigest()
 
 
+def _нефайловые_фрагменты_JSON(
+    путь: str, строка: str,
+) -> tuple[tuple[int, int, str], ...]:
+    части = PurePosixPath(путь).parts
+    if (
+        len(части) < 4
+        or части[0] != "Журнал"
+        or session_stem_for_request_path(f"Журнал/{части[1]}/запрос.md") != части[1]
+        or части[2] != "материалы"
+        or not путь.endswith((".json", ".jsonl"))
+    ):
+        return ()
+    if not any(ключ in строка for ключ in (
+        '"указатель_обработки"', '"указатель_оригинала"', '"image_url"',
+    )):
+        return ()
+    try:
+        значение = json.loads(строка)
+    except json.JSONDecodeError:
+        return ()
+
+    фрагменты: list[tuple[int, int, str]] = []
+    if len(части) == 4 and части[3] == "индекс-остатка.jsonl" and isinstance(значение, dict):
+        for совпадение in ШАБЛОН_ПОЛЯ_УКАЗАТЕЛЯ.finditer(строка):
+            имя = совпадение.group("имя")
+            указатель = совпадение.group("значение")
+            начало = "/" + ("остаток/" if имя == "указатель_обработки" else "сообщения/")
+            if (
+                значение.get(имя) == указатель
+                and указатель.startswith(начало)
+                and ШАБЛОН_НОМЕРА_УКАЗАТЕЛЯ.fullmatch(указатель[len(начало):])
+            ):
+                фрагменты.append((*совпадение.span("значение"), "report.json-pointer"))
+
+    if (
+        isinstance(значение, list)
+        and len(значение) == 4
+        and isinstance(значение[2], dict)
+        and set(значение[2]) == {"detail", "image_url", "type"}
+        and значение[2]["type"] == "input_image"
+        and isinstance(значение[2]["image_url"], str)
+    ):
+        изображение = значение[2]["image_url"]
+        for совпадение in ШАБЛОН_ПОЛЯ_ИЗОБРАЖЕНИЯ.finditer(строка):
+            if совпадение.group("значение") != изображение:
+                continue
+            try:
+                данные = base64.b64decode(изображение.partition(",")[2], validate=True)
+            except binascii.Error:
+                continue
+            if данные.startswith(b"\x89PNG\r\n\x1a\n"):
+                фрагменты.append((*совпадение.span("значение"), "report.data-image"))
+    return tuple(фрагменты)
+
+
 def scan_text(
     path: str,
     text: str,
@@ -584,21 +651,27 @@ def scan_text(
     candidates: list[Candidate] = []
     for line_number, line in enumerate(text.splitlines(), start=1):
         line_hash = _line_digest(line)
+        нефайловые_фрагменты = _нефайловые_фрагменты_JSON(path, line)
         for form in detect_path_forms(line):
+            категория = classify_candidate(
+                path,
+                line,
+                line_number,
+                form,
+                request_lines,
+                позиции_исполнителя,
+            )
+            for начало, конец, тип in нефайловые_фрагменты:
+                if начало <= form.start and form.end <= конец:
+                    категория = f"{тип}.{form.kind}"
+                    break
             candidates.append(
                 Candidate(
                     path=path,
                     line=line_number,
                     kind=form.kind,
                     line_sha256=line_hash,
-                    category=classify_candidate(
-                        path,
-                        line,
-                        line_number,
-                        form,
-                        request_lines,
-                        позиции_исполнителя,
-                    ),
+                    category=категория,
                 )
             )
     return candidates

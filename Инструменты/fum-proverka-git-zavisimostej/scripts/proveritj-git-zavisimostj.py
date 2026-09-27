@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import re
 import subprocess
 import sys
@@ -50,8 +51,11 @@ def run_git(
 ) -> GitResult:
     try:
         result = subprocess.run(
-            ["git", *arguments],
+            ["git", "--no-replace-objects", "--no-optional-locks",
+             "-c", f"core.hooksPath={os.devnull}", "-c", "core.fsmonitor=false",
+             "-c", "core.filemode=true", *arguments],
             cwd=cwd,
+            env={ключ: значение for ключ, значение in os.environ.items() if not ключ.startswith("GIT_")},
             check=False,
             text=True,
             stdout=subprocess.PIPE,
@@ -815,16 +819,17 @@ def validate_dependency(repo_root: Path, spec: DependencySpec) -> list[str]:
     except RuntimeError as error:
         errors.append(f"{spec.path}: не является Git-клоном: {error}")
         return errors
+    topology_errors = []
     if Path(dependency_root).resolve() != dependency.resolve():
-        errors.append(f"{spec.path}: Git-корень зависимости не совпадает с путём")
+        topology_errors.append(f"{spec.path}: Git-корень зависимости не совпадает с путём")
     git_marker = dependency / ".git"
     if not git_marker.is_file() or git_marker.is_symlink():
-        errors.append(
+        topology_errors.append(
             f"{spec.path}: submodule должен использовать связанный .git-файл "
             "без символической ссылки"
         )
     if section is not None:
-        errors.extend(
+        topology_errors.extend(
             validate_submodule_git_directory(
                 repo_root,
                 dependency,
@@ -832,6 +837,14 @@ def validate_dependency(repo_root: Path, spec: DependencySpec) -> list[str]:
                 section,
             )
         )
+    if topology_errors:
+        return errors + topology_errors
+    try:
+        entries = run_git(dependency, "ls-files", "-v", "-z", strip_output=False).stdout
+    except RuntimeError as error:
+        return errors + [f"{spec.path}: не удалось проверить флаги индекса: {error}"]
+    if any(entry and not entry.startswith("H ") for entry in entries.split("\0")):
+        errors.append(f"{spec.path}: скрывающие изменения флаги индекса подмодуля запрещены")
     try:
         superproject = run_git(
             dependency,
@@ -1159,9 +1172,12 @@ def initialize_registered_dependency(
                 repo_root,
                 "-c",
                 "protocol.file.allow=always",
+                "-c",
+                f"{section}.url={spec.fork_url}",
+                "-c",
+                f"{section}.active=true",
                 "submodule",
                 "update",
-                "--init",
                 "--checkout",
                 "--no-recommend-shallow",
                 "--",

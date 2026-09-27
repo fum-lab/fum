@@ -1,0 +1,19 @@
+{
+  "applicationCount": 124,
+  "changeCount": 1,
+  "changesSha256": "b08a502542fbe545452a5fcec940230f44c99ae5c5229900db054d2da7a146a2",
+  "command": [
+    "--once",
+    "--no-prompt",
+    "--json",
+    "--quiet"
+  ],
+  "head": "99e09da9639f3146d8129ec1cc391289c2d4ddb3",
+  "requested": false,
+  "schema": "fum.ax-validation.1",
+  "snapshotSha256": "dfb18dd31da8fccedca06eda786eb7bea78837b1f8635378b698a4a32c55ad3e",
+  "snapshotStatus": "ok",
+  "source": "fum-ax-vision-sense",
+  "timestamp": "2026-09-22T12:16:22Z",
+  "windowCount": 30
+}

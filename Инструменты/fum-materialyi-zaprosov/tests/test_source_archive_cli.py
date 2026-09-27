@@ -21,6 +21,24 @@ import source_archive  # noqa: E402
 
 
 class SourceArchiveCoreTests(unittest.TestCase):
+    def test_код_переадресации_очищается_из_location_и_отчёта(сам):
+        адрес = "https://example.org/article?error=cookies_not_supported&code=private-redirect&section=abstract"
+        заголовки = source_archive.redact_headers("Location: " + адрес + "\r\nContent-Type: text/html\r\n")
+        сам.assertNotIn("private-redirect", заголовки)
+        сам.assertIn("section=abstract", заголовки)
+        сам.assertEqual(source_archive.redact_headers(заголовки), заголовки)
+        with tempfile.TemporaryDirectory() as каталог:
+            путь = Path(каталог) / "extraction-report.md"
+            source_archive.write_report(путь, "https://example.org/article", {"url_effective": адрес}, [], 0, [])
+            текст = путь.read_text()
+            сам.assertNotIn("private-redirect", текст)
+            сам.assertIn("section=abstract", текст)
+        фрагмент = source_archive.redact_headers("Location: https://example.org/callback#code=private-fragment\r\n")
+        сам.assertNotIn("private-fragment", фрагмент)
+        свёрнуто = source_archive.redact_headers("Location: https://example.org/callback?view=full\r\n code=private-folded\r\n")
+        сам.assertNotIn("private-folded", свёрнуто)
+        сам.assertIn("view=full", свёрнуто)
+
     def test_служебные_заголовки_обоих_архиваторов_очищаются(сам):
         спецификация = importlib.util.spec_from_file_location(
             "архиватор_для_проверки_заголовков", SCRIPTS_DIR / "archive-chatgpt-share.py"
@@ -28,7 +46,14 @@ class SourceArchiveCoreTests(unittest.TestCase):
         архиватор = importlib.util.module_from_spec(спецификация)
         спецификация.loader.exec_module(архиватор)
         for очистить in (source_archive.redact_headers, архиватор.redact_headers):
-            for имя in ("CF-Ray", "X-Request-ID", "Request-Context", "X-MS-Middleware-Request-ID"):
+            for имя in (
+                "CF-Ray", "X-Request-ID", "Request-Context", "X-MS-Middleware-Request-ID",
+                "X-B3-TraceId", "X-GitHub-Request-Id", "X-VCAP-Request-ID",
+                "Traceparent", "Tracestate", "X-NXID", "X-Amz-Cf-Id",
+                "X-Amzn-RequestId", "X-Amzn-Trace-Id", "X-Fastly-Request-ID",
+                "X-Guploader-Uploadid", "X-Trans-Id", "X-Cloud-Trace-Context",
+                "X-Timer", "X-Shred", "Server-Timing", "Report-To", "Reporting-Endpoints",
+            ):
                 with сам.subTest(вход=очистить.__module__, заголовок=имя):
                     сырьё = (
                         "HTTP/2 200\r\n"
@@ -48,6 +73,21 @@ class SourceArchiveCoreTests(unittest.TestCase):
                     сам.assertIn("Content-Language: ru\r\n", результат)
                     сам.assertIn("Last-Modified: Mon, 07 Sep 2026 12:00:00 GMT\r\n", результат)
                     сам.assertEqual(очистить(результат), результат)
+
+    def test_геометаданные_и_устройство_запроса_удаляются_из_заголовков(сам):
+        сырьё = (
+            "HTTP/2 200\r\n"
+            "X-Request-Geoip-Country-Code: synthetic-private-region\r\n"
+            "\tprivate-continuation\r\n"
+            "X-Request-Detected-Device: synthetic-private-device\r\n"
+            "Content-Type: text/html\r\n"
+        )
+        итог = source_archive.redact_headers(сырьё)
+        сам.assertNotIn("private", итог)
+        сам.assertIn("x-request-geoip-country-code: [REDACTED: request metadata]", итог)
+        сам.assertIn("x-request-detected-device: [REDACTED: request metadata]", итог)
+        сам.assertIn("Content-Type: text/html", итог)
+        сам.assertEqual(source_archive.redact_headers(итог), итог)
 
     def test_служебный_идентификатор_cf_ray_редактируется(self):
         сырьё = (

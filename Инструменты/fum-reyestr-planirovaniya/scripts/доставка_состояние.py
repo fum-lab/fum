@@ -1,8 +1,11 @@
 """Приватные квитанции вне любого Git-предка; одна активная доставка получателю."""
 from contextlib import contextmanager
 import fcntl
+import hashlib
 import os
 from pathlib import Path
+
+КОД_ПРИ_ЗАГРУЗКЕ = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 
 from приём_направления import безопасный_путь, требовать, установить, байты, хэш, разобрать, поля
 from доставка_гит import выполнить

@@ -1,0 +1,331 @@
+{
+  "схема": "fum.сообщения-задачи.1",
+  "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "источник": "6a7d8805ede5924887e4cc79d2a14f6c24beb12b51736d559f86d99d07a1f353",
+  "граница": 1515392446,
+  "sha256": "160c3377d8d99ef168d3d244a9c3d17c5880e2ec9702348a1817201fa204ac94",
+  "сообщения": [
+    {
+      "экземпляр": "5682d40a26bc58957093c5d09ba7301379dd072b10fd696b48f790b3c6e03678",
+      "позиция": {
+        "начало": 1508756324,
+        "конец": 1508756777,
+        "sha256": "aca5ad136d27f3e1e1a6cf8d61c00136646b45a020e85f757fe4349f3485ef5c"
+      },
+      "происхождение": "человек",
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "U nas zhe opredeleniye operatora mozhet sostoyatj iz drugikh operatorov?\n"
+        }
+      ],
+      "сырой_объект": {
+        "type": "message",
+        "id": "msg_01a0ce3a-e07a-7e82-b0d9-87a6556f5677",
+        "role": "user",
+        "content": [
+          {
+            "type": "input_text",
+            "text": "U nas zhe opredeleniye operatora mozhet sostoyatj iz drugikh operatorov?\n"
+          }
+        ],
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a0cb70-b9ae-7d93-b4c6-034adf9a9d07",
+          "create_time": 1790166360.186807,
+          "content_item_kinds": [
+            "user.text"
+          ]
+        }
+      },
+      "дубли": []
+    },
+    {
+      "экземпляр": "b220d174d6b1c2e7444947e07ef4b29380dd83276511795784eaf9701dfb7dbb",
+      "позиция": {
+        "начало": 1514178083,
+        "конец": 1514178787,
+        "sha256": "d31da964590c68e1ce240bfbb1aaa1662217e0f6aac325a8c706365298adb31d"
+      },
+      "происхождение": "человек",
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "Ya khochu podcherknutj, chto obsjhij smyisl interpretacii FUMA dolzhen sootvetstvovatj mekhanizmu sinteza belka (vyikhodnaya posledovateljnostj) po informacionnoj RNK (vkhodnaya posledovateljnostj) s pomosjhjyu transportnoj RNK (ekzemplyaryi/vyizovyi strukturiruyusjhikh operatorov) s pomosjhjyu ribosomyi (interpretatora).\n"
+        }
+      ],
+      "сырой_объект": {
+        "type": "message",
+        "id": "msg_01a0ce44-8e4f-7132-97b1-7e36e40aa963",
+        "role": "user",
+        "content": [
+          {
+            "type": "input_text",
+            "text": "Ya khochu podcherknutj, chto obsjhij smyisl interpretacii FUMA dolzhen sootvetstvovatj mekhanizmu sinteza belka (vyikhodnaya posledovateljnostj) po informacionnoj RNK (vkhodnaya posledovateljnostj) s pomosjhjyu transportnoj RNK (ekzemplyaryi/vyizovyi strukturiruyusjhikh operatorov) s pomosjhjyu ribosomyi (interpretatora).\n"
+          }
+        ],
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a0cb70-b9ae-7d93-b4c6-034adf9a9d07",
+          "create_time": 1790166994.511028,
+          "content_item_kinds": [
+            "user.text"
+          ]
+        }
+      },
+      "дубли": []
+    },
+    {
+      "экземпляр": "b9e62d20ea6a0f116f9b48609908dee0e75029253956aede40457b613c37b970",
+      "позиция": {
+        "начало": 1514179569,
+        "конец": 1514179972,
+        "sha256": "96f04132cd76c7e70d78bcb9f6b85e42194c5c94ddc37747f7e4b6f117fa8a22"
+      },
+      "происхождение": "человек",
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "Sloyov toljko boljshe.\n"
+        }
+      ],
+      "сырой_объект": {
+        "type": "message",
+        "id": "msg_01a0ce44-8e51-7a82-bf51-f4937f43c47a",
+        "role": "user",
+        "content": [
+          {
+            "type": "input_text",
+            "text": "Sloyov toljko boljshe.\n"
+          }
+        ],
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a0cb70-b9ae-7d93-b4c6-034adf9a9d07",
+          "create_time": 1790166994.513308,
+          "content_item_kinds": [
+            "user.text"
+          ]
+        }
+      },
+      "дубли": []
+    },
+    {
+      "экземпляр": "150ade4dfa7246c675c7b6f7443456c9b49fbe04895d8adaa589363f29ad8979",
+      "позиция": {
+        "начало": 1514665912,
+        "конец": 1514666503,
+        "sha256": "93fa3547f4ceecebeb6014164545702d8ea2ab4cc6cceb26a97ac8af75349cbb"
+      },
+      "происхождение": "человек",
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "Poetomu i logika rabotyi dolzhna byitj takoj, chto nam nuzhno dobavitj prosto neobkhodimyiye operatoryi, chtobyi universaljnyij interpretator bez dorabotok nachal obrabatyivatj vkhodnyiye potoki kak nam nuzhno.\n"
+        }
+      ],
+      "сырой_объект": {
+        "type": "message",
+        "id": "msg_01a0ce46-bc4d-7e72-a86a-f0633884fcb4",
+        "role": "user",
+        "content": [
+          {
+            "type": "input_text",
+            "text": "Poetomu i logika rabotyi dolzhna byitj takoj, chto nam nuzhno dobavitj prosto neobkhodimyiye operatoryi, chtobyi universaljnyij interpretator bez dorabotok nachal obrabatyivatj vkhodnyiye potoki kak nam nuzhno.\n"
+          }
+        ],
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a0cb70-b9ae-7d93-b4c6-034adf9a9d07",
+          "create_time": 1790167137.357318,
+          "content_item_kinds": [
+            "user.text"
+          ]
+        }
+      },
+      "дубли": []
+    },
+    {
+      "экземпляр": "e3453af1094ea612e4997197a519cb448def46e08482d479b4352486f59cb5e1",
+      "позиция": {
+        "начало": 1514839848,
+        "конец": 1514840279,
+        "sha256": "75db1db832f2e17d6a4761337cb84a07343825960c572f3859d771d8af18bd78"
+      },
+      "происхождение": "человек",
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "V etom sutj realizuyemoj modeli programmirovaniya.\n"
+        }
+      ],
+      "сырой_объект": {
+        "type": "message",
+        "id": "msg_01a0ce47-1fb8-7313-b7a6-df650b3e8c3f",
+        "role": "user",
+        "content": [
+          {
+            "type": "input_text",
+            "text": "V etom sutj realizuyemoj modeli programmirovaniya.\n"
+          }
+        ],
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a0cb70-b9ae-7d93-b4c6-034adf9a9d07",
+          "create_time": 1790167162.808546,
+          "content_item_kinds": [
+            "user.text"
+          ]
+        }
+      },
+      "дубли": []
+    },
+    {
+      "экземпляр": "5c0b16978562795603a11f5fa6304e46b9fa66ad1eb1a3f5fd39b40a7a51c9c8",
+      "позиция": {
+        "начало": 1515044290,
+        "конец": 1515044797,
+        "sha256": "8a51cbd69589c7378599b97d792cf1c54e2ac446095d31389624758b5ca76513"
+      },
+      "происхождение": "человек",
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "Net, myi, konechno, mozhem i interpretator dorabatyivatj i optimizirovatj, no na logicheskom urovne eto vyiglyadit imenno tak.\n"
+        }
+      ],
+      "сырой_объект": {
+        "type": "message",
+        "id": "msg_01a0ce48-27d8-7211-b007-2d5219faa52c",
+        "role": "user",
+        "content": [
+          {
+            "type": "input_text",
+            "text": "Net, myi, konechno, mozhem i interpretator dorabatyivatj i optimizirovatj, no na logicheskom urovne eto vyiglyadit imenno tak.\n"
+          }
+        ],
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a0cb70-b9ae-7d93-b4c6-034adf9a9d07",
+          "create_time": 1790167230.424693,
+          "content_item_kinds": [
+            "user.text"
+          ]
+        }
+      },
+      "дубли": []
+    },
+    {
+      "экземпляр": "2136002e5e7d52cfe78b824ac39dfd107a9602dc7ed1a9c3432210b50611a11f",
+      "позиция": {
+        "начало": 1515209062,
+        "конец": 1515209623,
+        "sha256": "dbb79b0c26d547b7c60c6cd7248a5d97d49a8b885cbb58d465aa495be9f6fbee"
+      },
+      "происхождение": "человек",
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "I, vozvrasjhayasj k tvoyemu zamechaniyu vyishe, yesli u semanticheski raznyikh operatorov odinakovyij tip, to eto priznak togo, chto operatoryi nedostatochno uchityivayut kontekst.\n"
+        }
+      ],
+      "сырой_объект": {
+        "type": "message",
+        "id": "msg_01a0ce4b-2bd2-7923-97e0-9eb347ba966a",
+        "role": "user",
+        "content": [
+          {
+            "type": "input_text",
+            "text": "I, vozvrasjhayasj k tvoyemu zamechaniyu vyishe, yesli u semanticheski raznyikh operatorov odinakovyij tip, to eto priznak togo, chto operatoryi nedostatochno uchityivayut kontekst.\n"
+          }
+        ],
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a0cb70-b9ae-7d93-b4c6-034adf9a9d07",
+          "create_time": 1790167428.050121,
+          "content_item_kinds": [
+            "user.text"
+          ]
+        }
+      },
+      "дубли": []
+    },
+    {
+      "экземпляр": "9a67eb6aecbc77acf1b75d3e502077f6a5308836981107dc365979fed91053dc",
+      "позиция": {
+        "начало": 1515269714,
+        "конец": 1515270307,
+        "sha256": "a853e2d0798d5ef6bb29ca7df754814f90411eb1e278102e8054f68a6b8231ac"
+      },
+      "происхождение": "человек",
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "I vyisokourovnevuyu regulirovku vyichisleniya i prioritetov vyichisleniya mozhno budet vesti cherez upravleniye budzhetami vyizovov operatorov bukvaljno kak koncentraciyami transportnyikh RNK togo ili inogo tipa.\n"
+        }
+      ],
+      "сырой_объект": {
+        "type": "message",
+        "id": "msg_01a0ce4b-b82e-7b11-b47f-0726f324d861",
+        "role": "user",
+        "content": [
+          {
+            "type": "input_text",
+            "text": "I vyisokourovnevuyu regulirovku vyichisleniya i prioritetov vyichisleniya mozhno budet vesti cherez upravleniye budzhetami vyizovov operatorov bukvaljno kak koncentraciyami transportnyikh RNK togo ili inogo tipa.\n"
+          }
+        ],
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a0cb70-b9ae-7d93-b4c6-034adf9a9d07",
+          "create_time": 1790167463.982536,
+          "content_item_kinds": [
+            "user.text"
+          ]
+        }
+      },
+      "дубли": []
+    },
+    {
+      "экземпляр": "d33b259893436dadef32f42a12f087cc1a15d836956929a7da97bb56fa86bdbb",
+      "позиция": {
+        "начало": 1515356859,
+        "конец": 1515357442,
+        "sha256": "40a311555b5bc8aef7116bc13ee4fdf2353253ed2c0688662a1f889574ec83d5"
+      },
+      "происхождение": "человек",
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "Smyislovoj kontekst — eto ne kakaya-to otdeljnaya susjhnostj. Kontekst — eto vsyo tot zhe vkhod, to yestj boleye vyisokourovnevyij operator, sostoyasjhij iz boleye prostyikh i meneye odnoznachnyikh.\n"
+        }
+      ],
+      "сырой_объект": {
+        "type": "message",
+        "id": "msg_01a0ce4d-24b4-7f81-9deb-b285ede262ba",
+        "role": "user",
+        "content": [
+          {
+            "type": "input_text",
+            "text": "Smyislovoj kontekst — eto ne kakaya-to otdeljnaya susjhnostj. Kontekst — eto vsyo tot zhe vkhod, to yestj boleye vyisokourovnevyij operator, sostoyasjhij iz boleye prostyikh i meneye odnoznachnyikh.\n"
+          }
+        ],
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a0cb70-b9ae-7d93-b4c6-034adf9a9d07",
+          "create_time": 1790167557.300307,
+          "content_item_kinds": [
+            "user.text"
+          ]
+        }
+      },
+      "дубли": []
+    }
+  ],
+  "размер_снимка": 1515392446,
+  "дописано_после_снимка": 0,
+  "неполный_хвост": 0,
+  "полнота_подтверждена": true,
+  "профиль": {
+    "прочитано_байтов": 1515392446,
+    "разобрано_строк": 1447,
+    "режим": "проверенный префикс и хвост",
+    "сверка_снимка_наносекунды": 91125,
+    "этапы_наносекунды": {
+      "чтение_кэша": 89007500,
+      "чтение_источника": 927170416,
+      "сохранение_и_выдача": 5270167
+    },
+    "длительность_наносекунды": 1021744292
+  }
+}

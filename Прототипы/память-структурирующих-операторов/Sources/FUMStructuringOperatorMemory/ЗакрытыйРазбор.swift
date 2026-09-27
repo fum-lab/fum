@@ -1,12 +1,15 @@
 import Foundation
 
 // Собственный закрытый JSON: целые числа, строки, массивы и объекты.
-// Значения true/false/null и дроби не входят в схему определения.
+// true/false/null разрешены только отдельным профилем входных данных графа.
+// Схема определения по-прежнему не допускает их и дроби.
 indirect enum УзелОпределения: Encodable, Equatable, Sendable {
   case объект([String: УзелОпределения])
   case массив([УзелОпределения])
   case строка(String)
   case целое(Int)
+  case логическое(Bool)
+  case пусто
 
   func encode(to кодировщик: any Encoder) throws {
     var контейнер = кодировщик.singleValueContainer()
@@ -15,6 +18,8 @@ indirect enum УзелОпределения: Encodable, Equatable, Sendable {
     case .массив(let элементы): try контейнер.encode(элементы)
     case .строка(let строка): try контейнер.encode(строка)
     case .целое(let число): try контейнер.encode(число)
+    case .логическое(let значение): try контейнер.encode(значение)
+    case .пусто: try контейнер.encodeNil()
     }
   }
 
@@ -51,15 +56,18 @@ struct РазборОпределения {
   private let байты: [UInt8]
   private var позиция = 0
   private var узлов = 0
+  private let входJSON: Bool
 
-  init(_ данные: Data) throws {
-    guard данные.count <= 65_536 else {
-      throw ОшибкаИсполнения("предел-определения", "Определение превышает 65536 байтов")
+  init(_ данные: Data, входJSON: Bool = false) throws {
+    let предел = входJSON ? 262_144 : 65_536
+    guard данные.count <= предел else {
+      throw ОшибкаИсполнения("предел-определения", "Превышен размер выбранного профиля JSON")
     }
     guard String(data: данные, encoding: .utf8) != nil else {
       throw ОшибкаИсполнения("схема", "Определение должно быть строгим UTF-8")
     }
     байты = Array(данные)
+    self.входJSON = входJSON
   }
 
   mutating func разобрать() throws -> УзелОпределения {
@@ -110,6 +118,17 @@ struct РазборОпределения {
       }
     }
     if байты[позиция] == 34 { return .строка(try строка()) }
+    if входJSON {
+      for (слово, узел): (String, УзелОпределения) in [
+        ("true", .логическое(true)), ("false", .логическое(false)), ("null", .пусто)
+      ] {
+        let часть = Array(слово.utf8)
+        if байты[позиция...].starts(with: часть) {
+          позиция += часть.count
+          return узел
+        }
+      }
+    }
     let начало = позиция
     _ = принять(45)
     guard позиция < байты.count else { throw отказ() }

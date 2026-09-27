@@ -1,0 +1,395 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Magic Trackpad (USB‑C) - Black Multi-Touch Surface",
+    "url": "https://www.apple.com/shop/product/mxka3am/a/magic-trackpad-usb‑c-black-multi-touch-surface",
+    "mainEntityOfPage": "https://www.apple.com/shop/product/mxka3am/a/magic-trackpad-usb‑c-black-multi-touch-surface",
+    "brand": {
+      "@type": "Organization",
+      "name": "Apple"
+    },
+    "offers": [
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 149.0,
+        "availability": "http://schema.org/InStock",
+        "sku": "MXKA3AM/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      }
+    ],
+    "image": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXKA3?wid=4000&hei=4000&fmt=jpeg&qlt=90&.v=1730508286011",
+    "isAccessoryOrSparePartFor": [
+      {
+        "@type": "Product",
+        "name": "iPad Pro 11-inch (1st generation)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad (8th generation)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Pro 12.9-inch (4th generation)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Air (15-inch, M3)"
+      },
+      {
+        "@type": "Product",
+        "name": "iMac (24-inch, M1, 2021)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Air (15-inch, M5)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Pro 12.9-inch (2nd generation)"
+      },
+      {
+        "@type": "Product",
+        "name": "Mac Studio (M5 Max or M5 Ultra)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad (5th generation)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Pro (16‑inch, 2024)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Air (13‑inch, M4)"
+      },
+      {
+        "@type": "Product",
+        "name": "Apple Vision Pro (M2)"
+      },
+      {
+        "@type": "Product",
+        "name": "Studio Display XDR"
+      },
+      {
+        "@type": "Product",
+        "name": "Apple Vision Pro (M5)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Pro 11-inch (3rd generation)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad (7th generation)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Air (15-inch, M2)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Air (5th generation)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Pro (16‑inch, 2023)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad (9th generation)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Pro (14‑inch, 2024)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Pro (14-inch, M5 Pro or M5 Max)"
+      },
+      {
+        "@type": "Product",
+        "name": "Studio Display (2026)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Pro 10.5-inch"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Pro (14-inch, M5)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Pro (16-inch, M5 Pro or M5 Max)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Pro (14‑inch, 2021)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Pro 12.9-inch (1st generation)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Pro 11-inch (4th generation)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Pro 11-inch (2nd generation)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Air 13-inch (M2)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Air (13-inch, M3)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad mini (5th generation)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Air 11-inch (M3)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Neo"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Air (M1)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Pro 11-inch (M5)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad mini 4"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Air 11-inch (M4)"
+      },
+      {
+        "@type": "Product",
+        "name": "Mac Studio (2023)"
+      },
+      {
+        "@type": "Product",
+        "name": "Mac Studio (2022)  "
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Air (13-inch, M2)"
+      },
+      {
+        "@type": "Product",
+        "name": "Mac mini (M1, 2020)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad (10th generation)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Pro 12.9-inch (3rd generation)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad mini (A17 Pro)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Pro 12.9-inch (5th generation)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Pro 11-inch (M4)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Pro (13‑inch, M2, 2022)"
+      },
+      {
+        "@type": "Product",
+        "name": "Mac mini (2023)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Pro 13-inch (M4)"
+      },
+      {
+        "@type": "Product",
+        "name": "Mac mini (2024)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Pro 13-inch (M5)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad (A16)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Air 2"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Air 11-inch (M2)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Air (3rd generation)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad mini (6th generation)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad (6th generation)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Air 13-inch (M3)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Pro 12.9-inch (6th generation)"
+      },
+      {
+        "@type": "Product",
+        "name": "iMac (24-inch, M3, 2023)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Pro (13-inch, M1, 2020)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Air (15‑inch, M4)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Air (4th generation)"
+      },
+      {
+        "@type": "Product",
+        "name": "Mac Studio (2025)"
+      },
+      {
+        "@type": "Product",
+        "name": "Mac mini (M6 or M5 Pro)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Pro (14‑inch, 2023)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Pro 9.7-inch"
+      },
+      {
+        "@type": "Product",
+        "name": "iMac (24‑inch, M4, 2024)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Air (13-inch, M5)"
+      },
+      {
+        "@type": "Product",
+        "name": "MacBook Pro (16-inch, 2021)"
+      },
+      {
+        "@type": "Product",
+        "name": "iPad Air 13-inch (M4)"
+      },
+      {
+        "@type": "Product",
+        "name": "Mac Pro (2023)"
+      }
+    ],
+    "description": "Magic Trackpad, rechargeable with USB-C, features a sleek design and brings Force Touch to your desktop Mac. Buy now.",
+    "color": "Black Multi-Touch Surface"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": "1",
+        "item": {
+          "@id": "https://www.apple.com/shop/accessories/all",
+          "url": "https://www.apple.com/shop/accessories/all",
+          "name": "All Accessories"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": "2",
+        "item": {
+          "@id": "https://www.apple.com/shop/accessories/all/mice-keyboards",
+          "url": "https://www.apple.com/shop/accessories/all/mice-keyboards",
+          "name": "Mice & Keyboards"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": "3",
+        "name": "Magic Trackpad (USB‑C) - Black Multi-Touch Surface"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ImageGallery",
+    "url": "https://www.apple.com/shop/product/mxka3am/a/magic-trackpad-usb‑c-black-multi-touch-surface",
+    "associatedMedia": [
+      {
+        "contentUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXKA3?wid=1000&hei=1000&fmt=jpeg&qlt=95&.v=1730508286011",
+        "thumbnailUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXKA3?wid=38&hei=38&fmt=jpeg&qlt=95&.v=1730508286011"
+      },
+      {
+        "contentUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXKA3_AV4?wid=1000&hei=1000&fmt=jpeg&qlt=95&.v=1730508285972",
+        "thumbnailUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXKA3_AV4?wid=38&hei=38&fmt=jpeg&qlt=95&.v=1730508285972"
+      },
+      {
+        "contentUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXKA3_AV2?wid=1000&hei=1000&fmt=jpeg&qlt=95&.v=1730508285495",
+        "thumbnailUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXKA3_AV2?wid=38&hei=38&fmt=jpeg&qlt=95&.v=1730508285495"
+      },
+      {
+        "contentUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXKA3_AV3?wid=1000&hei=1000&fmt=jpeg&qlt=95&.v=1730508287118",
+        "thumbnailUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXKA3_AV3?wid=38&hei=38&fmt=jpeg&qlt=95&.v=1730508287118"
+      },
+      {
+        "contentUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXKA3_AV1?wid=1000&hei=1000&fmt=jpeg&qlt=95&.v=1730508289586",
+        "thumbnailUrl": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MXKA3_AV1?wid=38&hei=38&fmt=jpeg&qlt=95&.v=1730508289586"
+      }
+    ]
+  }
+]

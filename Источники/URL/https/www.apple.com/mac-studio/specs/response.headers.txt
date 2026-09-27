@@ -1,6 +1,6 @@
 HTTP/2 200
 server: Apple
-content-length: 215392
+content-length: 215733
 content-type: text/html; charset=utf-8
 set-cookie: [REDACTED: response cookie]
 x-frame-options: SAMEORIGIN
@@ -9,6 +9,6 @@ referrer-policy: no-referrer-when-downgrade
 strict-transport-security: max-age=31536000; includeSubdomains; preload
 x-content-type-options: nosniff
 x-xss-protection: 1; mode=block
-cache-control: max-age=173
-expires: Wed, 16 Sep 2026 11:25:17 GMT
-date: Wed, 16 Sep 2026 11:22:24 GMT
+cache-control: max-age=300
+expires: Tue, 22 Sep 2026 23:06:43 GMT
+date: Tue, 22 Sep 2026 23:01:43 GMT

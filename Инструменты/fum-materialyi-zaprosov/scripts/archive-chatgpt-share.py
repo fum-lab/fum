@@ -34,7 +34,7 @@ from request_folder_layout import session_stem_for_request_path  # noqa: E402
 if str(Path(__file__).resolve().parent) not in sys.path:
     sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from source_archive import redact_headers as очистить_общие_заголовки  # noqa: E402
+from source_archive import redact_headers as очистить_общие_заголовки, очистить_код_переадресации, очистить_поля_скрипта, очистить_служебную_разметку  # noqa: E402
 
 
 REDACTION = "[REDACTED: local request metadata]"
@@ -53,6 +53,14 @@ LOCAL_METADATA_KEYS = {
     "request_id",
     "turn_exchange_id",
     "working_turn_id",
+    "cspScriptNonce",
+    "traceId",
+    "traceTime",
+    "visitorData",
+    "VISITOR_DATA",
+    "cspNonce",
+    "uploadToken",
+    "requestId",
 }
 
 
@@ -467,7 +475,7 @@ def sanitize_html(html_text: str, scripts: list[str]) -> tuple[str, Any | None]:
         redacted_body = json.dumps(initial_state, ensure_ascii=False, separators=(",", ":"))
         html_text = html_text.replace(body, redacted_body, 1)
         break
-    return html_text, initial_state
+    return очистить_служебную_разметку(html_text), initial_state
 
 
 def extract_stream_parts(scripts: list[str]) -> list[str]:
@@ -746,7 +754,7 @@ def write_report(
         "",
         f"- Источник: {url}",
         f"- Время извлечения UTC: {now}",
-        f"- Effective URL: {info.get('url_effective', '')}",
+        f"- Effective URL: {очистить_код_переадресации(info.get('url_effective', ''))}",
         f"- HTTP-код: {info.get('http_code', '')}",
         f"- Content-Type: {info.get('content_type', '')}",
         f"- Размер загрузки: {info.get('size_download', '')} байт",
@@ -759,6 +767,7 @@ def write_report(
         "- Значения `Set-Cookie` в HTTP-заголовках заменены на `[REDACTED: response cookie]`.",
         "- Значения `CF-Ray`, `X-Request-ID`, `Request-Context`, `X-MS-Middleware-Request-ID` заменены на `[REDACTED: response trace identifier]`; продолжения очищаемых заголовков удалены.",
         "- Локальные IP, геометаданные запроса, user-agent, device/session/statsig-идентификаторы в bootstrap-состоянии страницы и служебные request-id распакованного потока заменены на `[REDACTED: local request metadata]`.",
+        "- CSP nonce, trace-id/time и служебные meta-поля очищены в HTML, скриптах, потоке и производном JSON; видимый текст диалога сохранён.",
         "- Сырой текст диалога, поток React Router и распакованные сообщения не нормализовались и не переводились.",
         "- Оформленный Markdown-слой пропускает служебные сообщения, убирает машинные citation-маркеры и переводит TeX-делимитеры в формат, отображаемый Obsidian.",
         "",
@@ -951,8 +960,11 @@ def build_snapshot(staging_dir: Path, url: str) -> dict[str, Any]:
 
     if local_metadata_values:
         sanitized_html = redact_text_values(sanitized_html, local_metadata_values)
-        scripts = [redact_text_values(body, local_metadata_values) for body in scripts]
-        stream_text = redact_text_values(stream_text, local_metadata_values)
+        scripts = [redact_text_values(очистить_поля_скрипта(body), local_metadata_values) for body in scripts]
+        stream_text = redact_text_values(очистить_поля_скрипта(stream_text), local_metadata_values)
+    else:
+        scripts = [очистить_поля_скрипта(body) for body in scripts]
+        stream_text = очистить_поля_скрипта(stream_text)
 
     (staging_dir / "source-url.txt").write_text(url + "\n", encoding="utf-8")
     (staging_dir / "chatgpt-share.headers.txt").write_text(

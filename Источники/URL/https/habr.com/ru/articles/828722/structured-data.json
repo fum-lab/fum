@@ -1,0 +1,37 @@
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://habr.com/ru/articles/828722/"
+  },
+  "headline": "Russkaya latinica",
+  "datePublished": "2024-07-14T11:31:37+03:00",
+  "dateModified": "2024-07-18T20:15:36+03:00",
+  "author": {
+    "@type": "Person",
+    "name": null
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Habr",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://habrastorage.org/webt/a_/lk/9m/a_lk9mjkccjox-zccjrpfolmkmq.png"
+    }
+  },
+  "description": "Statjya celikom na latinice dlya khrabryikh dukhom Byili vremena, kogda byil zoopark kodirovok, a smski otpravlyalisj latinicej, potomu chto pomesjhalosj...",
+  "url": "https://habr.com/ru/articles/828722/#post-content-body",
+  "about": [
+    "h_algorithms",
+    "h_ui",
+    "h_swift",
+    "f_develop",
+    "f_design"
+  ],
+  "image": [
+    "https://habr.com/share/publication/828722/2e1c5c345667e424adcd8060d5854dae/",
+    "https://habrastorage.org/getpro/habr/upload_files/e7d/d59/150/e7dd59150fa72d0015119f573dacc1c6.png",
+    "https://habrastorage.org/getpro/habr/upload_files/34f/a9d/566/34fa9d566b7a7a240c9018464fa3970a.png"
+  ]
+}

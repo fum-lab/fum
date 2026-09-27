@@ -10,6 +10,7 @@ enum AXVisionRuntimeWriter {
         let payload: [String: Any] = [
             "timestamp": snapshot.timestamp,
             "status": snapshot.status,
+            "schema": "fum.ax-snapshot.1",
             "message": snapshot.message ?? "",
             "source": "FUMA.app",
             "applications": snapshot.applications.map(applicationPayload)

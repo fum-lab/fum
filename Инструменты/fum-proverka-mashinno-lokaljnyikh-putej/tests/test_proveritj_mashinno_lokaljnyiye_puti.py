@@ -1,4 +1,5 @@
 import contextlib
+import base64
 import hashlib
 import importlib.util
 import io
@@ -42,6 +43,48 @@ spec.loader.exec_module(scanner)
 
 
 class MachineLocalPathScannerTests(unittest.TestCase):
+    def test_указатели_остатка_не_являются_путями_файловой_системы(сам) -> None:
+        путь = (
+            "Журнал/2026-09-22_11-13-26_MSK_продолжить-регистр-остатка/"
+            "материалы/индекс-остатка.jsonl"
+        )
+        строка = json.dumps(
+            {
+                "указатель_обработки": "/" + "остаток/0",
+                "указатель_оригинала": "/" + "сообщения/0",
+                "путь": "/" + "Users/example/private",
+            },
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+        категории = [запись.category for запись in scanner.scan_text(путь, строка)]
+        сам.assertEqual(категории.count("report.json-pointer.posix-absolute"), 2)
+        сам.assertIn("error.posix-user-home", категории)
+        сам.assertIn("error.posix-absolute", [
+            запись.category for запись in scanner.scan_text("Документация/пример.jsonl", строка)
+        ])
+
+    def test_base64_изображение_не_скрывает_соседний_локальный_путь(сам) -> None:
+        путь = "Журнал/2026-09-22_05-12-27_MSK_фикстура/материалы/остаток-команды.jsonl"
+        изображение = "data:image/png;base64,iVBORw0KGgoA+" + "/" + "/" + "host/path"
+        сам.assertTrue(base64.b64decode(
+            изображение.partition(",")[2], validate=True,
+        ).startswith(b"\x89PNG\r\n\x1a\n"))
+        строка = json.dumps(
+            [{}, {}, {"detail": "high", "image_url": изображение, "type": "input_image"},
+             {"путь": "/" + "Users/example/private"}],
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+        категории = [запись.category for запись in scanner.scan_text(путь, строка)]
+        сам.assertIn("report.data-image.windows-unc", категории)
+        сам.assertIn("error.posix-user-home", категории)
+        сам.assertIn("error.windows-unc", [
+            запись.category for запись in scanner.scan_text("Документация/пример.jsonl", строка)
+        ])
+
     def test_бинарное_вложение_требует_обычный_запрос(сам) -> None:
         with tempfile.TemporaryDirectory() as временный:
             корень = Path(временный)
@@ -773,6 +816,11 @@ class MachineLocalPathScannerTests(unittest.TestCase):
                     "FIXTURE = '~alice/private/project'",
                     "allow.test-fixture",
                 ),
+                (
+                    "Инструменты/demo/scripts/syntax.py",
+                    "PATTERN = '~{3,}'",
+                    "allow.nonpath-syntax",
+                ),
             )
             exceptions = []
             for index, (relative, line, category) in enumerate(cases, start=1):
@@ -797,6 +845,7 @@ class MachineLocalPathScannerTests(unittest.TestCase):
             себя.assertEqual(
                 результат_сценария.rendered_lines(),
                 (
+                    "Инструменты/demo/scripts/syntax.py:1:allow.nonpath-syntax.home-expansion",
                     "Инструменты/demo/tests/test_example.py:1:allow.test-fixture.home-expansion",
                     "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/example.py:1:allow.path-validation-definition.posix-absolute",
                 ),

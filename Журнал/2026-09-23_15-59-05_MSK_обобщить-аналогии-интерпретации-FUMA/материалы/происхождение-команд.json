@@ -1,0 +1,93 @@
+{
+  "схема": "fum.сообщения-задачи.1",
+  "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "источник": "6a7d8805ede5924887e4cc79d2a14f6c24beb12b51736d559f86d99d07a1f353",
+  "граница": 1516025123,
+  "sha256": "417958e69c66dc1ab650880fc978903a50dac8c0901ca601e18ee8808625283e",
+  "сообщения": [
+    {
+      "экземпляр": "33cd597fe506154ada9397c606b05bc26a8c0ecbe4f9a2ee527cb191ba420466",
+      "позиция": {
+        "начало": 1515455055,
+        "конец": 1515455480,
+        "sha256": "96f55f97a944f874e31e1f0b7a8270172fa1f369701145cd32f591e7b7a26bcd"
+      },
+      "происхождение": "человек",
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "Yestj skhodstvo s Lisp-mashinami, ne tak li?\n"
+        }
+      ],
+      "сырой_объект": {
+        "type": "message",
+        "id": "msg_01a0ce50-3772-7322-bb8c-42dff6638beb",
+        "role": "user",
+        "content": [
+          {
+            "type": "input_text",
+            "text": "Yestj skhodstvo s Lisp-mashinami, ne tak li?\n"
+          }
+        ],
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a0cb70-b9ae-7d93-b4c6-034adf9a9d07",
+          "create_time": 1790167758.706453,
+          "content_item_kinds": [
+            "user.text"
+          ]
+        }
+      },
+      "дубли": []
+    },
+    {
+      "экземпляр": "d2fb7414f4eb233f35b2bad83e3e235c7f3d6ac05f5f357237215b406fcf6d22",
+      "позиция": {
+        "начало": 1515653919,
+        "конец": 1515654464,
+        "sha256": "f08ae7caeb6694c398a66ebf86e19dcb1e6347e3d2eaf598cdf4979a23948b64"
+      },
+      "происхождение": "человек",
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "Primeneniye operatorov v tom chisle pokhozhe i na primeneniye uzhe raneye sintezirovannyikh fermentov k khimicheskim vesjhestvam dlya polucheniya novyikh vesjhestv.\n"
+        }
+      ],
+      "сырой_объект": {
+        "type": "message",
+        "id": "msg_01a0ce56-236a-71f3-9a71-e6af19559720",
+        "role": "user",
+        "content": [
+          {
+            "type": "input_text",
+            "text": "Primeneniye operatorov v tom chisle pokhozhe i na primeneniye uzhe raneye sintezirovannyikh fermentov k khimicheskim vesjhestvam dlya polucheniya novyikh vesjhestv.\n"
+          }
+        ],
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a0cb70-b9ae-7d93-b4c6-034adf9a9d07",
+          "create_time": 1790168146.794617,
+          "content_item_kinds": [
+            "user.text"
+          ]
+        }
+      },
+      "дубли": []
+    }
+  ],
+  "размер_снимка": 1516025123,
+  "дописано_после_снимка": 0,
+  "неполный_хвост": 0,
+  "полнота_подтверждена": true,
+  "профиль": {
+    "прочитано_байтов": 1516025123,
+    "разобрано_строк": 1603,
+    "режим": "проверенный префикс и хвост",
+    "сверка_снимка_наносекунды": 54792,
+    "этапы_наносекунды": {
+      "чтение_кэша": 86050000,
+      "чтение_источника": 922720291,
+      "сохранение_и_выдача": 4990125
+    },
+    "длительность_наносекунды": 1014060792
+  }
+}

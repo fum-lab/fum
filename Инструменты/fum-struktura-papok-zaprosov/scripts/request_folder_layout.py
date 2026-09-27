@@ -21,6 +21,8 @@ from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
 from typing import Any, Callable, Iterable, Iterator, Sequence
 
+КОД_ПРИ_ЗАГРУЗКЕ = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+
 
 SCHEMA_VERSION = 1
 REQUESTS = PurePosixPath("Запросы")
@@ -1875,6 +1877,8 @@ def _request_document(
     thread_id: str,
     labels: dict[str, str],
     шаблон: str,
+    *,
+    навигация_отложена: bool = False,
 ) -> str:
     blocks: list[str] = []
     for message in messages:
@@ -1886,6 +1890,8 @@ def _request_document(
         following,
         labels,
     )
+    if навигация_отложена:
+        предыдущий_запрос = следующий_запрос = "отложен до передачи координатору"
     return _заполнить_шаблон(
         шаблон,
         {
@@ -1935,16 +1941,7 @@ def _apply_prepared_transaction(repo_root: Path, prepared: Sequence[PreparedFile
         raise LayoutError(f"start failed and was rolled back: {error}") from error
 
 
-def start_session(
-    repo_root: Path,
-    stem: str,
-    label: str,
-    title: str,
-    thread_id: str,
-    messages: Sequence[str],
-    *,
-    установить_файлы: Callable[[Path, Sequence[PreparedFile]], None] | None = None,
-) -> dict[str, Any]:
+def _каркас_начала(repo_root, stem, label, title, thread_id, messages):
     root = repo_root.resolve()
     _validate_stem(stem, "start session stem")
     match = SESSION_PATTERN.fullmatch(stem)
@@ -1972,6 +1969,47 @@ def start_session(
     ):
         raise LayoutError("messages JSON must be a non-empty array of non-empty strings")
     шаблон_запроса, шаблон_отчёта = _прочитать_шаблоны()
+    return root, шаблон_запроса, шаблон_отчёта
+
+
+def подготовить_собственную_пару(
+    repo_root: Path, stem: str, label: str, title: str, thread_id: str, messages: Sequence[str],
+    *, происхождение_времени: str | None = None,
+) -> tuple[list[PreparedFile], dict[str, Any]]:
+    """Только план пары с явно отложенной навигацией; не даёт права установки."""
+    root, запрос, отчёт = _каркас_начала(repo_root, stem, label, title, thread_id, messages)
+    if происхождение_времени is not None:
+        подсказка = "зафиксировать получение канонической пары времени рабочей сессии."
+        if (not isinstance(происхождение_времени, str) or not происхождение_времени.strip()
+                or "\n" in происхождение_времени or "\r" in происхождение_времени
+                or запрос.count(подсказка) != 1):
+            raise LayoutError("Некорректное происхождение времени собственной пары")
+        запрос = запрос.replace(подсказка, происхождение_времени)
+    request_text = _request_document(stem, title, None, None, messages, thread_id, {}, запрос,
+                                     навигация_отложена=True)
+    report_text = _report_document(title, stem, отчёт)
+    файлы = [PreparedFile(canonical_request_path(stem), request_text.encode("utf-8"), 0o644),
+             PreparedFile(canonical_report_path(stem), report_text.encode("utf-8"), 0o644)]
+    повтор = any((root / файл.path).exists() for файл in файлы)
+    if повтор and not all((root / файл.path).is_file() and (root / файл.path).read_bytes() == файл.data for файл in файлы):
+        raise LayoutError(f"start conflict: request folder already exists for {stem}")
+    return ([] if повтор else файлы), {
+        "schema_version": SCHEMA_VERSION, "mode": "start-pair", "session_stem": stem,
+        "idempotent": повтор, "deferred_navigation": True,
+    }
+
+
+def start_session(
+    repo_root: Path,
+    stem: str,
+    label: str,
+    title: str,
+    thread_id: str,
+    messages: Sequence[str],
+    *,
+    установить_файлы: Callable[[Path, Sequence[PreparedFile]], None] | None = None,
+) -> dict[str, Any]:
+    root, шаблон_запроса, шаблон_отчёта = _каркас_начала(repo_root, stem, label, title, thread_id, messages)
     current = _canonical_requests(root)
     if stem in current:
         others = sorted(value for value in current if value != stem)

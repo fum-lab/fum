@@ -169,6 +169,7 @@ public struct СтруктурныйКонтракт: Equatable, Sendable {
     switch узел {
     case .строка: return "строка"
     case .целое: return "целое"
+    case .пусто, .логическое: return nil
     case .объект: return "объект"
     case .массив(let части):
       guard case .строка(let операция) = части.first else { return nil }
@@ -238,6 +239,8 @@ public struct СтруктурныйКонтракт: Equatable, Sendable {
   {
     switch узел {
     case .целое, .строка: return 1
+    case .пусто, .логическое:
+      throw ОшибкаИсполнения("контракт", "Литерал не входит в профиль определения")
     case .объект(let поля):
       return try поля.values.reduce(1) { try $0 + проверитьВыражение($1, переменные: переменные) }
     case .массив(let части):

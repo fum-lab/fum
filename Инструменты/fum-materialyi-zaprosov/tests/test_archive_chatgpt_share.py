@@ -437,6 +437,39 @@ class ArchiveChatgptShareTests(unittest.TestCase):
         self.assertNotIn("127.0.0.1", sanitized_html)
         self.assertIn(archive_chatgpt_share.REDACTION, sanitized_html)
 
+    def test_share_nonce_и_трасса_не_остаются_в_слоях(сам):
+        html = ('<meta name="dd-trace-id" content="synthetic-private-trace">'
+                '<meta name="dd-trace-time" content="synthetic-private-time">'
+                '<script nonce="synthetic-private-nonce">'
+                '{"authStatus":"ok","cspScriptNonce":"synthetic-private-nonce"}'
+                '</script><p>Открытый диалог</p>')
+        очищено, состояние = archive_chatgpt_share.sanitize_html(
+            html, archive_chatgpt_share.collect_scripts(html)
+        )
+        сам.assertNotIn('synthetic-private', очищено)
+        сам.assertEqual(состояние['cspScriptNonce'], archive_chatgpt_share.REDACTION)
+        декодировано = {'root': {'dd': {'traceId': 'synthetic-private-trace',
+                                        'traceTime': 'synthetic-private-time'}}}
+        значения = archive_chatgpt_share.collect_local_metadata_values(декодировано)
+        сам.assertEqual(len(значения), 2)
+        сам.assertNotIn('synthetic-private', json.dumps(archive_chatgpt_share.redact_initial_state(декодировано)))
+        поток = archive_chatgpt_share.redact_text_values(
+            'trace=synthetic-private-trace,time=synthetic-private-time', значения
+        )
+        сам.assertNotIn('synthetic-private', поток)
+        сам.assertIn('<p>Открытый диалог</p>', очищено)
+
+    def test_bootstrap_json_не_сохраняет_новые_служебные_поля(сам):
+        html = ('<script>{"authStatus":"ok","visitorData":"private-visitor",'
+                '"cspNonce":"private-csp","uploadToken":"private-upload",'
+                '"requestId":"private-request","title":"Открытый диалог"}</script>')
+        очищено, состояние = archive_chatgpt_share.sanitize_html(
+            html, archive_chatgpt_share.collect_scripts(html)
+        )
+        сам.assertNotIn('private-', очищено)
+        сам.assertNotIn('private-', json.dumps(состояние))
+        сам.assertEqual(состояние['title'], 'Открытый диалог')
+
     def test_extract_stream_parts_decodes_enqueued_json_strings(self):
         scripts = [
             'window.__reactRouterContext.streamController.enqueue("[{\\"value\\":1}]");'

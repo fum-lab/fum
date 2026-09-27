@@ -1,5 +1,6 @@
 #if SWIFT_PACKAGE
 import ПутиИсполнения
+import FUMObservationJournal
 #endif
 import AppKit
 import CoreGraphics
@@ -117,6 +118,8 @@ final class InputEventMonitor: ObservableObject {
     private func record(event payload: [String: Any]) {
         var event = payload
         event["timestamp"] = isoFormatter.string(from: Date())
+        event["schema"] = "fum.observation-event.1"
+        event["source"] = "FUMA.app"
         event["activeApplication"] = activeApplicationPayload()
 
         recentEvents.insert(event, at: 0)
@@ -150,6 +153,7 @@ final class InputEventMonitor: ObservableObject {
         let fileSnapshot: [String: Any] = [
             "timestamp": timestamp,
             "status": status,
+            "schema": "fum.input-state.1",
             "message": message ?? "",
             "recentEventCount": recentEventCount,
             "recentEvents": recentEvents,
@@ -169,16 +173,7 @@ final class InputEventMonitor: ObservableObject {
 
     private func appendJSONLine(_ payload: [String: Any], to url: URL) {
         do {
-            try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-            if !FileManager.default.fileExists(atPath: url.path) {
-                FileManager.default.createFile(atPath: url.path, contents: nil)
-            }
-            let handle = try FileHandle(forWritingTo: url)
-            try handle.seekToEnd()
-            let data = try JSONSerialization.data(withJSONObject: payload, options: [.sortedKeys])
-            try handle.write(contentsOf: data)
-            try handle.write(contentsOf: Data("\n".utf8))
-            try handle.close()
+            try ЖурналНаблюдений().добавитьJSONСтроку(payload, в: url)
         } catch {
             NSLog("Failed to append input event: \(error.localizedDescription)")
         }

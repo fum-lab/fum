@@ -1,0 +1,1211 @@
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "iPad Pro 11-inch (M5)",
+    "url": "https://www.apple.com/shop/buy-ipad/ipad-pro",
+    "mainEntityOfPage": "https://www.apple.com/shop/buy-ipad/ipad-pro",
+    "offers": [
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 2599.0,
+        "sku": "ME6D4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 1799.0,
+        "sku": "MDWQ4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 1399.0,
+        "sku": "ME2P4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 2299.0,
+        "sku": "MDWU4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 1399.0,
+        "sku": "ME2N4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 1899.0,
+        "sku": "MDWT4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 1199.0,
+        "sku": "MDWL4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 1199.0,
+        "sku": "MDWK4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 2399.0,
+        "sku": "MDWX4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 2499.0,
+        "sku": "ME2Y4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 1399.0,
+        "sku": "MDWM4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 1599.0,
+        "sku": "ME2Q4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 1899.0,
+        "sku": "MDWR4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 2599.0,
+        "sku": "ME6C4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 1399.0,
+        "sku": "MDWN4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 1599.0,
+        "sku": "ME2T4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 1999.0,
+        "sku": "ME2U4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 2399.0,
+        "sku": "MDWW4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 2499.0,
+        "sku": "ME6A4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 1799.0,
+        "sku": "MDWP4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 2299.0,
+        "sku": "MDWV4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 2099.0,
+        "sku": "ME2X4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 1999.0,
+        "sku": "ME2V4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 2099.0,
+        "sku": "ME2W4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      }
+    ],
+    "image": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/ipad-pro-model-select-gallery-1-202405?wid=5120&hei=2880&fmt=jpeg&qlt=90&.v=1713495958512",
+    "description": "Get $45 - $905 off the powerful iPad Pro when you trade in with Apple. Plus, get free delivery or in-store pickup. Buy or lease now at apple.com."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "iPad Pro 13-inch (M5)",
+    "url": "https://www.apple.com/shop/buy-ipad/ipad-pro",
+    "mainEntityOfPage": "https://www.apple.com/shop/buy-ipad/ipad-pro",
+    "offers": [
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 2399.0,
+        "sku": "ME8H4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 1499.0,
+        "sku": "MDYK4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 2899.0,
+        "sku": "ME8N4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 2599.0,
+        "sku": "MDYT4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 1699.0,
+        "sku": "ME7W4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 1899.0,
+        "sku": "ME8C4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 2899.0,
+        "sku": "ME8M4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 2199.0,
+        "sku": "MDYQ4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 2099.0,
+        "sku": "MDYN4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 1499.0,
+        "sku": "MDYJ4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 2199.0,
+        "sku": "MDYR4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 1899.0,
+        "sku": "ME7Y4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 1699.0,
+        "sku": "MDYM4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 2299.0,
+        "sku": "ME8F4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 2399.0,
+        "sku": "ME8G4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 2699.0,
+        "sku": "MDYW4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 2799.0,
+        "sku": "ME8K4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 2699.0,
+        "sku": "MDYV4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 2299.0,
+        "sku": "ME8D4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 1699.0,
+        "sku": "MDYL4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 1699.0,
+        "sku": "ME7X4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 2799.0,
+        "sku": "ME8J4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 2099.0,
+        "sku": "MDYP4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": 2599.0,
+        "sku": "MDYU4LL/A",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": {
+            "@type": "MonetaryAmount",
+            "value": 0,
+            "currency": "USD"
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "US",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 14,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/FreeReturn"
+        }
+      }
+    ],
+    "image": "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/ipad-pro-model-select-gallery-1-202405?wid=5120&hei=2880&fmt=jpeg&qlt=90&.v=1713495958512",
+    "description": "Get $45 - $905 off the powerful iPad Pro when you trade in with Apple. Plus, get free delivery or in-store pickup. Buy or lease now at apple.com."
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": "1",
+        "item": {
+          "@id": "https://www.apple.com/ipad",
+          "url": "https://www.apple.com/ipad",
+          "name": "iPad"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": "2",
+        "item": {
+          "@id": "https://www.apple.com/ipad-pro",
+          "url": "https://www.apple.com/ipad-pro",
+          "name": "iPad Pro"
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": "3",
+        "name": "Shop iPad Pro"
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Which Apple Pencil will work with this iPad?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Both Apple Pencil Pro and Apple Pencil (USB-C) are compatible with this iPad Pro.\nApple Pencil Pro pairs wirelessly and attaches magnetically for charging and storage.\nApple Pencil (USB-C) pairs via USB-C Charge Cable and attaches magnetically for storage."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which keyboard will work with this iPad?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Magic Keyboard for iPad Pro. Third-party keyboards are also available."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference in display glass options?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "iPad Pro offers two antireflective glass options. Standard glass has an industry-leading antireflective coating for viewing comfort and readability. Nano-texture glass further minimizes glare while delivering outstanding image quality in workspaces with bright light sources, like sunlight. Nano-texture glass is available in 1TB or 2TB configurations."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What type of SIM does this iPad have?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "iPad Pro includes eSIM technology that enables fast, convenient, and secure activation of cellular data plans. There are a few ways to activate eSIM on your iPad including transferring from another iPad, joining an existing iPhone cellular plan, adding a new plan in Settings, scanning a QR code, or using an app from a carrier. Footnote 1 With eSIM you can choose cellular data plans from select carriers in more than 190 countries and regions around the world. Learn more about setting up cellular data service on your iPad (Opens in a new window)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I pay using Apple Card Monthly Installments?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "If you already have Apple Card and want to purchase your iPad with Apple Card Monthly Installments, select it as your payment option when you check out at Apple. You’ll pay over time, interest-free Footnote ◊ and receive 3% Daily Cash back, all up front. If you don’t have Apple Card yet, you can apply for one in as little as a minute when you select Apple Card Monthly Installments as your payment option and use it for your purchase.\nLearn more about Apple Card Monthly Installments (Opens in a new window) If you used your Apple Card to pay in full, but you meant to take advantage of interest-free financing using Apple Card Monthly Installments, we can help you get switched over. Contact an Apple Card Specialist at 877-255-5923. You can also chat with one by tapping on Apple Card in Wallet, tapping on the black circle in the upper right-hand corner, and then tapping Message.\nCustomers in U.S. Territories should contact Goldman Sachs Bank USA for questions about installments."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does Apple Upgrade work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Apple Upgrade is a leasing program offered in partnership with Klarna. Lease an iPhone or Apple Watch for 12 or 24 months, or an iPad or Mac for 24 or 36 months. Then, easily upgrade to something new at the end of your term. You can even upgrade early by paying the full amount of your remaining lease payments plus applicable taxes. In either case, you must return your original device in good working condition. Footnote ∆ \nEnroll in Apple Upgrade by selecting which Apple product you want, choosing Apple Upgrade as your payment option, selecting the term that works best for you, and filling out your application during checkout."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does Apple Trade In work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Apple Trade In program makes it easy to trade in an eligible iPad. Just answer a few questions regarding the model and condition, and we will provide an estimated trade-in value Footnote § or a simple way to recycle it for free if it’s not eligible for credit. We’ll send you a free trade-in kit. You may receive it along with your new device. Otherwise, it will be mailed to you separately as soon as your order is ready for delivery or pickup. Once you receive the trade-in kit, you have 14 days to prepare and send in your device. Once we receive your iPad, we’ll inspect it and verify its condition. If the condition matches what you described, there’s nothing more you need to do. If the condition doesn’t match, a new trade-in value will be provided. You’ll have the option to either accept this revised value or reject it. We’ll work with you to confirm that you still want to move forward with the trade‑in. If you buy online and choose to pay with Apple Card Monthly Installments, we’ll instantly apply your estimated trade‑in value to the purchase of your new iPad. If you pay in full, your trade-in value is applied as a refund to your original payment method. This happens once we receive your eligible iPad and confirm that the condition matches what you described. The trade-in process can take up to 2-3 weeks. You can also trade in your device at an Apple Store at the point of purchase, however the trade-in value in store may be different from the estimated trade-in value you received online."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What products can be covered by AppleCare One?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "AppleCare One coverage extends to products that were purchased recently or are currently covered by AppleCare+. Other eligible devices are those currently associated with your Apple Account, Apple audio or headphones less than 1 year old, and other Apple devices that are less than 4 years old and in good condition. Learn more about AppleCare (Opens in a new window)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are there differences between an iPad for AT&T and Verizon?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The iPad models for AT&T and Verizon are the same. For details on network support, please see support.apple.com/en-us/118626 (Opens in a new window) ."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I easily switch my carrier when I purchase my iPad?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. You can switch carriers when you purchase an iPad directly from Apple and choose carrier financing as your payment option. You’ll also be able to keep your existing number and data. And your new iPad will arrive ready to use, without you having to contact your former carrier."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Will my new iPad be unlocked?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, an iPad purchased from apple.com (Opens in a new window)  is unlocked. Once your new iPad is activated, it remains unlocked, which means you can use it with any network that provides service for iPad."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which network providers offer 5G service?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "AT&T and Verizon are the national wireless carriers for iPad in the United States, and they both offer 5G service. iPad Pro, iPad Air, iPad, and iPad mini models are 5G capable. The Apple Store and apple.com (Opens in a new window)  sell these models for use on these networks."
+        }
+      }
+    ]
+  }
+]

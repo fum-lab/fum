@@ -4,9 +4,16 @@ import Testing
 @testable import КонтейнерНаблюдений
 
 struct ПроцессыTests {
-    func команда(_ имя: String, _ аргументы: [String]) -> Process {
-        let каталог = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
+    private func каталогИсполняемыхФайлов() -> URL {
+        if let путь = ProcessInfo.processInfo.environment["FUM_TEST_BIN_DIR"], !путь.isEmpty {
+            return URL(fileURLWithPath: путь, isDirectory: true)
+        }
+        return URL(fileURLWithPath: #filePath).deletingLastPathComponent()
             .deletingLastPathComponent().deletingLastPathComponent().appendingPathComponent(".build/debug")
+    }
+
+    func команда(_ имя: String, _ аргументы: [String]) -> Process {
+        let каталог = каталогИсполняемыхФайлов()
         let процесс = Process()
         процесс.executableURL = каталог.appendingPathComponent(имя)
         процесс.arguments = аргументы

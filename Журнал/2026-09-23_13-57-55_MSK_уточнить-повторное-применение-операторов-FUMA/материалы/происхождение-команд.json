@@ -1,0 +1,75 @@
+{
+  "схема": "fum.происхождение-видимых-команд.1",
+  "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "начальный_индекс": 672,
+  "сообщения": [
+    {
+      "экземпляр": "81f040377ae28da176e6ddd1124e00055d613a033e7553b487a06423ff42bced",
+      "позиция": {
+        "начало": 1490531157,
+        "конец": 1490531621,
+        "sha256": "1e0bcb264a364cdf43b86a83ca6623abd3b2db0f66e44078cf8ae363e2c69504"
+      },
+      "происхождение": "человек",
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "U nas zhe graf operatorov FUMA vyistraivayetsya dinamicheski podobno rabote kletki?\n"
+        }
+      ],
+      "сырой_объект": {
+        "type": "message",
+        "id": "msg_01a0cdcd-d534-72c1-a77c-9f1705e9e1f5",
+        "role": "user",
+        "content": [
+          {
+            "type": "input_text",
+            "text": "U nas zhe graf operatorov FUMA vyistraivayetsya dinamicheski podobno rabote kletki?\n"
+          }
+        ],
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a0cb70-b9ae-7d93-b4c6-034adf9a9d07",
+          "create_time": 1790159213.876813,
+          "content_item_kinds": [
+            "user.text"
+          ]
+        }
+      },
+      "дубли": []
+    },
+    {
+      "экземпляр": "7c525080f3a96645ee932f44535874a4af32fc2156f26d0c541018138af81861",
+      "позиция": {
+        "начало": 1490532163,
+        "конец": 1490532712,
+        "sha256": "011443a0695f29fd5c43fc578419e87f531347cb219c16f5bd252b7348d2f9e0"
+      },
+      "происхождение": "человек",
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "Ya imeyu v vidu, chto operator mozhet vstraivatjsya v neskoljko sovershenno raznyikh mest grafa yesli tipyi vkhoda i vyikhoda sovpadayut, eto u nas obespechivayetsya?\n\n"
+        }
+      ],
+      "сырой_объект": {
+        "type": "message",
+        "id": "msg_01a0cdcd-d53a-7050-abb6-dba471bbf5b2",
+        "role": "user",
+        "content": [
+          {
+            "type": "input_text",
+            "text": "Ya imeyu v vidu, chto operator mozhet vstraivatjsya v neskoljko sovershenno raznyikh mest grafa yesli tipyi vkhoda i vyikhoda sovpadayut, eto u nas obespechivayetsya?\n\n"
+          }
+        ],
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a0cb70-b9ae-7d93-b4c6-034adf9a9d07",
+          "create_time": 1790159213.882054,
+          "content_item_kinds": [
+            "user.text"
+          ]
+        }
+      },
+      "дубли": []
+    }
+  ]
+}

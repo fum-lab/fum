@@ -1,0 +1,147 @@
+{
+  "схема": "fum.происхождение-видимых-команд.1",
+  "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "начальный_индекс": 668,
+  "сообщения": [
+    {
+      "индекс": 668,
+      "экземпляр": "d21d2fdf3da3f6c42f2259d5df78dee6ea2599fea4c376b5ced5c78fe76c034d",
+      "позиция": {
+        "начало": 1483725807,
+        "конец": 1483726203,
+        "sha256": "a487e0ffef8506ff329a32a789c5976d20f8d2f9ac8a9774452c3199d5876beb"
+      },
+      "происхождение": "человек",
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "Planyi po FUMA?\n"
+        }
+      ],
+      "сырой_объект": {
+        "type": "message",
+        "id": "msg_01a0cd23-6922-76d0-a57a-421ca702aed6",
+        "role": "user",
+        "content": [
+          {
+            "type": "input_text",
+            "text": "Planyi po FUMA?\n"
+          }
+        ],
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a0cb70-b9ae-7d93-b4c6-034adf9a9d07",
+          "create_time": 1790148045.090989,
+          "content_item_kinds": [
+            "user.text"
+          ]
+        }
+      },
+      "дубли": []
+    },
+    {
+      "индекс": 669,
+      "экземпляр": "53cf4eff079cfd7b08402341301db8ea3d73ae253173ccf2576f556886c02afb",
+      "позиция": {
+        "начало": 1484135232,
+        "конец": 1484135757,
+        "sha256": "f186df6cef94e9669c34aaa3f16d2bfcaace308f4b2dd815f5dc4bcfca28951f"
+      },
+      "происхождение": "человек",
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "Raspoznavaniye rechi mozhno delatj i za predelami rantajma FUM, potomu chto audiopotok zanimayet nemnogo, a raspoznannyij tekst yesjhyo menjshe.\n"
+        }
+      ],
+      "сырой_объект": {
+        "type": "message",
+        "id": "msg_01a0cdaf-3351-7643-abcd-4ac0cd96dbdb",
+        "role": "user",
+        "content": [
+          {
+            "type": "input_text",
+            "text": "Raspoznavaniye rechi mozhno delatj i za predelami rantajma FUM, potomu chto audiopotok zanimayet nemnogo, a raspoznannyij tekst yesjhyo menjshe.\n"
+          }
+        ],
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a0cb70-b9ae-7d93-b4c6-034adf9a9d07",
+          "create_time": 1790157206.353643,
+          "content_item_kinds": [
+            "user.text"
+          ]
+        }
+      },
+      "дубли": []
+    },
+    {
+      "индекс": 670,
+      "экземпляр": "b86d7c7e0ea5bb93e7068ae317fbc1b60c1fc4d6b4e7417344efcc52feafc657",
+      "позиция": {
+        "начало": 1484136360,
+        "конец": 1484136882,
+        "sha256": "4883af7f74bca0bceb74b766b548cdfac3a99fdc4ca05b18c1add66119f75de0"
+      },
+      "происхождение": "человек",
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "V master sejchas lezhit neotslezhivayemyij fajl, sgenerirovannyij Xcode, chto ne yestj khorosho. V itoge Xcode ostavlyayet gryaznyij chekaut.\n"
+        }
+      ],
+      "сырой_объект": {
+        "type": "message",
+        "id": "msg_01a0cdaf-3357-7a71-b4d9-6b1eedc86728",
+        "role": "user",
+        "content": [
+          {
+            "type": "input_text",
+            "text": "V master sejchas lezhit neotslezhivayemyij fajl, sgenerirovannyij Xcode, chto ne yestj khorosho. V itoge Xcode ostavlyayet gryaznyij chekaut.\n"
+          }
+        ],
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a0cb70-b9ae-7d93-b4c6-034adf9a9d07",
+          "create_time": 1790157206.359636,
+          "content_item_kinds": [
+            "user.text"
+          ]
+        }
+      },
+      "дубли": []
+    },
+    {
+      "индекс": 671,
+      "экземпляр": "dc0180059da534883445e7f752b2fdb6ae2c0337b61bf8b6dab6ff176f206102",
+      "позиция": {
+        "начало": 1484137482,
+        "конец": 1484137958,
+        "sha256": "a77e28cb9ce1279b2fbee5f8876d8206e25b34817427be8d12501683de73cd3c"
+      },
+      "происхождение": "человек",
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "Chto stoit ispoljzovatj dlya realtajmnogo raspoznavaniya rechi po krajnej mere na pervom etape?\n"
+        }
+      ],
+      "сырой_объект": {
+        "type": "message",
+        "id": "msg_01a0cdaf-335d-7f72-83fc-d3041e094002",
+        "role": "user",
+        "content": [
+          {
+            "type": "input_text",
+            "text": "Chto stoit ispoljzovatj dlya realtajmnogo raspoznavaniya rechi po krajnej mere na pervom etape?\n"
+          }
+        ],
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a0cb70-b9ae-7d93-b4c6-034adf9a9d07",
+          "create_time": 1790157206.365114,
+          "content_item_kinds": [
+            "user.text"
+          ]
+        }
+      },
+      "дубли": []
+    }
+  ]
+}

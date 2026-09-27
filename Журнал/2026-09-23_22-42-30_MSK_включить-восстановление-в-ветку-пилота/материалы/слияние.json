@@ -1,0 +1,11 @@
+{
+  "task": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "ref": "refs/heads/codex/derived-pipeline-v1",
+  "base": "df56a8ab7a954db0bdce7e0b3c2c7818dfcbd848",
+  "incoming": "f234b32c0cd6b5e8308e7fafadebd7ddd8e017df",
+  "incoming_tree": "95d3f22dc9da23f8a5bc004078f15ca8dbe901a0",
+  "merge_index_tree": "95d3f22dc9da23f8a5bc004078f15ca8dbe901a0",
+  "terminal_sha256": "b46d05c4f9f5a490f916739a2c1a108335ca5bf86aaf06fc61be7d1a0583d509",
+  "схема": "fum.подготовленное-слияние-восстановления.1",
+  "код_не_изменён": true
+}

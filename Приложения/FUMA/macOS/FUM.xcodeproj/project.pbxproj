@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		7C6A00000000000000000119 /* КомандноеИсполнение.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000024; };
+		7C6A0000000000000000011C /* ПриёмБайтов.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000025; };
+		7C6A0000000000000000011D /* ЖурналНаблюдений.swift in FUM */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000026; };
+		7C6A0000000000000000011E /* ЖурналНаблюдений.swift in MCP */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000026; };
 		7C6A0000000000000000011A /* FUMStructuringOperatorMemory */ = {isa = PBXBuildFile; productRef = 7C6A00000000000000000910; };
 		7C6A0000000000000000011B /* КонтейнерНаблюдений */ = {isa = PBXBuildFile; productRef = 7C6A00000000000000000911; };
 		7C6A00000000000000000117 /* ПутиПриложения.swift in FUM */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000018 /* ПутиПриложения.swift */; };
@@ -62,6 +65,8 @@
 
 /* Begin PBXFileReference section */
 		7C6A00000000000000000024 /* КомандноеИсполнение.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/ИсполнениеОператора/КомандноеИсполнение.swift"; sourceTree = SOURCE_ROOT; };
+		7C6A00000000000000000025 /* ПриёмБайтов.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/ИсполнениеОператора/ПриёмБайтов.swift"; sourceTree = SOURCE_ROOT; };
+		7C6A00000000000000000026 /* ЖурналНаблюдений.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/FUMObservationJournal/ЖурналНаблюдений.swift"; sourceTree = SOURCE_ROOT; };
 		7C6A00000000000000000018 /* ПутиПриложения.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/ПутиИсполнения/ПутиПриложения.swift"; sourceTree = SOURCE_ROOT; };
 		7C6A00000000000000000001 /* AXVisionSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AXVisionSnapshot.swift; sourceTree = "<group>"; };
 		7C6A00000000000000000002 /* CameraGaze.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraGaze.swift; sourceTree = "<group>"; };
@@ -116,6 +121,8 @@
 			isa = PBXGroup;
 			children = (
 				7C6A00000000000000000024 /* КомандноеИсполнение.swift */,
+				7C6A00000000000000000025 /* ПриёмБайтов.swift */,
+				7C6A00000000000000000026 /* ЖурналНаблюдений.swift */,
 				7C6A00000000000000000018 /* ПутиПриложения.swift */,
 				7C6A00000000000000000301 /* Sources */,
 				7C6A00000000000000000303 /* Xcode */,
@@ -292,6 +299,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C6A00000000000000000119 /* КомандноеИсполнение.swift in Sources */,
+				7C6A0000000000000000011C /* ПриёмБайтов.swift in Sources */,
+				7C6A0000000000000000011D /* ЖурналНаблюдений.swift in FUM */,
 				7C6A00000000000000000101 /* AXVisionSnapshot.swift in Sources */,
 				7C6A00000000000000000102 /* CameraGaze.swift in Sources */,
 				7C6A00000000000000000103 /* CameraVisionModel.swift in Sources */,
@@ -321,6 +330,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C6A00000000000000000113 /* main.swift in Sources */,
+				7C6A0000000000000000011E /* ЖурналНаблюдений.swift in MCP */,
 				7C6A00000000000000000118 /* ПутиПриложения.swift in MCP */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

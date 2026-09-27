@@ -28,6 +28,9 @@ class СозданиеКоммита(unittest.TestCase):
         временный = tempfile.TemporaryDirectory()
         сам.addCleanup(временный.cleanup)
         сам.каталог = Path(временный.name).resolve()
+        сам.хранилище_готовности = mock.patch.object(коммит.готовность, "КОРЕНЬ_СОСТОЯНИЯ", сам.каталог / "готовность")
+        сам.хранилище_готовности.start()
+        сам.addCleanup(сам.хранилище_готовности.stop)
         сам.корень = сам.каталог / "репозиторий"
         сам.корень.mkdir()
         # Изоляция фикстуры от identity, подписей и hooks пользовательской машины.
@@ -103,7 +106,7 @@ class СозданиеКоммита(unittest.TestCase):
     def записать_источник(сам):
         сам.источник.write_text("".join(json.dumps(запись, ensure_ascii=False) + "\n" for запись in сам.события))
 
-    def готовить(сам):
+    def готовить(сам, объявить_готовность=True):
         коммит.подготовить(сам.параметры)
         сам.гит("add", ".")
         with contextlib.redirect_stdout(io.StringIO()):
@@ -113,9 +116,17 @@ class СозданиеКоммита(unittest.TestCase):
             сам.assertEqual(0, код)
             сам.отчёты.выполнить_предпросмотр(сам.корень, сам.запрос)
         сам.гит("add", str(Path(ЗАПРОС).parent))
+        if объявить_готовность:
+            коммит.объявить_готовность(Path(сам.параметры["подготовка"]), [ЗАПУСК], 600)
 
     def создать(сам):
         return коммит.создать(Path(сам.параметры["подготовка"]), [ЗАПУСК])
+
+    def команда_CLI(сам, *аргументы):
+        # Отдельный процесс использует то же временное хранилище, что и API фикстуры.
+        запуск = ("import sys; from pathlib import Path; sys.path.insert(0, sys.argv.pop(1)); "
+            "import создание_коммита as команда; команда.готовность.КОРЕНЬ_СОСТОЯНИЯ=Path(sys.argv.pop(1)); raise SystemExit(команда.главная())")
+        return [sys.executable, "-B", "-c", запуск, str(СКРИПТЫ), str(сам.каталог / "готовность"), *аргументы]
 
     def отказ_без_коммита(сам, действие):
         голова = сам.гит("rev-parse", "HEAD")
@@ -130,13 +141,35 @@ class СозданиеКоммита(unittest.TestCase):
         итог = сам.создать()
         сам.assertEqual(итог["коммит"], сам.гит("rev-parse", "HEAD").strip())
         сырой = сам.гит("cat-file", "commit", итог["коммит"])
-        сам.assertIn("author FUM Интегратор <fixture@example.invalid>", сырой)
+        сам.assertIn("author FUM Интегратор [gpt-6-astra; effort=ultra] <fixture@example.invalid>", сырой)
         сам.assertIn("committer FUM <fixture@example.invalid>", сырой)
         сам.assertIn(КОМАНДА, сырой)
         сам.assertIn("model: gpt-6-astra\neffort: ultra", сырой)
         сам.assertTrue(сырой.endswith("Codex-Thread-ID: " + ЗАДАЧА + "\n"))
         сам.assertEqual([сам.начало], итог["родители"])
         сам.assertEqual(итог["коммит"], сам.создать()["коммит"])
+
+    def test_подготовка_сохраняет_подтверждённое_имя_автора(сам):
+        сам.готовить()
+        подготовка = json.loads(Path(сам.параметры["подготовка"]).read_bytes())
+        сам.assertEqual("fum.подготовленный-коммит.4", подготовка["схема"])
+        сам.assertEqual("FUM Интегратор", подготовка["параметры"]["имя_автора"])
+        сам.assertEqual("FUM Интегратор [gpt-6-astra; effort=ultra]", подготовка["имя_автора"])
+
+    def test_подмена_сохранённого_имени_отказывает_до_git(сам):
+        сам.готовить()
+        путь = Path(сам.параметры["подготовка"])
+        подготовка = json.loads(путь.read_bytes())
+        подготовка["имя_автора"] = "FUM Интегратор [gpt-6-astra; effort=low]"
+        путь.write_bytes(коммит.байты(подготовка))
+        сам.отказ_без_коммита(сам.создать)
+        сам.assertFalse(Path(сам.параметры["квитанция"]).exists())
+
+    def test_небезопасная_модель_не_попадает_в_подготовку(сам):
+        сам.события[1]["payload"]["model"] = "gpt-6-astra] <injected>"
+        сам.записать_источник()
+        сам.отказ_без_коммита(lambda: коммит.подготовить(сам.параметры))
+        сам.assertFalse(Path(сам.параметры["сообщение"]).exists())
 
     def test_настоящее_слияние_сохраняет_порядок_обоих_родителей(сам):
         сам.гит("checkout", "-qb", "codex/источник")
@@ -260,7 +293,7 @@ class СозданиеКоммита(unittest.TestCase):
                 "GIT_COMMITTER_EMAIL": "committer@example.invalid", "GIT_AUTHOR_DATE": "2026-09-14T12:00:00+03:00", "GIT_COMMITTER_DATE": "2026-09-15T12:00:00+03:00"}):
             сам.готовить()
             итог = сам.создать()
-            сам.assertEqual("FUM Интегратор <author@example.invalid> 1789376400 +0300", итог["автор"])
+            сам.assertEqual("FUM Интегратор [gpt-6-astra; effort=ultra] <author@example.invalid> 1789376400 +0300", итог["автор"])
             сам.assertEqual("Исходный коммиттер <committer@example.invalid> 1789462800 +0300", итог["коммиттер"])
 
     def test_изменение_явной_даты_после_подготовки_отказывает(сам):
@@ -305,7 +338,7 @@ class СозданиеКоммита(unittest.TestCase):
         крючок = сам.корень / ".git/hooks/pre-commit"
         крючок.write_text("#!/bin/sh\ntouch .git/ожидание-сигнала\nsleep 0.6\ntouch .git/поздняя-запись\n")
         крючок.chmod(0o755)
-        процесс = subprocess.Popen([sys.executable, "-B", str(СКРИПТЫ / "создание_коммита.py"), "создать", "--подготовка", сам.параметры["подготовка"], "--проверка", ЗАПУСК],
+        процесс = subprocess.Popen(сам.команда_CLI("создать", "--подготовка", сам.параметры["подготовка"], "--проверка", ЗАПУСК),
             stdout=subprocess.PIPE, stderr=subprocess.PIPE, start_new_session=True)
         предел = time.monotonic() + 12
         try:

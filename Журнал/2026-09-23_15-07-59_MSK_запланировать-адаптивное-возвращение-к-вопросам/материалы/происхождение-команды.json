@@ -1,0 +1,93 @@
+{
+  "схема": "fum.сообщения-задачи.1",
+  "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "источник": "6a7d8805ede5924887e4cc79d2a14f6c24beb12b51736d559f86d99d07a1f353",
+  "граница": 1508637195,
+  "sha256": "ec07debc3f54eb549f44e6b86b3661551df4ba9347bbfc77b3ecdf153156fccb",
+  "размер_снимка": 1508637195,
+  "дописано_после_снимка": 0,
+  "неполный_хвост": 0,
+  "полнота_подтверждена": true,
+  "профиль": {
+    "прочитано_байтов": 1508637195,
+    "разобрано_строк": 1117,
+    "режим": "проверенный префикс и хвост",
+    "сверка_снимка_наносекунды": 106042,
+    "этапы_наносекунды": {
+      "чтение_кэша": 84829875,
+      "чтение_источника": 829093167,
+      "сохранение_и_выдача": 4556167
+    },
+    "длительность_наносекунды": 918732541
+  },
+  "сообщения": [
+    {
+      "экземпляр": "d15bc6da5d9aedf4a484f09c076573ca7f4ab0e1bf03ad5871e1a078cec3468d",
+      "позиция": {
+        "начало": 1507505144,
+        "конец": 1507505726,
+        "sha256": "acb358ae0e371bc884398ba9fb75fde4e00ddeef847679dc03abc9ae8f1ad324"
+      },
+      "происхождение": "человек",
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "Po suti kazhdyij vopros, kotoryij u nas voznikayet, zasluzhivayet togo, chtobyi periodicheski vspominatjsya i pereproveryatjsya v budusjhem s toj ili inoj avtomaticheski reguliruyemoj periodichnostjyu.\n"
+        }
+      ],
+      "сырой_объект": {
+        "type": "message",
+        "id": "msg_01a0ce28-cbfb-7f01-b00e-de1b02ed72d4",
+        "role": "user",
+        "content": [
+          {
+            "type": "input_text",
+            "text": "Po suti kazhdyij vopros, kotoryij u nas voznikayet, zasluzhivayet togo, chtobyi periodicheski vspominatjsya i pereproveryatjsya v budusjhem s toj ili inoj avtomaticheski reguliruyemoj periodichnostjyu.\n"
+          }
+        ],
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a0cb70-b9ae-7d93-b4c6-034adf9a9d07",
+          "create_time": 1790165175.291874,
+          "content_item_kinds": [
+            "user.text"
+          ]
+        }
+      },
+      "дубли": []
+    },
+    {
+      "экземпляр": "ed365f38788506cecb6b3ef34876a6bef3bbb6cd8041eb497f61b9a5cc5c1943",
+      "позиция": {
+        "начало": 1508568074,
+        "конец": 1508568535,
+        "sha256": "c04dde567fee46ca2183a489d1cc7ae3e978946992846b7026dc10c17b8be7bb"
+      },
+      "происхождение": "человек",
+      "содержимое": [
+        {
+          "type": "input_text",
+          "text": "To yestj eto bukvaljno obucheniye zadavaniyu voprosov, v tom chisle samomu sebe.\n"
+        }
+      ],
+      "сырой_объект": {
+        "type": "message",
+        "id": "msg_01a0ce35-031d-77e3-beb0-e6046ef0a997",
+        "role": "user",
+        "content": [
+          {
+            "type": "input_text",
+            "text": "To yestj eto bukvaljno obucheniye zadavaniyu voprosov, v tom chisle samomu sebe.\n"
+          }
+        ],
+        "internal_chat_message_metadata_passthrough": {
+          "turn_id": "01a0cb70-b9ae-7d93-b4c6-034adf9a9d07",
+          "create_time": 1790165975.837779,
+          "content_item_kinds": [
+            "user.text"
+          ]
+        }
+      },
+      "дубли": []
+    }
+  ]
+}

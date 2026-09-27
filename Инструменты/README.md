@@ -44,6 +44,7 @@
 - [fum-kompleksnaya-proverka-repozitoriya](fum-kompleksnaya-proverka-repozitoriya/SKILL.md) - запускает единый локальный smoke-check с длительностями подготовки, каждого шага и полного процесса: сохранность настройки изоляции и локальность путей навыков, тесты автоматизаций, пересборку проверяемых реестров, контракт корневой инструкции и отдельного индекса документации, двунаправленность вопросов, recency-проверку и связность выбранной рабочей сессии.
 - [fum-proverka-trassyi-agentskogo-cikla](fum-proverka-trassyi-agentskogo-cikla/SKILL.md) - валидирует локальные трассы версии `3` с независимыми состояниями эпизода, модельной ветви, ожидающего перехода и внешнего исполнения без сети, секретов, живой LLM и физических эффектов.
 - [fum-revjyu-prodelannoj-rabotyi](fum-revjyu-prodelannoj-rabotyi/SKILL.md) - создаёт и проверяет сохранённые ревью проделанной работы: Git-срез, находки, проверки, остаточные риски и вывод.
+- [fum-konvejyer-proizvodnyikh-vetok](fum-konvejyer-proizvodnyikh-vetok/SKILL.md) - проверяет паспорт владения производными каталогами, именование веток и отдельные рабочие деревья до создания Git-состояния или доставки.
 
 ## Проверки
 
@@ -91,6 +92,7 @@
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-kompleksnaya-proverka-repozitoriya/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-kompleksnaya-proverka-repozitoriya`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-proverka-trassyi-agentskogo-cikla/tests -p 'test_*.py'` - локальные тесты схемы, фикстур и межсобытийных инвариантов трассы агентского цикла версии `3`.
 - `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-revjyu-prodelannoj-rabotyi/tests -p 'test_*.py'` - локальные тесты автоматизации `fum-revjyu-prodelannoj-rabotyi`.
+- `PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests -p 'test_*.py'` - локальные тесты паспорта производных веток, владельцев путей, доставок и профиля.
 
 ## Источники требований
 
@@ -130,6 +132,6 @@
 - [исходный запрос 2026-07-22 03:38:35 MSK - Разрешить выполнение доступных карточек шагов](../Журнал/2026-07-22_03-38-35_MSK_разрешить-выполнение-доступных-карточек-шагов/запрос.md)
 
 <!-- FUM-MD-RECENCY:BEGIN -->
-<!-- last-content-edit: 2026-09-11 15:53:44 MSK -->
-<!-- content-sha256: sha256:046405e6c381fbb0ba2d84ad9f4af0ac64330f6e1cf5e583c1670b424366bfc5 -->
+<!-- last-content-edit: 2026-09-22 10:50:37 MSK -->
+<!-- content-sha256: sha256:d9b849d37c3076796304684ed19ec28f6d4f8dca357b5ef0ff113cb09c06acfd -->
 <!-- FUM-MD-RECENCY:END -->

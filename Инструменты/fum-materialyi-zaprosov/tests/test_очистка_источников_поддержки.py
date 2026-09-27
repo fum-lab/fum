@@ -12,6 +12,36 @@ import source_archive as архив
 
 
 class ОчисткаИсточников(unittest.TestCase):
+    def test_идентификаторы_посетителя_и_адрес_запроса_в_script(сам):
+        тело = ('<script>ytcfg.set({"VISITOR_DATA":"synthetic-private-a",'
+                '"visitorData":"synthetic-private-b",'
+                '"remoteHost":"192.0.2.13",'
+                '"INNERTUBE_API_KEY":"public-fixture"});</script>'
+                '<p>Пример visitorData: synthetic-public-example</p>')
+        итог = архив.очистить_служебную_разметку(тело)
+        сам.assertNotIn('synthetic-private', итог)
+        сам.assertNotIn('192.0.2.13', итог)
+        сам.assertIn('"INNERTUBE_API_KEY":"public-fixture"', итог)
+        сам.assertIn('Пример visitorData: synthetic-public-example', итог)
+        сам.assertEqual(архив.очистить_служебную_разметку(итог), итог)
+
+    def test_служебные_поля_страницы_не_публикуются(сам):
+        тело = ('<meta name="request-id" content="synthetic-private-meta">'
+                '<script nonce="synthetic-private-nonce">'
+                '{"requestId":"synthetic-private-request",'
+                '"countryCode":"synthetic-private-country",'
+                '"device":"synthetic-private-device",'
+                '"cspNonce":"synthetic-private-csp",'
+                '"uploadToken":"synthetic-private-upload",'
+                '"csrf_tokens":{"/route":{"post":"synthetic-private-csrf"}},'
+                '"articleTitle":"Открытая статья"}</script>'
+                '<p>Открытая статья</p>')
+        итог = архив.очистить_служебную_разметку(тело)
+        сам.assertNotIn('synthetic-private', итог)
+        сам.assertIn('"articleTitle":"Открытая статья"', итог)
+        сам.assertIn('<p>Открытая статья</p>', итог)
+        сам.assertEqual(архив.очистить_служебную_разметку(итог), итог)
+
     def test_сжатый_документ_отклоняется_после_распаковки(сам):
         with tempfile.TemporaryDirectory() as каталог:
             def транспорт(адрес_источника, файл_тела, путь_заголовков):
@@ -160,6 +190,46 @@ class ОчисткаИсточников(unittest.TestCase):
             пример = '<script ' + атрибуты + '>{"websocket":{"token":"public-example"}}</script>'
             with сам.subTest(атрибуты=атрибуты):
                 сам.assertEqual(архив.очистить_служебную_разметку(пример), пример)
+
+    def test_телеметрия_youtube_и_токен_продолжения_очищаются_адресно(сам):
+        тело = (
+            '<script>var ytInitialData={"EVENT_ID":"private-event","clickTrackingParams":"private-click",'
+            '"trackingParams":"private-track","trackingParam":"private-param",'
+            '"continuationCommand":{"token":"private-continuation","request":"CONTINUATION_REQUEST_TYPE_BROWSE"},'
+            '"public":{"token":"public-example"}};'
+            'ytcfg.set({"rolloutToken":"private-rollout","deviceExperimentId":"private-experiment",'
+            '"INNERTUBE_CONTEXT":{"client":{"hl":"ru"}}});</script>'
+            '<p>Открытое описание видео и слово trackingParams.</p>'
+        )
+        итог = архив.очистить_служебную_разметку(тело)
+        сам.assertNotIn('private-', итог)
+        сам.assertIn('"token":"public-example"', итог)
+        сам.assertIn('"hl":"ru"', итог)
+        сам.assertIn('Открытое описание видео и слово trackingParams.', итог)
+        сам.assertEqual(архив.очистить_служебную_разметку(итог), итог)
+
+    def test_подпись_телеметрии_github_не_затрагивает_открытый_payload(сам):
+        тело = (
+            '<a data-hydro-click-hmac="private-signature" '
+            'data-hydro-click="{&quot;payload&quot;:{&quot;repository_id&quot;:42}}">Репозиторий</a>'
+            '<script>{"auth_hydro_click_hmac":"private-script-signature","public":"ok"}</script>'
+            '<p>Пример data-hydro-click-hmac: public-example</p>'
+        )
+        итог = архив.очистить_служебную_разметку(тело)
+        сам.assertNotIn('private-signature', итог)
+        сам.assertNotIn('private-script-signature', итог)
+        сам.assertIn('repository_id', итог)
+        сам.assertIn('Репозиторий', итог)
+        сам.assertIn('Пример data-hydro-click-hmac: public-example', итог)
+        сам.assertEqual(архив.очистить_служебную_разметку(итог), итог)
+
+    def test_csrf_в_ссылке_статьи_очищается_без_удаления_ссылки(сам):
+        тело = '<a href="/article/save?_csrf=private-csrf&view=full">Сохранить статью</a>'
+        итог = архив.очистить_служебную_разметку(тело)
+        сам.assertNotIn('private-csrf', итог)
+        сам.assertIn('view=full', итог)
+        сам.assertIn('Сохранить статью', итог)
+        сам.assertEqual(архив.очистить_служебную_разметку(итог), итог)
 
 
     def test_диагностика_одноразового_значения_и_незакавыченное_поле(сам):

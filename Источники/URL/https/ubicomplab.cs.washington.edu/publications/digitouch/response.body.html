@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DigiTouch: Reconfigurable Thumb-to-Finger Input and Text Entry on Head-mounted Displays – Ubicomp Lab – Ubiquitous Computing Lab at the University of Washington</title>
+
+        <meta charset="utf-8" />
+    <meta content='text/html; charset=utf-8' http-equiv='Content-Type'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'>
+
+    
+    <meta name="description" content="
+" />
+    <meta property="og:description" content="
+" />
+    
+    <meta name="author" content="Ubicomp Lab" />
+
+    
+    <meta property="og:title" content="DigiTouch: Reconfigurable Thumb-to-Finger Input and Text Entry on Head-mounted Displays" />
+    <meta property="twitter:title" content="DigiTouch: Reconfigurable Thumb-to-Finger Input and Text Entry on Head-mounted Displays" />
+    
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+
+    
+    <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="/bower_components/bxslider-4/dist/jquery.bxslider.min.js"></script>
+    <script type="text/javascript" src="/bower_components/jquery-migrate/jquery-migrate.min.js"></script>
+    <script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="stylesheet" type="text/css" href="/bower_components/bxslider-4/dist/jquery.bxslider.min.css" />
+    <link rel="alternate" type="application/rss+xml" title="Ubicomp Lab - Ubiquitous Computing Lab at the University of Washington" href="/feed.xml" />
+    
+    
+    <link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/2023-favicon.svg">
+    <link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/2023-favicon.svg">
+    <link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/2023-favicon.svg">
+    <link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/2023-favicon.svg">
+    <link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/2023-favicon.svg">
+    <link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/2023-favicon.svg">
+    <link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/2023-favicon.svg">
+    <link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/2023-favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/2023-favicon.svg">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/images/favicon/2023-favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/2023-favicon.svg">
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/2023-favicon.svg">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/2023-favicon.svg">
+    <link rel="manifest" href="/images/favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    
+    <script>
+      function fixNavbar() {
+        if ($(this).scrollTop() > 87 && $(window).width() >= 768) {
+          $("body").addClass("fix-nav");
+          $(".navbar").addClass("navbar-fixed-top");
+          $(".navbar").removeClass("navbar-static-top");
+
+        } else {
+          $("body").removeClass("fix-nav");
+          $(".navbar").addClass("navbar-static-top");
+          $(".navbar").removeClass("navbar-fixed-top");
+        }
+      }
+      $(window).on('resize orientationChange', function(event) {
+        fixNavbar();
+      });
+      $(window).scroll(function(e){
+        fixNavbar()
+      });
+    </script>
+    
+  </head>
+
+  <body>
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">
+            <img id="brand-image" src="/images/ubicomp_horizontal_wordmark_white.svg">
+          </a>
+        </div>
+    
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="/members">Members</a></li>
+            <li><a href="/publications">Projects and Publications</a></li>
+            <li><a href="/awards">Awards</a></li>
+            <li><a href="/get_involved">Get Involved</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+    <div id="main" role="main" class="container">
+      <script src="/bower_components/jquery.fitvids/jquery.fitvids.js"></script>
+<article class="page publication">
+  <h1>DigiTouch: Reconfigurable Thumb-to-Finger Input and Text Entry on Head-mounted Displays</h1>
+  <span class="author_list">
+  
+<a href="http://www.ericwhitmire.com">Eric Whitmire</a>, <a href="https://homes.cs.washington.edu/~mohitj/">Mohit Jain</a>, Divye Jain, Greg Nelson, Ravi Karkar, <a href="https://homes.cs.washington.edu/~shwetak/">Shwetak Patel</a>, <a href="http://www.mayankgoel.com">Mayank Goel</a></span>
+    <section>
+    
+    <div class="materials">
+      <a href="/pdfs/digitouch.pdf" class="btn btn-default btn-xs" aria-label="Download PDF">
+        <span class="glyphicon glyphicon-file" aria-hidden="true"></span> PDF
+      </a>
+      <a href="https://youtu.be/4d_RMTVn9eQ" class="btn btn-default btn-xs" aria-label="Video" target="_blank">
+        <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span> Video
+      </a> 
+      <button type="button" class="btn btn-default btn-xs" aria-label="Citation" data-toggle="modal" data-target="#digitouch-reconfigurable-thumb-to-finger-input-and-text-entry-on-head-mounted-displays_citation">
+        <span class="glyphicon glyphicon-book" aria-hidden="true"></span> Citation
+      </button>
+      <button type="button" class="btn btn-default btn-xs" aria-label="BibTeX" data-toggle="modal" data-target="#digitouch-reconfigurable-thumb-to-finger-input-and-text-entry-on-head-mounted-displays_bibtex">
+        <span class="glyphicon glyphicon-book" aria-hidden="true"></span> BibTeX
+      </button>
+      
+      
+      
+    </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="digitouch-reconfigurable-thumb-to-finger-input-and-text-entry-on-head-mounted-displays_bibtex">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">DigiTouch: Reconfigurable Thumb-to-Finger Input and Text Entry on Head-mounted Displays</h4>
+          </div>
+          <div class="modal-body">
+            <code>@article{Whitmire:2017:DRT:3139486.3130978,
+  author = {Whitmire, Eric and Jain, Mohit and Jain, Divye and Nelson, Greg and Karkar, Ravi and Patel, Shwetak and Goel, Mayank},
+  title = {DigiTouch: Reconfigurable Thumb-to-Finger Input and Text Entry on Head-mounted Displays},
+  journal = {Proc. ACM Interact. Mob. Wearable Ubiquitous Technol.},
+  issue_date = {September 2017},
+  volume = {1},
+  number = {3},
+  month = sep,
+  year = {2017},
+  issn = {2474-9567},
+  pages = {113:1--113:21},
+  articleno = {113},
+  numpages = {21},
+  url = {http://doi.acm.org/10.1145/3130978},
+  doi = {10.1145/3130978},
+  acmid = {3130978},
+  publisher = {ACM},
+  address = {New York, NY, USA},
+  keywords = {Wearable computing, eyes-free input, glove, head-mounted displays, thumb-to-finger},
+ }
+</code>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="digitouch-reconfigurable-thumb-to-finger-input-and-text-entry-on-head-mounted-displays_citation">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">DigiTouch: Reconfigurable Thumb-to-Finger Input and Text Entry on Head-mounted Displays</h4>
+          </div>
+          <div class="modal-body">
+            <code>Eric Whitmire, Mohit Jain, Divye Jain, Greg Nelson, Ravi Karkar, Shwetak Patel, and Mayank Goel. 2017. DigiTouch: Reconfigurable Thumb-to-Finger Input and Text Entry on Head-mounted Displays. Proc. ACM Interact. Mob. Wearable Ubiquitous Technol. 1, 3, Article 113 (September 2017), 21 pages. DOI: https://doi.org/10.1145/3130978
+</code>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+  
+
+  </section>
+  <section>
+    <div class="row">
+      <div class="image col-xs-12 col-md-6">
+        <div class="image-holder">
+          <img src="/images/pubs/digitouch.png"/>
+        </div>
+        DigiTouch is a reconfigurable glove that senses thumb-to-finger touches. It enables general input as well as text entry on head-mounted displays.
+      </div>
+
+      <div class="image col-xs-12 col-md-6">
+        <div class="video-holder">
+          
+        </div>
+      </div>
+    </div>
+
+  </section>
+  <section>
+    <h3>Abstract</h3>
+    Input is a significant problem for wearable systems, particularly for head mounted virtual and augmented reality displays. Existing input techniques either lack expressive power or may not be socially acceptable. As an alternative, thumb-to-finger touches present a promising input mechanism that is subtle yet capable of complex interactions. We present DigiTouch, a reconfigurable glove-based input device that enables thumb-to-finger touch interaction by sensing continuous touch position and pressure. Our novel sensing technique improves the reliability of continuous touch tracking and estimating pressure on resistive fabric interfaces. We demonstrate DigiTouch's utility by enabling a set of easily reachable and reconfigurable widgets such as buttons and sliders. Since DigiTouch senses continuous touch position, widget layouts can be customized according to user preferences and application needs. As an example of a real-world application of this reconfigurable input device, we examine a split-QWERTY keyboard layout mapped to the user’s fingers. We evaluate DigiTouch for text entry using a multi-session study. With our continuous sensing method, users reliably learned to type and achieved a mean typing speed of 16.0 words per minute at the end of ten 20-minute sessions, an improvement over similar wearable touch systems.
+
+  </section>
+  <section>
+    
+
+  </section>
+  <section>
+    
+  </section>
+
+
+
+</article>
+
+<script>
+  $(document).ready(function(){
+    $(".video-holder").fitVids();
+  });
+</script>
+
+    </div>
+
+    <div class="wrapper-footer container">
+      <footer class="footer">
+        <div class="row">
+          <div class="col-xs-4 text-left"><a href="http://cs.washington.edu" target="_blank"><img src="/images/cse.png"/></a></div>
+          <div class="col-xs-4 text-center"><a href="http://dub.washington.edu" target="_blank"><img src="/images/dub.png"/></a></div>
+          <div class="col-xs-4 text-right"><a href="http://ee.washington.edu" target="_blank"><img src="/images/ecePurple.png"/></a></div>
+        </div>
+      </footer>
+    </div>
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-11604894-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+    
+  </body>
+</html>
