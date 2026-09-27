@@ -110,7 +110,7 @@ class КомплектЗавершения(unittest.TestCase):
         это.assertEqual(цель.name, "stop-" + результат["sha256"])
         это.assertEqual(len(результат["манифест"]["файлы"]), 12)
         это.assertEqual(результат["манифест"]["схема"], "fum.комплект-Stop.3")
-        это.assertEqual(результат["кандидат"]["hooks"]["Stop"][0]["hooks"][0]["timeout"], 60)
+        это.assertEqual(результат["кандидат"]["hooks"]["Stop"][0]["hooks"][0]["timeout"], 90)
         for имя in ПУТИ:
             это.assertEqual((цель / имя).read_bytes(), (это.репозиторий / имя).read_bytes())
             это.assertEqual((цель / имя).stat().st_mode & 0o777, 0o400)
@@ -123,9 +123,9 @@ class КомплектЗавершения(unittest.TestCase):
         шаблон = Path(__file__).resolve().parents[1] / "шаблоны/Stop.hooks.шаблон.json"
         настройка = json.loads(шаблон.read_text(encoding="utf-8"))
         команда = настройка["hooks"]["Stop"][0]["hooks"][0]["command"]
-        это.assertIn("--тайм-аут-backend 30", команда)
+        это.assertIn("--тайм-аут-backend 60", команда)
         это.assertIn('--кэш "<ПРИВАТНЫЙ-КЭШ-СООБЩЕНИЙ>"', команда)
-        это.assertEqual(настройка["hooks"]["Stop"][0]["hooks"][0]["timeout"], 60)
+        это.assertEqual(настройка["hooks"]["Stop"][0]["hooks"][0]["timeout"], 90)
 
     def test_сгенерированный_комплект_передаёт_путь_приватного_кэша(это):
         кэш = это.хранилище / "сообщения.json"

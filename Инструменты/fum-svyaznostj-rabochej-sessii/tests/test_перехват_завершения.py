@@ -160,6 +160,12 @@ class ПерехватЗавершения(unittest.TestCase):
         это.assertFalse(это.состояние.exists())
         это.assertFalse((это.корень / "вызван").exists())
 
+    def test_тайм_аут_backend_принимает_измеренный_интервал(это):
+        результат = subprocess.run(это.команда("--тайм-аут-backend", "45"),
+            input=json.dumps(это.событие).encode(), capture_output=True, timeout=5)
+        это.assertEqual(результат.returncode, 0, результат.stderr.decode())
+        это.assertEqual(json.loads(результат.stdout)["decision"], "block")
+
     def test_ошибка_argv_не_пропускает_целевой_Stop_и_не_блокирует_чужой(это):
         без_исходника = это.команда()
         позиция = без_исходника.index("--исходник")

@@ -66,8 +66,8 @@ def диагностика(код):
 
 def число_секунд(текст):
     значение = float(текст)
-    if not math.isfinite(значение) or not 0 < значение <= 30:
-        raise argparse.ArgumentTypeError("допустим интервал (0, 30]")
+    if not math.isfinite(значение) or not 0 < значение <= 60:
+        raise argparse.ArgumentTypeError("допустим интервал (0, 60]")
     return значение
 
 
@@ -96,7 +96,7 @@ def аргументы():
     парсер.add_argument("--файл-прогресса", action="append", required=True)
     парсер.add_argument("--предел-повторов", type=предел, default=3)
     парсер.add_argument("--предел-продолжений", type=предел, default=64)
-    парсер.add_argument("--тайм-аут-backend", type=число_секунд, default=30.0)
+    парсер.add_argument("--тайм-аут-backend", type=число_секунд, default=60.0)
     парсер.add_argument("--тайм-аут-ввода", type=число_секунд, default=1.0)
     парсер.add_argument("--профиль", action="store_true")
     return парсер.parse_args()
