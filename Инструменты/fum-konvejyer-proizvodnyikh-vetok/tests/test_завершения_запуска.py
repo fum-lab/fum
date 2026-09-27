@@ -33,6 +33,7 @@ def вызов(имя, номер, аргументы, ответ):
 
 def остановить_до_назначения(корень, объект, пакет, план):
     допуски = {с: объект.допустить(пакет, с) for с in ("события", "сообщения")}
+    профиль = допуски["события"]["аргументы"]
     задача = "00000000-0000-4000-8000-000000000051"
     ход = "00000000-0000-4000-8000-000000000052"
     ответ = {"content": [{"type": "text", "text": json.dumps({"clientThreadId": "ожидание-пилота"})}], "isError": False}
@@ -44,7 +45,7 @@ def остановить_до_назначения(корень, объект, �
     поручение = "<codex_delegation>\n  <source_thread_id>" + ЗАДАЧА + "</source_thread_id>\n  <input>" + html.escape(допуски["события"]["аргументы"]["prompt"], quote=False) + "</input>\n</codex_delegation>"
     источник.write_bytes(b"".join(строка(з) for з in [
         {"type": "session_meta", "payload": {"id": задача, "cwd": str(дерево), "git": {"commit_hash": пакет["постановка"]["коммит"]}}},
-        {"type": "turn_context", "payload": {"cwd": str(дерево), "model": "gpt-6-astra", "effort": "low"}},
+        {"type": "turn_context", "payload": {"cwd": str(дерево), "model": профиль["model"], "effort": профиль["thinking"]}},
         {"type": "response_item", "payload": {"type": "function_call_output", "name": "create_thread", "output": поручение}},
         {"type": "response_item", "payload": {"type": "message", "role": "assistant", "phase": "final_answer", "content": [{"type": "output_text", "text": текст}]}},
         {"type": "event_msg", "payload": {"type": "task_complete", "turn_id": ход}},
