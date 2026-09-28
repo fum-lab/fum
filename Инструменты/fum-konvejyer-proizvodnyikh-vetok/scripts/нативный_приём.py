@@ -9,6 +9,7 @@ import stat
 import нативные_вызовы
 import остановка_ребёнка
 import приём_направления as хранение
+import контроль_первичного_потока
 
 ПРЕДЕЛ = 16 * 1024 * 1024
 
@@ -37,17 +38,19 @@ def прочитать_вход(источник, остановка, корне
         'Источник принадлежит другому получателю')
     найдено = None
     позиция = 0
+    контроль = контроль_первичного_потока.КонтрольПервичногоПотока()
+    первоначальных = 0
     for строка in сырые.splitlines(keepends=True):
         запись = хранение.разобрать(строка)
         хранение.требовать(type(запись) is dict, 'Неизвестная нативная запись получателя')
         данные = запись.get('payload', {})
         хранение.требовать(type(данные) is dict, 'Неизвестный payload получателя')
-        хранение.требовать(not (запись.get('type') == 'event_msg' and данные.get('type') == 'user_message'
-            or запись.get('type') == 'response_item' and данные.get('type') == 'message' and данные.get('role') == 'user'),
-            'Необработанный пользовательский ввод требует разбора координатором')
-        if позиция >= граница:
-            хранение.требовать(not (запись.get('type') == 'event_msg' and данные.get('type') == 'turn_aborted'),
-                               'Новый ход получателя отменён')
+        контроль.проверить(запись)
+        if позиция < граница and запись.get('type') == 'response_item' \
+                and данные.get('type') == 'function_call_output' and данные.get('name') in {'create_thread', 'send_message_to_thread', 'handoff_thread'}:
+            первоначальных += 1
+            хранение.требовать(первоначальных == 1 and данные['name'] == 'create_thread',
+                'Другое либо повторное поручение в остановленном префиксе получателя')
         if позиция >= граница and запись.get('type') == 'response_item' and данные.get('type') == 'function_call_output' \
                 and данные.get('name') in {'create_thread', 'send_message_to_thread', 'handoff_thread'}:
             хранение.требовать(найдено is None and данные['name'] == 'send_message_to_thread'

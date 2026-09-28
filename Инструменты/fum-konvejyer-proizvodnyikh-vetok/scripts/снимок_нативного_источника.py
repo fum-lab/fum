@@ -42,30 +42,56 @@ def _модель(сырые, задача):
     return данные
 
 
+def _штатное_изменение(элемент):
+    """Только две наблюдённые формы FileChange, без предполагаемых переносов."""
+    if (type(элемент) is not dict or set(элемент) != {'type', 'id', 'changes', 'status', 'stdout', 'stderr'}
+            or элемент['type'] != 'FileChange' or элемент['status'] != 'completed'
+            or not all(type(элемент[к]) is str for к in ('id', 'stdout', 'stderr'))
+            or not элемент['id'] or '\0' in элемент['id']
+            or type(элемент['changes']) is not dict or not элемент['changes']):
+        return False
+    for путь, изменение in элемент['changes'].items():
+        if type(путь) is not str or not путь or '\0' in путь or type(изменение) is not dict:
+            return False
+        if изменение.get('type') == 'add':
+            допустимо = set(изменение) == {'type', 'content'} and type(изменение['content']) is str
+        elif изменение.get('type') == 'update':
+            допустимо = (set(изменение) == {'type', 'unified_diff', 'move_path'}
+                and type(изменение['unified_diff']) is str and изменение['move_path'] is None)
+        else:
+            допустимо = False
+        if not допустимо:
+            return False
+    return True
+
+
+def проверить_запись(запись):
+    """Проверить уже разобранную строку, сохранив прежний закрытый набор событий."""
+    хранение.требовать(type(запись) is dict, 'Неизвестная запись native JSONL')
+    данные = запись.get('payload', {})
+    хранение.требовать(type(данные) is dict, 'Неизвестный payload native JSONL')
+    тип, вид = запись.get('type'), данные.get('type')
+    допустимо = тип == 'token_usage_record'
+    if тип == 'event_msg':
+        допустимо = вид in {'token_count', 'agent_message', 'agent_reasoning'}
+        if вид == 'item_completed':
+            элемент = данные.get('item')
+            допустимо = (type(элемент) is dict and элемент.get('role') != 'user'
+                and элемент.get('name') not in ТРАНСПОРТЫ and элемент.get('tool') not in ТРАНСПОРТЫ
+                and (элемент.get('type') in {'AgentMessage', 'CommandExecution', 'Reasoning',
+                    'McpToolCall', 'FunctionCall', 'FunctionCallOutput'} or _штатное_изменение(элемент)))
+    elif тип == 'response_item':
+        допустимо = (вид == 'message' and данные.get('role') == 'assistant'
+            or вид in {'reasoning', 'function_call', 'custom_tool_call',
+                       'function_call_output', 'custom_tool_call_output'}
+            and данные.get('name') not in ТРАНСПОРТЫ)
+    хранение.требовать(допустимо,
+        'После снимка получено новое управляющее или неизвестное событие; нужна новая подготовка')
+
+
 def проверить_хвост(сырые):
-    """Неизвестное событие требует нового разбора; имя транспорта важнее tool-типа."""
     for строка in сырые.splitlines(keepends=True):
-        запись = хранение.разобрать(строка)
-        хранение.требовать(type(запись) is dict, 'Неизвестная запись native JSONL')
-        данные = запись.get('payload', {})
-        хранение.требовать(type(данные) is dict, 'Неизвестный payload native JSONL')
-        тип, вид = запись.get('type'), данные.get('type')
-        допустимо = тип == 'token_usage_record'
-        if тип == 'event_msg':
-            допустимо = вид in {'token_count', 'agent_message', 'agent_reasoning'}
-            if вид == 'item_completed':
-                элемент = данные.get('item')
-                допустимо = (type(элемент) is dict and элемент.get('type') in {
-                    'AgentMessage', 'CommandExecution', 'Reasoning', 'McpToolCall',
-                    'FunctionCall', 'FunctionCallOutput'}
-                    and элемент.get('name') not in ТРАНСПОРТЫ)
-        elif тип == 'response_item':
-            допустимо = (вид == 'message' and данные.get('role') == 'assistant'
-                or вид in {'reasoning', 'function_call', 'custom_tool_call',
-                           'function_call_output', 'custom_tool_call_output'}
-                and данные.get('name') not in ТРАНСПОРТЫ)
-        хранение.требовать(допустимо,
-            'После снимка получено новое управляющее или неизвестное событие; нужна новая подготовка')
+        проверить_запись(хранение.разобрать(строка))
 
 
 def прочитать(каталог, задача, *, живой=True):

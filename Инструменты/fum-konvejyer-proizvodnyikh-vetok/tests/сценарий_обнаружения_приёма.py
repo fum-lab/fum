@@ -62,9 +62,17 @@ assert not коммит.гит(корень, 'status', '--porcelain')
 with mock.patch.dict(os.environ, {'CODEX_THREAD_ID': блок['корневая_задача']}):
     измерить('публикация конверта', lambda: вызвать('опубликовать', '--вход', str(файл)))
 первичные = источник.read_bytes()
+записи = [json.loads(с) for с in первичные.splitlines()]
+отправки = [з['payload'] for з in записи if з.get('type') == 'response_item'
+    and з['payload'].get('type') == 'function_call_output'
+    and з['payload'].get('name') == 'send_message_to_thread']
+assert len(отправки) == 1
 завершение = {'type': 'event_msg', 'payload': {'type': 'item_completed', 'item': {
     'type': 'FunctionCallOutput', 'name': 'send_message_to_thread', 'namespace': 'codex_app',
-    'output': json.loads(первичные.splitlines()[-1])['payload']['output']}}}
+    'output': отправки[0]['output']}}}
+есть_копия = any(з.get('type') == 'event_msg' and з['payload'].get('type') == 'item_completed'
+    and all(з['payload'].get('item', {}).get(к) == в for к, в in завершение['payload']['item'].items())
+    for з in записи)
 for событие in (
     {'type': 'response_item', 'payload': {'type': 'message', 'role': 'developer',
         'content': [{'type': 'input_text', 'text': 'Новое управление'}]}},
@@ -82,7 +90,7 @@ for событие in (
     assert not конверт.адрес(текст, получатель=True).exists()
     assert not коммит.гит(корень, 'status', '--porcelain')
     источник.write_bytes(первичные)
-источник.write_bytes(первичные + хранение.байты(завершение))
+источник.write_bytes(первичные if есть_копия else первичные + хранение.байты(завершение))
 итог_входа = измерить('обнаружение и установка J', lambda: вызвать('принять', '--исходник', str(источник)))
 assert итог_входа['состояние'] == 'журнал-установлен', итог_входа
 параметры = json.loads(Path(итог_входа['вход_коммита']).read_bytes())
