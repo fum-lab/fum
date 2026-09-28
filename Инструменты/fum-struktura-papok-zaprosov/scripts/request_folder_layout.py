@@ -1915,7 +1915,13 @@ def _report_document(title: str, основа_сеанса: str, шаблон: s
     )
 
 
-def _apply_prepared_transaction(repo_root: Path, prepared: Sequence[PreparedFile]) -> None:
+def _apply_prepared_transaction(
+    repo_root: Path,
+    prepared: Sequence[PreparedFile],
+    *,
+    проверить_исходники: Callable[[], None] | None = None,
+    проверить_установку: Callable[[], None] | None = None,
+) -> None:
     touched = {item.path for item in prepared}
     snapshots = {
         relative: _snapshot_path(repo_root.joinpath(*relative.parts))
@@ -1927,9 +1933,13 @@ def _apply_prepared_transaction(repo_root: Path, prepared: Sequence[PreparedFile
         while parent != repo_root and not parent.exists():
             missing_parents.add(parent)
             parent = parent.parent
+    if проверить_исходники is not None:
+        проверить_исходники()
     try:
         for item in sorted(prepared, key=lambda value: value.path.as_posix()):
             _install_prepared_file(repo_root, item)
+        if проверить_установку is not None:
+            проверить_установку()
     except Exception as error:
         for relative in sorted(touched, key=lambda path: len(path.parts), reverse=True):
             _restore_path(repo_root.joinpath(*relative.parts), snapshots[relative])
@@ -2610,6 +2620,13 @@ def _parser() -> argparse.ArgumentParser:
         repair = commands.add_parser(mode)
         repair.add_argument("--repo-root", type=Path, required=True)
         repair.add_argument("--base-revision", required=True)
+    for режим in ("наполнение-план", "наполнение-применить"):
+        наполнение = commands.add_parser(режим)
+        наполнение.add_argument("--repo-root", type=Path, required=True)
+        наполнение.add_argument("--вход", type=Path, required=True)
+        наполнение.add_argument("--план", type=Path, required=True)
+        if режим == "наполнение-применить":
+            наполнение.add_argument("--sha256", required=True)
     return parser
 
 
@@ -2663,6 +2680,15 @@ def main(argv: Sequence[str] | None = None) -> int:
             )
         elif arguments.mode == "repair-plan":
             _emit(plan_repair(root, arguments.base_revision))
+        elif arguments.mode in ("наполнение-план", "наполнение-применить"):
+            import наполнение_cli
+            if Path(наполнение_cli.__file__) != Path(__file__).with_name('наполнение_cli.py'):
+                raise LayoutError('Интерфейс наполнения импортирован из другого checkout')
+            try:
+                _emit(наполнение_cli.выполнить(arguments.mode, root, arguments.вход,
+                                             arguments.план, getattr(arguments, 'sha256', None)))
+            except (ValueError, OSError) as ошибка:
+                raise LayoutError(str(ошибка)) from ошибка
         else:
             _emit(repair_layout(root, arguments.base_revision))
     except LayoutError as error:

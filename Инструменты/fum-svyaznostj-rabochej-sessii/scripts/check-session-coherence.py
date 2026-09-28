@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import ast
+import hashlib
 import importlib.util
 import os
 import re
@@ -15,6 +16,8 @@ from dataclasses import dataclass
 from decimal import Decimal, localcontext
 from pathlib import Path, PurePosixPath, PureWindowsPath
 from urllib.parse import unquote
+
+КОД_ПРИ_ЗАГРУЗКЕ = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 
 КАТАЛОГ_СЦЕНАРИЕВ = Path(__file__).resolve().parent
 if str(КАТАЛОГ_СЦЕНАРИЕВ) not in sys.path:
