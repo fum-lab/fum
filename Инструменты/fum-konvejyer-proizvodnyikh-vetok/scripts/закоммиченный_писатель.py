@@ -1,5 +1,8 @@
 """Проверенный единственный H сохраняется без повторного создания или интеграции."""
 from pathlib import Path
+import hashlib
+
+КОД_ПРИ_ЗАГРУЗКЕ = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 
 import приём_направления as хранение
 import создание_коммита as коммит
