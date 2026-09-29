@@ -1,6 +1,8 @@
 """Прочитать известную обёртку и её исходный stdout, не исполняя обёртку."""
 import hashlib
-from pathlib import PurePosixPath
+from pathlib import Path, PurePosixPath
+
+КОД_ПРИ_ЗАГРУЗКЕ = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 
 import отказ_нативного_приёма as прямой
 import приём_направления as хранение
