@@ -115,6 +115,20 @@ class ПроверкаОтказаСохранённогоПриёма(unittest.
         self.пересчитать(м, с, ц)
         with self.assertRaises(ValueError): self.проверить(м, с, ц, сырые, а)
 
+    def test_известная_обёртка_также_требует_канонический_абсолютный_исходник(self):
+        for исходник in ('=python3', '/tmp/../a.jsonl', '//tmp/a.jsonl'):
+            with self.subTest(исходник=исходник):
+                м, с, ц, сырые, а = сохранённый(); ц['исходник'] = исходник
+                с['payload']['item']['command'][2] = отказ.программа(ц, а['путь'])
+                self.пересчитать(м, с, ц)
+                with self.assertRaises(ValueError): self.проверить(м, с, ц, сырые, а)
+
+    def test_равенство_в_python_argv_остаётся_буквальным_именем(self):
+        м, с, ц, сырые, а = сохранённый(); ц['исходник'] = '/tmp/a==python3'
+        с['payload']['item']['command'][2] = отказ.программа(ц, а['путь'])
+        self.пересчитать(м, с, ц)
+        self.assertEqual(2, self.проверить(м, с, ц, сырые, а)['код'])
+
 
 if __name__ == '__main__':
     unittest.main()

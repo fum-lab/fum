@@ -3,6 +3,7 @@ import hashlib
 import io
 import re
 import shlex
+from pathlib import PurePosixPath
 from urllib.parse import unquote, urlsplit
 
 import приём_направления as хранение
@@ -23,6 +24,11 @@ def вызов(сырые, цель):
         and all(type(цель[к]) is int for к in ('начало', 'конец'))
         and 0 < цель['начало'] < цель['конец'] <= len(сырые)
         and хранение.шестнадцатеричный(цель['sha256']), 'Повреждён локатор первичного отказа')
+    исходник = цель['исходник']
+    путь = PurePosixPath(исходник)
+    хранение.требовать(исходник.startswith('/') and not исходник.startswith('//')
+        and исходник != '/' and путь.as_posix() == исходник and '..' not in путь.parts
+        and '\x00' not in исходник, 'Нужен канонический абсолютный POSIX-путь исходника')
     позиция = 0
     найденные = []
     for строка in io.BytesIO(сырые):
@@ -90,9 +96,11 @@ def проверить(сырые, цель):
     команда = элемент.get('command')
     аргументы = [*КОМАНДА, цель['исходник']]
     хранение.требовать(all('\x00' not in а for а in аргументы), 'Недопустимый нулевой байт команды')
+    def буквальное(а):
+        return "'" + а.replace("'", "'\\''") + "'" if '=' in а else shlex.quote(а)
     def слово(а):
-        return а if re.fullmatch(r"[^\s;&|<>`$\\'\"(){}*?!~\[\]]+", а) else shlex.quote(а)
-    допустимые = {' '.join(map(слово, аргументы)), ' '.join(map(shlex.quote, аргументы))}
+        return а if re.fullmatch(r"[^\s;&|<>`$\\'\"(){}*?!~#^=\[\]]+", а) else буквальное(а)
+    допустимые = {' '.join(map(слово, аргументы)), ' '.join(map(буквальное, аргументы))}
     хранение.требовать(type(команда) is list and len(команда) == 3
         and команда[:2] == ['/bin/zsh', '-lc'] and type(команда[2]) is str
         and команда[2] in допустимые,
