@@ -194,6 +194,54 @@ class ПроверкаПакетаПереводаПитона(unittest.TestCase
         with сам.assertRaises(ValueError):
             подготовить_замены(текст, {'phase': 'фаза'}, разрешённые_передачи={(99, 0, 'callback')})
 
+    def test_прямой_импорт_меняет_только_свою_привязку(сам):
+        with tempfile.TemporaryDirectory() as каталог:
+            корень = Path(каталог)
+            исходник = 'from модуль import old\nрезультат = old(1)\ndef вложенная(old): return old\nещё = [old for old in range(2)]\ndef внешний(): return old(3)\n'
+            связь = {'вид': 'импорт', 'владелец': 'модуль', 'имя': 'old', 'новое': 'свой', 'количество': 3, 'источник': 'модуль.py'}
+            файлы = [сам.файл(корень, 'модуль.py', 'def old(value): return value\n', {'old': 'свой'}),
+                     сам.файл(корень, 'потребитель.py', исходник, связи=[связь])]
+            план = сам.пакет().подготовить(корень, {'схема': 'fum.пакет-перевода-python.1', 'файлы': файлы})
+            сам.пакет().применить(план)
+            сам.assertEqual((корень/'потребитель.py').read_text(), исходник.replace('import old', 'import свой').replace('old(1)', 'свой(1)').replace('old(3)', 'свой(3)'))
+
+    def test_импорт_с_псевдонимом_сохраняет_потребителя(сам):
+        with tempfile.TemporaryDirectory() as каталог:
+            корень = Path(каталог)
+            исходник = 'from модуль import old as получатель\nрезультат = получатель(1)\n'
+            связь = {'вид': 'импорт', 'владелец': 'модуль', 'имя': 'old', 'новое': 'свой', 'количество': 1, 'источник': 'модуль.py'}
+            файлы = [сам.файл(корень, 'модуль.py', 'def old(value): return value\n', {'old': 'свой'}),
+                     сам.файл(корень, 'потребитель.py', исходник, связи=[связь])]
+            план = сам.пакет().подготовить(корень, {'схема': 'fum.пакет-перевода-python.1', 'файлы': файлы})
+            сам.пакет().применить(план)
+            сам.assertEqual((корень/'потребитель.py').read_text(), исходник.replace('import old', 'import свой'))
+
+    def test_неоднозначный_импорт_отклоняется_без_записи(сам):
+        варианты = [
+            ('from другой import old\nold()\n', 2),
+            ('from модуль import old\nold()\n', 1),
+            ('from модуль import *\nold()\n', 1),
+            ('from модуль import old\nold = 3\n', 1),
+            ('from модуль import old\nсвой = 3\nold()\n', 2),
+            ('from .модуль import old\nold()\n', 2),
+            ('from модуль import old\nfrom модуль import old\nold()\n', 3),
+            ('from модуль import old\ndef вложенная(свой): return old()\n', 2),
+            ('from модуль import old\ndef вложенная():\n global old\n return old()\n', 2),
+            ('from модуль import old\n__all__ = ["old"]\n', 1),
+            ('from модуль import old\ngetattr(модуль, "old")\n', 1),
+            ('from модуль import old\nрезультат = globals()["old"]\n', 1),
+        ]
+        for исходник, количество in варианты:
+            with сам.subTest(исходник=исходник), tempfile.TemporaryDirectory() as каталог:
+                корень = Path(каталог)
+                связь = {'вид': 'импорт', 'владелец': 'модуль', 'имя': 'old', 'новое': 'свой', 'количество': количество, 'источник': 'модуль.py'}
+                файлы = [сам.файл(корень, 'модуль.py', 'def old(): return 1\n', {'old': 'свой'}),
+                         сам.файл(корень, 'потребитель.py', исходник, связи=[связь])]
+                with сам.assertRaises(ValueError):
+                    сам.пакет().подготовить(корень, {'схема': 'fum.пакет-перевода-python.1', 'файлы': файлы})
+                сам.assertEqual((корень/'модуль.py').read_text(), 'def old(): return 1\n')
+                сам.assertEqual((корень/'потребитель.py').read_text(), исходник)
+
 
 if __name__ == '__main__':
     unittest.main()

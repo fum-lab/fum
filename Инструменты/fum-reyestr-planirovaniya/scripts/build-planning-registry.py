@@ -2769,6 +2769,9 @@ def извлечь_покрытие_дорожной_карты(
     стадии: list[dict[str, Any]],
     горизонты: list[dict[str, Any]],
 ) -> list[dict[str, Any]]:
+    def цель_в_дорожной_карте(цель: str) -> str:
+        return f"{ROADMAP.as_posix()}{цель}" if цель.startswith("#") else цель
+
     строки = strict_table_after_heading(
         ROADMAP,
         "Покрытие стадий и горизонтов",
@@ -2798,7 +2801,7 @@ def извлечь_покрытие_дорожной_карты(
                 "идентификатор": горизонт["id"],
                 "название": горизонт["title"],
                 "метка_ссылки": f"Горизонт {номер}",
-                "цель_ссылки": якорь,
+                "цель_ссылки": цель_в_дорожной_карте(якорь),
                 "файл": f"{ROADMAP.as_posix()}{якорь}",
             }
         )
@@ -2811,13 +2814,16 @@ def извлечь_покрытие_дорожной_карты(
             raise ValueError("roadmap coverage contour must contain one link")
         if контур_ячейка.text != контур_ячейка.links[0]["label"]:
             raise ValueError("roadmap coverage contour contains extra text")
-        цель = контур_ячейка.links[0]["target"]
+        цель = цель_в_дорожной_карте(контур_ячейка.links[0]["target"])
         контур = ожидаемые_по_цели.get(цель)
         if контур is None:
             неизвестные.append(цель)
             continue
         идентификатор = контур["идентификатор"]
-        if лексические_цели_ссылок(контур_ячейка.raw, ROADMAP) != [
+        if [
+            цель_в_дорожной_карте(цель)
+            for цель in лексические_цели_ссылок(контур_ячейка.raw, ROADMAP)
+        ] != [
             контур["цель_ссылки"]
         ]:
             raise ValueError(
