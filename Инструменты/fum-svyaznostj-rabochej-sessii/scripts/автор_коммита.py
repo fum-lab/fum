@@ -6,7 +6,7 @@ import re
 КОД_ПРИ_ЗАГРУЗКЕ = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 
 
-РОЛЬ = r"FUM [А-ЯЁ][А-Яа-яЁё]*(?:[ -][А-Яа-яЁё]+)*"
+РОЛЬ = r"FUM (?:Codex|[А-ЯЁ][А-Яа-яЁё]*(?:[ -][А-Яа-яЁё]+)*)"
 ТОКЕН = r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}"
 НЕИЗВЕСТНО = frozenset({"unknown", "unavailable", "unset", "null"})
 ПОЛНОЕ_ИМЯ = re.compile(rf"({РОЛЬ}) \[({ТОКЕН}); effort=({ТОКЕН})\]")

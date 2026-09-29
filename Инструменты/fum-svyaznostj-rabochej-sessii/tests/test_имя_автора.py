@@ -8,6 +8,19 @@ from автор_коммита import составить_имя, провери�
 
 
 class ИмяАвтора(unittest.TestCase):
+    def test_точная_роль_из_имени_инструмента(сам):
+        имя = составить_имя("FUM Codex", {"модель": "gpt-6-sol", "усилие": "ultra"})
+        сам.assertEqual("FUM Codex [gpt-6-sol; effort=ultra]", имя)
+        сам.assertTrue(проверить_формат(имя))
+        сам.assertTrue(проверить_формат("FUM Codex"))
+
+    def test_произвольная_латинская_роль_и_искажённое_имя_инструмента_отклоняются(сам):
+        for роль in ("FUM Agent", "FUM codex", "FUM CODEX", "FUM Codex Writer", "FUM  Codex", "FUM Codex\n"):
+            with сам.subTest(роль=роль):
+                сам.assertFalse(проверить_формат(роль))
+                with сам.assertRaises(ValueError):
+                    составить_имя(роль, {"модель": "gpt-6-sol", "усилие": "ultra"})
+
     def test_модель_и_усилие_сохраняются_буквально(сам):
         for модель, усилие in (("gpt-6-astra", "max"), ("gpt-5.6-luna", "high"), ("model_1.2", "none")):
             with сам.subTest(модель=модель, усилие=усилие):
