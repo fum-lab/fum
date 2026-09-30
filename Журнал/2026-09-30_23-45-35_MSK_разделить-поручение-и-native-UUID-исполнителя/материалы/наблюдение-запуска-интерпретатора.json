@@ -1,0 +1,30 @@
+{
+  "схема": "fum.публичное-наблюдение-запуска-интерпретатора.1",
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "исходная-квитанция-не-переписана": true,
+  "наблюдение": {
+    "схема": "fum.наблюдение-запуска-интерпретатора.1",
+    "native": {
+      "id": "01a0f40a-a34f-7950-b74c-2e8b942cfdcb",
+      "thread_source": "agent_created_thread",
+      "C": "248626b9dc40280ee189afbdf21cb22f0e62decd",
+      "raw_sha256": "4c514ac03812909dddbad99d7da5a1926800291e7a2680db04db3bd1a9899148"
+    },
+    "поручение": {
+      "raw_sha256": "ec9cfd9ed35a91520778519a8d0bea5f479bffb99a5e9463567e1f2028360bdf",
+      "input_sha256": "4e70c5cd6997928ebce5639cf28890a7a85b417a963ff9446e2e93b951332e28"
+    },
+    "модель": [
+      {
+        "model": "gpt-6.1-sol",
+        "effort": "ultra",
+        "turn_id": "01a0f40a-a654-7323-b401-8b2e1991f236",
+        "raw_sha256": "41f5277f78ae5e99903cbaab49c3a512c465b2c4feab32c5d99b33aaeeeb4b56"
+      }
+    ],
+    "HEAD": "248626b9dc40280ee189afbdf21cb22f0e62decd",
+    "ref": "refs/heads/codex/dir/prototipyi--pamyatj-strukturiruyusjhikh-operatorov--kompoziciya",
+    "клиентский_id": "client-new-thread:6ef41926-f9ec-4b22-b62f-8822167cfa0d",
+    "статус_API": "active/inProgress"
+  }
+}
