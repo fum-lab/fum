@@ -1,0 +1,46 @@
+{
+  "запрошено": {
+    "telegram": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"threadId\":\"01a0f27d-9a9b-71a1-82d6-9c10c1c8de72\"}"
+        }
+      ],
+      "isError": false
+    },
+    "libtorrent": {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"threadId\":\"01a0f27d-9ee9-7de0-b884-41fbd0a2b3a8\"}"
+        }
+      ],
+      "isError": false
+    },
+    "requested": {
+      "model": "gpt-6.1-sol",
+      "effort": "ultra"
+    }
+  },
+  "наблюдено": [
+    {
+      "задача": "01a0f27d-9a9b-71a1-82d6-9c10c1c8de72",
+      "начало": 36524479,
+      "конец": 36526730,
+      "sha256": "cbcb48006794403f3da31bdfd106643a7c79226ed3b05d5c2ac80df07d792120",
+      "turn_id": "01a0f389-7843-7b02-8119-619dc5dfb75d",
+      "model": "gpt-6.1-sol",
+      "effort": "ultra"
+    },
+    {
+      "задача": "01a0f27d-9ee9-7de0-b884-41fbd0a2b3a8",
+      "начало": 45696544,
+      "конец": 45698795,
+      "sha256": "f4db54151e3fda637fd0b94d64477177bc6d6669e85ed2ad757f6ceead2f1ac4",
+      "turn_id": "01a0f389-7a06-7ba1-9262-cb1fe5f8507f",
+      "model": "gpt-6.1-sol",
+      "effort": "ultra"
+    }
+  ]
+}
