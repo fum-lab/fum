@@ -37,7 +37,7 @@ class НачальныеИнструкцииПисателя:
                 and метаданные['turn_id'] == self.ход
                 and метаданные['content_item_kinds'] == ГРУППЫ[self.номер]
                 and type(время) in (int, float) and math.isfinite(время) and время > 0
-                and (self.номер == 0 or время == self.время)
+                and (self.номер == 0 or время >= self.время)
                 and type(содержимое) is list and len(содержимое) == len(ГРУППЫ[self.номер])
                 and all(type(э) is dict and set(э) == {'type', 'text'} and э['type'] == 'input_text'
                     and type(э['text']) is str and э['text'] for э in содержимое),

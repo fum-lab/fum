@@ -8,6 +8,7 @@
 Вход — обычные JSON-значения, до нормализующего декодера runtime.
 """
 import hashlib
+import json
 from pathlib import Path
 from xml.parsers import expat
 
@@ -27,6 +28,10 @@ _ВИДЫ_КОНТЕКСТА = frozenset((
     "plugins.recommendations", "agents_md.instructions",
     "environments.environment_context",
 ))
+_ВИД_КОНТЕКСТА_ОТКРЫТОЙ_СТРАНИЦЫ = "additional_content.codex_apps_open_page"
+_НАЧАЛО_КОНТЕКСТА_ОТКРЫТОЙ_СТРАНИЦЫ = "<external_codex_apps_open_page>"
+_КОНЕЦ_КОНТЕКСТА_ОТКРЫТОЙ_СТРАНИЦЫ = "</external_codex_apps_open_page>"
+_МАКСИМУМ_КОНТЕКСТА_ОТКРЫТОЙ_СТРАНИЦЫ = 8192
 _ПОЛЯ_КОНТЕНТА = {
     "input_text": ("text", frozenset(("type", "text"))),
     "output_text": ("text", frozenset(("type", "text"))),
@@ -106,6 +111,49 @@ def _корректный_контент(часть) -> bool:
     return True
 
 
+def _объект_без_повторов(пары):
+    объект = {}
+    for ключ, значение in пары:
+        if ключ in объект:
+            raise _НедопустимаяРазметка()
+        объект[ключ] = значение
+    return объект
+
+
+def _неразрешённая_константа(значение):
+    raise _НедопустимаяРазметка()
+
+
+def _корректный_контекст_открытой_страницы(текст: str) -> bool:
+    """Проверить платформенный конверт без извлечения или использования page_id."""
+    начало = _НАЧАЛО_КОНТЕКСТА_ОТКРЫТОЙ_СТРАНИЦЫ
+    конец = _КОНЕЦ_КОНТЕКСТА_ОТКРЫТОЙ_СТРАНИЦЫ
+    if (not текст.startswith(начало) or not текст.endswith(конец)
+            or len(текст) > _МАКСИМУМ_КОНТЕКСТА_ОТКРЫТОЙ_СТРАНИЦЫ):
+        return False
+    тело = текст[len(начало):-len(конец)]
+    try:
+        значение = json.loads(тело, object_pairs_hook=_объект_без_повторов,
+                              parse_constant=_неразрешённая_константа)
+    except (json.JSONDecodeError, _НедопустимаяРазметка, TypeError, ValueError):
+        return False
+    if type(значение) is not dict or set(значение) != {"page_id"}:
+        return False
+    page_id = значение["page_id"]
+    if page_id is None:
+        return True
+    return (type(page_id) is str and 0 < len(page_id) <= 1024
+            and not any(0xD800 <= ord(символ) <= 0xDFFF for символ in page_id))
+
+
+def _корректный_служебный_контекст(вид: str, часть: dict) -> bool:
+    if часть.get("type") != "input_text":
+        return False
+    if вид == _ВИД_КОНТЕКСТА_ОТКРЫТОЙ_СТРАНИЦЫ:
+        return _корректный_контекст_открытой_страницы(часть["text"])
+    return вид in _ВИДЫ_КОНТЕКСТА
+
+
 def классифицировать_сообщение(сообщение) -> str:
     """Вернуть один из четырёх исходов без изменения исходного объекта.
 
@@ -134,7 +182,7 @@ def классифицировать_сообщение(сообщение) -> s
         if all(вид in _ВИДЫ_ПОЛЬЗОВАТЕЛЯ and часть["type"] in _ВИДЫ_ПОЛЬЗОВАТЕЛЯ[вид]
                for вид, часть in zip(виды, содержимое)):
             return "человек"
-        if all(вид in _ВИДЫ_КОНТЕКСТА and часть["type"] == "input_text"
+        if all(_корректный_служебный_контекст(вид, часть)
                for вид, часть in zip(виды, содержимое)):
             return "служебный контекст"
         return "неоднозначный"
