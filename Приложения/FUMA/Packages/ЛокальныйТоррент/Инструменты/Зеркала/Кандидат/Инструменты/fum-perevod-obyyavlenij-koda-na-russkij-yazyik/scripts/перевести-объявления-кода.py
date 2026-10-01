@@ -311,13 +311,20 @@ class СборщикОбъявленийПитона(ast.NodeVisitor):
         сам.путь = путь
         сам.объявления: list[Объявление] = []
         сам.области = ОбластиПитона(дерево)
+        сам.дерево = дерево
+        сам.родители_узлов = {
+            ребёнок: родитель for родитель in ast.walk(дерево)
+            for ребёнок in ast.iter_child_nodes(родитель)
+        }
         сам.импорты = {
             псевдоним: узел for узел in ast.walk(дерево)
             if isinstance(узел, (ast.Import, ast.ImportFrom)) for псевдоним in узел.names
         }
 
     def внешний_метод(сам, имя: str, узел: ast.AST) -> bool:
-        if имя not in контекстные_имена_посетителя:
+        if имя not in контекстные_имена_посетителя and имя != "setUp":
+            return False
+        if имя == "setUp" and not isinstance(узел, ast.FunctionDef):
             return False
         область = сам.области.владельцы.get(узел)
         if область is None or область.вид != "класс":
@@ -334,10 +341,47 @@ class СборщикОбъявленийПитона(ast.NodeVisitor):
             импорт = сам.импорты.get(псевдоним)
             if импорт is None or импорт.lineno >= область.узел.lineno:
                 continue
+            if имя == "setUp":
+                if any(isinstance(ввод, ast.ImportFrom) and ввод.lineno < область.узел.lineno
+                       and any(псевдоним.name == "*" for псевдоним in ввод.names)
+                       for ввод in ast.walk(сам.дерево)):
+                    continue
+                предел_модуля = импорт.lineno if isinstance(импорт, ast.ImportFrom) else область.узел.lineno
+                if any(isinstance(другой_импорт, ast.Import) and другой_импорт.lineno < предел_модуля
+                       and другой_псевдоним.name == "unittest"
+                       and сам.непрозрачное_использование_базы(
+                           другой_псевдоним.asname or "unittest", предел_модуля)
+                       for другой_псевдоним, другой_импорт in сам.импорты.items()):
+                    continue
+                if сам.непрозрачное_использование_базы(имя_импорта, область.узел.lineno):
+                    continue
+                if (isinstance(база, ast.Attribute) and база.attr == "TestCase"
+                        and isinstance(импорт, ast.Import) and псевдоним.name == "unittest"):
+                    return True
+                if (isinstance(база, ast.Name) and isinstance(импорт, ast.ImportFrom)
+                        and импорт.module == "unittest" and импорт.level == 0 and псевдоним.name == "TestCase"):
+                    return True
+                continue
             if isinstance(база, ast.Attribute) and база.attr in {"NodeVisitor", "NodeTransformer"} and isinstance(импорт, ast.Import) and псевдоним.name == "ast":
                 return True
             if isinstance(база, ast.Name) and isinstance(импорт, ast.ImportFrom) and импорт.module == "ast" and импорт.level == 0 and псевдоним.name in {"NodeVisitor", "NodeTransformer"}:
                 return True
+        return False
+
+    def непрозрачное_использование_базы(сам, имя: str, предел: int) -> bool:
+        """До класса импорт разрешён только как точная база, без передачи и подмены."""
+        for узел in ast.walk(сам.дерево):
+            if not isinstance(узел, ast.Name) or узел.id != имя or узел.lineno >= предел:
+                continue
+            родитель = сам.родители_узлов.get(узел)
+            if isinstance(родитель, ast.ClassDef) and узел in родитель.bases and isinstance(узел.ctx, ast.Load):
+                continue
+            предок = сам.родители_узлов.get(родитель)
+            if (isinstance(родитель, ast.Attribute) and родитель.attr == "TestCase"
+                    and isinstance(родитель.ctx, ast.Load) and isinstance(предок, ast.ClassDef)
+                    and родитель in предок.bases):
+                continue
+            return True
         return False
 
     def добавить(сам, вид: str, имя: str, узел: ast.AST) -> None:
