@@ -1,0 +1,8 @@
+{"payload":{"id":"синтетический-идентификатор"},"type":"session_meta"}
+{"ordinal":42,"type":"event_msg"}
+{"ordinal":900,"payload":{"content":[{"text":"Повтор\nЁж конец","type":"input_text"}],"role":"user","type":"message"},"type":"response_item"}
+{"payload":{"type":"reasoning"},"type":"response_item"}
+{"payload":{"content":[{"text":"Цитата: Повтор\nЁж конец","type":"output_text"},{"text":17,"type":"output_image"},{"text":"","type":"input_text"}],"role":"assistant","type":"message"},"type":"response_item"}
+{"ordinal":3,"payload":{"content":[{"text":"Повтор\nЁж конец","type":"input_text"}],"role":"user","type":"message"},"type":"response_item"}
+{"payload":{"type":"tool"},"type":"response_item"}
+�
