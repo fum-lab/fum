@@ -1,0 +1,67 @@
+{
+  "схема": "fum.профиль-сборки-tdlib.1",
+  "зависимость": {
+    "путь": "Зависимости/TDLib",
+    "зеркало": "https://github.com/fum-lab/TDLib.git",
+    "upstream": "https://github.com/tdlib/td.git",
+    "коммит": "d1085f9cebc5a62379991ae1652673954f229c1f",
+    "дерево": "fdcb62d1739c348ede23f87427a82d6e345ca805",
+    "времяКоммитаUnix": 1787589927,
+    "отпечаткиSha256": {
+      "CMakeLists.txt": "0703b8a1c1a38b693942f7fceaa519d29e7a81519964b272ffb46b55210fbb5f",
+      "LICENSE_1_0.txt": "c9bff75738922193e67fa726fa225535870d2aa1059f91452c411736284ad566",
+      "td/generate/scheme/td_api.tl": "326b65b41442901ad6bf0ca2f7c356ae54365d6c343956a62e06a8b3cb305e87",
+      "td/telegram/td_json_client.h": "cdf6190b0264417c69c108d192d1f3381f3a1315ddb309798dbefc5036be1eb3",
+      "tdutils/generate/CMakeLists.txt": "13764f95b99f2263ac9508e301807a79b2f7a72b9039c6282d3941b8bdf4389b",
+      "sqlite/sqlite/LICENSE": "92a681e777538e3cc012d5886505fec7704fb9c1957ef6b67807d771985d457e"
+    }
+  },
+  "хост": {
+    "система": "macOS",
+    "архитектура": "arm64",
+    "версия": "27.0",
+    "xcode": "27.0",
+    "сборкаXcode": "27A266a",
+    "sdk": "27.0",
+    "сборкаSdk": "26A425",
+    "clang": "Apple clang version 21.0.0",
+    "cmake": "4.4.3",
+    "make": "GNU Make 3.81",
+    "gperf": "GNU gperf 3.0.3",
+    "openssl": "OpenSSL 3.6.4",
+    "zlibTbdSha256": "7326dfca9e65f8d74c70ec28496074b8285cecbbfde4172701fe66980a86275f",
+    "sha256Инструментов": {
+      "clang": "1590ac950a3d627817d09ade5cb60b2115f17a72182a3141e010b4bcc482a0c9",
+      "clang++": "1590ac950a3d627817d09ade5cb60b2115f17a72182a3141e010b4bcc482a0c9",
+      "cmake": "01bb5214684f5390e96e0d6aef7aafd7415b77ecbcfd59f6b55b018d8de0d9a2",
+      "make": "34129c71a01a74f7f3b2443521519b2e5447553fa187f5fcafaaf8c42cc192e2",
+      "gperf": "34129c71a01a74f7f3b2443521519b2e5447553fa187f5fcafaaf8c42cc192e2",
+      "openssl": "67a83dd6d6d747d50c5d296dffb23e32bae9a2c588c93ae2d77e4c607b455c72"
+    }
+  },
+  "сборка": {
+    "минимальнаяВерсияMacOS": "15.0",
+    "стандартCxx": "17",
+    "тип": "Release",
+    "генератор": "Unix Makefiles",
+    "sourceDateEpoch": 1787589927,
+    "цель": "tdjson",
+    "повторений": 2,
+    "параллельныхЗаданий": 4,
+    "опции": {
+      "BUILD_TESTING": "OFF",
+      "TD_ENABLE_DOTNET": "OFF",
+      "TD_ENABLE_JNI": "OFF",
+      "TD_ENABLE_LTO": "OFF",
+      "TD_INSTALL_SHARED_LIBRARIES": "ON",
+      "TD_INSTALL_STATIC_LIBRARIES": "OFF",
+      "CMAKE_INSTALL_RPATH_USE_LINK_PATH": "ON"
+    },
+    "символы": [
+      "td_create_client_id",
+      "td_send",
+      "td_receive"
+    ]
+  },
+  "граница": "Профиль закрепляет наблюдённую конфигурацию хоста, но сам по себе не распространяет SDK, OpenSSL, сертификаты, zlib или gperf и не подтверждает завершённый двоичный комплект."
+}

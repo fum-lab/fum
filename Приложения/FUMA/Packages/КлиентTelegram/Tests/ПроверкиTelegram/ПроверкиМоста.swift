@@ -1,0 +1,192 @@
+import Foundation
+import Testing
+@testable import КлиентTelegram
+
+@Test func копияПереживаетИзменениеВозвращённогоБуфера() throws {
+    let буфер = UnsafeMutablePointer<CChar>.allocate(capacity: 8)
+    defer { буфер.deallocate() }
+    for (номер, байт) in "{\"n\":1}".utf8.enumerated() { буфер[номер] = CChar(байт) }
+    буфер[7] = 0
+    let копия = try скопироватьОтвет(буфер, предел: 1024)
+    буфер[5] = 50
+    #expect(String(data: копия, encoding: .utf8) == "{\"n\":1}")
+}
+
+@Test func слишкомБольшойОтветИОтсутствующаяБиблиотекаОтклоняются() throws {
+    #expect(throws: ОшибкаКлиента.self) {
+        try "12345".withCString { try скопироватьОтвет($0, предел: 4) }
+    }
+    #expect(throws: ОшибкаКлиента.self) {
+        try МостБиблиотеки(библиотека: "/несуществующий/tdjson.dylib")
+    }
+}
+
+@Test func несовместимаяБиблиотекаОсвобождаетсяПослеРазрешенияСимволов() throws {
+    let каталог = try создатьПриватныйКаталог()
+    defer { try? FileManager.default.removeItem(at: каталог) }
+    let исходник = каталог.appendingPathComponent("tdjson.c")
+    let библиотека = каталог.appendingPathComponent("libtdjson.dylib")
+    try "int unrelated(void) { return 1; }\n".write(to: исходник, atomically: true, encoding: .utf8)
+    try собратьДинамическуюБиблиотеку(исходник, в: библиотека)
+
+    var ошибка: ОшибкаКлиента?
+    do { _ = try МостБиблиотеки(библиотека: библиотека.path) }
+    catch let найденная as ОшибкаКлиента { ошибка = найденная }
+    #expect(ошибка == .отсутствуетСимвол("td_create_client_id"))
+
+    try """
+    #include <stdint.h>
+    int32_t td_create_client_id(void) { return 1; }
+    void td_send(int32_t client_id, const char *request) { (void)client_id; (void)request; }
+    const char *td_receive(double timeout) { (void)timeout; return 0; }
+    """.write(to: исходник, atomically: true, encoding: .utf8)
+    try собратьДинамическуюБиблиотеку(исходник, в: библиотека)
+    _ = try МостБиблиотеки(библиотека: библиотека.path)
+}
+
+private func собратьДинамическуюБиблиотеку(_ исходник: URL, в библиотека: URL) throws {
+    let компилятор = Process()
+    компилятор.executableURL = URL(fileURLWithPath: "/usr/bin/clang")
+    компилятор.arguments = ["-dynamiclib", "-o", библиотека.path, исходник.path]
+    try компилятор.run()
+    компилятор.waitUntilExit()
+    guard компилятор.terminationStatus == 0 else { throw ОшибкаКлиента.требуетсяРазбор }
+}
+
+@Test func очередьОграничиваетКоличествоИБайтыБезПотери() throws {
+    let очередь = try ОчередьОбновлений(ёмкость: 2, пределБайтов: 5)
+    #expect(очередь.положить(Data([1, 2]), ожидать: false) == .принято)
+    #expect(очередь.положить(Data([3, 4, 5]), ожидать: false) == .принято)
+    #expect(очередь.положить(Data([6]), ожидать: false) == .перегрузка)
+    #expect(очередь.извлечь() == Data([1, 2]))
+    очередь.закрыть()
+    #expect(очередь.извлечь() == Data([3, 4, 5]))
+    #expect(очередь.извлечь() == nil)
+    #expect(очередь.пикБайтов == 5)
+    #expect(очередь.пикКоличество == 2)
+}
+
+private actor ПриёмникПримера {
+    var события: [Data] = []
+    func добавить(_ данные: Data) async throws {
+        try await Task.sleep(for: .milliseconds(1))
+        события.append(данные)
+    }
+}
+
+private final class ТранспортПримера: ТранспортБиблиотеки, @unchecked Sendable {
+    private let замок = NSLock()
+    private var следующий = 1
+    private var номер = 0
+    private(set) var вызовов = 0
+    func создатьКлиента() -> Int32 { замок.withLock { defer { следующий += 1 }; return Int32(следующий) } }
+    func отправить(клиент: Int32, запрос: Data) throws {}
+    func принять(таймАут: Double) throws -> Data? {
+        #expect(таймАут > 0 && таймАут.isFinite)
+        let событие: String? = замок.withLock {
+            вызовов += 1
+            guard номер < 20 else { return nil }
+            defer { номер += 1 }
+            return "{\"@client_id\":\(номер % 2 + 1),\"@extra\":\"\(номер)\"}"
+        }
+        if let событие { return try событие.withCString { try скопироватьОтвет($0, предел: 1024) } }
+        Thread.sleep(forTimeInterval: таймАут)
+        return nil
+    }
+}
+
+@Test func одинПриёмникПорядокОбратноеДавлениеИОтмена() async throws {
+    let транспорт = ТранспортПримера()
+    let получатель = ПриёмникПримера()
+    let цикл = try ЦиклПриёма(транспорт: транспорт, ёмкость: 2, пределБайтов: 256) {
+        try await получатель.добавить($0)
+    }
+    try цикл.запустить()
+    let второй = try ЦиклПриёма(транспорт: транспорт, ёмкость: 2, пределБайтов: 256) { _ in }
+    #expect(throws: ОшибкаКлиента.ужеЕстьПриёмник) { try второй.запустить() }
+    for _ in 0..<200 {
+        if await получатель.события.count == 20 { break }
+        try await Task.sleep(for: .milliseconds(5))
+    }
+    await цикл.остановить()
+    let события = await получатель.события
+    #expect(события.count == 20)
+    for (номер, данные) in события.enumerated() {
+        #expect(String(data: данные, encoding: .utf8) == "{\"@client_id\":\(номер % 2 + 1),\"@extra\":\"\(номер)\"}")
+    }
+    #expect(цикл.пикКоличество <= 2)
+    #expect(цикл.незавершённые.isEmpty)
+    #expect(транспорт.вызовов < 40)
+    try await проверитьАктивнуюОтменуИПовторноеВладение()
+    try await проверитьОтменуСЧтениемСостояния()
+    try await проверитьАварийныеВеткиПриёма()
+    try await проверитьПрофильСинтетическогоПотока()
+    try await проверитьСредуКлиента()
+}
+
+private final class НаблюдательОтмены: @unchecked Sendable {
+    private let замок = NSLock()
+    private var цикл: ЦиклПриёма?
+    private var вызовы = 0
+    func связать(_ цикл: ЦиклПриёма) { замок.withLock { self.цикл = цикл } }
+    func отменить() {
+        let текущий = замок.withLock { вызовы += 1; return цикл }
+        _ = текущий?.причинаОстановки
+    }
+    var количество: Int { замок.withLock { вызовы } }
+}
+
+private func проверитьОтменуСЧтениемСостояния() async throws {
+    let барьер = БарьерОбработчика()
+    let наблюдатель = НаблюдательОтмены()
+    let цикл = try ЦиклПриёма(транспорт: ТранспортПримера(), ёмкость: 2, пределБайтов: 256) { данные in
+        try await withTaskCancellationHandler {
+            try await барьер.принять(данные)
+        } onCancel: { наблюдатель.отменить() }
+    }
+    наблюдатель.связать(цикл)
+    try цикл.запустить()
+    for _ in 0..<100 {
+        if await барьер.начат { break }
+        try await Task.sleep(for: .milliseconds(5))
+    }
+    #expect(await барьер.начат)
+    await цикл.остановить(отменитьОбработку: true)
+    #expect(наблюдатель.количество == 1)
+    #expect(try цикл.незавершённые.first.map { try ЗначениеДанных.прочитать($0)["@extra"]?.строка } == "0")
+}
+
+private actor БарьерОбработчика {
+    var начат = false
+    func принять(_ данные: Data) async throws {
+        начат = true
+        try await Task.sleep(for: .seconds(5))
+    }
+}
+
+private func проверитьАктивнуюОтменуИПовторноеВладение() async throws {
+    let транспорт = ТранспортПримера()
+    let барьер = БарьерОбработчика()
+    let цикл = try ЦиклПриёма(транспорт: транспорт, ёмкость: 2, пределБайтов: 256) { try await барьер.принять($0) }
+    try цикл.запустить()
+    for _ in 0..<100 {
+        if await барьер.начат { break }
+        try await Task.sleep(for: .milliseconds(5))
+    }
+    let начало = ContinuousClock.now
+    await цикл.остановить(отменитьОбработку: true)
+    #expect(ContinuousClock.now - начало < .seconds(1))
+    #expect(!цикл.незавершённые.isEmpty)
+    for (номер, данные) in цикл.незавершённые.enumerated() {
+        #expect(try ЗначениеДанных.прочитать(данные)["@extra"]?.строка == String(номер))
+    }
+    let следующий = try ЦиклПриёма(транспорт: ТранспортПримера()) { _ in }
+    await следующий.остановить()
+    #expect(throws: ОшибкаКлиента.закрыт) { try следующий.запустить() }
+    let новый = try ЦиклПриёма(транспорт: ТранспортПримера()) { _ in }
+    try новый.запустить()
+    await новый.остановить()
+    #expect(throws: ОшибкаКлиента.превышенПредел) {
+        try "x".withCString { try скопироватьОтвет($0, предел: Int.max) }
+    }
+}
