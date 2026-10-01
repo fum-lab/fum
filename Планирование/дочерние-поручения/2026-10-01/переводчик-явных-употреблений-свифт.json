@@ -1,0 +1,21 @@
+{
+  "ветка": "refs/heads/codex/dir/prototipyi--pamyatj-strukturiruyusjhikh-operatorov--kompoziciya",
+  "исполнитель": "01a0f40a-a34f-7950-b74c-2e8b942cfdcb",
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "область": [
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести-объявления-кода.py",
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_потребители_свифт.py",
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/SKILL.md",
+    "Журнал/2026-10-01_17-41-32_MSK_расширить-переводчик-явными-употреблениями-свифт/",
+    "Журнал/2026-10-01_13-26-01_MSK_исполнить-поток-JSONL-интерпретатором/запрос.md",
+    "Журнал/README.md",
+    "Индексы/markdown-файлы-по-времени-редактирования.md"
+  ],
+  "постановка": {
+    "sha256": "ebc92bce1222206bd50efd6890f9e059e669e100e7ab6326aab0b9c6f7b8adb1",
+    "коммит": "248626b9dc40280ee189afbdf21cb22f0e62decd",
+    "путь": "Планирование/параллельные-постановки/2026-09-30/интерпретатор.md"
+  },
+  "схема": "fum.поручение-дочерней-контрольной-точки.1",
+  "хэш_нативного_поручения": "4e70c5cd6997928ebce5639cf28890a7a85b417a963ff9446e2e93b951332e28"
+}
