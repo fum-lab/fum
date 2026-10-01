@@ -94,16 +94,29 @@ const char *td_receive(double timeout) {
 }
 '''
     with tempfile.TemporaryDirectory(prefix='fum-telegram-tdlib-fixture-') as temp:
-        root = Path(temp)
-        source = root / 'tdjson-fixture.c'
+        root = Path(temp).resolve()
+        исходныйФайл = root / 'tdjson-fixture.c'
         library = root / 'libtdjson-fixture.dylib'
-        source.write_text(исходникТранспорта, encoding='utf-8')
-        subprocess.run(['/usr/bin/clang', '-dynamiclib', '-pthread', '-o', str(library), str(source)],
+        исходныйФайл.write_text(исходникТранспорта, encoding='utf-8')
+        subprocess.run(['/usr/bin/clang', '-dynamiclib', '-pthread', '-o', str(library), str(исходныйФайл)],
                        capture_output=True, text=True, timeout=30, check=True)
+        квитанция = root / 'квитанция.json'
+        квитанция.write_bytes((json.dumps({
+            'схема': 'fum.синтетическая-c-библиотека.1', 'исход': 'успех',
+            'исходникSha256': hashlib.sha256(исходныйФайл.read_bytes()).hexdigest(),
+            'компиляторSha256': hashlib.sha256(Path('/usr/bin/clang').resolve().read_bytes()).hexdigest(),
+            'библиотекаSha256': hashlib.sha256(library.read_bytes()).hexdigest(),
+            'библиотекаBytes': library.stat().st_size,
+            'архитектуры': ['arm64'], 'символы': ['td_create_client_id', 'td_send', 'td_receive']
+        }, ensure_ascii=False, sort_keys=True) + '\n').encode())
+        хэшКвитанции = hashlib.sha256(квитанция.read_bytes()).hexdigest()
+        аргументыПривязки = ['--библиотека', str(library), '--квитанция', str(квитанция), '--sha256-квитанции', хэшКвитанции]
+        отказ = subprocess.run([str(исполняемый), *аргументыПривязки[:-1], '0' * 64], capture_output=True, text=True, timeout=15)
+        assert отказ.returncode == 2, (отказ.stdout, отказ.stderr)
+        assert 'Приватные данные' not in отказ.stderr
         runs = []
         for номер in range(2):
-            result = subprocess.run([str(исполняемый), '--библиотека', str(library),
-                                     '--простой-секунд', '1'],
+            result = subprocess.run([str(исполняемый), *аргументыПривязки, '--простой-секунд', '1'],
                                     capture_output=True, text=True, timeout=20)
             assert result.returncode == 0, (номер, result.returncode, result.stdout, result.stderr)
             report = json.loads(result.stdout)
@@ -115,12 +128,29 @@ const char *td_receive(double timeout) {
             assert isinstance(report['загрузкаСекунд'], (int, float)) and report['загрузкаСекунд'] >= 0
             assert isinstance(report['закрытиеСекунд'], (int, float)) and report['закрытиеСекунд'] >= 0
             assert report['простой']['длительностьСекунд'] >= 1.0
-            assert result.stderr == ''
+            префиксАрхива = 'Приватный архив сохранён: '
+            assert result.stderr.startswith(префиксАрхива) and result.stderr.count('\n') == 1
+            кореньАрхива = Path(result.stderr[len(префиксАрхива):].strip())
+            assert кореньАрхива.is_dir() and (кореньАрхива / 'ключ').stat().st_size == 32
+            сегмент = кореньАрхива / 'журнал/обмен/сегмент.fumobs'
+            хэшДоЧтения = hashlib.sha256(сегмент.read_bytes()).hexdigest()
+            чтение = subprocess.run([str(исполняемый), '--проверить-архив', str(кореньАрхива), *аргументыПривязки],
+                                    capture_output=True, text=True, timeout=20, check=True)
+            assert hashlib.sha256(сегмент.read_bytes()).hexdigest() == хэшДоЧтения
+            сводкаСохранённогоАрхива = json.loads(чтение.stdout)
+            assert сводкаСохранённогоАрхива['привязка'] == report['привязка'] and сводкаСохранённогоАрхива['поколений'] == 1
+            исходящиеКадры = [кадр for кадр in сводкаСохранённогоАрхива['кадры'] if кадр['направление'] == 'исходящееНамерение']
+            входящиеКадры = [кадр for кадр in сводкаСохранённогоАрхива['кадры'] if кадр['направление'] == 'входящиеБайты']
+            assert len(исходящиеКадры) == 2 and len(входящиеКадры) == 5
+            for позиция, состояние in [(0, 'authorizationStateWaitTdlibParameters'), (3, 'authorizationStateClosing'), (4, 'authorizationStateClosed')]:
+                эталон = ('{"@type":"updateAuthorizationState","@client_id":1,"authorization_state":{"@type":"' + состояние + '"}}').encode()
+                assert входящиеКадры[позиция]['байтыШа256'] == hashlib.sha256(эталон).hexdigest()
             runs.append({'загрузкаСекунд': report['загрузкаСекунд'],
+                         'связываниеСекунд': report['связываниеСекунд'], 'кадровВАрхиве': len(сводкаСохранённогоАрхива['кадры']),
                          'закрытиеСекунд': report['закрытиеСекунд'],
                          'закрытиеПодтверждено': report['закрытие']['всеЗакрыты']})
         return {'повторов': len(runs), 'исходы': runs,
-                'граница': 'Совместимая синтетическая dylib проверяет ABI и жизненный цикл, но не заменяет закреплённую TDLib.'}
+                'граница': 'Прежняя синтетическая dylib проверяет C ABI и жизненный цикл; три литеральных входящих кадра сверены с архивом. Побайтный C-свидетель и отсутствие C-вызовов при replay этим fixture не удостоверены. Настоящая TDLib не заменена.'}
 
 
 def проверить(исполняемый: Path) -> None:
@@ -139,7 +169,7 @@ def проверить(исполняемый: Path) -> None:
         (['--raw', 'sendMessage'], 'неверные_входы'),
         (['--библиотека', 'относительный.dylib'], 'неверные_входы'),
         (['--библиотека', '/несуществующий/tdjson.dylib', '--простой-секунд', '0'], 'неверные_входы'),
-        (['--библиотека', '/несуществующий/tdjson.dylib'], 'библиотека_недоступна'),
+        (['--библиотека', '/несуществующий/tdjson.dylib'], 'неверные_входы'),
     ]
     for аргументы, ошибка in случаи:
         результат = subprocess.run([str(исполняемый), *аргументы], capture_output=True, text=True, timeout=15)
@@ -236,12 +266,61 @@ def измерить_и_вывести(исполняемый: Path) -> int:
     return 0
 
 
+def измерить_архив(исполняемый: Path) -> dict:
+    начало = time.perf_counter_ns()
+    процессПрофиля = subprocess.run([str(исполняемый), '--профиль', 'архив'], capture_output=True, text=True, timeout=60, check=True)
+    длительность = time.perf_counter_ns() - начало
+    профиль = json.loads(процессПрофиля.stdout)
+    assert профиль['схема'] == 'fum.профиль-сырого-обмена.1'
+    assert (профиль['прогрев'], профиль['входящих'], профиль['исходящих'], профиль['размерКадра']) == (32, 1000, 16, 4096)
+    префиксАрхива = 'Приватный архив сохранён: '
+    assert процессПрофиля.stderr.startswith(префиксАрхива) and процессПрофиля.stderr.count('\n') == 1
+    приватныйКорень = Path(процессПрофиля.stderr[len(префиксАрхива):].strip())
+    сегментПрофиля = приватныйКорень / 'журнал/обмен/сегмент.fumobs'
+    прежнийХэш = hashlib.sha256(сегментПрофиля.read_bytes()).hexdigest()
+    началоЧтения = time.perf_counter_ns()
+    чтение = subprocess.run([str(исполняемый), '--проверить-архив', str(приватныйКорень)], capture_output=True, text=True, timeout=60, check=True)
+    времяЧтения = time.perf_counter_ns() - началоЧтения
+    assert hashlib.sha256(сегментПрофиля.read_bytes()).hexdigest() == прежнийХэш
+    сохранённое = json.loads(чтение.stdout)
+    def фикстура(порядковыйНомер):
+        данные = ('{"@type":"fixture","n":' + str(порядковыйНомер) + ',"text":"ё"}').encode()
+        return данные + b' ' * (4096 - len(данные))
+    ожидаемыеКадры = [фикстура(порядковыйНомер) for порядковыйНомер in range(1032)] + [фикстура(порядковыйНомер) for порядковыйНомер in range(16)]
+    хэш = hashlib.sha256(b''.join(ожидаемыеКадры)).hexdigest()
+    assert профиль['сохранённыеШа256'] == сохранённое['сохранённыеШа256'] == хэш
+    assert сохранённое['привязка'] == профиль['привязка'] and сохранённое['поколений'] == 1
+    кадрыПрофиля = сохранённое['кадры']
+    assert len(кадрыПрофиля) == 1048 and [элемент['порядок'] for элемент in кадрыПрофиля] == list(range(2, 1050))
+    assert [элемент['байтыШа256'] for элемент in кадрыПрофиля] == [hashlib.sha256(элемент).hexdigest() for элемент in ожидаемыеКадры]
+    assert [элемент['направление'] for элемент in кадрыПрофиля] == ['входящиеБайты'] * 1032 + ['исходящееНамерение'] * 16
+    assert all(элемент['размер'] == 4096 for элемент in кадрыПрофиля)
+    пакет = Path(__file__).resolve().parent.parent
+    кореньРепозитория = пакет.parents[3]
+    входы = []
+    for выбранный in [пакет, пакет.parent / 'КонтейнерНаблюдений']:
+        for исходныйФайл in sorted(выбранный.rglob('*')):
+            if исходныйФайл.is_file() and исходныйФайл.suffix in {'.swift', '.py', '.json'} and not any(элемент in {'.build', '.swiftpm', '__pycache__'} for элемент in исходныйФайл.relative_to(выбранный).parts):
+                if исходныйФайл.name != '2026-10-01-архив-обмена.json':
+                    входы.append({'путь': str(исходныйФайл.relative_to(кореньРепозитория)), 'sha256': hashlib.sha256(исходныйФайл.read_bytes()).hexdigest()})
+    return {'схема': 'fum.двухпроцессный-профиль-архива.1', 'исход': 'успех',
+            'исполняемыйШа256': hashlib.sha256(исполняемый.read_bytes()).hexdigest(),
+            'исполнительШа256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+            'профильПроцессаНаносекунд': длительность, 'чтениеНовогоПроцессаНаносекунд': времяЧтения,
+            'независимыйШа256': хэш, 'прочитаноКадров': len(кадрыПрофиля), 'архивНеИзменился': True,
+            'исполняемыеВходы': входы, 'результат': профиль,
+            'граница': 'Открытые литеральные Python-фикстуры сверены с отдельным процессом чтения. Внутренний поток проходит wrapper/очередь/actor/JSON; C ABI отдельно. SDK и исходный машинный код receipt этим измерением не удостоверены.'}
+
+
 if __name__ == '__main__':
     assert len(sys.argv) in (2, 3), 'Требуется абсолютный путь собранной команды и необязательный --измерить'
     исполняемый = Path(sys.argv[1])
     assert исполняемый.is_absolute() and исполняемый.is_file()
     if len(sys.argv) == 3:
-        assert sys.argv[2] == '--измерить'
-        raise SystemExit(измерить_и_вывести(исполняемый))
+        assert sys.argv[2] in {'--измерить', '--измерить-архив'}
+        if sys.argv[2] == '--измерить-архив':
+            print(json.dumps(измерить_архив(исполняемый), ensure_ascii=False, indent=2))
+        else:
+            raise SystemExit(измерить_и_вывести(исполняемый))
     else:
         проверить(исполняемый)
