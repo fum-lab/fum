@@ -8,8 +8,9 @@ let пакет = Package(
     products: [
         .library(name: "ЛокальныйТоррент", targets: ["ЛокальныйТоррент"])
     ],
+    dependencies: [.package(name: "Мост", path: "Мост")],
     targets: [
-        .target(name: "ЛокальныйТоррент"),
-        .testTarget(name: "Тесты", dependencies: ["ЛокальныйТоррент"], path: "Tests/ЛокальныйТоррентТесты")
+        .target(name: "ЛокальныйТоррент", dependencies: [.product(name: "МостЛибторрента", package: "Мост")]),
+        .testTarget(name: "Тесты", dependencies: ["ЛокальныйТоррент", .product(name: "ПробыМоста", package: "Мост")], path: "Tests/ЛокальныйТоррентТесты")
     ]
 )

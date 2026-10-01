@@ -1,0 +1,22 @@
+{
+  "схема": "fum.закрепления-офлайн-торрента.1",
+  "статус": "предложение; регистрация superproject остаётся корню",
+  "зависимости": [
+    {"имя": "libtorrent", "версия": "2.1.1", "коммит": "56ae8caba38bf154ffc210403cb23f91d0ecaa49", "форк": "https://github.com/fum-lab/libtorrent.git", "оригинал": "https://github.com/arvidn/libtorrent.git", "путь": "libtorrent"},
+    {"имя": "try_signal", "коммит": "105cce59972f925a33aa6b1c3109e4cd3caf583d", "форк": "https://github.com/fum-lab/try_signal.git", "оригинал": "https://github.com/arvidn/try_signal.git", "путь": "try_signal", "раскладка_сборки": "libtorrent/deps/try_signal"}
+  ],
+  "предлагаемые_параметры_CMake": {
+    "CMAKE_BUILD_TYPE": "Release", "BUILD_SHARED_LIBS": true,
+    "webtorrent": false, "gnutls": false, "dht": false, "i2p": false,
+    "encryption": false, "exceptions": true, "build_tests": false, "build_examples": false,
+    "build_tools": false, "python-bindings": false
+  },
+  "условия_будущей_сборки": [
+    "Подтвердить .gitmodules, точные gitlinks и реестр корневого FUM до использования библиотек",
+    "Материализовать полный зарегистрированный клон; не заменять архивом или выборочными файлами",
+    "Использовать проверенную отдельную раскладку try_signal без изменения закреплённого libtorrent",
+    "Явно требовать OpenSSL SSL и Crypto; gnutls=OFF не заменяет проверку найденной криптобиблиотеки",
+    "Сохранить C++ exceptions; сеть и session в адаптере не создавать"
+  ],
+  "неиспользуемые_вложенные_репозитории": ["simulation/libsimulator", "deps/asio-gnutls", "deps/libdatachannel"]
+}

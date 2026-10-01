@@ -19,6 +19,36 @@ from разбор_си import загрузить_библиотеку
 
 
 class ТестыПоддержкиСи(unittest.TestCase):
+    def test_НеПринимаетМакросЧужогоЗаголовкаДажеКакСистемного(сам):
+        with tempfile.TemporaryDirectory() as временный:
+            каталог = Path(временный)
+            (каталог / "подмена.hpp").write_text("#define S_ISREG(тип) (тип)\n")
+            корень = каталог / "проект"
+            корень.mkdir()
+            (корень / "мост.cpp").write_text('#include <подмена.hpp>\nint проверить(int тип) { return S_ISREG(тип); }\n')
+            with сам.assertRaises(модуль.ОшибкаКонтракта):
+                модуль.построить_инвентарь(корень, ["-isystem", str(каталог)])
+    def test_ПринимаетДоказанноеРаскрытиеМакросаСистемногоКомплекта(сам):
+        with tempfile.TemporaryDirectory() as временный:
+            корень = Path(временный)
+            (корень / "мост.cpp").write_text("#include <sys/stat.h>\nint проверить(int тип) { return S_ISREG(тип); }\n")
+            сам.assertEqual(модуль.построить_инвентарь(корень,
+                ["-isysroot", "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"])["объявления"], [])
+
+    def test_НеПринимаетСобственнуюПодменуСистемногоМакроса(сам):
+        with сам.assertRaises(модуль.ОшибкаКонтракта):
+            сам.проверить_текст("#define S_ISREG(тип) (тип)\nint проверить(int тип) { return S_ISREG(тип); }")
+
+    def test_ПринимаетУдалённоеКопированиеРусскогоВладельца(сам):
+        сам.assertEqual(сам.проверить_текст("struct Снимок { Снимок() {} ~Снимок() {} "
+            "Снимок(Снимок const&) = delete; Снимок& operator=(Снимок const&) = delete; };"), [])
+
+    def test_ОператорНеСкрываетСобственныеЛатинскиеИмена(сам):
+        объявления = сам.проверить_текст("struct Снимок { int bad_field; "
+            "Снимок& operator=(Снимок const& bad_parameter) { int bad_local=0; return *this; } };" )
+        сам.assertEqual({запись["имя"] for запись in объявления},
+                        {"bad_field", "bad_parameter", "bad_local"})
+
     def проверить_текст(сам, текст, расширение=".cpp"):
         with tempfile.TemporaryDirectory() as временный:
             корень = Path(временный)
