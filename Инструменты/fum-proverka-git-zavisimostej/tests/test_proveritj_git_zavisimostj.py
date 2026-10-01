@@ -33,7 +33,13 @@ def run_git(*arguments: str, cwd: Path | None = None) -> str:
 
 
 class GitDependencyFixture:
-    def __init__(self, root: Path):
+    def __init__(self, root: Path, *, допущенное_добавление=False):
+        if допущенное_добавление:
+            from test_допуск_добавления import ФикстураДопускаДобавления
+            self.подготовленная_фикстура = ФикстураДопускаДобавления(root)
+            self.__dict__.update(self.подготовленная_фикстура.база.__dict__)
+            self.superproject = self.подготовленная_фикстура.собственный
+            return
         self.root = root
         self.namespace = root / "namespace"
         self.upstream_namespace = root / "source"
@@ -97,6 +103,10 @@ class GitDependencyFixture:
         *,
         revision: str | None = None,
     ) -> "proveritj_git_zavisimostj.DependencySpec":
+        if hasattr(self, 'подготовленная_фикстура'):
+            описание = self.подготовленная_фикстура.описание
+            return proveritj_git_zavisimostj.DependencySpec(описание.fork_url,
+                описание.upstream_url, описание.path, revision or описание.revision)
         return proveritj_git_zavisimostj.DependencySpec(
             fork_url=str(self.fork),
             upstream_url=str(self.upstream),
@@ -109,10 +119,28 @@ class GitDependencyFixture:
         *,
         revision: str | None = None,
     ) -> list[str]:
-        return proveritj_git_zavisimostj.materialize_dependency(
-            self.superproject,
-            self.dependency_spec(revision=revision),
-        )
+        # Только независимые seed-данные временного primary для init/S-тестов.
+        описание = self.dependency_spec(revision=revision)
+        if hasattr(self, 'подготовленная_фикстура'):
+            if описание != self.подготовленная_фикстура.описание:
+                if self.подготовленная_фикстура.клонирования:
+                    return self.подготовленная_фикстура.добавить(описание=описание)
+                self.подготовленная_фикстура.описание = описание
+                self.подготовленная_фикстура.данные['зависимость']['ревизия'] = описание.revision
+                self.подготовленная_фикстура.закрепить_допуск()
+            return self.подготовленная_фикстура.добавить()
+        цель = self.superproject / self.path
+        if цель.exists():
+            return proveritj_git_zavisimostj.validate_dependency(self.superproject, описание)
+        run_git('-c', 'protocol.file.allow=always', 'submodule', 'add', '--',
+                описание.fork_url, описание.path, cwd=self.superproject)
+        run_git('remote', 'add', 'upstream', описание.upstream_url, cwd=цель)
+        run_git('fetch', 'upstream', cwd=цель)
+        run_git('checkout', '--detach', описание.revision, cwd=цель)
+        run_git('config', '-f', '.gitmodules', f'submodule.{self.path}.fumUpstream',
+                описание.upstream_url, cwd=self.superproject)
+        run_git('add', '.gitmodules', self.path, cwd=self.superproject)
+        return proveritj_git_zavisimostj.validate_dependency(self.superproject, описание)
 
     def publish_dependency_registration(self) -> None:
         run_git("commit", "-m", "Подключить зависимость", cwd=self.superproject)
@@ -133,7 +161,7 @@ class GitDependencyFixture:
 class GitDependencyAutomationTests(unittest.TestCase):
     def test_materializes_and_validates_fork_backed_submodule_offline(self):
         with tempfile.TemporaryDirectory() as tmp:
-            fixture = GitDependencyFixture(Path(tmp))
+            fixture = GitDependencyFixture(Path(tmp), допущенное_добавление=True)
 
             errors = fixture.add_dependency()
 
@@ -145,11 +173,11 @@ class GitDependencyAutomationTests(unittest.TestCase):
             )
             self.assertEqual(
                 run_git("remote", "get-url", "origin", cwd=dependency),
-                str(fixture.fork),
+                fixture.dependency_spec().fork_url,
             )
             self.assertEqual(
                 run_git("remote", "get-url", "upstream", cwd=dependency),
-                str(fixture.upstream),
+                fixture.dependency_spec().upstream_url,
             )
             self.assertEqual(
                 run_git(
@@ -160,7 +188,7 @@ class GitDependencyAutomationTests(unittest.TestCase):
                     f"submodule.{fixture.path}.fumUpstream",
                     cwd=fixture.superproject,
                 ),
-                str(fixture.upstream),
+                fixture.dependency_spec().upstream_url,
             )
             self.assertEqual(
                 proveritj_git_zavisimostj.validate_dependency(
@@ -172,14 +200,14 @@ class GitDependencyAutomationTests(unittest.TestCase):
 
     def test_add_is_idempotent_for_exact_existing_dependency(self):
         with tempfile.TemporaryDirectory() as tmp:
-            fixture = GitDependencyFixture(Path(tmp))
+            fixture = GitDependencyFixture(Path(tmp), допущенное_добавление=True)
 
             self.assertEqual(fixture.add_dependency(), [])
             self.assertEqual(fixture.add_dependency(), [])
 
     def test_allows_unrelated_superproject_changes(self):
         with tempfile.TemporaryDirectory() as tmp:
-            fixture = GitDependencyFixture(Path(tmp))
+            fixture = GitDependencyFixture(Path(tmp), допущенное_добавление=True)
             (fixture.superproject / "unrelated.tmp").write_text(
                 "не относится к зависимости\n",
                 encoding="utf-8",
@@ -189,23 +217,20 @@ class GitDependencyAutomationTests(unittest.TestCase):
 
     def test_rejects_fork_outside_current_fum_namespace(self):
         with tempfile.TemporaryDirectory() as tmp:
-            fixture = GitDependencyFixture(Path(tmp))
+            fixture = GitDependencyFixture(Path(tmp), допущенное_добавление=True)
             outsider_namespace = fixture.root / "outsider"
             outsider_namespace.mkdir()
             outsider_fork = outsider_namespace / "Primer.git"
             run_git("clone", "--bare", str(fixture.upstream), str(outsider_fork))
             dependency_spec = fixture.dependency_spec()
             wrong_namespace = proveritj_git_zavisimostj.DependencySpec(
-                fork_url=str(outsider_fork),
+                fork_url='https://github.com/outsider/Primer.git',
                 upstream_url=dependency_spec.upstream_url,
                 path=dependency_spec.path,
                 revision=dependency_spec.revision,
             )
 
-            errors = proveritj_git_zavisimostj.materialize_dependency(
-                fixture.superproject,
-                wrong_namespace,
-            )
+            errors = fixture.подготовленная_фикстура.добавить(описание=wrong_namespace)
 
             self.assertTrue(
                 any("рядом" in error or "владел" in error for error in errors),
@@ -215,7 +240,7 @@ class GitDependencyAutomationTests(unittest.TestCase):
 
     def test_rejects_revision_not_published_by_fork(self):
         with tempfile.TemporaryDirectory() as tmp:
-            fixture = GitDependencyFixture(Path(tmp))
+            fixture = GitDependencyFixture(Path(tmp), допущенное_добавление=True)
             (fixture.seed / "README.md").write_text(
                 "# Только upstream\n",
                 encoding="utf-8",
@@ -277,7 +302,7 @@ class GitDependencyAutomationTests(unittest.TestCase):
 
     def test_rejects_unsafe_path_and_non_distinct_remotes_before_mutation(self):
         with tempfile.TemporaryDirectory() as tmp:
-            fixture = GitDependencyFixture(Path(tmp))
+            fixture = GitDependencyFixture(Path(tmp), допущенное_добавление=True)
             unsafe = proveritj_git_zavisimostj.DependencySpec(
                 fork_url=str(fixture.fork),
                 upstream_url=str(fixture.fork),
@@ -285,10 +310,7 @@ class GitDependencyAutomationTests(unittest.TestCase):
                 revision=fixture.first_revision,
             )
 
-            errors = proveritj_git_zavisimostj.materialize_dependency(
-                fixture.superproject,
-                unsafe,
-            )
+            errors = fixture.подготовленная_фикстура.добавить(описание=unsafe)
 
             self.assertTrue(any("путь" in error for error in errors), errors)
             self.assertTrue(any("различ" in error for error in errors), errors)
@@ -450,7 +472,7 @@ class GitDependencyAutomationTests(unittest.TestCase):
 
     def test_add_rejects_modified_tracked_gitmodules_before_preflight(self):
         with tempfile.TemporaryDirectory() as tmp:
-            fixture = GitDependencyFixture(Path(tmp))
+            fixture = GitDependencyFixture(Path(tmp), допущенное_добавление=True)
             gitmodules = fixture.superproject / ".gitmodules"
             indexed_content = (
                 '[submodule "Poljzovatelj"]\n'
@@ -482,7 +504,7 @@ class GitDependencyAutomationTests(unittest.TestCase):
 
     def test_add_rejects_untracked_gitmodules_before_preflight(self):
         with tempfile.TemporaryDirectory() as tmp:
-            fixture = GitDependencyFixture(Path(tmp))
+            fixture = GitDependencyFixture(Path(tmp), допущенное_добавление=True)
             gitmodules = fixture.superproject / ".gitmodules"
             gitmodules.write_text("# незавершённая правка\n", encoding="utf-8")
 
