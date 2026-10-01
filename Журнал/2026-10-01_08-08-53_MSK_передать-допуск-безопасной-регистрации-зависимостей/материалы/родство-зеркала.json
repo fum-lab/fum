@@ -1,0 +1,35 @@
+{
+  "время_наблюдения": "prefix=2026-10-01_08-22-23_MSK\nlabel=2026-10-01 08:22:23 MSK",
+  "достижимость_ревизии_не_проверялась": true,
+  "источники": {
+    "fum-lab/TDLib": {
+      "sha256": "29657939eed83d9b5b2dec9549b94834c7e1dddf3106fc37204802228f4494c1",
+      "url": "https://api.github.com/repos/fum-lab/TDLib",
+      "данные": {
+        "clone_url": "https://github.com/fum-lab/TDLib.git",
+        "fork": true,
+        "full_name": "fum-lab/TDLib",
+        "id": 1366392159,
+        "parent": {
+          "clone_url": "https://github.com/tdlib/td.git",
+          "full_name": "tdlib/td",
+          "id": 115883761,
+          "private": false
+        },
+        "private": false
+      }
+    },
+    "tdlib/td": {
+      "sha256": "24ca7c6508284513d8df2b7035aa21d3f4df602fad217502c68a3b979815de2c",
+      "url": "https://api.github.com/repos/tdlib/td",
+      "данные": {
+        "clone_url": "https://github.com/tdlib/td.git",
+        "fork": false,
+        "full_name": "tdlib/td",
+        "id": 115883761,
+        "private": false
+      }
+    }
+  },
+  "схема": "fum.наблюдение-родства-зависимости.1"
+}
