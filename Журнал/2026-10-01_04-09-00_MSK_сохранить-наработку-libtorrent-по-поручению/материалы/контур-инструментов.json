@@ -1,0 +1,44 @@
+{
+  "контур": "e8112e88e0a574ade47ab560324af834dc6e2d00",
+  "файлов": 27069,
+  "байтов": 465910797,
+  "все_blob_и_режимы_совпали": true,
+  "лишних_файлов": 0,
+  "время_нс": 5541192875,
+  "gitlinks": [
+    {
+      "путь": "Зависимости/LinguisticKit",
+      "oid": "837e2ce107b97ee7b9d3344c9fe99142281fe393"
+    }
+  ],
+  "источники_recency": {
+    "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py": "57a2c9161ac86b1a4c8737f1acf22b5e76baae0a47260da4a54f98c4b8d4b330",
+    "Инструменты/fum-svezhestj-markdown/scripts/ограды_цитат.py": "58542c436949a4e0b529f158c89db78b825ee3568acd960fb9e9a47b3210bd02",
+    "Инструменты/fum-svezhestj-markdown/scripts/маска_архива.py": "f6ec16caf952f6ac7ee3091ebc6cb3f125929982979950399647958bd3b5d39b",
+    "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761"
+  },
+  "подготовка_зависимостей": {
+    "коммит": "b4d99961de15b541f8d539c943ad86e9e0749ede",
+    "manifest_sha256": "cdb3fe6e698e839065acebe45eb3c62abd18fc622f628054cc5f0b822c85c8f1",
+    "файлы": [
+      {
+        "путь_в_коммите": "Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py",
+        "путь_исполнения": "scripts/proveritj-git-zavisimostj.py",
+        "git_blob": "54633151fe690ef536cb7586e74393ddaae85562",
+        "режим": "100644",
+        "байты": 52956,
+        "sha256": "d38f939d8861d3e150a37fe7a41222cc7dc19fa495aa6d70b46132eb88df32ee"
+      },
+      {
+        "путь_в_коммите": "Инструменты/fum-proverka-git-zavisimostej/scripts/подготовка_зависимостей.py",
+        "путь_исполнения": "scripts/подготовка_зависимостей.py",
+        "git_blob": "6439e668d4a66e5c896781c107eb0a00f9e3bbf3",
+        "режим": "100644",
+        "байты": 44537,
+        "sha256": "65d8e8a1aea9eb36638c0c6ea37642a8eb34de92131f333807ab60f321708fa1"
+      }
+    ],
+    "все_blob_и_режимы_совпали": true,
+    "время_нс": 25991250
+  }
+}

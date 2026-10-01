@@ -1,0 +1,30 @@
+{
+  "коммит": "e1c3ab638c2b995905ae476c31c7822309451a0f",
+  "схема": "fum.зеркало-регистратора.1",
+  "файлы": [
+    {
+      "blob": "29e55da9f5517f064755c990b36760aabd8d47b5",
+      "sha256": "9f4cc36e7653504e4a970ab1ebce4ce7f1662e4fb57bb6a8df74c045649ba46b",
+      "байты": 51328,
+      "зеркало": "Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py",
+      "исходник": "Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py",
+      "режим": "100644"
+    },
+    {
+      "blob": "ddd8b5f98ac7d782217dc0ec2778fcfd44e42394",
+      "sha256": "61d3c6c28f197f8d4cc8b9bdfcfbe9f4a09a54448496e63f3751ade56b08a9cd",
+      "байты": 58545,
+      "зеркало": "Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-proverka-git-zavisimostej/tests/test_proveritj_git_zavisimostj.py",
+      "исходник": "Инструменты/fum-proverka-git-zavisimostej/tests/test_proveritj_git_zavisimostj.py",
+      "режим": "100644"
+    },
+    {
+      "blob": "9bf41e6207d1b8e595147b8a48b3ecea51375a1e",
+      "sha256": "5eeb7cb3c67ff6ad4f3118408619105facfaa9e167072a0fff3a7f3ae9fdda61",
+      "байты": 5012,
+      "зеркало": "Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-proverka-git-zavisimostej/tests/test_инициализации_worktree.py",
+      "исходник": "Инструменты/fum-proverka-git-zavisimostej/tests/test_инициализации_worktree.py",
+      "режим": "100644"
+    }
+  ]
+}

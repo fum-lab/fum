@@ -1,0 +1,270 @@
+{
+  "схема": "fum.зеркала-инструментов-libtorrent.1",
+  "исходный_коммит": "e1c3ab638c2b995905ae476c31c7822309451a0f",
+  "файлы": [
+    {
+      "исходный_путь": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/scripts/братиславская_проекция_памяти.py",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-bratislavskaya-proyekciya-pamyati/scripts/братиславская_проекция_памяти.py",
+      "объект": "432137d4b5f2ea8067ee936e5801e8af33b9fc67",
+      "хэш": "sha256:933358b2ef7b576fd86bf57b20c45eed4d912e8e571c821ccb7d7b2be3753e22",
+      "режим": "100644",
+      "байты": 373548
+    },
+    {
+      "исходный_путь": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/контракт-v1.json",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-bratislavskaya-proyekciya-pamyati/контракт-v1.json",
+      "объект": "f1eabf097994e49f161d8588e4ac440ca50e72c1",
+      "хэш": "sha256:12648c5d1ed97a204f6afb02d95cc38e0e16f8024937b76884594c7f19e4f377",
+      "режим": "100644",
+      "байты": 4755
+    },
+    {
+      "исходный_путь": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/контракт-v2.json",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-bratislavskaya-proyekciya-pamyati/контракт-v2.json",
+      "объект": "c6479eeb9bee4691d2d67f77954e0001e1e4d201",
+      "хэш": "sha256:5a52f1134876854e29db243cbfc6eebc86cc916a4d354ba73a0fc7516109bcd4",
+      "режим": "100644",
+      "байты": 5907
+    },
+    {
+      "исходный_путь": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/совместимость/контракт-v2-до-карты-авторов.json",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-bratislavskaya-proyekciya-pamyati/совместимость/контракт-v2-до-карты-авторов.json",
+      "объект": "19ad5251a10463456d89a8754a644d67dae22963",
+      "хэш": "sha256:566df60dc296497b5c0b536e6a611b6834779ab0950b195717ddb54819951bd5",
+      "режим": "100644",
+      "байты": 5769
+    },
+    {
+      "исходный_путь": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/совместимость/контракт-v2-до-краткого-профиля.json",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-bratislavskaya-proyekciya-pamyati/совместимость/контракт-v2-до-краткого-профиля.json",
+      "объект": "a674a497c54cde0cb6ca0150449ffdbe540ce5f4",
+      "хэш": "sha256:5defbb9e1f24334878038b15b846f093b1b91dfa8252788ee075e344d720d33e",
+      "режим": "100644",
+      "байты": 5789
+    },
+    {
+      "исходный_путь": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/совместимость/контракт-v2-до-объединения-форматов.json",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-bratislavskaya-proyekciya-pamyati/совместимость/контракт-v2-до-объединения-форматов.json",
+      "объект": "7c9d503327db1be9a8d22f465b8ec950bf23d195",
+      "хэш": "sha256:512cbaf4fa8707a6341e5beb432e84a65418c442998a5cdb9e6bced8ea815687",
+      "режим": "100644",
+      "байты": 5513
+    },
+    {
+      "исходный_путь": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/совместимость/контракт-v2-до-сценариев-и-карты-авторов.json",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-bratislavskaya-proyekciya-pamyati/совместимость/контракт-v2-до-сценариев-и-карты-авторов.json",
+      "объект": "b4392a365a6dfb57b0abe4765a0c890c4274c899",
+      "хэш": "sha256:1d1e276a96dfe74bb5aea626b60495c3e35056319016502d9b1881d0a585dbd9",
+      "режим": "100644",
+      "байты": 5306
+    },
+    {
+      "исходный_путь": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/совместимость/контракт-v2-до-сценариев-ответа.json",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-bratislavskaya-proyekciya-pamyati/совместимость/контракт-v2-до-сценариев-ответа.json",
+      "объект": "552c3dd3dab62bb17212a011b610e3e2d58f23ec",
+      "хэш": "sha256:324eb6a2bdbb5a7eaff2d89a8c3c12306e960d23f177dc401d663c73b43430e3",
+      "режим": "100644",
+      "байты": 5050
+    },
+    {
+      "исходный_путь": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/совместимость/контракт-v2-до-форматов-приложения.json",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-bratislavskaya-proyekciya-pamyati/совместимость/контракт-v2-до-форматов-приложения.json",
+      "объект": "d259ab3329a57dbc5afc2a126372d633d9e3c03e",
+      "хэш": "sha256:67790d18c6a3954beadf2aa2a36906bbe52d41e31b3eaa9ab101274838eb6389",
+      "режим": "100644",
+      "байты": 4947
+    },
+    {
+      "исходный_путь": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/схемы/схема-манифеста-v1.json",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-bratislavskaya-proyekciya-pamyati/схемы/схема-манифеста-v1.json",
+      "объект": "e27fafacc93e3a2c01edad187400abc630091b9d",
+      "хэш": "sha256:778ce5810cc0b3c588638d41e16c96bdb545a501401435a30da3167e42a4f780",
+      "режим": "100644",
+      "байты": 5092
+    },
+    {
+      "исходный_путь": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/схемы/схема-манифеста-v2.json",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-bratislavskaya-proyekciya-pamyati/схемы/схема-манифеста-v2.json",
+      "объект": "15289b02d52f0d7cbfc5df92899be9ddc915cba6",
+      "хэш": "sha256:d2bb13512b67006afd37f68cadb3045a18d626e89334ae39a021d445cdc5835f",
+      "режим": "100644",
+      "байты": 5092
+    },
+    {
+      "исходный_путь": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/схемы/схема-плана-v1.json",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-bratislavskaya-proyekciya-pamyati/схемы/схема-плана-v1.json",
+      "объект": "52e97c137b967c766c561909e903434748ffde7b",
+      "хэш": "sha256:ad86664ed64fc0900d4f857e799f9ee36d8369dfe19b37e5fee1fa405074dc43",
+      "режим": "100644",
+      "байты": 16281
+    },
+    {
+      "исходный_путь": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/схемы/схема-плана-v2.json",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-bratislavskaya-proyekciya-pamyati/схемы/схема-плана-v2.json",
+      "объект": "997082eea2d222a1dba4979989832dfffd00f9dd",
+      "хэш": "sha256:f3ca392862028bdb56cf3ff52ac1ed93c6eecdc1fd5ab703fd6b2df2191e7d84",
+      "режим": "100644",
+      "байты": 17514
+    },
+    {
+      "исходный_путь": "Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/контур_слияния.py",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-kompleksnaya-proverka-repozitoriya/scripts/контур_слияния.py",
+      "объект": "1c90cd6905df86dc8acb65ce3447f2f7e1f18451",
+      "хэш": "sha256:928f1eab473201c75660b58489c50ab73552e7467a79411382640201d502f68a",
+      "режим": "100644",
+      "байты": 23426
+    },
+    {
+      "исходный_путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py",
+      "объект": "87459a778a17282ee2be1f278ece8fb7375b1b4f",
+      "хэш": "sha256:b1db642573fbef14ef477e8263b94d5e394c097de460d661a950119af68ec74c",
+      "режим": "100644",
+      "байты": 211327
+    },
+    {
+      "исходный_путь": "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py",
+      "объект": "6f9f8bd44878689c46ebd204cbb9c294681c3daa",
+      "хэш": "sha256:caf78daee202eeb3a2eba81eb5ffbd2b3e60d64933312ec862a6884eef924b9d",
+      "режим": "100644",
+      "байты": 59024
+    },
+    {
+      "исходный_путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/аббревиатуры_контекста.py",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/аббревиатуры_контекста.py",
+      "объект": "0ab885a39aed2a7aba3454ac41875127b34c9a02",
+      "хэш": "sha256:d435dfccb76e4526c1999df6d489efe9a680eee1da427bfb6057fc461db147d2",
+      "режим": "100644",
+      "байты": 5004
+    },
+    {
+      "исходный_путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/безопасные_привязки_python.py",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/безопасные_привязки_python.py",
+      "объект": "e31bcb8888be89e01308a8b6a2facdd2eec15056",
+      "хэш": "sha256:bea73934b403a103ce05162a0865b37796f85c9da6e592c12bf503f6b6bf73af",
+      "режим": "100644",
+      "байты": 36695
+    },
+    {
+      "исходный_путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести-объявления-кода.py",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/перевести-объявления-кода.py",
+      "объект": "68a63a89ec3a9b617a5f9f89bc6a89dd7532f58d",
+      "хэш": "sha256:82d0d819158dbf7d28ceecb5ef2c0176ec17bd197dc61e78191065a25a80cf0c",
+      "режим": "100644",
+      "байты": 87930
+    },
+    {
+      "исходный_путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/scripts/разбор_сценария.py",
+      "объект": "34edc9c82fad91fe5e58cce5afe5893ca27a8af9",
+      "хэш": "sha256:12c4545145bca032c9ca2d8facb5f15f65d0cb2c12cd85ac92504c975a27f168",
+      "режим": "100644",
+      "байты": 29016
+    },
+    {
+      "исходный_путь": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/аббревиатуры-контекста.json",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/аббревиатуры-контекста.json",
+      "объект": "914ec87cb5dfc80719baa280f62a1d614766af81",
+      "хэш": "sha256:2113fbfbbb071d248bc2c686f9a85b904086788fdde68ffa3d92ab73a1a34349",
+      "режим": "100644",
+      "байты": 7650
+    },
+    {
+      "исходный_путь": "Инструменты/fum-proverka-nazvanij-avtomatizacij/Package.swift",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-proverka-nazvanij-avtomatizacij/Package.swift",
+      "объект": "44a5b00daec22a70c4b01a0bac0818f0050a03cb",
+      "хэш": "sha256:490aeb9cb02d67f9b716ca17ab061b312057845df9f62f98c6cd501577499c18",
+      "режим": "100644",
+      "байты": 433
+    },
+    {
+      "исходный_путь": "Инструменты/fum-proverka-nazvanij-avtomatizacij/Sources/preobrazovatj-nazvaniya/main.swift",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-proverka-nazvanij-avtomatizacij/Sources/preobrazovatj-nazvaniya/main.swift",
+      "объект": "8c6d500cc2796e19c6ceb30429458913d2d9ad73",
+      "хэш": "sha256:24b97a8d31b4d28adf919d8c417aad5cb107486b31de4e1e039b5791599047c2",
+      "режим": "100644",
+      "байты": 1443
+    },
+    {
+      "исходный_путь": "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py",
+      "объект": "f8874ae387db030840aabe40793ca30b04e21b68",
+      "хэш": "sha256:a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+      "режим": "100644",
+      "байты": 13309
+    },
+    {
+      "исходный_путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py",
+      "объект": "eab205b44db83fe996901d6460223f6dc74cc6af",
+      "хэш": "sha256:08e9e3eb2cc7876454f06425443db3c1cdac4a192408a6850a51097a8472b9bc",
+      "режим": "100644",
+      "байты": 111850
+    },
+    {
+      "исходный_путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/блоки_карточки.py",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-struktura-papok-zaprosov/scripts/блоки_карточки.py",
+      "объект": "69a55cb0e2e55b330440357a089d9d1ae719fb59",
+      "хэш": "sha256:3331427b784250c41004a179c5d02c74f05054178c359f456f9d8d2ba066233a",
+      "режим": "100644",
+      "байты": 20020
+    },
+    {
+      "исходный_путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/наполнение_cli.py",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-struktura-papok-zaprosov/scripts/наполнение_cli.py",
+      "объект": "3f5248191e2c87896d1fab53bcdfcf446962e4d6",
+      "хэш": "sha256:41c780c8bb24d761595fb3c0653afc14a59d9d027caf252e912d7fad6524bc53",
+      "режим": "100644",
+      "байты": 4924
+    },
+    {
+      "исходный_путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/наполнение_карточки.py",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-struktura-papok-zaprosov/scripts/наполнение_карточки.py",
+      "объект": "9e72899bf344e091cf466085bd8caffcaa24ea54",
+      "хэш": "sha256:dca4596ab12b62f5e5e718f692011f67da248e593b576fec1cca9a437e2fd869",
+      "режим": "100644",
+      "байты": 26256
+    },
+    {
+      "исходный_путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/отпечатки_загрузки.py",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-struktura-papok-zaprosov/scripts/отпечатки_загрузки.py",
+      "объект": "c20386cdadaef7104b0af89e54a8c5b15fe52a8f",
+      "хэш": "sha256:e6bd962fc80537f14e6a8689f3f50074a9b4299bf44c918174ca63845830e98f",
+      "режим": "100644",
+      "байты": 3059
+    },
+    {
+      "исходный_путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/управляемые_блоки.py",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-struktura-papok-zaprosov/scripts/управляемые_блоки.py",
+      "объект": "4eddf21ca11c4abb6fd7c2838eb2be6e16a6632c",
+      "хэш": "sha256:266cf58dfa5d197c61f3c5b85b83ad8b9eb6680164f2aea14a0c2a692c50d8a8",
+      "режим": "100644",
+      "байты": 18275
+    },
+    {
+      "исходный_путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+      "объект": "da059cb4a9c3747ad90854c8a44c9b86960637ea",
+      "хэш": "sha256:9f3fcc5768570ca4f680f2edbe0971df5d55f02e8eba193dad9905cd105d0af2",
+      "режим": "100644",
+      "байты": 77862
+    },
+    {
+      "исходный_путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py",
+      "объект": "f81c4bf260ccfb67ea05f43ec2e21e0bfb5071cc",
+      "хэш": "sha256:847fa3af66de18f9c73066d719bf089357ff865e6ce13fa721c219b65e270db0",
+      "режим": "100644",
+      "байты": 2414
+    },
+    {
+      "исходный_путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py",
+      "путь_зеркала": "Приложения/FUMA/Packages/ЛокальныйТоррент/Инструменты/Зеркала/Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py",
+      "объект": "1d9bafbf31a707ae11a2cdbc2dc0fdc079689098",
+      "хэш": "sha256:e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+      "режим": "100644",
+      "байты": 14817
+    }
+  ]
+}

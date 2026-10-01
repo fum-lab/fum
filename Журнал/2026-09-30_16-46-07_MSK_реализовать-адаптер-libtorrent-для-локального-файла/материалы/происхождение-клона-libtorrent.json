@@ -1,0 +1,15 @@
+{
+  "fork": "fum-lab/libtorrent",
+  "sha256_лицензии": "77d319baf9b855d3f41e7a8a05ce90d407be1396b16a362bea2351bff7e3ce46",
+  "upstream": "arvidn/libtorrent",
+  "ветки_достижимости": [
+    "refs/remotes/origin/RC_2_1",
+    "refs/remotes/origin/cspell",
+    "refs/remotes/origin/master",
+    "refs/remotes/origin/sanitize-append-path-element",
+    "refs/remotes/origin/trust-points"
+  ],
+  "зарегистрирован_в_FUM": false,
+  "коммит": "56ae8caba38bf154ffc210403cb23f91d0ecaa49",
+  "состав_submodule": "[submodule \"simulation/libsimulator\"]\n\tpath = simulation/libsimulator\n\turl = https://github.com/arvidn/libsimulator.git\n[submodule \"deps/try_signal\"]\n\tpath = deps/try_signal\n\turl = https://github.com/arvidn/try_signal.git\n[submodule \"deps/asio-gnutls\"]\n\tpath = deps/asio-gnutls\n\turl = https://github.com/paullouisageneau/boost-asio-gnutls.git\n[submodule \"deps/libdatachannel\"]\n\tpath = deps/libdatachannel\n\turl = https://github.com/paullouisageneau/libdatachannel.git\n"
+}

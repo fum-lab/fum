@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Манифест братиславской проекции памяти FUM версии 2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "схема",
+    "хэш_плана",
+    "хэш_политики",
+    "исходный_снимок",
+    "исходная_область",
+    "производное_пространство",
+    "целевая_область",
+    "корень_файлов",
+    "путь_манифеста",
+    "исключённые_префиксы",
+    "преобразование",
+    "форматная_политика",
+    "пустые_каталоги",
+    "записи",
+    "итоговые_файлы"
+  ],
+  "properties": {
+    "схема": {
+      "const": "fum.манифест-братиславской-проекции.2"
+    },
+    "хэш_плана": {
+      "$ref": "#/$defs/хэш"
+    },
+    "хэш_политики": {
+      "$ref": "#/$defs/хэш"
+    },
+    "исходный_снимок": {
+      "$ref": "схема-плана-v2.json#/$defs/исходный_снимок"
+    },
+    "исходная_область": {
+      "const": "."
+    },
+    "производное_пространство": {
+      "const": "Proyekcii"
+    },
+    "целевая_область": {
+      "const": "Proyekcii/Bratislavskaya-pamyatj"
+    },
+    "корень_файлов": {
+      "const": "Proyekcii/Bratislavskaya-pamyatj/fajlyi"
+    },
+    "путь_манифеста": {
+      "const": "Proyekcii/Bratislavskaya-pamyatj/manifest-proiskhozhdeniya-v2.json"
+    },
+    "исключённые_префиксы": {
+      "const": [
+        ".git",
+        "Подузлы",
+        "Proyekcii"
+      ]
+    },
+    "преобразование": {
+      "$ref": "схема-плана-v2.json#/$defs/преобразование"
+    },
+    "форматная_политика": {
+      "$ref": "схема-плана-v2.json#/$defs/форматная_политика"
+    },
+    "пустые_каталоги": {
+      "const": "не_включаются_в_инвентарь_репозитория"
+    },
+    "записи": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/запись_манифеста"
+      }
+    },
+    "итоговые_файлы": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "contains": {
+        "const": "Proyekcii/Bratislavskaya-pamyatj/manifest-proiskhozhdeniya-v2.json"
+      },
+      "minContains": 1,
+      "maxContains": 1,
+      "items": {
+        "oneOf": [
+          {
+            "const": "Proyekcii/Bratislavskaya-pamyatj/manifest-proiskhozhdeniya-v2.json"
+          },
+          {
+            "type": "string",
+            "pattern": "^Proyekcii/Bratislavskaya-pamyatj/fajlyi/.+"
+          }
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "хэш": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "OID": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "запись_манифеста": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "исходный_путь",
+        "целевой_путь",
+        "компоненты_пути",
+        "тип",
+        "режим",
+        "размер_источника",
+        "хэш_источника",
+        "класс_содержимого",
+        "действие_содержимого",
+        "причина_действия",
+        "хэш_цели"
+      ],
+      "properties": {
+        "исходный_путь": {
+          "type": "string",
+          "minLength": 1
+        },
+        "целевой_путь": {
+          "type": "string",
+          "pattern": "^Proyekcii/Bratislavskaya-pamyatj/fajlyi/.+"
+        },
+        "компоненты_пути": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "схема-плана-v2.json#/$defs/компонент_пути"
+          }
+        },
+        "тип": {
+          "const": "обычный_файл"
+        },
+        "режим": {
+          "enum": [
+            "100644",
+            "100755"
+          ]
+        },
+        "размер_источника": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "хэш_источника": {
+          "$ref": "#/$defs/хэш"
+        },
+        "класс_содержимого": {
+          "type": "string",
+          "minLength": 1
+        },
+        "действие_содержимого": {
+          "enum": [
+            "преобразовать_структурно",
+            "преобразовать_разметку_с_дословным_блоком",
+            "сохранить_байты"
+          ]
+        },
+        "причина_действия": {
+          "type": "string",
+          "minLength": 1
+        },
+        "хэш_цели": {
+          "$ref": "#/$defs/хэш"
+        }
+      }
+    }
+  }
+}

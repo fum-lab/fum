@@ -1,0 +1,205 @@
+"""Адресная регистрация зависимости в отдельном связанном дереве."""
+import importlib.util
+import os
+import sys
+import subprocess
+import tempfile
+import types
+import unittest
+from pathlib import Path
+from unittest import mock
+
+корень_зеркала = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(корень_зеркала / "scripts"))
+import регистратор
+
+
+class ПроверкаРегистрации(unittest.TestCase):
+    def test_источник_недоступен_после_предварительной_проверки(сам):
+        сам.подготовить()
+        до = сам.снимок()
+        исходное_открытие = os.open
+        чтения = [0]
+        def открыть(путь, *аргументы, **параметры):
+            if str(путь).endswith("scripts/proveritj-git-zavisimostj.py"):
+                чтения[0] += 1
+                if чтения[0] == 2:
+                    raise FileNotFoundError("источник недоступен после preflight")
+            return исходное_открытие(путь, *аргументы, **параметры)
+        with mock.patch.object(os, "open", new=открыть):
+            ошибки = регистратор.зарегистрировать(сам.дерево, сам.описание, сам.модуль)
+        сам.assertTrue(any("источник недоступен" in ошибка for ошибка in ошибки))
+        сам.assertEqual(до, сам.снимок())
+        сам.assertFalse((сам.дерево / ".gitmodules").exists())
+
+    def test_отказ_инициализации_сверяет_посторонний_индекс(сам):
+        сам.подготовить()
+        посторонний = сам.дерево / "другая-запись.txt"
+        посторонний.write_text("Исходная запись\n")
+        сам.выполнить_гит(сам.дерево, "add", "другая-запись.txt")
+        исходный_запуск = subprocess.run
+        def прервать(аргументы, **параметры):
+            if "submodule" in аргументы and "update" in аргументы:
+                посторонний.write_text("Подменённая запись\n")
+                исходный_запуск(["git", "add", "--", "другая-запись.txt"], cwd=сам.дерево, check=True)
+                return subprocess.CompletedProcess(аргументы, 1, "", "отказ пробы")
+            return исходный_запуск(аргументы, **параметры)
+        with mock.patch.object(subprocess, "run", new=прервать):
+            ошибки = регистратор.зарегистрировать(сам.дерево, сам.описание, сам.модуль)
+        сам.assertTrue(any("посторонние записи" in ошибка for ошибка in ошибки))
+        сам.assertTrue(any("защищённая инициализация" in ошибка for ошибка in ошибки))
+
+    def test_ошибка_чтения_конфигурации_сохраняет_исходный_отказ(сам):
+        сам.подготовить()
+        конфигурация = сам.первичный / ".git/config"
+        исходный_запуск = subprocess.run
+        исходное_чтение = Path.read_bytes
+        отказ = [False]
+        def прервать(аргументы, **параметры):
+            if "submodule" in аргументы and "update" in аргументы:
+                отказ[0] = True
+                return subprocess.CompletedProcess(аргументы, 1, "", "исходный отказ пробы")
+            return исходный_запуск(аргументы, **параметры)
+        def прочитать(путь):
+            if путь == конфигурация and отказ[0]:
+                raise OSError("чтение конфигурации недоступно")
+            return исходное_чтение(путь)
+        with mock.patch.object(subprocess, "run", new=прервать), mock.patch.object(Path, "read_bytes", new=прочитать):
+            ошибки = регистратор.зарегистрировать(сам.дерево, сам.описание, сам.модуль)
+        сам.assertTrue(any("исходный отказ пробы" in ошибка for ошибка in ошибки))
+        сам.assertTrue(any("чтение конфигурации недоступно" in ошибка for ошибка in ошибки))
+
+    def test_чужой_кешированный_помощник_не_исполняется(сам):
+        чужой = types.ModuleType("исполнение_модуля")
+        вызовы = []
+        def чужое_исполнение(модуль, байты, путь):
+            вызовы.append(путь)
+            raise RuntimeError("чужой помощник исполнился")
+        setattr(чужой, "исполнить", чужое_исполнение)
+        with mock.patch.dict(sys.modules, {"исполнение_модуля": чужой}):
+            описание = importlib.util.spec_from_file_location("дубль_регистратора", корень_зеркала / "scripts/регистратор.py")
+            дубль = importlib.util.module_from_spec(описание)
+            описание.loader.exec_module(дубль)
+            with дубль.исходник() as проверенный:
+                сам.assertTrue(callable(getattr(проверенный, "validate_spec")))
+        сам.assertEqual([], вызовы)
+
+    def test_подставленный_модуль_без_контекста_отказывает(сам):
+        временный = tempfile.TemporaryDirectory(prefix="fum-registration-fake-")
+        сам.addCleanup(временный.cleanup)
+        чужой = types.ModuleType(регистратор.имя_модуля)
+        with mock.patch.dict(sys.modules, {регистратор.имя_модуля: чужой}):
+            сам.assertTrue(регистратор.зарегистрировать(Path(временный.name).resolve(), None, чужой))
+
+    def test_два_раздела_с_одним_целевым_путём_отказывают_до_записи(сам):
+        сам.подготовить()
+        путь = getattr(сам.описание, "path")
+        метаданные = сам.дерево / ".gitmodules"
+        метаданные.write_text(f'[submodule "первая"]\n\tpath = {путь}\n[submodule "вторая"]\n\tpath = {путь}\n')
+        сам.выполнить_гит(сам.дерево, "add", ".gitmodules")
+        до = сам.снимок()
+        байты = метаданные.read_bytes()
+        сам.assertTrue(регистратор.зарегистрировать(сам.дерево, сам.описание, сам.модуль))
+        сам.assertEqual(до, сам.снимок())
+        сам.assertEqual(байты, метаданные.read_bytes())
+        сам.assertFalse((сам.дерево / путь).exists())
+
+    def подготовить(сам):
+        временный = tempfile.TemporaryDirectory(prefix="fum-registration-")
+        сам.addCleanup(временный.cleanup)
+        сам.корень = Path(временный.name).resolve()
+        контекст = регистратор.исходник()
+        сам.модуль = контекст.__enter__()
+        сам.addCleanup(контекст.__exit__, None, None, None)
+        путь = корень_зеркала / "Источники/e1c3ab638c2b995905ae476c31c7822309451a0f/Инструменты/fum-proverka-git-zavisimostej/tests/test_proveritj_git_zavisimostj.py"
+        описание = importlib.util.spec_from_file_location("fum_фикстура_регистратора", путь)
+        фикстуры = importlib.util.module_from_spec(описание)
+        описание.loader.exec_module(фикстуры)
+        сам.фикстура = getattr(фикстуры, "GitDependencyFixture")(сам.корень)
+        сам.первичный = getattr(сам.фикстура, "superproject")
+        сам.дерево = сам.корень / "дерево"
+        сам.выполнить_гит(сам.первичный, "worktree", "add", "-b", "codex/проба", str(сам.дерево), "HEAD")
+        сам.описание = getattr(сам.фикстура, "dependency_spec")()
+
+    def выполнить_гит(сам, корень, *аргументы):
+        return getattr(сам.модуль, "run_git")(корень, *аргументы).stdout
+
+    def снимок(сам):
+        return ((сам.первичный / ".git/config").read_bytes(),
+                (сам.первичный / ".git/index").read_bytes(),
+                сам.выполнить_гит(сам.дерево, "ls-files", "--stage"))
+
+    def test_регистрирует_в_своём_дереве_и_сохраняет_общую_конфигурацию(сам):
+        сам.подготовить()
+        (сам.дерево / "другая-запись.txt").write_text("Своя запись\n")
+        сам.выполнить_гит(сам.дерево, "add", "другая-запись.txt")
+        до = сам.снимок()
+        ошибки = регистратор.зарегистрировать(сам.дерево, сам.описание, сам.модуль)
+        сам.assertEqual([], ошибки)
+        сам.assertEqual(до[:2], сам.снимок()[:2])
+        сам.assertIn(сам.выполнить_гит(сам.дерево, "ls-files", "--stage", "--", "другая-запись.txt"), до[2])
+        путь = getattr(сам.описание, "path")
+        зависимость = сам.дерево / путь
+        сам.assertEqual(getattr(сам.описание, "revision"), сам.выполнить_гит(зависимость, "rev-parse", "HEAD"))
+        собственный = Path(сам.выполнить_гит(сам.дерево, "rev-parse", "--absolute-git-dir"))
+        зависимый = Path(сам.выполнить_гит(зависимость, "rev-parse", "--absolute-git-dir"))
+        сам.assertTrue(зависимый.is_relative_to(собственный / "modules"))
+        сам.assertFalse((сам.первичный / путь).exists())
+        сам.assertEqual([], getattr(сам.модуль, "validate_dependency")(сам.дерево, сам.описание))
+
+    def test_пустой_каталог_не_считается_родительским_клоном(сам):
+        сам.подготовить()
+        путь = сам.дерево / getattr(сам.описание, "path")
+        путь.mkdir(parents=True)
+        сам.assertEqual(str(сам.дерево), сам.выполнить_гит(путь, "rev-parse", "--show-toplevel"))
+        сам.assertEqual([], регистратор.зарегистрировать(сам.дерево, сам.описание, сам.модуль))
+        сам.assertEqual(str(путь), сам.выполнить_гит(путь, "rev-parse", "--show-toplevel"))
+
+    def test_занятый_путь_отказывает_до_записи(сам):
+        сам.подготовить()
+        путь = сам.дерево / getattr(сам.описание, "path")
+        путь.mkdir(parents=True)
+        (путь / "пользователь.txt").write_text("Сохранить\n")
+        до = сам.снимок()
+        сам.assertTrue(регистратор.зарегистрировать(сам.дерево, сам.описание, сам.модуль))
+        сам.assertEqual(до, сам.снимок())
+        сам.assertFalse((сам.дерево / ".gitmodules").exists())
+
+    def test_символическая_ссылка_отказывает_до_записи(сам):
+        сам.подготовить()
+        путь = сам.дерево / getattr(сам.описание, "path")
+        путь.parent.mkdir(parents=True)
+        путь.symlink_to(сам.первичный, target_is_directory=True)
+        до = сам.снимок()
+        сам.assertTrue(регистратор.зарегистрировать(сам.дерево, сам.описание, сам.модуль))
+        сам.assertEqual(до, сам.снимок())
+
+    def test_остаточный_каталог_гит_отказывает_до_записи(сам):
+        сам.подготовить()
+        собственный = Path(сам.выполнить_гит(сам.дерево, "rev-parse", "--absolute-git-dir"))
+        (собственный / "modules" / getattr(сам.описание, "path")).mkdir(parents=True)
+        до = сам.снимок()
+        сам.assertTrue(регистратор.зарегистрировать(сам.дерево, сам.описание, сам.модуль))
+        сам.assertEqual(до, сам.снимок())
+
+    def test_повтор_не_переписывает_индекс_и_конфигурацию(сам):
+        сам.подготовить()
+        сам.assertEqual([], регистратор.зарегистрировать(сам.дерево, сам.описание, сам.модуль))
+        до = сам.снимок()
+        собственный = Path(сам.выполнить_гит(сам.дерево, "rev-parse", "--absolute-git-dir"))
+        индекс = (собственный / "index").read_bytes()
+        метаданные = (сам.дерево / ".gitmodules").read_bytes()
+        сам.assertEqual([], регистратор.зарегистрировать(сам.дерево, сам.описание, сам.модуль))
+        сам.assertEqual(до, сам.снимок())
+        сам.assertEqual(индекс, (собственный / "index").read_bytes())
+        сам.assertEqual(метаданные, (сам.дерево / ".gitmodules").read_bytes())
+
+    def test_первичное_дерево_не_допускает_регистрацию(сам):
+        сам.подготовить()
+        до = сам.снимок()
+        сам.assertTrue(регистратор.зарегистрировать(сам.первичный, сам.описание, сам.модуль))
+        сам.assertEqual(до, сам.снимок())
+
+
+if __name__ == "__main__":
+    unittest.main()
