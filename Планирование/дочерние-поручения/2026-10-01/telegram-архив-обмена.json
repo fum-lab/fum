@@ -1,0 +1,30 @@
+{
+  "ветка": "refs/heads/codex/dir/prilozheniya--fuma--kliyenttelegram",
+  "исполнитель": "01a0f27d-9a9b-71a1-82d6-9c10c1c8de72",
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "область": [
+    "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/АрхивОбмена.swift",
+    "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/ПривязкаБиблиотеки.swift",
+    "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Мост.swift",
+    "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/Среда.swift",
+    "Приложения/FUMA/Packages/КлиентTelegram/Sources/ПроверкаTelegram/main.swift",
+    "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиАрхиваОбмена.swift",
+    "Приложения/FUMA/Packages/КлиентTelegram/Tests/ПроверкиTelegram/ПроверкиМоста.swift",
+    "Приложения/FUMA/Packages/КлиентTelegram/Sources/КлиентTelegram/ПрофильАрхиваОбмена.swift",
+    "Приложения/FUMA/Packages/КлиентTelegram/Проверки/проверить-команду.py",
+    "Приложения/FUMA/Packages/КлиентTelegram/README.md",
+    "Приложения/FUMA/Packages/КлиентTelegram/Профили/README.md",
+    "Приложения/FUMA/Packages/КлиентTelegram/Профили/2026-10-01-архив-обмена.json",
+    "Журнал/2026-10-01_14-28-31_MSK_сохранить-сырой-обмен-Telegram-и-привязку-библиотеки/",
+    "Журнал/2026-10-01_08-11-41_MSK_исправить-допуск-добавления-зависимости/запрос.md",
+    "Журнал/README.md",
+    "Индексы/markdown-файлы-по-времени-редактирования.md"
+  ],
+  "постановка": {
+    "sha256": "37228d06a5784bdb72061cb439cc808efa55eadc5d12c0fce5f920d295252ffb",
+    "коммит": "e1c3ab638c2b995905ae476c31c7822309451a0f",
+    "путь": "Планирование/параллельные-постановки/2026-09-30/telegram.md"
+  },
+  "схема": "fum.поручение-дочерней-контрольной-точки.1",
+  "хэш_нативного_поручения": "c6dcb23806c26bf45c95a294c6f2c336d81b6448fc45d1b8b61e6333d90c3cf6"
+}
