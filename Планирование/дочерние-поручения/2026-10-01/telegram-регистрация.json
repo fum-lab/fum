@@ -11,7 +11,8 @@
     "Инструменты/fum-proverka-git-zavisimostej/tests/test_допуск_добавления.py",
     "Инструменты/fum-proverka-git-zavisimostej/tests/профиль_допуска_добавления.py",
     "Инструменты/fum-proverka-git-zavisimostej/SKILL.md",
-    "Инструменты/fum-proverka-git-zavisimostej/добавление-зависимости.md"
+    "Инструменты/fum-proverka-git-zavisimostej/добавление-зависимости.md",
+    "Журнал/2026-10-01_05-17-46_MSK_разрешить-новый-этап-подготовки-зависимостей/запрос.md"
   ],
   "постановка": {
     "sha256": "37228d06a5784bdb72061cb439cc808efa55eadc5d12c0fce5f920d295252ffb",
