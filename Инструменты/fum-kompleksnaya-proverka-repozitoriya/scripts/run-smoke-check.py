@@ -179,10 +179,13 @@ class SmokeStep:
     detail: str | None = None
     аналитический_ключ: str | None = None
     ранняя_проверка: bool = False
+    отложен: bool = False
 
     def __post_init__(self) -> None:
         if (self.command is None) == (self.detail is None):
             raise ValueError("smoke step must define exactly one of command or detail")
+        if self.отложен and self.command is not None:
+            raise ValueError("отложенный шаг не может исполнять команду")
         if self.аналитический_ключ is not None:
             if self.command is None or not self.аналитический_ключ:
                 raise ValueError(
@@ -918,6 +921,17 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--источник-проверок", help="Полный OID принятого master для проверки слияния.")
     parser.add_argument("--ведущая-основа", help="Полный OID ведущей основы слияния.")
     parser.add_argument("--свидетельство-контура", help="Заранее индексированное происхождение полного запуска.")
+    parser.add_argument("--проекция", choices=("активна", "отложена"), default="активна",
+                        help="Отложенная проекция даёт только частичную адресную проверку и код 4.")
+    parser.add_argument("--основание-отложения-проекции",
+                        help="Непустое основание явной приостановки проекции.")
+    for флаг in ("--проекция", "--основание-отложения-проекции"):
+        имена = [аргумент.split("=", 1)[0] for аргумент in sys.argv[1:]]
+        if имена.count(флаг) > 1:
+            parser.error(f"повтор параметра {флаг} запрещён")
+        if any(имя.startswith("--") and имя != "--" and имя != флаг and флаг.startswith(имя)
+               for имя in имена):
+            parser.error(f"сокращение параметра {флаг} запрещено")
     return parser.parse_args()
 
 
@@ -2476,8 +2490,19 @@ def build_steps(
     изменённые_пути: Sequence[str] | None = None,
     *,
     корень_проверок: Path | None = None,
+    проекция: str = "активна",
+    основание_отложения_проекции: str | None = None,
 ) -> list[SmokeStep]:
     root = Path(repo_root).resolve()
+    if проекция not in ("активна", "отложена"):
+        raise ValueError("неизвестный режим проекции")
+    if проекция == "отложена":
+        if not isinstance(основание_отложения_проекции, str) or not основание_отложения_проекции.strip():
+            raise ValueError("отложенная проекция требует непустое основание")
+        if корень_проверок is not None:
+            raise ValueError("контур слияния не допускает отложенную проекцию")
+    elif основание_отложения_проекции is not None:
+        raise ValueError("основание отложения нельзя задавать для активной проекции")
     источник = root if корень_проверок is None else Path(корень_проверок).resolve(strict=True)
     if корень_проверок is not None and (not include_session or профиль != ДОКУМЕНТАЦИОННЫЙ_ПРОФИЛЬ):
         raise ValueError("контур слияния требует полного документационного плана со связностью сессии")
@@ -2614,6 +2639,7 @@ def build_steps(
 
     скрипт_проекции = проверочный_файл(СКРИПТ_БРАТИСЛАВСКОЙ_ПРОЕКЦИИ)
     контракт_проекции = проверочный_файл(КОНТРАКТ_БРАТИСЛАВСКОЙ_ПРОЕКЦИИ)
+    начало_проекции = len(steps)
     steps.append(
         SmokeStep(
             name="Применение братиславской проекции памяти",
@@ -2646,6 +2672,13 @@ def build_steps(
             ранняя_проверка=True,
         )
     )
+    if проекция == "отложена":
+        for индекс in range(начало_проекции, len(steps)):
+            steps[индекс] = SmokeStep(
+                name=steps[индекс].name, command=None,
+                detail="Отложено: " + основание_отложения_проекции,
+                ранняя_проверка=True, отложен=True,
+            )
 
     if профиль == ПОЛНЫЙ_ПРОФИЛЬ:
         automation_names_script = проверочный_файл(AUTOMATION_NAMES_CHECK_SCRIPT)
@@ -2852,7 +2885,7 @@ def run_steps(
                 timing_record(
                     "step",
                     timer() - step_started_at,
-                    "passed",
+                    "отложено" if step.отложен else "passed",
                     index=index,
                     total_steps=total,
                     name=step.name,
@@ -2954,15 +2987,20 @@ def run_steps(
                 )
             )
             return result.returncode
-    print(f"smoke-check passed: {total} step(s)")
+    есть_отложенные = any(шаг.отложен for шаг in steps)
+    if есть_отложенные:
+        print(f"Комплексная проверка не завершена: проекция отложена; {total} шагов")
+    else:
+        print(f"smoke-check passed: {total} step(s)")
     print_timing(
         timing_record(
             "total",
             timer() - total_started_at,
-            "passed",
+            "отложено" if есть_отложенные else "passed",
+            exit_code=4 if есть_отложенные else None,
         )
     )
-    return 0
+    return 4 if есть_отложенные else 0
 
 
 def main(*, clock: Clock | None = None) -> int:
@@ -2983,6 +3021,8 @@ def main(*, clock: Clock | None = None) -> int:
 
     try:
         if any((args.источник_проверок, args.ведущая_основа, args.свидетельство_контура)):
+            if getattr(args, "проекция", "активна") == "отложена":
+                raise ValueError("контур слияния не допускает отложенную проекцию")
             путь_контура = Path(__file__).resolve().with_name("контур_слияния.py")
             контур = types.ModuleType("контур_слияния")
             exec(compile(путь_контура.read_bytes(), str(путь_контура), "exec"), контур.__dict__)
@@ -3022,6 +3062,8 @@ def main(*, clock: Clock | None = None) -> int:
             профиль=args.профиль,
             изменённые_пути=изменённые_пути,
             корень_проверок=источник,
+            проекция=getattr(args, "проекция", "активна"),
+            основание_отложения_проекции=getattr(args, "основание_отложения_проекции", None),
         )
         статистика = (
             загрузить_статистику_закрытых_запусков(root)
