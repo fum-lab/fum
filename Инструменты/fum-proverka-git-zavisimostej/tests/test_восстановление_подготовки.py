@@ -1,0 +1,165 @@
+"""Прерывание настоящей подготовки и автономное подтверждение без повтора."""
+import copy
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+import unittest
+from unittest import mock
+
+import test_подготовка_зависимостей as подготовка
+from test_proveritj_git_zavisimostj import run_git
+
+
+ПРОЦЕСС = '''
+import importlib.util,json,os,sys
+from pathlib import Path
+описание=importlib.util.spec_from_file_location('проверяемая_подготовка',sys.argv[1])
+модуль=importlib.util.module_from_spec(описание);sys.modules[описание.name]=модуль
+описание.loader.exec_module(модуль)
+корень=Path(sys.argv[2]);снимок=json.loads(Path(sys.argv[3]).read_text())
+исполнитель=sys.argv[4];задача=sys.argv[5]
+настоящий=модуль.исходный.initialize_registered_dependency
+def прервать(*аргументы,**параметры):
+    итог=настоящий(*аргументы,**параметры)
+    if итог[1]: raise RuntimeError(str(итог[1]))
+    os._exit(73)
+def запретить(*аргументы,**параметры):
+    (корень.parent/'неожиданный-повтор-init').write_text('init вызван повторно',encoding='utf-8')
+    raise AssertionError('повтор неизвестного эффекта запрещён')
+def прервать_частичную(*аргументы,**параметры):
+    исходный_обработчик=параметры['перед_эффектом']
+    def перед_эффектом(фаза):
+        if фаза=='добавление_источника_оригинала': os._exit(74)
+        исходный_обработчик(фаза)
+    параметры['перед_эффектом']=перед_эффектом
+    return настоящий(*аргументы,**параметры)
+модуль.исходный.initialize_registered_dependency=(прервать if sys.argv[6]=='авария' else
+    прервать_частичную if sys.argv[6]=='частичная_авария' else запретить)
+try:
+    итог=модуль.подготовить_зависимости(корень,снимок,исполнитель,задача,возобновить=sys.argv[6]=='возобновить')
+except (RuntimeError,OSError) as ошибка:
+    print(json.dumps({'отказ':str(ошибка)},ensure_ascii=False));sys.exit(2)
+print(json.dumps(итог,ensure_ascii=False))
+'''
+
+
+class ПроверкиВосстановления(unittest.TestCase):
+    setUp = подготовка.ПроверкиОбщейПодготовки.setUp
+
+    def процесс(сам, снимок, режим):
+        файл = сам.фикстура.root / 'снимок.json'
+        файл.write_text(json.dumps(снимок, ensure_ascii=False), encoding='utf-8')
+        return subprocess.run([sys.executable, '-B', '-c', ПРОЦЕСС, сам.модуль.__file__,
+                               str(сам.корень), str(файл), сам.исполнитель, сам.задача, режим],
+                              cwd=сам.корень, env=os.environ.copy(), start_new_session=True,
+                              stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=60)
+
+    def test_авария_после_материализации_не_повторяет_частичный_эффект(сам):
+        снимок = сам.модуль.снять_снимок(сам.корень)
+        авария = сам.процесс(снимок, 'частичная_авария')
+        сам.assertEqual(74, авария.returncode, авария.stderr)
+        квитанция = Path(снимок['гит_каталог']) / 'fum-подготовка-зависимостей-v1.json'
+        прежние_байты = квитанция.read_bytes()
+        прежняя = json.loads(прежние_байты)
+        сам.assertFalse(прежняя['готова'])
+        сам.assertEqual('выполняется', прежняя['состояния'][сам.фикстура.path])
+        сам.assertEqual(['намерение', 'материализация'], [запись['фаза'] for запись in прежняя['события']])
+        сам.assertFalse(сам.модуль.группа_жива(прежняя['группа_процессов']))
+        зависимость = сам.корень / сам.фикстура.path
+        гит_каталог = Path(run_git('rev-parse', '--absolute-git-dir', cwd=зависимость))
+        сам.assertTrue(гит_каталог.is_relative_to(Path(снимок['гит_каталог']) / 'modules'))
+        сам.assertEqual(str(зависимость), run_git('rev-parse', '--show-toplevel', cwd=зависимость))
+        сам.assertEqual(сам.фикстура.first_revision, run_git('rev-parse', 'HEAD', cwd=зависимость))
+        сам.assertEqual('origin', run_git('remote', cwd=зависимость))
+        сам.assertFalse((гит_каталог / 'FETCH_HEAD').exists())
+        сам.assertFalse(сам.модуль.проверить_готовность_зависимости(сам.корень, сам.фикстура.path)['готова'])
+
+        def каталог(путь):
+            return {п.relative_to(путь).as_posix():
+                    (п.lstat().st_mode, п.read_bytes() if п.is_file() else None)
+                    for п in путь.rglob('*')}
+
+        частичная_копия = каталог(зависимость)
+        частичный_гит = каталог(гит_каталог)
+        маркер = сам.корень.parent / 'неожиданный-повтор-init'
+        for режим in ('повтор', 'возобновить'):
+            with сам.subTest(режим=режим):
+                отказ = сам.процесс(снимок, режим)
+                сам.assertEqual(2, отказ.returncode, отказ.stderr)
+                сам.assertEqual({'отказ'}, set(json.loads(отказ.stdout)))
+                сам.assertTrue(json.loads(отказ.stdout)['отказ'])
+                сам.assertEqual('', отказ.stderr)
+                сам.assertFalse(маркер.exists())
+                сам.assertEqual(прежние_байты, квитанция.read_bytes())
+                сам.assertEqual(частичная_копия, каталог(зависимость))
+                сам.assertEqual(частичный_гит, каталог(гит_каталог))
+                сам.assertEqual(снимок, сам.модуль.снять_снимок(сам.корень))
+
+    def test_авария_после_инициализации_подтверждается_без_повтора(сам):
+        снимок = сам.модуль.снять_снимок(сам.корень)
+        авария = сам.процесс(снимок, 'авария')
+        сам.assertEqual(73, авария.returncode, авария.stderr)
+        квитанция = Path(снимок['гит_каталог']) / 'fum-подготовка-зависимостей-v1.json'
+        прежние_байты = квитанция.read_bytes()
+        прежняя = json.loads(прежние_байты)
+        сам.assertFalse(прежняя['готова'])
+        сам.assertEqual('выполняется', прежняя['состояния'][сам.фикстура.path])
+        сам.assertEqual('выбор_ревизии', прежняя['события'][-1]['фаза'])
+        сам.assertFalse(сам.модуль.группа_жива(прежняя['группа_процессов']))
+        сам.assertEqual(снимок, сам.модуль.снять_снимок(сам.корень))
+        сам.assertTrue(сам.модуль.проверить_готовность_зависимости(сам.корень, сам.фикстура.path)['готова'])
+        with mock.patch.object(сам.модуль.исходный, 'initialize_registered_dependency',
+                               side_effect=AssertionError('повтор запрещён')):
+            with сам.assertRaises(RuntimeError):
+                сам.модуль.подготовить_зависимости(сам.корень, снимок, сам.исполнитель, сам.задача)
+        сам.assertEqual(прежние_байты, квитанция.read_bytes())
+        возобновление = сам.процесс(снимок, 'возобновить')
+        сам.assertEqual(0, возобновление.returncode, возобновление.stderr)
+        итог = json.loads(квитанция.read_bytes())
+        сам.assertEqual(прежняя['события'], итог['события'][:len(прежняя['события'])])
+        сам.assertTrue(итог['готова'])
+        сам.assertEqual('готова', итог['состояния'][сам.фикстура.path])
+        сам.assertEqual({'путь': сам.фикстура.path, 'фаза': 'автономное_подтверждение',
+                         'прежнее_состояние': 'выполняется', 'прежний_исход_неизвестен': True},
+                        итог['события'][-1])
+        сам.assertEqual(снимок, сам.модуль.снять_снимок(сам.корень))
+
+    def test_повреждения_квитанции_не_перезаписываются(сам):
+        снимок = сам.модуль.снять_снимок(сам.корень)
+        итог = сам.модуль.подготовить_зависимости(сам.корень, снимок, сам.исполнитель, сам.задача)
+        файл = Path(итог['квитанция'])
+        эталон = json.loads(файл.read_bytes())
+        варианты = []
+        for поле, значение in [('готова', 1), ('группа_процессов', True), ('события', {}),
+                              ('исполнитель', сам.задача)]:
+            данные = copy.deepcopy(эталон); данные[поле] = значение; варианты.append(данные)
+        данные = copy.deepcopy(эталон); данные['события'][0]['фаза'] = 'несуществующая'; варианты.append(данные)
+        данные = copy.deepcopy(эталон); данные['события'] = []; варианты.append(данные)
+        for номер, данные in enumerate(варианты):
+            with сам.subTest(номер=номер):
+                файл.write_text(json.dumps(данные, ensure_ascii=False), encoding='utf-8')
+                до = файл.read_bytes()
+                with сам.assertRaises(RuntimeError):
+                    сам.модуль.подготовить_зависимости(сам.корень, снимок, сам.исполнитель, сам.задача)
+                сам.assertEqual(до, файл.read_bytes())
+
+    def test_скрытое_изменение_неполная_копия_и_вложение_различаются(сам):
+        снимок = сам.модуль.снять_снимок(сам.корень)
+        сам.модуль.подготовить_зависимости(сам.корень, снимок, сам.исполнитель, сам.задача)
+        корень = сам.корень / сам.фикстура.path
+        run_git('update-index', '--skip-worktree', 'README.md', cwd=корень)
+        (корень / 'README.md').write_text('Скрытое изменение\n', encoding='utf-8')
+        сам.assertEqual('скрывающие_флаги', сам.модуль.проверить_готовность_зависимости(
+            сам.корень, сам.фикстура.path)['состояние'])
+        run_git('update-index', '--no-skip-worktree', 'README.md', cwd=корень)
+        сам.assertEqual('нечистая_копия', сам.модуль.проверить_готовность_зависимости(
+            сам.корень, сам.фикстура.path)['состояние'])
+        run_git('config', 'remote.origin.promisor', 'true', cwd=корень)
+        сам.assertEqual('неполная_копия', сам.модуль.проверить_готовность_зависимости(
+            сам.корень, сам.фикстура.path)['состояние'])
+        run_git('config', '--unset', 'remote.origin.promisor', cwd=корень)
+        run_git('update-index', '--add', '--cacheinfo', '160000,' + сам.фикстура.first_revision + ',Вложенная', cwd=корень)
+        сам.assertEqual('вложенные_зависимости', сам.модуль.проверить_готовность_зависимости(
+            сам.корень, сам.фикстура.path)['состояние'])

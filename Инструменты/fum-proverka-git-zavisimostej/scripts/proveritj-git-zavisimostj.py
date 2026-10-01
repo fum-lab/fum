@@ -19,6 +19,7 @@ REVISION_PATTERN = re.compile(r"(?:[0-9a-fA-F]{40}|[0-9a-fA-F]{64})\Z")
 GITHUB_SCP_PATTERN = re.compile(
     r"(?:[^@]+@)?github\.com:(?P<owner>[^/]+)/(?P<name>[^/]+?)(?:\.git)?\Z"
 )
+ПРОБРАСЫВАТЬ_ОШИБКИ_ЧТЕНИЯ = False
 
 
 @dataclass(frozen=True)
@@ -51,11 +52,13 @@ def run_git(
 ) -> GitResult:
     try:
         result = subprocess.run(
-            ["git", "--no-replace-objects", "--no-optional-locks",
+            ["git", "--no-replace-objects", "--no-optional-locks", "--no-lazy-fetch",
              "-c", f"core.hooksPath={os.devnull}", "-c", "core.fsmonitor=false",
-             "-c", "core.filemode=true", *arguments],
+             "-c", "core.filemode=true", "-c", "submodule.recurse=false",
+             "-c", "fetch.recurseSubmodules=false", *arguments],
             cwd=cwd,
-            env={ключ: значение for ключ, значение in os.environ.items() if not ключ.startswith("GIT_")},
+            env={**{ключ: значение for ключ, значение in os.environ.items() if not ключ.startswith("GIT_")},
+                 "GIT_NO_LAZY_FETCH": "1"},
             check=False,
             text=True,
             stdout=subprocess.PIPE,
@@ -171,6 +174,8 @@ def expected_submodule_git_directory(
                 f"{path}: Git-каталог submodule не должен проходить через "
                 f"символическую ссылку {current}"
             ]
+        if current.exists() and not current.is_dir():
+            return None, [f"{path}: компонент Git-каталога должен быть каталогом: {current}"]
     modules_root = (superproject_git_dir / "modules").resolve()
     expected_git_dir = expected_git_dir.resolve()
     try:
@@ -486,19 +491,22 @@ def read_index_gitlink_revision(
     try:
         result = run_git(
             repo_root,
+            "--literal-pathspecs",
             "ls-files",
             "--stage",
+            "-z",
             "--",
             path,
+            strip_output=False,
         )
     except RuntimeError as error:
         return None, [f"{path}: не удалось прочитать gitlink: {error}"]
-    lines = [line for line in result.stdout.splitlines() if line]
+    lines = [line for line in result.stdout.split("\0") if line]
     if len(lines) != 1:
         return None, [f"{path}: ожидается ровно один gitlink в индексе"]
-    metadata, separator, _ = lines[0].partition("\t")
+    metadata, separator, имя_записи = lines[0].partition("\t")
     fields = metadata.split()
-    if not separator or len(fields) != 3:
+    if not separator or len(fields) != 3 or имя_записи != path:
         return None, [f"{path}: некорректная запись gitlink"]
     mode, revision, stage = fields
     errors: list[str] = []
@@ -664,6 +672,8 @@ def validate_gitmodules_before_add(repo_root: Path) -> list[str]:
     try:
         gitmodules.read_text(encoding="utf-8")
     except (OSError, UnicodeError) as error:
+        if ПРОБРАСЫВАТЬ_ОШИБКИ_ЧТЕНИЯ:
+            raise
         return [f".gitmodules должен быть доступным UTF-8-файлом: {error}"]
     return []
 
@@ -724,6 +734,14 @@ def registered_dependency_spec(
     if errors:
         return None, errors
     return spec, []
+
+
+def проверить_флаги_индекса(корень: Path, путь: str) -> list[str]:
+    """Читать каждый флаг до status, fetch или checkout."""
+    записи = run_git(корень, "ls-files", "-v", "-z", strip_output=False).stdout
+    if any(запись and not запись.startswith("H ") for запись in записи.split("\0")):
+        return [f"{путь}: скрывающие изменения флаги индекса запрещены"]
+    return []
 
 
 def validate_dependency(repo_root: Path, spec: DependencySpec) -> list[str]:
@@ -791,6 +809,8 @@ def validate_dependency(repo_root: Path, spec: DependencySpec) -> list[str]:
                 encoding="utf-8"
             ).strip()
         except (OSError, UnicodeError) as error:
+            if ПРОБРАСЫВАТЬ_ОШИБКИ_ЧТЕНИЯ:
+                raise
             errors.append(f"не удалось прочитать рабочую .gitmodules как UTF-8: {error}")
         else:
             if indexed_gitmodules != working_gitmodules:
@@ -839,12 +859,7 @@ def validate_dependency(repo_root: Path, spec: DependencySpec) -> list[str]:
         )
     if topology_errors:
         return errors + topology_errors
-    try:
-        entries = run_git(dependency, "ls-files", "-v", "-z", strip_output=False).stdout
-    except RuntimeError as error:
-        return errors + [f"{spec.path}: не удалось проверить флаги индекса: {error}"]
-    if any(entry and not entry.startswith("H ") for entry in entries.split("\0")):
-        errors.append(f"{spec.path}: скрывающие изменения флаги индекса подмодуля запрещены")
+    errors.extend(проверить_флаги_индекса(dependency, spec.path))
     try:
         superproject = run_git(
             dependency,
@@ -1024,6 +1039,7 @@ def validate_initialization_target(
             section,
         )
     )
+    errors.extend(проверить_флаги_индекса(dependency, spec.path))
     try:
         superproject = run_git(
             dependency,
@@ -1106,6 +1122,8 @@ def validate_initialization_target(
 def initialize_registered_dependency(
     repo_root: Path,
     path: str,
+    *,
+    перед_эффектом=None,
 ) -> tuple[DependencySpec | None, list[str]]:
     repo_root = repo_root.resolve()
     spec, errors = registered_dependency_spec(repo_root, path)
@@ -1168,6 +1186,8 @@ def initialize_registered_dependency(
                     f"{spec.path}: каталог нематериализованного submodule не пуст"
                 ]
         try:
+            if перед_эффектом is not None:
+                перед_эффектом("материализация")
             run_git(
                 repo_root,
                 "-c",
@@ -1201,6 +1221,8 @@ def initialize_registered_dependency(
         ]
     if "upstream" not in remotes:
         try:
+            if перед_эффектом is not None:
+                перед_эффектом("добавление_источника_оригинала")
             run_git(
                 dependency,
                 "remote",
@@ -1214,11 +1236,17 @@ def initialize_registered_dependency(
             ]
 
     try:
+        if перед_эффектом is not None:
+            перед_эффектом("получение_форка")
         run_git(dependency, "fetch", "--prune", "origin")
+        if перед_эффектом is not None:
+            перед_эффектом("получение_оригинала")
         run_git(dependency, "fetch", "--prune", "upstream")
     except RuntimeError as error:
         return spec, [f"не удалось получить remote для {spec.path}: {error}"]
     try:
+        if перед_эффектом is not None:
+            перед_эффектом("выбор_ревизии")
         run_git(
             dependency,
             "checkout",
