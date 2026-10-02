@@ -5,6 +5,7 @@ import os
 import re
 import sys
 from collections import OrderedDict
+from functools import lru_cache
 from pathlib import Path, PurePosixPath
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "fum-otchyotyi-o-zapuskakh-proverok" / "scripts"))
@@ -23,12 +24,23 @@ def полный_идентификатор(значение):
     return значение
 
 
-def точный_путь(значение):
+def _проверить_точный_путь(значение):
     проверить_аналитический_ключ(значение, "путь")
     требовать(isinstance(значение, str) and значение and not any(знак in значение for знак in "\x00\r\n\\:*?[]"), "недопустимый путь")
     путь = PurePosixPath(значение)
     требовать(путь.parts and not путь.is_absolute() and путь.as_posix() == значение and all(часть not in {".", ".."} for часть in путь.parts) and путь.parts[0] != "Proyekcii", "нужен точный канонический путь")
     return путь.parts
+
+
+@lru_cache(maxsize=256)
+def _кэшированный_точный_путь(значение):
+    # Каноничность зависит только от строки; неудачные проверки lru_cache не сохраняет.
+    return _проверить_точный_путь(значение)
+
+
+def точный_путь(значение):
+    # Для чужих типов сохраняем прежнюю диагностическую ошибку проверки поля.
+    return _кэшированный_точный_путь(значение) if type(значение) is str else _проверить_точный_путь(значение)
 
 
 def разобрать_типизированный_пакет(ожидаемые, байты):
