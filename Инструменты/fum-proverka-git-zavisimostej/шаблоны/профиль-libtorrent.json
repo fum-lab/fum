@@ -1,0 +1,23 @@
+{
+  "схема": "fum.профиль-вложенного-libtorrent.1",
+  "путь_торрента": "Зависимости/libtorrent",
+  "путь_сигнала": "Зависимости/try_signal",
+  "параметры_сборки": {
+    "CMAKE_BUILD_TYPE": "Release",
+    "BUILD_SHARED_LIBS": true,
+    "webtorrent": false,
+    "gnutls": false,
+    "dht": false,
+    "i2p": false,
+    "encryption": false,
+    "exceptions": true,
+    "build_tests": false,
+    "build_examples": false,
+    "build_tools": false,
+    "python-bindings": false
+  },
+  "обязательные_цели": [
+    "OpenSSL::SSL",
+    "OpenSSL::Crypto"
+  ]
+}

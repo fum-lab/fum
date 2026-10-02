@@ -1,0 +1,16 @@
+{
+  "схема": "fum.исходный-граф-libtorrent.1",
+  "база_FUM": "cf10f5dd0dd5bd11284012cfcb848d122f382d1e",
+  "подготовка_sha256": "a28ab8171ff4232ee8f7e4702bc32df19fe58cacb5b35cd3d6607aa9c5d4647f",
+  "ревизия": "56ae8caba38bf154ffc210403cb23f91d0ecaa49",
+  "оригинал": "https://github.com/arvidn/libtorrent.git",
+  "описание_blob": "8fba94d3e699d689394cc42b8d057b14de8f7950",
+  "сборка_blob": "63f903ca9ec00c45a7156f42b2b9e1fca5eb41ba",
+  "гитлинки": {
+    "deps/asio-gnutls": "a57d4d36923c5fafa9698e14be16b8bc2913700a",
+    "deps/libdatachannel": "a02b751917ac8afc8c58dc6f4461d25ff9465d48",
+    "deps/try_signal": "105cce59972f925a33aa6b1c3109e4cd3caf583d",
+    "simulation/libsimulator": "dcb401642be66e36dd08283d852053c7381da585"
+  },
+  "получение": "Чтение ls-tree и show точного Git-объекта ранее сохранённого полного клона; повторного clone/fetch/add не было. SHA не доказывает доступность внешнего сервера."
+}
