@@ -20,14 +20,21 @@ from typing import Any
 
 ПУТЬ_К_ПРОФИЛЮ = Path(__file__).resolve().parents[1] / 'Профили' / '2026-09-30-сборка-tdlib.json'
 СХЕМА = 'fum.сборка-tdlib.1'
+СХЕМА_ГОТОВНОСТИ = 'fum.готовность-зависимости-tdlib.1'
 
 
 class ОтказПрофиля(RuntimeError):
     """Входное состояние не соответствует закреплённому профилю."""
 
+    def __init__(сам, пояснение: str, причина: str = 'ошибка_чтения'):
+        super().__init__(пояснение)
+        сам.причина = причина
+
 
 def прочитатьПрофиль(путь: Path = ПУТЬ_К_ПРОФИЛЮ) -> dict[str, Any]:
     профиль = json.loads(путь.read_text(encoding='utf-8'))
+    if not isinstance(профиль, dict) or any(not isinstance(профиль.get(поле), dict) for поле in ('зависимость', 'сборка')):
+        raise ОтказПрофиля('профиль требует объект и объектные поля зависимости и сборки', 'неверный_профиль')
     if профиль.get('схема') != 'fum.профиль-сборки-tdlib.1':
         raise ОтказПрофиля('неизвестная схема профиля TDLib')
     зависимость = профиль.get('зависимость', {})
@@ -78,7 +85,7 @@ def разобратьGitmodules(вывод: bytes, профиль: dict[str, An
     путь = профиль['зависимость']['путь']
     совпавшие = [значения for значения in модули.values() if значения.get('path') == [путь]]
     if len(совпавшие) != 1:
-        raise ОтказПрофиля('в .gitmodules не зарегистрирован единственный путь Зависимости/TDLib')
+        raise ОтказПрофиля('в .gitmodules не зарегистрирован единственный путь Зависимости/TDLib', 'нет_регистрации')
     запись = совпавшие[0]
     ожидаемые = {
         'path': путь,
@@ -87,7 +94,7 @@ def разобратьGitmodules(вывод: bytes, профиль: dict[str, An
     }
     for поле, значение in ожидаемые.items():
         if запись.get(поле) != [значение]:
-            raise ОтказПрофиля(f'.gitmodules: ожидалось ровно одно точное поле {поле}')
+            raise ОтказПрофиля(f'.gitmodules: ожидалось ровно одно точное поле {поле}', 'неверная_регистрация')
 
 
 def разобратьGitlink(вывод: bytes, профиль: dict[str, Any]) -> None:
@@ -105,92 +112,111 @@ def разобратьGitlink(вывод: bytes, профиль: dict[str, Any])
     требуемыйПуть = os.fsencode(профиль['зависимость']['путь'])
     oid = профиль['зависимость']['коммит'].encode('ascii')
     if найдено != [(b'160000', b'commit', oid, требуемыйПуть)]:
-        raise ОтказПрофиля('HEAD не содержит единственный gitlink на закреплённый OID TDLib')
+        raise ОтказПрофиля('HEAD не содержит единственный gitlink на закреплённый OID TDLib', 'неверный_гитлинк')
 
 
 def _запустить(команда: list[str], *, cwd: Path | None = None, timeout: int = 30,
-              окружение: dict[str, str] | None = None) -> subprocess.CompletedProcess[bytes]:
+              окружение: dict[str, str] | None = None,
+              допустимыеКоды: tuple[int, ...] = (0,)) -> subprocess.CompletedProcess[bytes]:
     try:
         результат = subprocess.run(
             команда, cwd=cwd, env=окружение, capture_output=True, check=False, timeout=timeout
         )
     except (OSError, subprocess.TimeoutExpired) as ошибка:
         raise ОтказПрофиля(f'не удалось выполнить {Path(команда[0]).name}: {ошибка}') from ошибка
-    if результат.returncode != 0:
+    if результат.returncode not in допустимыеКоды:
         stderr = результат.stderr.decode('utf-8', errors='replace')[-2000:]
         raise ОтказПрофиля(f'{Path(команда[0]).name} завершился с кодом {результат.returncode}: {stderr}')
     return результат
 
 
-def _git(корень: Path, *аргументы: str, бинарный: bool = False) -> str | bytes:
-    env = {ключ: значение for ключ, значение in os.environ.items() if not ключ.startswith('GIT_')}
-    env.update({
-        'GIT_CONFIG_NOSYSTEM': '1',
-        'GIT_CONFIG_GLOBAL': '/dev/null',
-        'GIT_NO_LAZY_FETCH': '1',
-        'GIT_NO_REPLACE_OBJECTS': '1',
-        'GIT_OPTIONAL_LOCKS': '0',
-        'GIT_TERMINAL_PROMPT': '0',
+def _процессГита(корень: Path, *аргументы: str,
+                допустимыеКоды: tuple[int, ...] = (0,)) -> subprocess.CompletedProcess[bytes]:
+    окружение = {ключ: значение for ключ, значение in os.environ.items() if not ключ.startswith('GIT_')}
+    окружение.update({
+        'GIT_CONFIG_NOSYSTEM': '1', 'GIT_CONFIG_GLOBAL': '/dev/null',
+        'GIT_NO_LAZY_FETCH': '1', 'GIT_NO_REPLACE_OBJECTS': '1',
+        'GIT_OPTIONAL_LOCKS': '0', 'GIT_TERMINAL_PROMPT': '0',
     })
-    вывод = _запустить(['git', '-C', str(корень), *аргументы], окружение=env).stdout
+    return _запустить(['git', '-C', str(корень), '-c', 'core.fsmonitor=false',
+                      *аргументы], окружение=окружение, допустимыеКоды=допустимыеКоды)
+
+
+def _git(корень: Path, *аргументы: str, бинарный: bool = False) -> str | bytes:
+    вывод = _процессГита(корень, *аргументы).stdout
     return вывод if бинарный else вывод.decode('utf-8', errors='strict').strip()
 
 
-def проверитьРегистрацию(корень: Path, профиль: dict[str, Any]) -> tuple[Path, str]:
+def проверитьРегистрацию(корень: Path, профиль: dict[str, Any],
+                         свидетельства: dict[str, Any] | None = None) -> tuple[Path, str]:
     корень = корень.resolve(strict=True)
     if Path(_git(корень, 'rev-parse', '--show-toplevel')) != корень:
         raise ОтказПрофиля('указанный корень не является физическим корнем FUM')
-    gitmodules = корень / '.gitmodules'
-    if not gitmodules.is_file() or gitmodules.is_symlink():
-        raise ОтказПрофиля('обычный файл .gitmodules не найден')
-    выводНастроек = _git(корень, 'config', '--file', '.gitmodules', '--null', '--list', бинарный=True)
+    манифест = корень / '.gitmodules'
+    if not манифест.is_file() or манифест.is_symlink():
+        raise ОтказПрофиля('обычный файл .gitmodules не найден', 'нет_регистрации')
+    выводНастроек = _git(корень, 'config', '--no-includes', '--file', '.gitmodules', '--null', '--list', бинарный=True)
     разобратьGitmodules(выводНастроек, профиль)
-
+    коммитФУМ = _git(корень, 'rev-parse', 'HEAD')
+    манифестВершины = _git(корень, 'show', f'{коммитФУМ}:.gitmodules', бинарный=True)
+    стадииМанифеста = _git(корень, 'ls-files', '--stage', '-z', '--', '.gitmodules', бинарный=True)
+    записьМанифеста = re.fullmatch(rb'100644 [0-9a-f]{40} 0\t\.gitmodules\0', стадииМанифеста)
+    if записьМанифеста is None:
+        raise ОтказПрофиля('индекс .gitmodules неоднозначен', 'расходится_регистрация')
+    манифестИндекса = _git(корень, 'show', ':0:.gitmodules', бинарный=True)
+    if манифест.read_bytes() != манифестВершины or манифестИндекса != манифестВершины:
+        raise ОтказПрофиля('.gitmodules рабочего дерева или индекса отличается от HEAD', 'расходится_регистрация')
+    # Тот же неизменный снимок HEAD задаёт manifest и gitlink.
+    разобратьGitmodules(_git(корень, 'config', '--no-includes', '--blob',
+                            f'{коммитФУМ}:.gitmodules', '--null', '--list', бинарный=True), профиль)
     oid = профиль['зависимость']['коммит']
     путь = профиль['зависимость']['путь']
-    выводДерева = _git(корень, 'ls-tree', '-z', 'HEAD', '--', путь, бинарный=True)
-    разобратьGitlink(выводДерева, профиль)
-
-    статусЗависимости = _запустить([
-        'git', '-C', str(корень), '-c', 'core.quotePath=false',
-        'submodule', 'status', '--', путь,
-    ]).stdout.decode('utf-8', errors='strict').rstrip('\n')
-    if re.fullmatch(rf' {re.escape(oid)} {re.escape(путь)}(?: \(.+\))?', статусЗависимости) is None:
-        raise ОтказПрофиля(f'submodule не инициализирован на точном gitlink OID: {статусЗависимости!r}')
-
+    разобратьGitlink(_git(корень, 'ls-tree', '-z', коммитФУМ, '--', путь, бинарный=True), профиль)
+    ожидаемыйИндекс = f'160000 {oid} 0\t{путь}\0'.encode()
+    if _git(корень, 'ls-files', '--stage', '-z', '--', путь, бинарный=True) != ожидаемыйИндекс:
+        raise ОтказПрофиля('индекс gitlink отличается от HEAD или содержит конфликт', 'неверный_гитлинк')
+    if свидетельства is not None:
+        свидетельства.update({'коммитФУМ': коммитФУМ, 'регистрация': {
+            'гитлинк': 'HEAD-и-индекс', 'манифест': 'HEAD-индекс-рабочее-дерево',
+            'манифестШа256': hashlib.sha256(манифестВершины).hexdigest(),
+        }})
     зависимость = корень / путь
-    if зависимость.is_symlink() or not зависимость.is_dir():
-        raise ОтказПрофиля('TDLib submodule не инициализирован как обычный каталог')
+    if any(часть.is_symlink() for часть in (зависимость, *зависимость.parents)
+           if часть != корень and корень in часть.parents):
+        raise ОтказПрофиля('путь TDLib содержит символическую ссылку', 'нет_локальной_копии')
+    if not зависимость.is_dir() or not (зависимость / '.git').exists():
+        raise ОтказПрофиля('TDLib submodule не инициализирован как обычный каталог', 'нет_локальной_копии')
+    статусЗависимости = _git(корень, '-c', 'core.quotePath=false', 'submodule', 'status', '--', путь, бинарный=True).decode('utf-8', errors='strict').rstrip('\n')
+    if re.fullmatch(rf' {re.escape(oid)} {re.escape(путь)}(?: \(.+\))?', статусЗависимости) is None:
+        raise ОтказПрофиля('submodule не инициализирован на точном gitlink OID', 'неверная_локальная_вершина')
     физическаяЗависимость = зависимость.resolve(strict=True)
-    верхушка = Path(_git(физическаяЗависимость, 'rev-parse', '--show-toplevel'))
-    if верхушка != физическаяЗависимость:
-        raise ОтказПрофиля('рабочее дерево TDLib не совпадает с путём submodule')
+    if Path(_git(физическаяЗависимость, 'rev-parse', '--show-toplevel')) != физическаяЗависимость:
+        raise ОтказПрофиля('рабочее дерево TDLib не совпадает с путём submodule', 'нет_локальной_копии')
     if _git(физическаяЗависимость, 'rev-parse', 'HEAD') != oid:
-        raise ОтказПрофиля('рабочий HEAD TDLib не совпадает с gitlink')
+        raise ОтказПрофиля('рабочий HEAD TDLib не совпадает с gitlink', 'неверная_локальная_вершина')
+    флагиИндекса = _git(физическаяЗависимость, 'ls-files', '-v', '-z', бинарный=True)
+    if any(запись and (запись[:1].islower() or запись[:1] == b'S') for запись in флагиИндекса.split(b'\0')):
+        raise ОтказПрофиля('индекс TDLib содержит скрывающие флаги', 'изменена_локальная_копия')
     if _git(физическаяЗависимость, 'status', '--porcelain=v1', '--untracked-files=all'):
-        raise ОтказПрофиля('рабочее дерево TDLib изменено или содержит неотслеживаемые файлы')
-    origin = _git(физическаяЗависимость, 'remote', 'get-url', 'origin')
-    upstream = _git(физическаяЗависимость, 'remote', 'get-url', 'upstream')
-    if origin != профиль['зависимость']['зеркало'] or upstream != профиль['зависимость']['upstream']:
-        raise ОтказПрофиля('origin/upstream TDLib не совпадают с .gitmodules и профилем')
-    gitlinks = _git(физическаяЗависимость, 'ls-tree', '-r', '--format=%(objectmode) %(objecttype) %(objectname)', 'HEAD')
-    if any(строка.startswith('160000 commit ') for строка in gitlinks.splitlines()):
-        raise ОтказПрофиля('обнаружен неучтённый вложенный gitlink TDLib')
+        raise ОтказПрофиля('рабочее дерево TDLib изменено или содержит неотслеживаемые файлы', 'изменена_локальная_копия')
+    for имя, поле in (('origin', 'зеркало'), ('upstream', 'upstream')):
+        результат = _процессГита(физическаяЗависимость, 'remote', 'get-url', '--all', имя, допустимыеКоды=(0, 2))
+        адреса = результат.stdout.decode('utf-8', errors='strict').splitlines()
+        if результат.returncode != 0 or адреса != [профиль['зависимость'][поле]]:
+            raise ОтказПрофиля('origin/upstream TDLib не совпадают с .gitmodules и профилем', 'неверные_источники')
+    вложенные = _git(физическаяЗависимость, 'ls-tree', '-r', '--format=%(objectmode) %(objecttype) %(objectname)', 'HEAD')
+    if any(строка.startswith('160000 commit ') for строка in вложенные.splitlines()):
+        raise ОтказПрофиля('обнаружен неучтённый вложенный gitlink TDLib', 'неучтённый_гитлинк')
     if _git(физическаяЗависимость, 'rev-parse', 'HEAD^{tree}') != профиль['зависимость']['дерево']:
-        raise ОтказПрофиля('дерево TDLib не совпадает с отпечатком профиля')
+        raise ОтказПрофиля('дерево TDLib не совпадает с отпечатком профиля', 'неверные_исходные_объекты')
     if int(_git(физическаяЗависимость, 'show', '-s', '--format=%ct', oid)) != профиль['зависимость']['времяКоммитаUnix']:
-        raise ОтказПрофиля('время закреплённого коммита TDLib не совпадает с профилем')
+        raise ОтказПрофиля('время закреплённого коммита TDLib не совпадает с профилем', 'неверные_исходные_объекты')
     if _git(физическаяЗависимость, 'rev-parse', '--is-shallow-repository') != 'false':
-        raise ОтказПрофиля('частичный или shallow-клон TDLib не допускается')
-    проверкаОбещаний = subprocess.run(
-        ['git', '-C', str(физическаяЗависимость), 'config', '--get', 'remote.origin.promisor'],
-        capture_output=True, check=False, timeout=15,
-    )
-    if проверкаОбещаний.returncode not in (0, 1):
-        raise ОтказПрофиля('не удалось проверить конфигурацию partial clone TDLib')
-    обещания = проверкаОбещаний.stdout.decode('utf-8', errors='strict').strip()
-    if обещания.lower() == 'true':
-        raise ОтказПрофиля('partial clone TDLib не допускается')
+        raise ОтказПрофиля('частичный или shallow-клон TDLib не допускается', 'неполная_локальная_копия')
+    проверкаОбещаний = _процессГита(физическаяЗависимость, 'config', '--type=bool', '--get-regexp', r'^remote\..*\.promisor$', допустимыеКоды=(0, 1))
+    расширениеКлона = _процессГита(физическаяЗависимость, 'config', '--get', 'extensions.partialClone', допустимыеКоды=(0, 1))
+    if расширениеКлона.returncode == 0 or any(строка.endswith(b' true') for строка in проверкаОбещаний.stdout.splitlines()):
+        raise ОтказПрофиля('partial clone TDLib не допускается', 'неполная_локальная_копия')
     _git(физическаяЗависимость, 'cat-file', '-e', f'{oid}^{{tree}}')
     return физическаяЗависимость, oid
 
@@ -207,7 +233,7 @@ def проверитьОтпечаткиИсточника(репозитори�
         данные = _git(репозиторий, 'show', f'{oid}:{имя}', бинарный=True)
         фактический = hashlib.sha256(данные).hexdigest()
         if фактический != ожидаемый:
-            raise ОтказПрофиля(f'хэш исходного файла TDLib не совпадает: {имя}')
+            raise ОтказПрофиля(f'хэш исходного файла TDLib не совпадает: {имя}', 'неверные_исходные_объекты')
 
 
 def проверитьВыход(корень: Path, источник: Path, выход: Path) -> Path:
@@ -488,13 +514,83 @@ def собрать(корень: Path, выход: Path, opensslRoot: Path) -> d
     }
 
 
+
+ПОЯСНЕНИЯ_ГОТОВНОСТИ = {
+    'проверено': 'Локальные входы закреплённой зависимости проверены.',
+    'нет_регистрации': 'Зависимость отсутствует в обычном .gitmodules.',
+    'неверная_регистрация': 'Поля регистрации не совпадают с закреплённым профилем.',
+    'расходится_регистрация': 'HEAD, индекс и рабочий файл .gitmodules не согласованы.',
+    'неверный_гитлинк': 'HEAD или индекс не содержит точный закреплённый gitlink.',
+    'нет_локальной_копии': 'Зарегистрированная зависимость не материализована локально.',
+    'неверная_локальная_вершина': 'Локальный HEAD зависимости не совпадает с gitlink.',
+    'изменена_локальная_копия': 'Локальная копия изменена или содержит неотслеживаемые файлы.',
+    'неверные_источники': 'Локальные адреса origin/upstream не совпадают с профилем.',
+    'неучтённый_гитлинк': 'Зависимость содержит неучтённый вложенный gitlink.',
+    'неверные_исходные_объекты': 'Исходные объекты не совпадают с закреплёнными отпечатками.',
+    'неполная_локальная_копия': 'Shallow или partial clone не допускается.',
+    'неверный_профиль': 'Профиль зависимости не соответствует закреплённому контракту.',
+    'неверные_аргументы': 'Режим диагностики не принимает параметры сборки или неизвестные флаги.',
+    'ошибка_чтения': 'Не удалось прочитать локальные входы зависимости.',
+}
+
+
+def проверитьГотовность(корень: Path, профиль: dict[str, Any] | None = None) -> dict[str, Any]:
+    """Только чтение. Переданный профиль нужен локальным синтетическим фикстурам."""
+    переданныйПрофиль = профиль is not None
+    начало = time.perf_counter_ns()
+    результат: dict[str, Any] = {'схема': СХЕМА_ГОТОВНОСТИ, 'исход': 'отказ',
+        'причина': 'ошибка_чтения', 'профиль': [], 'этап': 'профиль'}
+    def измерить(этап, действие):
+        результат['этап'] = этап
+        началоЭтапа = time.perf_counter_ns()
+        исход = 'отказ'
+        try:
+            значение = действие()
+            исход = 'успех'
+            return значение
+        finally:
+            результат['профиль'].append({'этап': этап, 'началоНаносекунды': началоЭтапа - начало,
+                'длительностьНаносекунды': time.perf_counter_ns() - началоЭтапа, 'исход': исход})
+    try:
+        try:
+            профиль = измерить('профиль', lambda: прочитатьПрофиль() if профиль is None else профиль)
+        except (OSError, ValueError, ОтказПрофиля) as ошибка:
+            raise ОтказПрофиля('не удалось прочитать закреплённый профиль', 'неверный_профиль') from ошибка
+        результат.update({'путьЗависимости': профиль['зависимость']['путь'],
+            'ожидаемыйКоммит': профиль['зависимость']['коммит'],
+            'источникПрофиля': 'аргумент-фикстуры' if переданныйПрофиль else 'закреплённый-файл'})
+        источник, _ = измерить('регистрация', lambda: проверитьРегистрацию(корень, профиль, результат))
+        измерить('исходные_объекты', lambda: проверитьОтпечаткиИсточника(источник, профиль))
+        результат.update({'исход': 'успех', 'причина': 'проверено'})
+    except ОтказПрофиля as ошибка:
+        результат['причина'] = ошибка.причина if ошибка.причина in ПОЯСНЕНИЯ_ГОТОВНОСТИ else 'ошибка_чтения'
+    except (OSError, ValueError, KeyError, TypeError, subprocess.SubprocessError):
+        результат['причина'] = 'ошибка_чтения'
+    результат['пояснение'] = ПОЯСНЕНИЯ_ГОТОВНОСТИ[результат['причина']]
+    результат['длительностьНаносекунды'] = time.perf_counter_ns() - начало
+    return результат
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--корень-репозитория', type=Path, required=True)
-    parser.add_argument('--выход', type=Path, required=True,
+    parser.add_argument('--выход', type=Path,
                         help='новый абсолютный каталог с приватным владельцем и правами 0700')
-    parser.add_argument('--openssl-root', type=Path, required=True)
-    args = parser.parse_args()
+    parser.add_argument('--openssl-root', type=Path)
+    parser.add_argument('--только-проверить-зависимость', action='store_true',
+                        help='прочитать локальную регистрацию и объекты TDLib до любых сборочных действий')
+    args, неизвестные = parser.parse_known_args()
+    if args.только_проверить_зависимость:
+        if неизвестные or args.выход is not None or args.openssl_root is not None:
+            диагностика = {'схема': СХЕМА_ГОТОВНОСТИ, 'исход': 'отказ', 'этап': 'аргументы',
+                'причина': 'неверные_аргументы', 'пояснение': ПОЯСНЕНИЯ_ГОТОВНОСТИ['неверные_аргументы'],
+                'профиль': [], 'длительностьНаносекунды': 0}
+        else:
+            диагностика = проверитьГотовность(args.корень_репозитория)
+        print(json.dumps(диагностика, ensure_ascii=False, sort_keys=True),
+              file=sys.stdout if диагностика['исход'] == 'успех' else sys.stderr)
+        return 0 if диагностика['исход'] == 'успех' else 2
+    if неизвестные or args.выход is None or args.openssl_root is None:
+        parser.error('сборка требует --выход и --openssl-root без неизвестных флагов')
     try:
         result = собрать(args.корень_репозитория, args.выход, args.openssl_root)
     except (OSError, ValueError, ОтказПрофиля, subprocess.SubprocessError) as error:
