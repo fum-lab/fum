@@ -1,0 +1,14 @@
+{
+  "схема": "fum.свидетельство-координации-issue.1",
+  "issue": "https://github.com/fum-lab/fum/issues/54",
+  "комментарий": "https://github.com/fum-lab/fum/issues/54#issuecomment-5971581134",
+  "автор_учётной_записи": "Roman-Kerimov",
+  "подпись": "FUM Codex",
+  "текст_sha256": "541d11766c32cc6bc6c55e12a43cf1275f600ba1f5718740f265b96d3ded87c4",
+  "назначенные_учётные_записи": [
+    "Roman-Kerimov"
+  ],
+  "updated_at": "2026-10-03T17:19:11Z",
+  "повторное_чтение_подтверждено": true,
+  "реализация_пула_завершена": false
+}

@@ -1,0 +1,24 @@
+{
+  "ветка": "refs/heads/codex/dir/planirovaniye--finansirovaniye-i-resursyi--poluchatelj-i-marshrutyi",
+  "исполнитель": "01a1023b-0d9d-7732-9d9a-c240d7cae927",
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "область": [
+    "Планирование/финансирование-и-ресурсы/самофинансирование/получатель-и-маршруты/",
+    "Журнал/README.md",
+    "Индексы/markdown-файлы-по-времени-редактирования.md",
+    "Источники/URL/https/github.com/fum-lab/fum/issues/27/",
+    "Источники/URL/https/beget.com/ru/uridicheskie-pravila-programmi-grantov/",
+    "Источники/URL/https/mws.ru/docs/docum/a0.html/",
+    "Источники/URL/https/docs.github.com/en/sponsors/getting-started-with-github-sponsors/about-github-sponsors/",
+    "Источники/URL/https/docs.github.com/en/sponsors/receiving-sponsorships-through-github-sponsors/setting-up-github-sponsors-for-your-organization/",
+    "Журнал/2026-10-03_20-35-44_MSK_проверить-официальные-маршруты-финансирования/",
+    "Журнал/2026-10-03_19-29-37_MSK_проверить-получателя-и-маршруты/запрос.md"
+  ],
+  "постановка": {
+    "sha256": "5bed703aa07e6037f5894f0e1572565f7f06ad1a8d07508d19e61aa427beb729",
+    "коммит": "0beab2933adc51ad4cd6b0a91e8dce0a87770ff1",
+    "путь": "Планирование/параллельные-постановки/2026-10-03/получатель-и-маршруты-самофинансирования.md"
+  },
+  "схема": "fum.поручение-дочерней-контрольной-точки.1",
+  "хэш_нативного_поручения": "075b67ce91b43b4bb74504efa993a006b0fcd6c4cf17e0fd8ee8afbfd1398e10"
+}
