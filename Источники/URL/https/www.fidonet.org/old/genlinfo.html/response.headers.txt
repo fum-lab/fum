@@ -1,0 +1,9 @@
+HTTP/2 200
+content-type: text/html
+etag: "4172025042"
+last-modified: Tue, 27 Jun 2000 22:56:24 GMT
+content-length: 828
+strict-transport-security: max-age=15768000
+accept-ranges: bytes
+date: Sat, 03 Oct 2026 15:11:06 GMT
+server: lighttpd/1.4.79
