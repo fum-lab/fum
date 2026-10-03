@@ -1,0 +1,172 @@
+<!DOCTYPE html> <html lang="ru"> <head> <meta charset="UTF-8"> <title>Navitel Navigator Update Center </title> <meta name="description" content="pagedescription.downloads/update_center"/> <meta name="keywords" content="pagekeywords.downloads/update_center"/> <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"> <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&amp;subset=latin-ext" rel="stylesheet"> <link rel="stylesheet" href="/assets/css/main.min.css?v=29"> <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicon/apple-touch-icon.png?v=PYq9WjmpLA"> <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon/favicon-32x32.png?v=PYq9WjmpLA"> <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon/favicon-16x16.png?v=PYq9WjmpLA"> <link rel="manifest" href="/assets/img/favicon/site.webmanifest?v=PYq9WjmpLA"> <link rel="mask-icon" href="/assets/img/favicon/safari-pinned-tab.svg?v=PYq9WjmpLA" color="#1b8030"> <link rel="shortcut icon" href="/assets/img/favicon/favicon.ico?v=PYq9WjmpLA"> <meta name="msapplication-TileColor" content="#ffffff"> <meta name="msapplication-config" content="/assets/img/favicon/browserconfig.xml?v=PYq9WjmpLA"> <meta name="theme-color" content="#ffffff"> <meta name="google-site-verification" content="om0MFw_b4Hv8RvIi-GM9fhjeZPyFhjlsFxL-2JvDXsE"/> <link rel="preload" href="/assets/fonts/icons.woff" as="font" type="font/woff" crossorigin> <!--[if lt IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script><![endif]--> <script>
+var urlContext= '',
+lang = 'ru',
+licensePre2014 = '/ru/public/licensePre2014',
+licenseKeyInfo = '/ru/public/licenseKeyInfo';
+</script> <link rel="alternate" hreflang="x-default" href="https://navitel.ru/downloads/update_center"/> <link rel="alternate" hreflang="en" href="https://navitel.ru/en/downloads/update_center"/> <link rel="alternate" hreflang="ru" href="https://navitel.ru/ru/downloads/update_center"/> <link rel="alternate" hreflang="vi" href="https://navitel.ru/vi/downloads/update_center"/> <style>
+    .top__flags-nav__item > #currentLang {
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 3px;
+        border: 0;
+        background: transparent;
+        color: #2d2c2c;
+        font: inherit;
+        cursor: pointer;
+    }
+    #currentLang .lang-switch__chevron {
+        width: 6px;
+        height: 6px;
+        margin: -3px 3px 0 10px;
+        border-right: 1.5px solid currentColor;
+        border-bottom: 1.5px solid currentColor;
+        transform: rotate(45deg);
+    }
+    #currentLang[aria-expanded="true"] .lang-switch__chevron {
+        margin-top: 3px;
+        transform: rotate(225deg);
+    }
+    #languages_selector {
+        top: calc(100% + 4px);
+        left: -10px;
+        min-width: 110px;
+        align-items: stretch;
+        border-radius: 6px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    }
+    .top__flags-nav__item #currentLang > img,
+    #languages_selector .top__flags-nav__submenu-item a img {
+        width: 1.25rem;
+        height: 1.25rem;
+        flex-shrink: 0;
+        object-fit: contain;
+    }
+    #languages_selector .top__flags-nav__submenu-item a {
+        padding: 6px 12px;
+    }
+    #languages_selector .top__flags-nav__submenu-item a:hover {
+        background-color: #f3f3f3;
+    }
+    @media (pointer: coarse) {
+        #languages_selector .top__flags-nav__submenu-item a {
+            min-height: 44px;
+        }
+    }
+    #languages_selector[hidden] {
+        display: none !important;
+    }
+    #languages_selector:not([hidden]) {
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+</style> <script>
+	function buildMenu(context, currentLang, arrLang) {
+		const languages = Object.values(JSON.parse(arrLang));
+		const {pathname} = window.location;
+		const prefix = context + '/' + currentLang;
+		const pathTail = pathname === prefix || pathname.startsWith(prefix + '/')
+			? pathname.slice(prefix.length) : pathname;
+		const languageUrls = [];
+		let currentLangHtml = '', menuHtml = '';
+
+		for (const {id: langId} of languages) {
+			if (langId === currentLang) {
+				currentLangHtml = '<img src="/assets/img/flags/'+currentLang+'.svg" alt=""><span style="font-size:0.8125rem;font-weight:500;padding-left:0.625rem;text-transform:uppercase">'+langId+'</span><span class="lang-switch__chevron" aria-hidden="true"></span>\n';
+			} else {
+				menuHtml += '<li class="top__flags-nav__submenu-item"><a><img src="/assets/img/flags/'+langId+'.svg" alt=""><span>'+langId+'</span></a></li>\n';
+				languageUrls.push(context + '/' + langId + pathTail);
+			}
+		}
+		const menu = document.getElementById('languages_selector');
+		menu.innerHTML = menuHtml;
+		menu.querySelectorAll('a').forEach((link, index) => { link.href = languageUrls[index]; });
+		document.getElementById('currentLang').innerHTML = currentLangHtml;
+		initLanguageSwitch();
+	}
+
+	function initLanguageSwitch() {
+		const trigger = document.getElementById('currentLang'),
+			menu = document.getElementById('languages_selector'),
+			container = trigger.closest('.top__flags-nav__list');
+
+		if (trigger.languageSwitchInitialized) return;
+		trigger.languageSwitchInitialized = true;
+
+		function setOpen(open) {
+			menu.hidden = !open;
+			trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+		}
+
+		function getLinks() {
+			return Array.from(menu.querySelectorAll('a')).filter(link => link.getClientRects().length > 0);
+		}
+
+		trigger.addEventListener('click', () => {
+			setOpen(menu.hidden);
+		});
+
+		container.addEventListener('keydown', event => {
+			if (event.key === 'Escape' && !menu.hidden) {
+				event.preventDefault();
+				setOpen(false);
+				trigger.focus();
+			} else if (event.key === 'ArrowDown' || event.key === 'ArrowUp' ||
+				(event.target !== trigger && (event.key === 'Home' || event.key === 'End'))) {
+				event.preventDefault();
+				setOpen(true);
+				const links = getLinks();
+				let index = links.indexOf(document.activeElement);
+				if (!links.length) return;
+				if (event.key === 'Home') index = 0;
+				else if (event.key === 'End') index = links.length - 1;
+				else if (index < 0) index = event.key === 'ArrowDown' ? 0 : links.length - 1;
+				else index = (index + (event.key === 'ArrowDown' ? 1 : -1) + links.length) % links.length;
+				links[index].focus();
+			}
+		});
+
+		container.addEventListener('focusout', event => {
+			if (!container.contains(event.relatedTarget)) setOpen(false);
+		});
+
+		document.addEventListener('click', event => {
+			if (!container.contains(event.target)) setOpen(false);
+		});
+	}
+</script> <style>
+.img-text .container {
+	padding: 0;
+}
+.img-text__image figure {
+	text-align: center;
+}
+.img-text__text-inner__btns {
+    text-align: center;
+    margin: 0 0 20px 0;
+}
+.btn--block {
+    width: 100%;
+    margin: 10px 15px;
+    max-width: 300px;
+    padding: 0.75rem;
+    display: inline-block;
+}
+.site-nav__icon-text {
+	padding: 0;
+}
+.img-text {
+	padding: 0;
+}
+.img-text__image {
+	margin: 30px 0;
+	padding: 0;
+}
+.text-left {
+	font-size: 1.5rem;
+	color: #2d2c2c;
+}
+@media screen and (max-width: 400px) {
+    .btn--block {margin: 10px 0;}
+}
+</style> </head> <body> <header class="top" data-minimize-offset="100"> <div class="container-wide"> <div class="flex flex--center-y flex--space-between"> <div class="top__wrapper"><a class="filters-trigger js-filter-menu visible-xs"><span class="filters-trigger__inner"><span></span><span></span><span></span><span></span><span></span><span></span></span></a> </div> <div class="top__logo"><a href="/ru"><img class="top__logo-img" src="/assets/img/logo.svg?v=2" width="210" alt="NAVITEL"></a></div> <div class="top__nav hidden-xs"> <nav class="nav"> <ul class="nav__list"> <li class="nav__item" style="margin-right:1rem"><a href="/ru/devices/navitel">Устройства</a></li> <li class="nav__item" style="margin-right:1rem"><a href="/ru/buy">Приложения</a></li> <li class="nav__item" style="margin-right:1rem"><a href="/ru/partners/business">Для бизнеса</a></li> <li class="nav__item" style="margin-right:1rem"><a href="/ru/coverage">Карты</a></li> <li class="nav__item" style="margin-right:1rem"><a href="/ru/support">Техподдержка</a></li> <li class="nav__item" style="margin-right:1rem"><a href="/ru/trade-in">Трейд-ин</a></li> </ul> </nav> </div><div class="top__wrapper"> <div class="top__button" id="login" style="display:none"> <a href="/ru/authorization/registration" class="flex flex--center-y link__button link__button--register js-tooltip" title=Регистрация> <span class="hidden-sm">Регистрация</span> </a> <a href="/ru/login" class="flex flex--center-y link__button link__button--login js-tooltip" title="Войти"> <span class="hidden-sm">Войти</span> </a> </div> <div class="top__button" id="logged" style="display:none"> <a class="flex flex--center-y link__button link__button--register js-tooltip" href="/ru/authorization/cabinet"> <span id="user_name" class="hidden-sm"></span> </a> <a id="logout" class="flex flex--center-y link__button link__button--login js-tooltip" title="Выйти" href="#" onclick="logout()"></a> </div> </div><div class="top__wrapper"><a class="menu-trigger menu-trigger--small js-mobile-menu visible-xs"> <span class="menu-trigger__inner"> <span></span><span></span><span></span><span></span><span></span><span></span> </span> </a></div> </div> </div> </header> <main class="main"> <div class="section downloads-update_center"> <div class="container"> <div class="row no-gutters"> <div class="col-xs-3"> <div class="faq-filters js-filters"> <ul class="faq-filters__menu"> <li class="faq-filters__item"><a href="/ru/devices/service-center">Сервисные центры</a></li> <li class="faq-filters__item"><a href="http://forum.navitel.ru">Форум</a></li> <li class="faq-filters__item"> <a href="/ru/support/faq">Вопрос-Ответ</a> </li> <li class="faq-filters__item"> <a href="/ru/support/instructions">Инструкции</a> </li> <li class="faq-filters__item"> <a href="/ru/support/reporting">Отправить баг-репорт</a> </li> <li class="faq-filters__item"> <a href="/ru/support/re-registration">Деактивировать ключ</a> </li> <li class="faq-filters__item"> <a href="/ru/support/tracks">Отправить треки</a> </li> <li class="faq-filters__item"> <a href="/ru/support/poi">Добавить POI на карту</a> </li> <li class="faq-filters__item"> <a href="/ru/support/glossary">Глоссарий</a> </li> <li class="faq-filters__item"> <a href="/ru/support/refund">Условия возврата</a> </li> <li class="faq-filters__item"> <a href="/ru/support/counterfeit">Контрафакт!</a> </li> <li class="faq-filters__item"> <a href="/ru/downloads">Скачать</a> <ul class="faq-filters__submenu"> <li class="faq-filters__submenu-item is-active"> <a href="/ru/downloads/update_center">Navitel Navigator Update Center </a> </li> <li class="faq-filters__submenu-item"> <a href="/ru/downloads/distributions">Дистрибутивы</a> </li> <li class="faq-filters__submenu-item"> <a href="/ru/downloads/demo">Карты для Навител Навигатор</a> </li> <li class="faq-filters__submenu-item"> <a href="/ru/downloads/documentation">Документация по Навител Навигатор</a> </li> <li class="faq-filters__submenu-item"> <a href="/ru/downloads/app-navitel-dvr-center">Приложение Navitel DVR Center</a> </li> <li class="faq-filters__submenu-item"> <a href="/ru/downloads/navitel-dvr-player">Программа Navitel DVR Player</a> </li> </ul> </li> <li class="faq-filters__item"> <a href="/ru/holdups">Онлайн-сервисы</a> </li> <li class="faq-filters__item"> <a href="/ru/support/updates/dvr">Обновите видеорегистратор</a> </li> <li class="faq-filters__item"> <a href="/ru/partners/partnerlibrary/api-navitel-navigator">API Навител Навигатор</a> </li> </ul> </div> </div> <div class="col-xxs-12 col-xs-9 col-xs-offset-0"> <div class="main__title"><h1>Navitel Navigator Update Center </h1></div> <div class="wysiwyg"> <p>Navitel Navigator Update Center – бесплатная программа для ПК, которая поможет обновить ваш автонавигатор под управлением <b>ОС WINDOWS CE</b> или <b>LINUX</b>.</p> <div class="row"> <div class="col-xxs-12 col-xs-6 col-md-3"> <div class="site-nav__icon-text reveal"> <div class="site-nav__icon-text__green-icon"><i class="ico ico-timer"></i></div> <div class="site-nav__icon-text__text">Устанавливайте<br>программные<br>обновления</div> </div> </div> <div class="col-xxs-12 col-xs-6 col-md-3"> <div class="site-nav__icon-text reveal"> <div class="site-nav__icon-text__green-icon"><i class="ico ico-download"></i></div> <div class="site-nav__icon-text__text">Загружайте<br>актуальные<br>карты</div> </div> </div> <div class="col-xxs-12 col-xs-6 col-md-3"> <div class="site-nav__icon-text reveal"> <div class="site-nav__icon-text__green-icon"><i class="ico ico-basket"></i></div> <div class="site-nav__icon-text__text">Покупайте<br>дополнительные<br>карты</div> </div> </div> <div class="col-xxs-12 col-xs-6 col-md-3"> <div class="site-nav__icon-text reveal"> <div class="site-nav__icon-text__green-icon"><i class="ico ico-reload"></i></div> <div class="site-nav__icon-text__text">Обновляйте<br>базу камер<br>контроля<br>скорости</div> </div> </div> </div> </div> <div class="section img-text"> <div class="container"> <div class="img-text__item img-text__item--image_text"> <div class="img-text__image reveal"> <figure><img src="/images/update-center/ru/update-center_25052021.jpg" alt="screenshot"></figure> </div> <div class="img-text__text wysiwyg reveal"> <div class="img-text__text-inner"> <h3>Системные требования</h3> <ul class="list-styled"><li>Windows OS: Windows 7 или выше / macOS: macOS Sierra 10.12.6 или выше,</li><li>2,5 Гб свободного места на диске (в папке Загрузки),</li><li>USB 2.0,</li><li>минимум 1 Гб оперативной памяти,</li><li>высокоскоростное Интернет-соединение.</li></ul> <div class="img-text__text-inner__btns"> <a href="https://download.navitel.su/update/NNU/WINDOWS/NNUSetup-latest.exe" class="btn btn--block btn--nouppercase">Windows OS</a> <a href="https://download.navitel.su/update/NNU/MACOS/NNUSetup-latest.pkg" class="btn btn--block btn--nouppercase">macOS</a> </div> </div> </div> </div> <div> <h3>Инструкция</h3> <ol class="text-left"> <li class="accordion-section"> <div class="accordion-container"> <div class="accordion-btn accordion-btn--alt" data-accordion="1"> <span class="accordion-btn__title"><label></label><span>Установка и запуск программы Update Center</span></span> <i class="ico ico-chevron"></i><i class="ico ico-chevron"></i> </div> <div class="accordion accordion--alt" data-accordion-toggle="1"> <div class="accordion__inner"> <div class="wysiwyg"><div style="padding-left: 20px;" id="install"><p>Установите Центр обновления Навител Навигатор на ПК, выполнив все пункты мастера установки. После завершения установки запустите программу Центр обновления Навител Навигатор на своем компьютере. </p><p><img src="/images/update-center/ru/1.jpg" alt="Navitel Navigator Update Center-1"></p><p>Подключите навигатор к ПК при помощи кабеля. Если программа Навител Навигатор установлена на карту памяти — достаточно подключить к ПК только карту памяти при помощи кард-ридера.</p><p>Если устройство подключено правильно, программа определит его автоматически. Если программа не запущена, компьютер распознает устройство как съемный диск или USB-накопитель.</p><p><img src="/images/update-center/ru/2.jpg" alt="Navitel Navigator Update Center-2"></p></div></div> </div> </div> </div> </li> <li class="accordion-section"> <div class="accordion-container"> <div class="accordion-btn accordion-btn--alt" data-accordion="2"> <span class="accordion-btn__title"><label></label><span>Обновление программного обеспечения</span></span> <i class="ico ico-chevron"></i><i class="ico ico-chevron"></i> </div> <div class="accordion accordion--alt" data-accordion-toggle="2"> <div class="accordion__inner"> <div class="wysiwyg"><div style="padding-left: 20px;" id="software"><p>Центр обновления Навител Навигатор отображает на экране доступные обновления.</p><p><img src="/images/update-center/ru/3.jpg" alt="Navitel Navigator Update Center-3"></p><p>Нажмите Обновить, чтобы увидеть подробный список доступных обновлений. Нажмите ОК, чтобы загрузить и установить обновления. Рекомендуется в первую очередь обновить программное обеспечение, так как карты нового релиза оптимизированы для работы с новой версией ПО.</p><p><img src="/images/update-center/ru/10.jpg" alt="Navitel Navigator Update Center-4"></p></div></div> </div> </div> </div> </li> <li class="accordion-section"> <div class="accordion-container"> <div class="accordion-btn accordion-btn--alt" data-accordion="3"> <span class="accordion-btn__title"><label></label><span>Загрузка карт</span></span> <i class="ico ico-chevron"></i><i class="ico ico-chevron"></i> </div> <div class="accordion accordion--alt" data-accordion-toggle="3"> <div class="accordion__inner"> <div class="wysiwyg"><div style="padding-left: 20px;" id="maps"><p>Нажмите Скачать, чтобы увидеть полный список карт, доступных для скачивания. Чтобы скачать карты, в списке отметьте нужные вам галочками и нажмите ОК. .</p><p><img src="/images/update-center/ru/4.jpg" alt="Navitel Navigator Update Center-5"></p><p>Время, которое требуется для загрузки карты, зависит от размера файла и скорости Интернет-соединения.</p><p><img src="/images/update-center/ru/5.jpg" alt="Navitel Navigator Update Center-6"></p><p>Программное обеспечение и карты обновлены. Отсоедините автонавигатор от ПК.</p><p><img src="/images/update-center/ru/6.jpg" alt="Navitel Navigator Update Center-7"></p></div></div> </div> </div> </div> </li> <li class="accordion-section"> <div class="accordion-container"> <div class="accordion-btn accordion-btn--alt" data-accordion="4"> <span class="accordion-btn__title"><label></label><span>Покупка дополнительных карт</span></span> <i class="ico ico-chevron"></i><i class="ico ico-chevron"></i> </div> <div class="accordion accordion--alt" data-accordion-toggle="4"> <div class="accordion__inner"> <div class="wysiwyg"><div style="padding-left: 20px;" id="buy"><p>Нажмите Купить и выберите карту страны или пакет карт, которые вы хотите приобрести.</p><p><img src="/images/update-center/ru/7.jpg" alt="Navitel Navigator Update Center-8"></p><p>Вы можете приобрести бессрочный лицензионный ключ либо оформить подписку на навигационную карту сроком действия 1 год.</p><p><img src="/images/update-center/ru/8.jpg" alt="Navitel Navigator Update Center-9"></p><p>Нажмите <b>Купить</b>, чтобы перейти в корзину и оформить заказ.</p><p><img src="/images/update-center/ru/9.jpg" alt="Navitel Navigator Update Center-10"></p><p>Загрузите карты, которые вы приобрели. Отсоедините автонавигатор от ПК.</p></div></div> </div> </div> </div> </li> <li class="accordion-section"> <div class="accordion-container"> <div class="accordion-btn accordion-btn--alt" data-accordion="5"> <span class="accordion-btn__title"><label></label><span>FAQ</span></span> <i class="ico ico-chevron"></i><i class="ico ico-chevron"></i> </div> <div class="accordion accordion--alt" data-accordion-toggle="5"> <div class="accordion__inner"> <div class="wysiwyg"><div style="padding-left: 20px;" id="faq"><p><b>Программа не может быть установлена</b></p><ul style="padding-left: 5px"><li>Убедитесь, что выполняются минимальные системные требования для установки Центр обновления Навител Навигатор. </li><li>Некоторые антивирусы и файрволы могут блокировать загрузку и установку программ. Отключите их на время или задайте такие установки, которые не будут препятствовать загрузке. </li></ul><br><p><b>Программа не видит устройство</b></p><ul style="padding-left: 5px"><li>Убедитесь, что ваше навигационное устройство находится под управлением <b>ОС WINDOWS CE</b> или <b>LINUX</b>. Обновление программы Навител Навигатор на устройствах под управлением ОС Android осуществляется через магазин приложений Google Play.</li><li>Убедитесь, что устройство опознано компьютером, и вы можете открывать папки для просмотра содержимого.</li><li>Убедитесь, что программа на навигаторе запускается и отображает карту. Если программа не запускается или запускается незарегистрированной — обратитесь к инструкциям по установке.</li></ul><br><p><b>Компьютер не видит навигационное устройство</b></p><ul style="padding-left: 5px"><li>Для того, чтобы компьютер распознал навигационное устройство, оно должно быть заряжено. Если вы видите на экране навигатора иконку аккумулятора, значит устройство не заряжено полностью. Дождитесь, пока устройство будет заряжено в достаточной степени.</li><li>Используйте USB-шнур, который поставляется вместе с устройством. Убедитесь, что устройство правильно подключено к ПК через USB.</li> <li>Если устройство по-прежнему не распознано, используйте другой USB-порт. </li></ul><br><p><b>Загрузка была прервана или приостановлена</b></p><ul style="padding-left: 5px"><li>Проверьте наличие подключения к сети Интернет. Для обновления ПО и карт через программу Центр обновления Навител Навигатор требуется стабильное высокоскоростное Интернет-соединение. </li><li>Убедитесь, что на диске достаточно свободного места.</li><li>Программы для обеспечения безопасности (антивирусы, файрволы) могут ограничивать доступ к компьютеру. Отключите их на время или задайте такие установки, которые не будут препятствовать загрузке.</li></ul><br><p><b>Пользователь заблокировал компьютер во время загрузки обновлений</b></p><ul style="padding-left: 5px"><li>Блокировка экрана компьютера не приведет к остановке загрузки обновлений. Если загрузка остановилась, проверьте соединение с Интернетом. </li></ul><br><p><b>Загрузка занимает слишком много времени</b></p><ul style="padding-left: 5px"><li>Количество времени, которое требуется для загрузки обновлений, зависит от скорости Интернет-соединения и размера файла. Если загрузка идет слишком медленно, проверьте наличие и скорость Интернет-соединения. </li><li>Если карта занимает большой объем, то ее загрузка будет идти дольше.</li></ul><br><p><b>Я купил карту через Navitel Navigator Update Center. Когда и как я получу ключ активации карты?</b></p><p style="padding-left: 5px">При совершении заказа через Центр обновления Навител Навигатор отдельного уведомления на e-mail с указанием лицензионного ключа не поступает. Лицензия автоматически активируется на то устройство, которое было подключено в процессе работы программы. Вам необходимо ещё раз подключить это устройство к ПК и запустить Центр обновления Навител Навигатор. Купленные карты появятся в списке карт, доступных для установки. Срок обработки заказа в большинстве случаев не превышает 30 минут.</p></div></div> </div> </div> </div> </li> </ol> </div> </div> </div> </div> </div> </div> </div> </main> <footer class="footer"> <div class="footer__top"> <div class="container-wide"> <div class="row"> <div class="col-xxxxs-6 col-xs-4 col-md-2 col-lg-2"> <div class="footer__column-wrapper"> <div class="footer__title js-tab" data-footer_menu="1"> <h5>ГДЕ КУПИТЬ УСТРОЙСТВА NAVITEL?<i class="ico ico-chevron"></i></h5> </div> <div class="footer__menu js-content" data-footer_menu="1"> <div class="footer__link"><a href="https://market.navitel.ru/">Маркет.Навител</a></div> <div class="footer__link"><a href="/ru/trade-in">Трейд-ин</a></div> <div class="footer__link"><a href="/ru/devices/buy">Адреса офлайн магазинов</a></div> <div class="footer__link"><a href="/ru/buy/e-shops">Интернет-магазины</a></div> <div class="footer__link"><a href="/ru/buy/others">В других странах</a></div> </div> </div> </div> <div class="col-xxxxs-6 col-xs-4 col-md-2 col-lg-2"> <div class="footer__column-wrapper"> <div class="footer__title js-tab" data-footer_menu="2"> <h5>УСТРОЙСТВА NAVITEL<i class="ico ico-chevron"></i></h5> </div> <div class="footer__menu js-content" data-footer_menu="2"> <div class="footer__link"><a href="/ru/devices/navitel">Каталог устройств</a></div> <div class="footer__link"><a href="/ru/downloads/update_center">Обновить навигатор</a></div> <div class="footer__link"><a href="/ru/support/updates/dvr">Обновить регистратор</a></div> <div class="footer__link"><a href="/ru/docs">Документация</a></div> </div> </div> </div> <div class="col-xxxxs-6 col-xs-4 col-md-4 col-lg-2"> <div class="footer__column-wrapper"> <div class="footer__title js-tab" data-footer_menu="3"> <h5>КАК КУПИТЬ ЛИЦЕНЗИОННЫЙ КЛЮЧ НА КАРТЫ?<i class="ico ico-chevron"></i></h5> </div> <div class="footer__menu js-content" data-footer_menu="3"> <div class="footer__link"><a href="/ru/buy/apps">Для смартфона и планшета<br>на ОС Андроид</a></div> <div class="footer__link"><a href="/ru/buy/apps-pnd">Для автонавигаторов<br>на Windows CE</a></div> <div class="footer__link"><a href="/ru/buy/iphone">Информация о покупках<br>для iPhone или iPad</a></div> <div class="footer__link"><a href="/ru/downloads/documentation">Инструкции и руководства<br>программы Навител Навигатор</a></div> <div class="footer__link"><a href="/ru/support/faq">Вопрос-ответ</a></div> <div class="footer__link"><a href="/ru/license-agreement-navitel">Лицензионное соглашение<br>на использование Навител Навигатор</a></div> <div class="footer__link"><a href="/ru/activation">Активировать ключ</a></div> <div class="footer__link"><a href="/ru/support/refund">Условия возврата</a></div> </div> </div> </div> <div class="col-xxxxs-6 col-xs-4 col-md-2 col-lg-2"> <div class="footer__column-wrapper"> <div class="footer__title js-tab" data-footer_menu="4"> <h5>ТЕХНИЧЕСКАЯ ПОДДЕРЖКА<i class="ico ico-chevron"></i></h5> </div> <div class="footer__menu js-content" data-footer_menu="4"> <div class="footer__link">Написать в техподдержку:<br><a href="mailto:support@navitel.ru">support@navitel.ru</a></div> <div class="footer__link"><a href="/ru/devices/service-center">Сервисные центры</a></div> <div class="footer__link"><a href="/ru/support/reporting">Отправить баг-репорт</a></div> </div> </div> </div> <div class="col-xxxxs-6 col-xs-4 col-md-2 col-lg-2"> <div class="footer__column-wrapper"> <div class="footer__title js-tab" data-footer_menu="5"> <h5>NAVITEL®<i class="ico ico-chevron"></i></h5> </div> <div class="footer__menu js-content" data-footer_menu="5"> <div class="footer__link"><a href="/ru/about">О компании</a></div> <div class="footer__link"><a href="/ru/about/news">Новости</a></div> <div class="footer__link"><a href="/ru/about/job">Карьера</a></div> <div class="footer__link"><a href="/ru/partners/partnerlibrary">Библиотека партнера</a></div> <div class="footer__link"><a href="/ru/compliance">Комплаенс и деловая этика</a></div> </div> </div> </div> <div class="col-xxxxs-6 col-xs-4 col-md-12 col-lg-2"> <div class="footer__column-wrapper footer__column-wrapper--last"> <div class="footer__title js-tab" data-footer_menu="6"> <h5>Контакты:<i class="ico ico-chevron"></i></h5> </div> <div class="footer__menu js-content" data-footer_menu="6"> <div class="footer__address"> <p>127254, г. Москва,<br>ул. Добролюбова, д.3, стр.1, помещ. 3/4</p> </div> <div class="footer__phone">Тел.:<a href="tel:+78002501212"> 8-800-250-12-12</a></div> <div class="footer__email">E-mail.:<a href="mailto:support@navitel.ru"> support@navitel.ru</a></div> <div class="footer__social"><a class="footer__social-item js-tooltip" href="https://vk.ru/navitelnavigator" title="VK"><i class="socico vk"></i></a><a class="footer__social-item js-tooltip" href="https://t.me/navitel_ru" title="Telegram"><i class="socico telega"></i></a><a class="footer__social-item js-tooltip" href="https://zen.yandex.ru/id/5e57e08705b07f52be0666cd" title="Yandex"><i class="socico yandex"></i></a><a class="footer__social-item js-tooltip" href="https://rutube.ru/channel/24806438/" title="Rutube"><i class="socico rutube"></i></a><a class="footer__social-item js-tooltip" href="https://www.youtube.com/channel/UCRbtgXNnZbHle0iJO1wdXtw" title="Youtube"><i class="socico youtube"></i></a></div> </div> </div> </div> </div> </div> </div> </footer> <div class="footer__bottom"> <div class="container"> <div class="flex flex--center"> <p class="footer__bottom-link"><a href="/ru/sitemap">Поиск и карта сайта</a></p> <p class="footer__bottom-link"><a href="/ru/privacy-policy">Политика конфиденциальности</a></p> </div> <div class="flex flex--center"> <p class="footer__create">© АО «ЦНТ»<span id="spanGetFullYear">2026</span></p> </div> </div> </div> <script src="/assets/js/vendor.min.js"></script> <script src="/assets/js/main.js?v=1.2"></script> <script> (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)}; m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)}) (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym"); ym(42158669, "init", { clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true, ecommerce:"dataLayer" }); </script> <noscript><div><img src="https://mc.yandex.ru/watch/42158669" style="position:absolute; left:-9999px;" alt="Yandex.Metrika counter"/></div></noscript> <img width="70" height="70" class="footer__btn-up js-jumper js-jumper--hide" data-target="body" src="/assets/img/icons/up.svg"> </body> </html>
