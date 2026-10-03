@@ -68,4 +68,47 @@ final class МетаданныеТоррентаТесты: XCTestCase {
             XCTAssertEqual(try FileManager.default.contentsOfDirectory(atPath: папка.path), ["a"])
         }
     }
+    func test_БюджетПроизводителяСохраняетОбщийКонтрактФикстур() throws {
+        let папка = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: папка, withIntermediateDirectories: false)
+        defer { try? FileManager.default.removeItem(at: папка) }
+        let файл = папка.appendingPathComponent("a"); let данные = Data("abc".utf8)
+        try данные.write(to: файл)
+        let исходник = Darwin.open(файл.path, O_RDONLY | O_CLOEXEC | O_NOFOLLOW)
+        let каталог = Darwin.open(папка.path, O_RDONLY | O_DIRECTORY | O_CLOEXEC | O_NOFOLLOW)
+        XCTAssertGreaterThanOrEqual(исходник, 0); XCTAssertGreaterThanOrEqual(каталог, 0)
+        defer { Darwin.close(исходник); Darwin.close(каталог) }
+        let хэш = Array(SHA256.hash(data: данные))
+        for (лимит, производственный) in [(UInt64(2), false), (199, true), (200, true)] {
+            var операция: OpaquePointer?
+            XCTAssertEqual(создать_операцию_торрента(&операция).код, 0)
+            defer { уничтожить_операцию_торрента(операция) }
+            var выход: OpaquePointer?
+            defer { уничтожить_метаданные_торрента(выход) }
+            let ответ = хэш.withUnsafeBufferPointer { адресХэша in
+                "a".withCString { имя in
+                    var вход = ВходМостаТоррента(исходник: исходник, каталог: каталог, имя: имя,
+                        длина_имени: 1, размер: 3, максимум_файла: 3, длина_части: 16384,
+                        максимум_метаданных: лимит, хэш: адресХэша.baseAddress, длина_хэша: 32,
+                        операция: операция, проверка_отмены: nil, контекст: nil)
+                    if производственный { return создать_метаданные_торрента(&вход, &выход) }
+                    return создать_фикстуру_метаданных(&вход, &выход)
+                }
+            }
+            if лимит == 199 { XCTAssertEqual(ответ.код, 1); XCTAssertNil(выход) }
+            else {
+                XCTAssertEqual(ответ.код, 0)
+                var длина = 0
+                XCTAssertNotNil(байты_метаданных_торрента(try XCTUnwrap(выход), &длина))
+                XCTAssertEqual(длина, Int(лимит))
+            }
+            XCTAssertEqual(Darwin.lseek(исходник, 0, SEEK_CUR), 0)
+            XCTAssertEqual(try FileManager.default.contentsOfDirectory(atPath: папка.path), ["a"])
+        }
+        var длина = 7
+        XCTAssertNil(прямые_байты_либторрента(nil, &длина)); XCTAssertEqual(длина, 0)
+        XCTAssertNil(прямой_хэш_первой_версии(nil)); XCTAssertNil(прямой_хэш_второй_версии(nil))
+        уничтожить_прямые_метаданные(nil)
+    }
+
 }

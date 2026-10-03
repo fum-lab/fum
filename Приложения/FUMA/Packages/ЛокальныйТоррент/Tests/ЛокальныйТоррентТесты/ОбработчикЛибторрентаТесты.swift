@@ -154,15 +154,105 @@ final class ОбработчикЛибторрентаТесты: XCTestCase {
             XCTAssertEqual(новая.бенкодированныеДанные.count, 200)
         }
     }
-    func test_ПроизводственныйОбработчикЯвноНедоступенДоРегистрации() async throws {
+    func test_ПроизводственныйОбработчикСоздаётНастоящиеМетаданные() async throws {
         try await сФайлом { файл in
-            do { _ = try await вызов(ОбработчикЛибторрента(), файл); XCTFail("нельзя выдавать фикстуру за libtorrent") }
-            catch {
-                guard case .сбойОбработчика(let сообщение) = error as? ОшибкаПодготовкиТоррента else { return XCTFail("\(error)") }
-                XCTAssertTrue(сообщение.contains("libtorrent не зарегистрирован"))
+            let результат = try await вызов(ОбработчикЛибторрента(), файл)
+            XCTAssertEqual(результат, try ОракулМетаданных.пример().0)
+        }
+    }
+    func сКорпусом(_ имя: String, _ данные: Data, _ действие: (URL) async throws -> Void) async throws {
+        let папка = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: папка, withIntermediateDirectories: false)
+        defer { try? FileManager.default.removeItem(at: папка) }
+        let файл = папка.appendingPathComponent(имя); try данные.write(to: файл)
+        try await действие(файл)
+        XCTAssertEqual(try FileManager.default.contentsOfDirectory(atPath: папка.path), [имя])
+    }
+    func прямыеМетаданные(_ файл: URL, _ данные: Data, часть: Int) throws -> СозданныеМетаданныеТоррента {
+        var владелец: OpaquePointer?
+        defer { уничтожить_прямые_метаданные(владелец) }
+        let каталог = файл.deletingLastPathComponent().path
+        let имя = файл.lastPathComponent
+        let ответ = каталог.withCString { путь in
+            имя.withCString { название in
+                прямо_создать_метаданные_либторрента(путь, каталог.utf8.count, название, имя.utf8.count,
+                    UInt64(данные.count), UInt64(часть), 4096, &владелец)
+            }
+        }
+        XCTAssertEqual(ответ.код, 0)
+        let держатель = try XCTUnwrap(владелец)
+        var длина = 0
+        let байты = try XCTUnwrap(прямые_байты_либторрента(держатель, &длина))
+        let первый = String(cString: try XCTUnwrap(прямой_хэш_первой_версии(держатель)))
+        let второй = String(cString: try XCTUnwrap(прямой_хэш_второй_версии(держатель)))
+        return try СозданныеМетаданныеТоррента(бенкодированныеДанные: Data(bytes: байты, count: длина),
+            хэшиИнформации: ХэшиИнформацииТоррента(хэшВерсии1: первый, хэшВерсии2: второй))
+    }
+    func производственныеМетаданные(_ файл: URL, _ данные: Data, часть: Int,
+                                    лимит: UInt64 = 4096) async throws -> СозданныеМетаданныеТоррента {
+        let хэш = SHA256.hash(data: данные).map { String(format: "%02x", $0) }.joined()
+        return try await ОбработчикЛибторрента().создать(адресФайла: файл, имяФайла: файл.lastPathComponent,
+            размерФайла: UInt64(данные.count), ожидаемыйХэшСодержимого: хэш,
+            ограничения: ОграниченияПодготовкиТоррента(максимумБайтФайла: UInt64(данные.count),
+                длинаЧастиБайт: часть, максимумБайтМетаданных: лимит),
+            отмена: ОтменаПодготовкиТоррента(), ход: { _ in })
+    }
+    func test_ПроизводственныйКорпусСовпадаетСПрямойБиблиотекой() async throws {
+        for (имя, длина, часть) in [("a", 3, Int(16384)), ("a", 3, 32768),
+                ("a", 16383, 16384), ("a", 16384, 16384), ("a", 16385, 16384),
+                ("a", 32769, 16384), ("файл", 32769, 16384)] {
+            let данные = длина == 3 ? Data("abc".utf8) : Data((0..<длина).map { UInt8($0 % 251) })
+            try await сКорпусом(имя, данные) { файл in
+                let прямой = try прямыеМетаданные(файл, данные, часть: часть)
+                let производственный = try await производственныеМетаданные(файл, данные, часть: часть)
+                XCTAssertEqual(производственный, прямой)
+                let ограничения = try ОграниченияПодготовкиТоррента(максимумБайтФайла: UInt64(длина),
+                    длинаЧастиБайт: часть, максимумБайтМетаданных: 4096)
+                try ПроверкаМетаданныхТоррента.проверить(прямой, имя: имя, размер: UInt64(длина), ограничения: ограничения)
+                if длина == 3 && часть == 16384 { XCTAssertEqual(прямой, try ОракулМетаданных.пример().0) }
+                do {
+                    _ = try await производственныеМетаданные(файл, данные, часть: часть,
+                        лимит: UInt64(прямой.бенкодированныеДанные.count - 1))
+                    XCTFail("бюджет на один байт меньше должен отклоняться")
+                } catch { XCTAssertNotNil(error as? ОшибкаПодготовкиТоррента) }
             }
         }
     }
+    func test_ПрофильНастоящейБиблиотеки() async throws {
+        guard ProcessInfo.processInfo.environment["ФУМ_ПРОФИЛЬ_ТОРРЕНТА"] == "1" else {
+            throw XCTSkip("профиль запускается отдельной командой")
+        }
+        let данные = Data((0..<32769).map { UInt8($0 % 251) })
+        var стадии = [[String: Any]]()
+        try await сКорпусом("a", данные) { файл in
+            let эталон = try прямыеМетаданные(файл, данные, часть: 16384)
+            func измерить(_ имя: String, _ действие: () async throws -> СозданныеМетаданныеТоррента) async throws {
+                for _ in 0..<2 { let результат = try await действие(); XCTAssertEqual(результат, эталон) }
+                var пробы = [UInt64]()
+                for _ in 0..<9 {
+                    let начало = DispatchTime.now().uptimeNanoseconds
+                    let результат = try await действие()
+                    XCTAssertEqual(результат, эталон)
+                    пробы.append(DispatchTime.now().uptimeNanoseconds - начало)
+                }
+                стадии.append(["имя": имя, "пробы_нс": пробы])
+            }
+            try await измерить("прямая_библиотека_генерация_загрузка_копирование") {
+                try прямыеМетаданные(файл, данные, часть: 16384)
+            }
+            try await измерить("производственный_фасад_снимок_библиотека_валидация_очистка") {
+                try await производственныеМетаданные(файл, данные, часть: 16384)
+            }
+        }
+        var память = rusage(); XCTAssertEqual(Darwin.getrusage(0, &память), 0)
+        let профиль: [String: Any] = ["схема": "fum.профиль-библиотеки-торрента.1", "стадии": стадии,
+            "прогревов": 2, "повторов": 9, "максимум_резидентной_памяти_байт": память.ru_maxrss,
+            "корпус": "a; N=32769; P=16384; байт[i]=i%251",
+            "граница": "Release XCTest; preparation вне таймеров; сравнение результата внутри; память всего процесса"]
+        let запись = try JSONSerialization.data(withJSONObject: профиль, options: [.sortedKeys])
+        print("ФУМ-ПРОФИЛЬ-БИБЛИОТЕКА:" + String(decoding: запись, as: UTF8.self))
+    }
+
 }
 
 private final class НаблюдениеКаталога: @unchecked Sendable {
