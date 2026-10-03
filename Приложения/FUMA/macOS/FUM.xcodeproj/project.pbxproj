@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7C6A0000000000000000011F /* АрхивныйСнимокЗадачи */ = {isa = PBXBuildFile; productRef = 7C6A00000000000000000912; };
+		7C6A00000000000000000120 /* ЗаписьJSONL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000027; };
+		7C6A00000000000000000121 /* ИсполнениеJSONL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000028; };
 		7C6A00000000000000000119 /* КомандноеИсполнение.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000024; };
 		7C6A0000000000000000011C /* ПриёмБайтов.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000025; };
 		7C6A0000000000000000011D /* ЖурналНаблюдений.swift in FUM */ = {isa = PBXBuildFile; fileRef = 7C6A00000000000000000026; };
@@ -64,6 +67,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7C6A00000000000000000027 /* ЗаписьJSONL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/ИсполнениеОператора/ЗаписьJSONL.swift"; sourceTree = SOURCE_ROOT; };
+		7C6A00000000000000000028 /* ИсполнениеJSONL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/ИсполнениеОператора/ИсполнениеJSONL.swift"; sourceTree = SOURCE_ROOT; };
 		7C6A00000000000000000024 /* КомандноеИсполнение.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/ИсполнениеОператора/КомандноеИсполнение.swift"; sourceTree = SOURCE_ROOT; };
 		7C6A00000000000000000025 /* ПриёмБайтов.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/ИсполнениеОператора/ПриёмБайтов.swift"; sourceTree = SOURCE_ROOT; };
 		7C6A00000000000000000026 /* ЖурналНаблюдений.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sources/FUMObservationJournal/ЖурналНаблюдений.swift"; sourceTree = SOURCE_ROOT; };
@@ -104,6 +109,7 @@
 			files = (
 				7C6A0000000000000000011A /* FUMStructuringOperatorMemory */,
 				7C6A0000000000000000011B /* КонтейнерНаблюдений */,
+				7C6A0000000000000000011F /* АрхивныйСнимокЗадачи */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,6 +128,8 @@
 			children = (
 				7C6A00000000000000000024 /* КомандноеИсполнение.swift */,
 				7C6A00000000000000000025 /* ПриёмБайтов.swift */,
+				7C6A00000000000000000027 /* ЗаписьJSONL.swift */,
+				7C6A00000000000000000028 /* ИсполнениеJSONL.swift */,
 				7C6A00000000000000000026 /* ЖурналНаблюдений.swift */,
 				7C6A00000000000000000018 /* ПутиПриложения.swift */,
 				7C6A00000000000000000301 /* Sources */,
@@ -230,6 +238,7 @@
 			packageProductDependencies = (
 				7C6A00000000000000000910 /* FUMStructuringOperatorMemory */,
 				7C6A00000000000000000911 /* КонтейнерНаблюдений */,
+				7C6A00000000000000000912 /* АрхивныйСнимокЗадачи */,
 			);
 			productName = FUMA;
 			productReference = 7C6A00000000000000000020 /* FUMA.app */;
@@ -280,6 +289,7 @@
 			packageReferences = (
 				7C6A00000000000000000900 /* FUMStructuringOperatorMemory */,
 				7C6A00000000000000000901 /* КонтейнерНаблюдений */,
+				7C6A00000000000000000902 /* АрхивныйСнимокЗадачи */,
 			);
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
@@ -300,6 +310,8 @@
 			files = (
 				7C6A00000000000000000119 /* КомандноеИсполнение.swift in Sources */,
 				7C6A0000000000000000011C /* ПриёмБайтов.swift in Sources */,
+				7C6A00000000000000000120 /* ЗаписьJSONL.swift in Sources */,
+				7C6A00000000000000000121 /* ИсполнениеJSONL.swift in Sources */,
 				7C6A0000000000000000011D /* ЖурналНаблюдений.swift in FUM */,
 				7C6A00000000000000000101 /* AXVisionSnapshot.swift in Sources */,
 				7C6A00000000000000000102 /* CameraGaze.swift in Sources */,
@@ -348,11 +360,13 @@
 /* Begin XCLocalSwiftPackageReference section */
 		7C6A00000000000000000900 = {isa = XCLocalSwiftPackageReference; relativePath = "../../../Прототипы/память-структурирующих-операторов"; };
 		7C6A00000000000000000901 = {isa = XCLocalSwiftPackageReference; relativePath = "../Packages/КонтейнерНаблюдений"; };
+		7C6A00000000000000000902 = {isa = XCLocalSwiftPackageReference; relativePath = "../Packages/АрхивныйСнимокЗадачи"; };
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		7C6A00000000000000000910 = {isa = XCSwiftPackageProductDependency; package = 7C6A00000000000000000900; productName = FUMStructuringOperatorMemory; };
 		7C6A00000000000000000911 = {isa = XCSwiftPackageProductDependency; package = 7C6A00000000000000000901; productName = "КонтейнерНаблюдений"; };
+		7C6A00000000000000000912 = {isa = XCSwiftPackageProductDependency; package = 7C6A00000000000000000902; productName = "АрхивныйСнимокЗадачи"; };
 /* End XCSwiftPackageProductDependency section */
 
 /* Begin XCBuildConfiguration section */
