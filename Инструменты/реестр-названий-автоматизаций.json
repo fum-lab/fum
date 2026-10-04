@@ -214,6 +214,11 @@
       "source": "конвейер производных веток",
       "transliteration": "konvejyer proizvodnyikh vetok",
       "slug": "fum-konvejyer-proizvodnyikh-vetok"
+    },
+    {
+      "source": "русификация кода при слиянии",
+      "transliteration": "rusifikaciya koda pri sliyanii",
+      "slug": "fum-rusifikaciya-koda-pri-sliyanii"
     }
   ],
   "display": [
