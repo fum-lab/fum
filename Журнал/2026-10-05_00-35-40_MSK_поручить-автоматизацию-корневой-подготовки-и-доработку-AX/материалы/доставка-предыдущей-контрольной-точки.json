@@ -1,0 +1,50 @@
+{
+  "схема": "fum.доставка-предыдущей-контрольной-точки.1",
+  "сверка": {
+    "C": "44eeedd1a3c2377d532ab3da2ff89302378f4abe",
+    "result": {
+      "автор": "FUM Codex [gpt-6.1-sol; effort=ultra] <fum@local> 1791149586 +0300",
+      "дерево": "60db3ec2cf9c89ebce73d7b31405f17ae95b2a2e",
+      "коммит": "44eeedd1a3c2377d532ab3da2ff89302378f4abe",
+      "коммиттер": "FUM <fum@local> 1791149586 +0300",
+      "родители": [
+        "d40f6758d05c162d6450786735a82ecf0da54e12",
+        "2e287a4f5bd9b21ad12dd2decc0f6c7f5952b03a"
+      ],
+      "сообщение_sha256": "5964231be657c927776bea8c3fb857b8eb44e7c461a72d5ac85fdf9a9d47db27"
+    },
+    "raw_verified": true,
+    "changed": 66,
+    "allow": 66,
+    "receipt_verified": true,
+    "clean": true,
+    "origin": "https://github.com/fum-lab/fum.git",
+    "remote_before": "d40f6758d05c162d6450786735a82ecf0da54e12"
+  },
+  "доставка": {
+    "C": "44eeedd1a3c2377d532ab3da2ff89302378f4abe",
+    "remote_before": "d40f6758d05c162d6450786735a82ecf0da54e12",
+    "remote_after": "44eeedd1a3c2377d532ab3da2ff89302378f4abe",
+    "push_code": 0,
+    "push_elapsed_ns": 4054381958,
+    "ref": "refs/heads/fuma",
+    "origin": "https://github.com/fum-lab/fum.git"
+  },
+  "PR": {
+    "baseRefName": "fuma",
+    "headRefOid": "2e287a4f5bd9b21ad12dd2decc0f6c7f5952b03a",
+    "mergeCommit": {
+      "oid": "44eeedd1a3c2377d532ab3da2ff89302378f4abe"
+    },
+    "mergedAt": "2026-10-04T21:34:10Z",
+    "number": 169,
+    "state": "MERGED",
+    "url": "https://github.com/fum-lab/fum/pull/169"
+  },
+  "комментарий": {
+    "url": "https://github.com/fum-lab/fum/pull/169#issuecomment-5984641226",
+    "body": "**FUM Codex**\n\nФинансовый срез доставлен в fuma локальным merge-коммитом `44eeedd1a3c2377d532ab3da2ff89302378f4abe` с обоими родителями. GitHub подтвердил слияние PR.\n\nЭто промежуточная контрольная точка: архивы Issue27, Beget и MWS и отдельные разборы сохранены. Шесть адресных проверок прошли; общий scanner завершился code2 на 247 прежних нарушениях исходного fuma, и этот долг сохранён явно. Полная приёмка интеграции, регистрация АНО, допуск к программам и фактическое получение средств или ресурсов не заявляются.\n",
+    "readback": true,
+    "id": 5984641226
+  }
+}
