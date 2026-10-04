@@ -1,0 +1,119 @@
+{
+  "схема": "fum.наблюдение-продолжения-дочерних-чатов.1",
+  "коммит_постановки": "a62eeec1f3defd0641db196affef2466eb196b04",
+  "remote_OID": "a62eeec1f3defd0641db196affef2466eb196b04",
+  "назначения": [
+    {
+      "исполнитель": "01a0f6ff-a9f2-79b1-a241-d82c1db25cf7",
+      "поручение_доставлено": true,
+      "коммит_ACT": "a62eeec1f3defd0641db196affef2466eb196b04",
+      "путь_ACT": "Планирование/дочерние-поручения/2026-10-05/корневой-фасад-подготовки-этапа-коммита.json",
+      "поручение_sha256": "898ae5f0c3a253af477080b0b20222a872df519d84640bb50e82efaf75935a01",
+      "ответ_API": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"threadId\":\"01a0f6ff-a9f2-79b1-a241-d82c1db25cf7\"}"
+          }
+        ],
+        "isError": false
+      },
+      "наблюдение": {
+        "schemaVersion": 1,
+        "cursor": "bf240c16-8d53-442c-9705-0d0d7d7a2828:2",
+        "revision": 2,
+        "changed": true,
+        "thread": {
+          "id": "01a0f6ff-a9f2-79b1-a241-d82c1db25cf7",
+          "hostId": "local",
+          "status": {
+            "type": "active",
+            "activeFlags": []
+          }
+        },
+        "latestTurn": {
+          "id": "01a107b7-e3ed-7632-a82e-6d66fabcf406",
+          "status": "inProgress",
+          "error": null,
+          "startedAt": 1791130854,
+          "completedAt": null,
+          "durationMs": null
+        },
+        "latestAssistantMessageId": "msg_0fe58348be5f52fd016ac2cd27833487d2bccfce44bebd3156",
+        "latestAssistantMessage": {
+          "id": "msg_0fe58348be5f52fd016ac2cd27833487d2bccfce44bebd3156",
+          "turnId": "01a107b7-e3ed-7632-a82e-6d66fabcf406",
+          "phase": "commentary",
+          "text": "Приступаю к новому этапу: добавлю режим ROOT .5 в существующий фасад до ready, сохранив дочерний режим .7 и его 28 тестов. Сначала сверю закреплённый ACT, полный контракт, собственный HEAD и фактическую модель; прежний Журнал остаётся закрытым."
+        },
+        "latestToolMarkerId": "exec-6a3ec85e-d4ed-4257-9009-6fa3f529f7b7",
+        "latestToolMarker": {
+          "id": "exec-6a3ec85e-d4ed-4257-9009-6fa3f529f7b7",
+          "turnId": "01a107b7-e3ed-7632-a82e-6d66fabcf406",
+          "type": "commandExecution",
+          "name": "commandExecution",
+          "status": "completed"
+        }
+      },
+      "полный_приватный_ответ_sha256": "a7479ab795a5cab422fc3dadb88a4bf23282ffb82caca020e8f1e6ac3e288dfe",
+      "граница": "API наблюдает активный ход и содержательное начало именно нового поручения; это не результат разработки или приёмки. Прежний ход фасада продолжен, AX имеет новый ход."
+    },
+    {
+      "исполнитель": "01a101c5-e6f8-7093-b3fa-c49449782b2a",
+      "поручение_доставлено": true,
+      "коммит_ACT": "a62eeec1f3defd0641db196affef2466eb196b04",
+      "путь_ACT": "Планирование/дочерние-поручения/2026-10-05/подготовка-наблюдения-доступности-к-приёмке.json",
+      "поручение_sha256": "f3245c2b2f2a9d642129761b46880929c76458e6e77da6431e4564d7d6688399",
+      "ответ_API": {
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"threadId\":\"01a101c5-e6f8-7093-b3fa-c49449782b2a\"}"
+          }
+        ],
+        "isError": false
+      },
+      "наблюдение": {
+        "schemaVersion": 1,
+        "cursor": "ed0bb4d8-ce8e-4649-8f2d-60cab703accc:2",
+        "revision": 2,
+        "changed": true,
+        "thread": {
+          "id": "01a101c5-e6f8-7093-b3fa-c49449782b2a",
+          "hostId": "local",
+          "status": {
+            "type": "active",
+            "activeFlags": []
+          }
+        },
+        "latestTurn": {
+          "id": "01a108f1-1c0c-74d0-bda9-7130b3be27ba",
+          "status": "inProgress",
+          "error": null,
+          "startedAt": 1791151381,
+          "completedAt": null,
+          "durationMs": null
+        },
+        "latestAssistantMessageId": "msg_0c33675111874491016ac2cd2f6dd487d281ca22a71b955b7e",
+        "latestAssistantMessage": {
+          "id": "msg_0c33675111874491016ac2cd2f6dd487d281ca22a71b955b7e",
+          "turnId": "01a108f1-1c0c-74d0-bda9-7130b3be27ba",
+          "phase": "commentary",
+          "text": "Начинаю новый этап подготовки PR #43 к приёмке. Сверю HEAD/ref, фактическую модель и точный ACT, затем прочитаю контракт и выполню разрешённые исправления с TDD, профилем и проверками через v4."
+        },
+        "latestToolMarkerId": "exec-7d988e91-1758-4d82-9996-6876fe69f18c",
+        "latestToolMarker": {
+          "id": "exec-7d988e91-1758-4d82-9996-6876fe69f18c",
+          "turnId": "01a108f1-1c0c-74d0-bda9-7130b3be27ba",
+          "type": "commandExecution",
+          "name": "commandExecution",
+          "status": "completed"
+        }
+      },
+      "полный_приватный_ответ_sha256": "523520a1f9087042feb91091adb4011f4fc439329e183ef894ef2996e3819067",
+      "граница": "API наблюдает активный ход и содержательное начало именно нового поручения; это не результат разработки или приёмки. Прежний ход фасада продолжен, AX имеет новый ход."
+    }
+  ],
+  "уточнение_ROOT_источника_sha256": "2e943d59ba37bd889bc775e1850863161145694ffab5658be97ddae6486ea9c2",
+  "неизвестность": "Пара модели/усилия принята API отправки, но здесь не подменяет отдельное фактическое native-наблюдение каждого ребёнка. Завершённые продукты новых этапов ещё не приняты."
+}

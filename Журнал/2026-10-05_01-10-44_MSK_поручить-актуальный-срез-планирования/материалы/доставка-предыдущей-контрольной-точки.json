@@ -1,0 +1,22 @@
+{
+  "коммит": "a62eeec1f3defd0641db196affef2466eb196b04",
+  "дерево": "acff417accda5ed1b6af3aeb6f99b73712a11a66",
+  "родители": [
+    "44eeedd1a3c2377d532ab3da2ff89302378f4abe"
+  ],
+  "автор": "FUM Codex [gpt-6.1-sol; effort=ultra] <fum@local> 1791151130 +0300",
+  "коммиттер": "FUM <fum@local> 1791151130 +0300",
+  "сообщение_sha256": "e71ef8f83194e26baa462adcc95706ffa5238bff4b7b8945eb2500153737a67f",
+  "квитанция_совпала": true,
+  "ветка": "refs/heads/fuma",
+  "целей": 18,
+  "точный_состав": true,
+  "checkout_чист": true,
+  "origin": "https://github.com/fum-lab/fum.git",
+  "удалённый_OID_до": "44eeedd1a3c2377d532ab3da2ff89302378f4abe",
+  "код_push": 0,
+  "длительность_push_наносекунд": 2666502208,
+  "удалённый_OID_после": "a62eeec1f3defd0641db196affef2466eb196b04",
+  "доставка_подтверждена": true,
+  "схема": "fum.доставка-контрольной-точки.1"
+}
