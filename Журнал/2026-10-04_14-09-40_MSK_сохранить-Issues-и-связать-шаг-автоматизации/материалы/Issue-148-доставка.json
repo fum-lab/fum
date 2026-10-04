@@ -1,0 +1,14 @@
+{
+  "number": 148,
+  "url": "https://github.com/fum-lab/fum/issues/148",
+  "readback_code": 0,
+  "readback_nanoseconds": 676090042,
+  "body_exact": true,
+  "assignees": [
+    "Roman-Kerimov"
+  ],
+  "код_завершения": 0,
+  "байты": 6629,
+  "sha256": "b8896d0d4500e60b606e4415176d235ff208e1def37f18e850a7975d3041c9cd",
+  "HTTP": "Код и заголовки отдельно не наблюдались; сохранён stdout gh api."
+}
