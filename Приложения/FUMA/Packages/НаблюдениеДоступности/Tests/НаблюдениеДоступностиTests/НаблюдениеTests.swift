@@ -5,6 +5,126 @@ import КонтейнерНаблюдений
 @testable import НаблюдениеДоступности
 
 final class ТестыНаблюдения: XCTestCase {
+    func test_ПрофильОтклоняетОтсутствующийКомпиляторДоНаблюдения() throws {
+        try проверитьВыбор(ожидаемаяОшибка: "компиляторОтсутствует") { корень in
+            ["PATH": корень.path]
+        }
+    }
+
+    func test_ПрофильОтклоняетДваРазныхКомпилятора() throws {
+        try проверитьВыбор(ожидаемаяОшибка: "компиляторНеоднозначен") { корень in
+            let первый = try создатьКомпилятор(корень: корень, имя: "первый")
+            let второй = try создатьКомпилятор(корень: корень, имя: "второй")
+            return ["PATH": первый.deletingLastPathComponent().path + ":" + второй.deletingLastPathComponent().path]
+        }
+    }
+
+    func test_НеверноеЯвноеНазначениеНеПереходитКПоиску() throws {
+        for назначение in ["", "относительный", "отсутствующий", "каталог", "неисполняемый"] {
+            try проверитьВыбор(ожидаемаяОшибка: "неверноеНазначениеКомпилятора") { корень in
+                let рабочий = try создатьКомпилятор(корень: корень, имя: "рабочий")
+                let вход = корень.appendingPathComponent(назначение)
+                if назначение == "каталог" { try FileManager.default.createDirectory(at: вход, withIntermediateDirectories: false) }
+                if назначение == "неисполняемый" { try Data().write(to: вход); try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: вход.path) }
+                return ["PATH": рабочий.deletingLastPathComponent().path,
+                    "ФУМ_КОМПИЛЯТОР": ["отсутствующий", "каталог", "неисполняемый"].contains(назначение) ? вход.path : назначение]
+            }
+        }
+    }
+
+    func test_КомпонентыПоискаПроверяютсяПослеПервогоКандидата() throws {
+        let домашнееСокращение = String(UnicodeScalar(0x007E))
+        for хвост in ["", "относительный", домашнееСокращение] {
+            try проверитьВыбор(ожидаемаяОшибка: "неверныйПутьПоиска") { корень in
+                let рабочий = try создатьКомпилятор(корень: корень, имя: "рабочий")
+                return ["PATH": рабочий.deletingLastPathComponent().path + ":" + хвост]
+            }
+        }
+    }
+
+    func test_ВерсияКомпилятораТребуетУспехаИТекста() throws {
+        for (текст, код) in [("", 0), ("Swift version fixture", 3), ("посторонняя программа", 0)] {
+            try проверитьВыбор(ожидаемаяОшибка: "невернаяВерсияКомпилятора") { корень in
+                let файл = try создатьКомпилятор(корень: корень, имя: "отказ", текст: текст, код: код)
+                return ["ФУМ_КОМПИЛЯТОР": файл.path]
+            }
+        }
+    }
+
+    func test_ДваПутиКОдномуКомпиляторуДаютОдноНазначение() throws {
+        try проверитьВыбор(метод: "PATH") { корень in
+            let файл = try создатьКомпилятор(корень: корень, имя: "первый")
+            let второй = корень.appendingPathComponent("второй", isDirectory: true)
+            try FileManager.default.createDirectory(at: второй, withIntermediateDirectories: false)
+            try FileManager.default.createSymbolicLink(at: второй.appendingPathComponent("swift"), withDestinationURL: файл)
+            return ["PATH": файл.deletingLastPathComponent().path + ":" + второй.path]
+        }
+    }
+
+    func test_ЯвноеНазначениеНастоящегоКомпилятораНеЗависитОтПоиска() throws {
+        try проверитьВыбор(метод: "ФУМ_КОМПИЛЯТОР") { _ in
+            ["ФУМ_КОМПИЛЯТОР": try обязательнаяСреда("ФУМ_КОМПИЛЯТОР"), "PATH": "непроверяемый-при-явном-назначении"]
+        }
+    }
+
+    private func обязательнаяСреда(_ имя: String) throws -> String {
+        try XCTUnwrap(ProcessInfo.processInfo.environment[имя].flatMap { $0.hasPrefix("/") ? $0 : nil },
+            "Тест требует объявленный проверенный вход \(имя)")
+    }
+
+    private func создатьКомпилятор(корень: URL, имя: String, текст: String = "Swift version fixture", код: Int = 0) throws -> URL {
+        let каталог = корень.appendingPathComponent(имя, isDirectory: true)
+        try FileManager.default.createDirectory(at: каталог, withIntermediateDirectories: false)
+        let файл = каталог.appendingPathComponent("swift")
+        let оболочка = try обязательнаяСреда("SHELL")
+        try Data(("#!" + оболочка + "\nprintf '%s\\n' '" + текст + "'\nexit " + String(код) + "\n").utf8).write(to: файл)
+        try FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: файл.path)
+        return файл
+    }
+
+    private func проверитьВыбор(ожидаемаяОшибка: String? = nil, метод: String? = nil,
+        среда: (URL) throws -> [String: String]) throws {
+        let корень = try временныйКорень()
+        defer { try? FileManager.default.removeItem(at: корень) }
+        let данные = корень.appendingPathComponent("данные", isDirectory: true)
+        try FileManager.default.createDirectory(at: данные, withIntermediateDirectories: false, attributes: [.posixPermissions: 0o700])
+        let выход = корень.appendingPathComponent("профиль.json")
+        let поток = корень.appendingPathComponent("поток")
+        XCTAssertTrue(FileManager.default.createFile(atPath: поток.path, contents: nil, attributes: [.posixPermissions: 0o600]))
+        let канал = try FileHandle(forWritingTo: поток)
+        defer { try? канал.close() }
+        let процесс = Process()
+        процесс.executableURL = URL(fileURLWithPath: try обязательнаяСреда("ФУМ_КОМАНДА_ДОСТУПНОСТИ"))
+        процесс.arguments = ["профиль", "--каталог", данные.path, "--повторов", "1", "--выход", выход.path,
+            "--корень-исходников", try обязательнаяСреда("ФУМ_ИСХОДНИКИ_ДОСТУПНОСТИ")]
+        var окружение = ProcessInfo.processInfo.environment
+        окружение.removeValue(forKey: "ФУМ_КОМПИЛЯТОР")
+        окружение.merge(try среда(корень)) { _, новое in новое }
+        процесс.environment = окружение
+        процесс.standardOutput = канал
+        процесс.standardError = канал
+        try процесс.run()
+        let предел = DispatchTime.now().uptimeNanoseconds + 15_000_000_000
+        while процесс.isRunning && DispatchTime.now().uptimeNanoseconds < предел { Thread.sleep(forTimeInterval: 0.01) }
+        if процесс.isRunning { kill(процесс.processIdentifier, SIGKILL); XCTFail("CLI превысила предел теста") }
+        процесс.waitUntilExit()
+        if let ошибка = ожидаемаяОшибка {
+            XCTAssertEqual(процесс.terminationStatus, 2)
+            XCTAssertTrue(try String(contentsOf: поток, encoding: .utf8).contains(ошибка))
+            XCTAssertTrue(try FileManager.default.contentsOfDirectory(atPath: данные.path).isEmpty)
+            XCTAssertFalse(FileManager.default.fileExists(atPath: выход.path))
+        } else {
+            let сообщение = try String(contentsOf: поток, encoding: .utf8)
+            XCTAssertEqual(процесс.terminationStatus, 0, сообщение)
+            let профиль = try XCTUnwrap(JSONSerialization.jsonObject(with: Data(contentsOf: выход)) as? [String: Any])
+            XCTAssertEqual(профиль["выбор_компилятора"] as? String, метод)
+            if метод == "PATH" { XCTAssertEqual(профиль["компилятор"] as? String, "Swift version fixture") }
+            let этапы = try XCTUnwrap(профиль["этапы"] as? [String: [String: Any]])
+            XCTAssertEqual(этапы["выбор-компилятора"]?["число"] as? Int, 1)
+            XCTAssertEqual(этапы["версия-компилятора"]?["число"] as? Int, 1)
+        }
+    }
+
     func test_ПовторПоПопыткеСохраняетПервичноеПроисхождение() throws {
         let корень = try временныйКорень()
         defer { try? FileManager.default.removeItem(at: корень) }

@@ -5148,6 +5148,42 @@
       "count": 1,
       "category": "allow.test-fixture",
       "reason": "Синтетический относительный адрес в автономной проверке удаления одноразового параметра из HTML-ссылки."
+    },
+    {
+      "id": "ax-private-temporary-fixture",
+      "path": "Приложения/FUMA/Packages/НаблюдениеДоступности/Tests/НаблюдениеДоступностиTests/НаблюдениеTests.swift",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:715f8fd9c4dbb9c738f2400551469ae2f65f9500badf65419802346a796c5c2a",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Единственная автономная фикстура создаёт уникальный физический временный каталог с режимом 0700."
+    },
+    {
+      "id": "ax-original-worktree-witness",
+      "path": "Журнал/2026-10-03_16-32-00_MSK_наблюдать-доступность-macOS/отчёт.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:e3ebbbe18383be4bb2ccbdcf7f961961c9557a295e8d96a2f46d238d6a28a8ab",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Неизменяемое историческое свидетельство физического корня первоначального среза."
+    },
+    {
+      "id": "ax-original-enotdir-witness",
+      "path": "Журнал/2026-10-03_16-32-00_MSK_наблюдать-доступность-macOS/отчёт.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:5001e04a3541aeb0e456d56d8e3bb2531354e2cdbd106d419b43ce450efe9d81",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Неизменяемая историческая запись наблюдавшегося ENOTDIR и исправления физического временного корня."
+    },
+    {
+      "id": "ax-original-root-source-witness",
+      "path": "Журнал/2026-10-03_16-32-00_MSK_наблюдать-доступность-macOS/отчёт.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:be6ab26e09044f3f3b5e650a24b531baee0088e77b86f9e3a5d6dd4ac8b065e3",
+      "count": 2,
+      "category": "report.historical",
+      "reason": "Неизменяемая дословная историческая передача ROOT закрепляет два приватных пути первичного источника и его кэша."
     }
   ]
 }

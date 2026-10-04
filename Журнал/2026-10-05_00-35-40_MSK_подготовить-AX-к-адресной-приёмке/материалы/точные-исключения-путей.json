@@ -1,0 +1,33 @@
+{
+  "schema": "fum.machine-local-path-policy-update.v1",
+  "declarations": [
+    {
+      "id": "ax-private-temporary-fixture",
+      "path": "Приложения/FUMA/Packages/НаблюдениеДоступности/Tests/НаблюдениеДоступностиTests/НаблюдениеTests.swift",
+      "line": 312,
+      "category": "allow.test-fixture",
+      "reason": "Единственная автономная фикстура создаёт уникальный физический временный каталог с режимом 0700."
+    },
+    {
+      "id": "ax-original-worktree-witness",
+      "path": "Журнал/2026-10-03_16-32-00_MSK_наблюдать-доступность-macOS/отчёт.md",
+      "line": 5,
+      "category": "report.historical",
+      "reason": "Неизменяемое историческое свидетельство физического корня первоначального среза."
+    },
+    {
+      "id": "ax-original-enotdir-witness",
+      "path": "Журнал/2026-10-03_16-32-00_MSK_наблюдать-доступность-macOS/отчёт.md",
+      "line": 64,
+      "category": "report.historical",
+      "reason": "Неизменяемая историческая запись наблюдавшегося ENOTDIR и исправления физического временного корня."
+    },
+    {
+      "id": "ax-original-root-source-witness",
+      "path": "Журнал/2026-10-03_16-32-00_MSK_наблюдать-доступность-macOS/отчёт.md",
+      "line": 130,
+      "category": "report.historical",
+      "reason": "Неизменяемая дословная историческая передача ROOT закрепляет два приватных пути первичного источника и его кэша."
+    }
+  ]
+}
