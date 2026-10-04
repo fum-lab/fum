@@ -1,8 +1,8 @@
 HTTP/1.1 200 OK
 Server: QRATOR
-Date: Wed, 16 Sep 2026 11:22:22 GMT
+Date: Sat, 03 Oct 2026 18:48:39 GMT
 Content-Type: text/html;charset=utf-8
-Content-Length: 132447
+Content-Length: 134637
 Connection: keep-alive
 Keep-Alive: timeout=15
 Vary: Accept-Encoding
@@ -12,16 +12,15 @@ Referrer-Policy: strict-origin-when-cross-origin
 Strict-Transport-Security: max-age=15552000; includeSubDomains
 X-Content-Type-Options: nosniff
 X-Download-Options: noopen
-X-Frame-Options: SAMEORIGIN
 X-Permitted-Cross-Domain-Policies: none
 X-XSS-Protection: 0
 access-control-allow-origin: *
-last-modified: Wed, 16 Sep 2026 11:22:09 GMT
-etag: W/"OsmGrOpaa7"
+last-modified: Sat, 03 Oct 2026 17:06:42 GMT
+etag: W/"IoCMgnOy46"
 set-cookie: [REDACTED: response cookie]
 Cross-Origin-Resource-Policy: same-origin
 Cross-Origin-Opener-Policy: unsafe-none
-Content-Security-Policy: base-uri 'none'; font-src 'self' https: data:; frame-ancestors 'self'; object-src 'none'; script-src-attr 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://assets-site.beget.com https://hcaptcha.com https://*.hcaptcha.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'strict-dynamic' 'nonce-[REDACTED]' https://assets-site.beget.com https://hcaptcha.com https://*.hcaptcha.com;
+Content-Security-Policy: base-uri 'none'; font-src 'self' https: data:; frame-ancestors 'self' https://*.beget.com https://webvisor.com http://webvisor.com https://*.webvisor.com http://*.webvisor.com https://metrika.yandex.ru http://metrika.yandex.ru https://metrika.yandex.by http://metrika.yandex.by https://metrika.yandex.com http://metrika.yandex.com https://metrika.yandex.com.tr http://metrika.yandex.com.tr https://metrica.yandex.ru http://metrica.yandex.ru https://metrica.yandex.by http://metrica.yandex.by https://metrica.yandex.com http://metrica.yandex.com https://metrica.yandex.com.tr http://metrica.yandex.com.tr; object-src 'none'; script-src-attr 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://assets-site.beget.com https://hcaptcha.com https://*.hcaptcha.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'strict-dynamic' 'nonce-[REDACTED]' https://assets-site.beget.com https://hcaptcha.com https://*.hcaptcha.com;
 Origin-Agent-Cluster: ?1
 X-DNS-Prefetch-Control: off
 Permissions-Policy: camera=(), display-capture=(), geolocation=(), microphone=()

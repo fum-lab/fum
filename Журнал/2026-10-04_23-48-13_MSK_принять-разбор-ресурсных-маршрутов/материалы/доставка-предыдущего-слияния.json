@@ -1,0 +1,39 @@
+{
+  "результат": {
+    "результат": {
+      "автор": "FUM Codex [gpt-6.1-sol; effort=ultra] <fum@local> 1791146517 +0300",
+      "дерево": "a0ac3bd1951e5174d5d06dcc08e80263e94c9416",
+      "коммит": "d40f6758d05c162d6450786735a82ecf0da54e12",
+      "коммиттер": "FUM <fum@local> 1791146517 +0300",
+      "родители": [
+        "1821bc1fdd7a12118189e565dba9794d738997aa",
+        "7cac62d860521592546c60f32d87679fcf84cd9e"
+      ],
+      "сообщение_sha256": "afbd3ee1cdd85e8350371b7581e6031aedf3325c999d92440246a1a905c860cd"
+    },
+    "целей": 55,
+    "разрешено": 55,
+    "чисто": true,
+    "remote_до": "1821bc1fdd7a12118189e565dba9794d738997aa"
+  },
+  "доставка": {
+    "коммит": "d40f6758d05c162d6450786735a82ecf0da54e12",
+    "push_code": 0,
+    "push_seconds": 2.935268333007116,
+    "remote_code": 0,
+    "remote": [
+      "d40f6758d05c162d6450786735a82ecf0da54e12",
+      "refs/heads/fuma"
+    ],
+    "доставлено": true
+  },
+  "PR": {
+    "headRefOid": "7cac62d860521592546c60f32d87679fcf84cd9e",
+    "mergeCommit": {
+      "oid": "d40f6758d05c162d6450786735a82ecf0da54e12"
+    },
+    "mergedAt": "2026-10-04T20:45:50Z",
+    "state": "MERGED",
+    "url": "https://github.com/fum-lab/fum/pull/168"
+  }
+}
