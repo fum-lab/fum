@@ -1,0 +1,38 @@
+{
+  "коммит": "1821bc1fdd7a12118189e565dba9794d738997aa",
+  "ref": "refs/heads/fuma",
+  "remote_до": "35a7101103eee6ee47e1c9f3e587f492a162ed1d",
+  "remote_после": "1821bc1fdd7a12118189e565dba9794d738997aa",
+  "push_код": 0,
+  "PR": {
+    "baseRefName": "fuma",
+    "headRefOid": "225f74d09f4dfdb641f84821147e68dd4df6d2fd",
+    "isDraft": false,
+    "mergeCommit": {
+      "oid": "1821bc1fdd7a12118189e565dba9794d738997aa"
+    },
+    "mergedAt": "2026-10-04T20:12:35Z",
+    "state": "MERGED",
+    "url": "https://github.com/fum-lab/fum/pull/167"
+  },
+  "проверка_raw_6_полей": {
+    "результат": {
+      "автор": "FUM Codex [gpt-6.1-sol; effort=ultra] <fum@local> 1791144620 +0300",
+      "дерево": "fbe61f7b3806ac7409a5a87974445cac57a43213",
+      "коммит": "1821bc1fdd7a12118189e565dba9794d738997aa",
+      "коммиттер": "FUM <fum@local> 1791144620 +0300",
+      "родители": [
+        "35a7101103eee6ee47e1c9f3e587f492a162ed1d",
+        "225f74d09f4dfdb641f84821147e68dd4df6d2fd"
+      ],
+      "сообщение_sha256": "2e7885ab899f51163f95e3f6416a7d5b7f74286f3ccd2dcf88dc4398d1d5471f"
+    },
+    "квитанция_совпала": true,
+    "точных_целей": 70,
+    "разрешённых_целей": 70,
+    "чистое_дерево": true,
+    "remote_до": "35a7101103eee6ee47e1c9f3e587f492a162ed1d",
+    "первичная_сверка": "Отказ сравнения шести полей с верхним конвертом receipt; исправлено адресование результат, Git/push в первом вызове не исполнялись."
+  },
+  "неполная_сверка_не_вызывала_push": true
+}
