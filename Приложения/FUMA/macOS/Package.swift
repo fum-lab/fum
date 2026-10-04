@@ -15,7 +15,8 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "FUMStructuringOperatorMemory", path: "../../../Прототипы/память-структурирующих-операторов"),
-        .package(name: "КонтейнерНаблюдений", path: "../Packages/КонтейнерНаблюдений")
+        .package(name: "КонтейнерНаблюдений", path: "../Packages/КонтейнерНаблюдений"),
+        .package(name: "АрхивныйСнимокЗадачи", path: "../Packages/АрхивныйСнимокЗадачи")
     ],
     targets: [
         .executableTarget(
@@ -40,7 +41,8 @@ let package = Package(
         .target(name: "ИсполнениеОператора", dependencies: [
             "ПутиИсполнения",
             .product(name: "FUMStructuringOperatorMemory", package: "FUMStructuringOperatorMemory"),
-            .product(name: "КонтейнерНаблюдений", package: "КонтейнерНаблюдений")
+            .product(name: "КонтейнерНаблюдений", package: "КонтейнерНаблюдений"),
+            .product(name: "АрхивныйСнимокЗадачи", package: "АрхивныйСнимокЗадачи")
         ]),
         .target(name: "FUMObservationJournal"),
         .testTarget(name: "ИсполнениеОператораTests", dependencies: ["ИсполнениеОператора"]),

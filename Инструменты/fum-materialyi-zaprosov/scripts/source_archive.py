@@ -324,7 +324,10 @@ def очистить_код_переадресации(адрес: str) -> str:
 def redact_headers(raw: str) -> str:
     lines = []
     скрыть_продолжение = False
-    геометаданные = {"x-request-geoip-country-code", "x-request-detected-device"}
+    геометаданные = {
+        "x-request-geoip-country-code", "x-request-detected-device",
+        "x-github-edge-region", "x-served-by",
+    }
     идентификаторы = {
         "set-cookie", "cf-ray", "x-request-id", "request-context",
         "x-ms-middleware-request-id", "x-xsrf-token", "x-csrf-token",
@@ -795,6 +798,7 @@ def write_report(
         "- Значения `CF-Ray`, `X-Request-ID`, `Request-Context`, `X-MS-Middleware-Request-ID` заменены на `[REDACTED: response trace identifier]`; продолжения очищаемых заголовков удалены.",
         "- Дополнительно очищены X-XSRF-Token, X-CSRF-Token, X-Trace-Id, Trace-Id, X-Forwarded-For, X-Correlation-Id, X-SP-CRID, X-Tracking-Ref, CDNUUID, x-yandex-eu-request и nonce директив CSP.",
         "- Из HTTP-заголовков удалены дополнительные идентификаторы трассировки и метаданные страны и устройства запроса; продолжения этих заголовков удалены.",
+        "- Значения X-GitHub-Edge-Region и X-Served-By заменены на `[REDACTED: request metadata]`; продолжения удалены. Служебные сведения маршрута ответа не используются для вывода о стране пользователя.",
         "- Значения Server-Timing, Report-To и Reporting-Endpoints удалены; одноразовый параметр code скрыт в Location и Effective URL без изменения других параметров адреса.",
         "- В блоке script с id app-config очищен служебный websocket.token; видимый текст документа сохраняется.",
         "- До извлечения очищены известные CSRF/XSRF-поля HTML и встроенного JSON, nonce атрибутов, wgRequestId, адрес и ID запроса в диагностическом блоке, поле pdata и диагностические data-testid unique-key/timestamp. Прочее содержимое сохранено без перевода; это ограниченная редакция известных полей, а не гарантия отсутствия всех возможных секретов.",
