@@ -1,0 +1,32 @@
+{
+  "коммит": "8508d6f759d32043082c74de63e55aaf33cf3f4a",
+  "дерево": "642c885671e1c701c79d0ec6bef35e2563e3814f",
+  "родители": [
+    "82438c0f7cc170b81f1e91e34e4f9a33eeea5be6",
+    "d82ea54545c909f59d88cc78c1833c7db49cd971"
+  ],
+  "ref": "refs/heads/fuma",
+  "автор": "FUM Codex [gpt-6.1-sol; effort=ultra] <fum@local> 1791118688 +0300",
+  "коммиттер": "FUM <fum@local> 1791118688 +0300",
+  "сообщение_sha256": "11f7b9dfb15a679144cf40f4056ad764ad9f0677cf88390022fa28f14058697b",
+  "чистый_checkout": true,
+  "origin": "https://github.com/fum-lab/fum.git",
+  "схема": "fum.подтверждение-доставки.1",
+  "задача": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "изменённых_путей": 159,
+  "проверка_remote": {
+    "код": 0,
+    "OID": "8508d6f759d32043082c74de63e55aaf33cf3f4a",
+    "ref": "refs/heads/fuma"
+  },
+  "PR": {
+    "number": 65,
+    "html_url": "https://github.com/fum-lab/fum/pull/65",
+    "state": "closed",
+    "draft": true,
+    "merged": true,
+    "merged_at": "2026-10-04T12:59:26Z",
+    "merge_commit_sha": "8508d6f759d32043082c74de63e55aaf33cf3f4a"
+  },
+  "граница": "Принимается конечный JSONL срез и связанные инструменты/источники, подтверждённые в прежнем отчёте. Это не завершение универсального интерпретатора или всего постоянного объёма."
+}
