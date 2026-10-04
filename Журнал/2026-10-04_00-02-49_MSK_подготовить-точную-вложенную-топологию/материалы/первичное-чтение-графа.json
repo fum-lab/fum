@@ -1,0 +1,192 @@
+{
+  "запросы": [
+    {
+      "body_bytes": 279,
+      "body_sha256": "1561cc6523fcfecef011beb01bcd0d362f7a6084fb81d81c38aeffd637ddf15e",
+      "ended_utc": "2026-10-03T21:34:23.666743+00:00",
+      "http_status": null,
+      "method": "GET",
+      "read_complete": true,
+      "started_utc": "2026-10-03T21:34:23.332822+00:00",
+      "url": "https://api.github.com/repos/fum-lab/libtorrent",
+      "доступ": "Авторизованный GET; анонимность неизвестна",
+      "роль": "родитель"
+    },
+    {
+      "body_bytes": 17129,
+      "body_sha256": "f8763e27ecfcc7c38ad683329b2cadf8e4f4c3b521838d46da3fb9e86e45297f",
+      "ended_utc": "2026-10-03T21:34:24.403480+00:00",
+      "http_status": null,
+      "method": "GET",
+      "read_complete": true,
+      "started_utc": "2026-10-03T21:34:23.677913+00:00",
+      "url": "https://api.github.com/repos/fum-lab/libtorrent",
+      "доступ": "Авторизованный GET; анонимность неизвестна",
+      "роль": "родитель"
+    },
+    {
+      "body_bytes": 5268,
+      "body_sha256": "da78f840e25aa18c2014a6d47f340182e9935d717ca7bfc97ab7eef91131c41a",
+      "ended_utc": "2026-10-03T21:34:24.328040+00:00",
+      "http_status": null,
+      "method": "GET",
+      "read_complete": true,
+      "started_utc": "2026-10-03T21:34:23.678055+00:00",
+      "url": "https://api.github.com/repos/arvidn/libtorrent",
+      "доступ": "Авторизованный GET; анонимность неизвестна",
+      "роль": "родитель"
+    },
+    {
+      "body_bytes": 2287,
+      "body_sha256": "b6935e24138b630e3bc6197f470f59432acc1cc7202ee674d83da87685a34e1e",
+      "ended_utc": "2026-10-03T21:34:24.313358+00:00",
+      "http_status": null,
+      "method": "GET",
+      "read_complete": true,
+      "started_utc": "2026-10-03T21:34:23.682122+00:00",
+      "url": "https://api.github.com/repos/fum-lab/libtorrent/git/commits/56ae8caba38bf154ffc210403cb23f91d0ecaa49",
+      "доступ": "Авторизованный GET; анонимность неизвестна",
+      "роль": "родитель"
+    },
+    {
+      "body_bytes": 289745,
+      "body_sha256": "d5b4d359f6aabb7960ec47a5204cd14b0ac097bd0b1dec033182d77af854d811",
+      "ended_utc": "2026-10-03T21:34:25.160458+00:00",
+      "http_status": null,
+      "method": "GET",
+      "read_complete": true,
+      "started_utc": "2026-10-03T21:34:24.404215+00:00",
+      "url": "https://api.github.com/repos/fum-lab/libtorrent/git/trees/39458fb6c1d6b48dcf45d69b05ccf24f2a5459ef?recursive=1",
+      "доступ": "Авторизованный GET; анонимность неизвестна",
+      "роль": "родитель"
+    },
+    {
+      "body_bytes": 929,
+      "body_sha256": "58eff87dc7f50fc912ff406af0f441969e2f3b7bd6c4320df6b1f32a5c46d3a9",
+      "ended_utc": "2026-10-03T21:34:25.769356+00:00",
+      "http_status": null,
+      "method": "GET",
+      "read_complete": true,
+      "started_utc": "2026-10-03T21:34:25.162961+00:00",
+      "url": "https://api.github.com/repos/fum-lab/libtorrent/git/blobs/8fba94d3e699d689394cc42b8d057b14de8f7950",
+      "доступ": "Авторизованный GET; анонимность неизвестна",
+      "роль": "родитель"
+    },
+    {
+      "body_bytes": 467,
+      "body_sha256": "47977829c26fe0b2ef94cfdc8c13c690239ddcd531b1f9893e1da7c34b1bcc0e",
+      "ended_utc": "2026-10-03T21:34:26.255731+00:00",
+      "http_status": null,
+      "method": "GET",
+      "read_complete": true,
+      "started_utc": "2026-10-03T21:34:25.770163+00:00",
+      "url": "https://raw.githubusercontent.com/fum-lab/libtorrent/56ae8caba38bf154ffc210403cb23f91d0ecaa49/.gitmodules",
+      "доступ": "Авторизованный GET; анонимность неизвестна",
+      "роль": "родитель"
+    },
+    {
+      "body_bytes": 17207,
+      "body_sha256": "9763df25a47a93471138249990d98660ae7c5957eb2a5c635736989330dc6c89",
+      "ended_utc": "2026-10-03T21:40:11.612301+00:00",
+      "http_status": "HTTP/2.0 200 OK",
+      "method": "GET",
+      "read_complete": true,
+      "started_utc": "2026-10-03T21:40:10.782610+00:00",
+      "url": "https://api.github.com/repos/fum-lab/try_signal",
+      "доступ": "Авторизованный GET; анонимность неизвестна",
+      "роль": "лист"
+    },
+    {
+      "body_bytes": 5277,
+      "body_sha256": "226f8ab968579b3fead0889d5062ae9f2136ac8b50f962efa5be218f4ac6e99f",
+      "ended_utc": "2026-10-03T21:40:11.564575+00:00",
+      "http_status": "HTTP/2.0 200 OK",
+      "method": "GET",
+      "read_complete": true,
+      "started_utc": "2026-10-03T21:40:10.784161+00:00",
+      "url": "https://api.github.com/repos/arvidn/try_signal",
+      "доступ": "Авторизованный GET; анонимность неизвестна",
+      "роль": "лист"
+    },
+    {
+      "body_bytes": 1100,
+      "body_sha256": "01cbf8f38a6dd5c3dca0ebd9d2cd42466fbcaee4ad4c57a7a40ac0772590aad7",
+      "ended_utc": "2026-10-03T21:40:11.507231+00:00",
+      "http_status": "HTTP/2.0 200 OK",
+      "method": "GET",
+      "read_complete": true,
+      "started_utc": "2026-10-03T21:40:10.784527+00:00",
+      "url": "https://api.github.com/repos/fum-lab/try_signal/git/commits/105cce59972f925a33aa6b1c3109e4cd3caf583d",
+      "доступ": "Авторизованный GET; анонимность неизвестна",
+      "роль": "лист"
+    },
+    {
+      "body_bytes": 4637,
+      "body_sha256": "a2c42329127dc40eaf1d8d97586bba202ba4a061812b96e8ba34cdfd55213102",
+      "ended_utc": "2026-10-03T21:40:12.205744+00:00",
+      "http_status": "HTTP/2.0 200 OK",
+      "method": "GET",
+      "read_complete": true,
+      "started_utc": "2026-10-03T21:40:11.613333+00:00",
+      "url": "https://api.github.com/repos/fum-lab/try_signal/git/trees/74ef06052ef4a0b56b31f5a51184bd80dd0b32b3?recursive=1",
+      "доступ": "Авторизованный GET; анонимность неизвестна",
+      "роль": "лист"
+    }
+  ],
+  "лист": {
+    "гитлинки": [],
+    "дерево": "74ef06052ef4a0b56b31f5a51184bd80dd0b32b3",
+    "записей": 20,
+    "оригинал": "https://github.com/arvidn/try_signal.git",
+    "пересчёт_деревьев": true,
+    "полное_дерево": true,
+    "ревизия": "105cce59972f925a33aa6b1c3109e4cd3caf583d",
+    "форк": "https://github.com/fum-lab/try_signal.git"
+  },
+  "неизвестно": [
+    "Анонимный clone",
+    "Достижимость из обычной ветки origin",
+    "Живая материализация",
+    "Сборка backend",
+    "Полная обработка корневого диалога"
+  ],
+  "родитель": {
+    "гитлинки": [
+      {
+        "mode": "160000",
+        "path": "deps/asio-gnutls",
+        "sha": "a57d4d36923c5fafa9698e14be16b8bc2913700a",
+        "type": "commit"
+      },
+      {
+        "mode": "160000",
+        "path": "deps/libdatachannel",
+        "sha": "a02b751917ac8afc8c58dc6f4461d25ff9465d48",
+        "type": "commit"
+      },
+      {
+        "mode": "160000",
+        "path": "deps/try_signal",
+        "sha": "105cce59972f925a33aa6b1c3109e4cd3caf583d",
+        "type": "commit"
+      },
+      {
+        "mode": "160000",
+        "path": "simulation/libsimulator",
+        "sha": "dcb401642be66e36dd08283d852053c7381da585",
+        "type": "commit"
+      }
+    ],
+    "дерево": "39458fb6c1d6b48dcf45d69b05ccf24f2a5459ef",
+    "записей": 1215,
+    "отпечаток_описания_подмодулей": "47977829c26fe0b2ef94cfdc8c13c690239ddcd531b1f9893e1da7c34b1bcc0e",
+    "оригинал": "https://github.com/arvidn/libtorrent.git",
+    "пересчитанных_каталогов": 47,
+    "пересчёт_деревьев": true,
+    "полное_дерево": true,
+    "ревизия": "56ae8caba38bf154ffc210403cb23f91d0ecaa49",
+    "форк": "https://github.com/fum-lab/libtorrent.git"
+  },
+  "сохранность": "Checkout, общий Git и настоящие регистрации зависимостей этим чтением не изменялись. Сырые ответы и полные заголовки сохранены приватно; в Git перенесены только публичные факты и SHA.",
+  "схема": "fum.первичное-чтение-вложенной-топологии.1"
+}
