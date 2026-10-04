@@ -89,6 +89,84 @@ class SourceArchiveCoreTests(unittest.TestCase):
         сам.assertIn("Content-Type: text/html", итог)
         сам.assertEqual(source_archive.redact_headers(итог), итог)
 
+    def test_метаданные_маршрута_ответа_очищаются_адресно(сам):
+        соседи = (
+            "Content-Type: text/html; charset=utf-8\r\n"
+            "Content-Language: ru\r\n"
+            "Last-Modified: Mon, 07 Sep 2026 12:00:00 GMT\r\n"
+            "X-Served-By-Example: public-example-node\r\n"
+            "X-GitHub-Edge-Region-Example: public-example-region\r\n"
+            "X-Public-Note: public-value\r\n"
+            " public-folded-space\r\n"
+            "\tpublic-folded-tab\r\n"
+        )
+        for имя in ("X-Served-By", "X-GitHub-Edge-Region"):
+            with сам.subTest(заголовок=имя):
+                сырьё = (
+                    "HTTP/2 200\r\n"
+                    f"{имя.swapcase()}: synthetic-private-first-a, synthetic-private-first-b\r\n"
+                    " synthetic-private-folded-space\r\n"
+                    "\tsynthetic-private-folded-tab\r\n"
+                    f"{имя.upper()}: synthetic-private-second-a, synthetic-private-second-b\r\n"
+                    + соседи
+                )
+                итог = source_archive.redact_headers(сырьё)
+                сам.assertEqual(
+                    итог,
+                    "HTTP/2 200\r\n"
+                    + f"{имя.lower()}: [REDACTED: request metadata]\n" * 2
+                    + соседи,
+                )
+                сам.assertNotIn("synthetic-private-", итог)
+                сам.assertEqual(source_archive.redact_headers(итог), итог)
+
+    def test_метаданные_маршрута_не_изменяют_сырые_байты_разметки(сам):
+        тело = (
+            b"<!doctype html>\r\n<title>Fixture</title>\r\n"
+            b"<p>byte:\xff public text</p> \t\r\n"
+            b"<div>Public text</div>  \n \t\r\n"
+        )
+
+        def транспорт(адрес, путь_тела, путь_заголовков):
+            путь_тела.write_bytes(тело)
+            путь_заголовков.write_text(
+                "HTTP/2 200\r\n"
+                "X-Served-By: synthetic-private-node-a, synthetic-private-node-b\r\n"
+                " synthetic-private-folded-space\r\n"
+                "X-GitHub-Edge-Region: synthetic-private-region-a, synthetic-private-region-b\r\n"
+                "\tsynthetic-private-folded-tab\r\n"
+                "Content-Type: text/html; charset=utf-8\r\n"
+                "Content-Language: ru\r\n",
+                encoding="utf-8",
+            )
+            return {
+                "transport": "синтетическая фикстура",
+                "url_effective": адрес,
+                "http_code": "200",
+                "content_type": "text/html",
+                "size_download": str(len(тело)),
+            }
+
+        with tempfile.TemporaryDirectory() as каталог:
+            каталог = Path(каталог)
+            source_archive.build_snapshot(
+                каталог, "https://fixture.invalid/route-metadata", транспорт,
+            )
+            сам.assertEqual((каталог / "response.body.html").read_bytes(), тело)
+            заголовки = (каталог / "response.headers.txt").read_text(encoding="utf-8")
+            сам.assertEqual(
+                заголовки,
+                "HTTP/2 200\n"
+                "x-served-by: [REDACTED: request metadata]\n"
+                "x-github-edge-region: [REDACTED: request metadata]\n"
+                "Content-Type: text/html; charset=utf-8\n"
+                "Content-Language: ru\n",
+            )
+            сам.assertNotIn("synthetic-private-", заголовки)
+            отчёт = (каталог / "extraction-report.md").read_text(encoding="utf-8")
+            сам.assertIn("X-GitHub-Edge-Region", отчёт)
+            сам.assertIn("X-Served-By", отчёт)
+
     def test_служебный_идентификатор_cf_ray_редактируется(self):
         сырьё = (
             "HTTP/2 200\r\n"
@@ -103,6 +181,90 @@ class SourceArchiveCoreTests(unittest.TestCase):
             "cf-ray: [REDACTED: response trace identifier]\n",
             очищенное,
         )
+
+    def test_адресный_профиль_заголовков_имеет_явный_выход_и_обратное_чтение(сам):
+        import hashlib as хэширование
+        профиль = Path(__file__).with_name("профиль_очистки_заголовков.py")
+        сам.assertTrue(профиль.is_file(), "Отсутствует адресный профиль заголовков")
+        соседи = (
+            "Content-Type: text/html; charset=utf-8\r\n"
+            "Content-Language: ru\r\n"
+            "Last-Modified: Mon, 07 Sep 2026 12:00:00 GMT\r\n"
+            "X-Served-By-Example: public-example-node\r\n"
+            "X-GitHub-Edge-Region-Example: public-example-region\r\n"
+            "X-Public-Note: public-value\r\n"
+            " public-folded-space\r\n"
+            "\tpublic-folded-tab\r\n"
+        )
+        фикстуры = []
+        for имя in ("X-Served-By", "X-GitHub-Edge-Region"):
+            сырьё = (
+                "HTTP/2 200\r\n"
+                f"{имя.swapcase()}: synthetic-private-first-a, synthetic-private-first-b\r\n"
+                " synthetic-private-folded-space\r\n"
+                "\tsynthetic-private-folded-tab\r\n"
+                f"{имя.upper()}: synthetic-private-second-a, synthetic-private-second-b\r\n"
+                + соседи
+            )
+            ожидание = "HTTP/2 200\r\n" + f"{имя.lower()}: [REDACTED: request metadata]\n" * 2 + соседи
+            фикстуры.append({"имя": имя, "вход_байт": len(сырьё.encode("utf-8")),
+                "вход_хэш": хэширование.sha256(сырьё.encode("utf-8")).hexdigest(),
+                "ожидание_байт": len(ожидание.encode("utf-8")),
+                "ожидание_хэш": хэширование.sha256(ожидание.encode("utf-8")).hexdigest()})
+        код = {имя: хэширование.sha256((REPO_ROOT / имя).read_bytes()).hexdigest() for имя in (
+            "Инструменты/fum-materialyi-zaprosov/scripts/source_archive.py",
+            "Инструменты/fum-materialyi-zaprosov/tests/профиль_очистки_заголовков.py",
+            "Инструменты/fum-snimki-indeksa/scripts/профиль.py",
+        )}
+        with tempfile.TemporaryDirectory() as временный:
+            каталог = Path(временный).resolve()
+            for фаза in ("до", "после"):
+                with сам.subTest(фаза=фаза):
+                    выход = каталог / (фаза + ".json")
+                    процесс = subprocess.run([sys.executable, "-B", str(профиль), "--фаза", фаза,
+                        "--выход", str(выход)], cwd=каталог, text=True, stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE, check=False)
+                    сам.assertEqual(процесс.returncode, 0, процесс.stderr)
+                    данные = выход.read_bytes()
+                    отчёт = json.loads(данные)
+                    чтение = json.loads(процесс.stdout)
+                    сам.assertEqual(отчёт["схема"], "fum.профиль-очистки-заголовков.1")
+                    сам.assertEqual(отчёт["фаза"], фаза)
+                    сам.assertEqual(чтение["схема"], "fum.чтение-профиля-заголовков.1")
+                    сам.assertEqual(чтение["фаза"], фаза)
+                    сам.assertTrue(чтение["прочитано_обратно"])
+                    сам.assertEqual(чтение["хэш_результата"], хэширование.sha256(данные).hexdigest())
+                    сам.assertEqual(чтение["байт_результата"], len(данные))
+                    сам.assertEqual(отчёт["код_до"], код)
+                    сам.assertEqual(отчёт["код_после"], код)
+                    сам.assertEqual(чтение["код_после_чтения"], код)
+                    сам.assertEqual(отчёт["фикстуры_до"], фикстуры)
+                    сам.assertEqual(отчёт["фикстуры_после"], фикстуры)
+                    сам.assertEqual(отчёт["счётчики"], {"повторы": 7, "фикстур": 2, "стадий": 14,
+                        "вызовов_на_фикстуру_в_стадии": 1000, "вызовов_сырья": 14000,
+                        "вызовов_ожиданий": 14000, "вызовов_измерено": 28000})
+                    сам.assertEqual(чтение["счётчики"], отчёт["счётчики"])
+                    сам.assertEqual(отчёт["проверка_до"], отчёт["проверка_после"])
+                    сам.assertIs(type(отчёт["проверка_до"]["корректная_очистка"]), bool)
+                    if фаза == "после":
+                        сам.assertTrue(отчёт["проверка_до"]["корректная_очистка"])
+                        сам.assertTrue(отчёт["проверка_до"]["идемпотентность"])
+                    сам.assertEqual(len(отчёт["измерения"]), 14)
+                    for имя in ("Очистка сырых синтетических заголовков", "Повторная очистка ожидаемых заголовков"):
+                        сам.assertEqual(sum(запись["стадия"] == имя for запись in отчёт["измерения"]), 7)
+                    for запись in отчёт["измерения"]:
+                        сам.assertIs(type(запись["длительность_наносекунды"]), int)
+                        сам.assertGreaterEqual(запись["длительность_наносекунды"], 0)
+                        сам.assertEqual(запись["исход"], "успех")
+                    сам.assertEqual(выход.read_bytes(), данные)
+                    for маркер in (b"/Users/", b"/private/", b"/tmp/", b"file://", b"synthetic-private-"):
+                        сам.assertNotIn(маркер, данные + процесс.stdout.encode("utf-8"))
+            for аргументы in (["--фаза", "до"], ["--фаза", "до", "--выход", "относительный.json"]):
+                отказ = subprocess.run([sys.executable, "-B", str(профиль), *аргументы], cwd=каталог,
+                    text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False)
+                сам.assertNotEqual(отказ.returncode, 0)
+                сам.assertFalse((каталог / "относительный.json").exists())
+            сам.assertEqual(sorted(путь.name for путь in каталог.iterdir()), ["до.json", "после.json"])
 
     def test_default_url_output_is_shared_at_repository_root(self):
         request_file = Path(
