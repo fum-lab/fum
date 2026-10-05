@@ -635,6 +635,38 @@ def _нефайловые_фрагменты_JSON(
     return tuple(фрагменты)
 
 
+def _сырое_обсуждение(путь: str, текст: str) -> bool:
+    части = PurePosixPath(путь).parts
+    if (len(части) != 5 or части[0] != 'Issues' or части[3] != 'данные'
+            or any(not re.fullmatch(r'[A-Za-z0-9_.-]+', имя) or имя in {'.', '..'} for имя in части[1:3])
+            or not re.fullmatch(r'[0-9a-f]{64}\.json', части[4]) or '\0' in текст):
+        return False
+    if hashlib.sha256(текст.encode('utf-8')).hexdigest() != части[4][:-5]:
+        return False
+    try:
+        записи = json.loads(текст)
+    except (ValueError, TypeError):
+        return False
+    if not isinstance(записи, list):
+        return False
+    репозиторий = '/'.join(части[1:3])
+    for запись in записи:
+        if (not isinstance(запись, dict) or type(запись.get('id')) is not int or запись['id'] <= 0
+                or 'body' not in запись or запись['body'] is not None and not isinstance(запись['body'], str)
+                or not isinstance(запись.get('updated_at'), str)):
+            return False
+        if 'number' in запись:
+            номер = запись['number']; раздел = 'pull' if 'pull_request' in запись else 'issues'
+            if (type(номер) is not int or номер <= 0 or not isinstance(запись.get('title'), str)
+                    or запись.get('state') not in {'open', 'closed'}
+                    or запись.get('html_url') != f'https://github.com/{репозиторий}/{раздел}/{номер}'):
+                return False
+        elif (not isinstance(запись.get('issue_url'), str)
+                or not re.fullmatch(r'https://api\.github\.com/repos/' + re.escape(репозиторий) + r'/issues/[1-9][0-9]*', запись['issue_url'])):
+            return False
+    return True
+
+
 def scan_text(
     path: str,
     text: str,
@@ -649,6 +681,7 @@ def scan_text(
         известные_исполнители,
     )
     candidates: list[Candidate] = []
+    сырое_обсуждение = _сырое_обсуждение(path, text)
     for line_number, line in enumerate(text.splitlines(), start=1):
         line_hash = _line_digest(line)
         нефайловые_фрагменты = _нефайловые_фрагменты_JSON(path, line)
@@ -661,6 +694,8 @@ def scan_text(
                 request_lines,
                 позиции_исполнителя,
             )
+            if сырое_обсуждение:
+                категория = f'report.external-source.{form.kind}'
             for начало, конец, тип in нефайловые_фрагменты:
                 if начало <= form.start and form.end <= конец:
                     категория = f"{тип}.{form.kind}"

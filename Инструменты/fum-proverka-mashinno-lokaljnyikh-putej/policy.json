@@ -5229,6 +5229,150 @@
       "count": 4,
       "category": "allow.nonpath-syntax",
       "reason": "Закрепляет точный программный суффикс относительного пути, операцию соединения компонентов либо экранированный байтовый литерал; адрес локальной машины эта строка не задаёт."
+    },
+    {
+      "id": "issues-api-1",
+      "path": "Инструменты/fum-materialyi-zaprosov/scripts/архив_обсуждений_GitHub.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d899153852f40648a6d351f0a5e347aef86fb267db04b58637881fb4ae7ec7d8",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Литералы путей HTTP API GitHub; проверяются как адреса заданного удалённого репозитория и не используются как локальные файловые пути."
+    },
+    {
+      "id": "issues-api-2",
+      "path": "Инструменты/fum-materialyi-zaprosov/scripts/архив_обсуждений_GitHub.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:5b7bf5d667c76e6b1ef5c5443fc4314b36668fd26162571fce09a2f84aaf1654",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Литералы путей HTTP API GitHub; проверяются как адреса заданного удалённого репозитория и не используются как локальные файловые пути."
+    },
+    {
+      "id": "issues-api-3",
+      "path": "Инструменты/fum-materialyi-zaprosov/scripts/архив_обсуждений_GitHub.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:163c3ec9335bc3dd05e244c41cf9bdb4d5cc638d73c77abc4d6aa4b5d511002f",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Литералы путей HTTP API GitHub; проверяются как адреса заданного удалённого репозитория и не используются как локальные файловые пути."
+    },
+    {
+      "id": "issues-api-4",
+      "path": "Инструменты/fum-materialyi-zaprosov/scripts/архив_обсуждений_GitHub.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:f288d2c6f3a8d0a018bcddbff4a6ca94c1047b855e2ad791ad35ad88af0e0fca",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Литералы путей HTTP API GitHub; проверяются как адреса заданного удалённого репозитория и не используются как локальные файловые пути."
+    },
+    {
+      "id": "issues-api-5",
+      "path": "Инструменты/fum-materialyi-zaprosov/scripts/архив_обсуждений_GitHub.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:788a810bd1c9d7d65d831be13b8f199b81deb3f99e985a6e0484a1756f898008",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Литералы путей HTTP API GitHub; проверяются как адреса заданного удалённого репозитория и не используются как локальные файловые пути."
+    },
+    {
+      "id": "issues-api-6",
+      "path": "Инструменты/fum-materialyi-zaprosov/scripts/архив_обсуждений_GitHub.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c394f21dda443ca9bce8399e8fff784cf6f4e4adfcf656019bf95a51c96702af",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Литералы путей HTTP API GitHub; проверяются как адреса заданного удалённого репозитория и не используются как локальные файловые пути."
+    },
+    {
+      "id": "issues-api-7",
+      "path": "Инструменты/fum-materialyi-zaprosov/scripts/архив_обсуждений_GitHub.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:3c40e2f331c6e9663f8df4887939fe24063bf4ad4e5709831986267d9a2c759b",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Литералы путей HTTP API GitHub; проверяются как адреса заданного удалённого репозитория и не используются как локальные файловые пути."
+    },
+    {
+      "id": "issues-api-8",
+      "path": "Инструменты/fum-materialyi-zaprosov/tests/test_истории_обсуждений_GitHub.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:e867a4e96a91d85d84abf3076f5b4f7b094b3e50248c9db92ce8de1d5c118da2",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая автономная фикстура проверки HTTP API либо искусственного файлового пути; не раскрывает путь машины."
+    },
+    {
+      "id": "issues-api-9",
+      "path": "Журнал/2026-10-05_05-58-42_MSK_сохранить-историю-Issues-и-проверить-автономное-чтение/материалы/версия-профиля-до.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d899153852f40648a6d351f0a5e347aef86fb267db04b58637881fb4ae7ec7d8",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Литералы путей HTTP API GitHub; проверяются как адреса заданного удалённого репозитория и не используются как локальные файловые пути."
+    },
+    {
+      "id": "issues-api-10",
+      "path": "Журнал/2026-10-05_05-58-42_MSK_сохранить-историю-Issues-и-проверить-автономное-чтение/материалы/версия-профиля-до.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:788a810bd1c9d7d65d831be13b8f199b81deb3f99e985a6e0484a1756f898008",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Литералы путей HTTP API GitHub; проверяются как адреса заданного удалённого репозитория и не используются как локальные файловые пути."
+    },
+    {
+      "id": "issues-api-11",
+      "path": "Журнал/2026-10-05_05-58-42_MSK_сохранить-историю-Issues-и-проверить-автономное-чтение/материалы/версия-профиля-до.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c394f21dda443ca9bce8399e8fff784cf6f4e4adfcf656019bf95a51c96702af",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Литералы путей HTTP API GitHub; проверяются как адреса заданного удалённого репозитория и не используются как локальные файловые пути."
+    },
+    {
+      "id": "issues-api-12",
+      "path": "Журнал/2026-10-05_05-58-42_MSK_сохранить-историю-Issues-и-проверить-автономное-чтение/материалы/версия-профиля-до.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:3c40e2f331c6e9663f8df4887939fe24063bf4ad4e5709831986267d9a2c759b",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Литералы путей HTTP API GitHub; проверяются как адреса заданного удалённого репозитория и не используются как локальные файловые пути."
+    },
+    {
+      "id": "issues-api-13",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_сырых_обсуждений_GitHub.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:51f16393a59e3e98f208c259da78afccd2ae2625486a2e13e99ba31ef4ede7c7",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая автономная фикстура проверки HTTP API либо искусственного файлового пути; не раскрывает путь машины."
+    },
+    {
+      "id": "issues-api-14",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_сырых_обсуждений_GitHub.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:6739c055d60d4e6c64c159c9afb967bb20c9e8fcfe4a03851b81aadefcdb29a9",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Открытая автономная фикстура проверки HTTP API либо искусственного файлового пути; не раскрывает путь машины."
+    },
+    {
+      "id": "issues-api-15",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_сырых_обсуждений_GitHub.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:a9d6c93381fd5c62d8365ef425208a6e8b05da586cb5b99239b54497cf04b7f6",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая автономная фикстура проверки HTTP API либо искусственного файлового пути; не раскрывает путь машины."
+    },
+    {
+      "id": "issues-api-16",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:bf019261c483ba58ebc9e7514c59d8977898bb5db7c90782376bbbaf2c479bb5",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Строгое регулярное выражение адреса комментария API заданного репозитория GitHub; это определение проверки удалённого адреса, а не локальный файловый путь."
     }
   ]
 }

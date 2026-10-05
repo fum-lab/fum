@@ -1,0 +1,117 @@
+{
+  "schema": "fum.machine-local-path-policy-update.v1",
+  "declarations": [
+    {
+      "id": "issues-api-1",
+      "path": "Инструменты/fum-materialyi-zaprosov/scripts/архив_обсуждений_GitHub.py",
+      "line": 123,
+      "category": "allow.nonpath-syntax",
+      "reason": "Литералы путей HTTP API GitHub; проверяются как адреса заданного удалённого репозитория и не используются как локальные файловые пути."
+    },
+    {
+      "id": "issues-api-2",
+      "path": "Инструменты/fum-materialyi-zaprosov/scripts/архив_обсуждений_GitHub.py",
+      "line": 210,
+      "category": "allow.nonpath-syntax",
+      "reason": "Литералы путей HTTP API GitHub; проверяются как адреса заданного удалённого репозитория и не используются как локальные файловые пути."
+    },
+    {
+      "id": "issues-api-3",
+      "path": "Инструменты/fum-materialyi-zaprosov/scripts/архив_обсуждений_GitHub.py",
+      "line": 211,
+      "category": "allow.nonpath-syntax",
+      "reason": "Литералы путей HTTP API GitHub; проверяются как адреса заданного удалённого репозитория и не используются как локальные файловые пути."
+    },
+    {
+      "id": "issues-api-4",
+      "path": "Инструменты/fum-materialyi-zaprosov/scripts/архив_обсуждений_GitHub.py",
+      "line": 212,
+      "category": "allow.nonpath-syntax",
+      "reason": "Литералы путей HTTP API GitHub; проверяются как адреса заданного удалённого репозитория и не используются как локальные файловые пути."
+    },
+    {
+      "id": "issues-api-5",
+      "path": "Инструменты/fum-materialyi-zaprosov/scripts/архив_обсуждений_GitHub.py",
+      "line": 248,
+      "category": "allow.nonpath-syntax",
+      "reason": "Литералы путей HTTP API GitHub; проверяются как адреса заданного удалённого репозитория и не используются как локальные файловые пути."
+    },
+    {
+      "id": "issues-api-6",
+      "path": "Инструменты/fum-materialyi-zaprosov/scripts/архив_обсуждений_GitHub.py",
+      "line": 249,
+      "category": "allow.nonpath-syntax",
+      "reason": "Литералы путей HTTP API GitHub; проверяются как адреса заданного удалённого репозитория и не используются как локальные файловые пути."
+    },
+    {
+      "id": "issues-api-7",
+      "path": "Инструменты/fum-materialyi-zaprosov/scripts/архив_обсуждений_GitHub.py",
+      "line": 255,
+      "category": "allow.nonpath-syntax",
+      "reason": "Литералы путей HTTP API GitHub; проверяются как адреса заданного удалённого репозитория и не используются как локальные файловые пути."
+    },
+    {
+      "id": "issues-api-8",
+      "path": "Инструменты/fum-materialyi-zaprosov/tests/test_истории_обсуждений_GitHub.py",
+      "line": 125,
+      "category": "allow.test-fixture",
+      "reason": "Открытая автономная фикстура проверки HTTP API либо искусственного файлового пути; не раскрывает путь машины."
+    },
+    {
+      "id": "issues-api-9",
+      "path": "Журнал/2026-10-05_05-58-42_MSK_сохранить-историю-Issues-и-проверить-автономное-чтение/материалы/версия-профиля-до.py",
+      "line": 96,
+      "category": "allow.nonpath-syntax",
+      "reason": "Литералы путей HTTP API GitHub; проверяются как адреса заданного удалённого репозитория и не используются как локальные файловые пути."
+    },
+    {
+      "id": "issues-api-10",
+      "path": "Журнал/2026-10-05_05-58-42_MSK_сохранить-историю-Issues-и-проверить-автономное-чтение/материалы/версия-профиля-до.py",
+      "line": 184,
+      "category": "allow.nonpath-syntax",
+      "reason": "Литералы путей HTTP API GitHub; проверяются как адреса заданного удалённого репозитория и не используются как локальные файловые пути."
+    },
+    {
+      "id": "issues-api-11",
+      "path": "Журнал/2026-10-05_05-58-42_MSK_сохранить-историю-Issues-и-проверить-автономное-чтение/материалы/версия-профиля-до.py",
+      "line": 185,
+      "category": "allow.nonpath-syntax",
+      "reason": "Литералы путей HTTP API GitHub; проверяются как адреса заданного удалённого репозитория и не используются как локальные файловые пути."
+    },
+    {
+      "id": "issues-api-12",
+      "path": "Журнал/2026-10-05_05-58-42_MSK_сохранить-историю-Issues-и-проверить-автономное-чтение/материалы/версия-профиля-до.py",
+      "line": 191,
+      "category": "allow.nonpath-syntax",
+      "reason": "Литералы путей HTTP API GitHub; проверяются как адреса заданного удалённого репозитория и не используются как локальные файловые пути."
+    },
+    {
+      "id": "issues-api-13",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_сырых_обсуждений_GitHub.py",
+      "line": 18,
+      "category": "allow.test-fixture",
+      "reason": "Открытая автономная фикстура проверки HTTP API либо искусственного файлового пути; не раскрывает путь машины."
+    },
+    {
+      "id": "issues-api-14",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_сырых_обсуждений_GitHub.py",
+      "line": 42,
+      "category": "allow.test-fixture",
+      "reason": "Открытая автономная фикстура проверки HTTP API либо искусственного файлового пути; не раскрывает путь машины."
+    },
+    {
+      "id": "issues-api-15",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_сырых_обсуждений_GitHub.py",
+      "line": 54,
+      "category": "allow.test-fixture",
+      "reason": "Открытая автономная фикстура проверки HTTP API либо искусственного файлового пути; не раскрывает путь машины."
+    },
+    {
+      "id": "issues-api-16",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py",
+      "line": 665,
+      "category": "allow.path-validation-definition",
+      "reason": "Строгое регулярное выражение адреса комментария API заданного репозитория GitHub; это определение проверки удалённого адреса, а не локальный файловый путь."
+    }
+  ]
+}
