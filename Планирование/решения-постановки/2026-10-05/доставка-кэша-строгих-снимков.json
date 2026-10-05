@@ -1,0 +1,48 @@
+{
+  "код": 0,
+  "коммит": "edabf43260b47c0ec3b0c8d7726e0c6fa37722c6",
+  "ref": "refs/heads/fuma",
+  "удалённый_oid": "edabf43260b47c0ec3b0c8d7726e0c6fa37722c6",
+  "совпало": true,
+  "push_нс": 3174015375,
+  "схема": "fum.доставка-кэша-строгих-снимков.1",
+  "локальный_объект": {
+    "код": 0,
+    "коммит": "edabf43260b47c0ec3b0c8d7726e0c6fa37722c6",
+    "дерево": "6905d8d8a6953a5f62bf73cb03e889e82eb77586",
+    "родители": [
+      "14845a47cb1cc6bad76ffa7f29eca766c750ee06",
+      "21127044f704719a37f21bda6425dfe0dbadfb15"
+    ],
+    "автор": "FUM Codex [gpt-6.1-sol; effort=ultra]",
+    "сообщение_sha256": "747c380ce1e6b5a44ef7fc092e5d80521a88e01852eb66c36d72b33ce08b2c54",
+    "создание_нс": 55889744792,
+    "путей": 45
+  },
+  "pull_request": {
+    "baseRefName": "fuma",
+    "headRefName": "codex/dir/uskoritj-strogiye-snimki-katalogov",
+    "headRefOid": "21127044f704719a37f21bda6425dfe0dbadfb15",
+    "isDraft": false,
+    "mergeCommit": {
+      "oid": "edabf43260b47c0ec3b0c8d7726e0c6fa37722c6"
+    },
+    "mergedAt": "2026-10-05T18:48:18Z",
+    "number": 212,
+    "state": "MERGED",
+    "url": "https://github.com/fum-lab/fum/pull/212"
+  },
+  "дочерний_чат": {
+    "задача": "01a10cce-d8ef-70e2-8c5a-2692c416715e",
+    "архивация_подтверждена_API": true,
+    "граница": "Конечная поставка принята; архивация не является доказательством завершения ROOT или открытия guard."
+  },
+  "остаток_ROOT": {
+    "экземпляров": 982,
+    "остаток": 982,
+    "неизвестных": 3,
+    "код": 3,
+    "завершение": false
+  },
+  "граница": "Точная доставка merge-коммита в fuma, не изменение master. Внутреннее время create и внешний push не складываются с перекрывающимися стадиями."
+}
