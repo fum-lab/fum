@@ -1,0 +1,22 @@
+{
+  "URL": "https://www.youtube.com/watch?v=5iz5d8urO8I",
+  "исходная_команда": "ded6e33de96d3d19b1960b63abe4b14fcd1bfdfc790814477375693abc1f5b9b",
+  "исходный_коммит": "56f3e6ee5c71259c27d1cb01c276b5294468fe0c",
+  "публичный_слой": [
+    "Документация/Материалы/связь-FUM-при-недоступной-инфраструктуре.md",
+    "Источники/URL/https/www.youtube.com/watch/_query-819aed709343909a/extracted-text.md",
+    "Источники/URL/https/www.youtube.com/watch/_query-819aed709343909a/extraction-report.md",
+    "Источники/URL/https/www.youtube.com/watch/_query-819aed709343909a/snapshot-manifest.json",
+    "Источники/URL/https/www.youtube.com/watch/_query-819aed709343909a/source-index.md",
+    "Источники/URL/https/www.youtube.com/watch/_query-819aed709343909a/source-url.txt",
+    "Источники/URL/https/www.youtube.com/watch/_query-819aed709343909a/метаданные.json",
+    "Источники/URL/https/www.youtube.com/watch/_query-819aed709343909a/получение.json"
+  ],
+  "субтитры_sha256": "398545996c43007304dfbc945450f2ad8ec4274975a0fce93c4d5dcb84c37744",
+  "субтитры_байты": 398160,
+  "полный_транскрипт_в_Git": false,
+  "приватные_оригиналы_сохранены": true,
+  "длительность_установки_нс": 4627792,
+  "автоматический_HTML_контракт_не_расширен": true,
+  "состояние_проекта_завершено": false
+}
