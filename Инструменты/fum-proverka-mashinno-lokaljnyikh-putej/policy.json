@@ -5373,6 +5373,42 @@
       "count": 1,
       "category": "allow.path-validation-definition",
       "reason": "Строгое регулярное выражение адреса комментария API заданного репозитория GitHub; это определение проверки удалённого адреса, а не локальный файловый путь."
+    },
+    {
+      "id": "issues-api-single-template",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_сырых_обсуждений_GitHub.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d8a9efd0785868658e79d43540a2aa6d4b09049e05f651e95addce6d02e838cb",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая автономная фикстура одиночного ответа GitHub: публичный URI-шаблон либо искусственный путь; не раскрывает состояние машины."
+    },
+    {
+      "id": "issues-api-single-missing-body",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_сырых_обсуждений_GitHub.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:8df0bb899db46012a840c6c60dae026a20e2a7e1fe676e91b5e72ab0d24f358c",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая автономная фикстура одиночного ответа GitHub: публичный URI-шаблон либо искусственный путь; не раскрывает состояние машины."
+    },
+    {
+      "id": "issues-api-single-no-body",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_сырых_обсуждений_GitHub.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:7bf7a02b423de7dd412f6a3b2878305e95afb740824ab2ae4a98adc8eb081e1b",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая автономная фикстура одиночного ответа GitHub: публичный URI-шаблон либо искусственный путь; не раскрывает состояние машины."
+    },
+    {
+      "id": "issues-api-single-wrong-path",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_сырых_обсуждений_GitHub.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:895f03c287b7acfe2955265644c14259a13bceb3ec00ce869b52d7fbe184f622",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Искусственный соседний путь открытой автономной фикстуры; проверяет отказ архивной льготы и не раскрывает состояние машины."
     }
   ]
 }

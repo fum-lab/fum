@@ -647,6 +647,8 @@ def _сырое_обсуждение(путь: str, текст: str) -> bool:
         записи = json.loads(текст)
     except (ValueError, TypeError):
         return False
+    if isinstance(записи, dict):
+        записи = [записи]
     if not isinstance(записи, list):
         return False
     репозиторий = '/'.join(части[1:3])
