@@ -10,8 +10,8 @@ import unittest
 from unittest import mock
 
 import test_build_planning_registry as построение
-from test_входа_направления import открытый_вход, ЗАДАЧА
-from test_исполнения_приёма import журнал
+from test_входа_направления import ЗАДАЧА
+from test_исполнения_приёма import открытый_вход, журнал
 import исполнитель_приёма as исполнение
 
 
