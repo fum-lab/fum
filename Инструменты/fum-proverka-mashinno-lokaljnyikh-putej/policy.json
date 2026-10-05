@@ -5157,6 +5157,78 @@
       "count": 1,
       "category": "report.historical",
       "reason": "Точная историческая управляющая цитата с безопасным адресом назначенного рабочего дерева; исходные текст, координаты, длина и цепочка событий сохраняются. Это свидетельство прежнего поручения, а не действующая машинная конфигурация."
+    },
+    {
+      "id": "root-facade-s546-file1-line334",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_этапа_коммита.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:66bf74d4eed560f742288d0f8dba3ce0bfdd1d07669adefd9367864274658d2f",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точный программный суффикс относительного пути, операцию соединения компонентов либо экранированный байтовый литерал; адрес локальной машины эта строка не задаёт."
+    },
+    {
+      "id": "root-facade-s546-file1-line555",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_этапа_коммита.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:407564c78283ea1bc0188c8a98511039ba73db6697d8b867a805cb2e98da3307",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точный программный суффикс относительного пути, операцию соединения компонентов либо экранированный байтовый литерал; адрес локальной машины эта строка не задаёт."
+    },
+    {
+      "id": "root-facade-s546-file2-line73",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_этапа_коммита.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:04f0b6cef0c9b384f43796636d55d8485389272a34f140bd947ed7689a3331b6",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точный программный суффикс относительного пути, операцию соединения компонентов либо экранированный байтовый литерал; адрес локальной машины эта строка не задаёт."
+    },
+    {
+      "id": "root-facade-s546-file2-line317",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_этапа_коммита.py",
+      "kind": "windows-unc",
+      "line_sha256": "sha256:970aede4a1a8c160c676c1e11accb8016739d99fbff111343bf93df915c550d5",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точный программный суффикс относительного пути, операцию соединения компонентов либо экранированный байтовый литерал; адрес локальной машины эта строка не задаёт."
+    },
+    {
+      "id": "root-facade-s546-file2-line346",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_этапа_коммита.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:872a39bf1502c2994ffe35d883b5378b74ff0a0ceaa2c2958d3e7261295e1fbc",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точный программный суффикс относительного пути, операцию соединения компонентов либо экранированный байтовый литерал; адрес локальной машины эта строка не задаёт."
+    },
+    {
+      "id": "root-facade-s546-file2-line549",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_этапа_коммита.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:adf2fab737c69cc3a92059ca6a387f64b71a5c04b6c38412a3a14f2da5302886",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точный программный суффикс относительного пути, операцию соединения компонентов либо экранированный байтовый литерал; адрес локальной машины эта строка не задаёт."
+    },
+    {
+      "id": "root-facade-s546-file2-line725",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_этапа_коммита.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:60462726700a33f3882b9798c134c1883d2eaa17fe18b7132c34cbb035941180",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точный программный суффикс относительного пути, операцию соединения компонентов либо экранированный байтовый литерал; адрес локальной машины эта строка не задаёт."
+    },
+    {
+      "id": "root-facade-s546-file3-line132",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_подготовки_этапа_коммита.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2c40cb593e1c8e8561c88e3993819075974361d6fecec814172f25f9fffcaabc",
+      "count": 4,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет точный программный суффикс относительного пути, операцию соединения компонентов либо экранированный байтовый литерал; адрес локальной машины эта строка не задаёт."
     }
   ]
 }
