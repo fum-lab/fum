@@ -580,64 +580,82 @@ def _matching_label_bracket_with_inline_code(
 def _markdown_link_tokens(text: str) -> tuple[bytearray, list[Any]]:
     """Return semantic link tokens, including labels that contain inline code."""
 
-    tools = _link_tools()
-    hidden = tools.markdown_hidden_mask(text)
-    tokens = list(tools.markdown_link_tokens(text, hidden))
-    occupied = {
-        (token.destination_start, token.destination_end)
-        for token in tokens
-    }
-    cursor = 0
-    while cursor < len(text):
-        if hidden[cursor]:
-            cursor += 1
+    инструменты = _link_tools()
+    маска = инструменты.markdown_hidden_mask(text)
+    обычные = []
+    занятые = set()
+    for строка, (начало, конец, _текст_строки) in enumerate(инструменты.line_ranges(text), start=1):
+        разбор = инструменты.reference_destination_on_line(text, начало, конец, маска)
+        if разбор is not None:
+            начало_цели, конец_цели, угловая = разбор
+            занятые.add((начало_цели, конец_цели))
+            обычные.append(инструменты.LinkToken(
+                начало_цели, конец_цели, text[начало_цели:конец_цели], угловая, "reference", строка,
+            ))
+
+    расширенные = []
+    граница_обычного = граница_расширенного = позиция = 0
+    while позиция < len(text):
+        if маска[позиция]:
+            позиция += 1
             continue
-        image = (
-            text[cursor] == "!"
-            and cursor + 1 < len(text)
-            and text[cursor + 1] == "["
-            and not hidden[cursor + 1]
+        изображение = (
+            text[позиция] == "!"
+            and позиция + 1 < len(text)
+            and text[позиция + 1] == "["
+            and not маска[позиция + 1]
         )
-        opening = cursor + 1 if image else cursor
-        if text[opening] != "[" or tools.is_escaped(text, opening):
-            cursor += 1
+        открытие = позиция + 1 if изображение else позиция
+        if text[открытие] != "[" or инструменты.is_escaped(text, открытие):
+            позиция += 1
             continue
         if (
-            not image
-            and opening > 0
-            and text[opening - 1] == "!"
-            and not hidden[opening - 1]
+            not изображение
+            and открытие > 0
+            and text[открытие - 1] == "!"
+            and not маска[открытие - 1]
         ):
-            cursor += 1
+            позиция += 1
             continue
-        closing = _matching_label_bracket_with_inline_code(
-            text,
-            opening,
-            hidden,
-        )
-        if closing is None or closing + 1 >= len(text) or text[closing + 1] != "(":
-            cursor += 1
-            continue
-        parsed = tools.parse_inline_destination(text, closing + 1, hidden)
-        if parsed is None:
-            cursor += 1
-            continue
-        destination_start, destination_end, angle, token_end = parsed
-        span = (destination_start, destination_end)
-        if span not in occupied:
-            tokens.append(
-                tools.LinkToken(
-                    destination_start,
-                    destination_end,
-                    text[destination_start:destination_end],
-                    angle,
-                    "image" if image else "inline",
-                    text.count("\n", 0, opening) + 1,
-                )
-            )
-            occupied.add(span)
-        cursor = token_end
-    return hidden, sorted(tokens, key=lambda token: token.destination_start)
+        обычный_активен = позиция >= граница_обычного
+        закрытие = обычный_разбор = None
+        if обычный_активен:
+            закрытие = инструменты.matching_label_bracket(text, открытие, маска)
+            if закрытие is not None and закрытие + 1 < len(text) and text[закрытие + 1] == "(":
+                обычный_разбор = инструменты.parse_inline_destination(text, закрытие + 1, маска)
+            if обычный_разбор is not None:
+                начало_цели, конец_цели, угловая, граница_обычного = обычный_разбор
+                область = (начало_цели, конец_цели)
+                if область not in занятые:
+                    обычные.append(инструменты.LinkToken(
+                        начало_цели, конец_цели, text[начало_цели:конец_цели], угловая,
+                        "image" if изображение else "inline", text.count("\n", 0, открытие) + 1,
+                    ))
+                    занятые.add(область)
+        if позиция >= граница_расширенного:
+            if обычный_активен and закрытие is not None:
+                разбор = обычный_разбор
+            else:
+                закрытие = _matching_label_bracket_with_inline_code(text, открытие, маска)
+                разбор = None
+                if закрытие is not None and закрытие + 1 < len(text) and text[закрытие + 1] == "(":
+                    разбор = инструменты.parse_inline_destination(text, закрытие + 1, маска)
+            if разбор is not None:
+                начало_цели, конец_цели, угловая, граница_расширенного = разбор
+                if (начало_цели, конец_цели) not in занятые:
+                    расширенные.append(инструменты.LinkToken(
+                        начало_цели, конец_цели, text[начало_цели:конец_цели], угловая,
+                        "image" if изображение else "inline", text.count("\n", 0, открытие) + 1,
+                    ))
+        позиция = max(позиция + 1, min(граница_обычного, граница_расширенного))
+
+    токены = sorted(обычные, key=lambda токен: токен.destination_start)
+    for токен in расширенные:
+        область = (токен.destination_start, токен.destination_end)
+        if область not in занятые:
+            токены.append(токен)
+            занятые.add(область)
+    return маска, sorted(токены, key=lambda токен: токен.destination_start)
 
 
 def _markdown_targets(
