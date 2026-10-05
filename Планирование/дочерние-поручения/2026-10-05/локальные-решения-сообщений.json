@@ -1,0 +1,24 @@
+{
+  "ветка": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--lokaljnyiye-resheniya",
+  "исполнитель": "01a10c4d-c91f-7d50-9e78-87dab1155ccc",
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "область": [
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/локальные_решения_сообщений.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/учесть-локальное-решение.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/локальные-решения-сообщений.md",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/SKILL.md",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_локальные_решения_сообщений.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_локальных_решений.py",
+    "Журнал/2026-10-05_16-44-59_MSK_реализовать-локальные-решения-сообщений/",
+    "Журнал/2026-10-05_15-27-13_MSK_исправить-происхождение-писателя-генератора/запрос.md",
+    "Журнал/README.md",
+    "Индексы/markdown-файлы-по-времени-редактирования.md"
+  ],
+  "постановка": {
+    "sha256": "8732054dcc21f9b2dbd1c8d807464eb0c02adea5db3a81636343788c2ac73420",
+    "коммит": "8380e226917379493fd57bbf8c8c2e103b2afda4",
+    "путь": "Планирование/параллельные-постановки/2026-10-05/локальные-решения-сообщений.md"
+  },
+  "схема": "fum.поручение-дочерней-контрольной-точки.1",
+  "хэш_нативного_поручения": "55abbd3522a553d782dbebf445abb665f27d33211c46455710ce1339abc618f0"
+}
