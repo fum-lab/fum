@@ -5409,6 +5409,51 @@
       "count": 2,
       "category": "allow.test-fixture",
       "reason": "Искусственный соседний путь открытой автономной фикстуры; проверяет отказ архивной льготы и не раскрывает состояние машины."
+    },
+    {
+      "id": "cache-snapshots-open-fixture-1",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_кэш_снимков_обновления.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:4d810a1bceba98187909f706b70675f6537aaed55db967f839f5c265cafba06c",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая отрицательная фикстура намеренно проверяет отказ недопустимой цели; это искусственный путь, не состояние машины."
+    },
+    {
+      "id": "cache-snapshots-open-fixture-2",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_кэша_снимков_обновления.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c203ae6f6f565bdd16d3b1efab17850e3e4d0397fdde3c52e03219d68ff6393b",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Литеральный суффикс соединяется с относительным именем папки открытой фикстуры; это синтаксис конкатенации, не абсолютный адрес машины."
+    },
+    {
+      "id": "cache-snapshots-open-fixture-3",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_кэша_снимков_обновления.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b8b2ccd7a169abf6b8d9ac26df88cd87c533d30ce1bfde327ca258f7aa12adbc",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Литеральный суффикс соединяется с относительным именем папки открытой фикстуры; это синтаксис конкатенации, не абсолютный адрес машины."
+    },
+    {
+      "id": "cache-snapshots-open-fixture-4",
+      "path": "Журнал/2026-10-05_19-05-28_MSK_реализовать-кэш-строгих-снимков/материалы/профиль/наблюдатель-первого-профиля.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c203ae6f6f565bdd16d3b1efab17850e3e4d0397fdde3c52e03219d68ff6393b",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Литеральный суффикс соединяется с относительным именем папки открытой фикстуры; это синтаксис конкатенации, не абсолютный адрес машины."
+    },
+    {
+      "id": "cache-snapshots-open-fixture-5",
+      "path": "Журнал/2026-10-05_19-05-28_MSK_реализовать-кэш-строгих-снимков/материалы/профиль/наблюдатель-первого-профиля.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b8b2ccd7a169abf6b8d9ac26df88cd87c533d30ce1bfde327ca258f7aa12adbc",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Литеральный суффикс соединяется с относительным именем папки открытой фикстуры; это синтаксис конкатенации, не абсолютный адрес машины."
     }
   ]
 }
