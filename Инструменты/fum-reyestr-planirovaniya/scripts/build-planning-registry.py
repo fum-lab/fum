@@ -734,13 +734,14 @@ def лексические_цели_ссылок(разметка: str, исхо
     return цели
 
 
-def links_from_markdown(markdown: str, source_path: Path, repo_root: Path) -> list[dict[str, str]]:
+def links_from_markdown(markdown: str, source_path: Path, repo_root: Path, *, нормализатор=None) -> list[dict[str, str]]:
     links: list[dict[str, str]] = []
     for match in LINK_RE.finditer(markdown):
         links.append(
             {
                 "label": clean_text(match.group(1)),
-                "target": normalize_target(match.group(2), source_path, repo_root),
+                "target": (нормализатор(match.group(2)) if нормализатор is not None
+                           else normalize_target(match.group(2), source_path, repo_root)),
             }
         )
     return links
@@ -782,7 +783,7 @@ def first_level_one_heading(text: str, source_file: str) -> tuple[str, int]:
     return clean_text(match.group(1)), match.end()
 
 
-def markdown_list_items(markdown: str, source_path: Path, repo_root: Path) -> list[dict[str, Any]]:
+def markdown_list_items(markdown: str, source_path: Path, repo_root: Path, *, нормализатор=None) -> list[dict[str, Any]]:
     items: list[dict[str, Any]] = []
     current: list[str] = []
 
@@ -795,7 +796,7 @@ def markdown_list_items(markdown: str, source_path: Path, repo_root: Path) -> li
             items.append(
                 {
                     "text": text,
-                    "links": links_from_markdown(raw, source_path, repo_root),
+                    "links": links_from_markdown(raw, source_path, repo_root, нормализатор=нормализатор),
                 }
             )
 
@@ -940,93 +941,63 @@ def required_step_card_section(
     return raw
 
 
-def parse_step_card(path: Path, repo_root: Path) -> dict[str, Any]:
-    filename_id, filename_status, _description = step_card_filename_metadata(path)
-    source_file = repo_relative(path, repo_root)
-    frontmatter, body = split_step_card_frontmatter(
-        path.read_text(encoding="utf-8"),
-        source_file,
-    )
-    schema_version = frontmatter["schema_version"]
-    if type(schema_version) is not int or schema_version != 1:
-        raise ValueError(
-            f"step card supports only schema_version = 1: {source_file}"
-        )
-    card_id = frontmatter["card_id"]
-    if not isinstance(card_id, str) or STEP_CARD_ID_RE.fullmatch(card_id) is None:
-        raise ValueError(f"invalid step card id in {source_file}: {card_id!r}")
-    if filename_id != card_id:
-        raise ValueError(
-            "step card filename id does not match TOML card_id in "
-            f"{source_file}: {filename_id!r} != {card_id!r}"
-        )
-    status = frontmatter["status"]
-    if not isinstance(status, str) or status not in STEP_CARD_STATUSES:
-        raise ValueError(f"invalid step card status in {source_file}: {status!r}")
-    if filename_status != status:
-        raise ValueError(
-            "step card filename status does not match TOML status in "
-            f"{source_file}: {filename_status!r} != {status!r}"
-        )
+def текст_проверенных_байтов(данные: bytes) -> str:
+    if type(данные) is not bytes:
+        raise ValueError("ожидаются проверенные байты источника")
+    # Совпадает с universal-newline прежних файловых оболочек.
+    return данные.decode("utf-8").replace("\r\n", "\n").replace("\r", "\n")
 
-    h1_matches = list(re.finditer(r"^#\s+(.+?)\s*$", body, re.MULTILINE))
-    if len(h1_matches) != 1:
-        raise ValueError(
-            f"step card must contain exactly one level-one heading: {source_file}"
-        )
-    title = clean_text(h1_matches[0].group(1))
-    if not title:
-        raise ValueError(f"step card title is empty: {source_file}")
 
-    task = clean_text(required_step_card_section(body, "Задача", source_file))
-    sources_raw = required_step_card_section(body, "Источники", source_file)
-    source_items = markdown_list_items(sources_raw, path, repo_root)
-    source_links = [
-        link
-        for item in source_items
-        for link in item["links"]
-    ]
-    if not source_links:
-        raise ValueError(
-            f"step card sources must contain at least one link: {source_file}"
-        )
-
-    why_now: str | None = None
-    criteria: list[str] = []
-    outcome: str | None = None
-    if status == "active":
-        why_now = clean_text(
-            required_step_card_section(body, "Почему сейчас", source_file)
-        )
-        criteria_raw = required_step_card_section(
-            body,
-            "Критерии завершения",
-            source_file,
-        )
-        criteria = [
-            item["text"]
-            for item in markdown_list_items(criteria_raw, path, repo_root)
-        ]
-        if not criteria:
-            raise ValueError(
-                f"step card criteria must not be empty: {source_file}"
-            )
+def разобрать_карточку_шага(данные: bytes, исходный_путь: Path, *, нормализовать_цель) -> dict[str, Any]:
+    номер_имени, статус_имени, _описание = step_card_filename_metadata(исходный_путь)
+    имя = исходный_путь.as_posix()
+    поля, тело = split_step_card_frontmatter(текст_проверенных_байтов(данные), имя)
+    if type(поля["schema_version"]) is not int or поля["schema_version"] != 1:
+        raise ValueError(f"step card supports only schema_version = 1: {имя}")
+    номер = поля["card_id"]
+    if not isinstance(номер, str) or STEP_CARD_ID_RE.fullmatch(номер) is None:
+        raise ValueError(f"invalid step card id in {имя}: {номер!r}")
+    if номер_имени != номер:
+        raise ValueError(f"step card filename id does not match TOML card_id in {имя}: {номер_имени!r} != {номер!r}")
+    статус = поля["status"]
+    if not isinstance(статус, str) or статус not in STEP_CARD_STATUSES:
+        raise ValueError(f"invalid step card status in {имя}: {статус!r}")
+    if статус_имени != статус:
+        raise ValueError(f"step card filename status does not match TOML status in {имя}: {статус_имени!r} != {статус!r}")
+    заголовки = list(re.finditer(r"^#\s+(.+?)\s*$", тело, re.MULTILINE))
+    if len(заголовки) != 1:
+        raise ValueError(f"step card must contain exactly one level-one heading: {имя}")
+    заголовок = clean_text(заголовки[0].group(1))
+    if not заголовок:
+        raise ValueError(f"step card title is empty: {имя}")
+    задача = clean_text(required_step_card_section(тело, "Задача", имя))
+    источники = markdown_list_items(required_step_card_section(тело, "Источники", имя), исходный_путь, None,
+                                   нормализатор=нормализовать_цель)
+    ссылки = [ссылка for пункт in источники for ссылка in пункт["links"]]
+    if not ссылки:
+        raise ValueError(f"step card sources must contain at least one link: {имя}")
+    причина = None
+    критерии = []
+    результат = None
+    if статус == "active":
+        причина = clean_text(required_step_card_section(тело, "Почему сейчас", имя))
+        критерии = [пункт["text"] for пункт in markdown_list_items(
+            required_step_card_section(тело, "Критерии завершения", имя), исходный_путь, None,
+            нормализатор=нормализовать_цель)]
+        if not критерии:
+            raise ValueError(f"step card criteria must not be empty: {имя}")
     else:
-        outcome = clean_text(
-            required_step_card_section(body, "Результат", source_file)
-        )
+        результат = clean_text(required_step_card_section(тело, "Результат", имя))
+    return {"id": номер, "file": имя, "title": заголовок, "status": статус,
+            "task": задача, "why_now": причина, "criteria": критерии,
+            "outcome": результат, "source_links": ссылки}
 
-    return {
-        "id": card_id,
-        "file": source_file,
-        "title": title,
-        "status": status,
-        "task": task,
-        "why_now": why_now,
-        "criteria": criteria,
-        "outcome": outcome,
-        "source_links": source_links,
-    }
+
+def parse_step_card(path: Path, repo_root: Path) -> dict[str, Any]:
+    карточка = разобрать_карточку_шага(path.read_bytes(), path,
+        нормализовать_цель=lambda цель: normalize_target(цель, path, repo_root))
+    карточка["file"] = repo_relative(path, repo_root)
+    return карточка
 
 
 def requirement_status_from_filename(path: Path) -> str:
@@ -1340,101 +1311,57 @@ def table_after_heading(
     return parse_table(section_body(read_text(source_path, repo_root), heading), source_path, repo_root)
 
 
-def strict_table_after_heading(
-    path: str | Path,
-    heading: str,
-    expected_headers: list[str],
-    repo_root: Path,
-    *,
-    allow_preamble: bool = False,
-    допустить_послетекст: bool = False,
-) -> list[list[Cell]]:
-    source_path = Path(path)
-    text = read_text(source_path, repo_root)
-    if not has_level_two_heading(text, heading):
-        raise ValueError(
-            f"missing required table section {heading}: {source_path.as_posix()}"
-        )
-    lines = section_body(text, heading).splitlines()
-    header_index: int | None = None
-    for line_index, line in enumerate(lines):
-        cells = split_row(line)
-        if [clean_text(cell) for cell in cells] == expected_headers:
-            header_index = line_index
-            break
-    if header_index is None:
-        raise ValueError(
-            f"unexpected table header in {source_path.as_posix()} section {heading}"
-        )
-    for line_index in range(header_index):
-        line = lines[line_index]
-        if not line.strip():
+def разобрать_строгую_таблицу(данные: bytes, исходный_путь: Path, заголовок: str,
+        столбцы: list[str], *, нормализовать_цель, допустить_предтекст: bool = False,
+        допустить_послетекст: bool = False) -> list[list[Cell]]:
+    текст = текст_проверенных_байтов(данные)
+    имя = исходный_путь.as_posix()
+    if not has_level_two_heading(текст, заголовок):
+        raise ValueError(f"missing required table section {заголовок}: {имя}")
+    строки = section_body(текст, заголовок).splitlines()
+    начало = next((номер for номер, строка in enumerate(строки)
+                   if [clean_text(ячейка) for ячейка in split_row(строка)] == столбцы), None)
+    if начало is None:
+        raise ValueError(f"unexpected table header in {имя} section {заголовок}")
+    for номер in range(начало):
+        строка = строки[номер]
+        if not строка.strip() or (допустить_предтекст and "|" not in строка):
             continue
-        if allow_preamble and "|" not in line:
-            continue
-        raise ValueError(
-            f"malformed table row in {source_path.as_posix()} "
-            f"section {heading}: line {line_index + 1}"
-        )
-
+        raise ValueError(f"malformed table row in {имя} section {заголовок}: line {номер + 1}")
     if допустить_послетекст:
-        последняя_строка = header_index
-        while (
-            последняя_строка + 1 < len(lines)
-            and lines[последняя_строка + 1].strip()
-        ):
-            последняя_строка += 1
-        for индекс_строки in range(последняя_строка + 1, len(lines)):
-            if split_row(lines[индекс_строки]):
-                raise ValueError(
-                    f"unexpected table after postamble in {source_path.as_posix()} "
-                    f"section {heading}: line {индекс_строки + 1}"
-                )
+        конец = начало
+        while конец + 1 < len(строки) and строки[конец + 1].strip():
+            конец += 1
+        for номер in range(конец + 1, len(строки)):
+            if split_row(строки[номер]):
+                raise ValueError(f"unexpected table after postamble in {имя} section {заголовок}: line {номер + 1}")
     else:
-        populated_after_header = [
-            index
-            for index in range(header_index, len(lines))
-            if lines[index].strip()
-        ]
-        последняя_строка = populated_after_header[-1]
-    parsed_rows: list[list[str]] = []
-    for line_index in range(header_index, последняя_строка + 1):
-        line = lines[line_index]
-        cells = split_row(line)
-        if len(cells) != len(expected_headers):
-            raise ValueError(
-                f"malformed table row in {source_path.as_posix()} "
-                f"section {heading}: line {line_index + 1}"
-            )
-        parsed_rows.append(cells)
+        конец = max(номер for номер in range(начало, len(строки)) if строки[номер].strip())
+    разобранные = []
+    for номер in range(начало, конец + 1):
+        ячейки = split_row(строки[номер])
+        if len(ячейки) != len(столбцы):
+            raise ValueError(f"malformed table row in {имя} section {заголовок}: line {номер + 1}")
+        разобранные.append(ячейки)
+    if len(разобранные) < 2:
+        raise ValueError(f"malformed table in {имя} section {заголовок}")
+    if not is_separator(разобранные[1]):
+        raise ValueError(f"missing table separator in {имя} section {заголовок}")
+    результат = []
+    for ячейки in разобранные[2:]:
+        if is_separator(ячейки):
+            raise ValueError(f"unexpected table separator in {имя} section {заголовок}")
+        результат.append([Cell(raw=ячейка, text=clean_text(ячейка), links=links_from_markdown(
+            ячейка, исходный_путь, None, нормализатор=нормализовать_цель)) for ячейка in ячейки])
+    return результат
 
-    if len(parsed_rows) < 2:
-        raise ValueError(
-            f"malformed table in {source_path.as_posix()} section {heading}"
-        )
-    if not is_separator(parsed_rows[1]):
-        raise ValueError(
-            f"missing table separator in {source_path.as_posix()} section {heading}"
-        )
 
-    rows: list[list[Cell]] = []
-    for cells in parsed_rows[2:]:
-        if is_separator(cells):
-            raise ValueError(
-                f"unexpected table separator in {source_path.as_posix()} "
-                f"section {heading}"
-            )
-        rows.append(
-            [
-                Cell(
-                    raw=cell,
-                    text=clean_text(cell),
-                    links=links_from_markdown(cell, source_path, repo_root),
-                )
-                for cell in cells
-            ]
-        )
-    return rows
+def strict_table_after_heading(path: str | Path, heading: str, expected_headers: list[str],
+        repo_root: Path, *, allow_preamble: bool = False, допустить_послетекст: bool = False) -> list[list[Cell]]:
+    source_path = Path(path)
+    return разобрать_строгую_таблицу(read_text(source_path, repo_root).encode("utf-8"), source_path,
+        heading, expected_headers, нормализовать_цель=lambda цель: normalize_target(цель, source_path, repo_root),
+        допустить_предтекст=allow_preamble, допустить_послетекст=допустить_послетекст)
 
 
 def split_items(cell: Cell, source_path: Path, repo_root: Path) -> list[dict[str, Any]]:
