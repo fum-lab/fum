@@ -55,10 +55,11 @@ def штатное_чтение(ф, модуль, выбранный_хэш, с�
             счётчики['гит_байтов'] = счётчики.get('гит_байтов', 0)+len(б)
         return б
     def состояние():
-        if гит(ф.корень, 'rev-parse', '--show-toplevel').decode().strip()!=str(ф.корень) \
-            or гит(ф.корень, 'symbolic-ref', 'HEAD').decode().strip()!=ф.выбор['ветка'] \
+        if гит(ф.корень, 'rev-parse', '--show-toplevel').decode().strip()!=str(ф.корень):
+            raise ValueError('другой физический корень Git')
+        if гит(ф.корень, 'symbolic-ref', 'HEAD').decode().strip()!=ф.выбор['ветка'] \
             or гит(ф.корень, 'rev-parse', 'HEAD').decode().strip()!=ф.итог['коммит']:
-            raise ValueError('дрейф ручного чтения')
+            raise ValueError('HEAD/ref изменились')
     try:
         сырые = снимки.читать(str(модуль.приватный(str(ф.вход))), приватный=True)
         if модуль.чтение.хэш(сырые)!=выбранный_хэш: raise ValueError('SHA выбора')
@@ -93,15 +94,78 @@ def штатное_чтение(ф, модуль, выбранный_хэш, с�
             п['родители'][0], ф.итог['коммит']).split(b'\0')
         if any(os.fsdecode(и) not in п['разрешённые_цели'] for и in имена if и): raise ValueError('состав')
     finally:
+        ошибки = []
         try:
-            if проверено:
-                состояние()
-                if до is not None and до!=гит(ф.корень, 'ls-files', '--stage', '-v', '-z'): raise ValueError('дрейф индекса')
-                if подмена is not None and os.path.lexists(подмена): raise ValueError('grafts')
+            try:
+                try:
+                    if проверено:
+                        if до is not None and до!=гит(ф.корень, 'ls-files', '--stage', '-v', '-z'): raise ValueError('индекс изменился')
+                        if подмена is not None and os.path.lexists(подмена): raise ValueError('grafts появились')
+                except (ValueError, OSError, subprocess.SubprocessError) as ошибка: ошибки.append(str(ошибка))
+            finally:
+                try:
+                    try: модуль.проверить_наблюдения([], гит, подмена)
+                    except (ValueError, OSError, subprocess.SubprocessError) as ошибка: ошибки.append(str(ошибка))
+                finally:
+                    try:
+                        try: модуль.проверить_снимки(снимки)
+                        except (ValueError, OSError) as ошибка: ошибки.append(str(ошибка))
+                    finally:
+                        if проверено:
+                            try: состояние()
+                            except (ValueError, OSError, subprocess.SubprocessError) as ошибка: ошибки.append(str(ошибка))
         finally:
-            снимки.закрыть()
+            try:
+                try: модуль.проверить_наблюдения([], гит, подмена)
+                except (ValueError, OSError, subprocess.SubprocessError) as ошибка: ошибки.append(str(ошибка))
+            finally:
+                try: модуль.закрыть_снимки(снимки)
+                except (ValueError, OSError) as ошибка: ошибки.append(str(ошибка))
             if счётчики is not None: счётчики['прочитано_файловых_байтов'] = снимки.прочитано
+            if ошибки: raise ValueError('; '.join(ошибки))
     return {'схема': 'fum.результат-читающей-сверки.1', 'результат': результат, 'публикация': None}
+
+
+def поздние_отказы(ф, модуль, проверки, выбранный_хэш):
+    """Инъекции и наблюдение отказов целиком вне чистого таймера."""
+    другая = 'refs/heads/codex/другая'; ф.гит('update-ref', другая, ф.итог['коммит'])
+    оригинал = Path(ф.параметры['подготовка']).read_bytes(); итоги = {}
+    подмена = Path(модуль.прочитать_гит(ф.корень, 'rev-parse', '--path-format=absolute', '--git-path', 'info/grafts').decode().strip())
+    for вид in ('реф', 'байты_до_сверки_файлов', 'байты', 'grafts'):
+        отказы = []
+        for вариант in ('A', 'B'):
+            исходный = модуль.прочитать_гит; число_индексов = число_корней = 0; сработало = False
+            def чтение(корень, *аргументы):
+                nonlocal число_индексов, число_корней, сработало
+                ответ = исходный(корень, *аргументы)
+                if аргументы==('ls-files', '--stage', '-v', '-z'): число_индексов += 1
+                if аргументы==('rev-parse', '--show-toplevel'): число_корней += 1
+                if вид=='реф' and число_индексов==4 and аргументы==('ls-files', '--stage', '-v', '-z'):
+                    ф.гит('symbolic-ref', 'HEAD', другая); сработало = True
+                if вид=='байты_до_сверки_файлов' and число_индексов==4 and аргументы==('ls-files', '--stage', '-v', '-z'):
+                    with Path(ф.параметры['подготовка']).open('ab') as поток: поток.write(b' ')
+                    сработало = True
+                if вид=='байты' and число_корней==2 and аргументы==('rev-parse', 'HEAD'):
+                    with Path(ф.параметры['подготовка']).open('ab') as поток: поток.write(b' ')
+                    сработало = True
+                if вид=='grafts' and число_корней==2 and аргументы==('rev-parse', 'HEAD'):
+                    подмена.parent.mkdir(exist_ok=True); подмена.write_bytes(b''); сработало = True
+                return ответ
+            try:
+                with проверки.mock.patch.object(модуль, 'прочитать_гит', side_effect=чтение):
+                    try:
+                        if вариант=='A': штатное_чтение(ф, модуль, выбранный_хэш)
+                        else: модуль.сверить(ф.вход, выбранный_хэш)
+                    except ValueError as ошибка: отказы.append({'тип': type(ошибка).__name__, 'причина': str(ошибка)})
+                    else: raise ValueError('поздний дрейф не обнаружен: '+вариант)
+                if not сработало: raise ValueError('инъекция не сработала')
+            finally:
+                ф.гит('symbolic-ref', 'HEAD', ф.выбор['ветка'])
+                Path(ф.параметры['подготовка']).write_bytes(оригинал)
+                подмена.unlink(missing_ok=True)
+        if len(отказы)!=2 or отказы[0]!=отказы[1]: raise ValueError('неравные поздние отказы')
+        итоги[вид] = отказы[0]
+    return итоги
 
 
 def главная():
@@ -164,6 +228,7 @@ def главная():
                     if проверки.снимок(ф.каталог)!=до_отказа: raise ValueError('отказ записал входы')
                 ф.вход.write_bytes(оригинал)
                 if len(причины)!=2 or причины[0]!=причины[1]: raise ValueError('неравные отказы')
+                поздние = поздние_отказы(ф, модуль, проверки, выбранный_хэш)
                 клон = проверки.чистый_клон(ф); до_клона = проверки.снимок(ф.каталог)
                 начало = time.perf_counter_ns(); процесс = проверки.запустить(ф, каталог=клон)
                 холодный = time.perf_counter_ns()-начало
@@ -184,6 +249,7 @@ def главная():
                         и['наносекунды'] for и in измерения if и['вариант']==в)) for в in ('A', 'B')},
                     'диагностика': диагностика, 'холодный_процесс_наносекунды': холодный,
                     'код_холодного_процесса': процесс.returncode, 'равенство_отказа': True,
+                    'поздние_отказы': поздние,
                     'выбор_локальный_sha256': выбранный_хэш, 'выбор_readback_sha256': проверки.хэш(ф.вход.read_bytes()),
                     'readback_наносекунды': время_доставки, 'входы_sha256': ф.выбор['файлы'],
                     'результат_sha256': проверки.хэш(проверки.байты(эталон)), 'неизменность': True})

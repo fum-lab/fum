@@ -2,6 +2,7 @@
 import sys
 sys.dont_write_bytecode = True
 import argparse
+import errno
 import hashlib
 import json
 import os
@@ -187,6 +188,65 @@ def перепривязать(функция, **замены):
     return types.FunctionType(функция.__code__, окружение, функция.__name__, функция.__defaults__, функция.__closure__)
 
 
+def освободить_дескрипторы(записи):
+    """Убирает остаток прерванного stock close; уже закрытые FD не трогает."""
+    ошибки = []
+    for запись in записи:
+        _, дескриптор, до, *_ = запись
+        try:
+            после = os.fstat(дескриптор)
+            требовать((до.st_dev, до.st_ino)==(после.st_dev, после.st_ino), 'дескриптор заменён')
+            os.close(дескриптор)
+        except OSError as ошибка:
+            if ошибка.errno!=errno.EBADF: ошибки.append(str(ошибка))
+        except ValueError as ошибка: ошибки.append(str(ошибка))
+    требовать(not ошибки, '; '.join(ошибки))
+
+
+def проверить_снимки(снимки):
+    """Те же stock FS-проверки; освобождаются только дубликаты O_RDONLY FD."""
+    ошибки = []
+    for запись in tuple(снимки.файлы):
+        копия = type(снимки)(); дубликат = None; удержано = []
+        try:
+            дубликат = os.dup(запись[1])
+            удержано = [(запись[0], дубликат, *запись[2:])]
+            копия.файлы = list(удержано)
+            копия.закрыть()
+        except (ValueError, OSError) as ошибка: ошибки.append(str(ошибка))
+        finally:
+            снимки.прочитано += копия.прочитано
+            if дубликат is not None: освободить_дескрипторы(удержано)
+    требовать(not ошибки, '; '.join(ошибки))
+
+
+def закрыть_снимки(снимки):
+    записи = tuple(снимки.файлы)
+    try:
+        снимки.закрыть()
+    finally:
+        try: освободить_дескрипторы(записи)
+        finally: снимки.файлы = []
+
+
+def проверить_наблюдения(наблюдения, гит, подмена):
+    ошибки = []
+    try:
+        for файл, до, значение in наблюдения:
+            try:
+                требовать(файл.parent.resolve()==файл.parent, 'ссылка в родителе индексного файла')
+                после = файл.lstat()
+                требовать((до.st_dev, до.st_ino, до.st_mode, до.st_uid, до.st_nlink, до.st_mtime_ns, до.st_ctime_ns)
+                    == (после.st_dev, после.st_ino, после.st_mode, после.st_uid, после.st_nlink, после.st_mtime_ns, после.st_ctime_ns),
+                    'ссылка/gitlink изменились')
+                требовать((os.readlink(файл) if stat.S_ISLNK(после.st_mode) else гит(файл, 'rev-parse', 'HEAD'))==значение,
+                    'байты ссылки/gitlink изменились')
+            except (ValueError, OSError, subprocess.SubprocessError) as ошибка: ошибки.append(str(ошибка))
+    finally:
+        if подмена is not None and os.path.lexists(подмена): ошибки.append('grafts появились')
+        требовать(not ошибки, '; '.join(ошибки))
+
+
 def сверить(вход, ожидаемый_хэш, *, статистика=None):
     хэш_формата(ожидаемый_хэш)
     снимки = чтение.Снимки(); корень = выбор = подмена = None; наблюдения = []; индекс_до = None
@@ -254,27 +314,34 @@ def сверить(вход, ожидаемый_хэш, *, статистика=
     finally:
         ошибки = []
         try:
-            for файл, до, значение in наблюдения:
+            try:
+                if корень is not None:
+                    try:
+                        if индекс_до is not None:
+                            требовать(индекс_до==гит(корень, 'ls-files', '--stage', '-v', '-z'), 'индекс изменился')
+                        if подмена is not None: требовать(not os.path.lexists(подмена), 'grafts появились')
+                        if выбор['публикация'] is not None: адрес()
+                    except (ValueError, OSError, subprocess.SubprocessError) as ошибка: ошибки.append(str(ошибка))
+            finally:
                 try:
-                    после = файл.lstat()
-                    требовать((до.st_dev, до.st_ino, до.st_mode, до.st_uid, до.st_nlink, до.st_mtime_ns, до.st_ctime_ns)
-                        == (после.st_dev, после.st_ino, после.st_mode, после.st_uid, после.st_nlink, после.st_mtime_ns, после.st_ctime_ns),
-                        'ссылка/gitlink изменились')
-                    требовать((os.readlink(файл) if stat.S_ISLNK(после.st_mode) else гит(файл, 'rev-parse', 'HEAD'))==значение,
-                        'байты ссылки/gitlink изменились')
-                except (ValueError, OSError, subprocess.SubprocessError) as ошибка: ошибки.append(str(ошибка))
-            if корень is not None:
-                try:
-                    состояние()
-                    if индекс_до is not None:
-                        требовать(индекс_до==гит(корень, 'ls-files', '--stage', '-v', '-z'), 'индекс изменился')
-                    if подмена is not None: требовать(not os.path.lexists(подмена), 'grafts появились')
-                    if выбор['публикация'] is not None: адрес()
-                except (ValueError, OSError, subprocess.SubprocessError) as ошибка: ошибки.append(str(ошибка))
+                    try: проверить_наблюдения(наблюдения, гит, подмена)
+                    except (ValueError, OSError, subprocess.SubprocessError) as ошибка: ошибки.append(str(ошибка))
+                finally:
+                    try:
+                        try: проверить_снимки(снимки)
+                        except (ValueError, OSError) as ошибка: ошибки.append(str(ошибка))
+                    finally:
+                        if корень is not None:
+                            try: состояние()
+                            except (ValueError, OSError, subprocess.SubprocessError) as ошибка: ошибки.append(str(ошибка))
         finally:
-            # Все дескрипторы удерживаются до последних зависимых Git/address-чтений.
-            try: снимки.закрыть()
-            except (ValueError, OSError) as ошибка: ошибки.append(str(ошибка))
+            # Исходные FD удерживаются через pre-FS и terminal Git до post-FS.
+            try:
+                try: проверить_наблюдения(наблюдения, гит, подмена)
+                except (ValueError, OSError, subprocess.SubprocessError) as ошибка: ошибки.append(str(ошибка))
+            finally:
+                try: закрыть_снимки(снимки)
+                except (ValueError, OSError) as ошибка: ошибки.append(str(ошибка))
             if статистика is not None:
                 статистика.update(счётчики, прочитано_файловых_байтов=снимки.прочитано)
             требовать(not ошибки, '; '.join(ошибки))
