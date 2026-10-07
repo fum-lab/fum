@@ -108,16 +108,20 @@ def штатное_чтение(ф, модуль, выбранный_хэш, с�
                     except (ValueError, OSError, subprocess.SubprocessError) as ошибка: ошибки.append(str(ошибка))
                 finally:
                     try:
-                        try: модуль.проверить_снимки(снимки)
+                        try: модуль.проверить_файловые_наблюдения([], [], подмена)
                         except (ValueError, OSError) as ошибка: ошибки.append(str(ошибка))
                     finally:
-                        if проверено:
-                            try: состояние()
-                            except (ValueError, OSError, subprocess.SubprocessError) as ошибка: ошибки.append(str(ошибка))
+                        try:
+                            try: модуль.проверить_снимки(снимки)
+                            except (ValueError, OSError) as ошибка: ошибки.append(str(ошибка))
+                        finally:
+                            if проверено:
+                                try: состояние()
+                                except (ValueError, OSError, subprocess.SubprocessError) as ошибка: ошибки.append(str(ошибка))
         finally:
             try:
-                try: модуль.проверить_наблюдения([], гит, подмена)
-                except (ValueError, OSError, subprocess.SubprocessError) as ошибка: ошибки.append(str(ошибка))
+                try: модуль.проверить_файловые_наблюдения([], [], подмена)
+                except (ValueError, OSError) as ошибка: ошибки.append(str(ошибка))
             finally:
                 try: модуль.закрыть_снимки(снимки)
                 except (ValueError, OSError) as ошибка: ошибки.append(str(ошибка))

@@ -229,19 +229,160 @@ def закрыть_снимки(снимки):
         finally: снимки.файлы = []
 
 
-def проверить_наблюдения(наблюдения, гит, подмена):
+def метка_файла(состояние):
+    return (состояние.st_dev, состояние.st_ino, состояние.st_mode, состояние.st_uid,
+        состояние.st_nlink, состояние.st_size, состояние.st_mtime_ns, состояние.st_ctime_ns)
+
+
+def закрепить_вложенный_гит(каталог, снимки, метаданные, гит):
+    """Удерживает ref-store и его indirection; объекты/логи не обходятся."""
+    прочитанные = {}
+    def закрепить(путь, *, рекурсивно=False):
+        if путь in прочитанные: return прочитанные[путь]
+        чтение.физический(str(путь))
+        if not os.path.lexists(путь):
+            метаданные.append((путь, None, None)); прочитанные[путь] = None
+            return None
+        до = путь.lstat(); состав = None; сырые = None
+        if stat.S_ISDIR(до.st_mode):
+            состав = tuple(sorted(os.listdir(путь)))
+        else:
+            требовать(stat.S_ISREG(до.st_mode), 'необычные метаданные вложенного Git')
+            сырые = снимки.читать(str(путь), предел=до.st_size)
+        метаданные.append((путь, до, состав)); прочитанные[путь] = сырые
+        if рекурсивно and состав is not None:
+            for имя in состав: закрепить(путь/имя, рекурсивно=True)
+        требовать(метка_файла(до)==метка_файла(путь.lstat())
+            and (состав is None or состав==tuple(sorted(os.listdir(путь)))),
+            'метаданные вложенного Git изменились при закреплении')
+        return сырые
+    def конфигурация(путь):
+        # Штатный системный config-каталог macOS может быть alias.
+        # Удерживаются все раскрытые alias, а байты — по физическому адресу.
+        остаток = list(путь.parts[1:]); текущий = Path(путь.anchor); ссылок = 0
+        while остаток:
+            часть = остаток.pop(0)
+            if часть=='..': текущий = текущий.parent; continue
+            текущий /= часть
+            if текущий.is_symlink():
+                ссылок += 1; требовать(ссылок<=64, 'цикл config alias')
+                до = текущий.lstat(); цель = os.readlink(текущий)
+                метаданные.append((текущий, до, цель))
+                требовать(метка_файла(до)==метка_файла(текущий.lstat())
+                    and цель==os.readlink(текущий), 'config alias изменился при закреплении')
+                раскрытый = Path(цель) if Path(цель).is_absolute() else текущий.parent/цель
+                остаток = list(раскрытый.parts[1:])+остаток; текущий = Path(раскрытый.anchor)
+            elif not os.path.lexists(текущий) or (остаток and not текущий.is_dir()):
+                # Git встретил бы ENOENT/ENOTDIR до обработки следующего '..'.
+                закрепить(текущий); return
+            elif остаток and остаток[0]=='..':
+                закрепить(текущий)
+        закрепить(текущий)
+    закрепить(каталог/'.git')
+    формат = гит(каталог, 'rev-parse', '--show-ref-format').strip()
+    требовать(формат in (b'files', b'reftable'), 'неподдержанный ref-store вложенного Git')
+    корни = {Path(гит(каталог, 'rev-parse', '--absolute-git-dir').decode().strip()),
+        Path(гит(каталог, 'rev-parse', '--path-format=absolute', '--git-common-dir').decode().strip())}
+    for корень_гит in sorted(корни):
+        закрепить(корень_гит)
+        for имя in ('HEAD', 'commondir', 'config', 'config.worktree', 'packed-refs', 'refs', 'reftable'):
+            закрепить(корень_гит/имя, рекурсивно=имя in ('refs', 'reftable'))
+    for переменная in ('GIT_CONFIG_SYSTEM', 'GIT_CONFIG_GLOBAL'):
+        требовать(all(not any(знак in os.environ.get(ключ, '') for знак in ('\n', '\r'))
+            for ключ in ('HOME', 'XDG_CONFIG_HOME')), 'неподдержанный LF в config address')
+        адреса = гит(каталог, 'var', переменная).decode().splitlines()
+        требовать(1<=len(адреса)<=(1 if переменная=='GIT_CONFIG_SYSTEM' else 2), 'неоднозначные config candidates Git')
+        for имя in адреса:
+            требовать(Path(имя).is_absolute(), 'неабсолютный config candidate Git')
+            конфигурация(Path(имя))
+    # Git сообщает фактические config origins. Значения не экспортируются;
+    # включённые и отсутствующие include-цели также входят в FS-замыкание.
+    части = гит(каталог, 'config', '--includes', '--null', '--show-origin', '--name-only', '--list').split(b'\0')
+    требовать(части[-1]==b'' and len(части)%2==1, 'неверные config origins вложенного Git')
+    включения = False
+    for источник, ключ in zip(части[0:-1:2], части[1:-1:2]):
+        требовать(источник.startswith(b'file:') or источник==b'command line:', 'неподдержанный config origin')
+        if источник.startswith(b'file:'):
+            путь = Path(os.fsdecode(источник[5:]))
+            конфигурация(путь if путь.is_absolute() else каталог/путь)
+        включения |= ключ.lower()==b'include.path' or (ключ.lower().startswith(b'includeif.') and ключ.lower().endswith(b'.path'))
+    if включения:
+        части = гит(каталог, 'config', '--includes', '--null', '--show-origin',
+            '--get-regexp', r'^(include\.path|includeif\..*\.path)$').split(b'\0')
+        требовать(части[-1]==b'' and len(части)%2==1, 'неверные include origins вложенного Git')
+        for источник, запись in zip(части[0:-1:2], части[1:-1:2]):
+            требовать(источник.startswith(b'file:'), 'неподдержанный include origin')
+            ключ, разделитель, значение = запись.partition(b'\n')
+            условное = ключ.lower().startswith(b'includeif.')
+            if not разделитель:
+                # Успешное --includes выше доказывает, что такой невалидный
+                # path не был активен. Нельзя раскрывать неактивный includeIf.
+                требовать(условное, 'include.path без значения'); continue
+            основа = Path(os.fsdecode(источник[5:]))
+            основа = основа if основа.is_absolute() else каталог/основа
+            имя = os.fsdecode(значение)
+            if имя.startswith(chr(126)):
+                раскрытое = os.path.expanduser(имя)
+                if раскрытое.startswith(chr(126)):
+                    требовать(условное, 'неразрешимый include.path'); continue
+                имя = раскрытое
+            elif имя.startswith('%(prefix)/'):
+                имя = гит(каталог, '-c', 'fum.snapshotpath='+имя, 'config', '--type=path',
+                    '--null', '--get', 'fum.snapshotpath').removesuffix(b'\0').decode()
+            путь = Path(имя)
+            конфигурация(путь if путь.is_absolute() else основа.parent/путь)
+    # Редкий symref к pseudoref вне refs/ тоже закрепляется. Разрешение
+    # расположения выполняет Git до терминального ROOT, не наш post-FS.
+    if формат==b'reftable': return
+    имя = 'HEAD'; цепь = set()
+    for _ in range(64):
+        требовать(имя not in цепь, 'цикл вложенного symref'); цепь.add(имя)
+        путь = Path(гит(каталог, 'rev-parse', '--path-format=absolute', '--git-path', имя).decode().strip())
+        сырые = закрепить(путь)
+        if сырые is None or not сырые.startswith(b'ref:'): break
+        имя = сырые[4:].strip(b' \t\n\r\v\f').decode(); относительный(имя)
+    else: raise ValueError('слишком длинная цепь вложенного symref')
+
+
+def проверить_файловые_наблюдения(наблюдения, метаданные, подмена):
     ошибки = []
     try:
         for файл, до, значение in наблюдения:
             try:
                 требовать(файл.parent.resolve()==файл.parent, 'ссылка в родителе индексного файла')
                 после = файл.lstat()
-                требовать((до.st_dev, до.st_ino, до.st_mode, до.st_uid, до.st_nlink, до.st_mtime_ns, до.st_ctime_ns)
-                    == (после.st_dev, после.st_ino, после.st_mode, после.st_uid, после.st_nlink, после.st_mtime_ns, после.st_ctime_ns),
-                    'ссылка/gitlink изменились')
-                требовать((os.readlink(файл) if stat.S_ISLNK(после.st_mode) else гит(файл, 'rev-parse', 'HEAD'))==значение,
-                    'байты ссылки/gitlink изменились')
-            except (ValueError, OSError, subprocess.SubprocessError) as ошибка: ошибки.append(str(ошибка))
+                требовать(метка_файла(до)==метка_файла(после), 'ссылка/gitlink изменились')
+                if stat.S_ISLNK(после.st_mode):
+                    требовать(os.readlink(файл)==значение, 'байты ссылки/gitlink изменились')
+            except (ValueError, OSError) as ошибка: ошибки.append(str(ошибка))
+        for файл, до, состав in метаданные:
+            try:
+                if до is not None and stat.S_ISLNK(до.st_mode):
+                    чтение.физический(str(файл.parent))
+                    требовать(метка_файла(до)==метка_файла(файл.lstat()) and состав==os.readlink(файл),
+                        'байты ссылки/gitlink изменились: config alias')
+                    continue
+                чтение.физический(str(файл))
+                if до is None: требовать(not os.path.lexists(файл), 'байты ссылки/gitlink изменились: появился путь')
+                else:
+                    требовать(метка_файла(до)==метка_файла(файл.lstat())
+                        and (состав is None or состав==tuple(sorted(os.listdir(файл)))),
+                        'байты ссылки/gitlink изменились: метаданные вложенного Git')
+            except (ValueError, OSError) as ошибка: ошибки.append(str(ошибка))
+    finally:
+        if подмена is not None and os.path.lexists(подмена): ошибки.append('grafts появились')
+        требовать(not ошибки, '; '.join(ошибки))
+
+
+def проверить_наблюдения(наблюдения, гит, подмена):
+    ошибки = []
+    try:
+        try: проверить_файловые_наблюдения(наблюдения, [], подмена)
+        except (ValueError, OSError) as ошибка: ошибки.append(str(ошибка))
+        for файл, до, значение in наблюдения:
+            if stat.S_ISDIR(до.st_mode):
+                try: требовать(гит(файл, 'rev-parse', 'HEAD')==значение, 'байты ссылки/gitlink изменились')
+                except (ValueError, OSError, subprocess.SubprocessError) as ошибка: ошибки.append(str(ошибка))
     finally:
         if подмена is not None and os.path.lexists(подмена): ошибки.append('grafts появились')
         требовать(not ошибки, '; '.join(ошибки))
@@ -249,7 +390,7 @@ def проверить_наблюдения(наблюдения, гит, под
 
 def сверить(вход, ожидаемый_хэш, *, статистика=None):
     хэш_формата(ожидаемый_хэш)
-    снимки = чтение.Снимки(); корень = выбор = подмена = None; наблюдения = []; индекс_до = None
+    снимки = чтение.Снимки(); корень = выбор = подмена = None; наблюдения = []; метаданные = []; индекс_до = None
     счётчики = {'гит_вызовов': 0, 'гит_байтов': 0} if статистика is not None else None
     def гит(каталог, *аргументы):
         if счётчики is not None: счётчики['гит_вызовов'] += 1
@@ -296,6 +437,7 @@ def сверить(вход, ожидаемый_хэш, *, статистика=
                 снимки.читать(str(файл), предел=с.st_size)
             else:
                 наблюдения.append((файл, с, os.readlink(файл) if режим=='120000' else гит(файл, 'rev-parse', 'HEAD')))
+                if режим=='160000': закрепить_вложенный_гит(файл, снимки, метаданные, гит)
         проверка_индекса = перепривязать(штатный.индекс, гит=гит)
         требовать(проверка_индекса(корень)==данные['квитанция']['индекс_sha256'], 'индекс расходится с квитанцией')
         требовать(not гит(корень, 'diff-index', '--cached', '--name-only', '-z', выбор['коммит']), 'индекс расходится с C')
@@ -328,17 +470,21 @@ def сверить(вход, ожидаемый_хэш, *, статистика=
                     except (ValueError, OSError, subprocess.SubprocessError) as ошибка: ошибки.append(str(ошибка))
                 finally:
                     try:
-                        try: проверить_снимки(снимки)
+                        try: проверить_файловые_наблюдения(наблюдения, метаданные, подмена)
                         except (ValueError, OSError) as ошибка: ошибки.append(str(ошибка))
                     finally:
-                        if корень is not None:
-                            try: состояние()
-                            except (ValueError, OSError, subprocess.SubprocessError) as ошибка: ошибки.append(str(ошибка))
+                        try:
+                            try: проверить_снимки(снимки)
+                            except (ValueError, OSError) as ошибка: ошибки.append(str(ошибка))
+                        finally:
+                            if корень is not None:
+                                try: состояние()
+                                except (ValueError, OSError, subprocess.SubprocessError) as ошибка: ошибки.append(str(ошибка))
         finally:
             # Исходные FD удерживаются через pre-FS и terminal Git до post-FS.
             try:
-                try: проверить_наблюдения(наблюдения, гит, подмена)
-                except (ValueError, OSError, subprocess.SubprocessError) as ошибка: ошибки.append(str(ошибка))
+                try: проверить_файловые_наблюдения(наблюдения, метаданные, подмена)
+                except (ValueError, OSError) as ошибка: ошибки.append(str(ошибка))
             finally:
                 try: закрыть_снимки(снимки)
                 except (ValueError, OSError) as ошибка: ошибки.append(str(ошибка))
