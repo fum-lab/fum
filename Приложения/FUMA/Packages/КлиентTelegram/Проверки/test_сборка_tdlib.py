@@ -1,5 +1,6 @@
 import importlib.util
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -103,16 +104,23 @@ class ПроверкиСборкиTDLib(unittest.TestCase):
             with self.assertRaisesRegex(сборка.ОтказПрофиля, 'не зарегистрирован'):
                 сборка.проверитьРегистрацию(корень, self.профиль)
             выход = Path(каталог).resolve() / 'build'
+            аргументыИнструментов = []
+            for имя in сборка.ИМЕНА_ИНСТРУМЕНТОВ:
+                инструмент = Path(каталог).resolve() / имя
+                инструмент.write_text('открытая исполняемая фикстура, запуск не разрешён\n')
+                инструмент.chmod(0o700)
+                аргументыИнструментов.extend(['--инструмент', имя + '=' + str(инструмент)])
             результат = subprocess.run(
                 [sys.executable, '-B', str(путь.resolve()),
                  '--корень-репозитория', str(корень), '--выход', str(выход),
-                 '--openssl-root', каталог],
+                 '--openssl-root', каталог, *аргументыИнструментов],
                 capture_output=True, text=True, timeout=15,
             )
             self.assertEqual(результат.returncode, 2)
             отказ = json.loads(результат.stderr)
             self.assertEqual(отказ['схема'], 'fum.сборка-tdlib.1')
             self.assertEqual(отказ['исход'], 'отказ')
+            self.assertIn('не зарегистрирован', отказ['причина'])
             self.assertFalse(выход.exists())
 
     def test_отрицательный_сценарий_использует_изолированный_репозиторий(self):
@@ -181,11 +189,11 @@ class ПроверкиСборкиTDLib(unittest.TestCase):
             home = tempRoot / 'home'; home.mkdir(mode=0o700)
             temporary = tempRoot / 'tmp'; temporary.mkdir(mode=0o700)
             environment = {
-                'PATH': '/usr/bin:/bin:/usr/sbin:/sbin',
+                'PATH': os.defpath,
                 'HOME': str(home),
                 'TMPDIR': str(temporary),
                 'GIT_CONFIG_NOSYSTEM': '1',
-                'GIT_CONFIG_GLOBAL': '/dev/null',
+                'GIT_CONFIG_GLOBAL': os.devnull,
                 'GIT_NO_LAZY_FETCH': '1',
                 'GIT_NO_REPLACE_OBJECTS': '1',
                 'GIT_OPTIONAL_LOCKS': '0',
@@ -225,6 +233,238 @@ class ПроверкиСборкиTDLib(unittest.TestCase):
     def git(self, root, *arguments):
         result = subprocess.run(['git', '-C', str(root), *arguments], capture_output=True, check=True)
         return result.stdout.decode('utf-8')
+
+
+class ПроверкиГотовностиЗависимости(unittest.TestCase):
+    """Локальные фикстуры создаются до измеряемой операции чтения."""
+
+    def setUp(сам):
+        сам.временныйКаталог = tempfile.TemporaryDirectory()
+        сам.addCleanup(сам.временныйКаталог.cleanup)
+        сам.каталог = Path(сам.временныйКаталог.name).resolve()
+        сам.корень = сам.каталог / 'FUM'
+        сам.корень.mkdir()
+        сам.источник = сам.каталог / 'источник'
+        сам.источник.mkdir()
+        for репозиторий in (сам.корень, сам.источник):
+            сам.гит(репозиторий, 'init', '-q')
+            сам.гит(репозиторий, 'config', 'user.name', 'fixture')
+            сам.гит(репозиторий, 'config', 'user.email', 'fixture@example.invalid')
+        (сам.источник / 'CMakeLists.txt').write_text('project(fixture)\n')
+        сам.гит(сам.источник, 'add', '.')
+        сам.гит(сам.источник, 'commit', '-q', '-m', 'fixture')
+        сам.гит(сам.корень, '-c', 'protocol.file.allow=always', 'submodule', 'add',
+                 '--name', 'TDLib', str(сам.источник), 'Зависимости/TDLib')
+        сам.зависимость = сам.корень / 'Зависимости/TDLib'
+        сам.профиль = сборка.прочитатьПрофиль()
+        сам.гит(сам.зависимость, 'remote', 'set-url', 'origin', сам.профиль['зависимость']['зеркало'])
+        сам.гит(сам.зависимость, 'remote', 'add', 'upstream', сам.профиль['зависимость']['upstream'])
+        сам.гит(сам.корень, 'config', '-f', '.gitmodules', 'submodule.TDLib.url', сам.профиль['зависимость']['зеркало'])
+        сам.гит(сам.корень, 'config', '-f', '.gitmodules', 'submodule.TDLib.fumUpstream', сам.профиль['зависимость']['upstream'])
+        сам.гит(сам.корень, 'add', '.gitmodules')
+        сам.гит(сам.корень, 'commit', '-q', '-m', 'fixture')
+        сам.профиль['зависимость'].update({
+            'коммит': сам.гит(сам.зависимость, 'rev-parse', 'HEAD').strip(),
+            'дерево': сам.гит(сам.зависимость, 'rev-parse', 'HEAD^{tree}').strip(),
+            'времяКоммитаUnix': int(сам.гит(сам.зависимость, 'show', '-s', '--format=%ct', 'HEAD').strip()),
+            'отпечаткиSha256': {'CMakeLists.txt': сборка.sha256(сам.зависимость / 'CMakeLists.txt')},
+        })
+
+    def гит(сам, корень, *аргументы):
+        import os
+        окружение = {ключ: значение for ключ, значение in os.environ.items() if not ключ.startswith('GIT_')}
+        окружение.update({'GIT_CONFIG_NOSYSTEM': '1', 'GIT_CONFIG_GLOBAL': os.devnull, 'GIT_OPTIONAL_LOCKS': '0'})
+        результат = subprocess.run(['git', '-C', str(корень), '-c', 'core.fsmonitor=false', *аргументы],
+                                  env=окружение, capture_output=True, check=True, timeout=15)
+        return результат.stdout.decode()
+
+    def снимок(сам):
+        import hashlib
+        import stat
+        снимок = {}
+        for файл in sorted(сам.каталог.rglob('*')):
+            сведения = файл.lstat()
+            запись = [stat.S_IMODE(сведения.st_mode)]
+            if файл.is_symlink():
+                запись.append(str(файл.readlink()))
+            elif файл.is_file():
+                запись.append(hashlib.sha256(файл.read_bytes()).hexdigest())
+            снимок[str(файл.relative_to(сам.каталог))] = запись
+        return снимок
+
+    def проверить(сам, причина=None, *, окружение=None):
+        import os
+        до = сам.снимок()
+        with patch.dict(os.environ, окружение or {}), \
+                patch.object(сборка, 'собрать', side_effect=AssertionError('сборка запрещена')), \
+                patch.object(сборка, 'проверитьВыход', side_effect=AssertionError('выход запрещён')), \
+                patch.object(сборка, 'проверитьСреду', side_effect=AssertionError('toolchain запрещён')), \
+                patch.object(сборка, '_клонироватьИсточник', side_effect=AssertionError('clone запрещён')), \
+                patch.object(Path, 'mkdir', side_effect=AssertionError('mkdir запрещён')), \
+                patch.object(subprocess, 'run', wraps=subprocess.run) as процессы:
+            результат = сборка.проверитьГотовность(сам.корень, сам.профиль)
+        сам.assertEqual(до, сам.снимок())
+        сам.assertEqual(результат['схема'], 'fum.готовность-зависимости-tdlib.1')
+        сам.assertEqual(результат['исход'], 'успех' if причина is None else 'отказ')
+        сам.assertEqual(результат['причина'], причина or 'проверено')
+        сам.assertNotIn(str(сам.каталог), json.dumps(результат, ensure_ascii=False))
+        интервалы = результат['профиль']
+        сам.assertGreaterEqual(len(интервалы), 2)
+        for интервал in интервалы:
+            сам.assertIs(type(интервал['длительностьНаносекунды']), int)
+            сам.assertGreaterEqual(интервал['длительностьНаносекунды'], 0)
+            сам.assertIn(интервал['исход'], ('успех', 'отказ'))
+        for вызов in процессы.call_args_list:
+            команда = вызов.args[0]
+            сам.assertEqual(команда[0], 'git')
+            сам.assertIn('core.fsmonitor=false', команда)
+            сам.assertFalse({'clone', 'fetch', 'init', 'update', 'add', 'commit', 'checkout'} & set(команда))
+            сам.assertEqual(вызов.kwargs['env']['GIT_OPTIONAL_LOCKS'], '0')
+            сам.assertEqual(вызов.kwargs['env']['GIT_NO_LAZY_FETCH'], '1')
+        return результат
+
+    def test_чистая_синтетическая_зависимость_готова_без_записи(сам):
+        результат = сам.проверить()
+        сам.assertEqual([интервал['этап'] for интервал in результат['профиль']],
+                         ['профиль', 'регистрация', 'исходные_объекты'])
+        сам.assertEqual(результат['коммитФУМ'], сам.гит(сам.корень, 'rev-parse', 'HEAD').strip())
+        сам.assertEqual(результат['источникПрофиля'], 'аргумент-фикстуры')
+        сам.assertEqual(результат['регистрация']['гитлинк'], 'HEAD-и-индекс')
+        сам.assertEqual(результат['регистрация']['манифест'], 'HEAD-индекс-рабочее-дерево')
+
+    def test_отсутствие_регистрации_отдельно_от_материализации(сам):
+        (сам.корень / '.gitmodules').write_text('')
+        сам.проверить('нет_регистрации')
+
+    def test_неинициализированная_зависимость_не_загружается(сам):
+        import shutil
+        shutil.rmtree(сам.зависимость)
+        сам.проверить('нет_локальной_копии')
+
+    def test_гитлинк_вершины_должен_совпадать_с_закреплённым(сам):
+        сам.профиль['зависимость']['коммит'] = '0' * 40
+        сам.проверить('неверный_гитлинк')
+
+    def test_индекс_гитлинка_не_подменяет_вершину(сам):
+        сам.гит(сам.корень, 'update-index', '--cacheinfo', '160000,' + '1' * 40 + ',Зависимости/TDLib')
+        сам.проверить('неверный_гитлинк')
+
+    def test_манифест_рабочего_дерева_и_индекса_не_подменяет_вершину(сам):
+        файл = сам.корень / '.gitmodules'
+        исходный = файл.read_bytes()
+        файл.write_bytes(исходный + b'\n# drift\n')
+        сам.проверить('расходится_регистрация')
+        сам.гит(сам.корень, 'add', '.gitmodules')
+        файл.write_bytes(исходный)
+        сам.проверить('расходится_регистрация')
+
+    def test_изменённая_локальная_копия_не_готова(сам):
+        файл = сам.зависимость / 'CMakeLists.txt'
+        исходный = файл.read_bytes()
+        файл.write_bytes(исходный + b'# drift\n')
+        сам.проверить('изменена_локальная_копия')
+        файл.write_bytes(исходный)
+        (сам.зависимость / 'чужой-файл').write_text('fixture')
+        сам.проверить('изменена_локальная_копия')
+
+    def test_неверный_и_отсутствующий_адрес_различимы_от_грязной_копии(сам):
+        сам.гит(сам.зависимость, 'remote', 'set-url', 'origin', 'https://example.invalid/fixture.git')
+        сам.проверить('неверные_источники')
+        сам.гит(сам.зависимость, 'remote', 'set-url', 'origin', сам.профиль['зависимость']['зеркало'])
+        сам.гит(сам.зависимость, 'remote', 'remove', 'upstream')
+        сам.проверить('неверные_источники')
+
+    def test_конфликтные_стадии_индекса_не_готовы(сам):
+        идентификатор = сам.профиль['зависимость']['коммит']
+        данные = f'0 {"0" * 40}\tЗависимости/TDLib\n160000 {идентификатор} 1\tЗависимости/TDLib\n160000 {идентификатор} 2\tЗависимости/TDLib\n'.encode()
+        subprocess.run(['git', '-C', str(сам.корень), '-c', 'core.fsmonitor=false',
+                        'update-index', '--index-info'], input=данные, capture_output=True, check=True, timeout=15)
+        сам.проверить('неверный_гитлинк')
+
+    def test_несовпадение_дерева_и_времени_не_маскируется(сам):
+        дерево = сам.профиль['зависимость']['дерево']
+        сам.профиль['зависимость']['дерево'] = '0' * 40
+        сам.проверить('неверные_исходные_объекты')
+        сам.профиль['зависимость']['дерево'] = дерево
+        сам.профиль['зависимость']['времяКоммитаUnix'] += 1
+        сам.проверить('неверные_исходные_объекты')
+
+    def test_контракт_ревью_скрывающие_флаги_индекса_не_допускаются(сам):
+        файл = сам.зависимость / 'CMakeLists.txt'
+        исходный = файл.read_bytes()
+        for флаг, отмена in (('--assume-unchanged', '--no-assume-unchanged'), ('--skip-worktree', '--no-skip-worktree')):
+            with сам.subTest(флаг=флаг):
+                сам.гит(сам.зависимость, 'update-index', флаг, 'CMakeLists.txt')
+                файл.write_bytes(исходный + b'# hidden drift\n')
+                сам.проверить('изменена_локальная_копия')
+                файл.write_bytes(исходный)
+                сам.гит(сам.зависимость, 'update-index', отмена, 'CMakeLists.txt')
+
+    def test_контракт_ревью_обещания_всех_источников_нормализуется(сам):
+        for имя, значение in (('origin', '1'), ('upstream', 'true')):
+            with сам.subTest(имя=имя):
+                сам.гит(сам.зависимость, 'config', f'remote.{имя}.promisor', значение)
+                сам.проверить('неполная_локальная_копия')
+                сам.гит(сам.зависимость, 'config', '--unset', f'remote.{имя}.promisor')
+
+    def test_контракт_ревью_повреждённый_профиль_даёт_структурированный_отказ(сам):
+        профильныйФайл = сам.каталог / 'профиль.json'
+        прочитать = сборка.прочитатьПрофиль
+        for значение in ([], None, {'схема': 'fum.профиль-сборки-tdlib.1', 'сборка': []}):
+            with сам.subTest(значение=значение):
+                профильныйФайл.write_text(json.dumps(значение))
+                with patch.object(сборка, 'прочитатьПрофиль', side_effect=lambda: прочитать(профильныйФайл)):
+                    результат = сборка.проверитьГотовность(сам.корень)
+                сам.assertEqual(результат['исход'], 'отказ')
+                сам.assertEqual(результат['причина'], 'неверный_профиль')
+
+    def test_повторный_адрес_не_принимается(сам):
+        сам.гит(сам.зависимость, 'config', '--add', 'remote.origin.url', сам.профиль['зависимость']['зеркало'])
+        сам.проверить('неверные_источники')
+
+    def test_неверные_объекты_сохраняют_предыдущие_измерения(сам):
+        сам.профиль['зависимость']['отпечаткиSha256']['CMakeLists.txt'] = '0' * 64
+        результат = сам.проверить('неверные_исходные_объекты')
+        сам.assertEqual([интервал['исход'] for интервал in результат['профиль']], ['успех', 'успех', 'отказ'])
+
+    def test_чужое_окружение_и_монитор_не_имеют_эффекта(сам):
+        маркер = сам.каталог / 'вызван-fsmonitor'
+        обработчик = сам.каталог / 'fsmonitor'
+        обработчик.write_text('#!/bin/sh\ntouch "' + str(маркер) + '"\n')
+        обработчик.chmod(0o700)
+        сам.гит(сам.корень, 'config', 'core.fsmonitor', str(обработчик))
+        сам.гит(сам.зависимость, 'config', 'core.fsmonitor', str(обработчик))
+        сам.проверить(окружение={
+            'GIT_DIR': str(сам.источник / '.git'), 'GIT_WORK_TREE': str(сам.источник),
+            'GIT_INDEX_FILE': str(сам.источник / '.git/index'), 'GIT_CONFIG_COUNT': '1',
+            'GIT_CONFIG_KEY_0': 'core.fsmonitor', 'GIT_CONFIG_VALUE_0': str(обработчик),
+        })
+        сам.assertFalse(маркер.exists())
+
+    def test_команда_без_параметров_сборки_даёт_машинный_отказ_и_не_пишет(сам):
+        (сам.корень / '.gitmodules').write_text('')
+        до = сам.снимок()
+        результат = subprocess.run([sys.executable, '-O', '-B', str(путь.resolve()),
+                                    '--корень-репозитория', str(сам.корень), '--только-проверить-зависимость'],
+                                   capture_output=True, text=True, timeout=15)
+        сам.assertEqual(результат.returncode, 2)
+        сам.assertEqual(результат.stdout, '')
+        отказ = json.loads(результат.stderr)
+        сам.assertEqual(отказ['схема'], 'fum.готовность-зависимости-tdlib.1')
+        сам.assertEqual(отказ['причина'], 'нет_регистрации')
+        сам.assertEqual(до, сам.снимок())
+
+    def test_команда_отклоняет_смешение_режимов_и_неизвестный_флаг(сам):
+        for дополнение in (['--выход', str(сам.каталог / 'выход')], ['--неизвестный-флаг']):
+            with сам.subTest(дополнение=дополнение):
+                до = сам.снимок()
+                результат = subprocess.run([sys.executable, '-O', '-B', str(путь.resolve()),
+                                            '--корень-репозитория', str(сам.корень),
+                                            '--только-проверить-зависимость', *дополнение],
+                                           capture_output=True, text=True, timeout=15)
+                сам.assertEqual(результат.returncode, 2)
+                сам.assertEqual(json.loads(результат.stderr)['причина'], 'неверные_аргументы')
+                сам.assertEqual(до, сам.снимок())
 
 
 if __name__ == '__main__':

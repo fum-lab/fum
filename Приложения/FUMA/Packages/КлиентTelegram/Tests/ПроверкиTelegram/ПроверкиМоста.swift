@@ -30,7 +30,7 @@ import Testing
     try собратьДинамическуюБиблиотеку(исходник, в: библиотека)
 
     var ошибка: ОшибкаКлиента?
-    do { _ = try МостБиблиотеки(библиотека: библиотека.path) }
+    do { _ = try МостБиблиотеки(библиотека: библиотека.path, привязка: привязкаФикстуры(библиотека, исходник)) }
     catch let найденная as ОшибкаКлиента { ошибка = найденная }
     #expect(ошибка == .отсутствуетСимвол("td_create_client_id"))
 
@@ -41,13 +41,138 @@ import Testing
     const char *td_receive(double timeout) { (void)timeout; return 0; }
     """.write(to: исходник, atomically: true, encoding: .utf8)
     try собратьДинамическуюБиблиотеку(исходник, в: библиотека)
-    _ = try МостБиблиотеки(библиотека: библиотека.path)
+    let выбранная = try привязкаФикстуры(библиотека, исходник)
+    let мост = try МостБиблиотеки(библиотека: библиотека.path, привязка: выбранная)
+    #expect(throws: ОшибкаКлиента.self) { try мост.отправить(клиент: 1, запрос: Data([0xff])) }
+    #expect(throws: ОшибкаКлиента.self) { try мост.отправить(клиент: 1, запрос: Data([123, 0, 125])) }
+    #expect(throws: ОшибкаКлиента.self) { try мост.отправить(клиент: 0, запрос: Data("{}".utf8)) }
+    try мост.отправить(клиент: 1, запрос: Data(" {\"ё\":\"\\u0451\"}\n".utf8))
+    // Другие байты receipt при том же dylib не подменяют удерживаемую привязку.
+    var поля = try JSONSerialization.jsonObject(with: выбранная.сыраяКвитанция) as! [String: Any]
+    поля["исходникSha256"] = String(repeating: "a", count: 64)
+    let изменено = try JSONSerialization.data(withJSONObject: поля, options: [.sortedKeys])
+    let новая = try ПривязкаБиблиотеки.проверить(библиотека: библиотека, сыраяКвитанция: изменено, ожидаемыйШа256: хэшОбмена(изменено))
+    #expect(throws: ОшибкаКлиента.self) { try МостБиблиотеки(библиотека: библиотека.path, привязка: новая) }
+    // Подмена on-disk файла при старой квитанции отвергается до повторного dlopen.
+    try Data("changed-file".utf8).write(to: библиотека, options: [.atomic])
+    #expect(throws: ОшибкаКлиента.self) { try МостБиблиотеки(библиотека: библиотека.path, привязка: выбранная) }
+}
+
+private func привязкаФикстуры(_ библиотека: URL, _ исходник: URL) throws -> ПривязкаБиблиотеки {
+    let данные = try Data(contentsOf: библиотека)
+    let сырьё = try JSONSerialization.data(withJSONObject: [
+        "схема": "fum.синтетическая-c-библиотека.1", "исход": "успех",
+        "исходникSha256": хэшОбмена(try Data(contentsOf: исходник)), "компиляторSha256": String(repeating: "0", count: 64),
+        "библиотекаSha256": хэшОбмена(данные), "библиотекаBytes": данные.count,
+        "архитектуры": ["arm64"], "символы": ["td_create_client_id", "td_send", "td_receive"]
+    ], options: [.sortedKeys])
+    return try ПривязкаБиблиотеки.проверить(библиотека: библиотека, сыраяКвитанция: сырьё, ожидаемыйШа256: хэшОбмена(сырьё))
+}
+
+@Test func невернаяКвитанцияНеОткрываетБиблиотеку() throws {
+    let отсутствующая = URL(fileURLWithPath: "/не-открывать/libtdjson.dylib")
+    for сырьё in [Data("{\"схема\":\"a\",\"схема\":\"b\"}".utf8), Data("{\"схема\":\"a\",\"\\u0441хема\":\"b\"}".utf8), Data("{\"схема\":\"fum.сборка-tdlib.1\",\"исход\":\"успех\"}".utf8)] {
+        #expect(throws: (any Error).self) { try ПривязкаБиблиотеки.проверить(библиотека: отсутствующая, сыраяКвитанция: сырьё, ожидаемыйШа256: хэшОбмена(сырьё)) }
+    }
+    #expect(throws: (any Error).self) { try ПривязкаБиблиотеки.проверить(библиотека: отсутствующая, сыраяКвитанция: Data("{}".utf8), ожидаемыйШа256: String(repeating: "0", count: 64)) }
+}
+
+@Test func формаКвитанцииСборщикаПроверяетсяНаОткрытыхБайтахБезЗагрузкиБиблиотеки() throws {
+    let корень = try создатьПриватныйКаталог(); defer { try? FileManager.default.removeItem(at: корень) }
+    let библиотека = корень.appendingPathComponent("открытая-фикстура.bin")
+    let байты = Data("Открытая фикстура проверяет только receipt и SHA, не является TDLib".utf8)
+    try байты.write(to: библиотека)
+    let пакет = try проверенныйКореньПакета()
+    let профиль = try JSONSerialization.jsonObject(with: Data(contentsOf: пакет.appendingPathComponent("Профили/2026-09-30-сборка-tdlib.json"))) as! [String: Any]
+    let хост = профиль["хост"] as! [String: Any]
+    var среда = хост
+    среда.removeValue(forKey: "система"); среда["macOS"] = среда.removeValue(forKey: "версия")
+    среда["xcode"] = "Xcode 27.0"; среда["cmake"] = "cmake version 4.4.3"
+    var инструменты = хост["sha256Инструментов"] as! [String: String]
+    инструменты["zlibTbd"] = среда.removeValue(forKey: "zlibTbdSha256") as? String
+    среда["sha256Инструментов"] = инструменты
+    let зависимость = профиль["зависимость"] as! [String: Any]
+    let проход: [String: Any] = ["проход": 1, "коммит": зависимость["коммит"]!, "дерево": зависимость["дерево"]!,
+        "архивSha256": String(repeating: "a", count: 64), "настройкаСекунд": 0.5, "сборкаСекунд": 0.5, "установкаСекунд": 0.5,
+        "библиотекаSha256": хэшОбмена(байты), "библиотекаBytes": байты.count,
+        "архитектуры": ["arm64"], "символы": ["td_create_client_id", "td_send", "td_receive"], "зависимости": ["system/libSystem.B.dylib"]]
+    var второй = проход; второй["проход"] = 2
+    let поля: [String: Any] = ["схема": "fum.сборка-tdlib.1", "исход": "успех", "коммит": зависимость["коммит"]!,
+        "профиль": среда, "повторений": 2, "библиотекаSha256": хэшОбмена(байты), "байтыСовпали": true, "проходы": [проход, второй]]
+    func проверить(_ объект: [String: Any]) throws -> ПривязкаБиблиотеки {
+        let сырьё = try JSONSerialization.data(withJSONObject: объект, options: [.sortedKeys])
+        return try ПривязкаБиблиотеки.проверить(библиотека: библиотека, сыраяКвитанция: сырьё, ожидаемыйШа256: хэшОбмена(сырьё))
+    }
+    #expect(try проверить(поля).библиотекаШа256 == хэшОбмена(байты))
+    for (имя, значение) in [("повторений", true as Any), ("коммит", "wrong" as Any), ("байтыСовпали", 1 as Any), ("лишнее", "unknown" as Any)] {
+        var неверное = поля; неверное[имя] = значение
+        #expect(throws: (any Error).self) { try проверить(неверное) }
+    }
+    var неверныйПроход = второй; неверныйПроход["библиотекаBytes"] = байты.count + 1
+    var неверное = поля; неверное["проходы"] = [проход, неверныйПроход]
+    #expect(throws: (any Error).self) { try проверить(неверное) }
+    var невернаяСреда = среда; невернаяСреда["cmake"] = "cmake version 4.4.30"
+    неверное = поля; неверное["профиль"] = невернаяСреда
+    #expect(throws: (any Error).self) { try проверить(неверное) }
+    #expect(throws: (any Error).self) { try МостБиблиотеки(библиотека: "относительный.dylib", привязка: .синтетическийТранспорт) }
+}
+
+private func проверенныйКореньПакета(окружение: [String: String] = ProcessInfo.processInfo.environment) throws -> URL {
+    guard let путь = окружение["ФУМ_КОРЕНЬ_ПАКЕТА"],
+          (путь as NSString).isAbsolutePath else {
+        throw ОшибкаКлиента.требуетсяРазбор
+    }
+    let корень = URL(fileURLWithPath: путь).standardizedFileURL.resolvingSymlinksInPath()
+    guard FileManager.default.fileExists(atPath: корень.appendingPathComponent("Package.swift").path),
+          FileManager.default.fileExists(atPath: корень.appendingPathComponent("Профили/2026-09-30-сборка-tdlib.json").path) else {
+        throw ОшибкаКлиента.требуетсяРазбор
+    }
+    return корень
+}
+
+private func проверенныйКомпилятор(окружение: [String: String] = ProcessInfo.processInfo.environment) throws -> URL {
+    guard let путь = окружение["ФУМ_КОМПИЛЯТОР"],
+          (путь as NSString).isAbsolutePath else {
+        throw ОшибкаКлиента.требуетсяРазбор
+    }
+    let выбранный = URL(fileURLWithPath: путь).standardizedFileURL.resolvingSymlinksInPath()
+    let свойства = try выбранный.resourceValues(forKeys: [.isRegularFileKey])
+    guard свойства.isRegularFile == true,
+          FileManager.default.isExecutableFile(atPath: выбранный.path) else {
+        throw ОшибкаКлиента.требуетсяРазбор
+    }
+    return выбранный
+}
+
+@Test func явныеВходыФикстурыЗакрытоОтклоняютОтсутствиеИНеверныйПуть() throws {
+    let каталог = try создатьПриватныйКаталог()
+    defer { try? FileManager.default.removeItem(at: каталог) }
+    for окружение in [[:], ["ФУМ_КОРЕНЬ_ПАКЕТА": "относительный"], ["ФУМ_КОРЕНЬ_ПАКЕТА": каталог.path]] {
+        #expect(throws: (any Error).self) { try проверенныйКореньПакета(окружение: окружение) }
+    }
+    for окружение in [[:], ["ФУМ_КОМПИЛЯТОР": "относительный"], ["ФУМ_КОМПИЛЯТОР": каталог.path]] {
+        #expect(throws: (any Error).self) { try проверенныйКомпилятор(окружение: окружение) }
+    }
+    let файл = каталог.appendingPathComponent("compiler-fixture")
+    try Data("fixture".utf8).write(to: файл)
+    try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: файл.path)
+    #expect(throws: (any Error).self) { try проверенныйКомпилятор(окружение: ["ФУМ_КОМПИЛЯТОР": файл.path]) }
+    try FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: файл.path)
+    #expect(try проверенныйКомпилятор(окружение: ["ФУМ_КОМПИЛЯТОР": файл.path]).path == файл.resolvingSymlinksInPath().path)
 }
 
 private func собратьДинамическуюБиблиотеку(_ исходник: URL, в библиотека: URL) throws {
+    guard let путьSDK = ProcessInfo.processInfo.environment["SDKROOT"],
+          (путьSDK as NSString).isAbsolutePath else {
+        throw ОшибкаКлиента.требуетсяРазбор
+    }
+    let sdk = URL(fileURLWithPath: путьSDK).standardizedFileURL.resolvingSymlinksInPath()
+    guard try sdk.resourceValues(forKeys: [.isDirectoryKey]).isDirectory == true else {
+        throw ОшибкаКлиента.требуетсяРазбор
+    }
     let компилятор = Process()
-    компилятор.executableURL = URL(fileURLWithPath: "/usr/bin/clang")
-    компилятор.arguments = ["-dynamiclib", "-o", библиотека.path, исходник.path]
+    компилятор.executableURL = try проверенныйКомпилятор()
+    компилятор.arguments = ["-isysroot", sdk.path, "-dynamiclib", "-o", библиотека.path, исходник.path]
     try компилятор.run()
     компилятор.waitUntilExit()
     guard компилятор.terminationStatus == 0 else { throw ОшибкаКлиента.требуетсяРазбор }
@@ -121,6 +246,10 @@ private final class ТранспортПримера: ТранспортБибл
     try await проверитьОтменуСЧтениемСостояния()
     try await проверитьАварийныеВеткиПриёма()
     try await проверитьПрофильСинтетическогоПотока()
+    try await сыройАрхивУжеСуществуетВнутриНижнейОтправки()
+    try await проверитьОтказВходящегоАрхиваДоОчереди()
+    try await проверитьХвостСАрхивом()
+    // Последняя старая проверка намеренно сохраняет аварийное владение процесса.
     try await проверитьСредуКлиента()
 }
 
