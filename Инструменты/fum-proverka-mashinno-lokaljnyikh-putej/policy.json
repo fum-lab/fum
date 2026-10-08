@@ -5226,7 +5226,7 @@
       "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_подготовки_этапа_коммита.py",
       "kind": "posix-absolute",
       "line_sha256": "sha256:2c40cb593e1c8e8561c88e3993819075974361d6fecec814172f25f9fffcaabc",
-      "count": 4,
+      "count": 6,
       "category": "allow.nonpath-syntax",
       "reason": "Закрепляет точный программный суффикс относительного пути, операцию соединения компонентов либо экранированный байтовый литерал; адрес локальной машины эта строка не задаёт."
     },
@@ -6408,6 +6408,78 @@
       "count": 1,
       "category": "allow.nonpath-syntax",
       "reason": "Неизменяемый исторический профиль содержит буквальное имя Swift-директивы в описании проверки утечек; это название синтаксиса, а не полученный машинный путь."
+    },
+    {
+      "id": "repeat-root235-script-suffix",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/повторная_подготовка_этапа.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:4a77ce67020c2bdd6134fcc0328fa5272577266ccff725a02da5db0d15bb6979",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет два точных суффикса канонической пары запроса и отчёта, соединяемых с относительным путём; адрес машины не задаётся."
+    },
+    {
+      "id": "repeat-root235-negative-executable",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_повторной_подготовки_этапа.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:65265df085fe4a7d6d4779f46e9549da65ef2a972e8bd4e4340adb2b9d30e725",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Отрицательная фикстура проверки публикации: заведомо машинный адрес должен быть отклонён; это не реальный путь используемого интерпретатора."
+    },
+    {
+      "id": "repeat-root235-byte-path-rejection",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_подготовки_этапа_коммита.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b43477e2af38d0e064ee1375880145cb0b57deef262330012e2152d3f30bffe7",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Точные байтовые префиксы служат запретом локальных путей в публикационной сводке профиля; реального адреса машины строка не задаёт."
+    },
+    {
+      "id": "repeat-root235-byte-home-rejection",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_подготовки_этапа_коммита.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:7801b5ef5539c01cba8e4e1d796bb9a952acbbcf5244a86be1788a1f9da16eaf",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Точные байтовые префиксы служат запретом локальных путей в публикационной сводке профиля; реального адреса машины строка не задаёт."
+    },
+    {
+      "id": "repeat-root235-raw-dir-init",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_повторной_подготовки_этапа.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:968d6a41c0a352ba62f2b7086f0ff11abe78ebcdbb814b61c83e5e5775380196",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Суффикс канонического относительного каталога RAW соединяется с Path родителя запроса; абсолютный адрес машины не задаётся."
+    },
+    {
+      "id": "repeat-root235-executable-shebang",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_повторной_подготовки_этапа.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:9c317ede44a4196ab8f417da5d53cb1b093df09791adecd544814d17f028918e",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Shebang синтетического исполняемого файла автономной фикстуры проверяет исполнение процесса; это не зависимость или адрес пользовательской машины."
+    },
+    {
+      "id": "repeat-root235-unused-raw-dir",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_повторной_подготовки_этапа.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:25f8a436feb36a72af79415e85b908dd84ec38e962532e6afbbc68b71ce89f00",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Суффикс относительного пути неиспользованной будущей RAW проверяет сохранение состава повторной подготовки; абсолютный адрес машины не задаётся."
+    },
+    {
+      "id": "repeat-root235-facade-raw-dir",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_этапа_коммита.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:f49afd65af30b3900b5bce8ee91f19b82b534cc28e3f28aa141989689a6f0eb8",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Суффикс относительного каталога новых RAW соединяется с Path канонического родителя запроса; абсолютный адрес машины не задаётся."
     }
   ],
   "метаданные": [

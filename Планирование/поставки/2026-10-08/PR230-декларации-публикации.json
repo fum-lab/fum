@@ -1,0 +1,117 @@
+{
+  "declarations": [
+    {
+      "category": "allow.nonpath-syntax",
+      "id": "root-facade-s546-file1-line334",
+      "line": 561,
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_этапа_коммита.py",
+      "reason": "Закрепляет точный программный суффикс относительного пути, операцию соединения компонентов либо экранированный байтовый литерал; адрес локальной машины эта строка не задаёт."
+    },
+    {
+      "category": "allow.nonpath-syntax",
+      "id": "root-facade-s546-file1-line555",
+      "line": 816,
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_этапа_коммита.py",
+      "reason": "Закрепляет точный программный суффикс относительного пути, операцию соединения компонентов либо экранированный байтовый литерал; адрес локальной машины эта строка не задаёт."
+    },
+    {
+      "category": "allow.nonpath-syntax",
+      "id": "root-facade-s546-file2-line73",
+      "line": 73,
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_этапа_коммита.py",
+      "reason": "Закрепляет точный программный суффикс относительного пути, операцию соединения компонентов либо экранированный байтовый литерал; адрес локальной машины эта строка не задаёт."
+    },
+    {
+      "category": "allow.nonpath-syntax",
+      "id": "root-facade-s546-file2-line317",
+      "line": 317,
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_этапа_коммита.py",
+      "reason": "Закрепляет точный программный суффикс относительного пути, операцию соединения компонентов либо экранированный байтовый литерал; адрес локальной машины эта строка не задаёт."
+    },
+    {
+      "category": "allow.nonpath-syntax",
+      "id": "root-facade-s546-file2-line346",
+      "line": 346,
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_этапа_коммита.py",
+      "reason": "Закрепляет точный программный суффикс относительного пути, операцию соединения компонентов либо экранированный байтовый литерал; адрес локальной машины эта строка не задаёт."
+    },
+    {
+      "category": "allow.nonpath-syntax",
+      "id": "root-facade-s546-file2-line549",
+      "line": 600,
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_этапа_коммита.py",
+      "reason": "Закрепляет точный программный суффикс относительного пути, операцию соединения компонентов либо экранированный байтовый литерал; адрес локальной машины эта строка не задаёт."
+    },
+    {
+      "category": "allow.nonpath-syntax",
+      "id": "root-facade-s546-file2-line725",
+      "line": 778,
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_этапа_коммита.py",
+      "reason": "Закрепляет точный программный суффикс относительного пути, операцию соединения компонентов либо экранированный байтовый литерал; адрес локальной машины эта строка не задаёт."
+    },
+    {
+      "category": "allow.nonpath-syntax",
+      "id": "root-facade-s546-file3-line132",
+      "line": 147,
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_подготовки_этапа_коммита.py",
+      "reason": "Закрепляет точный программный суффикс относительного пути, операцию соединения компонентов либо экранированный байтовый литерал; адрес локальной машины эта строка не задаёт."
+    },
+    {
+      "category": "allow.nonpath-syntax",
+      "id": "repeat-root235-script-suffix",
+      "line": 295,
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/повторная_подготовка_этапа.py",
+      "reason": "Закрепляет два точных суффикса канонической пары запроса и отчёта, соединяемых с относительным путём; адрес машины не задаётся."
+    },
+    {
+      "category": "allow.test-fixture",
+      "id": "repeat-root235-negative-executable",
+      "line": 40,
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_повторной_подготовки_этапа.py",
+      "reason": "Отрицательная фикстура проверки публикации: заведомо машинный адрес должен быть отклонён; это не реальный путь используемого интерпретатора."
+    },
+    {
+      "category": "allow.path-validation-definition",
+      "id": "repeat-root235-byte-path-rejection",
+      "line": 1125,
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_подготовки_этапа_коммита.py",
+      "reason": "Точные байтовые префиксы служат запретом локальных путей в публикационной сводке профиля; реального адреса машины строка не задаёт."
+    },
+    {
+      "category": "allow.path-validation-definition",
+      "id": "repeat-root235-byte-home-rejection",
+      "line": 1126,
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_подготовки_этапа_коммита.py",
+      "reason": "Точные байтовые префиксы служат запретом локальных путей в публикационной сводке профиля; реального адреса машины строка не задаёт."
+    },
+    {
+      "category": "allow.nonpath-syntax",
+      "id": "repeat-root235-raw-dir-init",
+      "line": 98,
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_повторной_подготовки_этапа.py",
+      "reason": "Суффикс канонического относительного каталога RAW соединяется с Path родителя запроса; абсолютный адрес машины не задаётся."
+    },
+    {
+      "category": "allow.test-fixture",
+      "id": "repeat-root235-executable-shebang",
+      "line": 118,
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_повторной_подготовки_этапа.py",
+      "reason": "Shebang синтетического исполняемого файла автономной фикстуры проверяет исполнение процесса; это не зависимость или адрес пользовательской машины."
+    },
+    {
+      "category": "allow.nonpath-syntax",
+      "id": "repeat-root235-unused-raw-dir",
+      "line": 599,
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_повторной_подготовки_этапа.py",
+      "reason": "Суффикс относительного пути неиспользованной будущей RAW проверяет сохранение состава повторной подготовки; абсолютный адрес машины не задаётся."
+    },
+    {
+      "category": "allow.nonpath-syntax",
+      "id": "repeat-root235-facade-raw-dir",
+      "line": 410,
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_этапа_коммита.py",
+      "reason": "Суффикс относительного каталога новых RAW соединяется с Path канонического родителя запроса; абсолютный адрес машины не задаётся."
+    }
+  ],
+  "schema": "fum.machine-local-path-policy-update.v1"
+}
