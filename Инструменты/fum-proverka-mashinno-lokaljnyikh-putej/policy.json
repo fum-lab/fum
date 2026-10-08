@@ -5841,6 +5841,222 @@
       "count": 1,
       "category": "report.historical",
       "reason": "Сохранённое историческое runtime-свидетельство из закрытого вложенного ответа или наблюдения в отчёте, строка 109; это не действующая команда или план. Точный отпечаток строки и число совпадений выводит штатный обновлятор."
+    },
+    {
+      "id": "klaviatura-history-first-delegation",
+      "path": "Журнал/2026-10-03_19-29-37_MSK_реализовать-раскладку-Klaviatura/отчёт.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:61d8e00603d3ae65ac493c0a8034d43f889561f2b816a4804b0b7cb51997a81a",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохранённая дословная делегация первого этапа закрепляет назначенный worktree; путь служит историческим свидетельством происхождения в неизменном блоке наблюдения."
+    },
+    {
+      "id": "klaviatura-history-session-skill-link",
+      "path": "Журнал/2026-10-03_19-29-37_MSK_реализовать-раскладку-Klaviatura/отчёт.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:97ccbdeab2e0d24e49899aa0511975399f16f8c30edaaee490fe01c0a888113b",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохранённая дословная реплика о чтении локального навыка связности содержит прежнюю абсолютную ссылку; строка остаётся исторической цитатой, не действующей инструкцией воспроизведения."
+    },
+    {
+      "id": "klaviatura-history-physical-root",
+      "path": "Журнал/2026-10-03_19-29-37_MSK_реализовать-раскладку-Klaviatura/отчёт.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:9fbc42725d7283c8aec4620a8d22018384d325b6eea54349b086565ade446d73",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохранённый дословный отчёт первоначального осмотра фиксирует физический корень исполнителя; это историческое наблюдение в неизменном блоке ассистента."
+    },
+    {
+      "id": "klaviatura-history-option-table",
+      "path": "Журнал/2026-10-03_19-29-37_MSK_реализовать-раскладку-Klaviatura/отчёт.md",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:7c71428b406b98a812b333b4954c934ad89c8e3de4ec09d39245a089195f125c",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохранённая дословная таблица Option-слоя содержит буквальный символ тильды U+007E; строка является исторической цитатой раскладки, а не домашним сокращением пути."
+    },
+    {
+      "id": "klaviatura-history-file-inventory-root",
+      "path": "Журнал/2026-10-03_19-29-37_MSK_реализовать-раскладку-Klaviatura/отчёт.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:4efadaf0fe35e80fd12b95ef2e984a2091406653998b8733ec36a1a8915bec1e",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохранённая дословная реплика задаёт прежнюю физическую основу перечня будущих файлов; абсолютный путь относится к историческому плану внутри неизменной цитаты."
+    },
+    {
+      "id": "klaviatura-history-backend-links",
+      "path": "Журнал/2026-10-03_19-29-37_MSK_реализовать-раскладку-Klaviatura/отчёт.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:a98fbdbff7a1a008092319f7396c77a99aa9be4aed7cc87d91e1836e26315d25",
+      "count": 2,
+      "category": "report.historical",
+      "reason": "Сохранённая дословная реплика связывает два существовавших API локальными абсолютными Markdown-ссылками; обе формы принадлежат одной неизменной исторической строке."
+    },
+    {
+      "id": "klaviatura-history-layout-skill-link",
+      "path": "Журнал/2026-10-03_19-29-37_MSK_реализовать-раскладку-Klaviatura/отчёт.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:2ff81e13c26a8fb975d42386485448882d2e7a14164ce6a348f784416f2f8c71",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохранённая дословная реплика о создании пары Журнала содержит прежнюю абсолютную ссылку на локальный навык структуры; это историческая цитата этапа."
+    },
+    {
+      "id": "klaviatura-history-check-runs-skill-link",
+      "path": "Журнал/2026-10-03_19-29-37_MSK_реализовать-раскладку-Klaviatura/отчёт.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:d45d03d57cd67ee953244192d9aa51e27e89e8b7d4361c7b3897a5fe96a9fd15",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохранённая дословная реплика об учёте запусков содержит прежнюю абсолютную ссылку на локальный навык; ссылка сохраняется как происхождение исторического этапа."
+    },
+    {
+      "id": "klaviatura-history-dependency-skill-link",
+      "path": "Журнал/2026-10-03_19-29-37_MSK_реализовать-раскладку-Klaviatura/отчёт.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:b7a709e5335de91f12efe97c94db1be6ca40425ac0814fdbc640c4e73a3e3133",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохранённая дословная реплика о штатной подготовке зависимости содержит прежнюю абсолютную ссылку на локальный навык; строка сохраняет историю применённого инструмента."
+    },
+    {
+      "id": "klaviatura-history-recency-skill-link",
+      "path": "Журнал/2026-10-03_19-29-37_MSK_реализовать-раскладку-Klaviatura/отчёт.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:9a4b7ddac599fbd529dad835c58218bdffdfa341d0747ce2a690b94c400b9fd0",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохранённая дословная реплика о подготовке контрольной точки содержит прежнюю абсолютную ссылку на автоматизацию свежести; строка сохраняется как историческое происхождение."
+    },
+    {
+      "id": "klaviatura-publication-profile-output-tilde",
+      "path": "Журнал/2026-10-08_06-39-54_MSK_исправить-публикационную-границу-клавиатуры/материалы/профиль-эталона-и-FUMA.json",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:8681c9f8e6b90606858f190115c1cedaef94a7556fc3d8781936d5250ca082cf",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Сохранённый профиль содержит буквальный символ тильды U+007E в полном текстовом выходе Option-перехода; значение не имеет файловой семантики."
+    },
+    {
+      "id": "klaviatura-publication-profile-observation-tilde",
+      "path": "Журнал/2026-10-08_06-39-54_MSK_исправить-публикационную-границу-клавиатуры/материалы/профиль-эталона-и-FUMA.json",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:46937b911473fb5cbfdd8af7b2b5260193ad4f2e510416b6857ee0f764b1772c",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Сохранённое нативное наблюдение содержит JSON-кодирование текстового результата с буквальным символом тильды U+007E; строка не задаёт домашний каталог или файловый адрес."
+    },
+    {
+      "id": "klaviatura-history-publication-correction-act",
+      "path": "Журнал/2026-10-08_06-39-54_MSK_исправить-публикационную-границу-клавиатуры/отчёт.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:b50237242b7ed9370312114dacf20b96156feded17158ea45589ea095d57e93a",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохранённая дословная делегация коррекции публикационного корня закрепляет прежний worktree исполнителя; абсолютный путь находится в неизменном блоке наблюдения."
+    },
+    {
+      "id": "klaviatura-contracts-profile-output-tilde",
+      "path": "Журнал/2026-10-08_09-34-19_MSK_исправить-имена-и-контракты-клавиатуры/материалы/профиль-эталона-и-FUMA.2.json",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:8681c9f8e6b90606858f190115c1cedaef94a7556fc3d8781936d5250ca082cf",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Сохранённый профиль содержит буквальный символ тильды U+007E в полном текстовом выходе Option-перехода; значение не имеет файловой семантики."
+    },
+    {
+      "id": "klaviatura-contracts-profile-observation-tilde",
+      "path": "Журнал/2026-10-08_09-34-19_MSK_исправить-имена-и-контракты-клавиатуры/материалы/профиль-эталона-и-FUMA.2.json",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:46937b911473fb5cbfdd8af7b2b5260193ad4f2e510416b6857ee0f764b1772c",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Сохранённое нативное наблюдение содержит JSON-кодирование текстового результата с буквальным символом тильды U+007E; строка не задаёт домашний каталог или файловый адрес."
+    },
+    {
+      "id": "klaviatura-history-contracts-act-tree",
+      "path": "Журнал/2026-10-08_09-34-19_MSK_исправить-имена-и-контракты-клавиатуры/отчёт.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:208062ca3c1f48cdc18fe767717f6a46a3aec08133e65a4c12cb8d1b1bd8a2f0",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохранённая дословная делегация русских контрактов закрепляет прежний worktree исполнителя; строка сохраняет историческое назначение дерева."
+    },
+    {
+      "id": "klaviatura-history-current-fixture-act-tree",
+      "path": "Журнал/2026-10-08_10-45-43_MSK_исправить-фикстуру-профиля-клавиатуры/отчёт.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:04c94af28faa49b234d39169e2f9b7069e0be9f28a5ef9f477aba79a8f2c876f",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Сохранённая дословная делегация коррекции текущей фикстуры закрепляет прежний worktree исполнителя; строка сохраняется как историческое происхождение ACT."
+    },
+    {
+      "id": "klaviatura-reference-option-tilde",
+      "path": "Приложения/FUMA/Операторы/Klaviatura/Sources/ЭталонКлавиатуры/Эталон.swift",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:7b44417c18f205af0b1b48069fa291186b5d0d926a01da5c01a5305c6bd5a5b5",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Буквальный символ тильды U+007E является одним элементом Option-слоя независимого Swift-эталона; строка не разворачивает домашний каталог и не задаёт файловый адрес."
+    },
+    {
+      "id": "klaviatura-first-profile-output-tilde",
+      "path": "Приложения/FUMA/Операторы/Klaviatura/Профили/эталон-и-FUMA.json",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:8681c9f8e6b90606858f190115c1cedaef94a7556fc3d8781936d5250ca082cf",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Сохранённый профиль содержит буквальный символ тильды U+007E в полном текстовом выходе Option-перехода; значение не имеет файловой семантики."
+    },
+    {
+      "id": "klaviatura-first-profile-observation-tilde",
+      "path": "Приложения/FUMA/Операторы/Klaviatura/Профили/эталон-и-FUMA.json",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:46937b911473fb5cbfdd8af7b2b5260193ad4f2e510416b6857ee0f764b1772c",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Сохранённое нативное наблюдение содержит JSON-кодирование текстового результата с буквальным символом тильды U+007E; строка не задаёт домашний каталог или файловый адрес."
+    },
+    {
+      "id": "klaviatura-rejected-parent-root-fixture",
+      "path": "Приложения/FUMA/Операторы/Klaviatura/Сценарии/проверить-публикационную-привязку.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:cf911b20085a8cc7f9aa0b4bdfd28af5d74e7e6641ad3cb1feeffdae644b3f94",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Точный литерал родительского перехода добавляется к проверяемому корню только в отрицательном сценарии; сценарий требует ненулевой код и диагностику отказа корня."
+    },
+    {
+      "id": "klaviatura-expected-option-tilde-fixture",
+      "path": "Приложения/FUMA/Операторы/Klaviatura/Фикстуры/переходы.json",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:b01dc3c3ae61ac32d3b38da6cd57419712d9fc42a0589d1f044ab4fd23488699",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Открытая независимая фикстура ожидаемого текстового вывода содержит ровно символ тильды U+007E для Option-перехода; значение не является файловым адресом."
+    },
+    {
+      "id": "klaviatura-definition-option-tilde",
+      "path": "Приложения/FUMA/Операторы/Klaviatura/определение.json",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:7c5d10dda4174d2af318d586ce4d9620f72d88f73dd2b65ada20cdca988c9e2f",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Сгенерированное значение текстового Option-слоя содержит буквальный символ тильды U+007E; это результат клавиатурного перехода без файловой семантики."
+    },
+    {
+      "id": "klaviatura-table-option-tilde",
+      "path": "Приложения/FUMA/Операторы/Klaviatura/таблица-раскладки.json",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:c57d6125976dedb6ae48f6cc8d9ce18610c700e7d4f0ebdc149ed758aadd1366",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Таблица текстовой раскладки закрепляет буквальный символ тильды U+007E для Option-слоя; домашний каталог и файловый адрес этим значением не обозначаются."
     }
   ],
   "метаданные": [

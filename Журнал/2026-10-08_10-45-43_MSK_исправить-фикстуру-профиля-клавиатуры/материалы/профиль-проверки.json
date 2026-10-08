@@ -1,0 +1,87 @@
+{
+  "схема": "klaviatura.профиль-фикстуры.1",
+  "условия": {
+    "повторов_в_паре": 10,
+    "пар": 3,
+    "прогревов": 2,
+    "часы": "perf_counter_ns",
+    "сборка_и_Swift": false
+  },
+  "хэш_исходника_до": "c8c14cdc936eb71f0558e80c5e03fa8ffbecdec052799d3dd424c454be765cee",
+  "хэш_исходника_после": "c56245b7804a7c0f3511d8a4766f86a6e82ba66d96c005399ddc8e71a62a3453",
+  "хэш_одинаковой_фикстуры": "4a4095b2b3d3e842aae59bc511bf98c2f47c502f1d629df2a0a358d460fd22a3",
+  "пары": [
+    {
+      "до": {
+        "создание_нс": 34357166,
+        "проверка_нс": 107641209,
+        "всего_нс": 141998375
+      },
+      "после": {
+        "создание_нс": 57073708,
+        "проверка_нс": 107781416,
+        "всего_нс": 164855124
+      }
+    },
+    {
+      "после": {
+        "создание_нс": 57556501,
+        "проверка_нс": 107864002,
+        "всего_нс": 165420503
+      },
+      "до": {
+        "создание_нс": 34528250,
+        "проверка_нс": 108039083,
+        "всего_нс": 142567333
+      }
+    },
+    {
+      "до": {
+        "создание_нс": 34246917,
+        "проверка_нс": 107756081,
+        "всего_нс": 142002998
+      },
+      "после": {
+        "создание_нс": 56915501,
+        "проверка_нс": 107537709,
+        "всего_нс": 164453210
+      }
+    }
+  ],
+  "хэши_интерпретатора": {
+    "Package.swift": "bee2a8d6f068d8b8f20130dc34c0439ef02fd944c970bc5fa427950313bf5704",
+    "Sources/FUMStructuringOperatorMemory/AutomationAndSynchronization.swift": "604edda0ccd689310b1bbab98655dfd04fcf0c5015325583ab04fc7b59b8c936",
+    "Sources/FUMStructuringOperatorMemory/ContextAndLattice.swift": "9349c0b6ece3f807dce9cbd240ff2416d093eb5142970e9fd55b208802531873",
+    "Sources/FUMStructuringOperatorMemory/Domain.swift": "12e1df61f025ccc217ab920c2ccc28d33bebe30757f32ed66c311a0361fcb1bf",
+    "Sources/FUMStructuringOperatorMemory/Engine.swift": "241943a98d2fe3db37b2195c0c6c1a583772f998444dddea441c64099246f627",
+    "Sources/FUMStructuringOperatorMemory/Fixtures.swift": "8c0e9e0d05417b68717c2fb42cbcdbca557e0ceb42296fbd07b1c4f108bd730b",
+    "Sources/FUMStructuringOperatorMemory/ВычислениеГрафаJSON.swift": "a4269a8eddd8b671c270e128c2d9769c726c6db2fb9300dd12b12db672c71b36",
+    "Sources/FUMStructuringOperatorMemory/ГрафJSON.swift": "bca9cd347e5eb231f6decf225394082053cef820246bf9ae6018f0a2abbf54c1",
+    "Sources/FUMStructuringOperatorMemory/ЗакрытыйРазбор.swift": "1004e6da58f7eaaf8545a905965d75a6c048f3e8eab52643634015c58a41ba28",
+    "Sources/FUMStructuringOperatorMemory/ИсполнениеОператоров.swift": "7fc58a6e6c8190134e3a617db62f487735711b2c5b304db38241bc59beb98d27",
+    "Sources/FUMStructuringOperatorMemory/КомпозицияОпределений.swift": "93e81ddca96164c3d09cafbbec0f63843699ef3adfd4e507c8df3aed616f8166",
+    "Sources/FUMStructuringOperatorMemory/КонечныйВвод.swift": "e9715b020c31d86cce8536c2b61ad8dd0c5e97140397bc3e73e729b3e994f339",
+    "Sources/FUMStructuringOperatorMemory/ОпределениеОператора.swift": "5075bbd88f7b3e24a1d31aebe9f2397d240314b7b2369c4cb45c499ccb235de8",
+    "Sources/FUMStructuringOperatorMemory/Определения/UTF-8-в-UTF-32LE.json": "d5cdcbb8f1710770d08269e49adae2c2cec8a15000f2887677b7f03f764916de",
+    "Sources/FUMStructuringOperatorMemory/Определения/нормализация.json": "2924941deadeb6cfa16b09ee6d2c446fa85ebdacebf5055b6a4e5ff872554588",
+    "Sources/FUMStructuringOperatorMemory/ПорождениеМоделей.swift": "f1129d7e8776cc4c59af5e10070666daff9333d8796d16d8deada7e28e75af7b",
+    "Sources/FUMStructuringOperatorMemory/СтруктурныйКонтракт.swift": "1c2262433f80a3d7a630238fa9a806329afc12f941c5d292c1c5afc6bb9904b8",
+    "Sources/FUMStructuringOperatorMemory/Фикстуры/malformed-llm-envelope.json": "d148204186d61962a62ed123f928c82c58d231e5d342f61238fc7beac486ea0f",
+    "Sources/FUMStructuringOperatorMemory/Фикстуры/scenarios.json": "8338a12a837cd463b966a0f32fc9ebe1fe683dcef2c555ee384bb744170f9292",
+    "Sources/FUMStructuringOperatorMemoryProbe/main.swift": "85bb88106cec1fbb12b6799f23d8998cbf7f7c2c5afa1d4fadfcac45debbc268",
+    "Tests/FUMStructuringOperatorMemoryTests/StructuringOperatorMemoryTests.swift": "2e73a158b5bf7a306aca8110a93c90fdf3e8e9e76e1a5683a1d7434ec6f7ffce",
+    "Tests/FUMStructuringOperatorMemoryTests/ПроверкиГенерацииМоделей.swift": "0e55ad7f068a2ad949c1a493afebb104df1da92f0e2fe805b8525a995475708c",
+    "Tests/FUMStructuringOperatorMemoryTests/ПроверкиГрафаJSON.swift": "1f03a15a967b480987d66bb653a42f2be4e354435ebaac003abec8625fd246bf",
+    "Tests/FUMStructuringOperatorMemoryTests/ПроверкиКомпозиции.swift": "3ce9793ea11c2909fb3413d153f796e76c319f0a806e0e014ff1adf9dc110d50",
+    "Tests/FUMStructuringOperatorMemoryTests/ПроверкиРасчётовFUMA.swift": "57e2ec01a5367e7bf42a12ec5f96dc9b08d59aaf944579a0865f7a0fe0d6cf8d",
+    "Tests/FUMStructuringOperatorMemoryTests/ПроверкиЧистогоИсполнения.swift": "731465486a835395a651805810fc845120a11d34bfe8c6f4a688dcc9a9a2ff91",
+    "Проверки/композиция/вход.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "Проверки/композиция/запись-v1.json": "89134864dd968bbf8e12b0955c420d4cd9b6b100bde96c601d61b26909f54502",
+    "Проверки/композиция/определение.json": "f715735c2f173745ebab1d3efbe58e358979830b54d8c8781b51eafd63469e57",
+    "Проверки/композиция/повтор-композиции-итог.json": "22ad73f932bbaf7dedbb266a408c76898fb72cc43b17544bad26df9e8f1f88a6",
+    "Проверки/композиция/профиль-до.json": "ec8df97a735a09226b71e4166abb250f83d31178aed60d7c9e73de0b2123fcf2",
+    "Проверки/композиция/профиль-итог.json": "342911924b5f66c483d801c0188487f54694f183012001201cb67b50a5be52c3",
+    "Проверки/композиция/профиль-после.json": "69892960c32469889a645a2f409d009c94a760da6c38808f01d029b4bd2e6bce"
+  },
+  "решение": "Сохранить пересчёт фактических библиотечных хэшей: он нужен для корректной положительной фикстуры. Ускорение не заявляется; валидатор и алгоритм предметного исполнения не изменены."
+}

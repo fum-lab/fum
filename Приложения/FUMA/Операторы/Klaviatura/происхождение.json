@@ -1,0 +1,80 @@
+{
+  "схема": "klaviatura.происхождение.1",
+  "внешний_проект": "Keyboard",
+  "компонент_FUM": "Klaviatura",
+  "upstream": {
+    "url": "https://github.com/Roman-Kerimov/Keyboard",
+    "коммит": "7495174d91571f98e75db4e615da8a3799868f2e",
+    "файлы": [
+      {
+        "путь": "KeyboardModule/Sources/KeyboardModule/KeyboardLayouts/KeyboardLayout.qwerty.swift",
+        "url": "https://raw.githubusercontent.com/Roman-Kerimov/Keyboard/7495174d91571f98e75db4e615da8a3799868f2e/KeyboardModule/Sources/KeyboardModule/KeyboardLayouts/KeyboardLayout.qwerty.swift",
+        "sha256": "d51afb406a75974713e75fa80cbdd3eb3826b5ec4b6cb8ae77e89de45a5a5c6e",
+        "байтов": 500
+      },
+      {
+        "путь": "KeyboardModule/Sources/KeyboardModule/KeyboardLayout.swift",
+        "url": "https://raw.githubusercontent.com/Roman-Kerimov/Keyboard/7495174d91571f98e75db4e615da8a3799868f2e/KeyboardModule/Sources/KeyboardModule/KeyboardLayout.swift",
+        "sha256": "fd2b122a2c7bc0eeaa2f780f03656976dbf45f54e67b5915220a18c4105899ff",
+        "байтов": 3512
+      },
+      {
+        "путь": "KeyboardModule/Sources/KeyboardModule/Key.swift",
+        "url": "https://raw.githubusercontent.com/Roman-Kerimov/Keyboard/7495174d91571f98e75db4e615da8a3799868f2e/KeyboardModule/Sources/KeyboardModule/Key.swift",
+        "sha256": "70b1ce25c48e78b98fbe02c8011e98f37650a7730f087d5b629d9dfd658f4018",
+        "байтов": 9791
+      },
+      {
+        "путь": "KeyboardModule/Sources/KeyboardModule/Keyboard.swift",
+        "url": "https://raw.githubusercontent.com/Roman-Kerimov/Keyboard/7495174d91571f98e75db4e615da8a3799868f2e/KeyboardModule/Sources/KeyboardModule/Keyboard.swift",
+        "sha256": "f818d5ce64fa3412c904c6e4e4a640093bc7a817f049b0eed1dac6b4d2e27254",
+        "байтов": 19437
+      },
+      {
+        "путь": "KeyboardModule/Sources/KeyboardModule/characterComponentsDictionary.swift",
+        "url": "https://raw.githubusercontent.com/Roman-Kerimov/Keyboard/7495174d91571f98e75db4e615da8a3799868f2e/KeyboardModule/Sources/KeyboardModule/characterComponentsDictionary.swift",
+        "sha256": "4cd78f2dcdb2d243abd5a7211f6ff3d17b04acb597384c232f10d6c2c886c582",
+        "байтов": 373452
+      },
+      {
+        "путь": "Keyboard_macOS/eventTapCallback.swift",
+        "url": "https://raw.githubusercontent.com/Roman-Kerimov/Keyboard/7495174d91571f98e75db4e615da8a3799868f2e/Keyboard_macOS/eventTapCallback.swift",
+        "sha256": "8481b210195c3cce6ffa4e629c45f38d91ced90f28323deb9dec916d85cd503c",
+        "байтов": 5800
+      }
+    ]
+  },
+  "источник_раскладки": "KeyboardLayout.qwerty.swift; физические коды из Key.swift; одиночные слои из KeyboardLayout.swift; регистр из characterComponentsDictionary.swift",
+  "слои": [
+    "базовый",
+    "сдвиг",
+    "опция"
+  ],
+  "лицензии": [
+    {
+      "имя": "CC0 1.0 Universal",
+      "файл": "Уведомления/CC0-Keyboard.txt",
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499",
+      "url": "https://raw.githubusercontent.com/Roman-Kerimov/Keyboard/7495174d91571f98e75db4e615da8a3799868f2e/LICENSE"
+    },
+    {
+      "имя": "Unicode, Inc. License Agreement - Data Files and Software (copyright 1991-2022)",
+      "файл": "Уведомления/Unicode.txt",
+      "sha256": "e6795346adb86b0fcd0df1fdeadbdbbf5276520e85fdf3d268a1196b532131ba",
+      "url": "https://raw.githubusercontent.com/unicode-org/cldr/f800890ea86482c2eb5f73224897f4a8bc0b653a/unicode-license.txt"
+    }
+  ],
+  "собственная_нормализация": [
+    "Раздельное состояние левых и правых модификаторов",
+    "Прикосновение не печатает и не меняет состояние",
+    "Command и смешанная история раньше подавления текстового повтора",
+    "Delete — намерение удалить-назад, без редактора и таймера"
+  ],
+  "неподдержано": [
+    "Комбинации Command с текстом или Delete",
+    "История Shift+Option до отпускания обеих групп",
+    "Необъявленные клавиши",
+    "Другие раскладки, LEAP и захват событий ОС"
+  ],
+  "полный_канонический_архив_исходников": "не подтверждён; URL/README-снимок уже есть, полные файлы координатору ещё предстоит сохранить"
+}
