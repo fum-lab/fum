@@ -1,0 +1,19 @@
+{
+  "schema": "fum.machine-local-path-policy-update.v1",
+  "declarations": [
+    {
+      "id": "tdlib-primary-url-suffix",
+      "path": "Инструменты/fum-proverka-git-zavisimostej/tests/test_допуск_добавления.py",
+      "line": 251,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет только искусственный URL-суффикс отрицательной проверки первичного ответа; он не адресует файловую систему."
+    },
+    {
+      "id": "tdlib-null-hooks",
+      "path": "Инструменты/fum-proverka-git-zavisimostej/tests/test_ранняя_доступность_деревьев.py",
+      "line": 61,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет только отключение Git hooks в автономной временной тестовой фикстуре; стандартное нулевое устройство не задаёт адрес пользователя."
+    }
+  ]
+}

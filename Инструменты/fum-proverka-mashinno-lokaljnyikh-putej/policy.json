@@ -5148,6 +5148,24 @@
       "count": 1,
       "category": "allow.test-fixture",
       "reason": "Синтетический относительный адрес в автономной проверке удаления одноразового параметра из HTML-ссылки."
+    },
+    {
+      "id": "tdlib-primary-url-suffix",
+      "path": "Инструменты/fum-proverka-git-zavisimostej/tests/test_допуск_добавления.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:32adcc40c9c0ade0cdb67712d9e8043a946b9c52c614312a6a885e40d3385d8a",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Закрепляет только искусственный URL-суффикс отрицательной проверки первичного ответа; он не адресует файловую систему."
+    },
+    {
+      "id": "tdlib-null-hooks",
+      "path": "Инструменты/fum-proverka-git-zavisimostej/tests/test_ранняя_доступность_деревьев.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:1743398787c0da02e15e6cd3508eb76eb27f063a40644cd4544363806187e08d",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет только отключение Git hooks в автономной временной тестовой фикстуре; стандартное нулевое устройство не задаёт адрес пользователя."
     }
   ]
 }

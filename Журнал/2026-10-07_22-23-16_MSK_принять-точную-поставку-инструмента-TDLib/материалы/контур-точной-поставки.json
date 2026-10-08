@@ -1,0 +1,884 @@
+{
+  "границы": [
+    "Перенос принятой реализации без изменения предметных девяти листьев.",
+    "Холодный план вне обёртки; три адресных теста и связность создаются новым исполнением.",
+    "Регистрация TDLib, init, fetch, build и авторизация Telegram не выполнялись.",
+    "Исходники закреплены; совместимость полного смешанного runtime определяется последующими фактическими исходами.",
+    "Стандартная библиотека Python и системные библиотеки являются внешним runtime."
+  ],
+  "исполнитель": "01a0f27d-9a9b-71a1-82d6-9c10c1c8de72",
+  "исполняемые_источники": [
+    {
+      "FS_mode": "0400",
+      "blob": "c04efc426bb31e316afce6c7b92e935da552599c",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+      "байт": 214543,
+      "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "9dcaed8566dd72e5a50a0ebc68b80953f8f6d565",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "7e6972e04306c6f91bd17ab3f18579a288fff352d90c5b26a75e64c0a54743d5",
+      "байт": 37479,
+      "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "8a62a7378186aee14449f0108a140c152fdca457",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "f66a58569eaca1dcb623daf4265e586b167da7f69e335175fd815a8cd38402b9",
+      "байт": 18450,
+      "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/связь_отпечатка_с_коммитом.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "6f9f8bd44878689c46ebd204cbb9c294681c3daa",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "caf78daee202eeb3a2eba81eb5ffbd2b3e60d64933312ec862a6884eef924b9d",
+      "байт": 59024,
+      "путь": "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "f8874ae387db030840aabe40793ca30b04e21b68",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+      "байт": 13309,
+      "путь": "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "42ba8d008c96250f803802d4d5134aee0809093e",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "c63f59ae86740213de3d1e1fa6ee097f8b0d1379c3d626b22a0bc2fa6ee0aa67",
+      "байт": 18175,
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/постановка_задачи.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "c3e6828b17199bd4732715c79758ce1742c8d78c",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "5c5147cbbc72887cc84cd7ad35c96606c17f2766cdcee926fd9da066d0fc46a1",
+      "байт": 70810,
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "aa305b0847372324de48b285b1e06d0045cd452c",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "e12b472e8e72fbf581a8ad5f5efc589ba273df1fe38ea045dc65ffe1a82f84fb",
+      "байт": 114868,
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "9cb4f27255d546c2b69598fa3309beccf77c297f",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "0e30b4a2a1a823223a43b4f5ad1ba68ce6efd26647a9795fa6354fc94996d1fc",
+      "байт": 316,
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/struktura-papok-zaprosov.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "69a55cb0e2e55b330440357a089d9d1ae719fb59",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "3331427b784250c41004a179c5d02c74f05054178c359f456f9d8d2ba066233a",
+      "байт": 20020,
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/блоки_карточки.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "3f5248191e2c87896d1fab53bcdfcf446962e4d6",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "41c780c8bb24d761595fb3c0653afc14a59d9d027caf252e912d7fad6524bc53",
+      "байт": 4924,
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/наполнение_cli.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "9e72899bf344e091cf466085bd8caffcaa24ea54",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "dca4596ab12b62f5e5e718f692011f67da248e593b576fec1cca9a437e2fd869",
+      "байт": 26256,
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/наполнение_карточки.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "c20386cdadaef7104b0af89e54a8c5b15fe52a8f",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "e6bd962fc80537f14e6a8689f3f50074a9b4299bf44c918174ca63845830e98f",
+      "байт": 3059,
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/отпечатки_загрузки.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "27e639a05ba745690c527039c5eafd1c1bd5a6f8",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "58b8315eaf1af7d0e99254b199320facf40855fcdb3709a6cffba131d49ccb0e",
+      "байт": 30822,
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/расширение_шаблонов.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "4eddf21ca11c4abb6fd7c2838eb2be6e16a6632c",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "266cf58dfa5d197c61f3c5b85b83ad8b9eb6680164f2aea14a0c2a692c50d8a8",
+      "байт": 18275,
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/управляемые_блоки.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "1101c581d6d06ebf5264ef4e1e5096a551430bbb",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "f1cf28e4481bc64aab04aad646bbe5fea8e58f76c0e5967b9ac18856c60ecf97",
+      "байт": 1562,
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/шаблоны/запрос.md.шаблон"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "0c6bf320a8043cd902c75266b230feb7cd228c39",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "6db76ec55037fdd40112dd97e32a42d882238c07738039adaf4ab2a0751bb359",
+      "байт": 3190,
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/шаблоны/отчёт.md.шаблон"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "45174ac15a623c1ca0288052e481573e68519da5",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "57a2c9161ac86b1a4c8737f1acf22b5e76baae0a47260da4a54f98c4b8d4b330",
+      "байт": 18428,
+      "путь": "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "ea5bc5936eeaf358f85080f009f704f4ed367926",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "58542c436949a4e0b529f158c89db78b825ee3568acd960fb9e9a47b3210bd02",
+      "байт": 1533,
+      "путь": "Инструменты/fum-svezhestj-markdown/scripts/ограды_цитат.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "36c51e936eaf0438395ec0c949a3257219899f87",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "f6ec16caf952f6ac7ee3091ebc6cb3f125929982979950399647958bd3b5d39b",
+      "байт": 1386,
+      "путь": "Инструменты/fum-svezhestj-markdown/scripts/маска_архива.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "b4fcdab13e5d951e8aa94244c0ab46b21e6c0cc1",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "36667347ee2946e0f31deda39b8ac65c451aa77bef4a426b48ada0e2353849c8",
+      "байт": 11337,
+      "путь": "Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "da059cb4a9c3747ad90854c8a44c9b86960637ea",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "9f3fcc5768570ca4f680f2edbe0971df5d55f02e8eba193dad9905cd105d0af2",
+      "байт": 77862,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "f81c4bf260ccfb67ea05f43ec2e21e0bfb5071cc",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "847fa3af66de18f9c73066d719bf089357ff865e6ce13fa721c219b65e270db0",
+      "байт": 2414,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "d4dec77774ca5243aceca503e58cf111e9677a18",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "b106894adee89d50ed082eac94fb161f7fc6e9227bcc125683834644bbe89098",
+      "байт": 14811,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_коммита.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "e720f4242a235f88a39caeeb1897bf4a33caede0",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "8091017668f5f43727f5258ac1d0fd56a305a9b605591cf89cc72d276b8f7753",
+      "байт": 7398,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_этапа.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "2310a2058660a5f860ba53f44c373b30ec9483c3",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "07d1533132ae2253d7c8fced6b3c71771e892ddb0f6d765cc837bab94a9b3d6e",
+      "байт": 2709,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/граница_выбранных_команд.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "642e78fff3045cc379e09cbb40bc35428d000e23",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "ba79d7810793c0eef93a860ce73e0a9407801fdd929874cdee0f5078ce4a0dcf",
+      "байт": 3641,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исторические_неподтверждённые_приёмки.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "ddcc73cd56ab7a4d34f65eb2735a2758308b06fb",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "b7bbed1f4aaba534347db9235a630c8b968f54f012e4ea5d21cd89dd2529e214",
+      "байт": 18085,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_модели.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "94261b7bcef0d8e24cd99e0afbaffd24b43a8d43",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "f948204b795369a8d99b63d2a44b8d3ef7ffb971a96420ddeaacf7f1eec69d61",
+      "байт": 14459,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_пути_гита.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "907e66d2af1e5abd2c834ab184a112e8664dbccf",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "09dba811f479312d0ad6e06cb5a5c4e46b764f1d1b011c72b925af276f7d19e9",
+      "байт": 10208,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/кэш_сверки_остатка.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "8d706d6c3f3abd521bdcc8700f5cb447a0b7a624",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "5de258cdfbbf53f31819807ad9712728145b5b03c8155b65522c201ff9a7e732",
+      "байт": 78135,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обработка_сообщений.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "a46d2ed4788dd06928759a1628bc6cca7c846c64",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "664a6520e6ac79446dac164996ea4e3f35d56550ac570bc6edea9d7fc3431cf9",
+      "байт": 16922,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обычное_поручение.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "1db479b1446f070f73218b58acecfbbe3e6bdb01",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "88978e0b23b1dee65bf8fa1ac4b65e8eae3a2c3907453f89cfc1bf57d812f4da",
+      "байт": 47018,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "9b03d6346cf0999a4740ab4991358f3151eaae23",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "f54219a00028fea3d2cf5d6423ca40fa4a4d400d01586ff22a5bd32999942027",
+      "байт": 9375,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенести_историю_модели.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "a77346057f872f4581a4dcabe82441a5eccd9074",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "7d4c9cf4bbec682efbf03251d44785142fc224554d159bd17ebf049885b92ef1",
+      "байт": 17189,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенос_модели_этапа.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "2322f35e4f07fd56b32f70a95019d01f2f2fa39a",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "8cfa7530c4937c529c9be825ba3b5a32df3c7eef4f3d12c46eca279d14293fff",
+      "байт": 10886,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перепривязать_историю_модели.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "031b924a466636746e13e6702db4583adb6c6051",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "defa5a524d9c985d3c813ff820bd6b75bd00560aa4d69f69e19e076e39bc8a44",
+      "байт": 2180,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/повторная_подготовка_модели.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "0513c0fd7643d37b43679bdaec9344e1f0e7dec9",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "27e31b2f85a35831edab7e7744670844f37918ca9e4693a10a2ead836eeaaaab",
+      "байт": 68885,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_этапа_коммита.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "e9bf6102404157a9c776340d4dcde4255950f85c",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "abc5d0f316641aca49bf7917ca4a962b966aa221616d96d2c64b4267017dd2e4",
+      "байт": 12815,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/поколения_готовности.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "2e861b84946d6b0744a9ba1bd9bba2fb42ab77d6",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "9b4b0d784cfe53db3ae545fc62764cf4fb013d62d4c641c5d6436facc69124fa",
+      "байт": 15491,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_делегации.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "4b3ee8fb09b05b65dd0b250da5f1ccdbaf81dc1a",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "a3fdf3e04d9cb023489b60ecabe87428c652cfca92b6336f99a66bb55122fd23",
+      "байт": 8610,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/происхождение_сообщений.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "1d9bafbf31a707ae11a2cdbc2dc0fdc079689098",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+      "байт": 14817,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "7e4023b4339bbf4b31dd2a2e999a01a836f7c4a3",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "78b91270972ff7607100fb01235850df183d8cc142694755c8a501fa7177e4c9",
+      "байт": 84237,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "c19a260ce429efdb3e4dfeac5fb55eb34c979e20",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "a72dc3e31107ebcfc929d462bbdd647ed4587334d6a16080f5969dcb34438079",
+      "байт": 24544,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "efec495cf183a0fb9fab05e22e6041ddb32bdda1",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "f2579fa93345d9ff79b4a81bbde0127b66fc8fad4f5045cb5fb3fc3b6f991ea7",
+      "байт": 2741,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/текст_команды_с_изображением.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "5cf5e72362d005d5cf8e1c19459fb4a33459fe28",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "f308464a056383c53aeb508724992828d9344c130e2ec15301f806bfd618770d",
+      "байт": 12390,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/типизированная_контрольная_точка.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "7c7326fc35da78962c440bda4ef05b45a372fbcf",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "f527fab271f945e5b0fbb8372857e96d67acf425c24b13fb68babae0a8025406",
+      "байт": 4811,
+      "путь": "Инструменты/fum-ocenki/scripts/контракт_обзора.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "9a0ced550b7c522aa619b547023a953bf598f895",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "f69c6641a1a97f3660caa036c29d8ec41738cf287d8239aaecbfd52e9a72a442",
+      "байт": 5888,
+      "путь": "Инструменты/fum-ocenki/scripts/контекст_обзора.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "170d4820642a407bbe99bc4f376ab98cd0c94cb9",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "9ac77366ac6f8b47ea36eb6c41bde28ed1dbb7f38be56edc44efb864eff4060d",
+      "байт": 2509,
+      "путь": "Инструменты/fum-ocenki/scripts/реестр_обзора.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "d5fc96f6fab7d36a22d8557e2a953f2fbe966566",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "04bf2c38f68a02d59d955e1e9109b4637242fb5d88684234c9c1f435c15c3013",
+      "байт": 8298,
+      "путь": "Инструменты/fum-ocenki/scripts/срез_гит_обзора.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "cb49e9ce55a9ec2a77069e62caf9b4a9af7f6473",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "8bbc26e3a5855d5b6881887f5b4f08c918bfd9dddb5d0c80b1e051632c6d051e",
+      "байт": 4100,
+      "путь": "Инструменты/fum-ocenki/scripts/свидетельства_обзора.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "f7da5e5ef35652d4ad05176d6c70f2bfdd5ca4d6",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "376343588651c24b5072c23b51c577a96c7143286832381848f1fbb0f7aff9e5",
+      "байт": 3847,
+      "путь": "Инструменты/fum-ocenki/scripts/приёмки_обзора.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "ada23c3184b84f4ea3a8f100adf0587ecca251ea",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "64fe462810d827b9673eaf0e31b307f0c02ac71c95d4e974917961ba21b3382f",
+      "байт": 2614,
+      "путь": "Инструменты/fum-ocenki/scripts/сигналы_обзора.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "270b55543dc4aebc38284fb1828047d41805cbe5",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "bb6ff7533c81fd651e2fbcc3d2ce88d4967abe1b9a53481d618a284cca27b4a4",
+      "байт": 2981,
+      "путь": "Инструменты/fum-ocenki/scripts/построение_обзора.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "9874d48e724010f98710b68df1310f8fab3b5cc1",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "f8e139a9ab4c2aaaded4b4349239c274357a856ce887e634784a08ffec72408f",
+      "байт": 3599,
+      "путь": "Инструменты/fum-ocenki/scripts/формат_обзора.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "7f1b9f684a6d181e055949c1ca0f9d0d79d55595",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "7f0ae8a2090968652d3261887181f5e250473b69e3f9fc354fb46e1aff9064c9",
+      "байт": 6013,
+      "путь": "Инструменты/fum-ocenki/scripts/хранение_обзора.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "808d47403a3ae36ed06e95b594caa2448ac6078a",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "e49255eb8bd8ca577f3fa44b5beeea1aba9dcad950119cc5557ab60a9411f3b0",
+      "байт": 5924,
+      "путь": "Инструменты/fum-ocenki/scripts/доказательный_обзор.py"
+    },
+    {
+      "FS_mode": "0644",
+      "blob": "45174ac15a623c1ca0288052e481573e68519da5",
+      "commit": "b82ee3e2edc2b0da907a6fc8f7d85d5bd6fbbd39",
+      "git_mode": "100644",
+      "sha256": "57a2c9161ac86b1a4c8737f1acf22b5e76baae0a47260da4a54f98c4b8d4b330",
+      "байт": 18428,
+      "путь": "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py"
+    },
+    {
+      "FS_mode": "0644",
+      "blob": "ea5bc5936eeaf358f85080f009f704f4ed367926",
+      "commit": "b82ee3e2edc2b0da907a6fc8f7d85d5bd6fbbd39",
+      "git_mode": "100644",
+      "sha256": "58542c436949a4e0b529f158c89db78b825ee3568acd960fb9e9a47b3210bd02",
+      "байт": 1533,
+      "путь": "Инструменты/fum-svezhestj-markdown/scripts/ограды_цитат.py"
+    },
+    {
+      "FS_mode": "0644",
+      "blob": "36c51e936eaf0438395ec0c949a3257219899f87",
+      "commit": "b82ee3e2edc2b0da907a6fc8f7d85d5bd6fbbd39",
+      "git_mode": "100644",
+      "sha256": "f6ec16caf952f6ac7ee3091ebc6cb3f125929982979950399647958bd3b5d39b",
+      "байт": 1386,
+      "путь": "Инструменты/fum-svezhestj-markdown/scripts/маска_архива.py"
+    },
+    {
+      "FS_mode": "0644",
+      "blob": "f8874ae387db030840aabe40793ca30b04e21b68",
+      "commit": "b82ee3e2edc2b0da907a6fc8f7d85d5bd6fbbd39",
+      "git_mode": "100644",
+      "sha256": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+      "байт": 13309,
+      "путь": "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py"
+    },
+    {
+      "FS_mode": "0644",
+      "blob": "660aeee8d2c2dac711adb957ba2d03f812c7ef7d",
+      "commit": "b82ee3e2edc2b0da907a6fc8f7d85d5bd6fbbd39",
+      "git_mode": "100644",
+      "sha256": "1f60208b91a355f164d7ebdbace891fff77f703589c104bd30c142e20db27bb2",
+      "байт": 7637,
+      "путь": "Инструменты/fum-proverka-git-zavisimostej/tests/test_подготовка_зависимостей.py"
+    },
+    {
+      "FS_mode": "0644",
+      "blob": "7f9edaa65c8dfb0afe89b38381b6ac76bf0b9b47",
+      "commit": "b82ee3e2edc2b0da907a6fc8f7d85d5bd6fbbd39",
+      "git_mode": "100644",
+      "sha256": "9792c4929bfef05d8068cdba096fee9d63b08c6277db2ab2dda0c94eb1487e7b",
+      "байт": 61656,
+      "путь": "Инструменты/fum-proverka-git-zavisimostej/tests/test_proveritj_git_zavisimostj.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "8b836cda5d70165ba15ff3982ec64d986ee36b65",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "ca86266002cdd64a02bcb1700f2056cb6e638aac875662b27d7bc05dcba639ef",
+      "байт": 465,
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/шаблоны/блок-инструментов.md.шаблон"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "a699ff154b1553a12536aa668b36fc200ca7e652",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "c5231b3195dd1ad72a3fbf126c7947fefd7e1a50c66754b8f360f3cd37b86c63",
+      "байт": 184,
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/шаблоны/блок-профиля.md.шаблон"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "b01f0f21559f42b531e4dc7892e1f0e4b94e16f5",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "3190981270235fd4c4fc5ae80f240fd729d3a20c77d7bb7847a314c482cc2b08",
+      "байт": 17,
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/шаблоны/блок-состава.md.шаблон"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "0d057005f358df933f996bd6898d4af87b82a40d",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "5e019a1616b8f85c4f2a127cde667c09d8d93451f27d6a83f7fea4bb2f9b8650",
+      "байт": 25,
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/шаблоны/блок-текста.md.шаблон"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "9c43feda5ab49672cf3934c98d36d0d7fb5f44aa",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "35da679a7d45c921b007e4d345a1a7195d02b9aa6d2ddf1a7f7c6dc144bb6889",
+      "байт": 45,
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/шаблоны/блок-проверок.md.шаблон"
+    },
+    {
+      "FS_mode": "0644",
+      "blob": "c0bb29eb5535b2c7c404f1fe3ee1fca453f5df1c",
+      "commit": "60534d980df75018cd27ce373b92bfcdb45a6a66",
+      "git_mode": "100644",
+      "sha256": "cd87e6377def0aa300ea7175808222f944c8945cdaea7c1d2a040d088d66c3b7",
+      "байт": 115033,
+      "путь": "Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py"
+    },
+    {
+      "FS_mode": "0644",
+      "blob": "98257a1eb4adb6042605d6c09142db4b1bf27ca0",
+      "commit": "60534d980df75018cd27ce373b92bfcdb45a6a66",
+      "git_mode": "100644",
+      "sha256": "4c8dcea5bf8a712c108dd0e3432b7be302c594b86d0ea3bb0128c1be9c88468d",
+      "байт": 84174,
+      "путь": "Инструменты/fum-proverka-git-zavisimostej/scripts/подготовка_зависимостей.py"
+    },
+    {
+      "FS_mode": "0644",
+      "blob": "59a933dd6416096f0b1f5076692309435edd22dd",
+      "commit": "60534d980df75018cd27ce373b92bfcdb45a6a66",
+      "git_mode": "100644",
+      "sha256": "ee08c053c4efa3fe547ba577fecbf2ab90f3543f6f6edfbe233a22c51b2b9b86",
+      "байт": 19045,
+      "путь": "Инструменты/fum-proverka-git-zavisimostej/tests/test_восстановление_подготовки.py"
+    },
+    {
+      "FS_mode": "0644",
+      "blob": "efebfa8cc8e7435f2c311446d8930f6d527a305a",
+      "commit": "60534d980df75018cd27ce373b92bfcdb45a6a66",
+      "git_mode": "100644",
+      "sha256": "34586ceeb72af6075f367264d9348eb7148b9f6a443ddd7fc73b945fb39652c3",
+      "байт": 56241,
+      "путь": "Инструменты/fum-proverka-git-zavisimostej/tests/test_допуск_добавления.py"
+    },
+    {
+      "FS_mode": "0644",
+      "blob": "162c6f6dd39dca7587d87f6da5fb1bed57a18b35",
+      "commit": "60534d980df75018cd27ce373b92bfcdb45a6a66",
+      "git_mode": "100644",
+      "sha256": "6dc2d26562c64223d55494d118b699aed51eb7e1b01dc9cef6792967290a05d9",
+      "байт": 18863,
+      "путь": "Инструменты/fum-proverka-git-zavisimostej/tests/test_ранняя_доступность_деревьев.py"
+    },
+    {
+      "FS_mode": "0400",
+      "blob": "70a4584e9ed7f0bc5c443a15e15551086dd19f32",
+      "commit": "35947297c784afd7189836bad633bfe24ac9eac8",
+      "git_mode": "100644",
+      "sha256": "ee26082227da2d8a291f050d716cfe66622a71ff433f8727d9e06efa89b4cbec",
+      "байт": 17700,
+      "путь": "Инструменты/fum-obratnyiye-ssyilki-voprosov/scripts/check-question-backlinks.py"
+    },
+    {
+      "FS_mode": "0644",
+      "blob": "ff28996c13a5f7e4fc4284adec8c50e24d1c18f3",
+      "commit": "b82ee3e2edc2b0da907a6fc8f7d85d5bd6fbbd39",
+      "git_mode": "100644",
+      "sha256": "5735e641036ef6084873c5c79f0ae64da6344a9e5dbd5d4984678b02a572f005",
+      "байт": 685,
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/типы/вопрос.json"
+    },
+    {
+      "FS_mode": "0644",
+      "blob": "c656d1826fb14d074771ee0321a2fa3cb73deae2",
+      "commit": "b82ee3e2edc2b0da907a6fc8f7d85d5bd6fbbd39",
+      "git_mode": "100644",
+      "sha256": "db41a939f563bd5925a44f40c776cfa342075ae4fc908612703a260b7f8cb603",
+      "байт": 329,
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/шаблоны/вопрос.md.шаблон"
+    },
+    {
+      "FS_mode": "0644",
+      "blob": "e1643c7b69a0deb9a30b2b52293db7139dcaf3fa",
+      "commit": "b82ee3e2edc2b0da907a6fc8f7d85d5bd6fbbd39",
+      "git_mode": "100644",
+      "sha256": "a448de2c5297bfc557d5188224ad775710e2a5a1f8122cc080420af424db9ad4",
+      "байт": 2132,
+      "путь": "Инструменты/fum-ocenki/реестр-доказательного-обзора.json"
+    }
+  ],
+  "источник_девяти": "60534d980df75018cd27ce373b92bfcdb45a6a66",
+  "исходный_коммит": "b82ee3e2edc2b0da907a6fc8f7d85d5bd6fbbd39",
+  "конечные_цели": [
+    "Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py",
+    "Инструменты/fum-proverka-git-zavisimostej/scripts/подготовка_зависимостей.py",
+    "Инструменты/fum-proverka-git-zavisimostej/tests/test_восстановление_подготовки.py",
+    "Инструменты/fum-proverka-git-zavisimostej/tests/test_допуск_добавления.py",
+    "Инструменты/fum-proverka-git-zavisimostej/tests/test_ранняя_доступность_деревьев.py",
+    "Инструменты/fum-proverka-git-zavisimostej/tests/профиль_вложенной_топологии.py",
+    "Инструменты/fum-proverka-git-zavisimostej/tests/профиль_ранней_доступности.py",
+    "Инструменты/fum-proverka-git-zavisimostej/добавление-зависимости.md",
+    "Инструменты/fum-proverka-git-zavisimostej/подготовка-окружения.md",
+    "Журнал/2026-10-07_22-23-16_MSK_принять-точную-поставку-инструмента-TDLib/запрос.md",
+    "Журнал/2026-10-07_22-23-16_MSK_принять-точную-поставку-инструмента-TDLib/отчёт.md",
+    "Журнал/2026-10-07_22-23-16_MSK_принять-точную-поставку-инструмента-TDLib/материалы/акт-координатора.json",
+    "Журнал/2026-10-07_22-23-16_MSK_принять-точную-поставку-инструмента-TDLib/материалы/выбор-поручения.json",
+    "Журнал/2026-10-07_22-23-16_MSK_принять-точную-поставку-инструмента-TDLib/материалы/контур-точной-поставки.json",
+    "Журнал/2026-10-07_22-23-16_MSK_принять-точную-поставку-инструмента-TDLib/материалы/история-модели.json",
+    "Журнал/2026-10-07_22-23-16_MSK_принять-точную-поставку-инструмента-TDLib/материалы/запуски-проверок/1_54e90156-f9bb-4c89-bb6b-cbb0e1967e69.json",
+    "Журнал/2026-10-07_22-23-16_MSK_принять-точную-поставку-инструмента-TDLib/материалы/запуски-проверок/2_1705ff40-6a08-4847-85e7-ec3c0f60dcd7.json",
+    "Журнал/2026-10-07_22-23-16_MSK_принять-точную-поставку-инструмента-TDLib/материалы/запуски-проверок/3_e9da2ba9-cdcb-4fcf-a391-de6b6695878b.json",
+    "Журнал/2026-10-07_22-23-16_MSK_принять-точную-поставку-инструмента-TDLib/материалы/запуски-проверок/4_733c1b11-9d1d-464f-8826-50989de96c68.json",
+    "Журнал/2026-10-03_03-56-11_MSK_проверить-готовность-зависимости-TDLib/запрос.md",
+    "Журнал/README.md",
+    "Индексы/markdown-файлы-по-времени-редактирования.md"
+  ],
+  "контур": {
+    "A8_recency": 4,
+    "A8_данные": 3,
+    "A8_фикстуры": 2,
+    "ROOTstock": 63,
+    "S_runtime_test": 5
+  },
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "поручение": {
+    "sha256": "45fcd0df995d0062b452392bcbeacf97b6b25a908850c91d6ca41dd9cd50ea9a",
+    "коммит": "4f47f338b86e6defab086ea70f3b248f15888595",
+    "путь": "Планирование/дочерние-поручения/2026-10-07/telegram-точная-поставка.json"
+  },
+  "предметные_листья": [
+    {
+      "до": {
+        "blob": "9ef1e34272e43b52ff26d90f69b495c6259db4ea",
+        "sha256": "1cce3ec729f09f2f941e4436ee15cc3c82b02216f2702ef5d7f2f2ed41b0a570",
+        "байт": 91500,
+        "режим": "100644"
+      },
+      "изменение": "M",
+      "после": {
+        "blob": "c0bb29eb5535b2c7c404f1fe3ee1fca453f5df1c",
+        "sha256": "cd87e6377def0aa300ea7175808222f944c8945cdaea7c1d2a040d088d66c3b7",
+        "байт": 115033,
+        "режим": "100644"
+      },
+      "путь": "Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py"
+    },
+    {
+      "до": {
+        "blob": "da25fc574c5e54bbf5721a068487e36d66b4af35",
+        "sha256": "a28ab8171ff4232ee8f7e4702bc32df19fe58cacb5b35cd3d6607aa9c5d4647f",
+        "байт": 64642,
+        "режим": "100644"
+      },
+      "изменение": "M",
+      "после": {
+        "blob": "98257a1eb4adb6042605d6c09142db4b1bf27ca0",
+        "sha256": "4c8dcea5bf8a712c108dd0e3432b7be302c594b86d0ea3bb0128c1be9c88468d",
+        "байт": 84174,
+        "режим": "100644"
+      },
+      "путь": "Инструменты/fum-proverka-git-zavisimostej/scripts/подготовка_зависимостей.py"
+    },
+    {
+      "до": {
+        "blob": "a50133d5553482b48e231229d64020b97404b209",
+        "sha256": "22655cc01fd7fcae552e7a80bfd58ca1f320ab2869e75e0aafd6a77b35195136",
+        "байт": 13456,
+        "режим": "100644"
+      },
+      "изменение": "M",
+      "после": {
+        "blob": "59a933dd6416096f0b1f5076692309435edd22dd",
+        "sha256": "ee08c053c4efa3fe547ba577fecbf2ab90f3543f6f6edfbe233a22c51b2b9b86",
+        "байт": 19045,
+        "режим": "100644"
+      },
+      "путь": "Инструменты/fum-proverka-git-zavisimostej/tests/test_восстановление_подготовки.py"
+    },
+    {
+      "до": {
+        "blob": "c0627b64a090d627537867dc60b13ce9c749900c",
+        "sha256": "d9f459f2e31c5db3132040d2c942caf9bfbd8d09d3693c68e8654b3e211f2dc4",
+        "байт": 38430,
+        "режим": "100644"
+      },
+      "изменение": "M",
+      "после": {
+        "blob": "efebfa8cc8e7435f2c311446d8930f6d527a305a",
+        "sha256": "34586ceeb72af6075f367264d9348eb7148b9f6a443ddd7fc73b945fb39652c3",
+        "байт": 56241,
+        "режим": "100644"
+      },
+      "путь": "Инструменты/fum-proverka-git-zavisimostej/tests/test_допуск_добавления.py"
+    },
+    {
+      "до": null,
+      "изменение": "A",
+      "после": {
+        "blob": "162c6f6dd39dca7587d87f6da5fb1bed57a18b35",
+        "sha256": "6dc2d26562c64223d55494d118b699aed51eb7e1b01dc9cef6792967290a05d9",
+        "байт": 18863,
+        "режим": "100644"
+      },
+      "путь": "Инструменты/fum-proverka-git-zavisimostej/tests/test_ранняя_доступность_деревьев.py"
+    },
+    {
+      "до": null,
+      "изменение": "A",
+      "после": {
+        "blob": "07e5fc8128891b021406d6b03d4e54c9dc938ee1",
+        "sha256": "0de246245168eba75bb387b5bb5da632b24d5db8212737fab4aaedfaca445dbc",
+        "байт": 6195,
+        "режим": "100644"
+      },
+      "путь": "Инструменты/fum-proverka-git-zavisimostej/tests/профиль_вложенной_топологии.py"
+    },
+    {
+      "до": null,
+      "изменение": "A",
+      "после": {
+        "blob": "8b88d9246909f32b9a3269f20c9d40df3a6c2100",
+        "sha256": "038abc77b52a64129d0b7bdf91acea985018febea7f8656b3ef9ad18aa8e220d",
+        "байт": 6919,
+        "режим": "100644"
+      },
+      "путь": "Инструменты/fum-proverka-git-zavisimostej/tests/профиль_ранней_доступности.py"
+    },
+    {
+      "до": {
+        "blob": "8cf3877376c1681cd01e9d31311a9fd686229bd0",
+        "sha256": "971c0abb89bd4c68083cf7d2df5cf7c32df64f0768e65cab3c9ade6f40648bbb",
+        "байт": 16444,
+        "режим": "100644"
+      },
+      "изменение": "M",
+      "после": {
+        "blob": "5844b84bda7cf806b95fe705d1a4e3a083306b3f",
+        "sha256": "f33dc23956bbda149583accee3c07712593bfe012d93f7d0f24510044cb35677",
+        "байт": 30221,
+        "режим": "100644"
+      },
+      "путь": "Инструменты/fum-proverka-git-zavisimostej/добавление-зависимости.md"
+    },
+    {
+      "до": {
+        "blob": "c4df4d5c221f6a6efdb757bcc90f2423d1d4742a",
+        "sha256": "da8cdd99023763d6e69d8dc61527651b5fd5440573d3669e66061db257e47064",
+        "байт": 20385,
+        "режим": "100644"
+      },
+      "изменение": "M",
+      "после": {
+        "blob": "0ee96b7098c224efd4280b8b65bcd6198d6ef574",
+        "sha256": "6162169df29f6fc319420b6c823ab8d5355e86c881c6a3868955d7647506699a",
+        "байт": 23239,
+        "режим": "100644"
+      },
+      "путь": "Инструменты/fum-proverka-git-zavisimostej/подготовка-окружения.md"
+    }
+  ],
+  "профиль": {
+    "restore_нс": 20665333,
+    "start_preview_нс": 842184625,
+    "start_нс": 914986417
+  },
+  "родитель_результата": [
+    "b82ee3e2edc2b0da907a6fc8f7d85d5bd6fbbd39"
+  ],
+  "схема": "fum.контур-точной-поставки-TDLib.1"
+}
