@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import platform
 import statistics
@@ -21,6 +22,14 @@ def главная():
     вход = разбор.parse_args()
     if not 3 <= вход.повторы <= 15:
         разбор.error('нужно от 3 до 15 повторов')
+    with os.fdopen(os.open(вход.выход, os.O_CREAT | os.O_EXCL | os.O_WRONLY | os.O_NOFOLLOW, 0o600),
+                   'w', encoding='utf-8') as выход:
+        профиль = измерить_профиль(вход)
+        выход.write(json.dumps(профиль, ensure_ascii=False, sort_keys=True, indent=2) + '\n')
+        print(json.dumps(профиль['медианы'], ensure_ascii=False, sort_keys=True))
+
+
+def измерить_профиль(вход):
     пакет = Path(__file__).resolve().parents[1]
     имена_кода = ['scripts/актуальный_срез.py', 'scripts/актуальный-срез.py',
         'scripts/build-planning-registry.py', 'tests/фикстуры/актуальный-срез.json',
@@ -76,8 +85,7 @@ def главная():
         for имя, строки in измерения.items():
             профиль['медианы'][имя] = {поле: statistics.median(ряд[поле] for ряд in строки)
                 for поле in строки[0] if isinstance(строки[0][поле], int)}
-        вход.выход.write_text(json.dumps(профиль, ensure_ascii=False, sort_keys=True, indent=2) + '\n', encoding='utf-8')
-        print(json.dumps(профиль['медианы'], ensure_ascii=False, sort_keys=True))
+        return профиль
 
 
 if __name__ == '__main__':
