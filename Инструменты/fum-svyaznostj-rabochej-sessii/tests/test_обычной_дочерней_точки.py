@@ -27,6 +27,11 @@ class ОбычнаяДочерняяТочка(unittest.TestCase):
         постановка = сам.фикстура.корень / 'Планирование/постановка.md'
         постановка.parent.mkdir()
         постановка.write_text('Сохранить ограниченную контрольную точку.\n')
+        политика = сам.фикстура.корень / 'Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/policy.json'
+        политика.parent.mkdir(parents=True)
+        политика.write_text(json.dumps({'schema': 'fum.machine-local-path-policy.v2',
+            'exceptions': []}, ensure_ascii=False) + '\n')
+        сам.фикстура.гит('add', str(политика.relative_to(сам.фикстура.корень)))
         сам.фикстура.гит('add', 'Планирование/постановка.md')
         сам.фикстура.гит('commit', '-qm', 'Закрепить начальную постановку')
         начальный = сам.фикстура.гит('rev-parse', 'HEAD').strip()

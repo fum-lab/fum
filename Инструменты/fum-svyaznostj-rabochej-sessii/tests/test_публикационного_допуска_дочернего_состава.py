@@ -46,7 +46,7 @@ class Фикстура(примеры.Фикстура):
         предмет.parent.mkdir(parents=True, exist_ok=True)
         предмет.write_text(текст)
         политика = сам.корень / ПОЛИТИКА
-        политика.parent.mkdir(parents=True)
+        политика.parent.mkdir(parents=True, exist_ok=True)
         политика.write_bytes(примеры.байты({'schema': 'fum.machine-local-path-policy.v2',
             'exceptions': list(исключения)}))
         акт = сам.корень / сам.д.выбор['путь']
