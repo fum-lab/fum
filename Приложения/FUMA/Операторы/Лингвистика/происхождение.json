@@ -1,0 +1,33 @@
+{
+  "схема": "fum.linguistickit.происхождение.1",
+  "зависимость": "Зависимости/LinguisticKit",
+  "gitlink": "837e2ce107b97ee7b9d3344c9fe99142281fe393",
+  "fork": "https://github.com/fum-lab/LinguisticKit.git",
+  "upstream": "https://github.com/Roman-Kerimov/LinguisticKit.git",
+  "таблица": {
+    "путь": "Extracted/ScriptTables/ru.json",
+    "blob": "5e48fab9ad5467e32a76451775c18afbe477f719",
+    "sha256": "ff1bfa5e1e3595789760376bf8600cb8a84b6e450906ca8b09706a7789d8fcd8",
+    "байтов": 13803
+  },
+  "лицензия": {
+    "имя": "CC0 1.0 Universal",
+    "путь": "LICENSE",
+    "blob": "0e259d42c996742e9e3cba14c677129b2c1b6311",
+    "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499",
+    "байтов": 7048
+  },
+  "oracle": {
+    "путь": "Sources/LinguisticKit/ScriptTable.swift",
+    "вызов": "ScriptTable.ru.element(of: .Latn, from: буква, of: .Cyrl, prefixElement: слева ?? \"\", postfixString: справа ?? \"\")",
+    "граница": "Прямой internal выбор одной ячейки; @testable import. Полная строковая applyingTransform не вызывается. Вызовы последовательны."
+  },
+  "профиль-входа": {
+    "цель": "одна современная строчная NFC-буква",
+    "соседи": "одна современная строчная NFC-буква либо null",
+    "современные-буквы": "абвгдеёжзийклмнопрстуфхцчшщъыьэюя",
+    "исходных-строк": 53,
+    "букв": 33,
+    "отобранных-ячеек": 40
+  }
+}
