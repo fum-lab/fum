@@ -1,0 +1,10 @@
+{
+  "PR": "https://github.com/fum-lab/fum/pull/222",
+  "запрос": "POST https://api.github.com/repos/fum-lab/fum/pulls",
+  "наблюдаемый_объект": "https://api.github.com/repos/fum-lab/fum/pulls/222",
+  "описание": "Ссылка на точный сырой ответ; этот файл сам не является исходным ответом API.",
+  "схема": "fum.происхождение-ответа-GitHub.1",
+  "сырой_sha256": "bcdb1a0bc85c9860de80274a74431dc60354f98acd05e9bb9e52543015b27b85",
+  "сырой_байты": 16004,
+  "сырой_путь": "Источники/URL/https/api.github.com/repos/fum-lab/fum/pulls/222/создание-bcdb1a0bc85c9860de80274a74431dc60354f98acd05e9bb9e52543015b27b85.json"
+}
