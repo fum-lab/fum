@@ -1,5 +1,6 @@
 import importlib.util
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -103,16 +104,23 @@ class ПроверкиСборкиTDLib(unittest.TestCase):
             with self.assertRaisesRegex(сборка.ОтказПрофиля, 'не зарегистрирован'):
                 сборка.проверитьРегистрацию(корень, self.профиль)
             выход = Path(каталог).resolve() / 'build'
+            аргументыИнструментов = []
+            for имя in сборка.ИМЕНА_ИНСТРУМЕНТОВ:
+                инструмент = Path(каталог).resolve() / имя
+                инструмент.write_text('открытая исполняемая фикстура, запуск не разрешён\n')
+                инструмент.chmod(0o700)
+                аргументыИнструментов.extend(['--инструмент', имя + '=' + str(инструмент)])
             результат = subprocess.run(
                 [sys.executable, '-B', str(путь.resolve()),
                  '--корень-репозитория', str(корень), '--выход', str(выход),
-                 '--openssl-root', каталог],
+                 '--openssl-root', каталог, *аргументыИнструментов],
                 capture_output=True, text=True, timeout=15,
             )
             self.assertEqual(результат.returncode, 2)
             отказ = json.loads(результат.stderr)
             self.assertEqual(отказ['схема'], 'fum.сборка-tdlib.1')
             self.assertEqual(отказ['исход'], 'отказ')
+            self.assertIn('не зарегистрирован', отказ['причина'])
             self.assertFalse(выход.exists())
 
     def test_отрицательный_сценарий_использует_изолированный_репозиторий(self):
@@ -181,11 +189,11 @@ class ПроверкиСборкиTDLib(unittest.TestCase):
             home = tempRoot / 'home'; home.mkdir(mode=0o700)
             temporary = tempRoot / 'tmp'; temporary.mkdir(mode=0o700)
             environment = {
-                'PATH': '/usr/bin:/bin:/usr/sbin:/sbin',
+                'PATH': os.defpath,
                 'HOME': str(home),
                 'TMPDIR': str(temporary),
                 'GIT_CONFIG_NOSYSTEM': '1',
-                'GIT_CONFIG_GLOBAL': '/dev/null',
+                'GIT_CONFIG_GLOBAL': os.devnull,
                 'GIT_NO_LAZY_FETCH': '1',
                 'GIT_NO_REPLACE_OBJECTS': '1',
                 'GIT_OPTIONAL_LOCKS': '0',
@@ -265,7 +273,7 @@ class ПроверкиГотовностиЗависимости(unittest.TestCa
     def гит(сам, корень, *аргументы):
         import os
         окружение = {ключ: значение for ключ, значение in os.environ.items() if not ключ.startswith('GIT_')}
-        окружение.update({'GIT_CONFIG_NOSYSTEM': '1', 'GIT_CONFIG_GLOBAL': '/dev/null', 'GIT_OPTIONAL_LOCKS': '0'})
+        окружение.update({'GIT_CONFIG_NOSYSTEM': '1', 'GIT_CONFIG_GLOBAL': os.devnull, 'GIT_OPTIONAL_LOCKS': '0'})
         результат = subprocess.run(['git', '-C', str(корень), '-c', 'core.fsmonitor=false', *аргументы],
                                   env=окружение, capture_output=True, check=True, timeout=15)
         return результат.stdout.decode()

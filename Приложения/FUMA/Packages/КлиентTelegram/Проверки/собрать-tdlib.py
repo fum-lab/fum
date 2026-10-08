@@ -10,7 +10,6 @@ import os
 from pathlib import Path
 import platform
 import re
-import shutil
 import stat
 import subprocess
 import sys
@@ -134,7 +133,7 @@ def _процессГита(корень: Path, *аргументы: str,
                 допустимыеКоды: tuple[int, ...] = (0,)) -> subprocess.CompletedProcess[bytes]:
     окружение = {ключ: значение for ключ, значение in os.environ.items() if not ключ.startswith('GIT_')}
     окружение.update({
-        'GIT_CONFIG_NOSYSTEM': '1', 'GIT_CONFIG_GLOBAL': '/dev/null',
+        'GIT_CONFIG_NOSYSTEM': '1', 'GIT_CONFIG_GLOBAL': os.devnull,
         'GIT_NO_LAZY_FETCH': '1', 'GIT_NO_REPLACE_OBJECTS': '1',
         'GIT_OPTIONAL_LOCKS': '0', 'GIT_TERMINAL_PROMPT': '0',
     })
@@ -269,7 +268,39 @@ def _версию(команда: list[str], выражение: str, имя: st
     return строка
 
 
-def проверитьСреду(профиль: dict[str, Any], opensslRoot: Path) -> dict[str, Any]:
+ИМЕНА_ИНСТРУМЕНТОВ = frozenset(('clang', 'clang++', 'cmake', 'make', 'gperf', 'lipo', 'nm', 'otool'))
+
+
+def проверитьИнструменты(инструменты: dict[str, Path] | None) -> dict[str, Path]:
+    if not isinstance(инструменты, dict) or set(инструменты) != ИМЕНА_ИНСТРУМЕНТОВ:
+        raise ОтказПрофиля('требуется точная карта: clang, clang++, cmake, make, gperf, lipo, nm, otool')
+    проверенные = {}
+    for имя, путь in инструменты.items():
+        if not isinstance(путь, Path) or not путь.is_absolute():
+            raise ОтказПрофиля(f'инструмент {имя} требует абсолютного пути')
+        try:
+            физический = путь.resolve(strict=True)
+            if not stat.S_ISREG(физический.stat().st_mode) or not os.access(физический, os.X_OK):
+                raise ОтказПрофиля(f'инструмент {имя} не является исполняемым обычным файлом')
+        except OSError as ошибка:
+            raise ОтказПрофиля(f'инструмент {имя} недоступен') from ошибка
+        проверенные[имя] = физический
+    return проверенные
+
+
+def разобратьИнструменты(записи: list[str]) -> dict[str, Path]:
+    карта = {}
+    for запись in записи:
+        имя, разделитель, путь = запись.partition('=')
+        if not разделитель or имя not in ИМЕНА_ИНСТРУМЕНТОВ or имя in карта:
+            raise ОтказПрофиля('неизвестная или повторная запись --инструмент имя=путь')
+        карта[имя] = Path(путь)
+    return проверитьИнструменты(карта)
+
+
+def проверитьСреду(профиль: dict[str, Any], opensslRoot: Path, *,
+                   инструменты: dict[str, Path] | None = None) -> dict[str, Any]:
+    инструменты = проверитьИнструменты(инструменты)
     хост = профиль['хост']
     system = 'macOS' if platform.system() == 'Darwin' else platform.system()
     if system != хост['система'] or platform.machine() != хост['архитектура']:
@@ -292,17 +323,15 @@ def проверитьСреду(профиль: dict[str, Any], opensslRoot: Pa
     if sdk != хост['sdk'] or sdkBuild != хост['сборкаSdk']:
         raise ОтказПрофиля('SDK или его build id не совпадает с профилем')
     sdkPath = Path(_запустить(['xcrun', '--sdk', 'macosx', '--show-sdk-path'], окружение=envXcode).stdout.decode().strip()).resolve(strict=True)
-    clang = Path(_запустить(['xcrun', '--find', 'clang'], окружение=envXcode).stdout.decode().strip()).resolve(strict=True)
-    clangxx = Path(_запустить(['xcrun', '--find', 'clang++'], окружение=envXcode).stdout.decode().strip()).resolve(strict=True)
+    clang = инструменты['clang']
+    clangxx = инструменты['clang++']
     if not clang.is_relative_to(разработчик) or not clangxx.is_relative_to(разработчик):
         raise ОтказПрофиля('компилятор вышел за пределы выбранного Xcode')
     clangВерсия = _версию([str(clang), '--version'], r'Apple clang version', 'Apple Clang', env=envXcode)
-    cmake = shutil.which('cmake', path=os.defpath) or '/opt/homebrew/bin/cmake'
-    cmakeВерсия = _версию([cmake, '--version'], r'^cmake version ', 'CMake', env=envXcode)
-    make = '/usr/bin/make'
-    gperf = '/usr/bin/gperf'
-    makeВерсия = _версию([make, '--version'], r'^GNU Make ', 'GNU Make', env=envXcode)
-    gperfВерсия = _версию([gperf, '--version'], r'^GNU gperf ', 'GNU gperf', env=envXcode)
+    cmake, make, gperf = (инструменты[имя] for имя in ('cmake', 'make', 'gperf'))
+    cmakeВерсия = _версию([str(cmake), '--version'], r'^cmake version ', 'CMake', env=envXcode)
+    makeВерсия = _версию([str(make), '--version'], r'^GNU Make ', 'GNU Make', env=envXcode)
+    gperfВерсия = _версию([str(gperf), '--version'], r'^GNU gperf ', 'GNU gperf', env=envXcode)
     openssl = opensslRoot / 'bin/openssl'
     opensslВерсия = _версию([str(openssl), 'version'], r'^OpenSSL ', 'OpenSSL', env=envXcode)
     zlibStub = sdkPath / 'usr/lib/libz.tbd'
@@ -344,6 +373,8 @@ def проверитьСреду(профиль: dict[str, Any], opensslRoot: Pa
         if наблюдения['sha256Инструментов'].get(инструмент) != ожидаемыйХэш:
             raise ОтказПрофиля(f'байты инструмента {инструмент} не совпадают с закреплённым профилем')
     return {
+        **инструменты,
+        'разработчик': разработчик,
         'наблюдения': наблюдения,
         'sdkПуть': sdkPath,
         'clang': clang,
@@ -372,7 +403,7 @@ def _окружение(разработчик: Path, sdk: Path, выход: Pat
         'ZERO_AR_DATE': '1',
         'SOURCE_DATE_EPOCH': str(sourceDateEpoch),
         'GIT_CONFIG_NOSYSTEM': '1',
-        'GIT_CONFIG_GLOBAL': '/dev/null',
+        'GIT_CONFIG_GLOBAL': os.devnull,
         'GIT_NO_LAZY_FETCH': '1',
         'GIT_NO_REPLACE_OBJECTS': '1',
         'GIT_OPTIONAL_LOCKS': '0',
@@ -443,15 +474,15 @@ def _собратьОдин(номер: int, репозиторий: Path, oid: 
     if len(библиотеки) != 1:
         raise ОтказПрофиля('установка должна содержать одну libtdjson.dylib')
     библиотека = библиотеки[0]
-    архитектуры = _запустить(['/usr/bin/lipo', '-archs', str(библиотека)]).stdout.decode().split()
+    архитектуры = _запустить([str(среда['lipo']), '-archs', str(библиотека)]).stdout.decode().split()
     if архитектуры != [профиль['хост']['архитектура']]:
         raise ОтказПрофиля(f'архитектура библиотеки не совпадает: {архитектуры}')
-    выводСимволов = _запустить(['/usr/bin/nm', '-gU', str(библиотека)]).stdout.decode('utf-8', errors='replace')
+    выводСимволов = _запустить([str(среда['nm']), '-gU', str(библиотека)]).stdout.decode('utf-8', errors='replace')
     символы = {строка.split()[-1].lstrip('_') for строка in выводСимволов.splitlines() if строка.split()}
     отсутствуют = [символ for символ in профиль['сборка']['символы'] if символ not in символы]
     if отсутствуют:
         raise ОтказПрофиля(f'в libtdjson отсутствуют символы: {", ".join(отсутствуют)}')
-    выводЗависимостей = _запустить(['/usr/bin/otool', '-L', str(библиотека)]).stdout.decode('utf-8', errors='replace')
+    выводЗависимостей = _запустить([str(среда['otool']), '-L', str(библиотека)]).stdout.decode('utf-8', errors='replace')
     зависимости = []
     rootOpenSSL = Path(среда['opensslRoot']).resolve(strict=True)
     строкиЗависимостей = выводЗависимостей.splitlines()[1:]
@@ -484,14 +515,16 @@ def _собратьОдин(номер: int, репозиторий: Path, oid: 
     }
 
 
-def собрать(корень: Path, выход: Path, opensslRoot: Path) -> dict[str, Any]:
+def собрать(корень: Path, выход: Path, opensslRoot: Path, *,
+            инструменты: dict[str, Path] | None = None) -> dict[str, Any]:
+    инструменты = проверитьИнструменты(инструменты)
     профиль = прочитатьПрофиль()
     корень = корень.resolve(strict=True)
     источник, oid = проверитьРегистрацию(корень, профиль)
     проверитьОтпечаткиИсточника(источник, профиль)
     выход = проверитьВыход(корень, источник, выход)
-    tools = проверитьСреду(профиль, opensslRoot)
-    разработчик = Path(_запустить(['xcode-select', '-p']).stdout.decode().strip()).resolve(strict=True)
+    tools = проверитьСреду(профиль, opensslRoot, инструменты=инструменты)
+    разработчик = tools['разработчик']
     выход.mkdir(mode=0o700)
     os.chmod(выход, 0o700)
     сведенияВыхода = выход.stat(follow_symlinks=False)
@@ -576,11 +609,13 @@ def main() -> int:
     parser.add_argument('--выход', type=Path,
                         help='новый абсолютный каталог с приватным владельцем и правами 0700')
     parser.add_argument('--openssl-root', type=Path)
+    parser.add_argument('--инструмент', action='append', default=[], metavar='ИМЯ=ПУТЬ',
+                        help='явные исполняемые файлы закрытой карты сборочных инструментов')
     parser.add_argument('--только-проверить-зависимость', action='store_true',
                         help='прочитать локальную регистрацию и объекты TDLib до любых сборочных действий')
     args, неизвестные = parser.parse_known_args()
     if args.только_проверить_зависимость:
-        if неизвестные or args.выход is not None or args.openssl_root is not None:
+        if неизвестные or args.выход is not None or args.openssl_root is not None or args.инструмент:
             диагностика = {'схема': СХЕМА_ГОТОВНОСТИ, 'исход': 'отказ', 'этап': 'аргументы',
                 'причина': 'неверные_аргументы', 'пояснение': ПОЯСНЕНИЯ_ГОТОВНОСТИ['неверные_аргументы'],
                 'профиль': [], 'длительностьНаносекунды': 0}
@@ -592,7 +627,8 @@ def main() -> int:
     if неизвестные or args.выход is None or args.openssl_root is None:
         parser.error('сборка требует --выход и --openssl-root без неизвестных флагов')
     try:
-        result = собрать(args.корень_репозитория, args.выход, args.openssl_root)
+        инструменты = разобратьИнструменты(args.инструмент)
+        result = собрать(args.корень_репозитория, args.выход, args.openssl_root, инструменты=инструменты)
     except (OSError, ValueError, ОтказПрофиля, subprocess.SubprocessError) as error:
         print(json.dumps({'схема': СХЕМА, 'исход': 'отказ', 'причина': str(error)},
                          ensure_ascii=False), file=sys.stderr)

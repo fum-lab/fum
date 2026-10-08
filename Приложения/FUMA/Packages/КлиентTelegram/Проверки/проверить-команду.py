@@ -3,6 +3,7 @@
 import hashlib
 import json
 import math
+import os
 import stat
 from pathlib import Path
 import subprocess
@@ -96,20 +97,43 @@ const char *td_receive(double timeout) {
 '''
 
 
+def проверитьКомпилятор() -> Path:
+    путь = Path(os.environ.get('ФУМ_КОМПИЛЯТОР', ''))
+    if not путь.is_absolute():
+        raise ValueError('Требуется явный абсолютный ФУМ_КОМПИЛЯТОР')
+    физический = путь.resolve(strict=True)
+    if not stat.S_ISREG(физический.stat().st_mode) or not os.access(физический, os.X_OK):
+        raise ValueError('Выбранный компилятор не является исполняемым обычным файлом')
+    return физический
+
+
+def проверитьSDK() -> Path:
+    путь = Path(os.environ.get('SDKROOT', ''))
+    if not путь.is_absolute():
+        raise ValueError('Требуется явный абсолютный SDKROOT')
+    физический = путь.resolve(strict=True)
+    if not физический.is_dir():
+        raise ValueError('SDKROOT должен быть каталогом')
+    return физический
+
+
 def проверитьСинтетическуюБиблиотеку(исполняемый: Path) -> dict:
+    компилятор = проверитьКомпилятор()
+    sdk = проверитьSDK()
+    хэшКомпилятора = hashlib.sha256(компилятор.read_bytes()).hexdigest()
     исходникТранспорта = ИСХОДНИК_ТРАНСПОРТА
     with tempfile.TemporaryDirectory(prefix='fum-telegram-tdlib-fixture-') as temp:
         root = Path(temp).resolve()
         исходныйФайл = root / 'tdjson-fixture.c'
         library = root / 'libtdjson-fixture.dylib'
         исходныйФайл.write_text(исходникТранспорта, encoding='utf-8')
-        subprocess.run(['/usr/bin/clang', '-dynamiclib', '-pthread', '-o', str(library), str(исходныйФайл)],
+        subprocess.run([str(компилятор), '-isysroot', str(sdk), '-dynamiclib', '-pthread', '-o', str(library), str(исходныйФайл)],
                        capture_output=True, text=True, timeout=30, check=True)
         квитанция = root / 'квитанция.json'
         квитанция.write_bytes((json.dumps({
             'схема': 'fum.синтетическая-c-библиотека.1', 'исход': 'успех',
             'исходникSha256': hashlib.sha256(исходныйФайл.read_bytes()).hexdigest(),
-            'компиляторSha256': hashlib.sha256(Path('/usr/bin/clang').resolve().read_bytes()).hexdigest(),
+            'компиляторSha256': хэшКомпилятора,
             'библиотекаSha256': hashlib.sha256(library.read_bytes()).hexdigest(),
             'библиотекаBytes': library.stat().st_size,
             'архитектуры': ['arm64'], 'символы': ['td_create_client_id', 'td_send', 'td_receive']
@@ -378,6 +402,9 @@ def проверитьОтказы(исполняемый: Path) -> int:
                'Внешний предел 45 секунд — отказ исполнителя. Кэши ОС не очищены. Настоящая TDLib не проверена.'}
     try:
         потребовать(исполняемый.is_absolute() and исполняемый.is_file(), 'Нет абсолютного пути команды')
+        компилятор = проверитьКомпилятор()
+        sdk = проверитьSDK()
+        хэшКомпилятора = hashlib.sha256(компилятор.read_bytes()).hexdigest()
         профиль.update(исполняемыйШа256=hashlib.sha256(исполняемый.read_bytes()).hexdigest(),
                        исполнительШа256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                        основнойИсходникШа256=hashlib.sha256(
@@ -409,7 +436,7 @@ def проверитьОтказы(исполняемый: Path) -> int:
             библиотека = каталог / 'libtdjson-fixture.dylib'
             исходныйФайл.write_text(исходник, encoding='utf-8')
             компиляция = измеритьПроцесс(
-                ['/usr/bin/clang', '-dynamiclib', '-pthread', '-o', str(библиотека), str(исходныйФайл)],
+                [str(компилятор), '-isysroot', str(sdk), '-dynamiclib', '-pthread', '-o', str(библиотека), str(исходныйФайл)],
                 измерение, 'компиляция', 'компиляцияНаносекунд', каталог, 30)
             измерение['кодКомпиляции'] = компиляция.returncode
             потребовать(компиляция.returncode == 0, 'Компиляция фикстуры отказала')
@@ -417,7 +444,7 @@ def проверитьОтказы(исполняемый: Path) -> int:
             данныеКвитанции = {
                 'схема': 'fum.синтетическая-c-библиотека.1', 'исход': 'успех',
                 'исходникSha256': hashlib.sha256(исходныйФайл.read_bytes()).hexdigest(),
-                'компиляторSha256': hashlib.sha256(Path('/usr/bin/clang').resolve().read_bytes()).hexdigest(),
+                'компиляторSha256': хэшКомпилятора,
                 'библиотекаSha256': hashlib.sha256(библиотека.read_bytes()).hexdigest(),
                 'библиотекаBytes': библиотека.stat().st_size,
                 'архитектуры': ['arm64'], 'символы': ['td_create_client_id', 'td_send', 'td_receive']}

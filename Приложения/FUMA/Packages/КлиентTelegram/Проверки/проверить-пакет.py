@@ -4,6 +4,7 @@ import argparse
 import json
 import os
 from pathlib import Path
+import stat
 import subprocess
 import sys
 
@@ -62,18 +63,51 @@ def выполнить() -> int:
     разбор.add_argument('--пакет', type=Path, default=Path(__file__).resolve().parent.parent)
     разбор.add_argument('--кэш', type=Path, required=True)
     разбор.add_argument('--фильтр')
+    разбор.add_argument('--компилятор', type=Path, help='явный clang для тестовых C ABI фикстур')
     разбор.add_argument('--показать-команду', action='store_true')
     аргументы = разбор.parse_args()
     try:
+        if not аргументы.пакет.is_absolute():
+            raise ValueError('Требуется абсолютный корень пакета')
+        кореньПакета = аргументы.пакет.resolve(strict=True)
+        if not (кореньПакета / 'Package.swift').is_file():
+            raise ValueError('Не найден манифест выбранного пакета')
         выбор = subprocess.run(['xcode-select', '-p'], check=True, capture_output=True, text=True, timeout=10)
-        разработчик = Path(выбор.stdout.strip())
-        команда = построитьКоманду(разработчик, аргументы.пакет.resolve(), аргументы.кэш.resolve(), аргументы.фильтр)
+        выбранныйРазработчик = Path(выбор.stdout.strip())
+        if not выбранныйРазработчик.is_absolute():
+            raise ValueError('Требуется абсолютный developer directory')
+        разработчик = выбранныйРазработчик.resolve(strict=True)
+        компилятор = None
+        sdk = None
+        if аргументы.компилятор is not None:
+            if not аргументы.компилятор.is_absolute():
+                raise ValueError('Требуется абсолютный путь компилятора')
+            компилятор = аргументы.компилятор.resolve(strict=True)
+            if (not stat.S_ISREG(компилятор.stat().st_mode)
+                    or not os.access(компилятор, os.X_OK)
+                    or not компилятор.is_relative_to(разработчик)):
+                raise ValueError('Компилятор должен быть исполняемым файлом выбранного developer directory')
+            выборSDK = subprocess.run(['xcrun', '--sdk', 'macosx', '--show-sdk-path'], check=True,
+                                     capture_output=True, text=True, timeout=10,
+                                     env={'DEVELOPER_DIR': str(разработчик), 'PATH': os.defpath})
+            выбранныйSDK = Path(выборSDK.stdout.strip())
+            if not выбранныйSDK.is_absolute():
+                raise ValueError('Требуется абсолютный корень SDK')
+            sdk = выбранныйSDK.resolve(strict=True)
+            if not sdk.is_dir() or not sdk.is_relative_to(разработчик):
+                raise ValueError('SDK должен находиться внутри выбранного developer directory')
+        команда = построитьКоманду(разработчик, кореньПакета, аргументы.кэш.resolve(), аргументы.фильтр)
         if аргументы.показать_команду:
             print(json.dumps(команда, ensure_ascii=False))
             return 0
         окружение = os.environ.copy()
+        окружение['ФУМ_КОРЕНЬ_ПАКЕТА'] = str(кореньПакета)
+        окружение.pop('ФУМ_КОМПИЛЯТОР', None)
+        if компилятор is not None:
+            окружение['ФУМ_КОМПИЛЯТОР'] = str(компилятор)
+            окружение['SDKROOT'] = str(sdk)
         окружение['DEVELOPER_DIR'] = str(разработчик.resolve())
-        код = subprocess.call(команда, cwd=аргументы.пакет.resolve(), env=окружение)
+        код = subprocess.call(команда, cwd=кореньПакета, env=окружение)
         кодИсполнителя = 128 - код if код < 0 else код
         исход = {'схема': 'fum.исход-проверки-пакета.1', 'завершение': 'сигнал' if код < 0 else 'выход',
                  'кодПроцесса': код, 'кодИсполнителя': кодИсполнителя}

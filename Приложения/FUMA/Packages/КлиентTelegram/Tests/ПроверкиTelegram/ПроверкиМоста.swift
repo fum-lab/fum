@@ -82,7 +82,7 @@ private func привязкаФикстуры(_ библиотека: URL, _ и�
     let библиотека = корень.appendingPathComponent("открытая-фикстура.bin")
     let байты = Data("Открытая фикстура проверяет только receipt и SHA, не является TDLib".utf8)
     try байты.write(to: библиотека)
-    let пакет = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
+    let пакет = try проверенныйКореньПакета()
     let профиль = try JSONSerialization.jsonObject(with: Data(contentsOf: пакет.appendingPathComponent("Профили/2026-09-30-сборка-tdlib.json"))) as! [String: Any]
     let хост = профиль["хост"] as! [String: Any]
     var среда = хост
@@ -117,10 +117,62 @@ private func привязкаФикстуры(_ библиотека: URL, _ и�
     #expect(throws: (any Error).self) { try МостБиблиотеки(библиотека: "относительный.dylib", привязка: .синтетическийТранспорт) }
 }
 
+private func проверенныйКореньПакета(окружение: [String: String] = ProcessInfo.processInfo.environment) throws -> URL {
+    guard let путь = окружение["ФУМ_КОРЕНЬ_ПАКЕТА"],
+          (путь as NSString).isAbsolutePath else {
+        throw ОшибкаКлиента.требуетсяРазбор
+    }
+    let корень = URL(fileURLWithPath: путь).standardizedFileURL.resolvingSymlinksInPath()
+    guard FileManager.default.fileExists(atPath: корень.appendingPathComponent("Package.swift").path),
+          FileManager.default.fileExists(atPath: корень.appendingPathComponent("Профили/2026-09-30-сборка-tdlib.json").path) else {
+        throw ОшибкаКлиента.требуетсяРазбор
+    }
+    return корень
+}
+
+private func проверенныйКомпилятор(окружение: [String: String] = ProcessInfo.processInfo.environment) throws -> URL {
+    guard let путь = окружение["ФУМ_КОМПИЛЯТОР"],
+          (путь as NSString).isAbsolutePath else {
+        throw ОшибкаКлиента.требуетсяРазбор
+    }
+    let выбранный = URL(fileURLWithPath: путь).standardizedFileURL.resolvingSymlinksInPath()
+    let свойства = try выбранный.resourceValues(forKeys: [.isRegularFileKey])
+    guard свойства.isRegularFile == true,
+          FileManager.default.isExecutableFile(atPath: выбранный.path) else {
+        throw ОшибкаКлиента.требуетсяРазбор
+    }
+    return выбранный
+}
+
+@Test func явныеВходыФикстурыЗакрытоОтклоняютОтсутствиеИНеверныйПуть() throws {
+    let каталог = try создатьПриватныйКаталог()
+    defer { try? FileManager.default.removeItem(at: каталог) }
+    for окружение in [[:], ["ФУМ_КОРЕНЬ_ПАКЕТА": "относительный"], ["ФУМ_КОРЕНЬ_ПАКЕТА": каталог.path]] {
+        #expect(throws: (any Error).self) { try проверенныйКореньПакета(окружение: окружение) }
+    }
+    for окружение in [[:], ["ФУМ_КОМПИЛЯТОР": "относительный"], ["ФУМ_КОМПИЛЯТОР": каталог.path]] {
+        #expect(throws: (any Error).self) { try проверенныйКомпилятор(окружение: окружение) }
+    }
+    let файл = каталог.appendingPathComponent("compiler-fixture")
+    try Data("fixture".utf8).write(to: файл)
+    try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: файл.path)
+    #expect(throws: (any Error).self) { try проверенныйКомпилятор(окружение: ["ФУМ_КОМПИЛЯТОР": файл.path]) }
+    try FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: файл.path)
+    #expect(try проверенныйКомпилятор(окружение: ["ФУМ_КОМПИЛЯТОР": файл.path]).path == файл.resolvingSymlinksInPath().path)
+}
+
 private func собратьДинамическуюБиблиотеку(_ исходник: URL, в библиотека: URL) throws {
+    guard let путьSDK = ProcessInfo.processInfo.environment["SDKROOT"],
+          (путьSDK as NSString).isAbsolutePath else {
+        throw ОшибкаКлиента.требуетсяРазбор
+    }
+    let sdk = URL(fileURLWithPath: путьSDK).standardizedFileURL.resolvingSymlinksInPath()
+    guard try sdk.resourceValues(forKeys: [.isDirectoryKey]).isDirectory == true else {
+        throw ОшибкаКлиента.требуетсяРазбор
+    }
     let компилятор = Process()
-    компилятор.executableURL = URL(fileURLWithPath: "/usr/bin/clang")
-    компилятор.arguments = ["-dynamiclib", "-o", библиотека.path, исходник.path]
+    компилятор.executableURL = try проверенныйКомпилятор()
+    компилятор.arguments = ["-isysroot", sdk.path, "-dynamiclib", "-o", библиотека.path, исходник.path]
     try компилятор.run()
     компилятор.waitUntilExit()
     guard компилятор.terminationStatus == 0 else { throw ОшибкаКлиента.требуетсяРазбор }
