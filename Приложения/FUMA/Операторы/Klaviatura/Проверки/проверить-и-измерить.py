@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import platform
 import subprocess
@@ -9,6 +10,20 @@ import tempfile
 import time
 
 КОРЕНЬ = Path(__file__).resolve().parents[1]
+
+
+def проверенныйКорень():
+    for каталог in [КОРЕНЬ, КОРЕНЬ / 'Фикстуры']:
+        if каталог.is_symlink() or not каталог.is_dir():
+            raise SystemExit('КЛАВИАТУРА: неверный корень пакета')
+    имена = ['Package.swift', 'определение.json', 'Фикстуры/переходы.json']
+    if os.environ.get('KLAVIATURA_RED') == '1':
+        имена.append('Фикстуры/определение-RED.json')
+    for имя in имена:
+        файл = КОРЕНЬ / имя
+        if файл.is_symlink() or not файл.is_file():
+            raise SystemExit('КЛАВИАТУРА: неверный корень пакета')
+    return str(КОРЕНЬ)
 
 
 def основная():
@@ -20,9 +35,11 @@ def основная():
         raise SystemExit('Результат не перезаписывается')
     if параметры.кэш.resolve().is_relative_to(КОРЕНЬ.parents[3]):
         raise SystemExit('Кэш сборки должен находиться вне checkout')
+    среда = dict(os.environ)
+    среда['КЛАВИАТУРА_КОРЕНЬ_ПАКЕТА'] = проверенныйКорень()
     subprocess.run(['python3', '-B', str(КОРЕНЬ / 'Сценарии/собрать-определение.py'), '--проверить'], check=True)
     начало = time.perf_counter_ns()
-    subprocess.run(['swift', 'test', '--package-path', str(КОРЕНЬ), '--scratch-path', str(параметры.кэш), '-j', '2'], check=True)
+    subprocess.run(['swift', 'test', '--package-path', str(КОРЕНЬ), '--scratch-path', str(параметры.кэш), '-j', '2'], env=среда, check=True)
     проверка = time.perf_counter_ns() - начало
     начало = time.perf_counter_ns()
     subprocess.run(['swift', 'build', '--package-path', str(КОРЕНЬ), '--scratch-path', str(параметры.кэш), '-j', '2', '-c', 'release', '--product', 'Klaviatura'], check=True)

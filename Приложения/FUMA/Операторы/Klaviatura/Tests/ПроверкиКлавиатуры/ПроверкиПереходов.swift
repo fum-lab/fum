@@ -4,7 +4,43 @@ import FUMStructuringOperatorMemory
 import ЭталонКлавиатуры
 
 final class ПроверкиПереходов: XCTestCase {
-  let корень = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
+  private var корень: URL!
+
+  override func setUpWithError() throws {
+    guard let значение = ProcessInfo.processInfo.environment["КЛАВИАТУРА_КОРЕНЬ_ПАКЕТА"],
+          !значение.isEmpty else {
+      throw NSError(domain: "Klaviatura.корень", code: 1,
+                    userInfo: [NSLocalizedDescriptionKey: "КЛАВИАТУРА: отсутствует корень пакета"])
+    }
+    do {
+      guard значение.hasPrefix("/") else { throw CocoaError(.fileReadInvalidFileName) }
+      var текущий = URL(fileURLWithPath: "/", isDirectory: true)
+      for часть in значение.split(separator: "/", omittingEmptySubsequences: false).dropFirst() {
+        guard !часть.isEmpty, часть != ".", часть != ".." else { throw CocoaError(.fileReadInvalidFileName) }
+        текущий.appendPathComponent(String(часть), isDirectory: true)
+        guard try FileManager.default.attributesOfItem(atPath: текущий.path)[.type] as? FileAttributeType == .typeDirectory
+        else { throw CocoaError(.fileReadInvalidFileName) }
+      }
+      var файлы = ["Package.swift", "определение.json", "Фикстуры/переходы.json"]
+      if ProcessInfo.processInfo.environment["KLAVIATURA_RED"] == "1" {
+        файлы.append("Фикстуры/определение-RED.json")
+      }
+      for имя in файлы {
+        let части = имя.split(separator: "/")
+        var файл = текущий
+        for (номер, часть) in части.enumerated() {
+          файл.appendPathComponent(String(часть))
+          let тип = try FileManager.default.attributesOfItem(atPath: файл.path)[.type] as? FileAttributeType
+          guard тип == (номер == части.count - 1 ? .typeRegular : .typeDirectory)
+          else { throw CocoaError(.fileReadInvalidFileName) }
+        }
+      }
+      корень = текущий
+    } catch {
+      throw NSError(domain: "Klaviatura.корень", code: 2,
+                    userInfo: [NSLocalizedDescriptionKey: "КЛАВИАТУРА: неверный корень пакета"])
+    }
+  }
   func testПервыйТекстНастоящимИнтерпретатором() throws {
     let путь = ProcessInfo.processInfo.environment["KLAVIATURA_RED"] == "1" ? "Фикстуры/определение-RED.json" : "определение.json"
     let определение = try ОпределениеОператора.разобрать(Data(contentsOf: корень.appendingPathComponent(путь)))
