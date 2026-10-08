@@ -6381,6 +6381,33 @@
       "count": 1,
       "category": "allow.nonpath-syntax",
       "reason": "Неизменяемый исторический профиль содержит экранированный относительный ключ JSON с хэшем исходника; это синтаксис JSON, а не машинный абсолютный путь."
+    },
+    {
+      "id": "interpreter-jsonl-original-source-witness",
+      "path": "Журнал/2026-10-01_13-26-01_MSK_исполнить-поток-JSONL-интерпретатором/отчёт.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:b47df2af0fe4b8635f4268389e236344fa44ff2407e0eccdf6488fd5154cf5ec",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Неизменяемая историческая дословная передача ROOT закрепляет источник первичных команд; путь не является текущей инструкцией или публикацией исходного JSONL."
+    },
+    {
+      "id": "interpreter-jsonl-original-skill-witness",
+      "path": "Журнал/2026-10-01_13-26-01_MSK_исполнить-поток-JSONL-интерпретатором/отчёт.md",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:8ba7c4e862cbfe6c51ddb87618bac701ffe4cde556dcae94b06981d89a58bae7",
+      "count": 1,
+      "category": "report.historical",
+      "reason": "Неизменяемое историческое сообщение сохраняет прежнюю локальную ссылку на навык дочернего checkout; эта ссылка не загружается и не даёт инструкций текущему агенту."
+    },
+    {
+      "id": "interpreter-jsonl-profile-source-keyword",
+      "path": "Журнал/2026-10-01_13-26-01_MSK_исполнить-поток-JSONL-интерпретатором/материалы/профиль-рамок.json",
+      "kind": "compiler-file-path",
+      "line_sha256": "sha256:e7d97f4626a249faaa8866a7a6d49c6ac84b2489c65fc18f81f8a155d3c0d392",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Неизменяемый исторический профиль содержит буквальное имя Swift-директивы в описании проверки утечек; это название синтаксиса, а не полученный машинный путь."
     }
   ],
   "метаданные": [
