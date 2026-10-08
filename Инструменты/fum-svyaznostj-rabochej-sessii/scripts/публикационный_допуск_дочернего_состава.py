@@ -19,6 +19,7 @@ import types
 ИСХОДНИКИ_СКАНЕРА = (
     ('path_forms', 'Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py'),
     ('request_folder_layout', 'Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py'),
+    ('метаданные_наблюдений', 'Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/метаданные_наблюдений.py'),
     ('fum_публикационный_сканер', 'Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py'),
 )
 
@@ -156,7 +157,8 @@ def состав(параметры, создатель):
 def сканировать(м, данные, цели, политика):
     """Прежняя оркестрация сканера на точных индексных байтах выбранных целей."""
     полная = м.parse_policy(политика)
-    выбранная = м.Policy(tuple(э for э in полная.exceptions if э.path in цели))
+    выбранная = м.выбрать_политику(полная, цели)
+    допуски_метаданных = м.позиции_метаданных(выбранная, данные)
     запросы = frozenset(п for п in цели if м._is_request_file(п))
     кандидаты = []; фиксированные = []; тексты = []; инвентарь_ошибочен = False
     for путь in цели:
@@ -184,7 +186,8 @@ def сканировать(м, данные, цели, политика):
     for путь, текст in тексты:
         части = PurePosixPath(путь).parts
         ствол = части[1] if len(части) >= 2 and части[0] == 'Журнал' else ''
-        кандидаты.extend(м.scan_text(путь, текст, frozenset(исполнители.get(ствол, ()))))
+        кандидаты.extend(м.scan_text(путь, текст, frozenset(исполнители.get(ствол, ())),
+            допуски_метаданных.get(путь, frozenset())))
     кандидаты, ошибки_политики, политика_ошибочна = м._apply_policy(кандидаты, выбранная, ПОЛИТИКА)
     находки = tuple(sorted({*фиксированные, *ошибки_политики, *м._deduplicated_findings(кандидаты)}))
     содержание_ошибочно = any(э.category.startswith('error.') for э in находки

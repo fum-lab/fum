@@ -28,6 +28,7 @@ if str(REQUEST_LAYOUT_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(REQUEST_LAYOUT_SCRIPTS))
 
 from request_folder_layout import session_stem_for_request_path  # noqa: E402
+import метаданные_наблюдений as метаданные  # noqa: E402
 
 
 POLICY_SCHEMA = "fum.machine-local-path-policy.v2"
@@ -147,6 +148,7 @@ class ExactException:
 @dataclass(frozen=True)
 class Policy:
     exceptions: tuple[ExactException, ...]
+    метаданные: tuple[метаданные.ДекларацияМетаданных, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -216,8 +218,9 @@ def _validate_policy_path(raw_path: object) -> str:
 def parse_policy(value: object) -> Policy:
     if not isinstance(value, dict):
         raise PolicyError("policy root must be an object")
-    _require_exact_keys(value, POLICY_KEYS, "policy")
-    if value.get("schema") != POLICY_SCHEMA:
+    новая = value.get("schema") == метаданные.СХЕМА_ПОЛИТИКИ
+    _require_exact_keys(value, POLICY_KEYS | {"метаданные"} if новая else POLICY_KEYS, "policy")
+    if value.get("schema") != POLICY_SCHEMA and not новая:
         raise PolicyError("unsupported policy schema")
     raw_exceptions = value.get("exceptions")
     if not isinstance(raw_exceptions, list):
@@ -275,13 +278,31 @@ def parse_policy(value: object) -> Policy:
                 reason=reason.strip(),
             )
         )
-    return Policy(exceptions=tuple(exceptions))
+    try:
+        декларации = метаданные.разобрать_декларации(value["метаданные"]) if новая else ()
+    except метаданные.ОшибкаМетаданных as ошибка:
+        raise PolicyError(str(ошибка)) from ошибка
+    return Policy(exceptions=tuple(exceptions), метаданные=декларации)
+
+
+def выбрать_политику(политика: Policy, пути) -> Policy:
+    """Полная политика разбирается до отбора; выбранная запись не сокращается."""
+    выбранные = frozenset(пути)
+    return Policy(tuple(э for э in политика.exceptions if э.path in выбранные),
+        tuple(э for э in политика.метаданные if э.путь in выбранные))
+
+
+def позиции_метаданных(политика: Policy, данные):
+    try:
+        return метаданные.проверить_декларации(политика.метаданные, данные)
+    except метаданные.ОшибкаМетаданных as ошибка:
+        raise PolicyError(str(ошибка)) from ошибка
 
 
 def load_policy(path: Path) -> Policy:
     try:
-        value = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        value = метаданные.разобрать_данные(path.read_bytes())
+    except (OSError, UnicodeError, метаданные.ОшибкаМетаданных) as exc:
         raise PolicyError("policy cannot be read as canonical JSON") from exc
     return parse_policy(value)
 
@@ -673,6 +694,7 @@ def scan_text(
     path: str,
     text: str,
     известные_исполнители: frozenset[str] = frozenset(),
+    допущенные_метаданные: frozenset[tuple[int, int, int]] = frozenset(),
 ) -> list[Candidate]:
     request_lines = (
         request_text_line_numbers(text) if _is_request_file(path) else frozenset()
@@ -696,6 +718,8 @@ def scan_text(
                 request_lines,
                 позиции_исполнителя,
             )
+            if form.kind == "posix-user-home" and (line_number, form.start, form.end) in допущенные_метаданные:
+                категория = "allow.collaboration-observation-metadata.posix-user-home"
             if сырое_обсуждение:
                 категория = f'report.external-source.{form.kind}'
             for начало, конец, тип in нефайловые_фрагменты:
@@ -780,6 +804,7 @@ def scan_repository(repo_root: str | Path, policy_path: str | Path) -> ScanResul
     candidates: list[Candidate] = []
     fixed_findings: list[Finding] = []
     текстовые_файлы: list[tuple[str, str]] = []
+    сырые_файлы: dict[str, bytes] = {}
     inventory_failed = False
     инвентарь = tuple(git_inventory(root))
     запросы = frozenset(
@@ -852,6 +877,7 @@ def scan_repository(repo_root: str | Path, policy_path: str | Path) -> ScanResul
             inventory_failed = inventory_failed or category.startswith("error.")
             continue
         текстовые_файлы.append((entry.path, text))
+        сырые_файлы[entry.path] = data
 
     исполнители_по_стволам: dict[str, set[str]] = {}
     for путь, текст in текстовые_файлы:
@@ -861,6 +887,7 @@ def scan_repository(repo_root: str | Path, policy_path: str | Path) -> ScanResul
         ствол, исполнитель = запись
         исполнители_по_стволам.setdefault(ствол, set()).add(исполнитель)
 
+    допуски_метаданных = позиции_метаданных(policy, сырые_файлы)
     for путь, текст in текстовые_файлы:
         части = PurePosixPath(путь).parts
         ствол = части[1] if len(части) >= 2 and части[0] == "Журнал" else ""
@@ -869,6 +896,7 @@ def scan_repository(repo_root: str | Path, policy_path: str | Path) -> ScanResul
                 путь,
                 текст,
                 frozenset(исполнители_по_стволам.get(ствол, set())),
+                допуски_метаданных.get(путь, frozenset()),
             )
         )
 

@@ -72,8 +72,10 @@ def публикация(корень, файлы):
         if (корень / 'Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/policy.json').is_file()
         else файл.parents[1] / 'policy.json')
     политика = м.load_policy(файл_политики)
-    политика = м.Policy(tuple(э for э in политика.exceptions if э.path in файлы))
-    кандидаты = [к for путь, сырые in файлы.items() for к in м.scan_text(путь, сырые.decode())]
+    политика = м.выбрать_политику(политика, файлы)
+    допуски_метаданных = м.позиции_метаданных(политика, файлы)
+    кандидаты = [к for путь, сырые in файлы.items() for к in м.scan_text(путь, сырые.decode(),
+        допущенные_метаданные=допуски_метаданных.get(путь, frozenset()))]
     кандидаты, отказы, отказ = м._apply_policy(кандидаты, политика, 'policy.json')
     требовать(not отказ and not отказы and not any(к.category.startswith('error.') for к in кандидаты),
         'публикационная проверка будущих материалов отказала')
