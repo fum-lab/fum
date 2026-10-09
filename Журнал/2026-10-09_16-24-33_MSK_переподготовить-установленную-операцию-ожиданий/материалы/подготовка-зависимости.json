@@ -1,0 +1,22 @@
+{
+  "схема": "fum.подготовка-окружения-ремонта-ожиданий.1",
+  "исполнитель": "01a120cb-a1cc-7900-8a7c-2d16e5adf6b5",
+  "путь": "Зависимости/LinguisticKit",
+  "ревизия": "837e2ce107b97ee7b9d3344c9fe99142281fe393",
+  "detached": true,
+  "чистый": true,
+  "главное_состояние_сохранено": true,
+  "Git_каталог_собственный": true,
+  "до_и_после": {
+    "HEAD": "b501651f612091596087fdca404d85bd34f51beb",
+    "ref": "refs/heads/codex/dir/instrumentyi--fum-svyaznostj-rabochej-sessii--perepodgotovka-ustanovlennoj-operacii-ozhidanij--01a120cb-2d16",
+    "индекс": "7b7e364f708e74da25098778bd6ceb15b2fa791363e3080d1ed369fb50d1d3e8",
+    ".gitmodules": "0712cbe6aa8fb81e19480e0bdf8c0b95204c639dcdefae6a126bcfdebcef1368",
+    "общий_config": "167720321042c463d0e865bddccfea65f3036795248535e6ce1ad77b87063068",
+    "свой_config": null
+  },
+  "код": 0,
+  "длительность_наносекунды": 4262139250,
+  "stdout_sha256": "5630df82cb77b41b954ea3f80e32d2b104e9e547d3dcd200dfd8b0e298ce54b9",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}
