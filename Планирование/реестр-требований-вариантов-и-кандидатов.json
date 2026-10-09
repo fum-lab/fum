@@ -864,7 +864,7 @@
     },
     {
       "path": "Планирование/карточки-шагов/🟡-FUM-STEP-0174-описывать-применение-автоматизаций-без-чтения-кода.md",
-      "content_sha256_without_recency": "sha256:3c7771eb05f23f11620e81b954e35d429210cd01da043c999897beebf72c77fa"
+      "content_sha256_without_recency": "sha256:d8bfc35ea468356baf92cbc909303c1f4641badc680a97465b3d6433dcc19032"
     },
     {
       "path": "Планирование/карточки-шагов/🟡-FUM-STEP-0178-автоматизировать-настройку-GitHub-Actions.md",
@@ -872,7 +872,7 @@
     },
     {
       "path": "Планирование/карточки-шагов/🟡-FUM-STEP-0179-автоматизировать-подготовку-репозитория-на-macOS.md",
-      "content_sha256_without_recency": "sha256:9c2548038351de46cb09c8cf50ca2d226fb97e573b64977f22a588f25d664bc4"
+      "content_sha256_without_recency": "sha256:9cdafdf7fb77221f318e6055ec969ec017e78accff7d4a680d348d2621d4e301"
     },
     {
       "path": "Планирование/карточки-шагов/🟡-FUM-STEP-0180-автоматизировать-подготовку-репозитория-на-Linux.md",
@@ -1016,7 +1016,7 @@
     },
     {
       "path": "Планирование/карточки-шагов/🟡-FUM-STEP-0228-контролировать-доставку-в-постоянную-ветку.md",
-      "content_sha256_without_recency": "sha256:e73801ff4fe5bc6a80927cb984b0eb384abbaaed11fff43ceae5fa9d26fef65b"
+      "content_sha256_without_recency": "sha256:5cb69650c52ff61f35771481c7b3f2c185ef9e92d882c4d397849ba54e214024"
     },
     {
       "path": "Планирование/карточки-шагов/🟡-FUM-STEP-0229-выбрать-операторную-схему-для-аппаратной-проверки.md",
