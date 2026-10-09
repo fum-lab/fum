@@ -11,6 +11,9 @@ import time
 import tracemalloc
 from unittest.mock import patch
 
+if sys.flags.optimize != 0:
+    raise RuntimeError('Профиль запрещает оптимизацию Python: обязательные assert должны исполняться')
+
 КОРЕНЬ = Path(__file__).resolve().parents[3]
 ХЭШИ = {Path(__file__).relative_to(КОРЕНЬ).as_posix(): hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}
 
@@ -73,10 +76,13 @@ def образец():
             assert ф.с.ф.гит('rev-list', '--count', ф.с.база+'..HEAD').strip() == '1'
             assert ф.цель.read_bytes() == ф.байты
         assert all(hashlib.sha256((КОРЕНЬ/имя).read_bytes()).hexdigest() == значение for имя, значение in ХЭШИ.items())
+        прежняя = json.loads(ф.старые['подготовка'])
+        новая = json.loads(Path(ф.новые['подготовка']).read_bytes())
         return {'идентификатор_процесса': os.getpid(), 'стадии': стадии,
             'хэши_исполненных_исходников': dict(sorted(ХЭШИ.items())),
             'кандидат_байтов': len(ф.байты), 'хэш_кандидата': ф.с.вход['кандидат']['хэш'],
-            'наблюдений_до': 1, 'наблюдений_после': 2, 'поколений': 1,
+            'наблюдений_до': прежняя['наблюдений'], 'наблюдений_после': новая['наблюдений'],
+            'поколений': итог['поколение'],
             'коммитов': 1, 'коммит': коммит['коммит']['коммит'],
             'сеть': 'не вызывается', 'отправки': 0, 'создания_чатов': 0}
     finally:
