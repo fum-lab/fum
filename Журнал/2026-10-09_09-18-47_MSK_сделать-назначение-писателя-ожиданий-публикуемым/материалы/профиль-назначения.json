@@ -1,0 +1,632 @@
+{
+  "схема": "fum.профиль-обновления-ожиданий.2",
+  "хэши_исходников": {
+    "Инструменты/fum-ocenki/scripts/доказательный_обзор.py": "e49255eb8bd8ca577f3fa44b5beeea1aba9dcad950119cc5557ab60a9411f3b0",
+    "Инструменты/fum-ocenki/scripts/контекст_обзора.py": "f69c6641a1a97f3660caa036c29d8ec41738cf287d8239aaecbfd52e9a72a442",
+    "Инструменты/fum-ocenki/scripts/контракт_обзора.py": "f527fab271f945e5b0fbb8372857e96d67acf425c24b13fb68babae0a8025406",
+    "Инструменты/fum-ocenki/scripts/построение_обзора.py": "bb6ff7533c81fd651e2fbcc3d2ce88d4967abe1b9a53481d618a284cca27b4a4",
+    "Инструменты/fum-ocenki/scripts/приёмки_обзора.py": "376343588651c24b5072c23b51c577a96c7143286832381848f1fbb0f7aff9e5",
+    "Инструменты/fum-ocenki/scripts/реестр_обзора.py": "9ac77366ac6f8b47ea36eb6c41bde28ed1dbb7f38be56edc44efb864eff4060d",
+    "Инструменты/fum-ocenki/scripts/свидетельства_обзора.py": "8bbc26e3a5855d5b6881887f5b4f08c918bfd9dddb5d0c80b1e051632c6d051e",
+    "Инструменты/fum-ocenki/scripts/сигналы_обзора.py": "64fe462810d827b9673eaf0e31b307f0c02ac71c95d4e974917961ba21b3382f",
+    "Инструменты/fum-ocenki/scripts/срез_гит_обзора.py": "04bf2c38f68a02d59d955e1e9109b4637242fb5d88684234c9c1f435c15c3013",
+    "Инструменты/fum-ocenki/scripts/формат_обзора.py": "f8e139a9ab4c2aaaded4b4349239c274357a856ce887e634784a08ffec72408f",
+    "Инструменты/fum-ocenki/scripts/хранение_обзора.py": "7f0ae8a2090968652d3261887181f5e250473b69e3f9fc354fb46e1aff9064c9",
+    "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py": "7e6972e04306c6f91bd17ab3f18579a288fff352d90c5b26a75e64c0a54743d5",
+    "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+    "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/связь_отпечатка_с_коммитом.py": "f66a58569eaca1dcb623daf4265e586b167da7f69e335175fd815a8cd38402b9",
+    "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py": "caf78daee202eeb3a2eba81eb5ffbd2b3e60d64933312ec862a6884eef924b9d",
+    "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py": "22481bce8934b14f1df4173b615c282b04e0c6ce6034fe8cb3b2816416289308",
+    "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py": "14e384685995514342b392ae8506569667a4fd7e6ae0506b0de4d4b01c61d707",
+    "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/метаданные_наблюдений.py": "71c3de5440388e2ea3161ccf74f7844fdeb19c0e1b6274ca7342dbc75c04fa40",
+    "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_гит.py": "735f209cfdc4de1fff597f3347e4cb6c97cfb31a964eb037bb44a54c091a13bc",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_план.py": "434956e0c967ee34315514fe65899c2602f68d0687b581218a28ad3206b9686a",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/постановка_задачи.py": "c63f59ae86740213de3d1e1fa6ee097f8b0d1379c3d626b22a0bc2fa6ee0aa67",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py": "5c5147cbbc72887cc84cd7ad35c96606c17f2766cdcee926fd9da066d0fc46a1",
+    "Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py": "36667347ee2946e0f31deda39b8ac65c451aa77bef4a426b48ada0e2353849c8",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "e12b472e8e72fbf581a8ad5f5efc589ba273df1fe38ea045dc65ffe1a82f84fb",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/расширение_шаблонов.py": "58b8315eaf1af7d0e99254b199320facf40855fcdb3709a6cffba131d49ccb0e",
+    "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py": "57a2c9161ac86b1a4c8737f1acf22b5e76baae0a47260da4a54f98c4b8d4b330",
+    "Инструменты/fum-svezhestj-markdown/scripts/маска_архива.py": "f6ec16caf952f6ac7ee3091ebc6cb3f125929982979950399647958bd3b5d39b",
+    "Инструменты/fum-svezhestj-markdown/scripts/ограды_цитат.py": "58542c436949a4e0b529f158c89db78b825ee3568acd960fb9e9a47b3210bd02",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py": "9f3fcc5768570ca4f680f2edbe0971df5d55f02e8eba193dad9905cd105d0af2",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py": "847fa3af66de18f9c73066d719bf089357ff865e6ce13fa721c219b65e270db0",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/восстановление_прерванной_задачи.py": "70f3feb20efb9406762abf18a44627f3d729a76cb243aec63ced97ac11f0d455",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_коммита.py": "b106894adee89d50ed082eac94fb161f7fc6e9227bcc125683834644bbe89098",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_этапа.py": "8091017668f5f43727f5258ac1d0fd56a305a9b605591cf89cc72d276b8f7753",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/граница_выбранных_команд.py": "07d1533132ae2253d7c8fced6b3c71771e892ddb0f6d765cc837bab94a9b3d6e",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исторические_неподтверждённые_приёмки.py": "ba79d7810793c0eef93a860ce73e0a9407801fdd929874cdee0f5078ce4a0dcf",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_модели.py": "b7bbed1f4aaba534347db9235a630c8b968f54f012e4ea5d21cd89dd2529e214",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_пути_гита.py": "f948204b795369a8d99b63d2a44b8d3ef7ffb971a96420ddeaacf7f1eec69d61",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/каталог_наблюдений_узла.py": "40cf9ba7c625659c0d58cdf4beb958bd495d957ba5667f19fe10c2c5eed5c06a",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_остаток.py": "07faaee40398558857219e9b80ea9c7ff582a139a26dfd62acd841368a4c129d",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_ответ_задачи.py": "8b487e9b6fc718a195602682bc6a30809137421fae5963b2afc8a017b6e3890e",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/кэш_сверки_остатка.py": "09dba811f479312d0ad6e06cb5a5c4e46b764f1d1b011c72b925af276f7d19e9",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обновление_ожиданий_узла.py": "fe4120283509a14bc78479eedd764a9c0e5c5a8a77a95b6347bb6595a4fbef3e",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обработка_сообщений.py": "5de258cdfbbf53f31819807ad9712728145b5b03c8155b65522c201ff9a7e732",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обычное_поручение.py": "664a6520e6ac79446dac164996ea4e3f35d56550ac570bc6edea9d7fc3431cf9",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py": "88978e0b23b1dee65bf8fa1ac4b65e8eae3a2c3907453f89cfc1bf57d812f4da",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенести_историю_модели.py": "f54219a00028fea3d2cf5d6423ca40fa4a4d400d01586ff22a5bd32999942027",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенос_модели_этапа.py": "7d4c9cf4bbec682efbf03251d44785142fc224554d159bd17ebf049885b92ef1",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перепривязать_историю_модели.py": "8cfa7530c4937c529c9be825ba3b5a32df3c7eef4f3d12c46eca279d14293fff",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_этапа_коммита.py": "79935dc9530d246d8102743f2413277601777e1b7ad6e8624d82e4d3b76375dd",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/поколения_готовности.py": "abc5d0f316641aca49bf7917ca4a962b966aa221616d96d2c64b4267017dd2e4",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_делегации.py": "9b4b0d784cfe53db3ae545fc62764cf4fb013d62d4c641c5d6436facc69124fa",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/публикационный_допуск_дочернего_состава.py": "a433c3036354d03663ce1bd9af5ca91852ba8cb8f4b880782d8e53bae9ade1d3",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py": "5b71c483c9c4d03a0bd5bda2e981649f4622e54a32f035d251ce98d06a9b2b84",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py": "a72dc3e31107ebcfc929d462bbdd647ed4587334d6a16080f5969dcb34438079",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/состояние_задач_узла.py": "50a3f80992097ade7cec619a565bcd00fdf2524f68088c9b13dcb531d4a2a752",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/текст_команды_с_изображением.py": "f2579fa93345d9ff79b4a81bbde0127b66fc8fad4f5045cb5fb3fc3b6f991ea7",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/типизированная_контрольная_точка.py": "f308464a056383c53aeb508724992828d9344c130e2ec15301f806bfd618770d",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обновление_ожиданий_узла.py": "29c0d073502c12f684528f6931671c6c54c099bb9dd86b90fbaf1d4bfdb43581",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обычной_дочерней_точки.py": "0599dc2b86bab7f207d7198dec8175115b3485c6d6cfc98d21197e39093c475b",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_этапа_коммита.py": "c2353c1328ebaffe85386b948e75263eac64215a2cf1738440619e87a578d7c5",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_публикационного_допуска_дочернего_состава.py": "fd0f256ef89a5e144f32df5274f81808fbff5d17a33b69f2a892aff6842b5273",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py": "3b68fea5e85698f9af6dd991e4cd193625c4a127a41541255669b6b9faaff23f",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_обновления_ожиданий_узла.py": "b8383c1419042be2e4d3ad2e75336a9dda618ca1472b46a068648b23558246a9"
+  },
+  "образцы": [
+    {
+      "идентификатор_процесса": 67175,
+      "кандидат_байтов": 1016,
+      "коммит": "f92464e65a27ffa0b4b712f4cadd3354bc6a56ed",
+      "отправки": 0,
+      "прежняя_строка_корня_байтов": 91,
+      "привязка_корня_байтов": 64,
+      "сверки_назначения": [
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 55626458,
+          "стадия": "Полная валидация входа"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 57284625,
+          "стадия": "Полный читающий план"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 55973834,
+          "стадия": "Установка с повторной сверкой и fsync"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 56359333,
+          "стадия": "Установка с повторной сверкой и fsync"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 57745917,
+          "стадия": "Установка с повторной сверкой и fsync"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 57965083,
+          "стадия": "Штатная фиксация .9 и подтверждение"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 58865875,
+          "стадия": "Штатная фиксация .9 и подтверждение"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 60541833,
+          "стадия": "Штатная фиксация .9 и подтверждение"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 58575458,
+          "стадия": "Штатная фиксация .9 и подтверждение"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 61981542,
+          "стадия": "Штатная фиксация .9 и подтверждение"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 59685959,
+          "стадия": "Читающий повтор"
+        }
+      ],
+      "сеть": "не вызывается",
+      "создания_чатов": 0,
+      "стадии": [
+        {
+          "вызовы_гита": 15,
+          "максимум_резидентной_памяти_байтов": 54378496,
+          "наносекунды": 214716625,
+          "пик_памяти_байтов": 635264,
+          "стадия": "Чтение прежнего поколения"
+        },
+        {
+          "вызовы_гита": 8,
+          "максимум_резидентной_памяти_байтов": 54493184,
+          "наносекунды": 110862000,
+          "пик_памяти_байтов": 724566,
+          "стадия": "Проверка и сериализация кандидата"
+        },
+        {
+          "вызовы_гита": 101,
+          "максимум_резидентной_памяти_байтов": 55459840,
+          "наносекунды": 1400378834,
+          "пик_памяти_байтов": 1580091,
+          "стадия": "Полная валидация входа"
+        },
+        {
+          "вызовы_гита": 103,
+          "максимум_резидентной_памяти_байтов": 56475648,
+          "наносекунды": 1433065000,
+          "пик_памяти_байтов": 2546474,
+          "стадия": "Полный читающий план"
+        },
+        {
+          "вызовы_гита": 316,
+          "максимум_резидентной_памяти_байтов": 62160896,
+          "наносекунды": 4451649084,
+          "пик_памяти_байтов": 5593747,
+          "стадия": "Установка с повторной сверкой и fsync"
+        },
+        {
+          "вызовы_гита": 745,
+          "максимум_резидентной_памяти_байтов": 96763904,
+          "наносекунды": 14384038042,
+          "пик_памяти_байтов": 21678279,
+          "стадия": "Штатная фиксация .9 и подтверждение"
+        },
+        {
+          "вызовы_гита": 64,
+          "максимум_резидентной_памяти_байтов": 96763904,
+          "наносекунды": 955085584,
+          "пик_памяти_байтов": 16044568,
+          "стадия": "Читающий повтор"
+        }
+      ],
+      "хэш_кандидата": "ad0c21ea246fe11abbe97b1e3e5c0281658d5bd9b7b3977df82b41c3fb0be579",
+      "хэши_исполненных_исходников": {
+        "Инструменты/fum-ocenki/scripts/доказательный_обзор.py": "e49255eb8bd8ca577f3fa44b5beeea1aba9dcad950119cc5557ab60a9411f3b0",
+        "Инструменты/fum-ocenki/scripts/контекст_обзора.py": "f69c6641a1a97f3660caa036c29d8ec41738cf287d8239aaecbfd52e9a72a442",
+        "Инструменты/fum-ocenki/scripts/контракт_обзора.py": "f527fab271f945e5b0fbb8372857e96d67acf425c24b13fb68babae0a8025406",
+        "Инструменты/fum-ocenki/scripts/построение_обзора.py": "bb6ff7533c81fd651e2fbcc3d2ce88d4967abe1b9a53481d618a284cca27b4a4",
+        "Инструменты/fum-ocenki/scripts/приёмки_обзора.py": "376343588651c24b5072c23b51c577a96c7143286832381848f1fbb0f7aff9e5",
+        "Инструменты/fum-ocenki/scripts/реестр_обзора.py": "9ac77366ac6f8b47ea36eb6c41bde28ed1dbb7f38be56edc44efb864eff4060d",
+        "Инструменты/fum-ocenki/scripts/свидетельства_обзора.py": "8bbc26e3a5855d5b6881887f5b4f08c918bfd9dddb5d0c80b1e051632c6d051e",
+        "Инструменты/fum-ocenki/scripts/сигналы_обзора.py": "64fe462810d827b9673eaf0e31b307f0c02ac71c95d4e974917961ba21b3382f",
+        "Инструменты/fum-ocenki/scripts/срез_гит_обзора.py": "04bf2c38f68a02d59d955e1e9109b4637242fb5d88684234c9c1f435c15c3013",
+        "Инструменты/fum-ocenki/scripts/формат_обзора.py": "f8e139a9ab4c2aaaded4b4349239c274357a856ce887e634784a08ffec72408f",
+        "Инструменты/fum-ocenki/scripts/хранение_обзора.py": "7f0ae8a2090968652d3261887181f5e250473b69e3f9fc354fb46e1aff9064c9",
+        "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py": "7e6972e04306c6f91bd17ab3f18579a288fff352d90c5b26a75e64c0a54743d5",
+        "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+        "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/связь_отпечатка_с_коммитом.py": "f66a58569eaca1dcb623daf4265e586b167da7f69e335175fd815a8cd38402b9",
+        "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py": "caf78daee202eeb3a2eba81eb5ffbd2b3e60d64933312ec862a6884eef924b9d",
+        "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py": "22481bce8934b14f1df4173b615c282b04e0c6ce6034fe8cb3b2816416289308",
+        "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py": "14e384685995514342b392ae8506569667a4fd7e6ae0506b0de4d4b01c61d707",
+        "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/метаданные_наблюдений.py": "71c3de5440388e2ea3161ccf74f7844fdeb19c0e1b6274ca7342dbc75c04fa40",
+        "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+        "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_гит.py": "735f209cfdc4de1fff597f3347e4cb6c97cfb31a964eb037bb44a54c091a13bc",
+        "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_план.py": "434956e0c967ee34315514fe65899c2602f68d0687b581218a28ad3206b9686a",
+        "Инструменты/fum-reyestr-planirovaniya/scripts/постановка_задачи.py": "c63f59ae86740213de3d1e1fa6ee097f8b0d1379c3d626b22a0bc2fa6ee0aa67",
+        "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py": "5c5147cbbc72887cc84cd7ad35c96606c17f2766cdcee926fd9da066d0fc46a1",
+        "Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py": "36667347ee2946e0f31deda39b8ac65c451aa77bef4a426b48ada0e2353849c8",
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "e12b472e8e72fbf581a8ad5f5efc589ba273df1fe38ea045dc65ffe1a82f84fb",
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/расширение_шаблонов.py": "58b8315eaf1af7d0e99254b199320facf40855fcdb3709a6cffba131d49ccb0e",
+        "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py": "57a2c9161ac86b1a4c8737f1acf22b5e76baae0a47260da4a54f98c4b8d4b330",
+        "Инструменты/fum-svezhestj-markdown/scripts/маска_архива.py": "f6ec16caf952f6ac7ee3091ebc6cb3f125929982979950399647958bd3b5d39b",
+        "Инструменты/fum-svezhestj-markdown/scripts/ограды_цитат.py": "58542c436949a4e0b529f158c89db78b825ee3568acd960fb9e9a47b3210bd02",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py": "9f3fcc5768570ca4f680f2edbe0971df5d55f02e8eba193dad9905cd105d0af2",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py": "847fa3af66de18f9c73066d719bf089357ff865e6ce13fa721c219b65e270db0",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/восстановление_прерванной_задачи.py": "70f3feb20efb9406762abf18a44627f3d729a76cb243aec63ced97ac11f0d455",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_коммита.py": "b106894adee89d50ed082eac94fb161f7fc6e9227bcc125683834644bbe89098",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_этапа.py": "8091017668f5f43727f5258ac1d0fd56a305a9b605591cf89cc72d276b8f7753",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/граница_выбранных_команд.py": "07d1533132ae2253d7c8fced6b3c71771e892ddb0f6d765cc837bab94a9b3d6e",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исторические_неподтверждённые_приёмки.py": "ba79d7810793c0eef93a860ce73e0a9407801fdd929874cdee0f5078ce4a0dcf",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_модели.py": "b7bbed1f4aaba534347db9235a630c8b968f54f012e4ea5d21cd89dd2529e214",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_пути_гита.py": "f948204b795369a8d99b63d2a44b8d3ef7ffb971a96420ddeaacf7f1eec69d61",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/каталог_наблюдений_узла.py": "40cf9ba7c625659c0d58cdf4beb958bd495d957ba5667f19fe10c2c5eed5c06a",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_остаток.py": "07faaee40398558857219e9b80ea9c7ff582a139a26dfd62acd841368a4c129d",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_ответ_задачи.py": "8b487e9b6fc718a195602682bc6a30809137421fae5963b2afc8a017b6e3890e",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/кэш_сверки_остатка.py": "09dba811f479312d0ad6e06cb5a5c4e46b764f1d1b011c72b925af276f7d19e9",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обновление_ожиданий_узла.py": "fe4120283509a14bc78479eedd764a9c0e5c5a8a77a95b6347bb6595a4fbef3e",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обработка_сообщений.py": "5de258cdfbbf53f31819807ad9712728145b5b03c8155b65522c201ff9a7e732",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обычное_поручение.py": "664a6520e6ac79446dac164996ea4e3f35d56550ac570bc6edea9d7fc3431cf9",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py": "88978e0b23b1dee65bf8fa1ac4b65e8eae3a2c3907453f89cfc1bf57d812f4da",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенести_историю_модели.py": "f54219a00028fea3d2cf5d6423ca40fa4a4d400d01586ff22a5bd32999942027",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенос_модели_этапа.py": "7d4c9cf4bbec682efbf03251d44785142fc224554d159bd17ebf049885b92ef1",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перепривязать_историю_модели.py": "8cfa7530c4937c529c9be825ba3b5a32df3c7eef4f3d12c46eca279d14293fff",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_этапа_коммита.py": "79935dc9530d246d8102743f2413277601777e1b7ad6e8624d82e4d3b76375dd",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/поколения_готовности.py": "abc5d0f316641aca49bf7917ca4a962b966aa221616d96d2c64b4267017dd2e4",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_делегации.py": "9b4b0d784cfe53db3ae545fc62764cf4fb013d62d4c641c5d6436facc69124fa",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/публикационный_допуск_дочернего_состава.py": "a433c3036354d03663ce1bd9af5ca91852ba8cb8f4b880782d8e53bae9ade1d3",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py": "5b71c483c9c4d03a0bd5bda2e981649f4622e54a32f035d251ce98d06a9b2b84",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py": "a72dc3e31107ebcfc929d462bbdd647ed4587334d6a16080f5969dcb34438079",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/состояние_задач_узла.py": "50a3f80992097ade7cec619a565bcd00fdf2524f68088c9b13dcb531d4a2a752",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/текст_команды_с_изображением.py": "f2579fa93345d9ff79b4a81bbde0127b66fc8fad4f5045cb5fb3fc3b6f991ea7",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/типизированная_контрольная_точка.py": "f308464a056383c53aeb508724992828d9344c130e2ec15301f806bfd618770d",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обновление_ожиданий_узла.py": "29c0d073502c12f684528f6931671c6c54c099bb9dd86b90fbaf1d4bfdb43581",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обычной_дочерней_точки.py": "0599dc2b86bab7f207d7198dec8175115b3485c6d6cfc98d21197e39093c475b",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_этапа_коммита.py": "c2353c1328ebaffe85386b948e75263eac64215a2cf1738440619e87a578d7c5",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_публикационного_допуска_дочернего_состава.py": "fd0f256ef89a5e144f32df5274f81808fbff5d17a33b69f2a892aff6842b5273",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py": "3b68fea5e85698f9af6dd991e4cd193625c4a127a41541255669b6b9faaff23f",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_обновления_ожиданий_узла.py": "b8383c1419042be2e4d3ad2e75336a9dda618ca1472b46a068648b23558246a9"
+      }
+    },
+    {
+      "идентификатор_процесса": 68911,
+      "кандидат_байтов": 1016,
+      "коммит": "29669826f322934244dd64096e2e577cf68e6636",
+      "отправки": 0,
+      "прежняя_строка_корня_байтов": 91,
+      "привязка_корня_байтов": 64,
+      "сверки_назначения": [
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 62734625,
+          "стадия": "Полная валидация входа"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 56163375,
+          "стадия": "Полный читающий план"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 54594291,
+          "стадия": "Установка с повторной сверкой и fsync"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 58068541,
+          "стадия": "Установка с повторной сверкой и fsync"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 56074292,
+          "стадия": "Установка с повторной сверкой и fsync"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 58294708,
+          "стадия": "Штатная фиксация .9 и подтверждение"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 60714334,
+          "стадия": "Штатная фиксация .9 и подтверждение"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 59080875,
+          "стадия": "Штатная фиксация .9 и подтверждение"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 60048375,
+          "стадия": "Штатная фиксация .9 и подтверждение"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 58398584,
+          "стадия": "Штатная фиксация .9 и подтверждение"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 59574208,
+          "стадия": "Читающий повтор"
+        }
+      ],
+      "сеть": "не вызывается",
+      "создания_чатов": 0,
+      "стадии": [
+        {
+          "вызовы_гита": 15,
+          "максимум_резидентной_памяти_байтов": 54018048,
+          "наносекунды": 207748708,
+          "пик_памяти_байтов": 635264,
+          "стадия": "Чтение прежнего поколения"
+        },
+        {
+          "вызовы_гита": 8,
+          "максимум_резидентной_памяти_байтов": 54132736,
+          "наносекунды": 112833166,
+          "пик_памяти_байтов": 724534,
+          "стадия": "Проверка и сериализация кандидата"
+        },
+        {
+          "вызовы_гита": 101,
+          "максимум_резидентной_памяти_байтов": 55099392,
+          "наносекунды": 1416887625,
+          "пик_памяти_байтов": 1579424,
+          "стадия": "Полная валидация входа"
+        },
+        {
+          "вызовы_гита": 103,
+          "максимум_резидентной_памяти_байтов": 56180736,
+          "наносекунды": 1441437083,
+          "пик_памяти_байтов": 2546439,
+          "стадия": "Полный читающий план"
+        },
+        {
+          "вызовы_гита": 316,
+          "максимум_резидентной_памяти_байтов": 61308928,
+          "наносекунды": 4472811000,
+          "пик_памяти_байтов": 5592944,
+          "стадия": "Установка с повторной сверкой и fsync"
+        },
+        {
+          "вызовы_гита": 745,
+          "максимум_резидентной_памяти_байтов": 94732288,
+          "наносекунды": 14319834875,
+          "пик_памяти_байтов": 21681118,
+          "стадия": "Штатная фиксация .9 и подтверждение"
+        },
+        {
+          "вызовы_гита": 64,
+          "максимум_резидентной_памяти_байтов": 94732288,
+          "наносекунды": 946801708,
+          "пик_памяти_байтов": 16049596,
+          "стадия": "Читающий повтор"
+        }
+      ],
+      "хэш_кандидата": "90f88191c3afd88db1947f35a365b50a777a377d3f625db414f579436c3ecadf",
+      "хэши_исполненных_исходников": {
+        "Инструменты/fum-ocenki/scripts/доказательный_обзор.py": "e49255eb8bd8ca577f3fa44b5beeea1aba9dcad950119cc5557ab60a9411f3b0",
+        "Инструменты/fum-ocenki/scripts/контекст_обзора.py": "f69c6641a1a97f3660caa036c29d8ec41738cf287d8239aaecbfd52e9a72a442",
+        "Инструменты/fum-ocenki/scripts/контракт_обзора.py": "f527fab271f945e5b0fbb8372857e96d67acf425c24b13fb68babae0a8025406",
+        "Инструменты/fum-ocenki/scripts/построение_обзора.py": "bb6ff7533c81fd651e2fbcc3d2ce88d4967abe1b9a53481d618a284cca27b4a4",
+        "Инструменты/fum-ocenki/scripts/приёмки_обзора.py": "376343588651c24b5072c23b51c577a96c7143286832381848f1fbb0f7aff9e5",
+        "Инструменты/fum-ocenki/scripts/реестр_обзора.py": "9ac77366ac6f8b47ea36eb6c41bde28ed1dbb7f38be56edc44efb864eff4060d",
+        "Инструменты/fum-ocenki/scripts/свидетельства_обзора.py": "8bbc26e3a5855d5b6881887f5b4f08c918bfd9dddb5d0c80b1e051632c6d051e",
+        "Инструменты/fum-ocenki/scripts/сигналы_обзора.py": "64fe462810d827b9673eaf0e31b307f0c02ac71c95d4e974917961ba21b3382f",
+        "Инструменты/fum-ocenki/scripts/срез_гит_обзора.py": "04bf2c38f68a02d59d955e1e9109b4637242fb5d88684234c9c1f435c15c3013",
+        "Инструменты/fum-ocenki/scripts/формат_обзора.py": "f8e139a9ab4c2aaaded4b4349239c274357a856ce887e634784a08ffec72408f",
+        "Инструменты/fum-ocenki/scripts/хранение_обзора.py": "7f0ae8a2090968652d3261887181f5e250473b69e3f9fc354fb46e1aff9064c9",
+        "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py": "7e6972e04306c6f91bd17ab3f18579a288fff352d90c5b26a75e64c0a54743d5",
+        "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+        "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/связь_отпечатка_с_коммитом.py": "f66a58569eaca1dcb623daf4265e586b167da7f69e335175fd815a8cd38402b9",
+        "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py": "caf78daee202eeb3a2eba81eb5ffbd2b3e60d64933312ec862a6884eef924b9d",
+        "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py": "22481bce8934b14f1df4173b615c282b04e0c6ce6034fe8cb3b2816416289308",
+        "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py": "14e384685995514342b392ae8506569667a4fd7e6ae0506b0de4d4b01c61d707",
+        "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/метаданные_наблюдений.py": "71c3de5440388e2ea3161ccf74f7844fdeb19c0e1b6274ca7342dbc75c04fa40",
+        "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+        "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_гит.py": "735f209cfdc4de1fff597f3347e4cb6c97cfb31a964eb037bb44a54c091a13bc",
+        "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_план.py": "434956e0c967ee34315514fe65899c2602f68d0687b581218a28ad3206b9686a",
+        "Инструменты/fum-reyestr-planirovaniya/scripts/постановка_задачи.py": "c63f59ae86740213de3d1e1fa6ee097f8b0d1379c3d626b22a0bc2fa6ee0aa67",
+        "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py": "5c5147cbbc72887cc84cd7ad35c96606c17f2766cdcee926fd9da066d0fc46a1",
+        "Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py": "36667347ee2946e0f31deda39b8ac65c451aa77bef4a426b48ada0e2353849c8",
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "e12b472e8e72fbf581a8ad5f5efc589ba273df1fe38ea045dc65ffe1a82f84fb",
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/расширение_шаблонов.py": "58b8315eaf1af7d0e99254b199320facf40855fcdb3709a6cffba131d49ccb0e",
+        "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py": "57a2c9161ac86b1a4c8737f1acf22b5e76baae0a47260da4a54f98c4b8d4b330",
+        "Инструменты/fum-svezhestj-markdown/scripts/маска_архива.py": "f6ec16caf952f6ac7ee3091ebc6cb3f125929982979950399647958bd3b5d39b",
+        "Инструменты/fum-svezhestj-markdown/scripts/ограды_цитат.py": "58542c436949a4e0b529f158c89db78b825ee3568acd960fb9e9a47b3210bd02",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py": "9f3fcc5768570ca4f680f2edbe0971df5d55f02e8eba193dad9905cd105d0af2",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py": "847fa3af66de18f9c73066d719bf089357ff865e6ce13fa721c219b65e270db0",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/восстановление_прерванной_задачи.py": "70f3feb20efb9406762abf18a44627f3d729a76cb243aec63ced97ac11f0d455",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_коммита.py": "b106894adee89d50ed082eac94fb161f7fc6e9227bcc125683834644bbe89098",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_этапа.py": "8091017668f5f43727f5258ac1d0fd56a305a9b605591cf89cc72d276b8f7753",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/граница_выбранных_команд.py": "07d1533132ae2253d7c8fced6b3c71771e892ddb0f6d765cc837bab94a9b3d6e",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исторические_неподтверждённые_приёмки.py": "ba79d7810793c0eef93a860ce73e0a9407801fdd929874cdee0f5078ce4a0dcf",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_модели.py": "b7bbed1f4aaba534347db9235a630c8b968f54f012e4ea5d21cd89dd2529e214",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_пути_гита.py": "f948204b795369a8d99b63d2a44b8d3ef7ffb971a96420ddeaacf7f1eec69d61",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/каталог_наблюдений_узла.py": "40cf9ba7c625659c0d58cdf4beb958bd495d957ba5667f19fe10c2c5eed5c06a",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_остаток.py": "07faaee40398558857219e9b80ea9c7ff582a139a26dfd62acd841368a4c129d",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_ответ_задачи.py": "8b487e9b6fc718a195602682bc6a30809137421fae5963b2afc8a017b6e3890e",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/кэш_сверки_остатка.py": "09dba811f479312d0ad6e06cb5a5c4e46b764f1d1b011c72b925af276f7d19e9",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обновление_ожиданий_узла.py": "fe4120283509a14bc78479eedd764a9c0e5c5a8a77a95b6347bb6595a4fbef3e",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обработка_сообщений.py": "5de258cdfbbf53f31819807ad9712728145b5b03c8155b65522c201ff9a7e732",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обычное_поручение.py": "664a6520e6ac79446dac164996ea4e3f35d56550ac570bc6edea9d7fc3431cf9",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py": "88978e0b23b1dee65bf8fa1ac4b65e8eae3a2c3907453f89cfc1bf57d812f4da",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенести_историю_модели.py": "f54219a00028fea3d2cf5d6423ca40fa4a4d400d01586ff22a5bd32999942027",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенос_модели_этапа.py": "7d4c9cf4bbec682efbf03251d44785142fc224554d159bd17ebf049885b92ef1",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перепривязать_историю_модели.py": "8cfa7530c4937c529c9be825ba3b5a32df3c7eef4f3d12c46eca279d14293fff",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_этапа_коммита.py": "79935dc9530d246d8102743f2413277601777e1b7ad6e8624d82e4d3b76375dd",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/поколения_готовности.py": "abc5d0f316641aca49bf7917ca4a962b966aa221616d96d2c64b4267017dd2e4",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_делегации.py": "9b4b0d784cfe53db3ae545fc62764cf4fb013d62d4c641c5d6436facc69124fa",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/публикационный_допуск_дочернего_состава.py": "a433c3036354d03663ce1bd9af5ca91852ba8cb8f4b880782d8e53bae9ade1d3",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py": "5b71c483c9c4d03a0bd5bda2e981649f4622e54a32f035d251ce98d06a9b2b84",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py": "a72dc3e31107ebcfc929d462bbdd647ed4587334d6a16080f5969dcb34438079",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/состояние_задач_узла.py": "50a3f80992097ade7cec619a565bcd00fdf2524f68088c9b13dcb531d4a2a752",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/текст_команды_с_изображением.py": "f2579fa93345d9ff79b4a81bbde0127b66fc8fad4f5045cb5fb3fc3b6f991ea7",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/типизированная_контрольная_точка.py": "f308464a056383c53aeb508724992828d9344c130e2ec15301f806bfd618770d",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обновление_ожиданий_узла.py": "29c0d073502c12f684528f6931671c6c54c099bb9dd86b90fbaf1d4bfdb43581",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обычной_дочерней_точки.py": "0599dc2b86bab7f207d7198dec8175115b3485c6d6cfc98d21197e39093c475b",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_этапа_коммита.py": "c2353c1328ebaffe85386b948e75263eac64215a2cf1738440619e87a578d7c5",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_публикационного_допуска_дочернего_состава.py": "fd0f256ef89a5e144f32df5274f81808fbff5d17a33b69f2a892aff6842b5273",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py": "3b68fea5e85698f9af6dd991e4cd193625c4a127a41541255669b6b9faaff23f",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_обновления_ожиданий_узла.py": "b8383c1419042be2e4d3ad2e75336a9dda618ca1472b46a068648b23558246a9"
+      }
+    },
+    {
+      "идентификатор_процесса": 70744,
+      "кандидат_байтов": 1016,
+      "коммит": "f28e57e82fb6ceb33fe4f2fb6b58ff86324cc6e5",
+      "отправки": 0,
+      "прежняя_строка_корня_байтов": 91,
+      "привязка_корня_байтов": 64,
+      "сверки_назначения": [
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 55848792,
+          "стадия": "Полная валидация входа"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 60184916,
+          "стадия": "Полный читающий план"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 59167333,
+          "стадия": "Установка с повторной сверкой и fsync"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 56767166,
+          "стадия": "Установка с повторной сверкой и fsync"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 58185000,
+          "стадия": "Установка с повторной сверкой и fsync"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 58910833,
+          "стадия": "Штатная фиксация .9 и подтверждение"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 59218708,
+          "стадия": "Штатная фиксация .9 и подтверждение"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 60862459,
+          "стадия": "Штатная фиксация .9 и подтверждение"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 58525625,
+          "стадия": "Штатная фиксация .9 и подтверждение"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 62029958,
+          "стадия": "Штатная фиксация .9 и подтверждение"
+        },
+        {
+          "вызовы_гита": 4,
+          "наносекунды": 60169583,
+          "стадия": "Читающий повтор"
+        }
+      ],
+      "сеть": "не вызывается",
+      "создания_чатов": 0,
+      "стадии": [
+        {
+          "вызовы_гита": 15,
+          "максимум_резидентной_памяти_байтов": 55033856,
+          "наносекунды": 217719959,
+          "пик_памяти_байтов": 635214,
+          "стадия": "Чтение прежнего поколения"
+        },
+        {
+          "вызовы_гита": 8,
+          "максимум_резидентной_памяти_байтов": 55148544,
+          "наносекунды": 115417333,
+          "пик_памяти_байтов": 724432,
+          "стадия": "Проверка и сериализация кандидата"
+        },
+        {
+          "вызовы_гита": 101,
+          "максимум_резидентной_памяти_байтов": 56115200,
+          "наносекунды": 1419443542,
+          "пик_памяти_байтов": 1579689,
+          "стадия": "Полная валидация входа"
+        },
+        {
+          "вызовы_гита": 103,
+          "максимум_резидентной_памяти_байтов": 57229312,
+          "наносекунды": 1490883959,
+          "пик_памяти_байтов": 2546301,
+          "стадия": "Полный читающий план"
+        },
+        {
+          "вызовы_гита": 316,
+          "максимум_резидентной_памяти_байтов": 62423040,
+          "наносекунды": 4455705041,
+          "пик_памяти_байтов": 5593326,
+          "стадия": "Установка с повторной сверкой и fsync"
+        },
+        {
+          "вызовы_гита": 745,
+          "максимум_резидентной_памяти_байтов": 95780864,
+          "наносекунды": 14367795792,
+          "пик_памяти_байтов": 21678317,
+          "стадия": "Штатная фиксация .9 и подтверждение"
+        },
+        {
+          "вызовы_гита": 64,
+          "максимум_резидентной_памяти_байтов": 95780864,
+          "наносекунды": 945901334,
+          "пик_памяти_байтов": 16044768,
+          "стадия": "Читающий повтор"
+        }
+      ],
+      "хэш_кандидата": "542380125d8e1d01733012e1ce3de2a231a3262bd728cf00a482032810e0a941",
+      "хэши_исполненных_исходников": {
+        "Инструменты/fum-ocenki/scripts/доказательный_обзор.py": "e49255eb8bd8ca577f3fa44b5beeea1aba9dcad950119cc5557ab60a9411f3b0",
+        "Инструменты/fum-ocenki/scripts/контекст_обзора.py": "f69c6641a1a97f3660caa036c29d8ec41738cf287d8239aaecbfd52e9a72a442",
+        "Инструменты/fum-ocenki/scripts/контракт_обзора.py": "f527fab271f945e5b0fbb8372857e96d67acf425c24b13fb68babae0a8025406",
+        "Инструменты/fum-ocenki/scripts/построение_обзора.py": "bb6ff7533c81fd651e2fbcc3d2ce88d4967abe1b9a53481d618a284cca27b4a4",
+        "Инструменты/fum-ocenki/scripts/приёмки_обзора.py": "376343588651c24b5072c23b51c577a96c7143286832381848f1fbb0f7aff9e5",
+        "Инструменты/fum-ocenki/scripts/реестр_обзора.py": "9ac77366ac6f8b47ea36eb6c41bde28ed1dbb7f38be56edc44efb864eff4060d",
+        "Инструменты/fum-ocenki/scripts/свидетельства_обзора.py": "8bbc26e3a5855d5b6881887f5b4f08c918bfd9dddb5d0c80b1e051632c6d051e",
+        "Инструменты/fum-ocenki/scripts/сигналы_обзора.py": "64fe462810d827b9673eaf0e31b307f0c02ac71c95d4e974917961ba21b3382f",
+        "Инструменты/fum-ocenki/scripts/срез_гит_обзора.py": "04bf2c38f68a02d59d955e1e9109b4637242fb5d88684234c9c1f435c15c3013",
+        "Инструменты/fum-ocenki/scripts/формат_обзора.py": "f8e139a9ab4c2aaaded4b4349239c274357a856ce887e634784a08ffec72408f",
+        "Инструменты/fum-ocenki/scripts/хранение_обзора.py": "7f0ae8a2090968652d3261887181f5e250473b69e3f9fc354fb46e1aff9064c9",
+        "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py": "7e6972e04306c6f91bd17ab3f18579a288fff352d90c5b26a75e64c0a54743d5",
+        "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+        "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/связь_отпечатка_с_коммитом.py": "f66a58569eaca1dcb623daf4265e586b167da7f69e335175fd815a8cd38402b9",
+        "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py": "caf78daee202eeb3a2eba81eb5ffbd2b3e60d64933312ec862a6884eef924b9d",
+        "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py": "22481bce8934b14f1df4173b615c282b04e0c6ce6034fe8cb3b2816416289308",
+        "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py": "14e384685995514342b392ae8506569667a4fd7e6ae0506b0de4d4b01c61d707",
+        "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/метаданные_наблюдений.py": "71c3de5440388e2ea3161ccf74f7844fdeb19c0e1b6274ca7342dbc75c04fa40",
+        "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+        "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_гит.py": "735f209cfdc4de1fff597f3347e4cb6c97cfb31a964eb037bb44a54c091a13bc",
+        "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_план.py": "434956e0c967ee34315514fe65899c2602f68d0687b581218a28ad3206b9686a",
+        "Инструменты/fum-reyestr-planirovaniya/scripts/постановка_задачи.py": "c63f59ae86740213de3d1e1fa6ee097f8b0d1379c3d626b22a0bc2fa6ee0aa67",
+        "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py": "5c5147cbbc72887cc84cd7ad35c96606c17f2766cdcee926fd9da066d0fc46a1",
+        "Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py": "36667347ee2946e0f31deda39b8ac65c451aa77bef4a426b48ada0e2353849c8",
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "e12b472e8e72fbf581a8ad5f5efc589ba273df1fe38ea045dc65ffe1a82f84fb",
+        "Инструменты/fum-struktura-papok-zaprosov/scripts/расширение_шаблонов.py": "58b8315eaf1af7d0e99254b199320facf40855fcdb3709a6cffba131d49ccb0e",
+        "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py": "57a2c9161ac86b1a4c8737f1acf22b5e76baae0a47260da4a54f98c4b8d4b330",
+        "Инструменты/fum-svezhestj-markdown/scripts/маска_архива.py": "f6ec16caf952f6ac7ee3091ebc6cb3f125929982979950399647958bd3b5d39b",
+        "Инструменты/fum-svezhestj-markdown/scripts/ограды_цитат.py": "58542c436949a4e0b529f158c89db78b825ee3568acd960fb9e9a47b3210bd02",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py": "9f3fcc5768570ca4f680f2edbe0971df5d55f02e8eba193dad9905cd105d0af2",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py": "847fa3af66de18f9c73066d719bf089357ff865e6ce13fa721c219b65e270db0",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/восстановление_прерванной_задачи.py": "70f3feb20efb9406762abf18a44627f3d729a76cb243aec63ced97ac11f0d455",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_коммита.py": "b106894adee89d50ed082eac94fb161f7fc6e9227bcc125683834644bbe89098",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_этапа.py": "8091017668f5f43727f5258ac1d0fd56a305a9b605591cf89cc72d276b8f7753",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/граница_выбранных_команд.py": "07d1533132ae2253d7c8fced6b3c71771e892ddb0f6d765cc837bab94a9b3d6e",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исторические_неподтверждённые_приёмки.py": "ba79d7810793c0eef93a860ce73e0a9407801fdd929874cdee0f5078ce4a0dcf",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_модели.py": "b7bbed1f4aaba534347db9235a630c8b968f54f012e4ea5d21cd89dd2529e214",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_пути_гита.py": "f948204b795369a8d99b63d2a44b8d3ef7ffb971a96420ddeaacf7f1eec69d61",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/каталог_наблюдений_узла.py": "40cf9ba7c625659c0d58cdf4beb958bd495d957ba5667f19fe10c2c5eed5c06a",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_остаток.py": "07faaee40398558857219e9b80ea9c7ff582a139a26dfd62acd841368a4c129d",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_ответ_задачи.py": "8b487e9b6fc718a195602682bc6a30809137421fae5963b2afc8a017b6e3890e",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/кэш_сверки_остатка.py": "09dba811f479312d0ad6e06cb5a5c4e46b764f1d1b011c72b925af276f7d19e9",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обновление_ожиданий_узла.py": "fe4120283509a14bc78479eedd764a9c0e5c5a8a77a95b6347bb6595a4fbef3e",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обработка_сообщений.py": "5de258cdfbbf53f31819807ad9712728145b5b03c8155b65522c201ff9a7e732",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обычное_поручение.py": "664a6520e6ac79446dac164996ea4e3f35d56550ac570bc6edea9d7fc3431cf9",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py": "88978e0b23b1dee65bf8fa1ac4b65e8eae3a2c3907453f89cfc1bf57d812f4da",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенести_историю_модели.py": "f54219a00028fea3d2cf5d6423ca40fa4a4d400d01586ff22a5bd32999942027",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенос_модели_этапа.py": "7d4c9cf4bbec682efbf03251d44785142fc224554d159bd17ebf049885b92ef1",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перепривязать_историю_модели.py": "8cfa7530c4937c529c9be825ba3b5a32df3c7eef4f3d12c46eca279d14293fff",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_этапа_коммита.py": "79935dc9530d246d8102743f2413277601777e1b7ad6e8624d82e4d3b76375dd",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/поколения_готовности.py": "abc5d0f316641aca49bf7917ca4a962b966aa221616d96d2c64b4267017dd2e4",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_делегации.py": "9b4b0d784cfe53db3ae545fc62764cf4fb013d62d4c641c5d6436facc69124fa",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/публикационный_допуск_дочернего_состава.py": "a433c3036354d03663ce1bd9af5ca91852ba8cb8f4b880782d8e53bae9ade1d3",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py": "5b71c483c9c4d03a0bd5bda2e981649f4622e54a32f035d251ce98d06a9b2b84",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py": "a72dc3e31107ebcfc929d462bbdd647ed4587334d6a16080f5969dcb34438079",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/состояние_задач_узла.py": "50a3f80992097ade7cec619a565bcd00fdf2524f68088c9b13dcb531d4a2a752",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/текст_команды_с_изображением.py": "f2579fa93345d9ff79b4a81bbde0127b66fc8fad4f5045cb5fb3fc3b6f991ea7",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/типизированная_контрольная_точка.py": "f308464a056383c53aeb508724992828d9344c130e2ec15301f806bfd618770d",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обновление_ожиданий_узла.py": "29c0d073502c12f684528f6931671c6c54c099bb9dd86b90fbaf1d4bfdb43581",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обычной_дочерней_точки.py": "0599dc2b86bab7f207d7198dec8175115b3485c6d6cfc98d21197e39093c475b",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_подготовки_этапа_коммита.py": "c2353c1328ebaffe85386b948e75263eac64215a2cf1738440619e87a578d7c5",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_публикационного_допуска_дочернего_состава.py": "fd0f256ef89a5e144f32df5274f81808fbff5d17a33b69f2a892aff6842b5273",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py": "3b68fea5e85698f9af6dd991e4cd193625c4a127a41541255669b6b9faaff23f",
+        "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_обновления_ожиданий_узла.py": "b8383c1419042be2e4d3ad2e75336a9dda618ca1472b46a068648b23558246a9"
+      }
+    }
+  ],
+  "граница": "Прежний синтетический корпус реальных Git/native с назначением .2; setup и readiness вне таймеров. Вложенные сверки назначения не суммируются со стадиями. Новая привязка не добавляет Git-вызовов в прежнюю сверку; сверка на пути подтверждения/повтора добавлена отдельно и измерена внутри этих стадий. Audit exec фиксирует собственные Python-исходники, включая поздние временные module aliases; Python/runtime вне этого манифеста. Накладные расходы измерительных перехватчиков включены. ОС-кэш не сбрасывается; RSS — максимум процесса. Счётчик Git наблюдает Popen родительского Python, включая run/check_output и прямой creator; Git внутри других интерпретаторов не учтён. Сеть отдельно не измеряется: вызовов нет.",
+  "решение_об_оптимизации": "Дополнительный кэш не вводится; сначала измерён безопасный проход."
+}
