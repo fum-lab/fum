@@ -1,5 +1,6 @@
 """Сохранённое решение, настоящие Git/native и неизменяемый план."""
 import copy
+import base64
 import contextlib
 import hashlib
 import importlib
@@ -349,9 +350,14 @@ class ПодготовкаПоручения(unittest.TestCase):
         helper = ф.корень / 'Проверки/тесты/помощник.py'
         helper.write_text('ПРОВЕРЕНО = True\n')
         entry = helper.with_name('test_данных.py')
-        entry.write_text(entry.read_text().replace('import unittest', 'import unittest\nimport помощник', 1).replace("  сам.assertEqual('проверено\\n',", "  сам.assertTrue(помощник.ПРОВЕРЕНО)\n  сам.assertEqual('проверено\\n',", 1))
+        entry.write_text(entry.read_text().replace('import unittest', 'import unittest\nimport помощник', 1)
+            .replace("  сам.assertEqual('проверено\\n',", "  сам.assertTrue(помощник.ПРОВЕРЕНО)\n  сам.assertEqual('исходное\\n',", 1))
+        свежесть = сам.м.этап.свежесть.update_repository(ф.корень,
+            now=сам.м.этап.свежесть.parse_now('2026-09-16T00:00:00+03:00'), check=False)
+        сам.assertFalse(свежесть.errors, свежесть.errors)
         ф.ф.гит('add', 'Проверки/тесты/помощник.py', 'Проверки/тесты/test_данных.py')
-        ф.ф.гит('add', 'Журнал'); ф.ф.гит('commit', '-qm', 'Заранее включить пару ребёнка в launch-C')
+        ф.ф.гит('add', 'Журнал', 'Индексы/markdown-файлы-по-времени-редактирования.md')
+        ф.ф.гит('commit', '-qm', 'Заранее включить свежую пару ребёнка в launch-C')
         тело = сам.решение['постановка']['текст']
         текст = сам.м.этап.свежесть.attach_recency_block(тело, '2026-09-16 00:00:00 MSK',
             сам.м.этап.свежесть.content_digest(сам.м.этап.свежесть.canonical_content(тело)))
@@ -449,6 +455,17 @@ class ПодготовкаПоручения(unittest.TestCase):
 
     def test_полномочия_до_ACT2_сохраняют_T_после_закрепления_A(сам):
         сам.подготовить_генератор_состояния()
+
+    def test_state_ROOT_получает_прежнее_наполнение_без_селекторного_цикла(сам):
+        def проверить():
+            план = сам.м.построить_план(сам.вход)
+            входы = план['технические_входы']
+            сам.assertEqual('fum.создание-коммита.5', входы['коммит']['схема'])
+            наполнение = json.loads(base64.b64decode(next(э['base64']
+                for э in план['установка'] if э['путь'] == входы['фасад']['наполнение'])))
+            сам.assertEqual('fum.наполнение-карточки.1', наполнение['схема'])
+            сам.assertNotIn('основание', наполнение)
+        сам.подготовить_генератор_состояния(перед_A=проверить)
 
     def test_state_неверные_проверки_отказывают_до_A(сам):
         def проверить():

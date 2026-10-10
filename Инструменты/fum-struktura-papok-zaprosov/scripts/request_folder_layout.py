@@ -1939,6 +1939,7 @@ def _apply_prepared_transaction(
     *,
     проверить_исходники: Callable[[], None] | None = None,
     проверить_установку: Callable[[], None] | None = None,
+    проверить_перед_файлом: Callable[[], None] | None = None,
 ) -> None:
     touched = {item.path for item in prepared}
     snapshots = {
@@ -1955,6 +1956,8 @@ def _apply_prepared_transaction(
         проверить_исходники()
     try:
         for item in sorted(prepared, key=lambda value: value.path.as_posix()):
+            if проверить_перед_файлом is not None:
+                проверить_перед_файлом()
             _install_prepared_file(repo_root, item)
         if проверить_установку is not None:
             проверить_установку()

@@ -19,6 +19,19 @@ import request_folder_layout
 
 
 class ПроверкаНаполненияКарточки(unittest.TestCase):
+    def test_чужой_helper_состояния_не_входит_в_контур(сам):
+        helper = сам.модуль.состояние
+        with mock.patch.object(helper, '__file__', str(сам.корень/'чужой-helper.py')):
+            with сам.assertRaisesRegex(ValueError, 'одному каноническому checkout'):
+                сам.модуль._сверить_код()
+
+    def test_helper_без_достоверного_загрузочного_SHA_отказывает_при_импорте(сам):
+        код = "import sys; sys.path.insert(0,sys.argv[1]); import допуск_наполнения_состояния as h; h.КОД_ПРИ_ЗАГРУЗКЕ=None; import наполнение_карточки"
+        процесс = subprocess.run([sys.executable,'-B','-I','-c',код,
+            str(Path(__file__).resolve().parents[1]/'scripts')],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+        сам.assertNotEqual(0,процесс.returncode)
+        сам.assertIn('достоверного загрузочного SHA256',процесс.stderr.decode())
+
     def setUp(сам):
         сам.модуль = importlib.import_module('наполнение_карточки')
         сам.временное = tempfile.TemporaryDirectory()
@@ -33,7 +46,7 @@ class ПроверкаНаполненияКарточки(unittest.TestCase):
             путь.parent.mkdir(parents=True, exist_ok=True)
             путь.write_text('# Открытая фикстура цели ссылки\n')
         сам.git('add', '--', 'вход.txt', 'Инструменты')
-        сам.git('-c', 'core.hooksPath=/dev/null', '-c', 'user.name=Проверяющий',
+        сам.git('-c', 'core.hooksPath=' + os.devnull, '-c', 'user.name=Проверяющий',
                 '-c', 'user.email=test@example.invalid', 'commit', '-qm', 'Исходное состояние фикстуры')
         сам.задача = '00000000-0000-0000-0000-000000000001'
         сам.метка = '2026-09-28_21-31-03_MSK_автоматизировать-наполнение-карточек'
@@ -193,7 +206,7 @@ class ПроверкаНаполненияКарточки(unittest.TestCase):
 
     def test_закоммиченная_или_закрытая_карточка_не_открывается(сам):
         сам.git('add', '--', сам.цели[0], сам.цели[1])
-        сам.git('-c', 'core.hooksPath=/dev/null', '-c', 'user.name=Проверяющий',
+        сам.git('-c', 'core.hooksPath=' + os.devnull, '-c', 'user.name=Проверяющий',
                 '-c', 'user.email=test@example.invalid', 'commit', '-qm', 'Закрытая граница фикстуры')
         with сам.assertRaises(ValueError):
             сам.модуль.подготовить(сам.корень, сам.вход)

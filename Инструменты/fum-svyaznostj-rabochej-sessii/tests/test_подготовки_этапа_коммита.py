@@ -143,6 +143,258 @@ class ПодготовкаСостоянияЭтапа(unittest.TestCase):
         сам.фасад = полный['технические_входы']['фасад']
         сам.корень = Path(сам.вход['корень'])
 
+    def подготовить_наполнение(сам):
+        параметры = сам.м.прочитать(сам.фасад['вход_коммита'])
+        for имя in (сам.A['путь'], параметры['история_модели']):
+            файл = сам.корень / имя
+            файл.parent.mkdir(parents=True, exist_ok=True); файл.write_bytes(байты({'фикстура': 'ё'}))
+        вход = сам.м.прочитать(сам.фасад['наполнение'])
+        сам.assertEqual('fum.наполнение-карточки.2', вход['схема'])
+        return параметры, вход
+
+    def fill_cli(сам, режим, SHA=None, *, план_файл=None):
+        код = "import sys,json; sys.path.insert(0,sys.argv[1]); import наполнение_cli as м; print(json.dumps(м.выполнить(sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5],sys.argv[6] or None),ensure_ascii=False))"
+        return subprocess.run([sys.executable,'-B','-I','-c',код,
+            str(ИНСТРУМЕНТЫ/'fum-struktura-papok-zaprosov/scripts'), режим, str(сам.корень),
+            сам.фасад['наполнение'], str(план_файл or сам.фасад['план_наполнения']), SHA or ''],
+            stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=120)
+
+    def штатный_путь_READY(сам):
+        # Изолированный filler не наследует patch базовой фикстуры. Адрес
+        # выводится тем же штатным кодом в новом процессе, а не угадывается.
+        код = "import sys,json; sys.path.insert(0,sys.argv[1]); import создание_коммита as м; p=м.сообщения._разобрать(м.прочитать(sys.argv[2],приватный=True)); print(json.dumps(str(м.готовность.путь_этапа(p))))"
+        процесс = subprocess.run([sys.executable,'-B','-I','-c',код,
+            str(ИНСТРУМЕНТЫ/'fum-svyaznostj-rabochej-sessii/scripts'),сам.фасад['вход_коммита']],
+            cwd=сам.корень,stdout=subprocess.PIPE,stderr=subprocess.PIPE,check=True,timeout=60)
+        return Path(json.loads(процесс.stdout))
+
+    def test_наполнение_state2_новый_процесс_и_точный_повтор(сам):
+        параметры, вход = сам.подготовить_наполнение()
+        парные = [сам.корень/параметры['запрос'], сам.корень/Path(параметры['запрос']).with_name('отчёт.md')]
+        исходное = [п.read_bytes() for п in парные]
+        индекс = сам.м.поручения._гит(сам.корень,'ls-files','--stage','-z')
+        свидетели = (сам.м.поручения._гит(сам.корень,'rev-parse','HEAD'),
+            сам.м.поручения._гит(сам.корень,'symbolic-ref','HEAD'),
+            {имя:Path(имя).read_bytes() for имя in (сам.фасад['вход_коммита'],
+                сам.фасад['поручение'], сам.вход['источник_модели'])})
+        начало = time.perf_counter_ns()
+        preview = сам.fill_cli('наполнение-план'); сам.assertEqual(0,preview.returncode,preview.stderr.decode())
+        планирование_нс = time.perf_counter_ns()-начало; начало = time.perf_counter_ns()
+        SHA = json.loads(preview.stdout)['план_sha256']
+        effect = сам.fill_cli('наполнение-применить',SHA); сам.assertEqual(0,effect.returncode,effect.stderr.decode())
+        применение_нс = time.perf_counter_ns()-начало; начало = time.perf_counter_ns()
+        результат = [(п.read_bytes(),п.stat().st_mode) for п in парные]
+        сам.assertNotEqual(исходное,[п[0] for п in результат])
+        повтор = сам.fill_cli('наполнение-применить',SHA); сам.assertEqual(0,повтор.returncode,повтор.stderr.decode())
+        повтор_нс = time.perf_counter_ns()-начало
+        сам.assertTrue(json.loads(повтор.stdout)['повтор'])
+        сам.assertEqual(результат,[(п.read_bytes(),п.stat().st_mode) for п in парные])
+        сам.assertEqual(индекс,сам.м.поручения._гит(сам.корень,'ls-files','--stage','-z'))
+        сам.assertFalse(Path(параметры['квитанция']).exists())
+        сам.assertFalse(сам.штатный_путь_READY().exists())
+        новый_план = Path(сам.фасад['план_наполнения']).with_name('новый-план.json')
+        сам.assertFalse(новый_план.exists())
+        сам.assertNotEqual(0,сам.fill_cli('наполнение-план',план_файл=новый_план).returncode)
+        сам.assertFalse(новый_план.exists())
+        парные[0].write_bytes(исходное[0])
+        сам.assertNotEqual(0,сам.fill_cli('наполнение-применить',SHA).returncode)
+        парные[0].write_bytes(результат[0][0])
+        парные[0].chmod(0o755)
+        сам.assertNotEqual(0,сам.fill_cli('наполнение-применить',SHA).returncode)
+        парные[0].chmod(результат[0][1] & 0o777)
+        парные[0].write_bytes(парные[0].read_bytes()+b' ')
+        сам.assertNotEqual(0,сам.fill_cli('наполнение-применить',SHA).returncode)
+        парные[0].write_bytes(результат[0][0])
+        сам.assertEqual(результат,[(п.read_bytes(),п.stat().st_mode) for п in парные])
+        сам.assertEqual(индекс,сам.м.поручения._гит(сам.корень,'ls-files','--stage','-z'))
+        сам.assertEqual(свидетели,(сам.м.поручения._гит(сам.корень,'rev-parse','HEAD'),
+            сам.м.поручения._гит(сам.корень,'symbolic-ref','HEAD'),
+            {имя:Path(имя).read_bytes() for имя in свидетели[2]}))
+        print(json.dumps({'схема':'fum.профиль-наполнения-state2.1','граница':'setup вне таймера; новые процессы CLI; отказ после точного повтора вне таймера',
+            'планирование_нс':планирование_нс,'применение_нс':применение_нс,'повтор_нс':повтор_нс,
+            'метки_плана':json.loads(preview.stdout)['профиль'],'метки_применения':json.loads(effect.stdout)['профиль']},ensure_ascii=False))
+
+    def test_наполнение_state2_селектор_не_заменяется_копией_maker(сам):
+        _, вход = сам.подготовить_наполнение()
+        файл = Path(вход['основание']['поручение']['путь']); выбор = json.loads(файл.read_bytes())
+        выбор['исполнитель'] = '00000000-0000-0000-0000-000000000009'; файл.write_bytes(байты(выбор))
+        вход['основание']['поручение']['sha256'] = hashlib.sha256(файл.read_bytes()).hexdigest()
+        Path(сам.фасад['наполнение']).write_bytes(байты(вход))
+        сам.assertNotEqual(0,сам.fill_cli('наполнение-план').returncode)
+        сам.assertFalse(Path(сам.фасад['план_наполнения']).exists())
+
+    def test_наполнение_state2_отзыв_между_файлами_откатывает_пару(сам):
+        параметры, _ = сам.подготовить_наполнение()
+        парные = [сам.корень/параметры['запрос'],сам.корень/Path(параметры['запрос']).with_name('отчёт.md')]
+        до = [(п.read_bytes(),п.stat().st_mode) for п in парные]
+        индекс = сам.м.поручения._гит(сам.корень,'ls-files','--stage','-z')
+        preview = сам.fill_cli('наполнение-план'); сам.assertEqual(0,preview.returncode,preview.stderr.decode())
+        SHA = json.loads(preview.stdout)['план_sha256']
+        код = '''import sys,json,subprocess
+sys.path.insert(0,sys.argv[1]); import наполнение_cli as cli
+настоящий=cli.наполнение.каркас._install_prepared_file; вызовы=[]
+def установить(корень,файл):
+    вызовы.append(файл.path); настоящий(корень,файл)
+    if len(вызовы)==1: subprocess.check_call(['git','-C',str(корень),'update-ref',sys.argv[6],'HEAD'])
+cli.наполнение.каркас._install_prepared_file=установить
+try: cli.выполнить('наполнение-применить',sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5])
+except ValueError:
+    assert len(вызовы)==1, вызовы
+else: raise AssertionError('Отзыв не остановил вторую запись')
+'''
+        процесс = subprocess.run([sys.executable,'-B','-I','-c',код,
+            str(ИНСТРУМЕНТЫ/'fum-struktura-papok-zaprosov/scripts'),str(сам.корень),
+            сам.фасад['наполнение'],сам.фасад['план_наполнения'],SHA,сам.A['контрольная_ветка']],
+            stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=120)
+        сам.assertEqual(0,процесс.returncode,процесс.stderr.decode())
+        сам.assertEqual(до,[(п.read_bytes(),п.stat().st_mode) for п in парные])
+        сам.assertEqual(индекс,сам.м.поручения._гит(сам.корень,'ls-files','--stage','-z'))
+
+    def test_наполнение_state2_перестановка_T_не_даёт_допуск(сам):
+        _, вход = сам.подготовить_наполнение()
+        файл = Path(вход['разрешение']['путь']); цели = json.loads(файл.read_bytes())
+        файл.write_bytes(байты(list(reversed(цели))))
+        вход['разрешение']['sha256'] = hashlib.sha256(файл.read_bytes()).hexdigest()
+        Path(сам.фасад['наполнение']).write_bytes(байты(вход))
+        сам.assertNotEqual(0,сам.fill_cli('наполнение-план').returncode)
+        сам.assertFalse(Path(сам.фасад['план_наполнения']).exists())
+
+    def test_наполнение_state2_изменённая_пара_не_даёт_новый_план(сам):
+        параметры, _ = сам.подготовить_наполнение()
+        файл = сам.корень/параметры['запрос']; файл.write_bytes(файл.read_bytes()+b' ')
+        сам.assertNotEqual(0,сам.fill_cli('наполнение-план').returncode)
+        сам.assertFalse(Path(сам.фасад['план_наполнения']).exists())
+
+    def пара_и_индекс(сам, параметры):
+        парные = [сам.корень/параметры['запрос'],
+            сам.корень/Path(параметры['запрос']).with_name('отчёт.md')]
+        return ([(п.read_bytes(),п.stat().st_mode) for п in парные],
+            сам.м.поручения._гит(сам.корень,'ls-files','--stage','-z'))
+
+    def test_наполнение_state2_готовая_или_закрытая_история_не_пишется(сам):
+        параметры, _ = сам.подготовить_наполнение()
+        каталог = сам.корень/Path(параметры['запрос']).parent/'материалы/запуски-проверок'
+        варианты = [(Path(параметры['квитанция']), 'Готовый этап'),
+            (сам.штатный_путь_READY(), 'Готовый этап'),
+            (каталог/'снимок.json', 'Закрытая история'),
+            (каталог/'возобновление.json', 'возобновления')]
+        for номер,(файл,ошибка) in enumerate(варианты):
+            with сам.subTest(номер=номер):
+                сам.assertFalse(os.path.lexists(файл))
+                файл.parent.mkdir(parents=True,exist_ok=True)
+                with os.fdopen(os.open(файл,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600),'wb') as поток:
+                    поток.write(b'{}\n')
+                try:
+                    до = сам.пара_и_индекс(параметры)
+                    план = Path(сам.фасад['план_наполнения']).with_name(f'закрытый-{номер}.json')
+                    отказ = сам.fill_cli('наполнение-план',план_файл=план)
+                    сам.assertNotEqual(0,отказ.returncode)
+                    сам.assertIn(ошибка,отказ.stderr.decode())
+                    сам.assertFalse(план.exists())
+                    сам.assertEqual(до,сам.пара_и_индекс(параметры))
+                finally:
+                    файл.unlink()
+
+    def test_наполнение_state2_валидная_активная_RAW_запрещает_запись(сам):
+        параметры, вход = сам.подготовить_наполнение()
+        # Первая ожидаемая запись появится через настоящую обёртку. Пустой
+        # Существующий RAW больше не ожидается; T и второй future не меняются.
+        вход['ожидаемые_цели'] = вход['ожидаемые_цели'][1:]
+        Path(сам.фасад['наполнение']).write_bytes(байты(вход))
+        код = '''import sys,json,subprocess
+from pathlib import Path
+sys.path.insert(0,sys.argv[1]); import наполнение_cli as cli
+корень=Path(sys.argv[2]); вход=json.loads(Path(sys.argv[3]).read_bytes())
+парные=[корень/вход['запрос'],корень/Path(вход['запрос']).with_name('отчёт.md')]
+def снимок():
+    return ([(p.read_bytes(),p.stat().st_mode) for p in парные],subprocess.check_output(['git','-C',str(корень),'ls-files','--stage','-z']))
+каталог=парные[0].parent/'материалы/запуски-проверок'
+записи=cli.наполнение._загрузить('отчёты').прочитать_записи(каталог,вход['запрос'],разрешить_раунды=True)
+assert len(записи)==1 and записи[0][1]['схема']=='fum.test-run.v4' and записи[0][1]['состояние']=='выполняется'
+до=снимок()
+try: cli.выполнить('наполнение-план',str(корень),sys.argv[3],sys.argv[4])
+except ValueError as ошибка: assert 'Активная запись запрещает наполнение состояния' in str(ошибка),str(ошибка)
+else: raise AssertionError('Активная RAW не остановила наполнение')
+assert not Path(sys.argv[4]).exists() and снимок()==до
+'''
+        запуск = сам.фасад['проверки'][0]
+        итог = subprocess.run([sys.executable,'-B',
+            str(ИНСТРУМЕНТЫ/'fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py'),
+            'запустить','--корень-репозитория',str(сам.корень),'--запрос',параметры['запрос'],
+            '--название','Проверить отказ при настоящей активной RAW',
+            '--исполнитель',сам.вход['писатель'],'--идентификатор-запуска',запуск['идентификатор'],
+            '--класс-проверки','адресная','--приёмочные-раунды','--',sys.executable,'-B','-I','-c',код,
+                str(ИНСТРУМЕНТЫ/'fum-struktura-papok-zaprosov/scripts'),str(сам.корень),
+                сам.фасад['наполнение'],сам.фасад['план_наполнения']],
+            cwd=сам.корень,stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=180)
+        сам.assertEqual(0,итог.returncode,итог.stderr.decode())
+        сам.assertFalse(Path(сам.фасад['план_наполнения']).exists())
+
+    def test_наполнение_state2_отзыв_A_предшествует_плану_и_замку(сам):
+        параметры, _ = сам.подготовить_наполнение()
+        до = сам.пара_и_индекс(параметры)
+        A = сам.г.ф.ф.гит('rev-parse',сам.A['контрольная_ветка']).strip()
+        код = '''import sys,subprocess
+sys.path.insert(0,sys.argv[1]); import наполнение_cli as cli
+подготовить=cli.наполнение.подготовить
+def вычислить(*а,**к):
+    итог=подготовить(*а,**к)
+    subprocess.check_call(['git','-C',sys.argv[2],'update-ref',sys.argv[5],'HEAD'])
+    return итог
+cli.наполнение.подготовить=вычислить
+def запрещено(*а,**к): raise AssertionError('Запись плана до проверки полномочий')
+cli._новый_план=запрещено
+try: cli.выполнить('наполнение-план',sys.argv[2],sys.argv[3],sys.argv[4])
+except ValueError as ошибка: assert 'поколение' in str(ошибка), str(ошибка)
+else: raise AssertionError('Отзыв до planfile не обнаружен')
+'''
+        def процесс(код,SHA=''):
+            return subprocess.run([sys.executable,'-B','-I','-c',код,
+                str(ИНСТРУМЕНТЫ/'fum-struktura-papok-zaprosov/scripts'),str(сам.корень),
+                сам.фасад['наполнение'],сам.фасад['план_наполнения'],сам.A['контрольная_ветка'],SHA],
+                stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=120)
+        отказ = процесс(код); сам.assertEqual(0,отказ.returncode,отказ.stderr.decode())
+        сам.assertFalse(Path(сам.фасад['план_наполнения']).exists())
+        сам.assertEqual(до,сам.пара_и_индекс(параметры))
+        сам.г.ф.ф.гит('update-ref',сам.A['контрольная_ветка'],A)
+        preview = сам.fill_cli('наполнение-план'); сам.assertEqual(0,preview.returncode,preview.stderr.decode())
+        SHA = json.loads(preview.stdout)['план_sha256']
+        сам.г.ф.ф.гит('update-ref',сам.A['контрольная_ветка'],сам.г.ф.ф.гит('rev-parse','HEAD').strip())
+        код = '''import sys
+sys.path.insert(0,sys.argv[1]); import наполнение_cli as cli
+отчёты=cli.наполнение._загрузить('отчёты')
+def запрещено(*а,**к): raise AssertionError('Вход в замок до проверки полномочий')
+отчёты.межпроцессная_блокировка=запрещено
+try: cli.выполнить('наполнение-применить',sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[6])
+except ValueError as ошибка: assert 'поколение' in str(ошибка), str(ошибка)
+else: raise AssertionError('Отзыв до замка не обнаружен')
+'''
+        отказ = процесс(код,SHA); сам.assertEqual(0,отказ.returncode,отказ.stderr.decode())
+        сам.assertEqual(до,сам.пара_и_индекс(параметры))
+        сам.assertEqual(SHA,hashlib.sha256(Path(сам.фасад['план_наполнения']).read_bytes()).hexdigest())
+
+    def test_наполнение_state2_дрейф_Git_не_применяет_план(сам):
+        параметры, _ = сам.подготовить_наполнение()
+        preview = сам.fill_cli('наполнение-план'); сам.assertEqual(0,preview.returncode,preview.stderr.decode())
+        SHA = json.loads(preview.stdout)['план_sha256']
+        HEAD = сам.м.поручения._гит(сам.корень,'rev-parse','HEAD').strip()
+        сам.м.поручения._гит(сам.корень,'branch','codex/другая',HEAD)
+        for вид in ('индекс','HEAD','ref'):
+            with сам.subTest(вид=вид):
+                if вид == 'индекс': сам.м.поручения._гит(сам.корень,'add',параметры['история_модели'])
+                elif вид == 'HEAD': сам.м.поручения._гит(сам.корень,'commit','--allow-empty','-qm','Дрейф HEAD')
+                else: сам.м.поручения._гит(сам.корень,'switch','-q','codex/другая')
+                до = сам.пара_и_индекс(параметры)
+                граница = (сам.м.поручения._гит(сам.корень,'rev-parse','HEAD'),
+                    сам.м.поручения._гит(сам.корень,'symbolic-ref','HEAD'))
+                сам.assertNotEqual(0,сам.fill_cli('наполнение-применить',SHA).returncode)
+                сам.assertEqual(до,сам.пара_и_индекс(параметры))
+                сам.assertEqual(граница,(сам.м.поручения._гит(сам.корень,'rev-parse','HEAD'),
+                    сам.м.поручения._гит(сам.корень,'symbolic-ref','HEAD')))
+                if вид == 'индекс': сам.м.поручения._гит(сам.корень,'reset','-q','HEAD','--',параметры['история_модели'])
+                elif вид == 'HEAD': сам.м.поручения._гит(сам.корень,'reset','--soft',HEAD)
+                else: сам.м.поручения._гит(сам.корень,'switch','-q','fum-lab/fum')
+
     def test_состояние_исполняет_полный_фасад_без_готовности_и_коммита(сам):
         параметры = сам.м.прочитать(сам.фасад['вход_коммита'])
         expected = сам.корень / сам.A['путь']
@@ -158,7 +410,7 @@ class ПодготовкаСостоянияЭтапа(unittest.TestCase):
         сам.assertEqual(HEAD, сам.м.поручения._гит(сам.корень, 'rev-parse', 'HEAD'))
         сам.assertTrue(модель.is_file())
         сам.assertFalse(Path(параметры['квитанция']).exists())
-        сам.assertFalse(сам.м.коммит.готовность.путь_этапа(параметры).exists())
+        сам.assertFalse(сам.штатный_путь_READY().exists())
         записи = sorted((сам.корень / Path(параметры['запрос']).parent /
             'материалы/запуски-проверок').glob('[0-9]*.json'))
         сырые = [json.loads(п.read_bytes()) for п in записи]
