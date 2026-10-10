@@ -18,6 +18,7 @@ import request_folder_layout as каркас
 import блоки_карточки as рендер
 import управляемые_блоки as блоки
 import отпечатки_загрузки as загрузка
+import публичное_представление_событий as публичные
 
 
 КОРЕНЬ_ИСПОЛНИТЕЛЯ = Path(__file__).resolve().parents[3]
@@ -28,11 +29,13 @@ import отпечатки_загрузки as загрузка
     'Инструменты/fum-struktura-papok-zaprosov/scripts/' + имя
     for имя in ('request_folder_layout.py', 'struktura-papok-zaprosov.py',
                 'управляемые_блоки.py', 'блоки_карточки.py', 'наполнение_карточки.py',
-                'отпечатки_загрузки.py', 'наполнение_cli.py')
+                'отпечатки_загрузки.py', 'наполнение_cli.py', 'публичное_представление_событий.py',
+                'переход_публичного_журнала.py')
 } | {
     'Инструменты/fum-svyaznostj-rabochej-sessii/scripts/' + имя
     for имя in ('сверить-материалы-этапа.py', 'check-session-coherence.py', 'автор_коммита.py')
 } | {'Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py',
+     'Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py',
      'Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py'}
 
 
@@ -41,11 +44,19 @@ def хэш(байты):
 
 
 def _сверить_корни_импортов():
+    if блоки.публичные is not публичные or публичные.загрузка is not загрузка:
+        raise ValueError('Мост и загрузчик должны использовать те же проверенные модули')
     собственные = [(каркас, 'request_folder_layout.py'), (рендер, 'блоки_карточки.py'),
-                   (блоки, 'управляемые_блоки.py'), (загрузка, 'отпечатки_загрузки.py')]
+                   (блоки, 'управляемые_блоки.py'), (загрузка, 'отпечатки_загрузки.py'),
+                   (публичные, 'публичное_представление_событий.py')]
     for модуль, имя in собственные:
         if Path(модуль.__file__) != КОРЕНЬ_ИСПОЛНИТЕЛЯ / 'Инструменты/fum-struktura-papok-zaprosov/scripts' / имя:
             raise ValueError('Каркас и модули наполнения должны принадлежать одному каноническому checkout')
+    if публичные.ФОРМЫ is not None and Path(публичные.ФОРМЫ.__file__) != КОРЕНЬ_ИСПОЛНИТЕЛЯ / 'Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py':
+        raise ValueError('Классификатор адресов взят из другого checkout')
+    переход = sys.modules.get('переход_публичного_журнала')
+    if переход is not None and Path(переход.__file__) != КОРЕНЬ_ИСПОЛНИТЕЛЯ / 'Инструменты/fum-struktura-papok-zaprosov/scripts/переход_публичного_журнала.py':
+        raise ValueError('Переход взят из другого checkout')
     for имя, путь in [('project_files', 'Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py'),
                        ('автор_коммита', 'Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py')]:
         модуль = sys.modules.get(имя)
@@ -88,7 +99,7 @@ def _модули_контура():
                 файл = getattr(владелец, '__file__', None)
                 if файл and Path(файл).resolve().is_relative_to(КОРЕНЬ_ИСПОЛНИТЕЛЯ):
                     if vars(владелец).get(значение.__name__) is not значение:
-                        raise ValueError('Импортированная функция или тип принадлежит прежней версии модуля')
+                        raise ValueError('Импортированная функция или тип принадлежит прежней версии модуля: ' + относительный + ':' + значение.__name__)
                     очередь.append(владелец)
     return результат
 
@@ -109,6 +120,8 @@ def _отпечаток_модуля(модуль):
 
 
 def _сверить_код():
+    _сверить_корни_импортов()
+    публичные.прочитать_формы()
     for имя, модуль in _модули_контура().items():
         if имя not in ОТПЕЧАТКИ_ЗАГРУЗКИ:
             ОТПЕЧАТКИ_ЗАГРУЗКИ[имя] = _отпечаток_модуля(модуль)
