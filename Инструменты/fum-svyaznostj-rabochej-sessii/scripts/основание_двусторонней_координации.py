@@ -32,6 +32,196 @@ def хэш(сырые):
 
 
 def проверить(корень, решение, вход):
+    return _проверить(корень, решение, вход, _строгий_снимок)
+
+
+def проверить_историческое(корень, решение, вход):
+    """Отдельная .4: RAW и порядок префикса, затем закрытый LIVE-хвост.
+
+    Возвращаемое основание относится к рассмотренному префиксу. Допустимый
+    служебный хвост не объявляется человеческим рассмотрением или обработкой.
+    Старый публичный проверить продолжает требовать неизменный полный кэш.
+    """
+    try:
+        return _проверить(корень, решение, вход, _исторический_снимок)
+    except (читатель.ОшибкаСообщений, обработка.ОшибкаОбработки, OSError, KeyError, TypeError) as ошибка:
+        raise ValueError('историческое LIVE-основание не подтверждено') from ошибка
+
+
+def _строгий_снимок(корень, смысл, источник):
+    файл=адреса.точный_абсолютный(источник['путь']); кэш=адреса.точный_абсолютный(источник['кэш'],приватный=True)
+    данные=читатель._кэш_прочитать(кэш, источник['задача'])
+    состояние=файл.stat(); читатель._обычный(состояние)
+    требовать(данные is not None and данные['реализация']==читатель._РЕАЛИЗАЦИЯ
+        and данные['метка']==читатель._метка(состояние) and данные['граница']==состояние.st_size
+        and данные['граница']==источник['граница_снимка']['граница']
+        and данные['sha256']==источник['граница_снимка']['sha256'],
+        'неподготовленный или устаревший кэш; скрытый полный разбор запрещён')
+    снимок=читатель.прочитать_сообщения(файл, источник['задача'], корень_репозитория=корень, кэш=кэш, без_записи=True)
+    границы.проверить_снимок(снимок, источник['граница_снимка'], требовать)
+    требовать(снимок['профиль']['режим']=='неизменная метка ФС'
+        and снимок['профиль']['прочитано_байтов']==снимок['профиль']['разобрано_строк']==0,
+        'неожиданный повторный разбор ROOT')
+    return файл, данные, снимок
+
+
+def известный_служебный_хвост(событие, задача):
+    """Закрытые транспортные формы. Строки вывода инструмента — данные."""
+    def форма(объект, обязательные, необязательные=()):
+        return type(объект) is dict and set(обязательные)<=set(объект)<=set(обязательные)|set(необязательные)
+    def строки(объект, имена):
+        return all(type(объект.get(и)) is str for и in имена)
+    def части(состав, вид):
+        return type(состав) is list and all(форма(ч,{'type','text'}) and ч['type']==вид and type(ч['text']) is str for ч in состав)
+    def вывод(значение):
+        return type(значение) is str or части(значение,'input_text')
+    def метаданные(объект):
+        return форма(объект,{'turn_id'},{'content_item_kinds','create_time'}) and строки(объект,['turn_id']) and (
+            'content_item_kinds' not in объект or объект['content_item_kinds']==['unknown']) and (
+            'create_time' not in объект or type(объект['create_time']) in (int,float))
+    def длительность(объект):
+        return форма(объект,{'secs','nanos'}) and all(type(в) is int and в>=0 for в in объект.values())
+    def счётчики(объект):
+        return форма(объект,{'input_tokens','cached_input_tokens','cache_write_input_tokens','output_tokens',
+            'reasoning_output_tokens','total_tokens'}) and all(type(в) is int and в>=0 for в in объект.values())
+    if not форма(событие,{'type','payload','timestamp','ordinal'},{'metadata'}) or not строки(событие,['type','timestamp']) or type(событие['ordinal']) is not int:
+        return False
+    данные=событие.get('payload')
+    if type(данные) is not dict: return False
+    if 'thread_id' in данные and данные['thread_id']!=задача: return False
+    if 'metadata' in событие:
+        мета=событие['metadata']
+        if type(мета) is not dict or мета.get('client_authored') is not False: return False
+        if (событие['type']=='response_item' and данные.get('type')=='function_call'
+                and форма(мета,{'client_authored','user_input_order'})):
+            if type(мета['user_input_order']) is not int or мета['user_input_order']<0: return False
+        elif (событие['type']=='response_item'
+                and данные.get('type') in ('custom_tool_call_output','function_call_output')
+                and форма(мета,{'client_authored','fallback_token_limit_override'})):
+            if type(мета['fallback_token_limit_override']) is not int or мета['fallback_token_limit_override']<=0: return False
+        else:
+            if not форма(мета,{'client_authored','user_input_order','retained_source'}) or type(мета['user_input_order']) is not int: return False
+            источник=мета['retained_source']
+            if not форма(источник,{'complete','revision','id'}) or источник['complete'] is not True or type(источник['revision']) is not str: return False
+            идентичность=источник['id']
+            if not форма(идентичность,{'message_id','role','turn_id'}) or not строки(идентичность,идентичность) or идентичность['role']!='assistant': return False
+    if событие.get('type')=='response_item':
+        вид=данные.get('type')
+        if вид=='message':
+            return форма(данные,{'type','id','role','phase','content','internal_chat_message_metadata_passthrough'}) and данные['role']=='assistant' and данные['phase'] in ('commentary','final') and type(данные['id']) is str and части(данные['content'],'output_text') and метаданные(данные['internal_chat_message_metadata_passthrough'])
+        if вид=='reasoning':
+            return форма(данные,{'type','id','encrypted_content','summary','internal_chat_message_metadata_passthrough'}) and строки(данные,['id','encrypted_content']) and части(данные['summary'],'summary_text') and метаданные(данные['internal_chat_message_metadata_passthrough'])
+        формы={
+            'function_call':({'type','id','call_id','name','arguments','internal_chat_message_metadata_passthrough'},{'namespace'}),
+            'custom_tool_call':({'type','id','call_id','name','input','status','internal_chat_message_metadata_passthrough'},set()),
+            'custom_tool_call_output':({'type','id','call_id','output','internal_chat_message_metadata_passthrough'},set())}
+        if вид=='function_call_output':
+            имена={'type','id','call_id','output','internal_chat_message_metadata_passthrough'} if 'call_id' in данные else {'type','id','name','namespace','output','internal_chat_message_metadata_passthrough'}
+            return форма(данные,имена) and строки(данные,имена-{'internal_chat_message_metadata_passthrough','output'}) and вывод(данные['output']) and метаданные(данные['internal_chat_message_metadata_passthrough'])
+        if вид in формы:
+            обязательные,необязательные=формы[вид]
+            return форма(данные,обязательные,необязательные) and строки(данные,set(данные)-{'internal_chat_message_metadata_passthrough','output'}) and ('output' not in данные or вывод(данные['output'])) and метаданные(данные['internal_chat_message_metadata_passthrough']) and (вид!='custom_tool_call' or данные['status']=='completed')
+        return False
+    if событие.get('type')=='event_msg':
+        вид=данные.get('type')
+        if вид=='token_count':
+            if not форма(данные,{'type','info','rate_limits'}): return False
+            информация=данные['info']; лимиты=данные['rate_limits']
+            if not форма(информация,{'last_token_usage','total_token_usage','model_context_window'}) or type(информация['model_context_window']) is not int or not all(счётчики(информация[и]) for и in ('last_token_usage','total_token_usage')): return False
+            if not форма(лимиты,{'credits','individual_limit','limit_id','limit_name','plan_type','primary','rate_limit_reached_type','secondary','spend_control_reached'}): return False
+            кредиты=лимиты['credits']; окно=лимиты['primary']
+            return форма(кредиты,{'balance','has_credits','unlimited'}) and type(кредиты['balance']) is str and all(type(кредиты[и]) is bool for и in ('has_credits','unlimited')) and форма(окно,{'resets_at','used_percent','window_minutes'}) and type(окно['resets_at']) is int and type(окно['window_minutes']) is int and type(окно['used_percent']) in (int,float) and строки(лимиты,['limit_id']) and (
+                type(лимиты['plan_type']) is str and лимиты['limit_name'] is None
+                or лимиты['plan_type'] is None and (лимиты['limit_name'] is None or type(лимиты['limit_name']) is str)) and all(лимиты[и] is None for и in ('individual_limit','rate_limit_reached_type','secondary','spend_control_reached'))
+        if вид=='item_completed':
+            if not форма(данные,{'type','thread_id','turn_id','item','started_at_ms','completed_at_ms'}) or not строки(данные,['thread_id','turn_id']) or any(type(данные[и]) is not int for и in ('started_at_ms','completed_at_ms')): return False
+            элемент=данные['item']
+            if type(элемент) is not dict or type(элемент.get('id')) is not str: return False
+            вид=элемент.get('type')
+            if вид=='ContextCompaction': return форма(элемент,{'type','id'})
+            if вид=='AgentMessage': return форма(элемент,{'type','id','phase','content'}) and элемент['phase'] in ('commentary','final') and части(элемент['content'],'Text')
+            if вид=='Reasoning': return форма(элемент,{'type','id','raw_content','summary_text'}) and элемент['raw_content']==[] and type(элемент['summary_text']) is list and all(type(в) is str for в in элемент['summary_text'])
+            if вид=='SubAgentActivity': return форма(элемент,{'type','id','agent_path','agent_thread_id','kind'}) and строки(элемент,['agent_path','agent_thread_id']) and элемент['kind'] in ('started','completed','interacted')
+            if вид=='McpToolCall': return форма(элемент,{'type','id','arguments','duration','pluginId','result','server','status','tool'}) and строки(элемент,['pluginId','server','tool']) and type(элемент['arguments']) is dict and type(элемент['result']) is dict and длительность(элемент['duration']) and элемент['status'] in ('completed','failed')
+            if вид=='CommandExecution':
+                if not форма(элемент,{'type','id','command','cwd','duration','exit_code','parsed_cmd','process_id','source','status','aggregated_output'}) or not строки(элемент,['cwd','process_id','aggregated_output']) or type(элемент['command']) is not list or not all(type(в) is str for в in элемент['command']) or type(элемент['exit_code']) is not int or элемент['source']!='unified_exec_startup' or элемент['status'] not in ('completed','failed') or not длительность(элемент['duration']) or type(элемент['parsed_cmd']) is not list: return False
+                for ч in элемент['parsed_cmd']:
+                    if type(ч) is not dict: return False
+                    имена={'unknown':{'type','cmd'},'read':{'type','cmd','name','path'},'search':{'type','cmd','path','query'},'list_files':{'type','cmd','path'}}.get(ч.get('type'))
+                    if имена is None or not форма(ч,имена) or not all(type(в) is str or (к=='path' and ч['type']=='search' and в is None) for к,в in ч.items()): return False
+                return True
+            if вид=='FileChange':
+                if not форма(элемент,{'type','id','changes','status','stderr','stdout'}) or элемент['status']!='completed' or not строки(элемент,['stderr','stdout']) or type(элемент['changes']) is not dict: return False
+                for путь,изменение in элемент['changes'].items():
+                    if type(путь) is not str or not (форма(изменение,{'type','content'}) and изменение['type']=='add' and type(изменение['content']) is str or форма(изменение,{'type','move_path','unified_diff'}) and изменение['type']=='update' and изменение['move_path'] is None and type(изменение['unified_diff']) is str): return False
+                return True
+            if вид=='FunctionCallOutput': return форма(элемент,{'type','id','name','namespace','output'}) and строки(элемент,элемент)
+        return False
+    if событие['type']=='token_usage_record':
+        return форма(данные,{'response_id','root_turn_id','session_id','thread_id','turn_id','usage','turn_token_usage','thread_token_usage'}) and строки(данные,['response_id','root_turn_id','session_id','thread_id','turn_id']) and данные['session_id']==задача and all(счётчики(данные[и]) for и in ('usage','turn_token_usage','thread_token_usage'))
+    if событие['type']=='inter_agent_communication_metadata': return форма(данные,{'trigger_turn'}) and данные['trigger_turn'] is False
+    if событие['type']=='world_state': return форма(данные,{'full','state'}) and данные['full'] is False and форма(данные['state'],{'environments'}) and форма(данные['state']['environments'],{'subagents'}) and type(данные['state']['environments']['subagents']) is str
+    return False
+
+
+def прочитать_живой_префикс(источник, задача, контекст):
+    """Полный независимый разбор B; кэш не является доказательством LIVE.
+
+    Метрики EOF/хвоста возвращаются отдельно и не входят в неизменное основание.
+    Один кооперативный писатель; это не атомарность с внешней доставкой сообщений.
+    """
+    обработка.проверить_контекст(контекст)
+    файл=адреса.точный_абсолютный(источник)
+    with os.fdopen(os.open(файл,os.O_RDONLY|os.O_NOFOLLOW),'rb') as поток:
+        состояние=os.fstat(поток.fileno()); читатель._обычный(состояние)
+        требовать(контекст['граница']<=состояние.st_size,'LIVE-префикс усечён')
+        индекс,профиль=читатель._прочитать_поток(поток,задача,None,предел=контекст['граница'])
+        требовать(индекс['граница']==контекст['граница'] and индекс['sha256']==контекст['sha256']
+            and обработка.контекст_снимка(индекс)==контекст,'подменены LIVE-префикс или порядок экземпляров')
+        строк=0
+        while поток.tell()<состояние.st_size:
+            сырая=поток.readline(min(читатель._МАКСИМУМ_СТРОКИ+1,состояние.st_size-поток.tell()))
+            требовать(bool(сырая) and сырая.endswith(b'\n') and len(сырая)<=читатель._МАКСИМУМ_СТРОКИ,
+                'незавершённый или превышающий предел LIVE-хвост')
+            требовать(известный_служебный_хвост(читатель._разобрать(сырая),задача),
+                'новый человеческий или неизвестный LIVE-ввод требует review ROOT')
+            строк+=1
+        метка=читатель._метка(состояние)
+        требовать(читатель._метка(os.fstat(поток.fileno()))==метка
+            and читатель._метка(файл.stat())==метка,'LIVE изменился при чтении')
+    return индекс, {'метка':метка,'профиль':профиль,'байты_хвоста':состояние.st_size-контекст['граница'],'строки_хвоста':строк}
+
+
+def _исторический_снимок(корень, смысл, источник):
+    границы.проверить_границу(источник['граница_снимка'],требовать)
+    индекс, наблюдение=прочитать_живой_префикс(источник['путь'],источник['задача'],смысл['контекст'])
+    # Граница выбора — именно исторический B, а актуальный EOF проверен отдельно.
+    снимок={**индекс,'размер_снимка':индекс['граница'],'неполный_хвост':0,'дописано_после_снимка':0}
+    границы.проверить_снимок(снимок,источник['граница_снимка'],требовать)
+    return адреса.точный_абсолютный(источник['путь']), наблюдение, снимок
+
+
+def проверить_рассмотренный_префикс(корень, решение, вход):
+    """Только B0; вызывающая .4 отдельно обязана проверить B1 и LIVE-хвост."""
+    def прочитать(корень, смысл, источник):
+        файл=адреса.точный_абсолютный(источник['путь'])
+        with os.fdopen(os.open(файл,os.O_RDONLY|os.O_NOFOLLOW),'rb') as поток:
+            состояние=os.fstat(поток.fileno()); читатель._обычный(состояние)
+            контекст=смысл['контекст']
+            индекс,_=читатель._прочитать_поток(поток,источник['задача'],None,предел=контекст['граница'])
+            требовать(обработка.контекст_снимка(индекс)==контекст,'подменено историческое B0')
+            метка=читатель._метка(состояние)
+            требовать(читатель._метка(os.fstat(поток.fileno()))==метка
+                and читатель._метка(файл.stat())==метка,'LIVE изменился при чтении B0')
+        снимок={**индекс,'размер_снимка':индекс['граница'],'неполный_хвост':0,'дописано_после_снимка':0}
+        границы.проверить_снимок(снимок,источник['граница_снимка'],требовать)
+        return файл,{'метка':метка},снимок
+    try: return _проверить(корень,решение,вход,прочитать)
+    except (читатель.ОшибкаСообщений, обработка.ОшибкаОбработки, OSError, KeyError, TypeError) as ошибка:
+        raise ValueError('историческое B0 не подтверждено') from ошибка
+
+
+def _проверить(корень, решение, вход, получить_снимок):
     корень=адреса.точный_абсолютный(корень)
     смысл=решение['координация']
     поля(смысл, {'экземпляры','начало_корня','контекст','решение','хэш_поручения',
@@ -64,19 +254,7 @@ def проверить(корень, решение, вход):
     требовать(type(номер) is int and 0<=номер<len(вход['источники']), 'нет независимого ROOT источника')
     источник=вход['источники'][номер]
     требовать(источник['задача']==идентификатор_корня, 'чужой ROOT источника')
-    файл=адреса.точный_абсолютный(источник['путь']); кэш=адреса.точный_абсолютный(источник['кэш'],приватный=True)
-    данные=читатель._кэш_прочитать(кэш, идентификатор_корня)
-    состояние=файл.stat(); читатель._обычный(состояние)
-    требовать(данные is not None and данные['реализация']==читатель._РЕАЛИЗАЦИЯ
-        and данные['метка']==читатель._метка(состояние) and данные['граница']==состояние.st_size
-        and данные['граница']==источник['граница_снимка']['граница']
-        and данные['sha256']==источник['граница_снимка']['sha256'],
-        'неподготовленный или устаревший кэш; скрытый полный разбор запрещён')
-    снимок=читатель.прочитать_сообщения(файл, идентификатор_корня, корень_репозитория=корень, кэш=кэш, без_записи=True)
-    границы.проверить_снимок(снимок, источник['граница_снимка'], требовать)
-    требовать(снимок['профиль']['режим']=='неизменная метка ФС'
-        and снимок['профиль']['прочитано_байтов']==снимок['профиль']['разобрано_строк']==0,
-        'неожиданный повторный разбор ROOT')
+    файл, данные, снимок=получить_снимок(корень,смысл,источник)
     требовать(смысл['контекст']==обработка.контекст_снимка(снимок), 'непроверенный или неполный поздний контекст')
     неоднозначные=[э for э in снимок['сообщения'] if э['происхождение']!='человек']
     требовать(семантика['рассмотренные_неоднозначности']==[э['экземпляр'] for э in неоднозначные],

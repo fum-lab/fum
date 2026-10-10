@@ -6561,6 +6561,42 @@
       "count": 1,
       "category": "allow.test-fixture",
       "reason": "Общий временный каталог macOS в воспроизводимой профильной фикстуре; не персональный адрес машины."
+    },
+    {
+      "id": "late-journal-native-python-argv",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/поздняя_привязка_журнала.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:88f5a02dd6faa7e851ba524c93aa051ed55f300ab6a8594ceeee4f03b5f0e1f9",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет точный системный вариант argv в определении проверки собственного нативного CLI времени; иной путь, подстановка даты и лишняя команда отклоняются."
+    },
+    {
+      "id": "late-journal-native-zsh-wrapper",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/поздняя_привязка_журнала.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:358beb86f39d75ee420094db353f64fc3f17bff929712f9971880a84a13e1fb7",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Закрепляет единственную точную нативную оболочку штатного CLI времени; литерал сравнивается как вход проверки и не запускает оболочку."
+    },
+    {
+      "id": "late-journal-fixture-zsh-extra-command",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_поздней_привязки_журнала.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:9a5290ead96d76ec8d9975bc4e116b211cb2fb257fc694ae0caed5359ae72d44",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Отрицательная автономная фикстура нативной оболочки с дополнительной командой; проверка обязана отклонить такой ввод."
+    },
+    {
+      "id": "late-journal-fixture-zsh-exact-wrapper",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_поздней_привязки_журнала.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b460285f36d5fc74bae20cb0ac45eb1255151908ddb6754dae5ae2a57e71dc3f",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Положительная автономная фикстура единственной точной нативной оболочки штатного CLI времени; не является запуском системного процесса."
     }
   ],
   "метаданные": [
