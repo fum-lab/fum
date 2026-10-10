@@ -6480,6 +6480,60 @@
       "count": 1,
       "category": "allow.nonpath-syntax",
       "reason": "Суффикс относительного каталога новых RAW соединяется с Path канонического родителя запроса; абсолютный адрес машины не задаётся."
+    },
+    {
+      "id": "card-fill-syntax-1",
+      "path": "Инструменты/fum-struktura-papok-zaprosov/scripts/наполнение_карточки.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c3b31a07046afed607eca0812a665fdfdf055fc675999ac89f22e21ca866149c",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Точный синтаксический литерал относительного Журнала либо Markdown-ограждения; не адрес машины."
+    },
+    {
+      "id": "card-fill-syntax-2",
+      "path": "Инструменты/fum-struktura-papok-zaprosov/scripts/управляемые_блоки.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:2e0130d0672f7324d66a992870299e4af79a58a642a6e1c4b77189618a56ab95",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Точный синтаксический литерал относительного Журнала либо Markdown-ограждения; не адрес машины."
+    },
+    {
+      "id": "card-fill-syntax-3",
+      "path": "Инструменты/fum-struktura-papok-zaprosov/наполнение-карточек.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:de668f3c9b06bbaba8741c36b92e266e6fba05c3cc6d0fb97a99d0a167217344",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Точный документированный обезличенный пример CLI с условным внешним каталогом; не адрес машины."
+    },
+    {
+      "id": "card-fill-syntax-4",
+      "path": "Инструменты/fum-struktura-papok-zaprosov/наполнение-карточек.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:04a8941004d7aeab3b455c6f5d8b96201c1c4459a8719cc11e48e9da9a5af6f8",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Точный документированный обезличенный пример CLI с условным внешним каталогом; не адрес машины."
+    },
+    {
+      "id": "card-fill-syntax-5",
+      "path": "Инструменты/fum-struktura-papok-zaprosov/наполнение-карточек.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ac5e208726dfc4d0c96dd66394a19757980d33d4e0b4f609510b2fc01021e726",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Точный документированный обезличенный пример CLI с условным внешним каталогом; не адрес машины."
+    },
+    {
+      "id": "card-fill-syntax-6",
+      "path": "Инструменты/fum-struktura-papok-zaprosov/наполнение-карточек.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:7473e491234d56c0b03b8d5f3a1df16fe1b719c24a0100b646f05c3727d020f0",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Точный документированный обезличенный пример CLI с условным внешним каталогом; не адрес машины."
     }
   ],
   "метаданные": [
