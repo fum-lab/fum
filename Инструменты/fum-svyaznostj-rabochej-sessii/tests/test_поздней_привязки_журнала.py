@@ -12,6 +12,177 @@ import sys
 import unittest
 from unittest import mock
 
+
+class ИсполнениеПринятогоКода(unittest.TestCase):
+    """Принятый K исполняется в новом процессе; чужой C остаётся данными."""
+
+    def подготовить(сам):
+        import tempfile
+        сам.временное = tempfile.TemporaryDirectory()
+        сам.addCleanup(сам.временное.cleanup)
+        сам.папка = Path(сам.временное.name).resolve()
+        сам.дерево_принятого_кода = сам.папка/'K'; сам.дерево_принятого_кода.mkdir()
+        сам.дерево_исходного_коммита = сам.папка/'C'
+        сам.вызвать_гит('init', '-q')
+        сам.вызвать_гит('config', 'user.name', 'Фикстура')
+        сам.вызвать_гит('config', 'user.email', 'fixture@example.invalid')
+        (сам.дерево_принятого_кода/'worker.py').write_text('value = "C"\n')
+        (сам.дерево_принятого_кода/'policy.json').write_text('{"роль":"данные"}\n')
+        сам.вызвать_гит('add', '.'); сам.вызвать_гит('commit', '-qm', 'C')
+        сам.исходный_коммит = сам.вызвать_гит('rev-parse', 'HEAD').strip()
+        сам.вызвать_гит('worktree', 'add', '-q', '--detach', str(сам.дерево_исходного_коммита), сам.исходный_коммит)
+        сам.загрузчик = Path(__file__).resolve().parents[1]/'scripts/исполнение_принятого_кода.py'
+
+    def вызвать_гит(сам, *аргументы):
+        return subprocess.check_output(['git', '--no-optional-locks', '-C', str(сам.дерево_принятого_кода), *аргументы], text=True)
+
+    def сценарий(сам, текст):
+        (сам.дерево_принятого_кода/'worker.py').write_text('value = "K"\n')
+        (сам.дерево_принятого_кода/'main.py').write_text(текст)
+        сам.вызвать_гит('add', '.'); сам.вызвать_гит('commit', '-qm', 'K')
+        сам.принятый_коммит = сам.вызвать_гит('rev-parse', 'HEAD').strip()
+        сам.цели_до = сам.состояние_исходного_дерева()
+
+    def состояние_исходного_дерева(сам):
+        вызвать_гит = lambda *а: subprocess.check_output(['git', '--no-optional-locks', '-C', str(сам.дерево_исходного_коммита), *а])
+        return (вызвать_гит('rev-parse', 'HEAD'), вызвать_гит('status', '--porcelain=v1'),
+                (Path(вызвать_гит('rev-parse', '--absolute-git-dir').decode().strip())/'index').read_bytes())
+
+    def запуск(сам, подготовка='', после='', ожидается=0, пути=None, данные=True, меняет_исходные_данные=False, имена=None):
+        код = 'import importlib.util,json,sys,time\nfrom pathlib import Path\nпуть_загрузчика,корень,принятый_коммит,дерево_исходного_коммита,исходный_коммит,пути,есть_данные,псевдонимы = json.loads(sys.argv[1])\nспецификация = importlib.util.spec_from_file_location("доверенный_bootstrap", путь_загрузчика)\nмодуль_загрузчика = importlib.util.module_from_spec(спецификация); спецификация.loader.exec_module(модуль_загрузчика)\nданные = {"корень":дерево_исходного_коммита,"коммит":исходный_коммит,"пути":["policy.json"]} if есть_данные else None\nначало_интервала=time.perf_counter_ns()\nконтур = модуль_загрузчика.захватить_источники(Path(корень), принятый_коммит, пути, данные)\nзахват_нс=time.perf_counter_ns()-начало_интервала\n\nsys.modules[\'__main__\'].__dict__.update({\'s\':контур,\'root\':корень,\'C\':дерево_исходного_коммита})\n# FUM-ПОДГОТОВКА\n\nначало_интервала=time.perf_counter_ns()\nконтур.исполнить("main.py", имена=псевдонимы)\nисполнение_нс=time.perf_counter_ns()-начало_интервала\n\n# FUM-ПОСЛЕ\n\nprint(json.dumps({"журнал":контур.журнал,"данные":{путь_данных:байты_данных.decode() for путь_данных,байты_данных in getattr(контур, \'данные_исходного_коммита\').items()},"профиль":{"захват_нс":захват_нс,"исполнение_нс":исполнение_нс}},ensure_ascii=False))\n'
+        код = код.replace('# FUM-ПОДГОТОВКА', подготовка).replace('# FUM-ПОСЛЕ', после)
+        арг = [str(сам.загрузчик), str(сам.дерево_принятого_кода), сам.принятый_коммит, str(сам.дерево_исходного_коммита), сам.исходный_коммит,
+               пути if пути is not None else ['main.py','worker.py'], данные,
+               имена if имена is not None else {"worker":"worker.py","особый":"worker.py"}]
+        результат = subprocess.run([sys.executable, '-I', '-S', '-B', '-c', код, json.dumps(арг)],
+                                   cwd=сам.дерево_исходного_коммита, text=True, capture_output=True, timeout=20)
+        сам.assertEqual(результат.returncode, ожидается, результат.stdout + результат.stderr)
+        if ожидается:
+            сам.assertIn('ValueError:',результат.stderr)
+        состояние = сам.состояние_исходного_дерева()
+        if меняет_исходные_данные:
+            сам.assertEqual((состояние[0],состояние[2]),(сам.цели_до[0],сам.цели_до[2]))
+        else:
+            сам.assertEqual(состояние, сам.цели_до)
+        return результат
+
+    def test_принятый_код_отличается_от_исходного_при_обычном_импорте(сам):
+        сам.сценарий('import worker\nassert worker.value == "K"\n')
+        р = сам.запуск()
+        ж = json.loads(р.stdout)['журнал']
+        сам.assertEqual([элемент_журнала['путь'] for элемент_журнала in ж if элемент_журнала['событие']=='exec'], ['main.py','worker.py'])
+        сам.assertTrue(all(элемент_журнала['коммит']==сам.принятый_коммит for элемент_журнала in ж))
+        сам.assertIn('policy.json',json.loads(р.stdout)['данные'])
+
+    def test_спецификация_без_реестра_модулей_попадает_в_журнал(сам):
+        сам.сценарий('import importlib.util,sys\nfrom pathlib import Path\ns=importlib.util.spec_from_file_location("особый",str(Path(__file__).with_name("worker.py")))\nm=importlib.util.module_from_spec(s)\ns.loader.exec_module(m)\nassert m.value == "K" and "особый" not in sys.modules\n')
+        р = сам.запуск()
+        сам.assertEqual(len([элемент_журнала for элемент_журнала in json.loads(р.stdout)['журнал'] if элемент_журнала['событие']=='exec']),2)
+
+    def test_прямая_компиляция_и_исполнение_используют_захваченные_байты(сам):
+        сам.сценарий('from pathlib import Path\np=Path(__file__).with_name("worker.py")\ng={}\nexec(compile(p.read_bytes(),str(p),"exec"),g)\nassert g["value"] == "K"\n')
+        сам.запуск()
+
+    def test_внешние_имена_аргументов_спецификации_сохраняются(сам):
+        сам.сценарий('import importlib.util\nfrom pathlib import Path\nспецификация=importlib.util.spec_from_file_location(name="особый",location=str(Path(__file__).with_name("worker.py")))\nмодуль=importlib.util.module_from_spec(спецификация)\nспецификация.loader.exec_module(модуль)\nassert модуль.value == "K"\n')
+        результат=сам.запуск()
+        журнал=json.loads(результат.stdout)['журнал']
+        сам.assertEqual([запись['путь'] for запись in журнал if запись['событие']=='exec'], ['main.py','worker.py'])
+
+    def test_кэш_байткода_не_читается_даже_при_валидной_метке_времени(сам):
+        сам.сценарий('import worker\nassert worker.value == "K"\n')
+        сам.запуск(подготовка=r'''import py_compile
+p=Path(root)/"worker.py"
+old=p.stat()
+p.write_text('value = "X"\n')
+py_compile.compile(str(p),doraise=True)
+p.write_text('value = "K"\n')
+import os
+os.utime(p,ns=(old.st_atime_ns,old.st_mtime_ns))
+''')
+
+    def test_правильное_имя_с_чужими_байтами_отвергается(сам):
+        сам.сценарий('from pathlib import Path\np=Path(__file__).with_name("worker.py")\nexec(compile(b"value=999",str(p),"exec"))\n')
+        сам.запуск(ожидается=1)
+
+    def test_непривязанный_объект_кода_отвергается(сам):
+        сам.сценарий('exec(чужой_код)\n')
+        сам.запуск(подготовка='import builtins\ns.глобальные["чужой_код"]=compile("pass",str(Path(root)/"worker.py"),"exec")\n',ожидается=1)
+
+    def test_необъявленный_исходник_не_исполняется(сам):
+        сам.сценарий('import worker\n')
+        р=сам.запуск(пути=['main.py'],ожидается=1,имена={})
+        сам.assertIn('import отсутствует',р.stderr)
+
+    def test_необъявленный_псевдоним_отвергается(сам):
+        сам.сценарий('import importlib.util\ns=importlib.util.spec_from_file_location("чужой_alias",__file__)\n')
+        сам.запуск(ожидается=1)
+
+    def test_имя_стандартной_библиотеки_не_даёт_полномочий_динамическому_принятому_коду(сам):
+        сам.сценарий('import os\nexec(compile("pass",os.__file__,"exec"))\n')
+        сам.запуск(ожидается=1)
+
+    def test_выход_по_пути_под_префиксом_стандартной_библиотеки_не_обходит_реестр_кода(сам):
+        сам.сценарий('import os,importlib.util\nfrom pathlib import Path\nbase=str(Path(os.__file__).parent)\np=base+"/"+os.path.relpath(Path(__file__).with_name("worker.py"),base)\ns=importlib.util.spec_from_file_location("необъявленный",p)\nm=importlib.util.module_from_spec(s)\ns.loader.exec_module(m)\n')
+        сам.запуск(ожидается=1)
+
+    def test_чужой_загрузчик_для_объявленного_пути_отвергается(сам):
+        сам.сценарий('import importlib.util,importlib.machinery\nfrom pathlib import Path\np=str(Path(__file__).with_name("worker.py"))\nimportlib.util.spec_from_file_location("особый",p,loader=importlib.machinery.SourceFileLoader("особый",p))\n')
+        сам.запуск(ожидается=1)
+
+    def test_путь_стандартной_библиотеки_не_разрешает_загрузчик_чужого_файла(сам):
+        сам.сценарий('import os,importlib.util,importlib.machinery\nfrom pathlib import Path\np=str(Path(__file__).with_name("unknown.py"))\ns=importlib.util.spec_from_file_location("чужой",os.__file__,loader=importlib.machinery.SourceFileLoader("чужой",p))\nm=importlib.util.module_from_spec(s)\ns.loader.exec_module(m)\n')
+        (сам.дерево_принятого_кода/'unknown.py').write_text('value=99\n')
+        сам.запуск(ожидается=1)
+
+    def test_прямой_файловый_загрузчик_не_выдаёт_роль_стандартной_библиотеки(сам):
+        сам.сценарий('import importlib.machinery,types\nfrom pathlib import Path\np=str(Path(__file__).with_name("unknown.py"))\nimportlib.machinery.SourceFileLoader("чужой",p).exec_module(types.ModuleType("чужой"))\n')
+        (сам.дерево_принятого_кода/'unknown.py').write_text('value=99\n')
+        сам.запуск(ожидается=1)
+
+    def test_дрейф_после_первого_эффекта_не_откатывает_и_не_повторяет_его(сам):
+        сам.сценарий('from pathlib import Path\np=Path(__file__)\n(p.parent.parent/"эффект").write_text("один")\np.with_name("worker.py").write_text("value=99\\n")\nimport worker\n')
+        сам.запуск(ожидается=1)
+        сам.assertEqual((сам.папка/'эффект').read_text(),'один')
+
+    def test_отсутствующие_исходные_данные_не_заменяются_принятыми(сам):
+        сам.сценарий('pass\n')
+        (сам.дерево_исходного_коммита/'policy.json').unlink();сам.цели_до=сам.состояние_исходного_дерева()
+        сам.запуск(ожидается=1)
+
+    def test_дрейф_кодовых_байт_и_режима_до_эффекта_отвергается(сам):
+        сам.сценарий('pass\n')
+        for действие in ['p.write_text("value=99\\n")','p.chmod(0o755)']:
+            with сам.subTest(действие=действие):
+                сам.запуск(подготовка='p=Path(root)/"worker.py"\n'+действие+'\n',ожидается=1)
+            сам.вызвать_гит('restore','--worktree','worker.py')
+
+    def test_дрейф_исходных_данных_и_отсутствующий_ресурс_отвергаются(сам):
+        сам.сценарий('pass\n')
+        путь_ресурса=сам.дерево_исходного_коммита/'policy.json'; до=путь_ресурса.read_bytes()
+        for действие in ['p.write_text("{}\\n")','p.unlink()']:
+            with сам.subTest(действие=действие):
+                # C-данные намеренно меняет фикстура; исполнитель должен отказать до exec.
+                путь_ресурса.write_bytes(до); сам.цели_до=сам.состояние_исходного_дерева()
+                код='from pathlib import Path\np=Path(C)/"policy.json"\n'+действие+'\n'
+                try:
+                    р=сам.запуск(подготовка=код, ожидается=1, меняет_исходные_данные=True)
+                    сам.assertIn('данные C',р.stderr)
+                finally: путь_ресурса.write_bytes(до)
+                сам.цели_до=сам.состояние_исходного_дерева()
+        (сам.дерево_принятого_кода/'main.py').chmod(0o644)
+
+    def test_полный_идентификатор_коммита_и_обычный_отслеживаемый_файл_обязательны(сам):
+        сам.сценарий('pass\n')
+        сохранённый=сам.принятый_коммит; сам.принятый_коммит=сам.принятый_коммит[:12]
+        сам.запуск(ожидается=1); сам.принятый_коммит=сохранённый
+        (сам.дерево_принятого_кода/'link.py').symlink_to('worker.py')
+        сам.вызвать_гит('add','link.py'); сам.вызвать_гит('commit','-qm','link');сам.принятый_коммит=сам.вызвать_гит('rev-parse','HEAD').strip()
+        сам.запуск(пути=['main.py','worker.py','link.py'],ожидается=1)
+
+# Внешний протокол unittest и прежнее пространство дословных входов сохраняются.
+setattr(ИсполнениеПринятогоКода, 'setUp', ИсполнениеПринятогоКода.подготовить)
+
 import test_основания_двусторонней_координации as примеры
 import test_подготовки_дочернего_поручения as композиции
 
@@ -337,7 +508,7 @@ class СобственноеВремя(unittest.TestCase):
 
 class КомпозицияПозднегоЖурнала(unittest.TestCase):
     def фикстура(сам):
-        п=композиции.ПодготовкаПоручения('runTest'); п.setUp(); сам.addCleanup(п.doCleanups)
+        п=композиции.ПодготовкаПоручения('runTest'); п.__getattribute__('setUp')(); сам.addCleanup(п.doCleanups)
         п.сохранить_координацию()
         п.решение['акт']['область']=['Компонент/']
         п.решение['координация']['решение']['область']=['Компонент/']
