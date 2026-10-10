@@ -6534,6 +6534,33 @@
       "count": 2,
       "category": "allow.test-fixture",
       "reason": "Точный документированный обезличенный пример CLI с условным внешним каталогом; не адрес машины."
+    },
+    {
+      "id": "open-preparation-profile-temp-1",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_продолжения_открытой_подготовки.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:19cae94a8948fab98de24d031a87c799a6780ab13b9e247b9edb50bd80d71411",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Общий временный каталог macOS в воспроизводимой профильной фикстуре; не персональный адрес машины."
+    },
+    {
+      "id": "open-preparation-profile-temp-2",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_продолжения_открытой_подготовки.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:85426d09b0da59dff9fd3b11b0fa4805e12a30127caaaf6962ddef766af28cf6",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Общий временный каталог macOS в воспроизводимой профильной фикстуре; не персональный адрес машины."
+    },
+    {
+      "id": "open-preparation-profile-temp-3",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_продолжения_открытой_подготовки.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:1f750cebfbcc4114cf6cf5ea39c3900bfab1be1aead189261b0b7dfcb263f2ca",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Общий временный каталог macOS в воспроизводимой профильной фикстуре; не персональный адрес машины."
     }
   ],
   "метаданные": [
