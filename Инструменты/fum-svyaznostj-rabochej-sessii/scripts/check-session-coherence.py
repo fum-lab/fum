@@ -2026,7 +2026,10 @@ def validate_git_status(
     return errors
 
 
-def validate_md_recency(repo_root: Path) -> list[str]:
+def validate_md_recency(repo_root: Path, *, проверка=None) -> list[str]:
+    # Явный принятый callback сохраняет W как данные, не запускает W-код.
+    if проверка is not None:
+        return проверка(repo_root)
     script = repo_root / "Инструменты" / "fum-svezhestj-markdown" / "scripts" / "update-md-recency.py"
     if not script.exists():
         return []
