@@ -1,7 +1,7 @@
 """Ограниченный CommonJS: связывания, поля и независимый Node syntax-check.
 
-Исходный сценарий никогда не исполняется. Это закрытый подъязык пяти
-сценариев ответа, а не универсальный инвентаризатор JavaScript.
+Исходный сценарий никогда не исполняется. Это закрытый подъязык семи
+сценариев ответа, включая два компонента потока, а не общий разбор JavaScript.
 """
 
 from __future__ import annotations
@@ -19,6 +19,8 @@ import subprocess
     "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль-смешанных-ответов.cjs",
     "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль-краткой-выдачи.cjs",
     "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_смешанный_профиль.cjs",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/мост_полного_ответа_узла.cjs",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/хэш_полного_ответа_узла.cjs",
 })
 источники_внешних_ключей = {
     **dict.fromkeys("schemaVersion thread id kind status type page order limit nextCursor hasMore turns error startedAt completedAt durationMs items command output text phase content isError".split(),
@@ -28,6 +30,7 @@ import subprocess
     **dict.fromkeys("cwd env encoding stdio flag mode recursive force test message".split(),
                     "https://nodejs.org/api/"),
     "sha256": "Проекты/рабочий-контекст/контракты/описание-ответа.json",
+    "tty": "Инструменты/fum-svyaznostj-rabochej-sessii/мост-полного-ответа-узла.md",
     "PYTHONOPTIMIZE": "Инструменты/fum-svyaznostj-rabochej-sessii/компактный-ответ-задачи.md",
 }
 источники_контрактных_ключей = dict.fromkeys(
@@ -39,6 +42,7 @@ import subprocess
     "order limit nextCursor hasMore", "id status error startedAt completedAt durationMs items",
     "type command output", "type id text phase", "content isError", "type text", "isError",
     "cmd workdir max_output_tokens yield_time_ms", "session_id chars max_output_tokens yield_time_ms",
+    "cmd workdir tty max_output_tokens yield_time_ms", "байты sha256",
     "threadId turnLimit includeOutputs maxOutputCharsPerItem", "exit_code output",
     "cwd encoding stdio", "cwd env encoding stdio", "flag mode", "flag", "recursive", "recursive force",
     "mcp__codex_app__read_thread exec_command apply_patch",
@@ -50,10 +54,12 @@ import subprocess
     "===", "!==", "=>", "...", "?.", "??", "&&", "||", "==", "!=", "<=", ">=",
     "++", "--", "+=", "-=", "*=", "/=", "%=", "**", "+", "-", "*", "/", "%",
     "!", "~", "=", "<", ">", "?", ":", ".", ",", ";", "(", ")", "[", "]", "{", "}",
+    "&", "|", "^", "<<", ">>", ">>>",
 ), key=len, reverse=True))
 приоритеты = {
     "=": 1, "+=": 1, "-=": 1, "*=": 1, "/=": 1, "%=": 1,
     "??": 3, "||": 4, "&&": 5, "===": 8, "!==": 8, "==": 8, "!=": 8,
+    "|": 5, "^": 6, "&": 7, "<<": 10, ">>": 10, ">>>": 10,
     "<": 9, ">": 9, "<=": 9, ">=": 9, "in": 9, "instanceof": 9,
     "+": 11, "-": 11, "*": 12, "/": 12, "%": 12, "**": 13,
 }
