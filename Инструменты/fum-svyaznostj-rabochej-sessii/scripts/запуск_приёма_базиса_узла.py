@@ -1,6 +1,8 @@
 """Самостоятельный приём B. Исполняемые байты выбираются отдельно от B."""
 import ast
+import datetime
 import hashlib
+import html
 import json
 import os
 from pathlib import Path
@@ -21,6 +23,7 @@ import uuid
 СХЕМА_ПРИЁМКИ = 'fum.приёмка-базиса-узла.1'
 СХЕМА_АКТА = 'fum.поручение-приёма-базиса-узла.1'
 ПРЕДЕЛ_ИСТОЧНИКА = 32 * 1024 * 1024
+ПРЕДЕЛ_НАТИВНОЙ_СТРОКИ = 64 * 1024 * 1024
 
 
 def требовать(условие, причина):
@@ -99,7 +102,11 @@ def байты(значение):
 
 
 def разобрать(данные):
-    требовать(type(данные) is bytes and 0 < len(данные) <= ПРЕДЕЛ_ИСТОЧНИКА,
+    return разобрать_JSON(данные, ПРЕДЕЛ_ИСТОЧНИКА)
+
+
+def разобрать_JSON(данные, предел):
+    требовать(type(данные) is bytes and 0 < len(данные) <= предел,
         'превышен бюджет читающего источника')
     def пары(элементы):
         результат = {}
@@ -109,7 +116,25 @@ def разобрать(данные):
         return результат
     def константа(значение):
         raise ValueError('нечисловая JSON-константа источника')
-    return json.loads(данные.decode('utf-8'), object_pairs_hook=пары, parse_constant=константа)
+    def десятичное(значение):
+        число = float(значение)
+        требовать(float('-inf') < число < float('inf'), 'нечисловое переполнение JSON')
+        return число
+    try:
+        результат = json.loads(данные.decode('utf-8'), object_pairs_hook=пары,
+            parse_constant=константа, parse_float=десятичное)
+        стек = [результат]
+        while стек:
+            э = стек.pop()
+            if type(э) is str:
+                э.encode('utf-8')
+            elif type(э) is dict:
+                стек.extend(э.keys()); стек.extend(э.values())
+            elif type(э) is list:
+                стек.extend(э)
+        return результат
+    except (ValueError, UnicodeError, RecursionError) as ошибка:
+        raise ValueError('повреждённый строгий JSON источника') from ошибка
 
 
 def версия(значение):
@@ -482,7 +507,7 @@ def прочитать_приватный(путь):
 def проверить_импорты(данные):
     разрешены = {'ast', 'hashlib', 'json', 'os', 'datetime', 'pathlib', 'posixpath',
         're', 'select', 'shutil', 'stat', 'subprocess', 'time', 'types', 'unicodedata',
-        'uuid', 'argparse', 'sys', 'base64', 'fcntl'}
+        'uuid', 'argparse', 'sys', 'base64', 'fcntl', 'html'}
     for узел in ast.walk(ast.parse(данные.decode('utf-8'))):
         if isinstance(узел, ast.Import):
             требовать(all(э.name in разрешены for э in узел.names), 'контур имеет внешнюю Python-зависимость')
@@ -572,6 +597,915 @@ def проверить(корень, каталог, выбранный_конт
     return {'схема': 'fum.сверка-приёма-базиса-узла.1', 'состав': состав,
         'семантика': семантика, 'защищённые': защищённые,
         'приёмка': выбранная_приёмка, 'акт': выбранный_акт, 'контур': выбранный_контур}
+
+
+def временная_метка_UTC(т):
+    требовать(type(т) is str and re.fullmatch(
+        r'[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\.[0-9]{1,9})?Z', т),
+        'неверная первичная временная метка UTC')
+    try:
+        datetime.datetime.fromisoformat(т)
+    except ValueError as ошибка:
+        raise ValueError('невозможная первичная временная метка') from ошибка
+    return т
+
+
+def нативная_строка(данные):
+    требовать(type(данные) is bytes and данные.endswith(b'\n')
+        and данные.count(b'\n') == 1 and b'\r' not in данные,
+        'нужна одна завершённая первичная строка LF')
+    запись = разобрать_JSON(данные, ПРЕДЕЛ_НАТИВНОЙ_СТРОКИ)
+    обязательные = {'type', 'payload', 'timestamp', 'ordinal'}
+    требовать(type(запись) is dict and обязательные <= set(запись)
+        <= обязательные | {'metadata'}, 'неизвестная первичная рамка')
+    требовать(type(запись['type']) is str and запись['type'] in
+        ('session_meta','turn_context','response_item','event_msg','compacted',
+         'token_usage_record','inter_agent_communication_metadata','world_state'),
+        'неизвестный первичный тип')
+    временная_метка_UTC(запись['timestamp'])
+    требовать(type(запись['ordinal']) is int and запись['ordinal'] >= 0
+        and type(запись['payload']) is dict, 'неверные поля первичной рамки')
+    if 'metadata' in запись:
+        мета = запись['metadata']
+        требовать(type(мета) is dict and мета.get('client_authored') is False,
+            'нет первичного происхождения транспортной рамки')
+        требовать(set(мета) <= {'client_authored', 'fallback_token_limit_override',
+            'user_input_order', 'sender_user_messages', 'retained_source', 'mcp_attribution'},
+            'неизвестные аннотации первичной рамки')
+        for ключ, минимум in [('fallback_token_limit_override',1),('user_input_order',0)]:
+            if ключ in мета:
+                требовать(type(мета[ключ]) is int and мета[ключ] >= минимум,
+                    'неверный тип аннотации первичной рамки')
+        if 'sender_user_messages' in мета:
+            цитаты = мета['sender_user_messages']
+            поля(цитаты, {'receiver_turn_id','receiver_message_id','text'})
+            идентификатор(цитаты['receiver_turn_id'])
+            требовать(type(цитаты['receiver_message_id']) is str and цитаты['receiver_message_id']
+                and type(цитаты['text']) is str, 'неверные аннотации цитат отправителя')
+        if 'retained_source' in мета:
+            источник = мета['retained_source']; поля(источник, {'complete','revision','id'})
+            требовать(источник['complete'] is True and type(источник['revision']) is str,
+                'неполная аннотация сохранённого источника')
+            поля(источник['id'], {'message_id','role','turn_id'})
+            идентификатор(источник['id']['turn_id'])
+            требовать(источник['id']['role'] in ('assistant','user')
+                and type(источник['id']['message_id']) is str and источник['id']['message_id'],
+                'неверное происхождение сохранённого источника')
+        if 'mcp_attribution' in мета:
+            атрибуция=мета['mcp_attribution']
+            требовать(type(атрибуция) is dict, 'неизвестная MCP-атрибуция')
+            if атрибуция.get('status')=='none':
+                поля(атрибуция, {'status'})
+            else:
+                if атрибуция.get('status')=='attribution_error':
+                    поля(атрибуция, {'status','error_reason','sources'})
+                    требовать(атрибуция['error_reason']=='restored_error_unknown',
+                        'неизвестная версия ошибки MCP-атрибуции')
+                else:
+                    поля(атрибуция, {'status','sources'})
+                    требовать(атрибуция['status']=='complete', 'неизвестный статус MCP-атрибуции')
+                требовать(type(атрибуция['sources']) is list
+                    and 0 < len(атрибуция['sources']) <= 256, 'неполная MCP-атрибуция')
+                for э in атрибуция['sources']:
+                    основные={'server_name','tool_name','first_turn_id'}
+                    требовать(type(э) is dict and set(э) in (основные,основные|{'plugin_id'},
+                        основные|{'connector_id'}), 'неизвестная версия источника MCP-атрибуции')
+                    требовать(all(type(в) is str and в for в in э.values()), 'неверные поля MCP-атрибуции')
+                    идентификатор(э['first_turn_id'])
+    return запись
+
+
+def нативная_отправка(данные, координатор, *, фаза='item_completed'):
+    запись = нативная_строка(данные); д = запись['payload']
+    поля(д, {'type', 'thread_id', 'turn_id', 'item', 'started_at_ms', 'completed_at_ms'})
+    требовать(запись['type'] == 'event_msg' and д['type'] == фаза
+        and д['thread_id'] == координатор, 'чужой UUID или фаза первичного MCP')
+    идентификатор(д['turn_id'])
+    требовать(all(type(д[к]) is int and д[к] >= 0 for к in ('started_at_ms', 'completed_at_ms'))
+        and д['started_at_ms'] <= д['completed_at_ms'], 'неверный runtime MCP')
+    э = д['item']
+    поля(э, {'type', 'id', 'server', 'tool', 'arguments', 'pluginId', 'status', 'result', 'duration'})
+    требовать(э['type'] == 'McpToolCall' and э['server'] == 'codex_app'
+        and э['tool'] == 'send_message_to_thread'
+        and all(type(э[к]) is str and э[к] for к in ('id', 'pluginId')),
+        'неизвестный транспорт адресной отправки')
+    а = э['arguments']
+    требовать(type(а) is dict and set(а) in ({'threadId','prompt'}, {'threadId','prompt','hostId'})
+        and type(а['prompt']) is str and ('hostId' not in а or а['hostId'] == 'local'),
+        'неизвестная версия аргументов нативной отправки')
+    идентификатор(а['threadId'])
+    поля(э['duration'], {'secs', 'nanos'})
+    требовать(all(type(в) is int and в >= 0 for в in э['duration'].values())
+        and э['duration']['nanos'] < 1000000000, 'неверная длительность MCP')
+    if фаза == 'item_completed':
+        р = э['result']; поля(р, {'content', 'isError'})
+        требовать(э['status'] == 'completed' and р['isError'] is False
+            and type(р['content']) is list and len(р['content']) == 1,
+            'неподтверждённый исход адресной отправки')
+        часть = р['content'][0]; поля(часть, {'type', 'text'})
+        требовать(часть['type'] == 'text' and type(часть['text']) is str,
+            'неизвестный ответ адресной отправки')
+        ответ = разобрать(часть['text'].encode()); поля(ответ, {'threadId'})
+        требовать(ответ['threadId'] == а['threadId'], 'ответ относится к другому получателю')
+    else:
+        требовать(фаза == 'item_started' and э['status'] in ('in_progress', 'completed')
+            and type(э['result']) is dict, 'неизвестная форма начала MCP')
+    return д
+
+
+def текст_нативного_приёма(координатор, владелец, акт, якорь):
+    идентификатор(координатор); идентификатор(владелец)
+    требовать(координатор != владелец, 'ROOT и настоящий владелец должны различаться')
+    выбор(акт); выбор(якорь)
+    return байты({'схема':'fum.нативное-поручение-приёма-базиса.1',
+        'координатор':координатор, 'исполнитель':владелец,
+        'акт':акт, 'якорь':якорь}).decode()
+
+
+def сверить_нативную_пару(отправка, получение, координатор, владелец, акт, якорь, *, начало=None):
+    """Чистая пара транспорта; сама не подтверждает источник, полный хвост или FF."""
+    текст = текст_нативного_приёма(координатор, владелец, акт, якорь)
+    д = нативная_отправка(отправка, координатор)
+    требовать(д['item']['arguments']['threadId'] == владелец
+        and д['item']['arguments']['prompt'] == текст, 'не совпали получатель либо буквальное поручение')
+    н = None
+    if начало is not None:
+        н = нативная_отправка(начало, координатор, фаза='item_started')
+        требовать(all(н[к] == д[к] for к in ('thread_id','turn_id','started_at_ms'))
+            and н['completed_at_ms'] <= д['completed_at_ms']
+            and all(н['item'][к] == д['item'][к] for к in ('id','server','tool','arguments','pluginId')),
+            'начало и завершение MCP расходятся')
+    запись = нативная_строка(получение); п = запись['payload']
+    if 'retained_source' in запись.get('metadata',{}):
+        требовать(запись['metadata']['retained_source']['id']['role']=='assistant',
+            'пользовательская аннотация не является получением поручения')
+    поля(п, {'type', 'id', 'name', 'namespace', 'output', 'internal_chat_message_metadata_passthrough'})
+    требовать(запись['type'] == 'response_item' and п['type'] == 'function_call_output'
+        and п['name'] == 'send_message_to_thread' and п['namespace'] == 'codex_app'
+        and type(п['id']) is str and п['id'] and type(п['output']) is str,
+        'нет канонического получения адресного поручения')
+    мета = п['internal_chat_message_metadata_passthrough']
+    требовать(type(мета) is dict and 'turn_id' in мета
+        and set(мета) <= {'turn_id','create_time','content_item_kinds'},
+        'неизвестные метаданные полученного поручения')
+    идентификатор(мета['turn_id'])
+    if 'create_time' in мета:
+        время = мета['create_time']
+        требовать(type(время) in (int,float) and 0 <= время < float('inf'),
+            'неверное время метаданных получения')
+    if 'content_item_kinds' in мета:
+        требовать(мета['content_item_kinds'] == ['unknown'],
+            'неверный вид содержимого метаданных получения')
+    оболочка = ('<codex_delegation>\n  <source_thread_id>'+координатор
+        +'</source_thread_id>\n  <input>'+html.escape(текст, quote=False)
+        +'</input>\n</codex_delegation>')
+    требовать(п['output'] == оболочка, 'не совпали канонические XML, отправитель или текст')
+    return {'схема':'fum.нативная-пара-приёма-базиса.1', 'координатор':координатор,
+        'владелец':владелец, 'акт':разобрать(байты(акт)), 'якорь':разобрать(байты(якорь)),
+        'текст_sha256':хэш(текст.encode()),
+        'отправка':{'id':д['item']['id'], 'sha256':хэш(отправка)},
+        'получение':{'id':п['id'], 'sha256':хэш(получение)},
+        'начало':None if н is None else {'id':н['item']['id'], 'sha256':хэш(начало)},
+        'полнота_истории_доказана':False, 'разрешение_эффекта':False}
+
+
+def материал_сжатия(данные):
+    """Два явно принятых варианта compacted. Вложенные данные никогда не являются управлением."""
+    запись=нативная_строка(данные); д=запись['payload']
+    требовать(запись['type']=='compacted', 'верхний первичный ввод не является сжатием')
+    обязательные={'message','replacement_history','replacement_history_metadata','retained_context',
+        'window_number','first_window_id','previous_window_id','window_id',
+        'compaction_response_id','latest_token_usage_record','resume_metadata'}
+    требовать(set(д) in (обязательные,обязательные|{'guardian_history'}), 'неизвестная оболочка материала сжатия')
+    требовать(д['message']=='' and type(д['window_number']) is int and д['window_number'] >= 0,
+        'неизвестная метка материала сжатия')
+    for к in ('first_window_id','previous_window_id','window_id','compaction_response_id'):
+        требовать(type(д[к]) is str and д[к], 'неверный идентификатор материала сжатия')
+    for к in ('replacement_history','replacement_history_metadata'):
+        требовать(type(д[к]) is list, 'неверный массив исторического материала')
+    if 'guardian_history' in д: требовать(type(д['guardian_history']) is list, 'неверный guardian material')
+    for к in ('retained_context','latest_token_usage_record','resume_metadata'):
+        требовать(type(д[к]) is dict, 'неверный объект исторического материала')
+    retained=д['retained_context']
+    поля(retained, {'verified_answers','incomplete','user_messages','user_messages_incomplete',
+        'assistant_messages','assistant_messages_incomplete','next_order','sender_deliveries'})
+    for к in ('incomplete','user_messages_incomplete','assistant_messages_incomplete'):
+        требовать(type(retained[к]) is bool, 'неверная аннотация полноты исторического материала')
+    for к in ('verified_answers','user_messages','assistant_messages','sender_deliveries'):
+        требовать(type(retained[к]) is list, 'неверный массив сохранённого материала')
+    требовать(type(retained['next_order']) is int and retained['next_order'] >= 0,
+        'неверный порядок сохранённого материала')
+    token=д['latest_token_usage_record']
+    поля(token, {'thread_id','turn_id','session_id','root_turn_id','response_id',
+        'usage','turn_token_usage','thread_token_usage'})
+    for к in ('thread_id','turn_id','session_id','root_turn_id','response_id'):
+        требовать(type(token[к]) is str and token[к], 'неверная строка учёта исторического материала')
+    for к in ('usage','turn_token_usage','thread_token_usage'):
+        требовать(type(token[к]) is dict, 'неверный объект учёта исторического материала')
+    resume=д['resume_metadata']
+    поля(resume, {'multi_agent_version','last_started_turn_id','turn_attribution','previous_turn_settings'})
+    требовать(type(resume['multi_agent_version']) is str and resume['last_started_turn_id'] is None
+        and type(resume['turn_attribution']) is dict and type(resume['previous_turn_settings']) is dict,
+        'неизвестные аннотации исторического возобновления')
+    return {'схема':'fum.материал-сжатой-истории.1','sha256':хэш(данные),
+        'версия':'guardian' if 'guardian_history' in д else 'без-guardian',
+        'окно':д['window_number'],'исторических_элементов':len(д['replacement_history']),
+        'первичные_команды':[],'разрешение_эффекта':False}
+
+
+def метаданные_первичного_содержимого(мета):
+    требовать(type(мета) is dict and 'turn_id' in мета
+        and set(мета) <= {'turn_id','create_time','content_item_kinds'}, 'неизвестные метаданные первичного ввода')
+    идентификатор(мета['turn_id'])
+    if 'create_time' in мета:
+        требовать(type(мета['create_time']) in (int,float) and 0 <= мета['create_time'] < float('inf'),
+            'неверное время первичного ввода')
+    if 'content_item_kinds' in мета:
+        требовать(type(мета['content_item_kinds']) is list
+            and all(type(в) is str and в for в in мета['content_item_kinds']), 'неверные виды первичного ввода')
+
+
+def первичная_управляющая_рамка(данные, источник, координатор, владелец):
+    """Выделение оригиналов без смысловых эвристик. Неразобранное не считается нейтральным."""
+    for э in (источник,координатор,владелец): идентификатор(э)
+    требовать(координатор != владелец and источник in (координатор,владелец), 'чужая сторона нативной истории')
+    запись=нативная_строка(данные); д=запись['payload']; тип=запись['type']
+    retained=запись.get('metadata',{}).get('retained_source')
+    if retained is not None:
+        первичный_пользователь=(тип=='response_item' and д.get('type')=='message' and д.get('role')=='user')
+        требовать((retained['id']['role']=='user')==первичный_пользователь,
+            'конфликт сохранённой роли и верхнего первичного происхождения')
+    id=д.get('id'); класс='неразобрано'; содержимое=None
+    if id is not None: требовать(type(id) is str and id, 'неверный id первичного содержимого')
+    if 'thread_id' in д: требовать(д['thread_id']==источник, 'чужая task в первичной истории')
+    if тип=='compacted':
+        материал_сжатия(данные); класс='исторический-материал'
+    elif тип=='response_item' and д.get('type')=='message' and д.get('role')=='user':
+        поля(д, {'type','id','role','content','internal_chat_message_metadata_passthrough'})
+        требовать(type(id) is str and id and type(д['content']) is list and д['content'], 'неполный первичный ввод')
+        for часть in д['content']:
+            требовать(type(часть) is dict, 'неизвестная часть первичного ввода')
+            вид=часть.get('type')
+            if вид=='input_text':
+                поля(часть, {'type','text'}); требовать(type(часть['text']) is str, 'неверный первичный текст')
+            elif вид=='input_audio':
+                поля(часть, {'type','audio_url'}); требовать(type(часть['audio_url']) is str, 'неверный первичный аудио-материал')
+            elif вид=='input_image':
+                требовать({'type','image_url'} <= set(часть) <= {'type','image_url','detail'}
+                    and type(часть['image_url']) is str and часть.get('detail') in
+                    (None,'auto','low','high','original'), 'неверный первичный графический материал')
+            else: raise ValueError('неизвестная часть первичного ввода')
+        метаданные_первичного_содержимого(д['internal_chat_message_metadata_passthrough'])
+        класс='первичный-ввод'; содержимое=байты(д['content'])
+        if д['internal_chat_message_metadata_passthrough'].get('content_item_kinds') in ([
+                'environments.environment_context'],['additional_content.codex_apps_open_page']):
+            требовать('metadata' not in запись and len(д['content'])==1
+                and д['content'][0]['type']=='input_text', 'неизвестное происхождение служебного контекста')
+            if д['internal_chat_message_metadata_passthrough']['content_item_kinds']==[
+                    'additional_content.codex_apps_open_page']:
+                текст=д['content'][0]['text']
+                начало='<external_codex_apps_open_page>'; конец='</external_codex_apps_open_page>'
+                требовать(len(текст)<=8192 and текст.startswith(начало) and текст.endswith(конец),
+                    'неверная буквальная рамка контекста открытой страницы')
+                страница=разобрать_JSON(текст[len(начало):-len(конец)].encode('utf-8'),8192*4)
+                поля(страница, {'page_id'})
+                page_id=страница['page_id']
+                требовать(page_id is None or type(page_id) is str and 0<len(page_id)<=1024,
+                    'неверный идентификатор контекста открытой страницы')
+            класс='служебный-контекст'
+    elif тип=='event_msg' and д.get('type')=='turn_aborted':
+        if set(д)=={'type','turn_id'}:
+            идентификатор(д['turn_id'])
+        else:
+            поля(д, {'type','turn_id','root_turn_id','reason','started_at','completed_at','duration_ms'})
+            идентификатор(д['turn_id']); идентификатор(д['root_turn_id'])
+            требовать(д['reason']=='interrupted'
+                and all(type(д[к]) is int and д[к]>=0 for к in ('started_at','completed_at','duration_ms'))
+                and д['started_at']<=д['completed_at'], 'неизвестная версия прерывания хода')
+        класс='первичная-отмена'
+    elif тип=='event_msg' and д.get('type')=='item_completed' and type(д.get('item')) is dict:
+        э=д['item']
+        if э.get('type')=='McpToolCall' and э.get('server')=='codex_app' and э.get('tool')=='send_message_to_thread':
+            н=нативная_отправка(данные,источник); а=н['item']['arguments']; id=н['item']['id']
+            if источник==координатор and а['threadId']==владелец:
+                класс='адресная-отправка'; содержимое=а['prompt'].encode()
+            else:
+                класс='агентский-материал'
+    elif (тип=='response_item' and д.get('type')=='function_call_output' and д.get('name') in
+            ('create_thread','send_message_to_thread','handoff_thread')):
+        поля(д, {'type','id','name','namespace','output','internal_chat_message_metadata_passthrough'})
+        требовать(type(id) is str and id and д['namespace']=='codex_app' and type(д['output']) is str,
+            'неизвестное первичное получение транспорта')
+        метаданные_первичного_содержимого(д['internal_chat_message_metadata_passthrough'])
+        retained=запись.get('metadata',{}).get('retained_source')
+        требовать(retained is None or retained['id']['role']=='assistant',
+            'пользовательская аннотация не является получением поручения')
+        xml=re.fullmatch(r'<codex_delegation>\n  <source_thread_id>([^<\n]+)</source_thread_id>\n  <input>(.*)</input>\n</codex_delegation>',
+            д['output'],re.S)
+        требовать(xml is not None, 'нет канонического XML получения')
+        отправитель=идентификатор(xml[1]); body=html.unescape(xml[2])
+        требовать(html.escape(body,quote=False)==xml[2], 'неканоническое кодирование XML получения')
+        if источник==владелец:
+            требовать(отправитель==координатор, 'неизвестный первичный отправитель владельца')
+            класс='адресное-получение'; содержимое=body.encode()
+        else:
+            класс='агентский-материал'
+    return {'схема':'fum.первичная-управляющая-рамка.1','источник':источник,'класс':класс,
+        'id':id,'sha256':хэш(данные), 'содержимое_sha256':None if содержимое is None else хэш(содержимое),
+        'разрешение_эффекта':False}
+
+
+def рамка_элемента(запись, источник):
+    д=запись['payload']
+    поля(д, {'type','thread_id','turn_id','item','started_at_ms','completed_at_ms'})
+    требовать(запись['type']=='event_msg' and д['type'] in ('item_started','item_completed')
+        and д['thread_id']==источник, 'неизвестная оболочка первичного элемента')
+    идентификатор(д['turn_id'])
+    требовать(all(type(д[к]) is int and д[к]>=0 for к in ('started_at_ms','completed_at_ms'))
+        and д['started_at_ms']<=д['completed_at_ms'], 'неверные часы первичного элемента')
+    э=д['item']
+    требовать(type(э) is dict and type(э.get('id')) is str and э['id']
+        and type(э.get('type')) is str, 'неверный первичный элемент')
+    return э
+
+
+def типовая_форма(д, спецификация):
+    поля(д,спецификация)
+    требовать(all(type(д[к]) is в for к,в in спецификация.items()), 'неверные типы закрытого содержимого')
+
+
+def текстовые_части(д, вид):
+    требовать(type(д) is list, 'неизвестный массив текстовых частей')
+    for ч in д:
+        типовая_форма(ч, {'type':str,'text':str})
+        требовать(ч['type']==вид, 'неизвестная текстовая часть материала')
+
+
+def длительность_элемента(д):
+    типовая_форма(д, {'secs':int,'nanos':int})
+    требовать(д['secs']>=0 and 0<=д['nanos']<1000000000, 'неверная длительность элемента')
+
+
+def счётчики_токенов(д):
+    типовая_форма(д, {к:int for к in ('input_tokens','cached_input_tokens','cache_write_input_tokens',
+        'output_tokens','reasoning_output_tokens','total_tokens')})
+    требовать(all(в>=0 for в in д.values()), 'отрицательные счётчики токенов')
+
+
+def контекстные_настройки(д):
+    типовая_форма(д['permission_profile'], {'type':str})
+    требовать(д['permission_profile']['type']=='disabled', 'неизвестный профиль контекста')
+    типовая_форма(д['active_permission_profile'], {'id':str})
+    коллаб=д['collaboration_mode']; типовая_форма(коллаб, {'mode':str,'settings':dict})
+    требовать(коллаб['mode']=='default', 'неизвестный режим контекста')
+    типовая_форма(коллаб['settings'], {'model':str,'reasoning_effort':str,'developer_instructions':str})
+    абсолютное_имя(д['cwd'])
+    требовать(д['disabled_plugin_ids']==[], 'неизвестный вариант отключённых плагинов')
+
+
+def класс_служебного_содержимого(запись, источник):
+    """Закрытые наблюдённые оболочки. Выводы, шифротексты и JS не интерпретируются."""
+    д=запись['payload']; тип=запись['type']; вид=д.get('type')
+    if тип=='response_item':
+        if 'internal_chat_message_metadata_passthrough' in д:
+            метаданные_первичного_содержимого(д['internal_chat_message_metadata_passthrough'])
+        if вид=='message':
+            if д.get('role')=='assistant':
+                типовая_форма(д, {'type':str,'id':str,'role':str,'phase':str,'content':list,
+                    'internal_chat_message_metadata_passthrough':dict})
+                требовать(д['phase'] in ('commentary','final'), 'неизвестная фаза сообщения агента')
+                текстовые_части(д['content'],'output_text')
+                return 'служебное'
+            типовая_форма(д, {'type':str,'id':str,'role':str,'content':list,
+                'internal_chat_message_metadata_passthrough':dict})
+            требовать(д['role']=='developer', 'неизвестный верхний автор сообщения')
+            текстовые_части(д['content'],'input_text'); return 'контекст'
+        if вид=='reasoning':
+            типовая_форма(д, {'type':str,'id':str,'encrypted_content':str,'summary':list,
+                'internal_chat_message_metadata_passthrough':dict})
+            текстовые_части(д['summary'],'summary_text'); return 'служебное'
+        if вид=='agent_message':
+            типовая_форма(д, {'type':str,'id':str,'author':str,'recipient':str,'content':list,
+                'internal_chat_message_metadata_passthrough':dict})
+            for ч in д['content']:
+                требовать(type(ч) is dict and type(ч.get('type')) is str, 'неизвестный агентский материал')
+                к={'input_text':'text','encrypted_content':'encrypted_content'}.get(ч.get('type'))
+                требовать(к is not None, 'неизвестная агентская часть')
+                типовая_форма(ч, {'type':str,к:str})
+            return 'агентский-материал'
+        if вид in ('function_call','custom_tool_call'):
+            спецификация={'type':str,'id':str,'call_id':str,'name':str,
+                'internal_chat_message_metadata_passthrough':dict}
+            if вид=='function_call':
+                спецификация['arguments']=str
+                if 'namespace' in д: спецификация['namespace']=str
+            else: спецификация.update(input=str,status=str)
+            типовая_форма(д,спецификация)
+            требовать(д['call_id'] and д['name'], 'неполный RPC вызова')
+            if вид=='function_call':
+                аргументы=разобрать_JSON(д['arguments'].encode(),ПРЕДЕЛ_НАТИВНОЙ_СТРОКИ)
+                требовать(type(аргументы) is dict, 'неизвестные аргументы RPC')
+            else: требовать(д['status']=='completed', 'неизвестный статус передачи JS')
+            return 'вызов-инструмента'
+        if вид in ('function_call_output','custom_tool_call_output') and 'call_id' in д:
+            поля(д, {'type','id','call_id','output','internal_chat_message_metadata_passthrough'})
+            требовать(type(д['id']) is str and д['id'] and type(д['call_id']) is str and д['call_id'],
+                'неверный RPC результата')
+            if type(д['output']) is not str: текстовые_части(д['output'],'input_text')
+            return 'результат-инструмента'
+    if тип=='turn_context':
+        спецификация={к:str for к in ('turn_id','root_turn_id','cwd','current_date','timezone','approval_policy',
+            'approvals_reviewer','model','comp_hash','personality','multi_agent_version','effort','summary')}
+        спецификация.update(disabled_plugin_ids=list,workspace_roots=list,sandbox_policy=dict,
+            permission_profile=dict,active_permission_profile=dict,collaboration_mode=dict,realtime_active=bool)
+        if 'cyber_access_program' in д: спецификация['cyber_access_program']=str
+        типовая_форма(д,спецификация); контекстные_настройки(д)
+        идентификатор(д['turn_id']); идентификатор(д['root_turn_id'])
+        типовая_форма(д['sandbox_policy'], {'type':str})
+        требовать(д['sandbox_policy']['type']=='danger-full-access' and д['realtime_active'] is False
+            and re.fullmatch(r'\d{4}-\d{2}-\d{2}',д['current_date']), 'неизвестный вариант контекста')
+        datetime.date.fromisoformat(д['current_date'])
+        требовать(bool(д['workspace_roots']), 'пустые корни контекста')
+        for в in д['workspace_roots']: абсолютное_имя(в)
+        return 'контекст'
+    if тип=='event_msg':
+        if вид=='thread_settings_applied':
+            типовая_форма(д, {'type':str,'thread_id':str,'thread_settings':dict})
+            требовать(д['thread_id']==источник, 'чужие настройки задачи')
+            с=д['thread_settings']
+            спецификация={к:str for к in ('model','model_provider_id','service_tier','approval_policy',
+                'approvals_reviewer','cwd','reasoning_effort','reasoning_summary','personality')}
+            спецификация.update(runtime_workspace_roots=list,disabled_plugin_ids=list,permission_profile=dict,
+                active_permission_profile=dict,collaboration_mode=dict)
+            типовая_форма(с,спецификация); контекстные_настройки(с)
+            требовать(bool(с['runtime_workspace_roots']), 'пустые рабочие корни настроек')
+            for в in с['runtime_workspace_roots']: абсолютное_имя(в)
+            return 'контекст'
+        if вид=='task_started':
+            типовая_форма(д, {'type':str,'turn_id':str,'root_turn_id':str,'started_at':int,
+                'model_context_window':int,'collaboration_mode_kind':str,'turn_attribution':dict})
+            идентификатор(д['turn_id']); идентификатор(д['root_turn_id'])
+            требовать(д['started_at']>=0 and д['model_context_window']>0
+                and д['collaboration_mode_kind']=='default', 'неизвестное начало хода')
+            а=д['turn_attribution']; поля(а, {'turn_id','turn_trigger','parent_turn_id','initiating_agent_path','root_turn_id'})
+            требовать(а['turn_id']==д['turn_id'] and а['root_turn_id']==д['root_turn_id']
+                and type(а['turn_trigger']) is str and а['parent_turn_id'] is None
+                and а['initiating_agent_path'] is None, 'неизвестное происхождение начала хода')
+            return 'контекст'
+        if вид=='token_count':
+            типовая_форма(д, {'type':str,'info':dict,'rate_limits':dict})
+            и=д['info']; типовая_форма(и, {'last_token_usage':dict,'total_token_usage':dict,'model_context_window':int})
+            требовать(и['model_context_window']>0, 'неверное окно токенов')
+            for к in ('last_token_usage','total_token_usage'): счётчики_токенов(и[к])
+            л=д['rate_limits']; поля(л, {'credits','individual_limit','limit_id','limit_name','plan_type',
+                'primary','rate_limit_reached_type','secondary','spend_control_reached'})
+            типовая_форма(л['credits'], {'balance':str,'has_credits':bool,'unlimited':bool})
+            поля(л['primary'], {'resets_at','used_percent','window_minutes'})
+            требовать(all(type(л['primary'][к]) is int for к in ('resets_at','window_minutes'))
+                and type(л['primary']['used_percent']) in (int,float) and 0<=л['primary']['used_percent']<float('inf')
+                and л['primary']['resets_at']>=0 and л['primary']['window_minutes']>0
+                and type(л['limit_id']) is str and all(л[к] is None for к in (
+                    'individual_limit','rate_limit_reached_type','secondary','spend_control_reached'))
+                and (л['limit_name'] is None or type(л['limit_name']) is str)
+                and (л['plan_type'] is None or type(л['plan_type']) is str), 'неизвестная форма лимитов')
+            return 'служебное'
+        if вид in ('item_started','item_completed'):
+            э=рамка_элемента(запись,источник); item=э['type']
+            if item=='McpToolCall':
+                спецификация={'type':str,'id':str,'server':str,'tool':str,'arguments':dict,
+                    'duration':dict,'status':str,'result':dict}
+                if 'readOnlyHint' in э: спецификация['readOnlyHint']=bool
+                else: спецификация['pluginId']=str
+                типовая_форма(э,спецификация); длительность_элемента(э['duration'])
+                требовать(э['server'] and э['tool'] and вид=='item_completed'
+                    and э['status'] in ('completed','failed'), 'неизвестная фаза исхода MCP')
+                р=э['result']; типовая_форма(р, {'content':list,'isError':bool})
+                текстовые_части(р['content'],'text')
+                требовать(not (э['server']=='codex_app' and э['tool'] in (
+                    'send_message_to_thread','handoff_thread')), 'адресный транспорт требует отдельного контроля')
+                return 'результат-вызова'
+            требовать(вид=='item_completed', 'неизвестное начало служебного элемента')
+            if item=='ContextCompaction': типовая_форма(э, {'type':str,'id':str})
+            elif item=='AgentMessage':
+                типовая_форма(э, {'type':str,'id':str,'phase':str,'content':list})
+                требовать(э['phase'] in ('commentary','final'), 'неизвестная фаза агента')
+                текстовые_части(э['content'],'Text')
+            elif item=='Reasoning':
+                типовая_форма(э, {'type':str,'id':str,'raw_content':list,'summary_text':list})
+                требовать(э['raw_content']==[] and all(type(в) is str for в in э['summary_text']), 'неизвестный материал рассуждения')
+            elif item=='SubAgentActivity':
+                типовая_форма(э, {'type':str,'id':str,'agent_path':str,'agent_thread_id':str,'kind':str})
+                идентификатор(э['agent_thread_id'])
+                требовать(э['kind'] in ('started','completed','interacted'), 'неизвестная активность агента')
+            elif item=='CommandExecution':
+                спецификация={'type':str,'id':str,'command':list,'cwd':str,'duration':dict,'exit_code':int,
+                    'parsed_cmd':list,'source':str,'status':str,'aggregated_output':str}
+                if 'process_id' in э: спецификация['process_id']=str
+                типовая_форма(э,спецификация); длительность_элемента(э['duration'])
+                требовать(э['source']=='unified_exec_startup' and э['status'] in ('completed','failed')
+                    and all(type(в) is str for в in э['command']), 'неизвестное исполнение команды')
+                for ч in э['parsed_cmd']:
+                    требовать(type(ч) is dict and type(ч.get('type')) is str, 'неизвестная часть команды')
+                    имена={'unknown':{'type','cmd'},'read':{'type','cmd','name','path'},
+                        'search':{'type','cmd','path','query'},'list_files':{'type','cmd','path'}}.get(ч.get('type'))
+                    требовать(имена is not None, 'неизвестный разбор команды'); поля(ч,имена)
+                    требовать(all(type(в) is str or к=='path' and ч['type']=='search' and в is None
+                        for к,в in ч.items()), 'неверная часть разбора команды')
+            elif item=='FileChange':
+                типовая_форма(э, {'type':str,'id':str,'changes':dict,'status':str,'stderr':str,'stdout':str})
+                требовать(э['status']=='completed', 'неизвестный исход изменения файлов')
+                for путь,ч in э['changes'].items():
+                    требовать(type(путь) is str and type(ч) is dict, 'неизвестный материал изменения')
+                    if ч.get('type')=='add': типовая_форма(ч, {'type':str,'content':str})
+                    else:
+                        поля(ч, {'type','move_path','unified_diff'})
+                        требовать(ч['type']=='update' and ч['move_path'] is None
+                            and type(ч['unified_diff']) is str, 'неизвестная часть изменения файлов')
+            elif item=='CollabAgentToolCall':
+                типовая_форма(э, {'type':str,'id':str,'tool':str,'status':str,'sender_thread_id':str,
+                    'receiver_thread_ids':list,'receiver_agents':list,'agents_states':dict})
+                требовать(э['tool']=='wait' and э['status']=='completed' and э['sender_thread_id']==источник
+                    and э['receiver_thread_ids']==э['receiver_agents']==[] and э['agents_states']=={},
+                    'неизвестная форма ожидания агента')
+            elif item=='Extension':
+                if э.get('kind')=='clock.sleep':
+                    типовая_форма(э, {'type':str,'id':str,'kind':str,'durationMs':int})
+                    требовать(э['durationMs']>=0, 'неверная длительность ожидания')
+                else:
+                    типовая_форма(э, {'type':str,'id':str,'kind':str,'query':str,'action':dict,'results':list})
+                    требовать(э['kind']=='web.search', 'неизвестное расширение')
+                    а=э['action']; поля(а, {'type','query','queries'})
+                    требовать(а['type']=='search' and а['query'] is None and type(а['queries']) is list
+                        and all(type(в) is str for в in а['queries']), 'неизвестная форма поиска')
+                    for р in э['results']:
+                        типовая_форма(р, {к:str for к in ('type','title','url','snippet','ref_id','domain')})
+                        требовать(р['type']=='text_result', 'неизвестный материал поиска')
+            else: raise ValueError('неизвестный служебный элемент')
+            return 'служебное'
+    if тип=='token_usage_record':
+        типовая_форма(д, {'thread_id':str,'turn_id':str,'session_id':str,'root_turn_id':str,'response_id':str,
+            'usage':dict,'turn_token_usage':dict,'thread_token_usage':dict})
+        требовать(д['thread_id']==д['session_id']==источник, 'чужой учёт токенов')
+        for к in ('turn_id','root_turn_id'): идентификатор(д[к])
+        for к in ('usage','turn_token_usage','thread_token_usage'): счётчики_токенов(д[к])
+        return 'служебное'
+    if тип=='inter_agent_communication_metadata':
+        типовая_форма(д, {'trigger_turn':bool})
+        требовать(д['trigger_turn'] is False, 'неизвестный триггер агентского сообщения'); return 'служебное'
+    if тип=='world_state':
+        типовая_форма(д, {'full':bool,'state':dict}); требовать(д['full'] is False, 'неизвестный полный мир')
+        типовая_форма(д['state'], {'environments':dict})
+        типовая_форма(д['state']['environments'], {'subagents':str}); return 'служебное'
+    raise ValueError('неизвестное первичное содержимое')
+
+
+def классифицировать_нативную_рамку(данные, источник, координатор, владелец):
+    описание=первичная_управляющая_рамка(данные,источник,координатор,владелец)
+    if описание['класс']!='неразобрано': return описание
+    запись=нативная_строка(данные); д=запись['payload']
+    try:
+        описание['класс']=класс_служебного_содержимого(запись,источник)
+    except (KeyError,TypeError,AttributeError,UnicodeError,RecursionError) as ошибка:
+        raise ValueError('повреждённое закрытое содержимое нативной рамки') from ошибка
+    if 'item' in д: описание['id']=д['item']['id']
+    if 'call_id' in д: описание['call_id']=д['call_id']
+    return описание
+
+
+class УчётНативныхКопий:
+    """Чистый учёт представлений; смысл оригиналов и LIVE полнота проверяются отдельно."""
+    def __init__(сам, источник, координатор, владелец):
+        for э in (источник,координатор,владелец): идентификатор(э)
+        требовать(координатор!=владелец and источник in (координатор,владелец), 'чужой источник копий')
+        сам.источник=источник; сам.координатор=координатор; сам.владелец=владелец
+        сам.ordinal=-1; сам.id=set(); сам.оригинал=None; сам.скопирован=False
+        сам.обязательная=False; сам.оригиналы=[]; сам.копии=[]
+        сам.ошибка=False; сам.закрыт=False
+
+    def наблюдать(сам, данные):
+        требовать(not сам.ошибка and not сам.закрыт, 'учёт уже закрыт либо содержит ошибку')
+        try:
+            результат=сам._наблюдать(данные)
+            if результат['класс']=='неразобрано': сам.ошибка=True
+            return разобрать(байты(результат))
+        except (ValueError,UnicodeError,RecursionError):
+            сам.ошибка=True
+            raise
+
+    def _наблюдать(сам, данные):
+        запись=нативная_строка(данные); д=запись['payload']; тип=запись['type']
+        требовать(запись['ordinal']>сам.ordinal, 'обратный порядок первичных копий')
+        сам.ordinal=запись['ordinal']
+        ключ=None
+        if тип=='response_item' and 'id' in д: ключ=('response',д['id'])
+        elif тип=='event_msg' and д.get('type') in ('item_completed','item_started'):
+            э=рамка_элемента(запись,сам.источник); ключ=('event',э['id'],д['type'])
+        if ключ is not None:
+            требовать(type(ключ[1]) is str and ключ[1] and ключ not in сам.id,
+                'повторный первичный ID до отбора адреса')
+            сам.id.add(ключ)
+        копия=тип=='event_msg' and д.get('type')=='item_completed' and д['item']['type'] in (
+            'UserMessage','FunctionCallOutput')
+        if копия:
+            э=рамка_элемента(запись,сам.источник)
+            требовать(сам.оригинал is not None and not сам.скопирован, 'копия без отдельного оригинала либо повтор')
+            о,описание=сам.оригинал; п=о['payload']
+            ход=п['internal_chat_message_metadata_passthrough']['turn_id']
+            требовать(д['turn_id']==ход, 'копия относится к другому ходу')
+            if э['type']=='UserMessage':
+                поля(э, {'type','id','client_id','content'})
+                требовать(п['type']=='message' and п['role']=='user'
+                    and type(э['client_id']) is str and type(э['content']) is list and э['content'],
+                    'неизвестная версия пользовательской копии')
+                части=[]
+                for ч in э['content']:
+                    поля(ч, {'type','text','text_elements'})
+                    требовать(ч['type']=='text' and type(ч['text']) is str and ч['text_elements']==[],
+                        'неизвестная часть пользовательской копии')
+                    части.append({'type':'input_text','text':ч['text']})
+                требовать(байты(части)==байты(п['content']), 'текст первичного ввода и копии расходится')
+            else:
+                поля(э, {'type','id','name','namespace','output'})
+                требовать(п['type']=='function_call_output' and 'call_id' not in п
+                    and all(type(э[к]) is str and э[к]==п[к] for к in ('id','name','namespace','output')),
+                    'первичный FCO и копия расходятся')
+            сам.скопирован=True; сам.обязательная=False
+            результат={'id':э['id'],'sha256':хэш(данные),'оригинал_sha256':описание['sha256']}
+            сам.копии.append(результат)
+            return dict(результат,класс='точная-копия')
+        описание=первичная_управляющая_рамка(данные,сам.источник,сам.координатор,сам.владелец)
+        if описание['класс']=='неразобрано':
+            return описание
+        if (тип=='response_item' and (описание['класс']=='первичный-ввод'
+                or д.get('type')=='function_call_output' and 'call_id' not in д)):
+            требовать(not сам.обязательная, 'предыдущий пользовательский оригинал остался без копии')
+            сам.обязательная=False
+            if описание['класс']=='первичный-ввод' and 'metadata' in запись:
+                мета=запись['metadata']
+                обязательные={'client_authored','user_input_order','retained_source'}
+                требовать(обязательные<=set(мета)<=обязательные|{'mcp_attribution'},
+                    'неизвестная оболочка пользовательского оригинала')
+                retained=мета['retained_source']['id']
+                требовать(retained['role']=='user' and retained['message_id']==д['id']
+                    and retained['turn_id']==д['internal_chat_message_metadata_passthrough']['turn_id'],
+                    'аннотация пользовательского оригинала расходится')
+                сам.обязательная=True
+            сам.оригинал=(запись,описание); сам.скопирован=False
+        сам.оригиналы.append(описание)
+        return описание
+
+    def завершить(сам):
+        требовать(not сам.ошибка and not сам.закрыт, 'учёт уже закрыт либо содержит ошибку')
+        if сам.обязательная:
+            сам.ошибка=True
+            raise ValueError('пользовательский оригинал остался без точной event-копии')
+        сам.закрыт=True
+        return разобрать(байты({'схема':'fum.сверка-копий-первичных-рамок.1','источник':сам.источник,
+            'оригиналы':сам.оригиналы,'копии':сам.копии,'полнота_копий_доказана':True,
+            'полнота_истории_доказана':False,'разрешение_эффекта':False}))
+
+
+def сверить_копии_первичных_рамок(строки, источник, координатор, владелец):
+    учёт=УчётНативныхКопий(источник,координатор,владелец)
+    for данные in строки:
+        описание=учёт.наблюдать(данные)
+        требовать(описание['класс']!='неразобрано', 'неизвестное первичное содержимое между копиями')
+    return учёт.завершить()
+
+
+def абсолютное_имя(значение):
+    требовать(type(значение) is str and Path(значение).is_absolute()
+        and str(Path(значение)) == значение
+        and значение == unicodedata.normalize('NFC', значение)
+        and not any(ч in ('.','..') for ч in Path(значение).parts)
+        and not any(unicodedata.category(ч).startswith('C') for ч in значение),
+        'неканоническое абсолютное имя источника')
+    return значение
+
+
+def граница_нативного_источника(значение):
+    поля(значение, {'граница','sha256'})
+    требовать(type(значение['граница']) is int and значение['граница'] > 0,
+        'неверная граница нативного источника')
+    сумма(значение['sha256'],64)
+    return значение
+
+
+def место_нативной_строки(значение):
+    поля(значение, {'начало','конец','sha256'})
+    требовать(type(значение['начало']) is int and type(значение['конец']) is int
+        and 0 <= значение['начало'] < значение['конец']
+        and значение['конец'] - значение['начало'] <= ПРЕДЕЛ_НАТИВНОЙ_СТРОКИ,
+        'неверные границы нативной строки')
+    сумма(значение['sha256'],64)
+    return значение
+
+
+def проверить_якорь(описание):
+    """Только закрытая схема ROOT-review. RAW, полнота и действующий ACT — отдельные gates."""
+    поля(описание, {'схема','координатор','владелец','узел','репозиторий','хэш_корня',
+        'ветка','начальный_коммит','предыдущий_принятый_якорь','начальная_опора',
+        'источники','управляющие_эпизоды','итог'})
+    требовать(описание['схема'] == 'fum.приёмка-нативной-истории-узла.1'
+        and описание['узел'] == описание['репозиторий'] == 'fum-lab/fum'
+        and описание['ветка'] == 'refs/heads/fum-lab/fum', 'неверная идентичность якоря')
+    for к in ('координатор','владелец'): идентификатор(описание[к])
+    требовать(описание['координатор'] != описание['владелец'], 'ROOT и владелец совпали')
+    сумма(описание['хэш_корня'],64); сумма(описание['начальный_коммит'],40)
+    предыдущий=описание['предыдущий_принятый_якорь']
+    if предыдущий is not None: выбор(предыдущий)
+    опора=описание['начальная_опора']
+    поля(опора, {'R','акт','полномочия','приёмка_ROOT','квитанция_ROOT',
+        'подготовка_владельца','квитанция_владельца','начало_владельца',
+        'поручение_владельца','получение_владельца','текст_sha256'})
+    сумма(опора['R'],40); сумма(опора['текст_sha256'],64)
+    for к in ('акт','полномочия','приёмка_ROOT'): выбор(опора[к])
+    for к in ('квитанция_ROOT','подготовка_владельца','квитанция_владельца'):
+        поля(опора[к], {'путь','sha256'})
+        абсолютное_имя(опора[к]['путь']); сумма(опора[к]['sha256'],64)
+    for к in ('начало_владельца','поручение_владельца'): граница_нативного_источника(опора[к])
+    получено=опора['получение_владельца']
+    поля(получено, {'начало','конец','sha256','id'})
+    место_нативной_строки({к:получено[к] for к in ('начало','конец','sha256')})
+    требовать(type(получено['id']) is str and получено['id']
+        and опора['начало_владельца']['граница'] <= получено['начало']
+        and получено['конец'] == опора['поручение_владельца']['граница'],
+        'неверная начальная опора владельца')
+    источники=описание['источники']
+    требовать(type(источники) is list and len(источники)==2, 'якорь требует ровно два источника')
+    for э,роль in zip(источники,('координатор','владелец')):
+        поля(э, {'роль','задача','путь','начало','конец'})
+        требовать(э['роль']==роль and э['задача']==описание[роль], 'чужой порядок или UUID источника')
+        абсолютное_имя(э['путь'])
+        граница_нативного_источника(э['начало']); граница_нативного_источника(э['конец'])
+        требовать(э['начало']['граница'] <= э['конец']['граница'], 'обратный префикс источника')
+    требовать(источники[0]['путь'] != источники[1]['путь'], 'источники ROOT и владельца совпали')
+    if предыдущий is None:
+        требовать(источники[1]['начало']==опора['поручение_владельца'], 'якорь не начинается с первой опоры')
+    эпизоды=описание['управляющие_эпизоды']
+    требовать(type(эпизоды) is list, 'эпизоды якоря должны быть массивом')
+    границы={э['роль']:э['начало']['граница'] for э in источники}
+    пределы={э['роль']:э['конец']['граница'] for э in источники}
+    порядок=-1
+    for э in эпизоды:
+        поля(э, {'источник','место','id','вид','ссылка','решение'})
+        роль=э['источник']
+        требовать(type(роль) is str and роль in границы, 'неизвестный источник эпизода')
+        текущий=0 if роль=='координатор' else 1
+        требовать(текущий >= порядок, 'неверный порядок источников эпизодов'); порядок=текущий
+        место_нативной_строки(э['место'])
+        требовать(границы[роль] <= э['место']['начало'] < э['место']['конец'] <= пределы[роль],
+            'эпизод вне префикса, повторён или перекрыт')
+        границы[роль]=э['место']['конец']
+        требовать(э['id'] is None or type(э['id']) is str and э['id'], 'неверный id эпизода')
+        требовать(э['вид'] in ('нейтральное','поручение','пауза','отмена','отзыв','возобновление','сжатие')
+            and э['решение'] in ('не-затрагивает','учтено'), 'неразобранный или блокирующий эпизод')
+        if э['ссылка'] is not None: выбор(э['ссылка'])
+        if э['вид']=='сжатие':
+            требовать(э['id'] is None and э['ссылка'] is None and э['решение']=='не-затрагивает',
+                'сжатие является только материалом')
+    итог=описание['итог']
+    поля(итог, {'состояние','полный_хвост_рассмотрен','неразобранные','действующие_ограничения'})
+    требовать(итог['состояние']=='принято' and итог['полный_хвост_рассмотрен'] is True
+        and type(итог['неразобранные']) is list and итог['неразобранные']==[]
+        and type(итог['действующие_ограничения']) is list and итог['действующие_ограничения']==[],
+        'неполный или ограниченный итог ROOT-review')
+    return разобрать(байты(описание))
+
+
+def прочитать_границы_нативного_источника(источник, *, корень_владельца=None, начальный_коммит=None):
+    """Побайтная RO-сверка принятых границ. Не утверждает смысла или полноты LIVE."""
+    try:
+        return _прочитать_границы_нативного_источника(источник,
+            корень_владельца=корень_владельца, начальный_коммит=начальный_коммит)
+    except (OSError, UnicodeError, RecursionError) as ошибка:
+        raise ValueError('не подтверждён физический нативный источник') from ошибка
+
+
+def _прочитать_границы_нативного_источника(источник, *, корень_владельца, начальный_коммит):
+    поля(источник, {'роль','задача','путь','начало','конец'})
+    требовать(источник['роль'] in ('координатор','владелец'), 'неизвестная роль нативного источника')
+    идентификатор(источник['задача'])
+    for к in ('начало','конец'): граница_нативного_источника(источник[к])
+    а=источник['начало']['граница']; б=источник['конец']['граница']
+    требовать(0 < а <= б <= 32*1024*1024*1024 and б-а <= 4*1024*1024*1024,
+        'превышен бюджет нативного источника или его хвоста')
+    if источник['роль']=='владелец':
+        требовать(корень_владельца is not None and начальный_коммит is not None,
+            'владелец требует независимые W и начальный C')
+    if корень_владельца is not None: корень_владельца=физический(str(корень_владельца),каталог=True)
+    if начальный_коммит is not None: сумма(начальный_коммит,40)
+    путь=физический(источник['путь']); до=путь.lstat()
+    начало_нс=time.perf_counter_ns(); предел_нс=начало_нс+120*1000000000
+    def срок():
+        требовать(time.perf_counter_ns() < предел_нс, 'превышен временной бюджет нативного источника')
+    def идентичность(st):
+        требовать(stat.S_ISREG(st.st_mode) and st.st_uid==os.getuid() and st.st_nlink==1
+            and st.st_mode & 0o022 == 0 and st.st_size >= б, 'неверные владелец, тип или размер нативного файла')
+        return (st.st_dev,st.st_ino,st.st_mode,st.st_uid,st.st_gid,st.st_nlink)
+    исходная=идентичность(до)
+    fd=os.open(путь,os.O_RDONLY|os.O_NOFOLLOW)
+    прочитано=2
+    try:
+        требовать(идентичность(os.fstat(fd))==исходная, 'inode источника заменён при открытии')
+        def сырой_префикс():
+            nonlocal прочитано
+            sha=hashlib.sha256(); начало_sha=None; позиция=0
+            while позиция < б:
+                срок(); граница=а if позиция < а else б
+                блок=os.pread(fd,min(1024*1024,граница-позиция),позиция)
+                требовать(bool(блок), 'нативный источник усечён при хэшировании')
+                sha.update(блок); позиция+=len(блок); прочитано+=len(блок)
+                if позиция==а: начало_sha=sha.hexdigest()
+            return начало_sha,sha.hexdigest()
+        требовать(os.pread(fd,1,а-1)==os.pread(fd,1,б-1)==b'\n', 'граница находится внутри нативной строки')
+        ожидаемые=(источник['начало']['sha256'],источник['конец']['sha256'])
+        требовать(сырой_префикс()==ожидаемые, 'RAW SHA начального или конечного префикса расходится')
+        with os.fdopen(os.dup(fd),'rb') as поток:
+            поток.seek(0); строка=поток.readline(ПРЕДЕЛ_НАТИВНОЙ_СТРОКИ+1); срок()
+            прочитано+=len(строка); разобранный_RAW=hashlib.sha256(строка)
+            рождение=нативная_строка(строка); д=рождение['payload']
+            требовать(рождение['type']=='session_meta' and рождение['ordinal']==0
+                and len(строка) <= а, 'источник не начинается с отдельного рождения')
+            общие={'base_instructions','cli_version','context_window','cwd','git','history_mode',
+                'id','model_provider','originator','session_id','source','thread_source','timestamp'}
+            новые={'creator_account_id','creator_user_id','runtime_workspace_roots'}
+            требовать(set(д) in (общие,общие|новые), 'неизвестная оболочка рождения нативной задачи')
+            if источник['роль']=='владелец':
+                требовать(set(д)==общие|новые, 'неизвестная версия рождения владельца')
+            требовать(д['id']==д['session_id']==источник['задача'], 'чужое рождение нативной задачи')
+            for к in ('cli_version','history_mode',
+                    'model_provider','originator','source','thread_source','timestamp'):
+                требовать(type(д[к]) is str and д[к], 'неверное поле рождения нативной задачи')
+            абсолютное_имя(д['cwd'])
+            временная_метка_UTC(д['timestamp'])
+            if 'runtime_workspace_roots' in д:
+                требовать(type(д['runtime_workspace_roots']) is list and д['runtime_workspace_roots'],
+                    'нет объявленных рабочих корней рождения')
+                for к in д['runtime_workspace_roots']: абсолютное_имя(к)
+                for к in ('creator_account_id','creator_user_id'):
+                    требовать(type(д[к]) is str and д[к], 'неверные создатели нативной задачи')
+            поля(д['context_window'], {'window_id'}); идентификатор(д['context_window']['window_id'])
+            поля(д['base_instructions'], {'text','provenance'})
+            требовать(type(д['base_instructions']['text']) is str
+                and type(д['base_instructions']['provenance']) is dict, 'неверный материал инструкций рождения')
+            требовать(type(д['git']) is dict and set(д['git']) in
+                ({'commit_hash','repository_url'},{'commit_hash','branch','repository_url'}),
+                'неизвестная Git-оболочка рождения')
+            if 'branch' in д['git']: требовать(type(д['git']['branch']) is str, 'неверная Git-ветка рождения')
+            сумма(д['git']['commit_hash'],40)
+            требовать(д['git']['repository_url']=='https://github.com/fum-lab/fum.git', 'чужой Git происхождения')
+            if корень_владельца is not None:
+                требовать(д['cwd']==str(корень_владельца) and ('runtime_workspace_roots' not in д
+                    or str(корень_владельца) in д['runtime_workspace_roots']), 'чужой физический W рождения')
+            if начальный_коммит is not None:
+                требовать(д['git']['commit_hash']==начальный_коммит, 'чужой начальный C рождения')
+            if источник['роль']=='владелец':
+                требовать(д['thread_source']=='agent_created_thread', 'неизвестное происхождение владельца')
+            while поток.tell() < а:
+                срок(); блок=поток.read(min(1024*1024,а-поток.tell()))
+                требовать(bool(блок), 'префикс усечён в связывающем разбор проходе')
+                разобранный_RAW.update(блок); прочитано+=len(блок)
+            требовать(поток.tell()==а and разобранный_RAW.hexdigest()==ожидаемые[0],
+                'RAW разобранного рождения не соответствует принятому префиксу')
+            рамки=[]; ordinal=0
+            while поток.tell() < б:
+                срок(); место=поток.tell()
+                строка=поток.readline(min(ПРЕДЕЛ_НАТИВНОЙ_СТРОКИ+1,б-место))
+                разобранный_RAW.update(строка)
+                запись=нативная_строка(строка); конец=поток.tell()
+                требовать(запись['type']!='session_meta' and запись['ordinal'] > ordinal,
+                    'повторное рождение или обратный ordinal')
+                ordinal=запись['ordinal']; payload=запись['payload']; id=payload.get('id')
+                if 'id' in payload:
+                    требовать(type(id) is str and id, 'неверный идентификатор первичной рамки')
+                if 'item' in payload:
+                    item=payload['item']
+                    требовать(type(item) is dict and type(item.get('id')) is str and item['id']
+                        and 'id' not in payload, 'неоднозначный или неверный item идентификатор')
+                    id=item['id']
+                рамки.append({'место':{'начало':место,'конец':конец,'sha256':хэш(строка)},
+                    'ordinal':ordinal,'тип':запись['type'],'тип_содержимого':payload.get('type'),'id':id})
+                прочитано+=len(строка)
+            требовать(поток.tell()==б, 'разбор вышел за принятую границу')
+            требовать(разобранный_RAW.hexdigest()==ожидаемые[1],
+                'RAW фактически разобранных рамок не соответствует принятому префиксу')
+        срок()
+        требовать(физический(str(путь))==путь
+            and идентичность(os.fstat(fd))==идентичность(путь.lstat())==исходная,
+            'источник заменён после разбора')
+        требовать(сырой_префикс()==ожидаемые, 'принятый RAW изменился после разбора')
+        срок()
+        требовать(физический(str(путь))==путь
+            and идентичность(os.fstat(fd))==идентичность(путь.lstat())==исходная,
+            'источник заменён после заключительной RAW-сверки')
+        return {'схема':'fum.сверка-границ-нативного-источника.1',
+            'источник':разобрать(байты(источник)), 'начальный_коммит':д['git']['commit_hash'],
+            'корень_рождения':д['cwd'],'рамки':рамки,'идентичность':list(исходная),
+            'профиль':{'прочитано_байтов':прочитано,'длительность_наносекунды':time.perf_counter_ns()-начало_нс},
+            'полный_LIVE_хвост_доказан':False,'разрешение_эффекта':False}
+    finally:
+        os.close(fd)
 
 
 def принять(*аргументы, **параметры):
