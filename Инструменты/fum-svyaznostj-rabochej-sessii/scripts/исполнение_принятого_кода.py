@@ -5,16 +5,21 @@
 процессе. Перед каждым внешним эффектом вызывающий код обязан вызвать сверить.
 """
 import builtins
+import __future__
+import dataclasses
 import hashlib
 import importlib.abc
 import importlib.machinery
 import importlib.util
+import marshal
 import os
 from pathlib import Path, PurePosixPath
 import re
+import shutil
 import stat
 import subprocess
 import sys
+import threading
 import types
 
 
@@ -163,6 +168,77 @@ class Исполнение(importlib.abc.MetaPathFinder):
         сам.исходная_компиляция=builtins.compile; сам.исходная_спецификация=importlib.util.spec_from_file_location
         сам._коды={}
         сам.стандартная_библиотека=Path(os.__file__).resolve().parent
+        # Закрепляется настоящий stock code object до первого проектного импорта.
+        # Это узкий допуск CPython 3.14, а не доверие произвольному co_filename.
+        сам._native_кадр=dataclasses._FuncBuilder.add_fns_to_class.__code__
+        сам._native_ожидания=[]; сам._native_проверки={}; сам._native_замок=threading.RLock()
+        сам._future_mask=sum(getattr(__future__, имя).compiler_flag for имя in
+            ('division','absolute_import','with_statement','print_function',
+             'unicode_literals','barry_as_FLUFL','generator_stop','annotations'))
+
+    def _внешний_кадр(сам):
+        кадр=sys._getframe(1)
+        while кадр and кадр.f_code.co_filename==__file__: кадр=кадр.f_back
+        return кадр
+
+    def _native_источник(сам, кадр):
+        return (кадр is not None and кадр.f_code is сам._native_кадр
+                and сам.стандартный(кадр.f_code.co_filename))
+
+    def _очистить_native(сам, поток, кадр):
+        живые=set()
+        while кадр:
+            живые.add(id(кадр)); кадр=кадр.f_back
+        сам._native_ожидания[:]=[з for з in сам._native_ожидания
+            if з['поток']!=поток or id(з['кадр']) in живые]
+
+    def _ожидать_native(сам, исходник, имя, кадр):
+        требовать(type(исходник) is bytes and имя=='<string>', 'неизвестный native payload')
+        исходник.decode('utf-8','strict')
+        поток=threading.get_ident()
+        with сам._native_замок:
+            сам._очистить_native(поток, кадр)
+            требовать(len(сам._native_ожидания)<64 and
+                sum(len(з['байты']) for з in сам._native_ожидания)+len(исходник)<=4*1024*1024,
+                'переполнен закрытый native pending')
+            сам._native_ожидания.append({'поток':поток,'кадр':кадр,'байты':исходник,
+                'имя':имя,'flags':кадр.f_code.co_flags & сам._future_mask})
+
+    def _байты_кода(сам, код):
+        def проверить(значение):
+            тип=type(значение)
+            if тип is types.CodeType:
+                for константа in значение.co_consts: проверить(константа)
+            elif тип in (tuple,frozenset):
+                for константа in значение: проверить(константа)
+            else:
+                требовать(тип in (type(None),type(Ellipsis),bool,int,float,complex,str,bytes),
+                    'неизвестный точный тип compiler-константы')
+        требовать(type(код) is types.CodeType, 'нужен точный native code object')
+        проверить(код)
+        # Protocol 2 не кодирует interning/sharing; точные типы проверены выше.
+        return marshal.dumps(код,2,allow_code=True)
+
+    def _проверить_native(сам, код, кадр):
+        поток=threading.get_ident()
+        with сам._native_замок:
+            сам._очистить_native(поток, кадр)
+            индексы=[н for н,з in enumerate(сам._native_ожидания)
+                if з['поток']==поток and з['кадр'] is кадр and з['имя']==код.co_filename]
+            требовать(bool(индексы), 'exec непривязанного native code object запрещён')
+            # Ticket потребляется до verification, включая любой неуспешный исход.
+            запись=сам._native_ожидания.pop(индексы[0])
+            требовать(поток not in сам._native_проверки, 'вложенная native verification запрещена')
+            проверка=(sys._getframe(),запись['байты'],запись['имя'])
+            сам._native_проверки[поток]=проверка
+            try:
+                ожидаемый=сам.исходная_компиляция(запись['байты'].decode('utf-8','strict'),
+                    запись['имя'],'exec',flags=запись['flags'],dont_inherit=True,optimize=sys.flags.optimize)
+                требовать(сам._байты_кода(код)==сам._байты_кода(ожидаемый),
+                    'native code object не соответствует компилируемым байтам')
+            finally:
+                сам._native_проверки.pop(поток,None)
+        # Native code не попадает в бессрочный общий реестр _коды.
 
     def стандартный(сам, имя_файла):
         if re.fullmatch(r'<frozen [\w.]+>',имя_файла) or имя_файла=='<built-in>':
@@ -226,11 +302,21 @@ class Исполнение(importlib.abc.MetaPathFinder):
                     сам.контур.сверить(); сам.запись('exec',запись[1])
                 return
             кадр=sys._getframe(1)
-            while кадр and кадр.f_code.co_filename==__file__: кадр=кадр.f_back
+            if сам._native_источник(кадр) and код.co_filename=='<string>':
+                сам._проверить_native(код,кадр)
+                return
+            кадр=сам._внешний_кадр()
             требовать(сам.стандартный(код.co_filename) and кадр is not None and
                       сам.стандартный(кадр.f_code.co_filename), 'exec непривязанного code object запрещён')
         elif событие=='compile':
             компилируемые_байты,имя_файла=аргументы
+            проверка=сам._native_проверки.get(threading.get_ident())
+            if проверка is not None:
+                требовать(sys._getframe(1) is проверка[0] and
+                    type(компилируемые_байты) is bytes and
+                    (компилируемые_байты,имя_файла)==проверка[1:],
+                    'несовпадающая проверочная native компиляция')
+                return
             if имя_файла in сам.контур._код:
                 требовать(компилируемые_байты==сам.контур._код[имя_файла]['байты'], 'подменены компилируемые байты K')
             else:
@@ -240,3 +326,6 @@ class Исполнение(importlib.abc.MetaPathFinder):
                 требовать(кадр is not None and сам.стандартный(кадр.f_code.co_filename) and
                           (сам.стандартный(имя_файла) or имя_файла in ('<string>','<unknown>')),
                           'неизвестная проектная компиляция')
+                непосредственный=sys._getframe(1)
+                if сам._native_источник(непосредственный):
+                    сам._ожидать_native(компилируемые_байты,имя_файла,непосредственный)
