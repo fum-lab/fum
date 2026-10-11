@@ -9,6 +9,8 @@
     "project_files": "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py",
     "request_folder_layout": "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py",
     "автор_коммита": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py",
+    "братиславская_проекция_памяти": "Инструменты/fum-bratislavskaya-proyekciya-pamyati/scripts/братиславская_проекция_памяти.py",
+    "возврат_RAW_писателя": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/возврат_RAW_писателя.py",
     "восстановление_прерванной_задачи": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/восстановление_прерванной_задачи.py",
     "готовность_коммита": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_коммита.py",
     "готовность_этапа": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_этапа.py",
@@ -135,7 +137,9 @@
     "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py",
     "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py",
     "Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py",
-    "Инструменты/fum-obratnyiye-ssyilki-voprosov/scripts/check-question-backlinks.py"
+    "Инструменты/fum-obratnyiye-ssyilki-voprosov/scripts/check-question-backlinks.py",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/возврат_RAW_писателя.py",
+    "Инструменты/fum-bratislavskaya-proyekciya-pamyati/scripts/братиславская_проекция_памяти.py"
   ],
   "ресурсы": [
     "Инструменты/fum-struktura-papok-zaprosov/шаблоны/запрос.md.шаблон",
