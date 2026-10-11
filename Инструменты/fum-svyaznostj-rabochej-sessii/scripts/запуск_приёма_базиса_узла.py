@@ -1404,7 +1404,7 @@ def _прочитать_границы_нативного_источника(и�
             and st.st_mode & 0o022 == 0 and st.st_size >= б, 'неверные владелец, тип или размер нативного файла')
         return (st.st_dev,st.st_ino,st.st_mode,st.st_uid,st.st_gid,st.st_nlink)
     исходная=идентичность(до)
-    fd=os.open(путь,os.O_RDONLY|os.O_NOFOLLOW)
+    fd=os.open(путь,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK)
     прочитано=2
     try:
         требовать(идентичность(os.fstat(fd))==исходная, 'inode источника заменён при открытии')

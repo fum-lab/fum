@@ -1814,6 +1814,78 @@ class СырыеГраницыНативногоИсточника(unittest.Test
         сам.assertEqual(путь.read_bytes(),до)
         сам.assertEqual((путь.stat().st_ino,путь.stat().st_mtime_ns),(st.st_ino,st.st_mtime_ns))
 
+    def test_FIFO_после_lstat_не_блокирует_отказ(сам):
+        путь,источник,каталог,C=сам.пример()
+        код=r'''
+import errno
+import importlib.util
+import json
+import os
+import stat
+import sys
+
+spec=importlib.util.spec_from_file_location('fifo_fixture',sys.argv[1])
+запуск=importlib.util.module_from_spec(spec)
+spec.loader.exec_module(запуск)
+источник=json.loads(sys.argv[2]); цель=источник['путь']
+настоящее_open=os.open; настоящий_fstat=os.fstat
+состояние={'подменён':False,'fd':None,'fifo':False}
+
+def открыть(путь,flags,*args,**kwargs):
+    if os.fspath(путь)==цель:
+        if состояние['подменён'] or not stat.S_ISREG(os.lstat(цель).st_mode):
+            raise AssertionError('нужна однократная подмена обычного файла')
+        os.unlink(цель); os.mkfifo(цель,0o600)
+        состояние['подменён']=True
+        print('FIFO_OPEN_ATTEMPT',flush=True)
+        # Настоящий syscall с исходными flags; writer FIFO отсутствует.
+        fd=настоящее_open(путь,flags,*args,**kwargs)
+        состояние['fd']=fd
+        состояние['fifo']=stat.S_ISFIFO(настоящий_fstat(fd).st_mode)
+        return fd
+    return настоящее_open(путь,flags,*args,**kwargs)
+
+os.open=открыть
+try:
+    try:
+        запуск.прочитать_границы_нативного_источника(источник,
+            корень_владельца=sys.argv[3],начальный_коммит=sys.argv[4])
+    except ValueError:
+        pass
+    else:
+        raise AssertionError('reader принял подменённую FIFO')
+finally:
+    os.open=настоящее_open
+if not состояние['подменён'] or состояние['fd'] is None or not состояние['fifo']:
+    raise AssertionError('отказ произошёл до настоящего открытия FIFO')
+try:
+    настоящий_fstat(состояние['fd'])
+except OSError as ошибка:
+    if ошибка.errno!=errno.EBADF: raise
+else:
+    raise AssertionError('reader оставил FD открытым')
+print('FIFO_REFUSED_FD_CLOSED',flush=True)
+'''
+        процесс=subprocess.Popen([sys.executable,'-I','-B','-c',код,
+            str(Path(запуск.__file__).resolve()),json.dumps(источник,ensure_ascii=False),
+            str(каталог),C],cwd=str(каталог),stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,text=True,encoding='utf-8')
+        try:
+            try:
+                stdout,stderr=процесс.communicate(timeout=10)
+            except subprocess.TimeoutExpired:
+                процесс.kill(); stdout,stderr=процесс.communicate(timeout=5)
+                сам.assertIn('FIFO_OPEN_ATTEMPT',stdout,
+                    'ошибка подготовки: подмена не достигнута\n'+stderr)
+                сам.fail('настоящий os.open завис на FIFO после подмены')
+            сам.assertEqual(процесс.returncode,0,stderr)
+            сам.assertEqual(stdout.splitlines(),[
+                'FIFO_OPEN_ATTEMPT','FIFO_REFUSED_FD_CLOSED'])
+        finally:
+            if процесс.poll() is None: процесс.kill()
+            процесс.wait(timeout=5)
+            процесс.stdout.close(); процесс.stderr.close()
+
     def test_ошибочный_SHA_обеих_границ_отказывается(сам):
         for где in ('начало','конец'):
             путь,и,к,C=сам.пример(); и[где]['sha256']='0'*64
