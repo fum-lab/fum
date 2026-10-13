@@ -315,12 +315,100 @@ class СборщикОбъявленийПитона(ast.NodeVisitor):
         сам.путь = путь
         сам.объявления: list[Объявление] = []
         сам.области = ОбластиПитона(дерево)
+        узлы = tuple(ast.walk(дерево))
         сам.импорты = {
-            псевдоним: узел for узел in ast.walk(дерево)
+            псевдоним: узел for узел in узлы
             if isinstance(узел, (ast.Import, ast.ImportFrom)) for псевдоним in узел.names
         }
+        аннотации = {узел.target for узел in узлы
+                     if isinstance(узел, ast.AnnAssign) and узел.value is None}
+        # Порядок строк между функциями не доказывает порядок исполнения.
+        # Любая прямая запись доказанного импортного модуля закрывает исключение.
+        сам.подмена_базы_тестов = any(
+            isinstance(узел, ast.Attribute) and узел.attr == 'TestCase'
+            and isinstance(узел.ctx, (ast.Store, ast.Del)) and узел not in аннотации
+            and сам.возможный_модуль_тестов(узел.value) for узел in узлы)
+
+    def привязки_получателя(сам, узел: ast.AST):
+        if not isinstance(узел, ast.Name):
+            return []
+        область = сам.области.владельцы.get(узел)
+        владелец = область.владелец(узел.id) if область else None
+        return владелец.привязки.get(узел.id, []) if владелец else []
+
+    def возможный_модуль_тестов(сам, узел: ast.AST) -> bool:
+        записи = сам.привязки_получателя(узел)
+        область = сам.области.владельцы.get(узел)
+        if (isinstance(узел, ast.Name) and область is not None and область.вид == 'класс'
+                and not сам.раннее_собственное_значение_класса(область, узел)):
+            # LOAD_NAME до ещё не выполненной классовой привязки использует
+            # внешнюю область. Аннотация и условный Store её не доказывают.
+            родитель = область.родитель
+            while родитель is not None and родитель.вид == 'класс':
+                родитель = родитель.родитель
+            владелец = родитель.владелец(узел.id) if родитель else None
+            записи = [*записи, *(владелец.привязки.get(узел.id, []) if владелец else [])]
+        for _, псевдоним in записи:
+            импорт = сам.импорты.get(псевдоним)
+            if isinstance(импорт, ast.Import) and псевдоним.name == 'unittest':
+                return True
+        return False
+
+    def раннее_собственное_значение_класса(сам, область, получатель) -> bool:
+        записи = область.привязки.get(получатель.id, [])
+        if len(записи) != 1:
+            return False
+        _, привязка = записи[0]
+        for выражение in область.узел.body:
+            if выражение.end_lineno >= получатель.lineno:
+                continue
+            if (isinstance(выражение, ast.ClassDef) and привязка is выражение
+                    and not выражение.bases and not выражение.keywords and not выражение.decorator_list):
+                return True
+            if isinstance(выражение, ast.Assign):
+                цели, значение = выражение.targets, выражение.value
+            elif isinstance(выражение, ast.AnnAssign) and выражение.value is not None:
+                цели, значение = [выражение.target], выражение.value
+            else:
+                continue
+            if not any(привязка is часть for цель in цели for часть in ast.walk(цель)):
+                continue
+            if isinstance(значение, ast.Constant):
+                return True
+            собственные = сам.привязки_получателя(значение)
+            if len(собственные) != 1:
+                continue
+            _, класс = собственные[0]
+            if (isinstance(класс, ast.ClassDef) and класс.end_lineno < выражение.lineno
+                    and not класс.bases and not класс.keywords and not класс.decorator_list):
+                return True
+        return False
+
+    def внешний_метод_тестов(сам, узел: ast.AST) -> bool:
+        if not isinstance(узел, ast.FunctionDef) or сам.подмена_базы_тестов:
+            return False
+        область = сам.области.владельцы.get(узел)
+        if область is None or область.вид != 'класс' or len(область.узел.bases) != 1:
+            return False
+        база = область.узел.bases[0]
+        получатель = база.value if isinstance(база, ast.Attribute) and база.attr == 'TestCase' else база
+        записи = сам.привязки_получателя(получатель)
+        if len(записи) != 1:
+            return False
+        _, псевдоним = записи[0]
+        импорт = сам.импорты.get(псевдоним)
+        if импорт is None or импорт.lineno >= область.узел.lineno:
+            return False
+        if isinstance(база, ast.Attribute):
+            return (база.attr == 'TestCase' and isinstance(база.value, ast.Name)
+                    and isinstance(импорт, ast.Import) and псевдоним.name == 'unittest')
+        return (isinstance(база, ast.Name) and isinstance(импорт, ast.ImportFrom)
+                and импорт.module == 'unittest' and импорт.level == 0
+                and псевдоним.name == 'TestCase')
 
     def внешний_метод(сам, имя: str, узел: ast.AST) -> bool:
+        if имя == 'setUp':
+            return сам.внешний_метод_тестов(узел)
         if имя not in контекстные_имена_посетителя:
             return False
         область = сам.области.владельцы.get(узел)

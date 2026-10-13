@@ -10,6 +10,34 @@ from test_сценарий_ответа import модуль, учёт
 
 
 class ПолныйСценарий(unittest.TestCase):
+    def test_нативный_шаблон_только_по_точному_пути(сам):
+        путь = 'Инструменты/fum-svyaznostj-rabochej-sessii/scripts/вызов_нативной_подготовки.cjs'
+        сам.assertIn(путь, модуль.пути_сценариев)
+        сам.assertEqual(учёт.объявления_сценария((КОРЕНЬ / путь).read_text(), путь), [])
+        for сосед in (путь.replace('вызов_', 'сосед_'), путь.upper(), 'вложено/' + путь):
+            with сам.subTest(сосед=сосед), сам.assertRaises(учёт.ОшибкаКонтракта):
+                учёт.объявления_сценария('const имя = 1;', сосед)
+
+    def test_нативная_форма_внешнего_интерфейса_и_соседние_формы(сам):
+        точный = 'const команда = {cmd:"",workdir:"",shell:"/bin/sh",login:false,max_output_tokens:1,yield_time_ms:1};'
+        поля = [э for э in модуль.разобрать(точный)['объявления'] if э['вид'] == 'поле']
+        сам.assertEqual({(э['имя'], э['класс']) for э in поля},
+            {(имя, 'внешнее') for имя in ('cmd','workdir','shell','login','max_output_tokens','yield_time_ms')})
+        сам.assertEqual(len(поля), 6)
+        for текст in (точный.replace(',login:false',''), точный.replace(',shell:"/bin/sh"',''),
+                точный.replace('};',',argv:[]};'), точный.replace('};',',env:{} };'),
+                точный.replace('};',',...добавка};'), точный.replace('};',',shell:"/bin/sh"};'),
+                'const сосед = {shell:"/bin/sh"};', 'const сосед = {login:false};',
+                'const shell = 1;', 'function функция(login) { return login; }'):
+            with сам.subTest(текст=текст):
+                путь = 'Инструменты/fum-svyaznostj-rabochej-sessii/scripts/вызов_нативной_подготовки.cjs'
+                сам.assertTrue(учёт.объявления_сценария(текст, путь), 'потеряно латинское собственное объявление')
+
+    def test_латинская_привязка_внутри_фактического_нативного_шаблона(сам):
+        путь = 'Инструменты/fum-svyaznostj-rabochej-sessii/scripts/вызов_нативной_подготовки.cjs'
+        текст = (КОРЕНЬ / путь).read_text().replace('const команда =', 'const hiddenCommand =', 1)
+        сам.assertTrue(учёт.объявления_сценария(текст, путь))
+
     def test_точные_пути_и_полное_чтение(сам):
         for путь in ПУТИ:
             сам.assertIn(путь, модуль.пути_сценариев)
