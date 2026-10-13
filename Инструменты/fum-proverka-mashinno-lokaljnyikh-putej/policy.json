@@ -6597,6 +6597,420 @@
       "count": 1,
       "category": "allow.test-fixture",
       "reason": "Положительная автономная фикстура единственной точной нативной оболочки штатного CLI времени; не является запуском системного процесса."
+    },
+    {
+      "id": "native-bridge-d9bc1748fa288a7dc4f5",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:440f8f355647e3b5c231e0ac07d9ed67d7b350699ab45b84265c6d95ec35dc8f",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет конечные пары канонического файла и публичного системного литерала и синтаксические границы распознавателя; не адресует локальный checkout."
+    },
+    {
+      "id": "native-bridge-00b683f88ca647989e7f",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:8f8e33703fabe488fc2d7d45cb15936d06bf515180e3a1f04a1efb0c3ffe8ebc",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет конечные пары канонического файла и публичного системного литерала и синтаксические границы распознавателя; не адресует локальный checkout."
+    },
+    {
+      "id": "native-bridge-9dd2aea78bc585c40ac7",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:90691a4097b0b2a25b153d1e478a1b8a74e698e04a2be74021f01c081844009c",
+      "count": 2,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет конечные пары канонического файла и публичного системного литерала и синтаксические границы распознавателя; не адресует локальный checkout."
+    },
+    {
+      "id": "native-bridge-233f019507b33a6011d4",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:63f3676c7e6576b4fabfe7b187fcfe26eae2105eea9206e25a34701c753f7314",
+      "count": 1,
+      "category": "allow.path-validation-definition",
+      "reason": "Определяет конечные пары канонического файла и публичного системного литерала и синтаксические границы распознавателя; не адресует локальный checkout."
+    },
+    {
+      "id": "native-bridge-a9cd26c2d0fc88431156",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:55bbb53bae9c23ee4363d0c1e07d6e30f9f71e4dd6df672cb1430d53ca617b15",
+      "count": 3,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-c64edfc33510fa904ecb",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:4fd7a1f0cab146cb0527715d809c59cbbeadd9025856afb72c989c245bd4c0c9",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-4c2421d9ff2a36ff7d70",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:79a276f7304eba94c06059fe916b94ad1f809564896815f92e9727f8bf6f86a5",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-531819e3a6b1f9f63cb0",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ff10e73352a02c068ec2ca17ea3ca94bf86e4f4c28d60d83f7f6feb01f42920c",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-d41a8d553d1c84723c70",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:4d20fb17d2fb7e7ff715b515e71d096745c9af6d2c911cf88380ef360f06e9bd",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-89e4d7f4a091e85142f1",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:e96858c76a6d5daef860b42ce803bc29f12e353cd9ad97a90008fb0eb4f2add6",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-c5ab77683363501f6fd8",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b46db4e9d6e37368aa8c9bd1fb40e912195b5f27d734c84e602df9a3cae1928e",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-285bf172dd524c399d6f",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:f5a26c58bb53625e024dec75a7ff5c3aefc5520212b931d141e816f8d0c602c2",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-e869246da400aa4f39b6",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:864418033458fe25b1ea9ce7e85374cdeb533b6f71a7309c5dbaa0ef08d4f814",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-e252c7b0315f54330bd9",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d95e5207018702390d4406bdd60b6872bcc365073c327fc693d425905b7cf598",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-650fc45a09cfc6d98ee9",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c1369a055e0a2c340b1a95f43af8ad44d0ca57387456f33a79246556c4b36d06",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-a89e9d3e2bf06a43b1ab",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:05efd2ec9bea457088f17d08a0aef2f90198793292889855f5224f139209496a",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-5e6d5e8d9a5c0df60251",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:e9efdc6ca9f2b92410ab21c41839f5f3c0c2d94012ef26d8fedd2754ead6993d",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-f03d0dc74b304616a877",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d62bcc5c68de726ffbdb5bf09cc17a8af869c45ea283f180ecce40b8573873f7",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-6d2d11b2e57e34459466",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:0f5a79acf4fe550cdb54a9cc26a0c9068bf433a16fecfebfb4bb2a025a528557",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-a3f57ebba83e1e1b7839",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2480a52ef8bd376c821c904cb8ebc019ab8b0e1e23a7146e6c4e2b830639eee8",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-d76686c154715ad7ea1b",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:1404e35a2d50a07eae44b0bdfd5e2cbd3b205302078ce9862e1b5b0c902bd210",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-0f428e6c3dd87ec6e39a",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:7f8ce0d1ab42370412d219eeb70e133b34466bd1680b2cd6f03a1f20ae7f76fe",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-b57b3337903bd7cdf968",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-user-home",
+      "line_sha256": "sha256:21a5664b6637434bb9b07edbf3892c742026db7643233d211c88bbbc4c7e8011",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-94721741901eab04f167",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:30a001c814d5ea1583a2933f496cdf47fc0029c9bed6017961a0d3c635395b5d",
+      "count": 2,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-be91147dd50a8a7e62f4",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:f6408c31bb9b70be471e4b3628fa8e5e4c15202f93e90502e02467964de4ad5b",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-009351bf4bc6f3005f09",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:53ab6bfb0ec64565635fcc1d1cff8c1b79dbbe422d1de7e3d7eceee5eec2d5d1",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-f1c093f172f9a2f60dce",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b0ef576778929edf02b28fe979580d070650bfc115b7de3130d126c8a605686c",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-a2ffa8aa3281fe44c862",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:f4fd8adde02918a8b97ffa6b0d4dddea25c8e30494ac6fcf93cda6661318169d",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-099d67a1dd0685d2a82e",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:3eca4a2dd4c23959485edb2249b1339785367546900cf1f3cf5aee6e1a85bc0a",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-867ff9532e43f00d3790",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:099be0ca9965a2ab8cb4197ca0f1924516ccf81f4d343f09cf4aaf07d3eb3714",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-22b2d5e0bafdd182ae03",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c47f2950347f743a4290238174cba1cab33e7f8bcf38b90343b69957a426a9ce",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-7ba1e4b0c1bc5f96ee91",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:a5314ed8230201e0d7068f276cb45834f4d32b07701383c5fd7318de63d21fb5",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-071af9bd959d0b50b6e7",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:2865ba49ecf4a9fa7a58e7104507c65476ee82a7b7f0d8009358aeaf46c4adf3",
+      "count": 5,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-cca29639db155addc8c7",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:17cc499c6c2a5ae7a19d30b1fef72dcb107a3da74807e6c5495b584a6c06463d",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет полные явные данные независимых положительных и отрицательных фикстур системного литерала; новые соседние строки этим допуском не разрешаются."
+    },
+    {
+      "id": "native-bridge-control-initial-native-separator",
+      "path": "Журнал/2026-10-13_16-30-34_MSK_создать-нативный-мост-подготовки/отчёт.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:d9a8473c00b439aba62250a867f8c9f1ff1e75d747cb4b7ad6b3bce00a3af3af",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Сохраняет точную цитату корневой задачи: косая черта разделяет реквизиты первоначального коммита и нативного источника и не обозначает файловый путь."
+    },
+    {
+      "id": "native-bridge-language-bitwise-complement-fixture",
+      "path": "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_сценариев_полного_ответа.py",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:a2d3e3ddadda9583e94a9fbe5059699be98d74d137f73d7aed1649d41830d730",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Закрепляет буквальную фикстуру побитового дополнения JavaScript: тильда перед идентификатором является оператором, а не домашним сокращением."
+    },
+    {
+      "id": "native-bridge-adjacent-fixture-01",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:c266667cc1c9fb471d26a7a9cf2c0d72902158c631783c7af30425d56f39bb4a",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Отрицательная автономная фикстура смежных строковых токенов Python с внутренним системным литералом; проверяет отказ склейки без разрешения соседних строк."
+    },
+    {
+      "id": "native-bridge-adjacent-fixture-02",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:10fb43754832559d0f732acc47734cb35b6658b36c5b37e9da3cae502da157aa",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Отрицательная автономная фикстура смежных строковых токенов Python с внутренним системным литералом; проверяет отказ склейки без разрешения соседних строк."
+    },
+    {
+      "id": "native-bridge-adjacent-fixture-03",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:5680fb9055e2930e27609651c1787e083a0bc46f7b992c744f1941783e87b840",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Отрицательная автономная фикстура смежных строковых токенов Python с внутренним системным литералом; проверяет отказ склейки без разрешения соседних строк."
+    },
+    {
+      "id": "native-bridge-adjacent-fixture-04",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:bf3a144a365acc22a2a9e682a215cbb3dd6d75989261fa27ed4eb4814be36e98",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Отрицательная автономная фикстура смежных строковых токенов Python с внутренним системным литералом; проверяет отказ склейки без разрешения соседних строк."
+    },
+    {
+      "id": "native-bridge-adjacent-fixture-05",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:9526370cc28047c03cc941e27929c58cb8e69d7891c6f38ab566159b5340ef4f",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Отрицательная автономная фикстура смежных строковых токенов Python с внутренним системным литералом; проверяет отказ склейки без разрешения соседних строк."
+    },
+    {
+      "id": "native-bridge-adjacent-fixture-06",
+      "path": "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/tests/test_proveritj_mashinno_lokaljnyiye_puti.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:49441c4d5b5e37fe792dd588c7e23661730430d8020c2ca9ee04a99504c61f8c",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Отрицательная автономная фикстура смежных строковых токенов Python с внутренним системным литералом; проверяет отказ склейки без разрешения соседних строк."
+    },
+    {
+      "id": "native-bridge-collector-root-hash-separators",
+      "path": "Журнал/2026-10-13_16-30-34_MSK_создать-нативный-мост-подготовки/отчёт.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:810a56e4fab66de6dfb8be5ed31ea466a5aa6befcb7b7d7c331c60ba88f612df",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Сохраняет дословную точную цитату координатора: косые черты разделяют сокращённые роли файлов и их хэши и не обозначают файловые адреса."
+    },
+    {
+      "id": "native-bridge-observed-bitwise-complement",
+      "path": "Журнал/2026-10-13_16-30-34_MSK_создать-нативный-мост-подготовки/отчёт.md",
+      "kind": "home-expansion",
+      "line_sha256": "sha256:268a1d9a6f3a72a884eaf9cb30a27ed0165aa16cbbe8fe625c506ab4801b8e74",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Сохраняет дословное наблюдение о побитовом операторе JavaScript: тильда в этой строке служит синтаксическим символом, а не домашним сокращением."
+    },
+    {
+      "id": "native-bridge-token-root-hash-separators",
+      "path": "Журнал/2026-10-13_16-30-34_MSK_создать-нативный-мост-подготовки/отчёт.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:ebcfb2c91e9f9d9df7b63b93df7a2ed595f5a3650a533b65958c3077c29d2f82",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Сохраняет дословную точную цитату координатора: косые черты перед метками теста и навыка разделяют роли и SHA и не обозначают абсолютные файловые адреса."
+    },
+    {
+      "id": "native-bridge-policy-root-hash-separators",
+      "path": "Журнал/2026-10-13_16-30-34_MSK_создать-нативный-мост-подготовки/отчёт.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:567bf7bae38d2a4939a989a0dd2c46ea61ccb9a49861af9643c9c86ba80d3dbd",
+      "count": 2,
+      "category": "allow.nonpath-syntax",
+      "reason": "Сохраняет дословную точную цитату координатора: косые черты разделяют реквизиты хэшей, счётчиков, квитанций и согласования остановки и не обозначают файловые адреса."
     }
   ],
   "метаданные": [

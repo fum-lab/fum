@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import argparse
+import ast
+import io
 import base64
 import binascii
 import hashlib
@@ -13,6 +15,7 @@ import re
 import stat
 import subprocess
 import sys
+import tokenize
 from dataclasses import dataclass, replace
 from pathlib import Path, PurePosixPath
 from typing import Iterable
@@ -76,6 +79,12 @@ SYSTEM_RUNTIME_CODE_PATHS = frozenset(
         "Прототипы/теневой-редактор-продолжений/Sources/FUMShadowCore/LocalRuntimePolicy.swift",
     }
 )
+СИСТЕМНЫЕ_ЛИТЕРАЛЫ_НАТИВНОГО_МОСТА = {
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/вызов_нативной_подготовки.cjs": frozenset({"/bin/sh"}),
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сформировать_нативный_вызов.py": frozenset({"/usr/bin/env"}),
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_нативной_подготовки_базиса.py": frozenset({"/bin/sh", "/bin/bash"}),
+    "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_сценариев_полного_ответа.py": frozenset({"/bin/sh"}),
+}
 FENCE_OPEN_RE = re.compile(r"^ {0,3}(`{3,}|~{3,})")
 H2_RE = re.compile(r"^ {0,3}##(?!#)[ \t]+(.+?)(?:[ \t]+#+[ \t]*)?$")
 ШАБЛОН_ИМЕНИ_ФАЙЛА_ЗАПУСКА = re.compile(
@@ -559,6 +568,78 @@ def _is_documented_placeholder(path: str, form: PathForm) -> bool:
     return path.endswith(".md") and form.value.startswith(("/path/to/", "/путь/к/"))
 
 
+def простые_строки_языковой_фикстуры(путь, текст):
+    """Пассивные однострочные Python-данные четвёртого точного файла."""
+    if путь != "Инструменты/fum-perevod-obyyavlenij-koda-na-russkij-yazyik/tests/test_сценариев_полного_ответа.py":
+        return frozenset()
+    try:
+        дерево = ast.parse(текст)
+    except (SyntaxError, ValueError, UnicodeError, RecursionError):
+        return frozenset()
+    строки = текст.splitlines()
+    родители = {ребёнок: родитель for родитель in ast.walk(дерево)
+        for ребёнок in ast.iter_child_nodes(родитель)}
+    окончания = set()
+    for узел in ast.walk(дерево):
+        if not isinstance(узел, ast.Constant) or type(узел.value) is not str:
+            continue
+        if узел.lineno != узел.end_lineno:
+            continue
+        родитель = родители.get(узел)
+        самостоятельный = (
+            isinstance(родитель, (ast.Assign, ast.AnnAssign)) and родитель.value is узел
+            or isinstance(родитель, (ast.Tuple, ast.List)) and узел in родитель.elts
+            or isinstance(родитель, ast.Call) and узел in родитель.args
+            or isinstance(родитель, ast.keyword) and родитель.value is узел
+        )
+        if not самостоятельный:
+            continue
+        байты = строки[узел.lineno - 1].encode()
+        начало = len(байты[:узел.col_offset].decode())
+        конец = len(байты[:узел.end_col_offset].decode())
+        сырой = строки[узел.lineno - 1][начало:конец]
+        try:
+            токены = [токен for токен in tokenize.generate_tokens(io.StringIO(сырой).readline)
+                if токен.type not in (tokenize.NEWLINE, tokenize.NL, tokenize.ENDMARKER)]
+        except (tokenize.TokenError, IndentationError):
+            continue
+        if len(токены) != 1 or токены[0].type != tokenize.STRING or токены[0].string != сырой:
+            continue
+        if (len(сырой) >= 2 and сырой[0] in ("'", '"') and сырой[-1] == сырой[0]
+                and not сырой.startswith(сырой[0] * 3) and "\\" not in сырой):
+            окончания.add((узел.lineno, начало, конец, сырой[0]))
+    return frozenset(окончания)
+
+
+def разрешённый_системный_литерал(путь, строка, форма, последняя_строка, строковая_фикстура):
+    """Точный quoted token и конечные разделители; неизвестный контекст отказывает."""
+    if форма.kind != "posix-absolute":
+        return False
+    if форма.value not in СИСТЕМНЫЕ_ЛИТЕРАЛЫ_НАТИВНОГО_МОСТА.get(путь, frozenset()):
+        return False
+    if not 0 < форма.start < форма.end < len(строка):
+        return False
+    if строка[форма.start:форма.end] != форма.value:
+        return False
+    кавычка = строка[форма.start - 1]
+    if кавычка not in ("'", '"') or строка[форма.end] != кавычка:
+        return False
+    до = строка[:форма.start - 1].rstrip()
+    после = строка[форма.end + 1:].lstrip()
+    if до and до[-1] not in "=:([,":
+        return False
+    if строковая_фикстура and до.endswith("shell:"):
+        return True
+    if после:
+        if после[0] in ",;":
+            return True
+        # Конец самостоятельного поля CJS в буквальных синтаксических данных.
+        return до.endswith(":") and после.startswith("}") and после[1:].lstrip().startswith(";")
+    # Конец промежуточной строки не доказывает завершение выражения:
+    # следующий литерал или оператор может стоять после перевода строки/комментария.
+    return последняя_строка and (not до or до[-1] in "=:")
+
+
 def classify_candidate(
     path: str,
     line: str,
@@ -566,6 +647,8 @@ def classify_candidate(
     form: PathForm,
     request_text_lines: frozenset[int],
     позиции_исполнителя: frozenset[tuple[int, int, int]],
+    последняя_строка: bool = False,
+    строковая_фикстура: bool = False,
 ) -> str:
     if _is_external_source(path):
         return f"report.external-source.{form.kind}"
@@ -585,6 +668,8 @@ def classify_candidate(
     if _is_documented_placeholder(path, form):
         return "allow.documented-placeholder"
     if _is_system_runtime(form):
+        if разрешённый_системный_литерал(path, line, form, последняя_строка, строковая_фикстура):
+            return "allow.system-runtime"
         if (
             path == SYSTEM_REGISTRY_PATH
             or path.endswith(".md")
@@ -706,7 +791,9 @@ def scan_text(
     )
     candidates: list[Candidate] = []
     сырое_обсуждение = _сырое_обсуждение(path, text)
-    for line_number, line in enumerate(text.splitlines(), start=1):
+    строки = text.splitlines()
+    окончания_фикстур = простые_строки_языковой_фикстуры(path, text)
+    for line_number, line in enumerate(строки, start=1):
         line_hash = _line_digest(line)
         нефайловые_фрагменты = _нефайловые_фрагменты_JSON(path, line)
         for form in detect_path_forms(line):
@@ -717,6 +804,10 @@ def scan_text(
                 form,
                 request_lines,
                 позиции_исполнителя,
+                line_number == len(строки),
+                any(номер == line_number and начало < form.start - 1
+                    and конец == form.end + 2 and line[form.end] != кавычка
+                    for номер, начало, конец, кавычка in окончания_фикстур),
             )
             if form.kind == "posix-user-home" and (line_number, form.start, form.end) in допущенные_метаданные:
                 категория = "allow.collaboration-observation-metadata.posix-user-home"

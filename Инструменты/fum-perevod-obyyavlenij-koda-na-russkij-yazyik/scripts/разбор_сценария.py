@@ -1,6 +1,6 @@
 """Ограниченный CommonJS: связывания, поля и независимый Node syntax-check.
 
-Исходный сценарий никогда не исполняется. Это закрытый подъязык семи
+Исходный сценарий никогда не исполняется. Это закрытый подъязык восьми
 сценариев ответа, включая два компонента потока, а не общий разбор JavaScript.
 """
 
@@ -21,6 +21,7 @@ import subprocess
     "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_смешанный_профиль.cjs",
     "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/мост_полного_ответа_узла.cjs",
     "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/хэш_полного_ответа_узла.cjs",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/вызов_нативной_подготовки.cjs",
 })
 источники_внешних_ключей = {
     **dict.fromkeys("schemaVersion thread id kind status type page order limit nextCursor hasMore turns error startedAt completedAt durationMs items command output text phase content isError".split(),
@@ -31,6 +32,8 @@ import subprocess
                     "https://nodejs.org/api/"),
     "sha256": "Проекты/рабочий-контекст/контракты/описание-ответа.json",
     "tty": "Инструменты/fum-svyaznostj-rabochej-sessii/мост-полного-ответа-узла.md",
+    "shell": "Инструменты/fum-svyaznostj-rabochej-sessii/нативная-подготовка-базиса.md",
+    "login": "Инструменты/fum-svyaznostj-rabochej-sessii/нативная-подготовка-базиса.md",
     "PYTHONOPTIMIZE": "Инструменты/fum-svyaznostj-rabochej-sessii/компактный-ответ-задачи.md",
 }
 источники_контрактных_ключей = dict.fromkeys(
@@ -43,6 +46,7 @@ import subprocess
     "type command output", "type id text phase", "content isError", "type text", "isError",
     "cmd workdir max_output_tokens yield_time_ms", "session_id chars max_output_tokens yield_time_ms",
     "cmd workdir tty max_output_tokens yield_time_ms", "байты sha256",
+    "cmd workdir shell login max_output_tokens yield_time_ms",
     "threadId turnLimit includeOutputs maxOutputCharsPerItem", "exit_code output",
     "cwd encoding stdio", "cwd env encoding stdio", "flag mode", "flag", "recursive", "recursive force",
     "mcp__codex_app__read_thread exec_command apply_patch",
