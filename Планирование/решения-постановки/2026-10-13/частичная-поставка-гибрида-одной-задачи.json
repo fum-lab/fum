@@ -1,0 +1,287 @@
+{
+  "K13_не_родитель_частичной_поставки": true,
+  "ветка_поставки": "refs/heads/codex/dir/chastichnaya-postavka-gibrida-odnoj-zadachi",
+  "гибрид_не_показал_ускорения": true,
+  "дерево_источника": "31e9c2b5d07c11d786a0bddf1b8153e635907ee5",
+  "допуск_настоящего_эффекта": false,
+  "допустимая_адаптация_руководства": "Ровно две ссылки происхождения: профиль на точную историческую копию в новом J; исходный запрос на новый отчёт с точным K13:path оригинала. Три Python-файла сохраняют blob/mode/SHA. Содержание и пределы опыта не меняются.",
+  "исполнитель": "01a12ab5-9b51-7e90-a5b6-eaa95ba158f3",
+  "историческая_область": "Журнал/2026-10-13_12-30-12_MSK_выделить-проверенный-гибрид-одной-задачи/материалы/исторический-гибрид-ACT16",
+  "исторические_листья": [
+    {
+      "blob": "a6f719f60ebfcc1241af9c368572d5264a7350b1",
+      "sha256": "2d69e8cbdbe015c9610e1dd0fdb191fd44414daef874b5ae8556808c58a7adcd",
+      "байт": 65349,
+      "путь": "Журнал/2026-10-13_09-31-29_MSK_проверить-гибрид-одной-задачи/материалы/профили/переходы-одной-задачи-2.json",
+      "режим": "100644"
+    },
+    {
+      "blob": "201e8e145a7655d1697040500b5fc5aec697f3ae",
+      "sha256": "b9c6c26097ce65d6c309e2f31a4ed73478fa060f6c12871f7af5eb6e08eb4baa",
+      "байт": 11005,
+      "путь": "Журнал/2026-10-13_09-31-29_MSK_проверить-гибрид-одной-задачи/материалы/профили/переходы-одной-задачи-2-работник-1.json",
+      "режим": "100644"
+    },
+    {
+      "blob": "6f2a6fa88125f18e1651b58246258fc0a08ec26f",
+      "sha256": "1b3ce8777603d857d8e5337df4a5972c682b59bc7ecd6770aa277b0a90fbf298",
+      "байт": 11005,
+      "путь": "Журнал/2026-10-13_09-31-29_MSK_проверить-гибрид-одной-задачи/материалы/профили/переходы-одной-задачи-2-работник-2.json",
+      "режим": "100644"
+    },
+    {
+      "blob": "fd82a0c971d83b9ddd9d87b90df7ea323ccd1e5d",
+      "sha256": "7404354779e63b96e8acb7a2f34b80bee30e54524c82e9a031bac6a870f0a4cf",
+      "байт": 11005,
+      "путь": "Журнал/2026-10-13_09-31-29_MSK_проверить-гибрид-одной-задачи/материалы/профили/переходы-одной-задачи-2-работник-3.json",
+      "режим": "100644"
+    },
+    {
+      "blob": "737b97024ee330133f18e75f4b6ae0a7a30e8654",
+      "sha256": "5e9a63bf8954e925bd75876021452180ec5570b5af337b6f71281a49859e918e",
+      "байт": 11005,
+      "путь": "Журнал/2026-10-13_09-31-29_MSK_проверить-гибрид-одной-задачи/материалы/профили/переходы-одной-задачи-2-работник-4.json",
+      "режим": "100644"
+    },
+    {
+      "blob": "6f8b8d566f0387d15d18fbb6da8fe7c4affadf47",
+      "sha256": "550a18561ae64ea7808160c1b5831e093261c238c88d39a6fd1b778818c4298b",
+      "байт": 11005,
+      "путь": "Журнал/2026-10-13_09-31-29_MSK_проверить-гибрид-одной-задачи/материалы/профили/переходы-одной-задачи-2-работник-5.json",
+      "режим": "100644"
+    },
+    {
+      "blob": "e90a08348c73064a679d11902c79cfd367267929",
+      "sha256": "58c9e2f5234491305fcf6a83f94329a939b16bca850e4863687b9de655b7d5f8",
+      "байт": 11005,
+      "путь": "Журнал/2026-10-13_09-31-29_MSK_проверить-гибрид-одной-задачи/материалы/профили/переходы-одной-задачи-2-работник-6.json",
+      "режим": "100644"
+    },
+    {
+      "blob": "d074d339d954c30533a4eb47ac3f07c7440438bf",
+      "sha256": "6cf5d3459d0e259d46add91bd6e085482c218b1ae09aa591b1b7d5828e0c5ff6",
+      "байт": 1274,
+      "путь": "Журнал/2026-10-13_09-31-29_MSK_проверить-гибрид-одной-задачи/материалы/запуски-проверок/16_23fd6e29-6ba1-4b16-a1a0-edcd9725cf8f.json",
+      "режим": "100644"
+    },
+    {
+      "blob": "7f6f024df6088efe5f29fa2ac907a256df5a7b4f",
+      "sha256": "ac1dc6e3e559adc5b1bf277aac09d8a6fbbf6db749fd1134a8a0f5682aaaec1b",
+      "байт": 1198,
+      "путь": "Журнал/2026-10-13_09-31-29_MSK_проверить-гибрид-одной-задачи/материалы/запуски-проверок/18_b5f5357c-2960-443a-ae7d-76b889034818.json",
+      "режим": "100644"
+    }
+  ],
+  "источник": "a7763a28bd6cd3486d82bd2448097dc3fe3a3c0e",
+  "исходный_запрос": {
+    "sha256": "df07fdfa1d9f080d20c89cb02a81afcc0b2997c0102360b7ea274fbaad91f829",
+    "коммит": "a7763a28bd6cd3486d82bd2448097dc3fe3a3c0e",
+    "путь": "Журнал/2026-10-13_09-31-29_MSK_проверить-гибрид-одной-задачи/запрос.md"
+  },
+  "корневой_UUID": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "новый_журнал": "Журнал/2026-10-13_12-30-12_MSK_выделить-проверенный-гибрид-одной-задачи",
+  "основа": "0c5cc94b3024b7ba6a36aae4ac8c9f1f5c998237",
+  "продукты": [
+    {
+      "blob": "97083645a73313cb856d30a34b48bca6a4a8032e",
+      "sha256": "d621d35af9e0138d389bb081e6caf4fd84687282970240117604e71b4f431e81",
+      "байт": 11965,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/переходы_задачи_узла.py",
+      "режим": "100644"
+    },
+    {
+      "blob": "778c036ff800b9a0c8f1153f777d3ef7cb6c40fa",
+      "sha256": "956acf325a87b8e2903c9b253b3335937833de405df40f0da0288bd76c4d69e0",
+      "байт": 21515,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_переходов_задачи_узла.py",
+      "режим": "100644"
+    },
+    {
+      "blob": "a0013f0653faaed130c2add06a35625b166a143e",
+      "sha256": "7df629bb64f46d500d8545341417a7a69a6ceab407816eec609d239d51b94d1a",
+      "байт": 20262,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_переходов_задачи_узла.py",
+      "режим": "100644"
+    },
+    {
+      "blob": "e3bcf7a4adcf4b0cfd3aa55795ac45a95099c917",
+      "sha256": "252f3c575a2081632820e69206d4a351723fbe73f234bad0a25e79bb2121d8c3",
+      "байт": 14579,
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/переходы-задачи-узла.md",
+      "режим": "100644"
+    }
+  ],
+  "совпавшие_зависимости": [
+    {
+      "blob": "9dcaed8566dd72e5a50a0ebc68b80953f8f6d565",
+      "sha256": "7e6972e04306c6f91bd17ab3f18579a288fff352d90c5b26a75e64c0a54743d5",
+      "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py"
+    },
+    {
+      "blob": "c04efc426bb31e316afce6c7b92e935da552599c",
+      "sha256": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+      "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py"
+    },
+    {
+      "blob": "8a62a7378186aee14449f0108a140c152fdca457",
+      "sha256": "f66a58569eaca1dcb623daf4265e586b167da7f69e335175fd815a8cd38402b9",
+      "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/связь_отпечатка_с_коммитом.py"
+    },
+    {
+      "blob": "f8874ae387db030840aabe40793ca30b04e21b68",
+      "sha256": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+      "путь": "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py"
+    },
+    {
+      "blob": "97da95eb18a7de27628ff5e00ccba7c375774af0",
+      "sha256": "81168e2292e3f269e48fd26e651257b0bfcf3970cad8c29ea361517cde3d6e3e",
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_гит.py"
+    },
+    {
+      "blob": "6981082cde72fd2132f6af728f887487f561ab91",
+      "sha256": "734cb08c12f2172b37e3c437f6ca75ecaf06284e1d6ac69434948f69ad500cc6",
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_отчёта.py"
+    },
+    {
+      "blob": "f50c2433600daebb6da0fefe87473948a40dd4c7",
+      "sha256": "434956e0c967ee34315514fe65899c2602f68d0687b581218a28ad3206b9686a",
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_план.py"
+    },
+    {
+      "blob": "667b0e583227681ee4cd69c1a251118f6da60604",
+      "sha256": "1c88b6d88a2fde9f00d8b1647a99f4ece69b35089f6e1a69212d0a449c84aa10",
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_состояние.py"
+    },
+    {
+      "blob": "bd176ebeb2901fcbe064b9c506a5c678cf6db95b",
+      "sha256": "838229483c487e982af520d37792733c308a467c30109324fdd11997df091350",
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/обратная_доставка.py"
+    },
+    {
+      "blob": "42ba8d008c96250f803802d4d5134aee0809093e",
+      "sha256": "c63f59ae86740213de3d1e1fa6ee097f8b0d1379c3d626b22a0bc2fa6ee0aa67",
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/постановка_задачи.py"
+    },
+    {
+      "blob": "c3e6828b17199bd4732715c79758ce1742c8d78c",
+      "sha256": "5c5147cbbc72887cc84cd7ad35c96606c17f2766cdcee926fd9da066d0fc46a1",
+      "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py"
+    },
+    {
+      "blob": "fac1dddef95b974399618f30df7a464fc77a00c7",
+      "sha256": "33993e344ac2cd531cfbfafc8179b4001653256748a385223aff33438b4062fc",
+      "путь": "Инструменты/fum-reyestr-planirovaniya/tests/test_назначение_доставки.py"
+    },
+    {
+      "blob": "84a25ee9d4f83f45ebf3cb44974cc3a2d9c1660a",
+      "sha256": "c083f53c243437dbaf8fddc92340fb7a9ccc472340557da33c63517ffbb54bb4",
+      "путь": "Инструменты/fum-reyestr-planirovaniya/tests/test_обратная_доставка.py"
+    },
+    {
+      "blob": "9a09a77f0160b5d98882f4ce2e460470b90e243d",
+      "sha256": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py"
+    },
+    {
+      "blob": "17d8c1ffcce11d650f8fc2f62cb8758585e63bae",
+      "sha256": "a01d31852bfe6541cc24aa14a04447a65f0c6d08635152462ecd2f868a547b84",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py"
+    },
+    {
+      "blob": "f81c4bf260ccfb67ea05f43ec2e21e0bfb5071cc",
+      "sha256": "847fa3af66de18f9c73066d719bf089357ff865e6ce13fa721c219b65e270db0",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py"
+    },
+    {
+      "blob": "157363e2e3c259d86c77880376d564986424ac68",
+      "sha256": "3f554d5a30082357fcdbf71e877a14dda9c93b2ea8caef14f0c10ad758b676dd",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/восстановление_писателя.py"
+    },
+    {
+      "blob": "51072ab39f5ea978572339cc2ec231dd741ca5d4",
+      "sha256": "f19337c6a9b884e9e9a70ff6e4fa499680d587b79661811e927f3ea37b06ddbd",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/восстановление_прерванной_задачи.py"
+    },
+    {
+      "blob": "873cde8997ed8e2d8f959b27ca758dd2e265110a",
+      "sha256": "88fd07a85fb60500910b33bc077c91da58d6807651438cfd3fb52b583c8ccc5d",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/выбор_ожиданий_узла.py"
+    },
+    {
+      "blob": "b310a93403dbddd4f43f91a87cd1bc7140967493",
+      "sha256": "9478b1f73fb9a2a8d605bdbe9874eba14e927e20400934b9dc98ae4433e8a09e",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/захват_вывода.py"
+    },
+    {
+      "blob": "642e78fff3045cc379e09cbb40bc35428d000e23",
+      "sha256": "ba79d7810793c0eef93a860ce73e0a9407801fdd929874cdee0f5078ce4a0dcf",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исторические_неподтверждённые_приёмки.py"
+    },
+    {
+      "blob": "94261b7bcef0d8e24cd99e0afbaffd24b43a8d43",
+      "sha256": "f948204b795369a8d99b63d2a44b8d3ef7ffb971a96420ddeaacf7f1eec69d61",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_пути_гита.py"
+    },
+    {
+      "blob": "1c2417625fe822d6c22a088f5d2b53ad95fe4f7a",
+      "sha256": "40cf9ba7c625659c0d58cdf4beb958bd495d957ba5667f19fe10c2c5eed5c06a",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/каталог_наблюдений_узла.py"
+    },
+    {
+      "blob": "239deeedebcba82c2f812cf2783dff7a39625fc7",
+      "sha256": "07faaee40398558857219e9b80ea9c7ff582a139a26dfd62acd841368a4c129d",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_остаток.py"
+    },
+    {
+      "blob": "2cad0d50d28ba33ce304d1ed5b723edc97dccff8",
+      "sha256": "8b487e9b6fc718a195602682bc6a30809137421fae5963b2afc8a017b6e3890e",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_ответ_задачи.py"
+    },
+    {
+      "blob": "907e66d2af1e5abd2c834ab184a112e8664dbccf",
+      "sha256": "09dba811f479312d0ad6e06cb5a5c4e46b764f1d1b011c72b925af276f7d19e9",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/кэш_сверки_остатка.py"
+    },
+    {
+      "blob": "8d706d6c3f3abd521bdcc8700f5cb447a0b7a624",
+      "sha256": "5de258cdfbbf53f31819807ad9712728145b5b03c8155b65522c201ff9a7e732",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обработка_сообщений.py"
+    },
+    {
+      "blob": "f7323e792585e11e81a8068da64ffb2507a233ab",
+      "sha256": "86a91ddbd67546ca32b9f9c4eb434484cce0a31aebde4eb85a71b6787a5f3dce",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обычное_поручение.py"
+    },
+    {
+      "blob": "1db479b1446f070f73218b58acecfbbe3e6bdb01",
+      "sha256": "88978e0b23b1dee65bf8fa1ac4b65e8eae3a2c3907453f89cfc1bf57d812f4da",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py"
+    },
+    {
+      "blob": "2e861b84946d6b0744a9ba1bd9bba2fb42ab77d6",
+      "sha256": "9b4b0d784cfe53db3ae545fc62764cf4fb013d62d4c641c5d6436facc69124fa",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_делегации.py"
+    },
+    {
+      "blob": "1d9bafbf31a707ae11a2cdbc2dc0fdc079689098",
+      "sha256": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py"
+    },
+    {
+      "blob": "c19a260ce429efdb3e4dfeac5fb55eb34c979e20",
+      "sha256": "a72dc3e31107ebcfc929d462bbdd647ed4587334d6a16080f5969dcb34438079",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py"
+    },
+    {
+      "blob": "89813f8796d6ab565bacac78475f51f92e73f2bc",
+      "sha256": "50a3f80992097ade7cec619a565bcd00fdf2524f68088c9b13dcb531d4a2a752",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/состояние_задач_узла.py"
+    },
+    {
+      "blob": "f895a6e6fa16e28d92b1fcd0c0ef5a04f7f3b671",
+      "sha256": "1c6f8e0b8e4f2cd1188a13d9ae66099d00f1fbb9a94d39c0e7c7da4422fc9bd2",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_восстановление_прерванной_задачи.py"
+    }
+  ],
+  "схема": "fum.выбор-частичной-лабораторной-поставки.1"
+}
