@@ -16,6 +16,11 @@ def проверить_роль(роль):
     return isinstance(роль, str) and re.fullmatch(РОЛЬ, роль) is not None
 
 
+def проверить_свежую_роль(роль):
+    """Новый эффект Codex; исторический parser сохраняет прежние роли."""
+    return isinstance(роль, str) and роль == "FUM Codex"
+
+
 def проверить_токен(значение):
     return (isinstance(значение, str) and re.fullmatch(ТОКЕН, значение) is not None
             and значение.lower() not in НЕИЗВЕСТНО)

@@ -7011,6 +7011,96 @@
       "count": 2,
       "category": "allow.nonpath-syntax",
       "reason": "Сохраняет дословную точную цитату координатора: косые черты разделяют реквизиты хэшей, счётчиков, квитанций и согласования остановки и не обозначают файловые адреса."
+    },
+    {
+      "id": "codex-author-child-fixture-relative-tail",
+      "path": "Инструменты/fum-konvejyer-proizvodnyikh-vetok/tests/фикстура_дочернего_коммита.py",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:8f6e3693a16ef73c959069beb08b83a7334fdfaa150b06a5a58e1576e71daec0",
+      "count": 1,
+      "category": "allow.test-fixture",
+      "reason": "Точная строка открытой дочерней фикстуры строит относительный путь в собственном временном Git; буквальный хвост не является адресом машины."
+    },
+    {
+      "id": "codex-author-creator-placeholder-20",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:8c4a53bb1c8c7fd7c3fe1a939e6b9b6db586263271a31d879839bfe7638a4aa4",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Точная строка документации создателя содержит обезличенный буквальный шаблон приватного пути; адрес машины и runtime-данные не задаются."
+    },
+    {
+      "id": "codex-author-creator-placeholder-21",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:b9fd7377c1f0ad56696ea65906e6c297b9282fa71536fca86ec4b09e36f8b327",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Точная строка документации создателя содержит обезличенный буквальный шаблон приватного пути; адрес машины и runtime-данные не задаются."
+    },
+    {
+      "id": "codex-author-creator-placeholder-24",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:6576934061c6ae26416c36a6872b2acf31c601fa7e99c4c85dad0a240dcc3add",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Точная строка документации создателя содержит обезличенный буквальный шаблон приватного пути; адрес машины и runtime-данные не задаются."
+    },
+    {
+      "id": "codex-author-creator-placeholder-31",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:e6cb41fbbd5af70a62306c92c3bcc1122d064a11f4c9617c7ff162bc53181eb8",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Точная строка документации создателя содержит обезличенный буквальный шаблон приватного пути; адрес машины и runtime-данные не задаются."
+    },
+    {
+      "id": "codex-author-creator-placeholder-251",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:bbfa3c55f2864fa3d128424fdf0fb28ea6bc69f3a3db31a93ea1bed44c2c98dd",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Точная строка документации создателя содержит обезличенный буквальный шаблон приватного пути; адрес машины и runtime-данные не задаются."
+    },
+    {
+      "id": "codex-author-creator-placeholder-263",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:84030c678344f24c4dd4dcc2f2c57fe347ce91372f07028110b5b2a0b753d67a",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Точная строка документации создателя содержит обезличенный буквальный шаблон приватного пути; адрес машины и runtime-данные не задаются."
+    },
+    {
+      "id": "codex-author-creator-placeholder-264",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:70a3e3b7dec1ede5ed018d7fe25445869ca0bdeb5c30712dc6111da4726dbc65",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Точная строка документации создателя содержит обезличенный буквальный шаблон приватного пути; адрес машины и runtime-данные не задаются."
+    },
+    {
+      "id": "codex-author-creator-placeholder-265",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:4fa7e067130678c3a54323fd5194d8f15776c4428f2bddd685057cd576f0e5d5",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Точная строка документации создателя содержит обезличенный буквальный шаблон приватного пути; адрес машины и runtime-данные не задаются."
+    },
+    {
+      "id": "codex-author-creator-placeholder-274",
+      "path": "Инструменты/fum-svyaznostj-rabochej-sessii/создание-коммита.md",
+      "kind": "posix-absolute",
+      "line_sha256": "sha256:aa876f420db8aa8ef3c5d44dd342fba4c4cc6afad3fdb1fc813c451332444b10",
+      "count": 1,
+      "category": "allow.nonpath-syntax",
+      "reason": "Точная строка документации создателя содержит обезличенный буквальный шаблон приватного пути; адрес машины и runtime-данные не задаются."
     }
   ],
   "метаданные": [
