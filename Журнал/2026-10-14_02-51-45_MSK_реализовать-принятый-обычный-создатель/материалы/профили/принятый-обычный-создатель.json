@@ -1,0 +1,197 @@
+{
+  "граница": "Подготовка фикстуры, внешний v4 и recency исключены; захват K, guards и API внутри каждого consumer включены.",
+  "запуски": [
+    {
+      "измерения": [
+        {
+          "вызов_нс": 1646917833,
+          "захват_нс": 734457542,
+          "исполнитель": 92760,
+          "процесс_нс": 2736221833,
+          "этап": "подготовить"
+        },
+        {
+          "вызов_нс": 7132818084,
+          "захват_нс": 722751459,
+          "исполнитель": 92866,
+          "процесс_нс": 8207415375,
+          "этап": "готово"
+        },
+        {
+          "вызов_нс": 12106483750,
+          "захват_нс": 744385833,
+          "исполнитель": 93100,
+          "процесс_нс": 13234128666,
+          "этап": "создать"
+        },
+        {
+          "вызов_нс": 1065975875,
+          "захват_нс": 791095125,
+          "исполнитель": 93548,
+          "процесс_нс": 2237632625,
+          "этап": "повтор"
+        }
+      ],
+      "процесс": 92698,
+      "сценарий": "обычный-создатель-.7-.9-настоящий-гит-и-повтор-квитанции"
+    },
+    {
+      "измерения": [
+        {
+          "вызов_нс": 1816665666,
+          "захват_нс": 773818042,
+          "исполнитель": 93689,
+          "процесс_нс": 2974528541,
+          "этап": "подготовить"
+        },
+        {
+          "вызов_нс": 7194048583,
+          "захват_нс": 770728000,
+          "исполнитель": 93957,
+          "процесс_нс": 8316435417,
+          "этап": "готово"
+        },
+        {
+          "вызов_нс": 11606423166,
+          "захват_нс": 728131292,
+          "исполнитель": 94196,
+          "процесс_нс": 12681500125,
+          "этап": "создать"
+        },
+        {
+          "вызов_нс": 984462500,
+          "захват_нс": 747733459,
+          "исполнитель": 95510,
+          "процесс_нс": 2080220375,
+          "этап": "повтор"
+        }
+      ],
+      "процесс": 93616,
+      "сценарий": "обычный-создатель-.7-.9-настоящий-гит-и-повтор-квитанции"
+    },
+    {
+      "измерения": [
+        {
+          "вызов_нс": 1641177959,
+          "захват_нс": 735996292,
+          "исполнитель": 95626,
+          "процесс_нс": 2738005500,
+          "этап": "подготовить"
+        },
+        {
+          "вызов_нс": 7051319458,
+          "захват_нс": 720760917,
+          "исполнитель": 95736,
+          "процесс_нс": 8122282500,
+          "этап": "готово"
+        },
+        {
+          "вызов_нс": 11024165083,
+          "захват_нс": 723178250,
+          "исполнитель": 95960,
+          "процесс_нс": 12099431125,
+          "этап": "создать"
+        },
+        {
+          "вызов_нс": 991053250,
+          "захват_нс": 723709708,
+          "исполнитель": 96319,
+          "процесс_нс": 2060458666,
+          "этап": "повтор"
+        }
+      ],
+      "процесс": 95566,
+      "сценарий": "обычный-создатель-.7-.9-настоящий-гит-и-повтор-квитанции"
+    }
+  ],
+  "кэш_ОС_очищен": false,
+  "медианы_нс": {
+    "готово": 8207415375,
+    "повтор": 2080220375,
+    "подготовить": 2738005500,
+    "создать": 12681500125
+  },
+  "настоящая_приёмка": false,
+  "состав_sha256": {
+    "Инструменты/fum-bratislavskaya-proyekciya-pamyati/scripts/братиславская_проекция_памяти.py": "933358b2ef7b576fd86bf57b20c45eed4d912e8e571c821ccb7d7b2be3753e22",
+    "Инструменты/fum-obratnyiye-ssyilki-voprosov/scripts/check-question-backlinks.py": "ee26082227da2d8a291f050d716cfe66622a71ff433f8727d9e06efa89b4cbec",
+    "Инструменты/fum-ocenki/scripts/доказательный_обзор.py": "e49255eb8bd8ca577f3fa44b5beeea1aba9dcad950119cc5557ab60a9411f3b0",
+    "Инструменты/fum-ocenki/scripts/контекст_обзора.py": "f69c6641a1a97f3660caa036c29d8ec41738cf287d8239aaecbfd52e9a72a442",
+    "Инструменты/fum-ocenki/scripts/контракт_обзора.py": "f527fab271f945e5b0fbb8372857e96d67acf425c24b13fb68babae0a8025406",
+    "Инструменты/fum-ocenki/scripts/построение_обзора.py": "bb6ff7533c81fd651e2fbcc3d2ce88d4967abe1b9a53481d618a284cca27b4a4",
+    "Инструменты/fum-ocenki/scripts/приёмки_обзора.py": "376343588651c24b5072c23b51c577a96c7143286832381848f1fbb0f7aff9e5",
+    "Инструменты/fum-ocenki/scripts/реестр_обзора.py": "9ac77366ac6f8b47ea36eb6c41bde28ed1dbb7f38be56edc44efb864eff4060d",
+    "Инструменты/fum-ocenki/scripts/свидетельства_обзора.py": "8bbc26e3a5855d5b6881887f5b4f08c918bfd9dddb5d0c80b1e051632c6d051e",
+    "Инструменты/fum-ocenki/scripts/сигналы_обзора.py": "64fe462810d827b9673eaf0e31b307f0c02ac71c95d4e974917961ba21b3382f",
+    "Инструменты/fum-ocenki/scripts/срез_гит_обзора.py": "04bf2c38f68a02d59d955e1e9109b4637242fb5d88684234c9c1f435c15c3013",
+    "Инструменты/fum-ocenki/scripts/формат_обзора.py": "f8e139a9ab4c2aaaded4b4349239c274357a856ce887e634784a08ffec72408f",
+    "Инструменты/fum-ocenki/scripts/хранение_обзора.py": "7f0ae8a2090968652d3261887181f5e250473b69e3f9fc354fb46e1aff9064c9",
+    "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py": "7e6972e04306c6f91bd17ab3f18579a288fff352d90c5b26a75e64c0a54743d5",
+    "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+    "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/связь_отпечатка_с_коммитом.py": "f66a58569eaca1dcb623daf4265e586b167da7f69e335175fd815a8cd38402b9",
+    "Инструменты/fum-pereimenovaniye-fajla-s-obnovleniyem-ssyilok/scripts/pereimenovatj-fajl-s-obnovleniyem-ssyilok.py": "caf78daee202eeb3a2eba81eb5ffbd2b3e60d64933312ec862a6884eef924b9d",
+    "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py": "22481bce8934b14f1df4173b615c282b04e0c6ce6034fe8cb3b2816416289308",
+    "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/proveritj-mashinno-lokaljnyiye-puti.py": "51dc3ca56064aa6d4fd923c19eb80c57673badbbadbf3aaae9021018a6c63c81",
+    "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/метаданные_наблюдений.py": "71c3de5440388e2ea3161ccf74f7844fdeb19c0e1b6274ca7342dbc75c04fa40",
+    "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_гит.py": "81168e2292e3f269e48fd26e651257b0bfcf3970cad8c29ea361517cde3d6e3e",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/доставка_план.py": "434956e0c967ee34315514fe65899c2602f68d0687b581218a28ad3206b9686a",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/постановка_задачи.py": "c63f59ae86740213de3d1e1fa6ee097f8b0d1379c3d626b22a0bc2fa6ee0aa67",
+    "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py": "5c5147cbbc72887cc84cd7ad35c96606c17f2766cdcee926fd9da066d0fc46a1",
+    "Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py": "36667347ee2946e0f31deda39b8ac65c451aa77bef4a426b48ada0e2353849c8",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/расширение_шаблонов.py": "58b8315eaf1af7d0e99254b199320facf40855fcdb3709a6cffba131d49ccb0e",
+    "Инструменты/fum-struktura-papok-zaprosov/шаблоны/запрос.md.шаблон": "f1cf28e4481bc64aab04aad646bbe5fea8e58f76c0e5967b9ac18856c60ecf97",
+    "Инструменты/fum-struktura-papok-zaprosov/шаблоны/отчёт.md.шаблон": "6db76ec55037fdd40112dd97e32a42d882238c07738039adaf4ab2a0751bb359",
+    "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py": "57a2c9161ac86b1a4c8737f1acf22b5e76baae0a47260da4a54f98c4b8d4b330",
+    "Инструменты/fum-svezhestj-markdown/scripts/маска_архива.py": "f6ec16caf952f6ac7ee3091ebc6cb3f125929982979950399647958bd3b5d39b",
+    "Инструменты/fum-svezhestj-markdown/scripts/ограды_цитат.py": "58542c436949a4e0b529f158c89db78b825ee3568acd960fb9e9a47b3210bd02",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py": "a01d31852bfe6541cc24aa14a04447a65f0c6d08635152462ecd2f868a547b84",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py": "847fa3af66de18f9c73066d719bf089357ff865e6ce13fa721c219b65e270db0",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/возврат_RAW_писателя.py": "7f90bec76f69ab8df0961f0d91e8fbd3f830ff2689e15464fff08d88e46db68f",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/восстановление_прерванной_задачи.py": "f19337c6a9b884e9e9a70ff6e4fa499680d587b79661811e927f3ea37b06ddbd",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/вход_принятого_писателя.py": "5a7d075f0c3bdc2845983183af2bfb28e4968848e65d004c8274a6921b2ab9fc",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/вход_принятого_создателя.py": "ee4cb474d8f41c622a11921c2ce823dff9ef8a72e2181ff261eab70783a08ea5",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_коммита.py": "37f6d7e92da56d2c6fa880a5849e484d54cd9460384a94f4abe7945d828300d3",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_этапа.py": "8091017668f5f43727f5258ac1d0fd56a305a9b605591cf89cc72d276b8f7753",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/граница_выбранных_команд.py": "07d1533132ae2253d7c8fced6b3c71771e892ddb0f6d765cc837bab94a9b3d6e",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/запуск_принятого_создателя.py": "4c4f8e2d96af95e78670db1892763709d2d10fe27aff645f83e19b73727d637e",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исполнение_принятого_кода.py": "d2fe64709a92cc642ec28e1a669cbc15561fdcc1b73c9fb81b7736821465605f",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исторические_неподтверждённые_приёмки.py": "ba79d7810793c0eef93a860ce73e0a9407801fdd929874cdee0f5078ce4a0dcf",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_модели.py": "b7bbed1f4aaba534347db9235a630c8b968f54f012e4ea5d21cd89dd2529e214",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_пути_гита.py": "f948204b795369a8d99b63d2a44b8d3ef7ffb971a96420ddeaacf7f1eec69d61",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/каталог_наблюдений_узла.py": "40cf9ba7c625659c0d58cdf4beb958bd495d957ba5667f19fe10c2c5eed5c06a",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_остаток.py": "07faaee40398558857219e9b80ea9c7ff582a139a26dfd62acd841368a4c129d",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/компактный_ответ_задачи.py": "8b487e9b6fc718a195602682bc6a30809137421fae5963b2afc8a017b6e3890e",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/кэш_сверки_остатка.py": "09dba811f479312d0ad6e06cb5a5c4e46b764f1d1b011c72b925af276f7d19e9",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обновление_ожиданий_узла.py": "2924ccbb74343e6a1910abc55c089d693191030b10fb1557f8f8008b30880cc7",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обработка_сообщений.py": "5de258cdfbbf53f31819807ad9712728145b5b03c8155b65522c201ff9a7e732",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обычное_поручение.py": "86a91ddbd67546ca32b9f9c4eb434484cce0a31aebde4eb85a71b6787a5f3dce",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py": "88978e0b23b1dee65bf8fa1ac4b65e8eae3a2c3907453f89cfc1bf57d812f4da",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенести_историю_модели.py": "f54219a00028fea3d2cf5d6423ca40fa4a4d400d01586ff22a5bd32999942027",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенос_модели_этапа.py": "7d4c9cf4bbec682efbf03251d44785142fc224554d159bd17ebf049885b92ef1",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перепривязать_историю_модели.py": "8cfa7530c4937c529c9be825ba3b5a32df3c7eef4f3d12c46eca279d14293fff",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/повторная_подготовка_модели.py": "defa5a524d9c985d3c813ff820bd6b75bd00560aa4d69f69e19e076e39bc8a44",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_этапа_коммита.py": "ed366c6809e87054c1b43627aa8db62f87b052742f86e537f576132ac9a39717",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/поколения_готовности.py": "abc5d0f316641aca49bf7917ca4a962b966aa221616d96d2c64b4267017dd2e4",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/полномочия_ветки_состояния_узла.py": "d21ba72c042efcdc2ff54639ac047215ab05763b6c485ce058c2062838b97f7a",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_делегации.py": "9b4b0d784cfe53db3ae545fc62764cf4fb013d62d4c641c5d6436facc69124fa",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/публикационный_допуск_дочернего_состава.py": "604124ec344ee5fa29e5852571c85fcdf8a5033ae984c8926db705dc42c90362",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/смена_незапечатанной_подготовки.py": "1ce9aaf78951f3c0a4728eaec87ce5bc0d1bbd75eaeb1f4870818fb6806c37aa",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py": "9528f979ee6f63f047c5f135b40796a76879b7026c8e98cf54bce06d5a25c96c",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py": "a72dc3e31107ebcfc929d462bbdd647ed4587334d6a16080f5969dcb34438079",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/состояние_задач_узла.py": "50a3f80992097ade7cec619a565bcd00fdf2524f68088c9b13dcb531d4a2a752",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/текст_команды_с_изображением.py": "f2579fa93345d9ff79b4a81bbde0127b66fc8fad4f5045cb5fb3fc3b6f991ea7",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/типизированная_контрольная_точка.py": "411eeaaad9ab5a3a0391c3ba78f4f54c6fed1bc1ea9ea43a509e0225b836abef",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_принятого_создателя.py": "d25d3d9603995bae529c7b7518e0fce8e1d285672103dec2432ada8ccc912cec",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_принятого_создателя.py": "d8edb6366e385819b0abad330ffc3c2743c4995e65f957c3fe94bf02c2e37190",
+    "Инструменты/fum-svyaznostj-rabochej-sessii/состав-принятого-писателя.json": "6235861be581668109c55b6eaa5fc92c54a2b3801a7385832d5713d06d2d9327"
+  },
+  "среда": {
+    "git": "git version 2.54.0 (Apple Git-157)",
+    "python": "3.14.8 (main, Sep 30 2026, 17:55:09) [Clang 21.0.0 (clang-2100.3.34.2)]",
+    "платформа": "darwin"
+  },
+  "схема": "fum.профиль-принятого-создателя.1"
+}
