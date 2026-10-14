@@ -1,4 +1,4 @@
-"""Три свежих процесса одной закреплённой малой Git-фикстуры."""
+"""Три свежих процесса зарегистрированной leaf Git-фикстуры на закреплённых исходниках."""
 import argparse
 import hashlib
 import json
@@ -19,6 +19,11 @@ def снимок_кода():
         'Инструменты/fum-svyaznostj-rabochej-sessii/scripts/вход_принятого_создателя.py',
         'Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исполнение_принятого_кода.py',
         'Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_принятого_создателя.py',
+        'Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_обычной_дочерней_точки.py',
+        'Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_запуска_принятого_писателя.py',
+        'Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_создание_коммита.py',
+        'Инструменты/fum-proverka-git-zavisimostej/scripts/proveritj-git-zavisimostj.py',
+        'Инструменты/fum-proverka-git-zavisimostej/scripts/подготовка_зависимостей.py',
         str(Path(__file__).relative_to(корень))]
     return {п: hashlib.sha256((корень / п).read_bytes()).hexdigest() for п in dict.fromkeys(пути)}
 
@@ -29,9 +34,16 @@ def рабочий_процесс():
     фикстура = проверка.ПринятыйСоздатель('runTest')
     try:
         фикстура.setUp()
+        фикстура.зарегистрировать_вложенную_фикстуру()
+        до = фикстура.неизменяемые_листы()
         измерения = фикстура.цикл()
+        if фикстура.неизменяемые_листы() != до:
+            raise ValueError('профиль изменил D или контроль первичного соседа')
         return {'процесс': os.getpid(), 'измерения': измерения,
-            'сценарий': 'обычный-создатель-.7-.9-настоящий-гит-и-повтор-квитанции'}
+            'сценарий': 'создатель-.2-linked-W-leaf-D-.7-.9-и-читающий-повтор',
+            'база_данных': фикстура.база, 'ревизия_зависимости': фикстура.пин_зависимости,
+            'выбор_чтения_sha256': hashlib.sha256(фикстура.выбор_чтения.read_bytes()).hexdigest(),
+            'зависимость_и_сосед_сохранены': True}
     finally:
         фикстура.doCleanups()
 
@@ -51,7 +63,7 @@ def главная():
     запуски = []
     for _ in range(3):
         р = subprocess.run([sys.executable, '-B', str(Path(__file__).resolve()), '--свежий-процесс'],
-            capture_output=True, text=True, timeout=180)
+            capture_output=True, text=True, timeout=300)
         if р.returncode:
             raise ValueError('свежий профильный процесс отказал: ' + р.stderr)
         запуски.append(json.loads(р.stdout))
@@ -59,7 +71,7 @@ def главная():
         raise ValueError('изменился код либо процессы не были свежими')
     медианы = {этап: int(statistics.median(м['процесс_нс'] for р in запуски for м in р['измерения']
         if м['этап'] == этап)) for этап in ('подготовить', 'готово', 'создать', 'повтор')}
-    итог = {'схема': 'fum.профиль-принятого-создателя.1', 'запуски': запуски,
+    итог = {'схема': 'fum.профиль-принятого-создателя.2', 'запуски': запуски,
         'медианы_нс': медианы, 'состав_sha256': до,
         'граница': 'Подготовка фикстуры, внешний v4 и recency исключены; захват K, guards и API внутри каждого consumer включены.',
         'кэш_ОС_очищен': False, 'настоящая_приёмка': False,
