@@ -1,6 +1,16 @@
 {
   "issue": "https://github.com/fum-lab/fum/issues/288",
   "граница": "Кодовая поставка новой процедуры; actual переход получателя и Stop/архивация/ROOT/state2 не выполняются.",
+  "допуск_исполнителя": {
+    "ACT": "Планирование/дочерние-поручения/2026-10-15/переход-происхождения-собственной-пары.json",
+    "ACT_sha256": "58a0b163b9bff0ab999af7af0bf284e17f2f4cfd20f1458b618734c0ed0d7343",
+    "firstprompt_sha256": "dbf1c1de76cffb76940f964e77e142f9bcfce9d0115dc7bfb671f46aed959c68",
+    "native_birth": "96bea18044539bbc9af831c27192dc117a4a25ae",
+    "запись": "до публикации ACT не разрешена",
+    "исполнитель": "01a13c69-bc44-7291-bd9b-6c53fc7d87cf",
+    "модель": "gpt-6.1-sol",
+    "усилие": "ultra"
+  },
   "исходный_код": {
     "sha256": "aa026bc7537979595313e8971f7605e48bde165075df82568dc1675540d7c13b",
     "коммит": "fb5179def43fb77ef57c2328631353f648543593",
@@ -13,8 +23,14 @@
     "Происхождение меняет только собственные request/report; S-indices не в разрешённых целях и не требуются для пары. Весь иной dirty состав проверяется по ACT, обхода области нет.",
     "Старые P1/filler/Creator/специализированный producer/Schecker/closedRAW не меняются. Используются принятые stock builder/renderer и ясная полная closure.",
     "Immutable приватный план, полный readback; late foreignbytes и смешанный/частичный исход сохраняются и запрещают автоматический повтор. Широкого rollback поверх чужого файла нет.",
-    "Новый процесс повторяет весь точный результат без writes, второго события, изменения index/refs/mode/mtime/inode."
+    "Новый процесс повторяет весь точный результат без writes, второго события, изменения index/refs/mode/mtime/inode.",
+    "Существующий legacy формат пары сохраняется; stock renderer применяется для точных raw-section bytes, независимые metadata markers всей паре не навязываются."
   ],
+  "наблюдение_чтения_Git": {
+    "inode_mtime": "изменились после ROOT preflight с git status без no-optional-locks; это не no-effect proof",
+    "дальнейшее_чтение": "git --no-optional-locks / GIT_OPTIONAL_LOCKS=0, свежая metadata before-first-write",
+    "содержание_индекса": "не изменилось"
+  },
   "новые_предметные_файлы": [
     "Инструменты/fum-struktura-papok-zaprosov/scripts/переход_происхождения_пары.py",
     "Инструменты/fum-struktura-papok-zaprosov/tests/test_перехода_происхождения_пары.py",
