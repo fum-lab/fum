@@ -161,7 +161,7 @@ class ОбычнаяДочерняяТочка(unittest.TestCase):
         сам.assertEqual(после_создания, файл.read_bytes())
         сам.assertEqual('1', сам.фикстура.гит('rev-list', '--count', сам.параметры['исходный_коммит'] + '..HEAD').strip())
         сырой = сам.фикстура.гит('cat-file', 'commit', первый['коммит'])
-        сам.assertIn('FUM Интегратор [gpt-6.1-sol; effort=ultra]', сырой)
+        сам.assertIn('FUM Codex [gpt-6.1-sol; effort=ultra]', сырой)
         сам.assertTrue(сырой.endswith('Codex-Thread-ID: ' + база.ЗАДАЧА + '\n'))
         стадии = {пункт['стадия'] for пункт in json.loads(квитанция)['профиль']}
         сам.assertIn('последняя сверка обычного поручения', стадии)
@@ -189,7 +189,7 @@ class ОбычнаяДочерняяТочка(unittest.TestCase):
             итог = сам.создать()
             сам.assertEqual(итог['коммит'], сам.создать()['коммит'])
         сырой = сам.фикстура.гит('cat-file', 'commit', итог['коммит'])
-        сам.assertIn('FUM Интегратор [gpt-6.1-sol; effort=ultra]', сырой)
+        сам.assertIn('FUM Codex [gpt-6.1-sol; effort=ultra]', сырой)
         сам.assertTrue(сырой.endswith('Codex-Thread-ID: ' + база.ЗАДАЧА + '\n'))
         сам.assertEqual(сам.параметры['родители'], итог['родители'])
         подготовка = json.loads(Path(сам.параметры['подготовка']).read_bytes())
