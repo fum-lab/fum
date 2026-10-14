@@ -311,6 +311,9 @@ def parse_args() -> argparse.Namespace:
         "--контрольная-точка", action="store_true",
         help="Проверить промежуточный коммит с точным открытым терминальным отчётом.",
     )
+    parser.add_argument('--контракт-независимого-журнала', type=Path)
+    parser.add_argument('--выбранный-состав', type=Path)
+    parser.add_argument('--писатель')
     return parser.parse_args()
 
 
@@ -2062,10 +2065,28 @@ def validate_session(
     expected_codex_thread_id: str | None = None,
     commit_message: str | None = None,
     контрольная_точка: bool = False,
+    контракт_журнала=None,
+    выбранный_состав=None,
+    писатель=None,
 ) -> list[str]:
-    root = Path(repo_root).resolve()
+    независимый = контракт_журнала is not None
+    if not независимый and (выбранный_состав is not None or писатель is not None):
+        return ['прежняя связность не принимает поля независимого Журнала']
+    if независимый and (not контрольная_точка or not check_git_status
+            or expected_codex_thread_id is None or писатель is None or выбранный_состав is None):
+        return ['независимая связность требует полный адресный вход контрольной точки']
+    root = Path(repo_root) if независимый else Path(repo_root).resolve()
     request_path = absolute_path(request, root)
     errors: list[str] = []
+    привязка_журнала = None
+    if независимый:
+        try:
+            import связность_независимого_журнала as независимый_журнал
+            привязка_журнала = независимый_журнал.проверить_контракт(root, контракт_журнала,
+                выбранный_состав=выбранный_состав, задача=expected_codex_thread_id,
+                писатель=писатель, запрос=str(request_path.relative_to(root)))
+        except (ValueError, OSError, TypeError, KeyError, LayoutError) as ошибка:
+            return ['независимый Журнал: ' + str(ошибка)]
 
     if request_match(request_path) is None:
         errors.append(
@@ -2082,21 +2103,36 @@ def validate_session(
     except ProjectFilesError as exc:
         return errors + [f"project Markdown inventory failed: {exc}"]
 
-    errors.extend(validate_request_folder_layout(root))
+    if not независимый:
+        errors.extend(validate_request_folder_layout(root))
+    else:
+        try:
+            строитель = независимый_журнал.журнал().каркас
+            строитель._прочитать_шаблоны()
+            from расширение_шаблонов import проверить_установленные_типы
+            проверить_установленные_типы(root)
+            строитель._validate_retired_owned_areas(root)
+            строитель._validate_no_legacy_references(root)
+        except (ValueError, RuntimeError, OSError) as ошибка:
+            errors.append('независимая структура: ' + str(ошибка))
 
     text = read_text(request_path)
     expected_heading = expected_request_heading(request_path)
     if not text.startswith(f"{expected_heading}\n"):
         errors.append(f"request must start with heading: {expected_heading}")
 
-    errors.extend(
-        validate_navigation(
+    if независимый:
+        ожидаемая_навигация = ('Собственная открытая пара; хронологические связи принятого состава '
+            'проверяются в отдельном индексе Журнала.')
+        if (section_body(text, 'Навигация по запросам') or '').strip() != ожидаемая_навигация:
+            errors.append('изменена навигация собственной независимой пары')
+    else:
+        errors.extend(validate_navigation(
             root,
             request_path,
             text,
             markdown_paths=project_markdown,
-        )
-    )
+        ))
     errors.extend(validate_journal(root, request_path, контрольная_точка=контрольная_точка))
     errors.extend(
         проверить_незаполненный_маркер_шаблона(text, request_path, root)
@@ -2166,10 +2202,25 @@ def validate_session(
     )
     errors.extend(validate_provenance_section_position(session_markdown_paths, root))
     errors.extend(validate_mermaid_markdown_list_labels(session_markdown_paths, root))
-    errors.extend(validate_md_recency(root))
+    if независимый:
+        if писатель == expected_codex_thread_id:
+            errors.extend(validate_md_recency(root, проверка=независимый_журнал.проверить_полную_свежесть))
+        else:
+            errors.extend(независимый_журнал.проверить_свежесть(root, session_markdown_paths))
+    else:
+        errors.extend(validate_md_recency(root))
 
     if check_git_status:
         errors.extend(validate_git_status(root, affected_files, git_status))
+
+    if независимый:
+        try:
+            повтор = независимый_журнал.проверить_контракт(root, контракт_журнала,
+                выбранный_состав=выбранный_состав, задача=expected_codex_thread_id,
+                писатель=писатель, запрос=str(request_path.relative_to(root)))
+            if повтор != привязка_журнала: errors.append('независимый Журнал изменился при связности')
+        except (ValueError, OSError, TypeError, KeyError, LayoutError) as ошибка:
+            errors.append('независимый Журнал: ' + str(ошибка))
 
     return errors
 
@@ -2188,6 +2239,16 @@ def main() -> int:
         except OSError as exc:
             print(f"cannot read commit message file: {exc}", file=sys.stderr)
             return 2
+    новые = {}
+    if args.контракт_независимого_журнала is not None or args.выбранный_состав is not None or args.писатель is not None:
+        try:
+            import сообщения_задачи as файлы
+            if args.контракт_независимого_журнала is None or args.выбранный_состав is None:
+                raise ValueError('нужны два независимо переданных файла нового входа')
+            новые = {'контракт_журнала': файлы._разобрать(args.контракт_независимого_журнала.read_bytes()),
+                'выбранный_состав': файлы._разобрать(args.выбранный_состав.read_bytes()), 'писатель': args.писатель}
+        except (OSError, ValueError) as ошибка:
+            print(str(ошибка), file=sys.stderr); return 2
     errors = validate_session(
         args.repo_root,
         args.request,
@@ -2196,6 +2257,7 @@ def main() -> int:
         expected_codex_thread_id=args.codex_thread_id,
         commit_message=commit_message,
         контрольная_точка=args.контрольная_точка,
+        **новые,
     )
     if errors:
         for error in errors:

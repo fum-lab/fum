@@ -1,0 +1,175 @@
+{
+  "B_ACT_B_state2_созданы": false,
+  "PR": "https://github.com/fum-lab/fum/pull/254",
+  "RAW40": "17+16+23=56/OK",
+  "RAW42": "Положительный контроль генератора/OK",
+  "RAW44": "3 свежих процесса/850 pins; полный ROOT и child prepare/READY/Create/replay",
+  "RAW46": "Заключительная сверка/OK",
+  "ROOT9_child10_активированы": false,
+  "SHA": {
+    "maker": "2015c35c9d33b19165ff1a5c66b15ae4e09884d90b3d154bd92793e66efc7d5f",
+    "prepared": "e292fc191f5df9dff877bf3254cfbace23ac499ef64ef8405876b95ab80b34a8",
+    "receipt": "845ba63fc38798f296677b1f4151e8023a4ab44d98d24c60441f92ca378fa2e6"
+  },
+  "SHA_приёмки_H1": "aa64159bbce5c51ec18ffa5667d20106724b9d8ff4444dbf94cf94c642f1a171",
+  "raw_sha256": "4dec9e68386e8f4e6f1876ac70c9af3394ab09bf6501f4edea242a7e99438db7",
+  "вся_область_от_общего_предка": 108,
+  "граница": "Нормативная и лабораторная поставка H1/H2; принятие двухродительского результата отдельно после старого stock ROOT допуска.",
+  "исполнитель": "01a1370b-f649-70f1-9c1d-a41b8de98c87",
+  "источник": "088e75d954aa6929121795367f98fca5c0c59b79",
+  "координатор": "01a07d3d-d376-7ad2-aafc-67e4c25a67eb",
+  "первый_production_S_выполнен": false,
+  "предметные_продукты": [
+    {
+      "sha256": "ac9ed1d06065d69034be9cf0ee4d210d328e3be2949e57f68843a90f8eae4b9b",
+      "путь": "Документация/51-независимые-записи-журнала-и-производная-навигация.md"
+    },
+    {
+      "sha256": "9afe418a6aa33a4ab941bed8e985ddbe9e0f23d4cae361a4777944841c1d9171",
+      "путь": "Инструменты/fum-dekompoziciya-pravil-agentov/SKILL.md"
+    },
+    {
+      "sha256": "c3e0cfa30dbdac8b2acb570cfbbd8d58b543d13475338a1ad3c05fb6a68025f1",
+      "путь": "Инструменты/fum-dekompoziciya-pravil-agentov/scripts/независимый_журнал.py"
+    },
+    {
+      "sha256": "3eda2b1b17f91e2795c83d8b6962899aa0dcb413c95d856c164d93c6dbd14c40",
+      "путь": "Инструменты/fum-dekompoziciya-pravil-agentov/scripts/проверить-декомпозицию-правил.py"
+    },
+    {
+      "sha256": "8b6de9be66c5e4542da1af9d0e93e4fb94e65a254a392a5521744fdd43c50e2e",
+      "путь": "Инструменты/fum-dekompoziciya-pravil-agentov/tests/test_независимого_журнала.py"
+    },
+    {
+      "sha256": "d3df5eb73960f449a5909b4cddf9666ba6fc75983cd30a2e4fe41f5d1907e81e",
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/SKILL.md"
+    },
+    {
+      "sha256": "049fc6fba5df801b69dc7ba16168b65403f6ae8f02d047ac1bcfaec77ea290b2",
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/struktura-papok-zaprosov.py"
+    },
+    {
+      "sha256": "e0d19ce70c97a3bf8d708306127376a494599ca499c08b31b763e844c6464d24",
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py"
+    },
+    {
+      "sha256": "9411f5bd7d7257a2b5f27d18f4c40510ee130583a2bf3c56b0d00bab361d60d5",
+      "путь": "Инструменты/fum-struktura-papok-zaprosov/tests/test_обычного_независимого_журнала.py"
+    },
+    {
+      "sha256": "74a1cc331f884fa845823f18ee40bad60d6253382293bef2440032b5b8968915",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/SKILL.md"
+    },
+    {
+      "sha256": "128fd7a7a4b923c3a4e20c24e1e972554e78052716ff99ecf7057f792d848ac3",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py"
+    },
+    {
+      "sha256": "d0e757a76d55ecd27de9992a216543641a424dc73850c2c84f063ab8b8256920",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_коммита.py"
+    },
+    {
+      "sha256": "85c68562040fe362601213c38cd01f693ef8dcdef14e27fca20295309cae2918",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимый_индекс_журнала.py"
+    },
+    {
+      "sha256": "7b935dc73a606743f74b3dd702a5f84c309ca17c6d60dfe29019744d4df97f72",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_дочернего_поручения.py"
+    },
+    {
+      "sha256": "290cf950411b880970cd20c24863386f2ebc6b5ee88cc14c22e36f0e44e707bd",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_этапа_коммита.py"
+    },
+    {
+      "sha256": "f790ef96ade98fcdd62c56ccbcccc6c21e6aa1cb3bb0111bd415f5ed263ccfd0",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/поздняя_привязка_журнала.py"
+    },
+    {
+      "sha256": "a8fd1602ef429cc88a6cc0f1a482d4e796b2b64a665a28026940c1ef93f11d2b",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/публикационный_допуск_дочернего_состава.py"
+    },
+    {
+      "sha256": "915b6f4fdc9e0657ba117dbfee4a2936130aea8761255b7f3a18007faa433c45",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/связность_независимого_журнала.py"
+    },
+    {
+      "sha256": "9a15f3fffe05d69eded7f7ee860324c55806156ad80a8facb571fb51256f3034",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py"
+    },
+    {
+      "sha256": "e3ef7dc93c8df666b62125efffb2fd00fec95ddd00dac9d2880c21c90143b0cf",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/типизированная_контрольная_точка.py"
+    },
+    {
+      "sha256": "c909f242a7a3a9eb4d06aaeacec0a91cff87740e9bc2249b81fbec70264fda82",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/test_независимой_контрольной_точки.py"
+    },
+    {
+      "sha256": "b0b3d0b44d314c7d9250162b7e60c362bf6ae60237ebb834148b706143a95b26",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/tests/профиль_независимой_контрольной_точки.py"
+    },
+    {
+      "sha256": "77854c22177993ce721d1bab12b896d1f3d6a2952a6563f093ede3ab4eff3e6e",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/независимый-журнал.md"
+    },
+    {
+      "sha256": "e03fa77d9ea1749482c17e057c2cf26277c2aba472f586fa60d16ac6832699ce",
+      "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/обычный-независимый-журнал.md"
+    },
+    {
+      "sha256": "68612a528d57146e1455eaf9b99ef93b9105214688ed7b4fe3249ee2f4dbaa10",
+      "путь": "Правила/агентов/журнал-и-происхождение.md"
+    },
+    {
+      "sha256": "82cc079ac4b21b01ef289653c6ca69a58b7bbfb874c63a22230afdad38f7dcdc",
+      "путь": "Правила/агентов/инвентарь-правил.json"
+    },
+    {
+      "sha256": "ab1f4649cf30c7483a6ed4fc2b51d6df1c19497e2d7c8e76dc0a297e0da7ff8c",
+      "путь": "Правила/агентов/проверки-коммит-и-публикация.md"
+    }
+  ],
+  "принимающий_HEAD": "bed5ca79128c5560d8b39587b47131210e1eebf7",
+  "профили": [
+    {
+      "sha256": "b0debbf3d62a3bb7056634bc66b93aad50f78f8bcbf68b63355b046a73c7ea25",
+      "путь": "Журнал/2026-10-14_00-03-31_MSK_подключить-независимый-журнал/материалы/профиль-первого-сегмента.json"
+    },
+    {
+      "sha256": "fed104272585047fe28f51403487dcb3db428936d0f5df7447b7b241a65a73df",
+      "путь": "Журнал/2026-10-14_00-03-31_MSK_подключить-независимый-журнал/материалы/профиль-принятого-сегмента.json"
+    },
+    {
+      "sha256": "db5675b3f25d8faac932df4b1c492ae0500bf35e53bcd4d4cabafba7717fcd44",
+      "путь": "Журнал/2026-10-14_00-03-31_MSK_подключить-независимый-журнал/материалы/профиль-публикационного-сегмента.json"
+    },
+    {
+      "sha256": "62eea25559a0b0f4a05c543a51aa60ef1b0aa686fd6a9a2ead39f23b7136d329",
+      "путь": "Журнал/2026-10-14_00-03-31_MSK_подключить-независимый-журнал/материалы/профиль-точных-ресурсов.json"
+    },
+    {
+      "sha256": "c4e9df1b9ba39484f0a407de7100dc8ec10a541731ae346ae3b3d2c0af2d6e48",
+      "путь": "Журнал/2026-10-14_02-00-10_MSK_подключить-независимые-контрольные-точки/материалы/профиль-обычной-контрольной-точки-окончательный.json"
+    },
+    {
+      "sha256": "7947fddfe49d43fea28374b7165613b7c31d429df90b793a5d2f9d934679a730",
+      "путь": "Журнал/2026-10-14_02-00-10_MSK_подключить-независимые-контрольные-точки/материалы/профиль-обычной-контрольной-точки-после-перевода.json"
+    },
+    {
+      "sha256": "5044bef6c24735ea230a27f7e1b4ab99893bad3848d29f969e6c305f95fbd442",
+      "путь": "Журнал/2026-10-14_02-00-10_MSK_подключить-независимые-контрольные-точки/материалы/профиль-обычной-контрольной-точки.json"
+    }
+  ],
+  "путь_приёмки_H1": "Планирование/приёмка-контрольных-сегментов/2026-10-14/независимый-журнал-этап1.json",
+  "результат": {
+    "автор": "FUM Codex [gpt-6.1-sol; effort=ultra] <fum@local> 1791970049 +0300",
+    "дерево": "1279d8fae9863070e944a0755eb5226e24dad67f",
+    "коммит": "088e75d954aa6929121795367f98fca5c0c59b79",
+    "коммиттер": "FUM <fum@local> 1791970049 +0300",
+    "родители": [
+      "a4b108e28951b00f1d7e3d1dbca0fc6e3f8938d9"
+    ],
+    "сообщение_sha256": "243ca54dfd91a66bab4687dca8aeec53fb5ec63eb331bfaf9126b0837ea68ff4"
+  },
+  "схема": "fum.локальная-приёмка-поставки.1"
+}
