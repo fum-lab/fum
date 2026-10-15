@@ -5,7 +5,8 @@ import importlib
 import json
 import os
 import signal
-import select
+import stat
+import types
 from pathlib import Path
 import subprocess
 import sys
@@ -47,8 +48,205 @@ def прочитать_кандидатов_цепочки():
     return результат
 
 
+class УдержаниеСтенда:
+    """Авария удерживает каталоги, остальные cleanup выполняются всегда."""
+    def __init__(сам):
+        сам.удерживать = False
+        сам.каталоги = {}
+
+    def авария(сам):
+        сам.удерживать = True
+        return {'удержаны': sorted(сам.каталоги), 'все_потомки_остановлены': False}
+
+
+class КаталогСтенда:
+    def __init__(сам, удержание, **параметры):
+        сам.временный = tempfile.TemporaryDirectory(delete=False, **параметры)
+        сам.name = сам.временный.name
+        сам.удержание = удержание
+        удержание.каталоги[сам.name] = 'открыт'
+
+    def cleanup(сам):
+        if сам.удержание.удерживать:
+            сам.удержание.каталоги[сам.name] = 'удержан'
+            return
+        try:
+            сам.временный.cleanup()
+        except BaseException:
+            сам.удержание.каталоги[сам.name] = 'ошибка удаления'
+            сам.удержание.удерживать = True
+            raise
+        сам.удержание.каталоги[сам.name] = 'удалён'
+
+    def __enter__(сам):
+        return сам.name
+
+    def __exit__(сам, *ошибка):
+        сам.cleanup()
+
+
+def наблюдать_процесс(команда, *, cwd, предел=600, преграда=None,
+    свидетельства=None, при_отказе=None, среда=None):
+    """Захват в FD: ни EOF потомков, ни повторный communicate не нужны."""
+    if not 0 < предел <= 600:
+        raise ValueError('дедлайн должен быть положительным и не более 600 секунд')
+    каталог = (Path(tempfile.mkdtemp(prefix='fum-каналы-процесса-')).resolve()
+        if свидетельства is None else Path(свидетельства))
+    метка = каталог.lstat()
+    if (not каталог.is_absolute() or каталог.resolve() != каталог
+        or not stat.S_ISDIR(метка.st_mode) or stat.S_IMODE(метка.st_mode) != 0o700
+        or метка.st_uid != os.getuid() or any(каталог.iterdir())
+        or any(os.path.lexists(п / '.git') for п in (каталог, *каталог.parents))):
+        raise ValueError('нужен новый собственный пустой каталог каналов 0700 вне Git')
+    def сохранить(имя, сырые):
+        д = os.open(каталог / имя, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+        with os.fdopen(д, 'wb') as поток:
+            поток.write(сырые); поток.flush(); os.fsync(поток.fileno())
+        д = os.open(каталог, os.O_RDONLY)
+        try: os.fsync(д)
+        finally: os.close(д)
+    def запись(имя, значение):
+        сохранить(имя, (json.dumps(значение, ensure_ascii=False, sort_keys=True) + '\n').encode())
+    начало = time.monotonic(); дедлайн = начало + предел
+    наблюдение = {'схема': 'fum.наблюдение-лабораторного-процесса.1',
+        'процесс': None, 'группа': None, 'состояние_группы': 'не наблюдалась',
+        'код': None, 'предел_секунд': предел,
+        'стадия': 'до запуска', 'корень_остановлен': False,
+        'все_потомки_остановлены': False, 'каналы': {}, 'вторичные_ошибки': []}
+    запись('начало.json', наблюдение)
+    дескрипторы = {}; запущенный = None; ошибка = None; трасса = None
+    запуск_начат = False; удержание_вызвано = False
+    def удержать():
+        nonlocal удержание_вызвано
+        if удержание_вызвано or not запуск_начат: return
+        удержание_вызвано = True
+        if при_отказе is not None:
+            try: наблюдение['стенд'] = при_отказе()
+            except BaseException as вторичная:
+                наблюдение['вторичные_ошибки'].append('удержание: ' + repr(вторичная))
+    try:
+        for имя in ('stdout', 'stderr'):
+            дескрипторы[имя] = os.open(каталог / (имя + '-поток.bin'),
+                os.O_RDWR | os.O_APPEND | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+        запуск_начат = True
+        запущенный = subprocess.Popen(команда, cwd=cwd, stdout=дескрипторы['stdout'],
+            stderr=дескрипторы['stderr'], stdin=subprocess.PIPE, start_new_session=True, env=среда)
+        # Фактический Popen уже существует: PID закрепляется до любого PGID API.
+        наблюдение.update(процесс=запущенный.pid, стадия='запущен')
+        запись('процесс.json', наблюдение)
+        try:
+            группа = os.getpgid(запущенный.pid)
+        except BaseException as ошибка_группы:
+            наблюдение.update(состояние_группы='неизвестна', ошибка_группы=repr(ошибка_группы))
+            raise
+        наблюдение.update(группа=группа, состояние_группы='наблюдена')
+        if type(группа) is not int or группа != запущенный.pid:
+            raise ValueError('наблюдаемая группа не подтверждает новую сессию корня')
+        наблюдение['стадия'] = 'ожидание'
+        запись('группа.json', наблюдение)
+        if преграда is not None:
+            граница = min(дедлайн, начало + 60); позиция = 0; буфер = b''
+            while True:
+                if time.monotonic() >= граница:
+                    raise TimeoutError('нет лабораторной преграды после сверки')
+                часть = os.pread(дескрипторы['stderr'], 4096, позиция)
+                if часть:
+                    позиция += len(часть); буфер += часть
+                    if позиция > 1048576: raise ValueError('неограниченный поток перед преградой')
+                    достигнута = False
+                    while b'\n' in буфер:
+                        строка, буфер = буфер.split(b'\n', 1)
+                        if строка == 'FUM-ПРЕГРАДА-ПОСЛЕ-СВЕРКИ'.encode():
+                            достигнута = True; break
+                        try: событие = json.loads(строка)
+                        except (ValueError, UnicodeError): событие = None
+                        if not (type(событие) is dict and
+                            событие.get('схема') == 'fum.событие-независимого-контура.1'):
+                            raise ValueError('не достигнута преграда: неизвестная строка stderr')
+                    if достигнута: break
+                    if len(буфер) > 4096: raise ValueError('неограниченная диагностическая строка')
+                elif запущенный.poll() is not None:
+                    raise ValueError('процесс завершился до лабораторной преграды')
+                else:
+                    time.sleep(min(0.01, max(0, граница - time.monotonic())))
+            преграда()
+            запущенный.stdin.write('продолжить\n'.encode()); запущенный.stdin.flush()
+        запущенный.stdin.close()
+        остаток = дедлайн - time.monotonic()
+        if остаток <= 0: raise subprocess.TimeoutExpired(команда, предел)
+        запущенный.wait(timeout=остаток)
+        наблюдение['стадия'] = 'завершён'
+        if запущенный.returncode != 0: удержать()
+    except BaseException as первичная:
+        ошибка = первичная; трасса = первичная.__traceback__
+        наблюдение['стадия'] = 'таймаут' if isinstance(первичная, subprocess.TimeoutExpired) else 'отказ'
+        наблюдение['ошибка'] = type(первичная).__name__ + ': ' + str(первичная)
+        удержать()
+        if запущенный is not None:
+            try:
+                if запущенный.poll() is None:
+                    if наблюдение['группа'] == запущенный.pid:
+                        os.killpg(наблюдение['группа'], signal.SIGKILL)
+                    else:
+                        запущенный.kill()
+                запущенный.wait(timeout=2)
+            except BaseException as вторичная:
+                наблюдение['вторичные_ошибки'].append('остановка: ' + repr(вторичная))
+    finally:
+        def сбой(вторичная, место):
+            nonlocal ошибка, трасса
+            удержать()
+            if ошибка is None: ошибка = вторичная; трасса = вторичная.__traceback__
+            else: наблюдение['вторичные_ошибки'].append(место + ': ' + repr(вторичная))
+        if запущенный is not None:
+            try:
+                наблюдение['код'] = запущенный.poll()
+                наблюдение['корень_остановлен'] = запущенный.returncode is not None
+            except BaseException as вторичная: сбой(вторичная, 'poll')
+            if запущенный.stdin is not None and not запущенный.stdin.closed:
+                try: запущенный.stdin.close()
+                except BaseException as вторичная: сбой(вторичная, 'stdin')
+        каналы = {}
+        for имя, д in дескрипторы.items():
+            try: os.fsync(д)
+            except BaseException as вторичная: сбой(вторичная, имя + ' fsync')
+            try:
+                размер = os.fstat(д).st_size
+                сырые = bytearray(); позиция = 0
+                while позиция < размер:
+                    часть = os.pread(д, min(1048576, размер - позиция), позиция)
+                    if not часть: raise OSError('исчез префикс канала')
+                    сырые.extend(часть); позиция += len(часть)
+                сырые = bytes(сырые); каналы[имя] = сырые
+                имя_снимка = имя + '.bin'; сохранить(имя_снимка, сырые)
+                наблюдение['каналы'][имя] = {'путь': str(каталог / имя_снимка),
+                    'байтов': размер, 'sha256': hashlib.sha256(сырые).hexdigest(),
+                    'полнота': 'сохранённый префикс', 'поток': str(каталог / (имя + '-поток.bin'))}
+            except BaseException as вторичная:
+                наблюдение['каналы'][имя] = {'состояние': 'снимок недоступен',
+                    'поток': str(каталог / (имя + '-поток.bin'))}
+                сбой(вторичная, имя + ' сохранение')
+            finally:
+                try: os.close(д)
+                except BaseException as вторичная: сбой(вторичная, имя + ' close')
+        наблюдение['длительность_секунд'] = time.monotonic() - начало
+        if ошибка is not None and 'ошибка' not in наблюдение:
+            наблюдение.update(стадия='отказ сохранения', ошибка=type(ошибка).__name__ + ': ' + str(ошибка))
+        try: запись('наблюдение.json', наблюдение)
+        except BaseException as вторичная: сбой(вторичная, 'сохранение дескриптора')
+    if ошибка is not None:
+        ошибка.наблюдение = наблюдение
+        if isinstance(ошибка, subprocess.TimeoutExpired):
+            ошибка.output = каналы.get('stdout'); ошибка.stderr = каналы.get('stderr')
+        raise ошибка.with_traceback(трасса)
+    итог = subprocess.CompletedProcess(команда, запущенный.returncode,
+        каналы['stdout'], каналы['stderr'])
+    итог.процесс = запущенный.pid; итог.наблюдение = наблюдение
+    return итог
+
+
 @contextlib.contextmanager
-def полный_код(*, цепочка=False):
+def полный_код(*, цепочка=False, удержание=None):
     """Кандидатный лабораторный K, без подмены настоящего production K."""
     профиль = (КОРЕНЬ_ИСХОДНИКОВ / РЕЕСТР).read_bytes()
     данные = json.loads(профиль)
@@ -62,7 +260,8 @@ def полный_код(*, цепочка=False):
     пути.update(кандидаты)
     среда = {к: в for к, в in os.environ.items() if not к.startswith('GIT_')}
     среда.update(GIT_CONFIG_NOSYSTEM='1', GIT_CONFIG_GLOBAL=os.devnull)
-    with tempfile.TemporaryDirectory(prefix='fum-кандидат-K-') as временный:
+    удержание = удержание or УдержаниеСтенда()
+    with КаталогСтенда(удержание, prefix='fum-кандидат-K-') as временный:
         корень = Path(временный).resolve()
         def гит(*аргументы):
             return subprocess.check_output(['git', '-c', 'core.hooksPath=' + os.devnull,
@@ -90,10 +289,15 @@ def полный_стенд(*, цепочка=False):
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
     import test_независимой_контрольной_точки as исходная
     база = исходная.база
-    with полный_код(цепочка=цепочка) as (код, коммит_кода, профиль, _):
+    удержание = УдержаниеСтенда()
+    with полный_код(цепочка=цепочка, удержание=удержание) as (код, коммит_кода, профиль, _):
         class СвязаннаяБаза(база.СозданиеКоммита):
             def setUp(сам):
-                super().setUp()
+                родитель.addCleanup(сам.doCleanups)
+                def фабрика(**параметры):
+                    return КаталогСтенда(удержание, **параметры)
+                with mock.patch.object(база, 'tempfile', types.SimpleNamespace(TemporaryDirectory=фабрика)):
+                    super().setUp()
                 сам.каталог.chmod(0o700)
                 сам.гит('add', '.'); сам.гит('commit', '-qm', 'Закрепить исходную пару перед linked W')
                 первичный = сам.корень
@@ -250,7 +454,7 @@ def полный_стенд(*, цепочка=False):
                 'профиль_sha256': hashlib.sha256(профиль).hexdigest()}, режим=0o400)
             настройки['конечный_выбор'] = выбор(файл_профиля)
             манифест = сохранить('манифест-план.json', настройки)
-            def процесс(этап, файл=манифест, *, преграда=None):
+            def процесс(этап, файл=манифест, *, преграда=None, свидетельства=None, диагностика=False):
                 команда = [sys.executable, '-I', '-S', '-B', str(код / начальные[0]),
                     '--манифест', str(файл), '--sha256', hashlib.sha256(файл.read_bytes()).hexdigest(),
                     '--этап', этап, '--одобрение-профиля', str(одобрение),
@@ -258,39 +462,25 @@ def полный_стенд(*, цепочка=False):
                 if преграда is not None:
                     команда.extend(['--команда', проверка, '--аргументы',
                         json.dumps(['--преграда', вход['план_наполнения']], ensure_ascii=False)])
-                with subprocess.Popen(команда, cwd=корень, stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE, stdin=subprocess.PIPE, start_new_session=True) as запущенный:
-                    try:
-                        начало_ошибок = b''
-                        if преграда is not None:
-                            предел = time.monotonic() + 60
-                            while not начало_ошибок.endswith(b'\n'):
-                                остаток = предел - time.monotonic()
-                                if остаток <= 0 or not select.select([запущенный.stderr], [], [], остаток)[0]:
-                                    raise TimeoutError('нет лабораторной преграды после сверки')
-                                часть = os.read(запущенный.stderr.fileno(), 1)
-                                if not часть: break
-                                начало_ошибок += часть
-                                if len(начало_ошибок) > 4096: raise ValueError('неограниченная диагностическая строка')
-                            if начало_ошибок != 'FUM-ПРЕГРАДА-ПОСЛЕ-СВЕРКИ\n'.encode():
-                                raise ValueError('не достигнута преграда: ' + начало_ошибок.decode())
-                            преграда()
-                            запущенный.stdin.write('продолжить\n'.encode()); запущенный.stdin.flush()
-                        вывод, ошибки = запущенный.communicate(timeout=600)
-                    except BaseException:
-                        with contextlib.suppress(ProcessLookupError): os.killpg(запущенный.pid, signal.SIGKILL)
-                        запущенный.communicate()
-                        raise
-                    итог = subprocess.CompletedProcess(команда, запущенный.returncode, вывод, начало_ошибок + ошибки)
-                    итог.процесс = запущенный.pid
-                    return итог
+                среда = {**os.environ, 'FUM_ДИАГНОСТИКА_КОНТУРА': '1'} if диагностика else None
+                return наблюдать_процесс(команда, cwd=корень, преграда=преграда,
+                    свидетельства=свидетельства, при_отказе=удержание.авария, среда=среда)
             замок = Path(os.environ.get('TMPDIR') or '/tmp').resolve() / ('fum-check-runs-' +
                 hashlib.sha256((str(корень) + '\0' + р.п['запрос']).encode()).hexdigest() + '.lock')
             yield {'код': код, 'коммит_кода': коммит_кода, 'корень': корень, 'ф': ф, 'р': р,
                 'настройки': настройки, 'сохранить': сохранить, 'выбор': выбор, 'процесс': процесс,
-                'манифест': манифест, 'вход': вход, 'профиль': профиль, 'замок': замок}
+                'манифест': манифест, 'вход': вход, 'профиль': профиль, 'замок': замок, 'удержание': удержание}
+        except BaseException:
+            удержание.авария()
+            raise
         finally:
+            первичная = sys.exception()
             родитель.doCleanups()
+            ошибки = [п for п, статус in удержание.каталоги.items() if статус == 'ошибка удаления']
+            if ошибки:
+                ошибка = RuntimeError('не завершена очистка собственных каталогов: ' + repr(ошибки))
+                if первичная is not None: первичная.add_note(str(ошибка))
+                else: raise ошибка
 
 
 @contextlib.contextmanager
