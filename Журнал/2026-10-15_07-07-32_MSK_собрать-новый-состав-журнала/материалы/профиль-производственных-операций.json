@@ -1,0 +1,59 @@
+{
+  "Python": "3.14.8",
+  "replay_нулевой_эффект": true,
+  "граница": "Реальные операции одного процесса за раз. Подготовка входов исключена, расходы cProfile включены, кэш ОС не очищался. Wall и CPU не складываются; максимум RSS каждой отдельной операции. Полные RAW и cProfile сохранены приватно вне Git.",
+  "дерево": "394ca0679f0a4b37a9ba100c34bfc7f0f61eb83c",
+  "операции": [
+    {
+      "RAW_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "RAW_stdout_sha256": "a94c8a0f61ffda4b8ed12cf399d23600b9fbb24958425825bafe6b937710e5f7",
+      "cProfile_sha256": "2e3cfaa20fbd7ea190fc738e44ef98b5ccb92a73df48c40bf6f98e9aa1922b6d",
+      "maxrss_bytes": 400687104,
+      "system_s": 0.7885869999999999,
+      "user_s": 1.038381,
+      "wall_ns": 1614443917,
+      "операция": "происхождение-план"
+    },
+    {
+      "RAW_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "RAW_stdout_sha256": "4e211d619afe97291d9cf0e4327bf741436242e15051d2aaa9f48f353b9e9019",
+      "cProfile_sha256": "0ba912e6561d4b47b3960121e42319e642b1400952211c3a5493d42a4e7cc644",
+      "maxrss_bytes": 1217642496,
+      "system_s": 4.368157,
+      "user_s": 4.204791,
+      "wall_ns": 7224584041,
+      "операция": "происхождение-применить"
+    },
+    {
+      "RAW_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "RAW_stdout_sha256": "47cdd15269fbfaa8655a27972fd3bbf73461c65943e8a142a77b0fbf7252b9a2",
+      "cProfile_sha256": "dbf79528747997ac85dfdc1ad521799d43fa88179aebd9a128ff013661e0b0a1",
+      "maxrss_bytes": 515342336,
+      "system_s": 3.414025,
+      "user_s": 31.703314,
+      "wall_ns": 35161992292,
+      "операция": "S-план"
+    },
+    {
+      "RAW_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "RAW_stdout_sha256": "052134eb603569f703969d3d34cd100ea2e4b76e663593340cd49206f2b0528e",
+      "cProfile_sha256": "10142edfb8d7fb03ad140ce942943ac46252cd742b3f58a8af9c8e60cfb699e8",
+      "maxrss_bytes": 684195840,
+      "system_s": 12.327785,
+      "user_s": 56.640023,
+      "wall_ns": 69520870708,
+      "операция": "S-применить"
+    },
+    {
+      "RAW_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "RAW_stdout_sha256": "6e470483833a69b83e22a458c2b56f02be0dba69ce5909eefea30fd17d110273",
+      "cProfile_sha256": "670c5c4b0380965123212c8d2bc549f8bc30054ffd6e940aee3dac687f37d816",
+      "maxrss_bytes": 582533120,
+      "system_s": 4.136287,
+      "user_s": 33.245267,
+      "wall_ns": 37872550000,
+      "операция": "S-повтор"
+    }
+  ],
+  "основа": "08dee3486dba272837583ce0646b25d29632ed34"
+}
