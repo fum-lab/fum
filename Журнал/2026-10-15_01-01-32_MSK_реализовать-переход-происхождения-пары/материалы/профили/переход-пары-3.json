@@ -1,0 +1,2557 @@
+{
+  "граница": "Три новых -I -S -B PID; 43 файла helper closure и профиль entry из точных Git blobs, два P1 ресурса. Fixture setup/commits вне таймера. Кэш ОС не сбрасывался. maxrss в единицах хоста. Это не приёмка рабочего K, D, ROOT или реальный consumer переход.",
+  "исходники_до_и_после": {
+    "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py": {
+      "sha256": "7e6972e04306c6f91bd17ab3f18579a288fff352d90c5b26a75e64c0a54743d5",
+      "режим": 33188
+    },
+    "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py": {
+      "sha256": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+      "режим": 33188
+    },
+    "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/связь_отпечатка_с_коммитом.py": {
+      "sha256": "f66a58569eaca1dcb623daf4265e586b167da7f69e335175fd815a8cd38402b9",
+      "режим": 33188
+    },
+    "Инструменты/fum-proverka-mashinno-lokaljnyikh-putej/scripts/path_forms.py": {
+      "sha256": "22481bce8934b14f1df4173b615c282b04e0c6ce6034fe8cb3b2816416289308",
+      "режим": 33188
+    },
+    "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py": {
+      "sha256": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+      "режим": 33188
+    },
+    "Инструменты/fum-reyestr-planirovaniya/scripts/постановка_задачи.py": {
+      "sha256": "c63f59ae86740213de3d1e1fa6ee097f8b0d1379c3d626b22a0bc2fa6ee0aa67",
+      "режим": 33188
+    },
+    "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py": {
+      "sha256": "5c5147cbbc72887cc84cd7ad35c96606c17f2766cdcee926fd9da066d0fc46a1",
+      "режим": 33188
+    },
+    "Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py": {
+      "sha256": "36667347ee2946e0f31deda39b8ac65c451aa77bef4a426b48ada0e2353849c8",
+      "режим": 33188
+    },
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py": {
+      "sha256": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+      "режим": 33188
+    },
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/блоки_карточки.py": {
+      "sha256": "3331427b784250c41004a179c5d02c74f05054178c359f456f9d8d2ba066233a",
+      "режим": 33188
+    },
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py": {
+      "sha256": "e0d19ce70c97a3bf8d708306127376a494599ca499c08b31b763e844c6464d24",
+      "режим": 33188
+    },
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/отпечатки_загрузки.py": {
+      "sha256": "e6bd962fc80537f14e6a8689f3f50074a9b4299bf44c918174ca63845830e98f",
+      "режим": 33188
+    },
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/переход_происхождения_пары.py": {
+      "sha256": "e4c86bd51ced7b201584fa3401b43ec8e98632be4db077be160a9ffea1cd9b50",
+      "режим": 33188
+    },
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/публичное_представление_событий.py": {
+      "sha256": "866304bd1f90d22605e96d0b5406c616ef35ec76920fe24f4265cd6b3e7dbc64",
+      "режим": 33188
+    },
+    "Инструменты/fum-struktura-papok-zaprosov/scripts/управляемые_блоки.py": {
+      "sha256": "139ea3bbc534078305946edda3acb5ed9ae61cc8448c3588537a471cf259aba5",
+      "режим": 33188
+    },
+    "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_перехода_происхождения_пары.py": {
+      "sha256": "556d48a40cc987a6671403b56b112fc06acf81b18d769c3209d890e0f5d13d3c",
+      "режим": 33188
+    },
+    "Инструменты/fum-struktura-papok-zaprosov/шаблоны/запрос.md.шаблон": {
+      "sha256": "f1cf28e4481bc64aab04aad646bbe5fea8e58f76c0e5967b9ac18856c60ecf97",
+      "режим": 33188
+    },
+    "Инструменты/fum-struktura-papok-zaprosov/шаблоны/отчёт.md.шаблон": {
+      "sha256": "6db76ec55037fdd40112dd97e32a42d882238c07738039adaf4ab2a0751bb359",
+      "режим": 33188
+    },
+    "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py": {
+      "sha256": "57a2c9161ac86b1a4c8737f1acf22b5e76baae0a47260da4a54f98c4b8d4b330",
+      "режим": 33188
+    },
+    "Инструменты/fum-svezhestj-markdown/scripts/маска_архива.py": {
+      "sha256": "f6ec16caf952f6ac7ee3091ebc6cb3f125929982979950399647958bd3b5d39b",
+      "режим": 33188
+    },
+    "Инструменты/fum-svezhestj-markdown/scripts/ограды_цитат.py": {
+      "sha256": "58542c436949a4e0b529f158c89db78b825ee3568acd960fb9e9a47b3210bd02",
+      "режим": 33188
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py": {
+      "sha256": "128fd7a7a4b923c3a4e20c24e1e972554e78052716ff99ecf7057f792d848ac3",
+      "режим": 33188
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py": {
+      "sha256": "f40473180b01cd2861480af155750c7b1b3d6004954a6292c149cb74661f3608",
+      "режим": 33188
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_коммита.py": {
+      "sha256": "d0e757a76d55ecd27de9992a216543641a424dc73850c2c84f063ab8b8256920",
+      "режим": 33188
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_этапа.py": {
+      "sha256": "8091017668f5f43727f5258ac1d0fd56a305a9b605591cf89cc72d276b8f7753",
+      "режим": 33188
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/граница_выбранных_команд.py": {
+      "sha256": "07d1533132ae2253d7c8fced6b3c71771e892ddb0f6d765cc837bab94a9b3d6e",
+      "режим": 33188
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исполнение_принятого_кода.py": {
+      "sha256": "d2fe64709a92cc642ec28e1a669cbc15561fdcc1b73c9fb81b7736821465605f",
+      "режим": 33188
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исторические_неподтверждённые_приёмки.py": {
+      "sha256": "ba79d7810793c0eef93a860ce73e0a9407801fdd929874cdee0f5078ce4a0dcf",
+      "режим": 33188
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_модели.py": {
+      "sha256": "b7bbed1f4aaba534347db9235a630c8b968f54f012e4ea5d21cd89dd2529e214",
+      "режим": 33188
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_пути_гита.py": {
+      "sha256": "f948204b795369a8d99b63d2a44b8d3ef7ffb971a96420ddeaacf7f1eec69d61",
+      "режим": 33188
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py": {
+      "sha256": "492b8ed5f5b8243419d4b7ff53a9fadcfc06f228c40cfe4480e254299ad144aa",
+      "режим": 33188
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/кэш_сверки_остатка.py": {
+      "sha256": "09dba811f479312d0ad6e06cb5a5c4e46b764f1d1b011c72b925af276f7d19e9",
+      "режим": 33188
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимый_индекс_журнала.py": {
+      "sha256": "85c68562040fe362601213c38cd01f693ef8dcdef14e27fca20295309cae2918",
+      "режим": 33188
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обработка_сообщений.py": {
+      "sha256": "5de258cdfbbf53f31819807ad9712728145b5b03c8155b65522c201ff9a7e732",
+      "режим": 33188
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обычное_поручение.py": {
+      "sha256": "86a91ddbd67546ca32b9f9c4eb434484cce0a31aebde4eb85a71b6787a5f3dce",
+      "режим": 33188
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py": {
+      "sha256": "88978e0b23b1dee65bf8fa1ac4b65e8eae3a2c3907453f89cfc1bf57d812f4da",
+      "режим": 33188
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенести_историю_модели.py": {
+      "sha256": "f54219a00028fea3d2cf5d6423ca40fa4a4d400d01586ff22a5bd32999942027",
+      "режим": 33188
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенос_модели_этапа.py": {
+      "sha256": "7d4c9cf4bbec682efbf03251d44785142fc224554d159bd17ebf049885b92ef1",
+      "режим": 33188
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перепривязать_историю_модели.py": {
+      "sha256": "8cfa7530c4937c529c9be825ba3b5a32df3c7eef4f3d12c46eca279d14293fff",
+      "режим": 33188
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_этапа_коммита.py": {
+      "sha256": "290cf950411b880970cd20c24863386f2ebc6b5ee88cc14c22e36f0e44e707bd",
+      "режим": 33188
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/поколения_готовности.py": {
+      "sha256": "abc5d0f316641aca49bf7917ca4a962b966aa221616d96d2c64b4267017dd2e4",
+      "режим": 33188
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_делегации.py": {
+      "sha256": "9b4b0d784cfe53db3ae545fc62764cf4fb013d62d4c641c5d6436facc69124fa",
+      "режим": 33188
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py": {
+      "sha256": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+      "режим": 33188
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py": {
+      "sha256": "b53af6d685d67f682fe6e26d1c7c3e28d295cc9c8b2cf69ff8973abc812332f8",
+      "режим": 33188
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py": {
+      "sha256": "a72dc3e31107ebcfc929d462bbdd647ed4587334d6a16080f5969dcb34438079",
+      "режим": 33188
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/текст_команды_с_изображением.py": {
+      "sha256": "f2579fa93345d9ff79b4a81bbde0127b66fc8fad4f5045cb5fb3fc3b6f991ea7",
+      "режим": 33188
+    },
+    "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/типизированная_контрольная_точка.py": {
+      "sha256": "e3ef7dc93c8df666b62125efffb2fd00fec95ddd00dac9d2880c21c90143b0cf",
+      "режим": 33188
+    }
+  },
+  "конечный_код_фикстуры": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+  "медианы_нс": {
+    "две_замены_нс": 2578053458,
+    "план_нс": 422043583,
+    "повтор_нс": 867329750
+  },
+  "образцы": [
+    {
+      "maxrss": 53673984,
+      "pid": 8899,
+      "выходы": [
+        {
+          "sha256": "57a4bfa397d978bc80d22db97e2cd2893a6d9f3c0bc4d9aa6f6fa20eb93a82ee",
+          "путь": "Журнал/2026-10-14_12-00-00_MSK_сохранить-поставку/запрос.md",
+          "режим": 420
+        },
+        {
+          "sha256": "3249b3507cc238f78caedbd376ceb575ef50e6285ac6218eeb9a539833b920a9",
+          "путь": "Журнал/2026-10-14_12-00-00_MSK_сохранить-поставку/отчёт.md",
+          "режим": 420
+        }
+      ],
+      "загрузки": [
+        {
+          "blob": "3fa32ba60dfe914e0985a259ee78255e85877892",
+          "sha256": "556d48a40cc987a6671403b56b112fc06acf81b18d769c3209d890e0f5d13d3c",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_перехода_происхождения_пары.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "3fa32ba60dfe914e0985a259ee78255e85877892",
+          "sha256": "556d48a40cc987a6671403b56b112fc06acf81b18d769c3209d890e0f5d13d3c",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_перехода_происхождения_пары.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "16e40245336fde3b4597aadf636b27d4f4ff0e6e",
+          "sha256": "e4c86bd51ced7b201584fa3401b43ec8e98632be4db077be160a9ffea1cd9b50",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/переход_происхождения_пары.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "16e40245336fde3b4597aadf636b27d4f4ff0e6e",
+          "sha256": "e4c86bd51ced7b201584fa3401b43ec8e98632be4db077be160a9ffea1cd9b50",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/переход_происхождения_пары.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "3cb4fd2998ef4c93f3b6d81f1d8fe160efd181ad",
+          "sha256": "e0d19ce70c97a3bf8d708306127376a494599ca499c08b31b763e844c6464d24",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "3cb4fd2998ef4c93f3b6d81f1d8fe160efd181ad",
+          "sha256": "e0d19ce70c97a3bf8d708306127376a494599ca499c08b31b763e844c6464d24",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "9a09a77f0160b5d98882f4ce2e460470b90e243d",
+          "sha256": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "9a09a77f0160b5d98882f4ce2e460470b90e243d",
+          "sha256": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "f5c4fda671ba61ddee4ad9d6b9bbd6892afdbbfd",
+          "sha256": "492b8ed5f5b8243419d4b7ff53a9fadcfc06f228c40cfe4480e254299ad144aa",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "f5c4fda671ba61ddee4ad9d6b9bbd6892afdbbfd",
+          "sha256": "492b8ed5f5b8243419d4b7ff53a9fadcfc06f228c40cfe4480e254299ad144aa",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "1d14d0383d305503b2425898551357359dc9041e",
+          "sha256": "85c68562040fe362601213c38cd01f693ef8dcdef14e27fca20295309cae2918",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимый_индекс_журнала.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "1d14d0383d305503b2425898551357359dc9041e",
+          "sha256": "85c68562040fe362601213c38cd01f693ef8dcdef14e27fca20295309cae2918",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимый_индекс_журнала.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "69a55cb0e2e55b330440357a089d9d1ae719fb59",
+          "sha256": "3331427b784250c41004a179c5d02c74f05054178c359f456f9d8d2ba066233a",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/блоки_карточки.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "69a55cb0e2e55b330440357a089d9d1ae719fb59",
+          "sha256": "3331427b784250c41004a179c5d02c74f05054178c359f456f9d8d2ba066233a",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/блоки_карточки.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "e671c0c894e55ea479ce347b0e0fa226b55c7128",
+          "sha256": "139ea3bbc534078305946edda3acb5ed9ae61cc8448c3588537a471cf259aba5",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/управляемые_блоки.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "e671c0c894e55ea479ce347b0e0fa226b55c7128",
+          "sha256": "139ea3bbc534078305946edda3acb5ed9ae61cc8448c3588537a471cf259aba5",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/управляемые_блоки.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "1d1d70cdc2b8427aa0c6bd6b88050a11e282bf47",
+          "sha256": "866304bd1f90d22605e96d0b5406c616ef35ec76920fe24f4265cd6b3e7dbc64",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/публичное_представление_событий.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "1d1d70cdc2b8427aa0c6bd6b88050a11e282bf47",
+          "sha256": "866304bd1f90d22605e96d0b5406c616ef35ec76920fe24f4265cd6b3e7dbc64",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/публичное_представление_событий.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "c20386cdadaef7104b0af89e54a8c5b15fe52a8f",
+          "sha256": "e6bd962fc80537f14e6a8689f3f50074a9b4299bf44c918174ca63845830e98f",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/отпечатки_загрузки.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "c20386cdadaef7104b0af89e54a8c5b15fe52a8f",
+          "sha256": "e6bd962fc80537f14e6a8689f3f50074a9b4299bf44c918174ca63845830e98f",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/отпечатки_загрузки.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "f7323e792585e11e81a8068da64ffb2507a233ab",
+          "sha256": "86a91ddbd67546ca32b9f9c4eb434484cce0a31aebde4eb85a71b6787a5f3dce",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обычное_поручение.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "f7323e792585e11e81a8068da64ffb2507a233ab",
+          "sha256": "86a91ddbd67546ca32b9f9c4eb434484cce0a31aebde4eb85a71b6787a5f3dce",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обычное_поручение.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "1db479b1446f070f73218b58acecfbbe3e6bdb01",
+          "sha256": "88978e0b23b1dee65bf8fa1ac4b65e8eae3a2c3907453f89cfc1bf57d812f4da",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "1db479b1446f070f73218b58acecfbbe3e6bdb01",
+          "sha256": "88978e0b23b1dee65bf8fa1ac4b65e8eae3a2c3907453f89cfc1bf57d812f4da",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "94261b7bcef0d8e24cd99e0afbaffd24b43a8d43",
+          "sha256": "f948204b795369a8d99b63d2a44b8d3ef7ffb971a96420ddeaacf7f1eec69d61",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_пути_гита.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "94261b7bcef0d8e24cd99e0afbaffd24b43a8d43",
+          "sha256": "f948204b795369a8d99b63d2a44b8d3ef7ffb971a96420ddeaacf7f1eec69d61",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_пути_гита.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "9dcaed8566dd72e5a50a0ebc68b80953f8f6d565",
+          "sha256": "7e6972e04306c6f91bd17ab3f18579a288fff352d90c5b26a75e64c0a54743d5",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "9dcaed8566dd72e5a50a0ebc68b80953f8f6d565",
+          "sha256": "7e6972e04306c6f91bd17ab3f18579a288fff352d90c5b26a75e64c0a54743d5",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "c04efc426bb31e316afce6c7b92e935da552599c",
+          "sha256": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "c04efc426bb31e316afce6c7b92e935da552599c",
+          "sha256": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "8a62a7378186aee14449f0108a140c152fdca457",
+          "sha256": "f66a58569eaca1dcb623daf4265e586b167da7f69e335175fd815a8cd38402b9",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/связь_отпечатка_с_коммитом.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "8a62a7378186aee14449f0108a140c152fdca457",
+          "sha256": "f66a58569eaca1dcb623daf4265e586b167da7f69e335175fd815a8cd38402b9",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/связь_отпечатка_с_коммитом.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "642e78fff3045cc379e09cbb40bc35428d000e23",
+          "sha256": "ba79d7810793c0eef93a860ce73e0a9407801fdd929874cdee0f5078ce4a0dcf",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исторические_неподтверждённые_приёмки.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "642e78fff3045cc379e09cbb40bc35428d000e23",
+          "sha256": "ba79d7810793c0eef93a860ce73e0a9407801fdd929874cdee0f5078ce4a0dcf",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исторические_неподтверждённые_приёмки.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "2e861b84946d6b0744a9ba1bd9bba2fb42ab77d6",
+          "sha256": "9b4b0d784cfe53db3ae545fc62764cf4fb013d62d4c641c5d6436facc69124fa",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_делегации.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "2e861b84946d6b0744a9ba1bd9bba2fb42ab77d6",
+          "sha256": "9b4b0d784cfe53db3ae545fc62764cf4fb013d62d4c641c5d6436facc69124fa",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_делегации.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "8d706d6c3f3abd521bdcc8700f5cb447a0b7a624",
+          "sha256": "5de258cdfbbf53f31819807ad9712728145b5b03c8155b65522c201ff9a7e732",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обработка_сообщений.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "8d706d6c3f3abd521bdcc8700f5cb447a0b7a624",
+          "sha256": "5de258cdfbbf53f31819807ad9712728145b5b03c8155b65522c201ff9a7e732",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обработка_сообщений.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "c19a260ce429efdb3e4dfeac5fb55eb34c979e20",
+          "sha256": "a72dc3e31107ebcfc929d462bbdd647ed4587334d6a16080f5969dcb34438079",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "c19a260ce429efdb3e4dfeac5fb55eb34c979e20",
+          "sha256": "a72dc3e31107ebcfc929d462bbdd647ed4587334d6a16080f5969dcb34438079",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "b4fcdab13e5d951e8aa94244c0ab46b21e6c0cc1",
+          "sha256": "36667347ee2946e0f31deda39b8ac65c451aa77bef4a426b48ada0e2353849c8",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "b4fcdab13e5d951e8aa94244c0ab46b21e6c0cc1",
+          "sha256": "36667347ee2946e0f31deda39b8ac65c451aa77bef4a426b48ada0e2353849c8",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "907e66d2af1e5abd2c834ab184a112e8664dbccf",
+          "sha256": "09dba811f479312d0ad6e06cb5a5c4e46b764f1d1b011c72b925af276f7d19e9",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/кэш_сверки_остатка.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "907e66d2af1e5abd2c834ab184a112e8664dbccf",
+          "sha256": "09dba811f479312d0ad6e06cb5a5c4e46b764f1d1b011c72b925af276f7d19e9",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/кэш_сверки_остатка.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "42ba8d008c96250f803802d4d5134aee0809093e",
+          "sha256": "c63f59ae86740213de3d1e1fa6ee097f8b0d1379c3d626b22a0bc2fa6ee0aa67",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/постановка_задачи.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "42ba8d008c96250f803802d4d5134aee0809093e",
+          "sha256": "c63f59ae86740213de3d1e1fa6ee097f8b0d1379c3d626b22a0bc2fa6ee0aa67",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/постановка_задачи.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "c3e6828b17199bd4732715c79758ce1742c8d78c",
+          "sha256": "5c5147cbbc72887cc84cd7ad35c96606c17f2766cdcee926fd9da066d0fc46a1",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "c3e6828b17199bd4732715c79758ce1742c8d78c",
+          "sha256": "5c5147cbbc72887cc84cd7ad35c96606c17f2766cdcee926fd9da066d0fc46a1",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "1d9bafbf31a707ae11a2cdbc2dc0fdc079689098",
+          "sha256": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "1d9bafbf31a707ae11a2cdbc2dc0fdc079689098",
+          "sha256": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "fb95e50bdfa61bc99c3dafe9029c15f79fb364d9",
+          "sha256": "128fd7a7a4b923c3a4e20c24e1e972554e78052716ff99ecf7057f792d848ac3",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "fb95e50bdfa61bc99c3dafe9029c15f79fb364d9",
+          "sha256": "128fd7a7a4b923c3a4e20c24e1e972554e78052716ff99ecf7057f792d848ac3",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "110e99c4dc72ee57b8a03de17d34aba525890d51",
+          "sha256": "f40473180b01cd2861480af155750c7b1b3d6004954a6292c149cb74661f3608",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "110e99c4dc72ee57b8a03de17d34aba525890d51",
+          "sha256": "f40473180b01cd2861480af155750c7b1b3d6004954a6292c149cb74661f3608",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "f8874ae387db030840aabe40793ca30b04e21b68",
+          "sha256": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "f8874ae387db030840aabe40793ca30b04e21b68",
+          "sha256": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "777356bc1292188dfa5535d4dede258391c2b262",
+          "sha256": "290cf950411b880970cd20c24863386f2ebc6b5ee88cc14c22e36f0e44e707bd",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_этапа_коммита.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "777356bc1292188dfa5535d4dede258391c2b262",
+          "sha256": "290cf950411b880970cd20c24863386f2ebc6b5ee88cc14c22e36f0e44e707bd",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_этапа_коммита.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "9aefb13c3c53c6c459128620e88cfd1fbaa9ce31",
+          "sha256": "b53af6d685d67f682fe6e26d1c7c3e28d295cc9c8b2cf69ff8973abc812332f8",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "9aefb13c3c53c6c459128620e88cfd1fbaa9ce31",
+          "sha256": "b53af6d685d67f682fe6e26d1c7c3e28d295cc9c8b2cf69ff8973abc812332f8",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "ddcc73cd56ab7a4d34f65eb2735a2758308b06fb",
+          "sha256": "b7bbed1f4aaba534347db9235a630c8b968f54f012e4ea5d21cd89dd2529e214",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_модели.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "ddcc73cd56ab7a4d34f65eb2735a2758308b06fb",
+          "sha256": "b7bbed1f4aaba534347db9235a630c8b968f54f012e4ea5d21cd89dd2529e214",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_модели.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "c95ec8265bb56464b2082c4d6415b8e62963280e",
+          "sha256": "d0e757a76d55ecd27de9992a216543641a424dc73850c2c84f063ab8b8256920",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_коммита.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "c95ec8265bb56464b2082c4d6415b8e62963280e",
+          "sha256": "d0e757a76d55ecd27de9992a216543641a424dc73850c2c84f063ab8b8256920",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_коммита.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "e9bf6102404157a9c776340d4dcde4255950f85c",
+          "sha256": "abc5d0f316641aca49bf7917ca4a962b966aa221616d96d2c64b4267017dd2e4",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/поколения_готовности.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "e9bf6102404157a9c776340d4dcde4255950f85c",
+          "sha256": "abc5d0f316641aca49bf7917ca4a962b966aa221616d96d2c64b4267017dd2e4",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/поколения_готовности.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "e720f4242a235f88a39caeeb1897bf4a33caede0",
+          "sha256": "8091017668f5f43727f5258ac1d0fd56a305a9b605591cf89cc72d276b8f7753",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_этапа.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "e720f4242a235f88a39caeeb1897bf4a33caede0",
+          "sha256": "8091017668f5f43727f5258ac1d0fd56a305a9b605591cf89cc72d276b8f7753",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_этапа.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "2310a2058660a5f860ba53f44c373b30ec9483c3",
+          "sha256": "07d1533132ae2253d7c8fced6b3c71771e892ddb0f6d765cc837bab94a9b3d6e",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/граница_выбранных_команд.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "2310a2058660a5f860ba53f44c373b30ec9483c3",
+          "sha256": "07d1533132ae2253d7c8fced6b3c71771e892ddb0f6d765cc837bab94a9b3d6e",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/граница_выбранных_команд.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "efec495cf183a0fb9fab05e22e6041ddb32bdda1",
+          "sha256": "f2579fa93345d9ff79b4a81bbde0127b66fc8fad4f5045cb5fb3fc3b6f991ea7",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/текст_команды_с_изображением.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "efec495cf183a0fb9fab05e22e6041ddb32bdda1",
+          "sha256": "f2579fa93345d9ff79b4a81bbde0127b66fc8fad4f5045cb5fb3fc3b6f991ea7",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/текст_команды_с_изображением.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "fb95e50bdfa61bc99c3dafe9029c15f79fb364d9",
+          "sha256": "128fd7a7a4b923c3a4e20c24e1e972554e78052716ff99ecf7057f792d848ac3",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "fb95e50bdfa61bc99c3dafe9029c15f79fb364d9",
+          "sha256": "128fd7a7a4b923c3a4e20c24e1e972554e78052716ff99ecf7057f792d848ac3",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "c04efc426bb31e316afce6c7b92e935da552599c",
+          "sha256": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "c04efc426bb31e316afce6c7b92e935da552599c",
+          "sha256": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "1d9bafbf31a707ae11a2cdbc2dc0fdc079689098",
+          "sha256": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "1d9bafbf31a707ae11a2cdbc2dc0fdc079689098",
+          "sha256": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "fb95e50bdfa61bc99c3dafe9029c15f79fb364d9",
+          "sha256": "128fd7a7a4b923c3a4e20c24e1e972554e78052716ff99ecf7057f792d848ac3",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "fb95e50bdfa61bc99c3dafe9029c15f79fb364d9",
+          "sha256": "128fd7a7a4b923c3a4e20c24e1e972554e78052716ff99ecf7057f792d848ac3",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "a77346057f872f4581a4dcabe82441a5eccd9074",
+          "sha256": "7d4c9cf4bbec682efbf03251d44785142fc224554d159bd17ebf049885b92ef1",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенос_модели_этапа.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "a77346057f872f4581a4dcabe82441a5eccd9074",
+          "sha256": "7d4c9cf4bbec682efbf03251d44785142fc224554d159bd17ebf049885b92ef1",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенос_модели_этапа.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "9b03d6346cf0999a4740ab4991358f3151eaae23",
+          "sha256": "f54219a00028fea3d2cf5d6423ca40fa4a4d400d01586ff22a5bd32999942027",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенести_историю_модели.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "9b03d6346cf0999a4740ab4991358f3151eaae23",
+          "sha256": "f54219a00028fea3d2cf5d6423ca40fa4a4d400d01586ff22a5bd32999942027",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенести_историю_модели.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "2322f35e4f07fd56b32f70a95019d01f2f2fa39a",
+          "sha256": "8cfa7530c4937c529c9be825ba3b5a32df3c7eef4f3d12c46eca279d14293fff",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перепривязать_историю_модели.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "2322f35e4f07fd56b32f70a95019d01f2f2fa39a",
+          "sha256": "8cfa7530c4937c529c9be825ba3b5a32df3c7eef4f3d12c46eca279d14293fff",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перепривязать_историю_модели.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "ad45e57e709b77fd8eea5152460ebc14fd1f4c7a",
+          "sha256": "e3ef7dc93c8df666b62125efffb2fd00fec95ddd00dac9d2880c21c90143b0cf",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/типизированная_контрольная_точка.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "ad45e57e709b77fd8eea5152460ebc14fd1f4c7a",
+          "sha256": "e3ef7dc93c8df666b62125efffb2fd00fec95ddd00dac9d2880c21c90143b0cf",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/типизированная_контрольная_точка.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "45174ac15a623c1ca0288052e481573e68519da5",
+          "sha256": "57a2c9161ac86b1a4c8737f1acf22b5e76baae0a47260da4a54f98c4b8d4b330",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "45174ac15a623c1ca0288052e481573e68519da5",
+          "sha256": "57a2c9161ac86b1a4c8737f1acf22b5e76baae0a47260da4a54f98c4b8d4b330",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "ea5bc5936eeaf358f85080f009f704f4ed367926",
+          "sha256": "58542c436949a4e0b529f158c89db78b825ee3568acd960fb9e9a47b3210bd02",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svezhestj-markdown/scripts/ограды_цитат.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "ea5bc5936eeaf358f85080f009f704f4ed367926",
+          "sha256": "58542c436949a4e0b529f158c89db78b825ee3568acd960fb9e9a47b3210bd02",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svezhestj-markdown/scripts/ограды_цитат.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "36c51e936eaf0438395ec0c949a3257219899f87",
+          "sha256": "f6ec16caf952f6ac7ee3091ebc6cb3f125929982979950399647958bd3b5d39b",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svezhestj-markdown/scripts/маска_архива.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "36c51e936eaf0438395ec0c949a3257219899f87",
+          "sha256": "f6ec16caf952f6ac7ee3091ebc6cb3f125929982979950399647958bd3b5d39b",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svezhestj-markdown/scripts/маска_архива.py",
+          "режим": "100644",
+          "событие": "exec"
+        }
+      ],
+      "записано": [
+        2,
+        0
+      ],
+      "захват_нс": 90563250,
+      "исполнение_нс": 4389786792,
+      "команд": 3,
+      "процесс_нс": 4568330333,
+      "процессор_нс": 973908000,
+      "стадии": {
+        "две_замены_нс": 2578053458,
+        "план_нс": 450760708,
+        "повтор_нс": 815049083
+      }
+    },
+    {
+      "maxrss": 53100544,
+      "pid": 9337,
+      "выходы": [
+        {
+          "sha256": "57a4bfa397d978bc80d22db97e2cd2893a6d9f3c0bc4d9aa6f6fa20eb93a82ee",
+          "путь": "Журнал/2026-10-14_12-00-00_MSK_сохранить-поставку/запрос.md",
+          "режим": 420
+        },
+        {
+          "sha256": "0e91683ad39d87ef0a33090862f25fea8b8c1cfaf83ff793a62590e9f656aae9",
+          "путь": "Журнал/2026-10-14_12-00-00_MSK_сохранить-поставку/отчёт.md",
+          "режим": 420
+        }
+      ],
+      "загрузки": [
+        {
+          "blob": "3fa32ba60dfe914e0985a259ee78255e85877892",
+          "sha256": "556d48a40cc987a6671403b56b112fc06acf81b18d769c3209d890e0f5d13d3c",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_перехода_происхождения_пары.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "3fa32ba60dfe914e0985a259ee78255e85877892",
+          "sha256": "556d48a40cc987a6671403b56b112fc06acf81b18d769c3209d890e0f5d13d3c",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_перехода_происхождения_пары.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "16e40245336fde3b4597aadf636b27d4f4ff0e6e",
+          "sha256": "e4c86bd51ced7b201584fa3401b43ec8e98632be4db077be160a9ffea1cd9b50",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/переход_происхождения_пары.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "16e40245336fde3b4597aadf636b27d4f4ff0e6e",
+          "sha256": "e4c86bd51ced7b201584fa3401b43ec8e98632be4db077be160a9ffea1cd9b50",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/переход_происхождения_пары.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "3cb4fd2998ef4c93f3b6d81f1d8fe160efd181ad",
+          "sha256": "e0d19ce70c97a3bf8d708306127376a494599ca499c08b31b763e844c6464d24",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "3cb4fd2998ef4c93f3b6d81f1d8fe160efd181ad",
+          "sha256": "e0d19ce70c97a3bf8d708306127376a494599ca499c08b31b763e844c6464d24",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "9a09a77f0160b5d98882f4ce2e460470b90e243d",
+          "sha256": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "9a09a77f0160b5d98882f4ce2e460470b90e243d",
+          "sha256": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "f5c4fda671ba61ddee4ad9d6b9bbd6892afdbbfd",
+          "sha256": "492b8ed5f5b8243419d4b7ff53a9fadcfc06f228c40cfe4480e254299ad144aa",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "f5c4fda671ba61ddee4ad9d6b9bbd6892afdbbfd",
+          "sha256": "492b8ed5f5b8243419d4b7ff53a9fadcfc06f228c40cfe4480e254299ad144aa",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "1d14d0383d305503b2425898551357359dc9041e",
+          "sha256": "85c68562040fe362601213c38cd01f693ef8dcdef14e27fca20295309cae2918",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимый_индекс_журнала.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "1d14d0383d305503b2425898551357359dc9041e",
+          "sha256": "85c68562040fe362601213c38cd01f693ef8dcdef14e27fca20295309cae2918",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимый_индекс_журнала.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "69a55cb0e2e55b330440357a089d9d1ae719fb59",
+          "sha256": "3331427b784250c41004a179c5d02c74f05054178c359f456f9d8d2ba066233a",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/блоки_карточки.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "69a55cb0e2e55b330440357a089d9d1ae719fb59",
+          "sha256": "3331427b784250c41004a179c5d02c74f05054178c359f456f9d8d2ba066233a",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/блоки_карточки.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "e671c0c894e55ea479ce347b0e0fa226b55c7128",
+          "sha256": "139ea3bbc534078305946edda3acb5ed9ae61cc8448c3588537a471cf259aba5",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/управляемые_блоки.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "e671c0c894e55ea479ce347b0e0fa226b55c7128",
+          "sha256": "139ea3bbc534078305946edda3acb5ed9ae61cc8448c3588537a471cf259aba5",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/управляемые_блоки.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "1d1d70cdc2b8427aa0c6bd6b88050a11e282bf47",
+          "sha256": "866304bd1f90d22605e96d0b5406c616ef35ec76920fe24f4265cd6b3e7dbc64",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/публичное_представление_событий.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "1d1d70cdc2b8427aa0c6bd6b88050a11e282bf47",
+          "sha256": "866304bd1f90d22605e96d0b5406c616ef35ec76920fe24f4265cd6b3e7dbc64",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/публичное_представление_событий.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "c20386cdadaef7104b0af89e54a8c5b15fe52a8f",
+          "sha256": "e6bd962fc80537f14e6a8689f3f50074a9b4299bf44c918174ca63845830e98f",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/отпечатки_загрузки.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "c20386cdadaef7104b0af89e54a8c5b15fe52a8f",
+          "sha256": "e6bd962fc80537f14e6a8689f3f50074a9b4299bf44c918174ca63845830e98f",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/отпечатки_загрузки.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "f7323e792585e11e81a8068da64ffb2507a233ab",
+          "sha256": "86a91ddbd67546ca32b9f9c4eb434484cce0a31aebde4eb85a71b6787a5f3dce",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обычное_поручение.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "f7323e792585e11e81a8068da64ffb2507a233ab",
+          "sha256": "86a91ddbd67546ca32b9f9c4eb434484cce0a31aebde4eb85a71b6787a5f3dce",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обычное_поручение.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "1db479b1446f070f73218b58acecfbbe3e6bdb01",
+          "sha256": "88978e0b23b1dee65bf8fa1ac4b65e8eae3a2c3907453f89cfc1bf57d812f4da",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "1db479b1446f070f73218b58acecfbbe3e6bdb01",
+          "sha256": "88978e0b23b1dee65bf8fa1ac4b65e8eae3a2c3907453f89cfc1bf57d812f4da",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "94261b7bcef0d8e24cd99e0afbaffd24b43a8d43",
+          "sha256": "f948204b795369a8d99b63d2a44b8d3ef7ffb971a96420ddeaacf7f1eec69d61",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_пути_гита.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "94261b7bcef0d8e24cd99e0afbaffd24b43a8d43",
+          "sha256": "f948204b795369a8d99b63d2a44b8d3ef7ffb971a96420ddeaacf7f1eec69d61",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_пути_гита.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "9dcaed8566dd72e5a50a0ebc68b80953f8f6d565",
+          "sha256": "7e6972e04306c6f91bd17ab3f18579a288fff352d90c5b26a75e64c0a54743d5",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "9dcaed8566dd72e5a50a0ebc68b80953f8f6d565",
+          "sha256": "7e6972e04306c6f91bd17ab3f18579a288fff352d90c5b26a75e64c0a54743d5",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "c04efc426bb31e316afce6c7b92e935da552599c",
+          "sha256": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "c04efc426bb31e316afce6c7b92e935da552599c",
+          "sha256": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "8a62a7378186aee14449f0108a140c152fdca457",
+          "sha256": "f66a58569eaca1dcb623daf4265e586b167da7f69e335175fd815a8cd38402b9",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/связь_отпечатка_с_коммитом.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "8a62a7378186aee14449f0108a140c152fdca457",
+          "sha256": "f66a58569eaca1dcb623daf4265e586b167da7f69e335175fd815a8cd38402b9",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/связь_отпечатка_с_коммитом.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "642e78fff3045cc379e09cbb40bc35428d000e23",
+          "sha256": "ba79d7810793c0eef93a860ce73e0a9407801fdd929874cdee0f5078ce4a0dcf",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исторические_неподтверждённые_приёмки.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "642e78fff3045cc379e09cbb40bc35428d000e23",
+          "sha256": "ba79d7810793c0eef93a860ce73e0a9407801fdd929874cdee0f5078ce4a0dcf",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исторические_неподтверждённые_приёмки.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "2e861b84946d6b0744a9ba1bd9bba2fb42ab77d6",
+          "sha256": "9b4b0d784cfe53db3ae545fc62764cf4fb013d62d4c641c5d6436facc69124fa",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_делегации.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "2e861b84946d6b0744a9ba1bd9bba2fb42ab77d6",
+          "sha256": "9b4b0d784cfe53db3ae545fc62764cf4fb013d62d4c641c5d6436facc69124fa",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_делегации.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "8d706d6c3f3abd521bdcc8700f5cb447a0b7a624",
+          "sha256": "5de258cdfbbf53f31819807ad9712728145b5b03c8155b65522c201ff9a7e732",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обработка_сообщений.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "8d706d6c3f3abd521bdcc8700f5cb447a0b7a624",
+          "sha256": "5de258cdfbbf53f31819807ad9712728145b5b03c8155b65522c201ff9a7e732",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обработка_сообщений.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "c19a260ce429efdb3e4dfeac5fb55eb34c979e20",
+          "sha256": "a72dc3e31107ebcfc929d462bbdd647ed4587334d6a16080f5969dcb34438079",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "c19a260ce429efdb3e4dfeac5fb55eb34c979e20",
+          "sha256": "a72dc3e31107ebcfc929d462bbdd647ed4587334d6a16080f5969dcb34438079",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "b4fcdab13e5d951e8aa94244c0ab46b21e6c0cc1",
+          "sha256": "36667347ee2946e0f31deda39b8ac65c451aa77bef4a426b48ada0e2353849c8",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "b4fcdab13e5d951e8aa94244c0ab46b21e6c0cc1",
+          "sha256": "36667347ee2946e0f31deda39b8ac65c451aa77bef4a426b48ada0e2353849c8",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "907e66d2af1e5abd2c834ab184a112e8664dbccf",
+          "sha256": "09dba811f479312d0ad6e06cb5a5c4e46b764f1d1b011c72b925af276f7d19e9",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/кэш_сверки_остатка.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "907e66d2af1e5abd2c834ab184a112e8664dbccf",
+          "sha256": "09dba811f479312d0ad6e06cb5a5c4e46b764f1d1b011c72b925af276f7d19e9",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/кэш_сверки_остатка.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "42ba8d008c96250f803802d4d5134aee0809093e",
+          "sha256": "c63f59ae86740213de3d1e1fa6ee097f8b0d1379c3d626b22a0bc2fa6ee0aa67",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/постановка_задачи.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "42ba8d008c96250f803802d4d5134aee0809093e",
+          "sha256": "c63f59ae86740213de3d1e1fa6ee097f8b0d1379c3d626b22a0bc2fa6ee0aa67",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/постановка_задачи.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "c3e6828b17199bd4732715c79758ce1742c8d78c",
+          "sha256": "5c5147cbbc72887cc84cd7ad35c96606c17f2766cdcee926fd9da066d0fc46a1",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "c3e6828b17199bd4732715c79758ce1742c8d78c",
+          "sha256": "5c5147cbbc72887cc84cd7ad35c96606c17f2766cdcee926fd9da066d0fc46a1",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "1d9bafbf31a707ae11a2cdbc2dc0fdc079689098",
+          "sha256": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "1d9bafbf31a707ae11a2cdbc2dc0fdc079689098",
+          "sha256": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "fb95e50bdfa61bc99c3dafe9029c15f79fb364d9",
+          "sha256": "128fd7a7a4b923c3a4e20c24e1e972554e78052716ff99ecf7057f792d848ac3",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "fb95e50bdfa61bc99c3dafe9029c15f79fb364d9",
+          "sha256": "128fd7a7a4b923c3a4e20c24e1e972554e78052716ff99ecf7057f792d848ac3",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "110e99c4dc72ee57b8a03de17d34aba525890d51",
+          "sha256": "f40473180b01cd2861480af155750c7b1b3d6004954a6292c149cb74661f3608",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "110e99c4dc72ee57b8a03de17d34aba525890d51",
+          "sha256": "f40473180b01cd2861480af155750c7b1b3d6004954a6292c149cb74661f3608",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "f8874ae387db030840aabe40793ca30b04e21b68",
+          "sha256": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "f8874ae387db030840aabe40793ca30b04e21b68",
+          "sha256": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "777356bc1292188dfa5535d4dede258391c2b262",
+          "sha256": "290cf950411b880970cd20c24863386f2ebc6b5ee88cc14c22e36f0e44e707bd",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_этапа_коммита.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "777356bc1292188dfa5535d4dede258391c2b262",
+          "sha256": "290cf950411b880970cd20c24863386f2ebc6b5ee88cc14c22e36f0e44e707bd",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_этапа_коммита.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "9aefb13c3c53c6c459128620e88cfd1fbaa9ce31",
+          "sha256": "b53af6d685d67f682fe6e26d1c7c3e28d295cc9c8b2cf69ff8973abc812332f8",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "9aefb13c3c53c6c459128620e88cfd1fbaa9ce31",
+          "sha256": "b53af6d685d67f682fe6e26d1c7c3e28d295cc9c8b2cf69ff8973abc812332f8",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "ddcc73cd56ab7a4d34f65eb2735a2758308b06fb",
+          "sha256": "b7bbed1f4aaba534347db9235a630c8b968f54f012e4ea5d21cd89dd2529e214",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_модели.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "ddcc73cd56ab7a4d34f65eb2735a2758308b06fb",
+          "sha256": "b7bbed1f4aaba534347db9235a630c8b968f54f012e4ea5d21cd89dd2529e214",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_модели.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "c95ec8265bb56464b2082c4d6415b8e62963280e",
+          "sha256": "d0e757a76d55ecd27de9992a216543641a424dc73850c2c84f063ab8b8256920",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_коммита.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "c95ec8265bb56464b2082c4d6415b8e62963280e",
+          "sha256": "d0e757a76d55ecd27de9992a216543641a424dc73850c2c84f063ab8b8256920",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_коммита.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "e9bf6102404157a9c776340d4dcde4255950f85c",
+          "sha256": "abc5d0f316641aca49bf7917ca4a962b966aa221616d96d2c64b4267017dd2e4",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/поколения_готовности.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "e9bf6102404157a9c776340d4dcde4255950f85c",
+          "sha256": "abc5d0f316641aca49bf7917ca4a962b966aa221616d96d2c64b4267017dd2e4",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/поколения_готовности.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "e720f4242a235f88a39caeeb1897bf4a33caede0",
+          "sha256": "8091017668f5f43727f5258ac1d0fd56a305a9b605591cf89cc72d276b8f7753",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_этапа.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "e720f4242a235f88a39caeeb1897bf4a33caede0",
+          "sha256": "8091017668f5f43727f5258ac1d0fd56a305a9b605591cf89cc72d276b8f7753",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_этапа.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "2310a2058660a5f860ba53f44c373b30ec9483c3",
+          "sha256": "07d1533132ae2253d7c8fced6b3c71771e892ddb0f6d765cc837bab94a9b3d6e",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/граница_выбранных_команд.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "2310a2058660a5f860ba53f44c373b30ec9483c3",
+          "sha256": "07d1533132ae2253d7c8fced6b3c71771e892ddb0f6d765cc837bab94a9b3d6e",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/граница_выбранных_команд.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "efec495cf183a0fb9fab05e22e6041ddb32bdda1",
+          "sha256": "f2579fa93345d9ff79b4a81bbde0127b66fc8fad4f5045cb5fb3fc3b6f991ea7",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/текст_команды_с_изображением.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "efec495cf183a0fb9fab05e22e6041ddb32bdda1",
+          "sha256": "f2579fa93345d9ff79b4a81bbde0127b66fc8fad4f5045cb5fb3fc3b6f991ea7",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/текст_команды_с_изображением.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "fb95e50bdfa61bc99c3dafe9029c15f79fb364d9",
+          "sha256": "128fd7a7a4b923c3a4e20c24e1e972554e78052716ff99ecf7057f792d848ac3",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "fb95e50bdfa61bc99c3dafe9029c15f79fb364d9",
+          "sha256": "128fd7a7a4b923c3a4e20c24e1e972554e78052716ff99ecf7057f792d848ac3",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "c04efc426bb31e316afce6c7b92e935da552599c",
+          "sha256": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "c04efc426bb31e316afce6c7b92e935da552599c",
+          "sha256": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "1d9bafbf31a707ae11a2cdbc2dc0fdc079689098",
+          "sha256": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "1d9bafbf31a707ae11a2cdbc2dc0fdc079689098",
+          "sha256": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "fb95e50bdfa61bc99c3dafe9029c15f79fb364d9",
+          "sha256": "128fd7a7a4b923c3a4e20c24e1e972554e78052716ff99ecf7057f792d848ac3",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "fb95e50bdfa61bc99c3dafe9029c15f79fb364d9",
+          "sha256": "128fd7a7a4b923c3a4e20c24e1e972554e78052716ff99ecf7057f792d848ac3",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "a77346057f872f4581a4dcabe82441a5eccd9074",
+          "sha256": "7d4c9cf4bbec682efbf03251d44785142fc224554d159bd17ebf049885b92ef1",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенос_модели_этапа.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "a77346057f872f4581a4dcabe82441a5eccd9074",
+          "sha256": "7d4c9cf4bbec682efbf03251d44785142fc224554d159bd17ebf049885b92ef1",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенос_модели_этапа.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "9b03d6346cf0999a4740ab4991358f3151eaae23",
+          "sha256": "f54219a00028fea3d2cf5d6423ca40fa4a4d400d01586ff22a5bd32999942027",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенести_историю_модели.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "9b03d6346cf0999a4740ab4991358f3151eaae23",
+          "sha256": "f54219a00028fea3d2cf5d6423ca40fa4a4d400d01586ff22a5bd32999942027",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенести_историю_модели.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "2322f35e4f07fd56b32f70a95019d01f2f2fa39a",
+          "sha256": "8cfa7530c4937c529c9be825ba3b5a32df3c7eef4f3d12c46eca279d14293fff",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перепривязать_историю_модели.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "2322f35e4f07fd56b32f70a95019d01f2f2fa39a",
+          "sha256": "8cfa7530c4937c529c9be825ba3b5a32df3c7eef4f3d12c46eca279d14293fff",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перепривязать_историю_модели.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "ad45e57e709b77fd8eea5152460ebc14fd1f4c7a",
+          "sha256": "e3ef7dc93c8df666b62125efffb2fd00fec95ddd00dac9d2880c21c90143b0cf",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/типизированная_контрольная_точка.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "ad45e57e709b77fd8eea5152460ebc14fd1f4c7a",
+          "sha256": "e3ef7dc93c8df666b62125efffb2fd00fec95ddd00dac9d2880c21c90143b0cf",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/типизированная_контрольная_точка.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "45174ac15a623c1ca0288052e481573e68519da5",
+          "sha256": "57a2c9161ac86b1a4c8737f1acf22b5e76baae0a47260da4a54f98c4b8d4b330",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "45174ac15a623c1ca0288052e481573e68519da5",
+          "sha256": "57a2c9161ac86b1a4c8737f1acf22b5e76baae0a47260da4a54f98c4b8d4b330",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "ea5bc5936eeaf358f85080f009f704f4ed367926",
+          "sha256": "58542c436949a4e0b529f158c89db78b825ee3568acd960fb9e9a47b3210bd02",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svezhestj-markdown/scripts/ограды_цитат.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "ea5bc5936eeaf358f85080f009f704f4ed367926",
+          "sha256": "58542c436949a4e0b529f158c89db78b825ee3568acd960fb9e9a47b3210bd02",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svezhestj-markdown/scripts/ограды_цитат.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "36c51e936eaf0438395ec0c949a3257219899f87",
+          "sha256": "f6ec16caf952f6ac7ee3091ebc6cb3f125929982979950399647958bd3b5d39b",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svezhestj-markdown/scripts/маска_архива.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "36c51e936eaf0438395ec0c949a3257219899f87",
+          "sha256": "f6ec16caf952f6ac7ee3091ebc6cb3f125929982979950399647958bd3b5d39b",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svezhestj-markdown/scripts/маска_архива.py",
+          "режим": "100644",
+          "событие": "exec"
+        }
+      ],
+      "записано": [
+        2,
+        0
+      ],
+      "захват_нс": 89809041,
+      "исполнение_нс": 4380995083,
+      "команд": 3,
+      "процесс_нс": 4551711500,
+      "процессор_нс": 973331000,
+      "стадии": {
+        "две_замены_нс": 2565825041,
+        "план_нс": 422043583,
+        "повтор_нс": 883262625
+      }
+    },
+    {
+      "maxrss": 53116928,
+      "pid": 9668,
+      "выходы": [
+        {
+          "sha256": "57a4bfa397d978bc80d22db97e2cd2893a6d9f3c0bc4d9aa6f6fa20eb93a82ee",
+          "путь": "Журнал/2026-10-14_12-00-00_MSK_сохранить-поставку/запрос.md",
+          "режим": 420
+        },
+        {
+          "sha256": "c96525e5820667353aa9dfb38b56614e1b95dcc83778963081c9df464a55dc16",
+          "путь": "Журнал/2026-10-14_12-00-00_MSK_сохранить-поставку/отчёт.md",
+          "режим": 420
+        }
+      ],
+      "загрузки": [
+        {
+          "blob": "3fa32ba60dfe914e0985a259ee78255e85877892",
+          "sha256": "556d48a40cc987a6671403b56b112fc06acf81b18d769c3209d890e0f5d13d3c",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_перехода_происхождения_пары.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "3fa32ba60dfe914e0985a259ee78255e85877892",
+          "sha256": "556d48a40cc987a6671403b56b112fc06acf81b18d769c3209d890e0f5d13d3c",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/tests/профиль_перехода_происхождения_пары.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "16e40245336fde3b4597aadf636b27d4f4ff0e6e",
+          "sha256": "e4c86bd51ced7b201584fa3401b43ec8e98632be4db077be160a9ffea1cd9b50",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/переход_происхождения_пары.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "16e40245336fde3b4597aadf636b27d4f4ff0e6e",
+          "sha256": "e4c86bd51ced7b201584fa3401b43ec8e98632be4db077be160a9ffea1cd9b50",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/переход_происхождения_пары.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "3cb4fd2998ef4c93f3b6d81f1d8fe160efd181ad",
+          "sha256": "e0d19ce70c97a3bf8d708306127376a494599ca499c08b31b763e844c6464d24",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "3cb4fd2998ef4c93f3b6d81f1d8fe160efd181ad",
+          "sha256": "e0d19ce70c97a3bf8d708306127376a494599ca499c08b31b763e844c6464d24",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/независимый_журнал.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "9a09a77f0160b5d98882f4ce2e460470b90e243d",
+          "sha256": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "9a09a77f0160b5d98882f4ce2e460470b90e243d",
+          "sha256": "9f30f1720438c09b36b6dc64686f65bde632d0c3796c846ab06f01ddc28e9305",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/request_folder_layout.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "f5c4fda671ba61ddee4ad9d6b9bbd6892afdbbfd",
+          "sha256": "492b8ed5f5b8243419d4b7ff53a9fadcfc06f228c40cfe4480e254299ad144aa",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "f5c4fda671ba61ddee4ad9d6b9bbd6892afdbbfd",
+          "sha256": "492b8ed5f5b8243419d4b7ff53a9fadcfc06f228c40cfe4480e254299ad144aa",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/контракт_независимого_журнала.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "1d14d0383d305503b2425898551357359dc9041e",
+          "sha256": "85c68562040fe362601213c38cd01f693ef8dcdef14e27fca20295309cae2918",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимый_индекс_журнала.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "1d14d0383d305503b2425898551357359dc9041e",
+          "sha256": "85c68562040fe362601213c38cd01f693ef8dcdef14e27fca20295309cae2918",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/независимый_индекс_журнала.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "69a55cb0e2e55b330440357a089d9d1ae719fb59",
+          "sha256": "3331427b784250c41004a179c5d02c74f05054178c359f456f9d8d2ba066233a",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/блоки_карточки.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "69a55cb0e2e55b330440357a089d9d1ae719fb59",
+          "sha256": "3331427b784250c41004a179c5d02c74f05054178c359f456f9d8d2ba066233a",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/блоки_карточки.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "e671c0c894e55ea479ce347b0e0fa226b55c7128",
+          "sha256": "139ea3bbc534078305946edda3acb5ed9ae61cc8448c3588537a471cf259aba5",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/управляемые_блоки.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "e671c0c894e55ea479ce347b0e0fa226b55c7128",
+          "sha256": "139ea3bbc534078305946edda3acb5ed9ae61cc8448c3588537a471cf259aba5",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/управляемые_блоки.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "1d1d70cdc2b8427aa0c6bd6b88050a11e282bf47",
+          "sha256": "866304bd1f90d22605e96d0b5406c616ef35ec76920fe24f4265cd6b3e7dbc64",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/публичное_представление_событий.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "1d1d70cdc2b8427aa0c6bd6b88050a11e282bf47",
+          "sha256": "866304bd1f90d22605e96d0b5406c616ef35ec76920fe24f4265cd6b3e7dbc64",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/публичное_представление_событий.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "c20386cdadaef7104b0af89e54a8c5b15fe52a8f",
+          "sha256": "e6bd962fc80537f14e6a8689f3f50074a9b4299bf44c918174ca63845830e98f",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/отпечатки_загрузки.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "c20386cdadaef7104b0af89e54a8c5b15fe52a8f",
+          "sha256": "e6bd962fc80537f14e6a8689f3f50074a9b4299bf44c918174ca63845830e98f",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-struktura-papok-zaprosov/scripts/отпечатки_загрузки.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "f7323e792585e11e81a8068da64ffb2507a233ab",
+          "sha256": "86a91ddbd67546ca32b9f9c4eb434484cce0a31aebde4eb85a71b6787a5f3dce",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обычное_поручение.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "f7323e792585e11e81a8068da64ffb2507a233ab",
+          "sha256": "86a91ddbd67546ca32b9f9c4eb434484cce0a31aebde4eb85a71b6787a5f3dce",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обычное_поручение.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "1db479b1446f070f73218b58acecfbbe3e6bdb01",
+          "sha256": "88978e0b23b1dee65bf8fa1ac4b65e8eae3a2c3907453f89cfc1bf57d812f4da",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "1db479b1446f070f73218b58acecfbbe3e6bdb01",
+          "sha256": "88978e0b23b1dee65bf8fa1ac4b65e8eae3a2c3907453f89cfc1bf57d812f4da",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обязательства_задачи.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "94261b7bcef0d8e24cd99e0afbaffd24b43a8d43",
+          "sha256": "f948204b795369a8d99b63d2a44b8d3ef7ffb971a96420ddeaacf7f1eec69d61",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_пути_гита.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "94261b7bcef0d8e24cd99e0afbaffd24b43a8d43",
+          "sha256": "f948204b795369a8d99b63d2a44b8d3ef7ffb971a96420ddeaacf7f1eec69d61",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_пути_гита.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "9dcaed8566dd72e5a50a0ebc68b80953f8f6d565",
+          "sha256": "7e6972e04306c6f91bd17ab3f18579a288fff352d90c5b26a75e64c0a54743d5",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "9dcaed8566dd72e5a50a0ebc68b80953f8f6d565",
+          "sha256": "7e6972e04306c6f91bd17ab3f18579a288fff352d90c5b26a75e64c0a54743d5",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/закрытый_отчёт_из_гита.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "c04efc426bb31e316afce6c7b92e935da552599c",
+          "sha256": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "c04efc426bb31e316afce6c7b92e935da552599c",
+          "sha256": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "8a62a7378186aee14449f0108a140c152fdca457",
+          "sha256": "f66a58569eaca1dcb623daf4265e586b167da7f69e335175fd815a8cd38402b9",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/связь_отпечатка_с_коммитом.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "8a62a7378186aee14449f0108a140c152fdca457",
+          "sha256": "f66a58569eaca1dcb623daf4265e586b167da7f69e335175fd815a8cd38402b9",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/связь_отпечатка_с_коммитом.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "642e78fff3045cc379e09cbb40bc35428d000e23",
+          "sha256": "ba79d7810793c0eef93a860ce73e0a9407801fdd929874cdee0f5078ce4a0dcf",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исторические_неподтверждённые_приёмки.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "642e78fff3045cc379e09cbb40bc35428d000e23",
+          "sha256": "ba79d7810793c0eef93a860ce73e0a9407801fdd929874cdee0f5078ce4a0dcf",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/исторические_неподтверждённые_приёмки.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "2e861b84946d6b0744a9ba1bd9bba2fb42ab77d6",
+          "sha256": "9b4b0d784cfe53db3ae545fc62764cf4fb013d62d4c641c5d6436facc69124fa",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_делегации.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "2e861b84946d6b0744a9ba1bd9bba2fb42ab77d6",
+          "sha256": "9b4b0d784cfe53db3ae545fc62764cf4fb013d62d4c641c5d6436facc69124fa",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/приём_делегации.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "8d706d6c3f3abd521bdcc8700f5cb447a0b7a624",
+          "sha256": "5de258cdfbbf53f31819807ad9712728145b5b03c8155b65522c201ff9a7e732",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обработка_сообщений.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "8d706d6c3f3abd521bdcc8700f5cb447a0b7a624",
+          "sha256": "5de258cdfbbf53f31819807ad9712728145b5b03c8155b65522c201ff9a7e732",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/обработка_сообщений.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "c19a260ce429efdb3e4dfeac5fb55eb34c979e20",
+          "sha256": "a72dc3e31107ebcfc929d462bbdd647ed4587334d6a16080f5969dcb34438079",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "c19a260ce429efdb3e4dfeac5fb55eb34c979e20",
+          "sha256": "a72dc3e31107ebcfc929d462bbdd647ed4587334d6a16080f5969dcb34438079",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сообщения_задачи.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "b4fcdab13e5d951e8aa94244c0ab46b21e6c0cc1",
+          "sha256": "36667347ee2946e0f31deda39b8ac65c451aa77bef4a426b48ada0e2353849c8",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "b4fcdab13e5d951e8aa94244c0ab46b21e6c0cc1",
+          "sha256": "36667347ee2946e0f31deda39b8ac65c451aa77bef4a426b48ada0e2353849c8",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-snimki-indeksa/scripts/происхождение_сообщений.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "907e66d2af1e5abd2c834ab184a112e8664dbccf",
+          "sha256": "09dba811f479312d0ad6e06cb5a5c4e46b764f1d1b011c72b925af276f7d19e9",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/кэш_сверки_остатка.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "907e66d2af1e5abd2c834ab184a112e8664dbccf",
+          "sha256": "09dba811f479312d0ad6e06cb5a5c4e46b764f1d1b011c72b925af276f7d19e9",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/кэш_сверки_остатка.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "42ba8d008c96250f803802d4d5134aee0809093e",
+          "sha256": "c63f59ae86740213de3d1e1fa6ee097f8b0d1379c3d626b22a0bc2fa6ee0aa67",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/постановка_задачи.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "42ba8d008c96250f803802d4d5134aee0809093e",
+          "sha256": "c63f59ae86740213de3d1e1fa6ee097f8b0d1379c3d626b22a0bc2fa6ee0aa67",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/постановка_задачи.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "c3e6828b17199bd4732715c79758ce1742c8d78c",
+          "sha256": "5c5147cbbc72887cc84cd7ad35c96606c17f2766cdcee926fd9da066d0fc46a1",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "c3e6828b17199bd4732715c79758ce1742c8d78c",
+          "sha256": "5c5147cbbc72887cc84cd7ad35c96606c17f2766cdcee926fd9da066d0fc46a1",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-reyestr-planirovaniya/scripts/приём_направления.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "1d9bafbf31a707ae11a2cdbc2dc0fdc079689098",
+          "sha256": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "1d9bafbf31a707ae11a2cdbc2dc0fdc079689098",
+          "sha256": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "fb95e50bdfa61bc99c3dafe9029c15f79fb364d9",
+          "sha256": "128fd7a7a4b923c3a4e20c24e1e972554e78052716ff99ecf7057f792d848ac3",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "fb95e50bdfa61bc99c3dafe9029c15f79fb364d9",
+          "sha256": "128fd7a7a4b923c3a4e20c24e1e972554e78052716ff99ecf7057f792d848ac3",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "110e99c4dc72ee57b8a03de17d34aba525890d51",
+          "sha256": "f40473180b01cd2861480af155750c7b1b3d6004954a6292c149cb74661f3608",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "110e99c4dc72ee57b8a03de17d34aba525890d51",
+          "sha256": "f40473180b01cd2861480af155750c7b1b3d6004954a6292c149cb74661f3608",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/автор_коммита.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "f8874ae387db030840aabe40793ca30b04e21b68",
+          "sha256": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "f8874ae387db030840aabe40793ca30b04e21b68",
+          "sha256": "a6957117a8fce12e4cd98444697ba539fb00d5096d56b9f218a2b207535bf761",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-proyektnyiye-fajlyi/scripts/project_files.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "777356bc1292188dfa5535d4dede258391c2b262",
+          "sha256": "290cf950411b880970cd20c24863386f2ebc6b5ee88cc14c22e36f0e44e707bd",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_этапа_коммита.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "777356bc1292188dfa5535d4dede258391c2b262",
+          "sha256": "290cf950411b880970cd20c24863386f2ebc6b5ee88cc14c22e36f0e44e707bd",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/подготовка_этапа_коммита.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "9aefb13c3c53c6c459128620e88cfd1fbaa9ce31",
+          "sha256": "b53af6d685d67f682fe6e26d1c7c3e28d295cc9c8b2cf69ff8973abc812332f8",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "9aefb13c3c53c6c459128620e88cfd1fbaa9ce31",
+          "sha256": "b53af6d685d67f682fe6e26d1c7c3e28d295cc9c8b2cf69ff8973abc812332f8",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/создание_коммита.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "ddcc73cd56ab7a4d34f65eb2735a2758308b06fb",
+          "sha256": "b7bbed1f4aaba534347db9235a630c8b968f54f012e4ea5d21cd89dd2529e214",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_модели.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "ddcc73cd56ab7a4d34f65eb2735a2758308b06fb",
+          "sha256": "b7bbed1f4aaba534347db9235a630c8b968f54f012e4ea5d21cd89dd2529e214",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/история_модели.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "c95ec8265bb56464b2082c4d6415b8e62963280e",
+          "sha256": "d0e757a76d55ecd27de9992a216543641a424dc73850c2c84f063ab8b8256920",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_коммита.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "c95ec8265bb56464b2082c4d6415b8e62963280e",
+          "sha256": "d0e757a76d55ecd27de9992a216543641a424dc73850c2c84f063ab8b8256920",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_коммита.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "e9bf6102404157a9c776340d4dcde4255950f85c",
+          "sha256": "abc5d0f316641aca49bf7917ca4a962b966aa221616d96d2c64b4267017dd2e4",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/поколения_готовности.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "e9bf6102404157a9c776340d4dcde4255950f85c",
+          "sha256": "abc5d0f316641aca49bf7917ca4a962b966aa221616d96d2c64b4267017dd2e4",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/поколения_готовности.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "e720f4242a235f88a39caeeb1897bf4a33caede0",
+          "sha256": "8091017668f5f43727f5258ac1d0fd56a305a9b605591cf89cc72d276b8f7753",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_этапа.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "e720f4242a235f88a39caeeb1897bf4a33caede0",
+          "sha256": "8091017668f5f43727f5258ac1d0fd56a305a9b605591cf89cc72d276b8f7753",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/готовность_этапа.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "2310a2058660a5f860ba53f44c373b30ec9483c3",
+          "sha256": "07d1533132ae2253d7c8fced6b3c71771e892ddb0f6d765cc837bab94a9b3d6e",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/граница_выбранных_команд.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "2310a2058660a5f860ba53f44c373b30ec9483c3",
+          "sha256": "07d1533132ae2253d7c8fced6b3c71771e892ddb0f6d765cc837bab94a9b3d6e",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/граница_выбранных_команд.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "efec495cf183a0fb9fab05e22e6041ddb32bdda1",
+          "sha256": "f2579fa93345d9ff79b4a81bbde0127b66fc8fad4f5045cb5fb3fc3b6f991ea7",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/текст_команды_с_изображением.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "efec495cf183a0fb9fab05e22e6041ddb32bdda1",
+          "sha256": "f2579fa93345d9ff79b4a81bbde0127b66fc8fad4f5045cb5fb3fc3b6f991ea7",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/текст_команды_с_изображением.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "fb95e50bdfa61bc99c3dafe9029c15f79fb364d9",
+          "sha256": "128fd7a7a4b923c3a4e20c24e1e972554e78052716ff99ecf7057f792d848ac3",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "fb95e50bdfa61bc99c3dafe9029c15f79fb364d9",
+          "sha256": "128fd7a7a4b923c3a4e20c24e1e972554e78052716ff99ecf7057f792d848ac3",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "c04efc426bb31e316afce6c7b92e935da552599c",
+          "sha256": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "c04efc426bb31e316afce6c7b92e935da552599c",
+          "sha256": "69e3936acc614c7f31d6ffbcdfb2d8f25224d0d76e74f88f059de857d0ccf1e6",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-otchyotyi-o-zapuskakh-proverok/scripts/отчёты_о_запусках_проверок.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "1d9bafbf31a707ae11a2cdbc2dc0fdc079689098",
+          "sha256": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "1d9bafbf31a707ae11a2cdbc2dc0fdc079689098",
+          "sha256": "e6c4e835aec3fad99a23d3c166fccfe260a65a571ad02b2812cf0926b8d6a1e0",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/сверить-материалы-этапа.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "fb95e50bdfa61bc99c3dafe9029c15f79fb364d9",
+          "sha256": "128fd7a7a4b923c3a4e20c24e1e972554e78052716ff99ecf7057f792d848ac3",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "fb95e50bdfa61bc99c3dafe9029c15f79fb364d9",
+          "sha256": "128fd7a7a4b923c3a4e20c24e1e972554e78052716ff99ecf7057f792d848ac3",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/check-session-coherence.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "a77346057f872f4581a4dcabe82441a5eccd9074",
+          "sha256": "7d4c9cf4bbec682efbf03251d44785142fc224554d159bd17ebf049885b92ef1",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенос_модели_этапа.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "a77346057f872f4581a4dcabe82441a5eccd9074",
+          "sha256": "7d4c9cf4bbec682efbf03251d44785142fc224554d159bd17ebf049885b92ef1",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенос_модели_этапа.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "9b03d6346cf0999a4740ab4991358f3151eaae23",
+          "sha256": "f54219a00028fea3d2cf5d6423ca40fa4a4d400d01586ff22a5bd32999942027",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенести_историю_модели.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "9b03d6346cf0999a4740ab4991358f3151eaae23",
+          "sha256": "f54219a00028fea3d2cf5d6423ca40fa4a4d400d01586ff22a5bd32999942027",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перенести_историю_модели.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "2322f35e4f07fd56b32f70a95019d01f2f2fa39a",
+          "sha256": "8cfa7530c4937c529c9be825ba3b5a32df3c7eef4f3d12c46eca279d14293fff",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перепривязать_историю_модели.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "2322f35e4f07fd56b32f70a95019d01f2f2fa39a",
+          "sha256": "8cfa7530c4937c529c9be825ba3b5a32df3c7eef4f3d12c46eca279d14293fff",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/перепривязать_историю_модели.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "ad45e57e709b77fd8eea5152460ebc14fd1f4c7a",
+          "sha256": "e3ef7dc93c8df666b62125efffb2fd00fec95ddd00dac9d2880c21c90143b0cf",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/типизированная_контрольная_точка.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "ad45e57e709b77fd8eea5152460ebc14fd1f4c7a",
+          "sha256": "e3ef7dc93c8df666b62125efffb2fd00fec95ddd00dac9d2880c21c90143b0cf",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svyaznostj-rabochej-sessii/scripts/типизированная_контрольная_точка.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "45174ac15a623c1ca0288052e481573e68519da5",
+          "sha256": "57a2c9161ac86b1a4c8737f1acf22b5e76baae0a47260da4a54f98c4b8d4b330",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "45174ac15a623c1ca0288052e481573e68519da5",
+          "sha256": "57a2c9161ac86b1a4c8737f1acf22b5e76baae0a47260da4a54f98c4b8d4b330",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svezhestj-markdown/scripts/update-md-recency.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "ea5bc5936eeaf358f85080f009f704f4ed367926",
+          "sha256": "58542c436949a4e0b529f158c89db78b825ee3568acd960fb9e9a47b3210bd02",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svezhestj-markdown/scripts/ограды_цитат.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "ea5bc5936eeaf358f85080f009f704f4ed367926",
+          "sha256": "58542c436949a4e0b529f158c89db78b825ee3568acd960fb9e9a47b3210bd02",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svezhestj-markdown/scripts/ограды_цитат.py",
+          "режим": "100644",
+          "событие": "exec"
+        },
+        {
+          "blob": "36c51e936eaf0438395ec0c949a3257219899f87",
+          "sha256": "f6ec16caf952f6ac7ee3091ebc6cb3f125929982979950399647958bd3b5d39b",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svezhestj-markdown/scripts/маска_архива.py",
+          "режим": "100644",
+          "событие": "compile"
+        },
+        {
+          "blob": "36c51e936eaf0438395ec0c949a3257219899f87",
+          "sha256": "f6ec16caf952f6ac7ee3091ebc6cb3f125929982979950399647958bd3b5d39b",
+          "коммит": "a53bb543c85dfb1e687954bd2f85e0cd99b660b4",
+          "путь": "Инструменты/fum-svezhestj-markdown/scripts/маска_архива.py",
+          "режим": "100644",
+          "событие": "exec"
+        }
+      ],
+      "записано": [
+        2,
+        0
+      ],
+      "захват_нс": 91590916,
+      "исполнение_нс": 4379313584,
+      "команд": 3,
+      "процесс_нс": 4553789625,
+      "процессор_нс": 973511000,
+      "стадии": {
+        "две_замены_нс": 2582363708,
+        "план_нс": 420590833,
+        "повтор_нс": 867329750
+      }
+    }
+  ],
+  "публикационная_редакция": "Удалены только физические временные адреса загруженных файлов; относительные пути, blob, raw SHA, режимы, PID и измерения сохранены.",
+  "решение_об_оптимизации": "Полные повторные guards сохранены. Отказ прежней специализации не образует сравнимое успешное время; ускорение не заявляется.",
+  "схема": "fum.профиль-перехода-происхождения-пары.1",
+  "сырой_приватный_профиль_sha256": "d2c5e11dba34a02f067b54cdd0b18ae00431ff267ae74195cffeb78855652db6"
+}
